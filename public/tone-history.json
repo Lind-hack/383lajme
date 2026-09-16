@@ -7575,8 +7575,8 @@
   {
     "date": "2026-09-16",
     "overallIndex": 51,
-    "totalArticles": 245,
-    "sourceCount": 154,
+    "totalArticles": 279,
+    "sourceCount": 174,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -7584,7 +7584,7 @@
         "positive": 0,
         "neutral": 98,
         "negative": 2,
-        "n": 61,
+        "n": 63,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7604,18 +7604,18 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 20,
+        "n": 34,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       },
       "Francë": {
-        "index": 56,
-        "positive": 12,
-        "neutral": 88,
+        "index": 53,
+        "positive": 5,
+        "neutral": 95,
         "negative": 0,
-        "n": 8,
-        "excluded": 0,
+        "n": 19,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
@@ -7631,21 +7631,21 @@
       },
       "Austri": {
         "index": 52,
-        "positive": 5,
-        "neutral": 95,
+        "positive": 4,
+        "neutral": 96,
         "negative": 0,
-        "n": 22,
+        "n": 23,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       },
       "Zvicër": {
         "index": 54,
-        "positive": 9,
-        "neutral": 91,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 34,
-        "excluded": 2,
+        "n": 38,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       },
@@ -7654,7 +7654,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -7714,8 +7714,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 20,
-        "excluded": 1,
+        "n": 21,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       },
@@ -7740,19 +7740,19 @@
         "sentiment": "positive"
       },
       {
+        "title": "Britain confirms support for Kosovo’s sovereignty after Thaçi verdict - ua.news",
+        "source": "ua.news",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://ua.news/en/world/britaniia-pidtverdila-pidtrimku-suverenitetu-kosova-pislia-viroku-tachi",
+        "sentiment": "positive"
+      },
+      {
         "title": "Il Kosovo esce dalla paralisi con un nuovo governo – Kurti – Mondo - ENTREVUE.FR",
         "source": "ENTREVUE.FR",
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://entrevue.fr/it/monde/le-kosovo-sort-de-la-paralysie-avec-un-nouveau-gouvernement-kurti/",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Kosovos Kampf war legitim – dabei verübte Untaten aber nicht - DiePresse.com",
-        "source": "DiePresse.com",
-        "country": "Austri",
-        "flag": "🇦🇹",
-        "url": "https://www.diepresse.com/41268037/kosovos-kampf-war-legitim-dabei-veruebte-untaten-aber-nicht",
         "sentiment": "positive"
       },
       {

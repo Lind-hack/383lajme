@@ -1,11 +1,11 @@
 {
   "lastUpdated": "2026-09-16",
   "overallIndex": 51,
-  "totalArticles": 245,
-  "sourceCount": 154,
+  "totalArticles": 279,
+  "sourceCount": 174,
   "stanceVersion": 3,
-  "unattributed": 313,
-  "nonEditorial": 10,
+  "unattributed": 339,
+  "nonEditorial": 11,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -48,6 +48,30 @@
               "date": "2026-09-16",
               "sentiment": "neutral",
               "reason": "Faktikë raportim për dënimin e ish-presidentit, pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "Antenne Düsseldorf",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kriegsverbrechen: 25 Jahre Haft für Kosovos Ex-Präsident - Antenne Düsseldorf",
+              "albanianTitle": "Krime lufte: 25 vjet burg për ish-presidentin e Kosovës",
+              "blurb": "Gjykata e ka dënuar ish-presidentin e Kosovës, Hashim Thaçi, me 25 vjet burgim për krime të kryera gjatë luftës.",
+              "imageUrl": "https://www.antenneduesseldorf.de/externalimages/?source=jpg909/dpa-20090101-260916-935-1613499.jpg&crop=652x0x1396x1396&resize=1200x1200&dt=202609161222540",
+              "url": "https://www.antenneduesseldorf.de/dpa/kriegsverbrechen-25-jahre-haft-fuer-kosovos-ex-praesident-2756959",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -749,7 +773,7 @@
         {
           "name": "T-Online",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kriegsverbrechen: 25 Jahre Haft für Kosovos Ex-Präsident - T-Online",
@@ -763,10 +787,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Mord, Folter, Haft: 25 Jahre Gefängnis für Hashim Thaci - T-Online",
+              "albanianTitle": "Vrasje, torturë e burgim: 25 vjet heqje lirie për Hashim Thaçin",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim për krime lufte, vrasje dhe tortura.",
+              "imageUrl": "https://images.t-online.de/2021/06/88884002v5/0x0:640x360/fit-in/1200x0/hashim-thaci-im-juli-in-den-haag.jpg",
+              "url": "https://www.t-online.de/nachrichten/ausland/internationale-politik/id_101437906/kosovo-gericht-verurteilt-ex-praesidenten-thaci-zu-25-jahren-haft.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "neutral",
           "firstSeen": "2026-09-09",
           "lastSeen": "2026-09-16"
         },
@@ -1238,7 +1275,7 @@
         "positive": 0,
         "neutral": 98,
         "negative": 2,
-        "n": 61,
+        "n": 63,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -1429,7 +1466,7 @@
               "title": "Kosovo’s Former Leader Is Sentenced to 25 Years in War Crimes Case - The New York Times",
               "albanianTitle": "Ish-lideri i Kosovës dënohet me 25 vjet burgim për krime lufte - The New York Times",
               "blurb": "Ish-lideri i Kosovës është dënuar me 25 vjet burgim nga gjykata për krime të kryera gjatë luftës.",
-              "imageUrl": null,
+              "imageUrl": "https://static01.nyt.com/images/2026/09/16/multimedia/16int-kosovo-president-02-jtzg/16int-kosovo-president-02-jtzg-facebookJumbo.jpg",
               "url": "https://www.nytimes.com/2026/09/16/world/europe/kosovo-thaci-war-crimes-hague-serbia.html",
               "date": "2026-09-16",
               "sentiment": "neutral",
@@ -1579,6 +1616,30 @@
     "Britani": {
       "outlets": [
         {
+          "name": "BBC",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo's former president sentenced to 25 years for war crimes - BBC",
+              "albanianTitle": "Ish-presidenti i Kosovës dënohet me 25 vjet burg për krime lufte - BBC",
+              "blurb": "Ish-presidenti i Kosovës është dënuar me 25 vjet burgim pasi u shpall fajtor për krime të kryera gjatë luftës.",
+              "imageUrl": "https://ichef.bbci.co.uk/ace/branded_news/1200/cpsprodpb/fb87/live/5e973200-b1b5-11f1-bdcf-d393eb724fa3.jpg",
+              "url": "https://www.bbc.co.uk/news/articles/cmd79z0pdzgjo",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
           "name": "Balkan Insight",
           "sentiment": "neutral",
           "articleCount": 6,
@@ -1662,10 +1723,10 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 23,
+          "totalArticles": 26,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-15"
+          "lastSeen": "2026-09-16"
         },
         {
           "name": "Independent",
@@ -1694,7 +1755,7 @@
         {
           "name": "Reuters",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Kosovo parliament re-elects Albin Kurti as prime minister - Reuters",
@@ -1734,9 +1795,35 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Former Kosovo president Thaci sentenced to 25 years for war crimes - Reuters",
+              "albanianTitle": "Ish-presidenti i Kosovës, Thaçi, dënohet me 25 vjet burg për krime lufte - Reuters",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim për krime lufte pas përfundimit të gjykimit.",
+              "imageUrl": null,
+              "url": "https://www.reuters.com/world/kosovo-ex-president-thaci-faces-war-crimes-verdict-hague-2026-09-16/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktik pa ngarkim negativ",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Tears in Kosovo as ex-president Thaci found guilty of war crimes - Reuters",
+              "albanianTitle": "Lot në Kosovë pas shpalljes fajtor të ish-presidentit Thaçi për krime lufte - Reuters",
+              "blurb": "Ish-presidenti Hashim Thaçi është shpallur fajtor për krime lufte dhe është dënuar me 25 vjet burgim nga gjykata.",
+              "imageUrl": null,
+              "url": "https://www.reuters.com/video/watch/idRW318916092026RP1/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim, edhe pse përmban element emocional",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "neutral",
           "firstSeen": "2026-08-31",
           "lastSeen": "2026-09-16"
@@ -1766,9 +1853,70 @@
           "lastSeen": "2026-09-16"
         },
         {
-          "name": "The Independent",
+          "name": "The Economist",
           "sentiment": "neutral",
           "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo’s most famous politician faces the music - The Economist",
+              "albanianTitle": "Politikani më i njohur i Kosovës përballet me drejtësinë - The Economist",
+              "blurb": "Ish-presidenti i Kosovës po përballet me vendimin e gjykatës lidhur me akuzat për krime të kryera gjatë luftës.",
+              "imageUrl": null,
+              "url": "https://www.economist.com/the-world-in-brief/2026/09/16/d7a90e2c-1265-4710-ae87-2960cecd7e5b",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Shprehje idiomatike, jo ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "The Guardian",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Kosovo’s former president jailed for 25 years over war crimes - The Guardian",
+              "albanianTitle": "Ish-presidenti i Kosovës dënohet me 25 vjet burg për krime lufte - The Guardian",
+              "blurb": "Ish-presidenti i Kosovës është dënuar me 25 vjet burgim nga gjykata për shkak të përfshirjes në krime të luftës.",
+              "imageUrl": "https://i.guim.co.uk/img/media/368db6336bace6a16f68f55b6c1b4158d1396dc2/1368_0_3894_3115/master/3894.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=8d8d640e31bd57405209956461d2be23",
+              "url": "https://www.theguardian.com/world/2026/sep/16/kosovo-former-president-hashim-thaci-jailed-war-crimes",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo’s former president jailed for 25 years over war crimes - theguardian.com",
+              "albanianTitle": "Ish-presidenti i Kosovës dënohet me 25 vjet burg për krime lufte - theguardian.com",
+              "blurb": "Ish-presidenti i Kosovës është dënuar me 25 vjet burgim nga gjykata ndërkombëtare për shkak të krimeve të luftës.",
+              "imageUrl": "https://i.guim.co.uk/img/media/368db6336bace6a16f68f55b6c1b4158d1396dc2/1368_0_3894_3115/master/3894.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=8d8d640e31bd57405209956461d2be23",
+              "url": "https://www.theguardian.com/world/2026/sep/16/kosovo-former-president-hashim-thaci-jailed-war-crimes",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i dënimit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "The Independent",
+          "sentiment": "neutral",
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosovo gets new government but political impasse persists - The Independent",
@@ -1782,17 +1930,43 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Former Kosovo president Hashim Thaci jailed for 25 years for war crimes - The Independent",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burg për krime lufte - The Independent",
+              "blurb": "Gjykata në Hagë ka dënuar ish-presidentin e Kosovës, Hashim Thaçi, me 25 vjet burgim për krime lufte.",
+              "imageUrl": "https://static.independent.co.uk/s3fs-public/thumbnails/image/2007/12/10/17/Kosovo2007.jpeg?width=1200&height=800&crop=1200:800",
+              "url": "https://www.independent.co.uk/news/world/crime/hashim-thaci-war-crimes-kosovo-president-the-hague-b3051110.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i dënimit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Ex-Kosovo president Hashim Thaci found guilty of war crimes by EU court - The Independent",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, shpallet fajtor për krime lufte nga gjykata e BE-së - The Independent",
+              "blurb": "Gjykata e Bashkimit Evropian në Hagë ka shpallur fajtor ish-presidentin e Kosovës, Hashim Thaçi, për krime lufte.",
+              "imageUrl": "https://static.independent.co.uk/s3fs-public/thumbnails/image/2020/12/17/13/w-56487350.jpg?width=1200&height=800&crop=1200:800",
+              "url": "https://www.independent.co.uk/bulletin/news/hashim-thaci-war-crimes-guilty-kosovo-hague-b3051118.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "neutral",
           "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
+          "lastSeen": "2026-09-16"
         },
         {
           "name": "The Times",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Hashim Thaci: Kosovo’s former president convicted of war crimes - thetimes.com",
@@ -1819,6 +1993,32 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Hashim Thaci: The ‘Snake’, hero of Kosovo, convicted of war crimes - The Times",
+              "albanianTitle": "Hashim Thaçi: ‘Gjarpri’, heroi i Kosovës, i dënuar për krime lufte - The Times",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është shpallur fajtor për krime lufte nga gjykata ndërkombëtare në Hagë.",
+              "imageUrl": "https://www.thetimes.com/imageserver/image/f46ccbaa-6cea-4074-9d91-2a2f88171858.jpg?strip=all&format=webp&crop=2000px%2C1125px%2C0px%2C0px&resize=1200",
+              "url": "https://www.thetimes.com/world/europe/article/hashim-thaci-kosovo-president-fate-hague-2ms250d7m",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Titulli përshkruan ngjarjen pa gjuhë e drejtpërdrejtë kundërshtuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Hashim Thaci: The ‘Snake’, hero of Kosovo, convicted of war crimes - thetimes.com",
+              "albanianTitle": "Hashim Thaçi: ‘Gjarpri’, heroi i Kosovës, i dënuar për krime lufte - thetimes.com",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar për krime lufte nga trupi gjykues në Hagë pas procesit gjyqësor.",
+              "imageUrl": "https://www.thetimes.com/imageserver/image/f46ccbaa-6cea-4074-9d91-2a2f88171858.jpg?strip=all&format=webp&crop=2000px%2C1125px%2C0px%2C0px&resize=1200",
+              "url": "https://www.thetimes.com/world/europe/article/hashim-thaci-kosovo-president-fate-hague-2ms250d7m",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 1,
@@ -1840,6 +2040,30 @@
               "date": "2026-09-16",
               "sentiment": "neutral",
               "reason": "Titulli është editorial, por nuk përmban gjuhë kundërshtuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "lbc.co.uk",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Former president of Kosovo jailed for 25 years over war crimes at Hague tribunal - lbc.co.uk",
+              "albanianTitle": "Ish-presidenti i Kosovës dënohet me 25 vjet burg për krime lufte nga Tribunali i Hagës - lbc.co.uk",
+              "blurb": "Ish-presidenti i Kosovës është dënuar me 25 vjet burgim për krime lufte nga tribunali ndërkombëtar në Hagë.",
+              "imageUrl": "https://images.globalplayer.com/images/842379?crop=16_9&width=1200&signature=nctmj2EIY3KuvLAAO_-GPk-jGtI=",
+              "url": "https://www.lbc.co.uk/article/hashim-thaci-kosovo-albania-war-crimes-the-hague-5HjdhYS_2/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1880,7 +2104,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 20,
+        "n": 34,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -1888,6 +2112,54 @@
     },
     "Francë": {
       "outlets": [
+        {
+          "name": "CNews",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L'ex-président du Kosovo, Hashim Thaçi, condamné à 25 ans de prison pour crimes de guerre - CNews",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burgim për krime lufte - CNews",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga gjykata për krime të luftës.",
+              "imageUrl": "https://static.cnews.fr/sites/default/files/styles/image_1160_652/public/000_8ul8vw-taille1200_6aa952f0a189b.jpg?itok=ciCy9AG8",
+              "url": "https://www.cnews.fr/monde/2026-09-16/lex-president-du-kosovo-hashim-thaci-condamne-25-ans-de-prison-pour-crimes-de",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "Charente Libre",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Hashim Thaçi, un ancien Président du Kosovo condamné pour crimes de guerre - Charente Libre",
+              "albanianTitle": "Hashim Thaçi, ish-presidenti i Kosovës i dënuar për krime lufte - Charente Libre",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar për krime lufte nga gjykata ndërkombëtare në Hagë.",
+              "imageUrl": "https://media.charentelibre.fr/30654523/1200x-1/20260916161103-2786112.jpg",
+              "url": "https://www.charentelibre.fr/international/hashim-thaci-un-ancien-president-du-kosovo-condamne-pour-crimes-de-guerre-30654523.php",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
         {
           "name": "ENTREVUE.FR",
           "sentiment": "positive",
@@ -1913,9 +2185,57 @@
           "lastSeen": "2026-09-13"
         },
         {
+          "name": "France 24",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Former Kosovo president sentenced to 25 years for war crimes - France 24",
+              "albanianTitle": "Ish-presidenti i Kosovës dënohet me 25 vjet burgim për krime lufte",
+              "blurb": "Ish-presidenti i Kosovës është dënuar me 25 vjet burgim për krime lufte nga gjykata ndërkombëtare në Hagë.",
+              "imageUrl": null,
+              "url": "https://www.france24.com/en/europe/20260916-former-kosovo-president-sentenced-to-25-years-for-war-crimes",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Factual report without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "L'Humanité",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L’ancien président du Kosovo, Thaçi, reconnu coupable de crimes de guerre et condamné à 25 ans de prison par le tribunal international de La Haye - L'Humanité",
+              "albanianTitle": "Ish-presidenti i Kosovës, Thaçi, shpallet fajtor për krime lufte dhe dënohet me 25 vjet burg nga Gjykata Ndërkombëtare në Hagë - L'Humanité",
+              "blurb": "Gjykata Ndërkombëtare në Hagë e ka dënuar ish-presidentin Hashim Thaçi me 25 vjet burgim për krime të luftës.",
+              "imageUrl": "https://www.humanite.fr/wp-content/uploads/2026/09/WhatsApp-Image-2026-09-16-at-13.21.51-1.jpeg?resize=1500,998",
+              "url": "https://www.humanite.fr/monde/crimes-de-guerre/lancien-president-du-kosovo-thaci-reconnu-coupable-de-crimes-de-guerre-et-condamne-a-25-ans-de-prison-par-le-tribunal-international-de-la-haye",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Procès d’Hashim Thaçi et de ses co-accusés : « le Kosovo les attend » - Le Courrier des Balkans",
@@ -1942,17 +2262,54 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "L'ex-président du Kosovo Hashim Thaçi condamné à 25 ans de prison. Les clés du procès des dirigeants de l'UÇK - Le Courrier des Balkans",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burg. Çelësat e gjykimit të krerëve të UÇK-së - Le Courrier des Balkans",
+              "blurb": "Hashim Thaçi është dënuar me 25 vjet burgim, ndërsa po analizohen detajet kryesore të procesit gjyqësor ndaj udhëheqësve të UÇK-së.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/Kosovo_Thaci-and-co-accused-Kosovo-Specialist-Chambers_@AFP-1110x740.jpg.webp",
+              "url": "https://www.courrierdesbalkans.fr/kosovo-les-cles-du-proces-dhashim-thaci-et-de-ses-co-accuses-99574/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 12,
+          "totalArticles": 13,
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-15"
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "Le Figaro",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Au Kosovo, l’ancien président Hashim Thaçi condamné à 25 ans de prison pour crimes de guerre - Le Figaro",
+              "albanianTitle": "Në Kosovë, ish-presidenti Hashim Thaçi dënohet me 25 vjet burg për krime lufte - Le Figaro",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga gjykata për krime të luftës.",
+              "imageUrl": "https://i.f1g.fr/media/cms/1200x630_crop/2026/09/16/f933b6f3b76ac0054c8449bc9bc5fdef87fde9d76c4a256a063f453361869b79.jpg",
+              "url": "https://www.lefigaro.fr/international/au-kosovo-l-ancien-president-hashim-thaci-condamne-a-25-ans-de-prison-pour-crimes-de-guerre-20260916",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-16"
         },
         {
           "name": "Le Monde",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Hashim Thaçi, former Kosovo president, sentenced to 25 years for war crimes - Le Monde.fr",
@@ -1966,11 +2323,133 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Hashim Thaçi, ancien président du Kosovo, condamné à vingt-cinq ans de prison pour crimes de guerre commis dans les années 1990 - Le Monde.fr",
+              "albanianTitle": "Hashim Thaçi, ish-presidenti i Kosovës, dënohet me 25 vjet burgim për krimet e luftës të kryera gjatë viteve '90 - Le Monde.fr",
+              "blurb": "Hashim Thaçi është dënuar me 25 vjet burgim për krimet e luftës të kryera gjatë viteve të nëntëdhjeta në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.lemonde.fr/international/article/2026/09/16/l-ancien-president-du-kosovo-condamne-a-vingt-cinq-ans-de-prison-pour-crimes-de-guerre_6775199_3210.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "Le Parisien",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "« Un procès injuste » : la condamnation à 25 ans de l’ancien président pour crimes de guerre suscite l’indignation au Kosovo - Le Parisien",
+              "albanianTitle": "“Gjykim i padrejtë”: Dënimi me 25 vjet burgim i ish-presidentit për krime lufte shkakton indinjatë në Kosovë",
+              "blurb": "Dënimi me 25 vjet burgim i ish-presidentit për krime lufte ka shkaktuar reagime të ndryshme në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.leparisien.fr/international/un-proces-injuste-la-condamnation-a-25-ans-de-lancien-president-pour-crimes-de-guerre-suscite-lindignation-au-kosovo-16-09-2026-PIXXVL44MJEQRGQVMNALSYNQPQ.php",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Fraza e cituar \"Un procès injuste\" i përket folësit, jo zërit të mediumit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "Le français facile avec RFI",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Journal en français facile - Ursula von der Leyen donne sa vision de l'Europe / Kosovo: Hashim Thaçi condamné à 25 ans de prison / Iran: 4 ans après la mort de Masha Amini... - Le français facile avec RFI",
+              "albanianTitle": "Lajme në frëngjisht të thjeshtë: Ursula von der Leyen shpalos vizionin për Evropën / Kosovë: Hashim Thaçi dënohet me 25 vjet burg / Iran: 4 vjet pas vdekjes së Masha Amini - RFI",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim për krime lufte të kryera gjatë konfliktit.",
+              "imageUrl": "https://s.francaisfacile.rfi.fr/media/display/0eb5e8e8-b1f2-11f1-8e0f-4daf57bffe27/w:1280/p:16x9/UVL-1.jpg",
+              "url": "https://francaisfacile.rfi.fr/fr/podcasts/journal-en-fran%C3%A7ais-facile/20260916-ursula-von-der-leyen-donne-sa-vision-de-l-europe-kosovo-hashim-tha%C3%A7i-condamn%C3%A9-%C3%A0-25-ans-de-prison-iran-4-ans-apr%C3%A8s-la-mort-de-masha-amini",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "Libération",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "L’ancien président du Kosovo Hashim Thaçi condamné à 25 ans de prison pour crimes de guerre - Libération",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burgim për krime lufte",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim për krime të kryera gjatë luftës.",
+              "imageUrl": null,
+              "url": "https://www.liberation.fr/international/europe/lancien-president-du-kosovo-hashim-thaci-condamne-a-25-ans-de-prison-pour-crimes-de-guerre-20260916_C7IHR7U3NVCKHIMLJTTXM7E3C4/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Procès des dirigeants de l’UCK : le Kosovo fait bloc avant le verdict - Libération",
+              "albanianTitle": "Gjykimi i krerëve të UÇK-së: Kosova bëhet bashkë para shpalljes së aktgjykimit - Libération",
+              "blurb": "Kosova është mobilizuar dhe ka shprehur unitet përpara shpalljes së vendimit për udhëheqësit e Ushtrisë Çlirimtare të Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.liberation.fr/international/europe/proces-des-dirigeants-de-luck-le-kosovo-fait-bloc-avant-le-verdict-20260916_ASL3L5REFFBLNAWGAID7RNAC2U/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "Orange Actualités",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Crimes de guerre : l'ancien président du Kosovo Hashim Thaçi fixé sur son sort - Orange Actualités",
+              "albanianTitle": "Krime lufte: Ish-presidenti i Kosovës, Hashim Thaçi, merr vendimin përfundimtar - Orange Actualités",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, ka marrë vendimin e gjykatës lidhur me akuzat për krime lufte.",
+              "imageUrl": "//proxymedia.woopic.com/api/v1/images/2275%2Factu%2Fafp-news%2Fa0c14aca-a8d5-4351-a612-327c3f0d28d1.jpg?format=1200x630&facedetect=1&quality=85",
+              "url": "https://actu.orange.fr/monde/crimes-de-guerre-l-ancien-president-du-kosovo-hashim-thaci-fixe-sur-son-sort-CNT000002rUcOw.html",
+              "date": "2026-09-16",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
           "lastSeen": "2026-09-16"
         },
         {
@@ -2049,12 +2528,12 @@
         }
       ],
       "summary": {
-        "index": 56,
-        "positive": 12,
-        "neutral": 88,
+        "index": 53,
+        "positive": 5,
+        "neutral": 95,
         "negative": 0,
-        "n": 8,
-        "excluded": 0,
+        "n": 19,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -2790,7 +3269,7 @@
         {
           "name": "Kleine Zeitung",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosovo-Parlament billigt neue Regierung unter Premier Kurti - Kleine Zeitung",
@@ -2817,12 +3296,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovos Ex-Präsident Thaci als Kriegsverbrecher verurteilt - kleinezeitung.at",
+              "albanianTitle": "Ish-presidenti i Kosovës, Thaçi, dënohet për krime lufte",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është shpallur fajtor për krime lufte dhe është dënuar me 25 vjet burgim.",
+              "imageUrl": "https://img.kleinezeitung.at/public/politik/wrgb9p-92870011495090892bldonlinejpg/alternates/KLZ_SOCIAL/92870011495090892_BLD_Online.jpg",
+              "url": "https://www.kleinezeitung.at/artikel/41267396/kosovos-ex-praesident-thaci-als-kriegsverbrecher-verurteilt",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "neutral",
           "firstSeen": "2026-08-28",
-          "lastSeen": "2026-09-13"
+          "lastSeen": "2026-09-16"
         },
         {
           "name": "Kronen Zeitung",
@@ -3058,10 +3550,10 @@
       ],
       "summary": {
         "index": 52,
-        "positive": 5,
-        "neutral": 95,
+        "positive": 4,
+        "neutral": 96,
         "negative": 0,
-        "n": 22,
+        "n": 23,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -3220,6 +3712,54 @@
           "lastSeen": "2026-09-15"
         },
         {
+          "name": "La Liberté",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo. L'ex-président du Kosovo Hashim Thaçi condamné à 25 ans de prison - La Liberté",
+              "albanianTitle": "Kosova: Ish-presidenti Hashim Thaçi dënohet me 25 vjet burgim",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim për veprat e pretenduara gjatë luftës.",
+              "imageUrl": null,
+              "url": "https://www.laliberte.ch/articles/lex-president-du-kosovo-hashim-thaci-condamne-a-25-ans-de-prison-1445953",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "Le Matin",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo: l’ex-président Hashim Thaçi condamné à 25 ans de prison - Le Matin",
+              "albanianTitle": "Kosovë: Ish-presidenti Hashim Thaçi dënohet me 25 vjet burg - Le Matin",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga gjykata speciale në Hagë.",
+              "imageUrl": "https://image.lematin.ch/2026/09/16/3dc1bcd0-447d-4318-8351-dddc30312b67.jpg?auto=format%2Ccompress%2Cenhance&fit=max&w=1200&h=1200&rect=0%2C0%2C3178%2C2118&s=23ae4ffbbe7002221b9dacebeda581ca",
+              "url": "https://www.lematin.ch/story/kosovo-l-ex-president-condamne-a-25-ans-de-prison-pour-crimes-de-guerre-103634227?utm_source=google&utm_medium=organic&utm_campaign=googlenewsshowcase_singlestorypanel&utm_content=singlestory_story-103634227",
+              "date": "2026-09-16",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
           "name": "NZZ",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3292,6 +3832,30 @@
           "lastSeen": "2026-09-16"
         },
         {
+          "name": "RTN.ch",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L'ex-président du Kosovo Hashim Thaçi condamné à 25 ans de prison - RTN.ch",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, merr dënimin me 25 vjet burg",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga trupi gjykues në Hagë.",
+              "imageUrl": null,
+              "url": "https://www.rtn.ch/rtn/Actualite/Monde/L-ex-president-du-Kosovo-Hashim-Thaci-condamne-a-25-ans-de-prison.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
           "name": "SRF",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -3327,6 +3891,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-13",
           "lastSeen": "2026-09-13"
+        },
+        {
+          "name": "SWI swissinfo.ch",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L’ex-président du Kosovo Hashim Thaçi condamné à 25 ans de prison - SWI swissinfo.ch",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burg",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga Gjykata Speciale në Hagë.",
+              "imageUrl": "https://www.swissinfo.ch/content/wp-content/uploads/sites/13/2026/09/e43074054f0d320f3ef0ff3a15c417408f3ef133-92066939.jpg?ver=46335d66&fit=1200,900",
+              "url": "https://www.swissinfo.ch/fre/l%27ex-pr%C3%A9sident-du-kosovo-hashim-tha%C3%A7i-condamn%C3%A9-%C3%A0-25-ans-de-prison/92066952",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë, pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
         },
         {
           "name": "Watson",
@@ -3453,6 +4041,30 @@
           "lastSeen": "2026-09-13"
         },
         {
+          "name": "letemps.ch",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Le Kosovo vent debout contre la condamnation de son ancien président Hashim Thaçi pour crimes de guerre - letemps.ch",
+              "albanianTitle": "Kosova kundërshton ashpër dënimin e ish-presidentit Hashim Thaçi për krime lufte - letemps.ch",
+              "blurb": "Qytetarët dhe institucionet në Kosovë kanë shprehur kundërshtimin e tyre ndaj dënimit të ish-presidentit Hashim Thaçi për krime lufte.",
+              "imageUrl": "https://letemps-17455.kxcdn.com/photos/7b094595-4fc7-4e37-83a0-024a61856e90/medium",
+              "url": "https://www.letemps.ch/monde/europe/le-kosovo-vent-debout-contre-la-condamnation-de-son-ancien-president-hashim-thaci-pour-crimes-de-guerre",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i reagimit të Kosovës, pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
           "name": "tagesanzeiger.ch",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3527,17 +4139,41 @@
       ],
       "summary": {
         "index": 54,
-        "positive": 9,
-        "neutral": 91,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 34,
-        "excluded": 2,
+        "n": 38,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       }
     },
     "Holandë": {
       "outlets": [
+        {
+          "name": "DutchNews.nl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo ex-president Thaci jailed for 25 years by Hague court - DutchNews.nl",
+              "albanianTitle": "Ish-presidenti i Kosovës, Thaçi, dënohet me 25 vjet burg nga Gjykata e Hagës - DutchNews.nl",
+              "blurb": "Gjykata në Hagë ka shqiptuar dënimin prej 25 vjetësh burgim për ish-presidentin e Kosovës, Hashim Thaçi.",
+              "imageUrl": "https://www.dutchnews.nl/wpcms/wp-content/uploads/2026/09/Hashi-Thai-.jpg",
+              "url": "https://www.dutchnews.nl/2026/09/kosovo-ex-president-thaci-jailed-for-25-years-by-hague-court/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
         {
           "name": "NL Times",
           "sentiment": "neutral",
@@ -3616,7 +4252,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -4467,7 +5103,7 @@
         {
           "name": "Anadolu Ajansı",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Kosova'da Albin Kurti'nin liderliğindeki yeni hükümet güvenoyu aldı - Anadolu Ajansı",
@@ -4533,9 +5169,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "UK reiterates 'firm support' to Kosovo’s sovereignty after war crimes verdict against former president - Anadolu Ajansı",
+              "albanianTitle": "Britania e Madhe rikonfirmon mbështetjen për sovranitetin e Kosovës pas dënimit të ish-presidentit",
+              "blurb": "Britania e Madhe ka konfirmuar mbështetjen për sovranitetin e Kosovës pas dënimit të ish-presidentit Hashim Thaçi për krime lufte.",
+              "imageUrl": null,
+              "url": "https://www.aa.com.tr/en/world/uk-reiterates-firm-support-to-kosovo-s-sovereignty-after-war-crimes-verdict-against-former-president/4059556",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raporton qëndrimin e UK-së, jo zëri i mediumit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "UK"
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 7,
           "trend": "neutral",
           "firstSeen": "2026-09-13",
           "lastSeen": "2026-09-16"
@@ -4895,8 +5544,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 20,
-        "excluded": 1,
+        "n": 21,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       }
