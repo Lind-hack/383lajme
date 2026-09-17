@@ -7772,5 +7772,206 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-09-17",
+    "overallIndex": 51,
+    "totalArticles": 244,
+    "sourceCount": 143,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 49,
+        "positive": 0,
+        "neutral": 98,
+        "negative": 2,
+        "n": 64,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 14,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 34,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 27,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Itali": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 35,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": 53,
+        "positive": 5,
+        "neutral": 95,
+        "negative": 0,
+        "n": 19,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
+        "negative": 0,
+        "n": 25,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Greqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 7,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 11,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "Rexhep Boja, një jetë shërbim ndaj Kosovës - reporteri.net",
+        "source": "Reporteri",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://reporteri.net/de/Meinung/Rexhep-Boja--ein-Leben-lang-im-Dienste-des-Kosovo/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Alaska, Kosovo youth build friendships through pen pal program - ak.ng.mil",
+        "source": "ak.ng.mil",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://ak.ng.mil/Media/News-Article-View/Article/4603468/alaska-kosovo-youth-build-friendships-through-pen-pal-program/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Rexhep Boja, një jetë shërbim ndaj Kosovës - Reporteri",
+        "source": "Reporteri",
+        "country": "Austri",
+        "flag": "🇦🇹",
+        "url": "https://reporteri.net/es/opini%C3%B3n/Rexhep-Boja--toda-una-vida-al-servicio-de-Kosovo/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Prozess gegen Hashim Thaçi: Hat die NATO im Kosovo-Krieg mit einem Kriegsverbrecher kooperiert? - FAZ",
+        "source": "FAZ",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.faz.net/aktuell/politik/ausland/prozess-gegen-hashim-thaci-hat-die-nato-im-kosovo-krieg-mit-einem-kriegsverbrecher-kooperiert-accg-201222004.html",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Hashim Thaçi left Kosovo free/ Erion Veliaj does not leave the seat given to him by the SP - cna.al",
+        "source": "cna.al",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.cna.al/english/editorial/hashim-thaci-e-la-kosoven-te-lire-erion-veliaj-nuk-ndahet-nga-karrigia-i474334",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]

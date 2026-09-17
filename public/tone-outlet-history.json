@@ -3,9 +3,9 @@
   "outlets": {
     "Tagesschau": {
       "country": "Gjermani",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-21",
@@ -13,7 +13,8 @@
       "urls": [
         "https://www.tagesschau.de/multimedia/audio/audio-3431438.html",
         "https://www.tagesschau.de/multimedia/audio/audio-3480464.html",
-        "https://www.tagesschau.de/video/video-1649920.html"
+        "https://www.tagesschau.de/video/video-1649920.html",
+        "https://www.tagesschau.de/tagesthemen/video-1650340.html"
       ]
     },
     "CNN": {
@@ -108,9 +109,9 @@
     },
     "Le Courrier des Balkans": {
       "country": "Francë",
-      "total": 13,
+      "total": 14,
       "positive": 0,
-      "neutral": 12,
+      "neutral": 13,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-20",
@@ -128,7 +129,8 @@
         "https://www.courrierdesbalkans.fr/crimes-de-guerre-au-kosovo-lheure-de-la-justice-sera-t-elle-celle-de-la-reconciliation-99414/",
         "https://www.courrierdesbalkans.fr/proces-dhashim-thaci-et-de-ses-co-accuses-le-kosovo-les-attend-99566/",
         "https://www.courrierdesbalkans.fr/avant-le-verdict-du-proces-thaci-la-grande-peur-des-serbes-du-kosovo-99571/",
-        "https://www.courrierdesbalkans.fr/kosovo-les-cles-du-proces-dhashim-thaci-et-de-ses-co-accuses-99574/"
+        "https://www.courrierdesbalkans.fr/kosovo-les-cles-du-proces-dhashim-thaci-et-de-ses-co-accuses-99574/",
+        "https://www.courrierdesbalkans.fr/proces-de-luck-25-ans-de-prison-pour-lex-president-du-kosovo-hashim-thaci-99711/"
       ]
     },
     "Le Figaro": {
@@ -173,13 +175,13 @@
     },
     "Osservatorio Balcani Caucaso Transeuropa": {
       "country": "Itali",
-      "total": 7,
+      "total": 9,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 2,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-17",
       "urls": [
         "https://www.balcanicaucaso.org/en/cp_article/political-crisis-in-kosovo-no-light-at-the-end-of-the-tunnel/",
         "https://www.balcanicaucaso.org/cp_article/crisi-politica-in-kosovo-non-ce-luce-alla-fine-del-tunnel/",
@@ -187,7 +189,9 @@
         "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/",
         "https://www.balcanicaucaso.org/en/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
         "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
-        "https://www.balcanicaucaso.org/en/cp_article/processo-thaci-la-piazza-di-pristina-chiede-lassoluzione/"
+        "https://www.balcanicaucaso.org/en/cp_article/processo-thaci-la-piazza-di-pristina-chiede-lassoluzione/",
+        "https://www.balcanicaucaso.org/en/cp_article/kosovo-anger-and-disappointment-for-the-conviction-of-kla-leaders/",
+        "https://www.balcanicaucaso.org/cp_article/kosovo-rabbia-e-delusione-per-la-condanna-dei-leader-uck/"
       ]
     },
     "ilrestodelcarlino.it": {
@@ -224,13 +228,13 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 27,
+      "total": 28,
       "positive": 0,
-      "neutral": 21,
+      "neutral": 22,
       "negative": 0,
       "unknown": 6,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-15",
+      "lastSeen": "2026-09-16",
       "urls": [
         "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
@@ -258,7 +262,8 @@
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/14/dal-mas-ince-senza-lucraina-e-i-balcani-in-ue-perdiamo-tempo_05b1857a-3328-4316-b215-7104823ac6a7.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/15/dal-mas-integrare-balcani-occidentali-e-unificare-leuropa_d9e3d35d-286d-480f-9289-7f04b7ffdede.html",
         "https://www.ansa.it/nuova_europa/it/notizie/rubriche/altrenews/2026/09/14/in-kosovo-il-governo-kurti-ottiene-di-misura-la-fiducia_23c1b7e2-45cd-4b0c-adac-42838d2e9f2e.html",
-        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/15/tajani-paesi-balcani-occidentali-in-europa-quanto-prima_36a4fdd7-c4ee-4d85-b65e-bc849d1863cd.html"
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/15/tajani-paesi-balcani-occidentali-in-europa-quanto-prima_36a4fdd7-c4ee-4d85-b65e-bc849d1863cd.html",
+        "https://www.ansa.it/sito/notizie/mondo/2026/09/16/thaci-condannato-a-25-anni-per-crimini-di-guerra-in-kosovo.-i-sostenitori-tentano-lassalto_f0670d62-ebc3-475d-9ed2-27feccf23c80.html"
       ]
     },
     "Virgilio": {
@@ -2479,9 +2484,9 @@
     },
     "DW.com": {
       "country": "Gjermani",
-      "total": 6,
+      "total": 7,
       "positive": 0,
-      "neutral": 6,
+      "neutral": 7,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-01",
@@ -2492,7 +2497,8 @@
         "https://www.dw.com/en/kosovo-ex-president-thaci-faces-hague-war-crimes-verdict/a-79286344",
         "https://www.dw.com/de/25-jahre-haft-f%C3%BCr-kosovos-ex-praesident-thaci-wegen-kriegsverbrechen/a-79290862",
         "https://www.dw.com/en/kosovo-ex-president-thaci-sentenced-to-25-years-for-war-crimes/a-79286344",
-        "https://www.dw.com/en/hague-tribunal-convicts-hashim-thaci-of-kosovo-war-crimes/video-79295682"
+        "https://www.dw.com/en/hague-tribunal-convicts-hashim-thaci-of-kosovo-war-crimes/video-79295682",
+        "https://www.dw.com/en/reactions-from-kosovo-to-conviction-of-former-president-hashim-thaci-found-guilty-of-war-crimes/a-79294916"
       ]
     },
     "Unitalsi": {
@@ -2926,19 +2932,20 @@
     },
     "balcanicaucaso.org": {
       "country": "Itali",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 2,
       "unknown": 1,
       "firstSeen": "2026-09-06",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-17",
       "urls": [
         "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/",
         "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
         "https://www.balcanicaucaso.org/en/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
         "https://www.balcanicaucaso.org/en/cp_article/processo-thaci-la-piazza-di-pristina-chiede-lassoluzione/",
-        "https://www.balcanicaucaso.org/cp_article/processo-thaci-la-piazza-di-pristina-chiede-lassoluzione/"
+        "https://www.balcanicaucaso.org/cp_article/processo-thaci-la-piazza-di-pristina-chiede-lassoluzione/",
+        "https://www.balcanicaucaso.org/en/cp_article/kosovo-anger-and-disappointment-for-the-conviction-of-kla-leaders/"
       ]
     },
     "NÖN.at - Niederösterreichische Nachrichten": {
@@ -3061,17 +3068,18 @@
     },
     "RFI": {
       "country": "Francë",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-16",
       "urls": [
         "https://www.rfi.fr/fr/europe/20260904-%C3%A0-la-une-en-serbie-les-%C3%A9tudiants-cibl%C3%A9s-par-le-logiciel-espion-pegasus",
         "https://www.rfi.fr/fr/podcasts/reportage-international/20260914-proc%C3%A8s-de-l-ancien-pr%C3%A9sident-hashim-tha%C3%A7i-et-de-trois-ex-chefs-de-l-uck-un-verdict-tr%C3%A8s-attendu-au-kosovo",
-        "https://www.rfi.fr/fr/podcasts/grand-reportage/20260914-h%C3%A9ros-ou-criminels-les-leaders-de-l-uck-face-aux-juges"
+        "https://www.rfi.fr/fr/podcasts/grand-reportage/20260914-h%C3%A9ros-ou-criminels-les-leaders-de-l-uck-face-aux-juges",
+        "https://www.rfi.fr/es/europa/20260916-kosovo-el-expresidente-hashim-tha%C3%A7i-fue-condenado-a-25-a%C3%B1os-de-prisi%C3%B3n"
       ]
     },
     "Gazzetta di Parma": {
@@ -4004,15 +4012,16 @@
     },
     "Independent": {
       "country": "Britani",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-13",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.independent.co.uk/news/kosovo-pristina-serbia-europe-nato-b3049420.html"
+        "https://www.independent.co.uk/news/kosovo-pristina-serbia-europe-nato-b3049420.html",
+        "https://www.independent.co.uk/news/world/crime/hashim-thaci-war-crimes-kosovo-president-the-hague-b3051110.html"
       ]
     },
     "News.at": {
@@ -4096,17 +4105,18 @@
     },
     "AP News": {
       "country": "SHBA",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-14",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-17",
       "urls": [
         "https://apnews.com/article/kosovo-government-kurti-crisis-5c3727cfbcf04a3cc5734972fa6ea6c0",
         "https://apnews.com/article/thaci-kosovo-serbia-war-crimes-0b24b81d6e1ca8f01d8b8b54bb465ee9",
-        "https://apnews.com/article/kosovo-protest-war-crimes-trial-thaci-f6415cb77e34856a7f99e5953c4410bb"
+        "https://apnews.com/article/kosovo-protest-war-crimes-trial-thaci-f6415cb77e34856a7f99e5953c4410bb",
+        "https://apnews.com/video/tribunal-de-la-haya-condena-al-ex-presidente-de-kosovo-a-una-pena-de-25-anos-a181ed5c697a4010922e3b867ac6dae7"
       ]
     },
     "reuters.com": {
@@ -5123,16 +5133,17 @@
     },
     "Le Monde": {
       "country": "Francë",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-16",
       "lastSeen": "2026-09-16",
       "urls": [
         "https://www.lemonde.fr/en/international/article/2026/09/16/kosovo-former-president-thaci-given-25-year-sentence-for-war-crimes_6757586_4.html",
-        "https://www.lemonde.fr/international/article/2026/09/16/l-ancien-president-du-kosovo-condamne-a-vingt-cinq-ans-de-prison-pour-crimes-de-guerre_6775199_3210.html"
+        "https://www.lemonde.fr/international/article/2026/09/16/l-ancien-president-du-kosovo-condamne-a-vingt-cinq-ans-de-prison-pour-crimes-de-guerre_6775199_3210.html",
+        "https://www.lemonde.fr/en/international/article/2026/09/17/former-president-of-kosovo-hashim-thaci-sentenced-to-25-years-in-prison-for-war-crimes_6757610_4.html"
       ]
     },
     "stol.it": {
@@ -5345,15 +5356,16 @@
     },
     "BBC": {
       "country": "Britani",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-16",
       "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.bbc.co.uk/news/articles/cmd79z0pdzgjo"
+        "https://www.bbc.co.uk/news/articles/cmd79z0pdzgjo",
+        "https://www.bbc.com/turkce/articles/c914dr5433v6o"
       ]
     },
     "lbc.co.uk": {
@@ -5371,15 +5383,17 @@
     },
     "France 24": {
       "country": "Francë",
-      "total": 1,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-16",
       "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.france24.com/en/europe/20260916-former-kosovo-president-sentenced-to-25-years-for-war-crimes"
+        "https://www.france24.com/en/europe/20260916-former-kosovo-president-sentenced-to-25-years-for-war-crimes",
+        "https://www.france24.com/fr/europe/20260916-l-ex-pr%C3%A9sident-du-kosovo-hashim-tha%C3%A7i-condamn%C3%A9-%C3%A0-25-ans-de-prison-pour-crimes-de-guerre",
+        "https://www.france24.com/es/video/20260916-kosovo-cpi-condena-a-expresidente-hashim-thaci-a-25-a%C3%B1os-de-prisi%C3%B3n-por-cr%C3%ADmenes-de-guerra"
       ]
     },
     "Libération": {
@@ -5537,6 +5551,149 @@
       "lastSeen": "2026-09-16",
       "urls": [
         "https://www.dutchnews.nl/2026/09/kosovo-ex-president-thaci-jailed-for-25-years-by-hague-court/"
+      ]
+    },
+    "WEB.DE": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://web.de/magazine/politik/kosovos-ex-praesident-langer-haftstrafe-verurteilt-42730854"
+      ]
+    },
+    "France Info": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.franceinfo.fr/monde/europe/l-ancien-president-du-kosovo-hashim-thaci-a-ete-condamne-a-25-ans-de-prison-pour-crimes-de-guerre_8195744.html"
+      ]
+    },
+    "liberation.fr": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.liberation.fr/international/europe/proces-des-dirigeants-de-luck-le-kosovo-fait-bloc-avant-le-verdict-20260916_ASL3L5REFFBLNAWGAID7RNAC2U/"
+      ]
+    },
+    "20 Minutes": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.20minutes.fr/justice/4245902-20260916-kosovo-ex-president-thaci-condamne-vingt-cinq-ans-prison-crimes-guerre-decision-passe-mal"
+      ]
+    },
+    "Mediapart": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.mediapart.fr/journal/international/160926/kosovo-les-anciens-commandants-de-l-uck-lourdement-condamnes"
+      ]
+    },
+    "Il Piccolo": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.ilpiccolo.it/cronaca/nasce-volo-trieste-pristina-collegamento-friuli-venezia-giulia-balcani-wizz-air-tpn6m24h"
+      ]
+    },
+    "ildenaro.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.ildenaro.it/kosovo-a-pristina-proteste-contro-la-condanna-a-ex-presidente-thaci/"
+      ]
+    },
+    "L'Unione Sarda.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.unionesarda.it/multimedia/kosovo-25-anni-all-ex-presidente-thaci-per-crimini-di-guerra-rjmmdjs2"
+      ]
+    },
+    "La Repubblica": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.repubblica.it/esteri/2026/09/16/video/kosovo_thaci_sentenza_laia_condanna_25_anni-425589200/"
+      ]
+    },
+    "Amnesty International Italia": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.amnesty.it/kosovo-condannati-ex-presidente-e-tre-imputati/"
+      ]
+    },
+    "Rhône FM": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.rhonefm.ch/monde/l-ex-president-du-kosovo-hashim-thaci-condamne-a-25-ans-de-prison-1761641"
       ]
     }
   }

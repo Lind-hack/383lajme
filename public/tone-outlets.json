@@ -1,11 +1,11 @@
 {
-  "lastUpdated": "2026-09-16",
+  "lastUpdated": "2026-09-17",
   "overallIndex": 51,
-  "totalArticles": 279,
-  "sourceCount": 174,
+  "totalArticles": 244,
+  "sourceCount": 143,
   "stanceVersion": 3,
-  "unattributed": 339,
-  "nonEditorial": 11,
+  "unattributed": 279,
+  "nonEditorial": 9,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -181,7 +181,7 @@
         {
           "name": "DW.com",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Kosovo ex-president Thaci faces Hague war crimes verdict - DW.com",
@@ -234,9 +234,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Shock in Kosovo as Hague convicts former President Thaci - DW.com",
+              "albanianTitle": "Tronditje në Kosovë pas dënimit të ish-presidentit Thaçi nga Haga",
+              "blurb": "Dënimi i ish-presidentit Hashim Thaçi nga Gjykata e Hagës ka shkaktuar reagime të shumta në opinionin publik.",
+              "imageUrl": "https://static.dw.com/image/79293097_6.jpg",
+              "url": "https://www.dw.com/en/reactions-from-kosovo-to-conviction-of-former-president-hashim-thaci-found-guilty-of-war-crimes/a-79294916",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Fact‑based headline without hostile language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 6,
+          "totalArticles": 7,
           "trend": "neutral",
           "firstSeen": "2026-09-01",
           "lastSeen": "2026-09-16"
@@ -292,21 +305,8 @@
         {
           "name": "Die Zeit",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 3,
           "articles": [
-            {
-              "title": "Kosovo: Kosovos Parlament wählt Albin Kurti erneut zum Ministerpräsidenten - DIE ZEIT",
-              "albanianTitle": "Kosovë: Kuvendi i Kosovës rizgjedh Albin Kurtin kryeministër - DIE ZEIT",
-              "blurb": "Parlamenti i Kosovës ka zgjedhur sërish Albin Kurtin në postin e kryeministrit të vendit pas votimit të zhvilluar.",
-              "imageUrl": "https://img.zeit.de/politik/ausland/2026-09/kosovo-regierung-albin-kurti-selbstbestimmungs-partei-parlament-foto-1/wide__1300x731",
-              "url": "https://www.zeit.de/politik/ausland/2026-09/kosovo-regierung-albin-kurti-selbstbestimmungs-partei-parlament",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Reisen: Weitere Airline fliegt von Hamburg in Hauptstadt Kosovos - DIE ZEIT",
               "albanianTitle": "Udhëtimet: Një tjetër kompani ajrore nis fluturimet nga Hamburgu për në kryeqytetin e Kosovës",
@@ -810,7 +810,7 @@
         {
           "name": "Tagesschau",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosovo-Kriegsverbrecher und Ex-Premier Hashim Thaci zu 25 Jahren verurteilt - tagesschau.de",
@@ -837,9 +837,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "25 Jahre Haft: Ehemaliger Präsident des Kosovo, Thaci, wegen Kriegsverbrechen schuldig gesprochen - tagesschau.de",
+              "albanianTitle": "25 vjet burg: Ish-presidenti i Kosovës, Thaçi, shpallet fajtor për krime lufte",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim për krime të kryera gjatë luftës.",
+              "imageUrl": "https://images.tagesschau.de/image/2f8c5aca-55c3-4c47-aa43-e6772b4b4886/AAABoK6OPsQ/AAABnSSvrFg/16x9-big/urteil-kriesgverbrechen-100.jpg?width=1280",
+              "url": "https://www.tagesschau.de/tagesthemen/video-1650340.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 3,
+          "totalArticles": 4,
           "trend": "neutral",
           "firstSeen": "2026-08-21",
           "lastSeen": "2026-09-16"
@@ -940,6 +953,30 @@
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "WEB.DE",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovos Ex-Präsident zu langer Haftstrafe verurteilt - WEB.DE",
+              "albanianTitle": "Ish-presidenti i Kosovës dënohet me burgim afatgjatë",
+              "blurb": "Ish-presidenti i Kosovës është dënuar me një dënim të gjatë me burgim nga gjykata për krime lufte.",
+              "imageUrl": "https://i0.web.de/image/886/42730886,pd=4,f=opengraph.jpg",
+              "url": "https://web.de/magazine/politik/kosovos-ex-praesident-langer-haftstrafe-verurteilt-42730854",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-16"
         },
         {
@@ -1244,30 +1281,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-09",
           "lastSeen": "2026-09-16"
-        },
-        {
-          "name": "zeit.de",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo: Kosovos Parlament wählt Albin Kurti erneut zum Ministerpräsidenten - zeit.de",
-              "albanianTitle": "Kosovë: Kuvendi i Kosovës rizgjedh Albin Kurtin kryeministër",
-              "blurb": "Parlamenti i Kosovës ka zgjedhur sërish Albin Kurtin në postin e kryeministrit të vendit pas votimit të zhvilluar.",
-              "imageUrl": "https://img.zeit.de/politik/ausland/2026-09/kosovo-regierung-albin-kurti-selbstbestimmungs-partei-parlament-foto-1/wide__1300x731",
-              "url": "https://www.zeit.de/politik/ausland/2026-09/kosovo-regierung-albin-kurti-selbstbestimmungs-partei-parlament",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
         }
       ],
       "summary": {
@@ -1275,7 +1288,7 @@
         "positive": 0,
         "neutral": 98,
         "negative": 2,
-        "n": 63,
+        "n": 64,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -1286,21 +1299,8 @@
         {
           "name": "AP News",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Kosovo gets new government but political impasse persists - AP News",
-              "albanianTitle": "Kosova bëhet me qeveri të re, por ngërçi politik vazhdon",
-              "blurb": "Kosova ka formuar qeverinë e re, mirëpo bllokada politike në vend vazhdon të mbetet ende prezente.",
-              "imageUrl": null,
-              "url": "https://apnews.com/article/kosovo-government-kurti-crisis-5c3727cfbcf04a3cc5734972fa6ea6c0",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raporti pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Hague court to deliver verdict in war crimes trial of Kosovo’s former President Thaci - AP News",
               "albanianTitle": "Gjykata e Hagës pritet të shpallë vendimin në gjykimin për krime lufte ndaj ish-presidentit të Kosovës, Thaçi - AP News",
@@ -1315,23 +1315,23 @@
               "speaker": ""
             },
             {
-              "title": "Kosovo protesters rally in support of ex-president ahead of war crimes trial verdict - AP News",
-              "albanianTitle": "Protestuesit në Kosovë mblidhen në mbështetje të ish-presidentit para shpalljes së vendimit për krime lufte",
-              "blurb": "Qytetarët në Kosovë kanë organizuar protestë në mbështetje të ish-presidentit para shpalljes së vendimit për krimet e luftës.",
+              "title": "Tribunal de La Haya condena al ex presidente de Kosovo a una pena de 25 años - AP News",
+              "albanianTitle": "Tribunali i Hagës dënon ish-presidentin e Kosovës me 25 vjet burg",
+              "blurb": "Gjykata e Hagës e ka dënuar ish-presidentin e Kosovës me 25 vjet burgim për krime të luftës.",
               "imageUrl": null,
-              "url": "https://apnews.com/article/kosovo-protest-war-crimes-trial-thaci-f6415cb77e34856a7f99e5953c4410bb",
-              "date": "2026-09-13",
+              "url": "https://apnews.com/video/tribunal-de-la-haya-condena-al-ex-presidente-de-kosovo-a-una-pena-de-25-anos-a181ed5c697a4010922e3b867ac6dae7",
+              "date": "2026-09-17",
               "sentiment": "neutral",
-              "reason": "Faktike raportim pa ngarkesë",
+              "reason": "Përdor gjuhë faktike, pa ngarkim negativ",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 3,
+          "totalArticles": 4,
           "trend": "neutral",
           "firstSeen": "2026-09-14",
-          "lastSeen": "2026-09-16"
+          "lastSeen": "2026-09-17"
         },
         {
           "name": "Bloomberg",
@@ -1530,30 +1530,6 @@
           "lastSeen": "2026-09-16"
         },
         {
-          "name": "apnews.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo gets new government but political impasse persists - apnews.com",
-              "albanianTitle": "Kosova bëhet me qeveri të re, por ngërçi politik vazhdon",
-              "blurb": "Kosova ka formuar qeverinë e re, ndërsa vazhdon të përballet me një ngërç politik në vend.",
-              "imageUrl": null,
-              "url": "https://apnews.com/article/kosovo-government-kurti-crisis-5c3727cfbcf04a3cc5734972fa6ea6c0",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral, përshkrim i situatës pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
-        },
-        {
           "name": "nytimes.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1607,7 +1583,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 16,
+        "n": 14,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -1618,7 +1594,7 @@
         {
           "name": "BBC",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosovo's former president sentenced to 25 years for war crimes - BBC",
@@ -1632,9 +1608,35 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo's former president sentenced to 25 years for war crimes - bbc.co.uk",
+              "albanianTitle": "Ish-presidenti i Kosovës dënohet me 25 vjet burg për krime lufte",
+              "blurb": "Ish-presidenti i Kosovës është dënuar me 25 vjet burgim pas shpalljes fajtor për krime të luftës.",
+              "imageUrl": "https://ichef.bbci.co.uk/ace/branded_news/1200/cpsprodpb/fb87/live/5e973200-b1b5-11f1-bdcf-d393eb724fa3.jpg",
+              "url": "https://www.bbc.co.uk/news/articles/cmd79z0pdzgjo",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht informon për dënimin, pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Eski Kosova lideri Haşim Taçi 25 yıl hapis cezası aldı - BBC",
+              "albanianTitle": "Ish-lideri i Kosovës, Hashim Thaçi, dënohet me 25 vjet burg - BBC",
+              "blurb": "Gjykata në Hagë ka shqiptuar dënimin me 25 vjet burgim për ish-presidentin e Kosovës, Hashim Thaçi, për krime.",
+              "imageUrl": "https://ichef.bbci.co.uk/news/1200/branded_turkce/992a/live/19222fd0-b1d4-11f1-8493-1910d79d53eb.jpg",
+              "url": "https://www.bbc.com/turkce/articles/c914dr5433v6o",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-16",
           "lastSeen": "2026-09-16"
@@ -1734,42 +1736,29 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo gets new government but political impasse persists - independent.co.uk",
-              "albanianTitle": "Kosova formon qeverinë e re, por kriza politike mbetet e pazgjidhur",
-              "blurb": "Kosova ka krijuar qeverinë e re, mirëpo situata politike mbetet e bllokuar për shkak të mosmarrëveshjeve të vazhdueshme.",
-              "imageUrl": "https://static.independent.co.uk/2026/09/13/16/Kosovo_Government_78947.jpg?width=1200&height=800&crop=1200:800",
-              "url": "https://www.independent.co.uk/news/kosovo-pristina-serbia-europe-nato-b3049420.html",
-              "date": "2026-09-13",
+              "title": "Former Kosovo president Hashim Thaci jailed for 25 years for war crimes - independent.co.uk",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burg për krime lufte - independent.co.uk",
+              "blurb": "Gjykata Speciale ka shpallur dënimin prej 25 vjetësh burgim për ish-presidentin e Kosovës, Hashim Thaçi, për krime lufte.",
+              "imageUrl": "https://static.independent.co.uk/s3fs-public/thumbnails/image/2007/12/10/17/Kosovo2007.jpeg?width=1200&height=800&crop=1200:800",
+              "url": "https://www.independent.co.uk/news/world/crime/hashim-thaci-war-crimes-kosovo-president-the-hague-b3051110.html",
+              "date": "2026-09-16",
               "sentiment": "neutral",
-              "reason": "Titulli përshkruan situatën politike pa gjuhë ngarkuese",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
+          "lastSeen": "2026-09-16"
         },
         {
           "name": "Reuters",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 4,
           "articles": [
-            {
-              "title": "Kosovo parliament re-elects Albin Kurti as prime minister - Reuters",
-              "albanianTitle": "Kuvendi i Kosovës rizgjedh Albin Kurtin në postin e kryeministrit",
-              "blurb": "Deputetët e Kuvendit të Kosovës kanë votuar për rizgjedhjen e Albin Kurtit në krye të ekzekutivit të vendit.",
-              "imageUrl": null,
-              "url": "https://www.reuters.com/world/kosovo-parliament-re-elects-albin-kurti-prime-minister-2026-09-13/",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Kosovo ex-president Thaci faces war crimes verdict in The Hague - Reuters",
               "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, përballet me verdiktin për krime lufte në Hagë",
@@ -1916,21 +1905,8 @@
         {
           "name": "The Independent",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Kosovo gets new government but political impasse persists - The Independent",
-              "albanianTitle": "Kosova formon qeverinë e re, por kriza politike mbetet",
-              "blurb": "Kosova ka krijuar qeverinë e re, mirëpo ngërçi politik vazhdon të jetë prezent në skenën politike të vendit.",
-              "imageUrl": "https://static.independent.co.uk/2026/09/13/16/Kosovo_Government_78947.jpg?width=1200&height=800&crop=1200:800",
-              "url": "https://www.independent.co.uk/news/kosovo-pristina-serbia-europe-nato-b3049420.html",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Former Kosovo president Hashim Thaci jailed for 25 years for war crimes - The Independent",
               "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burg për krime lufte - The Independent",
@@ -2113,6 +2089,30 @@
     "Francë": {
       "outlets": [
         {
+          "name": "20 Minutes",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L’ex président du Kosovo Hashim Thaçi condamné à 25 ans de prison - 20 Minutes",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burg",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim për krime të kryera gjatë luftës.",
+              "imageUrl": "https://img.20mn.fr/JeB0-mC_S7avs_xNX5nVTyk/1444x920_dossier-l-ancien-president-du-kosovo-hashim-thaci-en-haut-a-gauche-comparait-devant-le-tribunal-du-kosovo-alors-qu-il-se-defend-contre-des-accusations-de-meurtre-de-torture-et-de-persecution-qui-auraient-ete-commises-pendant-la-guerre-d-independance-de-son-pays-vis-a-vis-de-la-serbie-a-la-haye-le-3-avril-2023-koen-van-weel-pool-via-ap-dossier-lbl102-26258396368489-fichier-photo-de-piscine-2609151303",
+              "url": "https://www.20minutes.fr/justice/4245902-20260916-kosovo-ex-president-thaci-condamne-vingt-cinq-ans-prison-crimes-guerre-decision-passe-mal",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i dënimit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-17",
+          "lastSeen": "2026-09-16"
+        },
+        {
           "name": "CNews",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2161,33 +2161,9 @@
           "lastSeen": "2026-09-16"
         },
         {
-          "name": "ENTREVUE.FR",
-          "sentiment": "positive",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Il Kosovo esce dalla paralisi con un nuovo governo – Kurti – Mondo - ENTREVUE.FR",
-              "albanianTitle": "Kosova del nga ngërçi me qeverinë e re të Kurtit",
-              "blurb": "Kosova i jep fund paralizës politike përmes formimit të qeverisë së re të udhëhequr nga Albin Kurti.",
-              "imageUrl": "https://entrevue.fr/wp-content/uploads/2026/09/le-kosovo-sort-de-la-paralysie-avec-un-nouveau-gou.jpg",
-              "url": "https://entrevue.fr/it/monde/le-kosovo-sort-de-la-paralysie-avec-un-nouveau-gouvernement-kurti/",
-              "date": "2026-09-13",
-              "sentiment": "positive",
-              "reason": "Ton pozitiv, vlerëson zhvillimin e Kosovës",
-              "isQuote": false,
-              "evidence": "esce dalla paralisi",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-14",
-          "lastSeen": "2026-09-13"
-        },
-        {
           "name": "France 24",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Former Kosovo president sentenced to 25 years for war crimes - France 24",
@@ -2201,11 +2177,61 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "L'ex-président du Kosovo Hashim Thaçi condamné pour crimes de guerre - France 24",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet për krime lufte",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është shpallur fajtor dhe është dënuar nga gjykata për krime të kryera gjatë luftës.",
+              "imageUrl": null,
+              "url": "https://www.france24.com/fr/europe/20260916-l-ex-pr%C3%A9sident-du-kosovo-hashim-tha%C3%A7i-condamn%C3%A9-%C3%A0-25-ans-de-prison-pour-crimes-de-guerre",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo: CPI condena a expresidente Hashim Thaci a 25 años de prisión por crímenes de guerra - France 24",
+              "albanianTitle": "Kosovë: Gjykata Speciale dënon ish-presidentin Hashim Thaçi me 25 vjet burgim për krime lufte",
+              "blurb": "Gjykata ka shqiptuar dënimin prej 25 vjetësh burgim për ish-presidentin Hashim Thaçi për shkak të krimeve të luftës.",
+              "imageUrl": null,
+              "url": "https://www.france24.com/es/video/20260916-kosovo-cpi-condena-a-expresidente-hashim-thaci-a-25-a%C3%B1os-de-prisi%C3%B3n-por-cr%C3%ADmenes-de-guerra",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "France Info",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L'ancien président du Kosovo Hashim Thaçi a été condamné à 25 ans de prison pour crimes de guerre - franceinfo",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burgim për krime lufte - franceinfo",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga një gjykatë për krime të luftës.",
+              "imageUrl": "https://www.franceinfo.fr/pictures/j8rRAr3HssxRoNekBvuz1G_KbU0/0x106:1024x682/1500x843/2026/09/16/6aaaae0b4664e014982353.jpg",
+              "url": "https://www.franceinfo.fr/monde/europe/l-ancien-president-du-kosovo-hashim-thaci-a-ete-condamne-a-25-ans-de-prison-pour-crimes-de-guerre_8195744.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-16",
+          "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-16"
         },
         {
@@ -2235,7 +2261,7 @@
         {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Procès d’Hashim Thaçi et de ses co-accusés : « le Kosovo les attend » - Le Courrier des Balkans",
@@ -2275,9 +2301,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Procès des commandants de l'UÇK • Vives réactions au Kosovo, manifestations devant le siège d'Eulex et à La Haye - Le Courrier des Balkans",
+              "albanianTitle": "Gjykimi i komandantëve të UÇK-së: Reagime të ashpra në Kosovë, protesta para selisë së EULEX-it dhe në Hagë - Le Courrier des Balkans",
+              "blurb": "Procesi gjyqësor ndaj ish-komandantëve të UÇK-së ka nxitur reagime dhe protesta para selisë së EULEX-it dhe në Hagë.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/kosovo-specialist-chamber.jpg",
+              "url": "https://www.courrierdesbalkans.fr/proces-de-luck-25-ans-de-prison-pour-lex-president-du-kosovo-hashim-thaci-99711/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i procesit dhe reagimeve",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 13,
+          "totalArticles": 14,
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-16"
@@ -2309,7 +2348,7 @@
         {
           "name": "Le Monde",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Hashim Thaçi, former Kosovo president, sentenced to 25 years for war crimes - Le Monde.fr",
@@ -2336,10 +2375,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Former president of Kosovo Hashim Thaçi sentenced to 25 years in prison for war crimes - Le Monde.fr",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burgim për krime lufte - Le Monde.fr",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga Gjykata e Hagës për krime lufte.",
+              "imageUrl": null,
+              "url": "https://www.lemonde.fr/en/international/article/2026/09/17/former-president-of-kosovo-hashim-thaci-sentenced-to-25-years-in-prison-for-war-crimes_6757610_4.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Neutral reporting of war‑crimes sentencing",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "neutral",
           "firstSeen": "2026-09-16",
           "lastSeen": "2026-09-16"
         },
@@ -2429,6 +2481,30 @@
           "lastSeen": "2026-09-16"
         },
         {
+          "name": "Mediapart",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo : les anciens commandants de l’UÇK lourdement condamnés - mediapart.fr",
+              "albanianTitle": "Kosovë: Ish-komandantët e UÇK-së dënohen me burgim të rëndë",
+              "blurb": "Ish-komandantët e Ushtrisë Çlirimtare të Kosovës janë dënuar me dënime të rënda nga gjykata ndërkombëtare për krime lufte.",
+              "imageUrl": "https://static.mediapart.fr/etmagine/og/journal/files/2026/09/16/260916-img-kosovo-les-anciens-commandants-de-l-uck-lourdement-condamnes.jpg",
+              "url": "https://www.mediapart.fr/journal/international/160926/kosovo-les-anciens-commandants-de-l-uck-lourdement-condamnes",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-17",
+          "lastSeen": "2026-09-16"
+        },
+        {
           "name": "Orange Actualités",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -2455,7 +2531,7 @@
         {
           "name": "RFI",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Procès de l'ancien président Hashim Thaçi et de trois ex-chefs de l’UCK, un verdict très attendu au Kosovo - RFI",
@@ -2495,12 +2571,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo: el expresidente Hashim Thaçi fue condenado a 25 años de prisión - RFI",
+              "albanianTitle": "Kosovë: Ish-presidenti Hashim Thaçi dënohet me 25 vjet burgim",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga trupi gjykues për krime lufte.",
+              "imageUrl": null,
+              "url": "https://www.rfi.fr/es/europa/20260916-kosovo-el-expresidente-hashim-tha%C3%A7i-fue-condenado-a-25-a%C3%B1os-de-prisi%C3%B3n",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 3,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 4,
+          "trend": "neutral",
           "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-14"
+          "lastSeen": "2026-09-16"
         },
         {
           "name": "afp.com",
@@ -2525,14 +2614,38 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-12",
           "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "liberation.fr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Procès des dirigeants de l’UCK : le Kosovo fait bloc avant le verdict - liberation.fr",
+              "albanianTitle": "Gjykimi i udhëheqësve të UÇK-së: Kosova bëhet bashkë para shpalljes së aktgjykimit - liberation.fr",
+              "blurb": "Kosova po përgatitet për vendimin e gjykatës në procesin gjyqësor që po zhvillohet ndaj ish-udhëheqësve të Ushtrisë Çlirimtare të Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.liberation.fr/international/europe/proces-des-dirigeants-de-luck-le-kosovo-fait-bloc-avant-le-verdict-20260916_ASL3L5REFFBLNAWGAID7RNAC2U/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, pa gjuhë polemike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-17",
+          "lastSeen": "2026-09-16"
         }
       ],
       "summary": {
-        "index": 53,
-        "positive": 5,
-        "neutral": 95,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 19,
+        "n": 27,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -2624,10 +2737,34 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 27,
+          "totalArticles": 28,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-15"
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "Amnesty International Italia",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo: condannati l’ex presidente e altri tre imputati - Amnesty International Italia",
+              "albanianTitle": "Kosova: Dënohen ish-presidenti dhe tre të akuzuarit e tjerë",
+              "blurb": "Ish-presidenti i Kosovës dhe tre të akuzuar të tjerë janë shpallur fajtorë dhe janë dënuar nga gjykata ndërkombëtare.",
+              "imageUrl": "https://d21zrvtkxtd6ae.cloudfront.net/public/uploads/2026/09/Hashim-Thaci-Kosovo.jpg",
+              "url": "https://www.amnesty.it/kosovo-condannati-ex-presidente-e-tre-imputati/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë i dënimit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-17",
+          "lastSeen": "2026-09-16"
         },
         {
           "name": "Il Gazzettino",
@@ -2678,28 +2815,28 @@
           "lastSeen": "2026-09-15"
         },
         {
-          "name": "Internazionale",
+          "name": "Il Piccolo",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo parliament re-elects Albin Kurti as prime minister - Internazionale",
-              "albanianTitle": "Parlamenti i Kosovës rikonfirmon Albin Kurtin si kryeministër",
-              "blurb": "Kuvendi i Kosovës ka votuar për rizgjedhjen e Albin Kurtit në pozitën e kryeministrit të Republikës së Kosovës.",
-              "imageUrl": "https://media.internazionale.it/images/2026/09/13/358449-hd.jpeg",
-              "url": "https://www.internazionale.it/ultime-notizie-reuters/2026/09/13/kosovo-parliament-re-elects-albin-kurti-as-prime-minister",
-              "date": "2026-09-13",
+              "title": "Nasce il volo Trieste-Priština: nuovo collegamento tra il Friuli Venezia Giulia e i Balcani - Il Piccolo",
+              "albanianTitle": "Hapet linja ajrore Trieste-Prishtinë: Lidhje e re mes Friuli Venezia Giulia-s dhe Ballkanit",
+              "blurb": "Është hapur linja e re ajrore që lidh qytetin e Triestes në Itali me kryeqytetin e Kosovës, Prishtinën.",
+              "imageUrl": "https://images.ilpiccolo.it/view/acePublic/alias/contentid/1tts7xxi0nahtswnra6/0/copia-di-image_146543902.webp?f=16%3A9&w=840",
+              "url": "https://www.ilpiccolo.it/cronaca/nasce-volo-trieste-pristina-collegamento-friuli-venezia-giulia-balcani-wizz-air-tpn6m24h",
+              "date": "2026-09-16",
               "sentiment": "neutral",
-              "reason": "Factual report of re‑electing the prime minister",
+              "reason": "Lajm i thjeshtë rreth lidhjes së re ajrore, pa ngjyrë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 2,
+          "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-02",
-          "lastSeen": "2026-09-13"
+          "firstSeen": "2026-09-17",
+          "lastSeen": "2026-09-16"
         },
         {
           "name": "L'Agenzia di Viaggi Magazine",
@@ -2739,9 +2876,57 @@
           "lastSeen": "2026-09-15"
         },
         {
+          "name": "L'Unione Sarda.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, 25 anni all'ex presidente Thaci per crimini di guerra - L'Unione Sarda.it",
+              "albanianTitle": "Kosovë, 25 vjet burg për ish-presidentin Thaçi për krime lufte",
+              "blurb": "Ish-presidenti Hashim Thaçi është dënuar me 25 vjet burgim nga gjykata për përfshirje në krime të luftës.",
+              "imageUrl": "https://immagini.unionesarda.it/version/c:MzE3ZDRkM2MtZWI0MS00:OWNjNjQxMmMtNmNhNS00/image.webp?f=16:9",
+              "url": "https://www.unionesarda.it/multimedia/kosovo-25-anni-all-ex-presidente-thaci-per-crimini-di-guerra-rjmmdjs2",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Titull faktik për dënimin, pa gjuhë pozitive apo negative ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-17",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "La Repubblica",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, L'Aia condanna l'ex presidente Thaci a 25 anni. La sentenza e la delusione dei sostenitori - la Repubblica",
+              "albanianTitle": "Haga dënon ish-presidentin Thaçi me 25 vjet burgim; zhgënjim te mbështetësit e tij",
+              "blurb": "Gjykata në Hagë ka dënuar ish-presidentin e Kosovës, Hashim Thaçi, me 25 vjet burgim për krime lufte.",
+              "imageUrl": "https://www.repstatic.it/content/nazionale/img/2026/09/16/191252905-51e0ae8d-a25c-47ad-9736-68ea9e43e1b0.jpg",
+              "url": "https://www.repubblica.it/esteri/2026/09/16/video/kosovo_thaci_sentenza_laia_condanna_25_anni-425589200/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i thjeshtë i dënimit në Haxhi",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-17",
+          "lastSeen": "2026-09-16"
+        },
+        {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Processo Thaçi, la piazza di Pristina chiede l’assoluzione - Osservatorio Balcani Caucaso Transeuropa",
@@ -2768,12 +2953,38 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo, anger and disappointment for the conviction of KLA leaders - Osservatorio Balcani Caucaso Transeuropa",
+              "albanianTitle": "Reagime të ashpra dhe zhgënjim në Kosovë pas dënimit të krerëve të UÇK-së",
+              "blurb": "Dënimi i ish-udhëheqësve të UÇK-së ka shkaktuar reagime të pakënaqësisë dhe zemërimit në Kosovë.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/Thaci-scaled.jpg",
+              "url": "https://www.balcanicaucaso.org/en/cp_article/kosovo-anger-and-disappointment-for-the-conviction-of-kla-leaders/",
+              "date": "2026-09-17",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo, rabbia e delusione per la condanna dei leader UÇK - Osservatorio Balcani Caucaso Transeuropa",
+              "albanianTitle": "Kosovë, zemërim dhe zhgënjim pas dënimit të liderëve të UÇK-së",
+              "blurb": "Dënimi i ish-udhëheqësve të UÇK-së ka shkaktuar reagime të ashpra dhe pakënaqësi në opinionin publik në Kosovë.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/Thaci-scaled.jpg",
+              "url": "https://www.balcanicaucaso.org/cp_article/kosovo-rabbia-e-delusione-per-la-condanna-dei-leader-uck/",
+              "date": "2026-09-17",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i reagimit, jo fjalë të ngarkuara ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 7,
+          "totalArticles": 9,
           "trend": "kritik",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-14"
+          "lastSeen": "2026-09-17"
         },
         {
           "name": "PordenoneToday",
@@ -2822,30 +3033,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-15",
           "lastSeen": "2026-09-15"
-        },
-        {
-          "name": "Südtirol News",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo-Parlament billigt neue Regierung unter Premier Kurti - Südtirol News",
-              "albanianTitle": "Parlamenti i Kosovës miraton qeverinë e re nën drejtimin e kryeministrit Kurti",
-              "blurb": "Parlamenti i Kosovës ka miratuar zyrtarisht qeverinë e re të udhëhequr nga kryeministri Albin Kurti.",
-              "imageUrl": "https://media.stncdn.it/960x720/2026/09/premier-kurti-spricht-im-parlament-des-kosovo.jpg",
-              "url": "https://www.suedtirolnews.it/politik/kosovo-parlament-billigt-neue-regierung-unter-premier-kurti",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-14",
-          "lastSeen": "2026-09-13"
         },
         {
           "name": "Trieste Cafe",
@@ -2922,7 +3109,7 @@
         {
           "name": "balcanicaucaso.org",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Thaçi trial: Pristina rallies for acquittal - balcanicaucaso.org",
@@ -2949,12 +3136,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo, anger and disappointment for the conviction of KLA leaders - balcanicaucaso.org",
+              "albanianTitle": "Kosovë, zemërim dhe zhgënjim pas dënimit të liderëve të UÇK-së - balcanicaucaso.org",
+              "blurb": "Dënimi i ish-udhëheqësve të Ushtrisë Çlirimtare të Kosovës nga Gjykata e Hagës ka shkaktuar pakënaqësi dhe reagime në opinionin publik.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/Thaci-scaled.jpg",
+              "url": "https://www.balcanicaucaso.org/en/cp_article/kosovo-anger-and-disappointment-for-the-conviction-of-kla-leaders/",
+              "date": "2026-09-17",
+              "sentiment": "neutral",
+              "reason": "Raporton reagimin e Kosovës pa ngarkim gjuhësor",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "kritik",
           "firstSeen": "2026-09-06",
-          "lastSeen": "2026-09-14"
+          "lastSeen": "2026-09-17"
         },
         {
           "name": "il Nord Est",
@@ -3003,6 +3203,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-15",
           "lastSeen": "2026-09-14"
+        },
+        {
+          "name": "ildenaro.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, a Pristina proteste contro la condanna a ex presidente Thaci - ildenaro.it",
+              "albanianTitle": "Kosovë, protesta në Prishtinë kundër dënimit të ish-presidentit Thaçi",
+              "blurb": "Qytetarët në Prishtinë kanë organizuar protesta pas shpalljes së dënimit për ish-presidentin e vendit, Hashim Thaçi.",
+              "imageUrl": null,
+              "url": "https://www.ildenaro.it/kosovo-a-pristina-proteste-contro-la-condanna-a-ex-presidente-thaci/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raportim i protestave, pa gjuhë të ngarkuar ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-17",
+          "lastSeen": "2026-09-16"
         },
         {
           "name": "internazionale.it",
@@ -3066,30 +3290,6 @@
           "lastSeen": "2026-09-16"
         },
         {
-          "name": "suedtirolnews.it",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo-Parlament billigt neue Regierung unter Premier Kurti - suedtirolnews.it",
-              "albanianTitle": "Parlamenti i Kosovës voton pro qeverisë së re të kryeministrit Kurti",
-              "blurb": "Parlamenti i Kosovës ka votuar për formimin e qeverisë së re të udhëhequr nga kryeministri Albin Kurti.",
-              "imageUrl": "https://media.stncdn.it/960x720/2026/09/premier-kurti-spricht-im-parlament-des-kosovo.jpg",
-              "url": "https://www.suedtirolnews.it/politik/kosovo-parlament-billigt-neue-regierung-unter-premier-kurti",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raporti pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-14",
-          "lastSeen": "2026-09-13"
-        },
-        {
           "name": "tg24.sky.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3119,8 +3319,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 30,
-        "excluded": 0,
+        "n": 35,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -3269,34 +3469,8 @@
         {
           "name": "Kleine Zeitung",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Kosovo-Parlament billigt neue Regierung unter Premier Kurti - Kleine Zeitung",
-              "albanianTitle": "Parlamenti i Kosovës voton qeverinë e re nën drejtimin e kryeministrit Kurti - Kleine Zeitung",
-              "blurb": "Parlamenti i Kosovës ka miratuar formimin e qeverisë së re të udhëhequr nga kryeministri Albin Kurti.",
-              "imageUrl": "https://img.kleinezeitung.at/public/politik/5vy7jv-92870011495039308bldonlinejpg/alternates/KLZ_SOCIAL/92870011495039308_BLD_Online.jpg",
-              "url": "https://www.kleinezeitung.at/artikel/41258460/kosovo-parlament-billigt-neue-regierung-unter-premier-kurti",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkesë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo-Parlament billigt neue Regierung unter Premier Kurti - kleinezeitung.at",
-              "albanianTitle": "Parlamenti i Kosovës voton qeverinë e re të kryeministrit Kurti",
-              "blurb": "Deputetët e Kuvendit të Kosovës kanë votuar pro formimit të kabinetit të ri qeveritar nën drejtimin e Kurtit.",
-              "imageUrl": "https://img.kleinezeitung.at/public/politik/5vy7jv-92870011495039308bldonlinejpg/alternates/KLZ_SOCIAL/92870011495039308_BLD_Online.jpg",
-              "url": "https://www.kleinezeitung.at/artikel/41258460/kosovo-parlament-billigt-neue-regierung-unter-premier-kurti",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Kosovos Ex-Präsident Thaci als Kriegsverbrecher verurteilt - kleinezeitung.at",
               "albanianTitle": "Ish-presidenti i Kosovës, Thaçi, dënohet për krime lufte",
@@ -3415,30 +3589,6 @@
           "lastSeen": "2026-09-14"
         },
         {
-          "name": "News.at",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo-Parlament billigt neue Regierung unter Premier Kurti - News.at",
-              "albanianTitle": "Parlamenti i Kosovës miraton qeverinë e re nën drejtimin e kryeministrit Kurti",
-              "blurb": "Parlamenti i Kosovës ka miratuar formimin e qeverisë së re të udhëhequr nga kryeministri Albin Kurti.",
-              "imageUrl": "https://fairu.news.at/a2bd1b6d-2eed-4815-8f0a-549e78d7378e/95039308_BLD_Online.jpg?width=1200&height=630&format=jpg",
-              "url": "https://www.news.at/politik/kosovo-parlament-billigt-neue-regierung-unter-premier-kurti",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
-        },
-        {
           "name": "Salzburger Nachrichten",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -3474,30 +3624,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-15",
           "lastSeen": "2026-09-16"
-        },
-        {
-          "name": "VOL.AT",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo-Parlament billigt neue Regierung unter Premier Kurti - VOL.AT",
-              "albanianTitle": "Kuvendi i Kosovës voton qeverinë e re nën drejtimin e kryeministrit Kurti - VOL.AT",
-              "blurb": "Deputetët e Kuvendit të Kosovës kanë miratuar formimin e qeverisë së re nën drejtimin e kryeministrit Albin Kurti.",
-              "imageUrl": "https://www.vol.at/2026/09/1495039308_BLD_Online-vodl-10462553-16-9-1200x675.jpg?v=18a6d58c",
-              "url": "https://www.vol.at/kosovo-parlament-billigt-neue-regierung-unter-premier-kurti/10462553",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
         },
         {
           "name": "sn.at",
@@ -3549,11 +3675,11 @@
         }
       ],
       "summary": {
-        "index": 52,
-        "positive": 4,
-        "neutral": 96,
+        "index": 53,
+        "positive": 5,
+        "neutral": 95,
         "negative": 0,
-        "n": 23,
+        "n": 19,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -3567,81 +3693,81 @@
           "articleCount": 6,
           "articles": [
             {
-              "title": "Die Versammlung des Kosovo wird konstituiert - Albinfo",
-              "albanianTitle": "Konstituohet Kuvendi i Kosovës",
-              "blurb": "Kuvendi i Republikës së Kosovës ka përfunduar procesin e konstituimit pas zgjedhjeve të fundit parlamentare në vend.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/2026_09_09_seanca_1_mnhpnuup6q.jpg",
-              "url": "https://www.albinfo.ch/de/konstituohet-kuvendi-i-kosoves/",
-              "date": "2026-09-13",
+              "title": "Ajeti: Zwei Kandidaten aus dem Kosovo treten bei den nächsten Wahlen im Land Berlin an - Albinfo",
+              "albanianTitle": "Ajeti: Dy kandidatë nga Kosova në garë për zgjedhjet e ardhshme në Berlin - Albinfo",
+              "blurb": "Dy kandidatë me prejardhje nga Kosova do të marrin pjesë në zgjedhjet e ardhshme në Berlin të Gjermanisë.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/810281597_18624610117053714_877957008793802737_n-2.jpg",
+              "url": "https://www.albinfo.ch/de/ajeti-dy-kandidate-nga-kosova-garojne-per-zgjedhjet-e-radhes-ne-landin-e-berlinit/",
+              "date": "2026-09-14",
               "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral pa gjuhë ngarkuese",
+              "reason": "Neutral factual reporting",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Mit 62 Ja-Stimmen wird die Regierung Kurti 4 gewählt - Albinfo",
-              "albanianTitle": "Me 62 vota për, zgjidhet Qeveria Kurti 4",
-              "blurb": "Qeveria Kurti 4 është zgjedhur me 62 vota për nga ana e deputetëve në Kuvendin e Kosovës.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/06/screenshot-2026-06-09-095816.png",
-              "url": "https://www.albinfo.ch/de/me-62-vota-per-zgjidhet-qeveria-kurti-4/",
-              "date": "2026-09-13",
+              "title": "Ajeti: Deux candidats originaires du Kosovo en lice pour les prochaines élections dans le Land de Berlin - Albinfo",
+              "albanianTitle": "Ajeti: Dy kandidatë me prejardhje nga Kosova në garë për zgjedhjet e ardhshme në Berlin - Albinfo",
+              "blurb": "Dy kandidatë me origjinë nga Kosova janë zyrtarisht në garë për zgjedhjet e ardhshme në landin e Berlinit.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/810281597_18624610117053714_877957008793802737_n-2.jpg",
+              "url": "https://www.albinfo.ch/fr/ajeti-dy-kandidate-nga-kosova-garojne-per-zgjedhjet-e-radhes-ne-landin-e-berlinit/",
+              "date": "2026-09-14",
               "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral pa gjuhë ngarkuese",
+              "reason": "Neutral factual reporting",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "L’Assemblée du Kosovo est constituée - Albinfo",
-              "albanianTitle": "Konstituohet Kuvendi i Kosovës",
-              "blurb": "Kuvendi i Kosovës është konstituuar zyrtarisht pas përmbylljes së procedurave të nevojshme për funksionimin e legjislaturës së re të vendit.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/2026_09_09_seanca_1_mnhpnuup6q.jpg",
-              "url": "https://www.albinfo.ch/fr/konstituohet-kuvendi-i-kosoves/",
-              "date": "2026-09-13",
+              "title": "Bücher für den ergänzenden Albanischunterricht treffen im Konsulat des Kosovo in München ein - Albinfo",
+              "albanianTitle": "Arrijnë librat për mësimin plotësues të gjuhës shqipe në Konsullatën e Kosovës në Mynih",
+              "blurb": "Konsullata e Kosovës në Mynih ka pranuar dërgesën me libra për nevojat e mësimit plotësues të gjuhës shqipe në diasporë.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/802680605_1550736690425630_5990897292376751500_n.jpg",
+              "url": "https://www.albinfo.ch/de/ne-konsullaten-e-kosoves-ne-mynih-arrijne-librat-per-mesimin-plotesues-ne-gjuhen-shqipe/",
+              "date": "2026-09-14",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Simple factual report of book delivery to Kosovo consulate",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Avec 62 voix pour, le gouvernement Kurti 4 est élu - Albinfo",
-              "albanianTitle": "Me 62 vota për, zgjidhet Qeveria Kurti 4",
-              "blurb": "Qeveria Kurti 4 është zgjedhur me 62 vota për nga ana e deputetëve në Kuvendin e Republikës së Kosovës.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/06/screenshot-2026-06-09-095816.png",
-              "url": "https://www.albinfo.ch/fr/me-62-vota-per-zgjidhet-qeveria-kurti-4/",
-              "date": "2026-09-13",
+              "title": "Re:Connect: Albanische Migranten der zweiten Generation auf der Suche nach ihrer Identität - Albinfo",
+              "albanianTitle": "Re:Connect: Emigrantët shqiptarë të gjeneratës së dytë në kërkim të identitetit të tyre",
+              "blurb": "Migrantët shqiptarë të gjeneratës së dytë po hulumtojnë identitetin e tyre përmes projektit Re:Connect.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/filmi-identitetet.jpg",
+              "url": "https://www.albinfo.ch/de/reconnect-ose-te-rinjte-migrante-te-brezit-te-dyte-ne-kerkim-te-identitetit-te-tyre/",
+              "date": "2026-09-14",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Faktikisht raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "L’Association des infirmiers albanais en Suisse (LISZ) bénéficie d’un large soutien lors de sa cérémonie d’ouverture à Zurich - Albinfo",
-              "albanianTitle": "Shoqata e Infermierëve Shqiptarë në Zvicër (LISZ) merr mbështetje të gjerë në ceremoninë e hapjes në Cyrih",
-              "blurb": "Shoqata e infermierëve shqiptarë në Zvicër ka mbajtur ceremoninë e hapjes në Cyrih me mbështetje të gjerë pjesëmarrëse.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/dsc_8443-scaled.jpg",
-              "url": "https://www.albinfo.ch/de/lidhja-e-infermiereve-shqiptare-ne-zvicer-lisz-gezon-perkrahje-te-gjere-ne-ceremonine-e-hapjes-ne-cyrih/",
-              "date": "2026-09-13",
+              "title": "Les manuels destinés à l'enseignement complémentaire de la langue albanaise arrivent au Consulat du Kosovo à Munich - Albinfo",
+              "albanianTitle": "Tekstet shkollore për mësimin plotësues të gjuhës shqipe arrijnë në Konsullatën e Kosovës në Mynih",
+              "blurb": "Tekstet shkollore për mësimin plotësues të gjuhës shqipe kanë mbërritur në Konsullatën e Kosovës në Mynih.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/802680605_1550736690425630_5990897292376751500_n.jpg",
+              "url": "https://www.albinfo.ch/fr/ne-konsullaten-e-kosoves-ne-mynih-arrijne-librat-per-mesimin-plotesues-ne-gjuhen-shqipe/",
+              "date": "2026-09-14",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Faktikisht raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Die Versammlung des Kosovo wird konstituiert - albinfo.ch",
-              "albanianTitle": "Konstituohet Kuvendi i Kosovës",
-              "blurb": "Kuvendi i Kosovës ka përfunduar procesin e konstituimit pas zgjedhjeve të fundit parlamentare në vend.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/2026_09_09_seanca_1_mnhpnuup6q.jpg",
-              "url": "https://www.albinfo.ch/de/konstituohet-kuvendi-i-kosoves/",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar në mënyrë neutrale",
+              "title": "Vier Talente mit Wurzeln im Kosovo glänzen im Münchner Derby - albinfo.ch",
+              "albanianTitle": "Katër talente me prejardhje nga Kosova shkëlqejnë në derbin e Mynihut",
+              "blurb": "Katër futbollistë të rinj me prejardhje nga Kosova kanë treguar paraqitje të shkëlqyera gjatë derbit të zhvilluar në Mynih.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/screenshot-2026-09-15-093949.png",
+              "url": "https://www.albinfo.ch/de/kater-talente-me-prejardhje-nga-kosova-shkelqejne-ne-derbin-e-mynihut/",
+              "date": "2026-09-15",
+              "sentiment": "positive",
+              "reason": "Outlet praises Kosovo‑rooted talents",
               "isQuote": false,
-              "evidence": "",
+              "evidence": "glänzen im Münchner Derby",
               "speaker": ""
             }
           ],
@@ -3856,32 +3982,19 @@
           "lastSeen": "2026-09-16"
         },
         {
-          "name": "SRF",
+          "name": "Rhône FM",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
-              "title": "Kurti bleibt Premier vom Kosovo – Opposition boykottiert Abstimmung - SRF",
-              "albanianTitle": "Kurti vazhdon të jetë kryeministër i Kosovës – opozita bojkoton votimin - SRF",
-              "blurb": "Albin Kurti vazhdon të jetë kryeministër i Kosovës, ndërsa partitë opozitare kanë bojkotuar procesin e votimit në Kuvend.",
-              "imageUrl": "https://www.srf.ch/static/cms/images/branded_srf_news/669039.jpg",
-              "url": "https://www.srf.ch/news/international/neue-regierung-im-kosovo-kurti-bleibt-premier-opposition-boykottiert-abstimmung",
-              "date": "2026-09-13",
+              "title": "L'ex-président du Kosovo Hashim Thaçi condamné à 25 ans de prison - Rhône FM",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet heqje lirie",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim për akuzat që lidhen me krimet e luftës.",
+              "imageUrl": "https://www.rhonefm.ch/media/image/15/normal_1_91_1/20260916114046704.jpg?04ef9122b6954828ea30760beeb17f15",
+              "url": "https://www.rhonefm.ch/monde/l-ex-president-du-kosovo-hashim-thaci-condamne-a-25-ans-de-prison-1761641",
+              "date": "2026-09-16",
               "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkesë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kurti bleibt Premier vom Kosovo – Opposition boykottiert Abstimmung - srf.ch",
-              "albanianTitle": "Kurti vazhdon të jetë kryeministër i Kosovës – opozita bojkoton votimin - srf.ch",
-              "blurb": "Albin Kurti është rikonfirmuar në postin e kryeministrit të Kosovës, ndërsa opozita nuk ka marrë pjesë në votim.",
-              "imageUrl": "https://www.srf.ch/static/cms/images/branded_srf_news/669039.jpg",
-              "url": "https://www.srf.ch/news/international/neue-regierung-im-kosovo-kurti-bleibt-premier-opposition-boykottiert-abstimmung",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raporti për vazhdimësi politike",
+              "reason": "Raportim faktik pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3889,8 +4002,8 @@
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
+          "firstSeen": "2026-09-17",
+          "lastSeen": "2026-09-16"
         },
         {
           "name": "SWI swissinfo.ch",
@@ -3917,46 +4030,9 @@
           "lastSeen": "2026-09-16"
         },
         {
-          "name": "Watson",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Politique: le Kosovo a un nouveau gouvernement - Watson",
-              "albanianTitle": "Politikë: Kosova ka një qeveri të re - Watson",
-              "blurb": "Kosova ka krijuar qeverinë e re pas procesit të votimit të zhvilluar në institucionet shtetërore të vendit.",
-              "imageUrl": "https://www.watson.ch/fr/imgdb/0e48/Z1200,675,2426,1539,349,349/2252875449218424",
-              "url": "https://www.watson.ch/fr/international/politique/375763324-politique-le-kosovo-a-un-nouveau-gouvernement",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raporti për qeveri të re",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Politique: le Kosovo a un nouveau gouvernement - watson.ch",
-              "albanianTitle": null,
-              "blurb": "Institucionet e Kosovës janë kompletuar pas formimit të qeverisë së re të udhëhequr nga koalicioni fitues i zgjedhjeve.",
-              "imageUrl": "https://www.watson.ch/fr/imgdb/0e48/Z1200,675,2426,1539,349,349/2252875449218424",
-              "url": "https://www.watson.ch/fr/international/politique/375763324-politique-le-kosovo-a-un-nouveau-gouvernement",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë të raportuara pa gjuhë ngacmuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
-        },
-        {
           "name": "albinfo.at",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 2,
           "articles": [
             {
               "title": "B2B-Forum SCHWEIZ-KOSOVO - albinfo.at",
@@ -3983,62 +4059,12 @@
               "isQuote": false,
               "evidence": "glänzen",
               "speaker": ""
-            },
-            {
-              "title": "Die Versammlung des Kosovo wird konstituiert - albinfo.at",
-              "albanianTitle": "Konstituohet Kuvendi i Kosovës - albinfo.at",
-              "blurb": "Kuvendi i Kosovës po zhvillon procesin e konstituimit për të filluar punën e legjislaturës së re parlamentare.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/2026_09_09_seanca_1_mnhpnuup6q.jpg",
-              "url": "https://www.albinfo.ch/de/konstituohet-kuvendi-i-kosoves/",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i formimit të Kuvendit të Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Mit 62 Ja-Stimmen wird die Regierung Kurti 4 gewählt - albinfo.at",
-              "albanianTitle": "Me 62 vota për, zgjidhet Qeveria Kurti 4 - albinfo.at",
-              "blurb": "Qeveria Kurti 4 është votuar nga deputetët e Kuvendit të Kosovës me gjithsej 62 vota pro.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/06/screenshot-2026-06-09-095816.png",
-              "url": "https://www.albinfo.ch/de/me-62-vota-per-zgjidhet-qeveria-kurti-4/",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i rezultateve të zgjedhjeve",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ],
           "totalArticles": 4,
           "trend": "i përzier",
           "firstSeen": "2026-09-16",
           "lastSeen": "2026-09-15"
-        },
-        {
-          "name": "bluewin.ch",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kurti Remains Prime Minister — Opposition Boycotts Vote - bluewin.ch",
-              "albanianTitle": "Kurti mbetet kryeministër, opozita bojkoton votimin",
-              "blurb": "Albin Kurti vazhdon të mbetet kryeministër i Kosovës, ndërsa partitë opozitare kanë bojkotuar procesin e votimit në Kuvend.",
-              "imageUrl": "https://bluewin-prod-sc-images.imgix.net/2026/09/13/4e79fbce-e3f5-4e76-b932-672ee5676f72.jpg?w=1024&auto=format&s=de83065430d88aae0601592066954b58",
-              "url": "https://www.bluewin.ch/en/news/kurti-remains-prime-minister-opposition-boycotts-vote-li.3598322",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim i thjeshtë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
         },
         {
           "name": "letemps.ch",
@@ -4087,63 +4113,15 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-16",
           "lastSeen": "2026-09-16"
-        },
-        {
-          "name": "zentralplus",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "News Archive - zentralplus",
-              "albanianTitle": null,
-              "blurb": "Arkiva e lajmeve të portalit zviceran zentralplus përmban përmbledhje të ngjarjeve të ndryshme të publikuara ndër vite.",
-              "imageUrl": null,
-              "url": "https://www.zentralplus.ch/news/kosovo-kurti-bleibt-regierungschef-2898175/",
-              "date": "2026-09-13",
-              "sentiment": "unknown",
-              "reason": "Nuk ka përmendje të Kosovës në titull ose fragment",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "zentralplus.ch",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "News Archive - zentralplus.ch",
-              "albanianTitle": null,
-              "blurb": "Arkiva e lajmeve përmban informacione të ndryshme të publikuara në portalin informativ zentralplus për ngjarjet e fundit.",
-              "imageUrl": null,
-              "url": "https://www.zentralplus.ch/news/kosovo-kurti-bleibt-regierungschef-2898175/",
-              "date": "2026-09-13",
-              "sentiment": "unknown",
-              "reason": "Nuk ka informacion rreth Kosovës në titull",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-14",
-          "lastSeen": "2026-09-13"
         }
       ],
       "summary": {
-        "index": 54,
-        "positive": 8,
-        "neutral": 92,
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 38,
-        "excluded": 3,
+        "n": 25,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -4337,54 +4315,6 @@
     "Greqi": {
       "outlets": [
         {
-          "name": "AllStarBasket.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Περιστέρι: Φιλικό αύριο με την Ylli από το Κόσοβο - AllStarBasket.gr",
-              "albanianTitle": "Peristeri: Nesër ndeshje miqësore me Yllin nga Kosova.",
-              "blurb": "Skuadra e basketbollit Peristeri do të zhvillojë nesër një ndeshje miqësore kundër ekipit Ylli nga Kosova.",
-              "imageUrl": "https://www.allstarbasket.gr/media/k2/items/cache/331b201d2fe303379b7bcdc475ca19e7_L.jpg?t=20260913_154715",
-              "url": "https://www.allstarbasket.gr/ellada/greek-basketball-league/peristeri-filiko-ayrio-me-tin-ylli-apo-to-kosovo",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i ndeshjes miqësore",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "BusinessDaily.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Εγκρίθηκε η κυβέρνηση Κούρτι, διαρκεί η θεσμική κρίση - BusinessDaily.gr",
-              "albanianTitle": "Kosovë: Qeveria Kurti merr votëbesimin, kriza institucionale vazhdon",
-              "blurb": "Kuvendi i Kosovës ka miratuar qeverinë e re të Albin Kurtit, ndërsa vendi vazhdon të përballet me krizë institucionale.",
-              "imageUrl": "https://www.businessdaily.gr/sites/default/files/styles/main_full/public/2022-08/businessdaily-Kosovo-Simaia.jpg?itok=1-wkg6v3",
-              "url": "https://www.businessdaily.gr/diethni/231769_koinoboylio-toy-kosoboy-enekrine-tin-kybernisi-koyrti-en-meso-thesmikis-krisis?utm_source=Feedelio&utm_medium=News&utm_campaign=APE-MPE&utm_content=auto",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Factual reporting without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
-        },
-        {
           "name": "Dnews",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -4407,78 +4337,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-14",
           "lastSeen": "2026-09-14"
-        },
-        {
-          "name": "Gazzetta.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Περιστέρι: Φιλικό με την Ylli από το Κόσοβο - Gazzetta.gr",
-              "albanianTitle": "Peristeri: Ndeshje miqësore me Yllin nga Kosova",
-              "blurb": "Ekipi i basketbollit Peristeri do të zhvillojë një ndeshje miqësore me skuadrën Ylli nga Kosova në kuadër të përgatitjeve.",
-              "imageUrl": "https://www.gazzetta.gr/sites/default/files/styles/og_image/public/2026-09/5325789.jpg?itok=Rn9EJmW3",
-              "url": "https://www.gazzetta.gr/basketball/basket-league/2568856/peristeri-filiko-me-tin-ylli-apo-kosobo?amp",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Descriptive headline, no hostile or praising tone",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 7,
-          "trend": "neutral",
-          "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "In.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Το κοινοβούλιο ενέκρινε τη νέα κυβέρνηση του Αλμπίν Κούρτι – Ανοιχτό ενδεχόμενο για νέες εκλογές - In.gr",
-              "albanianTitle": "Kosova: Kuvendi miraton qeverinë e re të Albin Kurtit, mbetet e hapur mundësia për zgjedhje të reja",
-              "blurb": "Parlamenti i Kosovës ka miratuar qeverinë e re të Albin Kurtit, ndërsa mbetet e hapur mundësia për zgjedhje.",
-              "imageUrl": "https://www.in.gr/wp-content/uploads/2026/09/2026-09-13T154052Z_1152450462_RC2DINAICHKL_RTRMADP_5_KOSOVO-POLITICS-GOVERNMENT.jpg",
-              "url": "https://www.in.gr/2026/09/13/world/kosovo-to-koinovoulio-enekrine-ti-nea-kyvernisi-tou-almpin-kourti-anoixto-endexomeno-gia-nees-ekloges/amp/",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Straightforward news of parliamentary approval",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "LiFO",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Επανεξελέγη πρωθυπουργός από το κοινοβούλιο ο Αλμπίν Κούρτι - LiFO",
-              "albanianTitle": "Kosovë: Albin Kurti rizgjidhet kryeministër nga parlamenti",
-              "blurb": "Albin Kurti është rizgjedhur në postin e kryeministrit të Kosovës pas votimit të zhvilluar në Kuvendin e vendit.",
-              "imageUrl": "https://www.lifo.gr/sites/default/files/styles/facebook_with_logo/public/articles/2026-09-13/kosovo-koinovoulio-egkrisi-nea-kyvernisi-albin-kourti.jpg?itok=C-U1IVqb",
-              "url": "https://www.lifo.gr/now/world/kosobo-epanexelegi-prothypoyrgos-apo-koinoboylio-o-almpin-koyrti",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Headline reports re‑election factually, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-14",
-          "lastSeen": "2026-09-13"
         },
         {
           "name": "NeaKriti",
@@ -4577,30 +4435,6 @@
           "lastSeen": "2026-09-14"
         },
         {
-          "name": "The Press Project",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Νέα κυβέρνηση με πρωθυπουργό τον Άλμπιν Κούρτι - The Press Project",
-              "albanianTitle": "Kosovë: Qeveri e re me kryeministër Albin Kurtin",
-              "blurb": "Albin Kurti është zgjedhur kryeministër i Kosovës në kuadër të formimit të qeverisë së re të vendit.",
-              "imageUrl": "https://thepressproject.gr/app/uploads/2026/09/640-0-1760006212xkuvendi-i-kosoves-936.png",
-              "url": "https://thepressproject.gr/kosovo-nea-kyvernisi-me-prothypourgo-ton-albin-kourti/",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
-        },
-        {
           "name": "eKathimerini.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -4623,102 +4457,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-16",
           "lastSeen": "2026-09-16"
-        },
-        {
-          "name": "ertnews.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Επανεξελέγη πρωθυπουργός από το κοινοβούλιο στο Κόσοβο ο Αλμίν Κούρτι - ertnews.gr",
-              "albanianTitle": "Albin Kurti rizgjidhet kryeministër nga Kuvendi i Kosovës",
-              "blurb": "Parlamenti i Kosovës rizgjedh Albin Kurtin në postin e kryeministrit të vendit për një mandat të ri.",
-              "imageUrl": "https://www.ertnews.gr/wp-content/uploads/2026/09/29085999-768x518-1.jpg",
-              "url": "https://www.ertnews.gr/eidiseis/diethni/epanekselegi-prothypourgos-apo-to-koinovoulio-sto-kosovo-o-almin-kourti/",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-08-21",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "lifo.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Επανεξελέγη πρωθυπουργός από το κοινοβούλιο ο Αλμπίν Κούρτι - lifo.gr",
-              "albanianTitle": "Kosova: Albin Kurti rizgjidhet kryeministër nga Kuvendi",
-              "blurb": "Albin Kurti është rizgjedhur në postin e kryeministrit të Kosovës pas votimit të zhvilluar në Kuvendin e vendit.",
-              "imageUrl": "https://www.lifo.gr/sites/default/files/styles/facebook_with_logo/public/articles/2026-09-13/kosovo-koinovoulio-egkrisi-nea-kyvernisi-albin-kourti.jpg?itok=C-U1IVqb",
-              "url": "https://www.lifo.gr/now/world/kosobo-epanexelegi-prothypoyrgos-apo-koinoboylio-o-almpin-koyrti",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Plain reporting of re‑election",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-14",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "thepressproject.gr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Νέα κυβέρνηση με πρωθυπουργό τον Άλμπιν Κούρτι - thepressproject.gr",
-              "albanianTitle": "Kosova: Qeveri e re me kryeministër Albin Kurtin",
-              "blurb": "Kuvendi i Kosovës voton për formimin e qeverisë së re, e cila do të udhëhiqet nga kryeministri Albin Kurti.",
-              "imageUrl": "https://thepressproject.gr/app/uploads/2026/09/640-0-1760006212xkuvendi-i-kosoves-936.png",
-              "url": "https://thepressproject.gr/kosovo-nea-kyvernisi-me-prothypourgo-ton-albin-kourti/",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "tvxs.gr",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο / Το κοινοβούλιο ενέκρινε τη νέα κυβέρνηση του Αλμπίν Κούρτι - Παραμένει η θεσμική κρίση - tvxs.gr",
-              "albanianTitle": "Kosova: Kuvendi miratoi qeverinë e re të Albin Kurtit, vazhdon kriza institucionale",
-              "blurb": "Parlamenti i Kosovës miraton qeverinë e re të Albin Kurtit, ndërsa kriza institucionale mbetet ende e pranishme.",
-              "imageUrl": null,
-              "url": "https://tvxs.gr/news/kosmos/kosovo-to-koinovoylio-enekrine-ti-nea-kyvernisi-toy-almpin-koyrti-paramenei-i-thesmiki-krisi/",
-              "date": "2026-09-13",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
         },
         {
           "name": "Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων",
@@ -4750,246 +4488,27 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 16,
-        "excluded": 1,
-        "confident": true,
-        "stanceVersion": 3
-      }
-    },
-    "Suedi": {
-      "outlets": [
-        {
-          "name": "Aftonbladet",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Efter politiska kaoset: Kosovo har ny regering - Aftonbladet",
-              "albanianTitle": "Pas kaosit politik: Kosova bëhet me qeveri të re",
-              "blurb": "Kosova ka formuar qeverinë e re pas një periudhe të gjatë të karakterizuar nga kriza politike në vend.",
-              "imageUrl": "https://akamai.vgc.no/v2/images/995c90df-407f-3c46-892f-4b0943374b60?fit=crop&h=675&upscale=true&w=1200&s=0512894a064626708c40adb6516b5e6b53e74f14",
-              "url": "https://www.aftonbladet.se/nyheter/a/vr2Xnw/efter-politiska-kaoset-kosovo-har-ny-regering",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Describes political change after chaos, neutral reporting",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "Göteborgs-Posten",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Efter politiska kaoset: Kosovo har ny regering - Göteborgs-Posten",
-              "albanianTitle": "Pas krizës politike: Kosova ka një qeveri të re",
-              "blurb": "Pas një periudhe të gjatë të paqëndrueshmërisë politike, Kosova ka zgjedhur përbërjen e re të qeverisë së saj.",
-              "imageUrl": "https://www.gp.se/images/og/82daafee-b091-5a40-a0c5-c700d22321a4/images/1Kc7gu7mnVKBhcQPsyioROsO4pxE-REGULAR.jpg",
-              "url": "https://www.gp.se/nyheter/varlden/efter-politiska-kaoset-kosovo-har-ny-regering.82daafee-b091-5a40-a0c5-c700d22321a4",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "Omni – Alla nyheter. Alla perspektiv.",
-          "sentiment": "neutral",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Efter 18 månader av kaos – Kosovo har en ny regering - Omni – Alla nyheter. Alla perspektiv.",
-              "albanianTitle": "Pas 18 muajsh krizë: Kosova formon qeverinë e re",
-              "blurb": "Institucionet e reja qeverisëse në Kosovë janë konstituuar pas tetëmbëdhjetë muajsh të krizës së vazhdueshme politike në vend.",
-              "imageUrl": "https://gfx.omni.se/images/37185955-01b7-3dc8-805e-16e7f91395f0?h=720&tight=false&w=1280",
-              "url": "https://omni.se/efter-18-manader-av-kaos-kosovo-har-en-ny-regering/a/0pd0kE",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Hopp hos S: ”Sverige får en ny regering” - Omni – Alla nyheter. Alla perspektiv.",
-              "albanianTitle": "Shpresa te Partia Socialdemokrate: Suedia do të bëhet me qeveri të re",
-              "blurb": "Partia Socialdemokrate në Suedi shpreh optimizëm lidhur me formimin e qeverisë së re të vendit pas zhvillimeve politike.",
-              "imageUrl": "https://gfx.omni.se/images/0281de4c-b3d1-3d31-83c0-8c3db2eab171?h=720&tight=false&w=1280",
-              "url": "https://omni.se/hopp-hos-s-sverige-far-en-ny-regering/a/QJzOkJ",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Fact-based report",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Analyser: Ett resultat som ger S huvudvärk – men det blir inte extra val - Omni – Alla nyheter. Alla perspektiv.",
-              "albanianTitle": "Analizë: Një rezultat që i shkakton kokëçarje Partisë Socialdemokrate, por nuk do të ketë zgjedhje të parakohshme",
-              "blurb": "Analizat politike tregojnë se rezultatet zgjedhore shkaktojnë vështirësi për socialdemokratët suedezë, por nuk pritet mbajtja e zgjedhjeve të parakohshme.",
-              "imageUrl": "https://gfx.omni.se/images/59e67eda-0ab7-3f31-ad17-f686ea4c1f6d?h=720&tight=false&w=1280",
-              "url": "https://omni.se/analyser-ett-resultat-som-ger-andersson-rejal-huvudvark-men-det-blir-inte-extra-val/a/y52XaJ",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Fact-based report",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "SMHI",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Väderprognos 10 dygn Pristina, Kosovo - SMHI",
-              "albanianTitle": "Parashikimi i motit për 10 ditët e ardhshme në Prishtinë, Kosovë",
-              "blurb": "Instituti suedez SMHI ka publikuar parashikimin e motit për dhjetë ditët e ardhshme në qytetin e Prishtinës.",
-              "imageUrl": null,
-              "url": "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Simple weather forecast, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "Svenska Dagbladet",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Efter politiska kaoset: Kosovo har ny regering - Svenska Dagbladet",
-              "albanianTitle": "Pas kaosit politik: Kosova bëhet me qeveri të re - Svenska Dagbladet",
-              "blurb": "Kosova ka krijuar qeverinë e re pas një periudhe të gjatë të karakterizuar nga kaosi dhe paqëndrueshmëria politike.",
-              "imageUrl": "https://akamai.vgc.no/v2/images/995c90df-407f-3c46-892f-4b0943374b60?fit=crop&h=675&upscale=true&w=1200&s=0512894a064626708c40adb6516b5e6b53e74f14",
-              "url": "https://www.svd.se/a/M7GWEE/efter-politiska-kaoset-kosovo-har-ny-regering",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Neutral factual reporting",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-14",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "omni.se",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Efter 18 månader av kaos – Kosovo har en ny regering - omni.se",
-              "albanianTitle": "Pas 18 muajsh kaos, Kosova bëhet me qeveri të re",
-              "blurb": "Kosova ka krijuar një qeveri të re pas një periudhe tetëmbëdhjetë mujore të karakterizuar nga paqëndrueshmëria politike.",
-              "imageUrl": "https://gfx.omni.se/images/37185955-01b7-3dc8-805e-16e7f91395f0?h=720&tight=false&w=1280",
-              "url": "https://omni.se/efter-18-manader-av-kaos-kosovo-har-en-ny-regering/a/0pd0kE",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Describes a new government after a period of chaos, no hostile language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-14",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "svd.se",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Efter politiska kaoset: Kosovo har ny regering - svd.se",
-              "albanianTitle": "Pas kaosit politik: Kosova bëhet me qeveri të re",
-              "blurb": "Kosova ka formuar qeverinë e re pas periudhës së paqëndrueshmërisë dhe kaosit politik në vend.",
-              "imageUrl": "https://akamai.vgc.no/v2/images/995c90df-407f-3c46-892f-4b0943374b60?fit=crop&h=675&upscale=true&w=1200&s=0512894a064626708c40adb6516b5e6b53e74f14",
-              "url": "https://www.svd.se/a/M7GWEE/efter-politiska-kaoset-kosovo-har-ny-regering",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Përdorimi i fjalës \"kaos\" është përshkrim faktik i situatës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-13"
-        }
-      ],
-      "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 9,
+        "n": 7,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       }
     },
+    "Suedi": {
+      "outlets": [],
+      "summary": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
     "Poloni": {
       "outlets": [
-        {
-          "name": "Bankier.pl",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Parlament ponownie wybrał Kurtiego na stanowisko premiera - Bankier.pl",
-              "albanianTitle": null,
-              "blurb": "Deputetët e Kuvendit të Kosovës kanë votuar sërish Albin Kurtin për pozitën e kryeministrit të vendit në këtë mandat.",
-              "imageUrl": "https://galeria.bankier.pl/p/3/b/4e4e45b17c31ca-948-568-412-547-2415-1448.jpg",
-              "url": "https://www.bankier.pl/wiadomosc/Parlament-ponownie-wybral-Kurtiego-na-stanowisko-premiera-9196294.html",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë të raportuara pa gjuhë ngacmuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-13"
-        },
         {
           "name": "Konflikty.pl",
           "sentiment": "neutral",
@@ -5037,30 +4556,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-14"
-        },
-        {
-          "name": "wnp.pl",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosowo: Parlament ponownie wybrał Albina Kurtiego na stanowisko premiera - wnp.pl",
-              "albanianTitle": "Kosovë: Parlamenti rizgjedh Albin Kurtin në postin e kryeministrit",
-              "blurb": "Parlamenti i Kosovës ka rizgjedhur Albin Kurtin në pozitën e kryeministrit të vendit për një mandat të ri.",
-              "imageUrl": "https://pliki.wnp.pl/d/41/42/79/414279_r0_940.jpg",
-              "url": "https://www.wnp.pl/rynki/kosowo-parlament-ponownie-wybral-albina-kurtiego-na-stanowisko-premiera,1098764.html",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Factual report of the parliament's decision",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
         }
       ],
       "summary": {
@@ -5068,7 +4563,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -5077,47 +4572,10 @@
     "Turqi": {
       "outlets": [
         {
-          "name": "Aksiyon.com.TR",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova’da istikrar arayışı sürüyor: Albin Kurti dördüncü kez hükümeti kurdu - Aksiyon.com.TR",
-              "albanianTitle": "Vazhdon kërkimi për stabilitet në Kosovë: Albin Kurti formon qeverinë për herë të katërt",
-              "blurb": "Albin Kurti është zgjedhur kryeministër i Kosovës për herë të katërt, duke vazhduar përpjekjet për stabilitet politik në vend.",
-              "imageUrl": "https://cdn.aksiyon.com.tr/uploads/1280x720/images/202609/kosova-da-istikrar-arayisi-suruyor-albin-kurti-dorduncu-kez-hukumeti-kurdu-1200-112974.jpg",
-              "url": "https://www.aksiyon.com.tr/kosova-da-istikrar-arayisi-suruyor-albin-kurti-dorduncu-kez-hukumeti-kurdu-353967",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Fakte politike pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 4,
-          "trend": "neutral",
-          "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-13"
-        },
-        {
           "name": "Anadolu Ajansı",
           "sentiment": "neutral",
           "articleCount": 6,
           "articles": [
-            {
-              "title": "Kosova'da Albin Kurti'nin liderliğindeki yeni hükümet güvenoyu aldı - Anadolu Ajansı",
-              "albanianTitle": "Qeveria e re nën udhëheqjen e Albin Kurtit merr votëbesimin në Kosovë",
-              "blurb": "Qeveria e re e Kosovës, e udhëhequr nga kryeministri Albin Kurti, ka marrë votëbesimin e nevojshëm në Kuvend.",
-              "imageUrl": null,
-              "url": "https://www.aa.com.tr/tr/dunya/kosovada-albin-kurtinin-liderligindeki-yeni-hukumet-guvenoyu-aldi/4056041",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i votimit të qeverisë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Ziya Gökalp'i anlatan \"Göğe Yazılmış Bir Alp\" eserinin Balkan turnesi Kosova'da tamamlandı - Anadolu Ajansı",
               "albanianTitle": "Turneu ballkanik i veprës \"Göğe Yazılmış Bir Alp\" që rrëfen për Ziya Gökalp përmbyllet në Kosovë",
@@ -5182,60 +4640,25 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "UK"
+            },
+            {
+              "title": "Kosovo : l’ancien président Hashim Thaçi condamné à 25 ans de prison pour crimes de guerre - Anadolu Ajansı",
+              "albanianTitle": "Kosovë: Ish-presidenti Hashim Thaçi dënohet me 25 vjet burg për krime lufte - Anadolu Ajansı",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim për krime lufte nga gjykata në Hagë.",
+              "imageUrl": null,
+              "url": "https://www.aa.com.tr/fr/monde/kosovo-l-ancien-pr%C3%A9sident-hashim-thaci-condamn%C3%A9-%C3%A0-25-ans-de-prison-pour-crimes-de-guerre/4058877",
+              "date": "2026-09-16",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 7,
           "trend": "neutral",
           "firstSeen": "2026-09-13",
           "lastSeen": "2026-09-16"
-        },
-        {
-          "name": "Doğruhaber",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova'da Kurti hükümeti güvenoyu aldı - Doğruhaber",
-              "albanianTitle": "Qeveria Kurti në Kosovë merr votëbesimin - Doğruhaber",
-              "blurb": "Qeveria e udhëhequr nga Albin Kurti ka marrë votëbesimin nga Kuvendi i Kosovës për vazhdimin e mandatit të saj qeverisës.",
-              "imageUrl": null,
-              "url": "https://dogruhaber.com.tr/kosovada-kurti-hukumeti-guvenoyu-aldi",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton se qeveria mori votë besimi",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "Ensonhaber",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova'da Albin Kurti liderliğindeki yeni hükümet güvenoyu aldı - Ensonhaber",
-              "albanianTitle": "Qeveria e re nën udhëheqjen e Albin Kurtit merr votëbesimin në Kosovë",
-              "blurb": "Qeveria e re e Kosovës nën udhëheqjen e kryeministrit Albin Kurti ka marrë mbështetjen e Kuvendit përmes votëbesimit.",
-              "imageUrl": "https://imgcdn.ensonhaber.com/media/esh/2026/09/13/6aa6b629ce303384.jpg?w=1200&h=675",
-              "url": "https://www.ensonhaber.com/kosovada-albin-kurti-liderligindeki-yeni-hukumet-guvenoyu-aldi-h1565238",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim i thjeshtë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-14",
-          "lastSeen": "2026-09-13"
         },
         {
           "name": "GZT",
@@ -5262,30 +4685,6 @@
           "lastSeen": "2026-09-15"
         },
         {
-          "name": "Haberler",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova'da Albin Kurti'nin liderliğindeki yeni hükümet güvenoyu aldı - Haberler",
-              "albanianTitle": "Qeveria e re e udhëhequr nga Albin Kurti merr votëbesimin në Kuvend",
-              "blurb": "Qeveria e re e udhëhequr nga Albin Kurti ka marrë votëbesimin e nevojshëm nga deputetët e Kuvendit të Kosovës.",
-              "imageUrl": null,
-              "url": "https://www.haberler.com/guncel/kosova-da-albin-kurti-nin-liderligindeki-yeni-20233782-haberi/",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 10,
-          "trend": "neutral",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-13"
-        },
-        {
           "name": "QHA - Kırım Haber Ajansı",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -5310,54 +4709,6 @@
           "lastSeen": "2026-09-14"
         },
         {
-          "name": "Sabah",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova'da Albin Kurti hükümeti güven oyu aldı - Sabah",
-              "albanianTitle": "Qeveria e Albin Kurtit merr votëbesimin në Kosovë",
-              "blurb": "Qeveria e udhëhequr nga Albin Kurti ka marrë votëbesimin e nevojshëm nga deputetët në Kuvendin e Kosovës.",
-              "imageUrl": "https://iasbh.tmgrup.com.tr/6a7b8d/1200/675/0/6/800/456?u=https://isbh.tmgrup.com.tr/sbh/2026/09/14/kosovada-albin-kurti-hukumeti-guven-oyu-aldi-1789336891276.jpeg",
-              "url": "https://www.sabah.com.tr/dunya/kosovada-albin-kurti-hukumeti-guven-oyu-aldi-7660195",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Simple report of confidence vote",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-06",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "Son Dakika",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova'da Kurti hükümeti 62 oyla güvenoyu aldı, 8 ret oyu çıktı - Son Dakika",
-              "albanianTitle": "Qeveria Kurti në Kosovë merr 62 vota për, 8 kundër",
-              "blurb": "Qeveria Kurti ka siguruar votëbesimin në Kuvend me 62 vota për, ndërsa tetë deputetë kanë votuar kundër.",
-              "imageUrl": "https://foto.sondakika.com/haber/2026/09/13/kosova-da-albin-kurti-nin-liderligindeki-yeni-5-20233782_amp.jpg",
-              "url": "https://www.sondakika.com/guncel/haber-kosova-da-kurti-hukumeti-62-oyla-guvenoyu-aldi-8-r-20233794/",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktik raportim i thjeshtë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 13,
-          "trend": "i përzier",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-13"
-        },
-        {
           "name": "TRT Avaz",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -5380,102 +4731,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-05",
           "lastSeen": "2026-09-14"
-        },
-        {
-          "name": "Türkiye Gazetesi",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova Meclisi'nde kritik oylama! Kurti hükümeti güvenoyu aldı - Türkiye Gazetesi",
-              "albanianTitle": "Votim kritik në Kuvendin e Kosovës: Qeveria Kurti merr votëbesimin",
-              "blurb": "Kuvendi i Kosovës ka votuar pro qeverisë së re të udhëhequr nga kryeministri Albin Kurti në një seancë votimi.",
-              "imageUrl": "https://i.turkiyegazetesi.com.tr/images/2026/9/13/kosova-meclisinde-kritik-oylama-kurti-hukumeti-guvenoyu-aldi-1815774_20260913221143.jpg",
-              "url": "https://www.turkiyegazetesi.com.tr/dunya/kosova-meclisinde-kritik-oylama-kurti-hukumeti-guvenoyu-aldi-1815774",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Përdorimi i fjalës \"kritik\" është përshkrim i ngjarjes, jo përçues i kundërshtimit ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "aa.com.tr",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova'da Albin Kurti'nin liderliğindeki yeni hükümet güvenoyu aldı - aa.com.tr",
-              "albanianTitle": "Qeveria e re e Kosovës nën drejtimin e Albin Kurtit merr votëbesimin",
-              "blurb": "Qeveria e re e Kosovës, e udhëhequr nga kryeministri Albin Kurti, ka marrë votëbesimin e nevojshëm nga ana e Kuvendit.",
-              "imageUrl": null,
-              "url": "https://www.aa.com.tr/tr/dunya/kosovada-albin-kurtinin-liderligindeki-yeni-hukumet-guvenoyu-aldi/4056041",
-              "date": "2026-09-13",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "dogruhaber.com.tr",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova'da Kurti hükümeti güvenoyu aldı - dogruhaber.com.tr",
-              "albanianTitle": "Qeveria Kurti merr votëbesimin në Kosovë",
-              "blurb": "Qeveria e udhëhequr nga Albin Kurti ka marrë votëbesimin e nevojshëm nga deputetët në Kuvendin e Kosovës.",
-              "imageUrl": null,
-              "url": "https://dogruhaber.com.tr/kosovada-kurti-hukumeti-guvenoyu-aldi",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-14",
-          "lastSeen": "2026-09-13"
-        },
-        {
-          "name": "haberler.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova’da güven oyu alan Albin Kurti dördüncü kez başbakan oldu - haberler.com",
-              "albanianTitle": "Albin Kurti zgjidhet kryeministër për herë të katërt pas votëbesimit në Kosovë",
-              "blurb": "Albin Kurti është zgjedhur kryeministër i Kosovës për herë të katërt pasi ka marrë votëbesimin nga ana e parlamentit.",
-              "imageUrl": null,
-              "url": "https://www.haberler.com/politika/kosova-da-guven-oyu-alan-albin-kurti-dorduncu-kez-20234244-haberi/",
-              "date": "2026-09-13",
-              "sentiment": "neutral",
-              "reason": "Fact-based report",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-12",
-          "lastSeen": "2026-09-13"
         },
         {
           "name": "sondakika.com",
@@ -5544,8 +4799,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 21,
-        "excluded": 2,
+        "n": 11,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
