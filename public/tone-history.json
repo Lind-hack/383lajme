@@ -7775,17 +7775,17 @@
   },
   {
     "date": "2026-09-17",
-    "overallIndex": 51,
-    "totalArticles": 244,
-    "sourceCount": 143,
+    "overallIndex": 50,
+    "totalArticles": 283,
+    "sourceCount": 156,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
         "index": 49,
         "positive": 0,
-        "neutral": 98,
-        "negative": 2,
-        "n": 64,
+        "neutral": 99,
+        "negative": 1,
+        "n": 74,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7795,7 +7795,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 14,
+        "n": 16,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7805,17 +7805,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 34,
+        "n": 39,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       },
       "Francë": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 52,
+        "positive": 3,
+        "neutral": 97,
         "negative": 0,
-        "n": 27,
+        "n": 30,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -7825,27 +7825,27 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 35,
+        "n": 49,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
       "Austri": {
-        "index": 53,
+        "index": 52,
         "positive": 5,
         "neutral": 95,
         "negative": 0,
-        "n": 19,
+        "n": 20,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       },
       "Zvicër": {
-        "index": 56,
-        "positive": 12,
-        "neutral": 88,
-        "negative": 0,
-        "n": 25,
+        "index": 54,
+        "positive": 11,
+        "neutral": 86,
+        "negative": 4,
+        "n": 28,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -7865,7 +7865,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -7933,27 +7933,27 @@
     },
     "headlines": [
       {
-        "title": "Rexhep Boja, një jetë shërbim ndaj Kosovës - reporteri.net",
+        "title": "Rexhep Boja, një jetë shërbim ndaj Kosovës - Reporteri",
         "source": "Reporteri",
         "country": "Gjermani",
         "flag": "🇩🇪",
-        "url": "https://reporteri.net/de/Meinung/Rexhep-Boja--ein-Leben-lang-im-Dienste-des-Kosovo/",
+        "url": "https://reporteri.net/es/opini%C3%B3n/Rexhep-Boja--toda-una-vida-al-servicio-de-Kosovo/",
         "sentiment": "positive"
       },
       {
-        "title": "Alaska, Kosovo youth build friendships through pen pal program - ak.ng.mil",
-        "source": "ak.ng.mil",
+        "title": "Kosovo Hague ok - European Interest",
+        "source": "European Interest",
         "country": "SHBA",
         "flag": "🇺🇸",
-        "url": "https://ak.ng.mil/Media/News-Article-View/Article/4603468/alaska-kosovo-youth-build-friendships-through-pen-pal-program/",
+        "url": "https://www.europeaninterest.eu/former-kosovo-president-thaci-sentenced-to-25-years-for-war-crimes-by-hague-court/kosovo-hague-ok/",
         "sentiment": "positive"
       },
       {
-        "title": "Rexhep Boja, një jetë shërbim ndaj Kosovës - Reporteri",
-        "source": "Reporteri",
-        "country": "Austri",
-        "flag": "🇦🇹",
-        "url": "https://reporteri.net/es/opini%C3%B3n/Rexhep-Boja--toda-una-vida-al-servicio-de-Kosovo/",
+        "title": "La condamnation d’Hashim Thaçi, ex-président du Kosovo, pour crime de guerre, une décision biaisée pour nombre de Kosovars - Le Monde.fr",
+        "source": "Le Monde",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.lemonde.fr/international/article/2026/09/16/hashim-thaci-l-ex-president-du-kosovo-heros-de-l-independance-chez-beaucoup-dans-son-pays-condamne-a-vingt-cinq-ans-de-prison-par-un-tribunal-international_6775466_3210.html",
         "sentiment": "positive"
       },
       {
@@ -7970,6 +7970,14 @@
         "country": "SHBA",
         "flag": "🇺🇸",
         "url": "https://www.cna.al/english/editorial/hashim-thaci-e-la-kosoven-te-lire-erion-veliaj-nuk-ndahet-nga-karrigia-i474334",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Tolaj lässt Kosovo und Albanien abblitzen und träumt von der Schweiz - bluewin.ch",
+        "source": "bluewin.ch",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.bluewin.ch/de/sport/fussball/tolaj-laesst-kosovo-und-albanien-abblitzen-und-traeumt-von-der-schweiz-kacuri-entscheidet-sich-gegen-die-nati-li.3602237",
         "sentiment": "negative"
       }
     ]
