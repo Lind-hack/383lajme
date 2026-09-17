@@ -7776,8 +7776,8 @@
   {
     "date": "2026-09-17",
     "overallIndex": 50,
-    "totalArticles": 322,
-    "sourceCount": 179,
+    "totalArticles": 368,
+    "sourceCount": 204,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -7785,7 +7785,7 @@
         "positive": 0,
         "neutral": 99,
         "negative": 1,
-        "n": 75,
+        "n": 76,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7805,7 +7805,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 39,
+        "n": 41,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7831,21 +7831,21 @@
         "stanceVersion": 3
       },
       "Austri": {
-        "index": 52,
-        "positive": 4,
-        "neutral": 96,
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 28,
+        "n": 32,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       },
       "Zvicër": {
-        "index": 53,
-        "positive": 10,
-        "neutral": 87,
-        "negative": 3,
-        "n": 30,
+        "index": 52,
+        "positive": 6,
+        "neutral": 91,
+        "negative": 2,
+        "n": 47,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -7855,8 +7855,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
-        "excluded": 0,
+        "n": 21,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       },
@@ -7865,9 +7865,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 8,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "Spanjë": {
@@ -7933,27 +7933,27 @@
     },
     "headlines": [
       {
-        "title": "Rexhep Boja, një jetë shërbim ndaj Kosovës - Reporteri",
-        "source": "Reporteri",
+        "title": "Kosovos Kampf war legitim – dabei verübte Untaten aber nicht - DiePresse.com",
+        "source": "DiePresse.com",
         "country": "Gjermani",
         "flag": "🇩🇪",
-        "url": "https://reporteri.net/es/opini%C3%B3n/Rexhep-Boja--toda-una-vida-al-servicio-de-Kosovo/",
+        "url": "https://www.diepresse.com/41268037/kosovos-kampf-war-legitim-dabei-veruebte-untaten-aber-nicht",
         "sentiment": "positive"
       },
       {
-        "title": "Kosovo: War Crimes Verdicts are a Step Toward Justice - Human Rights Watch",
-        "source": "Human Rights Watch",
+        "title": "Kosovo: War Crimes Verdicts are a Step Toward Justice - hrw.org",
+        "source": "hrw.org",
         "country": "SHBA",
         "flag": "🇺🇸",
         "url": "https://www.hrw.org/news/2026/09/17/kosovo-war-crimes-verdicts-are-a-step-toward-justice",
         "sentiment": "positive"
       },
       {
-        "title": "Kosovo Hague ok - European Interest",
-        "source": "European Interest",
+        "title": "Kosovo: War Crimes Verdicts are a Step Toward Justice - Human Rights Watch",
+        "source": "Human Rights Watch",
         "country": "Britani",
         "flag": "🇬🇧",
-        "url": "https://www.europeaninterest.eu/former-kosovo-president-thaci-sentenced-to-25-years-for-war-crimes-by-hague-court/kosovo-hague-ok/",
+        "url": "https://www.hrw.org/news/2026/09/17/kosovo-war-crimes-verdicts-are-a-step-toward-justice",
         "sentiment": "positive"
       },
       {

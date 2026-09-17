@@ -489,19 +489,22 @@
     },
     "Blick": {
       "country": "Zvicër",
-      "total": 5,
+      "total": 8,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 6,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-17",
       "urls": [
         "https://www.blick.ch/schweiz/zentralschweiz/luzern/verwandte-erklaert-den-ausreisser-aufregung-im-kosovo-wegen-weissem-mercedes-aus-der-schweiz-id22192215.html",
         "https://www.blick.ch/ausland/auto-faehrt-ueber-trottoir-diese-szene-sorgt-fuer-diskussionen-id22192168.html",
         "https://www.blick.ch/sport/fussball/international/dfb-pokal/leverkusen-locker-weiter-augsburg-mueht-sich-in-die-zweite-pokal-runde-id22202590.html",
         "https://www.blick.ch/fr/monde/pristina-manifestation-pour-la-liberation-de-hashim-thaci/13yvk2f",
-        "https://www.blick.ch/fr/sport/football/football-la-selection-kosovare-secouee-par-une-revolte-interne/v9qsc4d"
+        "https://www.blick.ch/fr/sport/football/football-la-selection-kosovare-secouee-par-une-revolte-interne/v9qsc4d",
+        "https://www.blick.ch/sport/fussball/nati/vergesst-die-geschichte-nicht-xhaka-brueder-solidarisieren-sich-mit-verurteiltem-ex-kosovo-praesidenten-id22262535.html",
+        "https://www.blick.ch/ausland/prozess-um-kriegsverbrechen-kosovos-ex-praesident-zu-25-jahren-haft-verurteilt-id22260020.html",
+        "https://www.blick.ch/sport/fussball/nati/folgt-kosovo-aufgebot-naechstes-u21-talent-entscheidet-sich-gegen-die-schweizer-nati-id22261246.html"
       ]
     },
     "zentralplus": {
@@ -559,15 +562,16 @@
     },
     "Nieuwsblad": {
       "country": "Belgjikë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-20",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.nieuwsblad.be/buitenland/zeker-23-lichamen-teruggevonden-in-massagraven-in-kosovo/160257011.html"
+        "https://www.nieuwsblad.be/buitenland/zeker-23-lichamen-teruggevonden-in-massagraven-in-kosovo/160257011.html",
+        "https://www.nieuwsblad.be/buitenland/kosovaarse-ex-president-veroordeeld-tot-25-jaar-cel-voor-oorlogsmisdaden/161521087.html"
       ]
     },
     "HBVL": {
@@ -1625,17 +1629,18 @@
     },
     "Heute": {
       "country": "Austri",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-09-15",
+      "lastSeen": "2026-09-16",
       "urls": [
         "https://www.heute.at/s/ex-oefb-coach-foda-lehnte-millionen-angebot-ab-120242843",
         "https://www.heute.at/s/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143",
-        "https://www.heute.at/i/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143/doc-1k2hoiug94"
+        "https://www.heute.at/i/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143/doc-1k2hoiug94",
+        "https://www.heute.at/s/hammer-urteil-25-jahre-haft-fuer-ex-kosovo-praesident-120252986"
       ]
     },
     "Rundschau Online": {
@@ -3123,16 +3128,18 @@
     },
     "NZZ": {
       "country": "Zvicër",
-      "total": 2,
+      "total": 4,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 3,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-17",
       "urls": [
         "https://www.nzz.ch/meinung/der-balkan-ist-eine-nach-wie-vor-vernachlaessigte-problemregion-serbien-bleibt-der-massgebliche-unruhestifter-ld.10016355",
-        "https://www.nzz.ch/international/asylsuchender-guerillachef-praesident-und-nun-kriegsverbrecher-ein-sondertribunal-in-den-haag-richtet-am-mittwoch-ueber-hacim-thaci-ld.10022812"
+        "https://www.nzz.ch/international/asylsuchender-guerillachef-praesident-und-nun-kriegsverbrecher-ein-sondertribunal-in-den-haag-richtet-am-mittwoch-ueber-hacim-thaci-ld.10022812",
+        "https://www.nzz.ch/shorts/demonstranten-greifen-eu-mission-in-kosovo-nach-urteil-gegen-hashim-thaci-an-ld.10024237",
+        "https://www.nzz.ch/international/ehemaliger-kosovo-praesident-thaci-wegen-kriegsverbrechen-zu-25-jahren-haft-verurteilt-ld.10023993"
       ]
     },
     "Diario de León": {
@@ -3192,13 +3199,13 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 47,
+      "total": 51,
       "positive": 10,
-      "neutral": 29,
+      "neutral": 33,
       "negative": 0,
       "unknown": 8,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-15",
+      "lastSeen": "2026-09-17",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
@@ -3246,7 +3253,11 @@
         "https://www.albinfo.ch/de/kater-talente-me-prejardhje-nga-kosova-shkelqejne-ne-derbin-e-mynihut/",
         "https://www.albinfo.ch/de/forumi-b2b-zvicer-kosove/",
         "https://www.albinfo.ch/fr/xherdan-shaqiri-shpallet-lojtari-me-i-mire-i-javes-se-tete-ne-zvicer/",
-        "https://www.albinfo.ch/de/erdhi-si-refugjat-nisi-si-enlares-sot-behet-pronar-i-nje-hoteli-historik-ne-zvicer/"
+        "https://www.albinfo.ch/de/erdhi-si-refugjat-nisi-si-enlares-sot-behet-pronar-i-nje-hoteli-historik-ne-zvicer/",
+        "https://www.albinfo.ch/de/rita-ora-reagon-pas-aktgjykimit-ne-hage-duke-luftuar-per-kosoven-qe-e-quajme-shtepi/",
+        "https://www.albinfo.ch/de/i-kerkuar-nga-kosova-dhe-shqiperia-lutfi-dalipi-ftohet-nga-zvicra-u21/",
+        "https://www.albinfo.ch/de/hapet-panairi-nderkombetar-prishtina-2026-fokusi-te-prodhimi-dhe-eksportet/",
+        "https://www.albinfo.ch/de/dua-lipa-reagon-pas-aktgjykimit-ne-hage-shperndan-mesazhin-liria-ka-emer/"
       ]
     },
     "iAxia -": {
@@ -3864,15 +3875,17 @@
     },
     "SRF": {
       "country": "Zvicër",
-      "total": 1,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-13",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.srf.ch/news/international/neue-regierung-im-kosovo-kurti-bleibt-premier-opposition-boykottiert-abstimmung"
+        "https://www.srf.ch/news/international/neue-regierung-im-kosovo-kurti-bleibt-premier-opposition-boykottiert-abstimmung",
+        "https://www.srf.ch/news/international/kosovo-tribunal-ehemaliger-kosovo-praesident-thaci-zu-25-jahren-haft-verurteilt",
+        "https://www.srf.ch/news/international/kosovo-tribunal-hashim-thaci-verurteilt-wie-das-urteil-das-kosovo-veraendert"
       ]
     },
     "Watson": {
@@ -4068,16 +4081,17 @@
     },
     "bluewin.ch": {
       "country": "Zvicër",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-09-13",
       "lastSeen": "2026-09-17",
       "urls": [
         "https://www.bluewin.ch/en/news/kurti-remains-prime-minister-opposition-boycotts-vote-li.3598322",
-        "https://www.bluewin.ch/de/sport/fussball/tolaj-laesst-kosovo-und-albanien-abblitzen-und-traeumt-von-der-schweiz-kacuri-entscheidet-sich-gegen-die-nati-li.3602237"
+        "https://www.bluewin.ch/de/sport/fussball/tolaj-laesst-kosovo-und-albanien-abblitzen-und-traeumt-von-der-schweiz-kacuri-entscheidet-sich-gegen-die-nati-li.3602237",
+        "https://www.bluewin.ch/de/news/kriegsverbrechen-25-jahre-haft-fuer-kosovos-ex-praesident-li.3601788"
       ]
     },
     "The Press Project": {
@@ -5820,15 +5834,16 @@
     },
     "ORF": {
       "country": "Austri",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
       "lastSeen": "2026-09-16",
       "urls": [
-        "https://orf.at/stories/3442214/"
+        "https://orf.at/stories/3442214/",
+        "https://orf.at/av/video/onDemandVideoNews97096"
       ]
     },
     "amnesty.ch": {
@@ -5989,15 +6004,16 @@
     },
     "sport.ORF.at": {
       "country": "Austri",
-      "total": 1,
-      "positive": 0,
+      "total": 2,
+      "positive": 1,
       "neutral": 1,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
       "lastSeen": "2026-09-17",
       "urls": [
-        "https://sport.orf.at/av/video/onDemandVideoSport68802"
+        "https://sport.orf.at/av/video/onDemandVideoSport68802",
+        "https://sport.orf.at/av/video/sportVideo15136"
       ]
     },
     "Der Standard": {
@@ -6076,6 +6092,312 @@
       "lastSeen": "2026-09-16",
       "urls": [
         "https://www.31mag.nl/lex-presidente-del-kosovo-thaci-condannato-a-25-anni-per-crimini-di-guerra-scontri-a-laia/"
+      ]
+    },
+    "Handelsblatt": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.handelsblatt.com/politik/international/verurteilung-kriegsverbrechen-25-jahre-haft-fuer-kosovos-ex-praesident/100255010.html"
+      ]
+    },
+    "nachrichten.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.nachrichten.at/politik/aussenpolitik/199899-der-krieg-im-kosovo;art391,4212694"
+      ]
+    },
+    "20 Minuten": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.20min.ch/fr/story/football-l-equipe-de-suisse-perd-encore-un-talent-au-profit-du-kosovo-103634234"
+      ]
+    },
+    "ref.ch": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.ref.ch/news/kosovo-thaci-prasident-kriegsverbrechen-sondertribunal-dick-marty/"
+      ]
+    },
+    "Pomona - Das Wallis im Hosensack": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://pomona.ch/story/802288/vom-hoffnungstr%C3%A4ger-kosovos-zum-verurteilten-hashim-thai-erh%C3%A4lt-25-jahre-haft"
+      ]
+    },
+    "Radio Central": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.radiocentral.ch/news/international/kriegsverbrechen-25-jahre-haft-fuer-kosovos-ex-praesident-165496067"
+      ]
+    },
+    "NOS": {
+      "country": "Holandë",
+      "total": 3,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 2,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://nos.nl/artikel/2631232-kosovaarse-ex-president-thaci-veroordeeld-tot-25-jaar-cel-voor-oorlogsmisdaden",
+        "https://nos.nl/artikel/2631274-woede-bij-kosovo-albanezen-over-celstraf-voor-oud-president-thaci",
+        "https://nos.nl/video/2631246-rellen-malieveld-na-veroordeling-thaci"
+      ]
+    },
+    "De Limburger": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.limburger.nl/regio/beekdaelen/schinveld/man-geliquideerd-in-supermarkt-in-het-bijzijn-van-zijn-gezin-zat-17-jarige-jongen-uit-schinveld-achter-moord-in-kosovo/161504209.html"
+      ]
+    },
+    "nu.nl": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.nu.nl/buitenland/6409938/kosovotribunaal-veroordeelt-oud-president-me-in-actie-bij-protest-in-den-haag.html"
+      ]
+    },
+    "AD.nl": {
+      "country": "Holandë",
+      "total": 4,
+      "positive": 0,
+      "neutral": 4,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-17",
+      "urls": [
+        "https://www.ad.nl/den-haag/malieveldslag-over-kosovo-twee-verhalen-twee-werkelijkheden~a7dcd8d6/",
+        "https://www.ad.nl/buitenland/oud-president-kosovo-schuldig-aan-oorlogsmisdaden~ab0a857a/",
+        "https://www.ad.nl/binnenland/demonstranten-bekogelen-me-op-malieveld-na-uitspraak-tegen-voormalige-president-van-kosovo~ae43a3c8/",
+        "https://www.ad.nl/video/productie/demonstranten-bekogelen-me-op-malieveld-na-uitspraak-tegen-voormalig-president-kosovo-14439203"
+      ]
+    },
+    "Den Haag FM": {
+      "country": "Holandë",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.denhaagfm.nl/dhfm/5149619/rellen-op-malieveld-na-uitspraak-oud-president-kosovo-25-jaar-voor-oorlogsmisdaden",
+        "https://www.denhaagfm.nl/dhfm/5149619/twee-aanhoudingen-na-rellen-op-malieveld-tijdens-kosovotribunaal-kort-waterwerper-ingezet"
+      ]
+    },
+    "Reformatorisch Dagblad": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-17",
+      "urls": [
+        "https://www.rd.nl/artikel/premier-albanie-in-kosovo"
+      ]
+    },
+    "Regio15": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://regio15.nl/nieuws/demonstraties/39995/demonstratie-bij-kosovo-chambers-loopt-uit-de-hand/"
+      ]
+    },
+    "BN DeStem": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.bndestem.nl/binnenland/demonstranten-bekogelen-me-op-malieveld-na-uitspraak-tegen-voormalig-president-van-kosovo~ae43a3c8/"
+      ]
+    },
+    "Metronieuws.nl": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.metronieuws.nl/in-het-nieuws/buitenland/2026/09/kosovotribunaal-veroordeelt-hashim-thaci-br/"
+      ]
+    },
+    "Omroep West": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.omroepwest.nl/video/5149612/rellen-op-malieveld-in-den-haag-na-demonstratie-oud-president-kosovo"
+      ]
+    },
+    "Tubantia": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.tubantia.nl/podcasts/aflevering/malieveldslag-over-kosovo-twee-verhalen-twee-werkelijkheden-38430401"
+      ]
+    },
+    "TPO.NL": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://tpo.nl/2026/09/16/hashim-thaci-kosovotribunaal-oorlogsmisdaden-vonnis/"
+      ]
+    },
+    "NRC - Nieuws, achtergronden en onderzoeksjournalistiek": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.nrc.nl/nieuws/2026/09/16/kosovaarse-oud-president-veroordeeld-tot-25-jaar-cel-voor-oorlogsmisdaden-a4936785"
+      ]
+    },
+    "HLN": {
+      "country": "Belgjikë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.hln.be/buitenland/kosovaarse-ex-president-hashim-thaci-veroordeeld-tot-25-jaar-cel-voor-oorlogsmisdaden~a8f0c49e/"
+      ]
+    },
+    "De Morgen": {
+      "country": "Belgjikë",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.demorgen.be/nieuws/voormalig-president-kosovo-veroordeeld-tot-25-jaar-cel-voor-oorlogsmisdaden~b9d3fc9b/",
+        "https://www.demorgen.be/nieuws/tribunaal-veroordeelt-kosovaarse-oud-president-thaci-tot-25-jaar-cel-voor-oorlogsmisdaden~b8e6cbbc/"
+      ]
+    },
+    "Business AM": {
+      "country": "Belgjikë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://businessam.be/voormalig-president-van-kosovo-hashim-thaci-krijgt-25-jaar-cel-voor-oorlogsmisdaden/"
+      ]
+    },
+    "standaard.be": {
+      "country": "Belgjikë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.standaard.be/buitenland/kosovo-tribunaal-veroordeelt-voormalige-president-hashim-thaci-tot-25-jaar-cel-eindelijk-gerechtigheid/161527625.html"
       ]
     }
   }
