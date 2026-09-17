@@ -231,9 +231,9 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 29,
+      "total": 32,
       "positive": 0,
-      "neutral": 23,
+      "neutral": 26,
       "negative": 0,
       "unknown": 6,
       "firstSeen": "2026-08-20",
@@ -267,20 +267,24 @@
         "https://www.ansa.it/nuova_europa/it/notizie/rubriche/altrenews/2026/09/14/in-kosovo-il-governo-kurti-ottiene-di-misura-la-fiducia_23c1b7e2-45cd-4b0c-adac-42838d2e9f2e.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/15/tajani-paesi-balcani-occidentali-in-europa-quanto-prima_36a4fdd7-c4ee-4d85-b65e-bc849d1863cd.html",
         "https://www.ansa.it/sito/notizie/mondo/2026/09/16/thaci-condannato-a-25-anni-per-crimini-di-guerra-in-kosovo.-i-sostenitori-tentano-lassalto_f0670d62-ebc3-475d-9ed2-27feccf23c80.html",
-        "https://www.ansa.it/sito/notizie/topnews/2026/09/16/thaci-condannato-allaja-a-25-anni-per-crimini-di-guerra-in-kosovo_345164a3-4318-4f89-a85e-c906c576a6d2.html"
+        "https://www.ansa.it/sito/notizie/topnews/2026/09/16/thaci-condannato-allaja-a-25-anni-per-crimini-di-guerra-in-kosovo_345164a3-4318-4f89-a85e-c906c576a6d2.html",
+        "https://www.ansa.it/sito/notizie/mondo/2026/09/16/thaci-condannato-a-25-anni-per-crimini-di-guerra-in-kosovo.-tentato-assalto-alla_f0670d62-ebc3-475d-9ed2-27feccf23c80.html",
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/16/wizz-air-annuncia-un-nuovo-collegamento-aereo-tra-trieste-e-pristina_b2071c24-7ed7-4e0a-97c0-62d8eecced0d.html",
+        "https://www.ansa.it/sito/notizie/mondo/2026/09/16/a-pristina-manifestanti-tentano-assalto-a-sede-ue-dopo-la-condanna-a-thaci-respinti_fe775aeb-91e4-470b-993a-132e06cd7cc6.html"
       ]
     },
     "Virgilio": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-20",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.virgilio.it/italia/taranto/notizielocali/sono_iniziati_i_giochi_del_mediterraneo_di_taranto_2026_volley_maschile_alle_12_kosovo_grecia_al_palapentassuglia_di_brindisi-77268477.html"
+        "https://www.virgilio.it/italia/taranto/notizielocali/sono_iniziati_i_giochi_del_mediterraneo_di_taranto_2026_volley_maschile_alle_12_kosovo_grecia_al_palapentassuglia_di_brindisi-77268477.html",
+        "https://www.virgilio.it/italia/torino/notizielocali/kosovo_ex_presidente_thaci_condannato_a_25_anni_all_aia_per_crimini_di_guerra-77381832.html"
       ]
     },
     "geomagazine.it": {
@@ -363,15 +367,18 @@
     },
     "Quotidiano Nazionale": {
       "country": "Itali",
-      "total": 1,
+      "total": 4,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.quotidiano.net/esteri/il-metodo-putin-anche-in-kosovo-quando-la-difesa-del-piu-debole-diventa-arma-di-guerra-ibrida-89804c37"
+        "https://www.quotidiano.net/esteri/il-metodo-putin-anche-in-kosovo-quando-la-difesa-del-piu-debole-diventa-arma-di-guerra-ibrida-89804c37",
+        "https://www.quotidiano.net/video/esteri/kosovo-25-anni-allex-presidente-thaci-per-crimini-di-guerra-ry7pxcfy",
+        "https://www.quotidiano.net/video/esteri/kosovo-a-pristina-proteste-contro-la-condanna-a-ex-presidente-thaci-cv550op2",
+        "https://www.quotidiano.net/video/esteri/allaja-raduno-sostenitori-thaci-dopo-condanna-a-ex-presidente-kosovo-rmeolh9t"
       ]
     },
     "Gazzetta Regionale": {
@@ -447,13 +454,13 @@
     },
     "agenziagiornalisticaopinione.it": {
       "country": "Itali",
-      "total": 8,
+      "total": 9,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "unknown": 4,
       "firstSeen": "2026-08-22",
-      "lastSeen": "2026-09-02",
+      "lastSeen": "2026-09-16",
       "urls": [
         "https://www.agenziagiornalisticaopinione.it/opinionmix/sole24/il-sole-24-ore-sport-abodi-e-gonxhja-incontro-in-vista-dei-giochi-del-mediterraneo-del-2030-tra-kosovo-e-albania/",
         "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrini-ko-3-1-con-lalgeria-ora-serve-unimpresa-contro-il-kosovo/",
@@ -462,7 +469,8 @@
         "https://www.agenziagiornalisticaopinione.it/opinionews/figc-federazione-italiana-giuoco-calcio-azzurrine-in-finale-per-loro-ciurleo-pareggia-allultimo-minuto/",
         "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-giochi-del-mediterraneo-azzurrini-4-posto-marocco-vince-4-1/",
         "https://www.agenziagiornalisticaopinione.it/opinionmix/figc-federazione-italiana-giuoco-calcio-italia-2-alla-prima-edizione-femminile-del-torneo-portogallo-vince-4-0/",
-        "https://www.agenziagiornalisticaopinione.it/opinionews/il-sole-24-ore-italia-dalla-somalia-al-kosovo-autunno-in-prima-linea-per-le-forze-armate/"
+        "https://www.agenziagiornalisticaopinione.it/opinionews/il-sole-24-ore-italia-dalla-somalia-al-kosovo-autunno-in-prima-linea-per-le-forze-armate/",
+        "https://www.agenziagiornalisticaopinione.it/opinionews/rainews-ultimora-crimini-guerra-kosovo-thaci-condannato/"
       ]
     },
     "studio100.it": {
@@ -1491,17 +1499,18 @@
     },
     "Sky Sport Austria": {
       "country": "Austri",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-24",
-      "lastSeen": "2026-08-28",
+      "lastSeen": "2026-09-17",
       "urls": [
         "https://www.skysportaustria.at/sturm-graz-verpflichtet-kosovo-teamspieler/",
         "https://www.skysportaustria.at/mediathek/kacuri-kosovo-einberufung-waere-ein-traum/",
-        "https://www.skysportaustria.at/mediathek/kosovo-co-trainer-ibertsberger-kacuri-ein-sehr-spannender-spieler/"
+        "https://www.skysportaustria.at/mediathek/kosovo-co-trainer-ibertsberger-kacuri-ein-sehr-spannender-spieler/",
+        "https://www.skysportaustria.at/umfragen/gewinnspiel-zu-oesterreich-vs-kosovo/"
       ]
     },
     "kicker": {
@@ -1994,25 +2003,26 @@
     },
     "Radio Free Europe/Radio Liberty": {
       "country": "SHBA",
-      "total": 4,
+      "total": 5,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-17",
       "urls": [
         "https://www.rferl.org/a/gazivode-lake-serbia-kosovo-ibar/33839186.html",
         "https://www.rferl.org/a/kosovo-war-crimes-verdict-president-thaci/33853881.html",
         "https://www.rferl.org/a/hague-court-former-kosovo-president-thaci-guilty-war-crimes/33857358.html",
-        "https://www.rferl.org/a/thaci-war-crimes-kosovo/33857531.html"
+        "https://www.rferl.org/a/thaci-war-crimes-kosovo/33857531.html",
+        "https://www.rferl.org/a/conviction-kosovo-former-president-thaci-war-crimes-serbia/33858188.html"
       ]
     },
     "RaiNews": {
       "country": "Itali",
-      "total": 3,
+      "total": 6,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 5,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-26",
@@ -2020,7 +2030,10 @@
       "urls": [
         "https://www.rainews.it/tgr/puglia/articoli/2026/08/litalia-batte-il-kosovo-e-vola-in-semifinale-46df43ec-96e7-4af8-b73a-cec055790a73.html",
         "https://www.rainews.it/tgr/puglia/video/2026/08/giochi-del-mediterraneo-9f31ae0f-6f7d-4a46-ad0f-f710b8af0546.html",
-        "https://www.rainews.it/video/2026/09/ex-presidente-del-kosovo-thaci-condannato-a-25-anni-per-crimini-di-guerra-012d4d02-3b0e-4889-bf44-fd71eb425f30.html"
+        "https://www.rainews.it/video/2026/09/ex-presidente-del-kosovo-thaci-condannato-a-25-anni-per-crimini-di-guerra-012d4d02-3b0e-4889-bf44-fd71eb425f30.html",
+        "https://www.rainews.it/articoli/ultimora/crimini-guerra-kosovo-thaci-condannato-23d3b2a7-14cf-44a4-835c-e75deb6a791c.html",
+        "https://www.rainews.it/tgr/fvg/articoli/2026/09/trieste-airport-nuovo-collegamento-con-pristina-31ce8801-964e-4c7b-9b48-6e6f28cebcfb.html",
+        "https://www.rainews.it/articoli/2026/09/lex-presidente-kosovaro-e-leader-uck-hashim-thaci-condannato-a-25-anni-di-prigione-allaja-6708cb1b-c0e1-45e7-a9de-00f8f9d34c03.html"
       ]
     },
     "La Gazzetta del Mezzogiorno": {
@@ -3096,15 +3109,16 @@
     },
     "Gazzetta di Parma": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-07",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.gazzettadiparma.it/gweb+/2026/09/07/news/beffarde-coincidenze-d-inizio-settembre-966138/"
+        "https://www.gazzettadiparma.it/gweb+/2026/09/07/news/beffarde-coincidenze-d-inizio-settembre-966138/",
+        "https://www.gazzettadiparma.it/italia-mondo/2026/09/16/news/thaci-condannato-all-aja-a-25-anni-per-crimini-di-guerra-in-kosovo-968156/"
       ]
     },
     "NZZ": {
@@ -3163,15 +3177,17 @@
     },
     "Il Fatto Quotidiano": {
       "country": "Itali",
-      "total": 1,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-07",
+      "lastSeen": "2026-09-17",
       "urls": [
-        "https://www.ilfattoquotidiano.it/2026/09/07/funerali-mladic-belgrado-srebrenica-notizie/8499728/"
+        "https://www.ilfattoquotidiano.it/2026/09/07/funerali-mladic-belgrado-srebrenica-notizie/8499728/",
+        "https://www.ilfattoquotidiano.it/2026/09/16/thaci-condanna-crimini-guerra-kosovo-notizie/8508137/",
+        "https://www.ilfattoquotidiano.it/2026/09/17/thaci-condanna-crimini-guerra-kosovo-notizie-2/8508787/"
       ]
     },
     "Albinfo": {
@@ -3288,15 +3304,16 @@
     },
     "Corriere della Sera": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-08",
-      "lastSeen": "2026-09-08",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.corriere.it/esteri/26_settembre_08/ambasciatrice-kosovo-italia-1e35fc84-6ab4-4a98-98e7-587952d31xlk.shtml"
+        "https://www.corriere.it/esteri/26_settembre_08/ambasciatrice-kosovo-italia-1e35fc84-6ab4-4a98-98e7-587952d31xlk.shtml",
+        "https://www.corriere.it/esteri/26_settembre_16/kosovo-il-serpente-hashim-thaci-condannato-a-25-anni-per-crimini-di-guerra-disordini-all-aia-e-a-pristina-per-tutta-la-vita-sono-7449573b-c48a-4313-8123-463e4dcaaxlk.shtml"
       ]
     },
     "Il Messaggero": {
@@ -4926,15 +4943,16 @@
     },
     "Nau": {
       "country": "Zvicër",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-16",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-17",
       "urls": [
-        "https://www.nau.ch/news/schweiz/ex-kosovo-prasident-muss-25-jahre-in-haft-67176510"
+        "https://www.nau.ch/news/schweiz/ex-kosovo-prasident-muss-25-jahre-in-haft-67176510",
+        "https://www.nau.ch/sport/fussball/xhaka-bruder-solidarisieren-sich-mit-kosovos-ex-prasident-67177661"
       ]
     },
     "albinfo.at": {
@@ -5657,15 +5675,16 @@
     },
     "ildenaro.it": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
       "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.ildenaro.it/kosovo-a-pristina-proteste-contro-la-condanna-a-ex-presidente-thaci/"
+        "https://www.ildenaro.it/kosovo-a-pristina-proteste-contro-la-condanna-a-ex-presidente-thaci/",
+        "https://www.ildenaro.it/allaja-raduno-sostenitori-thaci-dopo-condanna-a-ex-presidente-kosovo/"
       ]
     },
     "L'Unione Sarda.it": {
@@ -5849,6 +5868,214 @@
       "lastSeen": "2026-09-17",
       "urls": [
         "https://www.21news.be/crimes-de-guerre-au-kosovo-25-ans-de-prison-pour-lex-president-hashim-thaci/"
+      ]
+    },
+    "cnews.fr": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.cnews.fr/monde/2026-09-16/juge-pour-crimes-de-guerre-lex-president-du-kosovo-hashim-thaci-fixe-sur-son-sort"
+      ]
+    },
+    "20minutes.fr": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.20minutes.fr/justice/4245902-20260916-kosovo-ex-president-thaci-condamne-vingt-cinq-ans-prison-crimes-guerre-decision-passe-mal"
+      ]
+    },
+    "La République des Pyrénées": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.larepubliquedespyrenees.fr/societe/afp/crimes-de-guerre-l-ancien-president-du-kosovo-hashim-thaci-fixe-sur-son-sort-30647584.php"
+      ]
+    },
+    "ilgiornale.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-17",
+      "urls": [
+        "https://www.ilgiornale.it/news/politica-estera/thaci-condannato-a-25-anni-sommossa-anti-ue-in-kosovo/"
+      ]
+    },
+    "Tv2000": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.tv2000.it/tg2000/video/kosovo-ex-presidente-thaci-condannato-per-crimini-di-guerra/"
+      ]
+    },
+    "Askanews": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://askanews.it/2026/09/16/kosovo-lex-presidente-thaci-condannato-a-25anni-per-crimini-di-guerra/"
+      ]
+    },
+    "lapresse.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.lapresse.it/esteri/2026/09/16/kosovo-lex-presidente-thaci-condannato-a-25-anni-per-crimini-di-guerra/"
+      ]
+    },
+    "radioradicale.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-17",
+      "urls": [
+        "https://www.radioradicale.it/scheda/798972/collegamento-con-artur-nura-da-tirana-sulla-condanna-in-primo-grado-a-25-anni-di"
+      ]
+    },
+    "Agenzia Dire": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.dire.it/16-09-2026/1267299-lex-presidente-del-kosovo-e-stato-condannato-a-25-anni-di-carcere-per-crimini-di-guerra/"
+      ]
+    },
+    "sport.ORF.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-17",
+      "urls": [
+        "https://sport.orf.at/av/video/onDemandVideoSport68802"
+      ]
+    },
+    "Der Standard": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.derstandard.at/story/3000000340029/kosovos-ex-praesident-hashim-thaci-wegen-kriegsverbrechen-zu-25-jahren-haft-verurteilt"
+      ]
+    },
+    "oe1.ORF.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-15",
+      "urls": [
+        "https://oe1.orf.at/artikel/731629/Im-Warteraum-der-EU-2-Kosovo"
+      ]
+    },
+    "Oberösterreichische Nachrichten": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.nachrichten.at/politik/aussenpolitik/199899-der-krieg-im-kosovo;art391,4212694"
+      ]
+    },
+    "Kurier": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://kurier.at/politik/ausland/kosovo-kriegsverbrechen-thaci-verurteilt/403191149"
+      ]
+    },
+    "Corriere del Ticino": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.cdt.ch/news/kosovo-thaci-condannato-allaja-a-25-anni-per-crimini-di-guerra-439319?="
+      ]
+    },
+    "31mag": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-17",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.31mag.nl/lex-presidente-del-kosovo-thaci-condannato-a-25-anni-per-crimini-di-guerra-scontri-a-laia/"
       ]
     }
   }
