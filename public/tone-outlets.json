@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-18",
   "overallIndex": 50,
-  "totalArticles": 363,
-  "sourceCount": 207,
+  "totalArticles": 391,
+  "sourceCount": 220,
   "stanceVersion": 3,
-  "unattributed": 291,
+  "unattributed": 324,
   "nonEditorial": 13,
   "wrongKosovo": 0,
   "countries": {
@@ -262,10 +262,10 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 9,
+          "totalArticles": 10,
           "trend": "neutral",
           "firstSeen": "2026-09-01",
-          "lastSeen": "2026-09-17"
+          "lastSeen": "2026-09-18"
         },
         {
           "name": "Deutschlandfunk",
@@ -1462,7 +1462,7 @@
         "positive": 0,
         "neutral": 99,
         "negative": 1,
-        "n": 84,
+        "n": 85,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -1951,10 +1951,10 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 28,
+          "totalArticles": 30,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-17"
+          "lastSeen": "2026-09-18"
         },
         {
           "name": "Independent",
@@ -2308,7 +2308,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 35,
+        "n": 37,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -2637,7 +2637,7 @@
         {
           "name": "Le Monde",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Hashim Thaçi, former Kosovo president, sentenced to 25 years for war crimes - Le Monde.fr",
@@ -2689,6 +2689,19 @@
               "reason": "Media e shpreh mbështetje për Kosovën duke kritikuar vendimin",
               "isQuote": false,
               "evidence": "une décision biaisée pour nombre de Kosovars",
+              "speaker": ""
+            },
+            {
+              "title": "Hashim Thaçi, former Kosovo president, sentenced to 25 years for war crimes - lemonde.fr",
+              "albanianTitle": "Hashim Thaçi, ish-presidenti i Kosovës, dënohet me 25 vjet burg për krime lufte",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, merr dënimin prej 25 vitesh burgim për akuzat për krime të luftës.",
+              "imageUrl": null,
+              "url": "https://www.lemonde.fr/en/international/article/2026/09/16/kosovo-former-president-thaci-given-25-year-sentence-for-war-crimes_6757586_4.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
               "speaker": ""
             }
           ],
@@ -2821,8 +2834,8 @@
         },
         {
           "name": "Orange Actualités",
-          "sentiment": "unknown",
-          "articleCount": 1,
+          "sentiment": "neutral",
+          "articleCount": 2,
           "articles": [
             {
               "title": "Crimes de guerre : l'ancien président du Kosovo Hashim Thaçi fixé sur son sort - Orange Actualités",
@@ -2836,12 +2849,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo: manifestants à Pristina contre la condamnation de l'ancien président Thaçi - Orange Actualités",
+              "albanianTitle": "Kosovë: Protesta në Prishtinë kundër dënimit të ish-presidentit Thaçi",
+              "blurb": "Qytetarë të shumtë kanë protestuar në Prishtinë pas shpalljes së dënimit për ish-presidentin e Kosovës, Hashim Thaçi.",
+              "imageUrl": "//proxymedia.woopic.com/api/v1/images/2289%2Fmulti%2Fsxpvm%2F3kuxskq-H.jpg?format=1200x630&facedetect=1&quality=85",
+              "url": "https://actu.orange.fr/videos/monde/kosovo-manifestants-a-pristina-contre-la-condamnation-de-l-ancien-president-thaci-CNT000002rY8YL.html",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 3,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 4,
+          "trend": "neutral",
           "firstSeen": "2026-08-26",
-          "lastSeen": "2026-09-16"
+          "lastSeen": "2026-09-18"
         },
         {
           "name": "RFI",
@@ -2945,7 +2971,7 @@
         "positive": 3,
         "neutral": 97,
         "negative": 0,
-        "n": 30,
+        "n": 32,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -3065,6 +3091,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "Alto Adige",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, ancora proteste contro la condanna di Thaci per crimini di guerra - Alto Adige",
+              "albanianTitle": "Kosovë, vazhdojnë protestat kundër dënimit të Thaçit për krime lufte",
+              "blurb": "Qytetarët në Kosovë po protestojnë sërish kundër dënimit të shqiptuar ndaj ish-presidentit Thaçi për akuza për krime të luftës.",
+              "imageUrl": "https://images.altoadige.it/view/acePublic/alias/contentid/1tvd6zit7qd6wl5juma/0/image.webp",
+              "url": "https://www.altoadige.it/video/kosovo-ancora-proteste-contro-la-condanna-di-thaci-per-crimini-di-guerra-ac89q5ww",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-18"
         },
         {
           "name": "Amnesty International Italia",
@@ -3398,7 +3448,7 @@
         {
           "name": "L'Unione Sarda.it",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo, 25 anni all'ex presidente Thaci per crimini di guerra - L'Unione Sarda.it",
@@ -3412,12 +3462,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo, ancora proteste contro la condanna di Thaci per crimini di guerra - L'Unione Sarda.it",
+              "albanianTitle": "Kosovë, vazhdojnë protestat kundër dënimit të Thaçit për krime lufte",
+              "blurb": "Protestat në Kosovë vazhdojnë si reagim ndaj vendimit për dënimin e ish-presidentit Thaçi për krime të kryera gjatë luftës.",
+              "imageUrl": "https://immagini.unionesarda.it/version/c:YjkxZDZjZTItZWI4ZS00:OTcxMjAzZTctMTQ5OS00/image.webp?f=16:9",
+              "url": "https://www.unionesarda.it/multimedia/kosovo-ancora-proteste-contro-la-condanna-di-thaci-per-crimini-di-guerra-tylu49oa",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-17",
-          "lastSeen": "2026-09-16"
+          "lastSeen": "2026-09-18"
         },
         {
           "name": "La Repubblica",
@@ -3912,6 +3975,30 @@
           "lastSeen": "2026-09-16"
         },
         {
+          "name": "amnesty.ch",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo: condannati l’ex presidente e altri tre imputati - amnesty.it",
+              "albanianTitle": "Kosovë: Dënohen ish-presidenti dhe tre të akuzuar të tjerë",
+              "blurb": "Ish-presidenti i Kosovës dhe tre të akuzuar të tjerë janë shpallur fajtorë dhe janë dënuar nga Gjykata Speciale në Hagë.",
+              "imageUrl": "https://d21zrvtkxtd6ae.cloudfront.net/public/uploads/2026/09/Hashim-Thaci-Kosovo.jpg",
+              "url": "https://www.amnesty.it/kosovo-condannati-ex-presidente-e-tre-imputati/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë për dënimin, pa ton negativ ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i përzier",
+          "firstSeen": "2026-09-17",
+          "lastSeen": "2026-09-17"
+        },
+        {
           "name": "askanews.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3986,7 +4073,7 @@
         {
           "name": "il Nord Est",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo, nasce il governo Kurti IV: fiducia risicata e crisi politica ancora aperta - il Nord Est",
@@ -4000,12 +4087,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo, ancora proteste contro la condanna di Thaci per crimini di guerra - il Nord Est",
+              "albanianTitle": "Kosovë, vazhdojnë protestat kundër dënimit të Thaçit për krime lufte",
+              "blurb": "Në Kosovë po vazhdojnë protestat pas dënimit të ish-presidentit Hashim Thaçi për akuza të lidhura me krimet e luftës.",
+              "imageUrl": "https://images.ilnordest.it/view/acePublic/alias/contentid/1tvdbokgs2hmpze1wgu/0/image.webp?f=16%3A9&w=840",
+              "url": "https://www.ilnordest.it/italia-ed-esteri/kosovo-ancora-proteste-contro-la-condanna-di-thaci-per-crimini-di-guerra-rrffjf9f",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "neutral",
           "firstSeen": "2026-08-22",
-          "lastSeen": "2026-09-15"
+          "lastSeen": "2026-09-18"
         },
         {
           "name": "il manifesto",
@@ -4250,6 +4350,30 @@
           "lastSeen": "2026-09-16"
         },
         {
+          "name": "stream24.ilsole24ore.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, 25 anni all'ex presidente Thaci per crimini di guerra - stream24.ilsole24ore.com",
+              "albanianTitle": "Kosovë, 25 vjet burg për ish-presidentin Thaçi për krime lufte",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga Gjykata Speciale për krime lufte.",
+              "imageUrl": "https://i2.res.24o.it/stream/assets/img/TMNews/2026/09/16/large-20260916_video_12572680.jpg",
+              "url": "https://stream24.ilsole24ore.com/video/mondo/kosovo-25-anni-ex-presidente-thaci-crimini-guerra/AJkqWxEB?cmpid=.com",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim për dënimin e ish-presidentit, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-16"
+        },
+        {
           "name": "tg24.sky.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -4279,7 +4403,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 68,
+        "n": 73,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -4385,6 +4509,30 @@
           "totalArticles": 4,
           "trend": "i përzier",
           "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "GMX.AT",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovos Ex-Präsident zu langer Haftstrafe verurteilt - GMX.AT",
+              "albanianTitle": "Ish-presidenti i Kosovës dënohet me burgim të gjatë",
+              "blurb": "Ish-presidenti i Kosovës është dënuar me një dënim të gjatë me burgim nga Gjykata Speciale për krime të kryera.",
+              "imageUrl": "https://i0.gmx.at/image/886/42730886,pd=4,f=opengraph.jpg",
+              "url": "https://www.gmx.at/magazine/politik/kosovos-ex-praesident-langer-haftstrafe-verurteilt-42730854",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Vlerësim i gjobës, jo një qëndrim ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
           "lastSeen": "2026-09-16"
         },
         {
@@ -4549,6 +4697,30 @@
           "lastSeen": "2026-09-16"
         },
         {
+          "name": "LAOLA1",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Mit Bundesliga-Trio: Foda nominiert Kosovo-Kader - LAOLA1",
+              "albanianTitle": "Me një treshe nga Bundesliga: Foda publikon listën e Kosovës - LAOLA1",
+              "blurb": "Përzgjedhësi Franco Foda ka publikuar listën e futbollistëve të Kosovës, ku përfshihen tre lojtarë nga Bundesliga gjermane.",
+              "imageUrl": "https://www.laola1.at/storage/files/01/a0/b4/ba-345e-7177-b517-136a664bf964.1280x720.jpg?v=2",
+              "url": "https://www.laola1.at/de/red/fussball/sonstiges/news/mit-bundesliga-trio--foda-nominiert-kosovo-kader/",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "neutral",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-09-18"
+        },
+        {
           "name": "ORF",
           "sentiment": "neutral",
           "articleCount": 3,
@@ -4597,6 +4769,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "ORF ON",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo geht geschwächt in Nations League - ORF ON",
+              "albanianTitle": "Kosova e dobësuar në Ligën e Kombeve",
+              "blurb": "Përfaqësuesja e Kosovës në futboll përballet me mungesa të lojtarëve për ndeshjet e radhës në kuadër të Ligës së Kombeve.",
+              "imageUrl": "https://api-tvthek.orf.at/assets/segments/0234/49/thumb_23348347_segments_highlight_teaser.jpg",
+              "url": "https://on.orf.at/video/14339431/16156140/kosovo-geht-geschwaecht-in-nations-league-sport-20-vom-17092026",
+              "date": "2026-09-17",
+              "sentiment": "negative",
+              "reason": "Titulli e përdor fjalë negative për Kosovën, duke e përshkruar si e dobët",
+              "isQuote": false,
+              "evidence": "geschwächt",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-17"
         },
         {
           "name": "Oberösterreichische Nachrichten",
@@ -4662,7 +4858,7 @@
         {
           "name": "Sky Sport Austria",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Gewinnspiel zu Österreich vs. Kosovo - Sky Sport Austria",
@@ -4676,17 +4872,30 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "ÖFB-Gegner Kosovo erstmals mit Lustenaus Kacuri - Sky Sport Austria",
+              "albanianTitle": "Kundërshtari i Austrisë, Kosova, për herë të parë me Kacurin e Lustenaus - Sky Sport Austria",
+              "blurb": "Futbollisti i Lustenaus, Kacuri, është ftuar për herë të parë në përfaqësuesen e Kosovës për ndeshjet e ardhshme.",
+              "imageUrl": null,
+              "url": "https://www.skysportaustria.at/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri/",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Titull faktik pa ngarkesë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "neutral",
           "firstSeen": "2026-08-24",
-          "lastSeen": "2026-09-17"
+          "lastSeen": "2026-09-18"
         },
         {
           "name": "kurier.at",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovos Ex-Präsident Thaçi zu 25 Jahren verurteilt - kurier.at",
@@ -4697,6 +4906,19 @@
               "date": "2026-09-16",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovos Ex-Präsident Thaçi wegen Kriegsverberchen zu 25 Jahren verurteilt - kurier.at",
+              "albanianTitle": "Ish-presidenti i Kosovës, Thaçi, dënohet me 25 vjet burg për krime lufte",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga Gjykata Speciale për akuza për krime lufte.",
+              "imageUrl": "https://image.kurier.at/images/facebook/9342563/46-234102173.jpg?versionId=4378d12778bf",
+              "url": "https://kurier.at/politik/ausland/kosovo-kriegsverbrechen-thaci-verurteilt/403191149",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i dënimit, pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -4842,11 +5064,11 @@
         }
       ],
       "summary": {
-        "index": 52,
-        "positive": 7,
-        "neutral": 90,
-        "negative": 3,
-        "n": 29,
+        "index": 50,
+        "positive": 6,
+        "neutral": 88,
+        "negative": 6,
+        "n": 34,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -4890,6 +5112,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-18"
+        },
+        {
+          "name": "20min.ch",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L'équipe de Suisse perd encore un talent au profit du Kosovo - 20min.ch",
+              "albanianTitle": "Zvicra humb edhe një tjetër talent në favor të Kosovës",
+              "blurb": "Përfaqësuesja e futbollit të Zvicrës ka humbur një tjetër talent, i cili ka vendosur të luajë për kombëtaren e Kosovës.",
+              "imageUrl": "https://image.20min.ch/2026/09/16/e6047117-c5b2-4667-8d34-b8bc9ae64356.jpg?auto=format%2Ccompress%2Cenhance&fit=max&w=1200&h=1200&rect=0%2C153%2C3318%2C1997&s=c1bbc045124b69334d06cce2662c59e0",
+              "url": "https://www.20min.ch/fr/story/football-l-equipe-de-suisse-perd-encore-un-talent-au-profit-du-kosovo-103634234",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-16"
         },
         {
           "name": "Albinfo",
@@ -5513,8 +5759,8 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "i përzier",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-17"
         },
@@ -5604,6 +5850,30 @@
           "lastSeen": "2026-09-16"
         },
         {
+          "name": "rhonefm.ch",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "L'ex-président du Kosovo Hashim Thaçi condamné à 25 ans de prison - rhonefm.ch",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burg - rhonefm.ch",
+              "blurb": "Gjykata Speciale në Hagë ka shpallur dënimin me 25 vjet burgim për ish-presidentin e Kosovës, Hashim Thaçi.",
+              "imageUrl": "https://www.rhonefm.ch/media/image/15/normal_1_91_1/20260916114046704.jpg?04ef9122b6954828ea30760beeb17f15",
+              "url": "https://www.rhonefm.ch/monde/l-ex-president-du-kosovo-hashim-thaci-condamne-a-25-ans-de-prison-1761641",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i dënimit të ish-presidentit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-16"
+        },
+        {
           "name": "tagesanzeiger.ch",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -5626,14 +5896,38 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-16",
           "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "watson.ch",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ehemaliger Kosovo-Präsident zu 25 Jahren Haft verurteilt - watson.ch",
+              "albanianTitle": "Ish-presidenti i Kosovës dënohet me 25 vjet burg",
+              "blurb": "Ish-presidenti i Kosovës është dënuar me 25 vjet burgim nga Gjykata Speciale në Hagë për krime të kryera lufte.",
+              "imageUrl": "https://www.watson.ch/imgdb/0837/Z1200,675,1262,824,1122,808/3187366813107605",
+              "url": "https://www.watson.ch/international/justiz/687942731-kosovos-ex-praesident-zu-25-jahren-haft-verurteilt",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-16"
         }
       ],
       "summary": {
         "index": 53,
         "positive": 9,
-        "neutral": 88,
+        "neutral": 89,
         "negative": 2,
-        "n": 43,
+        "n": 46,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -5754,8 +6048,8 @@
         },
         {
           "name": "De Limburger",
-          "sentiment": "unknown",
-          "articleCount": 1,
+          "sentiment": "neutral",
+          "articleCount": 2,
           "articles": [
             {
               "title": "Man geliquideerd in supermarkt, in het bijzijn van zijn gezin: zat 17-jarige jongen uit Schinveld achter moord in Kosovo? - De Limburger",
@@ -5769,9 +6063,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Man geliquideerd in supermarkt in Kosovo, in het bijzijn van zijn gezin: zat 17-jarige jongen uit Schinveld achter moord? - De Limburger",
+              "albanianTitle": "Burri ekzekutohet në supermarket në Kosovë para syve të familjes: A qëndron prapa vrasjes 17-vjeçari nga Schinveld?",
+              "blurb": "Një person është vrarë në një supermarket në Kosovë në prani të familjes së tij, ndërsa po hetohet një i mitur.",
+              "imageUrl": "https://prod-img.limburger.nl/public/ece-incoming/ded8f7-lordi-s-politie-kosovo-blur.jpg/alternates/SIXTEEN_NINE_1200/Lordi%20S%20politie%20Kosovo%20blur.jpg",
+              "url": "https://www.limburger.nl/regio/beekdaelen/schinveld/man-geliquideerd-in-supermarkt-in-kosovo-in-het-bijzijn-van-zijn-gezin-zat-17-jarige-jongen-uit-schinveld-achter-moord/161504209.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i ngjarjes pa gjuhë kundërshtuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-16"
@@ -5958,6 +6265,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "NPO Radio 1",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Voormalig president Kosovo veroordeeld tot 25 jaar celstraf - NPO Radio 1",
+              "albanianTitle": "Ish-presidenti i Kosovës dënohet me 25 vjet burg",
+              "blurb": "Ish-presidenti i Kosovës është dënuar me 25 vjet burgim nga Gjykata Speciale në Hagë për krime të kryera lufte.",
+              "imageUrl": "https://radioimages.npox.nl/RAD1/image/3302119c-b548-4940-99f9-1fc1c74d86a4/ANP-568798073.jpg",
+              "url": "https://www.nporadio1.nl/fragmenten/de-rode-draad/01a0ae38-49a5-7304-82bd-902f71c0ae41/2026-09-17-voormalig-president-kosovo-veroordeeld-tot-25-jaar-celstraf",
+              "date": "2026-09-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë, pa ton negativ ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-17"
         },
         {
           "name": "NRC - Nieuws, achtergronden en onderzoeksjournalistiek",
@@ -6229,7 +6560,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 24,
+        "n": 26,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
@@ -6570,7 +6901,7 @@
         {
           "name": "ABC",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Troy Parrott, citado con Irlanda para medirse a Kosovo, Israel y Austria - ABC",
@@ -6584,9 +6915,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Condenado a 25 años de cárcel el expresidente de Kosovo Hashim Thaci por crímenes de guerra - ABC",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burg për krime lufte - ABC",
+              "blurb": "Gjykata Speciale ka shqiptuar dënimin me 25 vjet burgim për ish-presidentin Hashim Thaçi për krime të luftës.",
+              "imageUrl": "https://s1.abcstatics.com/abc/www/multimedia/internacional/2026/09/16/1517392353-k6OD--1200x630@diario_abc.jpg",
+              "url": "https://www.abc.es/internacional/condenado-anos-carcel-expresidente-kosovo-hashim-thaci-20260916124052-nt.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim i dënimit, pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "neutral",
           "firstSeen": "2026-08-26",
           "lastSeen": "2026-09-17"
@@ -6594,7 +6938,7 @@
         {
           "name": "Demócrata",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Lancent des cocktails Molotov contre la mission civile de l'UE au Kosovo après les condamnations du tribunal spécial - Demócrata",
@@ -6660,10 +7004,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Human Rights Watch destaca la condena a Thaci como un hito clave para la justicia en Kosovo - Demócrata",
+              "albanianTitle": "Human Rights Watch e vlerëson dënimin e Thaçit si moment historik për drejtësinë në Kosovë - Demócrata",
+              "blurb": "Organizata Human Rights Watch e ka vlerësuar dënimin e Hashim Thaçit si një hap të rëndësishëm për drejtësinë në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.democrata.es/internacional/human-rights-watch-destaca-la-condena-a-thaci-como-un-hito-clave-para-la-justicia-en-kosovo/",
+              "date": "2026-09-17",
+              "sentiment": "positive",
+              "reason": "Outlet frames the conviction as a key milestone for Kosovo's justice system",
+              "isQuote": false,
+              "evidence": "hito clave para la justicia en Kosovo",
+              "speaker": ""
             }
           ],
-          "totalArticles": 18,
-          "trend": "kritik",
+          "totalArticles": 21,
+          "trend": "i përzier",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-09-17"
         },
@@ -6676,7 +7033,7 @@
               "title": "Condenado a 25 años de cárcel el expresidente de Kosovo Hashim Thaçi por crímenes de guerra - EL PAÍS",
               "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burg për krime lufte",
               "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim për krime të kryera gjatë luftës.",
-              "imageUrl": null,
+              "imageUrl": "https://imagenes.elpais.com/resizer/v2/JTC2VDEXMFFGRH5HBGAPGP52PM.jpg?auth=67923ffb2e9129f922504a2b4493c8192f5eeaba27726671b7c8b357c6086a3a&width=1200",
               "url": "https://elpais.com/internacional/2026-09-16/condenado-a-25-anos-de-carcel-el-expresidente-de-kosovo-hashim-thaci-por-crimenes-de-guerra.html",
               "date": "2026-09-16",
               "sentiment": "neutral",
@@ -6692,9 +7049,33 @@
           "lastSeen": "2026-09-16"
         },
         {
-          "name": "Europa Press",
+          "name": "El HuffPost",
           "sentiment": "neutral",
           "articleCount": 1,
+          "articles": [
+            {
+              "title": "Expresidente de Kosovo Hashim Thaci, condenado a 25 años de prisión por crímenes de guerra - El HuffPost",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burg për krime lufte - El HuffPost",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga Gjykata Speciale për krime të luftës.",
+              "imageUrl": null,
+              "url": "https://www.huffingtonpost.es/global/el-expresidente-kosovo-hashim-thaci-declarado-culpable-crimenes-guerra-f202609.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Factual report of conviction",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "Europa Press",
+          "sentiment": "neutral",
+          "articleCount": 2,
           "articles": [
             {
               "title": "HRW ve la condena a Thaci como \"un paso importante\" para la rendición de cuentas ante víctimas en Kosovo - Europa Press",
@@ -6708,12 +7089,49 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Bruselas defiende al Tribunal Especial para Kosovo tras la condena de 25 años de cárcel a Hashim Thaci - Europa Press",
+              "albanianTitle": "Brukseli mbron Gjykatën Speciale pas dënimit me 25 vjet burg për Hashim Thaçin - Europa Press",
+              "blurb": "Brukseli ka shprehur mbështetje për Gjykatën Speciale pas shqiptimit të dënimit prej 25 vitesh burgim për Hashim Thaçin.",
+              "imageUrl": "https://img.europapress.es/fotoweb/fotonoticia_20260916165955_1200.jpg",
+              "url": "https://www.europapress.es/internacional/noticia-bruselas-defiende-tribunal-especial-kosovo-condena-25-anos-carcel-hashim-thaci-20260916165955.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Report of Brussels defending the court, no evaluative language toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "i përzier",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-09-17"
+        },
+        {
+          "name": "La Razón",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "El expresidente de Kosovo Hashim Thaci, condenado en La Haya a 25 años de prisión por crímenes de guerra - La Razón",
+              "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burgim në Hagë për krime lufte - La Razón",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga Gjykata e Hagës për krime lufte.",
+              "imageUrl": "https://fotografias-2.larazon.es/clipping/cmsimages02/2020/06/24/33099287-76D5-4152-89D6-064351214626/98.jpg?crop=4493,2528,x0,y236&width=1900&height=1069&optimize=low&format=webply",
+              "url": "https://www.larazon.es/internacional/expresidente-kosovo-hashim-thaci-condenado-25-anos-prision-crimenes-guerra_202609166aaa6a21250a3a7556faee2f.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton dënimin e ish-presidentit, pa gjuhë ngarkuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-16"
         },
         {
           "name": "La Vanguardia",
@@ -6738,6 +7156,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-18",
           "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "La Voz de Galicia",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Condenan a 25 años al expresidente de Kosovo Thaci por torturas y asesinato - La Voz de Galicia",
+              "albanianTitle": "Ish-presidenti i Kosovës, Thaçi, dënohet me 25 vjet burg për tortura dhe vrasje - La Voz de Galicia",
+              "blurb": "Hashim Thaçi është dënuar me 25 vjet burgim për akuza që përfshijnë torturën dhe vrasjet gjatë luftës në Kosovë.",
+              "imageUrl": "https://img.lavdg.com/sc/co7NgjylbpT37hEA61QEgjCOcYg=/1280x/2020/06/24/00121593025502237809244/Foto/GJ25P24F1_21413.jpg",
+              "url": "https://www.lavozdegalicia.es/noticia/internacional/2026/09/17/condenan-25-anos-expresidente-kosovo-thaci-torturas-asesinato/0003_202609G17P20993.htm",
+              "date": "2026-09-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë faktik për dënimin, pa ton negativ ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-17"
         },
         {
           "name": "rtve.es",
@@ -6765,11 +7207,11 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 10,
+        "n": 18,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
