@@ -693,15 +693,16 @@
     },
     "Παραπολιτικά": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.parapolitika.gr/ellada/article/1778830/mukonos-kataggelia-18hronis-italidas-gia-viasmo-tis-se-beach-bar-sunelifthi-23hronos-apo-to-kosovo/"
+        "https://www.parapolitika.gr/ellada/article/1778830/mukonos-kataggelia-18hronis-italidas-gia-viasmo-tis-se-beach-bar-sunelifthi-23hronos-apo-to-kosovo/",
+        "https://www.parapolitika.gr/diethni/article/1792305/kosovo-aparadekti-adikia-i-katadiki-tou-thatsi-gia-eglimata-polemou-eipe-o-prothupourgos-albin-kourti/"
       ]
     },
     "Gazzetta.gr": {
@@ -808,17 +809,18 @@
     },
     "In.gr": {
       "country": "Greqi",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-17",
       "urls": [
         "https://www.in.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-me-to-deksi-ksekinise-i-ethniki-volei-gynaikon-3-0-to-kosovo/",
         "https://www.in.gr/2026/09/04/world/kosovo-i-eisaggelia-askise-dioksi-se-35-servous-proin-astynomikous-gia-ti-sfagi-tou-prekaz-tou-1998/",
-        "https://www.in.gr/2026/09/13/world/kosovo-to-koinovoulio-enekrine-ti-nea-kyvernisi-tou-almpin-kourti-anoixto-endexomeno-gia-nees-ekloges/amp/"
+        "https://www.in.gr/2026/09/13/world/kosovo-to-koinovoulio-enekrine-ti-nea-kyvernisi-tou-almpin-kourti-anoixto-endexomeno-gia-nees-ekloges/amp/",
+        "https://www.in.gr/2026/09/17/world/xagi-i-etymigoria-gia-ton-thatsi-kai-meli-tou-uck-kai-oi-antidraseis-se-kosovo-kai-servia/"
       ]
     },
     "Skai.gr": {
@@ -840,11 +842,11 @@
     },
     "ertnews.gr": {
       "country": "Greqi",
-      "total": 5,
+      "total": 9,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 8,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-21",
       "lastSeen": "2026-09-16",
       "urls": [
@@ -852,7 +854,11 @@
         "https://www.ertnews.gr/roi-idiseon/kosovo-dioksi-se-35-proin-servous-astynomikous-gia-ti-sfagi-sto-prekaz/",
         "https://www.ertnews.gr/eidiseis/diethni/epanekselegi-prothypourgos-apo-to-koinovoulio-sto-kosovo-o-almin-kourti/",
         "https://www.ertnews.gr/eidiseis/diethni/orgi-sto-kosovo-gia-tin-katadiki-xasim-thatsi-kai-trion-dioikiton-tou-uck-gia-egklimata-polemou/",
-        "https://www.ertnews.gr/eidiseis/kosovo-antistrofi-metrisi-gia-tin-etymigoria-sti-diki-tou-xasim-thatsi-katigoreitai-gia-egklimata-polemou/"
+        "https://www.ertnews.gr/eidiseis/kosovo-antistrofi-metrisi-gia-tin-etymigoria-sti-diki-tou-xasim-thatsi-katigoreitai-gia-egklimata-polemou/",
+        "https://www.ertnews.gr/eidiseis/xasim-thatsi-katadikastike-se-katheirksi-25-eton-gia-egklimata-polemou/",
+        "https://www.ertnews.gr/eidiseis/servia-kosovo-orgi-kai-epeisodia-stin-pristina-gia-tin-katadiki-thatsi-kai-proin-dioikiton-tou-uck/?amp",
+        "https://www.ertnews.gr/eidiseis/diethni/orgi-ton-alvanon-tis-voreias-makedonias-gia-tin-katadiki-proin-igeton-tou-uck-sto-kosovo/",
+        "https://www.ertnews.gr/eidiseis/diethni/aganaktisi-sto-kosovo-gia-tin-katadiki-xasim-thatsi-kai-trion-dioikiton-tou-uck-gia-egklimata-polemou/"
       ]
     },
     "Fosonline": {
@@ -896,16 +902,18 @@
     },
     "Capital.gr": {
       "country": "Greqi",
-      "total": 2,
+      "total": 4,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-16",
       "urls": [
         "https://www.capital.gr/diethni/4011690/entasi-sto-kosobo-gia-to-anoigma-mias-gefuras/?amp=true",
-        "https://www.capital.gr/diethni/4013561/kosobo-sumfonia-kourti-me-tin-antipoliteusi-gia-tin-eklogi-neou-proedrou/"
+        "https://www.capital.gr/diethni/4013561/kosobo-sumfonia-kourti-me-tin-antipoliteusi-gia-tin-eklogi-neou-proedrou/",
+        "https://www.capital.gr/diethni/4017179/kosobo-o-proin-proedros-xasim-thatsi-katadikastike-se-katheirxi-25-eton-gia-egklimata-polemou/?amp=true",
+        "https://www.capital.gr/diethni/4017179/kosobo-o-xasim-thatsi-katadikastike-se-katheirxi-25-eton-gia-egklimata-polemou/"
       ]
     },
     "THE BEST": {
@@ -1719,16 +1727,17 @@
     },
     "Kicker": {
       "country": "Gjermani",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-08-27",
+      "lastSeen": "2026-09-18",
       "urls": [
         "https://www.kicker.de/kosovo-gegen-aegypten-2026-mittelmeerspiele-5262180/ergebnis",
-        "https://www.kicker.de/portugal-gegen-kosovo-2026-mittelmeerspiele-5262186/ergebnis"
+        "https://www.kicker.de/portugal-gegen-kosovo-2026-mittelmeerspiele-5262186/ergebnis",
+        "https://www.kicker.de/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri-1253958/artikel"
       ]
     },
     "infodifesa": {
@@ -2595,16 +2604,18 @@
     },
     "krone.at": {
       "country": "Austri",
-      "total": 2,
+      "total": 4,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 3,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-06",
+      "lastSeen": "2026-09-18",
       "urls": [
         "https://www.krone.at/4269964",
-        "https://www.krone.at/4171096"
+        "https://www.krone.at/4171096",
+        "https://www.krone.at/4300367",
+        "https://www.krone.at/4297022"
       ]
     },
     "AEF info": {
@@ -2729,15 +2740,16 @@
     },
     "ilnordest.it": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-03",
-      "lastSeen": "2026-09-03",
+      "lastSeen": "2026-09-18",
       "urls": [
-        "https://www.ilnordest.it/oltre-confine/kosovo-crisi-politica-presidente-bekim-sejdiu-kurti-franchi-tiratori-hz4x1m9p"
+        "https://www.ilnordest.it/oltre-confine/kosovo-crisi-politica-presidente-bekim-sejdiu-kurti-franchi-tiratori-hz4x1m9p",
+        "https://www.ilnordest.it/italia-ed-esteri/kosovo-ancora-proteste-contro-la-condanna-di-thaci-per-crimini-di-guerra-rrffjf9f"
       ]
     },
     "unitalsi.it": {
@@ -3339,15 +3351,16 @@
     },
     "gazzettadiparma.it": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-08",
-      "lastSeen": "2026-09-07",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.gazzettadiparma.it/gweb+/2026/09/07/news/beffarde-coincidenze-d-inizio-settembre-966138/"
+        "https://www.gazzettadiparma.it/gweb+/2026/09/07/news/beffarde-coincidenze-d-inizio-settembre-966138/",
+        "https://www.gazzettadiparma.it/italia-mondo/2026/09/16/news/thaci-condannato-all-aja-a-25-anni-per-crimini-di-guerra-in-kosovo-968156/"
       ]
     },
     "Corriere della Sera": {
@@ -3764,15 +3777,16 @@
     },
     "mononews.gr": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-12",
-      "lastSeen": "2026-09-12",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.mononews.gr/bloomberg/kosovo-i-etymigoria-gia-ton-thatsi-apeilei-na-anatrepsei-tis-politikes-isorropies"
+        "https://www.mononews.gr/bloomberg/kosovo-i-etymigoria-gia-ton-thatsi-apeilei-na-anatrepsei-tis-politikes-isorropies",
+        "https://www.mononews.gr/politics/global-politics/kosovo-orgi-kai-epeisodia-stin-pristina-meta-tin-katadiki-tou-thatsi-kai-allon-3-igeton-tou-uck-ntropi-leei-o-enti-rama"
       ]
     },
     "da.se": {
@@ -3954,15 +3968,17 @@
     },
     "BusinessDaily.gr": {
       "country": "Greqi",
-      "total": 1,
+      "total": 3,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 2,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-13",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.businessdaily.gr/diethni/231769_koinoboylio-toy-kosoboy-enekrine-tin-kybernisi-koyrti-en-meso-thesmikis-krisis?utm_source=Feedelio&utm_medium=News&utm_campaign=APE-MPE&utm_content=auto"
+        "https://www.businessdaily.gr/diethni/231769_koinoboylio-toy-kosoboy-enekrine-tin-kybernisi-koyrti-en-meso-thesmikis-krisis?utm_source=Feedelio&utm_medium=News&utm_campaign=APE-MPE&utm_content=auto",
+        "https://www.businessdaily.gr/diethni/232365_katadiki-25-eton-gia-egklimata-polemoy-ston-proin-proedro-toy-kosoboy-hasim-thatsi?utm_source=Feedelio&utm_medium=News&utm_campaign=APE-MPE&utm_content=auto&amp",
+        "https://www.businessdaily.gr/diethni/232346_katadiki-toy-hasim-thatsi-se-25-hronia-katheirxi-gia-egklimata-polemoy-sto-kosobo?utm_source=Feedelio&utm_medium=News&utm_campaign=APE-MPE&utm_content=auto"
       ]
     },
     "tvxs.gr": {
@@ -4360,15 +4376,16 @@
     },
     "LiFO": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-14",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.lifo.gr/now/world/kosobo-epanexelegi-prothypoyrgos-apo-koinoboylio-o-almpin-koyrti"
+        "https://www.lifo.gr/now/world/kosobo-epanexelegi-prothypoyrgos-apo-koinoboylio-o-almpin-koyrti",
+        "https://www.lifo.gr/now/world/kosobo-enohos-gia-egklimata-polemoy-o-proin-proedros-hasim-thatsi?amp"
       ]
     },
     "SDNA": {
@@ -6063,16 +6080,17 @@
     },
     "Der Standard": {
       "country": "Austri",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-17",
       "lastSeen": "2026-09-18",
       "urls": [
         "https://www.derstandard.at/story/3000000340029/kosovos-ex-praesident-hashim-thaci-wegen-kriegsverbrechen-zu-25-jahren-haft-verurteilt",
-        "https://www.derstandard.de/story/3000000340447/jetzt-muss-oefb-teamchef-ralf-rangnick-auch-noch-konrad-laimer-ersetzen"
+        "https://www.derstandard.de/story/3000000340447/jetzt-muss-oefb-teamchef-ralf-rangnick-auch-noch-konrad-laimer-ersetzen",
+        "https://www.derstandard.at/story/3000000340447/jetzt-muss-oefb-teamchef-ralf-rangnick-auch-noch-konrad-laimer-ersetzen"
       ]
     },
     "oe1.ORF.at": {
@@ -6625,15 +6643,16 @@
     },
     "La Vanguardia": {
       "country": "Spanjë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-18",
       "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.lavanguardia.com/fotos/20260916/11636506/protestas-kosovo-estragos-guerra-gaza-mas-imagenes-dia.html"
+        "https://www.lavanguardia.com/fotos/20260916/11636506/protestas-kosovo-estragos-guerra-gaza-mas-imagenes-dia.html",
+        "https://www.lavanguardia.com/internacional/20260916/11636236/tribunal-haya-condena-hashim-thaci-expresidente-kosovo-25-anos-crimenes-guerra.html"
       ]
     },
     "rtve.es": {
@@ -6938,15 +6957,16 @@
     },
     "Kathimerini": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-18",
       "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.kathimerini.gr/world/564461203/kosovo-o-thatsi-antimetopos-me-tin-etymigoria-gia-egklimata-polemoy-sti-chagi/"
+        "https://www.kathimerini.gr/world/564461203/kosovo-o-thatsi-antimetopos-me-tin-etymigoria-gia-egklimata-polemoy-sti-chagi/",
+        "https://www.kathimerini.gr/world/564461464/chasim-thatsi-o-proin-proedros-toy-kosovoy-krithike-enochos-gia-egklimata-polemoy/"
       ]
     },
     "newsit.gr": {
@@ -6960,6 +6980,229 @@
       "lastSeen": "2026-09-16",
       "urls": [
         "https://www.newsit.gr/kosmos/kosovo-katadikastike-o-xasim-thatsi-se-katheirksi-25-eton-gia-egklimata-polemou/4775781/"
+      ]
+    },
+    "rheinpfalz.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.rheinpfalz.de/politik_artikel,-hashim-thaci-befreiungsheld-und-kriegsverbrecher-_arid,5930026.html"
+      ]
+    },
+    "altoadige.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://www.altoadige.it/video/kosovo-ancora-proteste-contro-la-condanna-di-thaci-per-crimini-di-guerra-ac89q5ww"
+      ]
+    },
+    "tv2000.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.tv2000.it/tg2000/video/kosovo-ex-presidente-thaci-condannato-per-crimini-di-guerra/"
+      ]
+    },
+    "fan.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://fan.at/news/6aad55f4dd7b125523b7a929"
+      ]
+    },
+    "democrata.es": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-17",
+      "urls": [
+        "https://www.democrata.es/cultura/dua-lipa-rita-ora-reivindican-ejercito-liberacion-kosovo/"
+      ]
+    },
+    "Εφημερίδα ΑΜΑΡΥΣΙΑ": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://amarysia.gr/kosmos-news/%CE%BA%CF%8C%CF%83%CE%BF%CE%B2%CE%BF-%CE%BD%CE%AD%CE%BF%CF%82-%CE%B3%CF%8D%CF%81%CE%BF%CF%82-%CE%AD%CE%BD%CF%84%CE%B1%CF%83%CE%B7%CF%82-2"
+      ]
+    },
+    "koutipandoras.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.koutipandoras.gr/article/kosovo-enochos-sti-chagi-gia-egklimata-polemou-o-proin-igetis-tou-uck-chasim-thatsi/"
+      ]
+    },
+    "ΤΟ ΒΗΜΑ": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.tovima.gr/2026/09/16/world/xagi-o-thatsi-katadikastike-se-25-xronia-gia-egklimata-polemou-antidraseis-sto-kosovo/"
+      ]
+    },
+    "The TOC": {
+      "country": "Greqi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.thetoc.gr/diethni/article/agria-epeisodia-sto-kosobo-antidraseis-gia-tin-katadiki-tou-thatsi-gia-egklimata-tou-uck-binteo/",
+        "https://www.thetoc.gr/diethni/article/xasim-thatsi-katadikastike-se-25-xronia-fulaki-gia-egklimata-polemou-sto-kosobo---i-apofasi-tou-dikastiriou-tis-xagis/"
+      ]
+    },
+    "pelop.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://pelop.gr/kosovo-katadiki-hasim-tatsi-eidiko-dikastirio-hagi-epeisodia/"
+      ]
+    },
+    "Reader.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.reader.gr/kosmos/25-hronia-ston-proin-proedro-hasim-thatsi-gia-egklimata-polemoy-sto-kosobo/661684"
+      ]
+    },
+    "newmoney": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.newmoney.gr/roh/diethni/kosovo-25-chronia-kathirxi-ston-chasim-thatsi-gia-ta-egklimata-tou-polemou/"
+      ]
+    },
+    "ProtoThema": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.protothema.gr/world/article/1879639/enohos-gia-eglimata-polemou-krithike-o-proin-proedros-tou-kosovou-hasim-thatsi-katadikastike-se-fulakisi-25-eton/"
+      ]
+    },
+    "sbctv.gr": {
+      "country": "Greqi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.sbctv.gr/2026/09/%CE%BA%CE%B1%CF%84%CE%B1%CE%B4%CE%B9%CE%BA%CE%B7-%CE%B8%CE%B1%CF%84%CF%83%CE%B9/",
+        "https://www.sbctv.gr/2026/09/%CE%B5%CE%B3%CE%BA%CE%BB%CE%B7%CE%BC%CE%B1%CF%84%CE%B1-%CF%80%CE%BF%CE%BB%CE%B5%CE%BC%CE%BF%CF%85-%CE%BA%CE%BF%CF%83%CE%BF%CE%B2%CE%BF%CF%85/"
+      ]
+    },
+    "eMakedonia.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.emakedonia.gr/kosovo-katheirxi-25-eton-gia-egklimata-polemoy-ston-anotatos-dioikiti-toy-uck-kai-proin-proedro-tis-choras-chakim-thatsi"
+      ]
+    },
+    "topontiki.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.topontiki.gr/2026/09/16/chagi-25-chronia-filakisis-gia-egklimata-polemou-ston-proin-proedro-tou-kosovou-thatsi-sigkrousis-me-tin-astinomia-exo-apo-to-dikastirio-video/"
+      ]
+    },
+    "mixanitouxronou.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.mixanitouxronou.gr/25-chronia-katheirxi-ston-chasim-thatsi-gia-egklimata-polemoy-sto-kosovo/amp/"
       ]
     }
   }

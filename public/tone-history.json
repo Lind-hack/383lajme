@@ -7985,8 +7985,8 @@
   {
     "date": "2026-09-18",
     "overallIndex": 50,
-    "totalArticles": 424,
-    "sourceCount": 237,
+    "totalArticles": 459,
+    "sourceCount": 264,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -7994,7 +7994,7 @@
         "positive": 0,
         "neutral": 99,
         "negative": 1,
-        "n": 90,
+        "n": 93,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -8034,18 +8034,18 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 76,
+        "n": 80,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
       "Austri": {
         "index": 50,
-        "positive": 6,
+        "positive": 5,
         "neutral": 89,
-        "negative": 6,
-        "n": 35,
-        "excluded": 0,
+        "negative": 5,
+        "n": 38,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
@@ -8084,7 +8084,7 @@
         "positive": 4,
         "neutral": 96,
         "negative": 0,
-        "n": 25,
+        "n": 27,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -8094,8 +8094,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 10,
-        "excluded": 4,
+        "n": 33,
+        "excluded": 8,
         "confident": true,
         "stanceVersion": 3
       },
@@ -8142,19 +8142,19 @@
     },
     "headlines": [
       {
-        "title": "Alaska, Kosovo youth build friendships through pen pal program - Alaska Native News",
-        "source": "Alaska Native News",
+        "title": "The soldier’s son: How fallen Kosovo commander inspired a Staten Island political hopeful - silive.com",
+        "source": "Yahoo",
         "country": "SHBA",
         "flag": "🇺🇸",
-        "url": "https://alaska-native-news.com/alaska-kosovo-youth-build-friendships-through-pen-pal-program/86300/",
+        "url": "https://www.silive.com/politics/2026/09/the-soldiers-son-how-fallen-kosovo-commander-inspired-a-staten-island-political-hopeful.html",
         "sentiment": "positive"
       },
       {
-        "title": "Il s’attendait à \"être acquitté\" : Hashim Thaçi, héros de l’indépendance du Kosovo, condamné à 25 ans - marianne.net",
-        "source": "marianne.net",
+        "title": "La condamnation d’Hashim Thaçi, ex-président du Kosovo, pour crime de guerre, une décision biaisée pour nombre de Kosovars - Le Monde.fr",
+        "source": "Le Monde",
         "country": "Francë",
         "flag": "🇫🇷",
-        "url": "https://www.marianne.net/monde/europe/il-s-attendait-a-etre-acquitte-hashim-thaci-heros-de-l-independance-du-kosovo-condamne-a-25-ans",
+        "url": "https://www.lemonde.fr/international/article/2026/09/16/hashim-thaci-l-ex-president-du-kosovo-heros-de-l-independance-chez-beaucoup-dans-son-pays-condamne-a-vingt-cinq-ans-de-prison-par-un-tribunal-international_6775466_3210.html",
         "sentiment": "positive"
       },
       {
@@ -8182,7 +8182,7 @@
         "sentiment": "negative"
       },
       {
-        "title": "« Notre ami » Thaçi, criminel de guerre - monde-diplomatique.fr",
+        "title": "« Notre ami » Thaçi, criminel de guerre - Le Monde diplomatique",
         "source": "Le Monde diplomatique",
         "country": "Francë",
         "flag": "🇫🇷",
