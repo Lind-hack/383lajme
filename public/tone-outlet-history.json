@@ -370,18 +370,19 @@
     },
     "Quotidiano Nazionale": {
       "country": "Itali",
-      "total": 4,
+      "total": 5,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-18",
       "urls": [
         "https://www.quotidiano.net/esteri/il-metodo-putin-anche-in-kosovo-quando-la-difesa-del-piu-debole-diventa-arma-di-guerra-ibrida-89804c37",
         "https://www.quotidiano.net/video/esteri/kosovo-25-anni-allex-presidente-thaci-per-crimini-di-guerra-ry7pxcfy",
         "https://www.quotidiano.net/video/esteri/kosovo-a-pristina-proteste-contro-la-condanna-a-ex-presidente-thaci-cv550op2",
-        "https://www.quotidiano.net/video/esteri/allaja-raduno-sostenitori-thaci-dopo-condanna-a-ex-presidente-kosovo-rmeolh9t"
+        "https://www.quotidiano.net/video/esteri/allaja-raduno-sostenitori-thaci-dopo-condanna-a-ex-presidente-kosovo-rmeolh9t",
+        "https://www.quotidiano.net/video/esteri/kosovo-ancora-proteste-contro-la-condanna-di-thaci-per-crimini-di-guerra-dcwi1q30"
       ]
     },
     "Gazzetta Regionale": {
@@ -609,9 +610,9 @@
     },
     "Demócrata": {
       "country": "Spanjë",
-      "total": 21,
+      "total": 23,
       "positive": 1,
-      "neutral": 18,
+      "neutral": 20,
       "negative": 2,
       "unknown": 0,
       "firstSeen": "2026-08-22",
@@ -637,14 +638,16 @@
         "https://www.democrata.es/cultura/dua-lipa-rita-ora-reivindican-ejercito-liberacion-kosovo/",
         "https://www.democrata.es/internacional/human-rights-watch-destaca-la-condena-a-thaci-como-un-hito-clave-para-la-justicia-en-kosovo/",
         "https://www.democrata.es/internacional/lanzan-cocteles-molotov-contra-la-mision-civil-de-la-ue-en-kosovo-tras-las-condenas-del-tribunal-especial/",
-        "https://www.democrata.es/internacional/bruselas-respalda-al-tribunal-especial-para-kosovo-tras-los-25-anos-de-prision-impuestos-a-hashim-thaci/"
+        "https://www.democrata.es/internacional/bruselas-respalda-al-tribunal-especial-para-kosovo-tras-los-25-anos-de-prision-impuestos-a-hashim-thaci/",
+        "https://www.democrata.es/fr/culture/dua-lipa-et-rita-ora-revendiquent-l-armee-de-liberation-du-kosovo/",
+        "https://www.democrata.es/internacional/ampliacion-el-tribunal-especial-para-kosovo-impone-25-anos-de-prision-al-expresidente-hashim-thaci-por-crimenes-de-guerra/"
       ]
     },
     "Europa Press": {
       "country": "Spanjë",
-      "total": 6,
+      "total": 7,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-22",
@@ -655,7 +658,8 @@
         "https://www.europapress.es/internacional/noticia-partido-gobernante-oposicion-acuerdan-candidato-presidencia-kosovo-evitar-elecciones-20260831160656.html",
         "https://www.europapress.es/internacional/noticia-kosovo-firma-acuerdo-sumarse-fuerza-internacional-estabilizacion-gaza-20260907150646.html",
         "https://www.europapress.es/internacional/noticia-hrw-ve-condena-thaci-paso-importante-rendicion-cuentas-victimas-kosovo-20260917184444.html",
-        "https://www.europapress.es/internacional/noticia-bruselas-defiende-tribunal-especial-kosovo-condena-25-anos-carcel-hashim-thaci-20260916165955.html"
+        "https://www.europapress.es/internacional/noticia-bruselas-defiende-tribunal-especial-kosovo-condena-25-anos-carcel-hashim-thaci-20260916165955.html",
+        "https://www.europapress.es/internacional/noticia-manifestantes-lanzan-cocteles-molotov-contra-sede-mision-ue-kosovo-sentencias-20260916163121.html"
       ]
     },
     "Sport24": {
@@ -763,18 +767,19 @@
     },
     "ΤΑ ΝΕΑ": {
       "country": "Greqi",
-      "total": 4,
+      "total": 5,
       "positive": 1,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-07",
+      "lastSeen": "2026-09-16",
       "urls": [
         "https://www.tanea.gr/2026/08/20/sports/othersports/ellada-kosovo-3-0-sarose-i-ethniki-andron-stin-premiera-ton-mesogeiakon-agonon/",
         "https://www.tanea.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-idaniki-premiera-me-nikitria-tin-ethniki-volei-gynaikon-apenanti-sto-kosovo/",
         "https://www.tanea.gr/2026/08/24/sports/othersports/ellada-kosovo-40-20-epivlitiki-i-ethniki-gynaikon-kai-2-2-sto-xantmpol-ton-mesogeiakon-agonon/",
-        "https://www.tanea.gr/2026/09/07/world/kosovo-symfonia-gia-apostoli-strateymaton-sti-diethni-dynami-gia-ti-gaza/"
+        "https://www.tanea.gr/2026/09/07/world/kosovo-symfonia-gia-apostoli-strateymaton-sti-diethni-dynami-gia-ti-gaza/",
+        "https://www.tanea.gr/2026/09/16/world/servia-kosovo-2-antidraseis-kai-epeisodia-stin-pristina-gia-tin-katadiki-ton-proin-dioikit/"
       ]
     },
     "sport-fm.gr": {
@@ -818,31 +823,36 @@
     },
     "Skai.gr": {
       "country": "Greqi",
-      "total": 2,
+      "total": 5,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 4,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-22",
+      "lastSeen": "2026-09-18",
       "urls": [
         "https://www.skai.gr/news/world/entasi-sto-kosovo-gia-to-anoigma-mias-gefyras",
-        "https://www.skai.gr/index.php/news/world/entasi-sto-kosovo-gia-to-anoigma-mias-gefyras"
+        "https://www.skai.gr/index.php/news/world/entasi-sto-kosovo-gia-to-anoigma-mias-gefyras",
+        "https://www.skai.gr/news/world/kosovo-diadilosi-veteranon-tou-uck-gia-tin-katadiki-tou-thatsi",
+        "https://www.skai.gr/news/world/xasim-thatsi-katadiki-se-25-xronia-fylakisis-gia-egklimata-polemou",
+        "https://www.skai.gr/news/world/voreia-makedonia-antidraseis-gia-apofasi-xagis-gia-proin-igetes-tou-uck-sto-kosovo"
       ]
     },
     "ertnews.gr": {
       "country": "Greqi",
-      "total": 3,
+      "total": 5,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 5,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-16",
       "urls": [
         "https://www.ertnews.gr/eidiseis/diethni/kosovo-entaseis-metaksy-servon-kai-alvanon-prokalei-to-anoigma-gefyras/",
         "https://www.ertnews.gr/roi-idiseon/kosovo-dioksi-se-35-proin-servous-astynomikous-gia-ti-sfagi-sto-prekaz/",
-        "https://www.ertnews.gr/eidiseis/diethni/epanekselegi-prothypourgos-apo-to-koinovoulio-sto-kosovo-o-almin-kourti/"
+        "https://www.ertnews.gr/eidiseis/diethni/epanekselegi-prothypourgos-apo-to-koinovoulio-sto-kosovo-o-almin-kourti/",
+        "https://www.ertnews.gr/eidiseis/diethni/orgi-sto-kosovo-gia-tin-katadiki-xasim-thatsi-kai-trion-dioikiton-tou-uck-gia-egklimata-polemou/",
+        "https://www.ertnews.gr/eidiseis/kosovo-antistrofi-metrisi-gia-tin-etymigoria-sti-diki-tou-xasim-thatsi-katigoreitai-gia-egklimata-polemou/"
       ]
     },
     "Fosonline": {
@@ -1927,9 +1937,9 @@
     },
     "ABC": {
       "country": "Spanjë",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-26",
@@ -1939,7 +1949,8 @@
         "https://www.abc.es/internacional/primer-ministro-macedonia-norte-recibe-homologo-kosovar-20260826152319-nt.html",
         "https://www.abc.es/espana/marcha-apoyo-exlider-ejercito-liberacion-kosovo-hashim-20260912170937-nt.html",
         "https://www.abc.es/deportes/alfinaldelapalmera/noticias-betis/troy-parrott-citado-irlanda-medirse-kosovo-israel-20260917132107-nts.html",
-        "https://www.abc.es/internacional/condenado-anos-carcel-expresidente-kosovo-hashim-thaci-20260916124052-nt.html"
+        "https://www.abc.es/internacional/condenado-anos-carcel-expresidente-kosovo-hashim-thaci-20260916124052-nt.html",
+        "https://www.abc.es/internacional/atacan-pristina-sede-mision-civil-ue-tras-20260916185459-nt.html"
       ]
     },
     "pontosnews.gr": {
@@ -3123,18 +3134,19 @@
     },
     "RFI": {
       "country": "Francë",
-      "total": 4,
+      "total": 5,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-18",
       "urls": [
         "https://www.rfi.fr/fr/europe/20260904-%C3%A0-la-une-en-serbie-les-%C3%A9tudiants-cibl%C3%A9s-par-le-logiciel-espion-pegasus",
         "https://www.rfi.fr/fr/podcasts/reportage-international/20260914-proc%C3%A8s-de-l-ancien-pr%C3%A9sident-hashim-tha%C3%A7i-et-de-trois-ex-chefs-de-l-uck-un-verdict-tr%C3%A8s-attendu-au-kosovo",
         "https://www.rfi.fr/fr/podcasts/grand-reportage/20260914-h%C3%A9ros-ou-criminels-les-leaders-de-l-uck-face-aux-juges",
-        "https://www.rfi.fr/es/europa/20260916-kosovo-el-expresidente-hashim-tha%C3%A7i-fue-condenado-a-25-a%C3%B1os-de-prisi%C3%B3n"
+        "https://www.rfi.fr/es/europa/20260916-kosovo-el-expresidente-hashim-tha%C3%A7i-fue-condenado-a-25-a%C3%B1os-de-prisi%C3%B3n",
+        "https://www.rfi.fr/fr/europe/20260918-%C3%A0-la-une-l-ex-pr%C3%A9sident-du-kosovo-hashim-tha%C3%A7i-condamn%C3%A9-%C3%A0-25-ans-de-prison"
       ]
     },
     "Gazzetta di Parma": {
@@ -4107,17 +4119,18 @@
     },
     "bluewin.ch": {
       "country": "Zvicër",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-09-13",
-      "lastSeen": "2026-09-17",
+      "lastSeen": "2026-09-18",
       "urls": [
         "https://www.bluewin.ch/en/news/kurti-remains-prime-minister-opposition-boycotts-vote-li.3598322",
         "https://www.bluewin.ch/de/sport/fussball/tolaj-laesst-kosovo-und-albanien-abblitzen-und-traeumt-von-der-schweiz-kacuri-entscheidet-sich-gegen-die-nati-li.3602237",
-        "https://www.bluewin.ch/de/news/kriegsverbrechen-25-jahre-haft-fuer-kosovos-ex-praesident-li.3601788"
+        "https://www.bluewin.ch/de/news/kriegsverbrechen-25-jahre-haft-fuer-kosovos-ex-praesident-li.3601788",
+        "https://www.bluewin.ch/fr/infos/monde/kosovo-milliers-de-manifestants-contre-la-condamnation-de-tha-i-li.3605010"
       ]
     },
     "The Press Project": {
@@ -4490,9 +4503,9 @@
     },
     "FAZ": {
       "country": "Gjermani",
-      "total": 8,
+      "total": 9,
       "positive": 0,
-      "neutral": 7,
+      "neutral": 8,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-09-15",
@@ -4505,7 +4518,8 @@
         "https://www.faz.net/aktuell/politik/ausland/nach-kosovo-urteil-thaci-war-starr-vor-angst-accg-201230442.html",
         "https://www.faz.net/aktuell/politik/ausland/das-urteil-ueber-thaci-ist-nur-das-vorletzte-wort-201231598.html",
         "https://www.faz.net/aktuell/politik/ausland/kosovo-tribunal-verurteilt-hashim-thaci-zu-25-jahren-haft-accg-201229090.html",
-        "https://www.faz.net/aktuell/politik/ausland/wuetende-reaktionen-auf-das-urteil-gegen-hashim-thaci-im-kosovo-accg-201235299.html"
+        "https://www.faz.net/aktuell/politik/ausland/wuetende-reaktionen-auf-das-urteil-gegen-hashim-thaci-im-kosovo-accg-201235299.html",
+        "https://www.faz.net/aktuell/politik/ausland/25-jahre-haft-fuer-hashim-thaci-steht-das-urteil-in-verhaeltnis-zu-seinen-taten-201231598.html"
       ]
     },
     "UdineToday": {
@@ -4622,19 +4636,20 @@
     },
     "STERN.de": {
       "country": "Gjermani",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-15",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-18",
       "urls": [
         "https://www.stern.de/gesellschaft/regional/hamburg-schleswig-holstein/reisen--weitere-airline-fliegt-von-hamburg-in-hauptstadt-kosovos-38257618.html",
         "https://www.stern.de/news/kosovo-sondertribunal-verkuendet-urteil-im-fall-von-ex-praesident-thaci-38258952.html",
         "https://www.stern.de/news/kosovos-ex-praesident-thaci-wegen-kriegsverbrechen-zu-25-jahren-haft-verurteilt-38261132.html",
         "https://www.stern.de/news/25-jahre-haft-fuer-kosovos-ex-praesident-thaci-wegen-kriegsverbrechen-38261132.html",
-        "https://www.stern.de/politik/ausland/sondertribunal-verurteilt-kosovos-ex-praesidenten-zu-25-jahren-haft-38261298.html"
+        "https://www.stern.de/politik/ausland/sondertribunal-verurteilt-kosovos-ex-praesidenten-zu-25-jahren-haft-38261298.html",
+        "https://www.stern.de/news/neue-proteste-im-kosovo-nach-kriegsverbrecher-urteil-gegen-ex-praesident-thaci-38274482.html"
       ]
     },
     "tg24.sky.it": {
@@ -6048,15 +6063,16 @@
     },
     "Der Standard": {
       "country": "Austri",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-18",
       "urls": [
-        "https://www.derstandard.at/story/3000000340029/kosovos-ex-praesident-hashim-thaci-wegen-kriegsverbrechen-zu-25-jahren-haft-verurteilt"
+        "https://www.derstandard.at/story/3000000340029/kosovos-ex-praesident-hashim-thaci-wegen-kriegsverbrechen-zu-25-jahren-haft-verurteilt",
+        "https://www.derstandard.de/story/3000000340447/jetzt-muss-oefb-teamchef-ralf-rangnick-auch-noch-konrad-laimer-ersetzen"
       ]
     },
     "oe1.ORF.at": {
@@ -6152,16 +6168,17 @@
     },
     "20 Minuten": {
       "country": "Zvicër",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
       "lastSeen": "2026-09-18",
       "urls": [
         "https://www.20min.ch/fr/story/football-l-equipe-de-suisse-perd-encore-un-talent-au-profit-du-kosovo-103634234",
-        "https://www.20min.ch/story/vaduz-talent-dalipi-im-visier-von-albanien-kosovo-und-grosser-super-league-clubs-103627453"
+        "https://www.20min.ch/story/vaduz-talent-dalipi-im-visier-von-albanien-kosovo-und-grosser-super-league-clubs-103627453",
+        "https://www.20min.ch/story/hashim-thaci-kriegsverbrechen-kosovos-ex-praesident-zu-langer-haft-verurteilt-103634223"
       ]
     },
     "ref.ch": {
@@ -6277,15 +6294,16 @@
     },
     "Reformatorisch Dagblad": {
       "country": "Holandë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
-      "negative": 0,
+      "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-09-17",
       "lastSeen": "2026-09-17",
       "urls": [
-        "https://www.rd.nl/artikel/premier-albanie-in-kosovo"
+        "https://www.rd.nl/artikel/premier-albanie-in-kosovo",
+        "https://www.rd.nl/artikel/premier-kosovo-lijkt-misdaadbaas"
       ]
     },
     "Regio15": {
@@ -6592,16 +6610,17 @@
     },
     "DHnet": {
       "country": "Belgjikë",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-18",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-18",
       "urls": [
         "https://www.dhnet.be/dernieres-depeches/2026/09/16/crimes-de-guerre-lancien-president-du-kosovo-hashim-thaci-fixe-sur-son-sort-J32JLIRFSJEM7EGJQNYAU7Y2CA/",
-        "https://www.dhnet.be/videos/2026/09/16/kosovo-les-actes-de-l-uck-ont-cause-la-mort-d-au-moins-96-civils-dit-le-juge-au-proces-thaci-3klfrxk/"
+        "https://www.dhnet.be/videos/2026/09/16/kosovo-les-actes-de-l-uck-ont-cause-la-mort-d-au-moins-96-civils-dit-le-juge-au-proces-thaci-3klfrxk/",
+        "https://www.dhnet.be/dernieres-depeches/2026/09/18/kosovo-des-milliers-de-manifestants-demandent-lannulation-de-la-condamnation-de-thaci-3GKHNIBDPVE6XMZ3EDYBDC2W2Y/"
       ]
     },
     "La Vanguardia": {
@@ -6749,15 +6768,16 @@
     },
     "La Razón": {
       "country": "Spanjë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-18",
       "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.larazon.es/internacional/expresidente-kosovo-hashim-thaci-condenado-25-anos-prision-crimenes-guerra_202609166aaa6a21250a3a7556faee2f.html"
+        "https://www.larazon.es/internacional/expresidente-kosovo-hashim-thaci-condenado-25-anos-prision-crimenes-guerra_202609166aaa6a21250a3a7556faee2f.html",
+        "https://www.larazon.es/internacional/atacan-sede-policia-pristina-condenas-lideres-kosovares_202609166aaa9300e428ed292140e492.html"
       ]
     },
     "La Voz de Galicia": {
@@ -6771,6 +6791,175 @@
       "lastSeen": "2026-09-17",
       "urls": [
         "https://www.lavozdegalicia.es/noticia/internacional/2026/09/17/condenan-25-anos-expresidente-kosovo-thaci-torturas-asesinato/0003_202609G17P20993.htm"
+      ]
+    },
+    "sportschau.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://www.sportschau.de/live-und-ergebnisse/fussball/uefa-nations-league-b/ma11904211/kosovo_irland/liveticker"
+      ]
+    },
+    "Le Monde diplomatique": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 1,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://www.monde-diplomatique.fr/carnet/2026-09-18-Notre-ami-Thaci-criminel-de-guerre"
+      ]
+    },
+    "grnet.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://www.grnet.it/kosovo-cosa-resta-quando-la-nato-arretra-dal-ponte-di-mitrovica/"
+      ]
+    },
+    "giornaletrentino.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://www.giornaletrentino.it/video/kosovo-ancora-proteste-contro-la-condanna-di-thaci-per-crimini-di-guerra-1.4444449"
+      ]
+    },
+    "kicker.ch": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://www.kicker.ch/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri-1253958/artikel"
+      ]
+    },
+    "lavozdegalicia.es": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-17",
+      "urls": [
+        "https://www.lavozdegalicia.es/amp/noticia/internacional/2026/09/17/condenan-25-anos-expresidente-kosovo-thaci-torturas-asesinato/0003_202609G17P20993.htm?utm_campaign=amp"
+      ]
+    },
+    "efe.com": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://efe.com/euro-efe/2026-09-16/ataque-sede-mision-civil-ue-eulex-condenas-lideres-kosovares/"
+      ]
+    },
+    "iEidiseis": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.ieidiseis.gr/kosmos/867867/katadiki-chasim-thatsi-sti-chagi-25-chronia-fylakisi-gia-egklimata-polemoy-sto-kosovo/"
+      ]
+    },
+    "amarysia.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://amarysia.gr/kosmos-news/%CE%BA%CF%8C%CF%83%CE%BF%CE%B2%CE%BF-%CE%BD%CE%AD%CE%BF%CF%82-%CE%B3%CF%8D%CF%81%CE%BF%CF%82-%CE%AD%CE%BD%CF%84%CE%B1%CF%83%CE%B7%CF%82-2"
+      ]
+    },
+    "lawnet.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-17",
+      "urls": [
+        "https://lawnet.gr/law-news/diethni/kosovo-katheirxi-25-eton-ston-proin-proedro-chasim-thatsi-gia-egklimata-polemou/"
+      ]
+    },
+    "Euro2day": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.euro2day.gr/amp/news/world/article/2369298/kosovo-epeisodia-sthn-pristina-gia-thn-katadikh-to.html"
+      ]
+    },
+    "Kathimerini": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.kathimerini.gr/world/564461203/kosovo-o-thatsi-antimetopos-me-tin-etymigoria-gia-egklimata-polemoy-sti-chagi/"
+      ]
+    },
+    "newsit.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.newsit.gr/kosmos/kosovo-katadikastike-o-xasim-thatsi-se-katheirksi-25-eton-gia-egklimata-polemou/4775781/"
       ]
     }
   }

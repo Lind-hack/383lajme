@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-18",
   "overallIndex": 50,
-  "totalArticles": 391,
-  "sourceCount": 220,
+  "totalArticles": 424,
+  "sourceCount": 237,
   "stanceVersion": 3,
-  "unattributed": 324,
+  "unattributed": 345,
   "nonEditorial": 13,
   "wrongKosovo": 0,
   "countries": {
@@ -268,6 +268,30 @@
           "lastSeen": "2026-09-18"
         },
         {
+          "name": "Der Standard",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Jetzt muss ÖFB-Teamchef Ralf Rangnick auch noch Konrad Laimer ersetzen - derStandard.de",
+              "albanianTitle": "Përzgjedhësi i Austrisë, Ralf Rangnick, detyrohet të gjejë zëvendësues për Konrad Laimerin",
+              "blurb": "Përzgjedhësi i Austrisë, Ralf Rangnick, duhet të gjejë zëvendësues për Konrad Laimerin në ndeshjet e radhës së ekipit.",
+              "imageUrl": "https://i.ds.at/FkJDWg/rs:fill:1200:600/plain/lido-images/2026/09/18/403c68e8-27d7-4068-81c2-a9230e4daed9.jpg",
+              "url": "https://www.derstandard.de/story/3000000340447/jetzt-muss-oefb-teamchef-ralf-rangnick-auch-noch-konrad-laimer-ersetzen",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Nuk përmban asnjë referencë ose gjuhë ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-17",
+          "lastSeen": "2026-09-18"
+        },
+        {
           "name": "Deutschlandfunk",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -462,7 +486,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 8,
+          "totalArticles": 9,
           "trend": "i përzier",
           "firstSeen": "2026-09-15",
           "lastSeen": "2026-09-17"
@@ -699,7 +723,7 @@
         {
           "name": "STERN.de",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Reisen: Weitere Airline fliegt von Hamburg in Hauptstadt Kosovos - STERN.de",
@@ -765,12 +789,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Neue Proteste im Kosovo nach Kriegsverbrecher-Urteil gegen Ex-Präsident Thaci - STERN.de",
+              "albanianTitle": "Protesta të reja në Kosovë pas dënimit të ish-presidentit Thaçi për krime lufte",
+              "blurb": "Protesta të reja janë organizuar në Kosovë pas vendimit për dënimin e ish-presidentit Hashim Thaçi për krime lufte.",
+              "imageUrl": null,
+              "url": "https://www.stern.de/news/neue-proteste-im-kosovo-nach-kriegsverbrecher-urteil-gegen-ex-praesident-thaci-38274482.html",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton protestat pas vendimit për krime lufte",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "neutral",
           "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-16"
+          "lastSeen": "2026-09-18"
         },
         {
           "name": "SZ.de",
@@ -936,7 +973,7 @@
         {
           "name": "Tagesschau",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Kosovo-Kriegsverbrecher und Ex-Premier Hashim Thaci zu 25 Jahren verurteilt - tagesschau.de",
@@ -973,6 +1010,19 @@
               "date": "2026-09-16",
               "sentiment": "neutral",
               "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovos Ex-Präsident Thaçi zu 25 Jahren Haft verurteilt - tagesschau.de",
+              "albanianTitle": "Ish-presidenti i Kosovës, Thaçi, dënohet me 25 vjet burg",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga Gjykata Speciale në Hagë.",
+              "imageUrl": "https://images.tagesschau.de/image/2f8c5aca-55c3-4c47-aa43-e6772b4b4886/AAABoK6OPsQ/AAABnSSvrFg/16x9-big/urteil-kriesgverbrechen-100.jpg?width=1280",
+              "url": "https://www.tagesschau.de/tagesthemen/video-1650340.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton dënimin pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1385,6 +1435,30 @@
           "lastSeen": "2026-09-15"
         },
         {
+          "name": "sportschau.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Fußball Nations League B: Kosovo gegen Irland - Liveticker - 1. Gruppenspieltag - 2026/2027 - sportschau.de",
+              "albanianTitle": "Liga e Kombeve, Liga B: Kosova kundër Irlandës – Ndeshja e parë e grupit – 2026/2027",
+              "blurb": "Përfaqësuesja e Kosovës luan ndeshjen e parë të Ligës së Kombeve kundër Irlandës në kuadër të grupit B.",
+              "imageUrl": "https://images.sportschau.de/image/2b3257a6-1644-4ac1-9d86-b8ece10e74ce/AAABm--OpTU/AAABnSSvrFg/16x9-big/rudolf-harbig-stadion-100.jpg?width=1280",
+              "url": "https://www.sportschau.de/live-und-ergebnisse/fussball/uefa-nations-league-b/ma11904211/kosovo_irland/liveticker",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Thjesht njofton ndeshjen, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-18"
+        },
+        {
           "name": "sueddeutsche.de",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1462,7 +1536,7 @@
         "positive": 0,
         "neutral": 99,
         "negative": 1,
-        "n": 85,
+        "n": 90,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -2308,7 +2382,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 37,
+        "n": 38,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -2711,6 +2785,43 @@
           "lastSeen": "2026-09-16"
         },
         {
+          "name": "Le Monde diplomatique",
+          "sentiment": "negative",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "« Notre ami » Thaçi, criminel de guerre - monde-diplomatique.fr",
+              "albanianTitle": "Thaçi, «miku ynë» kriminel lufte - monde-diplomatique.fr",
+              "blurb": "Analizë mbi figurën e ish-presidentit Hashim Thaçi dhe dënimi i tij për krime të luftës në procesin gjyqësor.",
+              "imageUrl": "https://www.monde-diplomatique.fr/IMG/logo/kosovo600.jpg",
+              "url": "https://www.monde-diplomatique.fr/carnet/2026-09-18-Notre-ami-Thaci-criminel-de-guerre",
+              "date": "2026-09-18",
+              "sentiment": "negative",
+              "reason": "Uses a hostile epithet to describe Thaçi, implying contempt toward Kosovo's leader",
+              "isQuote": false,
+              "evidence": "criminel de guerre",
+              "speaker": ""
+            },
+            {
+              "title": "« Notre ami » Thaçi, criminel de guerre - Le Monde diplomatique",
+              "albanianTitle": "Thaçi, «miku ynë» kriminel lufte",
+              "blurb": "Analizë mbi figurën e ish-presidentit të Kosovës, Hashim Thaçi, pas dënimit të tij për krime të luftës.",
+              "imageUrl": "https://www.monde-diplomatique.fr/IMG/logo/kosovo600.jpg",
+              "url": "https://www.monde-diplomatique.fr/carnet/2026-09-18-Notre-ami-Thaci-criminel-de-guerre",
+              "date": "2026-09-18",
+              "sentiment": "negative",
+              "reason": "Etiketon Thaci si kriminel i luftës",
+              "isQuote": false,
+              "evidence": "criminel de guerre",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-18"
+        },
+        {
           "name": "Le Parisien",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2872,7 +2983,7 @@
         {
           "name": "RFI",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo: el expresidente Hashim Thaçi fue condenado a 25 años de prisión - RFI",
@@ -2886,12 +2997,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "À la une: l’ex-président du Kosovo Hashim Thaçi condamné à 25 ans de prison - RFI",
+              "albanianTitle": "Kryetitull: Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burg - RFI",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vite burgim nga trupi gjykues për krime të luftës.",
+              "imageUrl": null,
+              "url": "https://www.rfi.fr/fr/europe/20260918-%C3%A0-la-une-l-ex-pr%C3%A9sident-du-kosovo-hashim-tha%C3%A7i-condamn%C3%A9-%C3%A0-25-ans-de-prison",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Plain factual statement of the former president's sentence",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "neutral",
           "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-16"
+          "lastSeen": "2026-09-18"
         },
         {
           "name": "afp.com",
@@ -2967,11 +3091,11 @@
         }
       ],
       "summary": {
-        "index": 52,
+        "index": 49,
         "positive": 3,
-        "neutral": 97,
-        "negative": 0,
-        "n": 32,
+        "neutral": 91,
+        "negative": 6,
+        "n": 35,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -3609,7 +3733,7 @@
         {
           "name": "Quotidiano Nazionale",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Kosovo, 25 anni all'ex presidente Thaci per crimini di guerra - Quotidiano Nazionale",
@@ -3649,12 +3773,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo, ancora proteste contro la condanna di Thaci per crimini di guerra - Quotidiano Nazionale",
+              "albanianTitle": "Kosova: Vazhdojnë protestat kundër dënimit të Thaçit për krime lufte",
+              "blurb": "Qytetarët vazhdojnë protestat në Kosovë pas shpalljes së dënimit për ish-presidentin Hashim Thaçi për krime të luftës.",
+              "imageUrl": "https://www.dailymotion.com/thumbnail/1280x720/video/xb9gmnu",
+              "url": "https://www.quotidiano.net/video/esteri/kosovo-ancora-proteste-contro-la-condanna-di-thaci-per-crimini-di-guerra-dcwi1q30",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Raportim i protestave kundër dënimit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "neutral",
           "firstSeen": "2026-08-21",
-          "lastSeen": "2026-09-16"
+          "lastSeen": "2026-09-18"
         },
         {
           "name": "RaiNews",
@@ -4047,6 +4184,54 @@
           "lastSeen": "2026-09-17"
         },
         {
+          "name": "giornaletrentino.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, ancora proteste contro la condanna di Thaci per crimini di guerra - giornaletrentino.it",
+              "albanianTitle": "Kosova: Protesta të reja pas dënimit të Thaçit për krime lufte",
+              "blurb": "Protestat në Kosovë vazhdojnë pas dënimit të ish-presidentit Hashim Thaçi për akuzat mbi krimet e kryera gjatë luftës.",
+              "imageUrl": "https://www.giornaletrentino.it/image/contentid/policy:1.4444449:1789725236/image.jpg?a=191%3A100&q=0.6&w=1200&$p$a$q$w=e3c1d56",
+              "url": "https://www.giornaletrentino.it/video/kosovo-ancora-proteste-contro-la-condanna-di-thaci-per-crimini-di-guerra-1.4444449",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Raportim i protestave kundër dënimit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-18"
+        },
+        {
+          "name": "grnet.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, cosa resta quando la NATO arretra dal ponte di Mitrovica - grnet.it",
+              "albanianTitle": "Kosova: Çfarë mbetet pas tërheqjes së NATO-s nga ura e Mitrovicës",
+              "blurb": "Forcat e NATO-s tërhiqen nga ura e Mitrovicës duke lënë pas pasiguri për situatën në veri të vendit.",
+              "imageUrl": null,
+              "url": "https://www.grnet.it/kosovo-cosa-resta-quando-la-nato-arretra-dal-ponte-di-mitrovica/",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Përshkrim neutral i situatës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-18"
+        },
+        {
           "name": "il Giornale",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -4403,7 +4588,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 73,
+        "n": 76,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -4430,10 +4615,10 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-17",
-          "lastSeen": "2026-09-16"
+          "lastSeen": "2026-09-18"
         },
         {
           "name": "DiePresse.com",
@@ -4858,7 +5043,7 @@
         {
           "name": "Sky Sport Austria",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Gewinnspiel zu Österreich vs. Kosovo - Sky Sport Austria",
@@ -4882,6 +5067,19 @@
               "date": "2026-09-18",
               "sentiment": "neutral",
               "reason": "Titull faktik pa ngarkesë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "ÖFB-Gegner Kosovo erstmals mit Lustenaus Kacuri - skysportaustria.at",
+              "albanianTitle": "Kosova, kundërshtari i Austrisë, me Kacurin e Lustenaus për herë të parë",
+              "blurb": "Përfaqësuesja e Kosovës ka përfshirë lojtarin e Lustenaus, Kacuri, në listën e futbollistëve për ndeshjen kundër Austrisë.",
+              "imageUrl": null,
+              "url": "https://www.skysportaustria.at/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri/",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Titulli është i njëjtë me të mëparshmin, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -5066,9 +5264,9 @@
       "summary": {
         "index": 50,
         "positive": 6,
-        "neutral": 88,
+        "neutral": 89,
         "negative": 6,
-        "n": 34,
+        "n": 35,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -5079,7 +5277,7 @@
         {
           "name": "20 Minuten",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "L'équipe de Suisse perd encore un talent au profit du Kosovo - 20 Minuten",
@@ -5106,10 +5304,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovos Ex-Präsident Thaci wegen Kriegsverbrechen verurteilt - 20 Minuten",
+              "albanianTitle": "Ish-presidenti i Kosovës, Thaçi, dënohet për krime lufte",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është shpallur fajtor dhe është dënuar për krime të kryera gjatë luftës.",
+              "imageUrl": "https://image.20min.ch/2026/09/16/22c7c9d8-8ad6-4412-ba0e-f5840ea49a49.jpg?auto=format%2Ccompress%2Cenhance&fit=max&w=1200&h=1200&rect=0%2C162%2C5472%2C3078&s=c709278613f992862823fe50e00364b3",
+              "url": "https://www.20min.ch/story/hashim-thaci-kriegsverbrechen-kosovos-ex-praesident-zu-langer-haft-verurteilt-103634223",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm faktik për dënimin e ish-presidentit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "neutral",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-18"
         },
@@ -5766,8 +5977,8 @@
         },
         {
           "name": "bluewin.ch",
-          "sentiment": "negative",
-          "articleCount": 2,
+          "sentiment": "neutral",
+          "articleCount": 3,
           "articles": [
             {
               "title": "Tolaj lässt Kosovo und Albanien abblitzen und träumt von der Schweiz - bluewin.ch",
@@ -5794,12 +6005,49 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo : des milliers de manifestants contre la condamnation de Thaçi - bluewin.ch",
+              "albanianTitle": "Kosovë: Mijëra protestues kundër dënimit të Thaçit - bluewin.ch",
+              "blurb": "Mijëra protestues kanë dalë në rrugë për të shprehur kundërshtimin e tyre ndaj dënimit të ish-presidentit Hashim Thaçi.",
+              "imageUrl": "https://bluewin-prod-sc-images.imgix.net/2026/09/18/e8926a9c-87a5-464a-9ce2-8129f7957e54.jpg?w=1024&auto=format&s=1212cda88eab5d0f43f7178a5dd63049",
+              "url": "https://www.bluewin.ch/fr/infos/monde/kosovo-milliers-de-manifestants-contre-la-condamnation-de-tha-i-li.3605010",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i protestave",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 3,
+          "totalArticles": 4,
           "trend": "i përzier",
           "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-17"
+          "lastSeen": "2026-09-18"
+        },
+        {
+          "name": "kicker.ch",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "ÖFB-Gegner Kosovo erstmals mit Lustenaus Kacuri - kicker.ch",
+              "albanianTitle": "Kosova, kundërshtari i Austrisë, fton për herë të parë Kacurin e Lustenaus",
+              "blurb": "Futbollisti i Lustenaus, Kacuri, është ftuar për herë të parë në përfaqësuesen e Kosovës për ndeshjen ndaj Austrisë.",
+              "imageUrl": null,
+              "url": "https://www.kicker.ch/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri-1253958/artikel",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Titulli është thjesht informativ, pa fjalë ngarkuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-18"
         },
         {
           "name": "letemps.ch",
@@ -5924,10 +6172,10 @@
       ],
       "summary": {
         "index": 53,
-        "positive": 9,
-        "neutral": 89,
+        "positive": 8,
+        "neutral": 90,
         "negative": 2,
-        "n": 46,
+        "n": 49,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -6389,7 +6637,7 @@
         {
           "name": "Reformatorisch Dagblad",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Premier Albanië in Kosovo - Reformatorisch Dagblad",
@@ -6403,9 +6651,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Premier Kosovo lijkt misdaadbaas - Reformatorisch Dagblad",
+              "albanianTitle": "Kryeministri i Kosovës shihet si bos i krimit",
+              "blurb": "Kryeministri i Kosovës përballet me akuza dhe krahasime lidhur me veprimtarinë e tij në raport me krimin.",
+              "imageUrl": "https://images.rd.nl/fill/crop:761:476:sm/w:1020/plain/https%3A%2F%2Ferdee-prod-bucket-s3-001.ams3.cdn.digitaloceanspaces.com%2FPrestige_Item_1_2552474_2e9022d810.jpg",
+              "url": "https://www.rd.nl/artikel/premier-kosovo-lijkt-misdaadbaas",
+              "date": "2026-09-17",
+              "sentiment": "negative",
+              "reason": "Përdor fjalë përçmuese për kryeministrin",
+              "isQuote": false,
+              "evidence": "Premier Kosovo lijkt misdaadbaas",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-17"
@@ -6556,11 +6817,11 @@
         }
       ],
       "summary": {
-        "index": 50,
+        "index": 48,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 26,
+        "neutral": 96,
+        "negative": 4,
+        "n": 27,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
@@ -6632,7 +6893,7 @@
         {
           "name": "DHnet",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "L'ex-président du Kosovo condamné à 25 ans de prison pour crimes de guerre - DHnet",
@@ -6659,12 +6920,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo: des milliers de manifestants demandent l'annulation de la condamnation de Thaçi - DHnet",
+              "albanianTitle": "Kosova: Mijëra protestues kërkojnë anulimin e dënimit të Thaçit",
+              "blurb": "Mijëra protestues kanë kërkuar anulimin e dënimit të shqiptuar ndaj ish-presidentit të Kosovës, Hashim Thaçi.",
+              "imageUrl": "https://www.dhnet.be/resizer/v2/7VMUDRERRBCZFHIRPIT3OFNCE4.png?auth=e26ec744f03e936804ed79e7aebfa711f3f6ad9ee4d8768a59ebacc7229c4737&width=1200&height=630&quality=85&smart=true",
+              "url": "https://www.dhnet.be/dernieres-depeches/2026/09/18/kosovo-des-milliers-de-manifestants-demandent-lannulation-de-la-condamnation-de-thaci-3GKHNIBDPVE6XMZ3EDYBDC2W2Y/",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Raporton protestat pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "neutral",
           "firstSeen": "2026-09-18",
-          "lastSeen": "2026-09-16"
+          "lastSeen": "2026-09-18"
         },
         {
           "name": "De Morgen",
@@ -6890,7 +7164,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 15,
+        "n": 16,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -6901,7 +7175,7 @@
         {
           "name": "ABC",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Troy Parrott, citado con Irlanda para medirse a Kosovo, Israel y Austria - ABC",
@@ -6928,9 +7202,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Atacan en Pristina la sede de la misión civil de la UE tras las condenas de líderes de Kosovo - ABC",
+              "albanianTitle": "Sulmohet selia e misionit civil të BE-së në Prishtinë pas dënimeve të liderëve të Kosovës",
+              "blurb": "Ndërtesa e misionit civil të Bashkimit Evropian në Prishtinë është sulmuar pas dënimeve të shqiptuara ndaj liderëve të Kosovës.",
+              "imageUrl": "https://s1.abcstatics.com/abc/www/multimedia/internacional/2026/09/16/VIDEO-atacan-pristina-sede-misin.jpg",
+              "url": "https://www.abc.es/internacional/atacan-pristina-sede-mision-civil-ue-tras-20260916185459-nt.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "neutral",
           "firstSeen": "2026-08-26",
           "lastSeen": "2026-09-17"
@@ -7019,7 +7306,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 21,
+          "totalArticles": 23,
           "trend": "i përzier",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-09-17"
@@ -7075,7 +7362,7 @@
         {
           "name": "Europa Press",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "HRW ve la condena a Thaci como \"un paso importante\" para la rendición de cuentas ante víctimas en Kosovo - Europa Press",
@@ -7102,9 +7389,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Manifestantes lanzan cócteles molotov contra la sede de la misión de la UE en Kosovo tras las sentencias - Europa Press",
+              "albanianTitle": "Protestuesit hedhin koktej molotovi në drejtim të selisë së misionit të BE-së në Kosovë pas shpalljes së aktgjykimeve",
+              "blurb": "Protestuesit kanë hedhur kokteje molotov në drejtim të ndërtesës së misionit të Bashkimit Evropian pas vendimeve të gjykatës.",
+              "imageUrl": "https://img.europapress.es/fotoweb/fotonoticia_20260916163121_1200.jpg",
+              "url": "https://www.europapress.es/internacional/noticia-manifestantes-lanzan-cocteles-molotov-contra-sede-mision-ue-kosovo-sentencias-20260916163121.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 6,
+          "totalArticles": 7,
           "trend": "i përzier",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-09-17"
@@ -7112,7 +7412,7 @@
         {
           "name": "La Razón",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "El expresidente de Kosovo Hashim Thaci, condenado en La Haya a 25 años de prisión por crímenes de guerra - La Razón",
@@ -7126,9 +7426,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Atacan la sede de la Policía de la UE en Pristina tras condenas de líderes kosovares - La Razón",
+              "albanianTitle": "Sulmohet selia e Policisë së BE-së në Prishtinë pas dënimit të liderëve kosovarë - La Razón",
+              "blurb": "Objekti i Policisë së Bashkimit Evropian në Prishtinë është sulmuar pas dënimeve të shqiptuara ndaj liderëve kosovarë.",
+              "imageUrl": "https://fotografias-2.larazon.es/clipping/cmsimages02/2026/09/16/14DB7776-44A7-4EE9-A724-28D2C6D89736/98.jpg?crop=3500,1969,x0,y181&width=1900&height=1069&optimize=low&format=webply",
+              "url": "https://www.larazon.es/internacional/atacan-sede-policia-pristina-condenas-lideres-kosovares_202609166aaa9300e428ed292140e492.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raporton ngjarjen pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-18",
           "lastSeen": "2026-09-16"
@@ -7182,6 +7495,54 @@
           "lastSeen": "2026-09-17"
         },
         {
+          "name": "efe.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Atacan la sede de la misión civil de la UE en Pristina tras condenas de líderes kosovares - efe.com",
+              "albanianTitle": "Sulmohet selia e misionit civil të BE-së në Prishtinë pas dënimit të liderëve kosovarë",
+              "blurb": "Misioni civil i Bashkimit Evropian në Prishtinë është sulmuar pas shpalljes së dënimeve për liderët e akuzuar të Kosovës.",
+              "imageUrl": null,
+              "url": "https://efe.com/euro-efe/2026-09-16/ataque-sede-mision-civil-ue-eulex-condenas-lideres-kosovares/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "lavozdegalicia.es",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Condenan a 25 años al expresidente de Kosovo Thaci por torturas y asesinato - lavozdegalicia.es",
+              "albanianTitle": "Ish-presidenti i Kosovës, Thaçi, dënohet me 25 vjet burgim për tortura dhe vrasje",
+              "blurb": "Gjykata në Hagë e ka dënuar ish-presidentin e Kosovës, Hashim Thaçi, me 25 vjet burgim për krime lufte.",
+              "imageUrl": null,
+              "url": "https://www.lavozdegalicia.es/amp/noticia/internacional/2026/09/17/condenan-25-anos-expresidente-kosovo-thaci-torturas-asesinato/0003_202609G17P20993.htm?utm_campaign=amp",
+              "date": "2026-09-17",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-17"
+        },
+        {
           "name": "rtve.es",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -7207,11 +7568,11 @@
         }
       ],
       "summary": {
-        "index": 53,
-        "positive": 6,
-        "neutral": 94,
+        "index": 52,
+        "positive": 4,
+        "neutral": 96,
         "negative": 0,
-        "n": 18,
+        "n": 25,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7219,6 +7580,54 @@
     },
     "Greqi": {
       "outlets": [
+        {
+          "name": "Euro2day",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Επεισόδια στην Πρίστινα για την καταδίκη των πρώην διοικητών του UCK - Euro2day",
+              "albanianTitle": "Kosovë: Incidentet në Prishtinë pas dënimit të ish-komandantëve të UÇK-së - Euro2day",
+              "blurb": "Incidentet janë regjistruar në Prishtinë si pasojë e dënimit të ish-komandantëve të UÇK-së nga gjykata në Hagë.",
+              "imageUrl": null,
+              "url": "https://www.euro2day.gr/amp/news/world/article/2369298/kosovo-epeisodia-sthn-pristina-gia-thn-katadikh-to.html",
+              "date": "2026-09-16",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "Kathimerini",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Ο Θάτσι αντιμέτωπος με την ετυμηγορία για εγκλήματα πολέμου στη Χάγη - Kathimerini",
+              "albanianTitle": "Kosovë: Thaçi përballet me vendimin për krime lufte në Hagë - Kathimerini",
+              "blurb": "Ish-presidenti Hashim Thaçi ka dalë para gjykatës në Hagë për të dëgjuar vendimin lidhur me akuzat për krime.",
+              "imageUrl": "https://www.kathimerini.gr/wp-content/uploads/2026/09/swm-2026-09-16T074714Z_440464845_RC27KNABSEB2_RTRMADP_3_WARCRIMES-KOSOVO-THACI-scaled-1-1200x630.jpg",
+              "url": "https://www.kathimerini.gr/world/564461203/kosovo-o-thatsi-antimetopos-me-tin-etymigoria-gia-egklimata-polemoy-sti-chagi/",
+              "date": "2026-09-16",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-16"
+        },
         {
           "name": "NeaKriti",
           "sentiment": "neutral",
@@ -7244,6 +7653,80 @@
           "lastSeen": "2026-09-15"
         },
         {
+          "name": "Skai.gr",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "Κόσοβο: Διαδήλωση βετεράνων του UCK σε ένδειξη διαμαρτυρίας για την καταδίκη του Χάσιμ Θάτσι - Skai.gr",
+              "albanianTitle": "Kosova: Veteranët e UÇK-së protestojnë kundër dënimit të Hashim Thaçit - Skai.gr",
+              "blurb": "Veteranët e UÇK-së kanë organizuar një protestë në Kosovë për të kundërshtuar dënimin e ish-presidentit Hashim Thaçi.",
+              "imageUrl": "https://cdn.skai.gr/sites/default/files/styles/article_16_9/public/2026-09/kosovo_ap.jpg?itok=ewc9WN22",
+              "url": "https://www.skai.gr/news/world/kosovo-diadilosi-veteranon-tou-uck-gia-tin-katadiki-tou-thatsi",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht informon për protestë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Θάτσι: 25 χρόνια φυλακή για εγκλήματα πολέμου – Η απόφαση της Χάγης που επαναφέρει τις πιο σκοτεινές σελίδες του πολέμου στο Κόσοβο - Skai.gr",
+              "albanianTitle": "Thaçi: 25 vjet burg për krime lufte – Vendimi i Hagës që rikujton faqet më të errëta të luftës në Kosovë - Skai.gr",
+              "blurb": "Gjykata në Hagë ka dënuar Hashim Thaçin me 25 vjet burgim për krime të kryera gjatë luftës në.",
+              "imageUrl": "https://cdn.skai.gr/sites/default/files/styles/article_16_9/public/2026-09/hashim_thaci.jpg?itok=W0LeIXQ4",
+              "url": "https://www.skai.gr/news/world/xasim-thatsi-katadiki-se-25-xronia-fylakisis-gia-egklimata-polemou",
+              "date": "2026-09-16",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Βόρεια Μακεδονία: Αντιδράσεις από αλβανικά κόμματα για απόφαση Χάγης για πρώην ηγέτες του UCK - Skai.gr",
+              "albanianTitle": "Maqedonia e Veriut: Partitë shqiptare reagojnë ndaj vendimit të Hagës për ish-udhëheqësit e UÇK-së",
+              "blurb": "Partitë politike shqiptare në Maqedoninë e Veriut kanë reaguar ndaj vendimit të Gjykatës së Hagës për ish-udhëheqësit e UÇK-së.",
+              "imageUrl": "https://cdn.skai.gr/sites/default/files/styles/article_16_9/public/2026-09/uck-ap.jpg?itok=eo56mDKN",
+              "url": "https://www.skai.gr/news/world/voreia-makedonia-antidraseis-gia-apofasi-xagis-gia-proin-igetes-tou-uck-sto-kosovo",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Αναφορά αντιδράσεων χωρίς δική του αξιολόγηση",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-08-21",
+          "lastSeen": "2026-09-18"
+        },
+        {
+          "name": "amarysia.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Νέος γύρος έντασης - amarysia.gr",
+              "albanianTitle": "Kosovë: Raund i ri tensionesh - amarysia.gr",
+              "blurb": "Situata në Kosovë është tensionuar sërish pas zhvillimeve të fundit politike dhe gjyqësore në vend dhe rajon.",
+              "imageUrl": "https://amarysia.gr/wp-content/uploads/2026/09/thatsi-kosovo-e1789720119741.jpg",
+              "url": "https://amarysia.gr/kosmos-news/%CE%BA%CF%8C%CF%83%CE%BF%CE%B2%CE%BF-%CE%BD%CE%AD%CE%BF%CF%82-%CE%B3%CF%8D%CF%81%CE%BF%CF%82-%CE%AD%CE%BD%CF%84%CE%B1%CF%83%CE%B7%CF%82-2",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht informon për rritjen e tensioneve",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-18"
+        },
+        {
           "name": "eKathimerini.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -7266,6 +7749,139 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-16",
           "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "ertnews.gr",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Οργή στο Κόσοβο για την καταδίκη Χάσιμ Θάτσι και τριών διοικητών του UCΚ για εγκλήματα πολέμου - ertnews.gr",
+              "albanianTitle": "Revoltë në Kosovë pas dënimit të Hashim Thaçit dhe tre komandantëve të UÇK-së për krime lufte - ertnews.gr",
+              "blurb": "Qytetarët në Kosovë kanë shprehur pakënaqësi pas dënimit të Hashim Thaçit dhe tre komandantëve të UÇK-së për krime.",
+              "imageUrl": "https://www.ertnews.gr/wp-content/uploads/2026/09/000-c8fq7rt-scaled.jpg",
+              "url": "https://www.ertnews.gr/eidiseis/diethni/orgi-sto-kosovo-gia-tin-katadiki-xasim-thatsi-kai-trion-dioikiton-tou-uck-gia-egklimata-polemou/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht informon për zemërimin në Kosovë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Κόσοβο: Αντίστροφη μέτρηση για την ετυμηγορία στη δίκη του Χασίμ Θάτσι – Κατηγορείται για εγκλήματα πολέμου - ertnews.gr",
+              "albanianTitle": "Kosova: Numërimi mbrapsht për vendimin ndaj Hashim Thaçit, i akuzuar për krime lufte",
+              "blurb": "Gjykata po përgatitet për shpalljen e vendimit në procesin gjyqësor ndaj Hashim Thaçit, i akuzuar për krime lufte.",
+              "imageUrl": "https://www.ertnews.gr/wp-content/uploads/2026/09/ap26040375340471-scaled.jpg",
+              "url": "https://www.ertnews.gr/eidiseis/kosovo-antistrofi-metrisi-gia-tin-etymigoria-sti-diki-tou-xasim-thatsi-katigoreitai-gia-egklimata-polemou/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Αναφορά διαδικασίας δικαστηρίου χωρίς φορτισμένη γλώσσα",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-08-21",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "iEidiseis",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Καταδίκη Χασίμ Θάτσι στη Χάγη: 25 χρόνια φυλάκιση για εγκλήματα πολέμου στο Κόσοβο - iEidiseis",
+              "albanianTitle": "Dënimi i Hashim Thaçit në Hagë: 25 vjet burgim për krime lufte në Kosovë - iEidiseis",
+              "blurb": "Gjykata në Hagë ka dënuar ish-presidentin Hashim Thaçi me 25 vjet burgim për krime lufte në Kosovë.",
+              "imageUrl": "https://www.ieidiseis.gr/wp-content/uploads/2026/09/Hashim_Thaci-1200x630.jpg",
+              "url": "https://www.ieidiseis.gr/kosmos/867867/katadiki-chasim-thatsi-sti-chagi-25-chronia-fylakisi-gia-egklimata-polemoy-sto-kosovo/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht informon për dënimin",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "lawnet.gr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Κάθειρξη 25 ετών στον πρώην πρόεδρο Χασίμ Θάτσι για εγκλήματα πολέμου - lawnet.gr",
+              "albanianTitle": "Kosovë: 25 vjet burgim për ish-presidentin Hashim Thaçi për krime lufte - lawnet.gr",
+              "blurb": "Gjykata në Hagë ka shqiptuar dënimin me 25 vjet burgim për ish-presidentin e Kosovës, Hashim Thaçi, për krime.",
+              "imageUrl": "https://lawnet.gr/wp-content/uploads/2026/09/76543εδψωφγηυ.jpg",
+              "url": "https://lawnet.gr/law-news/diethni/kosovo-katheirxi-25-eton-ston-proin-proedro-chasim-thatsi-gia-egklimata-polemou/",
+              "date": "2026-09-17",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-17"
+        },
+        {
+          "name": "newsit.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Καταδικάστηκε ο Χασίμ Θάτσι σε κάθειρξη 25 ετών για εγκλήματα πολέμου - newsit.gr",
+              "albanianTitle": "Kosova: Hashim Thaçi dënohet me 25 vjet burgim për krime lufte",
+              "blurb": "Hashim Thaçi është dënuar me 25 vjet burgim nga Gjykata e Hagës për shkak të akuzave për krime lufte.",
+              "imageUrl": "https://www.newsit.gr/wp-content/uploads/2026/09/hashim-apempe-1200x630.jpg",
+              "url": "https://www.newsit.gr/kosmos/kosovo-katadikastike-o-xasim-thatsi-se-katheirksi-25-eton-gia-egklimata-polemou/4775781/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Αναφορά ποινής χωρίς δική του αξιολόγηση",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "ΤΑ ΝΕΑ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ένταση στο Κόσοβο: Ξεσηκωμός των Αλβανών μετά την καταδίκη πρώην διοικητών του UCK – Σοβαρά επεισόδια - ΤΑ ΝΕΑ",
+              "albanianTitle": "Tensione në Kosovë: Protesta të shqiptarëve pas dënimit të ish-komandantëve të UÇK-së – Incidentet e rënda - TA ΝΕΑ",
+              "blurb": "Protesta dhe incidente të rënda kanë ndodhur në Kosovë pas dënimit të ish-komandantëve të Ushtrisë Çlirimtare të Kosovës.",
+              "imageUrl": "https://www.tanea.gr/wp-content/uploads/2026/09/2026-09-16T104532Z_1712935140_RC2AKNAAP0S9_RTRMADP_5_WARCRIMES-KOSOVO-THACI-REACTIONS-ogimage.jpg",
+              "url": "https://www.tanea.gr/2026/09/16/world/servia-kosovo-2-antidraseis-kai-epeisodia-stin-pristina-gia-tin-katadiki-ton-proin-dioikit/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht informon për tensionet dhe protestat",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "i përzier",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-16"
         }
       ],
       "summary": {
@@ -7273,9 +7889,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
-        "excluded": 0,
-        "confident": false,
+        "n": 10,
+        "excluded": 4,
+        "confident": true,
         "stanceVersion": 3
       }
     },
