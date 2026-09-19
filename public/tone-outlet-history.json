@@ -610,9 +610,9 @@
     },
     "Demócrata": {
       "country": "Spanjë",
-      "total": 23,
+      "total": 24,
       "positive": 1,
-      "neutral": 20,
+      "neutral": 21,
       "negative": 2,
       "unknown": 0,
       "firstSeen": "2026-08-22",
@@ -640,7 +640,8 @@
         "https://www.democrata.es/internacional/lanzan-cocteles-molotov-contra-la-mision-civil-de-la-ue-en-kosovo-tras-las-condenas-del-tribunal-especial/",
         "https://www.democrata.es/internacional/bruselas-respalda-al-tribunal-especial-para-kosovo-tras-los-25-anos-de-prision-impuestos-a-hashim-thaci/",
         "https://www.democrata.es/fr/culture/dua-lipa-et-rita-ora-revendiquent-l-armee-de-liberation-du-kosovo/",
-        "https://www.democrata.es/internacional/ampliacion-el-tribunal-especial-para-kosovo-impone-25-anos-de-prision-al-expresidente-hashim-thaci-por-crimenes-de-guerra/"
+        "https://www.democrata.es/internacional/ampliacion-el-tribunal-especial-para-kosovo-impone-25-anos-de-prision-al-expresidente-hashim-thaci-por-crimenes-de-guerra/",
+        "https://news.google.com/rss/articles/CBMi8wFBVV95cUxQYTNzTmxvSlZxUU9aNFlZeTdQM1ZLcjlfOTl6LW41R2RjTmNqYllvd2JEMFhNTDJEZzBHVUI4b0UybEZMLThWYjh3Um9ScV9JOHg5NXZkM05MN1VDQnpxUGV2SEhMWFV1Ukw4UHhVMko3WWFtX1Y0ZUIwekZSRkZ2TEJhdk16LU5MYTliSG1hV041dVo0ckZFRGJTNFJLMjRqZlpCVXBiNlhJWlJmWjJKa0VHS01mNTdpbjVPcENpTGFLQ21yUjdaRzEyMi1jTTQ3NDZMejNNM215UWYyeG1hN1ctSFU4S1dsNkVmR09IRjdhX2_SAfgBQVVfeXFMTWRZcTFqdWZkRWFrUkc3VGZrakRBLWZsUktxQUI5NndQUy1UYnFrUnlqV0FJYVJ4eDc1dTFha0xuSUhZeHFadW5yNkFaR1E4YWFJLVdKd2VsNVVCdnlHY3pCYmlocFppTTRuWVRpMWROcXZ6cHZ5bDk5ZmZzSHhwUTdoajZILWU5ZThmUHBaOGt4YzYzbEoweGlETzVPTnhiUk8zRjBHUkZ1WUY3MkswQmlCd0NfYktvVDhhYzZfSGJ0VndheC1qYjJRRE81VWtxY0VUbmw3RzF1aXR5WUhCZ293VXhmU3ZCZFRjalVNRDF2VHhCUDBmdDU?oc=5"
       ]
     },
     "Europa Press": {
@@ -970,16 +971,17 @@
     },
     "Cumhuriyet": {
       "country": "Turqi",
-      "total": 2,
+      "total": 3,
       "positive": 1,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-21",
+      "lastSeen": "2026-09-17",
       "urls": [
         "https://www.cumhuriyet.com.tr/dunya/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-kemik-kalintilari-bulundu-2530603",
-        "https://www.cumhuriyet.com.tr/cumhuriyet-in-egesi/izmir-ile-kosova-arasinda-cok-yonlu-is-birligi-donemi-2530991"
+        "https://www.cumhuriyet.com.tr/cumhuriyet-in-egesi/izmir-ile-kosova-arasinda-cok-yonlu-is-birligi-donemi-2530991",
+        "https://news.google.com/rss/articles/CBMikAFBVV95cUxQYi1QNmI2NEstaVFPaUZkTW1zMHp4cHlPcVk2UEJNYW94V0swM2duTWJuVTJrOFBwcjRlUXhwVEVmY2hiMWVSUUVYOGJ6RDl3eUptY2d2ZGZvYlBBYmFJZjZWRW5CeGE1WTZZaVFkUWJlRHFIRHdxVXNvSjQ2ZnBnS3RZZ1gzWk9NNXJkamkyR1U?oc=5"
       ]
     },
     "Aksiyon.com.TR": {
@@ -1080,18 +1082,19 @@
     },
     "Hürriyet": {
       "country": "Turqi",
-      "total": 4,
+      "total": 5,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-07",
+      "lastSeen": "2026-09-19",
       "urls": [
         "https://www.hurriyet.com.tr/avrupa/24-uluslararasi-sanatla-uyanmak-festivali-prizrende-basladi-43279597",
         "https://www.hurriyet.com.tr/avrupa/zafer-algoze-kosovada-yilin-sanatcisi-odulu-43282311",
         "https://www.hurriyet.com.tr/yerel-haberler/edirne/trakya-universitesi-heyeti-kosovadaki-sanat-fe-43288748",
-        "https://www.hurriyet.com.tr/avrupa/prizrende-ilkokul-ogrencilerine-egitim-setleri-dagitildi-43298523"
+        "https://www.hurriyet.com.tr/avrupa/prizrende-ilkokul-ogrencilerine-egitim-setleri-dagitildi-43298523",
+        "https://news.google.com/rss/articles/CBMiggFBVV95cUxPTkdvNXZsUkFRR2NraHktUXNxNlNQeTNoUWVEV09YMU05NVBkSV9HdVN6RkdWUnhuYWVWUnhreUpLUGlSc0YtcHRNXzBzclBUSVVYWHN6b1lPdHE2QndDcWVJWFNGNVFlb01EbndjUHo5cWJzaU9wT0luX0w0MlFzR2lB?oc=5"
       ]
     },
     "anayasa.gov.tr": {
@@ -2220,9 +2223,9 @@
     },
     "Bloomberg": {
       "country": "SHBA",
-      "total": 5,
+      "total": 6,
       "positive": 1,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-28",
@@ -2232,7 +2235,8 @@
         "https://www.bloomberg.com/news/newsletters/2026-08-28/dua-lipa-wants-the-world-to-come-to-kosovo",
         "https://www.bloomberg.com/news/articles/2026-08-31/kosovo-leaders-agree-on-president-pick-after-months-of-deadlock",
         "https://www.bloomberg.com/news/articles/2026-09-12/kosovo-counts-down-to-war-crimes-trial-of-former-president-seen-as-hero",
-        "https://www.bloomberg.com/news/articles/2026-09-16/kosovo-ex-president-thaci-sentenced-to-25-years-on-war-crimes"
+        "https://www.bloomberg.com/news/articles/2026-09-16/kosovo-ex-president-thaci-sentenced-to-25-years-on-war-crimes",
+        "https://news.google.com/rss/articles/CBMisgFBVV95cUxNYm5rZTUyRHZaRDJwRW5wN0YzSHp0QVhlNmhEVWxSeUZIaExhdDYyaXlYZERoTS01NWUtUWlOdkpzMjBrcTh3MXhIb3JOd2RUYzIwSVVrYWhpY3lkcTZtVEs4Q25oZG1CSUo4ZW9WYVZQdlgyOFVrdjZLNnFtSE5rRUhubTd4cDFrc3owSW9hajl2RDF4amQ4UDNCZWc0TXVLeEpRS0VCb0QzRUVhb21FMnNR?oc=5"
       ]
     },
     "rferl.org": {
@@ -3146,9 +3150,9 @@
     },
     "RFI": {
       "country": "Francë",
-      "total": 5,
+      "total": 7,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 6,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-07",
@@ -3158,7 +3162,9 @@
         "https://www.rfi.fr/fr/podcasts/reportage-international/20260914-proc%C3%A8s-de-l-ancien-pr%C3%A9sident-hashim-tha%C3%A7i-et-de-trois-ex-chefs-de-l-uck-un-verdict-tr%C3%A8s-attendu-au-kosovo",
         "https://www.rfi.fr/fr/podcasts/grand-reportage/20260914-h%C3%A9ros-ou-criminels-les-leaders-de-l-uck-face-aux-juges",
         "https://www.rfi.fr/es/europa/20260916-kosovo-el-expresidente-hashim-tha%C3%A7i-fue-condenado-a-25-a%C3%B1os-de-prisi%C3%B3n",
-        "https://www.rfi.fr/fr/europe/20260918-%C3%A0-la-une-l-ex-pr%C3%A9sident-du-kosovo-hashim-tha%C3%A7i-condamn%C3%A9-%C3%A0-25-ans-de-prison"
+        "https://www.rfi.fr/fr/europe/20260918-%C3%A0-la-une-l-ex-pr%C3%A9sident-du-kosovo-hashim-tha%C3%A7i-condamn%C3%A9-%C3%A0-25-ans-de-prison",
+        "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQa0xlX3pTU2VQVmdKR1FhQjhYNERwUlBOZUNjT1ZkLW5aNGJsaG9SOVJGT2JPdGc2Zk9oWURvZ0l5ZTI4OXB0TzF3UW42dWVHWVJfbkh1cVFuRC0yQno0ZmNVYnlLc3UyNHpPNkFpOXF2M20xdENkeU5jX0t4MXNadmU5ZC1taGFVY3dmc0tfZGpoeHBoZUlDTmtMUlF5dUM2LW5WLWYzVTh1WGpJSFRzcWlsRVNTSU9MRXpsV2ZSMXU?oc=5",
+        "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQYWlaS01CTF9UYVRFcTBVZUtFZWhZdlJ1elB6amF6TzlFOXBGdWhZSWtqalhHWExyMWo3Uzl3Q3ZIUS1YZ01XaDRZVTFHejMwcFNmbWRDRDJNTW1zZHk3TnlxdHQ0eU5rUHA2SHNVdVZtQnoyQkNxaXBBYVVUQUNKaEZUZEN0dXlDV3NaYk9HTi1Ld1Mydi02cnhQVmo3MTkzRERRT2xPTkNFYWg2ZFo3UFdfaGFkeU1rVFFvSzJvU21GX0s3d280TUFDaktublpGQjdN?oc=5"
       ]
     },
     "Gazzetta di Parma": {
@@ -5246,9 +5252,9 @@
     },
     "Le Monde": {
       "country": "Francë",
-      "total": 4,
+      "total": 5,
       "positive": 1,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-16",
@@ -5257,7 +5263,8 @@
         "https://www.lemonde.fr/en/international/article/2026/09/16/kosovo-former-president-thaci-given-25-year-sentence-for-war-crimes_6757586_4.html",
         "https://www.lemonde.fr/international/article/2026/09/16/l-ancien-president-du-kosovo-condamne-a-vingt-cinq-ans-de-prison-pour-crimes-de-guerre_6775199_3210.html",
         "https://www.lemonde.fr/en/international/article/2026/09/17/former-president-of-kosovo-hashim-thaci-sentenced-to-25-years-in-prison-for-war-crimes_6757610_4.html",
-        "https://www.lemonde.fr/international/article/2026/09/16/hashim-thaci-l-ex-president-du-kosovo-heros-de-l-independance-chez-beaucoup-dans-son-pays-condamne-a-vingt-cinq-ans-de-prison-par-un-tribunal-international_6775466_3210.html"
+        "https://www.lemonde.fr/international/article/2026/09/16/hashim-thaci-l-ex-president-du-kosovo-heros-de-l-independance-chez-beaucoup-dans-son-pays-condamne-a-vingt-cinq-ans-de-prison-par-un-tribunal-international_6775466_3210.html",
+        "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPbVNDV21UT2d5MHZvZVJjNjc2VVhMWHhrMEN6bDQzdHFORnlFbmgtT2NrSlROQVI2Z3NDWGYzeDVxdnB1ZWRiZU4tcGQ2QXk0aEdUbVlCZjM1U045Sy1HYlcxN1pfTE1VYnA4Q3Y3cllER0dDRE1CdHVaMXNsUmVlVkZTX0RIZkVVbi1qanViUVdxbk9rY05kUUp2a2VIcGNxWWVZZ3hDUEV6cTV2UnhoSDk0cnNpTkcyNU8xcl8tSEUyNDU5WGk0Q3JMeks1c0R4WEJmU2pwc2M?oc=5"
       ]
     },
     "stol.it": {
@@ -7203,6 +7210,32 @@
       "lastSeen": "2026-09-16",
       "urls": [
         "https://www.mixanitouxronou.gr/25-chronia-katheirxi-ston-chasim-thatsi-gia-egklimata-polemoy-sto-kosovo/amp/"
+      ]
+    },
+    "TVN24": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://news.google.com/rss/articles/CBMisgFBVV95cUxQSkliV2VlWnJLWU1zV1R4cmpaUEtSMzNGeTdfdVJlakJHZ2Nmd1ctWk80RHh3VXpFbE9zUm81RWxWTDNqbjFPSy1PaWU3RWNSekYzNDJaN2RNVk80STg0bU5SU0xoSUJVS0pRdlJ3cFBYbS1aaXJCNDZuYlBYVWhRYm00dFZhaXFnSlhxTHpVRjBOemJVazhXMmNGcGwySTBBS0NmSDVoYndLYlNXVGF1Y3pB?oc=5"
+      ]
+    },
+    "Rzeczpospolita": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://news.google.com/rss/articles/CBMirAFBVV95cUxNdFBlOXd5Yk8tVHBxamhwcDVBclI1Q1NuVjUxWHBsblZkczRtQnNvVDNiSkt5QWhIVEZDZnFNMEJRRFRoR05VU3l2eGFyX2JISm56NzJraEN3YXQtNWVFZFVYWE84SjZ1bFR0TTFlLUtoOUg0Zm0wQ3BMR1ByRGxYUUt6Z08tVjl4a2Q2cjJfYXl2dWJuWUp6MTV6S3UtaklwUkpwYjJrRWVEbElK?oc=5"
       ]
     }
   }

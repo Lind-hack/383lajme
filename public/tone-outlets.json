@@ -1,11 +1,11 @@
 {
-  "lastUpdated": "2026-09-18",
+  "lastUpdated": "2026-09-19",
   "overallIndex": 50,
-  "totalArticles": 459,
-  "sourceCount": 264,
+  "totalArticles": 408,
+  "sourceCount": 246,
   "stanceVersion": 3,
-  "unattributed": 369,
-  "nonEditorial": 13,
+  "unattributed": 360,
+  "nonEditorial": 11,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -286,7 +286,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 2,
+          "totalArticles": 3,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-18"
@@ -355,21 +355,8 @@
         {
           "name": "Die Zeit",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Reisen: Weitere Airline fliegt von Hamburg in Hauptstadt Kosovos - DIE ZEIT",
-              "albanianTitle": "Udhëtimet: Një tjetër kompani ajrore nis fluturimet nga Hamburgu për në kryeqytetin e Kosovës",
-              "blurb": "Një kompani ajrore ka shtuar linjën e re që lidh qytetin e Hamburgut me kryeqytetin e Kosovës, Prishtinën.",
-              "imageUrl": null,
-              "url": "https://www.zeit.de/news/2026-09/15/weitere-airline-fliegt-von-hamburg-in-hauptstadt-kosovos",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Lajm udhëtimi i thjeshtë, pa gjuhë pozitive apo negative",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Sondertribunal in Den Haag: Kosovos Ex-Präsident Hashim Thaçi zu 25 Jahren Haft verurteilt - DIE ZEIT",
               "albanianTitle": "Gjykata Speciale në Hagë: Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burg",
@@ -407,19 +394,6 @@
           "sentiment": "neutral",
           "articleCount": 6,
           "articles": [
-            {
-              "title": "Prozess gegen Hashim Thaçi: Hat die NATO im Kosovo-Krieg mit einem Kriegsverbrecher kooperiert? - FAZ",
-              "albanianTitle": "Gjykimi ndaj Hashim Thaçit: A bashkëpunoi NATO-ja me një kriminel lufte gjatë luftës në Kosovë?",
-              "blurb": "Gjykimi ndaj Hashim Thaçit në Hagë po shqyrton bashkëpunimin e mundshëm të NATO-s me të gjatë luftës në Kosovë.",
-              "imageUrl": "https://media0.faz.net/image/w1200h627/36fbfbdf55b2/w6356h3321x318y670o/202609/43601.0.2544104251/tausende-demonstranten.webp",
-              "url": "https://www.faz.net/aktuell/politik/ausland/prozess-gegen-hashim-thaci-hat-die-nato-im-kosovo-krieg-mit-einem-kriegsverbrecher-kooperiert-accg-201222004.html",
-              "date": "2026-09-15",
-              "sentiment": "negative",
-              "reason": "Outlet uses loaded term Kriegsverbrecher in headline, implying hostility toward Kosovo leadership",
-              "isQuote": false,
-              "evidence": "Kriegsverbrecher",
-              "speaker": ""
-            },
             {
               "title": "Urteil in Den Haag: War Hashim Thaçi ein Kriegsverbrecher? - FAZ",
               "albanianTitle": "Vendimi në Hagë: A ishte Hashim Thaçi kriminel lufte? - FAZ",
@@ -481,6 +455,19 @@
               "date": "2026-09-16",
               "sentiment": "neutral",
               "reason": "Editorial comment on the verdict, not hostile to Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo-Tribunal verurteilt Hashim Thaçi zu 25 Jahren Haft - FAZ",
+              "albanianTitle": "Gjykata Speciale dënon Hashim Thaçin me 25 vjet burgim",
+              "blurb": "Gjykata Speciale në Hagë ka dënuar ish-presidentin e Kosovës, Hashim Thaçi, me 25 vjet burgim për krime lufte.",
+              "imageUrl": "https://media0.faz.net/image/w1200h627/ed7e127a4cd8/w3756h1962x51y154o/202609/43601.0.2555869447/tha-i-vor-gericht-der-fruehere.webp",
+              "url": "https://www.faz.net/aktuell/politik/ausland/kosovo-tribunal-verurteilt-hashim-thaci-zu-25-jahren-haft-accg-201229090.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Fact-based reporting",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -599,30 +586,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-24",
           "lastSeen": "2026-09-16"
-        },
-        {
-          "name": "Kicker",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "ÖFB-Gegner Kosovo erstmals mit Lustenaus Kacuri - Kicker",
-              "albanianTitle": "Kacuri i Lustenaus ftohet për herë të parë në Kosovë për ndeshjen kundër Austrisë",
-              "blurb": "Futbollisti i Lustenaus, Kacuri, është ftuar për herë të parë në përfaqësuesen e Kosovës për ndeshjet e radhës.",
-              "imageUrl": null,
-              "url": "https://www.kicker.de/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri-1253958/artikel",
-              "date": "2026-09-18",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raportim i thjeshtë, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-08-25",
-          "lastSeen": "2026-09-18"
         },
         {
           "name": "LTO.de",
@@ -747,21 +710,8 @@
         {
           "name": "STERN.de",
           "sentiment": "neutral",
-          "articleCount": 6,
+          "articleCount": 4,
           "articles": [
-            {
-              "title": "Reisen: Weitere Airline fliegt von Hamburg in Hauptstadt Kosovos - STERN.de",
-              "albanianTitle": null,
-              "blurb": "Një kompani e re ajrore ka nisur operimet në linjën direkte që lidh Hamburgun me kryeqytetin e Kosovës.",
-              "imageUrl": null,
-              "url": "https://www.stern.de/gesellschaft/regional/hamburg-schleswig-holstein/reisen--weitere-airline-fliegt-von-hamburg-in-hauptstadt-kosovos-38257618.html",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë të raportuara pa gjuhë ngacmuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Kosovo-Sondertribunal verkündet Urteil im Fall von Ex-Präsident Thaci - STERN.de",
               "albanianTitle": "Gjykata Speciale shpall aktgjykimin për ish-presidentin Thaçi - STERN.de",
@@ -813,19 +763,6 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
-            {
-              "title": "Neue Proteste im Kosovo nach Kriegsverbrecher-Urteil gegen Ex-Präsident Thaci - STERN.de",
-              "albanianTitle": "Protesta të reja në Kosovë pas dënimit të ish-presidentit Thaçi për krime lufte",
-              "blurb": "Protesta të reja janë organizuar në Kosovë pas vendimit për dënimin e ish-presidentit Hashim Thaçi për krime lufte.",
-              "imageUrl": null,
-              "url": "https://www.stern.de/news/neue-proteste-im-kosovo-nach-kriegsverbrecher-urteil-gegen-ex-praesident-thaci-38274482.html",
-              "date": "2026-09-18",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raporton protestat pas vendimit për krime lufte",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ],
           "totalArticles": 6,
@@ -836,21 +773,8 @@
         {
           "name": "SZ.de",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 4,
           "articles": [
-            {
-              "title": "Reisen - Weitere Airline fliegt von Hamburg in Hauptstadt Kosovos - Wirtschaft - SZ.de - SZ.de",
-              "albanianTitle": null,
-              "blurb": "Një kompani ajrore ka shtuar linjën e re të fluturimit që lidh qytetin e Hamburgut me kryeqytetin e Kosovës.",
-              "imageUrl": "https://www.sueddeutsche.de/2026/09/15/27f16694-d239-407a-b8c6-3b42a992c8c1.jpg?q=60&fm=webp&width=1200&rect=undefined%2Cundefined%2Cundefined%2Cundefined",
-              "url": "https://www.sueddeutsche.de/wirtschaft/reisen-weitere-airline-fliegt-von-hamburg-in-hauptstadt-kosovos-dpa.urn-newsml-dpa-com-20090101-260915-930-689861",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Straightforward news item, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Regisseur Visar Morina stellt seinen Film „Von Scham und Geld“ in München vor - SZ.de",
               "albanianTitle": "Regjisori Visar Morina prezanton filmin e tij „Von Scham und Geld“ në Mynih",
@@ -932,30 +856,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-16",
           "lastSeen": "2026-09-16"
-        },
-        {
-          "name": "Sport Bild",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Boykott-Gerüchte um Nationalspieler des Kosovo! - Sport Bild",
-              "albanianTitle": "Thashetheme për bojkot nga lojtarët e kombëtares së Kosovës!",
-              "blurb": "Qarkullojnë thashetheme për bojkotim të mundshëm nga ana e futbollistëve të kombëtares së Kosovës në ndeshjet e ardhshme.",
-              "imageUrl": "https://images.bild.de/6aa934738191ba86095120cc/fa593ba4eda13294e72892c137ca211b,4b431205?w=1280",
-              "url": "https://sportbild.bild.de/fussball/internationaler-fussball/boykott-geruechte-um-nationalspieler-des-kosovo-6aa934738191ba86095120cc",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Headline reports boycott rumors without evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-15"
         },
         {
           "name": "T-Online",
@@ -1459,30 +1359,6 @@
           "lastSeen": "2026-09-16"
         },
         {
-          "name": "sportbild.bild.de",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Boykott-Gerüchte um Nationalspieler des Kosovo! - sportbild.bild.de",
-              "albanianTitle": "Thashetheme për bojkot nga lojtarët e kombëtares së Kosovës",
-              "blurb": "Qarkullojnë raportime për një bojkot të mundshëm nga ana e disa lojtarëve të përfaqësueses së futbollit të Kosovës.",
-              "imageUrl": "https://images.bild.de/6aa934738191ba86095120cc/fa593ba4eda13294e72892c137ca211b,4b431205?w=1280",
-              "url": "https://sportbild.bild.de/fussball/internationaler-fussball/boykott-geruechte-um-nationalspieler-des-kosovo-6aa934738191ba86095120cc",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Raportim i thjeshtë i një çështjeje, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-15"
-        },
-        {
           "name": "sportschau.de",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1580,11 +1456,11 @@
         }
       ],
       "summary": {
-        "index": 49,
+        "index": 50,
         "positive": 0,
-        "neutral": 99,
-        "negative": 1,
-        "n": 93,
+        "neutral": 100,
+        "negative": 0,
+        "n": 85,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -1632,7 +1508,7 @@
         {
           "name": "Bloomberg",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosovo Ex-President Thaci Sentenced to 25 Years on War Crimes - Bloomberg.com",
@@ -1659,9 +1535,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo Ex-President Thaci Gets 25 Years for War Crimes - Bloomberg",
+              "albanianTitle": "Ish-presidenti i Kosovës, Thaçi, dënohet me 25 vjet burgim për krime lufte",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim për krime lufte nga gjykata përkatëse.",
+              "imageUrl": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300",
+              "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNYm5rZTUyRHZaRDJwRW5wN0YzSHp0QVhlNmhEVWxSeUZIaExhdDYyaXlYZERoTS01NWUtUWlOdkpzMjBrcTh3MXhIb3JOd2RUYzIwSVVrYWhpY3lkcTZtVEs4Q25oZG1CSUo4ZW9WYVZQdlgyOFVrdjZLNnFtSE5rRUhubTd4cDFrc3owSW9hajl2RDF4amQ4UDNCZWc0TXVLeEpRS0VCb0QzRUVhb21FMnNR?oc=5",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Fact‑based headline about a court sentence",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "i përzier",
           "firstSeen": "2026-08-28",
           "lastSeen": "2026-09-16"
@@ -1693,21 +1582,8 @@
         {
           "name": "Radio Free Europe/Radio Liberty",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 4,
           "articles": [
-            {
-              "title": "Kosovo Braces For War Crimes Verdict For Former President Thaci - Radio Free Europe/Radio Liberty",
-              "albanianTitle": "Kosova në pritje të vendimit për krime lufte ndaj ish-presidentit Thaçi - Radio Evropa e Lirë",
-              "blurb": "Gjykata Speciale pritet të shpallë vendimin për ish-presidentin e Kosovës, Hashim Thaçi, lidhur me akuzat për krime lufte.",
-              "imageUrl": "https://gdb.rferl.org/EB37D85D-1C57-4A31-BB14-06405006F98F.jpg",
-              "url": "https://www.rferl.org/a/kosovo-war-crimes-verdict-president-thaci/33853881.html",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë, pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Hague Court Finds Former Kosovo President Thaci Criminially Responsible For War Crimes - Radio Free Europe/Radio Liberty",
               "albanianTitle": "Gjykata e Hagës e shpall ish-presidentin e Kosovës, Thaçi, penalisht përgjegjës për krime lufte - Radio Free Europe/Radio Liberty",
@@ -1865,21 +1741,8 @@
         {
           "name": "rferl.org",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 3,
           "articles": [
-            {
-              "title": "Kosovo Braces For War Crimes Verdict For Former President Thaci - rferl.org",
-              "albanianTitle": "Kosova përgatitet për vendimin mbi krimet e luftës ndaj ish-presidentit Thaçi - rferl.org",
-              "blurb": "Kosova është në pritje të vendimit të Gjykatës Speciale për ish-presidentin Hashim Thaçi lidhur me akuzat për krime lufte.",
-              "imageUrl": "https://gdb.rferl.org/EB37D85D-1C57-4A31-BB14-06405006F98F.jpg",
-              "url": "https://www.rferl.org/a/kosovo-war-crimes-verdict-president-thaci/33853881.html",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Former Kosovo President Hashim Thaci Sentenced To 25 Years For War Crimes - rferl.org",
               "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burgim për krime lufte",
@@ -1931,7 +1794,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 18,
+        "n": 17,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -1995,71 +1858,6 @@
           "articleCount": 6,
           "articles": [
             {
-              "title": "Truth and Consequences: Kosovo Special Court to Deliver High-Stakes Verdict - Balkan Insight",
-              "albanianTitle": "E vërteta dhe pasojat: Gjykata Speciale e Kosovës pritet të shpallë një vendim vendimtar - Balkan Insight",
-              "blurb": "Gjykata Speciale në Hagë po përgatitet për shpalljen e vendimit të rëndësishëm në procesin gjyqësor ndaj ish-presidentit Hashim Thaçi.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/13578575-scaled-e1788866530198.jpg",
-              "url": "https://balkaninsight.com/2026/09/15/truth-and-consequences-kosovo-special-court-to-deliver-high-stakes-verdict/btj/",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë, pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo’s New Govt Challenged in Court as Presidential Pick Withdraws - Balkan Insight",
-              "albanianTitle": null,
-              "blurb": "Qeveria e re e Kosovës është dërguar në gjykatë ndërsa kandidati për president është tërhequr nga gara e planifikuar.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Albin-Kurti-cabinet-e1789468121965.jpg",
-              "url": "https://balkaninsight.com/2026/09/15/kosovos-new-govt-challenged-in-court-as-presidential-pick-withdraws/bi/",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Titull faktik pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo’s New Govt Challenged in Court as Presidential Pick Withdraws - balkaninsight.com",
-              "albanianTitle": null,
-              "blurb": "Qeveria e re e Kosovës po përballet me sfida ligjore pas tërheqjes së kandidatit të propozuar për postin e presidentit.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Albin-Kurti-cabinet-e1789468121965.jpg",
-              "url": "https://balkaninsight.com/2026/09/15/kosovos-new-govt-challenged-in-court-as-presidential-pick-withdraws/bi/",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Titull faktik pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Police in The Hague Brace for Rallies Ahead of Kosovo Trial Verdict - Balkan Insight",
-              "albanianTitle": "Policia në Hagë mobilizohet për protesta para vendimit gjyqësor për Kosovën",
-              "blurb": "Policia në Hagë ka shtuar masat e sigurisë për shkak të protestave të paralajmëruara para vendimit të gjykatës.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/14285759-scaled-e1789476083420.jpg",
-              "url": "https://balkaninsight.com/2026/09/15/police-in-the-hague-brace-for-rallies-ahead-of-kosovo-trial-verdict/btj/",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë, raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Police in The Hague Brace for Rallies Ahead of Kosovo Trial Verdict - balkaninsight.com",
-              "albanianTitle": "Policia në Hagë përgatitet për protesta para shpalljes së aktgjykimit për Kosovën",
-              "blurb": "Policia në Hagë ka shtuar masat e sigurisë për shkak të protestave të paralajmëruara para shpalljes së vendimit gjyqësor.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/14285759-scaled-e1789476083420.jpg",
-              "url": "https://balkaninsight.com/2026/09/15/police-in-the-hague-brace-for-rallies-ahead-of-kosovo-trial-verdict/btj/",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Fact‑based report on police preparations",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Live Blog: Kosovo Liberation Army Leaders’ War Crimes Trial Verdict - Balkan Insight",
               "albanianTitle": "Blog live: Shpallja e aktgjykimit për krerët e Ushtrisë Çlirimtare të Kosovës për krime lufte - Balkan Insight",
               "blurb": "Gjykata ka dhënë vendimin për udhëheqësit e Ushtrisë Çlirimtare të Kosovës në procesin gjyqësor për krime të pretenduara lufte.",
@@ -2068,6 +1866,71 @@
               "date": "2026-09-16",
               "sentiment": "neutral",
               "reason": "Raportim faktik i procesit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Slams ‘Unjust’ Conviction of Hashim Thaci; Serbian Minister Applauds - Balkan Insight",
+              "albanianTitle": "Kosova e quan 'të padrejtë' dënimin e Hashim Thaçit; ministri serb e mirëpret - Balkan Insight",
+              "blurb": "Institucionet e Kosovës e kanë kundërshtuar dënimin e Hashim Thaçit, ndërsa ministri serb ka mirëpritur vendimin e gjykatës.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/14296221.jpg",
+              "url": "https://balkaninsight.com/2026/09/16/kosovo-slams-unjust-conviction-of-hashim-thaci-serbian-minister-applauds/btj/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raporton reagimin e Kosovës pa shtuar gjuhë e vetëmediatike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Hague Court Convicts Kosovo Liberation Army Leaders of War Crimes - Balkan Insight",
+              "albanianTitle": "Gjykata e Hagës shpall fajtorë udhëheqësit e Ushtrisë Çlirimtare të Kosovës për krime lufte - Balkan Insight",
+              "blurb": "Gjykata speciale në Hagë ka shpallur fajtorë udhëheqësit e Ushtrisë Çlirimtare të Kosovës për kryerjen e krimeve të luftës.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/viber_image_2026-09-16_10-48-38-560.jpg",
+              "url": "https://balkaninsight.com/2026/09/16/hague-court-convicts-kosovo-liberation-army-leaders-of-war-crimes/btj/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i dënimit të KLA-s",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Protests Continue in Pristina After Conviction of Kosovo Liberation Army Leaders - balkaninsight.com",
+              "albanianTitle": null,
+              "blurb": "Protestat në Prishtinë vazhdojnë pas shpalljes së aktgjykimit për udhëheqësit e Ushtrisë Çlirimtare të Kosovës në Gjykatën e Hagës.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/14296491.jpg",
+              "url": "https://balkaninsight.com/2026/09/17/protests-continue-in-pristina-after-conviction-of-kosovo-liberation-army-leaders/btj/",
+              "date": "2026-09-17",
+              "sentiment": "neutral",
+              "reason": "Factual report of protests after convictions",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Slams ‘Unjust’ Conviction of Hashim Thaci; Serbian Minister Applauds - balkaninsight.com",
+              "albanianTitle": null,
+              "blurb": "Institucionet e Kosovës e kanë cilësuar të padrejtë dënimin e Hashim Thaçit, ndërsa zyrtarët serbë kanë përshëndetur vendimin e gjykatës.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/14296221.jpg",
+              "url": "https://balkaninsight.com/2026/09/16/kosovo-slams-unjust-conviction-of-hashim-thaci-serbian-minister-applauds/btj/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Live Blog: Kosovo Liberation Army Leaders’ War Crimes Trial Verdict - balkaninsight.com",
+              "albanianTitle": null,
+              "blurb": "Blogu i drejtpërdrejtë përcjell zhvillimet rreth shpalljes së aktgjykimit për udhëheqësit e Ushtrisë Çlirimtare të Kosovës në Hagë.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/13578579.jpg",
+              "url": "https://balkaninsight.com/2026/09/16/live-blog-kosovo-liberation-army-leaders-war-crimes-trial-verdict/btj/",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raportim neutral",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2430,7 +2293,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 38,
+        "n": 33,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -2685,21 +2548,8 @@
         {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Avant le verdict du procès Thaçi, la grande peur des Serbes du Kosovo - Le Courrier des Balkans",
-              "albanianTitle": "Para vendimit për gjyqin ndaj Thaçit, frika e madhe e serbëve të Kosovës - Le Courrier des Balkans",
-              "blurb": "Komuniteti serb në Kosovë shpreh shqetësimet e tij në prag të shpalljes së vendimit për procesin gjyqësor ndaj Hashim Thaçit.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/800540412_1607956537360412_4668263135862189238_n.jpg",
-              "url": "https://www.courrierdesbalkans.fr/avant-le-verdict-du-proces-thaci-la-grande-peur-des-serbes-du-kosovo-99571/",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "L'ex-président du Kosovo Hashim Thaçi condamné à 25 ans de prison. Les clés du procès des dirigeants de l'UÇK - Le Courrier des Balkans",
               "albanianTitle": "Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burg. Çelësat e gjykimit të krerëve të UÇK-së - Le Courrier des Balkans",
@@ -2817,8 +2667,8 @@
               "title": "Hashim Thaçi, former Kosovo president, sentenced to 25 years for war crimes - lemonde.fr",
               "albanianTitle": "Hashim Thaçi, ish-presidenti i Kosovës, dënohet me 25 vjet burg për krime lufte",
               "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, merr dënimin prej 25 vitesh burgim për akuzat për krime të luftës.",
-              "imageUrl": null,
-              "url": "https://www.lemonde.fr/en/international/article/2026/09/16/kosovo-former-president-thaci-given-25-year-sentence-for-war-crimes_6757586_4.html",
+              "imageUrl": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300",
+              "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPbVNDV21UT2d5MHZvZVJjNjc2VVhMWHhrMEN6bDQzdHFORnlFbmgtT2NrSlROQVI2Z3NDWGYzeDVxdnB1ZWRiZU4tcGQ2QXk0aEdUbVlCZjM1U045Sy1HYlcxN1pfTE1VYnA4Q3Y3cllER0dDRE1CdHVaMXNsUmVlVkZTX0RIZkVVbi1qanViUVdxbk9rY05kUUp2a2VIcGNxWWVZZ3hDUEV6cTV2UnhoSDk0cnNpTkcyNU8xcl8tSEUyNDU5WGk0Q3JMeks1c0R4WEJmU2pwc2M?oc=5",
               "date": "2026-09-16",
               "sentiment": "neutral",
               "reason": "Faktikë raportuar pa ngarkim",
@@ -2827,7 +2677,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "i përzier",
           "firstSeen": "2026-09-16",
           "lastSeen": "2026-09-16"
@@ -3037,8 +2887,8 @@
               "title": "Kosovo: el expresidente Hashim Thaçi fue condenado a 25 años de prisión - RFI",
               "albanianTitle": "Kosovë: Ish-presidenti Hashim Thaçi dënohet me 25 vjet burgim",
               "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga trupi gjykues për krime lufte.",
-              "imageUrl": null,
-              "url": "https://www.rfi.fr/es/europa/20260916-kosovo-el-expresidente-hashim-tha%C3%A7i-fue-condenado-a-25-a%C3%B1os-de-prisi%C3%B3n",
+              "imageUrl": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300",
+              "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQa0xlX3pTU2VQVmdKR1FhQjhYNERwUlBOZUNjT1ZkLW5aNGJsaG9SOVJGT2JPdGc2Zk9oWURvZ0l5ZTI4OXB0TzF3UW42dWVHWVJfbkh1cVFuRC0yQno0ZmNVYnlLc3UyNHpPNkFpOXF2M20xdENkeU5jX0t4MXNadmU5ZC1taGFVY3dmc0tfZGpoeHBoZUlDTmtMUlF5dUM2LW5WLWYzVTh1WGpJSFRzcWlsRVNTSU9MRXpsV2ZSMXU?oc=5",
               "date": "2026-09-16",
               "sentiment": "neutral",
               "reason": "Faktikë raportuar në mënyrë neutrale",
@@ -3050,8 +2900,8 @@
               "title": "À la une: l’ex-président du Kosovo Hashim Thaçi condamné à 25 ans de prison - RFI",
               "albanianTitle": "Kryetitull: Ish-presidenti i Kosovës, Hashim Thaçi, dënohet me 25 vjet burg - RFI",
               "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vite burgim nga trupi gjykues për krime të luftës.",
-              "imageUrl": null,
-              "url": "https://www.rfi.fr/fr/europe/20260918-%C3%A0-la-une-l-ex-pr%C3%A9sident-du-kosovo-hashim-tha%C3%A7i-condamn%C3%A9-%C3%A0-25-ans-de-prison",
+              "imageUrl": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300",
+              "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQYWlaS01CTF9UYVRFcTBVZUtFZWhZdlJ1elB6amF6TzlFOXBGdWhZSWtqalhHWExyMWo3Uzl3Q3ZIUS1YZ01XaDRZVTFHejMwcFNmbWRDRDJNTW1zZHk3TnlxdHQ0eU5rUHA2SHNVdVZtQnoyQkNxaXBBYVVUQUNKaEZUZEN0dXlDV3NaYk9HTi1Ld1Mydi02cnhQVmo3MTkzRERRT2xPTkNFYWg2ZFo3UFdfaGFkeU1rVFFvSzJvU21GX0s3d280TUFDaktublpGQjdN?oc=5",
               "date": "2026-09-18",
               "sentiment": "neutral",
               "reason": "Plain factual statement of the former president's sentence",
@@ -3060,7 +2910,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 7,
           "trend": "neutral",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-18"
@@ -3143,7 +2993,7 @@
         "positive": 3,
         "neutral": 91,
         "negative": 6,
-        "n": 35,
+        "n": 34,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -3154,60 +3004,8 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 6,
+          "articleCount": 5,
           "articles": [
-            {
-              "title": "Dal Mas, integrare Balcani occidentali è unificare l'Europa - ansa.it",
-              "albanianTitle": null,
-              "blurb": "Integrimi i vendeve të Ballkanit Perëndimor në Bashkimin Evropian konsiderohet si një hap thelbësor për unifikimin e kontinentit evropian.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/9/f225b90284cf6db647fdc63b79ac9f26.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/15/dal-mas-integrare-balcani-occidentali-e-unificare-leuropa_d9e3d35d-286d-480f-9289-7f04b7ffdede.html",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Tajani, Paesi Balcani occidentali in Europa quanto prima - ansa.it",
-              "albanianTitle": null,
-              "blurb": "Shefi i diplomacisë italiane, Antonio Tajani, kërkon përshpejtimin e procesit të anëtarësimit të vendeve të Ballkanit Perëndimor në Bashkimin Evropian.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/7/28/91c3a2587129f1d21632ae66b638417c.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/15/tajani-paesi-balcani-occidentali-in-europa-quanto-prima_36a4fdd7-c4ee-4d85-b65e-bc849d1863cd.html",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Dal Mas, integrare Balcani occidentali è unificare l'Europa - ANSA",
-              "albanianTitle": "Dal Mas: Integrimi i Ballkanit Perëndimor është bashkim i Evropës",
-              "blurb": "Dal Mas vlerëson se integrimi i vendeve të Ballkanit Perëndimor është thelbësor për procesin e unifikimit të Evropës.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/9/f225b90284cf6db647fdc63b79ac9f26.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/15/dal-mas-integrare-balcani-occidentali-e-unificare-leuropa_d9e3d35d-286d-480f-9289-7f04b7ffdede.html",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë, raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Tajani, Paesi Balcani occidentali in Europa quanto prima - ANSA",
-              "albanianTitle": "Tajani: Vendet e Ballkanit Perëndimor sa më parë në Evropë",
-              "blurb": "Ministri Tajani kërkon që shtetet e Ballkanit Perëndimor të bëhen pjesë e Bashkimit Evropian sa më shpejt të jetë e mundur.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/7/28/91c3a2587129f1d21632ae66b638417c.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/15/tajani-paesi-balcani-occidentali-in-europa-quanto-prima_36a4fdd7-c4ee-4d85-b65e-bc849d1863cd.html",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë, raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Thaci condannato a 25 anni per crimini di guerra in Kosovo - ANSA",
               "albanianTitle": "Thaçi dënohet me 25 vjet burgim për krime lufte në Kosovë",
@@ -3230,6 +3028,45 @@
               "date": "2026-09-16",
               "sentiment": "neutral",
               "reason": "Titull faktik, pa ngarkim ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Thaci condannato a 25 anni per crimini di guerra in Kosovo. I sostenitori tentano l'assalto alla sede Ue a Pristina - ANSA",
+              "albanianTitle": "Thaçi dënohet me 25 vjet burg për krime lufte në Kosovë. Përkrahësit tentojnë të sulmojnë zyrën e BE-së në Prishtinë - ANSA",
+              "blurb": "Hashim Thaçi është dënuar me 25 vjet burgim për krime lufte, ndërsa mbështetësit kanë tentuar të sulmojnë zyrën e BE-së.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/16/de828115af85a451d47617865da8e13a.jpg",
+              "url": "https://www.ansa.it/sito/notizie/mondo/2026/09/16/thaci-condannato-a-25-anni-per-crimini-di-guerra-in-kosovo.-tentato-assalto-alla_f0670d62-ebc3-475d-9ed2-27feccf23c80.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë ngarkuar ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Wizz Air annuncia un nuovo collegamento aereo tra Trieste e Pristina - ANSA",
+              "albanianTitle": "Wizz Air njofton linjën e re ajrore mes Triestes dhe Prishtinës",
+              "blurb": "Kompania ajrore Wizz Air ka bërë të ditur hapjen e një linje të re fluturimi mes Triestes dhe Prishtinës.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2025/6/18/8382934e72f198ee0c868a2b86fa9cb4.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/16/wizz-air-annuncia-un-nuovo-collegamento-aereo-tra-trieste-e-pristina_b2071c24-7ed7-4e0a-97c0-62d8eecced0d.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti i thjeshtë, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "A Pristina manifestanti tentano assalto a sede Ue dopo la condanna a Thaci, respinti - ANSA",
+              "albanianTitle": "Në Prishtinë, protestuesit tentojnë të sulmojnë selinë e BE-së pas dënimit të Thaçit, ndalohen nga policia",
+              "blurb": "Protestuesit në Prishtinë kanë tentuar të sulmojnë selinë e Bashkimit Evropian pas shpalljes së dënimit për ish-presidentin Hashim Thaçi.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/16/b6569c1634403d7eb5ee20aab6ae4ebc.jpg",
+              "url": "https://www.ansa.it/sito/notizie/mondo/2026/09/16/a-pristina-manifestanti-tentano-assalto-a-sede-ue-dopo-la-condanna-a-thaci-respinti_fe775aeb-91e4-470b-993a-132e06cd7cc6.html",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i incidentit",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3422,54 +3259,6 @@
           "lastSeen": "2026-09-17"
         },
         {
-          "name": "Il Gazzettino",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Trieste Airport, nuovo collegamento Wizz Air per Priština nel Kosovo a partire da dicembre - Il Gazzettino",
-              "albanianTitle": null,
-              "blurb": "Aeroporti i Triestes do të nisë një linjë të re ajrore me Prishtinën përmes kompanisë Wizz Air nga dhjetori.",
-              "imageUrl": "https://statics.cedscdn.it/photos/MED_HIGH/2026/09/15/9764678_15143132_a321_wizzair_presso_il_piazzale_di_trieste_airport_1_.jpg",
-              "url": "https://www.ilgazzettino.it/nordest/trieste/trieste_airport_nuovo_collegamento_wizz_air_pristina_kosovo_partire_da_dicembre-9764678.html",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-15"
-        },
-        {
-          "name": "Il Goriziano",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Trieste Airport, parte dal 19 dicembre il collegamento aereo di Wizz Air con Priština - Il Goriziano",
-              "albanianTitle": "Wizz Air nis fluturimet nga Aeroporti i Triestes për në Prishtinë më 19 dhjetor",
-              "blurb": "Kompania ajrore Wizz Air do të nisë fluturimet direkte ndërmjet Triestes dhe Prishtinës më 19 dhjetor.",
-              "imageUrl": "https://www.ilgoriziano.it/public/uploads/federico/2026/settembre-2026/A321_Wizzair_presso_il_piazzale_di_Trieste_Airport_6aa90a417b4f9.jpg",
-              "url": "https://www.ilgoriziano.it/articolo/trieste-airport-parte-19-dicembre-collegamento-aereo-wizz-air-pristina-15-settembre-2026",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë lidhje ajrore, pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-15"
-        },
-        {
           "name": "Il Piccolo",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -3579,43 +3368,6 @@
           "trend": "neutral",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-09-16"
-        },
-        {
-          "name": "L'Agenzia di Viaggi Magazine",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Kosovo, Wizz Air lancia il volo Trieste-Priština - L'Agenzia di Viaggi Magazine",
-              "albanianTitle": "Kosova, Wizz Air nis fluturimin Trieste-Prishtinë - L'Agenzia di Viaggi Magazine",
-              "blurb": "Kompania ajrore Wizz Air ka njoftuar hapjen e një linje të re fluturimi që lidh qytetin e Triestes me Prishtinën.",
-              "imageUrl": null,
-              "url": "https://www.lagenziadiviaggimag.it/kosovo-wizz-air-lancia-il-volo-trieste-pristina/",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Lajm faktik për fluturim të ri, pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Wizz Air volerà Trieste-Priština (Kosovo) - L'Agenzia di Viaggi Magazine",
-              "albanianTitle": "Wizz Air do të operojë linjën ajrore Trieste-Prishtinë",
-              "blurb": "Kompania ajrore Wizz Air ka njoftuar vendosjen e linjës së re të fluturimit në relacionin Trieste-Prishtinë për pasagjerët.",
-              "imageUrl": null,
-              "url": "https://www.lagenziadiviaggimag.it/wizz-air-volera-trieste-pristina-kosovo/",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë, raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-15"
         },
         {
           "name": "L'Unione Sarda.it",
@@ -3931,21 +3683,8 @@
         {
           "name": "Sky TG24",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 3,
           "articles": [
-            {
-              "title": "Kosovo, verso verdetto su ex presidente Thaci - Sky TG24",
-              "albanianTitle": "Kosova, drejt vendimit për ish-presidentin Thaçi",
-              "blurb": "Kosova ndodhet në pritje të vendimit gjyqësor që do të shpallet për ish-presidentin e vendit, Hashim Thaçi.",
-              "imageUrl": "https://tg24.sky.it/assets/images/7d1d199d89b8ebaaa5433d7b46682f9d00872010/skytg24/it/mondo/video/2026/09/15/1124861_1789482595015_thumb_494.0000001_1789483309558.jpg?im=Resize,width=1218",
-              "url": "https://tg24.sky.it/mondo/video/2026/09/15/kosovo-verso-verdetto-su-ex-presidente-thaci-1124861",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë, raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Ex presidente Kosovo condannato per crimini guerra, proteste contro Ue - Sky TG24",
               "albanianTitle": "Ish-presidenti i Kosovës dënohet për krime lufte, protesta kundër BE-së - Sky TG24",
@@ -4016,54 +3755,6 @@
           "lastSeen": "2026-09-18"
         },
         {
-          "name": "Trieste Cafe",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Trieste Airport si apre al Kosovo: nuovo collegamento con Priština dal 19 dicembre - Trieste Cafe",
-              "albanianTitle": "Aeroporti i Triestes hapet për Kosovën: linjë e re ajrore me Prishtinën nga 19 dhjetori",
-              "blurb": "Aeroporti i Triestes do të inaugurojë linjën e re ajrore me Prishtinën duke filluar nga 19 dhjetori.",
-              "imageUrl": "https://triestecafe.it/uploads/media/aaaf0e1addf7488844d9fbd8.jpg",
-              "url": "https://www.triestecafe.it/cronaca/trieste-airport-si-apre-al-kosovo-nuovo-collegamento-con-pristina-dal-19-dicembre-2026-09-15",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë lidhje ajrore, pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-15"
-        },
-        {
-          "name": "TriestePrima",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Tajani: \"Militari italiani in Kosovo sono diplomatici, così come la finanza in Montenegro e Albania\" - TriestePrima",
-              "albanianTitle": null,
-              "blurb": "Ministri i Jashtëm italian, Antonio Tajani, vlerëson se ushtarakët italianë në Kosovë kryejnë funksione diplomatike në shërbim të stabilitetit.",
-              "imageUrl": "https://www.triesteprima.it/~media/horizontal-hi/40292258276695/img20260915115117.jpg",
-              "url": "https://www.triesteprima.it/cronaca/militari-balcani-diplomatici.html",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Citat i Tajanit, jo zëri i mediumit",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Tajani"
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-15"
-        },
-        {
           "name": "Tv2000",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -4086,30 +3777,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-16"
-        },
-        {
-          "name": "UdineToday",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Il Kosovo è più vicino: annunciato il volo su Pristina, ecco quando si parte e quanto costa - UdineToday",
-              "albanianTitle": "Kosova më afër: Njoftohet fluturimi për në Prishtinë, ja kur nisen dhe sa kushton - UdineToday",
-              "blurb": "Është njoftuar vendosja e linjës së re ajrore për në Prishtinë, duke përfshirë detajet mbi datat dhe çmimet e biletave.",
-              "imageUrl": "https://www.triesteprima.it/~media/horizontal-hi/64124840575957/a321-wizzair-presso-il-piazzale-di-trieste-airport.jpg",
-              "url": "https://www.udinetoday.it/cronaca/trieste-pristina-volo.html",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-15"
         },
         {
           "name": "Virgilio",
@@ -4354,21 +4021,8 @@
         {
           "name": "il Nord Est",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Kosovo, nasce il governo Kurti IV: fiducia risicata e crisi politica ancora aperta - il Nord Est",
-              "albanianTitle": "Kosova, formohet qeveria Kurti IV: votëbesim i ngushtë dhe krizë politike ende e hapur - il Nord Est",
-              "blurb": "Qeveria Kurti katër është formuar me një mbështetje të ngushtë parlamentare, ndërsa vendi vazhdon të përballet me krizë politike.",
-              "imageUrl": "https://images.ilnordest.it/view/acePublic/alias/contentid/1tsh1dylsb3uh5okfvr/0/copia-di-north-macedonia-kosovo-diplomacy-transit.webp?f=16%3A9&w=840",
-              "url": "https://www.ilnordest.it/oltre-confine/kosovo-governo-kurti-4-fiducia-crisi-politica-o4iqbw38",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim rreth situatës politike, pa gjuhë ngacmuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Kosovo, ancora proteste contro la condanna di Thaci per crimini di guerra - il Nord Est",
               "albanianTitle": "Kosovë, vazhdojnë protestat kundër dënimit të Thaçit për krime lufte",
@@ -4679,30 +4333,6 @@
           "lastSeen": "2026-09-16"
         },
         {
-          "name": "tg24.sky.it",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo, verso verdetto su ex presidente Thaci - tg24.sky.it",
-              "albanianTitle": null,
-              "blurb": "Procedurat gjyqësore ndaj ish-presidentit të Kosovës, Hashim Thaçi, po shkojnë drejt marrjes së një vendimi përfundimtar nga gjykata.",
-              "imageUrl": "https://tg24.sky.it/assets/images/7d1d199d89b8ebaaa5433d7b46682f9d00872010/skytg24/it/mondo/video/2026/09/15/1124861_1789482595015_thumb_494.0000001_1789483309558.jpg?im=Resize,width=1218",
-              "url": "https://tg24.sky.it/mondo/video/2026/09/15/kosovo-verso-verdetto-su-ex-presidente-thaci-1124861",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktik, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-15"
-        },
-        {
           "name": "tv2000.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -4732,7 +4362,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 80,
+        "n": 66,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -4780,21 +4410,8 @@
         {
           "name": "DiePresse.com",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 4,
           "articles": [
-            {
-              "title": "Kriegsverbrecherprozess: Hochspannung im Kosovo vor Urteil gegen Hashim Thaçi - DiePresse.com",
-              "albanianTitle": "Procesi për krime lufte: Tension i lartë në Kosovë para shpalljes së aktgjykimit ndaj Hashim Thaçit",
-              "blurb": "Kosova ndodhet në pritje të vendimit gjyqësor lidhur me procesin e ngritur ndaj ish-presidentit Hashim Thaçi në Hagë.",
-              "imageUrl": "https://img.diepresse.com/public/incoming/5vpsnt-afpc84e8f3jpg/alternates/WEBP_WIDE_1200/AFP_C84E8F3.jpg",
-              "url": "https://www.diepresse.com/41259060/kriegsverbrecherprozess-hochspannung-im-kosovo-vor-urteil-gegen-hashim",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Factually reports tension and trial without evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Gericht in Den Haag verurteilt Hashim Thaçi wegen Verbrechen im Kosovo: Erst Guerrilla-Führer, dann Politiker - DiePresse.com",
               "albanianTitle": "Gjykata në Hagë dënon Hashim Thaçin për krime në Kosovë: Nga udhëheqës i gueriles në politikan - DiePresse.com",
@@ -4880,60 +4497,8 @@
         {
           "name": "Heute",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "\"Mangel an Kompetenz\": Ärger bei ÖFB-Gegner Kosovo - heute.at",
-              "albanianTitle": "“Mungesë kompetence”: Pakënaqësi te kundërshtari i radhës i Austrisë, Kosova",
-              "blurb": "Federata e Futbollit të Kosovës po përballet me kritika të ashpra për mungesë kompetence në menaxhimin e përfaqësueses së futbollit.",
-              "imageUrl": "https://heute-at-prod-images.imgix.net/2025/09/05/dce769fb-22e5-4af9-b9e9-7e1aa6bb10d9.jpg?rect=0%2C209%2C4000%2C2250&w=1200&h=630&fit=crop&fm=jpg",
-              "url": "https://www.heute.at/s/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Quote 'Mangel an Kompetenz' is attributed, not outlet's own voice",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "\"Mangel an Kompetenz\": Ärger bei ÖFB-Gegner Kosovo - Heute",
-              "albanianTitle": "“Mungesë kompetence”: Pakënaqësi te Kosova, kundërshtari i radhës i Austrisë",
-              "blurb": "Përfaqësuesja e futbollit të Kosovës po përballet me kritika të brendshme për shkak të mungesës së kompetencës.",
-              "imageUrl": "https://heute-at-prod-images.imgix.net/2025/09/05/dce769fb-22e5-4af9-b9e9-7e1aa6bb10d9.jpg?rect=0%2C209%2C4000%2C2250&w=1200&h=630&fit=crop&fm=jpg",
-              "url": "https://www.heute.at/s/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Raporton deklaratën kritike, por është citim",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo-Teamchef Franco Foda. - Heute",
-              "albanianTitle": "Përzgjedhësi i Kosovës, Franco Foda",
-              "blurb": "Franco Foda vazhdon të mbajë pozitën e selektorit të përfaqësueses së futbollit të Kosovës.",
-              "imageUrl": "https://heute-at-prod-images.imgix.net/2025/09/05/dce769fb-22e5-4af9-b9e9-7e1aa6bb10d9.jpg?rect=0%2C209%2C4000%2C2250&auto=format",
-              "url": "https://www.heute.at/i/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143/doc-1k2hoiug94",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Thjesht informim për trajnerin, pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo-Teamchef Franco Foda. - heute.at",
-              "albanianTitle": "Franco Foda, përzgjedhësi i kombëtares së Kosovës",
-              "blurb": "Trajneri Franco Foda vazhdon angazhimin e tij në krye të përfaqësueses së futbollit të Kosovës për ndeshjet e radhës.",
-              "imageUrl": "https://heute-at-prod-images.imgix.net/2025/09/05/dce769fb-22e5-4af9-b9e9-7e1aa6bb10d9.jpg?rect=0%2C209%2C4000%2C2250&auto=format",
-              "url": "https://www.heute.at/i/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143/doc-1k2hoiug94",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Lajm faktik, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "96 politische Morde – Hammer-Urteil! 25 Jahre Haft für Ex-Kosovo-Präsident - Heute",
               "albanianTitle": "96 vrasje politike – vendim drastik! 25 vjet burg për ish-presidentin e Kosovës",
@@ -5163,21 +4728,8 @@
         {
           "name": "Salzburger Nachrichten",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Entscheidung im Kosovo-Kriegsverbrecherprozess: Die Uhr tickt für Hashim Thaçi - Salzburger Nachrichten",
-              "albanianTitle": null,
-              "blurb": "Gjykata po vazhdon procesin gjyqësor ndaj Hashim Thaçit për akuzat mbi krimet e luftës gjatë periudhës së konfliktit.",
-              "imageUrl": "https://www.sn.at/storage/image/6/7/6/6/1166676_zehntausende-kosovo-albaner-forderten-bei-einer-demonstration-am-wochenende_metadaten_1GGiMZ_FlT8SY.jpg",
-              "url": "https://www.sn.at/politik/weltpolitik/entscheidung-im-kosovo-kriegsverbrecherprozess-die-uhr-tickt-fuer-hashim-thaci-art-673050",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Fact‑based report without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "„Kein Urteil kann die Wahrheit ändern“: Wie der Kosovo auf die Haftstrafe für Kriegsverbrecher Thaçi reagiert - Salzburger Nachrichten",
               "albanianTitle": "“Asnjë vendim nuk e ndryshon të vërtetën”: Si po reagon Kosova ndaj dënimit të Hashim Thaçit",
@@ -5200,7 +4752,7 @@
         {
           "name": "Sky Sport Austria",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Gewinnspiel zu Österreich vs. Kosovo - Sky Sport Austria",
@@ -5224,19 +4776,6 @@
               "date": "2026-09-18",
               "sentiment": "neutral",
               "reason": "Titull faktik pa ngarkesë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "ÖFB-Gegner Kosovo erstmals mit Lustenaus Kacuri - skysportaustria.at",
-              "albanianTitle": "Kosova, kundërshtari i Austrisë, me Kacurin e Lustenaus për herë të parë",
-              "blurb": "Përfaqësuesja e Kosovës ka përfshirë lojtarin e Lustenaus, Kacuri, në listën e futbollistëve për ndeshjen kundër Austrisë.",
-              "imageUrl": null,
-              "url": "https://www.skysportaustria.at/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri/",
-              "date": "2026-09-18",
-              "sentiment": "neutral",
-              "reason": "Titulli është i njëjtë me të mëparshmin, pa gjuhë ngarkuar",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -5370,30 +4909,6 @@
           "lastSeen": "2026-09-16"
         },
         {
-          "name": "oe1.ORF.at",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Im Warteraum der EU (2) - Kosovo - oe1.ORF.at",
-              "albanianTitle": "Në sallën e pritjes së BE-së (2) - Kosova - oe1.ORF.at",
-              "blurb": "Analizë mbi procesin e integrimit të Kosovës në Bashkimin Evropian dhe sfidat aktuale në rrugën drejt anëtarësimit.",
-              "imageUrl": "https://oe1.orf.at/i/intro/09/a1/09a10772ba56f1fd55928526106c771781b04332.jpg",
-              "url": "https://oe1.orf.at/artikel/731629/Im-Warteraum-der-EU-2-Kosovo",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa gjuhë të ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-17",
-          "lastSeen": "2026-09-15"
-        },
-        {
           "name": "on.orf.at",
           "sentiment": "negative",
           "articleCount": 1,
@@ -5416,30 +4931,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-18",
           "lastSeen": "2026-09-17"
-        },
-        {
-          "name": "sn.at",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Entscheidung im Kosovo-Kriegsverbrecherprozess: Die Uhr tickt für Hashim Thaçi - sn.at",
-              "albanianTitle": "Vendimi në gjyqin për krime lufte në Kosovë: Koha po kalon për Hashim Thaçin",
-              "blurb": "Gjykata në Hagë po vazhdon procesin gjyqësor ndaj ish-presidentit të Kosovës, Hashim Thaçi, për akuzat për krime lufte.",
-              "imageUrl": "https://www.sn.at/storage/image/6/7/6/6/1166676_zehntausende-kosovo-albaner-forderten-bei-einer-demonstration-am-wochenende_metadaten_1GGiMZ_FlT8SY.jpg",
-              "url": "https://www.sn.at/politik/weltpolitik/entscheidung-im-kosovo-kriegsverbrecherprozess-die-uhr-tickt-fuer-hashim-thaci-art-673050",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-16",
-          "lastSeen": "2026-09-15"
         },
         {
           "name": "sport.ORF.at",
@@ -5481,10 +4972,10 @@
       ],
       "summary": {
         "index": 50,
-        "positive": 5,
-        "neutral": 89,
-        "negative": 5,
-        "n": 38,
+        "positive": 7,
+        "neutral": 86,
+        "negative": 7,
+        "n": 29,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -5569,82 +5060,56 @@
         {
           "name": "Albinfo",
           "sentiment": "neutral",
-          "articleCount": 6,
+          "articleCount": 4,
           "articles": [
             {
-              "title": "Vier Talente mit Wurzeln im Kosovo glänzen im Münchner Derby - albinfo.ch",
-              "albanianTitle": "Katër talente me prejardhje nga Kosova shkëlqejnë në derbin e Mynihut",
-              "blurb": "Katër futbollistë të rinj me prejardhje nga Kosova kanë treguar paraqitje të shkëlqyera gjatë derbit të zhvilluar në Mynih.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/screenshot-2026-09-15-093949.png",
-              "url": "https://www.albinfo.ch/de/kater-talente-me-prejardhje-nga-kosova-shkelqejne-ne-derbin-e-mynihut/",
-              "date": "2026-09-15",
-              "sentiment": "positive",
-              "reason": "Outlet praises Kosovo‑rooted talents",
-              "isQuote": false,
-              "evidence": "glänzen im Münchner Derby",
-              "speaker": ""
+              "title": "Rita Ora reagiert nach dem Urteil in Den Haag: \"Im Kampf für den Kosovo, den wir unser Zuhause nennen\" - Albinfo",
+              "albanianTitle": "Rita Ora reagon pas vendimit në Hagë: \"Në luftën për Kosovën që e quajmë shtëpi\" - Albinfo",
+              "blurb": "Këngëtarja Rita Ora ka reaguar pas vendimit të gjykatës në Hagë duke shprehur përkushtimin për Kosovën.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_3225.jpeg",
+              "url": "https://www.albinfo.ch/de/rita-ora-reagon-pas-aktgjykimit-ne-hage-duke-luftuar-per-kosoven-qe-e-quajme-shtepi/",
+              "date": "2026-09-17",
+              "sentiment": "neutral",
+              "reason": "Reporting a quote from Rita Ora, no editorial tone",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Rita Ora"
             },
             {
-              "title": "B2B-Forum SCHWEIZ-KOSOVO - albinfo.ch",
-              "albanianTitle": "Forumi B2B Zvicër-Kosovë",
-              "blurb": "Forumi i biznesit ndërmjet Zvicrës dhe Kosovës po mbahet për të diskutuar mundësitë e bashkëpunimit ekonomik mes dy vendeve.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/forumi-b2b-lozane.jpeg",
-              "url": "https://www.albinfo.ch/de/forumi-b2b-zvicer-kosove/",
-              "date": "2026-09-15",
+              "title": "Vom Kosovo und von Albanien umworben, wird Lutfi Dalipi für die Schweizer U21 aufgeboten - Albinfo",
+              "albanianTitle": "I kërkuar nga Kosova dhe Shqipëria, Lutfi Dalipi ftohet nga U21 e Zvicrës",
+              "blurb": "Futbollisti Lutfi Dalipi është ftuar nga përfaqësuesja U21 e Zvicrës, pavarësisht interesimit nga Kosova dhe Shqipëria.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/lutfi-dalipi.png",
+              "url": "https://www.albinfo.ch/de/i-kerkuar-nga-kosova-dhe-shqiperia-lutfi-dalipi-ftohet-nga-zvicra-u21/",
+              "date": "2026-09-17",
               "sentiment": "neutral",
-              "reason": "Title is factual, no evaluative language",
+              "reason": "Fact‑based reporting without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Xherdan Shaqiri élu meilleur joueur de la huitième journée en Suisse - Albinfo",
-              "albanianTitle": "Xherdan Shaqiri shpallet lojtari më i mirë i javës së tetë në Zvicër",
-              "blurb": "Futbollisti Xherdan Shaqiri është shpallur lojtari më i mirë i xhiros së tetë në kampionatin zviceran të futbollit.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/810281620_904519729158233_5731763947574237512_n.jpeg",
-              "url": "https://www.albinfo.ch/fr/xherdan-shaqiri-shpallet-lojtari-me-i-mire-i-javes-se-tete-ne-zvicer/",
-              "date": "2026-09-15",
+              "title": "Internationale Messe \"Prishtina 2026\" eröffnet, Fokus auf Produktion und Exporte - Albinfo",
+              "albanianTitle": "Hapet panairi ndërkombëtar \"Prishtina 2026\", fokusi te prodhimi dhe eksporti",
+              "blurb": "Panairi ndërkombëtar Prishtina 2026 është hapur me fokus të veçantë në zhvillimin e prodhimit dhe rritjen e eksporteve.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/screenshot-2026-09-17-160058.png",
+              "url": "https://www.albinfo.ch/de/hapet-panairi-nderkombetar-prishtina-2026-fokusi-te-prodhimi-dhe-eksportet/",
+              "date": "2026-09-17",
               "sentiment": "neutral",
-              "reason": "Lajm faktik, pa gjuhë ngarkuar",
+              "reason": "Faktik, pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
             {
-              "title": "Vier Talente mit Wurzeln im Kosovo glänzen im Münchner Derby - Albinfo",
-              "albanianTitle": "Katër talente me rrënjë nga Kosova shkëlqejnë në derbin e Mynihut",
-              "blurb": "Katër futbollistë me origjinë nga Kosova kanë shfaqur performancë të lartë gjatë derbit të zhvilluar në qytetin e Mynihut.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/screenshot-2026-09-15-093949.png",
-              "url": "https://www.albinfo.ch/de/kater-talente-me-prejardhje-nga-kosova-shkelqejne-ne-derbin-e-mynihut/",
-              "date": "2026-09-15",
-              "sentiment": "positive",
-              "reason": "Mediaja përdor gjuhë të ngrohtë për talente me origjinë kosovare",
-              "isQuote": false,
-              "evidence": "glänzen im Münchner Derby",
-              "speaker": ""
-            },
-            {
-              "title": "B2B-Forum SCHWEIZ-KOSOVO - Albinfo",
-              "albanianTitle": "Forumi B2B Zvicër-Kosovë",
-              "blurb": "Bizneset nga Zvicra dhe Kosova po marrin pjesë në një forum të përbashkët për zhvillimin e bashkëpunimit ekonomik.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/forumi-b2b-lozane.jpeg",
-              "url": "https://www.albinfo.ch/de/forumi-b2b-zvicer-kosove/",
-              "date": "2026-09-15",
+              "title": "Dua Lipa reagiert nach dem Urteil in Den Haag und teilt die Botschaft \"Die Freiheit hat einen Namen\" - Albinfo",
+              "albanianTitle": "Dua Lipa reagon pas vendimit në Hagë dhe shpërndan mesazhin \"Liria ka emër\"",
+              "blurb": "Këngëtarja Dua Lipa ka reaguar pas vendimit të Hagës duke shpërndarë mesazhin Liria ka emër në rrjetet sociale.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_3223.jpeg",
+              "url": "https://www.albinfo.ch/de/dua-lipa-reagon-pas-aktgjykimit-ne-hage-shperndan-mesazhin-liria-ka-emer/",
+              "date": "2026-09-17",
               "sentiment": "neutral",
-              "reason": "Titull i thjeshtë i një forumi, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Arrivé comme réfugié, il a commencé comme nettoyeur, aujourd’hui il devient propriétaire d’un hôtel historique en Suisse - Albinfo",
-              "albanianTitle": "Erdhi si refugjat dhe nisi punën si pastrues, sot bëhet pronar i një hoteli historik në Zvicër",
-              "blurb": "Një refugjat nga Kosova, i cili filloi karrierën si pastrues, ka blerë një hotel historik në shtetin e Zvicrës.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_3097.jpeg",
-              "url": "https://www.albinfo.ch/de/erdhi-si-refugjat-nisi-si-enlares-sot-behet-pronar-i-nje-hoteli-historik-ne-zvicer/",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Përshkrim i historisë personale, pa gjuhë ngarkuar ndaj Kosovës",
+              "reason": "Faktik, pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -5704,30 +5169,6 @@
           "trend": "neutral",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-17"
-        },
-        {
-          "name": "Business Class Ost",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Das Freihandelsabkommen mit dem Kosovo tritt am 1. Oktober in Kraft - Business Class Ost",
-              "albanianTitle": "Marrëveshja e tregtisë së lirë me Kosovën hyn në fuqi më 1 tetor",
-              "blurb": "Marrëveshja e tregtisë së lirë me Kosovën hyn në fuqi zyrtarisht më datën një tetor të këtij viti.",
-              "imageUrl": "https://cdn.prod.website-files.com/672888df509e2d3e15fa15a8/6aa916a26cced446221ab07a_privatearticleimage-254112-1789463720344.jpeg",
-              "url": "https://www.businessclassost.ch/article/254112-oapakyvl",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-15"
         },
         {
           "name": "Corriere del Ticino",
@@ -6120,43 +5561,6 @@
           "lastSeen": "2026-09-16"
         },
         {
-          "name": "albinfo.at",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "B2B-Forum SCHWEIZ-KOSOVO - albinfo.at",
-              "albanianTitle": "Forumi B2B Zvicër-Kosovë",
-              "blurb": "Bizneset nga Zvicra dhe Kosova po marrin pjesë në një forum të përbashkët për të diskutuar mundësitë e bashkëpunimit.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/forumi-b2b-lozane.jpeg",
-              "url": "https://www.albinfo.ch/de/forumi-b2b-zvicer-kosove/",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Njoftim faktikë për forumin, pa gjuhë ngacmuese apo admiruese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Vier Talente mit Wurzeln im Kosovo glänzen im Münchner Derby - albinfo.at",
-              "albanianTitle": "Katër talente me rrënjë nga Kosova shkëlqejnë në derbin e Mynihut",
-              "blurb": "Katër futbollistë të rinj me prejardhje nga Kosova kanë treguar performancë të mirë gjatë derbit të zhvilluar në Mynih.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/screenshot-2026-09-15-093949.png",
-              "url": "https://www.albinfo.ch/de/kater-talente-me-prejardhje-nga-kosova-shkelqejne-ne-derbin-e-mynihut/",
-              "date": "2026-09-15",
-              "sentiment": "positive",
-              "reason": "Ton i ngrohtë dhe admirues për talentet me rrënjë në Kosovë",
-              "isQuote": false,
-              "evidence": "glänzen",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 4,
-          "trend": "i përzier",
-          "firstSeen": "2026-09-16",
-          "lastSeen": "2026-09-15"
-        },
-        {
           "name": "amnesty.ch",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -6241,30 +5645,6 @@
           "totalArticles": 4,
           "trend": "i përzier",
           "firstSeen": "2026-09-13",
-          "lastSeen": "2026-09-18"
-        },
-        {
-          "name": "kicker.ch",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "ÖFB-Gegner Kosovo erstmals mit Lustenaus Kacuri - kicker.ch",
-              "albanianTitle": "Kosova, kundërshtari i Austrisë, fton për herë të parë Kacurin e Lustenaus",
-              "blurb": "Futbollisti i Lustenaus, Kacuri, është ftuar për herë të parë në përfaqësuesen e Kosovës për ndeshjen ndaj Austrisë.",
-              "imageUrl": null,
-              "url": "https://www.kicker.ch/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri-1253958/artikel",
-              "date": "2026-09-18",
-              "sentiment": "neutral",
-              "reason": "Titulli është thjesht informativ, pa fjalë ngarkuese ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-18",
           "lastSeen": "2026-09-18"
         },
         {
@@ -6389,11 +5769,11 @@
         }
       ],
       "summary": {
-        "index": 53,
-        "positive": 8,
-        "neutral": 90,
-        "negative": 2,
-        "n": 49,
+        "index": 50,
+        "positive": 3,
+        "neutral": 95,
+        "negative": 3,
+        "n": 39,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -6829,30 +6209,6 @@
           "lastSeen": "2026-09-16"
         },
         {
-          "name": "RTL.nl",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Na tien jaar uitspraak in Kosovotribunaal: wat staat er op het spel? - RTL.nl",
-              "albanianTitle": "Pas dhjetë vitesh vendimi i Gjykatës Speciale: çfarë është në lojë?",
-              "blurb": "Pas dhjetë vitesh pritet vendimi i Gjykatës Speciale për Kosovën, duke shqyrtuar pasojat e mundshme të këtij procesi.",
-              "imageUrl": null,
-              "url": "https://www.rtl.nl/nieuws/buitenland/artikel/5652068/kosovotribunaal-den-haag-thaci-uitspraak-kritiek",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Straightforward reporting of a legal issue",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-15"
-        },
-        {
           "name": "Reformatorisch Dagblad",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -6938,30 +6294,6 @@
           "lastSeen": "2026-09-16"
         },
         {
-          "name": "Trouw",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Keert Hashim Thaci straks als held terug naar Kosovo, of verdwijnt hij als oorlogsmisdadiger achter de tralies? - Trouw",
-              "albanianTitle": "A do të kthehet Hashim Thaçi si hero në Kosovë, apo do të përfundojë pas hekurave si kriminel lufte?",
-              "blurb": "Procesi gjyqësor ndaj Hashim Thaçit po vlerësohet në lidhje me të ardhmen e tij politike dhe akuzat për krime.",
-              "imageUrl": null,
-              "url": "https://www.trouw.nl/buitenland/keert-hashim-thaci-straks-als-held-terug-naar-kosovo-of-verdwijnt-hij-als-oorlogsmisdadiger-achter-de-tralies~bb17560d/",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Fact‑based headline without loaded language toward Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-15"
-        },
-        {
           "name": "Tubantia",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -7039,7 +6371,7 @@
         "positive": 0,
         "neutral": 96,
         "negative": 4,
-        "n": 27,
+        "n": 25,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
@@ -7111,21 +6443,8 @@
         {
           "name": "DHnet",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "L'ex-président du Kosovo condamné à 25 ans de prison pour crimes de guerre - DHnet",
-              "albanianTitle": "Ish-presidenti i Kosovës dënohet me 25 vjet burg për krime lufte - DHnet",
-              "blurb": "Ish-presidenti i Kosovës është dënuar me 25 vjet burgim nga gjykata për shkak të krimeve të kryera gjatë luftës.",
-              "imageUrl": "https://www.dhnet.be/resizer/v2/7VMUDRERRBCZFHIRPIT3OFNCE4.png?auth=e26ec744f03e936804ed79e7aebfa711f3f6ad9ee4d8768a59ebacc7229c4737&width=1200&height=630&quality=85&smart=true",
-              "url": "https://www.dhnet.be/dernieres-depeches/2026/09/16/crimes-de-guerre-lancien-president-du-kosovo-hashim-thaci-fixe-sur-son-sort-J32JLIRFSJEM7EGJQNYAU7Y2CA/",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktike, pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Kosovo: les actes de l'UCK ont causé la mort d'au moins 96 civils, dit le juge au procès Thaci - DHnet",
               "albanianTitle": "Kosovë: Veprimet e UÇK-së shkaktuan vdekjen e të paktën 96 civilëve, thotë gjyqtari në gjyqin ndaj Thaçit - DHnet",
@@ -7268,30 +6587,6 @@
           "lastSeen": "2026-09-18"
         },
         {
-          "name": "Le Soir",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Avant le verdict de La Haye, le Kosovo soutient ses anciens héros de la guerre - Le Soir",
-              "albanianTitle": null,
-              "blurb": "Qytetarët e Kosovës po shprehin mbështetje për ish-udhëheqësit e luftës para shpalljes së vendimit nga Gjykata e Hagës.",
-              "imageUrl": null,
-              "url": "https://www.lesoir.be/771071/article/2026-09-15/avant-le-verdict-de-la-haye-le-kosovo-soutient-ses-anciens-heros-de-la-guerre",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Faktikë të raportuara pa gjuhë ngacmuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-15"
-        },
-        {
           "name": "Nieuwsblad",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -7382,7 +6677,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 16,
+        "n": 14,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7524,7 +6819,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 23,
+          "totalArticles": 24,
           "trend": "i përzier",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-09-17"
@@ -7750,30 +7045,6 @@
           "lastSeen": "2026-09-17"
         },
         {
-          "name": "efe.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Atacan la sede de la misión civil de la UE en Pristina tras condenas de líderes kosovares - efe.com",
-              "albanianTitle": "Sulmohet selia e misionit civil të BE-së në Prishtinë pas dënimit të liderëve kosovarë",
-              "blurb": "Misioni civil i Bashkimit Evropian në Prishtinë është sulmuar pas shpalljes së dënimeve për liderët e akuzuar të Kosovës.",
-              "imageUrl": null,
-              "url": "https://efe.com/euro-efe/2026-09-16/ataque-sede-mision-civil-ue-eulex-condenas-lideres-kosovares/",
-              "date": "2026-09-16",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-18",
-          "lastSeen": "2026-09-16"
-        },
-        {
           "name": "lavozdegalicia.es",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -7827,7 +7098,7 @@
         "positive": 4,
         "neutral": 96,
         "negative": 0,
-        "n": 27,
+        "n": 26,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -7907,30 +7178,6 @@
           "totalArticles": 4,
           "trend": "neutral",
           "firstSeen": "2026-08-21",
-          "lastSeen": "2026-09-16"
-        },
-        {
-          "name": "Euro2day",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο: Επεισόδια στην Πρίστινα για την καταδίκη των πρώην διοικητών του UCK - Euro2day",
-              "albanianTitle": "Kosovë: Incidentet në Prishtinë pas dënimit të ish-komandantëve të UÇK-së - Euro2day",
-              "blurb": "Incidentet janë regjistruar në Prishtinë si pasojë e dënimit të ish-komandantëve të UÇK-së nga gjykata në Hagë.",
-              "imageUrl": null,
-              "url": "https://www.euro2day.gr/amp/news/world/article/2369298/kosovo-epeisodia-sthn-pristina-gia-thn-katadikh-to.html",
-              "date": "2026-09-16",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-18",
           "lastSeen": "2026-09-16"
         },
         {
@@ -8017,30 +7264,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-14",
           "lastSeen": "2026-09-16"
-        },
-        {
-          "name": "NeaKriti",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Η Ελλάδα στην κορυφή των Βαλκανίων για δεύτερη συνεχόμενη χρονιά – «Σάρωσε» με 27 μετάλλια στους Αεραθλητικούς Αγώνες (pics) - NeaKriti",
-              "albanianTitle": "Greqia në krye të Ballkanit për të dytin vit radhazi – “rrëmben” 27 medalje në Lojërat e Aeronautikës",
-              "blurb": "Greqia ka fituar vendin e parë në garat ballkanike të aeromodelizmit duke rrëmbyer gjithsej njëzet e shtatë medalje.",
-              "imageUrl": "https://www.neakriti.gr/sites/default/files/styles/og_image/public/2026-09/%CE%B5%CE%B9%CE%BA%CF%8C%CE%BD%CE%B1_Viber_2026-09-15_20-02-39-717.jpg?itok=XnxX0rPU",
-              "url": "https://www.neakriti.gr/athlitismos/spor/2200034_i-ellada-stin-koryfi-ton-balkanion-gia-deyteri-synehomeni-hronia-sarose-me",
-              "date": "2026-09-15",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-15"
         },
         {
           "name": "ProtoThema",
@@ -8693,8 +7916,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 33,
-        "excluded": 8,
+        "n": 32,
+        "excluded": 7,
         "confident": true,
         "stanceVersion": 3
       }
@@ -8713,13 +7936,62 @@
       }
     },
     "Poloni": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Rzeczpospolita",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Były prezydent Kosowa winny zbrodni wojennych. 25 lat więzienia - Rzeczpospolita",
+              "albanianTitle": "Ish-presidenti i Kosovës shpallet fajtor për krime lufte, dënohet me 25 vjet burg - Rzeczpospolita",
+              "blurb": "Ish-presidenti i Kosovës është shpallur fajtor për krime lufte dhe është dënuar me 25 vjet burgim nga gjykata.",
+              "imageUrl": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300",
+              "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNdFBlOXd5Yk8tVHBxamhwcDVBclI1Q1NuVjUxWHBsblZkczRtQnNvVDNiSkt5QWhIVEZDZnFNMEJRRFRoR05VU3l2eGFyX2JISm56NzJraEN3YXQtNWVFZFVYWE84SjZ1bFR0TTFlLUtoOUg0Zm0wQ3BMR1ByRGxYUUt6Z08tVjl4a2Q2cjJfYXl2dWJuWUp6MTV6S3UtaklwUkpwYjJrRWVEbElK?oc=5",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim për dënimin, pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-19",
+          "lastSeen": "2026-09-16"
+        },
+        {
+          "name": "TVN24",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "25 lat więzienia za zbrodnie wojenne. Były prezydent Kosowa Hashim Thaci skazany - TVN24",
+              "albanianTitle": "25 vjet burg për krime lufte: Dënohet ish-presidenti i Kosovës, Hashim Thaçi",
+              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga Gjykata në Hagë për krime lufte.",
+              "imageUrl": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300",
+              "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQSkliV2VlWnJLWU1zV1R4cmpaUEtSMzNGeTdfdVJlakJHZ2Nmd1ctWk80RHh3VXpFbE9zUm81RWxWTDNqbjFPSy1PaWU3RWNSekYzNDJaN2RNVk80STg0bU5SU0xoSUJVS0pRdlJ3cFBYbS1aaXJCNDZuYlBYVWhRYm00dFZhaXFnSlhxTHpVRjBOemJVazhXMmNGcGwySTBBS0NmSDVoYndLYlNXVGF1Y3pB?oc=5",
+              "date": "2026-09-16",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim për dënimin, pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-19",
+          "lastSeen": "2026-09-16"
+        }
+      ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -8804,28 +8076,52 @@
           "lastSeen": "2026-09-16"
         },
         {
-          "name": "GZT",
+          "name": "Cumhuriyet",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosova, aylarca süren siyasi çıkmazın ardından yeni hükümeti onayladı - GZT",
-              "albanianTitle": null,
-              "blurb": "Kuvendi i Kosovës ka miratuar përbërjen e re të qeverisë pas një periudhe të gjatë të bllokadës politike.",
-              "imageUrl": null,
-              "url": "https://www.gzt.com/dunya/kosova-aylarca-suren-siyasi-cikmazin-ardindan-yeni-hukumeti-onayladi-4261075",
-              "date": "2026-09-15",
+              "title": "Kosova'da Batı Nil Virüsü kaynaklı ilk ölüm - Cumhuriyet",
+              "albanianTitle": "Rasti i parë i vdekjes nga virusi i Nilit Perëndimor në Kosovë - Cumhuriyet",
+              "blurb": "Institucionet shëndetësore në Kosovë kanë raportuar rastin e parë të vdekjes si pasojë e virusit të Nilit Perëndimor.",
+              "imageUrl": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300",
+              "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQYi1QNmI2NEstaVFPaUZkTW1zMHp4cHlPcVk2UEJNYW94V0swM2duTWJuVTJrOFBwcjRlUXhwVEVmY2hiMWVSUUVYOGJ6RDl3eUptY2d2ZGZvYlBBYmFJZjZWRW5CeGE1WTZZaVFkUWJlRHFIRHdxVXNvSjQ2ZnBnS3RZZ1gzWk9NNXJkamkyR1U?oc=5",
+              "date": "2026-09-17",
               "sentiment": "neutral",
-              "reason": "Faktik raportim i ngjarjes pa gjuhë ngarkuar",
+              "reason": "Faktik raportim i thjeshtë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "i përzier",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-15"
+          "lastSeen": "2026-09-17"
+        },
+        {
+          "name": "Hürriyet",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova’da özel madalya aldı - Hürriyet",
+              "albanianTitle": "Pranoi medalje speciale në Kosovë - Hürriyet",
+              "blurb": "Një person është nderuar me një medalje të veçantë gjatë një ceremonie të zhvilluar në territorin e Kosovës.",
+              "imageUrl": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300",
+              "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPTkdvNXZsUkFRR2NraHktUXNxNlNQeTNoUWVEV09YMU05NVBkSV9HdVN6RkdWUnhuYWVWUnhreUpLUGlSc0YtcHRNXzBzclBUSVVYWHN6b1lPdHE2QndDcWVJWFNGNVFlb01EbndjUHo5cWJzaU9wT0luX0w0MlFzR2lB?oc=5",
+              "date": "2026-09-19",
+              "sentiment": "neutral",
+              "reason": "Faktik raportim i thjeshtë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-19"
         }
       ],
       "summary": {
@@ -8833,7 +8129,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
