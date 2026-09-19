@@ -8194,8 +8194,8 @@
   {
     "date": "2026-09-19",
     "overallIndex": 50,
-    "totalArticles": 435,
-    "sourceCount": 266,
+    "totalArticles": 456,
+    "sourceCount": 280,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -8223,7 +8223,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 34,
+        "n": 36,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -8231,10 +8231,10 @@
       "Francë": {
         "index": 49,
         "positive": 3,
-        "neutral": 91,
+        "neutral": 92,
         "negative": 6,
-        "n": 34,
-        "excluded": 1,
+        "n": 36,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       },
@@ -8243,17 +8243,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 73,
+        "n": 75,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
       "Austri": {
-        "index": 50,
-        "positive": 7,
-        "neutral": 86,
-        "negative": 7,
-        "n": 29,
+        "index": 48,
+        "positive": 6,
+        "neutral": 85,
+        "negative": 9,
+        "n": 33,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -8263,7 +8263,7 @@
         "positive": 2,
         "neutral": 95,
         "negative": 2,
-        "n": 41,
+        "n": 43,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -8304,7 +8304,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 33,
-        "excluded": 7,
+        "excluded": 8,
         "confident": true,
         "stanceVersion": 3
       },
@@ -8313,9 +8313,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 6,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "Poloni": {
@@ -8329,22 +8329,14 @@
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 46,
+        "index": 47,
         "positive": 0,
-        "neutral": 92,
-        "negative": 8,
-        "n": 12,
-        "excluded": 4,
+        "neutral": 94,
+        "negative": 6,
+        "n": 18,
+        "excluded": 3,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": -4,
-          "from": 50,
-          "outlet": "Yeni Akit Gazetesi",
-          "title": "Ata që luftuan për pavarësinë e vendit të tyre shpallen fajtorë",
-          "evidence": "suçlu ilan edildi",
-          "url": "https://www.yeniakit.com.tr/haber/ulkesinin-bagimsizligi-icin-savasanlar-suclu-ilan-edildi-2023653.html"
-        }
+        "stanceVersion": 3
       },
       "Kroaci": {
         "index": null,
@@ -8359,11 +8351,11 @@
     },
     "headlines": [
       {
-        "title": "Kosovo: War Crimes Verdicts are a Step Toward Justice - Human Rights Watch",
-        "source": "Human Rights Watch",
+        "title": "Kosovo: War Crimes Verdicts are a Step Toward Justice - hrw.org",
+        "source": "hrw.org",
         "country": "SHBA",
         "flag": "🇺🇸",
-        "url": "https://www.hrw.org/news/2026/09/17/kosovo-war-crimes-verdicts-are-a-step-toward-justice",
+        "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQMjducTBBM2N6MXBkZlNzbFZCMXAtUUFkMnJFaUxfbG1mMU1oalNQbzQwMzlJNUlBUG1kcXlaQXpNbU90VVVCSWhMYjYyU0pTN1RtU25KdE95MEJadDY4YUlXQkZFQWZyTzNqbkRLci1PS05EclRZOUMySmtqQVZLMGFPSTgyZUFLUjg5V3dyWW1aQQ?oc=5",
         "sentiment": "positive"
       },
       {
@@ -8375,11 +8367,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "La condamnation d’Hashim Thaçi, ex-président du Kosovo, pour crime de guerre, une décision biaisée pour nombre de Kosovars - Le Monde.fr",
-        "source": "Le Monde",
+        "title": "Il s’attendait à \"être acquitté\" : Hashim Thaçi, héros de l’indépendance du Kosovo, condamné à 25 ans - marianne.net",
+        "source": "Marianne",
         "country": "Francë",
         "flag": "🇫🇷",
-        "url": "https://www.lemonde.fr/international/article/2026/09/16/hashim-thaci-l-ex-president-du-kosovo-heros-de-l-independance-chez-beaucoup-dans-son-pays-condamne-a-vingt-cinq-ans-de-prison-par-un-tribunal-international_6775466_3210.html",
+        "url": "https://www.marianne.net/monde/europe/il-s-attendait-a-etre-acquitte-hashim-thaci-heros-de-l-independance-du-kosovo-condamne-a-25-ans",
         "sentiment": "positive"
       },
       {
@@ -8391,19 +8383,19 @@
         "sentiment": "negative"
       },
       {
-        "title": "« Notre ami » Thaçi, criminel de guerre - Le Monde diplomatique",
+        "title": "On behalf of the people of Kosovo or Serbia? - Gazeta Sot",
+        "source": "Gazeta Sot",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://sot.com.al/english/ne-emer-te-popullit-te-kosoves-apo-te-serbise-i5184146",
+        "sentiment": "negative"
+      },
+      {
+        "title": "« Notre ami » Thaçi, criminel de guerre - monde-diplomatique.fr",
         "source": "Le Monde diplomatique",
         "country": "Francë",
         "flag": "🇫🇷",
         "url": "https://www.monde-diplomatique.fr/carnet/2026-09-18-Notre-ami-Thaci-criminel-de-guerre",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Kosovo geht geschwächt in Nations League - ORF ON",
-        "source": "ORF ON",
-        "country": "Austri",
-        "flag": "🇦🇹",
-        "url": "https://on.orf.at/video/14339431/16156140/kosovo-geht-geschwaecht-in-nations-league-sport-20-vom-17092026",
         "sentiment": "negative"
       }
     ]

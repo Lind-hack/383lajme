@@ -100,15 +100,16 @@
     },
     "Ouest-France": {
       "country": "Francë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.ouest-france.fr/europe/kosovo/kosovo-les-restes-dau-moins-23-personnes-exhumes-de-trois-fosses-communes-834d96a2-9c11-11f1-a150-d338aff2f727"
+        "https://www.ouest-france.fr/europe/kosovo/kosovo-les-restes-dau-moins-23-personnes-exhumes-de-trois-fosses-communes-834d96a2-9c11-11f1-a150-d338aff2f727",
+        "https://www.ouest-france.fr/europe/kosovo/lancien-president-du-kosovo-condamne-a-vingt-cinq-ans-de-prison-pour-crimes-de-guerre-63b74696-b1cc-11f1-bc32-13ddcee9efa7"
       ]
     },
     "Le Courrier des Balkans": {
@@ -1018,16 +1019,17 @@
     },
     "GZT": {
       "country": "Turqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-15",
+      "lastSeen": "2026-09-19",
       "urls": [
         "https://www.gzt.com/dunya/savasin-izleri-yeniden-ortaya-cikti-kosovada-23-kisiye-ait-kemik-kalintilari-bulundu-4252901",
-        "https://www.gzt.com/dunya/kosova-aylarca-suren-siyasi-cikmazin-ardindan-yeni-hukumeti-onayladi-4261075"
+        "https://www.gzt.com/dunya/kosova-aylarca-suren-siyasi-cikmazin-ardindan-yeni-hukumeti-onayladi-4261075",
+        "https://www.gzt.com/dunya/kosovanin-baskenti-pristinede-uck-komutanlarinin-cezalarina-tepki-gosterildi-4262351"
       ]
     },
     "Odatv": {
@@ -1138,13 +1140,13 @@
     },
     "Son Dakika": {
       "country": "Turqi",
-      "total": 13,
+      "total": 14,
       "positive": 1,
-      "neutral": 10,
+      "neutral": 11,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-17",
       "urls": [
         "https://www.sondakika.com/haber/haber-kosova-da-halter-sampiyonasi-basladi-20162761/",
         "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
@@ -1158,7 +1160,8 @@
         "https://www.sondakika.com/guncel/haber-kosova-prizren-deki-ilkokula-mehmetcik-oyun-parki--20207034/",
         "https://www.sondakika.com/politika/haber-albulena-haxhiu-kosova-da-62-oyla-yeniden-meclis-b-20222171/",
         "https://www.sondakika.com/spor/haber-vanli-sporcu-furkan-bilici-kosova-da-91-kiloda-dun-20224169/",
-        "https://www.sondakika.com/guncel/haber-kosova-da-kurti-hukumeti-62-oyla-guvenoyu-aldi-8-r-20233794/"
+        "https://www.sondakika.com/guncel/haber-kosova-da-kurti-hukumeti-62-oyla-guvenoyu-aldi-8-r-20233794/",
+        "https://www.sondakika.com/spor/haber-amed-sportif-te-6-futbolcu-kosova-dan-gine-ye-mill-20246768/"
       ]
     },
     "Harici": {
@@ -1658,9 +1661,9 @@
     },
     "Kronen Zeitung": {
       "country": "Austri",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-25",
@@ -1670,7 +1673,8 @@
         "https://www.krone.at/4269964",
         "https://www.krone.at/4171096",
         "https://www.krone.at/4295354",
-        "https://www.krone.at/4297022"
+        "https://www.krone.at/4297022",
+        "https://www.krone.at/4297586"
       ]
     },
     "Heute": {
@@ -1833,15 +1837,16 @@
     },
     "Fotomaç": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-09-18",
       "urls": [
-        "https://www.fotomac.com.tr/voleybol/2026/08/25/filenin-efeleri-akdeniz-oyunlarinda-dolu-dizgin-2de-2-yaptik"
+        "https://www.fotomac.com.tr/voleybol/2026/08/25/filenin-efeleri-akdeniz-oyunlarinda-dolu-dizgin-2de-2-yaptik",
+        "https://www.fotomac.com.tr/uluslar-ligi/2026/09/18/super-ligin-yildizlari-kosova-milli-takimina-cagrildi"
       ]
     },
     "il Fatto Nisseno": {
@@ -3227,7 +3232,7 @@
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-10",
+      "lastSeen": "2026-09-17",
       "urls": [
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Prizren/786712"
@@ -3263,13 +3268,13 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 51,
+      "total": 52,
       "positive": 10,
-      "neutral": 33,
+      "neutral": 34,
       "negative": 0,
       "unknown": 8,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-17",
+      "lastSeen": "2026-09-19",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
@@ -3321,7 +3326,8 @@
         "https://www.albinfo.ch/de/rita-ora-reagon-pas-aktgjykimit-ne-hage-duke-luftuar-per-kosoven-qe-e-quajme-shtepi/",
         "https://www.albinfo.ch/de/i-kerkuar-nga-kosova-dhe-shqiperia-lutfi-dalipi-ftohet-nga-zvicra-u21/",
         "https://www.albinfo.ch/de/hapet-panairi-nderkombetar-prishtina-2026-fokusi-te-prodhimi-dhe-eksportet/",
-        "https://www.albinfo.ch/de/dua-lipa-reagon-pas-aktgjykimit-ne-hage-shperndan-mesazhin-liria-ka-emer/"
+        "https://www.albinfo.ch/de/dua-lipa-reagon-pas-aktgjykimit-ne-hage-shperndan-mesazhin-liria-ka-emer/",
+        "https://www.albinfo.ch/de/die-neutralitaetsinitiative-wuerde-unsere-friedenspolitik-schwaechen/"
       ]
     },
     "iAxia -": {
@@ -3581,15 +3587,16 @@
     },
     "T24": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-09-09",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://t24.com.tr/yazarlar/hasan-servet-oktem/kosovali-parlamenterlerin-yaptigi-secmene-saygisizlik-degil-mi,58967"
+        "https://t24.com.tr/yazarlar/hasan-servet-oktem/kosovali-parlamenterlerin-yaptigi-secmene-saygisizlik-degil-mi,58967",
+        "https://t24.com.tr/dunya/eski-kosova-cumhurbaskani-thaciye-sirbistandan-ayrilik-surecindeki-savas-suclari-nedeniyle-uluslararasi-ceza-mahkemesinden-25-yil-hapis-cezasi,1348102"
       ]
     },
     "dw.com": {
@@ -3930,15 +3937,16 @@
     },
     "VOL.AT": {
       "country": "Austri",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-13",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.vol.at/kosovo-parlament-billigt-neue-regierung-unter-premier-kurti/10462553"
+        "https://www.vol.at/kosovo-parlament-billigt-neue-regierung-unter-premier-kurti/10462553",
+        "https://www.vol.at/25-jahre-haft-wegen-kriegsverbrechen/10471667"
       ]
     },
     "SRF": {
@@ -4181,15 +4189,16 @@
     },
     "epochtimes.se": {
       "country": "Suedi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-13",
-      "lastSeen": "2026-09-12",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.epochtimes.se/efter-politiska-kaoset-kosovo-har-ny-regering"
+        "https://www.epochtimes.se/efter-politiska-kaoset-kosovo-har-ny-regering",
+        "https://www.epochtimes.se/kosovos-expresident-fangslas-for-krigsbrott"
       ]
     },
     "haberler.com": {
@@ -5465,15 +5474,16 @@
     },
     "The Guardian": {
       "country": "Britani",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-16",
       "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.theguardian.com/world/2026/sep/16/kosovo-former-president-hashim-thaci-jailed-war-crimes"
+        "https://www.theguardian.com/world/2026/sep/16/kosovo-former-president-hashim-thaci-jailed-war-crimes",
+        "https://www.theguardian.com/world/live/2026/sep/16/european-union-ursula-von-der-leyen-eu-europe-latest-news-updates?page=with%3Ablock-6aaa61418f085ee1fe69eb12"
       ]
     },
     "The Economist": {
@@ -6129,15 +6139,16 @@
     },
     "Oberösterreichische Nachrichten": {
       "country": "Austri",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
       "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.nachrichten.at/politik/aussenpolitik/199899-der-krieg-im-kosovo;art391,4212694"
+        "https://www.nachrichten.at/politik/aussenpolitik/199899-der-krieg-im-kosovo;art391,4212694",
+        "https://www.nachrichten.at/politik/aussenpolitik/hashim-thaci-vom-praesidentenamt-im-kosovo-zum-verurteilten-in-den-haag;art391,4212685"
       ]
     },
     "Kurier": {
@@ -6207,9 +6218,9 @@
     },
     "20 Minuten": {
       "country": "Zvicër",
-      "total": 4,
+      "total": 5,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
@@ -6218,7 +6229,8 @@
         "https://www.20min.ch/fr/story/football-l-equipe-de-suisse-perd-encore-un-talent-au-profit-du-kosovo-103634234",
         "https://www.20min.ch/story/vaduz-talent-dalipi-im-visier-von-albanien-kosovo-und-grosser-super-league-clubs-103627453",
         "https://www.20min.ch/story/hashim-thaci-kriegsverbrechen-kosovos-ex-praesident-zu-langer-haft-verurteilt-103634223",
-        "https://www.20min.ch/story/dion-kacuri-nati-verliert-naechstes-talent-u21-profi-wechselt-zu-kosovo-103634179"
+        "https://www.20min.ch/story/dion-kacuri-nati-verliert-naechstes-talent-u21-profi-wechselt-zu-kosovo-103634179",
+        "https://www.20min.ch/story/25-jahre-gefaengnis-xhaka-huldigt-verurteiltem-kriegsverbrecher-und-erntet-kritik-103635402"
       ]
     },
     "ref.ch": {
@@ -7421,6 +7433,84 @@
       "lastSeen": "2026-09-16",
       "urls": [
         "https://halktv.com.tr/dunya/kosovanin-eski-cumhurbaskani-hasim-taciye-savas-suclari-davasinda-25-yil-hapis-1055439h"
+      ]
+    },
+    "Udineseblog": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-19",
+      "urls": [
+        "https://www.udineseblog.it/udinese/mondo-udinese/sosta-nazionali-runjaic-perde-nove-bianconeri/"
+      ]
+    },
+    "quotidiano.net": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.quotidiano.net/video/esteri/kosovo-25-anni-allex-presidente-thaci-per-crimini-di-guerra-ry7pxcfy"
+      ]
+    },
+    "oe24": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 1,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-19",
+      "urls": [
+        "https://www.oe24.at/a/foda-rueckkehr-nach-wien-ex-teamchef-will-oesterreich-mit-kosovo-aergern-900116443"
+      ]
+    },
+    "amna.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.amna.gr/home/videos/1023515/-Aganaktisi-prokalese-sto-Kosobo-i-katadikastiki-apofasi-gia-ton-Chasim-Thatsi-kai-tous-treis-proin-dioikites-tou-UCK"
+      ]
+    },
+    "svt.se": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.svt.se/nyheter/utrikes/kosovos-tidigare-president-hashim-thaci-doms-till-25-ars-fangelse"
+      ]
+    },
+    "Takvim": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.takvim.com.tr/dunya/eski-kosova-cumhurbaskani-hashim-thaciye-savas-sucundan-hapis-cezasi-6513093"
       ]
     }
   }
