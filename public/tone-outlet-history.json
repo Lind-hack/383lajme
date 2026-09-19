@@ -441,13 +441,13 @@
     },
     "Il Sole 24 ORE": {
       "country": "Itali",
-      "total": 7,
+      "total": 8,
       "positive": 0,
-      "neutral": 7,
+      "neutral": 8,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-22",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-18",
       "urls": [
         "https://en.ilsole24ore.com/art/abodi-e-gonxhja-incontro-vista-giochi-mediterraneo-2030-kosovo-e-albania-AJxnnEs",
         "https://www.ilsole24ore.com/art/abodi-e-gonxhja-incontro-vista-giochi-mediterraneo-2030-kosovo-e-albania-AJxnnEs",
@@ -455,7 +455,8 @@
         "https://www.ilsole24ore.com/art/dalla-somalia-kosovo-autunno-prima-linea-le-forze-armate-AJzY7Yg",
         "https://stream24.ilsole24ore.com/video/mondo/kosovo-l-ex-presidente-hashim-thaci-condannato-crimini-guerra-delusione-sostenitori/AJ1Hq1EB",
         "https://stream24.ilsole24ore.com/video/mondo/kosovo-25-anni-ex-presidente-thaci-crimini-guerra/AJkqWxEB?cmpid=.com",
-        "https://stream24.ilsole24ore.com/video/mondo/all-aja-raduno-sostenitori-thaci-condanna-ex-presidente-kosovo/AJ5tFRFB"
+        "https://stream24.ilsole24ore.com/video/mondo/all-aja-raduno-sostenitori-thaci-condanna-ex-presidente-kosovo/AJ5tFRFB",
+        "https://stream24.ilsole24ore.com/video/mondo/kosovo-ancora-proteste-contro-condanna-thaci-crimini-guerra/AJ5EFCHB"
       ]
     },
     "agenziagiornalisticaopinione.it": {
@@ -555,16 +556,17 @@
     },
     "De Telegraaf": {
       "country": "Holandë",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
       "lastSeen": "2026-09-16",
       "urls": [
         "https://www.telegraaf.nl/buitenland/massagraf-met-resten-van-ruim-twintig-mensen-gevonden-in-kosovo/160256362.html",
-        "https://www.telegraaf.nl/binnenland/onrust-op-malieveld-na-veroordeling-oud-president-kosovo-om-oorlogsmisdaden-politie-bekogeld-met-vlaggen-en-bakstenen/161520698.html"
+        "https://www.telegraaf.nl/binnenland/onrust-op-malieveld-na-veroordeling-oud-president-kosovo-om-oorlogsmisdaden-politie-bekogeld-met-vlaggen-en-bakstenen/161520698.html",
+        "https://www.telegraaf.nl/binnenland/honderden-kosovaren-betuigen-steun-aan-voormalige-president-die-terechtstaat-voor-oorlogsmisdaden/161520698.html"
       ]
     },
     "Nieuwsblad": {
@@ -971,9 +973,9 @@
     },
     "Cumhuriyet": {
       "country": "Turqi",
-      "total": 3,
+      "total": 4,
       "positive": 1,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
@@ -981,7 +983,8 @@
       "urls": [
         "https://www.cumhuriyet.com.tr/dunya/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-kemik-kalintilari-bulundu-2530603",
         "https://www.cumhuriyet.com.tr/cumhuriyet-in-egesi/izmir-ile-kosova-arasinda-cok-yonlu-is-birligi-donemi-2530991",
-        "https://news.google.com/rss/articles/CBMikAFBVV95cUxQYi1QNmI2NEstaVFPaUZkTW1zMHp4cHlPcVk2UEJNYW94V0swM2duTWJuVTJrOFBwcjRlUXhwVEVmY2hiMWVSUUVYOGJ6RDl3eUptY2d2ZGZvYlBBYmFJZjZWRW5CeGE1WTZZaVFkUWJlRHFIRHdxVXNvSjQ2ZnBnS3RZZ1gzWk9NNXJkamkyR1U?oc=5"
+        "https://news.google.com/rss/articles/CBMikAFBVV95cUxQYi1QNmI2NEstaVFPaUZkTW1zMHp4cHlPcVk2UEJNYW94V0swM2duTWJuVTJrOFBwcjRlUXhwVEVmY2hiMWVSUUVYOGJ6RDl3eUptY2d2ZGZvYlBBYmFJZjZWRW5CeGE1WTZZaVFkUWJlRHFIRHdxVXNvSjQ2ZnBnS3RZZ1gzWk9NNXJkamkyR1U?oc=5",
+        "https://www.cumhuriyet.com.tr/dunya/eski-kosova-cumhurbaskani-hasim-taci-ye-savas-suclarindan-25-yil-hapis-2538161"
       ]
     },
     "Aksiyon.com.TR": {
@@ -1082,9 +1085,9 @@
     },
     "Hürriyet": {
       "country": "Turqi",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
@@ -1094,7 +1097,8 @@
         "https://www.hurriyet.com.tr/avrupa/zafer-algoze-kosovada-yilin-sanatcisi-odulu-43282311",
         "https://www.hurriyet.com.tr/yerel-haberler/edirne/trakya-universitesi-heyeti-kosovadaki-sanat-fe-43288748",
         "https://www.hurriyet.com.tr/avrupa/prizrende-ilkokul-ogrencilerine-egitim-setleri-dagitildi-43298523",
-        "https://news.google.com/rss/articles/CBMiggFBVV95cUxPTkdvNXZsUkFRR2NraHktUXNxNlNQeTNoUWVEV09YMU05NVBkSV9HdVN6RkdWUnhuYWVWUnhreUpLUGlSc0YtcHRNXzBzclBUSVVYWHN6b1lPdHE2QndDcWVJWFNGNVFlb01EbndjUHo5cWJzaU9wT0luX0w0MlFzR2lB?oc=5"
+        "https://news.google.com/rss/articles/CBMiggFBVV95cUxPTkdvNXZsUkFRR2NraHktUXNxNlNQeTNoUWVEV09YMU05NVBkSV9HdVN6RkdWUnhuYWVWUnhreUpLUGlSc0YtcHRNXzBzclBUSVVYWHN6b1lPdHE2QndDcWVJWFNGNVFlb01EbndjUHo5cWJzaU9wT0luX0w0MlFzR2lB?oc=5",
+        "http://mobil.hurriyet.com.tr/dunya/laheyde-tarihi-karar-kosova-eski-cumhurbaskani-hasim-thacinin-cezasi-aciklandi-43308596"
       ]
     },
     "anayasa.gov.tr": {
@@ -1201,15 +1205,16 @@
     },
     "Haber 7": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.haber7.com/dunya/haber/3653150-toplu-mezarlar-acildi-cok-sayida-muhimmat-cikti"
+        "https://www.haber7.com/dunya/haber/3653150-toplu-mezarlar-acildi-cok-sayida-muhimmat-cikti",
+        "https://www.haber7.com/dunya/haber/3660063-son-dakika-kosova-eski-cumhurbaskani-hasim-thaciye-25-yil-hapis-cezasi"
       ]
     },
     "Haber Ekspres": {
@@ -1901,7 +1906,7 @@
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-17",
       "urls": [
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
@@ -2986,16 +2991,17 @@
     },
     "TRT Avaz": {
       "country": "Turqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-05",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-18",
       "urls": [
         "https://www.trtavaz.com.tr/haber/tur/turkistandan/uskup-te-osmanli-avrupasi-nda-edebiyat-1400-1800-sempozyumu-duzenlendi/6a9bda56e72ad848a0b1de17",
-        "https://www.trtavaz.com.tr/haber/tur/turkistandan/kosova-da-yeni-hukumet-kuruldu/6aa7ddfaa12ab216259ad58b"
+        "https://www.trtavaz.com.tr/haber/tur/turkistandan/kosova-da-yeni-hukumet-kuruldu/6aa7ddfaa12ab216259ad58b",
+        "https://www.trtavaz.com.tr/haber/tur/turkistandan/kosova-da-bati-nil-virusu-kaynakli-ilk-olum-kaydedildi/6aace070e225a683d0490c73"
       ]
     },
     "Luino Notizie": {
@@ -3014,20 +3020,23 @@
     },
     "balcanicaucaso.org": {
       "country": "Itali",
-      "total": 6,
+      "total": 9,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 6,
       "negative": 2,
       "unknown": 1,
       "firstSeen": "2026-09-06",
-      "lastSeen": "2026-09-17",
+      "lastSeen": "2026-09-18",
       "urls": [
         "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/",
         "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
         "https://www.balcanicaucaso.org/en/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
         "https://www.balcanicaucaso.org/en/cp_article/processo-thaci-la-piazza-di-pristina-chiede-lassoluzione/",
         "https://www.balcanicaucaso.org/cp_article/processo-thaci-la-piazza-di-pristina-chiede-lassoluzione/",
-        "https://www.balcanicaucaso.org/en/cp_article/kosovo-anger-and-disappointment-for-the-conviction-of-kla-leaders/"
+        "https://www.balcanicaucaso.org/en/cp_article/kosovo-anger-and-disappointment-for-the-conviction-of-kla-leaders/",
+        "https://www.balcanicaucaso.org/cp_article/kosovo-rabbia-e-delusione-per-la-condanna-dei-leader-uck/",
+        "https://www.balcanicaucaso.org/cp_article/kosovo-hashim-thaci-condannato-per-crimini-di-guerra/",
+        "https://www.balcanicaucaso.org/cp_article/condanna-dei-leader-uck-le-reazioni-in-serbia/"
       ]
     },
     "NÖN.at - Niederösterreichische Nachrichten": {
@@ -3585,16 +3594,17 @@
     },
     "dw.com": {
       "country": "Gjermani",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-10",
       "lastSeen": "2026-09-16",
       "urls": [
         "https://www.dw.com/en/germany-kosovo-unite-against-ticks-carrying-deadly-virus/a-78655223",
-        "https://www.dw.com/es/25-a%C3%B1os-de-prisi%C3%B3n-para-hashim-thaci-expresidente-de-kosovo-por-cr%C3%ADmenes-de-guerra/a-79289520"
+        "https://www.dw.com/es/25-a%C3%B1os-de-prisi%C3%B3n-para-hashim-thaci-expresidente-de-kosovo-por-cr%C3%ADmenes-de-guerra/a-79289520",
+        "https://amp.dw.com/tr/kosovan%C4%B1n-eski-cumhurba%C5%9Fkan%C4%B1-ta%C3%A7iye-25-y%C4%B1l-hapis-cezas%C4%B1/a-79292640"
       ]
     },
     "courrierdesbalkans.fr": {
@@ -4043,15 +4053,16 @@
     },
     "Svenska Epoch Times": {
       "country": "Suedi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-13",
-      "lastSeen": "2026-09-12",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.epochtimes.se/efter-politiska-kaoset-kosovo-har-ny-regering"
+        "https://www.epochtimes.se/efter-politiska-kaoset-kosovo-har-ny-regering",
+        "https://www.epochtimes.se/kosovos-expresident-fangslas-for-krigsbrott"
       ]
     },
     "Anadolu Ajansı": {
@@ -4304,15 +4315,16 @@
     },
     "omni.se": {
       "country": "Suedi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-14",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://omni.se/efter-18-manader-av-kaos-kosovo-har-en-ny-regering/a/0pd0kE"
+        "https://omni.se/efter-18-manader-av-kaos-kosovo-har-en-ny-regering/a/0pd0kE",
+        "https://omni.se/kosovos-tidigare-president-doms-till-fangelse-i-haag/a/d4eWKw"
       ]
     },
     "Ensonhaber": {
@@ -4356,15 +4368,16 @@
     },
     "RTVE.es": {
       "country": "Spanjë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-14",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.rtve.es/play/audios/cinco-continentes/cinco-continentes-entrevista-abel-ruiz-leon-autor-kosovo-barro-zapatos/17224126/"
+        "https://www.rtve.es/play/audios/cinco-continentes/cinco-continentes-entrevista-abel-ruiz-leon-autor-kosovo-barro-zapatos/17224126/",
+        "https://www.rtve.es/noticias/20260916/kovoso-hashim-thaci-culpable-crimenes-guerra-tribunal-especial-haya/17227052.shtml"
       ]
     },
     "Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων": {
@@ -4448,15 +4461,16 @@
     },
     "İlke TV": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-14",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-17",
       "urls": [
-        "https://ilketv.com.tr/savas-suclari-mahkemesi-eski-kosova-cumhurbaskani-thacinin-yargilandigi-davada-kararini-aciklayacak/"
+        "https://ilketv.com.tr/savas-suclari-mahkemesi-eski-kosova-cumhurbaskani-thacinin-yargilandigi-davada-kararini-aciklayacak/",
+        "https://ilketv.com.tr/kosovada-bati-nil-virusunden-ilk-olum/"
       ]
     },
     "dogruhaber.com.tr": {
@@ -6193,9 +6207,9 @@
     },
     "20 Minuten": {
       "country": "Zvicër",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
@@ -6203,7 +6217,8 @@
       "urls": [
         "https://www.20min.ch/fr/story/football-l-equipe-de-suisse-perd-encore-un-talent-au-profit-du-kosovo-103634234",
         "https://www.20min.ch/story/vaduz-talent-dalipi-im-visier-von-albanien-kosovo-und-grosser-super-league-clubs-103627453",
-        "https://www.20min.ch/story/hashim-thaci-kriegsverbrechen-kosovos-ex-praesident-zu-langer-haft-verurteilt-103634223"
+        "https://www.20min.ch/story/hashim-thaci-kriegsverbrechen-kosovos-ex-praesident-zu-langer-haft-verurteilt-103634223",
+        "https://www.20min.ch/story/dion-kacuri-nati-verliert-naechstes-talent-u21-profi-wechselt-zu-kosovo-103634179"
       ]
     },
     "ref.ch": {
@@ -6411,15 +6426,16 @@
     },
     "NRC - Nieuws, achtergronden en onderzoeksjournalistiek": {
       "country": "Holandë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
       "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.nrc.nl/nieuws/2026/09/16/kosovaarse-oud-president-veroordeeld-tot-25-jaar-cel-voor-oorlogsmisdaden-a4936785"
+        "https://www.nrc.nl/nieuws/2026/09/16/kosovaarse-oud-president-veroordeeld-tot-25-jaar-cel-voor-oorlogsmisdaden-a4936785",
+        "https://www.nrc.nl/nieuws/2026/09/16/veroordeling-kosovaarse-oud-president-in-politiek-beladen-proces-leidt-tot-woede-en-beangstigende-sfeer-in-kosovo-a4936665"
       ]
     },
     "HLN": {
@@ -7236,6 +7252,175 @@
       "lastSeen": "2026-09-16",
       "urls": [
         "https://news.google.com/rss/articles/CBMirAFBVV95cUxNdFBlOXd5Yk8tVHBxamhwcDVBclI1Q1NuVjUxWHBsblZkczRtQnNvVDNiSkt5QWhIVEZDZnFNMEJRRFRoR05VU3l2eGFyX2JISm56NzJraEN3YXQtNWVFZFVYWE84SjZ1bFR0TTFlLUtoOUg0Zm0wQ3BMR1ByRGxYUUt6Z08tVjl4a2Q2cjJfYXl2dWJuWUp6MTV6S3UtaklwUkpwYjJrRWVEbElK?oc=5"
+      ]
+    },
+    "The Mirror": {
+      "country": "Britani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.mirror.co.uk/news/world-news/hashim-thaci-kosovo-war-crimes-37668255"
+      ]
+    },
+    "unionesarda.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://www.unionesarda.it/multimedia/kosovo-ancora-proteste-contro-la-condanna-di-thaci-per-crimini-di-guerra-tylu49oa"
+      ]
+    },
+    "Sprint e Sport": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-19",
+      "urls": [
+        "https://www.sprintesport.it/nazionali/2026/09/19/news/xhaka-difende-l-ex-presidente-kosovaro-condannato-a-25-anni-per-crimini-di-guerra-in-svizzera-scoppia-un-caso-759966/"
+      ]
+    },
+    "Ticinonline": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-19",
+      "urls": [
+        "https://www.tio.ch/sport/calcio/1951185/kosovo-thaci-xhaka-uck-guerra"
+      ]
+    },
+    "de Volkskrant": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.volkskrant.nl/buitenland/tribunaal-veroordeelt-kosovaarse-oud-president-hashim-thaci-tot-25-jaar-cel-voor-oorlogsmisdaden~b8e6cbbc/"
+      ]
+    },
+    "EFE - Agencia de noticias": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://efe.com/euro-efe/2026-09-18/bruselas-pide-contencion-kosovo-tras-condena-thaci-crimenes-de-guerra/"
+      ]
+    },
+    "El Mundo": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.elmundo.es/internacional/2026/09/16/6aaa3e92fdddff9f6d8b4585.html"
+      ]
+    },
+    "Diario Público": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.publico.es/internacional/condenado-25-anos-prision-expresidente-kosovo-hashim-thaci-crimenes-guerra.html"
+      ]
+    },
+    "Η Εφημερίδα των Συντακτών": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.efsyn.gr/kosmos/1468234/hagi-katheirxi-25-eton-ston-proin-proedro-toy-kosovoy-hasim-thatsi-gia-egklimata-polemoy/"
+      ]
+    },
+    "Diken": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.diken.com.tr/eski-kosova-cumhurbaskani-taciye-savas-sucundan-25-yil-hapis/"
+      ]
+    },
+    "Yeni Akit Gazetesi": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 1,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-19",
+      "urls": [
+        "https://www.yeniakit.com.tr/haber/ulkesinin-bagimsizligi-icin-savasanlar-suclu-ilan-edildi-2023653.html"
+      ]
+    },
+    "Stratejik Düşünce Enstitüsü": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://www.sde.org.tr/avrupa/haber-analiz-kosova-adalet-ariyor-haberi-67149"
+      ]
+    },
+    "Halk TV": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://halktv.com.tr/dunya/kosovanin-eski-cumhurbaskani-hasim-taciye-savas-suclari-davasinda-25-yil-hapis-1055439h"
       ]
     }
   }

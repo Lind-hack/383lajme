@@ -8194,8 +8194,8 @@
   {
     "date": "2026-09-19",
     "overallIndex": 50,
-    "totalArticles": 408,
-    "sourceCount": 246,
+    "totalArticles": 435,
+    "sourceCount": 266,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -8204,7 +8204,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 85,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
@@ -8223,7 +8223,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 33,
+        "n": 34,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -8243,7 +8243,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 66,
+        "n": 73,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -8260,10 +8260,10 @@
       },
       "Zvicër": {
         "index": 50,
-        "positive": 3,
+        "positive": 2,
         "neutral": 95,
-        "negative": 3,
-        "n": 39,
+        "negative": 2,
+        "n": 41,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -8273,7 +8273,7 @@
         "positive": 0,
         "neutral": 96,
         "negative": 4,
-        "n": 25,
+        "n": 28,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
@@ -8290,10 +8290,10 @@
       },
       "Spanjë": {
         "index": 52,
-        "positive": 4,
-        "neutral": 96,
+        "positive": 3,
+        "neutral": 97,
         "negative": 0,
-        "n": 26,
+        "n": 30,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -8303,17 +8303,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 32,
+        "n": 33,
         "excluded": 7,
         "confident": true,
         "stanceVersion": 3
       },
       "Suedi": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -8329,14 +8329,22 @@
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 50,
+        "index": 46,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 6,
-        "excluded": 1,
+        "neutral": 92,
+        "negative": 8,
+        "n": 12,
+        "excluded": 4,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -4,
+          "from": 50,
+          "outlet": "Yeni Akit Gazetesi",
+          "title": "Ata që luftuan për pavarësinë e vendit të tyre shpallen fajtorë",
+          "evidence": "suçlu ilan edildi",
+          "url": "https://www.yeniakit.com.tr/haber/ulkesinin-bagimsizligi-icin-savasanlar-suclu-ilan-edildi-2023653.html"
+        }
       },
       "Kroaci": {
         "index": null,
@@ -8391,11 +8399,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "Foda-Rückkehr nach Wien! Ex-Teamchef will Österreich mit Kosovo ärgern - oe24.at",
-        "source": "oe24.at",
+        "title": "Kosovo geht geschwächt in Nations League - ORF ON",
+        "source": "ORF ON",
         "country": "Austri",
         "flag": "🇦🇹",
-        "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQRl8tWFRGRC10Y3MtN1dDOUdtcGpONnRocUtrdGlYQWs4X3ZreXJRQmtkRzFxT0gxcGg1M01lOG43YTAyWkhIdXJYZ0xlOFdGdnVxQmk5TFpsVWlPYVkzUHBSUXBGUFZsYnZDdnZmZkIyMnI2QV9YUkZRVTFhdEwxbmZqTUNkeHhtdjR0VjdKOFMwc0Jsb240bjk3YWk2WDVBSFB2SFl2R0YzRmNT0gGsAUFVX3lxTFBGXy1YVEZELXRjcy03V0M5R21wak42dGhxS2t0aVhBazhfdmt5clFCa2RHMXFPSDFwaDUzTWU4bjdhMDJaSEh1clhnTGU4V0Z2dXFCaTlMWmxVaU9hWTNQcFJRcEZQVmxidkN2dmZmQjIycjZBX1hSRlFVMWF0TDFuZmpNQ2R4eG12NHRWN0o4UzBzQmxvbjRuOTdhaTZYNUFIUHZIWXZHRjNGY1M?oc=5",
+        "url": "https://on.orf.at/video/14339431/16156140/kosovo-geht-geschwaecht-in-nations-league-sport-20-vom-17092026",
         "sentiment": "negative"
       }
     ]
