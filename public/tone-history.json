@@ -8194,8 +8194,8 @@
   {
     "date": "2026-09-19",
     "overallIndex": 50,
-    "totalArticles": 456,
-    "sourceCount": 280,
+    "totalArticles": 482,
+    "sourceCount": 293,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -8203,7 +8203,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 85,
+        "n": 87,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -8243,7 +8243,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 75,
+        "n": 76,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -8261,20 +8261,20 @@
       "Zvicër": {
         "index": 50,
         "positive": 2,
-        "neutral": 95,
+        "neutral": 96,
         "negative": 2,
-        "n": 43,
+        "n": 45,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
       "Holandë": {
-        "index": 48,
+        "index": 49,
         "positive": 0,
-        "neutral": 96,
-        "negative": 4,
-        "n": 28,
-        "excluded": 3,
+        "neutral": 97,
+        "negative": 3,
+        "n": 34,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       },
@@ -8283,7 +8283,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 14,
+        "n": 15,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -8293,7 +8293,7 @@
         "positive": 3,
         "neutral": 97,
         "negative": 0,
-        "n": 30,
+        "n": 31,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -8303,8 +8303,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 33,
-        "excluded": 8,
+        "n": 41,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       },
@@ -8329,12 +8329,12 @@
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 47,
+        "index": 48,
         "positive": 0,
-        "neutral": 94,
-        "negative": 6,
-        "n": 18,
-        "excluded": 3,
+        "neutral": 96,
+        "negative": 4,
+        "n": 23,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
@@ -8351,11 +8351,11 @@
     },
     "headlines": [
       {
-        "title": "Kosovo: War Crimes Verdicts are a Step Toward Justice - hrw.org",
-        "source": "hrw.org",
+        "title": "Alaska, Kosovo youth build friendships through pen pal program - ak.ng.mil",
+        "source": "ak.ng.mil",
         "country": "SHBA",
         "flag": "🇺🇸",
-        "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQMjducTBBM2N6MXBkZlNzbFZCMXAtUUFkMnJFaUxfbG1mMU1oalNQbzQwMzlJNUlBUG1kcXlaQXpNbU90VVVCSWhMYjYyU0pTN1RtU25KdE95MEJadDY4YUlXQkZFQWZyTzNqbkRLci1PS05EclRZOUMySmtqQVZLMGFPSTgyZUFLUjg5V3dyWW1aQQ?oc=5",
+        "url": "https://ak.ng.mil/Media/News-Article-View/Article/4603468/alaska-kosovo-youth-build-friendships-through-pen-pal-program/",
         "sentiment": "positive"
       },
       {
@@ -8367,35 +8367,35 @@
         "sentiment": "positive"
       },
       {
-        "title": "Il s’attendait à \"être acquitté\" : Hashim Thaçi, héros de l’indépendance du Kosovo, condamné à 25 ans - marianne.net",
-        "source": "Marianne",
+        "title": "Kosovo: La condamnation de l'ancien président pour crimes de guerre est une étape importante vers la justice - amnesty.ch",
+        "source": "amnesty.org",
         "country": "Francë",
         "flag": "🇫🇷",
-        "url": "https://www.marianne.net/monde/europe/il-s-attendait-a-etre-acquitte-hashim-thaci-heros-de-l-independance-du-kosovo-condamne-a-25-ans",
+        "url": "https://www.amnesty.ch/fr/pays/kosovo/la-condamnation-de-lancien-president-pour-crimes-de-guerre-est-une-etape-importante-vers-la-justice",
         "sentiment": "positive"
-      },
-      {
-        "title": "Hashim Thaçi left Kosovo free/ Erion Veliaj does not leave the seat given to him by the SP - cna.al",
-        "source": "cna.al",
-        "country": "SHBA",
-        "flag": "🇺🇸",
-        "url": "https://www.cna.al/english/editorial/hashim-thaci-e-la-kosoven-te-lire-erion-veliaj-nuk-ndahet-nga-karrigia-i474334",
-        "sentiment": "negative"
       },
       {
         "title": "On behalf of the people of Kosovo or Serbia? - Gazeta Sot",
         "source": "Gazeta Sot",
-        "country": "Britani",
-        "flag": "🇬🇧",
+        "country": "SHBA",
+        "flag": "🇺🇸",
         "url": "https://sot.com.al/english/ne-emer-te-popullit-te-kosoves-apo-te-serbise-i5184146",
         "sentiment": "negative"
       },
       {
-        "title": "« Notre ami » Thaçi, criminel de guerre - monde-diplomatique.fr",
+        "title": "« Notre ami » Thaçi, criminel de guerre - Le Monde diplomatique",
         "source": "Le Monde diplomatique",
         "country": "Francë",
         "flag": "🇫🇷",
         "url": "https://www.monde-diplomatique.fr/carnet/2026-09-18-Notre-ami-Thaci-criminel-de-guerre",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Foda-Rückkehr nach Wien! Ex-Teamchef will Österreich mit Kosovo ärgern - oe24.at",
+        "source": "oe24.at",
+        "country": "Austri",
+        "flag": "🇦🇹",
+        "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQRl8tWFRGRC10Y3MtN1dDOUdtcGpONnRocUtrdGlYQWs4X3ZreXJRQmtkRzFxT0gxcGg1M01lOG43YTAyWkhIdXJYZ0xlOFdGdnVxQmk5TFpsVWlPYVkzUHBSUXBGUFZsYnZDdnZmZkIyMnI2QV9YUkZRVTFhdEwxbmZqTUNkeHhtdjR0VjdKOFMwc0Jsb240bjk3YWk2WDVBSFB2SFl2R0YzRmNT0gGsAUFVX3lxTFBGXy1YVEZELXRjcy03V0M5R21wak42dGhxS2t0aVhBazhfdmt5clFCa2RHMXFPSDFwaDUzTWU4bjdhMDJaSEh1clhnTGU4V0Z2dXFCaTlMWmxVaU9hWTNQcFJRcEZQVmxidkN2dmZmQjIycjZBX1hSRlFVMWF0TDFuZmpNQ2R4eG12NHRWN0o4UzBzQmxvbjRuOTdhaTZYNUFIUHZIWXZHRjNGY1M?oc=5",
         "sentiment": "negative"
       }
     ]

@@ -1118,13 +1118,13 @@
     },
     "Haberler": {
       "country": "Turqi",
-      "total": 10,
+      "total": 11,
       "positive": 0,
-      "neutral": 8,
+      "neutral": 9,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-17",
       "urls": [
         "https://www.haberler.com/3-sayfa/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-20159336-haberi/",
         "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/",
@@ -1135,7 +1135,8 @@
         "https://www.haberler.com/guncel/kosovali-askerlerin-gazze-ye-konuslandirilmasina-20215256-haberi/",
         "https://www.haberler.com/guncel/lahey-de-yargilanan-eski-uck-komutanlarina-kosova-20231603-haberi/",
         "https://www.haberler.com/politika/kosova-da-on-binlerce-kisi-eski-cumhurbaskani-20232252-haberi/",
-        "https://www.haberler.com/guncel/kosova-da-albin-kurti-nin-liderligindeki-yeni-20233782-haberi/"
+        "https://www.haberler.com/guncel/kosova-da-albin-kurti-nin-liderligindeki-yeni-20233782-haberi/",
+        "https://www.haberler.com/guncel/kosova-nin-eski-cumhurbaskani-taci-ye-25-yil-hapis-20244797-haberi/"
       ]
     },
     "Son Dakika": {
@@ -2570,9 +2571,9 @@
     },
     "DW.com": {
       "country": "Gjermani",
-      "total": 10,
+      "total": 11,
       "positive": 0,
-      "neutral": 10,
+      "neutral": 11,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-01",
@@ -2587,7 +2588,8 @@
         "https://www.dw.com/en/reactions-from-kosovo-to-conviction-of-former-president-hashim-thaci-found-guilty-of-war-crimes/a-79294916",
         "https://www.dw.com/de/ex-praesident-hashim-thaci-von-sondertribunal-verurteilt-schock-in-kosovo-unmut-in-serbien/a-79309048",
         "https://www.dw.com/en/serbias-president-aleksandar-vucic-criticizes-kosovo-war-crimes-verdict-against-hashim-thaci/a-79307654",
-        "https://www.dw.com/es/expresidente-condenado-conmoci%C3%B3n-en-kosovo-descontento-en-serbia/a-79315689"
+        "https://www.dw.com/es/expresidente-condenado-conmoci%C3%B3n-en-kosovo-descontento-en-serbia/a-79315689",
+        "https://amp.dw.com/tr/kosovan%C4%B1n-eski-cumhurba%C5%9Fkan%C4%B1-ta%C3%A7iye-25-y%C4%B1l-hapis-cezas%C4%B1/a-79292640"
       ]
     },
     "Unitalsi": {
@@ -3695,15 +3697,16 @@
     },
     "trtavaz.com.tr": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-11",
-      "lastSeen": "2026-09-11",
+      "lastSeen": "2026-09-18",
       "urls": [
-        "https://www.trtavaz.com.tr/haber/tur/turkistandan/maarif-okullari-kosova-da-yapay-zek-yi-mufredata-alan-ilk-okul-oldu/6aa3bb729721236aedeb0e66"
+        "https://www.trtavaz.com.tr/haber/tur/turkistandan/maarif-okullari-kosova-da-yapay-zek-yi-mufredata-alan-ilk-okul-oldu/6aa3bb729721236aedeb0e66",
+        "https://www.trtavaz.com.tr/haber/tur/turkistandan/kosova-da-bati-nil-virusu-kaynakli-ilk-olum-kaydedildi/6aace070e225a683d0490c73"
       ]
     },
     "Il Mattino": {
@@ -3951,9 +3954,9 @@
     },
     "SRF": {
       "country": "Zvicër",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-13",
@@ -3961,20 +3964,22 @@
       "urls": [
         "https://www.srf.ch/news/international/neue-regierung-im-kosovo-kurti-bleibt-premier-opposition-boykottiert-abstimmung",
         "https://www.srf.ch/news/international/kosovo-tribunal-ehemaliger-kosovo-praesident-thaci-zu-25-jahren-haft-verurteilt",
-        "https://www.srf.ch/news/international/kosovo-tribunal-hashim-thaci-verurteilt-wie-das-urteil-das-kosovo-veraendert"
+        "https://www.srf.ch/news/international/kosovo-tribunal-hashim-thaci-verurteilt-wie-das-urteil-das-kosovo-veraendert",
+        "https://www.srf.ch/play/tv/10-vor-10/video/kosovo-thaci-schuldspruch-sorgt-fuer-heftige-reaktionen?urn=urn:srf:video:fcebcd4b-b9fb-401a-b08c-f9dd7db603b4"
       ]
     },
     "Watson": {
       "country": "Zvicër",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-13",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.watson.ch/fr/international/politique/375763324-politique-le-kosovo-a-un-nouveau-gouvernement"
+        "https://www.watson.ch/fr/international/politique/375763324-politique-le-kosovo-a-un-nouveau-gouvernement",
+        "https://www.watson.ch/international/justiz/687942731-kosovos-ex-praesident-zu-25-jahren-haft-verurteilt"
       ]
     },
     "thepressproject.gr": {
@@ -4391,15 +4396,16 @@
     },
     "Αθηναϊκό - Μακεδονικό πρακτορείο ειδήσεων": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-14",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.amna.gr/home/article/1022722/Kosobo-To-koinoboulio-enekrine-ti-nea-kubernisi-tou-Almpin-Kourti--i-thesmiki-krisi-paramenei"
+        "https://www.amna.gr/home/article/1022722/Kosobo-To-koinoboulio-enekrine-ti-nea-kubernisi-tou-Almpin-Kourti--i-thesmiki-krisi-paramenei",
+        "https://www.amna.gr/home/videos/1023515/-Aganaktisi-prokalese-sto-Kosobo-i-katadikastiki-apofasi-gia-ton-Chasim-Thatsi-kai-tous-treis-proin-dioikites-tou-UCK"
       ]
     },
     "LiFO": {
@@ -4847,15 +4853,16 @@
     },
     "Sport Bild": {
       "country": "Gjermani",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-15",
-      "lastSeen": "2026-09-15",
+      "lastSeen": "2026-09-19",
       "urls": [
-        "https://sportbild.bild.de/fussball/internationaler-fussball/boykott-geruechte-um-nationalspieler-des-kosovo-6aa934738191ba86095120cc"
+        "https://sportbild.bild.de/fussball/internationaler-fussball/boykott-geruechte-um-nationalspieler-des-kosovo-6aa934738191ba86095120cc",
+        "https://sportbild.bild.de/fussball/nationalmannschaft/fc-bayern-naechstes-top-talent-entscheidet-sich-gegen-den-dfb-6aae656db1857e86757a71a3"
       ]
     },
     "sportbild.bild.de": {
@@ -5184,15 +5191,16 @@
     },
     "n-tv.de": {
       "country": "Gjermani",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-16",
       "lastSeen": "2026-09-16",
       "urls": [
-        "https://www.n-tv.de/politik/Sondertribunal-verurteilt-Kosovos-Ex-Praesident-wegen-Kriegsverbrechen-id31311914.html"
+        "https://www.n-tv.de/politik/Sondertribunal-verurteilt-Kosovos-Ex-Praesident-wegen-Kriegsverbrechen-id31311914.html",
+        "https://www.n-tv.de/mediathek/videos/politik/Thaci-nimmt-Kriegsverbrecher-Urteil-regungslos-entgegen-id31313883.html"
       ]
     },
     "RP Online": {
@@ -6274,9 +6282,9 @@
     },
     "NOS": {
       "country": "Holandë",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-09-17",
@@ -6284,7 +6292,8 @@
       "urls": [
         "https://nos.nl/artikel/2631232-kosovaarse-ex-president-thaci-veroordeeld-tot-25-jaar-cel-voor-oorlogsmisdaden",
         "https://nos.nl/artikel/2631274-woede-bij-kosovo-albanezen-over-celstraf-voor-oud-president-thaci",
-        "https://nos.nl/video/2631246-rellen-malieveld-na-veroordeling-thaci"
+        "https://nos.nl/video/2631246-rellen-malieveld-na-veroordeling-thaci",
+        "https://nos.nl/artikel/2631232-kosovaarse-ex-president-thaci-krijgt-25-jaar-cel-voor-oorlogsmisdaden-rellen-na-vonnis"
       ]
     },
     "De Limburger": {
@@ -7110,15 +7119,16 @@
     },
     "ΤΟ ΒΗΜΑ": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-18",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-17",
       "urls": [
-        "https://www.tovima.gr/2026/09/16/world/xagi-o-thatsi-katadikastike-se-25-xronia-gia-egklimata-polemou-antidraseis-sto-kosovo/"
+        "https://www.tovima.gr/2026/09/16/world/xagi-o-thatsi-katadikastike-se-25-xronia-gia-egklimata-polemou-antidraseis-sto-kosovo/",
+        "https://www.tovima.gr/2026/09/17/world/kosovo-i-katadiki-ton-igeton-tou-uck-sti-xagi-kai-i-nea-politiki-krisi/"
       ]
     },
     "The TOC": {
@@ -7511,6 +7521,110 @@
       "lastSeen": "2026-09-16",
       "urls": [
         "https://www.takvim.com.tr/dunya/eski-kosova-cumhurbaskani-hashim-thaciye-savas-sucundan-hapis-cezasi-6513093"
+      ]
+    },
+    "Varesenoi": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-19",
+      "urls": [
+        "https://www.varesenoi.it/2026/09/19/leggi-notizia/argomenti/varese/articolo/kosovo-iraq-afghanistan-e-nato-ora-la-nuova-missione-di-alessandro-de-vico-si-chiama-varese.html"
+      ]
+    },
+    "omroepwest.nl": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.omroepwest.nl/video/5149612/rellen-op-malieveld-in-den-haag-na-demonstratie-oud-president-kosovo"
+      ]
+    },
+    "rd.nl": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-17",
+      "urls": [
+        "https://www.rd.nl/artikel/premier-albanie-in-kosovo"
+      ]
+    },
+    "vrt.be": {
+      "country": "Belgjikë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.vrt.be/vrtmax/luister/radio/d/de-ochtend~11-19/de-ochtend~11-39310-0/fragment~55eb4392-7063-46a8-88c1-2e09c6d11bdd/"
+      ]
+    },
+    "Diario de Sevilla": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.diariodesevilla.es/mundo/ex-presidente-kosovo-hashim-thaci_0_2007984724.html"
+      ]
+    },
+    "Aftodioikisi.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://www.aftodioikisi.gr/diethni/vrazei-to-kosovo-gia-ton-thatsi-chiliades-stoys-dromoys-meta-tin-katadiki-toy-se-25-chronia/"
+      ]
+    },
+    "parapolitika.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-16",
+      "urls": [
+        "https://www.parapolitika.gr/diethni/article/1792095/kosovo-se-25-hronia-katheirxi-katadikastike-o-proin-proedros-hasim-thatsi-gia-eglimata-polemou-os-anotatos-dioikitis-tou-uck/"
+      ]
+    },
+    "t24.com.tr": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://t24.com.tr/dunya/laheyde-hapis-cezasina-carptirilan-uck-komutanlari-icin-kosovada-protesto,1348573"
       ]
     }
   }
