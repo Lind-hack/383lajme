@@ -4,9 +4,16 @@ import { useMemo, useState } from "react";
 import {
   ArrowDownUp,
   Banknote,
+  Cloud,
+  CloudLightning,
+  CloudRain,
+  CloudSnow,
+  CloudSun,
   ExternalLink,
   Fuel,
   RefreshCw,
+  Sun,
+  type LucideIcon,
 } from "lucide-react";
 import type {
   ExchangeSnapshot,
@@ -14,6 +21,7 @@ import type {
   FuelSnapshot,
 } from "@/lib/home-market-data";
 import { dateKeyInKosovo } from "@/lib/reagimi-data";
+import { type CityWeather, weatherKind } from "@/lib/weather";
 
 type CurrencyCode = "ALL" | "EUR";
 
@@ -91,7 +99,7 @@ function formatConvertedAmount(value: number) {
   return `${whole.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}.${decimals}`;
 }
 
-function MarketCardFrame({
+export function MarketCardFrame({
   eyebrow,
   title,
   icon,
@@ -361,6 +369,69 @@ export function FuelPricesCard({ snapshot }: { snapshot: FuelSnapshot }) {
         Çmimi më i fundit i publikuar për secilin derivat. Mund të ndryshojë
         sipas lokacionit.
       </p>
+    </MarketCardFrame>
+  );
+}
+
+const WEATHER_ICON: Record<string, LucideIcon> = {
+  clear: Sun,
+  cloud: Cloud,
+  rain: CloudRain,
+  snow: CloudSnow,
+  storm: CloudLightning,
+};
+
+/**
+ * Moti sot — the three cities 383's readers live in or travel between.
+ *
+ * Open-Meteo needs no key, so this card has no account to expire and no quota
+ * to blow; it keeps rendering on a day when the rest of the data layer is down.
+ * A city that cannot be read is absent from `cities` rather than drawn at a
+ * plausible-looking temperature, the same rule the fuel table follows.
+ */
+export function WeatherCard({ cities }: { cities: CityWeather[] }) {
+  if (cities.length === 0) return null;
+
+  return (
+    <MarketCardFrame
+      eyebrow="MOTI SOT"
+      title="Tri qytete"
+      icon={<CloudSun size={20} strokeWidth={1.9} />}
+      className="home-market-card-weather"
+      footer={
+        <>
+          <span>
+            <RefreshCw size={12} />
+            Çdo gjysmë ore
+          </span>
+          <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">
+            Open-Meteo
+            <ExternalLink size={11} />
+          </a>
+        </>
+      }
+    >
+      <ul className="home-weather-list">
+        {cities.map((city) => {
+          const kind = weatherKind(city.code);
+          const Icon = WEATHER_ICON[kind] ?? Cloud;
+          return (
+            <li key={city.city} className="home-weather-row" data-kind={kind}>
+              <span className="home-weather-glyph" aria-hidden="true">
+                <Icon size={20} strokeWidth={2} />
+              </span>
+              <span className="home-weather-place">
+                <strong>{city.city}</strong>
+                <small>{city.label}</small>
+              </span>
+              <span className="home-weather-temp">
+                {city.tempC}
+                <i aria-hidden="true">°</i>
+              </span>
+            </li>
+          );
+        })}
+      </ul>
     </MarketCardFrame>
   );
 }

@@ -5,7 +5,7 @@ import SectionLabel from "@/components/section-label";
 import Navbar from "@/components/navbar";
 import BreakingTicker from "@/components/breaking-ticker";
 import DispatchRow from "@/components/dispatch-row";
-import KryesoreFront from "@/components/kryesore-front";
+import KryesoreFront, { MostReadRail } from "@/components/kryesore-front";
 import DispatchList from "@/components/dispatch-list";
 import ColorSpotlight from "@/components/color-spotlight";
 import GradientCta from "@/components/gradient-cta";
@@ -23,12 +23,14 @@ import TrendingStrip from "@/components/tregu/trending-strip";
 import {
   CurrencyExchangeCard,
   FuelPricesCard,
+  WeatherCard,
 } from "@/components/home-market-cards";
 import {
   getDailyExchangeSnapshot,
   getDailyFuelSnapshot,
 } from "@/lib/home-market-data";
 import { CATEGORY_COLORS } from "@/lib/category-colors";
+import { getCityWeather } from "@/lib/weather";
 import { getToneHistory, getToneArticleCache, summarizeToneHistory, getForeignCoverage, getTopics, getToneTopics } from "@/lib/tone-data";
 import { dateKeyInKosovo, resolveView } from "@/lib/reagimi-data";
 import { getSondazhiData } from "@/lib/sondazhi-server";
@@ -43,7 +45,7 @@ export default async function HomePage() {
   // tone-outlets.json (today's per-country snapshot, used only by
   // ToneDashboard's client-side hover drill-down via its own fetch()) isn't
   // read here — Bota Flet now sources from the article cache below instead.
-  const [articles, tickerArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneCache, pipelineTopics] = await Promise.all([
+  const [articles, tickerArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneCache, pipelineTopics, cityWeather] = await Promise.all([
     getArticles(60),
     getLatestArticles(10),
     getDailyExchangeSnapshot(),
@@ -51,6 +53,9 @@ export default async function HomePage() {
     getToneHistory(),
     getToneArticleCache(),
     getToneTopics(),
+    // Keyless and individually caught: a weather outage costs the rail one
+    // card, never the page.
+    getCityWeather().catch(() => []),
   ]);
 
   const toneSummary = summarizeToneHistory(toneHistory);
@@ -95,9 +100,14 @@ export default async function HomePage() {
   // (production automation often yields ~11 fresh articles).
   const nonHero = articles.filter((a) => a.id !== heroId);
   const kryesoreLead = nonHero[0];
-  const kryesoreSecondary = nonHero.slice(1, 3);
+  // Four photo cards beside the lead, then the two-up below it. This claims
+  // seven of the pool instead of three, which on a thin automation day (~11
+  // fresh articles) leaves NJOFTIME visibly shorter — the stack degrades to
+  // however many it gets rather than starving the rail below it.
+  const kryesoreStack = nonHero.slice(1, 5);
+  const kryesoreSecondary = nonHero.slice(5, 7);
   const kryesoreTopIds = new Set(
-    [kryesoreLead, ...kryesoreSecondary].filter(Boolean).map((a) => a.id)
+    [kryesoreLead, ...kryesoreStack, ...kryesoreSecondary].filter(Boolean).map((a) => a.id)
   );
 
   // NJOFTIME carries at least 12 headlines. It is a horizontally dragged rail, so
@@ -212,20 +222,27 @@ export default async function HomePage() {
       </div>
 
       {/* Kryesore now opens the editorial page instead of arriving after utility modules. */}
+      {/* Three columns. The two outer ones are reference — money, weather,
+          fuel, the day's ranking — and share one warm-paper material so they
+          read as a pair of rails. News, and every photograph, lives only in the
+          middle. The grid-area names are historical: each side column now
+          carries two cards, not the single one it was named for. */}
       {kryesoreLead && (
         <div className="home-front-layout">
           <div className="home-front-currency">
             <CurrencyExchangeCard snapshot={exchangeSnapshot} />
+            <WeatherCard cities={cityWeather} />
           </div>
           <div className="home-front-editorial">
             <KryesoreFront
               lead={kryesoreLead}
+              stack={kryesoreStack}
               secondary={kryesoreSecondary}
-              mostRead={mostRead}
             />
           </div>
           <div className="home-front-fuel">
             <FuelPricesCard snapshot={fuelSnapshot} />
+            <MostReadRail articles={mostRead} />
           </div>
         </div>
       )}

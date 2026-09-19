@@ -6,14 +6,21 @@ import Link from "next/link";
 import Image from "next/image";
 import { type Article, calcReadingTime } from "@/lib/mock-data";
 import TimeAgo from "./time-ago";
-import { getCategoryColor } from "@/lib/category-colors";
+import { getCategoryColor, getCategoryTextColor } from "@/lib/category-colors";
+
+/** Every card in this row sits on the cream body, which is darker than any of
+ *  the card fills above it — so it is the honest ground to measure against. */
+const CARD_GROUND = "#F9F6F1";
 import { EASE, DUR, STAGGER, RADIUS, SHADOW } from "@/lib/tokens";
 import SourceBadge from "./source-badge";
 
 interface KryesoreFrontProps {
   lead: Article;
+  /** The column beside the lead: photo cards, not a ranked text list. Their
+   *  count is free — the stack divides the lead's height evenly however many
+   *  arrive, so a thin news day degrades to three without leaving a gap. */
+  stack: Article[];
   secondary: Article[];
-  mostRead: Article[];
 }
 
 /** Red warning badge for hostile (Serbian) sources — country code instead of emoji flag. */
@@ -248,7 +255,7 @@ function LeadCard({ article }: { article: Article }) {
           <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: "8px", marginTop: "4px" }}>
             <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} />
             <ToneChip tone={article.tone} />
-            <span style={{ fontSize: "11px", color: "#AAAAAA", fontWeight: 500, marginLeft: "auto" }}>
+            <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500, marginLeft: "auto" }}>
               <TimeAgo iso={article.publishedAt} />
             </span>
           </div>
@@ -309,7 +316,7 @@ function SecondaryCard({ article, index }: { article: Article; index: number }) 
             fontWeight: 700,
             letterSpacing: "0.12em",
             textTransform: "uppercase",
-            color: catColor,
+            color: getCategoryTextColor(article.category, CARD_GROUND),
           }}>
             {article.category}
           </span>
@@ -327,7 +334,7 @@ function SecondaryCard({ article, index }: { article: Article; index: number }) 
           }}>
             {article.title}
           </h4>
-          <span style={{ fontSize: "12px", color: "#777777", fontWeight: 500, marginTop: "auto" }}>
+          <span style={{ fontSize: "12px", color: "#6B6B6B", fontWeight: 500, marginTop: "auto" }}>
             {article.source} · <TimeAgo iso={article.publishedAt} />
           </span>
         </div>
@@ -336,8 +343,9 @@ function SecondaryCard({ article, index }: { article: Article; index: number }) 
   );
 }
 
-function MostReadRail({ articles }: { articles: Article[] }) {
+export function MostReadRail({ articles }: { articles: Article[] }) {
   const reveal = useReveal(1);
+  if (articles.length === 0) return null;
 
   return (
     <motion.aside
@@ -347,17 +355,17 @@ function MostReadRail({ articles }: { articles: Article[] }) {
         borderRadius: RADIUS.md,
         border: "1px solid rgba(0,0,0,0.07)",
         boxShadow: SHADOW.card,
-        padding: "28px 28px 18px",
+        padding: "22px 20px 14px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
       }}
     >
-      <div style={{ display: "flex", alignItems: "baseline", gap: "8px", marginBottom: "8px" }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: "8px", marginBottom: "6px" }}>
         <span style={{
-          fontSize: "13px",
+          fontSize: "12px",
           fontWeight: 800,
-          letterSpacing: "0.18em",
+          letterSpacing: "0.16em",
           textTransform: "uppercase",
           color: "#111111",
         }}>
@@ -382,31 +390,32 @@ function MostReadRail({ articles }: { articles: Article[] }) {
             style={{
               textDecoration: "none",
               display: "flex",
-              gap: "18px",
+              gap: "13px",
               alignItems: "flex-start",
-              padding: "17px 0",
+              padding: "13px 0",
               borderTop: i === 0 ? "none" : "1px solid #E8E3DB",
             }}
           >
             <span style={{
-              fontSize: "22px",
+              fontSize: "20px",
               fontWeight: 800,
               lineHeight: 1,
               color: "#FF4422",
               letterSpacing: "-0.02em",
               flexShrink: 0,
-              width: "30px",
+              width: "26px",
               fontVariantNumeric: "tabular-nums",
             }}>
               {String(i + 1).padStart(2, "0")}
             </span>
-            <span style={{ display: "flex", flexDirection: "column", gap: "5px", minWidth: 0 }}>
+            <span style={{ display: "flex", flexDirection: "column", gap: "4px", minWidth: 0 }}>
               <span className="most-read-title" style={{
-                fontSize: "16px",
+                fontSize: "14px",
                 fontWeight: 700,
-                lineHeight: 1.4,
+                lineHeight: 1.38,
                 letterSpacing: "-0.01em",
                 color: "#111111",
+                textWrap: "pretty",
                 display: "-webkit-box",
                 WebkitLineClamp: 2,
                 WebkitBoxOrient: "vertical",
@@ -414,7 +423,9 @@ function MostReadRail({ articles }: { articles: Article[] }) {
               }}>
                 {article.title}
               </span>
-              <span style={{ fontSize: "12px", color: "#777777", fontWeight: 500 }}>
+              {/* #777777 in the original scored 4.15:1 on this ground; the
+                  muted token clears 4.5:1 and is indistinguishable. */}
+              <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
                 {article.category} · <TimeAgo iso={article.publishedAt} />
               </span>
             </span>
@@ -425,28 +436,79 @@ function MostReadRail({ articles }: { articles: Article[] }) {
   );
 }
 
-export default function KryesoreFront({ lead, secondary, mostRead }: KryesoreFrontProps) {
+/**
+ * A card in the column beside the lead. Photo left, headline right — the lead's
+ * own shape would need a 16:9 image plus three lines of text inside ~142px of
+ * height, which leaves the picture as a letterboxed strip.
+ */
+function StackCard({ article, index }: { article: Article; index: number }) {
+  const catColor = getCategoryColor(article.category);
+  const [imgFailed, setImgFailed] = useState(false);
+  const reveal = useReveal(index);
+
+  return (
+    <Link href={`/article/${article.slug}`} className="kf-stack-link">
+      <motion.article
+        {...reveal}
+        whileHover={{ y: -3, boxShadow: `0 14px 32px ${catColor}1F` }}
+        transition={{ duration: DUR.base, ease: EASE }}
+        className="kf-stack-card"
+      >
+        <span className="kf-stack-thumb">
+          {article.imageUrl && !imgFailed ? (
+            <Image
+              src={article.imageUrl}
+              alt=""
+              aria-hidden="true"
+              fill
+              sizes="128px"
+              onError={() => setImgFailed(true)}
+              style={{ objectFit: "cover" }}
+            />
+          ) : (
+            <span
+              className="kf-stack-fallback"
+              style={{ background: `linear-gradient(135deg, ${catColor}cc 0%, ${catColor}44 100%)` }}
+            />
+          )}
+        </span>
+        <span className="kf-stack-text">
+          <b style={{ color: getCategoryTextColor(article.category, CARD_GROUND) }}>
+            {article.category}
+          </b>
+          <strong>{article.title}</strong>
+          <em>
+            <TimeAgo iso={article.publishedAt} />
+          </em>
+        </span>
+      </motion.article>
+    </Link>
+  );
+}
+
+export default function KryesoreFront({ lead, stack, secondary }: KryesoreFrontProps) {
   if (!lead) return null;
 
   return (
     <section>
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Lead story */}
-        <div className={mostRead.length > 0 ? "lg:col-span-8" : "lg:col-span-12"}>
+      <div className="kf-grid">
+        <div className="kf-lead">
           <LeadCard article={lead} />
         </div>
 
-        {/* Right rail: most read, ranked by engagement (drops below secondaries on mobile) */}
-        {mostRead.length > 0 && (
-          <div className="lg:col-span-4 order-last lg:order-none">
-            <MostReadRail articles={mostRead} />
+        {/* Beside the lead, sharing its height exactly. */}
+        {stack.length > 0 && (
+          <div className="kf-stack">
+            {stack.map((article, i) => (
+              <StackCard key={article.id} article={article} index={i + 1} />
+            ))}
           </div>
         )}
 
-        {/* Secondary stories — two-up beneath */}
+        {/* Two-up beneath, unchanged. */}
         {secondary.map((article, i) => (
-          <div key={article.id} className="lg:col-span-6">
-            <SecondaryCard article={article} index={i + 2} />
+          <div key={article.id} className="kf-secondary">
+            <SecondaryCard article={article} index={i + 5} />
           </div>
         ))}
       </div>

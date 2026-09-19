@@ -18462,3 +18462,310 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   .tregu-hero-row .tregu-carousel::before,
   .tregu-hero-row .tregu-carousel * { transition: none !important; }
 }
+
+/* ────────────────────────────────────────────────────────────────────────────
+   Home front row — three columns, one bottom edge.
+
+   The row used to end ragged: the editorial column ran 757px while the two
+   reference cards beside it stopped at 401px and 387px, leaving ~360px of dead
+   air down each side. Each side column now carries two cards instead of one —
+   rates + weather on the left, fuel + the day's ranking on the right — and the
+   second card in each absorbs whatever height the news column sets, so all
+   three resolve to the same baseline.
+
+   The division is by kind, not by convenience: everything a reader checks and
+   leaves (money, weather, fuel, a ranked index) is on the outside in warm paper;
+   everything they read, and every photograph, is in the middle. Më të lexuarat
+   changed material when it moved out here, because two card systems stacked in
+   one narrow column read as a mistake rather than a distinction.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.home-front-layout { align-items: stretch; }
+
+.home-front-currency,
+.home-front-fuel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: clamp(12px, 1vw, 18px);
+  min-width: 0;
+}
+.home-front-currency > *,
+.home-front-fuel > * { min-width: 0; }
+
+/* The trailing card is being stretched, so the 374px floor that gives a lone
+   card presence would instead push the rail past the column it must match. */
+.home-front-currency > *:last-child,
+.home-front-fuel > *:last-child { display: flex; }
+.home-front-currency > *:last-child > .home-market-card-inner,
+.home-front-fuel > *:last-child > .home-market-card-inner {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* ── Moti sot ─────────────────────────────────────────────────────────────── */
+
+.home-weather-list {
+  display: grid;
+  grid-auto-rows: 1fr;
+  /* Fills the stretched card so three rows distribute down it, rather than
+     bunching at the top over a pocket of dead space. */
+  flex: 1 1 auto;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.home-weather-row {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 0;
+}
+.home-weather-row + .home-weather-row { border-top: 1px solid rgba(111, 66, 40, 0.12); }
+.home-weather-glyph {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(169, 62, 21, 0.16);
+  border-radius: 11px;
+  background: linear-gradient(150deg, rgba(255, 241, 229, 0.96), rgba(255, 222, 199, 0.72));
+  color: #9c3f18;
+}
+.home-weather-place {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+.home-weather-place strong {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  color: #201812;
+}
+.home-weather-place small {
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 1.2;
+  color: #6f6159;
+}
+.home-weather-temp {
+  font-size: 23px;
+  font-weight: 850;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  color: #201812;
+  font-variant-numeric: tabular-nums;
+}
+.home-weather-temp i {
+  font-style: normal;
+  color: #b8521f;
+}
+
+/* ── The editorial column ─────────────────────────────────────────────────── */
+
+.kf-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(14px, 1.3vw, 22px);
+}
+.kf-lead { grid-column: span 8; min-width: 0; }
+.kf-secondary { grid-column: span 6; min-width: 0; }
+
+/* Rows of 1fr, so three cards and four cards both end level with the lead
+   instead of leaving a gap under whichever number the day supplies. */
+.kf-stack {
+  grid-column: span 4;
+  min-width: 0;
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: clamp(8px, 0.7vw, 12px);
+}
+.kf-stack-link {
+  display: block;
+  min-height: 0;
+  text-decoration: none;
+}
+.kf-stack-card {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 118px minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #fafaf8 100%);
+  box-shadow: 0 1px 3px rgba(17, 17, 17, 0.05);
+  cursor: pointer;
+}
+.kf-stack-thumb {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #efeae2;
+}
+.kf-stack-fallback {
+  position: absolute;
+  display: block;
+  inset: 0;
+}
+.kf-stack-text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 11px 13px;
+}
+.kf-stack-text b {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.kf-stack-text strong {
+  font-size: 13.5px;
+  font-weight: 800;
+  line-height: 1.3;
+  text-wrap: pretty;
+  letter-spacing: -0.01em;
+  color: #111111;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.kf-stack-text em {
+  font-style: normal;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #6b6b6b;
+}
+
+/* ── Two columns: the rails sit side by side under the news ───────────────── */
+
+@media (max-width: 1120px) {
+  .home-front-layout { align-items: start; }
+  .home-front-currency,
+  .home-front-fuel { grid-template-rows: auto auto; }
+  .home-front-currency > *:last-child > .home-market-card-inner,
+  .home-front-fuel > *:last-child > .home-market-card-inner { min-height: 350px; }
+
+  /* The stack cannot stay a narrow column once the lead goes full width; it
+     becomes the row of picture cards underneath it. */
+  .kf-lead { grid-column: span 12; }
+  .kf-stack {
+    grid-column: span 12;
+    grid-auto-rows: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .kf-stack-card { grid-template-columns: 132px minmax(0, 1fr); }
+  .kf-stack-text strong { font-size: 14.5px; }
+}
+
+/* ── One column ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .home-front-currency,
+  .home-front-fuel { gap: 14px; }
+  .home-front-currency > *:last-child > .home-market-card-inner,
+  .home-front-fuel > *:last-child > .home-market-card-inner { min-height: 344px; }
+  .kf-stack { grid-template-columns: minmax(0, 1fr); }
+  .kf-stack-card { grid-template-columns: 116px minmax(0, 1fr); }
+  .kf-secondary { grid-column: span 12; }
+}
+
+/* The amount field clears its own outline and nothing replaced it, so keyboard
+   focus on the currency card was invisible. Same ring the rest of the site
+   uses, moved to the wrapper because the input itself has no border of its own. */
+.home-exchange-input:focus-within {
+  outline: 2px solid #FF4422;
+  outline-offset: 2px;
+}
+
+/* ── Moti sot: a lighter object than the two utility cards ──────────────────
+   Rates and fuel are warm paper — orange orbs, a solid orange icon chip, a
+   diagonal hatch. Weather keeps their geometry (same radius, same head, same
+   footer rule) but swaps the material for a creamy white, drops the orbs and
+   quiets the chip to a cream tile. Related, not identical: it reads as its own
+   card at a glance without leaving the family, and the orange eyebrow and the
+   degree marks are what keep it in the set.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.home-market-card-weather {
+  border-color: rgba(138, 84, 40, 0.16);
+  background:
+    radial-gradient(122% 74% at 8% -12%, rgba(255, 214, 150, 0.34), transparent 56%),
+    radial-gradient(84% 54% at 104% -4%, rgba(255, 166, 96, 0.22), transparent 52%),
+    linear-gradient(162deg, #ffffff 0%, #fffaf0 56%, #fdf4e6 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    0 2px 12px rgba(17, 17, 17, 0.05),
+    0 16px 40px rgba(88, 48, 24, 0.06);
+}
+.home-market-card-weather::before {
+  background: linear-gradient(
+    118deg,
+    rgba(255, 255, 255, 0.72),
+    transparent 34% 70%,
+    rgba(255, 244, 232, 0.55)
+  );
+}
+/* The orbs are the paper cards' signature. Without them the lighter ground
+   registers as a different object before a single word is read. */
+.home-market-card-weather .home-market-orb { display: none; }
+
+/* Sky at dawn: cool through warm in one chip, which is what lets the card
+   carry a blue wash and keep 383's orange eyebrow without the two fighting. */
+/* Inverted against the utility cards, which run a vivid orange chip under a
+   dark glyph. Here the tile is pale gold and the glyph is the vivid one — the
+   same two colours, opposite weighting, so the header reads as a sibling
+   rather than a copy. */
+.home-market-card-weather .home-market-icon {
+  border-color: rgba(178, 96, 34, 0.24);
+  background: linear-gradient(145deg, #fff3d4 0%, #ffe0a8 52%, #ffcf92 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 6px 14px rgba(178, 96, 34, 0.18);
+  color: #c9500f;
+}
+.home-market-card-weather .home-market-card-footer {
+  border-top-color: rgba(138, 84, 40, 0.16);
+}
+.home-weather-row + .home-weather-row { border-top-color: rgba(138, 84, 40, 0.13); }
+.home-market-card-weather .home-weather-glyph {
+  border-color: rgba(17, 17, 17, 0.07);
+  background: linear-gradient(150deg, #fffdf9, #f8f2e8);
+  color: #a4441c;
+}
+
+/* ── Weather, coloured by the weather ───────────────────────────────────────
+   Each row is tinted from its own condition, so the card reads before the
+   labels do — a blue row is rain whatever language you speak. The tint drives
+   the glyph tile and the degree mark from one `data-kind`, which keeps the two
+   from ever disagreeing. Everything that carries text stays ink on cream.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* Overcast is blue-grey, not neutral: it is the most common reading here for
+   much of the year, so it must not be the colourless one — while still sitting
+   clear of rain’s saturated blue. */
+.home-weather-row { --cond-ink: #8a6636; --cond-a: #faf3e8; --cond-b: #eedfc8; }
+.home-weather-row[data-kind="clear"] { --cond-ink: #a76505; --cond-a: #fff2ca; --cond-b: #ffdf9c; }
+.home-weather-row[data-kind="cloud"] { --cond-ink: #8a6636; --cond-a: #f9f2e6; --cond-b: #ecdfc9; }
+.home-weather-row[data-kind="rain"]  { --cond-ink: #8a4f22; --cond-a: #f7e9d9; --cond-b: #e8d0b2; }
+.home-weather-row[data-kind="snow"]  { --cond-ink: #93745a; --cond-a: #fdf9f3; --cond-b: #f1e8db; }
+.home-weather-row[data-kind="storm"] { --cond-ink: #a63510; --cond-a: #fbe2d4; --cond-b: #f5c3a8; }
+
+.home-market-card-weather .home-weather-glyph {
+  border-color: color-mix(in srgb, var(--cond-ink) 22%, transparent);
+  background: linear-gradient(150deg, var(--cond-a), var(--cond-b));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: var(--cond-ink);
+}
+.home-market-card-weather .home-weather-temp i { color: var(--cond-ink); }
+.home-weather-row + .home-weather-row {
+  border-top-color: rgba(138, 84, 40, 0.15);
+}
