@@ -8402,9 +8402,9 @@
   },
   {
     "date": "2026-09-20",
-    "overallIndex": 48,
-    "totalArticles": 116,
-    "sourceCount": 92,
+    "overallIndex": 49,
+    "totalArticles": 134,
+    "sourceCount": 104,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -8412,8 +8412,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 13,
-        "excluded": 1,
+        "n": 15,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       },
@@ -8422,7 +8422,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -8432,22 +8432,22 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       },
       "Francë": {
-        "index": 25,
-        "positive": 0,
+        "index": 42,
+        "positive": 17,
         "neutral": 50,
-        "negative": 50,
-        "n": 4,
+        "negative": 33,
+        "n": 6,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": -24,
+          "delta": -7,
           "from": 49,
           "outlet": "Le Monde diplomatique",
           "title": "Thaçi, «miku ynë» kriminel lufte - monde-diplomatique.fr",
@@ -8466,16 +8466,16 @@
         "stanceVersion": 3
       },
       "Austri": {
-        "index": 40,
-        "positive": 10,
-        "neutral": 60,
-        "negative": 30,
-        "n": 10,
+        "index": 42,
+        "positive": 8,
+        "neutral": 67,
+        "negative": 25,
+        "n": 12,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": -8,
+          "delta": -6,
           "from": 48,
           "outlet": "oe24",
           "title": "Foda kthehet në Vjenë! Ish-përzgjedhësi dëshiron t'ia prishë punët Austrisë me Kosovën – oe24",
@@ -8485,10 +8485,10 @@
       },
       "Zvicër": {
         "index": 50,
-        "positive": 6,
-        "neutral": 88,
-        "negative": 6,
-        "n": 16,
+        "positive": 4,
+        "neutral": 91,
+        "negative": 4,
+        "n": 23,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -8537,7 +8537,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 7,
-        "excluded": 0,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       },
@@ -8562,12 +8562,12 @@
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 45,
+        "index": 46,
         "positive": 0,
-        "neutral": 91,
-        "negative": 9,
-        "n": 11,
-        "excluded": 1,
+        "neutral": 93,
+        "negative": 7,
+        "n": 14,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       },
@@ -8582,6 +8582,55 @@
         "stanceVersion": 3
       }
     },
-    "headlines": []
+    "headlines": [
+      {
+        "title": "'Everyone wants to be part of history' - Meet the manager who kickstarted Kosovo's rise in international football - RTE.ie",
+        "source": "RTE.ie",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.rte.ie/sport/soccer/2026/0920/1591719-meet-the-manager-who-kickstarted-kosovos-historic-rise/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "A long road and a rapid rise: Kosovo’s remarkable football story ahead of first-ever meetings with Ireland - Irish Independent",
+        "source": "Irish Independent",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.independent.ie/sport/a-long-road-and-a-rapid-rise-kosovos-remarkable-football-story-ahead-of-first-ever-meetings-with-ireland/a/161687844.html",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Il s’attendait à \"être acquitté\" : Hashim Thaçi, héros de l’indépendance du Kosovo, condamné à 25 ans - marianne.net",
+        "source": "marianne.net",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.marianne.net/monde/europe/il-s-attendait-a-etre-acquitte-hashim-thaci-heros-de-l-independance-du-kosovo-condamne-a-25-ans",
+        "sentiment": "positive"
+      },
+      {
+        "title": "On behalf of the people of Kosovo or Serbia? - Gazeta Sot",
+        "source": "Gazeta SOT",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://sot.com.al/english/ne-emer-te-popullit-te-kosoves-apo-te-serbise-i5184146",
+        "sentiment": "negative"
+      },
+      {
+        "title": "« Notre ami » Thaçi, criminel de guerre - Le Monde diplomatique",
+        "source": "Le Monde diplomatique",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.monde-diplomatique.fr/carnet/2026-09-18-Notre-ami-Thaci-criminel-de-guerre",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosovo geht geschwächt in Nations League - ORF ON",
+        "source": "ORF ON",
+        "country": "Austri",
+        "flag": "🇦🇹",
+        "url": "https://on.orf.at/video/14339431/16156140/kosovo-geht-geschwaecht-in-nations-league-sport-20-vom-17092026",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
