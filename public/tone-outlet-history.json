@@ -2574,9 +2574,9 @@
     },
     "DW.com": {
       "country": "Gjermani",
-      "total": 11,
+      "total": 12,
       "positive": 0,
-      "neutral": 11,
+      "neutral": 12,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-01",
@@ -2592,7 +2592,8 @@
         "https://www.dw.com/de/ex-praesident-hashim-thaci-von-sondertribunal-verurteilt-schock-in-kosovo-unmut-in-serbien/a-79309048",
         "https://www.dw.com/en/serbias-president-aleksandar-vucic-criticizes-kosovo-war-crimes-verdict-against-hashim-thaci/a-79307654",
         "https://www.dw.com/es/expresidente-condenado-conmoci%C3%B3n-en-kosovo-descontento-en-serbia/a-79315689",
-        "https://amp.dw.com/tr/kosovan%C4%B1n-eski-cumhurba%C5%9Fkan%C4%B1-ta%C3%A7iye-25-y%C4%B1l-hapis-cezas%C4%B1/a-79292640"
+        "https://amp.dw.com/tr/kosovan%C4%B1n-eski-cumhurba%C5%9Fkan%C4%B1-ta%C3%A7iye-25-y%C4%B1l-hapis-cezas%C4%B1/a-79292640",
+        "https://www.dw.com/tr/kosovan%C4%B1n-eski-lideri-ta%C3%A7iye-25-y%C4%B1l-hapis-cezas%C4%B1/a-79292640"
       ]
     },
     "Unitalsi": {
@@ -4274,15 +4275,17 @@
     },
     "ENTREVUE.FR": {
       "country": "Francë",
-      "total": 1,
+      "total": 3,
       "positive": 1,
-      "neutral": 0,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-14",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-20",
       "urls": [
-        "https://entrevue.fr/it/monde/le-kosovo-sort-de-la-paralysie-avec-un-nouveau-gouvernement-kurti/"
+        "https://entrevue.fr/it/monde/le-kosovo-sort-de-la-paralysie-avec-un-nouveau-gouvernement-kurti/",
+        "https://entrevue.fr/it/monde/hashim-thaci-condamne-a-25-ans-de-prison-le-kosovo-face-au-verdict-de-la-haye/",
+        "https://entrevue.fr/es/monde/hashim-thaci-condamne-a-25-ans-de-prison-le-kosovo-face-au-verdict-de-la-haye/"
       ]
     },
     "suedtirolnews.it": {
@@ -4565,13 +4568,13 @@
     },
     "FAZ": {
       "country": "Gjermani",
-      "total": 9,
+      "total": 10,
       "positive": 0,
-      "neutral": 8,
+      "neutral": 9,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-09-15",
-      "lastSeen": "2026-09-17",
+      "lastSeen": "2026-09-19",
       "urls": [
         "https://www.faz.net/aktuell/politik/ausland/prozess-gegen-hashim-thaci-hat-die-nato-im-kosovo-krieg-mit-einem-kriegsverbrecher-kooperiert-accg-201222004.html",
         "https://www.faz.net/aktuell/politik/ausland/urteil-in-den-haag-war-hashim-thaci-ein-kriegsverbrecher-accg-201227866.html",
@@ -4581,7 +4584,8 @@
         "https://www.faz.net/aktuell/politik/ausland/das-urteil-ueber-thaci-ist-nur-das-vorletzte-wort-201231598.html",
         "https://www.faz.net/aktuell/politik/ausland/kosovo-tribunal-verurteilt-hashim-thaci-zu-25-jahren-haft-accg-201229090.html",
         "https://www.faz.net/aktuell/politik/ausland/wuetende-reaktionen-auf-das-urteil-gegen-hashim-thaci-im-kosovo-accg-201235299.html",
-        "https://www.faz.net/aktuell/politik/ausland/25-jahre-haft-fuer-hashim-thaci-steht-das-urteil-in-verhaeltnis-zu-seinen-taten-201231598.html"
+        "https://www.faz.net/aktuell/politik/ausland/25-jahre-haft-fuer-hashim-thaci-steht-das-urteil-in-verhaeltnis-zu-seinen-taten-201231598.html",
+        "https://www.faz.net/aktuell/politik/ausland/kriegsverbrechen-die-unterschiede-zwischen-mladic-und-thaci-201228119.html"
       ]
     },
     "UdineToday": {
@@ -4613,15 +4617,16 @@
     },
     "Trieste Cafe": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-15",
-      "lastSeen": "2026-09-15",
+      "lastSeen": "2026-09-20",
       "urls": [
-        "https://www.triestecafe.it/cronaca/trieste-airport-si-apre-al-kosovo-nuovo-collegamento-con-pristina-dal-19-dicembre-2026-09-15"
+        "https://www.triestecafe.it/cronaca/trieste-airport-si-apre-al-kosovo-nuovo-collegamento-con-pristina-dal-19-dicembre-2026-09-15",
+        "https://www.triestecafe.it/cronaca/trieste-corteo-spontaneo-per-il-kosovo-protesta-contro-la-detenzione-di-ex-esponenti-istituzionali-video-2026-09-20"
       ]
     },
     "Il Goriziano": {
@@ -7015,16 +7020,17 @@
     },
     "Kathimerini": {
       "country": "Greqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-18",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-18",
       "urls": [
         "https://www.kathimerini.gr/world/564461203/kosovo-o-thatsi-antimetopos-me-tin-etymigoria-gia-egklimata-polemoy-sti-chagi/",
-        "https://www.kathimerini.gr/world/564461464/chasim-thatsi-o-proin-proedros-toy-kosovoy-krithike-enochos-gia-egklimata-polemoy/"
+        "https://www.kathimerini.gr/world/564461464/chasim-thatsi-o-proin-proedros-toy-kosovoy-krithike-enochos-gia-egklimata-polemoy/",
+        "https://www.kathimerini.gr/world/564464971/alvania-antikroyomenes-oi-antidraseis-gia-tin-katadiki-thatsi/"
       ]
     },
     "newsit.gr": {
@@ -7704,6 +7710,45 @@
       "lastSeen": "2026-09-19",
       "urls": [
         "https://www.yeniakit.com.tr/haber/ulkesinin-bagimsizligi-icin-savasanlar-suclu-ilan-edildi-2023653.html"
+      ]
+    },
+    "La Difesa del Popolo": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-20",
+      "lastSeen": "2026-09-20",
+      "urls": [
+        "https://www.difesapopolo.it/il-sogno-di-suzana-il-kosovo-del-dopoguerra-nel-romanzo-di-ausilio-bertoli/"
+      ]
+    },
+    "Aargauer Zeitung": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-20",
+      "lastSeen": "2026-09-19",
+      "urls": [
+        "https://www.aargauerzeitung.ch/aargau/fricktal/leasing-bmw-auf-dem-balkan-mann-vor-gericht-in-laufenburg-ld.4235712"
+      ]
+    },
+    "in.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-20",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://www.in.gr/2026/09/18/itrash/ntoua-lipa-kai-rita-ora-eksymnoun-tous-katadikasthentes-egklimaties-polemou-tou-uck/"
       ]
     }
   }

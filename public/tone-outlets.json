@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-20",
   "overallIndex": 49,
-  "totalArticles": 134,
-  "sourceCount": 104,
+  "totalArticles": 145,
+  "sourceCount": 109,
   "stanceVersion": 3,
-  "unattributed": 204,
+  "unattributed": 199,
   "nonEditorial": 6,
   "wrongKosovo": 0,
   "countries": {
@@ -37,7 +37,7 @@
         {
           "name": "DW.com",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Ex-Präsident verurteilt: Schock in Kosovo, Unmut in Serbien - DW.com",
@@ -90,9 +90,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosova'nın eski lideri Taçi'ye 25 yıl hapis cezası - dw.com",
+              "albanianTitle": "Ish-lideri i Kosovës, Thaçi, dënohet me 25 vjet burg",
+              "blurb": "Ish-lideri i Kosovës, Hashim Thaçi, është dënuar me 25 vite burgim nga Gjykata Speciale në Hagë.",
+              "imageUrl": "https://static.dw.com/image/55545907_6.jpg",
+              "url": "https://www.dw.com/tr/kosovan%C4%B1n-eski-lideri-ta%C3%A7iye-25-y%C4%B1l-hapis-cezas%C4%B1/a-79292640",
+              "date": "2026-09-17",
+              "sentiment": "neutral",
+              "reason": "Lajm faktik pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 11,
+          "totalArticles": 12,
           "trend": "neutral",
           "firstSeen": "2026-09-01",
           "lastSeen": "2026-09-18"
@@ -148,7 +161,7 @@
         {
           "name": "FAZ",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Wütende Reaktionen auf das Urteil gegen Hashim Thaci im Kosovo - FAZ",
@@ -175,12 +188,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kriegsverbrechen: Die Unterschiede zwischen Mladic und Thaci - FAZ",
+              "albanianTitle": "Krime lufte: Dallimet mes Mladiqit dhe Thaçit - FAZ",
+              "blurb": "Gazeta gjermane FAZ analizon dallimet ligjore dhe politike në rastet e krimeve të luftës mes Ratko Mlladiqit dhe Hashim Thaçit.",
+              "imageUrl": "https://media0.faz.net/image/w1200h627/e2ccb032c8f0/w8256h4313x0y1026o/202609/43601.0.2560151080/kosovo-albaner-fordern-bei.webp",
+              "url": "https://www.faz.net/aktuell/politik/ausland/kriegsverbrechen-die-unterschiede-zwischen-mladic-und-thaci-201228119.html",
+              "date": "2026-09-19",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 9,
+          "totalArticles": 10,
           "trend": "i përzier",
           "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-17"
+          "lastSeen": "2026-09-19"
         },
         {
           "name": "Frankfurter Rundschau",
@@ -261,13 +287,13 @@
           "articles": [
             {
               "title": "FC Bayern: Nächstes Top-Talent entscheidet sich gegen den DFB - Sport Bild",
-              "albanianTitle": "FC Bayern: Një tjetër talent i madh refuzon përfaqësuesen gjermane (DFB) - Sport Bild",
-              "blurb": "Një talent i ri i Bayern Munichut ka vendosur të mos përfaqësojë kombëtaren gjermane të futbollit në të ardhmen.",
+              "albanianTitle": "FC Bayern: Talenti i radhës refuzon përfaqësuesen gjermane - Sport Bild",
+              "blurb": "Një talent i ri i Bayern Munichut ka vendosur të mos përfaqësojë kombëtaren gjermane në futboll.",
               "imageUrl": "https://images.bild.de/6aae656db1857e86757a71a3/44b79fe260f8d1009bc83fca52cde0e0,70606945?w=1280",
               "url": "https://sportbild.bild.de/fussball/nationalmannschaft/fc-bayern-naechstes-top-talent-entscheidet-sich-gegen-den-dfb-6aae656db1857e86757a71a3",
               "date": "2026-09-19",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo in the item",
+              "reason": "No mention of Kosovo, cannot infer stance",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -277,30 +303,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-15",
           "lastSeen": "2026-09-19"
-        },
-        {
-          "name": "dw.com",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova'nın eski lideri Taçi'ye 25 yıl hapis cezası - DW.com",
-              "albanianTitle": "Ish-lideri i Kosovës, Thaçi, dënohet me 25 vjet burg - DW.com",
-              "blurb": "Ish-presidenti i Kosovës, Hashim Thaçi, është dënuar me 25 vjet burgim nga Gjykata Speciale në Hagë.",
-              "imageUrl": "https://static.dw.com/image/55545907_6.jpg",
-              "url": "https://www.dw.com/tr/kosovan%C4%B1n-eski-lideri-ta%C3%A7iye-25-y%C4%B1l-hapis-cezas%C4%B1/a-79292640",
-              "date": "2026-09-17",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 4,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-10",
-          "lastSeen": "2026-09-17"
         },
         {
           "name": "nwzonline.de",
@@ -369,8 +371,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 15,
-        "excluded": 2,
+        "n": 17,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -591,6 +593,43 @@
     "Francë": {
       "outlets": [
         {
+          "name": "ENTREVUE.FR",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Hashim Thaçi condannato a 25 anni di carcere: il Kosovo attende il verdetto dell'Aia – Mondo - ENTREVUE.FR",
+              "albanianTitle": "Hashim Thaçi dënohet me 25 vjet burg: Kosova pret verdiktin e Hagës – Mondo - ENTREVUE.FR",
+              "blurb": "Opinioni publik në Kosovë është në pritje të vendimit përfundimtar nga Gjykata e Hagës për rastin e Hashim Thaçit.",
+              "imageUrl": "https://entrevue.fr/wp-content/uploads/2026/09/hashim-thai-condamn-25-ans-de-prison-le-kosovo-fac.jpg",
+              "url": "https://entrevue.fr/it/monde/hashim-thaci-condamne-a-25-ans-de-prison-le-kosovo-face-au-verdict-de-la-haye/",
+              "date": "2026-09-20",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Hashim Thaçi condenado a 25 años de prisión: Kosovo espera el veredicto de La Haya. - ENTREVUE.FR",
+              "albanianTitle": "Hashim Thaçi dënohet me 25 vjet burg: Kosova pret verdiktin e Hagës - ENTREVUE.FR",
+              "blurb": "Kosova ndodhet në pritje të vendimit të Hagës lidhur me procesin gjyqësor ndaj ish-presidentit Hashim Thaçi.",
+              "imageUrl": "https://entrevue.fr/wp-content/uploads/2026/09/hashim-thai-condamn-25-ans-de-prison-le-kosovo-fac.jpg",
+              "url": "https://entrevue.fr/es/monde/hashim-thaci-condamne-a-25-ans-de-prison-le-kosovo-face-au-verdict-de-la-haye/",
+              "date": "2026-09-20",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i dënimit të Thaçit dhe pritjes së vendimit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i përzier",
+          "firstSeen": "2026-09-14",
+          "lastSeen": "2026-09-20"
+        },
+        {
           "name": "France 24",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -725,16 +764,16 @@
         }
       ],
       "summary": {
-        "index": 42,
-        "positive": 17,
-        "neutral": 50,
-        "negative": 33,
-        "n": 6,
+        "index": 44,
+        "positive": 12,
+        "neutral": 62,
+        "negative": 25,
+        "n": 8,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": -7,
+          "delta": -5,
           "from": 49,
           "outlet": "Le Monde diplomatique",
           "title": "Thaçi, «miku ynë» kriminel lufte - monde-diplomatique.fr",
@@ -840,6 +879,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-18"
+        },
+        {
+          "name": "La Difesa del Popolo",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "“Il sogno di Suzana”, il Kosovo del dopoguerra nel romanzo di Ausilio Bertoli - La Difesa del Popolo",
+              "albanianTitle": "“Ëndrra e Suzanës”, Kosova e pasluftës në romanin e Ausilio Bertolit - La Difesa del Popolo",
+              "blurb": "Romani i autorit Ausilio Bertoli trajton realitetin e Kosovës në periudhën e pasluftës përmes rrëfimit të titulluar Endrra e Suzanës.",
+              "imageUrl": "https://www.difesapopolo.it/wp-content/uploads/2026/09/IL_SOGNO_DI_SUZANA-LIBRO-1-e1789555423545.jpg",
+              "url": "https://www.difesapopolo.it/il-sogno-di-suzana-il-kosovo-del-dopoguerra-nel-romanzo-di-ausilio-bertoli/",
+              "date": "2026-09-20",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-20",
+          "lastSeen": "2026-09-20"
         },
         {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
@@ -999,6 +1062,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-18",
           "lastSeen": "2026-09-18"
+        },
+        {
+          "name": "Trieste Cafe",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Trieste, corteo spontaneo per il Kosovo: protesta contro la detenzione di ex esponenti istituzionali (VIDEO) - Trieste Cafe",
+              "albanianTitle": "Trieste, marshim spontan për Kosovën: protestë kundër ndalimit të ish-zyrtarëve institucionalë (VIDEO) - Trieste Cafe",
+              "blurb": "Qytetarët në Trieste organizuan një protestë për të kundërshtuar ndalimin e ish-udhëheqësve institucionalë të Kosovës në Hagë.",
+              "imageUrl": "https://triestecafe.it/uploads/media/bdf307b63103fc7932784445.jpg",
+              "url": "https://www.triestecafe.it/cronaca/trieste-corteo-spontaneo-per-il-kosovo-protesta-contro-la-detenzione-di-ex-esponenti-istituzionali-video-2026-09-20",
+              "date": "2026-09-20",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-20"
         },
         {
           "name": "Udineseblog",
@@ -1333,7 +1420,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 26,
+        "n": 28,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -1348,13 +1435,13 @@
           "articles": [
             {
               "title": "Jetzt muss ÖFB-Teamchef Ralf Rangnick auch noch Konrad Laimer ersetzen - Der Standard",
-              "albanianTitle": "Përzgjedhësi i Austrisë, Ralf Rangnick, detyrohet të gjejë zëvendësues për Konrad Laimer - Der Standard",
-              "blurb": "Përzgjedhësi i Austrisë, Ralf Rangnick, duhet të gjejë zëvendësues për Konrad Laimerin në ndeshjet e radhës së ekipit.",
+              "albanianTitle": "Përzgjedhësi i Austrisë, Ralf Rangnick, tani duhet ta zëvendësojë edhe Konrad Laimerin - Der Standard",
+              "blurb": "Përzgjedhësi i Austrisë, Ralf Rangnick, duhet të gjejë zëvendësues për Konrad Laimerin në ekipin kombëtar.",
               "imageUrl": "https://i.ds.at/FkJDWg/rs:fill:1200:600/plain/lido-images/2026/09/18/403c68e8-27d7-4068-81c2-a9230e4daed9.jpg",
               "url": "https://www.derstandard.at/story/3000000340447/jetzt-muss-oefb-teamchef-ralf-rangnick-auch-noch-konrad-laimer-ersetzen",
               "date": "2026-09-18",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo in the item",
+              "reason": "No mention of Kosovo, cannot infer stance",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1704,6 +1791,30 @@
           "lastSeen": "2026-09-18"
         },
         {
+          "name": "Aargauer Zeitung",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Laufenburg: Gericht verurteilt Kosovaren wegen BMW-M5-Veruntreuung - Aargauer Zeitung",
+              "albanianTitle": "Laufenburg: Gjykata dënon kosovarin për përvetësimin e një BMW M5 - Aargauer Zeitung",
+              "blurb": "Gjykata në Laufenburg ka shpallur fajtor një shtetas kosovar për përvetësimin e një automjeti të tipit BMW M5.",
+              "imageUrl": null,
+              "url": "https://www.aargauerzeitung.ch/aargau/fricktal/leasing-bmw-auf-dem-balkan-mann-vor-gericht-in-laufenburg-ld.4235712",
+              "date": "2026-09-19",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-20",
+          "lastSeen": "2026-09-19"
+        },
+        {
           "name": "Albinfo",
           "sentiment": "neutral",
           "articleCount": 6,
@@ -2003,9 +2114,9 @@
       "summary": {
         "index": 50,
         "positive": 4,
-        "neutral": 91,
+        "neutral": 92,
         "negative": 4,
-        "n": 23,
+        "n": 24,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -2524,19 +2635,43 @@
           "lastSeen": "2026-09-17"
         },
         {
+          "name": "Kathimerini",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο: Αντικρουόμενες οι αντιδράσεις για την καταδίκη Θάτσι - Kathimerini",
+              "albanianTitle": "Kosovë: Reagime të ndryshme pas dënimit të Thaçit - Kathimerini",
+              "blurb": "Reagimet në Kosovë janë të ndara pas shpalljes së dënimit për ish-presidentin Hashim Thaçi nga Gjykata Speciale.",
+              "imageUrl": "https://www.kathimerini.gr/wp-content/uploads/2026/09/swm-05a8264764eb0415285d286ee48a5714_2026-09-16T130329Z_1616684071_RC2DKNABIWFL_RTRMADP_3_WARCRIMES-KOSO-1-1200x630.jpg",
+              "url": "https://www.kathimerini.gr/world/564464971/alvania-antikroyomenes-oi-antidraseis-gia-tin-katadiki-thatsi/",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht informon për reagimet ndaj dënimit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-18"
+        },
+        {
           "name": "Newsbomb",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Χασίμ Θάτσι: Ο πρώην πρωθυπουργός του Κοσόβου, η καταδίκη σε 25 χρόνια φυλάκιση και τα βασανιστήρια - Newsbomb",
-              "albanianTitle": "Hashim Thaçi: Ish-kryeministri i Kosovës, dënimi me 25 vjet burgim dhe akuzat për torturë",
-              "blurb": "Ish-kryeministri i Kosovës, Hashim Thaçi, është dënuar me 25 vite burgim për akuza që përfshijnë edhe torturën gjatë periudhës së luftës.",
+              "albanianTitle": "Hashim Thaçi: Ish-kryeministri i Kosovës, dënimi me 25 vjet burg dhe torturat - Newsbomb",
+              "blurb": "Ish-kryeministri i Kosovës, Hashim Thaçi, është dënuar me 25 vite burgim për akuza lidhur me torturat.",
               "imageUrl": "https://img.bbmd.gr/img/1200/630/90/2026/09/20/75c4200f-xatsim-og.jpg?t=VlkaZtjA0SNQ4S7pr13FMg",
               "url": "https://www.newsbomb.gr/kosmos/story/1764606/xasim-thatsi-o-proin-prothypourgos-tou-kosovou-i-katadiki-se-25-xronia-fylakisi-kai-ta-vasanistiria",
               "date": "2026-09-20",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Faktikë të raportuara pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2593,6 +2728,30 @@
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-18"
+        },
+        {
+          "name": "in.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ντούα Λίπα και Ρίτα Ορα εξυμνούν τους καταδικασθέντες εγκληματίες πολέμου του UCK - in.gr",
+              "albanianTitle": "Dua Lipa dhe Rita Ora lavdërojnë kriminelët e dënuar të luftës të UÇK-së - in.gr",
+              "blurb": "Mediat greke raportojnë se Dua Lipa dhe Rita Ora kanë shprehur mbështetje për ish-pjesëtarët e UÇK-së të dënuar për krime.",
+              "imageUrl": "https://www.in.gr/wp-content/uploads/2026/09/dua-lipa-rita-ora.png",
+              "url": "https://www.in.gr/2026/09/18/itrash/ntoua-lipa-kai-rita-ora-eksymnoun-tous-katadikasthentes-egklimaties-polemou-tou-uck/",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Titulli përshkruan veprën e DUA Lipa dhe Rita Ora pa gjuhë të medias",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-20",
           "lastSeen": "2026-09-18"
         },
         {
@@ -2697,8 +2856,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
-        "excluded": 2,
+        "n": 10,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -2920,13 +3079,13 @@
             },
             {
               "title": "Manisalı milli sporcu Cemile Aykoç, Kosova'da ilk kez dünya şampiyonu oldu - Son Dakika",
-              "albanianTitle": "Sportistja nga Manisa, Cemile Aykoç, shpallet kampione bote për herë të parë në Kosovë - Lajmi i fundit",
-              "blurb": "Sportistja kombëtare nga Manisa, Cemile Aykoç, është shpallur kampione bote për herë të parë në Kosovë.",
+              "albanianTitle": "Sportistja nga Manisa, Cemile Aykoç, shpallet kampione bote për herë të parë në Kosovë",
+              "blurb": "Sportistja nga Manisa, Cemile Aykoç, është shpallur kampione bote në garën e zhvilluar për herë të parë në Kosovë.",
               "imageUrl": "https://foto.sondakika.com/haber/2026/09/18/lise-arkadaslari-sayesinde-basladigi-muay-tha-4-20248793_amp.jpg",
               "url": "https://www.sondakika.com/guncel/haber-manisali-milli-sporcu-cemile-aykoc-kosova-da-ilk-k-20248850/",
               "date": "2026-09-18",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i arritjes sportive në Kosovë",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -3155,12 +3314,12 @@
         }
       ],
       "summary": {
-        "index": 46,
+        "index": 47,
         "positive": 0,
         "neutral": 93,
         "negative": 7,
-        "n": 14,
-        "excluded": 2,
+        "n": 15,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
