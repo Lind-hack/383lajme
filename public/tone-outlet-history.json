@@ -2084,20 +2084,21 @@
     },
     "RaiNews": {
       "country": "Itali",
-      "total": 6,
+      "total": 7,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-20",
       "urls": [
         "https://www.rainews.it/tgr/puglia/articoli/2026/08/litalia-batte-il-kosovo-e-vola-in-semifinale-46df43ec-96e7-4af8-b73a-cec055790a73.html",
         "https://www.rainews.it/tgr/puglia/video/2026/08/giochi-del-mediterraneo-9f31ae0f-6f7d-4a46-ad0f-f710b8af0546.html",
         "https://www.rainews.it/video/2026/09/ex-presidente-del-kosovo-thaci-condannato-a-25-anni-per-crimini-di-guerra-012d4d02-3b0e-4889-bf44-fd71eb425f30.html",
         "https://www.rainews.it/articoli/ultimora/crimini-guerra-kosovo-thaci-condannato-23d3b2a7-14cf-44a4-835c-e75deb6a791c.html",
         "https://www.rainews.it/tgr/fvg/articoli/2026/09/trieste-airport-nuovo-collegamento-con-pristina-31ce8801-964e-4c7b-9b48-6e6f28cebcfb.html",
-        "https://www.rainews.it/articoli/2026/09/lex-presidente-kosovaro-e-leader-uck-hashim-thaci-condannato-a-25-anni-di-prigione-allaja-6708cb1b-c0e1-45e7-a9de-00f8f9d34c03.html"
+        "https://www.rainews.it/articoli/2026/09/lex-presidente-kosovaro-e-leader-uck-hashim-thaci-condannato-a-25-anni-di-prigione-allaja-6708cb1b-c0e1-45e7-a9de-00f8f9d34c03.html",
+        "https://www.rainews.it/tgr/fvg/articoli/2026/09/condanne-per-gli-ex-capi-delluck-kosovari-in-piazza-a-trieste-da87d5bd-ca69-44ac-b747-24853e777ece.html"
       ]
     },
     "La Gazzetta del Mezzogiorno": {
@@ -7749,6 +7750,19 @@
       "lastSeen": "2026-09-18",
       "urls": [
         "https://www.in.gr/2026/09/18/itrash/ntoua-lipa-kai-rita-ora-eksymnoun-tous-katadikasthentes-egklimaties-polemou-tou-uck/"
+      ]
+    },
+    "il-meridiano.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-20",
+      "lastSeen": "2026-09-20",
+      "urls": [
+        "https://www.il-meridiano.it/notizie/cronaca/26119-corteo-spontaneo-a-trieste-per-il-kosovo-in-piazza-contro-le-condanne-agli-ex-vertici-dell-uck-699085.html"
       ]
     }
   }

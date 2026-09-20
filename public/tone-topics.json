@@ -4,10 +4,10 @@
     {
       "label": "Protestat pas dënimit të Thaçit",
       "fallbackLabel": "Dënimit · Thaçit",
-      "summary": "Qytetarët dhe përkrahësit e ish-presidentit Thaçi kanë organizuar protesta para misionit të BE-së në Kosovë si shenjë revolte ndaj dënimit të tij.",
+      "summary": "Qytetarët dhe përkrahësit e ish-presidentit Thaçi po protestojnë para misionit të BE-së në Kosovë si shenjë revolte ndaj dënimit të tij.",
       "count": 75,
       "positive": 3,
-      "neutral": 71,
+      "neutral": 72,
       "negative": 0,
       "index": 52,
       "countries": [
@@ -191,7 +191,7 @@
     {
       "label": "Dënimi i Thaçit për krime",
       "fallbackLabel": "Lufte · Krime",
-      "summary": "Gjykata e Hagës ka shpallur fajtor ish-presidentin e Kosovës, Hashim Thaçi, duke e dënuar atë me 25 vjet burg për krime të kryera gjatë luftës.",
+      "summary": "Gjykata e Hagës ka shpallur fajtor ish-presidentin e Kosovës, Hashim Thaçi, duke e dënuar atë me 25 vjet burg për krime lufte.",
       "count": 46,
       "positive": 1,
       "neutral": 43,
@@ -377,10 +377,10 @@
     {
       "label": "Reagimet publike ndaj vendimit",
       "fallbackLabel": "Vendimit · Hagës",
-      "summary": "Vendimi i Hagës ka shkaktuar reagime të ndryshme, përfshirë indinjatën e qytetarëve, përçarje të brendshme dhe mbështetje nga figura publike për ish-liderët e UÇK-së.",
-      "count": 24,
+      "summary": "Vendimi i Hagës ka nxitur reagime të ndryshme nga personalitete publike dhe organizata, duke riaktualizuar përçarjet e pasluftës dhe debatet për drejtësinë.",
+      "count": 28,
       "positive": 2,
-      "neutral": 21,
+      "neutral": 25,
       "negative": 0,
       "index": 54,
       "countries": [
@@ -559,9 +559,9 @@
       ]
     },
     {
-      "label": "Zhvillimet sportive dhe logjistike",
-      "fallbackLabel": "Parë · Nilit",
-      "summary": "Kosova po shënon përparime në fushën e sportit me ftesa të reja për lojtarë dhe synon pjesëmarrjen në aktivitete ndërkombëtare si Junior Eurovision.",
+      "label": "Zhvillime sportive dhe logjistike",
+      "fallbackLabel": "Parë · Virusi",
+      "summary": "Kosova po shënon përparime në fushën e sportit ndërkombëtar dhe po forcon lidhjet logjistike përmes iniciativave të reja për zinxhirin e furnizimit.",
       "count": 24,
       "positive": 1,
       "neutral": 20,
@@ -739,9 +739,9 @@
       ]
     },
     {
-      "label": "Pasojat e dënimit të Thaçit",
+      "label": "Pasojat politike të dënimit",
       "fallbackLabel": "Thaçi · Dënohet",
-      "summary": "Dënimi i ish-presidentit ka nxitur trazira anti-BE në Kosovë dhe ka shkaktuar solidarizim të gjerë nga figura të njohura të sportit dhe politikës.",
+      "summary": "Dënimi i Hashim Thaçit ka shkaktuar trazira anti-BE në Kosovë, ndërsa figura të njohura kanë shprehur solidaritetin e tyre me ish-presidentin.",
       "count": 20,
       "positive": 1,
       "neutral": 18,
@@ -923,13 +923,13 @@
     },
     {
       "label": "Analiza mbi Gjykatën Speciale",
-      "fallbackLabel": "Gjykata · Hagës",
-      "summary": "Mediat ndërkombëtare po analizojnë arsyet e dënimit të ish-liderëve të UÇK-së dhe rolin e Gjykatës së Hagës në kontekstin e drejtësisë për Kosovën.",
-      "count": 13,
+      "fallbackLabel": "Gjykata · Speciale",
+      "summary": "Mediat ndërkombëtare po analizojnë arsyet e dënimeve nga Gjykata e Hagës dhe ndikimin e këtij institucioni në interesat e përgjithshme evropiane.",
+      "count": 15,
       "positive": 2,
-      "neutral": 10,
+      "neutral": 12,
       "negative": 1,
-      "index": 54,
+      "index": 53,
       "countries": [
         "Britani",
         "Greqi",
@@ -1103,10 +1103,10 @@
     {
       "label": "Protestat masive në Prishtinë",
       "fallbackLabel": "Kundër · Protestë",
-      "summary": "Mijëra qytetarë po protestojnë në Prishtinë kundër dënimeve të ish-udhëheqësve të UÇK-së, duke shprehur pakënaqësi të ashpër para institucioneve dhe misionit të BE-së.",
-      "count": 11,
+      "summary": "Mijëra qytetarë po protestojnë në Prishtinë kundër dënimeve të ish-udhëheqësve të UÇK-së, duke shprehur pakënaqësi të thellë para institucioneve ndërkombëtare dhe qeveritare.",
+      "count": 14,
       "positive": 0,
-      "neutral": 11,
+      "neutral": 14,
       "negative": 0,
       "index": 50,
       "countries": [
@@ -1283,7 +1283,7 @@
     {
       "label": "Bashkëpunimi rajonal dhe sporti",
       "fallbackLabel": "Shqipërinë · Refuzon",
-      "summary": "Kosova po zhvillon iniciativa të përbashkëta rajonale dhe stërvitje ushtarake, ndërsa përballet me sfida në përzgjedhjen e talenteve sportive që kërkojnë të luajnë për shtete të tjera.",
+      "summary": "Kosova po zhvillon bashkëpunime rajonale në mbrojtje dhe mjedis, ndërsa lojtarët e rinj po bëjnë zgjedhje të ndryshme për karrierën e tyre ndërkombëtare.",
       "count": 8,
       "positive": 0,
       "neutral": 7,

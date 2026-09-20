@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-20",
   "overallIndex": 49,
-  "totalArticles": 145,
-  "sourceCount": 109,
+  "totalArticles": 150,
+  "sourceCount": 111,
   "stanceVersion": 3,
-  "unattributed": 199,
+  "unattributed": 213,
   "nonEditorial": 6,
   "wrongKosovo": 0,
   "countries": {
@@ -287,13 +287,13 @@
           "articles": [
             {
               "title": "FC Bayern: Nächstes Top-Talent entscheidet sich gegen den DFB - Sport Bild",
-              "albanianTitle": "FC Bayern: Talenti i radhës refuzon përfaqësuesen gjermane - Sport Bild",
-              "blurb": "Një talent i ri i Bayern Munichut ka vendosur të mos përfaqësojë kombëtaren gjermane në futboll.",
+              "albanianTitle": "FC Bayern: Talenti i radhës refuzon të luajë për Gjermaninë",
+              "blurb": "Një talent i ri i Bayern Munichut ka vendosur të mos përfaqësojë kombëtaren e Gjermanisë në karrierën e tij futbollistike.",
               "imageUrl": "https://images.bild.de/6aae656db1857e86757a71a3/44b79fe260f8d1009bc83fca52cde0e0,70606945?w=1280",
               "url": "https://sportbild.bild.de/fussball/nationalmannschaft/fc-bayern-naechstes-top-talent-entscheidet-sich-gegen-den-dfb-6aae656db1857e86757a71a3",
               "date": "2026-09-19",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo, cannot infer stance",
+              "reason": "No mention of Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1016,6 +1016,30 @@
           "lastSeen": "2026-09-18"
         },
         {
+          "name": "RaiNews",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Condanne per gli ex capi dell'UCK, kosovari in piazza a Trieste - RaiNews",
+              "albanianTitle": "Dënimet për ish-krerët e UÇK-së, kosovarët në shesh në Trieste",
+              "blurb": "Kosovarët në qytetin e Triestes kanë dalë në shesh për të kundërshtuar vendimet gjyqësore ndaj ish-udhëheqësve të UÇK-së.",
+              "imageUrl": "https://www.rainews.it/cropgd/1200x630/dl/img/2026/9/20/1789933897829_I_manifestanti_kosovari_in_piazza_Unit.PNG",
+              "url": "https://www.rainews.it/tgr/fvg/articoli/2026/09/condanne-per-gli-ex-capi-delluck-kosovari-in-piazza-a-trieste-da87d5bd-ca69-44ac-b747-24853e777ece.html",
+              "date": "2026-09-20",
+              "sentiment": "neutral",
+              "reason": "Factual reporting of convictions and protest",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 7,
+          "trend": "neutral",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-09-20"
+        },
+        {
           "name": "Sprint e Sport",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1066,7 +1090,7 @@
         {
           "name": "Trieste Cafe",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Trieste, corteo spontaneo per il Kosovo: protesta contro la detenzione di ex esponenti istituzionali (VIDEO) - Trieste Cafe",
@@ -1077,6 +1101,19 @@
               "date": "2026-09-20",
               "sentiment": "neutral",
               "reason": "Faktikisht raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Trieste, protesta per il Kosovo: corteo spontaneo contro le condanne agli ex vertici dell’UÇK (VIDEO) - Trieste Cafe",
+              "albanianTitle": "Trieste, protestë për Kosovën: marshim spontan kundër dënimeve për ish-krerët e UÇK-së (VIDEO)",
+              "blurb": "Qytetarët në Trieste kanë organizuar një protestë spontane kundër dënimeve të shqiptuara për ish-krerët e Ushtrisë Çlirimtare të Kosovës.",
+              "imageUrl": "https://triestecafe.it/uploads/media/7e767aa2855173d3b82b6771.jpg",
+              "url": "https://www.triestecafe.it/cronaca/trieste-corteo-spontaneo-per-il-kosovo-protesta-contro-la-detenzione-di-ex-esponenti-istituzionali-video-2026-09-20",
+              "date": "2026-09-20",
+              "sentiment": "neutral",
+              "reason": "Descriptive report of protest, no overt bias",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1319,6 +1356,30 @@
           "lastSeen": "2026-09-18"
         },
         {
+          "name": "il-meridiano.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Corteo spontaneo a Trieste per il Kosovo: in piazza contro le condanne agli ex vertici dell'UÇK - il-meridiano.it",
+              "albanianTitle": "Marshim spontan në Trieste për Kosovën: në shesh kundër dënimeve për ish-krerët e UÇK-së",
+              "blurb": "Një marshim proteste është zhvilluar në Trieste si reagim ndaj dënimeve të shqiptuara për ish-drejtuesit e Ushtrisë Çlirimtare të Kosovës.",
+              "imageUrl": "https://www.il-meridiano.it/images/reda/2026/cronaca/corteo-spontaneo-a-trieste-per-il-kosovo-in-piazza-contro-le-condanne-agli-ex-vertici-dell-uck-699085.jpg",
+              "url": "https://www.il-meridiano.it/notizie/cronaca/26119-corteo-spontaneo-a-trieste-per-il-kosovo-in-piazza-contro-le-condanne-agli-ex-vertici-dell-uck-699085.html",
+              "date": "2026-09-20",
+              "sentiment": "neutral",
+              "reason": "Neutral description of spontaneous march",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-20",
+          "lastSeen": "2026-09-20"
+        },
+        {
           "name": "ilgiornale.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1420,7 +1481,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 28,
+        "n": 31,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -1479,7 +1540,7 @@
         {
           "name": "LAOLA1",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Mit Bundesliga-Trio: Foda nominiert Kosovo-Kader - LAOLA1",
@@ -1490,6 +1551,19 @@
               "date": "2026-09-18",
               "sentiment": "neutral",
               "reason": "Faktikë raporti neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Mit Bundesliga-Trio: Foda nominiert Kosovo-Kader - laola1.at",
+              "albanianTitle": "Me treshen e Bundesligës: Foda publikon listën e Kosovës",
+              "blurb": "Përzgjedhësi Franco Foda ka publikuar listën e futbollistëve të Kosovës, ku përfshihen edhe tre lojtarë nga Bundesliga gjermane.",
+              "imageUrl": "https://www.laola1.at/storage/files/01/a0/b4/ba-345e-7177-b517-136a664bf964.1280x720.jpg?v=2",
+              "url": "https://www.laola1.at/de/red/fussball/sonstiges/news/mit-bundesliga-trio--foda-nominiert-kosovo-kader/",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Straightforward news of player nomination",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1711,9 +1785,9 @@
       "summary": {
         "index": 42,
         "positive": 8,
-        "neutral": 67,
-        "negative": 25,
-        "n": 12,
+        "neutral": 69,
+        "negative": 23,
+        "n": 13,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3,
@@ -2756,18 +2830,18 @@
         },
         {
           "name": "kathimerini.gr",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Κόσοβο: Αντικρουόμενες οι αντιδράσεις για την καταδίκη Θάτσι - kathimerini.gr",
-              "albanianTitle": "Kosova: Reagime të ndryshme pas dënimit të Thaçit",
-              "blurb": "Në Kosovë janë shfaqur reagime të ndryshme dhe të kundërta lidhur me vendimin për dënimin e ish-presidentit Hashim Thaçi nga gjykata.",
+              "albanianTitle": "Kosovë: Reagime të ndryshme pas dënimit të Thaçit",
+              "blurb": "Vendimi për dënimin e Hashim Thaçit ka nxitur reagime të ndryshme dhe të kundërta brenda opinionit publik në Kosovë.",
               "imageUrl": "https://www.kathimerini.gr/wp-content/uploads/2026/09/swm-05a8264764eb0415285d286ee48a5714_2026-09-16T130329Z_1616684071_RC2DKNABIWFL_RTRMADP_3_WARCRIMES-KOSO-1-1200x630.jpg",
               "url": "https://www.kathimerini.gr/world/564464971/alvania-antikroyomenes-oi-antidraseis-gia-tin-katadiki-thatsi/",
               "date": "2026-09-18",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Fact‑based headline reporting mixed reactions, no loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2856,8 +2930,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 10,
-        "excluded": 1,
+        "n": 11,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       }

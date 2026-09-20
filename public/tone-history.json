@@ -8403,8 +8403,8 @@
   {
     "date": "2026-09-20",
     "overallIndex": 49,
-    "totalArticles": 145,
-    "sourceCount": 109,
+    "totalArticles": 150,
+    "sourceCount": 111,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -8460,7 +8460,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 28,
+        "n": 31,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -8468,9 +8468,9 @@
       "Austri": {
         "index": 42,
         "positive": 8,
-        "neutral": 67,
-        "negative": 25,
-        "n": 12,
+        "neutral": 69,
+        "negative": 23,
+        "n": 13,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3,
@@ -8536,8 +8536,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 10,
-        "excluded": 1,
+        "n": 11,
+        "excluded": 0,
         "confident": true,
         "stanceVersion": 3
       },
@@ -8585,7 +8585,7 @@
     "headlines": [
       {
         "title": "'Everyone wants to be part of history' - Meet the manager who kickstarted Kosovo's rise in international football - RTE.ie",
-        "source": "rte.ie",
+        "source": "RTE.ie",
         "country": "SHBA",
         "flag": "🇺🇸",
         "url": "https://www.rte.ie/sport/soccer/2026/0920/1591719-meet-the-manager-who-kickstarted-kosovos-historic-rise/",
@@ -8610,8 +8610,8 @@
       {
         "title": "On behalf of the people of Kosovo or Serbia? - Gazeta Sot",
         "source": "Gazeta Sot",
-        "country": "SHBA",
-        "flag": "🇺🇸",
+        "country": "Britani",
+        "flag": "🇬🇧",
         "url": "https://sot.com.al/english/ne-emer-te-popullit-te-kosoves-apo-te-serbise-i5184146",
         "sentiment": "negative"
       },
