@@ -82,7 +82,12 @@ def test_normalize_does_not_abort_when_image_remains_rate_limited():
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "2026-07-10T12.json"
             path.write_text(json.dumps([article]), encoding="utf-8")
-            assert support.normalize_batch(path) == [article]
+            normalized = support.normalize_batch(path)
+            assert len(normalized) == 1
+            retained = normalized[0]
+            assert retained["image_url"] == article["image_url"]
+            assert retained["image_width"] == 1400
+            assert retained["image_height"] == 800
     finally:
         support._fetch_image_dimensions = original_fetch
 
