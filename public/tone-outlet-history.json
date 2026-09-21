@@ -236,13 +236,13 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 32,
+      "total": 33,
       "positive": 0,
-      "neutral": 26,
+      "neutral": 27,
       "negative": 0,
       "unknown": 6,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-21",
       "urls": [
         "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
@@ -275,7 +275,8 @@
         "https://www.ansa.it/sito/notizie/topnews/2026/09/16/thaci-condannato-allaja-a-25-anni-per-crimini-di-guerra-in-kosovo_345164a3-4318-4f89-a85e-c906c576a6d2.html",
         "https://www.ansa.it/sito/notizie/mondo/2026/09/16/thaci-condannato-a-25-anni-per-crimini-di-guerra-in-kosovo.-tentato-assalto-alla_f0670d62-ebc3-475d-9ed2-27feccf23c80.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/16/wizz-air-annuncia-un-nuovo-collegamento-aereo-tra-trieste-e-pristina_b2071c24-7ed7-4e0a-97c0-62d8eecced0d.html",
-        "https://www.ansa.it/sito/notizie/mondo/2026/09/16/a-pristina-manifestanti-tentano-assalto-a-sede-ue-dopo-la-condanna-a-thaci-respinti_fe775aeb-91e4-470b-993a-132e06cd7cc6.html"
+        "https://www.ansa.it/sito/notizie/mondo/2026/09/16/a-pristina-manifestanti-tentano-assalto-a-sede-ue-dopo-la-condanna-a-thaci-respinti_fe775aeb-91e4-470b-993a-132e06cd7cc6.html",
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/21/dal-mas-ince-europa-non-puo-essere-forte-senza-i-balcani_bf3c2ddf-1cef-4875-8e86-3ea99cc32226.html"
       ]
     },
     "Virgilio": {
@@ -791,13 +792,13 @@
     },
     "sport-fm.gr": {
       "country": "Greqi",
-      "total": 13,
+      "total": 14,
       "positive": 1,
-      "neutral": 9,
+      "neutral": 10,
       "negative": 0,
       "unknown": 3,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-20",
+      "lastSeen": "2026-09-21",
       "urls": [
         "https://www.sport-fm.gr/article/amp/mesogeiakoi-agwnes-agriemeni-stin-premiera-tis-i-ethniki-andrwn-sarwse-to-kosobo-amp/5142502",
         "https://www.sport-fm.gr/article/amp/ellada-kosobo-3-0-set-amp/5142590",
@@ -811,7 +812,8 @@
         "https://www.sport-fm.gr/article/795903",
         "https://www.sport-fm.gr/article/5004006",
         "https://www.sport-fm.gr/article/4169502",
-        "https://www.sport-fm.gr/article/amp/Live-ellada-kosobo-amp/4133784"
+        "https://www.sport-fm.gr/article/amp/Live-ellada-kosobo-amp/4133784",
+        "https://www.sport-fm.gr/article/amp/Live-kosobo-ellada-amp/4304252"
       ]
     },
     "In.gr": {
@@ -1555,19 +1557,20 @@
     },
     "Sky Sport Austria": {
       "country": "Austri",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-24",
-      "lastSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
       "urls": [
         "https://www.skysportaustria.at/sturm-graz-verpflichtet-kosovo-teamspieler/",
         "https://www.skysportaustria.at/mediathek/kacuri-kosovo-einberufung-waere-ein-traum/",
         "https://www.skysportaustria.at/mediathek/kosovo-co-trainer-ibertsberger-kacuri-ein-sehr-spannender-spieler/",
         "https://www.skysportaustria.at/umfragen/gewinnspiel-zu-oesterreich-vs-kosovo/",
-        "https://www.skysportaustria.at/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri/"
+        "https://www.skysportaustria.at/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri/",
+        "https://www.skysportaustria.at/gewinnspiel-sichere-dir-tickets-fuer-oesterreich-vs-kosovo/"
       ]
     },
     "kicker": {
@@ -3621,18 +3624,19 @@
     },
     "dw.com": {
       "country": "Gjermani",
-      "total": 4,
+      "total": 5,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-09-10",
-      "lastSeen": "2026-09-17",
+      "lastSeen": "2026-09-18",
       "urls": [
         "https://www.dw.com/en/germany-kosovo-unite-against-ticks-carrying-deadly-virus/a-78655223",
         "https://www.dw.com/es/25-a%C3%B1os-de-prisi%C3%B3n-para-hashim-thaci-expresidente-de-kosovo-por-cr%C3%ADmenes-de-guerra/a-79289520",
         "https://amp.dw.com/tr/kosovan%C4%B1n-eski-cumhurba%C5%9Fkan%C4%B1-ta%C3%A7iye-25-y%C4%B1l-hapis-cezas%C4%B1/a-79292640",
-        "https://www.dw.com/tr/kosovan%C4%B1n-eski-lideri-ta%C3%A7iye-25-y%C4%B1l-hapis-cezas%C4%B1/a-79292640"
+        "https://www.dw.com/tr/kosovan%C4%B1n-eski-lideri-ta%C3%A7iye-25-y%C4%B1l-hapis-cezas%C4%B1/a-79292640",
+        "https://www.dw.com/en/serbias-president-aleksandar-vucic-criticizes-kosovo-war-crimes-verdict-against-hashim-thaci/a-79307654"
       ]
     },
     "courrierdesbalkans.fr": {
@@ -5532,16 +5536,17 @@
     },
     "BBC": {
       "country": "Britani",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-16",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-21",
       "urls": [
         "https://www.bbc.co.uk/news/articles/cmd79z0pdzgjo",
-        "https://www.bbc.com/turkce/articles/c914dr5433v6o"
+        "https://www.bbc.com/turkce/articles/c914dr5433v6o",
+        "https://www.bbc.com/sport/articles/c2071gdnv50o"
       ]
     },
     "lbc.co.uk": {
@@ -7850,6 +7855,71 @@
       "lastSeen": "2026-09-21",
       "urls": [
         "https://www.fangol.pl/livescore/match/kosowo-vs-irlandia/68932722"
+      ]
+    },
+    "kicker.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://www.kicker.de/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri-1253958/artikel"
+      ]
+    },
+    "BeBasket": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "urls": [
+        "https://www.bebasket.fr/de-la-france-au-kosovo-divine-myles-repart-vers-un-terrain-familier"
+      ]
+    },
+    "Agones": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-19",
+      "urls": [
+        "https://agones.gr/livescore/2884-2305/kosobo-irlandia"
+      ]
+    },
+    "Bettingstugan.se": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "urls": [
+        "https://bettingstugan.se/speltips/europatipset-torsdag-24-9-2"
+      ]
+    },
+    "Teleman": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "urls": [
+        "https://www.teleman.pl/tv/Pilka-Nozna-Liga-Narodow-2681067"
       ]
     }
   }

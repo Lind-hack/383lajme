@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-21",
   "overallIndex": 48,
-  "totalArticles": 94,
-  "sourceCount": 78,
+  "totalArticles": 103,
+  "sourceCount": 86,
   "stanceVersion": 3,
-  "unattributed": 127,
+  "unattributed": 147,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -77,10 +77,10 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 3,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 4,
+          "trend": "neutral",
           "firstSeen": "2026-09-17",
-          "lastSeen": "2026-09-18"
+          "lastSeen": "2026-09-21"
         },
         {
           "name": "FAZ",
@@ -129,6 +129,54 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-15",
           "lastSeen": "2026-09-19"
+        },
+        {
+          "name": "dw.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Serbian President Vucic criticizes Kosovo war crimes verdict - dw.com",
+              "albanianTitle": null,
+              "blurb": "Presidenti i Serbisë, Aleksandar Vuçiq, ka shprehur kritika ndaj vendimit të gjykatës për krimet e luftës në Kosovë.",
+              "imageUrl": "https://static.dw.com/image/79308010_6.jpg",
+              "url": "https://www.dw.com/en/serbias-president-aleksandar-vucic-criticizes-kosovo-war-crimes-verdict-against-hashim-thaci/a-79307654",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i kritikës së Vucit, jo qëndrimi i mediave",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-09-10",
+          "lastSeen": "2026-09-18"
+        },
+        {
+          "name": "kicker.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "ÖFB-Gegner Kosovo erstmals mit Lustenaus Kacuri - kicker.de",
+              "albanianTitle": null,
+              "blurb": "Futbollisti i Lustenaus, Kacuri, është ftuar për herë të parë në përfaqësuesen e Kosovës për ndeshjen kundër Austrisë.",
+              "imageUrl": null,
+              "url": "https://www.kicker.de/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri-1253958/artikel",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-21",
+          "lastSeen": "2026-09-18"
         },
         {
           "name": "sport.de",
@@ -197,7 +245,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
+        "n": 9,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -218,6 +266,30 @@
     },
     "Britani": {
       "outlets": [
+        {
+          "name": "BBC",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Republic of Ireland: Heimir Hallgrimsson's side Republic of Ireland braced for testing Nations League - BBC",
+              "albanianTitle": "Republika e Irlandës: Ekipi i Heimir Hallgrimsson përgatitet për ndeshje sfiduese në Ligën e Kombeve",
+              "blurb": "Ekipi i Republikës së Irlandës, nën drejtimin e Heimir Hallgrimsson, po përgatitet për ndeshjet sfiduese në kuadër të Ligës së Kombeve.",
+              "imageUrl": "https://ichef.bbci.co.uk/ace/branded_sport/1200/cpsprodpb/bdda/live/a64e7a00-b2bd-11f1-9830-658a48c7da16.jpg",
+              "url": "https://www.bbc.com/sport/articles/c2071gdnv50o",
+              "date": "2026-09-21",
+              "sentiment": "unknown",
+              "reason": "Artikulli nuk përmend Kosovën, ndaj nuk ka qëndrim të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-21"
+        },
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
@@ -275,13 +347,37 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
     },
     "Francë": {
       "outlets": [
+        {
+          "name": "BeBasket",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "De la France au Kosovo, Divine Myles repart vers un terrain familier - BeBasket",
+              "albanianTitle": "Nga Franca në Kosovë, Divine Myles kthehet në një terren të njohur",
+              "blurb": "Basketbollisti Divine Myles rikthehet në Kosovë për të vazhduar karrierën e tij në një terren që e njeh mirë.",
+              "imageUrl": "https://www.bebasket.fr/image?variant=ratio_16_9&name=images/blog/809633298-27788937570784658-1878827378204583652-111-scaled-1f1b5a4f-143f-6046-b6ee-1f898197d606.jpg",
+              "url": "https://www.bebasket.fr/de-la-france-au-kosovo-divine-myles-repart-vers-un-terrain-familier",
+              "date": "2026-09-21",
+              "sentiment": "neutral",
+              "reason": "Thjesht njofton transferimin e lojtarit në Kosovë pa ton vlerësues",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-21",
+          "lastSeen": "2026-09-21"
+        },
         {
           "name": "ENTREVUE.FR",
           "sentiment": "neutral",
@@ -492,10 +588,10 @@
       ],
       "summary": {
         "index": 45,
-        "positive": 10,
-        "neutral": 70,
-        "negative": 20,
-        "n": 10,
+        "positive": 9,
+        "neutral": 73,
+        "negative": 18,
+        "n": 11,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -503,6 +599,30 @@
     },
     "Itali": {
       "outlets": [
+        {
+          "name": "ANSA",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Dal Mas (Ince), Europa non può essere forte senza i Balcani occidentali - ANSA",
+              "albanianTitle": "Dal Mas (Ince): Evropa nuk mund të jetë e fortë pa Ballkanin Perëndimor",
+              "blurb": "Përfaqësuesi i Ince, Dal Mas, thekson se Evropa nuk mund të jetë e fortë pa përfshirjen e vendeve të Ballkanit Perëndimor.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/21/0a98ddbebc43e4a149d08433fbb831eb.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/21/dal-mas-ince-europa-non-puo-essere-forte-senza-i-balcani_bf3c2ddf-1cef-4875-8e86-3ea99cc32226.html",
+              "date": "2026-09-21",
+              "sentiment": "neutral",
+              "reason": "Citim i një analisti për rëndësinë e Ballkanit Perëndimor, pa gjuhë kundërshtuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 33,
+          "trend": "neutral",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-21"
+        },
         {
           "name": "Alto Adige",
           "sentiment": "neutral",
@@ -1026,7 +1146,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 21,
+        "n": 22,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -1148,7 +1268,7 @@
         {
           "name": "Sky Sport Austria",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "ÖFB-Gegner Kosovo erstmals mit Lustenaus Kacuri - Sky Sport Austria",
@@ -1162,12 +1282,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Gewinnspiel: Sichere dir Tickets für Österreich vs. Kosovo - Sky Sport Austria",
+              "albanianTitle": null,
+              "blurb": "Sky Sport Austria organizon lojë shpërblyese për fitimin e biletave për ndeshjen futbollistike ndërmjet Austrisë dhe Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.skysportaustria.at/gewinnspiel-sichere-dir-tickets-fuer-oesterreich-vs-kosovo/",
+              "date": "2026-09-21",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "neutral",
           "firstSeen": "2026-08-24",
-          "lastSeen": "2026-09-18"
+          "lastSeen": "2026-09-21"
         },
         {
           "name": "fan.at",
@@ -1269,9 +1402,9 @@
       "summary": {
         "index": 45,
         "positive": 0,
-        "neutral": 90,
-        "negative": 10,
-        "n": 10,
+        "neutral": 91,
+        "negative": 9,
+        "n": 11,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -1685,6 +1818,30 @@
           "lastSeen": "2026-09-18"
         },
         {
+          "name": "Agones",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο - Ιρλανδία 24/9 | Προγνωστικά για Στοίχημα - Agones",
+              "albanianTitle": null,
+              "blurb": "Kombëtarja e Kosovës përballet me Irlandën më 24 shtator në një ndeshje të vlefshme për bastet sportive.",
+              "imageUrl": "https://agones.gr/team_logos?t1=2884&t2=2305",
+              "url": "https://agones.gr/livescore/2884-2305/kosobo-irlandia",
+              "date": "2026-09-19",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-21",
+          "lastSeen": "2026-09-19"
+        },
+        {
           "name": "Kathimerini",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1831,7 +1988,7 @@
         {
           "name": "sport-fm.gr",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Ελλάδα-Κόσοβο 0-0 - sport-fm.gr",
@@ -1845,12 +2002,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Κόσοβο-Ελλάδα 0-1 - sport-fm.gr",
+              "albanianTitle": "Kosovë-Greqi 0-1",
+              "blurb": "Përfaqësuesja e Greqisë ka shënuar fitore me rezultat 1-0 ndaj Kosovës në ndeshjen e zhvilluar së fundmi.",
+              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/22/06/05/3523981_222714.jpg?w=880&f=bicubic",
+              "url": "https://www.sport-fm.gr/article/amp/Live-kosobo-ellada-amp/4304252",
+              "date": "2026-09-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 13,
+          "totalArticles": 14,
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-20"
+          "lastSeen": "2026-09-21"
         },
         {
           "name": "Εφημερίδα ΑΜΑΡΥΣΙΑ",
@@ -1882,7 +2052,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 9,
+        "n": 11,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -1890,6 +2060,30 @@
     },
     "Suedi": {
       "outlets": [
+        {
+          "name": "Bettingstugan.se",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Europatipset Onsdag » I dag 24 September » Analys, Tips & Förslag - Bettingstugan.se",
+              "albanianTitle": null,
+              "blurb": "Analiza dhe sugjerimet për ndeshjet e Europatipset të datës 24 shtator janë publikuar për të gjithë të interesuarit.",
+              "imageUrl": "https://bettingstugan.imgix.net/assets/uploads/user/tips/_1200x630_crop_center-center_82_none/Campione-Europatipset-Analys-och-spelforslag-Bettingstugan-NY.png?mtime=1786711805",
+              "url": "https://bettingstugan.se/speltips/europatipset-torsdag-24-9-2",
+              "date": "2026-09-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-21",
+          "lastSeen": "2026-09-21"
+        },
         {
           "name": "SMHI",
           "sentiment": "neutral",
@@ -1920,7 +2114,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1942,6 +2136,30 @@
               "date": "2026-09-21",
               "sentiment": "neutral",
               "reason": "Fact‑based report without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-21",
+          "lastSeen": "2026-09-21"
+        },
+        {
+          "name": "Teleman",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Piłka nożna: Liga Narodów - mecz: Kosowo - Austria - Teleman",
+              "albanianTitle": null,
+              "blurb": "Përfaqësuesja e Kosovës në futboll luan ndeshjen e Ligës së Kombeve kundër Austrisë, sipas njoftimit të programit televiziv.",
+              "imageUrl": "//media.teleman.pl/photos/470x265/Pilka-Nozna-Liga-Francuska_QeNU6oC.jpg",
+              "url": "https://www.teleman.pl/tv/Pilka-Nozna-Liga-Narodow-2681067",
+              "date": "2026-09-21",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2006,7 +2224,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
