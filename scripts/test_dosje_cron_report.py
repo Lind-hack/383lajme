@@ -20,8 +20,11 @@ def test_compose_escapes_payload_and_keeps_exact_json():
     assert "drafted=0" in msg["Subject"]
 
 def test_main_emails_allowed_422_and_returns_success():
+    received_user_agents = []
+
     class Handler(BaseHTTPRequestHandler):
         def do_POST(self):
+            received_user_agents.append(self.headers.get("User-Agent"))
             body = json.dumps({"ok": False, "reason": "no_sources", "found": 1}).encode()
             self.send_response(422)
             self.send_header("Content-Type", "application/json")
@@ -40,6 +43,7 @@ def test_main_emails_allowed_422_and_returns_success():
             rc = MOD.main(["--stage", "research", "--url", f"http://127.0.0.1:{server.server_port}/research", "--secret", "test-secret", "--allowed-status", "200,422"])
         assert rc == 0
         assert len(captured) == 1
+        assert received_user_agents == ["383ks-automation/1.0"]
         assert "no_sources" in captured[0].get_payload()[0].get_payload(decode=True).decode("utf-8")
     finally:
         server.shutdown()

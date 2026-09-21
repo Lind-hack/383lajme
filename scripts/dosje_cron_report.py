@@ -33,7 +33,17 @@ def decode(raw):
 def call(url, secret, method, timeout):
     if not secret:
         return 0, {"error": "CRON_SECRET is missing"}
-    req = urllib.request.Request(url, method=method, headers={"Authorization": f"Bearer {secret}", "Accept": "application/json"})
+    req = urllib.request.Request(
+        url,
+        method=method,
+        headers={
+            "Authorization": f"Bearer {secret}",
+            "Accept": "application/json",
+            # Cloudflare rejects urllib's default Python-urllib user agent
+            # before the request reaches the authenticated route.
+            "User-Agent": "383ks-automation/1.0",
+        },
+    )
     try:
         with urllib.request.urlopen(req, timeout=timeout) as res:
             return int(res.status), decode(res.read())
