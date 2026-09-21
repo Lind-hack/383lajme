@@ -8632,5 +8632,222 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-09-21",
+    "overallIndex": 48,
+    "totalArticles": 94,
+    "sourceCount": 78,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 7,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 45,
+        "positive": 10,
+        "neutral": 70,
+        "negative": 20,
+        "n": 10,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Itali": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 21,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": 45,
+        "positive": 0,
+        "neutral": 90,
+        "negative": 10,
+        "n": 10,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": 53,
+        "positive": 7,
+        "neutral": 93,
+        "negative": 0,
+        "n": 15,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Holandë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": 25,
+        "positive": 0,
+        "neutral": 50,
+        "negative": 50,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -30,
+          "from": 55,
+          "outlet": "ctxt.es",
+          "title": "Kosova dhe etika e së keqes - ctxt.es",
+          "evidence": "Kosovo y la ética de la maldad",
+          "url": "https://ctxt.es/es/20260901/Firmas/55215/hashim-thaci-kosovo-condena-tribunal-especial-de-kosovo-uck.htm"
+        }
+      },
+      "Greqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 9,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 2,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 46,
+        "positive": 0,
+        "neutral": 92,
+        "negative": 8,
+        "n": 12,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "'Everyone wants to be part of history' - Meet the manager who kickstarted Kosovo's rise in international football - RTE.ie",
+        "source": "rte.ie",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.rte.ie/sport/soccer/2026/0920/1591719-meet-the-manager-who-kickstarted-kosovos-historic-rise/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "A long road and a rapid rise: Kosovo’s remarkable football story ahead of first-ever meetings with Ireland - Irish Independent",
+        "source": "independent.ie",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.independent.ie/sport/a-long-road-and-a-rapid-rise-kosovos-remarkable-football-story-ahead-of-first-ever-meetings-with-ireland/a/161687844.html",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Il s’attendait à \"être acquitté\" : Hashim Thaçi, héros de l’indépendance du Kosovo, condamné à 25 ans - marianne.net",
+        "source": "Marianne",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.marianne.net/monde/europe/il-s-attendait-a-etre-acquitte-hashim-thaci-heros-de-l-independance-du-kosovo-condamne-a-25-ans",
+        "sentiment": "positive"
+      },
+      {
+        "title": "On behalf of the people of Kosovo or Serbia? - Gazeta Sot",
+        "source": "Gazeta Sot",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://sot.com.al/english/ne-emer-te-popullit-te-kosoves-apo-te-serbise-i5184146",
+        "sentiment": "negative"
+      },
+      {
+        "title": "« Notre ami » Thaçi, criminel de guerre - Le Monde diplomatique",
+        "source": "Le Monde diplomatique",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.monde-diplomatique.fr/carnet/2026-09-18-Notre-ami-Thaci-criminel-de-guerre",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Foda-Rückkehr nach Wien! Ex-Teamchef will Österreich mit Kosovo ärgern - oe24",
+        "source": "oe24",
+        "country": "Austri",
+        "flag": "🇦🇹",
+        "url": "https://www.oe24.at/a/foda-rueckkehr-nach-wien-ex-teamchef-will-oesterreich-mit-kosovo-aergern-900116443",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]

@@ -359,15 +359,16 @@
     },
     "Report Difesa": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21",
+      "lastSeen": "2026-09-21",
       "urls": [
-        "https://www.reportdifesa.it/kosovo-il-ponte-conteso-sicurezza-sovranita-e-narrazioni-lungo-il-fiume-ibar/"
+        "https://www.reportdifesa.it/kosovo-il-ponte-conteso-sicurezza-sovranita-e-narrazioni-lungo-il-fiume-ibar/",
+        "https://www.reportdifesa.it/kosovo-freedom-has-a-name-quando-il-giudizio-sugli-uomini-diventa-un-giudizio-sulla-storia/"
       ]
     },
     "Quotidiano Nazionale": {
@@ -790,13 +791,13 @@
     },
     "sport-fm.gr": {
       "country": "Greqi",
-      "total": 12,
+      "total": 13,
       "positive": 1,
-      "neutral": 8,
+      "neutral": 9,
       "negative": 0,
       "unknown": 3,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-12",
+      "lastSeen": "2026-09-20",
       "urls": [
         "https://www.sport-fm.gr/article/amp/mesogeiakoi-agwnes-agriemeni-stin-premiera-tis-i-ethniki-andrwn-sarwse-to-kosobo-amp/5142502",
         "https://www.sport-fm.gr/article/amp/ellada-kosobo-3-0-set-amp/5142590",
@@ -809,7 +810,8 @@
         "https://www.sport-fm.gr/article/amp/Live-kosobo-kupros-amp/4327483",
         "https://www.sport-fm.gr/article/795903",
         "https://www.sport-fm.gr/article/5004006",
-        "https://www.sport-fm.gr/article/4169502"
+        "https://www.sport-fm.gr/article/4169502",
+        "https://www.sport-fm.gr/article/amp/Live-ellada-kosobo-amp/4133784"
       ]
     },
     "In.gr": {
@@ -1142,13 +1144,13 @@
     },
     "Son Dakika": {
       "country": "Turqi",
-      "total": 15,
+      "total": 16,
       "positive": 1,
-      "neutral": 11,
+      "neutral": 12,
       "negative": 0,
       "unknown": 3,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
       "urls": [
         "https://www.sondakika.com/haber/haber-kosova-da-halter-sampiyonasi-basladi-20162761/",
         "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
@@ -1164,7 +1166,8 @@
         "https://www.sondakika.com/spor/haber-vanli-sporcu-furkan-bilici-kosova-da-91-kiloda-dun-20224169/",
         "https://www.sondakika.com/guncel/haber-kosova-da-kurti-hukumeti-62-oyla-guvenoyu-aldi-8-r-20233794/",
         "https://www.sondakika.com/spor/haber-amed-sportif-te-6-futbolcu-kosova-dan-gine-ye-mill-20246768/",
-        "https://www.sondakika.com/guncel/haber-manisali-milli-sporcu-cemile-aykoc-kosova-da-ilk-k-20248850/"
+        "https://www.sondakika.com/guncel/haber-manisali-milli-sporcu-cemile-aykoc-kosova-da-ilk-k-20248850/",
+        "https://www.sondakika.com/spor/haber-18-yasindaki-muaythaici-kosova-da-altin-madalya-ka-20256970/"
       ]
     },
     "Harici": {
@@ -1811,18 +1814,19 @@
     },
     "gostyn24.pl": {
       "country": "Poloni",
-      "total": 4,
+      "total": 5,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 4,
+      "unknown": 5,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-21",
       "urls": [
         "https://gostyn24.pl/pl/473_na-sygnale/97529_zderzenie-tuz-przed-torami-kolejowymi-sprawca-pojechal-do-szpitala-na-badania.html",
         "https://gostyn24.pl/pl/19_wiadomosci-z-regionu/588_gostyn/98135_998-metrow-ktore-potrafilo-dac-w-kosc-najtrudniejsze-bylo-to-w-czym-biegli.html",
         "https://gostyn24.pl/pl/19_wiadomosci-z-regionu/588_gostyn/98141_znana-trasa-dostala-zupelnie-nowe-oblicze-biegacze-zapamietaja-ten-podbieg.html",
-        "https://gostyn24.pl/pl/1075_dobrze-wiedziec/98564_dlugo-ich-tutaj-nie-bylo-wrocily-i-od-razu-daly-o-sobie-znac-ten-wystep.html"
+        "https://gostyn24.pl/pl/1075_dobrze-wiedziec/98564_dlugo-ich-tutaj-nie-bylo-wrocily-i-od-razu-daly-o-sobie-znac-ten-wystep.html",
+        "https://gostyn24.pl/pl/1075_dobrze-wiedziec/98954_pokazali-sie-w-zupelnie-nowej-odslonie-ktos-wlozyl-w-nia-wiele-pracy.html"
       ]
     },
     "Leman bleu": {
@@ -1914,7 +1918,7 @@
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-09-17",
+      "lastSeen": "2026-09-18",
       "urls": [
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
@@ -3275,13 +3279,13 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 57,
-      "positive": 10,
-      "neutral": 39,
+      "total": 60,
+      "positive": 11,
+      "neutral": 41,
       "negative": 0,
       "unknown": 8,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-19",
+      "lastSeen": "2026-09-21",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
@@ -3339,7 +3343,10 @@
         "https://www.albinfo.ch/de/dion-kacuri-e-le-zyrtarisht-zvicren-per-kosoven-ftohet-per-ligen-e-kombeve/",
         "https://www.albinfo.ch/de/ekipi-nga-kosova-shperblehet-ne-teknofest-2026/",
         "https://www.albinfo.ch/de/nga-femije-refugjat-nga-kosova-ne-autore-lena-rexhepi-sjell-historine-e-saj-ne-tri-gjuhe/",
-        "https://www.albinfo.ch/de/publikohet-lista-e-kosoves-ftohet-edhe-talenti-i-bayernit-erblin-osmani/"
+        "https://www.albinfo.ch/de/publikohet-lista-e-kosoves-ftohet-edhe-talenti-i-bayernit-erblin-osmani/",
+        "https://www.albinfo.ch/de/wer-ein-leben-lang-in-der-schweiz-gearbeitet-hat-soll-seine-rente-auch-im-kosovo-beziehen-koennen/",
+        "https://www.albinfo.ch/de/ne-nje-shkolle-te-bronx-it-shqipja-mesohet-krah-anglishtes/",
+        "https://www.albinfo.ch/de/spektakel-i-vedat-muriqit-shenon-kater-gola-brenda-55-minutave/"
       ]
     },
     "iAxia -": {
@@ -6137,17 +6144,18 @@
     },
     "Der Standard": {
       "country": "Austri",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-17",
-      "lastSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
       "urls": [
         "https://www.derstandard.at/story/3000000340029/kosovos-ex-praesident-hashim-thaci-wegen-kriegsverbrechen-zu-25-jahren-haft-verurteilt",
         "https://www.derstandard.de/story/3000000340447/jetzt-muss-oefb-teamchef-ralf-rangnick-auch-noch-konrad-laimer-ersetzen",
-        "https://www.derstandard.at/story/3000000340447/jetzt-muss-oefb-teamchef-ralf-rangnick-auch-noch-konrad-laimer-ersetzen"
+        "https://www.derstandard.at/story/3000000340447/jetzt-muss-oefb-teamchef-ralf-rangnick-auch-noch-konrad-laimer-ersetzen",
+        "https://www.derstandard.at/story/3000000340582/neue-regierung-und-alte-instabilitaet-im-kosovo"
       ]
     },
     "oe1.ORF.at": {
@@ -7763,6 +7771,85 @@
       "lastSeen": "2026-09-20",
       "urls": [
         "https://www.il-meridiano.it/notizie/cronaca/26119-corteo-spontaneo-a-trieste-per-il-kosovo-in-piazza-contro-le-condanne-agli-ex-vertici-dell-uck-699085.html"
+      ]
+    },
+    "sport.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-20",
+      "urls": [
+        "https://www.sport.de/sportwetten/tipps/kosovo-vs-irland-wett-tipp-24-09-2026/"
+      ]
+    },
+    "MadeInFOOT": {
+      "country": "Francë",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "urls": [
+        "https://madeinfoot.ouest-france.fr/infos/article-nations-league-kosovo-irlande-sur-quelle-chaine-voir-le-match-et-a-quelle-heure-539634.html",
+        "https://madeinfoot.ouest-france.fr/infos/article-uefa-nations-league-autriche-vs-kosovo-sur-quelle-chaine-et-a-quelle-heure-voir-le-match-en-direct-539663.html"
+      ]
+    },
+    "marathons.fr": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "urls": [
+        "https://www.marathons.fr/Prishtina-Marathon-Succes-pour-John-Njuguna-Kuria-et-Nancy-Waigumo-Githaiga"
+      ]
+    },
+    "ctxt.es": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 1,
+      "unknown": 0,
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "urls": [
+        "https://ctxt.es/es/20260901/Firmas/55215/hashim-thaci-kosovo-condena-tribunal-especial-de-kosovo-uck.htm"
+      ]
+    },
+    "programtv.onet.pl": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "urls": [
+        "https://programtv.onet.pl/tv/pilka-nozna-liga-narodow-mecz-kosowo-austria/yhsez"
+      ]
+    },
+    "Fangol.pl": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "urls": [
+        "https://www.fangol.pl/livescore/match/kosowo-vs-irlandia/68932722"
       ]
     }
   }
