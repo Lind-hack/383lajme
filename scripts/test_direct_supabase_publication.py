@@ -35,6 +35,8 @@ def article(index: int) -> dict:
         "source_bias": "neutral",
         "tone": "neutral",
         "category": "Botë",
+        "city": None,
+        "corroborating_sources": [{"source": "Independent", "url": f"https://confirm{index}.test/story"}],
         "published_at": "2026-07-10T12:00:00+02:00",
         "reading_time": 3,
         "featured": False,
@@ -97,9 +99,9 @@ class DirectSupabasePublicationTests(unittest.TestCase):
         self.assertIn("materially matches published headline", output.getvalue())
         self.assertTrue(all(method == "GET" for method, _, _ in calls))
 
-    def test_validation_rejects_more_than_twenty_two_articles_before_any_request(self):
-        self.path.write_text(json.dumps([article(index) for index in range(1, 24)]), encoding="utf-8")
-        with self.assertRaisesRegex(ValueError, "cap each run at 22"):
+    def test_validation_rejects_more_than_twenty_articles_before_any_request(self):
+        self.path.write_text(json.dumps([article(index) for index in range(1, 22)]), encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "cap each run at 20"):
             self.support.validate_batch(self.path)
 
     def test_publish_inserts_exact_mapping_and_verifies_readback(self):

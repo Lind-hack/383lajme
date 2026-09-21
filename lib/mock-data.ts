@@ -11,6 +11,7 @@
   sourceBias: 'neutral' | 'pro-kosovo' | 'critical' | 'hostile';
   tone: 'positive' | 'neutral' | 'negative';
   category: string;
+  city?: string;
   publishedAt: string;
   createdAt?: string;
   readingTime: number;

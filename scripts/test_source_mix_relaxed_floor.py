@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regression: a valid eight-story, five-source batch must be publishable."""
+"""Regression: a 13-story, five-source batch meets the Topic Selection v2 outer floor."""
 import importlib.util
 import json
 import tempfile
@@ -16,6 +16,7 @@ articles = [
     for i, host in enumerate([
         "reuters.com", "apnews.com", "bbc.co.uk", "dw.com",
         "aljazeera.com", "reuters.com", "apnews.com", "bbc.co.uk",
+        "dw.com", "aljazeera.com", "reuters.com", "apnews.com", "bbc.co.uk",
     ], 1)
 ]
 with tempfile.TemporaryDirectory() as directory:

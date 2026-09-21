@@ -42,6 +42,8 @@ def make_article(index: int, category: str, social_platform: str = "") -> dict:
         "source_bias": "neutral",
         "tone": "neutral",
         "category": category,
+        "city": None,
+        "corroborating_sources": [{"source": "Independent source", "url": f"https://confirm{index}.example/story"}],
         "published_at": "2026-07-10T12:00:00+02:00",
         "reading_time": 3,
         "featured": False,
@@ -64,11 +66,12 @@ def make_article(index: int, category: str, social_platform: str = "") -> dict:
         "created_at": "2026-07-10T12:00:00+02:00",
     }
     if social_platform:
+        article["url"] = f"https://{social_platform.lower().replace('/', '-')}.example/post/{index}"
         article.update(
             {
                 "social_platform": social_platform,
                 "social_post_account": "@source",
-                "social_post_url": f"https://{social_platform}.example/post/{index}",
+                "social_post_url": article["url"],
                 "social_post_basis": "Postimi u perdor si sinjal dhe u verifikua me burim kryesor.",
             }
         )
@@ -84,13 +87,36 @@ def test_strict_batch_validation():
         for index in range(1, 21)
     ]
     old_fetch = support._fetch_image_dimensions
+    old_verify_social_post = support._verify_social_post
     support._fetch_image_dimensions = lambda _: (1400, 800)
+    support._verify_social_post = lambda _: None
     try:
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "2026-07-10T12.json"
             path.write_text(json.dumps(articles), encoding="utf-8")
             assert len(support.validate_batch(path)) == 20
             assert source_mix.validate(path) == 0
+
+            articles[0]["category"] = "Botë"
+            articles[0]["source"] = "KALLXO"
+            articles[0]["url"] = "https://kallxo.com/lajm/test-story"
+            path.write_text(json.dumps(articles), encoding="utf-8")
+            try:
+                support.validate_batch(path)
+            except ValueError as exc:
+                assert "discovery-only/banned" in str(exc)
+            else:
+                raise AssertionError("Kosovo competitor source passed strict validation")
+            articles[0]["category"] = "Kosovë"
+            articles[0]["url"] = "https://kallxo.com/lajm/test-story"
+            articles[0]["social_post_url"] = articles[0]["url"]
+            path.write_text(json.dumps(articles), encoding="utf-8")
+            assert len(support.validate_batch(path)) == 20
+            articles[0]["category"] = categories[0]
+            articles[0]["source"] = "Source 1"
+            articles[0]["url"] = "https://source1.example/story"
+            articles[0]["social_post_url"] = articles[0]["url"]
+            path.write_text(json.dumps(articles), encoding="utf-8")
 
             social_fields = {key: articles[0][key] for key in ("social_platform", "social_post_account", "social_post_url", "social_post_basis")}
             articles[0]["social_post_account"] = "@FabrizioRomano"
@@ -131,6 +157,7 @@ def test_strict_batch_validation():
                 raise AssertionError("short article passed strict validation")
     finally:
         support._fetch_image_dimensions = old_fetch
+        support._verify_social_post = old_verify_social_post
 
 
 def test_status_report_uses_gmail_fallback():

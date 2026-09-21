@@ -23,7 +23,7 @@ import sys
 import time
 import unicodedata
 import urllib.error
-from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
+from urllib.parse import parse_qsl, quote, urlencode, urlparse, urlunparse
 import urllib.request
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
@@ -32,6 +32,13 @@ from email.mime.text import MIMEText
 from io import BytesIO
 from pathlib import Path
 from typing import Any
+
+from editorial_rules_v2 import (
+    CANONICAL_CATEGORIES,
+    canonical_category,
+    infer_city,
+    source_policy_error,
+)
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -69,6 +76,8 @@ REQUIRED_FIELDS = {
     "image_url",
     "image_width",
     "image_height",
+    "city",
+    "corroborating_sources",
     "created_at",
 }
 
@@ -80,38 +89,7 @@ REQUIRED_FIELDS = {
 # On a 103-article archive that was 28 articles filed by a default rather than
 # by a decision, and it is the same normalisation that let a Montenegro story
 # inherit Kosovo's dossier.
-VALID_CATEGORIES = {
-    "Kosovë",
-    "Shqipëri",
-    "Sport",
-    "Teknologji",
-    "Ekonomi",
-    "Botë",
-    "Showbiz",
-}
-
-# Written by earlier batches, and by any run still in flight against the old
-# list. Kept as a translation table rather than as valid values, so an old
-# category is corrected into the right section instead of failing validation.
-# The targets match RESOLVABLE_SLUGS in lib/category-map.ts, so a reader
-# following an old /kategori/politike link lands where the article now lives.
-LEGACY_CATEGORY_ALIASES = {
-    "kosovo": "Kosovë",
-    "kosova": "Kosovë",
-    "kosovë": "Kosovë",
-    "politikë": "Kosovë",
-    "politike": "Kosovë",
-    "siguri": "Kosovë",
-    "shoqëri": "Kosovë",
-    "shoqeri": "Kosovë",
-    "kulturë": "Showbiz",
-    "kulture": "Showbiz",
-    "diaspora": "Botë",
-    "albania": "Shqipëri",
-    "shqiperia": "Shqipëri",
-    "shqipëri": "Shqipëri",
-    "shqiperi": "Shqipëri",
-}
+VALID_CATEGORIES = set(CANONICAL_CATEGORIES)
 
 KOSOVO_COMPETITOR_SOURCES = {
     "albanian post",
@@ -139,6 +117,7 @@ KOSOVO_COMPETITOR_SOURCES = {
 
 SOCIAL_DOMAINS = {
     "instagram.com": "Instagram",
+    "facebook.com": "Facebook",
     "tiktok.com": "TikTok",
     "twitter.com": "X/Twitter",
     "x.com": "X/Twitter",
@@ -150,6 +129,32 @@ SOCIAL_DOMAINS = {
     "linkedin.com": "LinkedIn",
     "pinterest.com": "Pinterest",
 }
+
+
+# Runtime contract mirrored by verify-production-deployment.mjs. These values
+# describe the currently deployed Tregu surface; they are checked rather than
+# inferred from a successful HTTP response.
+TREGU_CHART_UI_VERSION = "smooth-inspector-v3"
+F1_RACE_UI_VERSION = "race-grid-v3"
+FOOTBALL_MARKET_UI_VERSION = "stage-aware-v3"
+DEPLOYMENT_POLICY = "VERCEL deploy delegated to the GitHub main integration"
+
+
+def production_release_contract() -> dict[str, str]:
+    contract = {
+        "chart_ui_version": TREGU_CHART_UI_VERSION,
+        "f1_race_ui_version": F1_RACE_UI_VERSION,
+        "football_market_ui_version": FOOTBALL_MARKET_UI_VERSION,
+        "deployment_policy": DEPLOYMENT_POLICY,
+    }
+    required = (
+        contract.get("f1_race_ui_version", ""),
+        contract.get("football_market_ui_version", ""),
+        contract.get("deployment_policy", ""),
+    )
+    if not all(required):
+        raise RuntimeError("Production release contract is incomplete")
+    return contract
 
 SCORE_WEIGHTS = {
     "relevance": 0.22,
@@ -186,10 +191,11 @@ def production_release_contract() -> dict[str, str]:
         raise RuntimeError("Production release contract is incomplete")
     return contract
 # Publish every independently valid fresh item discovered in a scheduled window.
-# Individual invalid/duplicate candidates are removed; a smaller valid batch must
-# not keep the public site stale.
-MIN_ARTICLES_PER_BATCH = 1
-MAX_ARTICLES_PER_BATCH = 22
+# Topic Selection v2 is a run-level contract: 13–20 articles. The separate
+# topic_selection_gate.py enforces lane minima/maxima; this structural validator
+# keeps the same outer cap so no later stage can publish an oversized batch.
+MIN_ARTICLES_PER_BATCH = 13
+MAX_ARTICLES_PER_BATCH = 20
 MAX_X_ARTICLES = 2
 MAX_SOCIAL_SHARE = 0.40
 MIN_SOCIAL_ARTICLES = 0
@@ -203,6 +209,11 @@ WORDS_PER_READING_MINUTE = 200
 # Still suitable for homepage cards while accepting legitimate wire/editorial crops.
 MIN_IMAGE_WIDTH = 640
 MIN_IMAGE_HEIGHT = 400
+# Public social posts commonly expose portrait previews at 600px wide. Keep
+# direct-publisher images at the stricter site floor, but allow a bounded
+# social-native test/publish path when the verified post image is >=600x400.
+MIN_SOCIAL_IMAGE_WIDTH = 600
+MIN_SOCIAL_IMAGE_HEIGHT = 400
 
 
 def load_env() -> list[str]:
@@ -237,6 +248,45 @@ def read_articles(path: Path) -> list[dict[str, Any]]:
     if not isinstance(data, list):
         raise ValueError(f"{path.name} must contain a JSON array")
     return data
+
+
+def _social_image_proxy_url(image_url: str) -> str:
+    if "images.weserv.nl/" in image_url:
+        return image_url
+    return "https://images.weserv.nl/?url=" + quote(image_url, safe="")
+
+
+def _verify_social_post(article: dict[str, Any], timeout: int = 20) -> bytes:
+    platform = _social_platform(article).strip()
+    post_url = _social_post_url(article)
+    canonical_article_url = _canonical_url(article.get("url"))
+    canonical_post_url = _canonical_url(post_url)
+    if not post_url or not canonical_post_url:
+        raise ValueError("missing exact social post URL")
+    if canonical_article_url != canonical_post_url:
+        raise ValueError("social-native article url must equal social_post_url")
+    detected_platform = _domain_platform(post_url)
+    if detected_platform and detected_platform.casefold() != platform.casefold():
+        if not {detected_platform.casefold(), platform.casefold()} <= {"x/twitter", "x", "twitter"}:
+            raise ValueError(f"social platform/domain mismatch: {platform} vs {detected_platform}")
+    account = _social_account(article).lstrip("@").strip().casefold()
+    if platform.casefold() not in {"youtube", "reddit", "polymarket", "linkedin", "threads"} and account and account not in post_url.casefold():
+        raise ValueError("social account is not identifiable in the post URL")
+    request = urllib.request.Request(
+        post_url,
+        headers={
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+        },
+    )
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        if int(getattr(response, "status", 200) or 200) >= 400:
+            raise ValueError(f"social post returned HTTP {response.status}")
+        body = response.read(4_000_000)
+    if len(body) < 128:
+        raise ValueError("social post returned no readable public page")
+    return body
 
 
 def normalize_batch(path: Path) -> list[dict[str, Any]]:
@@ -279,14 +329,36 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
                         changed += 1
                         break
         category = str(article.get("category") or "").strip()
-        # Albania used to be rewritten to "Shoqëri" on the grounds that it was
-        # "editorial geography, not a frontend category". Shqipëri is one of the
-        # seven sections, so that reasoning no longer holds and every Albanian
-        # story was being filed as Kosovo news by way of the default.
-        mapped = LEGACY_CATEGORY_ALIASES.get(category.casefold())
-        if mapped and mapped != category:
-            article["category"] = mapped
+        canonical = canonical_category(category)
+        if canonical in VALID_CATEGORIES and canonical != category:
+            article["category"] = canonical
+            category = canonical
             changed += 1
+        elif canonical in VALID_CATEGORIES:
+            category = canonical
+
+        # City is deterministic metadata, never a model guess. For the two
+        # geographic lanes infer the first city from the title + first 200 body
+        # words using the published priority list; other lanes carry null.
+        if category in {"Kosovë", "Shqipëri"}:
+            inferred_city = infer_city(category, article.get("title"), article.get("body"))
+            if article.get("city") != inferred_city:
+                article["city"] = inferred_city
+                changed += 1
+        elif "city" not in article or article.get("city") is not None:
+            article["city"] = None
+            changed += 1
+
+        # Accept documented aliases but retain one canonical field for the
+        # hard two-source gate. An empty list is intentionally not treated as
+        # proof; the topic-selection gate will reject it.
+        if "corroborating_sources" not in article:
+            aliases = article.get("secondary_sources")
+            if aliases is None:
+                aliases = article.get("corroboration_urls")
+            article["corroborating_sources"] = aliases if isinstance(aliases, list) else []
+            changed += 1
+
         breakdown = article.get("score_breakdown")
         if not isinstance(breakdown, dict):
             # Scores are editorial ranking metadata, not a source claim. Supply a
@@ -327,6 +399,12 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
                 rejected.append(article)
                 print(f"REJECTED candidate {article.get('title', 'untitled')!r}: incomplete required social provenance")
                 continue
+            try:
+                _verify_social_post(article)
+            except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError, ValueError) as exc:
+                rejected.append(article)
+                print(f"REJECTED candidate {article.get('title', 'untitled')!r}: social post evidence failed: {type(exc).__name__}: {exc}")
+                continue
 
         reader_text = f"{article.get('title', '')} {article.get('excerpt', '')}".casefold()
         source_terms = [term for term in _reader_facing_source_terms(article) if term in reader_text]
@@ -342,16 +420,40 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
             try:
                 dimensions = _fetch_image_dimensions(image_url)
             except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError) as exc:
-                # An inaccessible image is invalid for publication. Isolate only this
-                # candidate so strict validation never aborts the remaining batch.
-                rejected.append(article)
-                print(f"REJECTED candidate {article.get('title', 'untitled')!r}: image normalization failed for {image_url}: {type(exc).__name__}: {exc}")
-                continue
+                if social_platform and "images.weserv.nl/" not in image_url:
+                    proxy_url = _social_image_proxy_url(image_url)
+                    try:
+                        dimensions = _fetch_image_dimensions(proxy_url)
+                    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError) as proxy_exc:
+                        rejected.append(article)
+                        print(f"REJECTED candidate {article.get('title', 'untitled')!r}: social image and stable proxy failed: direct={type(exc).__name__}; proxy={type(proxy_exc).__name__}")
+                        continue
+                    article.setdefault("social_image_source_url", image_url)
+                    article["image_url"] = proxy_url
+                    image_url = proxy_url
+                    changed += 1
+                    print(f"SOCIAL IMAGE PROXY: {article.get('title', 'untitled')!r} uses stable transport")
+                else:
+                    cached_dimensions = (
+                        int(article.get("image_width") or 0),
+                        int(article.get("image_height") or 0),
+                    )
+                    if cached_dimensions[0] >= MIN_IMAGE_WIDTH and cached_dimensions[1] >= MIN_IMAGE_HEIGHT:
+                        dimensions = cached_dimensions
+                        print(f"IMAGE DIMENSIONS CACHED: {article.get('title', 'untitled')!r} retained after transient fetch failure")
+                    else:
+                        # An inaccessible image without valid cached dimensions is invalid
+                        # for publication. Isolate only this candidate.
+                        rejected.append(article)
+                        print(f"REJECTED candidate {article.get('title', 'untitled')!r}: image normalization failed for {image_url}: {type(exc).__name__}: {exc}")
+                        continue
             if dimensions:
                 width, height = dimensions
-                if width < MIN_IMAGE_WIDTH or height < MIN_IMAGE_HEIGHT:
+                min_width = MIN_SOCIAL_IMAGE_WIDTH if social_platform else MIN_IMAGE_WIDTH
+                min_height = MIN_SOCIAL_IMAGE_HEIGHT if social_platform else MIN_IMAGE_HEIGHT
+                if width < min_width or height < min_height:
                     rejected.append(article)
-                    print(f"REJECTED candidate {article.get('title', 'untitled')!r}: image {width}x{height} below {MIN_IMAGE_WIDTH}x{MIN_IMAGE_HEIGHT}")
+                    print(f"REJECTED candidate {article.get('title', 'untitled')!r}: image {width}x{height} below {min_width}x{min_height}")
                     continue
                 if article.get("image_width") != width:
                     article["image_width"] = width
@@ -617,6 +719,7 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
         seen_slugs.add(slug)
 
         image = str(article.get("image_url", ""))
+        social_platform = _social_platform(article)
         if not image.startswith(("http://", "https://")):
             errors.append(f"{label} missing valid image_url")
         if image and image in seen_images:
@@ -644,18 +747,17 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
                         f"{label} image dimensions do not match image_url: declared "
                         f"{declared_width}x{declared_height}, actual {actual_width}x{actual_height}"
                     )
-                if actual_width < MIN_IMAGE_WIDTH or actual_height < MIN_IMAGE_HEIGHT:
+                if actual_width < (MIN_SOCIAL_IMAGE_WIDTH if social_platform else MIN_IMAGE_WIDTH) or actual_height < (MIN_SOCIAL_IMAGE_HEIGHT if social_platform else MIN_IMAGE_HEIGHT):
+                    min_width = MIN_SOCIAL_IMAGE_WIDTH if social_platform else MIN_IMAGE_WIDTH
+                    min_height = MIN_SOCIAL_IMAGE_HEIGHT if social_platform else MIN_IMAGE_HEIGHT
                     errors.append(
                         f"{label} image is too small ({actual_width}x{actual_height}); require at least "
-                        f"{MIN_IMAGE_WIDTH}x{MIN_IMAGE_HEIGHT}"
+                        f"{min_width}x{min_height}"
                     )
 
-        source_key = _source_key(article.get("source", ""))
-        if source_key in KOSOVO_COMPETITOR_SOURCES:
-            errors.append(
-                f"{label} uses Kosovo competitor as main source: {article.get('source')!r}. "
-                "Use outside/primary/social discovery sources and Kosovo outlets only for context."
-            )
+        source_error = source_policy_error(category, article.get("source"), article.get("url"))
+        if source_error:
+            errors.append(f"{label}: {source_error}")
 
         social_platform = _social_platform(article)
         social_post_url = _social_post_url(article)
@@ -667,11 +769,17 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
             x_based_count += 1
         if social_platform:
             social_based_count += 1
-            if not social_post_url and _domain_platform(article.get("url")).lower() != social_platform.lower():
+            if not social_post_url:
                 errors.append(
                     f"{label} is social-driven but missing social_post_url/source_post_url. "
                     "Include the exact post/status URL used as the basis."
                 )
+            else:
+                if _canonical_url(article.get("url")) != _canonical_url(social_post_url):
+                    errors.append(f"{label} social-native url and social_post_url must identify the same exact post")
+                detected_platform = _domain_platform(social_post_url)
+                if detected_platform and detected_platform.casefold() != social_platform.casefold() and not {detected_platform.casefold(), social_platform.casefold()} <= {"x/twitter", "x", "twitter"}:
+                    errors.append(f"{label} social platform/domain mismatch: {social_platform!r} vs {detected_platform!r}")
             if not social_account:
                 errors.append(f"{label} is social-driven but missing social_post_account/source_account.")
             if not social_basis:
@@ -1343,13 +1451,13 @@ def send_report(path: Path) -> int:
         + "</div></body></html>"
     )
     subject = f"383 Lajme - {len(articles)} artikuj te rinj [{subject_time}]"
-    if resend_key:
+    if resend_key and os.environ.get("EMAIL_PRIMARY", "resend").strip().lower() not in {"gmail", "smtp", "gmail_smtp"}:
         resend_code = _send_resend_report(resend_key, recipient, subject, report_html)
         if resend_code == 0:
             return 0
         if not user or not password:
             return resend_code
-        print("EMAIL Resend failed; trying Gmail SMTP fallback.")
+        print("EMAIL STATUS: primary=resend failed; fallback=gmail_smtp; attempting fallback.")
 
     return _send_gmail_report(user, password, recipient, subject, report_html)
 
@@ -1368,13 +1476,13 @@ def send_html_report(recipient: str, subject: str, report_html: str) -> int:
     if not resend_key and (not user or not password):
         print("EMAIL skipped: set RESEND_API_KEY or GMAIL_USER/GMAIL_APP_PASSWORD")
         return 2
-    if resend_key:
+    if resend_key and os.environ.get("EMAIL_PRIMARY", "resend").strip().lower() not in {"gmail", "smtp", "gmail_smtp"}:
         resend_code = _send_resend_report(resend_key, recipient, subject, report_html)
         if resend_code == 0:
             return 0
         if not user or not password:
             return resend_code
-        print("EMAIL Resend failed; trying Gmail SMTP fallback.")
+        print("EMAIL STATUS: primary=resend failed; fallback=gmail_smtp; attempting fallback.")
     return _send_gmail_report(user, password, recipient, subject, report_html)
 
 
@@ -1403,13 +1511,13 @@ def send_status_report(message: str) -> int:
         "</div></body></html>"
     )
     subject = f"383 Lajme - pa artikuj të rinj [{subject_time}]"
-    if resend_key:
+    if resend_key and os.environ.get("EMAIL_PRIMARY", "resend").strip().lower() not in {"gmail", "smtp", "gmail_smtp"}:
         resend_code = _send_resend_report(resend_key, recipient, subject, report_html)
         if resend_code == 0:
             return 0
         if not user or not password:
             return resend_code
-        print("EMAIL Resend failed; trying Gmail SMTP fallback.")
+        print("EMAIL STATUS: primary=resend failed; fallback=gmail_smtp; attempting fallback.")
     return _send_gmail_report(user, password, recipient, subject, report_html)
 
 
@@ -1423,7 +1531,7 @@ def _send_gmail_report(user: str, password: str, recipient: str, subject: str, r
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=30) as smtp:
             smtp.login(user, password)
             smtp.sendmail(user, recipient, message.as_string())
-        print(f"EMAIL report sent to {recipient}")
+        print(f"EMAIL STATUS: provider=gmail_smtp success; report sent to {recipient}")
         return 0
     except smtplib.SMTPAuthenticationError:
         print("EMAIL failed: Gmail rejected GMAIL_USER/GMAIL_APP_PASSWORD. Use a Google app password for this Gmail account.")
@@ -1700,7 +1808,7 @@ def _article_row(article: dict[str, Any], batch_key: str) -> dict[str, Any]:
         "id": article["id"], "batch_key": batch_key, "slug": article["slug"], "url": article["url"],
         "dispatch": article["dispatch"], "title": article["title"], "excerpt": article["excerpt"], "body": article["body"],
         "source": article["source"], "source_flag": article["source_flag"], "source_bias": article["source_bias"], "tone": article["tone"],
-        "category": article["category"], "published_at": article["published_at"], "reading_time": article["reading_time"],
+        "category": article["category"], "city": article.get("city"), "published_at": article["published_at"], "reading_time": article["reading_time"],
         "featured": article["featured"], "engagement_score": article["engagement_score"], "score_reason": article["score_reason"],
         "score_breakdown": article["score_breakdown"], "score_formula": article["score_formula"], "image_url": article["image_url"],
         "image_width": article["image_width"], "image_height": article["image_height"], "video_clip_url": article.get("video_clip_url"),

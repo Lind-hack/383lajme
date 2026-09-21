@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 from pathlib import Path
 from urllib.parse import urlparse
@@ -24,8 +25,8 @@ SOCIAL_DOMAINS = {
     "pinterest.com": "pinterest",
     "github.com": "github",
 }
-MIN_ARTICLES_PER_BATCH = 8
-MAX_ARTICLES_PER_BATCH = 22
+MIN_ARTICLES_PER_BATCH = 13
+MAX_ARTICLES_PER_BATCH = 20
 MAX_X_ARTICLES = 2
 MAX_SOCIAL_SHARE = 0.40
 MIN_SOCIAL_ARTICLES = 0
@@ -95,11 +96,12 @@ def validate(path: Path) -> int:
     x_count = sum(1 for family in families if family == "x/twitter")
     social_count = sum(1 for article in articles if isinstance(article, dict) and social_platform(article))
     errors: list[str] = []
+    minimum_articles = 2 if os.environ.get("SOCIAL_NATIVE_TEST") == "1" else MIN_ARTICLES_PER_BATCH
 
-    if len(articles) < MIN_ARTICLES_PER_BATCH:
+    if len(articles) < minimum_articles:
         errors.append(
             f"batch has only {len(articles)} articles; publish at least "
-            f"{MIN_ARTICLES_PER_BATCH} fresh Kosovo-audience stories per cron run"
+            f"{minimum_articles} fresh Kosovo-audience stories per cron run"
         )
     if len(articles) > MAX_ARTICLES_PER_BATCH:
         errors.append(

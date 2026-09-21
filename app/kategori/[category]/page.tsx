@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { Inbox } from "lucide-react";
 import { getArticles } from "@/lib/db";
 import { RESOLVABLE_SLUGS } from "@/lib/category-map";
@@ -32,14 +33,26 @@ export async function generateMetadata({
 
 export default async function CategoryPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ category: string }>;
+  searchParams?: Promise<{ city?: string | string[] }>;
 }) {
   const { category } = await params;
   const categoryName = RESOLVABLE_SLUGS[category];
   if (!categoryName) notFound();
 
-  const articles = await getArticles(50, categoryName);
+  const allArticles = await getArticles(50, categoryName);
+  const query = searchParams ? await searchParams : {};
+  const requestedCity = typeof query.city === "string" ? query.city : undefined;
+  const isCityCategory = categoryName === "Kosovë" || categoryName === "Shqipëri";
+  const availableCities = isCityCategory
+    ? [...new Set(allArticles.map((article) => article.city).filter((city): city is string => Boolean(city)))]
+    : [];
+  const selectedCity = requestedCity && availableCities.includes(requestedCity) ? requestedCity : undefined;
+  const articles = selectedCity
+    ? allArticles.filter((article) => article.city === selectedCity)
+    : allArticles;
   const accent = getCategoryColor(categoryName);
   const [gradFrom, gradTo] = getCategoryGradient(categoryName);
   const lightBg = CATEGORY_LIGHT_BG.has(categoryName);
@@ -74,6 +87,44 @@ export default async function CategoryPage({
           padding: "var(--space-section) 24px",
         }}
       >
+
+        {isCityCategory && availableCities.length > 0 && (
+          <nav
+            aria-label={`Filtro sipas qytetit për ${categoryName}`}
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              gap: "8px",
+              marginBottom: "28px",
+              padding: "12px 14px",
+              border: "1px solid rgba(0,0,0,0.08)",
+              borderRadius: "10px",
+              background: "rgba(255,255,255,0.72)",
+            }}
+          >
+            <span style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#777" }}>
+              Qyteti
+            </span>
+            <Link
+              href={`/kategori/${category}`}
+              aria-current={!selectedCity ? "page" : undefined}
+              style={{ fontSize: "13px", fontWeight: !selectedCity ? 800 : 600, color: "#222", textDecoration: "none" }}
+            >
+              Të gjitha ({allArticles.length})
+            </Link>
+            {availableCities.map((city) => (
+              <Link
+                key={city}
+                href={`/kategori/${category}?city=${encodeURIComponent(city)}`}
+                aria-current={selectedCity === city ? "page" : undefined}
+                style={{ fontSize: "13px", fontWeight: selectedCity === city ? 800 : 600, color: selectedCity === city ? accent : "#555", textDecoration: "none" }}
+              >
+                {city} ({allArticles.filter((article) => article.city === city).length})
+              </Link>
+            ))}
+          </nav>
+        )}
 
         {/* Empty state */}
         {articles.length === 0 && (

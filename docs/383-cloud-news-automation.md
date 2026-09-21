@@ -3,6 +3,15 @@
 This is the canonical prompt/instruction file for the scheduled Codex Cloud news run.
 The automation should read this file before every production batch.
 
+> **Topic Selection v2 supersedes older wording in this file** about article
+> counts, Kosovo audience fit, categories, city metadata, or Kosovo competitor
+> sources. The authoritative content contract is
+> [`albanian_newsroom.md`](albanian_newsroom.md), and the hard gate is
+> `scripts/topic_selection_gate.py`. In particular, the final batch is 13–20
+> articles with mandatory Kosovë/Shqipëri/Botë/Sport/Showbiz quotas; listed
+> Kosovo and Albania outlets are allowed only in their local lanes; every
+> article needs an independently fetched second source.
+
 ## Required preflight
 
 Run these checks before researching or writing articles:

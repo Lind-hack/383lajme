@@ -105,6 +105,7 @@ function mapAutoRow(a: Record<string, unknown>): Article {
     // absent category resolves to the default there rather than to a label that
     // was never editorial in the first place.
     category:      String(a.category ?? ""),
+    city:          a.city ? String(a.city) : undefined,
     publishedAt:   String(a.published_at ?? ""),
     createdAt:     a.created_at ? String(a.created_at) : undefined,
     readingTime:   Number(a.reading_time ?? 3),
