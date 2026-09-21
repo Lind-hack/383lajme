@@ -23,7 +23,7 @@ jobs:
 
       - name: Map articles to dossiers
         env:
-          BASE: ${{ secrets.PRODUCTION_URL || 'https://www.383ks.com' }}
+          BASE: ${{ secrets.PRODUCTION_URL || 'https://383ks.com' }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
@@ -45,7 +45,7 @@ jobs:
 
       - name: Propose photographs and re-check videos
         env:
-          BASE: ${{ secrets.PRODUCTION_URL || 'https://www.383ks.com' }}
+          BASE: ${{ secrets.PRODUCTION_URL || 'https://383ks.com' }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}

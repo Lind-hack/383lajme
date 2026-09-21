@@ -8,7 +8,7 @@
 # nothing. It caps itself at 3 stories per run regardless.
 #
 # Setup (one-time): repo -> Settings -> Secrets and variables -> Actions ->
-# CRON_SECRET must match the Vercel env var of the same name.
+# CRON_SECRET must match the Railway env var of the same name.
 name: Dispatch Telegram (backup)
 
 on:

@@ -3,7 +3,7 @@
  * Read NaftaSot through a real browser, then push the prices to 383.
  *
  * A plain fetch from a datacenter IP gets Cloudflare's "Just a moment..."
- * interstitial — measured 403 from both a GitHub runner and Vercel's render
+ * interstitial — measured 403 from both a GitHub runner and Railway's render
  * path, against 200 from a residential connection. That interstitial is a
  * JavaScript challenge, not a hard block, so the way through is to be a client
  * that can run it. Chromium does; curl cannot.
@@ -20,7 +20,7 @@
 // installs the matching Chromium binary separately.
 import { chromium } from "playwright-core";
 
-const SITE = argValue("--site") ?? "https://www.383ks.com";
+const SITE = argValue("--site") ?? "https://383ks.com";
 const DRY = process.argv.includes("--dry");
 const SECRET = process.env.CRON_SECRET ?? process.env.TREGU_AUTOMATION_SECRET ?? "";
 

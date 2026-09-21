@@ -33,7 +33,7 @@ jobs:
 
       - name: How stale is the evidence
         env:
-          BASE: ${{ secrets.PRODUCTION_URL || 'https://www.383ks.com' }}
+          BASE: ${{ secrets.PRODUCTION_URL || 'https://383ks.com' }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
           curl -sS -H "Authorization: Bearer $CRON_SECRET" \
@@ -42,7 +42,7 @@ jobs:
 
       - name: Re-check the sources
         env:
-          BASE: ${{ secrets.PRODUCTION_URL || 'https://www.383ks.com' }}
+          BASE: ${{ secrets.PRODUCTION_URL || 'https://383ks.com' }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}

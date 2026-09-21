@@ -4,7 +4,7 @@
 # if cron-job.org ever lapses, odds still refresh at least twice an hour.
 #
 # Setup (one-time): repo → Settings → Secrets and variables → Actions →
-# add secret CRON_SECRET with the same value as the Vercel env var.
+# add secret CRON_SECRET with the same value as the Railway env var.
 name: Tregu Live Refresh (backup)
 
 on:
@@ -25,7 +25,7 @@ jobs:
           # move. Every other workflow here already points at the live host;
           # this one was missed, so the news repricer has been pinging a dead
           # endpoint on every scheduled run.
-          BASE: ${{ secrets.PRODUCTION_URL || 'https://www.383ks.com' }}
+          BASE: ${{ secrets.PRODUCTION_URL || 'https://383ks.com' }}
         run: |
           if [ -z "$CRON_SECRET" ]; then
             echo "CRON_SECRET repo secret is not set — skipping." >&2

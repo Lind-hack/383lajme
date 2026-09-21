@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      # Vercel's render path gets a Cloudflare challenge from this API. Whether
+      # Railway's render path gets a Cloudflare challenge from this API. Whether
       # a CI runner does too decides the fix: if the runner is allowed through,
       # the prices can be fetched here and committed for the page to read.
       - name: Can this runner reach NaftaSot directly?
@@ -42,7 +42,7 @@ jobs:
 
           curl -sS --max-time 60 -o probe.json \
             -H "Authorization: Bearer $CRON_SECRET" \
-            "https://www.383ks.com/api/automation/fuel"
+            "https://383ks.com/api/automation/fuel"
 
           node -e '
             const d = require("./probe.json");

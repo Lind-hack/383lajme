@@ -32,7 +32,7 @@ jobs:
 
       - name: Draft whichever dossier the news has been returning to
         env:
-          BASE: ${{ secrets.PRODUCTION_URL || 'https://www.383ks.com' }}
+          BASE: ${{ secrets.PRODUCTION_URL || 'https://383ks.com' }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}

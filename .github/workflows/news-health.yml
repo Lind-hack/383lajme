@@ -94,7 +94,7 @@ jobs:
       - name: Confirm the homepage is not serving sample copy
         run: |
           set -euo pipefail
-          html=$(curl -sS --max-time 45 https://www.383ks.com/)
+          html=$(curl -sS --max-time 45 https://383ks.com/)
           # A slug from lib/mock-data.ts. It must never reach production.
           if printf '%s' "$html" | grep -q "kosova-be-raport-2025"; then
             echo "::error::The homepage is serving MOCK_ARTICLES as real news."

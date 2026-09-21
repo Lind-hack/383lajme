@@ -9,7 +9,7 @@
 # time to review before the poll goes live at local midnight.
 #
 # Setup (one-time): repo → Settings → Secrets and variables → Actions →
-# CRON_SECRET, matching the Vercel env var of the same name. The route accepts
+# CRON_SECRET, matching the Railway env var of the same name. The route accepts
 # either CRON_SECRET or TREGU_AUTOMATION_SECRET.
 name: Sondazhi i Ditës — draft tomorrow's question
 
@@ -39,7 +39,7 @@ jobs:
         run: |
           curl -sS --max-time 60 -o context.json \
             -H "Authorization: Bearer $CRON_SECRET" \
-            "https://www.383ks.com/api/automation/sondazhi/draft"
+            "https://383ks.com/api/automation/sondazhi/draft"
           node -e '
             const d = require("./context.json");
             console.log("todayKey     :", d.todayKey);
@@ -68,7 +68,7 @@ jobs:
           status=$(curl -sS --max-time 120 -o response.json -w '%{http_code}' \
             -X POST \
             -H "Authorization: Bearer $CRON_SECRET" \
-            "https://www.383ks.com/api/automation/sondazhi/draft")
+            "https://383ks.com/api/automation/sondazhi/draft")
 
           echo "HTTP $status"
           head -c 2000 response.json

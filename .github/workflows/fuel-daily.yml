@@ -1,7 +1,7 @@
 # Reads NaftaSot and pushes the prices to 383, once a day.
 #
 # A plain fetch from here gets Cloudflare's "Just a moment..." interstitial —
-# measured 403 from both this runner and Vercel's render path, while the same
+# measured 403 from both this runner and Railway's render path, while the same
 # request answers 200 from a residential connection. That page is a JavaScript
 # challenge rather than a hard block, so it is issued to a real browser and
 # solved by one: Playwright drives Chromium, Cloudflare hands over its cookie,

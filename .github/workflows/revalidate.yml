@@ -55,7 +55,7 @@ jobs:
           sleep 20
 
           code=$(curl -sS -o /tmp/out.json -w '%{http_code}' --max-time 60 \
-            -X POST "https://www.383ks.com/api/revalidate" \
+            -X POST "https://383ks.com/api/revalidate" \
             -H "Authorization: Bearer $CRON_SECRET" \
             -H "Content-Type: application/json" \
             -d "{\"paths\": $body}")
@@ -69,7 +69,7 @@ jobs:
           set -euo pipefail
           sleep 5
           # Any marker would do; this one is cheap and only exists post-deploy.
-          age=$(curl -sS -D - -o /dev/null https://www.383ks.com/ | tr -d '\r' \
+          age=$(curl -sS -D - -o /dev/null https://383ks.com/ | tr -d '\r' \
                 | awk -F': ' 'tolower($1)=="age"{print $2}')
           echo "homepage Age after revalidation: ${age:-unknown}"
           # A freshly regenerated page reports a small age. This is a signal in
