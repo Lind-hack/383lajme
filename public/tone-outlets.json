@@ -1,15 +1,39 @@
 {
   "lastUpdated": "2026-09-21",
-  "overallIndex": 48,
-  "totalArticles": 103,
-  "sourceCount": 86,
+  "overallIndex": 49,
+  "totalArticles": 109,
+  "sourceCount": 91,
   "stanceVersion": 3,
-  "unattributed": 147,
-  "nonEditorial": 1,
+  "unattributed": 155,
+  "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
       "outlets": [
+        {
+          "name": "Augsburger Allgemeine",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Brand in Asylunterkunft in Wettenhausen vor 32 Jahren: Familie aus Kosovo sucht ihre Retter - Augsburger Allgemeine",
+              "albanianTitle": "Zjarr në qendrën e azilit në Wettenhausen para 32 vitesh: Familja nga Kosova kërkon shpëtimtarët e saj",
+              "blurb": "Një familje nga Kosova po kërkon personat që i shpëtuan gjatë zjarrit në qendrën e azilit në Wettenhausen.",
+              "imageUrl": "https://images.mgpd.de/img/115281726/crop/c16_9-w1200/96805261/543649388/vorlage-cue-vorschaubilder-2026-09-17t142730907.png",
+              "url": "https://www.augsburger-allgemeine.de/guenzburg/brand-in-asylunterkunft-veraendert-leben-einer-gefluechteten-familie-115240976",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Factual report of a historical fire involving a Kosovo family",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-21",
+          "lastSeen": "2026-09-18"
+        },
         {
           "name": "Cicero Online",
           "sentiment": "neutral",
@@ -245,7 +269,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -273,13 +297,13 @@
           "articles": [
             {
               "title": "Republic of Ireland: Heimir Hallgrimsson's side Republic of Ireland braced for testing Nations League - BBC",
-              "albanianTitle": "Republika e Irlandës: Ekipi i Heimir Hallgrimsson përgatitet për ndeshje sfiduese në Ligën e Kombeve",
-              "blurb": "Ekipi i Republikës së Irlandës, nën drejtimin e Heimir Hallgrimsson, po përgatitet për ndeshjet sfiduese në kuadër të Ligës së Kombeve.",
+              "albanianTitle": "Republika e Irlandës: Skuadra e Heimir Hallgrimssonit përballet me sfida në Ligën e Kombeve",
+              "blurb": "Përfaqësuesja e Republikës së Irlandës nën drejtimin e Heimir Hallgrimsson po përgatitet për ndeshjet e Ligës së Kombeve.",
               "imageUrl": "https://ichef.bbci.co.uk/ace/branded_sport/1200/cpsprodpb/bdda/live/a64e7a00-b2bd-11f1-9830-658a48c7da16.jpg",
               "url": "https://www.bbc.com/sport/articles/c2071gdnv50o",
               "date": "2026-09-21",
               "sentiment": "unknown",
-              "reason": "Artikulli nuk përmend Kosovën, ndaj nuk ka qëndrim të qartë",
+              "reason": "Nuk përmendet Kosova në titull",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1205,6 +1229,30 @@
           "lastSeen": "2026-09-21"
         },
         {
+          "name": "Kicker",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Nations League: Laimer fällt gegen Israel und den Kosovo aus - kicker.at",
+              "albanianTitle": "Liga e Kombeve: Laimer mungon ndaj Izraelit dhe Kosovës",
+              "blurb": "Futbollisti Laimer nuk do të jetë i gatshëm për ndeshjet e Ligës së Kombeve kundër Izraelit dhe Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.kicker.at/nations-league-laimer-faellt-gegen-israel-und-den-kosovo-aus-1253992/artikel",
+              "date": "2026-09-18",
+              "sentiment": "neutral",
+              "reason": "Neutral match preview noting player absence against Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "neutral",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-09-18"
+        },
+        {
           "name": "Kleine Zeitung",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1400,11 +1448,11 @@
         }
       ],
       "summary": {
-        "index": 45,
+        "index": 46,
         "positive": 0,
-        "neutral": 91,
-        "negative": 9,
-        "n": 11,
+        "neutral": 92,
+        "negative": 8,
+        "n": 12,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -1581,7 +1629,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 60,
+          "totalArticles": 61,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-21"
@@ -1637,10 +1685,10 @@
       ],
       "summary": {
         "index": 53,
-        "positive": 7,
-        "neutral": 93,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 15,
+        "n": 16,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -2147,6 +2195,30 @@
           "lastSeen": "2026-09-21"
         },
         {
+          "name": "Program TV Onet",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Piłka nożna: Liga Narodów - mecz: Kosowo - Austria - Program TV Onet",
+              "albanianTitle": "Futboll: Liga e Kombeve - ndeshja: Kosovë - Austri",
+              "blurb": "Ndeshja e futbollit në Ligën e Kombeve ndërmjet Kosovës dhe Austrisë është përfshirë në programin televiziv.",
+              "imageUrl": "https://cdn.programtv.onet.pl/1/Lp3k9kzaHR0cHM6Ly9vY2RuLmV1L3B0di1pbXBvcnRlZC1pbWFnZXMvYWtwYTY3ODc5MTYuanBnkZMFzQlgzQTs3gACoTAHoTEE",
+              "url": "https://programtv.onet.pl/tv/pilka-nozna-liga-narodow-mecz-kosowo-austria/yhsez",
+              "date": "2026-09-21",
+              "sentiment": "neutral",
+              "reason": "Thjesht informon për ndeshjen, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-21",
+          "lastSeen": "2026-09-21"
+        },
+        {
           "name": "Teleman",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2224,7 +2296,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -2279,6 +2351,30 @@
           "trend": "neutral",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-19"
+        },
+        {
+          "name": "Haberler",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Cumhurbaşkanı Erdoğan, Kosova Başbakanı Kurti'yi kabul etti - Haberler",
+              "albanianTitle": "Presidenti Erdoğan pret në takim kryeministrin e Kosovës, Kurti - Haberler",
+              "blurb": "Presidenti turk Rexhep Tajip Erdogan ka pritur në takim kryeministrin e Kosovës, Albin Kurti, në Turqi.",
+              "imageUrl": null,
+              "url": "https://www.haberler.com/guncel/cumhurbaskani-erdogan-kosova-basbakani-kurti-yi-20258969-haberi/",
+              "date": "2026-09-21",
+              "sentiment": "neutral",
+              "reason": "Raporton mirëseardhjen pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 12,
+          "trend": "neutral",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-21"
         },
         {
           "name": "Hürriyet",
@@ -2508,14 +2604,38 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-20",
           "lastSeen": "2026-09-19"
+        },
+        {
+          "name": "İhlas Haber Ajansı",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Cumhurbaşkanı Erdoğan, Kosova Başbakanı Kurti ile görüştü İhlas Haber Ajansı - İhlas Haber Ajansı",
+              "albanianTitle": "Presidenti Erdogan zhvilloi takim me kryeministrin e Kosovës, Kurti",
+              "blurb": "Presidenti i Turqisë, Rexhep Tajip Erdogan, ka zhvilluar një takim zyrtar me kryeministrin e Kosovës, Albin Kurti.",
+              "imageUrl": null,
+              "url": "https://www.iha.com.tr/haber-cumhurbaskani-erdogan-kosova-basbakani-kurti-ile-gorustu-1197418",
+              "date": "2026-09-21",
+              "sentiment": "neutral",
+              "reason": "Raporton takimin pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-09-21"
         }
       ],
       "summary": {
         "index": 46,
         "positive": 0,
-        "neutral": 92,
-        "negative": 8,
-        "n": 12,
+        "neutral": 93,
+        "negative": 7,
+        "n": 14,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3

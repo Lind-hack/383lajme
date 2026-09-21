@@ -1011,15 +1011,16 @@
     },
     "İhlas Haber Ajansı": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19",
+      "lastSeen": "2026-09-21",
       "urls": [
-        "https://www.iha.com.tr/haber-kosovada-savas-suclari-sorusturmasi-23-kisiye-ait-kemik-kalintilari-bulundu-1197147"
+        "https://www.iha.com.tr/haber-kosovada-savas-suclari-sorusturmasi-23-kisiye-ait-kemik-kalintilari-bulundu-1197147",
+        "https://www.iha.com.tr/haber-cumhurbaskani-erdogan-kosova-basbakani-kurti-ile-gorustu-1197418"
       ]
     },
     "GZT": {
@@ -1123,13 +1124,13 @@
     },
     "Haberler": {
       "country": "Turqi",
-      "total": 11,
+      "total": 12,
       "positive": 0,
-      "neutral": 9,
+      "neutral": 10,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-17",
+      "lastSeen": "2026-09-21",
       "urls": [
         "https://www.haberler.com/3-sayfa/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-20159336-haberi/",
         "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/",
@@ -1141,7 +1142,8 @@
         "https://www.haberler.com/guncel/lahey-de-yargilanan-eski-uck-komutanlarina-kosova-20231603-haberi/",
         "https://www.haberler.com/politika/kosova-da-on-binlerce-kisi-eski-cumhurbaskani-20232252-haberi/",
         "https://www.haberler.com/guncel/kosova-da-albin-kurti-nin-liderligindeki-yeni-20233782-haberi/",
-        "https://www.haberler.com/guncel/kosova-nin-eski-cumhurbaskani-taci-ye-25-yil-hapis-20244797-haberi/"
+        "https://www.haberler.com/guncel/kosova-nin-eski-cumhurbaskani-taci-ye-25-yil-hapis-20244797-haberi/",
+        "https://www.haberler.com/guncel/cumhurbaskani-erdogan-kosova-basbakani-kurti-yi-20258969-haberi/"
       ]
     },
     "Son Dakika": {
@@ -1747,10 +1749,10 @@
       ]
     },
     "Kicker": {
-      "country": "Gjermani",
-      "total": 3,
+      "country": "Austri",
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
@@ -1758,7 +1760,8 @@
       "urls": [
         "https://www.kicker.de/kosovo-gegen-aegypten-2026-mittelmeerspiele-5262180/ergebnis",
         "https://www.kicker.de/portugal-gegen-kosovo-2026-mittelmeerspiele-5262186/ergebnis",
-        "https://www.kicker.de/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri-1253958/artikel"
+        "https://www.kicker.de/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri-1253958/artikel",
+        "https://www.kicker.at/nations-league-laimer-faellt-gegen-israel-und-den-kosovo-aus-1253992/artikel"
       ]
     },
     "infodifesa": {
@@ -3282,9 +3285,9 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 60,
+      "total": 61,
       "positive": 11,
-      "neutral": 41,
+      "neutral": 42,
       "negative": 0,
       "unknown": 8,
       "firstSeen": "2026-09-07",
@@ -3349,7 +3352,8 @@
         "https://www.albinfo.ch/de/publikohet-lista-e-kosoves-ftohet-edhe-talenti-i-bayernit-erblin-osmani/",
         "https://www.albinfo.ch/de/wer-ein-leben-lang-in-der-schweiz-gearbeitet-hat-soll-seine-rente-auch-im-kosovo-beziehen-koennen/",
         "https://www.albinfo.ch/de/ne-nje-shkolle-te-bronx-it-shqipja-mesohet-krah-anglishtes/",
-        "https://www.albinfo.ch/de/spektakel-i-vedat-muriqit-shenon-kater-gola-brenda-55-minutave/"
+        "https://www.albinfo.ch/de/spektakel-i-vedat-muriqit-shenon-kater-gola-brenda-55-minutave/",
+        "https://www.albinfo.ch/de/donjeta-sadiku-e-nis-me-fitore-kampionatin-evropian/"
       ]
     },
     "iAxia -": {
@@ -7920,6 +7924,32 @@
       "lastSeen": "2026-09-21",
       "urls": [
         "https://www.teleman.pl/tv/Pilka-Nozna-Liga-Narodow-2681067"
+      ]
+    },
+    "Augsburger Allgemeine": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-18",
+      "urls": [
+        "https://www.augsburger-allgemeine.de/guenzburg/brand-in-asylunterkunft-veraendert-leben-einer-gefluechteten-familie-115240976"
+      ]
+    },
+    "Program TV Onet": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "urls": [
+        "https://programtv.onet.pl/tv/pilka-nozna-liga-narodow-mecz-kosowo-austria/yhsez"
       ]
     }
   }
