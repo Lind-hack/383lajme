@@ -16,6 +16,7 @@ import json
 import re
 import unicodedata
 from collections import Counter
+from difflib import SequenceMatcher
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from pathlib import Path
@@ -57,6 +58,10 @@ DIRECT_FEEDS: tuple[dict[str, Any], ...] = (
     {"url": "http://feeds.bbci.co.uk/sport/rss.xml", "source": "BBC Sport", "category": "Sport", "lane": "SPORT"},
     {"url": "https://www.skysports.com/rss/12040", "source": "Sky Sports", "category": "Sport", "lane": "SPORT"},
     {"url": "https://telegrafi.com/category/sport/feed/", "source": "Telegrafi Sport", "category": "Sport", "lane": "SPORT", "discovery_only": True},
+    {"url": "https://variety.com/feed/", "source": "Variety", "category": "Showbiz", "lane": "SHOWBIZ"},
+    {"url": "https://www.hollywoodreporter.com/feed/", "source": "The Hollywood Reporter", "category": "Showbiz", "lane": "SHOWBIZ"},
+    {"url": "https://deadline.com/feed/", "source": "Deadline", "category": "Showbiz", "lane": "SHOWBIZ"},
+    {"url": "https://www.billboard.com/feed/", "source": "Billboard", "category": "Showbiz", "lane": "SHOWBIZ"},
 )
 
 # No public RSS was verified for these sources. They remain explicit fallback
@@ -123,6 +128,18 @@ def _is_showbiz_discovery(spec: dict[str, Any], title: str, summary: str) -> boo
 def fold(value: object) -> str:
     text = unicodedata.normalize("NFKD", str(value or "").casefold())
     return "".join(char for char in text if not unicodedata.combining(char))
+
+
+_SQ_SUFFIXES = ("ave", "ive", "eve", "të", "së", "it", "in", "et", "at", "ut", "ot", "a", "i", "u", "n")
+
+
+def stem_sq(token: str) -> str:
+    # Lightweight Albanian suffix strip so inflected forms of the
+    # same word match (hysenit/hyseni, marreveshje/marreveshjen).
+    for suffix in _SQ_SUFFIXES:
+        if token.endswith(suffix) and len(token) - len(suffix) >= 3:
+            return token[: -len(suffix)]
+    return token
 
 
 def clean_text(value: object) -> str:
@@ -258,8 +275,44 @@ def rank(lead: dict[str, Any], watchlist: tuple[str, ...] = ()) -> int:
     return score
 
 
+TOPIC_STOPWORDS = {
+    "dhe", "per", "nga", "nje", "me", "ne", "te", "se", "qe", "si", "pas",
+    "mbi", "nen", "sot", "kjo", "kete", "the", "and", "for", "from", "with",
+    "after", "says", "said", "new", "live", "video",
+}
+
+
+def topic_terms(lead: dict[str, Any], include_summary: bool = False) -> set[str]:
+    value = str(lead.get("title", ""))
+    if include_summary:
+        value += " " + str(lead.get("summary", ""))[:240]
+    return {
+        stem_sq(token)
+        for token in re.findall(r"[a-z0-9]+", fold(value))
+        if len(token) >= 3 and token not in TOPIC_STOPWORDS
+    }
+
+
+def topic_similarity(left: dict[str, Any], right: dict[str, Any]) -> float:
+    left_title = " ".join(sorted(topic_terms(left)))
+    right_title = " ".join(sorted(topic_terms(right)))
+    left_terms = topic_terms(left)
+    right_terms = topic_terms(right)
+    if not left_terms or not right_terms:
+        return 0.0
+    title_overlap = len(left_terms & right_terms) / min(len(left_terms), len(right_terms))
+    sequence = SequenceMatcher(None, left_title, right_title).ratio()
+    left_context = topic_terms(left, include_summary=True)
+    right_context = topic_terms(right, include_summary=True)
+    context_overlap = len(left_context & right_context) / min(len(left_context), len(right_context))
+    return max(title_overlap, sequence * 0.9, context_overlap * 0.75)
+
+
 def select_leads(collected: list[dict[str, Any]], limits: dict[str, int] | None = None, watchlist: tuple[str, ...] = (), published_urls: set[str] | tuple[str, ...] = ()) -> list[dict[str, Any]]:
-    limits = limits or {"Kosovë": 30, "Shqipëri": 20, "Botë": 30, "Sport": 20, "Showbiz": 15}
+    # Keep a quota-safe buffer without handing the editorial agents an
+    # unbounded newsroom. The old 115-lead ceiling made the writer/editor
+    # exceed the 55-minute production deadline before publication.
+    limits = limits or {"Kosovë": 16, "Shqipëri": 8, "Botë": 8, "Sport": 6, "Showbiz": 4}
     seen_urls = {canonical(url) for url in published_urls if canonical(url)}
     seen_titles: set[str] = set()
     unique: list[dict[str, Any]] = []
@@ -274,17 +327,49 @@ def select_leads(collected: list[dict[str, Any]], limits: dict[str, int] | None 
     selected: list[dict[str, Any]] = []
     for category, limit in limits.items():
         pool = [lead for lead in unique if lead.get("category") == category]
+        used: set[str] = set()
         host_counts: Counter[str] = Counter()
         chosen: list[dict[str, Any]] = []
+        pair_target = {"Kosovë": 6, "Shqipëri": 3, "Botë": 3, "Sport": 2, "Showbiz": 1}.get(category, 0)
+        for anchor in pool:
+            anchor_url = canonical(anchor.get("url", ""))
+            if anchor_url in used or len(chosen) // 2 >= pair_target:
+                continue
+            anchor_host = (urlsplit(anchor_url).hostname or "").removeprefix("www.")
+            candidates: list[tuple[float, dict[str, Any]]] = []
+            for candidate in pool:
+                candidate_url = canonical(candidate.get("url", ""))
+                candidate_host = (urlsplit(candidate_url).hostname or "").removeprefix("www.")
+                if candidate_url == anchor_url or candidate_url in used or candidate_host == anchor_host:
+                    continue
+                candidates.append((topic_similarity(anchor, candidate), candidate))
+            if not candidates:
+                continue
+            score, match = max(candidates, key=lambda item: item[0])
+            shared_terms = len(topic_terms(anchor) & topic_terms(match))
+            if score < 0.38 or shared_terms < 2:
+                continue
+            match_url = canonical(match.get("url", ""))
+            pair_id = f"{category}-{len(chosen) // 2 + 1:02d}"
+            first = dict(anchor, pair_id=pair_id, corroborates_url=match_url, pair_score=round(score, 3))
+            second = dict(match, pair_id=pair_id, corroborates_url=anchor_url, pair_score=round(score, 3))
+            chosen.extend((first, second))
+            used.update((anchor_url, match_url))
+            host_counts[anchor_host] += 1
+            host_counts[(urlsplit(match_url).hostname or "").removeprefix("www.")] += 1
         for lead in pool:
+            lead_url = canonical(lead.get("url", ""))
+            if lead_url in used:
+                continue
             host = (urlsplit(lead["url"]).hostname or "").removeprefix("www.")
             if host_counts[host] >= 12:
                 continue
             chosen.append(lead)
+            used.add(lead_url)
             host_counts[host] += 1
             if len(chosen) >= limit:
                 break
-        selected.extend(chosen)
+        selected.extend(chosen[:limit])
     return selected
 
 
@@ -315,6 +400,12 @@ def main() -> int:
     published_urls = _published_urls() if args.skip_published else set()
     leads = select_leads(collected, published_urls=published_urls)
     counts = dict(Counter(lead["category"] for lead in leads))
+    required_pairs = {"Kosovë": 6, "Shqipëri": 3, "Botë": 3, "Sport": 2, "Showbiz": 1}
+    paired_topics = {
+        category: len({lead.get("pair_id") for lead in leads if lead.get("category") == category and lead.get("pair_id")})
+        for category in required_pairs
+    }
+    pair_quota_ok = all(paired_topics.get(category, 0) >= required for category, required in required_pairs.items())
     args.output.parent.mkdir(parents=True, exist_ok=True)
     lines = [
         "# 383 Lajme discovery — Topic Selection v2",
@@ -322,6 +413,7 @@ def main() -> int:
         "Leads are untrusted discovery material, not verified facts. Open the original page and a second independent source before writing. The final run must pass the mandatory 13–20 article quota gate; social discovery cannot decide topics alone.",
         "",
         "Category inventory: " + json.dumps(counts, ensure_ascii=False),
+        "Corroborated topic inventory: " + json.dumps(paired_topics, ensure_ascii=False),
         "Published URL prefilter: " + ("enabled" if args.skip_published else "not requested"),
         "",
     ]
@@ -337,6 +429,8 @@ def main() -> int:
                 f"- Publisher: {lead['source']}",
                 f"- Published: {lead['published']} Kosovo time",
                 f"- URL: {lead['url']}",
+                f"- Corroboration pair: {lead.get('pair_id', 'none')}",
+                f"- Independent corroborating URL: {lead.get('corroborates_url', 'not pre-matched')}",
                 f"- Summary (discovery only): {lead['summary'] or 'No RSS summary available.'}",
                 f"- Primary-source status: {'discovery-only for this lane' if lead.get('discovery_only') else 'eligible only after independent verification'}",
                 "",
@@ -349,6 +443,8 @@ def main() -> int:
     args.output.with_suffix(".json").write_text(json.dumps({
         "generated_at": datetime.now(KOSOVO_TIME).isoformat(),
         "categories": counts,
+        "corroborated_topics": paired_topics,
+        "corroboration_quota_ok": pair_quota_ok,
         "published_prefilter": bool(args.skip_published),
         "browser_lanes": list(BROWSER_LANES),
         "searches": [{"query": query, "lane": lane} for query, lane in SEARCHES],
@@ -359,11 +455,13 @@ def main() -> int:
         "selected": len(leads),
         "raw_current_day": len(collected),
         "categories": counts,
+        "corroborated_topics": paired_topics,
+        "corroboration_quota_ok": pair_quota_ok,
         "working_feeds": sum(audit.get("status") == "ok" for audit in audits),
         "total_feeds": len(audits),
         "browser_lanes": len(BROWSER_LANES),
     }, ensure_ascii=False))
-    return 0 if leads else 1
+    return 0 if leads and pair_quota_ok else 2
 
 
 if __name__ == "__main__":

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -56,6 +57,18 @@ def load_articles(batch: Path) -> list[dict[str, Any]]:
 
 def prepare(batch: Path) -> Path:
     articles = load_articles(batch)
+    url_fields = sum(1 for a in articles if str(a.get("url") or "").strip())
+    url_fields += sum(
+        len(a.get("corroborating_sources") or a.get("secondary_sources") or [])
+        for a in articles
+    )
+    if articles and url_fields == 0:
+        print(
+            "383 EDITOR SOURCES: writer produced articles without any source "
+            "URL fields; failing fast before the editor stage",
+            file=sys.stderr,
+        )
+        sys.exit(1)
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
         records = list(pool.map(fetch, articles))
     target = batch.with_suffix(".editor-sources.json")
