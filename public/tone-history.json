@@ -8853,8 +8853,8 @@
   {
     "date": "2026-09-22",
     "overallIndex": 50,
-    "totalArticles": 89,
-    "sourceCount": 73,
+    "totalArticles": 93,
+    "sourceCount": 77,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -8888,16 +8888,16 @@
         "stanceVersion": 3
       },
       "Francë": {
-        "index": 56,
-        "positive": 11,
-        "neutral": 89,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 11,
+          "delta": 15,
           "from": 45,
           "outlet": "Le Courrier des Balkans",
           "title": "Kosovë: Flora Brovina, një jetë në rezistencë",
@@ -8910,7 +8910,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 18,
+        "n": 20,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -8934,11 +8934,11 @@
         }
       },
       "Zvicër": {
-        "index": 54,
+        "index": 53,
         "positive": 7,
         "neutral": 93,
         "negative": 0,
-        "n": 14,
+        "n": 15,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -9058,11 +9058,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "Kosovo : Flora Brovina, une vie de résistance - Le Courrier des Balkans",
-        "source": "Le Courrier des Balkans",
+        "title": "Auxelles-Haut. De Monaco au Kosovo à VTT, le récit d’une belle aventure - L'Est Républicain",
+        "source": "L'Est Républicain",
         "country": "Francë",
         "flag": "🇫🇷",
-        "url": "https://www.courrierdesbalkans.fr/kosovo-flora-brovina-une-vie-de-resistance-99913/",
+        "url": "https://www.estrepublicain.fr/culture-loisirs/2026/09/22/de-monaco-au-kosovo-a-vtt-le-recit-d-une-belle-aventure",
         "sentiment": "positive"
       },
       {
@@ -9079,14 +9079,6 @@
         "country": "Spanjë",
         "flag": "🇪🇸",
         "url": "https://ctxt.es/es/20260901/Firmas/55215/hashim-thaci-kosovo-condena-tribunal-especial-de-kosovo-uck.htm",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Lahey Sürecinde Adalet İhanete Uğradı - Kosovahaber.com",
-        "source": "Kosovahaber.com",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://kosovahaber.com/haber/lahey-surecinde-adalet-ihanete-ugradi-106596",
         "sentiment": "negative"
       }
     ]

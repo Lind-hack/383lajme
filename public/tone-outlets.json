@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-22",
   "overallIndex": 50,
-  "totalArticles": 89,
-  "sourceCount": 73,
+  "totalArticles": 93,
+  "sourceCount": 77,
   "stanceVersion": 3,
-  "unattributed": 148,
+  "unattributed": 149,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -65,13 +65,13 @@
           "articles": [
             {
               "title": "Abschiebung beschert Einsicht: Vorbestrafter (22) kämpft um Rückkehr nach Deutschland – „Ist die Höchststrafe“ - Merkur",
-              "albanianTitle": null,
-              "blurb": "Një 22-vjeçar me precedentë penalë po përpiqet të kthehet në Gjermani pas dëbimit të tij nga shteti gjerman.",
+              "albanianTitle": "Dëbimi sjell pendim: 22-vjeçari me dosje kriminale lufton për t'u kthyer në Gjermani – „Është dënimi më i rëndë“",
+              "blurb": "Një 22-vjeçar me dosje kriminale po kërkon kthimin në Gjermani pas dëbimit të tij nga shteti gjerman.",
               "imageUrl": "https://www.merkur.de/assets/images/43/731/43731631-justitia-symbolbild-gericht-24pdt8SJtqef.jpg",
               "url": "https://www.merkur.de/lokales/ebersberg/markt-schwaben-ort29035/im-kosovo-gestrandet-vorbestrafter-kaempft-vor-gericht-um-rueckkehr-nach-deutschland-94504792.html",
               "date": "2026-09-22",
               "sentiment": "unknown",
-              "reason": "Nuk përmendet Kosova në titull",
+              "reason": "No mention of Kosovo, cannot infer outlet's stance",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -342,6 +342,30 @@
           "lastSeen": "2026-09-20"
         },
         {
+          "name": "L'Est Républicain",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Auxelles-Haut. De Monaco au Kosovo à VTT, le récit d’une belle aventure - L'Est Républicain",
+              "albanianTitle": "Nga Monako në Kosovë me biçikletë malore: Rrëfimi i një aventure të mrekullueshme",
+              "blurb": "Një udhëtim me biçikletë nga Monako deri në Kosovë është dokumentuar si një aventurë e veçantë nga një çiklist.",
+              "imageUrl": "https://cdn-s-www.estrepublicain.fr/images/6B383FF1-F1AC-4592-A31D-74378B395C35/FB1200/photo-1790099854.jpg",
+              "url": "https://www.estrepublicain.fr/culture-loisirs/2026/09/22/de-monaco-au-kosovo-a-vtt-le-recit-d-une-belle-aventure",
+              "date": "2026-09-22",
+              "sentiment": "positive",
+              "reason": "Outlet describes Kosovo as part of a beautiful adventure",
+              "isQuote": false,
+              "evidence": "belle aventure",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
+        },
+        {
           "name": "Le Courrier des Balkans",
           "sentiment": "positive",
           "articleCount": 2,
@@ -441,16 +465,16 @@
         }
       ],
       "summary": {
-        "index": 56,
-        "positive": 11,
-        "neutral": 89,
+        "index": 60,
+        "positive": 20,
+        "neutral": 80,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 11,
+          "delta": 15,
           "from": 45,
           "outlet": "Le Courrier des Balkans",
           "title": "Kosovë: Flora Brovina, një jetë në rezistencë",
@@ -523,6 +547,30 @@
           "lastSeen": "2026-09-22"
         },
         {
+          "name": "ForlìToday",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Un ponte di musica lungo dodici anni: Noviart saluta il progetto con tre concerti per la pace - ForlìToday",
+              "albanianTitle": "Një urë muzikore dymbëdhjetëvjeçare: Noviart i jep lamtumirën projektit me tri koncerte për paqe",
+              "blurb": "Grupi Noviart përmbyll projektin dymbëdhjetëvjeçar muzikor me tre koncerte të dedikuara për paqen në rajonin e Kosovës.",
+              "imageUrl": "https://www.forlitoday.it/~media/horizontal-hi/30119777036553/presentazione-concerti-musica-ponte-tra-i-popoli-noviart-settembre-2026.jpeg",
+              "url": "https://www.forlitoday.it/eventi/noviart-concerti-giovane-orchestra-paneuropea-kosovo.html",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Cultural event reported without evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
+        },
+        {
           "name": "Gazzetta diplomatica",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -530,13 +578,37 @@
             {
               "title": "“La governance globalista e il punto di massima crescenza”, l’Editoriale dell’Ambasciatore Bruno Scapini - Gazzetta diplomatica",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Ambasadori Bruno Scapini publikon editorialin mbi qeverisjen globaliste dhe pikën e rritjes maksimale në Gazzetta Diplomatica.",
               "imageUrl": "https://gazzettadiplomatica.it/wp-content/uploads/2026/09/image-306.png",
               "url": "https://gazzettadiplomatica.it/la-governance-globalista-e-il-punto-di-massima-crescenza-leditoriale-dellambasciatore-bruno-scapini/",
               "date": "2026-09-22",
               "sentiment": "neutral",
               "reason": "Teksti në thonjëza konsiderohet citim, jo zëri i medias",
               "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
+        },
+        {
+          "name": "Info-Cooperazione",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "RTM - Program Manager - Kosovo - Info-Cooperazione",
+              "albanianTitle": "RTM - Menaxher i Programit - Kosovë",
+              "blurb": "Organizata RTM ka shpallur konkurs për pozitën e menaxherit të programit për projektet e saj në territorin e Kosovës.",
+              "imageUrl": "https://www.info-cooperazione.it/public/organizzazioni/loghi/d2bc21b0-0043-475f-be30-b63940806570-550x550.png",
+              "url": "https://www.info-cooperazione.it/2026/9/rtm-program-manager-kosovo",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Job listing presented factually",
+              "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
@@ -578,7 +650,7 @@
             {
               "title": "Il contributo della cooperazione economica alla normalizzazione delle relazioni tra Kosovo e Serbia - Osservatorio Balcani Caucaso Transeuropa",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Bashkëpunimi ekonomik si kontribut për normalizimin e marrëdhënieve ndërmjet Kosovës dhe Serbisë sipas analizës së Osservatorio Balcani Caucaso.",
               "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/cooperazione-kosovo-Serbia.webp",
               "url": "https://www.balcanicaucaso.org/progetti/il-contributo-della-cooperazione-economica-alla-normalizzazione-delle-relazioni-tra-kosovo-e-serbia/",
               "date": "2026-09-22",
@@ -890,7 +962,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 18,
+        "n": 20,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -1198,7 +1270,7 @@
             {
               "title": "Proteste im Kosovo gegen Haftstrafe für Ex-Präsident Thaci - srf.ch",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Qytetarët në Kosovë protestojnë kundër dënimit me burgim të ish-presidentit Hashim Thaçi sipas raportimeve të mediave zvicerane.",
               "imageUrl": "https://il.srgssr.ch/images/?imageUrl=https%3A%2F%2Fdownload-media.srf.ch%2Fworld%2Fimage%2Fdefault%2F2026%2F09%2FSOCIAL916-APP-SZ-Proteste-Pristina-UCK.jpg&format=jpg&width=960",
               "url": "https://www.srf.ch/play/tv/redirect/detail/urn:srf:video:222f1c6a-49b9-41c9-ab79-f4316f446bf6",
               "date": "2026-09-22",
@@ -1211,7 +1283,7 @@
             {
               "title": "Proteste im Kosovo gegen Haftstrafe für Ex-Präsident Thaci - SRF",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Protesta në Kosovë kundër dënimit të ish-presidentit Hashim Thaçi nga gjykata ndërkombëtare sipas raportimit të televizionit SRF.",
               "imageUrl": "https://il.srgssr.ch/images/?imageUrl=https%3A%2F%2Fdownload-media.srf.ch%2Fworld%2Fimage%2Fdefault%2F2026%2F09%2FSOCIAL916-APP-SZ-Proteste-Pristina-UCK.jpg&format=jpg&width=960",
               "url": "https://www.srf.ch/play/tv/redirect/detail/urn:srf:video:222f1c6a-49b9-41c9-ab79-f4316f446bf6",
               "date": "2026-09-22",
@@ -1225,6 +1297,30 @@
           "totalArticles": 5,
           "trend": "neutral",
           "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-22"
+        },
+        {
+          "name": "Tages-Anzeiger",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Schuldspruch gegen Ex-Staatschef Thaçi: Kosovo muss sich seiner Vergangenheit stellen - Tages-Anzeiger",
+              "albanianTitle": "Dënimi i ish-presidentit Thaçi: Kosova duhet të përballet me të kaluarën e saj",
+              "blurb": "Vendimi gjyqësor ndaj ish-presidentit Hashim Thaçi kërkon nga Kosova përballjen me të kaluarën e saj gjatë periudhës së luftës.",
+              "imageUrl": "https://cdn.unitycms.io/images/FkEweZbyK19BCPRUenTOhl.jpg?op=ocroped&val=1200,600,1000,750,125,0&sum=1oSGSYJBbc8",
+              "url": "https://www.tagesanzeiger.ch/kosovo-thaci-urteil-als-chance-zur-aufarbeitung-112826380368",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Report of conviction presented factually",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
           "lastSeen": "2026-09-22"
         },
         {
@@ -1277,11 +1373,11 @@
         }
       ],
       "summary": {
-        "index": 54,
+        "index": 53,
         "positive": 7,
         "neutral": 93,
         "negative": 0,
-        "n": 14,
+        "n": 15,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -1481,7 +1577,7 @@
             {
               "title": "Fotboll 12 i dag 24/9 » Tips, Analys & Förslag - Bettingstugan.se",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Analiza dhe sugjerime për ndeshjet e futbollit që zhvillohen gjatë ditës së sotme, më 24 shtator në platformën Bettingstugan.",
               "imageUrl": "https://bettingstugan.imgix.net/assets/uploads/user/tips/_1200x630_crop_center-center_82_none/Campione_Analys_Spelforslag_Expekt.png?mtime=1786711886",
               "url": "https://bettingstugan.se/speltips/fotboll-12-torsdag-24-9",
               "date": "2026-09-22",
@@ -2103,13 +2199,13 @@
           "articles": [
             {
               "title": "Schengen’e takılmadan Avrupa rotası: Türk vatandaşları bu 3 ülkeye vizesiz gidebiliyor - babaocagi.com.tr",
-              "albanianTitle": "Rruga drejt Evropës pa viza Shengen: Shtetasit turq mund t'i vizitojnë këto 3 shtete pa viza - babaocagi.com.tr",
-              "blurb": "Qytetarët turq mund të udhëtojnë pa viza në tri shtete evropiane që nuk kërkojnë zonën Shengen për hyrje.",
+              "albanianTitle": "Rruga për në Evropë pa pengesat e Shengenit: Shtetasit turq mund të udhëtojnë pa viza në këto 3 shtete",
+              "blurb": "Shtetasit turq mund të udhëtojnë pa viza në tri shtete të ndryshme evropiane që nuk janë pjesë e zonës Schengen.",
               "imageUrl": "https://babaocagicomtr.teimg.com/crop/1280x720/babaocagi-com-tr/uploads/2026/09/a-v-r-u-p-a.png",
               "url": "https://www.babaocagi.com.tr/schengene-takilmadan-avrupa-rotasi-turk-vatandaslari-bu-3-ulkeye-vizesiz-gidebiliyor",
               "date": "2026-09-22",
               "sentiment": "unknown",
-              "reason": "No reference to Kosovo in the item",
+              "reason": "No mention of Kosovo in headline or snippet",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2236,13 +2332,13 @@
             },
             {
               "title": "Mobile-Video Haber Detay - İhlas Haber Ajansı",
-              "albanianTitle": null,
-              "blurb": "Agjencia e lajmeve İhlas ka publikuar një material video lidhur me zhvillimet e fundit në rajon.",
+              "albanianTitle": "Detajet e lajmit përmes videos mobile - Agjencia e Lajmeve İhlas",
+              "blurb": "Agjencia e lajmeve İhlas ofron përmbajtje video përmes platformës së saj mobile për përdoruesit e interesuar për informacione.",
               "imageUrl": null,
               "url": "https://www.iha.com.tr/video-cumhurbaskani-erdogan-kosova-basbakani-kurti-ile-gorustu",
               "date": "2026-09-21",
               "sentiment": "unknown",
-              "reason": "Titulli nuk përmban ndonjë fjalë rreth Kosovës, prandaj nuk mund të përcaktohet qëndrimi",
+              "reason": "No mention of Kosovo, cannot infer outlet's stance",
               "isQuote": false,
               "evidence": "",
               "speaker": ""

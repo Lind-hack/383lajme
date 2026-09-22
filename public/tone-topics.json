@@ -2,12 +2,12 @@
   "lastUpdated": "2026-09-22",
   "topics": [
     {
-      "label": "Kryeministrin · Presidenti",
-      "fallbackLabel": "Kryeministrin · Presidenti",
-      "summary": "",
-      "count": 18,
+      "label": "Dënimi i ish-presidentit Hashim Thaçi",
+      "fallbackLabel": "Presidenti · Kryeministrin",
+      "summary": "Dënimi i ish-presidentit Thaçi me 25 vite burgim për krime lufte ka shkaktuar protesta masive dhe reagime të shumta ndërkombëtare.",
+      "count": 19,
       "positive": 1,
-      "neutral": 16,
+      "neutral": 17,
       "negative": 0,
       "index": 53,
       "countries": [
@@ -15,7 +15,8 @@
         "Itali",
         "SHBA",
         "Spanjë",
-        "Turqi"
+        "Turqi",
+        "Zvicër"
       ],
       "articles": [
         {
@@ -181,14 +182,14 @@
       ]
     },
     {
-      "label": "Speciale · Gjykatës",
+      "label": "Kundërshtimi ndaj Gjykatës Speciale",
       "fallbackLabel": "Speciale · Gjykatës",
-      "summary": "",
-      "count": 13,
+      "summary": "Institucionet e Kosovës po kërkojnë mënyra për të kontestuar vendimet e Gjykatës Speciale, duke e konsideruar atë si një pengesë për normalizimin e marrëdhënieve.",
+      "count": 15,
       "positive": 0,
-      "neutral": 12,
+      "neutral": 14,
       "negative": 1,
-      "index": 46,
+      "index": 47,
       "countries": [
         "SHBA",
         "Turqi"
@@ -357,12 +358,12 @@
       ]
     },
     {
-      "label": "Kombeve · Liga",
+      "label": "Pjesëmarrja e Kosovës në futboll",
       "fallbackLabel": "Kombeve · Liga",
-      "summary": "",
-      "count": 13,
+      "summary": "Kombëtarja e Kosovës po zhvillon ndeshje në Ligën e Kombeve kundër Irlandës dhe Austrisë, duke tërhequr vëmendjen e mediave sportive ndërkombëtare.",
+      "count": 14,
       "positive": 1,
-      "neutral": 12,
+      "neutral": 13,
       "negative": 0,
       "index": 54,
       "countries": [
@@ -539,17 +540,18 @@
       ]
     },
     {
-      "label": "Protestë · Kundër",
+      "label": "Protestat e diasporës për UÇK-në",
       "fallbackLabel": "Protestë · Kundër",
-      "summary": "",
-      "count": 12,
+      "summary": "Qytetarët në Prishtinë dhe qytete të ndryshme evropiane po organizojnë protesta kundër dënimeve të ish-komandantëve të UÇK-së nga Gjykata e Hagës.",
+      "count": 13,
       "positive": 0,
-      "neutral": 12,
+      "neutral": 13,
       "negative": 0,
       "index": 50,
       "countries": [
         "Itali",
         "SHBA",
+        "Suedi",
         "Turqi"
       ],
       "articles": [
@@ -716,9 +718,9 @@
       ]
     },
     {
-      "label": "Ndaj · Krerëve",
+      "label": "Debatet politike mbi historinë e luftës",
       "fallbackLabel": "Ndaj · Krerëve",
-      "summary": "",
+      "summary": "Diskutimet politike në Kosovë po përqendrohen te mbrojtja e vlerave të luftës dhe reagimet ndaj gjykimeve që konsiderohen si gjykim ndaj historisë.",
       "count": 8,
       "positive": 2,
       "neutral": 5,
@@ -862,9 +864,9 @@
       ]
     },
     {
-      "label": "Jork · Kurti",
+      "label": "Diplomacia e Kosovës në Nju Jork",
       "fallbackLabel": "Jork · Kurti",
-      "summary": "",
+      "summary": "Liderët shtetërorë të Kosovës po zhvillojnë takime të rëndësishme diplomatike në Nju Jork gjatë Asamblesë së Përgjithshme të OKB-së për të forcuar pozicionin ndërkombëtar.",
       "count": 8,
       "positive": 0,
       "neutral": 8,
@@ -1007,9 +1009,122 @@
       ]
     },
     {
-      "label": "Serbisë · Popullit",
-      "fallbackLabel": "Serbisë · Popullit",
-      "summary": "",
+      "label": "Mbështetja ndërkombëtare për Kosovën",
+      "fallbackLabel": "Mbështesë · Saudite",
+      "summary": "Shtete të ndryshme dhe organizata ndërkombëtare po konfirmojnë mbështetjen e tyre për zhvillimin e Kosovës dhe integrimin e saj në strukturat euroatlantike.",
+      "count": 6,
+      "positive": 1,
+      "neutral": 5,
+      "negative": 0,
+      "index": 58,
+      "countries": [
+        "Britani",
+        "SHBA",
+        "Turqi"
+      ],
+      "articles": [
+        {
+          "title": "Almanya Kosova'ya Desteğini Sürdürecek - Kosovahaber.com",
+          "albanianTitle": "Gjermania do të vazhdojë ta mbështesë Kosovën",
+          "blurb": "Shteti gjerman ka konfirmuar vazhdimin e mbështetjes së tij për institucionet dhe zhvillimet e përgjithshme në Kosovë.",
+          "imageUrl": null,
+          "url": "https://kosovahaber.com/haber/almanya-kosovaya-destegini-surdurecek-106588",
+          "date": "2026-09-22",
+          "sentiment": "positive",
+          "reason": "Outlet uses supportive language indicating continued support for Kosovo",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "Desteğini Sürdürecek",
+          "outlet": "Kosovahaber.com",
+          "country": "Turqi",
+          "flag": "🇹🇷"
+        },
+        {
+          "title": "Saudi Arabia expands support for orphans in Gaza, Kosovo - Arab News",
+          "albanianTitle": "Arabia Saudite rrit mbështetjen për jetimët në Gaza dhe Kosovë",
+          "blurb": "Arabia Saudite ka zgjeruar programin e saj të mbështetjes financiare dhe humanitare për jetimët në Gaza dhe në Kosovë.",
+          "imageUrl": "https://assets.maestronewsroom.com/media/30f6532d-717b-4366-9158-9c455299fcd9/1789825606388-dc138adf1dca2bc9.jpeg",
+          "url": "https://www.arabnews.com/saudi-arabia/saudi-arabia-expands-support-for-orphans-in-gaza-kosovo-3002339",
+          "date": "2026-09-19",
+          "sentiment": "neutral",
+          "reason": "Faktikë raportim neutral",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "Arab News",
+          "country": "SHBA",
+          "flag": "🇺🇸"
+        },
+        {
+          "title": "Saudi Arabia expands support for orphans in Gaza, Kosovo - arabnews.com",
+          "albanianTitle": "Arabia Saudite zgjeron mbështetjen për jetimët në Gaza dhe Kosovë - arabnews.com",
+          "blurb": "Arabia Saudite ka zgjeruar programin e saj të mbështetjes financiare për jetimët në Kosovë dhe në Rripin e Gazës.",
+          "imageUrl": "https://assets.maestronewsroom.com/media/30f6532d-717b-4366-9158-9c455299fcd9/1789825606388-dc138adf1dca2bc9.jpeg",
+          "url": "https://www.arabnews.com/saudi-arabia/saudi-arabia-expands-support-for-orphans-in-gaza-kosovo-3002339",
+          "date": "2026-09-20",
+          "sentiment": "neutral",
+          "reason": "Factual report of Saudi support, no evaluative language about Kosovo",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "Arab News",
+          "country": "Britani",
+          "flag": "🇬🇧"
+        },
+        {
+          "title": "AB’nin Priştine’nin Kalkınmasına Desteği Devam Edecek - Kosovahaber.com",
+          "albanianTitle": "BE-ja do të vazhdojë ta mbështesë zhvillimin e Prishtinës - Kosovahaber.com",
+          "blurb": "Bashkimi Evropian ka konfirmuar vazhdimin e mbështetjes për zhvillimin e mëtejshëm të kryeqytetit të Kosovës, Prishtinës.",
+          "imageUrl": null,
+          "url": "https://kosovahaber.com/haber/abnin-pristinenin-kalkinmasina-destegi-devam-edecek-106545",
+          "date": "2026-09-21",
+          "sentiment": "neutral",
+          "reason": "Faktikë, pa ngarkim",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "Kosovahaber.com",
+          "country": "Turqi",
+          "flag": "🇹🇷"
+        },
+        {
+          "title": "Erdoğan, Kurti ile bir araya geldi: “Türkiye, Kosova’nın uluslararası toplumda hak ettiği yeri alması için destek verecektir” (Dnevni Avaz) - İletişim Başkanlığı",
+          "albanianTitle": "Erdogan takon Kurtin: Turqia do ta mbështesë Kosovën që të zërë vendin e merituar në komunitetin ndërkombëtar",
+          "blurb": "Presidenti Erdoğan u takua me kryeministrin Kurti, duke konfirmuar mbështetjen e Turqisë për integrimin ndërkombëtar të Kosovës.",
+          "imageUrl": "https://www.iletisim.gov.tr/images/uploads/icerik/_tam/KURT%C4%B0.jpg",
+          "url": "https://www.iletisim.gov.tr/turkce/dis_basinda_turkiye/detay/erdogan-kurti-ile-bir-araya-geldi-turkiye-kosovanin-uluslararasi-toplumda-hak-ettigi-yeri-almasi-icin-destek-verecektir-dnevni-avaz",
+          "date": "2026-09-22",
+          "sentiment": "neutral",
+          "reason": "Raporton deklaratën e Erdoğan, nuk e përvetëson media",
+          "isQuote": true,
+          "speaker": "Erdoğan",
+          "evidence": "",
+          "outlet": "İletişim Başkanlığı",
+          "country": "Turqi",
+          "flag": "🇹🇷"
+        },
+        {
+          "title": "Plenkovic: Kosova’nın AB ve Avrupa Konseyi üyeliği yolunu desteklemeyi sürdürüyoruz - hibya.com",
+          "albanianTitle": "Plenkoviq: Vazhdojmë ta mbështesim Kosovën në rrugën drejt anëtarësimit në BE dhe Këshillin e Evropës",
+          "blurb": "Kryeministri kroat Plenkovic deklaroi se Kroacia vazhdon të mbështesë anëtarësimin e Kosovës në Bashkimin Evropian dhe Këshillin e Evropës.",
+          "imageUrl": "https://editor.hibya.com/upload/811910781.jpg",
+          "url": "https://hibya.com/plenkovic-kosovanin-ab-ve-avrupa-konseyi-uyeligi-yolunu-desteklemeyi-surduruyoruz-1040072",
+          "date": "2026-09-22",
+          "sentiment": "neutral",
+          "reason": "Report of Plenkovic's statement, no editorial tone",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "hibya.com",
+          "country": "Turqi",
+          "flag": "🇹🇷"
+        }
+      ]
+    },
+    {
+      "label": "Kritikat ndaj rolit të EULEX-it",
+      "fallbackLabel": "Serbisë · Emër",
+      "summary": "Pjesë të shoqërisë dhe analistët po kritikojnë ashpër EULEX-in, duke pretenduar se kjo gjykatë ka favorizuar Serbinë në dëm të drejtësisë për Kosovën.",
       "count": 6,
       "positive": 0,
       "neutral": 5,
@@ -1116,104 +1231,6 @@
           "speaker": "Studenten aus Pristina",
           "evidence": "",
           "outlet": "vreme.com",
-          "country": "Gjermani",
-          "flag": "🇩🇪"
-        }
-      ]
-    },
-    {
-      "label": "Parë · Bayernit",
-      "fallbackLabel": "Parë · Bayernit",
-      "summary": "",
-      "count": 5,
-      "positive": 0,
-      "neutral": 4,
-      "negative": 0,
-      "index": 50,
-      "countries": [
-        "Gjermani",
-        "SHBA",
-        "Spanjë",
-        "Turqi"
-      ],
-      "articles": [
-        {
-          "title": "Bayern youngster Osmani chooses Kosovo over Germany and receives first senior call-up - Yahoo Sports",
-          "albanianTitle": "Talenti i Bayernit, Osmani, zgjedh Kosovën para Gjermanisë dhe merr ftesën e parë nga kombëtarja A",
-          "blurb": "Futbollisti i ri i Bayernit, Osmani, ka zgjedhur të përfaqësojë Kosovën duke pranuar ftesën e parë për ekipin kombëtar.",
-          "imageUrl": "https://s.yimg.com/lo/mysterio/api/5c6fb8c2dab65a0fc56b35f323e4522170ffbd203cacae747729735afb007940/lightyear_networkapi/resizefill_w1200%3Bquality_80%3Bformat_webp/https%3A%2F%2Fmedia.zenfs.com%2Fen%2Fbulinews_articles_290%2F22627863ffe9ec1f7cfe9498d0768650.jpg",
-          "url": "https://sports.yahoo.com/articles/bayern-youngster-osmani-chooses-kosovo-102600850.html",
-          "date": "2026-09-19",
-          "sentiment": "neutral",
-          "reason": "Faktikë raportim neutral",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "Yahoo Sports",
-          "country": "SHBA",
-          "flag": "🇺🇸"
-        },
-        {
-          "title": "Osmani, joya del Bayern, elige Kosovo y recibe su primera convocatoria - OneFootball",
-          "albanianTitle": "Talenti i Bayernit, Arijon Ibrahimoviq, zgjedh Kosovën dhe merr ftesën e parë - OneFootball",
-          "blurb": "Talenti i Bayernit, Osmani, ka vendosur të përfaqësojë Kosovën dhe ka pranuar ftesën e parë për ndeshjet ndërkombëtare.",
-          "imageUrl": "https://photobooth-api.onefootball.com/api/screenshot/%2Fv2%2Fphotobooth%2Fcms%2Fes%2F43487481%3Fdate=2026-09-19",
-          "url": "https://onefootball.com/es/noticias/osmani-joya-del-bayern-elige-kosovo-y-recibe-su-primera-convocatoria-43487481",
-          "date": "2026-09-19",
-          "sentiment": "neutral",
-          "reason": "Faktikë raportuar pa ngarkim",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "OneFootball",
-          "country": "Spanjë",
-          "flag": "🇪🇸"
-        },
-        {
-          "title": "Kosovo prime minister draws crowds at Staten Island’s first Albanian Festival - SILive.com",
-          "albanianTitle": "Kryeministri i Kosovës mbledh turmat në Festivalin e parë Shqiptar në Staten Island - SILive.com",
-          "blurb": "Kryeministri i Kosovës mori pjesë në festivalin e parë shqiptar të organizuar në Staten Island të Shteteve të Bashkuara.",
-          "imageUrl": null,
-          "url": "https://www.silive.com/news/2026/09/kosovo-prime-minister-draws-crowds-at-staten-islands-first-albanian-festival.html",
-          "date": "2026-09-19",
-          "sentiment": "neutral",
-          "reason": "Straightforward report of a visit, no loaded language",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "SILive.com",
-          "country": "SHBA",
-          "flag": "🇺🇸"
-        },
-        {
-          "title": "GÜRİŞ Kosova’nın ilk rüzgâr yarışması için teklif verdi - Yeşil Ekonomi",
-          "albanianTitle": "GÜRİŞ bën ofertë për tenderin e parë të energjisë së erës në Kosovë",
-          "blurb": "Kompania GÜRİŞ ka dorëzuar ofertën e saj për pjesëmarrje në tenderin e parë të Kosovës për energjinë e erës.",
-          "imageUrl": "https://yesilekonomi.com/wp-content/uploads/2026/09/kosova-guris-ihale.jpg",
-          "url": "https://yesilekonomi.com/guris-kosovanin-ilk-ruzgar-yarismasi-icin-teklif-verdi/",
-          "date": "2026-09-22",
-          "sentiment": "neutral",
-          "reason": "Faktikë raportuar pa ngarkim",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "Yeşil Ekonomi",
-          "country": "Turqi",
-          "flag": "🇹🇷"
-        },
-        {
-          "title": "17-Jähriger vom FC Bayern erstmals in die Nationalelf berufen - Absolut Fussball",
-          "albanianTitle": "17-vjeçari i FC Bayernit ftohet për herë të parë në kombëtare",
-          "blurb": "Futbollisti 17-vjeçar i Bayern Munichut është ftuar për herë të parë në ekipin kombëtar të futbollit.",
-          "imageUrl": "https://www.absolutfussball.com/assets/images/44/172/44172301-erblin-osmani-lief-in-dieser-spielzeit-bisher-meist-in-der-u19-auf-2hazzd44BYef.jpg",
-          "url": "https://www.absolutfussball.com/deutschland/fc-bayern-muenchen/17-jaehriger-vom-fc-bayern-erstmals-in-die-nationalelf-berufen-94500441.html",
-          "date": "2026-09-19",
-          "sentiment": "unknown",
-          "reason": "Nuk përmendet Kosova në titull",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "Absolut Fussball",
           "country": "Gjermani",
           "flag": "🇩🇪"
         }

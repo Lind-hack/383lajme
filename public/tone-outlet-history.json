@@ -8197,6 +8197,58 @@
       "urls": [
         "https://www.milliyet.com.tr/yerel-haberler/edirne/tu-ile-kosova-saglik-bakanligi-arasinda-isbirli-7665502"
       ]
+    },
+    "L'Est Républicain": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 1,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.estrepublicain.fr/culture-loisirs/2026/09/22/de-monaco-au-kosovo-a-vtt-le-recit-d-une-belle-aventure"
+      ]
+    },
+    "Info-Cooperazione": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.info-cooperazione.it/2026/9/rtm-program-manager-kosovo"
+      ]
+    },
+    "ForlìToday": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.forlitoday.it/eventi/noviart-concerti-giovane-orchestra-paneuropea-kosovo.html"
+      ]
+    },
+    "Tages-Anzeiger": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.tagesanzeiger.ch/kosovo-thaci-urteil-als-chance-zur-aufarbeitung-112826380368"
+      ]
     }
   }
 }
