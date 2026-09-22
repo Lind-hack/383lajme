@@ -3300,13 +3300,13 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 61,
+      "total": 66,
       "positive": 11,
-      "neutral": 42,
+      "neutral": 44,
       "negative": 0,
-      "unknown": 8,
+      "unknown": 11,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-21",
+      "lastSeen": "2026-09-22",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
@@ -3368,7 +3368,12 @@
         "https://www.albinfo.ch/de/wer-ein-leben-lang-in-der-schweiz-gearbeitet-hat-soll-seine-rente-auch-im-kosovo-beziehen-koennen/",
         "https://www.albinfo.ch/de/ne-nje-shkolle-te-bronx-it-shqipja-mesohet-krah-anglishtes/",
         "https://www.albinfo.ch/de/spektakel-i-vedat-muriqit-shenon-kater-gola-brenda-55-minutave/",
-        "https://www.albinfo.ch/de/donjeta-sadiku-e-nis-me-fitore-kampionatin-evropian/"
+        "https://www.albinfo.ch/de/donjeta-sadiku-e-nis-me-fitore-kampionatin-evropian/",
+        "https://www.albinfo.ch/de/trump-permend-kosoven-gjate-fjalimit-ne-asamblene-e-pergjithshme-te-okb-se/",
+        "https://www.albinfo.ch/de/erdogan-turqia-do-te-vazhdoje-ta-mbeshtese-kosoven-ne-arenen-nderkombetare/",
+        "https://www.albinfo.ch/de/gjithnje-kam-dashur-te-luaj-per-kosoven-erblin-osmani-gati-per-debutimin-me-dardanet/",
+        "https://www.albinfo.ch/de/anamorava-economic-forum-2026-mbledh-ne-gjilan-bizneset-vendore-dhe-diasporen/",
+        "https://www.albinfo.ch/fr/erdogan-turqia-do-te-vazhdoje-ta-mbeshtese-kosoven-ne-arenen-nderkombetare/"
       ]
     },
     "iAxia -": {
@@ -8248,6 +8253,45 @@
       "lastSeen": "2026-09-22",
       "urls": [
         "https://www.tagesanzeiger.ch/kosovo-thaci-urteil-als-chance-zur-aufarbeitung-112826380368"
+      ]
+    },
+    "merkur.de": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.merkur.de/lokales/ebersberg/markt-schwaben-ort29035/im-kosovo-gestrandet-vorbestrafter-kaempft-vor-gericht-um-rueckkehr-nach-deutschland-94504792.html"
+      ]
+    },
+    "sport.interia.pl": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://sport.interia.pl/pilka-reczna/mecz-kosowo-k-gruzja-k-mistrzostwa-europy-k-kwal,spmi,2463217"
+      ]
+    },
+    "PodkarpacieLIVE": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.podkarpacielive.pl/mecz/158315,kosowo-vs-irlandia"
       ]
     }
   }

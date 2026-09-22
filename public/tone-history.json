@@ -8852,9 +8852,9 @@
   },
   {
     "date": "2026-09-22",
-    "overallIndex": 50,
-    "totalArticles": 93,
-    "sourceCount": 77,
+    "overallIndex": 51,
+    "totalArticles": 97,
+    "sourceCount": 79,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -8893,7 +8893,7 @@
         "neutral": 80,
         "negative": 0,
         "n": 10,
-        "excluded": 0,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
@@ -8935,11 +8935,11 @@
       },
       "Zvicër": {
         "index": 53,
-        "positive": 7,
-        "neutral": 93,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 15,
-        "excluded": 1,
+        "n": 17,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9006,7 +9006,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 8,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3

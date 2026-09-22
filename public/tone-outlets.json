@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-22",
-  "overallIndex": 50,
-  "totalArticles": 93,
-  "sourceCount": 77,
+  "overallIndex": 51,
+  "totalArticles": 97,
+  "sourceCount": 79,
   "stanceVersion": 3,
-  "unattributed": 149,
+  "unattributed": 161,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -59,30 +59,6 @@
           "lastSeen": "2026-09-19"
         },
         {
-          "name": "Merkur",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Abschiebung beschert Einsicht: Vorbestrafter (22) kämpft um Rückkehr nach Deutschland – „Ist die Höchststrafe“ - Merkur",
-              "albanianTitle": "Dëbimi sjell pendim: 22-vjeçari me dosje kriminale lufton për t'u kthyer në Gjermani – „Është dënimi më i rëndë“",
-              "blurb": "Një 22-vjeçar me dosje kriminale po kërkon kthimin në Gjermani pas dëbimit të tij nga shteti gjerman.",
-              "imageUrl": "https://www.merkur.de/assets/images/43/731/43731631-justitia-symbolbild-gericht-24pdt8SJtqef.jpg",
-              "url": "https://www.merkur.de/lokales/ebersberg/markt-schwaben-ort29035/im-kosovo-gestrandet-vorbestrafter-kaempft-vor-gericht-um-rueckkehr-nach-deutschland-94504792.html",
-              "date": "2026-09-22",
-              "sentiment": "unknown",
-              "reason": "No mention of Kosovo, cannot infer outlet's stance",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-22",
-          "lastSeen": "2026-09-22"
-        },
-        {
           "name": "Sport Bild",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -105,6 +81,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-15",
           "lastSeen": "2026-09-19"
+        },
+        {
+          "name": "merkur.de",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Abschiebung beschert Einsicht: Vorbestrafter (22) kämpft um Rückkehr nach Deutschland – „Ist die Höchststrafe“ - merkur.de",
+              "albanianTitle": "Dëbimi sjell pendim: 22-vjeçari me dosje kriminale lufton për t'u kthyer në Gjermani – „Është dënimi maksimal“ – merkur.de",
+              "blurb": "Një 22-vjeçar me dosje kriminale po kërkon të kthehet në Gjermani pas dëbimit të tij nga shteti gjerman.",
+              "imageUrl": "https://www.merkur.de/assets/images/43/731/43731631-justitia-symbolbild-gericht-24pdt8SJtqef.jpg",
+              "url": "https://www.merkur.de/lokales/ebersberg/markt-schwaben-ort29035/im-kosovo-gestrandet-vorbestrafter-kaempft-vor-gericht-um-rueckkehr-nach-deutschland-94504792.html",
+              "date": "2026-09-22",
+              "sentiment": "unknown",
+              "reason": "Metin Kosova ile ilgili değil, tutum belirlenemiyor",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
         },
         {
           "name": "sport.de",
@@ -368,7 +368,7 @@
         {
           "name": "Le Courrier des Balkans",
           "sentiment": "positive",
-          "articleCount": 2,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Kosovo : Flora Brovina, une vie de résistance - Le Courrier des Balkans",
@@ -392,6 +392,32 @@
               "date": "2026-09-22",
               "sentiment": "neutral",
               "reason": "Fact-based report without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo : la fin de la confiance aveugle en l’Occident - courrierdesbalkans.fr",
+              "albanianTitle": "Kosova: Fundi i besimit të verbër ndaj Perëndimit - courrierdesbalkans.fr",
+              "blurb": "Analiza mbi marrëdhëniet e Kosovës me shtetet perëndimore dhe rënia e besimit të ndërsjellë në kontekstin aktual politik.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/Screenshot-2026-09-21-at-11.05.50-1024x536.png",
+              "url": "https://www.courrierdesbalkans.fr/kosovo-la-fin-de-la-confiance-aveugle-en-loccident-99946/",
+              "date": "2026-09-22",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo : Flora Brovina, une vie de résistance - courrierdesbalkans.fr",
+              "albanianTitle": "Kosova: Flora Brovina, një jetë në rezistencë - courrierdesbalkans.fr",
+              "blurb": "Portretizimi i jetës dhe veprimtarisë së Flora Brovinës si një figurë e njohur për rezistencën e saj politike.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/0-1-1.jpeg",
+              "url": "https://www.courrierdesbalkans.fr/kosovo-flora-brovina-une-vie-de-resistance-99913/",
+              "date": "2026-09-20",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -470,7 +496,7 @@
         "neutral": 80,
         "negative": 0,
         "n": 10,
-        "excluded": 0,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
@@ -1209,10 +1235,10 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 61,
+          "totalArticles": 66,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-21"
+          "lastSeen": "2026-09-22"
         },
         {
           "name": "Luzerner Zeitung",
@@ -1374,11 +1400,11 @@
       ],
       "summary": {
         "index": 53,
-        "positive": 7,
-        "neutral": 93,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 15,
-        "excluded": 1,
+        "n": 17,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1632,6 +1658,30 @@
           "lastSeen": "2026-09-21"
         },
         {
+          "name": "PodkarpacieLIVE",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosowo – Irlandia - PodkarpacieLIVE",
+              "albanianTitle": "Kosovë – Irlandë - PodkarpacieLIVE",
+              "blurb": "Ekipi kombëtar i Kosovës në futboll do të zhvillojë një ndeshje zyrtare kundër përfaqësueses së Irlandës.",
+              "imageUrl": null,
+              "url": "https://www.podkarpacielive.pl/mecz/158315,kosowo-vs-irlandia",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Thjesht listë sportive, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
+        },
+        {
           "name": "Program TV Onet",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1723,13 +1773,13 @@
             },
             {
               "title": "Po 13 latach znów jest o nich głośno. Teraz pokazały się w nowej odsłonie - gostyn24.pl",
-              "albanianTitle": "Pas 13 vitesh sërish në qendër të vëmendjes: Ato shfaqen në një version të ri",
-              "blurb": "Pas trembëdhjetë vitesh, një grup i caktuar është rikthyer në vëmendjen e publikut me një paraqitje të re të tyre.",
+              "albanianTitle": "Pas 13 vitesh, ato sërish në qendër të vëmendjes: U shfaqën në një version të ri – gostyn24.pl",
+              "blurb": "Pas trembëdhjetë vitesh, personat në fjalë janë rikthyer në vëmendjen e publikut duke u shfaqur në një formë tjetër.",
               "imageUrl": null,
               "url": "https://gostyn24.pl/pl/1075_dobrze-wiedziec/98954_po-13-latach-znow-jest-o-nich-glosno-teraz-pokazaly-sie-w-nowej-odslonie.html",
               "date": "2026-09-21",
               "sentiment": "unknown",
-              "reason": "Headline ambiguous, does not reveal outlet’s attitude toward Kosovo",
+              "reason": "Metin Kosova ile ilgili değil, tutum belirlenemiyor",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1787,6 +1837,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-22",
           "lastSeen": "2026-09-22"
+        },
+        {
+          "name": "sport.interia.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosowo (k) - gruzja (k) - sport.interia.pl",
+              "albanianTitle": "Kosovë - Gjeorgji - sport.interia.pl",
+              "blurb": "Përfaqësuesja e Kosovës në futboll do të përballet me ekipin e Gjeorgjisë në një ndeshje zyrtare ndërkombëtare.",
+              "imageUrl": null,
+              "url": "https://sport.interia.pl/pilka-reczna/mecz-kosowo-k-gruzja-k-mistrzostwa-europy-k-kwal,spmi,2463217",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Thjesht listë sportive, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
         }
       ],
       "summary": {
@@ -1794,7 +1868,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 8,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -2332,13 +2406,13 @@
             },
             {
               "title": "Mobile-Video Haber Detay - İhlas Haber Ajansı",
-              "albanianTitle": "Detajet e lajmit përmes videos mobile - Agjencia e Lajmeve İhlas",
-              "blurb": "Agjencia e lajmeve İhlas ofron përmbajtje video përmes platformës së saj mobile për përdoruesit e interesuar për informacione.",
+              "albanianTitle": "Detajet e lajmit përmes videos mobile – Agjencia e Lajmeve İhlas",
+              "blurb": "Agjencia e lajmeve İhlas ka publikuar një material video informativ në lidhje me detajet e një ngjarjeje të caktuar.",
               "imageUrl": null,
               "url": "https://www.iha.com.tr/video-cumhurbaskani-erdogan-kosova-basbakani-kurti-ile-gorustu",
               "date": "2026-09-21",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo, cannot infer outlet's stance",
+              "reason": "Metin Kosova ile ilgili değil, tutum belirlenemiyor",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
