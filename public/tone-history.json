@@ -8853,8 +8853,8 @@
   {
     "date": "2026-09-22",
     "overallIndex": 50,
-    "totalArticles": 74,
-    "sourceCount": 61,
+    "totalArticles": 89,
+    "sourceCount": 73,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -8863,7 +8863,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 1,
+        "excluded": 3,
         "confident": false,
         "stanceVersion": 3
       },
@@ -8910,7 +8910,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 13,
+        "n": 18,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -8935,11 +8935,11 @@
       },
       "Zvicër": {
         "index": 54,
-        "positive": 8,
-        "neutral": 92,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 12,
-        "excluded": 0,
+        "n": 14,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
@@ -8996,7 +8996,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -9006,17 +9006,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       },
       "Turqi": {
         "index": 50,
-        "positive": 5,
-        "neutral": 89,
-        "negative": 5,
-        "n": 19,
+        "positive": 4,
+        "neutral": 92,
+        "negative": 4,
+        "n": 25,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3,
@@ -9066,11 +9066,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "Foda-Rückkehr nach Wien! Ex-Teamchef will Österreich mit Kosovo ärgern - oe24.at",
-        "source": "oe24.at",
+        "title": "Foda-Rückkehr nach Wien! Ex-Teamchef will Österreich mit Kosovo ärgern - oe24",
+        "source": "oe24",
         "country": "Austri",
         "flag": "🇦🇹",
-        "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQRl8tWFRGRC10Y3MtN1dDOUdtcGpONnRocUtrdGlYQWs4X3ZreXJRQmtkRzFxT0gxcGg1M01lOG43YTAyWkhIdXJYZ0xlOFdGdnVxQmk5TFpsVWlPYVkzUHBSUXBGUFZsYnZDdnZmZkIyMnI2QV9YUkZRVTFhdEwxbmZqTUNkeHhtdjR0VjdKOFMwc0Jsb240bjk3YWk2WDVBSFB2SFl2R0YzRmNT0gGsAUFVX3lxTFBGXy1YVEZELXRjcy03V0M5R21wak42dGhxS2t0aVhBazhfdmt5clFCa2RHMXFPSDFwaDUzTWU4bjdhMDJaSEh1clhnTGU4V0Z2dXFCaTlMWmxVaU9hWTNQcFJRcEZQVmxidkN2dmZmQjIycjZBX1hSRlFVMWF0TDFuZmpNQ2R4eG12NHRWN0o4UzBzQmxvbjRuOTdhaTZYNUFIUHZIWXZHRjNGY1M?oc=5",
+        "url": "https://www.oe24.at/a/foda-rueckkehr-nach-wien-ex-teamchef-will-oesterreich-mit-kosovo-aergern-900116443",
         "sentiment": "negative"
       },
       {

@@ -183,13 +183,13 @@
     },
     "Osservatorio Balcani Caucaso Transeuropa": {
       "country": "Itali",
-      "total": 11,
+      "total": 12,
       "positive": 0,
-      "neutral": 7,
+      "neutral": 8,
       "negative": 2,
       "unknown": 2,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-18",
+      "lastSeen": "2026-09-22",
       "urls": [
         "https://www.balcanicaucaso.org/en/cp_article/political-crisis-in-kosovo-no-light-at-the-end-of-the-tunnel/",
         "https://www.balcanicaucaso.org/cp_article/crisi-politica-in-kosovo-non-ce-luce-alla-fine-del-tunnel/",
@@ -201,7 +201,8 @@
         "https://www.balcanicaucaso.org/en/cp_article/kosovo-anger-and-disappointment-for-the-conviction-of-kla-leaders/",
         "https://www.balcanicaucaso.org/cp_article/kosovo-rabbia-e-delusione-per-la-condanna-dei-leader-uck/",
         "https://www.balcanicaucaso.org/cp_article/kosovo-hashim-thaci-condannato-per-crimini-di-guerra/",
-        "https://www.balcanicaucaso.org/cp_article/condanna-dei-leader-uck-le-reazioni-in-serbia/"
+        "https://www.balcanicaucaso.org/cp_article/condanna-dei-leader-uck-le-reazioni-in-serbia/",
+        "https://www.balcanicaucaso.org/progetti/il-contributo-della-cooperazione-economica-alla-normalizzazione-delle-relazioni-tra-kosovo-e-serbia/"
       ]
     },
     "ilrestodelcarlino.it": {
@@ -238,13 +239,13 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 33,
+      "total": 34,
       "positive": 0,
-      "neutral": 27,
+      "neutral": 28,
       "negative": 0,
       "unknown": 6,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-21",
+      "lastSeen": "2026-09-22",
       "urls": [
         "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
@@ -278,7 +279,8 @@
         "https://www.ansa.it/sito/notizie/mondo/2026/09/16/thaci-condannato-a-25-anni-per-crimini-di-guerra-in-kosovo.-tentato-assalto-alla_f0670d62-ebc3-475d-9ed2-27feccf23c80.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/16/wizz-air-annuncia-un-nuovo-collegamento-aereo-tra-trieste-e-pristina_b2071c24-7ed7-4e0a-97c0-62d8eecced0d.html",
         "https://www.ansa.it/sito/notizie/mondo/2026/09/16/a-pristina-manifestanti-tentano-assalto-a-sede-ue-dopo-la-condanna-a-thaci-respinti_fe775aeb-91e4-470b-993a-132e06cd7cc6.html",
-        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/21/dal-mas-ince-europa-non-puo-essere-forte-senza-i-balcani_bf3c2ddf-1cef-4875-8e86-3ea99cc32226.html"
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/21/dal-mas-ince-europa-non-puo-essere-forte-senza-i-balcani_bf3c2ddf-1cef-4875-8e86-3ea99cc32226.html",
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/22/il-corridoio-8-dei-balcani-al-centro-del-forum-delle-comunita-energetiche_f66bfcc2-929e-49d5-a494-84629b17961c.html"
       ]
     },
     "Virgilio": {
@@ -1097,20 +1099,21 @@
     },
     "Hürriyet": {
       "country": "Turqi",
-      "total": 6,
+      "total": 7,
       "positive": 0,
-      "neutral": 6,
+      "neutral": 7,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-19",
+      "lastSeen": "2026-09-22",
       "urls": [
         "https://www.hurriyet.com.tr/avrupa/24-uluslararasi-sanatla-uyanmak-festivali-prizrende-basladi-43279597",
         "https://www.hurriyet.com.tr/avrupa/zafer-algoze-kosovada-yilin-sanatcisi-odulu-43282311",
         "https://www.hurriyet.com.tr/yerel-haberler/edirne/trakya-universitesi-heyeti-kosovadaki-sanat-fe-43288748",
         "https://www.hurriyet.com.tr/avrupa/prizrende-ilkokul-ogrencilerine-egitim-setleri-dagitildi-43298523",
         "https://news.google.com/rss/articles/CBMiggFBVV95cUxPTkdvNXZsUkFRR2NraHktUXNxNlNQeTNoUWVEV09YMU05NVBkSV9HdVN6RkdWUnhuYWVWUnhreUpLUGlSc0YtcHRNXzBzclBUSVVYWHN6b1lPdHE2QndDcWVJWFNGNVFlb01EbndjUHo5cWJzaU9wT0luX0w0MlFzR2lB?oc=5",
-        "http://mobil.hurriyet.com.tr/dunya/laheyde-tarihi-karar-kosova-eski-cumhurbaskani-hasim-thacinin-cezasi-aciklandi-43308596"
+        "http://mobil.hurriyet.com.tr/dunya/laheyde-tarihi-karar-kosova-eski-cumhurbaskani-hasim-thacinin-cezasi-aciklandi-43308596",
+        "https://www.hurriyet.com.tr/yerel-haberler/edirne/tu-ile-kosova-saglik-bakanligi-arasinda-isbirli-43315816"
       ]
     },
     "anayasa.gov.tr": {
@@ -1153,13 +1156,13 @@
     },
     "Son Dakika": {
       "country": "Turqi",
-      "total": 16,
+      "total": 17,
       "positive": 1,
-      "neutral": 12,
+      "neutral": 13,
       "negative": 0,
       "unknown": 3,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-21",
+      "lastSeen": "2026-09-22",
       "urls": [
         "https://www.sondakika.com/haber/haber-kosova-da-halter-sampiyonasi-basladi-20162761/",
         "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
@@ -1176,7 +1179,8 @@
         "https://www.sondakika.com/guncel/haber-kosova-da-kurti-hukumeti-62-oyla-guvenoyu-aldi-8-r-20233794/",
         "https://www.sondakika.com/spor/haber-amed-sportif-te-6-futbolcu-kosova-dan-gine-ye-mill-20246768/",
         "https://www.sondakika.com/guncel/haber-manisali-milli-sporcu-cemile-aykoc-kosova-da-ilk-k-20248850/",
-        "https://www.sondakika.com/spor/haber-18-yasindaki-muaythaici-kosova-da-altin-madalya-ka-20256970/"
+        "https://www.sondakika.com/spor/haber-18-yasindaki-muaythaici-kosova-da-altin-madalya-ka-20256970/",
+        "https://www.sondakika.com/guncel/haber-trakya-universitesi-kosovali-saglik-calisanlarina--20260517/"
       ]
     },
     "Harici": {
@@ -3993,18 +3997,19 @@
     },
     "SRF": {
       "country": "Zvicër",
-      "total": 4,
+      "total": 5,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-13",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-22",
       "urls": [
         "https://www.srf.ch/news/international/neue-regierung-im-kosovo-kurti-bleibt-premier-opposition-boykottiert-abstimmung",
         "https://www.srf.ch/news/international/kosovo-tribunal-ehemaliger-kosovo-praesident-thaci-zu-25-jahren-haft-verurteilt",
         "https://www.srf.ch/news/international/kosovo-tribunal-hashim-thaci-verurteilt-wie-das-urteil-das-kosovo-veraendert",
-        "https://www.srf.ch/play/tv/10-vor-10/video/kosovo-thaci-schuldspruch-sorgt-fuer-heftige-reaktionen?urn=urn:srf:video:fcebcd4b-b9fb-401a-b08c-f9dd7db603b4"
+        "https://www.srf.ch/play/tv/10-vor-10/video/kosovo-thaci-schuldspruch-sorgt-fuer-heftige-reaktionen?urn=urn:srf:video:fcebcd4b-b9fb-401a-b08c-f9dd7db603b4",
+        "https://www.srf.ch/play/tv/redirect/detail/urn:srf:video:222f1c6a-49b9-41c9-ab79-f4316f446bf6"
       ]
     },
     "Watson": {
@@ -4914,15 +4919,16 @@
     },
     "sportbild.bild.de": {
       "country": "Gjermani",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-15",
-      "lastSeen": "2026-09-15",
+      "lastSeen": "2026-09-19",
       "urls": [
-        "https://sportbild.bild.de/fussball/internationaler-fussball/boykott-geruechte-um-nationalspieler-des-kosovo-6aa934738191ba86095120cc"
+        "https://sportbild.bild.de/fussball/internationaler-fussball/boykott-geruechte-um-nationalspieler-des-kosovo-6aa934738191ba86095120cc",
+        "https://sportbild.bild.de/fussball/nationalmannschaft/fc-bayern-naechstes-top-talent-entscheidet-sich-gegen-den-dfb-6aae656db1857e86757a71a3"
       ]
     },
     "NeaKriti": {
@@ -7919,15 +7925,16 @@
     },
     "Bettingstugan.se": {
       "country": "Suedi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-21",
-      "lastSeen": "2026-09-21",
+      "lastSeen": "2026-09-22",
       "urls": [
-        "https://bettingstugan.se/speltips/europatipset-torsdag-24-9-2"
+        "https://bettingstugan.se/speltips/europatipset-torsdag-24-9-2",
+        "https://bettingstugan.se/speltips/fotboll-12-torsdag-24-9"
       ]
     },
     "Teleman": {
@@ -8036,15 +8043,16 @@
     },
     "İletişim Başkanlığı": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-22",
-      "lastSeen": "2026-09-21",
+      "lastSeen": "2026-09-22",
       "urls": [
-        "https://www.iletisim.gov.tr/turkce/haberler/detay/cumhurbaskani-erdogan-kosova-basbakani-kurtiyi-kabul-etti-21-09-26"
+        "https://www.iletisim.gov.tr/turkce/haberler/detay/cumhurbaskani-erdogan-kosova-basbakani-kurtiyi-kabul-etti-21-09-26",
+        "https://www.iletisim.gov.tr/turkce/dis_basinda_turkiye/detay/erdogan-kurti-ile-bir-araya-geldi-turkiye-kosovanin-uluslararasi-toplumda-hak-ettigi-yeri-almasi-icin-destek-verecektir-dnevni-avaz"
       ]
     },
     "gazetekalem.com.tr": {
@@ -8071,6 +8079,123 @@
       "lastSeen": "2026-09-22",
       "urls": [
         "https://www.babaocagi.com.tr/schengene-takilmadan-avrupa-rotasi-turk-vatandaslari-bu-3-ulkeye-vizesiz-gidebiliyor"
+      ]
+    },
+    "Merkur": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.merkur.de/lokales/ebersberg/markt-schwaben-ort29035/im-kosovo-gestrandet-vorbestrafter-kaempft-vor-gericht-um-rueckkehr-nach-deutschland-94504792.html"
+      ]
+    },
+    "ecodellojonio.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://ecodellojonio.it/articoli/territorio/2026/09/dall-albania-al-kosovo-frascineto-arriva-la-stampa-straniera-un-ponte-tra-comunita-e-radici"
+      ]
+    },
+    "marx21.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.marx21.it/internazionale/kosovo-il-quarto-governo-kurti-non-chiude-una-crisi-politica-ormai-permanente/"
+      ]
+    },
+    "Gazzetta diplomatica": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://gazzettadiplomatica.it/la-governance-globalista-e-il-punto-di-massima-crescenza-leditoriale-dellambasciatore-bruno-scapini/"
+      ]
+    },
+    "Luzerner Zeitung": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.luzernerzeitung.ch/sport/granit-xhaka-der-captain-der-schweizer-fussball-nati-zieht-die-polemik-an-ld.4238227"
+      ]
+    },
+    "Sport Betfan": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://sport.betfan.pl/kosowo-irlandia-typy-kursy-gdzie-ogladac-24-09-ln/"
+      ]
+    },
+    "yeniasir.com.tr": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.yeniasir.com.tr/gundem/2026/09/22/kosovanin-turk-sehidi"
+      ]
+    },
+    "Ereğli Önder Gazetesi": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.ereglionder.com.tr/cumhurbaskani-erdogan-kosova-basbakanini-turkevinde-kabul-etti"
+      ]
+    },
+    "Milliyet": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.milliyet.com.tr/yerel-haberler/edirne/tu-ile-kosova-saglik-bakanligi-arasinda-isbirli-7665502"
       ]
     }
   }

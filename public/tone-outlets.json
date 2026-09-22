@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-22",
   "overallIndex": 50,
-  "totalArticles": 74,
-  "sourceCount": 61,
+  "totalArticles": 89,
+  "sourceCount": 73,
   "stanceVersion": 3,
-  "unattributed": 119,
+  "unattributed": 148,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -59,6 +59,30 @@
           "lastSeen": "2026-09-19"
         },
         {
+          "name": "Merkur",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Abschiebung beschert Einsicht: Vorbestrafter (22) kämpft um Rückkehr nach Deutschland – „Ist die Höchststrafe“ - Merkur",
+              "albanianTitle": null,
+              "blurb": "Një 22-vjeçar me precedentë penalë po përpiqet të kthehet në Gjermani pas dëbimit të tij nga shteti gjerman.",
+              "imageUrl": "https://www.merkur.de/assets/images/43/731/43731631-justitia-symbolbild-gericht-24pdt8SJtqef.jpg",
+              "url": "https://www.merkur.de/lokales/ebersberg/markt-schwaben-ort29035/im-kosovo-gestrandet-vorbestrafter-kaempft-vor-gericht-um-rueckkehr-nach-deutschland-94504792.html",
+              "date": "2026-09-22",
+              "sentiment": "unknown",
+              "reason": "Nuk përmendet Kosova në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
+        },
+        {
           "name": "Sport Bild",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -107,6 +131,30 @@
           "lastSeen": "2026-09-20"
         },
         {
+          "name": "sportbild.bild.de",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "FC Bayern: Nächstes Top-Talent entscheidet sich gegen den DFB - sportbild.bild.de",
+              "albanianTitle": null,
+              "blurb": "Një talent i ri i Bayern Munichut ka vendosur të mos përfaqësojë kombëtaren e Gjermanisë në futboll.",
+              "imageUrl": "https://images.bild.de/6aae656db1857e86757a71a3/44b79fe260f8d1009bc83fca52cde0e0,70606945?w=1280",
+              "url": "https://sportbild.bild.de/fussball/nationalmannschaft/fc-bayern-naechstes-top-talent-entscheidet-sich-gegen-den-dfb-6aae656db1857e86757a71a3",
+              "date": "2026-09-19",
+              "sentiment": "unknown",
+              "reason": "Nuk përmendet Kosova në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-19"
+        },
+        {
           "name": "sportschau.de",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -137,7 +185,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 1,
+        "excluded": 3,
         "confident": false,
         "stanceVersion": 3
       }
@@ -416,7 +464,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Dal Mas (Ince), Europa non può essere forte senza i Balcani occidentali - ANSA",
@@ -430,12 +478,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Il Corridoio 8 dei Balcani al centro del Forum delle comunità energetiche - ANSA",
+              "albanianTitle": null,
+              "blurb": "Korridori 8 i Ballkanit është diskutuar si temë qendrore në Forumin e komuniteteve energjetike të mbajtur së fundmi.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/22/bb1e8a390c8398df23b5202e583071c6.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/22/il-corridoio-8-dei-balcani-al-centro-del-forum-delle-comunita-energetiche_f66bfcc2-929e-49d5-a494-84629b17961c.html",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Faktik, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 33,
+          "totalArticles": 34,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-21"
+          "lastSeen": "2026-09-22"
         },
         {
           "name": "EcoDelloJonio.it",
@@ -462,6 +523,30 @@
           "lastSeen": "2026-09-22"
         },
         {
+          "name": "Gazzetta diplomatica",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "“La governance globalista e il punto di massima crescenza”, l’Editoriale dell’Ambasciatore Bruno Scapini - Gazzetta diplomatica",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://gazzettadiplomatica.it/wp-content/uploads/2026/09/image-306.png",
+              "url": "https://gazzettadiplomatica.it/la-governance-globalista-e-il-punto-di-massima-crescenza-leditoriale-dellambasciatore-bruno-scapini/",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Teksti në thonjëza konsiderohet citim, jo zëri i medias",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
+        },
+        {
           "name": "La Difesa del Popolo",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -484,6 +569,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-20",
           "lastSeen": "2026-09-20"
+        },
+        {
+          "name": "Osservatorio Balcani Caucaso Transeuropa",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Il contributo della cooperazione economica alla normalizzazione delle relazioni tra Kosovo e Serbia - Osservatorio Balcani Caucaso Transeuropa",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/cooperazione-kosovo-Serbia.webp",
+              "url": "https://www.balcanicaucaso.org/progetti/il-contributo-della-cooperazione-economica-alla-normalizzazione-delle-relazioni-tra-kosovo-e-serbia/",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 12,
+          "trend": "kritik",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-09-22"
         },
         {
           "name": "Quotidiano Di Puglia",
@@ -555,7 +664,7 @@
               "title": "Kosovo: il ponte sul fiume Ibar e la memoria del Paese - Report Difesa",
               "albanianTitle": "Kosova: Ura mbi lumin Ibër dhe kujtesa e vendit - Report Difesa",
               "blurb": "Ura mbi lumin Ibër në Mitrovicë trajtohet si element i rëndësishëm për kujtesën historike të Kosovës.",
-              "imageUrl": null,
+              "imageUrl": "https://www.reportdifesa.it/wp-content/uploads/2022/08/thumbnail_IMG-20220801-WA0003.jpg",
               "url": "https://www.reportdifesa.it/kosovo-il-ponte-sul-fiume-ibar-e-la-memoria-del-paese/",
               "date": "2026-09-22",
               "sentiment": "neutral",
@@ -704,6 +813,30 @@
           "lastSeen": "2026-09-19"
         },
         {
+          "name": "ecodellojonio.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Dall’Albania al Kosovo, a Frascineto arriva la stampa straniera: «Un ponte tra comunità e radici - ecodellojonio.it",
+              "albanianTitle": null,
+              "blurb": "Gazetarë të huaj vizituan Frascineton për të raportuar mbi lidhjet kulturore dhe historike ndërmjet Shqipërisë, Kosovës dhe komuniteteve arbëreshe.",
+              "imageUrl": "https://ecodellojonio.b-cdn.net/media/posts/26/09/1790063677.jpg?aspect_ratio=16:9&width=1152",
+              "url": "https://ecodellojonio.it/articoli/territorio/2026/09/dall-albania-al-kosovo-frascineto-arriva-la-stampa-straniera-un-ponte-tra-comunita-e-radici",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Fjalë të cituara, jo zëri i mediumit",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "stampa straniera"
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
+        },
+        {
           "name": "il-meridiano.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -726,6 +859,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-20",
           "lastSeen": "2026-09-20"
+        },
+        {
+          "name": "marx21.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, il quarto governo Kurti non chiude una crisi politica ormai permanente - marx21.it",
+              "albanianTitle": null,
+              "blurb": "Qeveria e katërt e udhëhequr nga Albin Kurti nuk ka arritur t'i japë fund krizës politike në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.marx21.it/internazionale/kosovo-il-quarto-governo-kurti-non-chiude-una-crisi-politica-ormai-permanente/",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
         }
       ],
       "summary": {
@@ -733,7 +890,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 13,
+        "n": 18,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -986,6 +1143,30 @@
           "lastSeen": "2026-09-21"
         },
         {
+          "name": "Luzerner Zeitung",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Granit Xhaka: Der Captain der Schweizer Fussball-Nati zieht die Polemik an - Luzerner Zeitung",
+              "albanianTitle": null,
+              "blurb": "Kapiteni i kombëtares së Zvicrës, Granit Xhaka, është shpesh në qendër të vëmendjes për shkak të polemikave.",
+              "imageUrl": null,
+              "url": "https://www.luzernerzeitung.ch/sport/granit-xhaka-der-captain-der-schweizer-fussball-nati-zieht-die-polemik-an-ld.4238227",
+              "date": "2026-09-22",
+              "sentiment": "unknown",
+              "reason": "Nuk përmendet Kosova në titull",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
+        },
+        {
           "name": "NZZ",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1007,6 +1188,43 @@
           "totalArticles": 5,
           "trend": "neutral",
           "firstSeen": "2026-09-07",
+          "lastSeen": "2026-09-22"
+        },
+        {
+          "name": "SRF",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Proteste im Kosovo gegen Haftstrafe für Ex-Präsident Thaci - srf.ch",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://il.srgssr.ch/images/?imageUrl=https%3A%2F%2Fdownload-media.srf.ch%2Fworld%2Fimage%2Fdefault%2F2026%2F09%2FSOCIAL916-APP-SZ-Proteste-Pristina-UCK.jpg&format=jpg&width=960",
+              "url": "https://www.srf.ch/play/tv/redirect/detail/urn:srf:video:222f1c6a-49b9-41c9-ab79-f4316f446bf6",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Proteste im Kosovo gegen Haftstrafe für Ex-Präsident Thaci - SRF",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://il.srgssr.ch/images/?imageUrl=https%3A%2F%2Fdownload-media.srf.ch%2Fworld%2Fimage%2Fdefault%2F2026%2F09%2FSOCIAL916-APP-SZ-Proteste-Pristina-UCK.jpg&format=jpg&width=960",
+              "url": "https://www.srf.ch/play/tv/redirect/detail/urn:srf:video:222f1c6a-49b9-41c9-ab79-f4316f446bf6",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-09-13",
           "lastSeen": "2026-09-22"
         },
         {
@@ -1060,11 +1278,11 @@
       ],
       "summary": {
         "index": 54,
-        "positive": 8,
-        "neutral": 92,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 12,
-        "excluded": 0,
+        "n": 14,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1245,7 +1463,7 @@
         {
           "name": "Bettingstugan.se",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Europatipset Onsdag » I dag 24 September » Analys, Tips & Förslag - Bettingstugan.se",
@@ -1259,12 +1477,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Fotboll 12 i dag 24/9 » Tips, Analys & Förslag - Bettingstugan.se",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://bettingstugan.imgix.net/assets/uploads/user/tips/_1200x630_crop_center-center_82_none/Campione_Analys_Spelforslag_Expekt.png?mtime=1786711886",
+              "url": "https://bettingstugan.se/speltips/fotboll-12-torsdag-24-9",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Titull i thjeshtë sportiv, pa ndonjë gjuhë vlerësuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-21",
-          "lastSeen": "2026-09-21"
+          "lastSeen": "2026-09-22"
         }
       ],
       "summary": {
@@ -1272,7 +1503,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 3
@@ -1327,6 +1558,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-21",
           "lastSeen": "2026-09-21"
+        },
+        {
+          "name": "Sport Betfan",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosowo – Irlandia: Typy, kursy, gdzie oglądać? 24.09 Liga Narodów - Sport Betfan",
+              "albanianTitle": "Kosovë – Irlandë: Parashikimet, koeficientët dhe ku mund ta ndiqni ndeshjen e Ligës së Kombeve më 24 shtator",
+              "blurb": "Kombëtarja e Kosovës përballet me Irlandën në Ligën e Kombeve më 24 shtator, duke ofruar detaje për transmetim.",
+              "imageUrl": "https://sport.betfan.pl/wp-content/uploads/2026/09/20260331_PF_OD_ZA_130426-1.jpg",
+              "url": "https://sport.betfan.pl/kosowo-irlandia-typy-kursy-gdzie-ogladac-24-09-ln/",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
         },
         {
           "name": "Teleman",
@@ -1443,7 +1698,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -1526,6 +1781,30 @@
           "lastSeen": "2026-09-21"
         },
         {
+          "name": "Ereğli Önder Gazetesi",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Cumhurbaşkanı Erdoğan, Kosova Başbakanı'nı Türkevi'nde kabul etti - Ereğli Önder Gazetesi",
+              "albanianTitle": "Presidenti Erdogan pret në takim kryeministrin e Kosovës në Shtëpinë Turke",
+              "blurb": "Presidenti i Turqisë, Recep Tayyip Erdoğan, ka pritur në një takim zyrtar kryeministrin e Kosovës në Shtëpinë Turke.",
+              "imageUrl": "https://eregliondercomtr.teimg.com/crop/1280x720/ereglionder-com-tr/uploads/2026/09/cumhurbaskani-erdogan-kosova-basbakanini-turkevinde-kabul-etti.webp",
+              "url": "https://www.ereglionder.com.tr/cumhurbaskani-erdogan-kosova-basbakanini-turkevinde-kabul-etti",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
+        },
+        {
           "name": "GZT",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1582,7 +1861,7 @@
               "title": "Cumhurbaşkanı Erdoğan, Kosova Başbakanı Kurti'yi kabul etti - Haberler",
               "albanianTitle": "Presidenti Erdoğan pret në takim kryeministrin e Kosovës, Kurti - Haberler",
               "blurb": "Presidenti turk Rexhep Tajip Erdogan ka pritur në takim kryeministrin e Kosovës, Albin Kurti, në Turqi.",
-              "imageUrl": null,
+              "imageUrl": "https://foto.haberler.com/haber/2026/09/22/cumhurbaskani-erdogan-kosova-basbakani-kurti-20258969_amp.jpg",
               "url": "https://www.haberler.com/guncel/cumhurbaskani-erdogan-kosova-basbakani-kurti-yi-20258969-haberi/",
               "date": "2026-09-21",
               "sentiment": "neutral",
@@ -1613,7 +1892,7 @@
         {
           "name": "Hürriyet",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosova’da özel madalya aldı - Hürriyet",
@@ -1627,17 +1906,54 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Edirne Haberleri - TÜ ile Kosova Sağlık Bakanlığı arasında işbirliği protokolü imzalandı - Yerel Haberler - Hürriyet",
+              "albanianTitle": "Edrene: Ministria e Shëndetësisë e Kosovës nënshkruan marrëveshje bashkëpunimi me Universitetin e Trakisë",
+              "blurb": "Universiteti i Edirnesë dhe Ministria e Shëndetësisë e Kosovës kanë nënshkruar një protokoll zyrtar për bashkëpunim në fushën shëndetësore.",
+              "imageUrl": "https://image.hurimg.com/i/hurriyet/90/0x0/6ab28c6349569431d0dd56d4.jpg",
+              "url": "https://www.hurriyet.com.tr/yerel-haberler/edirne/tu-ile-kosova-saglik-bakanligi-arasinda-isbirli-43315816",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 6,
+          "totalArticles": 7,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-19"
+          "lastSeen": "2026-09-22"
+        },
+        {
+          "name": "Milliyet",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "TÜ ile Kosova Sağlık Bakanlığı arasında işbirliği protokolü imzalandı - Milliyet",
+              "albanianTitle": "Nënshkruhet protokolli i bashkëpunimit mes Universitetit të Trakisë dhe Ministrisë së Shëndetësisë së Kosovës",
+              "blurb": "Ministria e Shëndetësisë e Kosovës dhe Universiteti i Trakyas kanë nënshkruar një protokoll për bashkëpunim të ndërsjellë në shëndetësi.",
+              "imageUrl": "https://image.milimaj.com/i/milliyet/75/0x0/6ab29125a52fd4bb0eefc8cf.jpg",
+              "url": "https://www.milliyet.com.tr/yerel-haberler/edirne/tu-ile-kosova-saglik-bakanligi-arasinda-isbirli-7665502",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
         },
         {
           "name": "Son Dakika",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "18 yaşındaki muaythaici, Kosova'da altın madalya kazanıp İstiklal Marşı'nı okuttu - Son Dakika",
@@ -1651,12 +1967,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Trakya Üniversitesi Kosovalı sağlık çalışanlarına 5 yıllık eğitim protokolü imzaladı - Son Dakika",
+              "albanianTitle": "Universiteti i Trakisë nënshkruan protokoll pesëvjeçar për trajnimin e punonjësve shëndetësorë nga Kosova",
+              "blurb": "Universiteti i Trakyas ka nënshkruar një marrëveshje pesëvjeçare për trajnimin profesional të punonjësve shëndetësorë nga Kosova.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/09/22/trakya-universitesi-ve-kosova-saglik-bakanlig-2-20260437_amp.jpg",
+              "url": "https://www.sondakika.com/guncel/haber-trakya-universitesi-kosovali-saglik-calisanlarina--20260517/",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 16,
+          "totalArticles": 17,
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-21"
+          "lastSeen": "2026-09-22"
         },
         {
           "name": "TRT World",
@@ -1679,12 +2008,12 @@
             {
               "title": "President Erdogan says Türkiye, US must 'gain new momentum' in ties, leave behind barriers - TRT World",
               "albanianTitle": "Presidenti Erdoğan: Turqia dhe SHBA-ja duhet t'i japin hov të ri marrëdhënieve dhe t'i lënë pas barrierat",
-              "blurb": "Presidenti Erdogan kërkon krijimin e një momentumit të ri në marrëdhëniet ndërmjet Turqisë dhe Shteteve të Bashkuara të Amerikës.",
+              "blurb": "Presidenti Erdogan kërkon forcimin e marrëdhënieve mes Turqisë dhe Shteteve të Bashkuara për tejkalimin e barrierave ekzistuese.",
               "imageUrl": "https://d341l694dl30ad.cloudfront.net/images/cms/2026/09/22/6ab1f2c052d8e9b6753ed234/original/e950bce1-6f59-421a-b22f-ea204c7fc88b-1790046912101.jpg?width=1080&format=jpg&quality=80",
               "url": "https://www.trtworld.com/article/e608d630423e",
               "date": "2026-09-22",
               "sentiment": "unknown",
-              "reason": "No mention of Kosovo, cannot infer outlet stance",
+              "reason": "No reference to Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1775,12 +2104,12 @@
             {
               "title": "Schengen’e takılmadan Avrupa rotası: Türk vatandaşları bu 3 ülkeye vizesiz gidebiliyor - babaocagi.com.tr",
               "albanianTitle": "Rruga drejt Evropës pa viza Shengen: Shtetasit turq mund t'i vizitojnë këto 3 shtete pa viza - babaocagi.com.tr",
-              "blurb": "Shtetasit turq mund të udhëtojnë pa viza në tri shtete evropiane pa pasur nevojë për zonën Schengen.",
+              "blurb": "Qytetarët turq mund të udhëtojnë pa viza në tri shtete evropiane që nuk kërkojnë zonën Shengen për hyrje.",
               "imageUrl": "https://babaocagicomtr.teimg.com/crop/1280x720/babaocagi-com-tr/uploads/2026/09/a-v-r-u-p-a.png",
               "url": "https://www.babaocagi.com.tr/schengene-takilmadan-avrupa-rotasi-turk-vatandaslari-bu-3-ulkeye-vizesiz-gidebiliyor",
               "date": "2026-09-22",
               "sentiment": "unknown",
-              "reason": "Article does not mention Kosovo, stance cannot be determined",
+              "reason": "No reference to Kosovo in the item",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1864,6 +2193,30 @@
           "lastSeen": "2026-09-19"
         },
         {
+          "name": "yeniasir.com.tr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova’nın Türk şehidi - yeniasir.com.tr",
+              "albanianTitle": "Dëshmori turk i Kosovës",
+              "blurb": "Shkrimi trajton figurën e një dëshmori me prejardhje turke i cili ka dhënë kontributin e tij në Kosovë.",
+              "imageUrl": "https://iaysr.tmgrup.com.tr/3eb3ed/1200/675/0/38/736/452?u=https://iysr.tmgrup.com.tr/2026/09/21/1790019801850.jpeg",
+              "url": "https://www.yeniasir.com.tr/gundem/2026/09/22/kosovanin-turk-sehidi",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
+        },
+        {
           "name": "İhlas Haber Ajansı",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -1903,7 +2256,7 @@
         {
           "name": "İletişim Başkanlığı",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Cumhurbaşkanı Erdoğan’ın, Kosova Başbakanı Kurti’yi kabulüne ilişkin açıklama - İletişim Başkanlığı",
@@ -1917,20 +2270,33 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Erdoğan, Kurti ile bir araya geldi: “Türkiye, Kosova’nın uluslararası toplumda hak ettiği yeri alması için destek verecektir” (Dnevni Avaz) - İletişim Başkanlığı",
+              "albanianTitle": "Erdogan takon Kurtin: Turqia do ta mbështesë Kosovën që të zërë vendin e merituar në komunitetin ndërkombëtar",
+              "blurb": "Presidenti Erdoğan u takua me kryeministrin Kurti, duke konfirmuar mbështetjen e Turqisë për integrimin ndërkombëtar të Kosovës.",
+              "imageUrl": "https://www.iletisim.gov.tr/images/uploads/icerik/_tam/KURT%C4%B0.jpg",
+              "url": "https://www.iletisim.gov.tr/turkce/dis_basinda_turkiye/detay/erdogan-kurti-ile-bir-araya-geldi-turkiye-kosovanin-uluslararasi-toplumda-hak-ettigi-yeri-almasi-icin-destek-verecektir-dnevni-avaz",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e Erdoğan, nuk e përvetëson media",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Erdoğan"
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-22",
-          "lastSeen": "2026-09-21"
+          "lastSeen": "2026-09-22"
         }
       ],
       "summary": {
         "index": 50,
-        "positive": 5,
-        "neutral": 89,
-        "negative": 5,
-        "n": 19,
+        "positive": 4,
+        "neutral": 92,
+        "negative": 4,
+        "n": 25,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3,
