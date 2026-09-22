@@ -8853,8 +8853,8 @@
   {
     "date": "2026-09-22",
     "overallIndex": 50,
-    "totalArticles": 59,
-    "sourceCount": 49,
+    "totalArticles": 74,
+    "sourceCount": 61,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -8878,21 +8878,21 @@
         "stanceVersion": 3
       },
       "Britani": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
       "Francë": {
         "index": 56,
-        "positive": 12,
-        "neutral": 88,
+        "positive": 11,
+        "neutral": 89,
         "negative": 0,
-        "n": 8,
+        "n": 9,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3,
@@ -8910,7 +8910,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 9,
+        "n": 13,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -8934,11 +8934,11 @@
         }
       },
       "Zvicër": {
-        "index": 55,
-        "positive": 10,
-        "neutral": 90,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 10,
+        "n": 12,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -9006,18 +9006,18 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 2,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "Turqi": {
         "index": 50,
-        "positive": 8,
-        "neutral": 85,
-        "negative": 8,
-        "n": 13,
-        "excluded": 1,
+        "positive": 5,
+        "neutral": 89,
+        "negative": 5,
+        "n": 19,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
@@ -9066,19 +9066,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "On behalf of the people of Kosovo or Serbia? - Gazeta Sot",
-        "source": "Gazeta Sot",
-        "country": "SHBA",
-        "flag": "🇺🇸",
-        "url": "https://sot.com.al/english/ne-emer-te-popullit-te-kosoves-apo-te-serbise-i5184146",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Foda-Rückkehr nach Wien! Ex-Teamchef will Österreich mit Kosovo ärgern - oe24",
-        "source": "oe24",
+        "title": "Foda-Rückkehr nach Wien! Ex-Teamchef will Österreich mit Kosovo ärgern - oe24.at",
+        "source": "oe24.at",
         "country": "Austri",
         "flag": "🇦🇹",
-        "url": "https://www.oe24.at/a/foda-rueckkehr-nach-wien-ex-teamchef-will-oesterreich-mit-kosovo-aergern-900116443",
+        "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQRl8tWFRGRC10Y3MtN1dDOUdtcGpONnRocUtrdGlYQWs4X3ZreXJRQmtkRzFxT0gxcGg1M01lOG43YTAyWkhIdXJYZ0xlOFdGdnVxQmk5TFpsVWlPYVkzUHBSUXBGUFZsYnZDdnZmZkIyMnI2QV9YUkZRVTFhdEwxbmZqTUNkeHhtdjR0VjdKOFMwc0Jsb240bjk3YWk2WDVBSFB2SFl2R0YzRmNT0gGsAUFVX3lxTFBGXy1YVEZELXRjcy03V0M5R21wak42dGhxS2t0aVhBazhfdmt5clFCa2RHMXFPSDFwaDUzTWU4bjdhMDJaSEh1clhnTGU4V0Z2dXFCaTlMWmxVaU9hWTNQcFJRcEZQVmxidkN2dmZmQjIycjZBX1hSRlFVMWF0TDFuZmpNQ2R4eG12NHRWN0o4UzBzQmxvbjRuOTdhaTZYNUFIUHZIWXZHRjNGY1M?oc=5",
         "sentiment": "negative"
       },
       {
@@ -9087,6 +9079,14 @@
         "country": "Spanjë",
         "flag": "🇪🇸",
         "url": "https://ctxt.es/es/20260901/Firmas/55215/hashim-thaci-kosovo-condena-tribunal-especial-de-kosovo-uck.htm",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Lahey Sürecinde Adalet İhanete Uğradı - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/lahey-surecinde-adalet-ihanete-ugradi-106596",
         "sentiment": "negative"
       }
     ]

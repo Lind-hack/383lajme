@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-22",
   "overallIndex": 50,
-  "totalArticles": 59,
-  "sourceCount": 49,
+  "totalArticles": 74,
+  "sourceCount": 61,
   "stanceVersion": 3,
-  "unattributed": 109,
+  "unattributed": 119,
   "nonEditorial": 1,
   "wrongKosovo": 0,
   "countries": {
@@ -164,13 +164,13 @@
           "articles": [
             {
               "title": "Republic of Ireland: Heimir Hallgrimsson's side Republic of Ireland braced for testing Nations League - BBC",
-              "albanianTitle": "Republika e Irlandës: Skuadra e Heimir Hallgrimssonit përballet me sfida në Ligën e Kombeve",
-              "blurb": "Përfaqësuesja e Irlandës në futboll, nën drejtimin e Heimir Hallgrimsson, po përgatitet për ndeshjet e Ligës së Kombeve.",
+              "albanianTitle": "Republika e Irlandës: Ekipi i Heimir Hallgrimsson përballet me sfida në Ligën e Kombeve - BBC",
+              "blurb": "Ekipi i Irlandës nën drejtimin e Heimir Hallgrimsson po përgatitet për ndeshjet e ardhshme në Ligën e Kombeve.",
               "imageUrl": "https://ichef.bbci.co.uk/ace/branded_sport/1200/cpsprodpb/bdda/live/a64e7a00-b2bd-11f1-9830-658a48c7da16.jpg",
               "url": "https://www.bbc.com/sport/articles/c2071gdnv50o",
               "date": "2026-09-21",
               "sentiment": "unknown",
-              "reason": "Article does not mention Kosovo",
+              "reason": "Article unrelated to Kosovo, cannot infer outlet stance",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -180,14 +180,38 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-16",
           "lastSeen": "2026-09-21"
+        },
+        {
+          "name": "Balkan Insight",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "‘Our War is Being Judged’: In Kosovo, Outrage at Hague Verdict Simmers - Balkan Insight",
+              "albanianTitle": "‘Po gjykohet lufta jonë’: Në Kosovë shtohet revolta ndaj vendimit të Hagës - Balkan Insight",
+              "blurb": "Vendimi i Gjykatës së Hagës ka shkaktuar pakënaqësi dhe reagime të shumta në mesin e qytetarëve të Kosovës.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/viber_image_2026-09-18_12-52-39-522-ardita-1-e1790007296112.jpg",
+              "url": "https://balkaninsight.com/2026/09/22/our-war-is-being-judged-in-kosovo-outrage-at-hague-verdict-simmers/btj/",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Fact-based report without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 31,
+          "trend": "i përzier",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-09-22"
         }
       ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -272,7 +296,7 @@
         {
           "name": "Le Courrier des Balkans",
           "sentiment": "positive",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo : Flora Brovina, une vie de résistance - Le Courrier des Balkans",
@@ -286,12 +310,25 @@
               "isQuote": false,
               "evidence": "une vie de résistance",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo : la fin de la confiance aveugle en l’Occident - Le Courrier des Balkans",
+              "albanianTitle": "Kosova: Fundi i besimit të verbër ndaj Perëndimit - Le Courrier des Balkans",
+              "blurb": "Analiza mbi raportet e Kosovës me vendet perëndimore dhe ndryshimin e besimit të institucioneve ndaj tyre.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/Screenshot-2026-09-21-at-11.05.50-1024x536.png",
+              "url": "https://www.courrierdesbalkans.fr/kosovo-la-fin-de-la-confiance-aveugle-en-loccident-99946/",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Fact-based report without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 15,
+          "totalArticles": 16,
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-20"
+          "lastSeen": "2026-09-22"
         },
         {
           "name": "MadeInFOOT",
@@ -357,10 +394,10 @@
       ],
       "summary": {
         "index": 56,
-        "positive": 12,
-        "neutral": 88,
+        "positive": 11,
+        "neutral": 89,
         "negative": 0,
-        "n": 8,
+        "n": 9,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3,
@@ -401,6 +438,30 @@
           "lastSeen": "2026-09-21"
         },
         {
+          "name": "EcoDelloJonio.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Dall’Albania al Kosovo, Frascineto arriva la stampa straniera: «Un ponte tra comunità e radici - EcoDelloJonio.it",
+              "albanianTitle": "Nga Shqipëria në Kosovë, shtypi i huaj mbërrin në Frascineto: «Një urë mes komuniteteve dhe rrënjëve» - EcoDelloJonio.it",
+              "blurb": "Gazetarë të huaj kanë vizituar Frascineton për të raportuar mbi lidhjet mes komuniteteve në Shqipëri dhe Kosovë.",
+              "imageUrl": "https://ecodellojonio.b-cdn.net/media/posts/26/09/1790063677.jpg?aspect_ratio=16:9&width=1152",
+              "url": "https://ecodellojonio.it/articoli/territorio/2026/09/dall-albania-al-kosovo-frascineto-arriva-la-stampa-straniera-un-ponte-tra-comunita-e-radici",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik me citim, pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-04",
+          "lastSeen": "2026-09-22"
+        },
+        {
           "name": "La Difesa del Popolo",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -423,6 +484,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-20",
           "lastSeen": "2026-09-20"
+        },
+        {
+          "name": "Quotidiano Di Puglia",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Cresce l’export pugliese verso Balcani e Asia: oltre 111 milioni nel 2025 - Quotidiano Di Puglia",
+              "albanianTitle": "Rritet eksporti i Pulias drejt Ballkanit dhe Azisë: Mbi 111 milionë euro në vitin 2025 - Quotidiano Di Puglia",
+              "blurb": "Eksportet e rajonit të Pulias drejt Ballkanit dhe Azisë kanë shënuar rritje duke arritur vlerën 111 milionë euro.",
+              "imageUrl": "https://statics.cedscdn.it/photos/MED_HIGH/2026/09/21/9777074_21193927_export.jpg",
+              "url": "https://www.quotidianodipuglia.it/regione/puglia_cresce_export_balcani_asia_food_e_vino_cosa_cambia-9777074.html",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Lajm ekonomik i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
         },
         {
           "name": "RaiNews",
@@ -451,7 +536,7 @@
         {
           "name": "Report Difesa",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo: “Freedom Has a Name” :quando il giudizio sugli uomini diventa un giudizio sulla Storia - Report Difesa",
@@ -465,12 +550,25 @@
               "isQuote": true,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo: il ponte sul fiume Ibar e la memoria del Paese - Report Difesa",
+              "albanianTitle": "Kosova: Ura mbi lumin Ibër dhe kujtesa e vendit - Report Difesa",
+              "blurb": "Ura mbi lumin Ibër në Mitrovicë trajtohet si element i rëndësishëm për kujtesën historike të Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.reportdifesa.it/kosovo-il-ponte-sul-fiume-ibar-e-la-memoria-del-paese/",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Titull faktik pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "neutral",
           "firstSeen": "2026-08-21",
-          "lastSeen": "2026-09-21"
+          "lastSeen": "2026-09-22"
         },
         {
           "name": "Sprint e Sport",
@@ -532,6 +630,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-15",
           "lastSeen": "2026-09-20"
+        },
+        {
+          "name": "TriestePrima",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Corteo non preavvisato contro le condanne in Kosovo: la Questura apre un’indagine - TriestePrima",
+              "albanianTitle": "Protestë e padeklaruar kundër dënimeve në Kosovë: Policia nis hetimet - TriestePrima",
+              "blurb": "Policia në Trieste ka nisur hetimet pas një proteste të padeklaruar kundër dënimeve të shqiptuara në Kosovë.",
+              "imageUrl": "https://www.triesteprima.it/~media/horizontal-hi/53754626176018/questura_18-04-24_giovanni-aiello.jpg",
+              "url": "https://www.triesteprima.it/cronaca/corteo-non-preavvisato-condanne-kosovo.html",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Fact-based report without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-22"
         },
         {
           "name": "Udineseblog",
@@ -611,7 +733,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 9,
+        "n": 13,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -864,6 +986,30 @@
           "lastSeen": "2026-09-21"
         },
         {
+          "name": "NZZ",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Die Verurteilung Hashim Thacis und anderer UCK-Funktionäre stösst in Kosovo auf Widerstand - NZZ",
+              "albanianTitle": "Dënimi i Hashim Thaçit dhe zyrtarëve të tjerë të UÇK-së has në kundërshtim në Kosovë - NZZ",
+              "blurb": "Dënimi i Hashim Thaçit dhe ish-zyrtarëve të tjerë të UÇK-së ka hasur në kundërshtime brenda Kosovës.",
+              "imageUrl": "https://img-msp-prod.nzz.ch/2026/09/21/ecbd5748-572b-4942-896b-2bd211fb37e5.jpg?width=1200&height=675&fit=bounds&quality=75&auto=webp&crop=3500,1969,x0,y92&wmark=nzz",
+              "url": "https://www.nzz.ch/international/kosovo-urteil-gegen-thaci-stoesst-auf-widerstand-ld.10024724",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i reagimit në Kosovë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-09-07",
+          "lastSeen": "2026-09-22"
+        },
+        {
           "name": "Ticinonline",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -886,14 +1032,38 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-19",
           "lastSeen": "2026-09-19"
+        },
+        {
+          "name": "aargauerzeitung.ch",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Laufenburg: Gericht verurteilt Kosovaren wegen BMW-M5-Veruntreuung - aargauerzeitung.ch",
+              "albanianTitle": "Laufenburg: Gjykata dënon kosovarin për përvetësimin e një BMW M5",
+              "blurb": "Gjykata në Laufenburg ka dënuar një shtetas kosovar për përvetësimin e një veture të tipit BMW M5.",
+              "imageUrl": null,
+              "url": "https://www.aargauerzeitung.ch/aargau/fricktal/leasing-bmw-auf-dem-balkan-mann-vor-gericht-in-laufenburg-ld.4235712",
+              "date": "2026-09-19",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë gjyqësor, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-19"
         }
       ],
       "summary": {
-        "index": 55,
-        "positive": 10,
-        "neutral": 90,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 10,
+        "n": 12,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -1190,12 +1360,12 @@
             {
               "title": "Pokazały się w zupełnie nowej odsłonie. Ktoś włożył w nią wiele pracy. - gostyn24.pl",
               "albanianTitle": "U shfaqën në një version krejtësisht të ri. Dikush ka bërë shumë punë për këtë. - gostyn24.pl",
-              "blurb": "Objektet apo hapësirat e prezantuara kanë pësuar ndryshime të dukshme pas një pune të përkushtuar të realizuar nga autorët.",
+              "blurb": "Objektet apo hapësirat e caktuara janë prezantuar me një pamje të re pas angazhimit të punës së madhe.",
               "imageUrl": null,
               "url": "https://gostyn24.pl/pl/1075_dobrze-wiedziec/98954_pokazali-sie-w-zupelnie-nowej-odslonie-ktos-wlozyl-w-nia-wiele-pracy.html",
               "date": "2026-09-21",
               "sentiment": "unknown",
-              "reason": "Article does not mention Kosovo",
+              "reason": "Article unrelated to Kosovo, cannot infer outlet stance",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1242,6 +1412,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-21",
           "lastSeen": "2026-09-21"
+        },
+        {
+          "name": "sport.betfan.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosowo – Irlandia: Typy, kursy, gdzie oglądać? 24.09 LN - sport.betfan.pl",
+              "albanianTitle": "Kosovë – Irlandë: Parashikimet, koeficientët dhe ku mund ta ndiqni ndeshjen e 24 shtatorit",
+              "blurb": "Ndeshja e Ligës së Kombeve ndërmjet Kosovës dhe Irlandës zhvillohet më 24 shtator, ku publikohen koeficientët dhe transmetimi.",
+              "imageUrl": "https://sport.betfan.pl/wp-content/uploads/2026/09/20260331_PF_OD_ZA_130426-1.jpg",
+              "url": "https://sport.betfan.pl/kosowo-irlandia-typy-kursy-gdzie-ogladac-24-09-ln/",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Informacion sportiv i thjeshtë, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
         }
       ],
       "summary": {
@@ -1249,9 +1443,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 2,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },
@@ -1259,8 +1453,8 @@
       "outlets": [
         {
           "name": "Anadolu Ajansı",
-          "sentiment": "positive",
-          "articleCount": 2,
+          "sentiment": "neutral",
+          "articleCount": 3,
           "articles": [
             {
               "title": "Türkiye to support Kosovo in securing 'its rightful place' in international community: President - Anadolu Ajansı",
@@ -1287,9 +1481,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Turkish President receives Kosovo Prime Minister Albin Kurti in New York - Anadolu Ajansı",
+              "albanianTitle": "Presidenti turk pret në takim kryeministrin e Kosovës, Albin Kurti, në Nju Jork - Anadolu Ajansı",
+              "blurb": "Presidenti i Turqisë ka pritur në takim kryeministrin e Kosovës, Albin Kurti, gjatë qëndrimit në Nju Jork.",
+              "imageUrl": null,
+              "url": "https://www.aa.com.tr/en/vg/video-gallery/turkish-president-receives-kosovo-prime-minister-albin-kurti-in-new-york/155862",
+              "date": "2026-09-21",
+              "sentiment": "neutral",
+              "reason": "Fact-based report without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 9,
+          "totalArticles": 10,
           "trend": "i përzier",
           "firstSeen": "2026-09-13",
           "lastSeen": "2026-09-21"
@@ -1369,7 +1576,7 @@
         {
           "name": "Haberler",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Cumhurbaşkanı Erdoğan, Kosova Başbakanı Kurti'yi kabul etti - Haberler",
@@ -1383,12 +1590,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Bodrum FK'den 3 futbolcu Lüksemburg, Kosova ve Haiti milli takımlarına davet edildi - Haberler",
+              "albanianTitle": "Tre futbollistë të Bodrum FK ftohen nga përfaqësueset e Luksemburgut, Kosovës dhe Haitit",
+              "blurb": "Tre futbollistë të klubit Bodrum FK janë ftuar për t'u përfaqësuar me ekipet kombëtare të Kosovës, Lüksemburgut dhe Haitit.",
+              "imageUrl": null,
+              "url": "https://www.haberler.com/spor/bodrum-fk-den-3-futbolcu-luksemburg-kosova-ve-20259449-haberi/",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Straightforward sports news",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 12,
+          "totalArticles": 13,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-21"
+          "lastSeen": "2026-09-22"
         },
         {
           "name": "Hürriyet",
@@ -1439,6 +1659,43 @@
           "lastSeen": "2026-09-21"
         },
         {
+          "name": "TRT World",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Erdogan holds diplomatic talks with Kosovo and Georgia premiers in New York - TRT World",
+              "albanianTitle": "Erdoğan zhvillon takime diplomatike me kryeministrat e Kosovës dhe Gjeorgjisë në Nju Jork",
+              "blurb": "Presidenti turk, Rexhep Tajip Erdogan, ka zhvilluar takime diplomatike me kryeministrat e Kosovës dhe Gjeorgjisë në Nju Jork.",
+              "imageUrl": "https://d341l694dl30ad.cloudfront.net/images/cms/2026/09/22/6ab1c98e0a8a4fe78a47f5d3/original/2f1eaf12-bd46-4ee6-90f0-faf23eb361d5-1790036366935.jpg?width=1080&format=jpg&quality=80",
+              "url": "https://www.trtworld.com/article/8cedb07d60bd",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report of diplomatic meeting",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "President Erdogan says Türkiye, US must 'gain new momentum' in ties, leave behind barriers - TRT World",
+              "albanianTitle": "Presidenti Erdoğan: Turqia dhe SHBA-ja duhet t'i japin hov të ri marrëdhënieve dhe t'i lënë pas barrierat",
+              "blurb": "Presidenti Erdogan kërkon krijimin e një momentumit të ri në marrëdhëniet ndërmjet Turqisë dhe Shteteve të Bashkuara të Amerikës.",
+              "imageUrl": "https://d341l694dl30ad.cloudfront.net/images/cms/2026/09/22/6ab1f2c052d8e9b6753ed234/original/e950bce1-6f59-421a-b22f-ea204c7fc88b-1790046912101.jpg?width=1080&format=jpg&quality=80",
+              "url": "https://www.trtworld.com/article/e608d630423e",
+              "date": "2026-09-22",
+              "sentiment": "unknown",
+              "reason": "No mention of Kosovo, cannot infer outlet stance",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-08-21",
+          "lastSeen": "2026-09-22"
+        },
+        {
           "name": "Takvim",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1485,6 +1742,78 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-19",
           "lastSeen": "2026-09-19"
+        },
+        {
+          "name": "Yeni Asır",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova’nın Türk şehidi - Yeni Asır",
+              "albanianTitle": "Dëshmori turk i Kosovës",
+              "blurb": "Media turke raporton për një dëshmor turk që ka shërbyer në territorin e Kosovës gjatë periudhës së luftës.",
+              "imageUrl": "https://iaysr.tmgrup.com.tr/3eb3ed/1200/675/0/38/736/452?u=https://iysr.tmgrup.com.tr/2026/09/21/1790019801850.jpeg",
+              "url": "https://www.yeniasir.com.tr/gundem/2026/09/22/kosovanin-turk-sehidi",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Descriptive headline without evaluative language toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-23",
+          "lastSeen": "2026-09-22"
+        },
+        {
+          "name": "babaocagi.com.tr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Schengen’e takılmadan Avrupa rotası: Türk vatandaşları bu 3 ülkeye vizesiz gidebiliyor - babaocagi.com.tr",
+              "albanianTitle": "Rruga drejt Evropës pa viza Shengen: Shtetasit turq mund t'i vizitojnë këto 3 shtete pa viza - babaocagi.com.tr",
+              "blurb": "Shtetasit turq mund të udhëtojnë pa viza në tri shtete evropiane pa pasur nevojë për zonën Schengen.",
+              "imageUrl": "https://babaocagicomtr.teimg.com/crop/1280x720/babaocagi-com-tr/uploads/2026/09/a-v-r-u-p-a.png",
+              "url": "https://www.babaocagi.com.tr/schengene-takilmadan-avrupa-rotasi-turk-vatandaslari-bu-3-ulkeye-vizesiz-gidebiliyor",
+              "date": "2026-09-22",
+              "sentiment": "unknown",
+              "reason": "Article does not mention Kosovo, stance cannot be determined",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-22"
+        },
+        {
+          "name": "gazetekalem.com.tr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Cumhurbaşkanı Erdoğan, Kosova Başbakanı Kurti’yi kabul etti - gazetekalem.com.tr",
+              "albanianTitle": "Presidenti Erdoğan pret në takim kryeministrin e Kosovës, Kurti - gazetekalem.com.tr",
+              "blurb": "Presidenti i Turqisë, Rexhep Tajip Erdogan, ka pritur në takim zyrtar kryeministrin e Kosovës, Albin Kurti.",
+              "imageUrl": "https://gazetekalem.com.tr/wp-content/uploads/2026/09/cumhurbaskani-erdogan-kosova-basbakani-kurtiyi-kabul-etti-ujOALpnh.jpg",
+              "url": "https://gazetekalem.com.tr/cumhurbaskani-erdogan-kosova-basbakani-kurtiyi-kabul-etti-2/",
+              "date": "2026-09-21",
+              "sentiment": "neutral",
+              "reason": "Straightforward report of diplomatic meeting, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-21"
         },
         {
           "name": "hurriyet.com.tr",
@@ -1570,15 +1899,39 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-21"
+        },
+        {
+          "name": "İletişim Başkanlığı",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Cumhurbaşkanı Erdoğan’ın, Kosova Başbakanı Kurti’yi kabulüne ilişkin açıklama - İletişim Başkanlığı",
+              "albanianTitle": "Njoftim lidhur me takimin e Presidentit Erdoğan me kryeministrin e Kosovës, Kurti",
+              "blurb": "Presidenca e Turqisë ka publikuar detaje lidhur me takimin e zhvilluar ndërmjet presidentit Erdogan dhe kryeministrit Albin Kurti.",
+              "imageUrl": "https://www.iletisim.gov.tr/images/uploads/icerik/_tam/KURT%C4%B0.jpg",
+              "url": "https://www.iletisim.gov.tr/turkce/haberler/detay/cumhurbaskani-erdogan-kosova-basbakani-kurtiyi-kabul-etti-21-09-26",
+              "date": "2026-09-21",
+              "sentiment": "neutral",
+              "reason": "Press‑release style factual statement",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-21"
         }
       ],
       "summary": {
         "index": 50,
-        "positive": 8,
-        "neutral": 85,
-        "negative": 8,
-        "n": 13,
-        "excluded": 1,
+        "positive": 5,
+        "neutral": 89,
+        "negative": 5,
+        "n": 19,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3,
         "movement": {

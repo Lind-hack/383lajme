@@ -58,13 +58,13 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 30,
+      "total": 31,
       "positive": 1,
-      "neutral": 28,
+      "neutral": 29,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-18",
+      "lastSeen": "2026-09-22",
       "urls": [
         "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
         "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
@@ -95,7 +95,8 @@
         "https://balkaninsight.com/2026/09/17/protests-continue-in-pristina-after-conviction-of-kosovo-liberation-army-leaders/btj/",
         "https://balkaninsight.com/2026/09/17/kosovo-verdict-reflects-wests-strategic-priorities-not-pursuit-of-justice/btj/",
         "https://balkaninsight.com/2026/09/18/discontent-simmers-in-kosovo-as-protesters-denounce-hague-war-crimes-verdict/btj/",
-        "https://balkaninsight.com/hashim-thaci-trial-stories-news/"
+        "https://balkaninsight.com/hashim-thaci-trial-stories-news/",
+        "https://balkaninsight.com/2026/09/22/our-war-is-being-judged-in-kosovo-outrage-at-hague-verdict-simmers/btj/"
       ]
     },
     "Ouest-France": {
@@ -114,13 +115,13 @@
     },
     "Le Courrier des Balkans": {
       "country": "Francë",
-      "total": 15,
+      "total": 16,
       "positive": 1,
-      "neutral": 13,
+      "neutral": 14,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-20",
+      "lastSeen": "2026-09-22",
       "urls": [
         "https://www.courrierdesbalkans.fr/detourner-libar-nouvelle-arme-de-vucic-contre-le-kosovo-98491/",
         "https://www.courrierdesbalkans.fr/kosovo-jouer-a-la-paix-jouer-a-la-guerre-69437/",
@@ -136,7 +137,8 @@
         "https://www.courrierdesbalkans.fr/avant-le-verdict-du-proces-thaci-la-grande-peur-des-serbes-du-kosovo-99571/",
         "https://www.courrierdesbalkans.fr/kosovo-les-cles-du-proces-dhashim-thaci-et-de-ses-co-accuses-99574/",
         "https://www.courrierdesbalkans.fr/proces-de-luck-25-ans-de-prison-pour-lex-president-du-kosovo-hashim-thaci-99711/",
-        "https://www.courrierdesbalkans.fr/kosovo-flora-brovina-une-vie-de-resistance-99913/"
+        "https://www.courrierdesbalkans.fr/kosovo-flora-brovina-une-vie-de-resistance-99913/",
+        "https://www.courrierdesbalkans.fr/kosovo-la-fin-de-la-confiance-aveugle-en-loccident-99946/"
       ]
     },
     "Le Figaro": {
@@ -360,16 +362,17 @@
     },
     "Report Difesa": {
       "country": "Itali",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-09-21",
+      "lastSeen": "2026-09-22",
       "urls": [
         "https://www.reportdifesa.it/kosovo-il-ponte-conteso-sicurezza-sovranita-e-narrazioni-lungo-il-fiume-ibar/",
-        "https://www.reportdifesa.it/kosovo-freedom-has-a-name-quando-il-giudizio-sugli-uomini-diventa-un-giudizio-sulla-storia/"
+        "https://www.reportdifesa.it/kosovo-freedom-has-a-name-quando-il-giudizio-sugli-uomini-diventa-un-giudizio-sulla-storia/",
+        "https://www.reportdifesa.it/kosovo-il-ponte-sul-fiume-ibar-e-la-memoria-del-paese/"
       ]
     },
     "Quotidiano Nazionale": {
@@ -1125,13 +1128,13 @@
     },
     "Haberler": {
       "country": "Turqi",
-      "total": 12,
+      "total": 13,
       "positive": 0,
-      "neutral": 10,
+      "neutral": 11,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-21",
+      "lastSeen": "2026-09-22",
       "urls": [
         "https://www.haberler.com/3-sayfa/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-20159336-haberi/",
         "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/",
@@ -1144,7 +1147,8 @@
         "https://www.haberler.com/politika/kosova-da-on-binlerce-kisi-eski-cumhurbaskani-20232252-haberi/",
         "https://www.haberler.com/guncel/kosova-da-albin-kurti-nin-liderligindeki-yeni-20233782-haberi/",
         "https://www.haberler.com/guncel/kosova-nin-eski-cumhurbaskani-taci-ye-25-yil-hapis-20244797-haberi/",
-        "https://www.haberler.com/guncel/cumhurbaskani-erdogan-kosova-basbakani-kurti-yi-20258969-haberi/"
+        "https://www.haberler.com/guncel/cumhurbaskani-erdogan-kosova-basbakani-kurti-yi-20258969-haberi/",
+        "https://www.haberler.com/spor/bodrum-fk-den-3-futbolcu-luksemburg-kosova-ve-20259449-haberi/"
       ]
     },
     "Son Dakika": {
@@ -1246,17 +1250,19 @@
     },
     "TRT World": {
       "country": "Turqi",
-      "total": 3,
+      "total": 5,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-28",
+      "lastSeen": "2026-09-22",
       "urls": [
         "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/79c92cb03c09",
         "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/4f7f32df896b",
-        "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/6fd87ebe9b7e"
+        "https://www.trtworld.com/video/tv/shows/683ef3c9cff794df564280c5/play/6fd87ebe9b7e",
+        "https://www.trtworld.com/article/8cedb07d60bd",
+        "https://www.trtworld.com/article/e608d630423e"
       ]
     },
     "SonDakika": {
@@ -1383,15 +1389,16 @@
     },
     "Yeni Asır": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-23",
-      "lastSeen": "2026-08-23",
+      "lastSeen": "2026-09-22",
       "urls": [
-        "https://www.yeniasir.com.tr/izmir/2026/08/23/izmir-ile-kosova-icin-is-birligi-kapisi-aralandi"
+        "https://www.yeniasir.com.tr/izmir/2026/08/23/izmir-ile-kosova-icin-is-birligi-kapisi-aralandi",
+        "https://www.yeniasir.com.tr/gundem/2026/09/22/kosovanin-turk-sehidi"
       ]
     },
     "AGI": {
@@ -2878,15 +2885,16 @@
     },
     "EcoDelloJonio.it": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 1,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-04",
-      "lastSeen": "2026-09-04",
+      "lastSeen": "2026-09-22",
       "urls": [
-        "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest"
+        "https://ecodellojonio.it/articoli/territorio/2026/09/da-vaccarizzo-al-kosovo-il-vino-ricuce-l-arberia-pomillo-ambasciatore-dell-hardh-fest",
+        "https://ecodellojonio.it/articoli/territorio/2026/09/dall-albania-al-kosovo-frascineto-arriva-la-stampa-straniera-un-ponte-tra-comunita-e-radici"
       ]
     },
     "journal-b.ch": {
@@ -3216,18 +3224,19 @@
     },
     "NZZ": {
       "country": "Zvicër",
-      "total": 4,
+      "total": 5,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-17",
+      "lastSeen": "2026-09-22",
       "urls": [
         "https://www.nzz.ch/meinung/der-balkan-ist-eine-nach-wie-vor-vernachlaessigte-problemregion-serbien-bleibt-der-massgebliche-unruhestifter-ld.10016355",
         "https://www.nzz.ch/international/asylsuchender-guerillachef-praesident-und-nun-kriegsverbrecher-ein-sondertribunal-in-den-haag-richtet-am-mittwoch-ueber-hacim-thaci-ld.10022812",
         "https://www.nzz.ch/shorts/demonstranten-greifen-eu-mission-in-kosovo-nach-urteil-gegen-hashim-thaci-an-ld.10024237",
-        "https://www.nzz.ch/international/ehemaliger-kosovo-praesident-thaci-wegen-kriegsverbrechen-zu-25-jahren-haft-verurteilt-ld.10023993"
+        "https://www.nzz.ch/international/ehemaliger-kosovo-praesident-thaci-wegen-kriegsverbrechen-zu-25-jahren-haft-verurteilt-ld.10023993",
+        "https://www.nzz.ch/international/kosovo-urteil-gegen-thaci-stoesst-auf-widerstand-ld.10024724"
       ]
     },
     "Diario de León": {
@@ -4110,9 +4119,9 @@
     },
     "Anadolu Ajansı": {
       "country": "Turqi",
-      "total": 9,
+      "total": 10,
       "positive": 1,
-      "neutral": 6,
+      "neutral": 7,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-09-13",
@@ -4126,7 +4135,8 @@
         "https://www.aa.com.tr/en/world/uk-reiterates-firm-support-to-kosovo-s-sovereignty-after-war-crimes-verdict-against-former-president/4059556",
         "https://www.aa.com.tr/fr/monde/kosovo-l-ancien-pr%C3%A9sident-hashim-thaci-condamn%C3%A9-%C3%A0-25-ans-de-prison-pour-crimes-de-guerre/4058877",
         "https://www.aa.com.tr/en/world/turkiye-to-support-kosovo-in-securing-its-rightful-place-in-international-community-president/4063734",
-        "https://aa.com.tr/tr/vg/video-galeri/cumhurbaskani-erdogan-kosova-basbakani-kurtiyi-kabul-etti/155860"
+        "https://aa.com.tr/tr/vg/video-galeri/cumhurbaskani-erdogan-kosova-basbakani-kurtiyi-kabul-etti/155860",
+        "https://www.aa.com.tr/en/vg/video-gallery/turkish-president-receives-kosovo-prime-minister-albin-kurti-in-new-york/155862"
       ]
     },
     "Doğruhaber": {
@@ -4781,15 +4791,16 @@
     },
     "TriestePrima": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-15",
-      "lastSeen": "2026-09-15",
+      "lastSeen": "2026-09-22",
       "urls": [
-        "https://www.triesteprima.it/cronaca/militari-balcani-diplomatici.html"
+        "https://www.triesteprima.it/cronaca/militari-balcani-diplomatici.html",
+        "https://www.triesteprima.it/cronaca/corteo-non-preavvisato-condanne-kosovo.html"
       ]
     },
     "Salzburger Nachrichten": {
@@ -7982,6 +7993,84 @@
       "lastSeen": "2026-09-21",
       "urls": [
         "https://gazetekalem.com.tr/cumhurbaskani-erdogan-kosova-basbakani-kurtiyi-kabul-etti-2/"
+      ]
+    },
+    "Quotidiano Di Puglia": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.quotidianodipuglia.it/regione/puglia_cresce_export_balcani_asia_food_e_vino_cosa_cambia-9777074.html"
+      ]
+    },
+    "aargauerzeitung.ch": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-19",
+      "urls": [
+        "https://www.aargauerzeitung.ch/aargau/fricktal/leasing-bmw-auf-dem-balkan-mann-vor-gericht-in-laufenburg-ld.4235712"
+      ]
+    },
+    "sport.betfan.pl": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://sport.betfan.pl/kosowo-irlandia-typy-kursy-gdzie-ogladac-24-09-ln/"
+      ]
+    },
+    "İletişim Başkanlığı": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-21",
+      "urls": [
+        "https://www.iletisim.gov.tr/turkce/haberler/detay/cumhurbaskani-erdogan-kosova-basbakani-kurtiyi-kabul-etti-21-09-26"
+      ]
+    },
+    "gazetekalem.com.tr": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-21",
+      "urls": [
+        "https://gazetekalem.com.tr/cumhurbaskani-erdogan-kosova-basbakani-kurtiyi-kabul-etti-2/"
+      ]
+    },
+    "babaocagi.com.tr": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.babaocagi.com.tr/schengene-takilmadan-avrupa-rotasi-turk-vatandaslari-bu-3-ulkeye-vizesiz-gidebiliyor"
       ]
     }
   }
