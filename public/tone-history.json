@@ -8849,5 +8849,246 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-09-22",
+    "overallIndex": 50,
+    "totalArticles": 59,
+    "sourceCount": 49,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
+        "negative": 0,
+        "n": 8,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 11,
+          "from": 45,
+          "outlet": "Le Courrier des Balkans",
+          "title": "Kosovë: Flora Brovina, një jetë në rezistencë",
+          "evidence": "une vie de résistance",
+          "url": "https://www.courrierdesbalkans.fr/kosovo-flora-brovina-une-vie-de-resistance-99913/"
+        }
+      },
+      "Itali": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 9,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": 40,
+        "positive": 0,
+        "neutral": 80,
+        "negative": 20,
+        "n": 5,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -6,
+          "from": 46,
+          "outlet": "oe24",
+          "title": "Foda kthehet në Vjenë! Ish-përzgjedhësi dëshiron t'ia prishë punët Austrisë me Kosovën – oe24",
+          "evidence": "will Österreich mit Kosovo ärgern",
+          "url": "https://www.oe24.at/a/foda-rueckkehr-nach-wien-ex-teamchef-will-oesterreich-mit-kosovo-aergern-900116443"
+        }
+      },
+      "Zvicër": {
+        "index": 55,
+        "positive": 10,
+        "neutral": 90,
+        "negative": 0,
+        "n": 10,
+        "excluded": 0,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Holandë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": 0,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 100,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -25,
+          "from": 25,
+          "outlet": "ctxt.es",
+          "title": "Kosova dhe etika e së keqes - ctxt.es",
+          "evidence": "Kosovo y la ética de la maldad",
+          "url": "https://ctxt.es/es/20260901/Firmas/55215/hashim-thaci-kosovo-condena-tribunal-especial-de-kosovo-uck.htm"
+        }
+      },
+      "Greqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 2,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 50,
+        "positive": 8,
+        "neutral": 85,
+        "negative": 8,
+        "n": 13,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 4,
+          "from": 46,
+          "outlet": "Anadolu Ajansı",
+          "title": "Presidenti turk: Turqia do ta mbështesë Kosovën për ta zënë vendin e merituar në komunitetin ndërkombëtar",
+          "evidence": "support Kosovo rightful place",
+          "url": "https://www.aa.com.tr/en/world/turkiye-to-support-kosovo-in-securing-its-rightful-place-in-international-community-president/4063734"
+        }
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "Türkiye to support Kosovo in securing 'its rightful place' in international community: President - Anadolu Ajansı",
+        "source": "Anadolu Ajansı",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.aa.com.tr/en/world/turkiye-to-support-kosovo-in-securing-its-rightful-place-in-international-community-president/4063734",
+        "sentiment": "positive"
+      },
+      {
+        "title": "'Everyone wants to be part of history' - Meet the manager who kickstarted Kosovo's rise in international football - RTE.ie",
+        "source": "RTE.ie",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.rte.ie/sport/soccer/2026/0920/1591719-meet-the-manager-who-kickstarted-kosovos-historic-rise/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo : Flora Brovina, une vie de résistance - Le Courrier des Balkans",
+        "source": "Le Courrier des Balkans",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.courrierdesbalkans.fr/kosovo-flora-brovina-une-vie-de-resistance-99913/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "On behalf of the people of Kosovo or Serbia? - Gazeta Sot",
+        "source": "Gazeta Sot",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://sot.com.al/english/ne-emer-te-popullit-te-kosoves-apo-te-serbise-i5184146",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Foda-Rückkehr nach Wien! Ex-Teamchef will Österreich mit Kosovo ärgern - oe24",
+        "source": "oe24",
+        "country": "Austri",
+        "flag": "🇦🇹",
+        "url": "https://www.oe24.at/a/foda-rueckkehr-nach-wien-ex-teamchef-will-oesterreich-mit-kosovo-aergern-900116443",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Kosovo y la ética de la maldad - ctxt.es",
+        "source": "Ctxt.es",
+        "country": "Spanjë",
+        "flag": "🇪🇸",
+        "url": "https://ctxt.es/es/20260901/Firmas/55215/hashim-thaci-kosovo-condena-tribunal-especial-de-kosovo-uck.htm",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]

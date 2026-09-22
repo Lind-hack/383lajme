@@ -1011,16 +1011,17 @@
     },
     "İhlas Haber Ajansı": {
       "country": "Turqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-19",
       "lastSeen": "2026-09-21",
       "urls": [
         "https://www.iha.com.tr/haber-kosovada-savas-suclari-sorusturmasi-23-kisiye-ait-kemik-kalintilari-bulundu-1197147",
-        "https://www.iha.com.tr/haber-cumhurbaskani-erdogan-kosova-basbakani-kurti-ile-gorustu-1197418"
+        "https://www.iha.com.tr/haber-cumhurbaskani-erdogan-kosova-basbakani-kurti-ile-gorustu-1197418",
+        "https://www.iha.com.tr/video-cumhurbaskani-erdogan-kosova-basbakani-kurti-ile-gorustu"
       ]
     },
     "GZT": {
@@ -1820,11 +1821,11 @@
     },
     "gostyn24.pl": {
       "country": "Poloni",
-      "total": 5,
+      "total": 6,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 5,
+      "unknown": 6,
       "firstSeen": "2026-08-25",
       "lastSeen": "2026-09-21",
       "urls": [
@@ -1832,7 +1833,8 @@
         "https://gostyn24.pl/pl/19_wiadomosci-z-regionu/588_gostyn/98135_998-metrow-ktore-potrafilo-dac-w-kosc-najtrudniejsze-bylo-to-w-czym-biegli.html",
         "https://gostyn24.pl/pl/19_wiadomosci-z-regionu/588_gostyn/98141_znana-trasa-dostala-zupelnie-nowe-oblicze-biegacze-zapamietaja-ten-podbieg.html",
         "https://gostyn24.pl/pl/1075_dobrze-wiedziec/98564_dlugo-ich-tutaj-nie-bylo-wrocily-i-od-razu-daly-o-sobie-znac-ten-wystep.html",
-        "https://gostyn24.pl/pl/1075_dobrze-wiedziec/98954_pokazali-sie-w-zupelnie-nowej-odslonie-ktos-wlozyl-w-nia-wiele-pracy.html"
+        "https://gostyn24.pl/pl/1075_dobrze-wiedziec/98954_pokazali-sie-w-zupelnie-nowej-odslonie-ktos-wlozyl-w-nia-wiele-pracy.html",
+        "https://gostyn24.pl/pl/1075_dobrze-wiedziec/98954_po-13-latach-znow-jest-o-nich-glosno-teraz-pokazaly-sie-w-nowej-odslonie.html"
       ]
     },
     "Leman bleu": {
@@ -3573,15 +3575,16 @@
     },
     "hurriyet.com.tr": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-09-07",
+      "lastSeen": "2026-09-19",
       "urls": [
-        "https://www.hurriyet.com.tr/avrupa/prizrende-ilkokul-ogrencilerine-egitim-setleri-dagitildi-43298523"
+        "https://www.hurriyet.com.tr/avrupa/prizrende-ilkokul-ogrencilerine-egitim-setleri-dagitildi-43298523",
+        "https://www.hurriyet.com.tr/kelebek/stil/kosovada-ozel-madalya-aldi-43312000"
       ]
     },
     "laola1.at": {
@@ -4107,13 +4110,13 @@
     },
     "Anadolu Ajansı": {
       "country": "Turqi",
-      "total": 7,
-      "positive": 0,
-      "neutral": 5,
+      "total": 9,
+      "positive": 1,
+      "neutral": 6,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-09-13",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-21",
       "urls": [
         "https://www.aa.com.tr/tr/dunya/kosovada-albin-kurtinin-liderligindeki-yeni-hukumet-guvenoyu-aldi/4056041",
         "https://www.aa.com.tr/tr/kultur/ziya-gokalpi-anlatan-goge-yazilmis-bir-alp-eserinin-balkan-turnesi-kosovada-tamamlandi/4056498",
@@ -4121,7 +4124,9 @@
         "https://aa.com.tr/en/politics/kosovos-ex-president-thaci-sentenced-to-25-years-for-war-crimes/4058799",
         "https://www.aa.com.tr/en/features/profile-who-is-hashim-thaci-former-kosovo-president-sentenced-for-war-crimes/4058943",
         "https://www.aa.com.tr/en/world/uk-reiterates-firm-support-to-kosovo-s-sovereignty-after-war-crimes-verdict-against-former-president/4059556",
-        "https://www.aa.com.tr/fr/monde/kosovo-l-ancien-pr%C3%A9sident-hashim-thaci-condamn%C3%A9-%C3%A0-25-ans-de-prison-pour-crimes-de-guerre/4058877"
+        "https://www.aa.com.tr/fr/monde/kosovo-l-ancien-pr%C3%A9sident-hashim-thaci-condamn%C3%A9-%C3%A0-25-ans-de-prison-pour-crimes-de-guerre/4058877",
+        "https://www.aa.com.tr/en/world/turkiye-to-support-kosovo-in-securing-its-rightful-place-in-international-community-president/4063734",
+        "https://aa.com.tr/tr/vg/video-galeri/cumhurbaskani-erdogan-kosova-basbakani-kurtiyi-kabul-etti/155860"
       ]
     },
     "Doğruhaber": {
@@ -7550,15 +7555,16 @@
     },
     "Takvim": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-19",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-21",
       "urls": [
-        "https://www.takvim.com.tr/dunya/eski-kosova-cumhurbaskani-hashim-thaciye-savas-sucundan-hapis-cezasi-6513093"
+        "https://www.takvim.com.tr/dunya/eski-kosova-cumhurbaskani-hashim-thaciye-savas-sucundan-hapis-cezasi-6513093",
+        "https://www.takvim.com.tr/video/guncel/kosova-basbakani-kurti-turkevinde-baskan-erdoganla-gorustu"
       ]
     },
     "Varesenoi": {
@@ -7950,6 +7956,32 @@
       "lastSeen": "2026-09-21",
       "urls": [
         "https://programtv.onet.pl/tv/pilka-nozna-liga-narodow-mecz-kosowo-austria/yhsez"
+      ]
+    },
+    "DHA | Demirören Haber Ajansı": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-21",
+      "urls": [
+        "https://www.dha.com.tr/dunya/cumhurbaskani-erdogan-kosova-basbakani-kurti-ile-gorustu-2948979"
+      ]
+    },
+    "GazeteKalem": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-22",
+      "lastSeen": "2026-09-21",
+      "urls": [
+        "https://gazetekalem.com.tr/cumhurbaskani-erdogan-kosova-basbakani-kurtiyi-kabul-etti-2/"
       ]
     }
   }
