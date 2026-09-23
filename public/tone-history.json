@@ -9087,7 +9087,7 @@
     "date": "2026-09-23",
     "overallIndex": 52,
     "totalArticles": 98,
-    "sourceCount": 73,
+    "sourceCount": 81,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -9116,7 +9116,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9126,7 +9126,7 @@
         "neutral": 83,
         "negative": 0,
         "n": 12,
-        "excluded": 1,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9136,7 +9136,7 @@
         "neutral": 96,
         "negative": 0,
         "n": 24,
-        "excluded": 0,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9146,7 +9146,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 6,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9156,7 +9156,7 @@
         "neutral": 93,
         "negative": 0,
         "n": 14,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9196,7 +9196,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9226,7 +9226,7 @@
         "neutral": 96,
         "negative": 0,
         "n": 23,
-        "excluded": 3,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9251,16 +9251,8 @@
         "sentiment": "positive"
       },
       {
-        "title": "A long road and a rapid rise: Kosovo’s remarkable football story ahead of first-ever meetings with Ireland - Irish Independent",
-        "source": "Irish Independent",
-        "country": "Britani",
-        "flag": "🇬🇧",
-        "url": "https://www.independent.ie/sport/a-long-road-and-a-rapid-rise-kosovos-remarkable-football-story-ahead-of-first-ever-meetings-with-ireland/a/161687844.html",
-        "sentiment": "positive"
-      },
-      {
         "title": "La musica, un ponte tra i popoli. Da Forlì al Kosovo: 3 concerti e un’amicizia che dura da 14 anni - Il Resto del Carlino",
-        "source": "Il Resto del Carlino",
+        "source": "ilrestodelcarlino.it",
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://www.ilrestodelcarlino.it/forli/cronaca/la-musica-un-ponte-tra-3a1b92fe",

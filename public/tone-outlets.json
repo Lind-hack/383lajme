@@ -2,9 +2,9 @@
   "lastUpdated": "2026-09-23",
   "overallIndex": 52,
   "totalArticles": 98,
-  "sourceCount": 73,
+  "sourceCount": 81,
   "stanceVersion": 3,
-  "unattributed": 164,
+  "unattributed": 216,
   "nonEditorial": 2,
   "wrongKosovo": 0,
   "countries": {
@@ -136,7 +136,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "‘Our War is Being Judged’: In Kosovo, Outrage at Hague Verdict Simmers - Balkan Insight",
@@ -150,12 +150,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo Court Orders MPs to Elect President by October 6 - Balkan Insight",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Kosovo-parliament-September-11-2026-BIRN-e1789136878366.jpg",
+              "url": "https://balkaninsight.com/2026/09/23/kosovo-court-orders-mps-to-elect-president-by-october-6/bi/",
+              "date": "2026-09-23",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 31,
+          "totalArticles": 32,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-22"
+          "lastSeen": "2026-09-23"
         }
       ],
       "summary": {
@@ -164,7 +177,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 1,
+        "excluded": 2,
         "confident": false,
         "stanceVersion": 3
       }
@@ -383,6 +396,30 @@
           "lastSeen": "2026-09-21"
         },
         {
+          "name": "lejdd.fr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo : Vincent Hervouët décrypte la chute de Hashim Thaçi et le procès de l’Occident - lejdd.fr",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": null,
+              "url": "https://www.lejdd.fr/Chroniques/kosovo-vincent-hervouet-decrypte-la-chute-de-hashim-thaci-et-le-proces-de-loccident-184218",
+              "date": "2026-09-23",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
+        },
+        {
           "name": "marathons.fr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -405,6 +442,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-21",
           "lastSeen": "2026-09-21"
+        },
+        {
+          "name": "paris-sportifs.lefigaro.fr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Pronostic Kosovo Irlande : Ligue des Nations (24/09/2026) | Analyse IA - paris-sportifs.lefigaro.fr",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://paris-sportifs.lefigaro.fr/app/uploads/2026/09/prediction-lefigaro-11431.png",
+              "url": "https://paris-sportifs.lefigaro.fr/pronostics/kosovo-republique-dirlande-24-09-2026/",
+              "date": "2026-09-23",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
         }
       ],
       "summary": {
@@ -413,7 +474,7 @@
         "neutral": 83,
         "negative": 0,
         "n": 12,
-        "excluded": 1,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       }
@@ -456,6 +517,30 @@
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-22"
+        },
+        {
+          "name": "Abruzzo Web",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "EDILIZIA: ALL'AQUILANA RD COSTRUZIONI IMMOBILIARI LAVORI PER POTENZIAMENTO BASE MILITARE IN KOSOVO - Abruzzo Web",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.abruzzoweb.it/wp-content/uploads/2026/09/RD-COSTRUZIONI-IMMOBILIARI.jpeg",
+              "url": "https://www.abruzzoweb.it/edilizia-allaquilana-rd-costruzioni-immobiliari-lavori-per-potenziamento-base-militare-in-kosovo/",
+              "date": "2026-09-23",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
         },
         {
           "name": "Bottadiculo",
@@ -785,6 +870,30 @@
           "lastSeen": "2026-09-22"
         },
         {
+          "name": "Sky Sport",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "2026 giornata-1 kosovo-irlanda preview - Sky Sport",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://sport.sky.it/assets/images/fe3002a460d9904efad96e7882361f17a7cc77c2/skysport/configurations/skysport_condivisione.jpg?im=Resize,width=1218",
+              "url": "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-1/kosovo-irlanda",
+              "date": "2026-09-23",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
+        },
+        {
           "name": "Trieste Cafe",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -844,6 +953,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-15",
           "lastSeen": "2026-09-22"
+        },
+        {
+          "name": "difesapopolo.it",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "“Il sogno di Suzana”, il Kosovo del dopoguerra nel romanzo di Ausilio Bertoli - difesapopolo.it",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.difesapopolo.it/wp-content/uploads/2026/09/IL_SOGNO_DI_SUZANA-LIBRO-1-e1789555423545.jpg",
+              "url": "https://www.difesapopolo.it/il-sogno-di-suzana-il-kosovo-del-dopoguerra-nel-romanzo-di-ausilio-bertoli/",
+              "date": "2026-09-20",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-20"
         },
         {
           "name": "ecodellojonio.it",
@@ -948,7 +1081,7 @@
         "neutral": 96,
         "negative": 0,
         "n": 24,
-        "excluded": 0,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1041,6 +1174,30 @@
           "lastSeen": "2026-09-23"
         },
         {
+          "name": "Ligaportal",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo: Ex-LASKler und zwei weitere Spieler mit Rücktritt für Foda vor Duell gegen ÖFB-Team - Ligaportal",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.ligaportal.at/bundesliga/images/25-26/lask/Sommer-Vorbereitung/berisha-valon-trainingsauftakt-lask-24-06-25-harry-dostal-pumann.jpg",
+              "url": "https://www.ligaportal.at/international/uefa-nations-league/94054-kosovo-ex-laskler-und-zwei-weitere-spieler-mit-ruecktritt-fuer-foda-vor-duell-gegen-oefb-team",
+              "date": "2026-09-23",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
+        },
+        {
           "name": "Sky Sport Austria",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1095,7 +1252,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 6,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1307,7 +1464,7 @@
         "neutral": 93,
         "negative": 0,
         "n": 14,
-        "excluded": 0,
+        "excluded": 1,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1379,6 +1536,30 @@
     "Greqi": {
       "outlets": [
         {
+          "name": "Betarades",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο – Ιρλανδία Κανάλι ▶️ Ο αγώνας σε Live Streaming (24/09) - Betarades",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://betarades2-5c24.kxcdn.com/wp-content/uploads/2026/09/3E4A2AN-ezgif.com-resize.jpg",
+              "url": "https://www.betarades.gr/kosovo-irlandia-kanali-o-agonas-se-live-streaming-24-09/",
+              "date": "2026-09-23",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
+        },
+        {
           "name": "Newsbomb",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1446,7 +1627,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -2234,6 +2415,30 @@
           "lastSeen": "2026-09-21"
         },
         {
+          "name": "trtworld.com",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Erdogan holds diplomatic talks with Kosovo and Georgia premiers in New York - trtworld.com",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://d341l694dl30ad.cloudfront.net/images/cms/2026/09/22/6ab1c98e0a8a4fe78a47f5d3/original/2f1eaf12-bd46-4ee6-90f0-faf23eb361d5-1790036366935.jpg?width=1080&format=jpg&quality=80",
+              "url": "https://www.trtworld.com/article/8cedb07d60bd",
+              "date": "2026-09-22",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-22"
+        },
+        {
           "name": "yeniasir.com.tr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2338,7 +2543,7 @@
         "neutral": 96,
         "negative": 0,
         "n": 23,
-        "excluded": 3,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       }
