@@ -170,26 +170,27 @@
     },
     "Il Resto del Carlino": {
       "country": "Itali",
-      "total": 1,
-      "positive": 0,
+      "total": 2,
+      "positive": 1,
       "neutral": 1,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-08-19",
+      "lastSeen": "2026-09-23",
       "urls": [
-        "https://www.ilrestodelcarlino.it/pesaro/cronaca/il-dottor-tibaldi-torna-in-7183ba7f"
+        "https://www.ilrestodelcarlino.it/pesaro/cronaca/il-dottor-tibaldi-torna-in-7183ba7f",
+        "https://www.ilrestodelcarlino.it/forli/cronaca/la-musica-un-ponte-tra-3a1b92fe"
       ]
     },
     "Osservatorio Balcani Caucaso Transeuropa": {
       "country": "Itali",
-      "total": 12,
+      "total": 14,
       "positive": 0,
-      "neutral": 8,
+      "neutral": 10,
       "negative": 2,
       "unknown": 2,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-22",
+      "lastSeen": "2026-09-23",
       "urls": [
         "https://www.balcanicaucaso.org/en/cp_article/political-crisis-in-kosovo-no-light-at-the-end-of-the-tunnel/",
         "https://www.balcanicaucaso.org/cp_article/crisi-politica-in-kosovo-non-ce-luce-alla-fine-del-tunnel/",
@@ -202,7 +203,9 @@
         "https://www.balcanicaucaso.org/cp_article/kosovo-rabbia-e-delusione-per-la-condanna-dei-leader-uck/",
         "https://www.balcanicaucaso.org/cp_article/kosovo-hashim-thaci-condannato-per-crimini-di-guerra/",
         "https://www.balcanicaucaso.org/cp_article/condanna-dei-leader-uck-le-reazioni-in-serbia/",
-        "https://www.balcanicaucaso.org/progetti/il-contributo-della-cooperazione-economica-alla-normalizzazione-delle-relazioni-tra-kosovo-e-serbia/"
+        "https://www.balcanicaucaso.org/progetti/il-contributo-della-cooperazione-economica-alla-normalizzazione-delle-relazioni-tra-kosovo-e-serbia/",
+        "https://www.balcanicaucaso.org/en/cp_article/the-challenge-of-economic-cooperation-to-overcome-tensions-between-serbia-and-kosovo/",
+        "https://www.balcanicaucaso.org/cp_article/economia-e-dialogo-tra-kosovo-e-serbia/"
       ]
     },
     "ilrestodelcarlino.it": {
@@ -1131,13 +1134,13 @@
     },
     "Haberler": {
       "country": "Turqi",
-      "total": 13,
+      "total": 14,
       "positive": 0,
-      "neutral": 11,
+      "neutral": 12,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-22",
+      "lastSeen": "2026-09-23",
       "urls": [
         "https://www.haberler.com/3-sayfa/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-20159336-haberi/",
         "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/",
@@ -1151,7 +1154,8 @@
         "https://www.haberler.com/guncel/kosova-da-albin-kurti-nin-liderligindeki-yeni-20233782-haberi/",
         "https://www.haberler.com/guncel/kosova-nin-eski-cumhurbaskani-taci-ye-25-yil-hapis-20244797-haberi/",
         "https://www.haberler.com/guncel/cumhurbaskani-erdogan-kosova-basbakani-kurti-yi-20258969-haberi/",
-        "https://www.haberler.com/spor/bodrum-fk-den-3-futbolcu-luksemburg-kosova-ve-20259449-haberi/"
+        "https://www.haberler.com/spor/bodrum-fk-den-3-futbolcu-luksemburg-kosova-ve-20259449-haberi/",
+        "https://www.haberler.com/guncel/kosova-istanbul-baskonsolosu-zeka-etso-yu-ziyaret-20263688-haberi/"
       ]
     },
     "Son Dakika": {
@@ -1655,18 +1659,19 @@
     },
     "LAOLA1": {
       "country": "Austri",
-      "total": 4,
+      "total": 5,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-09-18",
+      "lastSeen": "2026-09-23",
       "urls": [
         "https://www.laola1.at/de/red/fussball/euro-2028/news/praesident--franco-foda-verzichtete-fuer-kosovo-auf-millionen/",
         "https://www.laola1.at/de/red/fussball/nations-league/news/vor-oefb-duell--schnappt-sich-foda-ein-dfb-juwel-der-bayern-/",
         "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/news/ruecktritt-des-kapitaens--wirbel-bei-fodas-kosovo/",
-        "https://www.laola1.at/de/red/fussball/sonstiges/news/mit-bundesliga-trio--foda-nominiert-kosovo-kader/"
+        "https://www.laola1.at/de/red/fussball/sonstiges/news/mit-bundesliga-trio--foda-nominiert-kosovo-kader/",
+        "https://www.laola1.at/de/red/fussball/nations-league/news/kosovo--ex-lask-kicker-tritt-vor-oefb-match-zurueck/"
       ]
     },
     "heute.at": {
@@ -1684,20 +1689,21 @@
     },
     "Kronen Zeitung": {
       "country": "Austri",
-      "total": 6,
+      "total": 7,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-23",
       "urls": [
         "https://www.krone.at/4268829",
         "https://www.krone.at/4269964",
         "https://www.krone.at/4171096",
         "https://www.krone.at/4295354",
         "https://www.krone.at/4297022",
-        "https://www.krone.at/4297586"
+        "https://www.krone.at/4297586",
+        "https://www.krone.at/4306287"
       ]
     },
     "Heute": {
@@ -3692,15 +3698,16 @@
     },
     "Corriere dello Sport": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-11",
-      "lastSeen": "2026-09-11",
+      "lastSeen": "2026-09-23",
       "urls": [
-        "https://www.corrieredellosport.it/news/biglietti/2026/09/11-151169652/san_marino-kosovo_u21_dove_acquistare_i_biglietti_per_il_24_settembre"
+        "https://www.corrieredellosport.it/news/biglietti/2026/09/11-151169652/san_marino-kosovo_u21_dove_acquistare_i_biglietti_per_il_24_settembre",
+        "https://www.corrieredellosport.it/news/scommesse/2026/09/23-151417628/nations_league_come_finisce_kosovo-irlanda_ecco_il_consiglio_su_cosa_giocare"
       ]
     },
     "Messaggero Veneto": {
@@ -7473,15 +7480,16 @@
     },
     "Yeni Akit Gazetesi": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 0,
       "negative": 1,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-19",
-      "lastSeen": "2026-09-19",
+      "lastSeen": "2026-09-22",
       "urls": [
-        "https://www.yeniakit.com.tr/haber/ulkesinin-bagimsizligi-icin-savasanlar-suclu-ilan-edildi-2023653.html"
+        "https://www.yeniakit.com.tr/haber/ulkesinin-bagimsizligi-icin-savasanlar-suclu-ilan-edildi-2023653.html",
+        "https://www.yeniakit.com.tr/yazarlar/ayhan-demir/yapan-yaptiniz-diyendir-53858.html"
       ]
     },
     "Stratejik Düşünce Enstitüsü": {
@@ -8292,6 +8300,84 @@
       "lastSeen": "2026-09-22",
       "urls": [
         "https://www.podkarpacielive.pl/mecz/158315,kosowo-vs-irlandia"
+      ]
+    },
+    "triesteprima.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://www.triesteprima.it/cronaca/corteo-contro-condanne-kosovo-presidente-comunita-serba.html"
+      ]
+    },
+    "Bottadiculo": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://www.bottadiculo.it/pronostico-kosovo-irlanda-24-settembre-2026/"
+      ]
+    },
+    "profil.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://profil.at/apa-ots/chronik/kosovo-care-und-land-vorarlberg-schaffen-perspektiven-fuer-frauen-in-der-landwirtschaft/403192806"
+      ]
+    },
+    "Corren": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://www.corren.se/sport/thaiboxning/artikel/sayed-mosawi-tar-vm-guld-i-thaiboxning-i-kosovo/r230zvvl"
+      ]
+    },
+    "iGol.pl": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://igol.pl/mecz/65119/kosowo-izrael/"
+      ]
+    },
+    "Diyanet Haber": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://www.diyanethaber.com.tr/kosova-islam-birliginden-istanbul-muftulugune-ziyaret"
       ]
     }
   }
