@@ -907,15 +907,16 @@
     },
     "Bankingnews": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
-      "negative": 0,
+      "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-08-21",
+      "lastSeen": "2026-09-23",
       "urls": [
-        "https://www.bankingnews.gr/diethni/articles/894916/kolafos-i-zakharova-systimatiki-tromokratia-kata-ton-servon-sto-kosovo-me-anoxi-nato-ee-kai-oie"
+        "https://www.bankingnews.gr/diethni/articles/894916/kolafos-i-zakharova-systimatiki-tromokratia-kata-ton-servon-sto-kosovo-me-anoxi-nato-ee-kai-oie",
+        "https://www.bankingnews.gr/diethni/articles/901118/efialtis-ksypna-sta-balkania-gyrizoun-oi-daimones-tou-polemou-proeidopoiisi-sok-gia-mparoutapothiki-pou-ekrignytai"
       ]
     },
     "Capital.gr": {
@@ -2080,19 +2081,22 @@
     },
     "sondakika.com": {
       "country": "Turqi",
-      "total": 5,
+      "total": 8,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 8,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-23",
       "urls": [
         "https://www.sondakika.com/spor/haber-kadin-voleybol-takimi-kosova-yi-3-0-maglup-etti-20178794/",
         "https://www.sondakika.com/politika/haber-kosova-da-cumhurbaskani-adayligi-uzerinde-uzlasma-20193550/",
         "https://www.sondakika.com/spor/haber-milliler-kosova-yi-yendi-ceyrek-finale-yukseldi-20190048/",
         "https://www.sondakika.com/guncel/haber-kosova-da-cumhurbaskani-adayi-sejdiu-belirlendi-20194210/",
-        "https://www.sondakika.com/guncel/haber-ziya-gokalp-oyunu-balkan-turnesini-prizren-de-tama-20235465/"
+        "https://www.sondakika.com/guncel/haber-ziya-gokalp-oyunu-balkan-turnesini-prizren-de-tama-20235465/",
+        "https://www.sondakika.com/guncel/haber-edirne-de-sultan-2-bayezid-saglik-muzesi-ni-kosova-20263898/",
+        "https://www.sondakika.com/guncel/haber-kosova-basbakan-yardimcisi-damka-saglik-isbirligi--20263859/",
+        "https://www.sondakika.com/guncel/haber-etso-da-kosova-ile-ticari-is-birligi-ve-karsilikli-20263833/"
       ]
     },
     "Radio Free Europe/Radio Liberty": {
@@ -2227,16 +2231,17 @@
     },
     "Interia Sport": {
       "country": "Poloni",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-27",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-22",
       "urls": [
         "https://sport.interia.pl/tenis/mecz-kosovo-w-zimbabwe-w-fed-cup-gr-iii-k,spmi,3729230",
-        "https://sport.interia.pl/pilka-reczna/mecz-kosowo-k-holandia-k-mistrzostwa-europy-k-kwal,spmi,2463312"
+        "https://sport.interia.pl/pilka-reczna/mecz-kosowo-k-holandia-k-mistrzostwa-europy-k-kwal,spmi,2463312",
+        "https://sport.interia.pl/pilka-reczna/mecz-kosowo-k-gruzja-k-mistrzostwa-europy-k-kwal,spmi,2463217"
       ]
     },
     "T.C. Vakıflar Genel Müdürlüğü": {
@@ -2655,18 +2660,19 @@
     },
     "krone.at": {
       "country": "Austri",
-      "total": 4,
+      "total": 5,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-18",
+      "lastSeen": "2026-09-23",
       "urls": [
         "https://www.krone.at/4269964",
         "https://www.krone.at/4171096",
         "https://www.krone.at/4300367",
-        "https://www.krone.at/4297022"
+        "https://www.krone.at/4297022",
+        "https://www.krone.at/4306287"
       ]
     },
     "AEF info": {
@@ -3034,17 +3040,18 @@
     },
     "TRT Avaz": {
       "country": "Turqi",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-09-05",
-      "lastSeen": "2026-09-18",
+      "lastSeen": "2026-09-23",
       "urls": [
         "https://www.trtavaz.com.tr/haber/tur/turkistandan/uskup-te-osmanli-avrupasi-nda-edebiyat-1400-1800-sempozyumu-duzenlendi/6a9bda56e72ad848a0b1de17",
         "https://www.trtavaz.com.tr/haber/tur/turkistandan/kosova-da-yeni-hukumet-kuruldu/6aa7ddfaa12ab216259ad58b",
-        "https://www.trtavaz.com.tr/haber/tur/turkistandan/kosova-da-bati-nil-virusu-kaynakli-ilk-olum-kaydedildi/6aace070e225a683d0490c73"
+        "https://www.trtavaz.com.tr/haber/tur/turkistandan/kosova-da-bati-nil-virusu-kaynakli-ilk-olum-kaydedildi/6aace070e225a683d0490c73",
+        "https://www.trtavaz.com.tr/haber/tur/turkistandan/lahey-deki-kosova-ozel-dairelerinin-verdigi-mahk-miyet-kararlari-temyize-tasiniy/6ab3ac93d01978fa801e3495"
       ]
     },
     "Luino Notizie": {
@@ -3307,13 +3314,13 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 66,
+      "total": 70,
       "positive": 11,
-      "neutral": 44,
+      "neutral": 45,
       "negative": 0,
-      "unknown": 11,
+      "unknown": 14,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-22",
+      "lastSeen": "2026-09-23",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
@@ -3380,7 +3387,11 @@
         "https://www.albinfo.ch/de/erdogan-turqia-do-te-vazhdoje-ta-mbeshtese-kosoven-ne-arenen-nderkombetare/",
         "https://www.albinfo.ch/de/gjithnje-kam-dashur-te-luaj-per-kosoven-erblin-osmani-gati-per-debutimin-me-dardanet/",
         "https://www.albinfo.ch/de/anamorava-economic-forum-2026-mbledh-ne-gjilan-bizneset-vendore-dhe-diasporen/",
-        "https://www.albinfo.ch/fr/erdogan-turqia-do-te-vazhdoje-ta-mbeshtese-kosoven-ne-arenen-nderkombetare/"
+        "https://www.albinfo.ch/fr/erdogan-turqia-do-te-vazhdoje-ta-mbeshtese-kosoven-ne-arenen-nderkombetare/",
+        "https://www.albinfo.ch/de/muriqi-kapiteni-i-ri-i-kosoves/",
+        "https://www.albinfo.ch/de/oficeri-i-fsk-se-etnik-kastrati-diplomohet-ne-shba-dhe-vleresohet-me-cmim-nderkombetar/",
+        "https://www.albinfo.ch/de/kurti-ne-nju-jork-kerkon-mbeshtetje-per-bondsteelin-banjsken-dhe-procesin-ne-hage/",
+        "https://www.albinfo.ch/de/libra-shkollore-per-nxenesit-shqiptare-ne-kantonin-aargau/"
       ]
     },
     "iAxia -": {
@@ -4268,16 +4279,17 @@
     },
     "haberler.com": {
       "country": "Turqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-12",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-23",
       "urls": [
         "https://www.haberler.com/politika/kosova-da-on-binlerce-kisi-eski-cumhurbaskani-20232252-haberi/",
-        "https://www.haberler.com/politika/kosova-da-guven-oyu-alan-albin-kurti-dorduncu-kez-20234244-haberi/"
+        "https://www.haberler.com/politika/kosova-da-guven-oyu-alan-albin-kurti-dorduncu-kez-20234244-haberi/",
+        "https://www.haberler.com/guncel/kosova-dan-saglik-isbirligi-icin-gelen-damka-20263811-haberi/"
       ]
     },
     "Türkiye Gazetesi": {
@@ -5575,17 +5587,18 @@
     },
     "BBC": {
       "country": "Britani",
-      "total": 3,
+      "total": 4,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-16",
-      "lastSeen": "2026-09-21",
+      "lastSeen": "2026-09-23",
       "urls": [
         "https://www.bbc.co.uk/news/articles/cmd79z0pdzgjo",
         "https://www.bbc.com/turkce/articles/c914dr5433v6o",
-        "https://www.bbc.com/sport/articles/c2071gdnv50o"
+        "https://www.bbc.com/sport/articles/c2071gdnv50o",
+        "https://www.bbc.com/sport/football/articles/c6wyzk2xyz90o"
       ]
     },
     "lbc.co.uk": {
@@ -8292,15 +8305,16 @@
     },
     "PodkarpacieLIVE": {
       "country": "Poloni",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-22",
-      "lastSeen": "2026-09-22",
+      "lastSeen": "2026-09-23",
       "urls": [
-        "https://www.podkarpacielive.pl/mecz/158315,kosowo-vs-irlandia"
+        "https://www.podkarpacielive.pl/mecz/158315,kosowo-vs-irlandia",
+        "https://www.podkarpacielive.pl/pl/wydarzenia/57713,kosowo---irlandia-typy-kursy-bukmacherskie-zapowiedz-24092026"
       ]
     },
     "triesteprima.it": {
@@ -8357,15 +8371,16 @@
     },
     "iGol.pl": {
       "country": "Poloni",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-23",
-      "lastSeen": "2026-09-22",
+      "lastSeen": "2026-09-23",
       "urls": [
-        "https://igol.pl/mecz/65119/kosowo-izrael/"
+        "https://igol.pl/mecz/65119/kosowo-izrael/",
+        "https://igol.pl/mecz/65003/kosowo-irlandia/"
       ]
     },
     "Diyanet Haber": {
@@ -8461,15 +8476,16 @@
     },
     "Betarades": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-23",
       "lastSeen": "2026-09-23",
       "urls": [
-        "https://www.betarades.gr/kosovo-irlandia-kanali-o-agonas-se-live-streaming-24-09/"
+        "https://www.betarades.gr/kosovo-irlandia-kanali-o-agonas-se-live-streaming-24-09/",
+        "https://www.betarades.gr/kosobo-irlandia/"
       ]
     },
     "trtworld.com": {
@@ -8483,6 +8499,151 @@
       "lastSeen": "2026-09-22",
       "urls": [
         "https://www.trtworld.com/article/8cedb07d60bd"
+      ]
+    },
+    "newsrimini.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://www.newsrimini.it/icaro-sport/under-21-i-titani-ripartono-dal-kosovo-il-ct-cecchetti-la-squadra-e-pronta"
+      ]
+    },
+    "Terzogiornale": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://www.terzogiornale.it/2026/09/23/kosovo-breve-storia-di-un-popolo-sventurato/"
+      ]
+    },
+    "Foxbet.gr": {
+      "country": "Greqi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://www.foxbet.gr/prognostika/447523-kosovo-irlandia",
+        "https://www.foxbet.gr/prognostika/447515-san-marino-kosovo"
+      ]
+    },
+    "StoiximaView.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://stoiximaview.gr/analyseis-podosfairo/kosovo-irlandia-24092026/"
+      ]
+    },
+    "1X2": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://www.1x2.se/sportnyheter/fotbollsmorgons-speltips-infor-torsdagens-nations-league"
+      ]
+    },
+    "bettingstugan.se": {
+      "country": "Suedi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://bettingstugan.se/speltips/europatipset-torsdag-24-9-3",
+        "https://bettingstugan.se/speltips/topptipset-torsdag-24-9-2"
+      ]
+    },
+    "Eurosport Polska": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://eurosport.tvn24.pl/pilka-nozna/liga-narodow/2026-2027/live-kosowo-irlandia_mtc20005856/live.shtml"
+      ]
+    },
+    "Kultura Liberalna": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://kulturaliberalna.pl/2026/09/23/o-zasadnosci-zdradzania-bohaterow/"
+      ]
+    },
+    "diyanethaber.com.tr": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://www.diyanethaber.com.tr/kosova-islam-birliginden-istanbul-muftulugune-ziyaret"
+      ]
+    },
+    "AKŞAM": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.aksam.com.tr/dunya/ordularini-turkiye-guclendirdi-kurtiden-baskan-erdogana-tesekkur/haber-1700372"
+      ]
+    },
+    "ssbulten.com.tr": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 1,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://ssbulten.com.tr/gundem/detay/kosovada-22-eylul-1999-tarihinde-sehit-olan-havasilah-muhimmat-bascavus-huseyin-kutlu-pristinede-anildi--22302"
       ]
     }
   }

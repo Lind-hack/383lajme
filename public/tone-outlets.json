@@ -1,11 +1,11 @@
 {
   "lastUpdated": "2026-09-23",
   "overallIndex": 52,
-  "totalArticles": 98,
-  "sourceCount": 81,
+  "totalArticles": 123,
+  "sourceCount": 98,
   "stanceVersion": 3,
-  "unattributed": 216,
-  "nonEditorial": 2,
+  "unattributed": 227,
+  "nonEditorial": 4,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -112,7 +112,7 @@
         {
           "name": "BBC",
           "sentiment": "unknown",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Republic of Ireland: Heimir Hallgrimsson's side Republic of Ireland braced for testing Nations League - BBC",
@@ -126,17 +126,30 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Republic of Ireland v Israel: Irish squad will 'come together' to discuss fixtures, says Dara O'Shea - BBC",
+              "albanianTitle": "Republika e Irlandës kundër Izraelit: Lojtarët do të mblidhen për të diskutuar ndeshjet, thotë Dara O'Shea - BBC",
+              "blurb": "Lojtarët e Irlandës do të diskutojnë për ndeshjet e ardhshme, përfshirë atë kundër Izraelit, sipas futbollistit Dara O'Shea.",
+              "imageUrl": "https://ichef.bbci.co.uk/ace/branded_sport/1200/cpsprodpb/4567/live/cc2b1e00-b73a-11f1-aa9c-3d062fa3aea7.jpg",
+              "url": "https://www.bbc.com/sport/football/articles/c6wyzk2xyz90o",
+              "date": "2026-09-23",
+              "sentiment": "unknown",
+              "reason": "Article does not address Kosovo, stance cannot be inferred",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 3,
+          "totalArticles": 4,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-16",
-          "lastSeen": "2026-09-21"
+          "lastSeen": "2026-09-23"
         },
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 4,
           "articles": [
             {
               "title": "‘Our War is Being Judged’: In Kosovo, Outrage at Hague Verdict Simmers - Balkan Insight",
@@ -154,13 +167,39 @@
             {
               "title": "Kosovo Court Orders MPs to Elect President by October 6 - Balkan Insight",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Gjykata në Kosovë ka urdhëruar deputetët e Kuvendit që të zgjedhin presidentin e vendit deri më 6 tetor.",
               "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Kosovo-parliament-September-11-2026-BIRN-e1789136878366.jpg",
               "url": "https://balkaninsight.com/2026/09/23/kosovo-court-orders-mps-to-elect-president-by-october-6/bi/",
               "date": "2026-09-23",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo Court Orders MPs to Elect President by October 6 - balkaninsight.com",
+              "albanianTitle": "Gjykata në Kosovë urdhëron deputetët që të zgjedhin presidentin deri më 6 tetor - balkaninsight.com",
+              "blurb": "Gjykata në Kosovë ka urdhëruar deputetët e Kuvendit që të zgjedhin presidentin e vendit deri më 6 tetor.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Kosovo-parliament-September-11-2026-BIRN-e1789136878366.jpg",
+              "url": "https://balkaninsight.com/2026/09/23/kosovo-court-orders-mps-to-elect-president-by-october-6/bi/",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Neutral factual reporting of court order",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "‘Our War is Being Judged’: In Kosovo, Outrage at Hague Verdict Simmers - balkaninsight.com",
+              "albanianTitle": null,
+              "blurb": "Qytetarët në Kosovë po shprehin pakënaqësi të thellë lidhur me vendimin e fundit të Gjykatës së Hagës.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/viber_image_2026-09-18_12-52-39-522-ardita-1-e1790007296112.jpg",
+              "url": "https://balkaninsight.com/2026/09/22/our-war-is-being-judged-in-kosovo-outrage-at-hague-verdict-simmers/btj/",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Quote reflects Kosovo reaction, not outlet bias",
+              "isQuote": true,
               "evidence": "",
               "speaker": ""
             }
@@ -176,8 +215,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
-        "excluded": 2,
+        "n": 3,
+        "excluded": 3,
         "confident": false,
         "stanceVersion": 3
       }
@@ -403,7 +442,7 @@
             {
               "title": "Kosovo : Vincent Hervouët décrypte la chute de Hashim Thaçi et le procès de l’Occident - lejdd.fr",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Analisti Vincent Hervouët shqyrton rrethanat e dorëheqjes së Hashim Thaçit dhe procesin gjyqësor në lidhje me zhvillimet në Kosovë.",
               "imageUrl": null,
               "url": "https://www.lejdd.fr/Chroniques/kosovo-vincent-hervouet-decrypte-la-chute-de-hashim-thaci-et-le-proces-de-loccident-184218",
               "date": "2026-09-23",
@@ -451,7 +490,7 @@
             {
               "title": "Pronostic Kosovo Irlande : Ligue des Nations (24/09/2026) | Analyse IA - paris-sportifs.lefigaro.fr",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Analiza e inteligjencës artificiale për ndeshjen e Ligës së Kombeve ndërmjet Kosovës dhe Irlandës që zhvillohet në shtator.",
               "imageUrl": "https://paris-sportifs.lefigaro.fr/app/uploads/2026/09/prediction-lefigaro-11431.png",
               "url": "https://paris-sportifs.lefigaro.fr/pronostics/kosovo-republique-dirlande-24-09-2026/",
               "date": "2026-09-23",
@@ -894,6 +933,30 @@
           "lastSeen": "2026-09-23"
         },
         {
+          "name": "Terzogiornale",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, breve storia di un popolo sventurato - Terzogiornale",
+              "albanianTitle": null,
+              "blurb": "Një përmbledhje historike mbi zhvillimet dhe rrugëtimin e popullit të Kosovës ndër vite në këtë shkrim.",
+              "imageUrl": "https://www.terzogiornale.it/wp-content/uploads/2026/09/Kosovo.jpeg",
+              "url": "https://www.terzogiornale.it/2026/09/23/kosovo-breve-storia-di-un-popolo-sventurato/",
+              "date": "2026-09-23",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
+        },
+        {
           "name": "Trieste Cafe",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -1051,6 +1114,30 @@
           "lastSeen": "2026-09-22"
         },
         {
+          "name": "newsrimini.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Under 21: i Titani ripartono dal Kosovo. Il CT Cecchetti: \"La squadra è pronta\" - newsrimini.it",
+              "albanianTitle": null,
+              "blurb": "Përfaqësuesja U-21 e San Marinos përgatitet për ndeshjen e radhës kundër përfaqësueses së re të Kosovës.",
+              "imageUrl": "https://www.newsrimini.it/uploads/2026/la-nazionale-under-21-di-san-marino-durante-un-allenamento-c-fsgc.webp",
+              "url": "https://www.newsrimini.it/icaro-sport/under-21-i-titani-ripartono-dal-kosovo-il-ct-cecchetti-la-squadra-e-pronta",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Quote from coach, outlet reports without bias",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Cecchetti"
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
+        },
+        {
           "name": "triesteprima.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1080,8 +1167,8 @@
         "positive": 4,
         "neutral": 96,
         "negative": 0,
-        "n": 24,
-        "excluded": 3,
+        "n": 25,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1181,7 +1268,7 @@
             {
               "title": "Kosovo: Ex-LASKler und zwei weitere Spieler mit Rücktritt für Foda vor Duell gegen ÖFB-Team - Ligaportal",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Tre futbollistë të Kosovës, përfshirë ish-lojtarin e LASK-ut, janë larguar nga ekipi para ndeshjes kundër përfaqësueses së Austrisë.",
               "imageUrl": "https://www.ligaportal.at/bundesliga/images/25-26/lask/Sommer-Vorbereitung/berisha-valon-trainingsauftakt-lask-24-06-25-harry-dostal-pumann.jpg",
               "url": "https://www.ligaportal.at/international/uefa-nations-league/94054-kosovo-ex-laskler-und-zwei-weitere-spieler-mit-ruecktritt-fuer-foda-vor-duell-gegen-oefb-team",
               "date": "2026-09-23",
@@ -1222,6 +1309,30 @@
           "lastSeen": "2026-09-21"
         },
         {
+          "name": "krone.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Teilhabe stärken - Wie das Land Vorarlberg Frauen im Kosovo hilft - krone.at",
+              "albanianTitle": "Fuqizimi i pjesëmarrjes: Si po i ndihmon gratë në Kosovë landi i Vorarlbergut - krone.at",
+              "blurb": "Autoritetet e rajonit të Vorarlbergut në Austri po zbatojnë një program për fuqizimin e pjesëmarrjes së grave në Kosovë.",
+              "imageUrl": "https://imgl.krone.at/scaled/4306300/vfcd43b/og_image.jpg",
+              "url": "https://www.krone.at/4306287",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-09-01",
+          "lastSeen": "2026-09-23"
+        },
+        {
           "name": "profil.at",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1251,7 +1362,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 6,
+        "n": 7,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -1343,10 +1454,10 @@
               "speaker": "Erdogan"
             }
           ],
-          "totalArticles": 66,
+          "totalArticles": 70,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
-          "lastSeen": "2026-09-22"
+          "lastSeen": "2026-09-23"
         },
         {
           "name": "Luzerner Zeitung",
@@ -1459,12 +1570,12 @@
         }
       ],
       "summary": {
-        "index": 54,
+        "index": 53,
         "positive": 7,
         "neutral": 93,
         "negative": 0,
-        "n": 14,
-        "excluded": 1,
+        "n": 15,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1536,9 +1647,33 @@
     "Greqi": {
       "outlets": [
         {
-          "name": "Betarades",
-          "sentiment": "unknown",
+          "name": "Bankingnews",
+          "sentiment": "negative",
           "articleCount": 1,
+          "articles": [
+            {
+              "title": "Εφιάλτης στα Βαλκάνια: Στα όπλα Σερβία, Βοσνία και Κόσοβο – Έρχεται νέος αιματηρός πόλεμος, με εμπλοκή Trump και «βρώμικα» deals - Bankingnews",
+              "albanianTitle": "Makthi në Ballkan: Serbia, Bosnja dhe Kosova në armë – Po vjen një luftë e re e përgjakshme, me përfshirjen e Trump dhe marrëveshje të pista",
+              "blurb": "Analiza mbi situatën e sigurisë në Ballkan përfshin tensionet ndërmjet Serbisë, Bosnjës dhe Kosovës në kontekstin e zhvillimeve të fundit politike.",
+              "imageUrl": "https://www.bankingnews.gr/media/k2/items/cache/598c00988829014e42347987c4dcd480_XL.jpg",
+              "url": "https://www.bankingnews.gr/diethni/articles/901118/efialtis-ksypna-sta-balkania-gyrizoun-oi-daimones-tou-polemou-proeidopoiisi-sok-gia-mparoutapothiki-pou-ekrignytai",
+              "date": "2026-09-23",
+              "sentiment": "negative",
+              "reason": "Gjuha e ngarkuar, përshkrim alarmist i Kosovës si pjesë e një lufte të mundshme",
+              "isQuote": false,
+              "evidence": "Εφιάλτης στα Βαλκάνια αιματηρός πόλεμος",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-21",
+          "lastSeen": "2026-09-23"
+        },
+        {
+          "name": "Betarades",
+          "sentiment": "neutral",
+          "articleCount": 2,
           "articles": [
             {
               "title": "Κόσοβο – Ιρλανδία Κανάλι ▶️ Ο αγώνας σε Live Streaming (24/09) - Betarades",
@@ -1552,9 +1687,59 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "ΚΟΣΟΒΟ - ΙΡΛΑΝΔΙΑ: Ο λόγος που έχει προβάδισμα νίκης το Κόσοβο - Betarades",
+              "albanianTitle": "KOSOVË - IRLANDË: Arsyeja pse Kosova është favorite për fitore",
+              "blurb": "Analizat sportive vlerësojnë faktorët kryesorë që i japin përparësi përfaqësueses së Kosovës në ndeshjen e futbollit kundër Irlandës.",
+              "imageUrl": "https://betarades2-5c24.kxcdn.com/wp-content/themes/betarades/assets/previews-images/preview-861409.jpg",
+              "url": "https://www.betarades.gr/kosobo-irlandia/",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë sportiv",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
+        },
+        {
+          "name": "Foxbet.gr",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "ΚΟΣΟΒΟ - ΙΡΛΑΝΔΙΑ (24/09/2026) | ΠΡΟΓΝΩΣΤΙΚΑ - ΣΤΟΙΧΗΜΑ - ΑΝΑΛΥΣΗ - Foxbet.gr",
+              "albanianTitle": "KOSOVË - IRLANDË (24/09/2026) | PARASHIKIMET - BASTET - ANALIZA",
+              "blurb": "Analiza dhe parashikimet për ndeshjen e Ligës së Kombeve ndërmjet Kosovës dhe Irlandës që zhvillohet më 24 shtator 2026.",
+              "imageUrl": "https://www.foxbet.gr/cdn-cgi/image/quality=85,fit=crop,format=auto,width=1200,height=628/media/original_images/prognostika_nations_league_2.jpg",
+              "url": "https://www.foxbet.gr/prognostika/447523-kosovo-irlandia",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Parashikime dhe analiza sportive pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "ΣΑΝ ΜΑΡΙΝΟ - ΚΟΣΟΒΟ (24/09/2026) | ΠΡΟΓΝΩΣΤΙΚΑ - ΣΤΟΙΧΗΜΑ - ΑΝΑΛΥΣΗ - Foxbet.gr",
+              "albanianTitle": "San Marino - Kosovë (24/09/2026) | Parashikimet - Bastet - Analiza - Foxbet.gr",
+              "blurb": "Analizë dhe parashikime për ndeshjen e futbollit ndërmjet San Marinos dhe Kosovës që zhvillohet më 24 shtator 2026.",
+              "imageUrl": "https://www.foxbet.gr/cdn-cgi/image/quality=85,fit=crop,format=auto,width=1200,height=628/media/original_images/prokrimatikau21prognwstika.png",
+              "url": "https://www.foxbet.gr/prognostika/447515-san-marino-kosovo",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-23",
           "lastSeen": "2026-09-23"
@@ -1582,6 +1767,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-20",
           "lastSeen": "2026-09-20"
+        },
+        {
+          "name": "StoiximaView.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "ΚΟΣΟΒΟ - ΙΡΛΑΝΔΙΑ (24-09-26) | Προγνωστικά UEFA Nations League - StoiximaView.gr",
+              "albanianTitle": "KOSOVË - IRLANDË (24-09-26) | Parashikimet për UEFA Nations League",
+              "blurb": "Parashikimet dhe vlerësimet për ndeshjen e UEFA Ligës së Kombeve ndërmjet Kosovës dhe Irlandës të datës 24 shtator 2026.",
+              "imageUrl": "https://stoiximaview.gr/wp-content/uploads/2026/09/match-day-betcomrade-feed-2026-09-24.jpg",
+              "url": "https://stoiximaview.gr/analyseis-podosfairo/kosovo-irlandia-24092026/",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Parashikime UEFA Nations League pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
         },
         {
           "name": "sport-fm.gr",
@@ -1622,18 +1831,50 @@
         }
       ],
       "summary": {
-        "index": 50,
+        "index": 44,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 3,
+        "neutral": 88,
+        "negative": 12,
+        "n": 8,
         "excluded": 1,
-        "confident": false,
-        "stanceVersion": 3
+        "confident": true,
+        "stanceVersion": 3,
+        "movement": {
+          "delta": -6,
+          "from": 50,
+          "outlet": "Bankingnews",
+          "title": "Makthi në Ballkan: Serbia, Bosnja dhe Kosova në armë – Po vjen një luftë e re e përgjakshme, me përfshirjen e Trump dhe marrëveshje të pista",
+          "evidence": "Εφιάλτης στα Βαλκάνια αιματηρός πόλεμος",
+          "url": "https://www.bankingnews.gr/diethni/articles/901118/efialtis-ksypna-sta-balkania-gyrizoun-oi-daimones-tou-polemou-proeidopoiisi-sok-gia-mparoutapothiki-pou-ekrignytai"
+        }
       }
     },
     "Suedi": {
       "outlets": [
+        {
+          "name": "1X2",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Fotbollsmorgons speltips inför torsdagens Nations League - 1X2",
+              "albanianTitle": "Këshilla për bastet e mëngjesit për ndeshjet e së enjtes në Ligën e Kombeve - 1X2",
+              "blurb": "Këshilla për baste sportive dhe analiza teknike për ndeshjet e Ligës së Kombeve që zhvillohen këtë të enjte.",
+              "imageUrl": "https://cdn.sanity.io/images/ol1w6ddr/paf-prod/770348d20c868ff59d1f15434d518286a12ab9db-1920x1080.jpg",
+              "url": "https://www.1x2.se/sportnyheter/fotbollsmorgons-speltips-infor-torsdagens-nations-league",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
+        },
         {
           "name": "Bettingstugan.se",
           "sentiment": "neutral",
@@ -1694,6 +1935,43 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-23",
           "lastSeen": "2026-09-23"
+        },
+        {
+          "name": "bettingstugan.se",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Europatipset idag 24/9 2026 » Tips, Analys & spelförslag - bettingstugan.se",
+              "albanianTitle": "Europatipset sot 24/9 2026 » Këshilla, analiza dhe sugjerime për baste - bettingstugan.se",
+              "blurb": "Analizë e detajuar dhe sugjerime për lojën Europatipset për ndeshjet e futbollit të datës 24 shtator 2026.",
+              "imageUrl": "https://bettingstugan.imgix.net/assets/uploads/user/tips/_1200x630_crop_center-center_82_none/Europatipset_analys_victor.png?mtime=1755850198",
+              "url": "https://bettingstugan.se/speltips/europatipset-torsdag-24-9-3",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Topptipset idag » Torsdag 24 September » Tips & Förslag - bettingstugan.se",
+              "albanianTitle": "Topptipset sot » E enjte 24 shtator » Këshilla dhe sugjerime - bettingstugan.se",
+              "blurb": "Përmbledhje me këshilla dhe parashikime për ndeshjet e futbollit në kuadër të Topptipset për datën 24 shtator.",
+              "imageUrl": "https://bettingstugan.imgix.net/assets/uploads/user/tips/_1200x630_crop_center-center_82_none/topptipset-poolarn.png?mtime=1755852431",
+              "url": "https://bettingstugan.se/speltips/topptipset-torsdag-24-9-2",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike pa gjuhë të ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
         }
       ],
       "summary": {
@@ -1701,14 +1979,38 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 5,
         "excluded": 1,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       }
     },
     "Poloni": {
       "outlets": [
+        {
+          "name": "Eurosport Polska",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosowo - Irlandia - Raport - Piłka nożna - Wynik i najlepsze momenty - Liga Narodów - Eurosport Polska",
+              "albanianTitle": "Kosovë - Irlandë - Raport - Futboll - Rezultati dhe momentet kryesore - Liga e Kombeve - Eurosport Polska",
+              "blurb": "Raport mbi rezultatin dhe momentet kryesore të ndeshjes së Ligës së Kombeve ndërmjet Kosovës dhe Irlandës.",
+              "imageUrl": null,
+              "url": "https://eurosport.tvn24.pl/pilka-nozna/liga-narodow/2026-2027/live-kosowo-irlandia_mtc20005856/live.shtml",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Fact‑based report of match result, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
+        },
         {
           "name": "Fangol.pl",
           "sentiment": "neutral",
@@ -1734,9 +2036,57 @@
           "lastSeen": "2026-09-21"
         },
         {
-          "name": "PodkarpacieLIVE",
+          "name": "Interia Sport",
           "sentiment": "neutral",
           "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosowo (k) - gruzja (k) - Interia Sport",
+              "albanianTitle": "Kosovë (f) - Gjeorgji (f) - Interia Sport",
+              "blurb": "Informacione lidhur me ndeshjen e futbollit të femrave ndërmjet përfaqësueses së Kosovës dhe asaj të Gjeorgjisë.",
+              "imageUrl": null,
+              "url": "https://sport.interia.pl/pilka-reczna/mecz-kosowo-k-gruzja-k-mistrzostwa-europy-k-kwal,spmi,2463217",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Simple match title, no loaded wording toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-27",
+          "lastSeen": "2026-09-22"
+        },
+        {
+          "name": "Kultura Liberalna",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "GEBERT: O zasadności zdradzania bohaterów - Kultura Liberalna",
+              "albanianTitle": "GEBERT: Mbi arsyeshmërinë e tradhtimit të heronjve - Kultura Liberalna",
+              "blurb": "Konstanty Gebert analizon çështjen e tradhtisë ndaj heronjve në kontekstin e vlerave dhe diskursit publik kulturor.",
+              "imageUrl": "https://kulturaliberalna.pl/wp-content/uploads/2026/09/Mladic_Trial_Judgement.jpg",
+              "url": "https://kulturaliberalna.pl/2026/09/23/o-zasadnosci-zdradzania-bohaterow/",
+              "date": "2026-09-23",
+              "sentiment": "unknown",
+              "reason": "Article title does not mention Kosovo, so outlet stance cannot be inferred",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
+        },
+        {
+          "name": "PodkarpacieLIVE",
+          "sentiment": "neutral",
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosowo – Irlandia - PodkarpacieLIVE",
@@ -1750,12 +2100,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosowo - Irlandia: typy, kursy bukmacherskie, zapowiedź (24.09.2026) - PodkarpacieLIVE",
+              "albanianTitle": "Kosovë - Irlandë: parashikimet, koeficientët e basteve, paralajmërimi (24.09.2026) - PodkarpacieLIVE",
+              "blurb": "Parashikime, koeficientë të basteve dhe paralajmërim për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës më 24 shtator.",
+              "imageUrl": "https://www.podkarpacielive.pl/files/jpg/110414.jpg",
+              "url": "https://www.podkarpacielive.pl/pl/wydarzenia/57713,kosowo---irlandia-typy-kursy-bukmacherskie-zapowiedz-24092026",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Headline merely offers betting odds and preview, no hostile or supportive tone",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-22",
-          "lastSeen": "2026-09-22"
+          "lastSeen": "2026-09-23"
         },
         {
           "name": "Program TV Onet",
@@ -1869,7 +2232,7 @@
         {
           "name": "iGol.pl",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosowo – Izrael 14 listopada 2026 - iGol.pl",
@@ -1883,12 +2246,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosowo – Irlandia 24 września 2026 - iGol.pl",
+              "albanianTitle": "Kosovë – Irlandë, 24 shtator 2026 - iGol.pl",
+              "blurb": "Ndeshja e futbollit ndërmjet Kosovës dhe Irlandës e planifikuar për t'u zhvilluar më 24 shtator 2026.",
+              "imageUrl": "https://igol.pl/og/mecz/65003/?v=before",
+              "url": "https://igol.pl/mecz/65003/kosowo-irlandia/",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Headline is a plain match listing with no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-23",
-          "lastSeen": "2026-09-22"
+          "lastSeen": "2026-09-23"
         },
         {
           "name": "programtv.onet.pl",
@@ -1968,14 +2344,38 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 10,
-        "excluded": 1,
+        "n": 14,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       }
     },
     "Turqi": {
       "outlets": [
+        {
+          "name": "AKŞAM",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ordularını Türkiye güçlendirdi! Kurti'den Başkan Erdoğan'a teşekkür - AKŞAM",
+              "albanianTitle": "Turqia forcoi ushtrinë tonë! Kurti falënderon Presidentin Erdoğan - AKŞAM",
+              "blurb": "Kryeministri Albin Kurti ka falënderuar presidentin turk Rexhep Tajip Erdogan për mbështetjen në forcimin e ushtrisë së Kosovës.",
+              "imageUrl": "https://img3.aksam.com.tr/imgsdisk/2026/09/22/t25_ordularini-turkiye-guclen-524.jpg",
+              "url": "https://www.aksam.com.tr/dunya/ordularini-turkiye-guclendirdi-kurtiden-baskan-erdogana-tesekkur/haber-1700372",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton falënderimin pa ngarkim gjuhësor",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-22"
+        },
         {
           "name": "Anadolu Ajansı",
           "sentiment": "neutral",
@@ -2258,6 +2658,30 @@
           "lastSeen": "2026-09-22"
         },
         {
+          "name": "TRT Avaz",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Lahey’deki Kosova Özel Dairelerinin verdiği mahkûmiyet kararları temyize taşınıyor - Türkistan'dan - Haber - TRT Avaz",
+              "albanianTitle": "Dërgohen në apel vendimet dënuese të Dhomave të Specializuara të Kosovës në Hagë",
+              "blurb": "Dhomat e Specializuara të Kosovës në Hagë po përballen me ankesa ndaj vendimeve të shkallës së parë.",
+              "imageUrl": "https://www.trtavaz.com.tr/uploads/photos/2026/09/23/a79015c95c1d418ea7d1319b8a01c4f9.jpg?w=640",
+              "url": "https://www.trtavaz.com.tr/haber/tur/turkistandan/lahey-deki-kosova-ozel-dairelerinin-verdigi-mahk-miyet-kararlari-temyize-tasiniy/6ab3ac93d01978fa801e3495",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Hukuki süreç raporu, tarafsız",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-05",
+          "lastSeen": "2026-09-23"
+        },
+        {
           "name": "TRT World",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -2391,6 +2815,30 @@
           "lastSeen": "2026-09-22"
         },
         {
+          "name": "diyanethaber.com.tr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova İslam Birliği'nden İstanbul Müftülüğüne ziyaret - diyanethaber.com.tr",
+              "albanianTitle": "Bashkësia Islame e Kosovës viziton Myftininë e Stambollit - diyanethaber.com.tr",
+              "blurb": "Përfaqësuesit e Bashkësisë Islame të Kosovës kanë realizuar një vizitë zyrtare në Myftininë e Stambollit në Turqi.",
+              "imageUrl": "https://diyanethabercomtr.teimg.com/crop/1280x720/diyanethaber-com-tr/uploads/2026/09/istanbul-18.jpg",
+              "url": "https://www.diyanethaber.com.tr/kosova-islam-birliginden-istanbul-muftulugune-ziyaret",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton vizitën pa ngarkim gjuhësor",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
+        },
+        {
           "name": "gazetekalem.com.tr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2415,6 +2863,104 @@
           "lastSeen": "2026-09-21"
         },
         {
+          "name": "haberler.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova'dan sağlık işbirliği için gelen Damka, Edirne Valisi Sezer'i ziyaret etti - haberler.com",
+              "albanianTitle": "Damka viziton guvernatorin e Edirnes, Sezer, për bashkëpunim në fushën e shëndetësisë - haberler.com",
+              "blurb": "Ministri Damka vizitoi guvernatorin e Edirnesë, Sezer, për të diskutuar mbi bashkëpunimin në fushën e shëndetësisë.",
+              "imageUrl": "https://foto.haberler.com/haber/2026/09/23/kosova-dan-saglik-isbirligi-icin-gelen-damka-20263811_amp.jpg",
+              "url": "https://www.haberler.com/guncel/kosova-dan-saglik-isbirligi-icin-gelen-damka-20263811-haberi/",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i vizitës për bashkëpunim shëndetësor",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-09-12",
+          "lastSeen": "2026-09-23"
+        },
+        {
+          "name": "sondakika.com",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "Edirne'de Sultan 2. Bayezid Sağlık Müzesi'ni Kosova Başbakan Yardımcısı Damka gezdi - sondakika.com",
+              "albanianTitle": "Zëvendëskryeministri i Kosovës, Damka, viziton Muzeun e Shëndetësisë 'Sulltan Bajaziti II' në Edrene - sondakika.com",
+              "blurb": "Zëvendëskryeministri i Kosovës, Emilija Rexhepi, ka vizituar Muzeun e Shëndetësisë Sulltan Bajaziti i Dytë në qytetin e Edirnesë.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/09/23/kosova-basbakan-yardimcisi-damka-edirne-deki-2-20263763_amp.jpg",
+              "url": "https://www.sondakika.com/guncel/haber-edirne-de-sultan-2-bayezid-saglik-muzesi-ni-kosova-20263898/",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton vizitën pa ngarkim gjuhësor",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosova Başbakan Yardımcısı Damka, sağlık işbirliği için Edirne Valisi Sezer'le görüştü - sondakika.com",
+              "albanianTitle": "Zëvendëskryeministri i Kosovës, Damka, takon Guvernatorin e Edrenesë, Sezer, për bashkëpunim në shëndetësi - sondakika.com",
+              "blurb": "Zëvendëskryeministri i Kosovës, Emilija Rexhepi, diskutoi me guvernatorin e Edirnesë për mundësitë e bashkëpunimit në sektorin e shëndetësisë.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/09/23/kosova-dan-saglik-isbirligi-icin-gelen-damka-20263811_amp.jpg",
+              "url": "https://www.sondakika.com/guncel/haber-kosova-basbakan-yardimcisi-damka-saglik-isbirligi--20263859/",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Faktikisht raporton takimin shëndetësor pa ngarkim gjuhësor",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "ETSO'da Kosova ile ticari iş birliği ve karşılıklı yatırım fırsatları görüşüldü - sondakika.com",
+              "albanianTitle": "Në ETSO u diskutua për bashkëpunimin tregtar dhe mundësitë e investimeve të ndërsjella me Kosovën - sondakika.com",
+              "blurb": "Në Dhomën e Tregtisë dhe Industrisë së Edirnesë u diskutua për bashkëpunimin tregtar dhe mundësitë e investimeve me Kosovën.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/09/23/kosova-istanbul-baskonsolosu-zeka-etso-yu-ziy-20263688_amp.jpg",
+              "url": "https://www.sondakika.com/guncel/haber-etso-da-kosova-ile-ticari-is-birligi-ve-karsilikli-20263833/",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Faktik rapor, ticari iş birliği",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 8,
+          "trend": "neutral",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-09-23"
+        },
+        {
+          "name": "ssbulten.com.tr",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "KOSOVA’DA 22 EYLÜL 1999 TARİHİNDE ŞEHİT OLAN HAVASILAH MÜHİMMAT BAŞÇAVUŞ HÜSEYİN KUTLU, PRIŞTİNE’DE ANILDI - ssbulten.com.tr",
+              "albanianTitle": "Në Prishtinë u përkujtua rreshteri i armatimit dhe municionit, Hüseyin Kutlu, i rënë dëshmor në Kosovë më 22 shtator 1999",
+              "blurb": "Në Prishtinë është mbajtur një ceremoni përkujtimore për rreshterin Huseyin Kutlu, i cili humbi jetën në vitin 1999.",
+              "imageUrl": "https://img.ssbulten.com.tr/assets/outsource/374b82ebb6845f344910bce470b1bdafe181ddd25327e0fe30b46f70e3af2bcb/img_0-discover.jpg",
+              "url": "https://ssbulten.com.tr/gundem/detay/kosovada-22-eylul-1999-tarihinde-sehit-olan-havasilah-muhimmat-bascavus-huseyin-kutlu-pristinede-anildi--22302",
+              "date": "2026-09-23",
+              "sentiment": "positive",
+              "reason": "Dil olumlu, kahramanı yüceltme",
+              "isQuote": false,
+              "evidence": "ŞEHİT OLAN",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-23"
+        },
+        {
           "name": "trtworld.com",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -2422,7 +2968,7 @@
             {
               "title": "Erdogan holds diplomatic talks with Kosovo and Georgia premiers in New York - trtworld.com",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Presidenti turk Rexhep Tajip Erdogan zhvilloi takime diplomatike me kryeministrat e Kosovës dhe Gjeorgjisë në Nju Jork.",
               "imageUrl": "https://d341l694dl30ad.cloudfront.net/images/cms/2026/09/22/6ab1c98e0a8a4fe78a47f5d3/original/2f1eaf12-bd46-4ee6-90f0-faf23eb361d5-1790036366935.jpg?width=1080&format=jpg&quality=80",
               "url": "https://www.trtworld.com/article/8cedb07d60bd",
               "date": "2026-09-22",
@@ -2538,11 +3084,11 @@
         }
       ],
       "summary": {
-        "index": 52,
-        "positive": 4,
-        "neutral": 96,
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 23,
+        "n": 31,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
