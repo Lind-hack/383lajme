@@ -9303,8 +9303,8 @@
   {
     "date": "2026-09-24",
     "overallIndex": 51,
-    "totalArticles": 120,
-    "sourceCount": 120,
+    "totalArticles": 148,
+    "sourceCount": 136,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -9312,9 +9312,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 7,
         "excluded": 1,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "SHBA": {
@@ -9332,37 +9332,37 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 7,
         "excluded": 8,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "Francë": {
-        "index": 56,
-        "positive": 12,
-        "neutral": 88,
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
         "negative": 0,
-        "n": 8,
+        "n": 12,
         "excluded": 8,
         "confident": true,
         "stanceVersion": 3
       },
       "Itali": {
         "index": 52,
-        "positive": 5,
-        "neutral": 95,
+        "positive": 4,
+        "neutral": 96,
         "negative": 0,
-        "n": 20,
-        "excluded": 6,
+        "n": 26,
+        "excluded": 9,
         "confident": true,
         "stanceVersion": 3
       },
       "Austri": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 53,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 10,
+        "n": 15,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
@@ -9372,17 +9372,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 18,
+        "n": 23,
         "excluded": 7,
         "confident": true,
         "stanceVersion": 3
       },
       "Holandë": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 1,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -9468,11 +9468,19 @@
         "sentiment": "positive"
       },
       {
-        "title": "KOSOVA’DA 22 EYLÜL 1999 TARİHİNDE ŞEHİT OLAN HAVASILAH MÜHİMMAT BAŞÇAVUŞ HÜSEYİN KUTLU, PRIŞTİNE’DE ANILDI - ssbulten.com.tr",
-        "source": "ssbulten.com.tr",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://ssbulten.com.tr/gundem/detay/kosovada-22-eylul-1999-tarihinde-sehit-olan-havasilah-muhimmat-bascavus-huseyin-kutlu-pristinede-anildi--22302",
+        "title": "Ireland v Kosovo preview: Hallgrímsson’s side search for a little calm before the storm against a rising side - The Irish Times",
+        "source": "The Irish Times",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.irishtimes.com/sport/soccer/2026/09/23/ireland-search-for-a-little-calm-before-the-storm-against-a-kosovo-side-looking-to-continue-their-rise/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Erfolgreicher Auftakt für Foda! Kosovo schlägt Irland - LAOLA1",
+        "source": "LAOLA1",
+        "country": "Austri",
+        "flag": "🇦🇹",
+        "url": "https://www.laola1.at/de/red/fussball/nations-league/spielbericht/erfolgreicher-auftakt-fuer-foda--kosovo-schlaegt-irland/",
         "sentiment": "positive"
       },
       {
@@ -9484,11 +9492,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "The meeting between Vučić and Kalas: Mladić, Kosovo and student-rapists - vreme.com",
-        "source": "vreme.com",
+        "title": "Ireland Player Ratings As Heimir's Men Hugely Underwhelming In Poor Kosovo Loss - Balls.ie",
+        "source": "Balls.ie",
         "country": "SHBA",
         "flag": "🇺🇸",
-        "url": "https://vreme.com/en/vesti/razgovor-vucica-i-kalas-o-mladicu-kosovu-i-studentima-silovateljima/",
+        "url": "https://www.balls.ie/football/ireland-player-ratings-as-heimirs-men-hugely-underwhelming-in-poor-kosovo-loss-663820",
         "sentiment": "negative"
       },
       {

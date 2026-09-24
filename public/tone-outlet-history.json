@@ -1668,19 +1668,20 @@
     },
     "LAOLA1": {
       "country": "Austri",
-      "total": 5,
-      "positive": 0,
+      "total": 6,
+      "positive": 1,
       "neutral": 5,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-09-23",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://www.laola1.at/de/red/fussball/euro-2028/news/praesident--franco-foda-verzichtete-fuer-kosovo-auf-millionen/",
         "https://www.laola1.at/de/red/fussball/nations-league/news/vor-oefb-duell--schnappt-sich-foda-ein-dfb-juwel-der-bayern-/",
         "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/news/ruecktritt-des-kapitaens--wirbel-bei-fodas-kosovo/",
         "https://www.laola1.at/de/red/fussball/sonstiges/news/mit-bundesliga-trio--foda-nominiert-kosovo-kader/",
-        "https://www.laola1.at/de/red/fussball/nations-league/news/kosovo--ex-lask-kicker-tritt-vor-oefb-match-zurueck/"
+        "https://www.laola1.at/de/red/fussball/nations-league/news/kosovo--ex-lask-kicker-tritt-vor-oefb-match-zurueck/",
+        "https://www.laola1.at/de/red/fussball/nations-league/spielbericht/erfolgreicher-auftakt-fuer-foda--kosovo-schlaegt-irland/"
       ]
     },
     "heute.at": {
@@ -1777,9 +1778,9 @@
     },
     "Kicker": {
       "country": "Zvicër",
-      "total": 9,
+      "total": 10,
       "positive": 0,
-      "neutral": 9,
+      "neutral": 10,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
@@ -1793,7 +1794,8 @@
         "https://www.kicker.de/kosovo-gegen-irland-2026-uefa-nations-league-5193338/ticker",
         "https://www.kicker.ch/kosovo-gegen-irland-2026-uefa-nations-league-5193338/aufstellung",
         "https://www.kicker.ch/valmir-matoshi/spieler/uefa-nations-league/2026/kosovo",
-        "https://www.kicker.ch/albian-hajdari/spieler/uefa-nations-league/2026/kosovo"
+        "https://www.kicker.ch/albian-hajdari/spieler/uefa-nations-league/2026/kosovo",
+        "https://www.kicker.at/kosovo-gegen-irland-2026-uefa-nations-league-5193338/aufstellung"
       ]
     },
     "infodifesa": {
@@ -2349,15 +2351,16 @@
     },
     "Virgilio Sport": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-28",
-      "lastSeen": "2026-08-27",
+      "lastSeen": "2026-09-24",
       "urls": [
-        "https://sport.virgilio.it/giochi-del-mediterraneo-miracolo-italia-3-0-al-96-al-kosovo-e-semifinale-centrata-per-un-gol-in-piu-in-differenza-reti-sull-albania-968926"
+        "https://sport.virgilio.it/giochi-del-mediterraneo-miracolo-italia-3-0-al-96-al-kosovo-e-semifinale-centrata-per-un-gol-in-piu-in-differenza-reti-sull-albania-968926",
+        "https://sport.virgilio.it/dirette/live/uefa-nations-league/24-9-2026/kosovo-irlanda/2626886/"
       ]
     },
     "Remocontro": {
@@ -3082,13 +3085,13 @@
     },
     "balcanicaucaso.org": {
       "country": "Itali",
-      "total": 9,
+      "total": 10,
       "positive": 0,
-      "neutral": 6,
+      "neutral": 7,
       "negative": 2,
       "unknown": 1,
       "firstSeen": "2026-09-06",
-      "lastSeen": "2026-09-18",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/",
         "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
@@ -3098,7 +3101,8 @@
         "https://www.balcanicaucaso.org/en/cp_article/kosovo-anger-and-disappointment-for-the-conviction-of-kla-leaders/",
         "https://www.balcanicaucaso.org/cp_article/kosovo-rabbia-e-delusione-per-la-condanna-dei-leader-uck/",
         "https://www.balcanicaucaso.org/cp_article/kosovo-hashim-thaci-condannato-per-crimini-di-guerra/",
-        "https://www.balcanicaucaso.org/cp_article/condanna-dei-leader-uck-le-reazioni-in-serbia/"
+        "https://www.balcanicaucaso.org/cp_article/condanna-dei-leader-uck-le-reazioni-in-serbia/",
+        "https://www.balcanicaucaso.org/cp_article/economia-e-dialogo-tra-kosovo-e-serbia/"
       ]
     },
     "NÖN.at - Niederösterreichische Nachrichten": {
@@ -3326,13 +3330,13 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 70,
+      "total": 73,
       "positive": 11,
-      "neutral": 45,
+      "neutral": 48,
       "negative": 0,
       "unknown": 14,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-23",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
@@ -3403,7 +3407,10 @@
         "https://www.albinfo.ch/de/muriqi-kapiteni-i-ri-i-kosoves/",
         "https://www.albinfo.ch/de/oficeri-i-fsk-se-etnik-kastrati-diplomohet-ne-shba-dhe-vleresohet-me-cmim-nderkombetar/",
         "https://www.albinfo.ch/de/kurti-ne-nju-jork-kerkon-mbeshtetje-per-bondsteelin-banjsken-dhe-procesin-ne-hage/",
-        "https://www.albinfo.ch/de/libra-shkollore-per-nxenesit-shqiptare-ne-kantonin-aargau/"
+        "https://www.albinfo.ch/de/libra-shkollore-per-nxenesit-shqiptare-ne-kantonin-aargau/",
+        "https://www.albinfo.ch/de/kurti-kerkon-statusin-kandidat-te-kosoves-ne-be-aplikimi-i-vitit-2022-te-procedohet-pa-vonesa/",
+        "https://www.albinfo.ch/fr/kurti-kerkon-statusin-kandidat-te-kosoves-ne-be-aplikimi-i-vitit-2022-te-procedohet-pa-vonesa/",
+        "https://www.albinfo.ch/fr/kurti-ne-nju-jork-kerkon-mbeshtetje-per-bondsteelin-banjsken-dhe-procesin-ne-hage/"
       ]
     },
     "iAxia -": {
@@ -3462,16 +3469,17 @@
     },
     "Corriere della Sera": {
       "country": "Itali",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-08",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://www.corriere.it/esteri/26_settembre_08/ambasciatrice-kosovo-italia-1e35fc84-6ab4-4a98-98e7-587952d31xlk.shtml",
-        "https://www.corriere.it/esteri/26_settembre_16/kosovo-il-serpente-hashim-thaci-condannato-a-25-anni-per-crimini-di-guerra-disordini-all-aia-e-a-pristina-per-tutta-la-vita-sono-7449573b-c48a-4313-8123-463e4dcaaxlk.shtml"
+        "https://www.corriere.it/esteri/26_settembre_16/kosovo-il-serpente-hashim-thaci-condannato-a-25-anni-per-crimini-di-guerra-disordini-all-aia-e-a-pristina-per-tutta-la-vita-sono-7449573b-c48a-4313-8123-463e4dcaaxlk.shtml",
+        "https://www.corriere.it/sport/calcio/nations-league/partita/kosovo-irlanda/2626886/?vclk=fasciaTR"
       ]
     },
     "Il Messaggero": {
@@ -5602,19 +5610,20 @@
     },
     "BBC": {
       "country": "Britani",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 3,
       "firstSeen": "2026-09-16",
-      "lastSeen": "2026-09-23",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://www.bbc.co.uk/news/articles/cmd79z0pdzgjo",
         "https://www.bbc.com/turkce/articles/c914dr5433v6o",
         "https://www.bbc.com/sport/articles/c2071gdnv50o",
         "https://www.bbc.com/sport/football/articles/c6wyzk2xyz90o",
-        "https://www.bbc.com/sport/football/live/ck790jyljq4vt"
+        "https://www.bbc.com/sport/football/live/ck790jyljq4vt",
+        "https://www.bbc.com/sport/football/live/crz9z0l30jnpt"
       ]
     },
     "lbc.co.uk": {
@@ -5912,16 +5921,17 @@
     },
     "La Repubblica": {
       "country": "Itali",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://www.repubblica.it/esteri/2026/09/16/video/kosovo_thaci_sentenza_laia_condanna_25_anni-425589200/",
-        "https://www.repubblica.it/esteri/2026/09/16/news/guerre_balcani_tensione_sentenza_ex_leader_dell_uck_thaci-425587897/"
+        "https://www.repubblica.it/esteri/2026/09/16/news/guerre_balcani_tensione_sentenza_ex_leader_dell_uck_thaci-425587897/",
+        "https://www.repubblica.it/sport/dirette/calcio/uefa-nations-league-2026/diretta-kosovo-irlanda-g2626886/"
       ]
     },
     "Amnesty International Italia": {
@@ -6202,33 +6212,36 @@
     },
     "sport.ORF.at": {
       "country": "Austri",
-      "total": 3,
+      "total": 4,
       "positive": 1,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
-      "lastSeen": "2026-09-18",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://sport.orf.at/av/video/onDemandVideoSport68802",
         "https://sport.orf.at/av/video/sportVideo15136",
-        "https://sport.orf.at/stories/3162527/"
+        "https://sport.orf.at/stories/3162527/",
+        "https://sport.orf.at/av/video/onDemandVideoSport69386"
       ]
     },
     "Der Standard": {
       "country": "Austri",
-      "total": 4,
+      "total": 6,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 5,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-17",
-      "lastSeen": "2026-09-21",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://www.derstandard.at/story/3000000340029/kosovos-ex-praesident-hashim-thaci-wegen-kriegsverbrechen-zu-25-jahren-haft-verurteilt",
         "https://www.derstandard.de/story/3000000340447/jetzt-muss-oefb-teamchef-ralf-rangnick-auch-noch-konrad-laimer-ersetzen",
         "https://www.derstandard.at/story/3000000340447/jetzt-muss-oefb-teamchef-ralf-rangnick-auch-noch-konrad-laimer-ersetzen",
-        "https://www.derstandard.at/story/3000000340582/neue-regierung-und-alte-instabilitaet-im-kosovo"
+        "https://www.derstandard.at/story/3000000340582/neue-regierung-und-alte-instabilitaet-im-kosovo",
+        "https://www.derstandard.de/story/3000000341302/kosovo-schlaegt-irland-in-oefb-gruppe-mit-10",
+        "https://www.derstandard.at/story/3000000341302/kosovo-schlaegt-irland-in-oefb-gruppe-mit-10?ref=rss"
       ]
     },
     "oe1.ORF.at": {
@@ -6840,15 +6853,16 @@
     },
     "ORF ON": {
       "country": "Austri",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-09-18",
-      "lastSeen": "2026-09-17",
+      "lastSeen": "2026-09-24",
       "urls": [
-        "https://on.orf.at/video/14339431/16156140/kosovo-geht-geschwaecht-in-nations-league-sport-20-vom-17092026"
+        "https://on.orf.at/video/14339431/16156140/kosovo-geht-geschwaecht-in-nations-league-sport-20-vom-17092026",
+        "https://on.orf.at/video/14340402/16159743/kosovo-besiegt-irland-vor-duell-mit-oesterreich"
       ]
     },
     "GMX.AT": {
@@ -8447,15 +8461,17 @@
     },
     "Sky Sport": {
       "country": "Itali",
-      "total": 1,
+      "total": 3,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 2,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-23",
-      "lastSeen": "2026-09-23",
+      "lastSeen": "2026-09-24",
       "urls": [
-        "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-1/kosovo-irlanda"
+        "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-1/kosovo-irlanda",
+        "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-1/kosovo-irlanda/risultato-gol",
+        "https://sport.sky.it/calcio/nations-league/2026/09/24/nations-league-partite-oggi-24-settembre-dove-vedere"
       ]
     },
     "Abruzzo Web": {
@@ -8527,15 +8543,16 @@
     },
     "newsrimini.it": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-23",
-      "lastSeen": "2026-09-23",
+      "lastSeen": "2026-09-24",
       "urls": [
-        "https://www.newsrimini.it/icaro-sport/under-21-i-titani-ripartono-dal-kosovo-il-ct-cecchetti-la-squadra-e-pronta"
+        "https://www.newsrimini.it/icaro-sport/under-21-i-titani-ripartono-dal-kosovo-il-ct-cecchetti-la-squadra-e-pronta",
+        "https://www.newsrimini.it/icaro-sport/u21-ottimo-primo-tempo-dei-titani-il-kosovo-strappa-ad-inizio-ripresa-0-3"
       ]
     },
     "Terzogiornale": {
@@ -8673,15 +8690,16 @@
     },
     "L'Équipe": {
       "country": "Francë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-24",
       "lastSeen": "2026-09-24",
       "urls": [
-        "https://www.lequipe.fr/Football/match-direct/ligue-des-nations-b/2027/kosovo-irlande-live/688788"
+        "https://www.lequipe.fr/Football/match-direct/ligue-des-nations-b/2027/kosovo-irlande-live/688788",
+        "https://www.lequipe.fr/Football/Video/Ligue-des-nations-le-resume-de-kosovo-republique-d-irlande/20241909"
       ]
     },
     "Mediasportif": {
@@ -8853,15 +8871,16 @@
     },
     "Eurosport": {
       "country": "Spanjë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-24",
       "lastSeen": "2026-09-23",
       "urls": [
-        "https://www.eurosport.es/futbol/uefa-nations-league/2026-2027/live-kosovo-irlanda_mtc20005856/live.shtml"
+        "https://www.eurosport.es/futbol/uefa-nations-league/2026-2027/live-kosovo-irlanda_mtc20005856/live.shtml",
+        "https://www.eurosport.nl/voetbal/uefa-nations-league/2026-2027/live-kosovo-ierland_mtc20005856/live.shtml"
       ]
     },
     "BetWeekend": {
@@ -8953,6 +8972,97 @@
       "lastSeen": "2026-09-24",
       "urls": [
         "https://tv.orf.at/stories/260924_nations_league102.html"
+      ]
+    },
+    "balkaninsight.com": {
+      "country": "Britani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://balkaninsight.com/2026/09/24/kosovo-marks-banjska-attack-anniversary-as-main-suspects-remain-free/bi/"
+      ]
+    },
+    "Daily Express": {
+      "country": "Britani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.express.co.uk/sport/football/2251362/How-to-watch-Kosovo-vs-Ireland-TV-channel-live-stream"
+      ]
+    },
+    "Colchester Gazette": {
+      "country": "Britani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "http://www.essexcountystandard.co.uk/sport/national/26580520.republic-ireland-paid-price-off-day-kosovo---heimir-hallgrimsson/"
+      ]
+    },
+    "Sports.fr": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://www.sports.fr/direct-foot/310458/313479/kosovo-irlande.html"
+      ]
+    },
+    "Sports - Orange": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://sports.orange.fr/videos/football/le-resume-de-kosovo-republique-d-irlande-foot-ligue-des-nations-CNT000002s5s6J.html"
+      ]
+    },
+    "SNAI": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.snai.it/scommesse-live/evento/calcio/nations-league/kosovo-irlanda"
+      ]
+    },
+    "info-cooperazione.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.info-cooperazione.it/2026/9/rtm-program-manager-kosovo"
       ]
     }
   }
