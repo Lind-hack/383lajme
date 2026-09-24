@@ -1,38 +1,38 @@
 {
-  "lastUpdated": "2026-09-23",
-  "overallIndex": 52,
-  "totalArticles": 123,
-  "sourceCount": 98,
+  "lastUpdated": "2026-09-24",
+  "overallIndex": 51,
+  "totalArticles": 110,
+  "sourceCount": 100,
   "stanceVersion": 3,
-  "unattributed": 227,
+  "unattributed": 243,
   "nonEditorial": 4,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
       "outlets": [
         {
-          "name": "Cicero Online",
+          "name": "Kicker",
           "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Dieses Urteil widerlegt die Mär von der einseitigen Siegerjustiz | Cicero Online - Cicero Online",
-              "albanianTitle": "Ky vendim hedh poshtë mitin për drejtësinë e njëanshme të fituesit | Cicero Online",
-              "blurb": "Një vendim gjyqësor hedh poshtë pretendimet për drejtësi të njëanshme të fituesve në proceset e zhvilluara gjyqësore.",
-              "imageUrl": "https://cicero-prod.nbg1.your-objectstorage.com/s3fs-public/styles/cc_980x550/public/2026-09/Bildzuschnitt%20Flie%C3%9Ftext%20-%202026-09-20T121811.398.png?itok=ICPgTHKJ",
-              "url": "https://www.cicero.de/aussenpolitik/hashim-thaci-kriegsverbrecher-kosovo",
-              "date": "2026-09-20",
+              "title": "Kosovo-Teamchef Foda als Fan vom Nationalteam: \"Außer, wenn wir gegen sie spielen\" - Kicker",
+              "albanianTitle": "Përzgjedhësi i Kosovës, Foda: Jam tifoz i kombëtares, përveç kur luajmë kundër tyre",
+              "blurb": "Përzgjedhësi i Kosovës, Franco Foda, shprehet mbështetës i kombëtares gjermane përveç rasteve kur ata luajnë kundër Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.kicker.de/kosovo-teamchef-foda-als-fan-vom-nationalteam-ausser-wenn-wir-gegen-sie-spielen-1255554/artikel",
+              "date": "2026-09-24",
               "sentiment": "neutral",
-              "reason": "Headline reports a judgment without evaluative language",
-              "isQuote": false,
+              "reason": "Headline reports a quote without editorial judgement",
+              "isQuote": true,
               "evidence": "",
-              "speaker": ""
+              "speaker": "Foda"
             }
           ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-20",
-          "lastSeen": "2026-09-20"
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "Merkur",
@@ -57,30 +57,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-22",
           "lastSeen": "2026-09-22"
-        },
-        {
-          "name": "sport.de",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo - Irland Wett Tipp & Quoten 24.09.2026 - sport.de",
-              "albanianTitle": "Kosovë - Irlandë: Analiza dhe koeficientët për ndeshjen e 24 shtatorit 2026",
-              "blurb": "Kombëtarja e Kosovës përballet me Irlandën më 24 shtator 2026, ku janë publikuar parashikimet dhe koeficientët për këtë ndeshje.",
-              "imageUrl": "https://www.sport.de/sportwetten/wp-content/uploads/sites/15/2024/12/fussball-fans-stadion-2-1024x421.jpg",
-              "url": "https://www.sport.de/sportwetten/tipps/kosovo-vs-irland-wett-tipp-24-09-2026/",
-              "date": "2026-09-20",
-              "sentiment": "neutral",
-              "reason": "Faktike e thjeshte, pa gjuhe ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-21",
-          "lastSeen": "2026-09-20"
         }
       ],
       "summary": {
@@ -88,7 +64,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 1,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -261,56 +237,6 @@
           "lastSeen": "2026-09-21"
         },
         {
-          "name": "ENTREVUE.FR",
-          "sentiment": "neutral",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Hashim Thaçi condannato a 25 anni di carcere: il Kosovo attende il verdetto dell'Aia – Mondo - ENTREVUE.FR",
-              "albanianTitle": "Hashim Thaçi dënohet me 25 vjet burg: Kosova pret verdiktin e Hagës – Mondo - ENTREVUE.FR",
-              "blurb": "Opinioni publik në Kosovë është në pritje të vendimit përfundimtar nga Gjykata e Hagës për rastin e Hashim Thaçit.",
-              "imageUrl": "https://entrevue.fr/wp-content/uploads/2026/09/hashim-thai-condamn-25-ans-de-prison-le-kosovo-fac.jpg",
-              "url": "https://entrevue.fr/it/monde/hashim-thaci-condamne-a-25-ans-de-prison-le-kosovo-face-au-verdict-de-la-haye/",
-              "date": "2026-09-20",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Hashim Thaçi condenado a 25 años de prisión: Kosovo espera el veredicto de La Haya. - ENTREVUE.FR",
-              "albanianTitle": "Hashim Thaçi dënohet me 25 vjet burg: Kosova pret verdiktin e Hagës - ENTREVUE.FR",
-              "blurb": "Kosova ndodhet në pritje të vendimit të Hagës lidhur me procesin gjyqësor ndaj ish-presidentit Hashim Thaçi.",
-              "imageUrl": "https://entrevue.fr/wp-content/uploads/2026/09/hashim-thai-condamn-25-ans-de-prison-le-kosovo-fac.jpg",
-              "url": "https://entrevue.fr/es/monde/hashim-thaci-condamne-a-25-ans-de-prison-le-kosovo-face-au-verdict-de-la-haye/",
-              "date": "2026-09-20",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i dënimit të Thaçit dhe pritjes së vendimit",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Hashim Thaçi condenado a 25 años de prisión: Kosovo se enfrenta al veredicto de La Haya – World - ENTREVUE.FR",
-              "albanianTitle": "Hashim Thaçi dënohet me 25 vjet burg: Kosova përballet me verdiktin e Hagës",
-              "blurb": "Hashim Thaçi është dënuar me 25 vjet burgim nga Gjykata Speciale në Hagë, duke shkaktuar reagime të shumta në Kosovë.",
-              "imageUrl": "https://entrevue.fr/wp-content/uploads/2026/09/hashim-thai-condamn-25-ans-de-prison-le-kosovo-fac.jpg",
-              "url": "https://entrevue.fr/es/monde/hashim-thaci-condamne-a-25-ans-de-prison-le-kosovo-face-au-verdict-de-la-haye/",
-              "date": "2026-09-20",
-              "sentiment": "neutral",
-              "reason": "Report of court verdict, no editorial tone toward Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "i përzier",
-          "firstSeen": "2026-09-14",
-          "lastSeen": "2026-09-20"
-        },
-        {
           "name": "L'Est Républicain",
           "sentiment": "positive",
           "articleCount": 1,
@@ -335,23 +261,34 @@
           "lastSeen": "2026-09-22"
         },
         {
-          "name": "Le Courrier des Balkans",
-          "sentiment": "neutral",
-          "articleCount": 4,
+          "name": "L'Équipe",
+          "sentiment": "unknown",
+          "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo : Flora Brovina, une vie de résistance - Le Courrier des Balkans",
-              "albanianTitle": "Kosovë: Flora Brovina, një jetë në rezistencë",
-              "blurb": "Përmbledhje e jetës dhe veprimtarisë së Flora Brovinës si një figurë e njohur e rezistencës në Kosovë.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/0-1-1.jpeg",
-              "url": "https://www.courrierdesbalkans.fr/kosovo-flora-brovina-une-vie-de-resistance-99913/",
-              "date": "2026-09-20",
-              "sentiment": "positive",
-              "reason": "Outlet admires Kosovo figure Flora Brovina",
+              "title": "Kosovo - Irlande, Ligue des nations B, match en direct le 24/09/2026 - L'Équipe",
+              "albanianTitle": "Kosova - Irlanda, Liga e Kombeve B, ndeshje direkte më 24/09/2026",
+              "blurb": "Transmetimi i drejtpërdrejtë i ndeshjes së Ligës së Kombeve ndërmjet Kosovës dhe Irlandës më 24 shtator 2026.",
+              "imageUrl": null,
+              "url": "https://www.lequipe.fr/Football/match-direct/ligue-des-nations-b/2027/kosovo-irlande-live/688788",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false,
-              "evidence": "une vie de résistance",
+              "evidence": "",
               "speaker": ""
-            },
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
+        },
+        {
+          "name": "Le Courrier des Balkans",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
             {
               "title": "Kosovo : la fin de la confiance aveugle en l’Occident - Le Courrier des Balkans",
               "albanianTitle": "Kosova: Fundi i besimit të verbër ndaj Perëndimit - Le Courrier des Balkans",
@@ -379,12 +316,12 @@
               "speaker": ""
             },
             {
-              "title": "Kosovo : Flora Brovina, une vie de résistance - courrierdesbalkans.fr",
-              "albanianTitle": "Kosova: Flora Brovina, një jetë në rezistencë - courrierdesbalkans.fr",
-              "blurb": "Portretizimi i jetës dhe veprimtarisë së Flora Brovinës si një figurë e njohur për rezistencën e saj politike.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/0-1-1.jpeg",
-              "url": "https://www.courrierdesbalkans.fr/kosovo-flora-brovina-une-vie-de-resistance-99913/",
-              "date": "2026-09-20",
+              "title": "Entre justice et mémoire, le Kosovo est encore sous le choc du verdict de La Haye - Le Courrier des Balkans",
+              "albanianTitle": "Mes drejtësisë dhe kujtesës, Kosova ende nën tronditjen e vendimit të Hagës",
+              "blurb": "Kosova vazhdon të përballet me pasojat e vendimit të fundit të gjykatës në Hagë lidhur me drejtësinë.",
+              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/download.jpg",
+              "url": "https://www.courrierdesbalkans.fr/entre-justice-et-memoire-le-kosovo-est-encore-sous-le-choc-du-verdict-de-la-haye-100034/",
+              "date": "2026-09-24",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
@@ -392,10 +329,10 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 16,
+          "totalArticles": 17,
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-22"
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "MadeInFOOT",
@@ -433,6 +370,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-21",
           "lastSeen": "2026-09-21"
+        },
+        {
+          "name": "Mediasportif",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Football | Kosovo – Irlande : Sur quelle chaîne et à quelle heure voir le match en direct ? - Mediasportif",
+              "albanianTitle": "Futboll | Kosovë – Irlandë: Në cilin kanal dhe në çfarë ore mund ta ndiqni ndeshjen direkt? - Mediasportif",
+              "blurb": "Informacione mbi transmetimin televiziv dhe orarin e ndeshjes së futbollit ndërmjet Kosovës dhe Irlandës për shikuesit.",
+              "imageUrl": "https://www.mediasportif.fr/wp-content/uploads/2026/09/via-news-1790205718-5046.webp",
+              "url": "https://www.mediasportif.fr/2026/09/24/football-kosovo-irlande-sur-quelle-chaine-et-a-quelle-heure-voir-le-match-en-direct/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "lejdd.fr",
@@ -508,12 +469,12 @@
         }
       ],
       "summary": {
-        "index": 58,
-        "positive": 17,
-        "neutral": 83,
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 12,
-        "excluded": 3,
+        "n": 8,
+        "excluded": 5,
         "confident": true,
         "stanceVersion": 3
       }
@@ -565,7 +526,7 @@
             {
               "title": "EDILIZIA: ALL'AQUILANA RD COSTRUZIONI IMMOBILIARI LAVORI PER POTENZIAMENTO BASE MILITARE IN KOSOVO - Abruzzo Web",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Kompania italiane RD Costruzioni Immobiliare është angazhuar për punimet në forcimin e bazës ushtarake në territorin e Kosovës.",
               "imageUrl": "https://www.abruzzoweb.it/wp-content/uploads/2026/09/RD-COSTRUZIONI-IMMOBILIARI.jpeg",
               "url": "https://www.abruzzoweb.it/edilizia-allaquilana-rd-costruzioni-immobiliari-lavori-per-potenziamento-base-militare-in-kosovo/",
               "date": "2026-09-23",
@@ -750,33 +711,9 @@
           "lastSeen": "2026-09-22"
         },
         {
-          "name": "La Difesa del Popolo",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "“Il sogno di Suzana”, il Kosovo del dopoguerra nel romanzo di Ausilio Bertoli - La Difesa del Popolo",
-              "albanianTitle": "“Ëndrra e Suzanës”, Kosova e pasluftës në romanin e Ausilio Bertolit - La Difesa del Popolo",
-              "blurb": "Romani i autorit Ausilio Bertoli trajton realitetin e Kosovës në periudhën e pasluftës përmes rrëfimit të titulluar Endrra e Suzanës.",
-              "imageUrl": "https://www.difesapopolo.it/wp-content/uploads/2026/09/IL_SOGNO_DI_SUZANA-LIBRO-1-e1789555423545.jpg",
-              "url": "https://www.difesapopolo.it/il-sogno-di-suzana-il-kosovo-del-dopoguerra-nel-romanzo-di-ausilio-bertoli/",
-              "date": "2026-09-20",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-20",
-          "lastSeen": "2026-09-20"
-        },
-        {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Il contributo della cooperazione economica alla normalizzazione delle relazioni tra Kosovo e Serbia - Osservatorio Balcani Caucaso Transeuropa",
@@ -816,9 +753,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Contribution of the economic cooperation to Kosovo-Serbia normalisation - Osservatorio Balcani Caucaso Transeuropa",
+              "albanianTitle": "Kontributi i bashkëpunimit ekonomik në normalizimin e marrëdhënieve Kosovë-Serbi",
+              "blurb": "Bashkëpunimi ekonomik analizohet si një faktor i mundshëm për normalizimin e marrëdhënieve ndërmjet Kosovës dhe Serbisë.",
+              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/cooperation-Kosovo-Serbia.webp",
+              "url": "https://www.balcanicaucaso.org/en/projects/contribution-of-the-economic-cooperation-to-kosovo-serbia-normalisation/",
+              "date": "2026-09-22",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 14,
+          "totalArticles": 15,
           "trend": "kritik",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-23"
@@ -846,30 +796,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-22",
           "lastSeen": "2026-09-22"
-        },
-        {
-          "name": "RaiNews",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Condanne per gli ex capi dell'UCK, kosovari in piazza a Trieste - RaiNews",
-              "albanianTitle": "Dënimet për ish-krerët e UÇK-së, kosovarët në shesh në Trieste",
-              "blurb": "Kosovarët në qytetin e Triestes kanë dalë në shesh për të kundërshtuar vendimet gjyqësore ndaj ish-udhëheqësve të UÇK-së.",
-              "imageUrl": "https://www.rainews.it/cropgd/1200x630/dl/img/2026/9/20/1789933897829_I_manifestanti_kosovari_in_piazza_Unit.PNG",
-              "url": "https://www.rainews.it/tgr/fvg/articoli/2026/09/condanne-per-gli-ex-capi-delluck-kosovari-in-piazza-a-trieste-da87d5bd-ca69-44ac-b747-24853e777ece.html",
-              "date": "2026-09-20",
-              "sentiment": "neutral",
-              "reason": "Factual reporting of convictions and protest",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 7,
-          "trend": "neutral",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-09-20"
         },
         {
           "name": "Report Difesa",
@@ -916,7 +842,7 @@
             {
               "title": "2026 giornata-1 kosovo-irlanda preview - Sky Sport",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Ndeshja ndërmjet Kosovës dhe Irlandës në kuadër të Ligës së Kombeve vjen me një analizë paraprake për shikuesit.",
               "imageUrl": "https://sport.sky.it/assets/images/fe3002a460d9904efad96e7882361f17a7cc77c2/skysport/configurations/skysport_condivisione.jpg?im=Resize,width=1218",
               "url": "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-1/kosovo-irlanda",
               "date": "2026-09-23",
@@ -957,43 +883,6 @@
           "lastSeen": "2026-09-23"
         },
         {
-          "name": "Trieste Cafe",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Trieste, corteo spontaneo per il Kosovo: protesta contro la detenzione di ex esponenti istituzionali (VIDEO) - Trieste Cafe",
-              "albanianTitle": "Trieste, marshim spontan për Kosovën: protestë kundër ndalimit të ish-zyrtarëve institucionalë (VIDEO) - Trieste Cafe",
-              "blurb": "Qytetarët në Trieste organizuan një protestë për të kundërshtuar ndalimin e ish-udhëheqësve institucionalë të Kosovës në Hagë.",
-              "imageUrl": "https://triestecafe.it/uploads/media/bdf307b63103fc7932784445.jpg",
-              "url": "https://www.triestecafe.it/cronaca/trieste-corteo-spontaneo-per-il-kosovo-protesta-contro-la-detenzione-di-ex-esponenti-istituzionali-video-2026-09-20",
-              "date": "2026-09-20",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Trieste, protesta per il Kosovo: corteo spontaneo contro le condanne agli ex vertici dell’UÇK (VIDEO) - Trieste Cafe",
-              "albanianTitle": "Trieste, protestë për Kosovën: marshim spontan kundër dënimeve për ish-krerët e UÇK-së (VIDEO)",
-              "blurb": "Qytetarët në Trieste kanë organizuar një protestë spontane kundër dënimeve të shqiptuara për ish-krerët e Ushtrisë Çlirimtare të Kosovës.",
-              "imageUrl": "https://triestecafe.it/uploads/media/7e767aa2855173d3b82b6771.jpg",
-              "url": "https://www.triestecafe.it/cronaca/trieste-corteo-spontaneo-per-il-kosovo-protesta-contro-la-detenzione-di-ex-esponenti-istituzionali-video-2026-09-20",
-              "date": "2026-09-20",
-              "sentiment": "neutral",
-              "reason": "Descriptive report of protest, no overt bias",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-20"
-        },
-        {
           "name": "TriestePrima",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1018,30 +907,6 @@
           "lastSeen": "2026-09-22"
         },
         {
-          "name": "difesapopolo.it",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "“Il sogno di Suzana”, il Kosovo del dopoguerra nel romanzo di Ausilio Bertoli - difesapopolo.it",
-              "albanianTitle": null,
-              "blurb": "",
-              "imageUrl": "https://www.difesapopolo.it/wp-content/uploads/2026/09/IL_SOGNO_DI_SUZANA-LIBRO-1-e1789555423545.jpg",
-              "url": "https://www.difesapopolo.it/il-sogno-di-suzana-il-kosovo-del-dopoguerra-nel-romanzo-di-ausilio-bertoli/",
-              "date": "2026-09-20",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-23",
-          "lastSeen": "2026-09-20"
-        },
-        {
           "name": "ecodellojonio.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1064,30 +929,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-22",
           "lastSeen": "2026-09-22"
-        },
-        {
-          "name": "il-meridiano.it",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Corteo spontaneo a Trieste per il Kosovo: in piazza contro le condanne agli ex vertici dell'UÇK - il-meridiano.it",
-              "albanianTitle": "Marshim spontan në Trieste për Kosovën: në shesh kundër dënimeve për ish-krerët e UÇK-së",
-              "blurb": "Një marshim proteste është zhvilluar në Trieste si reagim ndaj dënimeve të shqiptuara për ish-drejtuesit e Ushtrisë Çlirimtare të Kosovës.",
-              "imageUrl": "https://www.il-meridiano.it/images/reda/2026/cronaca/corteo-spontaneo-a-trieste-per-il-kosovo-in-piazza-contro-le-condanne-agli-ex-vertici-dell-uck-699085.jpg",
-              "url": "https://www.il-meridiano.it/notizie/cronaca/26119-corteo-spontaneo-a-trieste-per-il-kosovo-in-piazza-contro-le-condanne-agli-ex-vertici-dell-uck-699085.html",
-              "date": "2026-09-20",
-              "sentiment": "neutral",
-              "reason": "Neutral description of spontaneous march",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-20",
-          "lastSeen": "2026-09-20"
         },
         {
           "name": "marx21.it",
@@ -1164,10 +1005,10 @@
       ],
       "summary": {
         "index": 52,
-        "positive": 4,
-        "neutral": 96,
+        "positive": 5,
+        "neutral": 95,
         "negative": 0,
-        "n": 25,
+        "n": 20,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -1287,7 +1128,7 @@
         {
           "name": "Sky Sport Austria",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Gewinnspiel: Sichere dir Tickets für Österreich vs. Kosovo - Sky Sport Austria",
@@ -1301,12 +1142,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo-Teamchef Foda als Fan von NL-Gegner Österreich - Sky Sport Austria",
+              "albanianTitle": "Përzgjedhësi i Kosovës, Foda, tifoz i Austrisë, kundërshtarit në Ligën e Kombeve - Sky Sport Austria",
+              "blurb": "Përzgjedhësi i Kosovës, Franco Foda, shpreh mbështetjen e tij për Austrinë, kundërshtarin e radhës në Ligën e Kombeve.",
+              "imageUrl": null,
+              "url": "https://www.skysportaustria.at/kosovo-teamchef-foda-als-fan-von-nl-gegner-oesterreich/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 6,
+          "totalArticles": 7,
           "trend": "neutral",
           "firstSeen": "2026-08-24",
-          "lastSeen": "2026-09-21"
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "krone.at",
@@ -1363,13 +1217,50 @@
         "neutral": 100,
         "negative": 0,
         "n": 7,
-        "excluded": 1,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       }
     },
     "Zvicër": {
       "outlets": [
+        {
+          "name": "20 Min",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "«Hat für uns gekämpft»: Warum auch Jugendliche in Zürich für Thaçi demonstrieren - 20 Min",
+              "albanianTitle": "“Luftoi për ne”: Pse të rinjtë në Cyrih po protestojnë në mbështetje të Thaçit",
+              "blurb": "Të rinjtë në Cyrih protestojnë në mbështetje të Hashim Thaçit, duke vlerësuar kontributin e tij gjatë periudhës së luftës.",
+              "imageUrl": "https://image.20min.ch/2026/09/23/951c7385-dc7f-4b51-a25d-f44f6ca03b2b.jpg?auto=format%2Ccompress%2Cenhance&fit=max&w=1200&h=1200&rect=0%2C505%2C1440%2C810&s=22498f6372957f04360519333d377447",
+              "url": "https://www.20min.ch/story/proteste-in-zuerich-und-pristina-kosovo-diaspora-empoert-ueber-thaci-verurteilung-103637658",
+              "date": "2026-09-24",
+              "sentiment": "neutral",
+              "reason": "Quote is presented in quotation marks, outlet remains factual",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosovo - Irland im Liveticker: Alle Tore & Highlights - 20 Min",
+              "albanianTitle": "Kosovë - Irlandë në kohë reale: Të gjithë golat dhe rastet kryesore - 20 Min",
+              "blurb": "Mbulesë direkte me gola dhe momente kryesore nga ndeshja e futbollit ndërmjet përfaqësueseve të Kosovës dhe Irlandës.",
+              "imageUrl": "https://sp.hs-data.com/gfx/competition/png/normal/500x500/595nsvo7ykvoe690b1e4u5n56.png",
+              "url": "https://www.20min.ch/sport/football/uefa-nations-league/kosovo-vs-irland-egzx1e9ue9ao6dijwlnb2xel0/ticker",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
+        },
         {
           "name": "Albinfo",
           "sentiment": "neutral",
@@ -1386,32 +1277,6 @@
               "reason": "Citim i perfshire ne «», jo zeri i mediumit",
               "isQuote": true,
               "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "An einer Schule in der Bronx wird Albanisch neben Englisch unterrichtet - Albinfo",
-              "albanianTitle": "Në një shkollë në Bronx, gjuha shqipe mësohet krahas asaj angleze - Albinfo",
-              "blurb": "Një shkollë në Bronx të Nju Jorkut ka filluar të ofrojë mësimdhënie në gjuhën shqipe krahas asaj angleze.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/kurti-shkolla-shqipe.jpg",
-              "url": "https://www.albinfo.ch/de/ne-nje-shkolle-te-bronx-it-shqipja-mesohet-krah-anglishtes/",
-              "date": "2026-09-20",
-              "sentiment": "neutral",
-              "reason": "Faktikisht raportim neutral",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Spektakel von Vedat Muriqi, vier Tore in 55 Minuten - Albinfo",
-              "albanianTitle": "Spektakël nga Vedat Muriqi, katër gola për 55 minuta - Albinfo",
-              "blurb": "Futbollisti Vedat Muriqi ka shënuar katër gola brenda 55 minutave lojë, duke shfaqur një performancë të jashtëzakonshme në fushë.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/vedat-muriqi.jpg",
-              "url": "https://www.albinfo.ch/de/spektakel-i-vedat-muriqit-shenon-kater-gola-brenda-55-minutave/",
-              "date": "2026-09-20",
-              "sentiment": "positive",
-              "reason": "Përdor term pozitiv Spektakel për një sportist kosovar",
-              "isQuote": false,
-              "evidence": "Spektakel von Vedat Muriqi, vier Tore in 55 Minuten",
               "speaker": ""
             },
             {
@@ -1452,6 +1317,32 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Erdogan"
+            },
+            {
+              "title": "\"Ich wollte schon immer für den Kosovo spielen\", Erblin Osmani bereit für sein Debüt mit den Dardanët - Albinfo",
+              "albanianTitle": "\"Gjithmonë kam dashur të luaj për Kosovën\", Erblin Osmani gati për debutimin me Dardanët - Albinfo",
+              "blurb": "Erblin Osmani është shprehur i gatshëm për debutimin e tij me kombëtaren e Kosovës, duke theksuar dëshirën e hershme.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_3359.jpeg",
+              "url": "https://www.albinfo.ch/de/gjithnje-kam-dashur-te-luaj-per-kosoven-erblin-osmani-gati-per-debutimin-me-dardanet/",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Citat i Osmani-t, raportuar pa ngjyrë",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Erblin Osmani"
+            },
+            {
+              "title": "Das Anamorava Economic Forum 2026 bringt in Gjilan lokale Unternehmen und die Diaspora zusammen - Albinfo",
+              "albanianTitle": "Forumi Ekonomik i Anamoravës 2026 bën bashkë bizneset lokale dhe diasporën në Gjilan - Albinfo",
+              "blurb": "Forumi Ekonomik i Anamoravës në Gjilan mbledh përfaqësues të bizneseve lokale dhe të diasporës për diskutime bashkëpunimi.",
+              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/chatgpt-image-22.-sept.-2026-08_40_40.png",
+              "url": "https://www.albinfo.ch/de/anamorava-economic-forum-2026-mbledh-ne-gjilan-bizneset-vendore-dhe-diasporen/",
+              "date": "2026-09-22",
+              "sentiment": "neutral",
+              "reason": "Raportim i thjeshtë i një eventi ekonomik",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 70,
@@ -1570,12 +1461,12 @@
         }
       ],
       "summary": {
-        "index": 53,
-        "positive": 7,
-        "neutral": 93,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 15,
-        "excluded": 4,
+        "n": 14,
+        "excluded": 6,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1671,14 +1562,38 @@
           "lastSeen": "2026-09-23"
         },
         {
+          "name": "Bet.gr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Προγνωστικά Κόσοβο - Ιρλανδία 24/09/26 - Bet.gr",
+              "albanianTitle": "Parashikimet për ndeshjen Kosovë - Irlandë, 24/09/26 - Bet.gr",
+              "blurb": "Analizat dhe parashikimet për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës që zhvillohet më 24 shtator 2026.",
+              "imageUrl": null,
+              "url": "https://www.bet.gr/prognostika/kosovo-irlandia-240926/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
+        },
+        {
           "name": "Betarades",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Κόσοβο – Ιρλανδία Κανάλι ▶️ Ο αγώνας σε Live Streaming (24/09) - Betarades",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Ndeshja futbollistike ndërmjet Kosovës dhe Irlandës do të transmetohet drejtpërdrejt për shikuesit më datën 24 shtator.",
               "imageUrl": "https://betarades2-5c24.kxcdn.com/wp-content/uploads/2026/09/3E4A2AN-ezgif.com-resize.jpg",
               "url": "https://www.betarades.gr/kosovo-irlandia-kanali-o-agonas-se-live-streaming-24-09/",
               "date": "2026-09-23",
@@ -1700,12 +1615,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "ΣΑΝ ΜΑΡΙΝΟ U21 - ΚΟΣΟΒΟ U21 (24/09/26) ✔️ Προγνωστικά | Κανάλι | Αποδόσεις - Betarades",
+              "albanianTitle": "San Marino U21 - Kosova U21 (24/09/26) – Parashikimet, transmetimi dhe koeficientët - Betarades",
+              "blurb": "Informacione mbi transmetimin, koeficientët dhe parashikimet për ndeshjen e futbollit ndërmjet San Marinos U21 dhe Kosovës U21.",
+              "imageUrl": "https://betarades2-5c24.kxcdn.com/wp-content/themes/betarades/assets/previews-images/preview-861240.jpg",
+              "url": "https://www.betarades.gr/san-marino-u21-kosobo-u21/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
+          "totalArticles": 3,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-23",
-          "lastSeen": "2026-09-23"
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "Foxbet.gr",
@@ -1745,28 +1673,28 @@
           "lastSeen": "2026-09-23"
         },
         {
-          "name": "Newsbomb",
-          "sentiment": "neutral",
+          "name": "Sport24",
+          "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Χασίμ Θάτσι: Ο πρώην πρωθυπουργός του Κοσόβου, η καταδίκη σε 25 χρόνια φυλάκιση και τα βασανιστήρια - Newsbomb",
-              "albanianTitle": "Hashim Thaçi: Ish-kryeministri i Kosovës, dënimi me 25 vjet burg dhe torturat - Newsbomb",
-              "blurb": "Ish-kryeministri i Kosovës, Hashim Thaçi, është dënuar me 25 vite burgim për akuza lidhur me torturat.",
-              "imageUrl": "https://img.bbmd.gr/img/1200/630/90/2026/09/20/75c4200f-xatsim-og.jpg?t=VlkaZtjA0SNQ4S7pr13FMg",
-              "url": "https://www.newsbomb.gr/kosmos/story/1764606/xasim-thatsi-o-proin-prothypourgos-tou-kosovou-i-katadiki-se-25-xronia-fylakisi-kai-ta-vasanistiria",
-              "date": "2026-09-20",
-              "sentiment": "neutral",
-              "reason": "Faktikë të raportuara pa gjuhë ngarkuese",
+              "title": "Κόσοβο - Ιρλανδία Live - 24-09-2026 - Sport24",
+              "albanianTitle": "Kosovë - Irlandë Live - 24-09-2026 - Sport24",
+              "blurb": "Transmetim i drejtpërdrejtë i ndeshjes së futbollit ndërmjet Kosovës dhe Irlandës që zhvillohet më 24 shtator 2026.",
+              "imageUrl": "https://www.sport24.gr/wp-content/uploads/2025/03/Matchcenter_OGimage1-full.jpg",
+              "url": "https://www.sport24.gr/matchcenter/kosovo-irlandia-live-24-09-2026/6a5dd4ea3c73d448d7b48e71/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-20",
-          "lastSeen": "2026-09-20"
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "StoiximaView.gr",
@@ -1798,19 +1726,6 @@
           "articleCount": 2,
           "articles": [
             {
-              "title": "Ελλάδα-Κόσοβο 0-0 - sport-fm.gr",
-              "albanianTitle": "Greqi-Kosovë 0-0 - sport-fm.gr",
-              "blurb": "Ndeshja e futbollit ndërmjet përfaqësueses së Greqisë dhe asaj të Kosovës ka përfunduar me rezultatin e barabartë zero me zero.",
-              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/20/10/14/220153.jpg?w=880&f=bicubic",
-              "url": "https://www.sport-fm.gr/article/amp/Live-ellada-kosobo-amp/4133784",
-              "date": "2026-09-20",
-              "sentiment": "neutral",
-              "reason": "Fact‑based report without loaded language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Κόσοβο-Ελλάδα 0-1 - sport-fm.gr",
               "albanianTitle": "Kosovë-Greqi 0-1",
               "blurb": "Përfaqësuesja e Greqisë ka shënuar fitore me rezultat 1-0 ndaj Kosovës në ndeshjen e zhvilluar së fundmi.",
@@ -1822,31 +1737,36 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Κόσοβο-Ιρλανδία - sport-fm.gr",
+              "albanianTitle": "Kosovë - Irlandë - sport-fm.gr",
+              "blurb": "Përcjellje e ndeshjes së futbollit ndërmjet përfaqësueseve të Kosovës dhe Irlandës në platformën sportive për shikuesit.",
+              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/26/09/24/ireland_065427.jpg",
+              "url": "https://www.sport-fm.gr/events/34310271",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 14,
+          "totalArticles": 15,
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-21"
+          "lastSeen": "2026-09-24"
         }
       ],
       "summary": {
-        "index": 44,
+        "index": 42,
         "positive": 0,
-        "neutral": 88,
-        "negative": 12,
-        "n": 8,
-        "excluded": 1,
+        "neutral": 83,
+        "negative": 17,
+        "n": 6,
+        "excluded": 5,
         "confident": true,
-        "stanceVersion": 3,
-        "movement": {
-          "delta": -6,
-          "from": 50,
-          "outlet": "Bankingnews",
-          "title": "Makthi në Ballkan: Serbia, Bosnja dhe Kosova në armë – Po vjen një luftë e re e përgjakshme, me përfshirjen e Trump dhe marrëveshje të pista",
-          "evidence": "Εφιάλτης στα Βαλκάνια αιματηρός πόλεμος",
-          "url": "https://www.bankingnews.gr/diethni/articles/901118/efialtis-ksypna-sta-balkania-gyrizoun-oi-daimones-tou-polemou-proeidopoiisi-sok-gia-mparoutapothiki-pou-ekrignytai"
-        }
+        "stanceVersion": 3
       }
     },
     "Suedi": {
@@ -1937,6 +1857,30 @@
           "lastSeen": "2026-09-23"
         },
         {
+          "name": "HurBra.se",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Nations League speltips 24 september 2026 – analys & odds - HurBra.se",
+              "albanianTitle": "Analiza dhe koeficientët për ndeshjet e Ligës së Kombeve, 24 shtator 2026 - HurBra.se",
+              "blurb": "Analiza dhe koeficientët për ndeshjet e Ligës së Kombeve që zhvillohen më 24 shtator të vitit 2026.",
+              "imageUrl": null,
+              "url": "https://hurbra.se/nations-league-speltips-24-september-2026/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
+        },
+        {
           "name": "bettingstugan.se",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -1980,7 +1924,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 5,
-        "excluded": 1,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1988,9 +1932,33 @@
     "Poloni": {
       "outlets": [
         {
+          "name": "Betside.pl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosowo - Irlandia: typy, kursy i analiza (24.09.26) - Betside.pl",
+              "albanianTitle": "Kosovë – Irlandë: Parashikimet, koeficientët dhe analiza (24.09.26) – Betside.pl",
+              "blurb": "Koeficientët, analizat dhe parashikimet e basteve për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës që luhet më 24 shtator 2026.",
+              "imageUrl": "https://betside.pl/wp-content/uploads/2022/03/betsidetlo.png",
+              "url": "https://betside.pl/kosowo-irlandia-typy-kursy-i-analiza-24-09-26/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
+        },
+        {
           "name": "Eurosport Polska",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosowo - Irlandia - Raport - Piłka nożna - Wynik i najlepsze momenty - Liga Narodów - Eurosport Polska",
@@ -2004,9 +1972,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosowo - Irlandia Powiązane wideo: Piłka nożna na żywo - Eurosport Polska",
+              "albanianTitle": "Kosovë - Irlandë, video e lidhur: Futboll drejtpërdrejt - Eurosport Polska",
+              "blurb": "Përmbajtje video dhe transmetim i drejtpërdrejtë për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës në Eurosport.",
+              "imageUrl": null,
+              "url": "https://eurosport.tvn24.pl/pilka-nozna/liga-narodow/2026-2027/live-kosowo-irlandia_mtc20005856/live-videos.shtml",
+              "date": "2026-09-23",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-23",
           "lastSeen": "2026-09-23"
@@ -2034,6 +2015,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-21",
           "lastSeen": "2026-09-21"
+        },
+        {
+          "name": "GramGrubo.pl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosowo – Irlandia. Typy bukmacherskie i analiza 24.09 - GramGrubo.pl",
+              "albanianTitle": "Kosovë – Irlandë: Analiza dhe parashikimet e basteve për 24 shtator – GramGrubo.pl",
+              "blurb": "Analiza dhe parashikimet e basteve sportive për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës që zhvillohet më 24 shtator.",
+              "imageUrl": "https://gramgrubo.pl/wp-content/uploads/2026/09/1200x800-gram-grubo-typy-liga-narodow-1200x630.jpg",
+              "url": "https://gramgrubo.pl/kosowo-irlandia-typy-bukmacherskie-i-analiza-24-09/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "Interia Sport",
@@ -2082,6 +2087,95 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-23",
           "lastSeen": "2026-09-23"
+        },
+        {
+          "name": "Mecze24.pl",
+          "sentiment": "unknown",
+          "articleCount": 6,
+          "articles": [
+            {
+              "title": "Kosowo - Irlandia typy, analiza bukmacherska oparta na statystykach (24.09.2026) - Mecze24.pl",
+              "albanianTitle": "Kosovë – Irlandë: Analiza e basteve bazuar në statistika (24.09.2026) – Mecze24.pl",
+              "blurb": "Statistikat dhe analizat e basteve për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës të planifikuar për datën 24 shtator 2026.",
+              "imageUrl": null,
+              "url": "https://www.mecze24.pl/aktualnosci/kosowo-irlandia-typy-kursy-prognozy-24-09-2026",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Liechtenstein - Litwa typy, kursy, statystyki i analiza meczu (24.09.2026) - Mecze24.pl",
+              "albanianTitle": "Lihtenshtajn – Lituani: Parashikimet, koeficientët, statistikat dhe analiza e ndeshjes (24.09.2026) – Mecze24.pl",
+              "blurb": "Statistikat, koeficientët dhe analiza e ndeshjes së futbollit ndërmjet Lihtenshtajnit dhe Lituanisë që zhvillohet më 24 shtator 2026.",
+              "imageUrl": null,
+              "url": "https://www.mecze24.pl/aktualnosci/liechtenstein-litwa-typy-kursy-statystyki-analiza-na-mecz-24-09-2026",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Serbia - Grecja typy i analiza spotkania wraz ze statystykami (24.09.2026) - Mecze24.pl",
+              "albanianTitle": "Serbi – Greqi: Analiza e ndeshjes dhe statistikat (24.09.2026) – Mecze24.pl",
+              "blurb": "Analiza e ndeshjes së futbollit ndërmjet Serbisë dhe Greqisë e shoqëruar me statistika të ndryshme për datën 24 shtator 2026.",
+              "imageUrl": null,
+              "url": "https://www.mecze24.pl/aktualnosci/serbia-grecja-typy-statystyki-kursy-analiza-24-09-2026",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Norwegia - Dania typy, analiza meczu i statystyki (24.09.2026) - Mecze24.pl",
+              "albanianTitle": "Norvegji – Danimarkë: Parashikimet, analiza dhe statistikat e ndeshjes (24.09.2026) – Mecze24.pl",
+              "blurb": "Analiza e ndeshjes së futbollit ndërmjet Norvegjisë dhe Danimarkës së bashku me statistikat përkatëse për datën 24 shtator 2026.",
+              "imageUrl": null,
+              "url": "https://www.mecze24.pl/aktualnosci/norwegia-dania-typy-kursy-statystyki-prognozy-24-09-2026",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Austria - Izrael typy i kursy na mecz oraz statystyki (24.09.2026) - Mecze24.pl",
+              "albanianTitle": "Austri – Izrael: Parashikimet, koeficientët dhe statistikat e ndeshjes (24.09.2026) – Mecze24.pl",
+              "blurb": "Koeficientët, statistikat dhe analiza e ndeshjes së futbollit ndërmjet Austrisë dhe Izraelit që zhvillohet më 24 shtator 2026.",
+              "imageUrl": null,
+              "url": "https://www.mecze24.pl/aktualnosci/austria-izrael-typy-kursy-na-mecz-24-09-2026",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Portugalia - Walia typy bukmacherskie i prognozy na mecz i statystyki (24.09.2026) - Mecze24.pl",
+              "albanianTitle": "Portugali – Uells: Parashikimet e basteve, prognozat dhe statistikat e ndeshjes (24.09.2026) – Mecze24.pl",
+              "blurb": "Parashikimet e basteve, statistikat dhe analiza e ndeshjes së futbollit ndërmjet Portugalisë dhe Uellsit për datën 24 shtator 2026.",
+              "imageUrl": null,
+              "url": "https://www.mecze24.pl/aktualnosci/portugalia-walia-typy-statystyki-kursy-zapowiedz-meczu-24-09-2026",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 9,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "PodkarpacieLIVE",
@@ -2171,7 +2265,7 @@
         {
           "name": "Teleman",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Piłka nożna: Liga Narodów - mecz: Kosowo - Austria - Teleman",
@@ -2185,12 +2279,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Piłka nożna: Liga Narodów - mecz: Austria - Kosowo - Teleman",
+              "albanianTitle": "Futboll: Liga e Kombeve - ndeshja: Austri - Kosovë - Teleman",
+              "blurb": "Njoftim për transmetimin e ndeshjes së futbollit në Ligën e Kombeve ndërmjet Austrisë dhe përfaqësueses së Kosovës.",
+              "imageUrl": "//media.teleman.pl/photos/470x265/Pilka-Nozna-Liga-Francuska_dlJvrbJ.jpg",
+              "url": "https://www.teleman.pl/tv/Pilka-Nozna-Liga-Narodow-2681801",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-21",
-          "lastSeen": "2026-09-21"
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "gostyn24.pl",
@@ -2337,6 +2444,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-22",
           "lastSeen": "2026-09-22"
+        },
+        {
+          "name": "sport.tvp.pl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosowo – Irlandia [NA ŻYWO]. Śledź wynik meczu Ligi Narodów! - sport.tvp.pl",
+              "albanianTitle": "Kosova – Irlanda [DREJTPËRDREJT]. Ndiqni rezultatin e ndeshjes së Ligës së Kombeve! - sport.tvp.pl",
+              "blurb": "Ndjekja e drejtpërdrejtë e rezultatit të ndeshjes së futbollit ndërmjet Kosovës dhe Irlandës në Ligën e Kombeve.",
+              "imageUrl": "https://s15.tvp.pl/images2/5/9/f/uid_59ff6d4ec4fa4ec19a01c77f5aa3bc51_width_1280_play_0_pos_0_gs_0_height_720_kosowo-irlandia-na-zywo-relacja-online-dzisiaj-z-meczu-ligi-narodow-uefa-24092026-fot-getty.jpg",
+              "url": "https://sport.tvp.pl/95558754/kosowo-irlandia-na-zywo-relacja-online-dzisiaj-z-meczu-ligi-narodow-uefa-24092026",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
         }
       ],
       "summary": {
@@ -2345,7 +2476,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 14,
-        "excluded": 2,
+        "excluded": 16,
         "confident": true,
         "stanceVersion": 3
       }
@@ -2453,7 +2584,7 @@
         {
           "name": "Diyanet Haber",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosova İslam Birliği'nden İstanbul Müftülüğüne ziyaret - Diyanet Haber",
@@ -2467,12 +2598,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosova İslam Birliği'nden Haseki Dini Yüksek İhtisas Merkezi'ne ziyaret - Diyanet Haber",
+              "albanianTitle": "Bashkësia Islame e Kosovës viziton Qendrën e Specializuar të Studimeve Islame Haseki - Diyanet Haber",
+              "blurb": "Përfaqësuesit e Bashkësisë Islame të Kosovës kanë zhvilluar një vizitë zyrtare në Qendrën e Specializuar Fetare Haseki në Turqi.",
+              "imageUrl": "https://diyanethabercomtr.teimg.com/crop/1280x720/diyanethaber-com-tr/uploads/2026/09/haseki-ziyaret-3.jpg",
+              "url": "https://www.diyanethaber.com.tr/kosova-islam-birliginden-haseki-dini-yuksek-ihtisas-merkezine-ziyaret",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-23",
-          "lastSeen": "2026-09-23"
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "Ereğli Önder Gazetesi",
@@ -3089,7 +3233,7 @@
         "neutral": 94,
         "negative": 0,
         "n": 31,
-        "excluded": 4,
+        "excluded": 5,
         "confident": true,
         "stanceVersion": 3
       }
