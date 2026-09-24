@@ -18953,18 +18953,19 @@ header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92);
    Breaking bar — replaces the orange .breaking-ticker marquee on the homepage.
    Everything for it lives in this one block.
 
-   Warm but not loud: an orange wash (15% fading to 9%) over the page cream
-   and a hairline, not a solid colour block. Ink headline, one orange label, one dot that pulses only
+   Warm but not loud: an orange wash (26% fading to 16%) over the page cream
+   and a hairline, not a solid colour block. At this strength the grey text is
+   darkened to #5E5048 and the label to #9E2409 to stay above 4.5:1. Ink headline, one orange label, one dot that pulses only
    while the newest story is under 45 minutes old.
    ──────────────────────────────────────────────────────────────────────────── */
 
 .home-breaking {
   background: linear-gradient(
     90deg,
-    color-mix(in srgb, #FF4422 15%, #F9F6F1),
-    color-mix(in srgb, #FF6A3D 9%, #F9F6F1)
+    color-mix(in srgb, #FF4422 26%, #F9F6F1),
+    color-mix(in srgb, #FF6A3D 16%, #F9F6F1)
   );
-  border-bottom: 1px solid rgba(255, 68, 34, 0.28);
+  border-bottom: 1px solid rgba(255, 68, 34, 0.4);
 }
 .home-breaking-inner {
   max-width: min(1620px, 95vw);
@@ -18985,7 +18986,7 @@ header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92);
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #B42A10;
+  color: #9E2409;
   white-space: nowrap;
 }
 .home-breaking-tag i {
@@ -19049,7 +19050,7 @@ header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92);
   gap: 8px;
   flex-shrink: 0;
   font-size: 12.5px;
-  color: #6B5E55;
+  color: #5E5048;
   white-space: nowrap;
 }
 .home-breaking-meta b { font-weight: 800; }
@@ -19073,8 +19074,8 @@ header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92);
   transition: background-color 160ms ease, color 160ms ease;
 }
 .home-breaking-nav button:hover:not(:disabled) {
-  background: rgba(255, 68, 34, 0.1);
-  color: #B42A10;
+  background: rgba(255, 255, 255, 0.55);
+  color: #9E2409;
 }
 .home-breaking-nav button:disabled { color: rgba(63, 56, 51, 0.3); cursor: default; }
 .home-breaking-nav button:focus-visible {
@@ -19086,7 +19087,7 @@ header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92);
   text-align: center;
   font-size: 12px;
   font-weight: 700;
-  color: #6B5E55;
+  color: #5E5048;
   font-variant-numeric: tabular-nums;
 }
 
@@ -19096,9 +19097,9 @@ header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92);
   gap: 10px;
   flex-shrink: 0;
   padding-left: 14px;
-  border-left: 1px solid rgba(255, 68, 34, 0.28);
+  border-left: 1px solid rgba(158, 36, 9, 0.25);
   font-size: 13px;
-  color: #6B5E55;
+  color: #5E5048;
   white-space: nowrap;
 }
 .home-breaking-sep { width: 1px; height: 14px; background: rgba(17, 17, 17, 0.12); }
@@ -19572,4 +19573,45 @@ header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92);
   .perty-tile-check,
   .perty-steps span,
   .perty-btn { transition: none; }
+}
+
+/* ── Moti sot: compact rows and today's chance of rain ─────────────────────
+   The card is stretched to the hero's height, and `grid-auto-rows: 1fr`
+   spread three rows across all of it: 119px each, which pushed the third city
+   below the fold on a laptop screen. Rows now take their natural height at the
+   top of the card, and each carries the day's rain chance and high/low. */
+.home-weather-list {
+  grid-auto-rows: auto;
+  align-content: start;
+}
+.home-weather-row { padding: 11px 0; }
+.home-weather-place small { font-size: 11px; }
+.home-weather-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+.home-weather-rain {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+  background: rgba(64, 110, 170, 0.1);
+  color: #2F5A8C;
+}
+.home-weather-rain[data-level="mid"] { background: rgba(64, 110, 170, 0.16); color: #264D7A; }
+.home-weather-rain[data-level="high"] { background: #2F5A8C; color: #FFFFFF; }
+.home-weather-rain .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }

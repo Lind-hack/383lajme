@@ -14,12 +14,23 @@ export type CityWeather = {
   tempC: number;
   code: number;
   label: string;
+  /** Highest chance of rain at any hour today, 0–100. Null when not reported. */
+  rainChance: number | null;
+  /** Today's high and low, rounded. Null when not reported. */
+  highC: number | null;
+  lowC: number | null;
 };
+
+/** A daily value from Open-Meteo, or null — never a guessed number. */
+function firstDaily(data: unknown, key: string): number | null {
+  const value = (data as { daily?: Record<string, unknown[]> })?.daily?.[key]?.[0];
+  return typeof value === "number" && Number.isFinite(value) ? value : null;
+}
 
 const CITIES = [
   { city: "Prishtinë", lat: 42.6629, lon: 21.1655 },
-  { city: "Shkup", lat: 41.9981, lon: 21.4254 },
   { city: "Tiranë", lat: 41.3275, lon: 19.8187 },
+  { city: "Shkup", lat: 41.9981, lon: 21.4254 },
 ] as const;
 
 /**
@@ -61,7 +72,9 @@ export async function getCityWeather(): Promise<CityWeather[]> {
       try {
         const url =
           `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
-          `&current=temperature_2m,weather_code&timezone=Europe%2FBelgrade`;
+          `&current=temperature_2m,weather_code` +
+          `&daily=precipitation_probability_max,temperature_2m_max,temperature_2m_min` +
+          `&forecast_days=1&timezone=Europe%2FBelgrade`;
         const response = await fetch(url, { next: { revalidate: 1800 } });
         if (!response.ok) return null;
 
@@ -70,7 +83,18 @@ export async function getCityWeather(): Promise<CityWeather[]> {
         const code = data?.current?.weather_code;
         if (typeof tempC !== "number" || typeof code !== "number") return null;
 
-        return { city, tempC: Math.round(tempC), code, label: weatherLabel(code) };
+        const rain = firstDaily(data, "precipitation_probability_max");
+        const high = firstDaily(data, "temperature_2m_max");
+        const low = firstDaily(data, "temperature_2m_min");
+        return {
+          city,
+          tempC: Math.round(tempC),
+          code,
+          label: weatherLabel(code),
+          rainChance: rain === null ? null : Math.round(rain),
+          highC: high === null ? null : Math.round(high),
+          lowC: low === null ? null : Math.round(low),
+        };
       } catch {
         return null;
       }

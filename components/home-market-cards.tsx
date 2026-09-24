@@ -13,6 +13,7 @@ import {
   Fuel,
   RefreshCw,
   Sun,
+  Umbrella,
   type LucideIcon,
 } from "lucide-react";
 import type {
@@ -44,6 +45,29 @@ function formatSourceDate(value: string | null) {
     "dhj",
   ];
   return `${date.getUTCDate()} ${months[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
+}
+
+const SHORT_MONTHS = ["jan", "shk", "mar", "pri", "maj", "qer", "korr", "gus", "sht", "tet", "nën", "dhj"];
+
+/** "16 sht" in Kosovo time — a price change date, without the year noise. */
+function formatShortDate(value: string | null | undefined) {
+  const t = Date.parse(value ?? "");
+  if (!Number.isFinite(t)) return null;
+  const [y, m, d] = dateKeyInKosovo(new Date(t)).split("-").map(Number);
+  return y && m && d ? `${d} ${SHORT_MONTHS[m - 1]}` : null;
+}
+
+/** "sot, 12:28" or "24 sht, 12:28" — when 383 last read the prices. */
+function formatCheckedAt(value: string | null | undefined) {
+  const t = Date.parse(value ?? "");
+  if (!Number.isFinite(t)) return null;
+  const time = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Belgrade",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(t));
+  const sameDay = dateKeyInKosovo(new Date(t)) === dateKeyInKosovo(new Date());
+  return `${sameDay ? "sot" : formatShortDate(value)}, ${time}`;
 }
 
 /**
@@ -256,48 +280,38 @@ export function CurrencyExchangeCard({
 }
 
 /**
- * One price, plus its own date when that date is not the row's.
- *
- * NaftaSot publishes each fuel separately and the three drift days apart, so a
- * row dated by its newest price would otherwise imply all three moved that
- * morning. When one lags, it says so on the price itself rather than dragging
- * the whole row backwards.
+ * One price. Its last-change date is on hover, not printed: NaftaSot's
+ * updated_at is when a brand last CHANGED the price (every Shell station moved
+ * diesel together on one afternoon), not when it was last seen. Printed, a
+ * week-old change read as a week-old price.
  */
 function FuelValue({
   value,
   at,
-  rowAt,
+  missingNote,
 }: {
   value: number | null;
   at?: string | null;
-  rowAt?: string | null;
+  /** Why there is no price, for the hover title. */
+  missingNote: string;
 }) {
-  if (value === null) return <span className="home-fuel-unavailable">—</span>;
+  if (value === null) {
+    return (
+      <span className="home-fuel-unavailable" title={missingNote}>
+        —
+      </span>
+    );
+  }
 
-  const lagging = isEarlierDay(at, rowAt);
-
+  // The per-price date moved into the title. Printed under the price, "11 sht"
+  // read as "stale" when it meant "unchanged since" — the price was checked today.
+  const since = formatShortDate(at);
   return (
-    <span data-lagging={lagging || undefined}>
+    <span title={since ? `I pandryshuar që nga ${since}` : undefined}>
       €{value.toFixed(2)}
       <small>/L</small>
-      {lagging ? (
-        <small className="home-fuel-since" title={`Ky çmim s'ka lëvizur që nga ${formatSourceDate(at ?? null)}`}>
-          {formatSourceDate(at ?? null)}
-        </small>
-      ) : null}
     </span>
   );
-}
-
-/** Compares Kosovo calendar days, not raw timestamps: NaftaSot stamps some
- *  prices in +02:00 and others in UTC, so slicing the ISO string disagrees
- *  with itself either side of midnight. */
-function isEarlierDay(at?: string | null, rowAt?: string | null) {
-  if (!at || !rowAt) return false;
-  const a = Date.parse(at);
-  const b = Date.parse(rowAt);
-  if (!Number.isFinite(a) || !Number.isFinite(b)) return false;
-  return dateKeyInKosovo(new Date(a)) < dateKeyInKosovo(new Date(b));
 }
 
 /** The brand column is one narrow line that ellipsises, so each supplier gets a
@@ -322,17 +336,22 @@ function FuelBrandRow({ item }: { item: FuelBrandSnapshot }) {
         {/* title carries the full supplier name for anyone who needs it. */}
         <strong title={item.brand}>{FUEL_BRAND_LABEL[item.brand] ?? item.brand}</strong>
         <small>
-          {unavailable ? "pa çmim publik" : formatSourceDate(rowDate)}
+          {unavailable
+            ? "pa çmim publik"
+            : formatShortDate(rowDate)
+              ? `ndryshuar ${formatShortDate(rowDate)}`
+              : formatSourceDate(rowDate)}
         </small>
       </div>
-      <FuelValue value={item.diesel} at={item.dates?.diesel} rowAt={rowDate} />
-      <FuelValue value={item.petrol} at={item.dates?.petrol} rowAt={rowDate} />
-      <FuelValue value={item.gas} at={item.dates?.gas} rowAt={rowDate} />
+      <FuelValue value={item.diesel} at={item.dates?.diesel} missingNote={`${item.brand} nuk ka publikuar çmim për dizelin`} />
+      <FuelValue value={item.petrol} at={item.dates?.petrol} missingNote={`${item.brand} nuk ka publikuar çmim për benzinën`} />
+      <FuelValue value={item.gas} at={item.dates?.gas} missingNote={`${item.brand} nuk ka publikuar çmim për gazin`} />
     </div>
   );
 }
 
 export function FuelPricesCard({ snapshot }: { snapshot: FuelSnapshot }) {
+  const checked = snapshot.fallback ? null : formatCheckedAt(snapshot.checkedAt);
   return (
     <MarketCardFrame
       eyebrow="DERIVATET NË KOSOVË"
@@ -341,9 +360,13 @@ export function FuelPricesCard({ snapshot }: { snapshot: FuelSnapshot }) {
       className="home-market-card-fuel"
       footer={
         <>
-          <span>
+          {/* The date the reader needs is when 383 last looked, not when a brand
+              last moved its price — a price held for a week is still today's.
+              suppressHydrationWarning: "sot" is computed on both sides of a
+              cached render and can flip at midnight. */}
+          <span suppressHydrationWarning>
             <RefreshCw size={12} />
-            Rifreskim ditor
+            {checked ? `Kontrolluar ${checked}` : "Të dhënat e fundit të verifikuara"}
           </span>
           <a href={snapshot.sourceUrl} target="_blank" rel="noreferrer">
             NaftaSot
@@ -364,10 +387,11 @@ export function FuelPricesCard({ snapshot }: { snapshot: FuelSnapshot }) {
         ))}
       </div>
       <p className="home-market-note">
-        {/* No longer one station: each fuel takes the newest price that brand
-            has published, because their timestamps diverge by days. */}
-        Çmimi më i fundit i publikuar për secilin derivat. Mund të ndryshojë
-        sipas lokacionit.
+        {/* Each fuel takes the newest price that brand has published. The date
+            under a brand is its last price CHANGE: brands move prices together
+            across all their stations and then hold them for days. */}
+        Çmimi aktual i pompave, i kontrolluar çdo ditë. Data tregon ndryshimin e
+        fundit të çmimit.
       </p>
     </MarketCardFrame>
   );
@@ -422,11 +446,31 @@ export function WeatherCard({ cities }: { cities: CityWeather[] }) {
               </span>
               <span className="home-weather-place">
                 <strong>{city.city}</strong>
-                <small>{city.label}</small>
+                <small>
+                  {city.label}
+                  {city.highC !== null && city.lowC !== null && (
+                    <> · {city.highC}°/{city.lowC}°</>
+                  )}
+                </small>
               </span>
-              <span className="home-weather-temp">
-                {city.tempC}
-                <i aria-hidden="true">°</i>
+              <span className="home-weather-right">
+                <span className="home-weather-temp">
+                  {city.tempC}
+                  <i aria-hidden="true">°</i>
+                </span>
+                {/* Today's highest hourly chance of rain — the number that
+                    decides the umbrella. Absent rather than guessed. */}
+                {city.rainChance !== null && (
+                  <span
+                    className="home-weather-rain"
+                    data-level={city.rainChance >= 60 ? "high" : city.rainChance >= 30 ? "mid" : "low"}
+                    title={`Mundësia më e lartë për shi sot: ${city.rainChance}%`}
+                  >
+                    <Umbrella size={12} strokeWidth={2.4} aria-hidden="true" />
+                    <span className="sr-only">Mundësia për shi </span>
+                    {city.rainChance}%
+                  </span>
+                )}
               </span>
             </li>
           );

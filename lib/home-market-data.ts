@@ -43,6 +43,10 @@ export type FuelSnapshot = {
   fallback: boolean;
   /** Why live data could not be used. Present only when fallback is true. */
   fallbackReason?: string;
+  /** When 383 last read the prices — not when they last changed. A brand can
+      hold one price for a week; the card must still be able to say it was
+      checked this morning. Absent on the hardcoded fallback. */
+  checkedAt?: string | null;
 };
 
 type NaftaSotFuel = {
@@ -307,7 +311,7 @@ async function pushedFuelSnapshot(): Promise<FuelSnapshot | null> {
     const age = Date.now() - Date.parse(data.fetched_at ?? "");
     if (!Number.isFinite(age) || age > FUEL_MAX_AGE_MS) return null;
 
-    return data.snapshot as FuelSnapshot;
+    return { ...(data.snapshot as FuelSnapshot), checkedAt: data.fetched_at ?? null };
   } catch {
     return null;
   }
@@ -330,5 +334,6 @@ export async function getDailyFuelSnapshot(): Promise<FuelSnapshot> {
     ),
     sourceUrl: "https://naftasot.com/",
     fallback: false,
+    checkedAt: new Date().toISOString(),
   };
 }

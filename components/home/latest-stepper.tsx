@@ -2,8 +2,8 @@
 
 // The moving half of the breaking bar: the newest headlines, one at a time.
 //
-// It turns over every 15 seconds — slow enough to read a headline twice, unlike
-// the marquee it replaced — and it never moves under the reader: hovering or
+// It turns over every 5 seconds — a headline is one line, and the six of them
+// cycle in half a minute — and it never moves under the reader: hovering or
 // focusing the bar holds the current story, and pressing an arrow restarts the
 // clock rather than letting it jump a second later. Readers who ask the system
 // for reduced motion get the arrows only.
@@ -29,7 +29,7 @@ export type LatestItem = {
 const FRESH_MS = 45 * 60 * 1000;
 
 /** How long each headline stays before the next one. */
-const ROTATE_MS = 15_000;
+const ROTATE_MS = 5_000;
 
 export default function LatestStepper({ items }: { items: LatestItem[] }) {
   const [index, setIndex] = useState(0);
@@ -37,7 +37,7 @@ export default function LatestStepper({ items }: { items: LatestItem[] }) {
   const [held, setHeld] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
   // Screen readers hear a new headline only when the reader asked for it; an
-  // announcement every 15 seconds would talk over whatever they are reading.
+  // announcement every few seconds would talk over whatever they are reading.
   const [steered, setSteered] = useState(false);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function LatestStepper({ items }: { items: LatestItem[] }) {
     return () => mq.removeEventListener("change", sync);
   }, []);
 
-  // Keyed on index, so a manual step restarts the full 15 seconds.
+  // Keyed on index, so a manual step restarts the full interval.
   useEffect(() => {
     if (held || reduceMotion || items.length < 2) return;
     const t = window.setTimeout(
