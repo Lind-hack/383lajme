@@ -6,6 +6,7 @@ import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
 import ArticleContent from "@/components/article-content";
 import Footer from "@/components/footer";
+import ReadingAffinity from "@/components/reading-affinity";
 import type { AccordionSlide } from "@/components/image-accordion";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
 import { topicForArticle } from "@/lib/topics.mjs";
@@ -180,6 +181,13 @@ export default async function ArticlePage({
         catBg={catBg}
         categorySlides={categorySlides}
         dosje={dosje}
+      />
+      {/* Device-only: lets Për ty learn from what the reader stays to read. */}
+      <ReadingAffinity
+        title={article.title}
+        excerpt={article.excerpt}
+        category={article.category}
+        city={article.city}
       />
       <Footer />
     </>

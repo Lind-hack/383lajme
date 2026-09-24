@@ -28,11 +28,13 @@ export const NAV_LINKS = NAV_CATEGORIES.map(({ label, slug }) => ({
  * is this site?". Categories move into the dropdown at the end of the row —
  * one level down, where browsing belongs.
  *
- * "Për ty" joins between Sot and Bota once its onboarding exists; a nav item
- * that leads to an unfinished personal feed would cost more trust than it earns.
+ * Sot and Për ty sit side by side: the shared view of today and the reader's
+ * own, always one tap apart, and the public homepage is never silently
+ * replaced by the personal one.
  */
 export const PRIMARY_NAV = [
   { label: "Sot", href: "/" },
+  { label: "Për ty", href: "/per-ty" },
   { label: "Bota për Kosovën", href: "/bota-per-kosoven" },
   { label: "Tregu", href: "/tregu" },
   { label: "Diaspora", href: "/visit" },
