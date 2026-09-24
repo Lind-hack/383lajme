@@ -836,40 +836,48 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
 }
 
 /** Two-minute official sports processor: idempotently discovers 72-hour templates and refreshes active markets. */
-const NEWS_SETTLEMENT_WAIT_MS = 15_000;
+// Cloudflare fronts 383ks.com and drops any request still open at ~100s. The
+// heartbeat answers by this mark; slower best-effort jobs keep running on the
+// long-lived Railway server, and each one's own run key stops a second copy.
+const HEARTBEAT_RESPONSE_BUDGET_MS = 85_000;
+const HEARTBEAT_MIN_WAIT_MS = 5_000;
+
+const reasonText = (reason: unknown) => String(reason instanceof Error ? reason.message : reason);
 
 export async function runLiveSportsAutomation(now = new Date()) {
+  const startedAt = Date.now();
   // The official live heartbeat is the critical two-minute lane. Template
-  // discovery is best-effort and must never delay or cancel score refreshes.
+  // discovery and settlement are best-effort and must never delay or cancel
+  // score refreshes, so they start only once the live state is written.
   const live = await runOfficialSportsRefresh("live_sports", oneMinuteRunKey(now), now);
-  // Settlement researches every expired news market before it pays. A backlog
-  // can take minutes; Cloudflare cuts the heartbeat's request at ~100s and the
-  // live work already uses ~40s. Give the sweep a short window here and let it
-  // finish in the background: its 15-minute run key stops a second copy.
-  const settlement = runNewsSettlementSweep(now).catch((error) => ({ ok: false, error: String(error instanceof Error ? error.message : error) }));
-  const [f1Template, footballTemplate, f1Championship, basketballTemplate] = await Promise.allSettled([
+  const background = Promise.allSettled([
     runUpcomingF1TemplateAutomation(now),
     runUpcomingFootballTemplateAutomation(now),
     runF1ChampionshipAutomation(now),
     runUpcomingBasketballAutomation(now),
+    // Expired news markets close and pay here while AI repricing is off.
+    runNewsSettlementSweep(now),
   ]);
-  const newsSettlement = await Promise.race([
-    settlement,
-    new Promise((resolve) => setTimeout(() => resolve({ ok: true, pending: true, reason: "continues_in_background" }), NEWS_SETTLEMENT_WAIT_MS)),
-  ]);
+  const waitMs = Math.max(HEARTBEAT_MIN_WAIT_MS, HEARTBEAT_RESPONSE_BUDGET_MS - (Date.now() - startedAt));
+  const settled = await Promise.race([background, new Promise<null>((resolve) => setTimeout(() => resolve(null), waitMs))]);
+  if (!settled) {
+    const pending = { ok: true, pending: true, reason: "continues_in_background" };
+    return { ...live, news_settlement: pending, f1_template: pending, football_template: pending, basketball_template: pending, f1_championship: pending };
+  }
+  const [f1Template, footballTemplate, f1Championship, basketballTemplate, newsSettlement] = settled;
   return {
     ...live,
-    news_settlement: newsSettlement,
+    news_settlement: newsSettlement.status === "fulfilled" ? newsSettlement.value : { ok: false, error: reasonText(newsSettlement.reason) },
     f1_template: f1Template.status === "fulfilled"
       ? f1Template.value
-      : { ok: false, created: 0, reason: "f1_template_unavailable", error: String(f1Template.reason instanceof Error ? f1Template.reason.message : f1Template.reason) },
+      : { ok: false, created: 0, reason: "f1_template_unavailable", error: reasonText(f1Template.reason) },
     football_template: footballTemplate.status === "fulfilled"
       ? footballTemplate.value
-      : { ok: false, created: 0, reason: "football_template_unavailable", error: String(footballTemplate.reason instanceof Error ? footballTemplate.reason.message : footballTemplate.reason) },
-    basketball_template: basketballTemplate.status === "fulfilled" ? basketballTemplate.value : { ok: false, error: String(basketballTemplate.reason) },
+      : { ok: false, created: 0, reason: "football_template_unavailable", error: reasonText(footballTemplate.reason) },
+    basketball_template: basketballTemplate.status === "fulfilled" ? basketballTemplate.value : { ok: false, error: reasonText(basketballTemplate.reason) },
     f1_championship: f1Championship.status === "fulfilled"
       ? f1Championship.value
-      : { ok: false, reason: "f1_championship_unavailable", error: String(f1Championship.reason instanceof Error ? f1Championship.reason.message : f1Championship.reason) },
+      : { ok: false, reason: "f1_championship_unavailable", error: reasonText(f1Championship.reason) },
   };
 }
 
