@@ -1,11 +1,11 @@
 {
   "lastUpdated": "2026-09-24",
   "overallIndex": 51,
-  "totalArticles": 110,
-  "sourceCount": 100,
+  "totalArticles": 112,
+  "sourceCount": 114,
   "stanceVersion": 3,
-  "unattributed": 243,
-  "nonEditorial": 4,
+  "unattributed": 283,
+  "nonEditorial": 6,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -57,6 +57,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-22",
           "lastSeen": "2026-09-22"
+        },
+        {
+          "name": "sport.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo - Irland Wett Tipp & Quoten 24.09.2026 - sport.de",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": null,
+              "url": "https://www.sport.de/sportwetten/tipps/kosovo-vs-irland-wett-tipp-24-09-2026/",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Wettquoten, rein informativ",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-21",
+          "lastSeen": "2026-09-23"
         }
       ],
       "summary": {
@@ -64,7 +88,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -88,7 +112,7 @@
         {
           "name": "BBC",
           "sentiment": "unknown",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Republic of Ireland: Heimir Hallgrimsson's side Republic of Ireland braced for testing Nations League - BBC",
@@ -115,9 +139,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "UEFA Nations League LIVE: Kosovo vs Republic of Ireland - live text commentary & score updates - BBC",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://static.files.bbci.co.uk/core/website/assets/static/sport/images/metadata/poster-1024x576.146fae5646.png",
+              "url": "https://www.bbc.com/sport/football/live/ck790jyljq4vt",
+              "date": "2026-09-23",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-16",
           "lastSeen": "2026-09-23"
@@ -125,7 +162,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "‘Our War is Being Judged’: In Kosovo, Outrage at Hague Verdict Simmers - Balkan Insight",
@@ -178,12 +215,49 @@
               "isQuote": true,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo Marks Banjska Attack Anniversary as Main Suspects Remain Free - Balkan Insight",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Albulena-Haxhiu-Afrim-Bunjaku-commemoration.jpg",
+              "url": "https://balkaninsight.com/2026/09/24/kosovo-marks-banjska-attack-anniversary-as-main-suspects-remain-free/bi/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 32,
+          "totalArticles": 33,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-23"
+          "lastSeen": "2026-09-24"
+        },
+        {
+          "name": "belfastlive.co.uk",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo vs Republic of Ireland tonight: Kick-off time and TV channel - belfastlive.co.uk",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://i2-prod.belfastlive.co.uk/article34665863.ece/ALTERNATES/s1200d/0_Kosovo-v-Trkiye-FIFA-World-Cup-2026-European-Qualifiers-KO-play-offs.jpg",
+              "url": "https://www.belfastlive.co.uk/sport/football/kosovo-vs-republic-ireland-tonight-34665864",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
         }
       ],
       "summary": {
@@ -192,7 +266,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 3,
+        "excluded": 6,
         "confident": false,
         "stanceVersion": 3
       }
@@ -235,6 +309,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-21",
           "lastSeen": "2026-09-21"
+        },
+        {
+          "name": "Homme Du Match",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Football | Kosovo – Chypre : Sur quelle chaîne et à quelle heure voir le match en direct ? - Homme Du Match",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.hommedumatch.fr/wp-content/uploads/2026/09/via-news-1790225490-4832.webp",
+              "url": "https://www.hommedumatch.fr/football-kosovo-chypre-sur-quelle-chaine-et-a-quelle-heure-voir-le-match-en-direct-2925802/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "L'Est Républicain",
@@ -374,7 +472,7 @@
         {
           "name": "Mediasportif",
           "sentiment": "unknown",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Football | Kosovo – Irlande : Sur quelle chaîne et à quelle heure voir le match en direct ? - Mediasportif",
@@ -388,9 +486,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Football | Kosovo - Chypre : Sur quelle chaîne et à quelle heure voir le match de Ligue des Nations en direct ? - Mediasportif",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": null,
+              "url": "https://www.mediasportif.fr/2026/09/24/football-kosovo-chypre-sur-quelle-chaine-et-a-quelle-heure-voir-le-match-de-ligue-des-nations-en-direct/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-24",
           "lastSeen": "2026-09-24"
@@ -418,6 +529,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-23",
           "lastSeen": "2026-09-23"
+        },
+        {
+          "name": "lequipe.fr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo - Irlande, Ligue des nations B, match en direct le 24/09/2026 - lequipe.fr",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": null,
+              "url": "https://www.lequipe.fr/Football/match-direct/ligue-des-nations-b/2027/kosovo-irlande-live/688788",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "marathons.fr",
@@ -474,7 +609,7 @@
         "neutral": 88,
         "negative": 0,
         "n": 8,
-        "excluded": 5,
+        "excluded": 8,
         "confident": true,
         "stanceVersion": 3
       }
@@ -484,7 +619,7 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Dal Mas (Ince), Europa non può essere forte senza i Balcani occidentali - ANSA",
@@ -511,12 +646,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Fedriga, Fvg a Expo Belgrado è ulteriore opportunità dialogo coi Balcani - ANSA",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/1/31/11018f65aad9959dc097d4f8521bd471.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/24/fedriga-fvg-a-expo-belgrado-e-ulteriore-opportunita-dialogo-coi-balcani_30fa44ab-2f0c-4610-864a-34044c78bbfe.html",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 34,
+          "totalArticles": 35,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-22"
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "Abruzzo Web",
@@ -907,6 +1055,30 @@
           "lastSeen": "2026-09-22"
         },
         {
+          "name": "Udineseblog",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "In Kosovo-Irlanda Vojvoda affronta Abankwah - Udineseblog",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.udineseblog.it/wp-content/uploads/2026/09/Vojvoda-duello.jpg",
+              "url": "https://www.udineseblog.it/udinese/mondo-udinese/in-kosovo-irlanda-vojvoda-affronta-abankwah/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-19",
+          "lastSeen": "2026-09-24"
+        },
+        {
           "name": "ecodellojonio.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1009,13 +1181,37 @@
         "neutral": 95,
         "negative": 0,
         "n": 20,
-        "excluded": 4,
+        "excluded": 6,
         "confident": true,
         "stanceVersion": 3
       }
     },
     "Austri": {
       "outlets": [
+        {
+          "name": "BauernZeitung.at",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Von der Feldarbeiterin zur Unternehmerin: CARE-Projekt stärkt Kosovos Bäuerinnen - BauernZeitung.at",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://a.storyblok.com/f/286169096649098/1920x1280/439c60ca7e/lendita-krasniqi-aus-kosovo.jpg/m/1200x630/smart/m/1200x630/smart",
+              "url": "https://www.bauernzeitung.at/artikel/vorarlberg/von-der-feldarbeiterin-zur-unternehmerin-care-projekt-starkt-kosovos-bauerinnen",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
+        },
         {
           "name": "Der Standard",
           "sentiment": "neutral",
@@ -1052,6 +1248,30 @@
           "trend": "neutral",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-21"
+        },
+        {
+          "name": "DiePresse.com",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Franco Foda: Wie Kosovo-Teamchef und Österreich-Fan in Wien gewinnen will - DiePresse.com",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://img.diepresse.com/public/incoming/mn6q4c-imagosp0923174800011083685765jpg/alternates/WEBP_WIDE_1200/imago_sp_0923_17480001_1083685765.jpg",
+              "url": "https://www.diepresse.com/41291768/franco-foda-wie-kosovo-teamchef-und-oesterreich-fan-in-wien-gewinnen",
+              "date": "2026-09-24",
+              "sentiment": "neutral",
+              "reason": "Reine Berichtueber einen Trainer und das Team, keine Wertung",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "i përzier",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "Kronen Zeitung",
@@ -1216,8 +1436,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
-        "excluded": 2,
+        "n": 8,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1227,7 +1447,7 @@
         {
           "name": "20 Min",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "«Hat für uns gekämpft»: Warum auch Jugendliche in Zürich für Thaçi demonstrieren - 20 Min",
@@ -1254,9 +1474,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Hashim Thaçi condamné : pourquoi la diaspora kosovare manifeste en Suisse - 20 Min",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://image.20min.ch/2026/09/24/717e59e7-7616-4553-8f64-33630ba0679c.jpg?auto=format%2Ccompress%2Cenhance&fit=max&w=1200&h=1200&rect=0%2C0%2C6000%2C4000&s=5981bef59ec20d9e76b57a361ed00718",
+              "url": "https://www.20min.ch/fr/story/criminel-de-guerre-il-a-combattu-pour-nous-pourquoi-ces-jeunes-manifestent-103638127",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
+          "totalArticles": 3,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-24",
           "lastSeen": "2026-09-24"
@@ -1466,39 +1699,113 @@
         "neutral": 100,
         "negative": 0,
         "n": 14,
-        "excluded": 6,
+        "excluded": 7,
         "confident": true,
         "stanceVersion": 3
       }
     },
     "Holandë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "AD.nl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "‘Nepagenten’ te water na beroving: slachtoffers rijden voor niks vanuit Kosovo naar Nederland voor rechtszaak - AD.nl",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": null,
+              "url": "https://www.ad.nl/nieuwegein/nepagenten-te-water-na-beroving-slachtoffers-rijden-voor-niks-vanuit-kosovo-naar-nederland-voor-rechtszaak~a99e195d/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-09-17",
+          "lastSeen": "2026-09-24"
+        }
+      ],
       "summary": {
         "index": null,
         "positive": 0,
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
     },
     "Belgjikë": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "Le Soir",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "La paix dans les Balkans ne peut se construire sans justice : la Serbie, le Kosovo et la responsabilité de l’Europe - Le Soir",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": null,
+              "url": "https://www.lesoir.be/772808/article/2026-09-24/la-paix-dans-les-balkans-ne-peut-se-construire-sans-justice-la-serbie-le-kosovo",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-15",
+          "lastSeen": "2026-09-24"
+        }
+      ],
       "summary": {
         "index": null,
         "positive": 0,
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
     },
     "Spanjë": {
       "outlets": [
+        {
+          "name": "Eurosport",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo - Irlanda en directo - UEFA Nations League: Resultados y resúmenes de Fútbol - 24/09/2026 - Eurosport",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": null,
+              "url": "https://www.eurosport.es/futbol/uefa-nations-league/2026-2027/live-kosovo-irlanda_mtc20005856/live.shtml",
+              "date": "2026-09-23",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-23"
+        },
         {
           "name": "ctxt.es",
           "sentiment": "negative",
@@ -1530,7 +1837,7 @@
         "neutral": 0,
         "negative": 100,
         "n": 1,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1572,6 +1879,30 @@
               "blurb": "Analizat dhe parashikimet për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës që zhvillohet më 24 shtator 2026.",
               "imageUrl": null,
               "url": "https://www.bet.gr/prognostika/kosovo-irlandia-240926/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
+        },
+        {
+          "name": "BetWeekend",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Nations League: Κόσοβο-Ιρλανδία - BetWeekend",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": null,
+              "url": "https://betweekend.gr/2026/09/24/kosovo-irlandia/",
               "date": "2026-09-24",
               "sentiment": "unknown",
               "reason": "",
@@ -1673,6 +2004,30 @@
           "lastSeen": "2026-09-23"
         },
         {
+          "name": "Sentragoal.gr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "ΚΟΣΟΒΟ - ΙΡΛΑΝΔΙΑ ΠΡΟΓΝΩΣΤΙΚΑ (24/09/26)【LIVE STREAM ▶️】 - Sentragoal.gr",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.sentragoal.gr/cdn-cgi/image/quality=95,fit=crop,width=1200,height=628/images/prognostika-nations-league.jpg",
+              "url": "https://www.sentragoal.gr/prognostika/140202-kosobo-irlandia/",
+              "date": "2026-09-23",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-23"
+        },
+        {
           "name": "Sport24",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -1756,6 +2111,30 @@
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-24"
+        },
+        {
+          "name": "sport24.gr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Κόσοβο - Ιρλανδία Live - 24-09-2026 - sport24.gr",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.sport24.gr/wp-content/uploads/2025/03/Matchcenter_OGimage1-full.jpg",
+              "url": "https://www.sport24.gr/matchcenter/kosovo-irlandia-live-24-09-2026/6a5dd4ea3c73d448d7b48e71/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
         }
       ],
       "summary": {
@@ -1764,7 +2143,7 @@
         "neutral": 83,
         "negative": 17,
         "n": 6,
-        "excluded": 5,
+        "excluded": 8,
         "confident": true,
         "stanceVersion": 3
       }
@@ -2180,7 +2559,7 @@
         {
           "name": "PodkarpacieLIVE",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosowo – Irlandia - PodkarpacieLIVE",
@@ -2207,12 +2586,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosowo - Irlandia na żywo. Wynik i relacja LIVE (24.09.2026) - PodkarpacieLIVE",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://www.podkarpacielive.pl/files/jpg/110337.jpg",
+              "url": "https://www.podkarpacielive.pl/pl/wydarzenia/57636,kosowo---irlandia-na-zywo-wynik-i-relacja-live-24092026",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
+          "totalArticles": 3,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-22",
-          "lastSeen": "2026-09-23"
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "Program TV Onet",
@@ -2400,7 +2792,7 @@
         {
           "name": "sport.betfan.pl",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosowo – Irlandia: Typy, kursy, gdzie oglądać? 24.09 LN - sport.betfan.pl",
@@ -2411,6 +2803,19 @@
               "date": "2026-09-22",
               "sentiment": "neutral",
               "reason": "Informacion sportiv i thjeshtë, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosowo – Irlandia: Typy, kursy, gdzie oglądać? 24.09 Liga Narodów - sport.betfan.pl",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://sport.betfan.pl/wp-content/uploads/2026/09/20260327_PF_OD_ZA_122584-1.jpg",
+              "url": "https://sport.betfan.pl/kosowo-irlandia-typy-kursy-gdzie-ogladac-24-09-ln/",
+              "date": "2026-09-22",
+              "sentiment": "unknown",
+              "reason": "",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2476,7 +2881,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 14,
-        "excluded": 16,
+        "excluded": 18,
         "confident": true,
         "stanceVersion": 3
       }
@@ -3129,6 +3534,30 @@
           "lastSeen": "2026-09-22"
         },
         {
+          "name": "yeniakit.com.tr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Yapan, “yaptınız” diyendir! - yeniakit.com.tr",
+              "albanianTitle": null,
+              "blurb": "",
+              "imageUrl": "https://cdn.yeniakit.com.tr/images/yazarlar/detail/1790101250-x.jpg",
+              "url": "https://www.yeniakit.com.tr/yazarlar/ayhan-demir/yapan-yaptiniz-diyendir-53858.html",
+              "date": "2026-09-22",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-20",
+          "lastSeen": "2026-09-22"
+        },
+        {
           "name": "yeniasir.com.tr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3233,7 +3662,7 @@
         "neutral": 94,
         "negative": 0,
         "n": 31,
-        "excluded": 5,
+        "excluded": 6,
         "confident": true,
         "stanceVersion": 3
       }

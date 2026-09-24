@@ -9303,8 +9303,8 @@
   {
     "date": "2026-09-24",
     "overallIndex": 51,
-    "totalArticles": 110,
-    "sourceCount": 100,
+    "totalArticles": 112,
+    "sourceCount": 114,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -9312,7 +9312,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -9333,7 +9333,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 3,
+        "excluded": 6,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9343,7 +9343,7 @@
         "neutral": 88,
         "negative": 0,
         "n": 8,
-        "excluded": 5,
+        "excluded": 8,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9353,7 +9353,7 @@
         "neutral": 95,
         "negative": 0,
         "n": 20,
-        "excluded": 4,
+        "excluded": 6,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9362,8 +9362,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
-        "excluded": 2,
+        "n": 8,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9373,7 +9373,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 14,
-        "excluded": 6,
+        "excluded": 7,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9383,7 +9383,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9393,7 +9393,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9403,7 +9403,7 @@
         "neutral": 0,
         "negative": 100,
         "n": 1,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9413,7 +9413,7 @@
         "neutral": 83,
         "negative": 17,
         "n": 6,
-        "excluded": 5,
+        "excluded": 8,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9433,7 +9433,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 14,
-        "excluded": 16,
+        "excluded": 18,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9443,7 +9443,7 @@
         "neutral": 94,
         "negative": 0,
         "n": 31,
-        "excluded": 5,
+        "excluded": 6,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9460,6 +9460,14 @@
     },
     "headlines": [
       {
+        "title": "Jahrestag von Banjska: Ist es damit endgültig vorbei mit „Kosovo ist Serbien“? - vreme.com",
+        "source": "vreme.com",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://vreme.com/de/vesti/godisnjica-banjske-da-li-je-tada-definitivno-zavrseno-sa-kosovo-je-srbija/",
+        "sentiment": "positive"
+      },
+      {
         "title": "Ireland v Kosovo preview: Hallgrímsson’s side search for a little calm before the storm against a rising side - The Irish Times",
         "source": "The Irish Times",
         "country": "SHBA",
@@ -9468,19 +9476,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "Republic of Ireland have to block out background noise and bring a positive result from Kosovo into Israel storm - The Irish News",
-        "source": "The Irish News",
+        "title": "Türkiye to support Kosovo in securing 'its rightful place' in international community: President - Anadolu Ajansı",
+        "source": "Anadolu Ajansı",
         "country": "Britani",
         "flag": "🇬🇧",
-        "url": "https://www.irishnews.com/sport/soccer/republic-of-ireland-have-to-shut-out-noise-and-bring-a-positive-result-from-kosovo-into-israel-storm-FRWTCPJLXNBGXMPOBCAWKBLCKQ/",
-        "sentiment": "positive"
-      },
-      {
-        "title": "La musica, un ponte tra i popoli. Da Forlì al Kosovo: 3 concerti e un’amicizia che dura da 14 anni - Il Resto del Carlino",
-        "source": "Il Resto del Carlino",
-        "country": "Itali",
-        "flag": "🇮🇹",
-        "url": "https://www.ilrestodelcarlino.it/forli/cronaca/la-musica-un-ponte-tra-3a1b92fe",
+        "url": "https://www.aa.com.tr/en/world/turkiye-to-support-kosovo-in-securing-its-rightful-place-in-international-community-president/4063734",
         "sentiment": "positive"
       },
       {
@@ -9501,7 +9501,7 @@
       },
       {
         "title": "While Kosovo rail against historical political machinations, Ireland energy is immersed in current struggle - Irish Examiner",
-        "source": "Irish Examiner",
+        "source": "irishexaminer.com",
         "country": "Britani",
         "flag": "🇬🇧",
         "url": "https://www.irishexaminer.com/sport/soccer/arid-41914957.html",

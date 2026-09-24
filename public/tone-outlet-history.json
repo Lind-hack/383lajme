@@ -58,13 +58,13 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 32,
+      "total": 33,
       "positive": 1,
       "neutral": 29,
       "negative": 1,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-23",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/",
         "https://balkaninsight.com/2026/08/20/remains-of-23-wartime-victims-unearthed-from-mass-graves-in-kosovo/btj/",
@@ -97,7 +97,8 @@
         "https://balkaninsight.com/2026/09/18/discontent-simmers-in-kosovo-as-protesters-denounce-hague-war-crimes-verdict/btj/",
         "https://balkaninsight.com/hashim-thaci-trial-stories-news/",
         "https://balkaninsight.com/2026/09/22/our-war-is-being-judged-in-kosovo-outrage-at-hague-verdict-simmers/btj/",
-        "https://balkaninsight.com/2026/09/23/kosovo-court-orders-mps-to-elect-president-by-october-6/bi/"
+        "https://balkaninsight.com/2026/09/23/kosovo-court-orders-mps-to-elect-president-by-october-6/bi/",
+        "https://balkaninsight.com/2026/09/24/kosovo-marks-banjska-attack-anniversary-as-main-suspects-remain-free/bi/"
       ]
     },
     "Ouest-France": {
@@ -245,13 +246,13 @@
     },
     "ANSA": {
       "country": "Itali",
-      "total": 34,
+      "total": 35,
       "positive": 0,
       "neutral": 28,
       "negative": 0,
-      "unknown": 6,
+      "unknown": 7,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-22",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://www.ansa.it/nuova_europa/en/news/sections/news/2026/08/20/vucic-writes-to-rutte-nato-stop-terror-in-kosovo-do-not-reopen-the_9034279d-c06f-4e44-ab54-096dd4332014.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/08/20/vucic-scrive-a-rutte-nato-fermi-terrore-in-kosovo-non-riaprire-ponte_68050249-06ef-4b0a-b56b-6ff64929514e.html",
@@ -286,7 +287,8 @@
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/16/wizz-air-annuncia-un-nuovo-collegamento-aereo-tra-trieste-e-pristina_b2071c24-7ed7-4e0a-97c0-62d8eecced0d.html",
         "https://www.ansa.it/sito/notizie/mondo/2026/09/16/a-pristina-manifestanti-tentano-assalto-a-sede-ue-dopo-la-condanna-a-thaci-respinti_fe775aeb-91e4-470b-993a-132e06cd7cc6.html",
         "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/21/dal-mas-ince-europa-non-puo-essere-forte-senza-i-balcani_bf3c2ddf-1cef-4875-8e86-3ea99cc32226.html",
-        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/22/il-corridoio-8-dei-balcani-al-centro-del-forum-delle-comunita-energetiche_f66bfcc2-929e-49d5-a494-84629b17961c.html"
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/22/il-corridoio-8-dei-balcani-al-centro-del-forum-delle-comunita-energetiche_f66bfcc2-929e-49d5-a494-84629b17961c.html",
+        "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/24/fedriga-fvg-a-expo-belgrado-e-ulteriore-opportunita-dialogo-coi-balcani_30fa44ab-2f0c-4610-864a-34044c78bbfe.html"
       ]
     },
     "Virgilio": {
@@ -4711,18 +4713,19 @@
     },
     "DiePresse.com": {
       "country": "Austri",
-      "total": 4,
+      "total": 5,
       "positive": 1,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-15",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://www.diepresse.com/41259060/kriegsverbrecherprozess-hochspannung-im-kosovo-vor-urteil-gegen-hashim",
         "https://www.diepresse.com/41266671/gericht-in-den-haag-verurteilt-hashim-thaci-wegen-verbrechen-im-kosovo",
         "https://www.diepresse.com/41268037/kosovos-kampf-war-legitim-dabei-veruebte-untaten-aber-nicht",
-        "https://www.diepresse.com/41266468/der-aggressor-war-serbien-25-jahre-haft-fuer-hashim-thaci-sorgen-im-wut"
+        "https://www.diepresse.com/41266468/der-aggressor-war-serbien-25-jahre-haft-fuer-hashim-thaci-sorgen-im-wut",
+        "https://www.diepresse.com/41291768/franco-foda-wie-kosovo-teamchef-und-oesterreich-fan-in-wien-gewinnen"
       ]
     },
     "svd.se": {
@@ -4855,15 +4858,16 @@
     },
     "Le Soir": {
       "country": "Belgjikë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-15",
-      "lastSeen": "2026-09-15",
+      "lastSeen": "2026-09-24",
       "urls": [
-        "https://www.lesoir.be/771071/article/2026-09-15/avant-le-verdict-de-la-haye-le-kosovo-soutient-ses-anciens-heros-de-la-guerre"
+        "https://www.lesoir.be/771071/article/2026-09-15/avant-le-verdict-de-la-haye-le-kosovo-soutient-ses-anciens-heros-de-la-guerre",
+        "https://www.lesoir.be/772808/article/2026-09-24/la-paix-dans-les-balkans-ne-peut-se-construire-sans-justice-la-serbie-le-kosovo"
       ]
     },
     "Bankier.pl": {
@@ -5593,18 +5597,19 @@
     },
     "BBC": {
       "country": "Britani",
-      "total": 4,
+      "total": 5,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 2,
+      "unknown": 3,
       "firstSeen": "2026-09-16",
       "lastSeen": "2026-09-23",
       "urls": [
         "https://www.bbc.co.uk/news/articles/cmd79z0pdzgjo",
         "https://www.bbc.com/turkce/articles/c914dr5433v6o",
         "https://www.bbc.com/sport/articles/c2071gdnv50o",
-        "https://www.bbc.com/sport/football/articles/c6wyzk2xyz90o"
+        "https://www.bbc.com/sport/football/articles/c6wyzk2xyz90o",
+        "https://www.bbc.com/sport/football/live/ck790jyljq4vt"
       ]
     },
     "lbc.co.uk": {
@@ -6414,18 +6419,19 @@
     },
     "AD.nl": {
       "country": "Holandë",
-      "total": 4,
+      "total": 5,
       "positive": 0,
       "neutral": 4,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-17",
-      "lastSeen": "2026-09-17",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://www.ad.nl/den-haag/malieveldslag-over-kosovo-twee-verhalen-twee-werkelijkheden~a7dcd8d6/",
         "https://www.ad.nl/buitenland/oud-president-kosovo-schuldig-aan-oorlogsmisdaden~ab0a857a/",
         "https://www.ad.nl/binnenland/demonstranten-bekogelen-me-op-malieveld-na-uitspraak-tegen-voormalige-president-van-kosovo~ae43a3c8/",
-        "https://www.ad.nl/video/productie/demonstranten-bekogelen-me-op-malieveld-na-uitspraak-tegen-voormalig-president-kosovo-14439203"
+        "https://www.ad.nl/video/productie/demonstranten-bekogelen-me-op-malieveld-na-uitspraak-tegen-voormalig-president-kosovo-14439203",
+        "https://www.ad.nl/nieuwegein/nepagenten-te-water-na-beroving-slachtoffers-rijden-voor-niks-vanuit-kosovo-naar-nederland-voor-rechtszaak~a99e195d/"
       ]
     },
     "Den Haag FM": {
@@ -7540,15 +7546,16 @@
     },
     "Udineseblog": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-19",
-      "lastSeen": "2026-09-19",
+      "lastSeen": "2026-09-24",
       "urls": [
-        "https://www.udineseblog.it/udinese/mondo-udinese/sosta-nazionali-runjaic-perde-nove-bianconeri/"
+        "https://www.udineseblog.it/udinese/mondo-udinese/sosta-nazionali-runjaic-perde-nove-bianconeri/",
+        "https://www.udineseblog.it/udinese/mondo-udinese/in-kosovo-irlanda-vojvoda-affronta-abankwah/"
       ]
     },
     "quotidiano.net": {
@@ -7775,15 +7782,16 @@
     },
     "yeniakit.com.tr": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-20",
-      "lastSeen": "2026-09-19",
+      "lastSeen": "2026-09-22",
       "urls": [
-        "https://www.yeniakit.com.tr/haber/ulkesinin-bagimsizligi-icin-savasanlar-suclu-ilan-edildi-2023653.html"
+        "https://www.yeniakit.com.tr/haber/ulkesinin-bagimsizligi-icin-savasanlar-suclu-ilan-edildi-2023653.html",
+        "https://www.yeniakit.com.tr/yazarlar/ayhan-demir/yapan-yaptiniz-diyendir-53858.html"
       ]
     },
     "La Difesa del Popolo": {
@@ -7846,7 +7854,7 @@
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-21",
-      "lastSeen": "2026-09-20",
+      "lastSeen": "2026-09-23",
       "urls": [
         "https://www.sport.de/sportwetten/tipps/kosovo-vs-irland-wett-tipp-24-09-2026/"
       ]
@@ -8312,16 +8320,17 @@
     },
     "PodkarpacieLIVE": {
       "country": "Poloni",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-22",
-      "lastSeen": "2026-09-23",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://www.podkarpacielive.pl/mecz/158315,kosowo-vs-irlandia",
-        "https://www.podkarpacielive.pl/pl/wydarzenia/57713,kosowo---irlandia-typy-kursy-bukmacherskie-zapowiedz-24092026"
+        "https://www.podkarpacielive.pl/pl/wydarzenia/57713,kosowo---irlandia-typy-kursy-bukmacherskie-zapowiedz-24092026",
+        "https://www.podkarpacielive.pl/pl/wydarzenia/57636,kosowo---irlandia-na-zywo-wynik-i-relacja-live-24092026"
       ]
     },
     "triesteprima.it": {
@@ -8671,29 +8680,31 @@
     },
     "Mediasportif": {
       "country": "Francë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-24",
       "lastSeen": "2026-09-24",
       "urls": [
-        "https://www.mediasportif.fr/2026/09/24/football-kosovo-irlande-sur-quelle-chaine-et-a-quelle-heure-voir-le-match-en-direct/"
+        "https://www.mediasportif.fr/2026/09/24/football-kosovo-irlande-sur-quelle-chaine-et-a-quelle-heure-voir-le-match-en-direct/",
+        "https://www.mediasportif.fr/2026/09/24/football-kosovo-chypre-sur-quelle-chaine-et-a-quelle-heure-voir-le-match-de-ligue-des-nations-en-direct/"
       ]
     },
     "20 Min": {
       "country": "Zvicër",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-24",
       "lastSeen": "2026-09-24",
       "urls": [
         "https://www.20min.ch/story/proteste-in-zuerich-und-pristina-kosovo-diaspora-empoert-ueber-thaci-verurteilung-103637658",
-        "https://www.20min.ch/sport/football/uefa-nations-league/kosovo-vs-irland-egzx1e9ue9ao6dijwlnb2xel0/ticker"
+        "https://www.20min.ch/sport/football/uefa-nations-league/kosovo-vs-irland-egzx1e9ue9ao6dijwlnb2xel0/ticker",
+        "https://www.20min.ch/fr/story/criminel-de-guerre-il-a-combattu-pour-nous-pourquoi-ces-jeunes-manifestent-103638127"
       ]
     },
     "Bet.gr": {
@@ -8780,6 +8791,110 @@
       "lastSeen": "2026-09-24",
       "urls": [
         "https://betside.pl/kosowo-irlandia-typy-kursy-i-analiza-24-09-26/"
+      ]
+    },
+    "belfastlive.co.uk": {
+      "country": "Britani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.belfastlive.co.uk/sport/football/kosovo-vs-republic-ireland-tonight-34665864"
+      ]
+    },
+    "Homme Du Match": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.hommedumatch.fr/football-kosovo-chypre-sur-quelle-chaine-et-a-quelle-heure-voir-le-match-en-direct-2925802/"
+      ]
+    },
+    "lequipe.fr": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.lequipe.fr/Football/match-direct/ligue-des-nations-b/2027/kosovo-irlande-live/688788"
+      ]
+    },
+    "BauernZeitung.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.bauernzeitung.at/artikel/vorarlberg/von-der-feldarbeiterin-zur-unternehmerin-care-projekt-starkt-kosovos-bauerinnen"
+      ]
+    },
+    "Eurosport": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://www.eurosport.es/futbol/uefa-nations-league/2026-2027/live-kosovo-irlanda_mtc20005856/live.shtml"
+      ]
+    },
+    "BetWeekend": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://betweekend.gr/2026/09/24/kosovo-irlandia/"
+      ]
+    },
+    "Sentragoal.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://www.sentragoal.gr/prognostika/140202-kosobo-irlandia/"
+      ]
+    },
+    "sport24.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.sport24.gr/matchcenter/kosovo-irlandia-live-24-09-2026/6a5dd4ea3c73d448d7b48e71/"
       ]
     }
   }
