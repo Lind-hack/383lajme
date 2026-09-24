@@ -3,7 +3,7 @@ import { MoveHorizontal } from "lucide-react";
 import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
 import Navbar from "@/components/navbar";
-import BreakingTicker from "@/components/breaking-ticker";
+import BreakingBar from "@/components/home/breaking-bar";
 import DispatchRow from "@/components/dispatch-row";
 import KryesoreFront, { MostReadRail } from "@/components/kryesore-front";
 import DispatchList from "@/components/dispatch-list";
@@ -216,9 +216,22 @@ export default async function HomePage() {
       {/* Fixed nav */}
       <Navbar />
 
-      {/* Breaking ticker — sits just under nav */}
+      {/* Latest headlines — a quiet bar under the nav, stepped through at the
+          reader's pace. It replaced an orange marquee that out-shouted the lead
+          story. The lead is left out: it is already the biggest thing on screen. */}
       <div style={{ position: "relative", zIndex: 10, paddingTop: "var(--nav-h)" }}>
-        <BreakingTicker articles={tickerArticles} />
+        <BreakingBar
+          latest={tickerArticles
+            .filter((a) => a.id !== kryesoreLead?.id)
+            .slice(0, 6)
+            .map((a) => ({
+              slug: a.slug,
+              title: a.title,
+              category: a.category,
+              publishedAt: a.publishedAt,
+            }))}
+          weather={cityWeather[0] ?? null}
+        />
       </div>
 
       {/* Kryesore now opens the editorial page instead of arriving after utility modules. */}

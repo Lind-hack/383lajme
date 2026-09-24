@@ -270,7 +270,7 @@ export default function ToneDashboard({
         marginBottom={20}
         right={
           variant === "home" ? (
-            <a href="/toni" style={{ fontSize: "13px", fontWeight: 700, color: TONE_INK.muted, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px", whiteSpace: "nowrap" }}>
+            <a href="/bota-per-kosoven" style={{ fontSize: "13px", fontWeight: 700, color: TONE_INK.muted, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px", whiteSpace: "nowrap" }}>
               Analiza e plotë <ArrowUpRight size={14} strokeWidth={2} />
             </a>
           ) : null
@@ -622,7 +622,7 @@ export default function ToneDashboard({
 
         <p style={{ margin: "12px 0 0", fontSize: "12px", color: "#B4B0A6" }}>
           {summary.lastUpdated && `Përditësuar më ${summary.lastUpdated}. `}
-          <a href="/toni#metodologjia" style={{ color: TONE_INK.faint, textDecoration: "underline" }}>Si e llogarisim →</a>
+          <a href="/bota-per-kosoven#metodologjia" style={{ color: TONE_INK.faint, textDecoration: "underline" }}>Si e llogarisim →</a>
         </p>
       </motion.div>
     </section>

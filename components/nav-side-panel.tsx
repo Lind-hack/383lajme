@@ -466,7 +466,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
               transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             >
               <Link
-                href="/toni"
+                href="/bota-per-kosoven"
                 onClick={onClose}
                 style={{
                   position: "relative",

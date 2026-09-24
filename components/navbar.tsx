@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { MapPin, Search } from "lucide-react";
+import { ChevronDown, MapPin, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { EASE, DUR } from "@/lib/tokens";
 import UserMenu from "./user-menu";
@@ -21,6 +21,22 @@ export const NAV_LINKS = NAV_CATEGORIES.map(({ label, slug }) => ({
   label,
   href: `/kategori/${slug}`,
 }));
+
+/**
+ * The site's destinations. The navbar used to be the seven news categories,
+ * which answered "what kind of story?" while a newcomer was still asking "what
+ * is this site?". Categories move into the dropdown at the end of the row —
+ * one level down, where browsing belongs.
+ *
+ * "Për ty" joins between Sot and Bota once its onboarding exists; a nav item
+ * that leads to an unfinished personal feed would cost more trust than it earns.
+ */
+export const PRIMARY_NAV = [
+  { label: "Sot", href: "/" },
+  { label: "Bota për Kosovën", href: "/bota-per-kosoven" },
+  { label: "Tregu", href: "/tregu" },
+  { label: "Diaspora", href: "/visit" },
+] as const;
 
 export function KosovoTag() {
   return (
@@ -237,21 +253,47 @@ export default function Navbar() {
                   WebkitOverflowScrolling: "touch",
                 }}
               >
-                {NAV_LINKS.map((link) => {
+                {PRIMARY_NAV.map((link) => {
+                  // "/" would otherwise match every path, so Sot is exact.
                   const active =
-                    pathname === link.href ||
-                    pathname?.startsWith(link.href + "/");
+                    link.href === "/"
+                      ? pathname === "/"
+                      : pathname === link.href ||
+                        pathname?.startsWith(link.href + "/");
                   return (
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="nav-pill"
+                      className="nav-pill nav-pill--primary"
                       aria-current={active ? "page" : undefined}
                     >
                       {link.label}
                     </Link>
                   );
                 })}
+
+                {/* Categories, one level down. A native <details> rather than a
+                    hand-rolled menu: it opens on click, closes on Escape, is
+                    keyboard-operable and works before hydration. */}
+                <details className="nav-cats">
+                  <summary aria-label="Kategoritë">
+                    Kategoritë
+                    <ChevronDown size={15} strokeWidth={2.4} aria-hidden="true" />
+                  </summary>
+                  <div className="nav-cats-menu">
+                    {NAV_LINKS.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        aria-current={
+                          pathname?.startsWith(link.href) ? "page" : undefined
+                        }
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                </details>
               </div>
 
               <button
@@ -263,26 +305,6 @@ export default function Navbar() {
               >
                 <Search size={19} strokeWidth={2.5} aria-hidden="true" />
               </button>
-
-              {/* Tregu — prediction markets, pinned so it never scrolls out of the category row */}
-              <Link
-                href="/tregu"
-                className="nav-tregu-link"
-                data-active={pathname?.startsWith("/tregu") ? "true" : undefined}
-              >
-                <span
-                  style={{
-                    width: "6px",
-                    height: "6px",
-                    borderRadius: "50%",
-                    background: "#00A651",
-                    boxShadow: "0 0 0 0 rgba(0,166,81,0.7)",
-                    animation: "tregu-pulse 2s infinite",
-                    flexShrink: 0,
-                  }}
-                />
-                Tregu
-              </Link>
 
               {/* Desktop only: Kosovo + auth pinned right (mobile auth now lives in the side panel) */}
               <div className="nav-auth-desktop">

@@ -1,5 +1,8 @@
-// BOTA FLET — foreign-media coverage of Kosovo, pulled from the tone-scraper
-// pipeline (tools/tone_scraper.py) that also feeds "Toni i Mediave" below.
+// ARTIKUJT — foreign-media coverage of Kosovo, pulled from the tone-scraper
+// pipeline (tools/tone_scraper.py). This used to be a standalone "Bota Flet"
+// module that linked away to a separate "Toni i Mediave" page; both are now
+// halves of one destination, /bota-per-kosoven, so the link below is an
+// in-page anchor rather than a route.
 // Headlines are translated to Albanian and every card carries a real image
 // (scraped from the source publisher, never AI-generated) — see
 // lib/tone-data.ts:getForeignCoverage() for the selection/filtering rules.
@@ -37,12 +40,12 @@ export default function BotaFlet({
         <div className="bota-flet-supercard">
           <div className="bota-flet-padded">
             <SectionLabel
-              label={<span className="glossy-orange">BOTA FLET</span>}
+              label={<span className="glossy-orange">ARTIKUJT</span>}
               accent="#F59E0B"
               marginBottom={16}
               right={
                 <a
-                  href="/toni"
+                  href="#analiza"
                   style={{
                     fontSize: "14px",
                     fontWeight: 700,
@@ -51,7 +54,7 @@ export default function BotaFlet({
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Shiko analizën e plotë →
+                  Zbrit te analiza ↓
                 </a>
               }
             />
