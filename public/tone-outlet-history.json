@@ -1776,10 +1776,10 @@
       ]
     },
     "Kicker": {
-      "country": "Gjermani",
-      "total": 5,
+      "country": "Zvicër",
+      "total": 9,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 9,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
@@ -1789,7 +1789,11 @@
         "https://www.kicker.de/portugal-gegen-kosovo-2026-mittelmeerspiele-5262186/ergebnis",
         "https://www.kicker.de/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri-1253958/artikel",
         "https://www.kicker.at/nations-league-laimer-faellt-gegen-israel-und-den-kosovo-aus-1253992/artikel",
-        "https://www.kicker.de/kosovo-teamchef-foda-als-fan-vom-nationalteam-ausser-wenn-wir-gegen-sie-spielen-1255554/artikel"
+        "https://www.kicker.de/kosovo-teamchef-foda-als-fan-vom-nationalteam-ausser-wenn-wir-gegen-sie-spielen-1255554/artikel",
+        "https://www.kicker.de/kosovo-gegen-irland-2026-uefa-nations-league-5193338/ticker",
+        "https://www.kicker.ch/kosovo-gegen-irland-2026-uefa-nations-league-5193338/aufstellung",
+        "https://www.kicker.ch/valmir-matoshi/spieler/uefa-nations-league/2026/kosovo",
+        "https://www.kicker.ch/albian-hajdari/spieler/uefa-nations-league/2026/kosovo"
       ]
     },
     "infodifesa": {
@@ -5140,16 +5144,17 @@
     },
     "Nau": {
       "country": "Zvicër",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-16",
-      "lastSeen": "2026-09-17",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://www.nau.ch/news/schweiz/ex-kosovo-prasident-muss-25-jahre-in-haft-67176510",
-        "https://www.nau.ch/sport/fussball/xhaka-bruder-solidarisieren-sich-mit-kosovos-ex-prasident-67177661"
+        "https://www.nau.ch/sport/fussball/xhaka-bruder-solidarisieren-sich-mit-kosovos-ex-prasident-67177661",
+        "https://www.nau.ch/sport/matchcenter/uefa-nations-league-kosovo-gegen-rep-of-ireland-ab-2045-live-67180904"
       ]
     },
     "albinfo.at": {
@@ -7848,15 +7853,16 @@
     },
     "sport.de": {
       "country": "Gjermani",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-21",
-      "lastSeen": "2026-09-23",
+      "lastSeen": "2026-09-24",
       "urls": [
-        "https://www.sport.de/sportwetten/tipps/kosovo-vs-irland-wett-tipp-24-09-2026/"
+        "https://www.sport.de/sportwetten/tipps/kosovo-vs-irland-wett-tipp-24-09-2026/",
+        "https://www.sport.de/fussball/uefa-nations-league-b/ma11904211/kosovo_irland/aufstellung/"
       ]
     },
     "MadeInFOOT": {
@@ -8895,6 +8901,58 @@
       "lastSeen": "2026-09-24",
       "urls": [
         "https://www.sport24.gr/matchcenter/kosovo-irlandia-live-24-09-2026/6a5dd4ea3c73d448d7b48e71/"
+      ]
+    },
+    "Daily Mirror": {
+      "country": "Britani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.mirror.co.uk/sport/football/news/ireland-kosovo-nations-league-tv-37684044"
+      ]
+    },
+    "Belfast Live": {
+      "country": "Britani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.belfastlive.co.uk/sport/football/kosovo-vs-republic-ireland-tonight-34665864"
+      ]
+    },
+    "noe.ORF.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://noe.orf.at/stories/3372260/"
+      ]
+    },
+    "ORF TV-Programm": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-24",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://tv.orf.at/stories/260924_nations_league102.html"
       ]
     }
   }

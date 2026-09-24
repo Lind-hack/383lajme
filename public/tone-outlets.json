@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-24",
   "overallIndex": 51,
-  "totalArticles": 112,
-  "sourceCount": 114,
+  "totalArticles": 120,
+  "sourceCount": 120,
   "stanceVersion": 3,
-  "unattributed": 283,
+  "unattributed": 337,
   "nonEditorial": 6,
   "wrongKosovo": 0,
   "countries": {
@@ -13,7 +13,7 @@
         {
           "name": "Kicker",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo-Teamchef Foda als Fan vom Nationalteam: \"Außer, wenn wir gegen sie spielen\" - Kicker",
@@ -27,9 +27,22 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Foda"
+            },
+            {
+              "title": "Liveticker | Kosovo - Irland 0:0 | 1. Spieltag | UEFA Nations League 2026/27 - Kicker",
+              "albanianTitle": "Live: Kosova - Irlanda 0:0 | Ndeshja e parë | UEFA Nations League 2026/27 - Kicker",
+              "blurb": "Përfaqësuesja e Kosovës barazon pa gola ndaj Irlandës në ndeshjen e parë të Ligës së Kombeve për sezonin 2026/27.",
+              "imageUrl": null,
+              "url": "https://www.kicker.de/kosovo-gegen-irland-2026-uefa-nations-league-5193338/ticker",
+              "date": "2026-09-24",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "neutral",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-24"
@@ -61,12 +74,12 @@
         {
           "name": "sport.de",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo - Irland Wett Tipp & Quoten 24.09.2026 - sport.de",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Analizohen koeficientët dhe parashikimet e basteve për ndeshjen ndërmjet Kosovës dhe Irlandës të datës 24 shtator 2026.",
               "imageUrl": null,
               "url": "https://www.sport.de/sportwetten/tipps/kosovo-vs-irland-wett-tipp-24-09-2026/",
               "date": "2026-09-23",
@@ -75,12 +88,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Aufstellung Kosovo - Irland 0:0 LIVE | Gruppe 3, Nations League B 2026/2027 - sport.de",
+              "albanianTitle": null,
+              "blurb": "Publikohen formacionet zyrtare për ndeshjen e Ligës së Kombeve ndërmjet Kosovës dhe Irlandës në kuadër të Grupit 3 të Ligës B.",
+              "imageUrl": "https://teaser-image-service.global-sports.net/v1/sport.de/default/11904211.webp",
+              "url": "https://www.sport.de/fussball/uefa-nations-league-b/ma11904211/kosovo_irland/aufstellung/",
+              "date": "2026-09-24",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-21",
-          "lastSeen": "2026-09-23"
+          "lastSeen": "2026-09-24"
         }
       ],
       "summary": {
@@ -88,7 +114,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 4,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -143,7 +169,7 @@
             {
               "title": "UEFA Nations League LIVE: Kosovo vs Republic of Ireland - live text commentary & score updates - BBC",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Transmetimi i drejtpërdrejtë me tekst dhe rezultatet e ndeshjes ndërmjet Kosovës dhe Republikës së Irlandës në Ligën e Kombeve.",
               "imageUrl": "https://static.files.bbci.co.uk/core/website/assets/static/sport/images/metadata/poster-1024x576.146fae5646.png",
               "url": "https://www.bbc.com/sport/football/live/ck790jyljq4vt",
               "date": "2026-09-23",
@@ -219,7 +245,7 @@
             {
               "title": "Kosovo Marks Banjska Attack Anniversary as Main Suspects Remain Free - Balkan Insight",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Kosova shënon përvjetorin e sulmit në Banjskë, ndërsa personat kryesorë të dyshuar mbeten ende të lirë nga drejtësia.",
               "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Albulena-Haxhiu-Afrim-Bunjaku-commemoration.jpg",
               "url": "https://balkaninsight.com/2026/09/24/kosovo-marks-banjska-attack-anniversary-as-main-suspects-remain-free/bi/",
               "date": "2026-09-24",
@@ -236,6 +262,54 @@
           "lastSeen": "2026-09-24"
         },
         {
+          "name": "Belfast Live",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo vs Republic of Ireland tonight: Kick-off time and TV channel - Belfast Live",
+              "albanianTitle": "Kosova kundër Republikës së Irlandës sonte: Orari i ndeshjes dhe kanali televiziv",
+              "blurb": "Detajet për orarin e fillimit dhe kanalet televizive që transmetojnë ndeshjen e futbollit mes Kosovës dhe Irlandës.",
+              "imageUrl": "https://i2-prod.belfastlive.co.uk/article34665863.ece/ALTERNATES/s1200d/0_Kosovo-v-Trkiye-FIFA-World-Cup-2026-European-Qualifiers-KO-play-offs.jpg",
+              "url": "https://www.belfastlive.co.uk/sport/football/kosovo-vs-republic-ireland-tonight-34665864",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
+        },
+        {
+          "name": "Daily Mirror",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "What channel is Kosovo vs Republic of Ireland on? TV, streaming and kick-off time info - Daily Mirror",
+              "albanianTitle": "Në cilin kanal transmetohet ndeshja Kosovë - Republika e Irlandës? Informacione për televizionin, transmetimin dhe orarin",
+              "blurb": "Informacione mbi transmetimin televiziv, platformat online dhe orarin e ndeshjes ndërmjet Kosovës dhe Republikës së Irlandës.",
+              "imageUrl": "https://i2-prod.mirror.co.uk/article37684271.ece/ALTERNATES/s1200d/1_GettyImages-2268499768.jpg",
+              "url": "https://www.mirror.co.uk/sport/football/news/ireland-kosovo-nations-league-tv-37684044",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
+        },
+        {
           "name": "belfastlive.co.uk",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -243,7 +317,7 @@
             {
               "title": "Kosovo vs Republic of Ireland tonight: Kick-off time and TV channel - belfastlive.co.uk",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Informacione mbi orarin e fillimit dhe kanalet televizive që transmetojnë ndeshjen ndërmjet Kosovës dhe Republikës së Irlandës.",
               "imageUrl": "https://i2-prod.belfastlive.co.uk/article34665863.ece/ALTERNATES/s1200d/0_Kosovo-v-Trkiye-FIFA-World-Cup-2026-European-Qualifiers-KO-play-offs.jpg",
               "url": "https://www.belfastlive.co.uk/sport/football/kosovo-vs-republic-ireland-tonight-34665864",
               "date": "2026-09-24",
@@ -266,7 +340,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 6,
+        "excluded": 8,
         "confident": false,
         "stanceVersion": 3
       }
@@ -318,7 +392,7 @@
             {
               "title": "Football | Kosovo – Chypre : Sur quelle chaîne et à quelle heure voir le match en direct ? - Homme Du Match",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Informacione mbi orarin dhe kanalet televizive për ndeshjen e futbollit ndërmjet përfaqësueses së Kosovës dhe asaj të Qipros.",
               "imageUrl": "https://www.hommedumatch.fr/wp-content/uploads/2026/09/via-news-1790225490-4832.webp",
               "url": "https://www.hommedumatch.fr/football-kosovo-chypre-sur-quelle-chaine-et-a-quelle-heure-voir-le-match-en-direct-2925802/",
               "date": "2026-09-24",
@@ -491,7 +565,7 @@
               "title": "Football | Kosovo - Chypre : Sur quelle chaîne et à quelle heure voir le match de Ligue des Nations en direct ? - Mediasportif",
               "albanianTitle": null,
               "blurb": "",
-              "imageUrl": null,
+              "imageUrl": "https://www.mediasportif.fr/wp-content/uploads/2026/09/via-news-1790225194-2831.webp",
               "url": "https://www.mediasportif.fr/2026/09/24/football-kosovo-chypre-sur-quelle-chaine-et-a-quelle-heure-voir-le-match-de-ligue-des-nations-en-direct/",
               "date": "2026-09-24",
               "sentiment": "unknown",
@@ -1257,7 +1331,7 @@
             {
               "title": "Franco Foda: Wie Kosovo-Teamchef und Österreich-Fan in Wien gewinnen will - DiePresse.com",
               "albanianTitle": null,
-              "blurb": "",
+              "blurb": "Përzgjedhësi i Kosovës, Franco Foda, synon fitoren në ndeshjen që do të zhvillohet në qytetin e Vjenës.",
               "imageUrl": "https://img.diepresse.com/public/incoming/mn6q4c-imagosp0923174800011083685765jpg/alternates/WEBP_WIDE_1200/imago_sp_0923_17480001_1083685765.jpg",
               "url": "https://www.diepresse.com/41291768/franco-foda-wie-kosovo-teamchef-und-oesterreich-fan-in-wien-gewinnen",
               "date": "2026-09-24",
@@ -1346,6 +1420,30 @@
           "lastSeen": "2026-09-23"
         },
         {
+          "name": "ORF TV-Programm",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Nach der WM ist vor der Nations League: Alle sechs Spiele live im ORF - ORF TV-Programm",
+              "albanianTitle": "Pas Botërorit vjen Liga e Kombeve: Të gjashtë ndeshjet live në ORF - ORF TV-Programm",
+              "blurb": "Televizioni ORF njofton se do të transmetojë drejtpërdrejt gjashtë ndeshje të Ligës së Kombeve pas përfundimit të Kampionatit Botëror.",
+              "imageUrl": "https://ibs.orf.at/tv/?image=https%3A%2F%2Ftv.orf.at%2Fstories%2Fnations_league_fussball100%7E_v-social__share__2__1_-ea42f62737dfe7b3023c02d0d3e1d006dde54448.jpg",
+              "url": "https://tv.orf.at/stories/260924_nations_league102.html",
+              "date": "2026-09-24",
+              "sentiment": "neutral",
+              "reason": "Njoftim i thjeshtë i programit televiziv",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
+        },
+        {
           "name": "Sky Sport Austria",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -1407,6 +1505,30 @@
           "lastSeen": "2026-09-23"
         },
         {
+          "name": "noe.ORF.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Armut: Initiative hilft Kindern im Kosovo - noe.ORF.at",
+              "albanianTitle": "Varfëria: Iniciativa ndihmon fëmijët në Kosovë - noe.ORF.at",
+              "blurb": "Një iniciativë e re po ofron ndihmë për fëmijët që përballen me varfëri në territorin e Republikës së Kosovës.",
+              "imageUrl": "https://ibs.orf.at/noe?image=https%3A%2F%2Foekastatic.orf.at%2Fmims%2F2026%2F39%2F19%2Fcrops%2Fw%3D1200%2Ch%3D627%2Cq%3D75%2F3192841_master_1238519_20260922_113517.jpg%3Fs%3Dec3ec6d3556049af8298520a19caeebf14642867",
+              "url": "https://noe.orf.at/stories/3372260/",
+              "date": "2026-09-24",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-24"
+        },
+        {
           "name": "profil.at",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1436,7 +1558,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 10,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
@@ -1584,6 +1706,56 @@
           "lastSeen": "2026-09-23"
         },
         {
+          "name": "Kicker",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "Aufstellung | Kosovo - Irland : | 1. Spieltag | UEFA Nations League 2026/27 - kicker.ch",
+              "albanianTitle": "Formacionet | Kosova - Irlanda : | Ndeshja e parë | UEFA Nations League 2026/27 - kicker.ch",
+              "blurb": "Prezantohen formacionet e ekipeve për ndeshjen e parë të Ligës së Kombeve ndërmjet Kosovës dhe Irlandës për sezonin 2026/27.",
+              "imageUrl": null,
+              "url": "https://www.kicker.ch/kosovo-gegen-irland-2026-uefa-nations-league-5193338/aufstellung",
+              "date": "2026-09-24",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Valmir Matoshi | Kosovo | UEFA Nations League | 2026/27 | Spielerprofil - kicker.ch",
+              "albanianTitle": "Valmir Matoshi | Kosovë | Liga e Kombeve e UEFA-s | 2026/27 | Profili i lojtarit - kicker.ch",
+              "blurb": "Profili i futbollistit Valmir Matoshi i cili përfaqëson Kosovën në garat e Ligës së Kombeve për sezonin 2026/27.",
+              "imageUrl": null,
+              "url": "https://www.kicker.ch/valmir-matoshi/spieler/uefa-nations-league/2026/kosovo",
+              "date": "2026-09-24",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Albian Hajdari | Kosovo | UEFA Nations League | 2026/27 | Spielerprofil - kicker.ch",
+              "albanianTitle": null,
+              "blurb": "Detaje mbi profilin e futbollistit Albian Hajdari si pjesë e përfaqësueses së Kosovës në Ligën e Kombeve 2026/27.",
+              "imageUrl": null,
+              "url": "https://www.kicker.ch/albian-hajdari/spieler/uefa-nations-league/2026/kosovo",
+              "date": "2026-09-24",
+              "sentiment": "neutral",
+              "reason": "Lajm i thjeshtë sportiv, pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 9,
+          "trend": "neutral",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-09-24"
+        },
+        {
           "name": "Luzerner Zeitung",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1630,6 +1802,30 @@
           "trend": "neutral",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-22"
+        },
+        {
+          "name": "Nau",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "UEFA Nations League: Kosovo gegen Rep. Of Ireland jetzt live - nau.ch",
+              "albanianTitle": "UEFA Nations League: Kosova përballet me Republikën e Irlandës, ndiqeni live - nau.ch",
+              "blurb": "Ndeshja ndërmjet Kosovës dhe Republikës së Irlandës në kuadër të Ligës së Kombeve po transmetohet drejtpërdrejt për të gjithë shikuesit.",
+              "imageUrl": "https://c.nau.ch/i/JMkN8l/1360/680/kosovo-rep-of-ireland.jpg",
+              "url": "https://www.nau.ch/sport/matchcenter/uefa-nations-league-kosovo-gegen-rep-of-ireland-ab-2045-live-67180904",
+              "date": "2026-09-24",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "SRF",
@@ -1698,7 +1894,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 14,
+        "n": 18,
         "excluded": 7,
         "confident": true,
         "stanceVersion": 3

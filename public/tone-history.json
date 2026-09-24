@@ -9303,8 +9303,8 @@
   {
     "date": "2026-09-24",
     "overallIndex": 51,
-    "totalArticles": 112,
-    "sourceCount": 114,
+    "totalArticles": 120,
+    "sourceCount": 120,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -9312,7 +9312,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 4,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -9333,7 +9333,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 6,
+        "excluded": 8,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9362,7 +9362,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 10,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
@@ -9372,7 +9372,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 14,
+        "n": 18,
         "excluded": 7,
         "confident": true,
         "stanceVersion": 3
@@ -9468,19 +9468,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "Ireland v Kosovo preview: Hallgrímsson’s side search for a little calm before the storm against a rising side - The Irish Times",
-        "source": "The Irish Times",
-        "country": "SHBA",
-        "flag": "🇺🇸",
-        "url": "https://www.irishtimes.com/sport/soccer/2026/09/23/ireland-search-for-a-little-calm-before-the-storm-against-a-kosovo-side-looking-to-continue-their-rise/",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Türkiye to support Kosovo in securing 'its rightful place' in international community: President - Anadolu Ajansı",
-        "source": "Anadolu Ajansı",
-        "country": "Britani",
-        "flag": "🇬🇧",
-        "url": "https://www.aa.com.tr/en/world/turkiye-to-support-kosovo-in-securing-its-rightful-place-in-international-community-president/4063734",
+        "title": "KOSOVA’DA 22 EYLÜL 1999 TARİHİNDE ŞEHİT OLAN HAVASILAH MÜHİMMAT BAŞÇAVUŞ HÜSEYİN KUTLU, PRIŞTİNE’DE ANILDI - ssbulten.com.tr",
+        "source": "ssbulten.com.tr",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://ssbulten.com.tr/gundem/detay/kosovada-22-eylul-1999-tarihinde-sehit-olan-havasilah-muhimmat-bascavus-huseyin-kutlu-pristinede-anildi--22302",
         "sentiment": "positive"
       },
       {
@@ -9500,11 +9492,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "While Kosovo rail against historical political machinations, Ireland energy is immersed in current struggle - Irish Examiner",
-        "source": "irishexaminer.com",
-        "country": "Britani",
-        "flag": "🇬🇧",
-        "url": "https://www.irishexaminer.com/sport/soccer/arid-41914957.html",
+        "title": "Kosovo y la ética de la maldad - ctxt.es",
+        "source": "Ctxt.es",
+        "country": "Spanjë",
+        "flag": "🇪🇸",
+        "url": "https://ctxt.es/es/20260901/Firmas/55215/hashim-thaci-kosovo-condena-tribunal-especial-de-kosovo-uck.htm",
         "sentiment": "negative"
       }
     ]
