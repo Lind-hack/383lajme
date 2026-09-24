@@ -1,4 +1,4 @@
-# Reads NaftaSot and pushes the prices to 383, once a day.
+# Reads NaftaSot and pushes the prices to 383, four times a day.
 #
 # A plain fetch from here gets Cloudflare's "Just a moment..." interstitial —
 # measured 403 from both this runner and Railway's render path, while the same
@@ -11,12 +11,25 @@
 # fails loudly and scripts/push-fuel-prices.mjs still works by hand from any
 # residential connection.
 #
-# 05:40 UTC — before the morning traffic, after NaftaSot's overnight updates.
+# Four runs a day. The card dates each brand by the last check, so the check
+# has to land early every Kosovo day. A single 05:40 UTC slot was being run by
+# GitHub around 10:15 UTC — 4.5 hours late — which left the card saying
+# "yesterday" until lunchtime, and a failed run (20 and 21 Sep) cost a whole day.
+#
+#   23:10 UTC  just after Kosovo midnight all year (01:10 CEST / 00:10 CET)
+#   04:10 UTC  early morning, after NaftaSot's overnight updates
+#   10:10 UTC  midday
+#   16:10 UTC  evening, catches same-day price changes
+#
+# Off the hour on purpose: GitHub's scheduler is busiest at :00.
 name: Fuel prices — daily push
 
 on:
   schedule:
-    - cron: "40 5 * * *"
+    - cron: "10 23 * * *"
+    - cron: "10 4 * * *"
+    - cron: "10 10 * * *"
+    - cron: "10 16 * * *"
   workflow_dispatch:
 
 concurrency:

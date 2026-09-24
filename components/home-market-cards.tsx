@@ -57,6 +57,15 @@ function formatShortDate(value: string | null | undefined) {
   return y && m && d ? `${d} ${SHORT_MONTHS[m - 1]}` : null;
 }
 
+/** "sot" or "24 sht" — the day 383 last read the prices, in Kosovo time. */
+function formatCheckedDay(value: string | null | undefined) {
+  const t = Date.parse(value ?? "");
+  if (!Number.isFinite(t)) return null;
+  return dateKeyInKosovo(new Date(t)) === dateKeyInKosovo(new Date())
+    ? "sot"
+    : formatShortDate(value);
+}
+
 /** "sot, 12:28" or "24 sht, 12:28" — when 383 last read the prices. */
 function formatCheckedAt(value: string | null | undefined) {
   const t = Date.parse(value ?? "");
@@ -322,25 +331,45 @@ const FUEL_BRAND_LABEL: Record<FuelBrandSnapshot["brand"], string> = {
   "Petrol Company": "Petrol Co.",
 };
 
-function FuelBrandRow({ item }: { item: FuelBrandSnapshot }) {
+function FuelBrandRow({
+  item,
+  checkedAt,
+}: {
+  item: FuelBrandSnapshot;
+  /** When 383 last read the prices; null on the hardcoded fallback. */
+  checkedAt: string | null;
+}) {
   const unavailable =
     item.diesel === null && item.petrol === null && item.gas === null;
 
-  // The newest of the row's prices — when it actually last refreshed. Falls
+  // The newest of the row's prices — when the brand last CHANGED one. Falls
   // back to updatedAt for snapshots pushed before freshestAt existed.
   const rowDate = item.freshestAt ?? item.updatedAt;
+  const changed = formatShortDate(rowDate);
+
+  // The row is dated by the check, not the change: a reader needs to know the
+  // price was confirmed today, and a brand can hold one price for a week. The
+  // change date is kept on hover. Without a check (fallback data) the change
+  // date is all there is, so it is shown as before.
+  const checkedDay = formatCheckedDay(checkedAt);
+  const label = unavailable
+    ? "pa çmim publik"
+    : checkedDay
+      ? `verifikuar ${checkedDay}`
+      : changed
+        ? `ndryshuar ${changed}`
+        : formatSourceDate(rowDate);
 
   return (
     <div className="home-fuel-row" data-unavailable={unavailable || undefined}>
       <div className="home-fuel-brand">
         {/* title carries the full supplier name for anyone who needs it. */}
         <strong title={item.brand}>{FUEL_BRAND_LABEL[item.brand] ?? item.brand}</strong>
-        <small>
-          {unavailable
-            ? "pa çmim publik"
-            : formatShortDate(rowDate)
-              ? `ndryshuar ${formatShortDate(rowDate)}`
-              : formatSourceDate(rowDate)}
+        <small
+          suppressHydrationWarning
+          title={checkedDay && changed ? `Çmimi i fundit u ndryshua më ${changed}` : undefined}
+        >
+          {label}
         </small>
       </div>
       <FuelValue value={item.diesel} at={item.dates?.diesel} missingNote={`${item.brand} nuk ka publikuar çmim për dizelin`} />
@@ -383,15 +412,15 @@ export function FuelPricesCard({ snapshot }: { snapshot: FuelSnapshot }) {
       </div>
       <div className="home-fuel-table">
         {snapshot.brands.map((item) => (
-          <FuelBrandRow key={item.brand} item={item} />
+          <FuelBrandRow key={item.brand} item={item} checkedAt={snapshot.fallback ? null : snapshot.checkedAt ?? null} />
         ))}
       </div>
       <p className="home-market-note">
-        {/* Each fuel takes the newest price that brand has published. The date
-            under a brand is its last price CHANGE: brands move prices together
-            across all their stations and then hold them for days. */}
-        Çmimi aktual i pompave, i kontrolluar çdo ditë. Data tregon ndryshimin e
-        fundit të çmimit.
+        {/* Each fuel takes the newest price that brand has published. Brands
+            move prices together across all their stations and then hold them
+            for days, so rows are dated by 383's check, not by the change. */}
+        Çmimi aktual i pompave, i verifikuar disa herë në ditë. Mund të ndryshojë
+        sipas lokacionit.
       </p>
     </MarketCardFrame>
   );
