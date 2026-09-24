@@ -836,20 +836,30 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
 }
 
 /** Two-minute official sports processor: idempotently discovers 72-hour templates and refreshes active markets. */
+const NEWS_SETTLEMENT_WAIT_MS = 15_000;
+
 export async function runLiveSportsAutomation(now = new Date()) {
   // The official live heartbeat is the critical two-minute lane. Template
   // discovery is best-effort and must never delay or cancel score refreshes.
   const live = await runOfficialSportsRefresh("live_sports", oneMinuteRunKey(now), now);
-  const [f1Template, footballTemplate, f1Championship, basketballTemplate, newsSettlement] = await Promise.allSettled([
+  // Settlement researches every expired news market before it pays. A backlog
+  // can take minutes; Cloudflare cuts the heartbeat's request at ~100s and the
+  // live work already uses ~40s. Give the sweep a short window here and let it
+  // finish in the background: its 15-minute run key stops a second copy.
+  const settlement = runNewsSettlementSweep(now).catch((error) => ({ ok: false, error: String(error instanceof Error ? error.message : error) }));
+  const [f1Template, footballTemplate, f1Championship, basketballTemplate] = await Promise.allSettled([
     runUpcomingF1TemplateAutomation(now),
     runUpcomingFootballTemplateAutomation(now),
     runF1ChampionshipAutomation(now),
     runUpcomingBasketballAutomation(now),
-    runNewsSettlementSweep(now),
+  ]);
+  const newsSettlement = await Promise.race([
+    settlement,
+    new Promise((resolve) => setTimeout(() => resolve({ ok: true, pending: true, reason: "continues_in_background" }), NEWS_SETTLEMENT_WAIT_MS)),
   ]);
   return {
     ...live,
-    news_settlement: newsSettlement.status === "fulfilled" ? newsSettlement.value : { ok: false, error: String(newsSettlement.reason instanceof Error ? newsSettlement.reason.message : newsSettlement.reason) },
+    news_settlement: newsSettlement,
     f1_template: f1Template.status === "fulfilled"
       ? f1Template.value
       : { ok: false, created: 0, reason: "f1_template_unavailable", error: String(f1Template.reason instanceof Error ? f1Template.reason.message : f1Template.reason) },
