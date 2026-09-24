@@ -840,14 +840,16 @@ export async function runLiveSportsAutomation(now = new Date()) {
   // The official live heartbeat is the critical two-minute lane. Template
   // discovery is best-effort and must never delay or cancel score refreshes.
   const live = await runOfficialSportsRefresh("live_sports", oneMinuteRunKey(now), now);
-  const [f1Template, footballTemplate, f1Championship, basketballTemplate] = await Promise.allSettled([
+  const [f1Template, footballTemplate, f1Championship, basketballTemplate, newsSettlement] = await Promise.allSettled([
     runUpcomingF1TemplateAutomation(now),
     runUpcomingFootballTemplateAutomation(now),
     runF1ChampionshipAutomation(now),
     runUpcomingBasketballAutomation(now),
+    runNewsSettlementSweep(now),
   ]);
   return {
     ...live,
+    news_settlement: newsSettlement.status === "fulfilled" ? newsSettlement.value : { ok: false, error: String(newsSettlement.reason instanceof Error ? newsSettlement.reason.message : newsSettlement.reason) },
     f1_template: f1Template.status === "fulfilled"
       ? f1Template.value
       : { ok: false, created: 0, reason: "f1_template_unavailable", error: String(f1Template.reason instanceof Error ? f1Template.reason.message : f1Template.reason) },
@@ -862,7 +864,7 @@ export async function runLiveSportsAutomation(now = new Date()) {
 }
 
 /** Shared news-only AI repricer. The caller selects an explicit audit action and idempotency bucket. */
-async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, now = new Date()) {
+async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, now = new Date(), { settleOnly = false }: { settleOnly?: boolean } = {}) {
   const admin = createAdminClient();
   if (!admin) throw new Error("Supabase service-role configuration is required for Tregu automation.");
   const started = await beginRun(admin, action, runKey);
@@ -880,7 +882,9 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         && market?.market_type === "binary"
         && !["sport", "f1", "football", "basketball"].includes(category)
         && !market?.live_event
-        && !Array.isArray(market?.sport_outcomes);
+        && !Array.isArray(market?.sport_outcomes)
+        // Settle-only never researches or prices a market that is still trading.
+        && (!settleOnly || Date.parse(String(market?.closes_at ?? "")) <= now.getTime());
     });
 
     // Original-page research joins the newsroom pool. Discovery headlines
@@ -976,6 +980,10 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         // and multi-outcome scans a harmless no-op rather than an oracle failure.
         const deadlineEligible = isEligibleNewsDeadlineMarket(currentMarket);
         const deadlineAction = newsDeadlineAction(currentMarket, now);
+        if (settleOnly && deadlineAction !== "settle") {
+          results.push({ slug: item.market.slug, status: "skipped_ineligible", reason: "settle_only_not_expired", deadline_action: deadlineAction });
+          continue;
+        }
         const deadlineBefore = deadlineEligible && currentMarket ? {
           probability: Math.exp(Number(currentMarket.q_yes) / Number(currentMarket.b)) / (Math.exp(Number(currentMarket.q_yes) / Number(currentMarket.b)) + Math.exp(Number(currentMarket.q_no) / Number(currentMarket.b))),
           status: currentMarket.status,
@@ -1277,6 +1285,17 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
 /** Existing local two-minute AI news repricer, retained as its own audit stream. */
 export async function runRepriceAutomation(now = new Date()) {
   return runNewsReprice("reprice", twoMinuteRunKey(now), now);
+}
+
+/**
+ * Expired news markets must close and pay even while AI repricing is switched
+ * off. Runs the expiry branch of the news oracle only: final research, the
+ * evidence check that stops a signed deal being paid as NO, then the deadline
+ * or verified settlement. No live market is researched or repriced.
+ */
+export async function runNewsSettlementSweep(now = new Date()) {
+  const bucket = `${now.toISOString().slice(0, 13)}:${Math.floor(now.getUTCMinutes() / 15)}`;
+  return runNewsReprice("reprice", `news-settle:${bucket}`, now, { settleOnly: true });
 }
 
 /** Vercel's five-minute remote-only heartbeat: verified-news Groq, with Google fallback. */

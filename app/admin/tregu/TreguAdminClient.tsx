@@ -16,7 +16,8 @@ interface Market {
   category: string;
   market_classification?: MarketClassification;
   status: MarketStatus;
-  outcome: "PO" | "JO" | null;
+  outcome: string | null;
+  sport_outcomes?: Array<{ key: string; label?: string }> | null;
   market_type?: "binary" | "two_outcome" | "three_outcome" | "f1_race_winner";
   closes_at: string;
   ai_generated: boolean;
@@ -244,6 +245,8 @@ export default function TreguAdminClient() {
     return latestBySlug;
   }, [refreshHealth]);
 
+  // Trading has ended but no result arrived: the automation fallback lands here.
+  const awaitingResult = markets.filter((market) => market.status === "open" && Date.parse(market.closes_at) < Date.now() - 15 * 60_000);
   const marketsForStatus = (status: MarketStatus) => markets
     .filter((market) => market.status === status)
     .sort((a, b) => Number(recentChangesBySlug.has(b.slug)) - Number(recentChangesBySlug.has(a.slug)));
@@ -288,8 +291,11 @@ export default function TreguAdminClient() {
           <MarketSection title="Tregje aktive" subtitle="Të hapura për baste" markets={marketsForStatus("open")} changes={recentChangesBySlug} empty="Nuk ka tregje aktive.">
             {(market, change) => <MarketCard market={market} change={change}><div className={styles.cardActions}><button type="button" onClick={() => marketAction(market.id, { action: "close" })} className={styles.buttonSecondary}>Mbyll bastet</button></div></MarketCard>}
           </MarketSection>
+          <MarketSection title="Pritet rezultati" subtitle="Afati ka kaluar, rezultati zyrtar nuk ka ardhur" markets={awaitingResult} changes={recentChangesBySlug} empty="Asnjë treg nuk pret rezultat.">
+            {(market, change) => <MarketCard market={market} change={change}><ResolveActions market={market} marketAction={marketAction} /></MarketCard>}
+          </MarketSection>
           <MarketSection title="Gati për zgjidhje" subtitle="Bastet janë mbyllur" markets={marketsForStatus("closed")} changes={recentChangesBySlug} empty="Nuk ka tregje për zgjidhje.">
-            {(market, change) => <MarketCard market={market} change={change}><div className={styles.cardActions}><button type="button" onClick={() => marketAction(market.id, { action: "resolve", outcome: "PO" })} className={styles.buttonYes}>Zgjidh PO</button><button type="button" onClick={() => marketAction(market.id, { action: "resolve", outcome: "JO" })} className={styles.buttonNo}>Zgjidh JO</button></div></MarketCard>}
+            {(market, change) => <MarketCard market={market} change={change}><ResolveActions market={market} marketAction={marketAction} /></MarketCard>}
           </MarketSection>
           <MarketSection title="Pezulluara" subtitle="Pa baste derisa të vijë referenca" markets={marketsForStatus("stale")} changes={recentChangesBySlug} empty="Nuk ka tregje të pezulluara.">
             {(market, change) => <MarketCard market={market} change={change}><p className={styles.notice}>Prit referencën e suksesshme nga lajmet. Automatizimi nuk ndryshon 383C ose pozicionet.</p></MarketCard>}
@@ -391,6 +397,15 @@ function ActivityRow({ item }: { item: MarketActivity }) {
 
 function MarketSection({ title, subtitle, markets, changes, empty, children }: { title: string; subtitle: string; markets: Market[]; changes: Map<string, MarketActivity>; empty: string; children: (market: Market, change: MarketActivity | undefined) => React.ReactNode }) {
   return <section className={styles.marketSection}><header className={styles.sectionHeader}><div><h2>{title}</h2><p>{subtitle}</p></div><span>{markets.length}</span></header>{markets.length ? <div className={styles.marketList}>{markets.map((market) => children(market, changes.get(market.slug)))}</div> : <p className={styles.emptyState}>{empty}</p>}</section>;
+}
+
+function ResolveActions({ market, marketAction }: { market: Market; marketAction: (id: string, body: Record<string, unknown>) => Promise<void> | void }) {
+  const outcomes = market.sport_outcomes ?? [];
+  const [winner, setWinner] = useState(outcomes[0]?.key ?? "");
+  if (!market.market_type || market.market_type === "binary") {
+    return <div className={styles.cardActions}><button type="button" onClick={() => marketAction(market.id, { action: "resolve", outcome: "PO" })} className={styles.buttonYes}>Zgjidh PO</button><button type="button" onClick={() => marketAction(market.id, { action: "resolve", outcome: "JO" })} className={styles.buttonNo}>Zgjidh JO</button></div>;
+  }
+  return <div className={styles.marketConfig}><label>Fituesi zyrtar<select aria-label="Fituesi zyrtar" value={winner} onChange={(event) => setWinner(event.target.value)}>{outcomes.map((outcome) => <option key={outcome.key} value={outcome.key}>{outcome.label ?? outcome.key}</option>)}</select></label><div className={styles.cardActions}><button type="button" disabled={!winner} onClick={() => marketAction(market.id, { action: "resolve", market_type: market.market_type, outcome: winner })} className={styles.buttonYes}>Vendos rezultatin dhe paguaj</button></div></div>;
 }
 
 function MarketCard({ market, change, children }: { market: Market; change?: MarketActivity; children?: React.ReactNode }) {

@@ -286,7 +286,9 @@ export default function TreguHub() {
         // concluded market on a trading floor is furniture: it cannot be
         // traded, it wins every volume ranking by having had its whole life to
         // collect it, and it reads as live until you look at the percentage.
-        setMarkets((data.markets ?? []).filter((market: MarketRow) => market.status === "open"));
+        // A book past its deadline is waiting for settlement, not trading.
+        const graceCutoff = Date.now() - 15 * 60_000;
+        setMarkets((data.markets ?? []).filter((market: MarketRow) => market.status === "open" && !(Date.parse(market.closes_at) < graceCutoff)));
         setActivity(data.activity ?? []);
         const generatedAt = new Date(data.generated_at ?? Date.now());
         setUpdatedAt(formatKosovoTime(generatedAt));

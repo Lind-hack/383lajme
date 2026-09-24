@@ -28,7 +28,7 @@ export async function PATCH(
   const body = (await request.json().catch(() => null)) as
     {
       action?: "approve" | "close" | "resolve" | "seed" | "reopen";
-      outcome?: "PO" | "JO";
+      outcome?: string;
       initialProb?: number;
       market_type?: "binary" | "two_outcome" | "three_outcome" | "f1_race_winner";
       market_classification?: MarketClassification;
@@ -173,6 +173,22 @@ export async function PATCH(
       .single();
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ market: data });
+  }
+
+  if (body.action === "resolve" && body.market_type && body.market_type !== "binary") {
+    // Sport fallback for a final no provider will publish: lock the winner,
+    // then pay through the same idempotent settlement the oracle uses.
+    if (typeof body.outcome !== "string" || !body.outcome) {
+      return NextResponse.json({ error: "Zgjidh fituesin" }, { status: 400 });
+    }
+    const { error } = await admin.rpc("admin_resolve_sport_market", {
+      p_market_id: id, p_outcome: body.outcome,
+      p_evidence: [], p_reasoning: "Rezultati zyrtar u vendos nga administratori.",
+    });
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    const { error: settlementError } = await admin.rpc("settle_due_sport_markets");
+    if (settlementError) return NextResponse.json({ error: settlementError.message }, { status: 500 });
+    return NextResponse.json({ ok: true });
   }
 
   if (body.action === "resolve") {

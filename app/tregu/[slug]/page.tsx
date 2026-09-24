@@ -864,7 +864,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const pct = Math.round(
     (footballSelectedOutcome?.probability ?? f1SelectedDriver?.probability ?? market.market_prob) * 100
   );
-  const isClosed = market.status !== "open";
+  // The book stops at its deadline; the status flips only when settlement runs.
+  const awaitingResult = market.status === "open" && Date.parse(market.closes_at) < Date.now();
+  const isClosed = market.status !== "open" || awaitingResult;
   const volume = Math.round(market.q_yes + market.q_no);
   const deltaPp = weeklyDelta === null ? null : Math.round(weeklyDelta * 100);
   const weeklyStart = weeklyDelta === null
@@ -1574,7 +1576,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   </Link>
                 </div>
               ) : isClosed ? (
-                <p style={{ color: "#6B6B6B", margin: 0 }}>Ky treg nuk pranon më tregtime.</p>
+                <p style={{ color: "#6B6B6B", margin: 0 }}>{awaitingResult ? "Afati ka kaluar — në pritje të rezultatit zyrtar. Fitimet paguhen automatikisht." : "Ky treg nuk pranon më tregtime."}</p>
               ) : football ? (
                 <>
                   <div className="tregu-football-trade-mode">
