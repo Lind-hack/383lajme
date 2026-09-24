@@ -405,7 +405,12 @@ function ResolveActions({ market, marketAction }: { market: Market; marketAction
   if (!market.market_type || market.market_type === "binary") {
     return <div className={styles.cardActions}><button type="button" onClick={() => marketAction(market.id, { action: "resolve", outcome: "PO" })} className={styles.buttonYes}>Zgjidh PO</button><button type="button" onClick={() => marketAction(market.id, { action: "resolve", outcome: "JO" })} className={styles.buttonNo}>Zgjidh JO</button></div>;
   }
-  return <div className={styles.marketConfig}><label>Fituesi zyrtar<select aria-label="Fituesi zyrtar" value={winner} onChange={(event) => setWinner(event.target.value)}>{outcomes.map((outcome) => <option key={outcome.key} value={outcome.key}>{outcome.label ?? outcome.key}</option>)}</select></label><div className={styles.cardActions}><button type="button" disabled={!winner} onClick={() => marketAction(market.id, { action: "resolve", market_type: market.market_type, outcome: winner })} className={styles.buttonYes}>Vendos rezultatin dhe paguaj</button></div></div>;
+  return <div className={styles.marketConfig}><label>Fituesi zyrtar<select aria-label="Fituesi zyrtar" value={winner} onChange={(event) => setWinner(event.target.value)}>{outcomes.map((outcome) => <option key={outcome.key} value={outcome.key}>{outcome.label ?? outcome.key}</option>)}</select></label><div className={styles.cardActions}><button type="button" disabled={!winner} onClick={() => {
+    // Payout cannot be undone: name the winner before coins move.
+    const label = outcomes.find((outcome) => outcome.key === winner)?.label ?? winner;
+    if (!window.confirm(`Fituesi: ${label}. Pozicionet fituese paguhen menjëherë dhe kjo nuk kthehet mbrapsht. Vazhdo?`)) return;
+    void marketAction(market.id, { action: "resolve", market_type: market.market_type, outcome: winner });
+  }} className={styles.buttonYes}>Vendos rezultatin dhe paguaj</button></div></div>;
 }
 
 function MarketCard({ market, change, children }: { market: Market; change?: MarketActivity; children?: React.ReactNode }) {

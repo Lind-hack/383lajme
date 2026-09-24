@@ -124,6 +124,14 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
         points: toExactSeries(market.history),
       }];
   const leader = [...chartSeries].sort((a, b) => b.current - a.current)[0];
+  const hasHistory = chartSeries.some((series) => series.points.length >= 2);
+  // Binary books show both sides; the chart's single PO line would hide JO.
+  const boardRows = structured || f1Chart
+    ? chartSeries.slice(0, 3)
+    : [
+        { key: "po", label: "PO", color: "#00A651", current: market.prob },
+        { key: "jo", label: "JO", color: "#E41E20", current: 1 - market.prob },
+      ];
 
   const goToSide = (e: React.MouseEvent, side: "PO" | "JO") => {
     e.preventDefault();
@@ -302,17 +310,37 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
               </span>
             )}
           </div>
-          <div className="tregu-feature-tape">
-            <ExactMarketChart
-              compact
-              curve="smooth"
-              height={structured || isChampionship ? 260 : 218}
-              series={chartSeries}
-              tone={structured || isChampionship || market.category === "sport" ? "sport" : "serious"}
-              showPulse={structured || isChampionship}
-              ariaLabel={`Historia reale për ${market.question}`}
-            />
-          </div>
+          {hasHistory ? (
+            <div className="tregu-feature-tape">
+              <ExactMarketChart
+                compact
+                curve="smooth"
+                height={structured || isChampionship ? 260 : 218}
+                series={chartSeries}
+                tone={structured || isChampionship || market.category === "sport" ? "sport" : "serious"}
+                showPulse={structured || isChampionship}
+                ariaLabel={`Historia reale për ${market.question}`}
+              />
+            </div>
+          ) : (
+            /* A new book has no history yet. A chart with nothing to draw is a
+               pale half-card; the current prices are the whole story, so the
+               instrument shows them until the first trades give it a line. */
+            <div className="tregu-feature-board">
+              <ul aria-label="Gjasat aktuale">
+                {boardRows.map((row) => (
+                  <li key={row.key} style={{ ["--board-color" as string]: row.color }}>
+                    <span className="tregu-feature-board-name">{row.label}</span>
+                    <span className="tregu-feature-board-track" aria-hidden>
+                      <i style={{ transform: `scaleX(${Math.max(0.02, Math.min(1, row.current))})` }} />
+                    </span>
+                    <strong>{(row.current * 100).toFixed(structured ? 1 : 0)}%</strong>
+                  </li>
+                ))}
+              </ul>
+              <p>Grafiku shfaqet pas tregtimeve të para.</p>
+            </div>
+          )}
         </div>
       </div>
     </article>

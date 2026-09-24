@@ -8,7 +8,7 @@ import MarketEventCard from "@/components/tregu/market-event-card";
 import { groupMarkets } from "@/lib/tregu-groups";
 import { track } from "@/lib/analytics";
 import SportSections from "@/components/tregu/sport-sections";
-import { isF1Market, marketsForFootballLeague, sportLabel } from "@/lib/tregu-sport-sections.mjs";
+import { basketballLeagueOf, isF1Market, marketsForFootballLeague, sportLabel } from "@/lib/tregu-sport-sections.mjs";
 import FeaturedCarousel from "@/components/tregu/featured-carousel";
 import F1ArchiveFeature from "@/components/tregu/f1-archive-feature";
 import FloorRail from "@/components/tregu/floor-rail";
@@ -510,6 +510,8 @@ export default function TreguHub() {
     );
     if (league === "basketball") {
       arr = arr.filter((m) => m.market_classification === "live_basketball");
+    } else if (league?.startsWith("basketball:")) {
+      arr = arr.filter((m) => basketballLeagueOf(m) === league.slice("basketball:".length));
     } else if (league === "f1") {
       arr = arr.filter((m) => isF1Market(m));
     } else if (league) {

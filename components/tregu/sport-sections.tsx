@@ -2,7 +2,7 @@
 /**
  * Sports discovery cards on the hub floor: football leagues (the four big
  * ones, cups marked as coming later), the F1 race calendar, and basketball
- * as an honest locked state until its pricing algorithm exists. Brand edges
+ * split into NBA and the Kosovo Superliga with each league's next games. Brand edges
  * distinguish the live surfaces without implying that a locked league is
  * already trading. Selecting a league hands the filter back to the page,
  * which applies it to the floor grid and scrolls there.
@@ -13,9 +13,12 @@ import { ArrowRight, Trophy } from "lucide-react";
 import type { CSSProperties } from "react";
 import SportBrandMark from "@/components/tregu/sport-brand-mark";
 import { sportBrandFor } from "@/lib/tregu-sport-branding";
+import { formatKosovoDateTime } from "@/lib/tregu-local-time.mjs";
 import {
   FOOTBALL_LEAGUES,
   FOOTBALL_TOURNAMENTS_SOON,
+  basketballFilterKey,
+  basketballSections,
   f1Calendar,
   footballLeagueCounts,
 } from "@/lib/tregu-sport-sections.mjs";
@@ -27,7 +30,9 @@ export type SportMarketLike = {
   market_classification?: string;
   market_type?: string;
   closes_at: string;
-  live_event?: { league?: string; sport?: string } | null;
+  live_event?: { league?: string; sport?: string; kickoff?: string } | null;
+  sport_outcomes?: { key: string; label?: string; team?: string }[] | null;
+  outcome_probabilities?: Record<string, number> | null;
 };
 const MONTHS_SQ = [
   "jan", "shk", "mar", "pri", "maj", "qer",
@@ -107,6 +112,99 @@ function RaceCard({
     </article>
   );
 }
+/** One section per league: the league row filters the floor, the games open their books. */
+function BasketballCard({
+  markets,
+  isOpen,
+  active,
+  onSelect,
+}: {
+  markets: SportMarketLike[];
+  isOpen: (m: SportMarketLike) => boolean;
+  active: string | null;
+  onSelect: (key: string) => void;
+}) {
+  const sections = useMemo(() => basketballSections(markets, { isOpen, limit: 3 }) as BasketballSection[], [markets, isOpen]);
+  const total = sections.reduce((sum, section) => sum + section.count, 0);
+  return (
+    <article
+      className="tregu-sport-card p-5 flex flex-col"
+      data-sport="basketball"
+      style={{ "--sport-accent": "#17408B", "--sport-tint": "#EEF4FF" } as CSSProperties}
+    >
+      <header className="flex items-center gap-2.5 mb-4">
+        <span className="tregu-sport-icon" aria-hidden>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <circle cx="12" cy="12" r="9.5" />
+            <path d="M2.5 12h19M12 2.5v19M5.3 5.3c3 2.6 3 10.8 0 13.4M18.7 5.3c-3 2.6-3 10.8 0 13.4" />
+          </svg>
+        </span>
+        <h3 style={{ fontWeight: 800, fontSize: 16, margin: 0, letterSpacing: "-0.01em" }}>Basketboll</h3>
+        <span className="ml-auto text-[12px] font-extrabold tabular-nums" style={{ color: total > 0 ? "#ff4422" : "#9c9c9c" }}>
+          {total} të hapura
+        </span>
+      </header>
+      <div className="tregu-basketball-sections">
+        {sections.map((section) => {
+          const key = basketballFilterKey(section.key);
+          return (
+            <section key={section.key} aria-label={section.label}>
+              <button
+                type="button"
+                onClick={() => onSelect(key)}
+                aria-pressed={active === key}
+                className="tregu-sport-league"
+                style={{
+                  "--league-accent": sportBrandFor(section.key)?.accent ?? "#17408B",
+                  "--league-tint": sportBrandFor(section.key)?.tint ?? "#EEF4FF",
+                } as CSSProperties}
+              >
+                <span className="tregu-league-identity">
+                  <SportBrandMark brandKey={section.key} size="md" />
+                  <span>
+                    {section.label}
+                    <span style={{ display: "block", fontSize: 11, fontWeight: 600, color: "#77716A", marginTop: 1 }}>{section.country}</span>
+                  </span>
+                </span>
+                <span className="tregu-sport-league-count">{section.count}</span>
+              </button>
+              {section.games.length ? (
+                <ul className="tregu-basketball-games">
+                  {section.games.map((game) => (
+                    <li key={game.slug}>
+                      <Link href={`/tregu/${game.slug}`}>
+                        <span className="tregu-basketball-teams">
+                          {game.sides.map((side) => (
+                            <span key={side.key}>
+                              <em>{side.label}</em>
+                              {side.probability != null && <strong>{Math.round(side.probability * 100)}%</strong>}
+                            </span>
+                          ))}
+                        </span>
+                        <time dateTime={game.kickoff}>{formatKosovoDateTime(game.kickoff)}</time>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="tregu-basketball-empty">Asnjë ndeshje e planifikuar tani.</p>
+              )}
+            </section>
+          );
+        })}
+      </div>
+    </article>
+  );
+}
+
+type BasketballSection = {
+  key: string;
+  label: string;
+  country: string;
+  count: number;
+  games: { slug: string; kickoff: string; sides: { key: string; label: string; probability: number | null }[] }[];
+};
+
 export default function SportSections({
   markets,
   isOpen,
@@ -169,16 +267,7 @@ export default function SportSections({
             ))}
           </div>
         </article>
-        <article className="tregu-sport-card p-5 flex flex-col" data-sport="basketball">
-          <header className="flex items-center gap-2.5 mb-4">
-            <SportBrandMark brandKey="nba" size="md" />
-            <h3 className="font-extrabold">Basketboll</h3>
-          </header>
-          <p className="text-sm text-gray-500">NBA dhe FIBA. Ndeshjet shfaqen kur konfirmohen në kalendar.</p>
-          <button type="button" className="tregu-sport-league mt-3" aria-pressed={activeLeague === "basketball"} onClick={() => onSelect("basketball")}>
-            Shiko ndeshjet <ArrowRight size={16} aria-hidden />
-          </button>
-        </article>
+        <BasketballCard markets={markets} isOpen={isOpen} active={activeLeague} onSelect={onSelect} />
         {/* Formula 1 */}
         <RaceCard markets={markets} active={activeLeague} onSelect={onSelect} />
       </div>
