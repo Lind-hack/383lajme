@@ -34,6 +34,7 @@ import { getCityWeather } from "@/lib/weather";
 import { getToneHistory, getToneArticleCache, summarizeToneHistory, getForeignCoverage, getTopics, getToneTopics } from "@/lib/tone-data";
 import { dateKeyInKosovo, resolveView } from "@/lib/reagimi-data";
 import { getSondazhiData } from "@/lib/sondazhi-server";
+import { pickFrontPage } from "@/lib/front-page.mjs";
 
 export const revalidate = 3600;
 
@@ -75,9 +76,24 @@ export default async function HomePage() {
   );
   const botaFletCountries = new Set(botaFletPool.map((a) => a.country)).size;
 
-  // Tier 1: hero — featured (score ≥ 9 or breaking), fallback to highest scored
-  const hero = articles.find((a) => a.featured) ?? articles[0];
-  const heroId = hero?.id;
+  // Tier 1: KRYESORE lead + secondary — claimed before NJOFTIME so the
+  // front-page hierarchy always renders even when the article pool is small
+  // (production automation often yields ~11 fresh articles).
+  // Four photo cards beside the lead, then the two-up below it. This claims
+  // seven of the pool instead of three, which on a thin automation day (~11
+  // fresh articles) leaves NJOFTIME visibly shorter — the stack degrades to
+  // however many it gets rather than starving the rail below it.
+  // Ranked with age counted against the score and one card per story, so the
+  // block leads with today's news instead of yesterday's high scorers. The ten
+  // newest join the pool: getArticles ranks without a clock, so a story from
+  // the last hour may not be in its top sixty yet. There is no separate hero
+  // any more: it used to be taken out of the pool and then rendered nowhere,
+  // which hid the day's top story from the front block.
+  const kryesore = pickFrontPage([...articles, ...tickerArticles], 7);
+  const kryesoreLead = kryesore[0];
+  const kryesoreStack = kryesore.slice(1, 5);
+  const kryesoreSecondary = kryesore.slice(5, 7);
+  const kryesoreTopIds = new Set(kryesore.map((a) => a.id));
 
   // Reagimi i Ditës — the auto fallback is restricted to articles published TODAY.
   // The previous rule ("highest-scored non-hero article") had no date constraint, so
@@ -85,7 +101,7 @@ export default async function HomePage() {
   // A curated row wins when one exists; it loads client-side, where the clock is
   // authoritative (this page is statically revalidated hourly).
   const reagimiDateKey = dateKeyInKosovo();
-  const reagimiFallback = resolveView(null, articles, reagimiDateKey, heroId);
+  const reagimiFallback = resolveView(null, articles, reagimiDateKey, kryesoreLead?.id);
 
   // The poll's question and yesterday's outcome are both settled at request
   // time, so they are rendered on the server rather than fetched after
@@ -95,27 +111,12 @@ export default async function HomePage() {
   // about what day it is.
   const sondazhi = await getSondazhiData(reagimiDateKey);
 
-  // Tier 2: KRYESORE lead + secondary — claimed before NJOFTIME so the
-  // front-page hierarchy always renders even when the article pool is small
-  // (production automation often yields ~11 fresh articles).
-  const nonHero = articles.filter((a) => a.id !== heroId);
-  const kryesoreLead = nonHero[0];
-  // Four photo cards beside the lead, then the two-up below it. This claims
-  // seven of the pool instead of three, which on a thin automation day (~11
-  // fresh articles) leaves NJOFTIME visibly shorter — the stack degrades to
-  // however many it gets rather than starving the rail below it.
-  const kryesoreStack = nonHero.slice(1, 5);
-  const kryesoreSecondary = nonHero.slice(5, 7);
-  const kryesoreTopIds = new Set(
-    [kryesoreLead, ...kryesoreStack, ...kryesoreSecondary].filter(Boolean).map((a) => a.id)
-  );
-
   // NJOFTIME carries at least 12 headlines. It is a horizontally dragged rail, so
   // the extra cards cost scroll distance inside the rail rather than page height.
   const NJOFTIME_TARGET = 12;
 
-  // Tier 3: NJOFTIME — score ≥ 7.0, not hero/kryesore-top, deduped by keyword overlap
-  const njoftimePool = nonHero.filter(
+  // Tier 2: NJOFTIME — score ≥ 7.0, not in kryesore, deduped by keyword overlap
+  const njoftimePool = articles.filter(
     (a) => !kryesoreTopIds.has(a.id) && (a.engagementScore ?? 0) >= 7.0
   );
   const njoftimeArticles: typeof articles = [];
@@ -132,7 +133,7 @@ export default async function HomePage() {
   // still applies, so this widens the score floor rather than repeating a story.
   if (njoftimeArticles.length < NJOFTIME_TARGET) {
     const already = new Set(njoftimeArticles.map((a) => a.id));
-    for (const a of nonHero) {
+    for (const a of articles) {
       if (already.has(a.id) || kryesoreTopIds.has(a.id)) continue;
       const kws = titleKws(a.title);
       if (njoftimeKws.some((rk) => [...kws].filter((w) => rk.has(w)).length >= 3)) continue;
@@ -145,12 +146,12 @@ export default async function HomePage() {
 
   // Më të lexuarat — engagement ranking across everything outside the kryesore
   // top; may overlap NJOFTIME (a most-read rail legitimately repeats stories)
-  const mostRead = nonHero
+  const mostRead = articles
     .filter((a) => !kryesoreTopIds.has(a.id))
     .sort((a, b) => (b.engagementScore ?? 0) - (a.engagementScore ?? 0))
     .slice(0, 5);
 
-  // Tier 4: LAJMET E FUNDIT — everything not used above, capped at 20
+  // Tier 3: LAJMET E FUNDIT — everything not used above, capped at 20
   const usedIds = new Set(
     [...njoftimeArticles, ...mostRead].map((a) => a.id)
   );
@@ -158,7 +159,7 @@ export default async function HomePage() {
   // Ten, not twenty. The tail of the front page is a shortlist; at twenty it
   // was five category sub-lists of 60px thumbnails that readers could not
   // actually read. DispatchList caps this itself too, so the two cannot drift.
-  const listArticles = nonHero.filter((a) => !usedIds.has(a.id)).slice(0, 10);
+  const listArticles = articles.filter((a) => !usedIds.has(a.id)).slice(0, 10);
 
   // Compared against the canonical label: sanitizeArticle has already folded
   // "Politikë", "Siguri" and "Shoqëri" onto Kosovë by the time an article gets
