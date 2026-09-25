@@ -315,10 +315,14 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
               <ExactMarketChart
                 compact
                 curve="smooth"
-                height={structured || isChampionship ? 260 : 218}
+                /* Sized to sit level with the rail, not to fill a tall card.
+                   The pulse strip is off here: its "Në krye" repeated the
+                   leader printed in large type just above the chart, and the
+                   market page still carries the full strip. */
+                height={structured || isChampionship ? 196 : 180}
                 series={chartSeries}
                 tone={structured || isChampionship || market.category === "sport" ? "sport" : "serious"}
-                showPulse={structured || isChampionship}
+                fill
                 ariaLabel={`Historia reale për ${market.question}`}
               />
             </div>
@@ -362,19 +366,34 @@ export default function FeaturedCarousel({ markets }: { markets: MiniMarket[] })
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const activeSlideRef = useRef<HTMLDivElement | null>(null);
   const [slideHeight, setSlideHeight] = useState<number | null>(null);
+  const [stacked, setStacked] = useState(false);
+
+  // Beside the rail the card takes the row's height, so every slide shares one
+  // frame and nothing needs measuring. Stacked above the rail there is no row
+  // to agree with, and the card follows the slide on screen instead.
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1024px)");
+    const apply = () => setStacked(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
 
   /* Re-measured when the slide changes and whenever its own content resizes —
      a chart that finishes drawing, an image that lands, a probability that
      rewraps the question onto a third line. */
   useEffect(() => {
     const el = activeSlideRef.current;
-    if (!el) return;
+    if (!el || !stacked) {
+      setSlideHeight(null);
+      return;
+    }
     const measure = () => setSlideHeight(Math.ceil(el.getBoundingClientRect().height));
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(el);
     return () => observer.disconnect();
-  }, [index, markets]);
+  }, [index, markets, stacked]);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -439,6 +458,15 @@ export default function FeaturedCarousel({ markets }: { markets: MiniMarket[] })
         if (Math.abs(dx) > 48) go(index + (dx < 0 ? 1 : -1));
       }}
     >
+      {/* One ground per slide, stacked under everything, so moving between
+          two different colours is a crossfade between two layers rather than
+          one layer changing its gradient on a single frame. */}
+      <div className="tregu-car-grounds" aria-hidden>
+        {markets.map((m, i) => (
+          <i key={m.slug} data-competition={m.league ?? undefined} data-active={i === index || undefined} />
+        ))}
+      </div>
+
       <div className="tregu-car-head">
         <span className="tregu-car-title">
           <span className="tregu-live-dot" aria-hidden />
@@ -472,20 +500,18 @@ export default function FeaturedCarousel({ markets }: { markets: MiniMarket[] })
       <div
         className="tregu-car-viewport"
         data-direction={direction}
-        /* Height follows the slide on screen.
-           The track is a flex row of full-width slides, so its height was the
-           height of the TALLEST slide and every shorter one was padded out to
-           match — a three-driver race card carrying the empty space of a
-           news card with a photograph in it. Measuring the active slide and
-           animating to it means the card is only ever as tall as what it is
-           actually showing. */
+        /* Stacked layout only: height follows the slide on screen.
+           The slides share one cell, so left alone the card would be as tall
+           as the TALLEST slide and every shorter one would carry its empty
+           space. Measuring the active slide and animating to it means the
+           card is only ever as tall as what it is showing. Beside the rail
+           no height is set and the row decides. */
         style={slideHeight ? { height: slideHeight } : undefined}
         ref={viewportRef}
       >
-        <div
-          className="tregu-car-track"
-          style={{ transform: `translateX(-${index * 100}%)` }}
-        >
+        {/* The slides share one cell and crossfade in place; see the
+            "one clock" block in globals.css. */}
+        <div className="tregu-car-track">
           {markets.map((m, i) => (
             <div
               key={m.slug}

@@ -17510,6 +17510,8 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
    thumbnails, so the card must size to itself.
    ========================================================================== */
 .tregu-hero-row { align-items: start; }
+/* (Desktop stretches again in "Flagship card — one clock": both columns were
+   tightened until they measure the same, and the row now keeps them level.) */
 
 /* With the row no longer stretching, the flex chain inside the carousel has
    nothing to distribute and the slide sizes to content. */
@@ -17548,26 +17550,6 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 .tregu-hero-row .tregu-car-slide-link {
   position: relative;
   isolation: isolate;
-}
-
-/* The light source: one wash thrown from the upper left in the category's own
-   colour, gone by a third of the way down so the chart keeps a clean ground.
-   A wash rather than a band — a band reads as a label, a wash reads as light. */
-.tregu-hero-row .tregu-car-slide-link::before {
-  content: "";
-  position: absolute;
-  inset: -18px -22px auto;
-  height: 240px;
-  z-index: -1;
-  pointer-events: none;
-  /* Orange, and only orange. The category colour used to drive this, so the
-     slot turned blue for sport and amber for world news — four different
-     coloured cards where there should be one card showing four things. The
-     accent still exists for competitions, which own their colour; everything
-     else is white with the brand's gradient at the top. */
-  background:
-    radial-gradient(110% 140% at 50% -22%, rgba(255, 68, 34, .16) 0%, transparent 62%),
-    linear-gradient(180deg, rgba(255, 68, 34, .07), transparent 72%);
 }
 
 /* The rim carries the accent instead of a rule across the top. A hairline on
@@ -17905,7 +17887,7 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 
 /* The flagship viewport animates to the height of the slide on screen; the
    track no longer stretches shorter slides to the tallest one's height. */
-.tregu-hero-row .tregu-car-viewport { transition: height 420ms cubic-bezier(0.77, 0, 0.175, 1); }
+.tregu-hero-row .tregu-car-viewport { transition: height var(--car-dur, 560ms) var(--car-ease, cubic-bezier(0.22, 1, 0.36, 1)); }
 .tregu-hero-row .tregu-car-track { align-items: flex-start; }
 @media (prefers-reduced-motion: reduce) {
   .tregu-hero-row .tregu-car-viewport { transition: none; }
@@ -18078,7 +18060,6 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   background: rgba(255, 244, 226, .07);
   box-shadow: inset 0 0 0 1px var(--tg-border);
 }
-.tregu-hero-row .tregu-car-slide-link[data-competition]::before { display: none; }
 .tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-feature-q,
 .tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-feature-price-value { color: var(--tg-text); }
 .tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-feature-price-label,
@@ -18259,16 +18240,21 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
-.tregu-hero-row .tregu-carousel[data-competition="uefa.champions"] {
+/* Any competition without a ground of its own: its tokens are light, so it
+   gets a neutral dark ground rather than cream text on a white card. */
+.tregu-hero-row .tregu-car-grounds > i[data-competition] {
+  background: linear-gradient(178deg, #211D18 0%, #15120F 100%);
+}
+.tregu-hero-row .tregu-car-grounds > i[data-competition="uefa.champions"] {
   background: radial-gradient(120% 70% at 50% 120%, #0B2A72 0%, rgba(11, 42, 114, 0) 62%), linear-gradient(178deg, #081950 0%, #05123F 100%);
 }
-.tregu-hero-row .tregu-carousel[data-competition="uefa.europa"] {
+.tregu-hero-row .tregu-car-grounds > i[data-competition="uefa.europa"] {
   background: radial-gradient(120% 70% at 50% 120%, #6A2A0A 0%, rgba(106, 42, 10, 0) 64%), linear-gradient(178deg, #351508 0%, #240E05 100%);
 }
-.tregu-hero-row .tregu-carousel[data-competition="uefa.europa.conf"] {
+.tregu-hero-row .tregu-car-grounds > i[data-competition="uefa.europa.conf"] {
   background: radial-gradient(120% 70% at 50% 120%, #0E5A31 0%, rgba(14, 90, 49, 0) 64%), linear-gradient(178deg, #072A17 0%, #041C0F 100%);
 }
-.tregu-hero-row .tregu-carousel[data-competition="uefa.nations"] {
+.tregu-hero-row .tregu-car-grounds > i[data-competition="uefa.nations"] {
   background: radial-gradient(120% 70% at 50% 120%, #2D4A7C 0%, rgba(45, 74, 124, 0) 64%), linear-gradient(178deg, #16233C 0%, #0D1728 100%);
 }
 .tregu-hero-row .tregu-carousel:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
@@ -18278,6 +18264,8 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   --tg-panel: rgba(255, 250, 242, .62);
   --tg-yes: #007A3C;
   --tg-no: #B4181A;
+}
+.tregu-hero-row .tregu-car-grounds > i:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
   background:
     repeating-linear-gradient(0deg, rgba(109, 68, 28, .20) 0 1px, transparent 1px 33px),
     linear-gradient(163deg, #EFD3A2 0%, #E2BC82 54%, #DCB57A 100%);
@@ -18290,15 +18278,17 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   padding: 0;
   margin: 0;
 }
-.tregu-hero-row .tregu-carousel[data-competition] .tregu-car-slide-link::before { display: none; }
 
 /* --- The gradient, from the top edge ------------------------------------- */
 /* One gradient, on the card, starting at its first pixel. The old band drew a
    second rounded box around the league mark and the category pill, which read
    as a header inside a header and left white above it. */
-.tregu-hero-row .tregu-carousel:not([data-competition]) {
-  background-image: linear-gradient(180deg, rgba(255, 68, 34, .14) 0, rgba(255, 68, 34, .04) 120px, transparent 260px);
-  background-repeat: no-repeat;
+/* The white card's ground: the floor's glass, made opaque so it can cover a
+   dark ground in a crossfade, with the brand wash from the top edge. */
+.tregu-hero-row .tregu-car-grounds > i:not([data-competition]) {
+  background:
+    linear-gradient(180deg, rgba(255, 68, 34, .14) 0, rgba(255, 68, 34, .04) 120px, transparent 260px),
+    #FDFCFA;
 }
 .tregu-hero-row .tregu-feature-head {
   margin: 0 0 14px;
@@ -18352,91 +18342,172 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 .tregu-hero-row .tregu-carousel[data-competition] .tregu-car-dot-fill { background: var(--tg-text); }
 
 /* The artwork is the subject on these cards, not a watermark behind them. */
-.tregu-hero-row .tregu-carousel[data-competition] .tregu-uel-trophy { opacity: .92; }
-.tregu-hero-row .tregu-carousel[data-competition] .tregu-uel-beams { opacity: .55; }
-.tregu-hero-row .tregu-carousel[data-competition] .tregu-night-stadium { opacity: .6; }
-.tregu-hero-row .tregu-carousel[data-competition] .tregu-court-ball { opacity: 1; }
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-uel-trophy { opacity: .92; }
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-uel-beams { opacity: .55; }
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-night-stadium { opacity: .6; }
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-court-ball { opacity: 1; }
 
 /* ==========================================================================
-   Flagship card — the ground dissolves, and the chart gets out of the trophy's way
+   Flagship card — one clock
    --------------------------------------------------------------------------
-   The competition ground was painted straight onto .tregu-carousel, so moving
-   from the Europa slide to a white one swapped a near-black card for a white
-   one on a single frame while the slides were still gliding — the one hard cut
-   in an otherwise continuous motion.
+   The slide change was four motions that did not agree: the track slid the
+   full card width over 640ms, the height tweened on its own 420ms, a 220ms
+   keyframe nudged the arriving grid, and the ground's colour tokens flipped on
+   a single frame while only a hand-picked list of elements faded theirs.
+   Between two differently coloured cards that read as a cut, not a move.
 
-   Gradients do not interpolate, so this cannot be a background transition. The
-   ground moves to ::before, which carries whichever competition gradient
-   applies and fades its opacity; the carousel underneath stays white. Leaving
-   a competition therefore dissolves to white over the same 640ms the track
-   takes, and the text colours are given the same duration so nothing snaps.
+   Now everything runs on one clock (--car-dur / --car-ease):
+
+   · The slides share one grid cell and crossfade in place. The arriving slide
+     drifts 16px in from the side it came from and sharpens from a 4px blur;
+     the leaving one fades and blurs where it stands in half the time, so the
+     two never read as two cards overlapping.
+   · Each slide has its own ground layer (.tregu-car-grounds). Every ground is
+     opaque, and the arriving one fades in ON TOP of the leaving one, which
+     holds until it is covered — blue to brown is a straight crossfade with no
+     dip through white on the way.
+   · The colour tokens are registered, so the card's own chrome (title, arrows,
+     dots, rim) tweens with the ground instead of snapping.
    ========================================================================== */
+@property --tg-text { syntax: "<color>"; inherits: true; initial-value: #111111; }
+@property --tg-muted { syntax: "<color>"; inherits: true; initial-value: #6B6B6B; }
+@property --tg-border { syntax: "<color>"; inherits: true; initial-value: rgba(17, 17, 17, 0.08); }
+@property --tg-border-hi { syntax: "<color>"; inherits: true; initial-value: rgba(17, 17, 17, 0.16); }
+@property --tg-panel { syntax: "<color>"; inherits: true; initial-value: rgba(255, 255, 255, 0.66); }
+@property --tg-panel-hi { syntax: "<color>"; inherits: true; initial-value: rgba(255, 255, 255, 0.82); }
+@property --tg-yes { syntax: "<color>"; inherits: true; initial-value: #00A651; }
+@property --tg-yes-dim { syntax: "<color>"; inherits: true; initial-value: rgba(0, 166, 81, 0.12); }
+@property --tg-no { syntax: "<color>"; inherits: true; initial-value: #E41E20; }
+@property --tg-no-dim { syntax: "<color>"; inherits: true; initial-value: rgba(228, 30, 32, 0.12); }
+
 .tregu-hero-row .tregu-carousel {
+  --car-dur: 560ms;
+  --car-exit: 260ms;
+  --car-ease: cubic-bezier(0.22, 1, 0.36, 1);
   position: relative;
-  /* The tokens still flip at once, but every colour that reads from them is
-     given the track's own duration below, so the change is a dissolve. */
-  transition: color 640ms cubic-bezier(0.77, 0, 0.175, 1),
-              border-color 640ms cubic-bezier(0.77, 0, 0.175, 1),
-              box-shadow 640ms cubic-bezier(0.77, 0, 0.175, 1);
+  isolation: isolate;
+  /* The grounds paint the card; the shell itself is only the glass edge. */
+  background: transparent;
+  transition:
+    --tg-text var(--car-dur) var(--car-ease),
+    --tg-muted var(--car-dur) var(--car-ease),
+    --tg-border var(--car-dur) var(--car-ease),
+    --tg-border-hi var(--car-dur) var(--car-ease),
+    --tg-panel var(--car-dur) var(--car-ease),
+    --tg-panel-hi var(--car-dur) var(--car-ease),
+    --tg-yes var(--car-dur) var(--car-ease),
+    --tg-yes-dim var(--car-dur) var(--car-ease),
+    --tg-no var(--car-dur) var(--car-ease),
+    --tg-no-dim var(--car-dur) var(--car-ease),
+    border-color var(--car-dur) var(--car-ease),
+    box-shadow var(--car-dur) var(--car-ease);
 }
-.tregu-hero-row .tregu-carousel::before {
-  content: "";
+
+/* --- The grounds --------------------------------------------------------- */
+.tregu-hero-row .tregu-car-grounds {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+.tregu-hero-row .tregu-car-grounds > i {
   position: absolute;
   inset: 0;
   z-index: 0;
-  border-radius: inherit;
   opacity: 0;
-  pointer-events: none;
-  transition: opacity 640ms cubic-bezier(0.77, 0, 0.175, 1);
+  /* A leaving ground holds at full strength until the arriving one has
+     covered it, then drops out of sight in one step. */
+  transition: opacity 0s linear var(--car-dur);
 }
-.tregu-hero-row .tregu-carousel[data-competition]::before { opacity: 1; }
-/* Everything the card draws sits above the ground. */
-.tregu-hero-row .tregu-car-head,
-.tregu-hero-row .tregu-car-viewport,
-.tregu-hero-row .tregu-car-dots { position: relative; z-index: 1; }
-
-/* The grounds themselves, now on the layer that fades. */
-.tregu-hero-row .tregu-carousel[data-competition="uefa.champions"]::before {
-  background: radial-gradient(120% 70% at 50% 120%, #0B2A72 0%, rgba(11, 42, 114, 0) 62%), linear-gradient(178deg, #081950 0%, #05123F 100%);
-}
-.tregu-hero-row .tregu-carousel[data-competition="uefa.europa"]::before {
-  background: radial-gradient(120% 70% at 50% 120%, #6A2A0A 0%, rgba(106, 42, 10, 0) 64%), linear-gradient(178deg, #351508 0%, #240E05 100%);
-}
-.tregu-hero-row .tregu-carousel[data-competition="uefa.europa.conf"]::before {
-  background: radial-gradient(120% 70% at 50% 120%, #0E5A31 0%, rgba(14, 90, 49, 0) 64%), linear-gradient(178deg, #072A17 0%, #041C0F 100%);
-}
-.tregu-hero-row .tregu-carousel[data-competition="uefa.nations"]::before {
-  background: radial-gradient(120% 70% at 50% 120%, #2D4A7C 0%, rgba(45, 74, 124, 0) 64%), linear-gradient(178deg, #16233C 0%, #0D1728 100%);
-}
-.tregu-hero-row .tregu-carousel:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"])::before {
-  background:
-    repeating-linear-gradient(0deg, rgba(109, 68, 28, .20) 0 1px, transparent 1px 33px),
-    linear-gradient(163deg, #EFD3A2 0%, #E2BC82 54%, #DCB57A 100%);
-}
-/* The card itself goes back to the floor's glass; ::before does the colour. */
-.tregu-hero-row .tregu-carousel[data-competition] {
-  background: rgba(255, 255, 255, 0.66);
+.tregu-hero-row .tregu-car-grounds > i[data-active] {
+  z-index: 1;
+  opacity: 1;
+  transition: opacity var(--car-dur) var(--car-ease);
 }
 
-/* Text and panels fade with the ground rather than snapping to it. */
-.tregu-hero-row .tregu-carousel .tregu-feature-q,
-.tregu-hero-row .tregu-carousel .tregu-feature-price-value,
-.tregu-hero-row .tregu-carousel .tregu-feature-price-label,
-.tregu-hero-row .tregu-carousel .tregu-feature-stats dt,
-.tregu-hero-row .tregu-carousel .tregu-feature-stats dd,
-.tregu-hero-row .tregu-carousel .tregu-market-foot,
-.tregu-hero-row .tregu-carousel .tregu-market-close,
-.tregu-hero-row .tregu-carousel .tregu-market-open,
-.tregu-hero-row .tregu-carousel .tregu-car-title,
-.tregu-hero-row .tregu-carousel .tregu-pill,
-.tregu-hero-row .tregu-carousel .tregu-side,
-.tregu-hero-row .tregu-carousel .tregu-native-outcome,
-.tregu-hero-row .tregu-carousel .tregu-feature-stats,
-.tregu-hero-row .tregu-carousel .tregu-feature-stats > div {
-  transition: color 640ms cubic-bezier(0.77, 0, 0.175, 1),
-              background-color 640ms cubic-bezier(0.77, 0, 0.175, 1),
-              border-color 640ms cubic-bezier(0.77, 0, 0.175, 1),
-              box-shadow 640ms cubic-bezier(0.77, 0, 0.175, 1);
+/* --- The slides ---------------------------------------------------------- */
+.tregu-hero-row .tregu-car-track {
+  display: grid;
+  transform: none;
+  transition: none;
+}
+.tregu-hero-row .tregu-car-slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateX(16px);
+  visibility: hidden;
+  /* Leaving: fade and blur where it stands. The transform waits until the
+     slide is invisible, so it never drifts the wrong way on its way out. */
+  transition:
+    opacity var(--car-exit) var(--car-ease),
+    filter var(--car-exit) var(--car-ease),
+    transform 0s linear var(--car-exit),
+    visibility 0s linear var(--car-exit);
+}
+.tregu-hero-row .tregu-car-viewport[data-direction="previous"] .tregu-car-slide:not([data-active]) {
+  transform: translateX(-16px);
+}
+.tregu-hero-row .tregu-car-slide[data-active] {
+  opacity: 1;
+  filter: none;
+  transform: none;
+  visibility: visible;
+  transition:
+    opacity var(--car-dur) var(--car-ease) 40ms,
+    filter var(--car-dur) var(--car-ease) 40ms,
+    transform var(--car-dur) var(--car-ease) 40ms,
+    visibility 0s;
+}
+/* The crossfade is the arrival now; the old nudge would run a second one. */
+.tregu-hero-row .tregu-car-viewport[data-direction] .tregu-car-slide[data-active] .tregu-feature-grid {
+  animation: none;
+}
+
+/* --- One frame beside the rail -------------------------------------------
+   The card and the rail share the row's height, so both columns end on the
+   same line whichever slide is showing, and the card never changes height
+   between slides. The chart column takes up any slack. */
+@media (min-width: 1025px) {
+  .tregu-hero-row { align-items: stretch; }
+  .tregu-hero-row .tregu-car-track { height: 100%; align-items: stretch; }
+  .tregu-hero-row .tregu-car-slide { height: auto; }
+  .tregu-hero-row .tregu-feature-chart { display: flex; flex-direction: column; }
+  /* A slide with less to say than the tallest one hands the difference to
+     its chart rather than to a band of empty ground. The plot's own height
+     stays the floor (flex-basis), and its strokes are non-scaling, so it
+     deepens without thickening. */
+  .tregu-hero-row .tregu-feature-tape { flex: 1; display: flex; flex-direction: column; }
+  .tregu-hero-row .tregu-feature-tape .tregu-exact-chart { flex: 1; display: flex; flex-direction: column; }
+  .tregu-hero-row .tregu-feature-tape .tregu-exact-chart-plot { flex: 1 0 auto; }
+
+  /* The rail was the taller column at 640px and set the row, so the card
+     stretched to it and spent the difference on air. Its rows are tighter
+     now, and if a card's slide is ever the taller one the rail spends the
+     extra height on its rows, evenly, instead of trailing space. */
+  .tregu-hero-row .tregu-rail { gap: 12px; }
+  .tregu-hero-row .tregu-rail-panel { display: flex; flex-direction: column; padding-block: 14px; }
+  .tregu-hero-row .tregu-hot-row[data-thumbed] { padding-block: 6px; }
+  .tregu-hero-row .tregu-rail-panel[data-rail="hot"] { flex: 1; }
+  .tregu-hero-row .tregu-rail-panel .tregu-hot-row { flex: 1; }
+}
+/* Stacked above the rail the card follows the slide on screen (measured in
+   the component), so each slide keeps its own height. */
+@media (max-width: 1024px) {
+  .tregu-hero-row .tregu-car-slide { align-self: start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Reduced motion keeps the crossfade — it carries the change of card — and
+     drops the drift, the blur and the tweened height. */
+  .tregu-hero-row .tregu-carousel { --car-dur: 200ms; --car-exit: 150ms; }
+  .tregu-hero-row .tregu-car-slide,
+  .tregu-hero-row .tregu-car-viewport[data-direction="previous"] .tregu-car-slide:not([data-active]) {
+    filter: none;
+    transform: none;
+  }
 }
 
 /* --- The trophy keeps its side ------------------------------------------
@@ -18447,20 +18518,20 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
    leaves the right side to the trophy with only the proposition's text over
    it, which reads cleanly because text is the one thing that can sit on an
    image without obscuring it. */
-.tregu-hero-row .tregu-carousel[data-competition] .tregu-feature-grid {
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-feature-grid {
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
 }
-.tregu-hero-row .tregu-carousel[data-competition] .tregu-feature-chart { order: -1; }
+.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-feature-chart { order: -1; }
 
 @media (max-width: 1024px) {
   /* One column below this width, so order would only shuffle the stack. */
-  .tregu-hero-row .tregu-carousel[data-competition] .tregu-feature-chart { order: initial; }
+  .tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-feature-chart { order: initial; }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .tregu-hero-row .tregu-carousel,
-  .tregu-hero-row .tregu-carousel::before,
-  .tregu-hero-row .tregu-carousel * { transition: none !important; }
+@media (max-width: 860px) {
+  /* The two-column swap above outranks the phone rule that stacks every
+     feature card, so a competition slide was squeezed into two 150px columns
+     on a phone. Phones get the one column every other slide has. */
+  .tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-feature-grid { grid-template-columns: 1fr; }
 }
 
 /* ────────────────────────────────────────────────────────────────────────────

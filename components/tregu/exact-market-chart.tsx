@@ -58,6 +58,7 @@ export default function ExactMarketChart({
   tone = "serious",
   defaultRange = "1d",
   curve = "angular",
+  fill = false,
 }: {
   series: ExactMarketSeries[];
   height?: number;
@@ -71,11 +72,29 @@ export default function ExactMarketChart({
   tone?: "serious" | "sport" | "neutral";
   defaultRange?: RecordedRangeKey;
   curve?: "angular" | "smooth";
+  /** Let the plot grow into its container. `height` stays the minimum, and the
+   *  drawing follows the plot's real height so a deeper plot is redrawn, not
+   *  stretched — points stay round and the area fill keeps its baseline. */
+  fill?: boolean;
 }) {
   const uid = useId().replace(/:/g, "");
   const [range, setRange] = useState<RecordedRangeKey>(defaultRange);
   const drawsLive = showRanges && (range === "1s" || range === "1m" || range === "5m");
   const [visibleEnd, setVisibleEnd] = useState<number | null>(null);
+  const plotRef = useRef<HTMLDivElement | null>(null);
+  const [filledHeight, setFilledHeight] = useState<number | null>(null);
+
+  useEffect(() => {
+    const el = plotRef.current;
+    if (!fill || !el) return;
+    const measure = () => setFilledHeight(Math.round(el.clientHeight));
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [fill]);
+
+  const drawHeight = fill && filledHeight != null && filledHeight > height ? filledHeight : height;
 
   useEffect(() => {
     const cadence = drawsLive ? 1_000 : 60_000;
@@ -100,7 +119,7 @@ export default function ExactMarketChart({
       ...item.displayPoints.map((point) => point.p),
     ]);
     const domain = probabilityDomain(values.length ? values : cleaned.map((item) => item.current));
-    const plotH = height - PAD_Y * 2;
+    const plotH = drawHeight - PAD_Y * 2;
     const plotW = W - PAD_L - (compact ? PAD_L : PAD_R);
     const firstT = timestamps[0] ?? 0;
     const lastT = timestamps.at(-1) ?? firstT;
@@ -122,7 +141,7 @@ export default function ExactMarketChart({
       x,
       y,
     };
-  }, [compact, height, selected]);
+  }, [compact, drawHeight, selected]);
 
   const summaries = model.cleaned.map((item) => {
     const displayPoints = item.points.length ? item.points : item.hold ? [item.hold] : [];
@@ -254,6 +273,7 @@ export default function ExactMarketChart({
       )}
 
       <div
+        ref={plotRef}
         className="tregu-exact-chart-plot"
         style={{ height }}
         role="group"
@@ -289,7 +309,7 @@ export default function ExactMarketChart({
         }}
       >
         <svg
-          viewBox={`0 0 ${W} ${height}`}
+          viewBox={`0 0 ${W} ${drawHeight}`}
           preserveAspectRatio="none"
           role="img"
           aria-label={`${ariaLabel}: ${summary || "pa të dhëna"}. Shkallë ${scaleLabel}. ${selected.option.description}.`}
@@ -328,7 +348,7 @@ export default function ExactMarketChart({
             const displayPath = displayPoints.length >= 2 ? pathFor(displayPoints) : heldPath;
             const gradientId = `exact-fill-${uid}-${item.key.replace(/[^a-z0-9_-]/gi, "")}`;
             const fillPath = displayPoints.length >= 2
-              ? `${path} L${model.x(last.t).toFixed(1)} ${height - PAD_Y} L${model.x(first.t).toFixed(1)} ${height - PAD_Y} Z`
+              ? `${path} L${model.x(last.t).toFixed(1)} ${drawHeight - PAD_Y} L${model.x(first.t).toFixed(1)} ${drawHeight - PAD_Y} Z`
               : "";
             return (
               <g key={`${item.key}-${showRanges ? range : "all"}`}>
@@ -373,7 +393,7 @@ export default function ExactMarketChart({
 
           {inspection && (
             <g className="tregu-exact-chart-inspector-marks" aria-hidden>
-              <line x1={inspection.x} x2={inspection.x} y1={PAD_Y} y2={height - PAD_Y} />
+              <line x1={inspection.x} x2={inspection.x} y1={PAD_Y} y2={drawHeight - PAD_Y} />
               {inspection.entries.map((item) => (
                 <circle
                   key={item.key}
