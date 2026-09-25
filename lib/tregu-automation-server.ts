@@ -7,7 +7,7 @@ import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, daily
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
 import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan, sportEventState, rescheduledSportClose, isDuplicateSportOracle } from "@/lib/tregu-sport-market.mjs";
-import { buildF1MarketPlan, buildF1RaceWinnerPlan, buildF1SettlementPlan, openF1ToWinnerLeaderboard } from "@/lib/f1-live-lite.mjs";
+import { buildF1MarketPlan, buildF1RaceWinnerPlan, buildF1SettlementPlan } from "@/lib/f1-live-lite.mjs";
 import { fetchOpenF1LiveRace } from "@/lib/openf1-live.mjs";
 import { classifyProviderFailure } from "@/lib/tregu-ai-provider.mjs";
 import { DAILY_MARKET_CONTRACT_VERSION } from "@/lib/tregu-daily-market-quality.mjs";
@@ -711,51 +711,21 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
           }
           }
         }
-        const liveF1Markets = (f1Markets ?? []).filter(m => m.status === "open" && Number.isFinite(Date.parse(m.live_event?.race_start ?? "")) && Date.parse(m.live_event.race_start) <= now.getTime() && now.getTime() - Date.parse(m.live_event.race_start) < 6 * 3600000);
+        const liveF1Markets = (f1Markets ?? []).filter(isLiveF1Race(now));
         if (liveF1Markets.length) {
-        // OpenF1 first, then F1's own dashboard.
-        //
-        // OpenF1 refuses anonymous callers for the entire duration of a session,
-        // which is the only time this branch runs — so on a free key it is
-        // reliably unavailable exactly when a race is being run. The Formula 1
-        // Dashboard renderer already in this file's toolbox produces the same
-        // leaderboard shape from a page anyone can load, so it stands in rather
-        // than the whole live path going quiet. Both routes end at
-        // buildF1RaceWinnerPlan, so nothing downstream knows which one ran.
-        let leaderboard: any = null;
-        let f1SourceUrl = "";
-        let liveSource = "openf1";
-        try {
-          const openF1Live = await fetchOpenF1LiveRace({ now });
-          leaderboard = openF1ToWinnerLeaderboard(openF1Live);
-          if (leaderboard && openF1Live) {
-            f1SourceUrl = `https://api.openf1.org/v1/sessions?session_key=${encodeURIComponent(String(openF1Live.session?.session_key ?? ""))}`;
-          } else {
-            leaderboard = null;
-          }
-        } catch {
-          leaderboard = null;
-        }
-        if (!leaderboard) {
-          const { fetchF1LiveLiteLeaderboard } = await import("@/lib/f1-live-lite.mjs");
-          leaderboard = await (fetchF1LiveLiteLeaderboard as any)();
-          liveSource = "formula1dashboard";
-          f1SourceUrl = leaderboard?.source_url ?? "https://app.formula1dashboard.com/live-timing/";
-        }
-        if (!leaderboard) throw new Error("Neither OpenF1 nor the Formula 1 Dashboard exposed a complete active race session.");
+        // F1's own dashboard is the in-race source. OpenF1 refuses anonymous
+        // callers for a session's whole duration and live access is a paid
+        // tier we do not use, so it is no longer tried first here. The
+        // one-minute loop (runLiveF1RaceAutomation) reads the same page, and the
+        // plan skips a market the other loop already priced this minute.
+        const { fetchF1LiveLiteLeaderboard } = await import("@/lib/f1-live-lite.mjs");
+        const leaderboard: any = await (fetchF1LiveLiteLeaderboard as any)();
+        const f1SourceUrl = leaderboard?.source_url ?? "https://app.formula1dashboard.com/live-timing/";
+        if (!leaderboard) throw new Error("The Formula 1 Dashboard exposed no complete active race session.");
         const f1Signals = buildF1MarketPlan({ markets: liveF1Markets, leaderboard });
-        const f1RaceWinnerSignals = buildF1RaceWinnerPlan({ markets: liveF1Markets, leaderboard });
-        for (const signal of f1RaceWinnerSignals) {
-          try {
-            const f1State = { ...signal.state, previous_probabilities: signal.market.reference_probabilities ?? null };
-            const { error: f1RaceOracleError } = await admin.rpc("apply_f1_race_winner_oracle", { p_market_id: signal.market.id, p_state: f1State, p_probabilities: signal.probabilities, p_evidence: signal.evidence, p_reasoning: signal.reasoning, p_cap: signal.oracle_cap, p_final: false, p_winner: null, p_structural_keys: [] });
-            if (f1RaceOracleError) throw new Error(f1RaceOracleError.message);
-            const { error: f1SnapshotError } = await admin.rpc("record_f1_vector_snapshot", { p_market_id: signal.market.id, p_state: f1State, p_probabilities: signal.probabilities, p_reasoning: signal.reasoning });
-            if (f1SnapshotError) throw new Error(f1SnapshotError.message);
-            await captureOfficialMarketChange(signal.market, "f1_race_winner_state", f1SourceUrl);
-            f1Results.push({ slug: signal.market.slug, status: "applied" });
-          } catch (f1RaceOracleError) { f1Results.push({ slug: signal.market.slug, status: "failed", error: String(f1RaceOracleError instanceof Error ? f1RaceOracleError.message : f1RaceOracleError) }); }
-        }
+        const f1RaceWinnerSignals = buildF1RaceWinnerPlan({ markets: liveF1Markets, leaderboard, now: now.getTime() });
+        f1Results.push(...await applyF1RaceWinnerSignals(admin, f1RaceWinnerSignals,
+          (market) => captureOfficialMarketChange(market, "f1_race_winner_state", f1SourceUrl)));
         const changedSlugs = new Set([...f1Signals, ...f1RaceWinnerSignals].map((signal: any) => signal.market.slug));
         for (const market of f1Markets ?? []) if (!changedSlugs.has(market.slug)) f1Results.push({ slug: market.slug, status: "unchanged" });
         for (const signal of f1Signals) {
@@ -1319,6 +1289,59 @@ export async function runNewsSettlementSweep(now = new Date()) {
 /** Vercel's five-minute remote-only heartbeat: verified-news Groq, with Google fallback. */
 export async function runTreguLiveAutomation(now = new Date()) {
   return runNewsReprice("tregu_live", fiveMinuteRunKey(now), now);
+}
+
+/** A race market from lights out until six hours later — the window both loops price in. */
+function isLiveF1Race(now: Date) {
+  return (m: any) => m.status === "open" && Number.isFinite(Date.parse(m.live_event?.race_start ?? "")) &&
+    Date.parse(m.live_event.race_start) <= now.getTime() && now.getTime() - Date.parse(m.live_event.race_start) < 6 * 3600000;
+}
+
+/** Writes each race-winner vector; the 5% per-update cap is enforced in SQL. */
+async function applyF1RaceWinnerSignals(admin: AdminClient, signals: any[], afterApplied?: (market: any) => Promise<void>) {
+  const results: Array<{ slug: string; status: "applied" | "failed"; error?: string }> = [];
+  for (const signal of signals) {
+    try {
+      const f1State = { ...signal.state, previous_probabilities: signal.market.reference_probabilities ?? null };
+      const { error: f1RaceOracleError } = await admin.rpc("apply_f1_race_winner_oracle", { p_market_id: signal.market.id, p_state: f1State, p_probabilities: signal.probabilities, p_evidence: signal.evidence, p_reasoning: signal.reasoning, p_cap: signal.oracle_cap, p_final: false, p_winner: null, p_structural_keys: [] });
+      if (f1RaceOracleError) throw new Error(f1RaceOracleError.message);
+      const { error: f1SnapshotError } = await admin.rpc("record_f1_vector_snapshot", { p_market_id: signal.market.id, p_state: f1State, p_probabilities: signal.probabilities, p_reasoning: signal.reasoning });
+      if (f1SnapshotError) throw new Error(f1SnapshotError.message);
+      await afterApplied?.(signal.market);
+      results.push({ slug: signal.market.slug, status: "applied" });
+    } catch (error) {
+      results.push({ slug: signal.market.slug, status: "failed", error: String(error instanceof Error ? error.message : error) });
+    }
+  }
+  return results;
+}
+
+/**
+ * The one-minute race loop. Only live F1 race-winner markets, only while a race
+ * is inside its window; every other minute of the week it is one indexed read
+ * and a return. No email: a race would otherwise send one a minute, and the
+ * five-minute loop still reports the race as it always has.
+ */
+export async function runLiveF1RaceAutomation(now = new Date()) {
+  const admin = createAdminClient();
+  if (!admin) throw new Error("Supabase service-role configuration is required for live F1.");
+  const { data, error } = await admin.from("markets").select("*")
+    .eq("status", "open").eq("market_classification", "live_f1").eq("market_type", "f1_race_winner");
+  if (error) throw new Error(`Could not read live F1 markets: ${error.message}`);
+  const live = (data ?? []).filter(isLiveF1Race(now));
+  if (!live.length) return { live_markets: 0, results: [] };
+  const { fetchF1LiveLiteLeaderboard } = await import("@/lib/f1-live-lite.mjs");
+  const leaderboard: any = await (fetchF1LiveLiteLeaderboard as any)();
+  const signals = buildF1RaceWinnerPlan({ markets: live, leaderboard, now: now.getTime() });
+  const results = await applyF1RaceWinnerSignals(admin, signals);
+  return {
+    live_markets: live.length,
+    race_status: leaderboard?.race?.status ?? null,
+    session_kind: leaderboard?.session_kind ?? null,
+    lap: signals[0]?.state?.current_lap ?? leaderboard?.race?.current_lap ?? null,
+    laps_left: signals[0]?.state?.laps_left ?? null,
+    results,
+  };
 }
 
 

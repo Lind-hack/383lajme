@@ -131,6 +131,9 @@ interface MarketRow {
   outcome_probabilities?: Record<string, number> | null;
   outcome_history?: Record<string, { created_at: string; probability: number }[]> | null;
   market_media?: MarketMedia | null;
+  /* Written by the live race loop (f1-race-memory.mjs); absent on every other
+     market and on rows persisted before it existed. */
+  live_score_state?: { insights?: Record<string, string> | null; laps_left?: number | null } | null;
 }
 
 interface ActivityItem {
@@ -558,6 +561,8 @@ export default function TreguHub() {
     outcomeProbabilities: m.outcome_probabilities,
     outcomeHistory: m.outcome_history,
     marketMedia: m.market_media,
+    f1Insights: m.live_score_state?.insights ?? null,
+    lapsLeft: m.live_score_state?.laps_left ?? null,
   });
 
   /* Enter on the search box moves the page to the results.

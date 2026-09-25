@@ -5849,12 +5849,43 @@ a.tregu-f1-top3-row:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .tregu-f1-top3-bar { animation: none; }
 }
+/* Race in progress: the lap count replaces the closing time in the header. */
+.tregu-f1-laps-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(228, 30, 32, 0.08);
+  color: #B4181A;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.tregu-f1-laps-left i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: tregu-f1-live-dot 1.6s ease-in-out infinite;
+}
+@keyframes tregu-f1-live-dot { 50% { opacity: 0.25; } }
+@media (prefers-reduced-motion: reduce) {
+  .tregu-f1-laps-left i { animation: none; }
+}
 .tregu-market[data-f1] > :not(.tregu-f1-car-art),
 .tregu-car-slide-link[data-f1] > :not(.tregu-f1-car-art) {
   position: relative;
   z-index: 1;
 }
-.tregu-car-slide-link[data-f1] .tregu-car-slide-hit { z-index: 2; }
+.tregu-car-slide-link { cursor: pointer; }
+/* The rule above lifts every child over the car art, and at 0,3,0 it also
+   caught the hit link and made it position:relative — an empty inline box, so
+   only the driver rows were clickable. It goes back underneath as a layer;
+   the card's own click handler covers the content that sits over it. */
+.tregu-car-slide-link[data-f1] > .tregu-car-slide-hit { position: absolute; z-index: 0; }
 
 .f1-title-lockup { display: flex; align-items: center; gap: 11px; }
 .f1-crown-mark {
@@ -17929,10 +17960,25 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
    they are re-placed here rather than re-drawn. Content stays above them.
    ========================================================================== */
 .tregu-hero-row .tregu-car-slide-link[data-competition] { overflow: hidden; border-radius: 14px; }
-.tregu-hero-row .tregu-car-slide-link[data-competition] > *:not(.tregu-night-glow):not(.tregu-night-stadium):not(.tregu-uel-beams):not(.tregu-uel-trophy):not(.tregu-court-ball):not(.tregu-court-varnish) {
+.tregu-hero-row .tregu-car-slide-link[data-competition] > *:not(.tregu-night-glow):not(.tregu-night-stadium):not(.tregu-uel-beams):not(.tregu-uel-trophy):not(.tregu-court-ball):not(.tregu-court-varnish):not(.tregu-unl-field):not(.tregu-unl-rim):not(.tregu-unl-fold):not(.tregu-car-slide-hit) {
   position: relative;
   z-index: 2;
 }
+/* The Nations weave was never placed for this slot, so its two SVGs fell into
+   the flow at the browser's 300x150 default, stacked above the grid and pushed
+   the chart and the three outcome boxes off the bottom of the card. Here it is
+   a watermark like the other competitions' art. */
+.tregu-hero-row .tregu-unl-field,
+.tregu-hero-row .tregu-unl-rim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: .12;
+  z-index: 0;
+  pointer-events: none;
+}
+.tregu-hero-row .tregu-car-slide-link .tregu-unl-fold { display: none; }
 .tregu-hero-row .tregu-night-stadium {
   position: absolute;
   inset: auto 0 -8px;
@@ -18087,7 +18133,7 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 /* The whole slide is the target, and it does not move under the pointer. The
    F1 card lifted on hover while only part of it was clickable, which is the
    worst pairing of the two: it invites a click it does not accept everywhere. */
-.tregu-hero-row .tregu-car-slide-hit { position: absolute; inset: 0; z-index: 3; }
+.tregu-hero-row .tregu-car-slide-hit { position: absolute; inset: 0; z-index: 1; }
 .tregu-hero-row .tregu-car-slide-link:hover,
 .tregu-hero-row .tregu-championship-card:hover { transform: none; }
 
@@ -18492,6 +18538,10 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   .tregu-hero-row .tregu-hot-row[data-thumbed] { padding-block: 6px; }
   .tregu-hero-row .tregu-rail-panel[data-rail="hot"] { flex: 1; }
   .tregu-hero-row .tregu-rail-panel .tregu-hot-row { flex: 1; }
+  /* A stretched row split its extra height between the title and the volume
+     line, leaving a gap under a one-line title. The lines stay together and
+     the row centres them. */
+  .tregu-hero-row .tregu-rail-panel .tregu-hot-row { align-content: center; row-gap: 3px; }
 }
 /* Stacked above the rail the card follows the slide on screen (measured in
    the component), so each slide keeps its own height. */

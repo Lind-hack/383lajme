@@ -54,6 +54,9 @@ export interface MiniMarket {
       no single "the" probability, so the row names the favourite it is quoting. */
   leadOutcomeKey?: string | null;
   outcomeHistory?: Record<string, { created_at: string; probability: number }[]> | null;
+  /** Live race only: one line per driver on why the price sits where it does. */
+  f1Insights?: Record<string, string> | null;
+  lapsLeft?: number | null;
 }
 
 const CATEGORY_LABEL: Record<string, string> = {

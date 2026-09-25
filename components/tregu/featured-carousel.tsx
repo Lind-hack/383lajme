@@ -88,7 +88,11 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
       }))
     : isF1
       ? topThreeDrivers(market.sportOutcomes as unknown as Array<Record<string, unknown>>, market.outcomeProbabilities ?? null)
+          // During a race the second line says why the price moved — the gap,
+          // the stops, an undercut in progress — and falls back to the team.
+          .map((driver) => ({ ...driver, meta: market.f1Insights?.[driver.key] ?? driver.team ?? null }))
       : [];
+  const lapsLeft = isF1 && !isChampionship && Number.isFinite(market.lapsLeft) ? Number(market.lapsLeft) : null;
 
   // A race is not a yes/no question, and charting it as one drew a single flat
   // "Gjasa PO 50%" line that answered nothing: the market has twenty-two
@@ -139,6 +143,19 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
     router.push(`/tregu/${market.slug}?ana=${side.toLowerCase()}`);
   };
 
+  // The whole card opens the market. The hit link underneath only answers where
+  // nothing sits over it, and on the F1 and competition slides the content is
+  // lifted above their artwork, so the rack, the chart and the stats swallowed
+  // the click and only the driver names worked. Links and buttons inside keep
+  // their own targets; a drag that selected text is not a click.
+  const openMarket = (e: React.MouseEvent) => {
+    if (e.defaultPrevented || (e.target as Element).closest("a, button")) return;
+    if (window.getSelection()?.toString()) return;
+    const href = `/tregu/${market.slug}`;
+    if (e.metaKey || e.ctrlKey) window.open(href, "_blank", "noopener");
+    else router.push(href);
+  };
+
   return (
     <article
       className={`tregu-car-slide-link${isChampionship ? " tregu-championship-card" : ""}`}
@@ -151,6 +168,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
          competition's identity, so the slide publishes the same attribute and
          renders the same artwork. */
       data-competition={market.league ?? undefined}
+      onClick={openMarket}
       /* The slide publishes its own category colour so the flagship slot can be
          lit by whatever it happens to be showing, without the palette being
          written down a second time in CSS. */
@@ -181,7 +199,12 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
             )}
             {market.league && market.league !== "f1" && <SportBrandMark brandKey={market.league} size="sm" />}
             <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
-            {remaining && <span className="tregu-market-close">{remaining}</span>}
+            {lapsLeft != null ? (
+              <span className="tregu-f1-laps-left">
+                <i aria-hidden />
+                {lapsLeft === 0 ? "Gara përfundoi" : lapsLeft === 1 ? "Xhiroja e fundit" : `${lapsLeft} xhiro të mbetura`}
+              </span>
+            ) : remaining && <span className="tregu-market-close">{remaining}</span>}
             {/* Inside the header row, but absolutely positioned on desktop, so
                 it anchors to the card's top-right corner there and simply
                 becomes the row's last item on one column. One element, one
