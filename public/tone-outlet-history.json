@@ -728,13 +728,13 @@
     },
     "Gazzetta.gr": {
       "country": "Greqi",
-      "total": 7,
+      "total": 8,
       "positive": 0,
       "neutral": 6,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.gazzetta.gr/volleyball/2562471/mesogeiakoi-agones-2026-kontra-sto-kosobo-premiera-gia-tin-ethniki-andron",
         "https://www.gazzetta.gr/volleyball/2562585/mesogeiakoi-agones-2026-me-dexi-i-ethniki-andron-3-0-kosobo",
@@ -742,7 +742,8 @@
         "https://www.gazzetta.gr/football/uefa-nations-league/live-aystria-kosovo-27-09-2026",
         "https://www.gazzetta.gr/football/uefa-nations-league/live-kosovo-aystria-04-10-2026",
         "https://www.gazzetta.gr/basketball/basket-league/2568856/peristeri-filiko-me-tin-ylli-apo-kosobo",
-        "https://www.gazzetta.gr/basketball/basket-league/2568856/peristeri-filiko-me-tin-ylli-apo-kosobo?amp"
+        "https://www.gazzetta.gr/basketball/basket-league/2568856/peristeri-filiko-me-tin-ylli-apo-kosobo?amp",
+        "https://www.gazzetta.gr/football/uefa-nations-league/2572026/hamos-sto-kosobo-irlandia-me-ton-ethnikistiko-panigyrismo-toy"
       ]
     },
     "NewsIT": {
@@ -789,19 +790,20 @@
     },
     "ΤΑ ΝΕΑ": {
       "country": "Greqi",
-      "total": 5,
+      "total": 6,
       "positive": 1,
       "neutral": 4,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.tanea.gr/2026/08/20/sports/othersports/ellada-kosovo-3-0-sarose-i-ethniki-andron-stin-premiera-ton-mesogeiakon-agonon/",
         "https://www.tanea.gr/2026/08/21/sports/othersports/mesogeiakoi-agones-idaniki-premiera-me-nikitria-tin-ethniki-volei-gynaikon-apenanti-sto-kosovo/",
         "https://www.tanea.gr/2026/08/24/sports/othersports/ellada-kosovo-40-20-epivlitiki-i-ethniki-gynaikon-kai-2-2-sto-xantmpol-ton-mesogeiakon-agonon/",
         "https://www.tanea.gr/2026/09/07/world/kosovo-symfonia-gia-apostoli-strateymaton-sti-diethni-dynami-gia-ti-gaza/",
-        "https://www.tanea.gr/2026/09/16/world/servia-kosovo-2-antidraseis-kai-epeisodia-stin-pristina-gia-tin-katadiki-ton-proin-dioikit/"
+        "https://www.tanea.gr/2026/09/16/world/servia-kosovo-2-antidraseis-kai-epeisodia-stin-pristina-gia-tin-katadiki-ton-proin-dioikit/",
+        "https://www.tanea.gr/2026/09/25/sports/football/mouritsi-skorare-gia-to-kosovo-kai-ypsose-mplouzaki-yper-ton-proin-igeton-tou-uck-pic/"
       ]
     },
     "sport-fm.gr": {
@@ -1583,13 +1585,13 @@
     },
     "Sky Sport Austria": {
       "country": "Austri",
-      "total": 7,
+      "total": 9,
       "positive": 0,
-      "neutral": 6,
+      "neutral": 7,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-24",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.skysportaustria.at/sturm-graz-verpflichtet-kosovo-teamspieler/",
         "https://www.skysportaustria.at/mediathek/kacuri-kosovo-einberufung-waere-ein-traum/",
@@ -1597,7 +1599,9 @@
         "https://www.skysportaustria.at/umfragen/gewinnspiel-zu-oesterreich-vs-kosovo/",
         "https://www.skysportaustria.at/oefb-gegner-kosovo-erstmals-mit-lustenaus-kacuri/",
         "https://www.skysportaustria.at/gewinnspiel-sichere-dir-tickets-fuer-oesterreich-vs-kosovo/",
-        "https://www.skysportaustria.at/kosovo-teamchef-foda-als-fan-von-nl-gegner-oesterreich/"
+        "https://www.skysportaustria.at/kosovo-teamchef-foda-als-fan-von-nl-gegner-oesterreich/",
+        "https://www.skysportaustria.at/voting-waehle-deine-oefb-startelf-gegen-kosovo/",
+        "https://www.skysportaustria.at/oefb-team-vor-nations-league-start-die-zahlen-sprechen-fuer-den-aufstieg/"
       ]
     },
     "kicker": {
@@ -1940,30 +1944,32 @@
     },
     "weekend.at": {
       "country": "Austri",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-08-26",
+      "lastSeen": "2026-09-25",
       "urls": [
-        "https://www.weekend.at/sport/ofb-teamchef-franco-foda-millionen-kosovo-angebot"
+        "https://www.weekend.at/sport/ofb-teamchef-franco-foda-millionen-kosovo-angebot",
+        "https://www.weekend.at/sport/oesterreich-israel-michael-gregoritsch-verletzung"
       ]
     },
     "SMHI": {
       "country": "Suedi",
-      "total": 3,
+      "total": 4,
       "positive": 0,
       "neutral": 3,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-09-18",
+      "lastSeen": "2026-09-22",
       "urls": [
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Mitrovica/789225",
         "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Pristina/786714",
-        "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Prizren/786712"
+        "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Prizren/786712",
+        "https://www.smhi.se/vader/prognoser-och-varningar/vaderprognos/q/Gjilan/790674"
       ]
     },
     "grottaglieinrete.it": {
@@ -2391,18 +2397,20 @@
     },
     "ESPN.nl": {
       "country": "Holandë",
-      "total": 4,
+      "total": 6,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 2,
+      "unknown": 4,
       "firstSeen": "2026-08-28",
-      "lastSeen": "2026-09-02",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=505471&action=summary",
         "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=570760&action=summary",
         "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=698919&action=summary",
-        "https://www.espn.nl/voetbal/team/statistieken/_/id/18272/competitie/UEFA.NATIONS/season/2026"
+        "https://www.espn.nl/voetbal/team/statistieken/_/id/18272/competitie/UEFA.NATIONS/season/2026",
+        "https://www.espn.nl/voetbal/speler-statistieken/_/wedstrijdId/401861045",
+        "https://www.espn.nl/soccer/match?gameId=401861071&action=summary"
       ]
     },
     "iGaming Polska": {
@@ -3851,15 +3859,16 @@
     },
     "neunzigplus.de": {
       "country": "Gjermani",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-12",
-      "lastSeen": "2026-09-12",
+      "lastSeen": "2026-09-25",
       "urls": [
-        "https://neunzigplus.de/fussball-news/beben-im-kosovo-kapitaen-amir-rrahmani-tritt-nach-verbands-eklat-zurueck/"
+        "https://neunzigplus.de/fussball-news/beben-im-kosovo-kapitaen-amir-rrahmani-tritt-nach-verbands-eklat-zurueck/",
+        "https://neunzigplus.de/nationalmannschaften/kosovo-muriqi-trifft-spaet-zum-10-gegen-irland/"
       ]
     },
     "Napolicalcionews.it": {
@@ -6228,11 +6237,11 @@
     },
     "Der Standard": {
       "country": "Austri",
-      "total": 6,
+      "total": 7,
       "positive": 0,
       "neutral": 5,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-17",
       "lastSeen": "2026-09-24",
       "urls": [
@@ -6241,7 +6250,8 @@
         "https://www.derstandard.at/story/3000000340447/jetzt-muss-oefb-teamchef-ralf-rangnick-auch-noch-konrad-laimer-ersetzen",
         "https://www.derstandard.at/story/3000000340582/neue-regierung-und-alte-instabilitaet-im-kosovo",
         "https://www.derstandard.de/story/3000000341302/kosovo-schlaegt-irland-in-oefb-gruppe-mit-10",
-        "https://www.derstandard.at/story/3000000341302/kosovo-schlaegt-irland-in-oefb-gruppe-mit-10?ref=rss"
+        "https://www.derstandard.at/story/3000000341302/kosovo-schlaegt-irland-in-oefb-gruppe-mit-10?ref=rss",
+        "https://www.derstandard.at/story/3000000341302/kosovo-schlaegt-irland-in-oefb-gruppe-mit-10"
       ]
     },
     "oe1.ORF.at": {
@@ -6853,16 +6863,17 @@
     },
     "ORF ON": {
       "country": "Austri",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 1,
       "negative": 1,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-18",
       "lastSeen": "2026-09-24",
       "urls": [
         "https://on.orf.at/video/14339431/16156140/kosovo-geht-geschwaecht-in-nations-league-sport-20-vom-17092026",
-        "https://on.orf.at/video/14340402/16159743/kosovo-besiegt-irland-vor-duell-mit-oesterreich"
+        "https://on.orf.at/video/14340402/16159743/kosovo-besiegt-irland-vor-duell-mit-oesterreich",
+        "https://on.orf.at/video/14340402/16159744/ausblick-aufs-spiel-gegen-kosovo-nations-league-oesterreich-israel"
       ]
     },
     "GMX.AT": {
@@ -7592,15 +7603,16 @@
     },
     "oe24": {
       "country": "Austri",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 0,
       "negative": 1,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-19",
-      "lastSeen": "2026-09-19",
+      "lastSeen": "2026-09-24",
       "urls": [
-        "https://www.oe24.at/a/foda-rueckkehr-nach-wien-ex-teamchef-will-oesterreich-mit-kosovo-aergern-900116443"
+        "https://www.oe24.at/a/foda-rueckkehr-nach-wien-ex-teamchef-will-oesterreich-mit-kosovo-aergern-900116443",
+        "https://www.oe24.at/a/nations-league-oefb-elf-trifft-auf-kosovo-900118309"
       ]
     },
     "amna.gr": {
@@ -9063,6 +9075,179 @@
       "lastSeen": "2026-09-22",
       "urls": [
         "https://www.info-cooperazione.it/2026/9/rtm-program-manager-kosovo"
+      ]
+    },
+    "Barry and District News": {
+      "country": "Britani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-25",
+      "urls": [
+        "https://www.barryanddistrictnews.co.uk/sport/national/26580520.republic-ireland-paid-price-off-day-kosovo---heimir-hallgrimsson/"
+      ]
+    },
+    "AOL.co.uk": {
+      "country": "Britani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.aol.co.uk/articles/kosovo-vs-ireland-tv-tonight-161500000.html"
+      ]
+    },
+    "Dove Viaggi Corriere": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-25",
+      "urls": [
+        "https://viaggi.corriere.it/europa/kosovo-pristina/"
+      ]
+    },
+    "sport.sky.it": {
+      "country": "Itali",
+      "total": 3,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 3,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-1/kosovo-irlanda",
+        "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-1/kosovo-irlanda/risultato-gol",
+        "https://sport.sky.it/calcio/nations-league/2026/09/24/nations-league-partite-oggi-24-settembre-dove-vedere"
+      ]
+    },
+    "Altarimini": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://altarimini.it/calcio-verso-europei-u-21-kosovo-peiga-san-marino-0-3.php"
+      ]
+    },
+    "udineseblog.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.udineseblog.it/udinese/mondo-udinese/in-kosovo-irlanda-vojvoda-affronta-abankwah/"
+      ]
+    },
+    "Ziggo Sport": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.ziggosport.nl/video/2019159-kosovo-ierland/"
+      ]
+    },
+    "abc.es": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.abc.es/deportes/alfinaldelapalmera/noticias-betis/muriqi-gana-parrott-duelo-delanteros-kosovo-irlanda-20260924232841-nts.html"
+      ]
+    },
+    "SportyTrader": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.sportytrader.es/pronosticos/kosovo-irlanda-374600/"
+      ]
+    },
+    "Athens Voice": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-25",
+      "urls": [
+        "https://www.athensvoice.gr/epikairotita/athlitismos/987547/salos-sto-kosovo-irlandia-o-mouritsi-skorare-to-nikitirio-gol-kai-upsose-blouzaki-gia-tin-igesia-tou-uck/app/?api-id=987547"
+      ]
+    },
+    "1 Voice": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-25",
+      "urls": [
+        "https://1voice.gr/kosovo-o-panigyrismos-tou-mouritsi-pou-fernei-tin-uefa-sto-proskinio/"
+      ]
+    },
+    "Novasports": {
+      "country": "Greqi",
+      "total": 3,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 3,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.novasports.gr/sport/podosfairo/event/nations-league/article/15132478/kosovo-irlandia-1-0-mouritsi-poios-allos-highlights/",
+        "https://www.novasports.gr/roi-enimerosis/article/15132478/kosovo-irlandia-1-0-mouritsi-poios-allos/",
+        "https://www.novasports.gr/web-tv/sport/podosfairo/event/nations-league/video/15132461/kosovo-irlandia-1-0-highlights/"
+      ]
+    },
+    "Kvartal": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://kvartal.se/henrikhojer/artiklar/saren-fran-balkankrigen-inte-lakta-an/cG9zdDoyMDM0OTI"
       ]
     }
   }
