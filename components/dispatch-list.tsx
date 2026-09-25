@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
@@ -10,12 +10,25 @@ import { getCategoryColor } from "@/lib/category-colors";
 import { EASE, DUR, STAGGER } from "@/lib/tokens";
 import SectionLabel from "./section-label";
 import SourceBadge from "./source-badge";
+import { LoadMoreButton, focusFirstNew, useArticlePages } from "./load-more-articles";
 
 interface DispatchListProps {
   articles: Article[];
+  /** How many rows to render up front. */
+  max?: number;
+  label?: string;
+  /** Anchor for the homepage's "Kalo te" row. */
+  id?: string;
+  /** Two columns of smaller rows on wide screens. */
+  columns?: 1 | 2;
+  /**
+   * Pages further back with "Shfaq më shumë". `seenIds` are the stories the
+   * page already shows, so none of them comes back a second time.
+   */
+  loadMore?: { category?: string; seenIds: string[] };
 }
 
-/** The tail of the front page is a shortlist, not an archive. */
+/** The default: a shortlist, for callers that do not ask for more. */
 const MAX_ITEMS = 10;
 
 /**
@@ -32,7 +45,7 @@ const MAX_ITEMS = 10;
  * a story belongs to is better said on the row itself, where it also survives
  * being read out of order.
  */
-function DispatchRow({ article, index }: { article: Article; index: number }) {
+export function DispatchRow({ article, index }: { article: Article; index: number }) {
   const [failed, setFailed] = useState(false);
   const reduce = useReducedMotion();
   const color = getCategoryColor(article.category);
@@ -93,23 +106,56 @@ function DispatchRow({ article, index }: { article: Article; index: number }) {
   );
 }
 
-export default function DispatchList({ articles }: DispatchListProps) {
-  const items = articles.slice(0, MAX_ITEMS);
+export default function DispatchList({
+  articles,
+  max = MAX_ITEMS,
+  label = "LAJMET E FUNDIT",
+  id,
+  columns = 1,
+  loadMore,
+}: DispatchListProps) {
+  const items = articles.slice(0, max);
+  const rowsRef = useRef<HTMLDivElement | null>(null);
+  // The cursor is the oldest row on screen: the list is newest-first, so
+  // everything after it is older.
+  const oldest = items.reduce<string | null>(
+    (min, a) => (a.publishedAt && (!min || a.publishedAt < min) ? a.publishedAt : min),
+    null
+  );
+  const pages = useArticlePages({
+    cursor: loadMore ? oldest : null,
+    category: loadMore?.category,
+    seenIds: loadMore?.seenIds ?? [],
+  });
   if (items.length === 0) return null;
 
+  const all = [...items, ...pages.items];
+
   return (
-    <section className="dispatch">
+    <section className="dispatch" id={id}>
       <SectionLabel
-        label="LAJMET E FUNDIT"
+        label={label}
         marginBottom={8}
-        right={<span className="dispatch-count">{items.length}</span>}
+        right={<span className="dispatch-count">{all.length}</span>}
       />
 
-      <div className="dispatch-rows">
-        {items.map((article, i) => (
+      <div className="dispatch-rows" data-cols={columns === 2 ? "2" : undefined} ref={rowsRef}>
+        {all.map((article, i) => (
           <DispatchRow key={article.id} article={article} index={i} />
         ))}
       </div>
+
+      {loadMore && (
+        <LoadMoreButton
+          status={pages.status}
+          added={pages.items.length}
+          onClick={async () => {
+            const from = all.length;
+            const fresh = await pages.loadMore();
+            if (fresh.length) requestAnimationFrame(() => focusFirstNew(rowsRef.current, from));
+          }}
+        />
+      )}
     </section>
   );
 }

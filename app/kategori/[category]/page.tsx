@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Inbox } from "lucide-react";
-import { getArticles } from "@/lib/db";
-import { RESOLVABLE_SLUGS } from "@/lib/category-map";
+import { getArticles, getArticlesBefore } from "@/lib/db";
+import { CATEGORY_TO_SLUG, RESOLVABLE_SLUGS } from "@/lib/category-map";
 import { getCategoryColor, getCategoryGradient, CATEGORY_LIGHT_BG } from "@/lib/category-colors";
 import { resolveCategoryFigures } from "@/lib/category-figures";
 import TextureBg from "@/components/aurora-bg";
@@ -42,7 +42,12 @@ export default async function CategoryPage({
   const categoryName = RESOLVABLE_SLUGS[category];
   if (!categoryName) notFound();
 
-  const allArticles = await getArticles(50, categoryName);
+  const [allArticles, recentArticles] = await Promise.all([
+    getArticles(50, categoryName),
+    // The list below the grid runs by date, so "Shfaq më shumë" can continue
+    // from its oldest row without skipping anything newer.
+    getArticlesBefore({ limit: 40, category: categoryName }),
+  ]);
   const query = searchParams ? await searchParams : {};
   const requestedCity = typeof query.city === "string" ? query.city : undefined;
   const isCityCategory = categoryName === "Kosovë" || categoryName === "Shqipëri";
@@ -60,7 +65,12 @@ export default async function CategoryPage({
 
   const hero = articles[0];
   const gridArticles = articles.slice(hero ? 1 : 0, 7);
-  const listArticles = articles.slice(7);
+  // A city is a filter over the ranked fifty, so it keeps that list; the full
+  // section reads the dated one and pages on through the archive.
+  const aboveIds = new Set([hero, ...gridArticles].filter(Boolean).map((a) => a!.id));
+  const listArticles = selectedCity
+    ? articles.slice(7)
+    : recentArticles.filter((a) => !aboveIds.has(a.id));
 
   return (
     <>
@@ -163,7 +173,11 @@ export default async function CategoryPage({
 
         {/* List */}
         {listArticles.length > 0 && (
-          <DispatchList articles={listArticles} />
+          <DispatchList
+            articles={listArticles}
+            max={20}
+            loadMore={selectedCity ? undefined : { category: CATEGORY_TO_SLUG[categoryName], seenIds: [...aboveIds, ...listArticles.slice(0, 20).map((a) => a.id)] }}
+          />
         )}
       </main>
 

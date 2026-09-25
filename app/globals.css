@@ -19736,3 +19736,227 @@ header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92);
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* ────────────────────────────────────────────────────────────────────────────
+   Home news sections — below the front block.
+
+   The page ran twelve modules and ~30 stories from a 60-article slice; it now
+   runs the day's news through Lajmet e fundit and a block per category, with
+   the modules between them. Everything here reuses the site's own tokens and
+   card language; nothing above Reagimi i Ditës is touched.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* Anchored sections clear the fixed navbar when "Kalo te" jumps to them. */
+#lajmet-e-fundit,
+.home-anchor,
+.home-cat { scroll-margin-top: calc(var(--nav-h) + 16px); }
+
+/* --- Kalo te ------------------------------------------------------------- */
+.home-jump {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 28px;
+}
+.home-jump-label {
+  flex: 0 0 auto;
+  color: #6B6B6B;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.home-jump ul {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 2px;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.home-jump ul::-webkit-scrollbar { display: none; }
+.home-jump a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: #FFFFFF;
+  color: var(--color-ink);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: border-color var(--duration-base) var(--ease-out), background-color var(--duration-base) var(--ease-out);
+}
+.home-jump a i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--jump-color, var(--color-orange));
+}
+.home-jump a:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 2px; }
+/* A finger needs more than the pointer does. */
+@media (pointer: coarse) {
+  .home-jump a { min-height: 44px; }
+}
+@media (hover: hover) and (pointer: fine) {
+  .home-jump a:hover { border-color: var(--jump-color, var(--color-orange)); background: #FFFCF8; }
+}
+
+/* --- Lajmet e fundit in two columns -------------------------------------- */
+@media (min-width: 1024px) {
+  .dispatch-rows[data-cols="2"] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+  }
+  .dispatch-rows[data-cols="2"] .dispatch-row {
+    grid-template-columns: 26px 128px minmax(0, 1fr);
+    gap: 14px;
+    padding: 14px 8px;
+  }
+  /* Two columns end on two last rows, not one. */
+  .dispatch-rows[data-cols="2"] > *:last-child .dispatch-row { border-bottom: 1px solid var(--color-border); }
+  .dispatch-rows[data-cols="2"] > *:nth-last-child(-n + 2) .dispatch-row { border-bottom: 0; }
+  /* Half a column is too narrow for the standfirst; the headline carries it. */
+  .dispatch-rows[data-cols="2"] .dispatch-excerpt { display: none; }
+}
+
+/* --- Shfaq më shumë ------------------------------------------------------ */
+.load-more {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+.load-more-button {
+  min-height: 46px;
+  padding: 0 26px;
+  border: 1.5px solid var(--color-ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+.load-more-button:active:not(:disabled) { transform: scale(0.97); }
+.load-more-button:disabled { opacity: 0.6; cursor: progress; }
+.load-more-button:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+  .load-more-button:hover:not(:disabled) { background: var(--color-ink); color: #FFFFFF; }
+}
+.load-more-end,
+.load-more-error {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-align: center;
+}
+.load-more-end { color: #6B6B6B; }
+.load-more-error { color: #B4181A; }
+
+/* --- Category blocks ----------------------------------------------------- */
+.home-cat { container-type: inline-size; min-width: 0; }
+.section-more {
+  flex: 0 0 auto;
+  color: var(--color-ink);
+  font-size: 12.5px;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.section-more:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 3px; border-radius: 4px; }
+@media (hover: hover) and (pointer: fine) {
+  .section-more:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--cat-color); }
+}
+
+.home-cat-grid {
+  display: grid;
+  gap: 18px;
+}
+/* A full-width block puts its rows beside the lead; half-width stacks them. */
+@container (min-width: 760px) {
+  .home-cat-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+}
+
+/* The shared compact story row (components/story-list.tsx). */
+.story-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.story-list li + li .story-row { border-top: 1px solid var(--color-border); }
+.story-row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 12px 0;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+.story-row:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 2px; border-radius: 8px; }
+.story-thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 10px;
+  /* A tint behind the photograph, so a slow image reads as loading rather
+     than broken. Inside a category block it takes the category's colour. */
+  background: color-mix(in srgb, var(--cat-color, #B7AFA3) 22%, #EFEAE2);
+}
+.story-thumb img { object-fit: cover; }
+.story-body { display: grid; gap: 5px; min-width: 0; }
+.story-title {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.32;
+  text-wrap: pretty;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.story-meta { color: #6B6B6B; font-size: 12px; font-weight: 600; }
+@media (hover: hover) and (pointer: fine) {
+  .story-row:hover .story-title { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+}
+
+/* Two categories share a row on wide screens. */
+.home-cat-pair {
+  display: grid;
+  gap: var(--space-section) 40px;
+  margin-bottom: var(--space-section);
+}
+@media (min-width: 960px) {
+  .home-cat-pair:not([data-single]) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Under an article: where to go next. */
+.article-next {
+  padding: 48px 24px 72px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-cream);
+}
+.article-next-grid {
+  display: grid;
+  gap: 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+@media (min-width: 960px) {
+  .article-next-grid { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 56px; }
+}

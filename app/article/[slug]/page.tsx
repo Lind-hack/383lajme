@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { jsonLdString } from "@/lib/json-ld";
 import type { Metadata } from "next";
-import { getArticleBySlug, getArticles } from "@/lib/db";
+import { getArticleBySlug, getArticles, getArticlesBefore } from "@/lib/db";
+import { isSameStory } from "@/lib/front-page.mjs";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
 import ArticleContent from "@/components/article-content";
@@ -82,7 +83,11 @@ export default async function ArticlePage({
   // Related cards, the dossier's archive half and the accordion — all of which
   // show a headline and an image. The article being read has its own body from
   // getArticleBySlug; these fifty do not need theirs.
-  const allArticles = await getArticles(50, undefined, { withBody: false });
+  const [allArticles, recentArticles] = await Promise.all([
+    getArticles(50, undefined, { withBody: false }),
+    // What else is new, for the list that closes the page.
+    getArticlesBefore({ limit: 24 }),
+  ]);
 
   const canonicalUrl = `${SITE}/article/${slug}`;
   const ogImage = article.imageUrl
@@ -123,6 +128,26 @@ export default async function ArticlePage({
     relatedKws.push(kws);
     if (related.length >= 3) break;
   }
+
+  // Where to go next, once the story is read: more from its section, then the
+  // newest from everywhere else. Neither repeats this story, the related
+  // cards above, or a second write-up of either.
+  const shownTitles = [article.title, ...related.map((a) => a.title)];
+  const shownIds = new Set([article.id, ...related.map((a) => a.id)]);
+  const nextUp = (pool: typeof allArticles, count: number, keep: (a: (typeof allArticles)[number]) => boolean) => {
+    const picked: typeof allArticles = [];
+    for (const a of pool) {
+      if (picked.length >= count) break;
+      if (shownIds.has(a.id) || !keep(a)) continue;
+      if (shownTitles.some((t) => isSameStory(t, a.title))) continue;
+      picked.push(a);
+      shownIds.add(a.id);
+      shownTitles.push(a.title);
+    }
+    return picked;
+  };
+  const moreFromCategory = nextUp(allArticles, 8, (a) => a.category === article.category);
+  const latestElsewhere = nextUp(recentArticles, 6, (a) => a.category !== article.category);
 
   // Category cards (no image) — one top article per category, deduped
   const accordionCats = [
@@ -177,6 +202,8 @@ export default async function ArticlePage({
       <ArticleContent
         article={article}
         related={related}
+        moreFromCategory={moreFromCategory}
+        latestElsewhere={latestElsewhere}
         catColor={catColor}
         catBg={catBg}
         categorySlides={categorySlides}

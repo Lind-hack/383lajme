@@ -1,4 +1,5 @@
-import { getArticles, getLatestArticles } from "@/lib/db";
+import { getArticles, getArticlesBefore, getLatestArticles } from "@/lib/db";
+import type { Article } from "@/lib/mock-data";
 import { MoveHorizontal } from "lucide-react";
 import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
@@ -29,14 +30,20 @@ import {
   getDailyExchangeSnapshot,
   getDailyFuelSnapshot,
 } from "@/lib/home-market-data";
-import { CATEGORY_COLORS } from "@/lib/category-colors";
+import { CATEGORY_COLORS, getCategoryColor } from "@/lib/category-colors";
+import { CATEGORY_TO_SLUG, type NavCategory } from "@/lib/category-map";
 import { getCityWeather } from "@/lib/weather";
 import { getToneHistory, getToneArticleCache, summarizeToneHistory, getForeignCoverage, getTopics, getToneTopics } from "@/lib/tone-data";
 import { dateKeyInKosovo, resolveView } from "@/lib/reagimi-data";
 import { getSondazhiData } from "@/lib/sondazhi-server";
 import { pickFrontPage } from "@/lib/front-page.mjs";
+import { buildHomeSections, claim, createLedger } from "@/lib/home-sections.mjs";
+import CategoryBlock from "@/components/home/category-block";
+import SectionJump from "@/components/home/section-jump";
 
-export const revalidate = 3600;
+// Ten minutes, not an hour: the pipeline publishes nine times a day and the
+// news sections below the front block now run as deep as the day does.
+export const revalidate = 600;
 
 function titleKws(text: string) {
   return new Set(text.toLowerCase().split(/\W+/).filter((w) => w.length > 4));
@@ -46,9 +53,12 @@ export default async function HomePage() {
   // tone-outlets.json (today's per-country snapshot, used only by
   // ToneDashboard's client-side hover drill-down via its own fetch()) isn't
   // read here — Bota Flet now sources from the article cache below instead.
-  const [articles, tickerArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneCache, pipelineTopics, cityWeather] = await Promise.all([
+  const [articles, tickerArticles, recentArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneCache, pipelineTopics, cityWeather] = await Promise.all([
     getArticles(60),
     getLatestArticles(10),
+    // The day's run for the sections below the front block: newest first, no
+    // bodies. The front block keeps reading the sixty above, unchanged.
+    getArticlesBefore({ limit: 120 }),
     getDailyExchangeSnapshot(),
     getDailyFuelSnapshot(),
     getToneHistory(),
@@ -103,6 +113,34 @@ export default async function HomePage() {
   const reagimiDateKey = dateKeyInKosovo();
   const reagimiFallback = resolveView(null, articles, reagimiDateKey, kryesoreLead?.id);
 
+  // One ledger for the whole page below the front block: every section claims
+  // through it, so no story is shown twice. Më të lexuarat is the exception —
+  // a ranking legitimately repeats — and is never recorded here.
+  const reagimiArticle = reagimiFallback?.articleSlug
+    ? articles.find((a) => a.slug === reagimiFallback.articleSlug)
+    : undefined;
+  const ledger = createLedger([...kryesore, ...(reagimiArticle ? [reagimiArticle] : [])]);
+
+  // Every section below reads the front block's sixty plus the day's newest,
+  // once each.
+  const belowPool = [...articles, ...recentArticles];
+
+  // Category blocks claim first. The pipeline publishes a handful of Sport,
+  // Ekonomi, Teknologji or Showbiz stories a day, and anything claimed earlier
+  // by a general list would leave those sections too thin to show. Each block
+  // takes its best-ranked; one with fewer than three is left out, not shown
+  // half-empty.
+  const sections = buildHomeSections(belowPool, ledger, [
+    { key: "Kosovë", count: 5, category: "Kosovë" },
+    { key: "Shqipëri", count: 5, category: "Shqipëri" },
+    { key: "Botë", count: 5, category: "Botë" },
+    { key: "Ekonomi", count: 5, category: "Ekonomi" },
+    { key: "Sport", count: 5, category: "Sport" },
+    { key: "Teknologji", count: 5, category: "Teknologji" },
+    { key: "Showbiz", count: 5, category: "Showbiz" },
+  ]);
+  const block = (category: NavCategory) => sections[category] ?? [];
+
   // The poll's question and yesterday's outcome are both settled at request
   // time, so they are rendered on the server rather than fetched after
   // hydration — the card used to show an empty loading box for the several
@@ -117,7 +155,7 @@ export default async function HomePage() {
 
   // Tier 2: NJOFTIME — score ≥ 7.0, not in kryesore, deduped by keyword overlap
   const njoftimePool = articles.filter(
-    (a) => !kryesoreTopIds.has(a.id) && (a.engagementScore ?? 0) >= 7.0
+    (a) => !ledger.ids.has(a.id) && (a.engagementScore ?? 0) >= 7.0
   );
   const njoftimeArticles: typeof articles = [];
   const njoftimeKws: Set<string>[] = [];
@@ -134,7 +172,7 @@ export default async function HomePage() {
   if (njoftimeArticles.length < NJOFTIME_TARGET) {
     const already = new Set(njoftimeArticles.map((a) => a.id));
     for (const a of articles) {
-      if (already.has(a.id) || kryesoreTopIds.has(a.id)) continue;
+      if (already.has(a.id) || ledger.ids.has(a.id)) continue;
       const kws = titleKws(a.title);
       if (njoftimeKws.some((rk) => [...kws].filter((w) => rk.has(w)).length >= 3)) continue;
       njoftimeArticles.push(a);
@@ -151,21 +189,10 @@ export default async function HomePage() {
     .sort((a, b) => (b.engagementScore ?? 0) - (a.engagementScore ?? 0))
     .slice(0, 5);
 
-  // Tier 3: LAJMET E FUNDIT — everything not used above, capped at 20
-  const usedIds = new Set(
-    [...njoftimeArticles, ...mostRead].map((a) => a.id)
-  );
-  for (const id of kryesoreTopIds) usedIds.add(id);
-  // Ten, not twenty. The tail of the front page is a shortlist; at twenty it
-  // was five category sub-lists of 60px thumbnails that readers could not
-  // actually read. DispatchList caps this itself too, so the two cannot drift.
-  const listArticles = articles.filter((a) => !usedIds.has(a.id)).slice(0, 10);
-
-  // Compared against the canonical label: sanitizeArticle has already folded
-  // "Politikë", "Siguri" and "Shoqëri" onto Kosovë by the time an article gets
-  // here, so filtering on the stored string would miss most of the section.
-  const kosovaArticles = articles.filter((a) => a.category === "Kosovë");
-  const shqiperiArticles = articles.filter((a) => a.category === "Shqipëri");
+  // NJOFTIME is claimed before the sections below so they cannot repeat it.
+  // The claim also drops a second write-up of a story the front block leads
+  // with, so the rail renders what it claimed.
+  const njoftimeShown = claim(ledger, njoftimeArticles, njoftimeArticles.length);
 
   // Image accordion — top article per category, fallback to best unused
   const accordionCats = [
@@ -181,27 +208,22 @@ export default async function HomePage() {
   // put a purple TEKNOLOGJI badge on a Sport story. A card now always names the
   // category its article actually has; when a topic has nothing, the slot is
   // filled from a topic not already on the row rather than mislabelled.
-  const usedAccordionIds = new Set<string>();
   const usedAccordionCats = new Set<string>();
   const accordionSlides: AccordionSlide[] = [];
 
   for (const { category } of accordionCats) {
-    const exact = articles.find(
-      (a) => a.category === category && !usedAccordionIds.has(a.id)
-    );
+    const [exact] = claim(ledger, belowPool, 1, { predicate: (a) => a.category === category });
     const article =
       exact ??
-      articles.find(
-        (a) =>
-          !usedAccordionIds.has(a.id) &&
+      claim(ledger, belowPool, 1, {
+        predicate: (a) =>
           !usedAccordionCats.has(a.category) &&
           // Some stored rows carry a mangled category ("Bot?"), which would
           // otherwise surface verbatim as a card label.
-          a.category in CATEGORY_COLORS
-      );
+          a.category in CATEGORY_COLORS,
+      })[0];
     if (!article) continue;
 
-    usedAccordionIds.add(article.id);
     usedAccordionCats.add(article.category);
     accordionSlides.push({
       article,
@@ -209,6 +231,25 @@ export default async function HomePage() {
       label: article.category,
     });
   }
+
+  // Lajmet e fundit claims last and takes the newest of what is left: it is
+  // the one section that can show any story, so it gives way to the rest.
+  const latest = buildHomeSections(belowPool, ledger, [{ key: "latest", count: 16 }]).latest ?? [];
+
+  // Everything the page shows, so "Shfaq më shumë" never brings one back.
+  const seenIds = [...new Set([...ledger.ids, ...mostRead.map((a) => a.id), ...tickerArticles.map((a) => a.id)])];
+  const shownSlugs = new Set([...belowPool, ...tickerArticles].filter((a) => ledger.ids.has(a.id)).map((a) => a.slug));
+
+  const jumpLinks = [
+    ...(latest.length ? [{ id: "lajmet-e-fundit", label: "Lajmet e fundit" }] : []),
+    ...(["Kosovë", "Shqipëri", "Botë", "Ekonomi", "Sport", "Teknologji", "Showbiz"] as NavCategory[])
+      .filter((category) => block(category).length > 0)
+      .map((category) => ({
+        id: `seksioni-${CATEGORY_TO_SLUG[category]}`,
+        label: category,
+        color: getCategoryColor(category),
+      })),
+  ];
 
   return (
     <>
@@ -261,27 +302,31 @@ export default async function HomePage() {
         </div>
       )}
 
-      {/* Main content — cream section */}
-      <main
-        style={{
-          position: "relative",
-          zIndex: 1,
-          maxWidth: "1280px",
-          margin: "0 auto",
-          padding: "64px 24px 0",
-        }}
-      >
+      {/* From here down: news, then a module, then news. Each news section is
+          filled from the page's ledger (see above), so nothing repeats, and the
+          modules sit between them as pauses rather than in one run at the end.
+          One <main> landmark covers the whole run, full-bleed bands included. */}
+      <main>
+      <Contained first>
         {/* Daily video reaction */}
         <ReagimiDites fallbackView={reagimiFallback} serverDateKey={reagimiDateKey} />
 
-        {/* One index of the stories that carry a file, rather than a chip on
-            every card. It renders null while nothing matches, so it costs an
-            empty feed nothing. */}
-        <DosjeFeedIndex articles={articles} />
+        <SectionJump links={jumpLinks} />
 
-        {/* News before diversions: NJOFTIME and the topic leaders now sit directly
-            under the daily reaction, and the poll and prediction markets follow
-            them rather than interrupting the news run. */}
+        {/* Lajmet e fundit — the day's run, newest first, and the way back
+            through the archive. */}
+        {latest.length > 0 && (
+          <div style={{ paddingBottom: "var(--space-section)" }}>
+            <DispatchList
+              id="lajmet-e-fundit"
+              articles={latest}
+              max={16}
+              columns={2}
+              loadMore={{ seenIds }}
+            />
+          </div>
+        )}
+
         <SectionLabel
           label="NJOFTIME"
           marginBottom={12}
@@ -296,105 +341,126 @@ export default async function HomePage() {
           Titujt e shpejtë të orëve të fundit. Tërhiq anash për të parë më shumë.
         </p>
 
-        <DispatchRow articles={njoftimeArticles} />
+        <div style={{ marginBottom: "var(--space-section)" }}>
+          <DispatchRow articles={njoftimeShown} />
+        </div>
+      </Contained>
 
-        {/* Breather — the two news blocks used to land back to back, which read
-            as one long undifferentiated scroll of headlines. */}
+      {/* The blue spotlight, on the section that replaced Politikë. */}
+      {block("Kosovë").length > 0 && (
+        <div id="seksioni-kosove" className="home-anchor">
+          <ColorSpotlight articles={block("Kosovë")} category="Kosovë" label="KOSOVË" />
+        </div>
+      )}
+
+      {/* One index of the stories that carry a file, rather than a chip on
+          every card. It renders null while nothing matches. */}
+      <Contained>
+        <DosjeFeedIndex articles={articles} shownSlugs={shownSlugs} />
+      </Contained>
+
+      {/* Shqipëri in red, the same treatment, so the two place sections read
+          as a pair. */}
+      {block("Shqipëri").length > 0 && (
+        <div id="seksioni-shqiperi" className="home-anchor">
+          <ColorSpotlight articles={block("Shqipëri")} category="Shqipëri" label="SHQIPËRI" />
+        </div>
+      )}
+
+      <Contained>
         <div className="section-breather" aria-hidden>
           <span />
           <em>Përzgjedhja e redaksisë</em>
           <span />
         </div>
 
-        {/* 5 tema, 5 lajme — topic leaders close the news run, before the poll */}
+        {/* 5 tema, 5 lajme — one story per topic */}
         <div style={{ marginBottom: "var(--space-section)" }}>
           <ImageAccordion slides={accordionSlides} />
         </div>
 
-        {/* Daily poll */}
-        <DailyPoll data={sondazhi} />
-      </main>
+        <CategoryPair left={block("Botë")} leftCategory="Botë" right={block("Ekonomi")} rightCategory="Ekonomi" />
+      </Contained>
 
-      {/* Bota Flet — foreign-media coverage of Kosovo, from the tone-scraper
-          pipeline. Full-bleed, so it closes the container above; Tregu and the
-          latest-news archive share the container that reopens below it. */}
+      {/* Si flet bota për Kosovën: the foreign coverage and its tone read as one
+          topic, so they sit together. Bota Flet is full-bleed. */}
       <BotaFlet
         items={foreignCoverage}
         totalArticles={botaFletPool.length}
         countryCount={botaFletCountries}
       />
 
-      <div
-        style={{
-          position: "relative",
-          zIndex: 1,
-          maxWidth: "1280px",
-          margin: "0 auto",
-          padding: "64px 24px 0",
-        }}
-      >
-        {/* 383 Tregu — trending prediction markets */}
-        <TrendingStrip />
-
-        {/* Toni — what the world is saying about Kosovo, read directly before
-            the day's list. It used to sit below the archive tail, which is
-            past the point most readers stop. */}
+      <Contained first>
         <ToneDashboard summary={toneSummary} topics={toneTopics} />
 
-        {/* Lajmet e fundit — the archive tail closes the page's news run */}
-        {listArticles.length > 0 && (
-          <div
-            id="lajmet-e-fundit"
-            style={{ marginBottom: "0", paddingBottom: "var(--space-section)" }}
-          >
-            <DispatchList articles={listArticles} />
+        {block("Sport").length > 0 && (
+          <div style={{ marginBottom: "var(--space-section)" }}>
+            <CategoryBlock category="Sport" articles={block("Sport")} />
           </div>
         )}
-      </div>
 
-      {/* Tone dashboard + Diaspora series */}
-      <div
-        style={{
-          position: "relative",
-          zIndex: 1,
-          maxWidth: "1280px",
-          margin: "0 auto",
-          padding: "64px 24px 0",
-        }}
-      >
+        {/* 383 Tregu and the daily poll — the page's two ways to take part. */}
+        <TrendingStrip />
+        <DailyPoll data={sondazhi} />
+
+        <CategoryPair left={block("Teknologji")} leftCategory="Teknologji" right={block("Showbiz")} rightCategory="Showbiz" />
+
         <HomeVisitPreview />
-      </div>
-
-      {/* The blue spotlight, on the section that replaced Politikë. */}
-      {kosovaArticles.length > 0 && (
-        <ColorSpotlight articles={kosovaArticles} category="Kosovë" label="KOSOVË" />
-      )}
-
-      {/* Shqipëri gets the same treatment in red, directly under it, so the two
-          place sections read as a pair rather than as one feature and one
-          afterthought. */}
-      {shqiperiArticles.length > 0 && (
-        <ColorSpotlight articles={shqiperiArticles} category="Shqipëri" label="SHQIPËRI" />
-      )}
+      </Contained>
 
       {/* Throwback + Alerts CTA */}
-      <div
-        style={{
-          position: "relative",
-          zIndex: 1,
-          maxWidth: "1280px",
-          margin: "0 auto",
-          padding: "64px 24px 0",
-        }}
-      >
+      <Contained first>
         <ThrowbackSection />
         <AlertsCta />
-      </div>
+      </Contained>
+
+      </main>
 
       {/* Gradient CTA */}
       <GradientCta />
 
       <Footer />
     </>
+  );
+}
+
+/** The page's centred column. `first` opens a run after a full-bleed band. */
+function Contained({ children, first = false }: { children: React.ReactNode; first?: boolean }) {
+  return (
+    <div
+      style={{
+        position: "relative",
+        zIndex: 1,
+        maxWidth: "1280px",
+        margin: "0 auto",
+        padding: first ? "64px 24px 0" : "0 24px",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+/**
+ * Two category blocks side by side on wide screens, stacked on phones. When
+ * one of the pair has too little today, the other takes the full width.
+ */
+function CategoryPair({
+  left,
+  leftCategory,
+  right,
+  rightCategory,
+}: {
+  left: Article[];
+  leftCategory: NavCategory;
+  right: Article[];
+  rightCategory: NavCategory;
+}) {
+  if (!left.length && !right.length) return null;
+  return (
+    <div className="home-cat-pair" data-single={!left.length || !right.length || undefined}>
+      {left.length > 0 && <CategoryBlock category={leftCategory} articles={left} />}
+      {right.length > 0 && <CategoryBlock category={rightCategory} articles={right} />}
+    </div>
   );
 }

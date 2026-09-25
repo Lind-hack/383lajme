@@ -343,6 +343,57 @@ export async function getPropositionArticles(terms: string[], now = new Date()):
   return [...articles.values()];
 }
 
+/**
+ * The next page of news, newest first, strictly older than `before`.
+ *
+ * Every news list used to be a fixed slice of one capped fetch, so nothing on
+ * the site could show more than it rendered. This is the page after that
+ * slice. It pages by a timestamp cursor rather than an offset: the pipeline
+ * publishes nine times a day, and an offset shifts under a reader whenever it
+ * does, repeating one story and skipping another at every page boundary.
+ */
+export async function getArticlesBefore({
+  before,
+  limit = 12,
+  category,
+}: {
+  before?: string | null;
+  limit?: number;
+  category?: string | null;
+}): Promise<Article[]> {
+  const wanted = category ? normalizeCategory(category) : undefined;
+  // The public route clamps readers to 24 a page; the ceiling here is for the
+  // homepage, which reads its day's run through the same query.
+  const size = Math.max(1, Math.min(Math.floor(limit) || 12, 150));
+  const cursor = before && Number.isFinite(Date.parse(before)) ? new Date(before).toISOString() : null;
+  const supabase = supabaseNewsClient();
+  if (supabase) {
+    try {
+      let query = supabase
+        .from("news_articles")
+        .select(ARTICLE_COLUMNS_LIGHT)
+        .order("published_at", { ascending: false })
+        .limit(size);
+      if (cursor) query = query.lt("published_at", cursor);
+      if (wanted) query = query.in("category", categoryQueryValues(wanted));
+      const { data, error } = await query;
+      if (error) throw new Error(error.message);
+      // An empty page is the end of the archive, not an outage: return it
+      // rather than falling through to the committed files.
+      return (data ?? []).map((article) => mapAutoRow(article as unknown as Record<string, unknown>));
+    } catch (error) {
+      console.error("[news] Supabase article page unavailable; using committed fallback", error);
+    }
+  }
+
+  const cutoff = cursor ? Date.parse(cursor) : Infinity;
+  return getAutoArticles()
+    .filter((article) => Date.parse(article.publishedAt) < cutoff)
+    .filter((article) => !wanted || article.category === wanted)
+    .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))
+    .slice(0, size);
+}
+
 export async function getLatestArticles(limit = 10): Promise<Article[]> {
   const supabase = supabaseNewsClient();
   if (supabase) {

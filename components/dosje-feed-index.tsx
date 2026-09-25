@@ -2,12 +2,23 @@ import Link from "next/link";
 import type { Article } from "@/lib/mock-data";
 import { dosjeFeedEntries } from "@/lib/dosje-feed.mjs";
 import { dosjeUniverse } from "@/lib/dosje-entries";
+import { groupDosjeEntries } from "@/lib/home-sections.mjs";
 
-export default async function DosjeFeedIndex({ articles }: { articles: Article[] }) {
+export default async function DosjeFeedIndex({
+  articles,
+  shownSlugs,
+}: {
+  articles: Article[];
+  /** Stories already on the page; a dossier's row prefers one of its others. */
+  shownSlugs?: ReadonlySet<string>;
+}) {
   // Server component: the strip advertises a dossier, so it has to be asking
   // the same question the dossier page answers, over the same set of subjects.
   const universe = await dosjeUniverse();
-  const entries = dosjeFeedEntries(articles, universe).filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+  const matched = dosjeFeedEntries(articles, universe).filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+  // One row per dossier. A busy file used to fill the index with five
+  // near-identical headlines about the same story.
+  const entries = groupDosjeEntries(matched, shownSlugs);
   if (!entries.length) return null;
 
   return (
@@ -25,7 +36,7 @@ export default async function DosjeFeedIndex({ articles }: { articles: Article[]
           Dosje në lajme
         </h2>
         <span style={{ fontSize: "12px", color: "#777", fontWeight: 600 }}>
-          {entries.length} {entries.length === 1 ? "artikull me Dosje" : "artikuj me Dosje"}
+          {entries.length} Dosje · {matched.length} {matched.length === 1 ? "artikull" : "artikuj"}
         </span>
       </div>
       <p style={{ margin: "8px 0 15px", color: "#5f5b56", fontSize: "14px", lineHeight: 1.5 }}>
@@ -42,6 +53,11 @@ export default async function DosjeFeedIndex({ articles }: { articles: Article[]
                 Artikull
               </span>
               <strong style={{ display: "block", fontSize: "16px", lineHeight: 1.3 }}>{entry.articleTitle}</strong>
+              {entry.moreCount > 0 && (
+                <span style={{ display: "block", marginTop: "4px", color: "#6b6b6b", fontSize: "12.5px", fontWeight: 600 }}>
+                  +{entry.moreCount} {entry.moreCount === 1 ? "lajm tjetër" : "lajme të tjera"} në këtë Dosje
+                </span>
+              )}
             </Link>
             <Link
               href={entry.dossierHref}

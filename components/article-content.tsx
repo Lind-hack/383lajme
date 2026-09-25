@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { type Article } from "@/lib/mock-data";
 import TimeAgo from "./time-ago";
 import SourceBadge from "@/components/source-badge";
@@ -12,19 +13,26 @@ import ArticleShareRow from "@/components/article-share-row";
 import ArticleAsk from "@/components/article-ask";
 import { toParagraphs, readingMinutes } from "@/lib/article-body.mjs";
 import CategoryAccordion from "@/components/category-accordion";
+import SectionLabel from "@/components/section-label";
+import StoryList from "@/components/story-list";
+import { CATEGORY_TO_SLUG, normalizeCategory } from "@/lib/category-map";
 import type { AccordionSlide } from "@/components/image-accordion";
 import { EASE, DUR } from "@/lib/tokens";
 
 interface Props {
   article: Article;
   related: Article[];
+  /** More from this story's section, after the related cards. */
+  moreFromCategory?: Article[];
+  /** The newest from the other sections. */
+  latestElsewhere?: Article[];
   catColor: string;
   catBg: string;
   categorySlides: AccordionSlide[];
   dosje: DosjeData | null;
 }
 
-export default function ArticleContent({ article, related, catColor, catBg, categorySlides, dosje }: Props) {
+export default function ArticleContent({ article, related, moreFromCategory = [], latestElsewhere = [], catColor, catBg, categorySlides, dosje }: Props) {
   // Counted from the prose, not from the markup the body is stored in.
   const dynamicReadTime = readingMinutes(article.body);
 
@@ -311,6 +319,41 @@ export default function ArticleContent({ article, related, catColor, catBg, cate
             </div>
           </div>
         </div>
+      )}
+      {(moreFromCategory.length > 0 || latestElsewhere.length > 0) && (
+        <section className="article-next" aria-label="Lexo më tej">
+          <div className="article-next-grid">
+            {moreFromCategory.length > 0 && (
+              <div>
+                <SectionLabel
+                  label={`Më shumë nga ${article.category}`}
+                  accent={catColor}
+                  marginBottom={8}
+                  right={
+                    <Link href={`/kategori/${CATEGORY_TO_SLUG[normalizeCategory(article.category)]}`} className="section-more">
+                      Shiko të gjitha<span aria-hidden> →</span>
+                    </Link>
+                  }
+                />
+                <StoryList articles={moreFromCategory} />
+              </div>
+            )}
+            {latestElsewhere.length > 0 && (
+              <div>
+                <SectionLabel
+                  label="Lajmet e fundit"
+                  marginBottom={8}
+                  right={
+                    <Link href="/#lajmet-e-fundit" className="section-more">
+                      Te ballina<span aria-hidden> →</span>
+                    </Link>
+                  }
+                />
+                <StoryList articles={latestElsewhere} showCategory />
+              </div>
+            )}
+          </div>
+        </section>
       )}
     </main>
   );
