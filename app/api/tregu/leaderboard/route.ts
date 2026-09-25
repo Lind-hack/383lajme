@@ -3,8 +3,10 @@ import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
-/** Prize pools, in 383 Monedha. Rendered on the card and paid out separately. */
-export const LEADERBOARD_PRIZES = {
+/** Prize pools, in 383 Monedha. Rendered on the card and paid out separately.
+ *  Not exported: a route module may only export handlers and route config, and
+ *  Next's generated route types fail the build's type check on anything else. */
+const LEADERBOARD_PRIZES = {
   monthly: [500, 300, 150],
   weekly: [125, 75, 40],
 } as const;
