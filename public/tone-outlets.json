@@ -2,9 +2,9 @@
   "lastUpdated": "2026-09-25",
   "overallIndex": 51,
   "totalArticles": 125,
-  "sourceCount": 162,
+  "sourceCount": 177,
   "stanceVersion": 3,
-  "unattributed": 359,
+  "unattributed": 396,
   "nonEditorial": 6,
   "wrongKosovo": 0,
   "countries": {
@@ -29,7 +29,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 7,
+          "totalArticles": 8,
           "trend": "neutral",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-24"
@@ -267,14 +267,39 @@
       }
     },
     "SHBA": {
-      "outlets": [],
+      "outlets": [
+        {
+          "name": "AP News",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Protests against war crimes verdicts add pressure on Kosovo’s government - AP News",
+              "albanianTitle": "Protestat kundër aktgjykimeve për krime lufte rrisin presionin mbi Qeverinë e Kosovës",
+              "blurb": "Protestat e qytetarëve kundër vendimeve për krimet e luftës po ndikojnë në rritjen e presionit ndaj qeverisë së Kosovës.",
+              "imageUrl": null,
+              "url": "https://apnews.com/article/kosovo-protest-politics-crisis-war-crimes-116aafc9717e22c8c1d6b2b312a764c6",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-09-14",
+          "lastSeen": "2026-09-25"
+        }
+      ],
       "summary": {
         "index": null,
         "positive": 0,
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -1689,6 +1714,30 @@
           "lastSeen": "2026-09-24"
         },
         {
+          "name": "altarimini.it",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Calcio, qualificazioni Europei U 21: Kosovo piega San Marino (0-3) - altarimini.it",
+              "albanianTitle": "Futboll, kualifikimet për Euro U21: Kosova mposht San Marinon (0-3)",
+              "blurb": "Përfaqësuesja U-21 e Kosovës ka shënuar fitore me rezultat 0-3 ndaj San Marinos në kualifikimet për Kampionatin Evropian.",
+              "imageUrl": "https://cdn5.webmaster360.it/2026/09/covers/01M3AS251XHDWPM1VBR4RAJVSY.jpg",
+              "url": "https://altarimini.it/calcio-verso-europei-u-21-kosovo-peiga-san-marino-0-3.php",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-25",
+          "lastSeen": "2026-09-24"
+        },
+        {
           "name": "balcanicaucaso.org",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1920,6 +1969,30 @@
           "lastSeen": "2026-09-24"
         },
         {
+          "name": "terzogiornale.it",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo, breve storia di un popolo sventurato - terzogiornale.it",
+              "albanianTitle": "Kosova, një histori e shkurtër e një populli të pafat",
+              "blurb": "Një pasqyrë e shkurtër historike mbi zhvillimet dhe sfidat e popullit të Kosovës ndër vite në këtë shkrim.",
+              "imageUrl": "https://www.terzogiornale.it/wp-content/uploads/2026/09/Kosovo.jpeg",
+              "url": "https://www.terzogiornale.it/2026/09/23/kosovo-breve-storia-di-un-popolo-sventurato/",
+              "date": "2026-09-23",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-25",
+          "lastSeen": "2026-09-23"
+        },
+        {
           "name": "triesteprima.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1974,7 +2047,7 @@
         "neutral": 96,
         "negative": 0,
         "n": 24,
-        "excluded": 22,
+        "excluded": 24,
         "confident": true,
         "stanceVersion": 3
       }
@@ -2143,7 +2216,7 @@
         {
           "name": "Kronen Zeitung",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Teilhabe stärken - Wie das Land Vorarlberg Frauen im Kosovo hilft - Kronen Zeitung",
@@ -2157,12 +2230,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "UEFA Nations League - Foda-Elf gewinnt Auftaktspiel in Österreich-Gruppe - Kronen Zeitung",
+              "albanianTitle": "Liga e Kombeve: Përzgjedhja e Fodas fiton ndeshjen e parë në grupin e Austrisë",
+              "blurb": "Përfaqësuesja e drejtuar nga Franco Foda shënon fitore në ndeshjen hapëse të grupit në Ligën e Kombeve të UEFA-s.",
+              "imageUrl": "https://imgl.krone.at/scaled/4308762/v45ecc6/og_image.jpg",
+              "url": "https://www.krone.at/4306522",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 7,
+          "totalArticles": 8,
           "trend": "neutral",
           "firstSeen": "2026-08-25",
-          "lastSeen": "2026-09-23"
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "LAOLA1",
@@ -2529,6 +2615,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-26",
           "lastSeen": "2026-09-25"
+        },
+        {
+          "name": "wko.at",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Gemischte Wirtschaftskommission Österreich-Kosovo: Firmenanliegen einbringen - wko.at",
+              "albanianTitle": "Komisioni i përbashkët ekonomik Austri-Kosovë: Bizneset paraqesin kërkesat e tyre",
+              "blurb": "Komisioni i përbashkët ekonomik Austri-Kosovë fton kompanitë që të paraqesin kërkesat dhe shqetësimet e tyre për bashkëpunim të mëtejshëm.",
+              "imageUrl": "https://www.wko.at/oe/aussenwirtschaft/personen-vortrag-adobestock-yurolaitsalbert-447978861.jpeg",
+              "url": "https://www.wko.at/aussenwirtschaft/kosovo-tagung",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-25",
+          "lastSeen": "2026-09-25"
         }
       ],
       "summary": {
@@ -2537,7 +2647,7 @@
         "neutral": 94,
         "negative": 0,
         "n": 16,
-        "excluded": 11,
+        "excluded": 13,
         "confident": true,
         "stanceVersion": 3
       }
@@ -2891,6 +3001,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-22",
           "lastSeen": "2026-09-22"
+        },
+        {
+          "name": "blue News",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Après la condamnation d'Hashim Thaçi : manifestations au Kosovo - blue News",
+              "albanianTitle": "Pas dënimit të Hashim Thaçit: protesta në Kosovë",
+              "blurb": "Protesta janë organizuar në Kosovë pas shpalljes së vendimit gjyqësor ndaj ish-presidentit të vendit, Hashim Thaçi.",
+              "imageUrl": "https://bluewin-prod-sc-images.imgix.net/2026/09/25/42271a61-6d72-4e48-ae23-e29673eae732.jpg?w=1024&auto=format&s=e2c305a9bdb6aa72905d9112484a82c2",
+              "url": "https://www.bluewin.ch/fr/infos/monde/apr-s-la-condamnation-d-hashim-tha-i-manifestations-au-kosovo-li.3613708",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-25",
+          "lastSeen": "2026-09-25"
         }
       ],
       "summary": {
@@ -2899,7 +3033,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 22,
-        "excluded": 7,
+        "excluded": 8,
         "confident": true,
         "stanceVersion": 3
       }
@@ -3778,7 +3912,7 @@
         {
           "name": "Bettingstugan.se",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Fotboll 12 i dag 24/9 » Tips, Analys & Förslag - Bettingstugan.se",
@@ -3792,12 +3926,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Fotboll 12 i dag 27/9 » Tips, Analys & Förslag - Bettingstugan.se",
+              "albanianTitle": "Futboll, 27 shtator: Këshilla, analiza dhe parashikime nga Bettingstugan.se",
+              "blurb": "Analizat dhe sugjerimet për ndeshjet e futbollit të datës 27 shtator janë publikuar në platformën Bettingstugan për bastvënësit.",
+              "imageUrl": "https://bettingstugan.imgix.net/assets/uploads/user/tips/_1200x630_crop_center-center_82_none/Campione_Analys_Spelforslag_Expekt.png?mtime=1786711886",
+              "url": "https://bettingstugan.se/speltips/fotboll-12-sondag-27-9",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
+          "totalArticles": 3,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-21",
-          "lastSeen": "2026-09-22"
+          "lastSeen": "2026-09-25"
         },
         {
           "name": "Corren",
@@ -3896,6 +4043,30 @@
           "lastSeen": "2026-09-22"
         },
         {
+          "name": "Västerbottens-Kuriren",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Massprotester mot dom mot Thaçi - Västerbottens-Kuriren",
+              "albanianTitle": "Protesta masive pas dënimit të Thaçit",
+              "blurb": "Protesta masive janë zhvilluar pas vendimit të gjykatës ndaj Hashim Thaçit, sipas raportimeve të mediave ndërkombëtare.",
+              "imageUrl": "https://vkmedia.imgix.net/04qU9kZrkWBVgB2uwzFE5erDPcA.jpg?auto=format,compress&w=1024&h=536&crop=faces,edges&fit=crop",
+              "url": "https://www.vk.se/2026-09-25/massprotester-mot-dom-mot-thaci-707a7",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-25",
+          "lastSeen": "2026-09-25"
+        },
+        {
           "name": "bettingstugan.se",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -3939,7 +4110,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 4,
+        "excluded": 6,
         "confident": false,
         "stanceVersion": 3
       }
@@ -4200,15 +4371,39 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 12,
+          "totalArticles": 14,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-24",
           "lastSeen": "2026-09-25"
         },
         {
+          "name": "Newsmax Polska",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Serbski prezydent Vučić chwali przywództwo Trumpa i krytykuje UE w przemówieniu na forum ONZ - Newsmax Polska",
+              "albanianTitle": "Presidenti serb Vuçiq lavdëron lidershipin e Trumpit dhe kritikon BE-në në fjalimin e tij në OKB - Newsmax Polska",
+              "blurb": "Presidenti serb, Aleksandar Vuçiq, vlerësoi lidershipin e Trumpit dhe kritikoi Bashkimin Evropian gjatë fjalimit në forumin e OKB-së.",
+              "imageUrl": "https://newsmaxpolska.pl/data/images/2026-09-24/115538_ap26266762437127_og.jpg",
+              "url": "https://newsmaxpolska.pl/swiat/aktualnosci/71901/serbski-prezydent-vucic-chwali-trumpa-i-krytykuje-ue-na-forum-onz/news",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-25",
+          "lastSeen": "2026-09-24"
+        },
+        {
           "name": "PodkarpacieLIVE",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Kosowo – Irlandia - PodkarpacieLIVE",
@@ -4274,12 +4469,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosowo - Irlandia 1-0 - wynik, strzelcy, składy, informacje o meczu - PodkarpacieLIVE",
+              "albanianTitle": "Kosova – Irlanda 1-0: Rezultati, golashënuesit, formacionet dhe detajet e ndeshjes - PodkarpacieLIVE",
+              "blurb": "Kosova ka shënuar fitore me rezultat 1-0 ndaj Irlandës, duke përfshirë detajet mbi golashënuesit dhe formacionet e ndeshjes.",
+              "imageUrl": null,
+              "url": "https://www.podkarpacielive.pl/mecz/158315,kosowo-vs-irlandia",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 5,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-22",
-          "lastSeen": "2026-09-24"
+          "lastSeen": "2026-09-25"
         },
         {
           "name": "Program TV Onet",
@@ -4393,7 +4601,7 @@
         {
           "name": "iGol.pl",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Kosowo – Izrael 14 listopada 2026 - iGol.pl",
@@ -4420,9 +4628,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "San Marino U21 – Kosowo U21 24 września 2026 - iGol.pl",
+              "albanianTitle": null,
+              "blurb": "Përfaqësuesja U21 e San Marinos do të përballet me përfaqësuesen U21 të Kosovës më 24 shtator të vitit 2026.",
+              "imageUrl": "https://igol.pl/og/mecz/97739/?v=after-0-3",
+              "url": "https://igol.pl/mecz/97739/san-marino-u21-kosowo-u21/",
+              "date": "2026-09-22",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
+          "totalArticles": 3,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-23",
           "lastSeen": "2026-09-23"
@@ -4567,7 +4788,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 9,
-        "excluded": 29,
+        "excluded": 34,
         "confident": false,
         "stanceVersion": 3
       }
@@ -4597,6 +4818,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-23",
           "lastSeen": "2026-09-22"
+        },
+        {
+          "name": "Aksiyon.com.TR",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova’da Lahey kararına tepki: sokaklarda 'benim adıma değil' sesleri - Aksiyon.com.TR",
+              "albanianTitle": "Reagim në Kosovë ndaj vendimit të Hagës: nëpër rrugë dëgjohen thirrjet 'në emrin tim jo' - Aksiyon.com.TR",
+              "blurb": "Në qytete të ndryshme të Kosovës janë mbajtur protesta kundër vendimit të fundit të marrë nga Gjykata e Hagës.",
+              "imageUrl": "https://cdn.aksiyon.com.tr/uploads/1280x720/images/202609/kosova-da-lahey-kararina-tepki-sokaklarda-benim-adima-degil-sesleri-1200-183461.jpg",
+              "url": "https://www.aksiyon.com.tr/kosova-da-lahey-kararina-tepki-sokaklarda-benim-adima-degil-sesleri-362306",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-09-25"
         },
         {
           "name": "Diyanet Haber",
@@ -4660,9 +4905,70 @@
           "lastSeen": "2026-09-22"
         },
         {
+          "name": "Fotomaç",
+          "sentiment": "unknown",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Kosova 3 puanı Vedat Muriç ile kazandı! - Fotomaç",
+              "albanianTitle": "Kosova fiton 3 pikët falë Vedat Muriqit! - Fotomaç",
+              "blurb": "Përfaqësuesja e Kosovës ka siguruar tri pikë në ndeshjen e fundit falë golit të shënuar nga Vedat Muriqi.",
+              "imageUrl": "https://iaftm.tmgrup.com.tr/4470a1/1200/900/62/0/772/533?u=https://iftm.tmgrup.com.tr/2026/09/25/kosova-3-puani-vedat-muric-ile-kazandi-1790356264265.jpeg",
+              "url": "https://www.fotomac.com.tr/uluslar-ligi/2026/09/25/kosova-3-puani-vedat-muric-ile-kazandi",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosova 1-0 İrlanda | MAÇ ÖZETİ videosunu izle - Fotomaç",
+              "albanianTitle": "Kosova 1-0 Irlandë | Shikoni përmbledhjen e ndeshjes",
+              "blurb": "Përmbledhja e ndeshjes ndërmjet Kosovës dhe Irlandës, e cila përfundoi me rezultatin 1-0, është publikuar për shikuesit e interesuar.",
+              "imageUrl": "https://iaftm.tmgrup.com.tr/a3ec60/1200/675/0/0/800/449?u=https://iatv.tmgrup.com.tr/2026/09/25/1790361383084.jpg",
+              "url": "https://www.fotomac.com.tr/video-haber/videoizle/kosova-1-0-irlanda-mac-ozeti-1790361889",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-09-25"
+        },
+        {
+          "name": "Haber 7",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova'yı galibiyete taşıyan Vedat Muriqi gol sevinciyle gündem oldu! UEFA ceza verebilir - Haber 7",
+              "albanianTitle": "Vedat Muriqi, i cili i dha fitoren Kosovës, bëhet kryelajm për festimin e golit; UEFA mund ta dënojë",
+              "blurb": "UEFA po shqyrton mundësinë e dënimit të Vedat Muriqit për shkak të festimit të golit gjatë ndeshjes së Kosovës.",
+              "imageUrl": null,
+              "url": "https://spor.haber7.com/milli-takim/haber/3662524-kosovayi-galibiyete-tasiyan-vedat-muriqi-gol-sevinciyle-gundem-oldu-uefa-ceza-verebilir",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-21",
+          "lastSeen": "2026-09-25"
+        },
+        {
           "name": "Haberler",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Bodrum FK'den 3 futbolcu Lüksemburg, Kosova ve Haiti milli takımlarına davet edildi - Haberler",
@@ -4689,17 +4995,43 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Vedat Muriqi'nin gol sevinci tartışma yarattı! UEFA'nın kararı bekleniyor - Haberler",
+              "albanianTitle": "Festimi i golit nga Vedat Muriqi shkakton polemika! Pritet vendimi i UEFA-s - Haberler",
+              "blurb": "Mënyra e festimit të golit nga Vedat Muriqi ka nxitur debate, ndërsa pritet vendimi zyrtar nga UEFA.",
+              "imageUrl": "https://foto.haberler.com/haber/2026/09/25/vedat-muriqinin-gol-sevinci-tartisma-yaratti_67d7317e8f_amp.jpg",
+              "url": "https://www.haberler.com/spor/vedat-muriqinin-gol-sevinci-tartisma-yaratti-20269494-haberi/",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosova İrlanda CANLI nereden izlenir, hangi kanal veriyor? - Haberler",
+              "albanianTitle": "Ku mund ta shikoni ndeshjen Kosovë - Irlandë drejtpërdrejt dhe në cilin kanal?",
+              "blurb": "Ndeshja ndërmjet Kosovës dhe Irlandës po transmetohet drejtpërdrejt, ku shikuesit mund të ndjekin kanalin përkatës për këtë përballje.",
+              "imageUrl": "https://foto.haberler.com/haber/2026/09/24/kosova-irlanda-canli-nereden-izlenir-hangi-kanal_e33f118ce2_amp.jpg",
+              "url": "https://www.haberler.com/haber/kosova-irlanda-canli-nereden-izlenir-hangi-kanal-20268697-haberi/",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 14,
+          "totalArticles": 16,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-23"
+          "lastSeen": "2026-09-25"
         },
         {
           "name": "Hürriyet",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Edirne Haberleri - TÜ ile Kosova Sağlık Bakanlığı arasında işbirliği protokolü imzalandı - Yerel Haberler - Hürriyet",
@@ -4713,12 +5045,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Muriqi boş geçmedi! Haaland durdurulamıyor - Hürriyet",
+              "albanianTitle": "Muriqi nuk ndalet! Haaland është i pandalshëm - Hürriyet",
+              "blurb": "Vedat Muriqi ka shënuar gol, ndërsa Erling Haaland vazhdon paraqitjet e tij të suksesshme në ndeshjet e fundit futbollistike.",
+              "imageUrl": "https://image.hurimg.com/i/hurriyet/90/0x0/6ab62d2edd6978f9f3633eb6.jpg",
+              "url": "https://www.hurriyet.com.tr/sporarena/muriqi-bos-gecmedi-haaland-durdurulamiyor-43319009",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 7,
+          "totalArticles": 8,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-22"
+          "lastSeen": "2026-09-25"
         },
         {
           "name": "Milliyet",
@@ -4745,9 +5090,57 @@
           "lastSeen": "2026-09-22"
         },
         {
+          "name": "Nefes Gazetesi",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vedat Muriqi'den ortalığı karıştıracak gol sevinci. Büyük ceza gelebilir - Nefes Gazetesi",
+              "albanianTitle": "Festimi i golit nga Vedat Muriqi shkakton polemika; mund të pasojë dënim i rëndë",
+              "blurb": "Mënyra e festimit të golit nga Vedat Muriqi ka nxitur diskutime për një dënim të mundshëm nga organet disiplinore.",
+              "imageUrl": "https://img.nefes.com.tr/rcman/Cw1280h720q95gc/storage/files/images/2026/09/25/vedat-muricten-ortaligi-karistiracak-gol-sevinci-buyuk-ceza-gelebilir-euiq.png",
+              "url": "https://www.nefes.com.tr/vedat-muriqiden-ortaligi-karistiracak-gol-sevinci-buyuk-ceza-gelebilir-153566",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-25",
+          "lastSeen": "2026-09-25"
+        },
+        {
+          "name": "Odatv",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vedat Muriç attı galibiyet geldi - Odatv",
+              "albanianTitle": "Vedat Muriqi shënon, vjen fitorja - Odatv",
+              "blurb": "Ekipi ka arritur fitore pas golit të shënuar nga futbollisti Vedat Muriqi në ndeshjen e zhvilluar së fundmi.",
+              "imageUrl": "https://img.odatv.com/rcman/Cw1280h720q95gc/storage/files/images/2026/09/25/vedat-muric-atti-kosova-kazandi-ao5i.jpg",
+              "url": "https://www.odatv.com/spor/vedat-muric-atti-kosova-kazandi-120163982",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-25"
+        },
+        {
           "name": "Son Dakika",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Trakya Üniversitesi Kosovalı sağlık çalışanlarına 5 yıllık eğitim protokolü imzaladı - Son Dakika",
@@ -4761,12 +5154,62 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "UEFA Uluslar Ligi yeni sezonu 8 maçla açıldı, Hollanda ile Almanya 1-1 berabere kaldı - Son Dakika",
+              "albanianTitle": "Sezoni i ri i Ligës së Kombeve të UEFA-s nis me 8 ndeshje, Holanda dhe Gjermania barazojnë 1-1 - Son Dakika",
+              "blurb": "Sezoni i ri i Ligës së Kombeve të UEFA-s filloi me tetë ndeshje, ku Holanda dhe Gjermania barazuan 1-1.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/09/25/uefa-uluslar-ligi-nde-2026-2027-sezonu-8-macla-20269022_2517_amp.jpg",
+              "url": "https://www.sondakika.com/spor/haber-uefa-uluslar-ligi-yeni-sezonu-8-macla-acildi-holla-20269043/",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Kosova'da Lahey'in Thaçi'ye verdiği 25 yıl hapis cezası kentlerde protesto edildi - Son Dakika",
+              "albanianTitle": "Dënimi me 25 vjet burg nga Haga për Thaçin protestohet në qytetet e Kosovës - Son Dakika",
+              "blurb": "Protesta janë organizuar nëpër qytete të Kosovës pas dënimit me 25 vjet burgim për ish-presidentin Hashim Thaçi.",
+              "imageUrl": "https://foto.sondakika.com/haber/2026/09/25/kosova-da-eski-cumhurbaskani-thaci-ve-uck-2-20272067_amp.jpg",
+              "url": "https://www.sondakika.com/politika/haber-kosova-da-lahey-in-thaci-ye-verdigi-25-yil-hapis-c-20272094/",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 17,
+          "totalArticles": 19,
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-22"
+          "lastSeen": "2026-09-25"
+        },
+        {
+          "name": "Sözcü Gazetesi",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vedat Muriqi durdurulamıyor! 83’te sahneye çıktı Kosova’ya galibiyeti getirdi - Sözcü Gazetesi",
+              "albanianTitle": "Vedat Muriqi i pandalshëm! Shënon në minutën e 83-të dhe i siguron fitoren Kosovës - Sözcü Gazetesi",
+              "blurb": "Vedat Muriqi shënoi golin e fitores për Kosovën në minutën e 83-të në ndeshjen kundër përfaqësueses së Irlandës.",
+              "imageUrl": "https://sozcu01.sozcucdn.com/sozcu/production/uploads/images/2026/9/ekran-resmi-20260925-010039png-1tm8geLfa0Cak7oBTQqHIg.png?w=1270&h=675&mode=crop&scale=both",
+              "url": "https://www.sozcu.com.tr/vedat-muriqi-durdurulamiyor-83-te-sahneye-cikti-kosova-ya-galibiyeti-getirdi-p363308",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-25",
+          "lastSeen": "2026-09-24"
         },
         {
           "name": "TRT Avaz",
@@ -4902,6 +5345,30 @@
           "lastSeen": "2026-09-22"
         },
         {
+          "name": "cumhuriyet.com.tr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosova'ya üç puanı Vedat Muriqi getirdi! - cumhuriyet.com.tr",
+              "albanianTitle": "Vedat Muriqi i siguron tri pikë Kosovës! - cumhuriyet.com.tr",
+              "blurb": "Vedat Muriqi ka shënuar golin vendimtar që i ka sjellë tri pikë përfaqësueses së Kosovës në ndeshjen e fundit.",
+              "imageUrl": "https://media.cumhuriyet.com.tr/Archive/faf7f1d4-c574-4299-b746-28579bd29f15.jpg",
+              "url": "https://www.cumhuriyet.com.tr/spor/kosova-ya-uc-puani-vedat-muriqi-getirdi-2540813",
+              "date": "2026-09-24",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-20",
+          "lastSeen": "2026-09-24"
+        },
+        {
           "name": "diyanethaber.com.tr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -4948,6 +5415,30 @@
           "trend": "neutral",
           "firstSeen": "2026-09-12",
           "lastSeen": "2026-09-23"
+        },
+        {
+          "name": "milliyet.com.tr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Vedat Muriqi, İrlanda Cumhuriyeti karşısında Kosova'yı sırtladı! - Fenerbahçe - Spor Haberleri - milliyet.com.tr",
+              "albanianTitle": "Vedat Muriqi e çon Kosovën në shpinë kundër Republikës së Irlandës! - Fenerbahçe - Spor Haberleri - milliyet.com.tr",
+              "blurb": "Vedat Muriqi ka udhëhequr përfaqësuesen e Kosovës drejt rezultatit pozitiv në ndeshjen kundër Republikës së Irlandës.",
+              "imageUrl": "https://image.milimaj.com/i/milliyet/75/0x0/6ab61060a309ceb95e7286ff.jpg",
+              "url": "https://www.milliyet.com.tr/skorer/vedat-muriqi-irlanda-cumhuriyeti-karsisinda-kosovayi-sirtladi-7667111",
+              "date": "2026-09-25",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-25",
+          "lastSeen": "2026-09-25"
         },
         {
           "name": "sondakika.com",
@@ -5126,7 +5617,7 @@
         "neutral": 95,
         "negative": 0,
         "n": 19,
-        "excluded": 6,
+        "excluded": 20,
         "confident": true,
         "stanceVersion": 3
       }

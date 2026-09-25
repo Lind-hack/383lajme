@@ -9513,7 +9513,7 @@
     "date": "2026-09-25",
     "overallIndex": 51,
     "totalArticles": 125,
-    "sourceCount": 162,
+    "sourceCount": 177,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -9532,7 +9532,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9562,7 +9562,7 @@
         "neutral": 96,
         "negative": 0,
         "n": 24,
-        "excluded": 22,
+        "excluded": 24,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9572,7 +9572,7 @@
         "neutral": 94,
         "negative": 0,
         "n": 16,
-        "excluded": 11,
+        "excluded": 13,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9582,7 +9582,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 22,
-        "excluded": 7,
+        "excluded": 8,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9632,7 +9632,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 4,
+        "excluded": 6,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9642,7 +9642,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 9,
-        "excluded": 29,
+        "excluded": 34,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9652,7 +9652,7 @@
         "neutral": 95,
         "negative": 0,
         "n": 19,
-        "excluded": 6,
+        "excluded": 20,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9669,11 +9669,11 @@
     },
     "headlines": [
       {
-        "title": "Erfolgreicher Auftakt für Foda! Kosovo schlägt Irland - LAOLA1",
-        "source": "LAOLA1",
+        "title": "Jahrestag von Banjska: Ist es damit endgültig vorbei mit „Kosovo ist Serbien“? - vreme.com",
+        "source": "vreme.com",
         "country": "Gjermani",
         "flag": "🇩🇪",
-        "url": "https://www.laola1.at/de/red/fussball/nations-league/spielbericht/erfolgreicher-auftakt-fuer-foda--kosovo-schlaegt-irland/",
+        "url": "https://vreme.com/de/vesti/godisnjica-banjske-da-li-je-tada-definitivno-zavrseno-sa-kosovo-je-srbija/",
         "sentiment": "positive"
       },
       {
@@ -9695,17 +9695,9 @@
       {
         "title": "Treffen zwischen Vučić und Kalas: Mladić, Kosovo und studentische Vergewaltiger - vreme.com",
         "source": "vreme.com",
-        "country": "Gjermani",
-        "flag": "🇩🇪",
+        "country": "Austri",
+        "flag": "🇦🇹",
         "url": "https://vreme.com/de/vesti/aleksandar-vucic-kaja-kalas-izbori-studenti/",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Ireland Player Ratings As Heimir's Men Hugely Underwhelming In Poor Kosovo Loss - Balls.ie",
-        "source": "Balls.ie",
-        "country": "SHBA",
-        "flag": "🇺🇸",
-        "url": "https://www.balls.ie/football/ireland-player-ratings-as-heimirs-men-hugely-underwhelming-in-poor-kosovo-loss-663820",
         "sentiment": "negative"
       },
       {

@@ -1017,18 +1017,19 @@
     },
     "Aksiyon.com.TR": {
       "country": "Turqi",
-      "total": 4,
+      "total": 5,
       "positive": 0,
       "neutral": 3,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.aksiyon.com.tr/kosova-da-zubin-potok-kazisinda-en-az-23-kisiye-ait-kalinti-bulundu-uc-supheli-tutuklandi-337827",
         "https://www.aksiyon.com.tr/kosova-meclis-baskanliginda-devam-karari-albulena-haxhiu-yeniden-secildi-351222",
         "https://www.aksiyon.com.tr/pristine-ayakta-thaci-karari-oncesi-on-binler-sokaklara-dokuldu-353520",
-        "https://www.aksiyon.com.tr/kosova-da-istikrar-arayisi-suruyor-albin-kurti-dorduncu-kez-hukumeti-kurdu-353967"
+        "https://www.aksiyon.com.tr/kosova-da-istikrar-arayisi-suruyor-albin-kurti-dorduncu-kez-hukumeti-kurdu-353967",
+        "https://www.aksiyon.com.tr/kosova-da-lahey-kararina-tepki-sokaklarda-benim-adima-degil-sesleri-362306"
       ]
     },
     "İhlas Haber Ajansı": {
@@ -1063,16 +1064,17 @@
     },
     "Odatv": {
       "country": "Turqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 1,
       "negative": 1,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-21",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.odatv.com/guncel/sirp-lider-vucic-kfor-komutani-ozkan-ulutasi-hedef-aldi-bunu-o-turk-yapiyor-120159394",
-        "https://www.odatv.com/guncel/vucic-turk-komutani-hedef-aldi-odatv-arastirdi-ibar-nehrinden-cikan-neo-osmanli-kabusu-120159511"
+        "https://www.odatv.com/guncel/vucic-turk-komutani-hedef-aldi-odatv-arastirdi-ibar-nehrinden-cikan-neo-osmanli-kabusu-120159511",
+        "https://www.odatv.com/spor/vedat-muric-atti-kosova-kazandi-120163982"
       ]
     },
     "Tokat Haber": {
@@ -1116,13 +1118,13 @@
     },
     "Hürriyet": {
       "country": "Turqi",
-      "total": 7,
+      "total": 8,
       "positive": 0,
       "neutral": 7,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-22",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.hurriyet.com.tr/avrupa/24-uluslararasi-sanatla-uyanmak-festivali-prizrende-basladi-43279597",
         "https://www.hurriyet.com.tr/avrupa/zafer-algoze-kosovada-yilin-sanatcisi-odulu-43282311",
@@ -1130,7 +1132,8 @@
         "https://www.hurriyet.com.tr/avrupa/prizrende-ilkokul-ogrencilerine-egitim-setleri-dagitildi-43298523",
         "https://news.google.com/rss/articles/CBMiggFBVV95cUxPTkdvNXZsUkFRR2NraHktUXNxNlNQeTNoUWVEV09YMU05NVBkSV9HdVN6RkdWUnhuYWVWUnhreUpLUGlSc0YtcHRNXzBzclBUSVVYWHN6b1lPdHE2QndDcWVJWFNGNVFlb01EbndjUHo5cWJzaU9wT0luX0w0MlFzR2lB?oc=5",
         "http://mobil.hurriyet.com.tr/dunya/laheyde-tarihi-karar-kosova-eski-cumhurbaskani-hasim-thacinin-cezasi-aciklandi-43308596",
-        "https://www.hurriyet.com.tr/yerel-haberler/edirne/tu-ile-kosova-saglik-bakanligi-arasinda-isbirli-43315816"
+        "https://www.hurriyet.com.tr/yerel-haberler/edirne/tu-ile-kosova-saglik-bakanligi-arasinda-isbirli-43315816",
+        "https://www.hurriyet.com.tr/sporarena/muriqi-bos-gecmedi-haaland-durdurulamiyor-43319009"
       ]
     },
     "anayasa.gov.tr": {
@@ -1148,13 +1151,13 @@
     },
     "Haberler": {
       "country": "Turqi",
-      "total": 14,
+      "total": 16,
       "positive": 0,
       "neutral": 12,
       "negative": 0,
-      "unknown": 2,
+      "unknown": 4,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-23",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.haberler.com/3-sayfa/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-20159336-haberi/",
         "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/",
@@ -1169,18 +1172,20 @@
         "https://www.haberler.com/guncel/kosova-nin-eski-cumhurbaskani-taci-ye-25-yil-hapis-20244797-haberi/",
         "https://www.haberler.com/guncel/cumhurbaskani-erdogan-kosova-basbakani-kurti-yi-20258969-haberi/",
         "https://www.haberler.com/spor/bodrum-fk-den-3-futbolcu-luksemburg-kosova-ve-20259449-haberi/",
-        "https://www.haberler.com/guncel/kosova-istanbul-baskonsolosu-zeka-etso-yu-ziyaret-20263688-haberi/"
+        "https://www.haberler.com/guncel/kosova-istanbul-baskonsolosu-zeka-etso-yu-ziyaret-20263688-haberi/",
+        "https://www.haberler.com/spor/vedat-muriqinin-gol-sevinci-tartisma-yaratti-20269494-haberi/",
+        "https://www.haberler.com/haber/kosova-irlanda-canli-nereden-izlenir-hangi-kanal-20268697-haberi/"
       ]
     },
     "Son Dakika": {
       "country": "Turqi",
-      "total": 17,
+      "total": 19,
       "positive": 1,
       "neutral": 13,
       "negative": 0,
-      "unknown": 3,
+      "unknown": 5,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-22",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.sondakika.com/haber/haber-kosova-da-halter-sampiyonasi-basladi-20162761/",
         "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
@@ -1198,7 +1203,9 @@
         "https://www.sondakika.com/spor/haber-amed-sportif-te-6-futbolcu-kosova-dan-gine-ye-mill-20246768/",
         "https://www.sondakika.com/guncel/haber-manisali-milli-sporcu-cemile-aykoc-kosova-da-ilk-k-20248850/",
         "https://www.sondakika.com/spor/haber-18-yasindaki-muaythaici-kosova-da-altin-madalya-ka-20256970/",
-        "https://www.sondakika.com/guncel/haber-trakya-universitesi-kosovali-saglik-calisanlarina--20260517/"
+        "https://www.sondakika.com/guncel/haber-trakya-universitesi-kosovali-saglik-calisanlarina--20260517/",
+        "https://www.sondakika.com/spor/haber-uefa-uluslar-ligi-yeni-sezonu-8-macla-acildi-holla-20269043/",
+        "https://www.sondakika.com/politika/haber-kosova-da-lahey-in-thaci-ye-verdigi-25-yil-hapis-c-20272094/"
       ]
     },
     "Harici": {
@@ -1245,16 +1252,17 @@
     },
     "Haber 7": {
       "country": "Turqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-21",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.haber7.com/dunya/haber/3653150-toplu-mezarlar-acildi-cok-sayida-muhimmat-cikti",
-        "https://www.haber7.com/dunya/haber/3660063-son-dakika-kosova-eski-cumhurbaskani-hasim-thaciye-25-yil-hapis-cezasi"
+        "https://www.haber7.com/dunya/haber/3660063-son-dakika-kosova-eski-cumhurbaskani-hasim-thaciye-25-yil-hapis-cezasi",
+        "https://spor.haber7.com/milli-takim/haber/3662524-kosovayi-galibiyete-tasiyan-vedat-muriqi-gol-sevinciyle-gundem-oldu-uefa-ceza-verebilir"
       ]
     },
     "Haber Ekspres": {
@@ -1707,13 +1715,13 @@
     },
     "Kronen Zeitung": {
       "country": "Austri",
-      "total": 7,
+      "total": 8,
       "positive": 0,
       "neutral": 5,
       "negative": 0,
-      "unknown": 2,
+      "unknown": 3,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-09-23",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://www.krone.at/4268829",
         "https://www.krone.at/4269964",
@@ -1721,7 +1729,8 @@
         "https://www.krone.at/4295354",
         "https://www.krone.at/4297022",
         "https://www.krone.at/4297586",
-        "https://www.krone.at/4306287"
+        "https://www.krone.at/4306287",
+        "https://www.krone.at/4306522"
       ]
     },
     "Heute": {
@@ -1893,16 +1902,18 @@
     },
     "Fotomaç": {
       "country": "Turqi",
-      "total": 2,
+      "total": 4,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 2,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-09-18",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.fotomac.com.tr/voleybol/2026/08/25/filenin-efeleri-akdeniz-oyunlarinda-dolu-dizgin-2de-2-yaptik",
-        "https://www.fotomac.com.tr/uluslar-ligi/2026/09/18/super-ligin-yildizlari-kosova-milli-takimina-cagrildi"
+        "https://www.fotomac.com.tr/uluslar-ligi/2026/09/18/super-ligin-yildizlari-kosova-milli-takimina-cagrildi",
+        "https://www.fotomac.com.tr/uluslar-ligi/2026/09/25/kosova-3-puani-vedat-muric-ile-kazandi",
+        "https://www.fotomac.com.tr/video-haber/videoizle/kosova-1-0-irlanda-mac-ozeti-1790361889"
       ]
     },
     "il Fatto Nisseno": {
@@ -4341,18 +4352,19 @@
     },
     "AP News": {
       "country": "SHBA",
-      "total": 4,
+      "total": 5,
       "positive": 0,
       "neutral": 4,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-14",
-      "lastSeen": "2026-09-17",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://apnews.com/article/kosovo-government-kurti-crisis-5c3727cfbcf04a3cc5734972fa6ea6c0",
         "https://apnews.com/article/thaci-kosovo-serbia-war-crimes-0b24b81d6e1ca8f01d8b8b54bb465ee9",
         "https://apnews.com/article/kosovo-protest-war-crimes-trial-thaci-f6415cb77e34856a7f99e5953c4410bb",
-        "https://apnews.com/video/tribunal-de-la-haya-condena-al-ex-presidente-de-kosovo-a-una-pena-de-25-anos-a181ed5c697a4010922e3b867ac6dae7"
+        "https://apnews.com/video/tribunal-de-la-haya-condena-al-ex-presidente-de-kosovo-a-una-pena-de-25-anos-a181ed5c697a4010922e3b867ac6dae7",
+        "https://apnews.com/article/kosovo-protest-politics-crisis-war-crimes-116aafc9717e22c8c1d6b2b312a764c6"
       ]
     },
     "reuters.com": {
@@ -7810,15 +7822,16 @@
     },
     "cumhuriyet.com.tr": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-20",
-      "lastSeen": "2026-09-17",
+      "lastSeen": "2026-09-24",
       "urls": [
-        "https://www.cumhuriyet.com.tr/dunya/kosova-da-bati-nil-virusu-kaynakli-ilk-olum-2538629"
+        "https://www.cumhuriyet.com.tr/dunya/kosova-da-bati-nil-virusu-kaynakli-ilk-olum-2538629",
+        "https://www.cumhuriyet.com.tr/spor/kosova-ya-uc-puani-vedat-muriqi-getirdi-2540813"
       ]
     },
     "yeniakit.com.tr": {
@@ -8009,16 +8022,17 @@
     },
     "Bettingstugan.se": {
       "country": "Suedi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-21",
-      "lastSeen": "2026-09-22",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://bettingstugan.se/speltips/europatipset-torsdag-24-9-2",
-        "https://bettingstugan.se/speltips/fotboll-12-torsdag-24-9"
+        "https://bettingstugan.se/speltips/fotboll-12-torsdag-24-9",
+        "https://bettingstugan.se/speltips/fotboll-12-sondag-27-9"
       ]
     },
     "Teleman": {
@@ -8370,7 +8384,7 @@
       "negative": 0,
       "unknown": 3,
       "firstSeen": "2026-09-22",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.podkarpacielive.pl/mecz/158315,kosowo-vs-irlandia",
         "https://www.podkarpacielive.pl/pl/wydarzenia/57713,kosowo---irlandia-typy-kursy-bukmacherskie-zapowiedz-24092026",
@@ -8433,16 +8447,17 @@
     },
     "iGol.pl": {
       "country": "Poloni",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-23",
       "lastSeen": "2026-09-23",
       "urls": [
         "https://igol.pl/mecz/65119/kosowo-izrael/",
-        "https://igol.pl/mecz/65003/kosowo-irlandia/"
+        "https://igol.pl/mecz/65003/kosowo-irlandia/",
+        "https://igol.pl/mecz/97739/san-marino-u21-kosowo-u21/"
       ]
     },
     "Diyanet Haber": {
@@ -8811,11 +8826,11 @@
     },
     "Mecze24.pl": {
       "country": "Poloni",
-      "total": 12,
+      "total": 14,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 12,
+      "unknown": 14,
       "firstSeen": "2026-09-24",
       "lastSeen": "2026-09-25",
       "urls": [
@@ -8830,7 +8845,9 @@
         "https://www.mecze24.pl/aktualnosci/holandia-niemcy-typy-kursy-zapowiedz-24-09-2026",
         "https://www.mecze24.pl/aktualnosci/kosowo-irlandia-oceny-po-meczu-24-09-2026",
         "https://www.mecze24.pl/skroty-meczow/irlandia-kosowo-24-09-2026",
-        "https://www.mecze24.pl/aktualnosci/statystyki-pomeczowe-kosowo-irlandia-24-09-2026"
+        "https://www.mecze24.pl/aktualnosci/statystyki-pomeczowe-kosowo-irlandia-24-09-2026",
+        "https://www.mecze24.pl/aktualnosci/andora-malta-typy-kursy-na-mecz-24-09-2026",
+        "https://www.mecze24.pl/aktualnosci/australia-brazylia-typy-statystyki-kursy-analiza-meczu-25-09-2026"
       ]
     },
     "Betside.pl": {
@@ -9450,6 +9467,123 @@
       "lastSeen": "2026-09-24",
       "urls": [
         "https://www.teleman.pl/tv/Pilka-Nozna-Liga-Narodow-2681801"
+      ]
+    },
+    "altarimini.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://altarimini.it/calcio-verso-europei-u-21-kosovo-peiga-san-marino-0-3.php"
+      ]
+    },
+    "terzogiornale.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://www.terzogiornale.it/2026/09/23/kosovo-breve-storia-di-un-popolo-sventurato/"
+      ]
+    },
+    "wko.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-25",
+      "urls": [
+        "https://www.wko.at/aussenwirtschaft/kosovo-tagung"
+      ]
+    },
+    "blue News": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-25",
+      "urls": [
+        "https://www.bluewin.ch/fr/infos/monde/apr-s-la-condamnation-d-hashim-tha-i-manifestations-au-kosovo-li.3613708"
+      ]
+    },
+    "Västerbottens-Kuriren": {
+      "country": "Suedi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-25",
+      "urls": [
+        "https://www.vk.se/2026-09-25/massprotester-mot-dom-mot-thaci-707a7"
+      ]
+    },
+    "Newsmax Polska": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://newsmaxpolska.pl/swiat/aktualnosci/71901/serbski-prezydent-vucic-chwali-trumpa-i-krytykuje-ue-na-forum-onz/news"
+      ]
+    },
+    "Sözcü Gazetesi": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.sozcu.com.tr/vedat-muriqi-durdurulamiyor-83-te-sahneye-cikti-kosova-ya-galibiyeti-getirdi-p363308"
+      ]
+    },
+    "milliyet.com.tr": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-25",
+      "urls": [
+        "https://www.milliyet.com.tr/skorer/vedat-muriqi-irlanda-cumhuriyeti-karsisinda-kosovayi-sirtladi-7667111"
+      ]
+    },
+    "Nefes Gazetesi": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-25",
+      "urls": [
+        "https://www.nefes.com.tr/vedat-muriqiden-ortaligi-karistiracak-gol-sevinci-buyuk-ceza-gelebilir-153566"
       ]
     }
   }
