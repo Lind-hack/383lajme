@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font-size",
+        "value": "34px",
+        "createdAt": "2026-09-24T22:14:23.749Z",
+        "reason": "Claude: the 34px is the '383' logo wordmark in components/navbar.tsx, predates this work and is a brand mark, not a type-ramp text size"
+      }
+    ]
+  }
+}
