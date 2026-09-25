@@ -9512,8 +9512,8 @@
   {
     "date": "2026-09-25",
     "overallIndex": 51,
-    "totalArticles": 120,
-    "sourceCount": 142,
+    "totalArticles": 125,
+    "sourceCount": 162,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -9521,7 +9521,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 11,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -9542,8 +9542,8 @@
         "neutral": 100,
         "negative": 0,
         "n": 7,
-        "excluded": 10,
-        "confident": true,
+        "excluded": 11,
+        "confident": false,
         "stanceVersion": 3
       },
       "Francë": {
@@ -9552,7 +9552,7 @@
         "neutral": 86,
         "negative": 0,
         "n": 7,
-        "excluded": 8,
+        "excluded": 10,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9562,17 +9562,17 @@
         "neutral": 96,
         "negative": 0,
         "n": 24,
-        "excluded": 15,
+        "excluded": 22,
         "confident": true,
         "stanceVersion": 3
       },
       "Austri": {
-        "index": 54,
-        "positive": 7,
-        "neutral": 93,
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 14,
-        "excluded": 9,
+        "n": 16,
+        "excluded": 11,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9592,7 +9592,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 4,
+        "excluded": 6,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9612,7 +9612,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 3,
+        "excluded": 5,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9622,7 +9622,7 @@
         "neutral": 80,
         "negative": 20,
         "n": 5,
-        "excluded": 16,
+        "excluded": 19,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9642,7 +9642,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 9,
-        "excluded": 17,
+        "excluded": 29,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9701,11 +9701,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "The meeting between Vučić and Kalas: Mladić, Kosovo and student-rapists - vreme.com",
-        "source": "vreme.com",
+        "title": "Ireland Player Ratings As Heimir's Men Hugely Underwhelming In Poor Kosovo Loss - Balls.ie",
+        "source": "Balls.ie",
         "country": "SHBA",
         "flag": "🇺🇸",
-        "url": "https://vreme.com/en/vesti/razgovor-vucica-i-kalas-o-mladicu-kosovu-i-studentima-silovateljima/",
+        "url": "https://www.balls.ie/football/ireland-player-ratings-as-heimirs-men-hugely-underwhelming-in-poor-kosovo-loss-663820",
         "sentiment": "negative"
       },
       {
