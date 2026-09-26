@@ -135,7 +135,8 @@ function LeadCard({ article }: { article: Article }) {
               alt=""
               aria-hidden="true"
               fill
-              sizes="(max-width: 768px) 100vw, 620px"
+              sizes="(max-width: 768px) 100vw, 960px"
+              quality={90}
               // This is the homepage's LCP element - Lighthouse resolves it to
               // exactly this node. It was lazy, which failed all three of the
               // LCP discovery checks at once: no fetchpriority, not eagerly
@@ -296,7 +297,9 @@ function SecondaryCard({ article, index }: { article: Article; index: number }) 
               alt=""
               aria-hidden="true"
               fill
-              sizes="148px"
+              // Account for the landscape source being cropped into a tall slot.
+              sizes="(max-width: 768px) 280px, 320px"
+              quality={90}
               onError={() => setImgFailed(true)}
               style={{ objectFit: "cover" }}
             />
@@ -461,7 +464,8 @@ function StackCard({ article, index }: { article: Article; index: number }) {
               alt=""
               aria-hidden="true"
               fill
-              sizes="128px"
+              sizes="256px"
+              quality={90}
               onError={() => setImgFailed(true)}
               style={{ objectFit: "cover" }}
             />

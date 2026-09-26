@@ -24,6 +24,9 @@ const nextConfig: NextConfig = {
      */
     remotePatterns: [{ protocol: "https", hostname: "**" }],
     formats: ["image/avif", "image/webp"],
+    // Article cards use a sharper derivative; Next 16 only permits qualities
+    // explicitly declared here.
+    qualities: [75, 90],
     // A publisher's image never changes under the same URL, so re-optimizing it
     // is wasted work and a wasted Vercel transformation.
     minimumCacheTTL: 60 * 60 * 24 * 30,

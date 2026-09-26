@@ -94,6 +94,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
                 aria-hidden="true"
                 fill
                 sizes="(max-width: 768px) 100vw, 360px"
+                quality={90}
                 onError={() => setImgFailed(true)}
                 style={{ objectFit: "cover" }}
               />
@@ -253,6 +254,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
                 aria-hidden="true"
                 fill
                 sizes="(max-width: 768px) 40vw, 300px"
+                quality={90}
                 onError={() => setImgFailed(true)}
                 style={{ objectFit: "cover" }}
               />
@@ -353,6 +355,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
                 aria-hidden="true"
                 fill
                 sizes="(max-width: 768px) 100vw, 400px"
+                quality={90}
                 onError={() => setImgFailed(true)}
                 style={{ objectFit: "cover" }}
               />
@@ -445,6 +448,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               aria-hidden="true"
               fill
               sizes="(max-width: 768px) 100vw, 400px"
+              quality={90}
               onError={() => setImgFailed(true)}
               style={{ objectFit: "cover" }}
             />

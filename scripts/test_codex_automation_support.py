@@ -160,6 +160,92 @@ def test_strict_batch_validation():
         support._verify_social_post = old_verify_social_post
 
 
+def test_image_quality_floor_and_verified_source_fallback():
+    support = load_support()
+    article = make_article(1, "Kosovë")
+    original_fetch = support._fetch_image_dimensions
+    original_candidates = support._fetch_page_image_candidates
+    dimensions = {
+        article["image_url"]: (800, 450),
+        "https://source1.example/also-small.jpg": (960, 540),
+        "https://confirm1.example/full-size.jpg": (1600, 900),
+    }
+    try:
+        support._fetch_image_dimensions = lambda url: dimensions[url]
+        support._fetch_page_image_candidates = lambda page: (
+            ["https://source1.example/also-small.jpg"]
+            if page == article["url"]
+            else ["https://confirm1.example/full-size.jpg"]
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "2026-07-10T12.json"
+            path.write_text(json.dumps([article]), encoding="utf-8")
+            normalized = support.normalize_batch(path)
+            assert len(normalized) == 1
+            assert normalized[0]["image_url"] == "https://confirm1.example/full-size.jpg"
+            assert normalized[0]["image_width"] == 1600
+            assert normalized[0]["image_height"] == 900
+    finally:
+        support._fetch_image_dimensions = original_fetch
+        support._fetch_page_image_candidates = original_candidates
+
+
+def test_web_image_source_must_match_exact_story_and_not_be_an_image_site():
+    support = load_support()
+    article = make_article(1, "Sport")
+    article["title"] = "Mbappé shënon dy herë për Real Madridin në Champions"
+    article["excerpt"] = "Kylian Mbappé vendosi ndeshjen e Real Madridit në Ligën e Kampionëve."
+    article["image_source_pages"] = [
+        {"source": "International Sport", "url": "https://sport.example/mbappe-real-madrid-champions"},
+        {"source": "Image search", "url": "https://images.google.com/search?q=mbappe"},
+        {"source": "Stock", "url": "https://shutterstock.com/search/mbappe"},
+    ]
+
+    assert support._image_source_matches_story(
+        article, "Kylian Mbappe scores twice as Real Madrid wins Champions League match"
+    )
+    assert not support._image_source_matches_story(
+        article, "Real Madrid presents plans for renovated stadium"
+    )
+    assert support._internet_image_source_urls(article) == [
+        "https://sport.example/mbappe-real-madrid-champions"
+    ]
+
+
+def test_matching_web_coverage_supplies_a_sharp_fallback():
+    support = load_support()
+    article = make_article(1, "Sport")
+    article["title"] = "Mbappé shënon dy herë për Real Madridin në Champions"
+    article["excerpt"] = "Kylian Mbappé vendosi ndeshjen e Real Madridit në Ligën e Kampionëve."
+    article["image_source_pages"] = [
+        {"source": "International Sport", "url": "https://sport.example/mbappe-real-madrid-champions"}
+    ]
+    original_fetch = support._fetch_image_dimensions
+    original_candidates = support._fetch_page_image_candidates
+    original_metadata = support._fetch_page_image_metadata
+    try:
+        support._fetch_image_dimensions = lambda url: (
+            (800, 450) if url == article["image_url"] else (1600, 900)
+        )
+        support._fetch_page_image_candidates = lambda _page: []
+        support._fetch_page_image_metadata = lambda _page: (
+            "Kylian Mbappe scores twice as Real Madrid wins Champions League match",
+            ["https://cdn.sport.example/mbappe-match.jpg"],
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "2026-07-10T12.json"
+            path.write_text(json.dumps([article]), encoding="utf-8")
+            normalized = support.normalize_batch(path)
+            assert len(normalized) == 1
+            assert normalized[0]["image_url"] == "https://cdn.sport.example/mbappe-match.jpg"
+            assert normalized[0]["image_width"] == 1600
+            assert normalized[0]["image_height"] == 900
+    finally:
+        support._fetch_image_dimensions = original_fetch
+        support._fetch_page_image_candidates = original_candidates
+        support._fetch_page_image_metadata = original_metadata
+
+
 def test_status_report_uses_gmail_fallback():
     support = load_support()
     original_env = {key: os.environ.get(key) for key in ("RESEND_API_KEY", "GMAIL_USER", "GMAIL_APP_PASSWORD", "RECIPIENT_EMAIL", "CRON_SLOT_LABEL")}
@@ -205,5 +291,8 @@ def test_status_report_uses_gmail_fallback():
 
 if __name__ == "__main__":
     test_strict_batch_validation()
+    test_image_quality_floor_and_verified_source_fallback()
+    test_web_image_source_must_match_exact_story_and_not_be_an_image_site()
+    test_matching_web_coverage_supplies_a_sharp_fallback()
     test_status_report_uses_gmail_fallback()
     print("codex automation support checks passed")

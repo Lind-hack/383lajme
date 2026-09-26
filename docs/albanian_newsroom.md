@@ -84,7 +84,7 @@ If a feed is quiet for more than a day, re-check its path. Blocked/no-feed sourc
 
 ## Batch article contract
 
-Every article must include `id`, `slug`, `url`, `title`, `excerpt`, `body`, `source`, `category`, `published_at`, `reading_time`, `featured`, `engagement_score`, `score_reason`, `score_breakdown`, `score_formula`, `image_url`, `image_width`, `image_height`, `city`, `corroborating_sources`, and `created_at`.
+Every article must include `id`, `slug`, `url`, `title`, `excerpt`, `body`, `source`, `category`, `published_at`, `reading_time`, `featured`, `engagement_score`, `score_reason`, `score_breakdown`, `score_formula`, `image_url`, `image_width`, `image_height`, `city`, `corroborating_sources`, and `created_at`. Images must decode at 1200×675 or larger. If the first image is inadequate, retain the story and try publisher-declared images from its primary and corroborating pages. If those fail, web-search up to three reputable publisher pages covering the exact event and record them as optional `{source, url}` objects in `image_source_pages`. Never use raw image-search results, galleries, stock-photo pages, social profiles, or broad topic matches; the validator independently checks headline overlap, metadata, dimensions, and placeholder exclusions.
 
 `corroborating_sources` is a non-empty list of objects such as:
 

@@ -31,6 +31,7 @@
     "image_height",
     "city",
     "corroborating_sources",
+    "image_source_pages",
     "created_at"
   ],
   "properties": {
@@ -56,6 +57,19 @@
     "corroborating_sources": {
       "type": "array",
       "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["source", "url"],
+        "properties": {
+          "source": {"type": "string"},
+          "url": {"type": "string", "format": "uri"}
+        }
+      }
+    },
+    "image_source_pages": {
+      "type": "array",
+      "maxItems": 3,
+      "description": "Optional reputable exact-event coverage pages used only to find a qualifying image.",
       "items": {
         "type": "object",
         "required": ["source", "url"],

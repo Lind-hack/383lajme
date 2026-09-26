@@ -23,12 +23,13 @@ import sys
 import time
 import unicodedata
 import urllib.error
-from urllib.parse import parse_qsl, quote, urlencode, urlparse, urlunparse
+from urllib.parse import parse_qsl, quote, urlencode, urljoin, urlparse, urlunparse
 import urllib.request
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from html.parser import HTMLParser
 from io import BytesIO
 from pathlib import Path
 from typing import Any
@@ -206,14 +207,177 @@ MIN_SOURCE_FAMILIES = 5
 MIN_ARTICLE_WORDS = 220
 MIN_ARTICLE_PARAGRAPHS = 4
 WORDS_PER_READING_MINUTE = 200
-# Still suitable for homepage cards while accepting legitimate wire/editorial crops.
-MIN_IMAGE_WIDTH = 640
-MIN_IMAGE_HEIGHT = 400
-# Public social posts commonly expose portrait previews at 600px wide. Keep
-# direct-publisher images at the stricter site floor, but allow a bounded
-# social-native test/publish path when the verified post image is >=600x400.
-MIN_SOCIAL_IMAGE_WIDTH = 600
-MIN_SOCIAL_IMAGE_HEIGHT = 400
+# Keep every published card sharp at the largest homepage slot and through a
+# tall object-cover crop. Social-native candidates follow the same quality bar.
+MIN_IMAGE_WIDTH = 1200
+MIN_IMAGE_HEIGHT = 675
+MIN_SOCIAL_IMAGE_WIDTH = MIN_IMAGE_WIDTH
+MIN_SOCIAL_IMAGE_HEIGHT = MIN_IMAGE_HEIGHT
+
+
+class _ArticleImageMetadataParser(HTMLParser):
+    """Collect publisher-declared story images and titles."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.images: list[str] = []
+        self.titles: list[str] = []
+        self._inside_title = False
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        values = {str(key).casefold(): str(value or "").strip() for key, value in attrs}
+        if tag.casefold() == "meta":
+            name = (values.get("property") or values.get("name") or values.get("itemprop") or "").casefold()
+            if name in {"og:image", "og:image:secure_url", "twitter:image", "twitter:image:src", "image"}:
+                if values.get("content"):
+                    self.images.append(values["content"])
+            elif name in {"og:title", "twitter:title", "headline"} and values.get("content"):
+                self.titles.append(values["content"])
+        elif tag.casefold() == "link" and "image_src" in values.get("rel", "").casefold():
+            if values.get("href"):
+                self.images.append(values["href"])
+        elif tag.casefold() == "title":
+            self._inside_title = True
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag.casefold() == "title":
+            self._inside_title = False
+
+    def handle_data(self, data: str) -> None:
+        if self._inside_title and data.strip():
+            self.titles.append(data.strip())
+
+
+def _article_source_urls(article: dict[str, Any]) -> list[str]:
+    """Return article pages already accepted as evidence for this story."""
+    urls: list[str] = []
+    primary = str(article.get("url") or "").strip()
+    if primary.startswith(("http://", "https://")):
+        urls.append(primary)
+    corroborating = article.get("corroborating_sources")
+    if isinstance(corroborating, list):
+        for source in corroborating:
+            value = source.get("url") if isinstance(source, dict) else source
+            url = str(value or "").strip()
+            if url.startswith(("http://", "https://")) and url not in urls:
+                urls.append(url)
+    return urls
+
+
+def _fetch_page_image_metadata(page_url: str) -> tuple[str, list[str]]:
+    """Read the headline and canonical images declared by a coverage page."""
+    request = urllib.request.Request(
+        page_url,
+        headers={
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml",
+            "Accept-Language": "en-US,en;q=0.9",
+        },
+    )
+    with urllib.request.urlopen(request, timeout=15) as response:
+        content_type = str(response.headers.get("Content-Type", "")).casefold()
+        if content_type and "html" not in content_type:
+            return "", []
+        payload = response.read(2_000_000)
+    parser = _ArticleImageMetadataParser()
+    parser.feed(payload.decode("utf-8", errors="replace"))
+    candidates: list[str] = []
+    for image in parser.images:
+        resolved = urljoin(page_url, image)
+        if resolved.startswith(("http://", "https://")) and resolved not in candidates:
+            candidates.append(resolved)
+    title = next((value.strip() for value in parser.titles if value.strip()), "")
+    return title, candidates
+
+
+def _fetch_page_image_candidates(page_url: str) -> list[str]:
+    return _fetch_page_image_metadata(page_url)[1]
+
+
+_IMAGE_SOURCE_BLOCKED_HOSTS = {
+    "bing.com", "facebook.com", "google.com", "images.google.com", "instagram.com",
+    "pinterest.com", "reddit.com", "shutterstock.com", "stock.adobe.com", "tiktok.com",
+    "x.com", "youtube.com",
+}
+_IMAGE_MATCH_STOPWORDS = {
+    "after", "article", "breaking", "during", "from", "latest", "lajmi", "news",
+    "report", "reports", "sipas", "story", "that", "their", "this", "with",
+}
+
+
+def _internet_image_source_urls(article: dict[str, Any]) -> list[str]:
+    """Return extra same-event coverage pages supplied by the web research stage."""
+    verified = set(_article_source_urls(article))
+    urls: list[str] = []
+    pages = article.get("image_source_pages")
+    if isinstance(pages, list):
+        for page in pages:
+            value = page.get("url") if isinstance(page, dict) and str(page.get("source") or "").strip() else ""
+            url = str(value or "").strip()
+            host = (urlparse(url).hostname or "").casefold()
+            blocked = any(host == domain or host.endswith(f".{domain}") for domain in _IMAGE_SOURCE_BLOCKED_HOSTS)
+            if url.startswith(("http://", "https://")) and not blocked and url not in verified and url not in urls:
+                urls.append(url)
+    return urls[:3]
+
+
+def _image_source_matches_story(article: dict[str, Any], page_title: str) -> bool:
+    """Require concrete shared names or event terms for web-found coverage."""
+    def terms(value: object) -> set[str]:
+        folded = unicodedata.normalize("NFKD", str(value or "")).encode("ascii", "ignore").decode().casefold()
+        return {
+            token for token in re.findall(r"[a-z0-9]+", folded)
+            if len(token) >= 4 and token not in _IMAGE_MATCH_STOPWORDS
+        }
+
+    story_terms = terms(f"{article.get('title', '')} {article.get('excerpt', '')}")
+    title_terms = terms(page_title)
+    return len(story_terms & title_terms) >= 3
+
+
+def _looks_like_content_image_url(image_url: str) -> bool:
+    lowered = image_url.casefold()
+    return not any(marker in lowered for marker in ("avatar", "favicon", "icon", "logo", "placeholder", "sprite"))
+
+
+def _find_source_image_fallback(
+    article: dict[str, Any], rejected_url: str, min_width: int, min_height: int
+) -> tuple[str, tuple[int, int]] | None:
+    """Find a sharp image from verified or exact-event coverage before rejection."""
+    attempted = {rejected_url}
+    for page_url in _article_source_urls(article):
+        try:
+            candidates = _fetch_page_image_candidates(page_url)
+        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError, ValueError):
+            continue
+        for candidate in candidates:
+            if candidate in attempted or not _looks_like_content_image_url(candidate):
+                continue
+            attempted.add(candidate)
+            try:
+                dimensions = _fetch_image_dimensions(candidate)
+            except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError, ValueError):
+                continue
+            if dimensions[0] >= min_width and dimensions[1] >= min_height:
+                return candidate, dimensions
+    for page_url in _internet_image_source_urls(article):
+        try:
+            page_title, candidates = _fetch_page_image_metadata(page_url)
+        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError, ValueError):
+            continue
+        if not _image_source_matches_story(article, page_title):
+            continue
+        for candidate in candidates:
+            if candidate in attempted or not _looks_like_content_image_url(candidate):
+                continue
+            attempted.add(candidate)
+            try:
+                dimensions = _fetch_image_dimensions(candidate)
+            except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError, ValueError):
+                continue
+            if dimensions[0] >= min_width and dimensions[1] >= min_height:
+                return candidate, dimensions
+    return None
 
 
 def load_env() -> list[str]:
@@ -417,6 +581,10 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
 
         image_url = str(article.get("image_url") or "").strip()
         if image_url.startswith(("http://", "https://")):
+            dimensions: tuple[int, int] | None = None
+            failure_reason = ""
+            min_width = MIN_SOCIAL_IMAGE_WIDTH if social_platform else MIN_IMAGE_WIDTH
+            min_height = MIN_SOCIAL_IMAGE_HEIGHT if social_platform else MIN_IMAGE_HEIGHT
             try:
                 dimensions = _fetch_image_dimensions(image_url)
             except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError) as exc:
@@ -425,14 +593,13 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
                     try:
                         dimensions = _fetch_image_dimensions(proxy_url)
                     except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError) as proxy_exc:
-                        rejected.append(article)
-                        print(f"REJECTED candidate {article.get('title', 'untitled')!r}: social image and stable proxy failed: direct={type(exc).__name__}; proxy={type(proxy_exc).__name__}")
-                        continue
-                    article.setdefault("social_image_source_url", image_url)
-                    article["image_url"] = proxy_url
-                    image_url = proxy_url
-                    changed += 1
-                    print(f"SOCIAL IMAGE PROXY: {article.get('title', 'untitled')!r} uses stable transport")
+                        failure_reason = f"social image and stable proxy failed: direct={type(exc).__name__}; proxy={type(proxy_exc).__name__}"
+                    else:
+                        article.setdefault("social_image_source_url", image_url)
+                        article["image_url"] = proxy_url
+                        image_url = proxy_url
+                        changed += 1
+                        print(f"SOCIAL IMAGE PROXY: {article.get('title', 'untitled')!r} uses stable transport")
                 else:
                     cached_dimensions = (
                         int(article.get("image_width") or 0),
@@ -442,19 +609,26 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
                         dimensions = cached_dimensions
                         print(f"IMAGE DIMENSIONS CACHED: {article.get('title', 'untitled')!r} retained after transient fetch failure")
                     else:
-                        # An inaccessible image without valid cached dimensions is invalid
-                        # for publication. Isolate only this candidate.
-                        rejected.append(article)
-                        print(f"REJECTED candidate {article.get('title', 'untitled')!r}: image normalization failed for {image_url}: {type(exc).__name__}: {exc}")
-                        continue
+                        failure_reason = f"could not decode {image_url}: {type(exc).__name__}: {exc}"
+
+            if dimensions and (dimensions[0] < min_width or dimensions[1] < min_height):
+                failure_reason = f"image {dimensions[0]}x{dimensions[1]} below {min_width}x{min_height}"
+
+            if failure_reason:
+                fallback = _find_source_image_fallback(article, image_url, min_width, min_height)
+                if fallback:
+                    replacement_url, dimensions = fallback
+                    article["image_url"] = replacement_url
+                    image_url = replacement_url
+                    changed += 1
+                    print(f"IMAGE FALLBACK: {article.get('title', 'untitled')!r} replaced an unusable image from same-event sources")
+                else:
+                    rejected.append(article)
+                    print(f"REJECTED candidate {article.get('title', 'untitled')!r}: {failure_reason}; no qualifying same-event image found")
+                    continue
+
             if dimensions:
                 width, height = dimensions
-                min_width = MIN_SOCIAL_IMAGE_WIDTH if social_platform else MIN_IMAGE_WIDTH
-                min_height = MIN_SOCIAL_IMAGE_HEIGHT if social_platform else MIN_IMAGE_HEIGHT
-                if width < min_width or height < min_height:
-                    rejected.append(article)
-                    print(f"REJECTED candidate {article.get('title', 'untitled')!r}: image {width}x{height} below {min_width}x{min_height}")
-                    continue
                 if article.get("image_width") != width:
                     article["image_width"] = width
                     changed += 1
