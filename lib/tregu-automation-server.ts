@@ -343,11 +343,12 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
     // Recovery precedes live timing: a missed session must not stay open forever.
     for (const market of f1Markets ?? []) {
       try {
-        const { fetchF1FinalResult, persistF1FinalResult, fetchF1SessionEnded, fetchF1SessionEndedFree, freezeF1Trading } = await import("@/lib/f1-result-recovery.mjs");
+        const { fetchF1FinalResult, persistF1FinalResult, fetchF1SessionEnded, fetchF1SessionEndedFree, fetchF1SessionEndedLive, freezeF1Trading } = await import("@/lib/f1-result-recovery.mjs");
         const result = await fetchF1FinalResult(market, { now });
         if (result) { await persistF1FinalResult(admin, market, result, now); market.status = "closed"; }
-        // F1's own free index first; OpenF1 only if that is unreachable.
-        else if (await fetchF1SessionEndedFree(market).catch(() => false) || await fetchF1SessionEnded(market, { now })) {
+        // F1's live timing first (it flips at the flag), then F1's archive
+        // index, then OpenF1 only if both are unreachable.
+        else if (await fetchF1SessionEndedLive(market).catch(() => false) || await fetchF1SessionEndedFree(market).catch(() => false) || await fetchF1SessionEnded(market, { now })) {
           // Race over, corroboration not in yet. Settlement waits for the second
           // source; trading must not. See fetchF1SessionEnded().
           if (await freezeF1Trading(admin, market, now)) {
@@ -713,15 +714,14 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
         }
         const liveF1Markets = (f1Markets ?? []).filter(isLiveF1Race(now));
         if (liveF1Markets.length) {
-        // F1's own dashboard is the in-race source. OpenF1 refuses anonymous
-        // callers for a session's whole duration and live access is a paid
-        // tier we do not use, so it is no longer tried first here. The
-        // one-minute loop (runLiveF1RaceAutomation) reads the same page, and the
-        // plan skips a market the other loop already priced this minute.
-        const { fetchF1LiveLiteLeaderboard } = await import("@/lib/f1-live-lite.mjs");
-        const leaderboard: any = await (fetchF1LiveLiteLeaderboard as any)();
-        const f1SourceUrl = leaderboard?.source_url ?? "https://app.formula1dashboard.com/live-timing/";
-        if (!leaderboard) throw new Error("The Formula 1 Dashboard exposed no complete active race session.");
+        // F1's own live timing is the in-race source (see fetchLiveF1Leaderboard).
+        // OpenF1 refuses anonymous callers for a session's whole duration and
+        // live access is a paid tier we do not use. The one-minute loop
+        // (runLiveF1RaceAutomation) reads the same feed, and the plan skips a
+        // market the other loop already priced this minute.
+        const leaderboard: any = await fetchLiveF1Leaderboard(now);
+        const f1SourceUrl = leaderboard?.source_url ?? "https://livetiming.formula1.com/";
+        if (!leaderboard) throw new Error("F1 live timing exposed no complete active race session.");
         const f1Signals = buildF1MarketPlan({ markets: liveF1Markets, leaderboard });
         const f1RaceWinnerSignals = buildF1RaceWinnerPlan({ markets: liveF1Markets, leaderboard, now: now.getTime() });
         f1Results.push(...await applyF1RaceWinnerSignals(admin, f1RaceWinnerSignals,
@@ -1292,6 +1292,30 @@ export async function runTreguLiveAutomation(now = new Date()) {
 }
 
 /** A race market from lights out until six hours later — the window both loops price in. */
+/**
+ * The in-race leaderboard. F1's own live timing (lib/f1-signalr.mjs) is the
+ * source; the headless-browser read of the F1 dashboard is kept only as a
+ * fallback, because on Railway its Chromium cannot start at all
+ * ("libnspr4.so: cannot open shared object file") and every race since the
+ * move from Vercel went unpriced and unsettled because of it.
+ */
+async function fetchLiveF1Leaderboard(now: Date): Promise<any> {
+  try {
+    const { fetchF1LiveTimingState, liveTimingToLeaderboard } = await import("@/lib/f1-signalr.mjs");
+    return liveTimingToLeaderboard(await fetchF1LiveTimingState(), { now });
+  } catch (liveTimingError) {
+    try {
+      const { fetchF1LiveLiteLeaderboard } = await import("@/lib/f1-live-lite.mjs");
+      return await (fetchF1LiveLiteLeaderboard as any)();
+    } catch (browserError) {
+      const primary = liveTimingError instanceof Error ? liveTimingError.message : String(liveTimingError);
+      // A Chromium launch failure is ~40 lines of flags; the first line says why.
+      const fallback = (browserError instanceof Error ? browserError.message : String(browserError)).split("\n")[0];
+      throw new Error(`F1 live timing: ${primary}; dashboard fallback: ${fallback}`);
+    }
+  }
+}
+
 function isLiveF1Race(now: Date) {
   return (m: any) => m.status === "open" && Number.isFinite(Date.parse(m.live_event?.race_start ?? "")) &&
     Date.parse(m.live_event.race_start) <= now.getTime() && now.getTime() - Date.parse(m.live_event.race_start) < 6 * 3600000;
@@ -1330,8 +1354,7 @@ export async function runLiveF1RaceAutomation(now = new Date()) {
   if (error) throw new Error(`Could not read live F1 markets: ${error.message}`);
   const live = (data ?? []).filter(isLiveF1Race(now));
   if (!live.length) return { live_markets: 0, results: [] };
-  const { fetchF1LiveLiteLeaderboard } = await import("@/lib/f1-live-lite.mjs");
-  const leaderboard: any = await (fetchF1LiveLiteLeaderboard as any)();
+  const leaderboard: any = await fetchLiveF1Leaderboard(now);
   const signals = buildF1RaceWinnerPlan({ markets: live, leaderboard, now: now.getTime() });
   const results = await applyF1RaceWinnerSignals(admin, signals);
   return {
