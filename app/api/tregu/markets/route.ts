@@ -8,6 +8,31 @@ import { publicProfileName } from "@/lib/profile-hub.mjs";
 export const dynamic = "force-dynamic";
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+
+/** Supabase's REST layer returns at most this many rows per response, whatever .limit() asks for. */
+const REST_PAGE = 1000;
+
+/**
+ * Newest-first rows up to `cap`, fetched in REST-sized pages.
+ *
+ * A single `.limit(4000)` came back with 1,000 rows: the REST layer truncates
+ * every response to its own maximum, so the history caps below were never
+ * really in force.
+ */
+async function newestRows<T>(
+  page: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: unknown }>,
+  cap: number
+): Promise<{ data: T[]; error: unknown }> {
+  const rows: T[] = [];
+  for (let from = 0; from < cap; from += REST_PAGE) {
+    const to = Math.min(cap, from + REST_PAGE) - 1;
+    const { data, error } = await page(from, to);
+    if (error) return { data: rows, error };
+    rows.push(...(data ?? []));
+    if (!data || data.length < to - from + 1) break;
+  }
+  return { data: rows, error: null };
+}
 const SPARK_POINTS = 28;
 
 interface TapeRow {
@@ -63,7 +88,17 @@ export async function GET(request: NextRequest) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   const rows = data ?? [];
-  const ids = rows.map((m) => m.id);
+  // History is fetched for the books a chart can show. The trading floor asks
+  // for status=all and then keeps only open books, but the three history
+  // queries below are one newest-first window shared by every listed market —
+  // and 366 settled markets, their live games alone worth thousands of oracle
+  // rows, filled that window. On 2026-09-27 all 30 open sport books reached the
+  // floor with one point each, so every card drew flat lines. A settled market
+  // still comes back, just without history, unless settled markets are what
+  // the caller asked for.
+  const ids = rows
+    .filter((m) => status !== "all" || m.status !== "resolved")
+    .map((m) => m.id);
   const sourceSlugs = [...new Set(
     rows.flatMap((market) =>
       Array.isArray(market.source_article_slugs)
@@ -78,7 +113,7 @@ export async function GET(request: NextRequest) {
   // and one short public feed — the hub's proof the floor is alive.
   const [tapeRes, snapRes, sportOracleRes, feedRes, articleRes] = await Promise.all([
     ids.length
-      ? supabase
+      ? newestRows<TapeRow>((from, to) => supabase
           .from("market_trades")
           .select("market_id, price_yes, coins, outcome_prices, created_at")
           .in("market_id", ids)
@@ -86,23 +121,23 @@ export async function GET(request: NextRequest) {
           // chronological order below. An ascending capped query silently
           // discarded the newest movements once the floor grew past 4k rows.
           .order("created_at", { ascending: false })
-          .limit(6000)
+          .range(from, to), 6000)
       : Promise.resolve({ data: [] as TapeRow[], error: null }),
     ids.length
-      ? supabase
+      ? newestRows<SnapRow>((from, to) => supabase
           .from("market_snapshots")
           .select("market_id, market_prob, oracle_kind, evidence, created_at")
           .in("market_id", ids)
           .order("created_at", { ascending: false })
-          .limit(2000)
+          .range(from, to), 2000)
       : Promise.resolve({ data: [] as SnapRow[], error: null }),
     ids.length
-      ? supabase
+      ? newestRows<SportOracleRow>((from, to) => supabase
           .from("sport_oracle_events")
           .select("market_id, reference_probabilities, created_at")
           .in("market_id", ids)
           .order("created_at", { ascending: false })
-          .limit(4000)
+          .range(from, to), 4000)
       : Promise.resolve({ data: [] as SportOracleRow[], error: null }),
     supabase
       .from("market_trades")
