@@ -2,11 +2,15 @@
 
 // The moving half of the breaking bar: the newest headlines, one at a time.
 //
-// It turns over every 5 seconds — a headline is one line, and the six of them
-// cycle in half a minute — and it never moves under the reader: hovering or
-// focusing the bar holds the current story, and pressing an arrow restarts the
-// clock rather than letting it jump a second later. Readers who ask the system
-// for reduced motion get the arrows only.
+// It turns over every 3 seconds, and it never moves under the reader: a mouse
+// resting on the bar, or keyboard focus inside it, holds the current story, and
+// pressing an arrow restarts the clock rather than letting it jump a moment
+// later. Readers who ask the system for reduced motion get the arrows only.
+//
+// The hold used to stick. Clicking an arrow left focus on the button, so the
+// bar counted as focused and never moved again until the reader clicked
+// elsewhere; on a phone, a tap fires mouseenter with no mouseleave to undo it.
+// Now only a real mouse pointer and keyboard (focus-visible) focus hold it.
 //
 // "Live" is decided on the reader's clock, after mount. The page is cached for
 // up to an hour, so a freshness flag baked into the server HTML could keep
@@ -29,7 +33,7 @@ export type LatestItem = {
 const FRESH_MS = 45 * 60 * 1000;
 
 /** How long each headline stays before the next one. */
-const ROTATE_MS = 5_000;
+const ROTATE_MS = 3_000;
 
 export default function LatestStepper({ items }: { items: LatestItem[] }) {
   const [index, setIndex] = useState(0);
@@ -85,9 +89,16 @@ export default function LatestStepper({ items }: { items: LatestItem[] }) {
   return (
     <span
       className="home-breaking-rotator"
-      onMouseEnter={() => setHeld(true)}
-      onMouseLeave={() => setHeld(false)}
-      onFocus={() => setHeld(true)}
+      onPointerEnter={(e) => {
+        if (e.pointerType === "mouse") setHeld(true);
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType === "mouse") setHeld(false);
+      }}
+      onFocus={(e) => {
+        // A click focuses the arrow too; only keyboard focus should hold.
+        if ((e.target as HTMLElement).matches(":focus-visible")) setHeld(true);
+      }}
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setHeld(false);
       }}

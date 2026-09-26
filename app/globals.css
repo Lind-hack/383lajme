@@ -19835,26 +19835,27 @@ header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92);
   margin-top: 22px;
 }
 .load-more-button {
-  min-height: 46px;
-  padding: 0 26px;
-  border: 1.5px solid var(--color-ink);
+  min-height: 48px;
+  padding: 0 28px;
+  border: 1.5px solid var(--color-orange);
   border-radius: 999px;
-  background: transparent;
+  background: var(--color-cream);
   color: var(--color-ink);
   font: inherit;
   font-size: 14px;
   font-weight: 800;
   cursor: pointer;
   transition:
-    background-color var(--duration-base) var(--ease-out),
-    color var(--duration-base) var(--ease-out),
+    background-color 200ms var(--ease-out),
+    color 200ms var(--ease-out),
     transform 160ms var(--ease-out);
 }
 .load-more-button:active:not(:disabled) { transform: scale(0.97); }
 .load-more-button:disabled { opacity: 0.6; cursor: progress; }
 .load-more-button:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 3px; }
+/* Cream fills with the brand orange under the pointer. */
 @media (hover: hover) and (pointer: fine) {
-  .load-more-button:hover:not(:disabled) { background: var(--color-ink); color: #FFFFFF; }
+  .load-more-button:hover:not(:disabled) { background: var(--color-orange); color: #FFFFFF; }
 }
 .load-more-end,
 .load-more-error {
@@ -19881,14 +19882,138 @@ header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92);
   .section-more:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--cat-color); }
 }
 
-.home-cat-grid {
+/* --- News tiles: size set by the grid, never by the text ---------------- */
+.news-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  color: #FFFFFF;
+  text-decoration: none;
+  isolation: isolate;
+}
+.news-tile-media { position: absolute; inset: 0; z-index: -2; background: color-mix(in srgb, var(--cat-color, #555) 30%, #1a1714); }
+.news-tile-media img { object-fit: cover; transition: transform 520ms var(--ease-out); }
+.news-tile[data-variant="overlay"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(10, 8, 6, 0) 30%, rgba(10, 8, 6, 0.55) 58%, rgba(10, 8, 6, 0.9) 100%);
+}
+.news-tile-body { display: grid; gap: 7px; padding: 16px 16px 15px; min-width: 0; }
+.news-tile[data-size="lg"] .news-tile-body { gap: 9px; padding: 22px 22px 20px; }
+.news-tile-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.news-tile-tag i { width: 6px; height: 6px; border-radius: 50%; background: var(--cat-color, var(--color-orange)); }
+.news-tile-title {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 15.5px;
+  font-weight: 800;
+  line-height: 1.28;
+  letter-spacing: -0.012em;
+  text-wrap: pretty;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.news-tile[data-size="lg"] .news-tile-title { font-size: clamp(20px, 2vw, 27px); line-height: 1.18; letter-spacing: -0.022em; -webkit-line-clamp: 3; }
+.news-tile-excerpt {
+  display: -webkit-box;
+  overflow: hidden;
+  max-width: 62ch;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.news-tile-meta { color: rgba(255, 255, 255, 0.75); font-size: 12px; font-weight: 600; }
+/* The headline tile: no photograph, the story set large on the category's tint. */
+.news-tile[data-variant="headline"] {
+  justify-content: space-between;
+  border: 1px solid color-mix(in srgb, var(--cat-color, #999) 22%, transparent);
+  background: color-mix(in srgb, var(--cat-color, #999) 9%, #FFFFFF);
+  color: var(--color-ink);
+}
+.news-tile[data-variant="headline"] .news-tile-body { height: 100%; grid-template-rows: auto 1fr auto; }
+.news-tile[data-variant="headline"] .news-tile-tag { color: color-mix(in srgb, var(--cat-color, #555) 80%, #111); }
+.news-tile[data-variant="headline"] .news-tile-title { font-size: 18px; line-height: 1.25; -webkit-line-clamp: 5; }
+.news-tile[data-variant="headline"] .news-tile-meta { color: #6B6B6B; }
+.news-tile:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+  .news-tile:hover .news-tile-media img { transform: scale(1.045); }
+  .news-tile[data-variant="headline"]:hover .news-tile-title { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .news-tile-media img { transition: none; }
+}
+
+/* --- Bento: one tile over two rows, the rest in a two-row grid ----------- */
+.cat-bento {
   display: grid;
-  gap: 18px;
+  grid-template-columns: minmax(0, 2fr) repeat(var(--bento-cols, 3), minmax(0, 1fr));
+  grid-template-rows: repeat(2, 232px);
+  gap: 14px;
 }
-/* A full-width block puts its rows beside the lead; half-width stacks them. */
-@container (min-width: 760px) {
-  .home-cat-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.cat-bento-lead { grid-row: 1 / span 2; min-height: 0; }
+/* An odd number of small tiles: the last one takes the full height of its
+   column, so the block still closes square. */
+.cat-bento[data-odd] > :last-child { grid-row: 1 / span 2; grid-column: -2; }
+
+/* --- Mosaic, evened: one row of equal height, rows below in two columns - */
+.cat-mosaic-top {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 340px;
+  gap: 14px;
 }
+.cat-mosaic-top[data-count="2"] { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+.cat-mosaic-top[data-count="1"] { grid-template-columns: minmax(0, 1fr); }
+.cat-mosaic-rows { margin-top: 14px; }
+.cat-mosaic-rows .story-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
+.cat-mosaic-rows .story-list li:nth-child(2) .story-row { border-top: 0; }
+
+/* --- Overlay: equal rows, the first taller ------------------------------- */
+.cat-overlay { display: grid; gap: 14px; }
+.cat-overlay-row {
+  display: grid;
+  grid-template-columns: repeat(var(--row-cols, 3), minmax(0, 1fr));
+  gap: 14px;
+}
+.cat-overlay-row[data-row="first"] { grid-auto-rows: 320px; }
+.cat-overlay-row[data-row="next"] { grid-auto-rows: 230px; }
+
+/* --- Narrow: the same blocks, stacked, still square ---------------------- */
+@container (max-width: 700px) {
+  .cat-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; grid-auto-rows: 190px; }
+  .cat-bento-lead { grid-row: auto; grid-column: 1 / -1; height: 280px; }
+  .cat-bento[data-odd] > :last-child { grid-row: auto; grid-column: 1 / -1; }
+  .cat-mosaic-top { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 200px; }
+  .cat-mosaic-top > :first-child { grid-column: 1 / -1; }
+  .cat-mosaic-top[data-count="2"] > :first-child { grid-column: auto; }
+  .cat-mosaic-rows .story-list { grid-template-columns: minmax(0, 1fr); }
+  .cat-mosaic-rows .story-list li:nth-child(2) .story-row { border-top: 1px solid var(--color-border); }
+  .cat-overlay-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cat-overlay-row[data-row="first"] { grid-auto-rows: 240px; }
+  .cat-overlay-row[data-row="first"] > :first-child:nth-last-child(odd) { grid-column: 1 / -1; }
+  .cat-overlay-row[data-row="next"] { grid-auto-rows: 190px; }
+  .cat-overlay-row > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+
+/* Sections run one after another with the page's section rhythm. */
+.home-cat { margin-bottom: var(--space-section); }
 
 /* The shared compact story row (components/story-list.tsx). */
 .story-list {
@@ -19935,15 +20060,6 @@ header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92);
   .story-row:hover .story-title { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 }
 
-/* Two categories share a row on wide screens. */
-.home-cat-pair {
-  display: grid;
-  gap: var(--space-section) 40px;
-  margin-bottom: var(--space-section);
-}
-@media (min-width: 960px) {
-  .home-cat-pair:not([data-single]) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
 
 /* Under an article: where to go next. */
 .article-next {
@@ -19959,4 +20075,143 @@ header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92);
 }
 @media (min-width: 960px) {
   .article-next-grid { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 56px; }
+}
+
+/* --- Kosovë and Shqipëri on the page's own paper -------------------------
+   The same front-page-in-miniature, without the band of colour behind it:
+   the colour stays on the label's rule and the story tags, the cards sit on
+   cream with the soft elevation the rest of the page uses. */
+.spot[data-plain] .spot-rule { background: var(--spot-color); height: 24px; width: 4px; }
+.spot[data-plain] .spot-label { color: var(--color-ink); font-size: 13px; }
+.spot[data-plain] .spot-line { background: var(--color-border); }
+.spot[data-plain] .spot-all { border-color: var(--color-border); color: var(--color-ink); }
+.spot[data-plain] .spot-lead,
+.spot[data-plain] .spot-item {
+  box-shadow: 0 1px 2px rgba(17, 17, 17, 0.04), 0 8px 24px -12px rgba(17, 17, 17, 0.14);
+  outline: 1px solid rgba(17, 17, 17, 0.06);
+  outline-offset: -1px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .spot[data-plain] .spot-all:hover { border-color: var(--spot-color); background: #FFFFFF; }
+}
+
+/* The row under the lead and its rail. */
+.spot-more {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+.spot-more .spot-item { grid-template-columns: 38% minmax(0, 1fr); min-height: 104px; }
+@media (max-width: 1100px) { .spot-more { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .spot-more { grid-template-columns: minmax(0, 1fr); } }
+
+/* --- Lajmet e fundit, large ------------------------------------------------
+   One story per row across the full column: a photograph large enough to
+   read, the headline at reading size, and the standfirst in full. */
+.dispatch-rows[data-size="lg"] .dispatch-row {
+  grid-template-columns: 34px minmax(220px, 320px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  padding: 22px 14px;
+}
+.dispatch-rows[data-size="lg"] .dispatch-thumb { aspect-ratio: 16 / 10; border-radius: 14px; }
+.dispatch-rows[data-size="lg"] .dispatch-title { font-size: clamp(18px, 1.6vw, 22px); line-height: 1.28; letter-spacing: -0.015em; }
+.dispatch-rows[data-size="lg"] .dispatch-excerpt { display: -webkit-box; margin-top: 8px; font-size: 15px; line-height: 1.55; -webkit-line-clamp: 3; }
+@media (max-width: 900px) {
+  .dispatch-rows[data-size="lg"] .dispatch-row { grid-template-columns: 26px 180px minmax(0, 1fr); gap: 16px; padding: 18px 8px; }
+}
+/* 560, the width at which the base list drops its rank number. */
+@media (max-width: 560px) {
+  .dispatch-rows[data-size="lg"] .dispatch-row { grid-template-columns: 120px minmax(0, 1fr); gap: 12px; padding: 14px 4px; }
+  .dispatch-rows[data-size="lg"] .dispatch-title { font-size: 16px; }
+  .dispatch-rows[data-size="lg"] .dispatch-excerpt { font-size: 13.5px; -webkit-line-clamp: 2; }
+}
+
+/* --- Tregu on the homepage, in Tregu's own cards ------------------------- */
+.home-tregu { margin-bottom: var(--space-section); }
+.home-tregu-lede { margin: 0 0 16px; max-width: 62ch; color: #5F5B56; font-size: 14.5px; line-height: 1.55; }
+/* The Tregu tokens without the floor's full-page background and height. */
+.home-tregu-scope.tregu-scope { min-height: 0; background: transparent; }
+/* Two cards, equal width, equal height. */
+.home-tregu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+.home-tregu-grid > * { height: 100%; }
+@media (max-width: 760px) { .home-tregu-grid { grid-template-columns: minmax(0, 1fr); } }
+.home-tregu-skeleton { min-height: 380px; }
+
+/* --- Lajmet e fundit with its advertising column ------------------------- */
+.home-latest {
+  display: grid;
+  gap: 32px;
+  padding-bottom: var(--space-section);
+}
+@media (min-width: 1100px) {
+  .home-latest { grid-template-columns: minmax(0, 1fr) 300px; gap: 40px; align-items: start; }
+}
+.home-ad { display: none; align-self: stretch; }
+.home-ad-sticky { position: sticky; top: calc(var(--nav-h) + 20px); }
+/* Beside the list only; on narrower screens it would sit between stories. */
+@media (min-width: 1100px) { .home-ad { display: block; } }
+.home-ad-label {
+  display: block;
+  margin: 0 0 6px;
+  color: #8A8279;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-align: center;
+  text-transform: uppercase;
+}
+.home-ad-frame {
+  width: 300px;
+  height: 600px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: #FFFFFF;
+}
+.home-ad-house {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 12px;
+  height: 100%;
+  padding: 28px 26px;
+  background:
+    radial-gradient(120% 70% at 100% 0%, rgba(255, 68, 34, 0.14), transparent 60%),
+    linear-gradient(180deg, #FFFFFF 0%, #FBF7F2 100%);
+}
+.home-ad-mark {
+  margin-bottom: auto;
+  color: var(--color-ink);
+  font-size: 40px;
+  font-weight: 850;
+  letter-spacing: -0.04em;
+}
+.home-ad-mark i { color: var(--color-orange); font-style: normal; }
+.home-ad-house strong { color: var(--color-ink); font-size: 24px; font-weight: 850; line-height: 1.15; letter-spacing: -0.02em; text-wrap: balance; }
+.home-ad-house p { margin: 0; color: #5C554E; font-size: 14.5px; line-height: 1.55; }
+.home-ad-cta {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 6px;
+  min-height: 42px;
+  padding: 0 18px;
+  border: 1.5px solid var(--color-orange);
+  border-radius: 999px;
+  color: var(--color-ink);
+  font-size: 13.5px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background-color 200ms var(--ease-out), color 200ms var(--ease-out);
+}
+.home-ad-cta:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+  .home-ad-cta:hover { background: var(--color-orange); color: #FFFFFF; }
 }

@@ -1,22 +1,23 @@
+import Link from "next/link";
+
 /**
- * "Kalo te": one row of links to the homepage's news sections.
+ * "Kalo te": the categories, one tap away.
  *
- * The page carries a dozen sections between modules, and a reader looking for
- * Sport had no way to it but scrolling past everything above. Only sections
- * that actually rendered are listed, so a link never lands on nothing.
+ * Each pill opens the category's own page, where the whole section is — not a
+ * spot further down this one, which only ever held a handful of its stories.
  */
-export default function SectionJump({ links }: { links: { id: string; label: string; color?: string }[] }) {
+export default function SectionJump({ links }: { links: { href: string; label: string; color?: string }[] }) {
   if (links.length < 2) return null;
   return (
-    <nav className="home-jump" aria-label="Kalo te seksioni">
+    <nav className="home-jump" aria-label="Kalo te kategoria">
       <span className="home-jump-label">Kalo te</span>
       <ul>
         {links.map((link) => (
-          <li key={link.id}>
-            <a href={`#${link.id}`} style={link.color ? { ["--jump-color" as string]: link.color } : undefined}>
+          <li key={link.href}>
+            <Link href={link.href} style={link.color ? { ["--jump-color" as string]: link.color } : undefined}>
               {link.color && <i aria-hidden />}
               {link.label}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>

@@ -1,5 +1,4 @@
 import { getArticles, getArticlesBefore, getLatestArticles } from "@/lib/db";
-import type { Article } from "@/lib/mock-data";
 import { MoveHorizontal } from "lucide-react";
 import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
@@ -19,8 +18,6 @@ import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
 import ImageAccordion, { type AccordionSlide } from "@/components/image-accordion";
-import DosjeFeedIndex from "@/components/dosje-feed-index";
-import TrendingStrip from "@/components/tregu/trending-strip";
 import {
   CurrencyExchangeCard,
   FuelPricesCard,
@@ -40,6 +37,8 @@ import { pickFrontPage } from "@/lib/front-page.mjs";
 import { buildHomeSections, claim, createLedger } from "@/lib/home-sections.mjs";
 import CategoryBlock from "@/components/home/category-block";
 import SectionJump from "@/components/home/section-jump";
+import TreguHome from "@/components/home/tregu-home";
+import AdSlot from "@/components/home/ad-slot";
 
 // Ten minutes, not an hour: the pipeline publishes nine times a day and the
 // news sections below the front block now run as deep as the day does.
@@ -131,13 +130,14 @@ export default async function HomePage() {
   // takes its best-ranked; one with fewer than three is left out, not shown
   // half-empty.
   const sections = buildHomeSections(belowPool, ledger, [
-    { key: "Kosovë", count: 5, category: "Kosovë" },
-    { key: "Shqipëri", count: 5, category: "Shqipëri" },
-    { key: "Botë", count: 5, category: "Botë" },
-    { key: "Ekonomi", count: 5, category: "Ekonomi" },
-    { key: "Sport", count: 5, category: "Sport" },
-    { key: "Teknologji", count: 5, category: "Teknologji" },
-    { key: "Showbiz", count: 5, category: "Showbiz" },
+    // Kosovë and Shqipëri: a lead, its rail of four and a row of four more.
+    { key: "Kosovë", count: 9, category: "Kosovë" },
+    { key: "Shqipëri", count: 9, category: "Shqipëri" },
+    { key: "Botë", count: 7, category: "Botë" },
+    { key: "Ekonomi", count: 7, category: "Ekonomi" },
+    { key: "Sport", count: 7, category: "Sport" },
+    { key: "Teknologji", count: 7, category: "Teknologji" },
+    { key: "Showbiz", count: 7, category: "Showbiz" },
   ]);
   const block = (category: NavCategory) => sections[category] ?? [];
 
@@ -198,11 +198,11 @@ export default async function HomePage() {
   const accordionCats = [
     { category: "Kosovë",    label: "Kosovë"    },
     { category: "Shqipëri",  label: "Shqipëri"  },
-    { category: "Showbiz",   label: "Showbiz"   },
     { category: "Botë",      label: "Botë"      },
-    { category: "Teknologji",label: "Teknologji"},
     { category: "Sport",     label: "Sport"     },
+    { category: "Showbiz",   label: "Showbiz"   },
   ];
+  // Five, as the heading promises: "5 tema, 5 lajme" carried six cards.
   // The old fallback took an article from any category but kept the category we
   // had *asked* for as the card's label and colour, so a quiet Teknologji day
   // put a purple TEKNOLOGJI badge on a Sport story. A card now always names the
@@ -221,7 +221,11 @@ export default async function HomePage() {
           // Some stored rows carry a mangled category ("Bot?"), which would
           // otherwise surface verbatim as a card label.
           a.category in CATEGORY_COLORS,
-      })[0];
+      })[0] ??
+      // A thin day can leave no fresh topic at all once the category sections
+      // have claimed theirs; the row still shows five stories, from a topic
+      // already on it, rather than four.
+      claim(ledger, belowPool, 1, { predicate: (a) => a.category in CATEGORY_COLORS })[0];
     if (!article) continue;
 
     usedAccordionCats.add(article.category);
@@ -234,22 +238,19 @@ export default async function HomePage() {
 
   // Lajmet e fundit claims last and takes the newest of what is left: it is
   // the one section that can show any story, so it gives way to the rest.
-  const latest = buildHomeSections(belowPool, ledger, [{ key: "latest", count: 16 }]).latest ?? [];
+  const latest = buildHomeSections(belowPool, ledger, [{ key: "latest", count: 12 }]).latest ?? [];
 
   // Everything the page shows, so "Shfaq më shumë" never brings one back.
   const seenIds = [...new Set([...ledger.ids, ...mostRead.map((a) => a.id), ...tickerArticles.map((a) => a.id)])];
-  const shownSlugs = new Set([...belowPool, ...tickerArticles].filter((a) => ledger.ids.has(a.id)).map((a) => a.slug));
 
-  const jumpLinks = [
-    ...(latest.length ? [{ id: "lajmet-e-fundit", label: "Lajmet e fundit" }] : []),
-    ...(["Kosovë", "Shqipëri", "Botë", "Ekonomi", "Sport", "Teknologji", "Showbiz"] as NavCategory[])
-      .filter((category) => block(category).length > 0)
-      .map((category) => ({
-        id: `seksioni-${CATEGORY_TO_SLUG[category]}`,
-        label: category,
-        color: getCategoryColor(category),
-      })),
-  ];
+  // "Kalo te" takes the reader to the whole section, not further down this page.
+  const jumpLinks = (["Kosovë", "Shqipëri", "Botë", "Ekonomi", "Sport", "Teknologji", "Showbiz"] as NavCategory[]).map(
+    (category) => ({
+      href: `/kategori/${CATEGORY_TO_SLUG[category]}`,
+      label: category,
+      color: getCategoryColor(category),
+    })
+  );
 
   return (
     <>
@@ -308,25 +309,6 @@ export default async function HomePage() {
           One <main> landmark covers the whole run, full-bleed bands included. */}
       <main>
       <Contained first>
-        {/* Daily video reaction */}
-        <ReagimiDites fallbackView={reagimiFallback} serverDateKey={reagimiDateKey} />
-
-        <SectionJump links={jumpLinks} />
-
-        {/* Lajmet e fundit — the day's run, newest first, and the way back
-            through the archive. */}
-        {latest.length > 0 && (
-          <div style={{ paddingBottom: "var(--space-section)" }}>
-            <DispatchList
-              id="lajmet-e-fundit"
-              articles={latest}
-              max={16}
-              columns={2}
-              loadMore={{ seenIds }}
-            />
-          </div>
-        )}
-
         <SectionLabel
           label="NJOFTIME"
           marginBottom={12}
@@ -344,42 +326,49 @@ export default async function HomePage() {
         <div style={{ marginBottom: "var(--space-section)" }}>
           <DispatchRow articles={njoftimeShown} />
         </div>
-      </Contained>
-
-      {/* The blue spotlight, on the section that replaced Politikë. */}
-      {block("Kosovë").length > 0 && (
-        <div id="seksioni-kosove" className="home-anchor">
-          <ColorSpotlight articles={block("Kosovë")} category="Kosovë" label="KOSOVË" />
-        </div>
-      )}
-
-      {/* One index of the stories that carry a file, rather than a chip on
-          every card. It renders null while nothing matches. */}
-      <Contained>
-        <DosjeFeedIndex articles={articles} shownSlugs={shownSlugs} />
-      </Contained>
-
-      {/* Shqipëri in red, the same treatment, so the two place sections read
-          as a pair. */}
-      {block("Shqipëri").length > 0 && (
-        <div id="seksioni-shqiperi" className="home-anchor">
-          <ColorSpotlight articles={block("Shqipëri")} category="Shqipëri" label="SHQIPËRI" />
-        </div>
-      )}
-
-      <Contained>
-        <div className="section-breather" aria-hidden>
-          <span />
-          <em>Përzgjedhja e redaksisë</em>
-          <span />
-        </div>
 
         {/* 5 tema, 5 lajme — one story per topic */}
         <div style={{ marginBottom: "var(--space-section)" }}>
           <ImageAccordion slides={accordionSlides} />
         </div>
 
-        <CategoryPair left={block("Botë")} leftCategory="Botë" right={block("Ekonomi")} rightCategory="Ekonomi" />
+        {/* Lajmet e fundit — the day's run, one story to a row, and the way
+            back through the archive. "Kalo te" above it opens each section. */}
+        <SectionJump links={jumpLinks} />
+        {latest.length > 0 && (
+          <div className="home-latest">
+            <DispatchList
+              id="lajmet-e-fundit"
+              articles={latest}
+              max={12}
+              size="lg"
+              loadMore={{ seenIds }}
+            />
+            <AdSlot />
+          </div>
+        )}
+
+        {/* The page's two "what do you think" pieces, together. */}
+        <ReagimiDites fallbackView={reagimiFallback} serverDateKey={reagimiDateKey} />
+        <DailyPoll data={sondazhi} />
+      </Contained>
+
+      {/* Kosovë and Shqipëri on the page's own paper: a lead, its rail, and a
+          row of four more. */}
+      {block("Kosovë").length > 0 && (
+        <div id="seksioni-kosove" className="home-anchor">
+          <ColorSpotlight articles={block("Kosovë")} category="Kosovë" label="KOSOVË" plain more={4} />
+        </div>
+      )}
+      {block("Shqipëri").length > 0 && (
+        <div id="seksioni-shqiperi" className="home-anchor">
+          <ColorSpotlight articles={block("Shqipëri")} category="Shqipëri" label="SHQIPËRI" plain more={4} />
+        </div>
+      )}
+
+      <Contained>
+        <CategoryBlock category="Botë" articles={block("Botë")} layout="bento" />
+        <CategoryBlock category="Ekonomi" articles={block("Ekonomi")} layout="overlay" />
       </Contained>
 
       {/* Si flet bota për Kosovën: the foreign coverage and its tone read as one
@@ -393,17 +382,13 @@ export default async function HomePage() {
       <Contained first>
         <ToneDashboard summary={toneSummary} topics={toneTopics} />
 
-        {block("Sport").length > 0 && (
-          <div style={{ marginBottom: "var(--space-section)" }}>
-            <CategoryBlock category="Sport" articles={block("Sport")} />
-          </div>
-        )}
+        <CategoryBlock category="Sport" articles={block("Sport")} layout="mosaic" />
 
-        {/* 383 Tregu and the daily poll — the page's two ways to take part. */}
-        <TrendingStrip />
-        <DailyPoll data={sondazhi} />
+        {/* 383 Tregu in its own cards, a new set every day. */}
+        <TreguHome />
 
-        <CategoryPair left={block("Teknologji")} leftCategory="Teknologji" right={block("Showbiz")} rightCategory="Showbiz" />
+        <CategoryBlock category="Teknologji" articles={block("Teknologji")} layout="overlay" />
+        <CategoryBlock category="Showbiz" articles={block("Showbiz")} layout="bento" />
 
         <HomeVisitPreview />
       </Contained>
@@ -413,7 +398,6 @@ export default async function HomePage() {
         <ThrowbackSection />
         <AlertsCta />
       </Contained>
-
       </main>
 
       {/* Gradient CTA */}
@@ -437,30 +421,6 @@ function Contained({ children, first = false }: { children: React.ReactNode; fir
       }}
     >
       {children}
-    </div>
-  );
-}
-
-/**
- * Two category blocks side by side on wide screens, stacked on phones. When
- * one of the pair has too little today, the other takes the full width.
- */
-function CategoryPair({
-  left,
-  leftCategory,
-  right,
-  rightCategory,
-}: {
-  left: Article[];
-  leftCategory: NavCategory;
-  right: Article[];
-  rightCategory: NavCategory;
-}) {
-  if (!left.length && !right.length) return null;
-  return (
-    <div className="home-cat-pair" data-single={!left.length || !right.length || undefined}>
-      {left.length > 0 && <CategoryBlock category={leftCategory} articles={left} />}
-      {right.length > 0 && <CategoryBlock category={rightCategory} articles={right} />}
     </div>
   );
 }

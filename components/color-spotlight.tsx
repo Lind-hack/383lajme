@@ -15,6 +15,13 @@ interface ColorSpotlightProps {
   articles: Article[];
   category: string;
   label: string;
+  /**
+   * On the page's own cream instead of a band of the category's colour. The
+   * layout is the same; the colour stays as the accent on the label.
+   */
+  plain?: boolean;
+  /** Stories under the lead and its rail, in a row of their own. */
+  more?: number;
 }
 
 /**
@@ -35,7 +42,7 @@ interface ColorSpotlightProps {
  * The band is shared by Kosovë (blue) and Shqipëri (red) and takes its colour
  * from the category, so both sections read as the same kind of thing.
  */
-export default function ColorSpotlight({ articles, category, label }: ColorSpotlightProps) {
+export default function ColorSpotlight({ articles, category, label, plain = false, more = 0 }: ColorSpotlightProps) {
   const color = getCategoryColor(category);
   const [, deep] = getCategoryGradient(category);
   const reduce = useReducedMotion();
@@ -47,6 +54,7 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
   // right-hand column stopped halfway down and left a large empty field of
   // colour beside the story, which reads as an unfinished layout.
   const rail = rest.slice(0, 4);
+  const below = more > 0 ? rest.slice(4, 4 + more) : [];
 
   const rise = () =>
     reduce
@@ -59,11 +67,13 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: DUR.reveal, ease: EASE }}
+      className="spot"
+      data-plain={plain || undefined}
       style={{
         // The section's colour reaches the card tags as a variable, so the
         // stylesheet does not need a copy of the palette.
         ["--spot-color" as string]: color,
-        background: color,
+        background: plain ? "transparent" : color,
         padding: "clamp(26px, 3vw, 42px) 24px",
         position: "relative",
         overflow: "hidden",
@@ -72,6 +82,7 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
     >
       {/* The watermark, and a deep vignette so white cards keep their edge
           against the flat colour instead of floating on it. */}
+      {!plain && (<>
       <div
         aria-hidden="true"
         style={{
@@ -101,6 +112,7 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
       >
         {label}
       </div>
+      </>)}
 
       <div style={{ maxWidth: "1280px", margin: "0 auto", position: "relative" }}>
         <motion.div
@@ -172,6 +184,29 @@ export default function ColorSpotlight({ articles, category, label }: ColorSpotl
             </div>
           )}
         </div>
+
+        {below.length > 0 && (
+          <div className="spot-more">
+            {below.map((article, i) => (
+              <motion.div
+                key={article.id}
+                {...rise()}
+                viewport={{ once: true }}
+                transition={{ delay: Math.min(i, 3) * STAGGER, duration: DUR.slow, ease: EASE }}
+              >
+                <Link href={`/article/${article.slug}`} className="spot-item">
+                  <Thumb article={article} color={color} deep={deep} />
+                  <span className="spot-item-body">
+                    <span className="spot-item-title">{article.title}</span>
+                    <span className="spot-meta">
+                      {article.source} · <TimeAgo iso={article.publishedAt} /> më parë
+                    </span>
+                  </span>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </motion.section>
   );

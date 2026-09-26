@@ -28,6 +28,8 @@ export interface DosjeEntry {
 }
 
 export declare const MIN_CATEGORY_BLOCK: number;
+export declare function headlineNames(title: string): Set<string>;
+export declare function sameStoryByNames(titleA: string, titleB: string): boolean;
 export declare function createLedger(articles?: readonly ClaimableArticle[]): Ledger;
 export declare function claim<T extends ClaimableArticle>(
   ledger: Ledger,

@@ -21,6 +21,8 @@ interface DispatchListProps {
   id?: string;
   /** Two columns of smaller rows on wide screens. */
   columns?: 1 | 2;
+  /** Large rows: a bigger photograph and the standfirst in full. */
+  size?: "md" | "lg";
   /**
    * Pages further back with "Shfaq më shumë". `seenIds` are the stories the
    * page already shows, so none of them comes back a second time.
@@ -112,6 +114,7 @@ export default function DispatchList({
   label = "LAJMET E FUNDIT",
   id,
   columns = 1,
+  size = "md",
   loadMore,
 }: DispatchListProps) {
   const items = articles.slice(0, max);
@@ -139,7 +142,12 @@ export default function DispatchList({
         right={<span className="dispatch-count">{all.length}</span>}
       />
 
-      <div className="dispatch-rows" data-cols={columns === 2 ? "2" : undefined} ref={rowsRef}>
+      <div
+        className="dispatch-rows"
+        data-cols={columns === 2 ? "2" : undefined}
+        data-size={size === "lg" ? "lg" : undefined}
+        ref={rowsRef}
+      >
         {all.map((article, i) => (
           <DispatchRow key={article.id} article={article} index={i} />
         ))}
