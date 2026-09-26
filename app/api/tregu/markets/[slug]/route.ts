@@ -285,8 +285,15 @@ export async function GET(
     });
 
   let football = null;
+  // Kosovo Superliga basketball markets are two-team books too (home / away,
+  // no draw). Without this they fell through to the generic PO/JO view: the
+  // chart showed "PO/JO" instead of the two clubs, and a buy went to the yes/no
+  // book that settlement never pays — settle_due_sport_markets pays the
+  // home/away side.
+  const basketballTwoWay =
+    market.market_classification === "live_basketball" && market.market_type === "two_outcome";
   if (
-    market.market_classification === "live_football" &&
+    (market.market_classification === "live_football" || basketballTwoWay) &&
     (market.market_type === "two_outcome" || market.market_type === "three_outcome") &&
     Array.isArray(market.sport_outcomes) &&
     market.sport_outcomes.length >= 2 &&
@@ -312,7 +319,18 @@ export async function GET(
       typeof market.live_event.football_format === "object"
         ? market.live_event.football_format
         : null;
-    const format = {
+    const format = basketballTwoWay ? {
+      competitionKind: "league",
+      stageKind: "league",
+      stageLabel: String(market.live_event?.stage ?? "Superliga e Kosovës"),
+      leg: null,
+      marketIntent: "match_winner",
+      outcomeMode: "two_way",
+      drawAllowed: false,
+      decisive: true,
+      // Basketball has no draw: overtime decides, and the market says so.
+      resolutionBasis: "final_score_including_overtime",
+    } : {
       competitionKind: String(storedFormat?.competitionKind ?? "league"),
       stageKind: String(storedFormat?.stageKind ?? "league"),
       stageLabel: String(storedFormat?.stageLabel ?? market.live_event?.stage ?? "Ndeshje"),

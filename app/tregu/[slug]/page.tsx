@@ -124,7 +124,7 @@ interface FootballPayload {
     stageKind: string;
     stageLabel: string;
     leg: number | null;
-    marketIntent: "match_result" | "to_qualify";
+    marketIntent: "match_result" | "to_qualify" | "match_winner";
     outcomeMode: "two_way" | "three_way";
     drawAllowed: boolean;
     decisive: boolean;
@@ -664,7 +664,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           ok: false,
           text: football.format.marketIntent === "to_qualify"
             ? "Zgjidh skuadrën që mendon se do të kualifikohet."
-            : "Zgjidh një rezultat para se të vendosësh bastin.",
+            : football.format.marketIntent === "match_winner"
+              ? "Zgjidh ekipin që mendon se do të fitojë."
+              : "Zgjidh një rezultat para se të vendosësh bastin.",
         });
         setPlacing(false);
         return;
@@ -1289,7 +1291,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                         <h2>
                           {football.format.marketIntent === "to_qualify"
                             ? "Kush kualifikohet?"
-                            : "Gjasat live"}
+                            : football.format.marketIntent === "match_winner"
+                              ? "Kush fiton?"
+                              : "Gjasat live"}
                         </h2>
                       </div>
                     </div>
@@ -1303,7 +1307,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   <div
                     className="tregu-football-legend"
                     data-outcome-count={football.outcomes.length}
-                    aria-label={football.format.drawAllowed ? "Rezultatet e ndeshjes" : "Skuadrat që mund të kualifikohen"}
+                    aria-label={football.format.drawAllowed ? "Rezultatet e ndeshjes" : football.format.marketIntent === "match_winner" ? "Ekipet" : "Skuadrat që mund të kualifikohen"}
                   >
                     {football.outcomes.map((outcome) => (
                       <button
@@ -1557,7 +1561,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     <small>
                       {football.format.marketIntent === "to_qualify"
                         ? "Kualifikimi i zgjedhur"
-                        : "Rezultati i zgjedhur"}
+                        : football.format.marketIntent === "match_winner"
+                          ? "Fituesi i zgjedhur"
+                          : "Rezultati i zgjedhur"}
                     </small>
                     <strong>{footballSelectedOutcome.label}</strong>
                   </span>
@@ -1640,13 +1646,15 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                         ? "Shit pozicionin"
                         : football.format.marketIntent === "to_qualify"
                           ? "Basto kush kualifikohet"
-                          : "Basto për rezultatin"}
+                          : football.format.marketIntent === "match_winner"
+                            ? "Basto kush fiton"
+                            : "Basto për rezultatin"}
                     </strong>
                   </div>
                   <div
                     className="tregu-football-outcomes"
                     role="radiogroup"
-                    aria-label={football.format.marketIntent === "to_qualify" ? "Zgjidh skuadrën që kualifikohet" : "Zgjidh rezultatin"}
+                    aria-label={football.format.marketIntent === "to_qualify" ? "Zgjidh skuadrën që kualifikohet" : football.format.marketIntent === "match_winner" ? "Zgjidh ekipin fitues" : "Zgjidh rezultatin"}
                   >
                     {football.outcomes.map((outcome) => (
                       (() => {
