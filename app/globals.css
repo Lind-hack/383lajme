@@ -20130,7 +20130,6 @@ header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92);
 
 /* --- Tregu on the homepage, in Tregu's own cards ------------------------- */
 .home-tregu { margin-bottom: var(--space-section); }
-.home-tregu-lede { margin: 0 0 16px; max-width: 62ch; color: #5F5B56; font-size: 14.5px; line-height: 1.55; }
 /* The Tregu tokens without the floor's full-page background and height. */
 .home-tregu-scope.tregu-scope { min-height: 0; background: transparent; }
 /* Two cards, equal width, equal height. */
@@ -20141,6 +20140,9 @@ header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92);
   align-items: stretch;
 }
 .home-tregu-grid > * { height: 100%; }
+/* The wrapper carries the tour anchor; the card still fills it. */
+.home-tregu-card { min-width: 0; }
+.home-tregu-card > * { height: 100%; }
 @media (max-width: 760px) { .home-tregu-grid { grid-template-columns: minmax(0, 1fr); } }
 .home-tregu-skeleton { min-height: 380px; }
 
