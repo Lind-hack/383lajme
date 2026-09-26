@@ -9713,8 +9713,8 @@
   {
     "date": "2026-09-26",
     "overallIndex": 51,
-    "totalArticles": 85,
-    "sourceCount": 166,
+    "totalArticles": 117,
+    "sourceCount": 180,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -9722,7 +9722,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 13,
+        "n": 15,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -9752,28 +9752,28 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 12,
         "confident": false,
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 54,
-        "positive": 8,
-        "neutral": 92,
+        "index": 53,
+        "positive": 7,
+        "neutral": 93,
         "negative": 0,
-        "n": 12,
-        "excluded": 29,
+        "n": 15,
+        "excluded": 31,
         "confident": false,
         "stanceVersion": 3
       },
       "Austri": {
-        "index": 53,
-        "positive": 6,
-        "neutral": 94,
+        "index": 51,
+        "positive": 3,
+        "neutral": 97,
         "negative": 0,
-        "n": 18,
-        "excluded": 16,
+        "n": 37,
+        "excluded": 19,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9792,17 +9792,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 10,
         "confident": false,
         "stanceVersion": 3
       },
       "Belgjikë": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 3,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -9818,11 +9818,11 @@
         "stanceVersion": 3
       },
       "Greqi": {
-        "index": 40,
+        "index": 42,
         "positive": 0,
-        "neutral": 80,
-        "negative": 20,
-        "n": 5,
+        "neutral": 83,
+        "negative": 17,
+        "n": 6,
         "excluded": 21,
         "confident": false,
         "stanceVersion": 3
@@ -9833,7 +9833,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 8,
+        "excluded": 9,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9842,17 +9842,17 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 33,
         "confident": false,
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": 56,
-        "positive": 11,
-        "neutral": 89,
+        "index": 55,
+        "positive": 10,
+        "neutral": 90,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 19,
         "confident": false,
         "stanceVersion": 3
