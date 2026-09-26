@@ -1603,9 +1603,9 @@
     },
     "Sky Sport Austria": {
       "country": "Austri",
-      "total": 9,
+      "total": 10,
       "positive": 0,
-      "neutral": 7,
+      "neutral": 8,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-24",
@@ -1619,7 +1619,8 @@
         "https://www.skysportaustria.at/gewinnspiel-sichere-dir-tickets-fuer-oesterreich-vs-kosovo/",
         "https://www.skysportaustria.at/kosovo-teamchef-foda-als-fan-von-nl-gegner-oesterreich/",
         "https://www.skysportaustria.at/voting-waehle-deine-oefb-startelf-gegen-kosovo/",
-        "https://www.skysportaustria.at/oefb-team-vor-nations-league-start-die-zahlen-sprechen-fuer-den-aufstieg/"
+        "https://www.skysportaustria.at/oefb-team-vor-nations-league-start-die-zahlen-sprechen-fuer-den-aufstieg/",
+        "https://www.skysportaustria.at/jeder-muss-vorangehen-schlager-gegen-kosovo-oefb-kapitaen/"
       ]
     },
     "kicker": {
@@ -1697,9 +1698,9 @@
     },
     "LAOLA1": {
       "country": "Austri",
-      "total": 7,
+      "total": 8,
       "positive": 1,
-      "neutral": 6,
+      "neutral": 7,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
@@ -1711,7 +1712,8 @@
         "https://www.laola1.at/de/red/fussball/sonstiges/news/mit-bundesliga-trio--foda-nominiert-kosovo-kader/",
         "https://www.laola1.at/de/red/fussball/nations-league/news/kosovo--ex-lask-kicker-tritt-vor-oefb-match-zurueck/",
         "https://www.laola1.at/de/red/fussball/nations-league/spielbericht/erfolgreicher-auftakt-fuer-foda--kosovo-schlaegt-irland/",
-        "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/hintergrund/deine-oefb-startelf-gegen-kosovo---stimme-ab-/"
+        "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/hintergrund/deine-oefb-startelf-gegen-kosovo---stimme-ab-/",
+        "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/news/rangnick--das-wird-nochmal-schwieriger-/"
       ]
     },
     "heute.at": {
@@ -1729,9 +1731,9 @@
     },
     "Kronen Zeitung": {
       "country": "Austri",
-      "total": 11,
+      "total": 12,
       "positive": 0,
-      "neutral": 8,
+      "neutral": 9,
       "negative": 0,
       "unknown": 3,
       "firstSeen": "2026-08-25",
@@ -1747,7 +1749,8 @@
         "https://www.krone.at/4306522",
         "https://www.krone.at/4310412",
         "https://www.krone.at/4310634",
-        "https://www.krone.at/4310789"
+        "https://www.krone.at/4310789",
+        "https://www.krone.at/4311050"
       ]
     },
     "Heute": {
@@ -1815,9 +1818,9 @@
     },
     "Kicker": {
       "country": "Zvicër",
-      "total": 16,
+      "total": 17,
       "positive": 0,
-      "neutral": 15,
+      "neutral": 16,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-25",
@@ -1838,7 +1841,8 @@
         "https://www.kicker.de/rangnick-kosovo-partie-nochmal-schwieriger-als-duell-mit-israel-1256154/artikel",
         "https://www.kicker.de/jungwirth-vor-debuet-oesterreich-gegen-kosovo-mit-neuling-im-tor-1256141/artikel",
         "https://www.kicker.at/wer-uebertraegt-oesterreich-gegen-kosovo-live-im-tv-stream-1255838/artikel",
-        "https://www.kicker.at/rangnick-kosovo-partie-nochmal-schwieriger-als-duell-mit-israel-1256154/artikel"
+        "https://www.kicker.at/rangnick-kosovo-partie-nochmal-schwieriger-als-duell-mit-israel-1256154/artikel",
+        "https://www.kicker.de/schlager-oefb-kapitaen-gegen-den-kosovo-jeder-muss-vorangehen-1256179/artikel"
       ]
     },
     "infodifesa": {
@@ -2370,10 +2374,10 @@
     },
     "Kleine Zeitung": {
       "country": "Austri",
-      "total": 5,
+      "total": 6,
       "positive": 0,
       "neutral": 5,
-      "negative": 0,
+      "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-28",
       "lastSeen": "2026-09-26",
@@ -2382,7 +2386,8 @@
         "https://www.kleinezeitung.at/artikel/41258460/kosovo-parlament-billigt-neue-regierung-unter-premier-kurti",
         "https://www.kleinezeitung.at/artikel/41267396/kosovos-ex-praesident-thaci-als-kriegsverbrecher-verurteilt",
         "https://www.kleinezeitung.at/artikel/41275503/franco-foda-ein-empfang-als-waeren-wir-weltmeister-geworden",
-        "https://www.kleinezeitung.at/artikel/41298701/ralf-rangnick-nimmt-gegen-den-kosovo-tormann-wechsel-vor"
+        "https://www.kleinezeitung.at/artikel/41298701/ralf-rangnick-nimmt-gegen-den-kosovo-tormann-wechsel-vor",
+        "https://www.kleinezeitung.at/artikel/41299189/oesterreich-gegen-kosovo-nur-wer-voll-geladen-ist-spielt"
       ]
     },
     "International Committee of Mediterranean Games": {
@@ -3390,13 +3395,13 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 73,
-      "positive": 11,
+      "total": 75,
+      "positive": 13,
       "neutral": 48,
       "negative": 0,
       "unknown": 14,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
@@ -3470,7 +3475,9 @@
         "https://www.albinfo.ch/de/libra-shkollore-per-nxenesit-shqiptare-ne-kantonin-aargau/",
         "https://www.albinfo.ch/de/kurti-kerkon-statusin-kandidat-te-kosoves-ne-be-aplikimi-i-vitit-2022-te-procedohet-pa-vonesa/",
         "https://www.albinfo.ch/fr/kurti-kerkon-statusin-kandidat-te-kosoves-ne-be-aplikimi-i-vitit-2022-te-procedohet-pa-vonesa/",
-        "https://www.albinfo.ch/fr/kurti-ne-nju-jork-kerkon-mbeshtetje-per-bondsteelin-banjsken-dhe-procesin-ne-hage/"
+        "https://www.albinfo.ch/fr/kurti-ne-nju-jork-kerkon-mbeshtetje-per-bondsteelin-banjsken-dhe-procesin-ne-hage/",
+        "https://www.albinfo.ch/fr/erblin-osmani-shkruan-histori-behet-lojtari-me-i-ri-qe-debuton-me-fanellen-e-kosoves/",
+        "https://www.albinfo.ch/de/filharmonia-e-kosoves-hap-sezonin-2026-2027-me-koncert-madheshtor/"
       ]
     },
     "iAxia -": {
@@ -4322,11 +4329,11 @@
     },
     "bluewin.ch": {
       "country": "Zvicër",
-      "total": 5,
+      "total": 6,
       "positive": 0,
       "neutral": 3,
       "negative": 1,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-13",
       "lastSeen": "2026-09-25",
       "urls": [
@@ -4334,7 +4341,8 @@
         "https://www.bluewin.ch/de/sport/fussball/tolaj-laesst-kosovo-und-albanien-abblitzen-und-traeumt-von-der-schweiz-kacuri-entscheidet-sich-gegen-die-nati-li.3602237",
         "https://www.bluewin.ch/de/news/kriegsverbrechen-25-jahre-haft-fuer-kosovos-ex-praesident-li.3601788",
         "https://www.bluewin.ch/fr/infos/monde/kosovo-milliers-de-manifestants-contre-la-condamnation-de-tha-i-li.3605010",
-        "https://www.bluewin.ch/fr/infos/monde/apr-s-la-condamnation-d-hashim-tha-i-manifestations-au-kosovo-li.3613708"
+        "https://www.bluewin.ch/fr/infos/monde/apr-s-la-condamnation-d-hashim-tha-i-manifestations-au-kosovo-li.3613708",
+        "https://www.bluewin.ch/en/sport/football/three-top-swiss-talents-two-passports-and-a-life-changing-decision-li.3612839"
       ]
     },
     "The Press Project": {
@@ -5682,20 +5690,22 @@
     },
     "BBC": {
       "country": "Britani",
-      "total": 6,
-      "positive": 0,
-      "neutral": 3,
+      "total": 8,
+      "positive": 1,
+      "neutral": 4,
       "negative": 0,
       "unknown": 3,
       "firstSeen": "2026-09-16",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-26",
       "urls": [
         "https://www.bbc.co.uk/news/articles/cmd79z0pdzgjo",
         "https://www.bbc.com/turkce/articles/c914dr5433v6o",
         "https://www.bbc.com/sport/articles/c2071gdnv50o",
         "https://www.bbc.com/sport/football/articles/c6wyzk2xyz90o",
         "https://www.bbc.com/sport/football/live/ck790jyljq4vt",
-        "https://www.bbc.com/sport/football/live/crz9z0l30jnpt"
+        "https://www.bbc.com/sport/football/live/crz9z0l30jnpt",
+        "https://www.bbc.co.uk/sport/football/live/ck790jyljq4vt",
+        "https://www.bbc.com/sport/football/live/c68xk217zr0rt"
       ]
     },
     "lbc.co.uk": {
@@ -6284,9 +6294,9 @@
     },
     "sport.ORF.at": {
       "country": "Austri",
-      "total": 8,
+      "total": 10,
       "positive": 1,
-      "neutral": 7,
+      "neutral": 9,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
@@ -6299,7 +6309,9 @@
         "https://sport.orf.at/stories/3162841/",
         "https://sport.orf.at/av/video/onDemandVideoSport69514",
         "https://sport.orf.at/av/video/onDemandVideoSport69260",
-        "https://sport.orf.at/stories/3162843/"
+        "https://sport.orf.at/stories/3162843/",
+        "https://sport.orf.at/av/video/sportVideo15250",
+        "https://sport.orf.at/av/video/onDemandVideoSport69530"
       ]
     },
     "Der Standard": {
@@ -6353,16 +6365,17 @@
     },
     "Kurier": {
       "country": "Austri",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-17",
       "lastSeen": "2026-09-26",
       "urls": [
         "https://kurier.at/politik/ausland/kosovo-kriegsverbrechen-thaci-verurteilt/403191149",
-        "https://kurier.at/sport/fussball/rangnick-oefb-zawieschitzky-jungwirth-oesterreich-kosovo/403194101"
+        "https://kurier.at/sport/fussball/rangnick-oefb-zawieschitzky-jungwirth-oesterreich-kosovo/403194101",
+        "https://kurier.at/sport/fussball/fussball-oefb-nationalteam-oesterreich-gregoritsch-kosovo-verletzung/403194095"
       ]
     },
     "Corriere del Ticino": {
@@ -6937,9 +6950,9 @@
     },
     "ORF ON": {
       "country": "Austri",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 1,
       "unknown": 1,
       "firstSeen": "2026-09-18",
@@ -6949,7 +6962,8 @@
         "https://on.orf.at/video/14340402/16159743/kosovo-besiegt-irland-vor-duell-mit-oesterreich",
         "https://on.orf.at/video/14340402/16159744/ausblick-aufs-spiel-gegen-kosovo-nations-league-oesterreich-israel",
         "https://on.orf.at/sammlung/13870321/nations-league-oefb-bereit-fuer-kosovo",
-        "https://on.orf.at/video/14340734/oefb-pressekonferenz-vor-oesterreich-kosovo-aus-wien"
+        "https://on.orf.at/video/14340734/oefb-pressekonferenz-vor-oesterreich-kosovo-aus-wien",
+        "https://on.orf.at/video/14341213/16160662/schlager-uebernimmt-kapitaensrolle-gegen-kosovo"
       ]
     },
     "GMX.AT": {
@@ -8438,19 +8452,20 @@
     },
     "PodkarpacieLIVE": {
       "country": "Poloni",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 3,
       "firstSeen": "2026-09-22",
-      "lastSeen": "2026-09-25",
+      "lastSeen": "2026-09-26",
       "urls": [
         "https://www.podkarpacielive.pl/mecz/158315,kosowo-vs-irlandia",
         "https://www.podkarpacielive.pl/pl/wydarzenia/57713,kosowo---irlandia-typy-kursy-bukmacherskie-zapowiedz-24092026",
         "https://www.podkarpacielive.pl/pl/wydarzenia/57636,kosowo---irlandia-na-zywo-wynik-i-relacja-live-24092026",
         "https://www.podkarpacielive.pl/pl/wydarzenia/57830,kosowo---irlandia-sklady-i-wyjsciowe-jedenastki-24092026",
-        "https://www.podkarpacielive.pl/pl/wydarzenia/57743,kosowo---irlandia-transmisja-na-zywo-gdzie-ogladac-i-o-ktorej-mecz-24092026"
+        "https://www.podkarpacielive.pl/pl/wydarzenia/57743,kosowo---irlandia-transmisja-na-zywo-gdzie-ogladac-i-o-ktorej-mecz-24092026",
+        "https://www.podkarpacielive.pl/pl/wydarzenia/57714,austria---kosowo-typy-kursy-bukmacherskie-zapowiedz-27092026"
       ]
     },
     "triesteprima.it": {
@@ -8673,29 +8688,31 @@
     },
     "Foxbet.gr": {
       "country": "Greqi",
+      "total": 3,
+      "positive": 0,
+      "neutral": 3,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-23",
+      "lastSeen": "2026-09-26",
+      "urls": [
+        "https://www.foxbet.gr/prognostika/447523-kosovo-irlandia",
+        "https://www.foxbet.gr/prognostika/447515-san-marino-kosovo",
+        "https://www.foxbet.gr/prognostika/447811-afstria-kosovo"
+      ]
+    },
+    "StoiximaView.gr": {
+      "country": "Greqi",
       "total": 2,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-23",
-      "lastSeen": "2026-09-23",
+      "lastSeen": "2026-09-26",
       "urls": [
-        "https://www.foxbet.gr/prognostika/447523-kosovo-irlandia",
-        "https://www.foxbet.gr/prognostika/447515-san-marino-kosovo"
-      ]
-    },
-    "StoiximaView.gr": {
-      "country": "Greqi",
-      "total": 1,
-      "positive": 0,
-      "neutral": 1,
-      "negative": 0,
-      "unknown": 0,
-      "firstSeen": "2026-09-23",
-      "lastSeen": "2026-09-23",
-      "urls": [
-        "https://stoiximaview.gr/analyseis-podosfairo/kosovo-irlandia-24092026/"
+        "https://stoiximaview.gr/analyseis-podosfairo/kosovo-irlandia-24092026/",
+        "https://stoiximaview.gr/analyseis-podosfairo/afstria-kosovo-27092026/"
       ]
     },
     "1X2": {
@@ -9731,28 +9748,30 @@
     },
     "GoldBetlive": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-26",
-      "lastSeen": "2026-09-23",
+      "lastSeen": "2026-09-26",
       "urls": [
-        "https://www.goldbetlive.it/news/uncategorized/uefa-nations-league-2026-2027-preview-kosovo-irlanda/"
+        "https://www.goldbetlive.it/news/uncategorized/uefa-nations-league-2026-2027-preview-kosovo-irlanda/",
+        "https://www.goldbetlive.it/news/analisi/uefa-nations-league-2026-27-preview-austria-kosovo/"
       ]
     },
     "5min.at": {
       "country": "Austri",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-26",
       "lastSeen": "2026-09-26",
       "urls": [
-        "https://www.5min.at/wien/5202609260937/strenge-sicherheitsvorkehrungen-beim-spiel-oesterreich-gegen-kosovo/"
+        "https://www.5min.at/wien/5202609260937/strenge-sicherheitsvorkehrungen-beim-spiel-oesterreich-gegen-kosovo/",
+        "https://www.5min.at/wien/5202609251236/oesterreich-vs-kosovo-polizei-richtet-grossen-sicherheitsbereich-ein/"
       ]
     },
     "Vienna.at": {
@@ -9993,6 +10012,32 @@
       "lastSeen": "2026-09-23",
       "urls": [
         "https://eurosport.tvn24.pl/pilka-nozna/liga-narodow/2026-2027/live-kosowo-irlandia_mtc20005856/live-videos.shtml"
+      ]
+    },
+    "ziggosport.nl": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-26",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.ziggosport.nl/video/2019159-kosovo-ierland/"
+      ]
+    },
+    "taksiegra.pl": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-26",
+      "lastSeen": "2026-09-26",
+      "urls": [
+        "https://taksiegra.pl/austria-kosowo-typy-analiza-meczu-27-09-2026/"
       ]
     }
   }
