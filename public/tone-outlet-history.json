@@ -1049,17 +1049,18 @@
     },
     "GZT": {
       "country": "Turqi",
-      "total": 3,
+      "total": 4,
       "positive": 0,
       "neutral": 3,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-19",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://www.gzt.com/dunya/savasin-izleri-yeniden-ortaya-cikti-kosovada-23-kisiye-ait-kemik-kalintilari-bulundu-4252901",
         "https://www.gzt.com/dunya/kosova-aylarca-suren-siyasi-cikmazin-ardindan-yeni-hukumeti-onayladi-4261075",
-        "https://www.gzt.com/dunya/kosovanin-baskenti-pristinede-uck-komutanlarinin-cezalarina-tepki-gosterildi-4262351"
+        "https://www.gzt.com/dunya/kosovanin-baskenti-pristinede-uck-komutanlarinin-cezalarina-tepki-gosterildi-4262351",
+        "https://www.gzt.com/spor/vedat-muric-atti-kosova-irlanda-maci-kac-kac-bitti-kosova-irlanda-mac-sonucu-4264058"
       ]
     },
     "Odatv": {
@@ -1151,11 +1152,11 @@
     },
     "Haberler": {
       "country": "Turqi",
-      "total": 16,
+      "total": 17,
       "positive": 0,
       "neutral": 12,
       "negative": 0,
-      "unknown": 4,
+      "unknown": 5,
       "firstSeen": "2026-08-20",
       "lastSeen": "2026-09-25",
       "urls": [
@@ -1174,7 +1175,8 @@
         "https://www.haberler.com/spor/bodrum-fk-den-3-futbolcu-luksemburg-kosova-ve-20259449-haberi/",
         "https://www.haberler.com/guncel/kosova-istanbul-baskonsolosu-zeka-etso-yu-ziyaret-20263688-haberi/",
         "https://www.haberler.com/spor/vedat-muriqinin-gol-sevinci-tartisma-yaratti-20269494-haberi/",
-        "https://www.haberler.com/haber/kosova-irlanda-canli-nereden-izlenir-hangi-kanal-20268697-haberi/"
+        "https://www.haberler.com/haber/kosova-irlanda-canli-nereden-izlenir-hangi-kanal-20268697-haberi/",
+        "https://www.haberler.com/politika/kosova-da-eski-cumhurbaskani-thaci-ve-uck-20272067-haberi/"
       ]
     },
     "Son Dakika": {
@@ -1252,17 +1254,18 @@
     },
     "Haber 7": {
       "country": "Turqi",
-      "total": 3,
+      "total": 4,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-21",
       "lastSeen": "2026-09-25",
       "urls": [
         "https://www.haber7.com/dunya/haber/3653150-toplu-mezarlar-acildi-cok-sayida-muhimmat-cikti",
         "https://www.haber7.com/dunya/haber/3660063-son-dakika-kosova-eski-cumhurbaskani-hasim-thaciye-25-yil-hapis-cezasi",
-        "https://spor.haber7.com/milli-takim/haber/3662524-kosovayi-galibiyete-tasiyan-vedat-muriqi-gol-sevinciyle-gundem-oldu-uefa-ceza-verebilir"
+        "https://spor.haber7.com/milli-takim/haber/3662524-kosovayi-galibiyete-tasiyan-vedat-muriqi-gol-sevinciyle-gundem-oldu-uefa-ceza-verebilir",
+        "https://spor.haber7.com/milli-takim/haber/3662435-vedat-muriqi-yine-atti-kosova-83te-kazandi"
       ]
     },
     "Haber Ekspres": {
@@ -2413,11 +2416,11 @@
     },
     "ESPN.nl": {
       "country": "Holandë",
-      "total": 6,
+      "total": 7,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 4,
+      "unknown": 5,
       "firstSeen": "2026-08-28",
       "lastSeen": "2026-09-25",
       "urls": [
@@ -2426,7 +2429,8 @@
         "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=698919&action=summary",
         "https://www.espn.nl/voetbal/team/statistieken/_/id/18272/competitie/UEFA.NATIONS/season/2026",
         "https://www.espn.nl/voetbal/speler-statistieken/_/wedstrijdId/401861045",
-        "https://www.espn.nl/soccer/match?gameId=401861071&action=summary"
+        "https://www.espn.nl/soccer/match?gameId=401861071&action=summary",
+        "https://www.espn.nl/voetbal/wedstrijd/_/wedstrijdId/401861071/kosovo-oostenrijk"
       ]
     },
     "iGaming Polska": {
@@ -3109,13 +3113,13 @@
     },
     "balcanicaucaso.org": {
       "country": "Itali",
-      "total": 10,
+      "total": 12,
       "positive": 0,
       "neutral": 7,
       "negative": 2,
-      "unknown": 1,
+      "unknown": 3,
       "firstSeen": "2026-09-06",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.balcanicaucaso.org/cp_article/kosovo-i-ragni-della-val-rugova/",
         "https://www.balcanicaucaso.org/cp_article/kosovo-la-politica-in-un-vicolo-cieco/",
@@ -3126,7 +3130,9 @@
         "https://www.balcanicaucaso.org/cp_article/kosovo-rabbia-e-delusione-per-la-condanna-dei-leader-uck/",
         "https://www.balcanicaucaso.org/cp_article/kosovo-hashim-thaci-condannato-per-crimini-di-guerra/",
         "https://www.balcanicaucaso.org/cp_article/condanna-dei-leader-uck-le-reazioni-in-serbia/",
-        "https://www.balcanicaucaso.org/cp_article/economia-e-dialogo-tra-kosovo-e-serbia/"
+        "https://www.balcanicaucaso.org/cp_article/economia-e-dialogo-tra-kosovo-e-serbia/",
+        "https://www.balcanicaucaso.org/en/cp_article/kosovo-the-kurti-government-is-legitimate-but-is-it-here-to-stay/",
+        "https://www.balcanicaucaso.org/en/projects/contribution-of-the-economic-cooperation-to-kosovo-serbia-normalisation/"
       ]
     },
     "NÖN.at - Niederösterreichische Nachrichten": {
@@ -4153,15 +4159,16 @@
     },
     "Aftonbladet": {
       "country": "Suedi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-13",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-25",
       "urls": [
-        "https://www.aftonbladet.se/nyheter/a/vr2Xnw/efter-politiska-kaoset-kosovo-har-ny-regering"
+        "https://www.aftonbladet.se/nyheter/a/vr2Xnw/efter-politiska-kaoset-kosovo-har-ny-regering",
+        "https://www.aftonbladet.se/nyheter/a/d4VWLo/massprotester-mot-dom-mot-thaci"
       ]
     },
     "Göteborgs-Posten": {
@@ -8759,17 +8766,18 @@
     },
     "20 Min": {
       "country": "Zvicër",
-      "total": 3,
+      "total": 4,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 2,
+      "unknown": 3,
       "firstSeen": "2026-09-24",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.20min.ch/story/proteste-in-zuerich-und-pristina-kosovo-diaspora-empoert-ueber-thaci-verurteilung-103637658",
         "https://www.20min.ch/sport/football/uefa-nations-league/kosovo-vs-irland-egzx1e9ue9ao6dijwlnb2xel0/ticker",
-        "https://www.20min.ch/fr/story/criminel-de-guerre-il-a-combattu-pour-nous-pourquoi-ces-jeunes-manifestent-103638127"
+        "https://www.20min.ch/fr/story/criminel-de-guerre-il-a-combattu-pour-nous-pourquoi-ces-jeunes-manifestent-103638127",
+        "https://www.20min.ch/sport/football/uefa-nations-league/osterreich-vs-kosovo-emccx75mvddqt6pqw3fbw5hxw/ticker"
       ]
     },
     "Bet.gr": {
@@ -9510,15 +9518,16 @@
     },
     "blue News": {
       "country": "Zvicër",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-25",
       "lastSeen": "2026-09-25",
       "urls": [
-        "https://www.bluewin.ch/fr/infos/monde/apr-s-la-condamnation-d-hashim-tha-i-manifestations-au-kosovo-li.3613708"
+        "https://www.bluewin.ch/fr/infos/monde/apr-s-la-condamnation-d-hashim-tha-i-manifestations-au-kosovo-li.3613708",
+        "https://www.bluewin.ch/en/sport/football/three-top-swiss-talents-two-passports-and-a-life-changing-decision-li.3612839"
       ]
     },
     "Västerbottens-Kuriren": {
@@ -9584,6 +9593,32 @@
       "lastSeen": "2026-09-25",
       "urls": [
         "https://www.nefes.com.tr/vedat-muriqiden-ortaligi-karistiracak-gol-sevinci-buyuk-ceza-gelebilir-153566"
+      ]
+    },
+    "ZeelandNet, startpagina van Zeeland": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-25",
+      "urls": [
+        "https://www.zeelandnet.nl/nieuws/duizenden-kosovaren-demonstreren-na-vonnis-kosovotribunaal"
+      ]
+    },
+    "STAR - Haberler": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-25",
+      "lastSeen": "2026-09-22",
+      "urls": [
+        "https://www.star.com.tr/dunya/basbakan-kurtiden-baskan-erdogana-tesekkur-ulkesine-davet-etti-haber-2041792/"
       ]
     }
   }

@@ -9513,7 +9513,7 @@
     "date": "2026-09-25",
     "overallIndex": 51,
     "totalArticles": 125,
-    "sourceCount": 177,
+    "sourceCount": 181,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -9522,7 +9522,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 11,
-        "excluded": 1,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9562,7 +9562,7 @@
         "neutral": 96,
         "negative": 0,
         "n": 24,
-        "excluded": 24,
+        "excluded": 26,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9582,7 +9582,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 22,
-        "excluded": 8,
+        "excluded": 11,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9592,7 +9592,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 6,
+        "excluded": 8,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9612,7 +9612,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 5,
+        "excluded": 6,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9632,7 +9632,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 4,
-        "excluded": 6,
+        "excluded": 7,
         "confident": false,
         "stanceVersion": 3
       },
@@ -9652,7 +9652,7 @@
         "neutral": 95,
         "negative": 0,
         "n": 19,
-        "excluded": 20,
+        "excluded": 24,
         "confident": true,
         "stanceVersion": 3
       },
@@ -9679,14 +9679,14 @@
       {
         "title": "Ireland v Kosovo preview: Hallgrímsson’s side search for a little calm before the storm against a rising side - The Irish Times",
         "source": "The Irish Times",
-        "country": "SHBA",
-        "flag": "🇺🇸",
+        "country": "Britani",
+        "flag": "🇬🇧",
         "url": "https://www.irishtimes.com/sport/soccer/2026/09/23/ireland-search-for-a-little-calm-before-the-storm-against-a-kosovo-side-looking-to-continue-their-rise/",
         "sentiment": "positive"
       },
       {
         "title": "La musica, un ponte tra i popoli. Da Forlì al Kosovo: 3 concerti e un’amicizia che dura da 14 anni - Il Resto del Carlino",
-        "source": "Il Resto del Carlino",
+        "source": "ilrestodelcarlino.it",
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://www.ilrestodelcarlino.it/forli/cronaca/la-musica-un-ponte-tra-3a1b92fe",
@@ -9695,8 +9695,8 @@
       {
         "title": "Treffen zwischen Vučić und Kalas: Mladić, Kosovo und studentische Vergewaltiger - vreme.com",
         "source": "vreme.com",
-        "country": "Austri",
-        "flag": "🇦🇹",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
         "url": "https://vreme.com/de/vesti/aleksandar-vucic-kaja-kalas-izbori-studenti/",
         "sentiment": "negative"
       },
