@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-26",
   "overallIndex": 51,
-  "totalArticles": 117,
-  "sourceCount": 180,
+  "totalArticles": 150,
+  "sourceCount": 192,
   "stanceVersion": 3,
-  "unattributed": 443,
+  "unattributed": 460,
   "nonEditorial": 6,
   "wrongKosovo": 0,
   "countries": {
@@ -42,7 +42,7 @@
               "speaker": "Vesel Demaku"
             }
           ],
-          "totalArticles": 9,
+          "totalArticles": 10,
           "trend": "neutral",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-26"
@@ -168,7 +168,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 14,
+          "totalArticles": 16,
           "trend": "neutral",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-26"
@@ -196,6 +196,56 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-25",
           "lastSeen": "2026-09-25"
+        },
+        {
+          "name": "kicker",
+          "sentiment": "neutral",
+          "articleCount": 3,
+          "articles": [
+            {
+              "title": "Rangnick: Kosovo-Partie \"nochmal schwieriger\" als Duell mit Israel - kicker.de",
+              "albanianTitle": "Rangnick: Ndeshja me Kosovën, edhe më e vështirë se ajo me Izraelin",
+              "blurb": "Trajneri Ralf Rangnick vlerëson se ndeshja e Austrisë kundër Kosovës do të jetë më e vështirë se ajo ndaj Izraelit.",
+              "imageUrl": null,
+              "url": "https://www.kicker.de/rangnick-kosovo-partie-nochmal-schwieriger-als-duell-mit-israel-1256154/artikel",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Raporton fjalën e Rangnick-ut, nuk e përvetëson media",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Rangnick"
+            },
+            {
+              "title": "Wer überträgt Österreich gegen Kosovo live im TV & Stream? - kicker.de",
+              "albanianTitle": "Ku mund ta shikoni drejtpërdrejt ndeshjen Austri – Kosovë në TV dhe internet?",
+              "blurb": "Tifozët mund të ndjekin transmetimin e drejtpërdrejtë televiziv dhe online të ndeshjes ndërmjet Austrisë dhe Kosovës në platformat përkatëse.",
+              "imageUrl": null,
+              "url": "https://www.kicker.de/wer-uebertraegt-oesterreich-gegen-kosovo-live-im-tv-stream-1255838/artikel",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Informacion për transmetimin e ndeshjes",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Schlager ÖFB-Kapitän gegen den Kosovo: \"Jeder muss vorangehen\" - kicker.de",
+              "albanianTitle": "Schlager, kapiteni i Austrisë para ndeshjes me Kosovën: Secili duhet të marrë përgjegjësi",
+              "blurb": "Kapiteni Schlager kërkon angazhim maksimal nga të gjithë lojtarët e Austrisë për ndeshjen e radhës kundër përfaqësueses së Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.kicker.de/schlager-oefb-kapitaen-gegen-den-kosovo-jeder-muss-vorangehen-1256179/artikel",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Raporton citatin e kapitenit, pa ngarkim negativ",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "ÖFB-Kapitän"
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "neutral",
+          "firstSeen": "2026-08-24",
+          "lastSeen": "2026-09-26"
         },
         {
           "name": "neunzigplus.de",
@@ -272,6 +322,54 @@
           "lastSeen": "2026-09-24"
         },
         {
+          "name": "sport1.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bayern-Talent feiert historisches Länderspiel-Debüt - sport1.de",
+              "albanianTitle": "Talenti i Bayernit shënon debutim historik me kombëtaren",
+              "blurb": "Një talent i Bayern Munichut ka shënuar debutimin e tij historik me ekipin kombëtar në ndeshjen e fundit ndërkombëtare.",
+              "imageUrl": "https://reshape.sport1.de/c/t/e34fcf5f-c0f1-4544-a854-b77ab13481b9/1290x726",
+              "url": "https://www.sport1.de/news/fussball/uefa-nations-league/2026/09/bayern-talent-mit-historischem-kosovo-debuet",
+              "date": "2026-09-25",
+              "sentiment": "neutral",
+              "reason": "Lajm faktik sportiv",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-26",
+          "lastSeen": "2026-09-25"
+        },
+        {
+          "name": "sportschau.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Fußball Nations League B: Kosovo gegen Irland - Aufstellung - 1. Gruppenspieltag - 2026/2027 - sportschau.de",
+              "albanianTitle": "Liga e Kombeve B: Kosova kundër Irlandës – Formacionet – Xhiroja e parë – 2026/2027",
+              "blurb": "Publikohen formacionet zyrtare për ndeshjen e Ligës së Kombeve ndërmjet Kosovës dhe Irlandës në kuadër të sezonit 2026-2027.",
+              "imageUrl": "https://images.sportschau.de/image/2b3257a6-1644-4ac1-9d86-b8ece10e74ce/AAABm--OpTU/AAABnSSvrFg/16x9-big/rudolf-harbig-stadion-100.jpg?width=1280",
+              "url": "https://www.sportschau.de/live-und-ergebnisse/fussball/uefa-nations-league-b/ma11904211/kosovo_irland/taktische-aufstellung",
+              "date": "2026-09-24",
+              "sentiment": "neutral",
+              "reason": "Lajm faktik për ndeshjen në Nations League",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-24"
+        },
+        {
           "name": "swp.de",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -301,7 +399,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 15,
+        "n": 20,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -311,18 +409,18 @@
       "outlets": [
         {
           "name": "AP News",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
               "title": "Protests against war crimes verdicts add pressure on Kosovo’s government - AP News",
-              "albanianTitle": "Protestat kundër aktgjykimeve për krime lufte rrisin presionin mbi Qeverinë e Kosovës",
-              "blurb": "Protestat e qytetarëve kundër vendimeve për krimet e luftës po ndikojnë në rritjen e presionit ndaj qeverisë së Kosovës.",
+              "albanianTitle": "Protestat kundër vendimeve për krime lufte shtojnë presionin mbi Qeverinë e Kosovës - AP News",
+              "blurb": "Protestat lidhur me vendimet për krime lufte po shtojnë presionin politik ndaj Qeverisë së Kosovës.",
               "imageUrl": null,
               "url": "https://apnews.com/article/kosovo-protest-politics-crisis-war-crimes-116aafc9717e22c8c1d6b2b312a764c6",
               "date": "2026-09-25",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i protesteve, pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -359,12 +457,12 @@
         }
       ],
       "summary": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
-        "excluded": 2,
+        "n": 1,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       }
@@ -677,6 +775,30 @@
           "lastSeen": "2026-09-25"
         },
         {
+          "name": "Sports Mole",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Preview: Austria vs Kosovo - prediction, team news, lineups - Sports Mole",
+              "albanianTitle": "Parashikimi i ndeshjes Austri - Kosovë: Lajmet e fundit dhe formacionet e mundshme",
+              "blurb": "Informacione rreth formacioneve dhe lajmeve të fundit për ndeshjen e futbollit ndërmjet Austrisë dhe Kosovës.",
+              "imageUrl": "https://www.sportsmole.co.uk/thumbor/HQ9eS8JaiMgKzKt7apQeLyr5SPQ=/720x410/smart/filters:format(webp)/https%3A%2F%2Fsportsmole-media-prod.s3.gra.io.cloud.ovh.net%2Fuploads%2F2026%2F06%2Fimago1078133707-6a32a271790d3723881700.jpg",
+              "url": "https://www.sportsmole.co.uk/football/austria/uefa-nations-league/preview/austria-vs-kosovo-prediction-team-news-lineups_605764.html",
+              "date": "2026-09-25",
+              "sentiment": "neutral",
+              "reason": "Faktikë të thjeshta, pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-26",
+          "lastSeen": "2026-09-25"
+        },
+        {
           "name": "balkaninsight.com",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -754,7 +876,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 13,
         "confident": false,
         "stanceVersion": 3
@@ -1422,6 +1544,30 @@
           "lastSeen": "2026-09-23"
         },
         {
+          "name": "La Gazzetta del Mezzogiorno",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Non dimentichiamo i Balcani: serve avviare un percorso di riavvicinamento e pace - La Gazzetta del Mezzogiorno",
+              "albanianTitle": "Të mos i harrojmë Ballkanin: duhet nisur një proces i afrimit dhe paqes",
+              "blurb": "Nevojitet nisja e një procesi të ri afrimi dhe paqeje për rajonin e Ballkanit, sipas analizës së La Gazzetta del Mezzogiorno.",
+              "imageUrl": "https://lagazzettadelmezzogiorno.cdn.m33cloud.com/resizer/600/315/true/2026_09_26/ba4da2c1bac9245b6827e3601c1b2eb8-1790445800582.jpg--non_dimentichiamo_i_balcani__serve_avviare_un_percorso_di_riavvicinamento_e_pace.webp?1790445800589",
+              "url": "https://www.lagazzettadelmezzogiorno.it/news/punti-di-vista/2146969/non-dimentichiamo-i-balcani-serve-avviare-un-percorso-di-riavvicinamento-e-pace.html",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-09-26"
+        },
+        {
           "name": "La Repubblica",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1471,8 +1617,8 @@
         },
         {
           "name": "Mediaset Infinity",
-          "sentiment": "unknown",
-          "articleCount": 1,
+          "sentiment": "neutral",
+          "articleCount": 2,
           "articles": [
             {
               "title": "SportMediaset: Juve, guarda Zhegrova: show durante Kosovo-Turchia Video - Mediaset Infinity",
@@ -1486,9 +1632,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "SportMediaset: Juve, guarda Zhegrova: show durante Kosovo-Irlanda Video - Mediaset Infinity",
+              "albanianTitle": "SportMediaset: Juventusi, vëzhgo Zhegrovën: shfaqje spektakolare në ndeshjen Kosovë-Irlandë",
+              "blurb": "Videoja e performancës së Edon Zhegrovës në ndeshjen Kosovë-Irlandë po vlerësohet nga mediat italiane si interesim i mundshëm për Juventusin.",
+              "imageUrl": "https://img-prod-api2.mediasetplay.mediaset.it/api/images/mp/v5/ita/FD00000000546654/image_keyframe_poster/1200/630?r=1790434390000",
+              "url": "https://mediasetinfinity.mediaset.it/video/sportmediaset/juve-guarda-zhegrova-show-durante-kosovo-irlanda_FD00000000546654",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-26",
           "lastSeen": "2026-09-26"
@@ -1526,15 +1685,15 @@
             },
             {
               "title": "Kosovo: the Kurti government is legitimate, but is it here to stay? - Osservatorio Balcani Caucaso Transeuropa",
-              "albanianTitle": "Kosovë: Qeveria Kurti është legjitime, por a do të mbijetojë?",
-              "blurb": "Analiza vlerëson legjitimitetin e qeverisë së udhëhequr nga Albin Kurti dhe stabilitetin e saj politik në të ardhmen.",
+              "albanianTitle": "Kosovë: Qeveria Kurti është legjitime, por a do të zgjasë? - Osservatorio Balcani Caucaso Transeuropa",
+              "blurb": "Qeveria e Kurtit në Kosovë gëzon legjitimitet, ndërsa analizohet qëndrueshmëria e saj në pushtet për periudhën e ardhshme politike.",
               "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/shutterstock_2729989317.jpg",
               "url": "https://www.balcanicaucaso.org/en/cp_article/kosovo-the-kurti-government-is-legitimate-but-is-it-here-to-stay/",
               "date": "2026-09-25",
-              "sentiment": "unknown",
-              "reason": "",
+              "sentiment": "positive",
+              "reason": "Titulli përshkruan qeverinë si legjitime, një vlerësim mbështetës",
               "isQuote": false,
-              "evidence": "",
+              "evidence": "the Kurti government is legitimate",
               "speaker": ""
             },
             {
@@ -1657,7 +1816,7 @@
         {
           "name": "Sportmediaset",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Juve, guarda Zhegrova: show durante Kosovo-Turchia - Sportmediaset",
@@ -1668,6 +1827,19 @@
               "date": "2026-09-26",
               "sentiment": "neutral",
               "reason": "Faktikë raportim pa gjuhë ngarkuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Juve, guarda Zhegrova: show durante Kosovo-Irlanda - Sportmediaset",
+              "albanianTitle": "Juventusi, vëzhgo Zhegrovën: shkëlqeu në ndeshjen Kosovë-Irlandë",
+              "blurb": "Edon Zhegrova shfaqet me performancë të lartë në ndeshjen e Kosovës kundër Irlandës, duke tërhequr vëmendjen e Juventusit.",
+              "imageUrl": "https://img-api.cloud.mediaset.net/api/images/kn/v1/image_main/1200/675/117011131?r=4",
+              "url": "https://www.sportmediaset.mediaset.it/video/social-sportmediaset/juve-guarda-zhegrova-show-durante-kosovo-turchia_117011132-202602k.shtml",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2092,12 +2264,12 @@
         }
       ],
       "summary": {
-        "index": 53,
-        "positive": 7,
-        "neutral": 93,
+        "index": 55,
+        "positive": 11,
+        "neutral": 89,
         "negative": 0,
-        "n": 15,
-        "excluded": 31,
+        "n": 19,
+        "excluded": 30,
         "confident": false,
         "stanceVersion": 3
       }
@@ -2192,7 +2364,7 @@
         {
           "name": "Der Standard",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Kosovo schlägt Irland in ÖFB-Gruppe mit 1:0 - Der Standard",
@@ -2245,6 +2417,19 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "ÖFB-Team beginnt gegen Kosovo mit Debütant im Tor - Der Standard",
+              "albanianTitle": "Austria e nis ndeshjen kundër Kosovës me një debutues në portë",
+              "blurb": "Ekipi kombëtar i Austrisë nis ndeshjen kundër Kosovës me një portier debutues në formacionin e parë të trajnerit Rangnick.",
+              "imageUrl": "https://i.ds.at/ENrJKA/rs:fill:1200:600/plain/lido-images/2026/09/26/394e134e-7347-4c5d-b69e-1a0dae645c82.jpg",
+              "url": "https://www.derstandard.at/story/3000000341481/fu223ball-gregoritsch-fehlte-im-214fb-abschlusstraining-f252r-kosovo-spiel",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 10,
@@ -2292,7 +2477,7 @@
         {
           "name": "Heute",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Du als Teamchef – Stimme ab! Deine ÖFB-Wunschelf gegen den Kosovo - Heute",
@@ -2344,6 +2529,19 @@
               "reason": "Faktikë raportim neutral pa gjuhë ngacmuese ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Nations-League-Duell – Rangnick warnt vor Kosovo und macht Einser-Rätsel - heute.at",
+              "albanianTitle": "Dueli i Ligës së Kombeve – Rangnick paralajmëron për rrezikun nga Kosova dhe mban mister portierin",
+              "blurb": "Ralf Rangnick shpreh kujdes ndaj Kosovës dhe mban të fshehtë emrin e portierit që do të startojë në ndeshje.",
+              "imageUrl": "https://heute-at-prod-images.imgix.net/2026/09/26/de20615e-444e-4cb5-8aa2-94fb78ce8960.jpg?rect=0%2C94%2C4000%2C2250&w=1200&h=630&fit=crop&fm=jpg",
+              "url": "https://www.heute.at/s/rangnick-warnt-vor-kosovo-und-macht-einser-raetsel-120257649",
+              "date": "2026-09-26",
+              "sentiment": "negative",
+              "reason": "Gjuha e medias e paraqet Kosovën si kërcëllim",
+              "isQuote": false,
+              "evidence": "warnt vor Kosovo",
               "speaker": ""
             }
           ],
@@ -2405,7 +2603,7 @@
         {
           "name": "Kleine Zeitung",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Ralf Rangnick nimmt gegen den Kosovo Tormann-Wechsel vor - Kleine Zeitung",
@@ -2419,6 +2617,19 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Ralf Rangnick nimmt gegen den Kosovo Tormann-Wechsel vor - kleinezeitung.at",
+              "albanianTitle": "Ralf Rangnick bën ndryshime në portë për ndeshjen kundër Kosovës",
+              "blurb": "Përzgjedhësi i Austrisë, Ralf Rangnick, ka vendosur të bëjë ndryshime në pozitën e portierit për ndeshjen ndaj Kosovës.",
+              "imageUrl": "https://img.kleinezeitung.at/public/incoming/qzq4i8-lukas-jungwirth/alternates/KLZ_SOCIAL/Lukas%20Jungwirth",
+              "url": "https://www.kleinezeitung.at/artikel/41298701/ralf-rangnick-nimmt-gegen-den-kosovo-tormann-wechsel-vor",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
           "totalArticles": 5,
@@ -2429,7 +2640,7 @@
         {
           "name": "Kronen Zeitung",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Teilhabe stärken - Wie das Land Vorarlberg Frauen im Kosovo hilft - Kronen Zeitung",
@@ -2482,17 +2693,30 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Sonntag gegen Kosovo - Zu Hause eine Macht: ÖFB-Rekordserie soll halten - Kronen Zeitung",
+              "albanianTitle": "Të dielën kundër Kosovës: Austria kërkon vazhdimin e serisë së rekordeve në shtëpi",
+              "blurb": "Austria synon vazhdimin e serisë së fitoreve në ndeshjen e futbollit që zhvillohet të dielën kundër Kosovës.",
+              "imageUrl": "https://imgl.krone.at/scaled/4310792/v7e186d/og_image.jpg",
+              "url": "https://www.krone.at/4310789",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Titulli fokusohet në ekipin austriak, pa fjalë negative ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 10,
+          "totalArticles": 11,
           "trend": "neutral",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-26"
         },
         {
           "name": "Kurier",
-          "sentiment": "unknown",
-          "articleCount": 1,
+          "sentiment": "neutral",
+          "articleCount": 2,
           "articles": [
             {
               "title": "Rangnick verrät: Gegen den Kosovo steht ein Debütant im ÖFB-Tor - Kurier",
@@ -2506,6 +2730,19 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Rangnick verrät: Gegen den Kosovo steht ein Debütant im ÖFB-Tor - kurier.at",
+              "albanianTitle": "Rangnick zbulon: Një debutues do të jetë në portën e Austrisë kundër Kosovës",
+              "blurb": "Ralf Rangnick ka konfirmuar se një portier debutues do të jetë titullar për Austrinë në përballjen kundër përfaqësueses së Kosovës.",
+              "imageUrl": "https://image.kurier.at/images/facebook/9349421/image-editor-da60c5c3-b993-48b9-9092-9490527e8667.jpg?versionId=0651fd90ffda",
+              "url": "https://kurier.at/sport/fussball/rangnick-oefb-zawieschitzky-jungwirth-oesterreich-kosovo/403194101",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Raporton deklaratën e Rangnick-ut, pa ngarkim negativ",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Rangnick"
             }
           ],
           "totalArticles": 2,
@@ -2516,7 +2753,7 @@
         {
           "name": "LAOLA1",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Kosovo: Ex-LASK-Kicker tritt vor ÖFB-Match zurück - LAOLA1",
@@ -2556,12 +2793,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Deine ÖFB-Startelf gegen Kosovo - Stimme ab! - LAOLA1",
+              "albanianTitle": "Zgjidh formacionin e Austrisë kundër Kosovës – Voto tani!",
+              "blurb": "Tifozët e Austrisë kanë mundësinë të votojnë për formacionin e tyre të preferuar që duhet të luajë kundër Kosovës.",
+              "imageUrl": "https://www.laola1.at/storage/files/9c/ef/a3/b3-213a-46f6-8ac2-d80a584065d9.1280x720.jpg?v=0",
+              "url": "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/hintergrund/deine-oefb-startelf-gegen-kosovo---stimme-ab-/",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Faktikë thjeshtë, pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 6,
+          "totalArticles": 7,
           "trend": "i përzier",
           "firstSeen": "2026-08-25",
-          "lastSeen": "2026-09-24"
+          "lastSeen": "2026-09-26"
         },
         {
           "name": "Ligaportal",
@@ -2598,6 +2848,43 @@
           "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-26"
+        },
+        {
+          "name": "NÖN.at - Niederösterreichische Nachrichten",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "ÖFB-Team vor Kosovo-Prüfung: Der erste echte Gradmesser - NÖN.at - Niederösterreichische Nachrichten",
+              "albanianTitle": "Përfaqësuesja e Austrisë përballet me Kosovën: Testi i parë i vërtetë",
+              "blurb": "Përfaqësuesja e Austrisë në futboll do të përballet me Kosovën në një ndeshje testuese për të dyja skuadrat.",
+              "imageUrl": null,
+              "url": "https://www.noen.at/meinfussball/oesterreich-international/nations-league-oefb-team-vor-kosovo-pruefung-der-erste-echte-gradmesser-540678411",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Titulli është informativ, pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Bewährungsprobe für Rangnick und ÖFB-Team gegen Fodas Kosovo - NÖN.at - Niederösterreichische Nachrichten",
+              "albanianTitle": "Test i rëndësishëm për Rangnickun dhe Austrinë kundër Kosovës së Fodës",
+              "blurb": "Përfaqësuesja e Austrisë nën drejtimin e Ralf Rangnick përballet me Kosovën e udhëhequr nga trajneri Franco Foda në një ndeshje testuese.",
+              "imageUrl": null,
+              "url": "https://www.noen.at/in-ausland/bewaehrungsprobe-fuer-rangnick-und-oefb-team-gegen-fodas-kosovo-540686791",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Fact‑based sports headline without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-09-06",
           "lastSeen": "2026-09-26"
         },
         {
@@ -2777,7 +3064,7 @@
         {
           "name": "VOL.AT",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "ÖFB-Team: Bewährungsprobe gegen Fodas Kosovo - VOL.AT",
@@ -2788,6 +3075,19 @@
               "date": "2026-09-26",
               "sentiment": "neutral",
               "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Bewährungsprobe für Rangnick und ÖFB-Team gegen Fodas Kosovo - VOL.AT",
+              "albanianTitle": "Test i rëndësishëm për Rangnickun dhe Austrinë kundër Kosovës së Fodës",
+              "blurb": "Ekipi i Austrisë përballet me Kosovën e drejtuar nga Franco Foda në një ndeshje që shërben si provë për trajnerin Rangnick.",
+              "imageUrl": "https://www.vol.at/2026/09/1595271636_BLD_Online-vodl-10496666-16-9-1200x675.jpg?v=18a6d58c",
+              "url": "https://www.vol.at/bewaehrungsprobe-fuer-rangnick-und-oefb-team-gegen-fodas-kosovo/10496666",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Fact‑based sports headline without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2820,6 +3120,67 @@
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-26",
+          "lastSeen": "2026-09-26"
+        },
+        {
+          "name": "WKO.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Gemischte Wirtschaftskommission Österreich-Kosovo: Firmenanliegen einbringen - WKO.at",
+              "albanianTitle": "Komisioni i Përbashkët Ekonomik Austri-Kosovë: Paraqitni kërkesat e kompanive - WKO.at",
+              "blurb": "Komisioni i përbashkët ekonomik Austri-Kosovë fton kompanitë të paraqesin kërkesat dhe shqetësimet e tyre për zhvillim.",
+              "imageUrl": "https://www.wko.at/oe/aussenwirtschaft/personen-vortrag-adobestock-yurolaitsalbert-447978861.jpeg",
+              "url": "https://www.wko.at/aussenwirtschaft/kosovo-tagung",
+              "date": "2026-09-25",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-25",
+          "lastSeen": "2026-09-25"
+        },
+        {
+          "name": "kicker",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "ÖFB-Abschlusstraining für Kosovo-Spiel ohne Gregoritsch - kicker",
+              "albanianTitle": "Austria zhvillon stërvitjen e fundit para ndeshjes me Kosovën pa Gregoritsch",
+              "blurb": "Sulmuesi Gregoritsch nuk ka marrë pjesë në stërvitjen e fundit të Austrisë para ndeshjes së planifikuar kundër Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.kicker.at/oefb-abschlusstraining-fuer-kosovo-spiel-ohne-gregoritsch-1256096/artikel",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Raportim faktik i trajnimit pa elementë vlerësues",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Fodas Kosovo schlägt Irland mit 1:0 - kicker",
+              "albanianTitle": "Kosova e Fodës mposht Irlandën me rezultat 1:0",
+              "blurb": "Përfaqësuesja e Kosovës, nën drejtimin e trajnerit Franco Foda, ka shënuar fitore me rezultat minimal 1:0 kundër Irlandës.",
+              "imageUrl": null,
+              "url": "https://www.kicker.at/fodas-kosovo-schlaegt-irland-mit-1-0-1255813/artikel",
+              "date": "2026-09-25",
+              "sentiment": "neutral",
+              "reason": "Fact‑based sports headline without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 6,
+          "trend": "neutral",
+          "firstSeen": "2026-08-24",
           "lastSeen": "2026-09-26"
         },
         {
@@ -2971,6 +3332,69 @@
           "lastSeen": "2026-09-26"
         },
         {
+          "name": "oe24.at",
+          "sentiment": "neutral",
+          "articleCount": 4,
+          "articles": [
+            {
+              "title": "Gregoritsch fehlt im Abschlusstraining vor Kosovo-Hit - oe24.at",
+              "albanianTitle": "Gregoritsch mungon në stërvitjen e fundit para ndeshjes me Kosovën",
+              "blurb": "Futbollisti Michael Gregoritsch mungon në seancën e fundit stërvitore të Austrisë para ndeshjes së planifikuar kundër përfaqësueses së Kosovës.",
+              "imageUrl": "https://i.oe24.at/2026/09/26/87f99d69-d95f-4981-8b15-a8428316c812.jpeg?precrop=3275%2C1637%2Cx0%2Cy676&crop=1200:630&enable=upscale&width=1200&quality=80&format=jpg",
+              "url": "https://www.oe24.at/a/gregoritsch-fehlt-im-abschlusstraining-vor-kosovo-hit-900118564",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Fact‑based sports headline without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Rangnick-Hammer: ÖFB startet mit Debütant im Tor - oe24.at",
+              "albanianTitle": "Surpriza e Rangnickut: Austria nis ndeshjen me debutues në portë",
+              "blurb": "Trajneri Ralf Rangnick ka vendosur që Austria të nisë ndeshjen kundër Kosovës me një portier që debuton për herë të parë.",
+              "imageUrl": "https://i.oe24.at/2026/09/26/3c88467d-f244-494e-b8ed-9d55d6e121f7.jpeg?precrop=4364%2C2182%2Cx0%2Cy364&crop=1200:630&enable=upscale&width=1200&quality=80&format=jpg",
+              "url": "https://www.oe24.at/a/rangnick-hammer-oefb-startet-mit-debuetant-im-tor-900118579",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Fact‑based sports headline without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Mit Laimer? So könnten wir gegen Kosovo spielen - oe24.at",
+              "albanianTitle": "Me Laimerin? Ja si mund të luajmë kundër Kosovës",
+              "blurb": "Mediat austriake analizojnë formacionin e mundshëm të Austrisë për ndeshjen kundër Kosovës, duke përfshirë dyshimet për aktivizimin e Konrad Laimer.",
+              "imageUrl": "https://i.oe24.at/2026/09/25/3938d84d-1f7d-4564-9b8e-ffab173d776e.jpeg?precrop=6000%2C3000%2Cx0%2Cy85&crop=1200:630&enable=upscale&width=1200&quality=80&format=jpg",
+              "url": "https://www.oe24.at/a/mit-laimer-so-koennten-wir-gegen-kosovo-spielen-900118267",
+              "date": "2026-09-25",
+              "sentiment": "neutral",
+              "reason": "Fact‑based sports headline without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Nations-League: ÖFB-Elf trifft auf Kosovo - oe24.at",
+              "albanianTitle": "Liga e Kombeve: Austria përballet me Kosovën",
+              "blurb": "Përfaqësuesja e Austrisë në futboll do të përballet me Kosovën në kuadër të ndeshjeve të Ligës së Kombeve.",
+              "imageUrl": "https://i.oe24.at/2026/09/25/dbed41cb-3df4-4869-915f-5541e2b80672.png?precrop=1428%2C714%2Cx36%2Cy0&crop=1200:630&enable=upscale&width=1200&quality=80&format=jpg",
+              "url": "https://www.oe24.at/a/nations-league-oefb-elf-trifft-auf-kosovo-900118309",
+              "date": "2026-09-24",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "neutral",
+          "firstSeen": "2026-09-26",
+          "lastSeen": "2026-09-26"
+        },
+        {
           "name": "on.orf.at",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -3021,7 +3445,7 @@
         {
           "name": "sport.ORF.at",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Kosovo besiegt Irland vor Duell mit Österreich - sport.ORF.at",
@@ -3074,9 +3498,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Nations League: Fodas brisante Rückkehr ins Happel - sport.ORF.at",
+              "albanianTitle": "Liga e Kombeve: Rikthimi i bujshëm i Fodas në stadiumin Happel",
+              "blurb": "Trajneri Franco Foda rikthehet në stadiumin Happel për ndeshjen e vlefshme për Ligën e Kombeve në futboll.",
+              "imageUrl": "https://ibs.orf.at/sport?image=https%3A%2F%2Fassets.orf.at%2Fmims%2F2026%2F39%2F83%2Fcrops%2Fw%3D1200%2Ch%3D630%2Cq%3D75%2F3196434_master_1239983_fus_nations_league_aut_kos_foda_g.jpg%3Fs%3Df6747e54c272dea6eb0201f4592b7bf6c7e1ba54",
+              "url": "https://sport.orf.at/stories/3162843/",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Titulli raporton thjesht ngjarjen sportive pa ngarkesë negative",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 7,
+          "totalArticles": 8,
           "trend": "i përzier",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-26"
@@ -3104,39 +3541,15 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-08-26",
           "lastSeen": "2026-09-25"
-        },
-        {
-          "name": "wko.at",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Gemischte Wirtschaftskommission Österreich-Kosovo: Firmenanliegen einbringen - wko.at",
-              "albanianTitle": "Komisioni i përzier ekonomik Austri-Kosovë: Paraqitni kërkesat e kompanive",
-              "blurb": "Komisioni i përbashkët ekonomik Austri-Kosovë fton kompanitë që të paraqesin kërkesat dhe interesat e tyre për bashkëpunim.",
-              "imageUrl": "https://www.wko.at/oe/aussenwirtschaft/personen-vortrag-adobestock-yurolaitsalbert-447978861.jpeg",
-              "url": "https://www.wko.at/aussenwirtschaft/kosovo-tagung",
-              "date": "2026-09-25",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-25"
         }
       ],
       "summary": {
-        "index": 51,
-        "positive": 3,
-        "neutral": 97,
-        "negative": 0,
-        "n": 37,
-        "excluded": 19,
+        "index": 50,
+        "positive": 2,
+        "neutral": 96,
+        "negative": 2,
+        "n": 54,
+        "excluded": 18,
         "confident": true,
         "stanceVersion": 3
       }
@@ -3446,6 +3859,30 @@
           "lastSeen": "2026-09-24"
         },
         {
+          "name": "Watson",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ce Romand fait face aux criminels de guerre depuis 25 ans - Watson",
+              "albanianTitle": "Ky zviceran nga pjesa frëngjishtfolëse po përballet me kriminelët e luftës prej 25 vitesh",
+              "blurb": "Një shtetas zviceran nga pjesa frëngjishtfolëse është angazhuar për dy dekada e gjysmë në ndjekjen e kriminelëve të luftës.",
+              "imageUrl": "https://www.watson.ch/fr/imgdb/356c/Z1200,675,657,348,127,114/6391588238610339",
+              "url": "https://www.watson.ch/fr/suisse/international/368836595-le-suisse-guenael-mettraux-au-coeur-des-proces-internationaux",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-26"
+        },
+        {
           "name": "blue News",
           "sentiment": "unknown",
           "articleCount": 2,
@@ -3505,6 +3942,43 @@
           "trend": "i përzier",
           "firstSeen": "2026-09-13",
           "lastSeen": "2026-09-25"
+        },
+        {
+          "name": "kicker",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Schlager ÖFB-Kapitän gegen den Kosovo: \"Jeder muss vorangehen\" - kicker.ch",
+              "albanianTitle": "Kapiteni Schlager para ndeshjes me Kosovën: Secili duhet të marrë përgjegjësi",
+              "blurb": "Kapiteni i Austrisë, Schlager, kërkon angazhim maksimal nga të gjithë lojtarët për ndeshjen e radhës kundër Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.kicker.ch/schlager-oefb-kapitaen-gegen-den-kosovo-jeder-muss-vorangehen-1256179/artikel",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Citat i raportuar",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "ÖFB-Kapitän"
+            },
+            {
+              "title": "Rangnick: Kosovo-Partie \"nochmal schwieriger\" als Duell mit Israel - kicker.ch",
+              "albanianTitle": "Rangnick: Ndeshja me Kosovën do të jetë edhe më e vështirë se ajo me Izraelin",
+              "blurb": "Trajneri Ralf Rangnick vlerëson se ndeshja e Austrisë kundër Kosovës do të jetë më e vështirë se ajo me Izraelin.",
+              "imageUrl": null,
+              "url": "https://www.kicker.ch/rangnick-kosovo-partie-nochmal-schwieriger-als-duell-mit-israel-1256154/artikel",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Citat i raportuar",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Rangnick"
+            }
+          ],
+          "totalArticles": 8,
+          "trend": "neutral",
+          "firstSeen": "2026-08-24",
+          "lastSeen": "2026-09-26"
         }
       ],
       "summary": {
@@ -3512,7 +3986,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 12,
+        "n": 15,
         "excluded": 13,
         "confident": true,
         "stanceVersion": 3
@@ -4769,6 +5243,30 @@
           "lastSeen": "2026-09-24"
         },
         {
+          "name": "Speltips.se",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Speltips Österrike - Kosovo 27/9 » Betting odds & tips - Speltips.se",
+              "albanianTitle": "Këshilla për bastet: Austri - Kosovë, 27 shtator",
+              "blurb": "Analizat dhe koeficientët e basteve për ndeshjen e futbollit ndërmjet Austrisë dhe Kosovës që luhet më 27 shtator.",
+              "imageUrl": "https://speltips.se/wp-content/uploads/EM-Osterrike-Schlager-240528.jpg",
+              "url": "https://speltips.se/speltips-27-9-infor-osterrike-kosovo-det-battre-laget",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-26",
+          "lastSeen": "2026-09-26"
+        },
+        {
           "name": "Västerbottens-Kuriren",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -4835,7 +5333,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 4,
         "excluded": 9,
         "confident": false,
         "stanceVersion": 3
@@ -5288,6 +5786,30 @@
           "lastSeen": "2026-09-24"
         },
         {
+          "name": "eurosport.tvn24.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosowo - Irlandia Powiązane wideo: Piłka nożna na żywo - eurosport.tvn24.pl",
+              "albanianTitle": "Kosovë - Irlandë, video e lidhur: Futboll drejtpërdrejt",
+              "blurb": "Platforma Eurosport ofron përmbajtje video lidhur me ndeshjen e futbollit ndërmjet përfaqësueses së Kosovës dhe asaj të Irlandës.",
+              "imageUrl": null,
+              "url": "https://eurosport.tvn24.pl/pilka-nozna/liga-narodow/2026-2027/live-kosowo-irlandia_mtc20005856/live-videos.shtml",
+              "date": "2026-09-23",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-26",
+          "lastSeen": "2026-09-23"
+        },
+        {
           "name": "iGol.pl",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -5413,7 +5935,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 33,
         "confident": false,
         "stanceVersion": 3
