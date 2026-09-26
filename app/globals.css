@@ -17081,8 +17081,17 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   --tg-border: rgba(28, 42, 74, .12);
   --competition-color: #2D4A7C;
   isolation: isolate;
-  position: relative;
   overflow: hidden;
+}
+
+/* position:relative only for the two in-flow surfaces. The receipt is a fixed
+   overlay — a window at the bottom right on desktop, full screen on mobile —
+   and when this rule also named it, the attribute selector out-ranked its
+   position:fixed: the Nations receipt dropped into the page flow below the
+   footer, so the anthem played and nothing appeared. */
+.tregu-native-market[data-competition="uefa.nations"],
+.tregu-detail-header[data-competition="uefa.nations"] {
+  position: relative;
 }
 
 .tregu-native-market[data-competition="uefa.nations"],
