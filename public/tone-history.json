@@ -9709,5 +9709,214 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-09-26",
+    "overallIndex": 51,
+    "totalArticles": 85,
+    "sourceCount": 166,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 13,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 2,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 5,
+        "excluded": 13,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 4,
+        "excluded": 12,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Itali": {
+        "index": 54,
+        "positive": 8,
+        "neutral": 92,
+        "negative": 0,
+        "n": 12,
+        "excluded": 29,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": 53,
+        "positive": 6,
+        "neutral": 94,
+        "negative": 0,
+        "n": 18,
+        "excluded": 16,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 12,
+        "excluded": 13,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 10,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 5,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Greqi": {
+        "index": 40,
+        "positive": 0,
+        "neutral": 80,
+        "negative": 20,
+        "n": 5,
+        "excluded": 21,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 8,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 33,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 56,
+        "positive": 11,
+        "neutral": 89,
+        "negative": 0,
+        "n": 9,
+        "excluded": 19,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "Jahrestag von Banjska: Ist es damit endgültig vorbei mit „Kosovo ist Serbien“? - vreme.com",
+        "source": "vreme.com",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://vreme.com/de/vesti/godisnjica-banjske-da-li-je-tada-definitivno-zavrseno-sa-kosovo-je-srbija/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Ireland v Kosovo preview: Hallgrímsson’s side search for a little calm before the storm against a rising side - The Irish Times",
+        "source": "The Irish Times",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.irishtimes.com/sport/soccer/2026/09/23/ireland-search-for-a-little-calm-before-the-storm-against-a-kosovo-side-looking-to-continue-their-rise/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "La musica, un ponte tra i popoli. Da Forlì al Kosovo: 3 concerti e un’amicizia che dura da 14 anni - Il Resto del Carlino",
+        "source": "Il Resto del Carlino",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.ilrestodelcarlino.it/forli/cronaca/la-musica-un-ponte-tra-3a1b92fe",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Treffen zwischen Vučić und Kalas: Mladić, Kosovo und studentische Vergewaltiger - vreme.com",
+        "source": "vreme.com",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://vreme.com/de/vesti/aleksandar-vucic-kaja-kalas-izbori-studenti/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Ireland Player Ratings As Heimir's Men Hugely Underwhelming In Poor Kosovo Loss - Balls.ie",
+        "source": "Balls.ie",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.balls.ie/football/ireland-player-ratings-as-heimirs-men-hugely-underwhelming-in-poor-kosovo-loss-663820",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Εφιάλτης στα Βαλκάνια: Στα όπλα Σερβία, Βοσνία και Κόσοβο – Έρχεται νέος αιματηρός πόλεμος, με εμπλοκή Trump και «βρώμικα» deals - Bankingnews",
+        "source": "Bankingnews",
+        "country": "Greqi",
+        "flag": "🇬🇷",
+        "url": "https://www.bankingnews.gr/diethni/articles/901118/efialtis-ksypna-sta-balkania-gyrizoun-oi-daimones-tou-polemou-proeidopoiisi-sok-gia-mparoutapothiki-pou-ekrignytai",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]

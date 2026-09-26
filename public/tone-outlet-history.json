@@ -517,13 +517,13 @@
     },
     "Blick": {
       "country": "Zvicër",
-      "total": 8,
+      "total": 9,
       "positive": 0,
       "neutral": 6,
       "negative": 0,
-      "unknown": 2,
+      "unknown": 3,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-17",
+      "lastSeen": "2026-09-26",
       "urls": [
         "https://www.blick.ch/schweiz/zentralschweiz/luzern/verwandte-erklaert-den-ausreisser-aufregung-im-kosovo-wegen-weissem-mercedes-aus-der-schweiz-id22192215.html",
         "https://www.blick.ch/ausland/auto-faehrt-ueber-trottoir-diese-szene-sorgt-fuer-diskussionen-id22192168.html",
@@ -532,7 +532,8 @@
         "https://www.blick.ch/fr/sport/football/football-la-selection-kosovare-secouee-par-une-revolte-interne/v9qsc4d",
         "https://www.blick.ch/sport/fussball/nati/vergesst-die-geschichte-nicht-xhaka-brueder-solidarisieren-sich-mit-verurteiltem-ex-kosovo-praesidenten-id22262535.html",
         "https://www.blick.ch/ausland/prozess-um-kriegsverbrechen-kosovos-ex-praesident-zu-25-jahren-haft-verurteilt-id22260020.html",
-        "https://www.blick.ch/sport/fussball/nati/folgt-kosovo-aufgebot-naechstes-u21-talent-entscheidet-sich-gegen-die-schweizer-nati-id22261246.html"
+        "https://www.blick.ch/sport/fussball/nati/folgt-kosovo-aufgebot-naechstes-u21-talent-entscheidet-sich-gegen-die-schweizer-nati-id22261246.html",
+        "https://www.blick.ch/schweiz/milchpreis-kosovo-geldwaesche-das-aendert-sich-im-oktober-in-der-schweiz-id22278819.html"
       ]
     },
     "zentralplus": {
@@ -1001,18 +1002,19 @@
     },
     "Cumhuriyet": {
       "country": "Turqi",
-      "total": 4,
+      "total": 5,
       "positive": 1,
       "neutral": 3,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-17",
+      "lastSeen": "2026-09-24",
       "urls": [
         "https://www.cumhuriyet.com.tr/dunya/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-kemik-kalintilari-bulundu-2530603",
         "https://www.cumhuriyet.com.tr/cumhuriyet-in-egesi/izmir-ile-kosova-arasinda-cok-yonlu-is-birligi-donemi-2530991",
         "https://news.google.com/rss/articles/CBMikAFBVV95cUxQYi1QNmI2NEstaVFPaUZkTW1zMHp4cHlPcVk2UEJNYW94V0swM2duTWJuVTJrOFBwcjRlUXhwVEVmY2hiMWVSUUVYOGJ6RDl3eUptY2d2ZGZvYlBBYmFJZjZWRW5CeGE1WTZZaVFkUWJlRHFIRHdxVXNvSjQ2ZnBnS3RZZ1gzWk9NNXJkamkyR1U?oc=5",
-        "https://www.cumhuriyet.com.tr/dunya/eski-kosova-cumhurbaskani-hasim-taci-ye-savas-suclarindan-25-yil-hapis-2538161"
+        "https://www.cumhuriyet.com.tr/dunya/eski-kosova-cumhurbaskani-hasim-taci-ye-savas-suclarindan-25-yil-hapis-2538161",
+        "https://www.cumhuriyet.com.tr/spor/kosova-ya-uc-puani-vedat-muriqi-getirdi-2540813"
       ]
     },
     "Aksiyon.com.TR": {
@@ -1738,18 +1740,19 @@
     },
     "Heute": {
       "country": "Austri",
-      "total": 4,
+      "total": 5,
       "positive": 0,
       "neutral": 4,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-26",
       "urls": [
         "https://www.heute.at/s/ex-oefb-coach-foda-lehnte-millionen-angebot-ab-120242843",
         "https://www.heute.at/s/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143",
         "https://www.heute.at/i/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143/doc-1k2hoiug94",
-        "https://www.heute.at/s/hammer-urteil-25-jahre-haft-fuer-ex-kosovo-praesident-120252986"
+        "https://www.heute.at/s/hammer-urteil-25-jahre-haft-fuer-ex-kosovo-praesident-120252986",
+        "https://www.heute.at/s/stimme-ab-deine-oefb-wunschelf-gegen-den-kosovo-120257510"
       ]
     },
     "Rundschau Online": {
@@ -1798,13 +1801,13 @@
     },
     "Kicker": {
       "country": "Zvicër",
-      "total": 10,
+      "total": 12,
       "positive": 0,
-      "neutral": 10,
+      "neutral": 11,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-26",
       "urls": [
         "https://www.kicker.de/kosovo-gegen-aegypten-2026-mittelmeerspiele-5262180/ergebnis",
         "https://www.kicker.de/portugal-gegen-kosovo-2026-mittelmeerspiele-5262186/ergebnis",
@@ -1815,7 +1818,9 @@
         "https://www.kicker.ch/kosovo-gegen-irland-2026-uefa-nations-league-5193338/aufstellung",
         "https://www.kicker.ch/valmir-matoshi/spieler/uefa-nations-league/2026/kosovo",
         "https://www.kicker.ch/albian-hajdari/spieler/uefa-nations-league/2026/kosovo",
-        "https://www.kicker.at/kosovo-gegen-irland-2026-uefa-nations-league-5193338/aufstellung"
+        "https://www.kicker.at/kosovo-gegen-irland-2026-uefa-nations-league-5193338/aufstellung",
+        "https://www.kicker.de/wer-uebertraegt-oesterreich-gegen-kosovo-live-im-tv-stream-1255838/artikel",
+        "https://www.kicker.ch/wer-uebertraegt-oesterreich-gegen-kosovo-live-im-tv-stream-1255838/artikel"
       ]
     },
     "infodifesa": {
@@ -3255,13 +3260,13 @@
     },
     "RFI": {
       "country": "Francë",
-      "total": 7,
+      "total": 8,
       "positive": 0,
       "neutral": 6,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-18",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.rfi.fr/fr/europe/20260904-%C3%A0-la-une-en-serbie-les-%C3%A9tudiants-cibl%C3%A9s-par-le-logiciel-espion-pegasus",
         "https://www.rfi.fr/fr/podcasts/reportage-international/20260914-proc%C3%A8s-de-l-ancien-pr%C3%A9sident-hashim-tha%C3%A7i-et-de-trois-ex-chefs-de-l-uck-un-verdict-tr%C3%A8s-attendu-au-kosovo",
@@ -3269,7 +3274,8 @@
         "https://www.rfi.fr/es/europa/20260916-kosovo-el-expresidente-hashim-tha%C3%A7i-fue-condenado-a-25-a%C3%B1os-de-prisi%C3%B3n",
         "https://www.rfi.fr/fr/europe/20260918-%C3%A0-la-une-l-ex-pr%C3%A9sident-du-kosovo-hashim-tha%C3%A7i-condamn%C3%A9-%C3%A0-25-ans-de-prison",
         "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQa0xlX3pTU2VQVmdKR1FhQjhYNERwUlBOZUNjT1ZkLW5aNGJsaG9SOVJGT2JPdGc2Zk9oWURvZ0l5ZTI4OXB0TzF3UW42dWVHWVJfbkh1cVFuRC0yQno0ZmNVYnlLc3UyNHpPNkFpOXF2M20xdENkeU5jX0t4MXNadmU5ZC1taGFVY3dmc0tfZGpoeHBoZUlDTmtMUlF5dUM2LW5WLWYzVTh1WGpJSFRzcWlsRVNTSU9MRXpsV2ZSMXU?oc=5",
-        "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQYWlaS01CTF9UYVRFcTBVZUtFZWhZdlJ1elB6amF6TzlFOXBGdWhZSWtqalhHWExyMWo3Uzl3Q3ZIUS1YZ01XaDRZVTFHejMwcFNmbWRDRDJNTW1zZHk3TnlxdHQ0eU5rUHA2SHNVdVZtQnoyQkNxaXBBYVVUQUNKaEZUZEN0dXlDV3NaYk9HTi1Ld1Mydi02cnhQVmo3MTkzRERRT2xPTkNFYWg2ZFo3UFdfaGFkeU1rVFFvSzJvU21GX0s3d280TUFDaktublpGQjdN?oc=5"
+        "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQYWlaS01CTF9UYVRFcTBVZUtFZWhZdlJ1elB6amF6TzlFOXBGdWhZSWtqalhHWExyMWo3Uzl3Q3ZIUS1YZ01XaDRZVTFHejMwcFNmbWRDRDJNTW1zZHk3TnlxdHQ0eU5rUHA2SHNVdVZtQnoyQkNxaXBBYVVUQUNKaEZUZEN0dXlDV3NaYk9HTi1Ld1Mydi02cnhQVmo3MTkzRERRT2xPTkNFYWg2ZFo3UFdfaGFkeU1rVFFvSzJvU21GX0s3d280TUFDaktublpGQjdN?oc=5",
+        "https://www.rfi.fr/fr/europe/20260925-serbie-la-campagne-enthousiaste-et-joyeuse-des-%C3%A9tudiants"
       ]
     },
     "Gazzetta di Parma": {
@@ -4248,15 +4254,16 @@
     },
     "apnews.com": {
       "country": "SHBA",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-13",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-25",
       "urls": [
-        "https://apnews.com/article/kosovo-government-kurti-crisis-5c3727cfbcf04a3cc5734972fa6ea6c0"
+        "https://apnews.com/article/kosovo-government-kurti-crisis-5c3727cfbcf04a3cc5734972fa6ea6c0",
+        "https://apnews.com/article/kosovo-protest-politics-crisis-war-crimes-116aafc9717e22c8c1d6b2b312a764c6"
       ]
     },
     "Independent": {
@@ -4288,18 +4295,19 @@
     },
     "bluewin.ch": {
       "country": "Zvicër",
-      "total": 4,
+      "total": 5,
       "positive": 0,
       "neutral": 3,
       "negative": 1,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-13",
-      "lastSeen": "2026-09-18",
+      "lastSeen": "2026-09-25",
       "urls": [
         "https://www.bluewin.ch/en/news/kurti-remains-prime-minister-opposition-boycotts-vote-li.3598322",
         "https://www.bluewin.ch/de/sport/fussball/tolaj-laesst-kosovo-und-albanien-abblitzen-und-traeumt-von-der-schweiz-kacuri-entscheidet-sich-gegen-die-nati-li.3602237",
         "https://www.bluewin.ch/de/news/kriegsverbrechen-25-jahre-haft-fuer-kosovos-ex-praesident-li.3601788",
-        "https://www.bluewin.ch/fr/infos/monde/kosovo-milliers-de-manifestants-contre-la-condamnation-de-tha-i-li.3605010"
+        "https://www.bluewin.ch/fr/infos/monde/kosovo-milliers-de-manifestants-contre-la-condamnation-de-tha-i-li.3605010",
+        "https://www.bluewin.ch/fr/infos/monde/apr-s-la-condamnation-d-hashim-tha-i-manifestations-au-kosovo-li.3613708"
       ]
     },
     "The Press Project": {
@@ -4551,15 +4559,16 @@
     },
     "SDNA": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-14",
-      "lastSeen": "2026-09-14",
+      "lastSeen": "2026-09-25",
       "urls": [
-        "https://www.sdna.gr/mpasket/1467210_filiki-niki-gia-peristeri-kontra-stin-ylli-apo-kosobo"
+        "https://www.sdna.gr/mpasket/1467210_filiki-niki-gia-peristeri-kontra-stin-ylli-apo-kosobo",
+        "https://www.sdna.gr/podosfairo/1470476_kosobo-irlandia-o-moyritsi-skorare-nikitirio-gkol-kai-ypsose-mployzaki-toy-uck"
       ]
     },
     "Dnews": {
@@ -6262,13 +6271,13 @@
     },
     "Der Standard": {
       "country": "Austri",
-      "total": 8,
+      "total": 9,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 0,
       "unknown": 3,
       "firstSeen": "2026-09-17",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-26",
       "urls": [
         "https://www.derstandard.at/story/3000000340029/kosovos-ex-praesident-hashim-thaci-wegen-kriegsverbrechen-zu-25-jahren-haft-verurteilt",
         "https://www.derstandard.de/story/3000000340447/jetzt-muss-oefb-teamchef-ralf-rangnick-auch-noch-konrad-laimer-ersetzen",
@@ -6277,7 +6286,8 @@
         "https://www.derstandard.de/story/3000000341302/kosovo-schlaegt-irland-in-oefb-gruppe-mit-10",
         "https://www.derstandard.at/story/3000000341302/kosovo-schlaegt-irland-in-oefb-gruppe-mit-10?ref=rss",
         "https://www.derstandard.at/story/3000000341302/kosovo-schlaegt-irland-in-oefb-gruppe-mit-10",
-        "https://www.derstandard.at/story/3000000341035/fu223ball-214fb-team-peilt-bei-nations-league-start-sieg-gegen-israel-an"
+        "https://www.derstandard.at/story/3000000341035/fu223ball-214fb-team-peilt-bei-nations-league-start-sieg-gegen-israel-an",
+        "https://www.derstandard.de/story/3000000340713/vesel-demaku-wuchs-in-niederoesterreich-auf-spielt-aber-fuer-den-kosovo-es-geht-um-mehr-als-sport"
       ]
     },
     "oe1.ORF.at": {
@@ -6770,15 +6780,16 @@
     },
     "NU": {
       "country": "Holandë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-18",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-26",
       "urls": [
-        "https://www.nu.nl/330325/video/onrust-op-haags-malieveld-na-veroordeling-oud-president-kosovo.html"
+        "https://www.nu.nl/330325/video/onrust-op-haags-malieveld-na-veroordeling-oud-president-kosovo.html",
+        "https://www.nu.nl/voetbal/6409040/oranje-reist-af-naar-servie-en-mist-nog-twee-landen-op-europese-bingokaart.html"
       ]
     },
     "nporadio1.nl": {
@@ -8016,30 +8027,33 @@
     },
     "Agones": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
-      "negative": 0,
-      "unknown": 0,
-      "firstSeen": "2026-09-21",
-      "lastSeen": "2026-09-19",
-      "urls": [
-        "https://agones.gr/livescore/2884-2305/kosobo-irlandia"
-      ]
-    },
-    "Bettingstugan.se": {
-      "country": "Suedi",
-      "total": 3,
-      "positive": 0,
-      "neutral": 2,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-21",
       "lastSeen": "2026-09-25",
       "urls": [
+        "https://agones.gr/livescore/2884-2305/kosobo-irlandia",
+        "https://agones.gr/news/133632/kosovo_o_mouriki_ypsose_mplouza_me_to_emvlima_tou_uck_meta_to_gkol_nikis_kontra_stin_irlandia"
+      ]
+    },
+    "Bettingstugan.se": {
+      "country": "Suedi",
+      "total": 5,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 3,
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-26",
+      "urls": [
         "https://bettingstugan.se/speltips/europatipset-torsdag-24-9-2",
         "https://bettingstugan.se/speltips/fotboll-12-torsdag-24-9",
-        "https://bettingstugan.se/speltips/fotboll-12-sondag-27-9"
+        "https://bettingstugan.se/speltips/fotboll-12-sondag-27-9",
+        "https://bettingstugan.se/speltips/europatipset-sondag-27-9-2",
+        "https://bettingstugan.se/speltips/europatipset-sondag-27-9-4"
       ]
     },
     "Teleman": {
@@ -8415,15 +8429,16 @@
     },
     "Bottadiculo": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-23",
-      "lastSeen": "2026-09-23",
+      "lastSeen": "2026-09-26",
       "urls": [
-        "https://www.bottadiculo.it/pronostico-kosovo-irlanda-24-settembre-2026/"
+        "https://www.bottadiculo.it/pronostico-kosovo-irlanda-24-settembre-2026/",
+        "https://www.bottadiculo.it/pronostico-austria-kosovo-27-settembre-2026/"
       ]
     },
     "profil.at": {
@@ -9386,15 +9401,16 @@
     },
     "5 Minuten": {
       "country": "Austri",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-25",
-      "lastSeen": "2026-09-25",
+      "lastSeen": "2026-09-26",
       "urls": [
-        "https://www.5min.at/wien/5202609251236/oesterreich-vs-kosovo-polizei-richtet-grossen-sicherheitsbereich-ein/"
+        "https://www.5min.at/wien/5202609251236/oesterreich-vs-kosovo-polizei-richtet-grossen-sicherheitsbereich-ein/",
+        "https://www.5min.at/wien/5202609260937/strenge-sicherheitsvorkehrungen-beim-spiel-oesterreich-gegen-kosovo/"
       ]
     },
     "espn.nl": {
@@ -9619,6 +9635,123 @@
       "lastSeen": "2026-09-22",
       "urls": [
         "https://www.star.com.tr/dunya/basbakan-kurtiden-baskan-erdogana-tesekkur-ulkesine-davet-etti-haber-2041792/"
+      ]
+    },
+    "sportsmole.co.uk": {
+      "country": "Britani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-26",
+      "lastSeen": "2026-09-25",
+      "urls": [
+        "https://www.sportsmole.co.uk/football/austria/uefa-nations-league/preview/austria-vs-kosovo-prediction-team-news-lineups_605764.html"
+      ]
+    },
+    "Belfast Telegraph": {
+      "country": "Britani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-26",
+      "lastSeen": "2026-09-24",
+      "urls": [
+        "https://www.belfasttelegraph.co.uk/sport/football/republic-of-ireland-paid-price-for-an-off-day-in-kosovo-heimir-hallgrimsson/a/162134606.html"
+      ]
+    },
+    "Paris Sportifs LeFigaro": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-26",
+      "lastSeen": "2026-09-26",
+      "urls": [
+        "https://paris-sportifs.lefigaro.fr/pronostics/autriche-kosovo-27-09-2026/"
+      ]
+    },
+    "forli24ore.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-26",
+      "lastSeen": "2026-09-26",
+      "urls": [
+        "https://www.forli24ore.it/notizie/cultura-spettacoli/2026/09/26/musica-e-amicizia-forli-abbraccia-il-kosovo-per-il-gran-finale-del-progetto-no-vi-art/"
+      ]
+    },
+    "GoldBetlive": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-26",
+      "lastSeen": "2026-09-23",
+      "urls": [
+        "https://www.goldbetlive.it/news/uncategorized/uefa-nations-league-2026-2027-preview-kosovo-irlanda/"
+      ]
+    },
+    "5min.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-26",
+      "lastSeen": "2026-09-26",
+      "urls": [
+        "https://www.5min.at/wien/5202609260937/strenge-sicherheitsvorkehrungen-beim-spiel-oesterreich-gegen-kosovo/"
+      ]
+    },
+    "Vienna.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-26",
+      "lastSeen": "2026-09-26",
+      "urls": [
+        "https://www.vienna.at/oesterreich-gegen-kosovo-polizei-sperrt-am-sonntag-den-prater-ab/10494842"
+      ]
+    },
+    "nieuws.marokko.nl": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-26",
+      "lastSeen": "2026-09-25",
+      "urls": [
+        "https://nieuws.marokko.nl/117560/amerikaanse-generaal-500-militairen-uit-marokko-en-kosovo-voorbereid-op-mogelijke-inzet-in-gaza/"
+      ]
+    },
+    "Interia Wydarzenia": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-26",
+      "lastSeen": "2026-09-26",
+      "urls": [
+        "https://wydarzenia.interia.pl/zagranica/news-balkanski-kociol-wrze-paraliz-w-stolicy-tlum-protestuje-po-d,nId,23549404"
       ]
     }
   }
