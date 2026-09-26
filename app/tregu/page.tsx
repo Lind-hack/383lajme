@@ -209,7 +209,7 @@ export default function TreguHub() {
   const [activity, setActivity] = useState<ActivityItem[]>([]);
   const [query, setQuery] = useState("");
   const pendingScroll = useRef(false);
-  const restore = useRef<{ y: number; slug?: string; offset?: number } | null>(null);
+  const restore = useRef<{ y: number; slug?: string; offset?: number; nth?: number } | null>(null);
   const [category, setCategory] = useState("all");
   const [league, setLeague] = useState<string | null>(null);
   const [sort, setSort] = useState<SortKey>("vellim");
@@ -277,10 +277,16 @@ export default function TreguHub() {
            early the moment two consecutive passes agree, so a settled page
            costs one measurement. */
         const aim = () => {
-          const link = [...document.querySelectorAll<HTMLAnchorElement>("main a[href]")].find(a => a.pathname === saved.slug);
-          const top = link && saved.offset != null
+          // A market is linked several times on the floor (the carousel slide,
+          // the card title, each outcome), so the first match was often the
+          // carousel at the top and Back landed there. Aim at the same one the
+          // reader clicked, and trust the saved position if it lands far away.
+          const matches = [...document.querySelectorAll<HTMLAnchorElement>("main a[href]")].filter(a => a.pathname === saved.slug);
+          const link = matches[saved.nth ?? 0] ?? matches[0];
+          const aimed = link && saved.offset != null
             ? window.scrollY + link.getBoundingClientRect().top - saved.offset
             : saved.y;
+          const top = Math.abs(aimed - saved.y) > 600 ? saved.y : aimed;
           const target = Math.round(top);
           if (Math.abs(window.scrollY - target) < 1) return true;
           window.scrollTo({ top: target, behavior: "instant" });
@@ -699,7 +705,8 @@ export default function TreguHub() {
       <main onClickCapture={(event) => {
         const link = (event.target as HTMLElement).closest<HTMLAnchorElement>("a[href]");
         if (!link || !link.pathname.startsWith("/tregu/") || link.pathname.includes("portofoli")) return;
-        try { sessionStorage.setItem("tregu-floor", JSON.stringify({ category, league, sort, query, y: window.scrollY, slug: link.pathname, offset: link.getBoundingClientRect().top, returning: true, at: Date.now() })); } catch {}
+        const nth = [...document.querySelectorAll<HTMLAnchorElement>("main a[href]")].filter(a => a.pathname === link.pathname).indexOf(link);
+        try { sessionStorage.setItem("tregu-floor", JSON.stringify({ category, league, sort, query, y: window.scrollY, slug: link.pathname, offset: link.getBoundingClientRect().top, nth, returning: true, at: Date.now() })); } catch {}
       }} id="tregjet" style={{ maxWidth: 1160, margin: "0 auto", padding: "44px 24px 80px", scrollMarginTop: 88 }}>
         {/* Floor head — one line: title, what the place is, and the balance.
             Previously the tagline sat under the h1 and the balance chip floated
