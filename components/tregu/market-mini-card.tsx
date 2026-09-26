@@ -22,6 +22,8 @@ export interface MiniMarket {
   prob: number; // 0..1 YES probability
   volume?: number; // cumulative shares outstanding (q_yes + q_no)
   closesAt?: string;
+  /** When the book opened — the start of a price that has not moved yet. */
+  openedAt?: string;
   spark?: number[]; // downsampled PO price tape, 0..1, oldest first
   delta7d?: number | null; // prob change vs 7 days ago, 0..1 scale
   history?: { created_at: string; probability: number }[];

@@ -128,6 +128,7 @@ interface MarketRow {
   history?: { created_at: string; probability: number }[];
   last_data_at?: string;
   updated_at?: string;
+  created_at?: string;
   sport_outcomes?: {
     key: string;
     label: string;
@@ -596,6 +597,7 @@ export default function TreguHub() {
     prob: m.market_prob,
     volume: vol(m),
     closesAt: m.closes_at,
+    openedAt: m.created_at,
     spark: m.spark,
     delta7d: m.delta7d,
     history: m.history,

@@ -94,6 +94,23 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
       : [];
   const lapsLeft = isF1 && !isChampionship && Number.isFinite(market.lapsLeft) ? Number(market.lapsLeft) : null;
 
+  /* A book that has not moved yet has one recorded point: the price it opened
+     at. Every reprice and every trade writes a point of its own, so a single
+     point means the price has held since the market opened. That is a flat
+     line from the opening to now — drawn as one, rather than switching the
+     flagship card to a bar board until someone trades. */
+  const heldSince = (points: { t: number; p: number }[], current: number) => {
+    if (points.length >= 2) return points;
+    const p = points.length ? points[points.length - 1].p : current;
+    const opened = Date.parse(market.openedAt ?? "");
+    const last = points.length ? points[points.length - 1].t : NaN;
+    const start = Number.isFinite(opened) ? opened : last;
+    // The line ends at the latest recorded point, or at now when the only
+    // record is the opening itself — the price is unchanged either way.
+    const end = Number.isFinite(last) && last > start ? last : Date.now();
+    return Number.isFinite(start) && end > start ? [{ t: start, p }, { t: end, p }] : points;
+  };
+
   // A race is not a yes/no question, and charting it as one drew a single flat
   // "Gjasa PO 50%" line that answered nothing: the market has twenty-two
   // outcomes and the reader wants to know whose. Championship cards already
@@ -110,7 +127,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
         // the driver's own row a few pixels away.
         color: f1TeamColor(driver.team ?? "", driver.team_colour ?? undefined),
         current: driver.probability,
-        points: toExactSeries(market.outcomeHistory?.[driver.key]),
+        points: heldSince(toExactSeries(market.outcomeHistory?.[driver.key]), driver.probability),
       }))
     : structured
     ? (market.sportOutcomes ?? []).map((outcome, index) => ({
@@ -118,14 +135,17 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
         label: outcome.label,
         color: separateOutcomeColors((market.sportOutcomes ?? []).map((item, at) => outcomeColor(item, at)))[index],
         current: Number(market.outcomeProbabilities?.[outcome.key] ?? 1 / (market.sportOutcomes?.length ?? 2)),
-        points: toExactSeries(market.outcomeHistory?.[outcome.key]),
+        points: heldSince(
+          toExactSeries(market.outcomeHistory?.[outcome.key]),
+          Number(market.outcomeProbabilities?.[outcome.key] ?? 1 / (market.sportOutcomes?.length ?? 2)),
+        ),
       }))
     : [{
         key: "po",
         label: "PO",
         color: "#00854A",
         current: market.prob,
-        points: toExactSeries(market.history),
+        points: heldSince(toExactSeries(market.history), market.prob),
       }];
   const leader = [...chartSeries].sort((a, b) => b.current - a.current)[0];
   const hasHistory = chartSeries.some((series) => series.points.length >= 2);
