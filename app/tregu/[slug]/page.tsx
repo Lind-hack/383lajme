@@ -353,6 +353,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const [sellEverything, setSellEverything] = useState(false);
   const [placing, setPlacing] = useState(false);
   const [tradeMsg, setTradeMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  // This session's buy, ringed on the chart so the jump it caused is findable.
+  const [lastBuy, setLastBuy] = useState<{ key: string; t: number } | null>(null);
   const [mobileTradeOpen, setMobileTradeOpen] = useState(false);
   const [purchaseReceipt, setPurchaseReceipt] = useState<MobileTradeReceipt | null>(null);
   const lastSuccessfulLoad = useRef(0);
@@ -480,10 +482,18 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         setMarket((current) => current ? { ...current, ...data.market } : current);
         setSnapshots(data.snapshots ?? []);
         const probabilities = (data.probabilities ?? {}) as Record<string, number>;
+        // The line moves with the number: a changed price is appended as a
+        // point, where it used to update only the legend until the next full load.
+        const liveAt = Date.now();
         setFootball((current) => current ? {
           ...current,
           liveState: data.liveState ?? current.liveState,
-          outcomes: current.outcomes.map((outcome) => ({ ...outcome, probability: Number(probabilities[outcome.key] ?? outcome.probability) })),
+          outcomes: current.outcomes.map((outcome) => {
+            const probability = Number(probabilities[outcome.key] ?? outcome.probability);
+            const last = outcome.series?.at(-1);
+            const moved = Number.isFinite(probability) && (!last || Math.abs(last.p - probability) >= 0.0005);
+            return { ...outcome, probability, series: moved ? [...(outcome.series ?? []), { t: liveAt, p: probability }] : outcome.series };
+          }),
         } : current);
         setF1((current) => current ? {
           ...current,
@@ -556,6 +566,14 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const footballHeld = footballOutcomeKey
     ? footballHeldOn(footballOutcomeKey)
     : undefined;
+  // The outcome the reader has the most riding on, highlighted on the chart.
+  const footballHeldKey = football
+    ? [...positions]
+        .filter((position) => Number(position.shares) > 0)
+        .sort((a, b) => Number(b.shares) - Number(a.shares))
+        .map((position) => football.outcomes.find((outcome) => outcome.key.toLowerCase() === position.side.toLowerCase())?.key)
+        .find(Boolean) ?? null
+    : null;
   const footballPositions = football
     ? positions.filter((position) =>
         football.outcomes.some(
@@ -670,6 +688,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             text: `Basti u vendos te ${selectedOutcome.label} për ${amount} 383C.`,
           });
           showPurchaseReceipt(Number(data.sharesBought));
+          setLastBuy({ key: selectedOutcome.key, t: Date.now() });
           load();
           refreshBalance();
         } else {
@@ -1308,6 +1327,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     showPulse
                     concise
                     tone="sport"
+                    emphasisKey={footballHeldKey}
+                    marks={lastBuy ? [lastBuy] : []}
                     series={football.outcomes.map((outcome) => ({
                       key: outcome.key,
                       label: outcome.label,

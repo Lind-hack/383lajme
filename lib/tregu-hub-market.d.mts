@@ -30,6 +30,8 @@ export function normalizeRecordedOutcomeSeries(outcomes: Array<{
 export function isStructuredSportMarket(market: HubMarketLike): boolean;
 export function marketVolume(market: HubMarketLike): number;
 export function outcomeColor(outcome: SportOutcome, index?: number): string;
+export function colorDistance(a: string, b: string): number;
+export function separateOutcomeColors(colors: string[], minDistance?: number): string[];
 export function lastRecordedAt(market: HubMarketLike): number | null;
 export function recordedMovement(market: HubMarketLike): number;
 export function featuredMarketScore(market: HubMarketLike, now?: number): number;

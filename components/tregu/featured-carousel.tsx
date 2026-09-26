@@ -16,7 +16,7 @@ import MarketContextMedia from "./market-context-media";
 import SportBrandMark from "./sport-brand-mark";
 import CompetitionArtwork from "./competition-artwork";
 import { sportBrandFor } from "@/lib/tregu-sport-branding";
-import { outcomeColor, toExactSeries } from "@/lib/tregu-hub-market.mjs";
+import { outcomeColor, separateOutcomeColors, toExactSeries } from "@/lib/tregu-hub-market.mjs";
 
 const CATEGORY_LABEL: Record<string, string> = {
   politike: "Politikë",
@@ -116,7 +116,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
     ? (market.sportOutcomes ?? []).map((outcome, index) => ({
         key: outcome.key,
         label: outcome.label,
-        color: outcomeColor(outcome, index),
+        color: separateOutcomeColors((market.sportOutcomes ?? []).map((item, at) => outcomeColor(item, at)))[index],
         current: Number(market.outcomeProbabilities?.[outcome.key] ?? 1 / (market.sportOutcomes?.length ?? 2)),
         points: toExactSeries(market.outcomeHistory?.[outcome.key]),
       }))

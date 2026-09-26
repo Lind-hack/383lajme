@@ -20215,3 +20215,5 @@ header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92);
 @media (hover: hover) and (pointer: fine) {
   .home-ad-cta:hover { background: var(--color-orange); color: #FFFFFF; }
 }
+/* The outcome the reader holds is named in the legend as well as drawn heavier. */
+.tregu-exact-chart-legend [data-held] em { font-weight: 800; }

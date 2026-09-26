@@ -5,6 +5,7 @@ import Link from "next/link";
 import SectionLabel from "@/components/section-label";
 import SpotlightTour, { openTour, type TourStep } from "@/components/spotlight-tour";
 import GroupChart, { type EventSeries } from "./group-chart";
+import { separateOutcomeColors } from "@/lib/tregu-hub-market.mjs";
 
 const TOUR_ID = "tregu-home";
 
@@ -155,6 +156,8 @@ function toPreviewMarket(market: MarketRow): PreviewMarket | null {
     typeof market.outcome_probabilities === "object";
 
   if (structured) {
+    // Two clubs in one kit colour would draw two identical lines.
+    const colors = separateOutcomeColors(configured.map((outcome, index) => outcomeColor(outcome, index)));
     return {
       slug: market.slug,
       question: market.question,
@@ -169,7 +172,7 @@ function toPreviewMarket(market: MarketRow): PreviewMarket | null {
         return {
           key: outcome.key,
           label: outcome.label,
-          color: outcomeColor(outcome, index),
+          color: colors[index],
           probability,
           series: exact.length > 0
             ? exact

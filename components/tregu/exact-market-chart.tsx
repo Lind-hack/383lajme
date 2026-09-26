@@ -12,6 +12,8 @@ import {
 import {
   angularRecordedPath,
   smoothRecordedPath,
+  stepRecordedPath,
+  rangeWithMovement,
   RECORDED_RANGE_OPTIONS,
   formatProbabilityTick,
   probabilityDomain,
@@ -57,8 +59,10 @@ export default function ExactMarketChart({
   derived = false,
   tone = "serious",
   defaultRange = "1d",
-  curve = "angular",
+  curve = "step",
   fill = false,
+  emphasisKey = null,
+  marks = [],
 }: {
   series: ExactMarketSeries[];
   height?: number;
@@ -71,14 +75,24 @@ export default function ExactMarketChart({
   derived?: boolean;
   tone?: "serious" | "sport" | "neutral";
   defaultRange?: RecordedRangeKey;
-  curve?: "angular" | "smooth";
+  /** "step" holds each price until it moves, which is what a market price does,
+   *  so a trade reads as a jump at its moment rather than a slide towards it. */
+  curve?: "angular" | "smooth" | "step";
+  /** The outcome the reader holds: drawn on top and heavier, the rest recede. */
+  emphasisKey?: string | null;
+  /** Points to ring on a line, e.g. the reader's own buy. */
+  marks?: { key: string; t: number }[];
   /** Let the plot grow into its container. `height` stays the minimum, and the
    *  drawing follows the plot's real height so a deeper plot is redrawn, not
    *  stretched — points stay round and the area fill keeps its baseline. */
   fill?: boolean;
 }) {
   const uid = useId().replace(/:/g, "");
-  const [range, setRange] = useState<RecordedRangeKey>(defaultRange);
+  // Open on a window that actually shows a move: a book that last traded three
+  // days ago opened on "1d" as flat lines with nothing to read.
+  const [range, setRange] = useState<RecordedRangeKey>(() =>
+    showRanges ? rangeWithMovement(series, defaultRange, Date.now()) : defaultRange
+  );
   const drawsLive = showRanges && (range === "1s" || range === "1m" || range === "5m");
   const [visibleEnd, setVisibleEnd] = useState<number | null>(null);
   const plotRef = useRef<HTMLDivElement | null>(null);
@@ -326,19 +340,22 @@ export default function ExactMarketChart({
             />
           ))}
 
-          {model.cleaned.map((item) => {
+          {[...model.cleaned]
+            // The held outcome paints last, so it sits on top where lines cross.
+            .sort((a, b) => Number(a.key === emphasisKey) - Number(b.key === emphasisKey))
+            .map((item) => {
             const displayPoints = item.displayPoints;
             if (displayPoints.length === 0) return null;
             const pathFor = (points: typeof displayPoints) => points.length >= 2
               ? curve === "smooth"
                 ? smoothRecordedPath(points, model.x, model.y)
-                : angularRecordedPath(points, model.x, model.y)
+                : curve === "step"
+                  ? stepRecordedPath(points, model.x, model.y)
+                  : angularRecordedPath(points, model.x, model.y)
               : "";
-            const path = displayPoints.length >= 2
-              ? curve === "smooth"
-                ? smoothRecordedPath(displayPoints, model.x, model.y)
-                : angularRecordedPath(displayPoints, model.x, model.y)
-              : "";
+            const path = pathFor(displayPoints);
+            const emphasised = emphasisKey != null && item.key === emphasisKey;
+            const receded = emphasisKey != null && !emphasised && model.cleaned.some((other) => other.key === emphasisKey);
             const last = displayPoints[displayPoints.length - 1];
             const first = displayPoints[0];
             // A short range can contain exactly one real persisted point. Hold
@@ -351,7 +368,7 @@ export default function ExactMarketChart({
               ? `${path} L${model.x(last.t).toFixed(1)} ${drawHeight - PAD_Y} L${model.x(first.t).toFixed(1)} ${drawHeight - PAD_Y} Z`
               : "";
             return (
-              <g key={`${item.key}-${showRanges ? range : "all"}`}>
+              <g key={`${item.key}-${showRanges ? range : "all"}`} opacity={receded ? 0.42 : undefined}>
                 {model.cleaned.length === 1 && fillPath && (
                   <>
                     <defs>
@@ -369,7 +386,7 @@ export default function ExactMarketChart({
                     pathLength={1}
                     fill="none"
                     stroke={item.color}
-                    strokeWidth={model.cleaned.length > 1 ? 2.5 : 3}
+                    strokeWidth={emphasised ? 3.5 : model.cleaned.length > 1 ? 2.5 : 3}
                     strokeLinejoin="round"
                     strokeLinecap="round"
                     vectorEffect="non-scaling-stroke"
@@ -388,6 +405,31 @@ export default function ExactMarketChart({
                   className="tregu-exact-chart-last"
                 />
               </g>
+            );
+          })}
+
+          {marks.map((mark) => {
+            const item = model.cleaned.find((candidate) => candidate.key === mark.key);
+            const first = model.timestamps[0];
+            const last = model.timestamps.at(-1);
+            if (!item || first == null || last == null || mark.t < first || mark.t > last) return null;
+            // The price the line shows at that moment: the first point at or after it.
+            const point = item.displayPoints.find((candidate) => candidate.t >= mark.t) ?? item.displayPoints.at(-1);
+            if (!point) return null;
+            return (
+              <circle
+                key={`mark-${mark.key}-${mark.t}`}
+                cx={model.x(mark.t)}
+                cy={model.y(point.p)}
+                r={7}
+                fill="#fff"
+                stroke={item.color}
+                strokeWidth={3}
+                vectorEffect="non-scaling-stroke"
+                className="tregu-exact-chart-mark"
+              >
+                <title>Blerja jote</title>
+              </circle>
             );
           })}
 
@@ -467,9 +509,9 @@ export default function ExactMarketChart({
       {!minimal && (
         <div className="tregu-exact-chart-legend" aria-label="Gjasat e fundit të regjistruara">
           {summaries.map((item) => (
-            <span key={item.key}>
+            <span key={item.key} data-held={item.key === emphasisKey || undefined}>
               <i style={{ background: item.color }} />
-              <em>{item.label}</em>
+              <em>{item.label}{item.key === emphasisKey ? " · pozicioni yt" : ""}</em>
               <strong>{percent(item.current)}</strong>
             </span>
           ))}

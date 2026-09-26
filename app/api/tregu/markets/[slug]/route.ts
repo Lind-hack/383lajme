@@ -5,7 +5,7 @@ import { lmsrSportOutcomePrices } from "@/lib/tregu-client";
 import { getArticlesBySlugs } from "@/lib/db";
 import { parseEvent, slugKey } from "@/lib/tregu-groups";
 import { resolveMarketMedia } from "@/lib/tregu-market-media.mjs";
-import { outcomeColor } from "@/lib/tregu-hub-market.mjs";
+import { outcomeColor, separateOutcomeColors } from "@/lib/tregu-hub-market.mjs";
 import { publicProfileName } from "@/lib/profile-hub.mjs";
 
 export const dynamic = "force-dynamic";
@@ -18,6 +18,11 @@ interface ArticleMediaRow {
   category?: string | null;
   source?: string | null;
   url?: string | null;
+}
+
+function withSeparatedColors<T extends { color: string }>(outcomes: T[]): T[] {
+  const colors = separateOutcomeColors(outcomes.map((outcome) => outcome.color));
+  return outcomes.map((outcome, index) => ({ ...outcome, color: colors[index] }));
 }
 
 export async function GET(
@@ -331,7 +336,8 @@ export async function GET(
       ),
     };
     football = {
-      outcomes: market.sport_outcomes.map(
+      // Clubs that share a kit colour would otherwise share a chart line colour.
+      outcomes: withSeparatedColors(market.sport_outcomes.map(
         (
           outcome: {
             key?: string;
@@ -405,7 +411,7 @@ export async function GET(
             series,
           };
         }
-      ),
+      )),
       format,
       liveState: market.live_score_state ?? oracleEvents?.at(-1)?.official_state ?? null,
       refreshMs: 1_000,

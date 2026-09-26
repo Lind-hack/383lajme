@@ -7,7 +7,7 @@ import ExactMarketChart, { type ExactMarketSeries } from "./exact-market-chart";
 import CompetitionArt from "./competition-art";
 import CompetitionArtwork from "./competition-artwork";
 import SportBrandMark from "./sport-brand-mark";
-import { outcomeColor, toExactSeries } from "@/lib/tregu-hub-market.mjs";
+import { outcomeColor, separateOutcomeColors, toExactSeries } from "@/lib/tregu-hub-market.mjs";
 
 type Outcome = {
   key: string;
@@ -51,10 +51,11 @@ function closeLabel(iso?: string) {
 export default function StructuredSportMarketCard({ market }: { market: StructuredSportMarket }) {
   const outcomes = market.sport_outcomes ?? [];
   const probabilities = market.outcome_probabilities ?? {};
+  const colors = separateOutcomeColors(outcomes.map((outcome, index) => outcomeColor(outcome, index)));
   const chartSeries: ExactMarketSeries[] = outcomes.map((outcome, index) => ({
     key: outcome.key,
     label: outcome.label,
-    color: outcomeColor(outcome, index),
+    color: colors[index],
     current: Math.max(0, Math.min(1, Number(probabilities[outcome.key] ?? 1 / outcomes.length))),
     points: toExactSeries(market.outcome_history?.[outcome.key]),
   }));

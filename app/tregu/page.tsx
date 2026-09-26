@@ -34,6 +34,21 @@ import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 const TOUR_ID = "tregu-floor";
 
+// When the browser last walked the history (Back/Forward). The floor mounts
+// straight after one, so a recent traversal is how it knows the reader came
+// back rather than arrived fresh from the menu. Registered once, when this
+// page's code first loads, and it outlives the page between visits.
+let lastTraversalAt = 0;
+if (typeof window !== "undefined") {
+  window.addEventListener("popstate", () => { lastTraversalAt = Date.now(); });
+}
+function cameBack() {
+  if (Date.now() - lastTraversalAt < 3000) return true;
+  // A full reload into history (the tab was discarded, or a hard Back).
+  const entry = performance.getEntriesByType?.("navigation")?.[0] as PerformanceNavigationTiming | undefined;
+  return entry?.type === "back_forward" && performance.now() < 10_000;
+}
+
 /**
  * Three steps: where to start, what to do, what it costs. Steps whose target is
  * absent (logged out, no featured market) are skipped by the tour itself.
@@ -209,15 +224,41 @@ export default function TreguHub() {
   const [flyCoins, setFlyCoins] = useState<Array<{ id: number; amount: number }>>([]);
   const [rewardAmount, setRewardAmount] = useState<number | null>(null);
 
+  // Where the reader is, kept as they scroll, so leaving by any route — a link,
+  // a whole-card click, a PO/JO button, the browser — can be undone by Back.
+  // Only <a> clicks used to save it, so the card clicks came back to the top.
+  const floorState = useRef({ category: "all", league: null as string | null, sort: "vellim" as SortKey, query: "" });
+  floorState.current = { category, league, sort, query };
+  const lastY = useRef(0);
+  useEffect(() => {
+    let frame = 0;
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => { frame = 0; lastY.current = window.scrollY; });
+    };
+    lastY.current = window.scrollY;
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+      try {
+        const saved = JSON.parse(sessionStorage.getItem("tregu-floor") || "null");
+        // A link click a moment ago already stored the card to re-aim at.
+        const fromLink = saved?.returning && Date.now() - Number(saved.at ?? 0) < 3000;
+        if (!fromLink) sessionStorage.setItem("tregu-floor", JSON.stringify({ ...floorState.current, y: lastY.current, returning: true, at: Date.now() }));
+      } catch { /* Storage can be unavailable in private browsing. */ }
+    };
+  }, []);
+
   useEffect(() => {
     try {
       const saved = JSON.parse(sessionStorage.getItem("tregu-floor") || "null");
-      if (saved?.returning) {
+      if (saved?.returning && cameBack()) {
         setCategory(saved.category || "all"); setLeague(saved.league || null);
         setSort(saved.sort || "vellim"); setQuery(saved.query || "");
         restore.current = saved;
-        sessionStorage.setItem("tregu-floor", JSON.stringify({ ...saved, returning: false }));
       }
+      if (saved?.returning) sessionStorage.setItem("tregu-floor", JSON.stringify({ ...saved, returning: false }));
     } catch { /* Storage can be unavailable in private browsing. */ }
   }, []);
 
@@ -658,7 +699,7 @@ export default function TreguHub() {
       <main onClickCapture={(event) => {
         const link = (event.target as HTMLElement).closest<HTMLAnchorElement>("a[href]");
         if (!link || !link.pathname.startsWith("/tregu/") || link.pathname.includes("portofoli")) return;
-        try { sessionStorage.setItem("tregu-floor", JSON.stringify({ category, league, sort, query, y: window.scrollY, slug: link.pathname, offset: link.getBoundingClientRect().top, returning: true })); } catch {}
+        try { sessionStorage.setItem("tregu-floor", JSON.stringify({ category, league, sort, query, y: window.scrollY, slug: link.pathname, offset: link.getBoundingClientRect().top, returning: true, at: Date.now() })); } catch {}
       }} id="tregjet" style={{ maxWidth: 1160, margin: "0 auto", padding: "44px 24px 80px", scrollMarginTop: 88 }}>
         {/* Floor head — one line: title, what the place is, and the balance.
             Previously the tagline sat under the h1 and the balance chip floated

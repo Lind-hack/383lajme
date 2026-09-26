@@ -42,3 +42,13 @@ export function smoothRecordedPath(
   xFor: (timestamp: number) => number,
   yFor: (probability: number) => number
 ): string;
+export function stepRecordedPath(
+  points: RecordedPoint[],
+  xFor: (timestamp: number) => number,
+  yFor: (probability: number) => number
+): string;
+export function rangeWithMovement<T extends { points: RecordedPoint[] }>(
+  series: T[],
+  preferred?: RecordedRangeKey,
+  visibleEnd?: number | null
+): RecordedRangeKey;
