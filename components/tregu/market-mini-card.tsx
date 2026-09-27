@@ -62,6 +62,8 @@ export interface MiniMarket {
 }
 
 const CATEGORY_LABEL: Record<string, string> = {
+  kosove: "Kosovë",
+  shqiperi: "Shqipëri",
   politike: "Politikë",
   ekonomi: "Ekonomi",
   sport: "Sport",

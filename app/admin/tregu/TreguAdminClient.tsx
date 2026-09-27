@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { LEADERBOARD_KIND_LABEL, leaderboardPeriodLabel, type LeaderboardReward } from "@/lib/tregu-leaderboard";
 import Link from "next/link";
 import styles from "./TreguAdminClient.module.css";
 
@@ -112,7 +113,12 @@ export default function TreguAdminClient() {
   const [refreshHealth, setRefreshHealth] = useState<RefreshHealth | null>(null);
   const [healthError, setHealthError] = useState<string | null>(null);
   const [drafting, setDrafting] = useState(false);
-  const [tab, setTab] = useState<"markets" | "withdrawals">("markets");
+  const [rewards, setRewards] = useState<LeaderboardReward[]>([]);
+  // The payout email links straight to ?tab=shperblime.
+  const [tab, setTab] = useState<"markets" | "withdrawals" | "rewards">("markets");
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("tab") === "shperblime") setTab("rewards");
+  }, []);
 
   const loadMarkets = async () => {
     const response = await fetch("/api/admin/tregu/markets");
@@ -128,6 +134,26 @@ export default function TreguAdminClient() {
     setWithdrawals(data.withdrawals ?? []);
   };
 
+  const loadRewards = async () => {
+    const response = await fetch("/api/admin/tregu/rewards", { cache: "no-store" });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error ?? `HTTP ${response.status}`);
+    setRewards(data.rewards ?? []);
+  };
+
+  const rewardAction = async (ids: string[], status: "approved" | "rejected") => {
+    const response = await fetch("/api/admin/tregu/rewards", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids, status }),
+    });
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      window.alert(data.error ?? `HTTP ${response.status}`);
+    }
+    await loadRewards();
+  };
+
   const loadRefreshHealth = async () => {
     try {
       const response = await fetch("/api/admin/tregu/health", { cache: "no-store" });
@@ -141,7 +167,7 @@ export default function TreguAdminClient() {
   };
 
   const refreshAll = async () => {
-    await Promise.all([loadMarkets(), loadWithdrawals(), loadRefreshHealth()]);
+    await Promise.all([loadMarkets(), loadWithdrawals(), loadRewards(), loadRefreshHealth()]);
   };
 
   useEffect(() => {
@@ -281,6 +307,9 @@ export default function TreguAdminClient() {
         <button type="button" role="tab" aria-selected={tab === "withdrawals"} onClick={() => setTab("withdrawals")} className={`${styles.tab} ${tab === "withdrawals" ? styles.tabActive : ""}`}>
           Tërheqjet <span>{withdrawals.filter((withdrawal) => withdrawal.status === "pending").length}</span>
         </button>
+        <button type="button" role="tab" aria-selected={tab === "rewards"} onClick={() => setTab("rewards")} className={`${styles.tab} ${tab === "rewards" ? styles.tabActive : ""}`}>
+          Shpërblimet <span>{rewards.filter((reward) => reward.status === "pending").length}</span>
+        </button>
       </div>
 
       {tab === "markets" && (
@@ -307,6 +336,7 @@ export default function TreguAdminClient() {
       )}
 
       {tab === "withdrawals" && <Withdrawals withdrawals={withdrawals} onAction={withdrawalAction} />}
+      {tab === "rewards" && <Rewards rewards={rewards} onAction={rewardAction} />}
     </main>
   );
 }
@@ -469,4 +499,32 @@ function activityStatusLabel(status: string) {
   if (status === "skipped_closed") return "I anashkaluar";
   if (status === "oracle_failed") return "Kontrolli dështoi";
   return status.replaceAll("_", " ");
+}
+
+const REWARD_STATUS: Record<LeaderboardReward["status"], string> = {
+  pending: "Pret konfirmimin",
+  approved: "Konfirmuar · pret hapjen",
+  claimed: "U mblodh",
+  rejected: "Refuzuar",
+};
+
+/** One card per frozen period. "Konfirmo pagesën" releases every pending prize in
+ *  it at once — the email already listed them, this is the second look. */
+function Rewards({ rewards, onAction }: { rewards: LeaderboardReward[]; onAction: (ids: string[], status: "approved" | "rejected") => Promise<void> }) {
+  const [busy, setBusy] = useState<string | null>(null);
+  const groups = new Map<string, LeaderboardReward[]>();
+  for (const reward of rewards) {
+    const key = `${reward.period_kind}:${reward.period_start}`;
+    groups.set(key, [...(groups.get(key) ?? []), reward]);
+  }
+  const act = async (key: string, ids: string[], status: "approved" | "rejected") => {
+    setBusy(key);
+    try { await onAction(ids, status); } finally { setBusy(null); }
+  };
+  return <section className={styles.marketSection}><header className={styles.sectionHeader}><div><h2>Shpërblimet e renditjes</h2><p>Top 3 ngrihen automatikisht kur mbyllet java ose muaji. Asgjë nuk u shfaqet fituesve pa konfirmimin tënd.</p></div><span>{rewards.filter((reward) => reward.status === "pending").length}</span></header>{groups.size ? <div className={styles.withdrawalList}>{[...groups.entries()].map(([key, rows]) => {
+    const first = rows[0];
+    const pending = rows.filter((reward) => reward.status === "pending");
+    const total = pending.reduce((sum, reward) => sum + Number(reward.prize), 0);
+    return <article key={key} className={styles.withdrawalCard}><div><h3>{LEADERBOARD_KIND_LABEL[first.period_kind]} · {leaderboardPeriodLabel(first.period_kind, first.period_start, first.period_end)}</h3>{rows.map((reward) => <p key={reward.id}>#{reward.place} <strong>{reward.display_name}</strong> · fitim +{Math.round(Number(reward.profit)).toLocaleString("sq-AL")} · <strong>{Math.round(Number(reward.prize)).toLocaleString("sq-AL")} 383C</strong> · {REWARD_STATUS[reward.status]}</p>)}</div><div className={styles.withdrawalActions}>{pending.length > 0 && <><button type="button" disabled={busy === key} onClick={() => void act(key, pending.map((reward) => reward.id), "approved")} className={styles.buttonYes}>Konfirmo pagesën · {total.toLocaleString("sq-AL")} 383C</button><button type="button" disabled={busy === key} onClick={() => { if (window.confirm("Refuzo këto shpërblime? Fituesit nuk do t'i shohin.")) void act(key, pending.map((reward) => reward.id), "rejected"); }} className={styles.buttonDanger}>Refuzo</button></>}</div></article>;
+  })}</div> : <p className={styles.emptyState}>Asnjë periudhë nuk është mbyllur ende me fitues.</p>}</section>;
 }

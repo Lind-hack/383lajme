@@ -121,7 +121,7 @@ function Standings({
             <span className="tregu-lb-rank">—</span>
             <span className="tregu-lb-name">
               Ti
-              <i>ende pa fitim në këtë periudhë</i>
+              <i>ende pa fitim nga tregti të mbyllura</i>
             </span>
             <span className="tregu-lb-prize" data-none="" />
           </li>
@@ -208,13 +208,13 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
       <div className="tregu-lb-title">
         <span className="tregu-lb-title-mark" aria-hidden><Trophy size={14} strokeWidth={2.4} /></span>
         <h3>Tregtarët më të mirë</h3>
-        <p>Fitimi nga tregtitë e mbyllura. Shpërblimet shtohen automatikisht në fund të periudhës.</p>
+        <p>Fitimi nga tregtitë e mbyllura. Tre të parët marrin shpërblimin si dhuratë kur mbyllet periudha.</p>
       </div>
 
       <div className="tregu-lb-boards">
         <Standings
           title="Muaji"
-          note="30 ditët e fundit"
+          note="Ky muaj"
           rows={board.monthly}
           prizes={prizes.monthly}
           available={board.available}
@@ -223,7 +223,7 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
         />
         <Standings
           title="Java"
-          note="7 ditët e fundit"
+          note="Kjo javë"
           rows={board.weekly}
           prizes={prizes.weekly}
           available={board.available}

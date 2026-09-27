@@ -98,6 +98,9 @@ export default async function ProfilePage() {
             amount: Number(tx.amount),
             createdAt: tx.created_at,
             market: Array.isArray(tx.markets) ? tx.markets[0] ?? null : tx.markets,
+            // Stored meta may predate any given key; only a leaderboard reward
+            // carries a note worth showing in place of a market question.
+            note: tx.type === "leaderboard_reward" ? (tx.meta as { note?: string } | null)?.note ?? null : null,
           })),
         }}
         dataUnavailable={{

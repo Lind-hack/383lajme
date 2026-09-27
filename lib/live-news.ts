@@ -19,6 +19,10 @@ const MAX_HEADLINES = 8;
 const MAX_AGE_MIN = 24 * 60;
 
 const CATEGORY_FEED: Record<MarketCategory, string | null> = {
+  kosove:
+    "https://news.google.com/rss/search?q=Kosov%C3%AB+OR+Kosova+politik%C3%AB+OR+qeveria+when%3A1d&hl=sq&gl=XK&ceid=XK:sq",
+  shqiperi:
+    "https://news.google.com/rss/search?q=Shqip%C3%ABri+OR+Tiran%C3%AB+politik%C3%AB+OR+qeveria+when%3A1d&hl=sq&gl=AL&ceid=AL:sq",
   politike:
     "https://news.google.com/rss/search?q=Kosov%C3%AB+OR+Kosova+politik%C3%AB+OR+qeveria+when%3A1d&hl=sq&gl=XK&ceid=XK:sq",
   ekonomi:
@@ -153,7 +157,7 @@ export async function liveHeadlinesFor(
   question: string,
   category: MarketCategory,
 ): Promise<LiveHeadline[]> {
-  const urls = [...liveNewsSearchUrls(question), CATEGORY_FEED[category], ...(category === "politike" || category === "ekonomi" || category === "te-tjera" ? [LOCAL_BREAKING_FEED] : [])].filter(
+  const urls = [...liveNewsSearchUrls(question), CATEGORY_FEED[category], ...(category === "kosove" || category === "shqiperi" || category === "politike" || category === "ekonomi" || category === "te-tjera" ? [LOCAL_BREAKING_FEED] : [])].filter(
     (u): u is string => Boolean(u),
   );
   if (urls.length === 0) return [];

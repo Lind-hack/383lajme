@@ -19,6 +19,8 @@ import { sportBrandFor } from "@/lib/tregu-sport-branding";
 import { outcomeColor, separateOutcomeColors, toExactSeries } from "@/lib/tregu-hub-market.mjs";
 
 const CATEGORY_LABEL: Record<string, string> = {
+  kosove: "Kosovë",
+  shqiperi: "Shqipëri",
   politike: "Politikë",
   ekonomi: "Ekonomi",
   sport: "Sport",

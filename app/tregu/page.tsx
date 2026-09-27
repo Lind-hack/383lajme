@@ -13,6 +13,7 @@ import FeaturedCarousel from "@/components/tregu/featured-carousel";
 import F1ArchiveFeature from "@/components/tregu/f1-archive-feature";
 import FloorRail from "@/components/tregu/floor-rail";
 import TraderLeaderboard from "@/components/tregu/trader-leaderboard";
+import LeaderboardGift from "@/components/tregu/leaderboard-gift";
 import WithdrawalProgress from "@/components/tregu/withdrawal-progress";
 import type { MiniMarket } from "@/components/tregu/market-mini-card";
 import VideoHero from "@/components/tregu/video-hero";
@@ -178,7 +179,8 @@ const TREATED_BASKETBALL = new Set(["nba", "fiba.world", "fbk.kosovo"]);
 
 const CATEGORIES: { value: string; label: string }[] = [
   { value: "all", label: "Të gjitha" },
-  { value: "politike", label: "Politikë" },
+  { value: "kosove", label: "Kosovë" },
+  { value: "shqiperi", label: "Shqipëri" },
   { value: "ekonomi", label: "Ekonomi" },
   { value: "sport", label: "Sport" },
   { value: "bote", label: "Botë" },
@@ -219,6 +221,9 @@ export default function TreguHub() {
   const [reloadKey, setReloadKey] = useState(0);
   const [updatedAt, setUpdatedAt] = useState<string | null>(null);
   const [balance, setBalance] = useState<number | null>(null);
+  // What open trades would sell for now — the progress bar counts it, so going
+  // all in does not read as a balance of zero.
+  const [openValue, setOpenValue] = useState(0);
   const [claiming, setClaiming] = useState(false);
   const [bonusMsg, setBonusMsg] = useState<string | null>(null);
   const [coinSpin, setCoinSpin] = useState(false);
@@ -255,7 +260,7 @@ export default function TreguHub() {
     try {
       const saved = JSON.parse(sessionStorage.getItem("tregu-floor") || "null");
       if (saved?.returning && cameBack()) {
-        setCategory(saved.category || "all"); setLeague(saved.league || null);
+        setCategory(saved.category === "politike" ? "kosove" : saved.category || "all"); setLeague(saved.league || null);
         setSort(saved.sort || "vellim"); setQuery(saved.query || "");
         restore.current = saved;
       }
@@ -423,6 +428,7 @@ export default function TreguHub() {
             return;
           }
           setBalance(coins);
+          setOpenValue(Number(d.stats?.openValue) || 0);
           if (isMobile() && takeCelebrate()) celebrateMobile(coins);
         })
         .catch(() => {});
@@ -438,19 +444,28 @@ export default function TreguHub() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN" && session?.user) load();
-      if (event === "SIGNED_OUT" && !cancelled) setBalance(null);
+      if (event === "SIGNED_OUT" && !cancelled) {
+        setBalance(null);
+        setOpenValue(0);
+      }
     });
 
     // Bonus/bet updates from elsewhere report the new balance via this event.
+    // A buy or sell also moves coins between the wallet and open trades, so the
+    // open value is refetched too (debounced: a sell fires this more than once).
+    let refetch = 0;
     const onBalance = (e: Event) => {
       const next = (e as CustomEvent<number>).detail;
       if (typeof next === "number") setBalance(next);
+      window.clearTimeout(refetch);
+      refetch = window.setTimeout(load, 600);
     };
     window.addEventListener("tregu:balance", onBalance);
 
     return () => {
       cancelled = true;
       subscription.unsubscribe();
+      window.clearTimeout(refetch);
       window.removeEventListener("tregu:balance", onBalance);
     };
   }, []);
@@ -857,8 +872,10 @@ export default function TreguHub() {
             the meter no room at all. Out here they run to the rail's right
             edge, which is also the only way the strip lines up with the card
             above it. */}
-        {!loading && !loadError && <WithdrawalProgress balance={balance} />}
+        {!loading && !loadError && <WithdrawalProgress balance={balance} openValue={openValue} />}
         {!loading && !loadError && <TraderLeaderboard loggedIn={balance !== null} />}
+        {/* A confirmed leaderboard prize waits here until its winner opens it. */}
+        <LeaderboardGift loggedIn={balance !== null} />
 
         {/* Sports discovery — the four big football leagues with live books,
             the F1 calendar, and basketball locked until its pricing

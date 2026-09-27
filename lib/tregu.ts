@@ -9,6 +9,8 @@ export { lmsrPriceYes, lmsrThreeOutcomePrices, previewBet } from "./tregu-client
 import type { Market, MarketCategory } from "./tregu-client";
 
 const CATEGORY_TO_ARTICLE_CATEGORY: Record<MarketCategory, string[]> = {
+  kosove: ["Kosovë", "Politikë", "Siguri", "Shoqëri"],
+  shqiperi: ["Shqipëri", "Shqipëria", "Albania", "Rajoni"],
   politike: ["Politikë", "Siguri", "Shoqëri"],
   ekonomi: ["Ekonomi"],
   sport: ["Sport"],
@@ -113,7 +115,7 @@ export async function draftMarketsFromNews(limit = 5): Promise<DraftedMarket[]> 
 
   const system =
     "Je editor i tregjeve parashikuese per 383. Krijo vetem tregje NON-SPORTS qe nje lexues i Kosoves do t'i debatoje dhe tretoje. Mos perserit titullin e artikullit dhe mos pyet nese nje ngjarje e perfunduar do te konfirmohet. Prefero nje vendim te hapur, prag numerik, publikim te dhenash, emerim/largim, marreveshje ose permbarim/pershkallezim ku PO dhe JO jane realisht te mundshme. Cdo treg duhet te kete market_archetype, topic_key, decision_point, why_uncertain, trading_angle, resolution_source, deadline_basis, closes_in_hours, kriteret eksplicite PO/JO dhe source_slugs. Afati normal eshte 8-96 ore; deri 168 ore vetem per vendim te planifikuar te dokumentuar. Mos perdor closes_in_days. Perdor vetem faktet dhe slug-et e artikujve te dhene. Kthe VETEM JSON.";
-  const user = `Koha aktuale: ${new Date().toISOString()}\nArtikujt e verifikuar:\n${context}\n\nKthe deri ne ${limit} tregje me kete forme: {"markets":[{"question":"... deri me <dita> <muaji>?","description":"...","resolution_criteria":"PO: ... JO: ... Burimi i zgjidhjes: ... Afati: ... Edge cases: ...","category":"politike|ekonomi|bote|te-tjera","closes_in_hours":48,"market_archetype":"scheduled_decision|threshold|data_release|policy_action|appointment_or_selection|escalation_or_deescalation|corporate_decision|executive_action","topic_key":"topic-name","decision_point":"...","why_uncertain":"...","trading_angle":"...","resolution_source":"...","deadline_basis":"...","threshold_value":"...","source_slugs":["slug1","slug2"]}]}`;
+  const user = `Koha aktuale: ${new Date().toISOString()}\nArtikujt e verifikuar:\n${context}\n\nKthe deri ne ${limit} tregje me kete forme: {"markets":[{"question":"... deri me <dita> <muaji>?","description":"...","resolution_criteria":"PO: ... JO: ... Burimi i zgjidhjes: ... Afati: ... Edge cases: ...","category":"kosove|shqiperi|ekonomi|bote|te-tjera","closes_in_hours":48,"market_archetype":"scheduled_decision|threshold|data_release|policy_action|appointment_or_selection|escalation_or_deescalation|corporate_decision|executive_action","topic_key":"topic-name","decision_point":"...","why_uncertain":"...","trading_angle":"...","resolution_source":"...","deadline_basis":"...","threshold_value":"...","source_slugs":["slug1","slug2"]}]}`;
   const raw = await groqChat(system, user, { json: true, maxTokens: 2400 });
   const parsed = parseJSON<{ markets: DraftedMarket[] }>(raw);
   return Array.isArray(parsed.markets) ? parsed.markets.slice(0, limit) : [];

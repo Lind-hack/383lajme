@@ -46,7 +46,7 @@ export function demoMinis(): MiniMarket[] {
     {
       slug: DEMO_SLUG,
       question: "A do të mbahen zgjedhjet lokale në veri të Kosovës para fundit të vitit?",
-      category: "politike",
+      category: "kosove",
       prob: 0.62,
       volume: 911,
       closesAt: new Date(now() + 12 * DAY).toISOString(),
@@ -329,7 +329,7 @@ function demoFlagshipDetail() {
     question: "A do të mbahen zgjedhjet lokale në veri të Kosovës para fundit të vitit?",
     description:
       "Tregu ndjek nëse KQZ-ja shpall dhe mban zgjedhje lokale në katër komunat veriore para 31 dhjetorit 2026.",
-    category: "politike",
+    category: "kosove",
     status: "open",
     outcome: null as Side | null,
     market_prob: 0.62,

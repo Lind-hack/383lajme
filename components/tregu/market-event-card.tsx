@@ -15,6 +15,8 @@ import TeamFlag from "@/components/tregu/team-flag";
 import { eventLogoFor, outcomeMediaFor } from "@/lib/tregu-media";
 
 const CATEGORY_LABEL: Record<string, string> = {
+  kosove: "Kosovë",
+  shqiperi: "Shqipëri",
   politike: "Politikë",
   ekonomi: "Ekonomi",
   sport: "Sport",

@@ -99,3 +99,33 @@ export async function sendWithdrawalRequestNotification(input: { requestId: stri
     html: `<main style="font-family:Arial,sans-serif;max-width:620px;margin:auto;padding:24px;color:#171513"><h1 style="font-size:24px">Kërkesë tërheqjeje</h1><p>Një kërkesë e re pret verifikimin e bilancit dhe historikut të transaksioneve.</p><table style="border-collapse:collapse;width:100%"><tr><td style="padding:10px;border-bottom:1px solid #eee">Kërkesa</td><td style="padding:10px;border-bottom:1px solid #eee;font-weight:700">${requestId}</td></tr><tr><td style="padding:10px;border-bottom:1px solid #eee">Llogaria</td><td style="padding:10px;border-bottom:1px solid #eee;font-weight:700">${account}</td></tr><tr><td style="padding:10px">Shuma</td><td style="padding:10px;font-weight:700;color:#d93819">10,000 383C / 10€</td></tr></table></main>`,
   });
 }
+
+const escapeHtml = (value: string) =>
+  value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string);
+
+/** A period just froze its top 3. Nothing is paid until the admin confirms. */
+export async function sendLeaderboardRewardNotification(input: {
+  rewards: Array<{ period_kind: string; periodLabel: string; place: number; display_name: string; profit: number; prize: number }>;
+}) {
+  const recipient = configuredRecipient();
+  const { user, transport } = gmailTransport();
+  const confirmUrl = "https://383ks.com/admin/tregu?tab=shperblime";
+  const total = input.rewards.reduce((sum, r) => sum + Number(r.prize), 0);
+  const kindLabel = (kind: string) => (kind === "monthly" ? "Muaji" : "Java");
+  const lines = input.rewards.map(
+    (r) => `#${r.place} ${r.display_name} — ${kindLabel(r.period_kind)} ${r.periodLabel} — fitim ${Math.round(r.profit)} 383C — shpërblim ${Math.round(r.prize)} 383C`
+  );
+  const rows = input.rewards
+    .map(
+      (r) =>
+        `<tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:800">#${r.place}</td><td style="padding:10px;border-bottom:1px solid #eee;font-weight:700">${escapeHtml(r.display_name)}</td><td style="padding:10px;border-bottom:1px solid #eee;color:#6b6b6b">${kindLabel(r.period_kind)} · ${escapeHtml(r.periodLabel)}</td><td style="padding:10px;border-bottom:1px solid #eee">+${Math.round(r.profit).toLocaleString("sq-AL")}</td><td style="padding:10px;border-bottom:1px solid #eee;font-weight:800;color:#d93819">${Math.round(r.prize).toLocaleString("sq-AL")} 383C</td></tr>`
+    )
+    .join("");
+  await transport.sendMail({
+    from: user,
+    to: recipient,
+    subject: `383 Tregu — shpërblimet e renditjes presin konfirmimin (${Math.round(total)} 383C)`,
+    text: `Renditja u mbyll. Këto shpërblime presin konfirmimin tënd para se t'u shfaqen fituesve:\n\n${lines.join("\n")}\n\nGjithsej: ${Math.round(total)} 383C\n\nKonfirmo: ${confirmUrl}`,
+    html: `<main style="font-family:Arial,sans-serif;max-width:640px;margin:auto;padding:24px;color:#171513"><h1 style="font-size:24px;margin:0 0 8px">Shpërblimet e renditjes</h1><p style="margin:0 0 20px;color:#555">Renditja u mbyll. Asgjë nuk u shkon fituesve derisa ta konfirmosh.</p><table style="border-collapse:collapse;width:100%;font-size:14px"><tr style="text-align:left;color:#6b6b6b;font-size:12px"><th style="padding:8px 10px">Vendi</th><th style="padding:8px 10px">Tregtari</th><th style="padding:8px 10px">Periudha</th><th style="padding:8px 10px">Fitimi</th><th style="padding:8px 10px">Shpërblimi</th></tr>${rows}</table><p style="margin:18px 0 22px;font-weight:700">Gjithsej: ${Math.round(total).toLocaleString("sq-AL")} 383C</p><a href="${confirmUrl}" style="display:inline-block;background:#ff4422;color:#fff;text-decoration:none;font-weight:800;padding:14px 26px;border-radius:999px">Konfirmo</a></main>`,
+  });
+}

@@ -26,9 +26,11 @@ interface MarketRow {
 }
 
 const ARTICLE_CATEGORY_TO_MARKET: Record<string, string> = {
-  "Politikë": "politike",
-  "Siguri": "politike",
-  "Shoqëri": "politike",
+  "Kosovë": "kosove",
+  "Shqipëri": "shqiperi",
+  "Politikë": "kosove",
+  "Siguri": "kosove",
+  "Shoqëri": "kosove",
   "Ekonomi": "ekonomi",
   "Sport": "sport",
   "Botë": "bote",

@@ -1,7 +1,8 @@
 // Pure LMSR math + shared types — safe to import from Client Components.
 // Keep this file free of "./db" (better-sqlite3) and "./groq" (server-only) imports.
 
-export type MarketCategory = "politike" | "ekonomi" | "sport" | "bote" | "te-tjera";
+/** "politike" is legacy: migration 0083 split it into kosove / shqiperi. */
+export type MarketCategory = "kosove" | "shqiperi" | "politike" | "ekonomi" | "sport" | "bote" | "te-tjera";
 export type MarketStatus = "draft" | "open" | "stale" | "closed" | "resolved";
 export type BinarySide = "PO" | "JO";
 export type ThreeOutcomeSide = "ENGLAND" | "DRAW" | "ARGENTINA";

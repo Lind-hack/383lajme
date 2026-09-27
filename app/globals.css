@@ -3167,7 +3167,7 @@ header[data-overlay] .nav-coin-chip {
 /* ══════════════════════════════════════════════════════════
    Tregu category edge — a tinted liquid-glass arc orbits the
    card border. Each category owns the color of its filter tab:
-   politike blue, ekonomi green, sport rose, bote amber, te-tjera
+   kosove blue, shqiperi red, ekonomi green, sport rose, bote amber, te-tjera
    brand orange. Same conic-gradient + xor-mask technique as
    .liquid-glass-btn, reusing --lg-angle (registered above). A
    faint ring in the same tint stays visible between passes so
@@ -3184,7 +3184,9 @@ header[data-overlay] .nav-coin-chip {
      between category tints as slides change. */
   transition: --tg-cat 600ms var(--ease-out);
 }
+.tregu-edge[data-cat="kosove"],
 .tregu-edge[data-cat="politike"] { --tg-cat: #0047FF; }
+.tregu-edge[data-cat="shqiperi"] { --tg-cat: #E41E20; }
 .tregu-edge[data-cat="ekonomi"]  { --tg-cat: #00A651; }
 .tregu-edge[data-cat="sport"]    { --tg-cat: #F43F5E; }
 .tregu-edge[data-cat="bote"]     { --tg-cat: #F59E0B; }
@@ -13263,57 +13265,160 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
 .tregu-detail-reference[data-sport-theme="f1"] img { width: 58px; height: 52px; object-fit: cover; object-position: top; }
 .tregu-detail-quickfacts { min-height: 40px; }
 
-.tregu-share-actions { position: relative; z-index: 8; }
-.tregu-share-actions summary {
+/* Share: the trigger lives in the market header; the menu is portalled to
+   <body> (market-share-actions.tsx) so no header or panel layer can cover it. */
+.tregu-share-actions { position: relative; }
+.tregu-share-trigger {
   display: inline-flex;
   min-height: 34px;
   align-items: center;
   gap: 7px;
-  padding: 7px 10px;
+  padding: 7px 12px;
   border: 1px solid rgba(17, 17, 17, .12);
   border-radius: 10px;
   color: #34363a;
   background: rgba(255, 255, 255, .78);
+  font: inherit;
   font-size: 12px;
   font-weight: 800;
   cursor: pointer;
-  list-style: none;
+  transition: border-color 150ms ease, background 150ms ease, color 150ms ease;
 }
-.tregu-share-actions summary::-webkit-details-marker { display: none; }
-.tregu-share-actions summary:focus-visible { outline: 3px solid rgba(255, 68, 34, .24); outline-offset: 2px; }
-.tregu-share-menu {
-  position: absolute;
-  top: calc(100% + 7px);
-  right: 0;
+.tregu-share-trigger:hover,
+.tregu-share-trigger[aria-expanded="true"] { border-color: rgba(17, 17, 17, .28); background: #fff; color: #111; }
+.tregu-share-trigger:focus-visible { outline: 3px solid rgba(255, 68, 34, .32); outline-offset: 2px; }
+
+.tregu-share-pop {
+  position: fixed;
+  z-index: 10001;
   display: grid;
-  width: 188px;
-  overflow: hidden;
-  padding: 6px;
-  border: 1px solid rgba(17, 17, 17, .12);
-  border-radius: 13px;
+  gap: 10px;
+  width: 316px;
+  max-height: calc(100vh - 24px);
+  overflow: auto;
+  padding: 14px;
+  border: 1px solid rgba(17, 17, 17, .1);
+  border-radius: 18px;
   background: #fff;
-  box-shadow: 0 16px 36px rgba(22, 18, 15, .18), 0 3px 8px rgba(22, 18, 15, .08);
+  color: #111;
+  font-family: var(--font-manrope), "Manrope", sans-serif;
+  box-shadow: 0 24px 60px rgba(22, 18, 15, .22), 0 3px 10px rgba(22, 18, 15, .08);
+  transform-origin: top right;
+  animation: tregu-share-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.tregu-share-menu a,
-.tregu-share-menu button {
-  display: flex;
-  min-height: 38px;
-  align-items: center;
-  gap: 9px;
-  padding: 8px 10px;
+@keyframes tregu-share-in {
+  from { opacity: 0; transform: translateY(-6px) scale(.97); }
+  to { opacity: 1; transform: none; }
+}
+.tregu-share-pop[data-sheet] {
+  inset: auto 0 0 0;
+  width: auto;
+  max-height: 88vh;
+  padding: 16px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+  border-radius: 22px 22px 0 0;
+  animation-name: tregu-share-up;
+}
+@keyframes tregu-share-up {
+  from { transform: translateY(100%); }
+  to { transform: none; }
+}
+.tregu-share-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(23, 19, 14, .44);
+  animation: tregu-gift-fade 200ms ease-out both;
+}
+.tregu-share-head { display: flex; align-items: center; justify-content: space-between; }
+.tregu-share-head strong { font-size: 15px; font-weight: 800; letter-spacing: -.01em; }
+.tregu-share-x {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
   border: 0;
-  border-radius: 8px;
-  color: #24262a;
+  border-radius: 50%;
   background: transparent;
-  font: inherit;
-  font-size: 12px;
-  font-weight: 750;
-  text-align: left;
-  text-decoration: none;
+  color: #6B6B6B;
+  cursor: pointer;
 }
-.tregu-share-menu a:hover,
-.tregu-share-menu button:hover { background: #f3f1ed; }
-.tregu-share-menu button:disabled { opacity: .5; }
+.tregu-share-x:hover { background: rgba(17, 17, 17, .06); color: #111; }
+.tregu-share-preview {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #17130E;
+  aspect-ratio: 4 / 5;
+  max-height: 240px;
+  justify-self: center;
+  box-shadow: 0 10px 24px rgba(23, 19, 14, .18);
+}
+.tregu-share-pop[data-sheet] .tregu-share-preview { max-height: 38vh; }
+.tregu-share-preview img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.tregu-share-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.tregu-share-app {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 8px 2px 6px;
+  border-radius: 12px;
+  color: #34363a;
+  font-size: 11px;
+  font-weight: 750;
+  text-decoration: none;
+  transition: background 150ms ease;
+}
+.tregu-share-app:hover { background: #f3f1ed; }
+.tregu-share-app:focus-visible,
+.tregu-share-wide:focus-visible,
+.tregu-share-native:focus-visible,
+.tregu-share-x:focus-visible { outline: 2px solid #FF4422; outline-offset: 2px; }
+.tregu-share-tile {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  color: #fff;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .12);
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tregu-share-app:hover .tregu-share-tile { transform: translateY(-2px); }
+.tregu-share-app[data-app="whatsapp"] .tregu-share-tile { background: #25D366; }
+.tregu-share-app[data-app="telegram"] .tregu-share-tile { background: #229ED9; }
+.tregu-share-app[data-app="facebook"] .tregu-share-tile { background: #1877F2; }
+.tregu-share-app[data-app="x"] .tregu-share-tile { background: #111; }
+.tregu-share-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.tregu-share-wide,
+.tregu-share-native {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid rgba(17, 17, 17, .12);
+  border-radius: 12px;
+  background: #fff;
+  color: #111;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+.tregu-share-wide:hover,
+.tregu-share-native:hover { background: #f7f5f1; border-color: rgba(17, 17, 17, .22); }
+.tregu-share-wide[data-app="save"] { background: #FF4422; border-color: #FF4422; color: #fff; }
+.tregu-share-wide[data-app="save"]:hover { background: #E63A1A; }
+.tregu-share-wide:disabled,
+.tregu-share-native:disabled { opacity: .6; cursor: progress; }
+.tregu-share-native { width: 100%; background: #111; border-color: #111; color: #fff; }
+.tregu-share-native:hover { background: #2a2622; border-color: #2a2622; }
+.tregu-share-error { margin: 0; font-size: 12px; font-weight: 700; color: #B4181A; }
+@media (prefers-reduced-motion: reduce) {
+  .tregu-share-pop, .tregu-share-scrim { animation: none; }
+}
 
 /* Sport detail pages keep the same 383 layout and change only their material:
    pitch markings for football, timing graphics for F1, and court arcs for
@@ -13746,8 +13851,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
     white-space: nowrap;
   }
   .tregu-share-actions { margin-left: auto; }
-  .tregu-share-actions summary { min-height: 29px; padding: 5px 8px; font-size: 10.5px; }
-  .tregu-share-menu { right: 0; width: 180px; }
+  .tregu-share-trigger { min-height: 29px; padding: 5px 9px; font-size: 10.5px; }
   .tregu-event-tabs {
     order: 4;
     margin-top: 12px;
@@ -18252,6 +18356,13 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   font-variant-numeric: tabular-nums;
 }
 .tregu-goal-foot strong { color: var(--tg-text); font-weight: 800; }
+.tregu-goal-split {
+  display: block;
+  margin-top: 3px;
+  font-style: normal;
+  font-size: 11px;
+  color: var(--tg-muted);
+}
 
 /* The board is full width now, so its two halves get real room. */
 .tregu-lb { margin-bottom: 18px; }
@@ -20533,3 +20644,261 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   font-variant-numeric: tabular-nums;
 }
 .home-weather-hours small[data-wet="true"] { color: #2F5A8C; }
+/* ══════════════════════════════════════════════════════════
+   Sell confirmation (components/tregu/sell-success.tsx).
+   A wallet moment, so it is flat and opaque, never glass: it
+   has to read over whatever part of the floor is under it.
+   Bottom-centred, clear of the mobile trade bar.
+   ══════════════════════════════════════════════════════════ */
+.tregu-sold {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  z-index: 96;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: 14px;
+  width: min(420px, calc(100vw - 32px));
+  padding: 16px 14px 16px 16px;
+  background: #fff;
+  color: #111;
+  border: 1px solid rgba(0, 166, 81, 0.28);
+  border-radius: 18px;
+  box-shadow: 0 18px 44px rgba(24, 14, 4, 0.18), 0 2px 8px rgba(24, 14, 4, 0.08);
+  font-family: var(--font-manrope), "Manrope", sans-serif;
+  transform: translateX(-50%);
+  animation: tregu-sold-in 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes tregu-sold-in {
+  from { opacity: 0; transform: translate(-50%, 18px) scale(0.97); filter: blur(4px); }
+  to { opacity: 1; transform: translate(-50%, 0) scale(1); filter: blur(0); }
+}
+.tregu-sold-mark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #00A651;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(0, 166, 81, 0.32);
+  animation: tregu-sold-mark 520ms 120ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes tregu-sold-mark {
+  from { transform: scale(0.4); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.tregu-sold-body { min-width: 0; }
+.tregu-sold-title { display: block; font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
+.tregu-sold-line {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  color: #6B6B6B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tregu-sold-line b { color: #111; font-weight: 800; }
+.tregu-sold-amount {
+  margin: 8px 0 0;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #007A3C;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-sold-amount small { font-size: 12px; font-weight: 700; letter-spacing: 0; color: #6B6B6B; }
+.tregu-sold-balance { margin: 2px 0 0; font-size: 12px; color: #6B6B6B; font-variant-numeric: tabular-nums; }
+.tregu-sold-close {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin: -4px -2px 0 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #6B6B6B;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+}
+.tregu-sold-close:hover { background: rgba(17, 17, 17, 0.06); color: #111; }
+.tregu-sold-close:focus-visible { outline: 2px solid #FF4422; outline-offset: 2px; }
+@media (max-width: 859px) {
+  /* The market page's trade bar sits on the bottom edge on phones. */
+  .tregu-sold { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tregu-sold, .tregu-sold-mark { animation: none; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Leaderboard gift (components/tregu/leaderboard-gift.tsx).
+   The one modal on the floor: a prize the admin confirmed,
+   opened by the winner. Dark box, 383-orange ribbon, the gold
+   coin from the wallet layer rising out of it.
+   ══════════════════════════════════════════════════════════ */
+.tregu-gift-scrim {
+  position: fixed;
+  inset: 0;
+  /* Above the cookie banner (9999): a prize is not something to hide. */
+  z-index: 10002;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(23, 19, 14, 0.52);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: tregu-gift-fade 260ms ease-out both;
+}
+@keyframes tregu-gift-fade { from { opacity: 0; } to { opacity: 1; } }
+.tregu-gift {
+  position: relative;
+  width: min(400px, 100%);
+  padding: 8px 28px 28px;
+  background: #fff;
+  color: #111;
+  border-radius: 24px;
+  text-align: center;
+  font-family: var(--font-manrope), "Manrope", sans-serif;
+  box-shadow: 0 40px 90px rgba(23, 19, 14, 0.36), 0 4px 14px rgba(23, 19, 14, 0.12);
+  animation: tregu-gift-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes tregu-gift-in {
+  from { opacity: 0; transform: translateY(24px) scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+.tregu-gift-stage {
+  position: relative;
+  height: 210px;
+  display: grid;
+  place-items: end center;
+  margin: 0 -28px 6px;
+  overflow: hidden;
+  border-radius: 24px 24px 0 0;
+  background: radial-gradient(120% 90% at 50% 100%, #FFF1E6 0%, #fff 70%);
+}
+.tregu-gift-box {
+  position: relative;
+  z-index: 2;
+  width: 150px;
+  height: auto;
+  margin-bottom: 14px;
+  overflow: visible;
+  filter: drop-shadow(0 14px 18px rgba(23, 19, 14, 0.22));
+}
+.tregu-gift[data-stage="sealed"] .tregu-gift-box {
+  animation: tregu-gift-wobble 2.6s 700ms cubic-bezier(0.36, 0, 0.2, 1) infinite;
+  transform-origin: 50% 100%;
+}
+@keyframes tregu-gift-wobble {
+  0%, 70%, 100% { transform: rotate(0); }
+  76% { transform: rotate(-4deg); }
+  82% { transform: rotate(3.5deg); }
+  88% { transform: rotate(-2deg); }
+  94% { transform: rotate(1deg); }
+}
+.tregu-gift-lid {
+  transform-box: fill-box;
+  transform-origin: 20% 100%;
+  transition: transform 640ms cubic-bezier(0.22, 1, 0.36, 1), opacity 500ms 200ms ease;
+}
+.tregu-gift[data-stage="open"] .tregu-gift-lid {
+  transform: translate(-46px, -70px) rotate(-38deg);
+  opacity: 0;
+}
+.tregu-gift-coin {
+  position: absolute;
+  left: 50%;
+  bottom: 60px;
+  z-index: 1;
+  transform: translate(-50%, 40px) scale(0.5);
+  opacity: 0;
+  transition: transform 760ms 160ms cubic-bezier(0.34, 1.4, 0.64, 1), opacity 240ms 160ms ease;
+}
+.tregu-gift[data-stage="open"] .tregu-gift-coin {
+  z-index: 3;
+  transform: translate(-50%, -28px) scale(1);
+  opacity: 1;
+}
+.tregu-gift-rays {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 380px;
+  height: 380px;
+  margin: -190px 0 0 -190px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 68, 34, 0.14) 0deg 9deg, transparent 9deg 22.5deg);
+  mask-image: radial-gradient(circle, #000 18%, transparent 66%);
+  -webkit-mask-image: radial-gradient(circle, #000 18%, transparent 66%);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 500ms 240ms ease, transform 900ms 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tregu-gift[data-stage="open"] .tregu-gift-rays {
+  opacity: 1;
+  transform: scale(1);
+  animation: tregu-gift-spin 18s linear infinite;
+}
+@keyframes tregu-gift-spin { to { rotate: 360deg; } }
+.tregu-gift h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+.tregu-gift-amount {
+  display: block;
+  font-size: 44px;
+  letter-spacing: -0.045em;
+  color: #111;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-gift p {
+  margin: 8px auto 0;
+  max-width: 30ch;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #6B6B6B;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-gift p b { color: #111; font-weight: 800; }
+.tregu-gift-actions { display: grid; gap: 6px; margin-top: 22px; }
+.tregu-gift-primary {
+  min-height: 52px;
+  border: 0;
+  border-radius: 100px;
+  background: #111;
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease;
+}
+.tregu-gift-primary:hover:not(:disabled) { background: #FF4422; }
+.tregu-gift-primary:active:not(:disabled) { transform: scale(0.98); }
+.tregu-gift-primary:disabled { opacity: 0.6; cursor: progress; }
+.tregu-gift-primary:focus-visible, .tregu-gift-later:focus-visible { outline: 2px solid #FF4422; outline-offset: 3px; }
+.tregu-gift-later {
+  min-height: 44px;
+  border: 0;
+  border-radius: 100px;
+  background: transparent;
+  color: #6B6B6B;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.tregu-gift-later:hover { color: #111; }
+.tregu-gift .tregu-gift-error { color: #B4181A; font-weight: 700; }
+.tregu-gift .tregu-gift-more { margin-top: 12px; font-size: 12.5px; }
+@media (prefers-reduced-motion: reduce) {
+  .tregu-gift-scrim, .tregu-gift, .tregu-gift-box, .tregu-gift[data-stage="open"] .tregu-gift-rays { animation: none; }
+  .tregu-gift-lid, .tregu-gift-coin, .tregu-gift-rays { transition-duration: 1ms; transition-delay: 0ms; }
+}

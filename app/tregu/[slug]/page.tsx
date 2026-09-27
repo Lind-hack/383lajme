@@ -6,6 +6,7 @@ import Navbar from "@/components/navbar";
 import ExactMarketChart from "@/components/tregu/exact-market-chart";
 import MarketContextMedia from "@/components/tregu/market-context-media";
 import MarketShareActions from "@/components/tregu/market-share-actions";
+import SellSuccess, { type SellReceipt } from "@/components/tregu/sell-success";
 import SportBrandMark from "@/components/tregu/sport-brand-mark";
 import CompetitionArtwork from "@/components/tregu/competition-artwork";
 import { type MiniMarket } from "@/components/tregu/market-mini-card";
@@ -155,6 +156,8 @@ interface HubRow {
 }
 
 const CATEGORY_LABEL: Record<string, string> = {
+  kosove: "Kosovë",
+  shqiperi: "Shqipëri",
   politike: "Politikë",
   ekonomi: "Ekonomi",
   sport: "Sport",
@@ -357,6 +360,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const [lastBuy, setLastBuy] = useState<{ key: string; t: number } | null>(null);
   const [mobileTradeOpen, setMobileTradeOpen] = useState(false);
   const [purchaseReceipt, setPurchaseReceipt] = useState<MobileTradeReceipt | null>(null);
+  const [sellReceipt, setSellReceipt] = useState<SellReceipt | null>(null);
+  const dismissSellReceipt = useCallback(() => setSellReceipt(null), []);
   const lastSuccessfulLoad = useRef(0);
   const closeMobileTrade = useCallback(() => setMobileTradeOpen(false), []);
   const dismissPurchaseReceipt = useCallback(() => setPurchaseReceipt(null), []);
@@ -718,10 +723,11 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         const data = await res.json();
         if (res.ok) {
           track("tregu_trade", { side: "sell", kind: "sport_outcome", marketId: market.id, shares });
-          setTradeMsg({
-            ok: true,
-            text: `Shitja te ${selectedOutcome.label} u krye. More ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C.`,
-          });
+          setTradeMsg(null);
+          setSellReceipt({ selection: selectedOutcome.label, coins: Number(data.coinsReceived ?? 0), market: market.question, closed: sellEverything });
+          // Credit the wallet now so the card's balance is right on its first frame;
+          // refreshBalance() below confirms it from the server.
+          setBalance((b) => (b === null ? null : b + Number(data.coinsReceived ?? 0)));
           setSellShares(0);
           setMobileTradeOpen(false);
           load();
@@ -786,7 +792,11 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         const data = await res.json();
         if (res.ok) {
           track("tregu_trade", { side: "sell", kind: "f1_race_winner", marketId: market.id, shares });
-          setTradeMsg({ ok: true, text: `Shitja te ${selectedDriver?.label ?? f1OutcomeKey} u krye. More ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C.` });
+          setTradeMsg(null);
+          setSellReceipt({ selection: selectedDriver?.label ?? f1OutcomeKey, coins: Number(data.coinsReceived ?? 0), market: market.question, closed: sellEverything });
+          // Credit the wallet now so the card's balance is right on its first frame;
+          // refreshBalance() below confirms it from the server.
+          setBalance((b) => (b === null ? null : b + Number(data.coinsReceived ?? 0)));
           setSellShares(0);
           setMobileTradeOpen(false);
           load();
@@ -823,7 +833,11 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       const data = await res.json();
       if (res.ok) {
         track("tregu_trade", { side: "sell", kind: "binary", marketId: market.id, shares: sellShares });
-        setTradeMsg({ ok: true, text: `✓ Shitja u krye. More ${Number(data.coinsReceived ?? 0).toFixed(1)} 383C` });
+        setTradeMsg(null);
+        setSellReceipt({ selection: side, coins: Number(data.coinsReceived ?? 0), market: market.question, closed: sellEverything });
+        // Credit the wallet now so the card's balance is right on its first frame;
+        // refreshBalance() below confirms it from the server.
+        setBalance((b) => (b === null ? null : b + Number(data.coinsReceived ?? 0)));
         setSellShares(0);
         setMobileTradeOpen(false);
         load();
@@ -1116,6 +1130,21 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     competitors?: Array<{ team?: string; homeAway?: string; score?: number }>;
     metrics?: Record<string, Record<string, number>>;
   } | null;
+  // The share card draws the line of whatever the header is showing: the picked
+  // club, the grouped outcome, or PO. F1 fields carry no per-driver history, so
+  // their card shows the price alone.
+  const sharePoints = (
+    football
+      ? football.outcomes.find((outcome) => outcome.key === footballSelectedOutcome?.key)?.series
+      : f1
+        ? []
+        : group && currentOutcome
+          ? groupedChartSeries.find((series) => series.key === currentOutcome.slug)?.points
+          : marketChartSeries[0].points
+  )
+    ?.slice()
+    .sort((a, b) => a.t - b.t)
+    .map((point) => point.p) ?? [];
   const liveTeams = live?.competitors ?? [];
   const homeTeam =
     liveTeams.find((competitor) => competitor.homeAway === "home") ??
@@ -1260,6 +1289,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   probability={pct / 100}
                   volume={volume}
                   accent={tradeThemeColor(market, footballSelectedOutcome?.color, f1SelectedDriver?.team_colour)}
+                  category={CATEGORY_LABEL[market.category]}
+                  points={sharePoints}
                 />
               </div>
             </div>
@@ -2167,6 +2198,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           onSubmit={submitTrade}
           onDismissReceipt={dismissPurchaseReceipt}
         />
+
+        <SellSuccess receipt={sellReceipt} balance={balance} onDismiss={dismissSellReceipt} />
 
         {/* Practice sandbox — first market page a visitor opens walks them
             through reading the graph, betting and getting back out. */}

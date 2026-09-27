@@ -6,6 +6,8 @@ import type { MiniMarket } from "./market-mini-card";
 import { fmtNum } from "@/lib/format";
 
 const CATEGORY_LABEL: Record<string, string> = {
+  kosove: "Kosovë",
+  shqiperi: "Shqipëri",
   politike: "Politikë",
   ekonomi: "Ekonomi",
   sport: "Sport",

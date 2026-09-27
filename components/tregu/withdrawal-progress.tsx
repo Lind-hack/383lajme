@@ -17,12 +17,21 @@ const REWARD_EUR = 10;
  *
  * Logged out it still shows, at zero, because the offer is most persuasive to
  * the person who has not taken it yet.
+ *
+ * Progress is net worth — the wallet plus what open trades would sell for now.
+ * Counting the wallet alone dropped the bar to zero the moment someone put
+ * their whole balance into trades, which read as having lost everything.
+ * Withdrawing still needs the coins in the wallet, so "reached" stays a wallet
+ * test and the split under the bar says where the rest is.
  */
-export default function WithdrawalProgress({ balance }: { balance: number | null }) {
+export default function WithdrawalProgress({ balance, openValue = 0 }: { balance: number | null; openValue?: number }) {
   const coins = Math.max(0, Number(balance) || 0);
-  const pct = Math.min(100, (coins / THRESHOLD) * 100);
-  const remaining = Math.max(0, THRESHOLD - coins);
+  const invested = Math.max(0, Number(openValue) || 0);
+  const total = coins + invested;
+  const pct = Math.min(100, (total / THRESHOLD) * 100);
+  const remaining = Math.max(0, THRESHOLD - total);
   const reached = coins >= THRESHOLD;
+  const reachedInTrades = !reached && total >= THRESHOLD;
 
   return (
     <section className="tregu-goal" aria-label="Përparimi drejt tërheqjes">
@@ -31,7 +40,8 @@ export default function WithdrawalProgress({ balance }: { balance: number | null
           {reached ? "Pragu u arrit" : `Drejt ${fmtNum(THRESHOLD)} Monedhave`}
           <span>
             {`${fmtNum(THRESHOLD)} Monedha = ${REWARD_EUR} euro`}
-            {!reached && ` · edhe ${fmtNum(remaining)} Monedha`}
+            {!reached && !reachedInTrades && ` · edhe ${fmtNum(remaining)} Monedha`}
+            {reachedInTrades && " · mbyll tregtitë për ta tërhequr"}
           </span>
         </h3>
         <Link href="/tregu/portofoli" className="tregu-goal-link">
@@ -62,7 +72,12 @@ export default function WithdrawalProgress({ balance }: { balance: number | null
 
       <p className="tregu-goal-foot">
         <span>
-          <strong>{fmtNum(coins)}</strong> nga {fmtNum(THRESHOLD)} Monedha
+          <strong>{fmtNum(Math.round(total))}</strong> nga {fmtNum(THRESHOLD)} Monedha
+          {invested > 0 && (
+            <em className="tregu-goal-split">
+              {fmtNum(Math.round(coins))} në portofol · {fmtNum(Math.round(invested))} në tregje
+            </em>
+          )}
         </span>
         <span>{Math.floor(pct)}%</span>
       </p>
