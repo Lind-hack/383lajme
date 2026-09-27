@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 /**
  * Icons for the phone tab bar (components/mobile-tab-bar) that no icon set has.
  * Drawn on lucide's 24px grid and stroke so they sit with the House icon, and
@@ -40,24 +42,39 @@ export function KosovoGlobeIcon({ size = 22, strokeWidth = 2 }: IconProps) {
 }
 
 /**
- * Tregu: a 383 coin, drawn in the bar's grey like the other icons (and the
- * tab's orange when current) rather than the gold coin Tregu uses inside.
+ * Tregu: two 383 coins, one in front and one peeking out behind it (upper
+ * left, clear of the live dot at the upper right) — a
+ * little stack of the currency. Line art in the bar's grey (the tab's orange
+ * when current) like the other icons; the back coin is masked where the
+ * front one covers it, so the lines never cross.
  */
 export function CoinIcon({ size = 22, strokeWidth = 2 }: IconProps) {
+  const maskId = `coin-back-${useId().replace(/:/g, "")}`;
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} aria-hidden="true">
-      <circle cx="12" cy="12" r="9.5" />
-      <circle cx="12" cy="12" r="7" strokeWidth={strokeWidth * 0.5} opacity="0.55" />
+      <defs>
+        <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+          <rect width="24" height="24" fill="#fff" />
+          {/* The front coin plus a hairline of air around it. */}
+          <circle cx="14" cy="14" r={8.4 + strokeWidth / 2} fill="#000" />
+        </mask>
+      </defs>
+      <g mask={`url(#${maskId})`}>
+        <circle cx="8.5" cy="8.5" r="6.6" />
+        <path d="M5.4 7.2a3.9 3.9 0 0 1 4.4-2.6" strokeWidth={strokeWidth * 0.6} opacity="0.55" strokeLinecap="round" />
+      </g>
+      <circle cx="14" cy="14" r="7.6" />
+      <circle cx="14" cy="14" r="5.5" strokeWidth={strokeWidth * 0.45} opacity="0.55" />
       <text
-        x="12"
-        y="12"
+        x="14"
+        y="14"
         dy="0.36em"
         textAnchor="middle"
         fill="currentColor"
         stroke="none"
-        fontSize="6.6"
+        fontSize="5.2"
         fontWeight="800"
-        letterSpacing="-0.2"
+        letterSpacing="-0.15"
         style={{ fontFamily: "var(--font-manrope), sans-serif" }}
       >
         383
