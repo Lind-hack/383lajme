@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { KOSOVO_PATH, KOSOVO_VIEWBOX } from "./kosovo-shape";
 
 /**
  * Icons for the phone tab bar (components/mobile-tab-bar) that no icon set has.
@@ -24,20 +25,33 @@ export function PersonalFeedIcon({ size = 22, strokeWidth = 2 }: IconProps) {
 }
 
 /**
- * Bota për Kosovën: the world, with Kosovo at its centre. The globe is line
- * art; the map is the flag's silhouette (/images/categories/kosove.svg),
- * filled through a CSS mask so the page does not carry its path twice.
+ * Bota për Kosovën: a detailed globe in front — meridians and parallels —
+ * with Kosovo's map peeking out behind it at the upper left, the same stack
+ * as Tregu's coins. The map is masked where the globe covers it.
  */
 export function KosovoGlobeIcon({ size = 22, strokeWidth = 2 }: IconProps) {
+  const maskId = `kosovo-back-${useId().replace(/:/g, "")}`;
+  const thin = strokeWidth * 0.62;
   return (
-    <span className="tab-globe" style={{ width: size, height: size }} aria-hidden="true">
-      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round">
-        <circle cx="12" cy="12" r="9.5" />
-        {/* Meridians only at the rim, so nothing crosses the map. */}
-        <path d="M8.6 3.1C6.9 5.3 6 8.5 6 12s.9 6.7 2.6 8.9M15.4 3.1C17.1 5.3 18 8.5 18 12s-.9 6.7-2.6 8.9" strokeWidth={strokeWidth * 0.7} opacity="0.55" />
-      </svg>
-      <span className="tab-globe-map" />
-    </span>
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" aria-hidden="true">
+      <defs>
+        <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+          <rect width="24" height="24" fill="#fff" />
+          <circle cx="15" cy="15" r={7.8 + strokeWidth / 2 + 0.4} fill="#000" />
+        </mask>
+      </defs>
+      <g mask={`url(#${maskId})`}>
+        <svg x="0" y="0" width="14.2" height="14.2" viewBox={KOSOVO_VIEWBOX}>
+          <path d={KOSOVO_PATH} fill="currentColor" stroke="none" />
+        </svg>
+      </g>
+      <circle cx="15" cy="15" r="7.8" />
+      {/* Grid: equator, two parallels, the central meridian and two more. */}
+      <path d="M7.2 15h15.6" strokeWidth={thin} />
+      <path d="M8.3 11.1h13.4M8.3 18.9h13.4" strokeWidth={thin} opacity="0.8" />
+      <ellipse cx="15" cy="15" rx="3.4" ry="7.8" strokeWidth={thin} />
+      <path d="M12.1 7.8C9.9 9.7 8.8 12.2 8.8 15s1.1 5.3 3.3 7.2M17.9 7.8c2.2 1.9 3.3 4.4 3.3 7.2s-1.1 5.3-3.3 7.2" strokeWidth={thin} opacity="0.55" />
+    </svg>
   );
 }
 
