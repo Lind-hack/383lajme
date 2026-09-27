@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { ChartNoAxesColumnIncreasing, Clapperboard, Cpu, Earth, Trophy, type LucideIcon } from "lucide-react";
 import { NAV_CATEGORIES, normalizeCategory, type NavCategory } from "@/lib/category-map";
@@ -12,6 +15,9 @@ import { getCategoryColor } from "@/lib/category-colors";
  * Kosovë and Shqipëri use the shapes from their public-domain flags (the map
  * and the eagle, in /public/images/categories), tinted through a CSS mask so
  * they take the section colour like the line icons do.
+ *
+ * `hero` sets the row on a category page's colour (components/category-banner),
+ * with the current card lit up like a selected tab.
  */
 const ICONS: Record<NavCategory, LucideIcon | string> = {
   Kosovë: "/images/categories/kosove.svg",
@@ -23,11 +29,26 @@ const ICONS: Record<NavCategory, LucideIcon | string> = {
   Showbiz: Clapperboard,
 };
 
-export default function CategoryRail({ active }: { active?: string }) {
+export default function CategoryRail({ active, variant = "plain" }: { active?: string; variant?: "plain" | "hero" }) {
   const current = active ? normalizeCategory(active) : undefined;
+  const listRef = useRef<HTMLUListElement>(null);
+
+  // On a phone the row scrolls, and Showbiz is off-screen to the right: bring
+  // the current card into view so the page shows where the reader is. Only
+  // the row scrolls, never the page, and nothing moves when it already fits.
+  useEffect(() => {
+    const list = listRef.current;
+    const card = list?.querySelector<HTMLElement>('[aria-current="page"]');
+    if (!list || !card || list.scrollWidth <= list.clientWidth) return;
+    const cardRight = card.offsetLeft + card.offsetWidth;
+    if (card.offsetLeft < list.scrollLeft || cardRight > list.scrollLeft + list.clientWidth) {
+      list.scrollLeft = Math.max(0, card.offsetLeft - 16);
+    }
+  }, [current]);
+
   return (
-    <nav className="cat-rail" aria-label="Kategoritë">
-      <ul className="cat-rail-list">
+    <nav className="cat-rail" data-variant={variant} aria-label="Kategoritë">
+      <ul className="cat-rail-list" ref={listRef}>
         {NAV_CATEGORIES.map(({ label, slug }) => {
           const Icon = ICONS[label];
           const isCurrent = current === label;

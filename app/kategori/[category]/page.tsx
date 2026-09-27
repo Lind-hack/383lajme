@@ -4,10 +4,9 @@ import { Inbox } from "lucide-react";
 import { getArticles, getArticlesBefore } from "@/lib/db";
 import { CATEGORY_TO_SLUG, RESOLVABLE_SLUGS } from "@/lib/category-map";
 import { getCategoryColor, getCategoryGradient, CATEGORY_LIGHT_BG } from "@/lib/category-colors";
-import { resolveCategoryFigures } from "@/lib/category-figures";
+import { dateKeyInKosovo } from "@/lib/reagimi-data";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
-import CategoryRail from "@/components/category-rail";
 import CategoryBanner from "@/components/category-banner";
 import HeroDispatch from "@/components/hero-dispatch";
 import NewsGrid from "@/components/news-grid";
@@ -62,7 +61,12 @@ export default async function CategoryPage({
   const accent = getCategoryColor(categoryName);
   const [gradFrom, gradTo] = getCategoryGradient(categoryName);
   const lightBg = CATEGORY_LIGHT_BG.has(categoryName);
-  const figures = await resolveCategoryFigures(categoryName);
+  // Stories this section published today, Kosovo time — not the size of the
+  // query, which is what the old "50 artikuj" badge printed.
+  const todayKey = dateKeyInKosovo();
+  const todayCount = allArticles.filter(
+    (a) => a.publishedAt && dateKeyInKosovo(new Date(a.publishedAt)) === todayKey
+  ).length;
 
   const hero = articles[0];
   const gridArticles = articles.slice(hero ? 1 : 0, 7);
@@ -79,14 +83,12 @@ export default async function CategoryPage({
       <Navbar />
 
       <div style={{ paddingTop: "var(--nav-h)", position: "relative", zIndex: 1 }}>
-        <CategoryRail active={categoryName} />
         <CategoryBanner
           categoryName={categoryName}
           from={gradFrom}
           to={gradTo}
-          articleCount={articles.length}
           lightBg={lightBg}
-          figures={figures}
+          todayCount={todayCount}
         />
       </div>
 
