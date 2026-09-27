@@ -22,8 +22,9 @@ function toArticle(item: PageItem): Article {
 
 /**
  * Pages through /api/articles from a cursor, skipping anything the page
- * already shows. A button drives it, never scroll position: an endless list
- * would put the footer — and everything in it — out of reach.
+ * already shows. A button drives it by default; category pages also drive it
+ * from scroll position (DispatchList `infinite`), keeping the button as the
+ * fallback when a page fails to load.
  */
 export function useArticlePages({
   cursor,
@@ -73,7 +74,18 @@ export function useArticlePages({
     }
   }, [category, pageSize]);
 
-  return { items, status, loadMore };
+  /** Put back a feed saved earlier this session (Back from an article). */
+  const restore = useCallback((saved: Article[], cursorAfter: string | null) => {
+    for (const a of saved) seen.current.add(a.id);
+    next.current = cursorAfter;
+    setItems(saved);
+    setStatus(cursorAfter ? "idle" : "done");
+  }, []);
+
+  // Stable, so effects that read the cursor do not re-run on every render.
+  const getCursor = useCallback(() => next.current, []);
+
+  return { items, status, loadMore, restore, getCursor };
 }
 
 /**

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
@@ -27,7 +27,12 @@ interface DispatchListProps {
    * Pages further back with "Shfaq më shumë". `seenIds` are the stories the
    * page already shows, so none of them comes back a second time.
    */
-  loadMore?: { category?: string; seenIds: string[] };
+  /**
+   * Older stories on demand. `infinite` loads them as the reader nears the
+   * end of the list instead of waiting for the button, and brings the feed
+   * back where it was after Back from an article.
+   */
+  loadMore?: { category?: string; seenIds: string[]; infinite?: boolean };
 }
 
 /** The default: a shortlist, for callers that do not ask for more. */
@@ -131,6 +136,56 @@ export default function DispatchList({
     category: loadMore?.category,
     seenIds: loadMore?.seenIds ?? [],
   });
+  const infinite = Boolean(loadMore?.infinite);
+  const feedKey = `383-feed:${loadMore?.category ?? "all"}`;
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const { status, loadMore: loadPage, restore, getCursor } = pages;
+
+  // Back from an article: the stories already loaded and the scroll position
+  // come back with the page, instead of the feed starting over at the top.
+  useEffect(() => {
+    if (!infinite) return;
+    try {
+      const returning = sessionStorage.getItem(`${feedKey}:return`);
+      sessionStorage.removeItem(`${feedKey}:return`);
+      const raw = sessionStorage.getItem(feedKey);
+      if (returning === null || !raw) return;
+      const saved = JSON.parse(raw) as { items?: Article[]; next?: string | null; at?: number };
+      if (!saved?.items?.length || Date.now() - (saved.at ?? 0) > 30 * 60 * 1000) return;
+      restore(saved.items, saved.next ?? null);
+      const y = Number(returning);
+      requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo(0, y)));
+    } catch {
+      // Storage unavailable: the feed simply starts fresh.
+    }
+  }, [infinite, feedKey, restore]);
+
+  // Remember what has been loaded, so a return can put it back.
+  useEffect(() => {
+    if (!infinite || pages.items.length === 0) return;
+    try {
+      sessionStorage.setItem(feedKey, JSON.stringify({ items: pages.items, next: getCursor(), at: Date.now() }));
+    } catch {
+      // Quota or private mode: nothing to restore later, nothing breaks now.
+    }
+  }, [infinite, feedKey, pages.items, getCursor]);
+
+  // Load the next page while the reader is still ~2 screens from the end, so
+  // the scroll never hits a wall.
+  useEffect(() => {
+    if (!infinite || status !== "idle") return;
+    const node = sentinelRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) loadPage();
+      },
+      { rootMargin: "0px 0px 1200px 0px" },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [infinite, status, loadPage]);
+
   if (items.length === 0) return null;
 
   const all = [...items, ...pages.items];
@@ -148,13 +203,42 @@ export default function DispatchList({
         data-cols={columns === 2 ? "2" : undefined}
         data-size={size === "lg" ? "lg" : undefined}
         ref={rowsRef}
+        onClickCapture={
+          infinite
+            ? (event) => {
+                if ((event.target as HTMLElement).closest("a[href]")) {
+                  try {
+                    sessionStorage.setItem(`${feedKey}:return`, String(window.scrollY));
+                  } catch {
+                    // No storage: Back starts the feed fresh.
+                  }
+                }
+              }
+            : undefined
+        }
       >
         {all.map((article, i) => (
           <DispatchRow key={article.id} article={article} index={i} />
         ))}
       </div>
 
-      {loadMore && (
+      {infinite && status === "loading" && (
+        <div className="dispatch-skeletons" aria-hidden="true">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="dispatch-skeleton">
+              <span className="dispatch-skeleton-thumb" />
+              <span className="dispatch-skeleton-lines">
+                <i />
+                <i />
+                <i />
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+      {infinite && <div ref={sentinelRef} className="dispatch-sentinel" aria-hidden="true" />}
+
+      {loadMore && (!infinite || status === "error" || status === "done") && (
         <LoadMoreButton
           status={pages.status}
           added={pages.items.length}

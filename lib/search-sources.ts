@@ -37,6 +37,8 @@ export interface SearchEntry {
   /** The dim second line under the title in the overlay. */
   meta?: string;
   weight?: number;
+  /** Publication time, for articles: newer wins ties (search-match recency). */
+  date?: string;
 }
 
 /**
@@ -317,6 +319,7 @@ async function supabaseEntries(): Promise<{ entries: SearchEntry[]; articles: Ar
       href: `/article/${a.slug}`,
       meta,
       weight: WEIGHT.artikull,
+      date: a.published_at ?? undefined,
     });
     records.push({ slug: a.slug, title: a.title, body: a.excerpt ?? "", meta });
   }

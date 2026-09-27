@@ -6,7 +6,6 @@ import AskPanel, { type Chip } from "@/components/ask-panel";
 import { useRouter } from "next/navigation";
 import {
   ArrowUpRight,
-  MessageCircle,
   Minus,
   Search,
   TrendingDown,
@@ -83,6 +82,11 @@ const EMPTY: Payload = {
   isQuestion: false,
 };
 
+/** The full results page for a query. */
+function resultsHref(query: string) {
+  return `/kerko?q=${encodeURIComponent(query.trim())}`;
+}
+
 export default function SearchOverlay({
   open,
   onClose,
@@ -90,12 +94,19 @@ export default function SearchOverlay({
 }: {
   open: boolean;
   onClose: () => void;
-  /** The tab it opens on: the navbar's Pyet Dardanin pill opens straight to Pyet. */
+  /**
+   * What the overlay is. Search and Pyet used to be two tabs of one dialog;
+   * they are two doors now — the search button opens search, the Pyet
+   * Dardanin pill opens Pyet — so neither shows the other's controls.
+   */
   initialMode?: "kerko" | "pyet";
 }) {
   const [mounted, setMounted] = useState(false);
   const [query, setQuery] = useState("");
-  const [mode, setMode] = useState<"kerko" | "pyet">("kerko");
+  const mode = initialMode;
+  // Enter opens the highlighted result only once the reader has chosen one
+  // with the arrow keys; otherwise it opens the full results page.
+  const [picked, setPicked] = useState(false);
   const [data, setData] = useState<Payload>(EMPTY);
   const [starters, setStarters] = useState<Chip[]>([]);
   const [loading, setLoading] = useState(false);
@@ -133,15 +144,16 @@ export default function SearchOverlay({
   }, [open]);
 
   useEffect(() => {
-    if (open) {
-      setMode(initialMode);
-    } else {
+    if (!open) {
       setQuery("");
       setData(EMPTY);
       setActive(0);
-      setMode("kerko");
+      setPicked(false);
     }
-  }, [open, initialMode]);
+  }, [open]);
+
+  // A new query starts from nothing chosen.
+  useEffect(() => setPicked(false), [query]);
 
   // Debounced fetch. The abort matters: without it a slow early request can
   // land after a fast later one and overwrite newer results with older.
@@ -221,20 +233,26 @@ export default function SearchOverlay({
       }
       // Pyet's composer handles its own Enter; only Escape is shared.
       if (mode === "pyet") return;
+      if (event.key === "Enter") {
+        event.preventDefault();
+        const target = picked ? flat[active] : undefined;
+        if (target) go(target.href);
+        // Nothing chosen: the reader wants the results, not the first one.
+        else if (query.trim().length >= 2) go(resultsHref(query));
+        return;
+      }
       if (!flat.length) return;
       if (event.key === "ArrowDown") {
         event.preventDefault();
+        setPicked(true);
         setActive((i) => (i + 1) % flat.length);
       } else if (event.key === "ArrowUp") {
         event.preventDefault();
+        setPicked(true);
         setActive((i) => (i - 1 + flat.length) % flat.length);
-      } else if (event.key === "Enter") {
-        event.preventDefault();
-        const target = flat[active];
-        if (target) go(target.href);
       }
     },
-    [flat, active, go, onClose, mode],
+    [flat, active, go, onClose, mode, picked, query],
   );
 
   // Keep the highlighted row in view when the arrows walk past the fold.
@@ -283,35 +301,13 @@ export default function SearchOverlay({
           </div>
         ) : (
           <div className="kerko-field kerko-field-ask">
-            <span className="kerko-ask-title">Pyet 383</span>
+            <span className="kerko-ask-title">Pyet Dardanin</span>
             <button type="button" className="kerko-esc" onClick={onClose}>
               esc
             </button>
           </div>
         )}
 
-        <div className="kerko-modes" role="tablist" aria-label="Mënyra e kërkimit">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={mode === "kerko"}
-            className="kerko-mode"
-            data-on={mode === "kerko" ? "true" : undefined}
-            onClick={() => setMode("kerko")}
-          >
-            Kërko
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={mode === "pyet"}
-            className="kerko-mode"
-            data-on={mode === "pyet" ? "true" : undefined}
-            onClick={() => setMode("pyet")}
-          >
-            Pyet 383
-          </button>
-        </div>
 
         <div className="kerko-body" ref={listRef}>
           {mode === "pyet" ? (
@@ -341,14 +337,10 @@ export default function SearchOverlay({
                   </ul>
                 </>
               )}
-              <p className="kerko-empty-ask">
-                <MessageCircle size={14} strokeWidth={2.5} aria-hidden="true" />
-                Duket si pyetje?{" "}
-                <button type="button" onClick={() => setMode("pyet")}>
-                  Provo Pyet 383
-                </button>{" "}
-                për një përmbledhje.
-              </p>
+              <button type="button" className="kerko-seeall kerko-seeall-page" onClick={() => go(resultsHref(query))}>
+                Shiko rezultatet më të afërta
+                <ArrowUpRight size={13} strokeWidth={2.5} aria-hidden="true" />
+              </button>
             </div>
           ) : (
             <>
@@ -447,17 +439,10 @@ export default function SearchOverlay({
                 </section>
               ))}
 
-              {data.isQuestion && (
-                <p className="kerko-ask">
-                  <MessageCircle size={14} strokeWidth={2.5} aria-hidden="true" />
-                  Duket si pyetje? Provo{" "}
-                  <button type="button" onClick={() => setMode("pyet")}>
-                    Pyet 383
-                  </button>{" "}
-                  për një përmbledhje
-                  <ArrowUpRight size={12} strokeWidth={2.5} aria-hidden="true" />
-                </p>
-              )}
+              <button type="button" className="kerko-seeall kerko-seeall-page" onClick={() => go(resultsHref(query))}>
+                Shiko të gjitha rezultatet për “{query.trim()}”
+                <ArrowUpRight size={13} strokeWidth={2.5} aria-hidden="true" />
+              </button>
             </>
           )}
         </div>

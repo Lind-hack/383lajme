@@ -19202,9 +19202,10 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 @media (max-width: 768px) {
   .nav-right-pills { gap: 6px; }
   .nav-right-pills .nav-tregu-link { min-height: 38px; padding: 7px 12px; font-size: 13px; }
-  .nav-dardan { min-height: 38px; padding: 3px; }
-  .nav-dardan img { width: 32px; height: 32px; }
-  .nav-dardan-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  /* The full pill on phones too: the name is what says it is a feature, the
+     mascot alone read as an avatar. Compact, and the row still fits 360px. */
+  .nav-dardan { min-height: 38px; padding: 3px 12px 3px 3px; gap: 6px; font-size: 13px; }
+  .nav-dardan img { width: 30px; height: 30px; }
 }
 @media (max-width: 359px) {
   /* The narrowest phones: Tregu keeps its dot, drops the word. */
@@ -21401,4 +21402,38 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 @media (prefers-reduced-motion: reduce) {
   .lgc > .lgc-lights, .lgc-trophy, .lgc-pulse i, .lgc-create::after, .lgc-codebig span, .lgc-preview, .lgc-reveal { animation: none; }
   .lgc > .lgc-confetti { display: none; }
+}
+
+/* ── Category feed loading (DispatchList infinite): skeleton rows shaped like
+   a dispatch row, a soft shimmer, and an invisible sentinel ~2 screens ahead. */
+.dispatch-sentinel { height: 1px; }
+.dispatch-skeletons { display: grid; gap: 14px; margin-top: 14px; }
+.dispatch-skeleton { display: grid; grid-template-columns: 34px 120px 1fr; gap: 14px; align-items: center; }
+.dispatch-skeleton::before { content: ""; width: 22px; height: 12px; border-radius: 4px; background: #EDE7DE; }
+.dispatch-skeleton-thumb { width: 120px; height: 76px; border-radius: 12px; background: #EDE7DE; }
+.dispatch-skeleton-lines { display: grid; gap: 8px; }
+.dispatch-skeleton-lines i { display: block; height: 10px; border-radius: 6px; background: #EDE7DE; }
+.dispatch-skeleton-lines i:nth-child(1) { width: 30%; }
+.dispatch-skeleton-lines i:nth-child(2) { width: 88%; height: 14px; }
+.dispatch-skeleton-lines i:nth-child(3) { width: 64%; }
+.dispatch-skeleton-thumb, .dispatch-skeleton-lines i, .dispatch-skeleton::before {
+  background: linear-gradient(90deg, #EDE7DE 0%, #F6F1EA 50%, #EDE7DE 100%);
+  background-size: 200% 100%;
+  animation: dispatch-shimmer 1.3s ease-in-out infinite;
+}
+@keyframes dispatch-shimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+@media (max-width: 640px) {
+  .dispatch-skeleton { grid-template-columns: 26px 96px 1fr; gap: 10px; }
+  .dispatch-skeleton-thumb { width: 96px; height: 64px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dispatch-skeleton-thumb, .dispatch-skeleton-lines i, .dispatch-skeleton::before { animation: none; }
+}
+
+/* Narrow phones: a little less air so logo, Pyet Dardanin, search and menu
+   stay on one row. */
+@media (max-width: 400px) {
+  .logo-mark { margin-right: 10px !important; }
+  .nav-dardan { padding-right: 10px; font-size: 12.5px; }
+  .nav-search-btn { margin: 0 2px !important; }
 }

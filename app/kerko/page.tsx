@@ -6,7 +6,7 @@ import Footer from "@/components/footer";
 import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
 import { getSearchData } from "@/lib/search-sources";
-import { search, nearest } from "@/lib/search-match.mjs";
+import { search, nearest, closest } from "@/lib/search-match.mjs";
 import { resolveEntity, surfaceForms, mentions } from "@/lib/entities.mjs";
 import { toneLabel } from "@/lib/tone-scale";
 
@@ -77,6 +77,9 @@ export default async function KerkoPage({
 
   const total = entityArticles.length + otherGroups.reduce((n, g) => n + g.items.length, 0);
   const suggestions = term && total === 0 ? nearest(entries, term, 6) : [];
+  // Nothing matched every word: show the stories that match most of them
+  // instead of a dead end.
+  const closestItems = term && total === 0 ? closest(entries, term, { limit: 30 }) : [];
 
   if (!term) notFound();
 
@@ -189,7 +192,15 @@ export default async function KerkoPage({
         {total === 0 && (
           <div className="kerko-page-empty">
             <p>
-              Asnjë rezultat për <strong>“{term}”</strong>.
+              {closestItems.length > 0 ? (
+                <>
+                  Asnjë rezultat i saktë për <strong>“{term}”</strong>. Këto janë më të afërtat.
+                </>
+              ) : (
+                <>
+                  Asnjë rezultat për <strong>“{term}”</strong>.
+                </>
+              )}
             </p>
             {suggestions.length > 0 && (
               <>
@@ -207,6 +218,22 @@ export default async function KerkoPage({
               </>
             )}
           </div>
+        )}
+
+        {closestItems.length > 0 && (
+          <section className="kerko-page-section">
+            <SectionLabel label="REZULTATET MË TË AFËRTA" marginBottom={14} />
+            <ul className="kerko-page-list">
+              {closestItems.map((item: { title: string; href: string; meta?: string }) => (
+                <li key={`${item.href}-${item.title}`}>
+                  <Link href={item.href}>
+                    <span className="kerko-page-item-title">{item.title}</span>
+                    {item.meta && <span className="kerko-page-item-meta">{item.meta}</span>}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
         )}
       </main>
 

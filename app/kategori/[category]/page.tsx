@@ -182,7 +182,7 @@ export default async function CategoryPage({
           <DispatchList
             articles={listArticles}
             max={20}
-            loadMore={selectedCity ? undefined : { category: CATEGORY_TO_SLUG[categoryName], seenIds: [...aboveIds, ...listArticles.slice(0, 20).map((a) => a.id)] }}
+            loadMore={selectedCity ? undefined : { category: CATEGORY_TO_SLUG[categoryName], seenIds: [...aboveIds, ...listArticles.slice(0, 20).map((a) => a.id)], infinite: true }}
           />
         )}
       </main>
