@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import { EASE, DUR, STAGGER } from "@/lib/tokens";
 import SectionLabel from "./section-label";
 import SourceBadge from "./source-badge";
 import { LoadMoreButton, focusFirstNew, useArticlePages } from "./load-more-articles";
+import { FeedAd, FeedMarket } from "./feed-sponsored";
 
 interface DispatchListProps {
   articles: Article[];
@@ -32,7 +33,19 @@ interface DispatchListProps {
    * end of the list instead of waiting for the button, and brings the feed
    * back where it was after Back from an article.
    */
-  loadMore?: { category?: string; seenIds: string[]; infinite?: boolean };
+  loadMore?: {
+    category?: string;
+    seenIds: string[];
+    infinite?: boolean;
+    /** Page /kerko's ranked results for this query, from position `startOffset`. */
+    search?: string;
+    startOffset?: number;
+  };
+  /**
+   * Cards between rows, for the /kerko feed: the matching Tregu market after
+   * the fourth story and the ad slot every `every` stories.
+   */
+  sponsored?: { every?: number; market?: { title: string; href: string; meta?: string } | null };
 }
 
 /** The default: a shortlist, for callers that do not ask for more. */
@@ -122,6 +135,7 @@ export default function DispatchList({
   columns = 1,
   size = "md",
   loadMore,
+  sponsored,
 }: DispatchListProps) {
   const items = articles.slice(0, max);
   const rowsRef = useRef<HTMLDivElement | null>(null);
@@ -131,13 +145,17 @@ export default function DispatchList({
     (min, a) => (a.publishedAt && (!min || a.publishedAt < min) ? a.publishedAt : min),
     null
   );
+  const searching = loadMore?.search !== undefined;
   const pages = useArticlePages({
-    cursor: loadMore ? oldest : null,
+    cursor: !loadMore ? null : searching ? String(loadMore.startOffset ?? items.length) : oldest,
     category: loadMore?.category,
+    search: loadMore?.search,
     seenIds: loadMore?.seenIds ?? [],
   });
   const infinite = Boolean(loadMore?.infinite);
-  const feedKey = `383-feed:${loadMore?.category ?? "all"}`;
+  const feedKey = searching
+    ? `383-feed:search:${loadMore?.search}`
+    : `383-feed:${loadMore?.category ?? "all"}`;
   const sentinelRef = useRef<HTMLDivElement | null>(null);
   const { status, loadMore: loadPage, restore, getCursor } = pages;
 
@@ -217,9 +235,16 @@ export default function DispatchList({
             : undefined
         }
       >
-        {all.map((article, i) => (
-          <DispatchRow key={article.id} article={article} index={i} />
-        ))}
+        {all.map((article, i) => {
+          const every = sponsored?.every ?? 0;
+          return (
+            <Fragment key={article.id}>
+              <DispatchRow article={article} index={i} />
+              {sponsored?.market && i === 3 && <FeedMarket {...sponsored.market} />}
+              {every > 0 && (i + 1) % every === 0 && <FeedAd />}
+            </Fragment>
+          );
+        })}
       </div>
 
       {infinite && status === "loading" && (

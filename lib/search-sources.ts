@@ -1,7 +1,8 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { getToneOutlets, getToneTopics } from "./tone-data";
 import { KOSOVO_CITIES } from "./visit-v2-data";
-import { NAV_CATEGORIES } from "./category-map";
+import { NAV_CATEGORIES, normalizeCategory } from "./category-map";
+import { remoteImageSrc } from "./remote-image.mjs";
 import { extractPeople, deriveEntity } from "./entities.mjs";
 import { getToneHistory } from "./tone-data";
 
@@ -82,6 +83,13 @@ export interface ArticleRecord {
   title: string;
   body: string;
   meta: string;
+  /** What a results card needs; present for every article from the store. */
+  id?: string;
+  category?: string;
+  source?: string;
+  sourceFlag?: string;
+  publishedAt?: string;
+  imageUrl?: string;
 }
 
 /** What a country result carries beyond its name. */
@@ -303,7 +311,7 @@ async function supabaseEntries(): Promise<{ entries: SearchEntry[]; articles: Ar
   const [articles, markets] = await Promise.all([
     supabase
       .from("news_articles")
-      .select("slug, title, excerpt, category, source, published_at")
+      .select("id, slug, title, excerpt, category, source, source_flag, published_at, image_url")
       .order("published_at", { ascending: false })
       .limit(ARTICLE_LIMIT),
     supabase.from("markets").select("slug, question, category, status").limit(500),
@@ -321,7 +329,19 @@ async function supabaseEntries(): Promise<{ entries: SearchEntry[]; articles: Ar
       weight: WEIGHT.artikull,
       date: a.published_at ?? undefined,
     });
-    records.push({ slug: a.slug, title: a.title, body: a.excerpt ?? "", meta });
+    records.push({
+      slug: a.slug,
+      title: a.title,
+      body: a.excerpt ?? "",
+      meta,
+      id: a.id ? String(a.id) : a.slug,
+      category: normalizeCategory(a.category),
+      source: a.source ?? "",
+      sourceFlag: a.source_flag ?? "",
+      publishedAt: a.published_at ?? "",
+      // The same larger rendition the rest of the site asks for (lib/db.ts).
+      imageUrl: a.image_url ? remoteImageSrc(String(a.image_url), 2048) : undefined,
+    });
   }
 
   for (const m of markets.data ?? []) {

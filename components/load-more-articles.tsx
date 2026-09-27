@@ -29,11 +29,14 @@ function toArticle(item: PageItem): Article {
 export function useArticlePages({
   cursor,
   category,
+  search,
   seenIds,
   pageSize = 12,
 }: {
   cursor: string | null;
   category?: string;
+  /** Page through /kerko's ranked results instead; the cursor is a position. */
+  search?: string;
   seenIds: readonly string[];
   pageSize?: number;
 }) {
@@ -50,6 +53,21 @@ export function useArticlePages({
       // A page can come back mostly made of stories already on screen, so keep
       // asking until there is a full page of new ones or the archive ends.
       for (let round = 0; round < 4 && fresh.length < pageSize && next.current; round++) {
+        if (search !== undefined) {
+          // Ranked results page by position: take each page whole, so the
+          // next offset is exactly where this one ended.
+          const params = new URLSearchParams({ q: search, offset: next.current, limit: String(pageSize) });
+          const response = await fetch(`/api/search/results?${params}`);
+          if (!response.ok) throw new Error(`search ${response.status}`);
+          const data = (await response.json()) as { items?: PageItem[]; next?: string | null };
+          for (const item of data?.items ?? []) {
+            if (!item?.id || seen.current.has(item.id)) continue;
+            seen.current.add(item.id);
+            fresh.push(toArticle(item));
+          }
+          next.current = data?.next ?? null;
+          continue;
+        }
         const params = new URLSearchParams({ before: next.current, limit: "24" });
         if (category) params.set("category", category);
         const response = await fetch(`/api/articles?${params}`);
@@ -72,7 +90,7 @@ export function useArticlePages({
       setStatus("error");
       return [];
     }
-  }, [category, pageSize]);
+  }, [category, search, pageSize]);
 
   /** Put back a feed saved earlier this session (Back from an article). */
   const restore = useCallback((saved: Article[], cursorAfter: string | null) => {

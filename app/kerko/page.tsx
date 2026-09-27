@@ -1,28 +1,36 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, Minus, Search, TrendingDown, TrendingUp } from "lucide-react";
+import { Minus, Search, TrendingDown, TrendingUp } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
+import HeroDispatch from "@/components/hero-dispatch";
+import NewsGrid from "@/components/news-grid";
+import DispatchList from "@/components/dispatch-list";
+import AdSlot from "@/components/home/ad-slot";
+import LatestStrip from "@/components/home/latest-strip";
 import { getSearchData } from "@/lib/search-sources";
-import { search, nearest, closest } from "@/lib/search-match.mjs";
-import { resolveEntity, surfaceForms, mentions } from "@/lib/entities.mjs";
+import { searchResults } from "@/lib/search-results";
+import { getLatestArticles } from "@/lib/db";
 import { toneLabel } from "@/lib/tone-scale";
 
 export const dynamic = "force-dynamic";
 
 /**
- * The full results page.
+ * The full results page, where Enter in the search box lands.
  *
- * The overlay is for finding one thing quickly. This is for the other case:
- * "show me everything about the prime minister", which is a reading list
- * rather than a jump. Rendered on the server so it is linkable, shareable and
- * indexable — a search result that only exists inside a dialog cannot be any
- * of those.
+ * It used to be a text list of headlines. It now reads like a section of the
+ * paper about what the reader asked for: the best match as the lead, the next
+ * six as photo cards, then every other match in an endless list with the ad
+ * column beside it — sponsored cards between rows, labelled as such. The
+ * ranking lives in lib/search-results, shared with /api/search/results, so
+ * the endless list continues exactly where the page stops.
  */
 
-const MAX_ARTICLES = 60;
+/** Lead + six cards above the list; the list shows this many before it pages. */
+const GRID = 6;
+const LIST = 20;
 
 export async function generateMetadata({
   searchParams,
@@ -41,96 +49,73 @@ export default async function KerkoPage({
 }) {
   const { q, entitet } = await searchParams;
   const term = (entitet ?? q ?? "").trim().slice(0, 120);
+  if (!term) notFound();
 
-  const data = term
-    ? await getSearchData()
-    : { entries: [], articles: [], people: [], subjects: [], countryFacts: {} };
-  const { entries, articles, people, subjects, countryFacts } = data;
-  const entity = term ? resolveEntity(term, [...subjects, ...people]) : null;
-  const facts = entity?.kind === "vend" ? (countryFacts[entity.name] ?? null) : null;
-  const dir = !facts || facts.delta === null || facts.delta === 0
-    ? "flat"
-    : facts.delta > 0
-      ? "up"
-      : "down";
+  const [results, data] = await Promise.all([searchResults(term), getSearchData()]);
+  const { articles, exact, entity, related, market } = results;
+  const facts = entity ? (data.countryFacts[entity.name] ?? null) : null;
+  const dir = !facts || facts.delta === null || facts.delta === 0 ? "flat" : facts.delta > 0 ? "up" : "down";
   const TrendIcon = dir === "up" ? TrendingUp : dir === "down" ? TrendingDown : Minus;
 
-  const entityArticles = entity
-    ? articles.filter((a) => mentions(a, surfaceForms(entity)))
-    : [];
+  const [lead, ...rest] = articles;
+  const grid = rest.slice(0, GRID);
+  const list = rest.slice(GRID, GRID + LIST);
+  const shownIds = [lead, ...grid, ...list].filter(Boolean).map((a) => a!.id);
+  // Nothing at all to show: the newest stories, so the page is never empty.
+  const fallback = articles.length === 0 ? await getLatestArticles(7) : [];
 
-  const groups = term ? search(entries, term, { perGroup: 40, total: 200 }) : [];
-  // Articles already shown under the entity are not repeated below it.
-  const entityHrefs = new Set(entityArticles.map((a) => `/article/${a.slug}`));
-  const otherGroups = groups
-    .map((g) => ({
-      ...g,
-      items: g.items.filter(
-        (i: { href: string; title: string }) =>
-          // Neither the articles already listed above, nor the subject itself:
-          // a "VENDE → Gjermani" row under a page headed Gjermani is the same
-          // answer a second time.
-          !entityHrefs.has(i.href) && !(entity && i.title === entity.name),
-      ),
-    }))
-    .filter((g) => g.items.length > 0);
-
-  const total = entityArticles.length + otherGroups.reduce((n, g) => n + g.items.length, 0);
-  const suggestions = term && total === 0 ? nearest(entries, term, 6) : [];
-  // Nothing matched every word: show the stories that match most of them
-  // instead of a dead end.
-  const closestItems = term && total === 0 ? closest(entries, term, { limit: 30 }) : [];
-
-  if (!term) notFound();
+  const count = articles.length;
+  const title = entity?.name ?? term;
 
   return (
     <>
       <TextureBg />
       <Navbar />
+      <div style={{ paddingTop: "var(--nav-h)", position: "relative", zIndex: 1 }}>
+        <LatestStrip />
+      </div>
 
-      <main className="kerko-page">
-        <p className="kerko-page-kicker">
-          <Search size={13} strokeWidth={2.5} aria-hidden="true" />
-          Rezultatet e kërkimit
-        </p>
-        <h1 className="kerko-page-title">{entity?.name ?? term}</h1>
-        <p className="kerko-page-count">
-          {entity?.role && <span className="kerko-page-role">{entity.role}</span>}
-          {total === 1 ? "1 rezultat" : `${total} rezultate`}
-        </p>
-
-        {/* Everything about the subject, when the query named one. This is the
-            claim the reader actually made — "about this person" — and it is
-            kept apart from the string matches below it. */}
-        {entity && entityArticles.length > 0 && (
-          <section className="kerko-page-section">
-            <SectionLabel
-              label={`ARTIKUJ PËR ${entity.name.toUpperCase()}`}
-              marginBottom={14}
-              right={
-                <span className="kerko-page-meta">
-                  {entityArticles.length} {entityArticles.length === 1 ? "artikull" : "artikuj"}
-                </span>
-              }
-            />
-            <ul className="kerko-page-list">
-              {entityArticles.slice(0, MAX_ARTICLES).map((a) => (
-                <li key={a.slug}>
-                  <Link href={`/article/${a.slug}`}>
-                    <span className="kerko-page-item-title">{a.title}</span>
-                    {a.meta && <span className="kerko-page-item-meta">{a.meta}</span>}
-                  </Link>
-                </li>
+      <main className="kerko-results">
+        <header className="kerko-results-head">
+          <p className="kerko-page-kicker">
+            <Search size={13} strokeWidth={2.5} aria-hidden="true" />
+            Rezultatet e kërkimit
+          </p>
+          <h1 className="kerko-page-title">{entity ? title : `“${title}”`}</h1>
+          <p className="kerko-page-count">
+            {entity?.role && <span className="kerko-page-role">{entity.role}</span>}
+            {count === 0
+              ? "Asnjë lajm për këtë kërkim"
+              : exact
+                ? `${count} ${count === 1 ? "lajm" : "lajme"}`
+                : `Asnjë rezultat i saktë — ${count} ${count === 1 ? "lajm më i afërt" : "lajmet më të afërta"}`}
+          </p>
+          {related.length > 0 && (
+            <nav className="kerko-chips" aria-label="Tema dhe vende të lidhura">
+              {related.map((r) => (
+                <Link key={`${r.kind}-${r.href}`} href={r.href} className="kerko-chip" data-kind={r.kind}>
+                  {r.title}
+                </Link>
               ))}
-            </ul>
-          </section>
+            </nav>
+          )}
+        </header>
+
+        {lead && (
+          <div className="kerko-results-lead">
+            <HeroDispatch article={lead} />
+          </div>
         )}
 
-        {/* The tone index, then the evidence for it. Placed after this site's
-            own reporting because that is what the reader came for; the index
-            is context on top of it, not a replacement. */}
+        {grid.length > 0 && (
+          <div className="kerko-results-grid">
+            <NewsGrid articles={grid} title="MË SHUMË PËR KËRKIMIN" />
+          </div>
+        )}
+
+        {/* A country's press tone about Kosovo, when the query names one. */}
         {facts && facts.index !== null && (
-          <section className="kerko-page-section">
+          <section className="kerko-results-tone">
             <div className="kerko-page-tone" data-dir={dir}>
               <span className="kerko-page-tone-value">{facts.index}</span>
               <div className="kerko-page-tone-body">
@@ -148,93 +133,40 @@ export default async function KerkoPage({
                     : `${facts.delta > 0 ? "+" : ""}${facts.delta}`}
               </span>
             </div>
-
-            {facts.foreign.length > 0 && (
-              <>
-                <SectionLabel
-                  label={`ÇFARË SHKRUAN ${(entity?.name ?? "").toUpperCase()} PËR KOSOVËN`}
-                  marginBottom={10}
-                />
-                <ul className="kerko-page-list kerko-page-foreign">
-                  {facts.foreign.map((a: { title: string; url: string; outlet: string; sentiment: string }) => (
-                    <li key={a.url}>
-                      <a href={a.url} target="_blank" rel="noopener noreferrer">
-                        <span className="kerko-page-item-title">{a.title}</span>
-                        <span className="kerko-page-item-meta">
-                          <em data-sentiment={a.sentiment} />
-                          {a.outlet}
-                        </span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
           </section>
         )}
 
-        {otherGroups.map((group) => (
-          <section key={group.kind} className="kerko-page-section">
-            <SectionLabel label={group.label} marginBottom={14} />
-            <ul className="kerko-page-list">
-              {group.items.map((item: { title: string; href: string; meta?: string }) => (
-                <li key={`${item.href}-${item.title}`}>
-                  <Link href={item.href}>
-                    <span className="kerko-page-item-title">{item.title}</span>
-                    {item.meta && <span className="kerko-page-item-meta">{item.meta}</span>}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
-
-        {total === 0 && (
-          <div className="kerko-page-empty">
-            <p>
-              {closestItems.length > 0 ? (
-                <>
-                  Asnjë rezultat i saktë për <strong>“{term}”</strong>. Këto janë më të afërtat.
-                </>
-              ) : (
-                <>
-                  Asnjë rezultat për <strong>“{term}”</strong>.
-                </>
-              )}
-            </p>
-            {suggestions.length > 0 && (
-              <>
-                <p className="kerko-page-empty-sub">Ndoshta kërkoje një nga këto:</p>
-                <ul className="kerko-page-suggestions">
-                  {suggestions.map((s: { title: string; href: string }) => (
-                    <li key={s.href}>
-                      <Link href={s.href}>
-                        {s.title}
-                        <ArrowRight size={13} strokeWidth={2.5} aria-hidden="true" />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
+        {list.length > 0 && (
+          <div className="home-latest">
+            <DispatchList
+              articles={list}
+              max={LIST}
+              size="lg"
+              label="TË GJITHA REZULTATET"
+              loadMore={{ search: term, startOffset: 1 + GRID + list.length, seenIds: shownIds, infinite: true }}
+              sponsored={{ every: 12, market }}
+            />
+            <AdSlot />
           </div>
         )}
 
-        {closestItems.length > 0 && (
-          <section className="kerko-page-section">
-            <SectionLabel label="REZULTATET MË TË AFËRTA" marginBottom={14} />
-            <ul className="kerko-page-list">
-              {closestItems.map((item: { title: string; href: string; meta?: string }) => (
-                <li key={`${item.href}-${item.title}`}>
-                  <Link href={item.href}>
-                    <span className="kerko-page-item-title">{item.title}</span>
-                    {item.meta && <span className="kerko-page-item-meta">{item.meta}</span>}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+        {count === 0 && (
+          <section className="kerko-results-empty">
+            <p>
+              Nuk gjetëm lajme për <strong>“{term}”</strong>. Provo një fjalë tjetër, ose lexo më të rejat:
+            </p>
+            {fallback.length > 0 && (
+              <>
+                <div className="kerko-results-lead">
+                  <HeroDispatch article={fallback[0]} />
+                </div>
+                <NewsGrid articles={fallback.slice(1)} title="LAJMET E FUNDIT" />
+              </>
+            )}
           </section>
         )}
+
+        {count > 0 && list.length === 0 && <SectionLabel label="KAQ PËR KËTË KËRKIM" marginBottom={0} />}
       </main>
 
       <Footer />
