@@ -21122,37 +21122,283 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   -webkit-mask: url("/images/categories/kosove.svg") center / contain no-repeat;
   mask: url("/images/categories/kosove.svg") center / contain no-repeat;
 }
-/* Floor entry to Ligat, directly under the leaderboard it extends. */
-.tregu-league-cta {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin: -6px 0 22px;
-  padding: 14px 18px;
-  border-radius: 16px;
-  border: 1px solid rgba(17, 17, 17, 0.08);
-  background: rgba(255, 255, 255, 0.72);
-  color: #111;
-  text-decoration: none;
-  box-shadow: 0 2px 12px rgba(17, 17, 17, 0.05);
-  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-.tregu-league-cta-mark {
+/* ══════════════════════════════════════════════════════════
+   Ligat card (components/tregu/leagues-card.tsx).
+   The floor's one night-stadium moment, the way a Champions
+   League night owns its card: ink pitch under two floodlights,
+   a gold cup, and every action happening in place. Gold is the
+   league's colour here, so its buttons never read as another
+   orange trade CTA.
+   ══════════════════════════════════════════════════════════ */
+.lgc {
+  --lgc-gold: #F2C14E;
+  --lgc-gold-deep: #C8901F;
+  --lgc-text: #F4EFE6;
+  --lgc-muted: rgba(244, 239, 230, 0.62);
+  --lgc-line: rgba(244, 239, 230, 0.12);
+  position: relative;
+  isolation: isolate;
+  /* clip, not hidden: a hidden box can still be scrolled by focus or
+     scrollIntoView, and the confetti made it wide enough that joining slid
+     the whole card's content sideways. clip cannot scroll at all. */
+  overflow: hidden;
+  overflow: clip;
   display: grid;
-  place-items: center;
+  gap: 18px;
+  margin: 0 0 22px;
+  padding: 24px 26px;
+  border-radius: 24px;
+  color: var(--lgc-text);
+  background:
+    radial-gradient(90% 70% at 50% 125%, rgba(255, 68, 34, 0.22), transparent 62%),
+    linear-gradient(180deg, #1C1712 0%, #0F0D0A 100%);
+  border: 1px solid rgba(242, 193, 78, 0.22);
+  box-shadow: 0 28px 60px -22px rgba(23, 19, 14, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  font-family: var(--font-manrope), "Manrope", sans-serif;
+}
+.lgc > * { position: relative; z-index: 1; }
+/* Two floodlights from the top corners, breathing slowly. */
+.lgc > .lgc-lights {
+  position: absolute;
+  inset: -40% -10% auto;
+  height: 150%;
+  z-index: 0;
+  pointer-events: none;
+  /* Fade the beams out rather than ending them on a visible edge. */
+  -webkit-mask-image: linear-gradient(180deg, #000 45%, transparent 92%);
+  mask-image: linear-gradient(180deg, #000 45%, transparent 92%);
+  background:
+    conic-gradient(from 150deg at 8% 0%, transparent 0deg, rgba(255, 246, 220, 0.3) 14deg, transparent 34deg),
+    conic-gradient(from 176deg at 92% 0%, transparent 0deg, rgba(255, 246, 220, 0.24) 16deg, transparent 36deg),
+    radial-gradient(26% 26% at 8% 2%, rgba(255, 246, 220, 0.55), transparent 70%),
+    radial-gradient(26% 26% at 92% 2%, rgba(255, 246, 220, 0.45), transparent 70%);
+  filter: blur(6px);
+  animation: lgc-flood 7s ease-in-out infinite alternate;
+}
+@keyframes lgc-flood { from { opacity: 0.7; } to { opacity: 1; } }
+/* Pitch markings, barely there: a centre circle rising from the bottom edge. */
+.lgc > .lgc-pitch {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  bottom: -150px;
+  width: 300px;
+  height: 300px;
+  margin-left: -150px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(244, 239, 230, 0.06);
+  pointer-events: none;
+}
+
+.lgc-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.lgc-trophy {
   flex: none;
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  background: #111;
-  color: #fff;
+  width: 52px;
+  height: 52px;
+  filter: drop-shadow(0 6px 14px rgba(242, 193, 78, 0.45));
+  animation: lgc-trophy 5s ease-in-out infinite;
 }
-.tregu-league-cta-text { flex: 1; min-width: 0; font-size: 13.5px; line-height: 1.4; color: #6B6B6B; }
-.tregu-league-cta-text strong { margin-right: 6px; color: #111; font-size: 15px; font-weight: 800; }
-.tregu-league-cta-go { flex: none; font-size: 18px; font-weight: 800; color: #ff4422; transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes lgc-trophy { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-3px) rotate(2deg); } }
+.lgc-titles { flex: 1; min-width: 180px; }
+.lgc-titles h2 { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.035em; line-height: 1; color: #fff; }
+.lgc-titles p { margin: 6px 0 0; font-size: 14px; color: var(--lgc-muted); }
+.lgc-pulse { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--lgc-muted); font-variant-numeric: tabular-nums; }
+.lgc-pulse strong { color: var(--lgc-text); font-weight: 800; }
+.lgc-pulse i {
+  display: inline-block; width: 7px; height: 7px; margin-right: 2px; border-radius: 50%;
+  background: #3ED484; box-shadow: 0 0 0 3px rgba(62, 212, 132, 0.2);
+  animation: lgc-live 1.8s ease-in-out infinite;
+}
+@keyframes lgc-live { 50% { box-shadow: 0 0 0 6px rgba(62, 212, 132, 0); } }
+.lgc-faces { display: flex; }
+.lgc-faces b {
+  display: grid; place-items: center; width: 26px; height: 26px; margin-left: -7px;
+  border-radius: 50%; border: 2px solid #15120E;
+  background: hsl(calc(28 + var(--i) * 57) 62% 52%);
+  color: #fff; font-size: 11px; font-weight: 800;
+}
+.lgc-faces b:first-child { margin-left: 0; }
+
+.lgc-body { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 14px; align-items: stretch; }
+.lgc-create {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 2px;
+  min-height: 84px;
+  padding: 16px 22px;
+  border: 0;
+  border-radius: 18px;
+  text-align: left;
+  color: #1A1206;
+  background: linear-gradient(135deg, #FFE7A3 0%, var(--lgc-gold) 45%, var(--lgc-gold-deep) 100%);
+  box-shadow: 0 14px 30px -10px rgba(242, 193, 78, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  font: inherit;
+  cursor: pointer;
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 180ms ease;
+}
+.lgc-create svg { grid-row: span 2; }
+.lgc-create span { font-size: 17px; font-weight: 800; letter-spacing: -0.015em; }
+.lgc-create small { font-size: 12px; font-weight: 700; color: rgba(26, 18, 6, 0.66); }
+/* A glint crossing the gold every few seconds: the one thing asking to be tapped. */
+.lgc-create::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.65) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: lgc-glint 4.2s 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+@keyframes lgc-glint { 0%, 70% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+.lgc-create:disabled { opacity: 0.7; cursor: progress; }
 @media (hover: hover) and (pointer: fine) {
-  .tregu-league-cta:hover { border-color: rgba(255, 68, 34, 0.35); box-shadow: 0 12px 30px rgba(17, 17, 17, 0.08); transform: translateY(-1px); }
-  .tregu-league-cta:hover .tregu-league-cta-go { transform: translateX(3px); }
+  .lgc-create:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 20px 36px -12px rgba(242, 193, 78, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.6); }
 }
-.tregu-league-cta:focus-visible { outline: 2px solid #FF4422; outline-offset: 2px; }
-@media (prefers-reduced-motion: reduce) { .tregu-league-cta, .tregu-league-cta-go { transition: none; } }
+.lgc-create:active:not(:disabled) { transform: scale(0.985); }
+
+.lgc-code { display: grid; gap: 7px; align-content: center; }
+.lgc-code label { font-size: 12.5px; font-weight: 700; color: var(--lgc-muted); }
+.lgc-code > div { display: flex; gap: 8px; }
+.lgc-code input {
+  flex: 1; min-width: 0; width: 100%; min-height: 50px; padding: 0 16px;
+  border-radius: 14px; border: 1px solid var(--lgc-line);
+  background: rgba(255, 255, 255, 0.06); color: #fff;
+  font: inherit; font-size: 20px; font-weight: 800; letter-spacing: 0.28em; font-variant-numeric: tabular-nums;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+.lgc-code input::placeholder { color: rgba(244, 239, 230, 0.22); }
+.lgc-code input:focus-visible { outline: none; border-color: var(--lgc-gold); background: rgba(255, 255, 255, 0.09); }
+.lgc-code button {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 50px; padding: 0 18px;
+  border: 1px solid var(--lgc-line); border-radius: 14px; background: rgba(255, 255, 255, 0.1);
+  color: #fff; font: inherit; font-size: 14px; font-weight: 800; cursor: pointer;
+}
+.lgc-code button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.lgc-preview {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  padding: 14px 16px; border-radius: 16px; border: 1px solid rgba(242, 193, 78, 0.3);
+  background: rgba(242, 193, 78, 0.08);
+  animation: lgc-rise 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.lgc-preview strong { display: block; font-size: 16px; color: #fff; }
+.lgc-preview span { font-size: 12.5px; color: var(--lgc-muted); }
+@keyframes lgc-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.lgc-gold, .lgc-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  min-height: 46px; padding: 0 20px; border-radius: 100px;
+  font: inherit; font-size: 14px; font-weight: 800; text-decoration: none; cursor: pointer; white-space: nowrap;
+  transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1), background-color 160ms ease, border-color 160ms ease;
+}
+.lgc-gold { border: 0; color: #1A1206; background: linear-gradient(135deg, #FFE7A3, var(--lgc-gold) 55%, var(--lgc-gold-deep)); box-shadow: 0 10px 22px -10px rgba(242, 193, 78, 0.7); }
+.lgc-ghost { border: 1px solid var(--lgc-line); color: var(--lgc-text); background: rgba(255, 255, 255, 0.06); }
+.lgc-gold:disabled { opacity: 0.45; cursor: not-allowed; }
+.lgc-gold:active:not(:disabled), .lgc-ghost:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .lgc-ghost:hover { border-color: rgba(244, 239, 230, 0.3); background: rgba(255, 255, 255, 0.1); }
+  .lgc-gold:hover:not(:disabled) { filter: brightness(1.06); }
+}
+.lgc-wide { flex: 1; }
+.lgc-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.lgc :focus-visible { outline: 2px solid var(--lgc-gold); outline-offset: 3px; }
+
+/* After one tap: the card becomes the invite. */
+.lgc-reveal { grid-template-columns: 1fr; justify-items: start; gap: 14px; animation: lgc-rise 380ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.lgc-reveal > .lgc-row { width: 100%; max-width: 460px; }
+.lgc-done { display: inline-flex; align-items: center; gap: 8px; margin: 0; font-size: 15px; font-weight: 800; color: var(--lgc-gold); }
+.lgc-done-big { align-items: flex-start; font-size: 22px; letter-spacing: -0.02em; line-height: 1.25; color: #fff; }
+.lgc-done-big svg { flex: none; margin-top: 4px; color: var(--lgc-gold); }
+.lgc-codebig { display: flex; gap: 8px; }
+.lgc-codebig span {
+  display: grid; place-items: center; width: 52px; height: 64px; border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+  border: 1px solid rgba(242, 193, 78, 0.35);
+  color: #fff; font-size: 32px; font-weight: 800; font-variant-numeric: tabular-nums;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  animation: lgc-flip 520ms calc(var(--i) * 70ms + 120ms) cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes lgc-flip { from { opacity: 0; transform: rotateX(90deg) translateY(10px); } to { opacity: 1; transform: none; } }
+.lgc-terms { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--lgc-muted); }
+.lgc-terms button, .lgc-terms a {
+  display: inline-flex; align-items: center; gap: 5px; padding: 0; border: 0; background: none;
+  color: var(--lgc-gold); font: inherit; font-weight: 800; text-decoration: none; cursor: pointer; min-height: 32px;
+}
+.lgc-edit { display: grid; gap: 10px; width: 100%; max-width: 560px; }
+.lgc-edit input {
+  min-height: 46px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--lgc-line);
+  background: rgba(255, 255, 255, 0.06); color: #fff; font: inherit; font-size: 16px; font-weight: 700;
+}
+.lgc-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.lgc-chips button {
+  min-height: 36px; padding: 0 13px; border-radius: 100px; border: 1px solid var(--lgc-line);
+  background: rgba(255, 255, 255, 0.05); color: var(--lgc-text); font: inherit; font-size: 12.5px; font-weight: 750;
+  font-variant-numeric: tabular-nums; cursor: pointer;
+}
+.lgc-chips button[aria-pressed="true"] { background: var(--lgc-gold); border-color: var(--lgc-gold); color: #1A1206; }
+.lgc-chips button:disabled { opacity: 0.35; cursor: not-allowed; }
+.lgc-note { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--lgc-muted); }
+.lgc-back { padding: 0; border: 0; background: none; color: var(--lgc-muted); font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer; min-height: 32px; }
+.lgc-back:hover { color: var(--lgc-text); }
+.lgc-error { margin: 0; font-size: 13px; font-weight: 700; color: #FF8A7A; }
+
+/* The biggest open public league, with its purse counting up. */
+.lgc-featured {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 16px;
+  padding: 14px 16px 14px 18px; border-radius: 18px;
+  border: 1px solid rgba(242, 193, 78, 0.18);
+  background: linear-gradient(90deg, rgba(242, 193, 78, 0.1), rgba(255, 255, 255, 0.03));
+}
+.lgc-featured-copy { min-width: 0; }
+.lgc-featured-copy small { display: block; font-size: 11.5px; font-weight: 700; color: var(--lgc-muted); font-variant-numeric: tabular-nums; }
+.lgc-featured-copy a { display: block; overflow: hidden; margin-top: 2px; color: #fff; font-size: 16px; font-weight: 800; text-decoration: none; text-overflow: ellipsis; white-space: nowrap; }
+.lgc-featured-copy a:hover { color: var(--lgc-gold); }
+.lgc-purse { text-align: right; }
+.lgc-purse small { display: block; font-size: 11px; font-weight: 700; color: var(--lgc-muted); }
+.lgc-purse strong { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; color: var(--lgc-gold); font-variant-numeric: tabular-nums; }
+.lgc-purse em { font-style: normal; font-size: 12px; letter-spacing: 0; color: var(--lgc-muted); }
+
+.lgc-mine { display: flex; gap: 8px; flex-wrap: wrap; }
+.lgc-mine a {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 38px; padding: 0 14px; border-radius: 100px;
+  border: 1px solid var(--lgc-line); background: rgba(255, 255, 255, 0.05); color: var(--lgc-text);
+  font-size: 13px; font-weight: 700; text-decoration: none;
+}
+.lgc-mine a span { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lgc-mine b { color: var(--lgc-gold); font-variant-numeric: tabular-nums; }
+.lgc-mine em { font-style: normal; color: var(--lgc-muted); font-weight: 600; }
+.lgc-mine .lgc-all { border-color: transparent; background: none; color: var(--lgc-muted); }
+@media (hover: hover) and (pointer: fine) { .lgc-mine a:hover { border-color: rgba(242, 193, 78, 0.4); } }
+
+/* Confetti: thrown once on create or join. */
+.lgc > .lgc-confetti { position: absolute; left: 50%; top: 42%; z-index: 5; width: 0; height: 0; pointer-events: none; }
+.lgc-confetti i {
+  position: absolute; width: var(--w); height: calc(var(--w) * 1.6); border-radius: 2px; background: var(--c);
+  animation: lgc-throw 1500ms var(--d) cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+@keyframes lgc-throw {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0); }
+  38% { opacity: 1; transform: translate(calc(var(--x) * 0.62), var(--y)) rotate(calc(var(--r) * 0.4)); }
+  100% { opacity: 0; transform: translate(var(--x), calc(var(--y) + 340px)) rotate(var(--r)); }
+}
+
+@media (max-width: 760px) {
+  .lgc { padding: 20px 18px; border-radius: 20px; }
+  .lgc-titles h2 { font-size: 24px; }
+  .lgc-trophy { width: 44px; height: 44px; }
+  .lgc-pulse { width: 100%; }
+  .lgc-body { grid-template-columns: 1fr; }
+  .lgc-featured { grid-template-columns: minmax(0, 1fr) auto; }
+  .lgc-featured .lgc-purse { grid-row: 1; grid-column: 2; }
+  .lgc-featured > :last-child { grid-column: 1 / -1; }
+  .lgc-codebig { gap: 6px; }
+  .lgc-codebig span { width: 44px; height: 56px; font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lgc > .lgc-lights, .lgc-trophy, .lgc-pulse i, .lgc-create::after, .lgc-codebig span, .lgc-preview, .lgc-reveal { animation: none; }
+  .lgc > .lgc-confetti { display: none; }
+}
