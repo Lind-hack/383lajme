@@ -2,7 +2,8 @@
 /**
  * Sports discovery cards on the hub floor: football leagues (the four big
  * ones, cups marked as coming later), the F1 race calendar, and basketball
- * split into NBA and the Kosovo Superliga with each league's next games. Brand edges
+ * split into NBA and the Kosovo Superliga. The three cards share one height,
+ * one header and one row size, so they read as a set. Brand edges
  * distinguish the live surfaces without implying that a locked league is
  * already trading. Selecting a league hands the filter back to the page,
  * which applies it to the floor grid and scrolls there.
@@ -13,7 +14,6 @@ import { ArrowRight, Trophy } from "lucide-react";
 import type { CSSProperties } from "react";
 import SportBrandMark from "@/components/tregu/sport-brand-mark";
 import { sportBrandFor } from "@/lib/tregu-sport-branding";
-import { formatKosovoDateTime } from "@/lib/tregu-local-time.mjs";
 import {
   FOOTBALL_LEAGUES,
   FOOTBALL_TOURNAMENTS_SOON,
@@ -45,23 +45,26 @@ function shortDate(iso: string): string {
 }
 function RaceCard({
   markets,
+  isOpen,
   active,
   onSelect,
 }: {
   markets: SportMarketLike[];
+  isOpen: (m: SportMarketLike) => boolean;
   active: string | null;
   onSelect: (key: string) => void;
 }) {
-  const races = useMemo(
+  const calendar = useMemo(
     () =>
-      f1Calendar(markets, { limit: 3 }) as {
+      f1Calendar(markets, { isOpen, limit: Infinity }) as {
         slug: string;
         name: string;
         closesAt: string;
         prob?: number;
       }[],
-    [markets]
+    [markets, isOpen]
   );
+  const races = calendar.slice(0, 3);
   return (
     <article
       className="tregu-sport-card p-5 flex flex-col"
@@ -73,11 +76,9 @@ function RaceCard({
         <h3 style={{ fontWeight: 800, fontSize: 16, margin: 0, letterSpacing: "-0.01em" }}>
           Formula 1
         </h3>
-        {active === "f1" && (
-          <span className="ml-auto text-[11px] font-extrabold uppercase tracking-[0.08em] text-orange">
-            Aktiv
-          </span>
-        )}
+        <span className="ml-auto text-[12px] font-extrabold tabular-nums" style={{ color: calendar.length > 0 ? "#ff4422" : "#9c9c9c" }}>
+          {calendar.length} të hapura
+        </span>
       </header>
       {races.length === 0 ? (
         <p style={{ color: "#6B6B6B", fontSize: 13, lineHeight: 1.6, margin: 0 }}>
@@ -91,9 +92,9 @@ function RaceCard({
               className="tregu-sport-league"
               href={`/tregu/${r.slug}`}
             >
-              <span className="tregu-race-name min-w-0 truncate">
+              <span className="tregu-race-name">
                 <SportBrandMark brandKey="f1" size="sm" />
-                {r.name}
+                <span className="tregu-race-title">{r.name}</span>
               </span>
               <span className="tregu-sport-league-count">{shortDate(r.closesAt)}</span>
             </Link>
@@ -104,7 +105,7 @@ function RaceCard({
         type="button"
         onClick={() => onSelect("f1")}
         aria-pressed={active === "f1"}
-        className="mt-4 inline-flex items-center gap-1.5 self-start text-[12.5px] font-bold text-orange hover:text-[#d63a1c] transition-colors"
+        className="tregu-sport-more mt-auto pt-4 inline-flex items-center gap-1.5 self-start text-[12.5px] font-bold text-orange hover:text-[#d63a1c] transition-colors"
       >
         Gjithë tregjet F1
         <ArrowRight size={13} strokeWidth={2.5} aria-hidden />
@@ -112,7 +113,7 @@ function RaceCard({
     </article>
   );
 }
-/** One section per league: the league row filters the floor, the games open their books. */
+/** One row per league; the row filters the floor list to that league. */
 function BasketballCard({
   markets,
   isOpen,
@@ -168,31 +169,19 @@ function BasketballCard({
                 </span>
                 <span className="tregu-sport-league-count">{section.count}</span>
               </button>
-              {section.games.length ? (
-                <ul className="tregu-basketball-games">
-                  {section.games.map((game) => (
-                    <li key={game.slug}>
-                      <Link href={`/tregu/${game.slug}`}>
-                        <span className="tregu-basketball-teams">
-                          {game.sides.map((side) => (
-                            <span key={side.key}>
-                              <em>{side.label}</em>
-                              {side.probability != null && <strong>{Math.round(side.probability * 100)}%</strong>}
-                            </span>
-                          ))}
-                        </span>
-                        <time dateTime={game.kickoff}>{formatKosovoDateTime(game.kickoff)}</time>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="tregu-basketball-empty">Asnjë ndeshje e planifikuar tani.</p>
-              )}
             </section>
           );
         })}
       </div>
+      <button
+        type="button"
+        onClick={() => onSelect("basketball")}
+        aria-pressed={active === "basketball"}
+        className="tregu-sport-more mt-auto pt-4 inline-flex items-center gap-1.5 self-start text-[12.5px] font-bold text-orange hover:text-[#d63a1c] transition-colors"
+      >
+        Gjithë tregjet e basketbollit
+        <ArrowRight size={13} strokeWidth={2.5} aria-hidden />
+      </button>
     </article>
   );
 }
@@ -202,7 +191,6 @@ type BasketballSection = {
   label: string;
   country: string;
   count: number;
-  games: { slug: string; kickoff: string; sides: { key: string; label: string; probability: number | null }[] }[];
 };
 
 export default function SportSections({
@@ -269,7 +257,7 @@ export default function SportSections({
         </article>
         <BasketballCard markets={markets} isOpen={isOpen} active={activeLeague} onSelect={onSelect} />
         {/* Formula 1 */}
-        <RaceCard markets={markets} active={activeLeague} onSelect={onSelect} />
+        <RaceCard markets={markets} isOpen={isOpen} active={activeLeague} onSelect={onSelect} />
       </div>
     </section>
   );
