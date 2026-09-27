@@ -24,6 +24,12 @@ export async function runLeaderboardPayouts() {
     locked += (data as unknown[] | null)?.length ?? 0;
   }
 
+  // Leagues whose window has closed: private pots are paid out as approved
+  // gifts straight away; public prizes join the pending rows below.
+  const { data: settled, error: settleError } = await admin.rpc("tregu_settle_due_leagues");
+  if (settleError) throw new Error(`league settlement: ${settleError.message}`);
+  locked += (settled as unknown[] | null)?.length ?? 0;
+
   // Claim before sending: the primary cron and the GitHub backup can overlap,
   // and only the run whose UPDATE marks a row gets to email it. A failed send
   // releases the claim so the next tick retries.
@@ -45,7 +51,7 @@ export async function runLeaderboardPayouts() {
     await sendLeaderboardRewardNotification({
       rewards: rewards.map((r) => ({
         period_kind: r.period_kind,
-        periodLabel: leaderboardPeriodLabel(r.period_kind, r.period_start, r.period_end),
+        periodLabel: r.league_name ?? leaderboardPeriodLabel(r.period_kind, r.period_start, r.period_end),
         place: r.place,
         display_name: r.display_name,
         profit: Number(r.profit),

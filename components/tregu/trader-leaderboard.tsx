@@ -8,7 +8,7 @@ type Row = { rank: number; display_name: string; profit: number; is_me: boolean 
 type Board = { monthly: Row[]; weekly: Row[]; available: boolean; closes: { monthly: number; weekly: number } };
 
 /** "3d 04h" / "4h 12m" / "12m" — coarse far out, precise as it matters. */
-function untilLabel(target: number, now: number): string {
+export function untilLabel(target: number, now: number): string {
   const ms = target - now;
   if (!Number.isFinite(ms) || ms <= 0) return "po mbyllet";
   const d = Math.floor(ms / 86_400_000);
@@ -28,13 +28,13 @@ function untilLabel(target: number, now: number): string {
  * strip — that absence is what makes the top three look won rather than merely
  * listed.
  */
-const METALS = [
+export const METALS = [
   { name: "gold", ink: "#8A6A12", fill: "#E3B341", strip: "#E3B341", wash: "rgba(227, 179, 65, 0.13)" },
   { name: "silver", ink: "#5F6470", fill: "#B4BAC4", strip: "#B4BAC4", wash: "rgba(180, 186, 196, 0.14)" },
   { name: "bronze", ink: "#7A4A1E", fill: "#C58A4B", strip: "#C58A4B", wash: "rgba(197, 138, 75, 0.13)" },
 ] as const;
 
-function Standing({ rank }: { rank: number }) {
+export function Standing({ rank }: { rank: number }) {
   const metal = METALS[rank - 1];
   if (!metal) return <span className="tregu-lb-rank">{rank}</span>;
   // First place gets the cup, second and third get medals: three identical

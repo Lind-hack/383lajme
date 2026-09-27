@@ -111,7 +111,7 @@ export async function sendLeaderboardRewardNotification(input: {
   const { user, transport } = gmailTransport();
   const confirmUrl = "https://383ks.com/admin/tregu?tab=shperblime";
   const total = input.rewards.reduce((sum, r) => sum + Number(r.prize), 0);
-  const kindLabel = (kind: string) => (kind === "monthly" ? "Muaji" : "Java");
+  const kindLabel = (kind: string) => (kind === "monthly" ? "Muaji" : kind === "league" ? "Liga" : "Java");
   const lines = input.rewards.map(
     (r) => `#${r.place} ${r.display_name} — ${kindLabel(r.period_kind)} ${r.periodLabel} — fitim ${Math.round(r.profit)} 383C — shpërblim ${Math.round(r.prize)} 383C`
   );

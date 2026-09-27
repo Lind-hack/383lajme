@@ -17,7 +17,7 @@ export async function GET() {
 
   const { data, error } = await supabase
     .from("tregu_leaderboard_rewards")
-    .select("id, period_kind, period_start, period_end, place, profit, prize")
+    .select("id, period_kind, period_start, period_end, place, profit, prize, league_name")
     .eq("user_id", user.id)
     .eq("status", "approved")
     .order("period_end", { ascending: true })

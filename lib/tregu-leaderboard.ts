@@ -7,16 +7,19 @@ export const LEADERBOARD_PRIZES = {
 } as const;
 
 export type LeaderboardKind = keyof typeof LEADERBOARD_PRIZES;
+/** What a prize was won in: a leaderboard period, or a league. */
+export type RewardKind = LeaderboardKind | "league";
 
-export const LEADERBOARD_KIND_LABEL: Record<LeaderboardKind, string> = {
+export const LEADERBOARD_KIND_LABEL: Record<RewardKind, string> = {
   weekly: "Java",
   monthly: "Muaji",
+  league: "Liga",
 };
 
 /** A frozen top-3 row, as tregu_leaderboard_rewards stores it. */
 export type LeaderboardReward = {
   id: string;
-  period_kind: LeaderboardKind;
+  period_kind: RewardKind;
   period_start: string;
   period_end: string;
   place: number;
@@ -29,6 +32,8 @@ export type LeaderboardReward = {
   approved_at?: string | null;
   claimed_at?: string | null;
   created_at?: string;
+  league_id?: string | null;
+  league_name?: string | null;
 };
 
 const MONTHS = ["janar", "shkurt", "mars", "prill", "maj", "qershor", "korrik", "gusht", "shtator", "tetor", "nëntor", "dhjetor"];
@@ -44,7 +49,7 @@ function kosovoParts(date: Date) {
  *  here rather than taken from Intl: browsers without Albanian locale data
  *  fall back to English ("September"). The end bound is exclusive (next
  *  Monday / the 1st, 00:00), so the last day shown is the one before it. */
-export function leaderboardPeriodLabel(kind: LeaderboardKind, start: string, end: string): string {
+export function leaderboardPeriodLabel(kind: RewardKind, start: string, end: string): string {
   const from = kosovoParts(new Date(start));
   const to = kosovoParts(new Date(new Date(end).getTime() - 1));
   if (kind === "monthly") return `${MONTHS[from.month]} ${from.year}`;

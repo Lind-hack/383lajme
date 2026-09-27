@@ -22,6 +22,7 @@ import MobileAccountBar from "@/components/tregu/mobile-account-bar";
 import StructuredSportMarketCard from "@/components/tregu/structured-sport-market-card";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
+import { Users } from "lucide-react";
 import { fmtNum } from "@/lib/format";
 import {
   featuredMarketScore,
@@ -876,6 +877,13 @@ export default function TreguHub() {
         {!loading && !loadError && <TraderLeaderboard loggedIn={balance !== null} />}
         {/* A confirmed leaderboard prize waits here until its winner opens it. */}
         <LeaderboardGift loggedIn={balance !== null} />
+        {!loading && !loadError && (
+          <Link href="/tregu/ligat" className="tregu-league-cta">
+            <span className="tregu-league-cta-mark" aria-hidden><Users size={17} strokeWidth={2.2} /></span>
+            <span className="tregu-league-cta-text"><strong>Ligat</strong> Garo me miqtë me një kod, ose me gjithë Kosovën për shpërblime.</span>
+            <span className="tregu-league-cta-go" aria-hidden>→</span>
+          </Link>
+        )}
 
         {/* Sports discovery — the four big football leagues with live books,
             the F1 calendar, and basketball locked until its pricing

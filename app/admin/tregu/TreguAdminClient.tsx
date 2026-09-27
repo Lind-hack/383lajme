@@ -115,7 +115,7 @@ export default function TreguAdminClient() {
   const [drafting, setDrafting] = useState(false);
   const [rewards, setRewards] = useState<LeaderboardReward[]>([]);
   // The payout email links straight to ?tab=shperblime.
-  const [tab, setTab] = useState<"markets" | "withdrawals" | "rewards">("markets");
+  const [tab, setTab] = useState<"markets" | "withdrawals" | "rewards" | "leagues">("markets");
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("tab") === "shperblime") setTab("rewards");
   }, []);
@@ -310,6 +310,9 @@ export default function TreguAdminClient() {
         <button type="button" role="tab" aria-selected={tab === "rewards"} onClick={() => setTab("rewards")} className={`${styles.tab} ${tab === "rewards" ? styles.tabActive : ""}`}>
           Shpërblimet <span>{rewards.filter((reward) => reward.status === "pending").length}</span>
         </button>
+        <button type="button" role="tab" aria-selected={tab === "leagues"} onClick={() => setTab("leagues")} className={`${styles.tab} ${tab === "leagues" ? styles.tabActive : ""}`}>
+          Ligat
+        </button>
       </div>
 
       {tab === "markets" && (
@@ -337,6 +340,7 @@ export default function TreguAdminClient() {
 
       {tab === "withdrawals" && <Withdrawals withdrawals={withdrawals} onAction={withdrawalAction} />}
       {tab === "rewards" && <Rewards rewards={rewards} onAction={rewardAction} />}
+      {tab === "leagues" && <PublicLeagues />}
     </main>
   );
 }
@@ -514,7 +518,7 @@ function Rewards({ rewards, onAction }: { rewards: LeaderboardReward[]; onAction
   const [busy, setBusy] = useState<string | null>(null);
   const groups = new Map<string, LeaderboardReward[]>();
   for (const reward of rewards) {
-    const key = `${reward.period_kind}:${reward.period_start}`;
+    const key = reward.league_id ?? `${reward.period_kind}:${reward.period_start}`;
     groups.set(key, [...(groups.get(key) ?? []), reward]);
   }
   const act = async (key: string, ids: string[], status: "approved" | "rejected") => {
@@ -525,6 +529,72 @@ function Rewards({ rewards, onAction }: { rewards: LeaderboardReward[]; onAction
     const first = rows[0];
     const pending = rows.filter((reward) => reward.status === "pending");
     const total = pending.reduce((sum, reward) => sum + Number(reward.prize), 0);
-    return <article key={key} className={styles.withdrawalCard}><div><h3>{LEADERBOARD_KIND_LABEL[first.period_kind]} · {leaderboardPeriodLabel(first.period_kind, first.period_start, first.period_end)}</h3>{rows.map((reward) => <p key={reward.id}>#{reward.place} <strong>{reward.display_name}</strong> · fitim +{Math.round(Number(reward.profit)).toLocaleString("sq-AL")} · <strong>{Math.round(Number(reward.prize)).toLocaleString("sq-AL")} 383C</strong> · {REWARD_STATUS[reward.status]}</p>)}</div><div className={styles.withdrawalActions}>{pending.length > 0 && <><button type="button" disabled={busy === key} onClick={() => void act(key, pending.map((reward) => reward.id), "approved")} className={styles.buttonYes}>Konfirmo pagesën · {total.toLocaleString("sq-AL")} 383C</button><button type="button" disabled={busy === key} onClick={() => { if (window.confirm("Refuzo këto shpërblime? Fituesit nuk do t'i shohin.")) void act(key, pending.map((reward) => reward.id), "rejected"); }} className={styles.buttonDanger}>Refuzo</button></>}</div></article>;
+    return <article key={key} className={styles.withdrawalCard}><div><h3>{LEADERBOARD_KIND_LABEL[first.period_kind]} · {first.league_name ?? leaderboardPeriodLabel(first.period_kind, first.period_start, first.period_end)}</h3>{rows.map((reward) => <p key={reward.id}>#{reward.place} <strong>{reward.display_name}</strong> · fitim +{Math.round(Number(reward.profit)).toLocaleString("sq-AL")} · <strong>{Math.round(Number(reward.prize)).toLocaleString("sq-AL")} 383C</strong> · {REWARD_STATUS[reward.status]}</p>)}</div><div className={styles.withdrawalActions}>{pending.length > 0 && <><button type="button" disabled={busy === key} onClick={() => void act(key, pending.map((reward) => reward.id), "approved")} className={styles.buttonYes}>Konfirmo pagesën · {total.toLocaleString("sq-AL")} 383C</button><button type="button" disabled={busy === key} onClick={() => { if (window.confirm("Refuzo këto shpërblime? Fituesit nuk do t'i shohin.")) void act(key, pending.map((reward) => reward.id), "rejected"); }} className={styles.buttonDanger}>Refuzo</button></>}</div></article>;
   })}</div> : <p className={styles.emptyState}>Asnjë periudhë nuk është mbyllur ende me fitues.</p>}</section>;
+}
+
+type AdminLeague = { id: string; name: string; starts_at: string; ends_at: string; prizes: number[] | null; settled_at: string | null; members: number };
+
+/** Kosovo-local "YYYY-MM-DDTHH:mm" for a datetime-local input. */
+function localInput(date: Date) {
+  const parts = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Belgrade", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(date);
+  const get = (type: string) => parts.find((part) => part.type === type)?.value ?? "00";
+  return `${get("year")}-${get("month")}-${get("day")}T${get("hour")}:${get("minute")}`;
+}
+
+/** datetime-local is read as Kosovo time, whatever the admin's own clock says. */
+function fromKosovoInput(value: string) {
+  const guess = new Date(`${value}:00Z`);
+  const offset = new Date(guess.toLocaleString("en-US", { timeZone: "Europe/Belgrade" })).getTime() - new Date(guess.toLocaleString("en-US", { timeZone: "UTC" })).getTime();
+  return new Date(guess.getTime() - offset).toISOString();
+}
+
+/** Public leagues: 383 pays their prizes, through the Shpërblimet confirmation. */
+function PublicLeagues() {
+  const [leagues, setLeagues] = useState<AdminLeague[]>([]);
+  const [name, setName] = useState("");
+  const [startsAt, setStartsAt] = useState(() => localInput(new Date()));
+  const [endsAt, setEndsAt] = useState(() => localInput(new Date(Date.now() + 7 * 86_400_000)));
+  const [prizes, setPrizes] = useState(["500", "300", "150"]);
+  const [error, setError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  const load = async () => {
+    const response = await fetch("/api/admin/tregu/leagues", { cache: "no-store" });
+    const data = await response.json().catch(() => ({}));
+    if (response.ok) setLeagues(data.leagues ?? []);
+  };
+  useEffect(() => { void load(); }, []);
+
+  const create = async () => {
+    setSaving(true);
+    setError(null);
+    try {
+      const response = await fetch("/api/admin/tregu/leagues", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, starts_at: fromKosovoInput(startsAt), ends_at: fromKosovoInput(endsAt), prizes: prizes.map(Number) }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error ?? `HTTP ${response.status}`);
+      setName("");
+      await load();
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Krijimi dështoi.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const status = (league: AdminLeague) => league.settled_at ? "Mbyllur" : Date.parse(league.starts_at) > Date.now() ? "Fillon së shpejti" : "Aktive";
+
+  return <section className={styles.marketSection}><header className={styles.sectionHeader}><div><h2>Ligat publike</h2><p>Kushdo bashkohet me një klik. Tre të parët me fitim marrin shpërblimet që cakton këtu, pasi t'i konfirmosh te Shpërblimet.</p></div><span>{leagues.length}</span></header>
+    <fieldset className={styles.f1Config}><legend>Ligë e re publike</legend><div>
+      <label>Emri<input value={name} onChange={(event) => setName(event.target.value)} placeholder="Liga e Tetorit" maxLength={40} /></label>
+      <label>Fillon (ora e Kosovës)<input type="datetime-local" value={startsAt} onChange={(event) => setStartsAt(event.target.value)} /></label>
+      <label>Mbaron (ora e Kosovës)<input type="datetime-local" value={endsAt} onChange={(event) => setEndsAt(event.target.value)} /></label>
+      {["1-rë", "2-të", "3-të"].map((label, index) => <label key={label}>Vendi i {label}<input inputMode="numeric" value={prizes[index]} onChange={(event) => setPrizes((current) => current.map((value, i) => (i === index ? event.target.value.replace(/\D/g, "") : value)))} /></label>)}
+    </div><button type="button" onClick={() => void create()} disabled={saving || name.trim().length < 3} className={styles.buttonPrimary}>{saving ? "Duke krijuar…" : "Krijo ligën"}</button>{error && <p className={styles.errorMessage}>{error}</p>}</fieldset>
+    {leagues.length ? <div className={styles.withdrawalList}>{leagues.map((league) => <article key={league.id} className={styles.withdrawalCard}><div><h3>{league.name}</h3><p>{formatTime(league.starts_at)} → {formatTime(league.ends_at)} · {league.members} anëtarë</p><small>Shpërblimet: {(league.prizes ?? []).map((prize) => `${prize.toLocaleString("sq-AL")} 383C`).join(" / ")}</small></div><div className={styles.withdrawalActions}><span className={styles.withdrawalStatus}>{status(league)}</span></div></article>)}</div> : <p className={styles.emptyState}>Asnjë ligë publike ende.</p>}
+  </section>;
 }

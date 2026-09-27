@@ -20,6 +20,8 @@ const TX_LABELS: Record<string, string> = {
   signup_bonus: "Bonusi i mirëseardhjes", daily_bonus: "Bonusi ditor", bet: "Tregtim i hapur",
   sell: "Pozicion i shitur", payout: "Treg i fituar", withdrawal: "Tërheqje",
   leaderboard_reward: "Shpërblim nga renditja",
+  league_fee: "Hyrje në ligë",
+  league_reward: "Shpërblim nga liga",
 };
 
 const MONTHS = ["janar", "shkurt", "mars", "prill", "maj", "qershor", "korrik", "gusht", "shtator", "tetor", "nëntor", "dhjetor"];

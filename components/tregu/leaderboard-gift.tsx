@@ -3,16 +3,17 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import CoinFace from "@/components/tregu/coin-face";
 import { fmtNum } from "@/lib/format";
-import { LEADERBOARD_KIND_LABEL, leaderboardPeriodLabel, type LeaderboardKind } from "@/lib/tregu-leaderboard";
+import { LEADERBOARD_KIND_LABEL, leaderboardPeriodLabel, type RewardKind } from "@/lib/tregu-leaderboard";
 
 type Gift = {
   id: string;
-  period_kind: LeaderboardKind;
+  period_kind: RewardKind;
   period_start: string;
   period_end: string;
   place: number;
   profit: number;
   prize: number;
+  league_name?: string | null;
 };
 
 const PLACE_WORD: Record<number, string> = { 1: "i parë", 2: "i dytë", 3: "i tretë" };
@@ -101,9 +102,14 @@ export default function LeaderboardGift({ loggedIn }: { loggedIn: boolean }) {
 
   if (!gift) return null;
 
-  const periodLabel = leaderboardPeriodLabel(gift.period_kind, gift.period_start, gift.period_end);
+  const periodLabel = gift.league_name ?? leaderboardPeriodLabel(gift.period_kind, gift.period_start, gift.period_end);
   const period = `${LEADERBOARD_KIND_LABEL[gift.period_kind] ?? "Java"} · ${periodLabel}`;
-  const periodPhrase = gift.period_kind === "monthly" ? `në muajin ${periodLabel}` : `në javën ${periodLabel}`;
+  const periodPhrase =
+    gift.period_kind === "league"
+      ? `në ligën "${periodLabel}"`
+      : gift.period_kind === "monthly"
+        ? `në muajin ${periodLabel}`
+        : `në javën ${periodLabel}`;
   const prize = Number(gift.prize) || 0;
 
   const collect = async () => {

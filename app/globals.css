@@ -21122,3 +21122,37 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   -webkit-mask: url("/images/categories/kosove.svg") center / contain no-repeat;
   mask: url("/images/categories/kosove.svg") center / contain no-repeat;
 }
+/* Floor entry to Ligat, directly under the leaderboard it extends. */
+.tregu-league-cta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: -6px 0 22px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: rgba(255, 255, 255, 0.72);
+  color: #111;
+  text-decoration: none;
+  box-shadow: 0 2px 12px rgba(17, 17, 17, 0.05);
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tregu-league-cta-mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #111;
+  color: #fff;
+}
+.tregu-league-cta-text { flex: 1; min-width: 0; font-size: 13.5px; line-height: 1.4; color: #6B6B6B; }
+.tregu-league-cta-text strong { margin-right: 6px; color: #111; font-size: 15px; font-weight: 800; }
+.tregu-league-cta-go { flex: none; font-size: 18px; font-weight: 800; color: #ff4422; transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1); }
+@media (hover: hover) and (pointer: fine) {
+  .tregu-league-cta:hover { border-color: rgba(255, 68, 34, 0.35); box-shadow: 0 12px 30px rgba(17, 17, 17, 0.08); transform: translateY(-1px); }
+  .tregu-league-cta:hover .tregu-league-cta-go { transform: translateX(3px); }
+}
+.tregu-league-cta:focus-visible { outline: 2px solid #FF4422; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .tregu-league-cta, .tregu-league-cta-go { transition: none; } }
