@@ -18,7 +18,7 @@ export default function NewsTile({
   article,
   variant = "overlay",
   size = "sm",
-  sizes = "(max-width: 700px) 50vw, 320px",
+  sizes = "(max-width: 700px) 100vw, 680px",
 }: {
   article: Article;
   variant?: "overlay" | "headline";
@@ -35,7 +35,7 @@ export default function NewsTile({
     >
       {photo && (
         <span className="news-tile-media" aria-hidden>
-          <Image src={article.imageUrl!} alt="" fill sizes={sizes} />
+          <Image src={article.imageUrl!} alt="" fill sizes={sizes} quality={90} />
         </span>
       )}
       <span className="news-tile-body">

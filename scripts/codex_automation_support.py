@@ -213,6 +213,11 @@ MIN_IMAGE_WIDTH = 1200
 MIN_IMAGE_HEIGHT = 675
 MIN_SOCIAL_IMAGE_WIDTH = MIN_IMAGE_WIDTH
 MIN_SOCIAL_IMAGE_HEIGHT = MIN_IMAGE_HEIGHT
+# Below this width a photo is still soft in the desktop lead on a 2x screen, so
+# normalize first asks the publisher's CDN for a larger rendition of the same
+# photo (_larger_image_rendition). That runs before the floor above is checked,
+# so an undersized feed rendition is upgraded rather than rejected.
+PREFERRED_IMAGE_WIDTH = 1920
 
 
 class _ArticleImageMetadataParser(HTMLParser):
@@ -611,6 +616,14 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
                     else:
                         failure_reason = f"could not decode {image_url}: {type(exc).__name__}: {exc}"
 
+            if dimensions and not social_platform and dimensions[0] < PREFERRED_IMAGE_WIDTH:
+                larger = _larger_image_rendition(image_url, dimensions[0])
+                if larger:
+                    print(f"IMAGE UPGRADED: {article.get('title', 'untitled')!r} {dimensions[0]}x{dimensions[1]} -> {larger[1]}x{larger[2]}")
+                    image_url, dimensions = larger[0], (larger[1], larger[2])
+                    article["image_url"] = image_url
+                    changed += 1
+
             if dimensions and (dimensions[0] < min_width or dimensions[1] < min_height):
                 failure_reason = f"image {dimensions[0]}x{dimensions[1]} below {min_width}x{min_height}"
 
@@ -826,6 +839,85 @@ def _fetch_image_dimensions(image_url: str) -> tuple[int, int]:
         image.verify()
     with Image.open(BytesIO(payload)) as image:
         return image.size
+
+
+def _larger_image_candidates(image_url: str) -> list[str]:
+    """Larger renditions of the same photo that its CDN was measured to serve.
+
+    Measured 2026-09-26 against every live URL of each host (23 of 23): BBC's
+    /ace/ paths, Euronews and Sky all serve a genuine 2048px rendition of the
+    1200-1600px one the feed carries. WordPress sizes (photo-1024x576.jpg) are
+    resized copies of an original that usually sits beside them; a name like
+    photo-780x439-1.jpg is the uploaded file itself and has no larger original.
+    """
+    parsed = urlparse(image_url)
+    host = parsed.netloc.lower()
+    path = parsed.path
+    paths: list[str] = []
+    if host == "ichef.bbci.co.uk":
+        match = re.match(r"^/ace/(?:branded_news|branded_sport|standard)/(\d+)/", path)
+        if match and int(match.group(1)) < 2048:
+            paths.append(path.replace(match.group(0), "/ace/standard/2048/", 1))
+    elif host == "images.euronews.com":
+        match = re.search(r"/(\d+)x(\d+)_cmsv2_", path)
+        if match and int(match.group(1)) < 2048:
+            paths.append(path.replace(match.group(0), "/2048x1152_cmsv2_", 1))
+    elif host == "e0.365dm.com":
+        match = re.match(r"^/(\d{2})/(\d{2})/(\d+)x(\d+)/", path)
+        if match and int(match.group(3)) < 2048:
+            paths.append(path.replace(match.group(0), f"/{match.group(1)}/{match.group(2)}/2048x1152/", 1))
+    elif "/wp-content/uploads/" in path:
+        match = re.search(r"-\d{2,4}x\d{2,4}(\.(?:jpe?g|png|webp))$", path, re.IGNORECASE)
+        if match:
+            stem = path[: match.start()]
+            paths.extend([stem + match.group(1), stem + "-scaled" + match.group(1)])
+    return [urlunparse(parsed._replace(path=candidate)) for candidate in paths]
+
+
+def _telegrafi_native_rendition(image_url: str) -> str | None:
+    """Telegrafi's crop re-rendered at the original photo's own resolution.
+
+    Its media library renders any width on request, upscaling past the
+    original (width=2400 returns 2400px of interpolated pixels), so the useful
+    size is the crop measured on the original: id alone returns the uncropped
+    photo, and `coordinates` trims left,top,right,bottom from it.
+    """
+    parsed = urlparse(image_url)
+    if not parsed.netloc.lower().endswith("telegrafi.com") or "/media-library/" not in parsed.path:
+        return None
+    query = dict(parse_qsl(parsed.query))
+    try:
+        width, height = int(query["width"]), int(query["height"])
+        left, top, right, bottom = (int(v) for v in query.get("coordinates", "0,0,0,0").split(","))
+        original_w, original_h = _fetch_image_dimensions(urlunparse(parsed._replace(query=urlencode({"id": query["id"]}))))
+    except (KeyError, ValueError, urllib.error.URLError, TimeoutError, OSError):
+        return None
+    native_w = original_w - left - right
+    if native_w <= width or original_h - top - bottom <= 0:
+        return None
+    query.update(width=str(native_w), height=str(round(native_w * height / width)))
+    return urlunparse(parsed._replace(query=urlencode(query)))
+
+
+def _larger_image_rendition(image_url: str, width: int) -> tuple[str, int, int] | None:
+    """The largest measured rendition wider than `width`, or None.
+
+    Every candidate is fetched and decoded; a URL is only ever swapped for one
+    that measurably carries more pixels of the same photo.
+    """
+    candidates = _larger_image_candidates(image_url)
+    telegrafi = _telegrafi_native_rendition(image_url)
+    if telegrafi:
+        candidates.append(telegrafi)
+    best: tuple[str, int, int] | None = None
+    for candidate in candidates:
+        try:
+            candidate_w, candidate_h = _fetch_image_dimensions(candidate)
+        except (urllib.error.URLError, TimeoutError, OSError, ValueError):
+            continue
+        if candidate_w > (best[1] if best else width):
+            best = (candidate, candidate_w, candidate_h)
+    return best
 
 
 def validate_batch(path: Path) -> list[dict[str, Any]]:

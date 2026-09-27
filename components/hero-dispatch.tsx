@@ -44,6 +44,7 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
           // it is the one image on the page that must not be lazy.
           priority
           sizes="(max-width: 768px) 100vw, 1200px"
+          quality={90}
           style={{ objectFit: "cover", objectPosition: "center" }}
         />
       ) : (

@@ -17,6 +17,9 @@
   readingTime: number;
   featured: boolean;
   imageUrl?: string;
+  /** Measured pixel size of imageUrl, when a page asked for it (lib/image-size.mjs). */
+  imageWidth?: number;
+  imageHeight?: number;
   engagementScore?: number;
   videoClipUrl?: string;
 }

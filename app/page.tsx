@@ -35,6 +35,7 @@ import { dateKeyInKosovo, resolveView } from "@/lib/reagimi-data";
 import { getSondazhiData } from "@/lib/sondazhi-server";
 import { pickFrontPage } from "@/lib/front-page.mjs";
 import { buildHomeSections, claim, createLedger } from "@/lib/home-sections.mjs";
+import { isSharpEnough, sharpFirst, withImageSizes } from "@/lib/image-size.mjs";
 import CategoryBlock from "@/components/home/category-block";
 import SectionJump from "@/components/home/section-jump";
 import TreguHome from "@/components/home/tregu-home";
@@ -52,7 +53,7 @@ export default async function HomePage() {
   // tone-outlets.json (today's per-country snapshot, used only by
   // ToneDashboard's client-side hover drill-down via its own fetch()) isn't
   // read here — Bota Flet now sources from the article cache below instead.
-  const [articles, tickerArticles, recentArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneCache, pipelineTopics, cityWeather] = await Promise.all([
+  const [rawArticles, rawTickerArticles, rawRecentArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneCache, pipelineTopics, cityWeather] = await Promise.all([
     getArticles(60),
     getLatestArticles(10),
     // The day's run for the sections below the front block: newest first, no
@@ -66,6 +67,15 @@ export default async function HomePage() {
     // Keyless and individually caught: a weather outage costs the rail one
     // card, never the page.
     getCityWeather().catch(() => []),
+  ]);
+
+  // Each story's photo width, so the large slots below can go to photos big
+  // enough to fill them (lib/image-size.mjs). Probes are shared per URL, so a
+  // story in two of these lists is measured once.
+  const [articles, tickerArticles, recentArticles] = await Promise.all([
+    withImageSizes(rawArticles),
+    withImageSizes(rawTickerArticles),
+    withImageSizes(rawRecentArticles),
   ]);
 
   const toneSummary = summarizeToneHistory(toneHistory);
@@ -98,7 +108,9 @@ export default async function HomePage() {
   // the last hour may not be in its top sixty yet. There is no separate hero
   // any more: it used to be taken out of the pool and then rendered nowhere,
   // which hid the day's top story from the front block.
-  const kryesore = pickFrontPage([...articles, ...tickerArticles], 7);
+  // The lead is the largest photo on the page; it goes to the best-ranked story
+  // whose photo can fill it without stretching.
+  const kryesore = sharpFirst(pickFrontPage([...articles, ...tickerArticles], 7), 1);
   const kryesoreLead = kryesore[0];
   const kryesoreStack = kryesore.slice(1, 5);
   const kryesoreSecondary = kryesore.slice(5, 7);
@@ -212,7 +224,12 @@ export default async function HomePage() {
   const accordionSlides: AccordionSlide[] = [];
 
   for (const { category } of accordionCats) {
-    const [exact] = claim(ledger, belowPool, 1, { predicate: (a) => a.category === category });
+    // An open accordion panel is a large photo; prefer a story whose photo fills it.
+    // claim() records what it returns, so the fallback runs only on a miss.
+    const sharpPick = claim(ledger, belowPool, 1, { predicate: (a) => a.category === category && isSharpEnough(a) });
+    const [exact] = sharpPick.length
+      ? sharpPick
+      : claim(ledger, belowPool, 1, { predicate: (a) => a.category === category });
     const article =
       exact ??
       claim(ledger, belowPool, 1, {

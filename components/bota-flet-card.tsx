@@ -37,7 +37,7 @@ export function HeroCard({ item }: { item: ForeignCoverageItem }) {
   return (
     <a href={item.url} target="_blank" rel="noopener noreferrer" className="bota-flet-hero" style={{ textDecoration: "none" }}>
       {showImage ? (
-        <Image src={item.imageUrl} alt="" fill sizes="(max-width: 768px) 100vw, 1100px" onError={onError} />
+        <Image src={item.imageUrl} alt="" fill sizes="(max-width: 768px) 100vw, 1200px" quality={90} onError={onError} />
       ) : (
         <div aria-hidden style={{ width: "100%", height: "100%", background: `linear-gradient(135deg, ${color}CC 0%, ${color}33 100%)` }} />
       )}

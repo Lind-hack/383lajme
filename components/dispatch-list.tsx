@@ -78,7 +78,8 @@ export function DispatchRow({ article, index }: { article: Article; index: numbe
               src={imageSrc}
               alt=""
               fill
-              sizes="(max-width: 768px) 40vw, 220px"
+              sizes="(max-width: 768px) 40vw, 400px"
+              quality={90}
               onError={() => setFailed(true)}
             />
           )}

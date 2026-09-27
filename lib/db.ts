@@ -61,8 +61,9 @@ function sanitizeArticle(a: Article): Article {
     category: normalizeCategory(fixMojibake(a.category)),
     // Imagery is hotlinked from other outlets, which serve whatever size they
     // uploaded — one Al Jazeera hero measured 11.8 MB. Ask the hosts that
-    // honour it for something the width of the article column instead.
-    imageUrl: remoteImageSrc(a.imageUrl, 1200),
+    // honour it for a 2048px rendition: enough for a desktop lead on a 2x
+    // screen, which 1200 was not, and the optimizer scales it down for phones.
+    imageUrl: remoteImageSrc(a.imageUrl, 2048),
   };
 }
 

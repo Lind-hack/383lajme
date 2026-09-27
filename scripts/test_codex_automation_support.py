@@ -289,10 +289,52 @@ def test_status_report_uses_gmail_fallback():
                 os.environ[key] = value
 
 
+def test_larger_image_rendition_only_swaps_for_measured_pixels():
+    support = load_support()
+    measured = {
+        "https://ichef.bbci.co.uk/ace/standard/2048/cpsprodpb/4476/live/a.jpg": (2048, 1152),
+        "https://telegrafi.com/media-library/image.jpg?id=67866712": (1620, 1080),
+        "https://telegrafi.com/media-library/image.jpg?id=67866712&width=1620&height=810&coordinates=0%2C135%2C0%2C135": (1620, 810),
+        "https://example.al/wp-content/uploads/2026/09/photo.jpg": (2400, 1600),
+    }
+
+    def fake_dimensions(url):
+        if url not in measured:
+            raise OSError("404")
+        return measured[url]
+
+    old_fetch = support._fetch_image_dimensions
+    support._fetch_image_dimensions = fake_dimensions
+    try:
+        assert support._larger_image_rendition(
+            "https://ichef.bbci.co.uk/ace/branded_news/1200/cpsprodpb/4476/live/a.jpg", 1200
+        ) == ("https://ichef.bbci.co.uk/ace/standard/2048/cpsprodpb/4476/live/a.jpg", 2048, 1152)
+        # Telegrafi is re-rendered at the crop's native width, never upscaled past it.
+        assert support._larger_image_rendition(
+            "https://telegrafi.com/media-library/image.jpg?id=67866712&width=1200&height=600&coordinates=0%2C135%2C0%2C135", 1200
+        ) == (
+            "https://telegrafi.com/media-library/image.jpg?id=67866712&width=1620&height=810&coordinates=0%2C135%2C0%2C135",
+            1620,
+            810,
+        )
+        # A WordPress size falls back to its original; the -scaled guess 404s and is skipped.
+        assert support._larger_image_rendition(
+            "https://example.al/wp-content/uploads/2026/09/photo-1024x576.jpg", 1024
+        ) == ("https://example.al/wp-content/uploads/2026/09/photo.jpg", 2400, 1600)
+        # The uploaded file itself (-780x439-1.jpg) has no larger original to ask for.
+        assert support._larger_image_candidates("https://example.al/wp-content/uploads/2026/09/p-780x439-1.jpg") == []
+        # Nothing measurably larger means the stored URL stands.
+        assert support._larger_image_rendition("https://www.balkanweb.com/wp-content/uploads/2026/09/640-0-x.jpg", 640) is None
+        assert support._larger_image_rendition("https://ichef.bbci.co.uk/ace/standard/2048/cpsprodpb/4476/live/a.jpg", 2048) is None
+    finally:
+        support._fetch_image_dimensions = old_fetch
+
+
 if __name__ == "__main__":
     test_strict_batch_validation()
     test_image_quality_floor_and_verified_source_fallback()
     test_web_image_source_must_match_exact_story_and_not_be_an_image_site()
     test_matching_web_coverage_supplies_a_sharp_fallback()
     test_status_report_uses_gmail_fallback()
+    test_larger_image_rendition_only_swaps_for_measured_pixels()
     print("codex automation support checks passed")

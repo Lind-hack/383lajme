@@ -5,6 +5,7 @@ import { CATEGORY_TO_SLUG, type NavCategory } from "@/lib/category-map";
 import SectionLabel from "@/components/section-label";
 import StoryList from "@/components/story-list";
 import NewsTile from "./news-tile";
+import { sharpFirst } from "@/lib/image-size.mjs";
 
 /**
  * How a category section arranges its stories. Each is symmetrical — every
@@ -16,6 +17,10 @@ import NewsTile from "./news-tile";
  *   mosaic   a wide lead and two tiles in one row, the rest as rows in two
  *            equal columns
  *   overlay  photo tiles in equal rows: three large over four smaller
+ *
+ * Each layout hands its large tiles to the stories whose photo is wide enough
+ * to fill them (sharpFirst), so a small photo lands in a small tile instead of
+ * being stretched across a large one.
  */
 export type CategoryLayout = "bento" | "mosaic" | "overlay";
 
@@ -65,7 +70,7 @@ export default function CategoryBlock({
 }
 
 function Bento({ articles }: { articles: Article[] }) {
-  const [lead, ...rest] = articles;
+  const [lead, ...rest] = sharpFirst(articles, 1);
   const small = rest.slice(0, 6);
   const columns = Math.max(1, Math.ceil(small.length / 2));
   return (
@@ -75,7 +80,7 @@ function Bento({ articles }: { articles: Article[] }) {
       data-odd={small.length % 2 === 1 || undefined}
     >
       <div className="cat-bento-lead">
-        <NewsTile article={lead} size="lg" sizes="(max-width: 700px) 100vw, 560px" />
+        <NewsTile article={lead} size="lg" sizes="(max-width: 700px) 100vw, 960px" />
       </div>
       {small.map((article, i) => (
         // One tile in the grid is set as a headline rather than a photograph,
@@ -86,7 +91,8 @@ function Bento({ articles }: { articles: Article[] }) {
   );
 }
 
-function Mosaic({ articles }: { articles: Article[] }) {
+function Mosaic({ articles: ranked }: { articles: Article[] }) {
+  const articles = sharpFirst(ranked, 3);
   const top = articles.slice(0, 3);
   // Rows run in two equal columns, so they come in pairs.
   const rows = articles.slice(3);
@@ -99,7 +105,7 @@ function Mosaic({ articles }: { articles: Article[] }) {
             key={article.id}
             article={article}
             size={i === 0 ? "lg" : "sm"}
-            sizes={i === 0 ? "(max-width: 700px) 100vw, 640px" : "(max-width: 700px) 50vw, 320px"}
+            sizes="(max-width: 700px) 100vw, 680px"
           />
         ))}
       </div>
@@ -112,8 +118,9 @@ function Mosaic({ articles }: { articles: Article[] }) {
   );
 }
 
-function Overlay({ articles }: { articles: Article[] }) {
-  const rows = overlayRows(Math.min(articles.length, 7));
+function Overlay({ articles: ranked }: { articles: Article[] }) {
+  const rows = overlayRows(Math.min(ranked.length, 7));
+  const articles = sharpFirst(ranked, rows[0]);
   let start = 0;
   return (
     <div className="cat-overlay">
@@ -130,7 +137,7 @@ function Overlay({ articles }: { articles: Article[] }) {
                 // The second row carries one headline tile for the same reason
                 // the bento does.
                 variant={r > 0 && i === slice.length - 1 ? "headline" : "overlay"}
-                sizes={r === 0 ? "(max-width: 700px) 100vw, 440px" : "(max-width: 700px) 50vw, 320px"}
+                sizes="(max-width: 700px) 100vw, 680px"
               />
             ))}
           </div>

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { type Article } from "@/lib/mock-data";
 import TimeAgo from "./time-ago";
 import SourceBadge from "@/components/source-badge";
@@ -137,19 +138,7 @@ export default function ArticleContent({ article, related, moreFromCategory = []
             transition={{ duration: DUR.slow, delay: 0.1, ease: EASE }}
           >
             {article.imageUrl && (
-              <div style={{ marginBottom: "36px" }}>
-                <img
-                  src={article.imageUrl}
-                  alt={article.title}
-                  style={{
-                    width: "100%",
-                    aspectRatio: "16/9",
-                    objectFit: "cover",
-                    borderRadius: "var(--radius-md)",
-                    display: "block",
-                  }}
-                />
-              </div>
+              <ArticleHero src={article.imageUrl} alt={article.title} width={article.imageWidth} height={article.imageHeight} />
             )}
 
             <p
@@ -356,5 +345,80 @@ export default function ArticleContent({ article, related, moreFromCategory = []
         </section>
       )}
     </main>
+  );
+}
+
+/** The story column's widest box, at 1420px and up (see .article-grid). */
+const HERO_COLUMN_WIDTH = 870;
+
+/**
+ * The article's photo. It used to be a plain <img> of the outlet's file, so a
+ * 640px photo was stretched across the whole column and looked pixelated on
+ * any laptop. A photo at least as wide as the column fills it as before; a
+ * narrower one is shown at its own size, centred on a blurred copy of itself,
+ * so it is never enlarged.
+ */
+function ArticleHero({ src, alt, width, height }: { src: string; alt: string; width?: number; height?: number }) {
+  const small = width !== undefined && height !== undefined && width < HERO_COLUMN_WIDTH;
+  return (
+    <div
+      style={{
+        marginBottom: "36px",
+        position: "relative",
+        aspectRatio: "16/9",
+        overflow: "hidden",
+        borderRadius: "var(--radius-md)",
+        background: "#1a1a1a",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {small ? (
+        <>
+          {/* Blurred to nothing, so the smallest rendition is enough. */}
+          <Image
+            src={src}
+            alt=""
+            aria-hidden
+            fill
+            sizes="64px"
+            style={{ objectFit: "cover", filter: "blur(28px) brightness(0.7)", transform: "scale(1.15)" }}
+          />
+          {/* The photo's own width, capped by the box: it can shrink to fit,
+              never grow. The width is explicit because the browser's own idea
+              of it comes from the srcset candidate it picked, and the
+              optimizer never enlarges — a 1920w candidate that returns 800px
+              reads as 333px wide. */}
+          <Image
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            priority
+            sizes={`${width}px`}
+            quality={90}
+            style={{
+              position: "relative",
+              width: `min(100%, ${width}px)`,
+              height: "auto",
+              maxHeight: "100%",
+              objectFit: "contain",
+            }}
+          />
+        </>
+      ) : (
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          // The page's LCP element.
+          priority
+          sizes={`(max-width: 1023px) 100vw, ${HERO_COLUMN_WIDTH}px`}
+          quality={90}
+          style={{ objectFit: "cover" }}
+        />
+      )}
+    </div>
   );
 }

@@ -6,6 +6,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { type Article } from "@/lib/mock-data";
+import { sharpFirst } from "@/lib/image-size.mjs";
 import TimeAgo from "./time-ago";
 import { getCategoryColor, getCategoryGradient } from "@/lib/category-colors";
 import { CATEGORY_TO_SLUG, type NavCategory } from "@/lib/category-map";
@@ -48,7 +49,9 @@ export default function ColorSpotlight({ articles, category, label, plain = fals
   const reduce = useReducedMotion();
   const slug = CATEGORY_TO_SLUG[category as NavCategory];
 
-  const [lead, ...rest] = articles;
+  // The cover is the band's one large photo: it goes to the first story whose
+  // photo can fill it (imageWidth, where the page measured it).
+  const [lead, ...rest] = sharpFirst(articles, 1);
   if (!lead) return null;
   // Four, so the rail reaches roughly the depth of the lead. At three the
   // right-hand column stopped halfway down and left a large empty field of
@@ -236,7 +239,8 @@ function Cover({
           src={coverSrc}
           alt=""
           fill
-          sizes="(max-width: 768px) 100vw, 720px"
+          sizes="(max-width: 768px) 100vw, 780px"
+          quality={90}
           onError={() => setFailed(true)}
           style={reduce ? { transition: "none" } : undefined}
         />
@@ -266,7 +270,8 @@ function Thumb({ article, color, deep }: { article: Article; color: string; deep
           src={thumbSrc}
           alt=""
           fill
-          sizes="(max-width: 768px) 34vw, 220px"
+          sizes="220px"
+          quality={90}
           onError={() => setFailed(true)}
         />
       ) : (

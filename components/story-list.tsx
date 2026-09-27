@@ -24,7 +24,7 @@ export default function StoryList({
         <li key={article.id}>
           <Link href={`/article/${article.slug}`} className="story-row">
             <span className="story-thumb" aria-hidden>
-              {article.imageUrl && <Image src={article.imageUrl} alt="" fill sizes="96px" />}
+              {article.imageUrl && <Image src={article.imageUrl} alt="" fill sizes="144px" quality={90} />}
             </span>
             <span className="story-body">
               <span className="story-title">{article.title}</span>

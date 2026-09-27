@@ -464,7 +464,9 @@ function StackCard({ article, index }: { article: Article; index: number }) {
               alt=""
               aria-hidden="true"
               fill
-              sizes="256px"
+              // Measured 118x148 on desktop: a 2:1 photo cropped to fill it must be
+              // ~297px wide, so 256 still stretched it slightly.
+              sizes="300px"
               quality={90}
               onError={() => setImgFailed(true)}
               style={{ objectFit: "cover" }}

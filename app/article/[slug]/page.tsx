@@ -6,6 +6,7 @@ import { isSameStory } from "@/lib/front-page.mjs";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
 import ArticleContent from "@/components/article-content";
+import { probeImageSize } from "@/lib/image-size.mjs";
 import Footer from "@/components/footer";
 import ReadingAffinity from "@/components/reading-affinity";
 import type { AccordionSlide } from "@/components/image-accordion";
@@ -75,8 +76,12 @@ export default async function ArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = await getArticleBySlug(slug);
-  if (!article) notFound();
+  const found = await getArticleBySlug(slug);
+  if (!found) notFound();
+  // The hero is shown at no more than the photo's own width, so it needs to
+  // know that width; a failed probe leaves it undefined and the hero fills.
+  const heroSize = await probeImageSize(found.imageUrl);
+  const article = heroSize ? { ...found, imageWidth: heroSize.width, imageHeight: heroSize.height } : found;
 
   const catColor = getCategoryColor(article.category);
   const catBg = getCategoryBg(article.category, 0.08);
