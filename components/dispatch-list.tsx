@@ -198,7 +198,9 @@ export default function DispatchList({
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) loadPage();
       },
-      { rootMargin: "0px 0px 1200px 0px" },
+      // The huge top margin counts a sentinel the reader has already flung
+      // past (a tall footer on phones puts it above the screen) as reached.
+      { rootMargin: "100000px 0px 1200px 0px" },
     );
     observer.observe(node);
     return () => observer.disconnect();

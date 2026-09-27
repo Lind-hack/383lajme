@@ -66,7 +66,12 @@ export async function searchResults(rawQuery: string): Promise<SearchResults> {
     out.push(r);
   };
 
-  const entity = resolveEntity(query, [...subjects, ...people]);
+  // Only a real subject — a person, country, city or organisation — becomes
+  // the page's heading and leads the list. A news topic that merely contains
+  // the word ("kosova" -> a match report about Kosovë) is a chip, not the
+  // subject of the search.
+  const named = resolveEntity(query, [...subjects, ...people]);
+  const entity = named && !["tema", "teme"].includes(named.kind) ? named : null;
   if (entity) {
     const forms = surfaceForms(entity);
     for (const a of articles) if (mentions(a, forms)) add(a);
