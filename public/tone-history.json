@@ -9946,8 +9946,8 @@
   {
     "date": "2026-09-27",
     "overallIndex": 51,
-    "totalArticles": 184,
-    "sourceCount": 179,
+    "totalArticles": 203,
+    "sourceCount": 182,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -9955,7 +9955,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 24,
+        "n": 33,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -10001,11 +10001,11 @@
         "stanceVersion": 3
       },
       "Austri": {
-        "index": 50,
+        "index": 49,
         "positive": 2,
         "neutral": 95,
-        "negative": 2,
-        "n": 88,
+        "negative": 3,
+        "n": 98,
         "excluded": 16,
         "confident": true,
         "stanceVersion": 3
@@ -10111,27 +10111,27 @@
         "sentiment": "positive"
       },
       {
-        "title": "NATO Secretary General visits Iowa Guard, highlights Kosovo partnership - army.mil",
-        "source": "army.mil",
-        "country": "SHBA",
-        "flag": "🇺🇸",
-        "url": "https://www.army.mil/article/295626/nato_secretary_general_visits_iowa_guard_highlights_kosovo_partnership",
-        "sentiment": "positive"
-      },
-      {
         "title": "Kosovo 1-0 Republic of Ireland: Vedat Muriqi header lifts hosts to deserved Nations League win - BBC",
         "source": "BBC",
-        "country": "Britani",
-        "flag": "🇬🇧",
+        "country": "SHBA",
+        "flag": "🇺🇸",
         "url": "https://www.bbc.co.uk/sport/football/live/ck790jyljq4vt",
         "sentiment": "positive"
       },
       {
-        "title": "Ireland Player Ratings As Heimir's Men Hugely Underwhelming In Poor Kosovo Loss - Balls.ie",
-        "source": "Balls.ie",
-        "country": "Britani",
-        "flag": "🇬🇧",
-        "url": "https://www.balls.ie/football/ireland-player-ratings-as-heimirs-men-hugely-underwhelming-in-poor-kosovo-loss-663820",
+        "title": "Erblin Osmani entre dans l’histoire et devient le plus jeune joueur à faire ses débuts sous le maillot du Kosovo - Albinfo",
+        "source": "Albinfo",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.albinfo.ch/fr/erblin-osmani-shkruan-histori-behet-lojtari-me-i-ri-qe-debuton-me-fanellen-e-kosoves/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Nations League: ÖFB jubelt auch gegen Kosovo - ORF ON",
+        "source": "ORF ON",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://on.orf.at/sammlung/13870321/nations-league-oefb-jubelt-auch-gegen-kosovo",
         "sentiment": "negative"
       }
     ]

@@ -2,12 +2,12 @@
   "lastUpdated": "2026-09-27",
   "topics": [
     {
-      "label": "Ndeshja futbollistike Kosovë-Irlandë",
+      "label": "Ndeshja futbollistike Kosovë kundër Irlandës",
       "fallbackLabel": "Ndeshjen · 2026",
-      "summary": "Informacione mbi transmetimin, orarin dhe parashikimet për ndeshjen e Ligës së Kombeve mes Kosovës dhe Irlandës më 24 shtator 2026.",
-      "count": 235,
+      "summary": "Ndeshja e Ligës së Kombeve ndërmjet Kosovës dhe Irlandës po tërheq vëmendje të madhe mediatike për shkak të transmetimit dhe parashikimeve sportive.",
+      "count": 271,
       "positive": 2,
-      "neutral": 119,
+      "neutral": 151,
       "negative": 0,
       "index": 51,
       "countries": [
@@ -192,7 +192,7 @@
     {
       "label": "Përgatitjet dhe bastet për Kosovë-Irlandë",
       "fallbackLabel": "Irlandës · Kombeve",
-      "summary": "Analiza mbi formacionet e mundshme, këshilla për baste sportive dhe mbulimi i drejtpërdrejtë i ndeshjes mes Kosovës dhe Irlandës në Ligën e Kombeve.",
+      "summary": "Ekipet po përgatiten për përballjen e Ligës së Kombeve, ndërsa bastoret ofrojnë mundësi të ndryshme për tifozët që ndjekin këtë ndeshje futbolli.",
       "count": 122,
       "positive": 3,
       "neutral": 60,
@@ -378,12 +378,12 @@
       ]
     },
     {
-      "label": "Përzgjedhësi Foda dhe ndeshja me Austrinë",
+      "label": "Përzgjedhësi Foda dhe ndeshjet ndërkombëtare",
       "fallbackLabel": "Kundër · Protestat",
-      "summary": "Deklaratat e përzgjedhësit Foda për ndeshjen kundër Austrisë dhe diskutimet rreth formacionit të mundshëm të kombëtares austriake për këtë përballje.",
-      "count": 74,
+      "summary": "Përzgjedhësi i Kosovës, Foda, përballet me sfida emocionale dhe taktike në përgatitjen e ekipit për ndeshjet e ardhshme të Ligës së Kombeve.",
+      "count": 86,
       "positive": 0,
-      "neutral": 50,
+      "neutral": 60,
       "negative": 1,
       "index": 49,
       "countries": [
@@ -561,14 +561,14 @@
       ]
     },
     {
-      "label": "Zhvillimet ekonomike dhe sportive në Kosovë",
+      "label": "Treguesit ekonomikë dhe sportivë 2026",
       "fallbackLabel": "2026 · Kombeve",
-      "summary": "Raportime mbi uljen e rritjes ekonomike nga BERZH, rritjen e dërgesave nga diaspora dhe profile të lojtarëve në Ligën e Kombeve.",
-      "count": 29,
+      "summary": "Raportet ekonomike tregojnë ulje të rritjes për Kosovën, ndërsa të dhënat sportive pasqyrojnë interesimin e lartë për garat dhe lojtarët e futbollit.",
+      "count": 34,
       "positive": 1,
-      "neutral": 16,
+      "neutral": 21,
       "negative": 0,
-      "index": 53,
+      "index": 52,
       "countries": [
         "Francë",
         "Gjermani",
@@ -746,9 +746,9 @@
       ]
     },
     {
-      "label": "Festimi i Muriqit dhe polemikat",
+      "label": "Polemikë rreth festimit të Muriqit",
       "fallbackLabel": "Muriqi · Vedat",
-      "summary": "Vedat Muriqi shënon gol për Kosovën dhe feston duke mbështetur ish-krerët e UÇK-së, duke shkaktuar polemika dhe pritje për vendim nga UEFA.",
+      "summary": "Festimi i golit nga Vedat Muriqi në mbështetje të ish-krerëve të UÇK-së ka shkaktuar polemika të mëdha dhe pritet një vendim nga UEFA.",
       "count": 23,
       "positive": 1,
       "neutral": 1,
@@ -925,7 +925,7 @@
     {
       "label": "Çështjet kushtetuese dhe apeli në Hagë",
       "fallbackLabel": "Qeveria · Hagë",
-      "summary": "Debatet mbi kushtetutshmërinë e qeverisë dhe strategjitë e mundshme të shtetit të Kosovës për proceset e apelit në Gjykatën e Hagës.",
+      "summary": "Ekspertët dhe institucionet po diskutojnë strategjitë ligjore për ankesat në Hagë dhe vlerësojnë kushtetutshmërinë e veprimeve të qeverisë në Kosovë.",
       "count": 18,
       "positive": 1,
       "neutral": 6,
@@ -1104,9 +1104,9 @@
       ]
     },
     {
-      "label": "Protestat pas dënimit të Thaçit",
+      "label": "Protestat pas dënimeve për krime",
       "fallbackLabel": "Protesta · Thaçit",
-      "summary": "Organizimi i protestave masive në Kosovë dhe diasporë si reagim ndaj dënimit të ish-presidentit Hashim Thaçi për krime lufte.",
+      "summary": "Dënimi i ish-presidentit Hashim Thaçi ka nxitur protesta masive në Kosovë dhe në diasporë, duke shprehur pakënaqësinë e qytetarëve ndaj vendimeve gjyqësore.",
       "count": 16,
       "positive": 0,
       "neutral": 7,
@@ -1286,9 +1286,9 @@
       ]
     },
     {
-      "label": "Përgatitjet e Austrisë për ndeshjen",
+      "label": "Përgatitjet e Austrisë për Kosovën",
       "fallbackLabel": "Përballet · Kombeve",
-      "summary": "Ekipi i Austrisë fokusohet te ndeshja me Kosovën pas fitores ndaj Izraelit, duke përfshirë raportimet për stërvitjet dhe mungesat e lojtarëve.",
+      "summary": "Kombëtarja e Austrisë po përgatitet për përballjen me Kosovën në Ligën e Kombeve pas ndeshjes së tyre të fundit kundër Izraelit.",
       "count": 14,
       "positive": 0,
       "neutral": 10,

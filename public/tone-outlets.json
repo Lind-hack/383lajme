@@ -1,15 +1,39 @@
 {
   "lastUpdated": "2026-09-27",
   "overallIndex": 51,
-  "totalArticles": 184,
-  "sourceCount": 179,
+  "totalArticles": 203,
+  "sourceCount": 182,
   "stanceVersion": 3,
-  "unattributed": 442,
-  "nonEditorial": 7,
+  "unattributed": 485,
+  "nonEditorial": 8,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
       "outlets": [
+        {
+          "name": "Bild",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Österreich gegen Kosovo Liveticker - Nations League B Gruppe 3 2026/2027 - BILD",
+              "albanianTitle": "Live: Austria kundër Kosovës - Nations League B Grupi 3 2026/2027 - BILD",
+              "blurb": "Përcjellje direkte e ndeshjes ndërmjet Austrisë dhe Kosovës në kuadër të Ligës B, grupi 3 për sezonin 2026/2027.",
+              "imageUrl": "https://a.bildstatic.de/assets/social-fallback-xwOAZY_4.jpg",
+              "url": "https://sport.bild.de/fussball/nations-league-b/ma11904217/oesterreich_kosovo/liveticker/",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Lajm sportiv i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-16",
+          "lastSeen": "2026-09-27"
+        },
         {
           "name": "Der Standard",
           "sentiment": "neutral",
@@ -168,7 +192,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 18,
+          "totalArticles": 22,
           "trend": "neutral",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-27"
@@ -220,6 +244,43 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-25",
           "lastSeen": "2026-09-25"
+        },
+        {
+          "name": "fussballdaten.de",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Österreich gegen Kosovo LIVE: Aufstellungen da - fussballdaten.de",
+              "albanianTitle": "Austria kundër Kosovës LIVE: Formacionet zyrtare - fussballdaten.de",
+              "blurb": "Janë publikuar formacionet zyrtare për ndeshjen ndërmjet Austrisë dhe Kosovës që po zhvillohet në kuadër të Ligës së Kombeve.",
+              "imageUrl": null,
+              "url": "https://www.fussballdaten.de/news/oesterreich-gegen-kosovo-live/",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Lajm sportiv i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Österreich gegen Kosovo - Rangnick und Foda im deutsch-deutschen Trainerduell - fussballdaten.de",
+              "albanianTitle": "Austria kundër Kosovës - Rangnick dhe Foda në duelin e trajnerëve gjermanë - fussballdaten.de",
+              "blurb": "Trajnerët Ralf Rangnick dhe Franco Foda përballen në duelin ndërmjet përfaqësueseve të Austrisë dhe Kosovës në Ligën e Kombeve.",
+              "imageUrl": null,
+              "url": "https://www.fussballdaten.de/news/oesterreich-gegen-kosovo-rangnick-foda-deutsch-deutschen-trainerduell/",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Lajm sportiv i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-09-08",
+          "lastSeen": "2026-09-27"
         },
         {
           "name": "kicker",
@@ -335,7 +396,7 @@
         {
           "name": "sport.de",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Aufstellung Kosovo - Irland 0:0 LIVE | Gruppe 3, Nations League B 2026/2027 - sport.de",
@@ -362,12 +423,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Aufstellung Österreich - Kosovo 3:1 | Gruppe 3, Nations League B 2026/2027 - sport.de",
+              "albanianTitle": null,
+              "blurb": "Austria shënoi fitore 3:1 ndaj Kosovës në ndeshjen e zhvilluar për Grupin 3 të Ligës B në Ligën e Kombeve.",
+              "imageUrl": "https://teaser-image-service.global-sports.net/v1/sport.de/default/11904217.webp",
+              "url": "https://www.sport.de/fussball/uefa-nations-league-b/ma11904217/oesterreich_kosovo/aufstellung/",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Lajm sportiv i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "neutral",
           "firstSeen": "2026-09-21",
-          "lastSeen": "2026-09-24"
+          "lastSeen": "2026-09-27"
         },
         {
           "name": "sport1.de",
@@ -396,7 +470,7 @@
         {
           "name": "sportschau.de",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Fußball Nations League B: Kosovo gegen Irland - Aufstellung - 1. Gruppenspieltag - 2026/2027 - sportschau.de",
@@ -410,12 +484,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Fußball Nations League B: Österreich gegen Kosovo - Aufstellung - 2. Gruppenspieltag - 2026/2027 - sportschau.de",
+              "albanianTitle": "Nations League B: Austria kundër Kosovës - Formacionet - Ndeshja e dytë e grupit - 2026/2027 - sportschau.de",
+              "blurb": "Publikohen formacionet zyrtare për ndeshjen e Ligës së Kombeve ndërmjet Austrisë dhe Kosovës në kuadër të grupit të tretë.",
+              "imageUrl": "https://images.sportschau.de/image/2b3257a6-1644-4ac1-9d86-b8ece10e74ce/AAABm--OpTU/AAABnSSvrFg/16x9-big/rudolf-harbig-stadion-100.jpg?width=1280",
+              "url": "https://www.sportschau.de/live-und-ergebnisse/fussball/uefa-nations-league-b/ma11904217/oesterreich_kosovo/taktische-aufstellung",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht informon për ndeshjen pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 3,
+          "totalArticles": 4,
           "trend": "neutral",
           "firstSeen": "2026-09-18",
-          "lastSeen": "2026-09-24"
+          "lastSeen": "2026-09-27"
         },
         {
           "name": "swp.de",
@@ -447,7 +534,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 24,
+        "n": 33,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -2538,7 +2625,7 @@
               "speaker": "Rangnick"
             }
           ],
-          "totalArticles": 18,
+          "totalArticles": 22,
           "trend": "neutral",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-27"
@@ -2690,7 +2777,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 15,
+          "totalArticles": 16,
           "trend": "neutral",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-27"
@@ -2855,7 +2942,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 10,
+          "totalArticles": 11,
           "trend": "i përzier",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-27"
@@ -2863,7 +2950,7 @@
         {
           "name": "Ligaportal",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "ÖFB-Teamchef Ralf Rangnick hofft gegen Kosovo auf \"ein Heimspiel\" - Ligaportal",
@@ -2900,6 +2987,19 @@
               "date": "2026-09-27",
               "sentiment": "neutral",
               "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Aufstellung: So beginnt das ÖFB-Team gegen den Kosovo - Ligaportal",
+              "albanianTitle": "Formacionet: Ja me kë e nis Austria ndeshjen kundër Kosovës",
+              "blurb": "Përzgjedhësit e Austrisë dhe Kosovës kanë publikuar formacionet zyrtare për ndeshjen e zhvilluar në kuadër të Ligës së Kombeve.",
+              "imageUrl": "https://www.ligaportal.at/international/images/OEFB/Nations-League/2026/israel/rangnick-ralf-oesterreich-vs-israel-24-09-2026-lbp-media-lukas-biereder.jpg",
+              "url": "https://www.ligaportal.at/international/uefa-nations-league/94142-aufstellung-so-beginnt-das-oefb-team-gegen-den-kosovo",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Nur faktische Aufstellung, kein wertende Sprache",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -2998,7 +3098,7 @@
         {
           "name": "ORF ON",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Kosovo besiegt Irland vor Duell mit Österreich - Nations League: Österreich - Israel - ORF ON",
@@ -3064,12 +3164,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Nations League: ÖFB jubelt auch gegen Kosovo - ORF ON",
+              "albanianTitle": "Liga e Kombeve: Austria triumfon edhe ndaj Kosovës",
+              "blurb": "Përfaqësuesja e Austrisë ka shënuar fitore ndaj Kosovës në ndeshjen e zhvilluar për Ligën e Kombeve në futboll.",
+              "imageUrl": "https://api-tvthek.orf.at/assets/topics/0235/87/thumb_23486341_topics_highlight_teaser.jpg",
+              "url": "https://on.orf.at/sammlung/13870321/nations-league-oefb-jubelt-auch-gegen-kosovo",
+              "date": "2026-09-27",
+              "sentiment": "negative",
+              "reason": "Outlet feiert den Sieg über Kosovo, was eine feindselige Haltung ausdrückt",
+              "isQuote": false,
+              "evidence": "jubelt auch gegen Kosovo",
+              "speaker": ""
             }
           ],
-          "totalArticles": 6,
-          "trend": "i përzier",
+          "totalArticles": 8,
+          "trend": "kritik",
           "firstSeen": "2026-09-18",
-          "lastSeen": "2026-09-26"
+          "lastSeen": "2026-09-27"
         },
         {
           "name": "ORF TV-Programm",
@@ -3566,6 +3679,30 @@
           "lastSeen": "2026-09-26"
         },
         {
+          "name": "salzburg24",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "ÖFB-Team setzt Erfolgslauf gegen Kosovo fort - salzburg24",
+              "albanianTitle": "Austria vazhdon serinë e fitoreve kundër Kosovës",
+              "blurb": "Ekipi kombëtar i Austrisë ka vazhduar serinë e rezultateve pozitive pas ndeshjes së zhvilluar kundër përfaqësueses së Kosovës.",
+              "imageUrl": "https://www.salzburg24.at/storage/image/3/3/6/2/1152633_oesterreich-vs-kosovo_metadaten_1GKldX_gEVD3V.jpg",
+              "url": "https://www.salzburg24.at/sport/fussball/oefb-team-setzt-erfolgslauf-gegen-kosovo-fort-art-339428",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-27",
+          "lastSeen": "2026-09-27"
+        },
+        {
           "name": "sn.at",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -3686,7 +3823,7 @@
               "speaker": "Rangnick"
             }
           ],
-          "totalArticles": 13,
+          "totalArticles": 16,
           "trend": "i përzier",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-27"
@@ -3717,11 +3854,11 @@
         }
       ],
       "summary": {
-        "index": 50,
+        "index": 49,
         "positive": 2,
         "neutral": 95,
-        "negative": 2,
-        "n": 88,
+        "negative": 3,
+        "n": 98,
         "excluded": 16,
         "confident": true,
         "stanceVersion": 3
@@ -3989,7 +4126,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 18,
+          "totalArticles": 22,
           "trend": "neutral",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-27"
