@@ -9946,7 +9946,7 @@
   {
     "date": "2026-09-27",
     "overallIndex": 51,
-    "totalArticles": 203,
+    "totalArticles": 210,
     "sourceCount": 182,
     "stanceVersion": 3,
     "countries": {
@@ -9955,7 +9955,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 33,
+        "n": 34,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -9985,7 +9985,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 10,
         "confident": true,
         "stanceVersion": 3
@@ -10001,11 +10001,11 @@
         "stanceVersion": 3
       },
       "Austri": {
-        "index": 49,
+        "index": 50,
         "positive": 2,
         "neutral": 95,
         "negative": 3,
-        "n": 98,
+        "n": 103,
         "excluded": 16,
         "confident": true,
         "stanceVersion": 3
@@ -10111,19 +10111,19 @@
         "sentiment": "positive"
       },
       {
-        "title": "Kosovo 1-0 Republic of Ireland: Vedat Muriqi header lifts hosts to deserved Nations League win - BBC",
-        "source": "BBC",
+        "title": "NATO Secretary General visits Iowa Guard, highlights Kosovo partnership - army.mil",
+        "source": "army.mil",
         "country": "SHBA",
         "flag": "🇺🇸",
-        "url": "https://www.bbc.co.uk/sport/football/live/ck790jyljq4vt",
+        "url": "https://www.army.mil/article/295626/nato_secretary_general_visits_iowa_guard_highlights_kosovo_partnership",
         "sentiment": "positive"
       },
       {
-        "title": "Erblin Osmani entre dans l’histoire et devient le plus jeune joueur à faire ses débuts sous le maillot du Kosovo - Albinfo",
-        "source": "Albinfo",
-        "country": "Francë",
-        "flag": "🇫🇷",
-        "url": "https://www.albinfo.ch/fr/erblin-osmani-shkruan-histori-behet-lojtari-me-i-ri-qe-debuton-me-fanellen-e-kosoves/",
+        "title": "Kosovo 1-0 Republic of Ireland: Vedat Muriqi header lifts hosts to deserved Nations League win - BBC",
+        "source": "BBC",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.bbc.co.uk/sport/football/live/ck790jyljq4vt",
         "sentiment": "positive"
       },
       {

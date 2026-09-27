@@ -1,11 +1,11 @@
 {
   "lastUpdated": "2026-09-27",
   "overallIndex": 51,
-  "totalArticles": 203,
+  "totalArticles": 210,
   "sourceCount": 182,
   "stanceVersion": 3,
-  "unattributed": 485,
-  "nonEditorial": 8,
+  "unattributed": 541,
+  "nonEditorial": 9,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -534,7 +534,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 33,
+        "n": 34,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -1057,7 +1057,7 @@
         {
           "name": "L'Équipe",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Kosovo - Irlande, Ligue des nations B, match en direct le 24/09/2026 - L'Équipe",
@@ -1094,6 +1094,19 @@
               "date": "2026-09-26",
               "sentiment": "neutral",
               "reason": "simple factual listing of a football match",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Autriche 3-1 Kosovo, Ligue des nations B : match terminé - L'Équipe",
+              "albanianTitle": "Austria 3-1 Kosova, Liga e Kombeve B: ndeshja ka përfunduar",
+              "blurb": "Austria ka mposhtur Kosovën me rezultat 3-1 në ndeshjen e zhvilluar në kuadër të Ligës së Kombeve B.",
+              "imageUrl": null,
+              "url": "https://www.lequipe.fr/Football/match-direct/ligue-des-nations-b/2027/autriche-kosovo-live/688789",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i rezultatit të ndeshjes",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1367,7 +1380,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 10,
         "confident": true,
         "stanceVersion": 3
@@ -2457,7 +2470,7 @@
         {
           "name": "DiePresse.com",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Franco Foda: Wie Kosovo-Teamchef und Österreich-Fan in Wien gewinnen will - DiePresse.com",
@@ -2484,12 +2497,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "3 Erkenntnisse zum ÖFB-Sieg gegen Kosovo: Xaver Schlager läuft wieder mit einer Pferdelunge herum - DiePresse.com",
+              "albanianTitle": "Tri konstatime pas fitores së Austrisë ndaj Kosovës: Xaver Schlager sërish me energji të pashtershme - DiePresse.com",
+              "blurb": "Analizë mbi fitoren e Austrisë ndaj Kosovës, duke u fokusuar në formën fizike të lojtarit Xaver Schlager.",
+              "imageUrl": "https://img.diepresse.com/public/incoming/f7h8n5-22730394795294536bldhiresjpg/alternates/WEBP_WIDE_1200/22730394795294536_BLD_HiRes.jpg",
+              "url": "https://www.diepresse.com/41296247/3-erkenntnisse-zum-oefb-sieg-gegen-kosovo-xaver-schlager-laeuft-wieder",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Informative announcement of a match, no loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "i përzier",
           "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-24"
+          "lastSeen": "2026-09-27"
         },
         {
           "name": "Heute",
@@ -2950,7 +2976,7 @@
         {
           "name": "Ligaportal",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 5,
           "articles": [
             {
               "title": "ÖFB-Teamchef Ralf Rangnick hofft gegen Kosovo auf \"ein Heimspiel\" - Ligaportal",
@@ -3003,10 +3029,23 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Österreich - Kosovo - Ligaportal",
+              "albanianTitle": "Austri - Kosovë - Ligaportal",
+              "blurb": "Përmbledhje e ndeshjes së futbollit ndërmjet përfaqësueses së Austrisë dhe asaj të Kosovës në kuadër të ligës përkatëse.",
+              "imageUrl": "https://api.ligaportal.at/composite/game.php?tmpl=fb&home=club-2232-large.png&away=club-2324-large.png&comp=Nations+League+B3+%5B%C3%96%5D&sponsor=null",
+              "url": "https://ticker.ligaportal.at/live-ticker/1348909",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht përshkruan ndeshjen",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 3,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 4,
+          "trend": "neutral",
           "firstSeen": "2026-09-23",
           "lastSeen": "2026-09-27"
         },
@@ -3248,7 +3287,7 @@
         {
           "name": "Sky Sport Austria",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Kosovo-Teamchef Foda als Fan von NL-Gegner Österreich - Sky Sport Austria",
@@ -3314,9 +3353,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Sieg gegen Kosovo – Rangnick: „Haben das Spiel dominiert & kontrolliert“ - Sky Sport Austria",
+              "albanianTitle": "Fitore ndaj Kosovës – Rangnick: “E dominuam dhe e kontrolluam lojën” - Sky Sport Austria",
+              "blurb": "Trajneri Ralf Rangnick vlerëson dominimin dhe kontrollin e lojës nga ana e Austrisë në fitoren kundër Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.skysportaustria.at/mediathek/sieg-gegen-kosovo-rangnick-haben-das-spiel-dominiert-kontrolliert/",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Citat i Rangnickut, jo zëri i medias",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Rangnick"
             }
           ],
-          "totalArticles": 11,
+          "totalArticles": 13,
           "trend": "neutral",
           "firstSeen": "2026-08-24",
           "lastSeen": "2026-09-27"
@@ -3823,7 +3875,7 @@
               "speaker": "Rangnick"
             }
           ],
-          "totalArticles": 16,
+          "totalArticles": 17,
           "trend": "i përzier",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-27"
@@ -3854,11 +3906,11 @@
         }
       ],
       "summary": {
-        "index": 49,
+        "index": 50,
         "positive": 2,
         "neutral": 95,
         "negative": 3,
-        "n": 98,
+        "n": 103,
         "excluded": 16,
         "confident": true,
         "stanceVersion": 3

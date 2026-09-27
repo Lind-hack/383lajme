@@ -1603,9 +1603,9 @@
     },
     "Sky Sport Austria": {
       "country": "Austri",
-      "total": 11,
+      "total": 13,
       "positive": 0,
-      "neutral": 9,
+      "neutral": 11,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-24",
@@ -1621,7 +1621,9 @@
         "https://www.skysportaustria.at/voting-waehle-deine-oefb-startelf-gegen-kosovo/",
         "https://www.skysportaustria.at/oefb-team-vor-nations-league-start-die-zahlen-sprechen-fuer-den-aufstieg/",
         "https://www.skysportaustria.at/jeder-muss-vorangehen-schlager-gegen-kosovo-oefb-kapitaen/",
-        "https://www.skysportaustria.at/vier-aenderungen-so-wuerden-die-sky-user-das-oefb-team-gegen-kosovo-aufstellen/"
+        "https://www.skysportaustria.at/vier-aenderungen-so-wuerden-die-sky-user-das-oefb-team-gegen-kosovo-aufstellen/",
+        "https://www.skysportaustria.at/mediathek/sieg-gegen-kosovo-rangnick-haben-das-spiel-dominiert-kontrolliert/",
+        "https://www.skysportaustria.at/mediathek/foda-auf-kosovo-pk-haetten-in-fuehrung-gehen-muessen/"
       ]
     },
     "kicker": {
@@ -4828,19 +4830,20 @@
     },
     "DiePresse.com": {
       "country": "Austri",
-      "total": 5,
+      "total": 6,
       "positive": 1,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-15",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.diepresse.com/41259060/kriegsverbrecherprozess-hochspannung-im-kosovo-vor-urteil-gegen-hashim",
         "https://www.diepresse.com/41266671/gericht-in-den-haag-verurteilt-hashim-thaci-wegen-verbrechen-im-kosovo",
         "https://www.diepresse.com/41268037/kosovos-kampf-war-legitim-dabei-veruebte-untaten-aber-nicht",
         "https://www.diepresse.com/41266468/der-aggressor-war-serbien-25-jahre-haft-fuer-hashim-thaci-sorgen-im-wut",
-        "https://www.diepresse.com/41291768/franco-foda-wie-kosovo-teamchef-und-oesterreich-fan-in-wien-gewinnen"
+        "https://www.diepresse.com/41291768/franco-foda-wie-kosovo-teamchef-und-oesterreich-fan-in-wien-gewinnen",
+        "https://www.diepresse.com/41296247/3-erkenntnisse-zum-oefb-sieg-gegen-kosovo-xaver-schlager-laeuft-wieder"
       ]
     },
     "svd.se": {
@@ -6325,9 +6328,9 @@
     },
     "sport.ORF.at": {
       "country": "Austri",
-      "total": 16,
+      "total": 17,
       "positive": 1,
-      "neutral": 15,
+      "neutral": 16,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
@@ -6348,7 +6351,8 @@
         "https://sport.orf.at/stories/3162876/",
         "https://sport.orf.at/stories/3162880/",
         "https://sport.orf.at/av/video/onDemandVideoSport69324",
-        "https://sport.orf.at/av/video/onDemandVideoSport69316"
+        "https://sport.orf.at/av/video/onDemandVideoSport69316",
+        "https://sport.orf.at/stories/3162881/"
       ]
     },
     "Der Standard": {
@@ -8667,9 +8671,9 @@
     },
     "Ligaportal": {
       "country": "Austri",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-23",
@@ -8677,7 +8681,8 @@
       "urls": [
         "https://www.ligaportal.at/international/uefa-nations-league/94054-kosovo-ex-laskler-und-zwei-weitere-spieler-mit-ruecktritt-fuer-foda-vor-duell-gegen-oefb-team",
         "https://www.ligaportal.at/international/uefa-nations-league/94144-oefb-teamchef-ralf-rangnick-hofft-gegen-kosovo-auf-ein-heimspiel",
-        "https://www.ligaportal.at/international/uefa-nations-league/94142-aufstellung-so-beginnt-das-oefb-team-gegen-den-kosovo"
+        "https://www.ligaportal.at/international/uefa-nations-league/94142-aufstellung-so-beginnt-das-oefb-team-gegen-den-kosovo",
+        "https://ticker.ligaportal.at/live-ticker/1348909"
       ]
     },
     "Betarades": {
