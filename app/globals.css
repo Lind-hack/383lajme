@@ -21108,7 +21108,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .cat-rail-label { font-size: 10px; letter-spacing: -0.005em; }
 }
 
-/* ── Tab bar icons (components/tab-icons, CoinFace). */
+/* ── Tab bar icons (components/tab-icons). */
 .tab-globe { position: relative; display: inline-block; }
 .tab-globe svg { display: block; }
 .tab-globe-map {
@@ -21122,5 +21122,3 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   -webkit-mask: url("/images/categories/kosove.svg") center / contain no-repeat;
   mask: url("/images/categories/kosove.svg") center / contain no-repeat;
 }
-.tab-coin { display: inline-block; filter: saturate(0.8) brightness(0.97); transition: filter 200ms var(--ease-out); }
-.m-tab[aria-current="page"] .tab-coin { filter: saturate(1.1) brightness(1.06); }

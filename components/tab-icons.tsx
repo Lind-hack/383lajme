@@ -38,3 +38,30 @@ export function KosovoGlobeIcon({ size = 22, strokeWidth = 2 }: IconProps) {
     </span>
   );
 }
+
+/**
+ * Tregu: a 383 coin, drawn in the bar's grey like the other icons (and the
+ * tab's orange when current) rather than the gold coin Tregu uses inside.
+ */
+export function CoinIcon({ size = 22, strokeWidth = 2 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} aria-hidden="true">
+      <circle cx="12" cy="12" r="9.5" />
+      <circle cx="12" cy="12" r="7" strokeWidth={strokeWidth * 0.5} opacity="0.55" />
+      <text
+        x="12"
+        y="12"
+        dy="0.36em"
+        textAnchor="middle"
+        fill="currentColor"
+        stroke="none"
+        fontSize="6.6"
+        fontWeight="800"
+        letterSpacing="-0.2"
+        style={{ fontFamily: "var(--font-manrope), sans-serif" }}
+      >
+        383
+      </text>
+    </svg>
+  );
+}

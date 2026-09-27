@@ -6,19 +6,10 @@ import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { ComponentType } from "react";
 import { House } from "lucide-react";
-import CoinFace from "./tregu/coin-face";
-import { KosovoGlobeIcon, PersonalFeedIcon } from "./tab-icons";
+import { CoinIcon, KosovoGlobeIcon, PersonalFeedIcon } from "./tab-icons";
 
 type TabIcon = ComponentType<{ size?: number; strokeWidth?: number }>;
 
-/** Tregu's own gold 383 coin, still: the one coloured mark in the bar. */
-function TreguCoinIcon({ size = 22 }: { size?: number }) {
-  return (
-    <span className="tab-coin">
-      <CoinFace size={size + 2} idle={false} shine={false} />
-    </span>
-  );
-}
 
 /**
  * Phones only (globals.css, .m-tabbar): the site's four destinations within a
@@ -33,7 +24,7 @@ function TreguCoinIcon({ size = 22 }: { size?: number }) {
 const TABS: { href: string; label: string; icon: TabIcon; live?: boolean }[] = [
   { href: "/", label: "Sot", icon: House },
   { href: "/per-ty", label: "Për ty", icon: PersonalFeedIcon },
-  { href: "/tregu", label: "Tregu", icon: TreguCoinIcon, live: true },
+  { href: "/tregu", label: "Tregu", icon: CoinIcon, live: true },
   { href: "/bota-per-kosoven", label: "Bota për Kosovën", icon: KosovoGlobeIcon },
 ];
 
