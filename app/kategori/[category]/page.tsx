@@ -8,6 +8,7 @@ import { dateKeyInKosovo } from "@/lib/reagimi-data";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
 import CategoryBanner from "@/components/category-banner";
+import LatestStrip from "@/components/home/latest-strip";
 import HeroDispatch from "@/components/hero-dispatch";
 import NewsGrid from "@/components/news-grid";
 import DispatchList from "@/components/dispatch-list";
@@ -83,6 +84,7 @@ export default async function CategoryPage({
       <Navbar />
 
       <div style={{ paddingTop: "var(--nav-h)", position: "relative", zIndex: 1 }}>
+        <LatestStrip />
         <CategoryBanner
           categoryName={categoryName}
           from={gradFrom}

@@ -6,6 +6,7 @@ import { isSameStory } from "@/lib/front-page.mjs";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
 import ArticleContent from "@/components/article-content";
+import LatestStrip from "@/components/home/latest-strip";
 import { probeImageSize } from "@/lib/image-size.mjs";
 import Footer from "@/components/footer";
 import ReadingAffinity from "@/components/reading-affinity";
@@ -205,6 +206,7 @@ export default async function ArticlePage({
       <TextureBg />
       <Navbar />
       <ArticleContent
+        latestStrip={<LatestStrip />}
         article={article}
         related={related}
         moreFromCategory={moreFromCategory}

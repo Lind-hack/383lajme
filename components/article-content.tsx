@@ -32,9 +32,11 @@ interface Props {
   catBg: string;
   categorySlides: AccordionSlide[];
   dosje: DosjeData | null;
+  /** The orange latest-news strip, rendered on the server (home/latest-strip). */
+  latestStrip?: React.ReactNode;
 }
 
-export default function ArticleContent({ article, related, moreFromCategory = [], latestElsewhere = [], catColor, catBg, categorySlides, dosje }: Props) {
+export default function ArticleContent({ article, related, moreFromCategory = [], latestElsewhere = [], catColor, catBg, categorySlides, dosje, latestStrip }: Props) {
   // Counted from the prose, not from the markup the body is stored in.
   const dynamicReadTime = readingMinutes(article.body);
 
@@ -48,6 +50,7 @@ export default function ArticleContent({ article, related, moreFromCategory = []
         minHeight: "100vh",
       }}
     >
+      {latestStrip}
       <CategoryRail active={article.category} />
       <div style={{ height: "4px", background: catColor, width: "100%" }} />
 

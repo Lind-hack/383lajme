@@ -92,6 +92,8 @@ export default function Ga() {
           role="region"
           aria-label="Cilësimet e cookies"
           className="fixed inset-x-0 bottom-0 z-[90] px-4 pb-4"
+          // Sits above the phone tab bar instead of covering it (0 elsewhere).
+          style={{ bottom: "var(--tabbar-h, 0px)" }}
         >
           <div className="mx-auto flex max-w-3xl flex-col gap-4 rounded-2xl border border-border bg-white p-5 shadow-[0_16px_40px_rgba(17,17,17,0.12)] sm:flex-row sm:items-center sm:gap-5">
             <p className="flex-1 text-[0.85rem] leading-[1.6] text-[#565656]">
