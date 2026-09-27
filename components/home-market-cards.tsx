@@ -1,16 +1,18 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowDownUp,
   Banknote,
   Cloud,
   CloudLightning,
+  CloudMoon,
   CloudRain,
   CloudSnow,
   CloudSun,
   ExternalLink,
   Fuel,
+  Moon,
   RefreshCw,
   Sun,
   Umbrella,
@@ -426,6 +428,14 @@ export function FuelPricesCard({ snapshot }: { snapshot: FuelSnapshot }) {
   );
 }
 
+/** Clear or partly cloudy after sunset: a moon instead of a sun. */
+function weatherIcon(code: number, isDay: boolean | undefined): LucideIcon {
+  const kind = weatherKind(code);
+  if (isDay === false && kind === "clear") return Moon;
+  if (isDay === false && code === 2) return CloudMoon;
+  return WEATHER_ICON[kind] ?? Cloud;
+}
+
 const WEATHER_ICON: Record<string, LucideIcon> = {
   clear: Sun,
   cloud: Cloud,
@@ -442,8 +452,55 @@ const WEATHER_ICON: Record<string, LucideIcon> = {
  * A city that cannot be read is absent from `cities` rather than drawn at a
  * plausible-looking temperature, the same rule the fuel table follows.
  */
-export function WeatherCard({ cities }: { cities: CityWeather[] }) {
+/** How often an open page refreshes the card; the server caches Open-Meteo as long. */
+const WEATHER_REFRESH_MS = 30 * 60 * 1000;
+
+/**
+ * The card is rendered into a page that is cached for ten minutes and can
+ * then sit open in a tab, or be restored from a phone's memory, for hours —
+ * so the reading on screen was whatever it was when the page was built. It
+ * now asks /api/weather every half hour while visible, and at once when the
+ * tab comes back after longer than that.
+ */
+function useFreshWeather(initial: CityWeather[]) {
+  const [cities, setCities] = useState(initial);
+  useEffect(() => {
+    let last = Date.now();
+    let cancelled = false;
+    const refresh = async () => {
+      if (document.visibilityState !== "visible") return;
+      last = Date.now();
+      try {
+        const res = await fetch("/api/weather", { cache: "no-store" });
+        if (!res.ok) return;
+        const data = (await res.json()) as { cities?: CityWeather[] };
+        // A failed reading keeps what is on screen rather than emptying it.
+        if (!cancelled && data.cities?.length) setCities(data.cities);
+      } catch {
+        // Offline or blocked: the last reading stays.
+      }
+    };
+    const timer = window.setInterval(refresh, WEATHER_REFRESH_MS);
+    const onVisible = () => {
+      if (document.visibilityState === "visible" && Date.now() - last >= WEATHER_REFRESH_MS) refresh();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("pageshow", onVisible);
+    return () => {
+      cancelled = true;
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("pageshow", onVisible);
+    };
+  }, []);
+  return cities;
+}
+
+export function WeatherCard({ cities: initialCities }: { cities: CityWeather[] }) {
+  const cities = useFreshWeather(initialCities);
   if (cities.length === 0) return null;
+  const home = cities[0];
+  const hours = home.hours ?? [];
 
   return (
     <MarketCardFrame
@@ -455,7 +512,7 @@ export function WeatherCard({ cities }: { cities: CityWeather[] }) {
         <>
           <span>
             <RefreshCw size={12} />
-            Çdo gjysmë ore
+            {home.observedAt ? `Përditësuar ${home.observedAt}` : "Çdo gjysmë ore"}
           </span>
           <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">
             Open-Meteo
@@ -467,7 +524,7 @@ export function WeatherCard({ cities }: { cities: CityWeather[] }) {
       <ul className="home-weather-list">
         {cities.map((city) => {
           const kind = weatherKind(city.code);
-          const Icon = WEATHER_ICON[kind] ?? Cloud;
+          const Icon = weatherIcon(city.code, city.isDay);
           return (
             <li key={city.city} className="home-weather-row" data-kind={kind}>
               <span className="home-weather-glyph" aria-hidden="true">
@@ -487,13 +544,13 @@ export function WeatherCard({ cities }: { cities: CityWeather[] }) {
                   {city.tempC}
                   <i aria-hidden="true">°</i>
                 </span>
-                {/* Today's highest hourly chance of rain — the number that
-                    decides the umbrella. Absent rather than guessed. */}
+                {/* The highest chance of rain over the next six hours — the
+                    number that decides the umbrella. Absent rather than guessed. */}
                 {city.rainChance !== null && (
                   <span
                     className="home-weather-rain"
                     data-level={city.rainChance >= 60 ? "high" : city.rainChance >= 30 ? "mid" : "low"}
-                    title={`Mundësia më e lartë për shi sot: ${city.rainChance}%`}
+                    title={`Mundësia më e lartë për shi në 6 orët e ardhshme: ${city.rainChance}%`}
                   >
                     <Umbrella size={12} strokeWidth={2.4} aria-hidden="true" />
                     <span className="sr-only">Mundësia për shi </span>
@@ -505,6 +562,34 @@ export function WeatherCard({ cities }: { cities: CityWeather[] }) {
           );
         })}
       </ul>
+      {/* The next hours in the reader's own city fill the card's lower half,
+          which was empty space beside the taller column next to it. */}
+      {hours.length > 0 && (
+        <div className="home-weather-hours" aria-label={`${home.city}, orët e ardhshme`}>
+          <span className="home-weather-hours-label">{home.city} · orët e ardhshme</span>
+          <ol>
+            {hours.map((hour) => {
+              const HourIcon = weatherIcon(hour.code, hour.isDay);
+              return (
+                <li key={hour.time}>
+                  <time>{hour.time}</time>
+                  <HourIcon size={17} strokeWidth={2} aria-hidden="true" />
+                  <strong>
+                    {hour.tempC}
+                    <i aria-hidden="true">°</i>
+                  </strong>
+                  {hour.rainChance !== null && (
+                    <small data-wet={hour.rainChance >= 30 ? "true" : undefined}>
+                      <span className="sr-only">Shi </span>
+                      {hour.rainChance}%
+                    </small>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      )}
     </MarketCardFrame>
   );
 }

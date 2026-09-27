@@ -34,7 +34,7 @@ import { getCityWeather } from "@/lib/weather";
 import { getToneHistory, getToneArticleCache, summarizeToneHistory, getForeignCoverage, getTopics, getToneTopics } from "@/lib/tone-data";
 import { dateKeyInKosovo, resolveView } from "@/lib/reagimi-data";
 import { getSondazhiData } from "@/lib/sondazhi-server";
-import { pickFrontPage } from "@/lib/front-page.mjs";
+import { pickFrontPage, pickMostRead } from "@/lib/front-page.mjs";
 import { buildHomeSections, claim, createLedger } from "@/lib/home-sections.mjs";
 import { isSharpEnough, sharpFirst, withImageSizes } from "@/lib/image-size.mjs";
 import CategoryBlock from "@/components/home/category-block";
@@ -195,12 +195,12 @@ export default async function HomePage() {
     }
   }
 
-  // Më të lexuarat — engagement ranking across everything outside the kryesore
-  // top; may overlap NJOFTIME (a most-read rail legitimately repeats stories)
-  const mostRead = articles
-    .filter((a) => !kryesoreTopIds.has(a.id))
-    .sort((a, b) => (b.engagementScore ?? 0) - (a.engagementScore ?? 0))
-    .slice(0, 5);
+  // Më të lexuarat — the day's best-scored stories outside the kryesore top,
+  // from the newest as well as the ranked pool; may overlap NJOFTIME (a
+  // most-read rail legitimately repeats stories). See pickMostRead.
+  const mostRead = pickMostRead([...articles, ...tickerArticles, ...recentArticles], 5, {
+    exclude: kryesoreTopIds,
+  });
 
   // NJOFTIME is claimed before the sections below so they cannot repeat it.
   // The claim also drops a second write-up of a story the front block leads
@@ -367,9 +367,7 @@ export default async function HomePage() {
           </div>
         )}
 
-        {/* The page's two "what do you think" pieces, together. */}
         <ReagimiDites fallbackView={reagimiFallback} serverDateKey={reagimiDateKey} />
-        <DailyPoll data={sondazhi} />
       </Contained>
 
       {/* Kosovë and Shqipëri on the page's own paper: a lead, its rail, and a
@@ -379,6 +377,12 @@ export default async function HomePage() {
           <ColorSpotlight articles={block("Kosovë")} category="Kosovë" label="KOSOVË" plain more={4} />
         </div>
       )}
+
+      {/* Sondazhi i ditës between the two home sections: a pause in the run
+          of Kosovo and Albania news, where the day's question belongs. */}
+      <Contained>
+        <DailyPoll data={sondazhi} />
+      </Contained>
       {block("Shqipëri").length > 0 && (
         <div id="seksioni-shqiperi" className="home-anchor">
           <ColorSpotlight articles={block("Shqipëri")} category="Shqipëri" label="SHQIPËRI" plain more={4} />

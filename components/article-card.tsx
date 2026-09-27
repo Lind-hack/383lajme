@@ -151,26 +151,9 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             </div>
 
             {/* Reading time pill — bottom-right */}
-            <div style={{
-              position: "absolute",
-              bottom: "10px",
-              right: "10px",
-              background: "rgba(0,0,0,0.45)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-              border: "0.5px solid rgba(255,255,255,0.2)",
-              borderRadius: RADIUS.pill,
-              padding: "2px 5px",
-            }}>
-              <span style={{
-                fontSize: "9px",
-                fontWeight: 700,
-                color: "rgba(255,255,255,0.92)",
-                letterSpacing: "0.04em",
-              }}>
-                {readMins} min
-              </span>
-            </div>
+            <span className="read-pill" data-size="sm" style={{ bottom: "10px", right: "10px" }}>
+              {readMins} min
+            </span>
 
             {article.sourceBias === "hostile" && <HostileBadge />}
           </div>
@@ -513,26 +496,9 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
           </div>
 
           {/* Reading time — bottom-right */}
-          <div style={{
-            position: "absolute",
-            bottom: "12px",
-            right: "12px",
-            background: "rgba(0,0,0,0.45)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            border: "0.5px solid rgba(255,255,255,0.2)",
-            borderRadius: RADIUS.pill,
-            padding: "2px 5px",
-          }}>
-            <span style={{
-              fontSize: "9px",
-              fontWeight: 700,
-              color: "rgba(255,255,255,0.92)",
-              letterSpacing: "0.04em",
-            }}>
-              {readMins} min
-            </span>
-          </div>
+          <span className="read-pill" data-size="sm" style={{ bottom: "12px", right: "12px" }}>
+            {readMins} min
+          </span>
 
           {article.sourceBias === "hostile" && <HostileBadge />}
         </div>

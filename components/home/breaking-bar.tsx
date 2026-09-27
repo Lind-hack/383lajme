@@ -11,7 +11,7 @@
 // through the last few. It still says "news is happening"; it no longer shouts
 // it. Date and Prishtina's weather sit on the right.
 
-import { Sun, Cloud, CloudRain, CloudSnow, CloudLightning } from "lucide-react";
+import { Sun, Moon, Cloud, CloudRain, CloudSnow, CloudLightning } from "lucide-react";
 import type { CityWeather } from "@/lib/weather";
 import { weatherKind } from "@/lib/weather";
 import LatestStepper, { type LatestItem } from "./latest-stepper";
@@ -52,7 +52,9 @@ export default function BreakingBar({
   /** Prishtina's reading; the side cards carry the other cities. */
   weather?: CityWeather | null;
 }) {
-  const Icon = weather ? ICON[weatherKind(weather.code)] ?? Cloud : null;
+  const kind = weather ? weatherKind(weather.code) : null;
+  // A clear night is a moon, not a sun.
+  const Icon = weather ? (kind === "clear" && weather.isDay === false ? Moon : ICON[kind!] ?? Cloud) : null;
 
   return (
     <div className="home-breaking" role="region" aria-label="Lajmet e fundit">

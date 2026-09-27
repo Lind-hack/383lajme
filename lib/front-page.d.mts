@@ -16,3 +16,8 @@ export declare function pickFrontPage<T extends RankableArticle>(
   count: number,
   now?: number
 ): T[];
+export declare function pickMostRead<T extends RankableArticle>(
+  pool: readonly T[],
+  count: number,
+  options?: { exclude?: ReadonlySet<string>; now?: number }
+): T[];

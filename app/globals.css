@@ -20446,3 +20446,90 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 }
 /* The outcome the reader holds is named in the legend as well as drawn heavier. */
 .tregu-exact-chart-legend [data-held] em { font-weight: 800; }
+
+/* ── Reading-time pill on card photos (kryesore lead, article cards).
+   It was a block at the page's 16px line height around 9–10px text, so the
+   pill stood ~30px tall around a small number. line-height: 1 and a fixed
+   height make it hug the text. Position comes from the inline style. */
+.read-pill {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 100px;
+  background: rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.read-pill[data-size="sm"] { height: 18px; padding: 0 7px; font-size: 9.5px; }
+
+/* ── Moti sot: the next hours in Prishtinë. The rows keep their natural
+   height (stretching them pushed the third city off a laptop screen); this
+   panel takes the rest of the stretched card, content centred, so there is
+   no dead band above the footer. */
+.home-market-card-weather .home-weather-list { flex: 0 0 auto; }
+.home-weather-hours {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  margin: 12px 0 4px;
+  padding: 12px 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(138, 84, 40, 0.12);
+}
+.home-weather-hours-label {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a5a2c;
+}
+.home-weather-hours ol {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.home-weather-hours li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  color: #a76505;
+}
+.home-weather-hours time {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #6f6159;
+  font-variant-numeric: tabular-nums;
+}
+.home-weather-hours strong {
+  font-size: 15px;
+  font-weight: 850;
+  line-height: 1;
+  color: #201812;
+  font-variant-numeric: tabular-nums;
+}
+.home-weather-hours strong i { font-style: normal; color: #b8521f; }
+.home-weather-hours small {
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  color: #6f86a6;
+  font-variant-numeric: tabular-nums;
+}
+.home-weather-hours small[data-wet="true"] { color: #2F5A8C; }

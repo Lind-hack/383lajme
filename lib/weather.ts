@@ -13,13 +13,48 @@ export type CityWeather = {
   city: string;
   tempC: number;
   code: number;
+  /** False after sunset, so a clear night shows a moon rather than a sun. */
+  isDay: boolean;
   label: string;
-  /** Highest chance of rain at any hour today, 0–100. Null when not reported. */
+  /**
+   * Highest chance of rain over the next six hours, 0–100. It used to be the
+   * day's maximum, which counts hours already gone and so barely moved from
+   * morning to night. Null when not reported.
+   */
   rainChance: number | null;
   /** Today's high and low, rounded. Null when not reported. */
   highC: number | null;
   lowC: number | null;
+  /** The next hours, starting after the current one, local Kosovo time. */
+  hours: HourWeather[];
+  /** Open-Meteo's observation time, local ("20:00"), so the card can say how fresh it is. */
+  observedAt: string | null;
 };
+
+export type HourWeather = {
+  /** "21:00" */
+  time: string;
+  tempC: number;
+  code: number;
+  isDay: boolean;
+  rainChance: number | null;
+};
+
+const NEXT_HOURS = 6;
+const HOUR_STRIP = 5;
+
+function hourly(data: unknown): { time: string; temp: number; code: number; isDay: boolean; rain: number | null }[] {
+  const h = (data as { hourly?: Record<string, unknown[]> })?.hourly;
+  const times = Array.isArray(h?.time) ? h.time : [];
+  return times.flatMap((time, i) => {
+    const temp = h?.temperature_2m?.[i];
+    const code = h?.weather_code?.[i];
+    const rain = h?.precipitation_probability?.[i];
+    const isDay = h?.is_day?.[i] !== 0;
+    if (typeof time !== "string" || typeof temp !== "number" || typeof code !== "number") return [];
+    return [{ time, temp, code, isDay, rain: typeof rain === "number" && Number.isFinite(rain) ? rain : null }];
+  });
+}
 
 /** A daily value from Open-Meteo, or null — never a guessed number. */
 function firstDaily(data: unknown, key: string): number | null {
@@ -72,7 +107,8 @@ export async function getCityWeather(): Promise<CityWeather[]> {
       try {
         const url =
           `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
-          `&current=temperature_2m,weather_code` +
+          `&current=temperature_2m,weather_code,is_day` +
+          `&hourly=temperature_2m,weather_code,precipitation_probability,is_day&forecast_hours=${NEXT_HOURS + 1}` +
           `&daily=precipitation_probability_max,temperature_2m_max,temperature_2m_min` +
           `&forecast_days=1&timezone=Europe%2FBelgrade`;
         const response = await fetch(url, { next: { revalidate: 1800 } });
@@ -83,17 +119,30 @@ export async function getCityWeather(): Promise<CityWeather[]> {
         const code = data?.current?.weather_code;
         if (typeof tempC !== "number" || typeof code !== "number") return null;
 
-        const rain = firstDaily(data, "precipitation_probability_max");
+        // Hourly starts at the current hour: it and the next six decide the
+        // umbrella; the day's maximum is the fallback when hours are missing.
+        const hours = hourly(data);
+        const nextRain = hours.slice(0, NEXT_HOURS + 1).map((h) => h.rain).filter((r): r is number => r !== null);
+        const rain = nextRain.length ? Math.max(...nextRain) : firstDaily(data, "precipitation_probability_max");
         const high = firstDaily(data, "temperature_2m_max");
         const low = firstDaily(data, "temperature_2m_min");
         return {
           city,
           tempC: Math.round(tempC),
           code,
+          isDay: data?.current?.is_day !== 0,
           label: weatherLabel(code),
           rainChance: rain === null ? null : Math.round(rain),
           highC: high === null ? null : Math.round(high),
           lowC: low === null ? null : Math.round(low),
+          hours: hours.slice(1, HOUR_STRIP + 1).map((h) => ({
+            time: h.time.slice(11, 16),
+            tempC: Math.round(h.temp),
+            code: h.code,
+            isDay: h.isDay,
+            rainChance: h.rain === null ? null : Math.round(h.rain),
+          })),
+          observedAt: typeof data?.current?.time === "string" ? data.current.time.slice(11, 16) : null,
         };
       } catch {
         return null;
