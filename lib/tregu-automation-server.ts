@@ -13,6 +13,7 @@ import { classifyProviderFailure } from "@/lib/tregu-ai-provider.mjs";
 import { DAILY_MARKET_CONTRACT_VERSION } from "@/lib/tregu-daily-market-quality.mjs";
 import { hasPersistedMaterialPairedBinaryChange } from "@/lib/tregu-live-email-content.mjs";
 import { sendTreguLiveNotification } from "@/lib/tregu-live-email";
+import { runLeaderboardPayouts } from "@/lib/tregu-leaderboard-server";
 import { f1DriverHeadshot, f1TeamColor } from "@/lib/f1-driver-presentation";
 
 type AdminClient = NonNullable<ReturnType<typeof createAdminClient>>;
@@ -827,16 +828,21 @@ export async function runLiveSportsAutomation(now = new Date()) {
     runUpcomingBasketballAutomation(now),
     // Expired news markets close and pay here while AI repricing is off.
     runNewsSettlementSweep(now),
+    // Leaderboard prize locks and league settlement. This two-minute
+    // heartbeat is the one the VPS reliably calls, so periods freeze within
+    // minutes of a boundary; the lock is a no-op once a period is recorded.
+    runLeaderboardPayouts(),
   ]);
   const waitMs = Math.max(HEARTBEAT_MIN_WAIT_MS, HEARTBEAT_RESPONSE_BUDGET_MS - (Date.now() - startedAt));
   const settled = await Promise.race([background, new Promise<null>((resolve) => setTimeout(() => resolve(null), waitMs))]);
   if (!settled) {
     const pending = { ok: true, pending: true, reason: "continues_in_background" };
-    return { ...live, news_settlement: pending, f1_template: pending, football_template: pending, basketball_template: pending, f1_championship: pending };
+    return { ...live, news_settlement: pending, f1_template: pending, football_template: pending, basketball_template: pending, f1_championship: pending, leaderboard: pending };
   }
-  const [f1Template, footballTemplate, f1Championship, basketballTemplate, newsSettlement] = settled;
+  const [f1Template, footballTemplate, f1Championship, basketballTemplate, newsSettlement, leaderboard] = settled;
   return {
     ...live,
+    leaderboard: leaderboard.status === "fulfilled" ? leaderboard.value : { ok: false, error: reasonText(leaderboard.reason) },
     news_settlement: newsSettlement.status === "fulfilled" ? newsSettlement.value : { ok: false, error: reasonText(newsSettlement.reason) },
     f1_template: f1Template.status === "fulfilled"
       ? f1Template.value
