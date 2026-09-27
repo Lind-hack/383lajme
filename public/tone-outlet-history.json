@@ -1699,9 +1699,9 @@
     },
     "LAOLA1": {
       "country": "Austri",
-      "total": 9,
+      "total": 10,
       "positive": 1,
-      "neutral": 8,
+      "neutral": 9,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-25",
@@ -1715,7 +1715,8 @@
         "https://www.laola1.at/de/red/fussball/nations-league/spielbericht/erfolgreicher-auftakt-fuer-foda--kosovo-schlaegt-irland/",
         "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/hintergrund/deine-oefb-startelf-gegen-kosovo---stimme-ab-/",
         "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/news/rangnick--das-wird-nochmal-schwieriger-/",
-        "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/news/dieser-tv-sender-zeigt-oesterreich-gegen-kosovo/"
+        "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/news/dieser-tv-sender-zeigt-oesterreich-gegen-kosovo/",
+        "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/news/nations-league-heute-live--oesterreich---kosovo/"
       ]
     },
     "heute.at": {
@@ -1733,9 +1734,9 @@
     },
     "Kronen Zeitung": {
       "country": "Austri",
-      "total": 14,
+      "total": 15,
       "positive": 0,
-      "neutral": 11,
+      "neutral": 12,
       "negative": 0,
       "unknown": 3,
       "firstSeen": "2026-08-25",
@@ -1754,7 +1755,8 @@
         "https://www.krone.at/4310789",
         "https://www.krone.at/4311050",
         "https://www.krone.at/4310698",
-        "https://www.krone.at/4311207"
+        "https://www.krone.at/4311207",
+        "https://www.krone.at/4311370"
       ]
     },
     "Heute": {
@@ -1825,13 +1827,13 @@
     },
     "Kicker": {
       "country": "Zvicër",
-      "total": 17,
+      "total": 18,
       "positive": 0,
-      "neutral": 16,
+      "neutral": 17,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-09-26",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.kicker.de/kosovo-gegen-aegypten-2026-mittelmeerspiele-5262180/ergebnis",
         "https://www.kicker.de/portugal-gegen-kosovo-2026-mittelmeerspiele-5262186/ergebnis",
@@ -1849,7 +1851,8 @@
         "https://www.kicker.de/jungwirth-vor-debuet-oesterreich-gegen-kosovo-mit-neuling-im-tor-1256141/artikel",
         "https://www.kicker.at/wer-uebertraegt-oesterreich-gegen-kosovo-live-im-tv-stream-1255838/artikel",
         "https://www.kicker.at/rangnick-kosovo-partie-nochmal-schwieriger-als-duell-mit-israel-1256154/artikel",
-        "https://www.kicker.de/schlager-oefb-kapitaen-gegen-den-kosovo-jeder-muss-vorangehen-1256179/artikel"
+        "https://www.kicker.de/schlager-oefb-kapitaen-gegen-den-kosovo-jeder-muss-vorangehen-1256179/artikel",
+        "https://www.kicker.de/zawieschitzky-gegen-kosovo-oesterreichs-juengster-teamtorhueter-seit-81-jahren-1256376/artikel"
       ]
     },
     "infodifesa": {
@@ -2414,16 +2417,17 @@
     },
     "Virgilio Sport": {
       "country": "Itali",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-28",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://sport.virgilio.it/giochi-del-mediterraneo-miracolo-italia-3-0-al-96-al-kosovo-e-semifinale-centrata-per-un-gol-in-piu-in-differenza-reti-sull-albania-968926",
-        "https://sport.virgilio.it/dirette/live/uefa-nations-league/24-9-2026/kosovo-irlanda/2626886/"
+        "https://sport.virgilio.it/dirette/live/uefa-nations-league/24-9-2026/kosovo-irlanda/2626886/",
+        "https://sport.virgilio.it/dirette/live/uefa-nations-league/27-9-2026/austria-kosovo/2626910/"
       ]
     },
     "Remocontro": {
@@ -5387,16 +5391,17 @@
     },
     "n-tv.de": {
       "country": "Gjermani",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-16",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.n-tv.de/politik/Sondertribunal-verurteilt-Kosovos-Ex-Praesident-wegen-Kriegsverbrechen-id31311914.html",
-        "https://www.n-tv.de/mediathek/videos/politik/Thaci-nimmt-Kriegsverbrecher-Urteil-regungslos-entgegen-id31313883.html"
+        "https://www.n-tv.de/mediathek/videos/politik/Thaci-nimmt-Kriegsverbrecher-Urteil-regungslos-entgegen-id31313883.html",
+        "https://www.n-tv.de/ticker/Polizei-im-Kosovo-nimmt-neun-Serben-fest-id31353346.html"
       ]
     },
     "RP Online": {
@@ -6018,17 +6023,18 @@
     },
     "La Repubblica": {
       "country": "Itali",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.repubblica.it/esteri/2026/09/16/video/kosovo_thaci_sentenza_laia_condanna_25_anni-425589200/",
         "https://www.repubblica.it/esteri/2026/09/16/news/guerre_balcani_tensione_sentenza_ex_leader_dell_uck_thaci-425587897/",
-        "https://www.repubblica.it/sport/dirette/calcio/uefa-nations-league-2026/diretta-kosovo-irlanda-g2626886/"
+        "https://www.repubblica.it/sport/dirette/calcio/uefa-nations-league-2026/diretta-kosovo-irlanda-g2626886/",
+        "https://www.repubblica.it/sport/dirette/calcio/uefa-nations-league-2026/diretta-austria-kosovo-g2626910/"
       ]
     },
     "Amnesty International Italia": {
@@ -6310,9 +6316,9 @@
     },
     "sport.ORF.at": {
       "country": "Austri",
-      "total": 12,
+      "total": 13,
       "positive": 1,
-      "neutral": 11,
+      "neutral": 12,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
@@ -6329,7 +6335,8 @@
         "https://sport.orf.at/av/video/sportVideo15250",
         "https://sport.orf.at/av/video/onDemandVideoSport69530",
         "https://sport.orf.at/stories/3162846/",
-        "https://sport.orf.at/av/video/onDemandVideoSport69568"
+        "https://sport.orf.at/av/video/onDemandVideoSport69568",
+        "https://sport.orf.at/stories/3162876/"
       ]
     },
     "Der Standard": {
@@ -8602,17 +8609,18 @@
     },
     "Sky Sport": {
       "country": "Itali",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-23",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-1/kosovo-irlanda",
         "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-1/kosovo-irlanda/risultato-gol",
-        "https://sport.sky.it/calcio/nations-league/2026/09/24/nations-league-partite-oggi-24-settembre-dove-vedere"
+        "https://sport.sky.it/calcio/nations-league/2026/09/24/nations-league-partite-oggi-24-settembre-dove-vedere",
+        "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-2/austria-kosovo/risultato-gol"
       ]
     },
     "Abruzzo Web": {
@@ -8643,16 +8651,17 @@
     },
     "Ligaportal": {
       "country": "Austri",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-23",
-      "lastSeen": "2026-09-26",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.ligaportal.at/international/uefa-nations-league/94054-kosovo-ex-laskler-und-zwei-weitere-spieler-mit-ruecktritt-fuer-foda-vor-duell-gegen-oefb-team",
-        "https://www.ligaportal.at/international/uefa-nations-league/94144-oefb-teamchef-ralf-rangnick-hofft-gegen-kosovo-auf-ein-heimspiel"
+        "https://www.ligaportal.at/international/uefa-nations-league/94144-oefb-teamchef-ralf-rangnick-hofft-gegen-kosovo-auf-ein-heimspiel",
+        "https://www.ligaportal.at/international/uefa-nations-league/94142-aufstellung-so-beginnt-das-oefb-team-gegen-den-kosovo"
       ]
     },
     "Betarades": {
@@ -9755,15 +9764,16 @@
     },
     "Paris Sportifs LeFigaro": {
       "country": "Francë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-26",
       "lastSeen": "2026-09-26",
       "urls": [
-        "https://paris-sportifs.lefigaro.fr/pronostics/autriche-kosovo-27-09-2026/"
+        "https://paris-sportifs.lefigaro.fr/pronostics/autriche-kosovo-27-09-2026/",
+        "https://paris-sportifs.lefigaro.fr/pronostics/kosovo-republique-dirlande-24-09-2026/"
       ]
     },
     "forli24ore.it": {
@@ -10110,6 +10120,32 @@
       "lastSeen": "2026-09-27",
       "urls": [
         "https://12termann.at/oefb/nationalteam/rangnick-verraet-oesterreich-startet-gegen-den-kosovo-mit-jungem-keeper-im-tor/"
+      ]
+    },
+    "LigaInsider": {
+      "country": "Gjermani",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-27",
+      "lastSeen": "2026-09-27",
+      "urls": [
+        "https://www.ligainsider.de/albian-hajdari_37227/hajdari-fehlt-dem-kosovo-verletzungsbedingt-418513/"
+      ]
+    },
+    "Le Télégramme": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-27",
+      "lastSeen": "2026-09-27",
+      "urls": [
+        "https://www.letelegramme.fr/monde/neuf-serbes-arretes-au-kosovo-sur-des-suspicions-de-crimes-de-guerre-7126092.php"
       ]
     }
   }

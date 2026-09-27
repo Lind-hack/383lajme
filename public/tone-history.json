@@ -9946,8 +9946,8 @@
   {
     "date": "2026-09-27",
     "overallIndex": 51,
-    "totalArticles": 168,
-    "sourceCount": 176,
+    "totalArticles": 184,
+    "sourceCount": 179,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -9955,7 +9955,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 21,
+        "n": 24,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -9971,11 +9971,11 @@
         "stanceVersion": 3
       },
       "Britani": {
-        "index": 57,
-        "positive": 14,
-        "neutral": 86,
+        "index": 56,
+        "positive": 12,
+        "neutral": 88,
         "negative": 0,
-        "n": 7,
+        "n": 8,
         "excluded": 9,
         "confident": true,
         "stanceVersion": 3
@@ -9985,19 +9985,19 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
+        "n": 9,
         "excluded": 10,
         "confident": true,
         "stanceVersion": 3
       },
       "Itali": {
         "index": 53,
-        "positive": 7,
-        "neutral": 93,
+        "positive": 5,
+        "neutral": 95,
         "negative": 0,
-        "n": 15,
+        "n": 19,
         "excluded": 23,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "Austri": {
@@ -10005,17 +10005,17 @@
         "positive": 2,
         "neutral": 95,
         "negative": 2,
-        "n": 83,
+        "n": 88,
         "excluded": 16,
         "confident": true,
         "stanceVersion": 3
       },
       "Zvicër": {
-        "index": 59,
-        "positive": 18,
-        "neutral": 82,
+        "index": 58,
+        "positive": 17,
+        "neutral": 83,
         "negative": 0,
-        "n": 17,
+        "n": 18,
         "excluded": 10,
         "confident": true,
         "stanceVersion": 3
