@@ -49,7 +49,7 @@ import MobileTradeSheet, {
 } from "@/components/tregu/mobile-trade-sheet";
 import { normalizeCategory } from "@/lib/category-map";
 import StickyMarketBack from "@/components/tregu/sticky-market-back";
-import { primeTradeSuccessSound, resolveTradeSuccessSoundProfile } from "@/components/tregu/trade-success-sound";
+import { primeSellSound, primeTradeSuccessSound, resolveTradeSuccessSoundProfile } from "@/components/tregu/trade-success-sound";
 import { buildFootballMetricRows } from "@/lib/tregu-market-detail.mjs";
 import { buildBasketballMetricRows } from "@/lib/basketball-stats.mjs";
 import { formatKosovoDate } from "@/lib/tregu-local-time.mjs";
@@ -635,6 +635,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
       setTradeMsg({ ok: false, text: "Ky treg është mbyllur." });
       return;
     }
+    // Still inside the click: unlock audio so the sell chime can play once the
+    // sale comes back from the server.
+    if (mode === "sell") primeSellSound();
     if (mode === "buy") {
       const identity = `${market.live_event?.sport ?? ""} ${market.live_event?.league ?? ""} ${market.market_type ?? ""}`.toLowerCase();
       const successSportTheme = f1 || /formula|\bf1\b|racing/.test(identity)

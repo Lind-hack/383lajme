@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Navbar from "@/components/navbar";
 import CoinFace from "@/components/tregu/coin-face";
 import SellSuccess, { type SellReceipt } from "@/components/tregu/sell-success";
+import { primeSellSound } from "@/components/tregu/trade-success-sound";
 import { fmtNum } from "@/lib/format";
 import { createClient } from "@/lib/supabase/client";
 import { formatKosovoDate } from "@/lib/tregu-local-time.mjs";
@@ -122,7 +123,7 @@ export default function PortofoliPage() {
   const [sellReceipt, setSellReceipt] = useState<SellReceipt | null>(null);
   const sellAll = async (position: Position, coins?: number, all?: boolean) => {
     if (coins === undefined && !all) { setConfirmSell(current => current === position.id ? null : position.id); return; }
-    setSelling(position.id); setMessage(null);
+    primeSellSound(); setSelling(position.id); setMessage(null);
     try {
       const response = await fetch("/api/tregu/sell", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ marketId: position.market_id, side: position.side, coins, sellAll: all === true }) });
       const result = await response.json();

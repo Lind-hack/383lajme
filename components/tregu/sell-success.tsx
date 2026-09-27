@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { Check, X } from "lucide-react";
 import { fmtNum } from "@/lib/format";
+import { playSellSound } from "@/components/tregu/trade-success-sound";
 
 export interface SellReceipt {
   /** What was sold: "PO", a club, a driver. */
@@ -50,6 +51,7 @@ export default function SellSuccess({
 
   useEffect(() => {
     if (!receipt) return;
+    void playSellSound();
     arm();
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") dismissRef.current();

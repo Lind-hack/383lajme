@@ -277,3 +277,76 @@ export async function playTradeSuccessSound(profile: TradeSuccessSoundProfile = 
   // Never substitute the retired generated sport cues. A failed recording
   // request should be silent rather than make a successful trade sound stale.
 }
+
+/**
+ * The sell confirmation: a soft tap, then two bright bell notes a fourth apart
+ * (E6 → A6). An original cue in the spirit of a payment chime — coins came back
+ * — synthesized here, so it needs no asset and cannot fail to load.
+ *
+ * The sale awaits a network round-trip, and mobile browsers only let audio
+ * start inside a user gesture, so the sell button calls primeSellSound() in its
+ * click handler and the confirmation plays the cue once the sale succeeds.
+ */
+export function primeSellSound() {
+  const context = getAudioContext();
+  if (!context || document.hidden) return;
+  if (context.state === "suspended") void context.resume().catch(() => undefined);
+}
+
+function bell(context: AudioContext, output: AudioNode, frequency: number, start: number, decay: number, level: number) {
+  // Fundamental, octave and one inharmonic partial: the partial is what makes
+  // it ring like metal rather than beep like a tone generator.
+  [
+    [1, 1, "sine"],
+    [2, 0.28, "sine"],
+    [2.76, 0.12, "sine"],
+  ].forEach(([ratio, weight, type]) => {
+    const oscillator = context.createOscillator();
+    const voice = context.createGain();
+    oscillator.type = type as OscillatorType;
+    oscillator.frequency.setValueAtTime(frequency * (ratio as number), start);
+    const partialDecay = decay / (ratio as number);
+    voice.gain.setValueAtTime(0.0001, start);
+    voice.gain.exponentialRampToValueAtTime(level * (weight as number), start + 0.006);
+    voice.gain.exponentialRampToValueAtTime(0.0001, start + partialDecay);
+    oscillator.connect(voice);
+    voice.connect(output);
+    oscillator.start(start);
+    oscillator.stop(start + partialDecay + 0.02);
+  });
+}
+
+export async function playSellSound() {
+  const context = getAudioContext();
+  if (!context || document.hidden) return;
+  if (context.state === "suspended") {
+    try {
+      await context.resume();
+    } catch {
+      return;
+    }
+  }
+
+  const start = context.currentTime + 0.015;
+  const master = context.createGain();
+  master.gain.setValueAtTime(0.3, start);
+  master.connect(context.destination);
+
+  // The tap: 14ms of filtered noise, like a card touching the reader.
+  const tap = context.createBufferSource();
+  const tapFilter = context.createBiquadFilter();
+  const tapGain = context.createGain();
+  tap.buffer = noiseBuffer(context, 0.03);
+  tapFilter.type = "highpass";
+  tapFilter.frequency.setValueAtTime(4200, start);
+  tapGain.gain.setValueAtTime(0.35, start);
+  tapGain.gain.exponentialRampToValueAtTime(0.0001, start + 0.014);
+  tap.connect(tapFilter);
+  tapFilter.connect(tapGain);
+  tapGain.connect(master);
+  tap.start(start);
+  tap.stop(start + 0.03);
+
+  bell(context, master, 1318.51, start + 0.05, 0.45, 0.9);
+  bell(context, master, 1760, start + 0.15, 0.75, 1);
+}
