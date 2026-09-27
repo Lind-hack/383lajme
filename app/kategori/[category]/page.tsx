@@ -7,6 +7,7 @@ import { getCategoryColor, getCategoryGradient, CATEGORY_LIGHT_BG } from "@/lib/
 import { resolveCategoryFigures } from "@/lib/category-figures";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
+import CategoryRail from "@/components/category-rail";
 import CategoryBanner from "@/components/category-banner";
 import HeroDispatch from "@/components/hero-dispatch";
 import NewsGrid from "@/components/news-grid";
@@ -77,7 +78,8 @@ export default async function CategoryPage({
       <TextureBg />
       <Navbar />
 
-      <div style={{ paddingTop: "64px", position: "relative", zIndex: 1 }}>
+      <div style={{ paddingTop: "var(--nav-h)", position: "relative", zIndex: 1 }}>
+        <CategoryRail active={categoryName} />
         <CategoryBanner
           categoryName={categoryName}
           from={gradFrom}

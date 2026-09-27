@@ -15,6 +15,7 @@ import ArticleAsk from "@/components/article-ask";
 import { toParagraphs, readingMinutes } from "@/lib/article-body.mjs";
 import CategoryAccordion from "@/components/category-accordion";
 import SectionLabel from "@/components/section-label";
+import CategoryRail from "@/components/category-rail";
 import StoryList from "@/components/story-list";
 import { CATEGORY_TO_SLUG, normalizeCategory } from "@/lib/category-map";
 import type { AccordionSlide } from "@/components/image-accordion";
@@ -42,11 +43,12 @@ export default function ArticleContent({ article, related, moreFromCategory = []
       style={{
         position: "relative",
         zIndex: 1,
-        paddingTop: "80px",
+        paddingTop: "var(--nav-h)",
         background: "#F9F6F1",
         minHeight: "100vh",
       }}
     >
+      <CategoryRail active={article.category} />
       <div style={{ height: "4px", background: catColor, width: "100%" }} />
 
       <div

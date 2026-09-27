@@ -710,7 +710,7 @@ body {
 .nav-scroll-wrap::before { left: 0; background: linear-gradient(to right, #F9F6F1, transparent); }
 .nav-scroll-wrap::after { right: 0; background: linear-gradient(to left, #F9F6F1, transparent); }
 
-/* Desktop: Kosovo+auth pinned right (outside scroll) */
+/* Desktop: auth pinned right (outside scroll) */
 .nav-auth-desktop {
   display: flex;
   align-items: center;
@@ -747,7 +747,6 @@ body {
    full-screen video its ink elements flip to white. !important is needed
    to beat the inline styles on these elements. */
 header[data-overlay] .nav-pill::after { background: #FFFFFF; }
-header[data-overlay] .kosovo-tag { color: rgba(255, 255, 255, 0.85) !important; }
 header[data-overlay] .nav-tregu-link {
   color: #FFFFFF;
   background: rgba(255, 255, 255, 0.15);
@@ -19028,55 +19027,176 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 header[data-overlay] .nav-pill--primary { color: rgba(255, 255, 255, 0.92); }
 header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 
-.nav-cats { position: relative; flex-shrink: 0; }
-.nav-cats > summary {
-  list-style: none;
+/* ── Right-hand pills: Tregu (live markets) and Pyet Dardanin (Pyet 383).
+   Same height as the search button so the row keeps one baseline. On a phone
+   Dardan folds to the mascot alone and Tregu keeps its dot and word. */
+.nav-tregu-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00A651;
+  box-shadow: 0 0 0 0 rgba(0, 166, 81, 0.7);
+  animation: tregu-pulse 2s infinite;
+  flex-shrink: 0;
+}
+.nav-dardan {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  min-height: 40px;
-  padding: 0 12px;
+  gap: 8px;
+  min-height: 42px;
+  padding: 4px 15px 4px 4px;
+  flex-shrink: 0;
+  border: 0;
   border-radius: 100px;
-  font-size: 15px;
-  font-weight: 700;
-  color: #44413D;
+  background: #FF4422;
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  white-space: nowrap;
   cursor: pointer;
+  box-shadow: 0 1px 2px rgba(204, 51, 20, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.nav-dardan img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85);
+}
+.nav-dardan:focus-visible,
+.nav-tregu-link:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 2px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .nav-dardan:hover { background: #E63C1B; transform: translateY(-1px); }
+}
+.nav-dardan:active { transform: scale(0.97); }
+.nav-right-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+@media (max-width: 768px) {
+  .nav-right-pills { gap: 6px; }
+  .nav-right-pills .nav-tregu-link { min-height: 38px; padding: 7px 12px; font-size: 13px; }
+  .nav-dardan { min-height: 38px; padding: 3px; }
+  .nav-dardan img { width: 32px; height: 32px; }
+  .nav-dardan-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+@media (max-width: 359px) {
+  /* The narrowest phones: Tregu keeps its dot, drops the word. */
+  .nav-right-pills .nav-tregu-link { padding: 7px 10px; }
+  .nav-tregu-word { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-tregu-dot { animation: none; }
+  .nav-dardan { transition: none; }
+}
+
+/* ── Category rail — the seven sections as icon cards (components/category-rail).
+   Aligned to the navbar's container and gutter so its edges match the header's;
+   centred on desktop, a snapping swipe row on a phone with a fade that says
+   "more this way" without an arrow. */
+.cat-rail {
+  position: relative;
+  z-index: 2;
+  background: #F9F6F1;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.07);
+}
+.cat-rail-list {
+  list-style: none;
+  margin: 0 auto;
+  max-width: 1500px;
+  padding: 12px clamp(20px, 2vw, 32px);
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.cat-rail-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  width: 96px;
+  padding: 10px 6px 9px;
+  border: 1px solid rgba(17, 17, 17, 0.07);
+  border-radius: 14px;
+  background: #FFFFFF;
+  color: #2A2723;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgba(17, 17, 17, 0.04);
+  transition: transform 160ms var(--ease-out), border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+}
+.cat-rail-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  color: var(--cat);
+  background: color-mix(in srgb, var(--cat) 10%, #FFFFFF);
+  transition: background-color 160ms var(--ease-out);
+}
+.cat-rail-shape {
+  width: 24px;
+  height: 24px;
+  background: var(--cat);
+  -webkit-mask: var(--shape) center / contain no-repeat;
+  mask: var(--shape) center / contain no-repeat;
+}
+.cat-rail-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.005em;
   white-space: nowrap;
 }
-.nav-cats > summary::-webkit-details-marker { display: none; }
-.nav-cats > summary:hover { color: #FF4422; }
-.nav-cats[open] > summary { color: #FF4422; }
-.nav-cats-menu {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  z-index: 60;
-  min-width: 200px;
-  display: grid;
-  gap: 2px;
-  padding: 8px;
-  background: #FFFFFF;
-  border: 1px solid #E8E3DB;
-  border-radius: 14px;
-  box-shadow: 0 16px 40px rgba(17,17,17,0.12);
+@media (hover: hover) and (pointer: fine) {
+  .cat-rail-item:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--cat) 35%, transparent);
+    box-shadow: 0 6px 16px rgba(17, 17, 17, 0.07);
+  }
+  .cat-rail-item:hover .cat-rail-icon { background: color-mix(in srgb, var(--cat) 16%, #FFFFFF); }
 }
-.nav-cats-menu a {
-  display: block;
-  padding: 10px 12px;
-  border-radius: 9px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #111111;
-  text-decoration: none;
+.cat-rail-item:active { transform: scale(0.97); }
+.cat-rail-item:focus-visible { outline: 2px solid var(--cat); outline-offset: 2px; }
+.cat-rail-item[aria-current="page"] {
+  border-color: var(--cat);
+  box-shadow: inset 0 0 0 1px var(--cat);
 }
-.nav-cats-menu a:hover { background: #F9F6F1; }
-.nav-cats-menu a[aria-current="page"] { color: #FF4422; font-weight: 800; }
-
-header[data-overlay="true"] .nav-cats > summary { color: rgba(255,255,255,0.92); }
-
-@media (max-width: 768px) {
-  /* The dropdown is desktop chrome; on a phone the side panel owns browsing. */
-  .nav-cats { display: none; }
+.cat-rail-item[aria-current="page"] .cat-rail-label { color: color-mix(in srgb, var(--cat) 80%, #111111); }
+/* Compact cards once the full-size row (~800px) no longer fits; still centred. */
+@media (max-width: 820px) {
+  .cat-rail-list { gap: 8px; padding: 10px 16px; }
+  .cat-rail-item { width: 78px; padding: 8px 4px 7px; gap: 6px; border-radius: 12px; }
+  .cat-rail-icon { width: 38px; height: 38px; border-radius: 10px; }
+  .cat-rail-label { font-size: 11.5px; }
+}
+/* Below ~640px seven compact cards cannot fit: a snapping swipe row. */
+@media (max-width: 640px) {
+  .cat-rail-list {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: 16px;
+    /* The right padding matches the fade, so the last card clears it at the end. */
+    padding: 10px 28px 10px 16px;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+  }
+  .cat-rail-list::-webkit-scrollbar { display: none; }
+  .cat-rail-list > li { scroll-snap-align: start; flex-shrink: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cat-rail-item, .cat-rail-icon { transition: none; }
+  .cat-rail-item:hover, .cat-rail-item:active { transform: none; }
 }
 
 /* ────────────────────────────────────────────────────────────────────────────

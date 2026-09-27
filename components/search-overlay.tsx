@@ -86,9 +86,12 @@ const EMPTY: Payload = {
 export default function SearchOverlay({
   open,
   onClose,
+  initialMode = "kerko",
 }: {
   open: boolean;
   onClose: () => void;
+  /** The tab it opens on: the navbar's Pyet Dardanin pill opens straight to Pyet. */
+  initialMode?: "kerko" | "pyet";
 }) {
   const [mounted, setMounted] = useState(false);
   const [query, setQuery] = useState("");
@@ -130,13 +133,15 @@ export default function SearchOverlay({
   }, [open]);
 
   useEffect(() => {
-    if (!open) {
+    if (open) {
+      setMode(initialMode);
+    } else {
       setQuery("");
       setData(EMPTY);
       setActive(0);
       setMode("kerko");
     }
-  }, [open]);
+  }, [open, initialMode]);
 
   // Debounced fetch. The abort matters: without it a slow early request can
   // land after a fast later one and overwrite newer results with older.

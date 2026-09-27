@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ChevronDown, MapPin, Search } from "lucide-react";
+import Image from "next/image";
+import { Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { EASE, DUR } from "@/lib/tokens";
 import UserMenu from "./user-menu";
@@ -25,8 +26,8 @@ export const NAV_LINKS = NAV_CATEGORIES.map(({ label, slug }) => ({
 /**
  * The site's destinations. The navbar used to be the seven news categories,
  * which answered "what kind of story?" while a newcomer was still asking "what
- * is this site?". Categories move into the dropdown at the end of the row —
- * one level down, where browsing belongs.
+ * is this site?". The categories now sit in their own icon row under the
+ * header (components/category-rail), and Tregu has its live pill on the right.
  *
  * Sot and Për ty sit side by side: the shared view of today and the reader's
  * own, always one tap apart, and the public homepage is never silently
@@ -36,27 +37,25 @@ export const PRIMARY_NAV = [
   { label: "Sot", href: "/" },
   { label: "Për ty", href: "/per-ty" },
   { label: "Bota për Kosovën", href: "/bota-per-kosoven" },
-  { label: "Tregu", href: "/tregu" },
   { label: "Diaspora", href: "/visit" },
 ] as const;
 
-export function KosovoTag() {
+/**
+ * Tregu with its live dot, and the Pyet Dardanin pill, which opens Pyet 383
+ * with the mascot. Shown in both the full and the collapsed header; on a phone
+ * Dardan folds to the mascot alone (globals.css, .nav-right-pills).
+ */
+function RightPills({ treguActive, onAsk }: { treguActive: boolean; onAsk: () => void }) {
   return (
-    <div
-      className="kosovo-tag"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "6px",
-        color: "#44413D",
-        fontSize: "13px",
-        fontWeight: 800,
-        letterSpacing: "0.07em",
-        whiteSpace: "nowrap",
-      }}
-    >
-      <MapPin size={15} strokeWidth={2.5} color="#FF4422" />
-      <span>KOSOVË</span>
+    <div className="nav-right-pills">
+      <Link href="/tregu" className="nav-tregu-link" data-active={treguActive ? "true" : undefined}>
+        <span className="nav-tregu-dot" aria-hidden="true" />
+        <span className="nav-tregu-word">Tregu</span>
+      </Link>
+      <button type="button" className="nav-dardan" onClick={onAsk} aria-haspopup="dialog">
+        <Image src="/images/dardan/avatar.webp" alt="" width={34} height={34} priority />
+        <span className="nav-dardan-label">Pyet Dardanin</span>
+      </button>
     </div>
   );
 }
@@ -69,12 +68,14 @@ export default function Navbar() {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchMode, setSearchMode] = useState<"kerko" | "pyet">("kerko");
   const pathname = usePathname();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
+        setSearchMode("kerko");
         setSearchOpen(true);
       }
     };
@@ -94,13 +95,13 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [pathname]);
 
-  // Below 768px the inline category row can't fit alongside the logo, so the
-  // collapsed hamburger layout is used regardless of scroll position — the
-  // full nav previously only collapsed on scroll, which left mobile visitors
-  // with a clipped, non-obviously-scrollable category row and no way to
-  // reach login/signup until they scrolled 80px.
+  // Up to 1024px the compact header is used regardless of scroll: the Tregu
+  // and Pyet Dardanin pills plus sign-in leave too little room for the
+  // destination links, which were clipped mid-word at tablet widths. Phones
+  // always got this layout; before it they had a clipped, non-obviously
+  // scrollable row and no way to reach login/signup until they scrolled 80px.
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 768px)");
+    const mq = window.matchMedia("(max-width: 1024px)");
     const onChange = () => setIsMobile(mq.matches);
     onChange();
     mq.addEventListener("change", onChange);
@@ -112,6 +113,11 @@ export default function Navbar() {
   // the user scrolls: transparent background, ink text flipped to white
   // (color overrides live in globals.css under header[data-overlay]).
   const overlay = pathname === "/tregu" && heroUp;
+  const treguActive = Boolean(pathname?.startsWith("/tregu"));
+  const openSearch = (mode: "kerko" | "pyet") => {
+    setSearchMode(mode);
+    setSearchOpen(true);
+  };
 
   return (
     <header
@@ -196,6 +202,7 @@ export default function Navbar() {
             >
               {/* Spacer pushes the controls to the right */}
               <div style={{ flex: 1, minWidth: 0 }} />
+              <RightPills treguActive={treguActive} onAsk={() => openSearch("pyet")} />
               {/* Search survives the collapse. It is the one thing that can
                   stand in for the categories that just disappeared, so burying
                   it inside the hamburger would cost the most at exactly the
@@ -203,9 +210,9 @@ export default function Navbar() {
               <button
                 type="button"
                 className="nav-search-btn"
-                onClick={() => setSearchOpen(true)}
+                onClick={() => openSearch("kerko")}
                 aria-label="Kërko"
-                style={{ marginRight: "8px" }}
+                style={{ margin: "0 8px" }}
               >
                 <Search size={19} strokeWidth={2.5} aria-hidden="true" />
               </button>
@@ -274,43 +281,22 @@ export default function Navbar() {
                   );
                 })}
 
-                {/* Categories, one level down. A native <details> rather than a
-                    hand-rolled menu: it opens on click, closes on Escape, is
-                    keyboard-operable and works before hydration. */}
-                <details className="nav-cats">
-                  <summary aria-label="Kategoritë">
-                    Kategoritë
-                    <ChevronDown size={15} strokeWidth={2.4} aria-hidden="true" />
-                  </summary>
-                  <div className="nav-cats-menu">
-                    {NAV_LINKS.map((link) => (
-                      <Link
-                        key={link.href}
-                        href={link.href}
-                        aria-current={
-                          pathname?.startsWith(link.href) ? "page" : undefined
-                        }
-                      >
-                        {link.label}
-                      </Link>
-                    ))}
-                  </div>
-                </details>
               </div>
 
               <button
                 type="button"
                 className="nav-search-btn"
-                onClick={() => setSearchOpen(true)}
+                onClick={() => openSearch("kerko")}
                 aria-label="Kërko"
                 title="Kërko  ⌘K"
               >
                 <Search size={19} strokeWidth={2.5} aria-hidden="true" />
               </button>
 
-              {/* Desktop only: Kosovo + auth pinned right (mobile auth now lives in the side panel) */}
+              <RightPills treguActive={treguActive} onAsk={() => openSearch("pyet")} />
+
+              {/* Desktop only: auth pinned right (mobile auth lives in the side panel) */}
               <div className="nav-auth-desktop">
-                <KosovoTag />
                 <NavBalance />
                 <UserMenu />
               </div>
@@ -320,7 +306,7 @@ export default function Navbar() {
       </div>
 
       <NavSidePanel open={menuOpen} onClose={() => setMenuOpen(false)} />
-      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+      <SearchOverlay open={searchOpen} initialMode={searchMode} onClose={() => setSearchOpen(false)} />
       <CoinToast />
     </header>
   );

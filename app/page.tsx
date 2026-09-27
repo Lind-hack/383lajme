@@ -4,6 +4,7 @@ import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
 import Navbar from "@/components/navbar";
 import BreakingBar from "@/components/home/breaking-bar";
+import CategoryRail from "@/components/category-rail";
 import DispatchRow from "@/components/dispatch-row";
 import KryesoreFront, { MostReadRail } from "@/components/kryesore-front";
 import DispatchList from "@/components/dispatch-list";
@@ -292,6 +293,7 @@ export default async function HomePage() {
             }))}
           weather={cityWeather[0] ?? null}
         />
+        <CategoryRail />
       </div>
 
       {/* Kryesore now opens the editorial page instead of arriving after utility modules. */}
