@@ -9942,5 +9942,198 @@
         "sentiment": "negative"
       }
     ]
+  },
+  {
+    "date": "2026-09-27",
+    "overallIndex": 51,
+    "totalArticles": 168,
+    "sourceCount": 176,
+    "stanceVersion": 3,
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 21,
+        "excluded": 1,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "SHBA": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Britani": {
+        "index": 57,
+        "positive": 14,
+        "neutral": 86,
+        "negative": 0,
+        "n": 7,
+        "excluded": 9,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Francë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 7,
+        "excluded": 10,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Itali": {
+        "index": 53,
+        "positive": 7,
+        "neutral": 93,
+        "negative": 0,
+        "n": 15,
+        "excluded": 23,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Austri": {
+        "index": 50,
+        "positive": 2,
+        "neutral": 95,
+        "negative": 2,
+        "n": 83,
+        "excluded": 16,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Zvicër": {
+        "index": 59,
+        "positive": 18,
+        "neutral": 82,
+        "negative": 0,
+        "n": 17,
+        "excluded": 10,
+        "confident": true,
+        "stanceVersion": 3
+      },
+      "Holandë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 10,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Belgjikë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Spanjë": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 4,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Greqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 5,
+        "excluded": 20,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Suedi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 7,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 30,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Turqi": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 1,
+        "excluded": 19,
+        "confident": false,
+        "stanceVersion": 3
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 3
+      }
+    },
+    "headlines": [
+      {
+        "title": "Jahrestag von Banjska: Ist es damit endgültig vorbei mit „Kosovo ist Serbien“? - vreme.com",
+        "source": "vreme.com",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://vreme.com/de/vesti/godisnjica-banjske-da-li-je-tada-definitivno-zavrseno-sa-kosovo-je-srbija/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "NATO Secretary General visits Iowa Guard, highlights Kosovo partnership - army.mil",
+        "source": "army.mil",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.army.mil/article/295626/nato_secretary_general_visits_iowa_guard_highlights_kosovo_partnership",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo 1-0 Republic of Ireland: Vedat Muriqi header lifts hosts to deserved Nations League win - BBC",
+        "source": "BBC",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.bbc.co.uk/sport/football/live/ck790jyljq4vt",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Ireland Player Ratings As Heimir's Men Hugely Underwhelming In Poor Kosovo Loss - Balls.ie",
+        "source": "Balls.ie",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://www.balls.ie/football/ireland-player-ratings-as-heimirs-men-hugely-underwhelming-in-poor-kosovo-loss-663820",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
