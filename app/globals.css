@@ -21042,15 +21042,43 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   }
   .cat-hero-title { text-align: left; padding-top: 16px; }
 }
-@media (min-width: 641px) and (hover: hover) and (pointer: fine) {
-  .cat-rail-item:hover {
-    transform: none;
-    box-shadow: none;
-    background: color-mix(in srgb, var(--cat) 8%, transparent);
+/* Chip hover, wider than a phone: a tinted pill grows out from behind the
+   chip (a ::before, so nothing reflows), the icon lifts and tips a few
+   degrees, the word takes the section colour. Only transform and opacity
+   animate. The press settles back down; the current chip keeps its fill. */
+@media (min-width: 641px) {
+  .cat-rail-item { position: relative; isolation: isolate; }
+  .cat-rail-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: color-mix(in srgb, var(--cat) 10%, transparent);
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 180ms var(--ease-out), transform 260ms cubic-bezier(0.34, 1.4, 0.64, 1);
   }
+  .cat-rail[data-variant="hero"] .cat-rail-item::before { background: rgba(255, 255, 255, 0.18); }
+  .cat-rail-icon { transition: transform 260ms cubic-bezier(0.34, 1.5, 0.64, 1), background-color 160ms var(--ease-out); }
+  .cat-rail-label { transition: color 160ms var(--ease-out); }
+  .cat-rail-item:active { transform: scale(0.96); transition: transform 90ms var(--ease-out); }
+}
+@media (min-width: 641px) and (hover: hover) and (pointer: fine) {
+  .cat-rail-item:hover { transform: none; box-shadow: none; }
+  .cat-rail-item:hover::before { opacity: 1; transform: scale(1); }
+  .cat-rail-item:hover .cat-rail-icon { transform: translateY(-1.5px) rotate(-6deg) scale(1.08); }
   .cat-rail-item:hover .cat-rail-label { color: color-mix(in srgb, var(--cat) 78%, #111111); }
-  .cat-rail[data-variant="hero"] .cat-rail-item:hover { background: rgba(255, 255, 255, 0.16); box-shadow: none; }
+  .cat-rail-item[aria-current="page"]:hover::before { opacity: 0; }
+  .cat-rail[data-variant="hero"] .cat-rail-item:hover { background: transparent; box-shadow: none; }
+  .cat-rail[data-variant="hero"] .cat-rail-item[aria-current="page"]:hover { background: #FFFFFF; }
   .cat-rail[data-variant="hero"] .cat-rail-item:hover .cat-rail-label { color: var(--hero-ink); opacity: 1; }
+  .cat-rail[data-variant="hero"] .cat-rail-item[aria-current="page"]:hover .cat-rail-label { color: color-mix(in srgb, var(--cat) 80%, #111111); }
+}
+@media (min-width: 641px) and (prefers-reduced-motion: reduce) {
+  .cat-rail-item::before, .cat-rail-icon { transition: opacity 120ms linear; }
+  .cat-rail-item:hover .cat-rail-icon { transform: none; }
+  .cat-rail-item:hover::before { transform: none; }
 }
 
 /* ── Category hero entrance: the banner's motion, back on the merged block.
@@ -21067,3 +21095,32 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 @media (prefers-reduced-motion: reduce) {
   .cat-hero, .cat-hero-title h1, .cat-hero-title p, .cat-hero-count { animation: none; }
 }
+
+/* ── Phones: smaller category cards (60px instead of 78px, 28px icons), so
+   the row stops dominating the first screen. */
+@media (max-width: 640px) {
+  .cat-rail-list { gap: 6px; padding-top: 8px; padding-bottom: 8px; }
+  .cat-rail[data-variant="hero"] .cat-rail-list { padding-top: 10px; padding-bottom: 0; }
+  .cat-rail-item { width: 60px; padding: 6px 3px 5px; gap: 4px; border-radius: 10px; }
+  .cat-rail-icon { width: 28px; height: 28px; border-radius: 8px; }
+  .cat-rail-icon svg { width: 16px; height: 16px; }
+  .cat-rail-shape { width: 17px; height: 17px; }
+  .cat-rail-label { font-size: 10px; letter-spacing: -0.005em; }
+}
+
+/* ── Tab bar icons (components/tab-icons, CoinFace). */
+.tab-globe { position: relative; display: inline-block; }
+.tab-globe svg { display: block; }
+.tab-globe-map {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 52%;
+  height: 52%;
+  transform: translate(-50%, -50%);
+  background: currentColor;
+  -webkit-mask: url("/images/categories/kosove.svg") center / contain no-repeat;
+  mask: url("/images/categories/kosove.svg") center / contain no-repeat;
+}
+.tab-coin { display: inline-block; filter: saturate(0.8) brightness(0.97); transition: filter 200ms var(--ease-out); }
+.m-tab[aria-current="page"] .tab-coin { filter: saturate(1.1) brightness(1.06); }
