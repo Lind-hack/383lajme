@@ -10139,8 +10139,8 @@
   {
     "date": "2026-09-28",
     "overallIndex": 50,
-    "totalArticles": 206,
-    "sourceCount": 138,
+    "totalArticles": 246,
+    "sourceCount": 145,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -10148,7 +10148,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 30,
+        "n": 34,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -10158,7 +10158,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 3
@@ -10168,7 +10168,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
+        "n": 6,
         "excluded": 4,
         "confident": true,
         "stanceVersion": 3
@@ -10178,42 +10178,42 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 12,
+        "n": 14,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       },
       "Itali": {
         "index": 53,
-        "positive": 6,
-        "neutral": 94,
+        "positive": 5,
+        "neutral": 95,
         "negative": 0,
-        "n": 17,
-        "excluded": 12,
+        "n": 19,
+        "excluded": 16,
         "confident": true,
         "stanceVersion": 3
       },
       "Austri": {
         "index": 49,
         "positive": 1,
-        "neutral": 96,
+        "neutral": 97,
         "negative": 3,
-        "n": 121,
+        "n": 150,
         "excluded": 7,
         "confident": true,
         "stanceVersion": 3
       },
       "Zvicër": {
-        "index": 67,
-        "positive": 33,
-        "neutral": 67,
+        "index": 65,
+        "positive": 30,
+        "neutral": 70,
         "negative": 0,
-        "n": 9,
+        "n": 10,
         "excluded": 7,
         "confident": true,
         "stanceVersion": 3,
         "movement": {
-          "delta": 9,
+          "delta": 7,
           "from": 58,
           "outlet": "Albinfo",
           "title": "Erblin Osmani hyn në histori si lojtari më i ri që debuton me fanellën e Kosovës",
@@ -10320,22 +10320,6 @@
         "sentiment": "positive"
       },
       {
-        "title": "Muriqi confirma su gran momento también con Kosovo - mundodeportivo.com",
-        "source": "mundodeportivo.com",
-        "country": "Spanjë",
-        "flag": "🇪🇸",
-        "url": "https://www.mundodeportivo.com/futbol/internacional/20260925/1004231112/muriqi-confirma-gran-momento.html",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Österreich 3, Kosovo 1 - Gäste tappen in die Falle des umformierten ÖFB-Teams - ballverliebt.substack.com",
-        "source": "ballverliebt.substack.com",
-        "country": "Gjermani",
-        "flag": "🇩🇪",
-        "url": "https://ballverliebt.substack.com/p/osterreich-3-kosovo-1-gaste-tappen",
-        "sentiment": "negative"
-      },
-      {
         "title": "Kosovo chancenlos – 3:1! Österreich feiert Fußball-Fest im Wiener Prater - Heute",
         "source": "Heute",
         "country": "Austri",
@@ -10344,11 +10328,11 @@
         "sentiment": "negative"
       },
       {
-        "title": "Nations League: ÖFB jubelt auch gegen Kosovo - ORF ON",
-        "source": "ORF ON",
-        "country": "Austri",
-        "flag": "🇦🇹",
-        "url": "https://on.orf.at/sammlung/13870321/nations-league-oefb-jubelt-auch-gegen-kosovo",
+        "title": "Österreich 3, Kosovo 1 - Gäste tappen in die Falle des umformierten ÖFB-Teams - ballverliebt.substack.com",
+        "source": "Ballverliebt",
+        "country": "Zvicër",
+        "flag": "🇨🇭",
+        "url": "https://ballverliebt.substack.com/p/osterreich-3-kosovo-1-gaste-tappen",
         "sentiment": "negative"
       }
     ]
