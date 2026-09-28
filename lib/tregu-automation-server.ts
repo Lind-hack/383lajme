@@ -852,6 +852,13 @@ export async function runLiveSportsAutomation(now = new Date()) {
   const waitMs = Math.max(HEARTBEAT_MIN_WAIT_MS, HEARTBEAT_RESPONSE_BUDGET_MS - (Date.now() - startedAt));
   const settled = await Promise.race([background, new Promise<null>((resolve) => setTimeout(() => resolve(null), waitMs))]);
   if (!settled) {
+    // The response has gone out, so a late failure would otherwise vanish.
+    void background.then((results) => {
+      const names = ["f1_template", "football_template", "f1_championship", "basketball_template", "news_settlement", "leaderboard", "rivalry"];
+      results.forEach((result, index) => {
+        if (result.status === "rejected") console.error(`Heartbeat background job ${names[index]} failed:`, reasonText(result.reason));
+      });
+    });
     const pending = { ok: true, pending: true, reason: "continues_in_background" };
     return { ...live, news_settlement: pending, f1_template: pending, football_template: pending, basketball_template: pending, f1_championship: pending, leaderboard: pending, rivalry: pending };
   }

@@ -38,7 +38,8 @@ export function describeEvent(event: Pick<EventRow, "kind" | "actor" | "data">):
 }
 
 async function vapidKeys(admin: Admin): Promise<VapidKeys | null> {
-  const { data } = await admin.from("tregu_app_secrets").select("key, value").in("key", ["vapid_public", "vapid_private_jwk"]);
+  const { data, error } = await admin.from("tregu_app_secrets").select("key, value").in("key", ["vapid_public", "vapid_private_jwk"]);
+  if (error) throw new Error(`vapid keys: ${error.message}`);
   const map = new Map((data ?? []).map((row) => [row.key, row.value]));
   const publicKey = map.get("vapid_public");
   const privateJwk = map.get("vapid_private_jwk");
@@ -53,13 +54,14 @@ async function pushEvents(admin: Admin) {
   const worthy = ["overtaken", "duel_challenge", "duel_accepted", "duel_won", "duel_lost"];
   const claimedAt = new Date().toISOString();
   // Claim first, so overlapping heartbeats never push the same event twice.
-  const { data: events } = await admin
+  const { data: events, error: claimError } = await admin
     .from("tregu_league_events")
     .update({ pushed_at: claimedAt })
     .is("pushed_at", null)
     .in("kind", worthy)
     .gte("created_at", new Date(Date.now() - 6 * 3600_000).toISOString())
     .select("user_id");
+  if (claimError) throw new Error(`push claim: ${claimError.message}`);
   const users = [...new Set((events ?? []).map((row) => row.user_id as string))];
   if (!users.length) return { pushed: 0 };
   const { data: subs } = await admin.from("tregu_push_subscriptions").select("endpoint, user_id").in("user_id", users);
@@ -170,8 +172,16 @@ export async function runRivalryJobs(now = new Date()) {
       result[name] = { error: String(error instanceof Error ? error.message : error) };
     }
   };
-  await step("duels", async () => (await admin.rpc("tregu_settle_duels")).data);
-  if (now.getUTCMinutes() % 6 < 2) await step("ranks", async () => (await admin.rpc("tregu_refresh_league_ranks")).data);
+  // supabase-js returns RPC failures instead of throwing; without this a
+  // broken function reads as a quiet `null`, which is how 0087's failing
+  // rank refresh went unnoticed.
+  const rpc = async (fn: string) => {
+    const { data, error } = await admin.rpc(fn);
+    if (error) throw new Error(`${fn}: ${error.message}`);
+    return data;
+  };
+  await step("duels", () => rpc("tregu_settle_duels"));
+  if (now.getUTCMinutes() % 6 < 2) await step("ranks", () => rpc("tregu_refresh_league_ranks"));
   await step("push", () => pushEvents(admin));
   await step("digest", () => sendDigests(admin));
   return result;

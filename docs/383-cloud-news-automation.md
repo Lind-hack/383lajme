@@ -30,12 +30,12 @@ The installed `last30days` skill is mandatory for discovery. Read its `SKILL.md`
 
 The GitHub Actions `schedule:` block is the active no-cost backup clock. GitHub can start scheduled jobs late, but it keeps the hosted pipeline running without a laptop.
 
-The Vercel route `/api/cron/dispatch-news` is still available as a precise dispatcher for Vercel Pro Cron or an external scheduler. Vercel Hobby accounts cannot run the required every-two-hours cron schedule; production deploys fail if those frequent cron entries are present in `vercel.json`.
+The route `/api/cron/dispatch-news` is still available as a precise dispatcher for an external scheduler such as cron-job.org. Production runs on Railway (383 left Vercel; `383lajme.vercel.app` answers 402), so there is no platform cron here.
 
-For exact 07:00, 09:00, 11:00, 13:00, 15:00, 17:00, 19:00, 21:00, and 23:00 Kosovo-time dispatches without GitHub scheduler delay, use either Vercel Pro Cron or an external scheduler that calls:
+For exact 07:00, 09:00, 11:00, 13:00, 15:00, 17:00, 19:00, 21:00, and 23:00 Kosovo-time dispatches without GitHub scheduler delay, use an external scheduler that calls:
 
 ```text
-https://383lajme.vercel.app/api/cron/dispatch-news
+https://383ks.com/api/cron/dispatch-news
 ```
 
 with header:
@@ -47,12 +47,12 @@ Authorization: Bearer <CRON_SECRET>
 If the scheduler cannot send headers, it can call:
 
 ```text
-https://383lajme.vercel.app/api/cron/dispatch-news?secret=<CRON_SECRET>
+https://383ks.com/api/cron/dispatch-news?secret=<CRON_SECRET>
 ```
 
-Required Vercel production env vars for the scheduler route:
+Required production env vars (Railway) for the scheduler route:
 
-- `CRON_SECRET`: Vercel Cron authorization secret.
+- `CRON_SECRET`: scheduler authorization secret.
 - `CODEX_PUSH_TOKEN` or `GITHUB_PAT` or `GITHUB_TOKEN`: GitHub token that can dispatch workflows for `Lind-hack/383lajme`.
 
 ## Core rules

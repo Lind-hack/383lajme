@@ -35,7 +35,7 @@ Visitors use the product before departure, during a long drive, at a border cros
 - Let visitors save multiple city cards in the current session and download one city, all saved cities, or the border utility as standalone offline HTML.
 - Require no account. Do not sell location or put safety and emergency functions behind payment.
 - Keep sourcing, review dates, and freshness validation in the backend and data model; do not reintroduce visible provenance strips into this surface unless the product owner changes that decision.
-- Production domains are updated only through Vercel's GitHub integration after a committed push to `origin/main`. Never deploy a local working tree directly to production.
+- Production domains are updated only through Railway's GitHub integration after a committed push to `origin/main`. Never deploy a local working tree directly to production.
 
 ## Brand Commitments
 
