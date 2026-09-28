@@ -3,9 +3,9 @@ set -Eeuo pipefail
 
 repo_dir="${1:-/opt/data/workspaces/383lajme-prod-f731569}"
 test "$(id -u)" -eq 0
-test -f "$repo_dir/scripts/run-tregu-market-emails.sh"
-test -f "$repo_dir/scripts/run-tregu-market-emails.mjs"
-test -f "$repo_dir/.env.automation"
+docker exec hermes test -f "$repo_dir/scripts/run-tregu-market-emails.sh"
+docker exec hermes test -f "$repo_dir/scripts/run-tregu-market-emails.mjs"
+docker exec hermes test -f "$repo_dir/.env.automation"
 
 cat > /etc/systemd/system/383-tregu-market-email.service <<EOF
 [Unit]

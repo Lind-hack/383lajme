@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { generateDailyMarkets, shortlistDailyTopics } from "../lib/tregu-daily-generation.mjs";
+import { dailySourcePacket, shortlistedSourceSlugs } from "../lib/tregu-daily-source-packet.mjs";
 import {
   buildDailyCodexCommand,
   buildDraftReviewEmail,
@@ -29,10 +30,16 @@ async function withCodexQuotaFallback(prompt, primary, key, maximum) {
   catch (providerError) {
     if (!["rate_limit_or_quota", "provider_unavailable"].includes(providerError?.error_class)) throw providerError;
     const hermesBin = process.env.HERMES_BIN ?? "/opt/hermes/.venv/bin/hermes";
-    const output = execFileSync(hermesBin, buildDailyCodexCommand(prompt), {
-      cwd: process.cwd(), env: { ...process.env, HERMES_HOME: process.env.HERMES_HOME ?? "/opt/data" },
-      encoding: "utf8", timeout: 240_000, maxBuffer: 2 * 1024 * 1024,
-    });
+    let output;
+    try {
+      output = execFileSync(hermesBin, buildDailyCodexCommand(prompt), {
+        cwd: process.cwd(), env: { ...process.env, HERMES_HOME: process.env.HERMES_HOME ?? "/opt/data" },
+        encoding: "utf8", timeout: 240_000, maxBuffer: 2 * 1024 * 1024,
+      });
+    } catch (error) {
+      // execFileSync's default error includes the entire prompt in `spawnargs`.
+      throw new Error(`Codex fallback failed: ${error?.code ?? error?.signal ?? error?.status ?? "unknown"}`);
+    }
     const parsed = JSON.parse(output.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, ""));
     if (!Array.isArray(parsed?.[key]) || parsed[key].length > maximum) throw new Error(`Codex fallback returned an invalid ${key} set`);
     return { [key === "topics" ? "topics" : "candidates"]: parsed[key], provider: "openai-codex-oauth", fallback_reason: providerError.error_class };
@@ -64,7 +71,7 @@ Already-active topics to skip:
 ${JSON.stringify(activeMarkets)}
 
 Verified source articles:
-${JSON.stringify(articles)}
+${JSON.stringify(dailySourcePacket(articles))}
 
 Return ONLY compact JSON, no markdown:
 {"topics":[{"topic_key":"kebab-case-stable-identity","decision":"the concrete fork in one sentence","yes_path":"...","no_path":"...","resolution_source":"named authority","why_undecided":"...","source_slugs":["slug1","slug2"]}]}`;
@@ -119,7 +126,7 @@ Active non-sports markets to avoid:
 ${JSON.stringify(activeMarkets)}
 
 Verified source articles (each includes source, URL, excerpt, and bounded body):
-${JSON.stringify(articles)}
+${JSON.stringify(dailySourcePacket(articles, { citedSlugs: shortlistedSourceSlugs(shortlist.topics) }))}
 
 Return ONLY compact JSON, with no markdown:
 {"markets":[{"question":"...","description":"current state plus the unresolved fork","resolution_criteria":"PO: ... JO: ... Burimi i zgjidhjes: ... Afati: ... Edge cases: ...","category":"kosove|shqiperi|ekonomi|bote|te-tjera","news_topic":"politike|ekonomi|shoqeri|siguri|teknologji","contract_version":"news-event-v3","closes_in_hours":1440,"proposition":{"entities":["..."],"geography":"Kosovo","decision":"...","yes_condition":"...","no_condition":"...","resolution_source":"...","resolution_mode":"event_pair","review_policy":"pause_for_review"},"market_archetype":"scheduled_decision|threshold|data_release|policy_action|appointment_or_selection|escalation_or_deescalation|corporate_decision|executive_action","topic_key":"topic-name","decision_point":"...","why_uncertain":"...","trading_angle":"...","resolution_source":"...","deadline_basis":"...","threshold_value":"...","source_slugs":["slug1","slug2"]}]}`;
