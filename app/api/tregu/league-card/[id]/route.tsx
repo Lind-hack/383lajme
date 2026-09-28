@@ -26,14 +26,20 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const [{ data: league }, { data: scores }, { data: members }] = await Promise.all([
     admin.from("tregu_leagues").select("id, name, kind, code, starts_at, ends_at, entry_fee, prizes, emblem, color, scope_kind, scope_value, settled_at").eq("id", id).single(),
     admin.rpc("tregu_league_scores", { p_league_id: id }),
-    admin.from("tregu_league_members").select("user_id, fee_paid, profiles(display_name)").eq("league_id", id),
+    admin.from("tregu_league_members").select("user_id, fee_paid").eq("league_id", id),
   ]);
   if (!league) return new Response("not found", { status: 404 });
 
+  // Members reference auth.users, not profiles, so names are a second lookup
+  // rather than an embedded join (which PostgREST cannot resolve here).
   type Score = { uid: string; net: number; reached_at: string | null; joined_at: string };
+  const memberIds = ((members ?? []) as { user_id: string }[]).map((member) => member.user_id);
+  const { data: profiles } = memberIds.length
+    ? await admin.from("profiles").select("id, display_name").in("id", memberIds)
+    : { data: [] as { id: string; display_name: string | null }[] };
   const names = new Map<string, string>();
-  for (const member of (members ?? []) as unknown as { user_id: string; profiles: { display_name: string | null } | null }[]) {
-    names.set(member.user_id, String(member.profiles?.display_name ?? "Tregtar").trim().split(/\s+/)[0] || "Tregtar");
+  for (const profile of (profiles ?? []) as { id: string; display_name: string | null }[]) {
+    names.set(profile.id, String(profile.display_name ?? "").trim().split(/\s+/)[0] || "Tregtar");
   }
   const pot = ((members ?? []) as { fee_paid: number }[]).reduce((sum, member) => sum + Number(member.fee_paid || 0), 0);
   const rows = ((scores ?? []) as Score[])
@@ -100,6 +106,20 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
               );
             })}
             {rows.length === 0 ? <div style={{ display: "flex", fontSize: 32, color: muted }}>Ende pa anëtarë.</div> : null}
+            {/* A young private league: the empty table becomes the invite. */}
+            {league.kind === "private" && league.code && !ended && rows.length < 5 ? (
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 18, marginTop: "auto", padding: "40px 32px", borderRadius: 28, border: "2px dashed rgba(242,193,78,0.45)", background: "rgba(242,193,78,0.07)" }}>
+                <div style={{ display: "flex", fontSize: 30, fontWeight: 700, color: muted }}>Hyr në ligë me kodin</div>
+                <div style={{ display: "flex", gap: 14 }}>
+                  {league.code.split("").map((char: string, index: number) => (
+                    <div key={index} style={{ display: "flex", width: 92, height: 112, borderRadius: 22, alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.08)", border: "2px solid rgba(242,193,78,0.5)", fontSize: 62, fontWeight: 800, color: "#fff" }}>{char}</div>
+                  ))}
+                </div>
+                <div style={{ display: "flex", fontSize: 26, fontWeight: 700, color: muted }}>
+                  {Number(league.entry_fee) > 0 ? `Hyrja ${Number(league.entry_fee).toLocaleString("sq-AL")} 383C · poti për tre të parët` : "Tre të parët fitojnë"}
+                </div>
+              </div>
+            ) : null}
           </div>
 
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 36, paddingTop: 28, borderTop: `2px solid ${line}`, fontSize: 26, fontWeight: 700, color: muted }}>
