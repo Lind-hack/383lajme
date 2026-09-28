@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isAdminAuthed } from "@/lib/admin-auth";
 import { DEFAULT_SPORT_LIQUIDITY, rescaleOutcomeQuantities } from "@/lib/tregu-liquidity.mjs";
+import { sendPendingNewsMarketEmails } from "@/lib/tregu-creation-email";
 
 export const dynamic = "force-dynamic";
 
@@ -27,9 +28,15 @@ export async function PATCH(
   const { id } = await params;
   const body = (await request.json().catch(() => null)) as
     {
-      action?: "approve" | "close" | "resolve" | "seed" | "reopen";
-      outcome?: string;
+      action?: "approve" | "close" | "resolve" | "seed" | "reopen" | "adjust_odds" | "update_image";
+      outcome?: "PO" | "JO";
       initialProb?: number;
+      deltaPoints?: number;
+      reason?: string;
+      sourceUrl?: string;
+      marketImageUrl?: string;
+      marketImageAlt?: string;
+      marketImageSourceUrl?: string;
       market_type?: "binary" | "two_outcome" | "three_outcome" | "f1_race_winner";
       market_classification?: MarketClassification;
       [key: string]: unknown;
@@ -37,6 +44,36 @@ export async function PATCH(
     | null;
 
   if (!body) return NextResponse.json({ error: "Trup i pavlefshëm" }, { status: 400 });
+
+  if (body.action === "update_image") {
+    const imageUrl = String(body.marketImageUrl ?? "").trim();
+    const sourceUrl = String(body.marketImageSourceUrl ?? "").trim();
+    const alt = String(body.marketImageAlt ?? "").trim();
+    if (!/^https:\/\/\S+$/i.test(imageUrl) || !/^https:\/\/\S+$/i.test(sourceUrl) || alt.length < 3) {
+      return NextResponse.json({ error: "Jep URL HTTPS të pamjes, burimin HTTPS dhe përshkrimin e subjektit." }, { status: 400 });
+    }
+    const { data, error } = await admin.from("markets")
+      .update({ market_image_url: imageUrl, market_image_alt: alt, market_image_source_url: sourceUrl, market_image_credit: null })
+      .eq("id", id).eq("market_classification", "general_news").in("status", ["draft", "open"])
+      .select().maybeSingle();
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (!data) return NextResponse.json({ error: "Tregu i lajmit nuk u gjet." }, { status: 404 });
+    return NextResponse.json({ market: data });
+  }
+
+  if (body.action === "adjust_odds") {
+    const points = body.deltaPoints;
+    const reason = String(body.reason ?? "").trim();
+    const sourceUrl = String(body.sourceUrl ?? "").trim();
+    if (typeof points !== "number" || !Number.isFinite(points) || points === 0 || Math.abs(points) > 98 || reason.length < 20 || !/^https:\/\/\S+$/i.test(sourceUrl)) {
+      return NextResponse.json({ error: "Jep një ndryshim jo-zero deri në 98 pikë, arsyen dhe një lidhje HTTPS me burimin." }, { status: 400 });
+    }
+    const { data, error } = await admin.rpc("adjust_admin_news_odds", {
+      p_market_id: id, p_delta_points: points, p_reason: reason, p_source_url: sourceUrl,
+    });
+    if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+    return NextResponse.json({ ok: true, adjustment: Array.isArray(data) ? data[0] : data });
+  }
 
   if (body.action === "approve") {
     const { data: draft, error: draftError } = await admin.from("markets").select("category, b, q_yes, q_no, outcome_quantities, market_classification, market_type, live_event, sport_outcomes").eq("id", id).eq("status", "draft").maybeSingle();
@@ -99,6 +136,10 @@ export async function PATCH(
       .select()
       .single();
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if ((data.market_classification ?? "general_news") === "general_news" && String(data.category).toLowerCase() !== "sport") {
+      try { await sendPendingNewsMarketEmails({ marketId: id, limit: 1 }); }
+      catch (emailError) { console.error("Market approval email remains queued:", String(emailError)); }
+    }
     return NextResponse.json({ market: data });
   }
 
@@ -195,7 +236,20 @@ export async function PATCH(
     if (body.outcome !== "PO" && body.outcome !== "JO") {
       return NextResponse.json({ error: "Rezultati duhet të jetë PO ose JO" }, { status: 400 });
     }
-    const { error } = await admin.rpc("resolve_market", { p_market_id: id, p_outcome: body.outcome });
+    const { data: market, error: marketError } = await admin.from("markets")
+      .select("market_classification,market_type,status")
+      .eq("id", id).maybeSingle();
+    if (marketError) return NextResponse.json({ error: marketError.message }, { status: 500 });
+    if (!market) return NextResponse.json({ error: "Tregu nuk u gjet" }, { status: 404 });
+    const isNews = (market.market_classification ?? "general_news") === "general_news" && (market.market_type ?? "binary") === "binary";
+    const reason = String(body.reason ?? "").trim();
+    const sourceUrl = String(body.sourceUrl ?? "").trim();
+    if (isNews && (reason.length < 20 || !/^https:\/\/\S+$/i.test(sourceUrl))) {
+      return NextResponse.json({ error: "Zgjidhja e lajmit kërkon arsye konkrete dhe lidhje HTTPS me rezultatin." }, { status: 400 });
+    }
+    const { error } = isNews
+      ? await admin.rpc("resolve_admin_news_market", { p_market_id: id, p_outcome: body.outcome, p_reason: reason, p_source_url: sourceUrl })
+      : await admin.rpc("resolve_market", { p_market_id: id, p_outcome: body.outcome });
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ ok: true });
   }
@@ -209,7 +263,17 @@ export async function PATCH(
     return NextResponse.json({ error: "Lloji i tregut është i pavlefshëm" }, { status: 400 });
   }
 
-  const { action: _a, outcome: _o, ...fields } = body;
+  const editableDraftFields = new Set([
+    "question", "description", "resolution_criteria", "resolution_rules", "resolution_source",
+    "category", "closes_at", "source_article_slugs", "pre_match_analysis", "live_event",
+    "sport_outcomes", "outcome_quantities", "reference_probabilities", "outcomes",
+    "market_type", "market_classification",
+  ]);
+  const unexpected = Object.keys(body).filter((key) => !editableDraftFields.has(key));
+  if (unexpected.length) {
+    return NextResponse.json({ error: `Fushë e palejuar për draftin: ${unexpected.join(", ")}` }, { status: 400 });
+  }
+  const fields = body;
   // `outcomes` is constrained by `market_type` in the database. Keep this
   // update atomic so an admin can switch a draft without leaving it invalid.
   const outcomeSchema = {

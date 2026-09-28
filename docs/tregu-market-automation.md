@@ -1,6 +1,6 @@
 # 383 Tregu market automation (VPS runbook)
 
-383 Tregu is a virtual, educational 383C prediction market. Its live LMSR probability is moved by authenticated PO/JO 383C bets, a bounded verified-news Groq oracle, and bounded official live-score signals for configured sporting events. System adjustments change only LMSR market state (`q_yes`/`q_no`) and an auditable snapshot; they never change user balances, positions, or transactions.
+383 Tregu is a virtual, educational 383C prediction market. Its live LMSR probability is moved by authenticated PO/JO 383C bets, a bounded verified-news Groq oracle, and bounded official live-score signals for configured sporting events. System adjustments change only LMSR market state (`q_yes`/`q_no`) and an auditable snapshot; they never change user balances, positions, or transactions. See [the current news-market flow](tregu-news-market-flow.md) for category and VPS state.
 
 ## Required environment
 
@@ -12,10 +12,11 @@ Set these on the VPS application process and the local caller environment:
 - `GROQ_API_KEY`: primary provider for both authenticated news repricers. Google/Gemini credentials are the server-side fallback; do not put keys in the repository.
 - The VPS default Hermes model needs working OpenAI Codex OAuth (`hermes auth list openai-codex`) for daily draft generation.
 - `GMAIL_USER`, `GMAIL_APP_PASSWORD`, and exactly one recipient (`TREGU_LIVE_RECIPIENT` or the existing `RECIPIENT_EMAIL`) are required for tregu-live verified-update mail. No credential is included in a message or endpoint response.
+- Market-opening mail uses `TREGU_MARKET_RECIPIENT` when set; otherwise it goes to the same recipient as the daily draft review email. The VPS retry timer calls `POST /api/automation/tregu/market-emails` once a minute.
 
 ## AI news repricers
 
-The local two-minute `383-tregu-reprice.timer` is the active news repricer; the official sports processor has its own `383-tregu-sports.timer`. The legacy five-minute `tregu-live` stream is separate and must not be used as the health signal for the two-minute worker. Groq is tried first; Google/Gemini is used only for an eligible provider failure. Each run rechecks and persists a non-secret `last_checked_at` plus scan result for **every open** market. The evidence pool is chronological and limited to the current time through the previous 14 days. RSS/Google headlines are discovery-only and are never converted into scored evidence with `body = title`. A source must have a publisher, direct URL, usable article body, and strict entity/action relevance. Previously persisted evidence identities are excluded per market, while the same article may support a separate market only when it independently matches that market. An open market without qualifying evidence is recorded as `no_fresh_evidence` and its price is unchanged. A score that produces the same LMSR probability is explicitly recorded as `no_change`. Social-only sources cannot reach the AI or reprice a market. Closed and resolved markets are skipped before any provider or oracle write. Each run audit reports `open_markets_scanned`, `markets_checked`, `markets_with_evidence`, `updates_applied`, `no_change`, and `skipped_closed`.
+The local two-minute `383-tregu-reprice.timer` is the intended news repricer; it was disabled when inspected on 2026-09-28. The official sports processor has its own `383-tregu-sports.timer`. The legacy five-minute `tregu-live` stream is separate and must not be used as the health signal for the two-minute worker. Groq is tried first; Google/Gemini is used only for an eligible provider failure. Each run rechecks and persists a non-secret `last_checked_at` plus scan result for **every open** market. Repricing reads the fresh private `market-research/latest.json` packet of original publisher pages assigned by market ID. RSS/Google headlines are discovery-only. A page must be recent, full, non-truncated, and strictly relevant to the subject and action. Two independent cited publisher hosts are required for an odds change. Previously persisted evidence identities are excluded per market, while the same article may support a separate market only when it independently matches that market. An open market without qualifying evidence is recorded as `no_fresh_evidence` and its price is unchanged. An elapsed review date alone cannot change odds or settle a market. A score that produces the same LMSR probability is explicitly recorded as `no_change`. Social-only sources cannot reach the AI or reprice a market. Closed and resolved markets are skipped before any provider or oracle write. Each run audit reports `open_markets_scanned`, `markets_checked`, `markets_with_evidence`, `updates_applied`, `no_change`, and `skipped_closed`.
 
 Each successful scan calls `apply_news_oracle`, which atomically changes the LMSR state and creates a `market_snapshots` row with `oracle_kind = news_oracle`, reference probability, applied LMSR probability, reasoning, cited evidence, publishers, previous probability, cap, and an evidence fingerprint. Migration `0059_tregu_reprice_evidence_fingerprint.sql` adds a per-market unique fingerprint guard; until it is applied, the application reads the persisted snapshot ledger and fails closed on repeats. The chart shows trade and oracle markers on the actual LMSR line. A single publisher can move odds by at most 2 percentage points; a move up to 5 points requires two independent publishers. The database also enforces the 5-point absolute cap.
 
@@ -30,11 +31,12 @@ Launch liquidity defaults to `b = 400`. A 383C PO bet on a fresh 50/50 market mo
 Automation routes require `Authorization: Bearer $TREGU...ET`:
 
 - `GET /api/automation/tregu/daily-drafts` — authenticated, read-only verified-news context for the root Hermes Codex caller.
-- `POST /api/automation/tregu/daily-drafts` — idempotent by Europe/Pristina date. It accepts only 3–5 unique, source-cited PO/JO drafts with short Polymarket-style titles, concrete title deadlines, and explicit resolution criteria; admin approval still opens a market.
+- `POST /api/automation/tregu/daily-drafts` — idempotent by Europe/Pristina four-hour window. It accepts up to six source-cited non-sports candidates, rejects those that fail the quality gate, and may open validated `news-event-v3` markets. Sport templates remain draft-only for admin review.
+- `POST /api/automation/tregu/market-emails` — retries the persisted first-open email queue for non-sports markets.
 - `POST /api/automation/tregu/reprice` — idempotent per UTC two-minute run bucket; it applies the bounded hybrid oracle only to verified evidence for still-open markets. It never pauses or reopens a market, and never touches user balances, positions, or transactions.
 - `GET /api/cron/update-markets` — the `tregu-live` five-minute remote-only VPS heartbeat. It requires `Authorization: Bearer *** (or `TREGU_AUTOMATION_SECRET` fallback), accepts no body, and invokes the verified-news AI repricer (Groq, then eligible Google/Gemini fallback). Missing/wrong bearer returns `401`; a failed refresh returns non-2xx; successful no-evidence/no-change checks return JSON `2xx` without email. It sends one SMTP email to the configured recipient only when a verified AI result changes a market probability. Official sports/settlement work is not reachable from this route.
 
-Codex daily drafts use `closes_in_hours`; breaking and controversy markets must close in 2–48 hours. News markets within 72 hours of a discrete deadline enter a measured countdown. The outer 72–24 hour window is capped at 0.5 percentage points per hour, and the final 24 hours use the stronger existing bound. Migration `0060_tregu_deadline_decay_window.sql` is required for the 72-hour RPC. Official live-event cards instead carry an explicit fallback `closes_at` and close early at ESPN final time.
+Current `news-event-v3` daily drafts use `closes_in_hours` for documented 30–90-day decision windows. A review date is not an automatic losing outcome: no countdown or deadline-only settlement may move news odds. Official live-event cards carry an explicit fallback `closes_at` and close early at a verified final result.
 
 ## Formula 1 Dashboard live winner markets
 
@@ -56,9 +58,9 @@ node scripts/run-tregu-reprice.mjs
 node scripts/run-tregu-live-sports.mjs
 ```
 
-The intended external scheduler configuration is deliberately not installed by this change:
+Current scheduler state and intended follow-up after release:
 
-- `0 7 * * *` in `Europe/Pristina` for daily drafts.
+- `tregu-daily-drafts.timer` runs at 07:20 Europe/Belgrade (Kosovo-local equivalent on this host).
 - `*/2 * * * *` for the existing local news repricer; the same two-minute VPS job may also invoke `run-tregu-live-sports.mjs` after it. The live-sports script calls only the authenticated live-sports processor: it fetches ESPN summaries, records oracle audits, locks official finals, and settles only markets whose verified seven-minute window is due.
 
 Apply migrations `0004`, `0005`, `0006`, `0008`, `0011`, `0017`, `0018_tregu_live_heartbeat.sql`, `0059_tregu_reprice_evidence_fingerprint.sql`, and `0060_tregu_deadline_decay_window.sql` before calling the applicable automation in an environment that is meant to use it. Migration `0018` adds only the explicit `tregu_live` action allowlist entry and heartbeat index; it is required before enabling the five-minute timer. The existing two-minute Groq/Google unit is independent and must remain enabled.

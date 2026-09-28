@@ -1,5 +1,4 @@
-import { getArticles, getLatestArticles, getPropositionArticles } from "@/lib/db";
-import { propositionSearchTerms } from "@/lib/tregu-news-search.mjs";
+import { getArticles, getLatestPersistedArticles } from "@/lib/db";
 import { loadMarketResearch } from "@/lib/tregu-research-evidence.mjs";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
@@ -7,13 +6,15 @@ import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, daily
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
 import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan, sportEventState, rescheduledSportClose, isDuplicateSportOracle } from "@/lib/tregu-sport-market.mjs";
-import { buildF1MarketPlan, buildF1RaceWinnerPlan, buildF1SettlementPlan } from "@/lib/f1-live-lite.mjs";
+import { buildF1MarketPlan, buildF1RaceWinnerPlan, buildF1SettlementPlan, openF1ToWinnerLeaderboard } from "@/lib/f1-live-lite.mjs";
 import { fetchOpenF1LiveRace } from "@/lib/openf1-live.mjs";
 import { classifyProviderFailure } from "@/lib/tregu-ai-provider.mjs";
 import { DAILY_MARKET_CONTRACT_VERSION } from "@/lib/tregu-daily-market-quality.mjs";
 import { hasPersistedMaterialPairedBinaryChange } from "@/lib/tregu-live-email-content.mjs";
 import { sendTreguLiveNotification } from "@/lib/tregu-live-email";
 import { runLeaderboardPayouts } from "@/lib/tregu-leaderboard-server";
+import { sendPendingNewsMarketEmails } from "@/lib/tregu-creation-email";
+import { parseMarketResearchEvidence } from "@/lib/tregu-research-evidence-validated.mjs";
 import { f1DriverHeadshot, f1TeamColor } from "@/lib/f1-driver-presentation";
 
 type AdminClient = NonNullable<ReturnType<typeof createAdminClient>>;
@@ -193,7 +194,7 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
   if (requestedRunKey !== undefined && typeof requestedRunKey !== "string") throw new Error("Invalid live-event draft run key.");
   const admin = createAdminClient();
   if (!admin) throw new Error("Supabase service-role configuration is required for Tregu automation.");
-  const sourceArticles = await getLatestArticles(60);
+  const sourceArticles = await getLatestPersistedArticles(60);
   const expectedLiveEventRunKey = typeof requestedRunKey === "string" ? buildLiveEventDraftRunKey({ candidates, now }) : null;
   const validated = validateDailyDraftSubmission(
     candidates,
@@ -265,6 +266,12 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
       status: !expectedLiveEventRunKey && row.pre_match_analysis?.contract_version === "news-event-v3" ? "open" as const : "draft" as const,
       slug: `${slugifyQuestion(row.question) || "treg"}-${dateSuffix}-${index + 1}`,
     }));
+    for (const row of rows) {
+      if (row.market_classification === "general_news" && !row.market_image_url) {
+        row.market_image_url = `/api/tregu/market-art/${encodeURIComponent(row.slug)}`;
+        row.market_image_alt = `Grafikë për ${row.question}`;
+      }
+    }
     if (rows.length < 1 || rows.length > (expectedLiveEventRunKey ? 5 : 6)) {
       throw new Error("Daily submission must produce 1 to 6 qualified news markets, or the required live-event drafts.");
     }
@@ -276,6 +283,10 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
     }
     const details = { created: rows.length, ...summarizeDailyPlan(validated.candidates, plan), admin_approval_required: rows.some(row => row.status === "draft") };
     await finishRun(admin, started.run.id, "succeeded", details);
+    if (rows.some((row) => row.status === "open")) {
+      try { await sendPendingNewsMarketEmails({ limit: rows.length }); }
+      catch (emailError) { console.error("News market opening emails remain queued:", String(emailError)); }
+    }
     const sourceBySlug = new Map(sourceArticles.map((article) => [article.slug, article]));
     const markets = createdMarkets.map((market) => ({
       ...market,
@@ -295,7 +306,7 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
 export async function previewDailyDraftAutomation(candidates: unknown, now = new Date()) {
   const admin = createAdminClient();
   if (!admin) throw new Error("Supabase service-role configuration is required for Tregu automation.");
-  const sourceArticles = await getLatestArticles(60);
+  const sourceArticles = await getLatestPersistedArticles(60);
   const validated = validateDailyDraftSubmission(candidates, new Set(sourceArticles.map((article) => article.slug)), {
     minimum: 0,
     nonSportOnly: true,
@@ -881,11 +892,13 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         && (!settleOnly || Date.parse(String(market?.closes_at ?? "")) <= now.getTime());
     });
 
-    // Original-page research joins the newsroom pool. Discovery headlines
-    // alone never become scoring evidence (no fake body=title records).
-    const verifiedPool = await getLatestArticles(200);
     const research = await loadMarketResearch(admin, now);
     const marketIds = (markets ?? []).map((market) => String(market.id)).filter(Boolean);
+    // The VPS research job reads original publisher pages and stores a private,
+    // per-market packet. Newsroom copy and RSS headlines are never oracle input.
+    const researchByMarket = research.status === "fresh"
+      ? parseMarketResearchEvidence({ generated_at: research.generated_at, markets: research.markets }, marketIds, now)
+      : new Map<string, any[]>();
     const { data: priorNewsSnapshots, error: priorNewsSnapshotsError } = marketIds.length
       ? await admin.from("market_snapshots")
         .select("market_id,evidence_slugs,evidence,created_at,oracle_kind,oracle_reasoning")
@@ -911,15 +924,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         lastDeadlineDecayAtByMarket.set(marketId, Math.max(lastDeadlineDecayAtByMarket.get(marketId) ?? 0, createdAt));
       }
     }
-    const researchedMarkets = [];
-    for (let offset = 0; offset < markets.length; offset += 4) {
-      const batch = await Promise.all(markets.slice(offset, offset + 4).map(async market => {
-        const targeted = await getPropositionArticles(propositionSearchTerms(market), now);
-        const articles = [...new Map([...targeted, ...verifiedPool, ...(research.markets[market.id] ?? [])].map(article => [article.slug, article])).values()];
-        return { market, articles };
-      }));
-      researchedMarkets.push(...batch);
-    }
+    const researchedMarkets = (markets ?? []).map((market) => ({ market, articles: researchByMarket.get(String(market.id)) ?? [] }));
     const plan = researchedMarkets.flatMap(({ market, articles }) => buildRepricePlan({
       markets: [market], verifiedArticles: articles, now, usedEvidenceByMarket,
     }));
@@ -1077,24 +1082,6 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           continue;
         }
         if (item.evidence.length === 0) {
-          const { data: convergenceRows, error: convergenceError } = await admin.rpc("advance_news_evidence_target", { p_market_id: item.market.id });
-          if (convergenceError) throw new Error(`Could not advance evidence target for ${item.market.slug}: ${convergenceError.message}`);
-          const convergence = Array.isArray(convergenceRows) ? convergenceRows[0] : null;
-          if (convergence && Number(convergence.new_price_yes) !== Number(convergence.previous_price_yes)) {
-            const persisted = await recordMarketCheck(item.market.id, { status: "oracle_applied", checked_at: now.toISOString(), evidence_count: 0 });
-            results.push({ slug: item.market.slug, status: persisted ? "oracle_applied" : "skipped_closed", provider: "evidence_target", reason: "persisted_evidence_target", deadline_action: deadlineAction,
-              ...(persisted ? { email_update: {
-                question: item.market.question, slug: item.market.slug, provider: "evidence_target", reason: "evidence_convergence",
-                before_probability: Number(convergence.previous_price_yes), after_probability: Number(convergence.new_price_yes),
-                absolute_percentage_point_change: Math.abs(Number(convergence.new_price_yes) - Number(convergence.previous_price_yes)),
-                timestamp: now.toISOString(), remaining_hours: deadlineRemainingHours,
-                verified_sources: (currentMarket?.news_evidence_target?.evidence ?? []).map((article: any) => ({
-                  label: article.source, title: article.title, slug: article.slug, url: article.url, published_at: article.publishedAt,
-                })),
-              } } : {}),
-            });
-            continue;
-          }
           const persisted = await recordMarketCheck(item.market.id, { status: "no_fresh_evidence", checked_at: now.toISOString(), evidence_count: 0 });
           results.push(persisted
             ? { slug: item.market.slug, status: "no_fresh_evidence", deadline_action: deadlineAction }
@@ -1107,6 +1094,16 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
         const citedSlugs = Array.isArray(score.cited_slugs) ? score.cited_slugs.map(String) : [];
         if (!citedSlugs.length || !citedSlugs.some((slug) => item.evidence.some((article: { slug: string }) => article.slug === slug))) {
           throw new Error(`AI returned no valid citation for ${item.market.slug}.`);
+        }
+        const citedArticles = item.evidence.filter((article: { slug: string }) => citedSlugs.includes(article.slug));
+        const independentHosts = new Set(citedArticles.map((article: { url?: string }) => {
+          try { return new URL(String(article.url ?? "")).hostname.replace(/^www\./i, "").toLowerCase(); }
+          catch { return ""; }
+        }).filter(Boolean));
+        if (independentHosts.size < 2) {
+          const persisted = await recordMarketCheck(item.market.id, { status: "independent_corroboration_required", checked_at: now.toISOString(), evidence_count: citedArticles.length });
+          results.push(persisted ? { slug: item.market.slug, status: "no_change", reason: "independent_corroboration_required" } : { slug: item.market.slug, status: "skipped_closed" });
+          continue;
         }
         const outcome = item.scoreSuccess(score);
         const evidence = item.evidence
@@ -1161,13 +1158,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           p_evidence_fingerprint: outcome.snapshot.evidence_fingerprint,
           p_evidence_kind: outcome.snapshot.evidence_kind ?? "ordinary",
         };
-        let { data: oracleRows, error: oracleError } = await admin.rpc("apply_news_oracle", oraclePayload);
-        if (oracleError && /function .*apply_news_oracle.*does not exist|could not find the function/i.test(oracleError.message)) {
-          // Rolling compatibility for a database before migration 0059. The
-          // persisted snapshot ledger still prevents repeats in this state.
-          const { p_evidence_fingerprint: _ignoredFingerprint, ...legacyPayload } = oraclePayload;
-          ({ data: oracleRows, error: oracleError } = await admin.rpc("apply_news_oracle", legacyPayload));
-        }
+        const { data: oracleRows, error: oracleError } = await admin.rpc("apply_news_oracle", oraclePayload);
         if (oracleError) throw new Error(`Could not apply hybrid oracle for ${item.market.slug}: ${oracleError.message}`);
         const oracle = Array.isArray(oracleRows) ? oracleRows[0] : null;
         if (!oracle) throw new Error(`News oracle did not return an audit result for ${item.market.slug}.`);

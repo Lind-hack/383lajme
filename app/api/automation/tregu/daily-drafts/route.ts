@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { automationDenied } from "@/lib/require-automation";
 import { previewDailyDraftAutomation, runDailyDraftAutomation } from "@/lib/tregu-automation-server";
-import { getLatestArticles } from "@/lib/db";
+import { getLatestPersistedArticles } from "@/lib/db";
 import { selectDailySourceArticles } from "@/lib/tregu-daily-market-quality.mjs";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -13,7 +13,7 @@ export const maxDuration = 60;
 export async function GET(request: NextRequest) {
   const denied = automationDenied(request);
   if (denied) return denied;
-  const sourceArticles = selectDailySourceArticles(await getLatestArticles(60), 24);
+  const sourceArticles = selectDailySourceArticles(await getLatestPersistedArticles(60), 24);
   const admin = createAdminClient();
   const { data: futureTemplates, error: futureError } = admin ? await admin.from("markets").select("id,slug,question,description,closes_at,live_event,sport_outcomes,status,market_classification,market_type").eq("status", "draft").in("market_classification", ["live_f1", "live_football"]).gt("closes_at", new Date().toISOString()) : { data: [], error: null };
   const { data: activeMarkets, error: activeError } = admin ? await admin

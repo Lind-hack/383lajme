@@ -3,6 +3,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { isAdminAuthed } from "@/lib/admin-auth";
 import { slugifyQuestion } from "@/lib/tregu";
 import { DEFAULT_SPORT_LIQUIDITY } from "@/lib/tregu-liquidity.mjs";
+import { sendPendingNewsMarketEmails } from "@/lib/tregu-creation-email";
+import { newsGeography, newsTopic } from "@/lib/tregu-news-taxonomy.mjs";
 
 export const dynamic = "force-dynamic";
 
@@ -38,6 +40,11 @@ export async function POST(request: NextRequest) {
         resolutionSource?: string;
         /** Seed LMSR opening price (0.02–0.98) instead of the 50/50 default. */
         initialProb?: number;
+        marketImageUrl?: string;
+        marketImageAlt?: string;
+        marketImageSourceUrl?: string;
+        newsGeography?: string;
+        newsTopic?: string;
       }
     | null;
 
@@ -46,6 +53,16 @@ export async function POST(request: NextRequest) {
   }
 
   const slug = slugifyQuestion(body.question) || `treg-${Date.now()}`;
+  const isSport = String(body.category).toLowerCase() === "sport";
+  const geography = newsGeography(body.newsGeography);
+  const topic = newsTopic(body.newsTopic);
+  if (!isSport && (!geography || !topic)) {
+    return NextResponse.json({ error: "Tregjet e lajmeve kërkojnë gjeografi dhe temë të veçantë." }, { status: 400 });
+  }
+  const imageUrl = body.marketImageUrl?.trim();
+  if (imageUrl && (!/^https:\/\/\S+$/i.test(imageUrl) || !/^https:\/\/\S+$/i.test(String(body.marketImageSourceUrl ?? "")))) {
+    return NextResponse.json({ error: "Pamja e subjektit kërkon URL HTTPS dhe lidhje burimi HTTPS." }, { status: 400 });
+  }
   const closesAt = new Date(Date.now() + (body.closesInDays ?? 30) * 86_400_000).toISOString();
 
   // Seeded opening odds: lmsrPriceYes = 1/(1+e^((q_no−q_yes)/b)) = p when
@@ -73,6 +90,12 @@ export async function POST(request: NextRequest) {
       category: body.category,
       status: body.status ?? "draft",
       source_article_slugs: body.sourceSlugs ?? [],
+      ...(!isSport ? { pre_match_analysis: { news_geography: geography, news_topic: topic } } : {}),
+      ...(!isSport ? {
+        market_image_url: imageUrl ?? `/api/tregu/market-art/${encodeURIComponent(slug)}`,
+        market_image_alt: body.marketImageAlt?.trim() || `Grafikë për ${body.question.trim()}`,
+        market_image_source_url: imageUrl ? body.marketImageSourceUrl?.trim() : null,
+      } : {}),
       ai_generated: body.aiGenerated ?? false,
       resolution_rules: body.resolutionRules?.trim() || null,
       resolution_source: body.resolutionSource?.trim() || null,
@@ -82,5 +105,9 @@ export async function POST(request: NextRequest) {
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (data.status === "open" && String(data.category).toLowerCase() !== "sport") {
+    try { await sendPendingNewsMarketEmails({ marketId: data.id, limit: 1 }); }
+    catch (emailError) { console.error("Market opening email remains queued:", String(emailError)); }
+  }
   return NextResponse.json({ market: data });
 }

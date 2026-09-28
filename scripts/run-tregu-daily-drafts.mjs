@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { generateDailyMarkets, shortlistDailyTopics } from "../lib/tregu-daily-generation.mjs";
 import {
+  buildDailyCodexCommand,
   buildDraftReviewEmail,
   TREGU_DRAFT_REVIEW_RECIPIENT,
 } from "../lib/tregu-automation.mjs";
@@ -22,6 +23,21 @@ const contextResponse = await fetch(`${baseUrl}/api/automation/tregu/daily-draft
 if (!contextResponse.ok) throw new Error(`Could not load Codex draft context: ${await contextResponse.text()}`);
 const { articles, activeMarkets = [], futureTemplates = [] } = await contextResponse.json();
 const now = new Date();
+
+async function withCodexQuotaFallback(prompt, primary, key, maximum) {
+  try { return await primary(prompt); }
+  catch (providerError) {
+    if (!["rate_limit_or_quota", "provider_unavailable"].includes(providerError?.error_class)) throw providerError;
+    const hermesBin = process.env.HERMES_BIN ?? "/opt/hermes/.venv/bin/hermes";
+    const output = execFileSync(hermesBin, buildDailyCodexCommand(prompt), {
+      cwd: process.cwd(), env: { ...process.env, HERMES_HOME: process.env.HERMES_HOME ?? "/opt/data" },
+      encoding: "utf8", timeout: 240_000, maxBuffer: 2 * 1024 * 1024,
+    });
+    const parsed = JSON.parse(output.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, ""));
+    if (!Array.isArray(parsed?.[key]) || parsed[key].length > maximum) throw new Error(`Codex fallback returned an invalid ${key} set`);
+    return { [key === "topics" ? "topics" : "candidates"]: parsed[key], provider: "openai-codex-oauth", fallback_reason: providerError.error_class };
+  }
+}
 
 // Stage one of two. Asking for discovery, filtering and the full ten-field contract in
 // a single reply made gpt-oss-120b return an empty markets array on every run from
@@ -53,7 +69,7 @@ ${JSON.stringify(articles)}
 Return ONLY compact JSON, no markdown:
 {"topics":[{"topic_key":"kebab-case-stable-identity","decision":"the concrete fork in one sentence","yes_path":"...","no_path":"...","resolution_source":"named authority","why_undecided":"...","source_slugs":["slug1","slug2"]}]}`;
 
-const shortlist = await shortlistDailyTopics(shortlistPrompt);
+const shortlist = await withCodexQuotaFallback(shortlistPrompt, shortlistDailyTopics, "topics", 10);
 console.log(JSON.stringify({
   stage: "shortlist",
   provider: shortlist.provider,
@@ -90,6 +106,7 @@ QUALITY RULES:
 8. Require at least two independent publishers from the supplied articles. Copy source slugs exactly. Name the authoritative resolution source and explain why the topic is widely discussed.
 9. Never repeat an active topic or near-identical question. Return fewer than three markets, including zero, when only fewer pass all quality gates.
 10. Every market requires contract_version: news-event-v3 and proposition: {entities: [named entities], geography: Kosovo|Albania|World, decision: concrete fork, yes_condition: explicit winning event, no_condition: explicit losing event, resolution_source: named authority, resolution_mode: event_pair|deadline_occurrence, review_policy: pause_for_review}. Event-pair JO must be a real event, not absence of PO by a date.
+11. Assign two independent labels: proposition.geography is Kosovo, Albania, or World; news_topic is politike, ekonomi, shoqeri, siguri, or teknologji. Kosovo/Albania/World describe where the outcome is decided, while topic describes the subject. A Kosovo economy story is Kosovo + ekonomi. Do not force an equal number of markets into each label; publish only candidates with strong evidence.
 
 Good shapes (illustrative only; never copy facts):
 - a named parliament/court/central bank decision with two plausible outcomes;
@@ -105,13 +122,13 @@ Verified source articles (each includes source, URL, excerpt, and bounded body):
 ${JSON.stringify(articles)}
 
 Return ONLY compact JSON, with no markdown:
-{"markets":[{"question":"...","description":"current state plus the unresolved fork","resolution_criteria":"PO: ... JO: ... Burimi i zgjidhjes: ... Afati: ... Edge cases: ...","category":"kosove|shqiperi|ekonomi|bote|te-tjera","contract_version":"news-event-v3","closes_in_hours":1440,"proposition":{"entities":["..."],"geography":"Kosovo","decision":"...","yes_condition":"...","no_condition":"...","resolution_source":"...","resolution_mode":"event_pair","review_policy":"pause_for_review"},"market_archetype":"scheduled_decision|threshold|data_release|policy_action|appointment_or_selection|escalation_or_deescalation|corporate_decision|executive_action","topic_key":"topic-name","decision_point":"...","why_uncertain":"...","trading_angle":"...","resolution_source":"...","deadline_basis":"...","threshold_value":"...","source_slugs":["slug1","slug2"]}]}`;
+{"markets":[{"question":"...","description":"current state plus the unresolved fork","resolution_criteria":"PO: ... JO: ... Burimi i zgjidhjes: ... Afati: ... Edge cases: ...","category":"kosove|shqiperi|ekonomi|bote|te-tjera","news_topic":"politike|ekonomi|shoqeri|siguri|teknologji","contract_version":"news-event-v3","closes_in_hours":1440,"proposition":{"entities":["..."],"geography":"Kosovo","decision":"...","yes_condition":"...","no_condition":"...","resolution_source":"...","resolution_mode":"event_pair","review_policy":"pause_for_review"},"market_archetype":"scheduled_decision|threshold|data_release|policy_action|appointment_or_selection|escalation_or_deescalation|corporate_decision|executive_action","topic_key":"topic-name","decision_point":"...","why_uncertain":"...","trading_angle":"...","resolution_source":"...","deadline_basis":"...","threshold_value":"...","source_slugs":["slug1","slug2"]}]}`;
 
 
 // An empty shortlist means stage one found nothing undecided worth pricing. That is a
 // legitimate outcome, and spending a second provider call to confirm it is waste.
 const generation = shortlist.topics.length
-  ? await generateDailyMarkets(prompt)
+  ? await withCodexQuotaFallback(prompt, generateDailyMarkets, "markets", 6)
   : { candidates: [], provider: shortlist.provider, fallback_reason: "empty_shortlist" };
 const candidates = generation.candidates;
 console.log(JSON.stringify({ stage: "generation", provider: generation.provider, fallback_reason: generation.fallback_reason, shortlisted: shortlist.topics.length, candidate_count: candidates.length }));

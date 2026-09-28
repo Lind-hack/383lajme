@@ -14,7 +14,7 @@ const CATEGORY_TO_ARTICLE_CATEGORY: Record<MarketCategory, string[]> = {
   politike: ["Politikë", "Siguri", "Shoqëri"],
   ekonomi: ["Ekonomi"],
   sport: ["Sport"],
-  bote: ["Botë", "Diaspora"],
+  bote: ["Botë", "Diaspora", "Shqipëri"],
   "te-tjera": [],
 };
 

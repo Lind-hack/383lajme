@@ -185,7 +185,6 @@ const CATEGORIES: { value: string; label: string }[] = [
   { value: "ekonomi", label: "Ekonomi" },
   { value: "sport", label: "Sport" },
   { value: "bote", label: "Botë" },
-  { value: "te-tjera", label: "Të tjera" },
 ];
 
 type SortKey = "vellim" | "afat" | "nxehta";

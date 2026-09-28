@@ -4,6 +4,7 @@ import { lmsrPriceYes } from "@/lib/tregu";
 import { lmsrSportOutcomePrices } from "@/lib/tregu-client";
 import { resolveMarketMedia } from "@/lib/tregu-market-media.mjs";
 import { publicProfileName } from "@/lib/profile-hub.mjs";
+import { marketNewsTaxonomy, matchesNewsFilter } from "@/lib/tregu-news-taxonomy.mjs";
 
 export const dynamic = "force-dynamic";
 
@@ -82,12 +83,10 @@ export async function GET(request: NextRequest) {
   } else {
     query = query.in("status", ["open", "closed", "resolved"]);
   }
-  if (category) query = query.eq("category", category);
-
   const { data, error } = await query;
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  const rows = data ?? [];
+  const rows = (data ?? []).filter((market) => matchesNewsFilter(market, category));
   // History is fetched for the books a chart can show. The trading floor asks
   // for status=all and then keeps only open books, but the three history
   // queries below are one newest-first window shared by every listed market —
@@ -303,6 +302,8 @@ export async function GET(request: NextRequest) {
 
     return {
       ...m,
+      news_geography: marketNewsTaxonomy(m).geography,
+      news_topic: marketNewsTaxonomy(m).topic,
       market_prob: prob,
       spark,
       delta7d: hasOutcomeBook ? null : delta7d,

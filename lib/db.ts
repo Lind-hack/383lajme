@@ -117,7 +117,7 @@ function mapAutoRow(a: Record<string, unknown>): Article {
   });
 }
 
-function getAutoArticles(): Article[] {
+function getAutoArticles(exactCategory?: string): Article[] {
   if (!fs.existsSync(AUTO_DIR)) return [];
   const cutoff = new Date(Date.now() - MAX_AUTO_AGE_MS);
   const articles: Article[] = [];
@@ -128,6 +128,7 @@ function getAutoArticles(): Article[] {
         fs.readFileSync(path.join(AUTO_DIR, file), "utf-8")
       ) as Array<Record<string, unknown>>;
       for (const a of raw) {
+        if (exactCategory && String(a.category ?? "") !== exactCategory) continue;
         const ts = String(a.created_at ?? a.published_at ?? "");
         if (ts && new Date(ts) < cutoff) continue;
         articles.push(mapAutoRow(a));
@@ -199,7 +200,7 @@ export const getArticles = cache(getArticlesUncached);
 async function getArticlesUncached(
   limit = 50,
   category?: string,
-  opts: { withBody?: boolean } = {}
+  opts: { withBody?: boolean; exactCategory?: boolean } = {}
 ): Promise<Article[]> {
   // A section owns its retired aliases, so filtering on the label alone would
   // hide every row the pipeline filed under the old name.
@@ -216,10 +217,16 @@ async function getArticlesUncached(
         .order("engagement_score", { ascending: false })
         .order("published_at", { ascending: false })
         .limit(limit);
-      if (wanted) query = query.in("category", categoryQueryValues(wanted));
+      if (wanted) {
+        query = opts.exactCategory
+          ? query.eq("category", wanted)
+          : query.in("category", categoryQueryValues(wanted));
+      }
       const { data, error } = await query;
       if (error) throw new Error(error.message);
-      if (data?.length) return data.map((article) => mapAutoRow(article as unknown as Record<string, unknown>));
+      if (data && (data.length || opts.exactCategory)) {
+        return data.map((article) => mapAutoRow(article as unknown as Record<string, unknown>));
+      }
     } catch (error) {
       // News batches are committed to data/auto-articles specifically so a
       // temporary Supabase/Cloudflare outage cannot block a production build.
@@ -227,22 +234,24 @@ async function getArticlesUncached(
     }
   }
 
-  const autoArticles = getAutoArticles();
+  const autoArticles = getAutoArticles(opts.exactCategory ? wanted : undefined);
   const db = getDb();
 
   let sqliteArticles: Article[] = [];
   if (db) {
-    const rows = db
-      .prepare(
-        `SELECT ${SELECT_COLUMNS} FROM articles WHERE processed = 1 ORDER BY featured DESC, engagement_score DESC, published_at DESC LIMIT ?`
-      )
-      .all(limit) as DbRow[];
+    const rows = opts.exactCategory && wanted
+      ? db.prepare(
+          `SELECT ${SELECT_COLUMNS} FROM articles WHERE processed = 1 AND category = ? ORDER BY featured DESC, engagement_score DESC, published_at DESC LIMIT ?`
+        ).all(wanted, limit) as DbRow[]
+      : db.prepare(
+          `SELECT ${SELECT_COLUMNS} FROM articles WHERE processed = 1 ORDER BY featured DESC, engagement_score DESC, published_at DESC LIMIT ?`
+        ).all(limit) as DbRow[];
     db.close();
     sqliteArticles = rows.map(mapRow);
   }
 
   if (sqliteArticles.length === 0 && autoArticles.length === 0) {
-    return mockArticles();
+    return opts.exactCategory ? [] : mockArticles();
   }
 
   const seen = new Set<string>();
@@ -450,6 +459,16 @@ export async function getLatestArticles(limit = 10): Promise<Article[]> {
       return true;
     })
     .slice(0, limit);
+}
+
+/** Oracle evidence must come from persisted newsroom rows, never local/mock fallback. */
+export async function getLatestPersistedArticles(limit = 200): Promise<Article[]> {
+  const supabase = supabaseNewsClient();
+  if (!supabase) throw new Error("News database is unavailable for Tregu evidence");
+  const { data, error } = await supabase.from("news_articles")
+    .select(ARTICLE_COLUMNS).order("published_at", { ascending: false }).limit(limit);
+  if (error) throw new Error(`Could not load persisted Tregu evidence: ${error.message}`);
+  return (data ?? []).map((article) => mapAutoRow(article as unknown as Record<string, unknown>));
 }
 
 export async function getArticleBySlug(slug: string): Promise<Article | null> {

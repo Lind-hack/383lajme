@@ -5,6 +5,7 @@ import { LEADERBOARD_KIND_LABEL, leaderboardPeriodLabel, type LeaderboardReward 
 import PublicLeagues from "./PublicLeagues";
 import Link from "next/link";
 import styles from "./TreguAdminClient.module.css";
+import { marketNewsTaxonomy } from "@/lib/tregu-news-taxonomy.mjs";
 
 type MarketClassification = "general_news" | "live_football" | "live_basketball" | "live_f1";
 type MarketStatus = "draft" | "open" | "stale" | "closed" | "resolved";
@@ -23,6 +24,13 @@ interface Market {
   market_type?: "binary" | "two_outcome" | "three_outcome" | "f1_race_winner";
   closes_at: string;
   ai_generated: boolean;
+  q_yes?: number;
+  q_no?: number;
+  b?: number;
+  market_image_url?: string | null;
+  market_image_alt?: string | null;
+  market_image_source_url?: string | null;
+  pre_match_analysis?: Record<string, unknown> | null;
   last_checked_at?: string | null;
   last_scan_result?: { status?: string; evidence_count?: number } | null;
 }
@@ -106,6 +114,12 @@ function marketTypeLabel(value: Market["market_type"]) {
   if (value === "three_outcome") return "3 rezultate";
   if (value === "two_outcome") return "2 rezultate";
   return "PO/JO";
+}
+
+function isBinaryNewsMarket(market: Market) {
+  return (market.market_classification ?? "general_news") === "general_news"
+    && (market.market_type ?? "binary") === "binary"
+    && market.category.toLowerCase() !== "sport";
 }
 
 export default function TreguAdminClient() {
@@ -322,7 +336,7 @@ export default function TreguAdminClient() {
             {(market, change) => <DraftActions market={market} change={change} marketAction={marketAction} onDelete={deleteDraft} onSaved={loadMarkets} />}
           </MarketSection>
           <MarketSection title="Tregje aktive" subtitle="Të hapura për baste" markets={marketsForStatus("open")} changes={recentChangesBySlug} empty="Nuk ka tregje aktive.">
-            {(market, change) => <MarketCard market={market} change={change}><div className={styles.cardActions}><button type="button" onClick={() => marketAction(market.id, { action: "close" })} className={styles.buttonSecondary}>Mbyll bastet</button></div></MarketCard>}
+            {(market, change) => <MarketCard market={market} change={change}>{isBinaryNewsMarket(market) && <><MarketImageEditor market={market} onSaved={loadMarkets} /><NewsMarketControl market={market} mode="adjust" onSaved={loadMarkets} /></>}<div className={styles.cardActions}><button type="button" onClick={() => marketAction(market.id, { action: "close" })} className={styles.buttonSecondary}>Mbyll bastet</button></div></MarketCard>}
           </MarketSection>
           <MarketSection title="Pritet rezultati" subtitle="Afati ka kaluar, rezultati zyrtar nuk ka ardhur" markets={awaitingResult} changes={recentChangesBySlug} empty="Asnjë treg nuk pret rezultat.">
             {(market, change) => <MarketCard market={market} change={change}><ResolveActions market={market} marketAction={marketAction} /></MarketCard>}
@@ -449,8 +463,11 @@ function ResolveActions({ market, marketAction }: { market: Market; marketAction
 }
 
 function MarketCard({ market, change, children }: { market: Market; change?: MarketActivity; children?: React.ReactNode }) {
+  const taxonomy = marketNewsTaxonomy(market);
+  const geographyLabels: Record<string, string> = { kosove: "Kosovë", shqiperi: "Shqipëri", bote: "Botë" };
+  const topicLabels: Record<string, string> = { politike: "Politikë", ekonomi: "Ekonomi", shoqeri: "Shoqëri", siguri: "Siguri", teknologji: "Teknologji", tjeter: "Të tjera" };
   return <article className={`${styles.marketCard} ${change ? styles.marketCardChanged : ""}`}>
-    <div className={styles.marketTopLine}><div className={styles.marketTags}><span>{market.category}</span><span>{classificationLabel(market.market_classification)}</span><span>{marketTypeLabel(market.market_type)}</span>{market.ai_generated && <span className={styles.aiTag}>AI</span>}</div><span className={`${styles.marketStatus} ${styles[`market${market.status.replace(/^./, (letter) => letter.toUpperCase())}`]}`}>{statusLabels[market.status]}</span></div>
+    <div className={styles.marketTopLine}><div className={styles.marketTags}><span>{taxonomy.geography ? geographyLabels[taxonomy.geography] : market.category}</span>{taxonomy.topic && <span>{topicLabels[taxonomy.topic]}</span>}<span>{classificationLabel(market.market_classification)}</span><span>{marketTypeLabel(market.market_type)}</span>{market.ai_generated && <span className={styles.aiTag}>AI</span>}</div><span className={`${styles.marketStatus} ${styles[`market${market.status.replace(/^./, (letter) => letter.toUpperCase())}`]}`}>{statusLabels[market.status]}</span></div>
     <h3>{market.question}</h3>
     {market.description && <p className={styles.marketDescription}>{market.description}</p>}
     <div className={styles.marketMeta}><span>Mbyllet {new Intl.DateTimeFormat("sq-AL", { day: "2-digit", month: "short", year: "numeric" }).format(new Date(market.closes_at))}</span>{market.last_checked_at && <span>Kontrolluar {formatTime(market.last_checked_at)}{market.last_scan_result?.evidence_count !== undefined ? ` · ${market.last_scan_result.evidence_count} evidenca` : ""}</span>}{market.outcome && <span className={market.outcome === "PO" ? styles.outcomeYes : styles.outcomeNo}>Zgjidhur: {market.outcome}</span>}</div>
@@ -459,8 +476,87 @@ function MarketCard({ market, change, children }: { market: Market; change?: Mar
   </article>;
 }
 
+function NewsMarketControl({ market, mode, onSaved }: { market: Market; mode: "adjust" | "resolve"; onSaved: () => Promise<void> }) {
+  const [points, setPoints] = useState("");
+  const [outcome, setOutcome] = useState<"PO" | "JO">("PO");
+  const [reason, setReason] = useState("");
+  const [sourceUrl, setSourceUrl] = useState("");
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const b = Number(market.b ?? 100);
+  const difference = (Number(market.q_yes ?? 0) - Number(market.q_no ?? 0)) / b;
+  const current = Number.isFinite(difference) ? 100 / (1 + Math.exp(-difference)) : 50;
+  const delta = Number(points);
+  const target = current + delta;
+  const valid = reason.trim().length >= 20 && /^https:\/\/\S+$/i.test(sourceUrl.trim())
+    && (mode === "resolve" || (points.trim() !== "" && Number.isFinite(delta) && delta !== 0 && Math.abs(delta) <= 98 && target >= 1 && target <= 99));
+
+  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!valid || pending) return;
+    if (mode === "resolve" && !window.confirm(`Zgjidh përfundimisht “${market.question}” si ${outcome}? Fituesit do të marrin shpërblimet.`)) return;
+    setPending(true);
+    setError(null);
+    try {
+      const response = await fetch(`/api/admin/tregu/markets/${market.id}`, {
+        method: "PATCH", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: mode === "adjust" ? "adjust_odds" : "resolve", ...(mode === "adjust" ? { deltaPoints: delta } : { outcome }), reason: reason.trim(), sourceUrl: sourceUrl.trim() }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error ?? "Veprimi dështoi. Provo përsëri.");
+      setPoints(""); setReason(""); setSourceUrl("");
+      await onSaved();
+    } catch (failure) {
+      setError(failure instanceof Error ? failure.message : "Veprimi dështoi.");
+    } finally { setPending(false); }
+  };
+
+  return <form className={styles.newsControl} onSubmit={(event) => void submit(event)}>
+    <h4>{mode === "adjust" ? "Ndrysho odds me burim" : "Zgjidh dhe shpërble fituesit"}</h4>
+    {mode === "adjust" ? <div className={styles.newsControlRow}>
+      <label>Pikë për PO (+/−)<input type="number" step="0.1" min="-98" max="98" value={points} onChange={(event) => setPoints(event.target.value)} placeholder="p.sh. +3 ose -2" required /></label>
+      <output aria-live="polite">{current.toFixed(1)}% {points.trim() && Number.isFinite(delta) ? `→ ${target.toFixed(1)}%` : "PO"}</output>
+    </div> : <label>Fituesi<select value={outcome} onChange={(event) => setOutcome(event.target.value as "PO" | "JO")}><option value="PO">PO</option><option value="JO">JO</option></select></label>}
+    <label>Çfarë ndodhi?<textarea value={reason} onChange={(event) => setReason(event.target.value)} minLength={20} rows={2} placeholder="Përshkruaj faktin dhe lidhjen me kriterin e tregut" required /></label>
+    <label>Burimi i verifikuar<input type="url" value={sourceUrl} onChange={(event) => setSourceUrl(event.target.value)} placeholder="https://..." required /></label>
+    {error && <p role="alert" className={styles.errorMessage}>{error}</p>}
+    <button type="submit" disabled={!valid || pending} className={mode === "adjust" ? styles.buttonSecondary : styles.buttonYes}>{pending ? "Duke ruajtur…" : mode === "adjust" ? "Ruaj ndryshimin" : `Zgjidh ${outcome} dhe paguaj`}</button>
+  </form>;
+}
+
+function MarketImageEditor({ market, onSaved }: { market: Market; onSaved: () => Promise<void> }) {
+  const [imageUrl, setImageUrl] = useState(market.market_image_url?.startsWith("https://") ? market.market_image_url : "");
+  const [alt, setAlt] = useState(market.market_image_alt ?? "");
+  const [sourceUrl, setSourceUrl] = useState(market.market_image_source_url ?? "");
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+  const valid = /^https:\/\/\S+$/i.test(imageUrl.trim()) && /^https:\/\/\S+$/i.test(sourceUrl.trim()) && alt.trim().length >= 3;
+  const save = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); if (!valid || pending) return;
+    setPending(true); setError(null);
+    try {
+      const response = await fetch(`/api/admin/tregu/markets/${market.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "update_image", marketImageUrl: imageUrl.trim(), marketImageAlt: alt.trim(), marketImageSourceUrl: sourceUrl.trim() }) });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error ?? "Pamja nuk u ruajt.");
+      await onSaved();
+    } catch (failure) { setError(failure instanceof Error ? failure.message : "Pamja nuk u ruajt."); }
+    finally { setPending(false); }
+  };
+  return <details className={styles.imageEditor}>
+    <summary>Pamja e tregut {market.market_image_url?.startsWith("https://") ? "· foto / logo" : "· grafikë"}</summary>
+    <form onSubmit={(event) => void save(event)}>
+      {market.market_image_url && <img src={market.market_image_url} alt={market.market_image_alt ?? "Pamja e tregut"} loading="lazy" referrerPolicy="no-referrer" />}
+      <label>Foto ose logo e subjektit<input type="url" value={imageUrl} onChange={(event) => setImageUrl(event.target.value)} placeholder="https://..." required /></label>
+      <label>Përshkrimi<input value={alt} onChange={(event) => setAlt(event.target.value)} placeholder="p.sh. Albin Kurti" required /></label>
+      <label>Burimi i pamjes<input type="url" value={sourceUrl} onChange={(event) => setSourceUrl(event.target.value)} placeholder="https://..." required /></label>
+      {error && <p role="alert" className={styles.errorMessage}>{error}</p>}
+      <button type="submit" className={styles.buttonSecondary} disabled={!valid || pending}>{pending ? "Duke ruajtur…" : "Ruaj pamjen"}</button>
+    </form>
+  </details>;
+}
+
 function DraftActions({ market: m, change, marketAction, onDelete, onSaved }: { market: Market; change?: MarketActivity; marketAction: (id: string, body: Record<string, unknown>) => Promise<void>; onDelete: (id: string) => Promise<void>; onSaved: () => Promise<void> }) {
-  return <MarketCard market={m} change={change}><div className={styles.marketConfig}><label>Klasifikimi<select aria-label="Klasifikimi i tregut" value={m.market_classification ?? "general_news"} onChange={(event) => { const value = event.target.value as MarketClassification; void marketAction(m.id, { market_classification: value }); }}><option value="general_news">General / News</option><optgroup label="Sport"><option value="live_football">Football — score, cards, time</option><option value="live_basketball">Basketball — NBA / FBK Superliga</option><option value="live_f1">F1 — official live timing</option></optgroup></select></label><label>Lloji<select aria-label="Lloji i tregut" value={m.market_type ?? "binary"} onChange={(event) => { const value = event.target.value as NonNullable<Market["market_type"]>; void marketAction(m.id, { market_type: value }); }}><option value="binary">Binar (PO/JO)</option><option value="two_outcome">Dy rezultate</option><option value="three_outcome">Tri rezultate</option><option value="f1_race_winner">F1 Race Winner</option></select></label></div>{m.market_classification === "live_f1" && m.market_type !== "f1_race_winner" && <F1ConfigEditor market={m} onSaved={onSaved} />}<div className={styles.cardActions}><button type="button" onClick={() => void marketAction(m.id, { action: "approve" })} className={styles.buttonYes}>Mirato tregun</button><button type="button" onClick={() => void onDelete(m.id)} className={styles.buttonDanger}>Fshi draftin</button></div></MarketCard>;
+  return <MarketCard market={m} change={change}><div className={styles.marketConfig}><label>Klasifikimi<select aria-label="Klasifikimi i tregut" value={m.market_classification ?? "general_news"} onChange={(event) => { const value = event.target.value as MarketClassification; void marketAction(m.id, { market_classification: value }); }}><option value="general_news">General / News</option><optgroup label="Sport"><option value="live_football">Football — score, cards, time</option><option value="live_basketball">Basketball — NBA / FBK Superliga</option><option value="live_f1">F1 — official live timing</option></optgroup></select></label><label>Lloji<select aria-label="Lloji i tregut" value={m.market_type ?? "binary"} onChange={(event) => { const value = event.target.value as NonNullable<Market["market_type"]>; void marketAction(m.id, { market_type: value }); }}><option value="binary">Binar (PO/JO)</option><option value="two_outcome">Dy rezultate</option><option value="three_outcome">Tri rezultate</option><option value="f1_race_winner">F1 Race Winner</option></select></label></div>{isBinaryNewsMarket(m) && <MarketImageEditor market={m} onSaved={onSaved} />}{m.market_classification === "live_f1" && m.market_type !== "f1_race_winner" && <F1ConfigEditor market={m} onSaved={onSaved} />}<div className={styles.cardActions}><button type="button" onClick={() => void marketAction(m.id, { action: "approve" })} className={styles.buttonYes}>Mirato tregun</button><button type="button" onClick={() => void onDelete(m.id)} className={styles.buttonDanger}>Fshi draftin</button></div></MarketCard>;
 }
 
 function Withdrawals({ withdrawals, onAction }: { withdrawals: Withdrawal[]; onAction: (id: string, status: "approved" | "paid" | "rejected") => Promise<void> }) {

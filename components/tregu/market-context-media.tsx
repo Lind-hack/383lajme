@@ -40,8 +40,8 @@ export default function MarketContextMedia({
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
-        alt=""
-        aria-hidden
+        alt={media.kind === "market_identity" ? media.title ?? "Pamje e subjektit të tregut" : ""}
+        aria-hidden={media.kind !== "market_identity"}
         loading={variant === "detail" ? "eager" : "lazy"}
         decoding="async"
         referrerPolicy="no-referrer"
@@ -52,7 +52,10 @@ export default function MarketContextMedia({
       />
       <figcaption>
         <span>{CONTEXT_LABEL[media.context]}</span>
-        <strong>{media.kind === "source_article" ? "Pamje nga lajmi" : "Pamje orientuese"}</strong>
+        <strong>{media.kind === "market_identity" ? "Subjekti i tregut" : media.kind === "source_article" ? "Pamje nga lajmi" : media.kind === "market_art" ? "Grafikë e tregut" : "Pamje orientuese"}</strong>
+        {variant === "detail" && media.kind === "market_identity" && /^https:\/\//i.test(media.source ?? "") && (
+          <a href={media.source!} target="_blank" rel="noopener noreferrer">{media.credit || "Burimi i pamjes"}</a>
+        )}
       </figcaption>
     </figure>
   );
