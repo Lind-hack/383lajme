@@ -20208,8 +20208,9 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 
 /* --- Top 5 sot -----------------------------------------------------------
    One story per topic, ranked. The rank is the hook: set as large as a
-   headline, outlined so five of them do not shout over the stories, with #1
-   filled in orange. The photo keeps a 16:10 frame beside the headline. */
+   headline in a pale paper tone so five of them do not shout over the
+   stories, with #1 in orange. Headlines use the site's own Manrope in a warm
+   near-black, not the page's heaviest ink. The photo keeps a 16:10 frame. */
 .top5 {
   display: grid;
   gap: 28px;
@@ -20227,6 +20228,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   color: var(--color-ink);
   font-size: clamp(40px, 5vw, 68px);
   font-weight: 800;
+  color: #2A2723;
   line-height: 0.95;
   letter-spacing: -0.04em;
   text-wrap: balance;
@@ -20244,7 +20246,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 2px solid var(--color-ink);
+  border-top: 1px solid var(--color-border);
 }
 .top5-item { border-bottom: 1px solid var(--color-border); }
 .top5-row {
@@ -20265,11 +20267,11 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   line-height: 0.8;
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
-  color: transparent;
-  -webkit-text-stroke: 2px var(--color-ink);
-  transition: color 220ms var(--ease-out), -webkit-text-stroke-color 220ms var(--ease-out);
+  color: #DCD2C4;
+  -webkit-text-stroke: 0;
+  transition: color 220ms var(--ease-out);
 }
-.top5-row[data-rank="1"] .top5-rank { color: var(--color-orange); -webkit-text-stroke-color: var(--color-orange); }
+.top5-row[data-rank="1"] .top5-rank { color: var(--color-orange); }
 .top5-body { display: flex; flex-direction: column; gap: 9px; min-width: 0; }
 .top5-meta {
   display: flex;
@@ -20292,11 +20294,12 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 }
 .top5-title {
   display: -webkit-box;
-  font-family: var(--font-serif);
-  font-size: 25px;
+  color: #2A2723;
+  font-family: var(--font-manrope), sans-serif;
+  font-size: 23px;
   font-weight: 700;
-  line-height: 1.22;
-  letter-spacing: -0.012em;
+  line-height: 1.28;
+  letter-spacing: -0.02em;
   text-wrap: balance;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -20307,7 +20310,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   text-underline-offset: 5px;
   transition: text-decoration-color 200ms var(--ease-out);
 }
-.top5-row[data-rank="1"] .top5-title { font-size: 30px; }
+.top5-row[data-rank="1"] .top5-title { font-size: 27px; }
 .top5-excerpt {
   display: -webkit-box;
   max-width: 62ch;
@@ -20337,15 +20340,15 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   color: var(--cat);
 }
 @media (hover: hover) and (pointer: fine) {
-  .top5-row:hover .top5-rank { color: var(--cat); -webkit-text-stroke-color: var(--cat); }
+  .top5-row:hover .top5-rank { color: var(--cat); }
   .top5-row:hover .top5-title { text-decoration-color: var(--cat); }
   .top5-row:hover .top5-thumb img { transform: scale(1.045); }
 }
 @media (max-width: 1023px) {
   .top5-row { grid-template-columns: 72px minmax(0, 1fr) 220px; gap: 22px; }
   .top5-rank { font-size: 84px; }
-  .top5-title { font-size: 22px; }
-  .top5-row[data-rank="1"] .top5-title { font-size: 25px; }
+  .top5-title { font-size: 20px; }
+  .top5-row[data-rank="1"] .top5-title { font-size: 23px; }
 }
 @media (max-width: 640px) {
   .top5 { gap: 20px; }
@@ -20357,11 +20360,11 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
     align-items: start;
     padding: 18px 0;
   }
-  .top5-rank { font-size: 46px; -webkit-text-stroke-width: 1.5px; padding-top: 2px; }
+  .top5-rank { font-size: 46px; padding-top: 2px; }
   .top5-body { gap: 6px; }
   .top5-meta { font-size: 11.5px; gap: 5px; }
   .top5-cat { font-size: 10.5px; letter-spacing: 0.08em; }
-  .top5-title, .top5-row[data-rank="1"] .top5-title { font-size: 16.5px; line-height: 1.28; -webkit-line-clamp: 4; }
+  .top5-title, .top5-row[data-rank="1"] .top5-title { font-size: 16px; line-height: 1.32; -webkit-line-clamp: 4; }
   .top5-excerpt, .top5-read { display: none; }
   .top5-thumb { border-radius: 10px; margin-top: 3px; }
 }
