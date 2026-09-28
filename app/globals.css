@@ -21329,11 +21329,6 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   display: inline-flex; align-items: center; gap: 5px; padding: 0; border: 0; background: none;
   color: var(--lgc-gold); font: inherit; font-weight: 800; text-decoration: none; cursor: pointer; min-height: 32px;
 }
-.lgc-edit { display: grid; gap: 10px; width: 100%; max-width: 560px; }
-.lgc-edit input {
-  min-height: 46px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--lgc-line);
-  background: rgba(255, 255, 255, 0.06); color: #fff; font: inherit; font-size: 16px; font-weight: 700;
-}
 .lgc-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .lgc-chips button {
   min-height: 36px; padding: 0 13px; border-radius: 100px; border: 1px solid var(--lgc-line);
@@ -21643,11 +21638,14 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   border-radius: calc(var(--size, 44px) * 0.28);
   background: color-mix(in srgb, var(--lg-color, #F2C14E) 18%, #fff);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--lg-color, #F2C14E) 35%, transparent);
-  font-size: calc(var(--size, 44px) * 0.52);
+  font-size: calc(var(--size, 44px) * 0.6);
   line-height: 1;
   overflow: hidden;
 }
 .lg-emblem img { width: 72%; height: 72%; object-fit: contain; }
+/* The emoji mark sizes from the emblem, never from a parent's text rules
+   (preview captions style their spans, and this is a span too). */
+.lg-emblem > span { display: block !important; margin: 0 !important; font-size: inherit !important; line-height: 1 !important; color: inherit !important; }
 
 /* Floor card: public leagues list, three at most, each one tap. */
 .lgc-publics { display: grid; gap: 8px; }
@@ -21655,30 +21653,6 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .lgc-publics-head strong { font-size: 13px; font-weight: 800; letter-spacing: 0.02em; color: var(--lgc-text); }
 .lgc-publics-head a { font-size: 12.5px; font-weight: 700; color: var(--lgc-muted); text-decoration: none; }
 .lgc-publics-head a:hover { color: var(--lgc-gold); }
-.lgc-pub {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto auto;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 16px;
-  border: 1px solid color-mix(in srgb, var(--lg-color) 38%, transparent);
-  background: linear-gradient(90deg, color-mix(in srgb, var(--lg-color) 22%, transparent), rgba(255, 255, 255, 0.03) 70%);
-}
-.lgc-pub .lg-emblem { --size: 40px; background: rgba(255, 255, 255, 0.92); }
-.lgc-pub-copy { min-width: 0; }
-.lgc-pub-copy a { display: block; overflow: hidden; color: #fff; font-size: 15px; font-weight: 800; text-decoration: none; text-overflow: ellipsis; white-space: nowrap; }
-.lgc-pub-copy small { display: block; overflow: hidden; color: var(--lgc-muted); font-size: 11.5px; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.lgc-pub-purse { text-align: right; font-variant-numeric: tabular-nums; }
-.lgc-pub-purse strong { display: block; color: var(--lgc-gold); font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
-.lgc-pub-purse small { color: var(--lgc-muted); font-size: 10.5px; font-weight: 700; }
-.lgc-pub .lgc-gold { min-height: 42px; padding: 0 16px; }
-.lgc-pub .lgc-ghost { min-height: 42px; padding: 0 14px; }
-.lgc-feechips { display: flex; flex-wrap: wrap; gap: 6px; }
-@media (max-width: 760px) {
-  .lgc-pub { grid-template-columns: auto minmax(0, 1fr) auto; }
-  .lgc-pub-purse { display: none; }
-}
 
 /* ══════════════════════════════════════════════════════════
    The crew card (components/tregu/league-crew.tsx): your
@@ -21755,4 +21729,244 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .crew-grid { grid-template-columns: 1fr; }
   .crew-row { grid-template-columns: 24px minmax(0, 1fr) auto; }
   .crew-today { display: none; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Rivalry (components/tregu/rivalry-banner.tsx): the top of the
+   floor when something happened since your last visit. Black
+   and gold like the league card; every line ends in an action.
+   ══════════════════════════════════════════════════════════ */
+.rivalry {
+  position: relative;
+  overflow: clip;
+  display: grid;
+  gap: 10px;
+  margin: 0 0 22px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  color: #F4EFE6;
+  background:
+    radial-gradient(60% 120% at 0% 0%, rgba(242, 193, 78, 0.18), transparent 60%),
+    linear-gradient(180deg, #1C1712, #100D0A);
+  border: 1px solid rgba(242, 193, 78, 0.28);
+  box-shadow: 0 18px 40px -24px rgba(23, 19, 14, 0.7);
+  font-family: var(--font-manrope), "Manrope", sans-serif;
+  animation: rivalry-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes rivalry-in { from { opacity: 0; transform: translateY(-8px) scale(0.99); } to { opacity: 1; transform: none; } }
+.rivalry-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.rivalry-head strong { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; color: #fff; }
+.rivalry-head-actions { display: flex; align-items: center; gap: 8px; }
+.rivalry-bell {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border-radius: 100px;
+  border: 1px solid rgba(242, 193, 78, 0.4); background: rgba(242, 193, 78, 0.12); color: #F2C14E;
+  font: inherit; font-size: 12px; font-weight: 800; cursor: pointer;
+}
+.rivalry-bell[data-on] { border-color: rgba(62, 212, 132, 0.4); background: rgba(62, 212, 132, 0.12); color: #3ED484; cursor: default; }
+.rivalry-bell[data-off] { border-color: rgba(244, 239, 230, 0.15); background: none; color: rgba(244, 239, 230, 0.55); cursor: default; }
+.rivalry-close { display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.06); color: rgba(244, 239, 230, 0.7); cursor: pointer; }
+.rivalry-close:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+.rivalry-event, .rivalry-challenge { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; align-items: center; gap: 10px; }
+.rivalry-event p, .rivalry-challenge p { margin: 0; font-size: 14px; line-height: 1.4; color: rgba(244, 239, 230, 0.82); }
+.rivalry-event b, .rivalry-challenge b { color: #fff; }
+.rivalry-event em, .rivalry-challenge em { font-style: normal; font-weight: 800; color: #F2C14E; }
+.rivalry-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: rgba(255, 255, 255, 0.08); color: #F4EFE6; }
+.rivalry-icon[data-tone="down"] { background: rgba(228, 30, 32, 0.2); color: #FF8A8A; animation: rivalry-nudge 900ms 400ms cubic-bezier(0.36, 0, 0.2, 1) both; }
+.rivalry-icon[data-tone="up"] { background: rgba(62, 212, 132, 0.18); color: #3ED484; }
+.rivalry-icon[data-tone="gold"] { background: rgba(242, 193, 78, 0.2); color: #F2C14E; }
+@keyframes rivalry-nudge { 0%, 100% { transform: none; } 30% { transform: translateY(3px); } 60% { transform: translateY(-1px); } }
+.rivalry-challenge { padding: 10px 12px; border-radius: 14px; background: rgba(242, 193, 78, 0.1); border: 1px solid rgba(242, 193, 78, 0.3); }
+.rivalry-answer { display: flex; gap: 6px; }
+.rivalry-accept, .rivalry-decline {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 0 14px; border-radius: 100px;
+  font: inherit; font-size: 13px; font-weight: 800; cursor: pointer; border: 0;
+}
+.rivalry-accept { color: #1A1206; background: linear-gradient(135deg, #FFE7A3, #F2C14E 55%, #C8901F); }
+.rivalry-decline { color: rgba(244, 239, 230, 0.8); background: rgba(255, 255, 255, 0.08); }
+.rivalry-accept:disabled, .rivalry-decline:disabled { opacity: 0.5; }
+.rivalry-duel { display: grid; gap: 6px; padding: 10px 12px; border-radius: 14px; background: rgba(255, 255, 255, 0.05); }
+.rivalry-duel-names { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font-size: 13.5px; font-weight: 700; color: rgba(244, 239, 230, 0.85); font-variant-numeric: tabular-nums; }
+.rivalry-duel-names small { font-size: 11.5px; color: rgba(244, 239, 230, 0.5); font-weight: 700; }
+.rivalry-duel-names b { font-weight: 800; }
+.rivalry-duel-names [data-tone="up"] { color: #3ED484; }
+.rivalry-duel-names [data-tone="down"] { color: #FF8A8A; }
+.rivalry-duel-bar { position: relative; height: 10px; border-radius: 100px; background: #E41E20; overflow: hidden; }
+.rivalry-duel-bar i { position: absolute; inset: 0 auto 0 0; width: var(--share); background: linear-gradient(90deg, #FFE7A3, #F2C14E); border-radius: inherit; transition: width 600ms cubic-bezier(0.22, 1, 0.36, 1); }
+.rivalry-cta {
+  justify-self: start; display: inline-flex; align-items: center; min-height: 42px; padding: 0 18px; border-radius: 100px;
+  background: #fff; color: #111; font-size: 13.5px; font-weight: 800; text-decoration: none;
+}
+.rivalry-error { margin: 0; font-size: 13px; font-weight: 700; color: #FF8A7A; }
+.rivalry :focus-visible { outline: 2px solid #F2C14E; outline-offset: 2px; }
+@media (max-width: 640px) {
+  .rivalry-challenge { grid-template-columns: 30px minmax(0, 1fr); }
+  .rivalry-answer { grid-column: 1 / -1; }
+}
+
+/* Duel challenge sheet (components/tregu/duel-challenge.tsx). */
+.duel-sheet {
+  position: relative;
+  overflow: clip;
+  display: grid;
+  gap: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 380px;
+  margin: 12px auto 0;
+  padding: 18px;
+  border-radius: 20px;
+  color: #F4EFE6;
+  background: linear-gradient(180deg, #1C1712, #100D0A);
+  border: 1px solid rgba(242, 193, 78, 0.35);
+  box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.6);
+  font-family: var(--font-manrope), "Manrope", sans-serif;
+  animation: rivalry-in 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.duel-x { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 30px; height: 30px; border: 0; border-radius: 50%; background: rgba(255,255,255,.08); color: #F4EFE6; cursor: pointer; z-index: 2; }
+.duel-title { display: inline-flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 800; color: #fff; }
+.duel-title svg { color: #F2C14E; }
+.duel-rules { margin: 0; font-size: 13px; line-height: 1.5; color: rgba(244, 239, 230, 0.7); }
+.duel-stakes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.duel-stakes button {
+  min-height: 44px; border-radius: 12px; border: 1px solid rgba(244, 239, 230, 0.15); background: rgba(255,255,255,.05);
+  color: #F4EFE6; font: inherit; font-size: 15px; font-weight: 800; cursor: pointer; font-variant-numeric: tabular-nums;
+}
+.duel-stakes button[aria-pressed="true"] { background: #F2C14E; border-color: #F2C14E; color: #1A1206; }
+.duel-stakes button:disabled { opacity: 0.35; cursor: not-allowed; }
+.duel-pot { margin: 0; font-size: 13px; color: rgba(244, 239, 230, 0.7); }
+.duel-pot b { color: #F2C14E; }
+.duel-go {
+  min-height: 48px; border: 0; border-radius: 100px; color: #1A1206; background: linear-gradient(135deg, #FFE7A3, #F2C14E 55%, #C8901F);
+  font: inherit; font-size: 15px; font-weight: 800; cursor: pointer;
+}
+.duel-go:disabled { opacity: 0.55; }
+.duel-error { margin: 0; font-size: 13px; font-weight: 700; color: #FF8A7A; }
+.duel-sent { display: grid; justify-items: center; gap: 8px; padding: 8px 0 2px; text-align: center; }
+.duel-sent svg { color: #F2C14E; }
+.duel-sent strong { font-size: 17px; color: #fff; }
+.duel-sent span { font-size: 13px; color: rgba(244, 239, 230, 0.7); }
+.duel-sent .duel-go { width: 100%; margin-top: 6px; }
+.duel-sheet :focus-visible { outline: 2px solid #F2C14E; outline-offset: 2px; }
+
+/* Race chart (components/tregu/league-race.tsx). */
+.lrace { margin: 0; }
+.lrace { width: 100%; }
+.lrace svg { display: block; width: 100%; height: auto; overflow: visible; font-family: var(--font-manrope), "Manrope", sans-serif; }
+.lrace-line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: lrace-draw 1400ms cubic-bezier(0.22, 1, 0.36, 1) 150ms forwards; }
+.lrace-dot { opacity: 0; animation: lrace-dot 300ms ease 1400ms forwards; }
+@keyframes lrace-draw { to { stroke-dashoffset: 0; } }
+@keyframes lrace-dot { to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .lrace-line { animation: none; stroke-dashoffset: 0; }
+  .lrace-dot { animation: none; opacity: 1; }
+  .rivalry, .duel-sheet, .rivalry-icon { animation: none; }
+}
+
+/* Ligat card: the create sheet. */
+.lgc-sheet { display: grid; gap: 14px; animation: lgc-rise 320ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.lgc-sheet-preview {
+  display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 18px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--lg-color) 30%, transparent), rgba(255, 255, 255, 0.03));
+  border: 1px solid color-mix(in srgb, var(--lg-color) 50%, transparent);
+  transition: background 240ms ease, border-color 240ms ease;
+}
+.lgc-sheet-preview .lg-emblem { background: rgba(255, 255, 255, 0.95); }
+.lgc-sheet-preview strong { display: block; font-size: 18px; font-weight: 800; color: #fff; overflow-wrap: anywhere; }
+.lgc-sheet-preview span { display: block; margin-top: 2px; font-size: 12.5px; color: var(--lgc-muted); font-variant-numeric: tabular-nums; }
+.lgc-field { display: grid; gap: 7px; }
+.lgc-field > span { font-size: 12px; font-weight: 800; letter-spacing: 0.04em; color: var(--lgc-muted); }
+.lgc-field input:not(.lgc-fee-input) {
+  min-height: 48px; padding: 0 14px; border-radius: 14px; border: 1px solid var(--lgc-line);
+  background: rgba(255, 255, 255, 0.06); color: #fff; font: inherit; font-size: 16px; font-weight: 700;
+}
+.lgc-field input:focus-visible { outline: none; border-color: var(--lgc-gold); }
+.lgc-emojis { display: flex; flex-wrap: wrap; gap: 6px; }
+.lgc-emojis button {
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--lgc-line);
+  background: rgba(255, 255, 255, 0.05); font-size: 21px; cursor: pointer; transition: transform 140ms ease, background 140ms ease;
+}
+.lgc-emojis button[aria-pressed="true"] { background: rgba(242, 193, 78, 0.25); border-color: var(--lgc-gold); transform: scale(1.06); }
+.lgc-emojis .lgc-photo { width: auto; padding: 0 12px; display: inline-flex; gap: 6px; font-size: 13px; font-weight: 800; color: var(--lgc-text); }
+.lgc-colors { display: flex; flex-wrap: wrap; gap: 8px; }
+.lgc-colors button {
+  width: 34px; height: 34px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.15); background: var(--swatch); cursor: pointer;
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+.lgc-colors button[aria-pressed="true"] { transform: scale(1.12); box-shadow: 0 0 0 3px #15120E, 0 0 0 5px var(--swatch); }
+.lgc-fee-input {
+  width: 96px; min-height: 36px; padding: 0 12px; border-radius: 100px; border: 1px solid var(--lgc-line);
+  background: rgba(255, 255, 255, 0.05); color: #fff; font: inherit; font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums;
+}
+.lgc-fee-input:focus-visible { outline: none; border-color: var(--lgc-gold); }
+.lgc-created-head { display: flex; align-items: center; gap: 12px; }
+.lgc-created-head .lg-emblem { background: rgba(255, 255, 255, 0.95); }
+.lgc-preview { align-items: center; }
+.lgc-preview .lg-emblem { background: rgba(255, 255, 255, 0.95); }
+.lgc-preview > div { flex: 1; min-width: 160px; }
+
+/* Featured public leagues: visual cards in a row you can swipe. */
+.lgc-featured-row {
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(250px, 1fr); gap: 12px;
+  overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 4px; scrollbar-width: none;
+}
+.lgc-featured-row::-webkit-scrollbar { display: none; }
+.lgc-feat {
+  display: grid; gap: 8px; align-content: start; scroll-snap-align: start; min-width: 0;
+  padding: 16px; border-radius: 20px; color: #fff;
+  background:
+    linear-gradient(180deg, rgba(10, 8, 6, 0.15), rgba(10, 8, 6, 0.8)),
+    var(--cover),
+    radial-gradient(130% 120% at 0% 0%, color-mix(in srgb, var(--lg-color) 85%, #fff) 0%, var(--lg-color) 45%, color-mix(in srgb, var(--lg-color) 40%, #000) 100%);
+  background-size: cover; background-position: center;
+  border: 1px solid color-mix(in srgb, var(--lg-color) 55%, transparent);
+  box-shadow: 0 16px 30px -20px color-mix(in srgb, var(--lg-color) 80%, #000);
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (hover: hover) and (pointer: fine) { .lgc-feat:hover { transform: translateY(-3px); } }
+.lgc-feat-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.lgc-feat-top .lg-emblem { background: rgba(255, 255, 255, 0.95); }
+.lgc-feat-clock { padding: 4px 9px; border-radius: 100px; background: rgba(10, 8, 6, 0.45); font-size: 11px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.lgc-feat-name { color: #fff; font-size: 17px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; text-decoration: none; }
+.lgc-feat-name:hover { text-decoration: underline; text-underline-offset: 3px; }
+.lgc-feat-theme { font-size: 12px; font-weight: 700; color: rgba(255, 255, 255, 0.72); }
+.lgc-feat-purse strong { display: block; font-size: 28px; font-weight: 800; letter-spacing: -0.03em; color: #F2C14E; font-variant-numeric: tabular-nums; }
+.lgc-feat-purse small { font-size: 11.5px; font-weight: 700; color: rgba(255, 255, 255, 0.72); }
+.lgc-feat .lgc-gold, .lgc-feat .lgc-ghost { width: 100%; }
+.lgc-mine a .lg-emblem { background: rgba(255, 255, 255, 0.95); }
+
+/* Crew card additions. */
+.crew-head .lg-emblem { background: #fff; }
+.crew-me { text-align: right; font-variant-numeric: tabular-nums; }
+.crew-me small { display: block; font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #8A6A12; }
+.crew-me strong { font-size: 30px; font-weight: 800; letter-spacing: -0.04em; }
+.crew-me em { font-style: normal; font-size: 14px; color: #6B6B6B; }
+.crew-head p b { color: #8A6A12; }
+.crew-race { margin-top: 14px; padding: 12px 14px 4px; border-radius: 16px; background: #fff; box-shadow: inset 0 0 0 1px rgba(17, 17, 17, 0.06); }
+.crew-tabs button { display: inline-flex; align-items: center; gap: 6px; }
+.crew-row { grid-template-columns: 22px 14px minmax(0, 1fr) auto auto auto !important; }
+.crew-move { display: grid; place-items: center; }
+.crew-move[data-tone="up"] { color: #00A651; }
+.crew-move[data-tone="down"] { color: #E41E20; }
+.crew-name .crew-duels { color: #7C3AED; }
+.crew-duel-btn {
+  display: inline-flex; align-items: center; gap: 4px; min-height: 30px; padding: 0 10px; border-radius: 100px;
+  border: 1px solid rgba(17, 17, 17, 0.14); background: #fff; font: inherit; font-size: 12px; font-weight: 800; color: #111; cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+}
+.crew-duel-btn:hover { background: #111; color: #fff; border-color: #111; }
+.crew-duel-btn:focus-visible { outline: 2px solid #FF4422; outline-offset: 2px; }
+.crew-row-empty { grid-template-columns: 22px 14px minmax(0, 1fr) !important; }
+.crew-tile .crew-big { display: inline; margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.03em; color: #F2C14E; }
+.crew-tile strong em { font-style: normal; }
+.crew-tile [data-tone="up"] { color: #007A3C; }
+.crew-flame { color: #C2410C; }
+.crew-tile-btn {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; min-height: 36px; padding: 0 14px; border-radius: 100px;
+  border: 0; background: linear-gradient(135deg, #FFE7A3, #F2C14E 55%, #C8901F); color: #1A1206; font: inherit; font-size: 12.5px; font-weight: 800; cursor: pointer;
+}
+.crew .duel-sheet { margin-top: 14px; }
+@media (max-width: 760px) {
+  .crew-row { grid-template-columns: 20px 12px minmax(0, 1fr) auto auto !important; }
+  .crew-duel-btn span { display: none; }
+  .crew-me strong { font-size: 24px; }
 }

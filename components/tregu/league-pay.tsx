@@ -11,8 +11,8 @@ export type LeaguePayment = {
   /** The league's pot after this payment. */
   pot: number;
   league: string;
-  /** "join" when entering someone's league, "create" for your own. */
-  kind: "join" | "create";
+  /** "join" when entering someone's league, "create" for your own, "duel" for a 1v1 stake. */
+  kind: "join" | "create" | "duel";
 };
 
 /**
@@ -86,7 +86,7 @@ export default function LeaguePay({ payment, onDone }: { payment: LeaguePayment 
         −{fmtNum(payment.amount)} <small>383C</small>
       </p>
       <p className="lpay-pot">
-        {payment.kind === "create" ? "Poti i ligës tënde" : `Poti i ${payment.league}`}: <b>{fmtNum(payment.pot)} 383C</b>
+        {payment.kind === "create" ? "Poti i ligës tënde" : payment.kind === "duel" ? `Duel me ${payment.league}` : `Poti i ${payment.league}`}: <b>{fmtNum(payment.pot)} 383C</b>
       </p>
     </div>
   );

@@ -29,6 +29,8 @@ type AdminLeague = {
   sponsor: string | null;
   scope_kind: LeagueScopeKind;
   scope_value: string | null;
+  featured: boolean;
+  feature_order: number;
 };
 
 type Draft = {
@@ -222,7 +224,7 @@ export default function PublicLeagues() {
       <header className={styles.sectionHeader}>
         <div>
           <h2>Ligat publike</h2>
-          <p>Hyrja {PUBLIC_LEAGUE_FEE} 383C. 383 paguan 75% të shpërblimit të renditjes për kohëzgjatjen e ligës; tarifat shtohen në pot. Fituesit kalojnë te Shpërblimet për konfirmim.</p>
+          <p>Hyrja {PUBLIC_LEAGUE_FEE} 383C. 383 paguan 75% të shpërblimit të renditjes për kohëzgjatjen e ligës; tarifat shtohen në pot. Fituesit kalojnë te Shpërblimet për konfirmim. &ldquo;Shfaq në Tregu&rdquo; zgjedh cilat dalin në kartën e faqes kryesore (deri në 3, sipas renditjes).</p>
         </div>
         <span>{leagues.length}</span>
       </header>
@@ -280,6 +282,28 @@ export default function PublicLeagues() {
                   </div>
                   <div className={styles.withdrawalActions}>
                     <span className={styles.withdrawalStatus}>{status(league)}</span>
+                    <label className={styles.featureToggle}>
+                      <input
+                        type="checkbox"
+                        checked={league.featured}
+                        disabled={saving !== null}
+                        onChange={(event) => void send("PATCH", { id: league.id, featured: event.target.checked }, league.id)}
+                      />
+                      Shfaq në Tregu
+                    </label>
+                    {league.featured && (
+                      <label className={styles.featureOrder}>
+                        #
+                        <input
+                          type="number"
+                          min={0}
+                          max={99}
+                          defaultValue={league.feature_order}
+                          aria-label="Renditja në Tregu"
+                          onBlur={(event) => Number(event.target.value) !== league.feature_order && void send("PATCH", { id: league.id, feature_order: Number(event.target.value) }, league.id)}
+                        />
+                      </label>
+                    )}
                     <button
                       type="button"
                       className={styles.buttonSecondary}

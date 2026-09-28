@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
 
   const { data, error: queryError } = await admin
     .from("tregu_leagues")
-    .select("id, name, starts_at, ends_at, prizes, entry_fee, settled_at, description, rules, emblem, color, cover_url, sponsor, scope_kind, scope_value, tregu_league_members(fee_paid)")
+    .select("id, name, starts_at, ends_at, prizes, entry_fee, settled_at, description, rules, emblem, color, cover_url, sponsor, scope_kind, scope_value, featured, feature_order, tregu_league_members(fee_paid)")
     .eq("kind", "public")
     .order("ends_at", { ascending: false })
     .limit(80);
@@ -144,8 +144,9 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({ id: data.id });
 }
 
-/** PATCH { id, name?, ...profile } — edit a public league's profile. Money and
- *  dates are not editable once people may have joined on them. */
+/** PATCH { id, name?, featured?, feature_order?, ...profile } — edit a public
+ *  league's profile or its place on the Tregu home card. Money and dates are
+ *  not editable once people may have joined on them. */
 export async function PATCH(request: NextRequest) {
   const { admin, error } = await guard(request);
   if (!admin) return error;
@@ -156,6 +157,12 @@ export async function PATCH(request: NextRequest) {
   const profile = readProfile(body);
   if (typeof profile === "string") return NextResponse.json({ error: profile }, { status: 400 });
   const update: Record<string, unknown> = { ...profile };
+  if (typeof body.featured === "boolean") update.featured = body.featured;
+  if (body.feature_order != null) {
+    const order = Math.round(Number(body.feature_order));
+    if (!Number.isFinite(order) || order < 0 || order > 99) return NextResponse.json({ error: "Renditja duhet të jetë 0 deri në 99." }, { status: 400 });
+    update.feature_order = order;
+  }
   if (typeof body.name === "string") {
     const name = body.name.trim();
     if (name.length < 3 || name.length > 40) return NextResponse.json({ error: "Emri duhet të ketë 3 deri në 40 shkronja." }, { status: 400 });

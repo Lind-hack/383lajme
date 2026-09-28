@@ -30,6 +30,8 @@ export type LeagueSummary = {
   scope_kind?: LeagueScopeKind | null;
   scope_value?: string | null;
   faces?: string[] | null;
+  featured?: boolean;
+  feature_order?: number;
 };
 
 export type LeagueStanding = {
@@ -42,7 +44,46 @@ export type LeagueStanding = {
   trades?: number;
   streak?: number;
   joined_at?: string;
+  /** Opaque per-league id to challenge this member (never the account id). */
+  member_key?: string;
+  /** Places gained since the start of today (negative: lost). */
+  rank_change?: number;
+  duel_wins?: number;
 };
+
+export type LeagueEvent = {
+  id: string;
+  league_id: string | null;
+  kind: "overtaken" | "climbed" | "duel_challenge" | "duel_accepted" | "duel_declined" | "duel_won" | "duel_lost" | "duel_draw" | "duel_expired";
+  actor: string | null;
+  data: Record<string, unknown>;
+  created_at: string;
+  seen: boolean;
+};
+
+export type Duel = {
+  id: string;
+  league_id: string;
+  league_name: string;
+  status: "pending" | "active" | "settled" | "declined" | "expired";
+  stake: number;
+  i_am_challenger: boolean;
+  rival: string;
+  created_at: string;
+  ends_at: string | null;
+  my_net: number;
+  rival_net: number;
+  won: boolean | null;
+};
+
+export type RacePoint = { display_name: string; is_me: boolean; day: string; cumulative: number };
+
+/** Duel stakes: 0 to 50 coins each. */
+export const DUEL_STAKES = [0, 10, 25, 50] as const;
+
+/** The create sheet's icons and colours. */
+export const LEAGUE_EMOJIS = ["🏆", "🦅", "🔥", "⚡", "👑", "🎯", "🚀", "💎", "🐺", "⚽", "🏀", "🏎️"] as const;
+export const LEAGUE_COLORS = ["#F2C14E", "#FF4422", "#E41E20", "#0047FF", "#00A651", "#7C3AED", "#EC4899", "#0EA5E9"] as const;
 
 export type LeagueFeedItem = {
   kind: "close" | "join";

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
-import { ArrowRight, Check, Copy, Settings2, Share2, Zap } from "lucide-react";
+import { ArrowRight, Check, Copy, ImagePlus, Plus, Share2, Zap } from "lucide-react";
 import LeagueCrew from "@/components/tregu/league-crew";
 import LeagueEmblem from "@/components/tregu/league-emblem";
 import LeaguePay, { type LeaguePayment } from "@/components/tregu/league-pay";
@@ -14,8 +14,12 @@ import {
   DURATION_LABEL,
   LEAGUE_CODE_PATTERN,
   LEAGUE_DURATIONS,
+  LEAGUE_COLORS,
+  LEAGUE_EMOJIS,
+  LEAGUE_FEE_MAX,
   LEAGUE_FEE_MIN,
   LEAGUE_FEES,
+  isImageEmblem,
   leagueColor,
   leagueError,
   leaguePhase,
@@ -26,9 +30,11 @@ import {
 } from "@/lib/tregu-leagues";
 
 type Pulse = { players: number; leagues: number; faces: string[] };
-type Created = { id: string; code: string; name: string; days: number; fee: number };
+type Created = { id: string; code: string; name: string; days: number; fee: number; emblem: string; color: string };
+type Draft = { name: string; emblem: string; color: string; fee: number; days: number };
 type Stage =
   | { kind: "idle" }
+  | { kind: "create" }
   | { kind: "created"; league: Created }
   | { kind: "joined"; id: string; name: string };
 
@@ -113,10 +119,11 @@ function Confetti({ burst }: { burst: number }) {
 
 /**
  * The Ligat card on the Tregu floor — the one night-stadium moment on the
- * cream floor. Everything happens here: one tap makes a week-long league (10
- * coins in) and turns the card into its invite; a friend's code joins in
- * place; the open public leagues join in one tap. Every entry pays with the
- * briefcase moment. Your private leagues' tables sit right under the card.
+ * cream floor. Creating a league is one short sheet (name, icon or photo,
+ * colour, length, entry fee) and then the card becomes its invite; a
+ * friend's code joins in place; featured public leagues join in one tap.
+ * Every entry pays with the briefcase moment. Your private leagues' tables
+ * sit right under the card.
  */
 export default function LeaguesCard({ loggedIn, variant = "floor" }: { loggedIn: boolean; variant?: "floor" | "page" }) {
   // On /tregu/ligat the public leagues and your leagues have sections of their
@@ -132,14 +139,14 @@ export default function LeaguesCard({ loggedIn, variant = "floor" }: { loggedIn:
   const [error, setError] = useState<string | null>(null);
   const [code, setCode] = useState("");
   const [preview, setPreview] = useState<LeagueSummary | null>(null);
-  const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState<{ name: string; days: number; fee: number }>({ name: "", days: 7, fee: LEAGUE_FEE_MIN });
-  const [payment, setPayment] = useState<LeaguePayment | null>(null);
-  // What to show once the briefcase closes.
-  const afterPay = useRef<Stage | null>(null);
   const [copied, setCopied] = useState(false);
   const [burst, setBurst] = useState(0);
   const [now, setNow] = useState(() => Date.now());
+  const [payment, setPayment] = useState<LeaguePayment | null>(null);
+  const afterPay = useRef<Stage | null>(null);
+  const [draft, setDraft] = useState<Draft>({ name: "", emblem: "🏆", color: "#F2C14E", fee: 50, days: 7 });
+  const [uploading, setUploading] = useState(false);
+  const fileInput = useRef<HTMLInputElement>(null);
 
   const load = useCallback(async () => {
     const [pulseResult, overview] = await Promise.all([
@@ -181,17 +188,54 @@ export default function LeaguesCard({ loggedIn, variant = "floor" }: { loggedIn:
 
   const celebrate = () => setBurst((value) => value + 1);
 
-  const createNow = async () => {
+  const openCreate = () => {
     if (!loggedIn) return signIn();
-    if (balance !== null && balance < LEAGUE_FEE_MIN) {
-      setError(`Duhen të paktën ${LEAGUE_FEE_MIN} 383C për të krijuar një ligë.`);
+    setError(null);
+    setDraft((current) => ({ ...current, name: current.name || `${firstName ?? "Shokët"} & miqtë`.slice(0, 40) }));
+    setStage({ kind: "create" });
+  };
+
+  const uploadPhoto = async (file: File | undefined) => {
+    if (!file) return;
+    setUploading(true);
+    setError(null);
+    try {
+      const form = new FormData();
+      form.append("file", file);
+      const response = await fetch("/api/tregu/league-media", { method: "POST", body: form });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error ?? "Ngarkimi dështoi.");
+      setDraft((current) => ({ ...current, emblem: String(data.url) }));
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Ngarkimi dështoi.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const fee = Math.round(Number(draft.fee) || 0);
+  const feeValid = fee >= LEAGUE_FEE_MIN && fee <= LEAGUE_FEE_MAX;
+
+  const create = async () => {
+    if (!feeValid) {
+      setError(`Hyrja duhet të jetë ${LEAGUE_FEE_MIN} deri në ${fmtNum(LEAGUE_FEE_MAX)} 383C.`);
+      return;
+    }
+    if (balance !== null && fee > balance) {
+      setError("Nuk ke mjaft monedha për këtë hyrje.");
       return;
     }
     primeSellSound();
     setBusy("create");
     setError(null);
-    const name = `${firstName ?? "Liga"} & miqtë`.slice(0, 40);
-    const { data, error: rpcError } = await supabase.rpc("tregu_league_create", { p_name: name, p_days: 7, p_entry_fee: LEAGUE_FEE_MIN });
+    const name = draft.name.trim();
+    const { data, error: rpcError } = await supabase.rpc("tregu_league_create", {
+      p_name: name,
+      p_days: draft.days,
+      p_entry_fee: fee,
+      p_emblem: draft.emblem,
+      p_color: draft.color,
+    });
     setBusy(null);
     if (rpcError) {
       setError(leagueError(rpcError));
@@ -200,10 +244,8 @@ export default function LeaguesCard({ loggedIn, variant = "floor" }: { loggedIn:
     const row = (data as { id: string; code: string; balance: number }[] | null)?.[0];
     if (!row) return;
     announce(row.balance);
-    const league = { id: row.id, code: row.code, name, days: 7, fee: LEAGUE_FEE_MIN };
-    setDraft({ name, days: 7, fee: LEAGUE_FEE_MIN });
-    afterPay.current = { kind: "created", league };
-    setPayment({ amount: LEAGUE_FEE_MIN, pot: LEAGUE_FEE_MIN, league: name, kind: "create" });
+    afterPay.current = { kind: "created", league: { id: row.id, code: row.code, name, days: draft.days, fee, emblem: draft.emblem, color: draft.color } };
+    setPayment({ amount: fee, pot: fee, league: name, kind: "create" });
     void load();
   };
 
@@ -214,27 +256,6 @@ export default function LeaguesCard({ loggedIn, variant = "floor" }: { loggedIn:
       afterPay.current = null;
       celebrate();
     }
-  };
-
-  const saveEdits = async () => {
-    if (stage.kind !== "created") return;
-    setBusy("save");
-    setError(null);
-    const { data, error: rpcError } = await supabase.rpc("tregu_league_update", {
-      p_league_id: stage.league.id,
-      p_name: draft.name.trim(),
-      p_days: draft.days,
-      p_entry_fee: draft.fee,
-    });
-    setBusy(null);
-    if (rpcError) {
-      setError(leagueError(rpcError));
-      return;
-    }
-    announce((data as { balance: number }[] | null)?.[0]?.balance);
-    setStage({ kind: "created", league: { ...stage.league, name: draft.name.trim(), days: draft.days, fee: draft.fee } });
-    setEditing(false);
-    void load();
   };
 
   const lookUp = async () => {
@@ -270,11 +291,11 @@ export default function LeaguesCard({ loggedIn, variant = "floor" }: { loggedIn:
     announce((data as { balance: number }[] | null)?.[0]?.balance);
     setPreview(null);
     setCode("");
-    const fee = Number(league.entry_fee) || 0;
+    const paid = Number(league.entry_fee) || 0;
     const joined: Stage = { kind: "joined", id: league.id, name: league.name };
-    if (fee > 0) {
+    if (paid > 0) {
       afterPay.current = joined;
-      setPayment({ amount: fee, pot: (Number(league.pot) || 0) + fee, league: league.name, kind: "join" });
+      setPayment({ amount: paid, pot: (Number(league.pot) || 0) + paid, league: league.name, kind: "join" });
     } else {
       setStage(joined);
       celebrate();
@@ -302,10 +323,12 @@ export default function LeaguesCard({ loggedIn, variant = "floor" }: { loggedIn:
     }
   };
 
-  // Open public leagues, the ones you are not in first, biggest purse first.
-  const publics = leagues
-    .filter((league) => league.kind === "public" && leaguePhase(league, now) !== "ended")
-    .sort((a, b) => Number(a.is_member) - Number(b.is_member) || leaguePurse(b) - leaguePurse(a))
+  // Featured public leagues first (admin's order), else the biggest purses;
+  // the ones you are already in go last.
+  const open = leagues.filter((league) => league.kind === "public" && leaguePhase(league, now) !== "ended");
+  const featured = open.filter((league) => league.featured).sort((a, b) => Number(a.feature_order ?? 0) - Number(b.feature_order ?? 0));
+  const publics = (featured.length ? featured : [...open].sort((a, b) => leaguePurse(b) - leaguePurse(a)))
+    .sort((a, b) => Number(a.is_member) - Number(b.is_member))
     .slice(0, 3);
   const mine = leagues.filter((league) => league.is_member && leaguePhase(league, now) !== "ended").slice(0, 4);
   const crew = leagues.filter((league) => league.is_member && league.kind === "private" && leaguePhase(league, now) !== "ended");
@@ -321,31 +344,31 @@ export default function LeaguesCard({ loggedIn, variant = "floor" }: { loggedIn:
       <Confetti burst={burst} />
 
       {!compact && (
-      <header className="lgc-head">
-        <GoldTrophy />
-        <div className="lgc-titles">
-          <h2 id="lgc-title">Ligat</h2>
-          <p>Garo me miqtë. Fitimi vendos kampionin.</p>
-        </div>
-        {players > 0 && (
-          <div className="lgc-pulse" aria-label={`${players} tregtarë po luajnë në ${pulse?.leagues ?? 0} liga`}>
-            <span className="lgc-faces" aria-hidden>
-              {faces.slice(0, 4).map((face, index) => (
-                <b key={`${face}-${index}`} style={{ "--i": index } as CSSProperties}>{face.slice(0, 1).toUpperCase()}</b>
-              ))}
-            </span>
-            <span><i aria-hidden /> <strong>{fmtNum(players)}</strong> po luajnë</span>
+        <header className="lgc-head">
+          <GoldTrophy />
+          <div className="lgc-titles">
+            <h2 id="lgc-title">Ligat</h2>
+            <p>Krijo një ligë me miqtë, vendos hyrjen, dhe kush fiton më shumë merr potin.</p>
           </div>
-        )}
-      </header>
+          {players > 0 && (
+            <div className="lgc-pulse" aria-label={`${players} tregtarë po luajnë në ${pulse?.leagues ?? 0} liga`}>
+              <span className="lgc-faces" aria-hidden>
+                {faces.slice(0, 4).map((face, index) => (
+                  <b key={`${face}-${index}`} style={{ "--i": index } as CSSProperties}>{face.slice(0, 1).toUpperCase()}</b>
+                ))}
+              </span>
+              <span><i aria-hidden /> <strong>{fmtNum(players)}</strong> po luajnë</span>
+            </div>
+          )}
+        </header>
       )}
 
       {stage.kind === "idle" && (
         <div className="lgc-body">
-          <button type="button" className="lgc-create" onClick={() => void createNow()} disabled={busy === "create"}>
-            <Zap size={18} strokeWidth={2.4} aria-hidden />
-            <span>{busy === "create" ? "Duke krijuar…" : "Krijo ligë me një prekje"}</span>
-            <small>{LEAGUE_FEE_MIN} 383C hyrja · 1 javë · poti për tre të parët</small>
+          <button type="button" className="lgc-create" onClick={openCreate}>
+            <Plus size={20} strokeWidth={2.6} aria-hidden />
+            <span>Krijo ligën tënde</span>
+            <small>Emri, ikona, hyrja · miqtë hyjnë me kod</small>
           </button>
 
           <form className="lgc-code" onSubmit={(event) => { event.preventDefault(); void lookUp(); }}>
@@ -367,7 +390,8 @@ export default function LeaguesCard({ loggedIn, variant = "floor" }: { loggedIn:
           </form>
 
           {preview && (
-            <div className="lgc-preview">
+            <div className="lgc-preview" style={{ "--lg-color": leagueColor(preview) } as CSSProperties}>
+              <LeagueEmblem league={preview} size={46} />
               <div>
                 <strong>{preview.name}</strong>
                 <span>
@@ -383,7 +407,7 @@ export default function LeaguesCard({ loggedIn, variant = "floor" }: { loggedIn:
                   onClick={() => void join(preview, preview.code ?? undefined)}
                   disabled={busy === preview.id || leaguePhase(preview, now) === "ended" || (balance !== null && preview.entry_fee > balance)}
                 >
-                  {busy === preview.id ? "…" : leaguePhase(preview, now) === "ended" ? "Ka përfunduar" : preview.entry_fee > 0 ? `Bashkohu · ${fmtNum(preview.entry_fee)}` : "Bashkohu"}
+                  {busy === preview.id ? "…" : leaguePhase(preview, now) === "ended" ? "Ka përfunduar" : preview.entry_fee > 0 ? `Hyr · ${fmtNum(preview.entry_fee)}` : "Hyr"}
                 </button>
               )}
             </div>
@@ -391,9 +415,87 @@ export default function LeaguesCard({ loggedIn, variant = "floor" }: { loggedIn:
         </div>
       )}
 
+      {stage.kind === "create" && (
+        <form className="lgc-sheet" onSubmit={(event) => { event.preventDefault(); void create(); }}>
+          <div className="lgc-sheet-preview" style={{ "--lg-color": draft.color } as CSSProperties}>
+            <LeagueEmblem league={{ emblem: draft.emblem, color: draft.color, kind: "private", name: draft.name, scope_kind: "all", scope_value: null }} size={56} />
+            <div>
+              <strong>{draft.name.trim() || "Emri i ligës"}</strong>
+              <span>{DURATION_LABEL[draft.days]} · hyrja {feeValid ? fmtNum(fee) : "—"} 383C · poti për tre të parët</span>
+            </div>
+          </div>
+
+          <label className="lgc-field">
+            <span>Emri</span>
+            <input value={draft.name} onChange={(event) => setDraft({ ...draft, name: event.target.value.slice(0, 40) })} placeholder="Shokët e Prishtinës" autoFocus />
+          </label>
+
+          <div className="lgc-field">
+            <span>Ikona</span>
+            <div className="lgc-emojis" role="group" aria-label="Ikona">
+              {LEAGUE_EMOJIS.map((emoji) => (
+                <button key={emoji} type="button" aria-pressed={draft.emblem === emoji} onClick={() => setDraft({ ...draft, emblem: emoji })}>{emoji}</button>
+              ))}
+              <button type="button" className="lgc-photo" aria-pressed={isImageEmblem(draft.emblem)} onClick={() => fileInput.current?.click()} disabled={uploading}>
+                <ImagePlus size={16} aria-hidden /> {uploading ? "…" : "Foto"}
+              </button>
+              <input ref={fileInput} type="file" accept="image/png,image/jpeg,image/webp" hidden onChange={(event) => void uploadPhoto(event.target.files?.[0])} />
+            </div>
+          </div>
+
+          <div className="lgc-field">
+            <span>Ngjyra</span>
+            <div className="lgc-colors" role="group" aria-label="Ngjyra">
+              {LEAGUE_COLORS.map((color) => (
+                <button key={color} type="button" aria-pressed={draft.color === color} aria-label={color} style={{ "--swatch": color } as CSSProperties} onClick={() => setDraft({ ...draft, color })} />
+              ))}
+            </div>
+          </div>
+
+          <div className="lgc-field">
+            <span>Sa kushton hyrja</span>
+            <div className="lgc-chips" role="group" aria-label="Hyrja">
+              {LEAGUE_FEES.map((value) => (
+                <button key={value} type="button" aria-pressed={fee === value} disabled={balance !== null && value > balance} onClick={() => setDraft({ ...draft, fee: value })}>
+                  {fmtNum(value)}
+                </button>
+              ))}
+              <input
+                className="lgc-fee-input"
+                inputMode="numeric"
+                aria-label="Hyrje tjetër"
+                value={LEAGUE_FEES.includes(fee as (typeof LEAGUE_FEES)[number]) ? "" : String(draft.fee || "")}
+                placeholder="Tjetër"
+                onChange={(event) => setDraft({ ...draft, fee: Number(event.target.value.replace(/\D/g, "").slice(0, 5)) })}
+              />
+            </div>
+          </div>
+
+          <div className="lgc-field">
+            <span>Zgjat</span>
+            <div className="lgc-chips" role="group" aria-label="Zgjat">
+              {LEAGUE_DURATIONS.map((value) => (
+                <button key={value} type="button" aria-pressed={draft.days === value} onClick={() => setDraft({ ...draft, days: value })}>{DURATION_LABEL[value]}</button>
+              ))}
+            </div>
+          </div>
+
+          <p className="lgc-note">Çdo mik paguan {feeValid ? fmtNum(fee) : "—"} 383C për të hyrë. Me 10 miq poti bëhet {feeValid ? fmtNum(fee * 10) : "—"} 383C: 50/30/20 për tre të parët.</p>
+          <div className="lgc-row">
+            <button type="submit" className="lgc-gold lgc-wide" disabled={busy === "create" || uploading || draft.name.trim().length < 3 || !feeValid}>
+              <Zap size={16} aria-hidden /> {busy === "create" ? "Duke krijuar…" : `Krijo · ${feeValid ? fmtNum(fee) : "—"} 383C`}
+            </button>
+            <button type="button" className="lgc-ghost" onClick={() => { setStage({ kind: "idle" }); setError(null); }}>Anulo</button>
+          </div>
+        </form>
+      )}
+
       {stage.kind === "created" && (
         <div className="lgc-body lgc-reveal">
-          <p className="lgc-done"><Check size={16} strokeWidth={3} aria-hidden /> {stage.league.name} u krijua</p>
+          <div className="lgc-created-head" style={{ "--lg-color": stage.league.color } as CSSProperties}>
+            <LeagueEmblem league={{ emblem: stage.league.emblem, color: stage.league.color, kind: "private", name: stage.league.name, scope_kind: "all", scope_value: null }} size={52} />
+            <p className="lgc-done"><Check size={16} strokeWidth={3} aria-hidden /> {stage.league.name} u krijua</p>
+          </div>
           <div className="lgc-codebig" aria-label={`Kodi i ligës: ${stage.league.code}`}>
             {stage.league.code.split("").map((char, index) => (
               <span key={index} style={{ "--i": index } as CSSProperties}>{char}</span>
@@ -407,41 +509,11 @@ export default function LeaguesCard({ loggedIn, variant = "floor" }: { loggedIn:
               {copied ? <Check size={15} aria-hidden /> : <Copy size={15} aria-hidden />} {copied ? "U kopjua" : "Kopjo"}
             </button>
           </div>
-          {!editing ? (
-            <div className="lgc-terms">
-              <span>{DURATION_LABEL[stage.league.days]} · hyrja {fmtNum(stage.league.fee)} 383C</span>
-              <button type="button" onClick={() => setEditing(true)}><Settings2 size={14} aria-hidden /> Ndrysho</button>
-              <Link href={`/tregu/ligat/${stage.league.id}`}>Renditja <ArrowRight size={13} aria-hidden /></Link>
-            </div>
-          ) : (
-            <form className="lgc-edit" onSubmit={(event) => { event.preventDefault(); void saveEdits(); }}>
-              <input value={draft.name} onChange={(event) => setDraft({ ...draft, name: event.target.value.slice(0, 40) })} aria-label="Emri i ligës" />
-              <div className="lgc-chips" role="group" aria-label="Zgjat">
-                {LEAGUE_DURATIONS.map((value) => (
-                  <button type="button" key={value} aria-pressed={draft.days === value} onClick={() => setDraft({ ...draft, days: value })}>{DURATION_LABEL[value]}</button>
-                ))}
-              </div>
-              <div className="lgc-chips" role="group" aria-label="Tarifa e hyrjes">
-                {LEAGUE_FEES.map((value) => (
-                  <button
-                    type="button"
-                    key={value}
-                    aria-pressed={draft.fee === value}
-                    disabled={balance !== null && value - stage.league.fee > balance}
-                    onClick={() => setDraft({ ...draft, fee: value })}
-                  >
-                    {fmtNum(value)}
-                  </button>
-                ))}
-              </div>
-              <p className="lgc-note">Çdo mik paguan {fmtNum(draft.fee)} 383C për të hyrë. Poti ndahet 50/30/20 për tre të parët. Ndryshohet derisa të hyjë miku i parë.</p>
-              <div className="lgc-row">
-                <button type="submit" className="lgc-gold" disabled={busy === "save" || draft.name.trim().length < 3}>{busy === "save" ? "Duke ruajtur…" : "Ruaj"}</button>
-                <button type="button" className="lgc-ghost" onClick={() => setEditing(false)}>Anulo</button>
-              </div>
-            </form>
-          )}
-          <button type="button" className="lgc-back" onClick={() => { setStage({ kind: "idle" }); setEditing(false); }}>Mbyll</button>
+          <div className="lgc-terms">
+            <span>{DURATION_LABEL[stage.league.days]} · hyrja {fmtNum(stage.league.fee)} 383C</span>
+            <Link href={`/tregu/ligat/${stage.league.id}`}>Renditja <ArrowRight size={13} aria-hidden /></Link>
+          </div>
+          <button type="button" className="lgc-back" onClick={() => setStage({ kind: "idle" })}>Mbyll</button>
         </div>
       )}
 
@@ -461,46 +533,51 @@ export default function LeaguesCard({ loggedIn, variant = "floor" }: { loggedIn:
       {!compact && publics.length > 0 && stage.kind === "idle" && (
         <div className="lgc-publics">
           <div className="lgc-publics-head">
-            <strong>Ligat publike · 383 paguan</strong>
+            <strong>Ligat publike · 383 shton shpërblimin</strong>
             <Link href="/tregu/ligat">Të gjitha</Link>
           </div>
-          {publics.map((league) => (
-            <div key={league.id} className="lgc-pub" style={{ "--lg-color": leagueColor(league) } as CSSProperties}>
-              <LeagueEmblem league={league} size={40} />
-              <div className="lgc-pub-copy">
-                <Link href={`/tregu/ligat/${league.id}`}>{league.name}</Link>
-                <small>
-                  {scopeOf(league).label} · {fmtNum(league.members)} brenda ·{" "}
-                  {leaguePhase(league, now) === "upcoming"
-                    ? `fillon për ${untilLabel(Date.parse(league.starts_at), now)}`
-                    : `${untilLabel(Date.parse(league.ends_at), now)} mbetur`}
-                </small>
-              </div>
-              <div className="lgc-pub-purse">
-                <strong><CountUp value={leaguePurse(league)} /></strong>
-                <small>383C në lojë</small>
-              </div>
-              {league.is_member ? (
-                <Link href={`/tregu/ligat/${league.id}`} className="lgc-ghost">{league.my_rank ? `#${league.my_rank}` : "Brenda"}</Link>
-              ) : (
-                <button
-                  type="button"
-                  className="lgc-gold"
-                  onClick={() => void join(league)}
-                  disabled={busy === league.id || (balance !== null && league.entry_fee > balance)}
-                >
-                  {busy === league.id ? "…" : `Hyr · ${fmtNum(league.entry_fee)}`}
-                </button>
-              )}
-            </div>
-          ))}
+          <div className="lgc-featured-row">
+            {publics.map((league) => (
+              <article
+                key={league.id}
+                className="lgc-feat"
+                style={{ "--lg-color": leagueColor(league), "--cover": league.cover_url ? `url(${league.cover_url})` : "none" } as CSSProperties}
+              >
+                <div className="lgc-feat-top">
+                  <LeagueEmblem league={league} size={44} />
+                  <span className="lgc-feat-clock">
+                    {leaguePhase(league, now) === "upcoming" ? `nis për ${untilLabel(Date.parse(league.starts_at), now)}` : `${untilLabel(Date.parse(league.ends_at), now)}`}
+                  </span>
+                </div>
+                <Link href={`/tregu/ligat/${league.id}`} className="lgc-feat-name">{league.name}</Link>
+                <span className="lgc-feat-theme">{scopeOf(league).label}{league.sponsor ? ` · ${league.sponsor}` : ""}</span>
+                <div className="lgc-feat-purse">
+                  <strong><CountUp value={leaguePurse(league)} /></strong>
+                  <small>383C në lojë · {fmtNum(league.members)} brenda</small>
+                </div>
+                {league.is_member ? (
+                  <Link href={`/tregu/ligat/${league.id}`} className="lgc-ghost">{league.my_rank ? `Je #${league.my_rank}` : "Je brenda"} <ArrowRight size={14} aria-hidden /></Link>
+                ) : (
+                  <button
+                    type="button"
+                    className="lgc-gold"
+                    onClick={() => void join(league)}
+                    disabled={busy === league.id || (balance !== null && league.entry_fee > balance)}
+                  >
+                    {busy === league.id ? "…" : `Hyr · ${fmtNum(league.entry_fee)} 383C`}
+                  </button>
+                )}
+              </article>
+            ))}
+          </div>
         </div>
       )}
 
       {!compact && mine.length > 0 && stage.kind === "idle" && (
         <nav className="lgc-mine" aria-label="Ligat e tua">
           {mine.map((league) => (
-            <Link key={league.id} href={`/tregu/ligat/${league.id}`}>
+            <Link key={league.id} href={`/tregu/ligat/${league.id}`} style={{ "--lg-color": leagueColor(league) } as CSSProperties}>
+              <LeagueEmblem league={league} size={24} />
               <span>{league.name}</span>
               <b>{league.my_rank ? `#${league.my_rank}` : "—"}<em>/{league.members}</em></b>
             </Link>
@@ -509,7 +586,7 @@ export default function LeaguesCard({ loggedIn, variant = "floor" }: { loggedIn:
         </nav>
       )}
     </section>
-    {crew.length > 0 && <LeagueCrew leagues={crew} />}
+    {crew.length > 0 && <LeagueCrew leagues={crew} balance={balance} />}
     </>
   );
 }

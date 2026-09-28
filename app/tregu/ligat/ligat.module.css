@@ -229,7 +229,7 @@
 .step[data-empty] { opacity: .45; }
 
 .table { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
-.tableHead, .tableRow { display: grid; grid-template-columns: 36px minmax(0, 1fr) 76px 72px 90px 100px; align-items: center; gap: 10px; padding: 0 14px; }
+.tableHead, .tableRow { display: grid; grid-template-columns: 44px minmax(0, 1fr) 70px 64px 84px 92px 82px; align-items: center; gap: 10px; padding: 0 14px; }
 .tableHead { padding-bottom: 4px; font-size: 10.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #6b6b6b; }
 .tableHead span:nth-child(n+3) { text-align: right; }
 .tableRow { min-height: 52px; border-radius: 14px; background: #fff; box-shadow: inset 0 0 0 1px rgba(17,17,17,.06); font-variant-numeric: tabular-nums; }
@@ -237,7 +237,20 @@
 .tableRow[data-place="1"] { background: linear-gradient(90deg, rgba(227,179,65,.22), #fff 60%); }
 .tableRow[data-place="2"] { background: linear-gradient(90deg, rgba(180,186,196,.25), #fff 60%); }
 .tableRow[data-place="3"] { background: linear-gradient(90deg, rgba(197,138,75,.2), #fff 60%); }
-.rankCell { font-size: 15px; font-weight: 800; color: rgba(17,17,17,.45); }
+.rankCell { display: inline-flex; align-items: center; gap: 3px; font-size: 15px; font-weight: 800; color: rgba(17,17,17,.45); }
+.up { color: #00A651; }
+.down { color: #E41E20; }
+.duels { display: inline-flex; align-items: center; gap: 2px; font-style: normal; font-size: 11.5px; font-weight: 800; color: #7C3AED; }
+.duelCell { text-align: right; }
+.duelCell button { display: inline-flex; align-items: center; gap: 5px; min-height: 32px; padding: 0 11px; border-radius: 100px; border: 1px solid rgba(17,17,17,.14); background: #fff; font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; color: #111; }
+.duelCell button:hover { background: #111; color: #fff; border-color: #111; }
+.duelCell button:focus-visible { outline: 2px solid #ff4422; outline-offset: 2px; }
+.duelLayer { position: fixed; inset: auto 0 0 0; z-index: 10005; display: grid; place-items: end center; padding: 16px; pointer-events: none; }
+.duelLayer > * { pointer-events: auto; }
+.race { margin-bottom: 16px; padding: 16px 18px 8px; border-radius: 20px; background: #fff; border: 1px solid rgba(17,17,17,.07); }
+.raceHead { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+.raceHead strong { font-size: 16px; font-weight: 800; }
+.raceHead span { font-size: 12px; color: #6b6b6b; }
 .tableRow[data-place] .rankCell { color: #111; }
 .nameCell { display: flex; align-items: center; gap: 7px; min-width: 0; }
 .nameCell b { overflow: hidden; font-size: 14.5px; font-weight: 750; text-overflow: ellipsis; white-space: nowrap; }
@@ -293,8 +306,10 @@
   .statRow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .statRow div:last-child:nth-child(odd) { grid-column: 1 / -1; }
   .creator { display: none; }
-  .tableHead, .tableRow { grid-template-columns: 28px minmax(0, 1fr) 70px 78px; padding: 0 10px; }
-  .tableHead span:nth-child(4), .tableRow .tradesCell, .tableHead span:nth-child(6), .tableRow .prizeCell { display: none; }
+  .tableHead, .tableRow { grid-template-columns: 38px minmax(0, 1fr) 70px 44px; padding: 0 10px; }
+  .tableHead span:nth-child(3), .tableRow .todayCell, .tableHead span:nth-child(4), .tableRow .tradesCell, .tableHead span:nth-child(6), .tableRow .prizeCell { display: none; }
+  .duelCell button span, .duelCell button { font-size: 0; gap: 0; padding: 0 9px; }
+  .duelCell button svg { width: 15px; height: 15px; }
   .podium { gap: 6px; }
 }
 @media (prefers-reduced-motion: reduce) {

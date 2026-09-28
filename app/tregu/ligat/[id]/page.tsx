@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { use as usePromise, useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
-import { ArrowRight, Check, Copy, Flame, Image as ImageIcon, Lock, Share2, Trophy, Users, Zap } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUp, Check, Copy, Flame, Image as ImageIcon, Lock, Share2, Swords, Trophy, Users, Zap } from "lucide-react";
 import Navbar from "@/components/navbar";
+import DuelChallenge from "@/components/tregu/duel-challenge";
 import LeagueEmblem from "@/components/tregu/league-emblem";
+import LeagueRace from "@/components/tregu/league-race";
 import LeaguePay, { type LeaguePayment } from "@/components/tregu/league-pay";
 import { primeSellSound } from "@/components/tregu/trade-success-sound";
 import { untilLabel } from "@/components/tregu/trader-leaderboard";
@@ -21,6 +23,7 @@ import {
   type LeagueFeedItem,
   type LeagueStanding,
   type LeagueSummary,
+  type RacePoint,
 } from "@/lib/tregu-leagues";
 import styles from "../ligat.module.css";
 
@@ -48,14 +51,18 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
   const [payment, setPayment] = useState<LeaguePayment | null>(null);
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
   const [copied, setCopied] = useState(false);
+  const [race, setRace] = useState<RacePoint[]>([]);
+  const [challenge, setChallenge] = useState<LeagueStanding | null>(null);
 
   const load = useCallback(async () => {
-    const [overview, preview, standings, events] = await Promise.all([
+    const [overview, preview, standings, events, racePoints] = await Promise.all([
       supabase.rpc("tregu_leagues_overview"),
       supabase.rpc("tregu_league_preview", { p_league_id: id }),
       supabase.rpc("tregu_league_standings", { p_league_id: id }),
       supabase.rpc("tregu_league_feed", { p_league_id: id }),
+      supabase.rpc("tregu_league_race", { p_league_id: id }),
     ]);
+    setRace((racePoints.data ?? []) as RacePoint[]);
     const mine = (overview.data as LeagueSummary[] | null)?.find((row) => row.id === id);
     const open = (preview.data as (LeagueSummary & { rules?: string | null })[] | null)?.[0];
     setLeague(mine ? { ...open, ...mine } : open ? { ...open, code: null } : null);
@@ -243,6 +250,13 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
               <p>Fitimi nga tregtitë e mbyllura{league.scope_kind && league.scope_kind !== "all" ? ` në ${scopeOf(league).label}` : ""}</p>
             </div>
 
+            {race.length > 0 && rows.length > 1 && (
+              <div className={styles.race}>
+                <div className={styles.raceHead}><strong>Gara</strong><span>Fitimi i mbyllur, ditë pas dite</span></div>
+                <LeagueRace points={race} />
+              </div>
+            )}
+
             {rows.length >= 2 && (
               <div className={styles.podium} aria-label="Podiumi">
                 {podium.map((row, index) =>
@@ -270,21 +284,30 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
             {rows.length ? (
               <ol className={styles.table}>
                 <li className={styles.tableHead} aria-hidden>
-                  <span>#</span><span>Tregtari</span><span>Sot</span><span>Tregtime</span><span>Fitimi</span><span>Shpërblimi</span>
+                  <span>#</span><span>Tregtari</span><span>Sot</span><span>Tregtime</span><span>Fitimi</span><span>Shpërblimi</span><span /> 
                 </li>
                 {rows.map((row) => (
                   <li key={row.rank} className={styles.tableRow} data-me={row.is_me || undefined} data-place={row.rank <= 3 ? row.rank : undefined}>
-                    <span className={styles.rankCell}>{row.rank}</span>
+                    <span className={styles.rankCell}>
+                      {row.rank}
+                      {Number(row.rank_change) > 0 ? <ArrowUp size={12} aria-label="u ngjit sot" className={styles.up} /> : Number(row.rank_change) < 0 ? <ArrowDown size={12} aria-label="ra sot" className={styles.down} /> : null}
+                    </span>
                     <span className={styles.nameCell}>
                       <b>{row.display_name}</b>
                       {row.is_me && <em className={styles.you}>TI</em>}
                       {row.is_creator && league.kind === "private" && <em className={styles.creator}>krijuesi</em>}
                       {Number(row.streak) >= 2 && <i className={styles.streak}><Flame size={12} aria-hidden /> {row.streak}</i>}
+                      {Number(row.duel_wins) > 0 && <i className={styles.duels}><Swords size={12} aria-hidden /> {row.duel_wins}</i>}
                     </span>
                     <span className={styles.todayCell} data-tone={tone(Number(row.today_profit ?? 0))}>{Number(row.today_profit ?? 0) ? signed(Number(row.today_profit)) : "—"}</span>
                     <span className={styles.tradesCell}>{row.trades ?? 0}</span>
                     <span className={styles.profitCell} data-tone={tone(row.profit)}>{signed(row.profit)}</span>
                     <span className={styles.prizeCell}>{prizeFor(row) ? `${fmtNum(prizeFor(row)!)} 383C` : ""}</span>
+                    <span className={styles.duelCell}>
+                      {league.is_member && !row.is_me && row.member_key && phase === "live" ? (
+                        <button type="button" onClick={() => setChallenge(row)} aria-label={`Sfido ${row.display_name}`}><Swords size={14} aria-hidden /> Sfido</button>
+                      ) : null}
+                    </span>
                   </li>
                 ))}
               </ol>
@@ -319,6 +342,19 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
             )}
           </aside>
         </div>
+
+        {challenge?.member_key && (
+          <div className={styles.duelLayer}>
+            <DuelChallenge
+              leagueId={league.id}
+              memberKey={challenge.member_key}
+              rival={first(challenge.display_name)}
+              balance={null}
+              onClose={() => setChallenge(null)}
+              onDone={() => void load()}
+            />
+          </div>
+        )}
 
         {(rules || league.kind === "private") && (
           <section className={styles.rules}>

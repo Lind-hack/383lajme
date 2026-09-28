@@ -15,6 +15,7 @@ import FloorRail from "@/components/tregu/floor-rail";
 import TraderLeaderboard from "@/components/tregu/trader-leaderboard";
 import LeaderboardGift from "@/components/tregu/leaderboard-gift";
 import LeaguesCard from "@/components/tregu/leagues-card";
+import RivalryBanner from "@/components/tregu/rivalry-banner";
 import WithdrawalProgress from "@/components/tregu/withdrawal-progress";
 import type { MiniMarket } from "@/components/tregu/market-mini-card";
 import VideoHero from "@/components/tregu/video-hero";
@@ -766,6 +767,9 @@ export default function TreguHub() {
             )}
           </div>
         </div>
+
+        {/* The reason to open Tregu today: who passed you, who challenged you. */}
+        <RivalryBanner loggedIn={balance !== null} />
 
         <div className="tregu-discovery-controls">
           <label className="tregu-search"><span>Kërko tregje</span><input type="search" placeholder="Skuadër, pilot ose ngjarje…" value={query} onChange={e => setQuery(e.target.value)} onKeyDown={jumpToResults} /></label>
