@@ -168,7 +168,7 @@ SCORE_WEIGHTS = {
     "editorial_safety": 0.04,
 }
 
-DEFAULT_SITE_URL = "https://383lajme.vercel.app"
+DEFAULT_SITE_URL = "https://383ks.com"
 DEFAULT_GITHUB_REPO = "Lind-hack/383lajme"
 TREGU_CHART_UI_VERSION = "smooth-inspector-v3"
 F1_RACE_UI_VERSION = "race-live-v4"

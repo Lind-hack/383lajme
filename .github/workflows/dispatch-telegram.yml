@@ -28,12 +28,17 @@ jobs:
       - name: Send new featured stories to the channel
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          # 383lajme.vercel.app answers 402 (Vercel account blocked); production
+          # is Railway behind Cloudflare, same host as tregu-live.yml.
+          BASE: ${{ secrets.PRODUCTION_URL || 'https://383ks.com' }}
         run: |
           if [ -z "$CRON_SECRET" ]; then
             echo "CRON_SECRET repo secret is not set — skipping." >&2
             exit 1
           fi
+          # pipefail so a failed curl is not masked by head's exit status.
+          set -o pipefail
           curl -fsS --max-time 120 \
             -H "Authorization: Bearer $CRON_SECRET" \
-            "https://383lajme.vercel.app/api/cron/dispatch-telegram" \
+            "$BASE/api/cron/dispatch-telegram" \
             | head -c 2000

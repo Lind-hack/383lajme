@@ -1,0 +1,5 @@
+# Research dumps from the news pipeline (last30days / RSS discovery runs).
+# Real repo content, but each file becomes a 100-edge hub that drowns the
+# code communities in GRAPH_REPORT.md.
+data/automation/
+.last30days/

@@ -10,7 +10,7 @@ for line in pathlib.Path('/opt/data/workspaces/383lajme-prod-f731569/.env.automa
         env[key.strip()] = value.strip().strip('"').strip("'")
 base = env['NEXT_PUBLIC_SUPABASE_URL'].rstrip('/')
 service = env['SUPABASE_SERVICE_ROLE_KEY']
-site = env.get('TREGU_AUTOMATION_URL', 'https://383lajme.vercel.app').rstrip('/')
+site = env.get('TREGU_AUTOMATION_URL', 'https://383ks.com').rstrip('/')
 headers = {'apikey': service, 'Authorization': 'Bearer ' + service, 'Content-Type': 'application/json'}
 
 def request(url, method='GET', body=None, request_headers=None):

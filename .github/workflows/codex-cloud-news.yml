@@ -35,10 +35,9 @@ jobs:
       CODEX_AUTH_JSON_B64: ${{ secrets.CODEX_AUTH_JSON_B64 }}
       GITHUB_TOKEN: ${{ secrets.CODEX_PUSH_TOKEN || github.token }}
       GITHUB_REPOSITORY: Lind-hack/383lajme
-      # Stable GitHub-integrated production alias. This avoids a second Vercel
-      # project or a custom-domain reassignment ever redirecting the automation
-      # to an unrelated deployment.
-      SITE_URL: https://383lajme.vercel.app
+      # Live production host (Railway behind Cloudflare). 383lajme.vercel.app
+      # answers 402 since the Vercel account was blocked.
+      SITE_URL: ${{ secrets.PRODUCTION_URL || 'https://383ks.com' }}
       GMAIL_USER: ${{ secrets.GMAIL_USER }}
       GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
       RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL || vars.RECIPIENT_EMAIL }}
