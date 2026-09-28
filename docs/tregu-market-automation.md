@@ -36,7 +36,7 @@ Automation routes require `Authorization: Bearer $TREGU...ET`:
 - `POST /api/automation/tregu/reprice` — idempotent per UTC two-minute run bucket; it applies the bounded hybrid oracle only to verified evidence for still-open markets. It never pauses or reopens a market, and never touches user balances, positions, or transactions.
 - `GET /api/cron/update-markets` — the `tregu-live` five-minute remote-only VPS heartbeat. It requires `Authorization: Bearer *** (or `TREGU_AUTOMATION_SECRET` fallback), accepts no body, and invokes the verified-news AI repricer (Groq, then eligible Google/Gemini fallback). Missing/wrong bearer returns `401`; a failed refresh returns non-2xx; successful no-evidence/no-change checks return JSON `2xx` without email. It sends one SMTP email to the configured recipient only when a verified AI result changes a market probability. Official sports/settlement work is not reachable from this route.
 
-Current `news-event-v3` daily drafts use `closes_in_hours` for documented 30–90-day decision windows. A review date is not an automatic losing outcome: no countdown or deadline-only settlement may move news odds. Official live-event cards carry an explicit fallback `closes_at` and close early at a verified final result.
+Current `news-event-v3` daily drafts use `closes_in_hours` for documented decision windows from 8 hours to 90 days. A review date is not an automatic losing outcome: no countdown or deadline-only settlement may move news odds. Official live-event cards carry an explicit fallback `closes_at` and close early at a verified final result.
 
 ## Formula 1 Dashboard live winner markets
 

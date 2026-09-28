@@ -58,7 +58,7 @@ function runDailyCodex(prompt, key, maximum) {
 // only has to write contracts for topics that are already vetted. No quality gate moves.
 const shortlistPrompt = `You are scanning Kosovo, Albania and world news for prediction-market topics.
 
-From the verified articles below, name 6 to 10 topics whose outcome is genuinely still UNDECIDED and will be settled by a named authority within the next 30 to 90 days.
+From the verified articles below, name up to 10 topics whose outcome is genuinely still UNDECIDED and can be resolved by a named authority between 8 hours and 90 days from now. Use the actual documented event window; short-lived court, policy and economic decisions are eligible.
 
 A topic qualifies only if:
 - the article reports a live dispute, upcoming vote, ruling, appointment, threshold or decision — not something already settled;
@@ -93,7 +93,7 @@ console.log(JSON.stringify({
 
 const prompt = `You are the 383 Tregu daily market editor for NON-SPORTS markets. Official football and F1 templates are created by a separate verified sports lane; never propose sport markets here.
 
-Stage one already shortlisted the topics listed below from these same verified articles. You are no longer searching for topics: your job is to write the full market contract for those that genuinely qualify. Drop any shortlisted topic that fails a quality rule, and return at most 6. Prefer major Kosovo, Albania and world developments that people widely discuss, with documented 30–90-day decision timelines.
+Stage one already shortlisted the topics listed below from these same verified articles. You are no longer searching for topics: your job is to write the full market contract for those that genuinely qualify. Drop any shortlisted topic that fails a quality rule, and return at most 6. Prefer major Kosovo, Albania and world developments that people widely discuss, with documented decision timelines from 8 hours to 90 days.
 
 SHORTLISTED TOPICS (write contracts for these):
 ${JSON.stringify(shortlist.topics)}
@@ -114,7 +114,7 @@ QUALITY RULES:
 3. Do not create a headline restatement. Reject any topic whose supplied source has already established the proposed PO outcome. Do not ask whether an already-reported arrest, signing, meeting, arrival, death, victory, or announcement will be confirmed.
 4. Never create meeting-only, generic announcement, generic “will X happen?”, or “will institution confirm what the article says?” markets. A meeting is eligible only when it contains a consequential decision, vote, ruling, appointment, agreement, or measurable outcome.
 5. Prefer a real threshold or decision: a named vote/ruling, a measurable public number, a policy taking effect, a selection/appointment, or a clearly defined escalation/de-escalation condition. For threshold/data_release, include the numeric threshold in the question and threshold_value.
-6. Write a concise Albanian question ending with ?. Do not mechanically start with A do të. Do not force a date into the title. Set closes_in_hours between 720 and 2160 (30–90 days), based on the documented decision timeline. Do not use closes_in_days.
+6. Write a concise Albanian question ending with ?. Do not mechanically start with A do të. Do not force a date into the title. Set closes_in_hours between 8 and 2160 (8 hours–90 days), based on the documented decision timeline. For an imminent event, leave enough time for meaningful trading. Do not invent a deadline. Do not use closes_in_days.
 7. Prefer explicit competing events such as approval versus rejection. For event_pair markets, the date is a review date, not an automatic JO outcome. Neither event verified means pause_for_review. If JO means no signed agreement or no occurrence by a deadline (including "Mungesa ... brenda afatit"), use deadline_occurrence instead. Never label that contract event_pair. Do not invent a scheduled decision date.
 8. Require at least two independent publishers from the supplied articles. Copy source slugs exactly. Name the authoritative resolution source and explain why the topic is widely discussed.
 9. Never repeat an active topic or near-identical question. Return fewer than three markets, including zero, when only fewer pass all quality gates.
@@ -135,7 +135,7 @@ Verified source articles (each includes source, URL, excerpt, and bounded body):
 ${JSON.stringify(dailySourcePacket(articles, { citedSlugs: shortlistedSourceSlugs(shortlist.topics) }))}
 
 Return ONLY compact JSON, with no markdown:
-{"markets":[{"question":"...","description":"current state plus the unresolved fork","resolution_criteria":"PO: ... JO: ... Burimi i zgjidhjes: ... Afati: ... Edge cases: ...","category":"kosove|shqiperi|ekonomi|bote|te-tjera","news_topic":"politike|ekonomi|shoqeri|siguri|teknologji","contract_version":"news-event-v3","closes_in_hours":1440,"proposition":{"entities":["..."],"geography":"Kosovo","decision":"...","yes_condition":"...","no_condition":"...","resolution_source":"...","resolution_mode":"event_pair","review_policy":"pause_for_review"},"market_archetype":"scheduled_decision|threshold|data_release|policy_action|appointment_or_selection|escalation_or_deescalation|corporate_decision|executive_action","topic_key":"topic-name","decision_point":"...","why_uncertain":"...","trading_angle":"...","resolution_source":"...","deadline_basis":"...","threshold_value":"...","source_slugs":["slug1","slug2"]}]}`;
+{"markets":[{"question":"...","description":"current state plus the unresolved fork","resolution_criteria":"PO: ... JO: ... Burimi i zgjidhjes: ... Afati: ... Edge cases: ...","category":"kosove|shqiperi|ekonomi|bote|te-tjera","news_topic":"politike|ekonomi|shoqeri|siguri|teknologji","contract_version":"news-event-v3","closes_in_hours":48,"proposition":{"entities":["..."],"geography":"Kosovo","decision":"...","yes_condition":"...","no_condition":"...","resolution_source":"...","resolution_mode":"event_pair","review_policy":"pause_for_review"},"market_archetype":"scheduled_decision|threshold|data_release|policy_action|appointment_or_selection|escalation_or_deescalation|corporate_decision|executive_action","topic_key":"topic-name","decision_point":"...","why_uncertain":"...","trading_angle":"...","resolution_source":"...","deadline_basis":"...","threshold_value":"...","source_slugs":["slug1","slug2"]}]}`;
 
 
 // An empty shortlist means stage one found nothing undecided worth pricing. That is a
