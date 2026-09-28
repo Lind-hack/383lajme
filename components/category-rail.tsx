@@ -2,9 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { ChartNoAxesColumnIncreasing, Clapperboard, Cpu, Earth, Trophy, type LucideIcon } from "lucide-react";
-import { NAV_CATEGORIES, normalizeCategory, type NavCategory } from "@/lib/category-map";
+import { NAV_CATEGORIES, normalizeCategory } from "@/lib/category-map";
 import { getCategoryColor } from "@/lib/category-colors";
+import { CATEGORY_ICONS as ICONS } from "@/lib/category-icons";
 
 /**
  * The seven sections as a row of icon cards, under the homepage's latest-news
@@ -12,22 +12,11 @@ import { getCategoryColor } from "@/lib/category-colors";
  * navbar's "Kategoritë" dropdown: a category one click away and recognisable
  * by its mark, instead of hidden behind a menu.
  *
- * Kosovë and Shqipëri use the shapes from their public-domain flags (the map
- * and the eagle, in /public/images/categories), tinted through a CSS mask so
- * they take the section colour like the line icons do.
+ * The marks live in lib/category-icons, shared with "Kalo te" and Top 5.
  *
  * `hero` sets the row on a category page's colour (components/category-banner),
  * with the current card lit up like a selected tab.
  */
-const ICONS: Record<NavCategory, LucideIcon | string> = {
-  Kosovë: "/images/categories/kosove.svg",
-  Shqipëri: "/images/categories/shqiperi.svg",
-  Sport: Trophy,
-  Teknologji: Cpu,
-  Ekonomi: ChartNoAxesColumnIncreasing,
-  Botë: Earth,
-  Showbiz: Clapperboard,
-};
 
 export default function CategoryRail({ active, variant = "plain" }: { active?: string; variant?: "plain" | "hero" }) {
   const current = active ? normalizeCategory(active) : undefined;

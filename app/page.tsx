@@ -18,7 +18,8 @@ import HomeVisitPreview from "@/components/visit/home-visit-preview";
 import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
-import ImageAccordion, { type AccordionSlide } from "@/components/image-accordion";
+import { type AccordionSlide } from "@/components/image-accordion";
+import TopFive from "@/components/home/top-five";
 import {
   CurrencyExchangeCard,
   FuelPricesCard,
@@ -207,7 +208,7 @@ export default async function HomePage() {
   // with, so the rail renders what it claimed.
   const njoftimeShown = claim(ledger, njoftimeArticles, njoftimeArticles.length);
 
-  // Image accordion — top article per category, fallback to best unused
+  // Top 5 sot — top article per category, fallback to best unused
   const accordionCats = [
     { category: "Kosovë",    label: "Kosovë"    },
     { category: "Shqipëri",  label: "Shqipëri"  },
@@ -225,7 +226,7 @@ export default async function HomePage() {
   const accordionSlides: AccordionSlide[] = [];
 
   for (const { category } of accordionCats) {
-    // An open accordion panel is a large photo; prefer a story whose photo fills it.
+    // Prefer a story with a sharp photo, so its thumbnail holds up on a 2x screen.
     // claim() records what it returns, so the fallback runs only on a miss.
     const sharpPick = claim(ledger, belowPool, 1, { predicate: (a) => a.category === category && isSharpEnough(a) });
     const [exact] = sharpPick.length
@@ -253,6 +254,12 @@ export default async function HomePage() {
       label: article.category,
     });
   }
+
+  // Top 5 sot ranks the five topics' stories by the pipeline's score, so #1 is
+  // the day's biggest of them. Stored rows may predate the score; they rank last.
+  const topFive = accordionSlides
+    .map((slide) => slide.article)
+    .sort((a, b) => (b?.engagementScore ?? 0) - (a?.engagementScore ?? 0));
 
   // Lajmet e fundit claims last and takes the newest of what is left: it is
   // the one section that can show any story, so it gives way to the rest.
@@ -346,9 +353,9 @@ export default async function HomePage() {
           <DispatchRow articles={njoftimeShown} />
         </div>
 
-        {/* 5 tema, 5 lajme — one story per topic */}
+        {/* Top 5 sot — one story per topic, ranked */}
         <div style={{ marginBottom: "var(--space-section)" }}>
-          <ImageAccordion slides={accordionSlides} />
+          <TopFive articles={topFive} />
         </div>
 
         {/* Lajmet e fundit — the day's run, one story to a row, and the way
