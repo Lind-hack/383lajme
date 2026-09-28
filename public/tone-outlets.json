@@ -1,11 +1,11 @@
 {
-  "lastUpdated": "2026-09-27",
-  "overallIndex": 51,
-  "totalArticles": 210,
-  "sourceCount": 182,
+  "lastUpdated": "2026-09-28",
+  "overallIndex": 50,
+  "totalArticles": 206,
+  "sourceCount": 138,
   "stanceVersion": 3,
-  "unattributed": 541,
-  "nonEditorial": 9,
+  "unattributed": 328,
+  "nonEditorial": 7,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -37,21 +37,8 @@
         {
           "name": "Der Standard",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Kosovo schlägt Irland in ÖFB-Gruppe mit 1:0 - derStandard.de",
-              "albanianTitle": "Kosova mposht Irlandën 1:0 në grupin e Ligës së Kombeve - derStandard.de",
-              "blurb": "Përfaqësuesja e Kosovës ka mposhtur Irlandën me rezultat minimal 1:0 në kuadër të ndeshjeve të Ligës së Kombeve.",
-              "imageUrl": "https://i.ds.at/LqLjog/rs:fill:1200:600/plain/lido-images/2026/09/24/57f57c17-acca-4ab8-81c6-dc43232d5323.jpg",
-              "url": "https://www.derstandard.de/story/3000000341302/kosovo-schlaegt-irland-in-oefb-gruppe-mit-10",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Vesel Demaku wuchs in Niederösterreich auf, spielt aber für den Kosovo: \"Es geht um mehr als Sport\" - derstandard.de",
               "albanianTitle": "Vesel Demaku u rrit në Austrinë e Poshtme, por luan për Kosovën: \"Është më shumë se sport\"",
@@ -114,45 +101,6 @@
           "articleCount": 6,
           "articles": [
             {
-              "title": "Kosovo-Teamchef Foda als Fan vom Nationalteam: \"Außer, wenn wir gegen sie spielen\" - Kicker",
-              "albanianTitle": "Përzgjedhësi i Kosovës, Foda: Jam tifoz i kombëtares, përveç kur luajmë kundër tyre",
-              "blurb": "Përzgjedhësi i Kosovës, Franco Foda, shprehet mbështetës i kombëtares gjermane përveç rasteve kur ata luajnë kundër Kosovës.",
-              "imageUrl": null,
-              "url": "https://www.kicker.de/kosovo-teamchef-foda-als-fan-vom-nationalteam-ausser-wenn-wir-gegen-sie-spielen-1255554/artikel",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Headline reports a quote without editorial judgement",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": "Foda"
-            },
-            {
-              "title": "Liveticker | Kosovo - Irland 0:0 | 1. Spieltag | UEFA Nations League 2026/27 - Kicker",
-              "albanianTitle": "Live: Kosova - Irlanda 0:0 | Ndeshja e parë | UEFA Nations League 2026/27 - Kicker",
-              "blurb": "Përfaqësuesja e Kosovës barazon pa gola ndaj Irlandës në ndeshjen e parë të Ligës së Kombeve për sezonin 2026/27.",
-              "imageUrl": null,
-              "url": "https://www.kicker.de/kosovo-gegen-irland-2026-uefa-nations-league-5193338/ticker",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Liveticker | Kosovo - Irland 1:0 | 1. Spieltag | UEFA Nations League 2026/27 - Kicker",
-              "albanianTitle": "Live: Kosova - Irlanda 1:0 | Ndeshja e parë | UEFA Nations League 2026/27 - Kicker",
-              "blurb": "Kosova ka shënuar fitore 1:0 ndaj Irlandës në ndeshjen e parë të Ligës së Kombeve për sezonin 2026/27.",
-              "imageUrl": null,
-              "url": "https://www.kicker.de/kosovo-gegen-irland-2026-uefa-nations-league-5193338/ticker",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Wer überträgt Österreich gegen Kosovo live im TV & Stream? - Kicker",
               "albanianTitle": "Kush e transmeton drejtpërdrejt ndeshjen Austri - Kosovë në TV dhe online?",
               "blurb": "Transmetuesit televizivë dhe platformat online që do të shfaqin ndeshjen e futbollit ndërmjet Austrisë dhe Kosovës.",
@@ -187,6 +135,45 @@
               "date": "2026-09-26",
               "sentiment": "neutral",
               "reason": "Raportim faktik",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Schlager ÖFB-Kapitän gegen den Kosovo: \"Jeder muss vorangehen\" - Kicker",
+              "albanianTitle": "Kapiteni i Austrisë, Schlager, para ndeshjes me Kosovën: \"Secili duhet të marrë përgjegjësi\"",
+              "blurb": "Kapiteni i Austrisë, Schlager, kërkon angazhim maksimal nga bashkëlojtarët e tij në ndeshjen e futbollit kundër Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.kicker.de/schlager-oefb-kapitaen-gegen-den-kosovo-jeder-muss-vorangehen-1256179/artikel",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë sportive, pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Zawieschitzky gegen Kosovo! Österreichs jüngster Teamtorhüter seit 81 Jahren - Kicker",
+              "albanianTitle": "Zawieschitzky kundër Kosovës! Portieri më i ri i Austrisë në 81 vitet e fundit",
+              "blurb": "Portieri Zawieschitzky bëhet portieri më i ri i kombëtares së Austrisë në 81 vitet e fundit për ndeshjen ndaj Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.kicker.de/zawieschitzky-gegen-kosovo-oesterreichs-juengster-teamtorhueter-seit-81-jahren-1256376/artikel",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa ngarkim",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Liveticker | Österreich - Kosovo 3:1 | 2. Spieltag | UEFA Nations League 2026/27 - Kicker",
+              "albanianTitle": "Live: Austria - Kosova 3:1 | Ndeshja e dytë | UEFA Nations League 2026/27 - Kicker",
+              "blurb": "Austria ka shënuar fitore 3:1 ndaj Kosovës në ndeshjen e dytë të Ligës së Kombeve për sezonin 2026/27.",
+              "imageUrl": null,
+              "url": "https://www.kicker.de/oesterreich-gegen-kosovo-2026-uefa-nations-league-5193332/ticker",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Fakte të raportuara pa gjuhë ngarkuese",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -285,7 +272,7 @@
         {
           "name": "kicker",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Rangnick: Kosovo-Partie \"nochmal schwieriger\" als Duell mit Israel - kicker.de",
@@ -325,12 +312,51 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "ÖFB-Kapitän"
+            },
+            {
+              "title": "Premierentore für Affengruber und Adamu: Österreich besiegt Kosovo - kicker.de",
+              "albanianTitle": "Golat e parë për Affengruber dhe Adamu: Austria mposht Kosovën",
+              "blurb": "Përfaqësuesja e Austrisë ka mposhtur Kosovën me rezultat 3:1 në ndeshjen e zhvilluar së fundmi në futboll.",
+              "imageUrl": null,
+              "url": "https://www.kicker.de/oesterreich-gegen-kosovo-2026-uefa-nations-league-5193332/ticker",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Faktikë raporti sportiv pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Spielbericht - Kicker - kicker.de",
+              "albanianTitle": null,
+              "blurb": "Përmbledhja e ndeshjes ndërmjet Austrisë dhe Kosovës tregon detajet teknike dhe rrjedhën e lojës së zhvilluar në fushë.",
+              "imageUrl": null,
+              "url": "https://www.kicker.de/oesterreich-gegen-kosovo-2026-uefa-nations-league-5193332/spielbericht",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Titulli është thjesht \"Spielbericht\" pa gjuhë vlerësuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "New-Look-Team überzeugt: Die Noten zum 3:1-Sieg gegen den Kosovo - kicker.de",
+              "albanianTitle": "Ekipi me fytyrë të re bind: Notat për fitoren 3:1 ndaj Kosovës",
+              "blurb": "Vlerësimi i lojtarëve të Austrisë pas fitores 3 me 1 ndaj Kosovës në ndeshjen e Ligës së Kombeve.",
+              "imageUrl": null,
+              "url": "https://www.kicker.de/new-look-team-ueberzeugt-die-noten-zum-3-1-sieg-gegen-den-kosovo-1256339/slideshow",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Factual report of match result",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 8,
+          "totalArticles": 11,
           "trend": "neutral",
           "firstSeen": "2026-08-24",
-          "lastSeen": "2026-09-26"
+          "lastSeen": "2026-09-27"
         },
         {
           "name": "n-tv.de",
@@ -396,34 +422,8 @@
         {
           "name": "sport.de",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Aufstellung Kosovo - Irland 0:0 LIVE | Gruppe 3, Nations League B 2026/2027 - sport.de",
-              "albanianTitle": null,
-              "blurb": "Publikohen formacionet zyrtare për ndeshjen e Ligës së Kombeve ndërmjet Kosovës dhe Irlandës në kuadër të Grupit 3 të Ligës B.",
-              "imageUrl": "https://teaser-image-service.global-sports.net/v1/sport.de/default/11904211.webp",
-              "url": "https://www.sport.de/fussball/uefa-nations-league-b/ma11904211/kosovo_irland/aufstellung/",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Aufstellung Kosovo - Irland 1:0 | Gruppe 3, Nations League B 2026/2027 - sport.de",
-              "albanianTitle": null,
-              "blurb": "Janë publikuar formacionet zyrtare për ndeshjen e Ligës së Kombeve ndërmjet Kosovës dhe Irlandës në Grupin 3 të Ligës B.",
-              "imageUrl": "https://teaser-image-service.global-sports.net/v1/sport.de/default/11904211.webp",
-              "url": "https://www.sport.de/fussball/uefa-nations-league-b/ma11904211/kosovo_irland/aufstellung/",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Aufstellung Österreich - Kosovo 3:1 | Gruppe 3, Nations League B 2026/2027 - sport.de",
               "albanianTitle": null,
@@ -470,21 +470,8 @@
         {
           "name": "sportschau.de",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Fußball Nations League B: Kosovo gegen Irland - Aufstellung - 1. Gruppenspieltag - 2026/2027 - sportschau.de",
-              "albanianTitle": "Liga e Kombeve B: Kosova kundër Irlandës – Formacionet – Xhiroja e parë – 2026/2027",
-              "blurb": "Publikohen formacionet zyrtare për ndeshjen e Ligës së Kombeve ndërmjet Kosovës dhe Irlandës në kuadër të sezonit 2026-2027.",
-              "imageUrl": "https://images.sportschau.de/image/2b3257a6-1644-4ac1-9d86-b8ece10e74ce/AAABm--OpTU/AAABnSSvrFg/16x9-big/rudolf-harbig-stadion-100.jpg?width=1280",
-              "url": "https://www.sportschau.de/live-und-ergebnisse/fussball/uefa-nations-league-b/ma11904211/kosovo_irland/taktische-aufstellung",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Lajm faktik për ndeshjen në Nations League",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Fußball Nations League B: Österreich gegen Kosovo - Aufstellung - 2. Gruppenspieltag - 2026/2027 - sportschau.de",
               "albanianTitle": "Nations League B: Austria kundër Kosovës - Formacionet - Ndeshja e dytë e grupit - 2026/2027 - sportschau.de",
@@ -534,7 +521,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 34,
+        "n": 30,
         "excluded": 1,
         "confident": true,
         "stanceVersion": 3
@@ -605,60 +592,10 @@
     "Britani": {
       "outlets": [
         {
-          "name": "AOL.co.uk",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Is Kosovo vs Ireland on TV tonight? Live stream and kick-off time - AOL.co.uk",
-              "albanianTitle": "A transmetohet sonte ndeshja Kosovë-Irlandë? Orari dhe si ta shikoni drejtpërdrejt",
-              "blurb": "Informacione mbi transmetimin televiziv dhe orarin e ndeshjes ndërmjet Kosovës dhe Irlandës për shikuesit e interesuar në këtë përballje.",
-              "imageUrl": "https://hermes.media.transform.aol.com/646e822c08485bf607c31cd5ba587dcc9abf0188/w_1200,c_scale,f_auto,q_auto/https://hermes.media.static.aol.com/media/2026/09/24/74014678-4cfd-3872-ad6a-622b28d141bb/8686376e-bf22-49be-8ac3-6f6b14b5f5ef.jpg",
-              "url": "https://www.aol.co.uk/articles/kosovo-vs-ireland-tv-tonight-161500000.html",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
-        },
-        {
           "name": "BBC",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "San Marino U21 vs Kosovo U21: UEFA U21 Championship Qualification stats & head-to-head - BBC",
-              "albanianTitle": "San Marino U21 - Kosova U21: Statistikat dhe përballjet direkte në kualifikimet për Euro U21",
-              "blurb": "Statistikat dhe të dhënat e ndeshjes kualifikuese për Kampionatin Evropian ndërmjet përfaqësueseve U21 të San Marinos dhe Kosovës.",
-              "imageUrl": "https://ichef.bbci.co.uk/ace/branded_sport/1200/cpsprodpb/5e08/live/008791f0-4235-11f0-835b-310c7b938e84.jpg",
-              "url": "https://www.bbc.com/sport/football/live/crz9z0l30jnpt",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Plain sports statistics listing",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo 1-0 Republic of Ireland: Vedat Muriqi header lifts hosts to deserved Nations League win - BBC",
-              "albanianTitle": "Kosova 1-0 Republika e Irlandës: Goli me kokë i Vedat Muriqit i siguron fitoren e merituar vendasve në Ligën e Kombeve - BBC",
-              "blurb": "Kosova ka shënuar fitore 1-0 ndaj Republikës së Irlandës në Ligën e Kombeve falë golit të shënuar nga Vedat Muriqi.",
-              "imageUrl": "https://static.files.bbci.co.uk/core/website/assets/static/sport/images/metadata/poster-1024x576.146fae5646.png",
-              "url": "https://www.bbc.co.uk/sport/football/live/ck790jyljq4vt",
-              "date": "2026-09-24",
-              "sentiment": "positive",
-              "reason": "Gjuha pozitive e mediave për suksesin e Kosovës",
-              "isQuote": false,
-              "evidence": "deserved Nations League win",
-              "speaker": ""
-            },
             {
               "title": "Austria vs Kosovo: UEFA Nations League stats & head-to-head - BBC",
               "albanianTitle": "Austri - Kosovë: Statistikat dhe përballjet direkte në Ligën e Kombeve",
@@ -693,27 +630,27 @@
         },
         {
           "name": "Balkan Insight",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo Marks Banjska Attack Anniversary as Main Suspects Remain Free - Balkan Insight",
-              "albanianTitle": null,
-              "blurb": "Kosova shënon përvjetorin e sulmit në Banjskë, ndërsa personat kryesorë të dyshuar mbeten ende të lirë nga drejtësia.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Albulena-Haxhiu-Afrim-Bunjaku-commemoration.jpg",
-              "url": "https://balkaninsight.com/2026/09/24/kosovo-marks-banjska-attack-anniversary-as-main-suspects-remain-free/bi/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
+              "title": "Hostile Reactions to Kosovo Wartime Leaders’ Verdict Miss Key Point: the Victims’ Ordeal - Balkan Insight",
+              "albanianTitle": "Reagimet ndaj vendimit për krerët e luftës së Kosovës shpërfillin thelbin: vuajtjet e viktimave",
+              "blurb": "Reagimet ndaj vendimit për liderët e luftës në Kosovë shpërfillin përvojën dhe vuajtjet e viktimave të konfliktit.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/14296272.jpg",
+              "url": "https://balkaninsight.com/2026/09/28/hostile-reactions-to-kosovo-wartime-leaders-verdict-miss-key-point-the-victims-ordeal/bi/",
+              "date": "2026-09-28",
+              "sentiment": "neutral",
+              "reason": "Titulli thjesht përshkruan reagime, pa ngarkim ndaj Kosovës",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 33,
+          "totalArticles": 34,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-24"
+          "lastSeen": "2026-09-28"
         },
         {
           "name": "Barry and District News",
@@ -740,126 +677,6 @@
           "lastSeen": "2026-09-25"
         },
         {
-          "name": "Belfast Live",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo vs Republic of Ireland tonight: Kick-off time and TV channel - Belfast Live",
-              "albanianTitle": "Kosova kundër Republikës së Irlandës sonte: Orari i ndeshjes dhe kanali televiziv",
-              "blurb": "Detajet për orarin e fillimit dhe kanalet televizive që transmetojnë ndeshjen e futbollit mes Kosovës dhe Irlandës.",
-              "imageUrl": "https://i2-prod.belfastlive.co.uk/article34665863.ece/ALTERNATES/s1200d/0_Kosovo-v-Trkiye-FIFA-World-Cup-2026-European-Qualifiers-KO-play-offs.jpg",
-              "url": "https://www.belfastlive.co.uk/sport/football/kosovo-vs-republic-ireland-tonight-34665864",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "Belfast Telegraph",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Republic of Ireland paid price for an off day in Kosovo – Heimir Hallgrimsson - Belfast Telegraph",
-              "albanianTitle": "Heimir Hallgrimsson: Irlanda pagoi çmimin për një ditë të dobët në Kosovë",
-              "blurb": "Trajneri Heimir Hallgrimsson deklaroi se Republika e Irlandës pësoi humbje për shkak të një paraqitjeje të dobët ndaj Kosovës.",
-              "imageUrl": null,
-              "url": "https://www.belfasttelegraph.co.uk/sport/football/republic-of-ireland-paid-price-for-an-off-day-in-kosovo-heimir-hallgrimsson/a/162134606.html",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-26",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "Colchester Gazette",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Republic of Ireland paid price for an off day in Kosovo – Heimir Hallgrimsson - Colchester Gazette",
-              "albanianTitle": "Heimir Hallgrimsson: Irlanda e pagoi shtrenjtë ditën e dobët në Kosovë",
-              "blurb": "Trajneri Heimir Hallgrimsson deklaron se Irlanda pësoi humbje nga Kosova për shkak të një dite të dobët.",
-              "imageUrl": "https://www.gazette-news.co.uk/resources/images/21499791.jpg?type=og-image",
-              "url": "http://www.essexcountystandard.co.uk/sport/national/26580520.republic-ireland-paid-price-off-day-kosovo---heimir-hallgrimsson/",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Descriptive report of match outcome, no contempt toward Kosovo",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "Daily Express",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Is Kosovo vs Ireland on TV tonight? Live stream and kick-off time - Daily Express",
-              "albanianTitle": "A transmetohet sonte Kosova - Irlanda? Orari i ndeshjes dhe si ta shikoni live",
-              "blurb": "Informacione mbi orarin e ndeshjes dhe mundësitë e transmetimit televiziv për takimin futbollistik ndërmjet Kosovës dhe Irlandës.",
-              "imageUrl": "https://cdn.images.express.co.uk/img/dynamic/67/1200x630/7156973.jpg",
-              "url": "https://www.express.co.uk/sport/football/2251362/How-to-watch-Kosovo-vs-Ireland-TV-channel-live-stream",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Straightforward informational query about broadcast",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "Daily Mirror",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "What channel is Kosovo vs Republic of Ireland on? TV, streaming and kick-off time info - Daily Mirror",
-              "albanianTitle": "Në cilin kanal transmetohet ndeshja Kosovë - Republika e Irlandës? Informacione për televizionin, transmetimin dhe orarin",
-              "blurb": "Informacione mbi transmetimin televiziv, platformat online dhe orarin e ndeshjes ndërmjet Kosovës dhe Republikës së Irlandës.",
-              "imageUrl": "https://i2-prod.mirror.co.uk/article37684271.ece/ALTERNATES/s1200d/1_GettyImages-2268499768.jpg",
-              "url": "https://www.mirror.co.uk/sport/football/news/ireland-kosovo-nations-league-tv-37684044",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
-        },
-        {
           "name": "Lowestoft Journal",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -884,9 +701,33 @@
           "lastSeen": "2026-09-25"
         },
         {
+          "name": "Reuters",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Israel say football and politics must stay separate, after Ireland vote to fulfil fixture - Reuters",
+              "albanianTitle": "Izraeli kërkon ndarjen e futbollit nga politika pas vendimit të Irlandës për të luajtur ndeshjen",
+              "blurb": "Izraeli kërkon ndarjen e futbollit nga politika pas vendimit të Irlandës për të zhvilluar ndeshjen e planifikuar mes tyre.",
+              "imageUrl": null,
+              "url": "https://www.reuters.com/sports/soccer/israel-say-football-politics-must-stay-separate-after-ireland-vote-fulfil-2026-09-26/",
+              "date": "2026-09-26",
+              "sentiment": "unknown",
+              "reason": "Nuk përmendet Kosova në artikull, prandaj nuk mund të përcaktohet qëndrimi",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 7,
+          "trend": "neutral",
+          "firstSeen": "2026-08-31",
+          "lastSeen": "2026-09-26"
+        },
+        {
           "name": "Sports Mole",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Preview: Austria vs Kosovo - prediction, team news, lineups - Sports Mole",
@@ -900,60 +741,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Austria vs Kosovo - Nations League - September 27, 2026 - Match Guide, Data Analysis, Standings - Football - Sports Mole",
+              "albanianTitle": "Austri - Kosovë, Liga e Kombeve (27 shtator 2026): Analiza, statistikat dhe renditja",
+              "blurb": "Analiza e ndeshjes së Ligës së Kombeve ndërmjet Austrisë dhe Kosovës, e caktuar për datën 27 shtator 2026.",
+              "imageUrl": "https://www.sportsmole.co.uk/assets/img/logo-og.png",
+              "url": "https://www.sportsmole.co.uk/football/nations-league/austria-vs-kosovo_game_259024.html",
+              "date": "2026-09-25",
+              "sentiment": "neutral",
+              "reason": "Faktikë, udhëzues ndeshje futbolli",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-26",
           "lastSeen": "2026-09-25"
-        },
-        {
-          "name": "balkaninsight.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo Marks Banjska Attack Anniversary as Main Suspects Remain Free - balkaninsight.com",
-              "albanianTitle": "Kosova shënon përvjetorin e sulmit në Banjskë, kryesit e dyshuar mbeten të lirë",
-              "blurb": "Kosova shënon përvjetorin e sulmit në Banjskë, ndërkohë që të dyshuarit kryesorë mbeten ende të lirë nga drejtësia.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/Albulena-Haxhiu-Afrim-Bunjaku-commemoration.jpg",
-              "url": "https://balkaninsight.com/2026/09/24/kosovo-marks-banjska-attack-anniversary-as-main-suspects-remain-free/bi/",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Report of anniversary event, no evaluative language",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "belfastlive.co.uk",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo vs Republic of Ireland tonight: Kick-off time and TV channel - belfastlive.co.uk",
-              "albanianTitle": null,
-              "blurb": "Informacione mbi orarin e fillimit dhe kanalet televizive që transmetojnë ndeshjen ndërmjet Kosovës dhe Republikës së Irlandës.",
-              "imageUrl": "https://i2-prod.belfastlive.co.uk/article34665863.ece/ALTERNATES/s1200d/0_Kosovo-v-Trkiye-FIFA-World-Cup-2026-European-Qualifiers-KO-play-offs.jpg",
-              "url": "https://www.belfastlive.co.uk/sport/football/kosovo-vs-republic-ireland-tonight-34665864",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
         },
         {
           "name": "sportsmole.co.uk",
@@ -981,12 +787,12 @@
         }
       ],
       "summary": {
-        "index": 56,
-        "positive": 12,
-        "neutral": 88,
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 8,
-        "excluded": 9,
+        "n": 5,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       }
@@ -996,21 +802,8 @@
         {
           "name": "Homme Du Match",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Football | Kosovo – Chypre : Sur quelle chaîne et à quelle heure voir le match en direct ? - Homme Du Match",
-              "albanianTitle": null,
-              "blurb": "Informacione mbi orarin dhe kanalet televizive për ndeshjen e futbollit ndërmjet përfaqësueses së Kosovës dhe asaj të Qipros.",
-              "imageUrl": "https://www.hommedumatch.fr/wp-content/uploads/2026/09/via-news-1790225490-4832.webp",
-              "url": "https://www.hommedumatch.fr/football-kosovo-chypre-sur-quelle-chaine-et-a-quelle-heure-voir-le-match-en-direct-2925802/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Football | Autriche – Kosovo : Quelle chaîne, quel streaming, où voir le match en France ? - Homme Du Match",
               "albanianTitle": "Futboll | Austri – Kosovë: Cili kanal, cili transmetim, ku mund ta shikoni ndeshjen në Francë? - Homme Du Match",
@@ -1057,34 +850,8 @@
         {
           "name": "L'Équipe",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 3,
           "articles": [
-            {
-              "title": "Kosovo - Irlande, Ligue des nations B, match en direct le 24/09/2026 - L'Équipe",
-              "albanianTitle": "Kosova - Irlanda, Liga e Kombeve B, ndeshje direkte më 24/09/2026",
-              "blurb": "Transmetimi i drejtpërdrejtë i ndeshjes së Ligës së Kombeve ndërmjet Kosovës dhe Irlandës më 24 shtator 2026.",
-              "imageUrl": null,
-              "url": "https://www.lequipe.fr/Football/match-direct/ligue-des-nations-b/2027/kosovo-irlande-live/688788",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Le résumé de Kosovo - République d'Irlande | Foot - Ligue des nations - L'Équipe",
-              "albanianTitle": "Përmbledhja e ndeshjes Kosovë - Republika e Irlandës | Futboll - Liga e Kombeve",
-              "blurb": "Përmbledhja e ndeshjes së futbollit ndërmjet Kosovës dhe Irlandës në kuadër të xhiros së parë të Ligës B.",
-              "imageUrl": null,
-              "url": "https://www.lequipe.fr/Football/Video/Ligue-des-nations-le-resume-de-kosovo-republique-d-irlande/20241909",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Match summary, neutral wording",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Autriche - Kosovo, Ligue des nations B, match en direct le 27/09/2026 - L'Équipe",
               "albanianTitle": "Austri - Kosovë, Liga e Kombeve B, ndeshje direkte më 27/09/2026 - L'Équipe",
@@ -1110,31 +877,31 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Le résumé vidéo d'Autriche - Kosovo | Foot - Ligue des nations - L'Équipe",
+              "albanianTitle": "Përmbledhja video e ndeshjes Austri - Kosovë | Liga e Kombeve - L'Équipe",
+              "blurb": "Përmbledhja me pamje filmike e ndeshjes së futbollit ndërmjet Austrisë dhe Kosovës në Ligën e Kombeve.",
+              "imageUrl": null,
+              "url": "https://www.lequipe.fr/Football/Video/Ligue-des-nations-le-resume-video-d-autriche-kosovo/20242081",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Simple factual sports coverage without loaded language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 3,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 4,
+          "trend": "neutral",
           "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-26"
+          "lastSeen": "2026-09-27"
         },
         {
           "name": "Le Courrier des Balkans",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Entre justice et mémoire, le Kosovo est encore sous le choc du verdict de La Haye - Le Courrier des Balkans",
-              "albanianTitle": "Mes drejtësisë dhe kujtesës, Kosova ende nën tronditjen e vendimit të Hagës",
-              "blurb": "Kosova vazhdon të përballet me pasojat e vendimit të fundit të gjykatës në Hagë lidhur me drejtësinë.",
-              "imageUrl": "https://www.courrierdesbalkans.fr/wp-content/uploads/2026/09/download.jpg",
-              "url": "https://www.courrierdesbalkans.fr/entre-justice-et-memoire-le-kosovo-est-encore-sous-le-choc-du-verdict-de-la-haye-100034/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Albanie : la chef des services de renseignements au cœur d'un nouveau scandale de corruption - Le Courrier des Balkans",
               "albanianTitle": "Shqipëri: Shefja e shërbimit inteligjent në qendër të një skandali të ri korrupsioni",
@@ -1192,36 +959,58 @@
           "lastSeen": "2026-09-27"
         },
         {
-          "name": "Mediasportif",
+          "name": "LiveFoot",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 1,
           "articles": [
             {
-              "title": "Football | Kosovo – Irlande : Sur quelle chaîne et à quelle heure voir le match en direct ? - Mediasportif",
-              "albanianTitle": "Futboll | Kosovë – Irlandë: Në cilin kanal dhe në çfarë ore mund ta ndiqni ndeshjen direkt? - Mediasportif",
-              "blurb": "Informacione mbi transmetimin televiziv dhe orarin e ndeshjes së futbollit ndërmjet Kosovës dhe Irlandës për shikuesit.",
-              "imageUrl": "https://www.mediasportif.fr/wp-content/uploads/2026/09/via-news-1790205718-5046.webp",
-              "url": "https://www.mediasportif.fr/2026/09/24/football-kosovo-irlande-sur-quelle-chaine-et-a-quelle-heure-voir-le-match-en-direct/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
+              "title": "Résultat Autriche - Kosovo : le résumé et les buts du match (3-1) - Ligue des nations de l'UEFA - LiveFoot",
+              "albanianTitle": "Rezultati Austri - Kosovë: Përmbledhja dhe golat e ndeshjes (3-1) - Liga e Kombeve e UEFA-s - LiveFoot",
+              "blurb": "Rezultati përfundimtar i ndeshjes së futbollit ndërmjet Austrisë dhe Kosovës në Ligën e Kombeve përfundoi me shifrat 3-1.",
+              "imageUrl": "https://www.livefoot.fr/images/stade-football-direct.jpg",
+              "url": "https://www.livefoot.fr/direct/ligue-des-nations-de-l-uefa-europe/match-autriche-vs-kosovo-7e84a4af",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Fact‑based match result report, no bias evident",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-28",
+          "lastSeen": "2026-09-27"
+        },
+        {
+          "name": "MadeInFOOT",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
             {
-              "title": "Football | Kosovo - Chypre : Sur quelle chaîne et à quelle heure voir le match de Ligue des Nations en direct ? - Mediasportif",
-              "albanianTitle": null,
-              "blurb": "Ndeshja e Ligës së Kombeve ndërmjet Kosovës dhe Qipros do të transmetohet drejtpërdrejt, duke përfshirë orarin dhe kanalet televizive.",
-              "imageUrl": "https://www.mediasportif.fr/wp-content/uploads/2026/09/via-news-1790225194-2831.webp",
-              "url": "https://www.mediasportif.fr/2026/09/24/football-kosovo-chypre-sur-quelle-chaine-et-a-quelle-heure-voir-le-match-de-ligue-des-nations-en-direct/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
+              "title": "UEFA Nations League - Kosovo vs Autriche : sur quelle chaîne et à quelle heure suivre le choc en direct ? - MadeInFOOT",
+              "albanianTitle": "Liga e Kombeve - Kosova kundër Austrisë: Në cilin kanal dhe në çfarë ore transmetohet ndeshja?",
+              "blurb": "Informacione mbi transmetimin televiziv dhe orarin e ndeshjes së futbollit ndërmjet Kosovës dhe Austrisë në Ligën e Kombeve.",
+              "imageUrl": null,
+              "url": "https://madeinfoot.ouest-france.fr/infos/article-uefa-nations-league-kosovo-vs-autriche-sur-quelle-chaine-et-a-quelle-heure-suivre-le-choc-en-direct-540430.html",
+              "date": "2026-09-28",
+              "sentiment": "neutral",
+              "reason": "Informative article about broadcast details, no editorial bias",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-09-21",
+          "lastSeen": "2026-09-28"
+        },
+        {
+          "name": "Mediasportif",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
             {
               "title": "Football | Autriche - Kosovo : Chaîne, streaming, où voir le match et à quelle heure en France ? - Mediasportif",
               "albanianTitle": "Futboll | Austri - Kosovë: Ku mund ta shikoni ndeshjen dhe orari i transmetimit në Francë? - Mediasportif",
@@ -1243,8 +1032,8 @@
         },
         {
           "name": "Paris Sportifs LeFigaro",
-          "sentiment": "neutral",
-          "articleCount": 2,
+          "sentiment": "unknown",
+          "articleCount": 1,
           "articles": [
             {
               "title": "Pronostic Autriche Kosovo : Ligue des Nations (27/09/2026) | Analyse IA - Paris Sportifs LeFigaro",
@@ -1255,19 +1044,6 @@
               "date": "2026-09-26",
               "sentiment": "unknown",
               "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Pronostic Kosovo Irlande : Ligue des Nations (24/09/2026) | Analyse IA - Paris Sportifs LeFigaro",
-              "albanianTitle": "Parashikimi për ndeshjen Kosovë - Irlandë: Liga e Kombeve (24/09/2026) | Analizë nga AI",
-              "blurb": "Analizë e bazuar në inteligjencën artificiale për ndeshjen e Ligës së Kombeve ndërmjet Kosovës dhe Irlandës në shtator 2026.",
-              "imageUrl": "https://paris-sportifs.lefigaro.fr/app/uploads/2026/09/prediction-lefigaro-11431.png",
-              "url": "https://paris-sportifs.lefigaro.fr/pronostics/kosovo-republique-dirlande-24-09-2026/",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Parashikim bastesh pa ngarkim",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1308,38 +1084,38 @@
           "articleCount": 1,
           "articles": [
             {
-              "title": "Le résumé de Kosovo - République d'Irlande - Foot - Ligue des nations - Sports - Orange",
-              "albanianTitle": "Përmbledhja e ndeshjes Kosovë - Republika e Irlandës - Futboll - Liga e Kombeve - Sports - Orange",
-              "blurb": "Përmbledhja e ndeshjes së futbollit ndërmjet Kosovës dhe Republikës së Irlandës në kuadër të Ligës së Kombeve.",
-              "imageUrl": "http://media1.woopic.com/api/v1/images/156%2Fv%2Fex59E1gjO_yF9PvD3%2Fle-resume-de-kosovo-republique-d-irlande-foot-ligue-des-nations%7Cx240?format=470x264&facedetect=1&quality=85",
-              "url": "https://sports.orange.fr/videos/football/le-resume-de-kosovo-republique-d-irlande-foot-ligue-des-nations-CNT000002s5s6J.html",
-              "date": "2026-09-24",
+              "title": "Le résumé vidéo d'Autriche - Kosovo - Foot - Ligue des nations - Sports - Orange",
+              "albanianTitle": "Përmbledhja video e ndeshjes Austri - Kosovë - Liga e Kombeve - Sports - Orange",
+              "blurb": "Përmbledhja e ngjarjeve kryesore nga ndeshja e futbollit ndërmjet Austrisë dhe Kosovës në Ligën e Kombeve.",
+              "imageUrl": "http://media2.woopic.com/api/v1/images/156%2Fv%2Ff0bRY1gkLeTBEpWbU%2Fle-resume-video-d-autriche-kosovo-foot-ligue-des-nations%7Cx240?format=470x264&facedetect=1&quality=85",
+              "url": "https://sports.orange.fr/videos/football/le-resume-video-d-autriche-kosovo-foot-ligue-des-nations-CNT000002s8ei2.html",
+              "date": "2026-09-27",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
+              "reason": "Neutral video summary title, no evaluative language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
+          "lastSeen": "2026-09-27"
         },
         {
-          "name": "lequipe.fr",
-          "sentiment": "unknown",
+          "name": "football365.fr",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "Kosovo - Irlande, Ligue des nations B, match en direct le 24/09/2026 - lequipe.fr",
-              "albanianTitle": null,
-              "blurb": "Përfaqësuesja e Kosovës luan ndeshjen e Ligës së Kombeve kundër Irlandës më 24 shtator 2026 në transmetim direkt.",
-              "imageUrl": null,
-              "url": "https://www.lequipe.fr/Football/match-direct/ligue-des-nations-b/2027/kosovo-irlande-live/688788",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
+              "title": "Autriche vs Kosovo - football365.fr",
+              "albanianTitle": "Austria kundër Kosovës - football365.fr",
+              "blurb": "Përfaqësuesja e Austrisë dhe ajo e Kosovës takohen në një ndeshje futbolli në arenën ndërkombëtare.",
+              "imageUrl": "https://cdn.football365.fr/wp-content/uploads/se/2020/02/Visuel_Live.jpg",
+              "url": "https://www.football365.fr/direct-foot/310458/313448/autriche-kosovo.html",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Simple match preview without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1347,32 +1123,8 @@
           ],
           "totalArticles": 1,
           "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "sports.orange.fr",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Le résumé de Kosovo - République d'Irlande - Foot - Ligue des nations - sports.orange.fr",
-              "albanianTitle": "Përmbledhja e ndeshjes Kosovë - Republika e Irlandës - Futboll - Liga e Kombeve",
-              "blurb": "Përmbledhja e ndeshjes së futbollit në Ligën e Kombeve ndërmjet përfaqësueses së Kosovës dhe Republikës së Irlandës.",
-              "imageUrl": "http://media1.woopic.com/api/v1/images/156%2Fv%2Fex59E1gjO_yF9PvD3%2Fle-resume-de-kosovo-republique-d-irlande-foot-ligue-des-nations%7Cx240?format=470x264&facedetect=1&quality=85",
-              "url": "https://sports.orange.fr/videos/football/le-resume-de-kosovo-republique-d-irlande-foot-ligue-des-nations-CNT000002s5s6J.html",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
+          "firstSeen": "2026-09-28",
+          "lastSeen": "2026-09-27"
         }
       ],
       "summary": {
@@ -1380,8 +1132,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 10,
-        "excluded": 10,
+        "n": 12,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1391,21 +1143,8 @@
         {
           "name": "ANSA",
           "sentiment": "unknown",
-          "articleCount": 4,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Fedriga, Fvg a Expo Belgrado è ulteriore opportunità dialogo coi Balcani - ANSA",
-              "albanianTitle": null,
-              "blurb": "Presidenti i rajonit Friuli-Venezia Giulia, Massimiliano Fedriga, vlerëson pjesëmarrjen në Expo Beograd si mundësi për dialog me Ballkanin.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/1/31/11018f65aad9959dc097d4f8521bd471.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/24/fedriga-fvg-a-expo-belgrado-e-ulteriore-opportunita-dialogo-coi-balcani_30fa44ab-2f0c-4610-864a-34044c78bbfe.html",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Ue, la prossima settimana tour di von der Leyen nei Balcani - ANSA",
               "albanianTitle": "BE: Von der Leyen do të vizitojë Ballkanin javën e ardhshme",
@@ -1431,49 +1170,12 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
-            {
-              "title": "Fedriga, Fvg a Expo Belgrado è ulteriore opportunità dialogo coi Balcani - ansa.it",
-              "albanianTitle": "Fedriga: Expo në Beograd është mundësi shtesë për dialog me Ballkanin",
-              "blurb": "Guvernatori Fedriga vlerëson pjesëmarrjen e rajonit FVG në Expo Beograd si mundësi për dialog me shtetet e Ballkanit Perëndimor.",
-              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/1/31/11018f65aad9959dc097d4f8521bd471.jpg",
-              "url": "https://www.ansa.it/nuova_europa/it/notizie/nazioni/kosovo/2026/09/24/fedriga-fvg-a-expo-belgrado-e-ulteriore-opportunita-dialogo-coi-balcani_30fa44ab-2f0c-4610-864a-34044c78bbfe.html",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ],
           "totalArticles": 36,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-25"
-        },
-        {
-          "name": "Altarimini",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Calcio, qualificazioni Europei U 21: Kosovo piega San Marino (0-3) - Altarimini",
-              "albanianTitle": "Kualifikimet për Euro U21: Kosova mposht San Marinon (0-3)",
-              "blurb": "Kombëtarja e Kosovës U-21 ka mposhtur San Marinon me rezultat 0-3 në ndeshjen kualifikuese për Kampionatin Evropian.",
-              "imageUrl": "https://cdn5.webmaster360.it/2026/09/covers/01M3AS251XHDWPM1VBR4RAJVSY.jpg",
-              "url": "https://altarimini.it/calcio-verso-europei-u-21-kosovo-peiga-san-marino-0-3.php",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
         },
         {
           "name": "Bottadiculo",
@@ -1500,17 +1202,30 @@
           "lastSeen": "2026-09-26"
         },
         {
-          "name": "Corriere della Sera",
+          "name": "Corriere dello Sport",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
-              "title": "Nations League: news, classifica e calendario delle partite - Corriere della Sera",
-              "albanianTitle": "Liga e Kombeve: lajme, renditja dhe kalendari i ndeshjeve - Corriere della Sera",
-              "blurb": "Informacione, renditja tabelare dhe orari i ndeshjeve për ekipet pjesëmarrëse në garën e Ligës së Kombeve.",
-              "imageUrl": null,
-              "url": "https://www.corriere.it/sport/calcio/nations-league/partita/kosovo-irlanda/2626886/?vclk=fasciaTR",
-              "date": "2026-09-24",
+              "title": "Isaksen lancia la Danimarca. La Germania di Klopp crolla in casa con la Grecia - Corriere dello Sport",
+              "albanianTitle": "Isaksen udhëheq Danimarkën drejt fitores. Gjermania e Kloppit pëson disfatë në shtëpi nga Greqia",
+              "blurb": "Danimarka fiton ndeshjen falë Isaksen, ndërsa Gjermania e drejtuar nga Klopp pëson humbje në shtëpi ndaj Greqisë.",
+              "imageUrl": "https://cdn.corrieredellosport.it/images/2026/09/27/175231539-0cd1ae4b-fed4-45e5-85c2-47d4fe36c444.jpg",
+              "url": "https://www.corrieredellosport.it/news/calcio/uefa-nations-league/2026/09/27-151503642/la_danimarca_vince_con_isaksen_al_kosovo_non_basta_zeghrova_e_lolanda_batte_la_serbia",
+              "date": "2026-09-27",
+              "sentiment": "unknown",
+              "reason": "Nuk ka informacion për qëndrimin ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "La Danimarca vince con Isaksen. Al Kosovo non basta Zeghrova e l’Olanda batte la Serbia - Corriere dello Sport",
+              "albanianTitle": "Danimarka fiton falë Isaksenit. Goli i Zhegrovës nuk mjafton për Kosovën, Holanda mund Serbinë",
+              "blurb": "Danimarka shënon fitore, ndërsa goli i Zhegrovës nuk mjaftoi për Kosovën në ndeshjen kundër përfaqësueses së Austrisë.",
+              "imageUrl": "https://cdn.corrieredellosport.it/img/1200/600/2026/09/27/175231539-0cd1ae4b-fed4-45e5-85c2-47d4fe36c444.jpg",
+              "url": "https://m.corrieredellosport.it/amp/news/calcio/uefa-nations-league/2026/09/27-151503642/la_danimarca_vince_con_isaksen_al_kosovo_non_basta_zeghrova_e_lolanda_batte_la_serbia",
+              "date": "2026-09-27",
               "sentiment": "neutral",
               "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
@@ -1518,10 +1233,10 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-09-08",
-          "lastSeen": "2026-09-24"
+          "totalArticles": 4,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-11",
+          "lastSeen": "2026-09-27"
         },
         {
           "name": "Dove Viaggi Corriere",
@@ -1550,7 +1265,7 @@
         {
           "name": "Eurosport",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Live Austria - Kosovo - UEFA Nations League: Punteggi & Highlights Calcio - 27/09/2026 - eurosport.it",
@@ -1564,12 +1279,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "L'Irlanda non boicotta il match con Israele e lo batte 3-0! La Danimarca va con Hojlund e Isaksen - eurosport.it",
+              "albanianTitle": "Irlanda nuk e bojkoton ndeshjen me Izraelin dhe fiton 3-0! Danimarka triumfon me Hojlund dhe Isaksen",
+              "blurb": "Irlanda ka mposhtur Izraelin me rezultat 3-0, ndërsa Danimarka ka shënuar fitore falë kontributit të lojtarëve Hojlund dhe Isaksen.",
+              "imageUrl": null,
+              "url": "https://www.eurosport.it/calcio/uefa-nations-league/2026-2027/tutti-i-risultati-di-domenica-27-settembre.-israele-irlanda-danimarca-galles-austria-kosovo.-a-segno-hojlund-zhegrova-e-isaksen_sto23340868/story.shtml",
+              "date": "2026-09-27",
+              "sentiment": "unknown",
+              "reason": "Nuk ka informacion për qëndrimin ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "neutral",
           "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-26"
+          "lastSeen": "2026-09-27"
         },
         {
           "name": "GoldBetlive",
@@ -1622,21 +1350,8 @@
         {
           "name": "La Repubblica",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Kosovo - Irlanda (0-0) UEFA Nations League 2026 - la Repubblica",
-              "albanianTitle": "Kosovë - Irlandë (0-0) Liga e Kombeve UEFA 2026",
-              "blurb": "Ndeshja ndërmjet Kosovës dhe Irlandës në kuadër të Ligës së Kombeve përfundoi me rezultatin e barabartë zero me zero.",
-              "imageUrl": "https://www.repstatic.it/cless/main/nazionale/2013-v1/img/common/favicon/favicon-1500.png",
-              "url": "https://www.repubblica.it/sport/dirette/calcio/uefa-nations-league-2026/diretta-kosovo-irlanda-g2626886/",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Raportim neutral i rezultatit 0-0 në UEFA Nations League",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Austria - Kosovo (0-0) UEFA Nations League 2026 - la Repubblica",
               "albanianTitle": "Austri - Kosovë (0-0) Liga e Kombeve UEFA 2026 - la Repubblica",
@@ -1720,7 +1435,7 @@
         {
           "name": "Osservatorio Balcani Caucaso Transeuropa",
           "sentiment": "positive",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Kosovo: the Kurti government is legitimate, but is it here to stay? - Osservatorio Balcani Caucaso Transeuropa",
@@ -1744,19 +1459,6 @@
               "date": "2026-09-25",
               "sentiment": "unknown",
               "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "The challenge of economic cooperation to overcome tensions between Serbia and Kosovo - Osservatorio Balcani Caucaso Transeuropa",
-              "albanianTitle": "Sfida e bashkëpunimit ekonomik për tejkalimin e tensioneve mes Serbisë dhe Kosovës",
-              "blurb": "Bashkëpunimi ekonomik analizohet si një mundësi për tejkalimin e tensioneve politike ndërmjet Serbisë dhe Kosovës në rajon.",
-              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/shutterstock_2805599371.jpg",
-              "url": "https://www.balcanicaucaso.org/en/cp_article/the-challenge-of-economic-cooperation-to-overcome-tensions-between-serbia-and-kosovo/",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Fact‑based headline without loaded language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -1792,60 +1494,10 @@
           "lastSeen": "2026-09-26"
         },
         {
-          "name": "SNAI",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Quote Kosovo Irlanda | Scommesse Calcio Nations League - SNAI",
-              "albanianTitle": "Kosovë - Irlandë | Bastet sportive për Ligën e Kombeve - SNAI",
-              "blurb": "Shtëpitë e basteve kanë publikuar kuotat për ndeshjen e Ligës së Kombeve ndërmjet Kosovës dhe Irlandës.",
-              "imageUrl": null,
-              "url": "https://www.snai.it/scommesse-live/evento/calcio/nations-league/kosovo-irlanda",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
-        },
-        {
           "name": "Sky Sport",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Kosovo Irlanda, formazioni ufficiali e risultato in diretta live - Sky Sport",
-              "albanianTitle": "Kosovë - Irlandë, formacionet zyrtare dhe rezultati live - Sky Sport",
-              "blurb": "Publikohen formacionet zyrtare dhe rezultati në kohë reale për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës.",
-              "imageUrl": "https://sport.sky.it/assets/images/fe3002a460d9904efad96e7882361f17a7cc77c2/skysport/configurations/skysport_condivisione.jpg?im=Resize,width=1218",
-              "url": "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-1/kosovo-irlanda/risultato-gol",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Nations League, partite di oggi 24 settembre: dove vederle in tv e streaming - Sky Sport",
-              "albanianTitle": "Liga e Kombeve, ndeshjet e sotme 24 shtator: ku mund t'i shikoni në TV dhe streaming",
-              "blurb": "Programi i ndeshjeve të Ligës së Kombeve për datën 24 shtator dhe mundësitë e shikimit në televizion dhe internet.",
-              "imageUrl": "https://sport.sky.it/assets/images/b8bd1561be202acab21fbf3b8b549952578c015b/skysport/it/calcio/nations-league/2026/09/24/nations-league-partite-oggi-24-settembre-dove-vedere/nl24.9.s.jpg?im=Resize,width=1218",
-              "url": "https://sport.sky.it/calcio/nations-league/2026/09/24/nations-league-partite-oggi-24-settembre-dove-vedere",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Udhëzim neutral për transmetimin e ndeshjeve të Nations League",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Austria Kosovo, formazioni ufficiali e risultato in diretta live - Sky Sport",
               "albanianTitle": "Austri - Kosovë, formacionet zyrtare dhe rezultati live - Sky Sport",
@@ -1858,9 +1510,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Austria-Kosovo 3-1: gol e highlights - Sky Sport",
+              "albanianTitle": "Austria - Kosova 3-1: Golat dhe rastet kryesore",
+              "blurb": "Përfaqësuesja e Austrisë ka shënuar fitore ndaj Kosovës me rezultat 3-1 në ndeshjen e zhvilluar në futboll.",
+              "imageUrl": "https://sport.sky.it/assets/images/bc8000b00930ffd2a74fdda1c34f4fbc93b87bee/skysport/it/calcio/nations-league/video/2026/09/27/1127602_1790540209023_thumb_494.0000001_1790540337625.jpg?im=Resize,width=1218",
+              "url": "https://sport.sky.it/calcio/nations-league/video/2026/09/27/austria-kosovo-gol-highlights-1127602",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "neutral",
           "firstSeen": "2026-09-23",
           "lastSeen": "2026-09-27"
@@ -1892,7 +1557,7 @@
         {
           "name": "Sportmediaset",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Juve, guarda Zhegrova: show durante Kosovo-Turchia - Sportmediaset",
@@ -1919,12 +1584,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Juve, Zhegrova a segno anche con il Kosovo - Sportmediaset",
+              "albanianTitle": "Zhegrova shënon edhe për Kosovën",
+              "blurb": "Edon Zhegrova shënon gol për përfaqësuesen e Kosovës në ndeshjen e fundit të zhvilluar në arenën ndërkombëtare.",
+              "imageUrl": "https://img-api.cloud.mediaset.net/api/images/cu/v2/-/1200/675/aHR0cHM6Ly93d3cuc3BvcnRtZWRpYXNldC5tZWRpYXNldC5pdC9hc3NldHMvbWlzYy9zcG9ydG1lZGlhc2V0LWJhY2tncm91bmQucG5n?r=-1",
+              "url": "https://www.sportmediaset.mediaset.it/calcio/juve-zhegrova-a-segno-anche-con-il-kosovo_117057366-202602k.shtml",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Neutral sports news mentioning player and Kosovo, no hostile wording",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-26",
-          "lastSeen": "2026-09-26"
+          "lastSeen": "2026-09-27"
         },
         {
           "name": "TriestePrima",
@@ -1952,46 +1630,33 @@
         },
         {
           "name": "Udineseblog",
-          "sentiment": "unknown",
+          "sentiment": "neutral",
           "articleCount": 1,
           "articles": [
             {
-              "title": "In Kosovo-Irlanda Vojvoda affronta Abankwah - Udineseblog",
-              "albanianTitle": null,
-              "blurb": "Futbollistët Vojvoda dhe Abankwah do të përballen në ndeshjen ndërmjet përfaqësueses së Kosovës dhe asaj të Irlandës.",
+              "title": "Il Kosovo di Vojvoda battuto in Nations League - Udineseblog",
+              "albanianTitle": "Kosova e Vojvodës mposhtet në Ligën e Kombeve",
+              "blurb": "Përfaqësuesja e Kosovës, ku luan edhe Mërgim Vojvoda, është mposhtur në ndeshjen e zhvilluar për Ligën e Kombeve.",
               "imageUrl": "https://www.udineseblog.it/wp-content/uploads/2026/09/Vojvoda-duello.jpg",
-              "url": "https://www.udineseblog.it/udinese/mondo-udinese/in-kosovo-irlanda-vojvoda-affronta-abankwah/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
+              "url": "https://www.udineseblog.it/udinese/mondo-udinese/il-kosovo-di-vojvoda-battuto-in-nations-league/",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             }
           ],
-          "totalArticles": 2,
+          "totalArticles": 3,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-19",
-          "lastSeen": "2026-09-24"
+          "lastSeen": "2026-09-27"
         },
         {
           "name": "Virgilio Sport",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Kosovo-Irlanda: Formazioni ufficiali e Cronaca in diretta - Virgilio Sport",
-              "albanianTitle": "Kosovë - Irlandë: Formacionet zyrtare dhe raportimi direkt",
-              "blurb": "Publikohen formacionet zyrtare dhe kronika e ndeshjes së futbollit ndërmjet përfaqësueseve të Kosovës dhe Irlandës.",
-              "imageUrl": null,
-              "url": "https://sport.virgilio.it/dirette/live/uefa-nations-league/24-9-2026/kosovo-irlanda/2626886/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Austria-Kosovo: Formazioni ufficiali e Cronaca in diretta - Virgilio Sport",
               "albanianTitle": "Austri - Kosovë: Formacionet zyrtare dhe raportimi direkt - Virgilio Sport",
@@ -2012,47 +1677,10 @@
           "lastSeen": "2026-09-27"
         },
         {
-          "name": "altarimini.it",
+          "name": "balcanicaucaso.org",
           "sentiment": "unknown",
           "articleCount": 1,
           "articles": [
-            {
-              "title": "Calcio, qualificazioni Europei U 21: Kosovo piega San Marino (0-3) - altarimini.it",
-              "albanianTitle": "Futboll, kualifikimet për Euro U21: Kosova mposht San Marinon (0-3)",
-              "blurb": "Përfaqësuesja U-21 e Kosovës ka shënuar fitore me rezultat 0-3 ndaj San Marinos në kualifikimet për Kampionatin Evropian.",
-              "imageUrl": "https://cdn5.webmaster360.it/2026/09/covers/01M3AS251XHDWPM1VBR4RAJVSY.jpg",
-              "url": "https://altarimini.it/calcio-verso-europei-u-21-kosovo-peiga-san-marino-0-3.php",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "balcanicaucaso.org",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Economia e dialogo tra Kosovo e Serbia - balcanicaucaso.org",
-              "albanianTitle": "Ekonomia dhe dialogu ndërmjet Kosovës dhe Serbisë",
-              "blurb": "Analizohet ndikimi i zhvillimeve ekonomike në procesin e dialogut ndërmjet shtetit të Kosovës dhe Serbisë.",
-              "imageUrl": "https://www.balcanicaucaso.org/wp-content/uploads/sites/8/2026/09/shutterstock_2805599371.jpg",
-              "url": "https://www.balcanicaucaso.org/cp_article/economia-e-dialogo-tra-kosovo-e-serbia/",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim rreth dialogut ekonomik midis Kosovës dhe Serbisë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Kosovo: the Kurti government is legitimate, but is it here to stay? - balcanicaucaso.org",
               "albanianTitle": "Kosovë: Qeveria Kurti është legjitime, por a do të qëndrojë gjatë?",
@@ -2119,137 +1747,15 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-26",
           "lastSeen": "2026-09-26"
-        },
-        {
-          "name": "newsrimini.it",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "U21: ottimo primo tempo dei Titani, il Kosovo strappa ad inizio ripresa (0-3) - newsrimini.it",
-              "albanianTitle": "U21: Pjesë e parë e shkëlqyer e Titanëve, Kosova shënon në fillim të pjesës së dytë (0-3) - newsrimini.it",
-              "blurb": "Përfaqësuesja e Kosovës U21 shënoi fitore me rezultat 0-3 ndaj ekipit të Titani pas një loje të zhvilluar.",
-              "imageUrl": "https://www.newsrimini.it/uploads/2026/c-fsgc-pruccoli-19.webp",
-              "url": "https://www.newsrimini.it/icaro-sport/u21-ottimo-primo-tempo-dei-titani-il-kosovo-strappa-ad-inizio-ripresa-0-3",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-23",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "repubblica.it",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo - Irlanda (0-0) UEFA Nations League 2026 - repubblica.it",
-              "albanianTitle": "Kosovë - Irlandë (0-0) Liga e Kombeve 2026",
-              "blurb": "Ndeshja e futbollit ndërmjet Kosovës dhe Irlandës në Ligën e Kombeve 2026 ka përfunduar me rezultat të barabartë.",
-              "imageUrl": "https://www.repstatic.it/cless/main/nazionale/2013-v1/img/common/favicon/favicon-1500.png",
-              "url": "https://www.repubblica.it/sport/dirette/calcio/uefa-nations-league-2026/diretta-kosovo-irlanda-g2626886/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "sport.sky.it",
-          "sentiment": "unknown",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "2026 giornata-1 kosovo-irlanda preview - sport.sky.it",
-              "albanianTitle": "Parashikimi për ndeshjen Kosovë – Irlandë, xhiroja e parë 2026",
-              "blurb": "Analizë dhe parashikim për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës në kuadër të xhiros së parë për vitin 2026.",
-              "imageUrl": "https://sport.sky.it/assets/images/fe3002a460d9904efad96e7882361f17a7cc77c2/skysport/configurations/skysport_condivisione.jpg?im=Resize,width=1218",
-              "url": "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-1/kosovo-irlanda",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo Irlanda, formazioni ufficiali e risultato in diretta live - sport.sky.it",
-              "albanianTitle": "Kosova - Irlanda: Formacionet zyrtare dhe rezultati live",
-              "blurb": "Ndeshja ndërmjet Kosovës dhe Irlandës po zhvillohet me formacionet zyrtare të publikuara dhe mbulim të drejtpërdrejtë të rezultatit.",
-              "imageUrl": "https://sport.sky.it/assets/images/fe3002a460d9904efad96e7882361f17a7cc77c2/skysport/configurations/skysport_condivisione.jpg?im=Resize,width=1218",
-              "url": "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-1/kosovo-irlanda/risultato-gol",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Nations League, partite di oggi 24 settembre: dove vederle in tv e streaming - sport.sky.it",
-              "albanianTitle": "Liga e Kombeve, ndeshjet e sotme 24 shtator: Ku t'i shikoni në TV dhe transmetim",
-              "blurb": "Programi i ndeshjeve të Ligës së Kombeve për datën 24 shtator dhe mundësitë për ndjekjen e tyre televizive.",
-              "imageUrl": "https://sport.sky.it/assets/images/b8bd1561be202acab21fbf3b8b549952578c015b/skysport/it/calcio/nations-league/2026/09/24/nations-league-partite-oggi-24-settembre-dove-vedere/nl24.9.s.jpg?im=Resize,width=1218",
-              "url": "https://sport.sky.it/calcio/nations-league/2026/09/24/nations-league-partite-oggi-24-settembre-dove-vedere",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "udineseblog.it",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "In Kosovo-Irlanda Vojvoda affronta Abankwah - udineseblog.it",
-              "albanianTitle": "Në ndeshjen Kosovë-Irlandë, Vojvoda përballet me Abankwah",
-              "blurb": "Futbollistët Vojvoda dhe Abankwah përballen në ndeshjen ndërmjet përfaqësueseve të Kosovës dhe Irlandës në futboll.",
-              "imageUrl": "https://www.udineseblog.it/wp-content/uploads/2026/09/Vojvoda-duello.jpg",
-              "url": "https://www.udineseblog.it/udinese/mondo-udinese/in-kosovo-irlanda-vojvoda-affronta-abankwah/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
         }
       ],
       "summary": {
         "index": 53,
-        "positive": 5,
-        "neutral": 95,
+        "positive": 6,
+        "neutral": 94,
         "negative": 0,
-        "n": 19,
-        "excluded": 23,
+        "n": 17,
+        "excluded": 12,
         "confident": true,
         "stanceVersion": 3
       }
@@ -2259,7 +1765,7 @@
         {
           "name": "12termann.at",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Rangnick verrät: Österreich startet gegen den Kosovo mit jungem Keeper im Tor - 12termann.at",
@@ -2273,12 +1779,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Österreich findet seine Intensität wieder: Die Analyse zum 3:1 gegen den Kosovo - 12termann.at",
+              "albanianTitle": "Austria rikthehet te intensiteti: Analiza e fitores 3:1 ndaj Kosovës",
+              "blurb": "Analiza e lojës së Austrisë pas fitores me rezultat 3 me 1 kundër përfaqësueses së Kosovës në futboll.",
+              "imageUrl": "https://12termann.at/wp-content/images/ofb-taktik-analyse-tafel.jpg",
+              "url": "https://12termann.at/oefb/nationalteam/oesterreich-findet-seine-intensitaet-wieder-die-analyse-zum-31-gegen-den-kosovo/",
+              "date": "2026-09-28",
+              "sentiment": "neutral",
+              "reason": "Neutral match analysis headline",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 1,
+          "totalArticles": 2,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-27",
-          "lastSeen": "2026-09-27"
+          "lastSeen": "2026-09-28"
         },
         {
           "name": "5 Minuten",
@@ -2355,73 +1874,10 @@
           "lastSeen": "2026-09-26"
         },
         {
-          "name": "BauernZeitung.at",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Von der Feldarbeiterin zur Unternehmerin: CARE-Projekt stärkt Kosovos Bäuerinnen - BauernZeitung.at",
-              "albanianTitle": null,
-              "blurb": "Projekti i organizatës CARE po ndihmon gratë fermere në Kosovë që të zhvillojnë bizneset e tyre bujqësore.",
-              "imageUrl": "https://a.storyblok.com/f/286169096649098/1920x1280/439c60ca7e/lendita-krasniqi-aus-kosovo.jpg/m/1200x630/smart/m/1200x630/smart",
-              "url": "https://www.bauernzeitung.at/artikel/vorarlberg/von-der-feldarbeiterin-zur-unternehmerin-care-projekt-starkt-kosovos-bauerinnen",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
-        },
-        {
           "name": "Der Standard",
           "sentiment": "neutral",
           "articleCount": 6,
           "articles": [
-            {
-              "title": "Kosovo schlägt Irland in ÖFB-Gruppe mit 1:0 - Der Standard",
-              "albanianTitle": "Kosova mposht Irlandën 1:0 në grupin e Ligës së Kombeve",
-              "blurb": "Përfaqësuesja e Kosovës në futboll ka shënuar fitore me rezultat 1:0 ndaj Irlandës në kuadër të Ligës së Kombeve.",
-              "imageUrl": "https://i.ds.at/LqLjog/rs:fill:1200:600/plain/lido-images/2026/09/24/57f57c17-acca-4ab8-81c6-dc43232d5323.jpg",
-              "url": "https://www.derstandard.at/story/3000000341302/kosovo-schlaegt-irland-in-oefb-gruppe-mit-10?ref=rss",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Faktikë sportive të raportuara në mënyrë neutrale",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo schlägt Irland in ÖFB-Gruppe mit 1:0 - derstandard.at",
-              "albanianTitle": "Kosova mposht Irlandën 1:0 në grupin e Austrisë",
-              "blurb": "Kosova ka shënuar fitore me rezultat 1-0 ndaj Irlandës në ndeshjen e zhvilluar brenda grupit të Austrisë.",
-              "imageUrl": "https://i.ds.at/LqLjog/rs:fill:1200:600/plain/lido-images/2026/09/24/57f57c17-acca-4ab8-81c6-dc43232d5323.jpg",
-              "url": "https://www.derstandard.at/story/3000000341302/kosovo-schlaegt-irland-in-oefb-gruppe-mit-10",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Start in neue Ära: ÖFB-Team peilt zu Nations-League-Auftakt Heimsieg gegen Israel an - Der Standard",
-              "albanianTitle": "Fillimi i një epoke të re: Austria synon fitoren ndaj Izraelit në startin e Ligës së Kombeve",
-              "blurb": "Ekipi i Austrisë synon fitoren në ndeshjen hapëse të Ligës së Kombeve kundër Izraelit në fillim të epokës së re.",
-              "imageUrl": "https://i.ds.at/feSNJg/rs:fill:1200:600/plain/lido-images/2026/09/23/6e82a3a7-5ab8-47e1-95ea-e1fcc114b0b2.jpg",
-              "url": "https://www.derstandard.at/story/3000000341035/fu223ball-214fb-team-peilt-bei-nations-league-start-sieg-gegen-israel-an",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Gregoritsch fehlte im ÖFB-Abschlusstraining für das Kosovo-Spiel - Der Standard",
               "albanianTitle": "Gregoritsch mungoi në stërvitjen e fundit të Austrisë para ndeshjes me Kosovën",
@@ -2460,44 +1916,57 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Fodas Rückkehr nach Wien: Bewährungsprobe für ÖFB-Team gegen Kosovo - Der Standard",
+              "albanianTitle": "Kthimi i Fodas në Vjenë: Provë e vështirë për ekipin e Austrisë kundër Kosovës - Der Standard",
+              "blurb": "Kthimi i trajnerit Franco Foda në Vjenë për ndeshjen e përfaqësueses së Austrisë kundër Kosovës në Ligën e Kombeve.",
+              "imageUrl": "https://i.ds.at/wmpacw/rs:fill:1200:600/plain/lido-images/2026/09/26/36c04df9-18d0-4f3b-87a8-ce4a8f30f938.jpg",
+              "url": "https://www.derstandard.at/story/3000000341495/fu223ball-bew228hrungsprobe-f252r-rangnicks-214fb-team-gegen-fodas-kosovo",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Përshkrim neutral i provës për ekipin kundër Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Einzelkritik zu Österreich vs. Kosovo: New Kids on the Block - Der Standard",
+              "albanianTitle": "Vlerësimi i lojtarëve pas ndeshjes Austri - Kosovë: Talentët e rinj në skenë",
+              "blurb": "Analizë e performancës së lojtarëve të rinj të Austrisë pas ndeshjes së zhvilluar kundër përfaqësueses së Kosovës.",
+              "imageUrl": "https://i.ds.at/wdlIXQ/rs:fill:1200:600/plain/lido-images/2026/09/27/7ef2202e-2de3-4f7f-946a-38e1b22db71f.jpg",
+              "url": "https://www.derstandard.at/story/3000000341565/einzelkritik-zu-oesterreich-vs-kosovo-new-kids-on-the-block",
+              "date": "2026-09-28",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Neun Serben wegen mutmaßlicher Kriegsverbrechen im Kosovo festgenommen - Der Standard",
+              "albanianTitle": "Nëntë serbë arrestohen për krime të dyshuara lufte në Kosovë",
+              "blurb": "Nëntë persona të nacionalitetit serb janë arrestuar nën dyshimet për kryerjen e krimeve të luftës në Kosovë.",
+              "imageUrl": "https://i.ds.at/Gi7iZQ/rs:fill:1200:600/plain/lido-images/2026/09/27/dde998b0-eb94-4c36-b3b6-c376ddff0763.jpg",
+              "url": "https://www.derstandard.at/story/3000000341555/kosovo-neun-serben-wegen-mutma223licher-kriegsverbrechen-festgenommen",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportuar pa gjuhë ngarkuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 12,
+          "totalArticles": 14,
           "trend": "neutral",
           "firstSeen": "2026-09-17",
-          "lastSeen": "2026-09-27"
+          "lastSeen": "2026-09-28"
         },
         {
           "name": "DiePresse.com",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Franco Foda: Wie Kosovo-Teamchef und Österreich-Fan in Wien gewinnen will - DiePresse.com",
-              "albanianTitle": null,
-              "blurb": "Përzgjedhësi i Kosovës, Franco Foda, synon fitoren në ndeshjen që do të zhvillohet në qytetin e Vjenës.",
-              "imageUrl": "https://img.diepresse.com/public/incoming/mn6q4c-imagosp0923174800011083685765jpg/alternates/WEBP_WIDE_1200/imago_sp_0923_17480001_1083685765.jpg",
-              "url": "https://www.diepresse.com/41291768/franco-foda-wie-kosovo-teamchef-und-oesterreich-fan-in-wien-gewinnen",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Reine Berichtueber einen Trainer und das Team, keine Wertung",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Franco Foda: Wie der Kosovo-Teamchef und Österreich-Fan in Wien gewinnen will - DiePresse.com",
-              "albanianTitle": "Franco Foda: Si planifikon përzgjedhësi i Kosovës, njëherësh tifoz i Austrisë, të fitojë në Vjenë",
-              "blurb": "Përzgjedhësi i Kosovës, Franco Foda, synon fitoren ndaj Austrisë në ndeshjen që do të zhvillohet në Vjenë.",
-              "imageUrl": "https://img.diepresse.com/public/incoming/vjg0kc-imagosp0923174800011083685765jpg/alternates/WEBP_WIDE_1200/imago_sp_0923_17480001_1083685765.jpg",
-              "url": "https://www.diepresse.com/41291768/franco-foda-wie-kosovo-teamchef-und-oesterreich-fan-in-wien-gewinnen",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Titull informativ pa gjuhë ngarkuar për trajnerin e Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "3 Erkenntnisse zum ÖFB-Sieg gegen Kosovo: Xaver Schlager läuft wieder mit einer Pferdelunge herum - DiePresse.com",
               "albanianTitle": "Tri konstatime pas fitores së Austrisë ndaj Kosovës: Xaver Schlager sërish me energji të pashtershme - DiePresse.com",
@@ -2601,29 +2070,40 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 10,
-          "trend": "neutral",
+          "totalArticles": 13,
+          "trend": "i përzier",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-27"
         },
         {
-          "name": "Kicker",
+          "name": "Joyn Österreich",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 1,
           "articles": [
             {
-              "title": "Aufstellung | Kosovo - Irland : | 1. Spieltag | UEFA Nations League 2026/27 - kicker",
-              "albanianTitle": "Formacionet zyrtare: Kosova - Irlanda, xhiroja e parë e Ligës së Kombeve 2026/27",
-              "blurb": "Janë publikuar formacionet zyrtare për ndeshjen e parë të Ligës së Kombeve ndërmjet Kosovës dhe Irlandës në futboll.",
-              "imageUrl": null,
-              "url": "https://www.kicker.at/kosovo-gegen-irland-2026-uefa-nations-league-5193338/aufstellung",
-              "date": "2026-09-24",
+              "title": "Fußball: Nations League Staffel 1 Folge 47: Nations League: Österreich - Kosovo (Die Analyse) - Joyn Österreich",
+              "albanianTitle": null,
+              "blurb": "Analiza e ndeshjes së futbollit ndërmjet Austrisë dhe Kosovës e publikuar në serinë e Ligës së Kombeve.",
+              "imageUrl": "https://img.joyn.de/ingest/t-050/i_5tcxjjqc8591_06ebbfe2.jpg/profile:nextgen-web-herolandscape-1920x",
+              "url": "https://www.joyn.at/serien/fussball-nations-league/1-47-nations-league-oesterreich-kosovo-die-analyse",
+              "date": "2026-09-28",
               "sentiment": "neutral",
-              "reason": "Faktikë sportive të raportuara në mënyrë neutrale",
+              "reason": "Neutral description of analysis program",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-28",
+          "lastSeen": "2026-09-28"
+        },
+        {
+          "name": "Kicker",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
             {
               "title": "Wer überträgt Österreich gegen Kosovo live im TV & Stream? - kicker.at",
               "albanianTitle": "Ku mund ta ndiqni drejtpërdrejt ndeshjen Austri-Kosovë në TV dhe internet?",
@@ -2725,19 +2205,6 @@
           "articleCount": 6,
           "articles": [
             {
-              "title": "UEFA Nations League - Foda-Elf gewinnt Auftaktspiel in Österreich-Gruppe - Kronen Zeitung",
-              "albanianTitle": "Liga e Kombeve: Përzgjedhja e Fodas fiton ndeshjen e parë në grupin e Austrisë",
-              "blurb": "Përfaqësuesja e drejtuar nga Franco Foda shënon fitore në ndeshjen hapëse të grupit në Ligën e Kombeve të UEFA-s.",
-              "imageUrl": "https://imgl.krone.at/scaled/4308762/v45ecc6/og_image.jpg",
-              "url": "https://www.krone.at/4306522",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Kein Abschlusstraining - ÖFB-Kapitän Gregoritsch für Kosovo-Match fraglich - Kronen Zeitung",
               "albanianTitle": "Pa stërvitje përfundimtare – Kapiteni i Austrisë, Gregoritsch, në dyshim për ndeshjen me Kosovën",
               "blurb": "Pjesëmarrja e kapitenit austriak Gregoritsch mbetet në dyshim për ndeshjen ndaj Kosovës pas mungesës në stërvitje.",
@@ -2801,6 +2268,19 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "ÖFB-Elf gegen Kosovo - Kalajdzic? Rangnick: „Wichtiger Spieler, aber …“ - Kronen Zeitung",
+              "albanianTitle": "Austria kundër Kosovës - Po Kalajdzic? Rangnick: „Lojtar i rëndësishëm, por...“ - Kronen Zeitung",
+              "blurb": "Trajneri Rangnick komenton statusin e Sasa Kalajdzic në ekipin austriak para ndeshjes së futbollit kundër përfaqësueses së Kosovës.",
+              "imageUrl": "https://imgl.krone.at/scaled/4311212/v38fd91/og_image.jpg",
+              "url": "https://www.krone.at/4311207",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Headline reports a quote about a player, no hostile language toward Kosovo",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Rangnick"
             }
           ],
           "totalArticles": 16,
@@ -2811,7 +2291,7 @@
         {
           "name": "Kurier",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Rangnick verrät: Gegen den Kosovo steht ein Debütant im ÖFB-Tor - Kurier",
@@ -2877,44 +2357,31 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Klarer Sieg vor vollem Haus: Österreich jubelt gegen den Kosovo - kurier.at",
+              "albanianTitle": "Fitore e pastër para stadiumit të mbushur: Austria feston ndaj Kosovës",
+              "blurb": "Austria ka arritur fitore ndaj Kosovës para një stadiumi të mbushur me shikues në ndeshjen e zhvilluar së fundmi.",
+              "imageUrl": "https://image.kurier.at/images/facebook/9349668/46-234392742.jpg?versionId=88772e183e04",
+              "url": "https://kurier.at/sport/fussball/fussball-nations-league-oefb-nationalteam-kosovo/403194184",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Titulli përshkruan gëzimin e Austriës, pa fjalë përçmuese ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 8,
           "trend": "neutral",
           "firstSeen": "2026-09-17",
-          "lastSeen": "2026-09-27"
+          "lastSeen": "2026-09-28"
         },
         {
           "name": "LAOLA1",
           "sentiment": "neutral",
           "articleCount": 6,
           "articles": [
-            {
-              "title": "Erfolgreicher Auftakt für Foda! Kosovo schlägt Irland - LAOLA1",
-              "albanianTitle": "Start i suksesshëm për Fodën! Kosova mposht Irlandën",
-              "blurb": "Trajneri Foda e nis me fitore angazhimin e tij, pasi Kosova mposhti Irlandën në ndeshjen e zhvilluar.",
-              "imageUrl": "https://www.laola1.at/storage/files/01/a0/d5/46-39bc-71cb-bfbf-d1c267805c72.1280x720.jpg?v=1",
-              "url": "https://www.laola1.at/de/red/fussball/nations-league/spielbericht/erfolgreicher-auftakt-fuer-foda--kosovo-schlaegt-irland/",
-              "date": "2026-09-24",
-              "sentiment": "positive",
-              "reason": "Gjuha e outlet-it është lavdëruese për performancën e Kosovës",
-              "isQuote": false,
-              "evidence": "Erfolgreicher Auftakt für Foda! Kosovo schlägt Irland",
-              "speaker": ""
-            },
-            {
-              "title": "Erfolgreicher Auftakt für Foda! Kosovo schlägt Irland - laola1.at",
-              "albanianTitle": "Debutim i suksesshëm për Fodan! Kosova mposht Irlandën",
-              "blurb": "Përfaqësuesja e Kosovës në futboll ka shënuar fitore ndaj Irlandës në ndeshjen e parë nën drejtimin e trajnerit Foda.",
-              "imageUrl": "https://www.laola1.at/storage/files/01/a0/d5/46-39bc-71cb-bfbf-d1c267805c72.1280x720.jpg?v=1",
-              "url": "https://www.laola1.at/de/red/fussball/nations-league/spielbericht/erfolgreicher-auftakt-fuer-foda--kosovo-schlaegt-irland/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Deine ÖFB-Startelf gegen Kosovo - Stimme ab! - LAOLA1",
               "albanianTitle": "Zgjidh formacionin e Austrisë kundër Kosovës – Voto tani!",
@@ -2966,9 +2433,35 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Dieser TV-Sender zeigt Österreich gegen Kosovo - laola1.at",
+              "albanianTitle": "Ky është kanali televiziv që transmeton ndeshjen Austri - Kosovë",
+              "blurb": "Kanali televiziv që do të transmetojë ndeshjen e futbollit ndërmjet përfaqësueses së Austrisë dhe asaj të Kosovës është bërë publik.",
+              "imageUrl": "https://www.laola1.at/storage/files/01/a0/e1/c4-4e05-70d1-b5d8-ef88ce87a4e5.1280x720.jpg?v=0",
+              "url": "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/news/dieser-tv-sender-zeigt-oesterreich-gegen-kosovo/",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Simple factual headline with no loaded or hostile language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Dieser ÖFB-Debütant steht gegen den Kosovo im Tor - LAOLA1",
+              "albanianTitle": "Ky debutues i Austrisë do të jetë në portë kundër Kosovës",
+              "blurb": "Portieri debutues i përfaqësueses së Austrisë do të jetë në portë për ndeshjen kundër përfaqësueses së Kosovës.",
+              "imageUrl": "https://www.laola1.at/storage/files/01/a0/e2/b1-6bc0-7165-ac32-7b2fa33c66b6.1280x720.jpg?v=1",
+              "url": "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/news/dieser-oefb-debuetant-steht-gegen-den-kosovo-im-tor/",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Përshkrim neutral i lojtarit kundër Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 11,
+          "totalArticles": 13,
           "trend": "i përzier",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-27"
@@ -3052,7 +2545,7 @@
         {
           "name": "MeinBezirk.at",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Nations League: Österreich empfängt Kosovo zum zweiten Heimspiel - MeinBezirk.at",
@@ -3066,12 +2559,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "ÖFB Team: Österreich übernimmt Tabellenführung nach Sieg gegen Kosovo - MeinBezirk.at",
+              "albanianTitle": "Ekipi i Austrisë merr kreun e tabelës pas fitores ndaj Kosovës",
+              "blurb": "Austria merr kryesimin e tabelës pas fitores ndaj Kosovës në ndeshjen e zhvilluar së fundmi në futboll.",
+              "imageUrl": "https://media04.meinbezirk.at/article/2026/09/28/7/52787997_XXL.webp",
+              "url": "https://www.meinbezirk.at/c-sport/oesterreich-uebernimmt-tabellenfuehrung-nach-sieg-gegen-kosovo_a8921244",
+              "date": "2026-09-28",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "neutral",
           "firstSeen": "2026-09-02",
-          "lastSeen": "2026-09-27"
+          "lastSeen": "2026-09-28"
         },
         {
           "name": "NÖN.at - Niederösterreichische Nachrichten",
@@ -3113,7 +2619,7 @@
         {
           "name": "ORF",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Österreich mit einigen Änderungen gegen Kosovo - ORF",
@@ -3127,44 +2633,31 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Sieg gegen Kosovo: ÖFB-Team auf Erfolgskurs - ORF",
+              "albanianTitle": "Fitore ndaj Kosovës: Austria në rrugën e duhur",
+              "blurb": "Përfaqësuesja e Austrisë ka shënuar fitore ndaj Kosovës në kuadër të ndeshjeve të Ligës së Kombeve.",
+              "imageUrl": null,
+              "url": "https://orf.at/av/video/onDemandVideoNews98640",
+              "date": "2026-09-28",
+              "sentiment": "neutral",
+              "reason": "Raportim sportiv neutral i rezultatit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 3,
+          "totalArticles": 4,
           "trend": "neutral",
           "firstSeen": "2026-09-17",
-          "lastSeen": "2026-09-27"
+          "lastSeen": "2026-09-28"
         },
         {
           "name": "ORF ON",
           "sentiment": "neutral",
           "articleCount": 6,
           "articles": [
-            {
-              "title": "Kosovo besiegt Irland vor Duell mit Österreich - Nations League: Österreich - Israel - ORF ON",
-              "albanianTitle": "Kosova mposht Irlandën para duelit me Austrinë - Liga e Kombeve: Austri - Izrael",
-              "blurb": "Kosova shënon fitore ndaj Irlandës përpara ndeshjes së ardhshme të Ligës së Kombeve kundër përfaqësueses së Austrisë.",
-              "imageUrl": "https://api-tvthek.orf.at/assets/segments/0235/78/thumb_23477489_segments_highlight_teaser.jpg",
-              "url": "https://on.orf.at/video/14340402/16159743/kosovo-besiegt-irland-vor-duell-mit-oesterreich",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i fitores së Kosovës ndaj Irlandës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Ausblick aufs Spiel gegen Kosovo - Nations League: Österreich - Israel - ORF ON",
-              "albanianTitle": "Parashikimi për ndeshjen kundër Kosovës - Liga e Kombeve: Austria - Izraeli",
-              "blurb": "Analizë dhe përgatitje për ndeshjen e Ligës së Kombeve ndërmjet përfaqësueseve të Austrisë dhe Izraelit, përfshirë Kosovën.",
-              "imageUrl": "https://api-tvthek.orf.at/assets/segments/0235/78/thumb_23477490_segments_highlight_teaser.jpg",
-              "url": "https://on.orf.at/video/14340402/16159744/ausblick-aufs-spiel-gegen-kosovo-nations-league-oesterreich-israel",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Nations League: ÖFB bereit für Kosovo - ORF ON",
               "albanianTitle": "Liga e Kombeve: Austria gati për Kosovën",
@@ -3216,31 +2709,44 @@
               "isQuote": false,
               "evidence": "jubelt auch gegen Kosovo",
               "speaker": ""
-            }
-          ],
-          "totalArticles": 8,
-          "trend": "kritik",
-          "firstSeen": "2026-09-18",
-          "lastSeen": "2026-09-27"
-        },
-        {
-          "name": "ORF TV-Programm",
-          "sentiment": "neutral",
-          "articleCount": 2,
-          "articles": [
+            },
             {
-              "title": "Nach der WM ist vor der Nations League: Alle sechs Spiele live im ORF - ORF TV-Programm",
-              "albanianTitle": "Pas Botërorit vjen Liga e Kombeve: Të gjashtë ndeshjet live në ORF - ORF TV-Programm",
-              "blurb": "Televizioni ORF njofton se do të transmetojë drejtpërdrejt gjashtë ndeshje të Ligës së Kombeve pas përfundimit të Kampionatit Botëror.",
-              "imageUrl": "https://ibs.orf.at/tv/?image=https%3A%2F%2Ftv.orf.at%2Fstories%2Fnations_league_fussball100%7E_v-social__share__2__1_-ea42f62737dfe7b3023c02d0d3e1d006dde54448.jpg",
-              "url": "https://tv.orf.at/stories/260924_nations_league102.html",
-              "date": "2026-09-24",
+              "title": "Nations League: Österreich - Kosovo (Die Analyse) - ORF ON",
+              "albanianTitle": null,
+              "blurb": "Analizë e detajuar e ndeshjes së futbollit ndërmjet Austrisë dhe Kosovës e zhvilluar në kuadër të Ligës së Kombeve.",
+              "imageUrl": "https://api-tvthek.orf.at/assets/segments/0235/87/thumb_23486252_segments_highlight_teaser.jpg",
+              "url": "https://on.orf.at/video/14340891/nations-league-oesterreich-kosovo-die-analyse",
+              "date": "2026-09-27",
               "sentiment": "neutral",
-              "reason": "Njoftim i thjeshtë i programit televiziv",
+              "reason": "Analyse‑Titel, rein informativ ohne wertende Sprache",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
+            {
+              "title": "Highlights von Österreich - Kosovo - ORF ON",
+              "albanianTitle": "Përmbledhja e ndeshjes Austri - Kosovë",
+              "blurb": "ORF ka publikuar pamjet dhe momentet më të rëndësishme nga ndeshja e futbollit ndërmjet Austrisë dhe Kosovës.",
+              "imageUrl": "https://api-tvthek.orf.at/assets/segments/0235/87/thumb_23486338_segments_highlight_teaser.jpg",
+              "url": "https://on.orf.at/video/14341232/highlights-von-oesterreich-kosovo",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Simple highlight summary",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 10,
+          "trend": "kritik",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-28"
+        },
+        {
+          "name": "ORF TV-Programm",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
             {
               "title": "UEFA Nations League Spieltag 2: Österreich - Kosovo live im ORF - ORF TV-Programm",
               "albanianTitle": "UEFA Nations League, xhiroja e dytë: Austri - Kosovë live në ORF - ORF TV-Programm",
@@ -3259,6 +2765,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-24",
           "lastSeen": "2026-09-26"
+        },
+        {
+          "name": "Oberösterreichische Nachrichten",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Österreich setzt sich gegen Kosovo mit 3:1 durch – alle wichtigen Szenen im Liveticker - Oberösterreichische Nachrichten",
+              "albanianTitle": "Austria mposht Kosovën me rezultat 3:1 – të gjitha momentet kryesore në kohë reale",
+              "blurb": "Austria shënoi fitore me rezultat 3:1 ndaj Kosovës në ndeshjen e zhvilluar, duke siguruar pikët e plota.",
+              "imageUrl": "https://www4.nachrichten.at/images/og_image/?ogimg=https://www.nachrichten.at/storage/image/7/9/4/3/3633497_maximilian-woeber-und-david-affengruber_facebook_1GKkvP_NePq9o.jpg",
+              "url": "https://www.nachrichten.at/sport/fussball/nationalteam/oesterreich-gegen-kosovo-im-liveticker-rangnick-aendert-startelf-auf-6-positionen;art191893,4216241",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, pa gjuhë ngarkuar ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-09-17",
+          "lastSeen": "2026-09-27"
         },
         {
           "name": "Salzburger Nachrichten",
@@ -3289,19 +2819,6 @@
           "sentiment": "neutral",
           "articleCount": 6,
           "articles": [
-            {
-              "title": "Kosovo-Teamchef Foda als Fan von NL-Gegner Österreich - Sky Sport Austria",
-              "albanianTitle": "Përzgjedhësi i Kosovës, Foda, tifoz i Austrisë, kundërshtarit në Ligën e Kombeve - Sky Sport Austria",
-              "blurb": "Përzgjedhësi i Kosovës, Franco Foda, shpreh mbështetjen e tij për Austrinë, kundërshtarin e radhës në Ligën e Kombeve.",
-              "imageUrl": null,
-              "url": "https://www.skysportaustria.at/kosovo-teamchef-foda-als-fan-von-nl-gegner-oesterreich/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "VOTING: Wähle deine ÖFB-Startelf gegen Kosovo! - Sky Sport Austria",
               "albanianTitle": "VOTIMI: Zgjidhe formacionin startues të Austrisë kundër Kosovës!",
@@ -3366,9 +2883,22 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Rangnick"
+            },
+            {
+              "title": "Foda auf Kosovo-PK: \"Hätten in Führung gehen müssen\" - Sky Sport Austria",
+              "albanianTitle": "Foda në konferencën për shtyp: “Duhej të kishim kaluar në epërsi” - Sky Sport Austria",
+              "blurb": "Trajneri Franco Foda shprehet se Kosova duhej të kishte kaluar në epërsi gjatë ndeshjes së zhvilluar kundër Austrisë.",
+              "imageUrl": null,
+              "url": "https://www.skysportaustria.at/mediathek/foda-auf-kosovo-pk-haetten-in-fuehrung-gehen-muessen/",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Citat i Foda-s, jo gjuhë e medias",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": "Foda"
             }
           ],
-          "totalArticles": 13,
+          "totalArticles": 16,
           "trend": "neutral",
           "firstSeen": "2026-08-24",
           "lastSeen": "2026-09-27"
@@ -3490,15 +3020,15 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 8,
+          "totalArticles": 11,
           "trend": "neutral",
           "firstSeen": "2026-08-24",
-          "lastSeen": "2026-09-26"
+          "lastSeen": "2026-09-27"
         },
         {
           "name": "krone.at",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Pause für Schlager - Gegen den Kosovo steht ein ÖFB-Debütant im Kasten - krone.at",
@@ -3525,55 +3055,44 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            }
-          ],
-          "totalArticles": 7,
-          "trend": "neutral",
-          "firstSeen": "2026-09-01",
-          "lastSeen": "2026-09-26"
-        },
-        {
-          "name": "noe.ORF.at",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
+            },
             {
-              "title": "Armut: Initiative hilft Kindern im Kosovo - noe.ORF.at",
-              "albanianTitle": "Varfëria: Iniciativa ndihmon fëmijët në Kosovë - noe.ORF.at",
-              "blurb": "Një iniciativë e re po ofron ndihmë për fëmijët që përballen me varfëri në territorin e Republikës së Kosovës.",
-              "imageUrl": "https://ibs.orf.at/noe?image=https%3A%2F%2Foekastatic.orf.at%2Fmims%2F2026%2F39%2F19%2Fcrops%2Fw%3D1200%2Ch%3D627%2Cq%3D75%2F3192841_master_1238519_20260922_113517.jpg%3Fs%3Dec3ec6d3556049af8298520a19caeebf14642867",
-              "url": "https://noe.orf.at/stories/3372260/",
-              "date": "2026-09-24",
+              "title": "3:1 in Nations League - 2. Spiel, 2. Sieg – Österreich schlägt auch Kosovo - krone.at",
+              "albanianTitle": "3:1 në Nations League - Dy ndeshje, dy fitore – Austria mposht edhe Kosovën",
+              "blurb": "Austria ka regjistruar fitoren e dytë radhazi në Ligën e Kombeve duke mposhtur Kosovën me rezultat 3-1.",
+              "imageUrl": "https://imgl.krone.at/scaled/4311765/vb5b4d3/og_image.jpg",
+              "url": "https://www.krone.at/4310698",
+              "date": "2026-09-27",
               "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "oe24",
-          "sentiment": "neutral",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Nations-League: ÖFB-Elf trifft auf Kosovo - oe24",
-              "albanianTitle": "Liga e Kombeve: Austria përballet me Kosovën",
-              "blurb": "Përfaqësuesja e Austrisë në futboll do të përballet me Kosovën në kuadër të ndeshjeve të Ligës së Kombeve.",
-              "imageUrl": "https://i.oe24.at/2026/09/25/dbed41cb-3df4-4869-915f-5541e2b80672.png?precrop=1428%2C714%2Cx36%2Cy0&crop=1200:630&enable=upscale&width=1200&quality=80&format=jpg",
-              "url": "https://www.oe24.at/a/nations-league-oefb-elf-trifft-auf-kosovo-900118309",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
+              "reason": "Neutral reporting of match result",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
             },
+            {
+              "title": "Nations League - HIER sehen Sie Österreich gegen Kosovo live im TV - krone.at",
+              "albanianTitle": "Nations League - Këtu mund ta ndiqni live në TV ndeshjen Austri - Kosovë",
+              "blurb": "Ndeshja ndërmjet Austrisë dhe Kosovës në Ligën e Kombeve është transmetuar drejtpërdrejt në kanalet televizive austriake.",
+              "imageUrl": "https://imgl.krone.at/scaled/4311541/v60db36/og_image.jpg",
+              "url": "https://www.krone.at/4311534",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Informative announcement of TV broadcast",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 9,
+          "trend": "neutral",
+          "firstSeen": "2026-09-01",
+          "lastSeen": "2026-09-27"
+        },
+        {
+          "name": "oe24",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
             {
               "title": "Mit Laimer? So könnten wir gegen Kosovo spielen - oe24",
               "albanianTitle": "Me Laimerin në formacion? Ja si mund të luajmë kundër Kosovës",
@@ -3609,7 +3128,7 @@
         {
           "name": "oe24.at",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Gregoritsch fehlt im Abschlusstraining vor Kosovo-Hit - oe24.at",
@@ -3649,19 +3168,6 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
-            },
-            {
-              "title": "Nations-League: ÖFB-Elf trifft auf Kosovo - oe24.at",
-              "albanianTitle": "Liga e Kombeve: Austria përballet me Kosovën",
-              "blurb": "Përfaqësuesja e Austrisë në futboll do të përballet me Kosovën në kuadër të ndeshjeve të Ligës së Kombeve.",
-              "imageUrl": "https://i.oe24.at/2026/09/25/dbed41cb-3df4-4869-915f-5541e2b80672.png?precrop=1428%2C714%2Cx36%2Cy0&crop=1200:630&enable=upscale&width=1200&quality=80&format=jpg",
-              "url": "https://www.oe24.at/a/nations-league-oefb-elf-trifft-auf-kosovo-900118309",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
             }
           ],
           "totalArticles": 4,
@@ -3696,21 +3202,8 @@
         {
           "name": "on.orf.at",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 4,
           "articles": [
-            {
-              "title": "Ausblick aufs Spiel gegen Kosovo - Nations League: Österreich - Israel - on.orf.at",
-              "albanianTitle": "Përgatitjet për ndeshjen ndaj Kosovës - Liga e Kombeve: Austria - Izraeli",
-              "blurb": "Austria dhe Izraeli përballen në kuadër të Ligës së Kombeve, ndërsa Kosova pret ndeshjen e radhës kundër austriakëve.",
-              "imageUrl": "https://api-tvthek.orf.at/assets/segments/0235/78/thumb_23477490_segments_highlight_teaser.jpg",
-              "url": "https://on.orf.at/video/14340402/16159744/ausblick-aufs-spiel-gegen-kosovo-nations-league-oesterreich-israel",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Nations League: ÖFB bereit für Kosovo - on.orf.at",
               "albanianTitle": "Liga e Kombeve: Austria gati për sfidën me Kosovën - on.orf.at",
@@ -3723,12 +3216,51 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Nations League: ÖFB jubelt auch gegen Kosovo - on.orf.at",
+              "albanianTitle": "Liga e Kombeve: Austria feston edhe ndaj Kosovës",
+              "blurb": "Përfaqësuesja e Austrisë ka shënuar fitore ndaj Kosovës në kuadër të ndeshjeve të Ligës së Kombeve në futboll.",
+              "imageUrl": "https://api-tvthek.orf.at/assets/topics/0235/87/thumb_23486341_topics_highlight_teaser.jpg",
+              "url": "https://on.orf.at/sammlung/13870321/nations-league-oefb-jubelt-auch-gegen-kosovo",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Sieg gegen Kosovo: ÖFB-Team auf Erfolgskurs - on.orf.at",
+              "albanianTitle": "Fitore ndaj Kosovës: Austria vazhdon rrugën e sukseseve",
+              "blurb": "Austria vazhdon serinë e rezultateve pozitive pas fitores së arritur ndaj përfaqësueses së Kosovës në ndeshjen e fundit.",
+              "imageUrl": "https://api-tvthek.orf.at/assets/segments/0235/87/thumb_23486608_segments_highlight_teaser.jpg",
+              "url": "https://on.orf.at/video/14340968/16161153/sieg-gegen-kosovo-oefb-team-auf-erfolgskurs-zib-700-vom-28092026",
+              "date": "2026-09-28",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Nations League: Österreich - Kosovo (Die Analyse) - on.orf.at",
+              "albanianTitle": null,
+              "blurb": "Analiza e ndeshjes së Ligës së Kombeve ndërmjet përfaqësueses së Austrisë dhe përfaqësueses së Kosovës në futboll.",
+              "imageUrl": "https://api-tvthek.orf.at/assets/segments/0235/87/thumb_23486252_segments_highlight_teaser.jpg",
+              "url": "https://on.orf.at/video/14340891/nations-league-oesterreich-kosovo-die-analyse",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 3,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 6,
+          "trend": "i përzier",
           "firstSeen": "2026-09-18",
-          "lastSeen": "2026-09-26"
+          "lastSeen": "2026-09-28"
         },
         {
           "name": "salzburg24",
@@ -3797,19 +3329,6 @@
           "articleCount": 6,
           "articles": [
             {
-              "title": "Kosovo besiegt Irland vor Duell mit Österreich - sport.ORF.at",
-              "albanianTitle": "Kosova triumfon ndaj Irlandës para përballjes me Austrinë - sport.ORF.at",
-              "blurb": "Kosova ka shënuar fitore ndaj Irlandës përpara ndeshjes së radhës që do ta zhvillojë kundër përfaqësueses së Austrisë.",
-              "imageUrl": null,
-              "url": "https://sport.orf.at/av/video/onDemandVideoSport69386",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
               "title": "Nations League: Debütant startet im Tor gegen Kosovo - sport.ORF.at",
               "albanianTitle": "Liga e Kombeve: Debutuesi niset nga porta kundër Kosovës",
               "blurb": "Një portier debutues do ta nisë ndeshjen e Ligës së Kombeve për Austrinë kundër përfaqësueses së Kosovës.",
@@ -3873,12 +3392,49 @@
               "isQuote": true,
               "evidence": "",
               "speaker": "Rangnick"
+            },
+            {
+              "title": "Schlager übernimmt Kapitänsrolle gegen Kosovo - sport.ORF.at",
+              "albanianTitle": "Schlager merr shiritin e kapitenit për ndeshjen kundër Kosovës",
+              "blurb": "Futbollisti Schlager do të mbajë shiritin e kapitenit në ndeshjen që përfaqësuesja e Austrisë e luan kundër Kosovës.",
+              "imageUrl": null,
+              "url": "https://sport.orf.at/av/video/onDemandVideoSport69530",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "Lajm sportiv i thjeshtë, pa ngjyrë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 17,
+          "totalArticles": 18,
           "trend": "i përzier",
           "firstSeen": "2026-09-17",
-          "lastSeen": "2026-09-27"
+          "lastSeen": "2026-09-28"
+        },
+        {
+          "name": "tirol.ORF.at",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Zawieschitzky mit Traum-Debut gegen Kosovo - tirol.ORF.at",
+              "albanianTitle": "Debutimi ëndërrimtar i Zawieschitzky kundër Kosovës",
+              "blurb": "Lojtari Zawieschitzky ka pasur një debutim të suksesshëm në ndeshjen e zhvilluar ndërmjet Austrisë dhe përfaqësueses së Kosovës.",
+              "imageUrl": "https://ibs.orf.at/tir?image=https%3A%2F%2Foekastatic.orf.at%2Fmims%2F2026%2F40%2F93%2Fcrops%2Fw%3D1200%2Ch%3D627%2Cq%3D75%2F3197561_master_1240393_fussball_uefa_nations_league_oesterreich_-_kosovo_.jpg%3Fs%3D338bd7a311b7b91f833e7b537eea98bc600458e9",
+              "url": "https://tirol.orf.at/stories/3372928/",
+              "date": "2026-09-28",
+              "sentiment": "neutral",
+              "reason": "Raportim neutral i një debuti sportiv",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-28",
+          "lastSeen": "2026-09-28"
         },
         {
           "name": "weekend.at",
@@ -3906,12 +3462,12 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 2,
-        "neutral": 95,
+        "index": 49,
+        "positive": 1,
+        "neutral": 96,
         "negative": 3,
-        "n": 103,
-        "excluded": 16,
+        "n": 121,
+        "excluded": 7,
         "confident": true,
         "stanceVersion": 3
       }
@@ -3921,47 +3477,8 @@
         {
           "name": "20 Min",
           "sentiment": "neutral",
-          "articleCount": 6,
+          "articleCount": 3,
           "articles": [
-            {
-              "title": "«Hat für uns gekämpft»: Warum auch Jugendliche in Zürich für Thaçi demonstrieren - 20 Min",
-              "albanianTitle": "“Luftoi për ne”: Pse të rinjtë në Cyrih po protestojnë në mbështetje të Thaçit",
-              "blurb": "Të rinjtë në Cyrih protestojnë në mbështetje të Hashim Thaçit, duke vlerësuar kontributin e tij gjatë periudhës së luftës.",
-              "imageUrl": "https://image.20min.ch/2026/09/23/951c7385-dc7f-4b51-a25d-f44f6ca03b2b.jpg?auto=format%2Ccompress%2Cenhance&fit=max&w=1200&h=1200&rect=0%2C505%2C1440%2C810&s=22498f6372957f04360519333d377447",
-              "url": "https://www.20min.ch/story/proteste-in-zuerich-und-pristina-kosovo-diaspora-empoert-ueber-thaci-verurteilung-103637658",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Quote is presented in quotation marks, outlet remains factual",
-              "isQuote": true,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo - Irland im Liveticker: Alle Tore & Highlights - 20 Min",
-              "albanianTitle": "Kosovë - Irlandë në kohë reale: Të gjithë golat dhe rastet kryesore - 20 Min",
-              "blurb": "Mbulesë direkte me gola dhe momente kryesore nga ndeshja e futbollit ndërmjet përfaqësueseve të Kosovës dhe Irlandës.",
-              "imageUrl": "https://sp.hs-data.com/gfx/competition/png/normal/500x500/595nsvo7ykvoe690b1e4u5n56.png",
-              "url": "https://www.20min.ch/sport/football/uefa-nations-league/kosovo-vs-irland-egzx1e9ue9ao6dijwlnb2xel0/ticker",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Hashim Thaçi condamné : pourquoi la diaspora kosovare manifeste en Suisse - 20 Min",
-              "albanianTitle": null,
-              "blurb": "Diaspora kosovare në Zvicër po proteston pas dënimit të ish-presidentit Hashim Thaçi nga Gjykata Speciale në Hagë.",
-              "imageUrl": "https://image.20min.ch/2026/09/24/717e59e7-7616-4553-8f64-33630ba0679c.jpg?auto=format%2Ccompress%2Cenhance&fit=max&w=1200&h=1200&rect=0%2C0%2C6000%2C4000&s=5981bef59ec20d9e76b57a361ed00718",
-              "url": "https://www.20min.ch/fr/story/criminel-de-guerre-il-a-combattu-pour-nous-pourquoi-ces-jeunes-manifestent-103638127",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Österreich - Kosovo im Liveticker: Alle Tore & Highlights - 20 Min",
               "albanianTitle": "Austri - Kosovë: Ndiqni ndeshjen live, golat dhe rastet më të mira",
@@ -4009,35 +3526,9 @@
         },
         {
           "name": "Albinfo",
-          "sentiment": "neutral",
-          "articleCount": 6,
+          "sentiment": "positive",
+          "articleCount": 4,
           "articles": [
-            {
-              "title": "Kurti fordert den EU-Kandidatenstatus für den Kosovo: Der Antrag aus dem Jahr 2022 soll ohne Verzögerung bearbeitet werden - albinfo.ch",
-              "albanianTitle": "Kurti kërkon statusin e kandidatit për BE për Kosovën: Aplikacioni i vitit 2022 duhet të shqyrtohet pa vonesa - albinfo.ch",
-              "blurb": "Kryeministri Kurti ka kërkuar përpunimin pa vonesa të aplikimit të Kosovës për statusin e kandidatit në Bashkimin Evropian.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_3452.jpeg",
-              "url": "https://www.albinfo.ch/de/kurti-kerkon-statusin-kandidat-te-kosoves-ne-be-aplikimi-i-vitit-2022-te-procedohet-pa-vonesa/",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kurti demande le statut de pays candidat à l'UE pour le Kosovo: la demande de 2022 doit être traitée sans délai - Albinfo",
-              "albanianTitle": "Kurti kërkon statusin e vendit kandidat për BE për Kosovën: Aplikimi i vitit 2022 duhet të shqyrtohet pa vonesë - Albinfo",
-              "blurb": "Kryeministri Kurti kërkon shqyrtimin urgjent të aplikacionit të vitit 2022 për statusin e vendit kandidat në Bashkimin Evropian.",
-              "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/img_3452.jpeg",
-              "url": "https://www.albinfo.ch/fr/kurti-kerkon-statusin-kandidat-te-kosoves-ne-be-aplikimi-i-vitit-2022-te-procedohet-pa-vonesa/",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Erblin Osmani entre dans l’histoire et devient le plus jeune joueur à faire ses débuts sous le maillot du Kosovo - Albinfo",
               "albanianTitle": "Erblin Osmani hyn në histori si lojtari më i ri që debuton me fanellën e Kosovës",
@@ -4122,48 +3613,9 @@
         },
         {
           "name": "Kicker",
-          "sentiment": "neutral",
-          "articleCount": 4,
+          "sentiment": "unknown",
+          "articleCount": 1,
           "articles": [
-            {
-              "title": "Aufstellung | Kosovo - Irland : | 1. Spieltag | UEFA Nations League 2026/27 - kicker.ch",
-              "albanianTitle": "Formacionet | Kosova - Irlanda : | Ndeshja e parë | UEFA Nations League 2026/27 - kicker.ch",
-              "blurb": "Prezantohen formacionet e ekipeve për ndeshjen e parë të Ligës së Kombeve ndërmjet Kosovës dhe Irlandës për sezonin 2026/27.",
-              "imageUrl": null,
-              "url": "https://www.kicker.ch/kosovo-gegen-irland-2026-uefa-nations-league-5193338/aufstellung",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Valmir Matoshi | Kosovo | UEFA Nations League | 2026/27 | Spielerprofil - kicker.ch",
-              "albanianTitle": "Valmir Matoshi | Kosovë | Liga e Kombeve e UEFA-s | 2026/27 | Profili i lojtarit - kicker.ch",
-              "blurb": "Profili i futbollistit Valmir Matoshi i cili përfaqëson Kosovën në garat e Ligës së Kombeve për sezonin 2026/27.",
-              "imageUrl": null,
-              "url": "https://www.kicker.ch/valmir-matoshi/spieler/uefa-nations-league/2026/kosovo",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Albian Hajdari | Kosovo | UEFA Nations League | 2026/27 | Spielerprofil - kicker.ch",
-              "albanianTitle": null,
-              "blurb": "Detaje mbi profilin e futbollistit Albian Hajdari si pjesë e përfaqësueses së Kosovës në Ligën e Kombeve 2026/27.",
-              "imageUrl": null,
-              "url": "https://www.kicker.ch/albian-hajdari/spieler/uefa-nations-league/2026/kosovo",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë sportiv, pa gjuhë ngarkuese",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Wer überträgt Österreich gegen Kosovo live im TV & Stream? - kicker.ch",
               "albanianTitle": "Kush e transmeton drejtpërdrejt ndeshjen Austri-Kosovë në TV dhe internet?",
@@ -4182,69 +3634,6 @@
           "trend": "neutral",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-27"
-        },
-        {
-          "name": "Nau",
-          "sentiment": "neutral",
-          "articleCount": 4,
-          "articles": [
-            {
-              "title": "UEFA Nations League: Kosovo gegen Rep. Of Ireland jetzt live - nau.ch",
-              "albanianTitle": "UEFA Nations League: Kosova përballet me Republikën e Irlandës, ndiqeni live - nau.ch",
-              "blurb": "Ndeshja ndërmjet Kosovës dhe Republikës së Irlandës në kuadër të Ligës së Kombeve po transmetohet drejtpërdrejt për të gjithë shikuesit.",
-              "imageUrl": "https://c.nau.ch/i/JMkN8l/1360/680/kosovo-rep-of-ireland.jpg",
-              "url": "https://www.nau.ch/sport/matchcenter/uefa-nations-league-kosovo-gegen-rep-of-ireland-ab-2045-live-67180904",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Lajm i raportuar në mënyrë faktike",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "UEFA Nations League: Kosovo gegen Rep. Of Ireland jetzt live - Nau",
-              "albanianTitle": "UEFA Nations League: Kosova kundër Republikës së Irlandës, ndiqeni live - Nau",
-              "blurb": "Ndeshja ndërmjet Kosovës dhe Republikës së Irlandës po zhvillohet në kuadër të garave të UEFA Ligës së Kombeve.",
-              "imageUrl": "https://c.nau.ch/i/JMkN8l/1360/680/kosovo-rep-of-ireland.jpg",
-              "url": "https://www.nau.ch/sport/matchcenter/uefa-nations-league-kosovo-gegen-rep-of-ireland-ab-2045-live-67180904",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "UEFA Nations League: Kosovo schlägt Rep. Of Ireland 1:0 - Nau",
-              "albanianTitle": "UEFA Nations League: Kosova mposht Republikën e Irlandës me rezultat 1:0",
-              "blurb": "Përfaqësuesja e Kosovës në futboll ka shënuar fitore me rezultat minimal 1-0 ndaj Irlandës në Ligën e Kombeve.",
-              "imageUrl": "https://c.nau.ch/i/JMkN8l/1360/680/kosovo-rep-of-ireland.jpg",
-              "url": "https://www.nau.ch/sport/matchcenter/uefa-nations-league-kosovo-gegen-rep-of-ireland-ab-2045-live-67180904",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportim për fitore në UEFA Nations League",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "UEFA Nations League: Kosovo schlägt Rep. Of Ireland 1:0 - nau.ch",
-              "albanianTitle": "Liga e Kombeve: Kosova mposht Republikën e Irlandës me rezultat 1:0",
-              "blurb": "Përfaqësuesja e Kosovës ka shënuar fitore me rezultat 1:0 ndaj Republikës së Irlandës në Ligën e Kombeve.",
-              "imageUrl": "https://c.nau.ch/i/JMkN8l/1360/680/kosovo-rep-of-ireland.jpg",
-              "url": "https://www.nau.ch/sport/matchcenter/uefa-nations-league-kosovo-gegen-rep-of-ireland-ab-2045-live-67180904",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-09-16",
-          "lastSeen": "2026-09-24"
         },
         {
           "name": "Watson",
@@ -4376,49 +3765,33 @@
               "speaker": "Rangnick"
             }
           ],
-          "totalArticles": 8,
+          "totalArticles": 11,
           "trend": "neutral",
           "firstSeen": "2026-08-24",
-          "lastSeen": "2026-09-26"
+          "lastSeen": "2026-09-27"
         }
       ],
       "summary": {
-        "index": 58,
-        "positive": 17,
-        "neutral": 83,
+        "index": 67,
+        "positive": 33,
+        "neutral": 67,
         "negative": 0,
-        "n": 18,
-        "excluded": 10,
+        "n": 9,
+        "excluded": 7,
         "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 3,
+        "movement": {
+          "delta": 9,
+          "from": 58,
+          "outlet": "Albinfo",
+          "title": "Erblin Osmani hyn në histori si lojtari më i ri që debuton me fanellën e Kosovës",
+          "evidence": "entre dans l’histoire et devient le plus jeune joueur",
+          "url": "https://www.albinfo.ch/fr/erblin-osmani-shkruan-histori-behet-lojtari-me-i-ri-qe-debuton-me-fanellen-e-kosoves/"
+        }
       }
     },
     "Holandë": {
       "outlets": [
-        {
-          "name": "AD.nl",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "‘Nepagenten’ te water na beroving: slachtoffers rijden voor niks vanuit Kosovo naar Nederland voor rechtszaak - AD.nl",
-              "albanianTitle": null,
-              "blurb": "Viktimat nga Kosova udhëtuan drejt Holandës për një seancë gjyqësore lidhur me një grabitje, por seanca u anulua.",
-              "imageUrl": null,
-              "url": "https://www.ad.nl/nieuwegein/nepagenten-te-water-na-beroving-slachtoffers-rijden-voor-niks-vanuit-kosovo-naar-nederland-voor-rechtszaak~a99e195d/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 5,
-          "trend": "neutral",
-          "firstSeen": "2026-09-17",
-          "lastSeen": "2026-09-24"
-        },
         {
           "name": "De Limburger",
           "sentiment": "neutral",
@@ -4446,21 +3819,8 @@
         {
           "name": "ESPN.nl",
           "sentiment": "unknown",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Kosovo - ESPN.nl",
-              "albanianTitle": null,
-              "blurb": "Përfaqësuesja e Kosovës është pjesë e mbulimit mediatik të platformës sportive ESPN në kuadër të ndeshjeve ndërkombëtare të futbollit.",
-              "imageUrl": null,
-              "url": "https://www.espn.nl/voetbal/speler-statistieken/_/wedstrijdId/401861045",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Oostenrijk vs. Kosovo - Voetbal Wedstrijd Samenvatting - 27 september 2026 - ESPN.nl",
               "albanianTitle": "Austri - Kosovë: Përmbledhja e ndeshjes së futbollit - 27 shtator 2026",
@@ -4566,30 +3926,6 @@
           "lastSeen": "2026-09-25"
         },
         {
-          "name": "Ziggo Sport",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo - Ierland - Ziggo Sport",
-              "albanianTitle": "Kosovë - Irlandë - Ziggo Sport",
-              "blurb": "Përfaqësuesja e Kosovës është përballur me Irlandën në kuadër të ndeshjeve të Ligës së Kombeve të transmetuara nga Ziggo Sport.",
-              "imageUrl": "https://d3tw7elnk2m6f4.cloudfront.net/_1200x630_crop_center-center_75_none/Kosovo-24-9-26.jpg",
-              "url": "https://www.ziggosport.nl/video/2019159-kosovo-ierland/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
-        },
-        {
           "name": "bet365 - Online wedden op Sport",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -4660,30 +3996,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-26",
           "lastSeen": "2026-09-25"
-        },
-        {
-          "name": "ziggosport.nl",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosovo - Ierland - ziggosport.nl",
-              "albanianTitle": "Kosovë - Irlandë",
-              "blurb": "Përfaqësuesja e Kosovës në futboll do të zhvillojë ndeshje zyrtare kundër përfaqësueses së Irlandës.",
-              "imageUrl": "https://d3tw7elnk2m6f4.cloudfront.net/_1200x630_crop_center-center_75_none/Kosovo-24-9-26.jpg",
-              "url": "https://www.ziggosport.nl/video/2019159-kosovo-ierland/",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Nuk ka asnjë gjuhë që tregon qëndrim ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-26",
-          "lastSeen": "2026-09-24"
         }
       ],
       "summary": {
@@ -4691,126 +4003,27 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
-        "excluded": 10,
+        "n": 2,
+        "excluded": 7,
         "confident": false,
         "stanceVersion": 3
       }
     },
     "Belgjikë": {
-      "outlets": [
-        {
-          "name": "Le Soir",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "La paix dans les Balkans ne peut se construire sans justice : la Serbie, le Kosovo et la responsabilité de l’Europe - Le Soir",
-              "albanianTitle": null,
-              "blurb": "Analiza mbi rëndësinë e drejtësisë për paqen në Ballkan dhe rolin e Serbisë, Kosovës dhe Bashkimit Evropian në këtë proces.",
-              "imageUrl": null,
-              "url": "https://www.lesoir.be/772808/article/2026-09-24/la-paix-dans-les-balkans-ne-peut-se-construire-sans-justice-la-serbie-le-kosovo",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-15",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "Sporza",
-          "sentiment": "neutral",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Kosovo-Oostenrijk - Sporza",
-              "albanianTitle": "Kosovë - Austri - Sporza",
-              "blurb": "Përballja futbollistike ndërmjet përfaqësueseve të Kosovës dhe Austrisë në kuadër të aktiviteteve të tyre ndërkombëtare.",
-              "imageUrl": "https://images.sporza.be/width1280/2026/06/01/f72b8290-57ad-4472-bfb5-3dcf56462825.png",
-              "url": "https://sporza.be/nl/matches/voetbal/eur/uefa-nations-league/2026-2027/groep-3/04/kosovo-oostenrijk~1770985740970/",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Ierland-Kosovo - Sporza",
-              "albanianTitle": "Irlandë - Kosovë - Sporza",
-              "blurb": "Ndeshja futbollistike ndërmjet përfaqësueses së Irlandës dhe asaj të Kosovës në arenën ndërkombëtare të futbollit.",
-              "imageUrl": "https://images.sporza.be/width1280/2026/06/01/f72b8290-57ad-4472-bfb5-3dcf56462825.png",
-              "url": "https://sporza.be/nl/sport/voetbal/~3337792/",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosovo-Israël - Sporza",
-              "albanianTitle": "Kosovë - Izrael - Sporza",
-              "blurb": "Përfaqësuesja e Kosovës në futboll përballet me Izraelin në një ndeshje të rëndësishme për kualifikimet e kampionatit.",
-              "imageUrl": "https://images.sporza.be/width1280/2026/06/01/f72b8290-57ad-4472-bfb5-3dcf56462825.png",
-              "url": "https://sporza.be/nl/matches/voetbal/eur/uefa-nations-league/2026-2027/groep-3/05/kosovo-israel~1770985801820/",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, pa gjuhë ngarkuar",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "neutral",
-          "firstSeen": "2026-09-26",
-          "lastSeen": "2026-09-24"
-        }
-      ],
+      "outlets": [],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 3,
-        "excluded": 1,
+        "n": 0,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
     },
     "Spanjë": {
       "outlets": [
-        {
-          "name": "ABC",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Muriqi gana a Parrott el duelo de delanteros en el Kosovo - Irlanda (1-0) - ABC",
-              "albanianTitle": "Muriqi fiton duelin e sulmuesve ndaj Parrott në ndeshjen Kosovë - Irlandë (1-0)",
-              "blurb": "Vedat Muriqi shënon golin e fitores për Kosovën 1-0 ndaj Irlandës, duke fituar duelin personal ndaj sulmuesit Parrott.",
-              "imageUrl": "https://s1.abcstatics.com/abc/www/multimedia/deportes/2026/09/24/parrott-kosovo-irlanda-reuters-U51122036665yQH-1200x630@diario_abc.jpg",
-              "url": "https://www.abc.es/deportes/alfinaldelapalmera/noticias-betis/muriqi-gana-parrott-duelo-delanteros-kosovo-irlanda-20260924232841-nts.html",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 7,
-          "trend": "neutral",
-          "firstSeen": "2026-08-26",
-          "lastSeen": "2026-09-24"
-        },
         {
           "name": "Eurosport",
           "sentiment": "neutral",
@@ -4830,71 +4043,10 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "neutral",
           "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-26"
-        },
-        {
-          "name": "SportyTrader",
-          "sentiment": "unknown",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Pronóstico Kosovo - Irlanda - Nations League - SportyTrader",
-              "albanianTitle": "Parashikimi për ndeshjen Kosovë - Irlandë - Liga e Kombeve",
-              "blurb": "Platforma SportyTrader ka publikuar parashikimin për përballjen ndërmjet përfaqësueses së Kosovës dhe asaj të Irlandës në Ligën e Kombeve.",
-              "imageUrl": null,
-              "url": "https://www.sportytrader.es/pronosticos/kosovo-irlanda-374600/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Pronóstico Kosovo - Irlanda - Nations League - sportytrader.es",
-              "albanianTitle": "Parashikimi për ndeshjen Kosovë - Irlandë në Ligën e Kombeve",
-              "blurb": "Analiza dhe parashikimet për ndeshjen e Ligës së Kombeve ndërmjet përfaqësueseve të Kosovës dhe Irlandës.",
-              "imageUrl": null,
-              "url": "https://www.sportytrader.es/pronosticos/kosovo-irlanda-374600/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "abc.es",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Muriqi gana a Parrott el duelo de delanteros en el Kosovo - Irlanda (1-0) - abc.es",
-              "albanianTitle": "Muriqi fiton duelin e sulmuesve ndaj Parrott në ndeshjen Kosovë - Irlandë (1-0)",
-              "blurb": "Vedat Muriqi ka shënuar fitore në duelin e sulmuesve ndaj Parrott në ndeshjen ku Kosova mposhti Irlandën me rezultat 1-0.",
-              "imageUrl": "https://s1.abcstatics.com/abc/www/multimedia/deportes/2026/09/24/parrott-kosovo-irlanda-reuters-U51122036665yQH-1200x630@diario_abc.jpg",
-              "url": "https://www.abc.es/deportes/alfinaldelapalmera/noticias-betis/muriqi-gana-parrott-duelo-delanteros-kosovo-irlanda-20260924232841-nts.html",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
+          "lastSeen": "2026-09-27"
         }
       ],
       "summary": {
@@ -4903,7 +4055,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 4,
+        "excluded": 0,
         "confident": false,
         "stanceVersion": 3
       }
@@ -4960,8 +4112,8 @@
         },
         {
           "name": "Agones",
-          "sentiment": "neutral",
-          "articleCount": 2,
+          "sentiment": "unknown",
+          "articleCount": 1,
           "articles": [
             {
               "title": "Κόσοβο: Ο Μουρίκι ύψωσε μπλούζα με το έμβλημα του UCK μετά το γκολ νίκης κόντρα στην Ιρλανδία - Agones",
@@ -4972,19 +4124,6 @@
               "date": "2026-09-25",
               "sentiment": "unknown",
               "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Κόσοβο - Ιρλανδία 24/9 | Προγνωστικά για Στοίχημα - Agones",
-              "albanianTitle": "Kosovë - Irlandë 24/9 | Parashikimet për baste - Agones",
-              "blurb": "Analizë dhe parashikime të basteve sportive për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës më 24 shtator.",
-              "imageUrl": "https://s3assets.agones.gr/thumbnails/0b8272c6efd27432d3aba76d1ddcf6fe",
-              "url": "https://agones.gr/livescore/2884-2305/kosobo-irlandia",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Simple match preview without evaluative language",
               "isQuote": false,
               "evidence": "",
               "speaker": ""
@@ -5020,71 +4159,10 @@
           "lastSeen": "2026-09-25"
         },
         {
-          "name": "Bet.gr",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Προγνωστικά Κόσοβο - Ιρλανδία 24/09/26 - Bet.gr",
-              "albanianTitle": "Parashikimet për ndeshjen Kosovë - Irlandë, 24/09/26 - Bet.gr",
-              "blurb": "Analizat dhe parashikimet për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës që zhvillohet më 24 shtator 2026.",
-              "imageUrl": null,
-              "url": "https://www.bet.gr/prognostika/kosovo-irlandia-240926/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "BetWeekend",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Nations League: Κόσοβο-Ιρλανδία - BetWeekend",
-              "albanianTitle": null,
-              "blurb": "Përfaqësuesja e Kosovës luan kundër Irlandës në kuadër të ndeshjeve të Ligës së Kombeve për këtë edicion futbollistik.",
-              "imageUrl": null,
-              "url": "https://betweekend.gr/2026/09/24/kosovo-irlandia/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
-        },
-        {
           "name": "Betarades",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "ΣΑΝ ΜΑΡΙΝΟ U21 - ΚΟΣΟΒΟ U21 (24/09/26) ✔️ Προγνωστικά | Κανάλι | Αποδόσεις - Betarades",
-              "albanianTitle": "San Marino U21 - Kosova U21 (24/09/26) – Parashikimet, transmetimi dhe koeficientët - Betarades",
-              "blurb": "Informacione mbi transmetimin, koeficientët dhe parashikimet për ndeshjen e futbollit ndërmjet San Marinos U21 dhe Kosovës U21.",
-              "imageUrl": "https://betarades2-5c24.kxcdn.com/wp-content/themes/betarades/assets/previews-images/preview-861240.jpg",
-              "url": "https://www.betarades.gr/san-marino-u21-kosobo-u21/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Δες τι να παίξεις στο στοίχημα - Betarades",
               "albanianTitle": "Zbuloni këshillat për bastet sportive",
@@ -5144,7 +4222,7 @@
         {
           "name": "Gazzetta.gr",
           "sentiment": "unknown",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Χαμός στο Κόσοβο - Ιρλανδία: Ο Μουρικί πανηγύρισε υψώνοντας μπλουζάκι αλβανικής εθνικιστικής οργάνωσης - Gazzetta.gr",
@@ -5153,19 +4231,6 @@
               "imageUrl": "https://www.gazzetta.gr/sites/default/files/styles/og_image/public/2026-09/muriqi.jpg?itok=oUKMt6Gw",
               "url": "https://www.gazzetta.gr/football/uefa-nations-league/2572026/hamos-sto-kosobo-irlandia-me-ton-ethnikistiko-panigyrismo-toy",
               "date": "2026-09-25",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Κόσοβο - Ιρλανδία Live 24-09-2026 | UEFA Nations League - Gazzetta.gr",
-              "albanianTitle": "Kosovë - Irlandë Live 24-09-2026 | Liga e Kombeve",
-              "blurb": "Ndeshja e Ligës së Kombeve ndërmjet përfaqësueses së Kosovës dhe asaj të Irlandës u zhvillua më 24 shtator 2026.",
-              "imageUrl": "https://www.gazzetta.gr/sites/default/files/shared/gazzetta_share_image.jpg",
-              "url": "https://www.gazzetta.gr/football/uefa-nations-league/live-kosovo-irlandia-24-09-2026",
-              "date": "2026-09-24",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
@@ -5192,56 +4257,6 @@
           "lastSeen": "2026-09-25"
         },
         {
-          "name": "Novasports",
-          "sentiment": "unknown",
-          "articleCount": 3,
-          "articles": [
-            {
-              "title": "Κόσοβο-Ιρλανδία 1-0: Μουρίτσι… Ποιος άλλος; (highlights) - Novasports",
-              "albanianTitle": "Kosovë - Irlandë 1-0: Muriqi... Kush tjetër? (përmbledhja e ndeshjes)",
-              "blurb": "Vedat Muriqi shënoi golin e vetëm në fitoren e Kosovës me rezultat 1-0 kundër Irlandës në ndeshjen e fundit.",
-              "imageUrl": "https://www.novasports.gr/wp-content/uploads/2026/09/kosovo-ireland.jpg",
-              "url": "https://www.novasports.gr/sport/podosfairo/event/nations-league/article/15132478/kosovo-irlandia-1-0-mouritsi-poios-allos-highlights/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Κόσοβο-Ιρλανδία 1-0: Μουρίτσι… Ποιος άλλος; - Novasports",
-              "albanianTitle": "Kosovë - Irlandë 1-0: Muriqi... Kush tjetër?",
-              "blurb": "Përfaqësuesja e Kosovës në futboll arriti fitore minimale 1-0 ndaj Irlandës falë golit të shënuar nga Vedat Muriqi.",
-              "imageUrl": "https://www.novasports.gr/wp-content/uploads/2026/09/kosovo-ireland.jpg",
-              "url": "https://www.novasports.gr/roi-enimerosis/article/15132478/kosovo-irlandia-1-0-mouritsi-poios-allos/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Κόσοβο-Ιρλανδία 1-0: (highlights) - Novasports",
-              "albanianTitle": "Kosovë - Irlandë 1-0: (përmbledhja e ndeshjes)",
-              "blurb": "Përmbledhja e ndeshjes ndërmjet Kosovës dhe Irlandës e cila përfundoi me fitoren e vendasve me rezultat 1-0.",
-              "imageUrl": "https://www.novasports.gr/wp-content/uploads/2026/09/Poster-9r60ORYqbjcpCLn59zb9xQ-123-82668071-1.jpg",
-              "url": "https://www.novasports.gr/web-tv/sport/podosfairo/event/nations-league/video/15132461/kosovo-irlandia-1-0-highlights/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 3,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
-        },
-        {
           "name": "SDNA",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -5266,30 +4281,6 @@
           "lastSeen": "2026-09-25"
         },
         {
-          "name": "Sport24",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο - Ιρλανδία Live - 24-09-2026 - Sport24",
-              "albanianTitle": "Kosovë - Irlandë Live - 24-09-2026 - Sport24",
-              "blurb": "Transmetim i drejtpërdrejtë i ndeshjes së futbollit ndërmjet Kosovës dhe Irlandës që zhvillohet më 24 shtator 2026.",
-              "imageUrl": "https://www.sport24.gr/wp-content/uploads/2025/03/Matchcenter_OGimage1-full.jpg",
-              "url": "https://www.sport24.gr/matchcenter/kosovo-irlandia-live-24-09-2026/6a5dd4ea3c73d448d7b48e71/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 5,
-          "trend": "neutral",
-          "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-24"
-        },
-        {
           "name": "StoiximaView.gr",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -5312,91 +4303,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-23",
           "lastSeen": "2026-09-26"
-        },
-        {
-          "name": "novasports.gr",
-          "sentiment": "unknown",
-          "articleCount": 2,
-          "articles": [
-            {
-              "title": "Κόσοβο-Ιρλανδία 1-0: Μουρίτσι… Ποιος άλλος; (highlights) - novasports.gr",
-              "albanianTitle": null,
-              "blurb": "Kosova shënoi fitore minimale 1-0 ndaj Irlandës falë golit të shënuar nga sulmuesi Vedat Muriqi.",
-              "imageUrl": "https://www.novasports.gr/wp-content/uploads/2026/09/kosovo-ireland.jpg",
-              "url": "https://www.novasports.gr/sport/podosfairo/event/nations-league/article/15132478/kosovo-irlandia-1-0-mouritsi-poios-allos-highlights/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Κόσοβο-Ιρλανδία 1-0: (highlights) - novasports.gr",
-              "albanianTitle": null,
-              "blurb": "Përmbledhje e momenteve kryesore nga ndeshja e futbollit ndërmjet përfaqësueses së Kosovës dhe asaj të Irlandës.",
-              "imageUrl": "https://www.novasports.gr/wp-content/uploads/2026/09/Poster-9r60ORYqbjcpCLn59zb9xQ-123-82668071-1.jpg",
-              "url": "https://www.novasports.gr/web-tv/sport/podosfairo/event/nations-league/video/15132461/kosovo-irlandia-1-0-highlights/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "sport-fm.gr",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο-Ιρλανδία - sport-fm.gr",
-              "albanianTitle": "Kosovë - Irlandë - sport-fm.gr",
-              "blurb": "Përcjellje e ndeshjes së futbollit ndërmjet përfaqësueseve të Kosovës dhe Irlandës në platformën sportive për shikuesit.",
-              "imageUrl": "https://resources.sport-fm.gr/supersportFM/images/news/26/09/24/ireland_065427.jpg",
-              "url": "https://www.sport-fm.gr/events/34310271",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 15,
-          "trend": "i përzier",
-          "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "sport24.gr",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Κόσοβο - Ιρλανδία Live - 24-09-2026 - sport24.gr",
-              "albanianTitle": null,
-              "blurb": "Përfaqësuesja e Kosovës dhe ajo e Irlandës përballen në ndeshjen e Ligës së Kombeve të planifikuar për 24 shtator.",
-              "imageUrl": "https://www.sport24.gr/wp-content/uploads/2025/03/Matchcenter_OGimage1-full.jpg",
-              "url": "https://www.sport24.gr/matchcenter/kosovo-irlandia-live-24-09-2026/6a5dd4ea3c73d448d7b48e71/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
         },
         {
           "name": "ΤΑ ΝΕΑ",
@@ -5428,8 +4334,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 5,
-        "excluded": 20,
+        "n": 4,
+        "excluded": 8,
         "confident": false,
         "stanceVersion": 3
       }
@@ -5511,54 +4417,6 @@
           "lastSeen": "2026-09-26"
         },
         {
-          "name": "HurBra.se",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Nations League speltips 24 september 2026 – analys & odds - HurBra.se",
-              "albanianTitle": "Analiza dhe koeficientët për ndeshjet e Ligës së Kombeve, 24 shtator 2026 - HurBra.se",
-              "blurb": "Analiza dhe koeficientët për ndeshjet e Ligës së Kombeve që zhvillohen më 24 shtator të vitit 2026.",
-              "imageUrl": null,
-              "url": "https://hurbra.se/nations-league-speltips-24-september-2026/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "Kvartal",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Såren från Balkankrigen inte läkta än - Kvartal",
-              "albanianTitle": "Plagët nga luftërat në Ballkan ende nuk janë shëruar - Kvartal",
-              "blurb": "Analizë mbi pasojat e vazhdueshme dhe plagët e pashëruara të luftërave të zhvilluara në rajonin e Ballkanit.",
-              "imageUrl": "https://images.kvartal.se/2026/09/0c03bcaa-henrik-saren-fran-balkankrigen-inte-lakta-i-kosovo-hh-copy.webp",
-              "url": "https://kvartal.se/henrikhojer/artiklar/saren-fran-balkankrigen-inte-lakta-an/cG9zdDoyMDM0OTI",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
-        },
-        {
           "name": "Speltips.se",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -5613,37 +4471,13 @@
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 7,
+        "excluded": 5,
         "confident": false,
         "stanceVersion": 3
       }
     },
     "Poloni": {
       "outlets": [
-        {
-          "name": "Betside.pl",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosowo - Irlandia: typy, kursy i analiza (24.09.26) - Betside.pl",
-              "albanianTitle": "Kosovë – Irlandë: Parashikimet, koeficientët dhe analiza (24.09.26) – Betside.pl",
-              "blurb": "Koeficientët, analizat dhe parashikimet e basteve për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës që luhet më 24 shtator 2026.",
-              "imageUrl": "https://betside.pl/wp-content/uploads/2022/03/betsidetlo.png",
-              "url": "https://betside.pl/kosowo-irlandia-typy-kursy-i-analiza-24-09-26/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
-        },
         {
           "name": "Fangol.pl",
           "sentiment": "unknown",
@@ -5667,30 +4501,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-21",
           "lastSeen": "2026-09-25"
-        },
-        {
-          "name": "GramGrubo.pl",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosowo – Irlandia. Typy bukmacherskie i analiza 24.09 - GramGrubo.pl",
-              "albanianTitle": "Kosovë – Irlandë: Analiza dhe parashikimet e basteve për 24 shtator – GramGrubo.pl",
-              "blurb": "Analiza dhe parashikimet e basteve sportive për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës që zhvillohet më 24 shtator.",
-              "imageUrl": "https://gramgrubo.pl/wp-content/uploads/2026/09/1200x800-gram-grubo-typy-liga-narodow-1200x630.jpg",
-              "url": "https://gramgrubo.pl/kosowo-irlandia-typy-bukmacherskie-i-analiza-24-09/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
         },
         {
           "name": "Interia Wydarzenia",
@@ -5719,15 +4529,15 @@
         {
           "name": "Mecze24.pl",
           "sentiment": "unknown",
-          "articleCount": 6,
+          "articleCount": 2,
           "articles": [
             {
-              "title": "Kosowo - Irlandia typy, analiza bukmacherska oparta na statystykach (24.09.2026) - Mecze24.pl",
-              "albanianTitle": "Kosovë – Irlandë: Analiza e basteve bazuar në statistika (24.09.2026) – Mecze24.pl",
-              "blurb": "Statistikat dhe analizat e basteve për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës të planifikuar për datën 24 shtator 2026.",
+              "title": "Kosowo - Irlandia oceny piłkarzy po spotkaniu (24.09.2026) - Mecze24.pl",
+              "albanianTitle": "Kosovë - Irlandë, notat e lojtarëve pas ndeshjes (24.09.2026) - Mecze24.pl",
+              "blurb": "Vlerësimet individuale të lojtarëve pas përfundimit të ndeshjes së futbollit ndërmjet Kosovës dhe Irlandës të zhvilluar më 24 shtator.",
               "imageUrl": null,
-              "url": "https://www.mecze24.pl/aktualnosci/kosowo-irlandia-typy-kursy-prognozy-24-09-2026",
-              "date": "2026-09-24",
+              "url": "https://www.mecze24.pl/aktualnosci/kosowo-irlandia-oceny-po-meczu-24-09-2026",
+              "date": "2026-09-25",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
@@ -5735,64 +4545,12 @@
               "speaker": ""
             },
             {
-              "title": "Liechtenstein - Litwa typy, kursy, statystyki i analiza meczu (24.09.2026) - Mecze24.pl",
-              "albanianTitle": "Lihtenshtajn – Lituani: Parashikimet, koeficientët, statistikat dhe analiza e ndeshjes (24.09.2026) – Mecze24.pl",
-              "blurb": "Statistikat, koeficientët dhe analiza e ndeshjes së futbollit ndërmjet Lihtenshtajnit dhe Lituanisë që zhvillohet më 24 shtator 2026.",
+              "title": "Statystyki z meczu Kosowo - Irlandia. Dane o drużynach i piłkarzach (24.09.2026) - Mecze24.pl",
+              "albanianTitle": "Statistikat e ndeshjes Kosovë - Irlandë. Të dhënat për ekipet dhe lojtarët (24.09.2026) - Mecze24.pl",
+              "blurb": "Të dhënat statistikore të ekipeve dhe lojtarëve pas ndeshjes së futbollit ndërmjet Kosovës dhe Irlandës të zhvilluar më 24 shtator.",
               "imageUrl": null,
-              "url": "https://www.mecze24.pl/aktualnosci/liechtenstein-litwa-typy-kursy-statystyki-analiza-na-mecz-24-09-2026",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Serbia - Grecja typy i analiza spotkania wraz ze statystykami (24.09.2026) - Mecze24.pl",
-              "albanianTitle": "Serbi – Greqi: Analiza e ndeshjes dhe statistikat (24.09.2026) – Mecze24.pl",
-              "blurb": "Analiza e ndeshjes së futbollit ndërmjet Serbisë dhe Greqisë e shoqëruar me statistika të ndryshme për datën 24 shtator 2026.",
-              "imageUrl": null,
-              "url": "https://www.mecze24.pl/aktualnosci/serbia-grecja-typy-statystyki-kursy-analiza-24-09-2026",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Norwegia - Dania typy, analiza meczu i statystyki (24.09.2026) - Mecze24.pl",
-              "albanianTitle": "Norvegji – Danimarkë: Parashikimet, analiza dhe statistikat e ndeshjes (24.09.2026) – Mecze24.pl",
-              "blurb": "Analiza e ndeshjes së futbollit ndërmjet Norvegjisë dhe Danimarkës së bashku me statistikat përkatëse për datën 24 shtator 2026.",
-              "imageUrl": null,
-              "url": "https://www.mecze24.pl/aktualnosci/norwegia-dania-typy-kursy-statystyki-prognozy-24-09-2026",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Austria - Izrael typy i kursy na mecz oraz statystyki (24.09.2026) - Mecze24.pl",
-              "albanianTitle": "Austri – Izrael: Parashikimet, koeficientët dhe statistikat e ndeshjes (24.09.2026) – Mecze24.pl",
-              "blurb": "Koeficientët, statistikat dhe analiza e ndeshjes së futbollit ndërmjet Austrisë dhe Izraelit që zhvillohet më 24 shtator 2026.",
-              "imageUrl": null,
-              "url": "https://www.mecze24.pl/aktualnosci/austria-izrael-typy-kursy-na-mecz-24-09-2026",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Portugalia - Walia typy bukmacherskie i prognozy na mecz i statystyki (24.09.2026) - Mecze24.pl",
-              "albanianTitle": "Portugali – Uells: Parashikimet e basteve, prognozat dhe statistikat e ndeshjes (24.09.2026) – Mecze24.pl",
-              "blurb": "Parashikimet e basteve, statistikat dhe analiza e ndeshjes së futbollit ndërmjet Portugalisë dhe Uellsit për datën 24 shtator 2026.",
-              "imageUrl": null,
-              "url": "https://www.mecze24.pl/aktualnosci/portugalia-walia-typy-statystyki-kursy-zapowiedz-meczu-24-09-2026",
-              "date": "2026-09-24",
+              "url": "https://www.mecze24.pl/aktualnosci/statystyki-pomeczowe-kosowo-irlandia-24-09-2026",
+              "date": "2026-09-25",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
@@ -5806,73 +4564,10 @@
           "lastSeen": "2026-09-25"
         },
         {
-          "name": "Newsmax Polska",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Serbski prezydent Vučić chwali przywództwo Trumpa i krytykuje UE w przemówieniu na forum ONZ - Newsmax Polska",
-              "albanianTitle": "Presidenti serb Vuçiq lavdëron lidershipin e Trumpit dhe kritikon BE-në në fjalimin e tij në OKB - Newsmax Polska",
-              "blurb": "Presidenti serb, Aleksandar Vuçiq, vlerësoi lidershipin e Trumpit dhe kritikoi Bashkimin Evropian gjatë fjalimit në forumin e OKB-së.",
-              "imageUrl": "https://newsmaxpolska.pl/data/images/2026-09-24/115538_ap26266762437127_og.jpg",
-              "url": "https://newsmaxpolska.pl/swiat/aktualnosci/71901/serbski-prezydent-vucic-chwali-trumpa-i-krytykuje-ue-na-forum-onz/news",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
-        },
-        {
           "name": "PodkarpacieLIVE",
           "sentiment": "neutral",
-          "articleCount": 5,
+          "articleCount": 2,
           "articles": [
-            {
-              "title": "Kosowo - Irlandia na żywo. Wynik i relacja LIVE (24.09.2026) - PodkarpacieLIVE",
-              "albanianTitle": null,
-              "blurb": "Ndeshja futbollistike ndërmjet Kosovës dhe Irlandës zhvillohet më 24 shtator 2026, me raportim të drejtpërdrejtë të rezultatit final.",
-              "imageUrl": "https://www.podkarpacielive.pl/files/jpg/110337.jpg",
-              "url": "https://www.podkarpacielive.pl/pl/wydarzenia/57636,kosowo---irlandia-na-zywo-wynik-i-relacja-live-24092026",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosowo - Irlandia. Składy i wyjściowe jedenastki (24.09.2026) - PodkarpacieLIVE",
-              "albanianTitle": "Kosovë - Irlandë. Formacionet zyrtare (24.09.2026) - PodkarpacieLIVE",
-              "blurb": "Formacionet zyrtare dhe lojtarët startues të përzgjedhur për ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës më 24 shtator.",
-              "imageUrl": "https://www.podkarpacielive.pl/files/jpg/110619.jpg",
-              "url": "https://www.podkarpacielive.pl/pl/wydarzenia/57830,kosowo---irlandia-sklady-i-wyjsciowe-jedenastki-24092026",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosowo - Irlandia transmisja na żywo. Gdzie oglądać i o której mecz? (24.09.2026) - PodkarpacieLIVE",
-              "albanianTitle": "Kosovë - Irlandë, transmetimi direkt. Ku mund ta shikoni dhe në çfarë ore fillon ndeshja? (24.09.2026) - PodkarpacieLIVE",
-              "blurb": "Detajet mbi transmetimin televiziv dhe orarin e ndeshjes së futbollit ndërmjet Kosovës dhe Irlandës të zhvilluar më 24 shtator.",
-              "imageUrl": "https://www.podkarpacielive.pl/files/jpg/110454.jpg",
-              "url": "https://www.podkarpacielive.pl/pl/wydarzenia/57743,kosowo---irlandia-transmisja-na-zywo-gdzie-ogladac-i-o-ktorej-mecz-24092026",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
             {
               "title": "Kosowo - Irlandia 1-0 - wynik, strzelcy, składy, informacje o meczu - PodkarpacieLIVE",
               "albanianTitle": "Kosova – Irlanda 1-0: Rezultati, golashënuesit, formacionet dhe detajet e ndeshjes - PodkarpacieLIVE",
@@ -5904,30 +4599,6 @@
           "trend": "neutral",
           "firstSeen": "2026-09-22",
           "lastSeen": "2026-09-26"
-        },
-        {
-          "name": "Program TV Onet",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Piłka nożna: Liga Narodów - mecz: Austria - Kosowo - Program TV Onet",
-              "albanianTitle": null,
-              "blurb": "Kombëtarja e Kosovës në futboll përballet me Austrinë në kuadër të ndeshjeve të Ligës së Kombeve.",
-              "imageUrl": "https://cdn.programtv.onet.pl/1/Lp3k9kzaHR0cHM6Ly9vY2RuLmV1L3B0di1pbXBvcnRlZC1pbWFnZXMvYWtwYTY3ODc5MTYuanBnkZMFzQlgzQTs3gACoTAHoTEE",
-              "url": "https://programtv.onet.pl/tv/pilka-nozna-liga-narodow-mecz-austria-kosowo/rzk5h",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-21",
-          "lastSeen": "2026-09-24"
         },
         {
           "name": "TakSieGra.pl",
@@ -5967,54 +4638,6 @@
           "lastSeen": "2026-09-25"
         },
         {
-          "name": "Teleman",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Piłka nożna: Liga Narodów - mecz: Austria - Kosowo - Teleman",
-              "albanianTitle": "Futboll: Liga e Kombeve - ndeshja: Austri - Kosovë - Teleman",
-              "blurb": "Njoftim për transmetimin e ndeshjes së futbollit në Ligën e Kombeve ndërmjet Austrisë dhe përfaqësueses së Kosovës.",
-              "imageUrl": "//media.teleman.pl/photos/470x265/Pilka-Nozna-Liga-Francuska_dlJvrbJ.jpg",
-              "url": "https://www.teleman.pl/tv/Pilka-Nozna-Liga-Narodow-2681801",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-21",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "sport.tvp.pl",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosowo – Irlandia [NA ŻYWO]. Śledź wynik meczu Ligi Narodów! - sport.tvp.pl",
-              "albanianTitle": "Kosova – Irlanda [DREJTPËRDREJT]. Ndiqni rezultatin e ndeshjes së Ligës së Kombeve! - sport.tvp.pl",
-              "blurb": "Ndjekja e drejtpërdrejtë e rezultatit të ndeshjes së futbollit ndërmjet Kosovës dhe Irlandës në Ligën e Kombeve.",
-              "imageUrl": "https://s15.tvp.pl/images2/5/9/f/uid_59ff6d4ec4fa4ec19a01c77f5aa3bc51_width_1280_play_0_pos_0_gs_0_height_720_kosowo-irlandia-na-zywo-relacja-online-dzisiaj-z-meczu-ligi-narodow-uefa-24092026-fot-getty.jpg",
-              "url": "https://sport.tvp.pl/95558754/kosowo-irlandia-na-zywo-relacja-online-dzisiaj-z-meczu-ligi-narodow-uefa-24092026",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-24",
-          "lastSeen": "2026-09-24"
-        },
-        {
           "name": "taksiegra.pl",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -6037,54 +4660,6 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-26",
           "lastSeen": "2026-09-26"
-        },
-        {
-          "name": "teleman.pl",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Piłka nożna: Liga Narodów - mecz: Austria - Kosowo - teleman.pl",
-              "albanianTitle": null,
-              "blurb": "Programi televiziv transmeton ndeshjen e futbollit ndërmjet përfaqësueses së Austrisë dhe asaj të Kosovës në Ligën e Kombeve.",
-              "imageUrl": "//media.teleman.pl/photos/470x265/Pilka-Nozna-2-Liga-Hiszpanska_lNPupUg.jpg",
-              "url": "https://www.teleman.pl/tv/Pilka-Nozna-Liga-Narodow-2681801",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "www.polsatsport.pl",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosowo - Irlandia. Skrót meczu - www.polsatsport.pl",
-              "albanianTitle": "Kosovë - Irlandë. Përmbledhja e ndeshjes - www.polsatsport.pl",
-              "blurb": "Përmbledhja e ngjarjeve kryesore dhe rasteve të ndodhura gjatë ndeshjes së futbollit ndërmjet përfaqësueses së Kosovës dhe Irlandës.",
-              "imageUrl": "https://ipla.pluscdn.pl/dituel/cp/z5/z52m5nhb19xr1s36r6oezpe9ozr1vzi2.jpeg",
-              "url": "https://www.polsatsport.pl/film/kosowo-irlandia-skrot-meczu_7385620/",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
         },
         {
           "name": "wydarzenia.interia.pl",
@@ -6117,7 +4692,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 30,
+        "excluded": 7,
         "confident": false,
         "stanceVersion": 3
       }
@@ -6147,54 +4722,6 @@
           "trend": "neutral",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-25"
-        },
-        {
-          "name": "Cumhuriyet",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova'ya üç puanı Vedat Muriqi getirdi! - Cumhuriyet",
-              "albanianTitle": "Vedat Muriqi ia siguron fitoren Kosovës",
-              "blurb": "Vedat Muriqi ka shënuar golin vendimtar që i ka siguruar fitoren dhe tri pikët përfaqësueses së Kosovës.",
-              "imageUrl": "https://media.cumhuriyet.com.tr/Archive/faf7f1d4-c574-4299-b746-28579bd29f15.jpg",
-              "url": "https://www.cumhuriyet.com.tr/spor/kosova-ya-uc-puani-vedat-muriqi-getirdi-2540813",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 5,
-          "trend": "i përzier",
-          "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "Diyanet Haber",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova İslam Birliği'nden Haseki Dini Yüksek İhtisas Merkezi'ne ziyaret - Diyanet Haber",
-              "albanianTitle": "Bashkësia Islame e Kosovës viziton Qendrën e Specializuar të Studimeve Islame Haseki - Diyanet Haber",
-              "blurb": "Përfaqësuesit e Bashkësisë Islame të Kosovës kanë zhvilluar një vizitë zyrtare në Qendrën e Specializuar Fetare Haseki në Turqi.",
-              "imageUrl": "https://diyanethabercomtr.teimg.com/crop/1280x720/diyanethaber-com-tr/uploads/2026/09/haseki-ziyaret-3.jpg",
-              "url": "https://www.diyanethaber.com.tr/kosova-islam-birliginden-haseki-dini-yuksek-ihtisas-merkezine-ziyaret",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-23",
-          "lastSeen": "2026-09-24"
         },
         {
           "name": "Fotomaç",
@@ -6234,33 +4761,9 @@
           "lastSeen": "2026-09-25"
         },
         {
-          "name": "GZT",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Vedat Muriç attı: Kosova - İrlanda maçı kaç kaç bitti? Kosova - İrlanda maç sonucu | Futbol Haberleri - GZT",
-              "albanianTitle": "Vedat Muriqi shënon: Sa përfundoi ndeshja Kosovë - Irlandë? Rezultati i ndeshjes Kosovë - Irlandë | Lajme Sporti",
-              "blurb": "Vedat Muriqi shënoi gol në ndeshjen e futbollit ndërmjet Kosovës dhe Irlandës, duke përcaktuar rezultatin përfundimtar të takimit.",
-              "imageUrl": null,
-              "url": "https://www.gzt.com/spor/vedat-muric-atti-kosova-irlanda-maci-kac-kac-bitti-kosova-irlanda-mac-sonucu-4264058",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 4,
-          "trend": "neutral",
-          "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-24"
-        },
-        {
           "name": "Haber 7",
           "sentiment": "unknown",
-          "articleCount": 2,
+          "articleCount": 1,
           "articles": [
             {
               "title": "Kosova'yı galibiyete taşıyan Vedat Muriqi gol sevinciyle gündem oldu! UEFA ceza verebilir - Haber 7",
@@ -6269,19 +4772,6 @@
               "imageUrl": null,
               "url": "https://spor.haber7.com/milli-takim/haber/3662524-kosovayi-galibiyete-tasiyan-vedat-muriqi-gol-sevinciyle-gundem-oldu-uefa-ceza-verebilir",
               "date": "2026-09-25",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Vedat Muriqi yine attı! Kosova 83'te kazandı - Haber 7",
-              "albanianTitle": "Vedat Muriqi shënon sërish! Kosova fiton në minutën e 83-të",
-              "blurb": "Përfaqësuesja e Kosovës në futboll ka shënuar fitore në minutën e tetëdhjetë e tretë falë golit të shënuar nga Vedat Muriqi.",
-              "imageUrl": null,
-              "url": "https://spor.haber7.com/milli-takim/haber/3662435-vedat-muriqi-yine-atti-kosova-83te-kazandi",
-              "date": "2026-09-24",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
@@ -6297,7 +4787,7 @@
         {
           "name": "Haberler",
           "sentiment": "unknown",
-          "articleCount": 3,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Vedat Muriqi'nin gol sevinci tartışma yarattı! UEFA'nın kararı bekleniyor - Haberler",
@@ -6306,19 +4796,6 @@
               "imageUrl": "https://foto.haberler.com/haber/2026/09/25/vedat-muriqinin-gol-sevinci-tartisma-yaratti_67d7317e8f_amp.jpg",
               "url": "https://www.haberler.com/spor/vedat-muriqinin-gol-sevinci-tartisma-yaratti-20269494-haberi/",
               "date": "2026-09-25",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            },
-            {
-              "title": "Kosova İrlanda CANLI nereden izlenir, hangi kanal veriyor? - Haberler",
-              "albanianTitle": "Ku mund ta shikoni ndeshjen Kosovë - Irlandë drejtpërdrejt dhe në cilin kanal?",
-              "blurb": "Ndeshja ndërmjet Kosovës dhe Irlandës po transmetohet drejtpërdrejt, ku shikuesit mund të ndjekin kanalin përkatës për këtë përballje.",
-              "imageUrl": "https://foto.haberler.com/haber/2026/09/24/kosova-irlanda-canli-nereden-izlenir-hangi-kanal_e33f118ce2_amp.jpg",
-              "url": "https://www.haberler.com/haber/kosova-irlanda-canli-nereden-izlenir-hangi-kanal-20268697-haberi/",
-              "date": "2026-09-24",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
@@ -6454,78 +4931,6 @@
           "lastSeen": "2026-09-25"
         },
         {
-          "name": "Sözcü Gazetesi",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Vedat Muriqi durdurulamıyor! 83’te sahneye çıktı Kosova’ya galibiyeti getirdi - Sözcü Gazetesi",
-              "albanianTitle": "Vedat Muriqi i pandalshëm! Shënon në minutën e 83-të dhe i siguron fitoren Kosovës - Sözcü Gazetesi",
-              "blurb": "Vedat Muriqi shënoi golin e fitores për Kosovën në minutën e 83-të në ndeshjen kundër përfaqësueses së Irlandës.",
-              "imageUrl": "https://sozcu01.sozcucdn.com/sozcu/production/uploads/images/2026/9/ekran-resmi-20260925-010039png-1tm8geLfa0Cak7oBTQqHIg.png?w=1270&h=675&mode=crop&scale=both",
-              "url": "https://www.sozcu.com.tr/vedat-muriqi-durdurulamiyor-83-te-sahneye-cikti-kosova-ya-galibiyeti-getirdi-p363308",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 1,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-25",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "cumhuriyet.com.tr",
-          "sentiment": "unknown",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova'ya üç puanı Vedat Muriqi getirdi! - cumhuriyet.com.tr",
-              "albanianTitle": "Vedat Muriqi i siguron tri pikë Kosovës! - cumhuriyet.com.tr",
-              "blurb": "Vedat Muriqi ka shënuar golin vendimtar që i ka sjellë tri pikë përfaqësueses së Kosovës në ndeshjen e fundit.",
-              "imageUrl": "https://media.cumhuriyet.com.tr/Archive/faf7f1d4-c574-4299-b746-28579bd29f15.jpg",
-              "url": "https://www.cumhuriyet.com.tr/spor/kosova-ya-uc-puani-vedat-muriqi-getirdi-2540813",
-              "date": "2026-09-24",
-              "sentiment": "unknown",
-              "reason": "",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
-          "firstSeen": "2026-09-20",
-          "lastSeen": "2026-09-24"
-        },
-        {
-          "name": "haberler.com",
-          "sentiment": "neutral",
-          "articleCount": 1,
-          "articles": [
-            {
-              "title": "Kosova İrlanda CANLI nereden izlenir, hangi kanal veriyor? - haberler.com",
-              "albanianTitle": "Ku mund ta shikoni ndeshjen Kosovë-Irlandë dhe në cilin kanal transmetohet?",
-              "blurb": "Informacione mbi transmetimin televiziv dhe platformat ku mund të ndiqet ndeshja e futbollit ndërmjet Kosovës dhe Irlandës.",
-              "imageUrl": "https://foto.haberler.com/haber/2026/09/24/kosova-irlanda-canli-nereden-izlenir-hangi-kanal_e33f118ce2_amp.jpg",
-              "url": "https://www.haberler.com/haber/kosova-irlanda-canli-nereden-izlenir-hangi-kanal-20268697-haberi/",
-              "date": "2026-09-24",
-              "sentiment": "neutral",
-              "reason": "Informacion i thjeshtë pa ngarkim",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": ""
-            }
-          ],
-          "totalArticles": 4,
-          "trend": "neutral",
-          "firstSeen": "2026-09-12",
-          "lastSeen": "2026-09-24"
-        },
-        {
           "name": "milliyet.com.tr",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -6551,12 +4956,12 @@
         }
       ],
       "summary": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 1,
-        "excluded": 19,
+        "n": 0,
+        "excluded": 12,
         "confident": false,
         "stanceVersion": 3
       }
