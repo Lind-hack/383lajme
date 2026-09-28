@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { manropeFonts } from "@/lib/og-fonts";
 
 /* The shareable trade card: 1080×1350, the portrait size Instagram, TikTok and
    WhatsApp status all show uncropped. Dark on purpose — this image lives in
@@ -22,36 +23,6 @@ function readableOn(hex: string): string {
     b = Math.round(b + (255 - b) * 0.22);
   }
   return `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)}`;
-}
-
-/* Manrope, fetched once per server instance. Google serves TTF to a client
-   that does not advertise woff2, which is what satori needs. If the fetch
-   fails the card still renders in the default face rather than erroring. */
-const fontCache = new Map<number, Promise<ArrayBuffer | null>>();
-function manrope(weight: number) {
-  if (!fontCache.has(weight)) {
-    fontCache.set(
-      weight,
-      (async () => {
-        try {
-          const css = await fetch(`https://fonts.googleapis.com/css2?family=Manrope:wght@${weight}`, {
-            headers: { "User-Agent": "Mozilla/4.0" },
-            signal: AbortSignal.timeout(4000),
-          }).then((r) => r.text());
-          const url = css.match(/src:\s*url\(([^)]+)\)\s*format\('(?:truetype|opentype)'\)/)?.[1];
-          if (!url) return null;
-          return await fetch(url, { signal: AbortSignal.timeout(4000) }).then((r) => (r.ok ? r.arrayBuffer() : null));
-        } catch {
-          return null;
-        }
-      })().then((font) => {
-        // A failed fetch is not cached: the next card gets another try.
-        if (!font) fontCache.delete(weight);
-        return font;
-      })
-    );
-  }
-  return fontCache.get(weight)!;
 }
 
 /** Downsampled probabilities, 0..1, oldest first. */
@@ -107,12 +78,7 @@ export async function GET(request: Request) {
   const multiple = probability > 0.005 ? (1 / probability).toFixed(2) : null;
   const change = points.length ? Math.round((probability - points[0]) * 100) : 0;
 
-  const [regular, bold, heavy] = await Promise.all([manrope(500), manrope(700), manrope(800)]);
-  const fonts = [
-    regular && { name: "Manrope", data: regular, weight: 500 as const, style: "normal" as const },
-    bold && { name: "Manrope", data: bold, weight: 700 as const, style: "normal" as const },
-    heavy && { name: "Manrope", data: heavy, weight: 800 as const, style: "normal" as const },
-  ].filter(Boolean) as { name: string; data: ArrayBuffer; weight: 500 | 700 | 800; style: "normal" }[];
+  const fonts = await manropeFonts();
 
   const ink = "#17130E";
   const text = "#F1ECE3";

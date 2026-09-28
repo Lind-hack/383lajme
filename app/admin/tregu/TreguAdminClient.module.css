@@ -253,3 +253,24 @@
   .buttonDanger,
   .marketCard { transition: none; }
 }
+
+/* Public league profile form (PublicLeagues.tsx). */
+.leagueFields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 12px 0; }
+.leagueFields label { display: grid; gap: 6px; font-size: 12px; font-weight: 700; color: #111; }
+.leagueFields input:not([type="color"]):not([type="file"]), .leagueFields select, .leagueFields textarea {
+  min-height: 40px; padding: 8px 10px; border: 1px solid #E8E3DB; border-radius: 10px; background: #fff; font: inherit; font-size: 14px; font-weight: 500;
+}
+.leagueFields textarea { resize: vertical; }
+.leagueWide { grid-column: 1 / -1; }
+.leagueInline { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.leagueInline input[type="color"] { width: 46px; height: 38px; padding: 0; border: 1px solid #E8E3DB; border-radius: 10px; background: #fff; }
+.leagueInline input[type="file"] { min-width: 0; font-size: 12px; }
+.leagueInline code { font-size: 12px; color: #6B6B6B; }
+.leaguePreview {
+  grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: 16px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--lg-color) 26%, #17130E), #17130E); background-size: cover; background-position: center;
+  color: #fff;
+}
+.leaguePreview strong { display: block; font-size: 17px; }
+.leaguePreview span { display: block; font-size: 12.5px; color: rgba(255, 255, 255, 0.72); }
+@media (max-width: 720px) { .leagueFields { grid-template-columns: 1fr; } }

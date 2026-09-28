@@ -350,3 +350,59 @@ export async function playSellSound() {
   bell(context, master, 1318.51, start + 0.05, 0.45, 0.9);
   bell(context, master, 1760, start + 0.15, 0.75, 1);
 }
+
+/**
+ * Paying into a league: a cascade of coin pings, each a short bright partial
+ * pair at a slightly different pitch, then a soft low thud as they land in the
+ * briefcase. Original and synthesized, like the sell chime. Prime with
+ * primeSellSound() inside the tap that pays.
+ */
+export async function playCoinDropSound(coins = 6) {
+  const context = getAudioContext();
+  if (!context || document.hidden) return;
+  if (context.state === "suspended") {
+    try {
+      await context.resume();
+    } catch {
+      return;
+    }
+  }
+  const start = context.currentTime + 0.02;
+  const master = context.createGain();
+  master.gain.setValueAtTime(0.26, start);
+  master.connect(context.destination);
+
+  const count = Math.max(3, Math.min(9, coins));
+  for (let i = 0; i < count; i += 1) {
+    const at = start + i * 0.075 + Math.random() * 0.02;
+    const pitch = 2350 + Math.random() * 900;
+    [[1, 0.8], [2.4, 0.25], [3.9, 0.08]].forEach(([ratio, level]) => {
+      const oscillator = context.createOscillator();
+      const voice = context.createGain();
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(pitch * ratio, at);
+      voice.gain.setValueAtTime(0.0001, at);
+      voice.gain.exponentialRampToValueAtTime(level, at + 0.004);
+      voice.gain.exponentialRampToValueAtTime(0.0001, at + 0.16 / ratio + 0.05);
+      oscillator.connect(voice);
+      voice.connect(master);
+      oscillator.start(at);
+      oscillator.stop(at + 0.3);
+    });
+  }
+
+  // The briefcase: a short, low, damped knock after the last coin.
+  const landAt = start + count * 0.075 + 0.06;
+  const thud = context.createOscillator();
+  const thudGain = context.createGain();
+  thud.type = "sine";
+  thud.frequency.setValueAtTime(170, landAt);
+  thud.frequency.exponentialRampToValueAtTime(70, landAt + 0.18);
+  thudGain.gain.setValueAtTime(0.0001, landAt);
+  thudGain.gain.exponentialRampToValueAtTime(0.9, landAt + 0.008);
+  thudGain.gain.exponentialRampToValueAtTime(0.0001, landAt + 0.24);
+  thud.connect(thudGain);
+  thudGain.connect(master);
+  thud.start(landAt);
+  thud.stop(landAt + 0.3);
+}

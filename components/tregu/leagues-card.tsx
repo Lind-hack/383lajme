@@ -3,16 +3,25 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { ArrowRight, Check, Copy, Settings2, Share2, Zap } from "lucide-react";
+import LeagueCrew from "@/components/tregu/league-crew";
+import LeagueEmblem from "@/components/tregu/league-emblem";
+import LeaguePay, { type LeaguePayment } from "@/components/tregu/league-pay";
+import { primeSellSound } from "@/components/tregu/trade-success-sound";
 import { untilLabel } from "@/components/tregu/trader-leaderboard";
 import { fmtNum } from "@/lib/format";
 import { createClient } from "@/lib/supabase/client";
 import {
+  DURATION_LABEL,
   LEAGUE_CODE_PATTERN,
   LEAGUE_DURATIONS,
+  LEAGUE_FEE_MIN,
   LEAGUE_FEES,
+  leagueColor,
   leagueError,
   leaguePhase,
+  leaguePurse,
   leagueShareUrl,
+  scopeOf,
   type LeagueSummary,
 } from "@/lib/tregu-leagues";
 
@@ -23,7 +32,6 @@ type Stage =
   | { kind: "created"; league: Created }
   | { kind: "joined"; id: string; name: string };
 
-const DURATION_LABEL: Record<number, string> = { 1: "1 ditë", 3: "3 ditë", 7: "1 javë", 14: "2 javë", 30: "1 muaj" };
 
 /** Gold trophy, drawn for this card: a cup that catches the floodlight. */
 function GoldTrophy() {
@@ -105,12 +113,15 @@ function Confetti({ burst }: { burst: number }) {
 
 /**
  * The Ligat card on the Tregu floor — the one night-stadium moment on the
- * cream floor. Everything happens here: one tap makes a free week-long league
- * and turns the card into its invite; a friend's code joins in place; the
- * featured public league joins in one tap. The league pages stay for reading
- * standings, not for getting in.
+ * cream floor. Everything happens here: one tap makes a week-long league (10
+ * coins in) and turns the card into its invite; a friend's code joins in
+ * place; the open public leagues join in one tap. Every entry pays with the
+ * briefcase moment. Your private leagues' tables sit right under the card.
  */
-export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
+export default function LeaguesCard({ loggedIn, variant = "floor" }: { loggedIn: boolean; variant?: "floor" | "page" }) {
+  // On /tregu/ligat the public leagues and your leagues have sections of their
+  // own below the card, so the card keeps to creating and joining.
+  const compact = variant === "page";
   const supabase = useMemo(() => createClient(), []);
   const [pulse, setPulse] = useState<Pulse | null>(null);
   const [leagues, setLeagues] = useState<LeagueSummary[]>([]);
@@ -122,7 +133,10 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
   const [code, setCode] = useState("");
   const [preview, setPreview] = useState<LeagueSummary | null>(null);
   const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState({ name: "", days: 7, fee: 0 });
+  const [draft, setDraft] = useState<{ name: string; days: number; fee: number }>({ name: "", days: 7, fee: LEAGUE_FEE_MIN });
+  const [payment, setPayment] = useState<LeaguePayment | null>(null);
+  // What to show once the briefcase closes.
+  const afterPay = useRef<Stage | null>(null);
   const [copied, setCopied] = useState(false);
   const [burst, setBurst] = useState(0);
   const [now, setNow] = useState(() => Date.now());
@@ -169,10 +183,15 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
 
   const createNow = async () => {
     if (!loggedIn) return signIn();
+    if (balance !== null && balance < LEAGUE_FEE_MIN) {
+      setError(`Duhen të paktën ${LEAGUE_FEE_MIN} 383C për të krijuar një ligë.`);
+      return;
+    }
+    primeSellSound();
     setBusy("create");
     setError(null);
     const name = `${firstName ?? "Liga"} & miqtë`.slice(0, 40);
-    const { data, error: rpcError } = await supabase.rpc("tregu_league_create", { p_name: name, p_days: 7, p_entry_fee: 0 });
+    const { data, error: rpcError } = await supabase.rpc("tregu_league_create", { p_name: name, p_days: 7, p_entry_fee: LEAGUE_FEE_MIN });
     setBusy(null);
     if (rpcError) {
       setError(leagueError(rpcError));
@@ -181,11 +200,20 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
     const row = (data as { id: string; code: string; balance: number }[] | null)?.[0];
     if (!row) return;
     announce(row.balance);
-    const league = { id: row.id, code: row.code, name, days: 7, fee: 0 };
-    setDraft({ name, days: 7, fee: 0 });
-    setStage({ kind: "created", league });
-    celebrate();
+    const league = { id: row.id, code: row.code, name, days: 7, fee: LEAGUE_FEE_MIN };
+    setDraft({ name, days: 7, fee: LEAGUE_FEE_MIN });
+    afterPay.current = { kind: "created", league };
+    setPayment({ amount: LEAGUE_FEE_MIN, pot: LEAGUE_FEE_MIN, league: name, kind: "create" });
     void load();
+  };
+
+  const finishPay = () => {
+    setPayment(null);
+    if (afterPay.current) {
+      setStage(afterPay.current);
+      afterPay.current = null;
+      celebrate();
+    }
   };
 
   const saveEdits = async () => {
@@ -225,8 +253,9 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
     else setPreview({ ...found, code: clean });
   };
 
-  const join = async (league: { id: string; name: string }, joinCode?: string) => {
+  const join = async (league: { id: string; name: string; entry_fee?: number; pot?: number }, joinCode?: string) => {
     if (!loggedIn) return signIn();
+    primeSellSound();
     setBusy(league.id);
     setError(null);
     const { data, error: rpcError } = await supabase.rpc(
@@ -241,8 +270,15 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
     announce((data as { balance: number }[] | null)?.[0]?.balance);
     setPreview(null);
     setCode("");
-    setStage({ kind: "joined", id: league.id, name: league.name });
-    celebrate();
+    const fee = Number(league.entry_fee) || 0;
+    const joined: Stage = { kind: "joined", id: league.id, name: league.name };
+    if (fee > 0) {
+      afterPay.current = joined;
+      setPayment({ amount: fee, pot: (Number(league.pot) || 0) + fee, league: league.name, kind: "join" });
+    } else {
+      setStage(joined);
+      celebrate();
+    }
     void load();
   };
 
@@ -266,19 +302,25 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
     }
   };
 
-  const featured = leagues
+  // Open public leagues, the ones you are not in first, biggest purse first.
+  const publics = leagues
     .filter((league) => league.kind === "public" && leaguePhase(league, now) !== "ended")
-    .sort((a, b) => Number(b.prizes?.[0] ?? 0) - Number(a.prizes?.[0] ?? 0))[0];
-  const mine = leagues.filter((league) => league.is_member && leaguePhase(league, now) !== "ended").slice(0, 3);
+    .sort((a, b) => Number(a.is_member) - Number(b.is_member) || leaguePurse(b) - leaguePurse(a))
+    .slice(0, 3);
+  const mine = leagues.filter((league) => league.is_member && leaguePhase(league, now) !== "ended").slice(0, 4);
+  const crew = leagues.filter((league) => league.is_member && league.kind === "private" && leaguePhase(league, now) !== "ended");
   const players = pulse?.players ?? 0;
   const faces = pulse?.faces ?? [];
 
   return (
+    <>
     <section className="lgc" aria-labelledby="lgc-title" data-stage={stage.kind}>
+      <LeaguePay payment={payment} onDone={finishPay} />
       <span className="lgc-lights" aria-hidden />
       <span className="lgc-pitch" aria-hidden />
       <Confetti burst={burst} />
 
+      {!compact && (
       <header className="lgc-head">
         <GoldTrophy />
         <div className="lgc-titles">
@@ -296,13 +338,14 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
           </div>
         )}
       </header>
+      )}
 
       {stage.kind === "idle" && (
         <div className="lgc-body">
           <button type="button" className="lgc-create" onClick={() => void createNow()} disabled={busy === "create"}>
             <Zap size={18} strokeWidth={2.4} aria-hidden />
             <span>{busy === "create" ? "Duke krijuar…" : "Krijo ligë me një prekje"}</span>
-            <small>Falas · 1 javë · deri në 50 miq</small>
+            <small>{LEAGUE_FEE_MIN} 383C hyrja · 1 javë · poti për tre të parët</small>
           </button>
 
           <form className="lgc-code" onSubmit={(event) => { event.preventDefault(); void lookUp(); }}>
@@ -328,7 +371,7 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
               <div>
                 <strong>{preview.name}</strong>
                 <span>
-                  {preview.members} anëtarë · {preview.entry_fee > 0 ? `tarifa ${fmtNum(preview.entry_fee)} 383C` : "falas"}
+                  {preview.members} anëtarë · {preview.entry_fee > 0 ? `hyrja ${fmtNum(preview.entry_fee)} 383C` : "falas"} · poti {fmtNum(preview.pot)} 383C
                 </span>
               </div>
               {preview.is_member ? (
@@ -340,7 +383,7 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
                   onClick={() => void join(preview, preview.code ?? undefined)}
                   disabled={busy === preview.id || leaguePhase(preview, now) === "ended" || (balance !== null && preview.entry_fee > balance)}
                 >
-                  {busy === preview.id ? "…" : leaguePhase(preview, now) === "ended" ? "Ka përfunduar" : "Bashkohu"}
+                  {busy === preview.id ? "…" : leaguePhase(preview, now) === "ended" ? "Ka përfunduar" : preview.entry_fee > 0 ? `Bashkohu · ${fmtNum(preview.entry_fee)}` : "Bashkohu"}
                 </button>
               )}
             </div>
@@ -366,7 +409,7 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
           </div>
           {!editing ? (
             <div className="lgc-terms">
-              <span>{DURATION_LABEL[stage.league.days]} · {stage.league.fee > 0 ? `tarifa ${fmtNum(stage.league.fee)} 383C` : "falas"}</span>
+              <span>{DURATION_LABEL[stage.league.days]} · hyrja {fmtNum(stage.league.fee)} 383C</span>
               <button type="button" onClick={() => setEditing(true)}><Settings2 size={14} aria-hidden /> Ndrysho</button>
               <Link href={`/tregu/ligat/${stage.league.id}`}>Renditja <ArrowRight size={13} aria-hidden /></Link>
             </div>
@@ -387,11 +430,11 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
                     disabled={balance !== null && value - stage.league.fee > balance}
                     onClick={() => setDraft({ ...draft, fee: value })}
                   >
-                    {value === 0 ? "Falas" : fmtNum(value)}
+                    {fmtNum(value)}
                   </button>
                 ))}
               </div>
-              <p className="lgc-note">{draft.fee > 0 ? "Tarifat mblidhen në pot: 50/30/20 për tre të parët." : "Pa tarifë: luhet për vendin e parë."} Ndryshohet derisa të hyjë miku i parë.</p>
+              <p className="lgc-note">Çdo mik paguan {fmtNum(draft.fee)} 383C për të hyrë. Poti ndahet 50/30/20 për tre të parët. Ndryshohet derisa të hyjë miku i parë.</p>
               <div className="lgc-row">
                 <button type="submit" className="lgc-gold" disabled={busy === "save" || draft.name.trim().length < 3}>{busy === "save" ? "Duke ruajtur…" : "Ruaj"}</button>
                 <button type="button" className="lgc-ghost" onClick={() => setEditing(false)}>Anulo</button>
@@ -415,27 +458,46 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
 
       {error && <p className="lgc-error" role="alert">{error}</p>}
 
-      {featured && stage.kind === "idle" && (
-        <div className="lgc-featured">
-          <div className="lgc-featured-copy">
-            <small>{leaguePhase(featured, now) === "upcoming" ? `Fillon për ${untilLabel(Date.parse(featured.starts_at), now)}` : `Mbyllet për ${untilLabel(Date.parse(featured.ends_at), now)}`} · {fmtNum(featured.members)} brenda</small>
-            <Link href={`/tregu/ligat/${featured.id}`}>{featured.name}</Link>
+      {!compact && publics.length > 0 && stage.kind === "idle" && (
+        <div className="lgc-publics">
+          <div className="lgc-publics-head">
+            <strong>Ligat publike · 383 paguan</strong>
+            <Link href="/tregu/ligat">Të gjitha</Link>
           </div>
-          <div className="lgc-purse">
-            <small>1-rë fiton</small>
-            <strong><CountUp value={Number(featured.prizes?.[0] ?? 0)} /> <em>383C</em></strong>
-          </div>
-          {featured.is_member ? (
-            <Link href={`/tregu/ligat/${featured.id}`} className="lgc-ghost">{featured.my_rank ? `#${featured.my_rank}` : "Je brenda"} <ArrowRight size={14} aria-hidden /></Link>
-          ) : (
-            <button type="button" className="lgc-gold" onClick={() => void join(featured)} disabled={busy === featured.id}>
-              {busy === featured.id ? "…" : "Bashkohu"}
-            </button>
-          )}
+          {publics.map((league) => (
+            <div key={league.id} className="lgc-pub" style={{ "--lg-color": leagueColor(league) } as CSSProperties}>
+              <LeagueEmblem league={league} size={40} />
+              <div className="lgc-pub-copy">
+                <Link href={`/tregu/ligat/${league.id}`}>{league.name}</Link>
+                <small>
+                  {scopeOf(league).label} · {fmtNum(league.members)} brenda ·{" "}
+                  {leaguePhase(league, now) === "upcoming"
+                    ? `fillon për ${untilLabel(Date.parse(league.starts_at), now)}`
+                    : `${untilLabel(Date.parse(league.ends_at), now)} mbetur`}
+                </small>
+              </div>
+              <div className="lgc-pub-purse">
+                <strong><CountUp value={leaguePurse(league)} /></strong>
+                <small>383C në lojë</small>
+              </div>
+              {league.is_member ? (
+                <Link href={`/tregu/ligat/${league.id}`} className="lgc-ghost">{league.my_rank ? `#${league.my_rank}` : "Brenda"}</Link>
+              ) : (
+                <button
+                  type="button"
+                  className="lgc-gold"
+                  onClick={() => void join(league)}
+                  disabled={busy === league.id || (balance !== null && league.entry_fee > balance)}
+                >
+                  {busy === league.id ? "…" : `Hyr · ${fmtNum(league.entry_fee)}`}
+                </button>
+              )}
+            </div>
+          ))}
         </div>
       )}
 
-      {mine.length > 0 && stage.kind === "idle" && (
+      {!compact && mine.length > 0 && stage.kind === "idle" && (
         <nav className="lgc-mine" aria-label="Ligat e tua">
           {mine.map((league) => (
             <Link key={league.id} href={`/tregu/ligat/${league.id}`}>
@@ -447,5 +509,7 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
         </nav>
       )}
     </section>
+    {crew.length > 0 && <LeagueCrew leagues={crew} />}
+    </>
   );
 }
