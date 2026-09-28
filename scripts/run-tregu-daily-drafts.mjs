@@ -1,4 +1,5 @@
 import { execFileSync } from "node:child_process";
+import { randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -18,6 +19,11 @@ if (!baseUrl || !secret) {
 
 const headers = { authorization: `Bearer ${secret}` };
 const dryRun = process.argv.includes("--dry-run");
+const manualRun = process.argv.includes("--manual");
+if (dryRun && manualRun) throw new Error("Choose either --manual or --dry-run.");
+const manualRunKey = manualRun
+  ? `daily-drafts:manual:${new Date().toISOString().slice(0, 10).replace(/-/g, "")}:${randomUUID().replace(/-/g, "").slice(0, 12)}`
+  : null;
 // Sports discovery runs independently in the two-minute sports worker.
 const contextResponse = await fetch(`${baseUrl}/api/automation/tregu/daily-drafts`, { headers });
 if (!contextResponse.ok) throw new Error(`Could not load Codex draft context: ${await contextResponse.text()}`);
@@ -140,7 +146,7 @@ const generation = shortlist.topics.length
 const candidates = generation.candidates;
 console.log(JSON.stringify({ stage: "generation", provider: generation.provider, fallback_reason: generation.fallback_reason, shortlisted: shortlist.topics.length, candidate_count: candidates.length }));
 const submitResponse = await fetch(`${baseUrl}/api/automation/tregu/daily-drafts`, {
-  method: "POST", headers: { ...headers, "content-type": "application/json" }, body: JSON.stringify({ candidates, ...(dryRun ? { dryRun: true } : {}) }),
+  method: "POST", headers: { ...headers, "content-type": "application/json" }, body: JSON.stringify({ candidates, ...(dryRun ? { dryRun: true } : {}), ...(manualRunKey ? { runKey: manualRunKey } : {}) }),
 });
 const result = await submitResponse.json();
 if (!submitResponse.ok) throw new Error(result.error ?? "Daily draft submission failed.");

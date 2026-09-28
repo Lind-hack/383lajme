@@ -2,7 +2,7 @@ import { getArticles, getLatestPersistedArticles } from "@/lib/db";
 import { loadMarketResearch } from "@/lib/tregu-research-evidence.mjs";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
-import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, evidenceIdentity, isEligibleNewsDeadlineMarket, newsDeadlineAction, newsDeadlineDecayCap, NEWS_DEADLINE_DECAY_INTERVAL_MS, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
+import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, evidenceIdentity, isEligibleNewsDeadlineMarket, isManualDailyRunKey, newsDeadlineAction, newsDeadlineDecayCap, NEWS_DEADLINE_DECAY_INTERVAL_MS, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
 import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan, sportEventState, rescheduledSportClose, isDuplicateSportOracle } from "@/lib/tregu-sport-market.mjs";
@@ -196,7 +196,9 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
   const admin = createAdminClient();
   if (!admin) throw new Error("Supabase service-role configuration is required for Tregu automation.");
   const sourceArticles = await getLatestPersistedArticles(60);
-  const expectedLiveEventRunKey = typeof requestedRunKey === "string" ? buildLiveEventDraftRunKey({ candidates, now }) : null;
+  const manualRunKey = isManualDailyRunKey(requestedRunKey)
+    ? requestedRunKey as string : null;
+  const expectedLiveEventRunKey = typeof requestedRunKey === "string" && !manualRunKey ? buildLiveEventDraftRunKey({ candidates, now }) : null;
   const validated = validateDailyDraftSubmission(
     candidates,
     new Set(sourceArticles.map((article) => article.slug)),
@@ -212,7 +214,7 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
   // Breaking-news inventory refreshes every four hours. Idempotency is per
   // Europe/Pristina four-hour window so fresh qualifying markets can open
   // through the day without duplicating the same window.
-  const runKey = expectedLiveEventRunKey ?? `daily-drafts:${DAILY_MARKET_CONTRACT_VERSION}:${kosovoLocalDate(now)}:${String(Math.floor(now.getUTCHours() / 4)).padStart(2, "0")}`;
+  const runKey = manualRunKey ?? expectedLiveEventRunKey ?? `daily-drafts:${DAILY_MARKET_CONTRACT_VERSION}:${kosovoLocalDate(now)}:${String(Math.floor(now.getUTCHours() / 4)).padStart(2, "0")}`;
   const started = await beginRun(admin, "daily_drafts", runKey);
   if (started.existing) return { ok: true, skipped: true, runKey, reason: "already_processed", run: started.run };
 
