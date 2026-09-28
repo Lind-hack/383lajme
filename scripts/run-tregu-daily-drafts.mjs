@@ -2,7 +2,6 @@ import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { generateDailyMarkets, shortlistDailyTopics } from "../lib/tregu-daily-generation.mjs";
 import { dailySourcePacket, shortlistedSourceSlugs } from "../lib/tregu-daily-source-packet.mjs";
 import {
   buildDailyCodexCommand,
@@ -25,25 +24,26 @@ if (!contextResponse.ok) throw new Error(`Could not load Codex draft context: ${
 const { articles, activeMarkets = [], futureTemplates = [] } = await contextResponse.json();
 const now = new Date();
 
-async function withCodexQuotaFallback(prompt, primary, key, maximum) {
-  try { return await primary(prompt); }
-  catch (providerError) {
-    if (!["rate_limit_or_quota", "provider_unavailable"].includes(providerError?.error_class)) throw providerError;
-    const hermesBin = process.env.HERMES_BIN ?? "/opt/hermes/.venv/bin/hermes";
-    let output;
-    try {
-      output = execFileSync(hermesBin, buildDailyCodexCommand(prompt), {
-        cwd: process.cwd(), env: { ...process.env, HERMES_HOME: process.env.HERMES_HOME ?? "/opt/data" },
-        encoding: "utf8", timeout: 240_000, maxBuffer: 2 * 1024 * 1024,
-      });
-    } catch (error) {
-      // execFileSync's default error includes the entire prompt in `spawnargs`.
-      throw new Error(`Codex fallback failed: ${error?.code ?? error?.signal ?? error?.status ?? "unknown"}`);
-    }
-    const parsed = JSON.parse(output.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, ""));
-    if (!Array.isArray(parsed?.[key]) || parsed[key].length > maximum) throw new Error(`Codex fallback returned an invalid ${key} set`);
-    return { [key === "topics" ? "topics" : "candidates"]: parsed[key], provider: "openai-codex-oauth", fallback_reason: providerError.error_class };
+function runDailyCodex(prompt, key, maximum) {
+  const hermesBin = process.env.HERMES_BIN ?? "/opt/hermes/.venv/bin/hermes";
+  const hermesHome = process.env.TREGU_DAILY_HERMES_HOME ?? "/opt/data/profiles/tregudaily";
+  const configPath = join(hermesHome, "config.yaml");
+  if (!existsSync(configPath) || !/^\s*reasoning_effort:\s*["']?xhigh["']?\s*(?:#.*)?$/m.test(readFileSync(configPath, "utf8"))) {
+    throw new Error(`Daily Tregu Hermes profile must configure agent.reasoning_effort: xhigh at ${configPath}`);
   }
+  let output;
+  try {
+    output = execFileSync(hermesBin, buildDailyCodexCommand(prompt, "gpt-6-luna"), {
+      cwd: process.cwd(), env: { ...process.env, HERMES_HOME: hermesHome },
+      encoding: "utf8", timeout: 330_000, maxBuffer: 2 * 1024 * 1024,
+    });
+  } catch (error) {
+    // execFileSync's default error includes the entire news prompt in `spawnargs`.
+    throw new Error(`Daily GPT-6 Luna xhigh request failed: ${error?.code ?? error?.signal ?? error?.status ?? "unknown"}`);
+  }
+  const parsed = JSON.parse(output.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, ""));
+  if (!Array.isArray(parsed?.[key]) || parsed[key].length > maximum) throw new Error(`Daily GPT-6 Luna returned an invalid ${key} set`);
+  return { [key === "topics" ? "topics" : "candidates"]: parsed[key], provider: "openai-codex-oauth", model: "gpt-6-luna", reasoning_effort: "xhigh", fallback_reason: null };
 }
 
 // Stage one of two. Asking for discovery, filtering and the full ten-field contract in
@@ -76,7 +76,7 @@ ${JSON.stringify(dailySourcePacket(articles))}
 Return ONLY compact JSON, no markdown:
 {"topics":[{"topic_key":"kebab-case-stable-identity","decision":"the concrete fork in one sentence","yes_path":"...","no_path":"...","resolution_source":"named authority","why_undecided":"...","source_slugs":["slug1","slug2"]}]}`;
 
-const shortlist = await withCodexQuotaFallback(shortlistPrompt, shortlistDailyTopics, "topics", 10);
+const shortlist = runDailyCodex(shortlistPrompt, "topics", 10);
 console.log(JSON.stringify({
   stage: "shortlist",
   provider: shortlist.provider,
@@ -135,7 +135,7 @@ Return ONLY compact JSON, with no markdown:
 // An empty shortlist means stage one found nothing undecided worth pricing. That is a
 // legitimate outcome, and spending a second provider call to confirm it is waste.
 const generation = shortlist.topics.length
-  ? await withCodexQuotaFallback(prompt, generateDailyMarkets, "markets", 6)
+  ? runDailyCodex(prompt, "markets", 6)
   : { candidates: [], provider: shortlist.provider, fallback_reason: "empty_shortlist" };
 const candidates = generation.candidates;
 console.log(JSON.stringify({ stage: "generation", provider: generation.provider, fallback_reason: generation.fallback_reason, shortlisted: shortlist.topics.length, candidate_count: candidates.length }));

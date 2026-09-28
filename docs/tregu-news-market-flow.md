@@ -19,13 +19,12 @@ flowchart LR
 
 ## Current operational state
 
-- `tregu-daily-drafts.timer` is enabled and active. Its 2026-09-27 run failed when Gemini reached its free-tier daily request quota. The repository runner now has a Codex OAuth fallback for provider quota/unavailability, but the VPS container still runs checkout `f731569`, which predates this change.
-- `383-tregu-reprice.timer` is disabled and inactive. Sports, news-movement-email, and news-research timers are active; the sports service was in a failed state when inspected. A disabled repricer means the two-minute news odds path does not run from that local timer. The one-minute news-movement-email unit is distinct from the new market-opening-email queue.
+- `tregu-daily-drafts.timer` is enabled and scheduled for 07:20 Europe/Belgrade. Its shortlist and contract stages run through the VPS Codex OAuth profile `tregudaily` with `gpt-6-luna` and `agent.reasoning_effort: xhigh`. The runner verifies that profile setting and fails rather than silently using another model.
+- `383-tregu-reprice.timer` and `383-tregu-market-email.timer` are enabled. The separate two-minute repricer still uses Groq with Gemini fallback; the one-minute opening-email worker delivers queued creation mail.
 - The VPS research service writes a private `market-research/latest.json` packet with extracted original publisher pages. Repricing now requires a fresh per-market packet, strict subject relevance, and two independent cited hosts. An elapsed review date alone can no longer move odds or pay out a market.
 - A read-only check of the 2026-09-28 12:20 UTC packet found 45 parser-eligible original pages across six of seven open markets. One page was rejected as truncated; the remaining market had no extracted evidence. This confirms the packet schema and freshness checks against the live producer, but does not prove a particular article satisfies a market's decision criteria.
-- This checkout's `.env.local` points to `lzzsfobhfzxmbeydqbsw.supabase.co`, while the VPS automation points to `supabase.383ks.com`. Verify the production Vercel Supabase environment matches the VPS market and research store before enabling repricing.
-- `https://383lajme.vercel.app/api/deployment-info` returned HTTP 402 on 2026-09-28. Vercel listed its latest production deployment as 18 days old. A passing local build cannot verify a production release until that deployment path serves requests again.
-- The VPS checkout has unrelated local changes. Do not overwrite it or deploy that working tree. Production releases must follow `AGENTS.md`: clean commit pushed to `origin/main`, then the matching Vercel GitHub deployment.
+- Production is Railway at `https://383ks.com`; verify the GitHub-main SHA with `/api/deployment-info`. The old Vercel alias is retired.
+- The original VPS checkout has unrelated local changes. Keep automation on a clean detached worktree and preserve that checkout. Production releases follow `AGENTS.md`: a clean commit pushed to `origin/main`, then Railway's matching GitHub deployment.
 - The daily creation route previously used `getLatestArticles`, which may fall back to local or mock content when Supabase is unavailable. It now uses `getLatestPersistedArticles` in both context and validation, so creation fails closed on a news database outage.
 
 ## Category contract
@@ -49,5 +48,5 @@ Subject imagery first uses attributed, exact-name assets for Vetëvendosje and A
 
 1. Confirm existing migration `0076` and validate new migrations `0087` and `0088` against the target database; run relevant tests plus `npm run build`.
 2. Commit the intended files and push to `origin/main` using a clean checkout, preserving unrelated local/VPS changes.
-3. Wait for Vercel's GitHub deployment at that SHA; verify `/api/deployment-info` and the Tregu/F1 checks in `AGENTS.md`.
-4. Update the VPS application checkout safely, verify the deployed app and research job use the same Supabase project, enable the intended news repricer, and install the distinct creation-email retry unit with `scripts/install-tregu-market-email-timer.sh`. Dry-run daily creation and verify the next scheduled run without creating duplicate markets.
+3. Wait for Railway's GitHub deployment at that SHA; verify `https://383ks.com/api/deployment-info` and the Tregu/F1 checks in `AGENTS.md`.
+4. Update the VPS automation checkout safely. Verify `tregu-daily-drafts.timer` points to it and the `tregudaily` Hermes profile has Codex OAuth access with `agent.reasoning_effort: xhigh`. Dry-run daily creation before its next 07:20 run without creating duplicate markets.
