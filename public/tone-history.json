@@ -10340,8 +10340,8 @@
   {
     "date": "2026-09-29",
     "overallIndex": 50,
-    "totalArticles": 305,
-    "sourceCount": 137,
+    "totalArticles": 335,
+    "sourceCount": 149,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -10349,7 +10349,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 30,
+        "n": 32,
         "excluded": 0,
         "confident": true,
         "stanceVersion": 3
@@ -10369,9 +10369,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 4,
+        "n": 5,
         "excluded": 1,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "Francë": {
@@ -10390,7 +10390,7 @@
         "neutral": 95,
         "negative": 0,
         "n": 22,
-        "excluded": 12,
+        "excluded": 13,
         "confident": true,
         "stanceVersion": 3
       },
@@ -10399,7 +10399,7 @@
         "positive": 1,
         "neutral": 97,
         "negative": 2,
-        "n": 183,
+        "n": 193,
         "excluded": 6,
         "confident": true,
         "stanceVersion": 3
@@ -10409,8 +10409,8 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 18,
-        "excluded": 2,
+        "n": 19,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       },
@@ -10420,7 +10420,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 8,
-        "excluded": 1,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       },
@@ -10430,7 +10430,7 @@
         "neutral": 0,
         "negative": 0,
         "n": 0,
-        "excluded": 0,
+        "excluded": 1,
         "confident": false,
         "stanceVersion": 3
       },
@@ -10449,7 +10449,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 17,
+        "n": 20,
         "excluded": 10,
         "confident": true,
         "stanceVersion": 3
@@ -10459,7 +10459,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 2,
+        "n": 4,
         "excluded": 2,
         "confident": false,
         "stanceVersion": 3
@@ -10469,9 +10469,9 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 3,
+        "n": 14,
         "excluded": 1,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "Turqi": {
@@ -10513,11 +10513,19 @@
         "sentiment": "positive"
       },
       {
-        "title": "Nations League: ÖFB jubelt auch gegen Kosovo - ORF ON",
-        "source": "ORF ON",
-        "country": "Gjermani",
-        "flag": "🇩🇪",
-        "url": "https://on.orf.at/sammlung/13870321/nations-league-oefb-jubelt-auch-gegen-kosovo",
+        "title": "Kosovo: inaccettabile la condanna di Thaci - rtvslo.si",
+        "source": "rtvslo.si",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.rtvslo.si/capodistria/radio-capodistria/notizie/mondo/kosovo-inaccettabile-la-condanna-di-thaci/795257",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo chancenlos – 3:1! Österreich feiert Fußball-Fest im Wiener Prater - Heute",
+        "source": "Heute",
+        "country": "Austri",
+        "flag": "🇦🇹",
+        "url": "https://www.heute.at/s/live-ab-18-uhr-oesterreich-will-gegen-kosovo-nachlegen-120258129",
         "sentiment": "negative"
       }
     ]
