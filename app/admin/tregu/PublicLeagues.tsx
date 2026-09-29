@@ -34,6 +34,8 @@ type AdminLeague = {
   color: string | null;
   cover_url: string | null;
   sponsor: string | null;
+  sponsor_logo: string | null;
+  sponsor_url: string | null;
   scope_kind: LeagueScopeKind;
   scope_value: string | null;
   featured: boolean;
@@ -46,6 +48,8 @@ type Draft = {
   description: string;
   rules: string;
   sponsor: string;
+  sponsorLogo: string;
+  sponsorUrl: string;
   emblem: string;
   color: string;
   startsAt: string;
@@ -82,7 +86,7 @@ function formatWindow(start: string, end: string) {
   return `${fmt(start)} → ${fmt(end)}`;
 }
 
-async function upload(file: File, kind: "emblem" | "cover") {
+async function upload(file: File, kind: "emblem" | "cover" | "sponsor") {
   const form = new FormData();
   form.append("file", file);
   form.append("kind", kind);
@@ -100,7 +104,7 @@ function freshDraft(): Draft {
   const start = localInput(new Date());
   const end = localInput(new Date(Date.now() + 7 * 86_400_000));
   const prizes = publicLeaguePrizes(7).map(String) as [string, string, string];
-  return { scope: "all:", name: "", description: "", rules: "", sponsor: "", emblem: "", color: "", startsAt: start, endsAt: end, fee: String(PUBLIC_LEAGUE_FEE), prizes, featured: true };
+  return { scope: "all:", name: "", description: "", rules: "", sponsor: "", sponsorLogo: "", sponsorUrl: "", emblem: "", color: "", startsAt: start, endsAt: end, fee: String(PUBLIC_LEAGUE_FEE), prizes, featured: true };
 }
 
 /**
@@ -148,6 +152,8 @@ export default function PublicLeagues() {
     scope_kind: scope.kind,
     scope_value: scope.value,
     sponsor: draft.sponsor || null,
+    sponsor_logo: draft.sponsorLogo || null,
+    sponsor_url: draft.sponsorUrl || null,
   }), [draft, editing, fee, prizes, scope]);
 
   const pickScope = (item: LeagueScope) => {
@@ -161,12 +167,13 @@ export default function PublicLeagues() {
     if (!moneyLocked) set({ prizes: publicLeaguePrizes(length).map(String) as [string, string, string] });
   };
 
-  const pickFile = async (file: File | undefined) => {
+  const pickFile = async (file: File | undefined, kind: "emblem" | "sponsor" = "emblem") => {
     if (!file) return;
     setUploading(true);
     setMessage(null);
     try {
-      set({ emblem: await upload(file, "emblem") });
+      const url = await upload(file, kind);
+      set(kind === "sponsor" ? { sponsorLogo: url } : { emblem: url });
     } catch (reason) {
       setMessage({ ok: false, text: reason instanceof Error ? reason.message : "Ngarkimi dështoi." });
     } finally {
@@ -198,6 +205,8 @@ export default function PublicLeagues() {
     emblem: draft.emblem,
     color: draft.color,
     sponsor: draft.sponsor,
+    sponsor_logo: draft.sponsorLogo,
+    sponsor_url: draft.sponsorUrl,
   });
   const money = () => ({ entry_fee: fee, prizes, starts_at: fromKosovoInput(draft.startsAt), ends_at: fromKosovoInput(draft.endsAt) });
 
@@ -234,6 +243,8 @@ export default function PublicLeagues() {
       description: league.description ?? "",
       rules: league.rules ?? "",
       sponsor: league.sponsor ?? "",
+      sponsorLogo: league.sponsor_logo ?? "",
+      sponsorUrl: league.sponsor_url ?? "",
       emblem: league.emblem ?? "",
       color: league.color ?? "",
       startsAt: localInput(new Date(league.starts_at)),
@@ -337,7 +348,19 @@ export default function PublicLeagues() {
             <h3><span>4</span> Pamja</h3>
             <div className="lgb-fields">
               <label>Emri<input value={draft.name} maxLength={40} onChange={(event) => set({ name: event.target.value })} placeholder={preview.name} /></label>
-              <label>Sponsori / shënim<input value={draft.sponsor} maxLength={120} onChange={(event) => set({ sponsor: event.target.value })} placeholder="Sponsorizuar nga …" /></label>
+              <label>Emri i sponsorit<input value={draft.sponsor} maxLength={120} onChange={(event) => set({ sponsor: event.target.value })} placeholder="p.sh. Rrota" /></label>
+              <label>
+                Logo e sponsorit
+                <span className="lgb-inline">
+                  {draft.sponsorLogo ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={draft.sponsorLogo} alt="" style={{ height: 32, maxWidth: 120, objectFit: "contain" }} />
+                  ) : null}
+                  <input type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => void pickFile(event.target.files?.[0], "sponsor")} aria-label="Ngarko logon e sponsorit" />
+                  {draft.sponsorLogo && <button type="button" className="lg-ghost" onClick={() => set({ sponsorLogo: "" })}>Hiq</button>}
+                </span>
+              </label>
+              <label data-wide>Faqja e sponsorit<input value={draft.sponsorUrl} maxLength={480} onChange={(event) => set({ sponsorUrl: event.target.value.trim() })} placeholder="https://…" inputMode="url" /></label>
               <label data-wide>Përshkrimi<input value={draft.description} maxLength={280} onChange={(event) => set({ description: event.target.value })} placeholder={`Parashiko tregjet e ${scope.label}.`} /></label>
               <label data-wide>Rregulla shtesë<textarea value={draft.rules} maxLength={1200} onChange={(event) => set({ rules: event.target.value })} placeholder="Opsionale. Rregullat e pikëve shfaqen gjithsesi." /></label>
               <label>

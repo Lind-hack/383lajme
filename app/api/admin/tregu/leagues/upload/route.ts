@@ -14,7 +14,7 @@ const TYPES: Record<string, string> = {
 const MAX_BYTES = 3 * 1024 * 1024;
 
 /**
- * POST multipart { file, kind: "emblem" | "cover" } → { url }
+ * POST multipart { file, kind: "emblem" | "cover" | "sponsor" } → { url }
  *
  * League emblems and covers go to the public `league-media` bucket (migration
  * 0086) under a random name, so a replaced image never serves a stale cache.
@@ -26,7 +26,8 @@ export async function POST(request: NextRequest) {
 
   const form = await request.formData().catch(() => null);
   const file = form?.get("file");
-  const kind = form?.get("kind") === "cover" ? "cover" : "emblem";
+  const requested = form?.get("kind");
+  const kind = requested === "cover" ? "cover" : requested === "sponsor" ? "sponsor" : "emblem";
   if (!(file instanceof File)) return NextResponse.json({ error: "Zgjidh një imazh." }, { status: 400 });
   const extension = TYPES[file.type];
   if (!extension) return NextResponse.json({ error: "Vetëm PNG, JPG ose WebP." }, { status: 400 });

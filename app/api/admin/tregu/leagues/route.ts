@@ -5,12 +5,12 @@ import { LEAGUE_SCOPES, PUBLIC_LEAGUE_FEE, publicLeaguePrizes } from "@/lib/treg
 
 export const dynamic = "force-dynamic";
 
-const PROFILE_FIELDS = ["description", "rules", "emblem", "color", "cover_url", "sponsor"] as const;
+const PROFILE_FIELDS = ["description", "rules", "emblem", "color", "cover_url", "sponsor", "sponsor_logo", "sponsor_url"] as const;
 type Profile = Partial<Record<(typeof PROFILE_FIELDS)[number], string | null>>;
 
 /** Trim each optional profile field to null-or-text within the table's limits. */
 function readProfile(body: Record<string, unknown>): Profile | string {
-  const limits = { description: 280, rules: 1200, emblem: 500, color: 7, cover_url: 500, sponsor: 120 };
+  const limits = { description: 280, rules: 1200, emblem: 500, color: 7, cover_url: 500, sponsor: 120, sponsor_logo: 500, sponsor_url: 480 };
   const profile: Profile = {};
   for (const field of PROFILE_FIELDS) {
     if (!(field in body)) continue;
@@ -20,6 +20,7 @@ function readProfile(body: Record<string, unknown>): Profile | string {
     profile[field] = value || null;
   }
   if (profile.color && !/^#[0-9A-Fa-f]{6}$/.test(profile.color)) return "Ngjyra duhet të jetë si #FF4422.";
+  if (profile.sponsor_url && !/^https:\/\/\S{3,}$/.test(profile.sponsor_url)) return "Linku i sponsorit duhet të nisë me https://";
   return profile;
 }
 
@@ -55,7 +56,7 @@ export async function GET(request: NextRequest) {
 
   const { data, error: queryError } = await admin
     .from("tregu_leagues")
-    .select("id, name, starts_at, ends_at, prizes, entry_fee, settled_at, description, rules, emblem, color, cover_url, sponsor, scope_kind, scope_value, featured, feature_order, tregu_league_members(fee_paid)")
+    .select("id, name, starts_at, ends_at, prizes, entry_fee, settled_at, description, rules, emblem, color, cover_url, sponsor, sponsor_logo, sponsor_url, scope_kind, scope_value, featured, feature_order, tregu_league_members(fee_paid)")
     .eq("kind", "public")
     .order("ends_at", { ascending: false })
     .limit(80);
@@ -77,7 +78,7 @@ export async function GET(request: NextRequest) {
  *     overlapping this window are skipped.
  *
  * `entry_fee` and `prizes` (three amounts, 1st to 3rd) come from the builder;
- * left out, they default to 10 and 75% of the leaderboard prize for the
+ * left out, they default to 10 and the full leaderboard prize for the
  * league's length (publicLeaguePrizes).
  */
 export async function POST(request: NextRequest) {
@@ -151,6 +152,8 @@ export async function POST(request: NextRequest) {
       rules: profile.rules ?? null,
       cover_url: profile.cover_url ?? null,
       sponsor: profile.sponsor ?? null,
+      sponsor_logo: profile.sponsor_logo ?? null,
+      sponsor_url: profile.sponsor_url ?? null,
     })
     .select("id")
     .single();

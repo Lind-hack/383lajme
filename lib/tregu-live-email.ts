@@ -1,4 +1,4 @@
-import * as nodemailer from "nodemailer";
+import { sendMail } from "@/lib/mailer";
 import { buildArgentinaSpainLiveEmail, buildF1LiveEmail, buildF1QualifyingEmail, buildOfficialMarketUpdateEmail, buildTreguRepriceEmail } from "./tregu-live-email-content.mjs";
 
 type NewsUpdate = {
@@ -63,11 +63,14 @@ function configuredRecipient() {
   return recipient;
 }
 
+/** Kept as the one seam every sender here goes through; delivery is lib/mailer
+ *  (Resend over HTTPS in production, because Railway cannot reach Gmail SMTP). */
 function gmailTransport() {
-  const user = (process.env.GMAIL_USER ?? "").trim();
-  const pass = (process.env.GMAIL_APP_PASSWORD ?? "").replace(/\s+/g, "");
-  if (!user || !pass) throw new Error("GMAIL_USER and GMAIL_APP_PASSWORD are required for tregu-live notifications.");
-  return { user, transport: nodemailer.createTransport({ host: "smtp.gmail.com", port: 465, secure: true, auth: { user, pass } }) };
+  const transport = {
+    sendMail: (message: { to: string; subject: string; html: string; text?: string; from?: string }) =>
+      sendMail({ to: message.to, subject: message.subject, html: message.html, text: message.text, fromName: "383 Tregu" }),
+  };
+  return { user: "383 Tregu", transport };
 }
 
 /** Sends a configured-recipient email only after its caller has confirmed an eligible persisted update. */

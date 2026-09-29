@@ -8,6 +8,8 @@ import DuelChallenge from "@/components/tregu/duel-challenge";
 import LeagueEmblem from "@/components/tregu/league-emblem";
 import LeaguePay, { type LeaguePayment } from "@/components/tregu/league-pay";
 import LeaguePodium from "@/components/tregu/league-podium";
+import PrizePool from "@/components/tregu/prize-pool";
+import { SponsorBand } from "@/components/tregu/public-league-card";
 import { primeSellSound } from "@/components/tregu/trade-success-sound";
 import { untilLabel } from "@/components/tregu/trader-leaderboard";
 import { fmtNum } from "@/lib/format";
@@ -19,7 +21,6 @@ import {
   leagueError,
   leaguePhase,
   leaguePrizes,
-  leaguePurse,
   leagueShareUrl,
   privateBonusPct,
   scopeOf,
@@ -381,14 +382,13 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
             <LeagueEmblem league={league} size={84} />
             <div>
               <h1>{league.name}</h1>
-              {league.sponsor && <p className="lgx-sponsor">{league.sponsor}</p>}
               {league.description && <p>{league.description}</p>}
+              <p className="lgx-members">{fmtNum(league.members)} {league.members === 1 ? "anëtar" : "anëtarë"}</p>
             </div>
-            <div className="lgx-purse">
-              <small>Në lojë</small>
-              <strong>{fmtNum(leaguePurse(league))}</strong>
-              <span>383C · {fmtNum(league.members)} anëtarë</span>
-            </div>
+          </div>
+          <div className="lgx-hero-money">
+            <PrizePool league={league} />
+            <SponsorBand league={league} variant="hero" />
           </div>
           <div className="lgx-actions">
             {!league.is_member && phase !== "ended" && league.kind === "public" && (

@@ -62,7 +62,7 @@ function PotMath({ fee, days }: { fee: number; days: number }) {
           <span key={place}>{place} · {[50, 30, 20][index]}%<b>{fmtNum(split[index] ?? 0)}</b></span>
         ))}
       </div>
-      <p className="lgc-note">Bonusi i 383 rritet me kohën: deri në një javë +10%, dy javë +15%, një muaj +25%. Ndahet vetëm mes atyre me pikë.</p>
+      <p className="lgc-note">Bonusi i 383 rritet me kohën: deri në një javë +15%, dy javë +25%, një muaj +40%. Ndahet vetëm mes atyre me pikë.</p>
     </div>
   );
 }

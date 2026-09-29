@@ -30,6 +30,9 @@ export type LeagueSummary = {
   color?: string | null;
   cover_url?: string | null;
   sponsor?: string | null;
+  /** The sponsor's logo and site (migration 0090). */
+  sponsor_logo?: string | null;
+  sponsor_url?: string | null;
   scope_kind?: LeagueScopeKind | null;
   scope_value?: string | null;
   faces?: string[] | null;
@@ -112,12 +115,12 @@ export const LEAGUE_FEE_MAX = 10000;
 /** Every public league costs this to enter. */
 export const PUBLIC_LEAGUE_FEE = 10;
 
-/** Suggested public prizes: 75% of the leaderboard prize for the league's
+/** Suggested public prizes: the full leaderboard prize for the league's
  *  length — the weekly board up to seven days, the monthly board beyond. The
  *  admin can change them before anyone joins. */
 export function publicLeaguePrizes(days: number): number[] {
   const base = days <= 7 ? [125, 75, 40] : [500, 300, 150];
-  return base.map((prize) => Math.round(prize * 0.75));
+  return [...base];
 }
 
 export type LeagueScopeKind = "all" | "category" | "competition" | "f1";
@@ -169,10 +172,10 @@ export function isImageEmblem(emblem: string | null | undefined): emblem is stri
 }
 export const LEAGUE_CODE_PATTERN = /^[A-HJKMNP-Z2-9]{6}$/;
 
-/** 383's top-up on a private pot, by length: up to a week +10%, two weeks
- *  +15%, longer +25%. Mirrors tregu_private_bonus_pct(). */
+/** 383's top-up on a private pot, by length: up to a week +15%, two weeks
+ *  +25%, longer +40% (migration 0090). Mirrors tregu_private_bonus_pct(). */
 export function privateBonusPct(days: number): number {
-  return days <= 7.5 ? 10 : days <= 15 ? 15 : 25;
+  return days <= 7.5 ? 15 : days <= 15 ? 25 : 40;
 }
 
 export function leagueDays(league: Pick<LeagueSummary, "starts_at" | "ends_at">): number {

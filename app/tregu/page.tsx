@@ -16,6 +16,7 @@ import TraderLeaderboard from "@/components/tregu/trader-leaderboard";
 import LeaderboardGift from "@/components/tregu/leaderboard-gift";
 import LeaguesCard from "@/components/tregu/leagues-card";
 import PublicLeaguesSection from "@/components/tregu/public-leagues-section";
+import { tradingClosesAt } from "@/lib/trading-close.mjs";
 import WithdrawalProgress from "@/components/tregu/withdrawal-progress";
 import type { MiniMarket } from "@/components/tregu/market-mini-card";
 import VideoHero from "@/components/tregu/video-hero";
@@ -120,7 +121,7 @@ interface MarketRow {
   status: string;
   market_classification?: string;
   market_type?: string;
-  live_event?: { league?: string; sport?: string; event_kind?: string } | null;
+  live_event?: { league?: string; sport?: string; event_kind?: string; kickoff?: string; race_start?: string } | null;
   closes_at: string;
   q_yes: number;
   q_no: number;
@@ -495,7 +496,7 @@ export default function TreguHub() {
           category: m.category,
           prob: m.market_prob,
           volume: vol(m),
-          closesAt: m.closes_at,
+          closesAt: tradingClosesAt(m) ?? m.closes_at,
           spark: m.spark,
           delta7d: m.delta7d,
           history: m.history,
@@ -612,7 +613,7 @@ export default function TreguHub() {
     status: m.status,
     prob: m.market_prob,
     volume: vol(m),
-    closesAt: m.closes_at,
+    closesAt: tradingClosesAt(m) ?? m.closes_at,
     openedAt: m.created_at,
     spark: m.spark,
     delta7d: m.delta7d,

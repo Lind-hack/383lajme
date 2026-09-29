@@ -406,3 +406,49 @@ export async function playCoinDropSound(coins = 6) {
   thud.start(landAt);
   thud.stop(landAt + 0.3);
 }
+
+/**
+ * Opening a prize box: a short lift of air as the lid comes off, then four
+ * bells climbing a major arpeggio with a high sparkle on top. Original and
+ * synthesized like the sell chime; prime with primeSellSound() in the tap.
+ */
+export async function playGiftOpenSound() {
+  const context = getAudioContext();
+  if (!context || document.hidden) return;
+  if (context.state === "suspended") {
+    try {
+      await context.resume();
+    } catch {
+      return;
+    }
+  }
+  const start = context.currentTime + 0.02;
+  const master = context.createGain();
+  master.gain.setValueAtTime(0.28, start);
+  master.connect(context.destination);
+
+  // The lid: 320ms of noise swept upward through a band-pass.
+  const air = context.createBufferSource();
+  const airFilter = context.createBiquadFilter();
+  const airGain = context.createGain();
+  air.buffer = noiseBuffer(context, 0.4);
+  airFilter.type = "bandpass";
+  airFilter.Q.setValueAtTime(1.4, start);
+  airFilter.frequency.setValueAtTime(600, start);
+  airFilter.frequency.exponentialRampToValueAtTime(5200, start + 0.32);
+  airGain.gain.setValueAtTime(0.0001, start);
+  airGain.gain.exponentialRampToValueAtTime(0.32, start + 0.12);
+  airGain.gain.exponentialRampToValueAtTime(0.0001, start + 0.34);
+  air.connect(airFilter);
+  airFilter.connect(airGain);
+  airGain.connect(master);
+  air.start(start);
+  air.stop(start + 0.4);
+
+  // The fanfare: C6, E6, G6, C7, each a little later and a little longer.
+  [1046.5, 1318.51, 1567.98, 2093].forEach((frequency, index) => {
+    bell(context, master, frequency, start + 0.22 + index * 0.085, 0.5 + index * 0.18, 0.7 + index * 0.08);
+  });
+  // The sparkle on top.
+  bell(context, master, 4186, start + 0.62, 0.35, 0.28);
+}

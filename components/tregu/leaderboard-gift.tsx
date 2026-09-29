@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import CoinFace from "@/components/tregu/coin-face";
+import { playCoinDropSound, playGiftOpenSound, primeSellSound } from "@/components/tregu/trade-success-sound";
 import { fmtNum } from "@/lib/format";
 import { LEADERBOARD_KIND_LABEL, leaderboardPeriodLabel, type RewardKind } from "@/lib/tregu-leaderboard";
 
@@ -113,6 +114,7 @@ export default function LeaderboardGift({ loggedIn }: { loggedIn: boolean }) {
   const prize = Number(gift.prize) || 0;
 
   const collect = async () => {
+    primeSellSound();
     setBusy(true);
     setError(null);
     try {
@@ -127,6 +129,8 @@ export default function LeaderboardGift({ loggedIn }: { loggedIn: boolean }) {
         window.dispatchEvent(new CustomEvent("tregu:balance", { detail: data.balance }));
       }
       window.dispatchEvent(new CustomEvent("383:coins-earned", { detail: prize }));
+      // The coins land: one ping per ~50 coins, between three and nine.
+      void playCoinDropSound(Math.round(prize / 50));
       setGifts((current) => current.filter((item) => item.id !== gift.id));
       setStage("sealed");
     } catch (reason) {
@@ -173,7 +177,7 @@ export default function LeaderboardGift({ loggedIn }: { loggedIn: boolean }) {
               Përfundove <b>{PLACE_WORD[gift.place] ?? `#${gift.place}`}</b> {periodPhrase}.
             </p>
             <div className="tregu-gift-actions">
-              <button ref={primary} type="button" className="tregu-gift-primary" onClick={() => setStage("open")}>
+              <button ref={primary} type="button" className="tregu-gift-primary" onClick={() => { primeSellSound(); void playGiftOpenSound(); setStage("open"); }}>
                 Hape dhuratën
               </button>
               <button type="button" className="tregu-gift-later" onClick={close}>

@@ -84,7 +84,7 @@ interface MarketDetail {
   sport_outcomes?: { key: string; label: string; team?: string; color?: string; logo?: string }[] | null;
   outcome_quantities?: Record<string, number> | null;
   reference_probabilities?: Record<string, number> | null;
-  live_event?: { home_team?: string; away_team?: string; league?: string; sport?: string } | null;
+  live_event?: { home_team?: string; away_team?: string; league?: string; sport?: string; kickoff?: string; race_start?: string } | null;
   market_media?: ComponentProps<typeof MarketContextMedia>["media"];
 }
 
@@ -902,8 +902,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const pct = Math.round(
     (footballSelectedOutcome?.probability ?? f1SelectedDriver?.probability ?? market.market_prob) * 100
   );
-  // The book stops at its deadline; the status flips only when settlement runs.
-  const awaitingResult = market.status === "open" && Date.parse(market.closes_at) < Date.now();
+  // A match or race stops trading when it starts (migration 0090 refuses it in
+  // the database too); positions stay and settle as always. Other books stop
+  // at their deadline. The status flips only when settlement runs.
+  const startsAt = Date.parse(String(market.live_event?.kickoff ?? market.live_event?.race_start ?? ""));
+  const matchStarted = market.status === "open" && Number.isFinite(startsAt) && startsAt <= Date.now();
+  const awaitingResult = market.status === "open" && (matchStarted || Date.parse(market.closes_at) < Date.now());
   const isClosed = market.status !== "open" || awaitingResult;
   const volume = Math.round(market.q_yes + market.q_no);
   const deltaPp = weeklyDelta === null ? null : Math.round(weeklyDelta * 100);
@@ -1637,7 +1641,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   </Link>
                 </div>
               ) : isClosed ? (
-                <p style={{ color: "#6B6B6B", margin: 0 }}>{awaitingResult ? "Afati ka kaluar — në pritje të rezultatit zyrtar. Fitimet paguhen automatikisht." : "Ky treg nuk pranon më tregtime."}</p>
+                <p style={{ color: "#6B6B6B", margin: 0 }}>{matchStarted ? "Ndeshja ka nisur, ndaj tregtimi u mbyll. Kush ka pozicion mbetet brenda: fitimet paguhen automatikisht sapo të dalë rezultati zyrtar." : awaitingResult ? "Afati ka kaluar — në pritje të rezultatit zyrtar. Fitimet paguhen automatikisht." : "Ky treg nuk pranon më tregtime."}</p>
               ) : football ? (
                 <>
                   <div className="tregu-football-trade-mode">

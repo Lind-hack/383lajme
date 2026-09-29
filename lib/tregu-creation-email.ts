@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import { sendMail } from "@/lib/mailer";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { buildNewsMarketOpenEmail } from "./tregu-creation-email.mjs";
 import { TREGU_DRAFT_REVIEW_RECIPIENT } from "./tregu-automation.mjs";
@@ -10,10 +10,7 @@ export async function sendPendingNewsMarketEmails({ marketId, limit = 10 }: { ma
   const admin = createAdminClient();
   if (!admin) throw new Error("Supabase service role is required for market creation emails");
   const recipient = String(process.env.TREGU_MARKET_RECIPIENT ?? TREGU_DRAFT_REVIEW_RECIPIENT).trim();
-  const user = String(process.env.GMAIL_USER ?? "").trim();
-  const pass = String(process.env.GMAIL_APP_PASSWORD ?? "").replace(/\s+/g, "");
-  if (!recipient || !user || !pass) throw new Error("Market creation email recipient and Gmail SMTP credentials are required");
-  const transport = nodemailer.createTransport({ host: "smtp.gmail.com", port: 465, secure: true, auth: { user, pass }, connectionTimeout: 10_000, socketTimeout: 30_000 });
+  if (!recipient) throw new Error("Market creation email recipient is required");
   let sent = 0;
   let failed = 0;
   for (let index = 0; index < Math.min(limit, 25); index++) {
@@ -29,7 +26,7 @@ export async function sendPendingNewsMarketEmails({ marketId, limit = 10 }: { ma
         .order("created_at", { ascending: true }).limit(1).single();
       if (openingError || !opening) throw new Error(`Could not load opening graph: ${openingError?.message ?? "missing"}`);
       const message = buildNewsMarketOpenEmail(market, opening);
-      await transport.sendMail({ from: user, to: recipient, ...message });
+      await sendMail({ to: recipient, subject: message.subject, html: message.html, text: message.text, fromName: "383 Tregu", idempotencyKey: `market-open-${claim.market_id}` });
       const { data: marked, error: markError } = await admin.from("market_open_notifications")
         .update({ sent_at: new Date().toISOString(), claimed_until: null, last_error: null })
         .eq("market_id", claim.market_id).eq("claim_token", claim.claim_token).is("sent_at", null)
