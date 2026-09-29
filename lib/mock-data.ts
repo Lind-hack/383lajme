@@ -21,6 +21,7 @@
   imageWidth?: number;
   imageHeight?: number;
   engagementScore?: number;
+  corroboratingSources?: Array<{ source: string; url: string }>;
   videoClipUrl?: string;
 }
 

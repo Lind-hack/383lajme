@@ -471,6 +471,30 @@ export async function getLatestPersistedArticles(limit = 200): Promise<Article[]
   return (data ?? []).map((article) => mapAutoRow(article as unknown as Record<string, unknown>));
 }
 
+/** Read the newsroom's vetted secondary URLs only for articles considered by Tregu. */
+export async function getPersistedArticleCorroboration(slugs: string[]): Promise<Map<string, Array<{ source: string; url: string }>>> {
+  const supabase = supabaseNewsClient();
+  if (!supabase) throw new Error("News database is unavailable for Tregu corroboration");
+  const unique = [...new Set(slugs.filter(Boolean))].slice(0, 60);
+  if (!unique.length) return new Map();
+  const { data, error } = await supabase.from("news_articles").select("slug,raw_article").in("slug", unique);
+  if (error) throw new Error(`Could not load persisted Tregu corroboration: ${error.message}`);
+  return new Map((data ?? []).map((row) => {
+    const raw = row.raw_article && typeof row.raw_article === "object" ? row.raw_article as Record<string, unknown> : {};
+    const items = Array.isArray(raw.corroborating_sources) ? raw.corroborating_sources : [];
+    const sources = items.slice(0, 4).flatMap((item) => {
+      if (!item || typeof item !== "object") return [];
+      const value = item as Record<string, unknown>;
+      try {
+        const url = new URL(String(value.url ?? ""));
+        if (url.protocol !== "https:") return [];
+        return [{ source: String(value.source ?? url.hostname).slice(0, 120), url: url.toString() }];
+      } catch { return []; }
+    });
+    return [String(row.slug), sources] as const;
+  }));
+}
+
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   const supabase = supabaseNewsClient();
   if (supabase) {

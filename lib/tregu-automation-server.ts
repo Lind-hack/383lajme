@@ -1,4 +1,4 @@
-import { getArticles, getLatestPersistedArticles } from "@/lib/db";
+import { getArticles, getLatestPersistedArticles, getPersistedArticleCorroboration } from "@/lib/db";
 import { loadMarketResearch } from "@/lib/tregu-research-evidence.mjs";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
@@ -191,11 +191,19 @@ function summarizeDailyPlan(candidates: unknown, plan: { rows: Array<Record<stri
   };
 }
 
+async function dailyEvidenceArticles(candidates: unknown) {
+  const articles = await getLatestPersistedArticles(300);
+  const slugs = Array.isArray(candidates) ? candidates.slice(0, 6).flatMap((candidate) =>
+    Array.isArray(candidate?.source_slugs) ? candidate.source_slugs.slice(0, 6).filter((slug: unknown): slug is string => typeof slug === "string") : []) : [];
+  const corroboration = await getPersistedArticleCorroboration(slugs);
+  return articles.map((article) => ({ ...article, corroboratingSources: corroboration.get(article.slug) ?? [] }));
+}
+
 export async function runDailyDraftAutomation(candidates: unknown, now = new Date(), requestedRunKey?: unknown) {
   if (requestedRunKey !== undefined && typeof requestedRunKey !== "string") throw new Error("Invalid live-event draft run key.");
   const admin = createAdminClient();
   if (!admin) throw new Error("Supabase service-role configuration is required for Tregu automation.");
-  const sourceArticles = await getLatestPersistedArticles(300);
+  const sourceArticles = await dailyEvidenceArticles(candidates);
   const manualRunKey = isManualDailyRunKey(requestedRunKey)
     ? requestedRunKey as string : null;
   const expectedLiveEventRunKey = typeof requestedRunKey === "string" && !manualRunKey ? buildLiveEventDraftRunKey({ candidates, now }) : null;
@@ -309,7 +317,7 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
 export async function previewDailyDraftAutomation(candidates: unknown, now = new Date()) {
   const admin = createAdminClient();
   if (!admin) throw new Error("Supabase service-role configuration is required for Tregu automation.");
-  const sourceArticles = await getLatestPersistedArticles(300);
+  const sourceArticles = await dailyEvidenceArticles(candidates);
   const validated = validateDailyDraftSubmission(candidates, new Set(sourceArticles.map((article) => article.slug)), {
     minimum: 0,
     nonSportOnly: true,
