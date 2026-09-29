@@ -37,6 +37,63 @@ const first = (name: string) => name.trim().split(/\s+/)[0] || name;
 const pts = (value: number) => `${fmtNum(Math.round(value))} pikë`;
 /** Options shown before "Më shumë": enough for home/draw/away and a top six. */
 const VISIBLE_OPTIONS = 6;
+/** Markets shown at once in a tab; a busy round would otherwise be a wall. */
+const PAGE = 6;
+
+type PickTab = "todo" | "picked" | "done";
+const PICK_TABS: { key: PickTab; label: string }[] = [
+  { key: "todo", label: "Pa zgjedhur" },
+  { key: "picked", label: "Të zgjedhura" },
+  { key: "done", label: "Rezultatet" },
+];
+
+/** The rules as three steps, with a worked example and this league's prizes. */
+function HowToPlay({ league, prizes, scopeLabel }: { league: LeagueSummary & { rules?: string | null }; prizes: number[]; scopeLabel: string | null }) {
+  const bonus = league.kind === "private" ? privateBonusPct(leagueDays(league)) : null;
+  return (
+    <section className="lgx-panel lgx-how" aria-labelledby="rules-title">
+      <div className="lgx-panel-head"><h2 id="rules-title">Si luhet</h2><span>Të gjithë nisin me 0 pikë</span></div>
+      <ol className="how">
+        <li>
+          <span className="how-n" aria-hidden><Target size={16} /></span>
+          <div>
+            <strong>Zgjidh kush fiton</strong>
+            <p>Për çdo ndeshje{scopeLabel ? ` të ${scopeLabel}` : ""} prek një rezultat para se të nisë. E ndryshon sa herë të duash deri atëherë. Është falas.</p>
+          </div>
+        </li>
+        <li>
+          <span className="how-n" aria-hidden><Trophy size={16} /></span>
+          <div>
+            <strong>Surpriza jep më shumë pikë</strong>
+            <p>Pikët janë 100 minus gjasa në çastin që zgjodhe. Nëse gabon, merr 0.</p>
+            <div className="how-example" aria-label="Shembull">
+              <span><em>Favoriti · 70%</em><b>+30</b></span>
+              <span><em>Barazim · 25%</em><b>+75</b></span>
+              <span data-hot><em>Surpriza · 5%</em><b>+95</b></span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <span className="how-n" aria-hidden><CircleCheck size={16} /></span>
+          <div>
+            <strong>Tre të parët marrin potin</strong>
+            <p>
+              {league.kind === "private"
+                ? `Kur mbaron liga, hyrjet e të gjithëve plus ${bonus}% nga 383 ndahen 50% · 30% · 20%. Nëse askush s'ka pikë, hyrjet kthehen.`
+                : "Kur mbaron liga, 383 paguan shpërblimet e veta plus hyrjet, 50% · 30% · 20%, për tre të parët me pikë."}
+            </p>
+            {prizes.length > 0 && (
+              <div className="how-prizes" aria-label="Shpërblimet tani">
+                {prizes.map((prize, index) => <span key={index} data-place={index + 1}><em>{index + 1}.</em><b>{fmtNum(prize)}</b> 383C</span>)}
+              </div>
+            )}
+          </div>
+        </li>
+      </ol>
+      {league.rules ? <p className="how-extra">{league.rules}</p> : null}
+    </section>
+  );
+}
 
 function PickCard({
   row,
@@ -129,6 +186,8 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
   const [copied, setCopied] = useState(false);
   const [challenge, setChallenge] = useState<LeagueStanding | null>(null);
   const [push, setPush] = useState<"idle" | "on" | "denied" | "unsupported" | "error">("idle");
+  const [tab, setTab] = useState<PickTab>("todo");
+  const [shown, setShown] = useState(PAGE);
 
   const load = useCallback(async () => {
     const [overview, preview, standings, picks, tallies, myDuels] = await Promise.all([
@@ -202,6 +261,11 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
   const canPick = Boolean(league.is_member) && phase === "live";
   const openRows = board.filter((row) => row.result === "open" || row.result === "locked");
   const doneRows = board.filter((row) => row.result === "won" || row.result === "lost" || row.result === "void");
+  const groups: Record<PickTab, BoardRow[]> = {
+    todo: openRows.filter((row) => row.result === "open" && !row.my_outcome),
+    picked: openRows.filter((row) => row.my_outcome),
+    done: doneRows,
+  };
   const myCount = counts.find((count) => count.is_me);
   const countFor = (row: LeagueStanding) => counts.find((count) => count.member_key === row.member_key);
   const incoming = duels.filter((duel) => duel.status === "pending" && !duel.i_am_challenger);
@@ -425,19 +489,7 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
               )}
             </section>
 
-            <section className="lgx-panel lgx-rules" aria-labelledby="rules-title">
-              <div className="lgx-panel-head"><h2 id="rules-title">Si luhet</h2></div>
-              <ul>
-                <li><Target size={16} aria-hidden /><span>Zgjidh një rezultat për çdo ndeshje ose treg{league.scope_kind && league.scope_kind !== "all" ? ` në ${scope.label}` : ""}, para se të nisë. Mund ta ndryshosh deri atëherë.</span></li>
-                <li><Trophy size={16} aria-hidden /><span>Parashikimi i saktë jep 100 minus gjasën në momentin që zgjodhe: favoriti me 70% jep 30 pikë, surpriza me 20% jep 80. I gabuari jep 0.</span></li>
-                <li><CircleCheck size={16} aria-hidden /><span>
-                  {league.kind === "private"
-                    ? `Poti i hyrjeve plus ${privateBonusPct(leagueDays(league))}% nga 383 ndahet 50/30/20 mes tre të parëve me pikë. Nëse askush s'ka pikë, hyrjet kthehen.`
-                    : "383 paguan shpërblimet e veta plus potin e hyrjeve, 50/30/20, për tre të parët me pikë."}
-                </span></li>
-              </ul>
-              {league.rules ? <p>{league.rules}</p> : null}
-            </section>
+            <HowToPlay league={league} prizes={prizes} scopeLabel={league.scope_kind && league.scope_kind !== "all" ? scope.label : null} />
           </div>
 
           <section className="lgx-panel lgx-picks" aria-labelledby="picks-title">
@@ -451,23 +503,37 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
             {league.is_member && phase === "upcoming" && (
               <p className="pick-empty">Liga nis për {untilLabel(Date.parse(league.starts_at), now)}. Parashikimet hapen atëherë.</p>
             )}
+            {(league.is_member || board.length > 0) && (
+              <div className="pick-tabs" role="tablist" aria-label="Parashikimet">
+                {PICK_TABS.map((item) => (
+                  <button
+                    key={item.key}
+                    type="button"
+                    role="tab"
+                    aria-selected={tab === item.key}
+                    onClick={() => { setTab(item.key); setShown(PAGE); }}
+                  >
+                    {item.label}<b>{groups[item.key].length}</b>
+                  </button>
+                ))}
+              </div>
+            )}
             <div className="picks">
-              {openRows.map((row) => (
-                <PickCard key={row.market_id} row={row} now={now} canPick={canPick} busy={picking === row.market_id} onPick={(item, option) => void pick(item, option)} />
+              {groups[tab].slice(0, shown).map((row) => (
+                <PickCard key={row.market_id} row={row} now={now} canPick={canPick && tab !== "done"} busy={picking === row.market_id} onPick={(item, option) => void pick(item, option)} />
               ))}
-              {!openRows.length && phase === "live" && (
-                <p className="pick-empty">Asnjë ndeshje e hapur tani. Tregjet e reja shfaqen këtu sapo hapen.</p>
+              {!groups[tab].length && (
+                <p className="pick-empty">
+                  {tab === "todo" ? (openRows.length ? "Ke zgjedhur për çdo ndeshje të hapur. Tani prit rezultatet." : "Asnjë ndeshje e hapur tani. Tregjet e reja shfaqen këtu sapo hapen.")
+                    : tab === "picked" ? "Ende pa parashikime. Zgjidh te “Pa zgjedhur”."
+                    : "Rezultatet shfaqen këtu sapo të mbarojnë ndeshjet që zgjodhe."}
+                </p>
               )}
             </div>
-            {doneRows.length > 0 && (
-              <>
-                <h3 className="picks-sub">Rezultatet e tua</h3>
-                <div className="picks">
-                  {doneRows.map((row) => (
-                    <PickCard key={row.market_id} row={row} now={now} canPick={false} busy={false} onPick={() => undefined} />
-                  ))}
-                </div>
-              </>
+            {groups[tab].length > shown && (
+              <button type="button" className="pick-more-all" onClick={() => setShown((value) => value + PAGE)}>
+                Shfaq edhe {Math.min(PAGE, groups[tab].length - shown)} nga {groups[tab].length - shown}
+              </button>
             )}
           </section>
         </div>

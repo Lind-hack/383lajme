@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties }
 import { ArrowRight, Check, ChevronRight, Copy, ImagePlus, Plus, Share2, Trophy, Zap } from "lucide-react";
 import LeagueEmblem from "@/components/tregu/league-emblem";
 import LeaguePay, { type LeaguePayment } from "@/components/tregu/league-pay";
-import PublicLeagueCard from "@/components/tregu/public-league-card";
+import { LEAGUES_CHANGED } from "@/components/tregu/public-leagues-section";
 import { primeSellSound } from "@/components/tregu/trade-success-sound";
 import { untilLabel } from "@/components/tregu/trader-leaderboard";
 import { fmtNum } from "@/lib/format";
@@ -68,8 +68,8 @@ function PotMath({ fee, days }: { fee: number; days: number }) {
 }
 
 /**
- * Ligat on the Tregu floor, under Sportet në Treg. Your leagues first, with
- * your place in each; then create or join by code; then 383's public leagues.
+ * Ligat on the Tregu floor, under 383's public leagues. Your leagues first,
+ * with your place in each; then create or join by code.
  * A league is a prediction game: pick outcomes, earn points, the top three
  * split the pot. Invite links land here with ?kodi= and open the preview.
  */
@@ -122,7 +122,12 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
   useEffect(() => {
     void load();
     const tick = window.setInterval(() => setNow(Date.now()), 30_000);
-    return () => window.clearInterval(tick);
+    // Joining one of 383's leagues in the section above adds it to yours.
+    window.addEventListener(LEAGUES_CHANGED, load);
+    return () => {
+      window.clearInterval(tick);
+      window.removeEventListener(LEAGUES_CHANGED, load);
+    };
   }, [load]);
 
   // An invite link: /tregu?kodi=K7MQ2P#ligat opens straight on its league.
@@ -275,11 +280,6 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
     }
   };
 
-  // Featured public leagues first (admin's order), else the biggest purses;
-  // the ones you are already in drop out of this row (they are in yours).
-  const open = leagues.filter((league) => league.kind === "public" && leaguePhase(league, now) !== "ended" && !league.is_member);
-  const featured = open.filter((league) => league.featured).sort((a, b) => Number(a.feature_order ?? 0) - Number(b.feature_order ?? 0));
-  const publics = (featured.length ? featured : [...open].sort((a, b) => leaguePurse(b) - leaguePurse(a))).slice(0, 3);
   const mine = leagues.filter((league) => league.is_member && leaguePhase(league, now) !== "ended");
   const players = pulse?.players ?? 0;
   const faces = pulse?.faces ?? [];
@@ -492,34 +492,6 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
 
       {error && <p className="lgc-error" role="alert">{error}</p>}
 
-      {stage.kind === "idle" && publics.length > 0 && (
-        <>
-          <div className="lgc-section-head">
-            <h3>Ligat e 383</h3>
-            <span>383 shton shpërblimin</span>
-          </div>
-          <div className="lgc-publics">
-            {publics.map((league) => (
-              <PublicLeagueCard
-                key={league.id}
-                league={league}
-                now={now}
-                href={`/tregu/ligat/${league.id}`}
-                action={
-                  <button
-                    type="button"
-                    className="lg-btn"
-                    onClick={() => void join(league)}
-                    disabled={busy === league.id || (balance !== null && league.entry_fee > balance)}
-                  >
-                    {busy === league.id ? "…" : league.entry_fee > 0 ? `Hyr · ${fmtNum(league.entry_fee)} 383C` : "Hyr falas"}
-                  </button>
-                }
-              />
-            ))}
-          </div>
-        </>
-      )}
     </section>
   );
 }

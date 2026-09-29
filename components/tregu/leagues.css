@@ -13,7 +13,7 @@
    emblem, and one pass of light across the card on hover.
    ══════════════════════════════════════════════════════════ */
 
-.lgc, .lgp, .lgx, .lbp, .lgb, .lgb-list, .duel-sheet {
+.lgc, .lgs, .lgp, .lgx, .lbp, .lgb, .lgb-list, .duel-sheet {
   --lg-ink: #2B1B11;
   --lg-ink-2: #6A513F;
   --lg-ink-3: #8C7462;
@@ -117,7 +117,7 @@
   .lg-btn:not(:disabled):hover { background: var(--lg-flame-hi); }
   .lg-ghost:not(:disabled):hover { background: #fff; border-color: rgba(194, 54, 15, 0.45); }
 }
-.lgc :focus-visible, .lgp :focus-visible, .lgx :focus-visible, .lbp :focus-visible, .lgb :focus-visible, .duel-sheet :focus-visible {
+.lgc :focus-visible, .lgs :focus-visible, .lgp :focus-visible, .lgx :focus-visible, .lbp :focus-visible, .lgb :focus-visible, .duel-sheet :focus-visible {
   outline: 2.5px solid var(--lg-orange);
   outline-offset: 2px;
 }
@@ -378,6 +378,28 @@
 .lgc-math-members input[type="range"] { flex: 1; accent-color: var(--lg-flame); }
 
 /* ══════════════════════════════════════════════════════════
+   Ligat e 383 (components/tregu/public-leagues-section.tsx):
+   the gilt paper is the section; the leagues inside are lighter
+   tiles on it, never a card inside a card.
+   ══════════════════════════════════════════════════════════ */
+.lgs { scroll-margin-top: 110px; display: grid; gap: 16px; margin: 0 0 16px; padding: 24px; }
+.lgs-head { display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap; }
+.lgs .lgc-mark { background: linear-gradient(145deg, #FFE7A8, #F4B24E 50%, #D9791E); }
+.lgs .lgp {
+  border: 1px solid rgba(160, 90, 20, 0.2);
+  background: rgba(255, 253, 249, 0.8);
+  box-shadow: 0 1px 2px rgba(90, 40, 10, 0.05), 0 14px 28px -22px rgba(150, 60, 10, 0.5);
+  overflow: hidden;
+}
+.lgs .lgp::after { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .lgs .lgp { transition: transform 200ms var(--lg-ease), box-shadow 200ms ease; }
+  .lgs .lgp:hover { transform: translateY(-2px); box-shadow: 0 1px 2px rgba(90, 40, 10, 0.05), 0 20px 34px -22px rgba(150, 60, 10, 0.6); }
+}
+.lgs-joined { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin: 0; padding: 10px 14px; border-radius: 14px; background: var(--lg-win-bg); color: var(--lg-win); font-size: 14px; font-weight: 750; }
+.lgs-joined a { display: inline-flex; align-items: center; gap: 4px; color: var(--lg-win); font-weight: 800; }
+
+/* ══════════════════════════════════════════════════════════
    Public league card (components/tregu/public-league-card.tsx)
    ══════════════════════════════════════════════════════════ */
 .lgp {
@@ -464,6 +486,10 @@ a.lgp-name:hover { text-decoration: underline; text-underline-offset: 3px; text-
 .podium-seat[data-empty] .podium-name { font-weight: 650; color: var(--lg-ink-3); }
 .podium-seat[data-me] .podium-avatar { background: linear-gradient(150deg, #FFB48E, #E8481E); color: #fff; }
 @keyframes podium-rise { from { transform: scaleY(0.2); opacity: 0; } to { transform: none; opacity: 1; } }
+/* Who stands where arrives just after the steps, left to right. The podium
+   is re-keyed on every Muaji/Java switch, so the whole rise replays. */
+.podium-avatar, .podium-name, .podium-value { animation: podium-seat 520ms var(--lg-ease) calc(180ms + var(--order) * 110ms) both; }
+@keyframes podium-seat { from { opacity: 0; transform: translateY(14px) scale(0.92); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
 
 /* ══════════════════════════════════════════════════════════
    League page (app/tregu/ligat/[id]/page.tsx)
@@ -554,7 +580,43 @@ a.lgp-name:hover { text-decoration: underline; text-underline-offset: 3px; text-
 .pick-foot { display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; color: var(--lg-ink-2); font-variant-numeric: tabular-nums; }
 .pick-foot[data-result="won"] { color: var(--lg-win); }
 .pick-empty { margin: 0; padding: 18px; border-radius: 16px; background: rgba(255, 255, 255, 0.6); text-align: center; font-size: 14px; color: var(--lg-ink-2); }
-.picks-sub { margin: 18px 0 8px; font-size: 13px; font-weight: 800; color: var(--lg-ink-2); }
+/* Three tabs keep a busy round readable: what to pick, what you picked, results. */
+.pick-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; margin-bottom: 12px; padding: 4px; border-radius: 14px; background: rgba(140, 70, 25, 0.07); }
+.pick-tabs button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--lg-ink-2);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+.pick-tabs button b { min-width: 20px; padding: 1px 6px; border-radius: 100px; background: rgba(140, 70, 25, 0.1); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.pick-tabs button[aria-selected="true"] { background: #fff; color: var(--lg-ink); box-shadow: 0 4px 12px -8px rgba(120, 50, 10, 0.6); }
+.pick-tabs button[aria-selected="true"] b { background: var(--lg-flame); color: #fff; }
+.pick-more-all {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 10px;
+  border-radius: 12px;
+  border: 1px dashed var(--lg-line-2);
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--lg-ink-2);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+}
+@media (hover: hover) and (pointer: fine) { .pick-more-all:hover { background: #fff; color: var(--lg-flame-hi); border-color: rgba(194, 54, 15, 0.45); } }
+.picks .pick { animation: lg-rise 280ms var(--lg-ease) both; }
 
 /* Standings table. */
 .lgt { display: grid; margin: 16px 0 0; padding: 0; list-style: none; }
@@ -605,6 +667,34 @@ a.lgp-name:hover { text-decoration: underline; text-underline-offset: 3px; text-
 .lgx-duel-bar i { display: block; width: 100%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #FF8A5C, var(--lg-flame)); transform: scaleX(var(--share, 0.5)); transform-origin: left; transition: transform 600ms var(--lg-ease); }
 .lgx-bell { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 750; color: var(--lg-ink-2); }
 
+/* Si luhet: three steps, each with the one fact it teaches. */
+.lgx-how { margin-top: 16px; }
+.how { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
+.how > li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; }
+.how-n { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; background: #FFE6DA; color: var(--lg-flame-hi); }
+.how strong { display: block; font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em; color: var(--lg-ink); }
+.how p { margin: 3px 0 0; font-size: 14px; line-height: 1.5; color: var(--lg-ink-2); text-wrap: pretty; }
+.how-example, .how-prizes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.how-example span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 6px 0 12px;
+  border-radius: 11px;
+  border: 1px solid var(--lg-line-2);
+  background: var(--lg-paper);
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+.how-example em { font-style: normal; font-weight: 700; color: var(--lg-ink-2); }
+.how-example b { padding: 2px 8px; border-radius: 100px; background: rgba(194, 54, 15, 0.1); color: var(--lg-flame-hi); font-weight: 800; }
+.how-example span[data-hot] { border-color: rgba(194, 54, 15, 0.45); background: #FFF1E9; }
+.how-example span[data-hot] b { background: var(--lg-flame); color: #fff; }
+.how-prizes span { display: inline-flex; align-items: baseline; gap: 5px; padding: 6px 12px; border-radius: 11px; background: var(--lg-tint); font-size: 12px; font-weight: 700; color: var(--lg-ink-2); font-variant-numeric: tabular-nums; }
+.how-prizes em { font-style: normal; font-weight: 800; }
+.how-prizes b { font-size: 16px; font-weight: 800; color: var(--lg-ink); }
+.how-extra { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--lg-line); font-size: 14px; line-height: 1.55; color: var(--lg-ink-2); white-space: pre-line; }
 .lgx-rules { margin-top: 16px; }
 .lgx-rules ul { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .lgx-rules li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; font-size: 14px; line-height: 1.5; color: var(--lg-ink-2); }
@@ -623,9 +713,23 @@ a.lgp-name:hover { text-decoration: underline; text-underline-offset: 3px; text-
 .lbp-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .lbp-head h3 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
 .lbp-head p { margin: 3px 0 0; font-size: 13px; color: var(--lg-ink-2); }
-.lbp-seg { display: inline-flex; padding: 3px; border-radius: 100px; background: rgba(255, 255, 255, 0.75); border: 1px solid var(--lg-line); }
-.lbp-seg button { min-height: 36px; padding: 0 16px; border-radius: 100px; border: 0; background: transparent; color: var(--lg-ink-2); font: inherit; font-size: 13.5px; font-weight: 800; cursor: pointer; }
-.lbp-seg button[aria-pressed="true"] { background: var(--lg-flame); color: #fff; box-shadow: 0 6px 14px -8px rgba(169, 44, 9, 0.9); }
+/* The switch: one pill that slides between the two periods. */
+.lbp-seg { position: relative; display: inline-grid; grid-template-columns: 1fr 1fr; padding: 3px; border-radius: 100px; background: rgba(255, 255, 255, 0.75); border: 1px solid var(--lg-line); }
+.lbp-seg::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  border-radius: 100px;
+  background: var(--lg-flame);
+  box-shadow: 0 6px 14px -8px rgba(169, 44, 9, 0.9);
+  transition: transform 320ms var(--lg-ease);
+}
+.lbp-seg[data-period="weekly"]::before { transform: translateX(100%); }
+.lbp-seg button { position: relative; z-index: 1; min-width: 72px; min-height: 36px; padding: 0 16px; border-radius: 100px; border: 0; background: transparent; color: var(--lg-ink-2); font: inherit; font-size: 13.5px; font-weight: 800; cursor: pointer; transition: color 220ms ease; }
+.lbp-seg button[aria-pressed="true"] { color: #fff; }
 .lbp-you { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .lbp-stat { display: grid; gap: 2px; padding: 12px 14px; border-radius: 16px; background: rgba(255, 255, 255, 0.78); border: 1px solid var(--lg-line); font-variant-numeric: tabular-nums; }
 .lbp-stat small { font-size: 12px; font-weight: 750; color: var(--lg-ink-2); }
@@ -768,7 +872,7 @@ a.lgp-name:hover { text-decoration: underline; text-underline-offset: 3px; text-
 }
 @media (max-width: 760px) {
   .lgx { padding: 86px 14px 70px; }
-  .lgc { padding: 18px 16px; border-radius: 22px; }
+  .lgc, .lgs { padding: 18px 16px; border-radius: 22px; }
   .lgc-actions { grid-template-columns: 1fr; }
   .lgc-publics {
     grid-template-columns: none;
@@ -801,9 +905,10 @@ a.lgp-name:hover { text-decoration: underline; text-underline-offset: 3px; text-
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .lgc-preview, .lgc-codebig span, .lgc-sheet, .duel-sheet, .podium-step, .lgx-skeleton { animation: none; }
+  .lgc-preview, .lgc-codebig span, .lgc-sheet, .duel-sheet, .podium-step, .lgx-skeleton,
+  .podium-avatar, .podium-name, .podium-value, .picks .pick { animation: none; }
   .lg-paper[data-public]::after { display: none; }
-  .lgx-duel-bar i { transition: none; }
+  .lgx-duel-bar i, .lbp-seg::before { transition: none; }
 }
 @media (prefers-reduced-transparency: reduce) {
   .lgc-mine-row, .lgc-code, .lgx-panel, .lbp-stat { background: #fff; }

@@ -98,13 +98,13 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
           <h3 id="lbp-title">Tregtarët më të mirë</h3>
           <p>Fitimi nga tregtitë e mbyllura. Tre të parët marrin shpërblimin kur mbyllet periudha.</p>
         </div>
-        <div className="lbp-seg" role="group" aria-label="Periudha">
+        <div className="lbp-seg" role="group" aria-label="Periudha" data-period={period}>
           <button type="button" aria-pressed={period === "monthly"} onClick={() => setPeriod("monthly")}>Muaji</button>
           <button type="button" aria-pressed={period === "weekly"} onClick={() => setPeriod("weekly")}>Java</button>
         </div>
       </div>
 
-      <LeaguePodium seats={seats} label={period === "monthly" ? "Podiumi i muajit" : "Podiumi i javës"} />
+      <LeaguePodium key={period} seats={seats} label={period === "monthly" ? "Podiumi i muajit" : "Podiumi i javës"} />
 
       {loggedIn && (
         <div className="lbp-you">
