@@ -438,7 +438,7 @@ a.lgp-name:hover { text-decoration: underline; text-underline-offset: 3px; text-
    each place takes, and where the money comes from.
    ══════════════════════════════════════════════════════════ */
 .pool { display: grid; gap: 10px; min-width: 0; }
-.pool-total { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.pool-total { display: grid; gap: 2px; }
 .pool-total small { font-size: 12px; font-weight: 800; letter-spacing: 0.02em; color: var(--lg-ink-2); }
 .pool-total strong { font-size: clamp(30px, 4vw, 44px); font-weight: 800; letter-spacing: -0.045em; line-height: 1; color: var(--lg-flame-hi); font-variant-numeric: tabular-nums; }
 .pool-total strong em { font-style: normal; font-size: 13px; font-weight: 800; letter-spacing: 0; margin-left: 5px; color: var(--lg-ink-2); }
