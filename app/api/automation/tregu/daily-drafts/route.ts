@@ -13,7 +13,10 @@ export const maxDuration = 60;
 export async function GET(request: NextRequest) {
   const denied = automationDenied(request);
   if (denied) return denied;
-  const sourceArticles = selectDailySourceArticlesWithCorroboration(await getLatestPersistedArticles(100), 40);
+  const sourceArticles = selectDailySourceArticlesWithCorroboration(
+    (await getLatestPersistedArticles(100)).filter((article) => !/^sport(?:s)?$/i.test(String(article.category ?? "").trim())),
+    40,
+  );
   const admin = createAdminClient();
   const { data: futureTemplates, error: futureError } = admin ? await admin.from("markets").select("id,slug,question,description,closes_at,live_event,sport_outcomes,status,market_classification,market_type").eq("status", "draft").in("market_classification", ["live_f1", "live_football"]).gt("closes_at", new Date().toISOString()) : { data: [], error: null };
   const { data: activeMarkets, error: activeError } = admin ? await admin
@@ -32,6 +35,7 @@ export async function GET(request: NextRequest) {
       title: article.title,
       excerpt: article.excerpt,
       body: String(article.body ?? "").slice(0, 1500),
+      imageUrl: article.imageUrl ?? null,
       source: article.source,
       url: article.url ?? null,
       publishedAt: article.publishedAt,

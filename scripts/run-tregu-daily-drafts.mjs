@@ -19,6 +19,7 @@ if (!baseUrl || !secret) {
 
 const headers = { authorization: `Bearer ${secret}` };
 const dryRun = process.argv.includes("--dry-run");
+const notify = !dryRun && !process.argv.includes("--no-notify");
 const manualRun = process.argv.includes("--manual");
 if (dryRun && manualRun) throw new Error("Choose either --manual or --dry-run.");
 const manualRunKey = manualRun
@@ -173,7 +174,7 @@ if (dryRun) {
 const receiptMarkerDir = process.env.TREGU_RECEIPT_MARKER_DIR ?? "/opt/data/linear-hermes-bridge/state/tregu-receipts";
 const escapeHtml = (value) => String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&#39;");
 const sendReceipt = ({ subject, html, markerKey }) => {
-  if (!process.argv.includes("--notify")) return;
+  if (!notify) return;
   mkdirSync(receiptMarkerDir, { recursive: true, mode: 0o700 });
   const safeKey = String(markerKey).replace(/[^A-Za-z0-9_.-]/g, "_");
   const marker = join(receiptMarkerDir, `${safeKey}.sent`);
@@ -195,15 +196,15 @@ if (!result.skipped && result.created > 0) {
   const html = buildDraftReviewEmail({ appUrl: baseUrl, reviewPath: `/admin/tregu/review?drafts=${encodeURIComponent(result.runKey)}`, markets: result.markets });
   sendReceipt({ subject: `383 Tregu — ${result.created} draftet e reja — PASSED`, html, markerKey: `${result.runKey}-drafts` });
 } else {
-  const state = result.skipped ? "SUCCEEDED — already processed safely" : "SUCCEEDED — no new market was eligible";
+  const state = result.reason === "already_processed" ? "SUCCEEDED — already processed safely" : "SUCCEEDED — no qualifying news market";
   const reviewUrl = `${baseUrl}/admin/tregu/review?drafts=${encodeURIComponent(result.runKey ?? "")}`;
-  const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;background:#f8fafc;padding:24px;color:#0f172a"><main style="max-width:680px;margin:auto;background:#fff;border:1px solid #cbd5e1;border-radius:12px;padding:24px"><h1 style="margin-top:0">383 Tregu — execution receipt</h1><p><strong>Status:</strong> ${escapeHtml(state)}</p><p><strong>Run key:</strong> <code>${escapeHtml(result.runKey)}</code></p><p><strong>Created:</strong> ${escapeHtml(result.created)}</p><p>This confirms that the Tregu creation endpoint ran successfully and did not create duplicates.</p><p><a href="${escapeHtml(reviewUrl)}">Open Tregu review</a></p></main></body></html>`;
-  sendReceipt({ subject: `383 Tregu — PASSED — ${result.skipped ? "already processed" : "no eligible drafts"}`, html, markerKey: `${result.runKey}-receipt` });
+  const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;background:#f8fafc;padding:24px;color:#0f172a"><main style="max-width:680px;margin:auto;background:#fff;border:1px solid #cbd5e1;border-radius:12px;padding:24px"><h1 style="margin-top:0">383 Tregu — execution receipt</h1><p><strong>Status:</strong> ${escapeHtml(state)}</p><p><strong>Run key:</strong> <code>${escapeHtml(result.runKey)}</code></p><p><strong>Created:</strong> ${escapeHtml(result.created)}</p><p><strong>Topics shortlisted:</strong> ${escapeHtml(shortlist.topics.length)}</p><p><strong>Contracts proposed:</strong> ${escapeHtml(candidates.length)}</p><p><strong>Reason:</strong> ${escapeHtml(result.no_publish_reason ?? result.reason ?? "none")}</p><p>This confirms that the Tregu creation endpoint ran successfully and did not create duplicates.</p><p><a href="${escapeHtml(reviewUrl)}">Open Tregu review</a></p></main></body></html>`;
+  sendReceipt({ subject: `383 Tregu — PASSED — ${result.reason === "already_processed" ? "already processed" : "no eligible markets"}`, html, markerKey: `${result.runKey}-receipt` });
 }
-if (process.argv.includes("--notify") && Array.isArray(futureTemplates) && futureTemplates.length) {
+if (notify && Array.isArray(futureTemplates) && futureTemplates.length) {
   const cards = futureTemplates.map((market) => `<article style="border:1px solid #fed7aa;border-radius:12px;padding:18px;margin:0 0 14px"><p style="margin:0 0 8px;color:#c2410c;font-weight:700;letter-spacing:1px">${String(market.market_classification ?? "LIVE SPORT").toUpperCase()} · REVIEW-ONLY TEMPLATE</p><h2 style="margin:0 0 8px">${String(market.question ?? "F1 race")}</h2><p>${String(market.description ?? "")}</p><p><b>${Array.isArray(market.sport_outcomes) ? market.sport_outcomes.length : 0} drivers</b> · review roster and grid before approval.</p><a href="${baseUrl}/admin/tregu" style="display:inline-block;background:#111827;color:#fff;padding:10px 14px;border-radius:7px;text-decoration:none">Open Admin review</a></article>`).join("");
   const html = `<!doctype html><html><body style="font-family:Arial;background:#fff7ed;padding:24px"><h1>383 Tregu — F1 race awaiting approval</h1>${cards}</body></html>`;
   const directory = mkdtempSync(join(tmpdir(), "tregu-f1-")); const htmlFile = join(directory, "review.html");
   try { writeFileSync(htmlFile, html, { encoding: "utf8", mode: 0o600 }); execFileSync("python3", ["scripts/send-tregu-review-email.py", "--recipient", TREGU_DRAFT_REVIEW_RECIPIENT, "--subject", `383 Tregu — ${futureTemplates.length} F1 template awaiting approval`, "--html-file", htmlFile], { cwd: process.cwd(), stdio: "inherit" }); const mark = await fetch(`${baseUrl}/api/automation/tregu/daily-drafts`, { method:"POST", headers:{...headers,"content-type":"application/json"}, body:JSON.stringify({ markTemplateIds:futureTemplates.map((m)=>m.id) }) }); if(!mark.ok) throw new Error(`Could not mark F1 template email: ${await mark.text()}`); } finally { rmSync(directory,{recursive:true,force:true}); }
 }
-console.log(JSON.stringify({ ok: true, skipped: result.skipped, created: result.created, runKey: result.runKey }));
+console.log(JSON.stringify({ ok: true, skipped: result.skipped, created: result.created, runKey: result.runKey, no_publish_reason: result.no_publish_reason ?? null, receipt_notification: notify }));

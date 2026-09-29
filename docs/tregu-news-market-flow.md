@@ -20,6 +20,7 @@ flowchart LR
 ## Current operational state
 
 - `tregu-daily-drafts.timer` is enabled and scheduled for 07:20 Europe/Belgrade. Its shortlist and contract stages run through the VPS Codex OAuth profile `tregudaily` with `gpt-6-luna` and `agent.reasoning_effort: xhigh`. The runner verifies that profile setting and fails rather than silently using another model.
+- Every completed live daily or manual run emails a creation receipt with shortlist, proposed contract, and created counts plus the no-publish reason. The versioned VPS wrapper retries transient failures once and emails a failure notice after its final failed attempt. Dry runs do not email.
 - `383-tregu-reprice.timer` and `383-tregu-market-email.timer` are enabled. The separate two-minute repricer still uses Groq with Gemini fallback; the one-minute opening-email worker delivers queued creation mail.
 - The VPS research service writes a private `market-research/latest.json` packet with extracted original publisher pages. Repricing now requires a fresh per-market packet, strict subject relevance, and two independent cited hosts. An elapsed review date alone can no longer move odds or pay out a market.
 - A read-only check of the 2026-09-28 12:20 UTC packet found 45 parser-eligible original pages across six of seven open markets. One page was rejected as truncated; the remaining market had no extracted evidence. This confirms the packet schema and freshness checks against the live producer, but does not prove a particular article satisfies a market's decision criteria.

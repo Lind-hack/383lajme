@@ -195,7 +195,7 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
   if (requestedRunKey !== undefined && typeof requestedRunKey !== "string") throw new Error("Invalid live-event draft run key.");
   const admin = createAdminClient();
   if (!admin) throw new Error("Supabase service-role configuration is required for Tregu automation.");
-  const sourceArticles = await getLatestPersistedArticles(60);
+  const sourceArticles = await getLatestPersistedArticles(100);
   const manualRunKey = isManualDailyRunKey(requestedRunKey)
     ? requestedRunKey as string : null;
   const expectedLiveEventRunKey = typeof requestedRunKey === "string" && !manualRunKey ? buildLiveEventDraftRunKey({ candidates, now }) : null;
@@ -309,7 +309,7 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
 export async function previewDailyDraftAutomation(candidates: unknown, now = new Date()) {
   const admin = createAdminClient();
   if (!admin) throw new Error("Supabase service-role configuration is required for Tregu automation.");
-  const sourceArticles = await getLatestPersistedArticles(60);
+  const sourceArticles = await getLatestPersistedArticles(100);
   const validated = validateDailyDraftSubmission(candidates, new Set(sourceArticles.map((article) => article.slug)), {
     minimum: 0,
     nonSportOnly: true,
