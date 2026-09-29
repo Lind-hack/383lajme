@@ -14,8 +14,8 @@ export async function GET(request: NextRequest) {
   const denied = automationDenied(request);
   if (denied) return denied;
   const sourceArticles = selectDailySourceArticlesWithCorroboration(
-    (await getLatestPersistedArticles(100)).filter((article) => !/^sport(?:s)?$/i.test(String(article.category ?? "").trim())),
-    40,
+    (await getLatestPersistedArticles(300)).filter((article) => !/^sport(?:s)?$/i.test(String(article.category ?? "").trim())),
+    60,
   );
   const admin = createAdminClient();
   const { data: futureTemplates, error: futureError } = admin ? await admin.from("markets").select("id,slug,question,description,closes_at,live_event,sport_outcomes,status,market_classification,market_type").eq("status", "draft").in("market_classification", ["live_f1", "live_football"]).gt("closes_at", new Date().toISOString()) : { data: [], error: null };
@@ -39,6 +39,7 @@ export async function GET(request: NextRequest) {
       source: article.source,
       url: article.url ?? null,
       publishedAt: article.publishedAt,
+      engagementScore: article.engagementScore ?? 0,
     })),
     activeMarkets: (activeMarkets ?? []).map((market) => {
       const analysis = market.pre_match_analysis && typeof market.pre_match_analysis === "object" ? market.pre_match_analysis as Record<string, unknown> : {};

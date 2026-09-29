@@ -59,17 +59,17 @@ function runDailyCodex(prompt, key, maximum) {
 // only has to write contracts for topics that are already vetted. No quality gate moves.
 const shortlistPrompt = `You are scanning Kosovo, Albania and world news for prediction-market topics.
 
-From the verified articles below, name up to 10 topics whose outcome is genuinely still UNDECIDED and can be resolved by a named authority between 8 hours and 90 days from now. Use the actual documented event window; short-lived court, policy and economic decisions are eligible.
+From the verified articles below, name up to 10 topics whose outcome is genuinely still UNDECIDED and can be resolved by a named authority between 8 hours and 90 days from now. Search for three useful market shapes: (1) scheduled decisions and releases; (2) measurable thresholds from a named official dataset; (3) consequential actions that may or may not happen by a clearly labelled editorial cutoff of at most 14 days. An editorial cutoff is our market rule, not a claim that an authority scheduled a decision then.
 
 A topic qualifies only if:
 - the article reports a live dispute, upcoming vote, ruling, appointment, threshold or decision — not something already settled;
 - an informed person could reasonably disagree today about how it ends;
 - it matters to many people (public affairs, household economy, energy, prices, courts, elections, major geopolitics or technology policy);
-- at least two DIFFERENT publishers in the supplied articles cover it.
+- at least two DIFFERENT publishers in the supplied articles cover it, OR one article is the named authority's own official publication on its official domain.
 
 Reject: sport of any kind, routine meetings with no decision, generic announcements, minor crime, celebrity gossip, niche corporate notices, and anything whose outcome the article already establishes.
 
-Do not write market questions. Do not invent facts. Name topics only.
+Rank promising topics by public reach, source engagement, recency, real uncertainty, and how objectively PO and JO can be verified. A Kosovo or Albania story with clear public consequences can outrank a niche world story. Do not force a fixed geography mix. Do not write market questions. Do not invent facts. Name topics only.
 Skip any topic already listed as active below.
 
 Current time: ${now.toISOString()}
@@ -94,7 +94,7 @@ console.log(JSON.stringify({
 
 const prompt = `You are the 383 Tregu daily market editor for NON-SPORTS markets. Official football and F1 templates are created by a separate verified sports lane; never propose sport markets here.
 
-Stage one already shortlisted the topics listed below from these same verified articles. You are no longer searching for topics: your job is to write the full market contract for those that genuinely qualify. Drop any shortlisted topic that fails a quality rule, and return at most 6. Prefer major Kosovo, Albania and world developments that people widely discuss, with documented decision timelines from 8 hours to 90 days.
+Stage one already shortlisted the topics listed below from these same verified articles. You are no longer searching for topics: your job is to write the full market contract for those that genuinely qualify. Drop any shortlisted topic that fails a quality rule, and return at most 6. Prefer major Kosovo, Albania and world developments that people widely discuss, with a verifiable outcome within 8 hours to 90 days.
 
 SHORTLISTED TOPICS (write contracts for these):
 ${JSON.stringify(shortlist.topics)}
@@ -106,7 +106,7 @@ MANDATORY MARKET CONTRACT (all fields are required):
 - why_uncertain: the current evidence for both paths and what new information could move the price. Do not write generic filler.
 - trading_angle: why an informed trader could reasonably disagree today.
 - resolution_source: the named institution, official dataset, court, election authority, or other authoritative source that determines the result.
-- deadline_basis: why this deadline is tied to a real event/release/decision window, not an arbitrary date.
+- deadline_basis: identify either a documented event/release/decision date or a plainly labelled editorial cutoff. For an editorial cutoff explain why 2-14 days is a meaningful window for this live story; never present it as an officially scheduled date.
 - resolution_criteria: explicit PO and JO rules, named source, exact deadline, and edge cases such as postponement, partial action, revised data, or no decision.
 
 QUALITY RULES:
@@ -115,9 +115,9 @@ QUALITY RULES:
 3. Do not create a headline restatement. Reject any topic whose supplied source has already established the proposed PO outcome. Do not ask whether an already-reported arrest, signing, meeting, arrival, death, victory, or announcement will be confirmed.
 4. Never create meeting-only, generic announcement, generic “will X happen?”, or “will institution confirm what the article says?” markets. A meeting is eligible only when it contains a consequential decision, vote, ruling, appointment, agreement, or measurable outcome.
 5. Prefer a real threshold or decision: a named vote/ruling, a measurable public number, a policy taking effect, a selection/appointment, or a clearly defined escalation/de-escalation condition. For threshold/data_release, include the numeric threshold in the question and threshold_value.
-6. Write a concise Albanian question ending with ?. Do not mechanically start with A do të. Do not force a date into the title. Set closes_in_hours between 8 and 2160 (8 hours–90 days), based on the documented decision timeline. For an imminent event, leave enough time for meaningful trading. Do not invent a deadline. Do not use closes_in_days.
-7. Prefer explicit competing events such as approval versus rejection. For event_pair markets, the date is a review date, not an automatic JO outcome. Neither event verified means pause_for_review. If JO means no signed agreement or no occurrence by a deadline (including "Mungesa ... brenda afatit"), use deadline_occurrence instead. Never label that contract event_pair. Do not invent a scheduled decision date.
-8. Require at least two independent publishers from the supplied articles. Copy source slugs exactly. Name the authoritative resolution source and explain why the topic is widely discussed.
+6. Write a concise Albanian question ending with ?. Do not mechanically start with A do të. Set closes_in_hours between 8 and 2160 (8 hours–90 days). For scheduled events use the documented time. For an unscheduled but consequential action, choose a 2-14 day editorial cutoff, state its exact date/time and timezone in the resolution criteria, and use deadline_occurrence. Do not imply the editorial cutoff is an official deadline. Do not use closes_in_days.
+7. Prefer explicit competing events such as approval versus rejection. For event_pair markets, the date is a review date, not an automatic JO outcome. Neither event verified means pause_for_review. If JO means no signed agreement or no occurrence by a deadline (including "Mungesa ... brenda afatit"), use deadline_occurrence instead. Never label that contract event_pair. An editorial cutoff works only for a concrete occurrence that can be checked by a named authority; no occurrence by that cutoff is JO after review.
+8. Require at least two independent publishers from the supplied articles, or a direct article on the named authority's official domain. Copy source slugs exactly. Name the authoritative resolution source and explain why the topic is widely discussed.
 9. Never repeat an active topic or near-identical question. Return fewer than three markets, including zero, when only fewer pass all quality gates.
 10. Every market requires contract_version: news-event-v3 and proposition: {entities: [named entities], geography: Kosovo|Albania|World, decision: concrete fork, yes_condition: explicit winning event, no_condition: explicit losing event, resolution_source: named authority, resolution_mode: event_pair|deadline_occurrence, review_policy: pause_for_review}. Event-pair JO must be a real event, not absence of PO by a date.
 11. Assign two independent labels: proposition.geography is Kosovo, Albania, or World; news_topic is politike, ekonomi, shoqeri, siguri, or teknologji. Kosovo/Albania/World describe where the outcome is decided, while topic describes the subject. A Kosovo economy story is Kosovo + ekonomi. Do not force an equal number of markets into each label; publish only candidates with strong evidence.
