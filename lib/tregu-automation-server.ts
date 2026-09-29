@@ -1,5 +1,5 @@
 import { getArticles, getLatestPersistedArticles, getPersistedArticleCorroboration } from "@/lib/db";
-import { loadMarketResearch } from "@/lib/tregu-research-evidence.mjs";
+import { loadMarketResearch, requireFreshMarketResearch } from "@/lib/tregu-research-evidence.mjs";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
 import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, evidenceIdentity, isEligibleNewsDeadlineMarket, isManualDailyRunKey, newsDeadlineAction, newsDeadlineDecayCap, NEWS_DEADLINE_DECAY_INTERVAL_MS, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
@@ -920,6 +920,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
     });
 
     const research = await loadMarketResearch(admin, now);
+    requireFreshMarketResearch(research, markets.length, { settleOnly });
     const marketIds = (markets ?? []).map((market) => String(market.id)).filter(Boolean);
     // The VPS research job reads original publisher pages and stores a private,
     // per-market packet. Newsroom copy and RSS headlines are never oracle input.
