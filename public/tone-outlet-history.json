@@ -692,19 +692,20 @@
     },
     "Sport24": {
       "country": "Greqi",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.sport24.gr/sports-travel/athlitikoi-proorismoi/me-exi-athlites-i-ellada-sto-evropaiko-protathlima-arsis-varon-paidon-sto-kosovo/",
         "https://www.sport24.gr/volley/kosovo-ellada-0-3-nikifora-premiera-gia-tin-ethniki-volei-ginaikon-stous-mesogeiakous-agones/?amp",
         "https://www.sport24.gr/volley/ellada-kosovo-3-0-me-to-dexi-i-ethniki-volei-andron-stous-mesogeiakous-agones/?amp",
         "https://www.sport24.gr/basket/peristeri-betsson-epikratise-tis-ili-apo-to-kosovo-se-filiko-agona-proetoimasias/",
-        "https://www.sport24.gr/matchcenter/kosovo-irlandia-live-24-09-2026/6a5dd4ea3c73d448d7b48e71/"
+        "https://www.sport24.gr/matchcenter/kosovo-irlandia-live-24-09-2026/6a5dd4ea3c73d448d7b48e71/",
+        "https://www.sport24.gr/football/nations-league-dio-sta-dio-gia-tin-afstria-apenanti-sto-kosovo-proti-niki-ston-omilo-gia-ti-dania-kontra-stin-oualia/"
       ]
     },
     "thetoc.gr": {
@@ -756,16 +757,17 @@
     },
     "NewsIT": {
       "country": "Greqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-08-20",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.newsit.gr/oikonomia/finance/telos-stis-eksagoges-ellinikou-ligniti-sti-voreia-makedonia-proxorise-se-symfonia-me-to-kosovo-2/4754038/",
-        "https://www.newsit.gr/oikonomia/finance/telos-stis-eksagoges-ellinikou-ligniti-sti-v-makedonia-proxorise-se-symfonia-me-to-kosovo/4754038/"
+        "https://www.newsit.gr/oikonomia/finance/telos-stis-eksagoges-ellinikou-ligniti-sti-v-makedonia-proxorise-se-symfonia-me-to-kosovo/4754038/",
+        "https://www.newsit.gr/lifestyle/i-dua-lipa-ta-espase-se-oikogeneiako-glenti-sto-kosovo-deite-vinteo/4784644/"
       ]
     },
     "HuffPost Greece": {
@@ -816,13 +818,13 @@
     },
     "sport-fm.gr": {
       "country": "Greqi",
-      "total": 15,
+      "total": 16,
       "positive": 1,
       "neutral": 10,
       "negative": 0,
-      "unknown": 4,
+      "unknown": 5,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.sport-fm.gr/article/amp/mesogeiakoi-agwnes-agriemeni-stin-premiera-tis-i-ethniki-andrwn-sarwse-to-kosobo-amp/5142502",
         "https://www.sport-fm.gr/article/amp/ellada-kosobo-3-0-set-amp/5142590",
@@ -838,7 +840,8 @@
         "https://www.sport-fm.gr/article/4169502",
         "https://www.sport-fm.gr/article/amp/Live-ellada-kosobo-amp/4133784",
         "https://www.sport-fm.gr/article/amp/Live-kosobo-ellada-amp/4304252",
-        "https://www.sport-fm.gr/events/34310271"
+        "https://www.sport-fm.gr/events/34310271",
+        "https://www.sport-fm.gr/events/34310318"
       ]
     },
     "In.gr": {
@@ -1846,9 +1849,9 @@
     },
     "Kicker": {
       "country": "Zvicër",
-      "total": 22,
+      "total": 23,
       "positive": 0,
-      "neutral": 21,
+      "neutral": 22,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-25",
@@ -1875,7 +1878,8 @@
         "https://www.kicker.de/oesterreich-gegen-kosovo-2026-uefa-nations-league-5193332/ticker",
         "https://www.kicker.de/oesterreich-gegen-kosovo-2026-uefa-nations-league-5193332/schema",
         "https://www.kicker.de/oesterreich-gewinnt-unter-anderem-dank-tor-von-ex-espe-zhegrovas-tor-kommt-zu-spaet-1256457/artikel",
-        "https://www.kicker.de/new-look-team-ueberzeugt-die-noten-zum-3-1-sieg-gegen-den-kosovo-1256339/slideshow"
+        "https://www.kicker.de/new-look-team-ueberzeugt-die-noten-zum-3-1-sieg-gegen-den-kosovo-1256339/slideshow",
+        "https://www.kicker.ch/oesterreich-gegen-kosovo-2026-uefa-nations-league-5193332/schema"
       ]
     },
     "infodifesa": {
@@ -2482,13 +2486,13 @@
     },
     "ESPN.nl": {
       "country": "Holandë",
-      "total": 7,
+      "total": 8,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 5,
       "firstSeen": "2026-08-28",
-      "lastSeen": "2026-09-25",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=505471&action=summary",
         "https://www.espn.nl/voetbal/wedstrijd?wedstrijdId=570760&action=summary",
@@ -2496,7 +2500,8 @@
         "https://www.espn.nl/voetbal/team/statistieken/_/id/18272/competitie/UEFA.NATIONS/season/2026",
         "https://www.espn.nl/voetbal/speler-statistieken/_/wedstrijdId/401861045",
         "https://www.espn.nl/soccer/match?gameId=401861071&action=summary",
-        "https://www.espn.nl/voetbal/wedstrijd/_/wedstrijdId/401861071/kosovo-oostenrijk"
+        "https://www.espn.nl/voetbal/wedstrijd/_/wedstrijdId/401861071/kosovo-oostenrijk",
+        "https://www.espn.nl/voetbal/speler-statistieken/_/wedstrijdId/401861071"
       ]
     },
     "iGaming Polska": {
@@ -3438,13 +3443,13 @@
     },
     "Albinfo": {
       "country": "Zvicër",
-      "total": 77,
+      "total": 83,
       "positive": 14,
-      "neutral": 49,
+      "neutral": 55,
       "negative": 0,
       "unknown": 14,
       "firstSeen": "2026-09-07",
-      "lastSeen": "2026-09-26",
+      "lastSeen": "2026-09-28",
       "urls": [
         "https://www.albinfo.ch/fr/tre-pilote-nga-kosova-ne-top-10-te-botes-ne-paragllajdizem/",
         "https://www.albinfo.ch/fr/kosove-efta-marreveshja-e-tregtise-se-lire-hyn-ne-fuqi-me-1-tetor/",
@@ -3522,7 +3527,13 @@
         "https://www.albinfo.ch/fr/erblin-osmani-shkruan-histori-behet-lojtari-me-i-ri-qe-debuton-me-fanellen-e-kosoves/",
         "https://www.albinfo.ch/de/filharmonia-e-kosoves-hap-sezonin-2026-2027-me-koncert-madheshtor/",
         "https://www.albinfo.ch/de/nga-1-tetori-hyn-ne-fuqi-marreveshja-e-tregtise-se-lire-mes-kosoves-dhe-zvicres/",
-        "https://www.albinfo.ch/de/erblin-osmani-shkruan-histori-behet-lojtari-me-i-ri-qe-debuton-me-fanellen-e-kosoves/"
+        "https://www.albinfo.ch/de/erblin-osmani-shkruan-histori-behet-lojtari-me-i-ri-qe-debuton-me-fanellen-e-kosoves/",
+        "https://www.albinfo.ch/fr/kina-dominon-tregun-e-veturave-elektrike-ne-kosove/",
+        "https://www.albinfo.ch/fr/kuvendi-i-kosoves-miraton-deklaraten-per-aktgjykimin-e-speciales/",
+        "https://www.albinfo.ch/de/kina-dominon-tregun-e-veturave-elektrike-ne-kosove/",
+        "https://www.albinfo.ch/de/kosova-prezanton-kulturen-dhe-traditat-shqiptare-ne-vjene/",
+        "https://www.albinfo.ch/de/ne-prag-te-ndeshjes-austri-kosove-presidenti-i-ffk-se-pritet-nga-homologu-austriak/",
+        "https://www.albinfo.ch/fr/prof-dr-alban-y-neziri-pranohet-ne-american-college-of-surgeons-merr-titullin-facs/"
       ]
     },
     "iAxia -": {
@@ -3774,16 +3785,17 @@
     },
     "Puna.nl": {
       "country": "Holandë",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-09-12",
+      "lastSeen": "2026-09-28",
       "urls": [
         "https://www.puna.nl/news/kosso-maakt-moeilijke-beslissing-en-emigreert-met-zijn-gezin-naar-kosovo-nederland-bedankt-voor-alles",
-        "https://www.puna.nl/news/kosso-koos-kosovo-boven-dubai-en-woont-nu-twee-huizen-verwijderd-van-de-president-een-soort-van-beverly-hills"
+        "https://www.puna.nl/news/kosso-koos-kosovo-boven-dubai-en-woont-nu-twee-huizen-verwijderd-van-de-president-een-soort-van-beverly-hills",
+        "https://www.puna.nl/news/kosso-onthult-dat-er-een-realityserie-komt-over-zijn-emigratie-naar-kosovo-mag-ik-nog-niet-over-vertellen"
       ]
     },
     "T24": {
@@ -4164,19 +4176,20 @@
     },
     "SRF": {
       "country": "Zvicër",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-13",
-      "lastSeen": "2026-09-22",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.srf.ch/news/international/neue-regierung-im-kosovo-kurti-bleibt-premier-opposition-boykottiert-abstimmung",
         "https://www.srf.ch/news/international/kosovo-tribunal-ehemaliger-kosovo-praesident-thaci-zu-25-jahren-haft-verurteilt",
         "https://www.srf.ch/news/international/kosovo-tribunal-hashim-thaci-verurteilt-wie-das-urteil-das-kosovo-veraendert",
         "https://www.srf.ch/play/tv/10-vor-10/video/kosovo-thaci-schuldspruch-sorgt-fuer-heftige-reaktionen?urn=urn:srf:video:fcebcd4b-b9fb-401a-b08c-f9dd7db603b4",
-        "https://www.srf.ch/play/tv/redirect/detail/urn:srf:video:222f1c6a-49b9-41c9-ab79-f4316f446bf6"
+        "https://www.srf.ch/play/tv/redirect/detail/urn:srf:video:222f1c6a-49b9-41c9-ab79-f4316f446bf6",
+        "https://www.srf.ch/play/tv/sport-clip/video/2--sieg-oesterreich-schlaegt-auch-den-kosovo?urn=urn:srf:video:a0e81aac-a2ff-4df2-bafd-a712ce2bdabd"
       ]
     },
     "Watson": {
@@ -4649,16 +4662,17 @@
     },
     "SDNA": {
       "country": "Greqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-14",
-      "lastSeen": "2026-09-25",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.sdna.gr/mpasket/1467210_filiki-niki-gia-peristeri-kontra-stin-ylli-apo-kosobo",
-        "https://www.sdna.gr/podosfairo/1470476_kosobo-irlandia-o-moyritsi-skorare-nikitirio-gkol-kai-ypsose-mployzaki-toy-uck"
+        "https://www.sdna.gr/podosfairo/1470476_kosobo-irlandia-o-moyritsi-skorare-nikitirio-gkol-kai-ypsose-mployzaki-toy-uck",
+        "https://www.sdna.gr/stoihima/1471062_me-niki-xekinisan-aystria-kai-kosobo-den-ehei-dehtei-gkol-apo-tin-andora-gibraltar"
       ]
     },
     "Dnews": {
@@ -5891,15 +5905,16 @@
     },
     "Le Matin": {
       "country": "Zvicër",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-16",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-27",
       "urls": [
-        "https://www.lematin.ch/story/kosovo-l-ex-president-condamne-a-25-ans-de-prison-pour-crimes-de-guerre-103634227?utm_source=google&utm_medium=organic&utm_campaign=googlenewsshowcase_singlestorypanel&utm_content=singlestory_story-103634227"
+        "https://www.lematin.ch/story/kosovo-l-ex-president-condamne-a-25-ans-de-prison-pour-crimes-de-guerre-103634227?utm_source=google&utm_medium=organic&utm_campaign=googlenewsshowcase_singlestorypanel&utm_content=singlestory_story-103634227",
+        "https://www.lematin.ch/story/suspicions-de-crimes-de-guerre-neuf-serbes-arretes-au-kosovo-103640029"
       ]
     },
     "SWI swissinfo.ch": {
@@ -7040,9 +7055,9 @@
     },
     "ORF ON": {
       "country": "Austri",
-      "total": 18,
+      "total": 29,
       "positive": 0,
-      "neutral": 15,
+      "neutral": 26,
       "negative": 2,
       "unknown": 1,
       "firstSeen": "2026-09-18",
@@ -7065,7 +7080,18 @@
         "https://on.orf.at/video/14340891/16161066/expertentalk-nations-league-oesterreich-kosovo-die-analyse",
         "https://on.orf.at/video/14340841/16161050/affengruber-sind-team-wo-teamgefuege-stimmt",
         "https://on.orf.at/video/14340841/16160918/franco-foda-der-alte-bekannte-nations-league-oesterreich-kosovo",
-        "https://on.orf.at/video/14340891/16161060/wimmer-gegner-ist-nur-so-stark-wie-mans-zulaesst-nations-league-oesterreich-kosovo-die-analyse"
+        "https://on.orf.at/video/14340891/16161060/wimmer-gegner-ist-nur-so-stark-wie-mans-zulaesst-nations-league-oesterreich-kosovo-die-analyse",
+        "https://on.orf.at/video/14340841/16160951/affengruber-koepfelt-oesterreich-in-fuehrung-23",
+        "https://on.orf.at/video/14340841/16160953/riesenchance-aufs-20-35-nations-league-oesterreich-kosovo",
+        "https://on.orf.at/video/14340841/16161047/spielminute-84-905-nations-league-oesterreich-kosovo",
+        "https://on.orf.at/video/14340841/16161025/spielminute-62-82-nations-league-oesterreich-kosovo",
+        "https://on.orf.at/video/14340841/16160959/halbzeitanalyse-nations-league-oesterreich-kosovo",
+        "https://on.orf.at/video/14340841/16160961/spielminute-46-50-nations-league-oesterreich-kosovo",
+        "https://on.orf.at/video/14340841/16160937/einlauf-und-hymnen-nations-league-oesterreich-kosovo",
+        "https://on.orf.at/video/14340841/16160950/spielminute-7-22-nations-league-oesterreich-kosovo",
+        "https://on.orf.at/video/14340841/16161023/spielminute-52-60-nations-league-oesterreich-kosovo",
+        "https://on.orf.at/video/14340841/16160960/zawieschitzky-gefordert-51-nations-league-oesterreich-kosovo",
+        "https://on.orf.at/video/14340841/16160938/anpfiff"
       ]
     },
     "GMX.AT": {
@@ -7270,15 +7296,16 @@
     },
     "iEidiseis": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-18",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-28",
       "urls": [
-        "https://www.ieidiseis.gr/kosmos/867867/katadiki-chasim-thatsi-sti-chagi-25-chronia-fylakisi-gia-egklimata-polemoy-sto-kosovo/"
+        "https://www.ieidiseis.gr/kosmos/867867/katadiki-chasim-thatsi-sti-chagi-25-chronia-fylakisi-gia-egklimata-polemoy-sto-kosovo/",
+        "https://www.ieidiseis.gr/showbiz/876071/dua-lipa-se-paradosiako-glenti-me-klarina-sto-kosovo-gia-ton-gamo-xadelfis-tis/"
       ]
     },
     "amarysia.gr": {
@@ -7482,15 +7509,16 @@
     },
     "Reader.gr": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-18",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-27",
       "urls": [
-        "https://www.reader.gr/kosmos/25-hronia-ston-proin-proedro-hasim-thatsi-gia-egklimata-polemoy-sto-kosobo/661684"
+        "https://www.reader.gr/kosmos/25-hronia-ston-proin-proedro-hasim-thatsi-gia-egklimata-polemoy-sto-kosobo/661684",
+        "https://www.reader.gr/lifestyle/viral-i-ntoya-lipa-se-glenti-gamoy-sto-kosobo-ta-klarina-kai-o-horos-me-potiri-sto-kefali/663165"
       ]
     },
     "newmoney": {
@@ -7508,15 +7536,16 @@
     },
     "ProtoThema": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-18",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-27",
       "urls": [
-        "https://www.protothema.gr/world/article/1879639/enohos-gia-eglimata-polemou-krithike-o-proin-proedros-tou-kosovou-hasim-thatsi-katadikastike-se-fulakisi-25-eton/"
+        "https://www.protothema.gr/world/article/1879639/enohos-gia-eglimata-polemou-krithike-o-proin-proedros-tou-kosovou-hasim-thatsi-katadikastike-se-fulakisi-25-eton/",
+        "https://www.protothema.gr/life-style/article/1885621/to-viral-video-tis-doua-lipa-horepse-se-oikogeneiako-gledi-sto-kosovo-me-potiri-sto-kefali/"
       ]
     },
     "sbctv.gr": {
@@ -8687,9 +8716,9 @@
     },
     "Sky Sport": {
       "country": "Itali",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-23",
@@ -8699,7 +8728,8 @@
         "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-1/kosovo-irlanda/risultato-gol",
         "https://sport.sky.it/calcio/nations-league/2026/09/24/nations-league-partite-oggi-24-settembre-dove-vedere",
         "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-2/austria-kosovo/risultato-gol",
-        "https://sport.sky.it/calcio/nations-league/video/2026/09/27/austria-kosovo-gol-highlights-1127602"
+        "https://sport.sky.it/calcio/nations-league/video/2026/09/27/austria-kosovo-gol-highlights-1127602",
+        "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-2/austria-kosovo"
       ]
     },
     "Abruzzo Web": {
@@ -8803,17 +8833,18 @@
     },
     "Foxbet.gr": {
       "country": "Greqi",
-      "total": 3,
+      "total": 4,
       "positive": 0,
       "neutral": 3,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-23",
-      "lastSeen": "2026-09-26",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.foxbet.gr/prognostika/447523-kosovo-irlandia",
         "https://www.foxbet.gr/prognostika/447515-san-marino-kosovo",
-        "https://www.foxbet.gr/prognostika/447811-afstria-kosovo"
+        "https://www.foxbet.gr/prognostika/447811-afstria-kosovo",
+        "https://www.foxbet.gr/340013/aystria-enantion-kosobo"
       ]
     },
     "StoiximaView.gr": {
@@ -9117,9 +9148,9 @@
     },
     "Eurosport": {
       "country": "Spanjë",
-      "total": 6,
+      "total": 7,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 3,
       "firstSeen": "2026-09-24",
@@ -9130,7 +9161,8 @@
         "https://www.eurosport.it/calcio/uefa-nations-league/2026-2027/live-kosovo-irlanda_mtc20005856/live.shtml",
         "https://www.eurosport.it/calcio/uefa-nations-league/2026-2027/live-austria-kosovo_mtc20005955/live.shtml",
         "https://www.eurosport.es/futbol/uefa-nations-league/2026-2027/live-austria-kosovo_mtc20005955/live.shtml",
-        "https://www.eurosport.it/calcio/uefa-nations-league/2026-2027/tutti-i-risultati-di-domenica-27-settembre.-israele-irlanda-danimarca-galles-austria-kosovo.-a-segno-hojlund-zhegrova-e-isaksen_sto23340868/story.shtml"
+        "https://www.eurosport.it/calcio/uefa-nations-league/2026-2027/tutti-i-risultati-di-domenica-27-settembre.-israele-irlanda-danimarca-galles-austria-kosovo.-a-segno-hojlund-zhegrova-e-isaksen_sto23340868/story.shtml",
+        "https://www.eurosport.nl/voetbal/uefa-nations-league/2026-2027/live-oostenrijk-kosovo_mtc20005955/live.shtml"
       ]
     },
     "BetWeekend": {
@@ -9400,15 +9432,16 @@
     },
     "Ziggo Sport": {
       "country": "Holandë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-25",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
-        "https://www.ziggosport.nl/video/2019159-kosovo-ierland/"
+        "https://www.ziggosport.nl/video/2019159-kosovo-ierland/",
+        "https://www.ziggosport.nl/video/2019216-oostenrijk-kosovo/"
       ]
     },
     "abc.es": {
@@ -9465,17 +9498,18 @@
     },
     "Novasports": {
       "country": "Greqi",
-      "total": 3,
+      "total": 4,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 3,
+      "unknown": 4,
       "firstSeen": "2026-09-25",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.novasports.gr/sport/podosfairo/event/nations-league/article/15132478/kosovo-irlandia-1-0-mouritsi-poios-allos-highlights/",
         "https://www.novasports.gr/roi-enimerosis/article/15132478/kosovo-irlandia-1-0-mouritsi-poios-allos/",
-        "https://www.novasports.gr/web-tv/sport/podosfairo/event/nations-league/video/15132461/kosovo-irlandia-1-0-highlights/"
+        "https://www.novasports.gr/web-tv/sport/podosfairo/event/nations-league/video/15132461/kosovo-irlandia-1-0-highlights/",
+        "https://www.novasports.gr/sport/podosfairo/event/nations-league/article/15137417/aystria-kosovo-3-1-dyo-sta-dyo-me-kynismo-highlights/"
       ]
     },
     "Kvartal": {
@@ -10358,6 +10392,123 @@
       "lastSeen": "2026-09-28",
       "urls": [
         "https://www.noefv.at/noefv/News/NOe-Power-im-Nationalteam-Affengruber-und-Wimmer-praegen-Sieg-gegen-Kosovo"
+      ]
+    },
+    "tv.orf.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-29",
+      "lastSeen": "2026-09-26",
+      "urls": [
+        "https://tv.orf.at/stories/260927_nations_league100.html"
+      ]
+    },
+    "KNVB": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-29",
+      "lastSeen": "2026-09-28",
+      "urls": [
+        "https://www.knvb.nl/nieuws/scheidsrechters/aanstellingen/72271/robin-hensgens-heeft-de-leiding-over-u21-duel-kosovo"
+      ]
+    },
+    "VoetbalGokken.nl": {
+      "country": "Holandë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-29",
+      "lastSeen": "2026-09-27",
+      "urls": [
+        "https://www.voetbalgokken.nl/matchcenter/wedstrijd/oostenrijk-kosovo/19676735"
+      ]
+    },
+    "Cadena 100": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-29",
+      "lastSeen": "2026-09-28",
+      "urls": [
+        "https://www.cadena100.es/trending-topic/noticias/dua-lipa-deslumbrante-gran-boda-albanesa-primo-todos-detalles-emotivo-semana-familiar-kosovo-20260928_156041.html"
+      ]
+    },
+    "Ultima Hora": {
+      "country": "Spanjë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-29",
+      "lastSeen": "2026-09-27",
+      "urls": [
+        "https://www.ultimahora.es/noticias/internacional/2026/09/27/2717389/detenidos-nueve-sospechosos-cometer-crimenes-guerra-kosovo-1999.html"
+      ]
+    },
+    "News 24/7": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-29",
+      "lastSeen": "2026-09-27",
+      "urls": [
+        "https://www.news247.gr/psixagogia/celebrities/h-ntoua-lipa-xorepse-se-glenti-sto-kosovo-me-potiri-sto-kefali-vinteo/"
+      ]
+    },
+    "iefimerida.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-29",
+      "lastSeen": "2026-09-27",
+      "urls": [
+        "https://www.iefimerida.gr/zoi/ntoya-lipa-paradoseis-potiri-kefali-glenti"
+      ]
+    },
+    "ANT1 TV": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-29",
+      "lastSeen": "2026-09-28",
+      "urls": [
+        "https://www.antenna.gr/f-latest/article/57/zpoa9heitxsood2yjydsl0vn/dua-lipa-xesalose-ston-gamo-toy-xaderfoy-tis-sto-kosobo-ta-tsiftetelia--o-xoros-me-to-potiri-sto-kefali"
+      ]
+    },
+    "Ogdoo.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-29",
+      "lastSeen": "2026-09-28",
+      "urls": [
+        "https://www.ogdoo.gr/epikairotita/all-around/ntoua-lipa-viral-o-choros-tis-se-glenti-sto-kosovo-me-potiri-sto-kefali-vinteo/"
       ]
     }
   }
