@@ -15,7 +15,6 @@ import FloorRail from "@/components/tregu/floor-rail";
 import TraderLeaderboard from "@/components/tregu/trader-leaderboard";
 import LeaderboardGift from "@/components/tregu/leaderboard-gift";
 import LeaguesCard from "@/components/tregu/leagues-card";
-import RivalryBanner from "@/components/tregu/rivalry-banner";
 import WithdrawalProgress from "@/components/tregu/withdrawal-progress";
 import type { MiniMarket } from "@/components/tregu/market-mini-card";
 import VideoHero from "@/components/tregu/video-hero";
@@ -768,9 +767,6 @@ export default function TreguHub() {
           </div>
         </div>
 
-        {/* The reason to open Tregu today: who passed you, who challenged you. */}
-        <RivalryBanner loggedIn={balance !== null} />
-
         <div className="tregu-discovery-controls">
           <label className="tregu-search"><span>Kërko tregje</span><input type="search" placeholder="Skuadër, pilot ose ngjarje…" value={query} onChange={e => setQuery(e.target.value)} onKeyDown={jumpToResults} /></label>
           <label className="tregu-category-mobile" data-tour="floor-filters-mobile"><span>Kategoria</span><select value={category} onChange={e => { setCategory(e.target.value); setLeague(null); }}>{CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}</select></label>
@@ -880,7 +876,6 @@ export default function TreguHub() {
         {!loading && !loadError && <TraderLeaderboard loggedIn={balance !== null} />}
         {/* A confirmed leaderboard prize waits here until its winner opens it. */}
         <LeaderboardGift loggedIn={balance !== null} />
-        {!loading && !loadError && <LeaguesCard loggedIn={balance !== null} />}
 
         {/* Sports discovery — the four big football leagues with live books,
             the F1 calendar, and basketball locked until its pricing
@@ -897,6 +892,9 @@ export default function TreguHub() {
             onSelect={selectSport}
           />
         )}
+
+        {/* Ligat sit under the sports they are mostly played on. */}
+        {!loading && !loadError && <LeaguesCard loggedIn={balance !== null} />}
 
         {/* Active league filter chip — visible state for the grid below. */}
         {league && !loading && !loadError && (

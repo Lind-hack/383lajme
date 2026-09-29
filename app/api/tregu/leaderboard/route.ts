@@ -22,12 +22,16 @@ type Row = { rank: number; display_name: string; profit: number; is_me: boolean 
 export async function GET() {
   const supabase = await createClient();
 
-  const [monthly, weekly, monthBounds, weekBounds] = await Promise.all([
+  const [monthly, weekly, monthBounds, weekBounds, won] = await Promise.all([
     supabase.rpc("tregu_leaderboard_board", { p_kind: "monthly", p_limit: 5 }),
     supabase.rpc("tregu_leaderboard_board", { p_kind: "weekly", p_limit: 5 }),
     supabase.rpc("tregu_period_bounds", { p_kind: "monthly", p_offset: 0 }),
     supabase.rpc("tregu_period_bounds", { p_kind: "weekly", p_offset: 0 }),
+    // Prizes the caller has collected from boards and leagues (0089). Null
+    // for visitors, and while the function is not deployed.
+    supabase.rpc("tregu_my_prize_total"),
   ]);
+  const prizesWon = won.error || won.data == null ? null : Number(won.data);
 
   // Before migration 0083 is applied the bounds RPC does not exist; fall back to
   // UTC boundaries so the countdown still ticks instead of reading zero.
@@ -56,6 +60,7 @@ export async function GET() {
       monthly: (monthly.data ?? []) as Row[],
       weekly: (weekly.data ?? []) as Row[],
       prizes: LEADERBOARD_PRIZES,
+      prizes_won: prizesWon,
       available: true,
       // Epoch ms. The card counts down to these and refetches when one passes.
       closes,

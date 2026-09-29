@@ -7,11 +7,11 @@ import { primeSellSound } from "@/components/tregu/trade-success-sound";
 import { fmtNum } from "@/lib/format";
 import { createClient } from "@/lib/supabase/client";
 import { DUEL_STAKES, leagueError } from "@/lib/tregu-leagues";
+import "./leagues.css";
 
 /**
- * Challenge one league member to 24 hours: whoever closes more profit in that
- * time takes both stakes (0 to 50 coins each). Opens as a small sheet over
- * whatever row the challenge came from.
+ * Challenge one league member to 24 hours: whoever earns more league points
+ * from picks that settle in that time takes both stakes (0 to 50 coins each).
  */
 export default function DuelChallenge({
   leagueId,
@@ -59,13 +59,13 @@ export default function DuelChallenge({
         <div className="duel-sent">
           <Swords size={26} aria-hidden />
           <strong>Sfida iu dërgua {rival}</strong>
-          <span>Kur ta pranojë, nisin 24 orët. Fiton kush mbyll më shumë fitim.</span>
+          <span>Kur ta pranojë, nisin 24 orët. Fiton kush mbledh më shumë pikë nga parashikimet.</span>
           <button type="button" className="duel-go" onClick={() => { onDone(); onClose(); }}>Në rregull</button>
         </div>
       ) : (
         <>
           <strong className="duel-title"><Swords size={18} aria-hidden /> Sfido {rival}</strong>
-          <p className="duel-rules">24 orë tregtim. Kush mbyll më shumë fitim merr të dy bastet. Barazim ose refuzim: basti kthehet.</p>
+          <p className="duel-rules">24 orë parashikime në këtë ligë. Kush mbledh më shumë pikë merr të dy bastet. Barazim ose refuzim: basti kthehet.</p>
           <div className="duel-stakes" role="group" aria-label="Basti">
             {DUEL_STAKES.map((value) => (
               <button key={value} type="button" aria-pressed={stake === value} disabled={balance !== null && value > balance} onClick={() => setStake(value)}>

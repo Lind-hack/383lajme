@@ -2,78 +2,157 @@
 
 import Link from "next/link";
 import { use as usePromise, useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
-import { ArrowDown, ArrowRight, ArrowUp, Check, Copy, Flame, Image as ImageIcon, Lock, Share2, Swords, Trophy, Users, Zap } from "lucide-react";
+import { ArrowLeft, Bell, BellRing, Check, CircleCheck, Copy, Image as ImageIcon, Lock, Share2, Swords, Target, Trophy, Zap } from "lucide-react";
 import Navbar from "@/components/navbar";
 import DuelChallenge from "@/components/tregu/duel-challenge";
 import LeagueEmblem from "@/components/tregu/league-emblem";
-import LeagueRace from "@/components/tregu/league-race";
 import LeaguePay, { type LeaguePayment } from "@/components/tregu/league-pay";
+import LeaguePodium from "@/components/tregu/league-podium";
 import { primeSellSound } from "@/components/tregu/trade-success-sound";
 import { untilLabel } from "@/components/tregu/trader-leaderboard";
 import { fmtNum } from "@/lib/format";
 import { createClient } from "@/lib/supabase/client";
+import { enableLeaguePush, pushSupported } from "@/lib/tregu-push-client";
 import {
   leagueColor,
+  leagueDays,
   leagueError,
   leaguePhase,
   leaguePrizes,
   leaguePurse,
   leagueShareUrl,
+  privateBonusPct,
   scopeOf,
-  type LeagueFeedItem,
+  type BoardRow,
+  type Duel,
   type LeagueStanding,
   type LeagueSummary,
-  type RacePoint,
+  type PickOption,
 } from "@/lib/tregu-leagues";
-import styles from "../ligat.module.css";
+import "@/components/tregu/leagues.css";
 
-const signed = (value: number) => `${value > 0 ? "+" : ""}${fmtNum(Math.round(value))}`;
-const tone = (value: number) => (value > 0 ? "up" : value < 0 ? "down" : undefined);
+type Counts = { member_key: string; is_me: boolean; resolved: number; correct: number; pending: number };
+
 const first = (name: string) => name.trim().split(/\s+/)[0] || name;
+const pts = (value: number) => `${fmtNum(Math.round(value))} pikë`;
+/** Options shown before "Më shumë": enough for home/draw/away and a top six. */
+const VISIBLE_OPTIONS = 6;
 
-function ago(at: string, now: number) {
-  const minutes = Math.max(1, Math.round((now - Date.parse(at)) / 60_000));
-  if (minutes < 60) return `${minutes} min`;
-  const hours = Math.round(minutes / 60);
-  return hours < 24 ? `${hours} orë` : `${Math.round(hours / 24)} ditë`;
+function PickCard({
+  row,
+  now,
+  canPick,
+  busy,
+  onPick,
+}: {
+  row: BoardRow;
+  now: number;
+  canPick: boolean;
+  busy: boolean;
+  onPick: (row: BoardRow, option: PickOption) => void;
+}) {
+  const [all, setAll] = useState(false);
+  const options = row.options ?? [];
+  const open = row.result === "open";
+  const settled = row.result === "won" || row.result === "lost" || row.result === "void";
+  // Open markets: favourites first so the likely answers are the first taps.
+  const ordered = row.market_type === "f1_race_winner"
+    ? [...options].sort((a, b) => Number(b.prob ?? 0) - Number(a.prob ?? 0))
+    : options;
+  const mine = ordered.find((option) => option.key === row.my_outcome);
+  const shown = all || ordered.length <= VISIBLE_OPTIONS + 1
+    ? ordered
+    : [...ordered.slice(0, VISIBLE_OPTIONS), ...(mine && !ordered.slice(0, VISIBLE_OPTIONS).includes(mine) ? [mine] : [])];
+
+  return (
+    <article className="pick" data-result={row.result}>
+      <div className="pick-head">
+        <p className="pick-q"><Link href={`/tregu/${row.slug}`}>{row.question}</Link></p>
+        <span className="pick-when" data-state={open ? "open" : "locked"}>
+          {settled ? "Mbaroi" : open ? `Mbyllet për ${untilLabel(Date.parse(row.lock_at), now)}` : "Po luhet"}
+        </span>
+      </div>
+      <div className="pick-opts" role="group" aria-label={row.question}>
+        {shown.map((option) => {
+          const chosen = row.my_outcome === option.key;
+          const reward = chosen && row.my_points ? row.my_points : Math.max(1, Math.min(99, Math.round(100 * (1 - Math.min(0.99, Math.max(0.01, Number(option.prob ?? 0.5)))))));
+          return (
+            <button
+              key={option.key}
+              type="button"
+              className="pick-opt"
+              aria-pressed={chosen}
+              data-winner={row.result_outcome === option.key || undefined}
+              disabled={!open || !canPick || busy}
+              onClick={() => onPick(row, option)}
+              style={option.color ? ({ "--opt-color": option.color } as CSSProperties) : undefined}
+              aria-label={`${option.label}: ${reward} pikë nëse del`}
+            >
+              {option.logo ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={option.logo} alt="" loading="lazy" />
+              ) : (
+                <i aria-hidden />
+              )}
+              {option.label}
+              {!settled && <em>+{reward}</em>}
+              {chosen && <Check size={14} strokeWidth={3} aria-hidden />}
+            </button>
+          );
+        })}
+        {!all && shown.length < ordered.length && (
+          <button type="button" className="pick-more" onClick={() => setAll(true)}>Më shumë ({ordered.length - shown.length})</button>
+        )}
+      </div>
+      {row.result === "won" && <p className="pick-foot" data-result="won"><CircleCheck size={15} aria-hidden /> E qëllove · +{row.my_points} pikë</p>}
+      {row.result === "lost" && <p className="pick-foot">Doli {options.find((option) => option.key === row.result_outcome)?.label ?? "tjetër"} · 0 pikë</p>}
+      {row.result === "void" && <p className="pick-foot">Tregu u anulua · nuk numërohet</p>}
+      {!settled && row.my_outcome && !open && <p className="pick-foot">Parashikimi yt: {mine?.label} · +{row.my_points} nëse del</p>}
+    </article>
+  );
 }
 
 export default function LeaguePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = usePromise(params);
   const supabase = useMemo(() => createClient(), []);
-  const [league, setLeague] = useState<LeagueSummary | null | undefined>(undefined);
-  const [rules, setRules] = useState<string | null>(null);
+  const [league, setLeague] = useState<(LeagueSummary & { rules?: string | null }) | null | undefined>(undefined);
   const [rows, setRows] = useState<LeagueStanding[]>([]);
-  const [feed, setFeed] = useState<LeagueFeedItem[]>([]);
+  const [board, setBoard] = useState<BoardRow[]>([]);
+  const [counts, setCounts] = useState<Counts[]>([]);
+  const [duels, setDuels] = useState<Duel[]>([]);
   const [now, setNow] = useState(() => Date.now());
   const [loggedIn, setLoggedIn] = useState(false);
   const [joining, setJoining] = useState(false);
+  const [picking, setPicking] = useState<string | null>(null);
   const [payment, setPayment] = useState<LeaguePayment | null>(null);
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
   const [copied, setCopied] = useState(false);
-  const [race, setRace] = useState<RacePoint[]>([]);
   const [challenge, setChallenge] = useState<LeagueStanding | null>(null);
+  const [push, setPush] = useState<"idle" | "on" | "denied" | "unsupported" | "error">("idle");
 
   const load = useCallback(async () => {
-    const [overview, preview, standings, events, racePoints] = await Promise.all([
+    const [overview, preview, standings, picks, tallies, myDuels] = await Promise.all([
       supabase.rpc("tregu_leagues_overview"),
       supabase.rpc("tregu_league_preview", { p_league_id: id }),
       supabase.rpc("tregu_league_standings", { p_league_id: id }),
-      supabase.rpc("tregu_league_feed", { p_league_id: id }),
-      supabase.rpc("tregu_league_race", { p_league_id: id }),
+      supabase.rpc("tregu_league_board", { p_league_id: id }),
+      supabase.rpc("tregu_league_pick_counts", { p_league_id: id }),
+      supabase.rpc("tregu_my_duels"),
     ]);
-    setRace((racePoints.data ?? []) as RacePoint[]);
     const mine = (overview.data as LeagueSummary[] | null)?.find((row) => row.id === id);
     const open = (preview.data as (LeagueSummary & { rules?: string | null })[] | null)?.[0];
-    setLeague(mine ? { ...open, ...mine } : open ? { ...open, code: null } : null);
-    setRules(open?.rules ?? null);
+    setLeague(mine ? { ...open, ...mine, rules: open?.rules ?? null } : open ? { ...open, code: null } : null);
     setRows((standings.data ?? []) as LeagueStanding[]);
-    setFeed((events.data ?? []) as LeagueFeedItem[]);
+    setBoard((picks.data ?? []) as BoardRow[]);
+    setCounts((tallies.data ?? []) as Counts[]);
+    setDuels(((myDuels.data ?? []) as Duel[]).filter((duel) => duel.league_id === id));
   }, [id, supabase]);
 
   useEffect(() => {
     void load();
     supabase.auth.getUser().then(({ data: { user } }) => setLoggedIn(Boolean(user)));
+    if (!pushSupported()) setPush("unsupported");
+    else if (Notification.permission === "granted") setPush("on");
     const tick = window.setInterval(() => setNow(Date.now()), 30_000);
     const refresh = window.setInterval(() => void load(), 60_000);
     return () => {
@@ -86,7 +165,7 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
     return (
       <div className="tregu-scope">
         <Navbar />
-        <main className={styles.page}><i className={styles.skeleton} style={{ height: 360 }} /></main>
+        <main className="lgx"><i className="lgx-skeleton" aria-hidden /></main>
       </div>
     );
   }
@@ -94,11 +173,13 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
     return (
       <div className="tregu-scope">
         <Navbar />
-        <main className={`${styles.page} ${styles.missing}`}>
-          <Lock size={22} aria-hidden />
-          <h1>Kjo ligë është private</h1>
-          <p>Vetëm anëtarët e shohin renditjen. Nëse ke kodin, hyr me të.</p>
-          <Link className={styles.joinButton} href="/tregu/ligat">Hyr me kod</Link>
+        <main className="lgx">
+          <div className="lgx-missing lg-paper">
+            <Lock size={24} aria-hidden />
+            <h1>Kjo ligë është private</h1>
+            <p>Vetëm anëtarët e shohin. Nëse ke kodin, hyr me të në Tregu.</p>
+            <Link className="lg-btn" href="/tregu#ligat">Hyr me kod</Link>
+          </div>
         </main>
       </div>
     );
@@ -107,13 +188,24 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
   const phase = leaguePhase(league, now);
   const prizes = leaguePrizes(league);
   const color = leagueColor(league);
+  const scope = scopeOf(league);
   const me = rows.find((row) => row.is_me);
   const above = me ? rows.find((row) => row.rank === me.rank - 1) : undefined;
-  const todayBest = [...rows].sort((a, b) => Number(b.today_profit ?? 0) - Number(a.today_profit ?? 0))[0];
-  const hottest = [...rows].sort((a, b) => Number(b.streak ?? 0) - Number(a.streak ?? 0))[0];
-  const totalTrades = rows.reduce((sum, row) => sum + Number(row.trades ?? 0), 0);
-  const podium = [rows[1], rows[0], rows[2]];
-  const prizeFor = (row: LeagueStanding) => (league.kind === "private" || row.profit > 0 ? prizes[row.rank - 1] : undefined);
+  const below = me ? rows.find((row) => row.rank === me.rank + 1) : undefined;
+  const prizeFor = (rank: number, points: number) => (points > 0 ? prizes[rank - 1] : undefined);
+  const podium = [0, 1, 2].map((index) => {
+    const row = rows[index];
+    return row && row.profit > 0
+      ? { name: row.display_name, value: pts(row.profit), prize: prizes[index], isMe: row.is_me }
+      : { name: null, prize: prizes[index] };
+  });
+  const canPick = Boolean(league.is_member) && phase === "live";
+  const openRows = board.filter((row) => row.result === "open" || row.result === "locked");
+  const doneRows = board.filter((row) => row.result === "won" || row.result === "lost" || row.result === "void");
+  const myCount = counts.find((count) => count.is_me);
+  const countFor = (row: LeagueStanding) => counts.find((count) => count.member_key === row.member_key);
+  const incoming = duels.filter((duel) => duel.status === "pending" && !duel.i_am_challenger);
+  const activeDuels = duels.filter((duel) => duel.status === "active");
 
   const join = async () => {
     if (!loggedIn) {
@@ -131,7 +223,40 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
     }
     const balance = Number((data as { balance: number }[] | null)?.[0]?.balance);
     if (Number.isFinite(balance)) window.dispatchEvent(new CustomEvent("tregu:balance", { detail: balance }));
-    setPayment({ amount: Number(league.entry_fee) || 0, pot: (Number(league.pot) || 0) + (Number(league.entry_fee) || 0), league: league.name, kind: "join" });
+    if (Number(league.entry_fee) > 0) {
+      setPayment({ amount: Number(league.entry_fee), pot: (Number(league.pot) || 0) + Number(league.entry_fee), league: league.name, kind: "join" });
+    } else {
+      setMessage({ ok: true, text: "U fute në ligë. Zgjidh parashikimet më poshtë." });
+    }
+    void load();
+  };
+
+  const pick = async (row: BoardRow, option: PickOption) => {
+    setPicking(row.market_id);
+    setMessage(null);
+    const previous = board;
+    setBoard((current) => current.map((item) => (item.market_id === row.market_id ? { ...item, my_outcome: option.key } : item)));
+    const { data, error } = await supabase.rpc("tregu_league_pick", { p_league_id: id, p_market_id: row.market_id, p_outcome: option.key });
+    setPicking(null);
+    if (error) {
+      setBoard(previous);
+      setMessage({ ok: false, text: leagueError(error) });
+      return;
+    }
+    const saved = (data as { outcome: string; points: number }[] | null)?.[0];
+    if (saved) setBoard((current) => current.map((item) => (item.market_id === row.market_id ? { ...item, my_outcome: saved.outcome, my_points: saved.points } : item)));
+  };
+
+  const respond = async (duel: Duel, accept: boolean) => {
+    if (accept) primeSellSound();
+    const { data, error } = await supabase.rpc("tregu_duel_respond", { p_duel_id: duel.id, p_accept: accept });
+    if (error) {
+      setMessage({ ok: false, text: leagueError(error) });
+      return;
+    }
+    const next = Number((data as { balance: number }[] | null)?.[0]?.balance);
+    if (Number.isFinite(next)) window.dispatchEvent(new CustomEvent("tregu:balance", { detail: next }));
+    if (accept && duel.stake > 0) setPayment({ amount: duel.stake, pot: duel.stake * 2, league: duel.rival, kind: "duel" });
     void load();
   };
 
@@ -176,175 +301,179 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
   return (
     <div className="tregu-scope">
       <Navbar />
-      <main className={styles.page}>
-        <Link href="/tregu/ligat" className={styles.back}><span aria-hidden>&#8592;</span> Të gjitha ligat</Link>
+      <main className="lgx">
+        <Link href="/tregu#ligat" className="lgx-back"><ArrowLeft size={16} aria-hidden /> Tregu</Link>
 
-        <header
-          className={styles.leagueHero}
-          style={{ "--lg-color": color, "--cover": league.cover_url ? `url(${league.cover_url})` : "none" } as CSSProperties}
-        >
-          <LeaguePay payment={payment} onDone={() => { setPayment(null); setMessage({ ok: true, text: "U fute në ligë. Tregtitë që mbyll tani e tutje numërohen." }); }} />
-          <div className={styles.leagueHeroTop}>
-            <span className={styles.theme}>{league.kind === "private" ? <><Lock size={12} aria-hidden /> Private</> : scopeOf(league).label}</span>
-            <span className={styles.clock} data-phase={phase}>
-              {phase === "ended" ? "Përfundoi" : phase === "upcoming" ? `Fillon për ${untilLabel(Date.parse(league.starts_at), now)}` : <><i aria-hidden /> {untilLabel(Date.parse(league.ends_at), now)} mbetur</>}
+        <header className="lgx-hero lg-paper" data-public={league.kind === "public" || undefined} style={{ "--lg-color": color } as CSSProperties}>
+          <LeaguePay payment={payment} onDone={() => { setPayment(null); setMessage({ ok: true, text: "U fute në ligë. Zgjidh parashikimet më poshtë." }); }} />
+          <div className="lgx-hero-top">
+            <span className="lgx-theme">{league.kind === "private" ? <><Lock size={12} aria-hidden /> Ligë private</> : scope.label}</span>
+            <span className="lgp-clock">
+              {phase === "live" && <i aria-hidden />}
+              {phase === "ended" ? "Përfundoi" : phase === "upcoming" ? `Fillon për ${untilLabel(Date.parse(league.starts_at), now)}` : `${untilLabel(Date.parse(league.ends_at), now)} mbetur`}
             </span>
           </div>
-          <div className={styles.leagueHeroMain}>
-            <LeagueEmblem league={league} size={92} />
+          <div className="lgx-hero-main">
+            <LeagueEmblem league={league} size={84} />
             <div>
               <h1>{league.name}</h1>
-              {league.sponsor && <p className={styles.sponsor}>{league.sponsor}</p>}
+              {league.sponsor && <p className="lgx-sponsor">{league.sponsor}</p>}
               {league.description && <p>{league.description}</p>}
             </div>
-            <div className={styles.heroPurse}>
+            <div className="lgx-purse">
               <small>Në lojë</small>
               <strong>{fmtNum(leaguePurse(league))}</strong>
-              <span>383C · {prizes.length ? prizes.map((prize) => fmtNum(prize)).join(" / ") : "për lavdi"}</span>
+              <span>383C · {fmtNum(league.members)} anëtarë</span>
             </div>
           </div>
-          <div className={styles.heroActions}>
+          <div className="lgx-actions">
             {!league.is_member && phase !== "ended" && league.kind === "public" && (
-              <button type="button" className={styles.joinButton} onClick={() => void join()} disabled={joining}>
-                <Zap size={16} aria-hidden /> {joining ? "Duke hyrë…" : `Hyr me një prekje · ${fmtNum(league.entry_fee)} 383C`}
+              <button type="button" className="lg-btn" onClick={() => void join()} disabled={joining}>
+                <Zap size={16} aria-hidden /> {joining ? "Duke hyrë…" : Number(league.entry_fee) > 0 ? `Hyr · ${fmtNum(league.entry_fee)} 383C` : "Hyr falas"}
               </button>
             )}
-            {league.code && (
+            {league.code && phase !== "ended" && (
               <>
-                <button type="button" className={styles.joinButton} onClick={() => void invite()}><Share2 size={16} aria-hidden /> Fto miqtë · {league.code}</button>
-                <button type="button" className={styles.ghostDark} onClick={() => void copyCode()}>{copied ? <Check size={15} aria-hidden /> : <Copy size={15} aria-hidden />} {copied ? "U kopjua" : "Kopjo linkun"}</button>
+                <button type="button" className="lg-btn" onClick={() => void invite()}><Share2 size={16} aria-hidden /> Fto miqtë · {league.code}</button>
+                <button type="button" className="lg-ghost" onClick={() => void copyCode()}>{copied ? <Check size={15} aria-hidden /> : <Copy size={15} aria-hidden />} {copied ? "U kopjua" : "Kopjo linkun"}</button>
               </>
             )}
-            <button type="button" className={styles.ghostDark} onClick={() => void shareTable()}><ImageIcon size={15} aria-hidden /> Shpërndaj renditjen</button>
+            <button type="button" className="lg-ghost" onClick={() => void shareTable()}><ImageIcon size={15} aria-hidden /> Shpërndaj renditjen</button>
           </div>
         </header>
 
-        {message && <p className={styles.notice} data-ok={message.ok || undefined} role="status">{message.text}</p>}
+        {message && <p className="lgx-notice" data-ok={message.ok || undefined} role="status">{message.text}</p>}
 
-        <dl className={styles.statRow}>
-          <div><dt>Anëtarë</dt><dd><Users size={16} aria-hidden /> {league.members}<small>/{league.max_members}</small></dd></div>
-          <div><dt>Poti</dt><dd>{fmtNum(league.pot)} <small>383C</small></dd></div>
-          <div><dt>Tregtime</dt><dd>{fmtNum(totalTrades)}</dd></div>
-          <div><dt>Fituesi i sotëm</dt><dd>{todayBest && Number(todayBest.today_profit ?? 0) > 0 ? <>{first(todayBest.display_name)} <small>{signed(Number(todayBest.today_profit))}</small></> : "—"}</dd></div>
-          <div><dt>Seria më e gjatë</dt><dd>{hottest && Number(hottest.streak ?? 0) > 0 ? <><Flame size={16} aria-hidden /> {first(hottest.display_name)} <small>{hottest.streak} ditë</small></> : "—"}</dd></div>
-        </dl>
-
-        {me && phase !== "ended" && (
-          <div className={styles.rival} style={{ "--lg-color": color } as CSSProperties}>
-            <strong>{me.rank === 1 ? "Je i pari." : `Je #${me.rank}.`}</strong>
-            <span>
-              {above
-                ? `${fmtNum(Math.max(0, above.profit - me.profit) + 1)} 383C të mjaftojnë për të kaluar ${first(above.display_name)}.`
-                : rows[1]
-                  ? `${first(rows[1].display_name)} është ${fmtNum(Math.max(0, me.profit - rows[1].profit))} 383C pas teje.`
-                  : "Fto miqtë — liga nis kur jeni dy."}
-            </span>
-            <Link href="/tregu">Tregto tani <ArrowRight size={14} aria-hidden /></Link>
-          </div>
-        )}
-
-        <div className={styles.detailGrid}>
-          <section className={styles.section} aria-labelledby="table-title">
-            <div className={styles.sectionHead}>
-              <h2 id="table-title">{phase === "ended" ? "Renditja përfundimtare" : "Renditja"}</h2>
-              <p>Fitimi nga tregtitë e mbyllura{league.scope_kind && league.scope_kind !== "all" ? ` në ${scopeOf(league).label}` : ""}</p>
-            </div>
-
-            {race.length > 0 && rows.length > 1 && (
-              <div className={styles.race}>
-                <div className={styles.raceHead}><strong>Gara</strong><span>Fitimi i mbyllur, ditë pas dite</span></div>
-                <LeagueRace points={race} />
+        <div className="lgx-grid">
+          <div>
+            <section className="lgx-panel" aria-labelledby="podium-title">
+              <div className="lgx-panel-head">
+                <h2 id="podium-title">{phase === "ended" ? "Fituesit" : "Podiumi"}</h2>
+                <span>{prizes.length ? `${prizes.map((prize) => fmtNum(prize)).join(" / ")} 383C` : "Shpërblimet sipas pikëve"}</span>
               </div>
-            )}
+              <LeaguePodium seats={podium} label="Podiumi i ligës" />
+              {me && (
+                <p className="lgx-you">
+                  <strong>{me.profit > 0 ? `Je #${me.rank}` : "Ende pa pikë"}</strong>
+                  <span>
+                    {pts(me.profit)}
+                    {myCount ? ` · ${myCount.correct}/${myCount.resolved} të sakta` : ""}
+                    {above && me.profit > 0 ? ` · ${fmtNum(above.profit - me.profit + 1)} pikë për të kaluar ${first(above.display_name)}` : ""}
+                    {!above && below && me.profit > 0 ? ` · ${fmtNum(me.profit - below.profit)} pikë përpara ${first(below.display_name)}` : ""}
+                  </span>
+                </p>
+              )}
 
-            {rows.length >= 2 && (
-              <div className={styles.podium} aria-label="Podiumi">
-                {podium.map((row, index) =>
-                  row ? (
-                    <div key={row.rank} className={styles.step} data-place={row.rank} style={{ order: index }}>
-                      <span className={styles.stepAvatar}>{first(row.display_name).slice(0, 1).toUpperCase()}</span>
-                      <b>{first(row.display_name)}</b>
-                      <span className={styles.stepProfit} data-tone={tone(row.profit)}>{signed(row.profit)}</span>
-                      <div className={styles.stepBlock}>
-                        <span>{row.rank}</span>
-                        {prizeFor(row) ? <small>{fmtNum(prizeFor(row)!)} 383C</small> : null}
+              {league.is_member && (incoming.length > 0 || activeDuels.length > 0 || push !== "unsupported") && (
+                <div className="lgx-duels">
+                  {incoming.map((duel) => (
+                    <div key={duel.id} className="lgx-duel">
+                      <Swords size={18} aria-hidden />
+                      <p><b>{duel.rival}</b> të sfidoi për 24 orë{duel.stake ? ` · ${duel.stake} 383C secili` : " · për nder"}</p>
+                      <button type="button" className="lg-btn" onClick={() => void respond(duel, true)}>Prano{duel.stake ? ` · ${duel.stake}` : ""}</button>
+                      <button type="button" className="lg-ghost" onClick={() => void respond(duel, false)}>Refuzo</button>
+                    </div>
+                  ))}
+                  {activeDuels.map((duel) => {
+                    const lead = (duel.my_net - duel.rival_net) / (duel.my_net + duel.rival_net + 40);
+                    const share = Math.round(50 + Math.max(-38, Math.min(38, lead * 60)));
+                    return (
+                      <div key={duel.id} className="lgx-duel" style={{ "--share": share / 100 } as CSSProperties}>
+                        <Swords size={18} aria-hidden />
+                        <p>Duel me <b>{duel.rival}</b>: ti <b>{fmtNum(duel.my_net)}</b> · {first(duel.rival)} <b>{fmtNum(duel.rival_net)}</b> pikë{duel.ends_at ? ` · ${untilLabel(Date.parse(duel.ends_at), now)} mbetur` : ""}</p>
+                        <span className="lgx-duel-bar" aria-hidden><i /></span>
                       </div>
-                    </div>
-                  ) : (
-                    <div key={`empty-${index}`} className={styles.step} data-place={index === 0 ? 2 : 3} style={{ order: index }} data-empty>
-                      <span className={styles.stepAvatar}>?</span>
-                      <b>Vend i lirë</b>
-                      <div className={styles.stepBlock}><span>{index === 0 ? 2 : 3}</span></div>
-                    </div>
-                  )
-                )}
-              </div>
-            )}
+                    );
+                  })}
+                  {push === "idle" && (
+                    <button type="button" className="lg-ghost" onClick={() => void enableLeaguePush().then(setPush)}>
+                      <Bell size={15} aria-hidden /> Më njofto kur më kalojnë
+                    </button>
+                  )}
+                  {push === "on" && <span className="lgx-bell"><BellRing size={15} aria-hidden /> Njoftimet janë ndezur</span>}
+                  {push === "denied" && <span className="lgx-bell">Njoftimet janë bllokuar në shfletues</span>}
+                </div>
+              )}
 
-            {rows.length ? (
-              <ol className={styles.table}>
-                <li className={styles.tableHead} aria-hidden>
-                  <span>#</span><span>Tregtari</span><span>Sot</span><span>Tregtime</span><span>Fitimi</span><span>Shpërblimi</span><span /> 
-                </li>
-                {rows.map((row) => (
-                  <li key={row.rank} className={styles.tableRow} data-me={row.is_me || undefined} data-place={row.rank <= 3 ? row.rank : undefined}>
-                    <span className={styles.rankCell}>
-                      {row.rank}
-                      {Number(row.rank_change) > 0 ? <ArrowUp size={12} aria-label="u ngjit sot" className={styles.up} /> : Number(row.rank_change) < 0 ? <ArrowDown size={12} aria-label="ra sot" className={styles.down} /> : null}
-                    </span>
-                    <span className={styles.nameCell}>
-                      <b>{row.display_name}</b>
-                      {row.is_me && <em className={styles.you}>TI</em>}
-                      {row.is_creator && league.kind === "private" && <em className={styles.creator}>krijuesi</em>}
-                      {Number(row.streak) >= 2 && <i className={styles.streak}><Flame size={12} aria-hidden /> {row.streak}</i>}
-                      {Number(row.duel_wins) > 0 && <i className={styles.duels}><Swords size={12} aria-hidden /> {row.duel_wins}</i>}
-                    </span>
-                    <span className={styles.todayCell} data-tone={tone(Number(row.today_profit ?? 0))}>{Number(row.today_profit ?? 0) ? signed(Number(row.today_profit)) : "—"}</span>
-                    <span className={styles.tradesCell}>{row.trades ?? 0}</span>
-                    <span className={styles.profitCell} data-tone={tone(row.profit)}>{signed(row.profit)}</span>
-                    <span className={styles.prizeCell}>{prizeFor(row) ? `${fmtNum(prizeFor(row)!)} 383C` : ""}</span>
-                    <span className={styles.duelCell}>
-                      {league.is_member && !row.is_me && row.member_key && phase === "live" ? (
-                        <button type="button" onClick={() => setChallenge(row)} aria-label={`Sfido ${row.display_name}`}><Swords size={14} aria-hidden /> Sfido</button>
-                      ) : null}
-                    </span>
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <div className={styles.empty}><Trophy size={20} aria-hidden /><p>Ende pa anëtarë. Bëhu i pari.</p></div>
+              {rows.length ? (
+                <ol className="lgt" aria-label="Renditja">
+                  <li className="lgt-head" aria-hidden><span>#</span><span>Lojtari</span><span>Të sakta</span><span>Pikë</span><span /></li>
+                  {rows.map((row) => {
+                    const count = countFor(row);
+                    const prize = prizeFor(row.rank, row.profit);
+                    return (
+                      <li key={row.member_key ?? row.rank} data-me={row.is_me || undefined}>
+                        <span className="lgt-rank">{row.rank}</span>
+                        <span className="lgt-name">
+                          {row.display_name}
+                          {row.is_me && <em>TI</em>}
+                          {prize ? <small>{fmtNum(prize)} 383C</small> : null}
+                        </span>
+                        <span className="lgt-hits">{count ? `${count.correct}/${count.resolved}` : "—"}</span>
+                        <span className="lgt-points">{fmtNum(row.profit)}<small>p</small></span>
+                        <span>
+                          {league.is_member && !row.is_me && row.member_key && phase === "live" ? (
+                            <button type="button" className="lgt-duel" onClick={() => setChallenge(row)} aria-label={`Sfido ${row.display_name}`}><Swords size={13} aria-hidden /> Sfido</button>
+                          ) : null}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ol>
+              ) : (
+                <p className="pick-empty">Ende pa anëtarë. Bëhu i pari.</p>
+              )}
+            </section>
+
+            <section className="lgx-panel lgx-rules" aria-labelledby="rules-title">
+              <div className="lgx-panel-head"><h2 id="rules-title">Si luhet</h2></div>
+              <ul>
+                <li><Target size={16} aria-hidden /><span>Zgjidh një rezultat për çdo ndeshje ose treg{league.scope_kind && league.scope_kind !== "all" ? ` në ${scope.label}` : ""}, para se të nisë. Mund ta ndryshosh deri atëherë.</span></li>
+                <li><Trophy size={16} aria-hidden /><span>Parashikimi i saktë jep 100 minus gjasën në momentin që zgjodhe: favoriti me 70% jep 30 pikë, surpriza me 20% jep 80. I gabuari jep 0.</span></li>
+                <li><CircleCheck size={16} aria-hidden /><span>
+                  {league.kind === "private"
+                    ? `Poti i hyrjeve plus ${privateBonusPct(leagueDays(league))}% nga 383 ndahet 50/30/20 mes tre të parëve me pikë. Nëse askush s'ka pikë, hyrjet kthehen.`
+                    : "383 paguan shpërblimet e veta plus potin e hyrjeve, 50/30/20, për tre të parët me pikë."}
+                </span></li>
+              </ul>
+              {league.rules ? <p>{league.rules}</p> : null}
+            </section>
+          </div>
+
+          <section className="lgx-panel lgx-picks" aria-labelledby="picks-title">
+            <div className="lgx-panel-head">
+              <h2 id="picks-title">Parashikimet</h2>
+              <span>{myCount?.pending ? `${myCount.pending} në pritje` : openRows.length ? `${openRows.length} të hapura` : ""}</span>
+            </div>
+            {!league.is_member && phase !== "ended" && (
+              <p className="pick-empty">{league.kind === "public" ? "Hyr në ligë për të parashikuar." : "Vetëm anëtarët parashikojnë."}</p>
+            )}
+            {league.is_member && phase === "upcoming" && (
+              <p className="pick-empty">Liga nis për {untilLabel(Date.parse(league.starts_at), now)}. Parashikimet hapen atëherë.</p>
+            )}
+            <div className="picks">
+              {openRows.map((row) => (
+                <PickCard key={row.market_id} row={row} now={now} canPick={canPick} busy={picking === row.market_id} onPick={(item, option) => void pick(item, option)} />
+              ))}
+              {!openRows.length && phase === "live" && (
+                <p className="pick-empty">Asnjë ndeshje e hapur tani. Tregjet e reja shfaqen këtu sapo hapen.</p>
+              )}
+            </div>
+            {doneRows.length > 0 && (
+              <>
+                <h3 className="picks-sub">Rezultatet e tua</h3>
+                <div className="picks">
+                  {doneRows.map((row) => (
+                    <PickCard key={row.market_id} row={row} now={now} canPick={false} busy={false} onPick={() => undefined} />
+                  ))}
+                </div>
+              </>
             )}
           </section>
-
-          <aside className={styles.feed} aria-labelledby="feed-title">
-            <h2 id="feed-title">Çfarë ndodh</h2>
-            {feed.length ? (
-              <ul>
-                {feed.map((item, index) => (
-                  <li key={`${item.at}-${index}`} data-kind={item.kind}>
-                    <span className={styles.feedDot} data-tone={item.kind === "join" ? "join" : tone(item.amount)} aria-hidden />
-                    <div>
-                      {item.kind === "join" ? (
-                        <p><b>{first(item.display_name)}</b> hyri në ligë</p>
-                      ) : (
-                        <p>
-                          <b>{first(item.display_name)}</b> mbylli <span data-tone={tone(item.amount)}>{signed(item.amount)}</span>
-                          {item.slug ? <> në <Link href={`/tregu/${item.slug}`}>{item.question}</Link></> : null}
-                        </p>
-                      )}
-                      <small>{ago(item.at, now)} më parë</small>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className={styles.feedEmpty}>Ende qetësi. Tregtia e parë e mbyllur shfaqet këtu.</p>
-            )}
-          </aside>
         </div>
 
         {challenge?.member_key && (
-          <div className={styles.duelLayer}>
+          <div className="lgx-duel-layer">
             <DuelChallenge
               leagueId={league.id}
               memberKey={challenge.member_key}
@@ -354,20 +483,6 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
               onDone={() => void load()}
             />
           </div>
-        )}
-
-        {(rules || league.kind === "private") && (
-          <section className={styles.rules}>
-            <h2>Rregullat</h2>
-            {rules ? <p>{rules}</p> : null}
-            <p>
-              Numërohet fitimi nga tregtitë që mbyll pasi hyn, deri në mbyllje të ligës
-              {league.scope_kind && league.scope_kind !== "all" ? `, vetëm në ${scopeOf(league).label}` : ""}.
-              {league.kind === "private"
-                ? " Poti i tarifave ndahet 50/30/20 për tre të parët."
-                : " 383 paguan shpërblimet e veta plus potin e tarifave, 50/30/20, për tre të parët me fitim."}
-            </p>
-          </section>
         )}
       </main>
     </div>

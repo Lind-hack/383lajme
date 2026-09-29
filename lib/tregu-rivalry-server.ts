@@ -15,13 +15,13 @@ export function describeEvent(event: Pick<EventRow, "kind" | "actor" | "data">):
   const stake = Number(event.data?.stake ?? 0);
   switch (event.kind) {
     case "overtaken":
-      return { title: `${actor} të kaloi`, body: `Ra në #${event.data?.to} te ${league}. ${gap ? `${gap} 383C të kthejnë vendin.` : "Kthehu sot."}` };
+      return { title: `${actor} të kaloi`, body: `Ra në #${event.data?.to} te ${league}. ${gap ? `${gap} pikë të kthejnë vendin.` : "Kthehu sot."}` };
     case "climbed":
       return { title: `U ngjite në #${event.data?.to}`, body: `Te ${league}. Mbaje vendin.` };
     case "duel_challenge":
       return { title: `${actor} të sfidoi`, body: stake ? `Duel 24 orë · ${stake} 383C secili. Prano ose refuzo.` : "Duel 24 orë. Prano ose refuzo." };
     case "duel_accepted":
-      return { title: `${actor} pranoi duelin`, body: "24 orë nisin tani. Fiton kush mbyll më shumë fitim." };
+      return { title: `${actor} pranoi duelin`, body: "24 orë nisin tani. Fiton kush mbledh më shumë pikë." };
     case "duel_declined":
       return { title: `${actor} e refuzoi duelin`, body: "Basti t'u kthye." };
     case "duel_won":

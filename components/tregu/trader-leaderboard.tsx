@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Medal, Trophy } from "lucide-react";
+import LeaguePodium from "@/components/tregu/league-podium";
 import { fmtNum } from "@/lib/format";
+import "./leagues.css";
 
 type Row = { rank: number; display_name: string; profit: number; is_me: boolean };
-type Board = { monthly: Row[]; weekly: Row[]; available: boolean; closes: { monthly: number; weekly: number } };
+type Board = { monthly: Row[]; weekly: Row[]; available: boolean; closes: { monthly: number; weekly: number }; prizesWon: number | null };
+type Period = "monthly" | "weekly";
 
 /** "3d 04h" / "4h 12m" / "12m" — coarse far out, precise as it matters. */
 export function untilLabel(target: number, now: number): string {
@@ -20,137 +22,14 @@ export function untilLabel(target: number, now: number): string {
 }
 
 /**
- * The three metals, and the one place they are defined.
- *
- * Each tier's colour does double duty: it fills the trophy and it paints the
- * strip down the left edge of that row, so a glance at the strip reads the
- * standing without reading the number. Ranks past third get no metal and no
- * strip — that absence is what makes the top three look won rather than merely
- * listed.
- */
-export const METALS = [
-  { name: "gold", ink: "#8A6A12", fill: "#E3B341", strip: "#E3B341", wash: "rgba(227, 179, 65, 0.13)" },
-  { name: "silver", ink: "#5F6470", fill: "#B4BAC4", strip: "#B4BAC4", wash: "rgba(180, 186, 196, 0.14)" },
-  { name: "bronze", ink: "#7A4A1E", fill: "#C58A4B", strip: "#C58A4B", wash: "rgba(197, 138, 75, 0.13)" },
-] as const;
-
-export function Standing({ rank }: { rank: number }) {
-  const metal = METALS[rank - 1];
-  if (!metal) return <span className="tregu-lb-rank">{rank}</span>;
-  // First place gets the cup, second and third get medals: three identical
-  // trophies in three tints reads as a palette swatch, not a podium.
-  const Glyph = rank === 1 ? Trophy : Medal;
-  return (
-    <span className="tregu-lb-medal" data-metal={metal.name} aria-hidden>
-      <Glyph size={rank === 1 ? 19 : 17} strokeWidth={2} />
-    </span>
-  );
-}
-
-function Standings({
-  title,
-  note,
-  rows,
-  prizes,
-  available,
-  loggedIn,
-  closesIn,
-}: {
-  title: string;
-  note: string;
-  rows: Row[];
-  prizes: readonly number[];
-  available: boolean;
-  loggedIn: boolean;
-  closesIn: string;
-}) {
-  // The podium always has three seats. An unclaimed seat still shows its prize,
-  // because the prize is the reason to look at the board at all — an empty
-  // board that says nothing is just a gap where an offer should be.
-  const seats = [0, 1, 2].map((i) => ({ prize: prizes[i], row: rows.find((r) => r.rank === i + 1) ?? null }));
-  const rest = rows.filter((r) => r.rank > 3);
-  /* "Where am I" has to have an answer even when the answer is "nowhere yet".
-     A trader who is flat or down on the period is not in the ranking at all, so
-     without this row the card silently omits the one person reading it. */
-  const ranked = rows.some((r) => r.is_me);
-
-  return (
-    <section className="tregu-lb-board">
-      <header className="tregu-lb-head">
-        <h4>{title}</h4>
-        <span>{note}</span>
-      </header>
-
-      <ol className="tregu-lb-list">
-        {seats.map(({ prize, row }, i) => {
-          const metal = METALS[i];
-          return (
-            <li
-              key={i}
-              className="tregu-lb-row"
-              data-metal={metal.name}
-              data-me={row?.is_me || undefined}
-              data-empty={row ? undefined : ""}
-              style={{ "--metal": metal.strip, "--metal-ink": metal.ink, "--metal-wash": metal.wash } as React.CSSProperties}
-            >
-              <Standing rank={i + 1} />
-              <span className="tregu-lb-name">
-                {row ? row.display_name : <i>Vendi i lirë</i>}
-                {row?.is_me && <b className="tregu-lb-you">Ti</b>}
-              </span>
-              {row && <span className="tregu-lb-profit">+{fmtNum(row.profit)}</span>}
-              <span className="tregu-lb-prize">{fmtNum(prize)} 383C</span>
-            </li>
-          );
-        })}
-
-        {rest.map((row) => (
-          <li key={row.rank} className="tregu-lb-row" data-me={row.is_me || undefined} data-plain="">
-            <span className="tregu-lb-rank">{row.rank}</span>
-            <span className="tregu-lb-name">
-              {row.display_name}
-              {row.is_me && <b className="tregu-lb-you">Ti</b>}
-            </span>
-            <span className="tregu-lb-profit">+{fmtNum(row.profit)}</span>
-            <span className="tregu-lb-prize" data-none="" />
-          </li>
-        ))}
-
-        {loggedIn && available && !ranked && (
-          <li className="tregu-lb-row" data-me data-plain="" data-unranked="">
-            <span className="tregu-lb-rank">—</span>
-            <span className="tregu-lb-name">
-              Ti
-              <i>ende pa fitim nga tregti të mbyllura</i>
-            </span>
-            <span className="tregu-lb-prize" data-none="" />
-          </li>
-        )}
-      </ol>
-
-      {!available && <p className="tregu-lb-empty">Renditja fillon sapo të mbyllen tregtitë e para.</p>}
-
-      {/* The clock the prizes are paid on. Without it the board is a ranking
-          with no deadline, and a deadline is most of why anyone checks one. */}
-      <p className="tregu-lb-clock">
-        <span>Shpërblimet ndahen për</span>
-        <time>{closesIn}</time>
-      </p>
-    </section>
-  );
-}
-
-/**
- * Best traders of the month and of the week, by realized profit.
- *
- * Monthly leads because it carries the bigger pool; the week is the way back in
- * for anyone who cannot win the month. Both boards mark the reader's own row,
- * and the function behind them appends that row even when it sits outside the
- * top five — so the card answers "where am I" for everyone, not only for the
- * five people who need no answer.
+ * Best traders of the month and of the week, by realized profit: the same
+ * podium a league shows, then where you stand, then what you have won so far.
+ * The month leads because it carries the bigger prizes; the week is the way
+ * back in for anyone who cannot win the month.
  */
 export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boolean }) {
   const [board, setBoard] = useState<Board | null>(null);
+  const [period, setPeriod] = useState<Period>("monthly");
   const [now, setNow] = useState(() => Date.now());
   const [prizes, setPrizes] = useState({ monthly: [500, 300, 150], weekly: [125, 75, 40] });
 
@@ -169,20 +48,19 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
             weekly: d.weekly ?? [],
             available: Boolean(d.available),
             closes: d.closes ?? { monthly: 0, weekly: 0 },
+            prizesWon: typeof d.prizes_won === "number" ? d.prizes_won : null,
           });
           if (d.prizes) setPrizes(d.prizes);
         })
         .catch(() => {
-          if (!cancelled) setBoard({ monthly: [], weekly: [], available: false, closes: { monthly: 0, weekly: 0 } });
+          if (!cancelled) setBoard({ monthly: [], weekly: [], available: false, closes: { monthly: 0, weekly: 0 }, prizesWon: null });
         });
     };
     load();
     // A settled trade changes the standings; the balance event is the cheapest
     // signal that one landed.
     window.addEventListener("tregu:balance", load);
-    /* Ticks the countdown, and reloads the board the moment a period turns
-       over — a page left open across midnight on the 1st would otherwise keep
-       showing last month's winners under a clock reading "po mbyllet". */
+    // Ticks the countdown, and reloads the board the moment a period turns over.
     const tick = window.setInterval(() => {
       setNow((previous) => {
         const next = Date.now();
@@ -200,37 +78,56 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
   }, []);
 
   if (!board) {
-    return <div className="tregu-glass tregu-lb tregu-skeleton" style={{ height: 227, opacity: 0.5 }} aria-hidden />;
+    return <div className="lbp lg-paper" style={{ height: 300, opacity: 0.5 }} aria-hidden />;
   }
 
+  const rows = board[period];
+  const places = prizes[period];
+  const seats = [0, 1, 2].map((index) => {
+    const row = rows.find((item) => item.rank === index + 1);
+    return row
+      ? { name: row.display_name, value: `+${fmtNum(row.profit)}`, prize: places[index], isMe: row.is_me }
+      : { name: null, prize: places[index] };
+  });
+  const me = rows.find((row) => row.is_me);
+
   return (
-    <section className="tregu-glass tregu-lb tregu-edge" aria-label="Tregtarët më të mirë">
-      <div className="tregu-lb-title">
-        <span className="tregu-lb-title-mark" aria-hidden><Trophy size={14} strokeWidth={2.4} /></span>
-        <h3>Tregtarët më të mirë</h3>
-        <p>Fitimi nga tregtitë e mbyllura. Tre të parët marrin shpërblimin si dhuratë kur mbyllet periudha.</p>
+    <section className="lbp lg-paper" aria-labelledby="lbp-title">
+      <div className="lbp-head">
+        <div>
+          <h3 id="lbp-title">Tregtarët më të mirë</h3>
+          <p>Fitimi nga tregtitë e mbyllura. Tre të parët marrin shpërblimin kur mbyllet periudha.</p>
+        </div>
+        <div className="lbp-seg" role="group" aria-label="Periudha">
+          <button type="button" aria-pressed={period === "monthly"} onClick={() => setPeriod("monthly")}>Muaji</button>
+          <button type="button" aria-pressed={period === "weekly"} onClick={() => setPeriod("weekly")}>Java</button>
+        </div>
       </div>
 
-      <div className="tregu-lb-boards">
-        <Standings
-          title="Muaji"
-          note="Ky muaj"
-          rows={board.monthly}
-          prizes={prizes.monthly}
-          available={board.available}
-          loggedIn={loggedIn}
-          closesIn={untilLabel(board.closes.monthly, now)}
-        />
-        <Standings
-          title="Java"
-          note="Kjo javë"
-          rows={board.weekly}
-          prizes={prizes.weekly}
-          available={board.available}
-          loggedIn={loggedIn}
-          closesIn={untilLabel(board.closes.weekly, now)}
-        />
-      </div>
+      <LeaguePodium seats={seats} label={period === "monthly" ? "Podiumi i muajit" : "Podiumi i javës"} />
+
+      {loggedIn && (
+        <div className="lbp-you">
+          <div className="lbp-stat" data-accent={me && me.rank <= 3 ? "" : undefined}>
+            <small>Renditja jote</small>
+            <strong>{me ? `#${me.rank}` : "—"}</strong>
+          </div>
+          <div className="lbp-stat">
+            <small>Fitimi {period === "monthly" ? "këtë muaj" : "këtë javë"}</small>
+            <strong>{me ? `+${fmtNum(me.profit)}` : "0"}<em>383C</em></strong>
+          </div>
+          <div className="lbp-stat" data-accent="">
+            <small>Ke fituar në shpërblime</small>
+            <strong>{fmtNum(board.prizesWon ?? 0)}<em>383C</em></strong>
+          </div>
+        </div>
+      )}
+
+      {!board.available && <p className="lbp-foot">Renditja fillon sapo të mbyllen tregtitë e para.</p>}
+      <p className="lbp-foot">
+        <span>{me ? "" : loggedIn ? "Mbyll një tregti me fitim për të hyrë në renditje." : "Hyr për të parë vendin tënd."}</span>
+        <span>Shpërblimet ndahen për <time>{untilLabel(board.closes[period], now)}</time></span>
+      </p>
     </section>
   );
 }

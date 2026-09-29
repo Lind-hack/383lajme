@@ -23,6 +23,18 @@ function readProfile(body: Record<string, unknown>): Profile | string {
   return profile;
 }
 
+/** Entry fee and prizes from the builder, else the suggested ones. */
+function readMoney(body: Record<string, unknown>, days: number): { entry_fee: number; prizes: number[] } | string {
+  const fee = body.entry_fee == null || body.entry_fee === "" ? PUBLIC_LEAGUE_FEE : Math.round(Number(body.entry_fee));
+  if (!Number.isFinite(fee) || fee < 0 || fee > 10000) return "Hyrja duhet të jetë 0 deri në 10 000 383C.";
+  const raw = Array.isArray(body.prizes) ? body.prizes.slice(0, 3) : null;
+  const prizes = raw ? raw.map((value) => Math.round(Number(value))) : publicLeaguePrizes(days);
+  if (prizes.length !== 3 || prizes.some((value) => !Number.isFinite(value) || value < 0 || value > 100000)) {
+    return "Shpërblimet duhet të jenë tre shuma nga 0 deri në 100 000 383C.";
+  }
+  return { entry_fee: fee, prizes };
+}
+
 function scopeFrom(body: Record<string, unknown>) {
   const kind = String(body.scope_kind ?? "all");
   const value = body.scope_value == null || body.scope_value === "" ? null : String(body.scope_value);
@@ -64,8 +76,9 @@ export async function GET(request: NextRequest) {
  *     its theme's emblem and colour. Themes that already have a league
  *     overlapping this window are skipped.
  *
- * Prizes are not chosen here: 383 pays 75% of the leaderboard prize for the
- * league's length (publicLeaguePrizes), and the entry fee is always 10.
+ * `entry_fee` and `prizes` (three amounts, 1st to 3rd) come from the builder;
+ * left out, they default to 10 and 75% of the leaderboard prize for the
+ * league's length (publicLeaguePrizes).
  */
 export async function POST(request: NextRequest) {
   const { admin, error } = await guard(request);
@@ -81,13 +94,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Liga duhet të mbarojë në të ardhmen." }, { status: 400 });
   }
   const days = Math.max(1, Math.round((endsAt.getTime() - startsAt.getTime()) / 86_400_000));
-  const prizes = publicLeaguePrizes(days);
+  const money = readMoney(body, days);
+  if (typeof money === "string") return NextResponse.json({ error: money }, { status: 400 });
   const common = {
     kind: "public",
     starts_at: startsAt.toISOString(),
     ends_at: endsAt.toISOString(),
-    prizes,
-    entry_fee: PUBLIC_LEAGUE_FEE,
+    prizes: money.prizes,
+    entry_fee: money.entry_fee,
     max_members: 500,
   };
 
@@ -107,7 +121,7 @@ export async function POST(request: NextRequest) {
       scope_value: scope.value,
       emblem: scope.emblem,
       color: scope.color,
-      description: scope.kind === "all" ? "Çdo treg numërohet." : `Numërohen vetëm tregtitë në ${scope.label}.`,
+      description: scope.kind === "all" ? "Parashiko çdo treg të hapur." : `Parashiko vetëm tregjet e ${scope.label}.`,
     }));
     if (!rows.length) return NextResponse.json({ created: 0 });
     const { error: insertError } = await admin.from("tregu_leagues").insert(rows);
@@ -145,8 +159,9 @@ export async function POST(request: NextRequest) {
 }
 
 /** PATCH { id, name?, featured?, feature_order?, ...profile } — edit a public
- *  league's profile or its place on the Tregu home card. Money and dates are
- *  not editable once people may have joined on them. */
+ *  league's profile or its place on the Tregu home card. Money and dates
+ *  (entry_fee, prizes, starts_at, ends_at) change only while nobody has joined
+ *  on them. */
 export async function PATCH(request: NextRequest) {
   const { admin, error } = await guard(request);
   if (!admin) return error;
@@ -168,6 +183,31 @@ export async function PATCH(request: NextRequest) {
     if (name.length < 3 || name.length > 40) return NextResponse.json({ error: "Emri duhet të ketë 3 deri në 40 shkronja." }, { status: 400 });
     update.name = name;
   }
+  const moneyTouched = ["entry_fee", "prizes", "starts_at", "ends_at"].some((field) => field in body);
+  if (moneyTouched) {
+    const { data: current } = await admin
+      .from("tregu_leagues")
+      .select("starts_at, ends_at, entry_fee, prizes, tregu_league_members(user_id)")
+      .eq("id", id)
+      .eq("kind", "public")
+      .maybeSingle();
+    if (!current) return NextResponse.json({ error: "Liga nuk u gjet." }, { status: 404 });
+    if (((current.tregu_league_members as unknown[] | null) ?? []).length > 0) {
+      return NextResponse.json({ error: "Dikush ka hyrë tashmë: hyrja, shpërblimet dhe datat nuk ndryshojnë më." }, { status: 400 });
+    }
+    const startsAt = new Date(String(body.starts_at ?? current.starts_at));
+    const endsAt = new Date(String(body.ends_at ?? current.ends_at));
+    if (Number.isNaN(startsAt.getTime()) || Number.isNaN(endsAt.getTime()) || endsAt <= startsAt) {
+      return NextResponse.json({ error: "Datat nuk vlejnë: mbarimi duhet të jetë pas fillimit." }, { status: 400 });
+    }
+    const money = readMoney(
+      { entry_fee: body.entry_fee ?? current.entry_fee, prizes: body.prizes ?? current.prizes },
+      Math.max(1, Math.round((endsAt.getTime() - startsAt.getTime()) / 86_400_000))
+    );
+    if (typeof money === "string") return NextResponse.json({ error: money }, { status: 400 });
+    Object.assign(update, { entry_fee: money.entry_fee, prizes: money.prizes, starts_at: startsAt.toISOString(), ends_at: endsAt.toISOString() });
+  }
+
   const { error: updateError } = await admin.from("tregu_leagues").update(update).eq("id", id).eq("kind", "public");
   if (updateError) return NextResponse.json({ error: updateError.message }, { status: 400 });
   return NextResponse.json({ ok: true });

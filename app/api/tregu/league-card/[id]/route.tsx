@@ -7,15 +7,15 @@ export const dynamic = "force-dynamic";
 
 /* A league's table as a 1080×1350 image for stories and group chats: the
    emblem and name, the podium with its prizes, the rest of the top eight, and
-   (for private leagues) the code to get in. Dark, like the trade card and the
-   stadium card it comes from.
+   (for private leagues) the code to get in. The same paper as the league
+   cards: cream, lit in orange from the top left and bottom right.
 
    Anyone holding a league's id may render it: ids are unguessable, the image
-   only shows first names, ranks and profit, and sharing it is its purpose. */
+   only shows first names, ranks and points, and sharing it is its purpose. */
 
 const W = 1080;
 const H = 1350;
-const MEDALS = ["#E3B341", "#B4BAC4", "#C58A4B"];
+const MEDALS = ["#EDB24A", "#BFC6D0", "#D39A62"];
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -60,22 +60,23 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const daysLeft = Math.max(0, Math.ceil((Date.parse(league.ends_at) - Date.now()) / 86_400_000));
 
   const fonts = await manropeFonts();
-  const text = "#F4EFE6";
-  const muted = "rgba(244,239,230,0.58)";
-  const line = "rgba(244,239,230,0.12)";
-  const signed = (value: number) => `${value > 0 ? "+" : ""}${value.toLocaleString("sq-AL")}`;
+  const text = "#2B1B11";
+  const muted = "#6A513F";
+  const line = "rgba(140,70,25,0.16)";
+  const flame = "#C2360F";
 
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", background: "#100D0A", color: text, fontFamily: fonts.length ? "Manrope" : undefined, position: "relative", borderTop: `10px solid ${accent}` }}>
-        <div style={{ position: "absolute", top: -300, left: -200, width: 1000, height: 900, borderRadius: 1000, background: `radial-gradient(circle, ${accent}40 0%, ${accent}00 62%)`, display: "flex" }} />
+      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", background: "#FBF4E9", color: text, fontFamily: fonts.length ? "Manrope" : undefined, position: "relative" }}>
+        <div style={{ position: "absolute", top: -420, left: -380, width: 1100, height: 1000, borderRadius: 1100, background: "radial-gradient(circle, rgba(255,68,34,0.42) 0%, rgba(255,120,60,0.14) 40%, rgba(255,120,60,0) 66%)", display: "flex" }} />
+        <div style={{ position: "absolute", bottom: -440, right: -380, width: 1100, height: 1000, borderRadius: 1100, background: "radial-gradient(circle, rgba(255,68,34,0.36) 0%, rgba(255,140,70,0.12) 42%, rgba(255,140,70,0) 68%)", display: "flex" }} />
         <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "64px 64px 56px", position: "relative" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div style={{ display: "flex", alignItems: "baseline", gap: 16 }}>
               <div style={{ display: "flex", fontSize: 48, fontWeight: 800, letterSpacing: "-0.05em" }}>383<span style={{ color: "#FF4422" }}>.</span></div>
               <div style={{ display: "flex", fontSize: 22, fontWeight: 800, letterSpacing: "0.18em", color: muted }}>LIGAT</div>
             </div>
-            <div style={{ display: "flex", padding: "10px 20px", borderRadius: 100, border: `2px solid ${line}`, fontSize: 22, fontWeight: 700 }}>
+            <div style={{ display: "flex", padding: "10px 20px", borderRadius: 100, border: `2px solid ${line}`, background: "rgba(255,255,255,0.7)", fontSize: 22, fontWeight: 700 }}>
               {ended ? "Renditja përfundimtare" : daysLeft <= 1 ? "Dita e fundit" : `${daysLeft} ditë mbetur`}
             </div>
           </div>
@@ -87,7 +88,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
             <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
               <div style={{ display: "flex", fontSize: league.name.length > 24 ? 54 : 66, fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.05 }}>{league.name}</div>
               <div style={{ display: "flex", marginTop: 10, fontSize: 26, fontWeight: 700, color: muted }}>
-                {rows.length} tregtarë · {prizes.length ? `${prizes.reduce((a, b) => a + b, 0).toLocaleString("sq-AL")} 383C në lojë` : "për lavdi"}
+                {rows.length} lojtarë · {prizes.length ? `${prizes.reduce((a, b) => a + b, 0).toLocaleString("sq-AL")} 383C në lojë` : "për lavdi"}
               </div>
             </div>
           </div>
@@ -95,28 +96,28 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
           <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 52, flex: 1 }}>
             {rows.slice(0, 8).map((row) => {
               const medal = MEDALS[row.rank - 1];
-              const prize = prizes[row.rank - 1] && (league.kind === "private" || row.profit > 0) ? prizes[row.rank - 1] : 0;
+              const prize = prizes[row.rank - 1] && row.profit > 0 ? prizes[row.rank - 1] : 0;
               return (
-                <div key={row.rank} style={{ display: "flex", alignItems: "center", gap: 22, padding: medal ? "20px 26px" : "14px 26px", borderRadius: 22, background: medal ? `${medal}22` : "rgba(255,255,255,0.04)", border: `2px solid ${medal ? `${medal}66` : line}` }}>
-                  <div style={{ display: "flex", width: 54, height: 54, borderRadius: 54, alignItems: "center", justifyContent: "center", background: medal ?? "transparent", color: medal ? "#1A1206" : muted, fontSize: 28, fontWeight: 800 }}>{row.rank}</div>
+                <div key={row.rank} style={{ display: "flex", alignItems: "center", gap: 22, padding: medal ? "20px 26px" : "14px 26px", borderRadius: 22, background: medal ? `${medal}33` : "rgba(255,255,255,0.72)", border: `2px solid ${medal ? `${medal}AA` : line}` }}>
+                  <div style={{ display: "flex", width: 54, height: 54, borderRadius: 54, alignItems: "center", justifyContent: "center", background: medal ?? "transparent", color: medal ? "#3A230C" : muted, fontSize: 28, fontWeight: 800 }}>{row.rank}</div>
                   <div style={{ display: "flex", flex: 1, fontSize: medal ? 38 : 32, fontWeight: 800 }}>{row.name}</div>
-                  <div style={{ display: "flex", fontSize: medal ? 36 : 30, fontWeight: 800, color: row.profit > 0 ? "#3ED484" : row.profit < 0 ? "#FF6B7A" : muted }}>{signed(row.profit)}</div>
-                  {prize ? <div style={{ display: "flex", padding: "8px 16px", borderRadius: 100, background: "#F2C14E", color: "#1A1206", fontSize: 24, fontWeight: 800 }}>{prize.toLocaleString("sq-AL")}</div> : null}
+                  <div style={{ display: "flex", fontSize: medal ? 36 : 30, fontWeight: 800, color: row.profit > 0 ? text : muted }}>{`${row.profit.toLocaleString("sq-AL")} pikë`}</div>
+                  {prize ? <div style={{ display: "flex", padding: "8px 16px", borderRadius: 100, background: flame, color: "#fff", fontSize: 24, fontWeight: 800 }}>{prize.toLocaleString("sq-AL")}</div> : null}
                 </div>
               );
             })}
             {rows.length === 0 ? <div style={{ display: "flex", fontSize: 32, color: muted }}>Ende pa anëtarë.</div> : null}
             {/* A young private league: the empty table becomes the invite. */}
             {league.kind === "private" && league.code && !ended && rows.length < 5 ? (
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 18, marginTop: "auto", padding: "40px 32px", borderRadius: 28, border: "2px dashed rgba(242,193,78,0.45)", background: "rgba(242,193,78,0.07)" }}>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 18, marginTop: "auto", padding: "40px 32px", borderRadius: 28, border: "2px dashed rgba(194,54,15,0.4)", background: "rgba(255,255,255,0.6)" }}>
                 <div style={{ display: "flex", fontSize: 30, fontWeight: 700, color: muted }}>Hyr në ligë me kodin</div>
                 <div style={{ display: "flex", gap: 14 }}>
                   {league.code.split("").map((char: string, index: number) => (
-                    <div key={index} style={{ display: "flex", width: 92, height: 112, borderRadius: 22, alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.08)", border: "2px solid rgba(242,193,78,0.5)", fontSize: 62, fontWeight: 800, color: "#fff" }}>{char}</div>
+                    <div key={index} style={{ display: "flex", width: 92, height: 112, borderRadius: 22, alignItems: "center", justifyContent: "center", background: "#fff", border: "2px solid rgba(194,54,15,0.35)", fontSize: 62, fontWeight: 800, color: flame }}>{char}</div>
                   ))}
                 </div>
                 <div style={{ display: "flex", fontSize: 26, fontWeight: 700, color: muted }}>
-                  {Number(league.entry_fee) > 0 ? `Hyrja ${Number(league.entry_fee).toLocaleString("sq-AL")} 383C · poti për tre të parët` : "Tre të parët fitojnë"}
+                  {Number(league.entry_fee) > 0 ? `Hyrja ${Number(league.entry_fee).toLocaleString("sq-AL")} 383C · parashiko dhe fito potin` : "Parashiko ndeshjet, fito pikë"}
                 </div>
               </div>
             ) : null}
@@ -126,12 +127,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
             {league.kind === "private" && league.code && !ended ? (
               <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                 Hyr me kodin
-                <span style={{ color: "#F2C14E", fontWeight: 800, letterSpacing: "0.2em" }}>{league.code}</span>
+                <span style={{ color: flame, fontWeight: 800, letterSpacing: "0.2em" }}>{league.code}</span>
               </div>
             ) : (
               <div style={{ display: "flex" }}>{scopeOf(summary).label}</div>
             )}
-            <div style={{ display: "flex", color: text }}>383ks.com/tregu/ligat</div>
+            <div style={{ display: "flex", color: text }}>383ks.com/tregu</div>
           </div>
         </div>
       </div>

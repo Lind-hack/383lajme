@@ -1,5 +1,7 @@
-/** Leagues (migration 0084): public ones 383 runs and pays, private ones
- *  friends run on their own entry-fee pot. */
+/** Leagues: a prediction game on top of Tregu (migration 0089). Members make
+ *  one free pick per market; a correct pick earns 100 minus the outcome's
+ *  probability when picked. Public leagues are 383's, private ones run on
+ *  their members' entry fees plus a 383 bonus. */
 
 export type LeagueKind = "public" | "private";
 
@@ -19,6 +21,7 @@ export type LeagueSummary = {
   is_member: boolean;
   is_creator?: boolean;
   my_rank?: number | null;
+  /** The caller's points (the column kept its old name). */
   my_profit?: number | null;
   settled: boolean;
   description?: string | null;
@@ -37,10 +40,12 @@ export type LeagueSummary = {
 export type LeagueStanding = {
   rank: number;
   display_name: string;
+  /** Points (the column kept its old name). */
   profit: number;
   is_me: boolean;
   is_creator: boolean;
   today_profit?: number;
+  /** Correct picks. */
   trades?: number;
   streak?: number;
   joined_at?: string;
@@ -49,16 +54,6 @@ export type LeagueStanding = {
   /** Places gained since the start of today (negative: lost). */
   rank_change?: number;
   duel_wins?: number;
-};
-
-export type LeagueEvent = {
-  id: string;
-  league_id: string | null;
-  kind: "overtaken" | "climbed" | "duel_challenge" | "duel_accepted" | "duel_declined" | "duel_won" | "duel_lost" | "duel_draw" | "duel_expired";
-  actor: string | null;
-  data: Record<string, unknown>;
-  created_at: string;
-  seen: boolean;
 };
 
 export type Duel = {
@@ -76,7 +71,30 @@ export type Duel = {
   won: boolean | null;
 };
 
-export type RacePoint = { display_name: string; is_me: boolean; day: string; cumulative: number };
+/** One outcome on the pick board, with its live probability (0..1). */
+export type PickOption = { key: string; label: string; color?: string | null; logo?: string | null; prob: number | null };
+
+/** A market on a league's pick board (tregu_league_board). */
+export type BoardRow = {
+  market_id: string;
+  slug: string;
+  question: string;
+  market_type: string;
+  lock_at: string;
+  status: string;
+  result_outcome: string | null;
+  options: PickOption[] | null;
+  my_outcome: string | null;
+  my_points: number | null;
+  result: "open" | "locked" | "won" | "lost" | "void";
+};
+
+/** Points a correct pick earns at this probability: 100 minus it, 1..99.
+ *  Mirrors tregu_league_pick(). */
+export function pickPoints(probability: number | null | undefined): number {
+  const p = Math.min(0.99, Math.max(0.01, Number(probability) || 0.5));
+  return Math.max(1, Math.min(99, Math.round(100 * (1 - p))));
+}
 
 /** Duel stakes: 0 to 50 coins each. */
 export const DUEL_STAKES = [0, 10, 25, 50] as const;
@@ -84,15 +102,6 @@ export const DUEL_STAKES = [0, 10, 25, 50] as const;
 /** The create sheet's icons and colours. */
 export const LEAGUE_EMOJIS = ["🏆", "🦅", "🔥", "⚡", "👑", "🎯", "🚀", "💎", "🐺", "⚽", "🏀", "🏎️"] as const;
 export const LEAGUE_COLORS = ["#F2C14E", "#FF4422", "#E41E20", "#0047FF", "#00A651", "#7C3AED", "#EC4899", "#0EA5E9"] as const;
-
-export type LeagueFeedItem = {
-  kind: "close" | "join";
-  display_name: string;
-  amount: number;
-  question: string | null;
-  slug: string | null;
-  at: string;
-};
 
 export const LEAGUE_DURATIONS = [1, 3, 7, 14, 30] as const;
 export const DURATION_LABEL: Record<number, string> = { 1: "1 ditë", 3: "3 ditë", 7: "1 javë", 14: "2 javë", 30: "1 muaj" };
@@ -103,8 +112,9 @@ export const LEAGUE_FEE_MAX = 10000;
 /** Every public league costs this to enter. */
 export const PUBLIC_LEAGUE_FEE = 10;
 
-/** Public prizes: 75% of the leaderboard prize for the league's length —
- *  the weekly board up to seven days, the monthly board beyond. */
+/** Suggested public prizes: 75% of the leaderboard prize for the league's
+ *  length — the weekly board up to seven days, the monthly board beyond. The
+ *  admin can change them before anyone joins. */
 export function publicLeaguePrizes(days: number): number[] {
   const base = days <= 7 ? [125, 75, 40] : [500, 300, 150];
   return base.map((prize) => Math.round(prize * 0.75));
@@ -159,7 +169,17 @@ export function isImageEmblem(emblem: string | null | undefined): emblem is stri
 }
 export const LEAGUE_CODE_PATTERN = /^[A-HJKMNP-Z2-9]{6}$/;
 
-/** The private pot's split, renormalised like the settlement does. */
+/** 383's top-up on a private pot, by length: up to a week +10%, two weeks
+ *  +15%, longer +25%. Mirrors tregu_private_bonus_pct(). */
+export function privateBonusPct(days: number): number {
+  return days <= 7.5 ? 10 : days <= 15 ? 15 : 25;
+}
+
+export function leagueDays(league: Pick<LeagueSummary, "starts_at" | "ends_at">): number {
+  return (Date.parse(league.ends_at) - Date.parse(league.starts_at)) / 86_400_000;
+}
+
+/** The pot's split, renormalised like the settlement does. */
 export function potSplit(pot: number, members: number): number[] {
   const winners = Math.min(3, Math.max(0, members));
   if (pot <= 0 || winners === 0) return [];
@@ -170,20 +190,27 @@ export function potSplit(pot: number, members: number): number[] {
   return amounts;
 }
 
-/** What 1st/2nd/3rd win if it ended now: private leagues split their pot;
- *  public leagues pay 383's fixed prizes plus the entry-fee pot. */
-export function leaguePrizes(league: Pick<LeagueSummary, "kind" | "prizes" | "pot" | "members">): number[] {
+type PrizeLeague = Pick<LeagueSummary, "kind" | "prizes" | "pot" | "members" | "starts_at" | "ends_at">;
+
+/** A private pot with 383's bonus on top. */
+export function privatePurse(pot: number, days: number): number {
+  return pot + Math.floor((pot * privateBonusPct(days)) / 100);
+}
+
+/** What 1st/2nd/3rd win if three members score: private leagues split their
+ *  pot plus 383's bonus; public leagues pay 383's prizes plus the fee pot. */
+export function leaguePrizes(league: PrizeLeague): number[] {
   const pot = Number(league.pot) || 0;
   if (league.kind === "public") {
     const fixed = (league.prizes ?? []).map(Number);
     const share = potSplit(pot, 3);
-    return fixed.map((prize, index) => prize + (share[index] ?? 0)).filter((prize) => prize > 0);
+    return [0, 1, 2].map((index) => (fixed[index] ?? 0) + (share[index] ?? 0)).filter((prize) => prize > 0);
   }
-  return potSplit(pot, league.members);
+  return potSplit(privatePurse(pot, leagueDays(league)), Math.min(3, league.members));
 }
 
 /** Everything on the table: the three prizes added up. */
-export function leaguePurse(league: Pick<LeagueSummary, "kind" | "prizes" | "pot" | "members">): number {
+export function leaguePurse(league: PrizeLeague): number {
   return leaguePrizes(league).reduce((sum, prize) => sum + prize, 0);
 }
 
@@ -195,8 +222,9 @@ export function leaguePhase(league: Pick<LeagueSummary, "starts_at" | "ends_at" 
   return "live";
 }
 
+/** The invite link: the Tregu floor opens the join sheet with this code. */
 export function leagueShareUrl(code: string) {
-  return `https://383ks.com/tregu/ligat?kodi=${encodeURIComponent(code)}`;
+  return `https://383ks.com/tregu?kodi=${encodeURIComponent(code)}#ligat`;
 }
 
 /** Supabase RPC errors carry our Albanian message; anything else gets a plain one. */
