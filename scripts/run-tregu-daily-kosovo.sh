@@ -12,12 +12,19 @@ cd "$REPO"
 
 attempt=1
 max_attempts=2
+if [ "${TREGU_DAILY_MANUAL:-0}" = "1" ]; then
+  set -- --manual
+  run_label="manual"
+else
+  set -- --notify
+  run_label="07:20 scheduled"
+fi
 tmp_output="$(mktemp /tmp/tregu-daily-drafts.XXXXXX)"
 trap 'rm -f "$tmp_output"' EXIT INT TERM
 while [ "$attempt" -le "$max_attempts" ]; do
   : >"$tmp_output"
   set +e
-  timeout 900s node scripts/run-tregu-daily-drafts.mjs --notify >"$tmp_output" 2>&1
+  timeout 1200s node scripts/run-tregu-daily-drafts.mjs "$@" >"$tmp_output" 2>&1
   status=$?
   set -e
   cat "$tmp_output"
@@ -36,6 +43,6 @@ done
 # untrusted provider output into the message body.
 html_file="$(mktemp /tmp/tregu-daily-failure.XXXXXX)"
 trap 'rm -f "$tmp_output" "$html_file"' EXIT INT TERM
-printf '%s\n' '<!doctype html><html><body><h1>383 Tregu daily creation failed</h1><p>The 07:20 run did not complete. No market creation result can be confirmed from this run.</p><p>Check the VPS journal for <code>tregu-daily-drafts.service</code>.</p></body></html>' >"$html_file"
+printf '%s\n' "<!doctype html><html><body><h1>383 Tregu daily creation failed</h1><p>The $run_label run did not complete. No market creation result can be confirmed from this run.</p><p>Check the VPS journal for Tregu daily drafts.</p></body></html>" >"$html_file"
 python3 scripts/send-tregu-review-email.py --recipient "${TREGU_MARKET_RECIPIENT:-lindsylqa@gmail.com}" --subject "383 Tregu - FAILED - daily creation" --html-file "$html_file" || echo 'Tregu failure receipt delivery failed.' >&2
 exit "$status"

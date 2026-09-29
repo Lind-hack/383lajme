@@ -31,7 +31,7 @@ if (!contextResponse.ok) throw new Error(`Could not load Codex draft context: ${
 const { articles, activeMarkets = [], futureTemplates = [] } = await contextResponse.json();
 const now = new Date();
 
-function runDailyCodex(prompt, key, maximum) {
+function runDailyCodex(prompt, key, maximum, timeoutMs = 330_000) {
   const hermesBin = process.env.HERMES_BIN ?? "/opt/hermes/.venv/bin/hermes";
   const hermesHome = process.env.TREGU_DAILY_HERMES_HOME ?? "/opt/data/profiles/tregudaily";
   const configPath = join(hermesHome, "config.yaml");
@@ -42,7 +42,7 @@ function runDailyCodex(prompt, key, maximum) {
   try {
     output = execFileSync(hermesBin, buildDailyCodexCommand(prompt, "gpt-6-luna"), {
       cwd: process.cwd(), env: { ...process.env, HERMES_HOME: hermesHome },
-      encoding: "utf8", timeout: 330_000, maxBuffer: 2 * 1024 * 1024,
+      encoding: "utf8", timeout: timeoutMs, maxBuffer: 2 * 1024 * 1024,
     });
   } catch (error) {
     // execFileSync's default error includes the entire news prompt in `spawnargs`.
@@ -142,7 +142,7 @@ Return ONLY compact JSON, with no markdown:
 // An empty shortlist means stage one found nothing undecided worth pricing. That is a
 // legitimate outcome, and spending a second provider call to confirm it is waste.
 const generation = shortlist.topics.length
-  ? runDailyCodex(prompt, "markets", 6)
+  ? runDailyCodex(prompt, "markets", 6, 720_000)
   : { candidates: [], provider: shortlist.provider, fallback_reason: "empty_shortlist" };
 const candidates = generation.candidates;
 console.log(JSON.stringify({ stage: "generation", provider: generation.provider, fallback_reason: generation.fallback_reason, shortlisted: shortlist.topics.length, candidate_count: candidates.length }));
