@@ -242,13 +242,14 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
       requireMassAudience: !expectedLiveEventRunKey,
       nonSportOnly: !expectedLiveEventRunKey,
     });
+    plan.rejected.unshift(...(validated.rejected ?? []));
     if (expectedLiveEventRunKey && plan.rows.length !== 4) {
       throw new Error("Live-event submission must create exactly four unique review-only draft cards.");
     }
     if (!expectedLiveEventRunKey) {
       const noPublishReason = dailyDraftPublicationReason(plan);
       if (noPublishReason) {
-        const details = { created: 0, ...summarizeDailyPlan(validated.candidates, plan), admin_approval_required: true, no_publish_reason: noPublishReason };
+        const details = { created: 0, ...summarizeDailyPlan(candidates, plan), admin_approval_required: true, no_publish_reason: noPublishReason };
         await finishRun(admin, started.run.id, "succeeded", details);
         return { ok: true, skipped: true, runKey, ...details, markets: [] };
       }
@@ -292,7 +293,7 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
       if (error) throw new Error(`Could not insert market drafts: ${error.message}`);
       createdMarkets = data ?? [];
     }
-    const details = { created: rows.length, ...summarizeDailyPlan(validated.candidates, plan), admin_approval_required: rows.some(row => row.status === "draft") };
+    const details = { created: rows.length, ...summarizeDailyPlan(candidates, plan), admin_approval_required: rows.some(row => row.status === "draft") };
     await finishRun(admin, started.run.id, "succeeded", details);
     if (rows.some((row) => row.status === "open")) {
       try { await sendPendingNewsMarketEmails({ limit: rows.length }); }
@@ -339,12 +340,13 @@ export async function previewDailyDraftAutomation(candidates: unknown, now = new
     requireMassAudience: true,
     nonSportOnly: true,
   });
+  plan.rejected.unshift(...(validated.rejected ?? []));
   const noPublishReason = dailyDraftPublicationReason(plan);
   return {
     ok: true,
     preview: true,
     created: 0,
-    ...summarizeDailyPlan(validated.candidates, plan),
+    ...summarizeDailyPlan(candidates, plan),
     no_publish_reason: noPublishReason,
     markets: noPublishReason ? [] : plan.rows,
   };
