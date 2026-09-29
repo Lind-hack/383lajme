@@ -1,11 +1,11 @@
 {
   "lastUpdated": "2026-09-29",
-  "overallIndex": 49,
-  "totalArticles": 263,
-  "sourceCount": 124,
+  "overallIndex": 50,
+  "totalArticles": 305,
+  "sourceCount": 137,
   "stanceVersion": 3,
-  "unattributed": 260,
-  "nonEditorial": 5,
+  "unattributed": 277,
+  "nonEditorial": 6,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -155,7 +155,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 22,
+          "totalArticles": 23,
           "trend": "neutral",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-27"
@@ -975,6 +975,30 @@
     "Itali": {
       "outlets": [
         {
+          "name": "ANSA",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Assemblea del Kosovo, 'inaccettabile la sentenza all'Aja sugli ex capi dell'Uck' - ANSA",
+              "albanianTitle": "Kuvendi i Kosovës: Vendimi i Hagës për ish-krerët e UÇK-së është i papranueshëm - ANSA",
+              "blurb": "Kuvendi i Kosovës e ka cilësuar si të papranueshëm vendimin e gjykatës në Hagë për ish-krerët e UÇK-së.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/6/10/43a2a9144164eec16b3f646e8e6026a5.jpg",
+              "url": "https://www.ansa.it/nuova_europa/it/notizie/rubriche/politica/2026/09/29/assemblea-del-kosovo-inaccettabile-la-sentenza-allaja-sugli-ex-capi-delluck_6782a4cd-9b47-47ac-a915-b5ecaf5c91ab.html",
+              "date": "2026-09-29",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 37,
+          "trend": "neutral",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-29"
+        },
+        {
           "name": "Bottadiculo",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -1060,6 +1084,30 @@
           "lastSeen": "2026-09-27"
         },
         {
+          "name": "Dove Viaggi Corriere",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Pristina è una capitale europea giovane e lontana dai cliché sui Balcani: scoprila adesso - Dove Viaggi Corriere",
+              "albanianTitle": null,
+              "blurb": "Prishtina vlerësohet si një kryeqytet i ri evropian që ofron përvoja të ndryshme nga stereotipet tradicionale për rajonin e Ballkanit.",
+              "imageUrl": "https://images2-viaggi.corriereobjects.it/gKNuwaCGmyqJOZfpVjAAUOUmaTM=/800x450/filters:focal(179x0:564x450):format(avif)/viaggi.corriere.it/assets/uploads/2026/09/1prishtina-view-iStock-2231759288.jpeg?v=1790328699",
+              "url": "https://viaggi.corriere.it/europa/kosovo-pristina/",
+              "date": "2026-09-28",
+              "sentiment": "positive",
+              "reason": "Outlet uses admiring language to describe Pristina",
+              "isQuote": false,
+              "evidence": "capitale europea giovane e lontana dai cliché",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-25",
+          "lastSeen": "2026-09-28"
+        },
+        {
           "name": "Eurosport",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -1091,10 +1139,34 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 6,
+          "totalArticles": 7,
           "trend": "neutral",
           "firstSeen": "2026-09-24",
           "lastSeen": "2026-09-27"
+        },
+        {
+          "name": "ForlìToday",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Aiuti umanitari in Kosovo: la Croce Rossa consegna 3,7 quintali di beni - ForlìToday",
+              "albanianTitle": "Ndihma humanitare për Kosovën: Kryqi i Kuq dërgon 3,7 kuintalë ndihma - ForlìToday",
+              "blurb": "Kryqi i Kuq ka dërguar 3,7 quintalë ndihma humanitare me mallra të ndryshme për qytetarët në territorin e Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.forlitoday.it/cronaca/aiuti-umanitari-kosovo-cri-terza-raccolta.html",
+              "date": "2026-09-29",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-22",
+          "lastSeen": "2026-09-29"
         },
         {
           "name": "GoldBetlive",
@@ -1341,6 +1413,30 @@
           "lastSeen": "2026-09-27"
         },
         {
+          "name": "Soroptimist International d'Italia",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Rete, amicizia e pace nel gemellaggio Italia-Kosovo - Soroptimist International d'Italia",
+              "albanianTitle": null,
+              "blurb": "Soroptimist International d'Italia promovon rrjetëzimin, miqësinë dhe paqen përmes binjakëzimit ndërmjet Italisë dhe Kosovës për bashkëpunim më të ngushtë.",
+              "imageUrl": null,
+              "url": "https://www.soroptimist.it/it/attivita/attivita-nazionali/rete-amicizia-e-pace-nel-gemellaggio-italia-kosovo-61095/",
+              "date": "2026-09-29",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-29"
+        },
+        {
           "name": "SportNews BetFlag",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1500,6 +1596,30 @@
           "lastSeen": "2026-09-27"
         },
         {
+          "name": "corriere.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Nations League: news, classifica e calendario delle partite - corriere.it",
+              "albanianTitle": null,
+              "blurb": "Përditësime mbi lajmet, renditjen tabelare dhe kalendarin e ndeshjeve për edicionin aktual të garës së Ligës së Kombeve.",
+              "imageUrl": null,
+              "url": "https://www.corriere.it/sport/calcio/nations-league/partita/austria-kosovo/2626910/?vclk=fasciaTR",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Straightforward listing of league news, no evaluative language about Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-29",
+          "lastSeen": "2026-09-27"
+        },
+        {
           "name": "forli24ore.it",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -1562,12 +1682,12 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 52,
+        "positive": 5,
+        "neutral": 95,
         "negative": 0,
-        "n": 20,
-        "excluded": 9,
+        "n": 22,
+        "excluded": 12,
         "confident": true,
         "stanceVersion": 3
       }
@@ -1651,7 +1771,7 @@
         {
           "name": "5min.at",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Strenge Sicherheitsvorkehrungen beim Spiel Österreich gegen Kosovo - 5min.at",
@@ -1665,12 +1785,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Nicht nur Veratschnig nach Spiel gegen Kosovo: Gleich vier Red-Bull-Profis fallen aus - 5min.at",
+              "albanianTitle": null,
+              "blurb": "Katër futbollistë të Red Bullit, përfshirë Veratschnig, raportohen të lënduar pas ndeshjes së zhvilluar kundër përfaqësueses së Kosovës.",
+              "imageUrl": "https://www.5min.at/wp-content/uploads/ogimages/715450.jpg?v=c99d68e1286266bbac9d9fb3703817ed",
+              "url": "https://www.5min.at/oesterreich/5202609291055/nicht-nur-veratschnig-nach-spiel-gegen-kosovo-gleich-vier-red-bull-profis-fallen-aus/",
+              "date": "2026-09-29",
+              "sentiment": "neutral",
+              "reason": "Faktikë e thjeshtë, pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "neutral",
           "firstSeen": "2026-09-26",
-          "lastSeen": "2026-09-26"
+          "lastSeen": "2026-09-29"
         },
         {
           "name": "Der Standard",
@@ -1930,7 +2063,7 @@
               "speaker": "Rangnick"
             }
           ],
-          "totalArticles": 22,
+          "totalArticles": 23,
           "trend": "neutral",
           "firstSeen": "2026-08-25",
           "lastSeen": "2026-09-27"
@@ -2370,7 +2503,7 @@
         {
           "name": "MeinBezirk.at",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Nations League: Österreich empfängt Kosovo zum zweiten Heimspiel - MeinBezirk.at",
@@ -2397,12 +2530,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Jungkicker beim Kosovo-Länderspiel in Wien: Gössendorfs Jugend live bei Nationalteam - MeinBezirk.at",
+              "albanianTitle": null,
+              "blurb": "Futbollistët e rinj nga Gössendorfi ndjekin nga afër ndeshjen e përfaqësueses së Kosovës të zhvilluar në qytetin e Vjenës.",
+              "imageUrl": "https://media04.meinbezirk.at/article/2026/09/29/5/52815105_XXL.webp",
+              "url": "https://www.meinbezirk.at/graz-umgebung/c-sport/goessendorfs-jugend-live-bei-nationalteam_a8916357",
+              "date": "2026-09-29",
+              "sentiment": "neutral",
+              "reason": "Lajm i raportuar në mënyrë faktike",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "neutral",
           "firstSeen": "2026-09-02",
-          "lastSeen": "2026-09-28"
+          "lastSeen": "2026-09-29"
         },
         {
           "name": "NÖN.at - Niederösterreichische Nachrichten",
@@ -2444,7 +2590,7 @@
         {
           "name": "ORF",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Österreich mit einigen Änderungen gegen Kosovo - ORF",
@@ -2484,9 +2630,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Österreich gewinnt in Nations League mit 3:1 gegen Kosovo - ORF",
+              "albanianTitle": "Austria fiton 3:1 ndaj Kosovës në Ligën e Kombeve",
+              "blurb": "Austria ka shënuar fitore me rezultat 3:1 ndaj Kosovës në ndeshjen e zhvilluar në kuadër të Ligës së Kombeve.",
+              "imageUrl": "https://ibs.orf.at/news?image=https%3A%2F%2Fassets.orf.at%2Fmims%2F2026%2F40%2F86%2Fcrops%2Fw%3D1200%2Ch%3D630%2Cq%3D75%2F3198285_master_1240686_87816207095310348_bld_online.jpg%3Fs%3Da33c418d16b492306520191c06d37896e65c82bf",
+              "url": "https://orf.at/einfach/stories/3443507/",
+              "date": "2026-09-28",
+              "sentiment": "neutral",
+              "reason": "Raportim rezultati sportiv pa gjuhë ngacmuese",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "neutral",
           "firstSeen": "2026-09-17",
           "lastSeen": "2026-09-28"
@@ -2736,7 +2895,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 16,
+          "totalArticles": 17,
           "trend": "neutral",
           "firstSeen": "2026-08-24",
           "lastSeen": "2026-09-27"
@@ -3053,7 +3212,7 @@
         {
           "name": "on.orf.at",
           "sentiment": "neutral",
-          "articleCount": 4,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Nations League: ÖFB bereit für Kosovo - on.orf.at",
@@ -3106,9 +3265,35 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Highlights von Österreich - Kosovo - on.orf.at",
+              "albanianTitle": null,
+              "blurb": "Transmetimi i momenteve më të rëndësishme nga përballja futbollistike ndërmjet përfaqësueses së Austrisë dhe asaj të Kosovës.",
+              "imageUrl": "https://api-tvthek.orf.at/assets/segments/0235/87/thumb_23486338_segments_highlight_teaser.jpg",
+              "url": "https://on.orf.at/video/14341232/highlights-von-oesterreich-kosovo",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Neutral presentation of match highlights, no stance expressed",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Affengruber köpfelt Österreich in Führung (23.) - Nations League: Österreich - Kosovo - on.orf.at",
+              "albanianTitle": null,
+              "blurb": "Affengruber shënon golin e epërsisë për Austrinë në minutën e 23-të gjatë ndeshjes kundër Kosovës në Ligën e Kombeve.",
+              "imageUrl": "https://api-tvthek.orf.at/assets/segments/0235/86/thumb_23485190_segments_highlight_teaser.jpg",
+              "url": "https://on.orf.at/video/14340841/16160951/affengruber-koepfelt-oesterreich-in-fuehrung-23",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Report of match result, no evaluative language toward Kosovo",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 6,
+          "totalArticles": 25,
           "trend": "i përzier",
           "firstSeen": "2026-09-18",
           "lastSeen": "2026-09-28"
@@ -3392,8 +3577,8 @@
         "index": 49,
         "positive": 1,
         "neutral": 97,
-        "negative": 3,
-        "n": 156,
+        "negative": 2,
+        "n": 183,
         "excluded": 6,
         "confident": true,
         "stanceVersion": 3
@@ -3522,15 +3707,15 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 83,
+          "totalArticles": 84,
           "trend": "pozitiv",
           "firstSeen": "2026-09-07",
           "lastSeen": "2026-09-28"
         },
         {
           "name": "Blick",
-          "sentiment": "unknown",
-          "articleCount": 1,
+          "sentiment": "neutral",
+          "articleCount": 2,
           "articles": [
             {
               "title": "Das ändert sich alles im Oktober in der Schweiz - Blick",
@@ -3544,12 +3729,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Österreich fertigt Ex-Coach Foda ab - Blick",
+              "albanianTitle": null,
+              "blurb": "Përfaqësuesja e Austrisë shënon fitore ndaj ekipit të drejtuar nga ish-trajneri i tyre, Franco Foda, në ndeshjen e futbollit.",
+              "imageUrl": "https://images.blick.ch/1/Qf5k9lGaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy8xNTdkMjU5Ny05OWVmLTQ2MzYtYWQ3OS1kMDNiMmI5OGNhMWUuanBlZ5CBoTAH",
+              "url": "https://www.blick.ch/sport/fussball/nations-league/uefa-nations-league-oesterreich-kosovo-27-09-2026-id22282193.html",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Faktikë raportim neutral, pa gjuhë ngarkuar ndaj Kosovës",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 9,
+          "totalArticles": 10,
           "trend": "neutral",
           "firstSeen": "2026-08-19",
-          "lastSeen": "2026-09-26"
+          "lastSeen": "2026-09-27"
         },
         {
           "name": "Kicker",
@@ -3727,7 +3925,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 16,
+        "n": 18,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -4091,7 +4289,7 @@
         {
           "name": "Betarades",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Δες τι να παίξεις στο στοίχημα - Betarades",
@@ -4118,12 +4316,97 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Αυστρία – Κόσοβο Κανάλι ▶️ Ο αγώνας σε Live Streaming (27/09) - Betarades",
+              "albanianTitle": "Austri – Kosovë: Ku mund ta ndiqni ndeshjen live (27/09)",
+              "blurb": "Ndeshja e futbollit ndërmjet Austrisë dhe Kosovës transmetohet drejtpërdrejt për shikuesit në datën 27 shtator.",
+              "imageUrl": "https://betarades2-5c24.kxcdn.com/wp-content/uploads/2026/09/3FKH85J-ezgif.com-resize.jpg",
+              "url": "https://www.betarades.gr/aystria-kosovo-kanali-o-agonas-se-live-streaming-27-09/",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Factual report of a live‑streamed match, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 5,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 6,
+          "trend": "neutral",
           "firstSeen": "2026-09-23",
           "lastSeen": "2026-09-27"
+        },
+        {
+          "name": "Bethome",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Τσάρλυ Προγνωστικά (26/09): Ευκαιρία για την πρώτη νίκη του Τσάβι - Bethome",
+              "albanianTitle": "Parashikimet e Charlie (26/09): Mundësi për fitoren e parë të Xavi-t",
+              "blurb": "Analiza e parashikimeve sportive për datën 26 shtator vlerëson mundësitë për fitoren e parë të trajnerit Çavi në ndeshje.",
+              "imageUrl": "https://www.bethome.gr/wp-content/uploads/2026/09/tsarli-prognostika-stoiximatos-270926.jpg",
+              "url": "https://www.bethome.gr/tsarli-prognostika-eykairia-gia-tin-proti-niki-toy-tsavi/",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-29",
+          "lastSeen": "2026-09-27"
+        },
+        {
+          "name": "E-Radio.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ντούα Λίπα: Viral βίντεο με χορό σε γάμο στο Κόσοβο με ποτήρι στο κεφάλι - E-Radio.gr",
+              "albanianTitle": "Dua Lipa: Video virale duke vallëzuar në një dasmë në Kosovë me gotën mbi kokë",
+              "blurb": "Një video ku Dua Lipa vallëzon me gotë mbi kokë në një dasmë në Kosovë është shpërndarë në rrjet.",
+              "imageUrl": "https://cdn.e-radio.gr/repository/assets_stock/2026/social/eradiogr-dua-lipa-69819-184030176.jpg",
+              "url": "https://www.e-radio.gr/post/333795/ntoya-lipa-viral-vinteo-me-xoro-se-gamo-sto-kosovo-me-potiri-sto-kefali",
+              "date": "2026-09-28",
+              "sentiment": "neutral",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-29",
+          "lastSeen": "2026-09-28"
+        },
+        {
+          "name": "ENIKOS",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Dua Lipa: Τα 'σπασε στον γάμο του ξαδέλφου της στο Κόσοβο – Τα τσιφτετέλια και ο χορός με το ποτήρι στο - ENIKOS",
+              "albanianTitle": null,
+              "blurb": "Këngëtarja Dua Lipa ka marrë pjesë në dasmën e kushëririt të saj në Kosovë, ku është parë duke vallëzuar.",
+              "imageUrl": "https://www.enikos.gr/wp-content/uploads/2026/09/Dua-Lipa-1013x675.jpg",
+              "url": "https://www.enikos.gr/lifestyle/dua-lipa-ta-spase-ston-gamo-tou-xadelfou-tis-sto-kosovo-ta-tsiftetelia-kai-o-choros-me-to-potiri-sto-kefali/2651549/",
+              "date": "2026-09-29",
+              "sentiment": "neutral",
+              "reason": "Headline contains quoted slang, treated as speaker's words, no outlet bias",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-29",
+          "lastSeen": "2026-09-29"
         },
         {
           "name": "Foxbet.gr",
@@ -4212,8 +4495,8 @@
         },
         {
           "name": "Novasports",
-          "sentiment": "unknown",
-          "articleCount": 1,
+          "sentiment": "neutral",
+          "articleCount": 2,
           "articles": [
             {
               "title": "Αυστρία – Κόσοβο 3-1: “Δύο στα δύο” με κυνισμό! (highlights) - Novasports",
@@ -4227,9 +4510,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Αυστρία – Κόσοβο: 3-1 (highlights) - Novasports",
+              "albanianTitle": "Austri – Kosovë: 3-1 (përmbledhja e ndeshjes)",
+              "blurb": "Kombëtarja e Kosovës në futboll është mposhtur nga Austria me rezultatin përfundimtar 3 me 1 në ndeshjen e zhvilluar.",
+              "imageUrl": "https://www.novasports.gr/wp-content/uploads/2026/09/Poster-BJU85iptsReCsh9U5OwHg-123-425338487-1.jpg",
+              "url": "https://www.novasports.gr/web-tv/sport/podosfairo/event/nations-league/video/15137571/aystria-kosovo-3-1-highlights/",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Simple sports result headline, no evaluative language",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-25",
           "lastSeen": "2026-09-27"
@@ -4260,8 +4556,8 @@
         },
         {
           "name": "ProtoThema",
-          "sentiment": "unknown",
-          "articleCount": 1,
+          "sentiment": "neutral",
+          "articleCount": 2,
           "articles": [
             {
               "title": "Το viral βίντεο της Ντούα Λίπα: Χόρεψε σε οικογενειακό γλέντι στο Κόσοβο με ποτήρι στο κεφάλι - ProtoThema",
@@ -4275,12 +4571,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "H Ντούα Λίπα χορέυει με ποτήρι στο κεφάλι σε παραδοσιακό γάμο στο Κόσοβο - Δείτε βίντεο - ProtoThema",
+              "albanianTitle": "Dua Lipa vallëzon me gotën mbi kokë në një dasmë tradicionale në Kosovë – Shikoni videon",
+              "blurb": "Këngëtarja me famë botërore Dua Lipa ka marrë pjesë në një dasmë tradicionale në Kosovë duke vallëzuar me gotë.",
+              "imageUrl": "https://www.protothema.gr/images/640x360share/jpg/files/2026-09-28/dualipa.jpg",
+              "url": "https://www.protothema.gr/marie-claire/article/1885836/h-doua-lipa-horeuei-me-potiri-sto-kefali-se-paradosiako-gamo-sto-kosovo-deite-video/",
+              "date": "2026-09-28",
+              "sentiment": "neutral",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 2,
+          "totalArticles": 3,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-18",
-          "lastSeen": "2026-09-27"
+          "lastSeen": "2026-09-28"
         },
         {
           "name": "Reader.gr",
@@ -4379,6 +4688,30 @@
           "lastSeen": "2026-09-26"
         },
         {
+          "name": "The TOC",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ντούα Λίπα: Τα \"έσπασε\" σε γλέντι γάμου στο Κόσοβο - Χόρεψε κλαρίνα με ένα ποτήρι στο κεφάλι [βίντεο] - The TOC",
+              "albanianTitle": "Dua Lipa shkëlqen në një dasmë në Kosovë: Vallëzon me gotën mbi kokë [video]",
+              "blurb": "Këngëtarja Dua Lipa është parë duke vallëzuar me një gotë mbi kokë gjatë një dasme në Kosovë.",
+              "imageUrl": "https://images.thetoc.gr/Content/ImagesDatabase/fbc/1200x630/crop/both/d9/d9eac7b6950e4e61887d3263acdaaf0c.jpg",
+              "url": "https://www.thetoc.gr/people-style/article/ntoua-lipa-ta-espase-se-glenti-gamou-sto-kosobo---xorepse-klarina-me-ena-potiri-sto-kefali-binteo/",
+              "date": "2026-09-28",
+              "sentiment": "neutral",
+              "reason": "Headline contains quoted slang, treated as speaker's words, no outlet bias",
+              "isQuote": true,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-18",
+          "lastSeen": "2026-09-28"
+        },
+        {
           "name": "iEidiseis",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -4449,6 +4782,78 @@
           "trend": "i përzier",
           "firstSeen": "2026-08-20",
           "lastSeen": "2026-09-27"
+        },
+        {
+          "name": "sportbet.gr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Αυστρία - Κόσοβο: Προγνωστικά και Ανάλυση - sportbet.gr",
+              "albanianTitle": "Austri – Kosovë: Parashikime dhe analizë",
+              "blurb": "Analiza dhe parashikimet për ndeshjen e futbollit ndërmjet Austrisë dhe Kosovës janë publikuar për publikun e interesuar sportiv.",
+              "imageUrl": "https://sportbet.gr/wp-content/uploads/fixture-img/aystria_vs_kosovo_nations-league-1790520190-9726.jpg",
+              "url": "https://sportbet.gr/analuseis/afstria-kosovo-27-09-2026/",
+              "date": "2026-09-26",
+              "sentiment": "neutral",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-29",
+          "lastSeen": "2026-09-26"
+        },
+        {
+          "name": "Ελεύθερος Τύπος",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ανάλυση Stratfor: Προβληματίζει η νέα ένταση στο Κόσοβο - Ελεύθερος Τύπος",
+              "albanianTitle": "Analiza e Stratfor: Tensionet e reja në Kosovë shkaktojnë shqetësim",
+              "blurb": "Analiza e Stratfor vlerëson situatën e re të krijuar nga tensionet e fundit të raportuara në territorin e Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.eleftherostypos.gr/diethni/analysi-stratfor-provlimatizei-i-nea-entasi-sto-kosovo",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-29",
+          "lastSeen": "2026-09-27"
+        },
+        {
+          "name": "Παραπολιτικά",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Ντούα Λίπα: Viral ο χορός της σε γλέντι στο Κόσοβο με ποτήρι στο κεφάλι (Βίντεο) - Παραπολιτικά",
+              "albanianTitle": "Dua Lipa bëhet virale me vallëzimin në një dasmë në Kosovë me gotën mbi kokë (Video)",
+              "blurb": "Dua Lipa është shfaqur në një video duke vallëzuar me gotë mbi kokë gjatë një ahengu në Kosovë.",
+              "imageUrl": "https://www.parapolitika.gr/images/640x360/png/files/2026-09-27/dua-lipa-xoros-potiri.png",
+              "url": "https://www.parapolitika.gr/lifestyle/article/1797583/doua-lipa-viral-o-horos-tis-se-gledi-sto-kosovo-me-potiri-sto-kefali-video/",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "neutral",
+          "firstSeen": "2026-08-19",
+          "lastSeen": "2026-09-27"
         }
       ],
       "summary": {
@@ -4456,7 +4861,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
+        "n": 17,
         "excluded": 10,
         "confident": true,
         "stanceVersion": 3
@@ -4524,6 +4929,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-26",
           "lastSeen": "2026-09-26"
+        },
+        {
+          "name": "Sveriges Radio",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Dagliga protester efter att Kosovos ex-president dömts till fängelse - Sveriges Radio",
+              "albanianTitle": "Protesta të përditshme pas dënimit me burg të ish-presidentit të Kosovës - Sveriges Radio",
+              "blurb": "Protestat e përditshme po mbahen në Kosovë pas dënimit me burgim të ish-presidentit të vendit nga gjykata.",
+              "imageUrl": null,
+              "url": "https://www.sverigesradio.se/artikel/dagliga-protester-efter-att-kosovos-ex-president-domts-till-fangelse",
+              "date": "2026-09-29",
+              "sentiment": "neutral",
+              "reason": "Faktisk rapportering utan laddade ord eller värderande språk",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-29",
+          "lastSeen": "2026-09-29"
         }
       ],
       "summary": {
@@ -4531,7 +4960,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 2,
         "confident": false,
         "stanceVersion": 3

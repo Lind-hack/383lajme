@@ -10339,9 +10339,9 @@
   },
   {
     "date": "2026-09-29",
-    "overallIndex": 49,
-    "totalArticles": 263,
-    "sourceCount": 124,
+    "overallIndex": 50,
+    "totalArticles": 305,
+    "sourceCount": 137,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -10385,12 +10385,12 @@
         "stanceVersion": 3
       },
       "Itali": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
+        "index": 52,
+        "positive": 5,
+        "neutral": 95,
         "negative": 0,
-        "n": 20,
-        "excluded": 9,
+        "n": 22,
+        "excluded": 12,
         "confident": true,
         "stanceVersion": 3
       },
@@ -10398,8 +10398,8 @@
         "index": 49,
         "positive": 1,
         "neutral": 97,
-        "negative": 3,
-        "n": 156,
+        "negative": 2,
+        "n": 183,
         "excluded": 6,
         "confident": true,
         "stanceVersion": 3
@@ -10409,7 +10409,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 16,
+        "n": 18,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -10449,7 +10449,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 7,
+        "n": 17,
         "excluded": 10,
         "confident": true,
         "stanceVersion": 3
@@ -10459,7 +10459,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 1,
+        "n": 2,
         "excluded": 2,
         "confident": false,
         "stanceVersion": 3
@@ -10497,11 +10497,27 @@
     },
     "headlines": [
       {
-        "title": "Kosovo chancenlos – 3:1! Österreich feiert Fußball-Fest im Wiener Prater - Heute",
-        "source": "Heute",
-        "country": "Austri",
-        "flag": "🇦🇹",
-        "url": "https://www.heute.at/s/live-ab-18-uhr-oesterreich-will-gegen-kosovo-nachlegen-120258129",
+        "title": "Pristina è una capitale europea giovane e lontana dai cliché sui Balcani: scoprila adesso - Dove Viaggi Corriere",
+        "source": "Dove Viaggi Corriere",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://viaggi.corriere.it/europa/kosovo-pristina/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosova shkëlqen në Mal të Zi, Kori “Siparantum” mposht korin nga Serbia - reporteri.net",
+        "source": "Reporteri.net",
+        "country": "Spanjë",
+        "flag": "🇪🇸",
+        "url": "https://reporteri.net/es/kulture/Kosovo-brilla-en-Montenegro--el-coro-de-Siparantum-derrota-al-coro-serbio./",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Nations League: ÖFB jubelt auch gegen Kosovo - ORF ON",
+        "source": "ORF ON",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://on.orf.at/sammlung/13870321/nations-league-oefb-jubelt-auch-gegen-kosovo",
         "sentiment": "negative"
       }
     ]
