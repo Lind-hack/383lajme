@@ -276,6 +276,10 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
       ...row,
       // Only validated v3 news contracts qualify for automatic publication.
       status: !expectedLiveEventRunKey && row.pre_match_analysis?.contract_version === "news-event-v3" ? "open" as const : "draft" as const,
+      // The creation articles establish the opening price. Only reports
+      // published after opening should be treated as fresh odds evidence.
+      ...(!expectedLiveEventRunKey && row.pre_match_analysis?.contract_version === "news-event-v3"
+        ? { last_news_at: now.toISOString() } : {}),
       slug: `${slugifyQuestion(row.question) || "treg"}-${dateSuffix}-${index + 1}`,
     }));
     for (const row of rows) {
