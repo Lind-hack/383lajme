@@ -10340,8 +10340,8 @@
   {
     "date": "2026-09-29",
     "overallIndex": 50,
-    "totalArticles": 335,
-    "sourceCount": 149,
+    "totalArticles": 369,
+    "sourceCount": 166,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -10386,20 +10386,20 @@
       },
       "Itali": {
         "index": 52,
-        "positive": 5,
-        "neutral": 95,
+        "positive": 4,
+        "neutral": 96,
         "negative": 0,
-        "n": 22,
+        "n": 23,
         "excluded": 13,
         "confident": true,
         "stanceVersion": 3
       },
       "Austri": {
         "index": 49,
-        "positive": 1,
-        "neutral": 97,
+        "positive": 0,
+        "neutral": 98,
         "negative": 2,
-        "n": 193,
+        "n": 203,
         "excluded": 6,
         "confident": true,
         "stanceVersion": 3
@@ -10409,7 +10409,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 19,
+        "n": 22,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 3
@@ -10419,7 +10419,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 8,
+        "n": 9,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -10450,7 +10450,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 20,
-        "excluded": 10,
+        "excluded": 12,
         "confident": true,
         "stanceVersion": 3
       },
@@ -10469,19 +10469,19 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 14,
-        "excluded": 1,
+        "n": 25,
+        "excluded": 2,
         "confident": true,
         "stanceVersion": 3
       },
       "Turqi": {
-        "index": null,
+        "index": 50,
         "positive": 0,
-        "neutral": 0,
+        "neutral": 100,
         "negative": 0,
-        "n": 0,
+        "n": 8,
         "excluded": 0,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 3
       },
       "Kroaci": {
@@ -10505,11 +10505,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "Kosova shkëlqen në Mal të Zi, Kori “Siparantum” mposht korin nga Serbia - reporteri.net",
-        "source": "Reporteri.net",
-        "country": "Spanjë",
-        "flag": "🇪🇸",
-        "url": "https://reporteri.net/es/kulture/Kosovo-brilla-en-Montenegro--el-coro-de-Siparantum-derrota-al-coro-serbio./",
+        "title": "Kosova’nın Geleceğini Belirleme Hakkını Güçlü Şekilde Savunmaya Devam Edeceğiz - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/kosovanin-gelecegini-belirleme-hakkini-guclu-sekilde-savunmaya-devam-edecegiz-106949",
         "sentiment": "positive"
       },
       {
@@ -10521,11 +10521,11 @@
         "sentiment": "positive"
       },
       {
-        "title": "Kosovo chancenlos – 3:1! Österreich feiert Fußball-Fest im Wiener Prater - Heute",
-        "source": "Heute",
-        "country": "Austri",
-        "flag": "🇦🇹",
-        "url": "https://www.heute.at/s/live-ab-18-uhr-oesterreich-will-gegen-kosovo-nachlegen-120258129",
+        "title": "Vedat Muriqi'li Kosova Avusturya'ya yıkıldı! - Sporx.com",
+        "source": "Sporx.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://www.sporx.com/vedat-muriqi-li-kosova-avusturya-ya-yikildi-SXHBQ1177371SXQ",
         "sentiment": "negative"
       }
     ]

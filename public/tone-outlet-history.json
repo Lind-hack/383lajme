@@ -1013,19 +1013,20 @@
     },
     "Cumhuriyet": {
       "country": "Turqi",
-      "total": 5,
+      "total": 6,
       "positive": 1,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-19",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.cumhuriyet.com.tr/dunya/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-kemik-kalintilari-bulundu-2530603",
         "https://www.cumhuriyet.com.tr/cumhuriyet-in-egesi/izmir-ile-kosova-arasinda-cok-yonlu-is-birligi-donemi-2530991",
         "https://news.google.com/rss/articles/CBMikAFBVV95cUxQYi1QNmI2NEstaVFPaUZkTW1zMHp4cHlPcVk2UEJNYW94V0swM2duTWJuVTJrOFBwcjRlUXhwVEVmY2hiMWVSUUVYOGJ6RDl3eUptY2d2ZGZvYlBBYmFJZjZWRW5CeGE1WTZZaVFkUWJlRHFIRHdxVXNvSjQ2ZnBnS3RZZ1gzWk9NNXJkamkyR1U?oc=5",
         "https://www.cumhuriyet.com.tr/dunya/eski-kosova-cumhurbaskani-hasim-taci-ye-savas-suclarindan-25-yil-hapis-2538161",
-        "https://www.cumhuriyet.com.tr/spor/kosova-ya-uc-puani-vedat-muriqi-getirdi-2540813"
+        "https://www.cumhuriyet.com.tr/spor/kosova-ya-uc-puani-vedat-muriqi-getirdi-2540813",
+        "https://www.cumhuriyet.com.tr/spor/kosova-deplasmanda-avusturya-ya-direnemedi-2541576"
       ]
     },
     "Aksiyon.com.TR": {
@@ -1165,13 +1166,13 @@
     },
     "Haberler": {
       "country": "Turqi",
-      "total": 17,
+      "total": 18,
       "positive": 0,
-      "neutral": 12,
+      "neutral": 13,
       "negative": 0,
       "unknown": 5,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-25",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.haberler.com/3-sayfa/kosova-da-savas-suclari-sorusturmasi-23-kisiye-ait-20159336-haberi/",
         "https://www.haberler.com/3-sayfa/kosova-da-toplu-mezarlarin-yakininda-cok-sayida-20164351-haberi/",
@@ -1189,7 +1190,8 @@
         "https://www.haberler.com/guncel/kosova-istanbul-baskonsolosu-zeka-etso-yu-ziyaret-20263688-haberi/",
         "https://www.haberler.com/spor/vedat-muriqinin-gol-sevinci-tartisma-yaratti-20269494-haberi/",
         "https://www.haberler.com/haber/kosova-irlanda-canli-nereden-izlenir-hangi-kanal-20268697-haberi/",
-        "https://www.haberler.com/politika/kosova-da-eski-cumhurbaskani-thaci-ve-uck-20272067-haberi/"
+        "https://www.haberler.com/politika/kosova-da-eski-cumhurbaskani-thaci-ve-uck-20272067-haberi/",
+        "https://www.haberler.com/haber/avusturya-kosova-maci-hangi-kanalda-avusturya-20276158-haberi/"
       ]
     },
     "Son Dakika": {
@@ -1619,7 +1621,7 @@
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-24",
-      "lastSeen": "2026-09-27",
+      "lastSeen": "2026-09-29",
       "urls": [
         "https://www.skysportaustria.at/sturm-graz-verpflichtet-kosovo-teamspieler/",
         "https://www.skysportaustria.at/mediathek/kacuri-kosovo-einberufung-waere-ein-traum/",
@@ -1787,13 +1789,13 @@
     },
     "Heute": {
       "country": "Austri",
-      "total": 13,
+      "total": 14,
       "positive": 0,
-      "neutral": 10,
+      "neutral": 11,
       "negative": 1,
       "unknown": 2,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-09-27",
+      "lastSeen": "2026-09-29",
       "urls": [
         "https://www.heute.at/s/ex-oefb-coach-foda-lehnte-millionen-angebot-ab-120242843",
         "https://www.heute.at/s/mangel-an-kompetenz-aerger-bei-oefb-gegner-kosovo-120252143",
@@ -1807,7 +1809,8 @@
         "https://www.heute.at/s/vor-oefb-partie-kosovo-fans-nehmen-wiener-city-ein-120257965",
         "https://www.heute.at/s/oefb-star-wollte-gegen-kosovo-nicht-in-startelf-stehen-120258136",
         "https://www.heute.at/s/oesterreich-kosovo-stimme-ab-noten-user-nations-league-oefb-120258115",
-        "https://www.heute.at/s/live-ab-18-uhr-oesterreich-will-gegen-kosovo-nachlegen-120258129"
+        "https://www.heute.at/s/live-ab-18-uhr-oesterreich-will-gegen-kosovo-nachlegen-120258129",
+        "https://www.heute.at/i/nummern-wirrwarr-bei-oefb-team-das-steckt-dahinter-120259177/doc-1k3mt9hkg4"
       ]
     },
     "Rundschau Online": {
@@ -1856,9 +1859,9 @@
     },
     "Kicker": {
       "country": "Zvicër",
-      "total": 24,
+      "total": 25,
       "positive": 0,
-      "neutral": 23,
+      "neutral": 24,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-25",
@@ -1887,7 +1890,8 @@
         "https://www.kicker.de/oesterreich-gewinnt-unter-anderem-dank-tor-von-ex-espe-zhegrovas-tor-kommt-zu-spaet-1256457/artikel",
         "https://www.kicker.de/new-look-team-ueberzeugt-die-noten-zum-3-1-sieg-gegen-den-kosovo-1256339/slideshow",
         "https://www.kicker.ch/oesterreich-gegen-kosovo-2026-uefa-nations-league-5193332/schema",
-        "https://www.kicker.de/mit-prominenten-rueckkehrerinnen-oefb-gibt-kader-fuer-wm-playoff-gegen-kosovo-bekannt-1256939/artikel"
+        "https://www.kicker.de/mit-prominenten-rueckkehrerinnen-oefb-gibt-kader-fuer-wm-playoff-gegen-kosovo-bekannt-1256939/artikel",
+        "https://www.kicker.ch/oesterreich-gegen-kosovo-2026-uefa-nations-league-5193332/ticker"
       ]
     },
     "infodifesa": {
@@ -2419,13 +2423,13 @@
     },
     "Kleine Zeitung": {
       "country": "Austri",
-      "total": 8,
+      "total": 9,
       "positive": 0,
-      "neutral": 7,
+      "neutral": 8,
       "negative": 1,
       "unknown": 0,
       "firstSeen": "2026-08-28",
-      "lastSeen": "2026-09-28",
+      "lastSeen": "2026-09-29",
       "urls": [
         "https://www.kleinezeitung.at/artikel/41209217/busfahrer-aus-dem-kosovo-illegal-in-kaernten-unterwegs",
         "https://www.kleinezeitung.at/artikel/41258460/kosovo-parlament-billigt-neue-regierung-unter-premier-kurti",
@@ -2434,7 +2438,8 @@
         "https://www.kleinezeitung.at/artikel/41298701/ralf-rangnick-nimmt-gegen-den-kosovo-tormann-wechsel-vor",
         "https://www.kleinezeitung.at/artikel/41299189/oesterreich-gegen-kosovo-nur-wer-voll-geladen-ist-spielt",
         "https://www.kleinezeitung.at/artikel/41298614/franco-foda-und-co-alte-bekannte-im-einstigen-wohnzimmer",
-        "https://www.kleinezeitung.at/artikel/41307415/westbalkan-konferenz-in-wien"
+        "https://www.kleinezeitung.at/artikel/41307415/westbalkan-konferenz-in-wien",
+        "https://www.kleinezeitung.at/artikel/41309914/comebacks-von-zadrazil-und-hoebinger-im-play-off-gegen-kosovo"
       ]
     },
     "International Committee of Mediterranean Games": {
@@ -5088,15 +5093,16 @@
     },
     "Trouw": {
       "country": "Holandë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-15",
-      "lastSeen": "2026-09-15",
+      "lastSeen": "2026-09-29",
       "urls": [
-        "https://www.trouw.nl/buitenland/keert-hashim-thaci-straks-als-held-terug-naar-kosovo-of-verdwijnt-hij-als-oorlogsmisdadiger-achter-de-tralies~bb17560d/"
+        "https://www.trouw.nl/buitenland/keert-hashim-thaci-straks-als-held-terug-naar-kosovo-of-verdwijnt-hij-als-oorlogsmisdadiger-achter-de-tralies~bb17560d/",
+        "https://www.trouw.nl/nieuws/kosovo-is-27-jaar-na-de-oorlog-mijnenvrij~bfa1ee0b/"
       ]
     },
     "RTL.nl": {
@@ -7090,9 +7096,9 @@
     },
     "ORF ON": {
       "country": "Austri",
-      "total": 34,
+      "total": 35,
       "positive": 0,
-      "neutral": 31,
+      "neutral": 32,
       "negative": 2,
       "unknown": 1,
       "firstSeen": "2026-09-18",
@@ -7131,7 +7137,8 @@
         "https://on.orf.at/video/14340841/16160940/muriqi-mit-der-ersten-torchance-fuer-kosovo-6-nations-league-oesterreich-kosovo",
         "https://on.orf.at/video/14340841/16160958/spielminute-36-451-nations-league-oesterreich-kosovo",
         "https://on.orf.at/video/14340841/16160939/spielminute-1-5-nations-league-oesterreich-kosovo",
-        "https://on.orf.at/video/14340836/tag-des-sports-2026-highlights"
+        "https://on.orf.at/video/14340836/tag-des-sports-2026-highlights",
+        "https://on.orf.at/video/14340867/16160883/oesterreich-feiert-souveraenen-heimsieg"
       ]
     },
     "GMX.AT": {
@@ -7404,15 +7411,16 @@
     },
     "newsit.gr": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-18",
-      "lastSeen": "2026-09-16",
+      "lastSeen": "2026-09-27",
       "urls": [
-        "https://www.newsit.gr/kosmos/kosovo-katadikastike-o-xasim-thatsi-se-katheirksi-25-eton-gia-egklimata-polemou/4775781/"
+        "https://www.newsit.gr/kosmos/kosovo-katadikastike-o-xasim-thatsi-se-katheirksi-25-eton-gia-egklimata-polemou/4775781/",
+        "https://www.newsit.gr/lifestyle/i-dua-lipa-ta-espase-se-oikogeneiako-glenti-sto-kosovo-deite-vinteo/4784644/"
       ]
     },
     "rheinpfalz.de": {
@@ -7801,16 +7809,17 @@
     },
     "Yeni Akit Gazetesi": {
       "country": "Turqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 1,
       "unknown": 1,
       "firstSeen": "2026-09-19",
-      "lastSeen": "2026-09-22",
+      "lastSeen": "2026-09-29",
       "urls": [
         "https://www.yeniakit.com.tr/haber/ulkesinin-bagimsizligi-icin-savasanlar-suclu-ilan-edildi-2023653.html",
-        "https://www.yeniakit.com.tr/yazarlar/ayhan-demir/yapan-yaptiniz-diyendir-53858.html"
+        "https://www.yeniakit.com.tr/yazarlar/ayhan-demir/yapan-yaptiniz-diyendir-53858.html",
+        "https://www.yeniakit.com.tr/foto-galeri/bakin-nasil-havaya-girdik-ve-sonunda-romanya-ve-kosovayi-yendik-bu-kadarina-pes-dogrusu-177600"
       ]
     },
     "Stratejik Düşünce Enstitüsü": {
@@ -8387,15 +8396,16 @@
     },
     "sport.betfan.pl": {
       "country": "Poloni",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-22",
-      "lastSeen": "2026-09-22",
+      "lastSeen": "2026-09-27",
       "urls": [
-        "https://sport.betfan.pl/kosowo-irlandia-typy-kursy-gdzie-ogladac-24-09-ln/"
+        "https://sport.betfan.pl/kosowo-irlandia-typy-kursy-gdzie-ogladac-24-09-ln/",
+        "https://sport.betfan.pl/austria-kosowo-typy-kursy-gdzie-ogladac-27-09-ln/"
       ]
     },
     "İletişim Başkanlığı": {
@@ -8884,18 +8894,19 @@
     },
     "Foxbet.gr": {
       "country": "Greqi",
-      "total": 4,
+      "total": 5,
       "positive": 0,
       "neutral": 3,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-23",
-      "lastSeen": "2026-09-27",
+      "lastSeen": "2026-09-29",
       "urls": [
         "https://www.foxbet.gr/prognostika/447523-kosovo-irlandia",
         "https://www.foxbet.gr/prognostika/447515-san-marino-kosovo",
         "https://www.foxbet.gr/prognostika/447811-afstria-kosovo",
-        "https://www.foxbet.gr/340013/aystria-enantion-kosobo"
+        "https://www.foxbet.gr/340013/aystria-enantion-kosobo",
+        "https://www.foxbet.gr/prognostika/448127-kosovo-u21-kipros-u21"
       ]
     },
     "StoiximaView.gr": {
@@ -9099,26 +9110,27 @@
     },
     "GramGrubo.pl": {
       "country": "Poloni",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-24",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
-        "https://gramgrubo.pl/kosowo-irlandia-typy-bukmacherskie-i-analiza-24-09/"
+        "https://gramgrubo.pl/kosowo-irlandia-typy-bukmacherskie-i-analiza-24-09/",
+        "https://gramgrubo.pl/austria-kosowo-typy-bukmacherskie-i-analiza-27-09/"
       ]
     },
     "Mecze24.pl": {
       "country": "Poloni",
-      "total": 14,
+      "total": 16,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
-      "unknown": 14,
+      "unknown": 15,
       "firstSeen": "2026-09-24",
-      "lastSeen": "2026-09-25",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.mecze24.pl/aktualnosci/kosowo-irlandia-typy-kursy-prognozy-24-09-2026",
         "https://www.mecze24.pl/aktualnosci/liechtenstein-litwa-typy-kursy-statystyki-analiza-na-mecz-24-09-2026",
@@ -9133,20 +9145,23 @@
         "https://www.mecze24.pl/skroty-meczow/irlandia-kosowo-24-09-2026",
         "https://www.mecze24.pl/aktualnosci/statystyki-pomeczowe-kosowo-irlandia-24-09-2026",
         "https://www.mecze24.pl/aktualnosci/andora-malta-typy-kursy-na-mecz-24-09-2026",
-        "https://www.mecze24.pl/aktualnosci/australia-brazylia-typy-statystyki-kursy-analiza-meczu-25-09-2026"
+        "https://www.mecze24.pl/aktualnosci/australia-brazylia-typy-statystyki-kursy-analiza-meczu-25-09-2026",
+        "https://www.mecze24.pl/aktualnosci/austria-kosowo-typy-kursy-statystyki-27-09-2026",
+        "https://www.mecze24.pl/aktualnosci/dania-walia-typy-kursy-na-mecz-27-09-2026"
       ]
     },
     "Betside.pl": {
       "country": "Poloni",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-24",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
-        "https://betside.pl/kosowo-irlandia-typy-kursy-i-analiza-24-09-26/"
+        "https://betside.pl/kosowo-irlandia-typy-kursy-i-analiza-24-09-26/",
+        "https://betside.pl/austria-kosowo-typy-kursy-i-analiza-27-09-26/"
       ]
     },
     "belfastlive.co.uk": {
@@ -9730,29 +9745,33 @@
     },
     "www.polsatsport.pl": {
       "country": "Poloni",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-25",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
-        "https://www.polsatsport.pl/film/kosowo-irlandia-skrot-meczu_7385620/"
+        "https://www.polsatsport.pl/film/kosowo-irlandia-skrot-meczu_7385620/",
+        "https://www.polsatsport.pl/film/2026-09-27/austria-kosowo-skrot-meczu_7386934/"
       ]
     },
     "TakSieGra.pl": {
       "country": "Poloni",
-      "total": 2,
+      "total": 5,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 3,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-09-25",
-      "lastSeen": "2026-09-25",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://taksiegra.pl/pomeczowe-statystyki-dane-kosowo-irlandia-24-09-2026/",
-        "https://taksiegra.pl/oceny-zawodnikow-po-meczu-kosowo-irlandia-24-09-2026/"
+        "https://taksiegra.pl/oceny-zawodnikow-po-meczu-kosowo-irlandia-24-09-2026/",
+        "https://taksiegra.pl/austria-kosowo-sklady-wyjsciowe-27-09-2026/",
+        "https://taksiegra.pl/austria-kosowo-transmisja-na-zywo-27-09-2026/",
+        "https://taksiegra.pl/serbia-holandia-oceny-po-meczu-27-09-2026/"
       ]
     },
     "teleman.pl": {
@@ -10711,6 +10730,86 @@
       "lastSeen": "2026-09-29",
       "urls": [
         "https://portalkujawski.pl/2026/minister-srodowiska-i-planowania-z-kosowa-goscila-w-bydgoszczy/"
+      ]
+    },
+    "lematin.ch": {
+      "country": "Zvicër",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-29",
+      "lastSeen": "2026-09-27",
+      "urls": [
+        "https://www.lematin.ch/story/suspicions-de-crimes-de-guerre-neuf-serbes-arretes-au-kosovo-103640029"
+      ]
+    },
+    "Portal Kujawski": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-29",
+      "lastSeen": "2026-09-29",
+      "urls": [
+        "https://portalkujawski.pl/2026/minister-srodowiska-i-planowania-z-kosowa-goscila-w-bydgoszczy/"
+      ]
+    },
+    "rmf24.pl": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-29",
+      "lastSeen": "2026-09-28",
+      "urls": [
+        "https://www.rmf24.pl/fakty/swiat/news-czystka-etniczna-serbia-grzmi-po-aresztowaniach-w-kosowie,nIdn,1019418"
+      ]
+    },
+    "ATV": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-29",
+      "lastSeen": "2026-09-28",
+      "urls": [
+        "https://www.atv.com.tr/uluslar-ligi/avusturya-kosova-mac-ozeti/ozelvideo/izle"
+      ]
+    },
+    "fotomac.com.tr": {
+      "country": "Turqi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-29",
+      "lastSeen": "2026-09-27",
+      "urls": [
+        "https://www.fotomac.com.tr/uluslar-ligi/2026/09/27/muricli-kosova-avusturyaya-maglup",
+        "https://www.fotomac.com.tr/uluslar-ligi/2026/09/27/avusturya-kosova-maci-ne-zaman-saat-kacta-hangi-kanalda"
+      ]
+    },
+    "ahaber.com.tr": {
+      "country": "Turqi",
+      "total": 2,
+      "positive": 0,
+      "neutral": 2,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-29",
+      "lastSeen": "2026-09-28",
+      "urls": [
+        "https://www.ahaber.com.tr/video/uluslar-ligi/avusturya-kosova-karsilasma-ozeti",
+        "https://www.ahaber.com.tr/uluslar-ligi/2026/09/27/uluslar-liginde-kritik-kosova-macinda-kazanan-avusturya"
       ]
     }
   }
