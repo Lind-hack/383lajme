@@ -23337,3 +23337,185 @@ button.lgt-launch > span {
   .tregu-sports-discovery:has(.tregu-bb-card) { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.35fr) minmax(0, 1fr); }
 }
 .tregu-bb-card-count { white-space: nowrap; }
+
+/* Formula 1 markets wear the F1 mark wherever a market gets a thumbnail. */
+.tregu-hot-thumb--brand {
+  object-fit: contain;
+  padding: 7px;
+  background: #fff;
+  border-color: rgba(225, 6, 0, .22);
+}
+.tregu-f1-tag-logo {
+  display: inline-block;
+  width: 22px;
+  height: 11px;
+  margin-right: 6px;
+  vertical-align: -1px;
+  object-fit: contain;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DAILY BONUS — locked until a trade, a streak, and a jackpot
+   ═══════════════════════════════════════════════════════════════════════════ */
+.tregu-bonus-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 7px 13px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms cubic-bezier(.23, 1, .32, 1);
+}
+.tregu-bonus-btn[data-variant="bar"] { min-height: 38px; padding: 8px 12px; }
+.tregu-bonus-btn:active:not(:disabled) { transform: scale(.96); }
+.tregu-bonus-btn:focus-visible { outline: 2px solid #ff4422; outline-offset: 2px; }
+.tregu-bonus-btn[data-state="locked"],
+.tregu-bonus-btn[data-state="unknown"] {
+  border-color: rgba(17, 17, 17, .14);
+  background: rgba(17, 17, 17, .05);
+  color: #5f5a54;
+}
+.tregu-bonus-btn[data-state="ready"] {
+  background: linear-gradient(135deg, #ff5a2e, #ff3d14);
+  color: #fff;
+  box-shadow: 0 6px 18px -6px rgba(255, 68, 34, .7);
+}
+.tregu-bonus-btn[data-state="ready"]::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 2px solid rgba(255, 68, 34, .55);
+  border-radius: inherit;
+  animation: tregu-bonus-ready 1.8s cubic-bezier(.4, 0, .2, 1) infinite;
+  pointer-events: none;
+}
+@keyframes tregu-bonus-ready {
+  0% { opacity: .9; transform: scale(.96); }
+  70%, 100% { opacity: 0; transform: scale(1.12); }
+}
+.tregu-bonus-btn[data-state="claimed"] {
+  border-color: rgba(0, 133, 74, .28);
+  background: rgba(0, 166, 81, .08);
+  color: #00713f;
+  cursor: default;
+}
+.tregu-bonus-streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 7px 2px 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .8);
+  color: #e8590c;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-bonus-btn[data-state="ready"] .tregu-bonus-streak { background: rgba(255, 255, 255, .22); color: #fff; }
+.tregu-bonus-flame { flex: none; }
+@media (hover: hover) and (pointer: fine) {
+  .tregu-bonus-btn[data-state="locked"]:hover { border-color: rgba(255, 68, 34, .4); color: #111; }
+  .tregu-bonus-btn[data-state="ready"]:hover { background: linear-gradient(135deg, #ff6a3e, #ff4422); }
+}
+
+/* The jackpot: a gold night, falling coins, one big number. */
+.tregu-jackpot {
+  position: fixed;
+  inset: 0;
+  z-index: 2200;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 20px;
+  background: radial-gradient(circle at 50% 42%, rgba(88, 56, 8, .9), rgba(10, 7, 3, .94) 70%);
+}
+.tregu-jackpot-rays {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  width: 180vmax;
+  height: 180vmax;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 213, 102, .16) 0deg 9deg, transparent 9deg 22deg);
+  -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 55%);
+  mask-image: radial-gradient(circle, #000 0%, transparent 55%);
+  transform: translate(-50%, -50%);
+  animation: tregu-jackpot-rays 18s linear infinite;
+}
+@keyframes tregu-jackpot-rays { to { transform: translate(-50%, -50%) rotate(360deg); } }
+.tregu-jackpot-rain { position: absolute; inset: 0; pointer-events: none; }
+.tregu-jackpot-rain i {
+  position: absolute;
+  top: -8%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff3c4, #f5c542 45%, #b8860b 100%);
+  box-shadow: inset 0 0 0 2px rgba(120, 80, 0, .35), 0 4px 10px rgba(0, 0, 0, .35);
+  animation-name: tregu-jackpot-fall;
+  animation-timing-function: cubic-bezier(.45, .05, .55, .95);
+  animation-iteration-count: 2;
+  animation-fill-mode: both;
+}
+@keyframes tregu-jackpot-fall {
+  from { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  to { transform: translate3d(0, 118vh, 0) rotate(var(--spin, 360deg)); opacity: .9; }
+}
+.tregu-jackpot-card {
+  position: relative;
+  box-sizing: border-box;
+  display: grid;
+  justify-items: center;
+  width: min(380px, calc(100vw - 40px));
+  padding: 22px 24px 24px;
+  border: 1px solid rgba(255, 213, 102, .45);
+  border-radius: 26px;
+  background: linear-gradient(180deg, #2a1b05, #140d03);
+  box-shadow: 0 0 0 6px rgba(255, 213, 102, .08), 0 40px 90px rgba(0, 0, 0, .6), 0 0 80px rgba(255, 190, 60, .35);
+  color: #fff;
+  text-align: center;
+}
+.tregu-jackpot-dardani { display: flex; height: 150px; margin-top: -70px; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, .5)); }
+.tregu-jackpot-dardani > * { height: 100%; }
+.tregu-jackpot-kicker {
+  margin: 6px 0 0;
+  color: #ffd566;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+}
+.tregu-jackpot-amount {
+  margin: 2px 0 6px;
+  background: linear-gradient(180deg, #fff6d6, #ffd566 48%, #d99a1b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: clamp(64px, 16vw, 96px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -.05em;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-jackpot-amount small { margin-left: 6px; font-size: .28em; letter-spacing: 0; }
+.tregu-jackpot-note { margin: 0 0 18px; color: rgba(255, 244, 214, .78); font-size: 14px; line-height: 1.5; }
+.tregu-jackpot-close {
+  min-height: 44px;
+  padding: 10px 26px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffe08a, #f2b634);
+  color: #2a1b05;
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+.tregu-jackpot-close:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .tregu-bonus-btn[data-state="ready"]::after,
+  .tregu-jackpot-rays { animation: none; }
+  .tregu-bonus-btn { transition: none; }
+}

@@ -153,6 +153,15 @@ export const LEAGUE_SCOPES: LeagueScope[] = [
   { kind: "f1", value: null, label: "Formula 1", emblem: "/logos/f1.svg", color: "#E10600" },
 ];
 
+/** Mirrors tregu_league_family(): which leagues count as "the same kind" for copying picks. */
+export function leagueFamilyLabel(kind: string | null | undefined, value: string | null | undefined): string {
+  if (!kind || kind === "all") return "me të gjitha tregjet";
+  if (kind === "f1") return "e Formula 1";
+  if (kind === "competition") return value && ["nba", "fbk.kosovo", "fiba.world"].includes(value) ? "e basketbollit" : "e futbollit";
+  const label = LEAGUE_SCOPES.find((scope) => scope.kind === kind && scope.value === value)?.label;
+  return label ? `e kategorisë ${label}` : "të të njëjtit lloj";
+}
+
 export function scopeOf(league: Pick<LeagueSummary, "scope_kind" | "scope_value">): LeagueScope {
   return (
     LEAGUE_SCOPES.find((scope) => scope.kind === (league.scope_kind ?? "all") && scope.value === (league.scope_value ?? null)) ??

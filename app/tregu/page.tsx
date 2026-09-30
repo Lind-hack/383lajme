@@ -35,6 +35,7 @@ import type { MarketMedia } from "@/lib/tregu-market-media.mjs";
 import SpotlightTour, { type TourStep } from "@/components/spotlight-tour";
 import TradeTutorial, { openTradeTutorial } from "@/components/tregu/trade-tutorial";
 import LeagueTutorial from "@/components/tregu/league-tutorial";
+import { DailyBonusButton, JackpotCelebration, useDailyBonus } from "@/components/tregu/daily-bonus";
 import { formatKosovoTime } from "@/lib/tregu-local-time.mjs";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
@@ -649,15 +650,25 @@ export default function TreguHub() {
     results.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
   };
 
+  const dailyBonus = useDailyBonus(balance !== null);
+  const [jackpot, setJackpot] = useState<{ streak: number } | null>(null);
+  // Locked: say how to open it, and take the reader to the markets.
+  const bonusLocked = () => {
+    setBonusMsg("Bëj një tregtim sot për ta hapur");
+    window.setTimeout(() => setBonusMsg(null), 4200);
+    document.getElementById("tregjet-aktive")?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+  };
+
   const claimBonus = async () => {
     setClaiming(true);
     setBonusMsg(null);
-    const res = await fetch("/api/tregu/daily-bonus", { method: "POST" });
-    const data = await res.json();
-    if (res.ok) {
+    const result = await dailyBonus.claim();
+    if (result.ok) {
+      const data = result.claim;
       const earned = Number(data.bonus);
-      track("tregu_bonus_claim", { bonus: Number(data.bonus) });
-      setBonusMsg(`+${data.bonus} 383C`);
+      track("tregu_bonus_claim", { bonus: earned, streak: data.streak, jackpot: data.jackpot });
+      setBonusMsg(data.streak > 1 ? `+${earned} 383C · seri ${data.streak} ditë` : `+${earned} 383C`);
+      if (data.jackpot) setJackpot({ streak: data.streak });
       setBalance((b) => (b === null ? null : b + earned));
       // Earn flip on the chip coin — same state as the approved coin mock.
       setCoinSpin(true);
@@ -678,7 +689,7 @@ export default function TreguHub() {
         );
       }
     } else {
-      setBonusMsg(data.error ?? "Gabim");
+      setBonusMsg(result.error);
     }
     setClaiming(false);
   };
@@ -720,6 +731,15 @@ export default function TreguHub() {
           flyCoins={flyCoins}
           rewardAmount={rewardAmount}
           onClaim={claimBonus}
+          bonusButton={
+            <DailyBonusButton
+              variant="bar"
+              status={dailyBonus.status}
+              claiming={claiming}
+              onClaim={claimBonus}
+              onLocked={bonusLocked}
+            />
+          }
         />
       )}
 
@@ -755,14 +775,12 @@ export default function TreguHub() {
                 <CoinFace size={26} spinning={coinSpin} hoverTilt />
                 <span className="tregu-headchip-amount">{fmtNum(balance)}</span>
                 {bonusMsg && <span className="tregu-headchip-bonus">{bonusMsg}</span>}
-                <button
-                  onClick={claimBonus}
-                  disabled={claiming}
-                  className="tregu-btn-primary"
-                  style={{ padding: "8px 14px", borderRadius: 100, fontSize: 12, cursor: "pointer" }}
-                >
-                  {claiming ? "..." : "Bonusi ditor"}
-                </button>
+                <DailyBonusButton
+                  status={dailyBonus.status}
+                  claiming={claiming}
+                  onClaim={claimBonus}
+                  onLocked={bonusLocked}
+                />
                 <Link href="/tregu/portofoli" className="tregu-headchip-link">
                   Portofoli →
                 </Link>
@@ -1008,6 +1026,7 @@ export default function TreguHub() {
         <TradeTutorial autoStart={false} />
         {/* The Ligat sandbox waits until a reader stops on the leagues. */}
         <LeagueTutorial autoStart="section" />
+        <JackpotCelebration open={jackpot !== null} streak={jackpot?.streak ?? 1} onClose={() => setJackpot(null)} />
       </main>
     </div>
   );

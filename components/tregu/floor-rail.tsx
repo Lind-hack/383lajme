@@ -50,6 +50,16 @@ function usableImage(url?: string | null): string | null {
  * is worse than a plain disc.
  */
 function RailThumb({ market }: { market: MiniMarket }) {
+  // Formula 1 wears its own mark. The championship book has twenty drivers and
+  // formula1.com often answers with placeholder portraits, so it used to fall
+  // through to the question's first letter: a blue "K" for "Kush do të shpallet…".
+  const isF1 = market.marketType === "f1_race_winner" || market.league === "f1" || /F1|Çmimin e Madh/i.test(market.question);
+  if (isF1) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img className="tregu-hot-thumb tregu-hot-thumb--brand" src="/logos/f1.svg" alt="" aria-hidden loading="lazy" decoding="async" />
+    );
+  }
   const outcomes = market.sportOutcomes ?? [];
   const src =
     usableImage(outcomes.find((o) => usableImage(o.headshot_url))?.headshot_url) ||

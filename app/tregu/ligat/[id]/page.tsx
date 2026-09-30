@@ -17,6 +17,7 @@ import { createClient } from "@/lib/supabase/client";
 import { enableLeaguePush, pushSupported } from "@/lib/tregu-push-client";
 import {
   leagueColor,
+  leagueFamilyLabel,
   leagueDays,
   leagueError,
   leaguePhase,
@@ -195,6 +196,9 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
   const [push, setPush] = useState<"idle" | "on" | "denied" | "unsupported" | "error">("idle");
   const [tab, setTab] = useState<PickTab>("todo");
   const [shown, setShown] = useState(PAGE);
+  /** Other leagues of the same kind this league's open picks could be copied into. */
+  const [copyPlan, setCopyPlan] = useState<{ picks: number; leagues: { id: string; name: string; copied: number }[] } | null>(null);
+  const [copying, setCopying] = useState(false);
 
   const load = useCallback(async () => {
     const [overview, preview, standings, picks, tallies, myDuels] = await Promise.all([
@@ -226,6 +230,26 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
       window.clearInterval(refresh);
     };
   }, [load, supabase]);
+
+  // Recount what could be copied whenever this league's picks change.
+  const myPickKey = board.filter((row) => row.my_outcome).map((row) => `${row.market_id}:${row.my_outcome}`).join(",");
+  useEffect(() => {
+    if (!league?.is_member || !myPickKey) {
+      setCopyPlan(null);
+      return;
+    }
+    let cancelled = false;
+    void supabase.rpc("tregu_league_copy_picks", { p_league_id: id, p_dry_run: true }).then(({ data, error }) => {
+      if (cancelled || error) return;
+      const leagues = ((data ?? []) as { league_id: string; league_name: string; copied: number }[])
+        .filter((row) => row.copied > 0)
+        .map((row) => ({ id: row.league_id, name: row.league_name, copied: row.copied }));
+      setCopyPlan(leagues.length ? { picks: Math.max(...leagues.map((row) => row.copied)), leagues } : null);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [id, league?.is_member, myPickKey, supabase]);
 
   if (league === undefined) {
     return (
@@ -316,6 +340,26 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
     }
     const saved = (data as { outcome: string; points: number }[] | null)?.[0];
     if (saved) setBoard((current) => current.map((item) => (item.market_id === row.market_id ? { ...item, my_outcome: saved.outcome, my_points: saved.points } : item)));
+  };
+
+  const copyPicks = async () => {
+    setCopying(true);
+    setMessage(null);
+    const { data, error } = await supabase.rpc("tregu_league_copy_picks", { p_league_id: id, p_dry_run: false });
+    setCopying(false);
+    if (error) {
+      setMessage({ ok: false, text: leagueError(error) });
+      return;
+    }
+    const done = ((data ?? []) as { league_name: string; copied: number }[]).filter((row) => row.copied > 0);
+    const total = done.reduce((sum, row) => sum + row.copied, 0);
+    setMessage({
+      ok: true,
+      text: total
+        ? `${total} parashikime u kopjuan në ${done.length} ${done.length === 1 ? "ligë" : "liga"}: ${done.map((row) => row.league_name).join(", ")}.`
+        : "Asgjë e re për të kopjuar.",
+    });
+    setCopyPlan(null);
   };
 
   const respond = async (duel: Duel, accept: boolean) => {
@@ -525,6 +569,17 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
                     {item.label}<b>{groups[item.key].length}</b>
                   </button>
                 ))}
+              </div>
+            )}
+            {copyPlan && canPick && (
+              <div className="pick-copy">
+                <p>
+                  Je edhe në {copyPlan.leagues.length} {copyPlan.leagues.length === 1 ? "ligë tjetër" : "liga të tjera"} {leagueFamilyLabel(league.scope_kind, league.scope_value)}.
+                  <small>{copyPlan.leagues.map((row) => row.name).join(" · ")}</small>
+                </p>
+                <button type="button" className="lg-btn" disabled={copying} onClick={() => void copyPicks()}>
+                  {copying ? "Duke kopjuar…" : `Apliko te të gjitha (${copyPlan.leagues.length})`}
+                </button>
               </div>
             )}
             <div className="picks">

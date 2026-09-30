@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import CoinFace from "@/components/tregu/coin-face";
 import { treguHeroBehindChrome } from "@/components/tregu/video-hero";
 import { fmtNum } from "@/lib/format";
@@ -22,6 +22,7 @@ export default function MobileAccountBar({
   flyCoins,
   rewardAmount,
   onClaim,
+  bonusButton,
 }: {
   balance: number;
   claiming: boolean;
@@ -30,6 +31,8 @@ export default function MobileAccountBar({
   flyCoins: Array<{ id: number; amount: number }>;
   rewardAmount: number | null;
   onClaim: () => void;
+  /** The floor's daily-bonus control (locked / ready / claimed); falls back to a plain button. */
+  bonusButton?: ReactNode;
 }) {
   // Mirror the navbar: over the hero the bar wears dark glass that melts into
   // the image; once the hero scrolls past it crossfades to the cream
@@ -82,14 +85,16 @@ export default function MobileAccountBar({
         </Link>
 
         <div className="tregu-mbar-actions">
-          <button
-            onClick={onClaim}
-            disabled={claiming}
-            className="tregu-btn-primary tregu-mbar-bonus"
-            type="button"
-          >
-            {claiming ? "..." : "Bonusi ditor"}
-          </button>
+          {bonusButton ?? (
+            <button
+              onClick={onClaim}
+              disabled={claiming}
+              className="tregu-btn-primary tregu-mbar-bonus"
+              type="button"
+            >
+              {claiming ? "..." : "Bonusi ditor"}
+            </button>
+          )}
         </div>
         {bonusMsg && (
           <span className="tregu-mbar-msg" role="status" aria-live="polite">
