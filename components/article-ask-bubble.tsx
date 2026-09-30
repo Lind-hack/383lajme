@@ -88,7 +88,7 @@ export default function ArticleAskBubble({
     <div className="pyet-bubble" data-open={open || undefined}>
       {open ? (
         <div className="pyet-bubble-card" role="dialog" aria-label="Pyet Dardanin për këtë lajm">
-          <DardaniImage name="wave" alt="Dardani përshëndet me krah" className="pyet-bubble-peek dardani-peek" />
+          <DardaniImage name="wave" alt="Dardani përshëndet me krah" className="pyet-bubble-peek dardani-peek" priority />
           <div className="pyet-bubble-sheet">
             <div className="pyet-bubble-head">
               <div className="pyet-bubble-title">
@@ -125,7 +125,7 @@ export default function ArticleAskBubble({
           onClick={() => setOpen(true)}
           aria-label="Hap pyetjet e Dardanit për këtë lajm"
         >
-          <DardaniFace state={face} size={54} decorative />
+          <DardaniFace state={face} size={42} decorative />
           <span className="pyet-bubble-ping" aria-hidden="true" />
         </button>
       )}

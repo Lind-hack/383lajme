@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { jsonLdString } from "@/lib/json-ld";
 import { Manrope, Figtree, EB_Garamond } from "next/font/google";
 import "./globals.css";
@@ -8,7 +7,6 @@ import MotionProvider from "@/components/motion-provider";
 import Ga from "@/components/analytics/ga";
 import MobileTabBar from "@/components/mobile-tab-bar";
 import PageLoader from "@/components/dardani/page-loader";
-import { BOOTED_KEY } from "@/lib/dardani-boot";
 
 // The dossier is set in a serif: it is the record behind the news rather than
 // the news, and design 3a leans on that register throughout — the topic title,
@@ -96,17 +94,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="sq"
       className={`${manrope.variable} ${figtree.variable} ${ebGaramond.variable}`}
       style={{ background: "#F9F6F1" }}
-      // The inline script below may set data-booted before React hydrates.
-      suppressHydrationWarning
     >
       <head>
         <meta name="theme-color" content="#F9F6F1" />
-        {/* Before first paint: a reader who has already seen the flying Dardani
-            this session gets the page straight away (see .dardani-cover[data-boot]).
-            next/script rather than a raw <script>, which React warns about. */}
-        <Script id="dardani-boot" strategy="beforeInteractive">
-          {`try{if(sessionStorage.getItem(${JSON.stringify(BOOTED_KEY)})==="1")document.documentElement.dataset.booted=""}catch(e){}`}
-        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLdString(structuredData) }}

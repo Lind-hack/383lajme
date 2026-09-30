@@ -7,8 +7,7 @@ import DardaniFace, { usePreloadDardaniFaces, type DardaniFaceState } from "@/co
 import DardaniImage from "@/components/dardani/dardani-image";
 import DardaniLoop from "@/components/dardani/dardani-loop";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
-import { clearThread, readThread, writeThread, THREAD_EVENT, type PyetTurn } from "@/lib/pyet-thread";
-import { readMemory, rememberQuestion } from "@/lib/dardani-memory-store";
+import { rememberQuestion } from "@/lib/dardani-memory-store";
 
 /** A suggested question. `reason` marks one chosen for this reader ("Sepse ndjek Sport"). */
 export type Chip = { label: string; question: string; reason?: string };
@@ -18,20 +17,16 @@ export type Chip = { label: string; question: string; reason?: string };
  * ("no-sources", "provider-down", …); `revealed` means the answer has been
  * written out on screen once and shows whole from then on.
  */
-type Turn = PyetTurn;
-
-/** Settled turns only: what storage holds, and so what a sync compares. */
-function signature(turns: Turn[]) {
-  return turns
-    .filter((t) => t.state !== "thinking")
-    .map((t) => `${t.id}:${t.state}`)
-    .join("|");
-}
-
-/** Unique across surfaces and pages, and increasing, so a merged thread sorts in order. */
-function newTurnId() {
-  return Date.now() * 1000 + Math.floor(Math.random() * 1000);
-}
+type Turn = {
+  id: number;
+  question: string;
+  state: "thinking" | "answered" | "refused";
+  answer?: string;
+  sources?: { title: string; href: string; meta: string | null }[];
+  refusal?: { headline: string; detail: string; ctaLabel: string; ctaHref: string };
+  reason?: string;
+  revealed?: boolean;
+};
 
 /** What the Dardani around the panel (card header, bubble, overlay header) should show. */
 export type AskStatus = { face: DardaniFaceState; status: string; busy: boolean };
@@ -74,12 +69,13 @@ function statusOf(turn: Turn | undefined): string {
  * It is a thread, not a single question box. Readers ask "pse ndodhi kjo" and
  * then "po kush e tha këtë" — the second question means nothing on its own, so
  * the last few exchanges travel with it and the previous answers stay on
- * screen to be read against the new one. The thread is the reader's one
- * conversation with Dardani (lib/pyet-thread.ts): it carries on across pages
- * and between the overlay and the article card until they start a new one.
+ * screen to be read against the new one. The conversation itself is not kept:
+ * closing the overlay or leaving the page ends it.
  *
- * Each question is remembered on the device (lib/dardani-memory-store.ts),
- * which is what makes the next suggestions and the "Për ty" feed personal.
+ * What is kept is what the reader asks about. Each question — how often it is
+ * asked, and the people and cities in it — is remembered on the device
+ * (lib/dardani-memory-store.ts), which is what makes the next suggestions and
+ * the "Për ty" feed personal.
  *
  * Dardani's face follows each exchange (lib: components/dardani/dardani-face).
  * The API answers in one piece, so "talking" is the answer being written out on
@@ -106,20 +102,9 @@ export default function AskPanel({
 }) {
   const [typed, setTyped] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
-  const [recent, setRecent] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const tailRef = useRef<HTMLDivElement>(null);
-  /** The settled thread as last written or read, so a sync never echoes itself. */
-  const synced = useRef("");
-  /** Scroll to the newest exchange only after asking here, never on a restore. */
-  const askedHere = useRef(false);
-  const mountedRef = useRef(true);
-  useEffect(() => {
-    mountedRef.current = true;
-    return () => {
-      mountedRef.current = false;
-    };
-  }, []);
+  const ticket = useRef(0);
   // Read inside `ask` without making it a dependency, so a question in flight
   // never captures a stale thread.
   const turnsRef = useRef<Turn[]>([]);
@@ -127,43 +112,12 @@ export default function AskPanel({
 
   usePreloadDardaniFaces();
 
-  // The shared conversation: restored on mount, and followed while another
-  // surface (the overlay over an article, say) adds to it.
-  useEffect(() => {
-    const load = () => {
-      const stored = readThread();
-      const sig = signature(stored);
-      if (sig === synced.current) return;
-      synced.current = sig;
-      setTurns((prev) => {
-        // This surface's own turns win: one still waiting has no stored copy,
-        // and one being written out must not jump to its end.
-        const mine = new Map(prev.map((t) => [t.id, t]));
-        const merged = stored.map((t) => mine.get(t.id) ?? t);
-        const waiting = prev.filter((t) => t.state === "thinking" && !stored.some((x) => x.id === t.id));
-        return [...merged, ...waiting].sort((a, b) => a.id - b.id);
-      });
-    };
-    load();
-    setRecent(readMemory().asked.slice(0, 3).map((a) => a.q));
-    window.addEventListener(THREAD_EVENT, load);
-    return () => window.removeEventListener(THREAD_EVENT, load);
-  }, []);
-
-  useEffect(() => {
-    const sig = signature(turns);
-    if (sig === synced.current) return;
-    synced.current = sig;
-    writeThread(turns);
-  }, [turns]);
-
   const ask = useCallback(
     async (raw: string) => {
       const question = raw.trim();
       if (question.length < 6) return;
 
-      const id = newTurnId();
-      askedHere.current = true;
+      const id = ++ticket.current;
       setTyped("");
       setTurns((prev) => [...prev, { id, question, state: "thinking" }]);
       rememberQuestion(question);
@@ -175,15 +129,8 @@ export default function AskPanel({
         .slice(-MEMORY_TURNS)
         .map((t) => ({ question: t.question, answer: t.answer }));
 
-      const settle = (patch: Partial<Turn>) => {
-        // Closed before the answer came (the reader hid the overlay): keep it
-        // in the shared thread anyway, whole, for when they open it again.
-        if (!mountedRef.current) {
-          writeThread([...readThread(), { id, question, state: "thinking", ...patch, revealed: true }]);
-          return;
-        }
+      const settle = (patch: Partial<Turn>) =>
         setTurns((prev) => prev.map((t) => (t.id === id ? { ...t, ...patch } : t)));
-      };
 
       try {
         const res = await fetch("/api/pyet", {
@@ -233,11 +180,9 @@ export default function AskPanel({
     }
   }, [autoFocus]);
 
-  // Keep the newest exchange in view as the thread grows — but only once the
-  // reader has asked here: a thread restored on page load must not pull the
-  // page down to the card at the foot of the article.
+  // Keep the newest exchange in view as the thread grows.
   useEffect(() => {
-    if (askedHere.current && turns.length > 0) tailRef.current?.scrollIntoView({ block: "nearest" });
+    if (turns.length > 0) tailRef.current?.scrollIntoView({ block: "nearest" });
   }, [turns]);
 
   const last = turns[turns.length - 1];
@@ -375,21 +320,6 @@ export default function AskPanel({
         </ul>
       )}
 
-      {overlay && !started && recent.length > 0 && (
-        <div className="pyet-recent">
-          <h4>PYETE SËRISH</h4>
-          <ul className="pyet-chips">
-            {recent.map((q, i) => (
-              <li key={q} style={{ "--i": i } as React.CSSProperties}>
-                <button type="button" onClick={() => void ask(q)}>
-                  {q.length > 60 ? `${q.slice(0, 58)}…` : q}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
       <p className="pyet-hint">
         {overlay
           ? "Përgjigjet vijnë vetëm nga artikujt e botuar te 383. Nëse arkivi nuk e ka, Dardani ta thotë."
@@ -400,11 +330,7 @@ export default function AskPanel({
         <button
           type="button"
           className="pyet-again"
-          onClick={() => {
-            synced.current = "";
-            clearThread();
-            setTurns([]);
-          }}
+          onClick={() => setTurns([])}
         >
           Fillo bisedë të re
         </button>
@@ -435,7 +361,7 @@ function TurnBody({
       </div>
     ) : (
       <div className="pyet-searching">
-        <DardaniLoop name="researching" fit="cover" className="pyet-searching-loop" />
+        <DardaniLoop name="researching" className="pyet-searching-loop" />
         <div className="pyet-skeleton" aria-hidden="true">
           <i style={{ width: "92%" }} />
           <i style={{ width: "78%" }} />

@@ -21437,6 +21437,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   inset: 0;
 }
 .dardani-loop-layer > img,
+.dardani-loop-layer > canvas,
 .dardani-loop-layer > video {
   position: absolute;
   inset: 0;
@@ -21447,6 +21448,10 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   background: transparent;
 }
 .dardani-loop-layer > img[data-hidden] { visibility: hidden; }
+/* The canvas shows once it has a real frame; the stacked source video feeds it
+   and is never seen (same box, fully transparent, so it is not "off screen"). */
+.dardani-loop-layer > canvas:not([data-live]) { visibility: hidden; }
+.dardani-loop-layer > .dardani-loop-source { opacity: 0; pointer-events: none; }
 /* Handing over between loops: dip out from the feet, then hop in. */
 .dardani-loop-layer { transform-origin: 50% 100%; }
 .dardani-loop-layer[data-phase="out"] { animation: dardani-loop-out 170ms cubic-bezier(0.4, 0, 1, 1) forwards; }
@@ -21463,10 +21468,11 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 }
 
 /* ── Dardani: page loading (components/dardani/page-loader) ────────────────
-   A full-screen cover on the sign-in screen's background (its gradient and the
-   .auth-plume field): Dardani animated on a cream card in the middle (running
-   between pages, flying on the first load), "Po ngarkohet…", and a pill that
-   fills 0–100% with the count under it. */
+   Full screen on the sign-in screen's gradient and .auth-plume field. Dardani
+   is transparent (stacked-alpha canvas), so he floats straight on the plumes:
+   a speech bubble above him, motion under him that matches his loop (ground
+   rushing past the runner, clouds past the flyers), a soft shadow on the
+   ground, and the pill with its count underneath. */
 .dardani-cover {
   position: fixed;
   inset: 0;
@@ -21477,81 +21483,162 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   overflow: hidden;
   isolation: isolate;
   background: radial-gradient(110% 80% at 50% 32%, #FEFCF9 0%, #F9F6F1 34%, #EFE3D5 68%, #E2CDB8 100%);
-  animation: dardani-cover-in 180ms ease-out both;
-  transition: opacity 380ms ease, visibility 380ms;
+  animation: dardani-cover-in 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: opacity 420ms ease, visibility 420ms, transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.dardani-cover[data-boot] {
-  /* Without JavaScript nothing would ever lift the first-load cover. */
-  animation: dardani-cover-out 400ms ease 4s forwards;
-}
-.dardani-cover[data-leaving] { opacity: 0; visibility: hidden; }
-html[data-booted] .dardani-cover[data-boot] { display: none; }
+.dardani-cover[data-leaving] { opacity: 0; visibility: hidden; transform: scale(1.02); }
 @keyframes dardani-cover-in { from { opacity: 0; } }
-@keyframes dardani-cover-out { to { opacity: 0; visibility: hidden; } }
-/* The card Dardani stands on: the exact cream the MP4 is flattened onto,
-   over the sign-in plumes, like the sign-in form over the same field. */
 .dardani-cover-inner {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: min(320px, 100%);
-  padding: 22px 30px 20px;
-  border-radius: 28px;
-  background: #F9F6F1;
-  box-shadow: 0 24px 60px rgba(120, 50, 20, 0.16), 0 2px 8px rgba(120, 50, 20, 0.06);
+  width: min(300px, 100%);
 }
-.dardani-cover-video {
-  display: block;
-  width: min(200px, 52vw);
-  height: auto;
-  background: #F9F6F1;
-  pointer-events: none;
-  -webkit-mask-image:
-    linear-gradient(to right, transparent, #000 6%, #000 94%, transparent),
-    linear-gradient(to bottom, transparent, #000 5%, #000 97%, transparent);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to right, transparent, #000 6%, #000 94%, transparent),
-    linear-gradient(to bottom, transparent, #000 5%, #000 97%, transparent);
-  mask-composite: intersect;
-}
-.dardani-cover-label {
-  margin: 14px 0 12px;
-  color: #3F3833;
+.dardani-cover-say {
+  position: relative;
+  margin: 0 0 6px;
+  padding: 9px 16px;
+  border: 1.5px solid #F1E0D4;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8px 22px rgba(120, 50, 20, 0.12);
+  color: #111111;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  animation: dardani-say-in 420ms cubic-bezier(0.2, 0.9, 0.3, 1.25) 120ms both;
+}
+.dardani-cover-say::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  border-right: 1.5px solid #F1E0D4;
+  border-bottom: 1.5px solid #F1E0D4;
+  background: rgba(255, 255, 255, 0.92);
+  transform: rotate(45deg);
+}
+@keyframes dardani-say-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.9); }
+  to   { opacity: 1; transform: none; }
+}
+.dardani-cover-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 170px;
+}
+.dardani-cover-dardani {
+  position: relative;
+  z-index: 1;
+  height: 150px;
+  animation: dardani-hover 2.6s ease-in-out infinite;
+}
+.dardani-cover[data-loop="running"] .dardani-cover-dardani { animation: none; }
+@keyframes dardani-hover {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+.dardani-cover-shadow {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  width: 110px;
+  height: 14px;
+  margin-left: -55px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(90, 40, 20, 0.28), transparent);
+  animation: dardani-shadow 2.6s ease-in-out infinite;
+}
+.dardani-cover-shadow:not([data-flying]) { animation: none; bottom: 10px; }
+@keyframes dardani-shadow {
+  0%, 100% { transform: scaleX(1); opacity: 0.9; }
+  50%      { transform: scaleX(0.8); opacity: 0.55; }
+}
+.dardani-cover-trail { position: absolute; inset: 0; pointer-events: none; }
+.dardani-cover-trail i { position: absolute; display: block; }
+.dardani-cover-trail[data-kind="ground"] i {
+  bottom: 14px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(194, 52, 15, 0.35);
+  animation: dardani-rush 0.9s linear infinite;
+}
+.dardani-cover-trail[data-kind="ground"] i:nth-child(1) { width: 40px; animation-delay: 0s; }
+.dardani-cover-trail[data-kind="ground"] i:nth-child(2) { width: 24px; bottom: 26px; animation-delay: -0.3s; }
+.dardani-cover-trail[data-kind="ground"] i:nth-child(3) { width: 56px; bottom: 6px; animation-delay: -0.6s; }
+@keyframes dardani-rush {
+  from { left: 92%; opacity: 0; }
+  20%  { opacity: 1; }
+  to   { left: -10%; opacity: 0; }
+}
+.dardani-cover-trail[data-kind="sky"] i {
+  width: 54px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 16px -6px 0 2px rgba(255, 255, 255, 0.85);
+  animation: dardani-drift 3.2s linear infinite;
+}
+.dardani-cover-trail[data-kind="sky"] i:nth-child(1) { top: 26px; animation-delay: 0s; }
+.dardani-cover-trail[data-kind="sky"] i:nth-child(2) { top: 92px; transform: scale(0.7); animation-delay: -1.1s; }
+.dardani-cover-trail[data-kind="sky"] i:nth-child(3) { top: 58px; transform: scale(0.85); animation-delay: -2.2s; }
+@keyframes dardani-drift {
+  from { left: 100%; opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  to   { left: -24%; opacity: 0; }
 }
 .dardani-cover-pill {
   position: relative;
   display: block;
   width: 100%;
   height: 14px;
+  margin-top: 14px;
   overflow: hidden;
   border-radius: 999px;
-  background: #EDE4DA;
-  box-shadow: inset 0 1px 2px rgba(64, 40, 20, 0.12);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 1px 2px rgba(64, 40, 20, 0.14), 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 .dardani-cover-pill i {
   position: absolute;
   inset: 0 auto 0 0;
-  min-width: 16px;
+  min-width: 14px;
+  overflow: hidden;
   border-radius: inherit;
   background: linear-gradient(180deg, #FF6A4D 0%, #FF4422 100%);
-  box-shadow: 0 1px 6px rgba(255, 68, 34, 0.35);
-  transition: width 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 1px 8px rgba(255, 68, 34, 0.4);
+  transition: width 320ms cubic-bezier(0.22, 1, 0.36, 1);
 }
+.dardani-cover-pill i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, 0.45) 50%, transparent 80%);
+  transform: translateX(-100%);
+  animation: dardani-sheen 1.6s ease-in-out infinite;
+}
+@keyframes dardani-sheen { to { transform: translateX(100%); } }
 .dardani-cover-pct {
   margin-top: 8px;
   color: #111111;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
 }
 @media (prefers-reduced-motion: reduce) {
-  .dardani-cover { animation: none; }
+  .dardani-cover,
+  .dardani-cover-say,
+  .dardani-cover-dardani,
+  .dardani-cover-shadow,
+  .dardani-cover-pill i::after { animation: none; }
+  .dardani-cover-trail { display: none; }
   .dardani-cover-pill i { transition: none; }
 }
 
@@ -21634,12 +21721,12 @@ html[data-booted] .dardani-cover[data-boot] { display: none; }
 
 /* ── Pyet Dardanin: the article questions card (components/article-ask-bubble) ── */
 .pyet-bubble[data-open] {
-  /* Clear the navbar: Dardani stands 60px above the card's top edge. */
-  top: 142px;
+  /* Clear the navbar: Dardani peeks 38px above the card's top edge. */
+  top: 122px;
 }
 .pyet-bubble-card {
   position: relative;
-  width: min(332px, calc(100vw - 28px));
+  width: min(256px, calc(100vw - 28px));
   padding: 0;
   overflow: visible;
   border: 0;
@@ -21655,10 +21742,10 @@ html[data-booted] .dardani-cover[data-boot] { display: none; }
 }
 .pyet-bubble-peek {
   position: absolute;
-  top: -60px;
-  left: 16px;
+  top: -38px;
+  left: 12px;
   z-index: 0;
-  height: 124px;
+  height: 78px;
   width: auto;
   pointer-events: none;
 }
@@ -21667,10 +21754,10 @@ html[data-booted] .dardani-cover[data-boot] { display: none; }
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 16px;
+  gap: 8px;
+  padding: 11px;
   border: 1px solid #F1E6DE;
-  border-radius: 20px;
+  border-radius: 16px;
   background: #FFFFFF;
   box-shadow: 0 18px 40px rgba(60, 30, 10, 0.16);
 }
@@ -21679,26 +21766,32 @@ html[data-booted] .dardani-cover[data-boot] { display: none; }
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 2px;
-  min-height: 34px;
-  padding-left: 82px;
+  gap: 0;
+  min-height: 28px;
+  padding-left: 56px;
 }
-.pyet-bubble-title strong { color: #111111; font-size: 14px; font-weight: 800; }
-.pyet-bubble-title span { color: #5C5853; font-size: 12px; font-weight: 600; }
+.pyet-bubble-title strong { color: #111111; font-size: 13px; font-weight: 800; }
+.pyet-bubble-title span { color: #5C5853; font-size: 11px; font-weight: 600; }
 .pyet-bubble-head button {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 8px;
   background: #F3EEE8;
   color: #5C5853;
 }
-.pyet-bubble-card ul { gap: 8px; }
+.pyet-bubble-card ul { gap: 5px; }
+.pyet-bubble-card .pyet-q {
+  padding: 7px 10px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  line-height: 1.3;
+}
 
 /* The collapsed circle: his face, with a dot that pings three times. */
 .pyet-bubble-dot {
   position: relative;
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
   padding: 0;
   overflow: visible;
   border: 3px solid #FFFFFF;
@@ -21818,12 +21911,10 @@ html[data-booted] .dardani-cover[data-boot] { display: none; }
   gap: 18px;
   animation: pyet-fade 320ms ease both;
 }
+/* Whole, on transparency: no box to crop his magnifier or feet. */
 .pyet-searching-loop {
-  width: 150px;
-  height: 112px;
-  overflow: hidden;
-  border-radius: 16px;
-  background: #F9F6F1;
+  flex-shrink: 0;
+  height: 132px;
 }
 .pyet-skeleton { display: flex; flex: 1; flex-direction: column; gap: 10px; }
 .pyet-skeleton i {
@@ -22186,22 +22277,83 @@ html[data-booted] .dardani-cover[data-boot] { display: none; }
   font-size: 11.5px;
   font-weight: 800;
 }
-.perty-other-row { display: flex; gap: 8px; margin-top: 10px; }
-.perty-other-row input {
-  flex: 1;
-  min-width: 0;
-  min-height: 46px;
-  padding: 0 14px;
-  border: 1.5px solid #E8E3DB;
-  border-radius: 14px;
-  background: #FFFFFF;
-  font: inherit;
-  font-size: 15px;
-  color: #111111;
+/* Every option in view: compact chips, a step's options gliding in, and the
+   search suggestions floating over the list instead of pushing it down. */
+.perty-onboard--steps .perty-chip { min-height: 34px; padding: 0 12px; font-size: 13.5px; }
+.perty-onboard--steps .perty-group { margin-top: 12px; }
+.perty-onboard--steps .perty-group h2 { margin-bottom: 7px; font-size: 13px; }
+.perty-onboard-choices { animation: perty-choices-in 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes perty-choices-in {
+  from { opacity: 0; transform: translateX(14px); }
+  to   { opacity: 1; transform: none; }
 }
-.perty-other-row input:focus { outline: none; border-color: #FF4422; box-shadow: 0 0 0 3px rgba(255, 68, 34, 0.18); }
-.perty-other-row input[aria-invalid] { border-color: #C2340F; }
-.perty-hint--error { color: #B42A10; font-weight: 700; }
+.perty-people { position: relative; }
+.perty-people .perty-suggest {
+  position: absolute;
+  top: 54px;
+  right: 0;
+  left: 0;
+  z-index: 5;
+  margin: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .perty-onboard-choices { animation: none; }
+}
+
+/* Phones and tablets: the whole step on one screen. The card is the height of
+   the space between the navbar and the tab bar; each people group is one row
+   that slides sideways, so all seven groups are in view at once. */
+@media (max-width: 1023px) {
+  .perty-page { padding-top: calc(var(--nav-h, 64px) + 12px); padding-bottom: 88px; }
+  .perty-onboard--steps {
+    display: flex;
+    flex-direction: column;
+    height: calc(100dvh - var(--nav-h, 64px) - 112px);
+    min-height: 520px;
+    padding: 16px 16px 12px;
+  }
+  .perty-onboard--steps > .perty-onboard-top { margin-bottom: 8px; }
+  .perty-onboard--steps .perty-dardani { margin: 0 0 4px; }
+  .perty-onboard--steps .perty-dardani-loop { height: 76px; }
+  .perty-onboard--steps .perty-say { margin-bottom: 18px; padding: 8px 11px; font-size: 13.5px; }
+  .perty-onboard--steps .perty-onboard-title { font-size: 24px; }
+  .perty-onboard--steps .perty-onboard-lede { margin: 4px 0 12px; font-size: 14px; }
+  .perty-onboard--steps > .perty-onboard-choices { flex: 1; min-height: 0; overflow-y: auto; }
+  .perty-onboard--steps .perty-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .perty-onboard--steps .perty-tile { min-height: 56px; padding: 10px 12px; }
+  .perty-onboard--steps .perty-tile-name { font-size: 15px; }
+  /* One line per group: the section name, then its names sliding sideways. */
+  .perty-onboard--steps .perty-people .perty-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 7px;
+  }
+  .perty-onboard--steps .perty-people .perty-group h2 {
+    flex: 0 0 62px;
+    margin: 0;
+    color: #5E5048;
+    font-size: 11.5px;
+    line-height: 1.15;
+  }
+  .perty-onboard--steps .perty-people .perty-group-tag { display: none; }
+  .perty-onboard--steps .perty-people .perty-chip { min-height: 32px; padding: 0 11px; font-size: 13px; }
+  .perty-onboard--steps .perty-people .perty-chips {
+    flex: 1;
+    min-width: 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .perty-onboard--steps .perty-people .perty-chips::-webkit-scrollbar { display: none; }
+  .perty-onboard--steps .perty-people .perty-chip { flex-shrink: 0; scroll-snap-align: start; }
+  .perty-onboard--steps .perty-chips--cities { gap: 6px; }
+  .perty-onboard--steps .perty-search { min-height: 44px; }
+  .perty-onboard--steps > .perty-onboard-foot { margin-top: 10px; padding-top: 10px; gap: 10px; }
+  .perty-onboard--steps .perty-btn { min-height: 42px; padding: 0 16px; }
+}
 
 @media (min-width: 1024px) {
   .perty-onboard--steps {
@@ -22236,14 +22388,25 @@ html[data-booted] .dardani-cover[data-boot] { display: none; }
     scrollbar-color: #D8CFC3 transparent;
   }
   .perty-onboard--steps .perty-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .perty-onboard--steps .perty-people {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 28px;
-    align-content: start;
+  /* One row per group, the section name on the left and its names wrapping
+     beside it: two short lines a group, so all seven are in view. */
+  .perty-onboard--steps .perty-people .perty-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 10px;
   }
-  .perty-onboard--steps .perty-people > :is(.perty-search, .perty-suggest, .perty-hint, .perty-other) { grid-column: 1 / -1; }
-  .perty-onboard--steps .perty-group { margin-top: 18px; }
+  .perty-onboard--steps .perty-people .perty-group h2 {
+    flex: 0 0 110px;
+    margin: 7px 0 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+  }
+  .perty-onboard--steps .perty-people .perty-group-tag { padding: 1px 7px; font-size: 10.5px; white-space: nowrap; }
+  .perty-onboard--steps .perty-people .perty-chips { flex: 1; min-width: 0; gap: 5px; }
+  .perty-onboard--steps .perty-people .perty-chip { min-height: 30px; padding: 0 10px; font-size: 12.5px; }
+  .perty-onboard--steps .perty-group { margin-top: 12px; }
   .perty-onboard--steps .perty-dardani-loop { height: 130px; }
 
   .perty-hello,
@@ -22531,7 +22694,7 @@ html[data-booted] .dardani-cover[data-boot] { display: none; }
 .auth-dardani { height: 76px; margin: -24px -6px -6px auto; }
 @media (max-width: 680px) {
   .portfolio-dardani { margin-left: 0; height: 90px; }
-  .pyet-searching-loop { width: 110px; height: 90px; }
+  .pyet-searching-loop { height: 108px; }
   .perty-hello-loop { height: 240px; }
   .perty-build-loop { height: 220px; }
   .perty-dardani-loop { height: 120px; }

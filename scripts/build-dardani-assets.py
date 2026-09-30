@@ -129,6 +129,34 @@ def repaired_frames(webm_src: Path, name: str, work: Path) -> list:
     return ["-framerate", rate, "-start_number", "0", "-i", str(work / "f%04d.png")]
 
 
+def build_stack(webm_src: Path, name: str):
+    """The loop as a stacked-alpha H.264 MP4: colour on top, alpha as grey below.
+
+    This is what the site plays. A VP9 WebM keeps its alpha only when the
+    browser's decoder honours it, and many Windows machines with hardware video
+    decode drop it, painting the hidden pixels - a white square behind Dardani.
+    An ordinary MP4 has no alpha to lose: components/dardani/dardani-loop.tsx
+    draws both halves into a WebGL canvas and puts the mask back. Colour is
+    premultiplied so the fully transparent area encodes as flat black.
+    """
+    with tempfile.TemporaryDirectory() as work:
+        if name in FRAME_REPAIRS:
+            decode = ["ffmpeg", "-v", "error", "-y"] + repaired_frames(webm_src, name, Path(work))
+        else:
+            decode = ["ffmpeg", "-v", "error", "-y", "-c:v", "libvpx-vp9", "-i", str(webm_src)]
+        width = LOOP_WIDTHS.get(name, LOOP_WIDTH)
+        graph = (
+            f"[0:v]scale={width}:-2:flags=lanczos,format=yuva444p,"
+            f"lutyuv=a='if(lt(val,{ALPHA_FLOOR_LOOP}),0,val)',split[c][m];"
+            "[c]premultiply=inplace=1,format=yuv444p[col];"
+            "[m]alphaextract,format=yuv444p[mask];"
+            "[col][mask]vstack=inputs=2,format=yuv420p"
+        )
+        run(decode + ["-filter_complex", graph, "-an", "-c:v", "libx264", "-crf", "22",
+                      "-preset", "slow", "-profile:v", "high", "-movflags", "+faststart",
+                      str(OUT / f"dardani-{name}-stack.mp4")])
+
+
 def _build_loop(webm_src: Path, name: str, work: Path):
     scale = f"scale={LOOP_WIDTHS.get(name, LOOP_WIDTH)}:-2:flags=lanczos"
     # Downscaling leaves a haze of alpha 1-15 across the empty frame; over the
@@ -171,7 +199,9 @@ def main():
     data = json.loads((PACK / "asset-map.json").read_text(encoding="utf-8"))
     OUT.mkdir(parents=True, exist_ok=True)
 
-    only = set(sys.argv[sys.argv.index("--only") + 1:]) if "--only" in sys.argv else None
+    only = set(a for a in sys.argv[sys.argv.index("--only") + 1:] if not a.startswith("--")) if "--only" in sys.argv else None
+    # Only (re)build the stacked-alpha MP4s; everything else is read back.
+    stack_only = "--stack-only" in sys.argv
 
     stills, loops = {}, {}
     for asset in data["assets"]:
@@ -196,13 +226,16 @@ def main():
             print(f"still {name:22} {w}x{h}")
         elif asset["type"] == "loop":
             src = PACK / asset["file_alpha"]
-            if skip:
+            if skip or stack_only:
                 w, h = Image.open(OUT / f"dardani-{name}-poster.webp").size
             else:
                 w, h = build_loop(src, name)
+            if not skip:
+                build_stack(src, name)
             loops[name] = {
                 "webm": f"/mascot/dardani-{name}.webm",
                 "mp4": f"/mascot/dardani-{name}.mp4",
+                "stack": f"/mascot/dardani-{name}-stack.mp4",
                 "poster": f"/mascot/dardani-{name}-poster.webp",
                 "width": w,
                 "height": h,
@@ -234,12 +267,14 @@ def main():
         "  copy: string | null;\n};\n\n"
         "export type DardaniLoop = {\n"
         "  webm: string;\n  mp4: string;\n"
+        "  /** Stacked-alpha MP4 (colour above, alpha below) that the site plays through WebGL. */\n"
+        "  stack: string;\n"
         "  /** The loop's own first frame: the poster, and the reduced-motion image. */\n"
         "  poster: string;\n  width: number;\n  height: number;\n  alt: string;\n};\n\n"
         "export const DARDANI_STILLS: Record<DardaniStillName, DardaniStill> = {\n"
         f"{entries(stills, ['src', 'width', 'height', 'alt', 'copy'])}\n}};\n\n"
         "export const DARDANI_LOOPS: Record<DardaniLoopName, DardaniLoop> = {\n"
-        f"{entries(loops, ['webm', 'mp4', 'poster', 'width', 'height', 'alt'])}\n}};\n",
+        f"{entries(loops, ['webm', 'mp4', 'stack', 'poster', 'width', 'height', 'alt'])}\n}};\n",
         encoding="utf-8",
     )
     print(f"\n{len(stills)} stills, {len(loops)} loops -> {OUT.relative_to(ROOT)}; {MODULE.relative_to(ROOT)}")

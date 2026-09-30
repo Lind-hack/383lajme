@@ -19,6 +19,8 @@ export type DardaniStill = {
 export type DardaniLoop = {
   webm: string;
   mp4: string;
+  /** Stacked-alpha MP4 (colour above, alpha below) that the site plays through WebGL. */
+  stack: string;
   /** The loop's own first frame: the poster, and the reduced-motion image. */
   poster: string;
   width: number;
@@ -73,18 +75,18 @@ export const DARDANI_STILLS: Record<DardaniStillName, DardaniStill> = {
 };
 
 export const DARDANI_LOOPS: Record<DardaniLoopName, DardaniLoop> = {
-  "bell": { webm: "/mascot/dardani-bell.webm", mp4: "/mascot/dardani-bell.mp4", poster: "/mascot/dardani-bell-poster.webp", width: 480, height: 640, alt: "Dardani i bie ziles" },
-  "explaining": { webm: "/mascot/dardani-explaining.webm", mp4: "/mascot/dardani-explaining.mp4", poster: "/mascot/dardani-explaining-poster.webp", width: 480, height: 640, alt: "Dardani shpjegon një veçori me krahë" },
-  "explaining-news": { webm: "/mascot/dardani-explaining-news.webm", mp4: "/mascot/dardani-explaining-news.mp4", poster: "/mascot/dardani-explaining-news-poster.webp", width: 480, height: 640, alt: "Dardani tregon lajmin dhe e shpjegon" },
-  "flying": { webm: "/mascot/dardani-flying.webm", mp4: "/mascot/dardani-flying.mp4", poster: "/mascot/dardani-flying-poster.webp", width: 480, height: 360, alt: "Dardani fluturon në vend" },
-  "flying-news": { webm: "/mascot/dardani-flying-news.webm", mp4: "/mascot/dardani-flying-news.mp4", poster: "/mascot/dardani-flying-news-poster.webp", width: 480, height: 360, alt: "Dardani fluturon me një gazetë në kthetra" },
-  "greeting": { webm: "/mascot/dardani-greeting.webm", mp4: "/mascot/dardani-greeting.mp4", poster: "/mascot/dardani-greeting-poster.webp", width: 480, height: 640, alt: "Dardani përshëndet me krah" },
-  "headbob": { webm: "/mascot/dardani-headbob.webm", mp4: "/mascot/dardani-headbob.mp4", poster: "/mascot/dardani-headbob-poster.webp", width: 160, height: 160, alt: "Dardani lëkund kokën" },
-  "idle": { webm: "/mascot/dardani-idle.webm", mp4: "/mascot/dardani-idle.mp4", poster: "/mascot/dardani-idle-poster.webp", width: 480, height: 640, alt: "Dardani merr frymë qetë dhe pulit sytë" },
-  "reading": { webm: "/mascot/dardani-reading.webm", mp4: "/mascot/dardani-reading.mp4", poster: "/mascot/dardani-reading-poster.webp", width: 480, height: 640, alt: "Dardani lexon dhe analizon një libër" },
-  "researching": { webm: "/mascot/dardani-researching.webm", mp4: "/mascot/dardani-researching.mp4", poster: "/mascot/dardani-researching-poster.webp", width: 480, height: 640, alt: "Dardani kërkon me xhami zmadhues" },
-  "running": { webm: "/mascot/dardani-running.webm", mp4: "/mascot/dardani-running.mp4", poster: "/mascot/dardani-running-poster.webp", width: 480, height: 360, alt: "Dardani vrapon ndërsa faqja ngarkohet" },
-  "sleeping": { webm: "/mascot/dardani-sleeping.webm", mp4: "/mascot/dardani-sleeping.mp4", poster: "/mascot/dardani-sleeping-poster.webp", width: 480, height: 640, alt: "Dardani fle me kapuç gjumi" },
-  "thinking-bubble": { webm: "/mascot/dardani-thinking-bubble.webm", mp4: "/mascot/dardani-thinking-bubble.mp4", poster: "/mascot/dardani-thinking-bubble-poster.webp", width: 480, height: 640, alt: "Dardani mendon, me flluskë mendimi mbi kokë" },
-  "tregu-explainer": { webm: "/mascot/dardani-tregu-explainer.webm", mp4: "/mascot/dardani-tregu-explainer.mp4", poster: "/mascot/dardani-tregu-explainer-poster.webp", width: 480, height: 360, alt: "Dardani shpjegon grafikun e Tregut" },
+  "bell": { webm: "/mascot/dardani-bell.webm", mp4: "/mascot/dardani-bell.mp4", stack: "/mascot/dardani-bell-stack.mp4", poster: "/mascot/dardani-bell-poster.webp", width: 480, height: 640, alt: "Dardani i bie ziles" },
+  "explaining": { webm: "/mascot/dardani-explaining.webm", mp4: "/mascot/dardani-explaining.mp4", stack: "/mascot/dardani-explaining-stack.mp4", poster: "/mascot/dardani-explaining-poster.webp", width: 480, height: 640, alt: "Dardani shpjegon një veçori me krahë" },
+  "explaining-news": { webm: "/mascot/dardani-explaining-news.webm", mp4: "/mascot/dardani-explaining-news.mp4", stack: "/mascot/dardani-explaining-news-stack.mp4", poster: "/mascot/dardani-explaining-news-poster.webp", width: 480, height: 640, alt: "Dardani tregon lajmin dhe e shpjegon" },
+  "flying": { webm: "/mascot/dardani-flying.webm", mp4: "/mascot/dardani-flying.mp4", stack: "/mascot/dardani-flying-stack.mp4", poster: "/mascot/dardani-flying-poster.webp", width: 480, height: 360, alt: "Dardani fluturon në vend" },
+  "flying-news": { webm: "/mascot/dardani-flying-news.webm", mp4: "/mascot/dardani-flying-news.mp4", stack: "/mascot/dardani-flying-news-stack.mp4", poster: "/mascot/dardani-flying-news-poster.webp", width: 480, height: 360, alt: "Dardani fluturon me një gazetë në kthetra" },
+  "greeting": { webm: "/mascot/dardani-greeting.webm", mp4: "/mascot/dardani-greeting.mp4", stack: "/mascot/dardani-greeting-stack.mp4", poster: "/mascot/dardani-greeting-poster.webp", width: 480, height: 640, alt: "Dardani përshëndet me krah" },
+  "headbob": { webm: "/mascot/dardani-headbob.webm", mp4: "/mascot/dardani-headbob.mp4", stack: "/mascot/dardani-headbob-stack.mp4", poster: "/mascot/dardani-headbob-poster.webp", width: 160, height: 160, alt: "Dardani lëkund kokën" },
+  "idle": { webm: "/mascot/dardani-idle.webm", mp4: "/mascot/dardani-idle.mp4", stack: "/mascot/dardani-idle-stack.mp4", poster: "/mascot/dardani-idle-poster.webp", width: 480, height: 640, alt: "Dardani merr frymë qetë dhe pulit sytë" },
+  "reading": { webm: "/mascot/dardani-reading.webm", mp4: "/mascot/dardani-reading.mp4", stack: "/mascot/dardani-reading-stack.mp4", poster: "/mascot/dardani-reading-poster.webp", width: 480, height: 640, alt: "Dardani lexon dhe analizon një libër" },
+  "researching": { webm: "/mascot/dardani-researching.webm", mp4: "/mascot/dardani-researching.mp4", stack: "/mascot/dardani-researching-stack.mp4", poster: "/mascot/dardani-researching-poster.webp", width: 480, height: 640, alt: "Dardani kërkon me xhami zmadhues" },
+  "running": { webm: "/mascot/dardani-running.webm", mp4: "/mascot/dardani-running.mp4", stack: "/mascot/dardani-running-stack.mp4", poster: "/mascot/dardani-running-poster.webp", width: 480, height: 360, alt: "Dardani vrapon ndërsa faqja ngarkohet" },
+  "sleeping": { webm: "/mascot/dardani-sleeping.webm", mp4: "/mascot/dardani-sleeping.mp4", stack: "/mascot/dardani-sleeping-stack.mp4", poster: "/mascot/dardani-sleeping-poster.webp", width: 480, height: 640, alt: "Dardani fle me kapuç gjumi" },
+  "thinking-bubble": { webm: "/mascot/dardani-thinking-bubble.webm", mp4: "/mascot/dardani-thinking-bubble.mp4", stack: "/mascot/dardani-thinking-bubble-stack.mp4", poster: "/mascot/dardani-thinking-bubble-poster.webp", width: 480, height: 640, alt: "Dardani mendon, me flluskë mendimi mbi kokë" },
+  "tregu-explainer": { webm: "/mascot/dardani-tregu-explainer.webm", mp4: "/mascot/dardani-tregu-explainer.mp4", stack: "/mascot/dardani-tregu-explainer-stack.mp4", poster: "/mascot/dardani-tregu-explainer-poster.webp", width: 480, height: 360, alt: "Dardani shpjegon grafikun e Tregut" },
 };

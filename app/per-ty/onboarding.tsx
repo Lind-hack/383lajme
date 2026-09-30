@@ -104,8 +104,6 @@ export default function Onboarding({
   const [people, setPeople] = useState<string[]>(initial.people);
   const [cities, setCities] = useState<string[]>(initial.cities);
   const [query, setQuery] = useState("");
-  const [other, setOther] = useState("");
-  const [otherError, setOtherError] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   // People from the sections the reader just picked come first.
@@ -116,17 +114,6 @@ export default function Onboarding({
       .sort((a, b) => Number(b.suggested) - Number(a.suggested) || a.i - b.i);
   }, [categories]);
 
-  /** Follow anyone by name: stored as a derived id, matched on the full name. */
-  function addOther() {
-    const id = derivedPersonId(other);
-    if (!personById(id)) {
-      setOtherError(true);
-      return;
-    }
-    setPeople((prev) => (prev.includes(id) ? prev : [...prev, id]));
-    setOther("");
-  }
-
   // Move focus to the new question, so keyboard and screen-reader users land
   // on it instead of on a button that no longer means the same thing.
   const firstRender = useRef(true);
@@ -135,17 +122,16 @@ export default function Onboarding({
       firstRender.current = false;
       return;
     }
-    headingRef.current?.focus();
+    headingRef.current?.focus({ preventScroll: true });
   }, [step, phase]);
 
   // Every Dardani the next screens will need, fetched while the reader is on
   // this one, so each hops in already loaded instead of popping in late.
   useEffect(() => {
     const loops: DardaniLoopName[] = [...STEPS.map((s) => s.loop), "reading"];
-    const webkit = /Apple/.test(navigator.vendor);
     for (const name of loops) {
       const clip = DARDANI_LOOPS[name];
-      void fetch(webkit ? clip.mp4 : clip.webm).catch(() => {});
+      void fetch(clip.stack).catch(() => {});
       const img = new window.Image();
       img.src = clip.poster;
     }
@@ -199,7 +185,13 @@ export default function Onboarding({
     const found = newsPeople
       .filter((name) => fold(name).includes(q))
       .map((name) => ({ id: derivedPersonId(name), name, note: "Në lajmet e sotme" }));
-    return [...listed, ...found].slice(0, 6);
+    const matches = [...listed, ...found].slice(0, 5);
+    // "Tjetër": anyone else, by first and last name, straight from the same box.
+    const typed = query.trim().replace(/\s+/g, " ");
+    const own = derivedPersonId(typed);
+    const exact = matches.some((m) => fold(m.name) === fold(typed));
+    if (!exact && personById(own)) matches.push({ id: own, name: typed, note: "Shto si emër tjetër" });
+    return matches;
   }, [query, newsPeople]);
 
   // Followed names that are not on the curated list still need a chip.
@@ -384,7 +376,8 @@ export default function Onboarding({
       </h1>
       <p className="perty-onboard-lede">{STEPS[step].lede}</p>
 
-      <div className="perty-onboard-choices">
+      {/* Keyed on the step, so each step's options glide in. */}
+      <div key={step} className="perty-onboard-choices">
       {step === 0 && (
         <div className="perty-tiles" role="group" aria-label="Temat">
           {NAV_CATEGORIES.map((cat) => {
@@ -419,8 +412,8 @@ export default function Onboarding({
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Kërko një emër…"
-              aria-label="Kërko një person"
+              placeholder="Kërko ose shto një emër…"
+              aria-label="Kërko ose shto një person"
               autoComplete="off"
             />
           </label>
@@ -449,7 +442,7 @@ export default function Onboarding({
             </ul>
           )}
           {fold(query).length >= 2 && suggestions.length === 0 && (
-            <p className="perty-hint">Asnjë emër i tillë në listë apo në lajmet e sotme.</p>
+            <p className="perty-hint">Shkruaj emrin dhe mbiemrin për ta shtuar.</p>
           )}
 
           {groupsInOrder.map(({ group, suggested }) => (
@@ -467,44 +460,6 @@ export default function Onboarding({
               </div>
             </div>
           ))}
-
-          <form
-            className="perty-group perty-other"
-            onSubmit={(e) => {
-              e.preventDefault();
-              addOther();
-            }}
-          >
-            <h2>
-              <label htmlFor="perty-other-name">Tjetër…</label>
-            </h2>
-            <p className="perty-hint">Dikë që s’është në listë? Shkruaj emrin dhe mbiemrin.</p>
-            <div className="perty-other-row">
-              <input
-                id="perty-other-name"
-                type="text"
-                value={other}
-                onChange={(e) => {
-                  setOther(e.target.value);
-                  setOtherError(false);
-                }}
-                placeholder="Emri dhe mbiemri…"
-                name="person-name"
-                autoComplete="off"
-                maxLength={60}
-                aria-invalid={otherError || undefined}
-                aria-describedby={otherError ? "perty-other-error" : undefined}
-              />
-              <button type="submit" className="perty-btn perty-btn--ghost" disabled={other.trim().length < 3}>
-                Shto
-              </button>
-            </div>
-            {otherError && (
-              <p id="perty-other-error" className="perty-hint perty-hint--error" role="alert">
-                Shkruaj emrin dhe mbiemrin, vetëm me shkronja.
-              </p>
-            )}
-          </form>
 
           {extraPeople.length > 0 && (
             <div className="perty-group">

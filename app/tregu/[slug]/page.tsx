@@ -15,6 +15,7 @@ import MarketSocial, { type HolderRow, type CommentItem } from "@/components/tre
 import CoinFace from "@/components/tregu/coin-face";
 import ConfirmButton from "@/components/tregu/confirm-button";
 import TradeTutorial, { openTradeTutorial } from "@/components/tregu/trade-tutorial";
+import { DardaniWaiting } from "@/components/dardani/page-loader";
 import { createClient } from "@/lib/supabase/client";
 import {
   previewBet,
@@ -856,7 +857,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
     return (
       <div className="tregu-scope">
         <Navbar />
-        <div style={{ padding: "140px 24px", textAlign: "center", color: "#6B6B6B" }}>Duke ngarkuar tregun…<div className="tregu-skeleton" aria-hidden style={{ height: 380, maxWidth: 900, margin: "24px auto", borderRadius: 16 }} /></div>
+        <DardaniWaiting label="Tregu po ngarkohet…" />
       </div>
     );
   }

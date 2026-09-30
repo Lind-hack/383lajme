@@ -26,7 +26,9 @@ export function decayedWeight(entry: AffinityEntry | null | undefined, now?: num
 export function recordRead(
   affinity: unknown,
   keys: readonly string[],
-  now?: number
+  now?: number,
+  /** 1 for a real read; less for a lighter signal (an article opened, not read). */
+  weight?: number
 ): Record<string, AffinityEntry>;
 export function toggleValue<T>(list: readonly T[] | null | undefined, value: T): T[];
 
