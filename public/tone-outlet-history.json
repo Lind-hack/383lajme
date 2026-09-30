@@ -10300,15 +10300,16 @@
     },
     "ziggosport.nl": {
       "country": "Holandë",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-26",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
-        "https://www.ziggosport.nl/video/2019159-kosovo-ierland/"
+        "https://www.ziggosport.nl/video/2019159-kosovo-ierland/",
+        "https://www.ziggosport.nl/video/2019216-oostenrijk-kosovo/"
       ]
     },
     "taksiegra.pl": {

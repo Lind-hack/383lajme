@@ -2,12 +2,12 @@
   "lastUpdated": "2026-09-30",
   "topics": [
     {
-      "label": "Transmetimi i ndeshjes Austri Kosovë",
+      "label": "Transmetimi dhe detajet ndeshjes Austri-Kosovë",
       "fallbackLabel": "Ndeshjen · 2026",
-      "summary": "Mediat ndërkombëtare njoftojnë për kanalet televizive dhe platformat online ku mund të ndiqet ndeshja e futbollit midis Austrisë dhe Kosovës.",
+      "summary": "Mediat e huaja njoftojnë për oraret, kanalet televizive dhe detajet teknike të transmetimit të ndeshjes së futbollit ndërmjet Austrisë dhe Kosovës në Ligën e Kombeve.",
       "count": 197,
       "positive": 1,
-      "neutral": 178,
+      "neutral": 182,
       "negative": 1,
       "index": 50,
       "countries": [
@@ -187,12 +187,12 @@
       ]
     },
     {
-      "label": "Analiza dhe parashikimet para ndeshjes",
+      "label": "Analizat dhe pritshmëritë para ndeshjes",
       "fallbackLabel": "Kundër · 2026",
-      "summary": "Analistët sportivë dhe përdoruesit e platformave dixhitale diskutojnë formacionet e mundshme, koeficientët e basteve dhe pritshmëritë për ndeshjen Austri kundër Kosovës.",
-      "count": 79,
+      "summary": "Analistët dhe përdoruesit e platformave sportive vlerësojnë formacionet e mundshme, koeficientët e basteve dhe gjendjen e lojtarëve përpara përballjes së Austrisë me Kosovën.",
+      "count": 80,
       "positive": 0,
-      "neutral": 72,
+      "neutral": 73,
       "negative": 2,
       "index": 30,
       "countries": [
@@ -371,12 +371,12 @@
       ]
     },
     {
-      "label": "Zhvillimi i ndeshjes së Ligës Kombeve",
+      "label": "Rezultatet dhe vlerësimet e ndeshjes",
       "fallbackLabel": "Kombeve · Liga",
-      "summary": "Raportimet zyrtare konfirmojnë zhvillimin e ndeshjes së Ligës së Kombeve midis Austrisë dhe Kosovës, duke përfshirë vlerësimet individuale të lojtarëve pjesëmarrës.",
+      "summary": "Raportimet zyrtare konfirmojnë zhvillimin e ndeshjes së Ligës së Kombeve ndërmjet Austrisë dhe Kosovës, duke përfshirë vlerësimet individuale të lojtarëve pas përfundimit të takimit.",
       "count": 61,
       "positive": 0,
-      "neutral": 58,
+      "neutral": 60,
       "negative": 1,
       "index": 38,
       "countries": [
@@ -554,10 +554,10 @@
       ]
     },
     {
-      "label": "Fitorja e Austrisë ndaj Kosovës",
+      "label": "Analiza teknike e fitores austriake",
       "fallbackLabel": "Ndaj · Fitoren",
-      "summary": "Trajneri Rangnick dhe mediat austriake vlerësojnë performancën e ekipit pas fitores 3:1 ndaj Kosovës, duke theksuar kontrollin e lojës në fushë.",
-      "count": 43,
+      "summary": "Trajneri Rangnick dhe mediat sportive analizojnë fitoren 3-1 të Austrisë ndaj Kosovës, duke vlerësuar dominimin në lojë dhe performancën e lojtarëve në fushë.",
+      "count": 42,
       "positive": 1,
       "neutral": 41,
       "negative": 0,
@@ -735,12 +735,12 @@
       ]
     },
     {
-      "label": "Detajet teknike të përballjes futbollistike",
+      "label": "Parashikimet dhe transmetimet e ndeshjes",
       "fallbackLabel": "2026 · Shtator",
-      "summary": "Burime të ndryshme ofrojnë informacione mbi oraret, parashikimet dhe mundësitë e transmetimit direkt për ndeshjen e futbollit midis Kosovës dhe Austrisë.",
+      "summary": "Platformat online ofrojnë informacione mbi oraret, parashikimet e ekspertëve dhe mundësitë për ndjekjen e drejtpërdrejtë të ndeshjes së futbollit ndërmjet Kosovës dhe Austrisë.",
       "count": 36,
       "positive": 0,
-      "neutral": 28,
+      "neutral": 32,
       "negative": 0,
       "index": 50,
       "countries": [
@@ -918,12 +918,12 @@
       ]
     },
     {
-      "label": "Arrestimi për krime lufte në Kosovë",
-      "fallbackLabel": "Lufte · Krime",
-      "summary": "Policia e Kosovës ka arrestuar nëntë persona të përkatësisë serbe nën dyshimet për përfshirje në krime lufte gjatë periudhës së konfliktit.",
+      "label": "Arrestimi i nëntë serbëve në Kosovë",
+      "fallbackLabel": "Krime · Lufte",
+      "summary": "Policia e Kosovës ka arrestuar nëntë persona të përkatësisë serbe nën dyshimet për kryerjen e krimeve të luftës gjatë periudhës së konfliktit të kaluar.",
       "count": 16,
       "positive": 0,
-      "neutral": 12,
+      "neutral": 13,
       "negative": 3,
       "index": 25,
       "countries": [
@@ -1100,14 +1100,14 @@
       ]
     },
     {
-      "label": "Rezultatet dhe momentet kryesore të ndeshjes",
+      "label": "Fitorja e Austrisë ndaj Kosovës",
       "fallbackLabel": "Mposht · Parë",
-      "summary": "Austria siguroi fitoren 3:1 ndaj Kosovës në Vjenë, ku spikatën debutimet dhe golat e shënuar nga lojtarët Affengruber dhe Adamu.",
+      "summary": "Austria siguroi fitoren 3-1 ndaj Kosovës në Vjenë, ku debutuesit Affengruber dhe Adamu shënuan golat e parë për kombëtaren e tyre në këtë ndeshje.",
       "count": 15,
       "positive": 0,
-      "neutral": 14,
-      "negative": 0,
-      "index": 50,
+      "neutral": 13,
+      "negative": 1,
+      "index": 38,
       "countries": [
         "Austri",
         "Gjermani",
@@ -1117,6 +1117,22 @@
         "Zvicër"
       ],
       "articles": [
+        {
+          "title": "Niederlande feiert ersten Sieg unter Xavi – Österreich schlägt Kosovo - bluewin.ch",
+          "albanianTitle": "Holanda feston fitoren e parë nën drejtimin e Xavi-t – Austria mposht Kosovën",
+          "blurb": "Përfaqësuesja e Austrisë ka shënuar fitore ndaj Kosovës në ndeshjen e zhvilluar në kuadër të Ligës së Kombeve.",
+          "imageUrl": "https://bluewin-prod-sc-images.imgix.net/2026/09/27/fc53df85-ce87-4000-951d-bfc539f87289.jpg?w=1024&auto=format&s=939026c136cb7b9030c09a1d71ed5d57",
+          "url": "https://www.bluewin.ch/de/sport/fussball/niederlande-feiert-ersten-sieg-unter-xavi-li.3615717",
+          "date": "2026-09-27",
+          "sentiment": "negative",
+          "reason": "Humbje sportive e Kosovës",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "Österreich schlägt Kosovo",
+          "outlet": "bluewin.ch",
+          "country": "Zvicër",
+          "flag": "🇨🇭"
+        },
         {
           "title": "Premierentore für Affengruber und Adamu: Österreich besiegt Kosovo - Kicker",
           "albanianTitle": "Debutime për Affengruber dhe Adamu: Austria mposht Kosovën - Kicker",
@@ -1260,34 +1276,18 @@
           "outlet": "LAOLA1",
           "country": "Austri",
           "flag": "🇦🇹"
-        },
-        {
-          "title": "Österreich fertigt Ex-Coach Foda ab - blick.ch",
-          "albanianTitle": "Austria e mposht thellë ish-trajnerin Foda",
-          "blurb": "Austria ka arritur fitore bindëse ndaj ekipit të drejtuar nga ish-trajneri i tyre, Franco Foda.",
-          "imageUrl": "https://images.blick.ch/1/Qf5k9lGaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy8xNTdkMjU5Ny05OWVmLTQ2MzYtYWQ3OS1kMDNiMmI5OGNhMWUuanBlZ5CBoTAH",
-          "url": "https://www.blick.ch/sport/fussball/nations-league/uefa-nations-league-oesterreich-kosovo-27-09-2026-id22282193.html",
-          "date": "2026-09-27",
-          "sentiment": "neutral",
-          "reason": "Faktikë raportim pa gjuhë ngarkuar",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "Blick",
-          "country": "Zvicër",
-          "flag": "🇨🇭"
         }
       ]
     },
     {
       "label": "Dua Lipa në dasmë familjare",
       "fallbackLabel": "Lipa · Kokë",
-      "summary": "Këngëtarja me famë botërore Dua Lipa u bë virale pas pjesëmarrjes në një dasmë tradicionale shqiptare në Kosovë me familjen e saj.",
+      "summary": "Këngëtarja me famë botërore Dua Lipa u bë virale në rrjetet sociale pas pjesëmarrjes në një dasmë tradicionale shqiptare në Kosovë.",
       "count": 14,
-      "positive": 4,
-      "neutral": 9,
+      "positive": 5,
+      "neutral": 8,
       "negative": 0,
-      "index": 79,
+      "index": 81,
       "countries": [
         "Greqi",
         "SHBA",
@@ -1357,6 +1357,22 @@
           "outlet": "iefimerida.gr",
           "country": "Greqi",
           "flag": "🇬🇷"
+        },
+        {
+          "title": "Dua Lipa and Her Dad Perform Traditional Dance with Glasses on Their Heads at Her Cousin’s ‘Big Albanian Wedding’ - people.com",
+          "albanianTitle": "Dua Lipa dhe babai i saj kërcejnë vallen tradicionale me gota në kokë në dasmën e madhe shqiptare të kushëririt të saj",
+          "blurb": "Këngëtarja Dua Lipa dhe babai i saj kanë performuar valle tradicionale gjatë një dasme familjare të mbajtur së fundmi.",
+          "imageUrl": null,
+          "url": "https://people.com/dua-lipa-and-her-dad-dance-with-glasses-on-heads-at-her-cousins-albanian-wedding-12144729",
+          "date": "2026-09-28",
+          "sentiment": "positive",
+          "reason": "Prezantim pozitiv i kulturës tradicionale shqiptare",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "Perform Traditional Dance",
+          "outlet": "people.com",
+          "country": "SHBA",
+          "flag": "🇺🇸"
         },
         {
           "title": "Dua Lipa, deslumbrante en la gran boda albanesa de su primo: todos los detalles de su emotivo fin de semana familiar en Kosovo - Cadena 100",
@@ -1435,22 +1451,6 @@
           "speaker": "",
           "evidence": "",
           "outlet": "The TOC",
-          "country": "Greqi",
-          "flag": "🇬🇷"
-        },
-        {
-          "title": "Ντούα Λίπα: Viral ο χορός της σε γλέντι στο Κόσοβο με ποτήρι στο κεφάλι (Βίντεο) - Παραπολιτικά",
-          "albanianTitle": "Dua Lipa bëhet virale me vallëzimin në një dasmë në Kosovë me gotën mbi kokë (Video)",
-          "blurb": "Dua Lipa është shfaqur në një video duke vallëzuar me gotë mbi kokë gjatë një ahengu në Kosovë.",
-          "imageUrl": "https://www.parapolitika.gr/images/640x360/png/files/2026-09-27/dua-lipa-xoros-potiri.png",
-          "url": "https://www.parapolitika.gr/lifestyle/article/1797583/doua-lipa-viral-o-horos-tis-se-gledi-sto-kosovo-me-potiri-sto-kefali-video/",
-          "date": "2026-09-27",
-          "sentiment": "neutral",
-          "reason": "",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "Παραπολιτικά",
           "country": "Greqi",
           "flag": "🇬🇷"
         }
