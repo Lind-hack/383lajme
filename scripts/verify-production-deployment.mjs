@@ -375,11 +375,17 @@ export async function verifyProductionSource({
   // repository (or has expired). Only an explicitly dedicated release token
   // may authenticate this public-repository provenance check.
   const githubToken = String(env.PRODUCTION_GITHUB_TOKEN ?? "").trim();
+  // GitHub caches this public branch endpoint for 60s. A rapid second push
+  // must compare against fresh main, rather than the previous release's SHA.
+  const mainEndpoint = new URL(`https://api.github.com/repos/${REPOSITORY}/commits/${PRODUCTION_BRANCH}`);
+  mainEndpoint.searchParams.set("release-check", `${deployedSha}-${Date.now()}`);
   const response = await fetchImpl(
-    `https://api.github.com/repos/${REPOSITORY}/commits/${PRODUCTION_BRANCH}`,
+    mainEndpoint.toString(),
     {
+      cache: "no-store",
       headers: {
         Accept: "application/vnd.github+json",
+        "Cache-Control": "no-cache",
         "User-Agent": "383-production-deployment-guard",
         ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {}),
       },

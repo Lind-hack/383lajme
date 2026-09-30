@@ -88,6 +88,26 @@ test("production accepts the exact current main commit", async () => {
   assert.equal(result.footballMarketUiVersion, contractVersion("FOOTBALL_MARKET_UI_VERSION"));
 });
 
+test("rapid releases bypass a cached previous main SHA without accepting stale deployments", async () => {
+  let freshUrl;
+  const result = await verifyProductionSource({
+    env: {
+      RAILWAY_ENVIRONMENT_NAME: "production",
+      RAILWAY_GIT_BRANCH: "main",
+      RAILWAY_GIT_COMMIT_SHA: CURRENT_SHA,
+      ...githubProductionMetadata,
+    },
+    fetchImpl: async (url, options) => {
+      freshUrl = new URL(url);
+      const bypassed = freshUrl.searchParams.has("release-check") && options.cache === "no-store" && options.headers["Cache-Control"] === "no-cache";
+      return githubMain(bypassed ? CURRENT_SHA : STALE_SHA)();
+    },
+  });
+  assert.equal(freshUrl.origin, "https://api.github.com");
+  assert.equal(freshUrl.pathname, "/repos/Lind-hack/383lajme/commits/main");
+  assert.equal(result.commitSha, CURRENT_SHA);
+});
+
 test("production ignores an unrelated generic GitHub token", async () => {
   let authorization;
   const result = await verifyProductionSource({
