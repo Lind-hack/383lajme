@@ -24993,6 +24993,8 @@ a.home-breaking-text:hover { color: #CE3016; }
 @media (max-width: 860px) {
   /* The rail's arrow buttons extend 20px outside its scroll viewport. */
   .home-dispatch-rail { margin-inline: 6px; min-width: 0; }
+  /* The topic carousel's arrows extend 18px into the 14px page gutter. */
+  .home-shell .topic-carousel { margin-inline: 4px; }
 }
 .rail-card { padding: 16px; }
 .rail-head { margin-bottom: 12px; }
