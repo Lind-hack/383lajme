@@ -24984,6 +24984,16 @@ a.home-breaking-text:hover { color: #CE3016; }
    ran to 1012px — a hero taller than the viewport on a laptop. Tightened here
    rather than by shrinking the hero, because the hero is the point of the row. */
 .home-rail { gap: 12px; }
+
+/* Keep long headlines and horizontally scrolling rails inside the page grid. */
+.home-shell { grid-template-columns: minmax(0, 1fr); }
+.home-lead { min-width: 0; }
+.home-latest-meta { flex-wrap: wrap; }
+
+@media (max-width: 860px) {
+  /* The rail's arrow buttons extend 20px outside its scroll viewport. */
+  .home-dispatch-rail { margin-inline: 6px; min-width: 0; }
+}
 .rail-card { padding: 16px; }
 .rail-head { margin-bottom: 12px; }
 .rail-weather li { padding: 6px 0; font-size: 14px; }

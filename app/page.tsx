@@ -275,7 +275,9 @@ export default async function HomePage() {
             <p className="home-brief-lede">
               Titujt e shpejtë të orëve të fundit. Tërhiq anash për të parë më shumë.
             </p>
-            <DispatchRow articles={njoftime} />
+            <div className="home-dispatch-rail">
+              <DispatchRow articles={njoftime} />
+            </div>
           </section>
         )}
 
