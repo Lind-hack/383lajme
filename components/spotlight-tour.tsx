@@ -23,6 +23,9 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useMotionValue, useTransform } from "framer-motion";
 import { EASE, DUR } from "@/lib/tokens";
 import TourCursor, { type CursorScript } from "@/components/tour-cursor";
+import DardaniImage from "@/components/dardani/dardani-image";
+import DardaniLoop from "@/components/dardani/dardani-loop";
+import type { DardaniStillName } from "@/lib/dardani-assets";
 
 export interface TourStep {
   /** CSS selector for the element this step lights up. */
@@ -37,6 +40,18 @@ export interface TourStep {
   zoom?: number;
   /** Ghost pointer choreography for this step. */
   cursor?: CursorScript;
+  /**
+   * The Dardani who explains this step. By default he explains on the first
+   * step, makes his prediction in the middle and celebrates on the last.
+   */
+  dardani?: DardaniStillName;
+}
+
+/** Dardani beside a step: the explainer loop first, then the matching pose. */
+function TourDardani({ step, index, last }: { step: TourStep; index: number; last: boolean }) {
+  if (step.dardani) return <DardaniImage name={step.dardani} decorative className="tour-dardani" />;
+  if (index === 0) return <DardaniLoop name="tregu-explainer" decorative className="tour-dardani" />;
+  return <DardaniImage name={last ? "tregu-win" : "tregu-predict"} decorative className="tour-dardani" />;
 }
 
 /**
@@ -986,10 +1001,15 @@ export default function SpotlightTour({
                   }
                   transition={{ duration: motionOn ? DUR.base : 0, ease: EASE }}
                 >
-                  <h3 id="tour-title" className="tour-tip-title">
-                    {step.title}
-                  </h3>
-                  <p className="tour-tip-body">{step.body}</p>
+                  <div className="tour-tip-say">
+                    <TourDardani step={step} index={index} last={isLast} />
+                    <div>
+                      <h3 id="tour-title" className="tour-tip-title">
+                        {step.title}
+                      </h3>
+                      <p className="tour-tip-body">{step.body}</p>
+                    </div>
+                  </div>
                 </motion.div>
               </AnimatePresence>
 

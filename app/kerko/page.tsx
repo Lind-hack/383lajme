@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
+import DardaniImage from "@/components/dardani/dardani-image";
 import HeroDispatch from "@/components/hero-dispatch";
 import NewsGrid from "@/components/news-grid";
 import DispatchList from "@/components/dispatch-list";
@@ -152,8 +153,11 @@ export default async function KerkoPage({
 
         {count === 0 && (
           <section className="kerko-results-empty">
-            <p>
-              Nuk gjetëm lajme për <strong>“{term}”</strong>. Provo një fjalë tjetër, ose lexo më të rejat:
+            <p className="kerko-results-empty-lede">
+              <DardaniImage name="face-confused" decorative className="kerko-empty-face" />
+              <span>
+                Nuk gjetëm lajme për <strong>“{term}”</strong>. Provo një fjalë tjetër, ose lexo më të rejat:
+              </span>
             </p>
             {fallback.length > 0 && (
               <>

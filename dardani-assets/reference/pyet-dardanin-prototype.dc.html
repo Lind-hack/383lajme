@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="sq">
+<head>
+  <meta charset="utf-8">
+  <title>Dardani në artikull</title>
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #F9F6F1; font-family: 'Manrope', sans-serif; color: #111111; }
+    a { color: #C2340F; } a:hover { color: #8F2409; }
+    .dd-scroll { scrollbar-width: thin; }
+    .dd-q { width: 100%; text-align: left; font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 600; color: #111111; background: #F9F6F1; border: 1.5px solid #EFE8E0; border-radius: 12px; padding: 11px 14px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 10px; transition: border-color 140ms ease, background 140ms ease, transform 140ms ease; }
+    .dd-q:hover { border-color: #FF4422; background: #FFF4F0; transform: translateX(2px); }
+    .dd-chip { font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 600; color: #111111; background: #FFFFFF; border: 1.5px solid #EFE8E0; border-radius: 999px; padding: 8px 14px; cursor: pointer; transition: border-color 140ms ease, background 140ms ease; }
+    .dd-chip:hover { border-color: #FF4422; background: #FFF4F0; }
+    .dd-icon-btn { font-family: 'Manrope', sans-serif; border: 0; background: #F3EEE8; color: #5c5853; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 700; padding: 6px 9px; }
+    .dd-icon-btn:hover { background: #EDE6DC; color: #111111; }
+    .dd-pop { animation: ddPopIn 420ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }
+    .dd-peek { animation: ddPeek 3.2s ease-in-out infinite; }
+    .dd-bubble-btn { animation: ddPopIn 320ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }
+    .dd-ping { animation: ddPing 1.8s ease-out infinite; }
+    .dd-dot { width: 7px; height: 7px; border-radius: 999px; background: #C2340F; display: inline-block; animation: ddDot 1.1s ease-in-out infinite; }
+    .dd-dot2 { animation-delay: 0.15s; } .dd-dot3 { animation-delay: 0.3s; }
+    .dd-skel { height: 12px; border-radius: 999px; background: linear-gradient(90deg, #EFE8E0 0%, #F9F3EC 50%, #EFE8E0 100%); background-size: 200% 100%; animation: ddShimmer 1.2s linear infinite; }
+    .dd-caret { display: inline-block; width: 2px; height: 1.05em; background: #C2340F; vertical-align: -2px; margin-left: 2px; animation: ddBlink 0.8s steps(1) infinite; }
+    .dd-fade { animation: ddFade 320ms ease both; }
+    .dd-overlay { animation: ddFade 200ms ease both; }
+    .dd-modal { animation: ddModal 280ms cubic-bezier(0.2, 0.9, 0.3, 1.1) both; }
+    .dd-avatar-swap { animation: ddSwap 260ms ease both; }
+    @keyframes ddPopIn { from { opacity: 0; transform: translateY(-10px) scale(0.96); } to { opacity: 1; transform: none; } }
+    @keyframes ddPeek { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-4px) rotate(-2deg); } }
+    @keyframes ddPing { 0% { transform: scale(1); opacity: 0.7; } 100% { transform: scale(2.4); opacity: 0; } }
+    @keyframes ddDot { 0%, 80%, 100% { transform: translateY(0); opacity: 0.35; } 40% { transform: translateY(-4px); opacity: 1; } }
+    @keyframes ddShimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+    @keyframes ddBlink { 50% { opacity: 0; } }
+    @keyframes ddFade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+    @keyframes ddModal { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: none; } }
+    @keyframes ddSwap { from { opacity: 0.2; transform: scale(0.9); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .dd-pop, .dd-peek, .dd-bubble-btn, .dd-ping, .dd-dot, .dd-skel, .dd-caret, .dd-fade, .dd-overlay, .dd-modal, .dd-avatar-swap { animation: none !important; }
+    }
+  </style>
+</helmet>
+<div style="width: 1440px; height: 900px; position: relative; overflow: hidden; background: #F9F6F1; font-family: 'Manrope', sans-serif; color: #111111;">
+
+  <div style="position: absolute; left: 0; top: 0; right: 0; height: 64px; z-index: 10; display: flex; align-items: center; gap: 28px; padding: 0 144px; box-sizing: border-box; background: #FAF7F2; border-bottom: 1px solid #EFE8E0;">
+    <div style="font-size: 28px; font-weight: 800; letter-spacing: -0.03em;">383<span style="color: #FF4422;">.</span></div>
+    <div style="display: flex; gap: 22px; font-size: 14px; font-weight: 700; color: #111111;">
+      <span>Sot</span><span>Për ty</span><span>Bota për Kosovën</span><span>Diaspora</span>
+    </div>
+    <div style="flex-grow: 1;"></div>
+    <div style="height: 36px; padding: 0 14px; border-radius: 999px; background: #FFFFFF; border: 1px solid #EFE8E0; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800;"><span style="width: 7px; height: 7px; border-radius: 999px; background: #16A34A;"></span>Tregu</div>
+    <button onClick="{{ openModal }}" aria-label="Hap Pyet Dardanin" style="height: 40px; padding: 0 16px 0 4px; border: 0; border-radius: 999px; background: #D9361A; box-shadow: 0 3px 0 #A8290F; color: #FFFFFF; display: flex; align-items: center; gap: 9px; font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 800; cursor: pointer;">
+      <span style="width: 32px; height: 32px; border-radius: 999px; background: #FCE3DB; overflow: hidden; display: flex; align-items: flex-end; justify-content: center;"><img src="/_blob/4f703fb84e10ff23bb226f846336c27a" alt="" style="width: 34px; display: block;"></span>
+      Pyet Dardanin
+    </button>
+    <div style="width: 36px; height: 36px; border-radius: 999px; background: #FF4422; color: #FFFFFF; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">LS</div>
+  </div>
+
+  <div id="dd-scroller" class="dd-scroll" onScroll="{{ onScroll }}" style="position: absolute; left: 0; top: 64px; right: 0; bottom: 0; overflow-y: auto;">
+    <div style="width: 1152px; margin: 0 auto; padding: 44px 0 120px 0; display: flex; gap: 40px; align-items: flex-start;">
+
+      <div style="width: 712px; flex-shrink: 0; display: flex; flex-direction: column; gap: 22px;">
+        <div style="align-self: flex-start; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #1D4ED8; background: #EEF2FF; border-radius: 999px; padding: 5px 10px;">KOSOVË</div>
+        <div style="font-size: 46px; font-weight: 800; line-height: 1.08; letter-spacing: -0.02em;">Kosovë: Regjistrimet e bizneseve ranë 36.2% në gusht</div>
+        <div style="display: flex; gap: 14px; font-size: 13px; color: #5c5853;"><span style="background: #F3EEE8; border-radius: 999px; padding: 3px 9px;">Telegrafi</span><span>11h më parë</span><span>2 min lexim</span></div>
+        <div role="img" aria-label="Vendi për foton e artikullit" style="height: 300px; border-radius: 18px; background: #E9E3DB; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #8A837B;">[Foto e artikullit]</div>
+        <div style="font-size: 20px; font-weight: 500; line-height: 1.45; border-left: 3px solid #1D4ED8; padding-left: 18px;">ASK raportoi 1,010 regjistrime të reja dhe 84 shuarje në gusht; rënia mujore ishte 36.2%, ndërsa ajo vjetore 5.4%.</div>
+        <div style="font-size: 16px; line-height: 1.75; color: #2B2825;">Agjencia e Statistikave të Kosovës (ASK) raportoi se gjatë gushtit 2026 u regjistruan 1,010 ndërmarrje të reja, ndërsa 84 u shuan. Regjistrimet ishin 36.2% më të ulëta se në korrik dhe 5.4% më të ulëta se në gushtin e vitit 2025.</div>
+        <div style="font-size: 16px; line-height: 1.75; color: #2B2825;">Tregtia me shumicë e pakicë, bashkë me riparimin e automjeteve, kryesoi me 207 regjistrime, ose 20.5% e totalit. Më pas vijnë informacioni dhe komunikimi me 113, si dhe veprimtaritë profesionale, shkencore e teknike me 109.</div>
+        <div style="font-size: 16px; line-height: 1.75; color: #2B2825;">Për nga madhësia, 1,003 nga bizneset e reja u klasifikuan si mikro-ndërmarrje me zero deri në nëntë të punësuar. Rajoni i Prishtinës pati numrin më të madh, me 463 regjistrime ose 45.8% të totalit.</div>
+        <div style="font-size: 16px; line-height: 1.75; color: #2B2825;">Shifrat përshkruajnë regjistrimet dhe shuarjet e raportuara për gushtin, jo bilancin e plotë të punësimit, qarkullimit apo mbijetesës së bizneseve.</div>
+
+        <div id="dd-card" style="margin-top: 18px; background: #FFFFFF; border-radius: 24px; border: 1px solid #F1E6DE; box-shadow: 0 10px 30px rgba(120, 60, 20, 0.07); padding: 24px; display: flex; flex-direction: column; gap: 18px;">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <div style="width: 60px; height: 60px; flex-shrink: 0; border-radius: 999px; background: #FCE3DB; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; position: relative;">
+              <img class="dd-avatar-swap" key="{{ card.avatarKey }}" src="{{ card.avatar }}" alt="{{ card.avatarAlt }}" style="width: 64px; display: block;">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 3px; flex-grow: 1;">
+              <div style="font-size: 19px; font-weight: 800;">Pyet Dardanin për këtë lajm</div>
+              <div style="font-size: 13px; color: #5c5853; display: flex; align-items: center; gap: 8px;">
+                <sc-if value="{{ card.busy }}" hint-placeholder-val="{{ false }}">
+                  <span style="display: inline-flex; gap: 4px; align-items: center;"><span class="dd-dot"></span><span class="dd-dot dd-dot2"></span><span class="dd-dot dd-dot3"></span></span>
+                </sc-if>
+                <span>{{ card.status }}</span>
+              </div>
+            </div>
+          </div>
+
+          <sc-if value="{{ card.idle }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <sc-for list="{{ questions }}" as="q" hint-placeholder-count="3">
+                <button class="dd-q" onClick="{{ q.ask }}"><span>{{ q.q }}</span><span aria-hidden="true" style="color: #C2340F; font-weight: 800;">→</span></button>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ card.active }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div style="align-self: flex-start; font-size: 14px; font-weight: 700; background: #FCE3DB; border-radius: 12px 12px 12px 4px; padding: 9px 14px;">{{ card.question }}</div>
+
+              <sc-if value="{{ card.thinking }}" hint-placeholder-val="{{ false }}">
+                <div class="dd-fade" style="display: flex; gap: 18px; align-items: center;">
+                  <img src="/_blob/933781a90ae51d2bd949cdf07a2593f4" alt="Dardani kërkon me xhami zmadhues nëpër arkiv" style="width: 150px; height: 112px; object-fit: cover; border-radius: 16px; display: block; flex-shrink: 0;">
+                  <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px;">
+                    <div class="dd-skel" style="width: 92%;"></div>
+                    <div class="dd-skel" style="width: 78%;"></div>
+                    <div class="dd-skel" style="width: 54%;"></div>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ card.writing }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size: 16px; line-height: 1.65; color: #111111;">{{ card.text }}<span class="dd-caret"></span></div>
+              </sc-if>
+
+              <sc-if value="{{ card.done }}" hint-placeholder-val="{{ false }}">
+                <div class="dd-fade" style="display: flex; flex-direction: column; gap: 16px;">
+                  <div style="font-size: 16px; line-height: 1.65; color: #111111;">{{ card.text }}</div>
+                  <sc-if value="{{ card.found }}" hint-placeholder-val="{{ true }}">
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                      <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #8A837B;">BAZUAR NË</div>
+                      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #F9F6F1; border-radius: 12px; padding: 11px 14px; font-size: 14px; font-weight: 700;"><span>Kosovë: Regjistrimet e bizneseve ranë 36.2% në gusht</span><span style="font-size: 12px; font-weight: 600; color: #5c5853; white-space: nowrap;">Telegrafi · 28 sht →</span></div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ card.notFound }}" hint-placeholder-val="{{ false }}">
+                    <div style="font-size: 13px; color: #5c5853; background: #F9F6F1; border-radius: 12px; padding: 10px 14px;">Dardani përgjigjet vetëm nga artikujt e 383. Kur arkivi nuk e ka, e thotë hapur.</div>
+                  </sc-if>
+                  <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #8A837B;">PYET EDHE</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                      <sc-for list="{{ card.followUps }}" as="f" hint-placeholder-count="2">
+                        <button class="dd-chip" onClick="{{ f.ask }}">{{ f.q }}</button>
+                      </sc-for>
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <div style="font-size: 12px; color: #8A837B;">Përgjigjet vijnë vetëm nga artikujt e botuar te 383, me burimet e lidhura.</div>
+        </div>
+      </div>
+
+      <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 14px; position: sticky; top: 24px;">
+        <div style="background: #FFFFFF; border-radius: 18px; border: 1px solid #EFE8E0; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #8A837B;">NDAJ</div>
+          <div style="height: 34px; border-radius: 10px; background: #25D366;"></div>
+          <div style="height: 34px; border-radius: 10px; background: #1877F2;"></div>
+          <div style="height: 34px; border-radius: 10px; background: #111111;"></div>
+        </div>
+        <div style="background: #FFFFFF; border-radius: 18px; border: 1px solid #EFE8E0; padding: 14px 16px; font-size: 13px; font-weight: 600;">Ruaj artikullin</div>
+        <div style="background: #FFFFFF; border-radius: 18px; border: 1px solid #EFE8E0; padding: 14px 16px; font-size: 13px; color: #5c5853;"><span style="font-weight: 800; color: #111111;">46</span> lexues tani</div>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ popupOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="dd-pop" role="dialog" aria-label="Pyet Dardanin për këtë lajm" style="position: absolute; top: 96px; right: 28px; width: 332px; z-index: 20;">
+      <img class="dd-peek" src="/_blob/287fd477798e7cc5c8817ab0da62005b" alt="Dardani përshëndet me krah" style="position: absolute; left: 16px; top: -60px; height: 124px; z-index: 0; display: block;">
+      <div style="position: relative; z-index: 1; background: #FFFFFF; border-radius: 20px; border: 1px solid #F1E6DE; box-shadow: 0 18px 40px rgba(60, 30, 10, 0.16); padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; align-items: flex-start; gap: 10px;">
+          <div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1; padding-left: 82px; min-height: 34px;">
+            <div style="font-size: 14px; font-weight: 800;">Pyet Dardanin</div>
+            <div style="font-size: 12px; color: #5c5853;">për këtë lajm</div>
+          </div>
+          <button class="dd-icon-btn" onClick="{{ collapse }}" aria-label="Mbyll pyetjet">✕</button>
+        </div>
+        <sc-for list="{{ questions }}" as="q" hint-placeholder-count="3">
+          <button class="dd-q" onClick="{{ q.ask }}"><span>{{ q.q }}</span><span aria-hidden="true" style="color: #C2340F; font-weight: 800;">→</span></button>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ bubbleOpen }}" hint-placeholder-val="{{ false }}">
+    <button class="dd-bubble-btn" onClick="{{ reopen }}" aria-label="Hap pyetjet e Dardanit për këtë lajm" style="position: absolute; top: 96px; right: 28px; width: 60px; height: 60px; border-radius: 999px; border: 3px solid #FFFFFF; background: #FCE3DB; box-shadow: 0 10px 24px rgba(60, 30, 10, 0.18); padding: 0; cursor: pointer; z-index: 20; overflow: visible;">
+      <span style="position: absolute; inset: 0; border-radius: 999px; overflow: hidden; display: flex; align-items: flex-end; justify-content: center;"><img src="{{ bubbleAvatar }}" alt="" style="width: 62px; display: block;"></span>
+      <span style="position: absolute; right: -2px; top: -2px; width: 14px; height: 14px;"><span class="dd-ping" style="position: absolute; inset: 0; border-radius: 999px; background: #FF4422;"></span><span style="position: absolute; inset: 0; border-radius: 999px; background: #FF4422; border: 2px solid #FFFFFF;"></span></span>
+    </button>
+  </sc-if>
+
+  <sc-if value="{{ modal.open }}" hint-placeholder-val="{{ false }}">
+    <div class="dd-overlay" onClick="{{ closeModal }}" style="position: absolute; inset: 0; z-index: 30; background: rgba(40, 30, 22, 0.42); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"></div>
+    <div class="dd-modal" role="dialog" aria-modal="true" aria-label="Pyet Dardanin" style="position: absolute; left: 400px; top: 84px; width: 640px; z-index: 31; background: #FFFFFF; border-radius: 22px; box-shadow: 0 30px 80px rgba(20, 12, 6, 0.35); overflow: hidden; display: flex; flex-direction: column;">
+      <div style="display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid #F1E6DE;">
+        <div style="width: 34px; height: 34px; border-radius: 999px; background: #FCE3DB; overflow: hidden; display: flex; align-items: flex-end; justify-content: center;"><img class="dd-avatar-swap" key="{{ modal.avatarKey }}" src="{{ modal.avatar }}" alt="" style="width: 36px; display: block;"></div>
+        <div style="font-size: 15px; font-weight: 800; flex-grow: 1;">Pyet Dardanin</div>
+        <button class="dd-icon-btn" onClick="{{ closeModal }}" aria-label="Mbyll">esc</button>
+      </div>
+
+      <sc-if value="{{ modal.empty }}" hint-placeholder-val="{{ true }}">
+        <div class="dd-fade" style="display: flex; align-items: flex-end; gap: 6px; padding: 18px 24px 0 16px; background: linear-gradient(180deg, #FFF6F2 0%, #FFFFFF 100%);">
+          <img class="dd-peek" src="/_blob/287fd477798e7cc5c8817ab0da62005b" alt="Dardani përshëndet" style="height: 164px; display: block; flex-shrink: 0;">
+          <div style="margin-bottom: 40px; background: #FFFFFF; border: 1.5px solid #F1E6DE; border-radius: 18px 18px 18px 4px; padding: 14px 16px; box-shadow: 0 6px 18px rgba(120, 60, 20, 0.08); display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-size: 16px; font-weight: 800;">Tungjatjeta! Unë jam Dardani.</div>
+            <div style="font-size: 14px; line-height: 1.5; color: #44413d;">Më pyet për çdo lajm. Përgjigjem vetëm nga artikujt e 383, gjithmonë me burim.</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ modal.thread }}" hint-placeholder-val="{{ false }}">
+        <div style="padding: 20px 22px 6px 22px; display: flex; flex-direction: column; gap: 14px;">
+          <div class="dd-fade" style="align-self: flex-end; max-width: 80%; font-size: 14px; font-weight: 600; background: #FCE3DB; border-radius: 16px 16px 4px 16px; padding: 10px 14px;">{{ modal.question }}</div>
+          <div style="display: flex; gap: 10px; align-items: flex-start;">
+            <div style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 999px; background: #FCE3DB; overflow: hidden; display: flex; align-items: flex-end; justify-content: center;"><img class="dd-avatar-swap" key="{{ modal.avatarKey }}" src="{{ modal.avatar }}" alt="{{ modal.avatarAlt }}" style="width: 48px; display: block;"></div>
+            <div style="flex-grow: 1; background: #F9F6F1; border-radius: 4px 16px 16px 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px;">
+              <sc-if value="{{ modal.thinking }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: #5c5853;"><span style="display: inline-flex; gap: 4px;"><span class="dd-dot"></span><span class="dd-dot dd-dot2"></span><span class="dd-dot dd-dot3"></span></span>Po kërkon në arkivin e 383</div>
+              </sc-if>
+              <sc-if value="{{ modal.writing }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size: 15px; line-height: 1.6;">{{ modal.text }}<span class="dd-caret"></span></div>
+              </sc-if>
+              <sc-if value="{{ modal.done }}" hint-placeholder-val="{{ false }}">
+                <div class="dd-fade" style="display: flex; flex-direction: column; gap: 10px;">
+                  <div style="font-size: 15px; line-height: 1.6;">{{ modal.text }}</div>
+                  <sc-if value="{{ modal.found }}" hint-placeholder-val="{{ true }}">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #FFFFFF; border-radius: 10px; padding: 9px 12px; font-size: 13px; font-weight: 700;"><span>Kosovë: Regjistrimet e bizneseve ranë 36.2% në gusht</span><span style="font-size: 12px; font-weight: 600; color: #5c5853; white-space: nowrap;">Telegrafi →</span></div>
+                  </sc-if>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="padding: 16px 22px 8px 22px;">
+        <div style="display: flex; align-items: center; gap: 10px; border: 1.5px solid #FF4422; border-radius: 14px; padding: 6px 6px 6px 14px; box-shadow: 0 0 0 4px rgba(255, 68, 34, 0.08);">
+          <label for="dd-input" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Pyetja jote</label>
+          <input id="dd-input" value="{{ modal.input }}" onChange="{{ onInput }}" onKeyDown="{{ onInputKey }}" placeholder="{{ modal.placeholder }}" style="flex-grow: 1; border: 0; outline: none; font-family: 'Manrope', sans-serif; font-size: 15px; background: transparent; color: #111111; height: 32px;">
+          <button onClick="{{ sendInput }}" aria-label="Dërgo pyetjen" style="width: 34px; height: 34px; border: 0; border-radius: 10px; background: #D9361A; color: #FFFFFF; font-size: 16px; font-weight: 800; cursor: pointer;">↑</button>
+        </div>
+      </div>
+
+      <div style="padding: 6px 22px 18px 22px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <sc-for list="{{ modal.chips }}" as="c" hint-placeholder-count="3">
+            <button class="dd-chip" onClick="{{ c.ask }}">{{ c.q }}</button>
+          </sc-for>
+        </div>
+        <div style="font-size: 12px; color: #8A837B;">Përgjigjet vijnë vetëm nga artikujt e botuar te 383. Nëse arkivi nuk e ka, Dardani ta thotë.</div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"scene":{"editor":"enum","options":["play","popup","card-thinking","card-writing","card-done","card-notfound","modal-empty","modal-thinking","modal-answer"],"default":"play"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  ddData() {
+    const IMG = {
+      neutral: '/_blob/4f703fb84e10ff23bb226f846336c27a',
+      thinking: '/_blob/4f8a57b1b14c74290039f9c72abc68db',
+      talking: '/_blob/0b53792480bc89dff534086ea3c66f3c',
+      happy: '/_blob/69040df5f2b36ea65d499c01d0ab36ce',
+      confused: '/_blob/f96f5a009f99448fe3d549acc71798b3'
+    };
+    const ALT = {
+      neutral: 'Dardani, i qetë dhe i buzëqeshur',
+      thinking: 'Dardani me krah në mjekër, duke menduar',
+      talking: 'Dardani duke folur',
+      happy: 'Dardani i gëzuar',
+      confused: 'Dardani i hutuar, me kokë anash'
+    };
+    const CARD = [
+      { q: 'Pse ndodhi kjo?', found: false, a: 'Artikulli nuk e shpjegon pse regjistrimet ranë 36.2% në gusht. ASK thjesht raporton shifrat, pa dhënë ndonjë shkak. Kur të dalë një artikull që e shpjegon, përgjigjen do ta gjesh këtu.' },
+      { q: 'Çfarë ndodhi më parë?', found: true, a: 'Në korrik u regjistruan më shumë biznese: gushti shënoi rënie prej 36.2% krahasuar me korrikun. Edhe krahasuar me gushtin e vitit 2025, regjistrimet janë 5.4% më pak.' },
+      { q: 'Çfarë do të thotë kjo?', found: true, a: 'Pothuajse të gjitha bizneset e reja, 1,003 nga 1,010, janë mikro-ndërmarrje me 0 deri në 9 punonjës, dhe gati gjysma (45.8%) janë në rajonin e Prishtinës. Shifrat tregojnë regjistrimet, jo sa biznese do të mbijetojnë apo sa vende pune krijohen.' }
+    ];
+    const MODALQ = [
+      { q: 'Sa biznese u hapën në gusht?', found: true, a: 'Sipas ASK, në gusht 2026 u regjistruan 1,010 biznese të reja dhe 84 u shuan. Kjo është 36.2% më pak regjistrime se në korrik.' },
+      { q: 'Cili rajon kishte më shumë regjistrime?', found: true, a: 'Rajoni i Prishtinës, me 463 regjistrime ose 45.8% të totalit. Pas tij vijnë Prizreni me 124 dhe Mitrovica me 93.' },
+      { q: 'Cilët sektorë kryesuan?', found: true, a: 'Tregtia me shumicë e pakicë, bashkë me riparimin e automjeteve, me 207 regjistrime (20.5%). Pastaj informacioni dhe komunikimi me 113 dhe veprimtaritë profesionale me 109.' }
+    ];
+    const NF = 'Nuk gjeta asgjë për këtë në arkivin e 383 ende. Provo ta pyesësh ndryshe, ose zgjidh një nga pyetjet më poshtë.';
+    return { IMG, ALT, CARD, MODALQ, NF };
+  }
+
+  constructor(props) {
+    super(props);
+    this.timers = [];
+    const D = this.ddData();
+    this.D = D;
+    const scene = (this.props && this.props.scene) || (props && props.scene) || 'play';
+    const s = { popup: 'hidden', cardQ: -1, cardPhase: 'idle', cardShown: 0, modalOpen: false, modalPhase: 'empty', modalQ: '', modalA: '', modalFound: true, modalShown: 0, input: '' };
+    if (scene === 'popup') s.popup = 'open';
+    if (scene.indexOf('card-') === 0) {
+      s.popup = 'bubble';
+      s.cardQ = scene === 'card-notfound' ? 0 : (scene === 'card-done' ? 2 : 1);
+      s.cardPhase = scene === 'card-thinking' ? 'thinking' : (scene === 'card-writing' ? 'answering' : 'done');
+      s.cardShown = scene === 'card-writing' ? 96 : 9999;
+    }
+    if (scene.indexOf('modal-') === 0) {
+      s.popup = 'bubble';
+      s.modalOpen = true;
+      if (scene !== 'modal-empty') {
+        const m = D.MODALQ[1];
+        s.modalQ = m.q; s.modalA = m.a; s.modalFound = true;
+        s.modalPhase = scene === 'modal-thinking' ? 'thinking' : 'done';
+        s.modalShown = 9999;
+      }
+    }
+    this.state = s;
+    this.scene = scene;
+  }
+
+  componentDidMount() {
+    if (this.scene === 'play') {
+      this.later(() => { if (this.state.popup === 'hidden') this.setState({ popup: 'open' }); }, 1400);
+    }
+    if (this.scene === 'popup') this.later(() => this.scrollTo(null, 360, false), 60);
+    if (this.scene.indexOf('card-') === 0) this.later(() => this.scrollTo('dd-card', 0, false), 60);
+  }
+
+  componentWillUnmount() { this.clearTimers(); }
+
+  later(fn, ms) { const t = setTimeout(fn, ms); this.timers.push(t); return t; }
+  clearTimers() { this.timers.forEach((t) => { clearTimeout(t); clearInterval(t); }); this.timers = []; }
+
+  scrollTo(id, top, smooth) {
+    const sc = document.getElementById('dd-scroller');
+    if (!sc) return;
+    let y = top || 0;
+    if (id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      y = el.getBoundingClientRect().top - sc.getBoundingClientRect().top + sc.scrollTop - 28;
+    }
+    sc.scrollTo({ top: y, behavior: smooth ? 'smooth' : 'auto' });
+  }
+
+  typeOut(key, len, onDone) {
+    const t = setInterval(() => {
+      const next = (this.state[key] || 0) + 4;
+      if (next >= len) { clearInterval(t); this.setState({ [key]: 9999 }); onDone(); }
+      else this.setState({ [key]: next });
+    }, 28);
+    this.timers.push(t);
+  }
+
+  askCard(i) {
+    this.clearTimers();
+    this.setState({ popup: 'bubble', cardQ: i, cardPhase: 'thinking', cardShown: 0 });
+    this.later(() => this.scrollTo('dd-card', 0, true), 40);
+    this.later(() => {
+      this.setState({ cardPhase: 'answering', cardShown: 0 });
+      this.typeOut('cardShown', this.D.CARD[i].a.length, () => this.setState({ cardPhase: 'done' }));
+    }, 1900);
+  }
+
+  askModal(q, a, found) {
+    this.clearTimers();
+    this.setState({ modalPhase: 'thinking', modalQ: q, modalA: a, modalFound: found, modalShown: 0, input: '' });
+    this.later(() => {
+      this.setState({ modalPhase: 'answering', modalShown: 0 });
+      this.typeOut('modalShown', a.length, () => this.setState({ modalPhase: 'done' }));
+    }, 1700);
+  }
+
+  sendTyped() {
+    const q = (this.state.input || '').trim();
+    if (!q) return;
+    const hit = this.D.MODALQ.concat(this.D.CARD).find((m) => m.q.toLowerCase() === q.toLowerCase());
+    if (hit) this.askModal(hit.q, hit.a, hit.found);
+    else this.askModal(q, this.D.NF, false);
+  }
+
+  renderVals() {
+    const st = this.state;
+    const cq = st.cardQ >= 0 ? this.D.CARD[st.cardQ] : null;
+    const cp = st.cardPhase;
+    let cardFace = 'neutral';
+    if (cp === 'thinking') cardFace = 'thinking';
+    if (cp === 'answering') cardFace = 'talking';
+    if (cp === 'done' && cq) cardFace = cq.found ? 'happy' : 'confused';
+    let cardStatus = 'Zgjidh një pyetje, Dardani e kërkon në arkiv';
+    if (cp === 'thinking') cardStatus = 'Po kërkon në arkivin e 383';
+    if (cp === 'answering') cardStatus = 'Po shkruan përgjigjen';
+    if (cp === 'done' && cq) cardStatus = cq.found ? 'Bazuar në 1 artikull të 383' : 'Arkivi nuk e ka këtë ende';
+
+    const mp = st.modalPhase;
+    let modalFace = 'neutral';
+    if (mp === 'thinking') modalFace = 'thinking';
+    if (mp === 'answering') modalFace = 'talking';
+    if (mp === 'done') modalFace = st.modalFound ? 'happy' : 'confused';
+
+    const cardQuestions = this.D.CARD.map((m, i) => ({ q: m.q, ask: () => this.askCard(i) }));
+
+    return {
+      popupOpen: st.popup === 'open',
+      bubbleOpen: st.popup === 'bubble',
+      bubbleAvatar: this.D.IMG[cp === 'thinking' ? 'thinking' : (cp === 'answering' ? 'talking' : 'neutral')],
+      questions: cardQuestions,
+      card: {
+        idle: cp === 'idle',
+        active: cp !== 'idle',
+        busy: cp === 'thinking' || cp === 'answering',
+        thinking: cp === 'thinking',
+        writing: cp === 'answering',
+        done: cp === 'done',
+        found: !!(cq && cq.found),
+        notFound: !!(cq && !cq.found),
+        question: cq ? cq.q : '',
+        text: cq ? cq.a.slice(0, st.cardShown) : '',
+        status: cardStatus,
+        avatar: this.D.IMG[cardFace],
+        avatarAlt: this.D.ALT[cardFace],
+        avatarKey: 'c-' + cardFace,
+        followUps: cardQuestions.filter((x, i) => i !== st.cardQ)
+      },
+      modal: {
+        open: st.modalOpen,
+        empty: mp === 'empty',
+        thread: mp !== 'empty',
+        thinking: mp === 'thinking',
+        writing: mp === 'answering',
+        done: mp === 'done',
+        found: st.modalFound,
+        question: st.modalQ,
+        text: st.modalA.slice(0, st.modalShown),
+        avatar: this.D.IMG[modalFace],
+        avatarAlt: this.D.ALT[modalFace],
+        avatarKey: 'm-' + modalFace,
+        input: st.input,
+        placeholder: mp === 'empty' ? 'Bëj një pyetje për lajmet…' : 'Pyet diçka tjetër…',
+        chips: this.D.MODALQ.map((m) => ({ q: m.q, ask: () => this.askModal(m.q, m.a, m.found) }))
+      },
+      onScroll: (e) => { if (this.state.popup === 'hidden' && e.currentTarget.scrollTop > 160) this.setState({ popup: 'open' }); },
+      collapse: () => this.setState({ popup: 'bubble' }),
+      reopen: () => this.setState({ popup: 'open' }),
+      openModal: () => this.setState({ modalOpen: true }),
+      closeModal: () => { this.clearTimers(); this.setState({ modalOpen: false, modalPhase: 'empty', modalShown: 0, input: '' }); },
+      onInput: (e) => this.setState({ input: e.target.value }),
+      onInputKey: (e) => { if (e.key === 'Enter') this.sendTyped(); if (e.key === 'Escape') this.setState({ modalOpen: false }); },
+      sendInput: () => this.sendTyped()
+    };
+  }
+}
+</script>
+</body>
+</html>

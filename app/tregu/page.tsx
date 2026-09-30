@@ -66,7 +66,7 @@ const TOUR_STEPS: TourStep[] = [
        and appeared to break. */
     target: "[data-tour='floor-filters'], [data-tour='floor-filters-mobile']",
     title: "Zgjidh një temë",
-    body: "Pyetjet vijnë nga lajmet e ditës — politikë, sport, ekonomi.",
+    body: "Këtu ka pyetje nga lajmet e ditës: sport, politikë, ekonomi. Zgjidh atë që të pëlqen.",
     padding: 12,
     radius: 28,
     zoom: 1.04,
@@ -80,8 +80,8 @@ const TOUR_STEPS: TourStep[] = [
   },
   {
     target: "[data-tour='floor-grid'] > *:first-child",
-    title: "Thuaj Po ose Jo",
-    body: "Hap një pyetje, zgjidh anën, vendos sa Monedha. Kaq.",
+    title: "Thuaj PO ose JO",
+    body: "Hap një pyetje dhe zgjidh: mendon se do të ndodhë (PO) apo jo (JO)? Pastaj vendos sa monedha.",
     padding: 10,
     radius: 18,
     zoom: 1.06,
@@ -93,7 +93,7 @@ const TOUR_STEPS: TourStep[] = [
   {
     target: "[data-tour='floor-balance'], [data-tour='floor-balance-mobile']",
     title: "Monedhat janë falas",
-    body: "Nis me 100 dhe merr më shumë çdo ditë. Para reale nuk preken kurrë.",
+    body: "Fillon me 100 monedha falas dhe merr të reja çdo ditë. Nuk ka para të vërteta: është vetëm lojë.",
     padding: 8,
     radius: 100,
     zoom: 1.06,
@@ -104,8 +104,8 @@ const TOUR_STEPS: TourStep[] = [
   },
   {
     target: "[data-tour='floor-balance'], [data-tour='floor-balance-mobile']",
-    title: "Nëse del si the ti, fiton",
-    body: "Sa më e saktë gjasa që zgjodhe, aq më shumë Monedha kthen. Gjithçka te Portofoli.",
+    title: "Ke të drejtë? Fiton!",
+    body: "Nëse ndodh ashtu si the, merr më shumë monedha. Sa më pak njerëz e prisnin, aq më shumë fiton. Të gjitha i sheh te Portofoli.",
     padding: 8,
     radius: 100,
     zoom: 1.04,

@@ -18,8 +18,8 @@ const TOUR_ID = "tregu-home";
 const TOUR_STEPS: TourStep[] = [
   {
     target: "[data-tour='tregu-card']",
-    title: "Një pyetje. Dy përgjigje.",
-    body: "Lajmi i ditës bëhet pyetje. Ti zgjedh: PO ose JO.",
+    title: "Një pyetje, dy përgjigje",
+    body: "Çdo lajm i ditës bëhet një pyetje. Ti zgjedh: PO ose JO.",
     padding: 12,
     radius: 20,
     zoom: 1.03,
@@ -34,7 +34,7 @@ const TOUR_STEPS: TourStep[] = [
   {
     target: "[data-tour='tregu-outcomes']",
     title: "Zgjidh anën tënde",
-    body: "Përqindja tregon çfarë mendojnë të tjerët. Sa më pak e pritur ana jote, aq më shumë fiton.",
+    body: "Përqindja tregon çfarë mendojnë të tjerët. Nëse zgjedh atë që pakkush e pret dhe ke të drejtë, fiton më shumë.",
     padding: 8,
     radius: 14,
     zoom: 1.06,
@@ -48,8 +48,8 @@ const TOUR_STEPS: TourStep[] = [
   },
   {
     target: "[data-tour='tregu-cta']",
-    title: "Me 383 Monedha, jo me para",
-    body: "Monedha falas e faqes. Hape tregun dhe provo — pa asnjë rrezik.",
+    title: "Me monedha falas, jo me para",
+    body: "Monedhat e 383 janë falas. Hape tregun dhe provo, pa asnjë rrezik.",
     padding: 8,
     radius: 12,
     zoom: 1.06,

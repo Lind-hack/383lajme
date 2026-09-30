@@ -46,6 +46,7 @@ import {
   toneLabel,
   verdictSentence,
 } from "@/lib/tone-scale";
+import DardaniImage from "@/components/dardani/dardani-image";
 
 export const revalidate = 3600;
 
@@ -129,6 +130,10 @@ export default async function BotaPerKosovenPage() {
             rather than under everything. */}
         <header className="toni-hero">
           <div className="toni-hero-main">
+            <div className="toni-hero-dardani">
+              <DardaniImage name="toni" />
+              <span>Toni i botës për Kosovën</span>
+            </div>
             <span className="toni-hero-eyebrow">
               <ToniGaugeIcon size={15} strokeWidth={2.2} />
               Indeksi ditor

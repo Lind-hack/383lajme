@@ -74,7 +74,7 @@ function tourSteps(structured: boolean): TourStep[] {
     {
       target: CARD,
       title: "Një pyetje për ditën",
-      body: "Çdo kartë është një pyetje për një ndeshje ose një lajm të ditës. Ti parashikon si përfundon.",
+      body: "Çdo kartë është një pyetje për një ndeshje ose një lajm të ditës. Ti thua si mendon se do të përfundojë.",
       padding: 12,
       radius: 20,
       zoom: 1.03,
@@ -84,8 +84,8 @@ function tourSteps(structured: boolean): TourStep[] {
   if (structured) {
     steps.push({
       target: `${CARD} .tregu-exact-chart`,
-      title: "Gjasat lëvizin live",
-      body: "Vijat tregojnë si kanë ndryshuar gjasat me çdo tregtim. Kalo mbi grafik për çmimin në çdo moment.",
+      title: "Mendimet ndryshojnë live",
+      body: "Vijat tregojnë si ndryshon mendimi i njerëzve sa herë dikush zgjedh. Kalo mbi grafik për të parë çdo moment.",
       padding: 8,
       radius: 14,
       zoom: 1.05,
@@ -105,7 +105,7 @@ function tourSteps(structured: boolean): TourStep[] {
     {
       target: outcomes,
       title: "Zgjidh anën tënde",
-      body: "Përqindja tregon çfarë mendojnë të tjerët. Sa më pak e pritur zgjedhja jote, aq më shumë fiton.",
+      body: "Përqindja tregon çfarë mendojnë të tjerët. Nëse zgjedh atë që pakkush e pret dhe ke të drejtë, fiton më shumë.",
       padding: 8,
       radius: 14,
       zoom: 1.06,
@@ -119,8 +119,8 @@ function tourSteps(structured: boolean): TourStep[] {
     },
     {
       target: `${CARD} .tregu-market-open`,
-      title: "Me 383 Monedha, jo me para",
-      body: "Monedha falas e faqes. Hape tregun dhe provo, pa asnjë rrezik.",
+      title: "Me monedha falas, jo me para",
+      body: "Monedhat e 383 janë falas. Hape tregun dhe provo, pa asnjë rrezik.",
       padding: 8,
       radius: 12,
       zoom: 1.06,

@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Sparkles, X } from "lucide-react";
+import { X } from "lucide-react";
+import DardaniFace, { type DardaniFaceState } from "@/components/dardani/dardani-face";
+import DardaniImage from "@/components/dardani/dardani-image";
 import type { Chip } from "./ask-panel";
 
 /**
@@ -10,7 +12,8 @@ import type { Chip } from "./ask-panel";
  * The ask panel sits at the end of the body, which is the right place to
  * answer from and the wrong place to be discovered from: a reader two
  * paragraphs in with a question has no idea it exists. This is the pointer to
- * it — a circle under the navbar that opens into the same questions.
+ * it — Dardani's face under the navbar that opens into the same questions,
+ * with Dardani himself peeking over the card's top edge.
  *
  * It is deliberately quiet about it. It waits until the reader is actually
  * reading rather than greeting them on arrival, opens once, and collapses to a
@@ -21,9 +24,12 @@ import type { Chip } from "./ask-panel";
 export default function ArticleAskBubble({
   chips,
   onPick,
+  face = "neutral",
 }: {
   chips: Chip[];
   onPick: (question: string) => void;
+  /** The panel's current face while an answer is loading; neutral otherwise. */
+  face?: DardaniFaceState;
 }) {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -81,38 +87,46 @@ export default function ArticleAskBubble({
   return (
     <div className="pyet-bubble" data-open={open || undefined}>
       {open ? (
-        <div className="pyet-bubble-card" role="dialog" aria-label="Pyetje për këtë artikull">
-          <div className="pyet-bubble-head">
-            <Sparkles size={14} strokeWidth={2.4} aria-hidden="true" />
-            <strong>Pyet 383 për këtë lajm</strong>
-            <button type="button" onClick={close} aria-label="Mbyll">
-              <X size={14} strokeWidth={2.6} aria-hidden="true" />
-            </button>
+        <div className="pyet-bubble-card" role="dialog" aria-label="Pyet Dardanin për këtë lajm">
+          <DardaniImage name="wave" alt="Dardani përshëndet me krah" className="pyet-bubble-peek dardani-peek" />
+          <div className="pyet-bubble-sheet">
+            <div className="pyet-bubble-head">
+              <div className="pyet-bubble-title">
+                <strong>Pyet Dardanin</strong>
+                <span>për këtë lajm</span>
+              </div>
+              <button type="button" onClick={close} aria-label="Mbyll pyetjet">
+                <X size={14} strokeWidth={2.6} aria-hidden="true" />
+              </button>
+            </div>
+            <ul>
+              {chips.slice(0, 3).map((chip, i) => (
+                <li key={chip.question} style={{ "--i": i } as React.CSSProperties}>
+                  <button
+                    type="button"
+                    className="pyet-q"
+                    onClick={() => {
+                      onPick(chip.question);
+                      setOpen(false);
+                    }}
+                  >
+                    <span>{chip.label}</span>
+                    <span className="pyet-q-arrow" aria-hidden="true">→</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul>
-            {chips.slice(0, 3).map((chip, i) => (
-              <li key={chip.question} style={{ "--i": i } as React.CSSProperties}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    onPick(chip.question);
-                    setOpen(false);
-                  }}
-                >
-                  {chip.label}
-                </button>
-              </li>
-            ))}
-          </ul>
         </div>
       ) : (
         <button
           type="button"
           className="pyet-bubble-dot"
           onClick={() => setOpen(true)}
-          aria-label="Shfaq pyetjet për këtë artikull"
+          aria-label="Hap pyetjet e Dardanit për këtë lajm"
         >
-          <Sparkles size={17} strokeWidth={2.3} aria-hidden="true" />
+          <DardaniFace state={face} size={54} decorative />
+          <span className="pyet-bubble-ping" aria-hidden="true" />
         </button>
       )}
     </div>

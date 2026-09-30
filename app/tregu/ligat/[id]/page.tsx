@@ -31,6 +31,7 @@ import {
   type PickOption,
 } from "@/lib/tregu-leagues";
 import "@/components/tregu/leagues.css";
+import DardaniLoop from "@/components/dardani/dardani-loop";
 
 type Counts = { member_key: string; is_me: boolean; resolved: number; correct: number; pending: number };
 
@@ -450,9 +451,12 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
                     );
                   })}
                   {push === "idle" && (
-                    <button type="button" className="lg-ghost" onClick={() => void enableLeaguePush().then(setPush)}>
-                      <Bell size={15} aria-hidden /> Më njofto kur më kalojnë
-                    </button>
+                    <span className="lg-push-ask">
+                      <DardaniLoop name="bell" decorative className="lg-push-dardani" />
+                      <button type="button" className="lg-ghost" onClick={() => void enableLeaguePush().then(setPush)}>
+                        <Bell size={15} aria-hidden /> Më njofto kur më kalojnë
+                      </button>
+                    </span>
                   )}
                   {push === "on" && <span className="lgx-bell"><BellRing size={15} aria-hidden /> Njoftimet janë ndezur</span>}
                   {push === "denied" && <span className="lgx-bell">Njoftimet janë bllokuar në shfletues</span>}

@@ -19503,6 +19503,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 
 /* ── Onboarding ──────────────────────────────────────────────────────────── */
 .perty-onboard {
+  animation: perty-screen-in 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
   padding: 32px;
   background: rgba(255, 255, 255, 0.78);
   border: 1px solid #E8E3DB;
@@ -21421,3 +21422,1138 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 /* The emoji mark sizes from the emblem, never from a parent's text rules
    (preview captions style their spans, and this is a span too). */
 .lg-emblem > span { display: block !important; margin: 0 !important; font-size: inherit !important; line-height: 1 !important; color: inherit !important; }
+
+/* ── Dardani mascot: loops (components/dardani/dardani-loop.tsx) ───────────
+   The wrapper takes its size from the caller (a width or a height) and its
+   shape from the loop; each layer is the poster with the video over it. */
+.dardani-loop {
+  position: relative;
+  display: inline-block;
+  aspect-ratio: var(--dl-ratio);
+  flex-shrink: 0;
+}
+.dardani-loop-layer {
+  position: absolute;
+  inset: 0;
+}
+.dardani-loop-layer > img,
+.dardani-loop-layer > video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: var(--dl-fit, contain);
+  display: block;
+  background: transparent;
+}
+.dardani-loop-layer > img[data-hidden] { visibility: hidden; }
+/* Handing over between loops: dip out from the feet, then hop in. */
+.dardani-loop-layer { transform-origin: 50% 100%; }
+.dardani-loop-layer[data-phase="out"] { animation: dardani-loop-out 170ms cubic-bezier(0.4, 0, 1, 1) forwards; }
+.dardani-loop-layer[data-phase="in"] { animation: dardani-loop-in 460ms cubic-bezier(0.2, 0.9, 0.3, 1.25) both; }
+@keyframes dardani-loop-out {
+  to { opacity: 0; transform: translateY(10px) scale(0.92); }
+}
+@keyframes dardani-loop-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.88); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dardani-loop-layer[data-phase] { animation: none; }
+}
+
+/* ── Dardani: page loading (components/dardani/page-loader) ────────────────
+   A full-screen cover on the sign-in screen's background (its gradient and the
+   .auth-plume field): Dardani animated on a cream card in the middle (running
+   between pages, flying on the first load), "Po ngarkohet…", and a pill that
+   fills 0–100% with the count under it. */
+.dardani-cover {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  overflow: hidden;
+  isolation: isolate;
+  background: radial-gradient(110% 80% at 50% 32%, #FEFCF9 0%, #F9F6F1 34%, #EFE3D5 68%, #E2CDB8 100%);
+  animation: dardani-cover-in 180ms ease-out both;
+  transition: opacity 380ms ease, visibility 380ms;
+}
+.dardani-cover[data-boot] {
+  /* Without JavaScript nothing would ever lift the first-load cover. */
+  animation: dardani-cover-out 400ms ease 4s forwards;
+}
+.dardani-cover[data-leaving] { opacity: 0; visibility: hidden; }
+html[data-booted] .dardani-cover[data-boot] { display: none; }
+@keyframes dardani-cover-in { from { opacity: 0; } }
+@keyframes dardani-cover-out { to { opacity: 0; visibility: hidden; } }
+/* The card Dardani stands on: the exact cream the MP4 is flattened onto,
+   over the sign-in plumes, like the sign-in form over the same field. */
+.dardani-cover-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(320px, 100%);
+  padding: 22px 30px 20px;
+  border-radius: 28px;
+  background: #F9F6F1;
+  box-shadow: 0 24px 60px rgba(120, 50, 20, 0.16), 0 2px 8px rgba(120, 50, 20, 0.06);
+}
+.dardani-cover-video {
+  display: block;
+  width: min(200px, 52vw);
+  height: auto;
+  background: #F9F6F1;
+  pointer-events: none;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 6%, #000 94%, transparent),
+    linear-gradient(to bottom, transparent, #000 5%, #000 97%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent, #000 6%, #000 94%, transparent),
+    linear-gradient(to bottom, transparent, #000 5%, #000 97%, transparent);
+  mask-composite: intersect;
+}
+.dardani-cover-label {
+  margin: 14px 0 12px;
+  color: #3F3833;
+  font-size: 15px;
+  font-weight: 700;
+}
+.dardani-cover-pill {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 14px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #EDE4DA;
+  box-shadow: inset 0 1px 2px rgba(64, 40, 20, 0.12);
+}
+.dardani-cover-pill i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  min-width: 16px;
+  border-radius: inherit;
+  background: linear-gradient(180deg, #FF6A4D 0%, #FF4422 100%);
+  box-shadow: 0 1px 6px rgba(255, 68, 34, 0.35);
+  transition: width 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.dardani-cover-pct {
+  margin-top: 8px;
+  color: #111111;
+  font-size: 18px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dardani-cover { animation: none; }
+  .dardani-cover-pill i { transition: none; }
+}
+
+/* ── Dardani: shared pieces ─────────────────────────────────────────────────
+   Values from dardani-assets/specs/pyet-dardanin.md. The face circle is peach,
+   the head-and-shoulders crop bottom-aligned and a touch wider than the circle
+   so the shoulders run off its edge. */
+.dardani-face {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #FCE3DB;
+}
+.dardani-face-img {
+  display: block;
+  max-width: none;
+  animation: dardani-swap 260ms ease both;
+}
+@keyframes dardani-swap {
+  from { opacity: 0.2; transform: scale(0.9); }
+  to   { opacity: 1; transform: none; }
+}
+/* The idle sway of a Dardani peeking over an edge. */
+.dardani-peek {
+  transform-origin: 50% 100%;
+  animation: dardani-peek 3.2s ease-in-out infinite;
+}
+@keyframes dardani-peek {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-4px) rotate(-2deg); }
+}
+
+/* ── Navbar: the Pyet Dardanin pill ─────────────────────────────────────────
+   The site orange, like Regjistrohu beside it: the spec's darker #D9361A read
+   as a different brand colour in the header. Colour and hover are the pill's
+   own rules above; only the face slot is added here. */
+.nav-dardan { gap: 9px; padding: 4px 16px 4px 4px; }
+.nav-dardan-face {
+  position: relative;
+  display: block;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #FCE3DB;
+}
+.nav-dardan .nav-dardan-face img {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  box-shadow: none;
+}
+/* The head-bob: a lift and a tilt each way, from his neck. */
+.nav-dardan .nav-dardan-face img.nav-dardan-bob {
+  max-width: none;
+  margin: 3px 0 0 -4%;
+  object-fit: contain;
+  transform-origin: 50% 90%;
+  animation: nav-dardan-bob 2.4s ease-in-out infinite;
+}
+@keyframes nav-dardan-bob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  22%      { transform: translateY(-1.5px) rotate(-6deg); }
+  50%      { transform: translateY(0) rotate(0deg); }
+  72%      { transform: translateY(-1.5px) rotate(6deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-dardan .nav-dardan-face img.nav-dardan-bob { animation: none; }
+}
+/* Occasion stills are full-length: frame the flag and the face, not the feet. */
+.nav-dardan .nav-dardan-occasion { object-fit: cover; object-position: 50% 4%; }
+@media (max-width: 768px) {
+  .nav-dardan { min-height: 38px; padding: 3px 12px 3px 3px; }
+  .nav-dardan-face { width: 30px; height: 30px; }
+}
+
+/* ── Pyet Dardanin: the article questions card (components/article-ask-bubble) ── */
+.pyet-bubble[data-open] {
+  /* Clear the navbar: Dardani stands 60px above the card's top edge. */
+  top: 142px;
+}
+.pyet-bubble-card {
+  position: relative;
+  width: min(332px, calc(100vw - 28px));
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 20px;
+  background: none;
+  box-shadow: none;
+  transform-origin: top right;
+  animation: pyet-card-pop 420ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+@keyframes pyet-card-pop {
+  from { opacity: 0; transform: translateY(-10px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+.pyet-bubble-peek {
+  position: absolute;
+  top: -60px;
+  left: 16px;
+  z-index: 0;
+  height: 124px;
+  width: auto;
+  pointer-events: none;
+}
+.pyet-bubble-sheet {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid #F1E6DE;
+  border-radius: 20px;
+  background: #FFFFFF;
+  box-shadow: 0 18px 40px rgba(60, 30, 10, 0.16);
+}
+.pyet-bubble-head { align-items: flex-start; margin-bottom: 0; }
+.pyet-bubble-title {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 34px;
+  padding-left: 82px;
+}
+.pyet-bubble-title strong { color: #111111; font-size: 14px; font-weight: 800; }
+.pyet-bubble-title span { color: #5C5853; font-size: 12px; font-weight: 600; }
+.pyet-bubble-head button {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #F3EEE8;
+  color: #5C5853;
+}
+.pyet-bubble-card ul { gap: 8px; }
+
+/* The collapsed circle: his face, with a dot that pings three times. */
+.pyet-bubble-dot {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  overflow: visible;
+  border: 3px solid #FFFFFF;
+  background: #FCE3DB;
+  box-shadow: 0 10px 24px rgba(60, 30, 10, 0.18);
+  animation: pyet-card-pop 320ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+.pyet-bubble-ping {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  background: #FF4422;
+}
+.pyet-bubble-ping::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: #FF4422;
+  animation: pyet-ping 1.8s ease-out 3;
+}
+@keyframes pyet-ping {
+  from { opacity: 0.7; transform: scale(1); }
+  to   { opacity: 0; transform: scale(2.4); }
+}
+
+/* The question buttons, in the card and in the article panel before asking. */
+.pyet-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+}
+.pyet-questions li,
+.pyet-bubble-card li { animation: pyet-chip-in 300ms var(--ease-out) both; animation-delay: calc(120ms + var(--i, 0) * 60ms); }
+.pyet-q,
+.pyet-bubble-card .pyet-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid #EFE8E0;
+  border-radius: 12px;
+  background: #F9F6F1;
+  color: #111111;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease, transform 140ms ease;
+}
+.pyet-q-arrow { color: #C2340F; font-weight: 800; }
+@media (hover: hover) and (pointer: fine) {
+  .pyet-q:hover,
+  .pyet-bubble-card .pyet-q:hover {
+    border-color: #FF4422;
+    background: #FFF4F0;
+    transform: translateX(2px);
+  }
+}
+
+/* ── Pyet Dardanin: the answer card at the foot of an article ───────────── */
+.pyet-block {
+  overflow: visible;
+  padding: 24px;
+  border: 1px solid #F1E6DE;
+  border-radius: 24px;
+  background: #FFFFFF;
+  box-shadow: 0 10px 30px rgba(120, 60, 20, 0.07);
+}
+.pyet-block::before { display: none; }
+.pyet-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.pyet-head-copy { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+.pyet-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: #5C5853;
+  font-size: 13px;
+  font-weight: 500;
+}
+.pyet-status .pyet-dots i { background: #C2340F; }
+.pyet-block .pyet { margin-top: 18px; }
+
+/* The reader's question: a peach pill in the card, a bubble on the right in chat. */
+.pyet[data-variant="article"] .pyet-asked {
+  display: inline-block;
+  margin: 0 0 14px;
+  padding: 9px 14px;
+  border: 0;
+  border-radius: 12px 12px 12px 4px;
+  background: #FCE3DB;
+  color: #111111;
+  font-size: 14px;
+  font-weight: 700;
+}
+.pyet[data-variant="article"] .pyet-text { font-size: 16px; line-height: 1.65; color: #111111; }
+
+/* While he searches: the researching loop beside three shimmering lines. */
+.pyet-searching {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  animation: pyet-fade 320ms ease both;
+}
+.pyet-searching-loop {
+  width: 150px;
+  height: 112px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #F9F6F1;
+}
+.pyet-skeleton { display: flex; flex: 1; flex-direction: column; gap: 10px; }
+.pyet-skeleton i {
+  display: block;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #EFE8E0 0%, #F9F3EC 50%, #EFE8E0 100%);
+  background-size: 200% 100%;
+  animation: pyet-shimmer 1.2s linear infinite;
+}
+@keyframes pyet-shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+@keyframes pyet-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+.pyet-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: #C2340F;
+  animation: pyet-blink 0.8s steps(1) infinite;
+}
+@keyframes pyet-blink { 50% { opacity: 0; } }
+.pyet-refusal-note {
+  margin: 12px 0 0;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #F9F6F1;
+  color: #5C5853;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.pyet-more { margin: 4px 0 16px; }
+.pyet-more h4,
+.pyet-sources h4 {
+  margin: 0 0 8px;
+  color: #8A837B;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.pyet-chips button {
+  padding: 8px 14px;
+  border: 1.5px solid #EFE8E0;
+  background: #FFFFFF;
+  color: #111111;
+  font-size: 13px;
+  font-weight: 600;
+}
+@media (hover: hover) and (pointer: fine) {
+  .pyet-chips button:hover { border-color: #FF4422; background: #FFF4F0; }
+}
+
+/* ── Pyet Dardanin: the modal (search overlay in Pyet mode) ─────────────── */
+.kerko-ask-title { display: inline-flex; align-items: center; gap: 10px; }
+.pyet-hello {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  margin: -6px -18px 14px;
+  padding: 18px 24px 0 16px;
+  background: linear-gradient(180deg, #FFF6F2 0%, #FFFFFF 100%);
+  animation: pyet-fade 320ms ease both;
+}
+.pyet-hello-img { flex-shrink: 0; height: 164px; width: auto; }
+.pyet-hello-say {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 40px;
+  padding: 14px 16px;
+  border: 1.5px solid #F1E6DE;
+  border-radius: 18px 18px 18px 4px;
+  background: #FFFFFF;
+  box-shadow: 0 6px 18px rgba(120, 60, 20, 0.08);
+}
+.pyet-hello-say strong { color: #111111; font-size: 16px; font-weight: 800; }
+.pyet-hello-say p { margin: 0; color: #44413D; font-size: 14px; line-height: 1.5; }
+.pyet-turn--chat { display: flex; flex-direction: column; gap: 14px; }
+.pyet[data-variant="overlay"] .pyet-turn + .pyet-turn { padding-top: 0; border-top: 0; }
+.pyet[data-variant="overlay"] .pyet-asked {
+  align-self: flex-end;
+  max-width: 80%;
+  margin: 0;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 16px 16px 4px 16px;
+  background: #FCE3DB;
+  color: #111111;
+  font-size: 14px;
+  font-weight: 600;
+}
+.pyet-reply { display: flex; align-items: flex-start; gap: 10px; }
+.pyet-reply-bubble {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  border-radius: 4px 16px 16px 16px;
+  background: #F9F6F1;
+}
+.pyet-reply-bubble .pyet-text { font-size: 15px; line-height: 1.6; }
+.pyet-reply-bubble .pyet-sources { margin-top: 10px; }
+.pyet-reply-bubble .pyet-refusal-note { background: #FFFFFF; }
+
+/* ── Search: Dardani searching, and puzzled when nothing matches ────────── */
+.kerko-searching {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 18px 20px 22px;
+  color: #5C5853;
+  font-size: 13px;
+  font-weight: 600;
+}
+.kerko-searching p { margin: 0; }
+.kerko-searching-loop { height: 120px; }
+.kerko-empty-face { display: block; height: 64px; width: auto; margin-bottom: 10px; }
+.kerko-results-empty-lede { display: flex; align-items: center; gap: 14px; }
+.kerko-results-empty-lede .kerko-empty-face { flex-shrink: 0; margin: 0; }
+
+/* ── Për ty onboarding ──────────────────────────────────────────────────── */
+.perty-dardani {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin: 4px 0 6px;
+}
+.perty-dardani-loop { height: 150px; }
+.perty-say {
+  position: relative;
+  margin: 0 0 44px;
+  padding: 12px 14px;
+  max-width: 34ch;
+  border: 1.5px solid #E9DFD4;
+  border-radius: 18px;
+  background: #FFFFFF;
+  box-shadow: 0 3px 0 #E9DFD4;
+  color: #111111;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.42;
+  transform-origin: 0% 100%;
+  animation: perty-pop 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.perty-say::after {
+  content: "";
+  position: absolute;
+  bottom: 18px;
+  left: -8px;
+  width: 14px;
+  height: 14px;
+  border-bottom: 1.5px solid #E9DFD4;
+  border-left: 1.5px solid #E9DFD4;
+  background: #FFFFFF;
+  transform: rotate(45deg);
+}
+/* A new screen of onboarding glides up into place rather than cutting in. */
+@keyframes perty-screen-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+/* Each new line in his bubble: a soft rise, not the entrance pop again. */
+.perty-say--line { animation: perty-say-line 280ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes perty-say-line {
+  from { opacity: 0; transform: translateY(6px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes perty-pop {
+  0%   { opacity: 0; transform: scale(0.86); }
+  60%  { opacity: 1; transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+.perty-hello,
+.perty-build,
+.perty-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.perty-hello-stage { display: flex; flex-direction: column; align-items: center; }
+.perty-hello-copy { display: flex; flex-direction: column; align-items: center; width: 100%; }
+.perty-say--up { margin: 0 0 4px; transform-origin: 50% 100%; animation-delay: 300ms; font-size: 17px; font-weight: 800; }
+.perty-say--up::after {
+  bottom: -8px;
+  left: 50%;
+  margin-left: -7px;
+  border-left: 0;
+  border-right: 1.5px solid #E9DFD4;
+}
+.perty-hello-loop { height: 300px; }
+.perty-hello-title {
+  max-width: 18ch;
+  margin: 8px 0 0;
+  color: #111111;
+  font-size: clamp(28px, 4vw, 34px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+.perty-hello-title span { color: #C2340F; }
+.perty-hello-title:focus,
+.perty-done-title:focus { outline: none; }
+.perty-hello-lede {
+  max-width: 44ch;
+  margin: 10px 0 0;
+  color: #5C5853;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.perty-hello-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-width: 380px;
+  margin-top: 22px;
+}
+.perty-btn--big { min-height: 56px; border-radius: 16px; font-size: 17px; }
+.perty-build-loop { height: 280px; }
+.perty-build-bar {
+  width: 100%;
+  max-width: 420px;
+  height: 10px;
+  margin-top: 20px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #E6DDD3;
+}
+.perty-build-bar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #FF4422;
+  animation: perty-fill 3.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes perty-fill { from { width: 0; } to { width: 100%; } }
+.perty-build-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+.perty-build-lines li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #2B2825;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  animation: perty-line 380ms ease both;
+  animation-delay: calc(0.3s + var(--i) * 0.6s);
+}
+.perty-build-check {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #FF4422;
+  color: #FFFFFF;
+  animation: perty-check 320ms ease both;
+  animation-delay: calc(0.6s + var(--i) * 0.6s);
+}
+@keyframes perty-line { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+@keyframes perty-check { from { background: #E6DDD3; } to { background: #FF4422; } }
+.perty-done { position: relative; }
+.perty-confetti {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 420px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.perty-confetti i {
+  position: absolute;
+  top: 0;
+  left: calc(2% + mod(var(--i) * 53, 96) * 1%);
+  width: calc(6px + mod(var(--i), 3) * 2px);
+  height: calc(10px + mod(var(--i), 4) * 3px);
+  border-radius: 2px;
+  background: #FF4422;
+  animation: perty-fall calc(2.4s + mod(var(--i), 5) * 0.3s) cubic-bezier(0.3, 0.6, 0.4, 1) both;
+  animation-delay: calc(mod(var(--i) * 37, 9) * 0.07s);
+}
+.perty-confetti i:nth-child(6n + 2) { background: #FFB020; }
+.perty-confetti i:nth-child(6n + 3) { background: #2447E8; border-radius: 50%; }
+.perty-confetti i:nth-child(6n + 4) { background: #16A34A; }
+.perty-confetti i:nth-child(6n + 5) { background: #DB2777; }
+@keyframes perty-fall {
+  0%   { opacity: 1; transform: translate3d(0, -30px, 0) rotate(0deg); }
+  100% { opacity: 0; transform: translate3d(0, 420px, 0) rotate(640deg); }
+}
+/* The celebrating pose comes with its own cream backdrop, so it sits in a card. */
+.perty-done-img {
+  height: 227px;
+  border-radius: 24px;
+  animation: perty-bounce 1.8s ease-in-out infinite;
+}
+@keyframes perty-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.perty-done-title {
+  margin: 14px 0 0;
+  color: #111111;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.perty-done-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 520px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+.perty-done-preview li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 11px 14px;
+  border: 1.5px solid #E9DFD4;
+  border-radius: 16px;
+  background: #FFFFFF;
+  animation: pyet-fade 440ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(0.5s + var(--i) * 0.15s);
+}
+.perty-done-preview strong { color: #111111; font-size: 14.5px; font-weight: 800; line-height: 1.3; }
+.perty-done-preview small { color: #6B6660; font-size: 12px; font-weight: 600; }
+.perty-empty-loop { height: 170px; margin: 0 auto 8px; }
+
+/* ── Për ty on a desktop: one screen per step ───────────────────────────────
+   Dardani, the question and the actions hold a left column; the choices fill
+   the right and scroll inside it if a list runs long, so nothing a reader has
+   to press is ever below the fold. Phones keep the single column. */
+.perty-shell--wide { max-width: 1180px; }
+.perty-group h2 { display: flex; align-items: center; gap: 10px; }
+.perty-group-tag {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #FFEDE6;
+  color: #B42A10;
+  font-size: 11.5px;
+  font-weight: 800;
+}
+.perty-other-row { display: flex; gap: 8px; margin-top: 10px; }
+.perty-other-row input {
+  flex: 1;
+  min-width: 0;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1.5px solid #E8E3DB;
+  border-radius: 14px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 15px;
+  color: #111111;
+}
+.perty-other-row input:focus { outline: none; border-color: #FF4422; box-shadow: 0 0 0 3px rgba(255, 68, 34, 0.18); }
+.perty-other-row input[aria-invalid] { border-color: #C2340F; }
+.perty-hint--error { color: #B42A10; font-weight: 700; }
+
+@media (min-width: 1024px) {
+  .perty-onboard--steps {
+    display: grid;
+    grid-template-columns: minmax(300px, 340px) minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto minmax(0, 1fr);
+    column-gap: 44px;
+    height: clamp(560px, calc(100dvh - var(--nav-h, 72px) - 96px), 760px);
+    padding: 32px 36px;
+  }
+  .perty-onboard--steps > .perty-onboard-top { grid-column: 1; grid-row: 1; margin-bottom: 18px; }
+  .perty-onboard--steps > .perty-dardani { grid-column: 1; grid-row: 2; }
+  .perty-onboard--steps > .perty-onboard-title { grid-column: 1; grid-row: 3; font-size: clamp(28px, 2.6vw, 36px); }
+  .perty-onboard--steps > .perty-onboard-lede { grid-column: 1; grid-row: 4; margin-bottom: 0; }
+  .perty-onboard--steps > .perty-onboard-foot {
+    grid-column: 1;
+    grid-row: 5;
+    align-self: end;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .perty-onboard--steps .perty-foot-actions { justify-content: flex-end; }
+  .perty-onboard--steps > .perty-onboard-choices {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 4px 6px 4px 2px;
+    scrollbar-width: thin;
+    scrollbar-color: #D8CFC3 transparent;
+  }
+  .perty-onboard--steps .perty-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .perty-onboard--steps .perty-people {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 28px;
+    align-content: start;
+  }
+  .perty-onboard--steps .perty-people > :is(.perty-search, .perty-suggest, .perty-hint, .perty-other) { grid-column: 1 / -1; }
+  .perty-onboard--steps .perty-group { margin-top: 18px; }
+  .perty-onboard--steps .perty-dardani-loop { height: 130px; }
+
+  .perty-hello,
+  .perty-build,
+  .perty-done {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+    column-gap: 56px;
+    min-height: clamp(520px, calc(100dvh - var(--nav-h, 72px) - 96px), 700px);
+    padding: 40px 56px;
+    text-align: left;
+  }
+  .perty-hello-copy { display: flex; flex-direction: column; align-items: flex-start; }
+  .perty-hello-actions { max-width: 360px; }
+  .perty-hello-loop { height: 380px; }
+  .perty-build-loop { height: 340px; justify-self: center; }
+  .perty-done-img { height: 320px; justify-self: center; }
+  .perty-build-bar,
+  .perty-build-lines,
+  .perty-done-preview { max-width: none; }
+}
+
+/* ── Për ty: the reader's own paper ─────────────────────────────────────── */
+.perty-mast {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 28px;
+  padding-bottom: 26px;
+  border-bottom: 3px double #1A1A1A;
+}
+.perty-mast-title {
+  margin: 0;
+  color: #111111;
+  font-family: var(--font-garamond), Georgia, serif;
+  font-size: clamp(44px, 6.4vw, 84px);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.perty-mast-line {
+  margin: 16px 0 0;
+  color: #3F3833;
+  font-size: 16.5px;
+  line-height: 1.5;
+}
+.perty-mast-line b { color: #C2340F; font-weight: 800; font-variant-numeric: tabular-nums; }
+.perty-mast-date { font-weight: 700; color: #111111; }
+.perty-mast .perty-summary { margin: 6px 0 18px; }
+.perty-mast-dardani { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.perty-mast-loop { height: 210px; }
+.perty-streak {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 8px 14px 8px 8px;
+  border: 1.5px solid #F1E6DE;
+  border-radius: 16px;
+  background: #FFFFFF;
+  box-shadow: 0 6px 18px rgba(120, 60, 20, 0.07);
+}
+.perty-streak-img { height: 46px; }
+.perty-streak span { display: flex; flex-direction: column; }
+.perty-streak b { color: #C2340F; font-size: 15px; font-weight: 800; }
+.perty-streak small { color: #5C5853; font-size: 12px; }
+
+.perty-front {
+  display: grid;
+  grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
+  gap: 36px;
+  margin-top: 32px;
+}
+.perty-lead-link { display: flex; flex-direction: column; gap: 16px; color: inherit; text-decoration: none; }
+.perty-lead-img {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #EFE8E0;
+  box-shadow: 0 18px 40px rgba(64, 40, 20, 0.1);
+}
+.perty-lead-img img { transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1); }
+.perty-lead-body { display: flex; flex-direction: column; gap: 10px; }
+.perty-lead-title {
+  color: #111111;
+  font-size: clamp(26px, 2.9vw, 40px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.perty-lead-excerpt {
+  max-width: 62ch;
+  color: #3F3833;
+  font-size: 17px;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.perty-top { align-self: start; padding: 22px 22px 8px; border-radius: 22px; background: #FFFFFF; border: 1px solid #EDE5DC; }
+.perty-top h2,
+.perty-section-title {
+  margin: 0;
+  color: #111111;
+  font-family: var(--font-garamond), Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.perty-top h2 { font-size: 27px; }
+.perty-top ol { margin: 10px 0 0; padding: 0; list-style: none; }
+.perty-top li + li { border-top: 1px solid #EFE8E0; }
+.perty-top a { display: flex; flex-direction: column; gap: 5px; padding: 14px 0; color: inherit; text-decoration: none; }
+.perty-top strong { color: #111111; font-size: 16px; font-weight: 750; line-height: 1.3; }
+.perty-top span { color: #5E5048; font-size: 13px; }
+
+.perty-dnote {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 36px 0 8px;
+  padding: 12px 14px 12px 12px;
+  border: 1px solid #F4DDD2;
+  border-radius: 20px;
+  background: #FFF6F1;
+}
+.perty-dnote p { flex: 1; margin: 0; color: #2B2825; font-size: 15.5px; font-weight: 600; line-height: 1.4; }
+
+.perty-section { margin-top: 40px; }
+.perty-section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding-top: 18px;
+  border-top: 1px solid #E3DBD1;
+  font-size: clamp(26px, 2.6vw, 34px);
+}
+.perty-person-mark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #111111;
+  color: #F9F6F1;
+  font-family: var(--font-manrope), sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+.perty-row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(240px, calc((100% - 48px) / 4));
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: #D8CFC3 transparent;
+}
+.perty-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+  scroll-snap-align: start;
+}
+.perty-card-img {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #EFE8E0;
+}
+.perty-card-img img { transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1); }
+.perty-card-title {
+  color: #111111;
+  font-size: 16.5px;
+  font-weight: 750;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+@media (min-width: 900px) {
+  .perty-section .perty-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (hover: hover) and (pointer: fine) {
+  .perty-lead-link:hover .perty-lead-img img,
+  .perty-card:hover .perty-card-img img { transform: scale(1.03); }
+  .perty-lead-link:hover .perty-lead-title,
+  .perty-card:hover .perty-card-title,
+  .perty-top a:hover strong { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+}
+.perty-paper ::selection { background: #FFD2C5; color: #111111; }
+@media (max-width: 860px) {
+  .perty-mast { grid-template-columns: 1fr; }
+  .perty-mast-dardani { flex-direction: row; order: -1; justify-content: space-between; }
+  .perty-mast-loop { height: 120px; }
+  .perty-front { grid-template-columns: 1fr; }
+  .perty-dnote { flex-wrap: wrap; }
+  .perty-dnote p { flex-basis: calc(100% - 70px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .perty-lead-img img,
+  .perty-card-img img { transition: none; }
+}
+
+/* ── Pyet Dardanin: suggestions chosen for this reader ─────────────────── */
+.pyet-chips button[data-personal] { border-color: #F6CFC2; border-radius: 14px; text-align: left; }
+.pyet-chip-reason,
+.pyet-q-reason {
+  display: block;
+  margin-bottom: 2px;
+  color: #B42A10;
+  font-size: 11px;
+  font-weight: 800;
+}
+.pyet-recent { margin-top: 14px; }
+.pyet-recent h4 {
+  margin: 0 0 8px;
+  color: #8A837B;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+/* ── Dardani elsewhere ──────────────────────────────────────────────────── */
+/* Pinned to the header's corner, out of flow, so the narrow sidebar cards keep
+   their title on its own lines. */
+.home-market-card-head:has(.home-market-dardani) { position: relative; padding-right: 52px; }
+.home-market-dardani {
+  position: absolute;
+  top: -12px;
+  right: -8px;
+  height: 58px;
+  pointer-events: none;
+}
+.toni-hero-dardani,
+.visit-dardani {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.toni-hero-dardani img { height: 96px; }
+.visit-dardani img { height: 104px; }
+.toni-hero-dardani span,
+.visit-dardani span {
+  padding: 8px 13px;
+  border: 1.5px solid #F1E6DE;
+  border-radius: 16px 16px 16px 4px;
+  background: #FFFFFF;
+  color: #C2340F;
+  font-size: 13px;
+  font-weight: 800;
+}
+.profile-empty-dardani { height: 120px; margin-bottom: 4px; }
+.portfolio-dardani { display: block; height: 110px; margin: 0 0 10px auto; }
+.portfolio-empty-dardani { display: block; height: 96px; margin: 0 auto 8px; }
+.tutorial-dardani { display: flex; height: 104px; margin-bottom: 10px; }
+.tutorial-dardani > * { height: 100%; }
+/* Dardani explains every step of the Tregu spotlight tours. */
+.tour-tip-say { display: flex; align-items: flex-start; gap: 12px; }
+.tour-tip-say > div { min-width: 0; }
+.tour-dardani { flex-shrink: 0; width: auto; height: 76px; }
+.tour-dardani.dardani-loop { width: 101px; }
+.lg-push-ask { display: inline-flex; align-items: center; gap: 8px; }
+.lg-push-dardani { height: 60px; }
+.auth-dardani { height: 76px; margin: -24px -6px -6px auto; }
+@media (max-width: 680px) {
+  .portfolio-dardani { margin-left: 0; height: 90px; }
+  .pyet-searching-loop { width: 110px; height: 90px; }
+  .perty-hello-loop { height: 240px; }
+  .perty-build-loop { height: 220px; }
+  .perty-dardani-loop { height: 120px; }
+  .pyet-hello-img { height: 130px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dardani-face-img,
+  .dardani-peek,
+  .pyet-bubble-card,
+  .pyet-bubble-dot,
+  .pyet-bubble-ping::before,
+  .pyet-searching,
+  .pyet-skeleton i,
+  .pyet-caret,
+  .pyet-hello,
+  .perty-say,
+  .perty-onboard,
+  .perty-build-bar i,
+  .perty-build-lines li,
+  .perty-build-check,
+  .perty-done-img,
+  .perty-done-preview li { animation: none; }
+  .perty-confetti { display: none; }
+}

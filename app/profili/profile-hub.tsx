@@ -3,10 +3,11 @@
 import { type MouseEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Bookmark, BookOpen, Check, ChevronRight, Coins, LogOut, Pencil, ShieldCheck, Trash2, UserRound } from "lucide-react";
+import { ArrowRight, Bookmark, Check, ChevronRight, Coins, LogOut, Pencil, ShieldCheck, Trash2, UserRound } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { normalizeBookmarkIds } from "@/lib/profile-hub.mjs";
 import styles from "./profile.module.css";
+import DardaniImage from "@/components/dardani/dardani-image";
 
 type SavedArticle = {
   articleId: string; slug: string; title: string; excerpt: string; category: string;
@@ -222,7 +223,7 @@ export default function ProfileHub({ identity, savedArticles: initialSaved, treg
     <div className={styles.workspace}>
     <section id="te-ruajtura" className={`${styles.section} ${styles.savedSection}`}>
       <div className={styles.sectionHeading}><div><h2>Leximi yt i ruajtur</h2><p>Artikujt që ruan mbeten këtu derisa t&apos;i heqësh vetë.</p></div><span className={styles.count}>{savedArticles.length} artikuj</span></div>
-      {dataUnavailable.savedArticles ? <div className={styles.dataError} role="status"><strong>Të ruajturat nuk mund të ngarkoheshin.</strong><span>Asgjë nuk është humbur. Rifresko faqen për të provuar përsëri.</span></div> : !savedArticles.length ? <div className={styles.emptyState}><div className={styles.emptyCopy}><span className={styles.emptyIcon}><BookOpen size={24} aria-hidden /></span><strong>Ndërto raftin tënd të lajmeve.</strong><p>Kur një artikull ia vlen t&apos;i rikthehesh, shtyp “Ruaj artikullin”. Ai do të presë këtu, në çdo pajisje ku hyn.</p><Link href="/">Gjej artikullin e parë <ArrowRight size={15} aria-hidden /></Link></div><div className={styles.emptyPreview} aria-hidden><span className={styles.previewMasthead}>383.</span><span className={styles.previewImage} /><span className={styles.previewLine} /><span className={styles.previewLine} /><span className={styles.previewBookmark}><Bookmark size={19} fill="currentColor" /></span><small>Ruaje. Lexoje kur të duash.</small></div></div> :
+      {dataUnavailable.savedArticles ? <div className={styles.dataError} role="status"><strong>Të ruajturat nuk mund të ngarkoheshin.</strong><span>Asgjë nuk është humbur. Rifresko faqen për të provuar përsëri.</span></div> : !savedArticles.length ? <div className={styles.emptyState}><div className={styles.emptyCopy}><DardaniImage name="empty" decorative className="profile-empty-dardani" /><strong>Ndërto raftin tënd të lajmeve.</strong><p>Kur një artikull ia vlen t&apos;i rikthehesh, shtyp “Ruaj artikullin”. Ai do të presë këtu, në çdo pajisje ku hyn.</p><Link href="/">Gjej artikullin e parë <ArrowRight size={15} aria-hidden /></Link></div><div className={styles.emptyPreview} aria-hidden><span className={styles.previewMasthead}>383.</span><span className={styles.previewImage} /><span className={styles.previewLine} /><span className={styles.previewLine} /><span className={styles.previewBookmark}><Bookmark size={19} fill="currentColor" /></span><small>Ruaje. Lexoje kur të duash.</small></div></div> :
         <div className={styles.savedLayout}>{savedArticles.map((article, index) => <article key={article.articleId} className={index === 0 ? styles.savedLead : styles.savedRow}>{article.imageUrl ? <img src={article.imageUrl} alt="" loading="lazy" referrerPolicy="no-referrer" /> : <div className={styles.imageFallback}>383</div>}<div className={styles.savedCopy}><span>{article.category || article.source}</span><h3><Link href={`/article/${article.slug}`}>{article.title}</Link></h3>{index === 0 && article.excerpt && <p>{article.excerpt}</p>}<div className={styles.savedActions}><Link href={`/article/${article.slug}`}>Lexo artikullin <ChevronRight size={14} aria-hidden /></Link><button type="button" onClick={() => void removeSaved(article.articleId)} disabled={removeBusy === article.articleId}>{removeBusy === article.articleId ? "Po hiqet..." : "Hiqe"}</button></div></div></article>)}</div>}
       {savedMessage && <p className={styles.inlineError} role="status">{savedMessage}</p>}
     </section>

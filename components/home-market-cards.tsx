@@ -25,6 +25,8 @@ import type {
 } from "@/lib/home-market-data";
 import { dateKeyInKosovo } from "@/lib/reagimi-data";
 import { type CityWeather, weatherKind } from "@/lib/weather";
+import DardaniImage from "@/components/dardani/dardani-image";
+import type { DardaniStillName } from "@/lib/dardani-assets";
 
 type CurrencyCode = "ALL" | "EUR";
 
@@ -141,6 +143,7 @@ export function MarketCardFrame({
   children,
   footer,
   className = "",
+  dardani,
 }: {
   eyebrow: string;
   title: string;
@@ -148,6 +151,8 @@ export function MarketCardFrame({
   children: React.ReactNode;
   footer: React.ReactNode;
   className?: string;
+  /** Dardani peeking from the header's corner. */
+  dardani?: DardaniStillName;
 }) {
   return (
     <aside className={`home-market-card ${className}`}>
@@ -155,6 +160,8 @@ export function MarketCardFrame({
       <span className="home-market-orb home-market-orb-small" aria-hidden="true" />
       <div className="home-market-card-inner">
         <header className="home-market-card-head">
+          {/* First, not last: the title column is styled as the header's last span. */}
+          {dardani && <DardaniImage name={dardani} decorative className="home-market-dardani" />}
           <span className="home-market-icon" aria-hidden="true">
             {icon}
           </span>
@@ -195,6 +202,7 @@ export function CurrencyExchangeCard({
       title="Lek ↔ Euro"
       icon={<Banknote size={20} strokeWidth={1.9} />}
       className="home-market-card-currency"
+      dardani="exchange"
       footer={
         <>
           <span>
@@ -389,6 +397,7 @@ export function FuelPricesCard({ snapshot }: { snapshot: FuelSnapshot }) {
       title="Çmimi për litër"
       icon={<Fuel size={20} strokeWidth={1.9} />}
       className="home-market-card-fuel"
+      dardani="fuel"
       footer={
         <>
           {/* The date the reader needs is when 383 last looked, not when a brand
@@ -508,6 +517,7 @@ export function WeatherCard({ cities: initialCities }: { cities: CityWeather[] }
       title="Tri qytete"
       icon={<CloudSun size={20} strokeWidth={1.9} />}
       className="home-market-card-weather"
+      dardani="weather"
       footer={
         <>
           <span>

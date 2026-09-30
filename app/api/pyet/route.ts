@@ -41,6 +41,12 @@ export const maxDuration = 30;
  * Albanian either way; what it cannot do is cite an article it was never given.
  */
 
+/**
+ * Earlier exchanges that travel with a question. Six is enough to keep a long
+ * conversation's thread; each is trimmed below, so the prompt stays bounded.
+ */
+const MAX_HISTORY = 6;
+
 /** Answering costs a model call, so this is not free to abuse. */
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 12;
@@ -96,11 +102,25 @@ function refuse(reason: string, thin = false) {
   );
 }
 
-/** Openers for the overlay, where there is no article to anchor to. */
+/**
+ * Openers for the overlay, where there is no article to anchor to.
+ *
+ * `pool` is the recent public archive in slim form (no bodies), the same list
+ * for every reader. The browser ranks it against the reader's own interests and
+ * question history to offer personal openers (lib/dardani-memory.mjs), so
+ * nothing about the reader is ever sent here.
+ */
 export async function GET() {
   const { articles } = await getSearchData();
+  const pool = articles.slice(0, 80).map((a) => ({
+    slug: a.slug,
+    title: a.title,
+    excerpt: (a.body ?? "").slice(0, 300),
+    category: a.category ?? "",
+    publishedAt: a.publishedAt ?? "",
+  }));
   return NextResponse.json(
-    { starters: starterQuestions(articles, 3) },
+    { starters: starterQuestions(articles, 3), pool },
     { headers: { "Cache-Control": "no-store" } },
   );
 }
@@ -136,7 +156,7 @@ export async function POST(request: NextRequest) {
    * how much a caller can put in front of the article text.
    */
   const history = (Array.isArray(body?.history) ? body.history : [])
-    .slice(-3)
+    .slice(-MAX_HISTORY)
     .map((t: unknown) => {
       const turn = t as { question?: unknown; answer?: unknown };
       return {

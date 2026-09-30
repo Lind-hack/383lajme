@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="sq">
+<head>
+  <meta charset="utf-8">
+  <title>Për ty · onboarding me Dardanin</title>
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #F7F2EC; font-family: 'Manrope', sans-serif; color: #111111; }
+    a { color: #C2340F; } a:hover { color: #8F2409; }
+    .ob-press { transition: transform 120ms ease, box-shadow 120ms ease; }
+    .ob-press:active:not([disabled]) { transform: translateY(3px); box-shadow: 0 1px 0 rgba(17,17,17,0.12) !important; }
+    .ob-press[disabled] { cursor: not-allowed; }
+    .ob-press:focus-visible, .ob-plain:focus-visible, .ob-input:focus-visible { outline: 3px solid #1B5CFF; outline-offset: 2px; }
+    .ob-seg { transition: width 420ms cubic-bezier(.2,.8,.2,1); }
+    .ob-feather { -webkit-mask-image: radial-gradient(ellipse 58% 56% at 50% 48%, #000 70%, transparent 100%); mask-image: radial-gradient(ellipse 58% 56% at 50% 48%, #000 70%, transparent 100%); }
+    @keyframes obRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    .ob-rise { animation: obRise 440ms cubic-bezier(.2,.8,.2,1) both; }
+    @keyframes obPop { 0% { opacity: 0; transform: scale(.86); } 60% { opacity: 1; transform: scale(1.04); } 100% { transform: scale(1); } }
+    .ob-pop { animation: obPop 420ms cubic-bezier(.2,.8,.2,1) both; }
+    @keyframes obFill { from { width: 0%; } to { width: 100%; } }
+    .ob-fill { animation: obFill 4s cubic-bezier(.4,0,.2,1) both; }
+    @keyframes obLine { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+    .ob-line { animation: obLine 380ms ease both; }
+    @keyframes obCheck { from { background: #E6DDD3; } to { background: #FF4422; } }
+    .ob-check { animation: obCheck 320ms ease both; }
+    @keyframes obBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .ob-bounce { animation: obBounce 1.8s ease-in-out infinite; }
+    @keyframes obFall { 0% { transform: translate3d(0,-30px,0) rotate(0deg); opacity: 1; } 100% { transform: translate3d(0,420px,0) rotate(640deg); opacity: 0; } }
+    .ob-confetti { position: absolute; top: 0; animation: obFall 3s cubic-bezier(.3,.6,.4,1) both; }
+    @media (prefers-reduced-motion: reduce) {
+      .ob-rise, .ob-pop, .ob-fill, .ob-line, .ob-check, .ob-bounce { animation: none !important; }
+      .ob-confetti { display: none; }
+      .ob-seg, .ob-press { transition: none; }
+    }
+  </style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #F7F2EC; display: flex; flex-direction: column; position: relative; overflow: hidden; font-family: 'Manrope', sans-serif; color: #111111;">
+
+  <sc-if value="{{ showTop }}" hint-placeholder-val="{{ false }}">
+    <div style="height: 60px; flex-shrink: 0; box-sizing: border-box; padding: 8px 8px 0 6px; display: flex; align-items: center; gap: 6px;">
+      <button type="button" class="ob-plain" aria-label="Kthehu mbrapa" onClick="{{ onBack }}" style="width: 44px; height: 44px; border: none; background: transparent; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #5C5853; padding: 0;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+      </button>
+      <div role="progressbar" aria-label="Përparimi" aria-valuemin="0" aria-valuemax="5" aria-valuenow="{{ step }}" style="flex-grow: 1; display: flex; gap: 6px;">
+        <sc-for list="{{ segs }}" as="seg" hint-placeholder-count="5">
+          <div style="flex-grow: 1; height: 10px; border-radius: 999px; background: #E6DDD3; overflow: hidden;">
+            <div class="ob-seg" style="height: 10px; border-radius: 999px; background: #FF4422; width: {{ seg.w }};"></div>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ showSkip }}" hint-placeholder-val="{{ true }}">
+        <button type="button" class="ob-plain" onClick="{{ onSkip }}" style="min-width: 60px; height: 44px; border: none; background: transparent; border-radius: 12px; cursor: pointer; font-family: inherit; font-size: 15px; font-weight: 800; color: #5C5853; padding: 0 8px;">Kalo</button>
+      </sc-if>
+      <sc-if value="{{ noSkip }}" hint-placeholder-val="{{ false }}">
+        <div style="width: 60px; flex-shrink: 0;"></div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isChat }}" hint-placeholder-val="{{ false }}">
+    <div style="flex-shrink: 0; padding: 2px 20px 0 10px; display: flex; align-items: flex-end; gap: 6px;">
+      <div style="width: 116px; height: 155px; flex-shrink: 0;">
+        <img src="{{ mascot }}" alt="{{ mascotAlt }}" class="ob-feather" style="width: 116px; height: 155px; object-fit: cover; display: block;">
+      </div>
+      <div class="ob-pop" style="flex-grow: 1; position: relative; margin-bottom: 52px; background: #FFFFFF; border: 1.5px solid #E9DFD4; border-radius: 18px; padding: 12px 14px; box-shadow: 0 3px 0 #E9DFD4; transform-origin: 0% 100%;">
+        <div aria-live="polite" style="font-size: 15px; font-weight: 700; line-height: 1.42; color: #111111;">{{ say }}</div>
+        <div style="position: absolute; left: -8px; bottom: 18px; width: 14px; height: 14px; background: #FFFFFF; border-left: 1.5px solid #E9DFD4; border-bottom: 1.5px solid #E9DFD4; transform: rotate(45deg);"></div>
+      </div>
+    </div>
+  </sc-if>
+
+  <div style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column;">
+
+    <sc-if value="{{ is0 }}" hint-placeholder-val="{{ true }}">
+      <div class="ob-rise" style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column; padding: 22px 24px 30px 24px; box-sizing: border-box;">
+        <div style="display: flex; justify-content: center; font-size: 24px; font-weight: 800; letter-spacing: -0.03em;">383<span style="color: #FF4422;">.</span></div>
+        <div style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;">
+          <div class="ob-pop" style="position: relative; background: #FFFFFF; border: 1.5px solid #E9DFD4; box-shadow: 0 3px 0 #E9DFD4; border-radius: 18px; padding: 10px 18px; font-size: 17px; font-weight: 800; transform-origin: 50% 100%; animation-delay: 300ms;">
+            Tung! Unë jam Dardani.
+            <div style="position: absolute; left: 50%; bottom: -8px; margin-left: -7px; width: 14px; height: 14px; background: #FFFFFF; border-right: 1.5px solid #E9DFD4; border-bottom: 1.5px solid #E9DFD4; transform: rotate(45deg);"></div>
+          </div>
+          <img src="/_blob/2929a34bb74bdfafa5ceb31b05d924b4" alt="Dardani, maskota e 383, përshëndet me krah" class="ob-feather" style="width: 246px; height: 328px; object-fit: cover; display: block;">
+        </div>
+        <h1 style="margin: 0; font-size: 32px; line-height: 1.08; font-weight: 800; letter-spacing: -0.03em; text-align: center;">Vetëm lajmet që të interesojnë <span style="color: #C2340F;">ty</span>.</h1>
+        <p style="margin: 10px 0 0 0; text-align: center; font-size: 15px; line-height: 1.5; color: #5C5853;">Përgjigju 5 pyetjeve të shpejta dhe unë ta ndërtoj faqen tënde «Për ty». Zgjat më pak se një minutë.</p>
+        <div style="margin-top: 22px; display: flex; flex-direction: column; gap: 6px;">
+          <button type="button" class="ob-press" onClick="{{ onStart }}" style="height: 56px; border: none; border-radius: 16px; background: #D9361A; color: #FFFFFF; box-shadow: 0 4px 0 #A8290F; font-family: inherit; font-size: 17px; font-weight: 800; cursor: pointer;">Fillojmë</button>
+          <button type="button" class="ob-plain" onClick="{{ onLater }}" style="height: 48px; border: none; background: transparent; border-radius: 12px; font-family: inherit; font-size: 15px; font-weight: 800; color: #5C5853; cursor: pointer;">Më vonë</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is1 }}" hint-placeholder-val="{{ false }}">
+      <div class="ob-rise" style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column;">
+        <div style="padding: 6px 20px 0 20px;">
+          <h1 style="margin: 0; font-size: 28px; line-height: 1.12; font-weight: 800; letter-spacing: -0.025em;">Sa kohë ke në ditë për lajme?</h1>
+          <p style="margin: 6px 0 0 0; font-size: 15px; line-height: 1.45; color: #5C5853;">E përshtas sasinë e lajmeve me kohën tënde.</p>
+        </div>
+        <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 16px 20px 12px 20px; display: flex; flex-direction: column; gap: 10px;">
+          <sc-for list="{{ minutes }}" as="o" hint-placeholder-count="4">
+            <button type="button" class="ob-press" onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="width: 100%; min-height: 70px; flex-shrink: 0; display: flex; align-items: center; gap: 14px; padding: 10px 16px 10px 10px; box-sizing: border-box; border-radius: 18px; border: 2px solid {{ o.bc }}; border-bottom-width: 4px; background: {{ o.bg }}; text-align: left; cursor: pointer; font-family: inherit; color: #111111;">
+              <div style="width: 50px; height: 50px; border-radius: 14px; background: #FFEDE6; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0;">
+                <div style="font-size: 20px; font-weight: 800; line-height: 1; color: #C2340F;">{{ o.num }}</div>
+                <div style="font-size: 11px; font-weight: 800; color: #C2340F; margin-top: 2px;">min</div>
+              </div>
+              <div style="flex-grow: 1;">
+                <div style="font-size: 17px; font-weight: 800;">{{ o.title }}</div>
+                <div style="font-size: 13px; font-weight: 500; color: #5C5853; margin-top: 2px;">{{ o.sub }}</div>
+              </div>
+              <div style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid {{ o.ring }}; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-sizing: border-box;">
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: {{ o.dot }};"></div>
+              </div>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is2 }}" hint-placeholder-val="{{ false }}">
+      <div class="ob-rise" style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column;">
+        <div style="padding: 6px 20px 0 20px;">
+          <h1 style="margin: 0; font-size: 28px; line-height: 1.12; font-weight: 800; letter-spacing: -0.025em;">Çfarë të intereson?</h1>
+          <p style="margin: 6px 0 0 0; font-size: 15px; line-height: 1.45; color: #5C5853;">Zgjidh të paktën një. Sa më shumë, aq më mirë të njoh.</p>
+        </div>
+        <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 16px 20px 12px 20px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-content: start;">
+          <sc-for list="{{ topics }}" as="t" hint-placeholder-count="7">
+            <button type="button" class="ob-press" onClick="{{ t.pick }}" aria-pressed="{{ t.on }}" style="position: relative; min-height: 88px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 12px 14px; box-sizing: border-box; border-radius: 18px; border: 2px solid {{ t.bc }}; border-bottom-width: 4px; background: {{ t.bg }}; text-align: left; cursor: pointer; font-family: inherit; color: #111111;">
+              <div style="width: 30px; height: 30px; border-radius: 10px; background: {{ t.tint }}; display: flex; align-items: center; justify-content: center;">
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: {{ t.dot }};"></div>
+              </div>
+              <div>
+                <div style="font-size: 16px; font-weight: 800;">{{ t.name }}</div>
+                <div style="font-size: 12px; font-weight: 600; color: #6B6660; margin-top: 1px;">{{ t.count }}</div>
+              </div>
+              <sc-if value="{{ t.on }}" hint-placeholder-val="{{ false }}">
+                <div class="ob-pop" style="position: absolute; top: 10px; right: 10px; width: 24px; height: 24px; border-radius: 50%; background: #D9361A; display: flex; align-items: center; justify-content: center; color: #FFFFFF;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+                </div>
+              </sc-if>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is3 }}" hint-placeholder-val="{{ false }}">
+      <div class="ob-rise" style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column;">
+        <div style="padding: 6px 20px 0 20px;">
+          <h1 style="margin: 0; font-size: 28px; line-height: 1.12; font-weight: 800; letter-spacing: -0.025em;">Kë ndjek?</h1>
+          <p style="margin: 6px 0 0 0; font-size: 15px; line-height: 1.45; color: #5C5853;">Kur përmenden në lajme, dalin të parët te ti.</p>
+          <div style="margin-top: 12px; height: 46px; display: flex; align-items: center; gap: 8px; padding: 0 14px; border-radius: 14px; background: #FFFFFF; border: 1.5px solid #E6DDD3; color: #6B6660;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+            <label for="ob-q" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Kërko një emër</label>
+            <input id="ob-q" class="ob-input" type="search" value="{{ query }}" onChange="{{ onQuery }}" placeholder="Kërko një emër…" style="flex-grow: 1; border: none; outline: none; background: transparent; font-family: inherit; font-size: 15px; font-weight: 600; color: #111111; height: 40px;">
+          </div>
+        </div>
+        <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 20px 12px 20px; display: flex; flex-direction: column; gap: 16px;">
+          <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+            <sc-if value="{{ g.has }}" hint-placeholder-val="{{ true }}">
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <div style="font-size: 13px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #5C5853;">{{ g.label }}</div>
+                  <sc-if value="{{ g.sug }}" hint-placeholder-val="{{ false }}">
+                    <div style="font-size: 11px; font-weight: 800; color: #C2340F; background: #FFEDE6; border-radius: 999px; padding: 3px 8px;">Sugjeruar për ty</div>
+                  </sc-if>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  <sc-for list="{{ g.people }}" as="p" hint-placeholder-count="5">
+                    <button type="button" class="ob-press" onClick="{{ p.pick }}" aria-pressed="{{ p.on }}" style="height: 44px; display: flex; align-items: center; gap: 8px; padding: 0 14px 0 5px; box-sizing: border-box; border-radius: 999px; border: 2px solid {{ p.bc }}; border-bottom-width: 3px; background: {{ p.bg }}; cursor: pointer; font-family: inherit; color: #111111;">
+                      <div style="width: 30px; height: 30px; border-radius: 50%; background: {{ p.avBg }}; color: {{ p.avFg }}; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center;">{{ p.ini }}</div>
+                      <div style="font-size: 14px; font-weight: 700;">{{ p.name }}</div>
+                    </button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+          </sc-for>
+          <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 20px 4px; font-size: 15px; font-weight: 600; color: #5C5853;">S’e gjeta këtë emër. Provo një tjetër, ose shtoje më vonë nga profili.</div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is4 }}" hint-placeholder-val="{{ false }}">
+      <div class="ob-rise" style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column;">
+        <div style="padding: 6px 20px 0 20px;">
+          <h1 style="margin: 0; font-size: 28px; line-height: 1.12; font-weight: 800; letter-spacing: -0.025em;">Nga je?</h1>
+          <p style="margin: 6px 0 0 0; font-size: 15px; line-height: 1.45; color: #5C5853;">Lajmet nga qyteti yt ngrihen lart. Zgjidh një ose më shumë.</p>
+        </div>
+        <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 16px 20px 12px 20px; display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start;">
+          <sc-for list="{{ cities }}" as="c" hint-placeholder-count="12">
+            <button type="button" class="ob-press" onClick="{{ c.pick }}" aria-pressed="{{ c.on }}" style="height: 44px; display: flex; align-items: center; gap: 6px; padding: 0 16px; box-sizing: border-box; border-radius: 999px; border: 2px solid {{ c.bc }}; border-bottom-width: 3px; background: {{ c.bg }}; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 700; color: #111111;">
+              <sc-if value="{{ c.on }}" hint-placeholder-val="{{ false }}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C2340F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+              </sc-if>
+              {{ c.name }}
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is5 }}" hint-placeholder-val="{{ false }}">
+      <div class="ob-rise" style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column;">
+        <div style="padding: 6px 20px 0 20px;">
+          <h1 style="margin: 0; font-size: 28px; line-height: 1.12; font-weight: 800; letter-spacing: -0.025em;">Kur të të njoftoj?</h1>
+          <p style="margin: 6px 0 0 0; font-size: 15px; line-height: 1.45; color: #5C5853;">Një përmbledhje e shkurtër, vetëm me lajmet e tua.</p>
+        </div>
+        <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 16px 20px 12px 20px; display: flex; flex-direction: column; gap: 10px;">
+          <sc-for list="{{ notifs }}" as="o" hint-placeholder-count="5">
+            <button type="button" class="ob-press" onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="width: 100%; min-height: 62px; flex-shrink: 0; display: flex; align-items: center; gap: 14px; padding: 10px 16px; box-sizing: border-box; border-radius: 18px; border: 2px solid {{ o.bc }}; border-bottom-width: 4px; background: {{ o.bg }}; text-align: left; cursor: pointer; font-family: inherit; color: #111111;">
+              <div style="flex-grow: 1;">
+                <div style="font-size: 16px; font-weight: 800;">{{ o.title }}</div>
+                <div style="font-size: 13px; font-weight: 500; color: #5C5853; margin-top: 2px;">{{ o.sub }}</div>
+              </div>
+              <div style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid {{ o.ring }}; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-sizing: border-box;">
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: {{ o.dot }};"></div>
+              </div>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is6 }}" hint-placeholder-val="{{ false }}">
+      <div class="ob-rise" style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; padding: 48px 28px 36px 28px; box-sizing: border-box;">
+        <img src="/_blob/f1256af5ebd3a993b9343558f672002d" alt="Dardani lexon një libër dhe analizon lajmet" class="ob-feather" style="width: 228px; height: 304px; object-fit: cover; display: block;">
+        <h1 style="margin: 8px 0 0 0; font-size: 28px; line-height: 1.12; font-weight: 800; letter-spacing: -0.025em; text-align: center;">Po e ndërtoj faqen tënde…</h1>
+        <p style="margin: 6px 0 0 0; font-size: 15px; line-height: 1.45; color: #5C5853; text-align: center;">Dardani po lexon lajmet e sotme për ty.</p>
+        <div style="width: 100%; margin-top: 20px; height: 10px; border-radius: 999px; background: #E6DDD3; overflow: hidden;" role="progressbar" aria-label="Po ndërtohet faqja">
+          <div class="ob-fill" style="height: 10px; width: 100%; border-radius: 999px; background: #FF4422;"></div>
+        </div>
+        <div style="width: 100%; margin-top: 22px; display: flex; flex-direction: column; gap: 12px;">
+          <sc-for list="{{ lines }}" as="l" hint-placeholder-count="4">
+            <div class="ob-line" style="display: flex; align-items: center; gap: 12px; animation-delay: {{ l.delay }};">
+              <div class="ob-check" style="width: 22px; height: 22px; border-radius: 50%; background: #FF4422; display: flex; align-items: center; justify-content: center; color: #FFFFFF; flex-shrink: 0; animation-delay: {{ l.checkDelay }};">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+              </div>
+              <div style="font-size: 15px; font-weight: 600; line-height: 1.35; color: #2B2825;">{{ l.t }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is7 }}" hint-placeholder-val="{{ false }}">
+      <div class="ob-rise" style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column; padding: 20px 20px 30px 20px; box-sizing: border-box; position: relative;">
+        <div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 420px; overflow: hidden; pointer-events: none;">
+          <sc-for list="{{ confetti }}" as="k" hint-placeholder-count="18">
+            <div class="ob-confetti" style="left: {{ k.l }}; width: {{ k.w }}; height: {{ k.h }}; background: {{ k.c }}; border-radius: {{ k.r }}; animation-delay: {{ k.d }}; animation-duration: {{ k.dur }};"></div>
+          </sc-for>
+        </div>
+        <div style="display: flex; justify-content: center;">
+          <img src="/_blob/bbe7127020f6f722534c6e95f09c0738" alt="Dardani feston me të dy krahët lart" class="ob-feather ob-bounce" style="width: 168px; height: 227px; object-fit: cover; display: block;">
+        </div>
+        <h1 style="margin: 6px 0 0 0; font-size: 30px; line-height: 1.1; font-weight: 800; letter-spacing: -0.03em; text-align: center;">Urime! Faqja jote është gati.</h1>
+        <p style="margin: 6px 0 0 0; font-size: 14px; line-height: 1.45; color: #5C5853; text-align: center;">{{ summary }}</p>
+        <div style="flex-grow: 1; min-height: 0; overflow-y: auto; margin-top: 14px; display: flex; flex-direction: column; gap: 8px;">
+          <sc-for list="{{ preview }}" as="c" hint-placeholder-count="3">
+            <div class="ob-rise" style="background: #FFFFFF; border: 1.5px solid #E9DFD4; border-radius: 16px; padding: 11px 14px; display: flex; flex-direction: column; gap: 5px; animation-delay: {{ c.delay }};">
+              <div><span style="display: inline-block; font-size: 11px; font-weight: 800; color: #C2340F; background: #FFEDE6; border-radius: 999px; padding: 3px 9px;">{{ c.reason }}</span></div>
+              <div style="font-size: 14.5px; font-weight: 800; line-height: 1.3;">{{ c.h }}</div>
+              <div style="font-size: 12px; font-weight: 600; color: #6B6660;">{{ c.m }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 4px;">
+          <button type="button" class="ob-press" onClick="{{ onOpen }}" style="height: 56px; border: none; border-radius: 16px; background: #D9361A; color: #FFFFFF; box-shadow: 0 4px 0 #A8290F; font-family: inherit; font-size: 17px; font-weight: 800; cursor: pointer;">Hap faqen time</button>
+          <button type="button" class="ob-plain" onClick="{{ onEdit }}" style="height: 44px; border: none; background: transparent; border-radius: 12px; font-family: inherit; font-size: 15px; font-weight: 800; color: #5C5853; cursor: pointer;">Ndrysho zgjedhjet</button>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <sc-if value="{{ showFooter }}" hint-placeholder-val="{{ false }}">
+    <div style="flex-shrink: 0; padding: 12px 20px 30px 20px; border-top: 1px solid #ECE3D9; background: #F7F2EC; display: flex; flex-direction: column; gap: 12px;">
+      <sc-if value="{{ showMeter }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; font-weight: 800;">
+            <span style="color: #5C5853;">Sa mirë të njoh</span>
+            <span style="color: #C2340F;">{{ meterLabel }}</span>
+          </div>
+          <div style="height: 8px; border-radius: 999px; background: #E6DDD3; overflow: hidden;">
+            <div class="ob-seg" style="height: 8px; border-radius: 999px; background: #FF4422; width: {{ meterW }};"></div>
+          </div>
+        </div>
+      </sc-if>
+      <button type="button" class="ob-press" onClick="{{ onNext }}" disabled="{{ ctaDisabled }}" style="height: 56px; border: none; border-radius: 16px; background: {{ ctaBg }}; color: {{ ctaFg }}; box-shadow: 0 4px 0 {{ ctaSh }}; font-family: inherit; font-size: 17px; font-weight: 800; cursor: pointer;">{{ ctaLabel }}</button>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"startStep":{"editor":"int","default":0,"min":0,"max":7,"section":"Prototipi"},"autoAdvance":{"editor":"boolean","default":true,"section":"Prototipi"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    var st = Math.max(0, Math.min(7, Number(props.startStep != null ? props.startStep : 0) || 0));
+    this.state = {
+      step: st,
+      minutes: st >= 1 ? 'm5' : null,
+      topics: st >= 2 ? ['kosove', 'sport', 'bote'] : [],
+      people: st >= 3 ? ['Vedat Muriqi', 'Dua Lipa'] : [],
+      cities: st >= 4 ? ['Prishtinë'] : [],
+      notif: st >= 5 ? 'morning' : null,
+      query: ''
+    };
+  }
+
+  componentDidMount() { this.maybeAuto(); }
+  componentDidUpdate(prevProps, prevState) { if (prevState.step !== this.state.step) this.maybeAuto(); }
+  componentWillUnmount() { clearTimeout(this._t); }
+  maybeAuto() {
+    clearTimeout(this._t);
+    if (this.state.step === 6 && this.props.autoAdvance !== false) {
+      this._t = setTimeout(() => this.setState({ step: 7 }), 4600);
+    }
+  }
+
+  data() {
+    return {
+      mascots: {
+        1: { src: '/_blob/872f8c2caad67e58b6688020e9320402', alt: 'Dardani mendon me krah te mjekra, me një flluskë mendimi' },
+        2: { src: '/_blob/ed1a83f957dbccea93c580cb26c8a5f6', alt: 'Dardani shpjegon me krahë' },
+        3: { src: '/_blob/933781a90ae51d2bd949cdf07a2593f4', alt: 'Dardani kërkon me një xham zmadhues' },
+        4: { src: '/_blob/3c2c927cea79bcac19552782a180be34', alt: 'Dardani tregon anash dhe shpjegon' },
+        5: { src: '/_blob/673080dc539fca51aa677987cec6ee70', alt: 'Dardani qëndron i qetë dhe merr frymë' }
+      },
+      minutes: [
+        { id: 'm2', num: '2', label: '2', title: 'Shpejt-shpejt', sub: 'Vetëm 3 lajmet kryesore', say: 'Shpejt e saktë. T’i jap vetëm ato që s’duhet t’i humbasësh.' },
+        { id: 'm5', num: '5', label: '5', title: 'Me kafen e mëngjesit', sub: 'Rreth 6 lajme', say: 'Një kafe, pesë minuta, gjithçka që duhet ta dish.' },
+        { id: 'm10', num: '10', label: '10', title: 'Pushimi i drekës', sub: 'Rreth 12 lajme', say: 'Perfekt për pushimin e drekës. Do t’i kesh të renditura.' },
+        { id: 'm20', num: '20+', label: '20', title: 'Lexues i vërtetë', sub: '20+ lajme dhe analiza', say: 'Oh, një lexues i vërtetë! Do të kemi shumë për të biseduar.' }
+      ],
+      topics: [
+        { id: 'kosove', name: 'Kosovë', dot: '#2447E8', tint: '#E9EDFF', count: '5 lajme sot', say: 'Kosova e para. Gjithmonë.' },
+        { id: 'shqiperi', name: 'Shqipëri', dot: '#E41E20', tint: '#FFE9E9', count: '1 lajm sot', say: 'Nga Tirana në Sarandë — do t’i kesh të gjitha.' },
+        { id: 'sport', name: 'Sport', dot: '#0891B2', tint: '#E0F6FB', count: 'Kombëtarja, futboll, xhudo', say: 'Kombëtarja, Muriqi, Kelmendi — asnjë gol s’të ikën.' },
+        { id: 'teknologji', name: 'Teknologji', dot: '#7C3AED', tint: '#F1EAFF', count: 'AI, telefona, startup-e', say: 'AI, telefona, startup-e. Do ta dish i pari.' },
+        { id: 'ekonomi', name: 'Ekonomi', dot: '#16A34A', tint: '#E4F7EA', count: '1 lajm sot', say: 'Çmimet, pagat, biznesi — pa zhargon.' },
+        { id: 'bote', name: 'Botë', dot: '#D97706', tint: '#FFF3DD', count: '19 lajme sot', say: 'Bota, por gjithmonë si ndikon te ne.' },
+        { id: 'showbiz', name: 'Showbiz', dot: '#DB2777', tint: '#FDE7F2', count: '1 lajm sot', say: 'Dua, Rita, Bebe… e di pse je këtu.' }
+      ],
+      groups: [
+        { key: 'pol', label: 'Politikë', match: ['kosove', 'shqiperi', 'bote'], avBg: '#E9EDFF', avFg: '#1B34B5', names: ['Albin Kurti', 'Vjosa Osmani', 'Edi Rama', 'Bajram Begaj', 'Aleksandar Vučić'] },
+        { key: 'sport', label: 'Sport', match: ['sport'], avBg: '#E0F6FB', avFg: '#05677F', names: ['Vedat Muriqi', 'Majlinda Kelmendi', 'Nora Gjakova', 'Distria Krasniqi', 'Milot Rashica', 'Granit Xhaka', 'Armando Broja', 'Kristjan Asllani'] },
+        { key: 'show', label: 'Showbiz', match: ['showbiz'], avBg: '#FDE7F2', avFg: '#A1145A', names: ['Dua Lipa', 'Rita Ora', 'Bebe Rexha', 'Era Istrefi', 'Elvana Gjata'] }
+      ],
+      cities: ['Prishtinë', 'Prizren', 'Pejë', 'Gjakovë', 'Mitrovicë', 'Ferizaj', 'Gjilan', 'Podujevë', 'Vushtrri', 'Suharekë', 'Lipjan', 'Drenas', 'Rahovec', 'Fushë Kosovë', 'Kamenicë', 'Deçan', 'Istog', 'Malishevë', 'Skenderaj', 'Kaçanik', 'Tiranë', 'Shkup', 'Diaspora'],
+      notifs: [
+        { id: 'morning', title: 'Në mëngjes', sub: '08:00 · Përmbledhja e ditës', say: 'Përmbledhja jote, gati para kafes.' },
+        { id: 'noon', title: 'Në drekë', sub: '13:00 · Çfarë ndodhi deri tani', say: 'Një pushim i shkurtër, gjithçka e rëndësishme.' },
+        { id: 'evening', title: 'Në mbrëmje', sub: '20:00 · Mbyllja e ditës', say: 'Mbyll ditën pa humbur asgjë.' },
+        { id: 'breaking', title: 'Vetëm lajmet e mëdha', sub: 'Kur ndodh diçka vërtet e rëndësishme', say: 'Vetëm kur vërtet ia vlen. Premtoj.' },
+        { id: 'off', title: 'Jo tani', sub: 'Mund ta ndryshosh kurdo te Profili', say: 'Në rregull! E ndryshon kurdo te Profili.' }
+      ],
+      headlines: {
+        kosove: { h: 'Kosovë: Regjistrimet e bizneseve ranë 36.2% në gusht', m: 'Kosovë · 4h · Telegrafi', reason: 'Sepse ndjek Kosovë' },
+        sport: { h: 'Kosovë: Fitorja ndaj Irlandës e çon ekipin në vendin e 77-të', m: 'Sport · 2d · Telegrafi', reason: 'Sepse ndjek Sport' },
+        bote: { h: 'Vuçiç jep dorëheqjen, synon postin e kryeministrit në Serbi', m: 'Botë · 22h · The Guardian', reason: 'Sepse ndjek Botë' },
+        shqiperi: { h: 'Shqipëri: Rama mbron kursin drejt BE-së pas protestës në Nju-Jork', m: 'Shqipëri · 3d · ABC News Albania', reason: 'Sepse ndjek Shqipëri' },
+        ekonomi: { h: 'Nafta kalon 107 dollarë pas refuzimit të planit për Hormuzin', m: 'Ekonomi · 8h · Al Jazeera', reason: 'Sepse ndjek Ekonomi' }
+      },
+      cityHeadlines: {
+        'Prishtinë': { h: 'Prishtinë: Nis gjykimi ndaj 53 të akuzuarve për Mejën', m: 'Kosovë · 3d · KALLXO.com', reason: 'Nga Prishtina' },
+        'Pejë': { h: 'Deçan: Policia arreston 2 të dyshuar dhe sekuestron 28.6 gramë', m: 'Kosovë · 7h · Telegrafi', reason: 'Nga Peja' }
+      }
+    };
+  }
+
+  renderVals() {
+    var D = this.data();
+    var s = this.state;
+    var step = s.step;
+    var self = this;
+    var SEL = { bc: '#D9361A', bg: '#FFF3EE' };
+    var UN = { bc: '#E6DDD3', bg: '#FFFFFF' };
+    var toggle = function (key, val) {
+      self.setState(function (prev) {
+        var arr = prev[key].slice();
+        var i = arr.indexOf(val);
+        if (i >= 0) arr.splice(i, 1); else arr.push(val);
+        var patch = {}; patch[key] = arr; return patch;
+      });
+    };
+    var list = function (arr) {
+      if (arr.length <= 1) return arr.join('');
+      var shown = arr.slice(0, 3);
+      var more = arr.length > 3 ? ' e të tjerë' : '';
+      if (more) return shown.join(', ') + more;
+      return shown.slice(0, -1).join(', ') + ' dhe ' + shown[shown.length - 1];
+    };
+    var norm = function (t) { return String(t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); };
+
+    var minutes = D.minutes.map(function (o) {
+      var on = s.minutes === o.id;
+      return { num: o.num, title: o.title, sub: o.sub, on: on, bc: on ? SEL.bc : UN.bc, bg: on ? SEL.bg : UN.bg, ring: on ? '#D9361A' : '#CFC4B8', dot: on ? '#D9361A' : 'transparent', pick: function () { self.setState({ minutes: o.id }); } };
+    });
+    var topics = D.topics.map(function (t) {
+      var on = s.topics.indexOf(t.id) >= 0;
+      return { name: t.name, dot: t.dot, tint: t.tint, count: t.count, on: on, bc: on ? SEL.bc : UN.bc, bg: on ? SEL.bg : UN.bg, pick: function () { toggle('topics', t.id); } };
+    });
+    var q = norm(s.query || '');
+    var groups = D.groups.map(function (g, idx) {
+      var sug = g.match.some(function (m) { return s.topics.indexOf(m) >= 0; });
+      return { g: g, sug: sug, idx: idx };
+    }).sort(function (a, b) { return (b.sug ? 1 : 0) - (a.sug ? 1 : 0) || a.idx - b.idx; }).map(function (x) {
+      var people = x.g.names.filter(function (n) { return !q || norm(n).indexOf(q) >= 0; }).map(function (n) {
+        var on = s.people.indexOf(n) >= 0;
+        var ini = n.split(' ').map(function (w) { return w.charAt(0); }).join('').slice(0, 2);
+        return { name: n, ini: ini, on: on, bc: on ? SEL.bc : UN.bc, bg: on ? SEL.bg : UN.bg, avBg: x.g.avBg, avFg: x.g.avFg, pick: function () { toggle('people', n); } };
+      });
+      return { label: x.g.label, sug: x.sug, people: people, has: people.length > 0 };
+    });
+    var noResults = groups.every(function (g) { return !g.has; });
+    var cities = D.cities.map(function (c) {
+      var on = s.cities.indexOf(c) >= 0;
+      return { name: c, on: on, bc: on ? SEL.bc : UN.bc, bg: on ? SEL.bg : UN.bg, pick: function () { toggle('cities', c); } };
+    });
+    var notifs = D.notifs.map(function (o) {
+      var on = s.notif === o.id;
+      return { title: o.title, sub: o.sub, on: on, bc: on ? SEL.bc : UN.bc, bg: on ? SEL.bg : UN.bg, ring: on ? '#D9361A' : '#CFC4B8', dot: on ? '#D9361A' : 'transparent', pick: function () { self.setState({ notif: o.id }); } };
+    });
+
+    var say = '';
+    if (step === 1) {
+      var mo = D.minutes.filter(function (o) { return o.id === s.minutes; })[0];
+      say = mo ? mo.say : 'Sa kohë ke në ditë për lajme? S’ka përgjigje të gabuar.';
+    } else if (step === 2) {
+      var lastT = s.topics[s.topics.length - 1];
+      var to = D.topics.filter(function (t) { return t.id === lastT; })[0];
+      say = to ? to.say : 'Çfarë të bën kurioz? Zgjidh sa të duash.';
+    } else if (step === 3) {
+      var lastP = s.people[s.people.length - 1];
+      say = lastP ? lastP + ', e shënova! Asnjë lajm për të s’të ikën.' : 'Sa herë që përmenden në lajme, t’i sjell të parët.';
+    } else if (step === 4) {
+      var lastC = s.cities[s.cities.length - 1];
+      say = !lastC ? 'Lajmet lokale i ngre lart, që të dish çfarë ndodh afër teje.' : lastC === 'Diaspora' ? 'Diaspora! Do të të mbaj afër shtëpisë, kudo që je.' : lastC + ', e shënova! Lajmet lokale dalin të parat.';
+    } else if (step === 5) {
+      var no = D.notifs.filter(function (o) { return o.id === s.notif; })[0];
+      say = no ? no.say : 'Kur të të kujtoj? S’të bezdis, premtoj.';
+    }
+    var m = D.mascots[step] || D.mascots[5];
+
+    var score = s.topics.length + s.people.length + s.cities.length;
+    var meterLabel = score === 0 ? 'Zgjidh diçka' : score <= 2 ? 'Fillim i mirë' : score <= 5 ? 'Po merr formë' : score <= 8 ? 'Shumë mirë' : 'Perfekte';
+
+    var canNext = !((step === 1 && !s.minutes) || (step === 2 && s.topics.length === 0));
+
+    var tNames = D.topics.filter(function (t) { return s.topics.indexOf(t.id) >= 0; }).map(function (t) { return t.name; });
+    var mSel = D.minutes.filter(function (o) { return o.id === s.minutes; })[0];
+    var lineTexts = ['Po lexoj lajmet e sotme nga të gjitha burimet'];
+    if (tNames.length) lineTexts.push('Po filtroj për ' + list(tNames));
+    if (s.people.length) lineTexts.push('Po kërkoj ' + list(s.people));
+    if (s.cities.length) lineTexts.push('Po ngre lart lajmet lokale: ' + list(s.cities));
+    lineTexts.push(mSel ? 'Po i rendit për ' + mSel.label + ' minutat e tua' : 'Po i rendit sipas rëndësisë');
+    var lines = lineTexts.map(function (t, i) { return { t: t, delay: (0.35 + i * 0.75).toFixed(2) + 's', checkDelay: (0.75 + i * 0.75).toFixed(2) + 's' }; });
+
+    var plural = function (n, one, many) { return n + ' ' + (n === 1 ? one : many); };
+    var summary = plural(s.topics.length, 'temë', 'tema') + ' · ' + plural(s.people.length, 'emër', 'emra') + ' · ' + plural(s.cities.length, 'qytet', 'qytete') + ' — mund t’i ndryshosh kurdo.';
+    var prev = [];
+    s.cities.forEach(function (c) { if (D.cityHeadlines[c]) prev.push(D.cityHeadlines[c]); });
+    s.topics.forEach(function (t) { if (D.headlines[t]) prev.push(D.headlines[t]); });
+    if (s.people.indexOf('Edi Rama') >= 0) prev.unshift({ h: D.headlines.shqiperi.h, m: D.headlines.shqiperi.m, reason: 'Sepse ndjek Edi Rama' });
+    if (!prev.length) prev.push(D.headlines.kosove);
+    var preview = prev.slice(0, 3).map(function (p, i) { return { h: p.h, m: p.m, reason: p.reason, delay: (0.5 + i * 0.15).toFixed(2) + 's' }; });
+
+    var colors = ['#FF4422', '#FFB020', '#2447E8', '#16A34A', '#DB2777', '#FF4422'];
+    var confetti = [];
+    for (var i = 0; i < 18; i++) {
+      var r = (i * 37) % 100;
+      confetti.push({ l: ((i * 53) % 96 + 2) + '%', w: (6 + (i % 3) * 2) + 'px', h: (10 + (i % 4) * 3) + 'px', c: colors[i % colors.length], r: i % 3 === 0 ? '50%' : '2px', d: ((r % 9) * 0.07).toFixed(2) + 's', dur: (2.4 + (i % 5) * 0.3).toFixed(1) + 's' });
+    }
+
+    return {
+      step: step,
+      is0: step === 0, is1: step === 1, is2: step === 2, is3: step === 3, is4: step === 4, is5: step === 5, is6: step === 6, is7: step === 7,
+      showTop: step >= 1 && step <= 5,
+      isChat: step >= 1 && step <= 5,
+      showFooter: step >= 1 && step <= 5,
+      showMeter: step >= 2 && step <= 4,
+      showSkip: step >= 3 && step <= 5,
+      noSkip: step >= 1 && step <= 2,
+      segs: [1, 2, 3, 4, 5].map(function (i) { return { w: step >= i ? '100%' : '0%' }; }),
+      mascot: m.src, mascotAlt: m.alt, say: say,
+      minutes: minutes, topics: topics, groups: groups, noResults: noResults, cities: cities, notifs: notifs,
+      query: s.query,
+      meterLabel: meterLabel, meterW: Math.min(100, Math.round(score / 9 * 100)) + '%',
+      ctaLabel: step === 5 ? 'Përfundo' : 'Vazhdo',
+      ctaDisabled: !canNext,
+      ctaBg: canNext ? '#D9361A' : '#E9E2DA', ctaFg: canNext ? '#FFFFFF' : '#6B6660', ctaSh: canNext ? '#A8290F' : '#D8CFC5',
+      lines: lines, summary: summary, preview: preview, confetti: confetti,
+      onStart: function () { self.setState({ step: 1 }); },
+      onLater: function () {},
+      onNext: function () { if (canNext) self.setState({ step: Math.min(6, step + 1), query: '' }); },
+      onBack: function () { self.setState({ step: Math.max(0, step - 1), query: '' }); },
+      onSkip: function () { self.setState({ step: Math.min(6, step + 1), query: '' }); },
+      onEdit: function () { self.setState({ step: 2 }); },
+      onOpen: function () { self.setState({ step: 0, minutes: null, topics: [], people: [], cities: [], notif: null, query: '' }); },
+      onQuery: function (e) { self.setState({ query: e && e.target ? e.target.value : '' }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

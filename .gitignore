@@ -49,3 +49,6 @@ supabase/.temp/
 app/hero-preview/
 components/hero-value-prop.tsx
 graphify-out/
+
+# Dardani source files (full-quality downloads; web versions live in public/mascot)
+dardani-assets/files/

@@ -1,0 +1,936 @@
+{
+  "name": "Dardani — 383ks.com mascot",
+  "version": "2026-09-29",
+  "links_expire": "2026-10-03",
+  "assets": [
+    {
+      "id": "loop-idle",
+      "type": "loop",
+      "file": "files/loops/dardani-idle.mp4",
+      "file_alpha": "files/loops/dardani-idle.webm",
+      "poster": null,
+      "surfaces": [
+        "Homepage",
+        "Për ty"
+      ],
+      "when": "Default resting state anywhere Dardani is on screen and nothing is happening.",
+      "alt_sq": "Dardani merr frymë qetë dhe pulit sytë",
+      "src": "https://pikaso.cdnpk.net/private/production/5556309361/86097309-4c35-4f06-a894-190ff62bb14c-0.mp4?token=exp=1791072000~hmac=def737efc84ce00ddd15a23871771e16c934ba41dd60e97cb3fdb39625f38a33",
+      "src_alpha": "https://pikaso.cdnpk.net/private/production/5586437179/86097309-4c35-4f06-a894-190ff62bb14c-0.webm?token=exp=1791072000~hmac=3fe346928c579a34088dac205cbde93a20957bda7fded0b0491d6d232c401395",
+      "page": "https://www.magnific.com/app/creation/SyY6VVTUb8",
+      "page_alpha": "https://www.magnific.com/app/creation/SyW2GsJUb8"
+    },
+    {
+      "id": "loop-greeting",
+      "type": "loop",
+      "file": "files/loops/dardani-greeting.mp4",
+      "file_alpha": "files/loops/dardani-greeting.webm",
+      "poster": null,
+      "surfaces": [
+        "Homepage",
+        "Për ty onboarding step 1"
+      ],
+      "when": "First visit / welcome moments. Onboarding step 1 (Mirë se vjen).",
+      "alt_sq": "Dardani përshëndet me krah",
+      "src": "https://pikaso.cdnpk.net/private/production/5554643407/5858d0ab-a287-40b1-b92d-a22584854ca7-0.mp4?token=exp=1791072000~hmac=6d7398b98c08a34c38f3571f6a791768417c3362a4ec547e5615ac0736939b73",
+      "src_alpha": "https://pikaso.cdnpk.net/private/production/5586440141/5858d0ab-a287-40b1-b92d-a22584854ca7-0.webm?token=exp=1791072000~hmac=d46ba2aae6a46e5e4243b23e2c5549c74d614712c255234d3becd7a106635bb4",
+      "page": "https://www.magnific.com/app/creation/mEsudRRhJQ",
+      "page_alpha": "https://www.magnific.com/app/creation/UPcAnJLwny"
+    },
+    {
+      "id": "loop-explaining",
+      "type": "loop",
+      "file": "files/loops/dardani-explaining.mp4",
+      "file_alpha": "files/loops/dardani-explaining.webm",
+      "poster": null,
+      "surfaces": [
+        "Feature tooltips",
+        "Për ty onboarding step 3"
+      ],
+      "when": "\"Çfarë ka të re\" callouts and feature tours. Onboarding step 3 (topics).",
+      "alt_sq": "Dardani shpjegon një veçori me krahë",
+      "src": "https://pikaso.cdnpk.net/private/production/5556313637/9259c89c-42af-417e-85e6-09136f083314-0.mp4?token=exp=1791072000~hmac=6fe18cdbf7c8cc485be1f898b55112a7cf3cf3bd6204f8002b4e7ed0e891e1ed",
+      "src_alpha": "https://pikaso.cdnpk.net/private/production/5586441669/9259c89c-42af-417e-85e6-09136f083314-0.webm?token=exp=1791072000~hmac=af61ac4a84d07e50e8a358d4c4bbd3f6399e3b4f97eb7cdc84cccbaaa6987f28",
+      "page": "https://www.magnific.com/app/creation/p8bvrgoehw",
+      "page_alpha": "https://www.magnific.com/app/creation/iGoDdnS3uK"
+    },
+    {
+      "id": "loop-researching",
+      "type": "loop",
+      "file": "files/loops/dardani-researching.mp4",
+      "file_alpha": "files/loops/dardani-researching.webm",
+      "poster": null,
+      "surfaces": [
+        "Search",
+        "Pyet Dardanin",
+        "Për ty onboarding step 4"
+      ],
+      "when": "While a search runs, and inside the Pyet Dardanin answer card while it searches the archive. Onboarding step 4 (people).",
+      "alt_sq": "Dardani kërkon me xhami zmadhues",
+      "src": "https://pikaso.cdnpk.net/private/production/5554652904/90d2ca57-6325-49b8-a9cc-5f28c33cd7f0-0.mp4?token=exp=1791072000~hmac=6f8d57f38924de49fb00993c9716f3863f1a096a634c07aa1530f9f9c83f9f18",
+      "src_alpha": "https://pikaso.cdnpk.net/private/production/5586440574/90d2ca57-6325-49b8-a9cc-5f28c33cd7f0-0.webm?token=exp=1791072000~hmac=6d9bf3074dd9ee1304812726228fa78af7adaed64d066fb823401c9e17756e73",
+      "page": "https://www.magnific.com/app/creation/YMfDRJdWeC",
+      "page_alpha": "https://www.magnific.com/app/creation/TdFaEmOVNR"
+    },
+    {
+      "id": "loop-thinking-bubble",
+      "type": "loop",
+      "file": "files/loops/dardani-thinking-bubble.mp4",
+      "file_alpha": "files/loops/dardani-thinking-bubble.webm",
+      "poster": null,
+      "surfaces": [
+        "Pyet Dardanin",
+        "Për ty onboarding step 2"
+      ],
+      "when": "Longer AI answers being composed (large view). Onboarding step 2 (how much time).",
+      "alt_sq": "Dardani mendon, me flluskë mendimi mbi kokë",
+      "src": "https://pikaso.cdnpk.net/private/production/5556194351/82549d2d-be77-4296-9685-de974be36930-0.mp4?token=exp=1791072000~hmac=0a7d3479d4ac4f08715603fdb421021707e4078773b8acbf6e1083c46181c9ae",
+      "src_alpha": "https://pikaso.cdnpk.net/private/production/5586452234/82549d2d-be77-4296-9685-de974be36930-0.webm?token=exp=1791072000~hmac=c1cd2e2ec9520f6de3d44f78d05d4b0e2d28bdcd2c3a720b73d78645e62cb431",
+      "page": "https://www.magnific.com/app/creation/u5Jxsg3QLD",
+      "page_alpha": "https://www.magnific.com/app/creation/Xm1H5b4Bfo"
+    },
+    {
+      "id": "loop-reading",
+      "type": "loop",
+      "file": "files/loops/dardani-reading.mp4",
+      "file_alpha": "files/loops/dardani-reading.webm",
+      "poster": null,
+      "surfaces": [
+        "Toni",
+        "Summaries",
+        "Për ty onboarding step 7"
+      ],
+      "when": "Long tasks: summaries, translations, Toni tone calculation. Onboarding step 7 (building your feed).",
+      "alt_sq": "Dardani lexon dhe analizon një libër",
+      "src": "https://pikaso.cdnpk.net/private/production/5556218819/3452bcc1-aa9d-44a4-8d0b-0e7368d79532-0.mp4?token=exp=1791072000~hmac=17c45ff505dbd7c88249ebc04bd1ac4a20cbb5130a1d0760350f0ea7d61c0ace",
+      "src_alpha": "https://pikaso.cdnpk.net/private/production/5586452988/3452bcc1-aa9d-44a4-8d0b-0e7368d79532-0.webm?token=exp=1791072000~hmac=6b5449b9b91fb7cc6ca47b62c0c6ee7865f8390a8fe9fe435ed91edd0e9f3156",
+      "page": "https://www.magnific.com/app/creation/xSZO4OTjfW",
+      "page_alpha": "https://www.magnific.com/app/creation/1lR46APr4r"
+    },
+    {
+      "id": "loop-explaining-news",
+      "type": "loop",
+      "file": "files/loops/dardani-explaining-news.mp4",
+      "file_alpha": "files/loops/dardani-explaining-news.webm",
+      "poster": null,
+      "surfaces": [
+        "Article"
+      ],
+      "when": "\"Shpjegoje këtë lajm\" / explain-this-article help on article pages. Onboarding step 5 (cities).",
+      "alt_sq": "Dardani tregon lajmin dhe e shpjegon",
+      "src": "https://pikaso.cdnpk.net/private/production/5556290425/d9c91925-e6f6-402f-8a9b-ebd3df914324-0.mp4?token=exp=1791072000~hmac=85bd52d480fc08a9c25e26f5ee03dcd3cbf8ac1141543cf8a58ca02e1356f8b1",
+      "src_alpha": "https://pikaso.cdnpk.net/private/production/5586454386/d9c91925-e6f6-402f-8a9b-ebd3df914324-0.webm?token=exp=1791072000~hmac=1fdbd13c85b799b30e1ab344c78236f99908a38fbdc31fe920aaaacf7ad82c47",
+      "page": "https://www.magnific.com/app/creation/JNTZevwOq4",
+      "page_alpha": "https://www.magnific.com/app/creation/aFUjlNLfSh"
+    },
+    {
+      "id": "loop-running",
+      "type": "loop",
+      "file": "files/loops/dardani-running.mp4",
+      "file_alpha": "files/loops/dardani-running.webm",
+      "poster": null,
+      "surfaces": [
+        "Page loader"
+      ],
+      "when": "Full-page loader with the orange progress bar (\"Po ngarkohet…\").",
+      "alt_sq": "Dardani vrapon ndërsa faqja ngarkohet",
+      "src": "https://pikaso.cdnpk.net/private/production/5556360340/db7da81b-a578-44c2-bca5-60586a2a9bda-0.mp4?token=exp=1791072000~hmac=4b03f3e715b20ba16b751d2ab270b2fdbd7c8b91f52c3c460e37dcfd5d4c69d4",
+      "src_alpha": "https://pikaso.cdnpk.net/private/production/5586451247/db7da81b-a578-44c2-bca5-60586a2a9bda-0.webm?token=exp=1791072000~hmac=4d8c43c237b9a1cfcd1ce6e3ce94a66572d1ccac143d57c5bfbfa30f7d796e5e",
+      "page": "https://www.magnific.com/app/creation/fHUkzm2CDY",
+      "page_alpha": "https://www.magnific.com/app/creation/mEl1jixhJQ"
+    },
+    {
+      "id": "loop-flying",
+      "type": "loop",
+      "file": "files/loops/dardani-flying.mp4",
+      "file_alpha": "files/loops/dardani-flying.webm",
+      "poster": null,
+      "surfaces": [
+        "Page transitions",
+        "Section headers"
+      ],
+      "when": "Section changes, friendlier alternative loader.",
+      "alt_sq": "Dardani fluturon në vend",
+      "src": "https://pikaso.cdnpk.net/private/production/5577148189/a5f99eff-53a4-4b78-9d8f-274bc63a5dde-0.mp4?token=exp=1791072000~hmac=58761bf29d185517345e383c62eb90f570e26f0db55e3ed06aeed33cf7a808fa",
+      "src_alpha": "https://pikaso.cdnpk.net/private/production/5579147393/a5f99eff-53a4-4b78-9d8f-274bc63a5dde-0.webm?token=exp=1791072000~hmac=602e344be07b218c26e54f140be8386d5620bde51cf61d0214cdbc39b13cf47a",
+      "page": "https://www.magnific.com/app/creation/SyYxuN8Ub8",
+      "page_alpha": "https://www.magnific.com/app/creation/ksiKj4816B"
+    },
+    {
+      "id": "loop-flying-news",
+      "type": "loop",
+      "file": "files/loops/dardani-flying-news.mp4",
+      "file_alpha": "files/loops/dardani-flying-news.webm",
+      "poster": null,
+      "surfaces": [
+        "Për ty",
+        "Notifications promo"
+      ],
+      "when": "\"Ka lajme të reja\" banner, daily digest, push-notification promo.",
+      "alt_sq": "Dardani fluturon me një gazetë në kthetra",
+      "src": "https://pikaso.cdnpk.net/private/production/5577248895/493eadf8-eac0-464b-a7fa-fc02f90933d9-0.mp4?token=exp=1791072000~hmac=f83dad18b5af8896125fa833daab0227e8e63a2b345545e28902d711e825091d",
+      "src_alpha": "https://pikaso.cdnpk.net/private/production/5579148195/493eadf8-eac0-464b-a7fa-fc02f90933d9-0.webm?token=exp=1791072000~hmac=445789649d5dcb935ef1e8bcbdb34aa70a064de0cefe2e9f2da1559c3d18f497",
+      "page": "https://www.magnific.com/app/creation/Bh1MBnYoQR",
+      "page_alpha": "https://www.magnific.com/app/creation/ksiKj9I16B"
+    },
+    {
+      "id": "loop-headbob",
+      "type": "loop",
+      "file": "files/loops/dardani-headbob.mp4",
+      "file_alpha": "files/loops/dardani-headbob.webm",
+      "poster": null,
+      "surfaces": [
+        "Pyet Dardanin",
+        "Small loaders"
+      ],
+      "when": "Tiny inline loaders and the chat typing indicator (crop to a circle).",
+      "alt_sq": "Dardani lëkund kokën",
+      "src": "https://pikaso.cdnpk.net/private/production/5579085918/c786232e-f2f9-434b-a149-36c639731acb-0.mp4?token=exp=1791072000~hmac=92481f714534dd9f252bb1704112526e4a5f965598b5ff8b9b606807f036abf9",
+      "src_alpha": "https://pikaso.cdnpk.net/private/production/5579147484/c786232e-f2f9-434b-a149-36c639731acb-0.webm?token=exp=1791072000~hmac=bdd32e56d0995f52890079df452989f94bc0360f1269e79436f2c85c6dd58646",
+      "page": "https://www.magnific.com/app/creation/5jNqEoOKxe",
+      "page_alpha": "https://www.magnific.com/app/creation/ksiKjNt16B"
+    },
+    {
+      "id": "loop-bell",
+      "type": "loop",
+      "file": "files/loops/dardani-bell.mp4",
+      "file_alpha": "files/loops/dardani-bell.webm",
+      "poster": null,
+      "surfaces": [
+        "Notifications",
+        "Për ty onboarding step 6"
+      ],
+      "when": "Notification permission pre-prompt. Onboarding step 6 (notifications) — replaces the idle loop there.",
+      "alt_sq": "Dardani i bie ziles",
+      "src": "https://pikaso.cdnpk.net/private/production/5579075393/71315a5e-98a6-4416-a60a-497f3a04d87a-0.mp4?token=exp=1791072000~hmac=ec09626cb9c21520def12042eb370f45b5a0a105ac64b26f28e37a381b3cf29e",
+      "src_alpha": "https://pikaso.cdnpk.net/private/production/5579148541/71315a5e-98a6-4416-a60a-497f3a04d87a-0.webm?token=exp=1791072000~hmac=d907047e8478f1be860dfc267d0e0d2385bba6b902190484b2eaffdd7d122168",
+      "page": "https://www.magnific.com/app/creation/1l3KFmfr4r",
+      "page_alpha": "https://www.magnific.com/app/creation/P3Dy6Mj42C"
+    },
+    {
+      "id": "loop-sleeping",
+      "type": "loop",
+      "file": "files/loops/dardani-sleeping.mp4",
+      "file_alpha": "files/loops/dardani-sleeping.webm",
+      "poster": null,
+      "surfaces": [
+        "Për ty",
+        "Empty states"
+      ],
+      "when": "\"Asnjë lajm i ri tani për tani\" and late-night quiet hours.",
+      "alt_sq": "Dardani fle me kapuç gjumi",
+      "src": "https://pikaso.cdnpk.net/private/production/5579074960/83912831-cf40-46e9-9cff-c67091143764-0.mp4?token=exp=1791072000~hmac=9eec29845dd0801ac3522291c47e43c7d1d4b6513084e4b3b1d5abb706f529fe",
+      "src_alpha": "https://pikaso.cdnpk.net/private/production/5579150658/83912831-cf40-46e9-9cff-c67091143764-0.webm?token=exp=1791072000~hmac=268aec0415731ce13e4a1935d96e983c383d2889a9f2d005e4d76adb7d9cd6a7",
+      "page": "https://www.magnific.com/app/creation/s7GjKu9l8e",
+      "page_alpha": "https://www.magnific.com/app/creation/9Ze43deNYZ"
+    },
+    {
+      "id": "loop-tregu-explainer",
+      "type": "loop",
+      "file": "files/loops/dardani-tregu-explainer.mp4",
+      "file_alpha": "files/loops/dardani-tregu-explainer.webm",
+      "poster": null,
+      "surfaces": [
+        "Tregu"
+      ],
+      "when": "Tregu tutorial step 1 \"Si funksionon Tregu\".",
+      "alt_sq": "Dardani shpjegon grafikun e Tregut",
+      "src": "https://pikaso.cdnpk.net/private/production/5579075423/b0c680f4-7479-47ab-9d3e-e32f21c802ce-0.mp4?token=exp=1791072000~hmac=3dc892cfbe64d2080d0a058718d8de3afc94d98e69c59f0129d96898cdff19e8",
+      "src_alpha": "https://pikaso.cdnpk.net/private/production/5579151376/b0c680f4-7479-47ab-9d3e-e32f21c802ce-0.webm?token=exp=1791072000~hmac=853b70740ff375b936ec8c30db125528b93ad6cd1cee087908c153f81648d3ad",
+      "page": "https://www.magnific.com/app/creation/w4cSjKd7EI",
+      "page_alpha": "https://www.magnific.com/app/creation/SyYgJcDUb8"
+    },
+    {
+      "id": "still-idle",
+      "type": "still",
+      "file": "files/stills/dardani-idle.png",
+      "surfaces": [
+        "Homepage",
+        "Fallback"
+      ],
+      "when": "Static fallback for the idle loop (reduced motion, slow connections).",
+      "alt_sq": "Dardani qëndron i qetë",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5586414635/render.png?token=exp=1791072000~hmac=c868e1965cbc7201927bc2af759e7f144ee7c189dfe57c4eb288b4d0b323dddb",
+      "page": "https://www.magnific.com/app/creation/jUA6iUELD0",
+      "original_file": "files/stills-with-background/dardani-idle.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5471095775/render.png?token=exp=1791072000~hmac=4c943e9690e628c1584b334f46dbb9583e7a9879d76e275dbcffadba5b3efc37",
+      "page_original": "https://www.magnific.com/app/creation/aFs5B6WfSh"
+    },
+    {
+      "id": "still-wave",
+      "type": "still",
+      "file": "files/stills/dardani-wave.png",
+      "surfaces": [
+        "Pyet Dardanin",
+        "Homepage"
+      ],
+      "when": "Peeks over the top-right article questions card; empty state of the Pyet Dardanin modal; greeting fallback.",
+      "alt_sq": "Dardani përshëndet me krah",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579281120/render.png?token=exp=1791072000~hmac=1af94fe0de851a37f6456dde512396168ed77811fea5354de9a6e87e96e95993",
+      "page": "https://www.magnific.com/app/creation/mEstlXjhJQ",
+      "original_file": "files/stills-with-background/dardani-wave.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5470670611/render.png?token=exp=1791072000~hmac=b70acc13dfd09bb2f19f89a4efed3f56bec542aa0334b4b7859f3c7f6ccc2b93",
+      "page_original": "https://www.magnific.com/app/creation/1lNU5Fgr4r"
+    },
+    {
+      "id": "still-standing-alt",
+      "type": "still",
+      "file": "files/stills/dardani-standing-alt.png",
+      "surfaces": [
+        "General"
+      ],
+      "when": "Alternative neutral full-body pose for marketing/about pages.",
+      "alt_sq": "Dardani qëndron me gazetë nën krah",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5586416709/render.png?token=exp=1791072000~hmac=c48fe50393378bfcbe47d565798787c90d3838ae79cf0ffb804c4c8fdd1604d1",
+      "page": "https://www.magnific.com/app/creation/DobEubypcl",
+      "original_file": "files/stills-with-background/dardani-standing-alt.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5470685607/render.png?token=exp=1791072000~hmac=97997824be41b5f80471878ece4d01b9a425b04fec1a31ca28729b0aae7a969c",
+      "page_original": "https://www.magnific.com/app/creation/LwROL3JswO"
+    },
+    {
+      "id": "still-explaining",
+      "type": "still",
+      "file": "files/stills/dardani-explaining.png",
+      "surfaces": [
+        "Feature tooltips"
+      ],
+      "when": "Static fallback for the explaining loop.",
+      "alt_sq": "Dardani shpjegon",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5586419249/render.png?token=exp=1791072000~hmac=9a9527e2a77ad6ccf8641560feebaf864c8629b72291b2bace2665f1884f2ab9",
+      "page": "https://www.magnific.com/app/creation/Xm1HqZtBfo",
+      "original_file": "files/stills-with-background/dardani-explaining.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5471094386/render.png?token=exp=1791072000~hmac=864dbbadaf12e3937d13b8388b5f51d520970cb46fde31225b3d745baf276444",
+      "page_original": "https://www.magnific.com/app/creation/hujqdPEvqL"
+    },
+    {
+      "id": "still-reading",
+      "type": "still",
+      "file": "files/stills/dardani-reading.png",
+      "surfaces": [
+        "Toni",
+        "Summaries"
+      ],
+      "when": "Static fallback for the reading loop.",
+      "alt_sq": "Dardani lexon një libër",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5586421176/render.png?token=exp=1791072000~hmac=4050f84a208b99461ba0c5a5e4da2dcf5efd4fb273976af79d920c8b75b8616c",
+      "page": "https://www.magnific.com/app/creation/bxNJOqS5Y2",
+      "original_file": "files/stills-with-background/dardani-reading.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5471094510/render.png?token=exp=1791072000~hmac=cd2b1f9f2780b7f67f974179d499033ed2541d7ff4768081e3eeee34b15d2861",
+      "page_original": "https://www.magnific.com/app/creation/fHlKoyBCDY"
+    },
+    {
+      "id": "still-researching",
+      "type": "still",
+      "file": "files/stills/dardani-researching.png",
+      "surfaces": [
+        "Search"
+      ],
+      "when": "Static fallback for the researching loop.",
+      "alt_sq": "Dardani me xhami zmadhues",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5586422921/render.png?token=exp=1791072000~hmac=2889e11054d111f39cb5f0bd557d5eec8aa7ccbd51a2daa763f76320d79528ef",
+      "page": "https://www.magnific.com/app/creation/xS2Ni97jfW",
+      "original_file": "files/stills-with-background/dardani-researching.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5470686128/render.png?token=exp=1791072000~hmac=ad23cf7894598ca27a51112b4baefd69fcdc53ce969b735e17d40acb3d961685",
+      "page_original": "https://www.magnific.com/app/creation/mExFmgshJQ"
+    },
+    {
+      "id": "still-thinking-bubble",
+      "type": "still",
+      "file": "files/stills/dardani-thinking-bubble.png",
+      "surfaces": [
+        "Pyet Dardanin"
+      ],
+      "when": "Static fallback for the thinking-bubble loop.",
+      "alt_sq": "Dardani mendon",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5586424647/render.png?token=exp=1791072000~hmac=726f6cb9cc4fad69ffa60d0dd191ac24ec0b1bd8dab7b700a347f05da9bb509e",
+      "page": "https://www.magnific.com/app/creation/LwGiRTUswO",
+      "original_file": "files/stills-with-background/dardani-thinking-bubble.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5554607726/render.png?token=exp=1791072000~hmac=f4015fc0cfd5f46fe088c69cf13795cbb62ed0f4f255a11d8b47c27124339627",
+      "page_original": "https://www.magnific.com/app/creation/0eud2GaTfW"
+    },
+    {
+      "id": "still-running",
+      "type": "still",
+      "file": "files/stills/dardani-running.png",
+      "surfaces": [
+        "Page loader"
+      ],
+      "when": "Static fallback for the running loader.",
+      "alt_sq": "Dardani vrapon",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5586426702/render.png?token=exp=1791072000~hmac=680ac079796fb9aae08454c180caed57fd4168a86e533e7ee8e30810130f9088",
+      "page": "https://www.magnific.com/app/creation/xS2NihBjfW",
+      "original_file": "files/stills-with-background/dardani-running.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5554608494/render.png?token=exp=1791072000~hmac=61fb285452640f22d9e1d23c9a3fa7086fd9835feb1a440c28b549afcb67da65",
+      "page_original": "https://www.magnific.com/app/creation/jU2wbgbLD0"
+    },
+    {
+      "id": "still-tregu-explainer",
+      "type": "still",
+      "file": "files/stills/dardani-tregu-explainer.png",
+      "surfaces": [
+        "Tregu"
+      ],
+      "when": "Tregu tutorial step 1.",
+      "alt_sq": "Dardani pranë një grafiku në rritje",
+      "copy_sq": "Si funksionon Tregu",
+      "src": "https://pikaso.cdnpk.net/private/production/5579064993/render.png?token=exp=1791072000~hmac=4e947f416e31242ebced6954e8eb136151c880d18eebfa6ccecf93bbc5d33a4b",
+      "page": "https://www.magnific.com/app/creation/UPWgxxjwny",
+      "original_file": "files/stills-with-background/dardani-tregu-explainer.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576610503/render.png?token=exp=1790812800~hmac=5a384c8f12972f46032bd411ce7f5b619a0026e6e0abd4bc8729022bb3cf9cc4",
+      "page_original": "https://www.magnific.com/app/creation/tCLenaqmZJ"
+    },
+    {
+      "id": "still-tregu-predict",
+      "type": "still",
+      "file": "files/stills/dardani-tregu-predict.png",
+      "surfaces": [
+        "Tregu"
+      ],
+      "when": "Tregu tutorial step 2 / first-trade tooltip.",
+      "alt_sq": "Dardani shtyp butonin jeshil pranë atij të kuq",
+      "copy_sq": "Bëj parashikimin tënd",
+      "src": "https://pikaso.cdnpk.net/private/production/5579065479/render.png?token=exp=1791072000~hmac=51f20c609657135762ad025ea95416c155be8889b095d837380a28479f69fa25",
+      "page": "https://www.magnific.com/app/creation/1l3KF5br4r",
+      "original_file": "files/stills-with-background/dardani-tregu-predict.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576612443/render.png?token=exp=1790812800~hmac=8cb5eb67ef0baec3c24660627cbe706c3fc53c03c8309e801afeb88a53c63118",
+      "page_original": "https://www.magnific.com/app/creation/dtK0RkeXSL"
+    },
+    {
+      "id": "still-tregu-win",
+      "type": "still",
+      "file": "files/stills/dardani-tregu-win.png",
+      "surfaces": [
+        "Tregu"
+      ],
+      "when": "Won a prediction (modal/toast) + tutorial step 3.",
+      "alt_sq": "Dardani ngre një trofe të artë",
+      "copy_sq": "E qëllove!",
+      "src": "https://pikaso.cdnpk.net/private/production/5579066035/render.png?token=exp=1791072000~hmac=5609178df388f528c6a3c0fafb5e63292b1a8a50fa97f0748e70f8885e97f383",
+      "page": "https://www.magnific.com/app/creation/UPWgjJJwny",
+      "original_file": "files/stills-with-background/dardani-tregu-win.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576629893/render.png?token=exp=1790812800~hmac=e122000cbb2cd94842e44bcfc0cb2a2410a271cd23c858846c37db04380d2865",
+      "page_original": "https://www.magnific.com/app/creation/SyYrF8jUb8"
+    },
+    {
+      "id": "still-tregu-lose",
+      "type": "still",
+      "file": "files/stills/dardani-tregu-lose.png",
+      "surfaces": [
+        "Tregu"
+      ],
+      "when": "Lost a prediction — gentle shrug + tutorial step 4.",
+      "alt_sq": "Dardani ngre supet butësisht",
+      "copy_sq": "Kësaj radhe jo",
+      "src": "https://pikaso.cdnpk.net/private/production/5579066543/render.png?token=exp=1791072000~hmac=adde6c2cee6043fa86a0a52fe50dda99ec63c83d68f61f3831739aea7cb18691",
+      "page": "https://www.magnific.com/app/creation/gOnsrO5SXO",
+      "original_file": "files/stills-with-background/dardani-tregu-lose.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576632766/render.png?token=exp=1790812800~hmac=c7bfd3735f000576bbaf9b9cd4f55c3a4e0e6a282594aae9a5fb31a6721e8ee6",
+      "page_original": "https://www.magnific.com/app/creation/ksiQmkd16B"
+    },
+    {
+      "id": "still-tregu-portfolio",
+      "type": "still",
+      "file": "files/stills/dardani-tregu-portfolio.png",
+      "surfaces": [
+        "Tregu"
+      ],
+      "when": "Header of Portofoli im, empty balance.",
+      "alt_sq": "Dardani mban një portofol me monedha",
+      "copy_sq": "Portofoli im",
+      "src": "https://pikaso.cdnpk.net/private/production/5579067074/render.png?token=exp=1791072000~hmac=3f308eaa284df4da4fe3a5a2844ad35d96db77f12d7fd33549770c38953d075a",
+      "page": "https://www.magnific.com/app/creation/fHUvIKSCDY",
+      "original_file": "files/stills-with-background/dardani-tregu-portfolio.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576643481/render.png?token=exp=1790812800~hmac=365b235184c5ec6a014f3749cd6e97618dcc1d994d584d63203d742cacc7f8f8",
+      "page_original": "https://www.magnific.com/app/creation/MBHnR5pDCm"
+    },
+    {
+      "id": "still-avatar-neutral",
+      "type": "still",
+      "file": "files/stills/dardani-avatar-neutral.png",
+      "surfaces": [
+        "Pyet Dardanin"
+      ],
+      "when": "Chat avatar: idle/empty state, header button, collapsed bubble.",
+      "alt_sq": "Dardani, i qetë dhe i buzëqeshur",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579067612/render.png?token=exp=1791072000~hmac=0645722a894b5976b3098e6411994356c79c4269a1b0dd098669d8c344dffcd1",
+      "page": "https://www.magnific.com/app/creation/LwAxKNvswO",
+      "original_file": "files/stills-with-background/dardani-avatar-neutral.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576669320/render.png?token=exp=1790812800~hmac=56457cb1b18509f350a1cf7e88e810b874504b16a51a76f13f26ddcc4aac6176",
+      "page_original": "https://www.magnific.com/app/creation/YMfR6s3WeC"
+    },
+    {
+      "id": "still-avatar-thinking",
+      "type": "still",
+      "file": "files/stills/dardani-avatar-thinking.png",
+      "surfaces": [
+        "Pyet Dardanin"
+      ],
+      "when": "Chat avatar: request sent, before first token.",
+      "alt_sq": "Dardani me krah në mjekër, duke menduar",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579068799/render.png?token=exp=1791072000~hmac=cb5f5a5ae1b970e01c34a8ea39c5e4cb112fe7535df7359b57ca74ab1bdfba03",
+      "page": "https://www.magnific.com/app/creation/MBHTYbVDCm",
+      "original_file": "files/stills-with-background/dardani-avatar-thinking.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576673910/render.png?token=exp=1790812800~hmac=083a9d14dfdeb90ee2026cbfaf527c65694bea211c1566a24c117499634b6785",
+      "page_original": "https://www.magnific.com/app/creation/TdQG2hiVNR"
+    },
+    {
+      "id": "still-avatar-talking",
+      "type": "still",
+      "file": "files/stills/dardani-avatar-talking.png",
+      "surfaces": [
+        "Pyet Dardanin"
+      ],
+      "when": "Chat avatar: while the answer streams.",
+      "alt_sq": "Dardani duke folur",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579068175/render.png?token=exp=1791072000~hmac=aed2a076e64b2bb6a5f85fdcba7b0128981a6ab1a75863196180e6aeae2a92d3",
+      "page": "https://www.magnific.com/app/creation/Bh1dMKUoQR",
+      "original_file": "files/stills-with-background/dardani-avatar-talking.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576671839/render.png?token=exp=1790812800~hmac=1a13e3977a89cd1db4b9419687a52e3f7c7fb8739cb24e925a40728678c639f5",
+      "page_original": "https://www.magnific.com/app/creation/TdQGZcsVNR"
+    },
+    {
+      "id": "still-avatar-happy",
+      "type": "still",
+      "file": "files/stills/dardani-avatar-happy.png",
+      "surfaces": [
+        "Pyet Dardanin"
+      ],
+      "when": "Chat avatar: answer done with sources.",
+      "alt_sq": "Dardani i gëzuar",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579069350/render.png?token=exp=1791072000~hmac=3cf3b275533b982d23ddce1461cd08ad31d33184dd5fa1a66b210dc022944a68",
+      "page": "https://www.magnific.com/app/creation/eI5D0jVdqL",
+      "original_file": "files/stills-with-background/dardani-avatar-happy.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576723266/render.png?token=exp=1790812800~hmac=1da039d5c4d1833507fdbd2161c78d56fce3cb847af0020a934136be4331f026",
+      "page_original": "https://www.magnific.com/app/creation/ovrMdjp829"
+    },
+    {
+      "id": "still-face-confused",
+      "type": "still",
+      "file": "files/stills/dardani-face-confused.png",
+      "surfaces": [
+        "Pyet Dardanin",
+        "Search"
+      ],
+      "when": "Chat avatar: nothing found in the archive; search with no results.",
+      "alt_sq": "Dardani i hutuar, me kokë anash",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579086854/render.png?token=exp=1791072000~hmac=06e57b4ee8ac0025dbc587ce37bd53774a637b4c39f8b374ee6949e07ee44521",
+      "page": "https://www.magnific.com/app/creation/4RpyJHf9Aa",
+      "original_file": "files/stills-with-background/dardani-face-confused.png",
+      "src_original": null,
+      "page_original": "https://www.magnific.com/app/creation/ovrDRz9829"
+    },
+    {
+      "id": "still-face-surprised",
+      "type": "still",
+      "file": "files/stills/dardani-face-surprised.png",
+      "surfaces": [
+        "Pyet Dardanin",
+        "Breaking news"
+      ],
+      "when": "Reaction face: breaking news / surprising result.",
+      "alt_sq": "Dardani i habitur",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579084551/render.png?token=exp=1791072000~hmac=461cb6f1e1d596c471b6dce7b979cf5979a7e6f01f1d3a9ddb37838d5a31e902",
+      "page": "https://www.magnific.com/app/creation/8axBdjaIrU",
+      "original_file": "files/stills-with-background/dardani-face-surprised.png",
+      "src_original": null,
+      "page_original": "https://www.magnific.com/app/creation/5jNuTT6Kxe"
+    },
+    {
+      "id": "still-face-sad",
+      "type": "still",
+      "file": "files/stills/dardani-face-sad.png",
+      "surfaces": [
+        "Pyet Dardanin"
+      ],
+      "when": "Reaction face: sensitive stories, failed requests.",
+      "alt_sq": "Dardani i trishtuar",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579085180/render.png?token=exp=1791072000~hmac=f8606aca28cbb659b5761a0710a470a2ca96b413e4ad7c880b60467c2f5dc604",
+      "page": "https://www.magnific.com/app/creation/lJzLxTXgv9",
+      "original_file": "files/stills-with-background/dardani-face-sad.png",
+      "src_original": null,
+      "page_original": "https://www.magnific.com/app/creation/N2dJF386D9"
+    },
+    {
+      "id": "still-face-laughing",
+      "type": "still",
+      "file": "files/stills/dardani-face-laughing.png",
+      "surfaces": [
+        "Pyet Dardanin",
+        "Tregu"
+      ],
+      "when": "Reaction face: light moments, Tregu wins.",
+      "alt_sq": "Dardani qesh",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579085762/render.png?token=exp=1791072000~hmac=94f69730d03ad6cf9a6a9848dc68b1062e026415de0bc0e7be857ac7266084b1",
+      "page": "https://www.magnific.com/app/creation/IfjoXymtvE",
+      "original_file": "files/stills-with-background/dardani-face-laughing.png",
+      "src_original": null,
+      "page_original": "https://www.magnific.com/app/creation/lJz1I3Igv9"
+    },
+    {
+      "id": "still-face-wink",
+      "type": "still",
+      "file": "files/stills/dardani-face-wink.png",
+      "surfaces": [
+        "Tips"
+      ],
+      "when": "Reaction face: tips and hidden features.",
+      "alt_sq": "Dardani shkel syrin",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579086285/render.png?token=exp=1791072000~hmac=f0c0861e49b34f75c2a4d4042e284a1ae4efbb30cff78d6ece22d174a895bf0a",
+      "page": "https://www.magnific.com/app/creation/XmkeDOdBfo",
+      "original_file": "files/stills-with-background/dardani-face-wink.png",
+      "src_original": null,
+      "page_original": "https://www.magnific.com/app/creation/SyYxaBSUb8"
+    },
+    {
+      "id": "still-toni",
+      "type": "still",
+      "file": "files/stills/dardani-toni.png",
+      "surfaces": [
+        "Toni"
+      ],
+      "when": "Header art for the Toni tone index.",
+      "alt_sq": "Dardani me glob dhe xhami zmadhues",
+      "copy_sq": "Toni i botës për Kosovën",
+      "src": "https://pikaso.cdnpk.net/private/production/5579069824/render.png?token=exp=1791072000~hmac=07c9ef20026d4758245e75f30c346a884b72de5f28bf0228f521e0f980d79f23",
+      "page": "https://www.magnific.com/app/creation/mEsIXPshJQ",
+      "original_file": "files/stills-with-background/dardani-toni.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576725747/render.png?token=exp=1790812800~hmac=f6fbc2fa407a7d0effa61ce8d538563f7a1ba88c681cd1107a38f0c0bcc1b71d",
+      "page_original": "https://www.magnific.com/app/creation/XmkTpebBfo"
+    },
+    {
+      "id": "still-diaspora",
+      "type": "still",
+      "file": "files/stills/dardani-diaspora.png",
+      "surfaces": [
+        "Diaspora"
+      ],
+      "when": "Header for Diaspora / visit pages.",
+      "alt_sq": "Dardani me valixhe dhe pasaportë",
+      "copy_sq": "Mirë se erdhe në shtëpi",
+      "src": "https://pikaso.cdnpk.net/private/production/5579070587/render.png?token=exp=1791072000~hmac=979deb53f4f638b18c8d578113b1b585a1cf5967fbdfedec28c615cba5af12f9",
+      "page": "https://www.magnific.com/app/creation/YMfzZL3WeC",
+      "original_file": "files/stills-with-background/dardani-diaspora.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576729552/render.png?token=exp=1790812800~hmac=3d0338d4ca4d77a049dab5f7ca9d228addd5b394463a6f1329bda776607fa870",
+      "page_original": "https://www.magnific.com/app/creation/rgRHk3hxtc"
+    },
+    {
+      "id": "still-airport",
+      "type": "still",
+      "file": "files/stills/dardani-airport.png",
+      "surfaces": [
+        "Diaspora"
+      ],
+      "when": "Airport calculator (\"kur duhet të nisem?\").",
+      "alt_sq": "Dardani shikon orën pranë valixhes",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579071038/render.png?token=exp=1791072000~hmac=416ade36d196faee579c066e17103f4187cf9e70dcae5427acbc59dab8ec1cb3",
+      "page": "https://www.magnific.com/app/creation/nVaGRgWYQD",
+      "original_file": "files/stills-with-background/dardani-airport.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576731730/render.png?token=exp=1790812800~hmac=7bc6d0bbde7189dcc75d80a7bd34c11e951facb6bc11319eaf561e0f3b9e15b6",
+      "page_original": "https://www.magnific.com/app/creation/s7GKjtkl8e"
+    },
+    {
+      "id": "still-weather",
+      "type": "still",
+      "file": "files/stills/dardani-weather.png",
+      "surfaces": [
+        "Utility cards"
+      ],
+      "when": "Weather card, rainy variant.",
+      "alt_sq": "Dardani me ombrellë",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579071489/render.png?token=exp=1791072000~hmac=d937df4262669bf0dcfdb6e4962c4bd3e370f86fc2628738bf73cdf3de796b88",
+      "page": "https://www.magnific.com/app/creation/gOnsrCMSXO",
+      "original_file": "files/stills-with-background/dardani-weather.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576733115/render.png?token=exp=1790812800~hmac=9168f5a59e6e2031e4a280c81a7e7af51d02d995cc044fcc00b553d36e014977",
+      "page_original": "https://www.magnific.com/app/creation/DoqYVVapcl"
+    },
+    {
+      "id": "still-fuel",
+      "type": "still",
+      "file": "files/stills/dardani-fuel.png",
+      "surfaces": [
+        "Utility cards"
+      ],
+      "when": "Fuel prices card.",
+      "alt_sq": "Dardani mban pistoletën e karburantit",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579071928/render.png?token=exp=1791072000~hmac=9c46368936404c007da91685e4ddb6536e7aec2272627497b1d923dff7ac5707",
+      "page": "https://www.magnific.com/app/creation/Eb7fmpouuO",
+      "original_file": "files/stills-with-background/dardani-fuel.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576748532/render.png?token=exp=1790812800~hmac=8575923aca2a94818f345cc40cbfcdd44180bec49ca8c88c763e104b47d6dda4",
+      "page_original": "https://www.magnific.com/app/creation/lJzklv5gv9"
+    },
+    {
+      "id": "still-exchange",
+      "type": "still",
+      "file": "files/stills/dardani-exchange.png",
+      "surfaces": [
+        "Utility cards"
+      ],
+      "when": "Currency exchange card.",
+      "alt_sq": "Dardani me dy monedha që këmbehen",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579072412/render.png?token=exp=1791072000~hmac=56b87fe7a775c58d1b6c2522575f34172c49463448b21a8f8b734555b06a769b",
+      "page": "https://www.magnific.com/app/creation/fHUvIevCDY",
+      "original_file": "files/stills-with-background/dardani-exchange.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576806276/render.png?token=exp=1790812800~hmac=59dc36690689f0c96ee6428c9cd752e185dd9348c62c4175858888fc4471e561",
+      "page_original": "https://www.magnific.com/app/creation/8axpEsVIrU"
+    },
+    {
+      "id": "still-flying",
+      "type": "still",
+      "file": "files/stills/dardani-flying.png",
+      "surfaces": [
+        "Section headers"
+      ],
+      "when": "Static fallback for the flying loop.",
+      "alt_sq": "Dardani fluturon",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579072921/render.png?token=exp=1791072000~hmac=680469dd6bab737e153549872f444eebf71a8c80e8afcc332d0c03a69bfb87af",
+      "page": "https://www.magnific.com/app/creation/9ZeP7S4NYZ",
+      "original_file": "files/stills-with-background/dardani-flying.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576809298/render.png?token=exp=1790812800~hmac=0affa91207e8a473834b179667cc46e991724a71a071fdb247b27f8d702f1d3a",
+      "page_original": "https://www.magnific.com/app/creation/3zoPWSvREY"
+    },
+    {
+      "id": "still-flying-news",
+      "type": "still",
+      "file": "files/stills/dardani-flying-news.png",
+      "surfaces": [
+        "Për ty"
+      ],
+      "when": "Static fallback for the flying-with-newspaper loop.",
+      "alt_sq": "Dardani fluturon me gazetë",
+      "copy_sq": null,
+      "src": "https://pikaso.cdnpk.net/private/production/5579073433/render.png?token=exp=1791072000~hmac=bd6fc91e18ac0c127bcc9e462e9f186ae63bc6601b445344260aedaa817a7392",
+      "page": "https://www.magnific.com/app/creation/UPWgjLLwny",
+      "original_file": "files/stills-with-background/dardani-flying-news.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576815283/render.png?token=exp=1790812800~hmac=f81858d0912e3ff309fcc64edeb415406365d073d7685de62448374882c13174",
+      "page_original": "https://www.magnific.com/app/creation/VXFnIlkMMU"
+    },
+    {
+      "id": "still-error-404",
+      "type": "still",
+      "file": "files/stills/dardani-error-404.png",
+      "surfaces": [
+        "Errors"
+      ],
+      "when": "404 page.",
+      "alt_sq": "Dardani mban një gazetë të grisur",
+      "copy_sq": "Kjo faqe nuk u gjet",
+      "src": "https://pikaso.cdnpk.net/private/production/5579073937/render.png?token=exp=1791072000~hmac=3ed73ae4ba935355892bdee683a8c0cf9a43a4a559500fcbfbcd0c293c1fa17b",
+      "page": "https://www.magnific.com/app/creation/JNTwl7QOq4",
+      "original_file": "files/stills-with-background/dardani-error-404.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576817328/render.png?token=exp=1790812800~hmac=6e2a8f0c14773175e7bdb8dc0f86a1ebcbee2e143168ef67a8e70f59f8711f7d",
+      "page_original": "https://www.magnific.com/app/creation/bx9El8o5Y2"
+    },
+    {
+      "id": "still-offline",
+      "type": "still",
+      "file": "files/stills/dardani-offline.png",
+      "surfaces": [
+        "Errors"
+      ],
+      "when": "Offline / no connection.",
+      "alt_sq": "Dardani mban dy skajet e një kablloje të shkëputur",
+      "copy_sq": "S'ka lidhje me internetin",
+      "src": "https://pikaso.cdnpk.net/private/production/5579074440/render.png?token=exp=1791072000~hmac=3f7612b3313e550328fb00d68b9c6be62b855f0c23deae8620c2c5cbc4518b93",
+      "page": "https://www.magnific.com/app/creation/TdQcnp7VNR",
+      "original_file": "files/stills-with-background/dardani-offline.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576818376/render.png?token=exp=1790812800~hmac=6c2e9a650a491e674dc455aabcae57e7306b58d2cdd99d68161116b67044dc7f",
+      "page_original": "https://www.magnific.com/app/creation/SyYxNlLUb8"
+    },
+    {
+      "id": "still-empty",
+      "type": "still",
+      "file": "files/stills/dardani-empty.png",
+      "surfaces": [
+        "Empty states"
+      ],
+      "when": "Empty saved articles, Për ty before setup, empty search.",
+      "alt_sq": "Dardani shikon në një kuti bosh",
+      "copy_sq": "Ende asgjë këtu",
+      "src": "https://pikaso.cdnpk.net/private/production/5579074908/render.png?token=exp=1791072000~hmac=00a0b5f0bd11443a502e583b14083877ce99448a99c628a37eb13413c54eddbb",
+      "page": "https://www.magnific.com/app/creation/xSZ15wDjfW",
+      "original_file": "files/stills-with-background/dardani-empty.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576819932/render.png?token=exp=1790812800~hmac=c8be906fe7555617287d14fcbd54fc89918a6300053097b4b3c30b2dcb1f85ee",
+      "page_original": "https://www.magnific.com/app/creation/YMfZXBpWeC"
+    },
+    {
+      "id": "still-sleeping",
+      "type": "still",
+      "file": "files/stills/dardani-sleeping.png",
+      "surfaces": [
+        "Për ty",
+        "Empty states"
+      ],
+      "when": "Static fallback for the sleeping loop.",
+      "alt_sq": "Dardani fle me kapuç gjumi",
+      "copy_sq": "Asnjë lajm i ri tani për tani",
+      "src": "https://pikaso.cdnpk.net/private/production/5579075663/render.png?token=exp=1791072000~hmac=ef64c1be238f148645ff159382f1acb69d19398c35e7c36a4b9d86d1be6df35a",
+      "page": "https://www.magnific.com/app/creation/4Rpy7cG9Aa",
+      "original_file": "files/stills-with-background/dardani-sleeping.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576822937/render.png?token=exp=1790812800~hmac=f7a5e87b31704ad6a450a3f1ee7f42fa9937151dd037b86b37c18398b7fcc2cf",
+      "page_original": "https://www.magnific.com/app/creation/MBHYmqJDCm"
+    },
+    {
+      "id": "still-sorry",
+      "type": "still",
+      "file": "files/stills/dardani-sorry.png",
+      "surfaces": [
+        "Errors"
+      ],
+      "when": "500 / failed loads.",
+      "alt_sq": "Dardani kruan kokën me një çelës anglez në dorë",
+      "copy_sq": "Diçka shkoi keq, po e rregullojmë",
+      "src": "https://pikaso.cdnpk.net/private/production/5579076155/render.png?token=exp=1791072000~hmac=5111dc74afe8e8598ff52760eb05031a39f011c785792802a139166b3a8e43f3",
+      "page": "https://www.magnific.com/app/creation/gOnsxGYSXO",
+      "original_file": "files/stills-with-background/dardani-sorry.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576829842/render.png?token=exp=1790812800~hmac=d2bcde375d479d173710a08ff667bd6776b3d6b27be0a3dc03b4b6c730e2698e",
+      "page_original": "https://www.magnific.com/app/creation/iGBy0vy3uK"
+    },
+    {
+      "id": "still-bell",
+      "type": "still",
+      "file": "files/stills/dardani-bell.png",
+      "surfaces": [
+        "Notifications"
+      ],
+      "when": "Static fallback for the bell loop / permission pre-prompt.",
+      "alt_sq": "Dardani i bie ziles",
+      "copy_sq": "Të njoftoj kur ka lajme të mëdha?",
+      "src": "https://pikaso.cdnpk.net/private/production/5579076698/render.png?token=exp=1791072000~hmac=097b41881021b549073af283ca8a8dec32f0655833799f2883504189e3963dfa",
+      "page": "https://www.magnific.com/app/creation/bx9Hu6p5Y2",
+      "original_file": "files/stills-with-background/dardani-bell.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576850077/render.png?token=exp=1790812800~hmac=cdb108bb97e53144f1840555e15b7266a39b50bf9792530f266b4adb27322826",
+      "page_original": "https://www.magnific.com/app/creation/p8bcC01ehw"
+    },
+    {
+      "id": "still-key",
+      "type": "still",
+      "file": "files/stills/dardani-key.png",
+      "surfaces": [
+        "Account"
+      ],
+      "when": "Sign in / create account.",
+      "alt_sq": "Dardani mban një çelës të artë",
+      "copy_sq": "Hyr në llogari",
+      "src": "https://pikaso.cdnpk.net/private/production/5579077188/render.png?token=exp=1791072000~hmac=1f64950084584f64bd6b34c37001eaea33d9ce04a1f8eddc52a272bc7f8085a0",
+      "page": "https://www.magnific.com/app/creation/nVaGZQyYQD",
+      "original_file": "files/stills-with-background/dardani-key.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576851202/render.png?token=exp=1790812800~hmac=1f1ced5c410ee15f33d308b74e53012f37088e410c85b72ae12f466b4c7ea478",
+      "page_original": "https://www.magnific.com/app/creation/JNTlz2oOq4"
+    },
+    {
+      "id": "still-streak",
+      "type": "still",
+      "file": "files/stills/dardani-streak.png",
+      "surfaces": [
+        "Për ty"
+      ],
+      "when": "Daily reading streak.",
+      "alt_sq": "Dardani me kalendar dhe flakë",
+      "copy_sq": "3 ditë rresht!",
+      "src": "https://pikaso.cdnpk.net/private/production/5579078006/render.png?token=exp=1791072000~hmac=fe4591139daca9ca1f945d5377cf84276c630dfc24255ac009c1ab96f9f92f8a",
+      "page": "https://www.magnific.com/app/creation/fHUvtiYCDY",
+      "original_file": "files/stills-with-background/dardani-streak.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576853100/render.png?token=exp=1790812800~hmac=d13102855967b2ea4404485900b8bfe9c5b51c855e8ebaa0ca7122155cb2d150",
+      "page_original": "https://www.magnific.com/app/creation/ksiFyn016B"
+    },
+    {
+      "id": "still-flag-albania",
+      "type": "still",
+      "file": "files/stills/dardani-flag-albania.png",
+      "surfaces": [
+        "Occasions"
+      ],
+      "when": "28 Nëntor (Flag Day) — swap in on homepage + loader.",
+      "alt_sq": "Dardani valëvit flamurin shqiptar",
+      "copy_sq": "Gëzuar Ditën e Flamurit!",
+      "src": "https://pikaso.cdnpk.net/private/production/5579078467/render.png?token=exp=1791072000~hmac=4f5a84e9439e632304cebe0e033b193f6106023bb2e6c3cc535695688dc6828d",
+      "page": "https://www.magnific.com/app/creation/lJzLrorgv9",
+      "original_file": "files/stills-with-background/dardani-flag-albania.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576855871/render.png?token=exp=1790812800~hmac=4d40bca9e3dadcc6ea55a6e3f52972647001b3dfcf0e77bb162d704ca14dae98",
+      "page_original": "https://www.magnific.com/app/creation/yiMSYHWPW9"
+    },
+    {
+      "id": "still-flag-kosovo",
+      "type": "still",
+      "file": "files/stills/dardani-flag-kosovo.png",
+      "surfaces": [
+        "Occasions"
+      ],
+      "when": "17 Shkurt (Kosovo Independence Day).",
+      "alt_sq": "Dardani valëvit flamurin e Kosovës",
+      "copy_sq": "Gëzuar Ditën e Pavarësisë!",
+      "src": "https://pikaso.cdnpk.net/private/production/5579079006/render.png?token=exp=1791072000~hmac=9999f3492110031e7c9c8bf325465f1f01f97b7215accd97f23a189500c708dd",
+      "page": "https://www.magnific.com/app/creation/4Rpy7HC9Aa",
+      "original_file": "files/stills-with-background/dardani-flag-kosovo.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576857720/render.png?token=exp=1790812800~hmac=cc49822d8d741b5e782c6c3bbd3fe7a9667a229e8e18a71f3882eb1f650d5c72",
+      "page_original": "https://www.magnific.com/app/creation/aFS8xBwfSh"
+    },
+    {
+      "id": "still-matchday-scarf",
+      "type": "still",
+      "file": "files/stills/dardani-matchday-scarf.png",
+      "surfaces": [
+        "Occasions"
+      ],
+      "when": "Kosovo national team match days.",
+      "alt_sq": "Dardani ngre shallin blu e të verdhë",
+      "copy_sq": "Hajde Dardanët!",
+      "src": "https://pikaso.cdnpk.net/private/production/5579079585/render.png?token=exp=1791072000~hmac=7c0073768815dc806390d2c7bcead3c82beca3b306faa51672717851b14a6b22",
+      "page": "https://www.magnific.com/app/creation/WDCnAJ9cXe",
+      "original_file": "files/stills-with-background/dardani-matchday-scarf.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576859414/render.png?token=exp=1790812800~hmac=e0d13ea77146fad00f3d1b5ba365283973f50943a9ee2174169bfbfaea64e6c2",
+      "page_original": "https://www.magnific.com/app/creation/MBHYCpaDCm"
+    },
+    {
+      "id": "still-new-year",
+      "type": "still",
+      "file": "files/stills/dardani-new-year.png",
+      "surfaces": [
+        "Occasions"
+      ],
+      "when": "31 Dhjetor – 1 Janar, year-end recap.",
+      "alt_sq": "Dardani me kapelë feste dhe konfeti",
+      "copy_sq": "Gëzuar Vitin e Ri!",
+      "src": "https://pikaso.cdnpk.net/private/production/5579080051/render.png?token=exp=1791072000~hmac=4b8546ce51b27aebbd2eba9b65f36e9c23dd4c11aa77fa1d28322d0ebef49bee",
+      "page": "https://www.magnific.com/app/creation/1l3Kqvfr4r",
+      "original_file": "files/stills-with-background/dardani-new-year.png",
+      "src_original": "https://pikaso.cdnpk.net/private/production/5576861053/render.png?token=exp=1790812800~hmac=a78a45faec4992bec89830e5c52d74ed1457830aebf4ed2d531dc1e9c65347bd",
+      "page_original": "https://www.magnific.com/app/creation/LwAKiyTswO"
+    },
+    {
+      "id": "still-celebrating",
+      "type": "still",
+      "file": "files/stills-with-background/dardani-celebrating.png",
+      "surfaces": [
+        "Për ty onboarding step 8"
+      ],
+      "when": "Onboarding done screen (Gati!) with confetti. Only available with its background (cream), no transparent cut-out yet.",
+      "alt_sq": "Dardani feston me krahë lart",
+      "copy_sq": null,
+      "src": null,
+      "bundled": true
+    }
+  ]
+}

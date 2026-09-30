@@ -13,6 +13,8 @@ import { EASE, DUR } from "@/lib/tokens";
 import TourCursor, { type CursorScript } from "@/components/tour-cursor";
 import TutorialChart from "@/components/tregu/tutorial-chart";
 import { previewBet, previewSell, lmsrPriceYes, type BinarySide } from "@/lib/tregu-client";
+import DardaniImage from "@/components/dardani/dardani-image";
+import DardaniLoop from "@/components/dardani/dardani-loop";
 
 const STORAGE_KEY = "383:tour:tregu-trade";
 const OPEN_EVENT = "383-tour-open";
@@ -163,24 +165,24 @@ interface Act {
 const ACTS: Act[] = [
   {
     key: "side",
-    title: "Zgjidh një anë",
-    body: "Përqindja tregon sa e mundur e sheh tregu. Ana më e lirë paguan më shumë.",
+    title: "PO apo JO?",
+    body: "Tregu është një lojë parashikimi me monedha falas. Përqindja tregon sa njerëz mendojnë se do të ndodhë. Nëse zgjedh atë që pakkush e pret dhe ke të drejtë, fiton më shumë.",
     cue: "Prek PO ose JO.",
-    cueDone: "Kaq. Ana më pak e pritur paguan më shumë.",
+    cueDone: "Bukur! Poshtë sheh sa mund të fitosh.",
   },
   {
     key: "buy",
-    title: "Vër 25 Monedha prove",
-    body: "Monedhat janë falas dhe të provës. Asgjë reale nuk preket.",
-    cue: "Sa Monedha? Prek një çip.",
-    cueDone: "E bëre. Shiko bilancin lart.",
+    title: "Vër disa monedha",
+    body: "Këto janë monedha prove: falas, jo para të vërteta. Zgjidh sa do të vësh.",
+    cue: "Zgjidh sa monedha: prek një numër.",
+    cueDone: "U krye! Monedhat dolën nga bilanci lart.",
   },
   {
     key: "exit",
-    title: "Dil kur të duash",
-    body: "Shit dhe Monedhat kthehen. Nëse vija lëviz për ty, kthen më shumë.",
+    title: "Dil kurdo që të duash",
+    body: "S'ke pse pret fundin. Shtyp Shit dhe monedhat të kthehen. Nëse të tjerët filluan të mendojnë si ti, të kthehen më shumë.",
     cue: "Shtyp Shit.",
-    cueDone: "E bëre. Hyre dhe dole.",
+    cueDone: "Shumë mirë! Tani e di si luhet.",
   },
 ];
 
@@ -188,7 +190,7 @@ const ACTS: Act[] = [
  * Act 2's cue, handed over one move at a time. The index is `betStep`, so the
  * line always names the single control that is currently wearing the ring.
  */
-const BET_CUES = ["Sa Monedha? Prek një çip.", "Shtyp Blej."];
+const BET_CUES = ["Zgjidh sa monedha: prek një numër.", "Tani shtyp Blej."];
 
 const MOCK_QUESTION = "A do të nënshkruhet marrëveshja para fundit të muajit?";
 /**
@@ -390,13 +392,13 @@ export default function TradeTutorial() {
   const buy = useCallback(() => {
     if (!preview) return;
     dispatch({ type: "buy" });
-    showFlash(`−${fmt(preview.coins)} 383C · +${fmt(preview.shares, 1)} aksione`, "out");
+    showFlash(`−${fmt(preview.coins)} monedha`, "out");
   }, [preview, showFlash]);
 
   const sell = useCallback(() => {
     if (!exitValue) return;
     dispatch({ type: "sell" });
-    showFlash(`+${fmt(exitValue.coins, 2)} 383C mbrapsht`, "in");
+    showFlash(`+${fmt(exitValue.coins, 2)} monedha u kthyen`, "in");
   }, [exitValue, showFlash]);
 
   /** One side control for the whole tutorial: the tiles are the slip. */
@@ -552,15 +554,15 @@ export default function TradeTutorial() {
             <header className="tutorial-head">
               <span className="tour-eyebrow">
                 <span aria-hidden />
-                Si tregtohet
+                Si luhet Tregu
               </span>
               {/* One number. The trade counter next to it was a second thing to
                   watch on a screen that is asking the reader to watch the
                   balance — and the counter is the one that teaches nothing. */}
               <div className="tutorial-wallet" data-focus={state.shares > 0 ? "" : undefined}>
                 <span>
-                  Bilanc prove{" "}
-                  <Tick value={`${fmt(state.balance)} 383C`} motionOn={motionOn} />
+                  Monedhat e provës{" "}
+                  <Tick value={fmt(state.balance)} motionOn={motionOn} />
                 </span>
                 <AnimatePresence>
                   {flash && (
@@ -606,6 +608,13 @@ export default function TradeTutorial() {
 
             <div className="tutorial-body">
               <div className="tutorial-copy">
+                <div className="tutorial-dardani" aria-hidden="true">
+                  {act === 0 ? (
+                    <DardaniLoop name="tregu-explainer" decorative />
+                  ) : (
+                    <DardaniImage name={act === 1 ? "tregu-predict" : "tregu-win"} decorative />
+                  )}
+                </div>
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={current.key}
@@ -657,7 +666,7 @@ export default function TradeTutorial() {
                       >
                         <span>{s}</span>
                         <strong>{(p * 100).toFixed(1)}%</strong>
-                        <em>×{(1 / p).toFixed(2)} nëse del drejt</em>
+                        <em>×{(1 / p).toFixed(2)} nëse ke të drejtë</em>
                       </button>
                     );
                   })}
@@ -672,9 +681,8 @@ export default function TradeTutorial() {
                         data-side={tappedSide}
                         {...stage}
                       >
-                        100 383C te <strong>{tappedSide}</strong> të kthejnë rreth{" "}
-                        <strong>{fmt(100 / (tappedSide === "PO" ? price : 1 - price))} 383C</strong>{" "}
-                        nëse del drejt.
+                        Nëse vë 100 monedha te <strong>{tappedSide}</strong> dhe ke të drejtë, merr rreth{" "}
+                        <strong>{fmt(100 / (tappedSide === "PO" ? price : 1 - price))} monedha</strong>.
                       </motion.p>
                     )
                   ) : current.key === "buy" ? (
@@ -698,8 +706,8 @@ export default function TradeTutorial() {
                       </div>
 
                       <p className="tutorial-line">
-                        Nëse del drejt merr{" "}
-                        <strong>{preview ? fmt(preview.shares, 2) : "—"} 383C</strong>
+                        Nëse ke të drejtë, merr{" "}
+                        <strong>{preview ? fmt(preview.shares, 2) : "—"} monedha</strong>
                       </p>
 
                       <button
@@ -710,14 +718,14 @@ export default function TradeTutorial() {
                         disabled={!preview || state.shares > 0}
                         onClick={buy}
                       >
-                        Blej {state.side} për {fmt(Math.min(state.amount, state.balance))} 383C
+                        Blej {state.side} me {fmt(Math.min(state.amount, state.balance))} monedha
                       </button>
                     </motion.div>
                   ) : sold ? (
                     <motion.div key="recap" className="tutorial-recap" {...stage}>
                       <p>
-                        Hyre dhe dole. Bilanci i provës mbylli në{" "}
-                        <strong>{fmt(state.balance)} 383C</strong>.
+                        Hyre dhe dole. Tani ke{" "}
+                        <strong>{fmt(state.balance)} monedha prove</strong>.
                       </p>
                       {motionOn && (
                         <span className="tutorial-burst" aria-hidden>
@@ -742,9 +750,8 @@ export default function TradeTutorial() {
                   ) : (
                     <motion.div key="slip-hold" className="tutorial-slip" data-tut="slip" {...stage}>
                       <p className="tutorial-line">
-                        Ke <strong>{fmt(state.shares, 2)}</strong> aksione{" "}
-                        <strong data-side={state.heldSide}>{state.heldSide}</strong> · vlejnë{" "}
-                        <strong>{exitValue ? fmt(exitValue.coins, 2) : "0"} 383C</strong> tani
+                        Ke vënë te <strong data-side={state.heldSide}>{state.heldSide}</strong>. Po të shesësh tani merr{" "}
+                        <strong>{exitValue ? fmt(exitValue.coins, 2) : "0"} monedha</strong>
                       </p>
 
                       <button
@@ -755,7 +762,7 @@ export default function TradeTutorial() {
                         data-await=""
                         onClick={sell}
                       >
-                        Shit · merr {exitValue ? fmt(exitValue.coins, 2) : "0"} 383C
+                        Shit · merr {exitValue ? fmt(exitValue.coins, 2) : "0"} monedha
                       </button>
                     </motion.div>
                   )}
@@ -827,7 +834,7 @@ export default function TradeTutorial() {
                     disabled={blocked}
                     onClick={act >= ACTS.length - 1 ? finish : next}
                   >
-                    {act >= ACTS.length - 1 ? "Hap kuponin" : "Vazhdo"}
+                    {act >= ACTS.length - 1 ? "Provo me të vërtetë" : "Vazhdo"}
                     <span aria-hidden>→</span>
                   </button>
                 </div>

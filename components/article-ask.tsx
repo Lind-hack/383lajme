@@ -1,14 +1,17 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Article } from "@/lib/mock-data";
 import { articleQuestions } from "@/lib/pyet-questions.mjs";
 import { CURATED } from "@/lib/entities.mjs";
-import AskPanel from "./ask-panel";
+import { personalArticleQuestions } from "@/lib/dardani-memory.mjs";
+import { readInterests } from "@/lib/interests.mjs";
+import DardaniFace from "@/components/dardani/dardani-face";
+import AskPanel, { type AskStatus, type Chip } from "./ask-panel";
 import ArticleAskBubble from "./article-ask-bubble";
 
 /**
- * Pyet 383, on the article the reader is actually reading.
+ * Pyet Dardanin, on the article the reader is actually reading.
  *
  * The panel sits at the end of the body: the questions worth asking are the
  * ones you have after finishing, and a prompt box competing with the first
@@ -17,7 +20,8 @@ import ArticleAskBubble from "./article-ask-bubble";
  *
  * Both are driven from here so a question picked in the bubble lands in the
  * panel — one thread, one place the answer appears, no second conversation
- * floating over the article.
+ * floating over the article. Dardani's face and status line live here too, so
+ * the card header and the collapsed bubble show the same state.
  *
  * The chips are computed, not fetched. `articleQuestions` is pure and
  * `CURATED` is static, so the openings render with the page: no request, no
@@ -25,10 +29,22 @@ import ArticleAskBubble from "./article-ask-bubble";
  * anything.
  */
 export default function ArticleAsk({ article }: { article: Article }) {
-  const chips = useMemo(() => articleQuestions(article, CURATED), [article]);
+  const general = useMemo(() => articleQuestions(article, CURATED), [article]);
+  // The reader's own angle first — a person they follow is in this story, or it
+  // is about their city. Read after mount: the interests live on the device.
+  const [personal, setPersonal] = useState<Chip[]>([]);
+  useEffect(() => {
+    setPersonal(personalArticleQuestions(article, readInterests()));
+  }, [article]);
+  const chips = useMemo(() => [...personal, ...general].slice(0, 5), [personal, general]);
   const [seed, setSeed] = useState<{ question: string; nonce: number }>({
     question: "",
     nonce: 0,
+  });
+  const [status, setStatus] = useState<AskStatus>({
+    face: "neutral",
+    status: "Zgjidh një pyetje, Dardani e kërkon në arkiv",
+    busy: false,
   });
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -41,21 +57,34 @@ export default function ArticleAsk({ article }: { article: Article }) {
 
   return (
     <>
-      <ArticleAskBubble chips={chips} onPick={pick} />
+      <ArticleAskBubble chips={chips} onPick={pick} face={status.busy ? status.face : "neutral"} />
 
       <section className="pyet-block" aria-labelledby="pyet-heading" ref={panelRef}>
-        <h2 className="pyet-heading" id="pyet-heading">
-          Pyet 383 për këtë lajm
-        </h2>
-        <p className="pyet-sub">
-          Përgjigjet vijnë vetëm nga artikujt e botuar te 383, me burimet e lidhura.
-        </p>
+        <div className="pyet-head">
+          <DardaniFace state={status.face} size={60} />
+          <div className="pyet-head-copy">
+            <h2 className="pyet-heading" id="pyet-heading">
+              Pyet Dardanin për këtë lajm
+            </h2>
+            <p className="pyet-status" aria-live="polite">
+              {status.busy && (
+                <span className="pyet-dots" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                </span>
+              )}
+              <span>{status.status}</span>
+            </p>
+          </div>
+        </div>
         <AskPanel
           slug={article.slug}
           chips={chips}
           variant="article"
           seedQuestion={seed.question}
           seedNonce={seed.nonce}
+          onStatus={setStatus}
         />
       </section>
     </>

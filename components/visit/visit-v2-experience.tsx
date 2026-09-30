@@ -37,6 +37,7 @@ import {
 import { track } from "@/lib/analytics";
 import { createClient } from "@/lib/supabase/client";
 import styles from "./visit-v2.module.css";
+import DardaniImage from "@/components/dardani/dardani-image";
 
 type WaitRange = { min: number; max: number };
 type OfficialWait = {
@@ -372,6 +373,10 @@ export default function VisitV2Experience() {
 
       <section className={styles.visitHero} aria-labelledby="visit-v2-title">
         <div className={styles.heroCopy}>
+          <div className="visit-dardani">
+            <DardaniImage name="diaspora" decorative priority />
+            <span>Mirë se erdhe në shtëpi</span>
+          </div>
           <h1 id="visit-v2-title"><span>Kosova</span> në xhep, para kufirit.</h1>
           <p className={styles.heroLead}>Pritjet në kufi, ndihma pranë teje dhe vendet që ia vlen t&apos;i shohësh.</p>
           <a className={styles.heroEmergency} href="tel:112"><Phone aria-hidden="true" size={20} />Ndihmë tani - 112</a>

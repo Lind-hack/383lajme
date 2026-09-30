@@ -2,7 +2,13 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import AskPanel, { type Chip } from "@/components/ask-panel";
+import AskPanel, { type AskStatus, type Chip } from "@/components/ask-panel";
+import DardaniFace from "@/components/dardani/dardani-face";
+import DardaniImage from "@/components/dardani/dardani-image";
+import DardaniLoop from "@/components/dardani/dardani-loop";
+import { personalStarters } from "@/lib/dardani-memory.mjs";
+import { readMemory } from "@/lib/dardani-memory-store";
+import { readInterests } from "@/lib/interests.mjs";
 import { useRouter } from "next/navigation";
 import {
   ArrowUpRight,
@@ -91,6 +97,8 @@ export default function SearchOverlay({
   open,
   onClose,
   initialMode = "kerko",
+  seedQuestion = "",
+  seedNonce = 0,
 }: {
   open: boolean;
   onClose: () => void;
@@ -100,6 +108,9 @@ export default function SearchOverlay({
    * Dardanin pill opens Pyet — so neither shows the other's controls.
    */
   initialMode?: "kerko" | "pyet";
+  /** A question to ask as Pyet opens (from a "Pyet Dardanin" button elsewhere). */
+  seedQuestion?: string;
+  seedNonce?: number;
 }) {
   const [mounted, setMounted] = useState(false);
   const [query, setQuery] = useState("");
@@ -111,6 +122,8 @@ export default function SearchOverlay({
   const [starters, setStarters] = useState<Chip[]>([]);
   const [loading, setLoading] = useState(false);
   const [active, setActive] = useState(0);
+  // Pyet mode: the face beside "Pyet Dardanin" follows the conversation.
+  const [ask, setAsk] = useState<AskStatus | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
@@ -197,7 +210,9 @@ export default function SearchOverlay({
   }, [query, open, mode]);
 
   // Openers, so the first thing in Pyet mode is not an empty box. Fetched once
-  // per opening and only when the reader actually switches to it.
+  // per opening and only when the reader actually switches to it. The reader's
+  // own come first — ranked on this device from what they follow, read and
+  // ask about — then the day's general ones fill the row.
   useEffect(() => {
     if (!open || mode !== "pyet" || starters.length > 0) return;
     let alive = true;
@@ -205,7 +220,13 @@ export default function SearchOverlay({
       try {
         const res = await fetch("/api/pyet");
         const payload = await res.json();
-        if (alive && Array.isArray(payload?.starters)) setStarters(payload.starters);
+        if (!alive) return;
+        const general: Chip[] = Array.isArray(payload?.starters) ? payload.starters : [];
+        const personal: Chip[] = Array.isArray(payload?.pool)
+          ? personalStarters(payload.pool, readInterests(), readMemory(), 3)
+          : [];
+        const seen = new Set(personal.map((c) => c.question));
+        setStarters([...personal, ...general.filter((c) => !seen.has(c.question))].slice(0, 4));
       } catch {
         // Openers are a convenience; the input works without them.
       }
@@ -301,7 +322,10 @@ export default function SearchOverlay({
           </div>
         ) : (
           <div className="kerko-field kerko-field-ask">
-            <span className="kerko-ask-title">Pyet Dardanin</span>
+            <span className="kerko-ask-title">
+              <DardaniFace state={ask?.face ?? "neutral"} size={34} decorative />
+              Pyet Dardanin
+            </span>
             <button type="button" className="kerko-esc" onClick={onClose}>
               esc
             </button>
@@ -311,14 +335,27 @@ export default function SearchOverlay({
 
         <div className="kerko-body" ref={listRef}>
           {mode === "pyet" ? (
-            <AskPanel variant="overlay" autoFocus chips={starters} />
+            <AskPanel
+              variant="overlay"
+              autoFocus
+              chips={starters}
+              onStatus={setAsk}
+              seedQuestion={seedQuestion}
+              seedNonce={seedNonce}
+            />
           ) : !showing ? (
             <p className="kerko-hint">
               Shkruaj të paktën dy shkronja. Kërkimi mbulon artikujt, temat, vendet te
               Toni, qytetet te Vizito dhe tregjet.
             </p>
+          ) : loading && flat.length === 0 ? (
+            <div className="kerko-searching" role="status">
+              <DardaniLoop name="researching" decorative className="kerko-searching-loop" />
+              <p>Po kërkon…</p>
+            </div>
           ) : nothing ? (
             <div className="kerko-empty">
+              <DardaniImage name="face-confused" decorative className="kerko-empty-face" />
               <p className="kerko-empty-title">
                 Asgjë për <strong>“{data.query || query.trim()}”</strong>.
               </p>

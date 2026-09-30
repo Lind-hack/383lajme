@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { EASE, DUR } from "@/lib/tokens";
@@ -14,6 +13,9 @@ import CoinToast from "./tregu/coin-toast";
 import SearchOverlay from "./search-overlay";
 import { treguHeroBehindChrome } from "@/components/tregu/video-hero";
 import { NAV_CATEGORIES } from "@/lib/category-map";
+import { occasionFor } from "@/lib/dardani-occasions.mjs";
+import { PYET_OPEN_EVENT } from "@/lib/pyet-thread";
+import DardaniImage from "./dardani/dardani-image";
 
 /** Derived from lib/category-map, so the navbar, the side panel (which imports
  *  this), the footer and the pill row cannot drift apart. Order and membership
@@ -41,19 +43,48 @@ export const PRIMARY_NAV = [
 ] as const;
 
 /**
- * Tregu with its live dot, and the Pyet Dardanin pill, which opens Pyet 383
- * with the mascot. Shown in both the full and the collapsed header; on a phone
- * Dardan folds to the mascot alone (globals.css, .nav-right-pills).
+ * Tregu with its live dot, and the Pyet Dardanin pill, which opens Pyet
+ * Dardanin. Shown in both the full and the collapsed header.
+ *
+ * Dardani bobs his head in the pill's circle: his clean still face, moved by
+ * CSS. The headbob video was tried and dropped — its right eye flashes white or
+ * ghosts in about a third of its frames, too many to repair without stutter.
+ * On an occasion (Flag Day,
+ * Independence Day, New Year, a national-team match day) he wears it instead:
+ * the occasion still, chosen by the Kosovo date after mount so a page cached
+ * over midnight never shows yesterday's flag.
  */
 function RightPills({ treguActive, onAsk }: { treguActive: boolean; onAsk: () => void }) {
+  const [occasion, setOccasion] = useState<ReturnType<typeof occasionFor>>(null);
+  useEffect(() => setOccasion(occasionFor()), []);
+
   return (
     <div className="nav-right-pills">
       <Link href="/tregu" className="nav-tregu-link" data-active={treguActive ? "true" : undefined}>
         <span className="nav-tregu-dot" aria-hidden="true" />
         <span className="nav-tregu-word">Tregu</span>
       </Link>
-      <button type="button" className="nav-dardan" onClick={onAsk} aria-haspopup="dialog">
-        <Image src="/images/dardan/avatar.webp" alt="" width={34} height={34} priority />
+      <button
+        type="button"
+        className="nav-dardan"
+        onClick={onAsk}
+        aria-haspopup="dialog"
+        title={occasion?.copy}
+      >
+        <span className="nav-dardan-face" data-occasion={occasion ? "" : undefined}>
+          {occasion ? (
+            <DardaniImage name={occasion.still} decorative priority className="nav-dardan-occasion" />
+          ) : (
+            <DardaniImage
+              name="avatar-neutral"
+              decorative
+              priority
+              unoptimized
+              className="nav-dardan-bob"
+              style={{ width: "108%", height: "auto" }}
+            />
+          )}
+        </span>
         <span className="nav-dardan-label">Pyet Dardanin</span>
       </button>
     </div>
@@ -114,6 +145,20 @@ export default function Navbar() {
   // (color overrides live in globals.css under header[data-overlay]).
   const overlay = pathname === "/tregu" && heroUp;
   const treguActive = Boolean(pathname?.startsWith("/tregu"));
+  // Pyet Dardanin opened from elsewhere on the page (a "Pyet Dardanin" button
+  // on a feed story), optionally with its question already asked.
+  const [pyetSeed, setPyetSeed] = useState({ question: "", nonce: 0 });
+  useEffect(() => {
+    const onOpen = (event: Event) => {
+      const question = (event as CustomEvent<{ question?: string }>).detail?.question ?? "";
+      setSearchMode("pyet");
+      setSearchOpen(true);
+      if (question) setPyetSeed((prev) => ({ question, nonce: prev.nonce + 1 }));
+    };
+    window.addEventListener(PYET_OPEN_EVENT, onOpen);
+    return () => window.removeEventListener(PYET_OPEN_EVENT, onOpen);
+  }, []);
+
   const openSearch = (mode: "kerko" | "pyet") => {
     setSearchMode(mode);
     setSearchOpen(true);
@@ -306,7 +351,17 @@ export default function Navbar() {
       </div>
 
       <NavSidePanel open={menuOpen} onClose={() => setMenuOpen(false)} />
-      <SearchOverlay open={searchOpen} initialMode={searchMode} onClose={() => setSearchOpen(false)} />
+      <SearchOverlay
+        open={searchOpen}
+        initialMode={searchMode}
+        onClose={() => {
+          setSearchOpen(false);
+          // The overlay remounts on every open; a spent question must not be asked again.
+          setPyetSeed((prev) => ({ ...prev, question: "" }));
+        }}
+        seedQuestion={pyetSeed.question}
+        seedNonce={pyetSeed.nonce}
+      />
       <CoinToast />
     </header>
   );
