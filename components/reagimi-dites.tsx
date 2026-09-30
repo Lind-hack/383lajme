@@ -60,8 +60,8 @@ type ReactionRow = { reagimi_date: string; reaction: string; voter_id: string };
 
 export interface ReagimiDitesProps {
   /**
-   * View resolved on the server from the articles already on the page, so the card
-   * paints with real content instead of a spinner.
+   * Legacy caller compatibility. Headline fallbacks are deliberately ignored;
+   * this module only displays the verified daily educational selection.
    */
   fallbackView: ReagimiView | null;
   /**
@@ -73,7 +73,7 @@ export interface ReagimiDitesProps {
   serverDateKey: string;
 }
 
-export default function ReagimiDites({ fallbackView, serverDateKey }: ReagimiDitesProps) {
+export default function ReagimiDites({ serverDateKey }: ReagimiDitesProps) {
   // Date is resolved on the client. Starts as the server's guess to keep the first
   // paint stable, then corrects on mount if the two disagree.
   const [todayKey, setTodayKey] = useState(serverDateKey);
@@ -141,14 +141,10 @@ export default function ReagimiDites({ fallbackView, serverDateKey }: ReagimiDit
   const supabaseRef = useRef<SupabaseClient | null>(null);
   const voterRef = useRef("");
 
-  // ── Which view is live: curated wins, else the server fallback, but only if the
-  //    fallback was built for the day we are actually on. ────────────────────────
+  // Only the server-verified daily educational selection supplies this module.
   const view: ReagimiView | null = useMemo(() => {
-    if (curated) return curated;
-    if (!fallbackView) return null;
-    if (fallbackView.dateKey !== todayKey) return null; // built for a different day
-    return fallbackView;
-  }, [curated, fallbackView, todayKey]);
+    return curated?.dateKey === todayKey ? curated : null;
+  }, [curated, todayKey]);
 
   // ── Identity, date, streak ──────────────────────────────────────────────────
   useEffect(() => {
@@ -169,7 +165,26 @@ export default function ReagimiDites({ fallbackView, serverDateKey }: ReagimiDit
       id = id || crypto.randomUUID();
     }
     voterRef.current = id;
+    const timer = setInterval(() => setTodayKey(dateKeyInKosovo()), 60_000);
+    return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (!dateChecked) return;
+    let cancelled = false;
+    const controller = new AbortController();
+    async function load() {
+      try {
+        const response = await fetch("/api/reagimi-daily", { cache: "no-store", signal: controller.signal });
+        if (!response.ok) return;
+        const result: { view: ReagimiView | null } = await response.json();
+        if (!cancelled) setCurated(result.view?.dateKey === todayKey ? result.view : null);
+      } catch { /* Retry later; never search for an unverified substitute. */ }
+    }
+    void load();
+    const timer = setInterval(() => { void load(); }, 60_000);
+    return () => { cancelled = true; controller.abort(); clearInterval(timer); };
+  }, [dateChecked, todayKey]);
 
   // ── Load curated rows + reactions for today and yesterday ───────────────────
   useEffect(() => {
@@ -203,22 +218,7 @@ export default function ReagimiDites({ fallbackView, serverDateKey }: ReagimiDit
       if (cancelled) return;
 
       const rows = (dailyRes.data ?? []) as DailyRow[];
-      const todayRow = rows.find((r) => r?.reagimi_date === todayKey);
       const prevRow = rows.find((r) => r?.reagimi_date === prevKey);
-
-      if (todayRow) {
-        setCurated({
-          source: "curated",
-          dateKey: todayRow.reagimi_date,
-          lead: todayRow.quote,
-          attributionName: todayRow.speaker_name,
-          attributionRole: todayRow.speaker_role ?? null,
-          contextLine: todayRow.context_line ?? null,
-          articleSlug: todayRow.article_slug ?? null,
-          videoUrl: todayRow.video_url ?? null,
-          quoted: true,
-        });
-      }
 
       const allReactions = (reactionRes.data ?? []) as ReactionRow[];
       const todays = allReactions.filter((r) => r?.reagimi_date === todayKey);
@@ -226,7 +226,7 @@ export default function ReagimiDites({ fallbackView, serverDateKey }: ReagimiDit
       setCounts(tally.counts);
 
       const mine = todays.find((r) => r?.voter_id === voterRef.current)?.reaction;
-      if (isReactionKey(mine)) setMyReaction(mine);
+      setMyReaction(isReactionKey(mine) ? mine : null);
 
       if (prevRow) {
         const prevTally = tallyReactions(allReactions.filter((r) => r?.reagimi_date === prevKey));
@@ -238,7 +238,7 @@ export default function ReagimiDites({ fallbackView, serverDateKey }: ReagimiDit
           top: prevTally.top,
           pct: prevTally.top ? prevPct[prevTally.top] : 0,
         });
-      }
+      } else setYesterday(null);
     })().catch(() => {
       // Reactions unavailable. The card still reads fine without the tally.
     });
@@ -250,37 +250,14 @@ export default function ReagimiDites({ fallbackView, serverDateKey }: ReagimiDit
 
   // ── Resolve the clip ────────────────────────────────────────────────────────
   useEffect(() => {
-    if (!view) return;
-
-    // Curated rows normally carry their own URL, so no search is needed.
-    if (view.videoUrl) {
-      setVideoUrl(view.videoUrl);
-      setClipState("ready");
-      return;
-    }
-
-    let cancelled = false;
-    setClipState("searching");
-    fetch(`/api/yt-search?q=${encodeURIComponent(view.lead)}`)
-      .then((r) => (r.ok ? r.json() : { embedUrl: null, duration: null }))
-      .then((d: { embedUrl: string | null; duration: string | null }) => {
-        if (cancelled) return;
-        if (d?.embedUrl) {
-          setVideoUrl(d.embedUrl);
-          setDuration(d?.duration ?? null);
-          setClipState("ready");
-        } else {
-          setClipState("none");
-        }
-      })
-      .catch(() => {
-        if (!cancelled) setClipState("none");
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [view]);
+    setVideoUrl(view?.videoUrl ?? null);
+    setClipState(view?.videoUrl ? "ready" : "none");
+    setDuration(null);
+    setThumbIndex(0);
+    setWatched(false);
+    setPreviewing(false);
+    setDialogOpen(false);
+  }, [view?.dateKey, view?.videoUrl]);
 
   // ── Hover preview ───────────────────────────────────────────────────────────
   // Gated three ways: a real pointer (so touch never triggers it on tap), a
@@ -470,7 +447,7 @@ export default function ReagimiDites({ fallbackView, serverDateKey }: ReagimiDit
           {header}
           <div className="reagimi-waiting">
             <p className="reagimi-waiting-title" id="reagimi-title">
-              Reagimi i sotëm nuk ka dalë ende
+              Videoja edukative e sotme nuk ka dalë ende
             </p>
             <p className="reagimi-waiting-sub">Kthehu më vonë gjatë ditës.</p>
           </div>

@@ -365,7 +365,7 @@ export function viewFromRecord(record: ReagimiRecord): ReagimiView {
     contextLine: record.contextLine,
     articleSlug: record.articleSlug,
     videoUrl: record.videoUrl,
-    quoted: true,
+    quoted: record.speakerRole !== "Video edukative",
   };
 }
 
