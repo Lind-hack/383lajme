@@ -1136,11 +1136,11 @@
     },
     "Hürriyet": {
       "country": "Turqi",
-      "total": 9,
+      "total": 10,
       "positive": 0,
       "neutral": 7,
       "negative": 0,
-      "unknown": 2,
+      "unknown": 3,
       "firstSeen": "2026-08-20",
       "lastSeen": "2026-09-30",
       "urls": [
@@ -1152,7 +1152,8 @@
         "http://mobil.hurriyet.com.tr/dunya/laheyde-tarihi-karar-kosova-eski-cumhurbaskani-hasim-thacinin-cezasi-aciklandi-43308596",
         "https://www.hurriyet.com.tr/yerel-haberler/edirne/tu-ile-kosova-saglik-bakanligi-arasinda-isbirli-43315816",
         "https://www.hurriyet.com.tr/sporarena/muriqi-bos-gecmedi-haaland-durdurulamiyor-43319009",
-        "https://www.hurriyet.com.tr/avrupa/45-dunya-sairler-kongresi-kosovada-basladi-43324160"
+        "https://www.hurriyet.com.tr/avrupa/45-dunya-sairler-kongresi-kosovada-basladi-43324160",
+        "https://www.hurriyet.com.tr/yazarlar/fuat-bol/turkiye-buyuk-bedel-odedi-43324087"
       ]
     },
     "anayasa.gov.tr": {
@@ -1200,13 +1201,13 @@
     },
     "Son Dakika": {
       "country": "Turqi",
-      "total": 19,
+      "total": 21,
       "positive": 1,
-      "neutral": 13,
+      "neutral": 15,
       "negative": 0,
       "unknown": 5,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-25",
+      "lastSeen": "2026-09-28",
       "urls": [
         "https://www.sondakika.com/haber/haber-kosova-da-halter-sampiyonasi-basladi-20162761/",
         "https://www.sondakika.com/3-sayfa/haber-kosovo-da-savas-suclari-sorusturmasi-23-kalinti-bu-20159357/",
@@ -1226,7 +1227,9 @@
         "https://www.sondakika.com/spor/haber-18-yasindaki-muaythaici-kosova-da-altin-madalya-ka-20256970/",
         "https://www.sondakika.com/guncel/haber-trakya-universitesi-kosovali-saglik-calisanlarina--20260517/",
         "https://www.sondakika.com/spor/haber-uefa-uluslar-ligi-yeni-sezonu-8-macla-acildi-holla-20269043/",
-        "https://www.sondakika.com/politika/haber-kosova-da-lahey-in-thaci-ye-verdigi-25-yil-hapis-c-20272094/"
+        "https://www.sondakika.com/politika/haber-kosova-da-lahey-in-thaci-ye-verdigi-25-yil-hapis-c-20272094/",
+        "https://www.sondakika.com/spor/haber-milli-judocular-kosova-da-1-altin-4-gumus-2-bronz--20278090/",
+        "https://www.sondakika.com/guncel/haber-kosova-meclisi-lahey-deki-uck-cezalarini-kinayan-b-20279337/"
       ]
     },
     "Harici": {
@@ -1987,18 +1990,19 @@
     },
     "Fotomaç": {
       "country": "Turqi",
-      "total": 4,
+      "total": 5,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-09-25",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.fotomac.com.tr/voleybol/2026/08/25/filenin-efeleri-akdeniz-oyunlarinda-dolu-dizgin-2de-2-yaptik",
         "https://www.fotomac.com.tr/uluslar-ligi/2026/09/18/super-ligin-yildizlari-kosova-milli-takimina-cagrildi",
         "https://www.fotomac.com.tr/uluslar-ligi/2026/09/25/kosova-3-puani-vedat-muric-ile-kazandi",
-        "https://www.fotomac.com.tr/video-haber/videoizle/kosova-1-0-irlanda-mac-ozeti-1790361889"
+        "https://www.fotomac.com.tr/video-haber/videoizle/kosova-1-0-irlanda-mac-ozeti-1790361889",
+        "https://www.fotomac.com.tr/uluslar-ligi/2026/09/27/muricli-kosova-avusturyaya-maglup"
       ]
     },
     "il Fatto Nisseno": {
@@ -5794,9 +5798,9 @@
     },
     "BBC": {
       "country": "Britani",
-      "total": 9,
+      "total": 10,
       "positive": 1,
-      "neutral": 4,
+      "neutral": 5,
       "negative": 0,
       "unknown": 4,
       "firstSeen": "2026-09-16",
@@ -5810,7 +5814,8 @@
         "https://www.bbc.com/sport/football/live/crz9z0l30jnpt",
         "https://www.bbc.co.uk/sport/football/live/ck790jyljq4vt",
         "https://www.bbc.com/sport/football/live/c68xk217zr0rt",
-        "https://www.bbc.co.uk/sport/football/live/cmvgyyy47xj9t"
+        "https://www.bbc.co.uk/sport/football/live/cmvgyyy47xj9t",
+        "https://www.bbc.com/sport/football/live/cmvgyyy47xj9t"
       ]
     },
     "lbc.co.uk": {
@@ -6937,9 +6942,9 @@
     },
     "on.orf.at": {
       "country": "Austri",
-      "total": 32,
+      "total": 33,
       "positive": 0,
-      "neutral": 23,
+      "neutral": 24,
       "negative": 1,
       "unknown": 8,
       "firstSeen": "2026-09-18",
@@ -6976,7 +6981,8 @@
         "https://on.orf.at/video/14340891/16161063/analyse-nach-dem-spiel-nations-league-oesterreich-kosovo-die-analyse",
         "https://on.orf.at/video/14340841/16161050/affengruber-sind-team-wo-teamgefuege-stimmt",
         "https://on.orf.at/video/14340841/16160918/franco-foda-der-alte-bekannte-nations-league-oesterreich-kosovo",
-        "https://on.orf.at/video/14340836/tag-des-sports-2026-highlights"
+        "https://on.orf.at/video/14340836/tag-des-sports-2026-highlights",
+        "https://on.orf.at/video/14340841/16161056/rangnick-gute-energie-war-schluessel-fuer-das-spiel-nations-league-oesterreich-kosovo"
       ]
     },
     "kurier.at": {
@@ -8308,9 +8314,9 @@
     },
     "Bettingstugan.se": {
       "country": "Suedi",
-      "total": 8,
+      "total": 9,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 5,
       "firstSeen": "2026-09-21",
@@ -8323,7 +8329,8 @@
         "https://bettingstugan.se/speltips/europatipset-sondag-27-9-4",
         "https://bettingstugan.se/speltips/europatipset-torsdag-1-10-2",
         "https://bettingstugan.se/speltips/europatipset-torsdag-1-10-4",
-        "https://bettingstugan.se/speltips/europatipset-torsdag-1-10-3"
+        "https://bettingstugan.se/speltips/europatipset-torsdag-1-10-3",
+        "https://bettingstugan.se/speltips/topptipset-torsdag-1-10-2"
       ]
     },
     "Teleman": {
@@ -9343,16 +9350,17 @@
     },
     "ORF TV-Programm": {
       "country": "Austri",
-      "total": 2,
+      "total": 3,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-24",
-      "lastSeen": "2026-09-26",
+      "lastSeen": "2026-09-30",
       "urls": [
         "https://tv.orf.at/stories/260924_nations_league102.html",
-        "https://tv.orf.at/stories/260927_nations_league100.html"
+        "https://tv.orf.at/stories/260927_nations_league100.html",
+        "https://tv.orf.at/program/orfs/2609_FBPK100.html"
       ]
     },
     "balkaninsight.com": {
@@ -9693,15 +9701,16 @@
     },
     "repubblica.it": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-25",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
-        "https://www.repubblica.it/sport/dirette/calcio/uefa-nations-league-2026/diretta-kosovo-irlanda-g2626886/"
+        "https://www.repubblica.it/sport/dirette/calcio/uefa-nations-league-2026/diretta-kosovo-irlanda-g2626886/",
+        "https://www.repubblica.it/sport/dirette/calcio/uefa-nations-league-2026/diretta-austria-kosovo-g2626910/"
       ]
     },
     "bet365 - Scommesse sportive online": {
@@ -10927,6 +10936,32 @@
       "neutral": 0,
       "negative": 0,
       "unknown": 1,
+      "firstSeen": "2026-09-30",
+      "lastSeen": "2026-09-30",
+      "urls": [
+        "https://blog.etoto.pl/izrael-kosowo-typy-kursy-zaklady-1-10-2026/"
+      ]
+    },
+    "trevisotoday.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-28",
+      "lastSeen": "2026-09-28",
+      "urls": [
+        "https://www.trevisotoday.it/attualita/diaspora-albanese-manifestazione-piazza-istituzioni-28-settembre-2026.html"
+      ]
+    },
+    "ETOTO Blog": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
       "firstSeen": "2026-09-30",
       "lastSeen": "2026-09-30",
       "urls": [
