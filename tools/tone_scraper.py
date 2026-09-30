@@ -70,7 +70,13 @@ TOPICS_PATH = ROOT / "public" / "tone-topics.json"
 # touches cache misses (see main()), which is dozens of articles a day, not the
 # ~300 fetched — single-digit calls, well inside llama-3.3-70b's free-tier
 # ceiling of 1K requests / 100K tokens per day.
-CLASSIFY_MODEL = os.environ.get("GROQ_CLASSIFY_MODEL", "llama-3.3-70b-versatile")
+#
+# 2026-09-30: Groq retired llama-3.3-70b-versatile and llama-3.1-8b-instant.
+# Every stance call 404'd, fell through to gpt-oss-120b, found its bucket
+# spent, and the whole day's articles were left UNKNOWN — an index scoring
+# nothing. Read GET /openai/v1/models before pinning a replacement: on that
+# date it offered qwen/qwen3.8-27b, openai/gpt-oss-120b and openai/gpt-oss-20b.
+CLASSIFY_MODEL = os.environ.get("GROQ_CLASSIFY_MODEL", "qwen/qwen3.8-27b")
 
 # Translation moved to the 70B as well: the 8B was producing headlines that
 # were not quite Albanian ("duhet të condamonte"), and these are read by
@@ -90,8 +96,21 @@ CLASSIFY_MODEL = os.environ.get("GROQ_CLASSIFY_MODEL", "llama-3.3-70b-versatile"
 # the entire point: it is what the classifier falls back to when the primary's
 # bucket is spent, rather than losing the run.
 CLASSIFY_FALLBACK_MODEL = os.environ.get("GROQ_CLASSIFY_FALLBACK", "openai/gpt-oss-120b")
-TRANSLATE_MODEL = os.environ.get("GROQ_TRANSLATE_MODEL", "llama-3.3-70b-versatile")
-TRANSLATE_FALLBACK_MODEL = os.environ.get("GROQ_TRANSLATE_FALLBACK", "llama-3.1-8b-instant")
+# A third bucket, so two exhausted models no longer mean a run of UNKNOWNs.
+CLASSIFY_LAST_RESORT_MODEL = os.environ.get("GROQ_CLASSIFY_LAST_RESORT", "openai/gpt-oss-20b")
+TRANSLATE_MODEL = os.environ.get("GROQ_TRANSLATE_MODEL", "qwen/qwen3.8-27b")
+TRANSLATE_FALLBACK_MODEL = os.environ.get("GROQ_TRANSLATE_FALLBACK", "openai/gpt-oss-20b")
+
+# Request fields each model needs, measured 2026-09-30. Both families reason
+# by default and bill the reasoning against max_tokens, which leaves a JSON
+# answer unfinished; qwen switches it off with reasoning_effort "none", while
+# gpt-oss only accepts low/medium/high and rejects reasoning_format outright.
+# Sent per model, never globally: the wrong field for a model is a 400.
+MODEL_PARAMS: dict[str, dict] = {
+    "qwen/qwen3.8-27b": {"reasoning_format": "hidden", "reasoning_effort": "none"},
+    "openai/gpt-oss-120b": {"reasoning_effort": "low", "include_reasoning": False},
+    "openai/gpt-oss-20b": {"reasoning_effort": "low", "include_reasoning": False},
+}
 
 # What the label means, not what the code version is. v1 read "is this good or
 # bad news about Kosovo"; v2 reads "is this outlet's own voice hostile toward
@@ -919,10 +938,11 @@ def classify_stance_batch(client: "Groq | None", items: list[dict]) -> list[dict
     # That is not a small failure: UNKNOWN means excluded from the index, so a
     # full bucket silently turned a day of collection into no data at all. A
     # real run read "Used 98397, Requested 2870" and scored 0 of 12 articles.
-    for model in (CLASSIFY_MODEL, CLASSIFY_FALLBACK_MODEL):
+    for model in (CLASSIFY_MODEL, CLASSIFY_FALLBACK_MODEL, CLASSIFY_LAST_RESORT_MODEL):
         try:
             resp = client.chat.completions.create(
                 model=model,
+                extra_body=MODEL_PARAMS.get(model) or None,
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=1600,
                 # Deterministic on purpose. At 0.3 the same egg-throwing story
@@ -1020,6 +1040,7 @@ def translate_batch(client: "Groq | None", items: list[dict]) -> list[str | None
         try:
             resp = client.chat.completions.create(
                 model=model,
+                extra_body=MODEL_PARAMS.get(model) or None,
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=1400,
                 temperature=0.3,
@@ -1061,8 +1082,9 @@ def retry_translation(client: "Groq | None", title: str) -> str | None:
         try:
             resp = client.chat.completions.create(
                 model=model,
+                extra_body=MODEL_PARAMS.get(model) or None,
                 messages=[{"role": "user", "content": prompt}],
-                max_tokens=100,
+                max_tokens=300,
                 temperature=0.3,
             )
             text = resp.choices[0].message.content.strip().strip('"')
