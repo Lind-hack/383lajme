@@ -1,11 +1,11 @@
 {
   "lastUpdated": "2026-09-30",
   "overallIndex": 50,
-  "totalArticles": 277,
-  "sourceCount": 137,
+  "totalArticles": 278,
+  "sourceCount": 148,
   "stanceVersion": 3,
-  "unattributed": 295,
-  "nonEditorial": 11,
+  "unattributed": 324,
+  "nonEditorial": 12,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -473,7 +473,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 24,
+        "n": 25,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -522,7 +522,7 @@
         {
           "name": "BBC",
           "sentiment": "unknown",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Israel vs Kosovo: UEFA Nations League stats & head-to-head - BBC",
@@ -531,6 +531,19 @@
               "imageUrl": "https://ichef.bbci.co.uk/ace/branded_sport/1200/cpsprodpb/5e08/live/008791f0-4235-11f0-835b-310c7b938e84.jpg",
               "url": "https://www.bbc.co.uk/sport/football/live/cmvgyyy47xj9t",
               "date": "2026-09-30",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Austria vs Kosovo: UEFA Nations League stats & head-to-head - BBC",
+              "albanianTitle": "Austri - Kosovë: Statistikat dhe përballjet direkte në Ligën e Kombeve të UEFA-s",
+              "blurb": "Statistikat dhe të dhënat e ndeshjeve të kaluara mes përfaqësueseve të futbollit të Austrisë dhe Kosovës në Ligën e Kombeve.",
+              "imageUrl": "https://ichef.bbci.co.uk/ace/branded_sport/1200/cpsprodpb/5e08/live/008791f0-4235-11f0-835b-310c7b938e84.jpg",
+              "url": "https://www.bbc.com/sport/football/live/c68xk217zr0rt",
+              "date": "2026-09-27",
               "sentiment": "unknown",
               "reason": "",
               "isQuote": false,
@@ -546,7 +559,7 @@
         {
           "name": "Balkan Insight",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Hostile Reactions to Kosovo Wartime Leaders’ Verdict Miss Key Point: the Victims’ Ordeal - Balkan Insight",
@@ -586,9 +599,22 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Kosovo’s Kurti Pushes for Deal on President to Avoid Elections - Balkan Insight",
+              "albanianTitle": "Kurti insiston për marrëveshje për presidentin për të shmangur zgjedhjet",
+              "blurb": "Kryeministri Kurti po angazhohet për arritjen e një marrëveshjeje për presidentin me qëllim shmangien e zgjedhjeve të reja.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/03/Kosovo-Presidents-e1775140747768.jpg",
+              "url": "https://balkaninsight.com/2026/09/30/kosovos-kurti-pushes-for-deal-on-president-to-avoid-elections/bi/",
+              "date": "2026-09-30",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 36,
+          "totalArticles": 37,
           "trend": "i përzier",
           "firstSeen": "2026-08-19",
           "lastSeen": "2026-09-30"
@@ -624,7 +650,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 2,
+        "excluded": 4,
         "confident": false,
         "stanceVersion": 3
       }
@@ -824,6 +850,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-28",
           "lastSeen": "2026-09-27"
+        },
+        {
+          "name": "letelegramme.fr",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Neuf Serbes arrêtés au Kosovo sur des suspicions de crimes de guerre - letelegramme.fr",
+              "albanianTitle": "Nëntë serbë arrestohen në Kosovë nën dyshimet për krime lufte",
+              "blurb": "Nëntë shtetas serbë janë arrestuar në Kosovë nën dyshimet për kryerjen e krimeve të luftës gjatë konfliktit.",
+              "imageUrl": "https://media.letelegramme.fr/api/v1/images/view/6ab9037991627214d90f84d2/web_golden_xxl/6ab9037991627214d90f84d2.1",
+              "url": "https://www.letelegramme.fr/monde/neuf-serbes-arretes-au-kosovo-sur-des-suspicions-de-crimes-de-guerre-7126092.php",
+              "date": "2026-09-27",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-30",
+          "lastSeen": "2026-09-27"
         }
       ],
       "summary": {
@@ -832,7 +882,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 7,
-        "excluded": 2,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       }
@@ -890,6 +940,30 @@
           "lastSeen": "2026-09-29"
         },
         {
+          "name": "Barletta NEWS24",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Lavori urgenti al PalaDisfida in vista di Italia-Kosovo - Barletta NEWS24",
+              "albanianTitle": "Punime urgjente në “PalaDisfida” në prag të ndeshjes Itali-Kosovë",
+              "blurb": "Fillimi i punimeve urgjente në palestrën PalaDisfida në përgatitje për ndeshjen e ardhshme ndërmjet Italisë dhe Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.barlettanews24.it/sport/25152/barletta-lavori-urgenti-al-paladisfida-in-vista-di-italia-kosovo",
+              "date": "2026-09-30",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-09",
+          "lastSeen": "2026-09-30"
+        },
+        {
           "name": "Corriere della Sera",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -916,7 +990,7 @@
         {
           "name": "Corriere dello Sport",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Isaksen lancia la Danimarca. La Germania di Klopp crolla in casa con la Grecia - Corriere dello Sport",
@@ -943,12 +1017,25 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Pronostico Israele-Kosovo, parola d'ordine: tensione - Corriere dello Sport",
+              "albanianTitle": "Parashikimi për Izrael-Kosovë: fjalë kyçe, tension",
+              "blurb": "Analizë mbi ndeshjen e futbollit Izrael-Kosovë, duke u fokusuar në atmosferën e tensionuar para këtij takimi sportiv.",
+              "imageUrl": "https://cdn.corrieredellosport.it/images/2026/09/29/110349315-1996a323-ce69-4203-95be-695e65a33e05.jpg",
+              "url": "https://www.corrieredellosport.it/news/scommesse/2026/09/30-151547189/pronostico_israele-kosovo_parola_d_ordine_tensione",
+              "date": "2026-09-30",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 4,
+          "totalArticles": 5,
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-11",
-          "lastSeen": "2026-09-27"
+          "lastSeen": "2026-09-30"
         },
         {
           "name": "Dove Viaggi Corriere",
@@ -1313,6 +1400,30 @@
           "trend": "neutral",
           "firstSeen": "2026-08-22",
           "lastSeen": "2026-09-30"
+        },
+        {
+          "name": "sport.sky.it",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Austria-Kosovo 3-1: gol e highlights - sport.sky.it",
+              "albanianTitle": "Austri-Kosovë 3-1: golat dhe momentet kryesore",
+              "blurb": "Përmbledhje e golave dhe momenteve kryesore nga ndeshja e futbollit ndërmjet Austrisë dhe Kosovës e përfunduar 3-1.",
+              "imageUrl": "https://sport.sky.it/assets/images/bc8000b00930ffd2a74fdda1c34f4fbc93b87bee/skysport/it/calcio/nations-league/video/2026/09/27/1127602_1790540209023_thumb_494.0000001_1790540337625.jpg?im=Resize,width=1218",
+              "url": "https://sport.sky.it/calcio/nations-league/video/2026/09/27/austria-kosovo-gol-highlights-1127602",
+              "date": "2026-09-27",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-25",
+          "lastSeen": "2026-09-27"
         }
       ],
       "summary": {
@@ -1321,7 +1432,7 @@
         "neutral": 92,
         "negative": 0,
         "n": 13,
-        "excluded": 10,
+        "excluded": 13,
         "confident": true,
         "stanceVersion": 3
       }
@@ -2231,7 +2342,7 @@
               "speaker": ""
             }
           ],
-          "totalArticles": 35,
+          "totalArticles": 37,
           "trend": "kritik",
           "firstSeen": "2026-09-18",
           "lastSeen": "2026-09-29"
@@ -2371,6 +2482,30 @@
           "totalArticles": 4,
           "trend": "neutral",
           "firstSeen": "2026-09-13",
+          "lastSeen": "2026-09-27"
+        },
+        {
+          "name": "Vienna.at",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Österreich gegen Kosovo: Polizei sperrt am Sonntag den Prater ab - Vienna.at",
+              "albanianTitle": "Austri - Kosovë: Policia do ta bllokojë Praterin të dielën",
+              "blurb": "Policia austriake do të bllokojë zonën e Praterit të dielën për shkak të ndeshjes së futbollit mes Austrisë dhe Kosovës.",
+              "imageUrl": "https://www.vienna.at/2026/09/GEPA-20260924-101-110-0160-2-vodl-10494842-16-9-1280x720.jpg?v=a6af1a65",
+              "url": "https://www.vienna.at/oesterreich-gegen-kosovo-polizei-sperrt-am-sonntag-den-prater-ab/10494842",
+              "date": "2026-09-27",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-26",
           "lastSeen": "2026-09-27"
         },
         {
@@ -2835,6 +2970,30 @@
           "lastSeen": "2026-09-28"
         },
         {
+          "name": "ticker.ligaportal.at",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Österreich - Kosovo - ticker.ligaportal.at",
+              "albanianTitle": "Austri - Kosovë: rezultati live",
+              "blurb": "Përcjellja e zhvillimeve në kohë reale për ndeshjen e futbollit ndërmjet përfaqësueses së Austrisë dhe asaj të Kosovës.",
+              "imageUrl": "https://api.ligaportal.at/composite/game.php?tmpl=fb&home=club-2232-large.png&away=club-2324-large.png&comp=Nations+League+B3+%5B%C3%96%5D&sponsor=null",
+              "url": "https://ticker.ligaportal.at/live-ticker/1348909",
+              "date": "2026-09-27",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-30",
+          "lastSeen": "2026-09-27"
+        },
+        {
           "name": "tirol.ORF.at",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2865,7 +3024,7 @@
         "neutral": 98,
         "negative": 1,
         "n": 156,
-        "excluded": 8,
+        "excluded": 13,
         "confident": true,
         "stanceVersion": 3
       }
@@ -4268,7 +4427,7 @@
         {
           "name": "Bettingstugan.se",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 4,
           "articles": [
             {
               "title": "Europatipset Torsdag » I dag 1 Oktober » Analys, Tips & Förslag - Bettingstugan.se",
@@ -4282,12 +4441,51 @@
               "isQuote": false,
               "evidence": "",
               "speaker": ""
+            },
+            {
+              "title": "Europatipset idag 27/9 2026 » Tips, Analys & spelförslag - Bettingstugan.se",
+              "albanianTitle": "Europatipset sot 27/9/2026 » Këshilla, analiza dhe sugjerime për baste",
+              "blurb": "Analiza dhe sugjerimet për bastet sportive në kuadër të Europatipset për datën 27 shtator të vitit 2026.",
+              "imageUrl": "https://bettingstugan.imgix.net/assets/uploads/user/tips/_1200x630_crop_center-center_82_none/Europatipset_analys_victor.png?mtime=1755850198",
+              "url": "https://bettingstugan.se/speltips/europatipset-sondag-27-9-2",
+              "date": "2026-09-27",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Europatipset idag 1/10 2026 » Tips, Analys & spelförslag - Bettingstugan.se",
+              "albanianTitle": "Europatipset sot 1/10/2026 » Këshilla, analiza dhe sugjerime për baste",
+              "blurb": "Platforma Bettingstugan publikon analizat dhe parashikimet për lojërat e fatit në Europatipset për datën 1 tetor 2026.",
+              "imageUrl": "https://bettingstugan.imgix.net/assets/uploads/user/tips/_1200x630_crop_center-center_82_none/Europatipset_analys_victor.png?mtime=1755850198",
+              "url": "https://bettingstugan.se/speltips/europatipset-torsdag-1-10-4",
+              "date": "2026-09-30",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            },
+            {
+              "title": "Europatipset Tips » Torsdag 1 Oktober » Förslag, Analys & Resultat - Bettingstugan.se",
+              "albanianTitle": "Këshilla për Europatipset » E enjte 1 tetor » Sugjerime, analiza dhe rezultate",
+              "blurb": "Sugjerimet, analizat dhe rezultatet për lojën Europatipset të datës 1 tetor janë publikuar nga faqja Bettingstugan.",
+              "imageUrl": "https://bettingstugan.imgix.net/assets/uploads/user/tips/_1200x630_crop_center-center_82_none/Europatipset-analys-poolarn.png?mtime=1755853102",
+              "url": "https://bettingstugan.se/speltips/europatipset-torsdag-1-10-3",
+              "date": "2026-09-30",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
             }
           ],
-          "totalArticles": 6,
+          "totalArticles": 8,
           "trend": "neutral",
           "firstSeen": "2026-09-21",
-          "lastSeen": "2026-09-29"
+          "lastSeen": "2026-09-30"
         },
         {
           "name": "Sveriges Radio",
@@ -4320,7 +4518,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 3,
         "confident": false,
         "stanceVersion": 3
       }
@@ -4524,6 +4722,30 @@
           "lastSeen": "2026-09-29"
         },
         {
+          "name": "RMF24",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "„Czystka etniczna”. Serbia grzmi po aresztowaniach w Kosowie - RMF24",
+              "albanianTitle": "“Spastrim etnik”: Serbia kërcënon pas arrestimeve në Kosovë",
+              "blurb": "Autoritetet serbe kanë reaguar pas arrestimeve të fundit në Kosovë, duke i cilësuar ato si spastrim etnik ndaj serbëve.",
+              "imageUrl": "https://rmf.rmffm.pl/news/attachments/33/d9/zdj-1200x675-33d93911.jpg",
+              "url": "https://www.rmf24.pl/fakty/swiat/news-czystka-etniczna-serbia-grzmi-po-aresztowaniach-w-kosowie,nIdn,1019418",
+              "date": "2026-09-28",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-30",
+          "lastSeen": "2026-09-28"
+        },
+        {
           "name": "RadioMaryja.pl",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -4644,6 +4866,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-29",
           "lastSeen": "2026-09-28"
+        },
+        {
+          "name": "blog.etoto.pl",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Izrael – Kosowo: typy, kursy, zakłady (1.10.2026) - blog.etoto.pl",
+              "albanianTitle": "Izrael – Kosovë: Parashikimet, koeficientët dhe bastet (1.10.2026)",
+              "blurb": "Janë publikuar parashikimet dhe koeficientët e basteve për ndeshjen e futbollit ndërmjet Izraelit dhe Kosovës që zhvillohet në tetor.",
+              "imageUrl": "https://blog.etoto.pl/wp-content/uploads/2026/03/20201115PF_LS_SIP134.webp",
+              "url": "https://blog.etoto.pl/izrael-kosowo-typy-kursy-zaklady-1-10-2026/",
+              "date": "2026-09-30",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-30",
+          "lastSeen": "2026-09-30"
         },
         {
           "name": "portalkujawski.pl",
@@ -4772,13 +5018,37 @@
         "neutral": 100,
         "negative": 0,
         "n": 19,
-        "excluded": 2,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       }
     },
     "Turqi": {
       "outlets": [
+        {
+          "name": "A Spor",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Avusturya 3-1 Kosova | MAÇ ÖZETİ - Aspor - A Spor",
+              "albanianTitle": "Austri 3-1 Kosovë | PËRMBLEDHJA E NDESHJES - Aspor - A Spor",
+              "blurb": "Përfaqësuesja e Austrisë ka shënuar fitore me rezultat tre me një kundër kombëtares së Kosovës në futboll.",
+              "imageUrl": "https://iaaspr.tmgrup.com.tr/c8f16d/1200/675/0/0/1920/1080?u=https://iaspr.tmgrup.com.tr/2026/09/28/avusturya-3-1-kosova-mac-ozeti-1790544751361.jpeg",
+              "url": "https://www.aspor.com.tr/webtv/uluslar-ligi/avusturya-3-1-kosova-mac-ozeti",
+              "date": "2026-09-27",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-08-25",
+          "lastSeen": "2026-09-27"
+        },
         {
           "name": "ATV",
           "sentiment": "neutral",
@@ -4849,6 +5119,54 @@
           "totalArticles": 18,
           "trend": "neutral",
           "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-27"
+        },
+        {
+          "name": "Hürriyet",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "45. Dünya Şairler Kongresi Kosova’da başladı - Hürriyet",
+              "albanianTitle": "Në Kosovë filloi Kongresi i 45-të Botëror i Poetëve",
+              "blurb": "Në Kosovë ka filluar punimet Kongresi i 45-të Botëror i Poetëve, ku po marrin pjesë shkrimtarë nga vende të ndryshme.",
+              "imageUrl": "https://image.hurimg.com/i/hurriyet/90/0x0/6abca7e294237d06a21418a1.jpg",
+              "url": "https://www.hurriyet.com.tr/avrupa/45-dunya-sairler-kongresi-kosovada-basladi-43324160",
+              "date": "2026-09-30",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 9,
+          "trend": "neutral",
+          "firstSeen": "2026-08-20",
+          "lastSeen": "2026-09-30"
+        },
+        {
+          "name": "Sabah",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Avusturya, Kosova engelini 3 golle geçti! - Sabah",
+              "albanianTitle": "Austria e kalon pengesën e Kosovës me 3 gola! - Sabah",
+              "blurb": "Kombëtarja e Austrisë ka mposhtur Kosovën në ndeshjen e futbollit duke shënuar gjithsej tre gola në portën kundërshtare.",
+              "imageUrl": "https://iasbh.tmgrup.com.tr/603807/1200/675/0/0/800/450?u=https://isbh.tmgrup.com.tr/sbh/2026/09/27/avusturya-kosova-engelini-3-golle-gecti-1790534762486.jpeg",
+              "url": "https://www.sabah.com.tr/spor/futbol/2026/09/27/avusturya-kosova-engelini-3-golle-gecti",
+              "date": "2026-09-27",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 3,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-06",
           "lastSeen": "2026-09-27"
         },
         {
@@ -4948,6 +5266,30 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-29",
           "lastSeen": "2026-09-27"
+        },
+        {
+          "name": "sondakika.com",
+          "sentiment": "unknown",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Milli judocular Kosova'da 1 altın, 4 gümüş, 2 bronz madalya kazandı - sondakika.com",
+              "albanianTitle": "Xhudistët turq fitojnë 1 medalje të artë, 4 të argjendta dhe 2 të bronzta në Kosovë",
+              "blurb": "Xhudistët kombëtarë kanë fituar një medalje të artë, katër të argjendta dhe dy të bronzta në garat në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.sondakika.com/spor/haber-milli-judocular-kosova-da-1-altin-4-gumus-2-bronz--20278090/",
+              "date": "2026-09-28",
+              "sentiment": "unknown",
+              "reason": "",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": ""
+            }
+          ],
+          "totalArticles": 9,
+          "trend": "neutral",
+          "firstSeen": "2026-08-26",
+          "lastSeen": "2026-09-28"
         }
       ],
       "summary": {
@@ -4956,7 +5298,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 8,
-        "excluded": 0,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       }

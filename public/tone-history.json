@@ -10533,8 +10533,8 @@
   {
     "date": "2026-09-30",
     "overallIndex": 50,
-    "totalArticles": 277,
-    "sourceCount": 137,
+    "totalArticles": 278,
+    "sourceCount": 148,
     "stanceVersion": 3,
     "countries": {
       "Gjermani": {
@@ -10542,7 +10542,7 @@
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 24,
+        "n": 25,
         "excluded": 2,
         "confident": true,
         "stanceVersion": 3
@@ -10563,7 +10563,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 3,
-        "excluded": 2,
+        "excluded": 4,
         "confident": false,
         "stanceVersion": 3
       },
@@ -10573,7 +10573,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 7,
-        "excluded": 2,
+        "excluded": 3,
         "confident": true,
         "stanceVersion": 3
       },
@@ -10583,7 +10583,7 @@
         "neutral": 92,
         "negative": 0,
         "n": 13,
-        "excluded": 10,
+        "excluded": 13,
         "confident": true,
         "stanceVersion": 3
       },
@@ -10593,7 +10593,7 @@
         "neutral": 98,
         "negative": 1,
         "n": 156,
-        "excluded": 8,
+        "excluded": 13,
         "confident": true,
         "stanceVersion": 3
       },
@@ -10653,7 +10653,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 2,
-        "excluded": 0,
+        "excluded": 3,
         "confident": false,
         "stanceVersion": 3
       },
@@ -10663,7 +10663,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 19,
-        "excluded": 2,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       },
@@ -10673,7 +10673,7 @@
         "neutral": 100,
         "negative": 0,
         "n": 8,
-        "excluded": 0,
+        "excluded": 4,
         "confident": true,
         "stanceVersion": 3
       },
@@ -10691,18 +10691,10 @@
     "headlines": [
       {
         "title": "Pristina è una capitale europea giovane e lontana dai cliché sui Balcani: scoprila adesso - Dove Viaggi Corriere",
-        "source": "viaggi.corriere.it",
+        "source": "Dove Viaggi Corriere",
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://viaggi.corriere.it/europa/kosovo-pristina/",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Voller Vorfreude – Vor ÖFB-Partie – Kosovo-Fans nehmen Wiener City ein - Heute",
-        "source": "Heute",
-        "country": "Austri",
-        "flag": "🇦🇹",
-        "url": "https://www.heute.at/s/vor-oefb-partie-kosovo-fans-nehmen-wiener-city-ein-120257965",
         "sentiment": "positive"
       },
       {
@@ -10714,11 +10706,19 @@
         "sentiment": "positive"
       },
       {
-        "title": "Kosovo chancenlos – 3:1! Österreich feiert Fußball-Fest im Wiener Prater - Heute",
-        "source": "Heute",
-        "country": "Austri",
-        "flag": "🇦🇹",
-        "url": "https://www.heute.at/s/live-ab-18-uhr-oesterreich-will-gegen-kosovo-nachlegen-120258129",
+        "title": "Kosova’nın Geleceğini Belirleme Hakkını Güçlü Şekilde Savunmaya Devam Edeceğiz - Kosovahaber.com",
+        "source": "Kosovahaber.com",
+        "country": "Turqi",
+        "flag": "🇹🇷",
+        "url": "https://kosovahaber.com/haber/kosovanin-gelecegini-belirleme-hakkini-guclu-sekilde-savunmaya-devam-edecegiz-106949",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Nations League: ÖFB jubelt auch gegen Kosovo - ORF ON",
+        "source": "ORF ON",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://on.orf.at/sammlung/13870321/nations-league-oefb-jubelt-auch-gegen-kosovo",
         "sentiment": "negative"
       },
       {

@@ -4,10 +4,10 @@
     {
       "label": "Transmetimi i ndeshjes Austri Kosovë",
       "fallbackLabel": "Ndeshjen · 2026",
-      "summary": "Mediat ndërkombëtare njoftojnë për kanalet televizive dhe oraret e transmetimit të ndeshjes së futbollit ndërmjet Austrisë dhe Kosovës në Ligën e Kombeve.",
-      "count": 187,
+      "summary": "Mediat ndërkombëtare njoftojnë për detajet teknike, kanalet televizive dhe orarin e transmetimit të ndeshjes së futbollit ndërmjet Austrisë dhe Kosovës në Ligën e Kombeve.",
+      "count": 195,
       "positive": 1,
-      "neutral": 157,
+      "neutral": 159,
       "negative": 0,
       "index": 50,
       "countries": [
@@ -188,10 +188,10 @@
       ]
     },
     {
-      "label": "Analiza dhe parashikimet para ndeshjes",
+      "label": "Përgatitjet dhe parashikimet për ndeshjen",
       "fallbackLabel": "Kundër · 2026",
-      "summary": "Analistët dhe përdoruesit e sportit diskutojnë formacionet e mundshme, koeficientët e basteve dhe pritshmëritë për performancën e Austrisë ndaj ekipit të Kosovës.",
-      "count": 74,
+      "summary": "Analistët dhe mediat sportive diskutojnë rreshtimet e mundshme, koeficientët e basteve dhe pritshmëritë për formën e ekipit austriak përballë përfaqësueses së Kosovës në Vjenë.",
+      "count": 76,
       "positive": 0,
       "neutral": 61,
       "negative": 0,
@@ -374,14 +374,15 @@
     {
       "label": "Zhvillimi i ndeshjes së Ligës Kombeve",
       "fallbackLabel": "Kombeve · Liga",
-      "summary": "Raportohet mbi formacionet zyrtare dhe rezultatet e ndeshjes së Ligës së Kombeve ndërmjet Austrisë dhe Kosovës, zhvilluar më 27 shtator 2026.",
-      "count": 54,
+      "summary": "Raportimet zyrtare konfirmojnë përfundimin e ndeshjes së futbollit ndërmjet Austrisë dhe Kosovës, duke ofruar vlerësime për performancën e lojtarëve gjatë këtij takimi sportiv.",
+      "count": 58,
       "positive": 0,
       "neutral": 43,
       "negative": 1,
       "index": 49,
       "countries": [
         "Austri",
+        "Britani",
         "Francë",
         "Gjermani",
         "Greqi",
@@ -555,10 +556,10 @@
       ]
     },
     {
-      "label": "Reagimet pas fitores së Austrisë",
+      "label": "Analiza e fitores së Austrisë",
       "fallbackLabel": "Ndaj · Fitoren",
-      "summary": "Trajneri Rangnick dhe mediat vlerësojnë dominimin e Austrisë dhe performancën e lojtarëve pas fitores së tyre ndaj përfaqësueses së Kosovës në futboll.",
-      "count": 40,
+      "summary": "Pas fitores 3-1 ndaj Kosovës, trajneri Rangnick dhe mediat austriake analizojnë dominimin e lojës dhe performancën e lojtarëve të rinj në fushë.",
+      "count": 41,
       "positive": 1,
       "neutral": 37,
       "negative": 0,
@@ -736,10 +737,10 @@
       ]
     },
     {
-      "label": "Informacione për transmetimin direkt ndeshjes",
+      "label": "Informacione për ndeshjen Kosovë Austri",
       "fallbackLabel": "2026 · Shtator",
-      "summary": "Platformat online ofrojnë detaje për transmetimin direkt dhe parashikimet statistikore për përballjen futbollistike ndërmjet Kosovës dhe Austrisë në Ligën e Kombeve.",
-      "count": 30,
+      "summary": "Platformat online ofrojnë udhëzime për shikimin e ndeshjes së futbollit ndërmjet Kosovës dhe Austrisë, duke përfshirë parashikime dhe formacionet e mundshme të ekipeve.",
+      "count": 33,
       "positive": 0,
       "neutral": 20,
       "negative": 0,
@@ -919,12 +920,12 @@
       ]
     },
     {
-      "label": "Arrestimi i serbëve për krime",
+      "label": "Arrestimi i serbëve për krime lufte",
       "fallbackLabel": "Krime · Lufte",
-      "summary": "Policia e Kosovës ka arrestuar nëntë persona të përkatësisë serbe nën dyshimet për përfshirje në krime lufte gjatë konfliktit të kaluar.",
-      "count": 14,
+      "summary": "Policia e Kosovës ka arrestuar nëntë persona të përkatësisë serbe nën dyshimet për përfshirje në krime lufte gjatë periudhës së konfliktit të kaluar.",
+      "count": 15,
       "positive": 0,
-      "neutral": 11,
+      "neutral": 12,
       "negative": 0,
       "index": 50,
       "countries": [
@@ -934,7 +935,8 @@
         "Gjermani",
         "Poloni",
         "SHBA",
-        "Spanjë"
+        "Spanjë",
+        "Turqi"
       ],
       "articles": [
         {
@@ -1034,22 +1036,6 @@
           "flag": "🇧🇪"
         },
         {
-          "title": "Diputados de Kosovo critican fallos por crímenes de guerra de tribunal apoyado por la UE - Seattlepi.com",
-          "albanianTitle": "Deputetët e Kosovës kritikojnë vendimet për krime lufte të gjykatës së mbështetur nga BE-ja",
-          "blurb": "Deputetët e Kuvendit të Kosovës shprehin kritika ndaj vendimeve të gjykatës së mbështetur nga Bashkimi Evropian.",
-          "imageUrl": null,
-          "url": "https://www.seattlepi.com/news/world/diputados-de-kosovo-critican-fallos-por-cr-menes-a22452907",
-          "date": "2026-09-28",
-          "sentiment": "neutral",
-          "reason": "Report factual criticism without loaded language",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "Seattlepi.com",
-          "country": "Spanjë",
-          "flag": "🇪🇸"
-        },
-        {
           "title": "Detenidos nueve sospechosos de cometer crímenes de guerra en Kosovo en 1999 - Ultima Hora",
           "albanianTitle": "Arrestohen nëntë të dyshuar për krime lufte në Kosovë gjatë vitit 1999",
           "blurb": "Nëntë persona janë arrestuar nën dyshimin për kryerjen e krimeve të luftës në Kosovë gjatë vitit 1999.",
@@ -1062,22 +1048,6 @@
           "speaker": "",
           "evidence": "",
           "outlet": "Ultima Hora",
-          "country": "Spanjë",
-          "flag": "🇪🇸"
-        },
-        {
-          "title": "Diputados de Kosovo critican veredictos por crímenes de guerra - Pulso Diario San Luis",
-          "albanianTitle": "Deputetët e Kosovës kritikojnë aktgjykimet për krime lufte",
-          "blurb": "Deputetët e Kuvendit të Kosovës shprehin pakënaqësi lidhur me vendimet e gjykatave për krimet e luftës.",
-          "imageUrl": "https://blobcore.pulsoslp.com.mx/images/2026/09/28/diputados-de-kosovo-critican-veredictos-por-crimenes-de-guerra-ff0d5d1d-focus-0-0-600-315.webp",
-          "url": "https://pulsoslp.com.mx/mundo/kosovo-diputados-critican-veredictos-por-crimenes-de-guerra/2090345",
-          "date": "2026-09-28",
-          "sentiment": "neutral",
-          "reason": "Report of Kosovo MPs' criticism, no loaded language",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "Pulso Diario San Luis",
           "country": "Spanjë",
           "flag": "🇪🇸"
         },
@@ -1096,13 +1066,45 @@
           "outlet": "RadioMaryja.pl",
           "country": "Poloni",
           "flag": "🇵🇱"
+        },
+        {
+          "title": "Zatrzymania na północy Kosowa. Belgrad mówi o „czystce etnicznej” - Zero.pl",
+          "albanianTitle": "Arrestime në veri të Kosovës. Beogradi flet për “spastrim etnik” - Zero.pl",
+          "blurb": "Arrestimet në veri të Kosovës kanë nxitur reagimin e Beogradit, i cili i ka cilësuar ato si spastrim etnik.",
+          "imageUrl": "https://cdn.zero.pl/cdn-cgi/image/w=1200,h=630,f=png,fit=cover,g=top/https://cdn.zero.pl/2026/09/28/shutterstock_2497794109-ratio-3x2-1.jpg",
+          "url": "https://zero.pl/news/zatrzymano-dziewieciu-serbow-w-kosowie-podejrzenia-o-zbrodnie-wojenne",
+          "date": "2026-09-28",
+          "sentiment": "neutral",
+          "reason": "Faktikë raportuar pa ngarkim",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "Zero.pl",
+          "country": "Poloni",
+          "flag": "🇵🇱"
+        },
+        {
+          "title": "Suspicions de crimes de guerre: Neuf Serbes arrêtés au Kosovo - lematin.ch",
+          "albanianTitle": "Dyshime për krime lufte: Arrestohen nëntë serbë në Kosovë",
+          "blurb": "Nëntë shtetas serbë janë arrestuar në Kosovë nën dyshimet për përfshirje në kryerjen e krimeve të luftës gjatë konfliktit.",
+          "imageUrl": "https://image.lematin.ch/2026/09/27/570c6ff8-a4c9-4b92-b1d8-3406f7f0be3a.jpg?auto=format%2Ccompress%2Cenhance&fit=max&w=1200&h=1200&rect=0%2C0%2C6000%2C4000&s=8eae86bc26fceaff5cb5ada0758e13b6",
+          "url": "https://www.lematin.ch/story/suspicions-de-crimes-de-guerre-neuf-serbes-arretes-au-kosovo-103640029",
+          "date": "2026-09-27",
+          "sentiment": "neutral",
+          "reason": "Lajm i raportuar në mënyrë faktike",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "lematin.ch",
+          "country": "Belgjikë",
+          "flag": "🇧🇪"
         }
       ]
     },
     {
-      "label": "Rezultati final i ndeshjes Austri-Kosovë",
+      "label": "Rezultatet e ndeshjes Austri Kosovë",
       "fallbackLabel": "Mposht · Parë",
-      "summary": "Austria siguroi fitoren me rezultatin 3-1 ndaj Kosovës në Vjenë, ku spikatën debutimet dhe golat e lojtarëve Affengruber dhe Adamu.",
+      "summary": "Austria siguroi fitoren 3-1 kundër Kosovës në Vjenë, ku lojtarët Affengruber dhe Adamu shënuan golat e tyre të parë për kombëtaren austriake.",
       "count": 14,
       "positive": 0,
       "neutral": 12,
@@ -1280,16 +1282,17 @@
       ]
     },
     {
-      "label": "Dua Lipa në aheng familjar",
+      "label": "Dua Lipa në dasmë familjare",
       "fallbackLabel": "Lipa · Kokë",
-      "summary": "Këngëtarja me famë botërore Dua Lipa tërhoqi vëmendjen e mediave pas pjesëmarrjes në një dasmë tradicionale shqiptare në Kosovë.",
-      "count": 13,
+      "summary": "Këngëtarja me famë botërore Dua Lipa është bërë virale pas pjesëmarrjes në një dasmë familjare në Kosovë, ku shfaqi vallëzime tradicionale shqiptare.",
+      "count": 14,
       "positive": 0,
-      "neutral": 8,
+      "neutral": 9,
       "negative": 0,
       "index": 50,
       "countries": [
         "Greqi",
+        "SHBA",
         "Spanjë"
       ],
       "articles": [
@@ -1422,6 +1425,22 @@
           "flag": "🇬🇷"
         },
         {
+          "title": "Dua Lipa and Her Dad Perform Traditional Dance with Glasses on Their Heads at Her Cousin’s ‘Big Albanian Wedding’ - people.com",
+          "albanianTitle": "Dua Lipa dhe babai i saj kërcejnë vallen tradicionale me gota në kokë në dasmën e madhe shqiptare të kushëririt të saj",
+          "blurb": "Këngëtarja Dua Lipa dhe babai i saj kanë performuar valle tradicionale gjatë një dasme familjare të mbajtur së fundmi.",
+          "imageUrl": null,
+          "url": "https://people.com/dua-lipa-and-her-dad-dance-with-glasses-on-heads-at-her-cousins-albanian-wedding-12144729",
+          "date": "2026-09-28",
+          "sentiment": "neutral",
+          "reason": "Faktikë raportim pa gjuhë ngarkuar",
+          "isQuote": false,
+          "speaker": "",
+          "evidence": "",
+          "outlet": "people.com",
+          "country": "SHBA",
+          "flag": "🇺🇸"
+        },
+        {
           "title": "Η Dua Lipa «τα έσπασε» σε οικογενειακό γλέντι στο Κόσοβο – Δείτε βίντεο - NewsIT",
           "albanianTitle": "Dua Lipa 'ndez' atmosferën në një aheng familjar në Kosovë – Shikoni videon",
           "blurb": "Këngëtarja me famë botërore Dua Lipa është parë duke festuar në një aheng familjar të mbajtur në Kosovë.",
@@ -1434,22 +1453,6 @@
           "speaker": "",
           "evidence": "",
           "outlet": "NewsIT",
-          "country": "Greqi",
-          "flag": "🇬🇷"
-        },
-        {
-          "title": "Dua Lipa: Σε παραδοσιακό γλέντι με κλαρίνα στο Κόσοβο για τον γάμο ξαδέλφης της - iEidiseis",
-          "albanianTitle": "Dua Lipa në dasmën e kushërirës së saj në Kosovë, vallëzon me muzikë tradicionale",
-          "blurb": "Dua Lipa ka marrë pjesë në dasmën e kushërirës së saj në Kosovë, ku është argëtuar me muzikë tradicionale.",
-          "imageUrl": "https://www.ieidiseis.gr/wp-content/uploads/2026/09/BeFunky-collage-208-1200x630.jpg",
-          "url": "https://www.ieidiseis.gr/showbiz/876071/dua-lipa-se-paradosiako-glenti-me-klarina-sto-kosovo-gia-ton-gamo-xadelfis-tis/",
-          "date": "2026-09-28",
-          "sentiment": "unknown",
-          "reason": "",
-          "isQuote": false,
-          "speaker": "",
-          "evidence": "",
-          "outlet": "iEidiseis",
           "country": "Greqi",
           "flag": "🇬🇷"
         }

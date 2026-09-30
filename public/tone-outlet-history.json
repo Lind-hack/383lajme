@@ -58,11 +58,11 @@
     },
     "Balkan Insight": {
       "country": "Britani",
-      "total": 36,
+      "total": 37,
       "positive": 1,
       "neutral": 31,
       "negative": 1,
-      "unknown": 3,
+      "unknown": 4,
       "firstSeen": "2026-08-19",
       "lastSeen": "2026-09-30",
       "urls": [
@@ -101,7 +101,8 @@
         "https://balkaninsight.com/2026/09/24/kosovo-marks-banjska-attack-anniversary-as-main-suspects-remain-free/bi/",
         "https://balkaninsight.com/2026/09/28/hostile-reactions-to-kosovo-wartime-leaders-verdict-miss-key-point-the-victims-ordeal/bi/",
         "https://balkaninsight.com/2026/09/28/kosovo-mps-voice-deep-concern-over-guerrilla-leaders-conviction/btj/",
-        "https://balkaninsight.com/2026/09/30/us-prosecutor-questions-kosovos-failure-to-mitigate-thaci-verdict-expectations/btj/"
+        "https://balkaninsight.com/2026/09/30/us-prosecutor-questions-kosovos-failure-to-mitigate-thaci-verdict-expectations/btj/",
+        "https://balkaninsight.com/2026/09/30/kosovos-kurti-pushes-for-deal-on-president-to-avoid-elections/bi/"
       ]
     },
     "Ouest-France": {
@@ -1135,13 +1136,13 @@
     },
     "Hürriyet": {
       "country": "Turqi",
-      "total": 8,
+      "total": 9,
       "positive": 0,
       "neutral": 7,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-08-20",
-      "lastSeen": "2026-09-25",
+      "lastSeen": "2026-09-30",
       "urls": [
         "https://www.hurriyet.com.tr/avrupa/24-uluslararasi-sanatla-uyanmak-festivali-prizrende-basladi-43279597",
         "https://www.hurriyet.com.tr/avrupa/zafer-algoze-kosovada-yilin-sanatcisi-odulu-43282311",
@@ -1150,7 +1151,8 @@
         "https://news.google.com/rss/articles/CBMiggFBVV95cUxPTkdvNXZsUkFRR2NraHktUXNxNlNQeTNoUWVEV09YMU05NVBkSV9HdVN6RkdWUnhuYWVWUnhreUpLUGlSc0YtcHRNXzBzclBUSVVYWHN6b1lPdHE2QndDcWVJWFNGNVFlb01EbndjUHo5cWJzaU9wT0luX0w0MlFzR2lB?oc=5",
         "http://mobil.hurriyet.com.tr/dunya/laheyde-tarihi-karar-kosova-eski-cumhurbaskani-hasim-thacinin-cezasi-aciklandi-43308596",
         "https://www.hurriyet.com.tr/yerel-haberler/edirne/tu-ile-kosova-saglik-bakanligi-arasinda-isbirli-43315816",
-        "https://www.hurriyet.com.tr/sporarena/muriqi-bos-gecmedi-haaland-durdurulamiyor-43319009"
+        "https://www.hurriyet.com.tr/sporarena/muriqi-bos-gecmedi-haaland-durdurulamiyor-43319009",
+        "https://www.hurriyet.com.tr/avrupa/45-dunya-sairler-kongresi-kosovada-basladi-43324160"
       ]
     },
     "anayasa.gov.tr": {
@@ -1940,15 +1942,16 @@
     },
     "A Spor": {
       "country": "Turqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-08-25",
+      "lastSeen": "2026-09-27",
       "urls": [
-        "https://www.aspor.com.tr/voleybol/2026/08/25/erkek-milli-voleybol-takimi-20-akdeniz-oyunlari-2-macinda-kosovayi-3-2-maglup-etti"
+        "https://www.aspor.com.tr/voleybol/2026/08/25/erkek-milli-voleybol-takimi-20-akdeniz-oyunlari-2-macinda-kosovayi-3-2-maglup-etti",
+        "https://www.aspor.com.tr/webtv/uluslar-ligi/avusturya-3-1-kosova-mac-ozeti"
       ]
     },
     "gostyn24.pl": {
@@ -2199,13 +2202,13 @@
     },
     "sondakika.com": {
       "country": "Turqi",
-      "total": 8,
+      "total": 9,
       "positive": 0,
       "neutral": 8,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-08-26",
-      "lastSeen": "2026-09-23",
+      "lastSeen": "2026-09-28",
       "urls": [
         "https://www.sondakika.com/spor/haber-kadin-voleybol-takimi-kosova-yi-3-0-maglup-etti-20178794/",
         "https://www.sondakika.com/politika/haber-kosova-da-cumhurbaskani-adayligi-uzerinde-uzlasma-20193550/",
@@ -2214,7 +2217,8 @@
         "https://www.sondakika.com/guncel/haber-ziya-gokalp-oyunu-balkan-turnesini-prizren-de-tama-20235465/",
         "https://www.sondakika.com/guncel/haber-edirne-de-sultan-2-bayezid-saglik-muzesi-ni-kosova-20263898/",
         "https://www.sondakika.com/guncel/haber-kosova-basbakan-yardimcisi-damka-saglik-isbirligi--20263859/",
-        "https://www.sondakika.com/guncel/haber-etso-da-kosova-ile-ticari-is-birligi-ve-karsilikli-20263833/"
+        "https://www.sondakika.com/guncel/haber-etso-da-kosova-ile-ticari-is-birligi-ve-karsilikli-20263833/",
+        "https://www.sondakika.com/spor/haber-milli-judocular-kosova-da-1-altin-4-gumus-2-bronz--20278090/"
       ]
     },
     "Radio Free Europe/Radio Liberty": {
@@ -3249,16 +3253,17 @@
     },
     "Sabah": {
       "country": "Turqi",
-      "total": 2,
+      "total": 3,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 1,
+      "unknown": 2,
       "firstSeen": "2026-09-06",
-      "lastSeen": "2026-09-13",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.sabah.com.tr/turizm/2026/09/06/yazin-son-sarkisi-avrupada-caliyor",
-        "https://www.sabah.com.tr/dunya/kosovada-albin-kurti-hukumeti-guven-oyu-aldi-7660195"
+        "https://www.sabah.com.tr/dunya/kosovada-albin-kurti-hukumeti-guven-oyu-aldi-7660195",
+        "https://www.sabah.com.tr/spor/futbol/2026/09/27/avusturya-kosova-engelini-3-golle-gecti"
       ]
     },
     "diariojaen.es": {
@@ -3699,15 +3704,16 @@
     },
     "Barletta NEWS24": {
       "country": "Itali",
-      "total": 1,
+      "total": 2,
       "positive": 0,
       "neutral": 1,
       "negative": 0,
-      "unknown": 0,
+      "unknown": 1,
       "firstSeen": "2026-09-09",
-      "lastSeen": "2026-09-09",
+      "lastSeen": "2026-09-30",
       "urls": [
-        "https://www.barlettanews24.it/sport/25042/qualif-mondiali-italia-kosovo-a-barletta-grimaldi-una-grande-vittoria-per-la-nostra-citta"
+        "https://www.barlettanews24.it/sport/25042/qualif-mondiali-italia-kosovo-a-barletta-grimaldi-una-grande-vittoria-per-la-nostra-citta",
+        "https://www.barlettanews24.it/sport/25152/barletta-lavori-urgenti-al-paladisfida-in-vista-di-italia-kosovo"
       ]
     },
     "ildolomiti.it": {
@@ -3878,18 +3884,19 @@
     },
     "Corriere dello Sport": {
       "country": "Itali",
-      "total": 4,
+      "total": 5,
       "positive": 0,
       "neutral": 2,
       "negative": 0,
-      "unknown": 2,
+      "unknown": 3,
       "firstSeen": "2026-09-11",
-      "lastSeen": "2026-09-27",
+      "lastSeen": "2026-09-30",
       "urls": [
         "https://www.corrieredellosport.it/news/biglietti/2026/09/11-151169652/san_marino-kosovo_u21_dove_acquistare_i_biglietti_per_il_24_settembre",
         "https://www.corrieredellosport.it/news/scommesse/2026/09/23-151417628/nations_league_come_finisce_kosovo-irlanda_ecco_il_consiglio_su_cosa_giocare",
         "https://www.corrieredellosport.it/news/calcio/uefa-nations-league/2026/09/27-151503642/la_danimarca_vince_con_isaksen_al_kosovo_non_basta_zeghrova_e_lolanda_batte_la_serbia",
-        "https://m.corrieredellosport.it/amp/news/calcio/uefa-nations-league/2026/09/27-151503642/la_danimarca_vince_con_isaksen_al_kosovo_non_basta_zeghrova_e_lolanda_batte_la_serbia"
+        "https://m.corrieredellosport.it/amp/news/calcio/uefa-nations-league/2026/09/27-151503642/la_danimarca_vince_con_isaksen_al_kosovo_non_basta_zeghrova_e_lolanda_batte_la_serbia",
+        "https://www.corrieredellosport.it/news/scommesse/2026/09/30-151547189/pronostico_israele-kosovo_parola_d_ordine_tensione"
       ]
     },
     "Messaggero Veneto": {
@@ -7109,11 +7116,11 @@
     },
     "ORF ON": {
       "country": "Austri",
-      "total": 35,
+      "total": 37,
       "positive": 0,
       "neutral": 32,
       "negative": 2,
-      "unknown": 1,
+      "unknown": 3,
       "firstSeen": "2026-09-18",
       "lastSeen": "2026-09-29",
       "urls": [
@@ -7151,7 +7158,9 @@
         "https://on.orf.at/video/14340841/16160958/spielminute-36-451-nations-league-oesterreich-kosovo",
         "https://on.orf.at/video/14340841/16160939/spielminute-1-5-nations-league-oesterreich-kosovo",
         "https://on.orf.at/video/14340836/tag-des-sports-2026-highlights",
-        "https://on.orf.at/video/14340867/16160883/oesterreich-feiert-souveraenen-heimsieg"
+        "https://on.orf.at/video/14340867/16160883/oesterreich-feiert-souveraenen-heimsieg",
+        "https://on.orf.at/video/14340841/nations-league-oesterreich-kosovo",
+        "https://on.orf.at/video/14340891/16161063/analyse-nach-dem-spiel-nations-league-oesterreich-kosovo-die-analyse"
       ]
     },
     "GMX.AT": {
@@ -8299,20 +8308,22 @@
     },
     "Bettingstugan.se": {
       "country": "Suedi",
-      "total": 6,
+      "total": 8,
       "positive": 0,
       "neutral": 3,
       "negative": 0,
-      "unknown": 3,
+      "unknown": 5,
       "firstSeen": "2026-09-21",
-      "lastSeen": "2026-09-29",
+      "lastSeen": "2026-09-30",
       "urls": [
         "https://bettingstugan.se/speltips/europatipset-torsdag-24-9-2",
         "https://bettingstugan.se/speltips/fotboll-12-torsdag-24-9",
         "https://bettingstugan.se/speltips/fotboll-12-sondag-27-9",
         "https://bettingstugan.se/speltips/europatipset-sondag-27-9-2",
         "https://bettingstugan.se/speltips/europatipset-sondag-27-9-4",
-        "https://bettingstugan.se/speltips/europatipset-torsdag-1-10-2"
+        "https://bettingstugan.se/speltips/europatipset-torsdag-1-10-2",
+        "https://bettingstugan.se/speltips/europatipset-torsdag-1-10-4",
+        "https://bettingstugan.se/speltips/europatipset-torsdag-1-10-3"
       ]
     },
     "Teleman": {
@@ -9478,17 +9489,18 @@
     },
     "sport.sky.it": {
       "country": "Itali",
-      "total": 3,
+      "total": 4,
       "positive": 0,
       "neutral": 0,
       "negative": 0,
-      "unknown": 3,
+      "unknown": 4,
       "firstSeen": "2026-09-25",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-1/kosovo-irlanda",
         "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-1/kosovo-irlanda/risultato-gol",
-        "https://sport.sky.it/calcio/nations-league/2026/09/24/nations-league-partite-oggi-24-settembre-dove-vedere"
+        "https://sport.sky.it/calcio/nations-league/2026/09/24/nations-league-partite-oggi-24-settembre-dove-vedere",
+        "https://sport.sky.it/calcio/nations-league/video/2026/09/27/austria-kosovo-gol-highlights-1127602"
       ]
     },
     "Altarimini": {
@@ -10040,7 +10052,7 @@
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-26",
-      "lastSeen": "2026-09-26",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.vienna.at/oesterreich-gegen-kosovo-polizei-sperrt-am-sonntag-den-prater-ab/10494842"
       ]
@@ -10867,6 +10879,58 @@
       "lastSeen": "2026-09-27",
       "urls": [
         "https://www.bet.gr/prognostika/aystria-kosovo-270926/"
+      ]
+    },
+    "letelegramme.fr": {
+      "country": "Francë",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-30",
+      "lastSeen": "2026-09-27",
+      "urls": [
+        "https://www.letelegramme.fr/monde/neuf-serbes-arretes-au-kosovo-sur-des-suspicions-de-crimes-de-guerre-7126092.php"
+      ]
+    },
+    "ticker.ligaportal.at": {
+      "country": "Austri",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-30",
+      "lastSeen": "2026-09-27",
+      "urls": [
+        "https://ticker.ligaportal.at/live-ticker/1348909"
+      ]
+    },
+    "RMF24": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-30",
+      "lastSeen": "2026-09-28",
+      "urls": [
+        "https://www.rmf24.pl/fakty/swiat/news-czystka-etniczna-serbia-grzmi-po-aresztowaniach-w-kosowie,nIdn,1019418"
+      ]
+    },
+    "blog.etoto.pl": {
+      "country": "Poloni",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 1,
+      "firstSeen": "2026-09-30",
+      "lastSeen": "2026-09-30",
+      "urls": [
+        "https://blog.etoto.pl/izrael-kosowo-typy-kursy-zaklady-1-10-2026/"
       ]
     }
   }
