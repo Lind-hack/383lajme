@@ -45,7 +45,16 @@ MOVEMENT_THRESHOLD = 4
 #: article to the outlet that published it, and non-editorial sources stopped
 #: counting. A number produced under these rules is not comparable with one
 #: produced before them, and summarizeToneHistory() will not subtract across it.
-STANCE_VERSION = 3
+#: 4: "good or bad news for Kosovo's image abroad" (see tone_scraper.py). From
+#: v4 on, a history row's overallIndex is that DAY's index — articles first
+#: seen on that date — not a rolling average over the seven-day cache, which
+#: is what kept the number flat. Must equal tone_scraper.STANCE_SCHEMA_VERSION.
+STANCE_VERSION = 4
+#: Below this many scored articles a day has no index: one story would swing it.
+MIN_DAY_N = 5
+#: Share of a day's scored articles that must carry the current definition
+#: before the day gets an index (see day_stats).
+DAY_CONVERTED_SHARE = 0.9
 
 
 def is_confident(scored: int, excluded: int) -> bool:
@@ -55,11 +64,14 @@ def is_confident(scored: int, excluded: int) -> bool:
     return total == 0 or (scored / total) >= MIN_CONFIDENT_COVERAGE
 
 
+#: Same constant and formula as tone_scraper.country_index — see its docstring.
+INDEX_SMOOTHING = 3
+
+
 def country_index(positive: int, neutral: int, negative: int) -> int | None:
-    n = positive + neutral + negative
-    if not n:
+    if not positive + neutral + negative:
         return None
-    return round(50 + 50 * (positive - negative) / n)
+    return round(50 + 50 * (positive - negative) / (positive + negative + INDEX_SMOOTHING))
 
 
 def trend_of(counts: Counter) -> str:
@@ -84,6 +96,38 @@ def load_ledger() -> dict:
         except json.JSONDecodeError:
             pass
     return {"version": 1, "outlets": {}}
+
+
+def day_stats(articles: list[dict], day: str) -> dict | None:
+    """The index for one calendar day (UTC, the scraper's own date key).
+
+    Only articles scored under the current definition count. Returns None
+    until the day is converted: the scraper's rescore queue works through the
+    cache newest-first, and a day read half under each definition is not one
+    reading. "Converted" means DAY_CONVERTED_SHARE of its scored articles —
+    unreadable ones count for nothing either way, and one stubborn article
+    should not keep a whole day off the chart."""
+    of_day = [a for a in articles if (a.get("firstSeen") or a.get("date")) == day]
+    scored = [a for a in of_day if a.get("sentiment") in VALID_STANCES]
+    current = [a for a in of_day if a.get("stanceVersion") == STANCE_VERSION]
+    current_scored = [a for a in current if a.get("sentiment") in VALID_STANCES]
+    if not current:
+        return None
+    if scored and len(current_scored) / len(scored) < DAY_CONVERTED_SHARE:
+        return None
+    of_day = current
+    counts = Counter(a.get("sentiment") for a in of_day)
+    pos, neu, neg = counts.get("positive", 0), counts.get("neutral", 0), counts.get("negative", 0)
+    n = pos + neu + neg
+    return {
+        "index": country_index(pos, neu, neg) if n >= MIN_DAY_N else None,
+        "positive": pos,
+        "neutral": neu,
+        "negative": neg,
+        "unknown": counts.get(UNKNOWN, 0),
+        "n": n,
+        "sourceCount": len({a.get("outlet") for a in of_day if a.get("sentiment") in VALID_STANCES}),
+    }
 
 
 def main() -> int:
@@ -133,7 +177,11 @@ def main() -> int:
     prev_entry = history[-2] if len(history) >= 2 else (history[-1] if history else None)
 
     for country in previous["countries"]:
-        rows = by_country.get(country, [])
+        # Newest first, so the per-outlet cap below keeps today's articles
+        # rather than whatever the cache happened to hold longest. The daily
+        # story list on /bota-per-kosoven reads today's articles from here.
+        rows = sorted(by_country.get(country, []),
+                      key=lambda e: e.get("firstSeen") or e.get("date") or "", reverse=True)
         by_outlet: dict[str, list[dict]] = defaultdict(list)
         flat: list[dict] = []
 
@@ -150,6 +198,10 @@ def main() -> int:
                 "isQuote": bool(entry.get("isQuote", False)),
                 "evidence": entry.get("evidence", ""),
                 "speaker": entry.get("speaker", ""),
+                # What the daily story list needs: which day the article
+                # belongs to, and whether its label is the current definition.
+                "firstSeen": entry.get("firstSeen") or entry["date"],
+                "stanceVersion": entry.get("stanceVersion"),
             }
             by_outlet[entry.get("outlet") or "—"].append(article)
             flat.append({**article, "outlet": entry.get("outlet") or "—"})
@@ -189,9 +241,13 @@ def main() -> int:
                 "lastSeen": record.get("lastSeen"),
             })
 
-        counts = Counter(a["sentiment"] for a in flat)
+        # Articles still carrying an older definition's label are pending the
+        # scraper's rescore queue. They count as excluded, not as scores, so a
+        # country's index never mixes two definitions.
+        current = [e for e in rows if e.get("stanceVersion") == STANCE_VERSION]
+        counts = Counter(e["sentiment"] for e in current)
         pos, neu, neg = counts.get("positive", 0), counts.get("neutral", 0), counts.get("negative", 0)
-        excluded = counts.get(UNKNOWN, 0)
+        excluded = counts.get(UNKNOWN, 0) + (len(rows) - len(current))
         n = pos + neu + neg
         idx = country_index(pos, neu, neg)
 
@@ -280,22 +336,57 @@ def main() -> int:
     # refuses to subtract across a version change, so the week-delta reports
     # nothing until there are two corrected rows — the same guard that stopped
     # the v1/v2 change from reading as a swing in world opinion.
-    row = {
-        "date": previous.get("lastUpdated") or today,
-        "overallIndex": output["overallIndex"],
-        "totalArticles": total,
-        "sourceCount": output["sourceCount"],
-        "stanceVersion": STANCE_VERSION,
-        "countries": {
-            country: {**summary, "stanceVersion": STANCE_VERSION}
-            for country, summary in summaries.items()
-        },
-        "headlines": (history[-1].get("headlines") if history else []) or [],
-    }
-    history = [r for r in history if r.get("date") != row["date"]] + [row]
-    history.sort(key=lambda r: r.get("date", ""))
-    print("history row     : " + str(row["date"]) + " -> index " + str(row["overallIndex"])
+    #
+    # From v4 the row's index is the DAY's: articles first seen that date. The
+    # per-country summaries stay on the seven-day cache — a single day is far
+    # too thin per country — and feed only the map.
+    #
+    # Every day still inside the cache is recomputed, not just today: the cache
+    # holds all of their articles, so once the rescore queue has converted a
+    # day its row can honestly move to v4. A day not yet converted keeps its
+    # old row untouched.
+    kept = [a for rows in by_country.values() for a in rows]
+    today_key = previous.get("lastUpdated") or today
+    by_date = {r.get("date"): r for r in history}
+    days = sorted({(a.get("firstSeen") or a.get("date")) for a in kept} | {today_key})
+    for day in days:
+        stats = day_stats(kept, day)
+        if day == today_key:
+            by_date[day] = {
+                "date": day,
+                "overallIndex": stats["index"] if stats else None,
+                "totalArticles": stats["n"] if stats else 0,
+                "sourceCount": stats["sourceCount"] if stats else 0,
+                "stanceVersion": STANCE_VERSION,
+                "day": stats,
+                "countries": {
+                    country: {**summary, "stanceVersion": STANCE_VERSION}
+                    for country, summary in summaries.items()
+                },
+                "headlines": (by_date.get(day) or {}).get("headlines")
+                or (history[-1].get("headlines") if history else []) or [],
+            }
+        elif stats is not None:
+            old = by_date.get(day) or {"date": day, "countries": {}, "headlines": []}
+            by_date[day] = {
+                **old,
+                # The old per-country summaries were computed under the previous
+                # definition and cannot be redone for a past day, so they go:
+                # left in place under a v4 stamp, anything comparing countries
+                # across rows would subtract one definition from the other.
+                "countries": {},
+                "overallIndex": stats["index"],
+                "totalArticles": stats["n"],
+                "sourceCount": stats["sourceCount"],
+                "stanceVersion": STANCE_VERSION,
+                "day": stats,
+            }
+    history = sorted(by_date.values(), key=lambda r: r.get("date", ""))
+    row = by_date[today_key]
+    print("history row     : " + str(row["date"]) + " -> day index " + str(row["overallIndex"])
           + ", " + str(row["totalArticles"]) + " articles, v" + str(STANCE_VERSION))
+    converted = [r["date"] for r in history if r.get("stanceVersion") == STANCE_VERSION]
+    print("v" + str(STANCE_VERSION) + " days        : " + ", ".join(converted[-8:]))
 
     if dry:
         print("\n--dry: nothing written.")

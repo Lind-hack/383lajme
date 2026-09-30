@@ -36,15 +36,16 @@ export const TONE_COLOR = {
 export const TONE_INK = { strong: "#111111", muted: "#6B6B6B", faint: "#9CA3AF" } as const;
 
 /**
- * The scale is banded 35–65, not 0–100.
+ * The scale is banded 30–70, not 0–100.
  *
- * Under the v2 stance definition most journalism is genuinely neutral, so
- * every country now sits near 50. Spread across a full 0–100 ramp they would
- * all render the same grey and the map would carry no information at all.
- * Clamped outside the band, and the band is stated in the legend so the
- * compression is visible rather than a hidden flattery.
+ * Widened from 35–65 with stance v4. The index no longer divides by neutral
+ * coverage, so readings spread further from 50 than they did — but it is
+ * smoothed toward 50 (INDEX_SMOOTHING in tools/tone_scraper.py), so the
+ * extremes of 0–100 are rarely reached and a full ramp would still leave most
+ * of the map grey. Clamped outside the band, and the band is stated in the
+ * legend so the compression is visible rather than a hidden flattery.
  */
-export const BAND = { lo: 35, hi: 65 } as const;
+export const BAND = { lo: 30, hi: 70 } as const;
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(Math.max(v, lo), hi);
 
@@ -87,6 +88,21 @@ export function verdictSentence(index: number | null): string {
   if (t <= 0.6) return "Media botërore po shkruan për Kosovën kryesisht në mënyrë neutrale.";
   if (t <= 0.8) return "Media botërore po shkruan për Kosovën me pak më shumë lëvdata se kritikë.";
   return "Media botërore po shkruan për Kosovën me ton kryesisht pozitiv.";
+}
+
+/**
+ * The daily page's headline, under the v4 definition: whether the day's
+ * foreign coverage made Kosovo look better or worse. Same five bands as
+ * toneLabel, so the sentence and the map colour always agree.
+ */
+export function dayVerdict(index: number | null): string {
+  if (index == null) return "Lajmet e sotme ende po vlerësohen.";
+  const t = bandPosition(index);
+  if (t < 0.2) return "Sot bota shkroi keq për Kosovën.";
+  if (t < 0.4) return "Sot bota shkroi më shumë keq se mirë për Kosovën.";
+  if (t <= 0.6) return "Sot lajmet e mira dhe të këqija për Kosovën u baraspeshuan.";
+  if (t <= 0.8) return "Sot bota shkroi më shumë mirë se keq për Kosovën.";
+  return "Sot bota shkroi mirë për Kosovën.";
 }
 
 /**

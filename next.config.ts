@@ -43,6 +43,16 @@ const nextConfig: NextConfig = {
     // is wasted work and a wasted Vercel transformation.
     minimumCacheTTL: 60 * 60 * 24 * 30,
   },
+  async redirects() {
+    return [
+      // Toni merged into Bota për Kosovën. Done here rather than only in
+      // app/toni/page.tsx because a config redirect passes the query string
+      // through (search results and old links deep-link ?vendi=, which the
+      // Bota map preselects) and is a real 308 before any page renders. The
+      // page-level redirect stays as a fallback.
+      { source: "/toni", destination: "/bota-per-kosoven", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

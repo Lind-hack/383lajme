@@ -30,7 +30,7 @@ import tone_scraper as ts
 
 # llama-3.3-70b is 12K tokens/minute on the free tier and a batch runs ~2K, so
 # pace at roughly five batches a minute rather than discovering the limit.
-BATCH_PAUSE_S = 12
+BATCH_PAUSE_S = int(os.environ.get("TONE_BATCH_PAUSE_S", "12"))
 
 
 def main() -> int:

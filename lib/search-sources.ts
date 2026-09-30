@@ -203,7 +203,7 @@ async function toneEntries(): Promise<{
       entries.push({
         kind: "vend",
         title: country,
-        href: `/toni?vendi=${encodeURIComponent(country)}`,
+        href: `/bota-per-kosoven?vendi=${encodeURIComponent(country)}`,
         meta: n ? `${n} artikuj të analizuar` : "Toni i mediave",
         weight: WEIGHT.vend,
       });
@@ -240,7 +240,7 @@ async function toneEntries(): Promise<{
         entries.push({
           kind: "media",
           title: outlet.name,
-          href: `/toni?vendi=${encodeURIComponent(country)}`,
+          href: `/bota-per-kosoven?vendi=${encodeURIComponent(country)}`,
           meta: `${country} · ${outlet.articleCount} artikuj`,
           weight: WEIGHT.media,
         });
@@ -256,7 +256,9 @@ async function toneEntries(): Promise<{
       kind: "tema",
       title: topic.label,
       body: topic.summary ?? "",
-      href: `/toni?tema=${encodeURIComponent(topic.label)}`,
+      // /bota-per-kosoven no longer has topic panels (stance v4 redesign), so a
+      // topic opens search's own view of it instead of a page that ignores it.
+      href: `/kerko?entitet=${encodeURIComponent(topic.label)}`,
       meta,
       weight: WEIGHT.tema,
     });

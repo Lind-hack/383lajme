@@ -15,9 +15,29 @@ import { remoteImageSrc } from "./remote-image.mjs";
 // guaranteed by an explicit filter rather than by the type alone.
 export type ToneSentimentRaw = "positive" | "neutral" | "negative" | "unknown";
 
+/** The definition the current pipeline scores under: "good or bad news for
+ *  Kosovo's image abroad". Must equal STANCE_SCHEMA_VERSION in
+ *  tools/tone_scraper.py. Labels and rows of any other version are a different
+ *  measurement and are never mixed into what the daily page shows. */
+export const CURRENT_STANCE_VERSION = 4;
+
+export interface ToneDayStats {
+  index: number | null;
+  positive: number;
+  neutral: number;
+  negative: number;
+  unknown: number;
+  n: number;
+  sourceCount: number;
+}
+
 export interface ToneArticle {
   /** Original-language headline, as published. */
   title: string;
+  /** The day the pipeline first saw it (UTC, YYYY-MM-DD). Written by
+   *  tone_rebuild.py since stance v4; absent on older snapshots. */
+  firstSeen?: string;
+  stanceVersion?: number | null;
   /** Albanian rendering, or null when translation never succeeded. This is
    * what the drill-down leads with — the original is in German or Turkish. */
   albanianTitle?: string | null;
@@ -127,6 +147,9 @@ export interface ToneHistoryRow {
    * voice hostile toward Kosovo". Rows of different versions are not
    * comparable and must not be subtracted from one another. */
   stanceVersion?: number;
+  /** v4+: the day's own counts, from articles first seen that date. On v4
+   *  rows overallIndex is this day's index, not a seven-day average. */
+  day?: ToneDayStats | null;
   countries: Record<string, CountrySummary>;
   headlines: Array<{
     title: string;
@@ -326,6 +349,240 @@ export function summarizeToneHistory(history: ToneHistoryRow[]): ToneSummary {
     ageHours,
     isStale: ageHours != null && ageHours > STALE_AFTER_HOURS,
   };
+}
+
+// ── The daily reading (stance v4) ─────────────────────────────────────────
+//
+// What /bota-per-kosoven and the homepage card lead with: today's index, how it
+// compares with yesterday, and the last seven days. Built only from v4 rows —
+// a v3 row measured something else, so it is a gap in the week, not a point.
+
+export interface ToneToday {
+  hasData: boolean;
+  /** The latest row's date (UTC day key), whatever its version. */
+  date: string | null;
+  index: number | null;
+  counts: { positive: number; neutral: number; negative: number };
+  /** The most recent earlier v4 day that has an index. */
+  previous: { date: string; index: number } | null;
+  delta: number | null;
+  /** Seven calendar days ending at `date`, oldest first. null = no v4 index. */
+  week: Array<{ date: string; index: number | null }>;
+  ageHours: number | null;
+  isStale: boolean;
+}
+
+function addDays(dayKey: string, n: number): string {
+  const d = new Date(`${dayKey}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+}
+
+export function summarizeToday(history: ToneHistoryRow[]): ToneToday {
+  const rows = [...history].filter((r) => r?.date).sort((a, b) => a.date.localeCompare(b.date));
+  const latest = rows[rows.length - 1] ?? null;
+  const isCurrent = (r: ToneHistoryRow | null | undefined) =>
+    r?.stanceVersion === CURRENT_STANCE_VERSION;
+
+  if (!latest) {
+    return {
+      hasData: false, date: null, index: null,
+      counts: { positive: 0, neutral: 0, negative: 0 },
+      previous: null, delta: null, week: [], ageHours: null, isStale: false,
+    };
+  }
+
+  const byDate = new Map(rows.map((r) => [r.date, r]));
+  const current = isCurrent(latest) ? latest : null;
+  const index = current?.overallIndex ?? null;
+
+  const previousRow = [...rows]
+    .reverse()
+    .find((r) => r.date < latest.date && isCurrent(r) && r.overallIndex != null);
+  const previous = previousRow
+    ? { date: previousRow.date, index: previousRow.overallIndex as number }
+    : null;
+
+  const week = Array.from({ length: 7 }, (_, i) => {
+    const date = addDays(latest.date, i - 6);
+    const row = byDate.get(date);
+    return { date, index: isCurrent(row) ? (row?.overallIndex ?? null) : null };
+  });
+
+  const rowTs = Date.parse(`${latest.date}T00:00:00Z`);
+  const ageHours = Number.isNaN(rowTs) ? null : Math.max(0, (Date.now() - rowTs) / 3_600_000);
+
+  return {
+    hasData: true,
+    date: latest.date,
+    index,
+    counts: {
+      positive: current?.day?.positive ?? 0,
+      neutral: current?.day?.neutral ?? 0,
+      negative: current?.day?.negative ?? 0,
+    },
+    previous,
+    delta: index != null && previous ? index - previous.index : null,
+    week,
+    ageHours,
+    isStale: ageHours != null && ageHours > STALE_AFTER_HOURS,
+  };
+}
+
+/** One story of the day. Several outlets running the same event collapse into
+ *  one entry; `alsoIn` names the others, and their number is what "biggest"
+ *  ranks by after tone. */
+export interface DailyStory {
+  id: string;
+  title: string;
+  originalTitle: string;
+  url: string;
+  imageUrl: string | null;
+  sentiment: "positive" | "neutral" | "negative";
+  outlet: string;
+  country: string;
+  flag: string;
+  evidence: string;
+  reason: string;
+  blurb: string;
+  /** The day key it belongs to — today's, or yesterday's on a thin morning. */
+  day: string;
+  alsoIn: string[];
+}
+
+/** Below this many stories today, yesterday's are added so the list is never
+ *  a lone headline at 07:00. Each carries its own `day`, so the UI can say so. */
+const MIN_STORIES_TODAY = 5;
+
+/** Google News titles end in " - <publisher>", and the list already prints the
+ *  outlet under every headline. Only strips a suffix that IS the outlet, so a
+ *  headline that merely contains a dash keeps it. */
+export function withoutOutletSuffix(title: string, outlet: string): string {
+  const cut = title.lastIndexOf(" - ");
+  if (cut <= 0) return title;
+  const suffix = title.slice(cut + 3).trim().toLowerCase();
+  const name = outlet.trim().toLowerCase();
+  return suffix && (suffix === name || name.includes(suffix) || suffix.includes(name))
+    ? title.slice(0, cut).trim()
+    : title;
+}
+
+function sameEvent(a: Set<string>, b: Set<string>): boolean {
+  let shared = 0;
+  for (const w of a) if (b.has(w)) shared++;
+  const union = a.size + b.size - shared;
+  const jaccard = union ? shared / union : 0;
+  return (shared >= 3 && jaccard >= 0.3) || jaccard >= 0.5;
+}
+
+/**
+ * The day's stories, from tone-outlets.json — the rebuilt file, not the raw
+ * cache, because only the rebuild has dropped score tables, betting sites and
+ * villages called Kosowo, and filed each article under its outlet's real
+ * country. Current-definition labels only, and only stories with an Albanian
+ * headline: this list is read by people, in Albanian.
+ *
+ * Order is the "biggest" order the homepage card takes its three from: good or
+ * bad news before neutral, then how many outlets ran the event, then whether
+ * the story can show the words that decided it.
+ */
+export function getDailyStories(
+  outlets: ToneOutletsData | null,
+  day: string | null,
+): DailyStory[] {
+  if (!outlets?.countries || !day) return [];
+
+  const flat: Array<ToneArticle & { outlet: string; country: string }> = [];
+  for (const [country, data] of Object.entries(outlets.countries)) {
+    for (const o of data?.outlets ?? []) {
+      for (const a of o?.articles ?? []) {
+        if (!a?.albanianTitle || !a?.url) continue;
+        if (a.stanceVersion !== CURRENT_STANCE_VERSION) continue;
+        if (a.sentiment !== "positive" && a.sentiment !== "negative" && a.sentiment !== "neutral") continue;
+        flat.push({ ...a, outlet: o.name, country });
+      }
+    }
+  }
+
+  const yesterday = addDays(day, -1);
+  const todays = flat.filter((a) => a.firstSeen === day);
+  const pool = todays.length >= MIN_STORIES_TODAY
+    ? todays
+    : [...todays, ...flat.filter((a) => a.firstSeen === yesterday)];
+
+  const strength = (a: ToneArticle) =>
+    (a.evidence ? 4 : 0) + (a.imageUrl ? 2 : 0) + (a.blurb ? 1 : 0);
+
+  const groups: Array<{ kws: Set<string>; members: typeof pool }> = [];
+  for (const a of pool) {
+    const kws = titleKeywords(a.albanianTitle as string);
+    const hit = groups.find((g) => sameEvent(g.kws, kws));
+    if (hit) hit.members.push(a);
+    else groups.push({ kws, members: [a] });
+  }
+
+  const stories = groups.map(({ members }) => {
+    // Today's member leads over yesterday's, then the best-evidenced one.
+    const lead = [...members].sort(
+      (x, y) => Number(y.firstSeen === day) - Number(x.firstSeen === day) || strength(y) - strength(x),
+    )[0];
+    const others = [...new Set(members.map((m) => m.outlet))].filter((o) => o !== lead.outlet);
+    return {
+      id: lead.url,
+      title: withoutOutletSuffix(lead.albanianTitle as string, lead.outlet),
+      originalTitle: lead.title,
+      url: lead.url,
+      imageUrl: lead.imageUrl ? remoteImageSrc(lead.imageUrl, 480) : null,
+      sentiment: lead.sentiment as DailyStory["sentiment"],
+      outlet: lead.outlet,
+      country: lead.country,
+      flag: FLAGS[lead.country] ?? "",
+      evidence: lead.evidence ?? "",
+      reason: lead.reason ?? "",
+      blurb: lead.blurb ?? "",
+      day: lead.firstSeen as string,
+      alsoIn: others,
+    } satisfies DailyStory;
+  });
+
+  const rank = (s: DailyStory) => (s.sentiment === "neutral" ? 1 : 0);
+  return stories.sort(
+    (a, b) =>
+      Number(b.day === day) - Number(a.day === day) ||
+      rank(a) - rank(b) ||
+      b.alsoIn.length - a.alsoIn.length ||
+      Number(Boolean(b.evidence)) - Number(Boolean(a.evidence)),
+  );
+}
+
+/**
+ * The two stories the map sheet shows when a country is tapped, computed on
+ * the server so the page does not ship the whole outlets file to the browser
+ * just to show thirty headlines. Good or bad news before neutral, newest
+ * first, Albanian headline required.
+ */
+export function getMapHighlights(
+  outlets: ToneOutletsData | null,
+  perCountry = 2,
+): Record<string, Array<ToneArticle & { outlet: string; country: string; flag: string }>> {
+  const out: Record<string, Array<ToneArticle & { outlet: string; country: string; flag: string }>> = {};
+  for (const [country, data] of Object.entries(outlets?.countries ?? {})) {
+    const flag = FLAGS[country] ?? "";
+    const pool = (data?.outlets ?? []).flatMap((o) =>
+      (o?.articles ?? [])
+        .filter((a) => a?.albanianTitle && a.stanceVersion === CURRENT_STANCE_VERSION)
+        .map((a) => ({ ...a, outlet: o.name, country, flag })),
+    );
+    const rank = (a: ToneArticle) => (a.sentiment === "neutral" ? 1 : 0);
+    pool.sort(
+      (a, b) => rank(a) - rank(b) || (b.firstSeen ?? "").localeCompare(a.firstSeen ?? ""),
+    );
+    out[country] = pool.slice(0, perCountry).map((a) => ({
+      ...a,
+      imageUrl: a.imageUrl ? remoteImageSrc(a.imageUrl, 240) : null,
+    }));
+  }
+  return out;
 }
 
 // ── Article cache (public/tone-article-cache.json) ───────────────────────
@@ -610,8 +867,11 @@ export function getTopics(
       count: members.length,
       ...counts,
       // Identical arithmetic to country_index in tools/tone_scraper.py, so a
-      // topic and a country mean the same thing by the same scale.
-      index: scored ? Math.round(50 + (50 * (counts.positive - counts.negative)) / scored) : null,
+      // topic and a country mean the same thing by the same scale: neutral
+      // coverage is not in the denominator, and 3 is INDEX_SMOOTHING.
+      index: scored
+        ? Math.round(50 + (50 * (counts.positive - counts.negative)) / (counts.positive + counts.negative + 3))
+        : null,
       // Sorted the way the country drill-down sorts: the two ends of the
       // scale first, the neutral bulk after. No image requirement here — a
       // topic panel is about what was said, and demanding a resolved og:image

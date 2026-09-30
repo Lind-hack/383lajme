@@ -3,11 +3,11 @@ Scrapes Kosovo-related news from Google News RSS per country, classifies each
 article's STANCE toward Kosovo and translates its headline to Albanian via
 Groq, resolves a real image per article, and writes three files.
 
-Note on "stance": this measures whether the OUTLET's own voice is hostile to
-Kosovo, not whether the news is good or bad. A grim event reported flatly is
-neutral, and a hostile quote belongs to whoever said it. Both calls run on
-llama-3.3-70b; without an API key nothing is guessed, articles are marked
-UNKNOWN and excluded from the index.
+Note on "stance": since v4 this measures whether an item is good or bad news
+for Kosovo's image abroad — quotes, wire reports and sports results included.
+(v2/v3 measured only the outlet's own voice, which left ~95% neutral.) Both
+calls run on llama-3.3-70b; without an API key nothing is guessed, articles
+are marked UNKNOWN and excluded from the index.
 
   public/tone-outlets.json       — today's full snapshot, grouped by outlet
                                     (per-country hover drill-down on the
@@ -120,7 +120,10 @@ MODEL_PARAMS: dict[str, dict] = {
 # outlet that published it, and non-editorial sources (score tables, fixture
 # calendars, federations) stopped counting. Numbers before and after are not
 # comparable, and summarizeToneHistory() will not subtract across the boundary.
-STANCE_SCHEMA_VERSION = 3
+# 4: back to "good or bad news for Kosovo's image abroad" (see
+# STANCE_INSTRUCTIONS). Cached articles from v3 are re-scored in the
+# background by main()'s rescore queue, newest first.
+STANCE_SCHEMA_VERSION = 4
 
 # Cap so tone-history.json stays a small, fast-to-fetch file (~4 months of
 # daily rows) instead of growing forever.
@@ -620,88 +623,87 @@ def resolve_article_media(google_news_url: str) -> tuple[str, str | None]:
 
 
 # ── Stance classification ───────────────────────────────────────────────
-# Two rewrites happened here. The first asked "how does this portray Kosovo",
-# which scored a neutral wire report of a hostile quote the same as an outlet's
-# own hostility. The second bolted few-shot examples onto that, and did not
-# hold: 9 of 258 articles translated successfully, meaning most batches failed
-# to parse and fell through to an English keyword list.
+# Version 4 (2026-09-30) asks a different question from v2/v3, on purpose.
 #
-# The real faults were structural, not wording:
+# v2/v3 asked whether THE OUTLET'S OWN VOICE was hostile or warm toward
+# Kosovo. That was a defensible media-bias measure and a dead index: foreign
+# papers report, they rarely editorialise, so ~95% of articles scored neutral
+# and the number sat near 50 every day. Quotes were forced to neutral, so even
+# "Vučić: Kosovo is not a country" moved nothing.
 #
-#   * One call did classification AND translation, so a translation failure
-#     silently destroyed a sentiment label. They are two calls now.
-#   * The question conflated the news with the newsroom. "Kosovo finds a
-#     wartime mass grave" is grim news reported flatly; it says nothing about
-#     how the outlet regards Kosovo. It was scoring negative and dragging the
-#     index down. The index is named for the media's tone toward Kosovo, so
-#     that is the only thing this asks about now.
-#   * Nothing forced the model to point at the words that decided it. It has
-#     to produce an `evidence` span from the outlet's own prose now — which is
-#     what actually separates "the outlet is hostile" from "the outlet quoted
-#     someone hostile", far more reliably than an instruction not to confuse
-#     them.
+# v4 asks what a reader actually assumes "how the world talks about Kosovo"
+# means: is this item good or bad news for Kosovo's image abroad? Quotes,
+# wire reports and sports results all count. That is the v1 question again,
+# chosen deliberately this time and with the v2 structural fixes kept:
+#
+#   * Classification and translation stay separate calls, so a translation
+#     failure cannot destroy a label.
+#   * A non-neutral call still has to point at an `evidence` span copied from
+#     the item, or it is downgraded to neutral in _parse_stance_item().
+#   * Low confidence on a non-neutral call still becomes UNKNOWN, never a
+#     guess.
 #
 # Enum values stay English (positive/neutral/negative) because the whole
 # downstream schema and UI already speak them; only the meaning changed.
 STANCE_INSTRUCTIONS = (
     "You are a media analyst for a Kosovo newsroom. For each numbered "
     "foreign-press item (headline + snippet, about Kosovo), judge ONE thing: "
-    "the stance of THE OUTLET ITSELF toward Kosovo.\n\n"
-    "This is NOT about whether the news is good or bad. Terrible events "
-    "reported plainly are NEUTRAL. War crimes, corruption trials, protests, "
-    "mass graves, political chaos — all neutral when the outlet is simply "
-    "reporting them. Bad news about Kosovo is not the same as an outlet being "
-    "against Kosovo.\n\n"
+    "is this item GOOD or BAD news for Kosovo's image abroad? Picture an "
+    "ordinary reader in that country: after seeing this item, do they think "
+    "better or worse of Kosovo - its state, people, government, economy, "
+    "security, sport or culture?\n\n"
     "Rules:\n"
-    "- negative ONLY when the outlet's OWN words are hostile, contemptuous, "
-    "belittling, or push a line against Kosovo. Loaded adjectives, sneering "
-    "framing, or treating Kosovo's statehood as illegitimate in the outlet's "
-    "own voice.\n"
-    "- If the charged language sits inside quotation marks, or is attributed "
-    "(\"says\", \"according to\", \"claims\", \"accuses\"), it belongs to the "
-    "SPEAKER, not the outlet. Set is_quote=true and stance=neutral. Reporting "
-    "a hostile statement is journalism, not hostility.\n"
-    "- Quotation marks are not only the English ones. Treat all of these as "
-    "quoting: \" \"  ' '  « »  » «  „ \"  ‚ '  ‹ ›  「 」. German, French and "
-    "Italian headlines mostly use « » or „ \", and text inside them is ALWAYS "
-    "the speaker's, never the outlet's.\n"
-    "- positive ONLY when the outlet's own voice is warm, admiring or "
-    "advocating for Kosovo. Not merely 'a good thing happened'.\n"
-    "- Most real journalism is neutral. Expect most items to be neutral, and "
-    "do not hunt for reasons to call something negative.\n"
+    "- positive: achievements, recognition, international support or "
+    "membership, progress on rights, economy or reforms, deals and "
+    "agreements, sports wins, admiring culture or travel pieces, anyone "
+    "defending Kosovo's statehood.\n"
+    "- negative: conflict, violence, unrest, instability, crime, corruption, "
+    "political chaos, sanctions or penalties against Kosovo, sports defeats, "
+    "and hostile statements ABOUT Kosovo - including quoted ones. A foreign "
+    "leader calling Kosovo 'not a country' is negative for its image even "
+    "though the outlet is only reporting it.\n"
+    "- neutral: routine or procedural news with no clear effect either way "
+    "(talks resume, a meeting is held, troops rotate), or an item where the "
+    "good and the bad genuinely cancel out.\n"
+    "- Judge the effect on KOSOVO, not on Serbia or anyone else. Serbia "
+    "being criticised is not automatically positive for Kosovo.\n"
+    "- Quotes count. Set is_quote=true and name the speaker when the "
+    "deciding words belong to someone the outlet is quoting.\n"
     "- evidence MUST be words copied from the item itself, in its own "
-    "language. For neutral, use \"\".\n"
-    "- If you cannot tell from the text given, use \"unknown\". That is a "
-    "valid, useful answer — never guess.\n\n"
+    "language: the words that carry the good or the bad. For neutral, use "
+    "\"\".\n"
+    "- If you cannot tell from the text given, use \"unknown\". Never "
+    "guess.\n"
+    "- Write reason in Albanian, one short sentence.\n\n"
     "EXAMPLES:\n\n"
     "1. \"Serbian president Vučić says 'Kosovo is not a country' in UN speech\"\n"
-    "   -> {\"stance\":\"neutral\",\"is_quote\":true,\"speaker\":\"Vučić\","
-    "\"evidence\":\"\",\"reason\":\"Raporton deklaratën e Vuçiqit, nuk e "
-    "përvetëson\",\"confidence\":\"high\"}\n\n"
-    "2. \"Kosovo's fragile ethnic peace shattered by police raid\"\n"
+    "   -> {\"stance\":\"negative\",\"is_quote\":true,\"speaker\":\"Vučić\","
+    "\"evidence\":\"Kosovo is not a country\",\"reason\":\"Mohim i shtetësisë "
+    "së Kosovës para OKB-së\",\"confidence\":\"high\"}\n\n"
+    "2. \"Kosovo erhält Visafreiheit für den Schengen-Raum\"\n"
+    "   -> {\"stance\":\"positive\",\"is_quote\":false,\"speaker\":\"\","
+    "\"evidence\":\"erhält Visafreiheit\",\"reason\":\"Kosova fiton "
+    "liberalizimin e vizave\",\"confidence\":\"high\"}\n\n"
+    "3. \"Kosovo PM Kurti egged in parliament amid political crisis\"\n"
     "   -> {\"stance\":\"negative\",\"is_quote\":false,\"speaker\":\"\","
-    "\"evidence\":\"fragile ethnic peace shattered\",\"reason\":\"Fjalët e vetë "
-    "mediumit e kornizojnë Kosovën si të brishtë\",\"confidence\":\"high\"}\n\n"
-    "3. \"Kosovo finds third wartime mass grave, forensic team says\"\n"
+    "\"evidence\":\"egged in parliament amid political crisis\",\"reason\":"
+    "\"Kaos politik në parlament\",\"confidence\":\"high\"}\n\n"
+    "4. \"Albania says Kosovo independence irreversible after Zelenskyy remarks\"\n"
+    "   -> {\"stance\":\"positive\",\"is_quote\":true,\"speaker\":\"Shqipëria\","
+    "\"evidence\":\"independence irreversible\",\"reason\":\"Mbështetje "
+    "për pavarësinë e Kosovës\",\"confidence\":\"high\"}\n\n"
+    "5. \"Kosovo : le dialogue avec la Serbie reprend à Bruxelles\"\n"
     "   -> {\"stance\":\"neutral\",\"is_quote\":false,\"speaker\":\"\","
-    "\"evidence\":\"\",\"reason\":\"Lajm i rëndë, i raportuar në mënyrë "
-    "faktike\",\"confidence\":\"high\"}\n\n"
-    "4. \"Kosovo: Gesänge erzählen die Geschichte der Albaner — Die ganze Doku\"\n"
+    "\"evidence\":\"\",\"reason\":\"Lajm procedural pa efekt të "
+    "qartë\",\"confidence\":\"high\"}\n\n"
+    "6. \"Kosovo verliert 0:3 gegen Österreich\"\n"
+    "   -> {\"stance\":\"negative\",\"is_quote\":false,\"speaker\":\"\","
+    "\"evidence\":\"verliert 0:3\",\"reason\":\"Humbje sportive\","
+    "\"confidence\":\"medium\"}\n\n"
+    "7. \"Kosovo: Gesänge erzählen die Geschichte der Albaner - Die ganze Doku\"\n"
     "   -> {\"stance\":\"positive\",\"is_quote\":false,\"speaker\":\"\","
     "\"evidence\":\"Gesänge erzählen die Geschichte\",\"reason\":\"Dokumentar "
     "kulturor me ton respektues\",\"confidence\":\"medium\"}\n\n"
-    "5. \"Albania says Kosovo independence irreversible after Zelenskyy remarks\"\n"
-    "   -> {\"stance\":\"neutral\",\"is_quote\":true,\"speaker\":\"Albania\","
-    "\"evidence\":\"\",\"reason\":\"Raporton qëndrimin e Shqipërisë\","
-    "\"confidence\":\"high\"}\n\n"
-    "6. \"Diaspora-Besuch im Kosovo: «Albaner lieben es, VIP zu sein»\"\n"
-    "   -> {\"stance\":\"neutral\",\"is_quote\":true,\"speaker\":\"vizitor nga "
-    "diaspora\",\"evidence\":\"\",\"reason\":\"Fjalia është citim brenda «», jo "
-    "zëri i mediumit\",\"confidence\":\"high\"}\n\n"
-    "7. \"Kosovo erhält Visafreiheit für den Schengen-Raum\"\n"
-    "   -> {\"stance\":\"neutral\",\"is_quote\":false,\"speaker\":\"\","
-    "\"evidence\":\"\",\"reason\":\"Lajm i mirë, i raportuar në mënyrë "
-    "faktike\",\"confidence\":\"high\"}\n\n"
     "Write field values WITHOUT any double-quote characters inside them, so "
     "the JSON stays valid.\n\n"
 )
@@ -1095,13 +1097,23 @@ def retry_translation(client: "Groq | None", title: str) -> str | None:
     return None
 
 
+#: Pulls a thin reading toward 50, so one story cannot put a day at 100. Must
+#: match INDEX_SMOOTHING in tone_rebuild.py and lib/tone-data.ts.
+INDEX_SMOOTHING = 3
+
+
 def country_index(positive: int, neutral: int, negative: int) -> int | None:
-    """0–100 scale: 100 = all positive, 0 = all negative, 50 = split evenly
-    between positive/negative (neutral doesn't pull the needle either way)."""
-    total = positive + neutral + negative
-    if total == 0:
+    """0–100 scale: 100 = all good news, 0 = all bad, 50 = balanced.
+
+    Since v4 neutral articles are not in the denominator. Dividing by every
+    article let a pile of match listings and procedural wire copy drag any
+    reading back to 50, which is exactly why the index never moved. The
+    reading is decided by the coverage that is good or bad for Kosovo's
+    image, smoothed by INDEX_SMOOTHING; neutral articles only establish that
+    there was coverage at all."""
+    if positive + neutral + negative == 0:
         return None
-    return round(50 + 50 * (positive - negative) / total)
+    return round(50 + 50 * (positive - negative) / (positive + negative + INDEX_SMOOTHING))
 
 
 # ── Cache ──────────────────────────────────────────────────────────────
@@ -1658,6 +1670,49 @@ def main():
         taken = retry_items[:budget]
         print(f"  retrying {len(taken)} of {len(retry_items)} unresolved")
         new_items = new_items + taken
+    budget = MAX_NEW_PER_RUN - len(new_items)
+
+    # ── Rescore queue: cached articles scored under an older definition ──
+    # Last in line for the budget, so today's news is never displaced by the
+    # backfill. Newest first: the daily index and the 7-day chart read recent
+    # days, so those convert first. Only the label fields are rewritten — the
+    # entry's translation, image, blurb and firstSeen stay as they are.
+    queued = {k for k, _ in new_items}
+    rescore_items = sorted(
+        (
+            (k, e) for k, e in articles_cache.items()
+            if k not in queued
+            and e.get("stanceVersion") != STANCE_SCHEMA_VERSION
+            and e.get("rescoreAttempts", 0) < MAX_STANCE_ATTEMPTS
+        ),
+        key=lambda kv: kv[1].get("firstSeen") or "",
+        reverse=True,
+    )
+    if client is not None and budget > 0 and rescore_items:
+        taken = rescore_items[:budget]
+        print(f"  rescoring {len(taken)} of {len(rescore_items)} under stance v{STANCE_SCHEMA_VERSION}")
+        for i in range(0, len(taken), CLASSIFY_BATCH_SIZE):
+            chunk = taken[i:i + CLASSIFY_BATCH_SIZE]
+            items = [{"title": e["title"], "summary": e.get("summary", "")} for _, e in chunk]
+            for (_, entry), stance in zip(chunk, classify_stance_batch(client, items)):
+                entry["rescoreAttempts"] = entry.get("rescoreAttempts", 0) + 1
+                # A failed call leaves the old label in place for the next run;
+                # after the last attempt the entry is marked UNKNOWN under the
+                # new version rather than kept as an old-definition label that
+                # would be counted as if it were a new one.
+                if stance["stance"] == UNKNOWN and entry["rescoreAttempts"] < MAX_STANCE_ATTEMPTS:
+                    continue
+                entry.update({
+                    "sentiment": stance["stance"],
+                    "stance": stance["stance"],
+                    "stanceReason": stance["reason"],
+                    "isQuote": stance["isQuote"],
+                    "speaker": stance["speaker"],
+                    "evidence": stance["evidence"],
+                    "confidence": stance["confidence"],
+                    "model": CLASSIFY_MODEL if client else "",
+                    "stanceVersion": STANCE_SCHEMA_VERSION,
+                })
 
     # ── Stance, then translation. Two passes, two models, two failure
     # domains: a translation that fails no longer takes a stance label with it.

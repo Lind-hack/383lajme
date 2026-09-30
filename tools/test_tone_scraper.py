@@ -36,8 +36,19 @@ def test_neutral_does_not_move_the_needle():
 
 
 def test_index_poles():
-    assert ts.country_index(10, 0, 0) == 100
-    assert ts.country_index(0, 0, 10) == 0
+    assert ts.country_index(10, 0, 0) == 88
+    assert ts.country_index(0, 0, 10) == 12
+
+
+def test_one_story_cannot_max_the_index():
+    assert ts.country_index(1, 0, 0) == 62
+    assert ts.country_index(0, 0, 1) == 38
+
+
+def test_neutral_bulk_does_not_flatten_a_clear_day():
+    """The v3 formula divided by every article, so 40 match listings turned a
+    clear 5-to-1 day into 54. That dilution is what kept the index flat."""
+    assert ts.country_index(5, 40, 1) == ts.country_index(5, 0, 1) == 72
 
 
 def test_index_is_none_with_no_articles():
@@ -135,8 +146,9 @@ def test_cache_key_is_bounded():
 
 @pytest.mark.live
 def test_stance_golden_set():
-    """Accuracy against hand-labelled hard cases, and — the part that matters —
-    zero neutral wire reports called hostile."""
+    """Accuracy against hand-labelled hard cases (stance v4: good or bad news
+    for Kosovo's image), and — the part that matters — no good news scored as
+    bad or the reverse."""
     key = os.environ.get("GROQ_API_KEY")
     if not key:
         pytest.skip("GROQ_API_KEY not set")
@@ -162,8 +174,8 @@ def test_stance_golden_set():
         + "\n".join(misses)
     )
 
-    # A hard failure: the specific bug. Reporting a hostile quote, or a grim
-    # event told plainly, must never be scored as the outlet being hostile.
+    # A hard failure: the specific bug. An item that is plainly good for
+    # Kosovo's image must never score negative, and the reverse.
     assert not violations, "forbidden labels:\n" + "\n".join(violations) + report
     assert accuracy >= 0.80, report
 
@@ -507,3 +519,66 @@ def test_pristina_based_english_outlets_are_not_foreign_press():
     assert ts.is_foreign_press("Kosovo 2.0", "https://kosovotwopointzero.com/b") is False
     # And the guard that this did not become an over-broad rule.
     assert ts.is_foreign_press("Der Spiegel", "https://spiegel.de/c") is True
+
+
+# ── The daily index (tone_rebuild.day_stats, stance v4) ─────────────────
+
+import tone_rebuild as tr  # noqa: E402
+
+
+def _art(day, sentiment, version=tr.STANCE_VERSION, outlet="X"):
+    return {"firstSeen": day, "sentiment": sentiment, "stanceVersion": version, "outlet": outlet}
+
+
+def test_rebuild_and_scraper_share_one_definition():
+    assert tr.STANCE_VERSION == ts.STANCE_SCHEMA_VERSION
+    assert tr.INDEX_SMOOTHING == ts.INDEX_SMOOTHING
+
+
+def test_day_index_counts_only_that_day():
+    arts = [_art("2026-09-30", "positive")] * 6 + [_art("2026-09-29", "negative")] * 6
+    assert tr.day_stats(arts, "2026-09-30")["index"] == ts.country_index(6, 0, 0)
+    assert tr.day_stats(arts, "2026-09-29")["index"] == ts.country_index(0, 0, 6)
+
+
+def test_day_waits_until_its_articles_are_rescored():
+    arts = [_art("2026-09-30", "positive")] * 5 + [_art("2026-09-30", "neutral", version=3)] * 5
+    assert tr.day_stats(arts, "2026-09-30") is None
+
+
+def test_unreadable_leftovers_do_not_block_a_day():
+    arts = [_art("2026-09-30", "positive")] * 9 + [_art("2026-09-30", "unknown", version=3)] * 4
+    stats = tr.day_stats(arts, "2026-09-30")
+    assert stats is not None and stats["n"] == 9
+
+
+def test_thin_day_has_no_index():
+    arts = [_art("2026-09-30", "positive")] * (tr.MIN_DAY_N - 1)
+    assert tr.day_stats(arts, "2026-09-30")["index"] is None
+
+
+def test_converted_past_day_drops_old_country_summaries(tmp_path, monkeypatch):
+    """A past row moved to v4 must not keep v3 per-country indices under a v4
+    stamp — search's countryDelta would subtract one definition from the other."""
+    import json as _json
+    day, today = "2026-09-29", "2026-09-30"
+    arts = {f"k{i}": {"key": f"k{i}", "title": f"t{i}", "url": f"https://www.spiegel.de/{i}",
+                      "outlet": "Der Spiegel", "date": d, "firstSeen": d, "sentiment": "positive",
+                      "stanceVersion": tr.STANCE_VERSION}
+            for i, d in enumerate([day] * 6 + [today] * 6)}
+    (tmp_path / "cache.json").write_text(_json.dumps({"articles": arts}), "utf-8")
+    (tmp_path / "outlets.json").write_text(_json.dumps({"lastUpdated": today, "countries": {"Gjermani": {}}}), "utf-8")
+    (tmp_path / "history.json").write_text(_json.dumps([
+        {"date": day, "overallIndex": 50, "stanceVersion": 3, "countries": {"Gjermani": {"index": 50}}, "headlines": []},
+    ]), "utf-8")
+    monkeypatch.setattr(tr, "CACHE_PATH", tmp_path / "cache.json")
+    monkeypatch.setattr(tr, "OUTLETS_PATH", tmp_path / "outlets.json")
+    monkeypatch.setattr(tr, "HISTORY_PATH", tmp_path / "history.json")
+    monkeypatch.setattr(tr, "LEDGER_PATH", tmp_path / "ledger.json")
+    monkeypatch.setattr(sys, "argv", ["tone_rebuild.py"])
+    assert tr.main() == 0
+    rows = {r["date"]: r for r in _json.loads((tmp_path / "history.json").read_text("utf-8"))}
+    assert rows[day]["stanceVersion"] == tr.STANCE_VERSION
+    assert rows[day]["countries"] == {}
+    assert rows[day]["overallIndex"] == ts.country_index(6, 0, 0)
+    assert rows[today]["overallIndex"] == ts.country_index(6, 0, 0)

@@ -12,8 +12,7 @@ import ColorSpotlight from "@/components/color-spotlight";
 import GradientCta from "@/components/gradient-cta";
 import Footer from "@/components/footer";
 import ReagimiDites from "@/components/reagimi-dites";
-import ToneDashboard from "@/components/tone-dashboard";
-import BotaFlet from "@/components/bota-flet";
+import BotaHome from "@/components/home/bota-home";
 import HomeVisitPreview from "@/components/visit/home-visit-preview";
 import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
@@ -32,7 +31,7 @@ import {
 import { CATEGORY_COLORS, getCategoryColor } from "@/lib/category-colors";
 import { CATEGORY_TO_SLUG, type NavCategory } from "@/lib/category-map";
 import { getCityWeather } from "@/lib/weather";
-import { getToneHistory, getToneArticleCache, summarizeToneHistory, getForeignCoverage, getTopics, getToneTopics } from "@/lib/tone-data";
+import { getDailyStories, getToneHistory, getToneOutlets, summarizeToday } from "@/lib/tone-data";
 import { dateKeyInKosovo, resolveView } from "@/lib/reagimi-data";
 import { getSondazhiData } from "@/lib/sondazhi-server";
 import { pickFrontPage, pickMostRead } from "@/lib/front-page.mjs";
@@ -52,10 +51,7 @@ function titleKws(text: string) {
 }
 
 export default async function HomePage() {
-  // tone-outlets.json (today's per-country snapshot, used only by
-  // ToneDashboard's client-side hover drill-down via its own fetch()) isn't
-  // read here — Bota Flet now sources from the article cache below instead.
-  const [rawArticles, rawTickerArticles, rawRecentArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneCache, pipelineTopics, cityWeather] = await Promise.all([
+  const [rawArticles, rawTickerArticles, rawRecentArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneOutlets, cityWeather] = await Promise.all([
     getArticles(60),
     getLatestArticles(10),
     // The day's run for the sections below the front block: newest first, no
@@ -64,8 +60,9 @@ export default async function HomePage() {
     getDailyExchangeSnapshot(),
     getDailyFuelSnapshot(),
     getToneHistory(),
-    getToneArticleCache(),
-    getToneTopics(),
+    // Bota për Kosovën reads the rebuilt outlets file: its stories are already
+    // filtered to editorial sources and filed under the right country.
+    getToneOutlets().catch(() => null),
     // Keyless and individually caught: a weather outage costs the rail one
     // card, never the page.
     getCityWeather().catch(() => []),
@@ -80,22 +77,10 @@ export default async function HomePage() {
     withImageSizes(rawRecentArticles),
   ]);
 
-  const toneSummary = summarizeToneHistory(toneHistory);
-  // Bota Flet reads the cache (72h rolling pool, refreshed 9x/day), not
-  // today's outlets snapshot — see getForeignCoverage()'s doc comment.
-  const foreignCoverage = getForeignCoverage(toneCache, 6);
-  // What the world wrote about, not only how it sounded. Pure function over
-  // the cache that is already in memory — no extra read, no API call. Five
-  // chips is what fits one or two rows on a phone without pushing the module
-  // past its height budget.
-  // The pipeline's labelled topics when they exist, the runtime clustering
-  // when they don't (fresh checkout, failed run). Five is what fits the
-  // module's height budget on a phone.
-  const toneTopics = (pipelineTopics ?? getTopics(toneCache, { limit: 5 })).slice(0, 5);
-  const botaFletPool = Object.values(toneCache?.articles ?? {}).filter(
-    (a) => a.imageUrl && a.translated
-  );
-  const botaFletCountries = new Set(botaFletPool.map((a) => a.country)).size;
+  // Bota për Kosovën: today's index and its stories, ranked the way the full
+  // page ranks them (lib/tone-data.ts, stance v4).
+  const toneToday = summarizeToday(toneHistory);
+  const botaStories = getDailyStories(toneOutlets, toneToday.date);
 
   // Tier 1: KRYESORE lead + secondary — claimed before NJOFTIME so the
   // front-page hierarchy always renders even when the article pool is small
@@ -401,16 +386,10 @@ export default async function HomePage() {
         <CategoryBlock category="Ekonomi" articles={block("Ekonomi")} layout="overlay" />
       </Contained>
 
-      {/* Si flet bota për Kosovën: the foreign coverage and its tone read as one
-          topic, so they sit together. Bota Flet is full-bleed. */}
-      <BotaFlet
-        items={foreignCoverage}
-        totalArticles={botaFletPool.length}
-        countryCount={botaFletCountries}
-      />
-
       <Contained first>
-        <ToneDashboard summary={toneSummary} topics={toneTopics} />
+        {/* Bota për Kosovën: one daily reading — the index and the stories
+            behind it. Replaces the Bota Flet strip and the Toni dashboard. */}
+        <BotaHome today={toneToday} stories={botaStories} />
 
         <CategoryBlock category="Sport" articles={block("Sport")} layout="mosaic" />
 

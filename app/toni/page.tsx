@@ -10,6 +10,9 @@
 // articles and from the side panel, and a 404 would throw away every one of
 // those readers. Next emits a 308, so search engines transfer the ranking
 // rather than treating it as a new page.
+//
+// The live redirect is in next.config.ts, which also carries the query string
+// (?vendi=) across. This one is only a fallback.
 
 import { permanentRedirect } from "next/navigation";
 
