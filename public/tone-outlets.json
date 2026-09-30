@@ -1,10 +1,10 @@
 {
   "lastUpdated": "2026-09-30",
-  "overallIndex": 41,
-  "totalArticles": 82,
-  "sourceCount": 158,
+  "overallIndex": 45,
+  "totalArticles": 106,
+  "sourceCount": 162,
   "stanceVersion": 4,
-  "unattributed": 338,
+  "unattributed": 366,
   "nonEditorial": 12,
   "wrongKosovo": 0,
   "countries": {
@@ -582,7 +582,7 @@
         {
           "name": "BBC",
           "sentiment": "neutral",
-          "articleCount": 2,
+          "articleCount": 3,
           "articles": [
             {
               "title": "Israel vs Kosovo: UEFA Nations League stats & head-to-head - BBC",
@@ -613,9 +613,24 @@
               "speaker": "",
               "firstSeen": "2026-09-30",
               "stanceVersion": 4
+            },
+            {
+              "title": "Kosovo U21 vs Cyprus U21: UEFA U21 Championship Qualification stats & head-to-head - BBC",
+              "albanianTitle": "Kosovë U21 - Qipro U21: Statistikat dhe përballjet direkte në kualifikimet për Kampionatin Evropian",
+              "blurb": "Kosova U21 përballet me Qipron U21 në kuadër të kualifikimeve për Kampionatin Evropian të futbollit për grupmoshat e reja.",
+              "imageUrl": "https://ichef.bbci.co.uk/ace/branded_sport/1200/cpsprodpb/5e08/live/008791f0-4235-11f0-835b-310c7b938e84.jpg",
+              "url": "https://www.bbc.co.uk/sport/football/live/cw0kllgk818dt",
+              "date": "2026-09-30",
+              "sentiment": "neutral",
+              "reason": "Statistika sportive pa rezultat të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-09-30",
+              "stanceVersion": 4
             }
           ],
-          "totalArticles": 10,
+          "totalArticles": 11,
           "trend": "i përzier",
           "firstSeen": "2026-09-16",
           "lastSeen": "2026-09-30"
@@ -751,9 +766,9 @@
       "summary": {
         "index": 30,
         "positive": 0,
-        "neutral": 67,
-        "negative": 33,
-        "n": 6,
+        "neutral": 71,
+        "negative": 29,
+        "n": 7,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 4,
@@ -1610,6 +1625,32 @@
           "lastSeen": "2026-09-27"
         },
         {
+          "name": "soroptimist.it",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Rete, amicizia e pace nel gemellaggio Italia-Kosovo - soroptimist.it",
+              "albanianTitle": "Rrjetëzimi, miqësia dhe paqja në binjakëzimin Itali-Kosovë",
+              "blurb": "Binjakëzimi ndërmjet Italisë dhe Kosovës synon forcimin e rrjetit të bashkëpunimit, miqësisë dhe promovimin e vlerave të paqes.",
+              "imageUrl": null,
+              "url": "https://www.soroptimist.it/it/attivita/attivita-nazionali/rete-amicizia-e-pace-nel-gemellaggio-italia-kosovo-61095/",
+              "date": "2026-09-29",
+              "sentiment": "positive",
+              "reason": "Njohja e miqësisë dhe paqes nëpërmjet bashkëpunimit me Italinë.",
+              "isQuote": false,
+              "evidence": "Rete, amicizia e pace nel gemellaggio Italia-Kosovo",
+              "speaker": "",
+              "firstSeen": "2026-09-30",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-30",
+          "lastSeen": "2026-09-29"
+        },
+        {
           "name": "sport.sky.it",
           "sentiment": "negative",
           "articleCount": 1,
@@ -1663,16 +1704,16 @@
         }
       ],
       "summary": {
-        "index": 21,
-        "positive": 0,
-        "neutral": 50,
-        "negative": 50,
-        "n": 8,
+        "index": 31,
+        "positive": 11,
+        "neutral": 44,
+        "negative": 44,
+        "n": 9,
         "excluded": 20,
         "confident": false,
         "stanceVersion": 4,
         "movement": {
-          "delta": -31,
+          "delta": -21,
           "from": 52,
           "outlet": "il Nord Est",
           "title": "Dënimi i Thaçit në Hagë: Protestat përfshijnë Kosovën - il Nord Est",
@@ -2765,6 +2806,21 @@
           "articleCount": 6,
           "articles": [
             {
+              "title": "Wichtige Comebacks bei ÖFB-Frauen im Playoff gegen Kosovo - Sky Sport Austria",
+              "albanianTitle": "Rikthime të rëndësishme te kombëtarja e femrave e Austrisë për ndeshjen e plejofit kundër Kosovës",
+              "blurb": "Përfaqësuesja e femrave të Austrisë në futboll bën rikthime të rëndësishme në përbërje për ndeshjen playoff kundër Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.skysportaustria.at/wichtige-comebacks-bei-oefb-frauen-im-playoff-gegen-kosovo/",
+              "date": "2026-09-29",
+              "sentiment": "neutral",
+              "reason": "Lajm sportiv rutinier mbi listën e lojtarëve.",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-09-30",
+              "stanceVersion": 4
+            },
+            {
               "title": "Zweiter Heimsieg! ÖFB-Team lässt Kosovo keine Chance - Sky Sport Austria",
               "albanianTitle": "Fitore e dytë radhazi në shtëpi! Austria nuk i lë asnjë shans Kosovës",
               "blurb": "Kombëtarja e Austrisë ka shënuar fitore ndaj Kosovës në ndeshjen e zhvilluar në kuadër të Ligës së Kombeve.",
@@ -2838,24 +2894,9 @@
               "speaker": "Nuhiu",
               "firstSeen": "2026-09-28",
               "stanceVersion": 3
-            },
-            {
-              "title": "Vier Änderungen! So würden die Sky-User das ÖFB-Team gegen Kosovo aufstellen - Sky Sport Austria",
-              "albanianTitle": "Katër ndryshime! Ja si do ta rreshtonin përdoruesit e Sky ekipin e Austrisë kundër Kosovës - Sky Sport Austria",
-              "blurb": "Përdoruesit e Sky Sport Austria propozojnë katër ndryshime në formacionin e Austrisë për ndeshjen kundër Kosovës.",
-              "imageUrl": null,
-              "url": "https://www.skysportaustria.at/vier-aenderungen-so-wuerden-die-sky-user-das-oefb-team-gegen-kosovo-aufstellen/",
-              "date": "2026-09-27",
-              "sentiment": "neutral",
-              "reason": "Lajm i thjeshtë, pa ngjyrë",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": "",
-              "firstSeen": "2026-09-27",
-              "stanceVersion": 3
             }
           ],
-          "totalArticles": 17,
+          "totalArticles": 18,
           "trend": "neutral",
           "firstSeen": "2026-08-24",
           "lastSeen": "2026-09-29"
@@ -2915,7 +2956,7 @@
         {
           "name": "krone.at",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
             {
               "title": "NACH TOR GEGEN KOSOVO - Adamus starke Antwort auf die Stürmerfrage im Team - krone.at",
@@ -2926,6 +2967,21 @@
               "date": "2026-09-28",
               "sentiment": "neutral",
               "reason": "Fokusi është në lojtarin austriak, jo në Kosovën si shtet",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-09-30",
+              "stanceVersion": 4
+            },
+            {
+              "title": "Nations-League-Duell - Die Aufstellung: So startet ÖFB-Team gegen Kosovo! - krone.at",
+              "albanianTitle": "Dueli në Ligën e Kombeve: Formacioni i Austrisë për ndeshjen kundër Kosovës",
+              "blurb": "Ekipi i Austrisë ka publikuar formacionin zyrtar për ndeshjen e futbollit kundër Kosovës në kuadër të Ligës së Kombeve.",
+              "imageUrl": "https://imgl.krone.at/scaled/4308660/v3c7467/og_image.jpg",
+              "url": "https://www.krone.at/4311370",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Lajm sportiv rutinier mbi formacionin e skuadrës.",
               "isQuote": false,
               "evidence": "",
               "speaker": "",
@@ -2963,7 +3019,7 @@
               "stanceVersion": 3
             }
           ],
-          "totalArticles": 10,
+          "totalArticles": 11,
           "trend": "neutral",
           "firstSeen": "2026-09-01",
           "lastSeen": "2026-09-28"
@@ -3498,10 +3554,10 @@
       "summary": {
         "index": 30,
         "positive": 0,
-        "neutral": 91,
-        "negative": 9,
-        "n": 22,
-        "excluded": 152,
+        "neutral": 93,
+        "negative": 7,
+        "n": 28,
+        "excluded": 148,
         "confident": false,
         "stanceVersion": 4,
         "movement": {
@@ -3614,13 +3670,13 @@
               "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/825267809_1453431713510301_7350205857596140781_n.jpg",
               "url": "https://www.albinfo.ch/de/kosova-prezanton-kulturen-dhe-traditat-shqiptare-ne-vjene/",
               "date": "2026-09-27",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
+              "sentiment": "positive",
+              "reason": "Promovim i kulturës shqiptare në Vjenë",
               "isQuote": false,
-              "evidence": "",
+              "evidence": "präsentiert die albanische Kultur",
               "speaker": "",
               "firstSeen": "2026-09-29",
-              "stanceVersion": 3
+              "stanceVersion": 4
             },
             {
               "title": "Vor dem Spiel Österreich-Kosovo wird der Präsident des FFK von seinem österreichischen Amtskollegen empfangen - Albinfo",
@@ -3630,12 +3686,12 @@
               "url": "https://www.albinfo.ch/de/ne-prag-te-ndeshjes-austri-kosove-presidenti-i-ffk-se-pritet-nga-homologu-austriak/",
               "date": "2026-09-27",
               "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
+              "reason": "Lajm procedural mbi takimin sportiv",
               "isQuote": false,
               "evidence": "",
               "speaker": "",
               "firstSeen": "2026-09-29",
-              "stanceVersion": 3
+              "stanceVersion": 4
             },
             {
               "title": "Le Prof. Dr Alban Y. Neziri est admis à l’American College of Surgeons et obtient le titre de FACS - Albinfo",
@@ -3644,13 +3700,13 @@
               "imageUrl": "https://www.albinfo.ch/wp-content/uploads/2026/09/825329962_1488782703059194_7746798018700763207_n-scaled.jpg",
               "url": "https://www.albinfo.ch/fr/prof-dr-alban-y-neziri-pranohet-ne-american-college-of-surgeons-merr-titullin-facs/",
               "date": "2026-09-28",
-              "sentiment": "neutral",
-              "reason": "Lajm i arritjes personale, pa referencë ndaj Kosovës",
+              "sentiment": "positive",
+              "reason": "Njohje profesionale ndërkombëtare për një qytetar kosovar",
               "isQuote": false,
-              "evidence": "",
+              "evidence": "admis à l’American College of Surgeons",
               "speaker": "",
               "firstSeen": "2026-09-29",
-              "stanceVersion": 3
+              "stanceVersion": 4
             }
           ],
           "totalArticles": 84,
@@ -3701,7 +3757,7 @@
         },
         {
           "name": "Kicker",
-          "sentiment": "neutral",
+          "sentiment": "negative",
           "articleCount": 2,
           "articles": [
             {
@@ -3711,13 +3767,13 @@
               "imageUrl": null,
               "url": "https://www.kicker.ch/oesterreich-gegen-kosovo-2026-uefa-nations-league-5193332/schema",
               "date": "2026-09-27",
-              "sentiment": "neutral",
-              "reason": "Faktikë raportuar pa ngarkim",
+              "sentiment": "negative",
+              "reason": "Humbje sportive kundër Austrias",
               "isQuote": false,
-              "evidence": "",
+              "evidence": "Österreich besiegt Kosovo",
               "speaker": "",
               "firstSeen": "2026-09-29",
-              "stanceVersion": 3
+              "stanceVersion": 4
             },
             {
               "title": "Liveticker | Österreich - Kosovo 3:1 | 2. Spieltag | UEFA Nations League 2026/27 - kicker.ch",
@@ -3742,7 +3798,7 @@
         },
         {
           "name": "Le Matin",
-          "sentiment": "neutral",
+          "sentiment": "negative",
           "articleCount": 1,
           "articles": [
             {
@@ -3752,13 +3808,13 @@
               "imageUrl": "https://image.lematin.ch/2026/09/27/570c6ff8-a4c9-4b92-b1d8-3406f7f0be3a.jpg?auto=format%2Ccompress%2Cenhance&fit=max&w=1200&h=1200&rect=0%2C0%2C6000%2C4000&s=8eae86bc26fceaff5cb5ada0758e13b6",
               "url": "https://www.lematin.ch/story/suspicions-de-crimes-de-guerre-neuf-serbes-arretes-au-kosovo-103640029",
               "date": "2026-09-27",
-              "sentiment": "neutral",
-              "reason": "Raportim faktik i arrestimeve, pa gjuhë ngarkuar",
+              "sentiment": "negative",
+              "reason": "Lidhja me akuzat për krime lufte dëmton imazhin e sigurisë",
               "isQuote": false,
-              "evidence": "",
+              "evidence": "crimes de guerre",
               "speaker": "",
               "firstSeen": "2026-09-29",
-              "stanceVersion": 3
+              "stanceVersion": 4
             }
           ],
           "totalArticles": 2,
@@ -3898,16 +3954,16 @@
         }
       ],
       "summary": {
-        "index": 30,
-        "positive": 0,
-        "neutral": 60,
+        "index": 39,
+        "positive": 20,
+        "neutral": 40,
         "negative": 40,
-        "n": 5,
-        "excluded": 15,
-        "confident": false,
+        "n": 10,
+        "excluded": 10,
+        "confident": true,
         "stanceVersion": 4,
         "movement": {
-          "delta": -20,
+          "delta": -11,
           "from": 50,
           "outlet": "SRF",
           "title": "Fitorja e dytë: Austria mposht edhe Kosovën – SRF",
@@ -3957,12 +4013,12 @@
               "url": "https://www.espn.nl/voetbal/speler-statistieken/_/wedstrijdId/401861071",
               "date": "2026-09-27",
               "sentiment": "neutral",
-              "reason": "Fact-based sports listing",
+              "reason": "Lajm procedural për ndeshje sportive pa rezultat të dhënë",
               "isQuote": false,
               "evidence": "",
               "speaker": "",
               "firstSeen": "2026-09-29",
-              "stanceVersion": 3
+              "stanceVersion": 4
             }
           ],
           "totalArticles": 8,
@@ -3983,12 +4039,12 @@
               "url": "https://www.knvb.nl/nieuws/scheidsrechters/aanstellingen/72271/robin-hensgens-heeft-de-leiding-over-u21-duel-kosovo",
               "date": "2026-09-28",
               "sentiment": "neutral",
-              "reason": "Fact-based sports listing",
+              "reason": "Lajm procedural mbi emërimin e arbitrit",
               "isQuote": false,
               "evidence": "",
               "speaker": "",
               "firstSeen": "2026-09-29",
-              "stanceVersion": 3
+              "stanceVersion": 4
             }
           ],
           "totalArticles": 1,
@@ -3998,7 +4054,7 @@
         },
         {
           "name": "Puna.nl",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
@@ -4008,13 +4064,13 @@
               "imageUrl": null,
               "url": "https://www.puna.nl/news/kosso-onthult-dat-er-een-realityserie-komt-over-zijn-emigratie-naar-kosovo-mag-ik-nog-niet-over-vertellen",
               "date": "2026-09-28",
-              "sentiment": "neutral",
-              "reason": "Fact-based sports listing",
+              "sentiment": "positive",
+              "reason": "Interesi kulturor dhe mediak për Kosovën",
               "isQuote": false,
-              "evidence": "",
+              "evidence": "realityserie komt over zijn emigratie naar Kosovo",
               "speaker": "",
               "firstSeen": "2026-09-29",
-              "stanceVersion": 3
+              "stanceVersion": 4
             }
           ],
           "totalArticles": 3,
@@ -4061,12 +4117,12 @@
               "url": "https://www.voetbalgokken.nl/matchcenter/wedstrijd/oostenrijk-kosovo/19676735",
               "date": "2026-09-27",
               "sentiment": "neutral",
-              "reason": "Fact-based sports listing",
+              "reason": "Lajm procedural mbi ndeshjen",
               "isQuote": false,
               "evidence": "",
               "speaker": "",
               "firstSeen": "2026-09-29",
-              "stanceVersion": 3
+              "stanceVersion": 4
             }
           ],
           "totalArticles": 1,
@@ -4087,12 +4143,12 @@
               "url": "https://www.ziggosport.nl/video/2019216-oostenrijk-kosovo/",
               "date": "2026-09-27",
               "sentiment": "neutral",
-              "reason": "Fact-based sports listing",
+              "reason": "Lajm procedural mbi ndeshjen",
               "isQuote": false,
               "evidence": "",
               "speaker": "",
               "firstSeen": "2026-09-29",
-              "stanceVersion": 3
+              "stanceVersion": 4
             }
           ],
           "totalArticles": 2,
@@ -4180,21 +4236,21 @@
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 50,
-        "neutral": 50,
+        "index": 70,
+        "positive": 29,
+        "neutral": 71,
         "negative": 0,
-        "n": 2,
-        "excluded": 8,
-        "confident": false,
+        "n": 7,
+        "excluded": 3,
+        "confident": true,
         "stanceVersion": 4,
         "movement": {
-          "delta": 12,
+          "delta": 20,
           "from": 50,
-          "outlet": "trouw.nl",
-          "title": "Kosova, 27 vjet pas luftës, e pastruar nga minat",
-          "evidence": "mijnenvrij",
-          "url": "https://www.trouw.nl/nieuws/kosovo-is-27-jaar-na-de-oorlog-mijnenvrij~bfa1ee0b/"
+          "outlet": "Puna.nl",
+          "title": "Kosso zbulon se po bëhet një reality show për emigrimin e tij në Kosovë: \"Ende nuk mund të flas për këtë\"",
+          "evidence": "realityserie komt over zijn emigratie naar Kosovo",
+          "url": "https://www.puna.nl/news/kosso-onthult-dat-er-een-realityserie-komt-over-zijn-emigratie-naar-kosovo-mag-ik-nog-niet-over-vertellen"
         }
       }
     },
@@ -4283,7 +4339,7 @@
       "outlets": [
         {
           "name": "Cadena 100",
-          "sentiment": "neutral",
+          "sentiment": "positive",
           "articleCount": 1,
           "articles": [
             {
@@ -4293,13 +4349,13 @@
               "imageUrl": "https://www.cadena100.es/files/og_thumbnail/uploads/2026/09/28/6aba4ff24caba.png",
               "url": "https://www.cadena100.es/trending-topic/noticias/dua-lipa-deslumbrante-gran-boda-albanesa-primo-todos-detalles-emotivo-semana-familiar-kosovo-20260928_156041.html",
               "date": "2026-09-28",
-              "sentiment": "neutral",
-              "reason": "Përshkrim i ngjarjes kulturore, pa gjuhë kundërshtuese ndaj Kosovës",
+              "sentiment": "positive",
+              "reason": "Prezencë pozitive e një famëzmi në Kosovë",
               "isQuote": false,
-              "evidence": "",
+              "evidence": "deslumbrante",
               "speaker": "",
               "firstSeen": "2026-09-29",
-              "stanceVersion": 3
+              "stanceVersion": 4
             }
           ],
           "totalArticles": 1,
@@ -4335,14 +4391,22 @@
         }
       ],
       "summary": {
-        "index": null,
-        "positive": 0,
+        "index": 62,
+        "positive": 100,
         "neutral": 0,
         "negative": 0,
-        "n": 0,
-        "excluded": 2,
+        "n": 1,
+        "excluded": 1,
         "confident": false,
-        "stanceVersion": 4
+        "stanceVersion": 4,
+        "movement": {
+          "delta": 12,
+          "from": 50,
+          "outlet": "Cadena 100",
+          "title": "Dua Lipa shkëlqen në dasmën shqiptare të kushëririt të saj: Detajet e fundjavës emocionale në Kosovë",
+          "evidence": "deslumbrante",
+          "url": "https://www.cadena100.es/trending-topic/noticias/dua-lipa-deslumbrante-gran-boda-albanesa-primo-todos-detalles-emotivo-semana-familiar-kosovo-20260928_156041.html"
+        }
       }
     },
     "Greqi": {
@@ -4576,9 +4640,24 @@
         },
         {
           "name": "Foxbet.gr",
-          "sentiment": "negative",
-          "articleCount": 2,
+          "sentiment": "neutral",
+          "articleCount": 3,
           "articles": [
+            {
+              "title": "ΙΣΡΑΗΛ - ΚΟΣΟΒΟ (01/10/2026) | ΠΡΟΓΝΩΣΤΙΚΑ - ΣΤΟΙΧΗΜΑ - ΑΝΑΛΥΣΗ - Foxbet.gr",
+              "albanianTitle": "Izrael - Kosovë (01/10/2026): Parashikimet, bastet dhe analiza",
+              "blurb": "Analizë dhe parashikime të basteve sportive për ndeshjen ndërmjet Izraelit dhe Kosovës që zhvillohet më 1 tetor 2026.",
+              "imageUrl": "https://www.foxbet.gr/cdn-cgi/image/quality=85,fit=crop,format=auto,width=1200,height=628/media/original_images/prognostika_nations_league_2.jpg",
+              "url": "https://www.foxbet.gr/prognostika/448176-israil-kosovo",
+              "date": "2026-09-30",
+              "sentiment": "neutral",
+              "reason": "Lajm informativ për parashikimet e lojës, pa vlerësim pozitiv ose negativ.",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-09-30",
+              "stanceVersion": 4
+            },
             {
               "title": "Αυστρία - Κόσοβο: Anytime σκορ που πληρώνει! - Foxbet.gr",
               "albanianTitle": "Austri - Kosovë: Rezultati “Anytime” që paguan!",
@@ -4610,10 +4689,10 @@
               "stanceVersion": 4
             }
           ],
-          "totalArticles": 5,
+          "totalArticles": 6,
           "trend": "neutral",
           "firstSeen": "2026-09-23",
-          "lastSeen": "2026-09-29"
+          "lastSeen": "2026-09-30"
         },
         {
           "name": "News 24/7",
@@ -4973,6 +5052,32 @@
           "lastSeen": "2026-09-27"
         },
         {
+          "name": "news247.gr",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "H Ντούα Λίπα χόρεψε σε γλέντι στο Κόσοβο με ποτήρι στο κεφάλι – Βίντεο - news247.gr",
+              "albanianTitle": "Dua Lipa vallëzon në një aheng në Kosovë me gotë mbi kokë – Video",
+              "blurb": "Këngëtarja Dua Lipa shfaqet në një video duke vallëzuar me gotë në kokë gjatë një ahengu në Kosovë.",
+              "imageUrl": "https://www.news247.gr/wp-content/uploads/2026/09/dua-lipa--og-image-5262006.jpg",
+              "url": "https://www.news247.gr/psixagogia/celebrities/h-ntoua-lipa-xorepse-se-glenti-sto-kosovo-me-potiri-sto-kefali-vinteo/",
+              "date": "2026-09-27",
+              "sentiment": "positive",
+              "reason": "Kultura festive e Kosovës",
+              "isQuote": false,
+              "evidence": "χόρεψε ... στο γλέντι στο Κόσοβο",
+              "speaker": "",
+              "firstSeen": "2026-09-30",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-30",
+          "lastSeen": "2026-09-27"
+        },
+        {
           "name": "newsit.gr",
           "sentiment": "unknown",
           "articleCount": 1,
@@ -5130,21 +5235,21 @@
         }
       ],
       "summary": {
-        "index": 68,
-        "positive": 40,
+        "index": 71,
+        "positive": 41,
         "neutral": 47,
-        "negative": 13,
-        "n": 15,
+        "negative": 12,
+        "n": 17,
         "excluded": 18,
         "confident": true,
         "stanceVersion": 4,
         "movement": {
-          "delta": 18,
+          "delta": 21,
           "from": 50,
-          "outlet": "NewsIT",
-          "title": "Dua Lipa “ndez atmosferën” në një aheng familjar në Kosovë – Shikoni videon",
-          "evidence": "τα έσπασε σε οικογενειακό γλέντι",
-          "url": "https://www.newsit.gr/lifestyle/i-dua-lipa-ta-espase-se-oikogeneiako-glenti-sto-kosovo-deite-vinteo/4784644/"
+          "outlet": "news247.gr",
+          "title": "Dua Lipa vallëzon në një aheng në Kosovë me gotë mbi kokë – Video",
+          "evidence": "χόρεψε ... στο γλέντι στο Κόσοβο",
+          "url": "https://www.news247.gr/psixagogia/celebrities/h-ntoua-lipa-xorepse-se-glenti-sto-kosovo-me-potiri-sto-kefali-vinteo/"
         }
       }
     },
@@ -5439,8 +5544,23 @@
         {
           "name": "PodkarpacieLIVE",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 4,
           "articles": [
+            {
+              "title": "Florent Hadërgjonaj | Kosowo | Liga Narodów - PodkarpacieLIVE",
+              "albanianTitle": "Florent Hadërgjonaj | Kosova | Liga e Kombeve",
+              "blurb": "Përfshirja e futbollistit Florent Hadërgjonaj në përfaqësuesen e Kosovës për ndeshjet e Ligës së Kombeve.",
+              "imageUrl": "https://www.podkarpacielive.pl/icon/had-rgjonaj_200_111422.png",
+              "url": "https://www.podkarpacielive.pl/zawodnik/36098,hadergjonaj-florent",
+              "date": "2026-09-30",
+              "sentiment": "positive",
+              "reason": "Prezantim sportiv i Kosovës në Ligën e Kombëteve",
+              "isQuote": false,
+              "evidence": "Kosowo | Liga Narodów",
+              "speaker": "",
+              "firstSeen": "2026-09-30",
+              "stanceVersion": 4
+            },
             {
               "title": "Austria - Kosowo. Składy i wyjściowe jedenastki (27.09.2026) - PodkarpacieLIVE",
               "albanianTitle": "Austri - Kosovë. Formacionet dhe njëmbëdhjetëshet startuese (27.09.2026) - PodkarpacieLIVE",
@@ -5487,10 +5607,10 @@
               "stanceVersion": 3
             }
           ],
-          "totalArticles": 8,
-          "trend": "neutral",
+          "totalArticles": 9,
+          "trend": "i përzier",
           "firstSeen": "2026-09-22",
-          "lastSeen": "2026-09-27"
+          "lastSeen": "2026-09-30"
         },
         {
           "name": "Portal Kujawski",
@@ -5705,6 +5825,32 @@
           "lastSeen": "2026-09-30"
         },
         {
+          "name": "iGol.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Izrael – Kosowo 1 października 2026 - iGol.pl",
+              "albanianTitle": "Izrael – Kosovë, 1 tetor 2026",
+              "blurb": "Ndeshja e futbollit ndërmjet përfaqësueseve të Izraelit dhe Kosovës është caktuar të zhvillohet më 1 tetor 2026.",
+              "imageUrl": null,
+              "url": "https://igol.pl/mecz/65055/izrael-kosowo/",
+              "date": "2026-09-30",
+              "sentiment": "neutral",
+              "reason": "Lajm procedural pa efekt të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-09-30",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "neutral",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-09-30"
+        },
+        {
           "name": "portalkujawski.pl",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -5836,26 +5982,44 @@
         }
       ],
       "summary": {
-        "index": 38,
-        "positive": 0,
-        "neutral": 75,
-        "negative": 25,
-        "n": 4,
+        "index": 50,
+        "positive": 17,
+        "neutral": 67,
+        "negative": 17,
+        "n": 6,
         "excluded": 20,
         "confident": false,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": -12,
-          "from": 50,
-          "outlet": "RMF24",
-          "title": "“Spastrim etnik”: Serbia kërcënon pas arrestimeve në Kosovë",
-          "evidence": "Czystka etniczna",
-          "url": "https://www.rmf24.pl/fakty/swiat/news-czystka-etniczna-serbia-grzmi-po-aresztowaniach-w-kosowie,nIdn,1019418"
-        }
+        "stanceVersion": 4
       }
     },
     "Turqi": {
       "outlets": [
+        {
+          "name": "A Haber",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Avusturya-Kosova maçı canlı anlatım ve anlık skor - A Haber",
+              "albanianTitle": "Ndeshja Austri-Kosovë: Transmetim direkt dhe rezultati në kohë reale - A Haber",
+              "blurb": "Takimi futbollistik ndërmjet Austrisë dhe Kosovës po transmetohet përmes raportimit të drejtpërdrejtë dhe përditësimit të rezultatit në kohë reale.",
+              "imageUrl": "https://iaahbr.tmgrup.com.tr/1cff84/1200/675/0/63/1871/1117?u=https://iahbr.tmgrup.com.tr/2026/09/27/uluslar-liginde-kritik-kosova-deplasmaninda-kazanan-avusturya-1790535760565.jpg",
+              "url": "https://www.ahaber.com.tr/uluslar-ligi/2026/09/27/uluslar-liginde-kritik-kosova-macinda-kazanan-avusturya",
+              "date": "2026-09-27",
+              "sentiment": "neutral",
+              "reason": "Lajm procedural për një ndeshje sportive.",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-09-30",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 4,
+          "trend": "i përzier",
+          "firstSeen": "2026-08-31",
+          "lastSeen": "2026-09-27"
+        },
         {
           "name": "A Spor",
           "sentiment": "negative",
@@ -6257,10 +6421,10 @@
       ],
       "summary": {
         "index": 50,
-        "positive": 50,
-        "neutral": 0,
-        "negative": 50,
-        "n": 8,
+        "positive": 44,
+        "neutral": 11,
+        "negative": 44,
+        "n": 9,
         "excluded": 9,
         "confident": true,
         "stanceVersion": 4

@@ -1623,9 +1623,9 @@
     },
     "Sky Sport Austria": {
       "country": "Austri",
-      "total": 17,
+      "total": 18,
       "positive": 0,
-      "neutral": 15,
+      "neutral": 16,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-08-24",
@@ -1647,7 +1647,8 @@
         "https://www.skysportaustria.at/muessen-die-kirche-im-dorf-lassen-die-reaktionen-zu-oesterreich-gegen-kosovo/",
         "https://www.skysportaustria.at/match-ratings-zu-oesterreich-vs-kosovo-bewerte-das-oefb-team/",
         "https://www.skysportaustria.at/mediathek/nuhiu-ueber-oefb-sieg-gegen-kosovo-haben-wir-nicht-anders-verdient/",
-        "https://www.skysportaustria.at/zweiter-sieg-oefb-team-laesst-kosovo-keine-chance/"
+        "https://www.skysportaustria.at/zweiter-sieg-oefb-team-laesst-kosovo-keine-chance/",
+        "https://www.skysportaustria.at/wichtige-comebacks-bei-oefb-frauen-im-playoff-gegen-kosovo/"
       ]
     },
     "kicker": {
@@ -2710,17 +2711,18 @@
     },
     "A Haber": {
       "country": "Turqi",
-      "total": 3,
+      "total": 4,
       "positive": 1,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-08-31",
-      "lastSeen": "2026-08-31",
+      "lastSeen": "2026-09-27",
       "urls": [
         "https://www.ahaber.com.tr/ozel-haberler/2026/08/31/kosova-savunma-bakani-maqedonci-a-haberde",
         "https://www.ahaber.com.tr/video/ozel-haber/kosova-savunma-bakani-a-habere-konustu",
-        "https://www.ahaber.com.tr/video/story/kosova-savunma-bakani-a-haberde"
+        "https://www.ahaber.com.tr/video/story/kosova-savunma-bakani-a-haberde",
+        "https://www.ahaber.com.tr/uluslar-ligi/2026/09/27/uluslar-liginde-kritik-kosova-macinda-kazanan-avusturya"
       ]
     },
     "forbes.com.tr": {
@@ -2801,9 +2803,9 @@
     },
     "krone.at": {
       "country": "Austri",
-      "total": 10,
+      "total": 11,
       "positive": 0,
-      "neutral": 9,
+      "neutral": 10,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-01",
@@ -2818,7 +2820,8 @@
         "https://www.krone.at/4310412",
         "https://www.krone.at/4310698",
         "https://www.krone.at/4311534",
-        "https://www.krone.at/4313155"
+        "https://www.krone.at/4313155",
+        "https://www.krone.at/4311370"
       ]
     },
     "AEF info": {
@@ -5801,9 +5804,9 @@
     },
     "BBC": {
       "country": "Britani",
-      "total": 10,
+      "total": 11,
       "positive": 1,
-      "neutral": 5,
+      "neutral": 6,
       "negative": 0,
       "unknown": 4,
       "firstSeen": "2026-09-16",
@@ -5818,7 +5821,8 @@
         "https://www.bbc.co.uk/sport/football/live/ck790jyljq4vt",
         "https://www.bbc.com/sport/football/live/c68xk217zr0rt",
         "https://www.bbc.co.uk/sport/football/live/cmvgyyy47xj9t",
-        "https://www.bbc.com/sport/football/live/cmvgyyy47xj9t"
+        "https://www.bbc.com/sport/football/live/cmvgyyy47xj9t",
+        "https://www.bbc.co.uk/sport/football/live/cw0kllgk818dt"
       ]
     },
     "lbc.co.uk": {
@@ -8683,13 +8687,13 @@
     },
     "PodkarpacieLIVE": {
       "country": "Poloni",
-      "total": 8,
-      "positive": 0,
+      "total": 9,
+      "positive": 1,
       "neutral": 5,
       "negative": 0,
       "unknown": 3,
       "firstSeen": "2026-09-22",
-      "lastSeen": "2026-09-27",
+      "lastSeen": "2026-09-30",
       "urls": [
         "https://www.podkarpacielive.pl/mecz/158315,kosowo-vs-irlandia",
         "https://www.podkarpacielive.pl/pl/wydarzenia/57713,kosowo---irlandia-typy-kursy-bukmacherskie-zapowiedz-24092026",
@@ -8698,7 +8702,8 @@
         "https://www.podkarpacielive.pl/pl/wydarzenia/57743,kosowo---irlandia-transmisja-na-zywo-gdzie-ogladac-i-o-ktorej-mecz-24092026",
         "https://www.podkarpacielive.pl/pl/wydarzenia/57714,austria---kosowo-typy-kursy-bukmacherskie-zapowiedz-27092026",
         "https://www.podkarpacielive.pl/pl/wydarzenia/58278,austria---kosowo-sklady-i-wyjsciowe-jedenastki-27092026",
-        "https://www.podkarpacielive.pl/pl/wydarzenia/57764,austria---kosowo-transmisja-na-zywo-gdzie-ogladac-i-o-ktorej-mecz-27092026"
+        "https://www.podkarpacielive.pl/pl/wydarzenia/57764,austria---kosowo-transmisja-na-zywo-gdzie-ogladac-i-o-ktorej-mecz-27092026",
+        "https://www.podkarpacielive.pl/zawodnik/36098,hadergjonaj-florent"
       ]
     },
     "triesteprima.it": {
@@ -8756,17 +8761,18 @@
     },
     "iGol.pl": {
       "country": "Poloni",
-      "total": 3,
+      "total": 4,
       "positive": 0,
-      "neutral": 2,
+      "neutral": 3,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-23",
-      "lastSeen": "2026-09-23",
+      "lastSeen": "2026-09-30",
       "urls": [
         "https://igol.pl/mecz/65119/kosowo-izrael/",
         "https://igol.pl/mecz/65003/kosowo-irlandia/",
-        "https://igol.pl/mecz/97739/san-marino-u21-kosowo-u21/"
+        "https://igol.pl/mecz/97739/san-marino-u21-kosowo-u21/",
+        "https://igol.pl/mecz/65055/izrael-kosowo/"
       ]
     },
     "Diyanet Haber": {
@@ -8931,19 +8937,20 @@
     },
     "Foxbet.gr": {
       "country": "Greqi",
-      "total": 5,
+      "total": 6,
       "positive": 0,
-      "neutral": 3,
+      "neutral": 4,
       "negative": 0,
       "unknown": 2,
       "firstSeen": "2026-09-23",
-      "lastSeen": "2026-09-29",
+      "lastSeen": "2026-09-30",
       "urls": [
         "https://www.foxbet.gr/prognostika/447523-kosovo-irlandia",
         "https://www.foxbet.gr/prognostika/447515-san-marino-kosovo",
         "https://www.foxbet.gr/prognostika/447811-afstria-kosovo",
         "https://www.foxbet.gr/340013/aystria-enantion-kosobo",
-        "https://www.foxbet.gr/prognostika/448127-kosovo-u21-kipros-u21"
+        "https://www.foxbet.gr/prognostika/448127-kosovo-u21-kipros-u21",
+        "https://www.foxbet.gr/prognostika/448176-israil-kosovo"
       ]
     },
     "StoiximaView.gr": {
@@ -11012,6 +11019,32 @@
       "lastSeen": "2026-09-27",
       "urls": [
         "https://www.sabah.com.tr/spor/futbol/2026/09/27/avusturya-kosova-engelini-3-golle-gecti"
+      ]
+    },
+    "soroptimist.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 1,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-30",
+      "lastSeen": "2026-09-29",
+      "urls": [
+        "https://www.soroptimist.it/it/attivita/attivita-nazionali/rete-amicizia-e-pace-nel-gemellaggio-italia-kosovo-61095/"
+      ]
+    },
+    "news247.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 1,
+      "neutral": 0,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-30",
+      "lastSeen": "2026-09-27",
+      "urls": [
+        "https://www.news247.gr/psixagogia/celebrities/h-ntoua-lipa-xorepse-se-glenti-sto-kosovo-me-potiri-sto-kefali-vinteo/"
       ]
     }
   }

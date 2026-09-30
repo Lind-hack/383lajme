@@ -10532,18 +10532,18 @@
   },
   {
     "date": "2026-09-30",
-    "overallIndex": 30,
-    "totalArticles": 56,
-    "sourceCount": 40,
+    "overallIndex": 38,
+    "totalArticles": 65,
+    "sourceCount": 47,
     "stanceVersion": 4,
     "day": {
-      "index": 30,
-      "positive": 5,
-      "neutral": 37,
+      "index": 38,
+      "positive": 8,
+      "neutral": 43,
       "negative": 14,
       "unknown": 1,
-      "n": 56,
-      "sourceCount": 40
+      "n": 65,
+      "sourceCount": 47
     },
     "countries": {
       "Gjermani": {
@@ -10577,9 +10577,9 @@
       "Britani": {
         "index": 30,
         "positive": 0,
-        "neutral": 67,
-        "negative": 33,
-        "n": 6,
+        "neutral": 71,
+        "negative": 29,
+        "n": 7,
         "excluded": 3,
         "confident": true,
         "stanceVersion": 4,
@@ -10603,16 +10603,16 @@
         "stanceVersion": 4
       },
       "Itali": {
-        "index": 21,
-        "positive": 0,
-        "neutral": 50,
-        "negative": 50,
-        "n": 8,
+        "index": 31,
+        "positive": 11,
+        "neutral": 44,
+        "negative": 44,
+        "n": 9,
         "excluded": 20,
         "confident": false,
         "stanceVersion": 4,
         "movement": {
-          "delta": -31,
+          "delta": -21,
           "from": 52,
           "outlet": "il Nord Est",
           "title": "Dënimi i Thaçit në Hagë: Protestat përfshijnë Kosovën - il Nord Est",
@@ -10623,10 +10623,10 @@
       "Austri": {
         "index": 30,
         "positive": 0,
-        "neutral": 91,
-        "negative": 9,
-        "n": 22,
-        "excluded": 152,
+        "neutral": 93,
+        "negative": 7,
+        "n": 28,
+        "excluded": 148,
         "confident": false,
         "stanceVersion": 4,
         "movement": {
@@ -10639,16 +10639,16 @@
         }
       },
       "Zvicër": {
-        "index": 30,
-        "positive": 0,
-        "neutral": 60,
+        "index": 39,
+        "positive": 20,
+        "neutral": 40,
         "negative": 40,
-        "n": 5,
-        "excluded": 15,
-        "confident": false,
+        "n": 10,
+        "excluded": 10,
+        "confident": true,
         "stanceVersion": 4,
         "movement": {
-          "delta": -20,
+          "delta": -11,
           "from": 50,
           "outlet": "SRF",
           "title": "Fitorja e dytë: Austria mposht edhe Kosovën – SRF",
@@ -10657,21 +10657,21 @@
         }
       },
       "Holandë": {
-        "index": 62,
-        "positive": 50,
-        "neutral": 50,
+        "index": 70,
+        "positive": 29,
+        "neutral": 71,
         "negative": 0,
-        "n": 2,
-        "excluded": 8,
-        "confident": false,
+        "n": 7,
+        "excluded": 3,
+        "confident": true,
         "stanceVersion": 4,
         "movement": {
-          "delta": 12,
+          "delta": 20,
           "from": 50,
-          "outlet": "trouw.nl",
-          "title": "Kosova, 27 vjet pas luftës, e pastruar nga minat",
-          "evidence": "mijnenvrij",
-          "url": "https://www.trouw.nl/nieuws/kosovo-is-27-jaar-na-de-oorlog-mijnenvrij~bfa1ee0b/"
+          "outlet": "Puna.nl",
+          "title": "Kosso zbulon se po bëhet një reality show për emigrimin e tij në Kosovë: \"Ende nuk mund të flas për këtë\"",
+          "evidence": "realityserie komt over zijn emigratie naar Kosovo",
+          "url": "https://www.puna.nl/news/kosso-onthult-dat-er-een-realityserie-komt-over-zijn-emigratie-naar-kosovo-mag-ik-nog-niet-over-vertellen"
         }
       },
       "Belgjikë": {
@@ -10685,31 +10685,39 @@
         "stanceVersion": 4
       },
       "Spanjë": {
-        "index": null,
-        "positive": 0,
+        "index": 62,
+        "positive": 100,
         "neutral": 0,
         "negative": 0,
-        "n": 0,
-        "excluded": 2,
+        "n": 1,
+        "excluded": 1,
         "confident": false,
-        "stanceVersion": 4
+        "stanceVersion": 4,
+        "movement": {
+          "delta": 12,
+          "from": 50,
+          "outlet": "Cadena 100",
+          "title": "Dua Lipa shkëlqen në dasmën shqiptare të kushëririt të saj: Detajet e fundjavës emocionale në Kosovë",
+          "evidence": "deslumbrante",
+          "url": "https://www.cadena100.es/trending-topic/noticias/dua-lipa-deslumbrante-gran-boda-albanesa-primo-todos-detalles-emotivo-semana-familiar-kosovo-20260928_156041.html"
+        }
       },
       "Greqi": {
-        "index": 68,
-        "positive": 40,
+        "index": 71,
+        "positive": 41,
         "neutral": 47,
-        "negative": 13,
-        "n": 15,
+        "negative": 12,
+        "n": 17,
         "excluded": 18,
         "confident": true,
         "stanceVersion": 4,
         "movement": {
-          "delta": 18,
+          "delta": 21,
           "from": 50,
-          "outlet": "NewsIT",
-          "title": "Dua Lipa “ndez atmosferën” në një aheng familjar në Kosovë – Shikoni videon",
-          "evidence": "τα έσπασε σε οικογενειακό γλέντι",
-          "url": "https://www.newsit.gr/lifestyle/i-dua-lipa-ta-espase-se-oikogeneiako-glenti-sto-kosovo-deite-vinteo/4784644/"
+          "outlet": "news247.gr",
+          "title": "Dua Lipa vallëzon në një aheng në Kosovë me gotë mbi kokë – Video",
+          "evidence": "χόρεψε ... στο γλέντι στο Κόσοβο",
+          "url": "https://www.news247.gr/psixagogia/celebrities/h-ntoua-lipa-xorepse-se-glenti-sto-kosovo-me-potiri-sto-kefali-vinteo/"
         }
       },
       "Suedi": {
@@ -10723,29 +10731,21 @@
         "stanceVersion": 4
       },
       "Poloni": {
-        "index": 38,
-        "positive": 0,
-        "neutral": 75,
-        "negative": 25,
-        "n": 4,
+        "index": 50,
+        "positive": 17,
+        "neutral": 67,
+        "negative": 17,
+        "n": 6,
         "excluded": 20,
         "confident": false,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": -12,
-          "from": 50,
-          "outlet": "RMF24",
-          "title": "“Spastrim etnik”: Serbia kërcënon pas arrestimeve në Kosovë",
-          "evidence": "Czystka etniczna",
-          "url": "https://www.rmf24.pl/fakty/swiat/news-czystka-etniczna-serbia-grzmi-po-aresztowaniach-w-kosowie,nIdn,1019418"
-        }
+        "stanceVersion": 4
       },
       "Turqi": {
         "index": 50,
-        "positive": 50,
-        "neutral": 0,
-        "negative": 50,
-        "n": 8,
+        "positive": 44,
+        "neutral": 11,
+        "negative": 44,
+        "n": 9,
         "excluded": 9,
         "confident": true,
         "stanceVersion": 4
@@ -10787,8 +10787,8 @@
         "sentiment": "positive"
       },
       {
-        "title": "Frozen conflicts threaten stability in Belfast and Kosovo - ledgertranscript.com",
-        "source": "ledgertranscript.com",
+        "title": "Frozen conflicts threaten stability in Belfast and Kosovo - Monadnock Ledger-Transcript",
+        "source": "Monadnock Ledger-Transcript",
         "country": "SHBA",
         "flag": "🇺🇸",
         "url": "https://ledgertranscript.com/2026/09/30/sectarian-violence-northern-ireland/",
@@ -10803,8 +10803,8 @@
         "sentiment": "negative"
       },
       {
-        "title": "Austria - Kosovo (3-1) UEFA Nations League 2026 - la Repubblica",
-        "source": "La Repubblica",
+        "title": "Austria - Kosovo (3-1) UEFA Nations League 2026 - repubblica.it",
+        "source": "repubblica.it",
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://www.repubblica.it/sport/dirette/calcio/uefa-nations-league-2026/diretta-austria-kosovo-g2626910/",
