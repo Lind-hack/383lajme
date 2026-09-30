@@ -8,6 +8,7 @@
 import Link from "next/link";
 import { ArrowDownRight, ArrowRight, ArrowUpRight, Minus } from "lucide-react";
 import SectionLabel from "@/components/section-label";
+import ToneScaleBar from "@/components/tone/tone-scale-bar";
 import { ToneTag } from "@/app/bota-per-kosoven/stories";
 import type { DailyStory, ToneToday } from "@/lib/tone-data";
 import { dayVerdict, toneFill, toneLabel } from "@/lib/tone-scale";
@@ -31,6 +32,11 @@ export default function BotaHome({ today, stories }: { today: ToneToday; stories
         }
       />
 
+      <p className={s.intro}>
+        Çdo ditë lexojmë shtypin e huaj dhe shënojmë nëse lajmet për Kosovën janë të mira apo
+        të këqija. Indeksi tregon nga anon dita.
+      </p>
+
       <div className={s.panel}>
         <div className={s.reading}>
           <p className={s.verdict}>{dayVerdict(today.index)}</p>
@@ -52,6 +58,10 @@ export default function BotaHome({ today, stories }: { today: ToneToday; stories
                 </span>
               )}
             </span>
+          </div>
+
+          <div className={s.scale}>
+            <ToneScaleBar index={today.index} previous={today.previous?.index ?? null} size="sm" />
           </div>
 
           <p className={s.counts}>

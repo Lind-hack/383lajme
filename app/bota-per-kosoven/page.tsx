@@ -33,7 +33,9 @@ import {
   summarizeToneHistory,
 } from "@/lib/tone-data";
 import { dayVerdict, formatAge, toneFill, toneLabel } from "@/lib/tone-scale";
+import ToneScaleBar from "@/components/tone/tone-scale-bar";
 import WeekChart from "./week-chart";
+import HowItWorks from "./how-it-works";
 import Stories from "./stories";
 import BotaMap from "./bota-map";
 import s from "./bota.module.css";
@@ -100,6 +102,8 @@ export default async function BotaPerKosovenPage() {
           </p>
         </header>
 
+        <HowItWorks articles={today.articles} sources={today.sources} />
+
         {today.isStale && (
           <p role="status" className={s.stale}>
             <AlertTriangle size={15} strokeWidth={2.2} aria-hidden style={{ flexShrink: 0, marginTop: 2 }} />
@@ -148,6 +152,10 @@ export default async function BotaPerKosovenPage() {
                 {delta === 0 ? "njësoj si dje" : `${delta > 0 ? "+" : ""}${delta} nga dje`}
               </span>
             )}
+          </div>
+
+          <div className={s.scaleRow}>
+            <ToneScaleBar index={today.index} previous={today.previous?.index ?? null} />
           </div>
 
           <div className={s.week}>

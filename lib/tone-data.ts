@@ -363,6 +363,9 @@ export interface ToneToday {
   date: string | null;
   index: number | null;
   counts: { positive: number; neutral: number; negative: number };
+  /** Scored articles today and the outlets they came from — "what we read". */
+  articles: number;
+  sources: number;
   /** The most recent earlier v4 day that has an index. */
   previous: { date: string; index: number } | null;
   delta: number | null;
@@ -387,7 +390,7 @@ export function summarizeToday(history: ToneHistoryRow[]): ToneToday {
   if (!latest) {
     return {
       hasData: false, date: null, index: null,
-      counts: { positive: 0, neutral: 0, negative: 0 },
+      counts: { positive: 0, neutral: 0, negative: 0 }, articles: 0, sources: 0,
       previous: null, delta: null, week: [], ageHours: null, isStale: false,
     };
   }
@@ -421,6 +424,8 @@ export function summarizeToday(history: ToneHistoryRow[]): ToneToday {
       neutral: current?.day?.neutral ?? 0,
       negative: current?.day?.negative ?? 0,
     },
+    articles: current?.day?.n ?? 0,
+    sources: current?.day?.sourceCount ?? 0,
     previous,
     delta: index != null && previous ? index - previous.index : null,
     week,

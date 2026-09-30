@@ -22,6 +22,16 @@
   border-radius: 8px;
 }
 
+.intro {
+  margin: 0 0 18px;
+  max-width: 62ch;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #5f5b56;
+}
+
+.scale { margin-top: 6px; }
+
 .panel {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
@@ -91,7 +101,7 @@
 .delta[data-dir="down"] { color: var(--bad); }
 
 .counts {
-  margin: 16px 0 0;
+  margin: 2px 0 0;
   font-size: 13.5px;
   color: #6b6b6b;
 }

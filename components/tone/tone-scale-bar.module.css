@@ -1,0 +1,135 @@
+.scale {
+  --track-h: 14px;
+  --label-room: 30px;
+  width: 100%;
+  padding-top: var(--label-room);
+}
+.scale[data-size="sm"] {
+  --track-h: 10px;
+  --label-room: 12px;
+}
+.scale[data-size="sm"] .markerLabel { display: none; }
+
+.track {
+  position: relative;
+  height: var(--track-h);
+  /* room for yesterday's label under the bar */
+  margin-bottom: 22px;
+}
+
+.bar {
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  box-shadow: inset 0 0 0 1px rgba(17, 17, 17, 0.06);
+}
+
+/* The 50 line: balance. */
+.mid {
+  position: absolute;
+  left: 50%;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 1px rgba(17, 17, 17, 0.08);
+}
+
+/* Today: a solid pin with its value above the bar. It travels from the
+   balance line to today's position once, on load — the one moment of motion,
+   and it says what the number means: how far from balance, in which
+   direction. */
+.marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--to);
+  width: 0;
+  animation: travel 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes travel {
+  from { left: 50%; }
+  to { left: var(--to); }
+}
+
+.pin {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: calc(var(--track-h) + 10px);
+  height: calc(var(--track-h) + 10px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #111111;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(17, 17, 17, 0.28);
+}
+
+.markerLabel {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  transform: translateX(-50%);
+  padding: 3px 9px;
+  border-radius: 100px;
+  background: #111111;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.markerLabel em { font-style: normal; font-weight: 600; opacity: 0.72; }
+
+/* Yesterday: hollow, quieter, label underneath so the two never collide. */
+.ghost {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+}
+.ghostDot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: calc(var(--track-h) + 2px);
+  height: calc(var(--track-h) + 2px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px dashed rgba(17, 17, 17, 0.55);
+  background: rgba(255, 255, 255, 0.55);
+}
+.ghostLabel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #6b6b6b;
+  white-space: nowrap;
+}
+
+.ends {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b6b6b;
+}
+.ends > :first-child { color: #a3121a; }
+.ends > :last-child { color: #16794a; }
+.scale[data-size="sm"] .ends > :nth-child(2) { display: none; }
+
+[data-edge="start"] > .markerLabel,
+[data-edge="start"] > .ghostLabel { transform: translateX(-14px); }
+[data-edge="end"] > .markerLabel,
+[data-edge="end"] > .ghostLabel { transform: translateX(calc(-100% + 14px)); }
+
+@media (prefers-reduced-motion: reduce) {
+  .marker { animation: none; }
+}
