@@ -59,7 +59,8 @@ function dayLabel(iso: string) {
 }
 
 function initials(name: string) {
-  const words = name.replace(/[^\p{L}\p{N} ]/gu, " ").split(/\s+/).filter(Boolean);
+  // Letters only: "Rahoveci 029" is RA, not R0.
+  const words = name.replace(/[^\p{L} ]/gu, " ").split(/\s+/).filter(Boolean);
   return (words.length > 1 ? `${words[0][0]}${words.at(-1)?.[0] ?? ""}` : (words[0] ?? "?").slice(0, 2)).toUpperCase();
 }
 
