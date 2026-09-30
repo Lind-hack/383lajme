@@ -1003,9 +1003,9 @@ export default function TreguHub() {
           steps={TOUR_STEPS}
           eyebrow="Si funksionon Tregu"
         />
-        {/* The Dardani sandbox opens by itself on a first visit to the floor,
-            and marks the visitor onboarded so the spotlight tour stays quiet. */}
-        <TradeTutorial />
+        {/* The Dardani sandbox opens by itself when a reader first enters a
+            market (/tregu/[slug]); on the floor it only answers "Si funksionon". */}
+        <TradeTutorial autoStart={false} />
         {/* The Ligat sandbox waits until a reader stops on the leagues. */}
         <LeagueTutorial autoStart="section" />
       </main>

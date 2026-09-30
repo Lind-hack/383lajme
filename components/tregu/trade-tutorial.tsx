@@ -238,7 +238,12 @@ const BURST = Array.from({ length: 8 }, (_, i) => {
   return { x: Math.cos(angle) * 128, y: Math.sin(angle) * 54 };
 });
 
-export default function TradeTutorial() {
+/**
+ * `autoStart` is on where a reader has actually entered a market: the sandbox
+ * opens itself the first time someone clicks into a trade, not on the floor.
+ * Everywhere else it only opens from openTradeTutorial().
+ */
+export default function TradeTutorial({ autoStart = true }: { autoStart?: boolean }) {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [act, setAct] = useState(0);
@@ -334,6 +339,7 @@ export default function TradeTutorial() {
 
   // First market page a visitor opens gets it; after that it is on demand only.
   useEffect(() => {
+    if (!autoStart) return;
     let stored: string | null = null;
     try {
       stored = window.localStorage.getItem(STORAGE_KEY);
@@ -350,7 +356,7 @@ export default function TradeTutorial() {
       start();
     }, 900);
     return () => window.clearTimeout(timer);
-  }, [start]);
+  }, [autoStart, start]);
 
   useEffect(() => {
     const onOpen = (event: Event) => {
