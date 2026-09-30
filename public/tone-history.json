@@ -10532,120 +10532,137 @@
   },
   {
     "date": "2026-09-30",
-    "overallIndex": 50,
-    "totalArticles": 313,
-    "sourceCount": 153,
-    "stanceVersion": 3,
+    "overallIndex": null,
+    "totalArticles": 0,
+    "sourceCount": 0,
+    "stanceVersion": 4,
+    "day": null,
     "countries": {
       "Gjermani": {
         "index": 50,
         "positive": 0,
         "neutral": 100,
         "negative": 0,
-        "n": 26,
-        "excluded": 1,
-        "confident": true,
-        "stanceVersion": 3
+        "n": 2,
+        "excluded": 25,
+        "confident": false,
+        "stanceVersion": 4
       },
       "SHBA": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 4
+      },
+      "Britani": {
+        "index": 38,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 100,
+        "n": 1,
+        "excluded": 6,
+        "confident": false,
+        "stanceVersion": 4,
+        "movement": {
+          "delta": -12,
+          "from": 50,
+          "outlet": "Balkan Insight",
+          "title": "Prokurori amerikan kritikon dështimin e Kosovës për të menaxhuar pritshmëritë rreth aktgjykimit për Thaçin - Balkan Insight",
+          "evidence": "Failure to Mitigate Thaci Verdict Expectations",
+          "url": "https://balkaninsight.com/2026/09/30/us-prosecutor-questions-kosovos-failure-to-mitigate-thaci-verdict-expectations/btj/"
+        }
+      },
+      "Francë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 10,
+        "confident": false,
+        "stanceVersion": 4
+      },
+      "Itali": {
         "index": 50,
         "positive": 0,
         "neutral": 100,
         "negative": 0,
         "n": 1,
-        "excluded": 0,
+        "excluded": 27,
         "confident": false,
-        "stanceVersion": 3
-      },
-      "Britani": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 7,
-        "excluded": 0,
-        "confident": true,
-        "stanceVersion": 3
-      },
-      "Francë": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 9,
-        "excluded": 1,
-        "confident": true,
-        "stanceVersion": 3
-      },
-      "Itali": {
-        "index": 54,
-        "positive": 9,
-        "neutral": 91,
-        "negative": 0,
-        "n": 23,
-        "excluded": 4,
-        "confident": true,
-        "stanceVersion": 3
+        "stanceVersion": 4
       },
       "Austri": {
         "index": 50,
-        "positive": 1,
-        "neutral": 98,
-        "negative": 1,
-        "n": 166,
-        "excluded": 5,
-        "confident": true,
-        "stanceVersion": 3
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 168,
+        "confident": false,
+        "stanceVersion": 4
       },
       "Zvicër": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 20,
-        "excluded": 0,
-        "confident": true,
-        "stanceVersion": 3
+        "n": 0,
+        "excluded": 20,
+        "confident": false,
+        "stanceVersion": 4
       },
       "Holandë": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 7,
-        "excluded": 2,
-        "confident": true,
-        "stanceVersion": 3
+        "n": 0,
+        "excluded": 9,
+        "confident": false,
+        "stanceVersion": 4
       },
       "Belgjikë": {
-        "index": 50,
+        "index": 30,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 1,
+        "neutral": 0,
+        "negative": 100,
+        "n": 2,
         "excluded": 1,
         "confident": false,
-        "stanceVersion": 3
+        "stanceVersion": 4
       },
       "Spanjë": {
-        "index": 50,
+        "index": null,
         "positive": 0,
-        "neutral": 100,
+        "neutral": 0,
         "negative": 0,
-        "n": 2,
-        "excluded": 0,
+        "n": 0,
+        "excluded": 2,
         "confident": false,
-        "stanceVersion": 3
+        "stanceVersion": 4
       },
       "Greqi": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 17,
-        "excluded": 14,
-        "confident": true,
-        "stanceVersion": 3
+        "index": 68,
+        "positive": 50,
+        "neutral": 33,
+        "negative": 17,
+        "n": 12,
+        "excluded": 20,
+        "confident": false,
+        "stanceVersion": 4,
+        "movement": {
+          "delta": 18,
+          "from": 50,
+          "outlet": "NewsIT",
+          "title": "Dua Lipa “ndez atmosferën” në një aheng familjar në Kosovë – Shikoni videon",
+          "evidence": "τα έσπασε σε οικογενειακό γλέντι",
+          "url": "https://www.newsit.gr/lifestyle/i-dua-lipa-ta-espase-se-oikogeneiako-glenti-sto-kosovo-deite-vinteo/4784644/"
+        }
       },
       "Suedi": {
         "index": 50,
@@ -10655,27 +10672,43 @@
         "n": 3,
         "excluded": 3,
         "confident": false,
-        "stanceVersion": 3
+        "stanceVersion": 4
       },
       "Poloni": {
-        "index": 50,
+        "index": 38,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 20,
-        "excluded": 4,
-        "confident": true,
-        "stanceVersion": 3
+        "neutral": 50,
+        "negative": 50,
+        "n": 2,
+        "excluded": 22,
+        "confident": false,
+        "stanceVersion": 4,
+        "movement": {
+          "delta": -12,
+          "from": 50,
+          "outlet": "RMF24",
+          "title": "“Spastrim etnik”: Serbia kërcënon pas arrestimeve në Kosovë",
+          "evidence": "Czystka etniczna",
+          "url": "https://www.rmf24.pl/fakty/swiat/news-czystka-etniczna-serbia-grzmi-po-aresztowaniach-w-kosowie,nIdn,1019418"
+        }
       },
       "Turqi": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 11,
-        "excluded": 5,
-        "confident": true,
-        "stanceVersion": 3
+        "index": 42,
+        "positive": 33,
+        "neutral": 0,
+        "negative": 67,
+        "n": 3,
+        "excluded": 13,
+        "confident": false,
+        "stanceVersion": 4,
+        "movement": {
+          "delta": -8,
+          "from": 50,
+          "outlet": "Sabah",
+          "title": "Austria e kalon pengesën e Kosovës me 3 gola",
+          "evidence": "Kosova engelini 3 golle geçti",
+          "url": "https://www.sabah.com.tr/spor/futbol/2026/09/27/avusturya-kosova-engelini-3-golle-gecti"
+        }
       },
       "Kroaci": {
         "index": null,
@@ -10685,7 +10718,7 @@
         "n": 0,
         "excluded": 0,
         "confident": false,
-        "stanceVersion": 3
+        "stanceVersion": 4
       }
     },
     "headlines": [
@@ -10698,6 +10731,14 @@
         "sentiment": "positive"
       },
       {
+        "title": "La Turquie finance des activités du Conseil de l’Europe au Kosovo* - coe.int",
+        "source": "coe.int",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.coe.int/fr/web/programmes/-/t%C3%BCrkiye-funds-council-of-europe-activities-in-kosovo*",
+        "sentiment": "positive"
+      },
+      {
         "title": "Pristina è una capitale europea giovane e lontana dai cliché sui Balcani: scoprila adesso - Dove Viaggi Corriere",
         "source": "Dove Viaggi Corriere",
         "country": "Itali",
@@ -10706,27 +10747,27 @@
         "sentiment": "positive"
       },
       {
-        "title": "Voller Vorfreude – Vor ÖFB-Partie – Kosovo-Fans nehmen Wiener City ein - Heute",
-        "source": "Heute",
-        "country": "Austri",
-        "flag": "🇦🇹",
-        "url": "https://www.heute.at/s/vor-oefb-partie-kosovo-fans-nehmen-wiener-city-ein-120257965",
-        "sentiment": "positive"
-      },
-      {
-        "title": "Kosovo chancenlos – 3:1! Österreich feiert Fußball-Fest im Wiener Prater - Heute",
-        "source": "Heute",
-        "country": "Austri",
-        "flag": "🇦🇹",
-        "url": "https://www.heute.at/s/live-ab-18-uhr-oesterreich-will-gegen-kosovo-nachlegen-120258129",
+        "title": "Vučić takes your order: highways first, then Kosovo, hold the NATO - EUalive",
+        "source": "EUalive",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://eualive.net/vucic-takes-your-order-highways-first-then-kosovo-hold-the-nato/",
         "sentiment": "negative"
       },
       {
-        "title": "Vedat Muriqi'li Kosova Avusturya'ya yıkıldı! - Sporx.com",
-        "source": "Sporx.com",
-        "country": "Turqi",
-        "flag": "🇹🇷",
-        "url": "https://www.sporx.com/vedat-muriqi-li-kosova-avusturya-ya-yikildi-SXHBQ1177371SXQ",
+        "title": "US Prosecutor Questions Kosovo’s Failure to Mitigate Thaci Verdict Expectations - Balkan Insight",
+        "source": "Balkan Insight",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://balkaninsight.com/2026/09/30/us-prosecutor-questions-kosovos-failure-to-mitigate-thaci-verdict-expectations/btj/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Neuf Serbes arrêtés au Kosovo sur des suspicions de crimes de guerre - lesoir.be",
+        "source": "Le Soir",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.lesoir.be/773333/article/2026-09-27/neuf-serbes-arretes-au-kosovo-sur-des-suspicions-de-crimes-de-guerre",
         "sentiment": "negative"
       }
     ]

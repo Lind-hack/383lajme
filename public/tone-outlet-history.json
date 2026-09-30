@@ -826,9 +826,9 @@
     },
     "sport-fm.gr": {
       "country": "Greqi",
-      "total": 16,
+      "total": 17,
       "positive": 1,
-      "neutral": 10,
+      "neutral": 11,
       "negative": 0,
       "unknown": 5,
       "firstSeen": "2026-08-20",
@@ -849,7 +849,8 @@
         "https://www.sport-fm.gr/article/amp/Live-ellada-kosobo-amp/4133784",
         "https://www.sport-fm.gr/article/amp/Live-kosobo-ellada-amp/4304252",
         "https://www.sport-fm.gr/events/34310271",
-        "https://www.sport-fm.gr/events/34310318"
+        "https://www.sport-fm.gr/events/34310318",
+        "https://www.sport-fm.gr/article/amp/Live-austria-kosobo-amp/5150373"
       ]
     },
     "In.gr": {
@@ -9103,15 +9104,16 @@
     },
     "Bet.gr": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 0,
+      "neutral": 1,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-24",
-      "lastSeen": "2026-09-24",
+      "lastSeen": "2026-09-27",
       "urls": [
-        "https://www.bet.gr/prognostika/kosovo-irlandia-240926/"
+        "https://www.bet.gr/prognostika/kosovo-irlandia-240926/",
+        "https://www.bet.gr/prognostika/aystria-kosovo-270926/"
       ]
     },
     "HurBra.se": {
@@ -10695,15 +10697,16 @@
     },
     "sportbet.gr": {
       "country": "Greqi",
-      "total": 1,
+      "total": 2,
       "positive": 0,
-      "neutral": 1,
+      "neutral": 2,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-29",
-      "lastSeen": "2026-09-26",
+      "lastSeen": "2026-09-30",
       "urls": [
-        "https://sportbet.gr/analuseis/afstria-kosovo-27-09-2026/"
+        "https://sportbet.gr/analuseis/afstria-kosovo-27-09-2026/",
+        "https://sportbet.gr/analuseis/israil-kosovo-01-10-2026/"
       ]
     },
     "Sveriges Radio": {
@@ -10966,6 +10969,19 @@
       "lastSeen": "2026-09-30",
       "urls": [
         "https://blog.etoto.pl/izrael-kosowo-typy-kursy-zaklady-1-10-2026/"
+      ]
+    },
+    "forlitoday.it": {
+      "country": "Itali",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-30",
+      "lastSeen": "2026-09-29",
+      "urls": [
+        "https://www.forlitoday.it/cronaca/aiuti-umanitari-kosovo-cri-terza-raccolta.html"
       ]
     }
   }
