@@ -32,7 +32,9 @@ import {
   marketVolume,
 } from "@/lib/tregu-hub-market.mjs";
 import type { MarketMedia } from "@/lib/tregu-market-media.mjs";
-import SpotlightTour, { openTour, type TourStep } from "@/components/spotlight-tour";
+import SpotlightTour, { type TourStep } from "@/components/spotlight-tour";
+import TradeTutorial, { openTradeTutorial } from "@/components/tregu/trade-tutorial";
+import LeagueTutorial from "@/components/tregu/league-tutorial";
 import { formatKosovoTime } from "@/lib/tregu-local-time.mjs";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
@@ -742,7 +744,7 @@ export default function TreguHub() {
             <button
               type="button"
               className="tregu-home-help"
-              onClick={() => openTour(TOUR_ID)}
+              onClick={openTradeTutorial}
             >
               <span aria-hidden>?</span>
               Si funksionon
@@ -1001,6 +1003,11 @@ export default function TreguHub() {
           steps={TOUR_STEPS}
           eyebrow="Si funksionon Tregu"
         />
+        {/* The Dardani sandbox opens by itself on a first visit to the floor,
+            and marks the visitor onboarded so the spotlight tour stays quiet. */}
+        <TradeTutorial />
+        {/* The Ligat sandbox waits until a reader stops on the leagues. */}
+        <LeagueTutorial autoStart="section" />
       </main>
     </div>
   );

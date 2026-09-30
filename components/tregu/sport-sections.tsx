@@ -13,7 +13,8 @@ import Link from "next/link";
 import { ArrowRight, Trophy } from "lucide-react";
 import type { CSSProperties } from "react";
 import SportBrandMark from "@/components/tregu/sport-brand-mark";
-import { sportBrandFor } from "@/lib/tregu-sport-branding";
+import { courtArtFor, sportBrandFor } from "@/lib/tregu-sport-branding";
+import { formatKosovoDate, formatKosovoTime } from "@/lib/tregu-local-time.mjs";
 import {
   FOOTBALL_LEAGUES,
   FOOTBALL_TOURNAMENTS_SOON,
@@ -113,7 +114,19 @@ function RaceCard({
     </article>
   );
 }
-/** One row per league; the row filters the floor list to that league. */
+/** "Sot 19:00", "Nesër 02:30" or "03.10 19:00", in Kosovo time. */
+function tipOffLabel(iso?: string) {
+  if (!iso) return null;
+  const day = formatKosovoDate(iso);
+  const when = day === formatKosovoDate(Date.now()) ? "Sot" : day === formatKosovoDate(Date.now() + 86_400_000) ? "Nesër" : day;
+  return `${when} ${formatKosovoTime(iso)}`;
+}
+
+/**
+ * One arena tile per league: the league's own night photograph, its mark, how
+ * many games are open, and the next game with its line. The tile filters the
+ * floor list to that league.
+ */
 function BasketballCard({
   markets,
   isOpen,
@@ -128,11 +141,7 @@ function BasketballCard({
   const sections = useMemo(() => basketballSections(markets, { isOpen, limit: 3 }) as BasketballSection[], [markets, isOpen]);
   const total = sections.reduce((sum, section) => sum + section.count, 0);
   return (
-    <article
-      className="tregu-sport-card p-5 flex flex-col"
-      data-sport="basketball"
-      style={{ "--sport-accent": "#17408B", "--sport-tint": "#EEF4FF" } as CSSProperties}
-    >
+    <article className="tregu-sport-card tregu-bb-card p-5 flex flex-col" data-sport="basketball">
       <header className="flex items-center gap-2.5 mb-4">
         <span className="tregu-sport-icon" aria-hidden>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -141,33 +150,58 @@ function BasketballCard({
           </svg>
         </span>
         <h3 style={{ fontWeight: 800, fontSize: 16, margin: 0, letterSpacing: "-0.01em" }}>Basketboll</h3>
-        <span className="ml-auto text-[12px] font-extrabold tabular-nums" style={{ color: total > 0 ? "#ff4422" : "#9c9c9c" }}>
+        <span className="tregu-bb-card-count ml-auto" data-live={total > 0 || undefined}>
           {total} të hapura
         </span>
       </header>
       <div className="tregu-basketball-sections">
         {sections.map((section) => {
           const key = basketballFilterKey(section.key);
+          const art = courtArtFor(section.key);
+          const next = section.games?.[0];
+          const [home, away] = next?.sides ?? [];
+          const homePct = home?.probability != null ? Math.round(home.probability * 100) : null;
           return (
             <section key={section.key} aria-label={section.label}>
               <button
                 type="button"
                 onClick={() => onSelect(key)}
                 aria-pressed={active === key}
-                className="tregu-sport-league"
-                style={{
-                  "--league-accent": sportBrandFor(section.key)?.accent ?? "#17408B",
-                  "--league-tint": sportBrandFor(section.key)?.tint ?? "#EEF4FF",
-                } as CSSProperties}
+                className="tregu-bb-league"
+                data-competition={section.key}
               >
-                <span className="tregu-league-identity">
-                  <SportBrandMark brandKey={section.key} size="md" />
-                  <span>
-                    {section.label}
-                    <span style={{ display: "block", fontSize: 11, fontWeight: 600, color: "#77716A", marginTop: 1 }}>{section.country}</span>
+                {art && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img className="tregu-bb-league-photo" src={art.src} alt="" aria-hidden loading="lazy" decoding="async" />
+                )}
+                <span className="tregu-bb-league-head">
+                  <span className="tregu-league-identity">
+                    <SportBrandMark brandKey={section.key} size="md" />
+                    <span>
+                      <b>{section.label}</b>
+                      <small>{section.country}</small>
+                    </span>
                   </span>
+                  <span className="tregu-bb-league-count">{section.count}</span>
                 </span>
-                <span className="tregu-sport-league-count">{section.count}</span>
+                {next && home && away ? (
+                  <span className="tregu-bb-next">
+                    <span className="tregu-bb-next-teams">
+                      <span>{home.label}</span>
+                      <em>{tipOffLabel(next.kickoff) ?? "vs"}</em>
+                      <span>{away.label}</span>
+                    </span>
+                    {homePct != null && (
+                      <span className="tregu-bb-next-line" aria-label={`${home.label} ${homePct}%, ${away.label} ${100 - homePct}%`}>
+                        <i style={{ width: `${homePct}%` }} />
+                        <b>{homePct}%</b>
+                        <b>{100 - homePct}%</b>
+                      </span>
+                    )}
+                  </span>
+                ) : (
+                  <span className="tregu-bb-next tregu-bb-next--empty">Ndeshjet e radhës hapen së shpejti</span>
+                )}
               </button>
             </section>
           );
@@ -177,7 +211,7 @@ function BasketballCard({
         type="button"
         onClick={() => onSelect("basketball")}
         aria-pressed={active === "basketball"}
-        className="tregu-sport-more mt-auto pt-4 inline-flex items-center gap-1.5 self-start text-[12.5px] font-bold text-orange hover:text-[#d63a1c] transition-colors"
+        className="tregu-sport-more tregu-bb-more mt-auto pt-4 inline-flex items-center gap-1.5 self-start text-[12.5px] font-bold transition-colors"
       >
         Gjithë tregjet e basketbollit
         <ArrowRight size={13} strokeWidth={2.5} aria-hidden />
@@ -191,6 +225,7 @@ type BasketballSection = {
   label: string;
   country: string;
   count: number;
+  games?: { slug: string; kickoff?: string; sides: { key: string; label: string; probability: number | null }[] }[];
 };
 
 export default function SportSections({

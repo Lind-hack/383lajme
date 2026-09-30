@@ -31,6 +31,7 @@ import {
   type LeagueSummary,
 } from "@/lib/tregu-leagues";
 import "./leagues.css";
+import { openLeagueTutorial } from "@/components/tregu/league-tutorial";
 
 type Pulse = { players: number; leagues: number; faces: string[] };
 type Created = { id: string; code: string; name: string; days: number; fee: number; emblem: string; color: string };
@@ -294,6 +295,7 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
           <h2 id="lgc-title">Ligat</h2>
           <p>Parashiko ndeshjet me miqtë. Çdo parashikim i saktë jep pikë, më shumë për surprizat. Tre të parët ndajnë potin.</p>
         </div>
+        <button type="button" className="lgt-launch" onClick={openLeagueTutorial}><span aria-hidden>?</span>Si luhet?</button>
         {players > 0 && (
           <div className="lgc-pulse" aria-label={`${players} lojtarë në ${pulse?.leagues ?? 0} liga`}>
             <span className="lgc-faces" aria-hidden>

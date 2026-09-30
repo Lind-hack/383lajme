@@ -118,28 +118,27 @@ export const COMPETITION_TROPHY_ART: Record<string, CompetitionArt> = {
   "uefa.europa.conf": { src: "/images/tregu/uecl-trophy-v1.webp", width: 420, height: 906 },
 };
 
-/* Basketball is the fourth treatment and the first light one: a honey hardwood
-   floor rather than a European night, which is what keeps it apart from the
-   three UEFA cards at a glance on the same cream floor.
+/* Basketball: the arena at night. A dark, lit-from-above card with a real
+   photograph of the game, one per competition, so NBA and the Kosovo
+   Superliga read as different nights rather than one floor recoloured.
 
    It is registered per competition, never per sport. DESIGN.md:168 requires a
    treatment to key off a competition, and "basketball" is a category; these
    three are the competitions the basketball engine actually produces markets
    for (see BASKETBALL_LEAGUES in lib/tregu-basketball.mjs).
 
-   All three share one ball, because the subject is the sport's own object
-   rather than a competition's trophy. They differ in accent only -- the painted
-   line around the card edge takes the competition's colour. */
-const BASKETBALL_BALL: CompetitionArt = {
-  src: "/images/tregu/basketball-ball-v1.webp",
-  width: 380,
-  height: 365,
-};
+   Photos are Pexels (free for commercial use, no attribution required), chosen
+   with no identifiable player and no sponsor branding:
+     NBA  - "Dramatic basketball hoop with stunning light effects",
+            Eslam Mohammed Abdelmaksoud, pexels.com/photo/31169230
+     Hall - "Training on the court", Matteo Basile, pexels.com/photo/12882043 */
+const ARENA_NBA: CompetitionArt = { src: "/images/tregu/basketball-arena-nba.webp", width: 1400, height: 933 };
+const ARENA_HALL: CompetitionArt = { src: "/images/tregu/basketball-arena-hall.webp", width: 1400, height: 933 };
 
 export const COMPETITION_COURT_ART: Record<string, CompetitionArt> = {
-  nba: BASKETBALL_BALL,
-  "fiba.world": BASKETBALL_BALL,
-  "fbk.kosovo": BASKETBALL_BALL,
+  nba: ARENA_NBA,
+  "fiba.world": ARENA_HALL,
+  "fbk.kosovo": ARENA_HALL,
 };
 
 export function courtArtFor(league?: string | null): CompetitionArt | null {

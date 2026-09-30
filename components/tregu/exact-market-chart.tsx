@@ -12,7 +12,6 @@ import {
 import {
   angularRecordedPath,
   smoothRecordedPath,
-  stepRecordedPath,
   rangeWithMovement,
   RECORDED_RANGE_OPTIONS,
   formatProbabilityTick,
@@ -23,6 +22,10 @@ import {
 } from "@/lib/tregu-probability-domain.mjs";
 import { TREGU_CHART_UI_VERSION } from "@/lib/tregu-ui-contract";
 import { formatKosovoDateTime, formatKosovoTime } from "@/lib/tregu-local-time.mjs";
+import { livelyPoints, seedOf, wiggleAmplitude } from "@/lib/tregu-chart-motion.mjs";
+
+/** A news story that moved this market, pinned to the line at its moment. */
+export type ChartNewsMark = { t: number; title: string; href: string; source?: string };
 
 export type ExactMarketSeries = {
   key: string;
@@ -37,6 +40,8 @@ const W = 640;
 const PAD_L = 8;
 const PAD_R = 44;
 const PAD_Y = 12;
+/** How long a new trade takes to climb or drop into its price on screen. */
+const MOVE_MS = 1_100;
 
 function percent(value: number) {
   return `${Math.round(Math.max(0, Math.min(1, value)) * 100)}%`;
@@ -63,6 +68,7 @@ export default function ExactMarketChart({
   fill = false,
   emphasisKey = null,
   marks = [],
+  news = [],
 }: {
   series: ExactMarketSeries[];
   height?: number;
@@ -75,13 +81,16 @@ export default function ExactMarketChart({
   derived?: boolean;
   tone?: "serious" | "sport" | "neutral";
   defaultRange?: RecordedRangeKey;
-  /** "step" holds each price until it moves, which is what a market price does,
-   *  so a trade reads as a jump at its moment rather than a slide towards it. */
+  /** Line style between samples. Every recorded move is drawn as a short climb
+   *  or drop into the new price (lib/tregu-chart-motion.mjs) whichever is set;
+   *  "smooth" additionally rounds the joins. */
   curve?: "angular" | "smooth" | "step";
   /** The outcome the reader holds: drawn on top and heavier, the rest recede. */
   emphasisKey?: string | null;
   /** Points to ring on a line, e.g. the reader's own buy. */
   marks?: { key: string; t: number }[];
+  /** Stories that moved the price, drawn as numbered pins on the line. */
+  news?: ChartNewsMark[];
   /** Let the plot grow into its container. `height` stays the minimum, and the
    *  drawing follows the plot's real height so a deeper plot is redrawn, not
    *  stretched — points stay round and the area fill keeps its baseline. */
@@ -110,13 +119,45 @@ export default function ExactMarketChart({
 
   const drawHeight = fill && filledHeight != null && filledHeight > height ? filledHeight : height;
 
+  // The line breathes only when someone can see it: motion allowed, on screen,
+  // tab visible. Otherwise a chart ticks once a minute like before.
+  const [reduced, setReduced] = useState(false);
+  const [inView, setInView] = useState(true);
+  const [pageVisible, setPageVisible] = useState(true);
+  const rootRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
-    const cadence = drawsLive ? 1_000 : 60_000;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setReduced(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    const onVisibility = () => setPageVisible(document.visibilityState === "visible");
+    onVisibility();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      mq.removeEventListener("change", sync);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, []);
+
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(([entry]) => setInView(entry?.isIntersecting ?? true), { rootMargin: "120px" });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const lively = !reduced;
+  const breathing = lively && inView && pageVisible;
+
+  useEffect(() => {
+    const cadence = drawsLive || breathing ? 1_000 : 60_000;
     const updateVisibleEnd = () => setVisibleEnd(Date.now());
     updateVisibleEnd();
     const timer = window.setInterval(updateVisibleEnd, cadence);
     return () => window.clearInterval(timer);
-  }, [drawsLive]);
+  }, [drawsLive, breathing]);
 
   const selected = useMemo(
     () => selectRecordedRange(series, showRanges ? range : "Gjithë", visibleEnd),
@@ -157,6 +198,55 @@ export default function ExactMarketChart({
     };
   }, [compact, drawHeight, selected]);
 
+  // A new recorded move eases in from the price the reader was looking at, so
+  // a buy is seen pushing the line up or down rather than teleporting it.
+  const lastSeen = useRef(new Map<string, { t: number; p: number }>());
+  const [moving, setMoving] = useState<Record<string, { from: number; startedAt: number }>>({});
+  const [frameNow, setFrameNow] = useState(0);
+  useEffect(() => {
+    const started: Record<string, { from: number; startedAt: number }> = {};
+    for (const item of model.cleaned) {
+      const latest = item.points.at(-1);
+      if (!latest) continue;
+      const before = lastSeen.current.get(item.key);
+      if (lively && before && latest.t > before.t && Math.abs(latest.p - before.p) >= 0.0005) {
+        started[item.key] = { from: before.p, startedAt: performance.now() };
+      }
+      lastSeen.current.set(item.key, { t: latest.t, p: latest.p });
+    }
+    if (Object.keys(started).length) setMoving((current) => ({ ...current, ...started }));
+  }, [model.cleaned, lively]);
+
+  useEffect(() => {
+    if (!Object.keys(moving).length) return;
+    let raf = 0;
+    const frame = () => {
+      const now = performance.now();
+      setFrameNow(now);
+      const pending = Object.values(moving).some((move) => now - move.startedAt < MOVE_MS);
+      if (pending) raf = requestAnimationFrame(frame);
+      else setMoving({});
+    };
+    raf = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(raf);
+  }, [moving]);
+
+  const drawn = useMemo(() => {
+    const amplitude = lively ? wiggleAmplitude(model.domain.hi - model.domain.lo) : 0;
+    return new Map(model.cleaned.map((item) => {
+      const move = moving[item.key];
+      const progress = move ? Math.min(1, Math.max(0, (frameNow - move.startedAt) / MOVE_MS)) : 1;
+      return [item.key, livelyPoints(item.displayPoints, {
+        seed: seedOf(item.key),
+        start: selected.start,
+        end: selected.end,
+        amplitude,
+        now: breathing && visibleEnd != null ? visibleEnd : undefined,
+        animate: move && progress < 1 ? { from: move.from, progress } : null,
+      })];
+    }));
+  }, [breathing, frameNow, lively, model, moving, selected.end, selected.start, visibleEnd]);
+
   const summaries = model.cleaned.map((item) => {
     const displayPoints = item.points.length ? item.points : item.hold ? [item.hold] : [];
     const latest = displayPoints.at(-1)?.p ?? item.current;
@@ -178,6 +268,30 @@ export default function ExactMarketChart({
   const leader = [...summaries].sort((a, b) => b.current - a.current)[0];
   const biggestMove = [...summaries].sort((a, b) => Math.abs(b.change) - Math.abs(a.change))[0];
   const single = summaries.length === 1 ? summaries[0] : null;
+  // Polymarket-style headline: one big live number and how far it has come in
+  // the window. Only for single-line news markets; sport keeps its own header.
+  const hero = single && tone === "serious" && !compact && !minimal
+    ? {
+        current: single.current,
+        points: Math.abs(Math.round(single.change * 1000) / 10).toLocaleString("sq-AL"),
+        direction: Math.abs(single.change) < 0.0005 ? "flat" : single.change > 0 ? "up" : "down",
+      }
+    : null;
+  // News pins sit on the drawn line of the first series at their moment.
+  const pins = (() => {
+    if (minimal || compact || news.length === 0 || model.timestamps.length < 2) return [];
+    const firstT = model.timestamps[0];
+    const lastT = model.timestamps.at(-1) ?? firstT;
+    const line = model.cleaned[0] ? drawn.get(model.cleaned[0].key) ?? [] : [];
+    if (!line.length) return [];
+    return news
+      .filter((item) => Number.isFinite(item.t) && item.t >= firstT && item.t <= lastT)
+      .slice(-6)
+      .map((item, index) => {
+        const near = line.reduce((best, point) => (Math.abs(point.t - item.t) < Math.abs(best.t - item.t) ? point : best), line[0]);
+        return { ...item, n: index + 1, x: model.x(item.t), y: model.y(near.p) };
+      });
+  })();
   const scaleLabel = `${formatProbabilityTick(model.domain.lo, model.domain.tickStep)}-${formatProbabilityTick(model.domain.hi, model.domain.tickStep)}`;
   const updateCount = model.recordedTimestamps.length;
   const [inspectionT, setInspectionT] = useState<number | null>(null);
@@ -230,6 +344,7 @@ export default function ExactMarketChart({
 
   return (
     <div
+      ref={rootRef}
       className="tregu-exact-chart"
       data-compact={compact || undefined}
       data-minimal={minimal || undefined}
@@ -240,6 +355,21 @@ export default function ExactMarketChart({
       data-curve={curve}
       data-tregu-chart-version={TREGU_CHART_UI_VERSION}
     >
+      {hero && (
+        <div className="tregu-exact-chart-hero" aria-live="polite">
+          <strong>
+            {Math.round(hero.current * 100)}
+            <small>%</small>
+          </strong>
+          <span>gjasa</span>
+          <em data-direction={hero.direction}>
+            <i aria-hidden>{hero.direction === "up" ? "▲" : hero.direction === "down" ? "▼" : "•"}</i>
+            {hero.direction === "flat" ? "Pa ndryshim" : `${hero.points} pikë`}
+            <small>{showRanges ? selected.option.description.toLowerCase() : "që nga fillimi"}</small>
+          </em>
+        </div>
+      )}
+
       {!minimal && (
         <div className="tregu-exact-chart-head">
           <span>
@@ -346,23 +476,23 @@ export default function ExactMarketChart({
             .map((item) => {
             const displayPoints = item.displayPoints;
             if (displayPoints.length === 0) return null;
-            const pathFor = (points: typeof displayPoints) => points.length >= 2
+            const lineOf = drawn.get(item.key) ?? displayPoints;
+            const pathFor = (points: { t: number; p: number }[]) => points.length >= 2
               ? curve === "smooth"
                 ? smoothRecordedPath(points, model.x, model.y)
-                : curve === "step"
-                  ? stepRecordedPath(points, model.x, model.y)
-                  : angularRecordedPath(points, model.x, model.y)
+                : angularRecordedPath(points, model.x, model.y)
               : "";
-            const path = pathFor(displayPoints);
+            const path = pathFor(lineOf);
             const emphasised = emphasisKey != null && item.key === emphasisKey;
             const receded = emphasisKey != null && !emphasised && model.cleaned.some((other) => other.key === emphasisKey);
             const last = displayPoints[displayPoints.length - 1];
             const first = displayPoints[0];
+            const tip = lineOf.at(-1) ?? last;
             // A short range can contain exactly one real persisted point. Hold
             // that known value across the visible window instead of showing a
             // lone dot and incorrectly claiming the chart is empty.
             const heldPath = `M${PAD_L} ${model.y(last.p).toFixed(1)} L${(PAD_L + model.plotW).toFixed(1)} ${model.y(last.p).toFixed(1)}`;
-            const displayPath = displayPoints.length >= 2 ? pathFor(displayPoints) : heldPath;
+            const displayPath = displayPoints.length >= 2 ? path : heldPath;
             const gradientId = `exact-fill-${uid}-${item.key.replace(/[^a-z0-9_-]/gi, "")}`;
             const fillPath = displayPoints.length >= 2
               ? `${path} L${model.x(last.t).toFixed(1)} ${drawHeight - PAD_Y} L${model.x(first.t).toFixed(1)} ${drawHeight - PAD_Y} Z`
@@ -393,10 +523,20 @@ export default function ExactMarketChart({
                     className={`tregu-exact-chart-line${displayPoints.length === 1 ? " tregu-exact-chart-line--held" : ""}${drawsLive ? " tregu-exact-chart-line--live" : ""}`}
                   />
                 )}
+                {breathing && (
+                  <circle
+                    cx={model.x(tip.t)}
+                    cy={model.y(tip.p)}
+                    r={model.cleaned.length > 1 ? 9 : 11}
+                    fill={item.color}
+                    className="tregu-exact-chart-halo"
+                    aria-hidden
+                  />
+                )}
                 <circle
-                  key={`${item.key}-latest-${last.t}`}
-                  cx={model.x(last.t)}
-                  cy={model.y(last.p)}
+                  key={`${item.key}-latest-${item.points.at(-1)?.t ?? 0}`}
+                  cx={model.x(tip.t)}
+                  cy={model.y(tip.p)}
                   r={model.cleaned.length > 1 ? 4 : 4.5}
                   fill={item.color}
                   stroke="#fff"
@@ -451,6 +591,31 @@ export default function ExactMarketChart({
             </g>
           )}
         </svg>
+
+        {pins.length > 0 && (
+          <ol className="tregu-exact-chart-news" aria-label="Lajmet që lëvizën tregun">
+            {pins.map((pin) => (
+              <li
+                key={`${pin.t}-${pin.href}`}
+                // A pin is its own target: the plot's time inspector must not
+                // open underneath the story card.
+                onPointerEnter={() => setInspectionT(null)}
+                onPointerMove={(event) => event.stopPropagation()}
+                onPointerDown={(event) => event.stopPropagation()}
+                data-align={pin.x > W * 0.66 ? "end" : "start"}
+                style={{ left: `${(pin.x / W) * 100}%`, top: `${(pin.y / drawHeight) * 100}%` } as CSSProperties}
+              >
+                <a href={pin.href} target={pin.href.startsWith("http") ? "_blank" : undefined} rel={pin.href.startsWith("http") ? "noopener noreferrer" : undefined}>
+                  <span className="tregu-exact-chart-news-dot">{pin.n}</span>
+                  <span className="tregu-exact-chart-news-card">
+                    <small>{pin.source ?? "Lajm"} · {timeLabel(pin.t, true)}</small>
+                    <strong>{pin.title}</strong>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        )}
 
         {!inspection && model.hasTimeline && !minimal && (
           <span className="tregu-chart-inspect-hint" aria-hidden>

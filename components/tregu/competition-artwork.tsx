@@ -75,19 +75,12 @@ export default function CompetitionArtwork({ league }: { league?: string | null 
   if (courtArt) {
     return (
       <>
-        {/* The varnish. A polished floor's whole character is the arena light
-            sliding across it, so that reflection is the treatment's one
-            authored moment -- not a glow sitting on top of the card but a
-            highlight travelling over the wood underneath it.
-
-            A single element rather than the night treatment's four washes:
-            hardwood returns one specular band, and stacking several would read
-            as fog rather than as varnish. Its travel, angle and the static
-            state it parks in under reduced motion all live in globals.css. */}
-        <span className="tregu-court-varnish" aria-hidden />
+        {/* The arena: a real photograph, faded into the card's night so the
+            copy sits on dark ground, and one warm key light breathing over it.
+            Placement per surface (card, banner, receipt) lives in globals.css. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          className="tregu-court-ball"
+          className="tregu-arena-photo"
           src={courtArt.src}
           alt=""
           aria-hidden
@@ -96,6 +89,7 @@ export default function CompetitionArtwork({ league }: { league?: string | null 
           width={courtArt.width}
           height={courtArt.height}
         />
+        <span className="tregu-arena-light" aria-hidden />
       </>
     );
   }

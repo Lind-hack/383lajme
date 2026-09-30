@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import StructuredSportMarketCard, { type StructuredSportMarket } from "@/components/tregu/structured-sport-market-card";
 import MobileTradeSheet, { type MobileTradeReceipt } from "@/components/tregu/mobile-trade-sheet";
+import SportSections, { type SportMarketLike } from "@/components/tregu/sport-sections";
 
 const start = Date.UTC(2026, 8, 8, 12);
 
@@ -32,6 +33,10 @@ function sample({
     question: `${home} — ${away}: kush fiton?`,
     category: "sport",
     market_type: "two_outcome",
+    // Rounded to the hour so the server and client render the same tip-off.
+    closes_at: new Date(Math.ceil(Date.now() / 3_600_000) * 3_600_000 + (3 + home.length % 5) * 3_600_000).toISOString(),
+    trade_count: 40 + home.length * 7,
+    trade_volume: 1_800 + home.length * 310,
     live_event: { league, sport: "basketball" },
     sport_outcomes: [
       { key: "home", label: home, team: home, color: homeColor },
@@ -83,6 +88,23 @@ const FBK_RECEIPT: MobileTradeReceipt = {
 };
 
 const NOOP = () => {};
+const ALWAYS_OPEN = () => true;
+
+/** The floor's sport cards need markets classified the way the engine writes them. */
+const DISCOVERY: SportMarketLike[] = [
+  ...NBA.slice(0, 2),
+  { league: "fbk.kosovo", home: "Sigal Prishtina", away: "Peja", prob: .51 },
+  { league: "fbk.kosovo", home: "Trepça", away: "Bashkimi", prob: .63 },
+].map((s, index) => {
+  const market = sample(s);
+  return {
+    ...market,
+    slug: `design-preview-${index}`,
+    closes_at: market.closes_at ?? "",
+    market_classification: "live_basketball",
+    live_event: { league: s.league, sport: "basketball", kickoff: market.closes_at },
+  };
+});
 
 const GRID: CSSProperties = {
   display: "grid",
@@ -111,6 +133,10 @@ export default function BasketballCardPreview() {
 
       {/* Not inert: `inert` blocks hit-testing, so the hover glare cannot be
           checked in the grid above. The slug goes nowhere. */}
+      <h2 style={H2}>Karta e sportit në Treg</h2>
+      <p style={NOTE}>NBA dhe Superliga si dy arena, me ndeshjen e radhës dhe gjasat.</p>
+      <SportSections markets={DISCOVERY} isOpen={ALWAYS_OPEN} activeLeague={null} onSelect={NOOP} />
+
       <h2 style={H2}>Hover</h2>
       <p style={NOTE}>E njëjta kartë, e klikueshme — për shkëlqimin kur kalon miu.</p>
       <div style={GRID}>

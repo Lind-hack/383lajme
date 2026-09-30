@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState, use as usePromise, type ComponentProps, type CSSProperties } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
-import ExactMarketChart from "@/components/tregu/exact-market-chart";
+import ExactMarketChart, { type ChartNewsMark } from "@/components/tregu/exact-market-chart";
 import MarketContextMedia from "@/components/tregu/market-context-media";
 import MarketShareActions from "@/components/tregu/market-share-actions";
 import SellSuccess, { type SellReceipt } from "@/components/tregu/sell-success";
@@ -877,6 +877,34 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   }
 
   const latestEvidence = [...snapshots].reverse().find((s) => s.evidence && s.evidence.length > 0)?.evidence ?? [];
+  // A pin on the chart for each story at the snapshot where it first appeared,
+  // so the reader sees which news moved the line and when.
+  const newsMarks = (() => {
+    const seen = new Set<string>();
+    const marks: ChartNewsMark[] = [];
+    for (const snapshot of snapshots) {
+      const t = Date.parse(snapshot.created_at);
+      if (!Number.isFinite(t)) continue;
+      for (const story of snapshot.evidence ?? []) {
+        const id = story?.slug || story?.url;
+        if (!id || seen.has(id)) continue;
+        seen.add(id);
+        const title = story?.title?.trim() || (story?.slug ?? "").replace(/-\d{6,}.*$/, "").replace(/-/g, " ");
+        if (!title) continue;
+        let source = "383";
+        if (!story?.slug && story?.url) {
+          try {
+            source = new URL(story.url).hostname.replace(/^www\./, "");
+          } catch {
+            source = "Lajm";
+          }
+        }
+        marks.push({ t, title, href: story?.slug ? `/article/${story.slug}` : String(story?.url), source });
+        break;
+      }
+    }
+    return marks;
+  })();
   const currentOutcome = group?.outcomes.find((o) => o.slug === slug) ?? null;
   const footballSelectedOutcome =
     football?.outcomes.find((outcome) => outcome.key === footballOutcomeKey) ??
@@ -1422,6 +1450,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     derived
                     tone={detailTone}
                     series={groupedChartSeries}
+                    news={isSportDetail ? [] : newsMarks}
                     ariaLabel={`Historia e regjistruar për ${group.title}`}
                   />
                 </div>
@@ -1465,6 +1494,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   showPulse
                   tone={detailTone}
                   series={marketChartSeries}
+                  news={isSportDetail ? [] : newsMarks}
                   ariaLabel={`Historia e regjistruar për ${market.question}`}
                 />
               </div>

@@ -17,6 +17,8 @@ import DardaniImage from "@/components/dardani/dardani-image";
 import DardaniLoop from "@/components/dardani/dardani-loop";
 
 const STORAGE_KEY = "383:tour:tregu-trade";
+/** Shared with SpotlightTour: once this sandbox has run, no tour auto-starts on top of it. */
+const ONBOARDED_KEY = "383:tour:onboarded";
 const OPEN_EVENT = "383-tour-open";
 const TOUR_ID = "tregu-trade";
 /**
@@ -166,21 +168,21 @@ const ACTS: Act[] = [
   {
     key: "side",
     title: "PO apo JO?",
-    body: "Tregu është një lojë parashikimi me monedha falas. Përqindja tregon sa njerëz mendojnë se do të ndodhë. Nëse zgjedh atë që pakkush e pret dhe ke të drejtë, fiton më shumë.",
+    body: "Çdo treg është një pyetje. Përqindja tregon sa të sigurt janë lojtarët. Zgjidh përgjigjen që mendon se do të ndodhë: sa më e rrallë, aq më shumë fiton.",
     cue: "Prek PO ose JO.",
     cueDone: "Bukur! Poshtë sheh sa mund të fitosh.",
   },
   {
     key: "buy",
     title: "Vër disa monedha",
-    body: "Këto janë monedha prove: falas, jo para të vërteta. Zgjidh sa do të vësh.",
+    body: "Këtu luan me monedha prove, jo me para. Zgjidh një shumë, pastaj shtyp Blej dhe shiko si lëviz grafiku.",
     cue: "Zgjidh sa monedha: prek një numër.",
     cueDone: "U krye! Monedhat dolën nga bilanci lart.",
   },
   {
     key: "exit",
     title: "Dil kurdo që të duash",
-    body: "S'ke pse pret fundin. Shtyp Shit dhe monedhat të kthehen. Nëse të tjerët filluan të mendojnë si ti, të kthehen më shumë.",
+    body: "S'ke pse pret fundin. Shtyp Shit dhe monedhat të kthehen. Nëse të tjerët erdhën pas teje, të kthehen më shumë.",
     cue: "Shtyp Shit.",
     cueDone: "Shumë mirë! Tani e di si luhet.",
   },
@@ -316,7 +318,13 @@ export default function TradeTutorial() {
       const slip = document.querySelector<HTMLElement>(
         "aside.tregu-detail-side .tregu-panel.tregu-edge"
       );
-      if (!slip) return;
+      if (!slip) {
+        // On the floor there is no slip: land the reader on the markets.
+        document
+          .querySelector<HTMLElement>('[data-tour="floor-grid"], #tregjet')
+          ?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+        return;
+      }
       slip.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
       // Logged out the slip holds only the "Hyr / Regjistrohu" anchor, so the
       // handoff has to accept a link as well as the real amount input.
@@ -333,7 +341,14 @@ export default function TradeTutorial() {
       stored = "1";
     }
     if (stored === "1") return;
-    const timer = window.setTimeout(start, 900);
+    const timer = window.setTimeout(() => {
+      try {
+        window.localStorage.setItem(ONBOARDED_KEY, "1");
+      } catch {
+        /* private mode */
+      }
+      start();
+    }, 900);
     return () => window.clearTimeout(timer);
   }, [start]);
 
@@ -436,6 +451,24 @@ export default function TradeTutorial() {
       : current.key === "buy"
         ? state.trades > 0
         : sold;
+
+  // Whatever the tutorial is waiting on must be on screen without the reader
+  // hunting for it: after each step, bring the ringed control into view inside
+  // the card's own scroll area. The wait covers the act swap's exit + enter.
+  const bodyRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (!open) return;
+    const timer = window.setTimeout(() => {
+      const body = bodyRef.current;
+      const target = body?.querySelector<HTMLElement>("[data-await]");
+      if (!body || !target) return;
+      const box = target.getBoundingClientRect();
+      const view = body.getBoundingClientRect();
+      if (box.top >= view.top + 4 && box.bottom <= view.bottom - 4) return;
+      target.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "nearest" });
+    }, 280);
+    return () => window.clearTimeout(timer);
+  }, [open, act, betStep, tappedSide, state.shares, reduced]);
 
   const next = useCallback(() => {
     if (blocked) return;
@@ -606,7 +639,7 @@ export default function TradeTutorial() {
               ))}
             </div>
 
-            <div className="tutorial-body">
+            <div className="tutorial-body" ref={bodyRef}>
               <div className="tutorial-copy">
                 <div className="tutorial-dardani" aria-hidden="true">
                   {act === 0 ? (

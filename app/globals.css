@@ -16741,418 +16741,391 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 }
 
 /* ==========================================================================
-   Basketball -- the hardwood treatment              (fourth competition world)
+   Basketball -- the arena at night                  (fourth competition world)
    --------------------------------------------------------------------------
-   The fourth treatment, and deliberately the first light one. Champions,
-   Europa and Conference are three dark cards on a cream floor; a fourth would
-   have stopped reading as "this competition is special" and started reading as
-   "sport markets are dark". Basketball is played indoors on a pale lacquered
-   maple floor under full house light, so the honest substrate for it is the
-   floor itself -- and that is also the one substrate none of the other three
-   can claim.
+   Replaces the honey hardwood. A market on a game night should look like the
+   game night: a dark arena, the court lit from above, and a real photograph
+   of the sport (lib/tregu-sport-branding.ts, COMPETITION_COURT_ART).
 
-   Registered per competition, never per sport, per DESIGN.md:168. The three
-   keys below are the competitions the basketball engine actually produces
-   markets for (BASKETBALL_LEAGUES, lib/tregu-basketball.mjs): NBA, FIBA and
-   Superliga e Kosoves. They share one floor and one ball and differ only in the
-   colour of the line painted around the card.
+   Registered per competition, never per sport (DESIGN.md:168). NBA, FIBA and
+   the Kosovo Superliga are three different nights, not one floor recoloured:
+     NBA        navy, cool arena blue with a red counter-accent, the lit hoop;
+     Superliga  midnight blue with Kosovo gold, the warm sports hall;
+     FIBA       charcoal with FIBA orange, the same hall.
 
-   Choosing a light ground pays for itself twice in the DESIGN.md:168 checklist:
-   contrastSafeTeamColor() drives every team colour DOWN on the assumption of a
-   cream card, which is *correct* here rather than backwards as it is on navy,
-   so the team-colour path needs no override at all. Everything else was
-   re-measured against the wood and two defaults failed -- see --tg-yes.
+   Tokens are re-scoped on the card the way Champions does it (15396), so the
+   close chip, footer, chart and chips follow in one move. Yes/no take the
+   dark-substrate values already measured there: #2BE39A 9.9:1, #FF6B7A 6.1:1
+   on #0B1A3E. Team colours are never used as text on this ground -- they ride
+   as a bar and a crest only.
    ========================================================================== */
 
-/* The accents. One per competition, and the only thing that differs between
-   the three: the colour of the line painted around the card. Values are the
-   brands' own, from SPORT_BRANDS in lib/tregu-sport-branding.ts, so the line
-   and the brand mark beside the title are never two different blues.
-   Measured on the wood: NBA 5.48:1, FBK 3.88:1, FIBA 3.63:1 -- all above 3:1,
-   which is the bar for a non-text graphical boundary. */
-.tregu-native-market[data-competition="nba"],
-.tregu-detail-header[data-competition="nba"] { --competition-color: #17408B; }
-.tregu-native-market[data-competition="fiba.world"],
-.tregu-detail-header[data-competition="fiba.world"] { --competition-color: #A8380F; }
-.tregu-native-market[data-competition="fbk.kosovo"],
-.tregu-detail-header[data-competition="fbk.kosovo"] { --competition-color: #0A5AA6; }
+:is(.tregu-native-market, .tregu-detail-header, .tregu-trade-celebration, .tregu-bb-league)[data-competition="nba"],
+.tregu-hero-row :is(.tregu-car-slide-link, .tregu-carousel, .tregu-car-grounds > i)[data-competition="nba"] {
+  --competition-color: #3B82F6;
+  --arena-deep: #040A1C;
+  --arena-mid: #0B1A3E;
+  --arena-accent: #5B9BFF;
+  --arena-accent-2: #E0263F;
+}
+:is(.tregu-native-market, .tregu-detail-header, .tregu-trade-celebration, .tregu-bb-league)[data-competition="fbk.kosovo"],
+.tregu-hero-row :is(.tregu-car-slide-link, .tregu-carousel, .tregu-car-grounds > i)[data-competition="fbk.kosovo"] {
+  --competition-color: #F2C14E;
+  --arena-deep: #060D1C;
+  --arena-mid: #0E2447;
+  --arena-accent: #F2C14E;
+  --arena-accent-2: #3A74E0;
+}
+:is(.tregu-native-market, .tregu-detail-header, .tregu-trade-celebration, .tregu-bb-league)[data-competition="fiba.world"],
+.tregu-hero-row :is(.tregu-car-slide-link, .tregu-carousel, .tregu-car-grounds > i)[data-competition="fiba.world"] {
+  --competition-color: #F07A2A;
+  --arena-deep: #0E0906;
+  --arena-mid: #2A170C;
+  --arena-accent: #FF8A3D;
+  --arena-accent-2: #F2C14E;
+}
 
-/* The floor. Two joint periods that share no common factor (127px and 89px) so
-   the butt joints never line up into a visible grid the way a single repeat
-   does -- real strip maple is laid staggered, and this is the cheapest way to
-   say so. Plank seams run horizontally because the card is wider than it is
-   tall and boards read as running the long way.
+/* --- The floor card ------------------------------------------------------ */
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
+  --tg-text: #F5F7FF;
+  --tg-muted: rgba(222, 229, 247, .70);
+  --tg-border: rgba(255, 255, 255, .12);
+  --tg-border-hi: rgba(255, 255, 255, .26);
+  --tg-panel: rgba(255, 255, 255, .07);
+  --tg-yes: #2BE39A;
+  --tg-yes-dim: rgba(43, 227, 154, .16);
+  --tg-no: #FF6B7A;
+  --tg-no-dim: rgba(255, 107, 122, .16);
 
-   The wood range is narrow on purpose: #EFD3A2 to #DCB57A. An earlier, prettier
-   falloff bottomed out at #D3A667 and dropped the footer link to 4.22:1. */
-.tregu-native-market:is(
-  [data-competition="nba"],
-  [data-competition="fiba.world"],
-  [data-competition="fbk.kosovo"]
-) {
-  --court-line: var(--competition-color, #17408B);
-  --court-joint: rgba(109, 68, 28, .17);
-  --court-seam: rgba(109, 68, 28, .22);
-
-  /* Re-scoped rather than selector-by-selector, per DESIGN.md:168. These four
-     fix .tregu-market-close, .tregu-market-foot, the chart and the title in one
-     move. Measured against the darkest wood stop (#DCB57A):
-       --tg-text   8.64:1      --tg-muted  5.64:1
-     and against the chip ground (#F9ECD9, which is --tg-panel over the wood):
-       --tg-yes    4.68:1      --tg-no     5.84:1
-     --tg-yes had to change. The cream-card #00A651 scores 2.74:1 on a chip
-     sitting over wood and fails outright; #007A3C is the yesText token the
-     tregu palette already defines for exactly this problem. */
-  --tg-text: #2B1B0C;
-  --tg-muted: #54371A;
-  --tg-border: rgba(92, 56, 22, .18);
-  --tg-border-hi: rgba(92, 56, 22, .32);
-  --tg-panel: rgba(255, 250, 242, .78);
-  --tg-yes: #007A3C;
-  --tg-yes-dim: rgba(0, 122, 60, .14);
-  --tg-no: #B4181A;
-  --tg-no-dim: rgba(180, 24, 26, .14);
-
+  isolation: isolate;
+  overflow: hidden;
   color: var(--tg-text);
   background:
-    repeating-linear-gradient(90deg, transparent 0 126px, var(--court-joint) 126px 127px),
-    repeating-linear-gradient(90deg, transparent 0 88px, var(--court-joint) 88px 89px),
-    repeating-linear-gradient(0deg, var(--court-seam) 0 1px, transparent 1px 33px),
-    linear-gradient(163deg, #EFD3A2 0%, #E2BC82 54%, #DCB57A 100%);
-  border-color: color-mix(in srgb, var(--court-line) 26%, rgba(109, 68, 28, .34));
+    radial-gradient(120% 55% at 50% 118%, color-mix(in srgb, var(--arena-accent) 20%, transparent) 0%, transparent 62%),
+    linear-gradient(180deg, var(--arena-mid) 0%, var(--arena-deep) 58%, var(--arena-deep) 100%);
+  border-color: color-mix(in srgb, var(--arena-accent) 34%, rgba(255, 255, 255, .08));
   box-shadow:
-    0 4px 18px -8px rgba(109, 68, 28, .40),
-    0 16px 38px -18px rgba(84, 48, 14, .38),
-    inset 0 1px 0 rgba(255, 248, 232, .58);
-  /* .tregu-glass's blur has nothing to sample behind an opaque card. */
+    0 22px 48px -22px rgba(2, 6, 20, .78),
+    0 3px 12px rgba(2, 6, 20, .32),
+    inset 0 1px 0 rgba(255, 255, 255, .09);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  /* A band at the foot that belongs to the ball alone, the same move the
-     Champions stadium needs. Sized to the ball: at 116px wide the ball stands
-     111px tall, sits 26px below the card edge, and so reaches 85px up -- which
-     is where the footer's top edge lands once this padding is applied. Below
-     that number the ball climbs into the outcome chips and covers a
-     probability, which is the one thing on this card that must never be
-     decorated over. */
-  padding-bottom: 64px;
 }
 
-.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-native-title { color: var(--tg-text); }
-.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-native-brand { color: var(--tg-muted); }
-
-/* 4.90:1 on the darkest wood. A warm burnt-umber rather than the floor-wide
-   orange, which vibrates against this ground. */
-.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-market-open {
-  color: #6E380A;
+/* The photograph: the top of the card, fading into the night so the matchup
+   sits on it and everything below sits on dark ground. */
+.tregu-native-market .tregu-arena-photo,
+.tregu-detail-header .tregu-arena-photo,
+.tregu-trade-celebration .tregu-arena-photo,
+.tregu-car-slide-link .tregu-arena-photo {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  object-fit: cover;
 }
-.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-market-foot {
-  border-top: 0;
-  padding-top: 11px;
-  /* Clears the ball's 96px of encroachment. Without it the arrow in
-     "Hap tregun →" is cut in half by the ball's left edge. */
-  padding-right: 100px;
-  background-image: linear-gradient(90deg, transparent, rgba(109, 68, 28, .30) 14%, rgba(109, 68, 28, .30) 70%, transparent);
-  background-size: 100% 1px;
-  background-repeat: no-repeat;
-  background-position: 0 0;
+.tregu-native-market .tregu-arena-light,
+.tregu-detail-header .tregu-arena-light,
+.tregu-trade-celebration .tregu-arena-light,
+.tregu-car-slide-link .tregu-arena-light {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-arena-photo {
+  inset: 0 0 auto 0;
+  width: 100%;
+  height: 58%;
+  object-position: center 38%;
+  opacity: .72;
+  filter: saturate(1.08) contrast(1.06);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, .75) 45%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, .75) 45%, transparent 100%);
+}
+.tregu-native-market[data-competition="nba"] .tregu-arena-photo { object-position: center 30%; }
+/* The hall photograph is a dim room by nature; lift it so it reads as a photo. */
+:is(.tregu-native-market, .tregu-detail-header, .tregu-car-slide-link, .tregu-bb-league):is([data-competition="fbk.kosovo"], [data-competition="fiba.world"]) .tregu-arena-photo,
+.tregu-bb-league:is([data-competition="fbk.kosovo"], [data-competition="fiba.world"]) .tregu-bb-league-photo {
+  filter: brightness(1.7) saturate(1.1) contrast(1.05);
+}
+.tregu-native-market:is([data-competition="fbk.kosovo"], [data-competition="fiba.world"]) .tregu-arena-photo { opacity: .95; object-position: 62% 60%; }
+/* One key light from above, breathing slowly: the arena's house lights. */
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-arena-light {
+  inset: -20% -10% auto;
+  height: 80%;
+  background: radial-gradient(50% 50% at 50% 0%, color-mix(in srgb, var(--arena-accent) 30%, transparent), transparent 70%);
+  opacity: .55;
+  animation: tregu-arena-breathe 7s ease-in-out infinite alternate;
+}
+@keyframes tregu-arena-breathe {
+  from { opacity: .35; transform: translate3d(-4%, 0, 0); }
+  to { opacity: .7; transform: translate3d(4%, 0, 0); }
 }
 
-/* The line-art competition SVG is a football-competition device and draws
-   arcs and a trophy. Nothing basketball wants. */
-.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-competition-art { display: none; }
-
-/* --- Rim and hover -------------------------------------------------------
-   Same collision the Champions block documents at 15453: .tregu-edge::after
-   (3193) and .tregu-native-market::after (12517) target one box and the cascade
-   merges them per declaration, leaving an orbiting conic ring carved into a
-   hollow outline with lg-orbit still ticking for nobody. Resolved the same way
-   -- neutralise ::after into the hover glare, move the rim to ::before, which
-   is free on this element -- and scoped to the three basketball keys so the
-   other cards on the floor are untouched.
-
-   The rim here does NOT orbit. Champions' rim breathes because stadium light
-   moves; a line painted on a floor does not. It is the sideline, so it holds
-   still and the varnish moves over it instead. */
+/* The rim: a two-colour line along the top edge, the competition's colours,
+   and the generic orbiting ring neutralised into the hover glare (same
+   collision the Champions block documents at 15453). */
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"])::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 3;
+  height: 3px;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(90deg, var(--arena-accent-2), var(--arena-accent) 55%, color-mix(in srgb, var(--arena-accent) 40%, transparent));
+  opacity: 1;
+  pointer-events: none;
+}
 .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"])::after {
   z-index: 2;
   padding: 0;
   animation: none;
   -webkit-mask: none;
   mask: none;
-  background: linear-gradient(90deg, transparent, rgba(255, 246, 226, .34) 38%, rgba(255, 252, 244, .46) 52%, rgba(255, 246, 226, .30) 66%, transparent);
+  background: linear-gradient(105deg, transparent 34%, rgba(255, 255, 255, .10) 48%, rgba(255, 255, 255, .16) 52%, transparent 66%);
 }
 
-.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"])::before {
-  content: "";
-  position: absolute;
-  inset: 7px;
-  z-index: 1;
-  border: 1.5px solid color-mix(in srgb, var(--court-line) 62%, rgba(255, 248, 232, .55));
-  border-radius: 4px;
-  opacity: .48;
-  pointer-events: none;
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-competition-art { display: none; }
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-native-title { color: var(--tg-text); }
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-native-brand {
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, .6);
+}
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-market-close {
+  border-color: rgba(255, 255, 255, .18);
+  background: rgba(4, 8, 20, .55);
+  color: #fff;
+  backdrop-filter: blur(6px);
+}
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-market-open { color: var(--arena-accent); }
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-market-foot {
+  border-top: 1px solid rgba(255, 255, 255, .10);
+  color: var(--tg-muted);
+  font-variant-numeric: tabular-nums;
 }
 
-/* --- The varnish ---------------------------------------------------------
-   One specular band crossing the floor, and the treatment's only authored
-   moment. Not four drifting washes: hardwood returns a single highlight, and
-   stacking several would read as fog.
-
-   It travels once per cycle and spends most of the cycle off the card, so the
-   floor is still by default and the sweep is an event rather than a texture.
-   Opacity carries the ends so the band never clips at the card edge. */
-.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish {
-  position: absolute;
-  inset: -30% -45%;
-  z-index: 0;
-  background: linear-gradient(
-    101deg,
-    transparent 40%,
-    rgba(255, 249, 233, .40) 47%,
-    rgba(255, 253, 246, .62) 50%,
-    rgba(255, 249, 233, .36) 53%,
-    transparent 60%
-  );
-  pointer-events: none;
-  will-change: transform, opacity;
-  animation: tregu-court-varnish 15s ease-in-out infinite;
+/* The matchup: both teams and the tip-off, the card's headline. */
+.tregu-bb-matchup {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 16px;
+  color: inherit;
+  text-decoration: none;
+}
+.tregu-bb-matchup:focus-visible { outline: 2px solid var(--arena-accent, #ff4422); outline-offset: 4px; border-radius: 12px; }
+.tregu-bb-team {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  min-width: 0;
+  text-align: center;
+}
+.tregu-bb-team b {
+  max-width: 100%;
+  color: #fff;
+  font-size: 14.5px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
+  overflow-wrap: anywhere;
+}
+.tregu-bb-team small {
+  color: var(--tg-muted);
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.tregu-bb-crest {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  padding: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .94);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, .16), 0 12px 26px rgba(0, 0, 0, .5);
+  object-fit: contain;
+}
+span.tregu-bb-crest {
+  padding: 0;
+  background:
+    radial-gradient(circle at 32% 26%, color-mix(in srgb, var(--crest) 55%, #fff) 0%, var(--crest) 55%, color-mix(in srgb, var(--crest) 70%, #000) 100%);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: -.02em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .45);
+}
+.tregu-bb-tip {
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  padding: 8px 12px;
+  border: 1px solid color-mix(in srgb, var(--arena-accent, #ff4422) 45%, transparent);
+  border-radius: 12px;
+  background: rgba(4, 8, 20, .6);
+  backdrop-filter: blur(6px);
+  font-variant-numeric: tabular-nums;
+}
+.tregu-bb-tip small {
+  color: var(--arena-accent, #ff4422);
+  font-size: 9.5px;
+  font-weight: 850;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.tregu-bb-tip strong {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 850;
+  letter-spacing: -.02em;
 }
 
-@keyframes tregu-court-varnish {
-  0%, 16%   { transform: translate3d(-46%, 0, 0); opacity: 0; }
-  30%       { opacity: .92; }
-  70%       { opacity: .92; }
-  84%, 100% { transform: translate3d(46%, 0, 0); opacity: 0; }
-}
-
-/* --- The ball ------------------------------------------------------------
-   Bottom-right, cropped by the card's own corner so it reads as an object
-   resting on the floor the card is made of rather than a sticker placed on it.
-   The drop-shadow is offset up-left because the varnish enters from the left;
-   a centred shadow would make it hover. */
-.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-ball {
-  position: absolute;
-  right: -20px;
-  bottom: -26px;
-  z-index: 1;
-  width: 116px;
-  height: auto;
-  pointer-events: none;
-  filter: drop-shadow(-7px 9px 13px rgba(84, 48, 14, .36));
-}
-
-/* Content clears both decorative layers. (0,2,0) beats the generic rules
-   without touching them -- the same specificity trick as 15450. */
-.tregu-native-market .tregu-court-varnish { position: absolute; z-index: 0; }
-.tregu-native-market .tregu-court-ball { position: absolute; z-index: 1; }
-
-/* Chips sit on the wood, so they get a warm paper rather than the flat white
-   the generic [data-competition] rule gives them. */
-.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-native-outcome {
-  background: var(--tg-panel);
-  border-color: rgba(92, 56, 22, .20);
-}
+/* Chart and chips on the night. */
 .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-exact-chart-plot {
-  background: rgba(255, 250, 242, .52);
+  border-color: rgba(255, 255, 255, .08);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .03), rgba(255, 255, 255, .06));
+  box-shadow: none;
 }
-.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-exact-chart-grid { stroke: rgba(109, 68, 28, .16); }
-
-/* --- Fallbacks -----------------------------------------------------------
-   The reduced-motion state is designed, not switched off: the varnish parks
-   just past centre, where a still highlight looks like a floor that has been
-   polished rather than one a light is crossing. DESIGN.md:168 requires this. */
-@media (prefers-reduced-motion: reduce) {
-  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish {
-    animation: none;
-    transform: translate3d(8%, 0, 0);
-    opacity: .68;
-  }
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-exact-chart-grid {
+  stroke: rgba(255, 255, 255, .09);
 }
-
-@media (prefers-reduced-transparency: reduce) {
-  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
-    --tg-panel: #FBF2E4;
-  }
-  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish { display: none; }
-  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-exact-chart-plot { background: #FBF2E4; }
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-exact-chart-last { stroke: var(--arena-deep); }
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-native-outcome {
+  border-color: rgba(255, 255, 255, .12);
+  background: rgba(255, 255, 255, .06);
+  /* Lifted toward white: a near-black team colour vanishes on the arena night. */
+  box-shadow: inset 3px 0 0 color-mix(in oklab, var(--outcome-color) 72%, #fff);
+  color: var(--tg-text);
 }
-
-@media (prefers-contrast: more) {
-  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
-    /* Flatten the wood to its lightest stop: the joints and seams are texture
-       competing with text for anyone who asked for less of exactly that. */
-    background: #F2DCB4;
-    --tg-muted: #3F2810;
-  }
-  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish { display: none; }
-  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"])::before { opacity: .9; }
-  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-native-outcome {
-    background: #FFFDF8;
-    border-color: rgba(64, 38, 14, .5);
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-native-outcome em,
+.tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-native-outcome strong {
+  color: #fff;
+}
+@media (hover: hover) and (pointer: fine) {
+  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-native-outcome:hover {
+    border-color: color-mix(in srgb, var(--arena-accent) 55%, transparent);
+    background: rgba(255, 255, 255, .1);
   }
 }
 
-@media (max-width: 700px) {
-  /* Chips stack single-column, so the card grows tall and a 148px ball starts
-     to dominate the corner. */
-  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-ball {
-    width: 96px;
-    right: -16px;
-    bottom: -22px;
-  }
-  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-market-foot {
-    padding-right: 82px;
-  }
-}
-
-/* ==========================================================================
-   Basketball -- the other two surfaces
-   --------------------------------------------------------------------------
-   Same floor, same ball, same line. The card, the market header and the trade
-   receipt are one object seen three times.
-   ========================================================================== */
-
-/* --- Market header banner ------------------------------------------------ */
+/* --- The market header banner ------------------------------------------- */
 .tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
-  --court-line: var(--competition-color, #17408B);
-  --court-joint: rgba(109, 68, 28, .17);
-  --court-seam: rgba(109, 68, 28, .22);
+  --tg-text: #F5F7FF;
+  --tg-muted: rgba(222, 229, 247, .72);
+  --tg-border: rgba(255, 255, 255, .14);
+  --tg-border-hi: rgba(255, 255, 255, .28);
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  color: #2B1B0C;
+  padding: 22px 22px 24px;
+  border-radius: 18px;
+  border-color: color-mix(in srgb, var(--arena-accent) 34%, rgba(255, 255, 255, .08));
+  color: var(--tg-text);
   background:
-    repeating-linear-gradient(90deg, transparent 0 126px, var(--court-joint) 126px 127px),
-    repeating-linear-gradient(90deg, transparent 0 88px, var(--court-joint) 88px 89px),
-    repeating-linear-gradient(0deg, var(--court-seam) 0 1px, transparent 1px 33px),
-    linear-gradient(163deg, #EFD3A2 0%, #E2BC82 54%, #DCB57A 100%);
-  border-color: color-mix(in srgb, var(--court-line) 26%, rgba(109, 68, 28, .34));
+    radial-gradient(90% 90% at 85% 120%, color-mix(in srgb, var(--arena-accent) 18%, transparent), transparent 62%),
+    linear-gradient(178deg, var(--arena-mid) 0%, var(--arena-deep) 100%);
+  box-shadow: 0 20px 46px -16px rgba(2, 6, 20, .6), 0 2px 12px rgba(2, 6, 20, .3);
 }
+.tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"])::after { display: none; }
 .tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) > * {
   position: relative;
   z-index: 2;
 }
-.tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish {
+.tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-arena-photo {
   position: absolute;
-  inset: -30% -45%;
+  inset: 0 0 0 auto;
   z-index: 0;
-  background: linear-gradient(101deg, transparent 40%, rgba(255, 249, 233, .40) 47%, rgba(255, 253, 246, .62) 50%, rgba(255, 249, 233, .36) 53%, transparent 60%);
-  pointer-events: none;
-  animation: tregu-court-varnish 15s ease-in-out infinite;
+  width: min(64%, 720px);
+  height: 100%;
+  opacity: .66;
+  object-position: center 35%;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 42%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 42%);
 }
-/* Larger and further into frame than on the card: the banner is wider, and at
-   card scale the ball would read as a bullet point. */
-.tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-ball {
+.tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-arena-light {
   position: absolute;
-  right: 18px;
-  bottom: -34px;
+  inset: -30% 0 auto 30%;
   z-index: 1;
-  width: 190px;
-  height: auto;
-  pointer-events: none;
-  filter: drop-shadow(-8px 10px 16px rgba(84, 48, 14, .34));
+  height: 90%;
+  background: radial-gradient(50% 50% at 60% 0%, color-mix(in srgb, var(--arena-accent) 28%, transparent), transparent 70%);
+  animation: tregu-arena-breathe 7s ease-in-out infinite alternate;
 }
-
+.tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) :is(.tregu-pill, .tregu-home-help) {
+  border-color: rgba(255, 255, 255, .2);
+  background: rgba(4, 8, 20, .6);
+  color: #E6ECFA;
+}
+.tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-detail-reference {
+  border-color: rgba(255, 255, 255, .18);
+  background: rgba(4, 8, 20, .66);
+}
+.tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-delta-chip {
+  border-color: rgba(43, 227, 154, .34);
+  background: rgba(43, 227, 154, .14);
+  color: #2BE39A;
+}
 @media (max-width: 700px) {
-  .tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-ball {
-    width: 128px;
-    right: -10px;
-    bottom: -24px;
+  .tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
+    padding: 16px 14px 18px;
+    border-radius: 14px;
+  }
+  .tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-arena-photo {
+    width: 100%;
+    opacity: .38;
+    -webkit-mask-image: linear-gradient(180deg, #000, transparent 90%);
+    mask-image: linear-gradient(180deg, #000, transparent 90%);
   }
 }
 
 /* --- Trade receipt -------------------------------------------------------
-   The receipt keeps white text on a dark ground, so this is the one surface
-   where the floor cannot be the pale maple of the other two: #F2F5FF-weight
-   copy on honey is unreadable. It is the same floor under house lights down,
-   which is what a lacquered court actually looks like from the tunnel -- dark
-   walnut, the joints still legible, the baseline stripe still gold.
-
-   Contrast on this ground: #FFFFFF on #33200F is 13.9:1. */
+   White copy on the arena night; the photo sits behind the figures at low
+   strength so the number the trader just paid for stays the loudest thing. */
 .tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
-  --court-joint: rgba(255, 226, 184, .07);
-  --court-seam: rgba(255, 226, 184, .09);
-  --competition-color: #E9B979;
-  background: #33200F !important;
+  background: var(--arena-deep) !important;
 }
 .tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-trade-celebration-wash {
   opacity: 1;
   background:
-    repeating-linear-gradient(90deg, transparent 0 126px, var(--court-joint) 126px 127px),
-    repeating-linear-gradient(90deg, transparent 0 88px, var(--court-joint) 88px 89px),
-    repeating-linear-gradient(0deg, var(--court-seam) 0 1px, transparent 1px 33px),
-    /* The baseline. One gold line low in the frame is what separates a court
-       from a dark wooden table. */
-    linear-gradient(0deg, transparent 0 62px, rgba(226, 168, 62, .52) 62px 65px, transparent 65px),
-    linear-gradient(168deg, #3E2814 0%, #33200F 58%, #281809 100%);
+    radial-gradient(100% 70% at 50% 120%, color-mix(in srgb, var(--arena-accent) 24%, transparent), transparent 62%),
+    linear-gradient(178deg, var(--arena-mid) 0%, var(--arena-deep) 100%);
 }
 .tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-competition-art { display: none; }
-
-/* The ball drops in and settles once -- the receipt's authored moment. A
-   basketball that appears without falling is the one thing on this surface
-   that would read as wrong. It lands on the gold baseline, then the floor
-   takes the last few pixels of travel out of it. */
-.tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-ball {
-  position: absolute;
-  right: -30px;
-  bottom: -22px;
-  z-index: 1;
-  width: 118px;
-  height: auto;
-  pointer-events: none;
-  opacity: .92;
-  filter: drop-shadow(-10px 14px 18px rgba(0, 0, 0, .45));
-  transform-origin: 50% 100%;
-  animation: tregu-court-ball-drop 760ms cubic-bezier(.3, .8, .35, 1) both 120ms;
+.tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-arena-photo {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: .32;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 85%);
+  mask-image: linear-gradient(180deg, #000 0%, transparent 85%);
 }
-/* The figures are the receipt. Pull them clear of the ball rather than letting
-   a decoration sit on the number the trader just paid for. */
-.tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-trade-celebration-content dl {
-  padding-right: 46px;
+.tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-arena-light {
+  inset: -20% 0 auto;
+  height: 70%;
+  background: radial-gradient(50% 50% at 50% 0%, color-mix(in srgb, var(--arena-accent) 34%, transparent), transparent 70%);
+  animation: tregu-arena-breathe 7s ease-in-out infinite alternate;
 }
 
-.tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish {
-  position: absolute;
-  inset: -30% -45%;
-  z-index: 0;
-  background: linear-gradient(101deg, transparent 42%, rgba(255, 232, 194, .12) 49%, rgba(255, 240, 214, .20) 52%, transparent 60%);
-  pointer-events: none;
-  animation: tregu-court-varnish 15s ease-in-out infinite;
-}
-
-@keyframes tregu-court-ball-drop {
-  0%   { transform: translate3d(0, -190%, 0) scale(1, 1); opacity: 0; }
-  44%  { opacity: .92; }
-  /* Contact: the ball flattens against the boards, never the other way round. */
-  58%  { transform: translate3d(0, 0, 0) scale(1.08, .9); }
-  72%  { transform: translate3d(0, -26%, 0) scale(.98, 1.03); }
-  86%  { transform: translate3d(0, 0, 0) scale(1.03, .97); }
-  100% { transform: translate3d(0, 0, 0) scale(1, 1); opacity: .92; }
-}
-
+/* --- Fallbacks ----------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  /* Landed, not falling. The squash is gone but the ball still sits on the
-     baseline where the drop would have left it. */
-  .tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-ball {
+  :is(.tregu-native-market, .tregu-detail-header, .tregu-trade-celebration, .tregu-car-slide-link) .tregu-arena-light {
     animation: none;
+    opacity: .5;
     transform: none;
-    opacity: .92;
-  }
-  .tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish {
-    animation: none;
-    transform: translate3d(8%, 0, 0);
-  }
-  .tregu-detail-header:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-varnish {
-    animation: none;
-    transform: translate3d(8%, 0, 0);
-    opacity: .68;
   }
 }
-
-@media (max-width: 700px) {
-  .tregu-trade-celebration:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-court-ball {
-    width: 104px;
-    right: -24px;
+@media (prefers-contrast: more) {
+  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-arena-photo { opacity: .35; }
+  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
+    --tg-muted: #E4E9F7;
+  }
+  .tregu-native-market:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-native-outcome {
+    border-color: rgba(255, 255, 255, .5);
+    background: #0A1227;
   }
 }
 
@@ -17902,12 +17875,12 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
    Competition artwork inside the flagship card
    --------------------------------------------------------------------------
    CompetitionArtwork draws whichever layer its league owns — the UCL stadium,
-   the Europa/Conference trophy and its beams, the basketball and its varnish.
+   the Europa/Conference trophy and its beams, the basketball arena photograph.
    Those were positioned for the floor card, which is a third of this width, so
    they are re-placed here rather than re-drawn. Content stays above them.
    ========================================================================== */
 .tregu-hero-row .tregu-car-slide-link[data-competition] { overflow: hidden; border-radius: 14px; }
-.tregu-hero-row .tregu-car-slide-link[data-competition] > *:not(.tregu-night-glow):not(.tregu-night-stadium):not(.tregu-uel-beams):not(.tregu-uel-trophy):not(.tregu-court-ball):not(.tregu-court-varnish):not(.tregu-unl-field):not(.tregu-unl-rim):not(.tregu-unl-fold):not(.tregu-car-slide-hit) {
+.tregu-hero-row .tregu-car-slide-link[data-competition] > *:not(.tregu-night-glow):not(.tregu-night-stadium):not(.tregu-uel-beams):not(.tregu-uel-trophy):not(.tregu-arena-photo):not(.tregu-arena-light):not(.tregu-unl-field):not(.tregu-unl-rim):not(.tregu-unl-fold):not(.tregu-car-slide-hit) {
   position: relative;
   z-index: 2;
 }
@@ -17957,17 +17930,6 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   z-index: 0;
   pointer-events: none;
 }
-.tregu-hero-row .tregu-court-ball {
-  position: absolute;
-  right: -18px;
-  bottom: -22px;
-  width: 150px;
-  height: auto;
-  opacity: .22;
-  z-index: 0;
-  pointer-events: none;
-}
-.tregu-hero-row .tregu-court-varnish { display: none; }
 
 /* On a light card the artwork is a watermark, not a substrate — it sits under
    the numbers at an opacity that never competes with a probability. */
@@ -17975,7 +17937,7 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   .tregu-hero-row .tregu-night-stadium,
   .tregu-hero-row .tregu-uel-beams,
   .tregu-hero-row .tregu-uel-trophy,
-  .tregu-hero-row .tregu-court-ball { display: none; }
+  .tregu-hero-row .tregu-arena-photo { display: none; }
 }
 
 /* The deadline the prizes are paid on, under each board. */
@@ -18018,18 +17980,27 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 .tregu-hero-row .tregu-car-slide-link[data-competition="uefa.nations"] {
   background: radial-gradient(120% 70% at 50% 120%, #2D4A7C 0%, rgba(45, 74, 124, 0) 64%), linear-gradient(178deg, #16233C 0%, #0D1728 100%);
 }
-/* Basketball's treatment is light by design — the hardwood, not a night. */
+/* Basketball: the arena at night, same as its floor card. */
 .tregu-hero-row .tregu-car-slide-link:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
-  --tg-text: #2B1B0C;
-  --tg-muted: #54371A;
-  --tg-border: rgba(92, 56, 22, .18);
-  --tg-panel: rgba(255, 250, 242, .78);
-  --tg-yes: #007A3C;
-  --tg-no: #B4181A;
+  --tg-text: #F5F7FF;
+  --tg-muted: rgba(222, 229, 247, .72);
+  --tg-border: rgba(255, 255, 255, .14);
+  --tg-panel: rgba(255, 255, 255, .08);
+  --tg-yes: #2BE39A;
+  --tg-no: #FF6B7A;
   background:
-    repeating-linear-gradient(0deg, rgba(109, 68, 28, .22) 0 1px, transparent 1px 33px),
-    linear-gradient(163deg, #EFD3A2 0%, #E2BC82 54%, #DCB57A 100%);
+    radial-gradient(120% 70% at 50% 120%, color-mix(in srgb, var(--arena-accent) 22%, transparent) 0%, transparent 64%),
+    linear-gradient(178deg, var(--arena-mid) 0%, var(--arena-deep) 100%);
 }
+.tregu-car-slide-link:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-arena-photo {
+  inset: 0 0 0 auto;
+  width: 58%;
+  height: 100%;
+  opacity: .6;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 45%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 45%);
+}
+.tregu-car-slide-link:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-arena-light { display: none; }
 
 /* On a competition slide the card's own orange furniture would fight the
    competition's colour, so it steps back. */
@@ -18059,7 +18030,6 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 .tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-uel-trophy { opacity: .9; }
 .tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-uel-beams { opacity: .5; }
 .tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-night-stadium { opacity: .55; }
-.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-court-ball { opacity: 1; }
 
 /* The whole slide is the target, and it does not move under the pointer. The
    F1 card lifted on hover while only part of it was clickable, which is the
@@ -18241,17 +18211,17 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   background: radial-gradient(120% 70% at 50% 120%, #2D4A7C 0%, rgba(45, 74, 124, 0) 64%), linear-gradient(178deg, #16233C 0%, #0D1728 100%);
 }
 .tregu-hero-row .tregu-carousel:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
-  --tg-text: #2B1B0C;
-  --tg-muted: #54371A;
-  --tg-border: rgba(92, 56, 22, .18);
-  --tg-panel: rgba(255, 250, 242, .62);
-  --tg-yes: #007A3C;
-  --tg-no: #B4181A;
+  --tg-text: #F5F7FF;
+  --tg-muted: rgba(222, 229, 247, .72);
+  --tg-border: rgba(255, 255, 255, .14);
+  --tg-panel: rgba(255, 255, 255, .08);
+  --tg-yes: #2BE39A;
+  --tg-no: #FF6B7A;
 }
 .tregu-hero-row .tregu-car-grounds > i:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
   background:
-    repeating-linear-gradient(0deg, rgba(109, 68, 28, .20) 0 1px, transparent 1px 33px),
-    linear-gradient(163deg, #EFD3A2 0%, #E2BC82 54%, #DCB57A 100%);
+    radial-gradient(120% 70% at 50% 120%, color-mix(in srgb, var(--arena-accent) 22%, transparent) 0%, transparent 64%),
+    linear-gradient(178deg, var(--arena-mid) 0%, var(--arena-deep) 100%);
 }
 
 /* The slide stops painting its own ground — the carousel owns it now. */
@@ -18328,7 +18298,6 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 .tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-uel-trophy { opacity: .92; }
 .tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-uel-beams { opacity: .55; }
 .tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-night-stadium { opacity: .6; }
-.tregu-hero-row .tregu-car-slide-link[data-competition] .tregu-court-ball { opacity: 1; }
 
 /* ==========================================================================
    Flagship card — one clock
@@ -22720,3 +22689,651 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .perty-done-preview li { animation: none; }
   .perty-confetti { display: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TREGU LIVE LINES — every chart breathes, news markets read like a quote
+   The line itself comes from lib/tregu-chart-motion.mjs: recorded moves are
+   drawn as climbs and drops, flat stretches carry a sub-point wiggle, and the
+   live edge moves every second. The CSS below only dresses it.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* The live tip: a soft halo that breathes behind the end dot. */
+.tregu-exact-chart-halo {
+  pointer-events: none;
+  opacity: .16;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tregu-exact-halo 2.4s cubic-bezier(.4, 0, .2, 1) infinite;
+}
+@keyframes tregu-exact-halo {
+  0% { transform: scale(.45); opacity: .32; }
+  70% { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+/* Headline quote for single-line news markets: one big number, the move. */
+.tregu-exact-chart-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin: 0 0 14px;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-exact-chart-hero > strong {
+  color: #111;
+  font-size: clamp(38px, 5vw, 52px);
+  font-weight: 800;
+  line-height: .95;
+  letter-spacing: -.045em;
+}
+.tregu-exact-chart-hero > strong small {
+  margin-left: 2px;
+  font-size: .5em;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+.tregu-exact-chart-hero > span {
+  color: #6b6b6b;
+  font-size: 13px;
+  font-weight: 750;
+}
+.tregu-exact-chart-hero > em {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 4px 10px 4px 8px;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, .05);
+  color: #4d4943;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 800;
+}
+.tregu-exact-chart-hero > em i { font-size: 10px; font-style: normal; }
+.tregu-exact-chart-hero > em small {
+  color: #7b746c;
+  font-size: 11px;
+  font-weight: 700;
+}
+.tregu-exact-chart-hero > em[data-direction="up"] { background: rgba(0, 166, 81, .1); color: #00854a; }
+.tregu-exact-chart-hero > em[data-direction="down"] { background: rgba(228, 30, 32, .09); color: #b91c1c; }
+
+/* Serious plot: open and quiet, like a quote screen — no ruled paper, no
+   frame fighting the line. Dashed horizontal guides, labels on the right. */
+.tregu-exact-chart[data-tone="serious"]:not([data-compact]) .tregu-exact-chart-plot {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+.tregu-exact-chart[data-tone="serious"]:not([data-compact]) .tregu-exact-chart-grid {
+  stroke: rgba(17, 17, 17, .09);
+  stroke-dasharray: 2 5;
+}
+.tregu-exact-chart[data-tone="serious"]:not([data-compact]) .tregu-exact-chart-axis span {
+  color: #8a837a;
+  font-weight: 750;
+}
+.tregu-exact-chart[data-tone="serious"]:not([data-compact]) .tregu-exact-chart-head {
+  color: #8a837a;
+}
+.tregu-exact-chart[data-tone="serious"] .tregu-exact-chart-line {
+  filter: drop-shadow(0 2px 4px rgba(17, 17, 17, .08));
+}
+/* Card sparklines on news markets drop the cream box too, so the line reads. */
+.tregu-exact-chart[data-tone="serious"][data-compact] .tregu-exact-chart-plot {
+  border-color: transparent;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(17, 17, 17, .025));
+}
+
+/* News pins: numbered orange dots on the line; the story opens on hover/focus. */
+.tregu-exact-chart-news {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+.tregu-exact-chart-news > li {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+}
+.tregu-exact-chart-news a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+}
+.tregu-exact-chart-news-dot {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #ff4422;
+  box-shadow: 0 3px 10px rgba(255, 68, 34, .35);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+  transition: transform 160ms cubic-bezier(.23, 1, .32, 1);
+}
+.tregu-exact-chart-news-card {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  display: grid;
+  width: min(260px, 70vw);
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid rgba(17, 17, 17, .1);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(30, 22, 14, .16);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 4px);
+  transition: opacity 160ms ease, transform 200ms cubic-bezier(.23, 1, .32, 1);
+}
+.tregu-exact-chart-news > li[data-align="end"] .tregu-exact-chart-news-card {
+  left: auto;
+  right: -10px;
+  transform: translate(0, 4px);
+}
+.tregu-exact-chart-news-card small {
+  color: #ff4422;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.tregu-exact-chart-news-card strong {
+  display: -webkit-box;
+  overflow: hidden;
+  color: #111;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+.tregu-exact-chart-news a:hover .tregu-exact-chart-news-dot,
+.tregu-exact-chart-news a:focus-visible .tregu-exact-chart-news-dot { transform: scale(1.15); }
+.tregu-exact-chart-news a:focus-visible .tregu-exact-chart-news-dot { outline: 2px solid #111; outline-offset: 2px; }
+.tregu-exact-chart-news a:hover .tregu-exact-chart-news-card,
+.tregu-exact-chart-news a:focus-visible .tregu-exact-chart-news-card {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.tregu-exact-chart-news > li[data-align="end"] a:hover .tregu-exact-chart-news-card,
+.tregu-exact-chart-news > li[data-align="end"] a:focus-visible .tregu-exact-chart-news-card {
+  transform: translate(0, 0);
+}
+@media (hover: none) {
+  .tregu-exact-chart-news-dot { width: 26px; height: 26px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tregu-exact-chart-halo { display: none; }
+  .tregu-exact-chart-news-dot,
+  .tregu-exact-chart-news-card { transition: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TRADE TUTORIAL — everything it asks for is on screen
+   The single tall column pushed the chips and "Blej" below the fold on a
+   laptop and on every phone. Desktop now sets Dardani and the explanation
+   beside the market; short screens shrink the chart before anything scrolls,
+   and the component scrolls the ringed control into view if it still must.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 900px) {
+  .tutorial-card {
+    width: min(960px, 100%);
+    padding: 20px 24px;
+  }
+  .tutorial-body {
+    display: grid;
+    grid-template-columns: minmax(0, 270px) minmax(0, 1fr);
+    align-items: start;
+    gap: 26px;
+  }
+  .tutorial-copy {
+    position: sticky;
+    top: 0;
+    padding: 16px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #fff4ea, #fffaf5);
+  }
+  .tutorial-copy .tutorial-dardani {
+    justify-content: center;
+    height: 170px;
+    margin-bottom: 12px;
+  }
+  .tutorial-copy h3 { font-size: 21px; }
+  .tutorial-copy p { font-size: 14px; line-height: 1.6; color: #4f4a44; }
+}
+@media (min-width: 900px) and (max-height: 820px) {
+  .tutorial-copy .tutorial-dardani { height: 124px; }
+  .tut-chart-plot { height: 132px; }
+  .tutorial-stage { gap: 10px; }
+}
+@media (min-width: 900px) and (max-height: 680px) {
+  .tutorial-copy .tutorial-dardani { height: 92px; }
+  .tut-chart-plot { height: 104px; }
+  .tutorial-card { max-height: calc(100dvh - 24px); }
+  .tutorial-root { padding: 12px; }
+}
+@media (max-width: 899px) {
+  /* Dardani beside the words, not above them: one short row instead of a
+     104px portrait stacked on top of the whole market. */
+  .tutorial-copy {
+    display: grid;
+    grid-template-columns: 68px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+  }
+  .tutorial-copy .tutorial-dardani {
+    height: 84px;
+    margin: 0;
+    justify-content: center;
+  }
+  .tutorial-copy h3 { font-size: 17px; margin-bottom: 3px; }
+  .tutorial-copy p { font-size: 13px; line-height: 1.5; }
+  .tut-chart-plot { height: 112px; }
+  .tutorial-stage { gap: 10px; }
+  .tutorial-body { gap: 10px; }
+}
+@media (max-width: 899px) and (max-height: 700px) {
+  .tut-chart-plot { height: 88px; }
+  .tutorial-copy p { font-size: 12.5px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LEAGUE TUTORIAL (.lgt) — rides the trade tutorial's card, foot and cue;
+   only the stage is its own: the league chip, join kinds, match options,
+   a table that re-sorts, and the podium.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.lgt-league {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1b140e, #2a1d12);
+  color: #f6efe4;
+}
+.lgt-emblem {
+  display: grid;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(242, 193, 78, .16);
+  box-shadow: inset 0 0 0 1px rgba(242, 193, 78, .4);
+  font-size: 20px;
+}
+.lgt-league strong { display: block; font-size: 14.5px; font-weight: 800; }
+.lgt-league small {
+  display: block;
+  margin-top: 2px;
+  color: rgba(246, 239, 228, .62);
+  font-size: 11.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.lgt-panel { display: grid; gap: 12px; }
+.lgt-kinds {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.lgt-kinds > div {
+  display: grid;
+  gap: 3px;
+  padding: 12px 14px;
+  border: 1px solid rgba(17, 17, 17, .09);
+  border-radius: 14px;
+  background: #faf8f5;
+}
+.lgt-kinds > div[data-on] {
+  border-color: rgba(255, 68, 34, .45);
+  background: rgba(255, 68, 34, .06);
+}
+.lgt-kinds strong { font-size: 14px; font-weight: 800; color: #111; }
+.lgt-kinds span { font-size: 12px; color: #5f5b56; font-weight: 650; }
+.lgt-kinds em { font-size: 11.5px; font-style: normal; font-weight: 800; color: #b8860b; }
+.lgt-match {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #111;
+}
+.lgt-match > span:last-child { text-align: right; }
+.lgt-match em {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #f2eee8;
+  color: #6b6b6b;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 800;
+}
+.lgt-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  border-radius: 16px;
+}
+.lgt-options button {
+  display: grid;
+  gap: 2px;
+  justify-items: start;
+  padding: 12px;
+  border: 1px solid rgba(17, 17, 17, .1);
+  border-radius: 14px;
+  background: #faf8f5;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 160ms var(--ease-out), background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.lgt-options button:active { transform: scale(.97); }
+.lgt-options button > span { font-size: 13.5px; font-weight: 800; color: #111; }
+.lgt-options button > small { font-size: 11px; font-weight: 700; color: #7b746c; font-variant-numeric: tabular-nums; }
+.lgt-options button > strong {
+  margin-top: 4px;
+  font-size: 22px;
+  font-weight: 850;
+  letter-spacing: -.02em;
+  color: #00854a;
+  font-variant-numeric: tabular-nums;
+}
+.lgt-options button[data-on] {
+  border-color: rgba(0, 133, 74, .5);
+  background: rgba(0, 133, 74, .08);
+}
+.lgt-table {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.lgt-table li {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: #faf8f5;
+  font-variant-numeric: tabular-nums;
+}
+.lgt-table li[data-podium] b { color: #b8860b; }
+.lgt-table li b { font-size: 13px; font-weight: 850; color: #7b746c; }
+.lgt-table li span { font-size: 13.5px; font-weight: 750; color: #111; }
+.lgt-table li strong { font-size: 14px; font-weight: 850; color: #111; }
+.lgt-table li em {
+  font-size: 11.5px;
+  font-style: normal;
+  font-weight: 850;
+  color: #00854a;
+}
+.lgt-table li[data-you] {
+  background: rgba(255, 68, 34, .09);
+  box-shadow: inset 0 0 0 1.5px rgba(255, 68, 34, .5);
+}
+.lgt-podium {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: 8px;
+}
+.lgt-podium > div {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 12px 8px;
+  border-radius: 14px 14px 6px 6px;
+  background: #f4efe7;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.lgt-podium > div[data-place="1"] { padding-top: 26px; background: linear-gradient(180deg, #f7df9a, #f2c14e); }
+.lgt-podium > div[data-place="2"] { padding-top: 18px; background: linear-gradient(180deg, #eceae6, #d5d2cc); }
+.lgt-podium > div[data-place="3"] { background: linear-gradient(180deg, #efd2b6, #d9a574); }
+.lgt-podium > div[data-you] { box-shadow: 0 0 0 2px #ff4422, 0 10px 24px rgba(255, 68, 34, .22); }
+.lgt-podium span { font-size: 12px; font-weight: 800; color: #3a3129; }
+.lgt-podium b { font-size: 13px; font-weight: 850; color: #3a3129; }
+.lgt-podium strong { font-size: 20px; font-weight: 850; color: #111; letter-spacing: -.02em; }
+.lgt-podium small { font-size: 10px; font-weight: 750; color: rgba(17, 17, 17, .6); }
+@media (max-width: 520px) {
+  .lgt-kinds { grid-template-columns: 1fr; }
+  .lgt-options button { padding: 10px; }
+  .lgt-options button > strong { font-size: 19px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lgt-options button { transition-duration: .01ms; }
+  .lgt-options button:active { transform: none; }
+}
+
+/* "Si luhet?" launchers beside the league headings. */
+.lgt-launch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  padding: 7px 12px;
+  border: 1px solid rgba(17, 17, 17, .12);
+  border-radius: 999px;
+  background: #fff;
+  color: #111;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: border-color 160ms var(--ease-out), background-color 160ms var(--ease-out);
+}
+button.lgt-launch > span {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border-radius: 50%;
+  background: #ff4422;
+  color: #fff;
+  font-size: 11px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .lgt-launch:hover { border-color: rgba(255, 68, 34, .5); background: #fff7f2; }
+}
+.lgx-panel-head:has(.lgt-launch) { flex-wrap: wrap; align-items: center; }
+.lgx-panel-head .lgt-launch { margin-left: auto; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASKETBALL DISCOVERY CARD — two arena tiles
+   The sport card on the floor: NBA and the Kosovo Superliga as two lit
+   arenas, each with its own photograph, open count and next game's line.
+   Shares --arena-* with the market cards (see the arena block above).
+   ═══════════════════════════════════════════════════════════════════════════ */
+.tregu-sport-card.tregu-bb-card {
+  --sport-accent: #F2C14E;
+  color: #F5F7FF;
+  background:
+    radial-gradient(120% 60% at 20% -10%, rgba(91, 155, 255, .20), transparent 60%),
+    linear-gradient(170deg, #0B1733 0%, #050A18 100%);
+  box-shadow: inset 0 0 0 1px rgba(242, 193, 78, .28), 0 18px 40px -18px rgba(3, 8, 24, .7);
+}
+.tregu-sport-card.tregu-bb-card::before { opacity: .55; }
+.tregu-sport-card.tregu-bb-card::after { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .14), transparent); }
+.tregu-bb-card .tregu-sport-icon { color: #F2C14E; }
+.tregu-bb-card-count {
+  color: rgba(222, 229, 247, .6);
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-bb-card-count[data-live] { color: #F2C14E; }
+
+.tregu-bb-league {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  min-height: 112px;
+  overflow: hidden;
+  padding: 12px 13px;
+  border: 1px solid color-mix(in srgb, var(--arena-accent, #F2C14E) 34%, rgba(255, 255, 255, .08));
+  border-radius: 14px;
+  background: linear-gradient(180deg, var(--arena-mid, #0E2447), var(--arena-deep, #050A18));
+  color: #fff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 180ms cubic-bezier(.23, 1, .32, 1), border-color 180ms ease, box-shadow 180ms ease;
+}
+.tregu-bb-league::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(3, 7, 18, .92) 0%, rgba(3, 7, 18, .7) 48%, rgba(3, 7, 18, .25) 100%);
+}
+.tregu-bb-league-photo {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 70% 38%;
+  opacity: .9;
+  transition: transform 600ms cubic-bezier(.23, 1, .32, 1);
+}
+.tregu-bb-league[data-competition="nba"] .tregu-bb-league-photo { object-position: 75% 30%; }
+.tregu-bb-league-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+.tregu-bb-league .tregu-league-identity b {
+  display: block;
+  font-size: 14px;
+  font-weight: 850;
+  letter-spacing: -.01em;
+}
+.tregu-bb-league .tregu-league-identity small {
+  display: block;
+  margin-top: 1px;
+  color: rgba(222, 229, 247, .66);
+  font-size: 10.5px;
+  font-weight: 750;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.tregu-bb-league-count {
+  display: grid;
+  min-width: 30px;
+  height: 30px;
+  place-items: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--arena-accent, #F2C14E);
+  color: #0A0F1E;
+  font-size: 13px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-bb-next {
+  display: grid;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-bb-next--empty {
+  color: rgba(222, 229, 247, .62);
+  font-size: 11.5px;
+  font-weight: 700;
+}
+.tregu-bb-next-teams {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.tregu-bb-next-teams > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tregu-bb-next-teams > span:last-child { text-align: right; }
+.tregu-bb-next-teams em {
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .12);
+  color: var(--arena-accent, #F2C14E);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 850;
+  white-space: nowrap;
+}
+.tregu-bb-next-line {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  height: 18px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, .14);
+}
+.tregu-bb-next-line i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(90deg, var(--arena-accent-2, #3A74E0), var(--arena-accent, #F2C14E));
+  opacity: .85;
+}
+.tregu-bb-next-line b {
+  position: relative;
+  padding: 0 7px;
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 900;
+  line-height: 18px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .55);
+}
+.tregu-bb-league[aria-pressed="true"] {
+  border-color: var(--arena-accent, #F2C14E);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--arena-accent, #F2C14E) 40%, transparent);
+}
+.tregu-bb-league:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .tregu-bb-league:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--arena-accent, #F2C14E) 70%, transparent); }
+  .tregu-bb-league:hover .tregu-bb-league-photo { transform: scale(1.05); }
+}
+.tregu-bb-league:active { transform: scale(.985); }
+.tregu-bb-card .tregu-bb-more { color: #F2C14E; }
+@media (hover: hover) and (pointer: fine) {
+  .tregu-bb-card .tregu-bb-more:hover { color: #fff; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tregu-bb-league,
+  .tregu-bb-league-photo { transition: none; }
+  .tregu-bb-league:hover,
+  .tregu-bb-league:active { transform: none; }
+  .tregu-bb-league:hover .tregu-bb-league-photo { transform: none; }
+}
+/* Give the arena tiles room for two team names beside the tip-off. */
+@media (min-width: 769px) {
+  .tregu-sports-discovery:has(.tregu-bb-card) { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.35fr) minmax(0, 1fr); }
+}
+.tregu-bb-card-count { white-space: nowrap; }

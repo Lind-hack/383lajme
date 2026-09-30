@@ -32,6 +32,7 @@ import {
 } from "@/lib/tregu-leagues";
 import "@/components/tregu/leagues.css";
 import DardaniLoop from "@/components/dardani/dardani-loop";
+import LeagueTutorial, { openLeagueTutorial } from "@/components/tregu/league-tutorial";
 
 type Counts = { member_key: string; is_me: boolean; resolved: number; correct: number; pending: number };
 
@@ -54,7 +55,11 @@ function HowToPlay({ league, prizes, scopeLabel }: { league: LeagueSummary & { r
   const bonus = league.kind === "private" ? privateBonusPct(leagueDays(league)) : null;
   return (
     <section className="lgx-panel lgx-how" aria-labelledby="rules-title">
-      <div className="lgx-panel-head"><h2 id="rules-title">Si luhet</h2><span>Të gjithë nisin me 0 pikë</span></div>
+      <div className="lgx-panel-head">
+        <h2 id="rules-title">Si luhet</h2>
+        <span>Të gjithë nisin me 0 pikë</span>
+        <button type="button" className="lgt-launch" onClick={openLeagueTutorial}><span aria-hidden>?</span>Provoje me Dardanin</button>
+      </div>
       <ol className="how">
         <li>
           <span className="how-n" aria-hidden><Target size={16} /></span>
@@ -554,6 +559,7 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
             />
           </div>
         )}
+        <LeagueTutorial autoStart="mount" />
       </main>
     </div>
   );
