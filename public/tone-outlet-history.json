@@ -1728,13 +1728,13 @@
     },
     "LAOLA1": {
       "country": "Austri",
-      "total": 16,
+      "total": 17,
       "positive": 1,
-      "neutral": 14,
+      "neutral": 15,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-08-25",
-      "lastSeen": "2026-09-29",
+      "lastSeen": "2026-09-30",
       "urls": [
         "https://www.laola1.at/de/red/fussball/euro-2028/news/praesident--franco-foda-verzichtete-fuer-kosovo-auf-millionen/",
         "https://www.laola1.at/de/red/fussball/nations-league/news/vor-oefb-duell--schnappt-sich-foda-ein-dfb-juwel-der-bayern-/",
@@ -1751,7 +1751,8 @@
         "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/news/vaso-markovic-hakt-serbien-nach-oefb-debuet-ab/",
         "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/news/rangnick-----dann-macht-es-keinen-spass--gegen-uns-zu-spielen-/",
         "https://www.laola1.at/de/red/fussball/oefb-nationalteam/damen/comebacks-von-zadrazil-und-hoebinger-im-playoff-gegen-kosovo/",
-        "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/news/mit-zwei-debuetanten--das-ist-die-oefb-startelf-gegen-kosovo/"
+        "https://www.laola1.at/de/red/fussball/oefb-nationalteam/a-team/news/mit-zwei-debuetanten--das-ist-die-oefb-startelf-gegen-kosovo/",
+        "https://www.laola1.at/de/red/fussball/nations-league/news/kosovos-abwehrstar-fehlt-auch-im-rueckspiel-gegen-oefb-team/"
       ]
     },
     "heute.at": {
@@ -2800,13 +2801,13 @@
     },
     "krone.at": {
       "country": "Austri",
-      "total": 9,
+      "total": 10,
       "positive": 0,
-      "neutral": 8,
+      "neutral": 9,
       "negative": 0,
       "unknown": 1,
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-27",
+      "lastSeen": "2026-09-28",
       "urls": [
         "https://www.krone.at/4269964",
         "https://www.krone.at/4171096",
@@ -2816,7 +2817,8 @@
         "https://www.krone.at/4310634",
         "https://www.krone.at/4310412",
         "https://www.krone.at/4310698",
-        "https://www.krone.at/4311534"
+        "https://www.krone.at/4311534",
+        "https://www.krone.at/4313155"
       ]
     },
     "AEF info": {
@@ -6411,13 +6413,13 @@
     },
     "sport.ORF.at": {
       "country": "Austri",
-      "total": 20,
+      "total": 21,
       "positive": 1,
-      "neutral": 19,
+      "neutral": 20,
       "negative": 0,
       "unknown": 0,
       "firstSeen": "2026-09-17",
-      "lastSeen": "2026-09-28",
+      "lastSeen": "2026-09-30",
       "urls": [
         "https://sport.orf.at/av/video/onDemandVideoSport68802",
         "https://sport.orf.at/av/video/sportVideo15136",
@@ -6438,7 +6440,8 @@
         "https://sport.orf.at/stories/3162881/",
         "https://sport.orf.at/stories/3162914",
         "https://sport.orf.at/stories/3162920/",
-        "https://sport.orf.at/av/video/onDemandVideoSport69314"
+        "https://sport.orf.at/av/video/onDemandVideoSport69314",
+        "https://sport.orf.at/av/video/onDemandVideoSport69440"
       ]
     },
     "Der Standard": {
@@ -10983,6 +10986,32 @@
       "lastSeen": "2026-09-29",
       "urls": [
         "https://www.forlitoday.it/cronaca/aiuti-umanitari-kosovo-cri-terza-raccolta.html"
+      ]
+    },
+    "stoiximaview.gr": {
+      "country": "Greqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "unknown": 0,
+      "firstSeen": "2026-09-30",
+      "lastSeen": "2026-09-30",
+      "urls": [
+        "https://stoiximaview.gr/analyseis-podosfairo/israil-kosovo-01102026/"
+      ]
+    },
+    "sabah.com.tr": {
+      "country": "Turqi",
+      "total": 1,
+      "positive": 0,
+      "neutral": 0,
+      "negative": 1,
+      "unknown": 0,
+      "firstSeen": "2026-09-30",
+      "lastSeen": "2026-09-27",
+      "urls": [
+        "https://www.sabah.com.tr/spor/futbol/2026/09/27/avusturya-kosova-engelini-3-golle-gecti"
       ]
     }
   }

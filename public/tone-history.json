@@ -10532,21 +10532,37 @@
   },
   {
     "date": "2026-09-30",
-    "overallIndex": null,
-    "totalArticles": 0,
-    "sourceCount": 0,
+    "overallIndex": 30,
+    "totalArticles": 56,
+    "sourceCount": 40,
     "stanceVersion": 4,
-    "day": null,
+    "day": {
+      "index": 30,
+      "positive": 5,
+      "neutral": 37,
+      "negative": 14,
+      "unknown": 1,
+      "n": 56,
+      "sourceCount": 40
+    },
     "countries": {
       "Gjermani": {
-        "index": 50,
+        "index": 38,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 3,
-        "excluded": 24,
+        "neutral": 75,
+        "negative": 25,
+        "n": 4,
+        "excluded": 23,
         "confident": false,
-        "stanceVersion": 4
+        "stanceVersion": 4,
+        "movement": {
+          "delta": -12,
+          "from": 50,
+          "outlet": "SPORT1",
+          "title": "Liga e Kombeve: Austria triumfon bindshëm ndaj Kosovës – sport1.de",
+          "evidence": "Österreich siegt souverän gegen Kosovo",
+          "url": "https://www.sport1.de/news/fussball/uefa-nations-league/2026/09/nations-league-oesterreich-siegt-souveraen-gegen-kosovo"
+        }
       },
       "SHBA": {
         "index": null,
@@ -10587,16 +10603,16 @@
         "stanceVersion": 4
       },
       "Itali": {
-        "index": 30,
+        "index": 21,
         "positive": 0,
-        "neutral": 60,
-        "negative": 40,
-        "n": 5,
-        "excluded": 23,
+        "neutral": 50,
+        "negative": 50,
+        "n": 8,
+        "excluded": 20,
         "confident": false,
         "stanceVersion": 4,
         "movement": {
-          "delta": -22,
+          "delta": -31,
           "from": 52,
           "outlet": "il Nord Est",
           "title": "Dënimi i Thaçit në Hagë: Protestat përfshijnë Kosovën - il Nord Est",
@@ -10605,31 +10621,39 @@
         }
       },
       "Austri": {
-        "index": 50,
+        "index": 30,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 8,
-        "excluded": 163,
-        "confident": false,
-        "stanceVersion": 4
-      },
-      "Zvicër": {
-        "index": 38,
-        "positive": 0,
-        "neutral": 0,
-        "negative": 100,
-        "n": 1,
-        "excluded": 19,
+        "neutral": 91,
+        "negative": 9,
+        "n": 22,
+        "excluded": 152,
         "confident": false,
         "stanceVersion": 4,
         "movement": {
-          "delta": -12,
+          "delta": -19,
+          "from": 49,
+          "outlet": "ORF ON",
+          "title": "Affengruber kalon Austrinë në epërsi (minuta 23) - Liga e Kombeve: Austri - Kosovë.",
+          "evidence": "köpfelt Österreich in Führung",
+          "url": "https://on.orf.at/video/14340841/16160951/affengruber-koepfelt-oesterreich-in-fuehrung-23"
+        }
+      },
+      "Zvicër": {
+        "index": 30,
+        "positive": 0,
+        "neutral": 60,
+        "negative": 40,
+        "n": 5,
+        "excluded": 15,
+        "confident": false,
+        "stanceVersion": 4,
+        "movement": {
+          "delta": -20,
           "from": 50,
-          "outlet": "bluewin.ch",
-          "title": "Holanda feston fitoren e parë nën drejtimin e Xavi-t – Austria mposht Kosovën",
-          "evidence": "Österreich schlägt Kosovo",
-          "url": "https://www.bluewin.ch/de/sport/fussball/niederlande-feiert-ersten-sieg-unter-xavi-li.3615717"
+          "outlet": "SRF",
+          "title": "Fitorja e dytë: Austria mposht edhe Kosovën – SRF",
+          "evidence": "Österreich schlägt auch den Kosovo",
+          "url": "https://www.srf.ch/play/tv/sport-clip/video/2--sieg-oesterreich-schlaegt-auch-den-kosovo?urn=urn:srf:video:a0e81aac-a2ff-4df2-bafd-a712ce2bdabd"
         }
       },
       "Holandë": {
@@ -10672,10 +10696,10 @@
       },
       "Greqi": {
         "index": 68,
-        "positive": 43,
-        "neutral": 43,
-        "negative": 14,
-        "n": 14,
+        "positive": 40,
+        "neutral": 47,
+        "negative": 13,
+        "n": 15,
         "excluded": 18,
         "confident": true,
         "stanceVersion": 4,
@@ -10701,10 +10725,10 @@
       "Poloni": {
         "index": 38,
         "positive": 0,
-        "neutral": 67,
-        "negative": 33,
-        "n": 3,
-        "excluded": 21,
+        "neutral": 75,
+        "negative": 25,
+        "n": 4,
+        "excluded": 20,
         "confident": false,
         "stanceVersion": 4,
         "movement": {
@@ -10717,22 +10741,14 @@
         }
       },
       "Turqi": {
-        "index": 42,
-        "positive": 33,
+        "index": 50,
+        "positive": 50,
         "neutral": 0,
-        "negative": 67,
-        "n": 3,
-        "excluded": 13,
-        "confident": false,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": -8,
-          "from": 50,
-          "outlet": "Sabah",
-          "title": "Austria e kalon pengesën e Kosovës me 3 gola",
-          "evidence": "Kosova engelini 3 golle geçti",
-          "url": "https://www.sabah.com.tr/spor/futbol/2026/09/27/avusturya-kosova-engelini-3-golle-gecti"
-        }
+        "negative": 50,
+        "n": 8,
+        "excluded": 9,
+        "confident": true,
+        "stanceVersion": 4
       },
       "Kroaci": {
         "index": null,
@@ -10755,6 +10771,14 @@
         "sentiment": "positive"
       },
       {
+        "title": "La Turquie finance des activités du Conseil de l’Europe au Kosovo* - coe.int",
+        "source": "coe.int",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.coe.int/fr/web/programmes/-/t%C3%BCrkiye-funds-council-of-europe-activities-in-kosovo*",
+        "sentiment": "positive"
+      },
+      {
         "title": "Pristina è una capitale europea giovane e lontana dai cliché sui Balcani: scoprila adesso - Dove Viaggi Corriere",
         "source": "Dove Viaggi Corriere",
         "country": "Itali",
@@ -10763,35 +10787,27 @@
         "sentiment": "positive"
       },
       {
-        "title": "Kosova shkëlqen në Mal të Zi, Kori “Siparantum” mposht korin nga Serbia - reporteri.net",
-        "source": "Reporteri.net",
-        "country": "Spanjë",
-        "flag": "🇪🇸",
-        "url": "https://reporteri.net/es/kulture/Kosovo-brilla-en-Montenegro--el-coro-de-Siparantum-derrota-al-coro-serbio./",
-        "sentiment": "positive"
-      },
-      {
-        "title": "US Prosecutor Questions Kosovo’s Failure to Mitigate Thaci Verdict Expectations - Balkan Insight",
-        "source": "Balkan Insight",
+        "title": "Frozen conflicts threaten stability in Belfast and Kosovo - ledgertranscript.com",
+        "source": "ledgertranscript.com",
         "country": "SHBA",
         "flag": "🇺🇸",
-        "url": "https://balkaninsight.com/2026/09/30/us-prosecutor-questions-kosovos-failure-to-mitigate-thaci-verdict-expectations/btj/",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Frozen conflicts threaten stability in Belfast and Kosovo - Monadnock Ledger-Transcript",
-        "source": "Monadnock Ledger-Transcript",
-        "country": "Britani",
-        "flag": "🇬🇧",
         "url": "https://ledgertranscript.com/2026/09/30/sectarian-violence-northern-ireland/",
         "sentiment": "negative"
       },
       {
-        "title": "Neuf Serbes arrêtés au Kosovo sur des suspicions de crimes de guerre - lesoir.be",
-        "source": "Le Soir",
-        "country": "Francë",
-        "flag": "🇫🇷",
-        "url": "https://www.lesoir.be/773333/article/2026-09-27/neuf-serbes-arretes-au-kosovo-sur-des-suspicions-de-crimes-de-guerre",
+        "title": "US Prosecutor Questions Kosovo’s Failure to Mitigate Thaci Verdict Expectations - Balkan Insight",
+        "source": "Balkan Insight",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://balkaninsight.com/2026/09/30/us-prosecutor-questions-kosovos-failure-to-mitigate-thaci-verdict-expectations/btj/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Austria - Kosovo (3-1) UEFA Nations League 2026 - la Repubblica",
+        "source": "La Repubblica",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.repubblica.it/sport/dirette/calcio/uefa-nations-league-2026/diretta-austria-kosovo-g2626910/",
         "sentiment": "negative"
       }
     ]
