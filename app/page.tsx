@@ -370,9 +370,11 @@ export default async function HomePage() {
         </div>
       )}
 
-      {/* Sondazhi i ditës between the two home sections: a pause in the run
-          of Kosovo and Albania news, where the day's question belongs. */}
+      {/* Bota për Kosovën straight after the Kosovo news, then Sondazhi i
+          ditës: a pause in the run of Kosovo and Albania news. Bota për
+          Kosovën is one daily reading — the index and the stories behind it. */}
       <Contained>
+        <BotaHome today={toneToday} stories={botaStories} />
         <DailyPoll data={sondazhi} />
       </Contained>
       {block("Shqipëri").length > 0 && (
@@ -387,10 +389,6 @@ export default async function HomePage() {
       </Contained>
 
       <Contained first>
-        {/* Bota për Kosovën: one daily reading — the index and the stories
-            behind it. Replaces the Bota Flet strip and the Toni dashboard. */}
-        <BotaHome today={toneToday} stories={botaStories} />
-
         <CategoryBlock category="Sport" articles={block("Sport")} layout="mosaic" />
 
         {/* 383 Tregu in its own cards, a new set every day. */}

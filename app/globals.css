@@ -20271,8 +20271,12 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(180deg, rgba(10, 8, 6, 0) 30%, rgba(10, 8, 6, 0.55) 58%, rgba(10, 8, 6, 0.9) 100%);
+  /* Starts early and ends near-opaque: a three-line headline plus an excerpt
+     reaches well above the middle of a large tile, and a bright photo behind
+     it left the text barely readable at the old 30%/58% stops. */
+  background: linear-gradient(180deg, rgba(10, 8, 6, 0.05) 0%, rgba(10, 8, 6, 0.25) 28%, rgba(10, 8, 6, 0.7) 55%, rgba(10, 8, 6, 0.94) 100%);
 }
+.news-tile[data-variant="overlay"] .news-tile-body { text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 2px 14px rgba(0, 0, 0, 0.5); }
 .news-tile-body { display: grid; gap: 7px; padding: 16px 16px 15px; min-width: 0; }
 .news-tile[data-size="lg"] .news-tile-body { gap: 9px; padding: 22px 22px 20px; }
 .news-tile-tag {
@@ -20365,8 +20369,10 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 
 /* --- Narrow: the same blocks, stacked, still square ---------------------- */
 @container (max-width: 700px) {
-  .cat-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; grid-auto-rows: 190px; }
-  .cat-bento-lead { grid-row: auto; grid-column: 1 / -1; height: 280px; }
+  /* The lead's row is sized by the grid, not by a height on the tile: a
+     280px tile in a 190px auto row spilled over the tiles beneath it. */
+  .cat-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: 280px; grid-auto-rows: 190px; }
+  .cat-bento-lead { grid-row: auto; grid-column: 1 / -1; }
   .cat-bento[data-odd] > :last-child { grid-row: auto; grid-column: 1 / -1; }
   .cat-mosaic-top { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 200px; }
   .cat-mosaic-top > :first-child { grid-column: 1 / -1; }
@@ -20378,6 +20384,92 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .cat-overlay-row[data-row="first"] > :first-child:nth-last-child(odd) { grid-column: 1 / -1; }
   .cat-overlay-row[data-row="next"] { grid-auto-rows: 190px; }
   .cat-overlay-row > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+
+/* --- Phone: one photo tile, then compact rows ---------------------------
+   Two photo tiles side by side on a phone are ~165px wide: a three-line
+   headline, tag and source cannot fit over the photo. The section keeps one
+   large photo lead and sets every other story as a thumbnail row. */
+@container (max-width: 560px) {
+  .cat-bento,
+  .cat-mosaic-top,
+  .cat-overlay-row {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-auto-rows: auto;
+    gap: 0;
+  }
+  .cat-overlay { gap: 0; }
+  .cat-bento > *,
+  .cat-mosaic-top > *,
+  .cat-overlay-row > * { grid-row: auto; grid-column: auto; }
+  .cat-bento-lead,
+  .cat-mosaic-top > :first-child,
+  .cat-overlay-row[data-row="first"] > :first-child { height: 280px; margin-bottom: 4px; }
+  .cat-mosaic-rows { margin-top: 0; }
+  .cat-mosaic-rows .story-list li:first-child .story-row { border-top: 1px solid var(--color-border); }
+
+  .cat-bento > .news-tile,
+  .cat-mosaic-top > .news-tile:not(:first-child),
+  .cat-overlay-row[data-row="first"] > .news-tile:not(:first-child),
+  .cat-overlay-row[data-row="next"] > .news-tile {
+    display: grid;
+    grid-template-columns: 104px minmax(0, 1fr);
+    align-items: center;
+    gap: 14px;
+    height: auto;
+    padding: 12px 0;
+    border: 0;
+    border-top: 1px solid var(--color-border);
+    border-radius: 0;
+    background: none;
+    color: var(--color-ink);
+  }
+  .cat-bento > .news-tile[data-variant="headline"],
+  .cat-mosaic-top > .news-tile[data-variant="headline"]:not(:first-child),
+  .cat-overlay-row > .news-tile[data-variant="headline"]:not([data-size="lg"]) { grid-template-columns: minmax(0, 1fr); }
+  .cat-bento > .news-tile::after,
+  .cat-mosaic-top > .news-tile:not(:first-child)::after,
+  .cat-overlay-row[data-row="first"] > .news-tile:not(:first-child)::after,
+  .cat-overlay-row[data-row="next"] > .news-tile::after { display: none; }
+  .cat-bento > .news-tile .news-tile-media,
+  .cat-mosaic-top > .news-tile:not(:first-child) .news-tile-media,
+  .cat-overlay-row[data-row="first"] > .news-tile:not(:first-child) .news-tile-media,
+  .cat-overlay-row[data-row="next"] > .news-tile .news-tile-media {
+    position: relative;
+    inset: auto;
+    z-index: 0;
+    grid-column: 1;
+    width: 104px;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+  .cat-bento > .news-tile .news-tile-body,
+  .cat-mosaic-top > .news-tile:not(:first-child) .news-tile-body,
+  .cat-overlay-row[data-row="first"] > .news-tile:not(:first-child) .news-tile-body,
+  .cat-overlay-row[data-row="next"] > .news-tile .news-tile-body {
+    grid-column: -2;
+    height: auto;
+    gap: 5px;
+    padding: 0;
+    text-shadow: none;
+  }
+  .cat-bento > .news-tile .news-tile-tag,
+  .cat-mosaic-top > .news-tile:not(:first-child) .news-tile-tag,
+  .cat-overlay-row[data-row="first"] > .news-tile:not(:first-child) .news-tile-tag,
+  .cat-overlay-row[data-row="next"] > .news-tile .news-tile-tag { color: color-mix(in srgb, var(--cat-color, #555) 80%, #111); }
+  .cat-bento > .news-tile .news-tile-title,
+  .cat-mosaic-top > .news-tile:not(:first-child) .news-tile-title,
+  .cat-overlay-row[data-row="first"] > .news-tile:not(:first-child) .news-tile-title,
+  .cat-overlay-row[data-row="next"] > .news-tile .news-tile-title { font-size: 15.5px; line-height: 1.3; letter-spacing: -0.01em; -webkit-line-clamp: 3; }
+  .cat-bento > .news-tile .news-tile-excerpt,
+  .cat-mosaic-top > .news-tile:not(:first-child) .news-tile-excerpt,
+  .cat-overlay-row[data-row="first"] > .news-tile:not(:first-child) .news-tile-excerpt { display: none; }
+  .cat-bento > .news-tile .news-tile-meta,
+  .cat-mosaic-top > .news-tile:not(:first-child) .news-tile-meta,
+  .cat-overlay-row[data-row="first"] > .news-tile:not(:first-child) .news-tile-meta,
+  .cat-overlay-row[data-row="next"] > .news-tile .news-tile-meta { color: #6B6B6B; }
 }
 
 /* Sections run one after another with the page's section rhythm. */
