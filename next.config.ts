@@ -4,6 +4,18 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  experimental: {
+    /**
+     * Every production build compiles from scratch. Next 16 keeps a Turbopack
+     * build cache in .next/cache/turbopack by default, and Railway restores
+     * .next/cache between deploys: the build of d0c21ee (2026-09-30) reused the
+     * previous commit's compiled globals.css, so production served the new
+     * markup against the old stylesheet and every mascot image rendered at its
+     * full intrinsic size. The very next build, with identical CSS, came out
+     * right. A slightly slower build is the price of never shipping stale CSS.
+     */
+    turbopackFileSystemCacheForBuild: false,
+  },
   images: {
     /**
      * Article images are hotlinked from whichever outlet published the story,
