@@ -1,5 +1,3 @@
-"use client";
-
 /** Convert an emoji flag (regional indicator pair) to a two-letter country code. */
 function flagToCode(flag: string): string {
   const letters = Array.from(flag)
