@@ -102,53 +102,56 @@ export function weatherKind(
  * did answer — the same graceful-degradation rule the rest of the page follows.
  */
 export async function getCityWeather(): Promise<CityWeather[]> {
-  const results = await Promise.all(
-    CITIES.map(async ({ city, lat, lon }): Promise<CityWeather | null> => {
-      try {
-        const url =
-          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
-          `&current=temperature_2m,weather_code,is_day` +
-          `&hourly=temperature_2m,weather_code,precipitation_probability,is_day&forecast_hours=${NEXT_HOURS + 1}` +
-          `&daily=precipitation_probability_max,temperature_2m_max,temperature_2m_min` +
-          `&forecast_days=1&timezone=Europe%2FBelgrade`;
-        const response = await fetch(url, { next: { revalidate: 1800 } });
-        if (!response.ok) return null;
-
-        const data = await response.json();
-        const tempC = data?.current?.temperature_2m;
-        const code = data?.current?.weather_code;
-        if (typeof tempC !== "number" || typeof code !== "number") return null;
-
-        // Hourly starts at the current hour: it and the next six decide the
-        // umbrella; the day's maximum is the fallback when hours are missing.
-        const hours = hourly(data);
-        const nextRain = hours.slice(0, NEXT_HOURS + 1).map((h) => h.rain).filter((r): r is number => r !== null);
-        const rain = nextRain.length ? Math.max(...nextRain) : firstDaily(data, "precipitation_probability_max");
-        const high = firstDaily(data, "temperature_2m_max");
-        const low = firstDaily(data, "temperature_2m_min");
-        return {
-          city,
-          tempC: Math.round(tempC),
-          code,
-          isDay: data?.current?.is_day !== 0,
-          label: weatherLabel(code),
-          rainChance: rain === null ? null : Math.round(rain),
-          highC: high === null ? null : Math.round(high),
-          lowC: low === null ? null : Math.round(low),
-          hours: hours.slice(1, HOUR_STRIP + 1).map((h) => ({
-            time: h.time.slice(11, 16),
-            tempC: Math.round(h.temp),
-            code: h.code,
-            isDay: h.isDay,
-            rainChance: h.rain === null ? null : Math.round(h.rain),
-          })),
-          observedAt: typeof data?.current?.time === "string" ? data.current.time.slice(11, 16) : null,
-        };
-      } catch {
-        return null;
-      }
-    })
-  );
-
+  const results = await Promise.all(CITIES.map(getWeatherAt));
   return results.filter((r): r is CityWeather => r !== null);
+}
+
+/**
+ * One place's conditions, or null when Open-Meteo has no usable answer. The
+ * homepage strip asks for its three cities; Për ty asks for the reader's town.
+ */
+export async function getWeatherAt({ city, lat, lon }: { city: string; lat: number; lon: number }): Promise<CityWeather | null> {
+  try {
+    const url =
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+      `&current=temperature_2m,weather_code,is_day` +
+      `&hourly=temperature_2m,weather_code,precipitation_probability,is_day&forecast_hours=${NEXT_HOURS + 1}` +
+      `&daily=precipitation_probability_max,temperature_2m_max,temperature_2m_min` +
+      `&forecast_days=1&timezone=Europe%2FBelgrade`;
+    const response = await fetch(url, { next: { revalidate: 1800 } });
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    const tempC = data?.current?.temperature_2m;
+    const code = data?.current?.weather_code;
+    if (typeof tempC !== "number" || typeof code !== "number") return null;
+
+    // Hourly starts at the current hour: it and the next six decide the
+    // umbrella; the day's maximum is the fallback when hours are missing.
+    const hours = hourly(data);
+    const nextRain = hours.slice(0, NEXT_HOURS + 1).map((h) => h.rain).filter((r): r is number => r !== null);
+    const rain = nextRain.length ? Math.max(...nextRain) : firstDaily(data, "precipitation_probability_max");
+    const high = firstDaily(data, "temperature_2m_max");
+    const low = firstDaily(data, "temperature_2m_min");
+    return {
+      city,
+      tempC: Math.round(tempC),
+      code,
+      isDay: data?.current?.is_day !== 0,
+      label: weatherLabel(code),
+      rainChance: rain === null ? null : Math.round(rain),
+      highC: high === null ? null : Math.round(high),
+      lowC: low === null ? null : Math.round(low),
+      hours: hours.slice(1, HOUR_STRIP + 1).map((h) => ({
+        time: h.time.slice(11, 16),
+        tempC: Math.round(h.temp),
+        code: h.code,
+        isDay: h.isDay,
+        rainChance: h.rain === null ? null : Math.round(h.rain),
+      })),
+      observedAt: typeof data?.current?.time === "string" ? data.current.time.slice(11, 16) : null,
+    };
+  } catch {
+    return null;
+  }
 }

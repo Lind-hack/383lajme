@@ -10,7 +10,7 @@
 // one reader's feed to another.
 
 import type { Metadata } from "next";
-import { getArticles } from "@/lib/db";
+import { getArticles, getArticlesBefore } from "@/lib/db";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -26,13 +26,38 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
+/** How far back the feed looks. The newsroom publishes ~45 stories a day. */
+const WINDOW_DAYS = 7;
+const PAGE = 150;
+
 export default async function PerTyPage() {
-  const articles = await getArticles(100, undefined, { withBody: false });
+  // The whole of the last week, newest first, plus the day's top-ranked
+  // stories. It used to be the top 100 alone: two days of mostly Botë and
+  // Kosovë, so a reader who followed a smaller city or a less-covered person
+  // was matched against almost nothing that had ever named them.
+  const since = Date.now() - WINDOW_DAYS * 24 * 60 * 60 * 1000;
+  const [top, newest] = await Promise.all([
+    getArticles(100, undefined, { withBody: false }),
+    getArticlesBefore({ limit: PAGE }),
+  ]);
+  const older =
+    newest.length === PAGE && Date.parse(newest[PAGE - 1]?.publishedAt ?? "") > since
+      ? await getArticlesBefore({ before: newest[PAGE - 1].publishedAt, limit: PAGE })
+      : [];
+
+  const seen = new Set<string>();
+  const articles = [...top, ...newest, ...older].filter((a) => {
+    if (!a?.slug || seen.has(a.slug)) return false;
+    seen.add(a.slug);
+    return Date.parse(a.publishedAt) >= since;
+  });
 
   const pool: FeedArticle[] = articles.map((a) => ({
     slug: a.slug,
     title: a.title,
-    excerpt: a.excerpt ?? "",
+    // The card shows two lines of it; the ranker reads names in it. More is
+    // only weight on every reader's page.
+    excerpt: (a.excerpt ?? "").slice(0, 240),
     category: a.category,
     city: a.city,
     source: a.source,

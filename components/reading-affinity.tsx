@@ -7,30 +7,39 @@
 // little (half a read) straight away; staying ten seconds — long enough that
 // an accidental tap or a bounce does not count — counts as a full read. Each
 // time the article's category, the listed people it names and its city gain
-// weight in the reader's device-stored interests. Nothing is sent anywhere; the feed
-// ranks with it locally and "Harro historikun e leximit" clears it.
+// weight in the reader's device-stored interests, and the story is remembered as
+// opened, so Për ty files it below the ones not yet seen. Nothing is sent
+// anywhere; the feed ranks with it locally and "Harro historikun e leximit"
+// clears it.
 //
 // Renders nothing.
 
 import { useEffect } from "react";
 import { readInterests, writeInterests, recordRead } from "@/lib/interests.mjs";
 import { articleKeys } from "@/lib/per-ty-rank.mjs";
+import { rememberRead } from "@/lib/perty-visits.mjs";
 
 const DWELL_MS = 10_000;
 /** A click without the read that should follow it weighs half a read. */
 const CLICK_WEIGHT = 0.5;
 
 export default function ReadingAffinity({
+  slug,
   title,
   excerpt,
   category,
   city,
 }: {
+  slug: string;
   title: string;
   excerpt?: string;
   category?: string;
   city?: string;
 }) {
+  useEffect(() => {
+    rememberRead(slug);
+  }, [slug]);
+
   useEffect(() => {
     const keys = articleKeys({ title, excerpt, category, city });
     if (keys.length === 0) return;

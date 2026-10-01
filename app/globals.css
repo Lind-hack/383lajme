@@ -22680,6 +22680,123 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .perty-card-img img { transition: none; }
 }
 
+/* ── Për ty: today — the reader's town and Dardani's three lines ───────── */
+.perty-today {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.75fr);
+  gap: 20px;
+  margin-top: 28px;
+}
+.perty-today > :only-child { grid-column: 1 / -1; }
+/* Alone (no brief today), the town reads as one strip rather than a wide box. */
+.perty-today > .perty-city:only-child:not(.perty-city--ask) { flex-direction: row; flex-wrap: wrap; align-items: center; column-gap: 28px; }
+.perty-today > .perty-city:only-child .perty-city-news { margin: 0 0 0 auto; padding-top: 0; border-top: 0; }
+.perty-city {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 22px;
+  border: 1px solid #EDE5DC;
+  border-radius: 22px;
+  background: #FFFFFF;
+}
+.perty-city-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: #B42A10;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+.perty-city-weather { display: flex; align-items: center; gap: 14px; margin: 0; }
+.perty-city-weather b { color: #111111; font-size: 44px; font-weight: 800; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.perty-city-weather span { display: flex; flex-direction: column; gap: 3px; color: #2B2825; font-size: 16px; font-weight: 700; }
+.perty-city-weather small { color: #5E5048; font-size: 13.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.perty-city-border { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; }
+.perty-city-border dt { color: #5E5048; font-size: 13px; font-weight: 700; }
+.perty-city-border dd { margin: 2px 0 0; color: #111111; font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.perty-city-quiet { margin: 0; color: #5E5048; font-size: 14.5px; }
+.perty-city-news {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: auto 0 0;
+  padding-top: 12px;
+  border-top: 1px solid #EFE8E0;
+  color: #5E5048;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+.perty-city-news a:not(.perty-link) { color: #111111; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.perty-city--ask { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; background: #FFF6F1; border-color: #F4DDD2; }
+.perty-city--ask > svg { color: #B42A10; flex: none; }
+.perty-city--ask p { flex: 1 1 220px; margin: 0; color: #2B2825; font-size: 15px; line-height: 1.4; }
+
+.perty-brief {
+  padding: 18px 22px 10px;
+  border: 1px solid #F4DDD2;
+  border-radius: 22px;
+  background: #FFF6F1;
+}
+.perty-brief header { display: flex; align-items: center; gap: 10px; }
+.perty-brief h2 { margin: 0; color: #111111; font-size: 20px; font-weight: 800; letter-spacing: -0.01em; }
+.perty-brief ol { margin: 8px 0 0; padding: 0; list-style: none; counter-reset: brief; }
+.perty-brief li { counter-increment: brief; }
+.perty-brief li + li { border-top: 1px solid #F4DDD2; }
+.perty-brief a {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 6px;
+  padding: 11px 0;
+  color: #2B2825;
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  text-decoration: none;
+  text-wrap: pretty;
+}
+.perty-brief a::before { content: counter(brief); color: #B42A10; font-weight: 800; font-variant-numeric: tabular-nums; }
+.perty-brief a:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 2px; border-radius: 6px; }
+.perty-brief-loading { display: grid; gap: 12px; padding: 14px 0 12px 32px; }
+.perty-brief-loading i {
+  display: block;
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #F6E3D9 0%, #FBEFE8 50%, #F6E3D9 100%);
+  background-size: 200% 100%;
+  animation: perty-brief-shimmer 1.4s linear infinite;
+}
+.perty-brief-loading i:nth-child(2) { width: 88%; }
+.perty-brief-loading i:nth-child(3) { width: 72%; }
+@keyframes perty-brief-shimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+
+/* New since the last visit, and already read. */
+.perty-reason { display: inline-flex; align-items: center; gap: 8px; }
+.perty-mark { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 800; letter-spacing: 0.02em; }
+.perty-mark--new { background: #111111; color: #FFFFFF; }
+.perty-mark--read { background: #EFEAE2; color: #5E5048; }
+.perty-reason .perty-mark { margin-right: -4px; }
+.perty-card > .perty-mark { align-self: flex-start; }
+.perty-card[data-read] .perty-card-title,
+.perty-item-link[data-read] .perty-item-title { color: #6B625B; }
+.perty-fresh-count { color: #B42A10; }
+
+@media (hover: hover) and (pointer: fine) {
+  .perty-brief a:hover { color: #111111; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+}
+@media (max-width: 860px) {
+  .perty-today { grid-template-columns: 1fr; gap: 14px; margin-top: 20px; }
+  .perty-brief { order: -1; }
+  .perty-city-weather b { font-size: 38px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .perty-brief-loading i { animation: none; }
+}
+
 /* ── Pyet Dardanin: suggestions chosen for this reader ─────────────────── */
 .pyet-chips button[data-personal] { border-color: #F6CFC2; border-radius: 14px; text-align: left; }
 .pyet-chip-reason,

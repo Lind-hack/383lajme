@@ -218,6 +218,7 @@ export default async function ArticlePage({
       />
       {/* Device-only: lets Për ty learn from what the reader stays to read. */}
       <ReadingAffinity
+        slug={article.slug}
         title={article.title}
         excerpt={article.excerpt}
         category={article.category}

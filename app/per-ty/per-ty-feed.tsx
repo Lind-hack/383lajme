@@ -15,11 +15,17 @@
 // of day in Kosovo, the best story for them leads, and the rest is filed under
 // why it is here — the people they follow, their city, their topics — with the
 // day's top stories kept in a strip of their own.
+//
+// Above it, the two things that make it worth opening every day: their own
+// town (its weather, or the border waits for the diaspora) and Dardani's three
+// lines on what they need to know from their stories. Stories that arrived
+// since the last visit are marked new; stories already opened sink below the
+// ones not yet seen. Visits and reads are remembered on the device only.
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, MessageCircleQuestion, SlidersHorizontal, UserRound, X } from "lucide-react";
+import { ArrowRight, MapPin, MessageCircleQuestion, SlidersHorizontal, UserRound, X } from "lucide-react";
 import TimeAgo from "@/components/time-ago";
 import { getCategoryColor } from "@/lib/category-colors";
 import {
@@ -32,6 +38,8 @@ import { rankFeed } from "@/lib/per-ty-rank.mjs";
 import { personById } from "@/lib/people.mjs";
 import { cityById } from "@/lib/cities.mjs";
 import { nextStreak, STREAK_KEY } from "@/lib/perty-streak.mjs";
+import { forgetVisits, isNewSince, readSlugs, recordVisit } from "@/lib/perty-visits.mjs";
+import type { CityWeather } from "@/lib/weather";
 import { mergeOnSignIn, pushInterests } from "@/lib/interests-sync";
 import { createClient } from "@/lib/supabase/client";
 import { openPyet } from "@/lib/pyet-thread";
@@ -53,6 +61,9 @@ export type FeedArticle = {
 };
 
 type Item = { article: FeedArticle; reason: string; kind: "person" | "city" | "category" | "learned" | "top" };
+
+/** What a card needs to know about this reader's history with the story. */
+type Seen = { since: string | null; read: ReadonlySet<string> };
 
 const SIGNUP_DISMISSED = "383:perty-signup-dismissed";
 
@@ -129,6 +140,8 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   const [storageFailed, setStorageFailed] = useState(false);
   const [streak, setStreak] = useState(0);
   const [now, setNow] = useState<Date | null>(null);
+  const [since, setSince] = useState<string | null>(null);
+  const [read, setRead] = useState<ReadonlySet<string>>(new Set());
 
   useEffect(() => {
     setInterests(readInterests());
@@ -158,10 +171,14 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   }, []);
 
   const ready = Boolean(interests && hasInterests(interests));
+  const home = interests?.home ?? null;
 
-  // A visit counts towards the streak only once there is a feed to visit.
+  // A visit counts towards the streak only once there is a feed to visit. The
+  // same moment fixes the line "new" is measured from for this visit.
   useEffect(() => {
     if (!ready) return;
+    setSince(recordVisit());
+    setRead(new Set(readSlugs()));
     try {
       const next = nextStreak(JSON.parse(localStorage.getItem(STREAK_KEY) ?? "null"));
       localStorage.setItem(STREAK_KEY, JSON.stringify(next));
@@ -176,11 +193,14 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     [pool, interests]
   );
 
-  // Filed under why each story is here. The lead is the best of them, and
+  // Filed under why each story is here. Stories already opened go after the
+  // rest, keeping their order; the lead is the best story not yet read, and
   // prefers one with a picture so the paper opens on an image.
   const paper = useMemo(() => {
-    const personal = feed.filter((i) => i.kind !== "top");
-    const lead = personal.find((i) => i.article.imageUrl) ?? personal[0] ?? null;
+    const ranked = feed.filter((i) => i.kind !== "top");
+    const unread = ranked.filter((i) => !read.has(i.article.slug));
+    const personal = [...unread, ...ranked.filter((i) => read.has(i.article.slug))];
+    const lead = unread.find((i) => i.article.imageUrl) ?? unread[0] ?? personal[0] ?? null;
     const rest = personal.filter((i) => i !== lead);
     const byReason = (kind: Item["kind"]) => {
       const groups = new Map<string, Item[]>();
@@ -189,15 +209,22 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
       }
       return [...groups.entries()];
     };
+    const homeFrom = cityById(home)?.from;
     return {
       lead,
       people: byReason("person"),
-      cities: byReason("city"),
+      // The reader's own town first.
+      cities: byReason("city").sort(([a], [b]) => Number(b === homeFrom) - Number(a === homeFrom)),
       topics: rest.filter((i) => i.kind === "category" || i.kind === "learned"),
       top: feed.filter((i) => i.kind === "top"),
       count: personal.length,
+      // Already opened is not new, whenever it arrived.
+      fresh: unread.filter((i) => isNewSince(i.article, since)).length,
+      // What Dardani's brief is written from: the best stories not yet read.
+      briefSlugs: unread.slice(0, 6).map((i) => i.article.slug),
+      homeCount: personal.filter((i) => i.kind === "city" && i.reason === homeFrom).length,
     };
-  }, [feed]);
+  }, [feed, read, since, home]);
 
   function save(next: Interests) {
     if (!writeInterests(next)) setStorageFailed(true);
@@ -238,7 +265,8 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   ].join(" · ");
 
   const showSignup = justFinished && signedIn === false && !signupDismissed;
-  const { lead, people, cities, topics, top, count } = paper;
+  const { lead, people, cities, topics, top, count, fresh, briefSlugs, homeCount } = paper;
+  const seen: Seen = { since, read };
 
   return (
     <div className="perty-shell perty-shell--wide perty-paper">
@@ -252,7 +280,15 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
             <span className="perty-mast-date">{dateline(now)}</span>
             {count > 0 && (
               <>
-                {" · "}Sot kam <b>{count}</b> {count === 1 ? "lajm" : "lajme"} për ty.
+                {" · "}Kam <b>{count}</b> {count === 1 ? "lajm" : "lajme"} për ty
+                {fresh > 0 ? (
+                  <>
+                    , <b className="perty-fresh-count">{fresh} {fresh === 1 ? "i ri" : "të reja"}</b> që nga
+                    vizita e fundit.
+                  </>
+                ) : (
+                  "."
+                )}
               </>
             )}
           </p>
@@ -313,6 +349,11 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
         </aside>
       )}
 
+      <div className="perty-today">
+        <HomeCityPanel homeId={home} count={homeCount} onPick={() => setEditing(true)} />
+        {briefSlugs.length >= 2 && <DardaniBrief slugs={briefSlugs} />}
+      </div>
+
       {!lead ? (
         <div className="perty-empty">
           <DardaniLoop name="sleeping" className="perty-empty-loop" />
@@ -332,7 +373,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
       ) : (
         <>
           <div className="perty-front">
-            <Lead item={lead} />
+            <Lead item={lead} seen={seen} />
             {top.length > 0 && (
               <section className="perty-top" aria-labelledby="perty-top-title">
                 <h2 id="perty-top-title">Kryesoret e ditës</h2>
@@ -373,7 +414,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
                 </h2>
                 <div className="perty-row">
                   {items.map((item) => (
-                    <StoryCard key={item.article.slug} item={item} showReason={false} />
+                    <StoryCard key={item.article.slug} item={item} seen={seen} showReason={false} />
                   ))}
                 </div>
               </section>
@@ -381,11 +422,16 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
           })}
 
           {cities.map(([reason, items]) => (
-            <section key={reason} className="perty-section" aria-label={reason}>
+            <section
+              key={reason}
+              id={reason === cityById(home)?.from ? "perty-home-city" : undefined}
+              className="perty-section"
+              aria-label={reason}
+            >
               <h2 className="perty-section-title">{reason}</h2>
               <div className="perty-row">
                 {items.map((item) => (
-                  <StoryCard key={item.article.slug} item={item} showReason={false} />
+                  <StoryCard key={item.article.slug} item={item} seen={seen} showReason={false} />
                 ))}
               </div>
             </section>
@@ -399,7 +445,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
               <ol className="perty-list">
                 {topics.map((item) => (
                   <li key={item.article.slug} className="perty-item" data-kind={item.kind}>
-                    <StoryRow item={item} />
+                    <StoryRow item={item} seen={seen} />
                   </li>
                 ))}
               </ol>
@@ -418,9 +464,21 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
       )}
 
       <footer className="perty-foot">
-        <p>Renditja mëson pak nga ajo që lexon dhe pyet — vetëm në këtë pajisje, pa u dërguar askund.</p>
-        {Object.keys(interests.affinity).length > 0 && (
-          <button type="button" className="perty-text-btn" onClick={() => save({ ...interests, affinity: {} })}>
+        <p>
+          Renditja mëson pak nga ajo që lexon dhe pyet, dhe mban mend çka ke hapur — vetëm në këtë pajisje.
+          Për përmbledhjen, Dardanit i dërgohen vetëm adresat e lajmeve, asnjë e dhënë për ty.
+        </p>
+        {(Object.keys(interests.affinity).length > 0 || read.size > 0) && (
+          <button
+            type="button"
+            className="perty-text-btn"
+            onClick={() => {
+              save({ ...interests, affinity: {} });
+              forgetVisits();
+              setRead(new Set());
+              setSince(null);
+            }}
+          >
             Harro historikun e leximit
           </button>
         )}
@@ -429,7 +487,14 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   );
 }
 
-function Lead({ item }: { item: Item }) {
+/** "E re" for a story that arrived since the last visit, "Lexuar" once opened. */
+function Mark({ article, seen }: { article: FeedArticle; seen: Seen }) {
+  if (seen.read.has(article.slug)) return <span className="perty-mark perty-mark--read">Lexuar</span>;
+  if (isNewSince(article, seen.since)) return <span className="perty-mark perty-mark--new">E re</span>;
+  return null;
+}
+
+function Lead({ item, seen }: { item: Item; seen: Seen }) {
   const { article, reason } = item;
   return (
     <article className="perty-lead">
@@ -447,7 +512,10 @@ function Lead({ item }: { item: Item }) {
           </span>
         )}
         <span className="perty-lead-body">
-          <span className="perty-reason">{reason}</span>
+          <span className="perty-reason">
+            {reason}
+            <Mark article={article} seen={seen} />
+          </span>
           <strong className="perty-lead-title">{article.title}</strong>
           {article.excerpt && <span className="perty-lead-excerpt">{article.excerpt}</span>}
           <Meta article={article} />
@@ -457,10 +525,10 @@ function Lead({ item }: { item: Item }) {
   );
 }
 
-function StoryCard({ item, showReason = true }: { item: Item; showReason?: boolean }) {
+function StoryCard({ item, seen, showReason = true }: { item: Item; seen: Seen; showReason?: boolean }) {
   const { article, reason } = item;
   return (
-    <Link href={`/article/${article.slug}`} className="perty-card">
+    <Link href={`/article/${article.slug}`} className="perty-card" data-read={seen.read.has(article.slug) || undefined}>
       <span className="perty-card-img">
         {article.imageUrl ? (
           <Image src={article.imageUrl} alt="" fill sizes="(max-width: 640px) 70vw, 280px" style={{ objectFit: "cover" }} />
@@ -469,16 +537,17 @@ function StoryCard({ item, showReason = true }: { item: Item; showReason?: boole
         )}
       </span>
       {showReason && <span className="perty-reason">{reason}</span>}
+      <Mark article={article} seen={seen} />
       <strong className="perty-card-title">{article.title}</strong>
       <Meta article={article} />
     </Link>
   );
 }
 
-function StoryRow({ item }: { item: Item }) {
+function StoryRow({ item, seen }: { item: Item; seen: Seen }) {
   const { article, reason } = item;
   return (
-    <Link href={`/article/${article.slug}`} className="perty-item-link">
+    <Link href={`/article/${article.slug}`} className="perty-item-link" data-read={seen.read.has(article.slug) || undefined}>
       <span className="perty-thumb">
         {article.imageUrl ? (
           <Image src={article.imageUrl} alt="" fill sizes="(max-width: 640px) 96px, 132px" style={{ objectFit: "cover" }} />
@@ -487,7 +556,10 @@ function StoryRow({ item }: { item: Item }) {
         )}
       </span>
       <span className="perty-item-body">
-        <span className="perty-reason">{reason}</span>
+        <span className="perty-reason">
+          {reason}
+          <Mark article={article} seen={seen} />
+        </span>
         <strong className="perty-item-title">{article.title}</strong>
         <Meta article={article} />
       </span>
@@ -508,6 +580,195 @@ function Meta({ article }: { article: FeedArticle }) {
         </>
       )}
     </span>
+  );
+}
+
+type CityPanelData = {
+  name: string;
+  weather: CityWeather | null;
+  border: {
+    entry: { lo: number; hi: number } | null;
+    exit: { lo: number; hi: number } | null;
+    updatedAt: string | null;
+  } | null;
+};
+
+/** "15–40 min", or "deri 10 min" when every crossing reads the same. */
+function waitRange(range: { lo: number; hi: number } | null) {
+  if (!range) return "—";
+  return range.lo === range.hi ? `${range.hi} min` : `${range.lo}–${range.hi} min`;
+}
+
+/**
+ * The reader's own town: today's weather and how many of their stories are
+ * from there, or for the diaspora the border waits. Without a home city it is
+ * the one question that makes the feed local.
+ */
+function HomeCityPanel({ homeId, count, onPick }: { homeId: string | null; count: number; onPick: () => void }) {
+  const city = cityById(homeId);
+  const [data, setData] = useState<CityPanelData | null>(null);
+
+  useEffect(() => {
+    if (!city) return;
+    let alive = true;
+    fetch(`/api/per-ty/city?id=${encodeURIComponent(city.id)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((json) => {
+        if (alive && json) setData(json as CityPanelData);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [city]);
+
+  if (!city) {
+    return (
+      <aside className="perty-city perty-city--ask">
+        <MapPin size={20} strokeWidth={2.3} aria-hidden="true" />
+        <p>
+          <strong>Nga je?</strong> Zgjidh qytetin tënd: moti dhe lajmet prej andej dalin këtu, të parat.
+        </p>
+        <button type="button" className="perty-btn perty-btn--ghost" onClick={onPick}>
+          Zgjidh qytetin
+        </button>
+      </aside>
+    );
+  }
+
+  const weather = data?.weather ?? null;
+  const border = data?.border ?? null;
+  return (
+    <aside className="perty-city" aria-label={`${city.name} sot`}>
+      <p className="perty-city-kicker">
+        <MapPin size={14} strokeWidth={2.5} aria-hidden="true" />
+        {city.id === "diaspora" ? "Rruga për në shtëpi" : `${city.name} sot`}
+      </p>
+
+      {city.id === "diaspora" ? (
+        border ? (
+          <dl className="perty-city-border">
+            <div>
+              <dt>Hyrje në Kosovë</dt>
+              <dd>{waitRange(border.entry)}</dd>
+            </div>
+            <div>
+              <dt>Dalje</dt>
+              <dd>{waitRange(border.exit)}</dd>
+            </div>
+          </dl>
+        ) : (
+          <p className="perty-city-quiet">{data ? "Pritjet në kufi s’janë në dispozicion tani." : "Po i marr pritjet në kufi…"}</p>
+        )
+      ) : weather ? (
+        <p className="perty-city-weather">
+          <b>{weather.tempC}°</b>
+          <span>
+            {weather.label}
+            {weather.highC !== null && weather.lowC !== null && (
+              <small>
+                {weather.lowC}° / {weather.highC}°
+                {weather.rainChance !== null && weather.rainChance >= 30 ? ` · shi ${weather.rainChance}%` : ""}
+              </small>
+            )}
+          </span>
+        </p>
+      ) : (
+        <p className="perty-city-quiet">{data ? "Moti s’është në dispozicion tani." : "Po e marr motin…"}</p>
+      )}
+
+      <p className="perty-city-news">
+        {count > 0 ? (
+          <a href="#perty-home-city">
+            {count} {count === 1 ? "lajm" : "lajme"} {city.from.replace(/^Nga /, "nga ").replace(/^Për /, "për ")} këtë javë
+          </a>
+        ) : (
+          <>S’ka lajme {city.from.replace(/^Nga /, "nga ").replace(/^Për /, "për ")} këtë javë.</>
+        )}
+        {city.id === "diaspora" && (
+          <Link href="/visit" className="perty-link">
+            Të gjitha kalimet <ArrowRight size={14} strokeWidth={2.4} aria-hidden="true" />
+          </Link>
+        )}
+      </p>
+    </aside>
+  );
+}
+
+type BriefLine = { slug: string; text: string };
+const BRIEF_KEY = "383:perty-brief";
+
+/**
+ * "Çfarë duhet të dish sot": Dardani's three lines, written only from the
+ * stories at the top of this reader's feed (app/api/per-ty/brief). Kept on the
+ * device for the day, for the same stories, so a return visit costs nothing.
+ * When the model is down or says nothing usable, the card is simply absent.
+ */
+function DardaniBrief({ slugs }: { slugs: string[] }) {
+  const key = [...slugs].sort().join("|");
+  const [lines, setLines] = useState<BriefLine[] | null>(null);
+
+  useEffect(() => {
+    let alive = true;
+    try {
+      const cached = JSON.parse(localStorage.getItem(BRIEF_KEY) ?? "null");
+      if (cached?.key === key && Array.isArray(cached?.lines) && Date.now() - Number(cached?.at) < 6 * 3600_000) {
+        setLines(cached.lines);
+        return;
+      }
+    } catch {
+      // Unreadable cache: ask again.
+    }
+    setLines(null);
+    fetch("/api/per-ty/brief", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ slugs }),
+    })
+      .then((r) => (r.ok ? r.json() : { lines: [] }))
+      .then((json) => {
+        if (!alive) return;
+        const got: BriefLine[] = Array.isArray(json?.lines) ? json.lines : [];
+        setLines(got);
+        if (got.length) {
+          try {
+            localStorage.setItem(BRIEF_KEY, JSON.stringify({ key, at: Date.now(), lines: got }));
+          } catch {
+            // No storage: the brief is fetched again next visit.
+          }
+        }
+      })
+      .catch(() => alive && setLines([]));
+    return () => {
+      alive = false;
+    };
+    // `key` carries the slugs; the array itself is new on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+
+  if (lines && lines.length === 0) return null;
+  return (
+    <section className="perty-brief" aria-labelledby="perty-brief-title" aria-busy={!lines}>
+      <header>
+        <DardaniFace state="happy" size={40} decorative />
+        <h2 id="perty-brief-title">Çfarë duhet të dish sot</h2>
+      </header>
+      {lines ? (
+        <ol>
+          {lines.map((line) => (
+            <li key={line.slug}>
+              <Link href={`/article/${line.slug}`}>{line.text}</Link>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <div className="perty-brief-loading" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+        </div>
+      )}
+    </section>
   );
 }
 
