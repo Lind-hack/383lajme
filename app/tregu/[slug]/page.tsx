@@ -323,6 +323,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const [related, setRelated] = useState<MiniMarket[]>([]);
   const [weeklyDelta, setWeeklyDelta] = useState<number | null>(null);
   const [tradeCount, setTradeCount] = useState(0);
+  const [tradeVolume, setTradeVolume] = useState<number | null>(null);
   const [positions, setPositions] = useState<Position[]>([]);
   const [holders, setHolders] = useState<HolderRow[]>([]);
   const [comments, setComments] = useState<CommentItem[]>([]);
@@ -437,6 +438,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         setRelated(d.related ?? []);
         setWeeklyDelta(d.weeklyDelta ?? null);
         setTradeCount(d.tradeCount ?? 0);
+        setTradeVolume(typeof d.tradeVolume === "number" ? d.tradeVolume : null);
         setPositions(Array.isArray(d.position) ? d.position : []);
         setHolders(d.holders ?? []);
         setComments(d.comments ?? []);
@@ -930,7 +932,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const matchStarted = market.status === "open" && Number.isFinite(startsAt) && startsAt <= Date.now();
   const awaitingResult = market.status === "open" && (matchStarted || Date.parse(market.closes_at) < Date.now());
   const isClosed = market.status !== "open" || awaitingResult;
-  const volume = Math.round(market.q_yes + market.q_no);
+  const volume = tradeVolume ?? Math.round(market.q_yes + market.q_no);
   const deltaPp = weeklyDelta === null ? null : Math.round(weeklyDelta * 100);
   const weeklyStart = weeklyDelta === null
     ? null

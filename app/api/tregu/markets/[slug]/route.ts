@@ -187,6 +187,19 @@ export async function GET(
     .from("market_trades")
     .select("id", { count: "exact", head: true })
     .eq("market_id", market.id);
+  // Coins traded, as the floor cards count it. q_yes + q_no only moves on the
+  // binary book, so a match or race market read 0 however much was traded.
+  let tradeVolume = 0;
+  for (let from = 0; ; from += 1000) {
+    const { data: page } = await supabase
+      .from("market_trades")
+      .select("coins")
+      .eq("market_id", market.id)
+      .order("id")
+      .range(from, from + 999);
+    for (const row of page ?? []) tradeVolume += Math.max(0, Number(row?.coins ?? 0));
+    if (!page || page.length < 1000) break;
+  }
 
   // Multi-outcome event: sibling books share the "<Event>: <Outcome>?" title.
   // Ship every sibling's timestamped snapshot series so the event chart can
@@ -555,6 +568,7 @@ export async function GET(
     related: relatedWithProb,
     weeklyDelta,
     tradeCount: tradeCount ?? 0,
+    tradeVolume: Math.round(tradeVolume),
     tradersApprox: traders.size,
     position,
     holders,
