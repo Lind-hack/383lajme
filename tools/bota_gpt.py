@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Hermes subscription worker. Discovery is deterministic; all editorial work is GPT-6 Luna/xhigh."""
 import argparse
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 import hashlib
@@ -42,8 +43,18 @@ def fetch_source(url):
             size+=len(chunk)
             if size>3_000_000:r.close();raise ValueError('Source exceeds extraction limit')
             chunks.append(chunk)
-        html=b''.join(chunks).decode(r.encoding or 'utf-8',errors='replace');r.close()
+        html=b''.join(chunks);r.close()
         soup=BeautifulSoup(html,'html.parser')
+        canonical=soup.find('link',rel='canonical')
+        if canonical and canonical.get('href'):
+            candidate=urljoin(url,canonical['href'])
+            if urlparse(candidate).hostname==urlparse(url).hostname:url=public_url(candidate)
+        image=soup.find('meta',property='og:image');image_url=None
+        if image and image.get('content'):
+            try:image_url=public_url(urljoin(url,image['content']))
+            except Exception:pass
+        title=soup.find('meta',property='og:title')
+        original_title=title.get('content','').strip() if title else ''
         for block in soup.find_all('script',type='application/ld+json'):
             if re.search(r'"isAccessibleForFree"\s*:\s*(?:false|"false")',block.get_text(),re.I):raise ValueError('Restricted article')
         text=trafilatura.extract(html,include_comments=False,include_tables=False,include_links=False,favor_precision=True)
@@ -52,7 +63,9 @@ def fetch_source(url):
         if len(paragraphs)<2 or len(joined.split())<150 or len(joined)>30000:
             raise ValueError('Complete article body unavailable or exceeds model input limit')
         if re.search(r'(subscribe to (?:continue|read)|subscription required|unlock (?:this|the) article|sign in to continue)',joined,re.I):raise ValueError('Truncated/paywalled source')
-        return {'url':url,'sourceParagraphs':paragraphs,'sourceHash':hashlib.sha256(joined.encode()).hexdigest()}
+        result={'url':url,'sourceParagraphs':paragraphs,'sourceHash':hashlib.sha256(joined.encode()).hexdigest(),'imageUrl':image_url}
+        if 5<=len(original_title)<=500:result['title']=original_title
+        return result
     raise ValueError('Too many publisher redirects')
 
 def resolve_runtime():
@@ -119,30 +132,68 @@ def secret():
 def discover(known):
     import tone_scraper as scraper
     from tone_sources import country_for,is_editorial,is_local_placename
+    import feedparser,requests
+    # Direct publisher feeds remain usable when Google's redirect decoder is
+    # blocked. They are discovery only: each article still needs its full body.
+    feeds=[
+      ('https://www.theguardian.com/world/kosovo/rss','The Guardian'),
+      ('https://feeds.bbci.co.uk/news/world/rss.xml','BBC News'),
+      ('https://www.independent.co.uk/topic/kosovo/rss','The Independent'),
+      ('https://rss.orf.at/news.xml','ORF'),('https://rss.orf.at/sport.xml','ORF'),
+      ('https://www.tagesschau.de/xml/rss2','Tagesschau'),
+      ('https://rss.dw.com/rdf/rss-en-all','Deutsche Welle'),
+      ('https://www.france24.com/en/rss','France 24'),('https://www.france24.com/fr/rss','France 24'),
+      ('https://www.rfi.fr/en/rss','RFI'),('https://www.rfi.fr/fr/rss','RFI'),
+      ('https://www.aljazeera.com/xml/rss/all.xml','Al Jazeera'),
+      ('https://feeds.npr.org/1004/rss.xml','NPR'),
+      ('https://www.lemonde.fr/international/rss_full.xml','Le Monde'),
+    ]
+    def direct_feed(feed):
+      url,outlet=feed
+      try:
+        response=requests.get(url,timeout=15);response.raise_for_status()
+        if len(response.content)>3_000_000:return []
+        entries=feedparser.parse(response.content).entries;rows=[]
+        for entry in entries:
+          title=entry.get('title','');summary=entry.get('summary','');published=entry.get('published_parsed')
+          if not re.search(r'kosov|Kosova|Κόσοβ|Κοσσυφ|Косов',title+' '+summary,re.I) or not published:continue
+          day=datetime(*published[:6]).date().isoformat()
+          if scraper.is_fresh(day):rows.append({'title':title,'summary':summary,'url':entry.get('link',''),'date':day,'outlet':outlet,'country':country_for(entry.get('link',''),outlet) or 'Të tjera'})
+        return rows
+      except Exception:return []
+    with ThreadPoolExecutor(max_workers=6) as pool:direct=[a for rows in pool.map(direct_feed,feeds) for a in rows]
+    cached=[];cache_file=Path(__file__).parent.parent/'public/tone-article-cache.json'
+    if cache_file.exists():
+      cached=[a for a in json.loads(cache_file.read_text())['articles'].values() if 'news.google.com/' not in a.get('url','') and scraper.is_fresh(a.get('date',''))]
+    original_links={scraper.normalize_title(a['title']):a['url'] for a in cached}
     scraper.FEED_LOCALES['Bota']=('en-US','US')
     scraper.FEEDS['Bota']=['https://news.google.com/rss/search?q=Kosovo+when%3A1d&hl=en-US&gl=US&ceid=US:en']
     candidates=scraper.fetch_candidates()
+    for a in direct+cached:candidates.setdefault(country_for(a['url'],a['outlet']) or 'Të tjera',[]).insert(0,a)
     rows=[];queues={k:list(v) for k,v in candidates.items() if v}
     while queues:
         for country in list(queues):
             rows.append(queues[country].pop(0))
             if not queues[country]:del queues[country]
     seen=set();available=[]
+    rejected=Counter()
     def extract(a):
         try:
-            resolved=scraper.resolve_google_news_url(a['url'])
-            if 'news.google.com/' in resolved:return None
+            resolved=original_links.get(scraper.normalize_title(a['title']),a['url'])
+            resolved=scraper.resolve_google_news_url(resolved)
+            if 'news.google.com/' in resolved:rejected['unresolved_google_link']+=1;return None
             source={**a,**fetch_source(resolved)}
             if not is_editorial(a['outlet'],source['url']) or not scraper.is_foreign_press(a['outlet'],source['url']) or is_local_placename(a['title'],' '.join(source['sourceParagraphs'])):return None
             source['id']=hashlib.sha256(source['url'].encode()).hexdigest()
             source['country']=country_for(source['url'],a['outlet']) or 'Të tjera'
             return source
-        except Exception:return None
+        except Exception as error:rejected[type(error).__name__]+=1;return None
     # Candidate limit bounds extraction cost; source ownership is decided only after resolving the publisher.
     with ThreadPoolExecutor(max_workers=6) as pool:
         for source in pool.map(extract,rows[:120]):
             if not source or source['id'] in known or source['id'] in seen:continue
             seen.add(source['id']);available.append(source)
+    print(json.dumps({'sourceCandidates':len(rows),'extracted':len(available),'rejected':dict(rejected)}),file=sys.stderr)
     # Round-robin countries so a busy locale cannot monopolize the daily publication.
     groups={}
     for a in available:groups.setdefault(a['country'],[]).append(a)
@@ -169,7 +220,7 @@ def run(dry_run=False,limit=40):
         try:
             result,receipt=editorial(runtime,source)
             if result is None:continue
-            articles.append({**{k:source[k] for k in ['url','title','outlet','country','date','sourceHash']},**result,**receipt,'complete':True})
+            articles.append({**{k:source[k] for k in ['url','title','outlet','country','date','sourceHash','imageUrl']},**result,**receipt,'complete':True})
             receipts.append(receipt)
         except Exception as error:
             failed+=1
