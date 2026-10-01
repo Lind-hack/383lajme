@@ -7,7 +7,9 @@
 // devices (lib/interests-sync.ts) — it is offered after the feed appears, never
 // asked for before it.
 //
-// It is a morning edition, read over one coffee and then closed:
+// It is a morning edition, read over one coffee and then closed. Full page
+// width, like the rest of the site; on a desktop the seven take the wide
+// column and Dardani's three lines the narrow one beside it:
 //
 //   1. a one-block masthead: greeting, date, how long this takes, the
 //      reader's town (weather, or the border waits for the diaspora);
@@ -246,7 +248,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   const firstUnread = edition.find((i) => !read.has(i.article.slug)) ?? edition[0];
 
   return (
-    <div className="perty-shell perty-shell--edition perty-paper">
+    <div className="perty-shell perty-shell--wide perty-paper">
       <header className="perty-ed-mast">
         <DardaniLoop name="greeting" alt="Dardani të përshëndet" className="perty-ed-dardani" />
         <div className="perty-ed-mast-copy">
@@ -325,6 +327,9 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
         </div>
       ) : (
         <>
+          {/* On a desktop the edition takes the wide column and Dardani's three
+              lines sit beside it; on a phone they come first, above it. */}
+          <div className="perty-ed-layout">
           {briefSlugs.length >= 2 && <DardaniBrief slugs={briefSlugs} />}
 
           <section className="perty-ed" aria-labelledby="perty-ed-title">
@@ -345,6 +350,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
               ))}
             </ol>
           </section>
+          </div>
 
           <section className="perty-end" aria-labelledby="perty-end-title">
             <DardaniImage name="wave" decorative className="perty-end-img" />
@@ -393,6 +399,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
           {more.length > 0 && (
             <section className="perty-more" aria-labelledby="perty-more-title">
               <h2 id="perty-more-title">Më shumë, nëse ke kohë</h2>
+              <div className="perty-more-groups">
               {more.map((group) => (
                 <details key={group.key} className="perty-more-group">
                   <summary>
@@ -409,6 +416,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
                   </ul>
                 </details>
               ))}
+              </div>
             </section>
           )}
         </>

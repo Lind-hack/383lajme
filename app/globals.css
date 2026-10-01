@@ -22409,11 +22409,11 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 }
 
 /* ── Për ty: the morning edition ───────────────────────────────────────────
-   Read over one coffee, then closed. One reading column, five parts in a
-   fixed order: masthead, Dardani's three lines, the edition of seven, the
-   end, and the rest folded under "Më shumë". Every story uses the same row,
-   so nothing has to be learned twice. */
-.perty-shell--edition { max-width: 720px; }
+   Read over one coffee, then closed. Five parts in a fixed order: masthead,
+   Dardani's three lines, the edition of seven, the end, and the rest folded
+   under "Më shumë". Full page width like the rest of the site: on a desktop
+   the seven take the wide column and the three lines sit beside them, in the
+   old page's proportions. Every story uses the same row. */
 .perty-paper ::selection { background: #FFD2C5; color: #111111; }
 
 .perty-ed-mast {
@@ -22654,6 +22654,39 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .perty-more-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
 .perty-more-reason { color: #B42A10; font-size: 12.5px; font-weight: 800; }
 
+@media (min-width: 1024px) {
+  .perty-ed-mast { gap: 20px; }
+  .perty-ed-dardani { height: 112px; }
+  .perty-ed-hello { font-size: clamp(40px, 4.4vw, 58px); }
+  .perty-ed-line { font-size: 15.5px; }
+  /* The seven on the left, Dardani's lines on the right, staying in view while
+     the reader works down the list. Without the lines, the list keeps the
+     wide column alone rather than leaving an empty one beside it. */
+  .perty-ed-layout:has(> .perty-brief) {
+    display: grid;
+    grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
+    grid-template-areas: "list side";
+    align-items: start;
+    column-gap: 40px;
+    margin-top: 30px;
+  }
+  .perty-ed-layout:has(> .perty-brief) > .perty-ed { grid-area: list; margin-top: 0; }
+  .perty-ed-layout > .perty-brief {
+    grid-area: side;
+    position: sticky;
+    top: calc(var(--nav-h, 72px) + 20px);
+    margin-top: 0;
+  }
+  .perty-ed-layout:not(:has(> .perty-brief)) > .perty-ed { max-width: calc((100% - 40px) * 1.75 / 2.75); }
+  /* The folded groups side by side, so "Më shumë" is one short band. */
+  .perty-more-groups {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    column-gap: 32px;
+  }
+  .perty-more-groups .perty-more-group { border-bottom: 1px solid #E3DBD1; }
+}
 @media (hover: hover) and (pointer: fine) {
   .perty-ed-row:hover .perty-ed-title,
   .perty-more-row:hover strong,
