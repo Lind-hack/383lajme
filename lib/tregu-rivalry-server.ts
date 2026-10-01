@@ -1,6 +1,8 @@
 import { mailConfigured, sendMail } from "@/lib/mailer";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendEmptyPush, type VapidKeys } from "@/lib/web-push";
+import type { LeagueSnapshot } from "@/lib/tregu-email-kit";
+import { buildDigestEmail, buildOvertakeEmail, buildRewardEmail, type DigestLeague } from "@/lib/tregu-league-emails";
 
 type Admin = NonNullable<ReturnType<typeof createAdminClient>>;
 type EventRow = { id: string; user_id: string; league_id: string | null; kind: string; actor: string | null; data: Record<string, unknown>; created_at: string };
@@ -86,8 +88,17 @@ function kosovoDate(now = new Date()) {
   return new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Belgrade", year: "numeric", month: "2-digit", day: "2-digit" }).format(now);
 }
 
-const escapeHtml = (value: string) =>
-  value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string);
+/** One league as the emails draw it: podium, the reader's neighbours, next matches. */
+async function leagueSnapshot(admin: Admin, leagueId: string | null | undefined, userId: string): Promise<LeagueSnapshot | null> {
+  if (!leagueId) return null;
+  const { data, error } = await admin.rpc("tregu_email_league_snapshot", { p_league_id: leagueId, p_user: userId });
+  if (error) {
+    // The email still goes out without the podium rather than not at all.
+    console.error(`league snapshot ${leagueId}: ${error.message}`);
+    return null;
+  }
+  return (data ?? null) as LeagueSnapshot | null;
+}
 
 /** The morning recap, from 08:00 Kosovo time, once per user per day. */
 async function sendDigests(admin: Admin) {
@@ -111,39 +122,40 @@ async function sendDigests(admin: Admin) {
     const active = (leagues ?? [])
       .map((row) => (row as unknown as { tregu_leagues: { id: string; name: string; ends_at: string; settled_at: string | null } }).tregu_leagues)
       .filter((league) => !league.settled_at && Date.parse(league.ends_at) > Date.now());
-    const lines: string[] = [];
-    for (const league of active) {
-      const { data: rank } = await admin.from("tregu_league_ranks").select("rank, profit").eq("league_id", league.id).eq("user_id", recipient.user_id).maybeSingle();
-      const { count } = await admin.from("tregu_league_members").select("user_id", { count: "exact", head: true }).eq("league_id", league.id);
-      lines.push(`<tr><td style="padding:10px 0;border-bottom:1px solid #eee"><b>${escapeHtml(league.name)}</b></td><td style="padding:10px 0;border-bottom:1px solid #eee;text-align:right;font-weight:800">${rank ? `#${rank.rank} nga ${count ?? "?"}` : "—"}</td></tr>`);
+    const digestLeagues: DigestLeague[] = [];
+    for (const league of active.slice(0, 4)) {
+      const snapshot = await leagueSnapshot(admin, league.id, recipient.user_id);
+      if (!snapshot) continue;
+      const { data: rank } = await admin.from("tregu_league_ranks").select("rank, day_rank").eq("league_id", league.id).eq("user_id", recipient.user_id).maybeSingle();
+      const change = rank && rank.day_rank != null ? Number(rank.day_rank) - Number(rank.rank) : 0;
+      digestLeagues.push({ snapshot, change: Number.isFinite(change) ? change : 0 });
     }
-    const eventLines = (events ?? []).map((event) => {
-      const text = describeEvent(event as EventRow);
-      return `<li style="margin:0 0 8px"><b>${escapeHtml(text.title)}</b> — ${escapeHtml(text.body)}</li>`;
-    });
+    if (!digestLeagues.length) {
+      // No active league: nothing to recap today. Active leagues but no
+      // snapshot means the lookup failed; leave the day open so it retries.
+      if (active.length) failures.push(`no league snapshot for ${recipient.user_id}`);
+      else await admin.from("tregu_notification_prefs").update({ last_digest_on: today }).eq("user_id", recipient.user_id);
+      continue;
+    }
     const openDuels = (duels ?? []).length;
     const unsubscribe = `${SITE}/api/tregu/unsubscribe?token=${recipient.unsubscribe_token}`;
     const first = recipient.display_name.split(/\s+/)[0];
-    const subject = (events ?? []).find((event) => event.kind === "overtaken")
-      ? `${first}, ${describeEvent((events ?? []).find((event) => event.kind === "overtaken") as EventRow).title.toLowerCase()} — 383 Ligat`
-      : `${first}, renditja jote sot — 383 Ligat`;
+    const email = buildDigestEmail({
+      first,
+      leagues: digestLeagues,
+      events: (events ?? []).map((event) => ({ ...describeEvent(event as EventRow), kind: String(event.kind) })),
+      openDuels,
+      unsubscribe,
+    });
     try {
       await sendMail({
         fromName: "383 Ligat",
         idempotencyKey: `digest-${recipient.user_id}-${today}`,
         to: recipient.email,
-        subject,
+        subject: email.subject,
         headers: { "List-Unsubscribe": `<${unsubscribe}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
-        text: `Mirëmëngjes ${first}.\n\n${active.map((league) => league.name).join(", ")}\n\n${(events ?? []).map((event) => { const t = describeEvent(event as EventRow); return `${t.title} — ${t.body}`; }).join("\n")}\n\nHyr në Tregu: ${SITE}/tregu\n\nÇregjistrohu: ${unsubscribe}`,
-        html: `<main style="font-family:Arial,sans-serif;max-width:560px;margin:auto;padding:24px;color:#171513">
-<h1 style="font-size:22px;margin:0 0 6px">Mirëmëngjes ${escapeHtml(first)}</h1>
-<p style="margin:0 0 18px;color:#555">Ja ku je në ligat e tua këtë mëngjes.</p>
-<table style="width:100%;border-collapse:collapse;font-size:15px">${lines.join("")}</table>
-${eventLines.length ? `<h2 style="font-size:16px;margin:22px 0 8px">Në 24 orët e fundit</h2><ul style="padding-left:18px;margin:0;font-size:14px;line-height:1.5">${eventLines.join("")}</ul>` : ""}
-${openDuels ? `<p style="margin:18px 0 0;font-size:14px"><b>${openDuels} duel${openDuels === 1 ? "" : "e"}</b> të hapur presin.</p>` : ""}
-<a href="${SITE}/tregu" style="display:inline-block;margin-top:22px;background:#111;color:#fff;text-decoration:none;font-weight:800;padding:14px 24px;border-radius:999px">Tregto dhe kaloji</a>
-<p style="margin-top:28px;font-size:12px;color:#888">Merr këtë email sepse je në një ligë në 383 Tregu. <a href="${unsubscribe}" style="color:#888">Çregjistrohu</a>.</p>
-</main>`,
+        text: email.text,
+        html: email.html,
       });
       sent += 1;
     } catch (error) {
@@ -174,8 +186,6 @@ type PlayerMail = {
   payload: Array<Record<string, unknown>>;
 };
 
-const PLACE = ["", "i pari", "i dyti", "i treti"];
-
 /**
  * Resend refuses mail to players until 383ks.com is verified there (the shared
  * test sender only reaches the account owner). After that refusal, player
@@ -183,19 +193,6 @@ const PLACE = ["", "i pari", "i dyti", "i treti"];
  */
 let playerMailPausedUntil = 0;
 const SENDER_NOT_VERIFIED = /verify a domain|own email address|testing emails|domain is not verified/i;
-
-/** A short, warm email on the site's paper: one headline, one line, one button. */
-function playerEmail({ title, lead, body, cta, href, footer }: { title: string; lead: string; body: string; cta: string; href: string; footer: string }) {
-  return `<main style="font-family:Arial,sans-serif;max-width:560px;margin:auto;padding:0;color:#2B1B11;background:#FCF8F1">
-<div style="padding:28px 26px;background:radial-gradient(90% 80% at 0% 0%,rgba(255,68,34,.22),rgba(255,68,34,0) 60%),radial-gradient(90% 80% at 100% 100%,rgba(255,68,34,.18),rgba(255,68,34,0) 62%),#FCF8F1;border-radius:20px">
-<p style="margin:0 0 14px;font-size:22px;font-weight:800;letter-spacing:-.02em">383<span style="color:#FF4422">.</span> Ligat</p>
-<h1 style="font-size:24px;line-height:1.2;margin:0 0 8px">${escapeHtml(title)}</h1>
-<p style="margin:0 0 16px;color:#6A513F;font-size:15px;line-height:1.5">${escapeHtml(lead)}</p>
-${body}
-<a href="${href}" style="display:inline-block;margin-top:20px;background:#C2360F;color:#fff;text-decoration:none;font-weight:800;padding:14px 26px;border-radius:999px">${escapeHtml(cta)}</a>
-<p style="margin-top:26px;font-size:12px;color:#8C7462">${footer}</p>
-</div></main>`;
-}
 
 /**
  * The two emails a player acts on: someone passed them (at most one email per
@@ -213,49 +210,34 @@ async function sendPlayerEmails(admin: Admin) {
     const first = mail.display_name.split(/\s+/)[0];
     try {
       if (mail.kind === "overtaken") {
-        const latest = mail.payload[0] as { actor?: string; data?: Record<string, unknown> };
-        const rows = mail.payload.slice(0, 5).map((item) => {
-          const data = (item.data ?? {}) as Record<string, unknown>;
-          return `<li style="margin:0 0 8px"><b>${escapeHtml(String(item.actor ?? "Dikush"))}</b> të kaloi te ${escapeHtml(String(data.league ?? "liga"))}: tani je #${escapeHtml(String(data.to ?? "?"))}${Number(data.gap) ? `, ${Number(data.gap)} pikë larg` : ""}.</li>`;
-        }).join("");
+        const items = mail.payload as { actor?: string; data?: Record<string, unknown>; league_id?: string }[];
+        const overtakes = items.map((item) => ({
+          actor: String(item.actor ?? "Dikush"),
+          league: String(item.data?.league ?? "liga"),
+          to: Number(item.data?.to ?? 0),
+          gap: Number(item.data?.gap ?? 0),
+        }));
+        const snapshot = await leagueSnapshot(admin, items[0]?.league_id, mail.user_id);
         const unsubscribe = mail.unsubscribe_token ? `${SITE}/api/tregu/unsubscribe?token=${mail.unsubscribe_token}` : `${SITE}/tregu`;
+        const email = buildOvertakeEmail({ first, overtakes, snapshot, unsubscribe });
         await sendMail({
           fromName: "383 Ligat",
           idempotencyKey: `overtaken-${(mail.event_ids ?? []).join("-").slice(0, 200)}`,
           to: mail.email,
-          subject: `${first}, ${String(latest?.actor ?? "dikush")} të kaloi në ligë`,
+          subject: email.subject,
           headers: { "List-Unsubscribe": `<${unsubscribe}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
-          text: `${first}, të kaluan në ligë. Hyr dhe zgjidh ndeshjet e radhës për ta rimarrë vendin: ${SITE}/tregu#ligat\n\nÇregjistrohu: ${unsubscribe}`,
-          html: playerEmail({
-            title: `${String(latest?.actor ?? "Dikush")} të kaloi`,
-            lead: "Ndeshjet e radhës janë mundësia jote për ta rimarrë vendin. Surprizat japin më shumë pikë.",
-            body: `<ul style="padding-left:18px;margin:0;font-size:14px;line-height:1.5">${rows}</ul>`,
-            cta: "Zgjidh ndeshjet",
-            href: `${SITE}/tregu#ligat`,
-            footer: `Merr këtë email sepse je në një ligë në 383 Tregu. <a href="${unsubscribe}" style="color:#8C7462">Çregjistrohu</a>.`,
-          }),
+          text: email.text,
+          html: email.html,
         });
       } else {
-        const prizes = mail.payload as Array<{ kind?: string; place?: number; prize?: number; league?: string | null }>;
-        const total = prizes.reduce((sum, item) => sum + Number(item.prize ?? 0), 0);
-        const rows = prizes.map((item) => {
-          const where = item.league ? `te ${escapeHtml(item.league)}` : item.kind === "monthly" ? "në renditjen e muajit" : "në renditjen e javës";
-          return `<li style="margin:0 0 8px">Dole ${PLACE[Number(item.place)] ?? `#${item.place}`} ${where}: <b>${Math.round(Number(item.prize ?? 0)).toLocaleString("sq-AL")} 383C</b></li>`;
-        }).join("");
+        const email = buildRewardEmail({ first, rewards: mail.payload as { kind?: string; place?: number; prize?: number; league?: string | null }[] });
         await sendMail({
           fromName: "383 Tregu",
           idempotencyKey: `reward-${(mail.reward_ids ?? []).join("-").slice(0, 200)}`,
           to: mail.email,
-          subject: `${first}, shpërblimi yt prej ${Math.round(total).toLocaleString("sq-AL")} 383C po të pret`,
-          text: `${first}, ke një shpërblim prej ${Math.round(total)} 383C që pret ta hapësh. Hyr në Tregu: ${SITE}/tregu`,
-          html: playerEmail({
-            title: "Shpërblimi yt po të pret",
-            lead: `${Math.round(total).toLocaleString("sq-AL")} 383C janë gati. Hape kutinë në Tregu dhe monedhat shkojnë në portofol.`,
-            body: `<ul style="padding-left:18px;margin:0;font-size:14px;line-height:1.5">${rows}</ul>`,
-            cta: "Hape shpërblimin",
-            href: `${SITE}/tregu`,
-            footer: "Ky email të vjen sepse fitove një shpërblim në 383 Tregu.",
-          }),
+          subject: email.subject,
+          text: email.text,
+          html: email.html,
         });
       }
       sent += 1;
