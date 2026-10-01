@@ -10599,121 +10599,89 @@
   },
   {
     "date": "2026-10-01",
-    "overallIndex": 59,
-    "totalArticles": 32,
-    "sourceCount": 27,
+    "overallIndex": 57,
+    "totalArticles": 63,
+    "sourceCount": 45,
     "stanceVersion": 4,
     "day": {
-      "index": 59,
-      "positive": 5,
-      "neutral": 24,
-      "negative": 3,
-      "unknown": 3,
-      "n": 32,
-      "sourceCount": 27
+      "index": 57,
+      "positive": 11,
+      "neutral": 44,
+      "negative": 8,
+      "unknown": 7,
+      "n": 63,
+      "sourceCount": 45
     },
     "countries": {
       "Gjermani": {
-        "index": 50,
+        "index": 30,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 3,
+        "neutral": 67,
+        "negative": 33,
+        "n": 6,
         "excluded": 4,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 4
       },
       "SHBA": {
-        "index": null,
+        "index": 38,
         "positive": 0,
         "neutral": 0,
-        "negative": 0,
-        "n": 0,
+        "negative": 100,
+        "n": 1,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 4
       },
       "Britani": {
-        "index": 25,
+        "index": 21,
         "positive": 0,
-        "neutral": 57,
-        "negative": 43,
-        "n": 7,
+        "neutral": 50,
+        "negative": 50,
+        "n": 8,
         "excluded": 3,
         "confident": true,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": -5,
-          "from": 30,
-          "outlet": "Balkan Insight",
-          "title": "Prokurori amerikan kritikon dështimin e Kosovës për të menaxhuar pritshmëritë rreth aktgjykimit për Thaçin - Balkan Insight",
-          "evidence": "Failure to Mitigate Thaci Verdict Expectations",
-          "url": "https://balkaninsight.com/2026/09/30/us-prosecutor-questions-kosovos-failure-to-mitigate-thaci-verdict-expectations/btj/"
-        }
+        "stanceVersion": 4
       },
       "Francë": {
-        "index": 62,
-        "positive": 14,
-        "neutral": 86,
-        "negative": 0,
-        "n": 7,
+        "index": 50,
+        "positive": 10,
+        "neutral": 80,
+        "negative": 10,
+        "n": 10,
         "excluded": 2,
         "confident": true,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": 12,
-          "from": 50,
-          "outlet": "LiveFoot",
-          "title": "Rezultati Kosova U21 - Qipro U21: Përmbledhja dhe golat e ndeshjes (2-1) - Kualifikimet për Kampionatin Evropian U21 - LiveFoot",
-          "evidence": "2-1",
-          "url": "https://www.livefoot.fr/direct/championnat-d-europe-u21-qualification-europe/match-kosovo-u21-vs-chypre-u21-6e9e8a19"
-        }
+        "stanceVersion": 4
       },
       "Itali": {
-        "index": 50,
-        "positive": 20,
-        "neutral": 60,
-        "negative": 20,
-        "n": 5,
+        "index": 69,
+        "positive": 25,
+        "neutral": 69,
+        "negative": 6,
+        "n": 16,
         "excluded": 10,
-        "confident": false,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": 19,
-          "from": 31,
-          "outlet": "soroptimist.it",
-          "title": "Rrjetëzimi, miqësia dhe paqja në binjakëzimin Itali-Kosovë",
-          "evidence": "Rete, amicizia e pace nel gemellaggio Italia-Kosovo",
-          "url": "https://www.soroptimist.it/it/attivita/attivita-nazionali/rete-amicizia-e-pace-nel-gemellaggio-italia-kosovo-61095/"
-        }
+        "confident": true,
+        "stanceVersion": 4
       },
       "Austri": {
         "index": 38,
         "positive": 0,
-        "neutral": 89,
-        "negative": 11,
-        "n": 9,
+        "neutral": 91,
+        "negative": 9,
+        "n": 11,
         "excluded": 32,
         "confident": false,
         "stanceVersion": 4
       },
       "Zvicër": {
-        "index": 81,
-        "positive": 56,
-        "neutral": 44,
+        "index": 85,
+        "positive": 58,
+        "neutral": 42,
         "negative": 0,
-        "n": 9,
+        "n": 12,
         "excluded": 3,
         "confident": true,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": 42,
-          "from": 39,
-          "outlet": "Albinfo",
-          "title": "Kosova prezantohet në Festat Konsullore të Lionit, me fokus kulturën dhe bashkëpunimin për “Prishtina 2030” - Albinfo",
-          "evidence": "se présente aux Fêtes consulaires... focus sur la culture",
-          "url": "https://www.albinfo.ch/fr/kosova-prezantohet-ne-festat-konsullore-ne-lyon-ne-fokus-kultura-dhe-bashkepunimi-per-prishtina-2030/"
-        }
+        "stanceVersion": 4
       },
       "Holandë": {
         "index": 70,
@@ -10736,11 +10704,11 @@
         "stanceVersion": 4
       },
       "Spanjë": {
-        "index": 62,
-        "positive": 50,
-        "neutral": 50,
+        "index": 70,
+        "positive": 67,
+        "neutral": 33,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 4
@@ -10763,23 +10731,15 @@
         "n": 4,
         "excluded": 3,
         "confident": false,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": -12,
-          "from": 50,
-          "outlet": "sverigesradio.se",
-          "title": "Protesta të përditshme pas dënimit me burg të ish-presidentit të Kosovës - sverigesradio.se",
-          "evidence": "Dagliga protester",
-          "url": "https://www.sverigesradio.se/artikel/dagliga-protester-efter-att-kosovos-ex-president-domts-till-fangelse"
-        }
+        "stanceVersion": 4
       },
       "Poloni": {
         "index": 50,
-        "positive": 7,
-        "neutral": 87,
-        "negative": 7,
-        "n": 15,
-        "excluded": 6,
+        "positive": 5,
+        "neutral": 90,
+        "negative": 5,
+        "n": 21,
+        "excluded": 10,
         "confident": true,
         "stanceVersion": 4
       },
@@ -10791,15 +10751,7 @@
         "n": 4,
         "excluded": 4,
         "confident": false,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": 29,
-          "from": 50,
-          "outlet": "Son Dakika",
-          "title": "Xhudistët kombëtarë fituan 1 medalje të artë, 4 të argjendta dhe 2 të bronzta në Kosovë - Son Dakika",
-          "evidence": "1 altın, 4 gümüş, 2 bronz madalya kazandı",
-          "url": "https://www.sondakika.com/spor/haber-milli-judocular-kosova-da-1-altin-4-gumus-2-bronz--20278090/"
-        }
+        "stanceVersion": 4
       },
       "Kroaci": {
         "index": null,
@@ -10814,19 +10766,19 @@
     },
     "headlines": [
       {
-        "title": "Nach Albanien ist von der Leyen heute im Kosovo, wo der Weg in die EU im Mittelpunkt steht - rtsh.al",
-        "source": "rtsh.al",
+        "title": "Freihandelsdeal mit Kosovo: Werden Ajvar, Peja-Bier und Co. jetzt günstiger? - 20min.ch",
+        "source": "20 Min",
         "country": "Gjermani",
         "flag": "🇩🇪",
-        "url": "https://rtsh.al/rti/de/nach-albanien-ist-von-der-leyen-heute-im-kosovo-wo-der-weg-in-die-eu-im-mittelpunkt-steht/",
+        "url": "https://www.20min.ch/story/freihandelsabkommen-schweiz-kosovo-werden-ajvar-und-turshi-jetzt-guenstiger-103641862",
         "sentiment": "positive"
       },
       {
-        "title": "Qlupod signs distribution agreement with VITEX Group LLC in Kosovo - TradingView",
-        "source": "TradingView",
+        "title": "Two US firms vie to build 340 MW battery system in Kosovo - minister - SeeNews",
+        "source": "SeeNews",
         "country": "SHBA",
         "flag": "🇺🇸",
-        "url": "https://www.tradingview.com/news/reuters.com,2026-10-01:newsml_PexY5nVra:0-qlupod-signs-distribution-agreement-with-vitex-group-llc-in-kosovo/",
+        "url": "https://seenews.com/news/two-us-firms-vie-to-build-340-mw-battery-system-in-kosovo-minister-1302240",
         "sentiment": "positive"
       },
       {
@@ -10838,11 +10790,19 @@
         "sentiment": "positive"
       },
       {
-        "title": "Kosovo has six days to elect president and avoid new elections - European Western Balkans",
-        "source": "European Western Balkans",
+        "title": "Tumult am Flughafen Dortmund: Flieger in den Kosovo hebt ohne Dutzende Passagiere ab - derwesten.de",
+        "source": "derwesten.de",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://www.derwesten.de/staedte/dortmund/nrw-dortmund-flughafen-menschenmenge-polizei-passagiere-passkontrolle-id302171392.html",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Thousands rally in Kosovo against war crimes convictions of wartime leaders - AP News",
+        "source": "AP News",
         "country": "SHBA",
         "flag": "🇺🇸",
-        "url": "https://europeanwesternbalkans.com/2026/09/30/kosovo-has-six-days-to-elect-president-and-avoid-new-elections/",
+        "url": "https://apnews.com/article/kosovo-war-crimes-verdict-protest-0487b6ea7db66ec1ab933f40eb4ec6d7",
         "sentiment": "negative"
       },
       {
@@ -10851,14 +10811,6 @@
         "country": "Britani",
         "flag": "🇬🇧",
         "url": "https://balkaninsight.com/2026/09/30/us-prosecutor-questions-kosovos-failure-to-mitigate-thaci-verdict-expectations/btj/",
-        "sentiment": "negative"
-      },
-      {
-        "title": "Quella volta che Ismajli rischiò il carcere per un boicottaggio in Kosovo: la storia - Toro News",
-        "source": "Toro News",
-        "country": "Itali",
-        "flag": "🇮🇹",
-        "url": "https://www.toronews.net/toro/quella-volta-che-ismajli-rischio-il-carcere-per-un-boicottaggio-in-kosovo-la-storia/",
         "sentiment": "negative"
       }
     ]

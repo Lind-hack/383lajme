@@ -1,11 +1,11 @@
 {
   "lastUpdated": "2026-10-01",
-  "overallIndex": 54,
-  "totalArticles": 77,
-  "sourceCount": 109,
+  "overallIndex": 55,
+  "totalArticles": 108,
+  "sourceCount": 126,
   "stanceVersion": 4,
-  "unattributed": 170,
-  "nonEditorial": 9,
+  "unattributed": 191,
+  "nonEditorial": 17,
   "wrongKosovo": 0,
   "countries": {
     "Gjermani": {
@@ -35,6 +35,32 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-30",
           "lastSeen": "2026-09-30"
+        },
+        {
+          "name": "DW.com",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Kosovo: las heridas que dejó la guerra - DW.com",
+              "albanianTitle": "Kosova: Plagët që la lufta",
+              "blurb": "Dokumentari trajton pasojat dhe plagët e lëna nga lufta në Kosovë pas përfundimit të konfliktit të armatosur.",
+              "imageUrl": "https://static.dw.com/image/79471042_6.jpg",
+              "url": "https://amp.dw.com/es/kosovo-las-heridas-que-dej%C3%B3-la-guerra/video-79492752",
+              "date": "2026-10-01",
+              "sentiment": "negative",
+              "reason": "Fokusi në plagët e luftës thekson pasojat negative të konfliktit.",
+              "isQuote": false,
+              "evidence": "las heridas que dejó la guerra",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 13,
+          "trend": "i përzier",
+          "firstSeen": "2026-09-01",
+          "lastSeen": "2026-10-01"
         },
         {
           "name": "Der Standard",
@@ -130,6 +156,58 @@
           "lastSeen": "2026-09-29"
         },
         {
+          "name": "derwesten.de",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Tumult am Flughafen Dortmund: Flieger in den Kosovo hebt ohne Dutzende Passagiere ab - derwesten.de",
+              "albanianTitle": "Përleshje në aeroportin e Dortmundit: Aeroplani për në Kosovë niset pa dhjetëra pasagjerë",
+              "blurb": "Dhjetëra pasagjerë kanë mbetur në aeroportin e Dortmundit pasi aeroplani për në Kosovë është nisur pa ta.",
+              "imageUrl": "https://www.derwesten.de/wp-content/uploads/sites/8/2026/09/imago0866851902h.jpg",
+              "url": "https://www.derwesten.de/staedte/dortmund/nrw-dortmund-flughafen-menschenmenge-polizei-passagiere-passkontrolle-id302171392.html",
+              "date": "2026-10-01",
+              "sentiment": "negative",
+              "reason": "Ngjarje e dhunshme dhe kaos në aeroport që lidhet me udhëtarët për Kosovën",
+              "isQuote": false,
+              "evidence": "Tumult am Flughafen Dortmund",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-10-01",
+          "lastSeen": "2026-10-01"
+        },
+        {
+          "name": "kicker.de",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Aufstellung | Israel - Kosovo : | 3. Spieltag | UEFA Nations League 2026/27 - kicker.de",
+              "albanianTitle": "Formacionet zyrtare | Izrael - Kosovë: | Xhiroja e 3-të | UEFA Nations League 2026/27 - kicker.de",
+              "blurb": "Publikohen formacionet zyrtare për ndeshjen ndërmjet Izraelit dhe Kosovës në kuadër të xhiros së tretë të Ligës së Kombeve.",
+              "imageUrl": null,
+              "url": "https://www.kicker.de/israel-gegen-kosovo-2026-uefa-nations-league-5193329/aufstellung",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Lajm procedural për ndeshje sportive pa rezultat",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-21",
+          "lastSeen": "2026-10-01"
+        },
+        {
           "name": "neunzigplus.de",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -183,13 +261,13 @@
         }
       ],
       "summary": {
-        "index": 50,
+        "index": 30,
         "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 3,
+        "neutral": 67,
+        "negative": 33,
+        "n": 6,
         "excluded": 4,
-        "confident": false,
+        "confident": true,
         "stanceVersion": 4
       }
     },
@@ -197,9 +275,24 @@
       "outlets": [
         {
           "name": "AP News",
-          "sentiment": "neutral",
-          "articleCount": 1,
+          "sentiment": "negative",
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Thousands rally in Kosovo against war crimes convictions of wartime leaders - AP News",
+              "albanianTitle": "Mijëra qytetarë protestojnë në Kosovë kundër dënimeve për krime lufte ndaj ish-udhëheqësve të luftës",
+              "blurb": "Mijëra qytetarë në Kosovë kanë protestuar kundër dënimeve për krime lufte ndaj ish-udhëheqësve të luftës.",
+              "imageUrl": null,
+              "url": "https://apnews.com/article/kosovo-war-crimes-verdict-protest-0487b6ea7db66ec1ab933f40eb4ec6d7",
+              "date": "2026-10-01",
+              "sentiment": "negative",
+              "reason": "Protesta masive kundër dënimeve për krime lufte",
+              "isQuote": false,
+              "evidence": "against war crimes convictions",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            },
             {
               "title": "Kosovo's lawmakers slam EU-backed court's war crimes verdicts of rebel leaders from war with Serbia - AP News",
               "albanianTitle": "Ligjvënësit kosovarë kritikojnë vendimet e Gjykatës Speciale për krerët e luftës",
@@ -216,18 +309,18 @@
               "stanceVersion": 3
             }
           ],
-          "totalArticles": 6,
-          "trend": "neutral",
+          "totalArticles": 7,
+          "trend": "i përzier",
           "firstSeen": "2026-09-14",
-          "lastSeen": "2026-09-28"
+          "lastSeen": "2026-10-01"
         }
       ],
       "summary": {
-        "index": null,
+        "index": 38,
         "positive": 0,
         "neutral": 0,
-        "negative": 0,
-        "n": 0,
+        "negative": 100,
+        "n": 1,
         "excluded": 1,
         "confident": false,
         "stanceVersion": 4
@@ -285,6 +378,21 @@
               "title": "Three Kosovo Serbs Plead Not Guilty Over 2022 Unrest in North - Balkan Insight",
               "albanianTitle": "Tre serbë të Kosovës deklarohen të pafajshëm për trazirat e vitit 2022 në veri",
               "blurb": "Tre serbë të Kosovës janë deklaruar të pafajshëm për akuzat që lidhen me trazirat e ndodhura gjatë vitit 2022 në veri.",
+              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/barrikada-rudare-1.jpg",
+              "url": "https://balkaninsight.com/2026/09/30/three-kosovo-serbs-plead-not-guilty-over-2022-unrest-in-north/bi/",
+              "date": "2026-09-30",
+              "sentiment": "negative",
+              "reason": "Referenca për trazira dhe krime në veri",
+              "isQuote": false,
+              "evidence": "Unrest in North",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            },
+            {
+              "title": "Three Kosovo Serbs Plead Not Guilty Over 2022 Unrest in North - balkaninsight.com",
+              "albanianTitle": "Tre serbë të Kosovës deklarohen të pafajshëm për trazirat e vitit 2022 në veri",
+              "blurb": "Tre serbë të Kosovës janë deklaruar të pafajshëm për akuzat lidhur me trazirat e ndodhura në veri gjatë vitit 2022.",
               "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/barrikada-rudare-1.jpg",
               "url": "https://balkaninsight.com/2026/09/30/three-kosovo-serbs-plead-not-guilty-over-2022-unrest-in-north/bi/",
               "date": "2026-09-30",
@@ -355,21 +463,6 @@
               "speaker": "",
               "firstSeen": "2026-09-30",
               "stanceVersion": 4
-            },
-            {
-              "title": "Hostile Reactions to Kosovo Wartime Leaders’ Verdict Miss Key Point: the Victims’ Ordeal - Balkan Insight",
-              "albanianTitle": "Reagimet ndaj vendimit për krerët e luftës së Kosovës shpërfillin thelbin: vuajtjet e viktimave",
-              "blurb": "Reagimet ndaj vendimit për liderët e luftës në Kosovë shpërfillin përvojën dhe vuajtjet e viktimave të konfliktit.",
-              "imageUrl": "https://balkaninsight.com/wp-content/uploads/2026/09/14296272.jpg",
-              "url": "https://balkaninsight.com/2026/09/28/hostile-reactions-to-kosovo-wartime-leaders-verdict-miss-key-point-the-victims-ordeal/bi/",
-              "date": "2026-09-28",
-              "sentiment": "neutral",
-              "reason": "Titulli thjesht përshkruan reagime, pa ngarkim ndaj Kosovës",
-              "isQuote": false,
-              "evidence": "",
-              "speaker": "",
-              "firstSeen": "2026-09-28",
-              "stanceVersion": 3
             }
           ],
           "totalArticles": 38,
@@ -405,22 +498,14 @@
         }
       ],
       "summary": {
-        "index": 25,
+        "index": 21,
         "positive": 0,
-        "neutral": 57,
-        "negative": 43,
-        "n": 7,
+        "neutral": 50,
+        "negative": 50,
+        "n": 8,
         "excluded": 3,
         "confident": true,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": -5,
-          "from": 30,
-          "outlet": "Balkan Insight",
-          "title": "Prokurori amerikan kritikon dështimin e Kosovës për të menaxhuar pritshmëritë rreth aktgjykimit për Thaçin - Balkan Insight",
-          "evidence": "Failure to Mitigate Thaci Verdict Expectations",
-          "url": "https://balkaninsight.com/2026/09/30/us-prosecutor-questions-kosovos-failure-to-mitigate-thaci-verdict-expectations/btj/"
-        }
+        "stanceVersion": 4
       }
     },
     "Francë": {
@@ -506,7 +591,7 @@
         {
           "name": "LiveFoot",
           "sentiment": "positive",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Résultat Kosovo U21 - Chypre U21 : le résumé et les buts du match (2-1) - Championnat d'Europe U21 Qualification - LiveFoot",
@@ -522,12 +607,27 @@
               "speaker": "",
               "firstSeen": "2026-10-01",
               "stanceVersion": 4
+            },
+            {
+              "title": "Israël - Kosovo : Heure du match et compositions (Ligue des nations de l'UEFA) - LiveFoot",
+              "albanianTitle": "Izrael – Kosovë: Ora e ndeshjes dhe formacionet (Liga e Kombeve e UEFA-s)",
+              "blurb": "Detajet mbi orarin dhe formacionet e mundshme për ndeshjen e Ligës së Kombeve ndërmjet Izraelit dhe Kosovës.",
+              "imageUrl": "https://www.livefoot.fr/images/stade-football-direct.jpg",
+              "url": "https://www.livefoot.fr/direct/ligue-des-nations-de-l-uefa-europe/match-israel-vs-kosovo-ec3bb0aa",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Lajm procedural pa efekt të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
             }
           ],
-          "totalArticles": 2,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 3,
+          "trend": "i përzier",
           "firstSeen": "2026-09-28",
-          "lastSeen": "2026-09-29"
+          "lastSeen": "2026-10-01"
         },
         {
           "name": "MadeInFOOT",
@@ -636,25 +736,69 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-26",
           "lastSeen": "2026-09-30"
+        },
+        {
+          "name": "RFI",
+          "sentiment": "negative",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Thousands rally as EU chief urges respect for Kosovo war crimes court - RFI",
+              "albanianTitle": "Mijëra protestues kërkojnë respektimin e Gjykatës Speciale, pas thirrjes së shefes së KE-së",
+              "blurb": "Mijëra qytetarë protestojnë ndërsa shefja e BE-së kërkon respektimin e Gjykatës Speciale për krimet e luftës në Kosovë.",
+              "imageUrl": null,
+              "url": "https://www.rfi.fr/en/international-news/20261001-thousands-rally-as-eu-chief-urges-respect-for-kosovo-war-crimes-court",
+              "date": "2026-10-01",
+              "sentiment": "negative",
+              "reason": "Asociimi me gjyqin e krimeve të luftës",
+              "isQuote": false,
+              "evidence": "war crimes court",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 9,
+          "trend": "i përzier",
+          "firstSeen": "2026-09-07",
+          "lastSeen": "2026-10-01"
+        },
+        {
+          "name": "football365.fr",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Israël – Kosovo en direct commenté - football365.fr",
+              "albanianTitle": "Izrael – Kosovë, ndeshja minutë pas minute",
+              "blurb": "Ndeshja e futbollit ndërmjet Izraelit dhe Kosovës po transmetohet në formë të drejtpërdrejtë për të gjithë shikuesit e interesuar.",
+              "imageUrl": "https://cdn.football365.fr/wp-content/uploads/se/2026/10/ICONSPORT_375322_0149-1.jpg",
+              "url": "https://www.football365.fr/israel-kosovo-en-direct-commente-10318261.html",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Transmetim live i ndeshjes pa rezultat",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-28",
+          "lastSeen": "2026-10-01"
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 14,
-        "neutral": 86,
-        "negative": 0,
-        "n": 7,
+        "index": 50,
+        "positive": 10,
+        "neutral": 80,
+        "negative": 10,
+        "n": 10,
         "excluded": 2,
         "confident": true,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": 12,
-          "from": 50,
-          "outlet": "LiveFoot",
-          "title": "Rezultati Kosova U21 - Qipro U21: Përmbledhja dhe golat e ndeshjes (2-1) - Kualifikimet për Kampionatin Evropian U21 - LiveFoot",
-          "evidence": "2-1",
-          "url": "https://www.livefoot.fr/direct/championnat-d-europe-u21-qualification-europe/match-kosovo-u21-vs-chypre-u21-6e9e8a19"
-        }
+        "stanceVersion": 4
       }
     },
     "Itali": {
@@ -662,8 +806,38 @@
         {
           "name": "ANSA",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 5,
           "articles": [
+            {
+              "title": "Kosovo, 'pronti per lo status di Paese candidato, contiamo su sostegno Ue' - ansa.it",
+              "albanianTitle": "Kosova: Jemi gati për statusin e vendit kandidat, presim mbështetjen e BE-së",
+              "blurb": "Kosova shpreh gatishmërinë për statusin e vendit kandidat dhe kërkon mbështetjen e institucioneve të Bashkimit Evropian.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/13/50ac69ad04f28096ba212d8942ab209d.jpg",
+              "url": "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/10/01/kosovo-pronti-per-lo-status-di-paese-candidato-contiamo-su-sostegno-ue_d9c17bef-42bf-4842-bb37-1dc8121ad474.html",
+              "date": "2026-10-01",
+              "sentiment": "positive",
+              "reason": "Shfaqje e gatishmërisë për statusin e kandidatit në BE",
+              "isQuote": false,
+              "evidence": "pronti per lo status di Paese candidato",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            },
+            {
+              "title": "Von der Leyen, 'sentenza Thaci non è un processo a resistenza del Kosovo' - ansa.it",
+              "albanianTitle": "Von der Leyen: \"Aktgjykimi ndaj Thaçit nuk është gjykim ndaj rezistencës së Kosovës\"",
+              "blurb": "Ursula von der Leyen deklaroi se vendimi gjyqësor ndaj Thaçit nuk përfaqëson një proces kundër rezistencës së Kosovës.",
+              "imageUrl": "https://www.ansa.it/webimages/img_1280x720/2026/9/30/7ffdad36469cf45aeb42da038fd75bf4.jpg",
+              "url": "https://www.ansa.it/europa/notizie/rubriche/altrenews/2026/10/01/von-der-leyen-sentenza-thaci-non-e-un-processo-a-resistenza-del-kosovo_629cccbb-d60e-4e57-aca1-8f6ab83a893e.html",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Lajm procedural pa efekt të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            },
             {
               "title": "Assemblea del Kosovo, 'inaccettabile la sentenza all'Aja sugli ex capi dell'Uck' - ANSA",
               "albanianTitle": "Kuvendi i Kosovës: Vendimi i Hagës për ish-krerët e UÇK-së është i papranueshëm - ANSA",
@@ -710,10 +884,10 @@
               "stanceVersion": 3
             }
           ],
-          "totalArticles": 38,
-          "trend": "neutral",
+          "totalArticles": 40,
+          "trend": "i përzier",
           "firstSeen": "2026-08-20",
-          "lastSeen": "2026-09-29"
+          "lastSeen": "2026-10-01"
         },
         {
           "name": "Barletta NEWS24",
@@ -740,6 +914,32 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-09",
           "lastSeen": "2026-09-30"
+        },
+        {
+          "name": "Bwin",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Quote scommesse Israele - Kosovo - Bwin",
+              "albanianTitle": "Koeficientët e basteve për ndeshjen Izrael - Kosovë",
+              "blurb": "Platforma e basteve Bwin ka publikuar koeficientët për ndeshjen e futbollit ndërmjet përfaqësueses së Izraelit dhe asaj të Kosovës.",
+              "imageUrl": null,
+              "url": "https://www.bwin.it/it/sports/eventi/israele-kosovo-2:7859303",
+              "date": "2026-09-28",
+              "sentiment": "neutral",
+              "reason": "Lajm procedural pa efekt të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-10-01",
+          "lastSeen": "2026-09-28"
         },
         {
           "name": "ConfiniOnline",
@@ -769,9 +969,24 @@
         },
         {
           "name": "Corriere dello Sport",
-          "sentiment": "neutral",
-          "articleCount": 1,
+          "sentiment": "positive",
+          "articleCount": 2,
           "articles": [
+            {
+              "title": "Kosovo vincente e tanti gol per una terzina che sfiora il 6! - Corriere dello Sport",
+              "albanianTitle": "Kosova fituese dhe shumë gola për një treshe që iu afrua notës 6",
+              "blurb": "Përfaqësuesja e Kosovës ka shënuar fitore dhe shumë gola në ndeshjen e fundit të zhvilluar në futboll.",
+              "imageUrl": "https://cdn.corrieredellosport.it/images/2026/10/01/120759889-60bebd2e-cff1-4efb-928e-fbd8b4e40acf.jpg",
+              "url": "https://www.corrieredellosport.it/news/scommesse/2026/10/01-151581777/kosovo_vincente_e_tanti_gol_per_una_terzina_che_sfiora_il_6_",
+              "date": "2026-10-01",
+              "sentiment": "positive",
+              "reason": "Fitore sportive dhe performancë e mirë",
+              "isQuote": false,
+              "evidence": "Kosovo vincente e tanti gol",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            },
             {
               "title": "Pronostico Israele-Kosovo, parola d'ordine: tensione - Corriere dello Sport",
               "albanianTitle": "Parashikimi Izrael-Kosovë, fjalë kyçe: tension - Corriere dello Sport",
@@ -788,10 +1003,10 @@
               "stanceVersion": 4
             }
           ],
-          "totalArticles": 5,
-          "trend": "i pamjaftueshëm",
+          "totalArticles": 6,
+          "trend": "i përzier",
           "firstSeen": "2026-09-11",
-          "lastSeen": "2026-09-30"
+          "lastSeen": "2026-10-01"
         },
         {
           "name": "Dove Viaggi Corriere",
@@ -818,6 +1033,84 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-25",
           "lastSeen": "2026-09-28"
+        },
+        {
+          "name": "Eunews",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Von der Leyen a Pristina: \"Credo in futuro UE per il Kosovo\" - Eunews",
+              "albanianTitle": "Von der Leyen në Prishtinë: \"Besoj në të ardhmen e Kosovës në BE\"",
+              "blurb": "Presidentja e Komisionit Evropian, Ursula von der Leyen, ka shprehur besimin për të ardhmen e Kosovës në Bashkimin Evropian.",
+              "imageUrl": null,
+              "url": "https://www.eunews.it/2026/10/01/von-der-leyen-a-pristina-credo-in-un-futuro-europeo-per-il-kosovo-ma-servono-riforme/",
+              "date": "2026-10-01",
+              "sentiment": "positive",
+              "reason": "Mbështetje e qartë për anëtarësimin në BE",
+              "isQuote": true,
+              "evidence": "Credo in futuro UE per il Kosovo",
+              "speaker": "Von der Leyen",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-10-01",
+          "lastSeen": "2026-10-01"
+        },
+        {
+          "name": "Eurosport",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Live Israele - Kosovo - UEFA Nations League: Punteggi & Highlights Calcio - 01/10/2026 - eurosport.it",
+              "albanianTitle": "Live Izrael - Kosovë - Liga e Kombeve: Rezultatet dhe momentet kryesore - 01/10/2026",
+              "blurb": "Rezultatet dhe momentet kryesore nga ndeshja e Ligës së Kombeve ndërmjet Izraelit dhe Kosovës e zhvilluar më 2026.",
+              "imageUrl": null,
+              "url": "https://www.eurosport.it/calcio/uefa-nations-league/2026-2027/live-israele-kosovo_mtc20005994/live.shtml",
+              "date": "2026-09-30",
+              "sentiment": "neutral",
+              "reason": "Transmetim live i ndeshjes pa rezultat të dhënë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 9,
+          "trend": "neutral",
+          "firstSeen": "2026-09-24",
+          "lastSeen": "2026-09-30"
+        },
+        {
+          "name": "Fantacalcio",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Sassuolo, Muric in dubbio per le prossime partite del Kosovo: le ultime - Fantacalcio",
+              "albanianTitle": "Sassuolo, Muric në dyshim për ndeshjet e ardhshme të Kosovës: detajet e fundit",
+              "blurb": "Portieri Arijanet Muric është në dyshim për ndeshjet e ardhshme të Kosovës për shkak të një dëmtimi fizik.",
+              "imageUrl": "https://content.fantacalcio.it/web/img/large/muric-b1bd9e7a-c296-4886-ba69-d137b44d4a8c.jpg",
+              "url": "https://www.fantacalcio.it/news/calcio-italia/01_10_2026/sassuolo-muric-in-dubbio-per-le-prossime-partite-del-kosovo-le-ultime-498622",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Lajm rutinier sportiv mbi disponibilitetin e lojtarit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-10-01",
+          "lastSeen": "2026-10-01"
         },
         {
           "name": "ForlìToday",
@@ -870,6 +1163,73 @@
           "trend": "i pamjaftueshëm",
           "firstSeen": "2026-09-15",
           "lastSeen": "2026-09-28"
+        },
+        {
+          "name": "La Repubblica",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Israele - Kosovo (0-0) UEFA Nations League 2026 - la Repubblica",
+              "albanianTitle": "Izrael – Kosovë (0-0), Liga e Kombeve 2026",
+              "blurb": "Ndeshja e Ligës së Kombeve ndërmjet Izraelit dhe Kosovës përfundoi me rezultatin e barabartë zero me zero.",
+              "imageUrl": "https://www.repstatic.it/cless/main/nazionale/2013-v1/img/common/favicon/favicon-1500.png",
+              "url": "https://www.repubblica.it/sport/dirette/calcio/uefa-nations-league-2026/diretta-israele-kosovo-g2626938/",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Rezultat sportiv neutral pa ndikim të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 5,
+          "trend": "neutral",
+          "firstSeen": "2026-09-17",
+          "lastSeen": "2026-10-01"
+        },
+        {
+          "name": "Sky Sport",
+          "sentiment": "neutral",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Israele Kosovo, formazioni ufficiali e risultato in diretta live - Sky Sport",
+              "albanianTitle": "Izrael – Kosovë, formacionet zyrtare dhe rezultati live",
+              "blurb": "Publikohen formacionet zyrtare dhe rezultati i ndeshjes së futbollit ndërmjet Izraelit dhe Kosovës në transmetim të drejtpërdrejtë.",
+              "imageUrl": "https://sport.sky.it/assets/images/fe3002a460d9904efad96e7882361f17a7cc77c2/skysport/configurations/skysport_condivisione.jpg?im=Resize,width=1218",
+              "url": "https://sport.sky.it/calcio/nations-league/partite/2026/giornata-3/israele-kosovo/risultato-gol",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Lajm procedural pa efekt të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            },
+            {
+              "title": "Le partite di oggi di Nations League - Sky Sport",
+              "albanianTitle": "Ndeshjet e sotme në Ligën e Kombeve",
+              "blurb": "Programi i ndeshjeve të futbollit që zhvillohen sot në kuadër të garës së Ligës së Kombeve për kombëtaret.",
+              "imageUrl": "https://sport.sky.it/assets/images/102fbde386e2c7ab93d0531637c65e824d75ab63/skysport/it/calcio/nations-league/2026/10/01/nations-league-partite-oggi-1-ottobre-dove-vedere-/NL_gioved_1.s.jpg?im=Resize,width=1218",
+              "url": "https://sport.sky.it/calcio/nations-league/2026/10/01/nations-league-partite-oggi-1-ottobre-dove-vedere-",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Lajm procedural pa efekt të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 8,
+          "trend": "neutral",
+          "firstSeen": "2026-09-23",
+          "lastSeen": "2026-10-01"
         },
         {
           "name": "Soroptimist International d'Italia",
@@ -1002,6 +1362,32 @@
           "lastSeen": "2026-09-29"
         },
         {
+          "name": "sport.virgilio.it",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Israele-Kosovo: Formazioni ufficiali e Cronaca in diretta - sport.virgilio.it",
+              "albanianTitle": "Izrael-Kosovë: Formacionet zyrtare dhe raportimi direkt",
+              "blurb": "Publikohen formacionet zyrtare dhe raportimi i drejtpërdrejtë për ndeshjen e futbollit ndërmjet Izraelit dhe Kosovës.",
+              "imageUrl": "/img/dirette/israele-kosovo.jpg",
+              "url": "https://sport.virgilio.it/dirette/live/uefa-nations-league/1-10-2026/israele-kosovo/2626938/",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Lajm procedural mbi formacionet e ndeshjes",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-10-01",
+          "lastSeen": "2026-10-01"
+        },
+        {
           "name": "trevisotoday.it",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -1029,22 +1415,14 @@
         }
       ],
       "summary": {
-        "index": 50,
-        "positive": 20,
-        "neutral": 60,
-        "negative": 20,
-        "n": 5,
+        "index": 69,
+        "positive": 25,
+        "neutral": 69,
+        "negative": 6,
+        "n": 16,
         "excluded": 10,
-        "confident": false,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": 19,
-          "from": 31,
-          "outlet": "soroptimist.it",
-          "title": "Rrjetëzimi, miqësia dhe paqja në binjakëzimin Itali-Kosovë",
-          "evidence": "Rete, amicizia e pace nel gemellaggio Italia-Kosovo",
-          "url": "https://www.soroptimist.it/it/attivita/attivita-nazionali/rete-amicizia-e-pace-nel-gemellaggio-italia-kosovo-61095/"
-        }
+        "confident": true,
+        "stanceVersion": 4
       }
     },
     "Austri": {
@@ -1559,7 +1937,7 @@
         {
           "name": "ORF ON",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 5,
           "articles": [
             {
               "title": "Nations League Herren: Österreich - Kosovo, Highlights - ORF ON",
@@ -1570,6 +1948,36 @@
               "date": "2026-09-30",
               "sentiment": "neutral",
               "reason": "Lajm sportiv procedural pa përfundim të qartë.",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            },
+            {
+              "title": "Nations League wird zum Belastungstest - Nations League: Irland - Österreich - ORF ON",
+              "albanianTitle": "Liga e Kombeve bëhet test i vështirë - Irlanda kundër Austrisë",
+              "blurb": "Përfaqësuesja e Austrisë përballet me Irlandën në kuadër të ndeshjeve të Ligës së Kombeve në futboll.",
+              "imageUrl": "https://api-tvthek.orf.at/assets/segments/0236/03/thumb_23502592_segments_highlight_teaser.jpg",
+              "url": "https://on.orf.at/video/14341661/16163420/nations-league-wird-zum-belastungstest",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Lajm procedural pa efekt të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            },
+            {
+              "title": "Nations League: Irland - Österreich - ORF ON",
+              "albanianTitle": null,
+              "blurb": "Irlanda dhe Austria zhvillojnë ndeshjen e radhës në kuadër të garës së Ligës së Kombeve në futboll.",
+              "imageUrl": "https://api-tvthek.orf.at/assets/segments/0236/02/thumb_23501338_segments_highlight_teaser.jpg",
+              "url": "https://on.orf.at/video/14341661/nations-league-irland-oesterreich",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Lajm procedural pa efekt të qartë",
               "isQuote": false,
               "evidence": "",
               "speaker": "",
@@ -1607,10 +2015,10 @@
               "stanceVersion": 3
             }
           ],
-          "totalArticles": 38,
+          "totalArticles": 40,
           "trend": "kritik",
           "firstSeen": "2026-09-18",
-          "lastSeen": "2026-09-30"
+          "lastSeen": "2026-10-01"
         },
         {
           "name": "ORF TV-Programm",
@@ -1921,9 +2329,9 @@
       "summary": {
         "index": 38,
         "positive": 0,
-        "neutral": 89,
-        "negative": 11,
-        "n": 9,
+        "neutral": 91,
+        "negative": 9,
+        "n": 11,
         "excluded": 32,
         "confident": false,
         "stanceVersion": 4
@@ -1933,8 +2341,8 @@
       "outlets": [
         {
           "name": "20 Min",
-          "sentiment": "neutral",
-          "articleCount": 1,
+          "sentiment": "positive",
+          "articleCount": 3,
           "articles": [
             {
               "title": "Israël - Kosovo en direct : tous les buts et temps forts - 20 Min",
@@ -1950,10 +2358,40 @@
               "speaker": "",
               "firstSeen": "2026-10-01",
               "stanceVersion": 4
+            },
+            {
+              "title": "Freihandelsdeal mit Kosovo: Werden Ajvar, Peja-Bier und Co. jetzt günstiger? - 20min.ch",
+              "albanianTitle": "Marrëveshja e tregtisë së lirë me Kosovën: A do të bëhen më të lira ajvari, birra Peja dhe produktet tjera?",
+              "blurb": "Marrëveshja e tregtisë së lirë me Kosovën pritet të ndikojë në çmimet e produkteve kosovare në tregun zviceran.",
+              "imageUrl": "https://media.20min.ch/6/image/2025/01/24/6a8f9232-38e1-4d51-b06f-0c739b2b516d.png?auto=format%2Ccompress%2Cenhance&fit=max&w=1200&h=1200&rect=0%2C0%2C937%2C834&s=7740f7c48d908248116bc696c6ce3915",
+              "url": "https://www.20min.ch/story/freihandelsabkommen-schweiz-kosovo-werden-ajvar-und-turshi-jetzt-guenstiger-103641862",
+              "date": "2026-10-01",
+              "sentiment": "positive",
+              "reason": "Nënshkrimi i marrëveshjes tregtare ndërkombëtare",
+              "isQuote": false,
+              "evidence": "Freihandelsdeal mit Kosovo",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            },
+            {
+              "title": "Freihandelsdeal mit Kosovo: Werden Ajvar, Peja-Bier und Co. jetzt günstiger? - 20 Min",
+              "albanianTitle": "Marrëveshja e tregtisë së lirë me Kosovën: A do të bëhen më të lira ajvari, birra Peja dhe produktet tjera?",
+              "blurb": "Marrëveshja e tregtisë së lirë me Kosovën pritet të ndikojë në çmimet e produkteve vendore në tregun zviceran.",
+              "imageUrl": "https://media.20min.ch/6/image/2025/01/24/6a8f9232-38e1-4d51-b06f-0c739b2b516d.png?auto=format%2Ccompress%2Cenhance&fit=max&w=1200&h=1200&rect=0%2C0%2C937%2C834&s=7740f7c48d908248116bc696c6ce3915",
+              "url": "https://www.20min.ch/story/freihandelsabkommen-schweiz-kosovo-werden-ajvar-und-turshi-jetzt-guenstiger-103641862",
+              "date": "2026-10-01",
+              "sentiment": "positive",
+              "reason": "Ngaqë një marrëveshje tregu të lirë është e mirë për ekonominë.",
+              "isQuote": false,
+              "evidence": "Freihandelsdeal mit Kosovo",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
             }
           ],
-          "totalArticles": 6,
-          "trend": "neutral",
+          "totalArticles": 7,
+          "trend": "i përzier",
           "firstSeen": "2026-09-24",
           "lastSeen": "2026-10-01"
         },
@@ -2059,6 +2497,32 @@
           "lastSeen": "2026-09-30"
         },
         {
+          "name": "Nau.ch",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "UEFA Nations League: Israel gegen Kosovo ab 20:45 live - Nau.ch",
+              "albanianTitle": "UEFA Nations League: Izraeli kundër Kosovës, ndeshja nis në ora 20:45",
+              "blurb": "Ndeshja e Ligës së Kombeve ndërmjet Izraelit dhe Kosovës transmetohet drejtpërdrejt duke filluar nga ora 20:45.",
+              "imageUrl": "https://c.nau.ch/i/r9La9v/1360/680/israel-kosovo.jpg",
+              "url": "https://www.nau.ch/sport/matchcenter/uefa-nations-league-israel-gegen-kosovo-ab-2045-live-67183925",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Lajm procedural për ndeshje sportive pa rezultat",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-10-01",
+          "lastSeen": "2026-10-01"
+        },
+        {
           "name": "letemps.ch",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2086,22 +2550,14 @@
         }
       ],
       "summary": {
-        "index": 81,
-        "positive": 56,
-        "neutral": 44,
+        "index": 85,
+        "positive": 58,
+        "neutral": 42,
         "negative": 0,
-        "n": 9,
+        "n": 12,
         "excluded": 3,
         "confident": true,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": 42,
-          "from": 39,
-          "outlet": "Albinfo",
-          "title": "Kosova prezantohet në Festat Konsullore të Lionit, me fokus kulturën dhe bashkëpunimin për “Prishtina 2030” - Albinfo",
-          "evidence": "se présente aux Fêtes consulaires... focus sur la culture",
-          "url": "https://www.albinfo.ch/fr/kosova-prezantohet-ne-festat-konsullore-ne-lyon-ne-fokus-kultura-dhe-bashkepunimi-per-prishtina-2030/"
-        }
+        "stanceVersion": 4
       }
     },
     "Holandë": {
@@ -2141,7 +2597,7 @@
               "title": "Rapper Kosso emigreert uit Nederland: ‘Als je anders denkt dan links, ben je meteen een gevaar’ - NieuwRechts.nl",
               "albanianTitle": "Reperi Kosso largohet nga Holanda: ‘Nëse mendon ndryshe nga e majta, menjëherë konsiderohesh rrezik’",
               "blurb": "Reperi Kosso ka njoftuar largimin nga Holanda, duke shprehur pakënaqësi lidhur me klimën politike dhe lirinë e mendimit atje.",
-              "imageUrl": null,
+              "imageUrl": "https://images.nieuwrechts.nl/artikel-foto/ed892cd180a60c43c1081d786559bffb/kosso.jpg",
               "url": "https://nieuwrechts.nl/113374-rapper-kosso-emigreert-uit-nederland-als-je-anders-denkt-dan-links-ben-je-meteen-een-gevaar",
               "date": "2026-10-01",
               "sentiment": "unknown",
@@ -2343,6 +2799,32 @@
           "lastSeen": "2026-09-28"
         },
         {
+          "name": "EFE - Agencia de noticias",
+          "sentiment": "positive",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Von der Leyen pide a Kosovo estabilidad institucional para avanzar hacia la UE - EFE - Agencia de noticias",
+              "albanianTitle": "Von der Leyen kërkon stabilitet institucional në Kosovë për të avancuar drejt BE-së",
+              "blurb": "Ursula von der Leyen kërkon stabilitet institucional në Kosovë për të përshpejtuar procesin e integrimit në Bashkimin Evropian.",
+              "imageUrl": null,
+              "url": "https://efe.com/euro-efe/2026-10-01/von-der-leyen-kosovo-adhesion-ue-reformas/",
+              "date": "2026-10-01",
+              "sentiment": "positive",
+              "reason": "Kërkesa për stabilitet nën kupton perspektivën e anëtarësimit në BE.",
+              "isQuote": true,
+              "evidence": "avanzar hacia la UE",
+              "speaker": "Von der Leyen",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-09-19",
+          "lastSeen": "2026-10-01"
+        },
+        {
           "name": "Eurosport",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -2363,18 +2845,18 @@
               "stanceVersion": 4
             }
           ],
-          "totalArticles": 8,
+          "totalArticles": 9,
           "trend": "neutral",
           "firstSeen": "2026-09-24",
           "lastSeen": "2026-09-30"
         }
       ],
       "summary": {
-        "index": 62,
-        "positive": 50,
-        "neutral": 50,
+        "index": 70,
+        "positive": 67,
+        "neutral": 33,
         "negative": 0,
-        "n": 2,
+        "n": 3,
         "excluded": 0,
         "confident": false,
         "stanceVersion": 4
@@ -3000,15 +3482,7 @@
         "n": 4,
         "excluded": 3,
         "confident": false,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": -12,
-          "from": 50,
-          "outlet": "sverigesradio.se",
-          "title": "Protesta të përditshme pas dënimit me burg të ish-presidentit të Kosovës - sverigesradio.se",
-          "evidence": "Dagliga protester",
-          "url": "https://www.sverigesradio.se/artikel/dagliga-protester-efter-att-kosovos-ex-president-domts-till-fangelse"
-        }
+        "stanceVersion": 4
       }
     },
     "Poloni": {
@@ -3144,6 +3618,32 @@
           "lastSeen": "2026-10-01"
         },
         {
+          "name": "LV BET",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Bet Builder - LV BET",
+              "albanianTitle": "Krijo bastin tënd - LV BET",
+              "blurb": "Platforma e basteve LV BET ofron mundësinë për krijimin e biletave të personalizuara për përdoruesit e saj.",
+              "imageUrl": null,
+              "url": "https://lvbet.pl/pl/zaklady-bukmacherskie/pilka-nozna/europa/liga-narodow/izrael-vs-kosowo/--/1/35259/35699/bc:30930091/",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Lajm procedural pa efekt të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-10-01",
+          "lastSeen": "2026-10-01"
+        },
+        {
           "name": "Mecze24.pl",
           "sentiment": "neutral",
           "articleCount": 2,
@@ -3187,7 +3687,7 @@
         {
           "name": "PodkarpacieLIVE",
           "sentiment": "neutral",
-          "articleCount": 3,
+          "articleCount": 6,
           "articles": [
             {
               "title": "Izrael - Kosowo: typy, kursy bukmacherskie, zapowiedź (01.10.2026) - PodkarpacieLIVE",
@@ -3220,25 +3720,70 @@
               "stanceVersion": 4
             },
             {
-              "title": "Florent Hadërgjonaj | Kosowo | Liga Narodów - PodkarpacieLIVE",
-              "albanianTitle": "Florent Hadërgjonaj | Kosova | Liga e Kombeve",
-              "blurb": "Përfshirja e futbollistit Florent Hadërgjonaj në përfaqësuesen e Kosovës për ndeshjet e Ligës së Kombeve.",
-              "imageUrl": "https://www.podkarpacielive.pl/icon/had-rgjonaj_200_111422.png",
-              "url": "https://www.podkarpacielive.pl/zawodnik/36098,hadergjonaj-florent",
-              "date": "2026-09-30",
-              "sentiment": "positive",
-              "reason": "Prezantim sportiv i Kosovës në Ligën e Kombëteve",
+              "title": "Izrael - Kosowo transmisja na żywo. Gdzie oglądać i o której mecz? (01.10.2026) - PodkarpacieLIVE",
+              "albanianTitle": "Izrael - Kosovë, transmetim direkt: Ku mund ta shikoni dhe kur fillon ndeshja? (01.10.2026)",
+              "blurb": "Ndeshja e futbollit mes Izraelit dhe Kosovës do të transmetohet drejtpërdrejt më datën një tetor të vitit 2026.",
+              "imageUrl": "https://www.podkarpacielive.pl/files/jpg/112498.jpg",
+              "url": "https://www.podkarpacielive.pl/pl/wydarzenia/58331,izrael---kosowo-transmisja-na-zywo-gdzie-ogladac-i-o-ktorej-mecz-01102026",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Lajm informativ për ndeshje sportive pa rezultat të qartë",
               "isQuote": false,
-              "evidence": "Kosowo | Liga Narodów",
+              "evidence": "",
               "speaker": "",
-              "firstSeen": "2026-09-30",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            },
+            {
+              "title": "Izrael - Kosowo na żywo. Wynik i relacja LIVE (01.10.2026) - PodkarpacieLIVE",
+              "albanianTitle": "Izrael - Kosovë live: Rezultati dhe raportimi direkt (01.10.2026)",
+              "blurb": "Rezultati dhe përcjellja e drejtpërdrejtë e ndeshjes së futbollit ndërmjet Izraelit dhe Kosovës në tetor të vitit 2026.",
+              "imageUrl": "https://www.podkarpacielive.pl/files/jpg/110626.jpg",
+              "url": "https://www.podkarpacielive.pl/pl/wydarzenia/57837,izrael---kosowo-na-zywo-wynik-i-relacja-live-01102026",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Lajm informativ për ndeshje sportive pa rezultat të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            },
+            {
+              "title": "Elvis Rexhbeçaj | Kosowo | Liga Narodów - PodkarpacieLIVE",
+              "albanianTitle": "Elvis Rexhbeçaj | Kosova | Liga e Kombeve - PodkarpacieLIVE",
+              "blurb": "Futbollisti Elvis Rexhbeçaj është pjesë e përfaqësueses së Kosovës në kuadër të ndeshjeve të Ligës së Kombeve.",
+              "imageUrl": "https://www.podkarpacielive.pl/icon/rexhbe-aj_200_111437.png",
+              "url": "https://www.podkarpacielive.pl/zawodnik/36113,rexhbecaj-elvis",
+              "date": "2026-09-30",
+              "sentiment": "neutral",
+              "reason": "Lajm informativ për lojtar pa efekt të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            },
+            {
+              "title": "F. Muslija | Kosowo | Liga Narodów - PodkarpacieLIVE",
+              "albanianTitle": null,
+              "blurb": "Futbollisti F. Muslija është përfshirë në listën e përfaqësueses së Kosovës për ndeshjet e Ligës së Kombeve.",
+              "imageUrl": "https://www.podkarpacielive.pl/icon/muslija_200_111440.png",
+              "url": "https://www.podkarpacielive.pl/zawodnik/36116,muslija-f",
+              "date": "2026-09-30",
+              "sentiment": "unknown",
+              "reason": "Nuk ka informacion mbi përmbajtjen e lajmit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
               "stanceVersion": 4
             }
           ],
-          "totalArticles": 11,
+          "totalArticles": 16,
           "trend": "i përzier",
           "firstSeen": "2026-09-22",
-          "lastSeen": "2026-09-30"
+          "lastSeen": "2026-10-01"
         },
         {
           "name": "Portal Kujawski",
@@ -3321,7 +3866,7 @@
         {
           "name": "Sport Betfan",
           "sentiment": "neutral",
-          "articleCount": 1,
+          "articleCount": 2,
           "articles": [
             {
               "title": "Izrael – Kosowo: Typy, kursy, gdzie oglądać? 01.10 LN - Sport Betfan",
@@ -3332,6 +3877,21 @@
               "date": "2026-10-01",
               "sentiment": "neutral",
               "reason": "Lajm sportiv rutinë pa rezultat të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            },
+            {
+              "title": "Izrael – Kosowo: Typy, kursy, gdzie oglądać? 01.10 Liga Narodów - Sport Betfan",
+              "albanianTitle": "Izrael – Kosovë: Parashikimet, koeficientët dhe ku mund ta shikoni ndeshjen e Ligës së Kombeve më 01.10",
+              "blurb": "Analiza e koeficienteve dhe informacione për transmetimin e ndeshjes së Ligës së Kombeve mes Izraelit dhe Kosovës.",
+              "imageUrl": "https://sport.betfan.pl/wp-content/uploads/2026/09/20260327_PF_OD_ZA_122584-1.jpg",
+              "url": "https://sport.betfan.pl/izrael-kosowo-typy-kursy-gdzie-ogladac-01-10-ln/",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Lajm informativ për ndeshje sportive pa rezultat të qartë",
               "isQuote": false,
               "evidence": "",
               "speaker": "",
@@ -3423,6 +3983,32 @@
           "lastSeen": "2026-09-30"
         },
         {
+          "name": "gramgrubo.pl",
+          "sentiment": "neutral",
+          "articleCount": 1,
+          "articles": [
+            {
+              "title": "Izrael – Kosowo. Typy bukmacherskie i analiza 01.10 - gramgrubo.pl",
+              "albanianTitle": "Izrael – Kosovë: Analiza dhe parashikimet e basteve për 01.10",
+              "blurb": "Analiza e detajuar dhe parashikimet e basteve për ndeshjen e futbollit ndërmjet Izraelit dhe Kosovës më një tetor.",
+              "imageUrl": "https://gramgrubo.pl/wp-content/uploads/2026/09/Izrael-–-Kosowo-typy-1200x630.jpg",
+              "url": "https://gramgrubo.pl/izrael-kosowo-typy-bukmacherskie-i-analiza-01-10/",
+              "date": "2026-10-01",
+              "sentiment": "neutral",
+              "reason": "Lajm informativ për ndeshje sportive pa rezultat të qartë",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 1,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-10-01",
+          "lastSeen": "2026-10-01"
+        },
+        {
           "name": "iGol.pl",
           "sentiment": "neutral",
           "articleCount": 1,
@@ -3447,6 +4033,47 @@
           "trend": "neutral",
           "firstSeen": "2026-09-23",
           "lastSeen": "2026-09-30"
+        },
+        {
+          "name": "mecze24.pl",
+          "sentiment": "unknown",
+          "articleCount": 2,
+          "articles": [
+            {
+              "title": "Grecja - Holandia typy, kursy, statystyki i analiza (01.10.2026) - mecze24.pl",
+              "albanianTitle": "Greqi - Holandë: parashikimet, koeficientët, statistikat dhe analiza (01.10.2026) - mecze24.pl",
+              "blurb": "Analiza, statistikat dhe koeficientët për ndeshjen e futbollit ndërmjet Greqisë dhe Holandës që zhvillohet më 1 tetor 2026.",
+              "imageUrl": null,
+              "url": "https://www.mecze24.pl/aktualnosci/grecja-holandia-typy-kursy-na-mecz-01-10-2026",
+              "date": "2026-10-01",
+              "sentiment": "unknown",
+              "reason": "Nuk ka informacion mbi përmbajtjen e lajmit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            },
+            {
+              "title": "Azerbejdżan - Liechtenstein typy i analiza spotkania wraz ze statystykami (01.10.2026) - mecze24.pl",
+              "albanianTitle": "Azerbajxhan - Lihtenshtajn: parashikimet dhe analiza e ndeshjes me statistika (01.10.2026) - mecze24.pl",
+              "blurb": "Analiza dhe statistikat për ndeshjen ndërmjet Azerbajxhanit dhe Lihtenshtajnit e planifikuar për t'u zhvilluar më 1 tetor 2026.",
+              "imageUrl": null,
+              "url": "https://www.mecze24.pl/aktualnosci/azerbejdzan-liechtenstein-typy-kursy-prognozy-01-10-2026",
+              "date": "2026-10-01",
+              "sentiment": "unknown",
+              "reason": "Nuk ka informacion mbi përmbajtjen e lajmit",
+              "isQuote": false,
+              "evidence": "",
+              "speaker": "",
+              "firstSeen": "2026-10-01",
+              "stanceVersion": 4
+            }
+          ],
+          "totalArticles": 2,
+          "trend": "i pamjaftueshëm",
+          "firstSeen": "2026-10-01",
+          "lastSeen": "2026-10-01"
         },
         {
           "name": "portalkujawski.pl",
@@ -3529,11 +4156,11 @@
       ],
       "summary": {
         "index": 50,
-        "positive": 7,
-        "neutral": 87,
-        "negative": 7,
-        "n": 15,
-        "excluded": 6,
+        "positive": 5,
+        "neutral": 90,
+        "negative": 5,
+        "n": 21,
+        "excluded": 10,
         "confident": true,
         "stanceVersion": 4
       }
@@ -3735,15 +4362,7 @@
         "n": 4,
         "excluded": 4,
         "confident": false,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": 29,
-          "from": 50,
-          "outlet": "Son Dakika",
-          "title": "Xhudistët kombëtarë fituan 1 medalje të artë, 4 të argjendta dhe 2 të bronzta në Kosovë - Son Dakika",
-          "evidence": "1 altın, 4 gümüş, 2 bronz madalya kazandı",
-          "url": "https://www.sondakika.com/spor/haber-milli-judocular-kosova-da-1-altin-4-gumus-2-bronz--20278090/"
-        }
+        "stanceVersion": 4
       }
     },
     "Kroaci": {
