@@ -1,4 +1,7 @@
 import unittest
+import json,tempfile,sys
+from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 import bota_gpt as b
 
@@ -22,4 +25,30 @@ class BotaTests(unittest.TestCase):
    with self.assertRaises(ValueError):b.public_url('https://publisher.test/news')
   for url in ['http://example.org','https://user:pass@example.org','https://example.org:8080']:
    with self.assertRaises(ValueError):b.public_url(url)
+ def test_saved_publication_retries_without_gpt_and_survives_http_failure(self):
+  day=b.datetime.now(b.ZoneInfo('Europe/Belgrade')).date().isoformat()
+  packet={'date':day,'model':b.MODEL,'reasoningEffort':b.EFFORT,'articles':[{'id':'verified'}]}
+  report={'date':day,'articleCount':1,'responses':[{'actualModel':b.MODEL,'actualReasoningEffort':b.EFFORT}]}
+  class Response:
+   status_code=200
+   text='Përkthim në shqip'
+   def __init__(self,data):self.data=data
+   def raise_for_status(self):pass
+   def json(self):return self.data
+  def get(url,**kwargs):return Response({'date':day,'alreadyPublished':False} if '/automation/' in url else {'outlets':{'lastUpdated':day}})
+  from unittest.mock import Mock
+  post=Mock(side_effect=[RuntimeError('Temporary publishing failure'),Response({'articleIds':['verified']})])
+  with tempfile.TemporaryDirectory() as folder,patch.object(b,'RUN_STATE',Path(folder)),patch.object(b,'secret',return_value='test-secret'),patch.object(b,'resolve_runtime',side_effect=AssertionError('GPT must not be called')),patch.dict(sys.modules,{'httpx':SimpleNamespace(get=get,post=post)}):
+   pending=Path(folder)/(day+'-pending.json');b.save_pending(packet,report,pending)
+   with self.assertRaises(RuntimeError):b.run()
+   self.assertTrue(pending.exists())
+   result=b.run();self.assertEqual(result['result'],'published_verified');self.assertFalse(pending.exists())
+   self.assertEqual(post.call_args.kwargs['json'],packet)
+   self.assertEqual(json.loads((Path(folder)/'last-run.json').read_text())['articleCount'],1)
+ def test_editorial_output_must_also_pass_actual_publisher_validator(self):
+  day=b.datetime.now(b.ZoneInfo('Europe/Belgrade')).date().isoformat();source,result=self.fixture()
+  article={**result,'url':'https://example.org/kosovo','title':'Kosovo','outlet':'Example','country':'Britani','date':day,'sourceHash':'a'*64,'complete':True,'actualModel':b.MODEL,'actualReasoningEffort':b.EFFORT}
+  b.validate_publishable(article,day)
+  article.pop('evidence')
+  with self.assertRaisesRegex(ValueError,'Evidence'):b.validate_publishable(article,day)
 if __name__=='__main__':unittest.main()

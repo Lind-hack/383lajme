@@ -11,12 +11,16 @@ import os
 from pathlib import Path
 import re
 import socket
+import subprocess
 import sys
+import time
 from urllib.parse import urlparse, urljoin
 from zoneinfo import ZoneInfo
 
 MODEL, EFFORT = 'gpt-6-luna', 'xhigh'
 SITE = 'https://383ks.com'
+RUN_STATE = Path('/opt/data/automation/bota')
+EDITORIAL_BUDGET_SECONDS = 3000
 
 def public_url(url):
     p=urlparse(url)
@@ -205,40 +209,85 @@ def discover(known):
             if len(selected)>=40:break
     return selected
 
+def save_pending(packet,report,pending):
+    temporary=pending.with_suffix('.tmp')
+    descriptor=os.open(temporary,os.O_WRONLY|os.O_CREAT|os.O_TRUNC,0o600)
+    with os.fdopen(descriptor,'w') as output:json.dump({'packet':packet,'report':report},output,ensure_ascii=False)
+    os.replace(temporary,pending)
+
+def validate_publishable(article,date):
+    # Run the same dependency-free validator used by the deployed API before
+    # admitting an article to the batch. One bad article cannot reject all work.
+    validator=Path(__file__).parent.parent/'lib/bota-publication.mjs'
+    program="import {pathToFileURL} from 'node:url';const {validateBotaPublication}=await import(pathToFileURL(process.argv[1]));let s='';for await(const c of process.stdin)s+=c;try{validateBotaPublication(JSON.parse(s));console.log(JSON.stringify({valid:true}));}catch(e){console.log(JSON.stringify({valid:false,error:e.message}));}"
+    packet={'date':date,'model':MODEL,'reasoningEffort':EFFORT,'articles':[article]}
+    result=subprocess.run(['node','--input-type=module','-e',program,str(validator)],input=json.dumps(packet),text=True,capture_output=True,timeout=15)
+    if result.returncode:raise RuntimeError('Publication validator unavailable')
+    verdict=json.loads(result.stdout)
+    if not verdict.get('valid'):raise ValueError('Publication validation: '+verdict.get('error','Invalid article'))
+
+def publish_saved(packet,report,headers,pending):
+    import httpx
+    r=httpx.post(SITE+'/api/automation/bota/daily',headers=headers,json=packet,timeout=60)
+    if r.status_code>=400:
+        try:validation_error=str(r.json().get('error','Request rejected'))[:300]
+        except Exception:validation_error='Request rejected'
+        print(json.dumps({'stage':'publish','httpStatus':r.status_code,'detail':validation_error}),file=sys.stderr)
+    r.raise_for_status();report['publication']=r.json()
+    public=httpx.get(SITE+'/api/bota',timeout=30);public.raise_for_status()
+    if public.json().get('outlets',{}).get('lastUpdated')!=packet['date']:raise RuntimeError('Public publication verification failed')
+    for ident in report['publication']['articleIds']:
+        reader=httpx.get(SITE+'/bota-per-kosoven/artikull/'+ident,timeout=30);reader.raise_for_status()
+        if 'Përkthim në shqip' not in reader.text:raise RuntimeError('Translated reader verification failed')
+    report.update(status='ok',result='published_verified')
+    receipt_file=RUN_STATE/'last-run.json'
+    descriptor=os.open(receipt_file,os.O_WRONLY|os.O_CREAT|os.O_TRUNC,0o600)
+    with os.fdopen(descriptor,'w') as output:json.dump(report,output,ensure_ascii=False,indent=2)
+    pending.unlink(missing_ok=True)
+    return report
+
 def run(dry_run=False,limit=40):
     import httpx
+    started=time.monotonic()
     date=datetime.now(ZoneInfo('Europe/Belgrade')).date().isoformat()
+    RUN_STATE.mkdir(parents=True,exist_ok=True)
+    pending=RUN_STATE/(date+'-pending.json')
     headers={'Authorization':'Bearer '+secret()}
     context=httpx.get(SITE+'/api/automation/bota/daily',headers=headers,timeout=30);context.raise_for_status();context=context.json()
     if context.get('date')!=date:raise RuntimeError('Date protocol mismatch')
+    if pending.exists() and not dry_run:
+        saved=json.loads(pending.read_text())
+        if saved['packet'].get('date')!=date or saved['packet'].get('model')!=MODEL or saved['packet'].get('reasoningEffort')!=EFFORT:raise RuntimeError('Invalid saved publication provenance')
+        return publish_saved(saved['packet'],saved['report'],headers,pending)
     if context.get('alreadyPublished') and not dry_run:
         public=httpx.get(SITE+'/api/bota',timeout=30);public.raise_for_status()
         if public.json().get('outlets',{}).get('lastUpdated')!=date:raise RuntimeError('Published day failed public verification')
         return {'status':'ok','result':'already_published','date':date,'model':MODEL,'reasoningEffort':EFFORT}
-    runtime=resolve_runtime();sources=discover(set(context.get('knownIds',[])));articles=[];receipts=[];failed=0
+    runtime=resolve_runtime();sources=discover(set(context.get('knownIds',[])));articles=[];receipts=[];failed=0;processed=0
+    report={'date':date,'model':MODEL,'reasoningEffort':EFFORT,'articleCount':0,'failed':0,'responses':receipts}
+    packet={'date':date,'model':MODEL,'reasoningEffort':EFFORT,'articles':articles}
     for source in sources[:limit]:
+        if time.monotonic()-started>=EDITORIAL_BUDGET_SECONDS:break
+        processed+=1
         try:
             result,receipt=editorial(runtime,source)
             if result is None:continue
-            articles.append({**{k:source[k] for k in ['url','title','outlet','country','date','sourceHash','imageUrl']},**result,**receipt,'complete':True})
+            article={**{k:source[k] for k in ['url','title','outlet','country','date','sourceHash','imageUrl']},**result,**receipt,'complete':True}
+            validate_publishable(article,date)
+            articles.append(article)
             receipts.append(receipt)
+            report.update(articleCount=len(articles),failed=failed,deferred=len(sources[:limit])-processed)
+            if not dry_run:save_pending(packet,report,pending)
         except Exception as error:
             failed+=1
-            print(json.dumps({'article':source['id'],'status':'rejected','reason':type(error).__name__}),file=sys.stderr)
+            print(json.dumps({'article':source['id'],'status':'rejected','reason':type(error).__name__,'detail':str(error)[:180] if isinstance(error,ValueError) else 'Request failed'}),file=sys.stderr)
     if not articles:raise RuntimeError('No fully translated verified articles; previous publication preserved')
-    packet={'date':date,'model':MODEL,'reasoningEffort':EFFORT,'articles':articles}
-    report={'date':date,'model':MODEL,'reasoningEffort':EFFORT,'articleCount':len(articles),'failed':failed,'responses':receipts}
-    state=Path('/opt/data/automation/bota');state.mkdir(parents=True,exist_ok=True)
-    receipt_file=state/('dry-run.json' if dry_run else 'last-run.json')
-    if dry_run:report.update(status='ok',result='dry_run_no_publication')
-    else:
-        r=httpx.post(SITE+'/api/automation/bota/daily',headers=headers,json=packet,timeout=60);r.raise_for_status();report['publication']=r.json()
-        public=httpx.get(SITE+'/api/bota',timeout=30);public.raise_for_status()
-        if public.json().get('outlets',{}).get('lastUpdated')!=date:raise RuntimeError('Public publication verification failed')
-        for ident in report['publication']['articleIds']:
-            reader=httpx.get(SITE+'/bota-per-kosoven/artikull/'+ident,timeout=30);reader.raise_for_status()
-            if 'Përkthim në shqip' not in reader.text:raise RuntimeError('Translated reader verification failed')
-        report.update(status='ok',result='published_verified')
+    report.update(articleCount=len(articles),failed=failed,deferred=len(sources[:limit])-processed)
+    if not dry_run:
+        save_pending(packet,report,pending)
+        return publish_saved(packet,report,headers,pending)
+    report.update(status='ok',result='dry_run_no_publication')
+    receipt_file=RUN_STATE/'dry-run.json'
     receipt_file.write_text(json.dumps(report,ensure_ascii=False,indent=2));receipt_file.chmod(0o600)
     return report
 
