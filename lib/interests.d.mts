@@ -11,6 +11,8 @@ export interface Interests {
   people: string[];
   /** Ids from lib/cities.mjs. */
   cities: string[];
+  /** The reader's own city, one of `cities`. Device-only; null when not given. */
+  home: string | null;
   /** Learned from reading, device-only. Keys: "cat:…", "person:…", "city:…". */
   affinity: Record<string, AffinityEntry>;
   updatedAt: string | null;

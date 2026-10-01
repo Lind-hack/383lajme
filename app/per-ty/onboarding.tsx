@@ -6,7 +6,8 @@
 //   Mirë se vjen            Dardani waves hello (first run only)
 //   1. Çfarë të intereson?  categories — the one required step
 //   2. Kë ndjek?            people, from a curated list or search
-//   3. Nga je?              a city, for local news
+//   3. Nga je?              the reader's own city, then any others they want
+//                           local news from
 //   Po e ndërtoj…           Dardani reads while the feed is put together
 //   Gati!                   the first three stories, then the feed
 //
@@ -47,7 +48,7 @@ const STEPS: ReadonlyArray<{ title: string; lede: string; loop: DardaniLoopName 
   },
   {
     title: "Nga je?",
-    lede: "Lajmet nga qyteti yt ngrihen lart. Zgjidh një ose më shumë.",
+    lede: "Zgjidh qytetin tënd. Lajmet prej andej dalin të parat.",
     loop: "explaining-news",
   },
 ];
@@ -95,15 +96,22 @@ export default function Onboarding({
   initial: Interests;
   /** Reopened from the feed: pre-filled, and closable without finishing. */
   editing?: boolean;
-  onDone: (picks: Pick<Interests, "categories" | "people" | "cities">) => void;
+  onDone: (picks: Pick<Interests, "categories" | "people" | "cities" | "home">) => void;
   onCancel?: () => void;
 }) {
   const [phase, setPhase] = useState<Phase>(editing ? "steps" : "hello");
   const [step, setStep] = useState(0);
   const [categories, setCategories] = useState<string[]>(initial.categories);
   const [people, setPeople] = useState<string[]>(initial.people);
-  const [cities, setCities] = useState<string[]>(initial.cities);
+  // The reader's own city, and the others they want local news from. Stored
+  // together (home is always one of `cities`), held apart here.
+  const [home, setHome] = useState<string | null>(initial.home ?? null);
+  const [extraCities, setExtraCities] = useState<string[]>(
+    (initial.cities ?? []).filter((id) => id !== initial.home)
+  );
+  const cities = useMemo(() => (home ? [home, ...extraCities] : extraCities), [home, extraCities]);
   const [query, setQuery] = useState("");
+  const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   // People from the sections the reader just picked come first.
@@ -114,13 +122,25 @@ export default function Onboarding({
       .sort((a, b) => Number(b.suggested) - Number(a.suggested) || a.i - b.i);
   }, [categories]);
 
-  // Move focus to the new question, so keyboard and screen-reader users land
-  // on it instead of on a button that no longer means the same thing.
+  // A new question starts at its top. On a phone the reader has scrolled down a
+  // long list to reach Vazhdo; without this the next question opens wherever
+  // that list ended. Focus then moves to the heading, so keyboard and
+  // screen-reader users land on it instead of on a button that no longer means
+  // the same thing.
   const firstRender = useRef(true);
   useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
       return;
+    }
+    const section = sectionRef.current;
+    if (section) {
+      const nav = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 64;
+      const top = section.getBoundingClientRect().top + window.scrollY - nav - 12;
+      if (window.scrollY > top) {
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({ top: Math.max(0, top), behavior: reduce ? "auto" : "smooth" });
+      }
     }
     headingRef.current?.focus({ preventScroll: true });
   }, [step, phase]);
@@ -147,8 +167,8 @@ export default function Onboarding({
   }, [phase]);
 
   const draft = useMemo(
-    () => ({ v: 1, categories, people, cities, topics: [], affinity: {} }),
-    [categories, people, cities]
+    () => ({ v: 1, categories, people, cities, home, topics: [], affinity: {} }),
+    [categories, people, cities, home]
   );
   const matchCount = useMemo(() => countMatches(pool, draft), [pool, draft]);
 
@@ -202,6 +222,7 @@ export default function Onboarding({
 
   const personNames = people.map((id) => personById(id)?.name).filter((n): n is string => Boolean(n));
   const cityNames = cities.map((id) => cityById(id)?.name).filter((n): n is string => Boolean(n));
+  const homeCity = cityById(home);
 
   // What Dardani says over each question, reacting to the last pick.
   const say = (() => {
@@ -215,15 +236,16 @@ export default function Onboarding({
         ? `${last}, e shënova! Asnjë lajm për të s’të ikën.`
         : "Sa herë që përmenden në lajme, t’i sjell të parët.";
     }
-    const last = cityNames[cityNames.length - 1];
-    return last
-      ? `${last}, e shënova! Lajmet lokale dalin të parat.`
-      : "Lajmet lokale i ngre lart, që të dish çfarë ndodh afër teje.";
+    const lastExtra = cityById(extraCities[extraCities.length - 1])?.name;
+    if (lastExtra) return `Edhe ${lastExtra}. Do t’i kesh edhe lajmet prej andej.`;
+    return homeCity
+      ? `${homeCity.name}! Lajmet prej andej dalin të parat.`
+      : "Nga je? Lajmet e qytetit tënd i nxjerr të parat.";
   })();
 
   const canContinue = step !== 0 || categories.length > 0;
   const last = step === STEPS.length - 1;
-  const picks = { categories: categories as Interests["categories"], people, cities };
+  const picks = { categories: categories as Interests["categories"], people, cities, home };
 
   function next() {
     if (!canContinue) return;
@@ -346,7 +368,7 @@ export default function Onboarding({
   }
 
   return (
-    <section className="perty-onboard perty-onboard--steps" aria-labelledby="perty-onboard-title">
+    <section ref={sectionRef} className="perty-onboard perty-onboard--steps" aria-labelledby="perty-onboard-title">
       <header className="perty-onboard-top">
         <div className="perty-steps" aria-hidden="true">
           {STEPS.map((_, i) => (
@@ -477,12 +499,38 @@ export default function Onboarding({
       )}
 
       {step === 2 && (
-        <div className="perty-chips perty-chips--cities" role="group" aria-label="Qytetet">
-          {CITIES.map((c) => (
-            <Chip key={c.id} on={cities.includes(c.id)} onClick={() => setCities((prev) => toggleValue(prev, c.id))}>
-              {c.name}
-            </Chip>
-          ))}
+        <div className="perty-cities">
+          {/* One home city: picking another moves the mark, picking it again clears it. */}
+          <div className="perty-chips perty-chips--cities" role="group" aria-label="Qyteti yt">
+            {CITIES.map((c) => (
+              <Chip
+                key={c.id}
+                on={home === c.id}
+                onClick={() => {
+                  setHome((prev) => (prev === c.id ? null : c.id));
+                  setExtraCities((prev) => prev.filter((id) => id !== c.id));
+                }}
+              >
+                {c.name}
+              </Chip>
+            ))}
+          </div>
+
+          <div className="perty-group">
+            <h2 id="perty-extra-cities">Për cilat qytete të tjera do lajme?</h2>
+            <p className="perty-hint">Opsionale. Zgjidh sa të duash.</p>
+            <div className="perty-chips perty-chips--cities" role="group" aria-labelledby="perty-extra-cities">
+              {CITIES.filter((c) => c.id !== home).map((c) => (
+                <Chip
+                  key={c.id}
+                  on={extraCities.includes(c.id)}
+                  onClick={() => setExtraCities((prev) => toggleValue(prev, c.id))}
+                >
+                  {c.name}
+                </Chip>
+              ))}
+            </div>
+          </div>
         </div>
       )}
       </div>

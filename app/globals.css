@@ -22343,6 +22343,10 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .perty-onboard--steps .perty-chip { min-height: 34px; padding: 0 12px; font-size: 13.5px; }
 .perty-onboard--steps .perty-group { margin-top: 12px; }
 .perty-onboard--steps .perty-group h2 { margin-bottom: 7px; font-size: 13px; }
+/* "Nga je?" then a second, optional question under a rule. */
+.perty-onboard--steps .perty-cities > .perty-group { margin-top: 26px; padding-top: 20px; border-top: 1px solid #E8E3DB; }
+.perty-onboard--steps .perty-cities > .perty-group h2 { margin: 0; color: #111111; font-size: 17px; font-weight: 800; }
+.perty-cities .perty-hint { margin: 4px 0 12px; font-size: 13.5px; }
 .perty-onboard-choices { animation: perty-choices-in 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 @keyframes perty-choices-in {
   from { opacity: 0; transform: translateX(14px); }
@@ -22361,59 +22365,44 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .perty-onboard-choices { animation: none; }
 }
 
-/* Phones and tablets: the whole step on one screen. The card is the height of
-   the space between the navbar and the tab bar; each people group is one row
-   that slides sideways, so all seven groups are in view at once. */
+/* Phones and tablets: the step runs down the page and the reader scrolls it.
+   Each people group is its heading over names that wrap, never a sideways
+   strip; Vazhdo stays in reach above the tab bar, and moving to the next step
+   brings the reader back to its top (onboarding.tsx). */
 @media (max-width: 1023px) {
   .perty-page { padding-top: calc(var(--nav-h, 64px) + 12px); padding-bottom: 88px; }
-  .perty-onboard--steps {
-    display: flex;
-    flex-direction: column;
-    height: calc(100dvh - var(--nav-h, 64px) - 112px);
-    min-height: 520px;
-    padding: 16px 16px 12px;
-  }
+  .perty-onboard--steps { padding: 16px 16px 0; }
   .perty-onboard--steps > .perty-onboard-top { margin-bottom: 8px; }
   .perty-onboard--steps .perty-dardani { margin: 0 0 4px; }
   .perty-onboard--steps .perty-dardani-loop { height: 76px; }
   .perty-onboard--steps .perty-say { margin-bottom: 18px; padding: 8px 11px; font-size: 13.5px; }
   .perty-onboard--steps .perty-onboard-title { font-size: 24px; }
   .perty-onboard--steps .perty-onboard-lede { margin: 4px 0 12px; font-size: 14px; }
-  .perty-onboard--steps > .perty-onboard-choices { flex: 1; min-height: 0; overflow-y: auto; }
   .perty-onboard--steps .perty-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .perty-onboard--steps .perty-tile { min-height: 56px; padding: 10px 12px; }
   .perty-onboard--steps .perty-tile-name { font-size: 15px; }
-  /* One line per group: the section name, then its names sliding sideways. */
-  .perty-onboard--steps .perty-people .perty-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 7px;
-  }
-  .perty-onboard--steps .perty-people .perty-group h2 {
-    flex: 0 0 62px;
-    margin: 0;
-    color: #5E5048;
-    font-size: 11.5px;
-    line-height: 1.15;
-  }
-  .perty-onboard--steps .perty-people .perty-group-tag { display: none; }
-  .perty-onboard--steps .perty-people .perty-chip { min-height: 32px; padding: 0 11px; font-size: 13px; }
-  .perty-onboard--steps .perty-people .perty-chips {
-    flex: 1;
-    min-width: 0;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    scrollbar-width: none;
-    padding-bottom: 2px;
-  }
-  .perty-onboard--steps .perty-people .perty-chips::-webkit-scrollbar { display: none; }
-  .perty-onboard--steps .perty-people .perty-chip { flex-shrink: 0; scroll-snap-align: start; }
-  .perty-onboard--steps .perty-chips--cities { gap: 6px; }
+  .perty-onboard--steps .perty-people .perty-group { margin-top: 18px; }
+  .perty-onboard--steps .perty-people .perty-group h2 { margin: 0 0 8px; font-size: 13px; }
+  .perty-onboard--steps .perty-chips { gap: 7px; }
+  .perty-onboard--steps .perty-chip { min-height: 40px; padding: 0 14px; font-size: 14px; }
   .perty-onboard--steps .perty-search { min-height: 44px; }
-  .perty-onboard--steps > .perty-onboard-foot { margin-top: 10px; padding-top: 10px; gap: 10px; }
-  .perty-onboard--steps .perty-btn { min-height: 42px; padding: 0 16px; }
+  .perty-onboard--steps > .perty-onboard-foot {
+    position: sticky;
+    bottom: var(--tabbar-h, 0px);
+    z-index: 6;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin: 24px -16px 0;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+    background: rgba(255, 255, 255, 0.96);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border-radius: 0 0 20px 20px;
+  }
+  .perty-onboard--steps .perty-foot-actions { justify-content: flex-end; }
+  .perty-onboard--steps .perty-foot-actions .perty-btn--primary { flex: 1; }
+  .perty-onboard--steps .perty-btn { min-height: 44px; padding: 0 16px; }
 }
 
 @media (min-width: 1024px) {
