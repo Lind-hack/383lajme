@@ -23,12 +23,14 @@ function timeLeft(iso: string | null, now: number) {
 
 const first = (name: string) => name.split(/\s+/)[0] || name;
 
-export default function DuelPin({ signedIn, sample }: { signedIn: boolean; /** Design preview only: render these instead of loading. */ sample?: Duel[] }) {
+/**
+ * The reader's duels, loaded as soon as the page knows they are signed in, in
+ * parallel with everything else, so the pin can appear with the floor.
+ */
+export function useMyDuels(enabled: boolean) {
   const supabase = useMemo(() => createClient(), []);
-  const [duels, setDuels] = useState<Duel[]>(sample ?? []);
-  const [busy, setBusy] = useState<string | null>(null);
-  const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
-  const [now, setNow] = useState(() => Date.now());
+  const [duels, setDuels] = useState<Duel[]>([]);
+  const [loaded, setLoaded] = useState(false);
 
   const load = useCallback(async () => {
     const { data } = await supabase.rpc("tregu_my_duels");
@@ -38,18 +40,29 @@ export default function DuelPin({ signedIn, sample }: { signedIn: boolean; /** D
       // Results stay pinned for a day so the outcome is seen.
       (duel.status === "settled" && duel.ends_at != null && Date.now() - Date.parse(duel.ends_at) < 24 * 3_600_000)
     ));
+    setLoaded(true);
   }, [supabase]);
 
   useEffect(() => {
-    if (!signedIn || sample) return;
+    if (!enabled) return;
     void load();
     const refresh = window.setInterval(() => void load(), 60_000);
+    return () => window.clearInterval(refresh);
+  }, [enabled, load]);
+
+  return { duels, loaded, reload: load };
+}
+
+export default function DuelPin({ duels, onChanged }: { duels: Duel[]; /** Re-read after an answer. */ onChanged?: () => void }) {
+  const supabase = useMemo(() => createClient(), []);
+  const [busy, setBusy] = useState<string | null>(null);
+  const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
     const tick = window.setInterval(() => setNow(Date.now()), 30_000);
-    return () => {
-      window.clearInterval(refresh);
-      window.clearInterval(tick);
-    };
-  }, [signedIn, load, sample]);
+    return () => window.clearInterval(tick);
+  }, []);
 
   const respond = async (duel: Duel, accept: boolean) => {
     setBusy(duel.id);
@@ -63,10 +76,10 @@ export default function DuelPin({ signedIn, sample }: { signedIn: boolean; /** D
     const balance = Number((data as { balance: number }[] | null)?.[0]?.balance);
     if (Number.isFinite(balance)) window.dispatchEvent(new CustomEvent("tregu:balance", { detail: balance }));
     setMessage({ ok: true, text: accept ? `Dueli me ${first(duel.rival)} nisi. 24 orë, kush mbledh më shumë pikë.` : "Sfida u refuzua." });
-    void load();
+    onChanged?.();
   };
 
-  if (!signedIn || duels.length === 0) return null;
+  if (duels.length === 0) return null;
 
   return (
     <section className="tregu-duel-pin" aria-label="Duelet e tua">

@@ -9,12 +9,13 @@
 // The amount (10..25, 25 = jackpot) is rolled server-side. A jackpot gets its
 // own full-screen moment; every other claim uses the floor's coin flight.
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Flame as FlameIcon } from "lucide-react";
 import DardaniImage from "@/components/dardani/dardani-image";
 import { jackpotChance } from "@/lib/tregu-daily-bonus.mjs";
+import { createClient } from "@/lib/supabase/client";
 
 export type DailyBonusStatus = {
   signed_in: boolean;
@@ -34,17 +35,25 @@ export function bonusState(status: DailyBonusStatus | null): "locked" | "ready" 
 
 /** Status + claim, refreshed when the tab comes back (a trade elsewhere unlocks it). */
 export function useDailyBonus(enabled: boolean) {
+  const supabase = useMemo(() => createClient(), []);
   const [status, setStatus] = useState<DailyBonusStatus | null>(null);
   const [claiming, setClaiming] = useState(false);
+  /** The first status answer has arrived (or failed): the card can be placed. */
+  const [loaded, setLoaded] = useState(false);
 
+  // Read straight from the database with the reader's own session. It used to
+  // go through /api/tregu/daily-bonus, which verified the user with the auth
+  // server first: one more round trip, and it only started after the balance.
   const refresh = useCallback(async () => {
     try {
-      const res = await fetch("/api/tregu/daily-bonus", { cache: "no-store" });
-      if (res.ok) setStatus((await res.json()) as DailyBonusStatus);
+      const { data, error } = await supabase.rpc("tregu_daily_bonus_status");
+      if (!error && data) setStatus(data as DailyBonusStatus);
     } catch {
       /* offline: the button keeps its last state */
+    } finally {
+      setLoaded(true);
     }
-  }, []);
+  }, [supabase]);
 
   useEffect(() => {
     if (!enabled) return;
@@ -75,7 +84,7 @@ export function useDailyBonus(enabled: boolean) {
     }
   }, [refresh]);
 
-  return { status, claiming, claim, refresh };
+  return { status, claiming, claim, refresh, loaded };
 }
 
 function Flame({ size = 13 }: { size?: number }) {
@@ -188,7 +197,7 @@ export function DailyBonusStrip({
   return (
     <section key={pulse} className="tregu-bonus-card" data-state={state} data-pulse={pulse > 0 || undefined} aria-label="Bonusi ditor">
       <div className="tregu-bonus-card-dardani" aria-hidden>
-        <DardaniImage name={state === "ready" ? "tregu-win" : "streak"} decorative />
+        <DardaniImage name={state === "ready" ? "tregu-win" : "streak"} decorative priority />
       </div>
       <div className="tregu-bonus-card-main">
         <p className="tregu-bonus-card-kicker">{state === "ready" ? "🎁 Gati për ty" : "🔒 Bonusi ditor"}</p>

@@ -40,7 +40,7 @@ export default function BonusPreview() {
           </div>
         ))}
         <h2 style={{ margin: "32px 0 12px", fontSize: 20 }}>Duelet (në krye të Tregut)</h2>
-        <DuelPin signedIn sample={DUELS} />
+        <DuelPin duels={DUELS} />
         <h2 style={{ margin: "32px 0 12px", fontSize: 20 }}>Shiriti në faqe</h2>
         {STATES.slice(1).map((row) => (
           <DailyBonusStrip key={row.label} status={row.status} claiming={false} onClaim={NOOP} onFindMarket={NOOP} pulse={0} />

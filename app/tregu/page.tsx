@@ -36,7 +36,7 @@ import SpotlightTour, { type TourStep } from "@/components/spotlight-tour";
 import TradeTutorial, { openTradeTutorial } from "@/components/tregu/trade-tutorial";
 import LeagueTutorial from "@/components/tregu/league-tutorial";
 import { DailyBonusButton, DailyBonusStrip, JackpotCelebration, useDailyBonus } from "@/components/tregu/daily-bonus";
-import DuelPin from "@/components/tregu/duel-pin";
+import DuelPin, { useMyDuels } from "@/components/tregu/duel-pin";
 import { formatKosovoTime } from "@/lib/tregu-local-time.mjs";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
@@ -660,7 +660,39 @@ export default function TreguHub() {
     results.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
   };
 
-  const dailyBonus = useDailyBonus(balance !== null);
+  // Signed in, from the session already in the browser: no network, so the
+  // bonus and duel loads start with the markets instead of after the balance.
+  const [signedIn, setSignedIn] = useState(false);
+  const authClient = useMemo(() => createClient(), []);
+  useEffect(() => {
+    let alive = true;
+    const supabase = authClient;
+    supabase.auth.getSession().then(({ data }) => {
+      if (alive) setSignedIn(Boolean(data.session?.user));
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setSignedIn(Boolean(session?.user)));
+    return () => {
+      alive = false;
+      subscription.unsubscribe();
+    };
+  }, [authClient]);
+  const dailyBonus = useDailyBonus(signedIn);
+  const myDuels = useMyDuels(signedIn);
+  // Both cards land in the same frame as the market grid: never one, then the
+  // other, then a jump. Keyed to the *first* floor load, so switching category
+  // (which reloads the markets) never makes them blink. A stalled request
+  // cannot hold them back for more than four seconds.
+  const [floorShown, setFloorShown] = useState(false);
+  useEffect(() => {
+    if (!loading) setFloorShown(true);
+  }, [loading]);
+  const [extrasGaveUp, setExtrasGaveUp] = useState(false);
+  useEffect(() => {
+    if (!signedIn) return;
+    const timer = window.setTimeout(() => setExtrasGaveUp(true), 4000);
+    return () => window.clearTimeout(timer);
+  }, [signedIn]);
+  const headerReady = floorShown && (!signedIn || extrasGaveUp || (dailyBonus.loaded && myDuels.loaded));
   const [jackpot, setJackpot] = useState<{ streak: number } | null>(null);
   // Locked: the strip under the floor head explains it. Pressing the button
   // only makes the strip pulse (and brings it on screen if it is not); the
@@ -775,7 +807,7 @@ export default function TreguHub() {
             answer "where am I / what have I got". */}
         {/* Duels first: a challenge or a live score is the most time-bound thing
             a player has on Tregu, so it is pinned above everything else. */}
-        <DuelPin signedIn={balance !== null} />
+        {headerReady && <DuelPin duels={myDuels.duels} onChanged={() => void myDuels.reload()} />}
 
         <div className="tregu-floor-head">
           <div className="tregu-floor-head-title">
@@ -813,7 +845,7 @@ export default function TreguHub() {
           </div>
         </div>
 
-        {balance !== null && (
+        {headerReady && signedIn && (
           <DailyBonusStrip
             status={dailyBonus.status}
             claiming={claiming}
