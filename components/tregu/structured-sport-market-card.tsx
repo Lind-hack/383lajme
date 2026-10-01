@@ -68,7 +68,7 @@ function Crest({ outcome, color }: { outcome?: Outcome; color: string }) {
   );
 }
 
-export default function StructuredSportMarketCard({ market }: { market: StructuredSportMarket }) {
+export default function StructuredSportMarketCard({ market, still = false }: { market: StructuredSportMarket; still?: boolean }) {
   const outcomes = market.sport_outcomes ?? [];
   const probabilities = market.outcome_probabilities ?? {};
   const colors = separateOutcomeColors(outcomes.map((outcome, index) => outcomeColor(outcome, index)));
@@ -151,6 +151,7 @@ export default function StructuredSportMarketCard({ market }: { market: Structur
         height={132}
         series={chartSeries}
         tone="sport"
+        still={still}
         ariaLabel={`Lëvizjet reale për ${market.question}`}
       />
 

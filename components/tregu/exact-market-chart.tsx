@@ -66,6 +66,7 @@ export default function ExactMarketChart({
   defaultRange = "1d",
   curve = "step",
   fill = false,
+  still = false,
   emphasisKey = null,
   marks = [],
   news = [],
@@ -95,6 +96,9 @@ export default function ExactMarketChart({
    *  drawing follows the plot's real height so a deeper plot is redrawn, not
    *  stretched — points stay round and the area fill keeps its baseline. */
   fill?: boolean;
+  /** The recorded all-time line, drawn once: no breathing wiggle, no pulsing
+   *  tip, no per-second redraw. For previews such as the home page. */
+  still?: boolean;
 }) {
   const uid = useId().replace(/:/g, "");
   // Open on a window that actually shows a move: a book that last traded three
@@ -148,7 +152,7 @@ export default function ExactMarketChart({
     return () => observer.disconnect();
   }, []);
 
-  const lively = !reduced;
+  const lively = !reduced && !still;
   const breathing = lively && inView && pageVisible;
 
   useEffect(() => {

@@ -213,9 +213,9 @@ export default function TreguHome() {
                 // The first card carries the walkthrough's anchor.
                 <div key={row.slug} className="home-tregu-card" data-tour={index === 0 ? "tregu-card" : undefined}>
                   {isStructuredSportMarket(row) ? (
-                    <StructuredSportMarketCard market={row as StructuredSportMarket} />
+                    <StructuredSportMarketCard market={row as StructuredSportMarket} still />
                   ) : (
-                    <MarketMiniCard market={toMini(row)} />
+                    <MarketMiniCard market={toMini(row)} still />
                   )}
                 </div>
               ))}

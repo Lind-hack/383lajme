@@ -89,7 +89,7 @@ function msToClose(iso?: string): number | null {
 //   default — question + book, the plain instrument
 type Variant = "new" | "closing" | "mover" | "default";
 
-export default function MarketMiniCard({ market }: { market: MiniMarket; compact?: boolean }) {
+export default function MarketMiniCard({ market, still = false }: { market: MiniMarket; compact?: boolean; still?: boolean }) {
   const router = useRouter();
   const pct = Math.round(Math.max(0, Math.min(1, market.prob)) * 100);
   const noPct = 100 - pct;
@@ -216,6 +216,7 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
           height={76}
           series={chartSeries}
           tone={market.category === "sport" ? "sport" : "serious"}
+          still={still}
           ariaLabel={`Historia e regjistruar për ${market.question}`}
         />
       </div>
