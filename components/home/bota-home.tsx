@@ -33,8 +33,8 @@ export default function BotaHome({ today, stories }: { today: ToneToday; stories
       />
 
       <p className={s.intro}>
-        Çdo ditë lexojmë shtypin e huaj dhe shënojmë nëse lajmet për Kosovën janë të mira apo
-        të këqija. Indeksi tregon nga anon dita.
+        Çdo ditë lexojmë shtypin e huaj dhe vlerësojmë nëse Kosova portretizohet pozitivisht,
+        negativisht apo në mënyrë neutrale. Indeksi tregon nga anon mbulimi.
       </p>
 
       <div className={s.panel}>
@@ -66,7 +66,7 @@ export default function BotaHome({ today, stories }: { today: ToneToday; stories
 
           <p className={s.counts}>
             {positive + negative + neutral > 0
-              ? `${positive} të mira · ${negative} të këqija · ${neutral} neutrale sot`
+              ? `${positive} pozitive · ${negative} negative · ${neutral} neutrale sot`
               : "Çdo ditë lexojmë shtypin e huaj për Kosovën."}
           </p>
         </div>
@@ -75,7 +75,7 @@ export default function BotaHome({ today, stories }: { today: ToneToday; stories
           <ol className={s.list}>
             {top.map((x) => (
               <li key={x.id}>
-                <Link href="/bota-per-kosoven#lajmet" className={s.story}>
+                <Link href={x.url} className={s.story}>
                   <ToneTag tone={x.sentiment} />
                   <span className={s.title}>{x.title}</span>
                   <span className={s.outlet}>

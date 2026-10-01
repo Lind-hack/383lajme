@@ -11,8 +11,8 @@ import s from "./bota.module.css";
 type Filter = "all" | DailyStory["sentiment"];
 
 const TONE: Record<DailyStory["sentiment"], { label: string; Icon: typeof Minus }> = {
-  positive: { label: "E mirë", Icon: TrendingUp },
-  negative: { label: "E keqe", Icon: TrendingDown },
+  positive: { label: "Pozitiv", Icon: TrendingUp },
+  negative: { label: "Negativ", Icon: TrendingDown },
   neutral: { label: "Neutrale", Icon: Minus },
 };
 
@@ -37,8 +37,8 @@ export default function Stories({ stories, today }: { stories: DailyStory[]; tod
   const count = (t: DailyStory["sentiment"]) => stories.filter((x) => x.sentiment === t).length;
   const options: Array<{ key: Filter; label: string; n: number }> = [
     { key: "all", label: "Të gjitha", n: stories.length },
-    { key: "positive", label: "Të mira", n: count("positive") },
-    { key: "negative", label: "Të këqija", n: count("negative") },
+    { key: "positive", label: "Pozitive", n: count("positive") },
+    { key: "negative", label: "Negative", n: count("negative") },
     { key: "neutral", label: "Neutrale", n: count("neutral") },
   ];
 
@@ -76,7 +76,7 @@ export default function Stories({ stories, today }: { stories: DailyStory[]; tod
           <ul className={s.list}>
             {visible.map((x) => (
               <li key={x.id}>
-                <a className={s.story} href={x.url} target="_blank" rel="noopener noreferrer">
+                <a className={s.story} href={x.url}>
                   <ToneTag tone={x.sentiment} />
                   <span>
                     <span className={s.storyTitle}>{x.title}</span>

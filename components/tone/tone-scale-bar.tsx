@@ -57,9 +57,9 @@ export default function ToneScaleBar({
       </div>
 
       <div className={s.ends} aria-hidden>
-        <span>Lajme të këqija</span>
+        <span>Portretizim negativ</span>
         <span>Baraspeshë</span>
-        <span>Lajme të mira</span>
+        <span>Portretizim pozitiv</span>
       </div>
     </div>
   );

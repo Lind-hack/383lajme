@@ -1,12 +1,9 @@
 name: Tone Scraper
 
 on:
-  schedule:
-    # Matches codex-cloud-news.yml's Kosovo-time cadence — 07:00-23:00 local,
-    # every 2h (Europe/Pristina summer/CEST is UTC+2) — so Bota Flet gets new
-    # articles alongside the main news pipeline instead of once a day.
-    # Same :23 offset as before, to stay off Actions' :00 peak load.
-    - cron: "23 5,7,9,11,13,15,17,19,21 * * *"
+  # Retired schedule: Bota's GPT-6 Luna/xhigh job is managed by Hermes on the VPS.
+  # Manual invocation remains available for legacy snapshots; Bota reads its
+  # independent GPT publication store and never mixes these version-4 scores.
   workflow_dispatch:
 
 jobs:

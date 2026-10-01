@@ -100,7 +100,7 @@ export function dayVerdict(index: number | null): string {
   const t = bandPosition(index);
   if (t < 0.2) return "Sot bota shkroi keq për Kosovën.";
   if (t < 0.4) return "Sot bota shkroi më shumë keq se mirë për Kosovën.";
-  if (t <= 0.6) return "Sot lajmet e mira dhe të këqija për Kosovën u baraspeshuan.";
+  if (t <= 0.6) return "Sot portretizimi i Kosovës ishte kryesisht neutral ose i baraspeshuar.";
   if (t <= 0.8) return "Sot bota shkroi më shumë mirë se keq për Kosovën.";
   return "Sot bota shkroi mirë për Kosovën.";
 }

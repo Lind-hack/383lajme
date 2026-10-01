@@ -7,6 +7,7 @@
 import { readFile } from "fs/promises";
 import path from "path";
 import { remoteImageSrc } from "./remote-image.mjs";
+import { readBotaSnapshot } from "./bota-store.mjs";
 
 // tools/tone_scraper.py can now return "unknown" for an article it isn't
 // confident enough to score (deliberately, not a bug — see UNKNOWN in that
@@ -15,11 +16,11 @@ import { remoteImageSrc } from "./remote-image.mjs";
 // guaranteed by an explicit filter rather than by the type alone.
 export type ToneSentimentRaw = "positive" | "neutral" | "negative" | "unknown";
 
-/** The definition the current pipeline scores under: "good or bad news for
- *  Kosovo's image abroad". Must equal STANCE_SCHEMA_VERSION in
- *  tools/tone_scraper.py. Labels and rows of any other version are a different
+/** The current GPT pipeline measures the article's portrayal of Kosovo,
+ *  distinguishing the journalist's framing from attributed opinions.
+ *  Labels and rows of any other version are a different
  *  measurement and are never mixed into what the daily page shows. */
-export const CURRENT_STANCE_VERSION = 4;
+export const CURRENT_STANCE_VERSION = 5;
 
 export interface ToneDayStats {
   index: number | null;
@@ -42,6 +43,7 @@ export interface ToneArticle {
    * what the drill-down leads with — the original is in German or Turkish. */
   albanianTitle?: string | null;
   url: string;
+  readerUrl?: string;
   date: string;
   sentiment: ToneSentimentRaw;
   /** One clause on why the outlet was read this way, from the classifier.
@@ -187,7 +189,10 @@ async function readJson<T>(file: string): Promise<T | null> {
 }
 
 export async function getToneOutlets(): Promise<ToneOutletsData | null> {
-  return readJson<ToneOutletsData>("tone-outlets.json");
+  const snapshot=await readBotaSnapshot();
+  if(snapshot)return snapshot.outlets;
+  const legacy=await readJson<ToneOutletsData & {stanceVersion?:number}>("tone-outlets.json");
+  return legacy?.stanceVersion===CURRENT_STANCE_VERSION?legacy:null;
 }
 
 /** One masthead's whole record, across every run we have kept. */
@@ -221,8 +226,9 @@ export async function getToneOutletLedger(): Promise<ToneOutletLedger | null> {
 }
 
 export async function getToneHistory(): Promise<ToneHistoryRow[]> {
+  const snapshot=await readBotaSnapshot();if(snapshot)return snapshot.history;
   const data = await readJson<ToneHistoryRow[]>("tone-history.json");
-  return Array.isArray(data) ? data : [];
+  return Array.isArray(data) ? data.filter(row=>row.stanceVersion===CURRENT_STANCE_VERSION) : [];
 }
 
 export interface ToneSummary {
@@ -536,7 +542,7 @@ export function getDailyStories(
       id: lead.url,
       title: withoutOutletSuffix(lead.albanianTitle as string, lead.outlet),
       originalTitle: lead.title,
-      url: lead.url,
+      url: lead.readerUrl ?? lead.url,
       imageUrl: lead.imageUrl ? remoteImageSrc(lead.imageUrl, 480) : null,
       sentiment: lead.sentiment as DailyStory["sentiment"],
       outlet: lead.outlet,

@@ -98,7 +98,7 @@ export default async function BotaPerKosovenPage() {
           <h1 className={s.title}>Bota për Kosovën</h1>
           <p className={s.lede}>
             Çdo ditë lexojmë çfarë shkruan shtypi i huaj për Kosovën dhe shënojmë nëse
-            lajmi e bën Kosovën të duket më mirë apo më keq jashtë vendit.
+            artikulli e portretizon Kosovën pozitivisht, negativisht apo në mënyrë neutrale.
           </p>
         </header>
 
@@ -120,8 +120,8 @@ export default async function BotaPerKosovenPage() {
             <p className={s.why}>
               {positive + negative + neutral > 0 ? (
                 <>
-                  <b className={s.good}>{positive} {positive === 1 ? "lajm i mirë" : "lajme të mira"}</b>,{" "}
-                  <b className={s.bad}>{negative} {negative === 1 ? "i keq" : "të këqija"}</b> dhe {neutral}{" "}
+                  <b className={s.good}>{positive} {positive === 1 ? "artikull pozitiv" : "artikuj pozitivë"}</b>,{" "}
+                  <b className={s.bad}>{negative} {negative === 1 ? "negativ" : "negativë"}</b> dhe {neutral}{" "}
                   {neutral === 1 ? "neutral" : "neutrale"} deri tani sot.
                 </>
               ) : today.previous ? (
@@ -176,7 +176,7 @@ export default async function BotaPerKosovenPage() {
                 {includesYesterday ? "Lajmet e sotme dhe të djeshme" : "Lajmet e sotme"}
               </h2>
               <p className={s.sectionNote}>
-                Së pari ato që e bëjnë Kosovën të duket më mirë ose më keq. Titujt janë përkthyer në shqip.
+                Lexo artikujt e përkthyer në shqip dhe shpjegimin e vlerësimit të secilit.
               </p>
             </div>
           </div>
@@ -198,11 +198,11 @@ export default async function BotaPerKosovenPage() {
         </section>
 
         <p id="metodologjia" className={s.method}>
-          <b>Si e llogarisim.</b> Çdo artikull i shtypit të huaj për Kosovën vlerësohet si i
-          mirë, i keq ose neutral për imazhin e Kosovës, edhe kur fjalët janë të dikujt që
-          citohet. Indeksi shkon nga 0 (vetëm lajme të këqija) te 100 (vetëm të mira); 50
-          është baraspeshë, dhe lajmet neutrale nuk e lëvizin. Media kosovare, shqiptare dhe
-          serbe nuk numërohen, as tabelat e rezultateve dhe programet televizive.
+          <b>Si e llogarisim.</b> Vlerësojmë mënyrën si artikulli e portretizon Kosovën,
+          jo nëse ngjarja është e mirë apo e keqe. Dallojmë opinionet e personave të cituar
+          nga zëri i gazetarit. Indeksi shkon nga 0 (portretizim negativ) te 100
+          (portretizim pozitiv); 50 është neutral ose i baraspeshuar. Çdo artikull ka
+          shpjegimin e vlerësimit, përkthimin në shqip dhe lidhjen te burimi origjinal.
         </p>
       </main>
 

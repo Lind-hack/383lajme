@@ -58,9 +58,7 @@ export default function ToneMapSheet({
           {articles.slice(0, 2).map((a, i) => (
             <a
               key={`${a.url}-${i}`}
-              href={a.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={a.readerUrl ?? a.url}
               className="tone-sheet__item"
             >
               {a.imageUrl ? (

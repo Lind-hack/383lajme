@@ -42,9 +42,7 @@ export default function ToneArticleCard({ a }: { a: ToneCardArticle }) {
   return (
     <a
       className="tone-card"
-      href={a.url}
-      target="_blank"
-      rel="noopener noreferrer"
+      href={a.readerUrl ?? a.url}
       // The accent drives the left rule, the evidence bar and the fallback
       // tint, so it is set once as a custom property rather than threaded
       // through three inline styles.
@@ -114,7 +112,7 @@ export default function ToneArticleCard({ a }: { a: ToneCardArticle }) {
         )}
 
         <span className="tone-card__cta">
-          Lexo te {a.outlet} <ExternalLink size={12} strokeWidth={2.2} />
+          {a.readerUrl ? "Lexo në shqip" : `Lexo te ${a.outlet}`} <ExternalLink size={12} strokeWidth={2.2} />
         </span>
       </div>
     </a>

@@ -1,0 +1,8 @@
+.reader{max-width:780px;margin:0 auto;padding:100px 24px 70px;color:var(--text-primary)}
+.reader a{color:inherit;text-decoration:underline;text-underline-offset:4px}
+.reader h1{font-size:clamp(30px,5vw,48px);line-height:1.15;letter-spacing:-.035em;margin:20px 0}
+.meta,.original{font-size:14px;line-height:1.7;opacity:.7;margin:20px 0}
+.assessment{padding:20px;border:1px solid rgba(128,128,128,.25);border-radius:14px;margin:28px 0}
+.assessment p{margin:12px 0 0;line-height:1.7}
+.body{font-size:19px;line-height:1.85;overflow-wrap:anywhere}.body p{margin:0 0 24px}
+@media(max-width:600px){.reader{padding:85px 20px 50px}.body{font-size:17px}}
