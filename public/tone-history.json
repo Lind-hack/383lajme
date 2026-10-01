@@ -10532,235 +10532,20 @@
   },
   {
     "date": "2026-09-30",
-    "overallIndex": 38,
-    "totalArticles": 65,
-    "sourceCount": 47,
+    "overallIndex": 61,
+    "totalArticles": 35,
+    "sourceCount": 28,
     "stanceVersion": 4,
     "day": {
-      "index": 38,
-      "positive": 8,
-      "neutral": 43,
-      "negative": 14,
+      "index": 61,
+      "positive": 7,
+      "neutral": 24,
+      "negative": 4,
       "unknown": 1,
-      "n": 65,
-      "sourceCount": 47
+      "n": 35,
+      "sourceCount": 28
     },
-    "countries": {
-      "Gjermani": {
-        "index": 38,
-        "positive": 0,
-        "neutral": 75,
-        "negative": 25,
-        "n": 4,
-        "excluded": 23,
-        "confident": false,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": -12,
-          "from": 50,
-          "outlet": "SPORT1",
-          "title": "Liga e Kombeve: Austria triumfon bindshëm ndaj Kosovës – sport1.de",
-          "evidence": "Österreich siegt souverän gegen Kosovo",
-          "url": "https://www.sport1.de/news/fussball/uefa-nations-league/2026/09/nations-league-oesterreich-siegt-souveraen-gegen-kosovo"
-        }
-      },
-      "SHBA": {
-        "index": null,
-        "positive": 0,
-        "neutral": 0,
-        "negative": 0,
-        "n": 0,
-        "excluded": 1,
-        "confident": false,
-        "stanceVersion": 4
-      },
-      "Britani": {
-        "index": 30,
-        "positive": 0,
-        "neutral": 71,
-        "negative": 29,
-        "n": 7,
-        "excluded": 3,
-        "confident": true,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": -20,
-          "from": 50,
-          "outlet": "Balkan Insight",
-          "title": "Prokurori amerikan kritikon dështimin e Kosovës për të menaxhuar pritshmëritë rreth aktgjykimit për Thaçin - Balkan Insight",
-          "evidence": "Failure to Mitigate Thaci Verdict Expectations",
-          "url": "https://balkaninsight.com/2026/09/30/us-prosecutor-questions-kosovos-failure-to-mitigate-thaci-verdict-expectations/btj/"
-        }
-      },
-      "Francë": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 3,
-        "excluded": 7,
-        "confident": false,
-        "stanceVersion": 4
-      },
-      "Itali": {
-        "index": 31,
-        "positive": 11,
-        "neutral": 44,
-        "negative": 44,
-        "n": 9,
-        "excluded": 20,
-        "confident": false,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": -21,
-          "from": 52,
-          "outlet": "il Nord Est",
-          "title": "Dënimi i Thaçit në Hagë: Protestat përfshijnë Kosovën - il Nord Est",
-          "evidence": "Condanna di Thaçi all’Aja: in Kosovo dilaga la protesta",
-          "url": "https://www.ilnordest.it/oltre-confine/condanna-thaci-aja-kosovo-protesta-jpahvzl1"
-        }
-      },
-      "Austri": {
-        "index": 30,
-        "positive": 0,
-        "neutral": 93,
-        "negative": 7,
-        "n": 28,
-        "excluded": 148,
-        "confident": false,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": -19,
-          "from": 49,
-          "outlet": "ORF ON",
-          "title": "Affengruber kalon Austrinë në epërsi (minuta 23) - Liga e Kombeve: Austri - Kosovë.",
-          "evidence": "köpfelt Österreich in Führung",
-          "url": "https://on.orf.at/video/14340841/16160951/affengruber-koepfelt-oesterreich-in-fuehrung-23"
-        }
-      },
-      "Zvicër": {
-        "index": 39,
-        "positive": 20,
-        "neutral": 40,
-        "negative": 40,
-        "n": 10,
-        "excluded": 10,
-        "confident": true,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": -11,
-          "from": 50,
-          "outlet": "SRF",
-          "title": "Fitorja e dytë: Austria mposht edhe Kosovën – SRF",
-          "evidence": "Österreich schlägt auch den Kosovo",
-          "url": "https://www.srf.ch/play/tv/sport-clip/video/2--sieg-oesterreich-schlaegt-auch-den-kosovo?urn=urn:srf:video:a0e81aac-a2ff-4df2-bafd-a712ce2bdabd"
-        }
-      },
-      "Holandë": {
-        "index": 70,
-        "positive": 29,
-        "neutral": 71,
-        "negative": 0,
-        "n": 7,
-        "excluded": 3,
-        "confident": true,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": 20,
-          "from": 50,
-          "outlet": "Puna.nl",
-          "title": "Kosso zbulon se po bëhet një reality show për emigrimin e tij në Kosovë: \"Ende nuk mund të flas për këtë\"",
-          "evidence": "realityserie komt over zijn emigratie naar Kosovo",
-          "url": "https://www.puna.nl/news/kosso-onthult-dat-er-een-realityserie-komt-over-zijn-emigratie-naar-kosovo-mag-ik-nog-niet-over-vertellen"
-        }
-      },
-      "Belgjikë": {
-        "index": 30,
-        "positive": 0,
-        "neutral": 0,
-        "negative": 100,
-        "n": 2,
-        "excluded": 1,
-        "confident": false,
-        "stanceVersion": 4
-      },
-      "Spanjë": {
-        "index": 62,
-        "positive": 100,
-        "neutral": 0,
-        "negative": 0,
-        "n": 1,
-        "excluded": 1,
-        "confident": false,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": 12,
-          "from": 50,
-          "outlet": "Cadena 100",
-          "title": "Dua Lipa shkëlqen në dasmën shqiptare të kushëririt të saj: Detajet e fundjavës emocionale në Kosovë",
-          "evidence": "deslumbrante",
-          "url": "https://www.cadena100.es/trending-topic/noticias/dua-lipa-deslumbrante-gran-boda-albanesa-primo-todos-detalles-emotivo-semana-familiar-kosovo-20260928_156041.html"
-        }
-      },
-      "Greqi": {
-        "index": 71,
-        "positive": 41,
-        "neutral": 47,
-        "negative": 12,
-        "n": 17,
-        "excluded": 18,
-        "confident": true,
-        "stanceVersion": 4,
-        "movement": {
-          "delta": 21,
-          "from": 50,
-          "outlet": "news247.gr",
-          "title": "Dua Lipa vallëzon në një aheng në Kosovë me gotë mbi kokë – Video",
-          "evidence": "χόρεψε ... στο γλέντι στο Κόσοβο",
-          "url": "https://www.news247.gr/psixagogia/celebrities/h-ntoua-lipa-xorepse-se-glenti-sto-kosovo-me-potiri-sto-kefali-vinteo/"
-        }
-      },
-      "Suedi": {
-        "index": 50,
-        "positive": 0,
-        "neutral": 100,
-        "negative": 0,
-        "n": 3,
-        "excluded": 3,
-        "confident": false,
-        "stanceVersion": 4
-      },
-      "Poloni": {
-        "index": 50,
-        "positive": 17,
-        "neutral": 67,
-        "negative": 17,
-        "n": 6,
-        "excluded": 20,
-        "confident": false,
-        "stanceVersion": 4
-      },
-      "Turqi": {
-        "index": 50,
-        "positive": 44,
-        "neutral": 11,
-        "negative": 44,
-        "n": 9,
-        "excluded": 9,
-        "confident": true,
-        "stanceVersion": 4
-      },
-      "Kroaci": {
-        "index": null,
-        "positive": 0,
-        "neutral": 0,
-        "negative": 0,
-        "n": 0,
-        "excluded": 0,
-        "confident": false,
-        "stanceVersion": 4
-      }
-    },
+    "countries": {},
     "headlines": [
       {
         "title": "Time for the world to recognize Kosovo! - dailycampus.com",
@@ -10808,6 +10593,272 @@
         "country": "Itali",
         "flag": "🇮🇹",
         "url": "https://www.repubblica.it/sport/dirette/calcio/uefa-nations-league-2026/diretta-austria-kosovo-g2626910/",
+        "sentiment": "negative"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-01",
+    "overallIndex": 59,
+    "totalArticles": 32,
+    "sourceCount": 27,
+    "stanceVersion": 4,
+    "day": {
+      "index": 59,
+      "positive": 5,
+      "neutral": 24,
+      "negative": 3,
+      "unknown": 3,
+      "n": 32,
+      "sourceCount": 27
+    },
+    "countries": {
+      "Gjermani": {
+        "index": 50,
+        "positive": 0,
+        "neutral": 100,
+        "negative": 0,
+        "n": 3,
+        "excluded": 4,
+        "confident": false,
+        "stanceVersion": 4
+      },
+      "SHBA": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 4
+      },
+      "Britani": {
+        "index": 25,
+        "positive": 0,
+        "neutral": 57,
+        "negative": 43,
+        "n": 7,
+        "excluded": 3,
+        "confident": true,
+        "stanceVersion": 4,
+        "movement": {
+          "delta": -5,
+          "from": 30,
+          "outlet": "Balkan Insight",
+          "title": "Prokurori amerikan kritikon dështimin e Kosovës për të menaxhuar pritshmëritë rreth aktgjykimit për Thaçin - Balkan Insight",
+          "evidence": "Failure to Mitigate Thaci Verdict Expectations",
+          "url": "https://balkaninsight.com/2026/09/30/us-prosecutor-questions-kosovos-failure-to-mitigate-thaci-verdict-expectations/btj/"
+        }
+      },
+      "Francë": {
+        "index": 62,
+        "positive": 14,
+        "neutral": 86,
+        "negative": 0,
+        "n": 7,
+        "excluded": 2,
+        "confident": true,
+        "stanceVersion": 4,
+        "movement": {
+          "delta": 12,
+          "from": 50,
+          "outlet": "LiveFoot",
+          "title": "Rezultati Kosova U21 - Qipro U21: Përmbledhja dhe golat e ndeshjes (2-1) - Kualifikimet për Kampionatin Evropian U21 - LiveFoot",
+          "evidence": "2-1",
+          "url": "https://www.livefoot.fr/direct/championnat-d-europe-u21-qualification-europe/match-kosovo-u21-vs-chypre-u21-6e9e8a19"
+        }
+      },
+      "Itali": {
+        "index": 50,
+        "positive": 20,
+        "neutral": 60,
+        "negative": 20,
+        "n": 5,
+        "excluded": 10,
+        "confident": false,
+        "stanceVersion": 4,
+        "movement": {
+          "delta": 19,
+          "from": 31,
+          "outlet": "soroptimist.it",
+          "title": "Rrjetëzimi, miqësia dhe paqja në binjakëzimin Itali-Kosovë",
+          "evidence": "Rete, amicizia e pace nel gemellaggio Italia-Kosovo",
+          "url": "https://www.soroptimist.it/it/attivita/attivita-nazionali/rete-amicizia-e-pace-nel-gemellaggio-italia-kosovo-61095/"
+        }
+      },
+      "Austri": {
+        "index": 38,
+        "positive": 0,
+        "neutral": 89,
+        "negative": 11,
+        "n": 9,
+        "excluded": 32,
+        "confident": false,
+        "stanceVersion": 4
+      },
+      "Zvicër": {
+        "index": 81,
+        "positive": 56,
+        "neutral": 44,
+        "negative": 0,
+        "n": 9,
+        "excluded": 3,
+        "confident": true,
+        "stanceVersion": 4,
+        "movement": {
+          "delta": 42,
+          "from": 39,
+          "outlet": "Albinfo",
+          "title": "Kosova prezantohet në Festat Konsullore të Lionit, me fokus kulturën dhe bashkëpunimin për “Prishtina 2030” - Albinfo",
+          "evidence": "se présente aux Fêtes consulaires... focus sur la culture",
+          "url": "https://www.albinfo.ch/fr/kosova-prezantohet-ne-festat-konsullore-ne-lyon-ne-fokus-kultura-dhe-bashkepunimi-per-prishtina-2030/"
+        }
+      },
+      "Holandë": {
+        "index": 70,
+        "positive": 67,
+        "neutral": 33,
+        "negative": 0,
+        "n": 3,
+        "excluded": 3,
+        "confident": false,
+        "stanceVersion": 4
+      },
+      "Belgjikë": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 1,
+        "confident": false,
+        "stanceVersion": 4
+      },
+      "Spanjë": {
+        "index": 62,
+        "positive": 50,
+        "neutral": 50,
+        "negative": 0,
+        "n": 2,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 4
+      },
+      "Greqi": {
+        "index": 62,
+        "positive": 11,
+        "neutral": 89,
+        "negative": 0,
+        "n": 9,
+        "excluded": 9,
+        "confident": true,
+        "stanceVersion": 4
+      },
+      "Suedi": {
+        "index": 38,
+        "positive": 0,
+        "neutral": 75,
+        "negative": 25,
+        "n": 4,
+        "excluded": 3,
+        "confident": false,
+        "stanceVersion": 4,
+        "movement": {
+          "delta": -12,
+          "from": 50,
+          "outlet": "sverigesradio.se",
+          "title": "Protesta të përditshme pas dënimit me burg të ish-presidentit të Kosovës - sverigesradio.se",
+          "evidence": "Dagliga protester",
+          "url": "https://www.sverigesradio.se/artikel/dagliga-protester-efter-att-kosovos-ex-president-domts-till-fangelse"
+        }
+      },
+      "Poloni": {
+        "index": 50,
+        "positive": 7,
+        "neutral": 87,
+        "negative": 7,
+        "n": 15,
+        "excluded": 6,
+        "confident": true,
+        "stanceVersion": 4
+      },
+      "Turqi": {
+        "index": 79,
+        "positive": 100,
+        "neutral": 0,
+        "negative": 0,
+        "n": 4,
+        "excluded": 4,
+        "confident": false,
+        "stanceVersion": 4,
+        "movement": {
+          "delta": 29,
+          "from": 50,
+          "outlet": "Son Dakika",
+          "title": "Xhudistët kombëtarë fituan 1 medalje të artë, 4 të argjendta dhe 2 të bronzta në Kosovë - Son Dakika",
+          "evidence": "1 altın, 4 gümüş, 2 bronz madalya kazandı",
+          "url": "https://www.sondakika.com/spor/haber-milli-judocular-kosova-da-1-altin-4-gumus-2-bronz--20278090/"
+        }
+      },
+      "Kroaci": {
+        "index": null,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 0,
+        "n": 0,
+        "excluded": 0,
+        "confident": false,
+        "stanceVersion": 4
+      }
+    },
+    "headlines": [
+      {
+        "title": "Nach Albanien ist von der Leyen heute im Kosovo, wo der Weg in die EU im Mittelpunkt steht - rtsh.al",
+        "source": "rtsh.al",
+        "country": "Gjermani",
+        "flag": "🇩🇪",
+        "url": "https://rtsh.al/rti/de/nach-albanien-ist-von-der-leyen-heute-im-kosovo-wo-der-weg-in-die-eu-im-mittelpunkt-steht/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Qlupod signs distribution agreement with VITEX Group LLC in Kosovo - TradingView",
+        "source": "TradingView",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://www.tradingview.com/news/reuters.com,2026-10-01:newsml_PexY5nVra:0-qlupod-signs-distribution-agreement-with-vitex-group-llc-in-kosovo/",
+        "sentiment": "positive"
+      },
+      {
+        "title": "La Turquie finance des activités du Conseil de l’Europe au Kosovo* - coe.int",
+        "source": "coe.int",
+        "country": "Francë",
+        "flag": "🇫🇷",
+        "url": "https://www.coe.int/fr/web/programmes/-/t%C3%BCrkiye-funds-council-of-europe-activities-in-kosovo*",
+        "sentiment": "positive"
+      },
+      {
+        "title": "Kosovo has six days to elect president and avoid new elections - European Western Balkans",
+        "source": "European Western Balkans",
+        "country": "SHBA",
+        "flag": "🇺🇸",
+        "url": "https://europeanwesternbalkans.com/2026/09/30/kosovo-has-six-days-to-elect-president-and-avoid-new-elections/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "US Prosecutor Questions Kosovo’s Failure to Mitigate Thaci Verdict Expectations - Balkan Insight",
+        "source": "Balkan Insight",
+        "country": "Britani",
+        "flag": "🇬🇧",
+        "url": "https://balkaninsight.com/2026/09/30/us-prosecutor-questions-kosovos-failure-to-mitigate-thaci-verdict-expectations/btj/",
+        "sentiment": "negative"
+      },
+      {
+        "title": "Quella volta che Ismajli rischiò il carcere per un boicottaggio in Kosovo: la storia - Toro News",
+        "source": "Toro News",
+        "country": "Itali",
+        "flag": "🇮🇹",
+        "url": "https://www.toronews.net/toro/quella-volta-che-ismajli-rischio-il-carcere-per-un-boicottaggio-in-kosovo-la-storia/",
         "sentiment": "negative"
       }
     ]
