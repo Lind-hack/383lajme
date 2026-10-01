@@ -146,9 +146,10 @@ export function DailyBonusButton({
 }
 
 /**
- * The bonus, explained in the page rather than in a popup: a slim strip under
- * the floor head that says what unlocks today's coins, what they can be, and
- * where the streak stands. Pressing the locked button only makes it pulse.
+ * The bonus, explained in the page rather than in a popup: a bold card under
+ * the floor head that is hard to miss. Dardani, the reward, a three-step track
+ * (signed in → trade today → collect), the streak and today's jackpot chance.
+ * Pressing the locked header button only makes it pulse.
  */
 export function DailyBonusStrip({
   status,
@@ -169,56 +170,57 @@ export function DailyBonusStrip({
   const alive = status?.streak ?? 0;
   const landing = status?.next_streak ?? 1;
   const chance = Math.round(jackpotChance(landing) * 100);
+  const traded = state !== "locked";
+  const claimed = state === "claimed";
+
+  if (claimed) {
+    // Done for today: a quiet line, the card has said its piece.
+    return (
+      <section className="tregu-bonus-done" aria-label="Bonusi ditor">
+        <span aria-hidden>✓</span>
+        <strong>Bonusi i sotëm u mor</strong>
+        <span>Kthehu nesër dhe tregto që ta mbash serinë</span>
+        {alive > 0 && <em><Flame size={12} /> {alive} ditë</em>}
+      </section>
+    );
+  }
+
   return (
-    <section
-      key={pulse}
-      className="tregu-bonus-strip"
-      data-state={state}
-      data-pulse={pulse > 0 || undefined}
-      aria-label="Bonusi ditor"
-    >
-      <span className="tregu-bonus-strip-icon" aria-hidden>
-        {state === "locked" ? <Lock /> : state === "ready" ? "🎁" : "✓"}
-      </span>
-      <div className="tregu-bonus-strip-copy">
-        {state === "locked" && (
-          <>
-            <strong>Bonusi ditor: 10–25 383C</strong>
-            <span>Bëj një tregtim sot, në çdo treg dhe me çdo shumë, dhe bonusi hapet.</span>
-          </>
-        )}
-        {state === "ready" && (
-          <>
-            <strong>Bonusi yt është gati</strong>
-            <span>Tregtove sot. Merr 10–25 383C, me {chance}% shans për xhekpotin prej 25.</span>
-          </>
-        )}
-        {state === "claimed" && (
-          <>
-            <strong>Bonusi i sotëm u mor</strong>
-            <span>Kthehu nesër dhe bëj një tregtim që ta mbash serinë.</span>
-          </>
+    <section key={pulse} className="tregu-bonus-card" data-state={state} data-pulse={pulse > 0 || undefined} aria-label="Bonusi ditor">
+      <div className="tregu-bonus-card-dardani" aria-hidden>
+        <DardaniImage name={state === "ready" ? "tregu-win" : "streak"} decorative />
+      </div>
+      <div className="tregu-bonus-card-main">
+        <p className="tregu-bonus-card-kicker">{state === "ready" ? "🎁 Gati për ty" : "🔒 Bonusi ditor"}</p>
+        <h2 className="tregu-bonus-card-title">
+          {state === "ready" ? "Merr bonusin e sotëm" : <>Fito <span>10–25 383C</span> sot</>}
+        </h2>
+        <p className="tregu-bonus-card-lead">
+          {state === "ready"
+            ? `Tregtove sot. Shuma del rastësisht nga 10 deri në 25, dhe 25 është xhekpoti (${chance}% sot).`
+            : "Bëj një tregtim sot, në çdo treg dhe me çdo shumë, dhe bonusi hapet. Kthehu çdo ditë që seria të rritet."}
+        </p>
+        <ol className="tregu-bonus-steps" aria-label="Hapat">
+          <li data-done><i>✓</i>U kyçe</li>
+          <li data-done={traded || undefined} data-now={!traded || undefined}><i>{traded ? "✓" : "2"}</i>Tregto sot</li>
+          <li data-now={traded || undefined}><i>3</i>Merr 10–25</li>
+        </ol>
+      </div>
+      <div className="tregu-bonus-card-side">
+        <div className="tregu-bonus-card-stats">
+          <span><Flame size={14} /> <b>{alive}</b> {alive === 1 ? "ditë" : "ditë"} seri</span>
+          <span>🎰 <b>{chance}%</b> xhekpot</span>
+        </div>
+        {state === "ready" ? (
+          <button type="button" className="tregu-bonus-card-cta" data-primary onClick={onClaim} disabled={claiming}>
+            {claiming ? "…" : "Merr bonusin"}
+          </button>
+        ) : (
+          <button type="button" className="tregu-bonus-card-cta" onClick={onFindMarket}>
+            Gjej një treg <span aria-hidden>→</span>
+          </button>
         )}
       </div>
-      <div className="tregu-bonus-strip-meta">
-        {alive > 0 && (
-          <span className="tregu-bonus-strip-streak" title="Ditë rresht me bonus">
-            <Flame size={12} />
-            {alive} {alive === 1 ? "ditë" : "ditë"}
-          </span>
-        )}
-        {state !== "claimed" && <span className="tregu-bonus-strip-odds">{chance}% xhekpot</span>}
-      </div>
-      {state === "locked" && (
-        <button type="button" className="tregu-bonus-strip-cta" onClick={onFindMarket}>
-          Gjej një treg <span aria-hidden>→</span>
-        </button>
-      )}
-      {state === "ready" && (
-        <button type="button" className="tregu-bonus-strip-cta" data-primary onClick={onClaim} disabled={claiming}>
-          {claiming ? "…" : "Merr bonusin"}
-        </button>
-      )}
     </section>
   );
 }

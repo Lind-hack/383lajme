@@ -3,6 +3,16 @@
 import { notFound } from "next/navigation";
 import { useState, type CSSProperties } from "react";
 import { DailyBonusButton, DailyBonusStrip, JackpotCelebration, type DailyBonusStatus } from "@/components/tregu/daily-bonus";
+import DuelPin from "@/components/tregu/duel-pin";
+import type { Duel } from "@/lib/tregu-leagues";
+
+const HOUR = 3_600_000;
+const BASE = Math.floor(Date.now() / HOUR) * HOUR;
+const DUELS: Duel[] = [
+  { id: "d1", league_id: "x", league_name: "Premier League me miqtë", status: "pending", stake: 25, i_am_challenger: false, rival: "Arta Krasniqi", created_at: new Date(BASE - HOUR).toISOString(), ends_at: null, my_net: 0, rival_net: 0, won: null },
+  { id: "d2", league_id: "x", league_name: "Liga e Javës", status: "active", stake: 50, i_am_challenger: true, rival: "Blerim Gashi", created_at: new Date(BASE - 6 * HOUR).toISOString(), ends_at: new Date(BASE + 17 * HOUR).toISOString(), my_net: 124, rival_net: 98, won: null },
+  { id: "d3", league_id: "x", league_name: "Liga e Javës", status: "settled", stake: 10, i_am_challenger: true, rival: "Dona", created_at: new Date(BASE - 30 * HOUR).toISOString(), ends_at: new Date(BASE - 6 * HOUR).toISOString(), my_net: 140, rival_net: 77, won: true },
+];
 
 const NOOP = () => {};
 const STATES: { label: string; status: DailyBonusStatus }[] = [
@@ -29,6 +39,8 @@ export default function BonusPreview() {
             <DailyBonusButton variant="bar" status={row.status} claiming={false} onClaim={NOOP} onLocked={NOOP} />
           </div>
         ))}
+        <h2 style={{ margin: "32px 0 12px", fontSize: 20 }}>Duelet (në krye të Tregut)</h2>
+        <DuelPin signedIn sample={DUELS} />
         <h2 style={{ margin: "32px 0 12px", fontSize: 20 }}>Shiriti në faqe</h2>
         {STATES.slice(1).map((row) => (
           <DailyBonusStrip key={row.label} status={row.status} claiming={false} onClaim={NOOP} onFindMarket={NOOP} pulse={0} />

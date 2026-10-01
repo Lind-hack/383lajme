@@ -36,6 +36,7 @@ import SpotlightTour, { type TourStep } from "@/components/spotlight-tour";
 import TradeTutorial, { openTradeTutorial } from "@/components/tregu/trade-tutorial";
 import LeagueTutorial from "@/components/tregu/league-tutorial";
 import { DailyBonusButton, DailyBonusStrip, JackpotCelebration, useDailyBonus } from "@/components/tregu/daily-bonus";
+import DuelPin from "@/components/tregu/duel-pin";
 import { formatKosovoTime } from "@/lib/tregu-local-time.mjs";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
@@ -667,7 +668,7 @@ export default function TreguHub() {
   const [bonusPulse, setBonusPulse] = useState(0);
   const bonusLocked = () => {
     setBonusPulse((n) => n + 1);
-    const strip = document.querySelector<HTMLElement>(".tregu-bonus-strip");
+    const strip = document.querySelector<HTMLElement>(".tregu-bonus-card");
     if (!strip) return;
     const box = strip.getBoundingClientRect();
     if (box.top < 80 || box.bottom > window.innerHeight) {
@@ -772,6 +773,10 @@ export default function TreguHub() {
             Previously the tagline sat under the h1 and the balance chip floated
             off to the right on its own axis, so the eye crossed two rows to
             answer "where am I / what have I got". */}
+        {/* Duels first: a challenge or a live score is the most time-bound thing
+            a player has on Tregu, so it is pinned above everything else. */}
+        <DuelPin signedIn={balance !== null} />
+
         <div className="tregu-floor-head">
           <div className="tregu-floor-head-title">
             <span className="tregu-floor-head-bar" aria-hidden />
