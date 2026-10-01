@@ -19725,55 +19725,6 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .perty-signup p { margin: 3px 0 0; font-size: 14px; line-height: 1.45; color: #5E5048; }
 .perty-signup .perty-icon-btn { margin-left: 0; }
 
-.perty-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.perty-item {
-  background: rgba(255, 255, 255, 0.82);
-  border: 1px solid #E8E3DB;
-  border-radius: 18px;
-  transition: border-color 160ms ease, box-shadow 160ms ease;
-}
-.perty-item:hover { border-color: #D8CFC3; box-shadow: 0 10px 26px rgba(64, 40, 20, 0.07); }
-.perty-item-link {
-  display: grid;
-  grid-template-columns: 132px minmax(0, 1fr);
-  gap: 18px;
-  padding: 12px;
-  color: inherit;
-  text-decoration: none;
-  border-radius: 18px;
-}
-.perty-thumb {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #EFEAE2;
-}
-.perty-thumb-empty { position: absolute; inset: 0; opacity: 0.18; }
-.perty-item-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; padding: 4px 4px 4px 0; }
-.perty-reason {
-  align-self: flex-start;
-  padding: 3px 10px;
-  border-radius: 999px;
-  background: color-mix(in srgb, #FF4422 10%, #FFFFFF);
-  color: #B42A10;
-  font-size: 12.5px;
-  font-weight: 800;
-}
-.perty-item[data-kind="top"] .perty-reason { background: #EFEAE2; color: #3F3833; }
-.perty-item[data-kind="learned"] .perty-reason { background: #F2EEE8; color: #5E5048; }
-.perty-item-title {
-  font-size: 18px;
-  font-weight: 750;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  color: #111111;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.perty-item-link:hover .perty-item-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .perty-item-meta { display: flex; align-items: baseline; gap: 7px; flex-wrap: wrap; font-size: 13px; color: #5E5048; }
 .perty-item-meta b { font-weight: 800; }
 .perty-item-meta i { font-style: normal; }
@@ -19824,8 +19775,6 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   }
   .perty-foot-actions { justify-content: flex-end; }
   .perty-foot-actions .perty-btn--primary { flex: 1; }
-  .perty-item-link { grid-template-columns: 96px minmax(0, 1fr); gap: 12px; padding: 10px; }
-  .perty-item-title { font-size: 16px; }
   .perty-signup { position: relative; flex-wrap: wrap; align-items: flex-start; padding-right: 52px; }
   .perty-signup .perty-btn { flex: 1 1 100%; margin-right: -34px; }
   .perty-signup .perty-icon-btn { position: absolute; top: 8px; right: 8px; }
@@ -22459,278 +22408,68 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .perty-build-lines { max-width: none; }
 }
 
-/* ── Për ty: the reader's own paper ─────────────────────────────────────── */
-.perty-mast {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  gap: 28px;
-  padding-bottom: 26px;
-  border-bottom: 3px double #1A1A1A;
-}
-.perty-mast-title {
-  margin: 0;
-  color: #111111;
-  font-family: var(--font-garamond), Georgia, serif;
-  font-size: clamp(44px, 6.4vw, 84px);
-  font-style: italic;
-  font-weight: 500;
-  line-height: 0.95;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
-}
-.perty-mast-line {
-  margin: 16px 0 0;
-  color: #3F3833;
-  font-size: 16.5px;
-  line-height: 1.5;
-}
-.perty-mast-line b { color: #C2340F; font-weight: 800; font-variant-numeric: tabular-nums; }
-.perty-mast-date { font-weight: 700; color: #111111; }
-.perty-mast .perty-summary { margin: 6px 0 18px; }
-.perty-mast-dardani { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.perty-mast-loop { height: 210px; }
-.perty-streak {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0;
-  padding: 8px 14px 8px 8px;
-  border: 1.5px solid #F1E6DE;
-  border-radius: 16px;
-  background: #FFFFFF;
-  box-shadow: 0 6px 18px rgba(120, 60, 20, 0.07);
-}
-.perty-streak-img { height: 46px; }
-.perty-streak span { display: flex; flex-direction: column; }
-.perty-streak b { color: #C2340F; font-size: 15px; font-weight: 800; }
-.perty-streak small { color: #5C5853; font-size: 12px; }
-
-.perty-front {
-  display: grid;
-  grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
-  gap: 36px;
-  margin-top: 32px;
-}
-.perty-lead-link { display: flex; flex-direction: column; gap: 16px; color: inherit; text-decoration: none; }
-.perty-lead-img {
-  position: relative;
-  display: block;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  border-radius: 22px;
-  background: #EFE8E0;
-  box-shadow: 0 18px 40px rgba(64, 40, 20, 0.1);
-}
-.perty-lead-img img { transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1); }
-.perty-lead-body { display: flex; flex-direction: column; gap: 10px; }
-.perty-lead-title {
-  color: #111111;
-  font-size: clamp(26px, 2.9vw, 40px);
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.025em;
-  text-wrap: balance;
-}
-.perty-lead-excerpt {
-  max-width: 62ch;
-  color: #3F3833;
-  font-size: 17px;
-  line-height: 1.55;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.perty-top { align-self: start; padding: 22px 22px 8px; border-radius: 22px; background: #FFFFFF; border: 1px solid #EDE5DC; }
-.perty-top h2,
-.perty-section-title {
-  margin: 0;
-  color: #111111;
-  font-family: var(--font-garamond), Georgia, serif;
-  font-style: italic;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-}
-.perty-top h2 { font-size: 27px; }
-.perty-top ol { margin: 10px 0 0; padding: 0; list-style: none; }
-.perty-top li + li { border-top: 1px solid #EFE8E0; }
-.perty-top a { display: flex; flex-direction: column; gap: 5px; padding: 14px 0; color: inherit; text-decoration: none; }
-.perty-top strong { color: #111111; font-size: 16px; font-weight: 750; line-height: 1.3; }
-.perty-top span { color: #5E5048; font-size: 13px; }
-
-.perty-dnote {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin: 36px 0 8px;
-  padding: 12px 14px 12px 12px;
-  border: 1px solid #F4DDD2;
-  border-radius: 20px;
-  background: #FFF6F1;
-}
-.perty-dnote p { flex: 1; margin: 0; color: #2B2825; font-size: 15.5px; font-weight: 600; line-height: 1.4; }
-
-.perty-section { margin-top: 40px; }
-.perty-section-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
-  padding-top: 18px;
-  border-top: 1px solid #E3DBD1;
-  font-size: clamp(26px, 2.6vw, 34px);
-}
-.perty-person-mark {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: #111111;
-  color: #F9F6F1;
-  font-family: var(--font-manrope), sans-serif;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-}
-.perty-row {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(240px, calc((100% - 48px) / 4));
-  gap: 16px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding-bottom: 6px;
-  scrollbar-width: thin;
-  scrollbar-color: #D8CFC3 transparent;
-}
-.perty-card {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  color: inherit;
-  text-decoration: none;
-  scroll-snap-align: start;
-}
-.perty-card-img {
-  position: relative;
-  display: block;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  border-radius: 16px;
-  background: #EFE8E0;
-}
-.perty-card-img img { transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1); }
-.perty-card-title {
-  color: #111111;
-  font-size: 16.5px;
-  font-weight: 750;
-  line-height: 1.3;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-@media (min-width: 900px) {
-  .perty-section .perty-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (hover: hover) and (pointer: fine) {
-  .perty-lead-link:hover .perty-lead-img img,
-  .perty-card:hover .perty-card-img img { transform: scale(1.03); }
-  .perty-lead-link:hover .perty-lead-title,
-  .perty-card:hover .perty-card-title,
-  .perty-top a:hover strong { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-}
+/* ── Për ty: the morning edition ───────────────────────────────────────────
+   Read over one coffee, then closed. One reading column, five parts in a
+   fixed order: masthead, Dardani's three lines, the edition of seven, the
+   end, and the rest folded under "Më shumë". Every story uses the same row,
+   so nothing has to be learned twice. */
+.perty-shell--edition { max-width: 720px; }
 .perty-paper ::selection { background: #FFD2C5; color: #111111; }
-@media (max-width: 860px) {
-  .perty-mast { grid-template-columns: 1fr; }
-  .perty-mast-dardani { flex-direction: row; order: -1; justify-content: space-between; }
-  .perty-mast-loop { height: 120px; }
-  .perty-front { grid-template-columns: 1fr; }
-  .perty-dnote { flex-wrap: wrap; }
-  .perty-dnote p { flex-basis: calc(100% - 70px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .perty-lead-img img,
-  .perty-card-img img { transition: none; }
-}
 
-/* ── Për ty: today — the reader's town and Dardani's three lines ───────── */
-.perty-today {
+.perty-ed-mast {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.75fr);
-  gap: 20px;
-  margin-top: 28px;
-}
-.perty-today > :only-child { grid-column: 1 / -1; }
-/* Alone (no brief today), the town reads as one strip rather than a wide box. */
-.perty-today > .perty-city:only-child:not(.perty-city--ask) { flex-direction: row; flex-wrap: wrap; align-items: center; column-gap: 28px; }
-.perty-today > .perty-city:only-child .perty-city-news { margin: 0 0 0 auto; padding-top: 0; border-top: 0; }
-.perty-city {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 20px 22px;
-  border: 1px solid #EDE5DC;
-  border-radius: 22px;
-  background: #FFFFFF;
-}
-.perty-city-kicker {
-  display: inline-flex;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 6px;
-  margin: 0;
-  color: #B42A10;
-  font-size: 12.5px;
-  font-weight: 800;
-  letter-spacing: 0.02em;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #E3DBD1;
 }
-.perty-city-weather { display: flex; align-items: center; gap: 14px; margin: 0; }
-.perty-city-weather b { color: #111111; font-size: 44px; font-weight: 800; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
-.perty-city-weather span { display: flex; flex-direction: column; gap: 3px; color: #2B2825; font-size: 16px; font-weight: 700; }
-.perty-city-weather small { color: #5E5048; font-size: 13.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.perty-city-border { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; }
-.perty-city-border dt { color: #5E5048; font-size: 13px; font-weight: 700; }
-.perty-city-border dd { margin: 2px 0 0; color: #111111; font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; }
-.perty-city-quiet { margin: 0; color: #5E5048; font-size: 14.5px; }
-.perty-city-news {
+.perty-ed-dardani { height: 84px; }
+.perty-ed-hello {
+  margin: 0;
+  color: #111111;
+  font-family: var(--font-garamond), Georgia, serif;
+  font-size: clamp(32px, 5vw, 46px);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.perty-ed-line {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin: auto 0 0;
-  padding-top: 12px;
-  border-top: 1px solid #EFE8E0;
+  gap: 4px 14px;
+  margin: 8px 0 0;
   color: #5E5048;
   font-size: 14.5px;
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
-.perty-city-news a:not(.perty-link) { color: #111111; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-.perty-city--ask { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; background: #FFF6F1; border-color: #F4DDD2; }
-.perty-city--ask > svg { color: #B42A10; flex: none; }
-.perty-city--ask p { flex: 1 1 220px; margin: 0; color: #2B2825; font-size: 15px; line-height: 1.4; }
+.perty-ed-date { color: #111111; font-weight: 800; }
+.perty-ed-city { display: inline-flex; align-items: center; gap: 5px; color: #3F3833; text-decoration: none; }
+.perty-ed-city svg { flex: none; color: #B42A10; }
+.perty-ed-city b { color: #111111; font-weight: 800; }
+.perty-ed-edit { align-self: start; min-height: 40px; padding: 0 14px; font-size: 14px; }
 
+/* "Në 30 sekonda" */
 .perty-brief {
-  padding: 18px 22px 10px;
+  margin-top: 22px;
+  padding: 14px 18px 4px;
   border: 1px solid #F4DDD2;
-  border-radius: 22px;
+  border-radius: 18px;
   background: #FFF6F1;
 }
 .perty-brief header { display: flex; align-items: center; gap: 10px; }
-.perty-brief h2 { margin: 0; color: #111111; font-size: 20px; font-weight: 800; letter-spacing: -0.01em; }
-.perty-brief ol { margin: 8px 0 0; padding: 0; list-style: none; counter-reset: brief; }
+.perty-brief h2 { margin: 0; color: #111111; font-size: 16px; font-weight: 800; letter-spacing: -0.005em; }
+.perty-brief ol { margin: 6px 0 0; padding: 0; list-style: none; counter-reset: brief; }
 .perty-brief li { counter-increment: brief; }
 .perty-brief li + li { border-top: 1px solid #F4DDD2; }
 .perty-brief a {
   display: grid;
-  grid-template-columns: 26px minmax(0, 1fr);
+  grid-template-columns: 24px minmax(0, 1fr);
   gap: 6px;
-  padding: 11px 0;
+  padding: 10px 0;
   color: #2B2825;
   font-size: 15.5px;
   font-weight: 600;
@@ -22740,7 +22479,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 }
 .perty-brief a::before { content: counter(brief); color: #B42A10; font-weight: 800; font-variant-numeric: tabular-nums; }
 .perty-brief a:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 2px; border-radius: 6px; }
-.perty-brief-loading { display: grid; gap: 12px; padding: 14px 0 12px 32px; }
+.perty-brief-loading { display: grid; gap: 12px; padding: 12px 0 14px 30px; }
 .perty-brief-loading i {
   display: block;
   height: 12px;
@@ -22753,27 +22492,201 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .perty-brief-loading i:nth-child(3) { width: 72%; }
 @keyframes perty-brief-shimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
 
+/* "Për ty sot": the seven */
+.perty-ed { margin-top: 30px; }
+.perty-ed-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #111111;
+}
+.perty-ed-head h2 { margin: 0; color: #111111; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+.perty-ed-progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: #5E5048;
+  font-size: 13.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.perty-ed-bar { display: block; width: 64px; height: 6px; overflow: hidden; border-radius: 3px; background: #EBE3D9; }
+.perty-ed-bar i { display: block; height: 100%; border-radius: 3px; background: #FF4422; transition: width 300ms var(--ease-out); }
+.perty-ed-list { margin: 0; padding: 0; list-style: none; }
+.perty-ed-list li + li { border-top: 1px solid #ECE4DA; }
+.perty-ed-row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 14px;
+  padding: 16px 0;
+  color: inherit;
+  text-decoration: none;
+}
+.perty-ed-row:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 4px; border-radius: 10px; }
+.perty-ed-n {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: #111111;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.perty-ed-body { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.perty-ed-reason { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; color: #B42A10; font-size: 12.5px; font-weight: 800; }
+.perty-ed-title { color: #111111; font-size: 17.5px; font-weight: 750; line-height: 1.3; letter-spacing: -0.01em; text-wrap: pretty; }
+.perty-ed-row[data-lead] .perty-ed-title { font-size: clamp(19px, 2.4vw, 22px); line-height: 1.22; letter-spacing: -0.015em; }
+.perty-ed-excerpt {
+  display: -webkit-box;
+  overflow: hidden;
+  color: #4A443F;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.perty-ed-row[data-lead] .perty-ed-excerpt { -webkit-line-clamp: 2; }
+.perty-ed-thumb {
+  position: relative;
+  display: block;
+  width: 120px;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #EFE8E0;
+}
+.perty-ed-row[data-lead] .perty-ed-thumb { width: 168px; }
+/* Read: still there, quieter, with a tick where its number was. */
+.perty-ed-row[data-read] .perty-ed-n { background: #E3F2E7; color: #15803D; }
+.perty-ed-row[data-read] .perty-ed-title { color: #6B625B; }
+.perty-ed-row[data-read] .perty-ed-thumb { opacity: 0.55; }
+
 /* New since the last visit, and already read. */
-.perty-reason { display: inline-flex; align-items: center; gap: 8px; }
 .perty-mark { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 800; letter-spacing: 0.02em; }
 .perty-mark--new { background: #111111; color: #FFFFFF; }
 .perty-mark--read { background: #EFEAE2; color: #5E5048; }
-.perty-reason .perty-mark { margin-right: -4px; }
-.perty-card > .perty-mark { align-self: flex-start; }
-.perty-card[data-read] .perty-card-title,
-.perty-item-link[data-read] .perty-item-title { color: #6B625B; }
-.perty-fresh-count { color: #B42A10; }
+
+/* "Kaq për sot": the end of the edition */
+.perty-end {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 22px;
+  margin-top: 28px;
+  padding: 24px 26px;
+  border: 1px solid #EDE5DC;
+  border-radius: 22px;
+  background: #FFFFFF;
+  box-shadow: 0 14px 36px rgba(64, 40, 20, 0.07);
+}
+.perty-end-img { height: 136px; }
+.perty-end h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: #111111;
+  font-family: var(--font-garamond), Georgia, serif;
+  font-size: 32px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.1;
+}
+.perty-end h2 svg { flex: none; color: #B42A10; }
+.perty-end-copy > p { margin: 6px 0 0; color: #3F3833; font-size: 15.5px; line-height: 1.5; }
+.perty-end-streak b { color: #C2340F; }
+.perty-end-ask { display: flex; align-items: flex-start; gap: 8px; }
+.perty-end-ask svg { flex: none; margin-top: 4px; color: #B42A10; }
+.perty-end-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.perty-end-copy > .perty-end-following { margin-top: 14px; color: #6B625B; font-size: 13px; }
+
+/* "Më shumë, nëse ke kohë": folded, after the end */
+.perty-more { margin-top: 36px; }
+.perty-more h2 {
+  margin: 0 0 8px;
+  color: #5E5048;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.perty-more-group { border-top: 1px solid #E3DBD1; }
+.perty-more-group:last-of-type { border-bottom: 1px solid #E3DBD1; }
+.perty-more-group summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  color: #111111;
+  font-size: 16px;
+  font-weight: 800;
+  list-style: none;
+  cursor: pointer;
+}
+.perty-more-group summary::-webkit-details-marker { display: none; }
+.perty-more-group summary b {
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: #F1EBE3;
+  color: #5E5048;
+  font-size: 12.5px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.perty-more-group summary svg { flex: none; margin-left: auto; color: #5E5048; transition: transform 200ms var(--ease-out); }
+.perty-more-group[open] summary svg { transform: rotate(180deg); }
+.perty-more-group summary:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 2px; border-radius: 8px; }
+.perty-more-group ul { margin: 0 0 12px; padding: 0; list-style: none; }
+.perty-more-group li + li { border-top: 1px dashed #ECE4DA; }
+.perty-more-row { display: flex; flex-direction: column; gap: 4px; padding: 10px 0; color: inherit; text-decoration: none; }
+.perty-more-row:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 2px; border-radius: 8px; }
+.perty-more-row strong { color: #111111; font-size: 15.5px; font-weight: 700; line-height: 1.35; text-wrap: pretty; }
+.perty-more-row[data-read] strong { color: #6B625B; }
+.perty-more-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.perty-more-reason { color: #B42A10; font-size: 12.5px; font-weight: 800; }
 
 @media (hover: hover) and (pointer: fine) {
+  .perty-ed-row:hover .perty-ed-title,
+  .perty-more-row:hover strong,
   .perty-brief a:hover { color: #111111; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .perty-more-group summary:hover span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 }
-@media (max-width: 860px) {
-  .perty-today { grid-template-columns: 1fr; gap: 14px; margin-top: 20px; }
-  .perty-brief { order: -1; }
-  .perty-city-weather b { font-size: 38px; }
+@media (max-width: 640px) {
+  .perty-ed-mast { gap: 12px; padding-bottom: 16px; }
+  .perty-ed-dardani { height: 60px; }
+  /* The edit button shrinks to its icon; its label stays for screen readers. */
+  .perty-ed-edit { width: 40px; padding: 0; }
+  .perty-ed-edit span { display: none; }
+  .perty-ed-line { font-size: 13.5px; gap: 2px 12px; }
+  .perty-brief { margin-top: 16px; padding: 12px 14px 2px; }
+  .perty-brief a { font-size: 15px; }
+  .perty-ed { margin-top: 24px; }
+  .perty-ed-row { grid-template-columns: 26px minmax(0, 1fr) auto; gap: 12px; padding: 14px 0; }
+  .perty-ed-n { width: 26px; height: 26px; font-size: 12.5px; }
+  .perty-ed-title { font-size: 16.5px; }
+  .perty-ed-row[data-lead] .perty-ed-title { font-size: 19px; }
+  /* On a phone only the opener keeps its summary: the rest read as headlines. */
+  .perty-ed-row:not([data-lead]) .perty-ed-excerpt { display: none; }
+  .perty-ed-thumb { width: 80px; border-radius: 10px; }
+  .perty-ed-row[data-lead] .perty-ed-thumb { width: 96px; }
+  .perty-end { grid-template-columns: 1fr; gap: 10px; padding: 20px 18px; }
+  .perty-end-img { height: 96px; }
+  .perty-end h2 { font-size: 28px; }
+  .perty-end-actions .perty-btn { flex: 1 1 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .perty-brief-loading i { animation: none; }
+  .perty-ed-bar i,
+  .perty-more-group summary svg { transition: none; }
 }
 
 /* ── Pyet Dardanin: suggestions chosen for this reader ─────────────────── */

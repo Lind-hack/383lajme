@@ -7,25 +7,33 @@
 // devices (lib/interests-sync.ts) — it is offered after the feed appears, never
 // asked for before it.
 //
-// Every item says why it is here, the day's top stories are always mixed in,
-// and Kryesoret stays one tap away, so personalisation never becomes the only
-// way to reach the day's general news.
+// It is a morning edition, read over one coffee and then closed:
 //
-// It reads as the reader's own morning paper: Dardani greets them by the time
-// of day in Kosovo, the best story for them leads, and the rest is filed under
-// why it is here — the people they follow, their city, their topics — with the
-// day's top stories kept in a strip of their own.
+//   1. a one-block masthead: greeting, date, how long this takes, the
+//      reader's town (weather, or the border waits for the diaspora);
+//   2. "Në 30 sekonda": Dardani's three lines on this edition;
+//   3. "Për ty sot": one numbered list of seven stories (lib/per-ty-edition),
+//      read ones kept in place so "3 / 7 lexuar" can move;
+//   4. "Kaq për sot": the end, with Kryesoret one tap away;
+//   5. "Më shumë", folded, for anyone who wants to keep going.
 //
-// Above it, the two things that make it worth opening every day: their own
-// town (its weather, or the border waits for the diaspora) and Dardani's three
-// lines on what they need to know from their stories. Stories that arrived
-// since the last visit are marked new; stories already opened sink below the
-// ones not yet seen. Visits and reads are remembered on the device only.
+// Every story says why it is here. Visits and reads are remembered on the
+// device only.
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, MapPin, MessageCircleQuestion, SlidersHorizontal, UserRound, X } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  ChevronDown,
+  Coffee,
+  MapPin,
+  MessageCircleQuestion,
+  SlidersHorizontal,
+  UserRound,
+  X,
+} from "lucide-react";
 import TimeAgo from "@/components/time-ago";
 import { getCategoryColor } from "@/lib/category-colors";
 import {
@@ -35,6 +43,7 @@ import {
   type Interests,
 } from "@/lib/interests.mjs";
 import { rankFeed } from "@/lib/per-ty-rank.mjs";
+import { buildEdition } from "@/lib/per-ty-edition.mjs";
 import { personById } from "@/lib/people.mjs";
 import { cityById } from "@/lib/cities.mjs";
 import { nextStreak, STREAK_KEY } from "@/lib/perty-streak.mjs";
@@ -62,7 +71,7 @@ export type FeedArticle = {
 
 type Item = { article: FeedArticle; reason: string; kind: "person" | "city" | "category" | "learned" | "top" };
 
-/** What a card needs to know about this reader's history with the story. */
+/** What a row needs to know about this reader's history with the story. */
 type Seen = { since: string | null; read: ReadonlySet<string> };
 
 const SIGNUP_DISMISSED = "383:perty-signup-dismissed";
@@ -119,15 +128,6 @@ function firstName(meta: Record<string, unknown> | undefined) {
   const raw = [meta?.first_name, meta?.full_name, meta?.name].find((v) => typeof v === "string" && v.trim());
   const first = typeof raw === "string" ? raw.trim().split(/\s+/)[0] : "";
   return first.length > 1 && first.length <= 24 ? first : "";
-}
-
-function initials(name: string) {
-  return name
-    .split(/\s+/)
-    .map((w) => w[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
 }
 
 export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
@@ -193,38 +193,8 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     [pool, interests]
   );
 
-  // Filed under why each story is here. Stories already opened go after the
-  // rest, keeping their order; the lead is the best story not yet read, and
-  // prefers one with a picture so the paper opens on an image.
-  const paper = useMemo(() => {
-    const ranked = feed.filter((i) => i.kind !== "top");
-    const unread = ranked.filter((i) => !read.has(i.article.slug));
-    const personal = [...unread, ...ranked.filter((i) => read.has(i.article.slug))];
-    const lead = unread.find((i) => i.article.imageUrl) ?? unread[0] ?? personal[0] ?? null;
-    const rest = personal.filter((i) => i !== lead);
-    const byReason = (kind: Item["kind"]) => {
-      const groups = new Map<string, Item[]>();
-      for (const item of rest.filter((i) => i.kind === kind)) {
-        groups.set(item.reason, [...(groups.get(item.reason) ?? []), item]);
-      }
-      return [...groups.entries()];
-    };
-    const homeFrom = cityById(home)?.from;
-    return {
-      lead,
-      people: byReason("person"),
-      // The reader's own town first.
-      cities: byReason("city").sort(([a], [b]) => Number(b === homeFrom) - Number(a === homeFrom)),
-      topics: rest.filter((i) => i.kind === "category" || i.kind === "learned"),
-      top: feed.filter((i) => i.kind === "top"),
-      count: personal.length,
-      // Already opened is not new, whenever it arrived.
-      fresh: unread.filter((i) => isNewSince(i.article, since)).length,
-      // What Dardani's brief is written from: the best stories not yet read.
-      briefSlugs: unread.slice(0, 6).map((i) => i.article.slug),
-      homeCount: personal.filter((i) => i.kind === "city" && i.reason === homeFrom).length,
-    };
-  }, [feed, read, since, home]);
+  const homeFrom = cityById(home)?.from ?? null;
+  const { edition, more, minutes } = useMemo(() => buildEdition(feed, { homeFrom }), [feed, homeFrom]);
 
   function save(next: Interests) {
     if (!writeInterests(next)) setStorageFailed(true);
@@ -258,63 +228,51 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     );
   }
 
-  const summary = [
+  const following = [
     ...interests.categories,
     ...interests.people.map((id) => personById(id)?.name).filter(Boolean),
     ...interests.cities.map((id) => cityById(id)?.name).filter(Boolean),
   ].join(" · ");
 
   const showSignup = justFinished && signedIn === false && !signupDismissed;
-  const { lead, people, cities, topics, top, count, fresh, briefSlugs, homeCount } = paper;
   const seen: Seen = { since, read };
+  const readCount = edition.filter((i) => read.has(i.article.slug)).length;
+  const allRead = edition.length > 0 && readCount === edition.length;
+  // Dardani's three lines are written from this edition, the stories not yet read.
+  const briefSlugs = edition
+    .filter((i) => !read.has(i.article.slug))
+    .slice(0, 6)
+    .map((i) => i.article.slug);
+  const firstUnread = edition.find((i) => !read.has(i.article.slug)) ?? edition[0];
 
   return (
-    <div className="perty-shell perty-shell--wide perty-paper">
-      <header className="perty-mast">
-        <div className="perty-mast-copy">
-          <h1 className="perty-mast-title">
+    <div className="perty-shell perty-shell--edition perty-paper">
+      <header className="perty-ed-mast">
+        <DardaniLoop name="greeting" alt="Dardani të përshëndet" className="perty-ed-dardani" />
+        <div className="perty-ed-mast-copy">
+          <h1 className="perty-ed-hello">
             {greeting(now)}
             {name ? `, ${name}` : ""}.
           </h1>
-          <p className="perty-mast-line">
-            <span className="perty-mast-date">{dateline(now)}</span>
-            {count > 0 && (
-              <>
-                {" · "}Kam <b>{count}</b> {count === 1 ? "lajm" : "lajme"} për ty
-                {fresh > 0 ? (
-                  <>
-                    , <b className="perty-fresh-count">{fresh} {fresh === 1 ? "i ri" : "të reja"}</b> që nga
-                    vizita e fundit.
-                  </>
-                ) : (
-                  "."
-                )}
-              </>
-            )}
-          </p>
-          <p className="perty-summary">{summary}</p>
-          <div className="perty-head-actions">
-            <button type="button" className="perty-btn perty-btn--ghost" onClick={() => setEditing(true)}>
-              <SlidersHorizontal size={16} strokeWidth={2.3} aria-hidden="true" />
-              Ndrysho interesat
-            </button>
-            <Link href="/" className="perty-link">
-              Kryesoret <ArrowRight size={15} strokeWidth={2.4} aria-hidden="true" />
-            </Link>
-          </div>
-        </div>
-        <div className="perty-mast-dardani">
-          <DardaniLoop name="greeting" alt="Dardani të përshëndet" className="perty-mast-loop" />
-          {streak >= 2 && (
-            <p className="perty-streak">
-              <DardaniImage name="streak" decorative className="perty-streak-img" />
+          <p className="perty-ed-line">
+            <span className="perty-ed-date">{dateline(now)}</span>
+            {edition.length > 0 && (
               <span>
-                <b>{streak} ditë rresht!</b>
-                <small>Kthehu nesër që të mos e prishësh.</small>
+                {edition.length} {edition.length === 1 ? "lajm" : "lajme"} · rreth {minutes} min
               </span>
-            </p>
-          )}
+            )}
+            <HomeCity homeId={home} />
+          </p>
         </div>
+        <button
+          type="button"
+          className="perty-btn perty-btn--ghost perty-ed-edit"
+          onClick={() => setEditing(true)}
+          aria-label="Ndrysho interesat"
+        >
+          <SlidersHorizontal size={16} strokeWidth={2.3} aria-hidden="true" />
+          <span>Ndrysho</span>
+        </button>
       </header>
 
       {storageFailed && (
@@ -349,12 +307,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
         </aside>
       )}
 
-      <div className="perty-today">
-        <HomeCityPanel homeId={home} count={homeCount} onPick={() => setEditing(true)} />
-        {briefSlugs.length >= 2 && <DardaniBrief slugs={briefSlugs} />}
-      </div>
-
-      {!lead ? (
+      {edition.length === 0 ? (
         <div className="perty-empty">
           <DardaniLoop name="sleeping" className="perty-empty-loop" />
           <p>
@@ -372,93 +325,91 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
         </div>
       ) : (
         <>
-          <div className="perty-front">
-            <Lead item={lead} seen={seen} />
-            {top.length > 0 && (
-              <section className="perty-top" aria-labelledby="perty-top-title">
-                <h2 id="perty-top-title">Kryesoret e ditës</h2>
-                <ol>
-                  {top.map(({ article }) => (
-                    <li key={article.slug}>
-                      <Link href={`/article/${article.slug}`}>
-                        <strong>{article.title}</strong>
-                        <span>
-                          <b style={{ color: getCategoryColor(article.category) }}>{article.category}</b>
-                          {" · "}
-                          <TimeAgo iso={article.publishedAt} />
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ol>
-              </section>
-            )}
-          </div>
+          {briefSlugs.length >= 2 && <DardaniBrief slugs={briefSlugs} />}
 
-          <DardaniNote
-            face="happy"
-            text="Ke një pyetje për lajmin e parë? Ta shpjegoj unë, vetëm nga artikujt e 383."
-            action="Pyet Dardanin"
-            onAction={() => openPyet(`Pse ndodhi kjo: ${lead.article.title}`)}
-          />
+          <section className="perty-ed" aria-labelledby="perty-ed-title">
+            <header className="perty-ed-head">
+              <h2 id="perty-ed-title">Për ty sot</h2>
+              <p className="perty-ed-progress" aria-live="polite">
+                <span className="perty-ed-bar" aria-hidden="true">
+                  <i style={{ width: `${(readCount / edition.length) * 100}%` }} />
+                </span>
+                {readCount} / {edition.length} lexuar
+              </p>
+            </header>
+            <ol className="perty-ed-list">
+              {edition.map((item, i) => (
+                <li key={item.article.slug}>
+                  <EditionRow item={item} n={i + 1} seen={seen} lead={i === 0} />
+                </li>
+              ))}
+            </ol>
+          </section>
 
-          {people.map(([reason, items]) => {
-            const person = reason.replace(/^Sepse ndjek /, "");
-            return (
-              <section key={reason} className="perty-section" aria-label={person}>
-                <h2 className="perty-section-title">
-                  <span className="perty-person-mark" aria-hidden="true">
-                    {initials(person)}
-                  </span>
-                  {person}
-                </h2>
-                <div className="perty-row">
-                  {items.map((item) => (
-                    <StoryCard key={item.article.slug} item={item} seen={seen} showReason={false} />
-                  ))}
-                </div>
-              </section>
-            );
-          })}
-
-          {cities.map(([reason, items]) => (
-            <section
-              key={reason}
-              id={reason === cityById(home)?.from ? "perty-home-city" : undefined}
-              className="perty-section"
-              aria-label={reason}
-            >
-              <h2 className="perty-section-title">{reason}</h2>
-              <div className="perty-row">
-                {items.map((item) => (
-                  <StoryCard key={item.article.slug} item={item} seen={seen} showReason={false} />
-                ))}
-              </div>
-            </section>
-          ))}
-
-          {topics.length > 0 && (
-            <section className="perty-section" aria-labelledby="perty-topics-title">
-              <h2 className="perty-section-title" id="perty-topics-title">
-                Temat e tua
+          <section className="perty-end" aria-labelledby="perty-end-title">
+            <DardaniImage name="wave" decorative className="perty-end-img" />
+            <div className="perty-end-copy">
+              <h2 id="perty-end-title">
+                <Coffee size={22} strokeWidth={2.3} aria-hidden="true" />
+                Kaq për sot.
               </h2>
-              <ol className="perty-list">
-                {topics.map((item) => (
-                  <li key={item.article.slug} className="perty-item" data-kind={item.kind}>
-                    <StoryRow item={item} seen={seen} />
-                  </li>
-                ))}
-              </ol>
-            </section>
-          )}
+              <p>
+                {allRead
+                  ? "I ke lexuar të gjitha. Shihemi nesër me lajmet e reja!"
+                  : "Këto ishin lajmet e tua për sot. Shihemi nesër!"}
+              </p>
+              {streak >= 2 && (
+                <p className="perty-end-streak">
+                  <b>{streak} ditë rresht.</b> Kthehu nesër që të mos e prishësh.
+                </p>
+              )}
+              {!home && (
+                <p className="perty-end-ask">
+                  <MapPin size={15} strokeWidth={2.4} aria-hidden="true" />
+                  <span>Zgjidh qytetin tënd: moti dhe lajmet prej andej dalin këtu, të parat.</span>
+                </p>
+              )}
+              <div className="perty-end-actions">
+                <Link href="/" className="perty-btn perty-btn--primary">
+                  Kryesoret e ditës <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
+                </Link>
+                <button
+                  type="button"
+                  className="perty-btn perty-btn--ghost"
+                  onClick={() => openPyet(firstUnread ? `Pse ndodhi kjo: ${firstUnread.article.title}` : undefined)}
+                >
+                  <MessageCircleQuestion size={16} strokeWidth={2.3} aria-hidden="true" />
+                  Pyet Dardanin
+                </button>
+                <button type="button" className="perty-btn perty-btn--ghost" onClick={() => setEditing(true)}>
+                  <SlidersHorizontal size={16} strokeWidth={2.3} aria-hidden="true" />
+                  {home ? "Ndrysho interesat" : "Zgjidh qytetin"}
+                </button>
+              </div>
+              <p className="perty-end-following">Ndjek: {following}</p>
+            </div>
+          </section>
 
-          {(people.length > 0 || topics.length > 3) && (
-            <DardaniNote
-              face="neutral"
-              text="Dikë tjetër që ndjek? Shto emra ose tema, dhe unë i sjell të parët."
-              action="Shto interesa"
-              onAction={() => setEditing(true)}
-            />
+          {more.length > 0 && (
+            <section className="perty-more" aria-labelledby="perty-more-title">
+              <h2 id="perty-more-title">Më shumë, nëse ke kohë</h2>
+              {more.map((group) => (
+                <details key={group.key} className="perty-more-group">
+                  <summary>
+                    <span>{group.title}</span>
+                    <b>{group.items.length}</b>
+                    <ChevronDown size={18} strokeWidth={2.4} aria-hidden="true" />
+                  </summary>
+                  <ul>
+                    {group.items.map((item) => (
+                      <li key={item.article.slug}>
+                        <MoreRow item={item} seen={seen} showReason={group.kind === "topics"} />
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              ))}
+            </section>
           )}
         </>
       )}
@@ -494,74 +445,59 @@ function Mark({ article, seen }: { article: FeedArticle; seen: Seen }) {
   return null;
 }
 
-function Lead({ item, seen }: { item: Item; seen: Seen }) {
+/**
+ * One story of the edition. The number turns into a tick once it has been
+ * opened; the row stays where it was. A picture only when the story has one —
+ * an empty grey box is not a picture.
+ */
+function EditionRow({ item, n, seen, lead }: { item: Item; n: number; seen: Seen; lead: boolean }) {
   const { article, reason } = item;
+  const isRead = seen.read.has(article.slug);
   return (
-    <article className="perty-lead">
-      <Link href={`/article/${article.slug}`} className="perty-lead-link">
-        {article.imageUrl && (
-          <span className="perty-lead-img">
-            <Image
-              src={article.imageUrl}
-              alt=""
-              fill
-              priority
-              sizes="(max-width: 900px) 100vw, 60vw"
-              style={{ objectFit: "cover" }}
-            />
-          </span>
-        )}
-        <span className="perty-lead-body">
-          <span className="perty-reason">
-            {reason}
-            <Mark article={article} seen={seen} />
-          </span>
-          <strong className="perty-lead-title">{article.title}</strong>
-          {article.excerpt && <span className="perty-lead-excerpt">{article.excerpt}</span>}
-          <Meta article={article} />
-        </span>
-      </Link>
-    </article>
-  );
-}
-
-function StoryCard({ item, seen, showReason = true }: { item: Item; seen: Seen; showReason?: boolean }) {
-  const { article, reason } = item;
-  return (
-    <Link href={`/article/${article.slug}`} className="perty-card" data-read={seen.read.has(article.slug) || undefined}>
-      <span className="perty-card-img">
-        {article.imageUrl ? (
-          <Image src={article.imageUrl} alt="" fill sizes="(max-width: 640px) 70vw, 280px" style={{ objectFit: "cover" }} />
-        ) : (
-          <span className="perty-thumb-empty" style={{ background: getCategoryColor(article.category) }} />
-        )}
+    <Link
+      href={`/article/${article.slug}`}
+      className="perty-ed-row"
+      data-read={isRead || undefined}
+      data-lead={lead || undefined}
+    >
+      <span className="perty-ed-n" aria-hidden="true">
+        {isRead ? <Check size={15} strokeWidth={3} /> : n}
       </span>
-      {showReason && <span className="perty-reason">{reason}</span>}
-      <Mark article={article} seen={seen} />
-      <strong className="perty-card-title">{article.title}</strong>
-      <Meta article={article} />
+      <span className="perty-ed-body">
+        <span className="perty-ed-reason">
+          {reason}
+          <Mark article={article} seen={seen} />
+        </span>
+        <strong className="perty-ed-title">{article.title}</strong>
+        {article.excerpt && <span className="perty-ed-excerpt">{article.excerpt}</span>}
+        <Meta article={article} />
+      </span>
+      {article.imageUrl && (
+        <span className="perty-ed-thumb">
+          <Image
+            src={article.imageUrl}
+            alt=""
+            fill
+            priority={lead}
+            sizes={lead ? "(max-width: 640px) 96px, 168px" : "(max-width: 640px) 80px, 120px"}
+            style={{ objectFit: "cover" }}
+          />
+        </span>
+      )}
     </Link>
   );
 }
 
-function StoryRow({ item, seen }: { item: Item; seen: Seen }) {
+/** A folded "Më shumë" line: just the headline and where it is from. */
+function MoreRow({ item, seen, showReason }: { item: Item; seen: Seen; showReason: boolean }) {
   const { article, reason } = item;
   return (
-    <Link href={`/article/${article.slug}`} className="perty-item-link" data-read={seen.read.has(article.slug) || undefined}>
-      <span className="perty-thumb">
-        {article.imageUrl ? (
-          <Image src={article.imageUrl} alt="" fill sizes="(max-width: 640px) 96px, 132px" style={{ objectFit: "cover" }} />
-        ) : (
-          <span className="perty-thumb-empty" style={{ background: getCategoryColor(article.category) }} />
-        )}
-      </span>
-      <span className="perty-item-body">
-        <span className="perty-reason">
-          {reason}
-          <Mark article={article} seen={seen} />
-        </span>
-        <strong className="perty-item-title">{article.title}</strong>
+    <Link href={`/article/${article.slug}`} className="perty-more-row" data-read={seen.read.has(article.slug) || undefined}>
+      <strong>{article.title}</strong>
+      <span className="perty-more-meta">
+        {showReason && <span className="perty-more-reason">{reason.replace(/^Sepse ndjek /, "")}</span>}
         <Meta article={article} />
+        <Mark article={article} seen={seen} />
       </span>
     </Link>
   );
@@ -593,18 +529,18 @@ type CityPanelData = {
   } | null;
 };
 
-/** "15–40 min", or "deri 10 min" when every crossing reads the same. */
+/** "15–40 min", or "10 min" when every crossing reads the same. */
 function waitRange(range: { lo: number; hi: number } | null) {
   if (!range) return "—";
   return range.lo === range.hi ? `${range.hi} min` : `${range.lo}–${range.hi} min`;
 }
 
 /**
- * The reader's own town: today's weather and how many of their stories are
- * from there, or for the diaspora the border waits. Without a home city it is
- * the one question that makes the feed local.
+ * The reader's own town, as one line of the masthead: today's weather, or for
+ * the diaspora the wait to enter Kosovo. Nothing at all without a home city;
+ * the end of the edition asks for one instead.
  */
-function HomeCityPanel({ homeId, count, onPick }: { homeId: string | null; count: number; onPick: () => void }) {
+function HomeCity({ homeId }: { homeId: string | null }) {
   const city = cityById(homeId);
   const [data, setData] = useState<CityPanelData | null>(null);
 
@@ -622,76 +558,31 @@ function HomeCityPanel({ homeId, count, onPick }: { homeId: string | null; count
     };
   }, [city]);
 
-  if (!city) {
+  if (!city) return null;
+
+  if (city.id === "diaspora") {
+    const entry = data?.border?.entry ?? null;
     return (
-      <aside className="perty-city perty-city--ask">
-        <MapPin size={20} strokeWidth={2.3} aria-hidden="true" />
-        <p>
-          <strong>Nga je?</strong> Zgjidh qytetin tënd: moti dhe lajmet prej andej dalin këtu, të parat.
-        </p>
-        <button type="button" className="perty-btn perty-btn--ghost" onClick={onPick}>
-          Zgjidh qytetin
-        </button>
-      </aside>
+      <Link href="/visit" className="perty-ed-city">
+        <MapPin size={14} strokeWidth={2.5} aria-hidden="true" />
+        {entry ? <>Kufiri: hyrje {waitRange(entry)}</> : "Kufiri sot"}
+      </Link>
     );
   }
 
   const weather = data?.weather ?? null;
-  const border = data?.border ?? null;
   return (
-    <aside className="perty-city" aria-label={`${city.name} sot`}>
-      <p className="perty-city-kicker">
-        <MapPin size={14} strokeWidth={2.5} aria-hidden="true" />
-        {city.id === "diaspora" ? "Rruga për në shtëpi" : `${city.name} sot`}
-      </p>
-
-      {city.id === "diaspora" ? (
-        border ? (
-          <dl className="perty-city-border">
-            <div>
-              <dt>Hyrje në Kosovë</dt>
-              <dd>{waitRange(border.entry)}</dd>
-            </div>
-            <div>
-              <dt>Dalje</dt>
-              <dd>{waitRange(border.exit)}</dd>
-            </div>
-          </dl>
-        ) : (
-          <p className="perty-city-quiet">{data ? "Pritjet në kufi s’janë në dispozicion tani." : "Po i marr pritjet në kufi…"}</p>
-        )
-      ) : weather ? (
-        <p className="perty-city-weather">
-          <b>{weather.tempC}°</b>
-          <span>
-            {weather.label}
-            {weather.highC !== null && weather.lowC !== null && (
-              <small>
-                {weather.lowC}° / {weather.highC}°
-                {weather.rainChance !== null && weather.rainChance >= 30 ? ` · shi ${weather.rainChance}%` : ""}
-              </small>
-            )}
-          </span>
-        </p>
-      ) : (
-        <p className="perty-city-quiet">{data ? "Moti s’është në dispozicion tani." : "Po e marr motin…"}</p>
+    <span className="perty-ed-city">
+      <MapPin size={14} strokeWidth={2.5} aria-hidden="true" />
+      {city.name}
+      {weather && (
+        <>
+          {" "}
+          <b>{weather.tempC}°</b> {weather.label.toLowerCase()}
+          {weather.rainChance !== null && weather.rainChance >= 30 ? `, shi ${weather.rainChance}%` : ""}
+        </>
       )}
-
-      <p className="perty-city-news">
-        {count > 0 ? (
-          <a href="#perty-home-city">
-            {count} {count === 1 ? "lajm" : "lajme"} {city.from.replace(/^Nga /, "nga ").replace(/^Për /, "për ")} këtë javë
-          </a>
-        ) : (
-          <>S’ka lajme {city.from.replace(/^Nga /, "nga ").replace(/^Për /, "për ")} këtë javë.</>
-        )}
-        {city.id === "diaspora" && (
-          <Link href="/visit" className="perty-link">
-            Të gjitha kalimet <ArrowRight size={14} strokeWidth={2.4} aria-hidden="true" />
-          </Link>
-        )}
-      </p>
-    </aside>
+    </span>
   );
 }
 
@@ -699,10 +590,10 @@ type BriefLine = { slug: string; text: string };
 const BRIEF_KEY = "383:perty-brief";
 
 /**
- * "Çfarë duhet të dish sot": Dardani's three lines, written only from the
- * stories at the top of this reader's feed (app/api/per-ty/brief). Kept on the
- * device for the day, for the same stories, so a return visit costs nothing.
- * When the model is down or says nothing usable, the card is simply absent.
+ * "Në 30 sekonda": Dardani's three lines, written only from the stories of
+ * this edition (app/api/per-ty/brief). Kept on the device for the day, for the
+ * same stories, so a return visit costs nothing. When the model is down or says
+ * nothing usable, the block is simply absent.
  */
 function DardaniBrief({ slugs }: { slugs: string[] }) {
   const key = [...slugs].sort().join("|");
@@ -750,8 +641,8 @@ function DardaniBrief({ slugs }: { slugs: string[] }) {
   return (
     <section className="perty-brief" aria-labelledby="perty-brief-title" aria-busy={!lines}>
       <header>
-        <DardaniFace state="happy" size={40} decorative />
-        <h2 id="perty-brief-title">Çfarë duhet të dish sot</h2>
+        <DardaniFace state="happy" size={34} decorative />
+        <h2 id="perty-brief-title">Në 30 sekonda</h2>
       </header>
       {lines ? (
         <ol>
@@ -769,29 +660,5 @@ function DardaniBrief({ slugs }: { slugs: string[] }) {
         </div>
       )}
     </section>
-  );
-}
-
-/** Dardani, between sections, with one thing to do. */
-function DardaniNote({
-  face,
-  text,
-  action,
-  onAction,
-}: {
-  face: "happy" | "neutral";
-  text: string;
-  action: string;
-  onAction: () => void;
-}) {
-  return (
-    <aside className="perty-dnote">
-      <DardaniFace state={face} size={52} decorative />
-      <p>{text}</p>
-      <button type="button" className="perty-btn perty-btn--ghost" onClick={onAction}>
-        <MessageCircleQuestion size={16} strokeWidth={2.3} aria-hidden="true" />
-        {action}
-      </button>
-    </aside>
   );
 }
