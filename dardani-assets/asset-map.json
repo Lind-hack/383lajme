@@ -922,11 +922,11 @@
     {
       "id": "still-celebrating",
       "type": "still",
-      "file": "files/stills-with-background/dardani-celebrating.png",
+      "file": "files/stills/dardani-celebrating.png",
       "surfaces": [
         "Për ty onboarding step 8"
       ],
-      "when": "Onboarding done screen (Gati!) with confetti. Only available with its background (cream), no transparent cut-out yet.",
+      "when": "Onboarding done screen (Gati!) with confetti. Transparent cut-out keyed from files/stills-with-background/dardani-celebrating.png (cream backdrop and floor shadow removed).",
       "alt_sq": "Dardani feston me krahë lart",
       "copy_sq": null,
       "src": null,

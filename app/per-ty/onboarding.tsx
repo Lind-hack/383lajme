@@ -27,12 +27,11 @@ import { getCategoryColor } from "@/lib/category-colors";
 import { toggleValue, type Interests } from "@/lib/interests.mjs";
 import { PEOPLE, PEOPLE_GROUPS, derivedPersonId, personById } from "@/lib/people.mjs";
 import { CITIES, cityById } from "@/lib/cities.mjs";
-import { countMatches, rankFeed } from "@/lib/per-ty-rank.mjs";
+import { countMatches } from "@/lib/per-ty-rank.mjs";
 import { extractPeople } from "@/lib/entities.mjs";
 import { DARDANI_LOOPS, DARDANI_STILLS, type DardaniLoopName } from "@/lib/dardani-assets";
 import DardaniImage from "@/components/dardani/dardani-image";
 import DardaniLoop from "@/components/dardani/dardani-loop";
-import TimeAgo from "@/components/time-ago";
 import type { FeedArticle } from "./per-ty-feed";
 
 const STEPS: ReadonlyArray<{ title: string; lede: string; loop: DardaniLoopName }> = [
@@ -122,9 +121,11 @@ export default function Onboarding({
       .sort((a, b) => Number(b.suggested) - Number(a.suggested) || a.i - b.i);
   }, [categories]);
 
-  // A new question starts at its top. On a phone the reader has scrolled down a
-  // long list to reach Vazhdo; without this the next question opens wherever
-  // that list ended. Focus then moves to the heading, so keyboard and
+  // A new question starts at its top, and so does every screen after it: the
+  // build and done screens render their own <section>, so the ref sits on all of
+  // them. On a phone the reader has scrolled down a long list to reach Vazhdo;
+  // without this the next screen opens wherever that list ended, often with
+  // only the footer in view. Focus then moves to the heading, so keyboard and
   // screen-reader users land on it instead of on a button that no longer means
   // the same thing.
   const firstRender = useRef(true);
@@ -256,7 +257,7 @@ export default function Onboarding({
 
   if (phase === "hello") {
     return (
-      <section className="perty-onboard perty-hello" aria-labelledby="perty-onboard-title">
+      <section ref={sectionRef} className="perty-onboard perty-hello" aria-labelledby="perty-onboard-title">
         <div className="perty-hello-stage">
           <p className="perty-say perty-say--up">Tung! Unë jam Dardani.</p>
           <DardaniLoop name="greeting" alt="Dardani, maskota e 383, përshëndet me krah" className="perty-hello-loop" />
@@ -290,7 +291,7 @@ export default function Onboarding({
       "Po i rendit sipas rëndësisë",
     ];
     return (
-      <section className="perty-onboard perty-build" aria-labelledby="perty-onboard-title">
+      <section ref={sectionRef} className="perty-onboard perty-build" aria-labelledby="perty-onboard-title">
         <DardaniLoop name="reading" alt="Dardani lexon lajmet e sotme" className="perty-build-loop" />
         <div className="perty-hello-copy">
         <h1 id="perty-onboard-title" ref={headingRef} tabIndex={-1} className="perty-onboard-title">
@@ -316,15 +317,16 @@ export default function Onboarding({
   }
 
   if (phase === "done") {
-    const preview = rankFeed(pool, draft, { limit: 3, topCount: 0 });
     return (
-      <section className="perty-onboard perty-done" aria-labelledby="perty-onboard-title">
+      <section ref={sectionRef} className="perty-onboard perty-done" aria-labelledby="perty-onboard-title">
         <div className="perty-confetti" aria-hidden="true">
           {Array.from({ length: 18 }, (_, i) => (
             <i key={i} style={{ "--i": i } as React.CSSProperties} />
           ))}
         </div>
-        <DardaniImage name="celebrating" alt="Dardani feston me të dy krahët lart" className="perty-done-img" priority />
+        {/* Unoptimized: it was preloaded by its own URL on the first screen, so it
+            is already in the cache when he lands here. */}
+        <DardaniImage name="celebrating" alt="Dardani feston me të dy krahët lart" className="perty-done-img" priority unoptimized />
         <div className="perty-hello-copy">
         <h1 id="perty-onboard-title" ref={headingRef} tabIndex={-1} className="perty-done-title">
           Urime! Faqja jote është gati.
@@ -333,20 +335,6 @@ export default function Onboarding({
           {plural(categories.length, "temë", "tema")} · {plural(people.length, "emër", "emra")} ·{" "}
           {plural(cities.length, "qytet", "qytete")} — mund t’i ndryshosh kurdo.
         </p>
-        {preview.length > 0 && (
-          <ul className="perty-done-preview">
-            {preview.map(({ article, reason }, i) => (
-              <li key={article.slug} style={{ "--i": i } as React.CSSProperties}>
-                <span className="perty-reason">{reason}</span>
-                <strong>{article.title}</strong>
-                <small>
-                  {article.category} · <TimeAgo iso={article.publishedAt} />
-                  {article.source ? ` · ${article.source}` : ""}
-                </small>
-              </li>
-            ))}
-          </ul>
-        )}
         <div className="perty-hello-actions">
           <button type="button" className="perty-btn perty-btn--primary perty-btn--big" onClick={() => onDone(picks)}>
             Hap faqen time
@@ -500,8 +488,12 @@ export default function Onboarding({
 
       {step === 2 && (
         <div className="perty-cities">
-          {/* One home city: picking another moves the mark, picking it again clears it. */}
-          <div className="perty-chips perty-chips--cities" role="group" aria-label="Qyteti yt">
+          {/* One home city: picking another moves the mark, picking it again clears it.
+              It gets a heading of its own, or the two city lists read as one
+              list printed twice. */}
+          <div className="perty-city-home">
+          <h2 id="perty-home-city">Qyteti yt</h2>
+          <div className="perty-chips perty-chips--cities" role="group" aria-labelledby="perty-home-city">
             {CITIES.map((c) => (
               <Chip
                 key={c.id}
@@ -514,6 +506,7 @@ export default function Onboarding({
                 {c.name}
               </Chip>
             ))}
+          </div>
           </div>
 
           <div className="perty-group">
@@ -577,7 +570,7 @@ function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; chi
   return (
     <button type="button" className="perty-chip" aria-pressed={on} onClick={onClick}>
       {on && <Check size={14} strokeWidth={3} aria-hidden="true" />}
-      {children}
+      <span className="perty-chip-label">{children}</span>
     </button>
   );
 }

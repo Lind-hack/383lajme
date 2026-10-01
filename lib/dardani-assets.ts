@@ -35,7 +35,7 @@ export const DARDANI_STILLS: Record<DardaniStillName, DardaniStill> = {
   "avatar-talking": { src: "/mascot/dardani-avatar-talking.webp", width: 143, height: 160, alt: "Dardani duke folur", copy: null },
   "avatar-thinking": { src: "/mascot/dardani-avatar-thinking.webp", width: 140, height: 160, alt: "Dardani me krah në mjekër, duke menduar", copy: null },
   "bell": { src: "/mascot/dardani-bell.webp", width: 386, height: 480, alt: "Dardani i bie ziles", copy: "Të njoftoj kur ka lajme të mëdha?" },
-  "celebrating": { src: "/mascot/dardani-celebrating.webp", width: 532, height: 720, alt: "Dardani feston me krahë lart", copy: null },
+  "celebrating": { src: "/mascot/dardani-celebrating.webp", width: 421, height: 480, alt: "Dardani feston me krahë lart", copy: null },
   "diaspora": { src: "/mascot/dardani-diaspora.webp", width: 493, height: 480, alt: "Dardani me valixhe dhe pasaportë", copy: "Mirë se erdhe në shtëpi" },
   "empty": { src: "/mascot/dardani-empty.webp", width: 488, height: 480, alt: "Dardani shikon në një kuti bosh", copy: "Ende asgjë këtu" },
   "error-404": { src: "/mascot/dardani-error-404.webp", width: 289, height: 480, alt: "Dardani mban një gazetë të grisur", copy: "Kjo faqe nuk u gjet" },

@@ -19586,6 +19586,9 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
 }
 .perty-chip:hover { border-color: #CFC7BC; }
+/* A span, so a name too long for its grid cell on desktop ends in "…". */
+.perty-chip-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.perty-city-home h2 { margin: 0 0 12px; color: #111111; font-size: 17px; font-weight: 800; }
 .perty-chip[aria-pressed="true"] {
   border-color: #FF4422;
   background: color-mix(in srgb, #FF4422 8%, #FFFFFF);
@@ -19799,6 +19802,11 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 @media (max-width: 640px) {
   .perty-page { padding: calc(var(--nav-h) + 20px) 14px 48px; }
   .perty-onboard { padding: 22px 18px 0; border-radius: 20px; }
+  /* No bottom padding suits the steps screen, whose sticky action bar fills
+     the bottom edge. These screens end in plain buttons, which need the room. */
+  .perty-hello,
+  .perty-build,
+  .perty-done { padding-bottom: 28px; }
   .perty-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .perty-tile { min-height: 68px; padding: 12px; }
   /* The action row stays under the thumb while the reader scrolls the list. */
@@ -22195,7 +22203,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .perty-hello-actions {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
   width: 100%;
   max-width: 380px;
   margin-top: 22px;
@@ -22282,10 +22290,8 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   0%   { opacity: 1; transform: translate3d(0, -30px, 0) rotate(0deg); }
   100% { opacity: 0; transform: translate3d(0, 420px, 0) rotate(640deg); }
 }
-/* The celebrating pose comes with its own cream backdrop, so it sits in a card. */
 .perty-done-img {
   height: 227px;
-  border-radius: 24px;
   animation: perty-bounce 1.8s ease-in-out infinite;
 }
 @keyframes perty-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
@@ -22297,31 +22303,6 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   line-height: 1.1;
   letter-spacing: -0.03em;
 }
-.perty-done-preview {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-  max-width: 520px;
-  margin: 16px 0 0;
-  padding: 0;
-  list-style: none;
-  text-align: left;
-}
-.perty-done-preview li {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 5px;
-  padding: 11px 14px;
-  border: 1.5px solid #E9DFD4;
-  border-radius: 16px;
-  background: #FFFFFF;
-  animation: pyet-fade 440ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  animation-delay: calc(0.5s + var(--i) * 0.15s);
-}
-.perty-done-preview strong { color: #111111; font-size: 14.5px; font-weight: 800; line-height: 1.3; }
-.perty-done-preview small { color: #6B6660; font-size: 12px; font-weight: 600; }
 .perty-empty-loop { height: 170px; margin: 0 auto 8px; }
 
 /* ── Për ty on a desktop: one screen per step ───────────────────────────────
@@ -22438,24 +22419,23 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
     scrollbar-color: #D8CFC3 transparent;
   }
   .perty-onboard--steps .perty-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  /* One row per group, the section name on the left and its names wrapping
-     beside it: two short lines a group, so all seven are in view. */
-  .perty-onboard--steps .perty-people .perty-group {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin-top: 10px;
+  /* Names and cities sit in an even grid, like the topic tiles: free-width
+     pills wrapping at random points made every row a different length, and
+     with ~50 names that read as clutter. Each group's name is a heading above
+     its own grid, and the column scrolls. */
+  .perty-onboard--steps .perty-chips { display: grid; gap: 8px; }
+  .perty-onboard--steps .perty-people .perty-chips { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .perty-onboard--steps .perty-cities .perty-chips { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); }
+  .perty-onboard--steps .perty-chip {
+    justify-content: center;
+    min-width: 0;
+    min-height: 38px;
+    padding: 0 10px;
+    font-size: 13.5px;
   }
-  .perty-onboard--steps .perty-people .perty-group h2 {
-    flex: 0 0 110px;
-    margin: 7px 0 0;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 3px;
-  }
+  .perty-onboard--steps .perty-people .perty-group { margin-top: 20px; }
+  .perty-onboard--steps .perty-people .perty-group h2 { margin: 0 0 8px; }
   .perty-onboard--steps .perty-people .perty-group-tag { padding: 1px 7px; font-size: 10.5px; white-space: nowrap; }
-  .perty-onboard--steps .perty-people .perty-chips { flex: 1; min-width: 0; gap: 5px; }
-  .perty-onboard--steps .perty-people .perty-chip { min-height: 30px; padding: 0 10px; font-size: 12.5px; }
   .perty-onboard--steps .perty-group { margin-top: 12px; }
   .perty-onboard--steps .perty-dardani-loop { height: 130px; }
 
@@ -22476,8 +22456,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .perty-build-loop { height: 340px; justify-self: center; }
   .perty-done-img { height: 320px; justify-self: center; }
   .perty-build-bar,
-  .perty-build-lines,
-  .perty-done-preview { max-width: none; }
+  .perty-build-lines { max-width: none; }
 }
 
 /* ── Për ty: the reader's own paper ─────────────────────────────────────── */
@@ -22883,8 +22862,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .perty-build-bar i,
   .perty-build-lines li,
   .perty-build-check,
-  .perty-done-img,
-  .perty-done-preview li { animation: none; }
+  .perty-done-img { animation: none; }
   .perty-confetti { display: none; }
 }
 
