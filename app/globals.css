@@ -24001,6 +24001,18 @@ button.lgt-launch > span {
 .tregu-live-locked strong { color: #111; font-size: 16px; font-weight: 800; }
 .tregu-live-locked p { margin: 0; color: #4f4a44; font-size: 13.5px; line-height: 1.55; }
 .tregu-live-locked small { color: #7b746c; font-size: 12px; }
+/* Before kickoff: the slip says up front that trading stops at the start. */
+.tregu-kickoff-note {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(17, 17, 17, .1);
+  border-radius: 12px;
+  background: rgba(17, 17, 17, .035);
+  color: #4f4a44;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.5;
+}
 /* Phones only, pinned just above the fixed trade dock. */
 .tregu-mobile-live-note { display: none; }
 @media (max-width: 859px) {

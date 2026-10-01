@@ -13,6 +13,7 @@ import { normalizeRecordedOutcomeSeries, toExactSeries } from "@/lib/tregu-hub-m
 import ExactMarketChart, { type ExactMarketSeries } from "@/components/tregu/exact-market-chart";
 import TeamFlag from "@/components/tregu/team-flag";
 import { eventLogoFor, outcomeMediaFor } from "@/lib/tregu-media";
+import { tradingCloseLabel } from "@/lib/trading-close.mjs";
 
 const CATEGORY_LABEL: Record<string, string> = {
   kosove: "Kosovë",
@@ -24,21 +25,10 @@ const CATEGORY_LABEL: Record<string, string> = {
   "te-tjera": "Të tjera",
 };
 
-function closeLabel(iso?: string): string | null {
-  if (!iso) return null;
-  const ms = new Date(iso).getTime() - Date.now();
-  if (Number.isNaN(ms)) return null;
-  if (ms <= 0) return "Mbyllur";
-  const days = Math.floor(ms / 86_400_000);
-  if (days >= 1) return `Mbyllet ${days}d`;
-  const hours = Math.floor(ms / 3_600_000);
-  if (hours >= 1) return `Mbyllet ${hours}h`;
-  return `Mbyllet ${Math.max(1, Math.floor(ms / 60_000))}m`;
-}
-
 export default function MarketEventCard({ group }: { group: MarketGroup }) {
   const router = useRouter();
-  const remaining = closeLabel(group.closesAt);
+  const first = group.outcomes[0];
+  const remaining = tradingCloseLabel({ closesAt: group.closesAt, startsAt: first?.startsAt, race: first?.league === "f1" || first?.marketType === "f1_race_winner" }, { compact: true });
   const logo = eventLogoFor(group.title);
   // Big fields (F1 grids) scroll inside the card instead of stretching it far
   // past its grid neighbours — every outcome stays reachable, odds order kept.

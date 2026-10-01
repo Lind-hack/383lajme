@@ -11,7 +11,7 @@ import ExactMarketChart, { type ExactMarketSeries } from "./exact-market-chart";
 import MarketContextMedia from "./market-context-media";
 import SportBrandMark from "./sport-brand-mark";
 import LiveLockBadge from "./live-lock-badge";
-import { tradingPhase } from "@/lib/trading-close.mjs";
+import { tradingCloseLabel, tradingPhase } from "@/lib/trading-close.mjs";
 
 export interface MiniMarket {
   slug: string;
@@ -75,19 +75,6 @@ const CATEGORY_LABEL: Record<string, string> = {
   "te-tjera": "Të tjera",
 };
 
-// Compact time-to-close: "3d", "7h", "12m", or "Mbyllur" once past.
-function closeLabel(iso?: string): string | null {
-  if (!iso) return null;
-  const ms = new Date(iso).getTime() - Date.now();
-  if (Number.isNaN(ms)) return null;
-  if (ms <= 0) return "Mbyllur";
-  const days = Math.floor(ms / 86_400_000);
-  if (days >= 1) return `${days}d`;
-  const hours = Math.floor(ms / 3_600_000);
-  if (hours >= 1) return `${hours}h`;
-  return `${Math.max(1, Math.floor(ms / 60_000))}m`;
-}
-
 function msToClose(iso?: string): number | null {
   if (!iso) return null;
   const ms = new Date(iso).getTime() - Date.now();
@@ -106,7 +93,7 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
   const router = useRouter();
   const pct = Math.round(Math.max(0, Math.min(1, market.prob)) * 100);
   const noPct = 100 - pct;
-  const remaining = closeLabel(market.closesAt);
+  const remaining = tradingCloseLabel({ closesAt: market.closesAt, startsAt: market.startsAt, race: market.league === "f1" || market.marketType === "f1_race_winner" }, { compact: true });
   const closed = remaining === "Mbyllur";
   // A started match stays on the floor, visibly closed for trading.
   const live = tradingPhase({ status: market.status, closesAt: market.closesAt, hasStart: Boolean(market.startsAt) }) === "live";
@@ -168,7 +155,7 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
         <div className="tregu-championship-card-head">
           <span className="tregu-championship-mark" aria-hidden><Trophy size={20} strokeWidth={2.2} /></span>
           <span>Formula 1 · Kampionati</span>
-          {live ? <LiveLockBadge /> : remaining ? <span className="tregu-market-close">{closed ? remaining : `Mbyllet ${remaining}`}</span> : null}
+          {live ? <LiveLockBadge /> : remaining ? <span className="tregu-market-close">{remaining}</span> : null}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img className="tregu-f1-car-art tregu-f1-car-art--inline" src="/images/tregu/f1-rear-smoke-v1.png" alt="" aria-hidden />
         </div>
@@ -198,7 +185,7 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
           {market.category === "sport" && market.league ? <SportBrandMark brandKey={market.league} size="sm" /> : null}
           <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
         </span>
-        {live ? <LiveLockBadge /> : remaining && <span className="tregu-market-close">{closed ? remaining : `Mbyllet ${remaining}`}</span>}
+        {live ? <LiveLockBadge /> : remaining && <span className="tregu-market-close">{remaining}</span>}
         {isF1 ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img className="tregu-f1-car-art tregu-f1-car-art--inline" src="/images/tregu/f1-rear-smoke-v1.png" alt="" aria-hidden />

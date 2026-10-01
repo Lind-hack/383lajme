@@ -47,6 +47,8 @@ interface MobileTradeSheetProps {
   marketOpen: boolean;
   /** The match has started: trading is closed until the result. */
   live?: boolean;
+  /** Before kickoff: when trading stops, e.g. "Tregtimi mbyllet kur nis ndeshja (02.10, 21:00)." */
+  closeNote?: string | null;
   loggedIn: boolean;
   loginHref: string;
   question: string;
@@ -103,6 +105,7 @@ export default function MobileTradeSheet({
   mode,
   marketOpen,
   live = false,
+  closeNote = null,
   loggedIn,
   loginHref,
   question,
@@ -258,6 +261,8 @@ export default function MobileTradeSheet({
               <strong>{selected?.label ?? "Zgjidh rezultatin"}</strong>
             </div>
           </div>
+
+          {marketOpen && closeNote && <p className="tregu-kickoff-note" role="note">{closeNote}</p>}
 
           {!marketOpen ? (
             <div className="tregu-mobile-sheet-empty">

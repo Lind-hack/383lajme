@@ -5,7 +5,7 @@ import Link from "next/link";
 import Navbar from "@/components/navbar";
 import ExactMarketChart, { type ChartNewsMark } from "@/components/tregu/exact-market-chart";
 import LiveLockBadge from "@/components/tregu/live-lock-badge";
-import { tradingClosesAt } from "@/lib/trading-close.mjs";
+import { closesAtStart, marketCloseLabel, tradingClosesAt } from "@/lib/trading-close.mjs";
 import MarketContextMedia from "@/components/tregu/market-context-media";
 import MarketShareActions from "@/components/tregu/market-share-actions";
 import SellSuccess, { type SellReceipt } from "@/components/tregu/sell-success";
@@ -55,7 +55,7 @@ import StickyMarketBack from "@/components/tregu/sticky-market-back";
 import { primeSellSound, primeTradeSuccessSound, resolveTradeSuccessSoundProfile } from "@/components/tregu/trade-success-sound";
 import { buildFootballMetricRows } from "@/lib/tregu-market-detail.mjs";
 import { buildBasketballMetricRows } from "@/lib/basketball-stats.mjs";
-import { formatKosovoDate } from "@/lib/tregu-local-time.mjs";
+import { formatKosovoDate, formatKosovoDateTime } from "@/lib/tregu-local-time.mjs";
 
 // Sibling outcome series from the detail API — real 5-min cron snapshots.
 interface EventOutcome {
@@ -232,16 +232,6 @@ function tradeSurfaceFinish(
   // there is nothing left for a texture to say. React omits the attribute when
   // this is undefined, and the [data-finish] rules simply never match.
   return undefined;
-}
-
-function closesIn(iso: string): string {
-  const ms = new Date(iso).getTime() - Date.now();
-  if (Number.isNaN(ms) || ms <= 0) return "Mbyllur";
-  const days = Math.floor(ms / 86_400_000);
-  if (days >= 1) return `Mbyllet për ${days} ${days === 1 ? "ditë" : "ditë"}`;
-  const hours = Math.floor(ms / 3_600_000);
-  if (hours >= 1) return `Mbyllet për ${hours} orë`;
-  return `Mbyllet për ${Math.max(1, Math.floor(ms / 60_000))} min`;
 }
 
 function FootballOutcomeMark({
@@ -945,10 +935,14 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
   const weeklyStart = weeklyDelta === null
     ? null
     : Math.round(Math.max(0, Math.min(1, market.market_prob - weeklyDelta)) * 100);
-  const closesMs = market.closes_at ? new Date(market.closes_at).getTime() : NaN;
+  // The trading close: kickoff for a match or race, the deadline otherwise.
+  const tradingCloseIso = tradingClosesAt(market) ?? market.closes_at;
+  const closesAtKickoff = closesAtStart(market);
+  const kickoffWord = market.live_event?.race_start || market.live_event?.league === "f1" ? "gara" : "ndeshja";
+  const closesMs = tradingCloseIso ? new Date(tradingCloseIso).getTime() : NaN;
   const closesDateLabel = Number.isNaN(closesMs)
     ? null
-    : formatKosovoDate(closesMs);
+    : closesAtKickoff ? formatKosovoDateTime(closesMs) : formatKosovoDate(closesMs);
 
   const f1Held = f1OutcomeKey ? footballHeldOn(f1OutcomeKey) : undefined;
   const cashOutPrice = f1SelectedDriver?.probability ?? footballSelectedOutcome?.probability ?? sidePrice;
@@ -1264,7 +1258,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   </span>
                 )}
                 {market.status === "closed" && <span className="tregu-pill">Mbyllur</span>}
-                {matchStarted ? <LiveLockBadge /> : market.status === "open" && <span className="tregu-pill">{closesIn(tradingClosesAt(market) ?? market.closes_at)}</span>}
+                {matchStarted ? <LiveLockBadge /> : market.status === "open" && <span className="tregu-pill">{marketCloseLabel(market)}</span>}
                 {/* Permanent way back into the walkthrough once it has been dismissed. */}
                 <button type="button" className="tregu-home-help" onClick={openTradeTutorial}>
                   <span aria-hidden>?</span>
@@ -1318,7 +1312,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 )}
                 <span style={{ fontSize: 13, fontWeight: 700, color: "var(--tg-muted)", fontVariantNumeric: "tabular-nums" }}>
                   {fmtNum(volume)} 383C vëllim · {fmtNum(tradeCount)} tregtime
-                  {closesDateLabel ? ` · ${isClosed ? "u mbyll" : "mbyllet"} ${closesDateLabel}` : ""}
+                  {closesDateLabel ? ` · ${isClosed ? "u mbyll" : "mbyllet"} ${closesAtKickoff ? `kur nis ${kickoffWord}, ` : ""}${closesDateLabel}` : ""}
                 </span>
                 <MarketShareActions
                   slug={slug}
@@ -1663,6 +1657,11 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   </span>
                   <b>{(f1SelectedDriver.probability * 100).toFixed(1)}%</b>
                 </div>
+              )}
+              {!isClosed && closesAtKickoff && (
+                <p className="tregu-kickoff-note" role="note">
+                  Tregtimi mbyllet kur nis {kickoffWord} ({formatKosovoDateTime(tradingCloseIso)}). Pozicioni yt mbetet i hapur dhe paguhet pas rezultatit zyrtar.
+                </p>
               )}
               {!user ? (
                 <div style={{ textAlign: "center", padding: "20px 0" }}>
@@ -2205,7 +2204,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 </div>
                 <div>
                   <strong style={{ color: "#111111" }}>Mbyllet:</strong>{" "}
-                  {formatKosovoDate(market.closes_at, { year: true })}
+                  {closesAtKickoff
+                    ? `kur nis ${kickoffWord}, ${formatKosovoDateTime(tradingCloseIso)}`
+                    : formatKosovoDate(market.closes_at, { year: true })}
                 </div>
               </div>
             </div>
@@ -2217,6 +2218,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           mode={mode}
           marketOpen={!isClosed}
           live={matchStarted}
+          closeNote={closesAtKickoff ? `Tregtimi mbyllet kur nis ${kickoffWord} (${formatKosovoDateTime(tradingCloseIso)}).` : null}
           loggedIn={Boolean(user)}
           loginHref={`/hyr?next=${encodeURIComponent(`/tregu/${slug}`)}`}
           question={group && currentOutcome ? group.title : market.question}

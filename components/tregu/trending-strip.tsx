@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import LiveLockBadge from "./live-lock-badge";
-import { marketTradingPhase, tradingClosesAt } from "@/lib/trading-close.mjs";
+import { marketCloseLabel, marketTradingPhase, tradingClosesAt } from "@/lib/trading-close.mjs";
 import Link from "next/link";
 import SectionLabel from "@/components/section-label";
 import SpotlightTour, { openTour, type TourStep } from "@/components/spotlight-tour";
@@ -105,6 +105,8 @@ interface PreviewMarket {
   question: string;
   category: string;
   closesAt: string;
+  /** "Mbyllet në fillim · 3h" — a match says it closes at kickoff. */
+  closing: string | null;
   /** The match has started: shown, but no longer taking trades. */
   live: boolean;
   tradeCount: number;
@@ -169,6 +171,7 @@ function toPreviewMarket(market: MarketRow): PreviewMarket | null {
       question: market.question,
       category: market.category,
       closesAt: tradingClosesAt(market) ?? market.closes_at,
+      closing: marketCloseLabel(market, { compact: true }),
       live: marketTradingPhase(market) === "live",
       tradeCount: Number(market.trade_count ?? 0),
       outcomes: configured.map((outcome, index) => {
@@ -200,6 +203,7 @@ function toPreviewMarket(market: MarketRow): PreviewMarket | null {
     question: market.question,
     category: market.category,
     closesAt: tradingClosesAt(market) ?? market.closes_at,
+    closing: marketCloseLabel(market, { compact: true }),
     live: marketTradingPhase(market) === "live",
     tradeCount: Number(market.trade_count ?? 0),
     outcomes: [
@@ -219,16 +223,6 @@ function toPreviewMarket(market: MarketRow): PreviewMarket | null {
       },
     ],
   };
-}
-
-function closeLabel(iso: string): string {
-  const ms = new Date(iso).getTime() - Date.now();
-  if (!Number.isFinite(ms) || ms <= 0) return "Mbyllur";
-  const days = Math.floor(ms / 86_400_000);
-  if (days > 0) return `Mbyllet për ${days}d`;
-  const hours = Math.floor(ms / 3_600_000);
-  if (hours > 0) return `Mbyllet për ${hours}h`;
-  return `Mbyllet për ${Math.max(1, Math.floor(ms / 60_000))}m`;
 }
 
 function MarketPreviewCard({ market, index }: { market: PreviewMarket; index: number }) {
@@ -266,7 +260,7 @@ function MarketPreviewCard({ market, index }: { market: PreviewMarket; index: nu
             Grafik live
           </span>
         </div>
-        {market.live ? <LiveLockBadge /> : <span className="tregu-home-close">{closeLabel(market.closesAt)}</span>}
+        {market.live ? <LiveLockBadge /> : <span className="tregu-home-close">{market.closing ?? "Mbyllur"}</span>}
       </header>
 
       <Link href={`/tregu/${market.slug}`} className="tregu-home-title">

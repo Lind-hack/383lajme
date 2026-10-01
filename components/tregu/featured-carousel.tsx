@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import LiveLockBadge from "./live-lock-badge";
-import { tradingPhase } from "@/lib/trading-close.mjs";
+import { tradingCloseLabel, tradingPhase } from "@/lib/trading-close.mjs";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Trophy } from "lucide-react";
@@ -32,18 +32,6 @@ const CATEGORY_LABEL: Record<string, string> = {
 
 const INTERVAL_MS = 7000;
 
-function closeLabel(iso?: string): string | null {
-  if (!iso) return null;
-  const ms = new Date(iso).getTime() - Date.now();
-  if (Number.isNaN(ms)) return null;
-  if (ms <= 0) return "Mbyllur";
-  const days = Math.floor(ms / 86_400_000);
-  if (days >= 1) return `Mbyllet për ${days} ditë`;
-  const hours = Math.floor(ms / 3_600_000);
-  if (hours >= 1) return `Mbyllet për ${hours} orë`;
-  return `Mbyllet për ${Math.max(1, Math.floor(ms / 60_000))} min`;
-}
-
 function shortLeft(iso?: string): string {
   if (!iso) return "—";
   const ms = new Date(iso).getTime() - Date.now();
@@ -61,7 +49,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
   const noPct = 100 - pct;
   const yesMult = pct >= 1 ? (100 / pct).toFixed(2) : null;
   const noMult = noPct >= 1 ? (100 / noPct).toFixed(2) : null;
-  const remaining = closeLabel(market.closesAt);
+  const remaining = tradingCloseLabel({ closesAt: market.closesAt, startsAt: market.startsAt, race: market.league === "f1" || market.marketType === "f1_race_winner" });
   const live = tradingPhase({ status: market.status, closesAt: market.closesAt, hasStart: Boolean(market.startsAt) }) === "live";
   const deltaPp = market.delta7d != null ? Math.round(market.delta7d * 100) : null;
   const dir: "up" | "down" | "flat" =

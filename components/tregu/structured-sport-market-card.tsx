@@ -2,7 +2,7 @@
 import { courtArtFor, sportBrandFor } from "@/lib/tregu-sport-branding";
 import { formatKosovoDate, formatKosovoTime } from "@/lib/tregu-local-time.mjs";
 import { fmtNum } from "@/lib/format";
-import { marketTradingPhase } from "@/lib/trading-close.mjs";
+import { marketCloseLabel, marketTradingPhase } from "@/lib/trading-close.mjs";
 import LiveLockBadge from "./live-lock-badge";
 
 import Link from "next/link";
@@ -40,18 +40,6 @@ export type StructuredSportMarket = {
   outcome_probabilities?: Record<string, number> | null;
   outcome_history?: Record<string, { created_at: string; probability: number }[]> | null;
 };
-
-function closeLabel(iso?: string) {
-  if (!iso) return null;
-  const ms = new Date(iso).getTime() - Date.now();
-  if (!Number.isFinite(ms)) return null;
-  if (ms <= 0) return "Mbyllur";
-  const days = Math.floor(ms / 86_400_000);
-  if (days > 0) return `Mbyllet ${days}d`;
-  const hours = Math.floor(ms / 3_600_000);
-  if (hours > 0) return `Mbyllet ${hours}h`;
-  return `Mbyllet ${Math.max(1, Math.floor(ms / 60_000))}m`;
-}
 
 /** "Sot", "Nesër" or the date, judged in Kosovo time. */
 function dayLabel(iso: string) {
@@ -93,7 +81,7 @@ export default function StructuredSportMarketCard({ market }: { market: Structur
   }));
   const league = market.live_event?.league ?? null;
   const live = marketTradingPhase(market) === "live";
-  const closing = live ? null : closeLabel(market.closes_at);
+  const closing = live ? null : marketCloseLabel(market, { compact: true });
   // Basketball competitions get the arena card: a matchup row with both teams
   // and the tip-off in Kosovo time takes the place of the question text.
   const arena = Boolean(courtArtFor(league)) && outcomes.length === 2;
