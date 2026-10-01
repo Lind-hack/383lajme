@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import LiveLockBadge from "./live-lock-badge";
+import { tradingPhase } from "@/lib/trading-close.mjs";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Trophy } from "lucide-react";
@@ -60,6 +62,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
   const yesMult = pct >= 1 ? (100 / pct).toFixed(2) : null;
   const noMult = noPct >= 1 ? (100 / noPct).toFixed(2) : null;
   const remaining = closeLabel(market.closesAt);
+  const live = tradingPhase({ status: market.status, closesAt: market.closesAt, hasStart: Boolean(market.startsAt) }) === "live";
   const deltaPp = market.delta7d != null ? Math.round(market.delta7d * 100) : null;
   const dir: "up" | "down" | "flat" =
     deltaPp != null && deltaPp > 0 ? "up" : deltaPp != null && deltaPp < 0 ? "down" : "flat";
@@ -226,7 +229,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
                 <i aria-hidden />
                 {lapsLeft === 0 ? "Gara përfundoi" : lapsLeft === 1 ? "Xhiroja e fundit" : `${lapsLeft} xhiro të mbetura`}
               </span>
-            ) : remaining && <span className="tregu-market-close">{remaining}</span>}
+            ) : live ? <LiveLockBadge /> : remaining && <span className="tregu-market-close">{remaining}</span>}
             {/* Inside the header row, but absolutely positioned on desktop, so
                 it anchors to the card's top-right corner there and simply
                 becomes the row's last item on one column. One element, one

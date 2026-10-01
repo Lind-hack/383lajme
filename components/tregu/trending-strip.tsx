@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import LiveLockBadge from "./live-lock-badge";
+import { marketTradingPhase, tradingClosesAt } from "@/lib/trading-close.mjs";
 import Link from "next/link";
 import SectionLabel from "@/components/section-label";
 import SpotlightTour, { openTour, type TourStep } from "@/components/spotlight-tour";
@@ -103,6 +105,8 @@ interface PreviewMarket {
   question: string;
   category: string;
   closesAt: string;
+  /** The match has started: shown, but no longer taking trades. */
+  live: boolean;
   tradeCount: number;
   outcomes: PreviewOutcome[];
 }
@@ -164,7 +168,8 @@ function toPreviewMarket(market: MarketRow): PreviewMarket | null {
       slug: market.slug,
       question: market.question,
       category: market.category,
-      closesAt: market.closes_at,
+      closesAt: tradingClosesAt(market) ?? market.closes_at,
+      live: marketTradingPhase(market) === "live",
       tradeCount: Number(market.trade_count ?? 0),
       outcomes: configured.map((outcome, index) => {
         const probability = Number(
@@ -194,7 +199,8 @@ function toPreviewMarket(market: MarketRow): PreviewMarket | null {
     slug: market.slug,
     question: market.question,
     category: market.category,
-    closesAt: market.closes_at,
+    closesAt: tradingClosesAt(market) ?? market.closes_at,
+    live: marketTradingPhase(market) === "live",
     tradeCount: Number(market.trade_count ?? 0),
     outcomes: [
       {
@@ -260,7 +266,7 @@ function MarketPreviewCard({ market, index }: { market: PreviewMarket; index: nu
             Grafik live
           </span>
         </div>
-        <span className="tregu-home-close">{closeLabel(market.closesAt)}</span>
+        {market.live ? <LiveLockBadge /> : <span className="tregu-home-close">{closeLabel(market.closesAt)}</span>}
       </header>
 
       <Link href={`/tregu/${market.slug}`} className="tregu-home-title">

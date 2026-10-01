@@ -8,6 +8,7 @@ import MarketMiniCard, { type MiniMarket } from "@/components/tregu/market-mini-
 import StructuredSportMarketCard, { type StructuredSportMarket } from "@/components/tregu/structured-sport-market-card";
 import { isStructuredSportMarket, marketVolume } from "@/lib/tregu-hub-market.mjs";
 import { kosovoDateKey, pickDailyMarkets } from "@/lib/home-tregu.mjs";
+import { tradingClosesAt } from "@/lib/trading-close.mjs";
 
 /** The subset of /api/tregu/markets rows this band reads. */
 interface MarketRow {
@@ -26,7 +27,7 @@ interface MarketRow {
   trade_volume?: number;
   history?: { created_at: string; probability: number }[];
   last_data_at?: string;
-  live_event?: { league?: string; event_kind?: string } | null;
+  live_event?: { league?: string; event_kind?: string; kickoff?: string; race_start?: string } | null;
   sport_outcomes?: MiniMarket["sportOutcomes"];
   outcome_probabilities?: Record<string, number> | null;
   outcome_history?: MiniMarket["outcomeHistory"];
@@ -42,7 +43,8 @@ function toMini(row: MarketRow): MiniMarket {
     status: row.status,
     prob: row.market_prob,
     volume: marketVolume(row),
-    closesAt: row.closes_at,
+    closesAt: tradingClosesAt(row) ?? row.closes_at,
+    startsAt: row.live_event?.kickoff ?? row.live_event?.race_start ?? null,
     spark: row.spark,
     delta7d: row.delta7d,
     history: row.history,

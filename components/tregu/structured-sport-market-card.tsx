@@ -2,6 +2,8 @@
 import { courtArtFor, sportBrandFor } from "@/lib/tregu-sport-branding";
 import { formatKosovoDate, formatKosovoTime } from "@/lib/tregu-local-time.mjs";
 import { fmtNum } from "@/lib/format";
+import { marketTradingPhase } from "@/lib/trading-close.mjs";
+import LiveLockBadge from "./live-lock-badge";
 
 import Link from "next/link";
 import type { CSSProperties } from "react";
@@ -27,12 +29,13 @@ export type StructuredSportMarket = {
   category: string;
   market_type?: string;
   closes_at?: string;
+  status?: string;
   trade_count?: number;
   trade_volume?: number;
   q_yes?: number;
   q_no?: number;
   last_data_at?: string;
-  live_event?: { league?: string; sport?: string; kickoff?: string } | null;
+  live_event?: { league?: string; sport?: string; kickoff?: string; race_start?: string } | null;
   sport_outcomes?: Outcome[] | null;
   outcome_probabilities?: Record<string, number> | null;
   outcome_history?: Record<string, { created_at: string; probability: number }[]> | null;
@@ -89,7 +92,8 @@ export default function StructuredSportMarketCard({ market }: { market: Structur
     points: toExactSeries(market.outcome_history?.[outcome.key]),
   }));
   const league = market.live_event?.league ?? null;
-  const closing = closeLabel(market.closes_at);
+  const live = marketTradingPhase(market) === "live";
+  const closing = live ? null : closeLabel(market.closes_at);
   // Basketball competitions get the arena card: a matchup row with both teams
   // and the tip-off in Kosovo time takes the place of the question text.
   const arena = Boolean(courtArtFor(league)) && outcomes.length === 2;
@@ -104,6 +108,7 @@ export default function StructuredSportMarketCard({ market }: { market: Structur
     <article
       className="tregu-glass tregu-market tregu-native-market tregu-edge"
       data-competition={league}
+      data-live={live || undefined}
       data-native-sport-market
       data-outcomes={outcomes.length}
     >
@@ -114,7 +119,7 @@ export default function StructuredSportMarketCard({ market }: { market: Structur
           <SportBrandMark brandKey={league} size="sm" />
           <span>{sportBrandFor(league)?.label ?? "Sport"}</span>
         </span>
-        {closing && <span className="tregu-market-close">{closing}</span>}
+        {live ? <LiveLockBadge /> : closing && <span className="tregu-market-close">{closing}</span>}
       </div>
 
       {arena ? (
@@ -124,8 +129,13 @@ export default function StructuredSportMarketCard({ market }: { market: Structur
             <b>{home?.label}</b>
             <small>Vendas</small>
           </span>
-          <span className="tregu-bb-tip">
-            {tipOff ? (
+          <span className="tregu-bb-tip" data-live={live || undefined}>
+            {live ? (
+              <>
+                <small>Tani</small>
+                <strong>LIVE</strong>
+              </>
+            ) : tipOff ? (
               <>
                 <small>{dayLabel(tipOff)}</small>
                 <strong>{formatKosovoTime(tipOff)}</strong>

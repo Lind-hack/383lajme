@@ -23717,3 +23717,165 @@ button.lgt-launch > span {
   .tregu-jackpot-rays { animation: none; }
   .tregu-bonus-btn { transition: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DAILY BONUS STRIP — the lock explained in the page, never in a popup
+   ═══════════════════════════════════════════════════════════════════════════ */
+.tregu-bonus-strip {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  border: 1px solid rgba(17, 17, 17, .1);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .78);
+  font-variant-numeric: tabular-nums;
+}
+.tregu-bonus-strip[data-state="ready"] {
+  border-color: rgba(255, 68, 34, .45);
+  background: linear-gradient(90deg, #FFF1EA, #FFF8F4);
+  box-shadow: 0 8px 22px -14px rgba(255, 68, 34, .6);
+}
+.tregu-bonus-strip[data-state="claimed"] {
+  padding: 8px 14px;
+  border-color: rgba(0, 133, 74, .2);
+  background: rgba(0, 166, 81, .05);
+}
+.tregu-bonus-strip[data-pulse] { animation: tregu-bonus-strip-pulse 900ms cubic-bezier(.23, 1, .32, 1); }
+@keyframes tregu-bonus-strip-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 68, 34, .55); border-color: rgba(255, 68, 34, .7); }
+  100% { box-shadow: 0 0 0 12px rgba(255, 68, 34, 0); }
+}
+.tregu-bonus-strip-icon {
+  display: grid;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 11px;
+  background: rgba(17, 17, 17, .06);
+  color: #4f4a44;
+  font-size: 17px;
+}
+.tregu-bonus-strip[data-state="ready"] .tregu-bonus-strip-icon { background: rgba(255, 68, 34, .14); }
+.tregu-bonus-strip[data-state="claimed"] .tregu-bonus-strip-icon { width: 28px; height: 28px; background: rgba(0, 166, 81, .12); color: #00713f; font-weight: 900; font-size: 14px; }
+.tregu-bonus-strip-copy { display: grid; flex: 1 1 auto; gap: 2px; min-width: 0; }
+.tregu-bonus-strip-copy strong { color: #111; font-size: 14px; font-weight: 800; }
+.tregu-bonus-strip-copy span { color: #5f5a54; font-size: 13px; line-height: 1.4; }
+.tregu-bonus-strip[data-state="claimed"] .tregu-bonus-strip-copy strong { color: #00713f; font-size: 13px; }
+.tregu-bonus-strip[data-state="claimed"] .tregu-bonus-strip-copy span { font-size: 12px; }
+.tregu-bonus-strip-meta { display: flex; flex: none; gap: 6px; }
+.tregu-bonus-strip-streak,
+.tregu-bonus-strip-odds {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.tregu-bonus-strip-streak { background: #FFF1E6; color: #e8590c; }
+.tregu-bonus-strip-odds { background: #FFF6DA; color: #9A6B00; }
+.tregu-bonus-strip-cta {
+  flex: none;
+  min-height: 38px;
+  padding: 8px 14px;
+  border: 1px solid rgba(17, 17, 17, .16);
+  border-radius: 999px;
+  background: #fff;
+  color: #111;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.tregu-bonus-strip-cta[data-primary] { border-color: transparent; background: #FF4422; color: #fff; }
+.tregu-bonus-strip-cta:focus-visible { outline: 2px solid #FF4422; outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .tregu-bonus-strip-cta:hover { border-color: rgba(255, 68, 34, .5); }
+  .tregu-bonus-strip-cta[data-primary]:hover { background: #ff5a3a; }
+}
+@media (max-width: 640px) {
+  .tregu-bonus-strip { flex-wrap: wrap; gap: 10px 12px; }
+  .tregu-bonus-strip-copy { flex-basis: calc(100% - 50px); }
+  .tregu-bonus-strip-meta { order: 3; }
+  .tregu-bonus-strip-cta { order: 4; margin-left: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tregu-bonus-strip[data-pulse] { animation: none; border-color: rgba(255, 68, 34, .7); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIVE · TRADING CLOSED — a started match stays visible, visibly locked
+   ═══════════════════════════════════════════════════════════════════════════ */
+.tregu-live-lock {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #E41E20;
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.tregu-live-lock i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  animation: tregu-live-lock-blink 1.4s ease-in-out infinite;
+}
+@keyframes tregu-live-lock-blink { 50% { opacity: .25; } }
+/* Locked sides: the odds still read, nothing invites a tap. */
+.tregu-sides[data-locked] .tregu-side { opacity: .55; cursor: not-allowed; filter: saturate(.6); }
+.tregu-sides[data-locked] .tregu-side:hover { transform: none; }
+.tregu-native-market[data-live] .tregu-native-outcome { cursor: default; }
+.tregu-bb-tip[data-live] { border-color: rgba(228, 30, 32, .7); }
+.tregu-bb-tip[data-live] small { color: #FF6B7A; }
+/* The market page's slip, replaced while the match is on. */
+.tregu-live-locked {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid rgba(228, 30, 32, .22);
+  border-radius: 14px;
+  background: rgba(228, 30, 32, .05);
+}
+.tregu-live-locked strong { color: #111; font-size: 16px; font-weight: 800; }
+.tregu-live-locked p { margin: 0; color: #4f4a44; font-size: 13.5px; line-height: 1.55; }
+.tregu-live-locked small { color: #7b746c; font-size: 12px; }
+/* Phones only, pinned just above the fixed trade dock. */
+.tregu-mobile-live-note { display: none; }
+@media (max-width: 859px) {
+  .tregu-mobile-live-note {
+    position: fixed;
+    right: 10px;
+    bottom: calc(max(10px, env(safe-area-inset-bottom)) + 76px);
+    left: 10px;
+    z-index: 84;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 8px 12px;
+    border: 1px solid rgba(228, 30, 32, .2);
+    border-radius: 12px;
+    background: #fff4f4;
+    box-shadow: 0 8px 20px rgba(23, 18, 14, .12);
+    color: #8f1414;
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tregu-live-lock i { animation: none; }
+}

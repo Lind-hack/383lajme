@@ -145,6 +145,84 @@ export function DailyBonusButton({
   );
 }
 
+/**
+ * The bonus, explained in the page rather than in a popup: a slim strip under
+ * the floor head that says what unlocks today's coins, what they can be, and
+ * where the streak stands. Pressing the locked button only makes it pulse.
+ */
+export function DailyBonusStrip({
+  status,
+  claiming,
+  onClaim,
+  onFindMarket,
+  pulse,
+}: {
+  status: DailyBonusStatus | null;
+  claiming: boolean;
+  onClaim: () => void;
+  onFindMarket: () => void;
+  /** Bumped each time the locked button is pressed, to replay the highlight. */
+  pulse: number;
+}) {
+  const state = bonusState(status);
+  if (state === "unknown") return null;
+  const alive = status?.streak ?? 0;
+  const landing = status?.next_streak ?? 1;
+  const chance = Math.round(jackpotChance(landing) * 100);
+  return (
+    <section
+      key={pulse}
+      className="tregu-bonus-strip"
+      data-state={state}
+      data-pulse={pulse > 0 || undefined}
+      aria-label="Bonusi ditor"
+    >
+      <span className="tregu-bonus-strip-icon" aria-hidden>
+        {state === "locked" ? <Lock /> : state === "ready" ? "🎁" : "✓"}
+      </span>
+      <div className="tregu-bonus-strip-copy">
+        {state === "locked" && (
+          <>
+            <strong>Bonusi ditor: 10–25 383C</strong>
+            <span>Bëj një tregtim sot, në çdo treg dhe me çdo shumë, dhe bonusi hapet.</span>
+          </>
+        )}
+        {state === "ready" && (
+          <>
+            <strong>Bonusi yt është gati</strong>
+            <span>Tregtove sot. Merr 10–25 383C, me {chance}% shans për xhekpotin prej 25.</span>
+          </>
+        )}
+        {state === "claimed" && (
+          <>
+            <strong>Bonusi i sotëm u mor</strong>
+            <span>Kthehu nesër dhe bëj një tregtim që ta mbash serinë.</span>
+          </>
+        )}
+      </div>
+      <div className="tregu-bonus-strip-meta">
+        {alive > 0 && (
+          <span className="tregu-bonus-strip-streak" title="Ditë rresht me bonus">
+            <Flame size={12} />
+            {alive} {alive === 1 ? "ditë" : "ditë"}
+          </span>
+        )}
+        {state !== "claimed" && <span className="tregu-bonus-strip-odds">{chance}% xhekpot</span>}
+      </div>
+      {state === "locked" && (
+        <button type="button" className="tregu-bonus-strip-cta" onClick={onFindMarket}>
+          Gjej një treg <span aria-hidden>→</span>
+        </button>
+      )}
+      {state === "ready" && (
+        <button type="button" className="tregu-bonus-strip-cta" data-primary onClick={onClaim} disabled={claiming}>
+          {claiming ? "…" : "Merr bonusin"}
+        </button>
+      )}
+    </section>
+  );
+}
+
 const RAIN = Array.from({ length: 26 }, (_, i) => ({
   left: (i * 37) % 100,
   delay: (i % 9) * 0.11,

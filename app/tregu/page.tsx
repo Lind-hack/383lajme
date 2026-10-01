@@ -16,7 +16,7 @@ import TraderLeaderboard from "@/components/tregu/trader-leaderboard";
 import LeaderboardGift from "@/components/tregu/leaderboard-gift";
 import LeaguesCard from "@/components/tregu/leagues-card";
 import PublicLeaguesSection from "@/components/tregu/public-leagues-section";
-import { tradingClosesAt } from "@/lib/trading-close.mjs";
+import { marketTradingPhase, tradingClosesAt } from "@/lib/trading-close.mjs";
 import WithdrawalProgress from "@/components/tregu/withdrawal-progress";
 import type { MiniMarket } from "@/components/tregu/market-mini-card";
 import VideoHero from "@/components/tregu/video-hero";
@@ -35,7 +35,7 @@ import type { MarketMedia } from "@/lib/tregu-market-media.mjs";
 import SpotlightTour, { type TourStep } from "@/components/spotlight-tour";
 import TradeTutorial, { openTradeTutorial } from "@/components/tregu/trade-tutorial";
 import LeagueTutorial from "@/components/tregu/league-tutorial";
-import { DailyBonusButton, JackpotCelebration, useDailyBonus } from "@/components/tregu/daily-bonus";
+import { DailyBonusButton, DailyBonusStrip, JackpotCelebration, useDailyBonus } from "@/components/tregu/daily-bonus";
 import { formatKosovoTime } from "@/lib/tregu-local-time.mjs";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
@@ -500,6 +500,7 @@ export default function TreguHub() {
           prob: m.market_prob,
           volume: vol(m),
           closesAt: tradingClosesAt(m) ?? m.closes_at,
+          startsAt: m.live_event?.kickoff ?? m.live_event?.race_start ?? null,
           spark: m.spark,
           delta7d: m.delta7d,
           history: m.history,
@@ -594,7 +595,14 @@ export default function TreguHub() {
       arr.sort((a, b) => new Date(a.closes_at).getTime() - new Date(b.closes_at).getTime());
     else if (sort === "nxehta")
       arr.sort((a, b) => Math.abs(0.5 - a.market_prob) - Math.abs(0.5 - b.market_prob));
-    return arr;
+    // Tradable first; started matches follow, still visible with their live
+    // chart; anything past its deadline last. Stable, so each group keeps the
+    // chosen sort.
+    const rank = { open: 0, live: 1, closed: 2 } as const;
+    return arr
+      .map((market, index) => ({ market, index, phase: rank[marketTradingPhase(market)] }))
+      .sort((a, b) => a.phase - b.phase || a.index - b.index)
+      .map((row) => row.market);
   }, [markets, featured, groupedSlugs, sort, league, query]);
 
   const selectSport = (key: string) => {
@@ -617,6 +625,7 @@ export default function TreguHub() {
     prob: m.market_prob,
     volume: vol(m),
     closesAt: tradingClosesAt(m) ?? m.closes_at,
+    startsAt: m.live_event?.kickoff ?? m.live_event?.race_start ?? null,
     openedAt: m.created_at,
     spark: m.spark,
     delta7d: m.delta7d,
@@ -652,10 +661,20 @@ export default function TreguHub() {
 
   const dailyBonus = useDailyBonus(balance !== null);
   const [jackpot, setJackpot] = useState<{ streak: number } | null>(null);
-  // Locked: say how to open it, and take the reader to the markets.
+  // Locked: the strip under the floor head explains it. Pressing the button
+  // only makes the strip pulse (and brings it on screen if it is not); the
+  // reader goes to the markets when they choose "Gjej një treg".
+  const [bonusPulse, setBonusPulse] = useState(0);
   const bonusLocked = () => {
-    setBonusMsg("Bëj një tregtim sot për ta hapur");
-    window.setTimeout(() => setBonusMsg(null), 4200);
+    setBonusPulse((n) => n + 1);
+    const strip = document.querySelector<HTMLElement>(".tregu-bonus-strip");
+    if (!strip) return;
+    const box = strip.getBoundingClientRect();
+    if (box.top < 80 || box.bottom > window.innerHeight) {
+      strip.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "center" });
+    }
+  };
+  const findMarket = () => {
     document.getElementById("tregjet-aktive")?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
   };
 
@@ -789,6 +808,16 @@ export default function TreguHub() {
           </div>
         </div>
 
+        {balance !== null && (
+          <DailyBonusStrip
+            status={dailyBonus.status}
+            claiming={claiming}
+            onClaim={claimBonus}
+            onFindMarket={findMarket}
+            pulse={bonusPulse}
+          />
+        )}
+
         <div className="tregu-discovery-controls">
           <label className="tregu-search"><span>Kërko tregje</span><input type="search" placeholder="Skuadër, pilot ose ngjarje…" value={query} onChange={e => setQuery(e.target.value)} onKeyDown={jumpToResults} /></label>
           <label className="tregu-category-mobile" data-tour="floor-filters-mobile"><span>Kategoria</span><select value={category} onChange={e => { setCategory(e.target.value); setLeague(null); }}>{CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}</select></label>
@@ -909,7 +938,7 @@ export default function TreguHub() {
         {!loading && !loadError && (
           <SportSections
             markets={markets}
-            isOpen={(m) => m.status === "open" || isF1Archive(m as MarketRow)}
+            isOpen={(m) => marketTradingPhase(m) === "open" || isF1Archive(m as MarketRow)}
             activeLeague={league}
             onSelect={selectSport}
           />

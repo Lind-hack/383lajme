@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef, useState, use as usePromise, type Compo
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import ExactMarketChart, { type ChartNewsMark } from "@/components/tregu/exact-market-chart";
+import LiveLockBadge from "@/components/tregu/live-lock-badge";
+import { tradingClosesAt } from "@/lib/trading-close.mjs";
 import MarketContextMedia from "@/components/tregu/market-context-media";
 import MarketShareActions from "@/components/tregu/market-share-actions";
 import SellSuccess, { type SellReceipt } from "@/components/tregu/sell-success";
@@ -1262,7 +1264,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   </span>
                 )}
                 {market.status === "closed" && <span className="tregu-pill">Mbyllur</span>}
-                {market.status === "open" && <span className="tregu-pill">{closesIn(market.closes_at)}</span>}
+                {matchStarted ? <LiveLockBadge /> : market.status === "open" && <span className="tregu-pill">{closesIn(tradingClosesAt(market) ?? market.closes_at)}</span>}
                 {/* Permanent way back into the walkthrough once it has been dismissed. */}
                 <button type="button" className="tregu-home-help" onClick={openTradeTutorial}>
                   <span aria-hidden>?</span>
@@ -1415,7 +1417,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
             ) : f1 ? (
               <F1RaceControl
                 marketId={market.id}
-                marketOpen={market.status === "open"}
+                marketOpen={!isClosed}
                 drivers={f1.outcomes}
                 timing={f1.timing}
                 forecast={f1.forecast}
@@ -1672,7 +1674,16 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                   </Link>
                 </div>
               ) : isClosed ? (
-                <p style={{ color: "#6B6B6B", margin: 0 }}>{matchStarted ? "Ndeshja ka nisur, ndaj tregtimi u mbyll. Kush ka pozicion mbetet brenda: fitimet paguhen automatikisht sapo të dalë rezultati zyrtar." : awaitingResult ? "Afati ka kaluar — në pritje të rezultatit zyrtar. Fitimet paguhen automatikisht." : "Ky treg nuk pranon më tregtime."}</p>
+                matchStarted ? (
+                  <div className="tregu-live-locked" role="status">
+                    <LiveLockBadge />
+                    <strong>Ndeshja ka filluar</strong>
+                    <p>Tregtimi mbyllet në fillim të ndeshjes, që askush të mos blejë apo shesë duke parë lojën. Pozicioni yt mbetet i hapur dhe paguhet automatikisht sapo të dalë rezultati zyrtar.</p>
+                    <small>Ndiqe lëvizjen e gjasave live në grafik.</small>
+                  </div>
+                ) : (
+                  <p style={{ color: "#6B6B6B", margin: 0 }}>{awaitingResult ? "Afati ka kaluar — në pritje të rezultatit zyrtar. Fitimet paguhen automatikisht." : "Ky treg nuk pranon më tregtime."}</p>
+                )
               ) : football ? (
                 <>
                   <div className="tregu-football-trade-mode">
@@ -2205,6 +2216,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           open={mobileTradeOpen}
           mode={mode}
           marketOpen={!isClosed}
+          live={matchStarted}
           loggedIn={Boolean(user)}
           loginHref={`/hyr?next=${encodeURIComponent(`/tregu/${slug}`)}`}
           question={group && currentOutcome ? group.title : market.question}

@@ -2,7 +2,7 @@
 
 import { notFound } from "next/navigation";
 import { useState, type CSSProperties } from "react";
-import { DailyBonusButton, JackpotCelebration, type DailyBonusStatus } from "@/components/tregu/daily-bonus";
+import { DailyBonusButton, DailyBonusStrip, JackpotCelebration, type DailyBonusStatus } from "@/components/tregu/daily-bonus";
 
 const NOOP = () => {};
 const STATES: { label: string; status: DailyBonusStatus }[] = [
@@ -28,6 +28,10 @@ export default function BonusPreview() {
             <DailyBonusButton status={row.status} claiming={false} onClaim={NOOP} onLocked={NOOP} />
             <DailyBonusButton variant="bar" status={row.status} claiming={false} onClaim={NOOP} onLocked={NOOP} />
           </div>
+        ))}
+        <h2 style={{ margin: "32px 0 12px", fontSize: 20 }}>Shiriti në faqe</h2>
+        {STATES.slice(1).map((row) => (
+          <DailyBonusStrip key={row.label} status={row.status} claiming={false} onClaim={NOOP} onFindMarket={NOOP} pulse={0} />
         ))}
         <button type="button" className="tregu-btn-primary" style={{ marginTop: 24, padding: "10px 18px", borderRadius: 999 }} onClick={() => setJackpot(true)}>
           Shfaq xhekpotin

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
+import LiveLockBadge from "./live-lock-badge";
 import Link from "next/link";
 import { cashOutCoins } from "@/lib/tregu-cash-out.mjs";
 import CompetitionArtwork from "./competition-artwork";
@@ -44,6 +45,8 @@ interface MobileTradeSheetProps {
   open: boolean;
   mode: MobileTradeMode;
   marketOpen: boolean;
+  /** The match has started: trading is closed until the result. */
+  live?: boolean;
   loggedIn: boolean;
   loginHref: string;
   question: string;
@@ -99,6 +102,7 @@ export default function MobileTradeSheet({
   open,
   mode,
   marketOpen,
+  live = false,
   loggedIn,
   loginHref,
   question,
@@ -192,6 +196,11 @@ export default function MobileTradeSheet({
 
   return (
     <>
+      {live && !marketOpen && (
+        <p className="tregu-mobile-live-note" role="status">
+          <LiveLockBadge compact /> Ndeshja ka filluar · pozicioni paguhet pas rezultatit
+        </p>
+      )}
       <div className="tregu-mobile-dock" data-market-open={marketOpen} aria-label="Veprimet e tregut">
         <button
           type="button"
@@ -252,8 +261,8 @@ export default function MobileTradeSheet({
 
           {!marketOpen ? (
             <div className="tregu-mobile-sheet-empty">
-              <strong>Ky treg është mbyllur.</strong>
-              <span>Pozicionet nuk mund të ndryshohen pas mbylljes.</span>
+              <strong>{live ? "Ndeshja ka filluar." : "Ky treg është mbyllur."}</strong>
+              <span>{live ? "Tregtimi mbyllet në fillim të ndeshjes. Pozicioni yt paguhet pas rezultatit zyrtar." : "Pozicionet nuk mund të ndryshohen pas mbylljes."}</span>
             </div>
           ) : !loggedIn ? (
             <div className="tregu-mobile-sheet-empty">

@@ -10,6 +10,8 @@ import type { MarketMedia } from "@/lib/tregu-market-media.mjs";
 import ExactMarketChart, { type ExactMarketSeries } from "./exact-market-chart";
 import MarketContextMedia from "./market-context-media";
 import SportBrandMark from "./sport-brand-mark";
+import LiveLockBadge from "./live-lock-badge";
+import { tradingPhase } from "@/lib/trading-close.mjs";
 
 export interface MiniMarket {
   slug: string;
@@ -22,6 +24,8 @@ export interface MiniMarket {
   prob: number; // 0..1 YES probability
   volume?: number; // cumulative shares outstanding (q_yes + q_no)
   closesAt?: string;
+  /** Match/race start, when the trading close is a kickoff rather than a deadline. */
+  startsAt?: string | null;
   /** When the book opened — the start of a price that has not moved yet. */
   openedAt?: string;
   spark?: number[]; // downsampled PO price tape, 0..1, oldest first
@@ -104,6 +108,8 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
   const noPct = 100 - pct;
   const remaining = closeLabel(market.closesAt);
   const closed = remaining === "Mbyllur";
+  // A started match stays on the floor, visibly closed for trading.
+  const live = tradingPhase({ status: market.status, closesAt: market.closesAt, hasStart: Boolean(market.startsAt) }) === "live";
 
   // Weekly movement — the "why now" signal. Hidden until the tape has a week
   // of history or the move rounds to at least 1pp.
@@ -162,7 +168,7 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
         <div className="tregu-championship-card-head">
           <span className="tregu-championship-mark" aria-hidden><Trophy size={20} strokeWidth={2.2} /></span>
           <span>Formula 1 · Kampionati</span>
-          {remaining ? <span className="tregu-market-close">{closed ? remaining : `Mbyllet ${remaining}`}</span> : null}
+          {live ? <LiveLockBadge /> : remaining ? <span className="tregu-market-close">{closed ? remaining : `Mbyllet ${remaining}`}</span> : null}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img className="tregu-f1-car-art tregu-f1-car-art--inline" src="/images/tregu/f1-rear-smoke-v1.png" alt="" aria-hidden />
         </div>
@@ -192,7 +198,7 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
           {market.category === "sport" && market.league ? <SportBrandMark brandKey={market.league} size="sm" /> : null}
           <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
         </span>
-        {remaining && <span className="tregu-market-close">{closed ? remaining : `Mbyllet ${remaining}`}</span>}
+        {live ? <LiveLockBadge /> : remaining && <span className="tregu-market-close">{closed ? remaining : `Mbyllet ${remaining}`}</span>}
         {isF1 ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img className="tregu-f1-car-art tregu-f1-car-art--inline" src="/images/tregu/f1-rear-smoke-v1.png" alt="" aria-hidden />
@@ -227,14 +233,14 @@ export default function MarketMiniCard({ market }: { market: MiniMarket; compact
         />
       </div>
 
-      <div className="tregu-sides">
-        <button onClick={(e) => goToSide(e, "PO")} className="tregu-side tregu-btn-yes" type="button">
+      <div className="tregu-sides" data-locked={live || undefined}>
+        <button onClick={(e) => goToSide(e, "PO")} className="tregu-side tregu-btn-yes" type="button" disabled={live} aria-disabled={live || undefined}>
           <div className="tregu-side-row">
             <span className="tregu-side-name">PO</span>
             <span className="tregu-side-pct">{pct}%</span>
           </div>
         </button>
-        <button onClick={(e) => goToSide(e, "JO")} className="tregu-side tregu-btn-no" type="button">
+        <button onClick={(e) => goToSide(e, "JO")} className="tregu-side tregu-btn-no" type="button" disabled={live} aria-disabled={live || undefined}>
           <div className="tregu-side-row">
             <span className="tregu-side-name">JO</span>
             <span className="tregu-side-pct">{noPct}%</span>

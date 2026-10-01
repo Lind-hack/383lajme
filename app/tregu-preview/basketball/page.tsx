@@ -133,6 +133,12 @@ export default function BasketballCardPreview() {
 
       {/* Not inert: `inert` blocks hit-testing, so the hover glare cannot be
           checked in the grid above. The slug goes nowhere. */}
+      <h2 style={H2}>Ndeshje live</h2>
+      <p style={NOTE}>Ndeshja ka filluar: karta mbetet, tregtimi jo.</p>
+      <div className="tregu-grid" style={GRID}>
+        <StructuredSportMarketCard market={{ ...sample({ league: "fbk.kosovo", home: "Sigal Prishtina", away: "Peja", prob: .57 }), live_event: { league: "fbk.kosovo", sport: "basketball", kickoff: new Date(Math.floor(Date.now() / 3_600_000) * 3_600_000 - 1_800_000).toISOString() } }} />
+      </div>
+
       <h2 style={H2}>Karta e sportit në Treg</h2>
       <p style={NOTE}>NBA dhe Superliga si dy arena, me ndeshjen e radhës dhe gjasat.</p>
       <SportSections markets={DISCOVERY} isOpen={ALWAYS_OPEN} activeLeague={null} onSelect={NOOP} />
