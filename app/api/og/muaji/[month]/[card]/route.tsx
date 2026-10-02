@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { ImageResponse } from "next/og";
+import sharp from "sharp";
 import { getMonthWrapped, type MonthWrapped } from "@/lib/monthly-wrapped-server";
 import { cardsFor, type WrappedCard } from "@/lib/monthly-wrapped.mjs";
 
@@ -44,22 +45,46 @@ function manrope() {
 const number = (n: number) => n.toLocaleString("de-DE"); // 1.234, as Albanian writes it
 
 /**
- * A story's picture as a data URL, or null. Pictures come from many news sites;
- * a slow, missing or unsupported one must cost the card its picture, not the
- * card itself.
+ * A story's picture as a JPEG data URL, or null. Pictures come from many news
+ * sites; a slow, missing or unsupported one must cost the card its picture,
+ * not the card itself. Whatever the outlet serves (JPEG, WebP, AVIF) is
+ * re-encoded with sharp, because the card renderer only reads JPEG and PNG,
+ * and sized to the card so a 12 MB original never reaches it. Failures are
+ * logged with their reason so they can be seen in production.
  */
 async function picture(url: string | null | undefined) {
   if (!url || !/^https:\/\//.test(url)) return null;
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(3500) });
-    const type = res.headers.get("content-type") ?? "";
-    if (!res.ok || !/image\/(jpeg|jpg|png)/.test(type)) return null;
+    const res = await fetch(url, {
+      signal: AbortSignal.timeout(6000),
+      headers: { "User-Agent": "Mozilla/5.0 (compatible; 383ks.com wrapped)", Accept: "image/*" },
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const bytes = Buffer.from(await res.arrayBuffer());
-    if (bytes.length > 4_000_000) return null;
-    return `data:${type.split(";")[0]};base64,${bytes.toString("base64")}`;
-  } catch {
+    if (bytes.length > 15_000_000) throw new Error(`too large (${bytes.length} bytes)`);
+    const jpeg = await sharp(bytes).resize(904, 508, { fit: "cover" }).jpeg({ quality: 82 }).toBuffer();
+    return `data:image/jpeg;base64,${jpeg.toString("base64")}`;
+  } catch (error) {
+    console.warn("[wrapped] story picture skipped", url, error instanceof Error ? error.message : error);
     return null;
   }
+}
+
+/**
+ * Dardani for the intro card, read from disk. Fetching him by URL failed in
+ * production: behind Railway's proxy the request's own origin is
+ * https://localhost:8080, which the server cannot reach.
+ */
+let dardani: Promise<string | null> | null = null;
+function dardaniWave() {
+  dardani ??= readFile(path.join(process.cwd(), "public", "wrapped", "dardani-wave.png"))
+    .then((png) => `data:image/png;base64,${png.toString("base64")}`)
+    .catch((error) => {
+      console.warn("[wrapped] Dardani image unavailable", error instanceof Error ? error.message : error);
+      dardani = null;
+      return null;
+    });
+  return dardani;
 }
 
 function Frame({ card, w, children }: { card: WrappedCard; w: MonthWrapped; children: React.ReactNode }) {
@@ -104,18 +129,20 @@ export async function GET(request: Request, { params }: { params: Promise<{ mont
   const card = raw as WrappedCard;
   if (!w || !cardsFor(w).includes(card)) return new Response("Not found", { status: 404 });
   const t = THEME[card];
-  const origin = new URL(request.url).origin;
   let body: React.ReactNode;
 
   if (card === "hyrje") {
+    const wave = await dardaniWave();
     body = (
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div style={{ display: "flex", fontSize: 92, lineHeight: 1.02, fontWeight: 800, letterSpacing: -2 }}>{w.title}</div>
         <div style={{ display: "flex", fontSize: 300, lineHeight: 1, marginTop: 64, letterSpacing: -12, fontWeight: 800 }}>{number(w.total)}</div>
         <div style={{ display: "flex", fontSize: 54, color: t.soft, marginTop: 8 }}>lajme në {w.days} ditë.</div>
         <div style={{ display: "flex", alignItems: "flex-end", marginTop: 96 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`${origin}/wrapped/dardani-wave.png`} width={266} height={360} alt="" />
+          {wave && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={wave} width={266} height={360} alt="" />
+          )}
           <div style={{ display: "flex", fontSize: 44, lineHeight: 1.3, marginLeft: 36, marginBottom: 40, maxWidth: 560 }}>
             Ja çfarë ndodhi në {w.monthName}. Tërhiq, të tregoj unë.
           </div>
