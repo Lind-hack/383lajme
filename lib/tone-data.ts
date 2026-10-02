@@ -180,6 +180,7 @@ const FLAGS: Record<string, string> = {
   Japoni:"🇯🇵", Kinë:"🇨🇳", "Kore e Jugut":"🇰🇷", Indonezi:"🇮🇩", Malajzi:"🇲🇾", Singapor:"🇸🇬",
   "Afrikë e Jugut":"🇿🇦", Nigeri:"🇳🇬", Egjipt:"🇪🇬", "Emiratet e Bashkuara Arabe":"🇦🇪",
   Katar:"🇶🇦", "Arabi Saudite":"🇸🇦", Izrael:"🇮🇱", Rusi:"🇷🇺", Ukrainë:"🇺🇦",
+  Qipro:"🇨🇾", Luksemburg:"🇱🇺", Vietnam:"🇻🇳", Panama:"🇵🇦",
 };
 
 /** The workflow runs nine times a day, so a row older than this is a failed

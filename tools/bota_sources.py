@@ -13,6 +13,7 @@ COUNTRIES = {
  'jp':'Japoni','cn':'Kinë','kr':'Kore e Jugut','id':'Indonezi','my':'Malajzi','sg':'Singapor',
  'za':'Afrikë e Jugut','ng':'Nigeri','eg':'Egjipt','ae':'Emiratet e Bashkuara Arabe',
  'qa':'Katar','sa':'Arabi Saudite','il':'Izrael','ru':'Rusi','ua':'Ukrainë',
+ 'cy':'Qipro','lu':'Luksemburg','vn':'Vietnam','pa':'Panama',
 }
 # Country-specific publisher domains, plus known international mastheads.
 OWNERS = {'b92.net':'Serbi','n1info.com':'Serbi','aljazeera.com':'Katar',
@@ -20,7 +21,14 @@ OWNERS = {'b92.net':'Serbi','n1info.com':'Serbi','aljazeera.com':'Katar',
  'channelnewsasia.com':'Singapor','straitstimes.com':'Singapor',
  'dailysabah.com':'Turqi','aa.com.tr':'Turqi','reuters.com':'Britani',
  'apnews.com':'SHBA','euronews.com':'Francë','france24.com':'Francë',
- 'rferl.org':'SHBA','voanews.com':'SHBA','balkaninsight.com':'Britani'}
+ 'rferl.org':'SHBA','voanews.com':'SHBA','balkaninsight.com':'Britani',
+ 'abcnews.com':'SHBA','ledgertranscript.com':'SHBA'}
+DOMESTIC_DOMAINS={'kosovahaber.com','periskopi.com','kosovapress.com'}
+INSTITUTION_DOMAINS={'tff.org'}
+
+def excluded_publisher(url):
+    host=(urlparse(url).hostname or '').lower()
+    return any(host==d or host.endswith('.'+d) for d in DOMESTIC_DOMAINS|INSTITUTION_DOMAINS)
 MARKETS = ['en-US','en-GB','de-DE','fr-FR','it-IT','de-AT','de-CH','nl-NL',
  'nl-BE','es-ES','el-GR','sv-SE','pl-PL','tr-TR','hr-HR','sr-RS','bs-BA',
  'sr-ME','mk-MK','sq-AL','ro-RO','bg-BG','hu-HU','cs-CZ','sk-SK','sl-SI',

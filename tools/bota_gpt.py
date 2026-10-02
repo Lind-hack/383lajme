@@ -140,7 +140,7 @@ def discover(known):
     import tone_scraper as scraper
     from tone_sources import country_for,is_editorial,is_local_placename
     import feedparser,requests
-    from bota_sources import worldwide_candidates,publisher_country,balanced_sources
+    from bota_sources import worldwide_candidates,publisher_country,balanced_sources,excluded_publisher
     # Direct publisher feeds remain usable when Google's redirect decoder is
     # blocked. They are discovery only: each article still needs its full body.
     feeds=[
@@ -193,7 +193,9 @@ def discover(known):
             resolved=original_links.get(scraper.normalize_title(a['title']),a['url'])
             resolved=scraper.resolve_google_news_url(resolved)
             if 'news.google.com/' in resolved:rejected['unresolved_google_link']+=1;return None
+            if excluded_publisher(resolved):rejected['domestic_or_institution']+=1;return None
             source={**a,**fetch_source(resolved)}
+            if excluded_publisher(source['url']):rejected['domestic_or_institution']+=1;return None
             if not is_editorial(a['outlet'],source['url']) or not scraper.is_foreign_press(a['outlet'],source['url']) or is_local_placename(a['title'],' '.join(source['sourceParagraphs'])):return None
             source['id']=hashlib.sha256(source['url'].encode()).hexdigest()
             source['country']=publisher_country(source['url'],a['outlet'])

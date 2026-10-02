@@ -1,11 +1,15 @@
 import unittest
-from bota_sources import bing_original_url,publisher_country,balanced_sources
+from bota_sources import bing_original_url,publisher_country,balanced_sources,excluded_publisher
 
 class WorldwideTests(unittest.TestCase):
  def test_search_market_does_not_attribute_country_and_url_is_guarded(self):
   self.assertEqual(publisher_country('https://b92.net/news'),'Serbi')
   self.assertEqual(publisher_country('https://unknown.example/news'),'Të tjera')
   self.assertEqual(publisher_country('https://example.co.nz/news'),'Zelandë e Re')
+  self.assertEqual(publisher_country('https://sports.rik.cy/news'),'Qipro')
+  for url in ['https://www.kosovahaber.com/news','https://periskopi.com/news','https://kosovapress.com/news','https://www.tff.org/news']:
+   self.assertTrue(excluded_publisher(url))
+  self.assertFalse(excluded_publisher('https://kosovapress.com.evil.test/news'))
   self.assertEqual(bing_original_url('https://www.bing.com/news/apiclick?url=https%3A%2F%2Fb92.net%2Fnews'),'https://b92.net/news')
   for link in ['https://evil.example/?url=https://b92.net','https://bing.com/?url=http://b92.net','https://bing.com/?url=https://user:pass@b92.net']:
    self.assertEqual(bing_original_url(link),'')

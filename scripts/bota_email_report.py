@@ -35,7 +35,7 @@ def verify_public(report, get=None):
             raise ValueError('Actual GPT model provenance is missing or wrong')
     country_counts={country:sum(a.get('firstSeen')==report['date'] for outlet in data.get('outlets',[]) for a in outlet.get('articles',[])) for country,data in snapshot.get('countries',{}).items()}
     country_counts={c:n for c,n in country_counts.items() if n}
-    return {'http':200,'date':snapshot['lastUpdated'],'articleCount':len(cards),'readerCount':len(cards),'sourceCount':snapshot.get('sourceCount'),'countryCount':len(country_counts),'countries':country_counts, 'readerUrls':[SITE+a['readerUrl'] for a in cards]}
+    return {'http':200,'date':snapshot['lastUpdated'],'articleCount':len(cards),'readerCount':len(cards),'sourceCount':snapshot.get('sourceCount'),'countryCount':sum(c!='Të tjera' for c in country_counts),'countries':country_counts, 'readerUrls':[SITE+a['readerUrl'] for a in cards]}
 
 def render_report(outcome, started, finished):
     status=outcome.get('status');result=outcome.get('result')
