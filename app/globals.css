@@ -22522,6 +22522,22 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   line-height: 1.45;
 }
 .perty-ed-say > :first-child { flex: none; }
+/* "Tetori në 383 është gati": the month's wrapped, the first week of the next. */
+.perty-ed-wrapped {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #111111;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.perty-ed-wrapped span { color: #FF4422; }
+.perty-ed-wrapped:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 3px; }
 .perty-ed-say a { color: #111111; font-weight: 800; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 
 /* "Në 30 sekonda" */
@@ -24077,4 +24093,118 @@ button.lgt-launch > span {
 }
 @media (prefers-reduced-motion: reduce) {
   .tregu-live-lock i { animation: none; }
+}
+
+/* ── "Tetori në 383": the month as story cards (app/muaji) ─────────────────
+   A dark stage, one 9:16 card fitted to the screen height, progress bars on
+   top. The cards are the shareable images themselves. */
+.wr-page {
+  min-height: 100dvh;
+  padding: calc(var(--nav-h, 72px) + 16px) 16px 32px;
+  background: #0E0E0E;
+}
+.wr-stage {
+  position: relative;
+  /* Fits the card, its bars and its buttons between the header and, on a
+     phone, the bottom tab bar. */
+  width: min(100%, calc((100dvh - var(--nav-h, 72px) - var(--tabbar-h, 0px) - 150px) * 9 / 16));
+  min-width: 260px;
+  margin: 0 auto;
+}
+.wr-bars { display: flex; gap: 5px; margin-bottom: 10px; padding-right: 44px; }
+.wr-bars span { flex: 1; height: 4px; overflow: hidden; border-radius: 2px; background: rgba(255, 255, 255, 0.25); }
+.wr-bars i { display: block; height: 100%; width: 0; background: #FFFFFF; }
+.wr-bars span[data-state="done"] i { width: 100%; }
+.wr-bars span[data-state="now"] i { width: 100%; }
+.wr-bars span[data-state="now"] i[style] { width: 0; animation: wr-fill linear forwards; }
+@keyframes wr-fill { to { width: 100%; } }
+.wr-pause {
+  position: absolute;
+  top: -12px;
+  right: 0;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  cursor: pointer;
+}
+.wr-card {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #1A1A1A;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+}
+.wr-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.wr-tap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.wr-tap--back { left: 0; width: 35%; }
+.wr-tap--next { right: 0; width: 65%; }
+.wr-tap:disabled { cursor: default; }
+.wr-tap:focus-visible,
+.wr-pause:focus-visible,
+.wr-action:focus-visible { outline: 3px solid #FF4422; outline-offset: 3px; }
+.wr-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 14px; }
+.wr-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+.wr-note { margin: 10px 0 0; color: #FFD2C5; font-size: 14px; text-align: center; }
+.wr-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* The closing card: drawn here, not an image — it holds the reader's own count. */
+.wr-end {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 9% 8%;
+  background: linear-gradient(160deg, #FF4422 0%, #C2340F 100%);
+  color: #FFFFFF;
+}
+.wr-end-img { height: 28%; width: auto; align-self: flex-start; margin-bottom: 6%; }
+.wr-end h1 { margin: 0; font-size: clamp(30px, 4.2vh, 44px); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; }
+.wr-end p { margin: 3% 0 0; font-size: clamp(15px, 2vh, 19px); line-height: 1.4; }
+.wr-end-total { color: rgba(255, 255, 255, 0.85); }
+.wr-end-mine b { font-size: 1.5em; font-weight: 800; }
+.wr-end-tease { color: rgba(255, 255, 255, 0.92); }
+.wr-end-tease b { color: #111111; }
+.wr-end-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 7%; }
+.wr-end-actions .perty-btn { min-height: 40px; padding: 0 14px; font-size: 14px; }
+.wr-end-actions .perty-btn--primary { background: #111111; }
+.wr-end-actions .perty-btn--ghost { border-color: rgba(255, 255, 255, 0.5); background: transparent; color: #FFFFFF; }
+@media (hover: hover) and (pointer: fine) {
+  .wr-action:hover { background: rgba(255, 255, 255, 0.16); }
+}
+@media (max-width: 640px) {
+  /* Three buttons on one row, above the tab bar. */
+  .wr-actions { flex-wrap: nowrap; gap: 6px; }
+  .wr-action { min-height: 40px; padding: 0 12px; font-size: 13.5px; white-space: nowrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wr-bars span[data-state="now"] i[style] { animation: none; width: 100%; }
 }

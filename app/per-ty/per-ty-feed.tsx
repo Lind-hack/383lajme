@@ -53,6 +53,7 @@ import { forgetVisits, isNewSince, readSlugs, recordVisit } from "@/lib/perty-vi
 import { daysWithUs, forgetLedger, kosovoParts, noteVisit, readLedger } from "@/lib/reader-ledger.mjs";
 import { paperName, readName, writeName } from "@/lib/reader-name.mjs";
 import { absence, followUp } from "@/lib/perty-dardani-line.mjs";
+import { lastMonth, monthLabel } from "@/lib/monthly-wrapped.mjs";
 import type { CityWeather } from "@/lib/weather";
 import { mergeOnSignIn, pushInterests } from "@/lib/interests-sync";
 import { createClient } from "@/lib/supabase/client";
@@ -154,6 +155,8 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   const [naming, setNaming] = useState(false);
   const [issue, setIssue] = useState(0);
   const [away, setAway] = useState<{ missed: number; last: string } | null>(null);
+  // The first week of a month, last month's wrapped ("Tetori në 383") is offered.
+  const [wrappedMonth, setWrappedMonth] = useState<string | null>(null);
 
   useEffect(() => {
     setInterests(readInterests());
@@ -198,6 +201,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     const ledger = readLedger();
     setIssue(daysWithUs(ledger));
     setAway(absence(ledger, kosovoParts().date));
+    if (kosovoParts().day <= 7) setWrappedMonth(lastMonth());
     try {
       const next = nextStreak(JSON.parse(localStorage.getItem(STREAK_KEY) ?? "null"));
       localStorage.setItem(STREAK_KEY, JSON.stringify(next));
@@ -354,6 +358,13 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
             </span>
           ) : null}
         </p>
+      )}
+
+      {wrappedMonth && (
+        <Link href={`/muaji/${wrappedMonth}`} className="perty-ed-wrapped">
+          <span aria-hidden="true">✦</span> {monthLabel(wrappedMonth)?.definite} në 383 është gati
+          <ArrowRight size={15} strokeWidth={2.4} aria-hidden="true" />
+        </Link>
       )}
 
       {storageFailed && (
