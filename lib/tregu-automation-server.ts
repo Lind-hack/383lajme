@@ -1133,8 +1133,8 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           catch { return ""; }
         }).filter(Boolean));
         if (independentHosts.size < 2) {
-          const persisted = await recordMarketCheck(item.market.id, { status: "independent_corroboration_required", checked_at: now.toISOString(), evidence_count: citedArticles.length });
-          results.push(persisted ? { slug: item.market.slug, status: "no_change", reason: "independent_corroboration_required" } : { slug: item.market.slug, status: "skipped_closed" });
+          const persisted = await recordMarketCheck(item.market.id, { status: "independent_corroboration_required", checked_at: now.toISOString(), evidence_count: citedArticles.length, provider: score.provider, fallback_index: score.fallback_index });
+          results.push(persisted ? { slug: item.market.slug, status: "no_change", reason: "independent_corroboration_required", provider: score.provider, fallback_index: score.fallback_index, fallback_reason: score.fallback_reason } : { slug: item.market.slug, status: "skipped_closed" });
           continue;
         }
         const outcome = item.scoreSuccess(score);
@@ -1254,9 +1254,9 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
       }
     }
 
-    const successfulScores = results.filter((result) => result.status === "oracle_applied" || result.status === "settled");
+    const scoredResults = results.filter((result) => Boolean(result.provider));
     const emailUpdates = results.flatMap((result) => result.email_update ? [result.email_update] : []);
-    const fallbacks = successfulScores.filter((result) => (result.fallback_index ?? 0) > 0);
+    const fallbacks = scoredResults.filter((result) => (result.fallback_index ?? 0) > 0);
     const skippedClosed = results.filter((result) => result.status === "skipped_closed");
     const details = {
       outcome: results.some((result) => result.status === "oracle_failed") ? "completed_with_market_errors" : "succeeded",
@@ -1270,7 +1270,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
       updates_applied: emailUpdates.length,
       skipped_closed: skippedClosed.length,
       no_change: results.filter((result) => result.status === "no_change").length,
-      provider_used: [...new Set(successfulScores.map((result) => result.provider ?? "unknown"))],
+      provider_used: [...new Set(scoredResults.map((result) => result.provider ?? "unknown"))],
       fallback_index: fallbacks.length ? Math.max(...fallbacks.map((result) => result.fallback_index ?? 0)) : 0,
       fallback_reason: fallbacks[0]?.fallback_reason ?? null,
       error_class: results.find((result) => result.error_class)?.error_class ?? null,

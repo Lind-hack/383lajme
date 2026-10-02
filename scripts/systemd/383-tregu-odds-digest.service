@@ -1,0 +1,12 @@
+[Unit]
+Description=Email all persisted Tregu odds changes since the last digest
+After=docker.service network-online.target
+Requires=docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker exec --user hermes --env HOME=/opt/data/home hermes /opt/data/workspaces/383lajme/.venv/bin/python /opt/data/workspaces/383lajme-tregu-odds-live/scripts/send-tregu-odds-digest.py
+TimeoutStartSec=180
+StandardOutput=journal
+StandardError=journal

@@ -1,0 +1,11 @@
+[Unit]
+Description=Send the daily Tregu odds digest at 07:35 Warsaw time
+
+[Timer]
+OnCalendar=*-*-* 07:35:00 Europe/Warsaw
+Persistent=true
+AccuracySec=1min
+Unit=383-tregu-odds-digest.service
+
+[Install]
+WantedBy=timers.target
