@@ -8,7 +8,10 @@ export async function GET(request:NextRequest){
  const denied=automationDenied(request);if(denied)return denied;
  const db=createAdminClient();if(!db)return NextResponse.json({error:'Database unavailable'},{status:503});
  const date=kosovoDay();
- const [{data:run,error},{data:recent,error:readError}]=await Promise.all([db.from('bota_coverage_runs').select('day,model,reasoning_effort,article_count').eq('day',date).maybeSingle(),db.from('bota_coverage_articles').select('id').limit(10000)]);
+ // Eight capped calendar days fit below PostgREST's default 1,000-row limit.
+ // Querying the entire growing archive eventually hides today's known IDs.
+ const cutoff=new Date(Date.parse(date+'T00:00:00Z')-7*86400000).toISOString().slice(0,10);
+ const [{data:run,error},{data:recent,error:readError}]=await Promise.all([db.from('bota_coverage_runs').select('day,model,reasoning_effort,article_count').eq('day',date).maybeSingle(),db.from('bota_coverage_articles').select('id').gte('first_seen',cutoff).order('first_seen',{ascending:false}).limit(1000)]);
  if(error||readError)return NextResponse.json({error:'Cannot read publication context'},{status:503});
  const dailyCount=run?.article_count??0;
  return NextResponse.json({date,dailyCount,dailyMinimum:50,dailyMaximum:100,alreadyPublished:dailyCount>=100,run,knownIds:(recent??[]).map(a=>a.id)});
