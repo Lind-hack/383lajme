@@ -66,6 +66,9 @@ export const metadata: Metadata = {
     siteName: "383",
     images: ["/logo-512.png"],
   },
+  // Opened from an iPhone home screen, 383 runs as its own app — the only way
+  // Apple lets a website send notifications (see app/manifest.ts).
+  appleWebApp: { capable: true, title: "383", statusBarStyle: "default" },
 };
 
 // Google reads this to pair the site name "383" and the logo with search

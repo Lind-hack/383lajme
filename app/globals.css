@@ -22710,6 +22710,66 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .perty-end-push > span:not(.perty-end-push-error) { flex: 1 1 220px; }
 .perty-end-push-btn { min-height: 38px; padding: 0 16px; font-size: 14px; }
 .perty-end-push-error { flex-basis: 100%; color: #B42A10; font-size: 13px; }
+/* "Shto 383 në ekranin kryesor": a bottom sheet on phones, like iOS's own. */
+.ios-guide {
+  width: min(560px, 100%);
+  max-height: min(92dvh, 760px);
+  margin: auto auto 0;
+  padding: 0;
+  border: 0;
+  border-radius: 24px 24px 0 0;
+  background: #FFFFFF;
+  color: #111111;
+  box-shadow: 0 -18px 60px rgba(0, 0, 0, 0.25);
+}
+.ios-guide::backdrop { background: rgba(17, 17, 17, 0.45); }
+.ios-guide[open] { animation: ios-guide-up 260ms var(--ease-out); }
+@keyframes ios-guide-up { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+.ios-guide-panel { padding: 20px 20px calc(20px + env(safe-area-inset-bottom)); }
+.ios-guide header { display: flex; align-items: center; gap: 12px; }
+/* It sits inside "Kaq për sot", whose heading is the italic serif; this one is not. */
+.ios-guide h2 { flex: 1; margin: 0; font-family: var(--font-manrope), sans-serif; font-size: 21px; font-style: normal; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; }
+.ios-guide-lede { margin: 6px 0 16px; color: #5E5048; font-size: 15px; line-height: 1.45; }
+.ios-guide ol { margin: 0; padding: 0; list-style: none; }
+.ios-guide li {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-top: 1px solid #EFE8E0;
+}
+.ios-guide-n {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #111111;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 800;
+}
+.ios-guide-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.ios-guide-text strong { font-size: 16px; font-weight: 800; }
+.ios-guide-text span { color: #4A443F; font-size: 14.5px; line-height: 1.45; }
+.ios-guide-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #F1EBE3;
+  color: #0A7AFF; /* iOS's own blue, so the glyph looks like the one on screen */
+}
+.ios-guide-app { border-radius: 9px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18); }
+.ios-guide-done { width: 100%; margin-top: 16px; }
+@media (min-width: 641px) {
+  .ios-guide { margin: auto; border-radius: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ios-guide[open] { animation: none; }
+}
 .perty-end-ask { display: flex; align-items: flex-start; gap: 8px; }
 .perty-end-ask svg { flex: none; margin-top: 4px; color: #B42A10; }
 .perty-end-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }

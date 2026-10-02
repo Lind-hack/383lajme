@@ -13,6 +13,7 @@ import {
   morningPushState,
   type MorningPushState,
 } from "@/lib/perty-push-client";
+import IosInstallGuide from "./ios-install-guide";
 
 export default function MorningPush() {
   const [state, setState] = useState<MorningPushState | null>(null);
@@ -34,17 +35,9 @@ export default function MorningPush() {
 
   if (state === null || state === "unsupported") return null;
 
-  if (state === "ios-install") {
-    return (
-      <p className="perty-end-push">
-        <BellRing size={16} strokeWidth={2.4} aria-hidden="true" />
-        <span>
-          Do edicionin çdo mëngjes në 07:00? Në iPhone, shto 383 në ekranin kryesor (<b>Ndaj → Shto në ekranin
-          kryesor</b>) dhe hape prej andej.
-        </span>
-      </p>
-    );
-  }
+  // An iPhone or iPad outside the home screen: Apple allows no push there, so
+  // the reader gets the steps to install 383 instead of a button that cannot work.
+  if (state === "ios-install") return <IosInstallGuide />;
 
   if (state === "blocked") {
     return (
