@@ -1,6 +1,7 @@
 "use client";
 
-// "Më zgjo në 07:00": the line in "Kaq për sot" that turns the morning push on.
+// "Po, ma dërgo": the line in "Kaq për sot" that turns the 07:00 edition push on.
+// It speaks of the edition arriving, not of waking anyone: nobody wants an alarm.
 // It sits at the end of the edition on purpose — the moment a reader has just
 // finished is the moment "and tomorrow at seven" makes sense.
 
@@ -49,7 +50,7 @@ export default function MorningPush() {
     return (
       <p className="perty-end-push">
         <BellRing size={16} strokeWidth={2.4} aria-hidden="true" />
-        <span>Njoftimet për 383 janë të bllokuara në këtë shfletues; lejoji te cilësimet që të të zgjoj në 07:00.</span>
+        <span>Njoftimet për 383 janë të bllokuara në këtë shfletues; lejoji te cilësimet që ta marrësh edicionin në 07:00.</span>
       </p>
     );
   }
@@ -59,7 +60,7 @@ export default function MorningPush() {
       {state === "on" ? (
         <>
           <Check size={16} strokeWidth={2.8} aria-hidden="true" />
-          <span>Do të të zgjoj nesër në 07:00 me edicionin tënd.</span>
+          <span>Edicioni yt vjen çdo mëngjes në 07:00.</span>
           <button type="button" className="perty-text-btn" onClick={() => change(false)} disabled={busy}>
             Ndalo
           </button>
@@ -69,7 +70,7 @@ export default function MorningPush() {
           <BellRing size={16} strokeWidth={2.4} aria-hidden="true" />
           <span>Do edicionin tënd çdo mëngjes në 07:00?</span>
           <button type="button" className="perty-btn perty-btn--primary perty-end-push-btn" onClick={() => change(true)} disabled={busy}>
-            {busy ? "Po e aktivizoj…" : "Më zgjo në 07:00"}
+            {busy ? "Po e aktivizoj…" : "Po, ma dërgo"}
           </button>
         </>
       )}
