@@ -276,19 +276,13 @@ export async function runDailyDraftAutomation(candidates: unknown, now = new Dat
     const rows = plan.rows.slice(0, remainingDailySlots).map((row, index) => ({
       ...row,
       // Only validated v3 news contracts qualify for automatic publication.
-      status: !expectedLiveEventRunKey && row.pre_match_analysis?.contract_version === "news-event-v3" ? "open" as const : "draft" as const,
+      status: !expectedLiveEventRunKey && row.pre_match_analysis?.contract_version === "news-event-v3" && /^https:\/\//i.test(String(row.market_image_url ?? "")) && /^https:\/\//i.test(String(row.market_image_source_url ?? "")) ? "open" as const : "draft" as const,
       // The creation articles establish the opening price. Only reports
       // published after opening should be treated as fresh odds evidence.
       ...(!expectedLiveEventRunKey && row.pre_match_analysis?.contract_version === "news-event-v3"
         ? { last_news_at: now.toISOString() } : {}),
       slug: `${slugifyQuestion(row.question) || "treg"}-${dateSuffix}-${index + 1}`,
     }));
-    for (const row of rows) {
-      if (row.market_classification === "general_news" && !row.market_image_url) {
-        row.market_image_url = `/api/tregu/market-art/${encodeURIComponent(row.slug)}`;
-        row.market_image_alt = `Grafikë për ${row.question}`;
-      }
-    }
     if (rows.length < 1 || rows.length > (expectedLiveEventRunKey ? 5 : 6)) {
       throw new Error("Daily submission must produce 1 to 6 qualified news markets, or the required live-event drafts.");
     }

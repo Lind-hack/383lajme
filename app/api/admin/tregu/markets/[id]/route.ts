@@ -76,9 +76,12 @@ export async function PATCH(
   }
 
   if (body.action === "approve") {
-    const { data: draft, error: draftError } = await admin.from("markets").select("category, b, q_yes, q_no, outcome_quantities, market_classification, market_type, live_event, sport_outcomes").eq("id", id).eq("status", "draft").maybeSingle();
+    const { data: draft, error: draftError } = await admin.from("markets").select("category, b, q_yes, q_no, outcome_quantities, market_classification, market_type, live_event, sport_outcomes, market_image_url, market_image_source_url").eq("id", id).eq("status", "draft").maybeSingle();
     if (draftError) return NextResponse.json({ error: draftError.message }, { status: 500 });
     if (!draft) return NextResponse.json({ error: "Drafti nuk u gjet" }, { status: 404 });
+    if (draft.market_classification === "general_news" && String(draft.category).toLowerCase() !== "sport" && (!/^https:\/\//i.test(String(draft.market_image_url ?? "")) || !/^https:\/\//i.test(String(draft.market_image_source_url ?? "")))) {
+      return NextResponse.json({ error: "Shto një fotografi HTTPS me burim para publikimit të tregut të lajmeve." }, { status: 400 });
+    }
     const liveEvent = draft.live_event as Record<string, unknown> | null;
     const sportOutcomes = Array.isArray(draft.sport_outcomes)
       ? draft.sport_outcomes as Array<{ key?: unknown }>
@@ -156,6 +159,14 @@ export async function PATCH(
   }
 
   if (body.action === "reopen") {
+    const { data: reopening, error: reopeningError } = await admin.from("markets")
+      .select("category, market_classification, market_image_url, market_image_source_url")
+      .eq("id", id).in("status", ["closed", "resolved"]).maybeSingle();
+    if (reopeningError) return NextResponse.json({ error: reopeningError.message }, { status: 500 });
+    if (!reopening) return NextResponse.json({ error: "Tregu nuk u gjet" }, { status: 404 });
+    if (reopening.market_classification === "general_news" && String(reopening.category).toLowerCase() !== "sport" && (!/^https:\/\//i.test(String(reopening.market_image_url ?? "")) || !/^https:\/\//i.test(String(reopening.market_image_source_url ?? "")))) {
+      return NextResponse.json({ error: "Shto një fotografi HTTPS me burim para rihapjes së tregut." }, { status: 400 });
+    }
     // A resolved market with trades has already paid out — reopening it would
     // let winners double-dip, so only untouched books can come back.
     const { count, error: tradeErr } = await admin

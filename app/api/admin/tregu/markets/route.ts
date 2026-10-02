@@ -63,6 +63,9 @@ export async function POST(request: NextRequest) {
   if (imageUrl && (!/^https:\/\/\S+$/i.test(imageUrl) || !/^https:\/\/\S+$/i.test(String(body.marketImageSourceUrl ?? "")))) {
     return NextResponse.json({ error: "Pamja e subjektit kërkon URL HTTPS dhe lidhje burimi HTTPS." }, { status: 400 });
   }
+  if (!isSport && body.status === "open" && !imageUrl) {
+    return NextResponse.json({ error: "Tregjet e lajmeve kërkojnë një fotografi HTTPS me burim përpara publikimit." }, { status: 400 });
+  }
   const closesAt = new Date(Date.now() + (body.closesInDays ?? 30) * 86_400_000).toISOString();
 
   // Seeded opening odds: lmsrPriceYes = 1/(1+e^((q_no−q_yes)/b)) = p when
@@ -92,8 +95,8 @@ export async function POST(request: NextRequest) {
       source_article_slugs: body.sourceSlugs ?? [],
       ...(!isSport ? { pre_match_analysis: { news_geography: geography, news_topic: topic } } : {}),
       ...(!isSport ? {
-        market_image_url: imageUrl ?? `/api/tregu/market-art/${encodeURIComponent(slug)}`,
-        market_image_alt: body.marketImageAlt?.trim() || `Grafikë për ${body.question.trim()}`,
+        market_image_url: imageUrl ?? null,
+        market_image_alt: imageUrl ? body.marketImageAlt?.trim() || body.question.trim() : null,
         market_image_source_url: imageUrl ? body.marketImageSourceUrl?.trim() : null,
       } : {}),
       ai_generated: body.aiGenerated ?? false,

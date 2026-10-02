@@ -50,12 +50,6 @@ export async function POST(request: NextRequest) {
       status: "draft" as const,
       slug: `${slugifyQuestion(draft.question) || "treg"}-${Date.now().toString(36)}-${index + 1}`,
     }));
-    for (const row of rows) {
-      if (!row.market_image_url) {
-        row.market_image_url = `/api/tregu/market-art/${encodeURIComponent(row.slug)}`;
-        row.market_image_alt = `Grafikë për ${row.question}`;
-      }
-    }
     const { data, error } = await admin.from("markets").insert(rows).select();
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ markets: data ?? [], rejected: plan.rejected, no_publish_reason: null });
