@@ -67,3 +67,15 @@ APPROVED. Folded in all three non-blocking notes: audit table has no FK to tregu
 
 ## Resolution
 Converged in 3 rounds. Awaiting Lind's sign-off.
+
+## Post-build inspection
+Fresh read-only Codex session (gpt-5.5), diff b355f735..6b68004e, 1 round.
+
+- `supabase/migrations/0095_tregu_leagues_open.sql:963` - `gap_to_podium` adds `+ 1`, so the hub reports points needed to pass 3rd place, not “points to 3rd” as specified. A user 32 points behind the podium will see 33.
+
+- `supabase/migrations/0095_tregu_leagues_open.sql:849` and `supabase/migrations/0095_tregu_leagues_open.sql:1006` - `active_today` uses `p.updated_at`, but the plan defines it as members with a pick `created` in the last 24h. Editing old picks can make a stale league rank as active in Top 5/search.
+
+### Claude's dispositions
+- gap_to_podium +1: rejected — ties are broken by who reached the points first, so matching 3rd does not take the place; "N pikë nga podiumi" is the points needed to get onto it. Plan wording updated to say so.
+- active_today on updated_at: rejected — changing a pick today is playing today, which is what the shelf ranks by. Plan wording updated to "made or changed".
+No code changes; second inspection round not needed.
