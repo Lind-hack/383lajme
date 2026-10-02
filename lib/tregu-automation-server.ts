@@ -970,6 +970,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
       reason?: string;
       deadline_action?: "settle" | "decay" | null;
       email_update?: {
+        market_id: string;
         question: string;
         slug: string;
         provider: string;
@@ -1031,7 +1032,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           const stateChanged = after.status !== deadlineBefore.status || (after.outcome ?? null) !== deadlineBefore.outcome;
           if (!stateChanged && afterProbability === deadlineBefore.probability) return null;
           return {
-            question: item.market.question, slug: item.market.slug, provider: "deadline_oracle", reason,
+            market_id: String(item.market.id), question: item.market.question, slug: item.market.slug, provider: "deadline_oracle", reason,
             before_probability: deadlineBefore.probability, after_probability: afterProbability,
             absolute_percentage_point_change: Math.abs(afterProbability - deadlineBefore.probability),
             before_state: { status: deadlineBefore.status, outcome: deadlineBefore.outcome },
@@ -1163,6 +1164,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
             fallback_index: score.fallback_index,
             fallback_reason: score.fallback_reason,
             email_update: {
+              market_id: String(item.market.id),
               question: item.market.question,
               slug: item.market.slug,
               provider: score.provider,
@@ -1218,6 +1220,7 @@ async function runNewsReprice(action: "reprice" | "tregu_live", runKey: string, 
           fallback_reason: score.fallback_reason,
           ...(priceChanged ? {
             email_update: {
+              market_id: String(item.market.id),
               question: item.market.question,
               slug: item.market.slug,
               provider: score.provider,

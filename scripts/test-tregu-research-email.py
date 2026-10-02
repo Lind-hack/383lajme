@@ -9,8 +9,10 @@ def module(name,file):
 mail=module('mail','send-tregu-news-movement.py')
 research=module('research','research-tregu-news.py')
 move={'slug':'test','question':'<Test>','before_probability':.6,'after_probability':.55,'verified_sources':[{'url':'javascript:bad','title':'bad'},{'url':'https://example.com/news','title':'News'}]}
-plain,rich=mail.render({'details':{'email_updates':[move]}})
-assert '-5.0000 pp' in plain and '&lt;Test&gt;' in rich and 'javascript:' not in rich
+plain,rich=mail.render({'details':{'email_updates':[move]}},{'test':'test-chart@383ks.com'})
+assert '-5.00 percentage points' in plain and '-8.33% relative' in plain
+assert '&lt;Test&gt;' in rich and 'javascript:' not in rich and 'cid:test-chart@383ks.com' in rich
+assert mail.chart_png([],0.6,0.55).startswith(b'\x89PNG\r\n\x1a\n')
 with patch.object(research,'read',return_value={'status':'text_extracted','url':'https://original.example/news','title':'Original','text':'Verified original text. '*100}):
     item=research.original({'url':'https://redirect.example/news','summary':'UNVERIFIED RSS CLAIM','publishedAt':'2026-09-13T10:00:00Z'})
     assert item['source']=='original.example' and 'UNVERIFIED' not in item['excerpt']
@@ -30,6 +32,8 @@ with tempfile.TemporaryDirectory() as directory, patch.object(mail,'Path',lambda
         mail.main()
         assert saved.call_args.kwargs['json']['details']['news_email_delivery']=='sent'
         assert smtp.return_value.__enter__.return_value.send_message.call_args.args[0]['To']=='lindsylqa@gmail.com'
+        sent_message=smtp.return_value.__enter__.return_value.send_message.call_args.args[0]
+        assert any(part.get_content_type()=='image/png' for part in sent_message.walk())
         response.json.return_value=[{'id':'empty','details':{}}]
         smtp.reset_mock();mail.main();smtp.assert_not_called()
 print('Research provenance, signed email changes, failure retry and no-change suppression passed')
