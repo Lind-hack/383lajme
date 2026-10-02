@@ -37,6 +37,7 @@ export function kosovoParts(now?: number): { month: string; day: number; hour: n
 export function recordVisit(ledger: unknown, now?: number): Ledger;
 export function recordRead(ledger: unknown, slug: string, keys: readonly string[], now?: number): Ledger;
 export function recordQuestion(ledger: unknown, now?: number): Ledger;
+export function visitDates(ledger: unknown): string[];
 export function daysWithUs(ledger: unknown): number;
 export function longestStreak(ledger: unknown): number;
 export function summarize(ledger: unknown, span: { from: string; to: string }): LedgerSummary;

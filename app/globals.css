@@ -22451,6 +22451,78 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .perty-ed-city svg { flex: none; color: #B42A10; }
 .perty-ed-city b { color: #111111; font-weight: 800; }
 .perty-ed-edit { align-self: start; min-height: 40px; padding: 0 14px; font-size: 14px; }
+/* "Gazeta e Lindit · Nr. 47": the reader's own nameplate, above the greeting. */
+.perty-ed-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin: 0 0 6px;
+  color: #5E5048;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.perty-ed-paper {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #B42A10;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+.perty-ed-paper:focus-visible,
+.perty-ed-ask-name:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 3px; border-radius: 4px; }
+.perty-ed-issue { color: #111111; font-variant-numeric: tabular-nums; }
+.perty-ed-ask-name {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #5E5048;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.perty-ed-name-form { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 2px 0 12px; }
+.perty-ed-name-form label { color: #111111; font-size: 14px; font-weight: 800; }
+.perty-ed-name-form input {
+  width: 180px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1.5px solid #E8E3DB;
+  border-radius: 999px;
+  background: #FFFFFF;
+  color: #111111;
+  font: inherit;
+  font-size: 15px;
+}
+.perty-ed-name-form input:focus-visible { outline: none; border-color: #FF4422; box-shadow: 0 0 0 3px rgba(255, 68, 34, 0.18); }
+.perty-ed-name-form .perty-btn { min-height: 40px; padding: 0 18px; font-size: 14px; }
+/* What Dardani noticed: one soft line under the masthead, only when true. */
+.perty-ed-say {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0 0;
+  padding: 10px 14px 10px 10px;
+  border: 1px solid #F4DDD2;
+  border-radius: 16px;
+  background: #FFF6F1;
+  color: #2B2825;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.perty-ed-say > :first-child { flex: none; }
+.perty-ed-say a { color: #111111; font-weight: 800; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 
 /* "Në 30 sekonda" */
 .perty-brief {
@@ -22700,6 +22772,9 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .perty-ed-edit { width: 40px; padding: 0; }
   .perty-ed-edit span { display: none; }
   .perty-ed-line { font-size: 13.5px; gap: 2px 12px; }
+  .perty-ed-kicker { font-size: 11.5px; }
+  .perty-ed-name-form input { flex: 1 1 140px; width: auto; }
+  .perty-ed-say { font-size: 14px; align-items: flex-start; }
   .perty-brief { margin-top: 16px; padding: 12px 14px 2px; }
   .perty-brief a { font-size: 15px; }
   .perty-ed { margin-top: 24px; }

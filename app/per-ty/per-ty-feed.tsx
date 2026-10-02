@@ -50,7 +50,9 @@ import { personById } from "@/lib/people.mjs";
 import { cityById } from "@/lib/cities.mjs";
 import { nextStreak, STREAK_KEY } from "@/lib/perty-streak.mjs";
 import { forgetVisits, isNewSince, readSlugs, recordVisit } from "@/lib/perty-visits.mjs";
-import { forgetLedger } from "@/lib/reader-ledger.mjs";
+import { daysWithUs, forgetLedger, kosovoParts, noteVisit, readLedger } from "@/lib/reader-ledger.mjs";
+import { paperName, readName, writeName } from "@/lib/reader-name.mjs";
+import { absence, followUp } from "@/lib/perty-dardani-line.mjs";
 import type { CityWeather } from "@/lib/weather";
 import { mergeOnSignIn, pushInterests } from "@/lib/interests-sync";
 import { createClient } from "@/lib/supabase/client";
@@ -145,9 +147,16 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   const [now, setNow] = useState<Date | null>(null);
   const [since, setSince] = useState<string | null>(null);
   const [read, setRead] = useState<ReadonlySet<string>>(new Set());
+  // The reader's own paper: the name they gave this device (it wins over the
+  // account's), the number of days they have come, and how long they were away.
+  const [deviceName, setDeviceName] = useState("");
+  const [naming, setNaming] = useState(false);
+  const [issue, setIssue] = useState(0);
+  const [away, setAway] = useState<{ missed: number; last: string } | null>(null);
 
   useEffect(() => {
     setInterests(readInterests());
+    setDeviceName(readName());
     setSignupDismissed(readFlag(SIGNUP_DISMISSED));
     setNow(new Date());
     let alive = true;
@@ -182,6 +191,12 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     if (!ready) return;
     setSince(recordVisit());
     setRead(new Set(readSlugs()));
+    // This page's effects run before the layout's, so today is noted here too
+    // (noting a day twice changes nothing) before the ledger is read.
+    noteVisit();
+    const ledger = readLedger();
+    setIssue(daysWithUs(ledger));
+    setAway(absence(ledger, kosovoParts().date));
     try {
       const next = nextStreak(JSON.parse(localStorage.getItem(STREAK_KEY) ?? "null"));
       localStorage.setItem(STREAK_KEY, JSON.stringify(next));
@@ -247,15 +262,63 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     .slice(0, 6)
     .map((i) => i.article.slug);
   const firstUnread = edition.find((i) => !read.has(i.article.slug)) ?? edition[0];
+  const displayName = deviceName || name;
+  // One thing Dardani noticed, or nothing: being away first, then a story that
+  // continues one the reader already read.
+  const next = away ? null : followUp(edition, pool, read);
 
   return (
     <div className="perty-shell perty-shell--wide perty-paper">
       <header className="perty-ed-mast">
         <DardaniLoop name="greeting" alt="Dardani të përshëndet" className="perty-ed-dardani" />
         <div className="perty-ed-mast-copy">
+          <p className="perty-ed-kicker">
+            <button
+              type="button"
+              className="perty-ed-paper"
+              onClick={() => setNaming(true)}
+              aria-label={displayName ? "Ndrysho emrin" : "Vendos emrin tënd"}
+            >
+              {paperName(displayName)}
+            </button>
+            {issue > 0 && <span className="perty-ed-issue">Nr. {issue}</span>}
+            {!displayName && !naming && (
+              <button type="button" className="perty-ed-ask-name" onClick={() => setNaming(true)}>
+                Si të thërras?
+              </button>
+            )}
+          </p>
+          {naming && (
+            <form
+              className="perty-ed-name-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const value = new FormData(e.currentTarget).get("name");
+                setDeviceName(writeName(typeof value === "string" ? value : ""));
+                setNaming(false);
+              }}
+            >
+              <label htmlFor="perty-name">Si të thërras?</label>
+              <input
+                id="perty-name"
+                name="name"
+                defaultValue={displayName}
+                autoComplete="given-name"
+                maxLength={24}
+                placeholder="Emri yt"
+                autoFocus
+              />
+              <button type="submit" className="perty-btn perty-btn--primary">
+                Ruaj
+              </button>
+              <button type="button" className="perty-text-btn" onClick={() => setNaming(false)}>
+                Anulo
+              </button>
+            </form>
+          )}
           <h1 className="perty-ed-hello">
             {greeting(now)}
-            {name ? `, ${name}` : ""}.
+            {displayName ? `, ${displayName}` : ""}.
           </h1>
           <p className="perty-ed-line">
             <span className="perty-ed-date">{dateline(now)}</span>
@@ -277,6 +340,20 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
           <span>Ndrysho</span>
         </button>
       </header>
+
+      {(away || next) && (
+        <p className="perty-ed-say" role="status">
+          <DardaniFace state="happy" size={30} decorative />
+          {away ? (
+            <span>Mungove {away.missed} ditë! Të kam mbajtur më të rëndësishmet këtu poshtë.</span>
+          ) : next ? (
+            <span>
+              E ke lexuar «{next.before.title}». Sot ka vazhdim:{" "}
+              <Link href={`/article/${next.after.slug}`}>{next.after.title}</Link>
+            </span>
+          ) : null}
+        </p>
+      )}
 
       {storageFailed && (
         <p className="perty-note" role="status">
