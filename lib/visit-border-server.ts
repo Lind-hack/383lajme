@@ -69,11 +69,18 @@ export function parseMpbBorderHtml(html: string, fetchedAt = new Date().toISOStr
   });
 }
 
-export async function fetchOfficialBorderWaits(): Promise<OfficialBorderWait[]> {
+/**
+ * `fresh` bypasses the 10-minute data cache (the history logger needs a real
+ * sample, not a cached page); `signal` lets a caller abort a slow MPB.
+ */
+export async function fetchOfficialBorderWaits(
+  options: { fresh?: boolean; signal?: AbortSignal } = {},
+): Promise<OfficialBorderWait[]> {
   const fetchedAt = new Date().toISOString();
   const response = await fetch(MPB_URL, {
     headers: { "User-Agent": "383ks-visitor-utility/1.0 (+https://www.383ks.com/visit)" },
-    next: { revalidate: 600 },
+    signal: options.signal,
+    ...(options.fresh ? { cache: "no-store" as const } : { next: { revalidate: 600 } }),
   });
   if (!response.ok) throw new Error(`MPB returned ${response.status}`);
   const waits = parseMpbBorderHtml(await response.text(), fetchedAt);

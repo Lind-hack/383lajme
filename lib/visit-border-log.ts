@@ -28,8 +28,8 @@ export const BORDER_LOG_MIN_INTERVAL_MS = 9 * 60 * 1000;
 
 const KOSOVO_TZ = "Europe/Belgrade";
 
-function zoneOffsetMs(instantMs: number) {
-  const parts = Object.fromEntries(
+function kosovoWallParts(instantMs: number) {
+  return Object.fromEntries(
     new Intl.DateTimeFormat("en-GB", {
       timeZone: KOSOVO_TZ,
       hourCycle: "h23",
@@ -43,7 +43,12 @@ function zoneOffsetMs(instantMs: number) {
       .formatToParts(new Date(instantMs))
       .map((part) => [part.type, part.value]),
   );
-  const asUtc = Date.UTC(
+}
+
+/** The Kosovo wall clock at an instant, read back as if it were UTC. */
+function kosovoWallAsUtc(instantMs: number) {
+  const parts = kosovoWallParts(instantMs);
+  return Date.UTC(
     Number(parts.year),
     Number(parts.month) - 1,
     Number(parts.day),
@@ -51,30 +56,37 @@ function zoneOffsetMs(instantMs: number) {
     Number(parts.minute),
     Number(parts.second),
   );
-  return asUtc - instantMs;
 }
 
 /**
  * MPB stamps its table as "DD/MM/YYYY HH:MM:SS" in Kosovo local time.
- * Returns the UTC ISO instant, or null when the text is not that shape.
+ * Returns the UTC ISO instant, or null when the text is not that shape or
+ * names a wall time that never existed (31/02, a DST spring-forward gap).
  */
 export function normalizeMpbUpdatedAt(raw: string | null | undefined): string | null {
   const match = raw?.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
   if (!match) return null;
   const [, dd, mm, yyyy, hh, mi, ss = "0"] = match;
-  const day = Number(dd);
-  const month = Number(mm);
-  const hour = Number(hh);
-  const minute = Number(mi);
-  const second = Number(ss);
-  if (month < 1 || month > 12 || day < 1 || day > 31 || hour > 23 || minute > 59 || second > 59) return null;
-  const wallAsUtc = Date.UTC(Number(yyyy), month - 1, day, hour, minute, second);
+  const wallAsUtc = Date.UTC(Number(yyyy), Number(mm) - 1, Number(dd), Number(hh), Number(mi), Number(ss));
+  if (!Number.isFinite(wallAsUtc)) return null;
   // Two passes settle the offset across a DST boundary.
-  let instant = wallAsUtc - zoneOffsetMs(wallAsUtc);
-  instant = wallAsUtc - zoneOffsetMs(instant);
-  const check = new Date(instant);
-  if (Number.isNaN(check.getTime())) return null;
-  return check.toISOString();
+  let instant = wallAsUtc - (kosovoWallAsUtc(wallAsUtc) - wallAsUtc);
+  instant = wallAsUtc - (kosovoWallAsUtc(instant) - instant);
+  // Round trip: the instant must show exactly the wall time MPB printed.
+  // Date.UTC silently rolls 31/02 into March and a gap hour into the next.
+  if (kosovoWallAsUtc(instant) !== wallAsUtc) return null;
+  const expected = new Date(wallAsUtc);
+  if (
+    expected.getUTCFullYear() !== Number(yyyy) ||
+    expected.getUTCMonth() !== Number(mm) - 1 ||
+    expected.getUTCDate() !== Number(dd) ||
+    expected.getUTCHours() !== Number(hh) ||
+    expected.getUTCMinutes() !== Number(mi) ||
+    expected.getUTCSeconds() !== Number(ss)
+  ) {
+    return null;
+  }
+  return new Date(instant).toISOString();
 }
 
 /**
