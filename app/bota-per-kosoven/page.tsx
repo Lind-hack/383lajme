@@ -69,7 +69,7 @@ export default async function BotaPerKosovenPage() {
   ]);
 
   const today = summarizeToday(history);
-  const stories = getDailyStories(outlets, today.date);
+  const stories = getDailyStories(outlets, today.date, false);
   const highlights = getMapHighlights(outlets);
   const countries = summarizeToneHistory(history).countries.map((c) => ({
     country: c.country,

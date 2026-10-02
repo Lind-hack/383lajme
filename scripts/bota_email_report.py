@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import smtplib
 import ssl
+from concurrent.futures import ThreadPoolExecutor
 
 RECIPIENT='lindsylqa@gmail.com'
 SITE='https://383ks.com'
@@ -21,17 +22,20 @@ def verify_public(report, get=None):
     cards=[a for country in snapshot.get('countries',{}).values() for outlet in country.get('outlets',[]) for a in outlet.get('articles',[]) if a.get('firstSeen')==report['date']]
     if not cards or len(cards)!=snapshot.get('totalArticles'):
         raise ValueError('Public article count does not match the daily batch')
-    for article in cards:
+    def verify_reader(article):
         reader_url='/bota-per-kosoven/artikull/'+article['id']
         if article.get('readerUrl')!=reader_url:raise ValueError('Invalid internal article link')
         reader=get(SITE+reader_url,timeout=30);reader.raise_for_status()
         if 'Përkthim në shqip' not in reader.text or escape(article['albanianTitle']) not in reader.text:
             raise ValueError('Albanian reader attribution or title mismatch')
+    with ThreadPoolExecutor(max_workers=8) as pool:list(pool.map(verify_reader,cards))
     if report['result'] in ('published_verified','dry_run_no_publication'):
         responses=report.get('responses',[])
         if not responses or len(responses)!=report.get('articleCount') or any(r.get('actualModel')!='gpt-6-luna' or r.get('actualReasoningEffort')!='xhigh' for r in responses):
             raise ValueError('Actual GPT model provenance is missing or wrong')
-    return {'http':200,'date':snapshot['lastUpdated'],'articleCount':len(cards),'readerCount':len(cards),'sourceCount':snapshot.get('sourceCount'), 'readerUrls':[SITE+a['readerUrl'] for a in cards]}
+    country_counts={country:sum(a.get('firstSeen')==report['date'] for outlet in data.get('outlets',[]) for a in outlet.get('articles',[])) for country,data in snapshot.get('countries',{}).items()}
+    country_counts={c:n for c,n in country_counts.items() if n}
+    return {'http':200,'date':snapshot['lastUpdated'],'articleCount':len(cards),'readerCount':len(cards),'sourceCount':snapshot.get('sourceCount'),'countryCount':len(country_counts),'countries':country_counts, 'readerUrls':[SITE+a['readerUrl'] for a in cards]}
 
 def render_report(outcome, started, finished):
     status=outcome.get('status');result=outcome.get('result')
@@ -40,6 +44,7 @@ def render_report(outcome, started, finished):
         if result not in labels or outcome.get('public',{}).get('http')!=200:raise ValueError('Success email requires public verification')
         label=labels[result]
         if result=='published_verified' and outcome.get('publication',{}).get('published') is not True:label='SUCCESS — saved batch and readers verified after retry'
+        if result!='dry_run_no_publication' and outcome['public']['articleCount']<50:label='SHORTFALL — verified publication; daily minimum of 50 not reached'
     elif status=='skipped' and result=='already_running':label=labels[result]
     else:label='FAILED — pipeline or public verification did not complete'
     rows=[('Date',outcome['date']),('Result',label),('Started (Europe/Warsaw)',started),('Finished (Europe/Warsaw)',finished),('Model setting','Hermes / OpenAI Codex subscription / GPT-6 Luna / xhigh')]
@@ -48,6 +53,7 @@ def render_report(outcome, started, finished):
         fresh='0 — already published; no GPT call needed' if result=='already_published' else '0 — reused the saved translation packet' if outcome.get('reusedSavedPacket') else str(outcome.get('articleCount',0))
         changed='No — test only' if result=='dry_run_no_publication' else 'Yes' if outcome.get('publication',{}).get('published') is True else 'No — preserved existing batch'
         rows += [('Published articles today',str(public['articleCount'])),('Verified Albanian readers',str(public['readerCount'])),('Fresh verified GPT translations in this run',fresh),('Rejected candidates',str(outcome.get('failed',0))),('Deferred candidates',str(outcome.get('deferred',0))),('Publication changed',changed),('Live feature',SITE+'/bota-per-kosoven')]
+        rows += [('Daily target','50–100 unique articles'),('Countries represented',str(public.get('countryCount',0))),('Articles by country',', '.join(c+': '+str(n) for c,n in sorted(public.get('countries',{}).items()))),('Shortfall below 50',str(max(0,50-public['articleCount'])))]
         rows += [('Reader',url) for url in public['readerUrls']]
     else:rows += [('Failure type',outcome.get('reason','WorkflowError')),('Details','See the protected Hermes run log. No success is claimed by this email.')]
     subject='383 Bota | '+outcome['date']+' | '+label

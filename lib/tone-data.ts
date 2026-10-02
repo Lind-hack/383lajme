@@ -172,6 +172,14 @@ const FLAGS: Record<string, string> = {
   Itali: "🇮🇹", Austri: "🇦🇹", Zvicër: "🇨🇭",
   Holandë: "🇳🇱", Belgjikë: "🇧🇪", Spanjë: "🇪🇸", Greqi: "🇬🇷",
   Suedi: "🇸🇪", Poloni: "🇵🇱", Turqi: "🇹🇷", Kroaci: "🇭🇷",
+  Serbi:"🇷🇸", "Bosnjë dhe Hercegovinë":"🇧🇦", "Mali i Zi":"🇲🇪", "Maqedoni e Veriut":"🇲🇰",
+  Shqipëri:"🇦🇱", Rumani:"🇷🇴", Bullgari:"🇧🇬", Hungari:"🇭🇺", Çeki:"🇨🇿", Sllovaki:"🇸🇰",
+  Slloveni:"🇸🇮", Finlandë:"🇫🇮", Norvegji:"🇳🇴", Danimarkë:"🇩🇰", Islandë:"🇮🇸",
+  Portugali:"🇵🇹", Irlandë:"🇮🇪", Kanada:"🇨🇦", Australi:"🇦🇺", "Zelandë e Re":"🇳🇿",
+  Brazil:"🇧🇷", Argjentinë:"🇦🇷", Meksikë:"🇲🇽", Kili:"🇨🇱", Indi:"🇮🇳", Pakistan:"🇵🇰",
+  Japoni:"🇯🇵", Kinë:"🇨🇳", "Kore e Jugut":"🇰🇷", Indonezi:"🇮🇩", Malajzi:"🇲🇾", Singapor:"🇸🇬",
+  "Afrikë e Jugut":"🇿🇦", Nigeri:"🇳🇬", Egjipt:"🇪🇬", "Emiratet e Bashkuara Arabe":"🇦🇪",
+  Katar:"🇶🇦", "Arabi Saudite":"🇸🇦", Izrael:"🇮🇱", Rusi:"🇷🇺", Ukrainë:"🇺🇦",
 };
 
 /** The workflow runs nine times a day, so a row older than this is a failed
@@ -500,6 +508,7 @@ function sameEvent(a: Set<string>, b: Set<string>): boolean {
 export function getDailyStories(
   outlets: ToneOutletsData | null,
   day: string | null,
+  groupEvents = true,
 ): DailyStory[] {
   if (!outlets?.countries || !day) return [];
 
@@ -527,7 +536,7 @@ export function getDailyStories(
   const groups: Array<{ kws: Set<string>; members: typeof pool }> = [];
   for (const a of pool) {
     const kws = titleKeywords(a.albanianTitle as string);
-    const hit = groups.find((g) => sameEvent(g.kws, kws));
+    const hit = groupEvents ? groups.find((g) => sameEvent(g.kws, kws)) : undefined;
     if (hit) hit.members.push(a);
     else groups.push({ kws, members: [a] });
   }

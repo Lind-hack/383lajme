@@ -2,7 +2,7 @@
 """Hermes subscription worker. Discovery is deterministic; all editorial work is GPT-6 Luna/xhigh."""
 import argparse
 from collections import Counter
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
 from datetime import datetime
 import hashlib
 import ipaddress
@@ -108,7 +108,10 @@ def validate_editorial(result, source):
 def editorial(runtime,source):
     from agent.transports.codex import ResponsesApiTransport
     from openai import OpenAI
-    built=ResponsesApiTransport().build_kwargs(MODEL,[{'role':'user','content':json.dumps({k:source[k] for k in ['title','outlet','url','sourceParagraphs']},ensure_ascii=False)}],instructions=INSTRUCTIONS,reasoning_config={'enabled':True,'effort':EFFORT},is_codex_backend=True)
+    payload={k:source[k] for k in ['title','outlet','url','sourceParagraphs']}
+    payload['paragraphCount']=len(source['sourceParagraphs'])
+    payload['translationChecks']='Return exactly paragraphCount paragraphs. Preserve every numeric token, including decimal/thousands punctuation, literally in its corresponding paragraph.'
+    built=ResponsesApiTransport().build_kwargs(MODEL,[{'role':'user','content':json.dumps(payload,ensure_ascii=False)}],instructions=INSTRUCTIONS,reasoning_config={'enabled':True,'effort':EFFORT},is_codex_backend=True)
     kwargs={k:built[k] for k in ['model','instructions','input','reasoning','store'] if k in built}
     if kwargs.get('model')!=MODEL or kwargs.get('reasoning',{}).get('effort')!=EFFORT:raise RuntimeError('Outgoing model pin changed')
     client=OpenAI(api_key=runtime['api_key'],base_url=runtime['base_url'],timeout=240,max_retries=0)
@@ -137,6 +140,7 @@ def discover(known):
     import tone_scraper as scraper
     from tone_sources import country_for,is_editorial,is_local_placename
     import feedparser,requests
+    from bota_sources import worldwide_candidates,publisher_country,balanced_sources
     # Direct publisher feeds remain usable when Google's redirect decoder is
     # blocked. They are discovery only: each article still needs its full body.
     feeds=[
@@ -172,7 +176,10 @@ def discover(known):
     original_links={scraper.normalize_title(a['title']):a['url'] for a in cached}
     scraper.FEED_LOCALES['Bota']=('en-US','US')
     scraper.FEEDS['Bota']=['https://news.google.com/rss/search?q=Kosovo+when%3A1d&hl=en-US&gl=US&ceid=US:en']
+    # Independent direct-link discovery avoids Google's failing redirect RPC.
+    worldwide=worldwide_candidates()
     candidates=scraper.fetch_candidates()
+    for a in worldwide:candidates.setdefault(a['country'],[]).append(a)
     for a in direct+cached:candidates.setdefault(country_for(a['url'],a['outlet']) or 'Të tjera',[]).insert(0,a)
     rows=[];queues={k:list(v) for k,v in candidates.items() if v}
     while queues:
@@ -189,25 +196,20 @@ def discover(known):
             source={**a,**fetch_source(resolved)}
             if not is_editorial(a['outlet'],source['url']) or not scraper.is_foreign_press(a['outlet'],source['url']) or is_local_placename(a['title'],' '.join(source['sourceParagraphs'])):return None
             source['id']=hashlib.sha256(source['url'].encode()).hexdigest()
-            source['country']=country_for(source['url'],a['outlet']) or 'Të tjera'
+            source['country']=publisher_country(source['url'],a['outlet'])
             return source
         except Exception as error:rejected[type(error).__name__]+=1;return None
     # Candidate limit bounds extraction cost; source ownership is decided only after resolving the publisher.
-    with ThreadPoolExecutor(max_workers=6) as pool:
-        for source in pool.map(extract,rows[:120]):
+    direct_rows=[a for a in rows if 'news.google.com/' not in a['url']]
+    google_rows=[a for a in rows if 'news.google.com/' in a['url'] and scraper.normalize_title(a['title']) in original_links]
+    extraction=balanced_sources(direct_rows+google_rows,800,country_cap=200,outlet_cap=60)
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        for source in pool.map(extract,extraction):
             if not source or source['id'] in known or source['id'] in seen:continue
             seen.add(source['id']);available.append(source)
     print(json.dumps({'sourceCandidates':len(rows),'extracted':len(available),'rejected':dict(rejected)}),file=sys.stderr)
     # Round-robin countries so a busy locale cannot monopolize the daily publication.
-    groups={}
-    for a in available:groups.setdefault(a['country'],[]).append(a)
-    selected=[]
-    while groups and len(selected)<40:
-        for country in list(groups):
-            selected.append(groups[country].pop(0))
-            if not groups[country]:del groups[country]
-            if len(selected)>=40:break
-    return selected
+    return balanced_sources(available,300,country_cap=60,outlet_cap=20)
 
 def save_pending(packet,report,pending):
     temporary=pending.with_suffix('.tmp')
@@ -246,7 +248,7 @@ def publish_saved(packet,report,headers,pending):
     pending.unlink(missing_ok=True)
     return report
 
-def run(dry_run=False,limit=40):
+def run(dry_run=False,limit=300):
     import httpx
     started=time.monotonic()
     date=datetime.now(ZoneInfo('Europe/Belgrade')).date().isoformat()
@@ -264,23 +266,34 @@ def run(dry_run=False,limit=40):
         if public.json().get('outlets',{}).get('lastUpdated')!=date:raise RuntimeError('Published day failed public verification')
         return {'status':'ok','result':'already_published','date':date,'model':MODEL,'reasoningEffort':EFFORT}
     runtime=resolve_runtime();sources=discover(set(context.get('knownIds',[])));articles=[];receipts=[];failed=0;processed=0
+    target=min(100,max(0,100-context.get('dailyCount',0))) if not dry_run else min(100,limit)
     report={'date':date,'model':MODEL,'reasoningEffort':EFFORT,'articleCount':0,'failed':0,'responses':receipts}
     packet={'date':date,'model':MODEL,'reasoningEffort':EFFORT,'articles':articles}
-    for source in sources[:limit]:
-        if time.monotonic()-started>=EDITORIAL_BUDGET_SECONDS:break
-        processed+=1
-        try:
-            result,receipt=editorial(runtime,source)
+    # Four independent HTTP streams, not four agents. Admit/persist responses
+    # serially, and never start more work than the remaining daily capacity.
+    candidates=iter(sources[:limit]);inflight={};exhausted=False
+    with ThreadPoolExecutor(max_workers=4) as pool:
+      while True:
+        while not exhausted and len(inflight)<min(4,target-len(articles)) and time.monotonic()-started<EDITORIAL_BUDGET_SECONDS:
+            source=next(candidates,None)
+            if source is None:exhausted=True;break
+            inflight[pool.submit(editorial,runtime,source)]=source;processed+=1
+        if not inflight:break
+        completed,_=wait(inflight,return_when=FIRST_COMPLETED)
+        for future in completed:
+          source=inflight.pop(future)
+          try:
+            result,receipt=future.result()
             if result is None:continue
             article={**{k:source[k] for k in ['url','title','outlet','country','date','sourceHash','imageUrl']},**result,**receipt,'complete':True}
             validate_publishable(article,date)
-            articles.append(article)
-            receipts.append(receipt)
+            articles.append(article);receipts.append(receipt)
             report.update(articleCount=len(articles),failed=failed,deferred=len(sources[:limit])-processed)
             if not dry_run:save_pending(packet,report,pending)
-        except Exception as error:
+            print(json.dumps({'stage':'translation','verified':len(articles),'target':target,'country':source['country']}),file=sys.stderr,flush=True)
+          except Exception as error:
             failed+=1
-            print(json.dumps({'article':source['id'],'status':'rejected','reason':type(error).__name__,'detail':str(error)[:180] if isinstance(error,ValueError) else 'Request failed'}),file=sys.stderr)
+            print(json.dumps({'article':source['id'],'status':'rejected','reason':type(error).__name__,'detail':str(error)[:180] if isinstance(error,ValueError) else 'Request failed'}),file=sys.stderr,flush=True)
     if not articles:raise RuntimeError('No fully translated verified articles; previous publication preserved')
     report.update(articleCount=len(articles),failed=failed,deferred=len(sources[:limit])-processed)
     if not dry_run:
@@ -292,9 +305,9 @@ def run(dry_run=False,limit=40):
     return report
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--dry-run',action='store_true');parser.add_argument('--limit',type=int,default=40);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--dry-run',action='store_true');parser.add_argument('--limit',type=int,default=300);args=parser.parse_args()
     try:
-        report=run(args.dry_run,max(1,min(args.limit,40)))
+        report=run(args.dry_run,max(1,min(args.limit,300)))
         print(json.dumps({k:v for k,v in report.items() if k!='responses'},ensure_ascii=False))
     except Exception as error:
         print(json.dumps({'status':'failed','reason':type(error).__name__,'message':'Discovery, GPT verification or publishing failed; no substitution.'}),file=sys.stderr);sys.exit(1)
