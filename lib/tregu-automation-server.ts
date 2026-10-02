@@ -15,6 +15,7 @@ import { sendTreguLiveNotification } from "@/lib/tregu-live-email";
 import { runLeaderboardPayouts } from "@/lib/tregu-leaderboard-server";
 import { runRivalryJobs } from "@/lib/tregu-rivalry-server";
 import { runMorningEditionPush } from "@/lib/perty-morning-push";
+import { runBorderWaitLog } from "@/lib/visit-border-log-server";
 import { sendPendingNewsMarketEmails } from "@/lib/tregu-creation-email";
 import { parseMarketResearchEvidence } from "@/lib/tregu-research-evidence-validated.mjs";
 import { f1DriverHeadshot, f1TeamColor } from "@/lib/f1-driver-presentation";
@@ -859,6 +860,9 @@ export async function runLiveSportsAutomation(now = new Date()) {
     runRivalryJobs(now),
     // Për ty: "Edicioni yt i mëngjesit" at 07:00 Kosovo time; a no-op otherwise.
     runMorningEditionPush(now),
+    // Kosova në xhep: official border waits into history, about every 10 minutes.
+    // Bounded at 8s and never throws, so MPB trouble cannot touch the sports lane.
+    runBorderWaitLog(now),
   ]);
   const waitMs = Math.max(HEARTBEAT_MIN_WAIT_MS, HEARTBEAT_RESPONSE_BUDGET_MS - (Date.now() - startedAt));
   const settled = await Promise.race([background, new Promise<null>((resolve) => setTimeout(() => resolve(null), waitMs))]);
