@@ -50,6 +50,7 @@ import { personById } from "@/lib/people.mjs";
 import { cityById } from "@/lib/cities.mjs";
 import { nextStreak, STREAK_KEY } from "@/lib/perty-streak.mjs";
 import { forgetVisits, isNewSince, readSlugs, recordVisit } from "@/lib/perty-visits.mjs";
+import { forgetLedger } from "@/lib/reader-ledger.mjs";
 import type { CityWeather } from "@/lib/weather";
 import { mergeOnSignIn, pushInterests } from "@/lib/interests-sync";
 import { createClient } from "@/lib/supabase/client";
@@ -434,6 +435,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
             onClick={() => {
               save({ ...interests, affinity: {} });
               forgetVisits();
+              forgetLedger();
               setRead(new Set());
               setSince(null);
             }}

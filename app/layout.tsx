@@ -7,6 +7,7 @@ import MotionProvider from "@/components/motion-provider";
 import Ga from "@/components/analytics/ga";
 import MobileTabBar from "@/components/mobile-tab-bar";
 import PageLoader from "@/components/dardani/page-loader";
+import LedgerVisit from "@/components/ledger-visit";
 
 // The dossier is set in a serif: it is the record behind the news rather than
 // the news, and design 3a leans on that register throughout — the topic title,
@@ -109,6 +110,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* In the layout, not the navbar, so it survives navigation and its
               highlight can slide from one tab to the next. */}
           <MobileTabBar />
+          <LedgerVisit />
           <SignupPrompt />
           <Ga />
         </MotionProvider>

@@ -4,6 +4,7 @@
 
 import { MEMORY_KEY, normalizeMemory, recordQuestion, questionKeys } from "@/lib/dardani-memory.mjs";
 import { readInterests, writeInterests, recordRead } from "@/lib/interests.mjs";
+import { noteQuestion } from "@/lib/reader-ledger.mjs";
 
 export function readMemory() {
   try {
@@ -23,6 +24,8 @@ export function rememberQuestion(question: string) {
   } catch {
     // Not remembered; nothing else depends on it.
   }
+  // Counted for the reader's wrapped; the question itself stays in this memory.
+  noteQuestion();
   const keys = questionKeys(question);
   if (keys.length > 0) {
     const current = readInterests();
