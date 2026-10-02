@@ -5,7 +5,7 @@ import VisitV2Experience from "@/components/visit/visit-v2-experience";
 import visitStyles from "@/components/visit/visit-v2.module.css";
 
 export const metadata: Metadata = {
-  title: "Diaspora and visitor guide | 383",
+  title: "Kosova në xhep: border waits and city guide | 383",
   description:
     "Live Kosovo border waits, nearby emergency services and downloadable city travel cards for diaspora visitors.",
 };

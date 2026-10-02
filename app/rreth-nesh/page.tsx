@@ -40,7 +40,7 @@ const PRODUCTS = [
   },
   {
     icon: MapPin,
-    title: "Vegla për vizitorët",
+    title: "Kosova në xhep",
     href: "/visit",
     body: "Pritjet në pikat kufitare të përditësuara çdo 10 minuta, raportime nga qytetarët, shërbime pranë ty dhe karta të qyteteve që punojnë edhe pa internet — për diasporën që vjen.",
     style: "light" as const,

@@ -320,7 +320,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
             )}
           </AnimatePresence>
 
-          {/* Diaspora visitor guide: a distinct utility destination between
+          {/* Kosova në xhep (visitor guide): a distinct utility destination between
               editorial categories and the Tregu product. */}
           <div
             style={{
@@ -411,7 +411,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
                       lineHeight: 1.25,
                     }}
                   >
-                    Diaspora & vizitorë
+                    Kosova në xhep
                   </span>
                   <span
                     style={{

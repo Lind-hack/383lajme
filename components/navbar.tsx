@@ -39,7 +39,7 @@ export const PRIMARY_NAV = [
   { label: "Sot", href: "/" },
   { label: "Për ty", href: "/per-ty" },
   { label: "Bota për Kosovën", href: "/bota-per-kosoven" },
-  { label: "Diaspora", href: "/visit" },
+  { label: "Kosova në xhep", href: "/visit" },
 ] as const;
 
 /**
