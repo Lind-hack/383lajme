@@ -22676,6 +22676,24 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .perty-end h2 svg { flex: none; color: #B42A10; }
 .perty-end-copy > p { margin: 6px 0 0; color: #3F3833; font-size: 15.5px; line-height: 1.5; }
 .perty-end-streak b { color: #C2340F; }
+/* "Më zgjo në 07:00": tomorrow's edition, offered as today's ends. */
+.perty-end-copy > .perty-end-push {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: #FFF6F1;
+  color: #2B2825;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+.perty-end-push > svg { flex: none; color: #B42A10; }
+.perty-end-push > span:not(.perty-end-push-error) { flex: 1 1 220px; }
+.perty-end-push-btn { min-height: 38px; padding: 0 16px; font-size: 14px; }
+.perty-end-push-error { flex-basis: 100%; color: #B42A10; font-size: 13px; }
 .perty-end-ask { display: flex; align-items: flex-start; gap: 8px; }
 .perty-end-ask svg { flex: none; margin-top: 4px; color: #B42A10; }
 .perty-end-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }

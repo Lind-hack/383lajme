@@ -5,7 +5,8 @@ export function pushSupported() {
   return typeof window !== "undefined" && "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
 }
 
-function keyBytes(base64url: string) {
+/** A VAPID public key (base64url) as the bytes PushManager.subscribe wants. */
+export function keyBytes(base64url: string) {
   const padded = (base64url + "=".repeat((4 - (base64url.length % 4)) % 4)).replace(/-/g, "+").replace(/_/g, "/");
   const raw = atob(padded);
   return Uint8Array.from(raw, (char) => char.charCodeAt(0));

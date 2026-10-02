@@ -39,7 +39,8 @@ export function describeEvent(event: Pick<EventRow, "kind" | "actor" | "data">):
   }
 }
 
-async function vapidKeys(admin: Admin): Promise<VapidKeys | null> {
+/** The site's VAPID key pair; also used by Për ty's morning push. */
+export async function vapidKeys(admin: Admin): Promise<VapidKeys | null> {
   const { data, error } = await admin.from("tregu_app_secrets").select("key, value").in("key", ["vapid_public", "vapid_private_jwk"]);
   if (error) throw new Error(`vapid keys: ${error.message}`);
   const map = new Map((data ?? []).map((row) => [row.key, row.value]));

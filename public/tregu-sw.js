@@ -1,12 +1,27 @@
-/* 383 Tregu service worker: league alerts only.
-   Pushes arrive empty (no payload to encrypt); on each one this asks the site
-   for the newest unseen league event, with the user's own cookies, and shows
-   it. Tapping the notification opens that league. */
+/* 383's service worker: Tregu league alerts and Për ty's morning edition.
+   There can be only one worker for the site, so both live here.
+   Pushes arrive empty (no payload to encrypt). On each one this first asks
+   whether this browser was just sent its 07:00 morning edition (by its own
+   push address, nothing else); if so it shows that. Otherwise it asks for the
+   newest unseen league event, with the user's own cookies, and shows it, as
+   before. Tapping the notification opens Për ty or that league. */
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", (event) => event.waitUntil(self.clients.claim()));
 
-self.addEventListener("push", (event) => {
-  event.waitUntil(
+function morningEdition() {
+  return self.registration.pushManager
+    .getSubscription()
+    .then((sub) =>
+      sub
+        ? fetch("/api/per-ty/push/latest?endpoint=" + encodeURIComponent(sub.endpoint), { cache: "no-store" })
+        : null
+    )
+    .then((response) => (response && response.status === 200 ? response.json() : null))
+    .catch(() => null);
+}
+
+function leagueAlert() {
+  return (
     fetch("/api/tregu/league-events/latest", { credentials: "include", cache: "no-store" })
       .then((response) => (response.ok ? response.json() : null))
       .catch(() => null)
@@ -20,6 +35,22 @@ self.addEventListener("push", (event) => {
           data: { url: (note && note.url) || "/tregu" },
         })
       )
+  );
+}
+
+self.addEventListener("push", (event) => {
+  event.waitUntil(
+    morningEdition().then((note) =>
+      note
+        ? self.registration.showNotification(note.title, {
+            body: note.body,
+            icon: "/logo-512.png",
+            badge: "/logo-512.png",
+            tag: "383-edicioni",
+            data: { url: note.url || "/per-ty" },
+          })
+        : leagueAlert()
+    )
   );
 });
 

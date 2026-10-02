@@ -61,6 +61,7 @@ import DardaniLoop from "@/components/dardani/dardani-loop";
 import DardaniImage from "@/components/dardani/dardani-image";
 import DardaniFace from "@/components/dardani/dardani-face";
 import Onboarding from "./onboarding";
+import MorningPush from "./morning-push";
 
 export type FeedArticle = {
   slug: string;
@@ -442,6 +443,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
                   ? "I ke lexuar të gjitha. Shihemi nesër me lajmet e reja!"
                   : "Këto ishin lajmet e tua për sot. Shihemi nesër!"}
               </p>
+              <MorningPush />
               {streak >= 2 && (
                 <p className="perty-end-streak">
                   <b>{streak} ditë rresht.</b> Kthehu nesër që të mos e prishësh.
