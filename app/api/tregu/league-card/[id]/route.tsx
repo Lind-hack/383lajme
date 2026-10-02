@@ -24,7 +24,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   if (!admin) return new Response("unavailable", { status: 503 });
 
   const [{ data: league }, { data: scores }, { data: members }] = await Promise.all([
-    admin.from("tregu_leagues").select("id, name, kind, code, starts_at, ends_at, entry_fee, prizes, emblem, color, scope_kind, scope_value, settled_at").eq("id", id).single(),
+    admin.from("tregu_leagues").select("id, name, kind, code, starts_at, ends_at, entry_fee, prizes, emblem, color, scope_kind, scope_value, settled_at, forfeited").eq("id", id).single(),
     admin.rpc("tregu_league_scores", { p_league_id: id }),
     admin.from("tregu_league_members").select("user_id, fee_paid").eq("league_id", id),
   ]);
@@ -41,7 +41,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   for (const profile of (profiles ?? []) as { id: string; display_name: string | null }[]) {
     names.set(profile.id, String(profile.display_name ?? "").trim().split(/\s+/)[0] || "Tregtar");
   }
-  const pot = ((members ?? []) as { fee_paid: number }[]).reduce((sum, member) => sum + Number(member.fee_paid || 0), 0);
+  // Fees of members who left stay in the pot (migration 0095).
+  const pot = ((members ?? []) as { fee_paid: number }[]).reduce((sum, member) => sum + Number(member.fee_paid || 0), 0) + Number(league.forfeited ?? 0);
   const rows = ((scores ?? []) as Score[])
     .sort((a, b) =>
       Number(b.net) - Number(a.net) ||

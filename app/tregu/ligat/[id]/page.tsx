@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { use as usePromise, useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
-import { ArrowLeft, Bell, BellRing, Check, CircleCheck, Copy, Image as ImageIcon, Lock, Share2, Swords, Target, Trophy, Zap } from "lucide-react";
+import { ArrowLeft, Bell, BellRing, Check, CircleCheck, Copy, Globe, Image as ImageIcon, Lock, LogOut, MoreHorizontal, Share2, Swords, Target, Trophy, Zap } from "lucide-react";
 import Navbar from "@/components/navbar";
 import DuelChallenge from "@/components/tregu/duel-challenge";
 import LeagueEmblem from "@/components/tregu/league-emblem";
@@ -15,6 +15,7 @@ import { untilLabel } from "@/components/tregu/trader-leaderboard";
 import { fmtNum } from "@/lib/format";
 import { createClient } from "@/lib/supabase/client";
 import { enableLeaguePush, pushSupported } from "@/lib/tregu-push-client";
+import { leaveCopy } from "@/lib/tregu-leagues-hub.mjs";
 import {
   leagueColor,
   leagueFamilyLabel,
@@ -199,6 +200,8 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
   /** Other leagues of the same kind this league's open picks could be copied into. */
   const [copyPlan, setCopyPlan] = useState<{ picks: number; leagues: { id: string; name: string; copied: number }[] } | null>(null);
   const [copying, setCopying] = useState(false);
+  const [menu, setMenu] = useState(false);
+  const [leaving, setLeaving] = useState<"confirm" | "busy" | null>(null);
 
   const load = useCallback(async () => {
     const [overview, preview, standings, picks, tallies, myDuels] = await Promise.all([
@@ -326,6 +329,22 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
     void load();
   };
 
+  // Leaving: the fee comes back before the start or inside the 15-minute
+  // grace with no pick; otherwise it stays in the pot (tregu_league_leave).
+  const leave = async () => {
+    setLeaving("busy");
+    setMessage(null);
+    const { data, error } = await supabase.rpc("tregu_league_leave", { p_league_id: id });
+    if (error) {
+      setLeaving(null);
+      setMessage({ ok: false, text: leagueError(error) });
+      return;
+    }
+    const balance = Number((data as { balance: number }[] | null)?.[0]?.balance);
+    if (Number.isFinite(balance)) window.dispatchEvent(new CustomEvent("tregu:balance", { detail: balance }));
+    window.location.href = "/tregu#ligat";
+  };
+
   const pick = async (row: BoardRow, option: PickOption) => {
     setPicking(row.market_id);
     setMessage(null);
@@ -422,11 +441,35 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
         <header className="lgx-hero lg-paper" data-public={league.kind === "public" || undefined} style={{ "--lg-color": color } as CSSProperties}>
           <LeaguePay payment={payment} onDone={() => { setPayment(null); setMessage({ ok: true, text: "U fute në ligë. Zgjidh parashikimet më poshtë." }); }} />
           <div className="lgx-hero-top">
-            <span className="lgx-theme">{league.kind === "private" ? <><Lock size={12} aria-hidden /> Ligë private</> : scope.label}</span>
+            <span className="lgx-theme">
+              {league.kind === "public" ? scope.label : league.listed ? <><Globe size={12} aria-hidden /> Ligë publike</> : <><Lock size={12} aria-hidden /> Ligë private</>}
+            </span>
             <span className="lgp-clock">
               {phase === "live" && <i aria-hidden />}
               {phase === "ended" ? "Përfundoi" : phase === "upcoming" ? `Fillon për ${untilLabel(Date.parse(league.starts_at), now)}` : `${untilLabel(Date.parse(league.ends_at), now)} mbetur`}
             </span>
+            {league.is_member && phase !== "ended" && (
+              <span className="lgx-more">
+                <button
+                  type="button"
+                  className="lgx-more-btn"
+                  aria-haspopup="menu"
+                  aria-expanded={menu}
+                  aria-label="Më shumë"
+                  onClick={() => setMenu((open) => !open)}
+                  onKeyDown={(event) => { if (event.key === "Escape") setMenu(false); }}
+                >
+                  <MoreHorizontal size={18} aria-hidden />
+                </button>
+                {menu && (
+                  <span className="lgx-more-menu" role="menu">
+                    <button type="button" role="menuitem" onClick={() => { setMenu(false); setLeaving("confirm"); }}>
+                      <LogOut size={15} aria-hidden /> Dil nga liga
+                    </button>
+                  </span>
+                )}
+              </span>
+            )}
           </div>
           <div className="lgx-hero-main">
             <LeagueEmblem league={league} size={84} />
@@ -441,7 +484,7 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
             <SponsorBand league={league} variant="hero" />
           </div>
           <div className="lgx-actions">
-            {!league.is_member && phase !== "ended" && league.kind === "public" && (
+            {!league.is_member && phase !== "ended" && (league.kind === "public" || league.listed) && (
               <button type="button" className="lg-btn" onClick={() => void join()} disabled={joining}>
                 <Zap size={16} aria-hidden /> {joining ? "Duke hyrë…" : Number(league.entry_fee) > 0 ? `Hyr · ${fmtNum(league.entry_fee)} 383C` : "Hyr falas"}
               </button>
@@ -455,6 +498,29 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
             <button type="button" className="lg-ghost" onClick={() => void shareTable()}><ImageIcon size={15} aria-hidden /> Shpërndaj renditjen</button>
           </div>
         </header>
+
+        {leaving && (() => {
+          const copy = leaveCopy({
+            entry_fee: league.entry_fee,
+            members: league.members,
+            pot: league.pot,
+            starts_at: league.starts_at,
+            joined_at: rows.find((row) => row.is_me)?.joined_at ?? null,
+            has_picks: board.some((row) => row.my_outcome),
+          }, now);
+          return (
+            <div className="lgx-leave lg-paper" role="alertdialog" aria-labelledby="leave-title" aria-describedby="leave-text">
+              <h2 id="leave-title">Del nga {league.name}?</h2>
+              <p id="leave-text">{copy.text}</p>
+              <div className="lgx-leave-row">
+                <button type="button" className="lg-btn" data-danger onClick={() => void leave()} disabled={leaving === "busy"}>
+                  <LogOut size={15} aria-hidden /> {leaving === "busy" ? "Duke dalë…" : copy.refund > 0 ? `Dil · merr ${fmtNum(copy.refund)} 383C` : "Po, dil"}
+                </button>
+                <button type="button" className="lg-ghost" onClick={() => setLeaving(null)} disabled={leaving === "busy"} autoFocus>Mbetem</button>
+              </div>
+            </div>
+          );
+        })()}
 
         {message && <p className="lgx-notice" data-ok={message.ok || undefined} role="status">{message.text}</p>}
 
@@ -551,7 +617,7 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
               <span>{myCount?.pending ? `${myCount.pending} në pritje` : openRows.length ? `${openRows.length} të hapura` : ""}</span>
             </div>
             {!league.is_member && phase !== "ended" && (
-              <p className="pick-empty">{league.kind === "public" ? "Hyr në ligë për të parashikuar." : "Vetëm anëtarët parashikojnë."}</p>
+              <p className="pick-empty">{league.kind === "public" || league.listed ? "Hyr në ligë për të parashikuar." : "Vetëm anëtarët parashikojnë."}</p>
             )}
             {league.is_member && phase === "upcoming" && (
               <p className="pick-empty">Liga nis për {untilLabel(Date.parse(league.starts_at), now)}. Parashikimet hapen atëherë.</p>

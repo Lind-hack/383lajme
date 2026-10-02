@@ -49,24 +49,44 @@ async function guard(request: NextRequest) {
   return { admin };
 }
 
-/** Public leagues, newest first, with member counts and pots. */
+/** Public leagues, newest first, with member counts and pots; and the
+ *  readers' public leagues that are still running (migration 0095). */
 export async function GET(request: NextRequest) {
   const { admin, error } = await guard(request);
   if (!admin) return error;
 
   const { data, error: queryError } = await admin
     .from("tregu_leagues")
-    .select("id, name, starts_at, ends_at, prizes, entry_fee, settled_at, description, rules, emblem, color, cover_url, sponsor, sponsor_logo, sponsor_url, scope_kind, scope_value, featured, feature_order, tregu_league_members(fee_paid)")
+    .select("id, name, starts_at, ends_at, prizes, entry_fee, settled_at, description, rules, emblem, color, cover_url, sponsor, sponsor_logo, sponsor_url, scope_kind, scope_value, featured, feature_order, forfeited, tregu_league_members(fee_paid)")
     .eq("kind", "public")
     .order("ends_at", { ascending: false })
     .limit(80);
   if (queryError) return NextResponse.json({ error: queryError.message }, { status: 500 });
 
-  const leagues = (data ?? []).map(({ tregu_league_members, ...league }) => {
+  // Fees of members who left stay in the pot (`forfeited`).
+  const leagues = (data ?? []).map(({ tregu_league_members, forfeited, ...league }) => {
     const members = (tregu_league_members as unknown as { fee_paid: number }[] | null) ?? [];
-    return { ...league, members: members.length, pot: members.reduce((sum, member) => sum + Number(member.fee_paid || 0), 0) };
+    return { ...league, members: members.length, pot: members.reduce((sum, member) => sum + Number(member.fee_paid || 0), 0) + Number(forfeited ?? 0) };
   });
-  return NextResponse.json({ leagues });
+
+  const { data: readerRows } = await admin
+    .from("tregu_leagues")
+    .select("id, name, emblem, created_at, ends_at, creator_id, tregu_league_members(user_id)")
+    .eq("listed", true)
+    .gt("ends_at", new Date().toISOString())
+    .order("created_at", { ascending: false })
+    .limit(80);
+  const creatorIds = [...new Set((readerRows ?? []).map((row) => row.creator_id).filter(Boolean))] as string[];
+  const { data: creators } = creatorIds.length
+    ? await admin.from("profiles").select("id, display_name").in("id", creatorIds)
+    : { data: [] as { id: string; display_name: string | null }[] };
+  const creatorName = new Map((creators ?? []).map((row) => [row.id, String(row.display_name ?? "").trim() || "Tregtar"]));
+  const listed = (readerRows ?? []).map(({ tregu_league_members, creator_id, ...league }) => ({
+    ...league,
+    creator: creator_id ? creatorName.get(creator_id) ?? "Tregtar" : "—",
+    members: ((tregu_league_members as unknown[] | null) ?? []).length,
+  }));
+  return NextResponse.json({ leagues, listed });
 }
 
 /**
@@ -164,7 +184,9 @@ export async function POST(request: NextRequest) {
 /** PATCH { id, name?, featured?, feature_order?, ...profile } — edit a public
  *  league's profile or its place on the Tregu home card. Money and dates
  *  (entry_fee, prizes, starts_at, ends_at) change only while nobody has joined
- *  on them. */
+ *  on them.
+ *  PATCH { id, listed: false } — take a reader's public league off the list
+ *  (an abusive name): it keeps its members and becomes code-only. */
 export async function PATCH(request: NextRequest) {
   const { admin, error } = await guard(request);
   if (!admin) return error;
@@ -172,6 +194,22 @@ export async function PATCH(request: NextRequest) {
   const body = ((await request.json().catch(() => null)) ?? {}) as Record<string, unknown>;
   const id = typeof body.id === "string" ? body.id : "";
   if (!/^[0-9a-f-]{36}$/i.test(id)) return NextResponse.json({ error: "Liga mungon." }, { status: 400 });
+
+  if (body.listed === false) {
+    const { data: unlisted, error: unlistError } = await admin
+      .from("tregu_leagues")
+      .update({ listed: false, unlisted_at: new Date().toISOString() })
+      .eq("id", id)
+      .eq("listed", true)
+      .select("id, name")
+      .maybeSingle();
+    if (unlistError) return NextResponse.json({ error: unlistError.message }, { status: 400 });
+    if (!unlisted) return NextResponse.json({ error: "Liga nuk u gjet në listë." }, { status: 404 });
+    await admin.from("tregu_league_audit").insert({ league_id: unlisted.id, name: unlisted.name, action: "unlisted" });
+    console.info(`[tregu-admin] unlisted ${unlisted.id} ${unlisted.name}`);
+    return NextResponse.json({ ok: true });
+  }
+
   const profile = readProfile(body);
   if (typeof profile === "string") return NextResponse.json({ error: profile }, { status: 400 });
   const update: Record<string, unknown> = { ...profile };

@@ -3,6 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { sendEmptyPush, type VapidKeys } from "@/lib/web-push";
 import type { LeagueSnapshot } from "@/lib/tregu-email-kit";
 import { buildDigestEmail, buildOvertakeEmail, buildRewardEmail, type DigestLeague } from "@/lib/tregu-league-emails";
+import { picksDueCopy } from "@/lib/tregu-leagues-hub.mjs";
 
 type Admin = NonNullable<ReturnType<typeof createAdminClient>>;
 type EventRow = { id: string; user_id: string; league_id: string | null; kind: string; actor: string | null; data: Record<string, unknown>; created_at: string };
@@ -33,7 +34,12 @@ export function describeEvent(event: Pick<EventRow, "kind" | "actor" | "data">):
     case "duel_draw":
       return { title: `Barazim me ${actor}`, body: "Bastet u kthyen." };
     case "duel_expired":
+      if (event.data?.reason === "left") {
+        return { title: `${actor} doli nga ${league}`, body: event.data?.refunded ? "Dueli u anulua, basti t'u kthye." : "Dueli u anulua." };
+      }
       return { title: `${actor} nuk u përgjigj`, body: "Sfida skadoi, basti t'u kthye." };
+    case "picks_due":
+      return picksDueCopy(event.data);
     default:
       return { title: "Ligat", body: "Diçka ndryshoi në ligat e tua." };
   }
@@ -54,7 +60,7 @@ export async function vapidKeys(admin: Admin): Promise<VapidKeys | null> {
 async function pushEvents(admin: Admin) {
   const keys = await vapidKeys(admin);
   if (!keys) return { pushed: 0, skipped: "no-vapid-keys" };
-  const worthy = ["overtaken", "duel_challenge", "duel_accepted", "duel_won", "duel_lost"];
+  const worthy = ["overtaken", "duel_challenge", "duel_accepted", "duel_won", "duel_lost", "picks_due"];
   const claimedAt = new Date().toISOString();
   // Claim first, so overlapping heartbeats never push the same event twice.
   const { data: events, error: claimError } = await admin
@@ -117,7 +123,7 @@ async function sendDigests(admin: Admin) {
   for (const recipient of recipients as { user_id: string; email: string; display_name: string; unsubscribe_token: string }[]) {
     const [{ data: leagues }, { data: events }, { data: duels }] = await Promise.all([
       admin.from("tregu_league_members").select("league_id, tregu_leagues!inner(id, name, ends_at, settled_at)").eq("user_id", recipient.user_id),
-      admin.from("tregu_league_events").select("kind, actor, data, created_at").eq("user_id", recipient.user_id).gte("created_at", new Date(Date.now() - 24 * 3600_000).toISOString()).order("created_at", { ascending: false }).limit(8),
+      admin.from("tregu_league_events").select("kind, actor, data, created_at").eq("user_id", recipient.user_id).gte("created_at", new Date(Date.now() - 24 * 3600_000).toISOString()).neq("kind", "picks_due").order("created_at", { ascending: false }).limit(8),
       admin.from("tregu_duels").select("id, status").or(`challenger.eq.${recipient.user_id},opponent.eq.${recipient.user_id}`).in("status", ["pending", "active"]),
     ]);
     const active = (leagues ?? [])
@@ -290,6 +296,8 @@ export async function runRivalryJobs(now = new Date()) {
   };
   await step("duels", () => rpc("tregu_settle_duels"));
   if (now.getUTCMinutes() % 6 < 2) await step("ranks", () => rpc("tregu_refresh_league_ranks"));
+  // Today's "make your picks" reminder (09:00-21:00, once a day; the SQL decides).
+  await step("picks_due", () => rpc("tregu_queue_picks_due"));
   await step("push", () => pushEvents(admin));
   await step("digest", () => sendDigests(admin));
   await step("mail", () => sendPlayerEmails(admin));

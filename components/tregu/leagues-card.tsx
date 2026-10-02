@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
-import { ArrowRight, Check, ChevronRight, Copy, ImagePlus, Plus, Share2, Trophy, Zap } from "lucide-react";
+import { ArrowRight, Check, ChevronRight, Copy, Globe, ImagePlus, Lock, Plus, Share2, Trophy, Zap } from "lucide-react";
 import LeagueEmblem from "@/components/tregu/league-emblem";
 import LeaguePay, { type LeaguePayment } from "@/components/tregu/league-pay";
 import { LEAGUES_CHANGED } from "@/components/tregu/public-leagues-section";
+import { LEAGUE_CREATE_EVENT } from "@/components/tregu/league-search";
 import { primeSellSound } from "@/components/tregu/trade-success-sound";
 import { untilLabel } from "@/components/tregu/trader-leaderboard";
 import { fmtNum } from "@/lib/format";
@@ -34,8 +35,8 @@ import "./leagues.css";
 import { openLeagueTutorial } from "@/components/tregu/league-tutorial";
 
 type Pulse = { players: number; leagues: number; faces: string[] };
-type Created = { id: string; code: string; name: string; days: number; fee: number; emblem: string; color: string };
-type Draft = { name: string; emblem: string; color: string; fee: number; days: number };
+type Created = { id: string; code: string; name: string; days: number; fee: number; emblem: string; color: string; listed: boolean };
+type Draft = { name: string; emblem: string; color: string; fee: number; days: number; listed: boolean };
 type Stage =
   | { kind: "idle" }
   | { kind: "create" }
@@ -73,8 +74,10 @@ function PotMath({ fee, days }: { fee: number; days: number }) {
  * with your place in each; then create or join by code.
  * A league is a prediction game: pick outcomes, earn points, the top three
  * split the pot. Invite links land here with ?kodi= and open the preview.
+ * `embedded`: inside the leagues hub (leagues-hub.tsx), which shows the
+ * reader's leagues itself — only create, join-by-code and their sheets here.
  */
-export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
+export default function LeaguesCard({ loggedIn, embedded = false }: { loggedIn: boolean; embedded?: boolean }) {
   const supabase = useMemo(() => createClient(), []);
   const [pulse, setPulse] = useState<Pulse | null>(null);
   const [leagues, setLeagues] = useState<LeagueSummary[]>([]);
@@ -89,7 +92,7 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
   const [now, setNow] = useState(() => Date.now());
   const [payment, setPayment] = useState<LeaguePayment | null>(null);
   const afterPay = useRef<Stage | null>(null);
-  const [draft, setDraft] = useState<Draft>({ name: "", emblem: "🏆", color: "#FF4422", fee: 50, days: 7 });
+  const [draft, setDraft] = useState<Draft>({ name: "", emblem: "🏆", color: "#FF4422", fee: 50, days: 7, listed: false });
   const [uploading, setUploading] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
   const section = useRef<HTMLElement>(null);
@@ -164,12 +167,32 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
     window.dispatchEvent(new CustomEvent("tregu:balance", { detail: next }));
   };
 
-  const openCreate = () => {
-    if (!loggedIn) return signIn();
+  const openCreate = useCallback((preset?: { name?: string; listed?: boolean }) => {
+    if (!loggedIn) {
+      window.location.href = `/hyr?next=${encodeURIComponent("/tregu#ligat")}`;
+      return;
+    }
     setError(null);
-    setDraft((current) => ({ ...current, name: current.name || `${firstName ?? "Shokët"} & miqtë`.slice(0, 40) }));
+    setDraft((current) => {
+      const listed = preset?.listed ?? current.listed;
+      return {
+        ...current,
+        listed,
+        // A public league wears one of the built-in icons, never a photo.
+        emblem: listed && isImageEmblem(current.emblem) ? "🏆" : current.emblem,
+        name: (preset?.name?.trim() || current.name || `${firstName ?? "Shokët"} & miqtë`).slice(0, 40),
+      };
+    });
     setStage({ kind: "create" });
-  };
+    window.setTimeout(() => section.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+  }, [firstName, loggedIn]);
+
+  // "Krijo një me këtë emër" from the hub's search.
+  useEffect(() => {
+    const onCreate = (event: Event) => openCreate((event as CustomEvent<{ name?: string; listed?: boolean }>).detail);
+    window.addEventListener(LEAGUE_CREATE_EVENT, onCreate);
+    return () => window.removeEventListener(LEAGUE_CREATE_EVENT, onCreate);
+  }, [openCreate]);
 
   const uploadPhoto = async (file: File | undefined) => {
     if (!file) return;
@@ -211,6 +234,7 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
       p_entry_fee: fee,
       p_emblem: draft.emblem,
       p_color: draft.color,
+      p_listed: draft.listed,
     });
     setBusy(null);
     if (rpcError) {
@@ -220,9 +244,9 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
     const row = (data as { id: string; code: string; balance: number }[] | null)?.[0];
     if (!row) return;
     announce(row.balance);
-    afterPay.current = { kind: "created", league: { id: row.id, code: row.code, name, days: draft.days, fee, emblem: draft.emblem, color: draft.color } };
+    afterPay.current = { kind: "created", league: { id: row.id, code: row.code, name, days: draft.days, fee, emblem: draft.emblem, color: draft.color, listed: draft.listed } };
     setPayment({ amount: fee, pot: fee, league: name, kind: "create" });
-    void load();
+    window.dispatchEvent(new Event(LEAGUES_CHANGED));
   };
 
   const finishPay = () => {
@@ -258,7 +282,7 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
     } else {
       setStage(joined);
     }
-    void load();
+    window.dispatchEvent(new Event(LEAGUES_CHANGED));
   };
 
   const invite = async (league: Created) => {
@@ -286,10 +310,18 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
   const faces = pulse?.faces ?? [];
 
   return (
-    <section ref={section} id="ligat" className="lgc lg-paper" aria-labelledby="lgc-title" data-stage={stage.kind}>
+    <section
+      ref={section}
+      id={embedded ? undefined : "ligat"}
+      className={embedded ? "lgc" : "lgc lg-paper"}
+      data-embedded={embedded || undefined}
+      aria-labelledby={embedded ? undefined : "lgc-title"}
+      aria-label={embedded ? "Krijo ose hyr me kod" : undefined}
+      data-stage={stage.kind}
+    >
       <LeaguePay payment={payment} onDone={finishPay} />
 
-      <header className="lgc-head">
+      {!embedded && <header className="lgc-head">
         <span className="lgc-mark" aria-hidden><Trophy size={22} strokeWidth={2.4} /></span>
         <div className="lgc-titles">
           <h2 id="lgc-title">Ligat</h2>
@@ -304,9 +336,9 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
             <span><strong>{fmtNum(players)}</strong> po luajnë</span>
           </div>
         )}
-      </header>
+      </header>}
 
-      {stage.kind === "idle" && mine.length > 0 && (
+      {!embedded && stage.kind === "idle" && mine.length > 0 && (
         <nav className="lgc-mine" aria-label="Ligat e tua">
           {mine.map((league) => {
             const phase = leaguePhase(league, now);
@@ -332,10 +364,10 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
 
       {stage.kind === "idle" && (
         <div className="lgc-actions">
-          <button type="button" className="lgc-create" onClick={openCreate}>
+          <button type="button" className="lgc-create" onClick={() => openCreate()}>
             <Plus size={22} strokeWidth={2.6} aria-hidden />
             <span>Krijo ligën tënde</span>
-            <small>Vendos hyrjen · miqtë hyjnë me kod</small>
+            <small>Publike për këdo, ose private me kod</small>
           </button>
           <form className="lgc-code" onSubmit={(event) => { event.preventDefault(); void lookUp(code); }}>
             <label htmlFor="lgc-code-input">Ke kod nga një mik?</label>
@@ -383,11 +415,28 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
 
       {stage.kind === "create" && (
         <form className="lgc-sheet" onSubmit={(event) => { event.preventDefault(); void create(); }}>
+          <div className="lgc-vis" role="radiogroup" aria-label="Kush mund të hyjë">
+            <button type="button" role="radio" aria-checked={!draft.listed} onClick={() => setDraft({ ...draft, listed: false })}>
+              <Lock size={16} aria-hidden />
+              <span><b>Private</b><small>Vetëm me kod</small></span>
+            </button>
+            <button
+              type="button"
+              role="radio"
+              aria-checked={draft.listed}
+              onClick={() => setDraft({ ...draft, listed: true, emblem: isImageEmblem(draft.emblem) ? "🏆" : draft.emblem })}
+            >
+              <Globe size={16} aria-hidden />
+              <span><b>Publike</b><small>Kushdo e gjen dhe hyn</small></span>
+            </button>
+          </div>
+          {draft.listed && <p className="lgc-note">Mund të kesh një ligë publike njëherësh. Shfaqet te kërkimi dhe te ligat më aktive.</p>}
+
           <div className="lgc-sheet-preview" style={{ "--lg-color": draft.color } as CSSProperties}>
             <LeagueEmblem league={{ emblem: draft.emblem, color: draft.color, kind: "private", name: draft.name, scope_kind: "all", scope_value: null }} size={56} />
             <div>
               <strong>{draft.name.trim() || "Emri i ligës"}</strong>
-              <span>{DURATION_LABEL[draft.days]} · hyrja {feeValid ? fmtNum(fee) : "—"} 383C</span>
+              <span>{draft.listed ? "Publike" : "Private"} · {DURATION_LABEL[draft.days]} · hyrja {feeValid ? fmtNum(fee) : "—"} 383C</span>
             </div>
           </div>
 
@@ -402,10 +451,14 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
               {LEAGUE_EMOJIS.map((emoji) => (
                 <button key={emoji} type="button" aria-pressed={draft.emblem === emoji} onClick={() => setDraft({ ...draft, emblem: emoji })}>{emoji}</button>
               ))}
-              <button type="button" className="lgc-photo" aria-pressed={isImageEmblem(draft.emblem)} onClick={() => fileInput.current?.click()} disabled={uploading}>
-                <ImagePlus size={16} aria-hidden /> {uploading ? "…" : "Foto"}
-              </button>
-              <input ref={fileInput} type="file" accept="image/png,image/jpeg,image/webp" hidden onChange={(event) => void uploadPhoto(event.target.files?.[0])} />
+              {!draft.listed && (
+                <>
+                  <button type="button" className="lgc-photo" aria-pressed={isImageEmblem(draft.emblem)} onClick={() => fileInput.current?.click()} disabled={uploading}>
+                    <ImagePlus size={16} aria-hidden /> {uploading ? "…" : "Foto"}
+                  </button>
+                  <input ref={fileInput} type="file" accept="image/png,image/jpeg,image/webp" hidden onChange={(event) => void uploadPhoto(event.target.files?.[0])} />
+                </>
+              )}
             </div>
           </div>
 
@@ -468,7 +521,10 @@ export default function LeaguesCard({ loggedIn }: { loggedIn: boolean }) {
               <span key={index} style={{ "--i": index } as CSSProperties}>{char}</span>
             ))}
           </div>
-          <p className="lgc-note">Dërgoja miqve. Kushdo që hyn paguan {fmtNum(stage.league.fee)} 383C dhe poti rritet.</p>
+          <p className="lgc-note">
+            {stage.league.listed ? "Liga jote publike është në listë: kushdo mund ta gjejë. " : ""}
+            Dërgoja miqve. Kushdo që hyn paguan {fmtNum(stage.league.fee)} 383C dhe poti rritet.
+          </p>
           <div className="lgc-row">
             <button type="button" className="lg-btn" onClick={() => void invite(stage.league)}>
               <Share2 size={16} aria-hidden /> Fto miqtë

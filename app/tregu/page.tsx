@@ -14,8 +14,7 @@ import F1ArchiveFeature from "@/components/tregu/f1-archive-feature";
 import FloorRail from "@/components/tregu/floor-rail";
 import TraderLeaderboard from "@/components/tregu/trader-leaderboard";
 import LeaderboardGift from "@/components/tregu/leaderboard-gift";
-import LeaguesCard from "@/components/tregu/leagues-card";
-import PublicLeaguesSection from "@/components/tregu/public-leagues-section";
+import LeaguesHub from "@/components/tregu/leagues-hub";
 import { marketTradingPhase, tradingClosesAt } from "@/lib/trading-close.mjs";
 import WithdrawalProgress from "@/components/tregu/withdrawal-progress";
 import type { MiniMarket } from "@/components/tregu/market-mini-card";
@@ -981,10 +980,9 @@ export default function TreguHub() {
           />
         )}
 
-        {/* Ligat sit under the sports they are mostly played on: 383's public
-            leagues first, then the reader's own and the create/join card. */}
-        {!loading && !loadError && <PublicLeaguesSection loggedIn={balance !== null} />}
-        {!loading && !loadError && <LeaguesCard loggedIn={balance !== null} />}
+        {/* Ligat sit under the sports they are mostly played on: the reader's
+            leagues, then 383's and the busiest public ones, search, create. */}
+        {!loading && !loadError && <LeaguesHub loggedIn={balance !== null} />}
 
         {/* Active league filter chip — visible state for the grid below. */}
         {league && !loading && !loadError && (

@@ -115,6 +115,8 @@ function freshDraft(): Draft {
  */
 export default function PublicLeagues() {
   const [leagues, setLeagues] = useState<AdminLeague[]>([]);
+  // Readers' public leagues that are still running (migration 0095).
+  const [listed, setListed] = useState<{ id: string; name: string; emblem: string | null; created_at: string; creator: string; members: number }[]>([]);
   const [draft, setDraft] = useState<Draft>(freshDraft);
   const [editing, setEditing] = useState<AdminLeague | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -125,7 +127,10 @@ export default function PublicLeagues() {
   const load = async () => {
     const response = await fetch("/api/admin/tregu/leagues", { cache: "no-store" });
     const data = await response.json().catch(() => ({}));
-    if (response.ok) setLeagues(data.leagues ?? []);
+    if (response.ok) {
+      setLeagues(data.leagues ?? []);
+      setListed(data.listed ?? []);
+    }
   };
   useEffect(() => { void load(); }, []);
 
@@ -451,6 +456,33 @@ export default function PublicLeagues() {
         </div>
       ) : (
         <p className={styles.emptyState}>Asnjë ligë publike ende.</p>
+      )}
+
+      <h3 style={{ margin: "28px 0 10px" }}>Ligat publike të lexuesve</h3>
+      {listed.length ? (
+        <div className="lgb-list">
+          {listed.map((league) => (
+            <article key={league.id} className="lgb-item">
+              <LeagueEmblem league={{ ...league, kind: "private", color: null, scope_kind: "all", scope_value: null }} size={42} />
+              <div style={{ minWidth: 0 }}>
+                <h4>{league.name}</h4>
+                <p>nga {league.creator} · {league.members} lojtarë · krijuar {new Date(league.created_at).toLocaleDateString("sq-AL")}</p>
+              </div>
+              <div className="lgb-item-actions">
+                <button
+                  type="button"
+                  className="lg-ghost"
+                  disabled={saving === league.id}
+                  onClick={() => void send("PATCH", { id: league.id, listed: false }, league.id)}
+                >
+                  {saving === league.id ? "…" : "Hiq nga lista"}
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p className={styles.emptyState}>Asnjë ligë publike nga lexuesit.</p>
       )}
     </section>
   );

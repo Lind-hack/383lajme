@@ -1,7 +1,9 @@
 /** Leagues: a prediction game on top of Tregu (migration 0089). Members make
  *  one free pick per market; a correct pick earns 100 minus the outcome's
  *  probability when picked. Public leagues are 383's, private ones run on
- *  their members' entry fees plus a 383 bonus. */
+ *  their members' entry fees plus a 383 bonus. A reader's own public league
+ *  (migration 0095) is a private one that is `listed`: same pot, but anyone
+ *  can find and join it. */
 
 export type LeagueKind = "public" | "private";
 
@@ -38,7 +40,36 @@ export type LeagueSummary = {
   faces?: string[] | null;
   featured?: boolean;
   feature_order?: number;
+  /** A reader's public league: findable and joinable by anyone (0095). */
+  listed?: boolean;
 };
+
+/** One card on the floor, from tregu_leagues_hub() (migration 0095). */
+export type HubLeague = LeagueSummary & {
+  section: "mine" | "official" | "open";
+  created_at: string;
+  my_points: number | null;
+  my_rank_change: number;
+  /** Points to pass third; 0 on the podium; null when not ranked yet. */
+  gap_to_podium: number | null;
+  ranks_ready: boolean;
+  top3: { rank: number; name: string; points: number; me: boolean }[] | null;
+  day_king: string | null;
+  day_king_points: number | null;
+  /** Pickable markets locking in the next 24 hours, and how many are picked. */
+  open_count: number;
+  picked_count: number;
+  next_lock_at: string | null;
+  /** Members who picked in the last 24 hours. */
+  active_today: number;
+};
+
+/** A tregu_league_search() result. */
+export type SearchLeague = Pick<
+  LeagueSummary,
+  "id" | "name" | "kind" | "listed" | "starts_at" | "ends_at" | "entry_fee" | "prizes" | "pot" | "members" | "max_members" |
+  "is_member" | "emblem" | "color" | "scope_kind" | "scope_value"
+> & { active_today: number };
 
 export type LeagueStanding = {
   rank: number;
@@ -102,7 +133,8 @@ export function pickPoints(probability: number | null | undefined): number {
 /** Duel stakes: 0 to 50 coins each. */
 export const DUEL_STAKES = [0, 10, 25, 50] as const;
 
-/** The create sheet's icons and colours. */
+/** The create sheet's icons and colours. A public league may only use these
+ *  icons (tregu_listed_emblems() in 0095 holds the same list). */
 export const LEAGUE_EMOJIS = ["🏆", "🦅", "🔥", "⚡", "👑", "🎯", "🚀", "💎", "🐺", "⚽", "🏀", "🏎️"] as const;
 export const LEAGUE_COLORS = ["#F2C14E", "#FF4422", "#E41E20", "#0047FF", "#00A651", "#7C3AED", "#EC4899", "#0EA5E9"] as const;
 
