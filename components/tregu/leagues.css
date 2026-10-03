@@ -767,6 +767,7 @@ a.sponsor::after { content: "↗"; margin-left: auto; font-size: 14px; font-weig
 .lbp-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .lbp-head h3 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
 .lbp-head p { margin: 3px 0 0; font-size: 13px; color: var(--lg-ink-2); }
+.lbp-head p.lbp-span { margin-top: 2px; font-size: 12px; font-weight: 700; color: var(--lg-ink); }
 /* The switch: one pill that slides between the two periods. */
 .lbp-seg { position: relative; display: inline-grid; grid-template-columns: 1fr 1fr; padding: 3px; border-radius: 100px; background: rgba(255, 255, 255, 0.75); border: 1px solid var(--lg-line); }
 .lbp-seg::before {

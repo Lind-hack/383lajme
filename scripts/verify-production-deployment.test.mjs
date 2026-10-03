@@ -181,7 +181,7 @@ test("a moved component warns; a lost settlement rule fails the build", () => {
   // is what a chart rework legitimately changes.
   for (const tracked of [
     "components/tregu/f1-race-control.tsx",
-    "components/tregu/group-chart.tsx",
+    "components/tregu/f1-archive-feature.tsx",
     "lib/tregu-ui-contract.ts",
   ]) {
     assert.ok(listed(drift, tracked), `${tracked} must be tracked`);

@@ -3,10 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import LeaguePodium from "@/components/tregu/league-podium";
 import { fmtNum } from "@/lib/format";
+import { leaderboardPeriodLabel } from "@/lib/tregu-leaderboard";
 import "./leagues.css";
 
-type Row = { rank: number; display_name: string; profit: number; is_me: boolean };
-type Board = { monthly: Row[]; weekly: Row[]; available: boolean; closes: { monthly: number; weekly: number }; prizesWon: number | null };
+/** rank is null on your own row when the period is not in profit (0100). */
+type Row = { rank: number | null; display_name: string; profit: number; is_me: boolean };
+type Span = { start: string; end: string } | null;
+type Board = { monthly: Row[]; weekly: Row[]; available: boolean; closes: { monthly: number; weekly: number }; periods: { monthly: Span; weekly: Span }; prizesWon: number | null };
 type Period = "monthly" | "weekly";
 
 /** "3d 04h" / "4h 12m" / "12m" — coarse far out, precise as it matters. */
@@ -48,12 +51,13 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
             weekly: d.weekly ?? [],
             available: Boolean(d.available),
             closes: d.closes ?? { monthly: 0, weekly: 0 },
+            periods: { monthly: d.periods?.monthly ?? null, weekly: d.periods?.weekly ?? null },
             prizesWon: typeof d.prizes_won === "number" ? d.prizes_won : null,
           });
           if (d.prizes) setPrizes(d.prizes);
         })
         .catch(() => {
-          if (!cancelled) setBoard({ monthly: [], weekly: [], available: false, closes: { monthly: 0, weekly: 0 }, prizesWon: null });
+          if (!cancelled) setBoard({ monthly: [], weekly: [], available: false, closes: { monthly: 0, weekly: 0 }, periods: { monthly: null, weekly: null }, prizesWon: null });
         });
     };
     load();
@@ -90,6 +94,8 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
       : { name: null, prize: places[index] };
   });
   const me = rows.find((row) => row.is_me);
+  const span = board.periods[period];
+  const signed = (value: number) => (value > 0 ? `+${fmtNum(value)}` : value < 0 ? `−${fmtNum(-value)}` : "0");
 
   return (
     <section className="lbp lg-paper" aria-labelledby="lbp-title">
@@ -97,6 +103,7 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
         <div>
           <h3 id="lbp-title">Tregtarët më të mirë</h3>
           <p>Fitimi nga tregtitë e mbyllura. Tre të parët marrin shpërblimin kur mbyllet periudha.</p>
+          {span && <p className="lbp-span">{period === "monthly" ? "Muaji" : "Java"}: {leaderboardPeriodLabel(period, span.start, span.end)}</p>}
         </div>
         <div className="lbp-seg" role="group" aria-label="Periudha" data-period={period}>
           <button type="button" aria-pressed={period === "monthly"} onClick={() => setPeriod("monthly")}>Muaji</button>
@@ -108,13 +115,13 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
 
       {loggedIn && (
         <div className="lbp-you">
-          <div className="lbp-stat" data-accent={me && me.rank <= 3 ? "" : undefined}>
+          <div className="lbp-stat" data-accent={me?.rank != null && me.rank <= 3 ? "" : undefined}>
             <small>Renditja jote</small>
-            <strong>{me ? `#${me.rank}` : "—"}</strong>
+            <strong>{me?.rank != null ? `#${me.rank}` : "—"}</strong>
           </div>
           <div className="lbp-stat">
             <small>Fitimi {period === "monthly" ? "këtë muaj" : "këtë javë"}</small>
-            <strong>{me ? `+${fmtNum(me.profit)}` : "0"}<em>383C</em></strong>
+            <strong>{me ? signed(Number(me.profit)) : "0"}<em>383C</em></strong>
           </div>
           <div className="lbp-stat" data-accent="">
             <small>Ke fituar në shpërblime</small>
@@ -125,7 +132,7 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
 
       {!board.available && <p className="lbp-foot">Renditja fillon sapo të mbyllen tregtitë e para.</p>}
       <p className="lbp-foot">
-        <span>{me ? "" : loggedIn ? "Mbyll një tregti me fitim për të hyrë në renditje." : "Hyr për të parë vendin tënd."}</span>
+        <span>{me?.rank != null ? "" : me ? "Je në minus këtë periudhë: renditja numëron vetëm fitimin." : loggedIn ? "Mbyll një tregti me fitim për të hyrë në renditje." : "Hyr për të parë vendin tënd."}</span>
         <span>Shpërblimet ndahen për <time>{untilLabel(board.closes[period], now)}</time></span>
       </p>
     </section>

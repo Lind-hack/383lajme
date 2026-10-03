@@ -1411,7 +1411,7 @@ export async function runUpcomingF1TemplateAutomation(now = new Date()) {
       await finishRun(admin, started.run.id, "succeeded", { created: 0, refreshed: 0, reason: "already_exists", event_id: race.event_id });
       return { ok: true, created: 0, reason: "already_exists", event_id: race.event_id };
     }
-    const roster = await (fetchOpenF1Roster as any)({ sessionKey: race.session_key });
+    const roster = await (fetchOpenF1Roster as any)({ sessionKey: race.session_key, meetingKey: race.meeting_key });
     const openingModel = await (fetchF1OpeningFactors as any)({ race, roster, now });
     const template = buildUpcomingF1MarketTemplate({ race, roster, openingModel, now });
     if (existing?.length) {

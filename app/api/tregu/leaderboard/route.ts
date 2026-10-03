@@ -4,7 +4,9 @@ import { LEADERBOARD_PRIZES } from "@/lib/tregu-leaderboard";
 
 export const dynamic = "force-dynamic";
 
-type Row = { rank: number; display_name: string; profit: number; is_me: boolean };
+// rank is null on the caller's own row when their period is not in profit
+// (migration 0100): shown to them, never placed.
+type Row = { rank: number | null; display_name: string; profit: number; is_me: boolean };
 
 /**
  * Monthly and weekly trader boards.
@@ -43,6 +45,14 @@ export async function GET() {
     return row?.period_end ? new Date(row.period_end).getTime() : fallback;
   };
   const closes = { monthly: endOf(monthBounds, utcMonthEnd), weekly: endOf(weekBounds, utcWeekEnd) };
+  // What each tab covers. The week can straddle two months (28 Sep – 4 Oct),
+  // so the card names its dates rather than leave the two boards looking
+  // like they disagree.
+  const periodOf = (result: typeof monthBounds) => {
+    const row = (result.data as Array<{ period_start?: string; period_end?: string }> | null)?.[0];
+    return row?.period_start && row?.period_end ? { start: row.period_start, end: row.period_end } : null;
+  };
+  const periods = { monthly: periodOf(monthBounds), weekly: periodOf(weekBounds) };
 
   // The migration may not have been applied to this environment yet. That is a
   // deployment state, not a server fault: answer with empty boards so the card
@@ -50,7 +60,7 @@ export async function GET() {
   const failed = monthly.error || weekly.error || monthBounds.error || weekBounds.error;
   if (failed) {
     return NextResponse.json(
-      { monthly: [], weekly: [], prizes: LEADERBOARD_PRIZES, available: false, reason: failed.message, closes },
+      { monthly: [], weekly: [], prizes: LEADERBOARD_PRIZES, available: false, reason: failed.message, closes, periods },
       { headers: { "Cache-Control": "no-store" } }
     );
   }
@@ -64,6 +74,7 @@ export async function GET() {
       available: true,
       // Epoch ms. The card counts down to these and refetches when one passes.
       closes,
+      periods,
     },
     // Ranks move on every closed trade, and the card shows the visitor their
     // own position, so this is per-user and must not sit in a shared cache.
