@@ -16,7 +16,7 @@ import { fmtNum } from "@/lib/format";
 import { createClient } from "@/lib/supabase/client";
 import { enableLeaguePush, pushSupported } from "@/lib/tregu-push-client";
 import { leaveCopy } from "@/lib/tregu-leagues-hub.mjs";
-import { streakLine } from "@/lib/tregu-points.mjs";
+import { effectivePoints, streakLine } from "@/lib/tregu-points.mjs";
 import PointsExplainer, { openPointsHelp } from "@/components/tregu/points-explainer";
 import {
   leagueColor,
@@ -113,6 +113,7 @@ function PickCard({
   busy,
   onPick,
   onBoost,
+  streak = 0,
 }: {
   row: BoardRow;
   now: number;
@@ -121,9 +122,15 @@ function PickCard({
   onPick: (row: BoardRow, option: PickOption) => void;
   /** ⭐ on or off for this pick (v2 leagues only). */
   onBoost?: (row: BoardRow, on: boolean) => void;
+  /** The reader's live streak here, so "if it lands" counts it too. */
+  streak?: number;
 }) {
   const [all, setAll] = useState(false);
   const options = row.options ?? [];
+  // What this pick pays if it lands next, with the card and the live streak.
+  const ifRight = (boosted: boolean) => effectivePoints({
+    points: row.my_points ?? 0, correct: true, streakBefore: streak, boosted, rulesVersion: row.rules_version ?? 1,
+  });
   const open = row.result === "open";
   const settled = row.result === "won" || row.result === "lost" || row.result === "void";
   // Open markets: favourites first so the likely answers are the first taps.
@@ -183,7 +190,7 @@ function PickCard({
           disabled={busy}
           onClick={() => onBoost(row, !row.my_boosted)}
         >
-          ⭐ {row.my_boosted ? `Karta e artë · +${(row.my_points ?? 0) * 2} nëse del` : "Vendos Kartën e artë (×2)"}
+          ⭐ {row.my_boosted ? `Karta e artë · +${ifRight(true)} nëse del` : `Vendos Kartën e artë · +${ifRight(true)} nëse del`}
         </button>
       )}
       {row.result === "won" && (
@@ -195,7 +202,7 @@ function PickCard({
       )}
       {row.result === "lost" && <p className="pick-foot">Doli {options.find((option) => option.key === row.result_outcome)?.label ?? "tjetër"} · 0 pikë</p>}
       {row.result === "void" && <p className="pick-foot">Tregu u anulua · nuk numërohet</p>}
-      {!settled && row.my_outcome && !open && <p className="pick-foot">Parashikimi yt: {mine?.label} · +{row.my_points} nëse del</p>}
+      {!settled && row.my_outcome && !open && <p className="pick-foot">Parashikimi yt: {mine?.label} · +{ifRight(Boolean(row.my_boosted))} nëse del{row.my_boosted ? " ⭐" : ""}</p>}
     </article>
   );
 }
@@ -711,7 +718,7 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
             )}
             <div className="picks">
               {groups[tab].slice(0, shown).map((row) => (
-                <PickCard key={row.market_id} row={row} now={now} canPick={canPick && tab !== "done"} busy={picking === row.market_id} onPick={(item, option) => void pick(item, option)} onBoost={(item, on) => void boost(item, on)} />
+                <PickCard key={row.market_id} row={row} now={now} canPick={canPick && tab !== "done"} busy={picking === row.market_id} onPick={(item, option) => void pick(item, option)} onBoost={(item, on) => void boost(item, on)} streak={streak?.rules_version === 2 ? streak.streak : 0} />
               ))}
               {!groups[tab].length && (
                 <p className="pick-empty">

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { pointsExample } from "@/lib/tregu-points.mjs";
+import { useFocusTrap } from "@/components/tregu/use-focus-trap";
 import "./leagues.css";
 
 /** Opens the explainer from anywhere: a strip, the standings, the pick board. */
@@ -20,6 +21,7 @@ export default function PointsExplainer() {
   const [probability, setProbability] = useState(0.7);
   const panel = useRef<HTMLDivElement>(null);
   const opener = useRef<Element | null>(null);
+  useFocusTrap(panel, open);
 
   useEffect(() => {
     const onOpen = (event: Event) => {
@@ -80,7 +82,7 @@ export default function PointsExplainer() {
           <p>Një herë në ditë në çdo ligë, shëno një parashikim: nëse del, vlen <b>dyfish</b>. Mund ta lëvizësh derisa të nisë ndeshja.</p>
         </section>
 
-        <p className="ptx-note">Seria dhe Karta e artë vlejnë në ligat e krijuara nga sot. Duelet numërojnë pikët pa shumëzues.</p>
+        <p className="ptx-note">Seria dhe Karta e artë vlejnë vetëm në ligat e reja; ligat që kanë nisur më parë numërojnë si gjithmonë. Duelet numërojnë pikët pa shumëzues.</p>
       </div>
     </div>
   );

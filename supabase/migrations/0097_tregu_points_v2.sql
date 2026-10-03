@@ -4,7 +4,7 @@
 -- Plan: docs/plans/2026-10-03-tregu-round2/PLAN.md (owner's rules, 3 Oct 2026).
 --
 -- Activates NOTHING by itself: rules_version defaults to 1 here, so every
--- league keeps today's scoring until 0097 flips the default to 2 (applied
+-- league keeps today's scoring until 0098 flips the default to 2 (applied
 -- only once the new UI is live). In a v2 league:
 --   * 🔥 Seria — a member's consecutive correct picks in that league, counted
 --     including the pick being scored: the 3rd and 4th in a row pay ×1.5, the
@@ -182,14 +182,17 @@ as $$
     select e.* from public.tregu_league_pick_effective(p_league_id) e where e.user_id = auth.uid()
   ),
   last_batch as (
-    select m.resolved_at, bool_or(not m.correct) as any_wrong, max(m.streak) as top
+    -- Every correct pick in a batch is scored at before+1; after the batch
+    -- the streak is before + all of them (or 0 if one was wrong).
+    select m.resolved_at, bool_or(not m.correct) as any_wrong,
+      max(m.streak) - 1 + (count(*) filter (where m.correct))::int as after
     from mine m
     group by m.resolved_at
     order by m.resolved_at desc
     limit 1
   ),
   cur as (
-    select coalesce((select case when lb.any_wrong then 0 else lb.top end from last_batch lb), 0)::int as s
+    select coalesce((select case when lb.any_wrong then 0 else lb.after end from last_batch lb), 0)::int as s
   )
   select lg.v, cur.s, public.tregu_streak_multiplier(cur.s + 1),
     exists (
@@ -277,8 +280,9 @@ begin
         probability = excluded.probability,
         points = excluded.points,
         lock_day = excluded.lock_day,
-        -- null keeps the card where it is: a re-pick never drops it.
-        boosted = case when p_boost is null then p.boosted else p_boost end,
+        -- null keeps the card where it is: a re-pick never drops it, unless
+        -- the match moved to another day (that day may have its own card).
+        boosted = case when p_boost is null then p.boosted and p.lock_day is not distinct from excluded.lock_day else p_boost end,
         updated_at = now()
   returning p.boosted into v_boosted;
 
@@ -459,11 +463,20 @@ begin
       and mk.resolved_at > now() - interval '6 hours'
     returning p.league_id, p.user_id, p.market_id
   ),
+  -- Each league's points are worked out once, however many picks resolved
+  -- (a big public league can resolve thousands in one match).
+  touched as (
+    select distinct c.league_id from claimed c
+  ),
+  scored as (
+    select t.league_id, e.user_id, e.market_id, e.effective, e.correct
+    from touched t
+    cross join lateral public.tregu_league_pick_effective(t.league_id) e
+  ),
   won as (
     select c.league_id, c.user_id, c.market_id, e.effective, mk.question
     from claimed c
-    join lateral public.tregu_league_pick_effective(c.league_id) e
-      on e.user_id = c.user_id and e.market_id = c.market_id
+    join scored e on e.league_id = c.league_id and e.user_id = c.user_id and e.market_id = c.market_id
     join public.markets mk on mk.id = c.market_id
     where e.correct
       and exists (select 1 from public.tregu_push_subscriptions s where s.user_id = c.user_id)

@@ -127,9 +127,13 @@ export default function DuelPin({ duels, onChanged }: { duels: Duel[]; /** Re-re
   };
 
   const visible = duels.filter((duel) => !closed.includes(duel.id));
-  if (visible.length === 0) return <SwordClash run={clash} />;
 
+  // One SwordClash in one place, outside the list: it must never remount
+  // (and replay its sound) when the last card is closed.
   return (
+    <>
+    <SwordClash run={clash} />
+    {visible.length > 0 && (
     <section className="tregu-duel-pin" aria-label="Duelet e tua">
       <header>
         <span className="tregu-duel-pin-mark" aria-hidden><Swords size={15} strokeWidth={2.4} /></span>
@@ -199,7 +203,8 @@ export default function DuelPin({ duels, onChanged }: { duels: Duel[]; /** Re-re
         })}
       </div>
       {message && <p className="tregu-duel-msg" data-ok={message.ok || undefined} role="status">{message.text}</p>}
-      <SwordClash run={clash} />
     </section>
+    )}
+    </>
   );
 }

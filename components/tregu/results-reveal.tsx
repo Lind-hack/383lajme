@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { fmtNum } from "@/lib/format";
 import { createClient } from "@/lib/supabase/client";
+import { useFocusTrap } from "@/components/tregu/use-focus-trap";
 import "./leagues.css";
 
 type Result = {
@@ -53,6 +54,7 @@ export default function ResultsReveal({ loggedIn }: { loggedIn: boolean }) {
   const checkedAt = useRef<string>("");
   const panel = useRef<HTMLDivElement>(null);
   const opener = useRef<Element | null>(null);
+  useFocusTrap(panel, open);
 
   useEffect(() => {
     if (!loggedIn) return;

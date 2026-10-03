@@ -37,18 +37,25 @@ export default function WithdrawalProgress({ balance, openValue = 0 }: { balance
   const remaining = Math.max(0, THRESHOLD - total);
   const reached = coins >= THRESHOLD;
   const reachedInTrades = !reached && total >= THRESHOLD;
-  const road = milestone(total);
+  // The last step ("10€ janë të tuat") is a wallet test like the button: with
+  // part of it still in trades, the road stops one short of it.
+  const road = milestone(reached ? total : Math.min(total, THRESHOLD - 1));
   // A milestone crossed since this browser last saw the bar: one burst, once.
   const [celebrate, setCelebrate] = useState<string | null>(null);
   const reachedAt = road.reached?.at ?? 0;
   useEffect(() => {
-    if (balance == null || !reachedAt) return;
+    if (balance == null) return;
     try {
-      const last = Number(window.localStorage.getItem(MILESTONE_KEY) ?? 0);
-      if (reachedAt > last) {
+      const stored = window.localStorage.getItem(MILESTONE_KEY);
+      // No key yet = this browser's first look: note where the reader is
+      // (0 included, so the first 1 000 still bursts), celebrate nothing.
+      if (stored === null) {
         window.localStorage.setItem(MILESTONE_KEY, String(reachedAt));
-        // First visit with an old balance: remember it quietly, no burst.
-        if (last > 0) setCelebrate(road.reached?.line ?? null);
+        return;
+      }
+      if (reachedAt > Number(stored)) {
+        window.localStorage.setItem(MILESTONE_KEY, String(reachedAt));
+        setCelebrate(road.reached?.line ?? null);
       }
     } catch {
       /* storage unavailable: no celebration, nothing breaks */

@@ -130,3 +130,20 @@ Accepted both. 1 — disk freed to ~9.7 GB, so the gate is the repo's own npm ru
 
 ## Resolution
 MAX_ROUNDS (5) reached on VERDICT: REVISE, but every finding of the final round was accepted and applied; no point is left in dispute. Logged rejections from earlier rounds (board drop+recreate, claim atomicity, DB-first order) carry reasons above. Awaiting Lind's sign-off, including the DB-first exception.
+
+## Post-build inspection
+Codex could not run: the Codex workspace is out of credits ("Your workspace is out of credits"). Lind chose a fresh-context Claude reviewer (a subagent that never saw the session) for the cold read of `git diff 2c25b11b 0b244de6`. 1 round.
+
+Findings (summarised; most severe first) and dispositions:
+1. Win queue recomputed a league's effective points once per claimed pick (quadratic; a timeout would retry forever). **Fixed:** effective points computed once per distinct league (`touched`/`scored` CTEs).
+2. Streak chip after a same-instant batch used max(streak) = before+1, not before+n. **Fixed** (`max - 1 + count(correct)`), rehearsal check added.
+3. First milestone (1 000) never celebrated (key never written below 1 000). **Fixed:** first look writes the current milestone (0 included); later crossings burst.
+4. 10 000 milestone claimed "10€ janë të tuat" with coins still in trades. **Fixed:** the road stops at 9 999 unless the wallet itself has 10 000.
+5. ⭐ label and locked-pick footer ignored the streak. **Fixed:** both use `effectivePoints` with the live streak.
+6. Migration number clash with `0096_visit_border_wait_log.sql`. **Fixed:** renumbered to 0097/0098, references and rehearsal updated.
+7. Re-pick whose match moved to another day could hit the one-card index as a raw error. **Fixed:** the card is dropped when `lock_day` changes; rehearsal check added.
+8. SwordClash rendered in two tree positions could replay its sound on remount. **Fixed:** one instance outside the conditional.
+9. Dialogs without a focus trap; guest sheet without Escape/initial focus. **Fixed:** `use-focus-trap.ts` in both modal dialogs; guest sheet focuses its action and closes on Escape.
+10. Low: hub's 👑 sums raw points — **deferred** (needs redefining the 0095 hub; cosmetic). Explainer note — **fixed** wording. "?" on every strip — **declined**: help is in the hub header and on every pick board, strips stay slim.
+
+After fixes: rehearsal 19/19, tests 1054/1054, tsc clean, `npm run build -- --webpack` green.

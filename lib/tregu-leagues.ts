@@ -121,7 +121,7 @@ export type BoardRow = {
   my_outcome: string | null;
   my_points: number | null;
   result: "open" | "locked" | "won" | "lost" | "void";
-  /** Points v2 (migration 0096); absent before it. */
+  /** Points v2 (migration 0097); absent before it. */
   my_boosted?: boolean;
   rules_version?: number;
   lock_day?: string | null;

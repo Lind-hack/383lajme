@@ -1248,7 +1248,7 @@ a.sponsor::after { content: "↗"; margin-left: auto; font-size: 14px; font-weig
 }
 
 /* ══════════════════════════════════════════════════════════
-   Points v2 (migration 0096): the explainer, the streak chip,
+   Points v2 (migration 0097): the explainer, the streak chip,
    the gold card, the results sheet, the sword clash.
    ══════════════════════════════════════════════════════════ */
 .lgh-help { display: inline-flex; flex-wrap: wrap; gap: 6px; }

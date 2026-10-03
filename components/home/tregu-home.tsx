@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type MouseEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 import Link from "next/link";
 import { createPortal } from "react-dom";
 import WithdrawalProgress from "@/components/tregu/withdrawal-progress";
@@ -154,6 +154,15 @@ export default function TreguHome() {
   const [balance, setBalance] = useState<number | null>(null);
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
   const [guestPick, setGuestPick] = useState<{ label: string; href: string } | null>(null);
+  const guestGo = useRef<HTMLAnchorElement>(null);
+  // The sheet takes focus on its main action and closes with Escape.
+  useEffect(() => {
+    if (!guestPick) return;
+    guestGo.current?.focus();
+    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") setGuestPick(null); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [guestPick]);
 
   useEffect(() => {
     const supabase = createClient();
@@ -278,7 +287,7 @@ export default function TreguHome() {
           </p>
           <p>Regjistrohu dhe merr <strong>100 Monedha falas</strong> për ta vënë. Të kthejmë te kjo zgjedhje.</p>
           <div>
-            <Link className="home-guest-go" href={`/hyr?tab=regjistrohu&next=${encodeURIComponent(guestPick.href)}`}>
+            <Link ref={guestGo} className="home-guest-go" href={`/hyr?tab=regjistrohu&next=${encodeURIComponent(guestPick.href)}`}>
               Regjistrohu · 100 Monedha falas
             </Link>
             <button type="button" className="home-guest-later" onClick={() => setGuestPick(null)}>Më vonë</button>

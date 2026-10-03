@@ -1,6 +1,8 @@
 # Plan: Tregu round 2 — strips, points that pull you back, duels with a clash, a banner that explains itself
 _Locked via claudex-loop — by Claude + Lind, 2026-10-03. Base: origin/main 2c25b11b, worktree `383-leagues`, branch `feat/tregu-round2`._
 
+> **Renumbered at build time:** another session added `0096_visit_border_wait_log.sql` to main, so points v2 shipped as **0097_tregu_points_v2.sql** and the switch-on as **0098_tregu_points_v2_on.sql**; read "0096" below as 0097 and "0097" as 0098. Rollback: `rollback-0097.sql`.
+
 ## Goal
 Make Tregu obvious and habit-forming. The banner explains in one glance what you do, what you play with and how it becomes money (10 000 383C = 10€), and on phones it stops being a wall of text. The homepage says the same and shows the road to 10€ under its Tregu cards, and a signed-out tap on Po/Jo leads straight through sign-up to that pick. Leagues become slim strips. Predictions get two new rules in new leagues — 🔥 Seria (3 in a row ×1.5, 5 in a row ×2) and ⭐ Kartë e artë (one pick a day per league counts double) — plus a clear points explainer, a "Rezultatet e tua" reveal and a push when picks or trades win. Duels get a sword-clash moment, and finished duels stop living at the top of the floor once seen.
 

@@ -1,6 +1,6 @@
--- Rollback for 0096: restores the pre-0096 definitions the live site depends on.
+-- Rollback for 0097 (points v2): restores the pre-0097 definitions the live site depends on.
 
--- Only for a failed smoke test right after applying 0096. Added columns and
+-- Only for a failed smoke test right after applying 0097. Added columns and
 
 -- event kinds stay; without the functions below using them they are inert.
 
