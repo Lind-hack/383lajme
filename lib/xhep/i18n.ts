@@ -84,6 +84,24 @@ type XhepDict = {
     budgets: Record<"easy" | "mid" | "treat", { label: string; hint: string }>;
     storageNote: string;
   };
+  trip: {
+    metaTitle: (name: string) => string;
+    metaDescription: string;
+    heading: (name: string) => string;
+    anon: string;
+    summary: (days: number, cities: string) => string;
+    publicNote: string;
+    joinTitle: string;
+    joinIntro: string;
+    nameLabel: string;
+    join: string;
+    joining: string;
+    replaceConfirm: string;
+    invalidTitle: string;
+    invalidBody: string;
+    openVisit: string;
+    travellingWith: (name: string) => string;
+  };
   plan: {
     title: string;
     intro: string;
@@ -328,6 +346,24 @@ export const XHEP_DICT = {
       },
       storageNote: "Your answers stay on this device.",
     },
+    trip: {
+      metaTitle: (name) => (name ? `${name}'s Kosovo trip — Kosova në xhep` : "A Kosovo trip — Kosova në xhep"),
+      metaDescription: "A Kosovo trip shared from Kosova në xhep by 383. Join it and weave your own card.",
+      heading: (name) => `${name}'s trip`,
+      anon: "A shared Kosovo trip",
+      summary: (days, cities) => `${days} ${days === 1 ? "day" : "days"} · ${cities}`,
+      publicNote: "This trip lives in the link itself: anyone with the link can see it, and nothing about it is stored on 383's servers.",
+      joinTitle: "Travel together",
+      joinIntro: "Join this trip to get the same day-by-day plan and your own card from the same weave.",
+      nameLabel: "Your name on the card (optional)",
+      join: "Travel together",
+      joining: "Weaving your card...",
+      replaceConfirm: "You already have a card on this device. Replace it with this trip?",
+      invalidTitle: "This trip link doesn't work",
+      invalidBody: "It may be incomplete or damaged. Ask for the card again, or make your own.",
+      openVisit: "Open Kosova në xhep",
+      travellingWith: (name) => `Travelling with ${name}`,
+    },
     plan: {
       title: "Your days",
       intro: "A day-by-day plan from your cities and interests, using only places we've checked. Move at your own pace.",
@@ -377,7 +413,7 @@ export const XHEP_DICT = {
       edit: "Change answers",
       reset: "Start over",
       resetConfirm: "Start over? Your card and answers on this device will be cleared.",
-      qrNote: "The code opens Kosova në xhep for now; trip sharing is on its way.",
+      qrNote: "Scan the code with another phone to open this trip and travel together.",
       shareFailed: "Sharing isn't available here, so the card was downloaded instead.",
     },
     map: {
@@ -590,6 +626,24 @@ export const XHEP_DICT = {
       },
       storageNote: "Përgjigjet ruhen vetëm në këtë pajisje.",
     },
+    trip: {
+      metaTitle: (name) => (name ? `Udhëtimi i ${name} në Kosovë — Kosova në xhep` : "Një udhëtim në Kosovë — Kosova në xhep"),
+      metaDescription: "Një udhëtim në Kosovë i ndarë nga Kosova në xhep e 383. Bashkohu dhe ende kartën tënde.",
+      heading: (name) => `Udhëtimi i ${name}`,
+      anon: "Një udhëtim i ndarë në Kosovë",
+      summary: (days, cities) => `${days} ditë · ${cities}`,
+      publicNote: "Ky udhëtim jeton brenda lidhjes: kushdo që e ka lidhjen e sheh, dhe asgjë prej tij nuk ruhet në serverët e 383.",
+      joinTitle: "Udhëtoni bashkë",
+      joinIntro: "Bashkohu me këtë udhëtim për të marrë të njëjtin plan ditë për ditë dhe kartën tënde nga e njëjta endje.",
+      nameLabel: "Emri yt në kartë (opsional)",
+      join: "Udhëtoni bashkë",
+      joining: "Po endet karta jote...",
+      replaceConfirm: "Ke tashmë një kartë në këtë pajisje. Ta zëvendësojmë me këtë udhëtim?",
+      invalidTitle: "Kjo lidhje udhëtimi nuk funksionon",
+      invalidBody: "Mund të jetë e paplotë ose e dëmtuar. Kërkoje kartën sërish ose krijo tënden.",
+      openVisit: "Hap Kosova në xhep",
+      travellingWith: (name) => `Udhëton me ${name}`,
+    },
     plan: {
       title: "Ditët e tua",
       intro: "Plan ditë për ditë nga qytetet dhe interesat e tua, vetëm me vende që i kemi kontrolluar. Ec me ritmin tënd.",
@@ -639,7 +693,7 @@ export const XHEP_DICT = {
       edit: "Ndrysho përgjigjet",
       reset: "Fillo nga e para",
       resetConfirm: "Të fillojmë nga e para? Karta dhe përgjigjet në këtë pajisje do të fshihen.",
-      qrNote: "Kodi tani hap Kosova në xhep; ndarja e udhëtimit po vjen së shpejti.",
+      qrNote: "Skanoje kodin me një telefon tjetër për ta hapur këtë udhëtim dhe për të udhëtuar bashkë.",
       shareFailed: "Ndarja nuk mbështetet këtu, prandaj karta u shkarkua.",
     },
     map: {

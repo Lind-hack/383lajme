@@ -4,6 +4,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { clearProfile, newSeed, readProfile, writeProfile } from "@/lib/xhep/profile.mjs";
 import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
+import { tripUrl } from "@/lib/xhep/trip-link.mjs";
 import { track } from "@/lib/analytics";
 import Quiz, { type QuizAnswers } from "./quiz";
 import MyCard from "./my-card";
@@ -57,7 +58,7 @@ export default function XhepCompanion({ lang, children }: { lang: XhepLang; chil
     setView("intro");
   };
 
-  const qrUrl = `https://383ks.com/visit?lang=${lang}`;
+  const qrUrl = profile ? tripUrl(profile, lang) : `https://383ks.com/visit${lang === "sq" ? "?lang=sq" : ""}`;
 
   return (
     <section className={styles.companion} id="your-card" aria-labelledby="xhep-companion-title">

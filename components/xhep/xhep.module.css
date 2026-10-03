@@ -890,3 +890,42 @@
     gap: 4px;
   }
 }
+
+/* ---------------------------------------------------------------- trip */
+
+.joinBox {
+  padding: clamp(20px, 3vw, 28px);
+  border: 1px solid var(--visit-rule);
+  border-radius: 18px;
+  background: var(--visit-white);
+  box-shadow: 0 20px 50px rgba(55, 40, 24, 0.08);
+}
+
+.joinBox h3 {
+  margin: 0;
+  font-size: clamp(22px, 2.4vw, 28px);
+  font-weight: 850;
+  letter-spacing: -0.02em;
+}
+
+.joinBox p {
+  margin: 10px 0 0;
+  color: var(--visit-muted);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.joinBox .primaryButton {
+  margin-top: 18px;
+}
+
+.travellingWith {
+  display: inline-flex;
+  margin: 10px 0 0 !important;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: #fff4ee;
+  color: #9e2a1e !important;
+  font-size: 13px !important;
+  font-weight: 850;
+}

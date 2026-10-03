@@ -25,6 +25,7 @@ export default function MyCard({
   onReset: () => void;
 }) {
   const t = xhepDict(lang).card;
+  const trip = xhepDict(lang).trip;
   const [busy, setBusy] = useState<"pass" | "story" | "share" | null>(null);
   const [note, setNote] = useState("");
   // The generator escapes every visitor-supplied string, so its output is safe to inline.
@@ -63,6 +64,7 @@ export default function MyCard({
       <figure className={styles.cardFigure} dangerouslySetInnerHTML={{ __html: svg }} />
       <div className={styles.cardSide}>
         <h3>{t.title}</h3>
+        {profile.travellingWith && <p className={styles.travellingWith}>{trip.travellingWith(profile.travellingWith)}</p>}
         <p>{t.intro}</p>
         <div className={styles.cardActions}>
           <button type="button" className={styles.primaryButton} disabled={busy !== null} onClick={() => void run("pass")}>
