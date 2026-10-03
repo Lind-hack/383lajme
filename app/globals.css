@@ -22703,9 +22703,11 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 }
 .perty-cover-foot > span:last-child { margin-left: auto; }
 .perty-cover-barcode { width: 84px; height: 26px; fill: var(--pp-ink); }
-.perty-hello { display: flex; align-items: center; gap: 12px; margin-top: 18px; }
-.perty-hello .perty-ed-name-form { margin: 0; }
-.perty-hello .perty-mast-hello { margin: 0; }
+.perty-greet { display: flex; align-items: center; gap: 12px; margin-top: 18px; }
+.perty-greet > .perty-mast-dardani { flex: none; width: auto; height: 64px; }
+.perty-greet > :last-child { flex: 1 1 auto; min-width: 0; text-align: left; }
+.perty-greet .perty-ed-name-form { margin: 0; }
+.perty-greet .perty-mast-hello { margin: 0; }
 .perty-cz-titles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .perty-cz-title { position: relative; cursor: pointer; }
 .perty-cz-title input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
@@ -22730,6 +22732,14 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .perty-cover-art { aspect-ratio: auto; min-height: 520px; }
   .perty-cover-story { justify-content: flex-end; padding-bottom: 20px; }
   .perty-cover-story > span { -webkit-line-clamp: 6; }
+}
+@media (max-width: 1023px) {
+  /* Phones and tablets: the word across the whole sheet, the art under it,
+     overlapping a little, like a magazine cover's coverline. */
+  .perty-cover-hero { grid-template-columns: minmax(0, 1fr); grid-template-areas: "word" "art" "story"; }
+  .perty-cover-word > span { line-height: 0.82; }
+  .perty-cover-word { position: relative; z-index: 1; }
+  .perty-cover[data-has-art] .perty-cover-art { aspect-ratio: 4 / 3; margin-top: -0.6em; font-size: clamp(40px, 12vw, 90px); }
 }
 @media (max-width: 640px) {
   .perty-cover { margin: 0 -6px; padding: 10px 12px 0; }

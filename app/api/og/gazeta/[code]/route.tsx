@@ -77,12 +77,11 @@ export async function GET(request: Request, { params }: { params: Promise<{ code
   const title = sharedTitle(paper.snapshot.name, paper.snapshot.title);
   const lead = paper.edition[0];
   const word = coverWord(lead, paper.snapshot.leadKey);
-  const heroH = story ? 980 : 600;
-  const artW = 600;
-  const art = await picture(lead.imageUrl, { width: artW, height: heroH, timeoutMs: 4000, maxBytes: 5_000_000, tag: "[gazeta-og]" });
+  const artW = W - 112;
+  const artH = story ? 760 : 420;
+  const art = await picture(lead.imageUrl, { width: artW, height: artH, timeoutMs: 4000, maxBytes: 5_000_000, tag: "[gazeta-og]" });
   const fonts = [...(await manrope()), ...(t.serif ? [await garamond()] : [])];
   const headFont = t.serif ? "EB Garamond" : "Manrope";
-  const wordColW = art ? W - 112 - artW - 28 : W - 112;
   const inside = paper.sections.map((s) => s.title).slice(0, 4);
 
   return new ImageResponse(
@@ -141,31 +140,30 @@ export async function GET(request: Request, { params }: { params: Promise<{ code
           <span>{`${paper.edition.length} lajme`}</span>
         </div>
 
-        <div style={{ display: "flex", flexShrink: 0, height: heroH, marginTop: 22 }}>
-          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: wordColW, marginRight: art ? 28 : 0 }}>
-            {wordLines(word).map((line) => (
-              <div
-                key={line}
-                style={{
-                  display: "flex",
-                  fontSize: Math.min(220, Math.floor(wordColW / (Math.max(line.length, 3) * 0.66))),
-                  fontWeight: 800,
-                  lineHeight: 0.86,
-                  letterSpacing: -4,
-                  ...(art
-                    ? { backgroundImage: `url(${art})`, backgroundSize: `${wordColW}px ${heroH}px`, backgroundClip: "text", color: "transparent" }
-                    : { color: t.ink }),
-                }}
-              >
-                {line}
-              </div>
-            ))}
-          </div>
-          {art && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={art} width={artW} height={heroH} style={{ objectFit: "cover", borderRadius: 6 }} alt="" />
-          )}
+        {/* The word across the sheet in solid ink, the art under it. On the
+            live page the art shows through the letters; on a picture people
+            share, legibility wins. */}
+        <div style={{ display: "flex", flexDirection: "column", flexShrink: 0, marginTop: story ? 36 : 18 }}>
+          {wordLines(word).map((line) => (
+            <div
+              key={line}
+              style={{
+                display: "flex",
+                fontSize: Math.min(story ? 280 : 240, Math.floor(artW / (Math.max(line.length, 3) * 0.66))),
+                fontWeight: 800,
+                lineHeight: 0.84,
+                letterSpacing: -6,
+                color: t.ink,
+              }}
+            >
+              {line}
+            </div>
+          ))}
         </div>
+        {art && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={art} width={artW} height={artH} style={{ flexShrink: 0, marginTop: 18, objectFit: "cover", borderRadius: 6 }} alt="" />
+        )}
 
         <div
           style={{

@@ -30,7 +30,7 @@ export default function Masthead({
   onRename: (name: string) => void;
 }) {
   return (
-    <div className="perty-hello" data-print style={{ "--i": 1 } as React.CSSProperties}>
+    <div className="perty-greet" data-print style={{ "--i": 1 } as React.CSSProperties}>
       <DardaniLoop name="greeting" alt="Dardani të përshëndet" className="perty-mast-dardani" />
       {naming ? (
         <form
