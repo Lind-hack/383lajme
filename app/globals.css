@@ -23194,8 +23194,8 @@ button.perty-box:focus-visible { outline: 2px solid var(--pp-accent); outline-of
 .perty-cz-icon {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: 0;
   border-radius: 50%;
   background: transparent;

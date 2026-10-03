@@ -11,7 +11,7 @@
 // Stories-sized picture is the only way in; elsewhere the picture is saved and
 // the reader is told where to post it.
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { Check, Download, Link2, Share2 } from "lucide-react";
 import { track } from "@/lib/analytics";
@@ -133,6 +133,26 @@ export default function ShareSheet({
   );
   useEffect(() => setLoaded(false), [code]);
 
+  // The pictures, fetched as soon as the sheet shows this paper. iOS Safari
+  // only lets navigator.share() run in the moment right after a tap; awaiting
+  // a download first throws NotAllowedError, so the file must already be here.
+  const files = useRef<{ code: string; feed?: Promise<File>; story?: Promise<File>; ready: Record<string, File> }>({ code: "", ready: {} });
+  useEffect(() => {
+    if (!open || !code) return;
+    const name = `383-gazeta-${date}`;
+    const entry = { code, ready: {} as Record<string, File> } as typeof files.current;
+    const load = (key: "feed" | "story", src: string, filename: string) => {
+      const p = fetchFile(src, filename);
+      p.then((f) => {
+        if (files.current === entry) entry.ready[key] = f;
+      }).catch(() => {});
+      return p;
+    };
+    entry.feed = load("feed", `/api/og/gazeta/${code}?f=feed`, `${name}.png`);
+    entry.story = load("story", `/api/og/gazeta/${code}?f=story`, `${name}-story.png`);
+    files.current = entry;
+  }, [open, code, date]);
+
   if (!code) return <Sheet open={open} onClose={onClose} title="Ndaje gazetën" titleId="perty-share-title">{null}</Sheet>;
 
   const origin = typeof window === "undefined" ? "https://www.383ks.com" : window.location.origin;
@@ -163,11 +183,13 @@ export default function ShareSheet({
     }
   }
 
-  async function withFile(channel: Channel, src: string, name: string, work: (f: File) => Promise<void>) {
-    setBusy(channel);
+  async function withFile(channel: Channel, kind: "feed" | "story", work: (f: File) => Promise<void>) {
     setHint(null);
+    const ready = files.current.code === code ? files.current.ready[kind] : undefined;
+    if (!ready) setBusy(channel);
     try {
-      await work(await fetchFile(src, name));
+      const pending = files.current.code === code ? files.current[kind] : undefined;
+      await work(ready ?? (await (pending ?? fetchFile(kind === "story" ? storyImg : feedImg, `${file}${kind === "story" ? "-story" : ""}.png`))));
       sent(channel);
     } catch (error) {
       if (error instanceof DOMException && error.name === "AbortError") return;
@@ -178,7 +200,7 @@ export default function ShareSheet({
   }
 
   const instagram = () =>
-    withFile("instagram", storyImg, `${file}-story.png`, async (f) => {
+    withFile("instagram", "story", async (f) => {
       if (navigator.canShare?.({ files: [f] })) {
         await navigator.share({ files: [f], title, text: `${text} ${url}` });
       } else {
@@ -249,7 +271,12 @@ export default function ShareSheet({
           <FacebookIcon />
           Facebook
         </button>
-        <button type="button" className="perty-share-btn" data-ch="viber" onClick={() => openOut("viber", `viber://forward?text=${enc(`${text} ${url}`)}`)}>
+        <button type="button" className="perty-share-btn" data-ch="viber" onClick={() => {
+            // An app link, not a web page: opening it in a new tab leaves a
+            // blank tab behind on a computer without Viber.
+            sent("viber");
+            window.location.href = `viber://forward?text=${enc(`${text} ${url}`)}`;
+          }}>
           <ViberIcon />
           Viber
         </button>
@@ -277,7 +304,7 @@ export default function ShareSheet({
           type="button"
           className="perty-btn perty-btn--ghost"
           disabled={busy === "download"}
-          onClick={() => withFile("download", feedImg, `${file}.png`, async (f) => save(f))}
+          onClick={() => withFile("download", "feed", async (f) => save(f))}
         >
           <Download size={16} strokeWidth={2.4} aria-hidden="true" />
           {busy === "download" ? "Po ruhet…" : "Shkarko foton"}
@@ -286,7 +313,7 @@ export default function ShareSheet({
           type="button"
           className="perty-btn perty-btn--ghost"
           disabled={busy === "story"}
-          onClick={() => withFile("story", storyImg, `${file}-story.png`, async (f) => save(f))}
+          onClick={() => withFile("story", "story", async (f) => save(f))}
         >
           <Download size={16} strokeWidth={2.4} aria-hidden="true" />
           {busy === "story" ? "Po ruhet…" : "Për Stories (9:16)"}

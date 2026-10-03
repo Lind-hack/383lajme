@@ -82,3 +82,13 @@ VERDICT: APPROVED
 
 ### Resolution
 Converged: APPROVED in 3 rounds. The three implementation traps were added to Risks.
+
+## Post-build inspection
+Codex cross-inspection: **not run** — two attempts (2026-10-03) failed with "Your workspace is out of credits". Recorded as skipped, not passed.
+
+Claude self-inspection against the plan, web/a11y guidelines and motion rules found and fixed:
+1. iOS Safari share: `navigator.share({files})` ran after awaiting the image download, outside the tap's user activation (NotAllowedError). Both card images are now prefetched when the sheet opens; the tap shares an already-fetched File.
+2. "The paper prints" flickered: the print flag was set one render after the paper first painted. It is now decided in the mount effect that first draws the paper, and idempotent per page load (StrictMode runs the effect twice).
+3. Viber opened a blank tab on computers without Viber (`window.open` on `viber://`); it now navigates the app link instead.
+4. Customise-sheet icon buttons were 40px; raised to the 44px touch minimum.
+Found during browser testing and fixed earlier: satori has no `double` border; OG blocks shrank under overflow; Tregu box showed PO/JO on team markets (now binary markets only); "0 lajme sot" after midnight (now last 24 h); Sport section repeated one story from four outlets (same-story skip).

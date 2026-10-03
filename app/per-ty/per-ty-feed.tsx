@@ -90,12 +90,22 @@ function setFlag(key: string) {
   }
 }
 
-/** True the first time today's paper is opened (Kosovo day); marks it printed. */
+/** The day this page load decided to print, so asking twice gives one answer. */
+let printedThisLoad: string | null = null;
+
+/**
+ * True on the first open of today's paper (Kosovo day), and for the rest of
+ * that page load; marks the day printed. Idempotent within a load, because
+ * React may run a mount effect twice (StrictMode) and the second ask must not
+ * cancel the first.
+ */
 function firstPrintToday() {
   try {
     const today = kosovoDateKey();
+    if (printedThisLoad === today) return true;
     if (localStorage.getItem(PRINTED_KEY) === today) return false;
     localStorage.setItem(PRINTED_KEY, today);
+    printedThisLoad = today;
     return true;
   } catch {
     return false;
@@ -149,8 +159,12 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
   const [wrappedMonth, setWrappedMonth] = useState<string | null>(null);
 
   useEffect(() => {
-    setInterests(readInterests());
+    const stored = readInterests();
+    setInterests(stored);
     setPrefs(readPrefs());
+    // Decided in the same render that first draws the paper, so it never
+    // paints fully set and then jumps back to blank to "print".
+    if (hasInterests(stored)) setPrint(firstPrintToday());
     setDeviceName(readName());
     setSignupDismissed(readFlag(SIGNUP_DISMISSED));
     setNow(new Date());
@@ -188,7 +202,6 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
     const readNow = new Set(readSlugs());
     setRead(readNow);
     setJustRead(newlyRead(readNow));
-    setPrint(firstPrintToday());
     // This page's effects run before the layout's, so today is noted here too
     // (noting a day twice changes nothing) before the ledger is read.
     noteVisit();
