@@ -17,6 +17,9 @@ import { createClient } from "@/lib/supabase/client";
 import { enableLeaguePush, pushSupported } from "@/lib/tregu-push-client";
 import { leaveCopy } from "@/lib/tregu-leagues-hub.mjs";
 import { effectivePoints, streakLine } from "@/lib/tregu-points.mjs";
+import { deckOrder, splitFor, type RivalPick } from "@/lib/tregu-pick-play.mjs";
+import PickDeck from "@/components/tregu/pick-deck";
+import PickReveal from "@/components/tregu/pick-reveal";
 import PointsExplainer, { openPointsHelp } from "@/components/tregu/points-explainer";
 import {
   leagueColor,
@@ -114,6 +117,7 @@ function PickCard({
   onPick,
   onBoost,
   streak = 0,
+  reveal,
 }: {
   row: BoardRow;
   now: number;
@@ -124,6 +128,8 @@ function PickCard({
   onBoost?: (row: BoardRow, on: boolean) => void;
   /** The reader's live streak here, so "if it lands" counts it too. */
   streak?: number;
+  /** How the league split and the rival's pick, once the reader has picked. */
+  reveal?: { split: ReturnType<typeof splitFor> | null; rival: RivalPick | null };
 }) {
   const [all, setAll] = useState(false);
   const options = row.options ?? [];
@@ -193,6 +199,7 @@ function PickCard({
           ⭐ {row.my_boosted ? `Karta e artë · +${ifRight(true)} nëse del` : `Vendos Kartën e artë · +${ifRight(true)} nëse del`}
         </button>
       )}
+      {row.my_outcome && reveal && <PickReveal row={row} split={reveal.split} rival={reveal.rival} />}
       {row.result === "won" && (
         <p className="pick-foot" data-result="won">
           <CircleCheck size={15} aria-hidden /> E qëllove · +{row.my_effective ?? row.my_points} pikë
@@ -232,6 +239,30 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
   const [menu, setMenu] = useState(false);
   const [leaving, setLeaving] = useState<"confirm" | "busy" | null>(null);
 
+  const [splitRows, setSplitRows] = useState<{ market_id: string; outcome: string; picks: number }[]>([]);
+  const [rivalRows, setRivalRows] = useState<RivalPick[]>([]);
+  const loadSocial = useCallback(async () => {
+    const [split, rival] = await Promise.all([
+      supabase.rpc("tregu_league_pick_split", { p_league_id: id }),
+      supabase.rpc("tregu_league_rival_picks", { p_league_id: id }),
+    ]);
+    if (!split.error) setSplitRows((split.data ?? []) as { market_id: string; outcome: string; picks: number }[]);
+    if (!rival.error) setRivalRows((rival.data ?? []) as RivalPick[]);
+  }, [id, supabase]);
+  useEffect(() => { void loadSocial(); }, [loadSocial]);
+  // Deck or list: the deck by default, the reader's choice remembered.
+  const [view, setView] = useState<"deck" | "list">("deck");
+  useEffect(() => {
+    try {
+      if (window.localStorage.getItem("tregu:pick-view") === "list") setView("list");
+    } catch {
+      /* storage unavailable: the deck */
+    }
+  }, []);
+  const chooseView = (next: "deck" | "list") => {
+    setView(next);
+    try { window.localStorage.setItem("tregu:pick-view", next); } catch { /* storage unavailable */ }
+  };
   const [streak, setStreak] = useState<{ rules_version: number; streak: number } | null>(null);
   const loadStreak = useCallback(async () => {
     const { data } = await supabase.rpc("tregu_league_my_streak", { p_league_id: id });
@@ -382,7 +413,7 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
     window.location.href = "/tregu#ligat";
   };
 
-  const pick = async (row: BoardRow, option: PickOption) => {
+  const pick = async (row: BoardRow, option: PickOption): Promise<boolean> => {
     setPicking(row.market_id);
     setMessage(null);
     const previous = board;
@@ -392,10 +423,13 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
     if (error) {
       setBoard(previous);
       setMessage({ ok: false, text: leagueError(error) });
-      return;
+      return false;
     }
     const saved = (data as { outcome: string; points: number }[] | null)?.[0];
     if (saved) setBoard((current) => current.map((item) => (item.market_id === row.market_id ? { ...item, my_outcome: saved.outcome, my_points: saved.points } : item)));
+    // Now that this match is picked, the server shows how the league split.
+    await loadSocial();
+    return true;
   };
 
   // ⭐ One card per league per day: putting it here moves it off another open
@@ -690,6 +724,27 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
             {league.is_member && phase === "upcoming" && (
               <p className="pick-empty">Liga nis për {untilLabel(Date.parse(league.starts_at), now)}. Parashikimet hapen atëherë.</p>
             )}
+            {canPick && view === "deck" && deckOrder(board, now).length > 0 ? (
+              <PickDeck
+                board={board}
+                now={now}
+                standings={rows}
+                streak={streak?.rules_version === 2 ? streak.streak : 0}
+                onPick={pick}
+                splitOf={(marketId) => {
+                  const split = splitFor(splitRows, marketId);
+                  return split.total ? split : null;
+                }}
+                rivalOf={(marketId) => rivalRows.find((row) => row.market_id === marketId) ?? null}
+                onList={() => chooseView("list")}
+              />
+            ) : (
+            <>
+            {canPick && deckOrder(board, now).length > 0 && (
+              <button type="button" className="pick-deck-open" onClick={() => chooseView("deck")}>
+                🃏 Luaj me kartat · {deckOrder(board, now).length} ndeshje pa zgjedhur
+              </button>
+            )}
             {(league.is_member || board.length > 0) && (
               <div className="pick-tabs" role="tablist" aria-label="Parashikimet">
                 {PICK_TABS.map((item) => (
@@ -718,7 +773,7 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
             )}
             <div className="picks">
               {groups[tab].slice(0, shown).map((row) => (
-                <PickCard key={row.market_id} row={row} now={now} canPick={canPick && tab !== "done"} busy={picking === row.market_id} onPick={(item, option) => void pick(item, option)} onBoost={(item, on) => void boost(item, on)} streak={streak?.rules_version === 2 ? streak.streak : 0} />
+                <PickCard key={row.market_id} row={row} now={now} canPick={canPick && tab !== "done"} busy={picking === row.market_id} onPick={(item, option) => void pick(item, option)} onBoost={(item, on) => void boost(item, on)} streak={streak?.rules_version === 2 ? streak.streak : 0} reveal={{ split: splitFor(splitRows, row.market_id).total ? splitFor(splitRows, row.market_id) : null, rival: rivalRows.find((item) => item.market_id === row.market_id) ?? null }} />
               ))}
               {!groups[tab].length && (
                 <p className="pick-empty">
@@ -732,6 +787,8 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
               <button type="button" className="pick-more-all" onClick={() => setShown((value) => value + PAGE)}>
                 Shfaq edhe {Math.min(PAGE, groups[tab].length - shown)} nga {groups[tab].length - shown}
               </button>
+            )}
+            </>
             )}
           </section>
         </div>

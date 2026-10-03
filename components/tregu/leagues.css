@@ -1384,3 +1384,133 @@ a.sponsor::after { content: "↗"; margin-left: auto; font-size: 14px; font-weig
   .clash-sword[data-side="left"] { animation: none; transform: translateX(-44px) rotate(32deg); }
   .clash-sword[data-side="right"] { animation: none; transform: translateX(44px) rotate(-32deg); }
 }
+
+/* ══════════════════════════════════════════════════════════
+   The pick deck (components/tregu/pick-deck.tsx) and the
+   reveal after a pick (pick-reveal.tsx, migration 0099).
+   ══════════════════════════════════════════════════════════ */
+.deck { display: grid; gap: 12px; margin-bottom: 8px; }
+.deck-top { display: flex; align-items: center; gap: 10px; }
+.deck-count { flex: none; font-size: 13px; font-weight: 800; color: var(--lg-ink-2); font-variant-numeric: tabular-nums; }
+.deck-progress { flex: 1; height: 6px; border-radius: 100px; background: rgba(140, 70, 25, 0.12); overflow: hidden; }
+.deck-progress i { display: block; height: 100%; border-radius: inherit; background: var(--lg-flame); transition: width 320ms var(--lg-ease); }
+.deck-list { display: inline-flex; align-items: center; gap: 5px; min-height: 34px; padding: 0 12px; border-radius: 100px; border: 1px solid var(--lg-line-2); background: #fff; color: var(--lg-ink-2); font: inherit; font-size: 13px; font-weight: 750; cursor: pointer; }
+
+.deck-card {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  padding: 20px 18px 18px;
+  border-radius: 22px;
+  background: #fff;
+  border: 1px solid var(--lg-line);
+  box-shadow: 0 22px 44px -26px rgba(130, 55, 12, 0.45);
+  touch-action: pan-y;
+  user-select: none;
+  animation: deck-in 320ms var(--lg-ease) both;
+  transition: transform 220ms var(--lg-ease);
+}
+.deck-card[data-dragging] { transition: none; cursor: grabbing; }
+.deck-card[data-leaving="left"] { animation: deck-out-left 240ms ease-in both; }
+.deck-card[data-leaving="right"] { animation: deck-out-right 240ms ease-in both; }
+@keyframes deck-in { from { opacity: 0; transform: translateY(16px) scale(0.97); } to { opacity: 1; transform: none; } }
+@keyframes deck-out-left { to { opacity: 0; transform: translateX(-120%) rotate(-10deg); } }
+@keyframes deck-out-right { to { opacity: 0; transform: translateX(120%) rotate(10deg); } }
+
+.deck-when { display: inline-flex; align-items: center; gap: 5px; margin: 0; justify-self: start; padding: 4px 10px; border-radius: 100px; background: var(--lg-tint); color: var(--lg-flame-hi); font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.deck-when[data-urgent] { background: var(--lg-flame); color: #fff; }
+.deck-q { margin: 0; font-size: 20px; font-weight: 800; line-height: 1.25; letter-spacing: -0.02em; text-wrap: balance; }
+.deck-hint { display: flex; justify-content: space-between; margin: -6px 0 0; font-size: 12px; font-weight: 750; color: var(--lg-ink-3); }
+.deck-hint span[data-active] { color: var(--lg-flame); }
+
+.deck-opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.deck-opts[data-count="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.deck-opts[data-count="1"] { grid-template-columns: 1fr; }
+@media (max-width: 420px) { .deck-opts[data-count="3"] { grid-template-columns: 1fr; } }
+.deck-opt {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 4px;
+  min-height: 132px;
+  padding: 14px 10px 12px;
+  border-radius: 18px;
+  border: 1.5px solid var(--lg-line-2);
+  background: linear-gradient(180deg, #fff, #FFF8F1);
+  color: var(--lg-ink);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 160ms var(--lg-ease), border-color 160ms ease, box-shadow 160ms ease;
+}
+.deck-opts[data-count="3"] .deck-opt { min-height: 118px; }
+@media (max-width: 420px) {
+  .deck-opts[data-count="3"] .deck-opt { min-height: 0; grid-template-columns: auto 1fr auto; grid-template-areas: "logo name pays" "logo pct move"; justify-items: start; text-align: left; column-gap: 10px; }
+  .deck-opts[data-count="3"] .deck-opt img, .deck-opts[data-count="3"] .deck-opt > i { grid-area: logo; align-self: center; }
+  .deck-opts[data-count="3"] .deck-opt b { grid-area: name; }
+  .deck-opts[data-count="3"] .deck-opt small { grid-area: pct; }
+  .deck-opts[data-count="3"] .deck-opt em { grid-area: pays; justify-self: end; }
+  .deck-opts[data-count="3"] .deck-opt .deck-move { grid-area: move; justify-self: end; }
+}
+.deck-opt:not(:disabled):active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .deck-opt:not(:disabled):hover { border-color: var(--opt-color, var(--lg-flame)); box-shadow: 0 10px 22px -14px rgba(130, 55, 12, 0.5); transform: translateY(-2px); }
+}
+.deck-opt:disabled { cursor: default; }
+.deck-opt[aria-pressed="true"] { border-color: var(--opt-color, var(--lg-flame)); background: #FFF1E8; box-shadow: 0 0 0 3px rgba(255, 68, 34, 0.15); }
+.deck-opt img { width: 40px; height: 40px; object-fit: contain; }
+.deck-opt > i { width: 40px; height: 40px; border-radius: 50%; background: var(--opt-color, #E8DED2); }
+.deck-opt b { font-size: 15.5px; font-weight: 800; line-height: 1.2; }
+.deck-opt small { font-size: 11.5px; font-weight: 650; color: var(--lg-ink-3); font-variant-numeric: tabular-nums; }
+.deck-opt em { margin-top: 4px; font-style: normal; font-size: 19px; font-weight: 800; color: var(--lg-flame); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.deck-move { padding: 2px 8px; border-radius: 100px; background: var(--lg-win-bg); color: var(--lg-win); font-size: 11.5px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.deck-next { justify-self: end; }
+
+.deck-done { justify-items: center; padding: 28px 18px; border-radius: 22px; background: #fff; border: 1px solid var(--lg-line); text-align: center; animation: deck-in 320ms var(--lg-ease) both; }
+.deck-done p { margin: 0; font-size: 14px; color: var(--lg-ink-2); }
+.deck-kicker { font-size: 12px !important; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--lg-ink-3) !important; }
+.deck-total { font-size: 38px; font-weight: 800; letter-spacing: -0.03em; color: var(--lg-win); font-variant-numeric: tabular-nums; }
+.deck-total small { font-size: 16px; color: var(--lg-ink-2); }
+
+.pick-deck-open {
+  width: 100%;
+  min-height: 46px;
+  margin-bottom: 10px;
+  border-radius: 14px;
+  border: 1.5px dashed rgba(194, 54, 15, 0.45);
+  background: #FFF6F0;
+  color: var(--lg-flame);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* After a pick: the league's split, the crowd line, the rival. */
+.pick-reveal { display: grid; gap: 8px; animation: deck-in 300ms var(--lg-ease) both; }
+.pick-split { display: flex; height: 26px; border-radius: 9px; overflow: hidden; background: rgba(0, 0, 0, 0.05); }
+.pick-split span {
+  display: grid;
+  place-items: center;
+  width: var(--w);
+  min-width: 6px;
+  background: color-mix(in srgb, var(--c) 72%, white);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  transform-origin: left;
+  animation: pick-split-grow 520ms var(--lg-ease) both;
+}
+.pick-split span[data-mine] { background: var(--c); box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.7); }
+@keyframes pick-split-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.pick-crowd, .pick-rival { display: flex; align-items: flex-start; gap: 6px; margin: 0; font-size: 13px; font-weight: 650; line-height: 1.4; color: var(--lg-ink-2); }
+.pick-crowd svg, .pick-rival svg { flex: none; margin-top: 3px; }
+.pick-crowd small { color: var(--lg-ink-3); }
+.pick-rival[data-tone="split"] { color: var(--lg-flame); font-weight: 750; }
+
+@media (prefers-reduced-motion: reduce) {
+  .deck-card, .deck-done, .pick-reveal, .pick-split span { animation: none; }
+  .deck-card[data-leaving] { animation: none; opacity: 0; }
+  .deck-progress i, .deck-opt { transition: none; }
+}
