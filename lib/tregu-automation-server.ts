@@ -648,6 +648,15 @@ async function runOfficialSportsRefresh(action: "live_sports", runKey: string, n
               if (applyError) throw new Error(applyError.message);
               const { error: snapshotError } = await admin.rpc("record_f1_vector_snapshot", { p_market_id: market.id, p_state: marketState, p_probabilities: opening.probabilities, p_reasoning: opening.method });
               if (snapshotError) throw new Error(snapshotError.message);
+              // The in-race model leans on pre_match_analysis.opening_model as
+              // its prior. The template wrote it three days out, before
+              // qualifying, so once the lights went out the race forgot the
+              // grid. Keep it at the latest pre-race read instead.
+              const analysis = market.pre_match_analysis && typeof market.pre_match_analysis === "object" ? market.pre_match_analysis : {};
+              const { error: openingError } = await admin.from("markets")
+                .update({ pre_match_analysis: { ...analysis, opening_model: opening, opening_model_updated_at: now.toISOString() } })
+                .eq("id", market.id).eq("status", "open");
+              if (openingError) throw new Error(`Could not keep the F1 pre-race model for ${market.slug}: ${openingError.message}`);
               await captureOfficialMarketChange(market, "f1_pre_match_state", race.source_url);
               f1Results.push({ slug: market.slug, status: "applied" });
 
