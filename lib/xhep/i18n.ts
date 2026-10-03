@@ -118,6 +118,25 @@ type XhepDict = {
     stampErrors: { too_far: (m: number | null) => string; low_accuracy: string; denied: string; generic: string };
     stampPrivacy: string;
   };
+  memories: {
+    title: string;
+    intro: string;
+    add: string;
+    addHint: string;
+    count: (n: number, max: number) => string;
+    remove: string;
+    vibe: string;
+    vibes: Record<"prizren" | "rugova" | "prishtina" | "brezovica", string>;
+    layout: string;
+    layouts: Record<"grid" | "hero" | "strip", string>;
+    download: string;
+    share: string;
+    preparing: string;
+    privacy: string;
+    errors: Record<"type" | "decode" | "too_large", string>;
+    titleText: (name: string) => string;
+    showcaseSoon: string;
+  };
   help: {
     title: string;
     intro: string;
@@ -389,6 +408,29 @@ export const XHEP_DICT = {
         generic: "The stamp didn't work. Try again in a moment.",
       },
       stampPrivacy: "Your position is checked once and never stored.",
+    },
+    memories: {
+      title: "Your memories card",
+      intro: "After the trip, turn your best photos into a woven keepsake. Pick the photos, a vibe and a layout.",
+      add: "Add photos",
+      addHint: "JPEG, PNG or WebP (HEIC on iPhone Safari), up to 8.",
+      count: (n, max) => `${n} of ${max} photos`,
+      remove: "Remove photo",
+      vibe: "Vibe",
+      vibes: { prizren: "Warm Prizren", rugova: "Rugova pine", prishtina: "Prishtina night", brezovica: "Winter Brezovica" },
+      layout: "Layout",
+      layouts: { grid: "Grid", hero: "Big moment", strip: "Film strip" },
+      download: "Download memories card",
+      share: "Share",
+      preparing: "Preparing...",
+      privacy: "Your photos never leave this device. They're re-encoded here, which removes hidden location data.",
+      errors: {
+        type: "That file isn't a photo we can use (try JPEG, PNG or WebP).",
+        decode: "This browser can't open that photo. On iPhone, Safari handles HEIC; elsewhere, export it as JPEG.",
+        too_large: "That photo is over 24 megapixels — please pick a smaller one.",
+      },
+      titleText: (name) => (name ? `${name}'s Kosovo` : "My Kosovo"),
+      showcaseSoon: "Coming next: submit your card to the Kosova në xhep showcase (reviewed by our editors before it appears).",
     },
     help: {
       title: "Help for your trip",
@@ -679,6 +721,29 @@ export const XHEP_DICT = {
         generic: "Vula nuk funksionoi. Provo sërish pas pak.",
       },
       stampPrivacy: "Pozicioni yt kontrollohet një herë dhe nuk ruhet kurrë.",
+    },
+    memories: {
+      title: "Karta e kujtimeve",
+      intro: "Pas udhëtimit, ktheji fotot më të mira në një kujtim të endur. Zgjidh fotot, një atmosferë dhe një paraqitje.",
+      add: "Shto foto",
+      addHint: "JPEG, PNG ose WebP (HEIC në Safari të iPhone), deri në 8.",
+      count: (n, max) => `${n} nga ${max} foto`,
+      remove: "Hiqe foton",
+      vibe: "Atmosfera",
+      vibes: { prizren: "Prizreni i ngrohtë", rugova: "Pisha e Rugovës", prishtina: "Nata në Prishtinë", brezovica: "Brezovica në dimër" },
+      layout: "Paraqitja",
+      layouts: { grid: "Rrjetë", hero: "Momenti i madh", strip: "Shirit filmi" },
+      download: "Shkarko kartën e kujtimeve",
+      share: "Ndaje",
+      preparing: "Po përgatitet...",
+      privacy: "Fotot nuk largohen kurrë nga kjo pajisje. Ato ri-kodohen këtu, gjë që heq të dhënat e fshehura të vendndodhjes.",
+      errors: {
+        type: "Ky skedar nuk është foto që mund ta përdorim (provo JPEG, PNG ose WebP).",
+        decode: "Ky shfletues nuk e hap këtë foto. Në iPhone, Safari e hap HEIC; gjetiu, eksportoje si JPEG.",
+        too_large: "Kjo foto ka mbi 24 megapiksel — zgjidh një më të vogël.",
+      },
+      titleText: (name) => (name ? `Kosova · ${name}` : "Kosova ime"),
+      showcaseSoon: "Së shpejti: dërgoje kartën në vitrinën e Kosova në xhep (e shqyrtuar nga redaktorët tanë para publikimit).",
     },
     help: {
       title: "Ndihmë për udhëtimin",

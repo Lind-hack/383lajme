@@ -10,6 +10,7 @@ import Quiz, { type QuizAnswers } from "./quiz";
 import MyCard from "./my-card";
 import XhepHelp from "./help";
 import DayPlan, { type StampResult } from "./day-plan";
+import Memories from "./memories";
 import styles from "./xhep.module.css";
 
 type Profile = ReturnType<typeof readProfile>;
@@ -104,6 +105,7 @@ export default function XhepCompanion({ lang, children }: { lang: XhepLang; chil
         <>
           <MyCard lang={lang} profile={profile} qrUrl={qrUrl} onEdit={() => setView("quiz")} onReset={reset} />
           <DayPlan lang={lang} profile={profile} onStamp={addStamp} />
+          <Memories lang={lang} profile={profile} />
           {children?.(profile)}
         </>
       ) : (
