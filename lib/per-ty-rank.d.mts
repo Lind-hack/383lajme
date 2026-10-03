@@ -12,6 +12,10 @@ export interface RankedItem<A> {
   article: A;
   reason: string;
   kind: RankKind;
+  /** The follow behind `reason`: "person:<id>", "city:<id>", "cat:<label>", or "learned" / "top". */
+  primaryKey: string;
+  /** Every followed person/city/category the story matches (empty for "top" and "learned"). */
+  keys: string[];
 }
 export declare const WEIGHTS: Record<string, number>;
 export declare const TOP_REASON: string;

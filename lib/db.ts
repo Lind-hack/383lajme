@@ -362,6 +362,66 @@ export async function getPropositionArticles(terms: string[], now = new Date()):
  * publishes nine times a day, and an offset shifts under a reader whenever it
  * does, repeating one story and skipping another at every page boundary.
  */
+/**
+ * getArticlesBySlugs without the body, in the order the slugs were given — for
+ * a shared Për ty front page (/gazeta), which only shows cards and must keep the
+ * sharer's order (`.in()` returns rows in any order). Missing slugs are dropped.
+ */
+export async function getArticlesBySlugsLight(slugs: string[]): Promise<Article[]> {
+  const wanted = [...new Set((slugs ?? []).filter(Boolean))];
+  if (!wanted.length) return [];
+  let found: Article[] | null = null;
+  const supabase = supabaseNewsClient();
+  if (supabase) {
+    try {
+      const { data, error } = await supabase.from("news_articles").select(ARTICLE_COLUMNS_LIGHT).in("slug", wanted);
+      if (error) throw new Error(error.message);
+      found = (data ?? []).map((a) => mapAutoRow(a as unknown as Record<string, unknown>));
+    } catch (error) {
+      console.error("[news] Supabase light articles-by-slug unavailable; using fallback", error);
+    }
+  }
+  found ??= (await getArticles(500, undefined, { withBody: false })).filter((a) => wanted.includes(a.slug));
+  const bySlug = new Map(found.map((a) => [a.slug, a]));
+  return wanted.map((slug) => bySlug.get(slug)).filter((a): a is Article => Boolean(a));
+}
+
+/**
+ * The best of one category over the last `sinceDays` — the shelf Për ty tops a
+ * thin topic section up from when the week had little on it. Light columns;
+ * retired aliases count towards their live section (Politikë → Kosovë).
+ */
+export async function getCategoryShelf(
+  category: string,
+  { sinceDays = 30, limit = 12 }: { sinceDays?: number; limit?: number } = {}
+): Promise<Article[]> {
+  const wanted = normalizeCategory(category);
+  const since = new Date(Date.now() - sinceDays * 86_400_000).toISOString();
+  const supabase = supabaseNewsClient();
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("news_articles")
+        .select(ARTICLE_COLUMNS_LIGHT)
+        .in("category", categoryQueryValues(wanted))
+        .gte("published_at", since)
+        .order("engagement_score", { ascending: false })
+        .order("published_at", { ascending: false })
+        .limit(limit);
+      if (error) throw new Error(error.message);
+      return (data ?? []).map((a) => mapAutoRow(a as unknown as Record<string, unknown>));
+    } catch (error) {
+      console.error("[news] Supabase category shelf unavailable; using committed fallback", error);
+    }
+  }
+  // getArticles merges the committed files and SQLite, both normalised to the
+  // live section, and already sorts best first.
+  const cutoff = Date.parse(since);
+  return (await getArticles(300, wanted, { withBody: false }))
+    .filter((a) => Date.parse(a.publishedAt) >= cutoff)
+    .slice(0, limit);
+}
+
 export async function getArticlesBefore({
   before,
   limit = 12,

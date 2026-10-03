@@ -1,7 +1,5 @@
-import { readFile } from "node:fs/promises";
-import path from "node:path";
 import { ImageResponse } from "next/og";
-import sharp from "sharp";
+import { dardaniPng, manrope, picture } from "@/lib/og-assets";
 import { getMonthWrapped, type MonthWrapped } from "@/lib/monthly-wrapped-server";
 import { cardsFor, type WrappedCard } from "@/lib/monthly-wrapped.mjs";
 
@@ -29,63 +27,7 @@ const THEME: Record<WrappedCard, { bg: string; ink: string; soft: string; accent
   dita: { bg: "#FFC72C", ink: "#111111", soft: "rgba(17,17,17,0.72)", accent: "#C2340F" },
 };
 
-let fonts: Promise<{ name: string; data: Buffer; weight: 500 | 800; style: "normal" }[]> | null = null;
-function manrope() {
-  fonts ??= Promise.all(
-    ([500, 800] as const).map(async (weight) => ({
-      name: "Manrope",
-      data: await readFile(path.join(process.cwd(), "public", "wrapped", "fonts", `Manrope-${weight}-latin.woff`)),
-      weight,
-      style: "normal" as const,
-    }))
-  );
-  return fonts;
-}
-
 const number = (n: number) => n.toLocaleString("de-DE"); // 1.234, as Albanian writes it
-
-/**
- * A story's picture as a JPEG data URL, or null. Pictures come from many news
- * sites; a slow, missing or unsupported one must cost the card its picture,
- * not the card itself. Whatever the outlet serves (JPEG, WebP, AVIF) is
- * re-encoded with sharp, because the card renderer only reads JPEG and PNG,
- * and sized to the card so a 12 MB original never reaches it. Failures are
- * logged with their reason so they can be seen in production.
- */
-async function picture(url: string | null | undefined) {
-  if (!url || !/^https:\/\//.test(url)) return null;
-  try {
-    const res = await fetch(url, {
-      signal: AbortSignal.timeout(6000),
-      headers: { "User-Agent": "Mozilla/5.0 (compatible; 383ks.com wrapped)", Accept: "image/*" },
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const bytes = Buffer.from(await res.arrayBuffer());
-    if (bytes.length > 15_000_000) throw new Error(`too large (${bytes.length} bytes)`);
-    const jpeg = await sharp(bytes).resize(904, 508, { fit: "cover" }).jpeg({ quality: 82 }).toBuffer();
-    return `data:image/jpeg;base64,${jpeg.toString("base64")}`;
-  } catch (error) {
-    console.warn("[wrapped] story picture skipped", url, error instanceof Error ? error.message : error);
-    return null;
-  }
-}
-
-/**
- * Dardani for the intro card, read from disk. Fetching him by URL failed in
- * production: behind Railway's proxy the request's own origin is
- * https://localhost:8080, which the server cannot reach.
- */
-let dardani: Promise<string | null> | null = null;
-function dardaniWave() {
-  dardani ??= readFile(path.join(process.cwd(), "public", "wrapped", "dardani-wave.png"))
-    .then((png) => `data:image/png;base64,${png.toString("base64")}`)
-    .catch((error) => {
-      console.warn("[wrapped] Dardani image unavailable", error instanceof Error ? error.message : error);
-      dardani = null;
-      return null;
-    });
-  return dardani;
-}
 
 function Frame({ card, w, children }: { card: WrappedCard; w: MonthWrapped; children: React.ReactNode }) {
   const t = THEME[card];
@@ -132,7 +74,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ mont
   let body: React.ReactNode;
 
   if (card === "hyrje") {
-    const wave = await dardaniWave();
+    const wave = await dardaniPng("dardani-wave.png");
     body = (
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div style={{ display: "flex", fontSize: 92, lineHeight: 1.02, fontWeight: 800, letterSpacing: -2 }}>{w.title}</div>

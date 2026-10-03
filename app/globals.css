@@ -22409,120 +22409,205 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .perty-build-lines { max-width: none; }
 }
 
-/* ── Për ty: the morning edition ───────────────────────────────────────────
-   Read over one coffee, then closed. Five parts in a fixed order: masthead,
-   Dardani's three lines, the edition of seven, the end, and the rest folded
-   under "Më shumë". Full page width like the rest of the site: on a desktop
-   the seven take the wide column and the three lines sit beside them, in the
-   old page's proportions. Every story uses the same row. */
-.perty-paper ::selection { background: #FFD2C5; color: #111111; }
+/* ── Për ty: the reader's own paper ────────────────────────────────────────
+   A newspaper front page, read over one coffee and then closed: nameplate,
+   the lead story big and the rest of the edition numbered, Dardani's thirty
+   seconds beside it, small boxes, one open section per thing the reader
+   follows, and "Kaq për sot". Its look is the reader's (data-style: klasike,
+   moderne, nate; data-accent: five colours), so every colour below is a token
+   on .perty-paper rather than a literal. */
+.perty-paper {
+  --pp-bg: transparent;
+  --pp-card: #FFFFFF;
+  --pp-ink: #111111;
+  --pp-text: #2B2825;
+  --pp-soft-text: #4A443F;
+  --pp-muted: #5E5048;
+  --pp-faint: #6B625B;
+  --pp-rule: #E3DBD1;
+  --pp-rule-soft: #ECE4DA;
+  --pp-chip: #F1EBE3;
+  --pp-shadow: 0 14px 36px rgba(64, 40, 20, 0.07);
+  --pp-accent: #FF4422;
+  --pp-accent-ink: #B42A10;
+  --pp-accent-soft: #FFF6F1;
+  --pp-accent-line: #F4DDD2;
+  --pp-read: #15803D;
+  --pp-read-soft: #E3F2E7;
+  --pp-plate-font: var(--font-garamond), Georgia, serif;
+  --pp-head-font: var(--font-garamond), Georgia, serif;
+  color: var(--pp-text);
+}
+.perty-paper[data-accent="blu"] { --pp-accent: #2563EB; --pp-accent-ink: #1D4ED8; --pp-accent-soft: #EFF4FF; --pp-accent-line: #D6E2FB; }
+.perty-paper[data-accent="gjelber"] { --pp-accent: #16A34A; --pp-accent-ink: #15803D; --pp-accent-soft: #EFFAF2; --pp-accent-line: #CFEBD8; }
+.perty-paper[data-accent="vjollce"] { --pp-accent: #7C3AED; --pp-accent-ink: #6D28D9; --pp-accent-soft: #F5F0FF; --pp-accent-line: #E2D6FA; }
+.perty-paper[data-accent="kuqe"] { --pp-accent: #DC2626; --pp-accent-ink: #B91C1C; --pp-accent-soft: #FEF2F2; --pp-accent-line: #F7D4D4; }
 
-.perty-ed-mast {
+/* Moderne: the same paper in 383's own sans, heavier and squarer. */
+.perty-paper[data-style="moderne"] {
+  --pp-plate-font: var(--font-manrope), system-ui, sans-serif;
+  --pp-head-font: var(--font-manrope), system-ui, sans-serif;
+}
+
+/* Natë: a dark paper inside the light site, for reading in bed. */
+.perty-paper[data-style="nate"] {
+  --pp-bg: #15110F;
+  --pp-card: #201B18;
+  --pp-ink: #F7F2EB;
+  --pp-text: #E8E0D7;
+  --pp-soft-text: #CFC5BA;
+  --pp-muted: #B5A99E;
+  --pp-faint: #A0958B;
+  --pp-rule: #3B332D;
+  --pp-rule-soft: #2F2924;
+  --pp-chip: #2B2521;
+  --pp-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+  --pp-accent-ink: #FF8A70;
+  --pp-accent-soft: color-mix(in srgb, var(--pp-accent) 13%, #201B18);
+  --pp-accent-line: color-mix(in srgb, var(--pp-accent) 32%, #201B18);
+  --pp-read: #5EDB8A;
+  --pp-read-soft: rgba(94, 219, 138, 0.14);
+  padding: 22px 22px 8px;
+  border-radius: 28px;
+  background: var(--pp-bg);
+  color-scheme: dark;
+}
+.perty-paper[data-style="nate"][data-accent="blu"] { --pp-accent-ink: #8DB2FF; }
+.perty-paper[data-style="nate"][data-accent="gjelber"] { --pp-accent-ink: #5EDB8A; }
+.perty-paper[data-style="nate"][data-accent="vjollce"] { --pp-accent-ink: #BBA0FF; }
+.perty-paper[data-style="nate"][data-accent="kuqe"] { --pp-accent-ink: #FF8A8A; }
+
+.perty-paper ::selection { background: var(--pp-accent-line); color: var(--pp-ink); }
+
+/* The nameplate: "Gazeta e Lindit", the reader's own paper. */
+.perty-mast { padding-bottom: 14px; }
+.perty-mast-plate {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 16px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #E3DBD1;
+  gap: 14px;
+  padding-bottom: 12px;
+  border-bottom: 4px double var(--pp-ink);
 }
-.perty-ed-dardani { height: 84px; }
-.perty-ed-hello {
-  margin: 0;
-  color: #111111;
-  font-family: var(--font-garamond), Georgia, serif;
-  font-size: clamp(32px, 5vw, 46px);
-  font-style: italic;
-  font-weight: 500;
+.perty-mast-dardani { height: 76px; }
+.perty-mast-name {
+  justify-self: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--pp-ink);
+  font-family: var(--pp-plate-font);
+  font-size: clamp(30px, 6.4vw, 66px);
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.02em;
+  text-align: center;
+  text-wrap: balance;
+  cursor: pointer;
 }
-.perty-ed-line {
-  display: flex;
-  flex-wrap: wrap;
+.perty-paper[data-style="moderne"] .perty-mast-name { font-weight: 800; letter-spacing: -0.045em; }
+.perty-mast-name:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 4px; border-radius: 8px; }
+.perty-mast-actions { display: flex; gap: 8px; }
+.perty-mast-btn {
+  display: inline-flex;
   align-items: center;
-  gap: 4px 14px;
-  margin: 8px 0 0;
-  color: #5E5048;
-  font-size: 14.5px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
+  justify-content: center;
+  gap: 7px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1.5px solid var(--pp-rule);
+  border-radius: 999px;
+  background: var(--pp-card);
+  color: var(--pp-ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out), border-color 160ms var(--ease-out);
 }
-.perty-ed-date { color: #111111; font-weight: 800; }
-.perty-ed-city { display: inline-flex; align-items: center; gap: 5px; color: #3F3833; text-decoration: none; }
-.perty-ed-city svg { flex: none; color: #B42A10; }
-.perty-ed-city b { color: #111111; font-weight: 800; }
-.perty-ed-edit { align-self: start; min-height: 40px; padding: 0 14px; font-size: 14px; }
-/* "Gazeta e Lindit · Nr. 47": the reader's own nameplate, above the greeting. */
-.perty-ed-kicker {
+.perty-mast-btn--share { border-color: var(--pp-accent); background: var(--pp-accent); color: #FFFFFF; }
+.perty-mast-btn:active { transform: scale(0.96); }
+.perty-mast-btn:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 3px; }
+.perty-mast-folio {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  gap: 4px 12px;
-  margin: 0 0 6px;
-  color: #5E5048;
+  justify-content: center;
+  gap: 2px 0;
+  margin: 8px 0 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--pp-ink);
+  color: var(--pp-muted);
   font-size: 12.5px;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
 }
-.perty-ed-paper {
-  padding: 0;
-  border: 0;
-  background: none;
-  color: #B42A10;
-  font: inherit;
-  letter-spacing: inherit;
-  text-transform: inherit;
-  cursor: pointer;
+.perty-mast-folio > span + span::before { content: "·"; margin: 0 10px; color: var(--pp-rule); }
+.perty-mast-issue { color: var(--pp-accent-ink); }
+.perty-mast-date { color: var(--pp-ink); }
+.perty-mast-hello { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin-top: 16px; }
+.perty-ed-hello {
+  margin: 0;
+  color: var(--pp-ink);
+  font-family: var(--pp-head-font);
+  font-size: clamp(26px, 3.6vw, 36px);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
 }
-.perty-ed-paper:focus-visible,
-.perty-ed-ask-name:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 3px; border-radius: 4px; }
-.perty-ed-issue { color: #111111; font-variant-numeric: tabular-nums; }
+.perty-paper[data-style="moderne"] .perty-ed-hello { font-style: normal; font-weight: 800; letter-spacing: -0.035em; }
 .perty-ed-ask-name {
   padding: 0;
   border: 0;
   background: none;
-  color: #5E5048;
+  color: var(--pp-muted);
   font: inherit;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0;
-  text-transform: none;
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
   cursor: pointer;
 }
-.perty-ed-name-form { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 2px 0 12px; }
-.perty-ed-name-form label { color: #111111; font-size: 14px; font-weight: 800; }
-.perty-ed-name-form input {
+.perty-ed-ask-name:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 3px; border-radius: 4px; }
+.perty-ed-name-form { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 14px 0 0; }
+.perty-ed-name-form label { color: var(--pp-ink); font-size: 14px; font-weight: 800; }
+.perty-ed-name-form input,
+.perty-cz-name input {
   width: 180px;
-  min-height: 40px;
+  min-height: 44px;
   padding: 0 14px;
-  border: 1.5px solid #E8E3DB;
+  border: 1.5px solid var(--pp-rule);
   border-radius: 999px;
-  background: #FFFFFF;
-  color: #111111;
+  background: var(--pp-card);
+  color: var(--pp-ink);
   font: inherit;
-  font-size: 15px;
+  font-size: 16px;
 }
-.perty-ed-name-form input:focus-visible { outline: none; border-color: #FF4422; box-shadow: 0 0 0 3px rgba(255, 68, 34, 0.18); }
-.perty-ed-name-form .perty-btn { min-height: 40px; padding: 0 18px; font-size: 14px; }
+.perty-ed-name-form input:focus-visible,
+.perty-cz-name input:focus-visible { outline: none; border-color: var(--pp-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pp-accent) 22%, transparent); }
+.perty-ed-name-form .perty-btn { min-height: 44px; padding: 0 18px; font-size: 14px; }
+
 /* What Dardani noticed: one soft line under the masthead, only when true. */
 .perty-ed-say {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 16px 0 0;
+  margin: 14px 0 0;
   padding: 10px 14px 10px 10px;
-  border: 1px solid #F4DDD2;
+  border: 1px solid var(--pp-accent-line);
   border-radius: 16px;
-  background: #FFF6F1;
-  color: #2B2825;
+  background: var(--pp-accent-soft);
+  color: var(--pp-text);
   font-size: 15px;
   font-weight: 600;
   line-height: 1.45;
 }
 .perty-ed-say > :first-child { flex: none; }
+.perty-ed-say a { color: var(--pp-ink); font-weight: 800; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 /* "Tetori në 383 është gati": the month's wrapped, the first week of the next. */
 .perty-ed-wrapped {
   display: inline-flex;
@@ -22537,43 +22622,43 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   font-weight: 800;
   text-decoration: none;
 }
-.perty-ed-wrapped span { color: #FF4422; }
-.perty-ed-wrapped:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 3px; }
-.perty-ed-say a { color: #111111; font-weight: 800; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.perty-paper[data-style="nate"] .perty-ed-wrapped { background: var(--pp-ink); color: #111111; }
+.perty-ed-wrapped span { color: var(--pp-accent); }
+.perty-ed-wrapped:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 3px; }
 
 /* "Në 30 sekonda" */
 .perty-brief {
   margin-top: 22px;
   padding: 14px 18px 4px;
-  border: 1px solid #F4DDD2;
+  border: 1px solid var(--pp-accent-line);
   border-radius: 18px;
-  background: #FFF6F1;
+  background: var(--pp-accent-soft);
 }
 .perty-brief header { display: flex; align-items: center; gap: 10px; }
-.perty-brief h2 { margin: 0; color: #111111; font-size: 16px; font-weight: 800; letter-spacing: -0.005em; }
+.perty-brief h2 { margin: 0; color: var(--pp-ink); font-size: 16px; font-weight: 800; letter-spacing: -0.005em; }
 .perty-brief ol { margin: 6px 0 0; padding: 0; list-style: none; counter-reset: brief; }
 .perty-brief li { counter-increment: brief; }
-.perty-brief li + li { border-top: 1px solid #F4DDD2; }
+.perty-brief li + li { border-top: 1px solid var(--pp-accent-line); }
 .perty-brief a {
   display: grid;
   grid-template-columns: 24px minmax(0, 1fr);
   gap: 6px;
   padding: 10px 0;
-  color: #2B2825;
+  color: var(--pp-text);
   font-size: 15.5px;
   font-weight: 600;
   line-height: 1.45;
   text-decoration: none;
   text-wrap: pretty;
 }
-.perty-brief a::before { content: counter(brief); color: #B42A10; font-weight: 800; font-variant-numeric: tabular-nums; }
-.perty-brief a:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 2px; border-radius: 6px; }
+.perty-brief a::before { content: counter(brief); color: var(--pp-accent-ink); font-weight: 800; font-variant-numeric: tabular-nums; }
+.perty-brief a:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 2px; border-radius: 6px; }
 .perty-brief-loading { display: grid; gap: 12px; padding: 12px 0 14px 30px; }
 .perty-brief-loading i {
   display: block;
   height: 12px;
   border-radius: 6px;
-  background: linear-gradient(90deg, #F6E3D9 0%, #FBEFE8 50%, #F6E3D9 100%);
+  background: linear-gradient(90deg, var(--pp-accent-line) 0%, var(--pp-accent-soft) 50%, var(--pp-accent-line) 100%);
   background-size: 200% 100%;
   animation: perty-brief-shimmer 1.4s linear infinite;
 }
@@ -22581,32 +22666,90 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .perty-brief-loading i:nth-child(3) { width: 72%; }
 @keyframes perty-brief-shimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
 
-/* "Për ty sot": the seven */
-.perty-ed { margin-top: 30px; }
+/* "Për ty sot": the lead, then the rest numbered */
+.perty-ed { margin-top: 26px; }
 .perty-ed-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
   padding-bottom: 10px;
-  border-bottom: 2px solid #111111;
+  border-bottom: 2px solid var(--pp-ink);
 }
-.perty-ed-head h2 { margin: 0; color: #111111; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+.perty-ed-head h2 { margin: 0; color: var(--pp-ink); font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
 .perty-ed-progress {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   margin: 0;
-  color: #5E5048;
+  color: var(--pp-muted);
   font-size: 13.5px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
-.perty-ed-bar { display: block; width: 64px; height: 6px; overflow: hidden; border-radius: 3px; background: #EBE3D9; }
-.perty-ed-bar i { display: block; height: 100%; border-radius: 3px; background: #FF4422; transition: width 300ms var(--ease-out); }
+.perty-ed-bar { display: block; width: 64px; height: 6px; overflow: hidden; border-radius: 3px; background: var(--pp-chip); }
+.perty-ed-bar i { display: block; height: 100%; border-radius: 3px; background: var(--pp-accent); transition: width 300ms var(--ease-out); }
+
+.perty-lead {
+  display: grid;
+  gap: 12px;
+  padding: 16px 0 18px;
+  border-bottom: 1px solid var(--pp-rule-soft);
+  color: inherit;
+  text-decoration: none;
+}
+.perty-lead:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 4px; border-radius: 14px; }
+.perty-lead-img {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--pp-chip);
+}
+.perty-lead-n {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--pp-ink);
+  color: var(--pp-card);
+  font-size: 15px;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+.perty-lead-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.perty-lead-body > .perty-ed-n { margin-bottom: 2px; }
+.perty-lead-title {
+  color: var(--pp-ink);
+  font-family: var(--pp-head-font);
+  font-size: clamp(25px, 3.4vw, 36px);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.perty-paper[data-style="moderne"] .perty-lead-title { font-weight: 800; letter-spacing: -0.035em; }
+.perty-lead-excerpt {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--pp-soft-text);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.perty-lead[data-read] .perty-lead-n { background: var(--pp-read-soft); color: var(--pp-read); backdrop-filter: blur(6px); }
+.perty-lead[data-read] .perty-lead-title { color: var(--pp-faint); }
+.perty-lead[data-read] .perty-lead-img { opacity: 0.6; }
+
 .perty-ed-list { margin: 0; padding: 0; list-style: none; }
-.perty-ed-list li + li { border-top: 1px solid #ECE4DA; }
+.perty-ed-list li + li { border-top: 1px solid var(--pp-rule-soft); }
 .perty-ed-row {
   display: grid;
   grid-template-columns: 28px minmax(0, 1fr) auto;
@@ -22616,7 +22759,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   color: inherit;
   text-decoration: none;
 }
-.perty-ed-row:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 4px; border-radius: 10px; }
+.perty-ed-row:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 4px; border-radius: 10px; }
 .perty-ed-n {
   display: grid;
   place-items: center;
@@ -22624,26 +22767,24 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   height: 28px;
   margin-top: 1px;
   border-radius: 50%;
-  background: #111111;
-  color: #FFFFFF;
+  background: var(--pp-ink);
+  color: var(--pp-card);
   font-size: 13px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
 }
 .perty-ed-body { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
-.perty-ed-reason { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; color: #B42A10; font-size: 12.5px; font-weight: 800; }
-.perty-ed-title { color: #111111; font-size: 17.5px; font-weight: 750; line-height: 1.3; letter-spacing: -0.01em; text-wrap: pretty; }
-.perty-ed-row[data-lead] .perty-ed-title { font-size: clamp(19px, 2.4vw, 22px); line-height: 1.22; letter-spacing: -0.015em; }
+.perty-ed-reason { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--pp-accent-ink); font-size: 12.5px; font-weight: 800; }
+.perty-ed-title { color: var(--pp-ink); font-size: 17.5px; font-weight: 750; line-height: 1.3; letter-spacing: -0.01em; text-wrap: pretty; }
 .perty-ed-excerpt {
   display: -webkit-box;
   overflow: hidden;
-  color: #4A443F;
+  color: var(--pp-soft-text);
   font-size: 15px;
   line-height: 1.5;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
-.perty-ed-row[data-lead] .perty-ed-excerpt { -webkit-line-clamp: 2; }
 .perty-ed-thumb {
   position: relative;
   display: block;
@@ -22651,49 +22792,191 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   aspect-ratio: 4 / 3;
   overflow: hidden;
   border-radius: 12px;
-  background: #EFE8E0;
+  background: var(--pp-chip);
 }
-.perty-ed-row[data-lead] .perty-ed-thumb { width: 168px; }
 /* Read: still there, quieter, with a tick where its number was. */
-.perty-ed-row[data-read] .perty-ed-n { background: #E3F2E7; color: #15803D; }
-.perty-ed-row[data-read] .perty-ed-title { color: #6B625B; }
+.perty-ed-row[data-read] .perty-ed-n,
+.perty-lead[data-read] .perty-lead-body > .perty-ed-n { background: var(--pp-read-soft); color: var(--pp-read); }
+.perty-ed-row[data-read] .perty-ed-title { color: var(--pp-faint); }
 .perty-ed-row[data-read] .perty-ed-thumb { opacity: 0.55; }
+.perty-item-meta { color: var(--pp-muted); }
 
 /* New since the last visit, and already read. */
 .perty-mark { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 800; letter-spacing: 0.02em; }
-.perty-mark--new { background: #111111; color: #FFFFFF; }
-.perty-mark--read { background: #EFEAE2; color: #5E5048; }
+.perty-mark--new { background: var(--pp-ink); color: var(--pp-card); }
+.perty-mark--read { background: var(--pp-chip); color: var(--pp-muted); }
 
-/* "Kaq për sot": the end of the edition */
+/* The boxes: home town, the day's numbers, one Tregu question */
+.perty-boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+.perty-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--pp-rule);
+  border-radius: 18px;
+  background: var(--pp-card);
+  color: var(--pp-text);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+}
+a.perty-box:focus-visible,
+button.perty-box:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 3px; }
+.perty-box-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--pp-accent-ink);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.perty-box-big { color: var(--pp-ink); font-size: 36px; font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.perty-box-note { color: var(--pp-muted); font-size: 13.5px; font-weight: 600; }
+.perty-box-note::first-letter { text-transform: uppercase; }
+.perty-box-skeleton { display: block; height: 52px; margin-top: 4px; border-radius: 10px; background: var(--pp-chip); }
+.perty-box--ask { flex-direction: row; align-items: flex-start; gap: 10px; border-style: dashed; cursor: pointer; font-size: 14.5px; line-height: 1.45; }
+.perty-box--ask svg { flex: none; margin-top: 2px; color: var(--pp-accent-ink); }
+.perty-box--ask strong { color: var(--pp-ink); }
+.perty-box--numbers dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 4px 0 0; }
+.perty-box--numbers dl > div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 4px; }
+.perty-box--numbers dd { margin: 0; color: var(--pp-ink); font-size: 26px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.perty-box--numbers dt { color: var(--pp-muted); font-size: 12px; font-weight: 700; line-height: 1.25; }
+.perty-box-streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--pp-accent-soft);
+  color: var(--pp-accent-ink);
+  font-size: 12.5px;
+  font-weight: 800;
+}
+.perty-tregu { display: flex; flex-direction: column; gap: 8px; color: inherit; text-decoration: none; }
+.perty-tregu:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 3px; border-radius: 8px; }
+.perty-tregu strong {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--pp-ink);
+  font-size: 15.5px;
+  font-weight: 750;
+  line-height: 1.35;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.perty-tregu-bar { display: block; height: 8px; overflow: hidden; border-radius: 4px; background: var(--pp-chip); }
+.perty-tregu-bar i { display: block; height: 100%; border-radius: 4px; background: var(--pp-accent); }
+.perty-tregu-odds { display: flex; align-items: center; gap: 12px; color: var(--pp-muted); font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.perty-tregu-odds b { color: var(--pp-ink); }
+.perty-tregu-odds svg { margin-left: auto; color: var(--pp-accent-ink); }
+
+/* The reader's sections: one per thing they follow, in their order */
+.perty-secs { display: grid; gap: 30px; margin-top: 34px; }
+.perty-sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 3px solid var(--pp-ink);
+}
+.perty-sec-head h2 {
+  margin: 0;
+  color: var(--pp-ink);
+  font-family: var(--pp-head-font);
+  font-size: 26px;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+.perty-paper[data-style="moderne"] .perty-sec-head { border-top-color: var(--pp-accent); }
+.perty-paper[data-style="moderne"] .perty-sec-head h2 { font-size: 15px; font-style: normal; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.perty-sec-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+  color: var(--pp-accent-ink);
+  font-size: 13.5px;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.perty-sec-more:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 2px; border-radius: 6px; }
+.perty-sec-list { margin: 8px 0 0; padding: 0; list-style: none; }
+.perty-sec-list li + li { border-top: 1px solid var(--pp-rule-soft); }
+.perty-sec-top,
+.perty-sec-row { display: flex; flex-direction: column; gap: 6px; padding: 10px 0 12px; color: inherit; text-decoration: none; }
+.perty-sec-top:focus-visible,
+.perty-sec-row:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 2px; border-radius: 10px; }
+.perty-sec-img { position: relative; display: block; aspect-ratio: 16 / 9; margin-bottom: 4px; overflow: hidden; border-radius: 14px; background: var(--pp-chip); }
+.perty-sec-top strong { color: var(--pp-ink); font-size: 18px; font-weight: 750; line-height: 1.3; letter-spacing: -0.01em; text-wrap: pretty; }
+.perty-sec-row strong { color: var(--pp-ink); font-size: 15.5px; font-weight: 700; line-height: 1.35; text-wrap: pretty; }
+.perty-sec-top[data-read] strong,
+.perty-sec-row[data-read] strong { color: var(--pp-faint); }
+.perty-sec-top[data-read] .perty-sec-img { opacity: 0.6; }
+.perty-sec-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.perty-sec-empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0 0;
+  padding: 12px 14px 12px 10px;
+  border-radius: 14px;
+  background: var(--pp-chip);
+  color: var(--pp-soft-text);
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.perty-sec-empty > :first-child { flex: none; }
+.perty-sec-allhidden { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin: 28px 0 0; color: var(--pp-muted); font-size: 15px; font-weight: 600; }
+
+/* "Kaq për sot": the end of the paper */
 .perty-end {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: 22px;
-  margin-top: 28px;
+  margin-top: 36px;
   padding: 24px 26px;
-  border: 1px solid #EDE5DC;
+  border: 1px solid var(--pp-rule);
   border-radius: 22px;
-  background: #FFFFFF;
-  box-shadow: 0 14px 36px rgba(64, 40, 20, 0.07);
+  background: var(--pp-card);
+  box-shadow: var(--pp-shadow);
 }
+.perty-end[data-all-read] { border-color: var(--pp-accent-line); background: linear-gradient(160deg, var(--pp-accent-soft), var(--pp-card) 60%); }
 .perty-end-img { height: 136px; }
 .perty-end h2 {
   display: flex;
   align-items: center;
   gap: 10px;
   margin: 0;
-  color: #111111;
-  font-family: var(--font-garamond), Georgia, serif;
+  color: var(--pp-ink);
+  font-family: var(--pp-head-font);
   font-size: 32px;
   font-style: italic;
   font-weight: 500;
   line-height: 1.1;
 }
-.perty-end h2 svg { flex: none; color: #B42A10; }
-.perty-end-copy > p { margin: 6px 0 0; color: #3F3833; font-size: 15.5px; line-height: 1.5; }
-.perty-end-streak b { color: #C2340F; }
-/* "Më zgjo në 07:00": tomorrow's edition, offered as today's ends. */
+.perty-paper[data-style="moderne"] .perty-end h2 { font-style: normal; font-weight: 800; letter-spacing: -0.03em; }
+.perty-end h2 svg { flex: none; color: var(--pp-accent-ink); }
+.perty-end-copy > p { margin: 6px 0 0; color: var(--pp-text); font-size: 15.5px; line-height: 1.5; }
+.perty-end-share { margin-top: 14px; min-height: 48px; padding: 0 22px; background: var(--pp-accent); }
+.perty-end-streak b { color: var(--pp-accent-ink); }
+/* "Po, ma dërgo": tomorrow's edition, offered as today's ends. */
 .perty-end-copy > .perty-end-push {
   display: flex;
   flex-wrap: wrap;
@@ -22702,15 +22985,15 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   margin-top: 12px;
   padding: 10px 12px;
   border-radius: 14px;
-  background: #FFF6F1;
-  color: #2B2825;
+  background: var(--pp-accent-soft);
+  color: var(--pp-text);
   font-size: 14.5px;
   font-weight: 600;
 }
-.perty-end-push > svg { flex: none; color: #B42A10; }
+.perty-end-push > svg { flex: none; color: var(--pp-accent-ink); }
 .perty-end-push > span:not(.perty-end-push-error) { flex: 1 1 220px; }
 .perty-end-push-btn { min-height: 38px; padding: 0 16px; font-size: 14px; }
-.perty-end-push-error { flex-basis: 100%; color: #B42A10; font-size: 13px; }
+.perty-end-push-error { flex-basis: 100%; color: var(--pp-accent-ink); font-size: 13px; }
 /* "Shto 383 në ekranin kryesor": a bottom sheet on phones, like iOS's own. */
 .ios-guide {
   width: min(560px, 100%);
@@ -22771,71 +23054,260 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 @media (prefers-reduced-motion: reduce) {
   .ios-guide[open] { animation: none; }
 }
-.perty-end-ask { display: flex; align-items: flex-start; gap: 8px; }
-.perty-end-ask svg { flex: none; margin-top: 4px; color: #B42A10; }
 .perty-end-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
-.perty-end-copy > .perty-end-following { margin-top: 14px; color: #6B625B; font-size: 13px; }
+/* Shared Për ty pieces, dressed in the paper's own colours. */
+.perty-paper .perty-btn--primary { background: var(--pp-accent); }
+.perty-paper .perty-btn--primary:hover:not(:disabled) { background: color-mix(in srgb, var(--pp-accent) 88%, #000000); }
+.perty-paper .perty-btn--ghost { background: var(--pp-card); border-color: var(--pp-rule); color: var(--pp-text); }
+.perty-paper .perty-btn--ghost:hover { border-color: var(--pp-muted); color: var(--pp-ink); }
+.perty-paper .perty-icon-btn { color: var(--pp-muted); }
+.perty-paper .perty-icon-btn:hover { background: var(--pp-chip); color: var(--pp-ink); }
+.perty-paper .perty-text-btn { color: var(--pp-muted); }
+.perty-paper .perty-foot p { color: var(--pp-faint); }
+.perty-paper[data-style="nate"] .perty-empty { background: var(--pp-card); border-color: var(--pp-rule); }
+.perty-paper[data-style="nate"] .perty-empty p { color: var(--pp-text); }
+.perty-paper[data-style="nate"] .perty-empty strong { color: var(--pp-ink); }
 
-/* "Më shumë, nëse ke kohë": folded, after the end */
-.perty-more { margin-top: 36px; }
-.perty-more h2 {
-  margin: 0 0 8px;
-  color: #5E5048;
-  font-size: 12.5px;
+/* Sheets: "Rregullo gazetën" and "Ndaje gazetën". A bottom sheet on phones,
+   a centred card on desktops; dragged down by the handle to close. */
+.perty-sheet {
+  width: min(600px, 100%);
+  max-width: 100%;
+  max-height: min(92dvh, 860px);
+  margin: auto auto 0;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  color: var(--pp-text);
+}
+.perty-sheet::backdrop { background: rgba(17, 17, 17, 0.5); }
+.perty-sheet[open] { animation: perty-sheet-up 320ms var(--ease-out); }
+.perty-sheet[open]::backdrop { animation: perty-sheet-fade 240ms var(--ease-out); }
+@keyframes perty-sheet-up { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes perty-sheet-fade { from { opacity: 0; } to { opacity: 1; } }
+.perty-sheet-panel {
+  display: flex;
+  flex-direction: column;
+  max-height: min(92dvh, 860px);
+  border-radius: 26px 26px 0 0;
+  background: var(--pp-card);
+  box-shadow: 0 -18px 60px rgba(0, 0, 0, 0.25);
+}
+.perty-sheet-handle { display: grid; place-items: center; padding: 10px 0 2px; cursor: grab; touch-action: none; }
+.perty-sheet-handle:active { cursor: grabbing; }
+.perty-sheet-handle i { display: block; width: 40px; height: 5px; border-radius: 3px; background: var(--pp-rule); }
+.perty-sheet-head { display: flex; align-items: center; gap: 12px; padding: 4px 20px 8px; }
+.perty-sheet-head h2:focus { outline: none; }
+.perty-sheet-head h2 { flex: 1; margin: 0; color: var(--pp-ink); font-size: 21px; font-weight: 800; letter-spacing: -0.02em; }
+.perty-sheet-head .perty-icon-btn { color: var(--pp-muted); }
+.perty-sheet-body { overflow-y: auto; overscroll-behavior: contain; padding: 4px 20px calc(20px + env(safe-area-inset-bottom)); }
+.perty-sheet-done { width: 100%; min-height: 50px; margin-top: 18px; }
+
+.perty-cz-group { margin: 18px 0 0; padding: 0; border: 0; min-width: 0; }
+.perty-cz-group legend,
+.perty-cz-name label {
+  margin-bottom: 10px;
+  padding: 0;
+  color: var(--pp-muted);
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.perty-more-group { border-top: 1px solid #E3DBD1; }
-.perty-more-group:last-of-type { border-bottom: 1px solid #E3DBD1; }
-.perty-more-group summary {
+.perty-cz-name { display: flex; flex-direction: column; margin-top: 6px; }
+.perty-cz-name input { width: 100%; }
+.perty-cz-note { margin: 0; color: var(--pp-muted); font-size: 14.5px; line-height: 1.45; }
+/* Visually hidden radios, still focusable and announced. */
+.perty-cz-style input,
+.perty-cz-accent input,
+.perty-cz-seg input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.perty-cz-styles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.perty-cz-style {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 8px 10px;
+  border: 2px solid var(--pp-rule);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: border-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.perty-cz-style:active { transform: scale(0.97); }
+.perty-cz-style:has(input:checked) { border-color: var(--pp-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pp-accent) 18%, transparent); }
+.perty-cz-style:has(input:focus-visible) { outline: 2px solid var(--pp-accent); outline-offset: 3px; }
+.perty-cz-style-mini {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 6px;
+  padding: 10px 8px;
+  border-radius: 10px;
+  background: #FBF8F4;
+  color: #111111;
+}
+.perty-cz-style-mini b { font-family: var(--font-garamond), Georgia, serif; font-size: 19px; font-weight: 700; line-height: 1; text-align: center; border-bottom: 3px double currentColor; padding-bottom: 4px; }
+.perty-cz-style-mini i { display: block; height: 5px; border-radius: 3px; background: currentColor; opacity: 0.18; }
+.perty-cz-style-mini i:last-child { width: 70%; }
+.perty-cz-style[data-style="moderne"] .perty-cz-style-mini b { font-family: var(--font-manrope), sans-serif; font-weight: 800; letter-spacing: -0.04em; border-bottom: 3px solid var(--pp-accent); }
+.perty-cz-style[data-style="nate"] .perty-cz-style-mini { background: #15110F; color: #F7F2EB; }
+.perty-cz-style-name { color: var(--pp-ink); font-size: 14px; font-weight: 800; }
+.perty-cz-style-note { color: var(--pp-muted); font-size: 12px; line-height: 1.3; }
+.perty-cz-accents { display: flex; flex-wrap: wrap; gap: 12px; }
+.perty-cz-accent { position: relative; cursor: pointer; }
+.perty-cz-accent span {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #FF4422;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35);
+  transition: transform 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+}
+.perty-cz-accent[data-accent="blu"] span { background: #2563EB; }
+.perty-cz-accent[data-accent="gjelber"] span { background: #16A34A; }
+.perty-cz-accent[data-accent="vjollce"] span { background: #7C3AED; }
+.perty-cz-accent[data-accent="kuqe"] span { background: #DC2626; }
+.perty-cz-accent:has(input:checked) span { box-shadow: 0 0 0 3px var(--pp-card), 0 0 0 5px var(--pp-ink); transform: scale(1.06); }
+.perty-cz-accent:has(input:focus-visible) span { outline: 2px solid var(--pp-accent); outline-offset: 6px; }
+.perty-cz-seg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 4px; border-radius: 999px; background: var(--pp-chip); }
+.perty-cz-seg label { position: relative; cursor: pointer; }
+.perty-cz-seg span {
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-height: 52px;
-  color: #111111;
-  font-size: 16px;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  border-radius: 999px;
+  color: var(--pp-muted);
+  font-size: 14px;
   font-weight: 800;
-  list-style: none;
+  transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+.perty-cz-seg small { color: inherit; font-size: 12px; font-weight: 700; opacity: 0.7; }
+.perty-cz-seg input:checked + span { background: var(--pp-card); color: var(--pp-ink); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
+.perty-cz-seg input:focus-visible + span { outline: 2px solid var(--pp-accent); outline-offset: 2px; }
+.perty-cz-sections { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--pp-rule-soft); }
+.perty-cz-sections li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; align-items: center; gap: 4px; padding: 6px 0; border-bottom: 1px solid var(--pp-rule-soft); }
+.perty-cz-sections li[data-hidden] .perty-cz-sec-title { color: var(--pp-faint); text-decoration: line-through; text-decoration-thickness: 1px; }
+.perty-cz-sec-title { min-width: 0; overflow: hidden; color: var(--pp-ink); font-size: 15.5px; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.perty-cz-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--pp-muted);
   cursor: pointer;
 }
-.perty-more-group summary::-webkit-details-marker { display: none; }
-.perty-more-group summary b {
-  padding: 2px 9px;
+.perty-cz-icon:hover:not(:disabled) { background: var(--pp-chip); color: var(--pp-ink); }
+.perty-cz-icon:disabled { opacity: 0.3; cursor: default; }
+.perty-cz-icon:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 1px; }
+.perty-cz-eye[aria-pressed="true"] { color: var(--pp-accent-ink); }
+.perty-cz-add { margin-top: 12px; }
+.perty-cz-boxes { margin: 0; padding: 0; list-style: none; }
+.perty-cz-boxes li + li { border-top: 1px solid var(--pp-rule-soft); }
+.perty-cz-switch { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 52px; color: var(--pp-ink); font-size: 15px; font-weight: 700; cursor: pointer; }
+.perty-cz-switch span { display: flex; flex-direction: column; gap: 2px; }
+.perty-cz-switch small { color: var(--pp-muted); font-size: 13px; font-weight: 600; }
+.perty-cz-switch input {
+  position: relative;
+  flex: none;
+  width: 48px;
+  height: 28px;
+  margin: 0;
   border-radius: 999px;
-  background: #F1EBE3;
-  color: #5E5048;
+  background: var(--pp-rule);
+  appearance: none;
+  cursor: pointer;
+  transition: background-color 200ms var(--ease-out);
+}
+.perty-cz-switch input::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 200ms var(--ease-out);
+}
+.perty-cz-switch input:checked { background: var(--pp-accent); }
+.perty-cz-switch input:checked::before { transform: translateX(20px); }
+.perty-cz-switch input:disabled { opacity: 0.45; cursor: default; }
+.perty-cz-switch input:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 3px; }
+
+.perty-share-preview {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(100%, 300px);
+  aspect-ratio: 4 / 5;
+  margin: 2px auto 0;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--pp-chip);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+}
+.perty-share-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 260ms var(--ease-out); }
+.perty-share-preview img[data-loaded] { opacity: 1; }
+.perty-share-wait { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--pp-muted); font-size: 14px; font-weight: 700; }
+.perty-share-wait-img { height: 110px; animation: perty-share-fly 1.6s ease-in-out infinite alternate; }
+@keyframes perty-share-fly { from { transform: translateY(-4px) rotate(-3deg); } to { transform: translateY(4px) rotate(3deg); } }
+.perty-share-name { margin-top: 10px; }
+.perty-share-public { margin: 0 0 6px; color: var(--pp-muted); font-size: 13px; line-height: 1.45; }
+.perty-share-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
+.perty-share-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 76px;
+  padding: 8px 4px;
+  border: 1px solid var(--pp-rule);
+  border-radius: 16px;
+  background: var(--pp-card);
+  color: var(--pp-ink);
+  font: inherit;
   font-size: 12.5px;
   font-weight: 800;
-  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: transform 140ms var(--ease-out), background-color 140ms var(--ease-out);
 }
-.perty-more-group summary svg { flex: none; margin-left: auto; color: #5E5048; transition: transform 200ms var(--ease-out); }
-.perty-more-group[open] summary svg { transform: rotate(180deg); }
-.perty-more-group summary:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 2px; border-radius: 8px; }
-.perty-more-group ul { margin: 0 0 12px; padding: 0; list-style: none; }
-.perty-more-group li + li { border-top: 1px dashed #ECE4DA; }
-.perty-more-row { display: flex; flex-direction: column; gap: 4px; padding: 10px 0; color: inherit; text-decoration: none; }
-.perty-more-row:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 2px; border-radius: 8px; }
-.perty-more-row strong { color: #111111; font-size: 15.5px; font-weight: 700; line-height: 1.35; text-wrap: pretty; }
-.perty-more-row[data-read] strong { color: #6B625B; }
-.perty-more-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
-.perty-more-reason { color: #B42A10; font-size: 12.5px; font-weight: 800; }
+.perty-share-btn:active { transform: scale(0.95); }
+.perty-share-btn:disabled { opacity: 0.6; cursor: progress; }
+.perty-share-btn:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 2px; }
+.perty-share-btn[data-ch="whatsapp"] svg { color: #25D366; }
+.perty-share-btn[data-ch="instagram"] svg { color: #E1306C; }
+.perty-share-btn[data-ch="facebook"] svg { color: #1877F2; }
+.perty-share-btn[data-ch="viber"] svg { color: #7360F2; }
+.perty-share-btn[data-ch="telegram"] svg { color: #229ED9; }
+.perty-share-downloads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+.perty-share-downloads .perty-btn { min-height: 46px; font-size: 14px; }
+.perty-share-hint { margin: 12px 0 0; padding: 10px 12px; border-radius: 12px; background: var(--pp-accent-soft); color: var(--pp-text); font-size: 14px; line-height: 1.45; }
+
+@media (min-width: 641px) {
+  .perty-sheet { margin: auto; }
+  .perty-sheet-panel { border-radius: 26px; }
+}
 
 @media (min-width: 1024px) {
-  .perty-ed-mast { gap: 20px; }
-  .perty-ed-dardani { height: 112px; }
-  .perty-ed-hello { font-size: clamp(40px, 4.4vw, 58px); }
-  .perty-ed-line { font-size: 15.5px; }
-  /* The seven on the left, Dardani's lines on the right, staying in view while
-     the reader works down the list. Without the lines, the list keeps the
-     wide column alone rather than leaving an empty one beside it. */
+  .perty-mast-dardani { height: 96px; }
+  /* The front page on the left, Dardani's lines on the right, staying in view
+     while the reader works down it. Without the lines, the front page keeps
+     the wide column alone rather than leaving an empty one beside it. */
   .perty-ed-layout:has(> .perty-brief) {
     display: grid;
     grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
     grid-template-areas: "list side";
     align-items: start;
     column-gap: 40px;
-    margin-top: 30px;
+    margin-top: 26px;
   }
   .perty-ed-layout:has(> .perty-brief) > .perty-ed { grid-area: list; margin-top: 0; }
   .perty-ed-layout > .perty-brief {
@@ -22845,51 +23317,152 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
     margin-top: 0;
   }
   .perty-ed-layout:not(:has(> .perty-brief)) > .perty-ed { max-width: calc((100% - 40px) * 1.75 / 2.75); }
-  /* The folded groups side by side, so "Më shumë" is one short band. */
-  .perty-more-groups {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    align-items: start;
-    column-gap: 32px;
-  }
-  .perty-more-groups .perty-more-group { border-bottom: 1px solid #E3DBD1; }
+  .perty-boxes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* Sections as a newspaper's inside pages: two columns. */
+  .perty-secs { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 40px; row-gap: 34px; }
+  .perty-paper[data-style="nate"] { padding: 32px 36px 12px; }
 }
 @media (hover: hover) and (pointer: fine) {
   .perty-ed-row:hover .perty-ed-title,
-  .perty-more-row:hover strong,
-  .perty-brief a:hover { color: #111111; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-  .perty-more-group summary:hover span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .perty-lead:hover .perty-lead-title,
+  .perty-sec-top:hover strong,
+  .perty-sec-row:hover strong,
+  .perty-tregu:hover strong,
+  .perty-brief a:hover { color: var(--pp-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .perty-lead:hover .perty-lead-img img,
+  .perty-sec-top:hover .perty-sec-img img { transform: scale(1.025); }
+  .perty-lead-img img,
+  .perty-sec-img img { transition: transform 500ms var(--ease-out); }
+  .perty-mast-btn:hover { border-color: var(--pp-ink); }
+  .perty-mast-btn--share:hover { border-color: var(--pp-accent); filter: brightness(1.06); }
+  .perty-share-btn:hover { background: var(--pp-chip); }
 }
 @media (max-width: 640px) {
-  .perty-ed-mast { gap: 12px; padding-bottom: 16px; }
-  .perty-ed-dardani { height: 60px; }
-  /* The edit button shrinks to its icon; its label stays for screen readers. */
-  .perty-ed-edit { width: 40px; padding: 0; }
-  .perty-ed-edit span { display: none; }
-  .perty-ed-line { font-size: 13.5px; gap: 2px 12px; }
-  .perty-ed-kicker { font-size: 11.5px; }
+  .perty-paper[data-style="nate"] { margin: 0 -8px; padding: 16px 14px 6px; border-radius: 22px; }
+  .perty-mast-plate { gap: 8px; }
+  .perty-mast-dardani { height: 54px; }
+  .perty-mast-name { font-size: clamp(26px, 8vw, 36px); }
+  /* The buttons shrink to their icons; the labels stay for screen readers. */
+  .perty-mast-btn { width: 44px; padding: 0; }
+  .perty-mast-btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .perty-mast-actions { gap: 6px; }
+  .perty-mast-folio { font-size: 11px; letter-spacing: 0.06em; }
+  .perty-mast-folio > span + span::before { margin: 0 7px; }
   .perty-ed-name-form input { flex: 1 1 140px; width: auto; }
   .perty-ed-say { font-size: 14px; align-items: flex-start; }
   .perty-brief { margin-top: 16px; padding: 12px 14px 2px; }
   .perty-brief a { font-size: 15px; }
-  .perty-ed { margin-top: 24px; }
+  .perty-ed { margin-top: 20px; }
+  .perty-lead { padding-top: 14px; }
+  .perty-lead-img { margin: 0 -2px; border-radius: 16px; }
+  .perty-lead-title { font-size: 25px; }
+  .perty-lead-excerpt { font-size: 15px; -webkit-line-clamp: 2; }
   .perty-ed-row { grid-template-columns: 26px minmax(0, 1fr) auto; gap: 12px; padding: 14px 0; }
   .perty-ed-n { width: 26px; height: 26px; font-size: 12.5px; }
   .perty-ed-title { font-size: 16.5px; }
-  .perty-ed-row[data-lead] .perty-ed-title { font-size: 19px; }
-  /* On a phone only the opener keeps its summary: the rest read as headlines. */
-  .perty-ed-row:not([data-lead]) .perty-ed-excerpt { display: none; }
+  /* On a phone the numbered rows read as headlines. */
+  .perty-ed-excerpt { display: none; }
   .perty-ed-thumb { width: 80px; border-radius: 10px; }
-  .perty-ed-row[data-lead] .perty-ed-thumb { width: 96px; }
+  .perty-boxes { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 22px; }
+  .perty-box { padding: 12px 14px; }
+  .perty-box--tregu,
+  .perty-box--ask,
+  .perty-boxes > :only-child { grid-column: 1 / -1; }
+  .perty-box-big { font-size: 30px; }
+  .perty-box--numbers dd { font-size: 22px; }
+  .perty-secs { gap: 26px; margin-top: 28px; }
+  .perty-sec-head h2 { font-size: 23px; }
   .perty-end { grid-template-columns: 1fr; gap: 10px; padding: 20px 18px; }
   .perty-end-img { height: 96px; }
   .perty-end h2 { font-size: 28px; }
+  .perty-end-share { width: 100%; }
   .perty-end-actions .perty-btn { flex: 1 1 100%; }
+  .perty-cz-styles { gap: 8px; }
+  .perty-share-preview { width: min(100%, 230px); }
+  .perty-share-grid { gap: 6px; }
+  .perty-share-btn { min-height: 70px; font-size: 11.5px; }
 }
+
+/* /gazeta/<code>: a friend's shared front page, with one way to make your own. */
+.perty-mast-plate--shared { grid-template-columns: auto minmax(0, 1fr) auto; }
+.perty-mast-plate--shared::after { content: ""; width: 76px; }
+.gazeta-shared .perty-mast-name { cursor: default; margin: 0; }
+.gazeta-invite {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--pp-accent-line);
+  border-radius: 18px;
+  background: var(--pp-accent-soft);
+}
+.gazeta-invite p { flex: 1 1 320px; margin: 0; color: var(--pp-text); font-size: 15px; line-height: 1.5; }
+.gazeta-invite strong { color: var(--pp-ink); }
+.gazeta-cta {
+  position: sticky;
+  bottom: calc(12px + var(--tabbar-h, 0px) + env(safe-area-inset-bottom));
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 32px auto 8px;
+  padding: 10px 10px 10px 20px;
+  max-width: 560px;
+  border-radius: 999px;
+  background: #111111;
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 800;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+.gazeta-expired { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 48px 20px; text-align: center; }
+.gazeta-expired h1 { margin: 0; color: var(--pp-ink); font-family: var(--pp-head-font); font-size: 34px; font-style: italic; font-weight: 600; }
+.gazeta-expired p { max-width: 460px; margin: 0 0 8px; color: var(--pp-soft-text); font-size: 16px; line-height: 1.5; }
+.gazeta-expired-img { height: 160px; }
+@media (max-width: 640px) {
+  .perty-mast-plate--shared::after { width: 54px; }
+  .gazeta-cta { font-size: 14px; }
+}
+
+/* "The paper prints": the first open of the day, the page sets itself block
+   by block from the nameplate down. Later visits that day render still. */
+.perty-paper[data-print-run] [data-print] {
+  animation: perty-print 460ms var(--ease-out) both;
+  animation-delay: calc(min(var(--i, 0), 14) * 55ms);
+}
+.perty-paper[data-print-run] .perty-mast-name { animation: perty-ink 700ms var(--ease-out) 120ms both; }
+@keyframes perty-print { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes perty-ink { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 -2% 0 0); } }
+/* A story opened since the page was last drawn: its tick pops in. */
+[data-just-read] .perty-ed-n,
+[data-just-read] .perty-lead-n { animation: perty-tick 560ms cubic-bezier(0.34, 1.56, 0.64, 1) 250ms both; }
+@keyframes perty-tick { from { transform: scale(0.4); opacity: 0.4; } to { transform: none; opacity: 1; } }
+/* Everything read: Dardani celebrates, once. */
+.perty-end[data-all-read] .perty-end-img--cheer { animation: perty-cheer 900ms cubic-bezier(0.34, 1.56, 0.64, 1) both; transform-origin: 50% 90%; }
+@keyframes perty-cheer { 0% { transform: scale(0.6) rotate(-8deg); opacity: 0; } 60% { transform: scale(1.06) rotate(3deg); opacity: 1; } 100% { transform: none; } }
+
 @media (prefers-reduced-motion: reduce) {
-  .perty-brief-loading i { animation: none; }
+  .perty-brief-loading i,
+  .perty-paper[data-print-run] [data-print],
+  .perty-paper[data-print-run] .perty-mast-name,
+  [data-just-read] .perty-ed-n,
+  [data-just-read] .perty-lead-n,
+  .perty-end[data-all-read] .perty-end-img--cheer,
+  .perty-share-wait-img,
+  .perty-sheet[open],
+  .perty-sheet[open]::backdrop { animation: none; }
   .perty-ed-bar i,
-  .perty-more-group summary svg { transition: none; }
+  .perty-mast-btn,
+  .perty-cz-style,
+  .perty-cz-switch input,
+  .perty-cz-switch input::before,
+  .perty-share-btn,
+  .perty-share-preview img,
+  .perty-lead-img img,
+  .perty-sec-img img { transition: none; }
 }
 
 /* ── Pyet Dardanin: suggestions chosen for this reader ─────────────────── */

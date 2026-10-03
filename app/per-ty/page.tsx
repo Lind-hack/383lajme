@@ -10,7 +10,8 @@
 // one reader's feed to another.
 
 import type { Metadata } from "next";
-import { getArticles, getArticlesBefore } from "@/lib/db";
+import { getArticles, getArticlesBefore, getCategoryShelf } from "@/lib/db";
+import { NAV_CATEGORIES } from "@/lib/category-map";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -29,6 +30,8 @@ export const metadata: Metadata = {
 /** How far back the feed looks. The newsroom publishes ~45 stories a day. */
 const WINDOW_DAYS = 7;
 const PAGE = 150;
+/** Per category, the most a thin topic section can be topped up with. */
+const SHELF_SIZE = 4;
 
 export default async function PerTyPage() {
   // The whole of the last week, newest first, plus the day's top-ranked
@@ -52,7 +55,7 @@ export default async function PerTyPage() {
     return Date.parse(a.publishedAt) >= since;
   });
 
-  const pool: FeedArticle[] = articles.map((a) => ({
+  const toFeed = (a: (typeof articles)[number]): FeedArticle => ({
     slug: a.slug,
     title: a.title,
     // The card shows two lines of it; the ranker reads names in it. More is
@@ -64,14 +67,27 @@ export default async function PerTyPage() {
     publishedAt: a.publishedAt,
     imageUrl: a.imageUrl,
     engagementScore: a.engagementScore,
-  }));
+  });
+  const pool = articles.map(toFeed);
+
+  // The last 30 days of every category, for a followed topic the week barely
+  // covered (Teknologji often has none). Every category, because the server
+  // never learns what a reader follows; kept apart from the pool so it is
+  // never ranked or counted as today's news.
+  const shelves = await Promise.all(
+    NAV_CATEGORIES.map(async ({ label }) => {
+      const rows = await getCategoryShelf(label, { sinceDays: 30, limit: 12 }).catch(() => []);
+      return [label, rows.filter((a) => a?.slug && !seen.has(a.slug)).slice(0, SHELF_SIZE).map(toFeed)] as const;
+    })
+  );
+  const shelf: Record<string, FeedArticle[]> = Object.fromEntries(shelves);
 
   return (
     <>
       <TextureBg />
       <Navbar />
       <div className="perty-page">
-        <PerTyFeed pool={pool} />
+        <PerTyFeed pool={pool} shelf={shelf} />
       </div>
       <Footer />
     </>
