@@ -38,6 +38,8 @@ import { track } from "@/lib/analytics";
 import { createClient } from "@/lib/supabase/client";
 import styles from "./visit-v2.module.css";
 import DardaniImage from "@/components/dardani/dardani-image";
+import LangToggle from "@/components/xhep/lang-toggle";
+import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
 
 type WaitRange = { min: number; max: number };
 type OfficialWait = {
@@ -184,7 +186,8 @@ async function imageAsDataUrl(path: string) {
   }
 }
 
-export default function VisitV2Experience() {
+export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) {
+  const t = xhepDict(lang).hero;
   const [mode, setMode] = useState<"border" | "city">("border");
   const [borderPayload, setBorderPayload] = useState<BorderPayload | null>(null);
   const [borderLoading, setBorderLoading] = useState(true);
@@ -368,31 +371,32 @@ export default function VisitV2Experience() {
 
   return (
     <main className={styles.visitShell}>
-      <a className={styles.skipLink} href="#visit-tools">Kalo te mjetet e udhëtimit</a>
-      <a className={styles.floatingEmergency} href="tel:112"><Phone aria-hidden="true" size={18} /><span>Ndihmë tani</span><strong>112</strong></a>
+      <a className={styles.skipLink} href="#visit-tools">{t.skipToTools}</a>
+      <a className={styles.floatingEmergency} href="tel:112"><Phone aria-hidden="true" size={18} /><span>{t.helpNow}</span><strong>112</strong></a>
 
       <section className={styles.visitHero} aria-labelledby="visit-v2-title">
         <div className={styles.heroCopy}>
+          <LangToggle lang={lang} />
           <div className="visit-dardani">
             <DardaniImage name="diaspora" decorative priority />
-            <span>Mirë se erdhe në shtëpi</span>
+            <span>{t.greeting}</span>
           </div>
-          <h1 id="visit-v2-title"><span>Kosova</span> në xhep, para kufirit.</h1>
-          <p className={styles.heroLead}>Pritjet në kufi, ndihma pranë teje dhe vendet që ia vlen t&apos;i shohësh.</p>
-          <a className={styles.heroEmergency} href="tel:112"><Phone aria-hidden="true" size={20} />Ndihmë tani - 112</a>
-          <div className={styles.modeSwitch} aria-label="Zgjidh llojin e kartës">
-            <button className={mode === "border" ? styles.modeActive : ""} onClick={() => { setMode("border"); document.getElementById("border-card")?.scrollIntoView({ behavior: "smooth", block: "start" }); }}><CircleGauge aria-hidden="true" size={20} /><span><strong>Karta e kufirit</strong><small>Pritjet dhe ndihma afër</small></span><ArrowRight aria-hidden="true" size={17} /></button>
-            <button className={mode === "city" ? styles.modeActive : ""} onClick={() => { setMode("city"); document.getElementById("city-card")?.scrollIntoView({ behavior: "smooth", block: "start" }); }}><MapPinned aria-hidden="true" size={20} /><span><strong>Karta e qytetit</strong><small>Pesë vende për çdo qytet</small></span><ArrowRight aria-hidden="true" size={17} /></button>
+          <h1 id="visit-v2-title"><span>{t.titleLead}</span> {t.titleRest}</h1>
+          <p className={styles.heroLead}>{t.lead}</p>
+          <a className={styles.heroEmergency} href="tel:112"><Phone aria-hidden="true" size={20} />{t.emergency}</a>
+          <div className={styles.modeSwitch} aria-label={t.modeLabel}>
+            <button className={mode === "border" ? styles.modeActive : ""} onClick={() => { setMode("border"); document.getElementById("border-card")?.scrollIntoView({ behavior: "smooth", block: "start" }); }}><CircleGauge aria-hidden="true" size={20} /><span><strong>{t.borderMode}</strong><small>{t.borderModeHint}</small></span><ArrowRight aria-hidden="true" size={17} /></button>
+            <button className={mode === "city" ? styles.modeActive : ""} onClick={() => { setMode("city"); document.getElementById("city-card")?.scrollIntoView({ behavior: "smooth", block: "start" }); }}><MapPinned aria-hidden="true" size={20} /><span><strong>{t.cityMode}</strong><small>{t.cityModeHint}</small></span><ArrowRight aria-hidden="true" size={17} /></button>
           </div>
-          <p className={styles.privacyLine}><ShieldCheck aria-hidden="true" size={15} />Pa llogari. Vendndodhja kërkohet vetëm kur e zgjedh ti.</p>
+          <p className={styles.privacyLine}><ShieldCheck aria-hidden="true" size={15} />{t.privacy}</p>
         </div>
         <div className={styles.heroMap}><KosovoFieldMap /></div>
         <div className={styles.heroUtilityPreview}>
-          <div><span>Pikat kufitare dhe pritjet</span><strong>{borderLoading ? "Po përditësohet..." : "Përditësim automatik"}</strong></div>
+          <div><span>{t.waitsTitle}</span><strong>{borderLoading ? t.refreshing : t.autoRefresh}</strong></div>
           {BORDER_CROSSINGS.map((crossing) => {
             const wait = borderPayload?.official.find((item) => item.crossingId === crossing.id);
             const minutes = wait ? Math.max(wait.entry.max, wait.exit.max) : 0;
-            return <span key={crossing.id}><b>{crossing.name}</b><WaitMeter minutes={wait ? minutes : null} /><em>{wait ? `${minutes} min` : "Pa të dhëna"}</em></span>;
+            return <span key={crossing.id}><b>{crossing.name}</b><WaitMeter minutes={wait ? minutes : null} /><em>{wait ? `${minutes} min` : t.noData}</em></span>;
           })}
         </div>
       </section>

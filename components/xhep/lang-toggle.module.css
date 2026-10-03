@@ -1,0 +1,47 @@
+/* EN / SQ switch for Kosova në xhep, in the Visit world's cream, ink and orange. */
+.toggle {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  margin-bottom: 18px;
+  border: 1px solid #d5cec4;
+  border-radius: 999px;
+  background: rgba(255, 254, 250, 0.72);
+}
+
+.toggle a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 999px;
+  color: #65615b;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.toggle a:hover {
+  color: #191816;
+}
+
+.toggle .active {
+  background: #191816;
+  color: #fffefa;
+}
+
+.toggle .active:hover {
+  color: #fffefa;
+}
+
+.toggle a:focus-visible {
+  outline: 3px solid rgba(255, 68, 34, 0.28);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle a {
+    transition: none;
+  }
+}
