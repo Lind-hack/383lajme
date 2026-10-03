@@ -17,12 +17,14 @@ import { Check, Download, Link2, Share2 } from "lucide-react";
 import { track } from "@/lib/analytics";
 import { encodeSnapshot } from "@/lib/paper-snapshot.mjs";
 import { kosovoDateKey } from "@/lib/home-tregu.mjs";
-import { paperName } from "@/lib/reader-name.mjs";
+import { paperTitle, sharedTitle } from "@/lib/reader-name.mjs";
 import type { PaperPrefs } from "@/lib/paper-prefs.mjs";
 import DardaniImage from "@/components/dardani/dardani-image";
 import Sheet from "./sheet";
 
 export type ShareablePaper = {
+  title: string;
+  leadKey: string;
   edition: string[];
   sections: { key: string; slugs: string[] }[];
 };
@@ -123,6 +125,8 @@ export default function ShareSheet({
         ? encodeSnapshot({
             date,
             name: showName ? name : "",
+            title: paper.title,
+            leadKey: paper.leadKey,
             style: prefs.style,
             accent: prefs.accent,
             edition: paper.edition,
@@ -159,7 +163,7 @@ export default function ShareSheet({
   const url = `${origin}/gazeta/${code}`;
   const feedImg = `/api/og/gazeta/${code}?f=feed`;
   const storyImg = `/api/og/gazeta/${code}?f=story`;
-  const title = showName && name ? paperName(name) : "Gazeta ime";
+  const title = sharedTitle(showName ? name : "", paper.title);
   const text = `${title} për sot në 383 📰 Lajmet që zgjodha unë:`;
   const file = `383-gazeta-${date}`;
 
@@ -246,7 +250,7 @@ export default function ShareSheet({
       <label className="perty-cz-switch perty-share-name">
         <span>
           Shfaq emrin tim
-          <small>{name ? `«${paperName(name)}»` : "Ende s'ke vendosur emër"}</small>
+          <small>{name ? `«${paperTitle(name, paper.title)}»` : "Ende s'ke vendosur emër"}</small>
         </span>
         <input
           type="checkbox"

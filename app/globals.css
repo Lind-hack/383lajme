@@ -22480,34 +22480,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .perty-paper ::selection { background: var(--pp-accent-line); color: var(--pp-ink); }
 
 /* The nameplate: "Gazeta e Lindit", the reader's own paper. */
-.perty-mast { padding-bottom: 14px; }
-.perty-mast-plate {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 14px;
-  padding-bottom: 12px;
-  border-bottom: 4px double var(--pp-ink);
-}
 .perty-mast-dardani { height: 76px; }
-.perty-mast-name {
-  justify-self: center;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--pp-ink);
-  font-family: var(--pp-plate-font);
-  font-size: clamp(30px, 6.4vw, 66px);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  text-align: center;
-  text-wrap: balance;
-  cursor: pointer;
-}
-.perty-paper[data-style="moderne"] .perty-mast-name { font-weight: 800; letter-spacing: -0.045em; }
-.perty-mast-name:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 4px; border-radius: 8px; }
-.perty-mast-actions { display: flex; gap: 8px; }
 .perty-mast-btn {
   display: inline-flex;
   align-items: center;
@@ -22529,24 +22502,6 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .perty-mast-btn--share { border-color: var(--pp-accent); background: var(--pp-accent); color: #FFFFFF; }
 .perty-mast-btn:active { transform: scale(0.96); }
 .perty-mast-btn:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 3px; }
-.perty-mast-folio {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2px 0;
-  margin: 8px 0 0;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--pp-ink);
-  color: var(--pp-muted);
-  font-size: 12.5px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-variant-numeric: tabular-nums;
-}
-.perty-mast-folio > span + span::before { content: "·"; margin: 0 10px; color: var(--pp-rule); }
-.perty-mast-issue { color: var(--pp-accent-ink); }
-.perty-mast-date { color: var(--pp-ink); }
 .perty-mast-hello { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin-top: 16px; }
 .perty-ed-hello {
   margin: 0;
@@ -22590,6 +22545,198 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .perty-ed-name-form input:focus-visible,
 .perty-cz-name input:focus-visible { outline: none; border-color: var(--pp-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pp-accent) 22%, transparent); }
 .perty-ed-name-form .perty-btn { min-height: 44px; padding: 0 18px; font-size: 14px; }
+
+/* The cover: the reader's paper as a newsstand front page. */
+.perty-cover {
+  position: relative;
+  padding: 14px 18px 0;
+  border: 1px solid var(--pp-rule);
+  border-radius: 6px;
+  background: var(--pp-sheet, #FBF8F4);
+  box-shadow: 0 1px 0 var(--pp-rule), 0 18px 40px rgba(64, 40, 20, 0.1);
+  color: var(--pp-ink);
+}
+.perty-paper[data-style="moderne"] { --pp-sheet: #FFFFFF; }
+.perty-paper[data-style="nate"] { --pp-sheet: #1C1714; }
+.perty-cover-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 44px;
+}
+.perty-cover-folio {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+  color: var(--pp-muted);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+.perty-cover-folio b { color: var(--pp-accent-ink); }
+.perty-cover-actions { display: flex; gap: 8px; }
+.perty-cover-title {
+  margin: 6px 0 0;
+  color: var(--pp-ink);
+  font-family: var(--pp-plate-font);
+  font-size: clamp(40px, 11.5vw, 96px);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-align: center;
+  text-wrap: balance;
+}
+.perty-paper[data-style="moderne"] .perty-cover-title { font-weight: 800; letter-spacing: -0.055em; }
+.perty-cover-title button { padding: 0; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; }
+.perty-cover-title button:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 4px; border-radius: 8px; }
+.perty-cover-title--bare { padding: 18px 0 14px; border-bottom: 4px double var(--pp-ink); }
+.perty-cover-tagline {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 10px 0 0;
+  padding: 6px 0;
+  border-top: 3px solid var(--pp-ink);
+  border-bottom: 1px solid var(--pp-ink);
+  color: var(--pp-muted);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.perty-cover-tagline span:first-child { color: var(--pp-accent-ink); }
+.perty-cover-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 38fr) minmax(0, 62fr);
+  grid-template-areas: "word art" "story story";
+  column-gap: 12px;
+  padding-top: 14px;
+  color: inherit;
+  text-decoration: none;
+}
+.perty-cover-hero:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 4px; border-radius: 4px; }
+.perty-cover:not([data-has-art]) .perty-cover-hero { grid-template-areas: "word word" "story story"; }
+.perty-cover-word {
+  grid-area: word;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  container-type: inline-size;
+}
+.perty-cover-word > span {
+  display: block;
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-size: calc(100cqw / (var(--len) * 0.66));
+  font-weight: 800;
+  line-height: 0.86;
+  letter-spacing: -0.04em;
+  color: var(--pp-ink);
+  overflow-wrap: normal;
+}
+.perty-cover[data-has-art] .perty-cover-word > span {
+  background-color: var(--pp-ink);
+  background-position: center;
+  background-size: cover;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* The letters keep a shape even where the picture is pale. */
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--pp-ink) 30%, transparent);
+}
+.perty-cover-art {
+  grid-area: art;
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--pp-chip);
+}
+.perty-cover-ai {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.7);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+}
+.perty-cover-story { grid-area: story; display: flex; flex-direction: column; gap: 8px; padding: 14px 0 16px; }
+.perty-cover-story strong {
+  color: var(--pp-ink);
+  font-family: var(--pp-head-font);
+  font-size: clamp(24px, 3.4vw, 36px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.perty-paper[data-style="moderne"] .perty-cover-story strong { font-weight: 800; letter-spacing: -0.035em; }
+.perty-cover-story > span {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--pp-soft-text);
+  font-family: var(--font-garamond), Georgia, serif;
+  font-size: 17px;
+  line-height: 1.45;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.perty-cover-story em { display: inline-flex; align-items: center; gap: 6px; color: var(--pp-accent-ink); font-size: 14px; font-style: normal; font-weight: 800; }
+.perty-cover-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0 12px;
+  border-top: 3px solid var(--pp-ink);
+  color: var(--pp-muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.perty-cover-foot > span:last-child { margin-left: auto; }
+.perty-cover-barcode { width: 84px; height: 26px; fill: var(--pp-ink); }
+.perty-hello { display: flex; align-items: center; gap: 12px; margin-top: 18px; }
+.perty-hello .perty-ed-name-form { margin: 0; }
+.perty-hello .perty-mast-hello { margin: 0; }
+.perty-cz-titles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.perty-cz-title { position: relative; cursor: pointer; }
+.perty-cz-title input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.perty-cz-title span {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 2px solid var(--pp-rule);
+  border-radius: 12px;
+  color: var(--pp-ink);
+  font-family: var(--font-garamond), Georgia, serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+.perty-cz-title input:checked + span { border-color: var(--pp-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pp-accent) 18%, transparent); }
+.perty-cz-title input:focus-visible + span { outline: 2px solid var(--pp-accent); outline-offset: 2px; }
+@media (min-width: 1024px) {
+  .perty-cover { padding: 18px 32px 0; }
+  .perty-cover-hero { grid-template-columns: minmax(0, 40fr) minmax(0, 60fr); grid-template-areas: "word art" "story art"; column-gap: 28px; }
+  .perty-cover-art { aspect-ratio: auto; min-height: 520px; }
+  .perty-cover-story { justify-content: flex-end; padding-bottom: 20px; }
+  .perty-cover-story > span { -webkit-line-clamp: 6; }
+}
+@media (max-width: 640px) {
+  .perty-cover { margin: 0 -6px; padding: 10px 12px 0; }
+  .perty-cover-actions .perty-mast-btn { width: 44px; min-width: 44px; }
+  .perty-cover-tagline { font-size: 10.5px; letter-spacing: 0.06em; }
+  .perty-cover-foot > span:nth-child(2) { font-size: 10px; }
+}
 
 /* What Dardani noticed: one soft line under the masthead, only when true. */
 .perty-ed-say {
@@ -22691,62 +22838,6 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .perty-ed-bar { display: block; width: 64px; height: 6px; overflow: hidden; border-radius: 3px; background: var(--pp-chip); }
 .perty-ed-bar i { display: block; height: 100%; border-radius: 3px; background: var(--pp-accent); transition: width 300ms var(--ease-out); }
 
-.perty-lead {
-  display: grid;
-  gap: 12px;
-  padding: 16px 0 18px;
-  border-bottom: 1px solid var(--pp-rule-soft);
-  color: inherit;
-  text-decoration: none;
-}
-.perty-lead:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 4px; border-radius: 14px; }
-.perty-lead-img {
-  position: relative;
-  display: block;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border-radius: 18px;
-  background: var(--pp-chip);
-}
-.perty-lead-n {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: var(--pp-ink);
-  color: var(--pp-card);
-  font-size: 15px;
-  font-weight: 800;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-}
-.perty-lead-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.perty-lead-body > .perty-ed-n { margin-bottom: 2px; }
-.perty-lead-title {
-  color: var(--pp-ink);
-  font-family: var(--pp-head-font);
-  font-size: clamp(25px, 3.4vw, 36px);
-  font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
-}
-.perty-paper[data-style="moderne"] .perty-lead-title { font-weight: 800; letter-spacing: -0.035em; }
-.perty-lead-excerpt {
-  display: -webkit-box;
-  overflow: hidden;
-  color: var(--pp-soft-text);
-  font-size: 16px;
-  line-height: 1.55;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-}
-.perty-lead[data-read] .perty-lead-n { background: var(--pp-read-soft); color: var(--pp-read); backdrop-filter: blur(6px); }
-.perty-lead[data-read] .perty-lead-title { color: var(--pp-faint); }
-.perty-lead[data-read] .perty-lead-img { opacity: 0.6; }
 
 .perty-ed-list { margin: 0; padding: 0; list-style: none; }
 .perty-ed-list li + li { border-top: 1px solid var(--pp-rule-soft); }
@@ -22795,8 +22886,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   background: var(--pp-chip);
 }
 /* Read: still there, quieter, with a tick where its number was. */
-.perty-ed-row[data-read] .perty-ed-n,
-.perty-lead[data-read] .perty-lead-body > .perty-ed-n { background: var(--pp-read-soft); color: var(--pp-read); }
+.perty-ed-row[data-read] .perty-ed-n { background: var(--pp-read-soft); color: var(--pp-read); }
 .perty-ed-row[data-read] .perty-ed-title { color: var(--pp-faint); }
 .perty-ed-row[data-read] .perty-ed-thumb { opacity: 0.55; }
 .perty-item-meta { color: var(--pp-muted); }
@@ -23324,14 +23414,11 @@ button.perty-box:focus-visible { outline: 2px solid var(--pp-accent); outline-of
 }
 @media (hover: hover) and (pointer: fine) {
   .perty-ed-row:hover .perty-ed-title,
-  .perty-lead:hover .perty-lead-title,
   .perty-sec-top:hover strong,
   .perty-sec-row:hover strong,
   .perty-tregu:hover strong,
   .perty-brief a:hover { color: var(--pp-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-  .perty-lead:hover .perty-lead-img img,
   .perty-sec-top:hover .perty-sec-img img { transform: scale(1.025); }
-  .perty-lead-img img,
   .perty-sec-img img { transition: transform 500ms var(--ease-out); }
   .perty-mast-btn:hover { border-color: var(--pp-ink); }
   .perty-mast-btn--share:hover { border-color: var(--pp-accent); filter: brightness(1.06); }
@@ -23339,24 +23426,15 @@ button.perty-box:focus-visible { outline: 2px solid var(--pp-accent); outline-of
 }
 @media (max-width: 640px) {
   .perty-paper[data-style="nate"] { margin: 0 -8px; padding: 16px 14px 6px; border-radius: 22px; }
-  .perty-mast-plate { gap: 8px; }
   .perty-mast-dardani { height: 54px; }
-  .perty-mast-name { font-size: clamp(26px, 8vw, 36px); }
   /* The buttons shrink to their icons; the labels stay for screen readers. */
   .perty-mast-btn { width: 44px; padding: 0; }
   .perty-mast-btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  .perty-mast-actions { gap: 6px; }
-  .perty-mast-folio { font-size: 11px; letter-spacing: 0.06em; }
-  .perty-mast-folio > span + span::before { margin: 0 7px; }
   .perty-ed-name-form input { flex: 1 1 140px; width: auto; }
   .perty-ed-say { font-size: 14px; align-items: flex-start; }
   .perty-brief { margin-top: 16px; padding: 12px 14px 2px; }
   .perty-brief a { font-size: 15px; }
   .perty-ed { margin-top: 20px; }
-  .perty-lead { padding-top: 14px; }
-  .perty-lead-img { margin: 0 -2px; border-radius: 16px; }
-  .perty-lead-title { font-size: 25px; }
-  .perty-lead-excerpt { font-size: 15px; -webkit-line-clamp: 2; }
   .perty-ed-row { grid-template-columns: 26px minmax(0, 1fr) auto; gap: 12px; padding: 14px 0; }
   .perty-ed-n { width: 26px; height: 26px; font-size: 12.5px; }
   .perty-ed-title { font-size: 16.5px; }
@@ -23384,9 +23462,6 @@ button.perty-box:focus-visible { outline: 2px solid var(--pp-accent); outline-of
 }
 
 /* /gazeta/<code>: a friend's shared front page, with one way to make your own. */
-.perty-mast-plate--shared { grid-template-columns: auto minmax(0, 1fr) auto; }
-.perty-mast-plate--shared::after { content: ""; width: 76px; }
-.gazeta-shared .perty-mast-name { cursor: default; margin: 0; }
 .gazeta-invite {
   display: flex;
   flex-wrap: wrap;
@@ -23423,7 +23498,6 @@ button.perty-box:focus-visible { outline: 2px solid var(--pp-accent); outline-of
 .gazeta-expired p { max-width: 460px; margin: 0 0 8px; color: var(--pp-soft-text); font-size: 16px; line-height: 1.5; }
 .gazeta-expired-img { height: 160px; }
 @media (max-width: 640px) {
-  .perty-mast-plate--shared::after { width: 54px; }
   .gazeta-cta { font-size: 14px; }
 }
 
@@ -23433,12 +23507,11 @@ button.perty-box:focus-visible { outline: 2px solid var(--pp-accent); outline-of
   animation: perty-print 460ms var(--ease-out) both;
   animation-delay: calc(min(var(--i, 0), 14) * 55ms);
 }
-.perty-paper[data-print-run] .perty-mast-name { animation: perty-ink 700ms var(--ease-out) 120ms both; }
+.perty-paper[data-print-run] .perty-cover-title { animation: perty-ink 700ms var(--ease-out) 120ms both; }
 @keyframes perty-print { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 @keyframes perty-ink { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 -2% 0 0); } }
 /* A story opened since the page was last drawn: its tick pops in. */
-[data-just-read] .perty-ed-n,
-[data-just-read] .perty-lead-n { animation: perty-tick 560ms cubic-bezier(0.34, 1.56, 0.64, 1) 250ms both; }
+[data-just-read] .perty-ed-n { animation: perty-tick 560ms cubic-bezier(0.34, 1.56, 0.64, 1) 250ms both; }
 @keyframes perty-tick { from { transform: scale(0.4); opacity: 0.4; } to { transform: none; opacity: 1; } }
 /* Everything read: Dardani celebrates, once. */
 .perty-end[data-all-read] .perty-end-img--cheer { animation: perty-cheer 900ms cubic-bezier(0.34, 1.56, 0.64, 1) both; transform-origin: 50% 90%; }
@@ -23447,9 +23520,8 @@ button.perty-box:focus-visible { outline: 2px solid var(--pp-accent); outline-of
 @media (prefers-reduced-motion: reduce) {
   .perty-brief-loading i,
   .perty-paper[data-print-run] [data-print],
-  .perty-paper[data-print-run] .perty-mast-name,
+  .perty-paper[data-print-run] .perty-cover-title,
   [data-just-read] .perty-ed-n,
-  [data-just-read] .perty-lead-n,
   .perty-end[data-all-read] .perty-end-img--cheer,
   .perty-share-wait-img,
   .perty-sheet[open],
@@ -23461,7 +23533,6 @@ button.perty-box:focus-visible { outline: 2px solid var(--pp-accent); outline-of
   .perty-cz-switch input::before,
   .perty-share-btn,
   .perty-share-preview img,
-  .perty-lead-img img,
   .perty-sec-img img { transition: none; }
 }
 

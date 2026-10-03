@@ -1,7 +1,7 @@
 "use client";
 
-// The front of the reader's paper: the lead story big, then the rest of the
-// edition as numbered rows. The lead is the edition's first story, shown once.
+// The rest of the reader's edition under the cover: stories 2..n as numbered
+// rows. Story one is the cover's (paper/cover), so it is never listed twice.
 //
 // Shared with the public snapshot (/gazeta), which passes `readOnly`: no
 // reasons, no "E re" or "Lexuar", no progress — those describe the sharer's
@@ -80,7 +80,6 @@ export default function FrontPage({
   if (!lead) return null;
   return (
     <>
-      <Lead item={lead} seen={seen} readOnly={readOnly} print={printFrom} />
       {rest.length > 0 && (
         <ol className="perty-ed-list" start={2}>
           {rest.map((item, i) => (
@@ -91,54 +90,6 @@ export default function FrontPage({
         </ol>
       )}
     </>
-  );
-}
-
-/** Story one: the picture across the column, the headline under it. */
-function Lead({ item, seen, readOnly, print }: { item: FrontItem; seen: Seen; readOnly: boolean; print: number }) {
-  const { article, reason } = item;
-  const isRead = !readOnly && seen.read.has(article.slug);
-  return (
-    <Link
-      href={`/article/${article.slug}`}
-      className="perty-lead"
-      data-read={isRead || undefined}
-      data-just-read={(isRead && seen.justRead.has(article.slug)) || undefined}
-      data-print
-      style={{ "--i": print } as React.CSSProperties}
-    >
-      {article.imageUrl ? (
-        <span className="perty-lead-img">
-          <Image
-            src={article.imageUrl}
-            alt=""
-            fill
-            priority
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 760px"
-            style={{ objectFit: "cover" }}
-          />
-          <span className="perty-lead-n" aria-hidden="true">
-            {isRead ? <Check size={16} strokeWidth={3} /> : 1}
-          </span>
-        </span>
-      ) : null}
-      <span className="perty-lead-body">
-        {!article.imageUrl && (
-          <span className="perty-ed-n" aria-hidden="true">
-            {isRead ? <Check size={15} strokeWidth={3} /> : 1}
-          </span>
-        )}
-        {!readOnly && (
-          <span className="perty-ed-reason">
-            {reason}
-            <Mark article={article} seen={seen} />
-          </span>
-        )}
-        <strong className="perty-lead-title">{article.title}</strong>
-        {article.excerpt && <span className="perty-lead-excerpt">{article.excerpt}</span>}
-        <Meta article={article} />
-      </span>
-    </Link>
   );
 }
 

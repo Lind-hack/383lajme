@@ -36,7 +36,7 @@ import { cityById } from "@/lib/cities.mjs";
 import { nextStreak, STREAK_KEY } from "@/lib/perty-streak.mjs";
 import { forgetVisits, readSlugs, recordVisit } from "@/lib/perty-visits.mjs";
 import { daysWithUs, forgetLedger, kosovoParts, noteVisit, readLedger, summarize } from "@/lib/reader-ledger.mjs";
-import { readName, writeName } from "@/lib/reader-name.mjs";
+import { defaultTitle, paperTitle, readName, writeName } from "@/lib/reader-name.mjs";
 import { absence, followUp } from "@/lib/perty-dardani-line.mjs";
 import { lastMonth, monthLabel } from "@/lib/monthly-wrapped.mjs";
 import { kosovoDateKey } from "@/lib/home-tregu.mjs";
@@ -49,6 +49,7 @@ import DardaniFace from "@/components/dardani/dardani-face";
 import Onboarding from "./onboarding";
 import MorningPush from "./morning-push";
 import Masthead from "./paper/masthead";
+import Cover, { dateline } from "./paper/cover";
 import FrontPage, { type Seen } from "./paper/front-page";
 import PaperSection from "./paper/section";
 import { AllReadCheer, CityBox, DardaniBrief, NumbersBox, TreguBox } from "./paper/boxes";
@@ -152,6 +153,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
   // The reader's own paper: the name they gave this device (it wins over the
   // account's), the number of days they have come, and how long they were away.
   const [deviceName, setDeviceName] = useState("");
+  const [naming, setNaming] = useState(false);
   const [issue, setIssue] = useState(0);
   const [monthReads, setMonthReads] = useState(0);
   const [away, setAway] = useState<{ missed: number; last: string } | null>(null);
@@ -235,13 +237,15 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
   // sections with stories, two each.
   const shareable = useMemo<ShareablePaper>(
     () => ({
+      title: prefs?.title || defaultTitle(deviceName || name),
+      leadKey: paper.edition[0]?.primaryKey ?? "",
       edition: paper.edition.map((i) => i.article.slug),
       sections: paper.sections
         .filter((s) => !s.empty)
         .slice(0, 4)
         .map((s) => ({ key: s.key, slugs: s.items.slice(0, 2).map((i) => i.article.slug) })),
     }),
-    [paper]
+    [paper, prefs?.title, deviceName, name]
   );
 
   // The last 24 hours rather than "today": just after midnight a calendar day
@@ -317,15 +321,29 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
       data-accent={prefs.accent}
       data-print-run={print || undefined}
     >
+      {edition[0] ? (
+        <Cover
+          title={paperTitle(displayName, prefs.title)}
+          onRename={() => setNaming(true)}
+          issue={issue}
+          date={dateline(now)}
+          count={edition.length}
+          minutes={minutes}
+          lead={edition[0].article}
+          leadKey={edition[0].primaryKey}
+          onShare={canShare ? () => setSharing(true) : null}
+          onCustomize={() => setCustomizing(true)}
+        />
+      ) : (
+        <h1 className="perty-cover-title perty-cover-title--bare">{paperTitle(displayName, prefs.title)}</h1>
+      )}
+
       <Masthead
         name={displayName}
-        issue={issue}
         now={now}
-        count={edition.length}
-        minutes={minutes}
+        naming={naming}
+        setNaming={setNaming}
         onRename={(value) => setDeviceName(writeName(value))}
-        onCustomize={() => setCustomizing(true)}
-        onShare={canShare ? () => setSharing(true) : null}
       />
 
       {(away || next) && (
@@ -414,7 +432,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
                   {readCount} / {edition.length} lexuar
                 </p>
               </header>
-              <FrontPage items={edition} seen={seen} printFrom={2} />
+              <FrontPage items={edition} seen={seen} printFrom={3} />
             </section>
           </div>
 

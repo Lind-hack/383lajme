@@ -8,6 +8,9 @@ export declare const EXPIRES_DAYS: number;
 export interface Snapshot {
   date: string;
   name: string;
+  title: string;
+  /** Why the lead leads: a section key, or "" for a general top story. */
+  leadKey: string;
   style: string;
   accent: string;
   edition: string[];
@@ -17,6 +20,8 @@ export interface Snapshot {
 export function encodeSnapshot(paper: {
   date: string;
   name?: string;
+  title?: string;
+  leadKey?: string;
   style?: string;
   accent?: string;
   edition: readonly string[];

@@ -5,6 +5,8 @@ export type PaperBox = "brief" | "city" | "tregu" | "numbers";
 
 export interface PaperPrefs {
   v: number;
+  /** A TITLES id from lib/reader-name.mjs, or "" for the name's default. */
+  title: string;
   style: PaperStyle;
   accent: PaperAccent;
   length: PaperLength;

@@ -10,6 +10,7 @@
 import { ArrowDown, ArrowUp, Eye, EyeOff, Plus } from "lucide-react";
 import { ACCENTS, LENGTHS, STYLES, moveKey, type PaperAccent, type PaperBox, type PaperPrefs, type PaperStyle } from "@/lib/paper-prefs.mjs";
 import { describeSection } from "@/lib/per-ty-paper.mjs";
+import { TITLES, defaultTitle, paperTitle } from "@/lib/reader-name.mjs";
 import Sheet from "./sheet";
 
 const STYLE_LABEL: Record<PaperStyle, { name: string; note: string }> = {
@@ -82,6 +83,21 @@ export default function CustomizeSheet({
           }}
         />
       </form>
+
+      <fieldset className="perty-cz-group">
+        <legend>Titulli i gazetës</legend>
+        <div className="perty-cz-titles">
+          {TITLES.map((t) => {
+            const chosen = (prefs.title || defaultTitle(name)) === t.id;
+            return (
+              <label key={t.id} className="perty-cz-title">
+                <input type="radio" name="perty-title" value={t.id} checked={chosen} onChange={() => set({ title: t.id })} />
+                <span>{paperTitle(name, t.id)}</span>
+              </label>
+            );
+          })}
+        </div>
+      </fieldset>
 
       <fieldset className="perty-cz-group">
         <legend>Pamja</legend>

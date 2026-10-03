@@ -17,9 +17,10 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import DardaniImage from "@/components/dardani/dardani-image";
 import { loadSharedPaper } from "@/lib/paper-snapshot-server";
-import { genitive, paperName } from "@/lib/reader-name.mjs";
+import { sharedTitle } from "@/lib/reader-name.mjs";
 import type { Article } from "@/lib/mock-data";
 import FrontPage from "@/app/per-ty/paper/front-page";
+import Cover from "@/app/per-ty/paper/cover";
 import PaperSection from "@/app/per-ty/paper/section";
 import type { FeedArticle } from "@/app/per-ty/per-ty-feed";
 
@@ -48,17 +49,13 @@ function toFeed(a: Article): FeedArticle {
   };
 }
 
-/** "Gazeta e Lindit", or a neutral title when the sharer kept their name off. */
-function plate(name: string) {
-  return name && genitive(name) ? paperName(name) : "Gazeta e një lexuesi";
-}
 
 export async function generateMetadata({ params }: { params: Promise<{ code: string }> }): Promise<Metadata> {
   const { code } = await params;
   const paper = await loadSharedPaper(code);
   const robots = { index: false, follow: false };
   if (paper.status !== "ok") return { title: "Gazeta", robots };
-  const title = `${plate(paper.snapshot.name)} · ${dayLabel(paper.snapshot.date)}`;
+  const title = `${sharedTitle(paper.snapshot.name, paper.snapshot.title)} · ${dayLabel(paper.snapshot.date)}`;
   const who = paper.snapshot.name || "Një lexues";
   const description = `${paper.edition.length} lajmet që ${who} zgjodhi në 383. Bëj gazetën tënde, me lajmet që ndjek ti.`;
   const image = { url: `/api/og/gazeta/${code}?f=feed`, width: 1080, height: 1350 };
@@ -96,19 +93,15 @@ export default async function SharedPaperPage({ params }: { params: Promise<{ co
             data-style={paper.snapshot.style}
             data-accent={paper.snapshot.accent}
           >
-            <header className="perty-mast">
-              <div className="perty-mast-plate perty-mast-plate--shared">
-                <DardaniImage name="standing-alt" decorative className="perty-mast-dardani" />
-                <h1 className="perty-mast-name">{plate(paper.snapshot.name)}</h1>
-              </div>
-              <p className="perty-mast-folio">
-                <span className="perty-mast-date">{dayLabel(paper.snapshot.date)}</span>
-                <span>
-                  {paper.edition.length} {paper.edition.length === 1 ? "lajm" : "lajme"}
-                </span>
-                <span>383ks.com</span>
-              </p>
-            </header>
+            <Cover
+              readOnly
+              title={sharedTitle(paper.snapshot.name, paper.snapshot.title)}
+              issue={0}
+              date={dayLabel(paper.snapshot.date)}
+              count={paper.edition.length}
+              lead={toFeed(paper.edition[0])}
+              leadKey={paper.snapshot.leadKey}
+            />
 
             <aside className="gazeta-invite">
               <p>
