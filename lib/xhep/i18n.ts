@@ -47,6 +47,7 @@ type XhepDict = {
     autoRefresh: string;
     noData: string;
   };
+  map: { label: string; country: string; stampTop: string; stampBottom: string; disclaimer: string; disclaimerCompact: string };
   common: {
     kosovo: string;
     countries: Record<CrossingId, string>;
@@ -171,7 +172,7 @@ type XhepDict = {
 export const XHEP_DICT = {
   en: {
     meta: {
-      title: "Kosova në xhep: border waits and city guide | 383",
+      title: "Kosova në xhep: border waits and city guide",
       description:
         "Live Kosovo border waits, nearby emergency services and downloadable city travel cards for visitors and the diaspora.",
     },
@@ -181,8 +182,8 @@ export const XHEP_DICT = {
       helpNow: "Help now",
       greeting: "Welcome to Kosovo",
       titleLead: "Kosova",
-      titleRest: "në xhep — Kosovo in your pocket.",
-      lead: "Border waits, help near you, and the places worth seeing.",
+      titleRest: "në xhep.",
+      lead: "Kosovo in your pocket: border waits, help near you, and the places worth seeing.",
       emergency: "Help now - 112",
       modeLabel: "Choose a card",
       borderMode: "Border card",
@@ -194,6 +195,14 @@ export const XHEP_DICT = {
       refreshing: "Updating...",
       autoRefresh: "Updates automatically",
       noData: "No data",
+    },
+    map: {
+      label: "Stylized map of Kosovo with the main cities",
+      country: "KOSOVO",
+      stampTop: "WELCOME",
+      stampBottom: "to Kosovo",
+      disclaimer: "Stylized border · © OpenStreetMap contributors · Not for navigation",
+      disclaimerCompact: "Stylized map - not for navigation",
     },
     common: {
       kosovo: "Kosovo",
@@ -329,7 +338,7 @@ export const XHEP_DICT = {
   },
   sq: {
     meta: {
-      title: "Kosova në xhep: pritjet në kufi dhe udhërrëfyesi i qyteteve | 383",
+      title: "Kosova në xhep: pritjet në kufi dhe udhërrëfyesi i qyteteve",
       description:
         "Pritjet live në kufijtë e Kosovës, shërbimet emergjente pranë teje dhe karta qytetesh për vizitorët dhe diasporën.",
     },
@@ -352,6 +361,14 @@ export const XHEP_DICT = {
       refreshing: "Po përditësohet...",
       autoRefresh: "Përditësim automatik",
       noData: "Pa të dhëna",
+    },
+    map: {
+      label: "Hartë e stilizuar e Kosovës me qytetet kryesore",
+      country: "KOSOVË",
+      stampTop: "MIRË SE VJEN",
+      stampBottom: "Në Kosovë",
+      disclaimer: "Kufi i stilizuar · © OpenStreetMap contributors · Jo për navigim",
+      disclaimerCompact: "Hartë e stilizuar - jo për navigim",
     },
     common: {
       kosovo: "Kosovë",

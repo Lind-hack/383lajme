@@ -137,14 +137,14 @@ function ExactPlaceVisual({ place, Icon, d }: { place: NearbyPlace; Icon: Compon
   </div>;
 }
 
-function CityGuide({ city, d }: { city: KosovoCity; d: Dict }) {
+function CityGuide({ city, d, lang }: { city: KosovoCity; d: Dict; lang: XhepLang }) {
   const headerStyle = { "--city-image": `url(${city.places[0].image})` } as CSSProperties;
   return (
     <article className={styles.cityGuide}>
       <header style={headerStyle}>
         <div className={styles.cityGuideBrand}><b>383</b><span>{d.city.brand}</span></div>
         <div className={styles.cityGuideCopy}><span>{city.region}</span><h3>{city.name}</h3><p>{city.tagline}</p></div>
-        <div className={styles.cityGuideMap} aria-hidden="true"><KosovoFieldMap compact /></div>
+        <div className={styles.cityGuideMap} aria-hidden="true"><KosovoFieldMap compact lang={lang} /></div>
       </header>
       <div className={styles.placeGallery}>
         {city.places.map((place) => (
@@ -405,7 +405,7 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
           </div>
           <p className={styles.privacyLine}><ShieldCheck aria-hidden="true" size={15} />{t.privacy}</p>
         </div>
-        <div className={styles.heroMap}><KosovoFieldMap /></div>
+        <div className={styles.heroMap}><KosovoFieldMap lang={lang} /></div>
         <div className={styles.heroUtilityPreview}>
           <div><span>{t.waitsTitle}</span><strong>{borderLoading ? t.refreshing : t.autoRefresh}</strong></div>
           {BORDER_CROSSINGS.map((crossing) => {
@@ -505,7 +505,7 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
             <div className={styles.cityPickerNote}><MapPinned aria-hidden="true" size={18} /><span><b>{d.city.curatedStops(currentCity.places.length)}</b><small>{d.city.pickerHint}</small></span></div>
             <button className={styles.addCity} disabled={savedCities.includes(currentCity.id)} onClick={() => setSavedCities((cities) => [...cities, currentCity.id])}>{savedCities.includes(currentCity.id) ? <Check aria-hidden="true" size={16} /> : <Plus aria-hidden="true" size={16} />}{savedCities.includes(currentCity.id) ? d.city.added : d.city.add(currentCity.name)}</button>
           </div>
-          <CityGuide city={currentCity} d={d} />
+          <CityGuide city={currentCity} d={d} lang={lang} />
         </div>
 
         <div className={styles.savedCardsHead}>

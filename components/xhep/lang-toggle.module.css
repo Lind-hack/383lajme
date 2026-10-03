@@ -1,6 +1,7 @@
 /* EN / SQ switch for Kosova në xhep, in the Visit world's cream, ink and orange. */
 .toggle {
   display: inline-flex;
+  align-self: flex-start;
   gap: 2px;
   padding: 3px;
   margin-bottom: 18px;
@@ -38,6 +39,13 @@
 .toggle a:focus-visible {
   outline: 3px solid rgba(255, 68, 34, 0.28);
   outline-offset: 2px;
+}
+
+/* The hero's mobile top padding is shorter than the sticky navbar. */
+@media (max-width: 820px) {
+  .toggle {
+    margin-top: 22px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
