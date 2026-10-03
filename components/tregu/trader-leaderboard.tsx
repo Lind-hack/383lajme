@@ -102,7 +102,7 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
       <div className="lbp-head">
         <div>
           <h3 id="lbp-title">Tregtarët më të mirë</h3>
-          <p>Fitimi nga tregtitë e mbyllura. Tre të parët marrin shpërblimin kur mbyllet periudha.</p>
+          <p>Fitimi i realizuar: çdo shitje dhe çdo treg i zgjidhur, në periudhën kur ndodh. Tre të parët marrin shpërblimin kur mbyllet periudha.</p>
           {span && <p className="lbp-span">{period === "monthly" ? "Muaji" : "Java"}: {leaderboardPeriodLabel(period, span.start, span.end)}</p>}
         </div>
         <div className="lbp-seg" role="group" aria-label="Periudha" data-period={period}>

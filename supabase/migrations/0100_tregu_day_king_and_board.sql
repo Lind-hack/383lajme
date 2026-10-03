@@ -11,8 +11,25 @@
 -- 2. Trader board. The caller's own row came back only with a profit, so a
 --    trader down on the period read "—" and "+0" and could not tell a loss
 --    from a broken board. Their row now always comes back, unranked
---    (rank null) when the period is not in profit. Prizes and the period lock
---    are untouched: they still rank only net > 0.
+--    (rank null) when the period is not in profit. Prizes still rank only
+--    net > 0.
+-- 3. Scoring: realized profit, counted when it is realized. 0083 counted a
+--    market only once the trader held nothing in it at all, so
+--      * cashing out part of a position at a profit counted nothing while
+--        any share was left, even when the rest was later held to a loss,
+--      * selling one side while holding another hid the sale until the
+--        market resolved, and
+--      * a dust remainder after a coin-amount sell (> 0.000001 shares) kept
+--        the market "open" and its profit off the board indefinitely.
+--    Now each side of each market keeps an average cost: a sell realizes its
+--    proceeds minus the cost of the shares sold, when it happens; a payout
+--    realizes itself minus the remaining cost; a side still held when its
+--    market resolves without paying it realizes minus its remaining cost at
+--    the resolution. 0083's aims hold: a stake is not a loss when placed, and
+--    a Sunday bet that wins on Monday lands wholly on Monday.
+--    tregu_leaderboard_scores keeps its signature, so the board, the period
+--    lock and prizes all move together. Periods already locked are not
+--    re-judged.
 
 -- ============================================================================
 -- 1. Hub: day king on effective points
@@ -175,6 +192,103 @@ as $$
   order by p.section, p.ord, p.ends_at;
 $$;
 grant execute on function public.tregu_leagues_hub() to anon, authenticated;
+
+
+-- ============================================================================
+-- 3. Scores: realized P&L per side, average cost
+-- ============================================================================
+
+-- Internal: one row per realization (user, market, amount, when), replayed
+-- from the whole ledger so cost bases are right, emitted only inside the
+-- window.
+create or replace function public.tregu_realized_trades(p_from timestamptz, p_to timestamptz)
+returns table (uid uuid, mid uuid, pnl numeric, at timestamptz)
+language plpgsql
+stable
+security definer
+set search_path = public
+as $$
+declare
+  r record;
+  v_key text := null;
+  v_uid uuid;
+  v_mid uuid;
+  v_status text;
+  v_settled timestamptz;
+  v_last timestamptz;
+  v_shares numeric := 0;
+  v_cost numeric := 0;
+  v_take numeric;
+  v_sold numeric;
+begin
+  for r in
+    select t.user_id, t.market_id, coalesce(t.meta->>'side', '') as side, t.type,
+      t.amount::numeric as amount, t.created_at,
+      case when (t.meta->>'shares') ~ '^-?[0-9]+(\.[0-9]+)?([eE][-+]?[0-9]+)?$' then (t.meta->>'shares')::numeric end as shares,
+      m.status, coalesce(m.resolved_at, m.updated_at) as settled_at
+    from public.transactions t
+    join public.markets m on m.id = t.market_id
+    where t.type in ('bet', 'sell', 'payout') and t.market_id is not null
+    order by t.user_id, t.market_id, side, t.created_at, t.id
+  loop
+    if v_key is distinct from (r.user_id::text || r.market_id::text || r.side) then
+      -- Close the previous side: held into a resolution that did not pay it.
+      if v_key is not null and v_status = 'resolved' and v_cost > 0.000001 then
+        uid := v_uid; mid := v_mid; pnl := -v_cost; at := greatest(v_settled, v_last);
+        if at >= p_from and at < p_to then return next; end if;
+      end if;
+      v_key := r.user_id::text || r.market_id::text || r.side;
+      v_uid := r.user_id; v_mid := r.market_id; v_status := r.status; v_settled := r.settled_at;
+      v_shares := 0; v_cost := 0;
+    end if;
+    v_last := r.created_at;
+
+    if r.type = 'bet' then
+      v_shares := v_shares + coalesce(r.shares, 0);
+      v_cost := v_cost + abs(r.amount);
+    elsif r.type = 'sell' then
+      v_sold := coalesce(r.shares, v_shares);
+      -- Selling (almost) everything takes the whole basis, so no dust of
+      -- cost is left to resurface as a loss at resolution.
+      v_take := case when v_shares <= 0.000001 or v_sold >= v_shares - 0.000001 then v_cost
+                     else v_cost * v_sold / v_shares end;
+      uid := r.user_id; mid := r.market_id; pnl := r.amount - v_take; at := r.created_at;
+      if at >= p_from and at < p_to then return next; end if;
+      v_cost := v_cost - v_take;
+      v_shares := greatest(0, v_shares - v_sold);
+    else -- payout: the side won; whatever is left of its cost is settled here
+      uid := r.user_id; mid := r.market_id; pnl := r.amount - v_cost; at := r.created_at;
+      if at >= p_from and at < p_to then return next; end if;
+      v_cost := 0;
+      v_shares := 0;
+    end if;
+  end loop;
+
+  if v_key is not null and v_status = 'resolved' and v_cost > 0.000001 then
+    uid := v_uid; mid := v_mid; pnl := -v_cost; at := greatest(v_settled, v_last);
+    if at >= p_from and at < p_to then return next; end if;
+  end if;
+end;
+$$;
+
+revoke all on function public.tregu_realized_trades(timestamptz, timestamptz) from public, anon, authenticated;
+
+-- Same signature as 0083: the board, the period lock and prizes read this.
+-- reached_at is when the trader's last realization in the period landed,
+-- which breaks ties as before (whoever got there first ranks higher).
+create or replace function public.tregu_leaderboard_scores(p_from timestamptz, p_to timestamptz)
+returns table (uid uuid, net numeric, reached_at timestamptz)
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select r.uid, sum(r.pnl), max(r.at)
+  from public.tregu_realized_trades(p_from, p_to) r
+  group by r.uid;
+$$;
+
+revoke all on function public.tregu_leaderboard_scores(timestamptz, timestamptz) from public, anon, authenticated;
 
 -- ============================================================================
 -- 2. Trader board: your own row, profit or not

@@ -3891,6 +3891,7 @@ header[data-overlay] .nav-coin-chip {
   font-variant-numeric: tabular-nums;
 }
 .tregu-evidence-src svg { flex-shrink: 0; }
+.tregu-evidence-date { font-weight: 600; color: var(--tg-muted, #6b6b6b); }
 
 /* ── Multi-outcome event: per-outcome breakdown graph ─────── */
 .tregu-omini {

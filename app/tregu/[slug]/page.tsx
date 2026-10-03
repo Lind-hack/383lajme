@@ -42,6 +42,7 @@ import F1RaceControl from "@/components/tregu/f1-race-control";
 import { SLUG_TO_CATEGORY } from "@/lib/category-map";
 import { getCategoryColor, getCategoryGradient } from "@/lib/category-colors";
 import { receiptTheme } from "@/lib/tregu-receipt-theme.mjs";
+import { evidenceLink } from "@/lib/tregu-evidence.mjs";
 import { normalizeRecordedOutcomeSeries } from "@/lib/tregu-hub-market.mjs";
 import { f1DriverHeadshot, f1TeamColor } from "@/lib/f1-driver-presentation";
 import { FOOTBALL_MARKET_UI_VERSION } from "@/lib/tregu-ui-contract";
@@ -95,7 +96,7 @@ interface Snapshot {
   ai_prob: number | null;
   market_prob: number;
   created_at: string;
-  evidence: { title: string; slug: string; url?: string; imageUrl?: string }[] | null;
+  evidence: { title: string; slug: string; url?: string; imageUrl?: string; source?: string; publishedAt?: string }[] | null;
 }
 
 interface F1Payload {
@@ -885,15 +886,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
         seen.add(id);
         const title = story?.title?.trim() || (story?.slug ?? "").replace(/-\d{6,}.*$/, "").replace(/-/g, " ");
         if (!title) continue;
-        let source = "383";
-        if (!story?.slug && story?.url) {
-          try {
-            source = new URL(story.url).hostname.replace(/^www\./, "");
-          } catch {
-            source = "Lajm";
-          }
-        }
-        marks.push({ t, title, href: story?.slug ? `/article/${story.slug}` : String(story?.url), source });
+        const link = evidenceLink(story);
+        if (!link.href) continue;
+        marks.push({ t, title, href: link.href, source: link.source });
         break;
       }
     }
@@ -1515,14 +1510,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                 <h3 style={{ fontSize: 15, fontWeight: 800, margin: "0 0 14px" }}>Bazuar në lajme</h3>
                 <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                   {latestEvidence.map((e, evidenceIndex) => {
-                    let host = "383lajme.com";
-                    if (e.url) {
-                      try {
-                        host = new URL(e.url).hostname.replace(/^www\./, "");
-                      } catch {
-                        host = "383lajme.com";
-                      }
-                    }
+                    // The publisher and a working link: research stories go to the
+                    // site that ran them, 383's own to the article page.
+                    const link = evidenceLink(e);
                     // Evidence titles are sometimes blank; fall back to a readable
                     // headline built from the article slug so the card never shows
                     // an empty line.
@@ -1534,13 +1524,9 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                             .replace(/-/g, " ")
                             .replace(/^\w/, (c) => c.toUpperCase())
                         : "Lajm");
-                    const initial = (title || host).trim().charAt(0).toUpperCase() || "3";
-                    return (
-                      <Link
-                        key={e.slug || e.url || `${title}-${evidenceIndex}`}
-                        href={`/article/${e.slug}`}
-                        className="tregu-evidence-item"
-                      >
+                    const initial = (title || link.source).trim().charAt(0).toUpperCase() || "3";
+                    const body = (
+                      <>
                         <span className="tregu-evidence-thumb">
                           {e.imageUrl ? (
                             // eslint-disable-next-line @next/next/no-img-element
@@ -1554,10 +1540,19 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                               <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
                               <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
                             </svg>
-                            {host}
+                            {link.source}
+                            {link.publishedAt && <span className="tregu-evidence-date"> · {formatKosovoDateTime(link.publishedAt)}</span>}
+                            {link.external && <span className="tregu-evidence-out" aria-hidden> ↗</span>}
                           </span>
                         </span>
-                      </Link>
+                      </>
+                    );
+                    const key = e.slug || e.url || `${title}-${evidenceIndex}`;
+                    if (!link.href) return <div key={key} className="tregu-evidence-item">{body}</div>;
+                    return link.external ? (
+                      <a key={key} href={link.href} target="_blank" rel="noopener noreferrer" className="tregu-evidence-item" aria-label={`${title} — ${link.source} (hapet në faqe të re)`}>{body}</a>
+                    ) : (
+                      <Link key={key} href={link.href} className="tregu-evidence-item">{body}</Link>
                     );
                   })}
                 </div>
