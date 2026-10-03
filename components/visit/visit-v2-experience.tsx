@@ -39,6 +39,7 @@ import { createClient } from "@/lib/supabase/client";
 import styles from "./visit-v2.module.css";
 import DardaniImage from "@/components/dardani/dardani-image";
 import LangToggle from "@/components/xhep/lang-toggle";
+import XhepCompanion from "@/components/xhep/companion";
 import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
 
 type Dict = ReturnType<typeof xhepDict>;
@@ -415,6 +416,8 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
           })}
         </div>
       </section>
+
+      <XhepCompanion lang={lang} />
 
       <section className={styles.borderSection} id="visit-tools" aria-labelledby="border-card-title">
         <div className={styles.sectionIntro}>

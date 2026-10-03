@@ -1,0 +1,446 @@
+/* Kosova në xhep — personal layer. Lives inside .visitShell, so the Visit
+   tokens (--visit-ink, --visit-orange, --visit-rule …) are in scope. */
+
+.companion {
+  position: relative;
+  padding: clamp(56px, 7vw, 96px) max(24px, calc((100vw - 1280px) / 2 + 24px));
+  border-bottom: 1px solid var(--visit-rule);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(158, 42, 30, 0.08), transparent 38%),
+    var(--visit-canvas);
+}
+
+.companionHead {
+  max-width: 720px;
+  margin-bottom: 30px;
+}
+
+.companionHead h2 {
+  margin: 0;
+  font-size: clamp(30px, 3.6vw, 48px);
+  font-weight: 850;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.companionHead p {
+  margin: 14px 0 0;
+  color: var(--visit-muted);
+  font-size: 17px;
+  line-height: 1.55;
+  max-width: 62ch;
+}
+
+.companionSkeleton {
+  height: 96px;
+  max-width: 520px;
+  border-radius: 16px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.07), rgba(0, 0, 0, 0.04));
+}
+
+.startCard {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  width: min(100%, 520px);
+  min-height: 92px;
+  padding: 18px 22px;
+  border: 1px solid rgba(158, 42, 30, 0.35);
+  border-radius: 16px;
+  background: #9e2a1e;
+  color: #fbf6ee;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 18px 40px rgba(110, 30, 20, 0.22);
+  transition: transform 180ms var(--ease-out), box-shadow 180ms ease;
+}
+
+.startCard span {
+  display: grid;
+  gap: 3px;
+}
+
+.startCard b {
+  font-size: 19px;
+  font-weight: 850;
+}
+
+.startCard small {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.startCard:active {
+  transform: scale(0.98);
+}
+
+/* ---------------------------------------------------------------- quiz */
+
+.quiz {
+  max-width: 760px;
+  padding: clamp(20px, 3vw, 32px);
+  border: 1px solid var(--visit-rule);
+  border-radius: 20px;
+  background: var(--visit-white);
+  box-shadow: 0 24px 60px rgba(55, 40, 24, 0.08);
+}
+
+.quizTop {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 22px;
+  color: var(--visit-muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.quizBar {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--visit-rule);
+}
+
+.quizBar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #9e2a1e;
+  transition: width 260ms var(--ease-out);
+}
+
+.quizStep {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.quizStep legend {
+  margin-bottom: 18px;
+  padding: 0;
+  font-size: clamp(22px, 2.4vw, 28px);
+  font-weight: 850;
+  letter-spacing: -0.02em;
+}
+
+.quizHint {
+  margin: -8px 0 16px;
+  color: var(--visit-muted);
+  font-size: 14px;
+}
+
+.choiceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.choice,
+.choiceOn {
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+  min-height: 84px;
+  padding: 14px 16px;
+  border: 1px solid #d5cec4;
+  border-radius: 13px;
+  background: rgba(255, 254, 250, 0.7);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms var(--ease-out);
+}
+
+.choice b,
+.choiceOn b {
+  font-size: 15px;
+}
+
+.choice small,
+.choiceOn small {
+  color: var(--visit-muted);
+  font-size: 12px;
+}
+
+.choiceOn {
+  border-color: #9e2a1e;
+  background: #fff4ee;
+  box-shadow: inset 0 0 0 1px #9e2a1e;
+}
+
+.choice:active,
+.choiceOn:active {
+  transform: scale(0.98);
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+  color: var(--visit-ink);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.field input[type="text"],
+.field input[type="date"],
+.field select {
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid #d5cec4;
+  border-radius: 11px;
+  background: var(--visit-canvas);
+  color: var(--visit-ink);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.field input[type="range"] {
+  accent-color: #9e2a1e;
+  min-height: 32px;
+}
+
+.daysValue {
+  font-size: 28px;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip,
+.chipOn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid #d5cec4;
+  border-radius: 999px;
+  background: var(--visit-white);
+  color: var(--visit-ink);
+  font-size: 14px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.chipOn {
+  border-color: #9e2a1e;
+  background: #9e2a1e;
+  color: #fbf6ee;
+}
+
+.quizNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.quizNavRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quizFoot {
+  margin: 16px 0 0;
+  color: var(--visit-muted);
+  font-size: 12px;
+}
+
+/* ------------------------------------------------------------- buttons */
+
+.primaryButton,
+.secondaryButton,
+.ghostButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 160ms ease, transform 160ms var(--ease-out), opacity 160ms ease;
+}
+
+.primaryButton {
+  border: 1px solid var(--visit-orange);
+  background: var(--visit-orange);
+  color: #fff;
+}
+
+.secondaryButton {
+  border: 1px solid #d5cec4;
+  background: var(--visit-white);
+  color: var(--visit-ink);
+}
+
+.ghostButton {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--visit-ink);
+  padding: 0 12px;
+}
+
+.primaryButton:disabled,
+.secondaryButton:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+.primaryButton:active,
+.secondaryButton:active {
+  transform: scale(0.97);
+}
+
+.linkButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  background: transparent;
+  color: var(--visit-muted);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------------- card */
+
+.cardLayout {
+  display: grid;
+  grid-template-columns: minmax(260px, 420px) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+
+.cardFigure {
+  margin: 0;
+}
+
+.cardFigure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  box-shadow: 0 28px 60px rgba(62, 30, 18, 0.24);
+}
+
+.cardSide h3 {
+  margin: 0;
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 850;
+  letter-spacing: -0.02em;
+}
+
+.cardSide > p {
+  max-width: 54ch;
+  margin: 12px 0 0;
+  color: var(--visit-muted);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.cardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.cardNote {
+  margin: 14px 0 0;
+  color: var(--visit-ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cardQrNote {
+  margin: 14px 0 0;
+  color: var(--visit-muted);
+  font-size: 12px;
+}
+
+.cardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 18px;
+}
+
+.companion button:focus-visible,
+.companion input:focus-visible,
+.companion select:focus-visible {
+  outline: 3px solid rgba(255, 68, 34, 0.32);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .startCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 24px 48px rgba(110, 30, 20, 0.28);
+  }
+
+  .choice:hover {
+    border-color: #b9ada0;
+  }
+
+  .chip:hover {
+    border-color: #9e2a1e;
+  }
+
+  .primaryButton:hover {
+    background: #e83a1b;
+  }
+
+  .secondaryButton:hover {
+    border-color: #b9ada0;
+  }
+}
+
+@media (max-width: 820px) {
+  .cardLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .cardFigure {
+    max-width: 420px;
+  }
+
+  .quizNav {
+    flex-wrap: wrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .startCard,
+  .choice,
+  .choiceOn,
+  .chip,
+  .chipOn,
+  .quizBar i,
+  .primaryButton,
+  .secondaryButton {
+    transition: none;
+  }
+}

@@ -48,6 +48,56 @@ type XhepDict = {
     noData: string;
   };
   map: { label: string; country: string; stampTop: string; stampBottom: string; disclaimer: string; disclaimerCompact: string };
+  companion: {
+    title: string;
+    intro: string;
+    start: string;
+    startHint: string;
+    resume: string;
+  };
+  quiz: {
+    progress: (step: number, total: number) => string;
+    back: string;
+    next: string;
+    skip: string;
+    finish: string;
+    whoTitle: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    types: Record<"first" | "diaspora" | "family", { label: string; hint: string }>;
+    whenTitle: string;
+    startLabel: string;
+    daysLabel: (days: number) => string;
+    arriveTitle: string;
+    fly: string;
+    flyHint: string;
+    drive: string;
+    driveHint: string;
+    crossingLabel: string;
+    crossingAny: string;
+    interestsTitle: string;
+    interestsHint: string;
+    interests: Record<"nature" | "history" | "food" | "coffee" | "nightlife" | "skiing", string>;
+    citiesTitle: string;
+    citiesHint: string;
+    budgetTitle: string;
+    budgets: Record<"easy" | "mid" | "treat", { label: string; hint: string }>;
+    storageNote: string;
+  };
+  card: {
+    title: string;
+    intro: string;
+    downloadPass: string;
+    downloadStory: string;
+    share: string;
+    shareText: string;
+    preparing: string;
+    edit: string;
+    reset: string;
+    resetConfirm: string;
+    qrNote: string;
+    shareFailed: string;
+  };
   common: {
     kosovo: string;
     countries: Record<CrossingId, string>;
@@ -195,6 +245,64 @@ export const XHEP_DICT = {
       refreshing: "Updating...",
       autoRefresh: "Updates automatically",
       noData: "No data",
+    },
+    companion: {
+      title: "Your Kosovo, in your pocket",
+      intro: "Answer six quick questions and get your own woven card, a plan for your days and the help that fits your trip. No account.",
+      start: "Make my card",
+      startHint: "About 30 seconds",
+      resume: "Continue my card",
+    },
+    quiz: {
+      progress: (step, total) => `Step ${step} of ${total}`,
+      back: "Back",
+      next: "Next",
+      skip: "Skip",
+      finish: "Weave my card",
+      whoTitle: "Who's travelling?",
+      nameLabel: "Name on your card (optional)",
+      namePlaceholder: "e.g. Lena",
+      types: {
+        first: { label: "First time in Kosovo", hint: "New to the country" },
+        diaspora: { label: "Coming home", hint: "Diaspora, visiting family" },
+        family: { label: "Family trip", hint: "Travelling with kids" },
+      },
+      whenTitle: "When, and for how long?",
+      startLabel: "First day in Kosovo (optional)",
+      daysLabel: (days) => `${days} ${days === 1 ? "day" : "days"}`,
+      arriveTitle: "How are you arriving?",
+      fly: "Flying",
+      flyHint: "Into Prishtina airport (PRN)",
+      drive: "Driving",
+      driveHint: "Across a land border",
+      crossingLabel: "Which crossing?",
+      crossingAny: "Not sure yet",
+      interestsTitle: "What do you love?",
+      interestsHint: "Pick up to four — they colour your card.",
+      interests: { nature: "Mountains & nature", history: "History", food: "Food", coffee: "Coffee culture", nightlife: "Nights out", skiing: "Skiing" },
+      citiesTitle: "Where will you go?",
+      citiesHint: "Up to six cities. We suggested some from your interests.",
+      budgetTitle: "How do you like to travel?",
+      budgets: {
+        easy: { label: "Easy on the wallet", hint: "Street food, buses, guesthouses" },
+        mid: { label: "Comfortable", hint: "Good restaurants, taxis, hotels" },
+        treat: { label: "Treat ourselves", hint: "The best tables and stays" },
+      },
+      storageNote: "Your answers stay on this device.",
+    },
+    card: {
+      title: "Your card",
+      intro: "Woven from your answers — no two are alike. Save it as your travel pass, or share it. Friends can scan the code to see your trip.",
+      downloadPass: "Download card",
+      downloadStory: "Story size",
+      share: "Share",
+      shareText: "My Kosovo card — Kosova në xhep by 383",
+      preparing: "Preparing...",
+      edit: "Change answers",
+      reset: "Start over",
+      resetConfirm: "Start over? Your card and answers on this device will be cleared.",
+      qrNote: "The code opens Kosova në xhep for now; trip sharing is on its way.",
+      shareFailed: "Sharing isn't available here, so the card was downloaded instead.",
     },
     map: {
       label: "Stylized map of Kosovo with the main cities",
@@ -361,6 +469,64 @@ export const XHEP_DICT = {
       refreshing: "Po përditësohet...",
       autoRefresh: "Përditësim automatik",
       noData: "Pa të dhëna",
+    },
+    companion: {
+      title: "Kosova jote, në xhep",
+      intro: "Përgjigju gjashtë pyetjeve të shpejta dhe merr kartën tënde të endur, planin e ditëve dhe ndihmën që i përshtatet udhëtimit. Pa llogari.",
+      start: "Krijo kartën time",
+      startHint: "Rreth 30 sekonda",
+      resume: "Vazhdo kartën time",
+    },
+    quiz: {
+      progress: (step, total) => `Hapi ${step} nga ${total}`,
+      back: "Prapa",
+      next: "Vazhdo",
+      skip: "Kalo",
+      finish: "Ende kartën time",
+      whoTitle: "Kush po udhëton?",
+      nameLabel: "Emri në kartë (opsional)",
+      namePlaceholder: "p.sh. Lena",
+      types: {
+        first: { label: "Herën e parë në Kosovë", hint: "I ri në vend" },
+        diaspora: { label: "Po kthehem në shtëpi", hint: "Diaspora, te familja" },
+        family: { label: "Udhëtim familjar", hint: "Me fëmijë" },
+      },
+      whenTitle: "Kur, dhe për sa kohë?",
+      startLabel: "Dita e parë në Kosovë (opsionale)",
+      daysLabel: (days) => `${days} ditë`,
+      arriveTitle: "Si po vjen?",
+      fly: "Me aeroplan",
+      flyHint: "Në aeroportin e Prishtinës (PRN)",
+      drive: "Me makinë",
+      driveHint: "Përmes një kufiri tokësor",
+      crossingLabel: "Cila pikë kufitare?",
+      crossingAny: "Ende s'e di",
+      interestsTitle: "Çfarë të pëlqen?",
+      interestsHint: "Zgjidh deri në katër — ato i japin ngjyrë kartës.",
+      interests: { nature: "Male e natyrë", history: "Histori", food: "Ushqim", coffee: "Kultura e kafes", nightlife: "Jeta e natës", skiing: "Ski" },
+      citiesTitle: "Ku do të shkosh?",
+      citiesHint: "Deri në gjashtë qytete. Disa i sugjeruam nga interesat e tua.",
+      budgetTitle: "Si të pëlqen të udhëtosh?",
+      budgets: {
+        easy: { label: "Me pak shpenzime", hint: "Ushqim rruge, autobus, bujtina" },
+        mid: { label: "Komod", hint: "Restorante të mira, taksi, hotele" },
+        treat: { label: "Pa kursim", hint: "Tavolinat dhe qëndrimet më të mira" },
+      },
+      storageNote: "Përgjigjet ruhen vetëm në këtë pajisje.",
+    },
+    card: {
+      title: "Karta jote",
+      intro: "E endur nga përgjigjet e tua — asnjë nuk është si tjetra. Ruaje si kartë udhëtimi ose ndaje. Miqtë mund ta skanojnë kodin për të parë udhëtimin.",
+      downloadPass: "Shkarko kartën",
+      downloadStory: "Për story",
+      share: "Ndaje",
+      shareText: "Karta ime e Kosovës — Kosova në xhep nga 383",
+      preparing: "Po përgatitet...",
+      edit: "Ndrysho përgjigjet",
+      reset: "Fillo nga e para",
+      resetConfirm: "Të fillojmë nga e para? Karta dhe përgjigjet në këtë pajisje do të fshihen.",
+      qrNote: "Kodi tani hap Kosova në xhep; ndarja e udhëtimit po vjen së shpejti.",
+      shareFailed: "Ndarja nuk mbështetet këtu, prandaj karta u shkarkua.",
     },
     map: {
       label: "Hartë e stilizuar e Kosovës me qytetet kryesore",
