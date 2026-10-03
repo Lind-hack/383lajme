@@ -84,6 +84,17 @@ type XhepDict = {
     budgets: Record<"easy" | "mid" | "treat", { label: string; hint: string }>;
     storageNote: string;
   };
+  plan: {
+    title: string;
+    intro: string;
+    day: (n: number) => string;
+    duration: (minutes: number) => string;
+    slots: Record<"morning" | "afternoon" | "evening" | "any", string>;
+    directions: string;
+    showAll: (n: number) => string;
+    showLess: string;
+    printNote: string;
+  };
   help: {
     title: string;
     intro: string;
@@ -316,6 +327,17 @@ export const XHEP_DICT = {
         treat: { label: "Treat ourselves", hint: "The best tables and stays" },
       },
       storageNote: "Your answers stay on this device.",
+    },
+    plan: {
+      title: "Your days",
+      intro: "A day-by-day plan from your cities and interests, using only places we've checked. Move at your own pace.",
+      day: (n) => `Day ${n}`,
+      duration: (minutes) => (minutes >= 60 ? `about ${Math.round(minutes / 30) / 2} h` : `about ${minutes} min`),
+      slots: { morning: "Morning", afternoon: "Afternoon", evening: "Evening", any: "Any time" },
+      directions: "Directions",
+      showAll: (n) => `Show all ${n} days`,
+      showLess: "Show fewer days",
+      printNote: "Opening hours change — check before you go.",
     },
     help: {
       title: "Help for your trip",
@@ -567,6 +589,17 @@ export const XHEP_DICT = {
         treat: { label: "Pa kursim", hint: "Tavolinat dhe qëndrimet më të mira" },
       },
       storageNote: "Përgjigjet ruhen vetëm në këtë pajisje.",
+    },
+    plan: {
+      title: "Ditët e tua",
+      intro: "Plan ditë për ditë nga qytetet dhe interesat e tua, vetëm me vende që i kemi kontrolluar. Ec me ritmin tënd.",
+      day: (n) => `Dita ${n}`,
+      duration: (minutes) => (minutes >= 60 ? `rreth ${Math.round(minutes / 30) / 2} orë` : `rreth ${minutes} min`),
+      slots: { morning: "Mëngjes", afternoon: "Pasdite", evening: "Mbrëmje", any: "Në çdo kohë" },
+      directions: "Drejtimet",
+      showAll: (n) => `Shfaq të gjitha ${n} ditët`,
+      showLess: "Shfaq më pak ditë",
+      printNote: "Oraret ndryshojnë — kontrolloji para se të shkosh.",
     },
     help: {
       title: "Ndihmë për udhëtimin",

@@ -41,6 +41,7 @@ import DardaniImage from "@/components/dardani/dardani-image";
 import LangToggle from "@/components/xhep/lang-toggle";
 import XhepCompanion from "@/components/xhep/companion";
 import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
+import { localizedCity, localizedPlace } from "@/lib/xhep/places.mjs";
 
 type Dict = ReturnType<typeof xhepDict>;
 
@@ -144,32 +145,32 @@ function CityGuide({ city, d, lang }: { city: KosovoCity; d: Dict; lang: XhepLan
     <article className={styles.cityGuide}>
       <header style={headerStyle}>
         <div className={styles.cityGuideBrand}><b>383</b><span>{d.city.brand}</span></div>
-        <div className={styles.cityGuideCopy}><span>{city.region}</span><h3>{city.name}</h3><p>{city.tagline}</p></div>
+        <div className={styles.cityGuideCopy}><span>{localizedCity(city.id, city, lang).region}</span><h3>{city.name}</h3><p>{localizedCity(city.id, city, lang).tagline}</p></div>
         <div className={styles.cityGuideMap} aria-hidden="true"><KosovoFieldMap compact lang={lang} /></div>
       </header>
       <div className={styles.placeGallery}>
-        {city.places.map((place) => (
+        {city.places.map((place) => { const local = localizedPlace(city.id, place, lang); return (
           <article className={styles.placeCard} key={place.name}>
             <img src={place.image} alt={place.imageAlt} loading="lazy" />
             <div>
-              <span>{place.category}<small><Clock3 aria-hidden="true" size={12} />{place.visitHint}</small></span>
+              <span>{local.category}<small><Clock3 aria-hidden="true" size={12} />{local.visitHint}</small></span>
               <h4>{place.name}</h4>
-              <p>{place.description}</p>
+              <p>{local.description}</p>
               <a href={`${MAPS}${encodeURIComponent(place.mapsQuery)}`} target="_blank" rel="noreferrer"><Navigation aria-hidden="true" size={15} />{d.common.openDirections}</a>
             </div>
           </article>
-        ))}
+        ); })}
       </div>
     </article>
   );
 }
 
-function SavedCityCover({ city, d }: { city: KosovoCity; d: Dict }) {
+function SavedCityCover({ city, d, lang }: { city: KosovoCity; d: Dict; lang: XhepLang }) {
   return (
     <article className={styles.savedCityCover}>
       <img src={city.places[0].image} alt={city.places[0].imageAlt} loading="lazy" />
       <b className={styles.savedCity383}>383</b>
-      <div><span>{city.region}</span><h4>{city.name}</h4><p>{d.city.stopsWithPhotos(city.places.length)}</p></div>
+      <div><span>{localizedCity(city.id, city, lang).region}</span><h4>{city.name}</h4><p>{d.city.stopsWithPhotos(city.places.length)}</p></div>
     </article>
   );
 }
@@ -375,8 +376,8 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
     setExportingCities(true);
     try {
       const sections = await Promise.all(cities.map(async (city) => {
-        const places = await Promise.all(city.places.map(async (place) => `<article class="place"><img src="${escapeHtml(await imageAsDataUrl(place.image))}" alt="${escapeHtml(place.imageAlt)}"><div><h3>${escapeHtml(place.name)}</h3><p>${escapeHtml(place.category)} - ${escapeHtml(place.visitHint)}</p><p>${escapeHtml(place.description)}</p><a href="${MAPS}${encodeURIComponent(place.mapsQuery)}">${escapeHtml(d.common.openDirectionsGoogle)}</a>${place.imageCredit ? `<p class="credit">${escapeHtml(place.imageCredit)} • ${escapeHtml(place.imageLicense)}</p>` : ""}</div></article>`));
-        return `<section style="page-break-after:always"><h1>${escapeHtml(city.name)}</h1><p class="meta">${escapeHtml(city.tagline)} • ${escapeHtml(city.region)}</p>${places.join("")}</section>`;
+        const places = await Promise.all(city.places.map(async (place) => `<article class="place"><img src="${escapeHtml(await imageAsDataUrl(place.image))}" alt="${escapeHtml(place.imageAlt)}"><div><h3>${escapeHtml(place.name)}</h3><p>${escapeHtml(localizedPlace(city.id, place, lang).category)} - ${escapeHtml(localizedPlace(city.id, place, lang).visitHint)}</p><p>${escapeHtml(localizedPlace(city.id, place, lang).description)}</p><a href="${MAPS}${encodeURIComponent(place.mapsQuery)}">${escapeHtml(d.common.openDirectionsGoogle)}</a>${place.imageCredit ? `<p class="credit">${escapeHtml(place.imageCredit)} • ${escapeHtml(place.imageLicense)}</p>` : ""}</div></article>`));
+        return `<section style="page-break-after:always"><h1>${escapeHtml(city.name)}</h1><p class="meta">${escapeHtml(localizedCity(city.id, city, lang).tagline)} • ${escapeHtml(localizedCity(city.id, city, lang).region)}</p>${places.join("")}</section>`;
       }));
       downloadHtml(d, cities.length > 1 ? "383-kartat-e-qyteteve.html" : `383-${cities[0].id}.html`, cities.length > 1 ? d.offline.citiesTitle : `${cities[0].name} - 383`, sections.join(""), "travel");
       track("visit_card_download", { variant: "city", cities: cities.map((city) => city.id).join(",") });
@@ -504,7 +505,7 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
         </div>
         <div className={styles.cityBuilder}>
           <div className={styles.cityPicker}>
-            <label>{d.city.picker}<select value={selectedCity} onChange={(event) => setSelectedCity(event.target.value as CityId)}>{KOSOVO_CITIES.map((city) => <option key={city.id} value={city.id}>{city.name} - {city.region}</option>)}</select><ChevronDown aria-hidden="true" size={16} /></label>
+            <label>{d.city.picker}<select value={selectedCity} onChange={(event) => setSelectedCity(event.target.value as CityId)}>{KOSOVO_CITIES.map((city) => <option key={city.id} value={city.id}>{city.name} - {localizedCity(city.id, city, lang).region}</option>)}</select><ChevronDown aria-hidden="true" size={16} /></label>
             <div className={styles.cityPickerNote}><MapPinned aria-hidden="true" size={18} /><span><b>{d.city.curatedStops(currentCity.places.length)}</b><small>{d.city.pickerHint}</small></span></div>
             <button className={styles.addCity} disabled={savedCities.includes(currentCity.id)} onClick={() => setSavedCities((cities) => [...cities, currentCity.id])}>{savedCities.includes(currentCity.id) ? <Check aria-hidden="true" size={16} /> : <Plus aria-hidden="true" size={16} />}{savedCities.includes(currentCity.id) ? d.city.added : d.city.add(currentCity.name)}</button>
           </div>
@@ -515,7 +516,7 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
           <div><h3>{d.city.yourCards}</h3><p>{d.city.packageCount(savedCityCards.length)}</p></div>
           {savedCityCards.length > 0 && <button disabled={exportingCities} onClick={() => void exportCities(savedCityCards)}><Download aria-hidden="true" size={15} />{exportingCities ? d.city.downloadingAll : d.city.downloadAll}</button>}
         </div>
-        <div className={styles.savedCards}>{savedCityCards.map((city) => <div key={city.id}><SavedCityCover city={city} d={d} /><div className={styles.savedActions}><button disabled={exportingCities} onClick={() => void exportCities([city])}><Download aria-hidden="true" size={15} />{d.city.download}</button><button onClick={() => setSavedCities((cities) => cities.filter((id) => id !== city.id))}>{d.city.remove}</button></div></div>)}</div>
+        <div className={styles.savedCards}>{savedCityCards.map((city) => <div key={city.id}><SavedCityCover city={city} d={d} lang={lang} /><div className={styles.savedActions}><button disabled={exportingCities} onClick={() => void exportCities([city])}><Download aria-hidden="true" size={15} />{d.city.download}</button><button onClick={() => setSavedCities((cities) => cities.filter((id) => id !== city.id))}>{d.city.remove}</button></div></div>)}</div>
       </section>
     </main>
   );

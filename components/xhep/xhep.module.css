@@ -764,3 +764,129 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------------------------------------------------------------- plan */
+
+.plan {
+  margin-top: clamp(40px, 5vw, 64px);
+  padding-top: clamp(28px, 4vw, 40px);
+  border-top: 1px solid var(--visit-rule);
+}
+
+.planDays {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  margin: 22px 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.planDay {
+  overflow: hidden;
+  border: 1px solid var(--visit-rule);
+  border-radius: 16px;
+  background: var(--visit-white);
+}
+
+.planDay header {
+  padding: 16px 18px 14px;
+  border-bottom: 1px solid var(--visit-rule);
+  background: #fbf3ea;
+}
+
+.planDayNo {
+  color: #9e2a1e;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.planDay h4 {
+  margin: 4px 0 0;
+  font-size: 22px;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+}
+
+.planDay header p {
+  margin: 4px 0 0;
+  color: var(--visit-muted);
+  font-size: 13px;
+}
+
+.planDay ul {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.planDay ul li {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  gap: 10px;
+  padding: 14px 18px;
+  border-top: 1px solid var(--visit-rule);
+}
+
+.planDay ul li:first-child {
+  border-top: 0;
+}
+
+.planSlot {
+  padding-top: 2px;
+  color: var(--visit-muted);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.planDay b {
+  display: block;
+  font-size: 15px;
+  font-weight: 850;
+}
+
+.planDay small {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+  color: var(--visit-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.planDay li p {
+  margin: 6px 0 0;
+  color: #3e3a35;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.planDay a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 36px;
+  margin-top: 4px;
+  color: #c7351c;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.planNote {
+  margin: 14px 0 0;
+  color: var(--visit-muted);
+  font-size: 12px;
+}
+
+@media (max-width: 560px) {
+  .planDay ul li {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}

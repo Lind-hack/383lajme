@@ -8,6 +8,7 @@ import { track } from "@/lib/analytics";
 import Quiz, { type QuizAnswers } from "./quiz";
 import MyCard from "./my-card";
 import XhepHelp from "./help";
+import DayPlan from "./day-plan";
 import styles from "./xhep.module.css";
 
 type Profile = ReturnType<typeof readProfile>;
@@ -72,6 +73,7 @@ export default function XhepCompanion({ lang, children }: { lang: XhepLang; chil
       ) : view === "card" && profile ? (
         <>
           <MyCard lang={lang} profile={profile} qrUrl={qrUrl} onEdit={() => setView("quiz")} onReset={reset} />
+          <DayPlan lang={lang} profile={profile} />
           {children?.(profile)}
         </>
       ) : (
