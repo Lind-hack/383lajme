@@ -84,6 +84,33 @@ type XhepDict = {
     budgets: Record<"easy" | "mid" | "treat", { label: string; hint: string }>;
     storageNote: string;
   };
+  help: {
+    title: string;
+    intro: string;
+    personal: string;
+    tabs: Record<"route" | "arrival" | "prices" | "phrases" | "events", string>;
+    tabsLabel: string;
+    source: string;
+    checked: (date: string) => string;
+    entryLabel: string;
+    exitLabel: string;
+    places: Record<"fly" | "albania" | "north-macedonia" | "montenegro" | "serbia", string>;
+    levels: Record<"stop" | "must" | "know", string>;
+    arrivalFly: string;
+    arrivalDrive: string;
+    pricesIntro: string;
+    pricesStale: string;
+    perKm: (eur: string) => string;
+    phrasesIntro: string;
+    phraseOpen: string;
+    phraseClose: string;
+    customLabel: string;
+    customPlaceholder: string;
+    customShow: string;
+    eventsIntro: string;
+    eventsNone: string;
+    eventsNoDates: string;
+  };
   card: {
     title: string;
     intro: string;
@@ -289,6 +316,33 @@ export const XHEP_DICT = {
         treat: { label: "Treat ourselves", hint: "The best tables and stays" },
       },
       storageNote: "Your answers stay on this device.",
+    },
+    help: {
+      title: "Help for your trip",
+      intro: "Checked facts for getting in, getting around and getting by. Every item shows where it comes from.",
+      personal: "Tuned to your answers.",
+      tabs: { route: "Route check", arrival: "First 3 hours", prices: "Fair prices", phrases: "Show a local", events: "What's on" },
+      tabsLabel: "Trip help",
+      source: "Source",
+      checked: (date) => `Checked ${date}`,
+      entryLabel: "Coming in from",
+      exitLabel: "Leaving to",
+      places: { fly: "By air", albania: "Albania", "north-macedonia": "North Macedonia", montenegro: "Montenegro", serbia: "Serbia" },
+      levels: { stop: "Stop and check", must: "Must do", know: "Good to know" },
+      arrivalFly: "You're flying into Prishtina.",
+      arrivalDrive: "You're driving in.",
+      pricesIntro: "Typical prices in Prishtina, so you know what fair looks like.",
+      pricesStale: "These prices are more than four months old and may have changed.",
+      perKm: (eur) => `+ €${eur}/km`,
+      phrasesIntro: "Tap a phrase to show it full screen — big Albanian text anyone can read.",
+      phraseOpen: "Show full screen",
+      phraseClose: "Close",
+      customLabel: "Your own words (an address, a dish…)",
+      customPlaceholder: "e.g. Rruga Garibaldi 7",
+      customShow: "Show it",
+      eventsIntro: "What's happening while you're here.",
+      eventsNone: "Nothing big on our calendar for your dates — a good time for quiet streets.",
+      eventsNoDates: "Add your dates in the quiz to see what's on while you're here.",
     },
     card: {
       title: "Your card",
@@ -513,6 +567,33 @@ export const XHEP_DICT = {
         treat: { label: "Pa kursim", hint: "Tavolinat dhe qëndrimet më të mira" },
       },
       storageNote: "Përgjigjet ruhen vetëm në këtë pajisje.",
+    },
+    help: {
+      title: "Ndihmë për udhëtimin",
+      intro: "Fakte të verifikuara për hyrjen, lëvizjen dhe qëndrimin. Çdo element tregon nga vjen.",
+      personal: "Përshtatur sipas përgjigjeve të tua.",
+      tabs: { route: "Kontrolli i rrugës", arrival: "3 orët e para", prices: "Çmime të drejta", phrases: "Trego një vendasi", events: "Çka ndodh" },
+      tabsLabel: "Ndihmë për udhëtimin",
+      source: "Burimi",
+      checked: (date) => `Kontrolluar më ${date}`,
+      entryLabel: "Po vjen nga",
+      exitLabel: "Po del drejt",
+      places: { fly: "Me aeroplan", albania: "Shqipëria", "north-macedonia": "Maqedonia e Veriut", montenegro: "Mali i Zi", serbia: "Serbia" },
+      levels: { stop: "Ndal dhe kontrollo", must: "Detyrimisht", know: "Mirë ta dish" },
+      arrivalFly: "Po vjen me aeroplan në Prishtinë.",
+      arrivalDrive: "Po vjen me makinë.",
+      pricesIntro: "Çmime tipike në Prishtinë, që ta dish çka është e drejtë.",
+      pricesStale: "Këto çmime janë më të vjetra se katër muaj dhe mund të kenë ndryshuar.",
+      perKm: (eur) => `+ ${eur} €/km`,
+      phrasesIntro: "Prek një frazë për ta treguar në ekran të plotë — tekst i madh shqip që e lexon kushdo.",
+      phraseOpen: "Trego në ekran të plotë",
+      phraseClose: "Mbyll",
+      customLabel: "Fjalët e tua (një adresë, një gjellë…)",
+      customPlaceholder: "p.sh. Rruga Garibaldi 7",
+      customShow: "Trego",
+      eventsIntro: "Çka po ndodh gjatë qëndrimit tënd.",
+      eventsNone: "Asgjë e madhe në kalendarin tonë për datat e tua — kohë e mirë për rrugë të qeta.",
+      eventsNoDates: "Shto datat në pyetësor për të parë çka ndodh gjatë qëndrimit.",
     },
     card: {
       title: "Karta jote",

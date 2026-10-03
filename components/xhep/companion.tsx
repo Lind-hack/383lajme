@@ -7,6 +7,7 @@ import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
 import { track } from "@/lib/analytics";
 import Quiz, { type QuizAnswers } from "./quiz";
 import MyCard from "./my-card";
+import XhepHelp from "./help";
 import styles from "./xhep.module.css";
 
 type Profile = ReturnType<typeof readProfile>;
@@ -83,6 +84,8 @@ export default function XhepCompanion({ lang, children }: { lang: XhepLang; chil
           <ArrowRight aria-hidden="true" size={20} />
         </button>
       )}
+
+      {loaded && view !== "quiz" && <XhepHelp key={profile?.updatedAt ?? "none"} lang={lang} profile={profile} />}
     </section>
   );
 }
