@@ -47,51 +47,52 @@ export default function LeagueRaceCard({ league, now, action }: { league: HubLea
 
       <div className="lgr-main">
         <b>{league.name}</b>
-        <small>
-          <span className="lgr-kind" data-kind={kindLabel(league)}>{kindLabel(league)}</span>
+        {/* Today's status leads the small line; the meta trails and truncates. */}
+        <small title={status.label}>
+          <span className="lgr-status" data-tone={status.tone}>
+            {status.tone === "due" && <i aria-hidden />}
+            {status.short}
+          </span>
+          {" · "}<span className="lgr-kind" data-kind={kindLabel(league)}>{kindLabel(league)}</span>
           {" · "}{fmtNum(league.members)} · {timeLeft(league, now)} · {fmtNum(leaguePurse(league))} 383C
         </small>
       </div>
 
-      <p className="lgr-race">
-        {top3.length > 0 ? (
-          top3.map((row) => (
-            <span key={row.rank} className="lgr-seat" data-me={row.me || undefined} data-rank={row.rank}>
-              <i aria-hidden>{MEDALS[row.rank - 1]}</i>
-              {row.me ? "Ti" : row.name} <em>{fmtNum(row.points)}</em>
-            </span>
-          ))
-        ) : (
-          <span className="lgr-seat">Ende pa pikë</span>
-        )}
-        {league.day_king && <span className="lgr-king" title="Fitues i ditës">👑 {league.day_king}</span>}
-      </p>
+      {/* Second row: your place, then who leads. */}
+      <div className="lgr-line">
+        {me ? (
+          <p className="lgr-me" title={me.note}>
+            {me.rank ? (
+              <>
+                <strong>#{me.rank}</strong>
+                {me.change !== 0 && (
+                  <span className="lgr-move" data-up={me.change > 0 || undefined} aria-label={me.change > 0 ? `${me.change} vende lart sot` : `${-me.change} vende poshtë sot`}>
+                    {me.change > 0 ? <ChevronUp size={13} aria-hidden /> : <ChevronDown size={13} aria-hidden />}
+                    {Math.abs(me.change)}
+                  </span>
+                )}
+                <small>{fmtNum(me.points)} pikë</small>
+              </>
+            ) : (
+              <small>{me.note}</small>
+            )}
+          </p>
+        ) : null}
 
-      {me ? (
-        <p className="lgr-me" title={me.note}>
-          {me.rank ? (
-            <>
-              <strong>#{me.rank}</strong>
-              {me.change !== 0 && (
-                <span className="lgr-move" data-up={me.change > 0 || undefined} aria-label={me.change > 0 ? `${me.change} vende lart sot` : `${-me.change} vende poshtë sot`}>
-                  {me.change > 0 ? <ChevronUp size={13} aria-hidden /> : <ChevronDown size={13} aria-hidden />}
-                  {Math.abs(me.change)}
-                </span>
-              )}
-              <small>{fmtNum(me.points)} pikë</small>
-            </>
+        <p className="lgr-race">
+          {top3.length > 0 ? (
+            top3.map((row) => (
+              <span key={row.rank} className="lgr-seat" data-me={row.me || undefined} data-rank={row.rank}>
+                <i aria-hidden>{MEDALS[row.rank - 1]}</i>
+                {row.me ? "Ti" : row.name} <em>{fmtNum(row.points)}</em>
+              </span>
+            ))
           ) : (
-            <small>{me.note}</small>
+            <span className="lgr-seat">Ende pa pikë</span>
           )}
+          {league.day_king && <span className="lgr-king" title="Fitues i ditës">👑 {league.day_king}</span>}
         </p>
-      ) : (
-        <span className="lgr-me" aria-hidden />
-      )}
-
-      <p className="lgr-status" data-tone={status.tone} title={status.label}>
-        {status.tone === "due" && <i aria-hidden />}
-        {status.short}
-      </p>
+      </div>
 
       <div className="lgr-act-wrap">
         {action ?? (

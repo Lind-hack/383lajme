@@ -1062,15 +1062,14 @@ a.sponsor::after { content: "↗"; margin-left: auto; font-size: 14px; font-weig
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   grid-template-areas:
-    "emb main me"
-    "emb race race"
-    "emb status act";
+    "emb main act"
+    "emb line act";
   align-items: center;
   column-gap: 12px;
   row-gap: 3px;
   width: 100%;
-  min-height: 76px;
-  padding: 10px 12px 10px 14px;
+  min-height: 72px;
+  padding: 8px 10px 8px 12px;
   border-radius: 16px;
   border: 1px solid var(--lg-line);
   border-left: 4px solid var(--lg-line-2);
@@ -1086,25 +1085,31 @@ a.sponsor::after { content: "↗"; margin-left: auto; font-size: 14px; font-weig
   .lgr { transition: background 160ms ease, border-color 160ms ease; }
   .lgr:hover { background: #fff; }
 }
-.lgr > .lg-emblem { grid-area: emb; align-self: start; margin-top: 2px; }
+.lgr > .lg-emblem { grid-area: emb; align-self: center; }
 .lgr-main { grid-area: main; min-width: 0; }
-.lgr-main b { display: block; overflow: hidden; font-size: 15px; font-weight: 800; letter-spacing: -0.015em; white-space: nowrap; text-overflow: ellipsis; }
-.lgr-main small { display: block; overflow: hidden; font-size: 11.5px; font-weight: 650; color: var(--lg-ink-3); white-space: nowrap; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+.lgr-main b { display: block; overflow: hidden; font-size: 15px; line-height: 1.25; font-weight: 800; letter-spacing: -0.015em; white-space: nowrap; text-overflow: ellipsis; }
+.lgr-main small { display: block; overflow: hidden; font-size: 11.5px; line-height: 1.3; font-weight: 650; color: var(--lg-ink-3); white-space: nowrap; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
 .lgr-kind { font-weight: 800; color: var(--lg-ink-2); }
 .lgr-kind[data-kind="Zyrtare"] { color: #9A5B0B; }
 .lgr-kind[data-kind="Publike"] { color: var(--lg-flame); }
 
-.lgr-race { grid-area: race; display: flex; gap: 10px; min-width: 0; margin: 0; overflow: hidden; font-size: 12.5px; font-weight: 700; color: var(--lg-ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.lgr-seat { display: inline-flex; align-items: baseline; gap: 3px; min-width: 0; }
+/* The second row: who leads, then today's status, on one line. */
+.lgr-line { grid-area: line; display: flex; align-items: center; gap: 10px; min-width: 0; overflow: hidden; }
+.lgr-race { flex: 1 1 0; display: flex; gap: 10px; min-width: 0; margin: 0; overflow: hidden; font-size: 12.5px; font-weight: 700; color: var(--lg-ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.lgr-seat { flex: none; display: inline-flex; align-items: baseline; gap: 3px; }
 .lgr-seat i { font-style: normal; font-size: 12px; }
 .lgr-seat em { font-style: normal; font-weight: 650; color: var(--lg-ink-3); }
 .lgr-seat[data-me] { color: var(--lg-flame); }
 /* Phones: the leader only, so the line never wraps. */
-@media (max-width: 560px) { .lgr-seat[data-rank="2"], .lgr-seat[data-rank="3"] { display: none; } }
+@media (max-width: 560px) {
+  .lgr-seat[data-rank="2"], .lgr-seat[data-rank="3"], .lgr-king, .lgr-me small, .lgr-act svg { display: none; }
+  .lgr-line, .lgr-race { gap: 7px; }
+  .lgr-act, .lgr .lgr-act-wrap .lg-btn, .lgr .lgr-act-wrap .lg-ghost { padding: 0 11px; }
+}
 .lgr-king { color: #8A5A07; }
 
-.lgr-me { grid-area: me; display: flex; align-items: baseline; justify-content: flex-end; gap: 4px; margin: 0; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.lgr-me strong { font-size: 16px; font-weight: 800; letter-spacing: -0.02em; }
+.lgr-me { flex: none; display: inline-flex; align-items: baseline; gap: 4px; margin: 0; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.lgr-me strong { font-size: 14px; font-weight: 800; letter-spacing: -0.02em; }
 .lgr-me small { font-size: 11.5px; font-weight: 700; color: var(--lg-ink-3); }
 .lgr-move {
   display: inline-flex;
@@ -1119,12 +1124,12 @@ a.sponsor::after { content: "↗"; margin-left: auto; font-size: 14px; font-weig
 }
 .lgr-move[data-up] { background: var(--lg-win-bg); color: var(--lg-win); }
 
-.lgr-status { grid-area: status; display: flex; align-items: center; gap: 6px; min-width: 0; margin: 0; overflow: hidden; font-size: 12px; font-weight: 750; color: var(--lg-ink-3); white-space: nowrap; text-overflow: ellipsis; }
+.lgr-status { font-weight: 800; color: var(--lg-ink-2); }
 .lgr-status[data-tone="due"] { color: var(--lg-flame); font-weight: 800; }
 .lgr-status[data-tone="done"] { color: var(--lg-win); }
-.lgr-status i { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--lg-flame); box-shadow: 0 0 0 3px rgba(194, 54, 15, 0.16); }
-.lgr-act-wrap { grid-area: act; justify-self: end; }
-.lgr-act { min-height: 34px; padding: 0 14px; font-size: 13px; }
+.lgr-status i { display: inline-block; margin-right: 5px; vertical-align: 1px; width: 7px; height: 7px; border-radius: 50%; background: var(--lg-flame); box-shadow: 0 0 0 3px rgba(194, 54, 15, 0.16); }
+.lgr-act-wrap { grid-area: act; align-self: center; justify-self: end; }
+.lgr-act, .lgr .lgr-act-wrap .lg-btn, .lgr .lgr-act-wrap .lg-ghost { min-height: 32px; padding: 0 13px; font-size: 13px; box-shadow: none; }
 
 .lgr-skeleton { min-height: 76px; border-radius: 16px; background: linear-gradient(100deg, #F7EFE2 30%, #FFF8EE 50%, #F7EFE2 70%); background-size: 300% 100%; animation: lgr-shimmer 1.4s linear infinite; }
 

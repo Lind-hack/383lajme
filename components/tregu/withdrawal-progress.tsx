@@ -114,7 +114,7 @@ export default function WithdrawalProgress({ balance, openValue = 0 }: { balance
         <p className="tregu-goal-milestone" role="status">🎉 {celebrate}</p>
       ) : road.next && !reached ? (
         <p className="tregu-goal-next">
-          Edhe <strong>{fmtNum(Math.round(road.toNext))}</strong> Monedha për {road.next.goal}
+          Hapi tjetër: {road.next.goal} · edhe <strong>{fmtNum(Math.round(road.toNext))}</strong> Monedha
         </p>
       ) : null}
     </section>
