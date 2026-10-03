@@ -17,5 +17,8 @@ export async function GET() {
   if (!event || event.seen) {
     return NextResponse.json({ title: "383 Ligat", body: "Diçka ndryshoi në ligat e tua.", url: "/tregu" }, { headers });
   }
-  return NextResponse.json({ ...describeEvent(event), url: event.league_id ? `/tregu/ligat/${event.league_id}` : "/tregu" }, { headers });
+  // A trade win has no league: it opens the market it was won on.
+  const slug = typeof event.data?.slug === "string" ? event.data.slug : null;
+  const url = event.league_id ? `/tregu/ligat/${event.league_id}` : slug ? `/tregu/${encodeURIComponent(slug)}` : "/tregu";
+  return NextResponse.json({ ...describeEvent(event), url }, { headers });
 }

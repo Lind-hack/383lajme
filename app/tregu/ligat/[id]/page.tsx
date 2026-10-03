@@ -16,6 +16,8 @@ import { fmtNum } from "@/lib/format";
 import { createClient } from "@/lib/supabase/client";
 import { enableLeaguePush, pushSupported } from "@/lib/tregu-push-client";
 import { leaveCopy } from "@/lib/tregu-leagues-hub.mjs";
+import { streakLine } from "@/lib/tregu-points.mjs";
+import PointsExplainer, { openPointsHelp } from "@/components/tregu/points-explainer";
 import {
   leagueColor,
   leagueFamilyLabel,
@@ -110,12 +112,15 @@ function PickCard({
   canPick,
   busy,
   onPick,
+  onBoost,
 }: {
   row: BoardRow;
   now: number;
   canPick: boolean;
   busy: boolean;
   onPick: (row: BoardRow, option: PickOption) => void;
+  /** ⭐ on or off for this pick (v2 leagues only). */
+  onBoost?: (row: BoardRow, on: boolean) => void;
 }) {
   const [all, setAll] = useState(false);
   const options = row.options ?? [];
@@ -170,7 +175,24 @@ function PickCard({
           <button type="button" className="pick-more" onClick={() => setAll(true)}>Më shumë ({ordered.length - shown.length})</button>
         )}
       </div>
-      {row.result === "won" && <p className="pick-foot" data-result="won"><CircleCheck size={15} aria-hidden /> E qëllove · +{row.my_points} pikë</p>}
+      {open && row.my_outcome && canPick && onBoost && Number(row.rules_version) >= 2 && (
+        <button
+          type="button"
+          className="pick-boost"
+          aria-pressed={Boolean(row.my_boosted)}
+          disabled={busy}
+          onClick={() => onBoost(row, !row.my_boosted)}
+        >
+          ⭐ {row.my_boosted ? `Karta e artë · +${(row.my_points ?? 0) * 2} nëse del` : "Vendos Kartën e artë (×2)"}
+        </button>
+      )}
+      {row.result === "won" && (
+        <p className="pick-foot" data-result="won">
+          <CircleCheck size={15} aria-hidden /> E qëllove · +{row.my_effective ?? row.my_points} pikë
+          {row.my_boosted ? " · ⭐ ×2" : ""}
+          {row.my_effective != null && row.my_points != null && row.my_effective > row.my_points * (row.my_boosted ? 2 : 1) ? " · 🔥 seri" : ""}
+        </p>
+      )}
       {row.result === "lost" && <p className="pick-foot">Doli {options.find((option) => option.key === row.result_outcome)?.label ?? "tjetër"} · 0 pikë</p>}
       {row.result === "void" && <p className="pick-foot">Tregu u anulua · nuk numërohet</p>}
       {!settled && row.my_outcome && !open && <p className="pick-foot">Parashikimi yt: {mine?.label} · +{row.my_points} nëse del</p>}
@@ -202,6 +224,14 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
   const [copying, setCopying] = useState(false);
   const [menu, setMenu] = useState(false);
   const [leaving, setLeaving] = useState<"confirm" | "busy" | null>(null);
+
+  const [streak, setStreak] = useState<{ rules_version: number; streak: number } | null>(null);
+  const loadStreak = useCallback(async () => {
+    const { data } = await supabase.rpc("tregu_league_my_streak", { p_league_id: id });
+    const row = (data as { rules_version: number; streak: number }[] | null)?.[0];
+    setStreak(row ?? null);
+  }, [id, supabase]);
+  useEffect(() => { void loadStreak(); }, [loadStreak]);
 
   const load = useCallback(async () => {
     const [overview, preview, standings, picks, tallies, myDuels] = await Promise.all([
@@ -359,6 +389,30 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
     }
     const saved = (data as { outcome: string; points: number }[] | null)?.[0];
     if (saved) setBoard((current) => current.map((item) => (item.market_id === row.market_id ? { ...item, my_outcome: saved.outcome, my_points: saved.points } : item)));
+  };
+
+  // ⭐ One card per league per day: putting it here moves it off another open
+  // pick of the same day (the server refuses if that match has started).
+  const boost = async (row: BoardRow, on: boolean) => {
+    if (!row.my_outcome) return;
+    setPicking(row.market_id);
+    setMessage(null);
+    const { data, error } = await supabase.rpc("tregu_league_pick", {
+      p_league_id: id, p_market_id: row.market_id, p_outcome: row.my_outcome, p_boost: on,
+    });
+    setPicking(null);
+    if (error) {
+      setMessage({ ok: false, text: leagueError(error) });
+      return;
+    }
+    const saved = (data as { boosted: boolean }[] | null)?.[0];
+    setBoard((current) => current.map((item) => {
+      if (item.market_id === row.market_id) return { ...item, my_boosted: Boolean(saved?.boosted) };
+      // The card left any other pick of the same day.
+      if (on && item.lock_day && item.lock_day === row.lock_day) return { ...item, my_boosted: false };
+      return item;
+    }));
+    void loadStreak();
   };
 
   const copyPicks = async () => {
@@ -522,6 +576,7 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
           );
         })()}
 
+        <PointsExplainer />
         {message && <p className="lgx-notice" data-ok={message.ok || undefined} role="status">{message.text}</p>}
 
         <div className="lgx-grid">
@@ -616,6 +671,12 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
               <h2 id="picks-title">Parashikimet</h2>
               <span>{myCount?.pending ? `${myCount.pending} në pritje` : openRows.length ? `${openRows.length} të hapura` : ""}</span>
             </div>
+            {league.is_member && (
+              <div className="pick-streak">
+                {streak?.rules_version === 2 ? <span className="pick-streak-chip">{streakLine(streak.streak)}</span> : <span>Surpriza paguan më shumë.</span>}
+                <button type="button" className="pick-help" onClick={() => openPointsHelp()}>Si llogariten pikët?</button>
+              </div>
+            )}
             {!league.is_member && phase !== "ended" && (
               <p className="pick-empty">{league.kind === "public" || league.listed ? "Hyr në ligë për të parashikuar." : "Vetëm anëtarët parashikojnë."}</p>
             )}
@@ -650,7 +711,7 @@ export default function LeaguePage({ params }: { params: Promise<{ id: string }>
             )}
             <div className="picks">
               {groups[tab].slice(0, shown).map((row) => (
-                <PickCard key={row.market_id} row={row} now={now} canPick={canPick && tab !== "done"} busy={picking === row.market_id} onPick={(item, option) => void pick(item, option)} />
+                <PickCard key={row.market_id} row={row} now={now} canPick={canPick && tab !== "done"} busy={picking === row.market_id} onPick={(item, option) => void pick(item, option)} onBoost={(item, on) => void boost(item, on)} />
               ))}
               {!groups[tab].length && (
                 <p className="pick-empty">

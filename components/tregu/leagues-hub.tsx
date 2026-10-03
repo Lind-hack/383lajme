@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ArrowRight, BellRing, Trophy } from "lucide-react";
 import LeagueRaceCard from "@/components/tregu/league-race-card";
 import LeagueSearch from "@/components/tregu/league-search";
+import PointsExplainer, { openPointsHelp } from "@/components/tregu/points-explainer";
 import LeaguesCard from "@/components/tregu/leagues-card";
 import LeaguePay, { type LeaguePayment } from "@/components/tregu/league-pay";
 import PublicLeaguesSection, { LEAGUES_CHANGED } from "@/components/tregu/public-leagues-section";
@@ -120,8 +121,12 @@ export default function LeaguesHub({ loggedIn }: { loggedIn: boolean }) {
           <h2 id="lgh-title">Ligat</h2>
           <p>Parashiko ndeshjet, mblidh pikë, mund miqtë. Surprizat paguajnë më shumë. Tre të parët ndajnë potin.</p>
         </div>
-        <button type="button" className="lgt-launch" onClick={openLeagueTutorial}><span aria-hidden>?</span>Si luhet?</button>
+        <span className="lgh-help">
+          <button type="button" className="lgt-launch" onClick={openLeagueTutorial}><span aria-hidden>?</span>Si luhet?</button>
+          <button type="button" className="lgt-launch" onClick={() => openPointsHelp()}><span aria-hidden>🔥</span>Pikët</button>
+        </span>
       </header>
+      <PointsExplainer />
 
       {joined && (
         <div className="lgs-joined" role="status">
@@ -140,8 +145,8 @@ export default function LeaguesHub({ loggedIn }: { loggedIn: boolean }) {
 
       {rows === null ? (
         <div className="lgr-rail" aria-hidden>
-          <div className="lgr lgr-skeleton lg-paper" />
-          <div className="lgr lgr-skeleton lg-paper" />
+          <div className="lgr-skeleton" />
+          <div className="lgr-skeleton" />
         </div>
       ) : (
         <>

@@ -1,7 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type MouseEvent } from "react";
 import Link from "next/link";
+import { createPortal } from "react-dom";
+import WithdrawalProgress from "@/components/tregu/withdrawal-progress";
+import { createClient } from "@/lib/supabase/client";
 import SectionLabel from "@/components/section-label";
 import SpotlightTour, { openTour, type TourStep } from "@/components/spotlight-tour";
 import MarketMiniCard, { type MiniMarket } from "@/components/tregu/market-mini-card";
@@ -121,8 +124,8 @@ function tourSteps(structured: boolean): TourStep[] {
     },
     {
       target: `${CARD} .tregu-market-open`,
-      title: "Me monedha falas, jo me para",
-      body: "Monedhat e 383 janë falas. Hape tregun dhe provo, pa asnjë rrezik.",
+      title: "Monedhat bëhen para",
+      body: "Luan me 383 Monedha falas, pa asnjë rrezik. 10 000 Monedha i këmben për 10€ të vërteta te Portofoli.",
       padding: 8,
       radius: 12,
       zoom: 1.06,
@@ -146,6 +149,45 @@ function tourSteps(structured: boolean): TourStep[] {
 export default function TreguHome() {
   const [markets, setMarkets] = useState<MarketRow[] | null>(null);
   const [failed, setFailed] = useState(false);
+  // Signed in: the wallet for the 10€ bar. Signed out (null): the bar at 0,
+  // and a tap on a side goes through sign-up to that pick.
+  const [balance, setBalance] = useState<number | null>(null);
+  const [signedIn, setSignedIn] = useState<boolean | null>(null);
+  const [guestPick, setGuestPick] = useState<{ label: string; href: string } | null>(null);
+
+  useEffect(() => {
+    const supabase = createClient();
+    void supabase.auth.getUser().then(async ({ data: { user } }) => {
+      setSignedIn(Boolean(user));
+      if (!user) return;
+      const { data } = await supabase.from("profiles").select("coins").eq("id", user.id).single();
+      if (typeof data?.coins === "number") setBalance(Number(data.coins));
+    });
+  }, []);
+
+  // Signed out, a tap on Po/Jo (or a team) would land on a login wall. Ask
+  // for the sign-up here instead, and come back to that pick already chosen.
+  // Nothing is placed: the reader still sets the stake and confirms.
+  const interceptGuest = (event: MouseEvent<HTMLDivElement>) => {
+    if (signedIn !== false || !markets) return;
+    const target = event.target as HTMLElement;
+    const side = target.closest<HTMLElement>(".tregu-side");
+    const outcome = target.closest<HTMLAnchorElement>("a.tregu-native-outcome");
+    if (!side && !outcome) return;
+    const card = target.closest<HTMLElement>(".home-tregu-card");
+    const index = card ? [...(card.parentElement?.children ?? [])].indexOf(card) : -1;
+    const market = markets[index];
+    if (!market) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if (outcome) {
+      const url = new URL(outcome.href, window.location.origin);
+      setGuestPick({ label: outcome.querySelector("em")?.textContent ?? "kjo zgjedhje", href: `${url.pathname}${url.search}` });
+    } else {
+      const name = side?.querySelector(".tregu-side-name")?.textContent?.trim().toUpperCase() === "JO" ? "jo" : "po";
+      setGuestPick({ label: name === "po" ? "Po" : "Jo", href: `/tregu/${market.slug}?ana=${name}` });
+    }
+  };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -197,8 +239,8 @@ export default function TreguHome() {
       />
       {/* One sentence and three steps: enough to get the idea at a glance. */}
       <p className="tregu-home-intro">
-        Parashiko si përfundon ndeshja ose lajmi i ditës. Zgjidh përgjigjen tënde dhe vër{" "}
-        <strong>383 Monedha</strong>, monedha falas e faqes, jo para reale.
+        Parashiko si përfundon ndeshja ose lajmi i ditës. Luan me <strong>383 Monedha</strong> falas, dhe{" "}
+        <strong>10 000 Monedha i këmben për 10€ të vërteta</strong>.
       </p>
       <ol className="tregu-home-steps">
         <li>Zgjidh pyetjen</li>
@@ -206,7 +248,7 @@ export default function TreguHome() {
         <li>Vër parashikimin</li>
       </ol>
       <div className="tregu-scope home-tregu-scope">
-        <div className="tregu-grid home-tregu-grid" aria-busy={markets === null}>
+        <div className="tregu-grid home-tregu-grid" aria-busy={markets === null} onClickCapture={interceptGuest}>
           {markets === null
             ? Array.from({ length: 2 }, (_, i) => <div key={i} className="tregu-glass home-tregu-skeleton" aria-hidden />)
             : markets.map((row, index) => (
@@ -221,6 +263,29 @@ export default function TreguHome() {
               ))}
         </div>
       </div>
+
+      {/* The road to 10€, the same bar as on the Tregu floor. */}
+      <div className="tregu-scope home-tregu-goal">
+        <WithdrawalProgress balance={balance} />
+      </div>
+
+      {/* On <body>: a parent here confines position: fixed, and the sheet
+          must sit where the thumb tapped, above the tab bar. */}
+      {guestPick && createPortal(
+        <div className="home-guest-pick" role="dialog" aria-modal="false" aria-labelledby="home-guest-title">
+          <p id="home-guest-title">
+            Parashikimi yt: <strong>{guestPick.label}</strong>
+          </p>
+          <p>Regjistrohu dhe merr <strong>100 Monedha falas</strong> për ta vënë. Të kthejmë te kjo zgjedhje.</p>
+          <div>
+            <Link className="home-guest-go" href={`/hyr?tab=regjistrohu&next=${encodeURIComponent(guestPick.href)}`}>
+              Regjistrohu · 100 Monedha falas
+            </Link>
+            <button type="button" className="home-guest-later" onClick={() => setGuestPick(null)}>Më vonë</button>
+          </div>
+        </div>,
+        document.body
+      )}
 
       {steps && (
         <SpotlightTour tourId={TOUR_ID} anchor={CARD} steps={steps} eyebrow="Si funksionon Tregu" />

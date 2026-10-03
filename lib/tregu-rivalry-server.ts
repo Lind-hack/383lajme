@@ -40,6 +40,18 @@ export function describeEvent(event: Pick<EventRow, "kind" | "actor" | "data">):
       return { title: `${actor} nuk u përgjigj`, body: "Sfida skadoi, basti t'u kthye." };
     case "picks_due":
       return picksDueCopy(event.data);
+    case "picks_won": {
+      const count = Number(event.data?.count ?? 1);
+      const points = Number(event.data?.points ?? 0);
+      return count > 1
+        ? { title: `${count} parashikime të sakta te ${league}`, body: `+${points} pikë. Shiko renditjen.` }
+        : { title: `+${points} pikë te ${league}`, body: event.data?.question ? `E qëllove: ${String(event.data.question)}` : "E qëllove." };
+    }
+    case "trade_won":
+      return {
+        title: `Fitove +${Number(event.data?.amount ?? 0)} 383C`,
+        body: event.data?.question ? String(event.data.question) : "Tregu u mbyll në favorin tënd.",
+      };
     default:
       return { title: "Ligat", body: "Diçka ndryshoi në ligat e tua." };
   }
@@ -60,7 +72,7 @@ export async function vapidKeys(admin: Admin): Promise<VapidKeys | null> {
 async function pushEvents(admin: Admin) {
   const keys = await vapidKeys(admin);
   if (!keys) return { pushed: 0, skipped: "no-vapid-keys" };
-  const worthy = ["overtaken", "duel_challenge", "duel_accepted", "duel_won", "duel_lost", "picks_due"];
+  const worthy = ["overtaken", "duel_challenge", "duel_accepted", "duel_won", "duel_lost", "picks_due", "picks_won", "trade_won"];
   const claimedAt = new Date().toISOString();
   // Claim first, so overlapping heartbeats never push the same event twice.
   const { data: events, error: claimError } = await admin
@@ -123,7 +135,7 @@ async function sendDigests(admin: Admin) {
   for (const recipient of recipients as { user_id: string; email: string; display_name: string; unsubscribe_token: string }[]) {
     const [{ data: leagues }, { data: events }, { data: duels }] = await Promise.all([
       admin.from("tregu_league_members").select("league_id, tregu_leagues!inner(id, name, ends_at, settled_at)").eq("user_id", recipient.user_id),
-      admin.from("tregu_league_events").select("kind, actor, data, created_at").eq("user_id", recipient.user_id).gte("created_at", new Date(Date.now() - 24 * 3600_000).toISOString()).neq("kind", "picks_due").order("created_at", { ascending: false }).limit(8),
+      admin.from("tregu_league_events").select("kind, actor, data, created_at").eq("user_id", recipient.user_id).gte("created_at", new Date(Date.now() - 24 * 3600_000).toISOString()).not("kind", "in", "(picks_due,picks_won,trade_won)").order("created_at", { ascending: false }).limit(8),
       admin.from("tregu_duels").select("id, status").or(`challenger.eq.${recipient.user_id},opponent.eq.${recipient.user_id}`).in("status", ["pending", "active"]),
     ]);
     const active = (leagues ?? [])
@@ -298,6 +310,8 @@ export async function runRivalryJobs(now = new Date()) {
   if (now.getUTCMinutes() % 6 < 2) await step("ranks", () => rpc("tregu_refresh_league_ranks"));
   // Today's "make your picks" reminder (09:00-21:00, once a day; the SQL decides).
   await step("picks_due", () => rpc("tregu_queue_picks_due"));
+  // Picks and trades that just won: claimed once, pushed to readers with alerts on.
+  await step("results", () => rpc("tregu_queue_pick_results"));
   await step("push", () => pushEvents(admin));
   await step("digest", () => sendDigests(admin));
   await step("mail", () => sendPlayerEmails(admin));

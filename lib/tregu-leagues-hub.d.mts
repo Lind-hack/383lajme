@@ -19,6 +19,7 @@ export type HubLike = {
 };
 
 export function cardStatus(row: HubLike, now?: number): { tone: CardTone; label: string };
+export function stripStatus(row: HubLike, now?: number): { tone: CardTone; label: string; short: string };
 export function sortMine<T extends HubLike>(rows: T[] | null | undefined, now?: number): T[];
 export function podiumLine(row: HubLike): { rank: number | null; change: number; points: number; note: string } | null;
 export function leaveCopy(

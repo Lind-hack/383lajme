@@ -36,6 +36,7 @@ import TradeTutorial, { openTradeTutorial } from "@/components/tregu/trade-tutor
 import LeagueTutorial from "@/components/tregu/league-tutorial";
 import { DailyBonusButton, DailyBonusStrip, JackpotCelebration, useDailyBonus } from "@/components/tregu/daily-bonus";
 import DuelPin, { useMyDuels } from "@/components/tregu/duel-pin";
+import ResultsReveal from "@/components/tregu/results-reveal";
 import { formatKosovoTime } from "@/lib/tregu-local-time.mjs";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
@@ -807,6 +808,8 @@ export default function TreguHub() {
         {/* Duels first: a challenge or a live score is the most time-bound thing
             a player has on Tregu, so it is pinned above everything else. */}
         {headerReady && <DuelPin duels={myDuels.duels} onChanged={() => void myDuels.reload()} />}
+        {/* What won since the last visit: opens once, only when something won. */}
+        <ResultsReveal loggedIn={signedIn} />
 
         <div className="tregu-floor-head">
           <div className="tregu-floor-head-title">

@@ -24,7 +24,7 @@ const VIDEOS = [
 ];
 
 /** Hero geometry, mirrored by the fixed chrome that floats over it. */
-export const TREGU_HERO = { mobileFrac: 0.62, desktopFrac: 0.76, mobileMin: 448, desktopMin: 560, navH: 64 };
+export const TREGU_HERO = { mobileFrac: 0.54, desktopFrac: 0.72, mobileMin: 420, desktopMin: 540, navH: 64 };
 
 /** True while the hero still sits behind the fixed navbar / account bar. */
 export function treguHeroBehindChrome(scrollY: number): boolean {
@@ -245,59 +245,35 @@ export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
     // 82/90dvh — taller than the first trim so the clips breathe, still short
     // enough that the floor teases in. The chrome mirrors these numbers via
     // treguHeroBehindChrome().
-    <section className="relative h-[62dvh] min-h-[448px] overflow-hidden bg-[#111111] md:h-[76dvh] md:min-h-[560px]">
+    <section className="relative h-[54dvh] min-h-[420px] overflow-hidden bg-[#111111] md:h-[72dvh] md:min-h-[540px]">
       <CinematicBackdrop />
-
-      <div className="relative z-10 flex h-full flex-col px-6 md:px-12 lg:px-16 pt-24">
-        <div className="flex flex-1 flex-col justify-end pb-8 lg:pb-12">
-          <div className="lg:grid lg:grid-cols-2 lg:items-end">
-            <div>
-              <AnimatedHeading text={"Parashiko saktë.\nFito Monedha."} />
-
-              <Reveal delay={360}>
-                <p className="text-base md:text-lg text-gray-300 mb-6 max-w-[54ch]">
-                  Pyetje nga lajmet e ditës. Zgjidh Po ose Jo, dhe sa më saktë ta lexosh
-                  gjasën, aq më shumë <strong className="font-semibold text-white">383 Monedha</strong> fiton.
-                  Mblidh 10 000 dhe i këmben për para të vërteta.
-                </p>
-              </Reveal>
-
-              {!loggedIn && (
-                <Reveal delay={560}>
-                  <Link
-                    href="/hyr?tab=regjistrohu&next=/tregu"
-                    className="hero-cta-free inline-flex items-center rounded-full px-7 py-3 font-semibold min-h-[44px]"
-                  >
-                    Fito 100 Monedha falas
-                  </Link>
-                </Reveal>
-              )}
-
-              {loggedIn && (
-                <Reveal delay={560}>
-                  <Link
-                    href="/tregu/portofoli"
-                    className="hero-cta-free inline-flex items-center rounded-full px-7 py-3 font-semibold min-h-[44px]"
-                  >
-                    Fito 100 Monedha falas
-                  </Link>
-                </Reveal>
-              )}
-            </div>
-
-            <Reveal delay={720} className="mt-8 flex items-end justify-start lg:mt-0 lg:justify-end">
-              {/* Matte orange with real material depth: a near-invisible
-                  vertical shade, an inset top highlight like brushed metal,
-                  and a tinted drop shadow — no gloss, no shimmer. */}
-              <a
-                href="#tregjet"
-                className="hero-cta-material inline-flex items-center rounded-full px-7 py-3 text-lg md:text-xl lg:text-2xl font-light text-white min-h-[44px]"
-                onClick={scrollToMarkets}
+      {/* Phones: one more wash so the three steps read on any clip. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-black/35 md:bg-black/15" />
+      <div className="relative z-10 flex h-full flex-col px-5 md:px-12 lg:px-16 pt-20 md:pt-24">
+        <div className="flex flex-1 flex-col justify-end pb-6 lg:pb-12">
+          <AnimatedHeading text={"Parashiko. Fito.\nMerr para."} />
+          {/* The whole idea in three steps: what you do, what you win, what
+              it becomes. No paragraph: a step is read in a glance over video. */}
+          <Reveal delay={320}>
+            <ol className="hero-steps" aria-label="Si funksionon Tregu">
+              <li><b>1</b><span>Zgjidh <strong>Po</strong> ose <strong>Jo</strong> për ndeshjen ose lajmin</span></li>
+              <li><b>2</b><span>Ke të drejtë? Fiton <strong>383 Monedha</strong></span></li>
+              <li><b>3</b><span><strong>10 000 Monedha = 10€</strong> të vërteta</span></li>
+            </ol>
+          </Reveal>
+          <Reveal delay={520}>
+            <div className="hero-actions">
+              <Link
+                href={loggedIn ? "/tregu/portofoli" : "/hyr?tab=regjistrohu&next=/tregu"}
+                className="hero-cta-free inline-flex items-center justify-center rounded-full px-7 py-3 font-semibold min-h-[48px]"
               >
-                Shiko tregjet
+                {loggedIn ? "Merr bonusin e sotëm" : "Fillo me 100 Monedha falas"}
+              </Link>
+              <a href="#tregjet" className="hero-more" onClick={scrollToMarkets}>
+                ose shiko tregjet <span aria-hidden>↓</span>
               </a>
-            </Reveal>
-          </div>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

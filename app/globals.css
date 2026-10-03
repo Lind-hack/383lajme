@@ -24268,3 +24268,130 @@ button.lgt-launch > span {
 @media (prefers-reduced-motion: reduce) {
   .wr-bars span[data-state="now"] i[style] { animation: none; width: 100%; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   Tregu round 2 (2026-10-03): the banner's three steps, the
+   homepage's road to 10€ and guest pick, milestones, duels.
+   ══════════════════════════════════════════════════════════ */
+
+/* Banner: three steps instead of a paragraph. White on the darkened video,
+   numbered, one per line on phones, a row from 900px. */
+.hero-steps {
+  display: grid;
+  gap: 8px;
+  margin: 2px 0 20px;
+  padding: 0;
+  list-style: none;
+  max-width: 920px;
+}
+.hero-steps li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.3;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
+}
+.hero-steps b {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #FF4422;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  text-shadow: none;
+  font-variant-numeric: tabular-nums;
+}
+.hero-steps strong { font-weight: 800; }
+@media (min-width: 900px) {
+  .hero-steps { display: flex; flex-wrap: wrap; gap: 12px 28px; }
+  .hero-steps li { font-size: 17px; white-space: nowrap; }
+}
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.hero-more {
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(255, 255, 255, 0.4);
+}
+.hero-more:hover { color: #fff; text-decoration-color: #fff; }
+@media (max-width: 640px) {
+  .hero-actions .hero-cta-free { width: 100%; }
+}
+
+/* The 10€ bar: the next milestone, and a one-time burst when one is crossed. */
+.tregu-goal-next { margin: 8px 0 0; font-size: 13px; font-weight: 600; color: var(--tg-text-2, #6B6B6B); font-variant-numeric: tabular-nums; }
+.tregu-goal-next strong { color: var(--tg-text, #111); font-weight: 800; }
+.tregu-goal-milestone { margin: 8px 0 0; font-size: 14px; font-weight: 800; color: #B8740B; animation: tregu-goal-pop 520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.tregu-goal[data-celebrate] .tregu-goal-prize { animation: tregu-goal-burst 900ms cubic-bezier(0.22, 1, 0.36, 1) 1; }
+@keyframes tregu-goal-pop { from { opacity: 0; transform: translateY(6px) scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes tregu-goal-burst {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(242, 193, 78, 0)); }
+  35% { transform: scale(1.22); filter: drop-shadow(0 0 14px rgba(242, 193, 78, 0.9)); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(242, 193, 78, 0)); }
+}
+
+/* Homepage: the bar under the two cards, and the signed-out pick. */
+.home-tregu-goal { margin-top: 14px; }
+/* A bottom sheet, so it appears where the thumb just tapped, above the tab bar. */
+.home-guest-pick {
+  position: fixed;
+  left: 50%;
+  bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  z-index: 85;
+  width: min(calc(100% - 32px), 460px);
+  transform: translateX(-50%);
+  box-shadow: 0 18px 44px -14px rgba(60, 20, 0, 0.45);
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 68, 34, 0.35);
+  background: #FFF4EE;
+  color: #1a1410;
+  animation: home-guest-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes home-guest-in { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.home-guest-pick p { margin: 0 0 4px; font-size: 14.5px; line-height: 1.45; }
+.home-guest-pick > div { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.home-guest-go {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: #FF4422;
+  color: #fff;
+  font-size: 14.5px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.home-guest-later { min-height: 44px; padding: 0 14px; border: 0; background: transparent; color: #6B6B6B; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+
+/* Finished duels: an × to close them for good. */
+.tregu-duel-card[data-kind="won"], .tregu-duel-card[data-kind="lost"], .tregu-duel-card[data-kind="draw"] { position: relative; padding-right: 40px; }
+.tregu-duel-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.06);
+  color: inherit;
+  cursor: pointer;
+}
+.tregu-duel-close:hover { background: rgba(0, 0, 0, 0.12); }
+
+@media (prefers-reduced-motion: reduce) {
+  .tregu-goal-milestone, .tregu-goal[data-celebrate] .tregu-goal-prize, .home-guest-pick { animation: none; }
+}

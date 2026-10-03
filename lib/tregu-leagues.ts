@@ -121,6 +121,12 @@ export type BoardRow = {
   my_outcome: string | null;
   my_points: number | null;
   result: "open" | "locked" | "won" | "lost" | "void";
+  /** Points v2 (migration 0096); absent before it. */
+  my_boosted?: boolean;
+  rules_version?: number;
+  lock_day?: string | null;
+  /** What the pick actually earned, with streak and card. */
+  my_effective?: number | null;
 };
 
 /** Points a correct pick earns at this probability: 100 minus it, 1..99.

@@ -56,14 +56,14 @@ const ACTS: { key: ActKey; title: string; body: string; cue: string; cueDone: st
   {
     key: "join",
     title: "Hyr në një ligë",
-    body: "Liga është një garë parashikimesh me miqtë ose me gjithë Kosovën. Ligat e 383 kushtojnë 10 monedha. Ligat private i krijon vetë dhe fton kë të duash.",
+    body: "Liga është një garë parashikimesh me miqtë ose me gjithë Kosovën. Ligat e 383 kushtojnë 10 monedha. Ligën tënde e krijon vetë: publike për këdo, ose private me kod.",
     cue: "Shtyp Hyr në ligë.",
     cueDone: "Je brenda! Të gjithë nisin nga 0 pikë.",
   },
   {
     key: "pick",
     title: "Zgjidh kush fiton",
-    body: "Parashikimi është falas. Nëse ke të drejtë merr 100 pikë minus gjasat: favoriti jep pak, surpriza jep shumë. Nëse gabon, merr 0.",
+    body: "Parashikimi është falas. Nëse ke të drejtë merr 100 pikë minus gjasat: favoriti jep pak, surpriza jep shumë. Nëse gabon, merr 0. Në ligat e reja: 🔥 3 të sakta rresht vlejnë ×1.5, 5 rresht ×2, dhe ⭐ Karta e artë dyfishon një parashikim në ditë.",
     cue: "Prek një rezultat.",
     cueDone: "E zgjodhe! E ndryshon kurdo deri në fillim të ndeshjes.",
   },

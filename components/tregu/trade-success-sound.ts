@@ -452,3 +452,72 @@ export async function playGiftOpenSound() {
   // The sparkle on top.
   bell(context, master, 4186, start + 0.62, 0.35, 0.28);
 }
+
+/**
+ * Two blades meeting, synthesised: a bright band-passed noise strike, a short
+ * low thump for weight, and four inharmonic partials ringing out like steel
+ * (~0.6 s). `delayMs` lines the hit up with the swords meeting on screen.
+ * Only ever called from the reader's own tap (send / accept a duel).
+ */
+export function playSwordClash(delayMs = 0) {
+  const context = getAudioContext();
+  if (!context) return;
+  void context.resume().catch(() => undefined);
+  const start = context.currentTime + Math.max(0, delayMs) / 1000;
+  const end = start + 0.75;
+  const master = context.createGain();
+  master.gain.setValueAtTime(0.0001, start);
+  master.gain.exponentialRampToValueAtTime(0.34, start + 0.004);
+  master.gain.exponentialRampToValueAtTime(0.0001, end);
+  master.connect(context.destination);
+
+  // The strike: noise through a resonant band, gone in ~70 ms.
+  const strike = context.createBufferSource();
+  strike.buffer = noiseBuffer(context, 0.12);
+  const band = context.createBiquadFilter();
+  band.type = "bandpass";
+  band.frequency.setValueAtTime(3600, start);
+  band.Q.setValueAtTime(1.4, start);
+  const strikeGain = context.createGain();
+  strikeGain.gain.setValueAtTime(0.9, start);
+  strikeGain.gain.exponentialRampToValueAtTime(0.0001, start + 0.07);
+  strike.connect(band);
+  band.connect(strikeGain);
+  strikeGain.connect(master);
+  strike.start(start);
+  strike.stop(start + 0.12);
+
+  // Weight: a quick low knock under the strike.
+  const knock = context.createOscillator();
+  const knockGain = context.createGain();
+  knock.type = "sine";
+  knock.frequency.setValueAtTime(180, start);
+  knock.frequency.exponentialRampToValueAtTime(70, start + 0.08);
+  knockGain.gain.setValueAtTime(0.5, start);
+  knockGain.gain.exponentialRampToValueAtTime(0.0001, start + 0.09);
+  knock.connect(knockGain);
+  knockGain.connect(master);
+  knock.start(start);
+  knock.stop(start + 0.1);
+
+  // The ring: inharmonic partials, the higher ones dying first.
+  [
+    { f: 1870, g: 0.32, d: 0.7 },
+    { f: 3120, g: 0.24, d: 0.55 },
+    { f: 4730, g: 0.16, d: 0.4 },
+    { f: 6210, g: 0.1, d: 0.28 },
+  ].forEach(({ f, g, d }) => {
+    const osc = context.createOscillator();
+    const voice = context.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(f, start);
+    // A hair of detune drift so it shimmers rather than beeps.
+    osc.frequency.linearRampToValueAtTime(f * 0.997, start + d);
+    voice.gain.setValueAtTime(g, start);
+    voice.gain.exponentialRampToValueAtTime(0.0001, start + d);
+    osc.connect(voice);
+    voice.connect(master);
+    osc.start(start);
+    osc.stop(start + d + 0.02);
+  });
+}

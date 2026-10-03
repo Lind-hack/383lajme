@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Swords, X } from "lucide-react";
 import LeaguePay, { type LeaguePayment } from "@/components/tregu/league-pay";
+import SwordClash from "@/components/tregu/sword-clash";
 import { primeSellSound } from "@/components/tregu/trade-success-sound";
 import { fmtNum } from "@/lib/format";
 import { createClient } from "@/lib/supabase/client";
@@ -34,6 +35,9 @@ export default function DuelChallenge({
   const [error, setError] = useState<string | null>(null);
   const [payment, setPayment] = useState<LeaguePayment | null>(null);
   const [sent, setSent] = useState(false);
+  const [clash, setClash] = useState(0);
+  // What follows the clash: the stake paying in, or straight to "sent".
+  const [afterClash, setAfterClash] = useState<LeaguePayment | null>(null);
 
   const send = async () => {
     primeSellSound();
@@ -47,12 +51,21 @@ export default function DuelChallenge({
     }
     const next = Number((data as { balance: number }[] | null)?.[0]?.balance);
     if (Number.isFinite(next)) window.dispatchEvent(new CustomEvent("tregu:balance", { detail: next }));
-    if (stake > 0) setPayment({ amount: stake, pot: stake * 2, league: rival, kind: "duel" });
-    else setSent(true);
+    // Swords first (the reader's own tap, so the sound is allowed), then the stake.
+    setAfterClash(stake > 0 ? { amount: stake, pot: stake * 2, league: rival, kind: "duel" } : null);
+    setClash((n) => n + 1);
   };
 
   return (
     <div className="duel-sheet" role="dialog" aria-label={`Sfido ${rival}`}>
+      <SwordClash
+        run={clash}
+        onDone={() => {
+          if (afterClash) setPayment(afterClash);
+          else setSent(true);
+          setAfterClash(null);
+        }}
+      />
       <LeaguePay payment={payment} onDone={() => { setPayment(null); setSent(true); }} />
       <button type="button" className="duel-x" onClick={onClose} aria-label="Mbyll"><X size={16} /></button>
       {sent ? (

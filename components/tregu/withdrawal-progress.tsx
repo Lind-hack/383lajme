@@ -1,7 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { fmtNum } from "@/lib/format";
+import { milestone } from "@/lib/tregu-points.mjs";
+
+/** The last milestone this browser celebrated, so each one bursts once. */
+const MILESTONE_KEY = "tregu:goal-milestone";
 
 /** The withdrawal threshold, and what it is worth. Mirrors the portfolio page. */
 const THRESHOLD = 10_000;
@@ -32,9 +37,26 @@ export default function WithdrawalProgress({ balance, openValue = 0 }: { balance
   const remaining = Math.max(0, THRESHOLD - total);
   const reached = coins >= THRESHOLD;
   const reachedInTrades = !reached && total >= THRESHOLD;
+  const road = milestone(total);
+  // A milestone crossed since this browser last saw the bar: one burst, once.
+  const [celebrate, setCelebrate] = useState<string | null>(null);
+  const reachedAt = road.reached?.at ?? 0;
+  useEffect(() => {
+    if (balance == null || !reachedAt) return;
+    try {
+      const last = Number(window.localStorage.getItem(MILESTONE_KEY) ?? 0);
+      if (reachedAt > last) {
+        window.localStorage.setItem(MILESTONE_KEY, String(reachedAt));
+        // First visit with an old balance: remember it quietly, no burst.
+        if (last > 0) setCelebrate(road.reached?.line ?? null);
+      }
+    } catch {
+      /* storage unavailable: no celebration, nothing breaks */
+    }
+  }, [balance, reachedAt, road.reached?.line]);
 
   return (
-    <section className="tregu-goal" aria-label="Përparimi drejt tërheqjes">
+    <section className="tregu-goal" aria-label="Përparimi drejt tërheqjes" data-celebrate={celebrate ? "" : undefined}>
       <div className="tregu-goal-head">
         <h3>
           {reached ? "Pragu u arrit" : `Drejt ${fmtNum(THRESHOLD)} Monedhave`}
@@ -81,6 +103,13 @@ export default function WithdrawalProgress({ balance, openValue = 0 }: { balance
         </span>
         <span>{Math.floor(pct)}%</span>
       </p>
+      {celebrate ? (
+        <p className="tregu-goal-milestone" role="status">🎉 {celebrate}</p>
+      ) : road.next && !reached ? (
+        <p className="tregu-goal-next">
+          Edhe <strong>{fmtNum(Math.round(road.toNext))}</strong> Monedha për {road.next.goal}
+        </p>
+      ) : null}
     </section>
   );
 }

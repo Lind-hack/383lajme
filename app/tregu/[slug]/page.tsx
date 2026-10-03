@@ -2222,7 +2222,8 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
           live={matchStarted}
           closeNote={closesAtKickoff ? `Tregtimi mbyllet kur nis ${kickoffWord} (${formatKosovoDateTime(tradingCloseIso)}).` : null}
           loggedIn={Boolean(user)}
-          loginHref={`/hyr?next=${encodeURIComponent(`/tregu/${slug}`)}`}
+          // Keep ?ana= / ?rezultati= so the side chosen on a card survives sign-in.
+          loginHref={`/hyr?next=${encodeURIComponent(`/tregu/${slug}${typeof window !== "undefined" ? window.location.search : ""}`)}`}
           question={group && currentOutcome ? group.title : market.question}
           balance={balance}
           options={mobileTradeOptions}
