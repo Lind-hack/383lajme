@@ -9,7 +9,7 @@ import { track } from "@/lib/analytics";
 import Quiz, { type QuizAnswers } from "./quiz";
 import MyCard from "./my-card";
 import XhepHelp from "./help";
-import DayPlan from "./day-plan";
+import DayPlan, { type StampResult } from "./day-plan";
 import styles from "./xhep.module.css";
 
 type Profile = ReturnType<typeof readProfile>;
@@ -52,6 +52,35 @@ export default function XhepCompanion({ lang, children }: { lang: XhepLang; chil
     document.getElementById("your-card")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  /** One fresh position → the server's verdict → a signed stamp on the card. */
+  const addStamp = async (placeId: string): Promise<StampResult> => {
+    if (!profile?.seed) return { ok: false, code: "generic" };
+    let position: GeolocationPosition;
+    try {
+      position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        if (!navigator.geolocation) return reject(new Error("unsupported"));
+        navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 20_000, maximumAge: 0 });
+      });
+    } catch {
+      return { ok: false, code: "denied" };
+    }
+    try {
+      const response = await fetch("/api/xhep/stamp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ placeId, seed: profile.seed, latitude: position.coords.latitude, longitude: position.coords.longitude, accuracy: position.coords.accuracy }),
+      });
+      const payload = (await response.json()) as { ok?: boolean; stamp?: string; code?: string; distanceM?: number };
+      if (!response.ok || !payload.ok || !payload.stamp) return { ok: false, code: payload.code ?? "generic", distanceM: payload.distanceM };
+      writeProfile({ ...profile, stamps: [...(profile.stamps ?? []), payload.stamp] });
+      setProfile(readProfile());
+      track("xhep_stamp", { city: placeId.split("-")[0] });
+      return { ok: true };
+    } catch {
+      return { ok: false, code: "generic" };
+    }
+  };
+
   const reset = () => {
     clearProfile();
     setProfile(null);
@@ -74,7 +103,7 @@ export default function XhepCompanion({ lang, children }: { lang: XhepLang; chil
       ) : view === "card" && profile ? (
         <>
           <MyCard lang={lang} profile={profile} qrUrl={qrUrl} onEdit={() => setView("quiz")} onReset={reset} />
-          <DayPlan lang={lang} profile={profile} />
+          <DayPlan lang={lang} profile={profile} onStamp={addStamp} />
           {children?.(profile)}
         </>
       ) : (

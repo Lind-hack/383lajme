@@ -112,6 +112,11 @@ type XhepDict = {
     showAll: (n: number) => string;
     showLess: string;
     printNote: string;
+    imHere: string;
+    checking: string;
+    stamped: string;
+    stampErrors: { too_far: (m: number | null) => string; low_accuracy: string; denied: string; generic: string };
+    stampPrivacy: string;
   };
   help: {
     title: string;
@@ -374,6 +379,16 @@ export const XHEP_DICT = {
       showAll: (n) => `Show all ${n} days`,
       showLess: "Show fewer days",
       printNote: "Opening hours change — check before you go.",
+      imHere: "I'm here — stamp it",
+      checking: "Checking where you are...",
+      stamped: "Stamped — look at your card",
+      stampErrors: {
+        too_far: (m) => (m ? `Not quite there yet — about ${m} m away.` : "Not quite there yet."),
+        low_accuracy: "Your location isn't precise enough yet. Step outside and try again.",
+        denied: "Location permission wasn't given, so no stamp this time.",
+        generic: "The stamp didn't work. Try again in a moment.",
+      },
+      stampPrivacy: "Your position is checked once and never stored.",
     },
     help: {
       title: "Help for your trip",
@@ -654,6 +669,16 @@ export const XHEP_DICT = {
       showAll: (n) => `Shfaq të gjitha ${n} ditët`,
       showLess: "Shfaq më pak ditë",
       printNote: "Oraret ndryshojnë — kontrolloji para se të shkosh.",
+      imHere: "Jam këtu — vulose",
+      checking: "Po kontrollojmë ku je...",
+      stamped: "U vulos — shiko kartën tënde",
+      stampErrors: {
+        too_far: (m) => (m ? `Ende jo aty — rreth ${m} m larg.` : "Ende jo aty."),
+        low_accuracy: "Vendndodhja nuk është ende mjaft e saktë. Dil jashtë dhe provo sërish.",
+        denied: "Leja e vendndodhjes nuk u dha, prandaj këtë herë pa vulë.",
+        generic: "Vula nuk funksionoi. Provo sërish pas pak.",
+      },
+      stampPrivacy: "Pozicioni yt kontrollohet një herë dhe nuk ruhet kurrë.",
     },
     help: {
       title: "Ndihmë për udhëtimin",

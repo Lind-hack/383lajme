@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock3, Navigation } from "lucide-react";
+import { BadgeCheck, Clock3, MapPinCheck, Navigation } from "lucide-react";
 import { useMemo, useState } from "react";
 import { CITY_NAMES } from "@/lib/xhep/card-art.mjs";
 import { CITY_TEXT, PLACES } from "@/lib/xhep/places.mjs";
@@ -14,8 +14,37 @@ const MAPS = "https://www.google.com/maps/search/?api=1&query=";
 const PLACE_BY_ID = new Map(PLACES.map((p) => [p.id, p]));
 const PREVIEW_DAYS = 3;
 
-export default function DayPlan({ lang, profile }: { lang: XhepLang; profile: Profile }) {
+export type StampResult = { ok: true } | { ok: false; code: string; distanceM?: number };
+
+export default function DayPlan({
+  lang,
+  profile,
+  onStamp,
+}: {
+  lang: XhepLang;
+  profile: Profile;
+  /** Present on the visitor's own plan; absent on a shared trip page. */
+  onStamp?: (placeId: string) => Promise<StampResult>;
+}) {
   const t = xhepDict(lang).plan;
+  const stampedIds = useMemo(() => new Set((profile.stamps ?? []).map((st: string) => st.split(".")[0])), [profile.stamps]);
+  const [stampState, setStampState] = useState<Record<string, string>>({});
+  const [busyId, setBusyId] = useState<string | null>(null);
+  const stamp = async (placeId: string) => {
+    if (!onStamp) return;
+    setBusyId(placeId);
+    setStampState((s) => ({ ...s, [placeId]: t.checking }));
+    const res = await onStamp(placeId);
+    const e = t.stampErrors;
+    const message = res.ok
+      ? t.stamped
+      : res.code === "too_far" ? e.too_far(res.distanceM ?? null)
+      : res.code === "low_accuracy" ? e.low_accuracy
+      : res.code === "denied" ? e.denied
+      : e.generic;
+    setStampState((s) => ({ ...s, [placeId]: message }));
+    setBusyId(null);
+  };
   const plan = useMemo(() => planTrip(profile), [profile]);
   const [expanded, setExpanded] = useState(false);
   const visible = expanded ? plan : plan.slice(0, PREVIEW_DAYS);
@@ -49,10 +78,24 @@ export default function DayPlan({ lang, profile }: { lang: XhepLang; profile: Pr
                           {place.category[lang]} · <Clock3 aria-hidden="true" size={11} /> {t.duration(stop.minutes)}
                         </small>
                         <p>{place.description[lang]}</p>
-                        <a href={`${MAPS}${encodeURIComponent(place.mapsQuery)}`} target="_blank" rel="noreferrer">
-                          <Navigation aria-hidden="true" size={13} />
-                          {t.directions}
-                        </a>
+                        <div className={styles.planActions}>
+                          <a href={`${MAPS}${encodeURIComponent(place.mapsQuery)}`} target="_blank" rel="noreferrer">
+                            <Navigation aria-hidden="true" size={13} />
+                            {t.directions}
+                          </a>
+                          {onStamp && place.coords && (stampedIds.has(place.id) ? (
+                            <span className={styles.stampDone}>
+                              <BadgeCheck aria-hidden="true" size={14} />
+                              {t.stamped}
+                            </span>
+                          ) : (
+                            <button type="button" className={styles.stampButton} disabled={busyId !== null} onClick={() => void stamp(place.id)}>
+                              <MapPinCheck aria-hidden="true" size={14} />
+                              {t.imHere}
+                            </button>
+                          ))}
+                        </div>
+                        {stampState[place.id] && !stampedIds.has(place.id) && <p className={styles.stampMessage} role="status">{stampState[place.id]}</p>}
                       </div>
                     </li>
                   );
@@ -67,7 +110,10 @@ export default function DayPlan({ lang, profile }: { lang: XhepLang; profile: Pr
           {expanded ? t.showLess : t.showAll(plan.length)}
         </button>
       )}
-      <p className={styles.planNote}>{t.printNote}</p>
+      <p className={styles.planNote}>
+        {t.printNote}
+        {onStamp ? ` ${t.stampPrivacy}` : ""}
+      </p>
     </section>
   );
 }

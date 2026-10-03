@@ -929,3 +929,48 @@
   font-size: 13px !important;
   font-weight: 850;
 }
+
+/* -------------------------------------------------------------- stamps */
+
+.planActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+}
+
+.stampButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid rgba(158, 42, 30, 0.35);
+  border-radius: 999px;
+  background: #fff4ee;
+  color: #9e2a1e;
+  font-size: 12px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.stampButton:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+.stampDone {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #8a6a12;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.stampMessage {
+  margin: 6px 0 0 !important;
+  color: var(--visit-ink) !important;
+  font-size: 12px !important;
+  font-weight: 700;
+}
