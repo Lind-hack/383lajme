@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid report." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid report.", code: "invalid_input" }, { status: 400 });
   }
 
   const crossing = BORDER_CROSSINGS.find((item) => item.id === body.crossingId);
@@ -35,15 +35,15 @@ export async function POST(request: NextRequest) {
   const latitude = Number(body.latitude);
   const longitude = Number(body.longitude);
   if (!crossing || !["entry", "exit"].includes(body.direction ?? "") || !Number.isInteger(waitMinutes) || waitMinutes < 0 || waitMinutes > 240) {
-    return NextResponse.json({ error: "Choose a crossing, direction and a wait between 0 and 240 minutes." }, { status: 400 });
+    return NextResponse.json({ error: "Choose a crossing, direction and a wait between 0 and 240 minutes.", code: "invalid_input" }, { status: 400 });
   }
   if (![latitude, longitude, accuracy].every(Number.isFinite) || accuracy <= 0 || accuracy > 1000) {
-    return NextResponse.json({ error: "Vendndodhja duhet të jetë e freskët dhe me saktësi brenda 1 km." }, { status: 400 });
+    return NextResponse.json({ error: "Vendndodhja duhet të jetë e freskët dhe me saktësi brenda 1 km.", code: "low_accuracy" }, { status: 400 });
   }
 
   const distanceKm = haversineKm({ latitude, longitude }, crossing);
   if (distanceKm > 1) {
-    return NextResponse.json({ error: `Duhet të jesh brenda 1 km nga ${crossing.name} për të raportuar.`, distanceKm: Math.round(distanceKm * 10) / 10 }, { status: 422 });
+    return NextResponse.json({ error: `Duhet të jesh brenda 1 km nga ${crossing.name} për të raportuar.`, code: "too_far", distanceKm: Math.round(distanceKm * 10) / 10 }, { status: 422 });
   }
 
   let userId: string | undefined;
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
   }
   const reporterMode = resolveReporterMode(body.anonymous, userId);
   if (!reporterMode) {
-    return NextResponse.json({ error: "Hyr në llogari ose zgjidh raportimin anonim." }, { status: 401 });
+    return NextResponse.json({ error: "Hyr në llogari ose zgjidh raportimin anonim.", code: "sign_in" }, { status: 401 });
   }
   const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
   const deviceHash = hashReportIdentity({ mode: reporterMode, userId, deviceId: body.deviceId, forwarded });
@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     count = response.count ?? 0;
   }
   if (count > 0 || hasRecentMemoryReport(deviceHash)) {
-    return NextResponse.json({ error: "Prit 10 minuta para se të dërgosh një raport tjetër." }, { status: 429 });
+    return NextResponse.json({ error: "Prit 10 minuta para se të dërgosh një raport tjetër.", code: "too_soon" }, { status: 429 });
   }
 
   let officialMinutes: number | null = null;
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
 
   if (admin) {
     const { error } = await admin.from("visit_border_reports").insert(report);
-    if (error) return NextResponse.json({ error: "Raporti nuk mund të ruhej. Provo sërish." }, { status: 500 });
+    if (error) return NextResponse.json({ error: "Raporti nuk mund të ruhej. Provo sërish.", code: "save_failed" }, { status: 500 });
   } else {
     addMemoryReport({
       crossing_id: report.crossing_id,

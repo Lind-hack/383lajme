@@ -41,6 +41,8 @@ import DardaniImage from "@/components/dardani/dardani-image";
 import LangToggle from "@/components/xhep/lang-toggle";
 import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
 
+type Dict = ReturnType<typeof xhepDict>;
+
 type WaitRange = { min: number; max: number };
 type OfficialWait = {
   crossingId: BorderCrossingId;
@@ -78,11 +80,11 @@ function escapeHtml(value: string | number | null | undefined) {
   })[character] ?? character);
 }
 
-function downloadHtml(filename: string, title: string, content: string, variant: "utility" | "travel") {
+function downloadHtml(d: Dict, filename: string, title: string, content: string, variant: "utility" | "travel") {
   const identity = variant === "utility"
-    ? `<header class="identity"><b>383</b><span>KARTA E KUFIRIT</span><em>LIVE • OFFLINE</em></header>`
-    : `<header class="identity"><b>383</b><span>KOSOVA PËR TA PËRJETUAR</span><em>TRAVEL EDITION</em></header>`;
-  const html = `<!doctype html><html lang="sq"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)}</title><style>*{box-sizing:border-box}body{margin:0;color:#171614;font:15px/1.5 Arial,sans-serif}body.utility{background:#23211d}body.travel{background:#f6d999}.sheet{width:min(900px,calc(100% - 24px));margin:24px auto;overflow:hidden}.identity{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px}.identity b{font-size:34px;line-height:1;letter-spacing:-.08em}.identity span,.identity em{font-size:10px;font-style:normal;font-weight:900;letter-spacing:.14em}.utility .sheet{position:relative;background:#f4f0e8;border:1px solid #45423b;box-shadow:0 24px 80px rgba(0,0,0,.28)}.utility .sheet:before{content:"";position:absolute;inset:0 auto 0 0;width:13px;background:#ff4422}.utility .identity{padding:20px 28px 18px 38px;background:#171614;color:#fff;border-bottom:8px solid #ff4422}.utility .identity b{color:#ff4422}.utility .identity em{color:#b9ffcc}.utility .content{padding:28px 36px 34px}.utility h1{margin:0;font-size:46px;line-height:.98;letter-spacing:-.05em;text-transform:uppercase}.utility h2{margin:28px 0 8px;padding-top:10px;border-top:2px solid #1e1c19;font-size:12px;letter-spacing:.13em;text-transform:uppercase}.utility .meta{margin:8px 0 0;color:#5c574f}.utility .row{padding:15px 0;border-bottom:1px solid #cfc8bd}.utility .row:after{content:"";display:block;clear:both}.utility .bar{height:12px;margin-top:9px;overflow:hidden;background:#d8d2c8}.utility .bar i{display:block;height:100%}.utility .service{display:grid;grid-template-columns:220px 1fr;gap:0;margin:14px 0;border:1px solid #cfc8bd;background:#fff}.utility .service img{width:100%;height:170px;object-fit:cover}.utility .service-no-photo{display:grid;place-items:center;min-height:170px;padding:22px;background:#e8e1d6;color:#5c574f;text-align:center;font-size:12px;font-weight:700}.utility .service div{padding:17px}.utility .service small{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#d6381d}.utility .service h3{margin:4px 0;font-size:21px}.utility .service p{margin:5px 0;color:#5c574f}.utility .service a{display:inline-block;margin-top:7px;color:#b52918;font-weight:900}.utility .service .credit,.travel .place .credit{font-size:9px}.utility .emergency{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.utility .emergency b{padding:12px 10px;background:#9f211b;color:#fff;text-align:center}.travel .sheet{background:#fffaf0;border:1px solid rgba(83,54,17,.18);box-shadow:0 24px 80px rgba(91,54,9,.2)}.travel .identity{padding:18px 24px;background:#ff4422;color:#fff}.travel .identity em{color:#fff2b0}.travel .content{padding:30px}.travel section{position:relative;padding-bottom:26px}.travel h1{width:fit-content;margin:0;padding:5px 13px 8px;background:#171614;color:#fff;font-size:54px;line-height:1;letter-spacing:-.055em;transform:rotate(-1deg)}.travel h2{margin:24px 0 10px}.travel .meta{margin:15px 0 22px;color:#625947;font-size:17px;font-weight:700}.travel .place{display:grid;grid-template-columns:minmax(180px,36%) 1fr;gap:0;overflow:hidden;margin:14px 0;background:#fff;border:1px solid #ead9bd;box-shadow:7px 7px 0 #ffd46b}.travel .place:nth-of-type(even){box-shadow:7px 7px 0 #bce8d0}.travel .place img{width:100%;height:190px;object-fit:cover}.travel .place div{padding:20px}.travel .place h3{margin:0 0 5px;font-size:23px;letter-spacing:-.025em}.travel .place p{margin:5px 0;color:#5f594e}.travel .place a{display:inline-block;margin-top:12px;color:#d6381d;font-weight:900}.fine{margin:0;padding:16px 30px 22px;color:#6b655d;font-size:11px}.utility .fine{background:#e8e2d8}.travel .fine{background:#fff0ca}@media(max-width:600px){.identity{grid-template-columns:auto 1fr}.identity em{grid-column:2}.utility .content,.travel .content{padding:22px}.travel .place{grid-template-columns:1fr}.travel .place img{height:220px}.utility .service{grid-template-columns:1fr}.utility .service img{height:210px}.utility .emergency{grid-template-columns:1fr 1fr}}@media print{body{background:#fff!important}.sheet{width:100%;margin:0;box-shadow:none!important}}@page{margin:10mm}</style></head><body class="${variant}"><main class="sheet">${identity}<div class="content">${content}</div><p class="fine">Ruaje kartën për udhëtim. Pritjet dhe kushtet mund të ndryshojnë. Në emergjencë telefono 112.</p></main></body></html>`;
+    ? `<header class="identity"><b>383</b><span>${escapeHtml(d.offline.utilityBrand)}</span><em>LIVE • OFFLINE</em></header>`
+    : `<header class="identity"><b>383</b><span>${escapeHtml(d.offline.travelBrand)}</span><em>TRAVEL EDITION</em></header>`;
+  const html = `<!doctype html><html lang="${d.offline.htmlLang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)}</title><style>*{box-sizing:border-box}body{margin:0;color:#171614;font:15px/1.5 Arial,sans-serif}body.utility{background:#23211d}body.travel{background:#f6d999}.sheet{width:min(900px,calc(100% - 24px));margin:24px auto;overflow:hidden}.identity{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px}.identity b{font-size:34px;line-height:1;letter-spacing:-.08em}.identity span,.identity em{font-size:10px;font-style:normal;font-weight:900;letter-spacing:.14em}.utility .sheet{position:relative;background:#f4f0e8;border:1px solid #45423b;box-shadow:0 24px 80px rgba(0,0,0,.28)}.utility .sheet:before{content:"";position:absolute;inset:0 auto 0 0;width:13px;background:#ff4422}.utility .identity{padding:20px 28px 18px 38px;background:#171614;color:#fff;border-bottom:8px solid #ff4422}.utility .identity b{color:#ff4422}.utility .identity em{color:#b9ffcc}.utility .content{padding:28px 36px 34px}.utility h1{margin:0;font-size:46px;line-height:.98;letter-spacing:-.05em;text-transform:uppercase}.utility h2{margin:28px 0 8px;padding-top:10px;border-top:2px solid #1e1c19;font-size:12px;letter-spacing:.13em;text-transform:uppercase}.utility .meta{margin:8px 0 0;color:#5c574f}.utility .row{padding:15px 0;border-bottom:1px solid #cfc8bd}.utility .row:after{content:"";display:block;clear:both}.utility .bar{height:12px;margin-top:9px;overflow:hidden;background:#d8d2c8}.utility .bar i{display:block;height:100%}.utility .service{display:grid;grid-template-columns:220px 1fr;gap:0;margin:14px 0;border:1px solid #cfc8bd;background:#fff}.utility .service img{width:100%;height:170px;object-fit:cover}.utility .service-no-photo{display:grid;place-items:center;min-height:170px;padding:22px;background:#e8e1d6;color:#5c574f;text-align:center;font-size:12px;font-weight:700}.utility .service div{padding:17px}.utility .service small{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#d6381d}.utility .service h3{margin:4px 0;font-size:21px}.utility .service p{margin:5px 0;color:#5c574f}.utility .service a{display:inline-block;margin-top:7px;color:#b52918;font-weight:900}.utility .service .credit,.travel .place .credit{font-size:9px}.utility .emergency{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.utility .emergency b{padding:12px 10px;background:#9f211b;color:#fff;text-align:center}.travel .sheet{background:#fffaf0;border:1px solid rgba(83,54,17,.18);box-shadow:0 24px 80px rgba(91,54,9,.2)}.travel .identity{padding:18px 24px;background:#ff4422;color:#fff}.travel .identity em{color:#fff2b0}.travel .content{padding:30px}.travel section{position:relative;padding-bottom:26px}.travel h1{width:fit-content;margin:0;padding:5px 13px 8px;background:#171614;color:#fff;font-size:54px;line-height:1;letter-spacing:-.055em;transform:rotate(-1deg)}.travel h2{margin:24px 0 10px}.travel .meta{margin:15px 0 22px;color:#625947;font-size:17px;font-weight:700}.travel .place{display:grid;grid-template-columns:minmax(180px,36%) 1fr;gap:0;overflow:hidden;margin:14px 0;background:#fff;border:1px solid #ead9bd;box-shadow:7px 7px 0 #ffd46b}.travel .place:nth-of-type(even){box-shadow:7px 7px 0 #bce8d0}.travel .place img{width:100%;height:190px;object-fit:cover}.travel .place div{padding:20px}.travel .place h3{margin:0 0 5px;font-size:23px;letter-spacing:-.025em}.travel .place p{margin:5px 0;color:#5f594e}.travel .place a{display:inline-block;margin-top:12px;color:#d6381d;font-weight:900}.fine{margin:0;padding:16px 30px 22px;color:#6b655d;font-size:11px}.utility .fine{background:#e8e2d8}.travel .fine{background:#fff0ca}@media(max-width:600px){.identity{grid-template-columns:auto 1fr}.identity em{grid-column:2}.utility .content,.travel .content{padding:22px}.travel .place{grid-template-columns:1fr}.travel .place img{height:220px}.utility .service{grid-template-columns:1fr}.utility .service img{height:210px}.utility .emergency{grid-template-columns:1fr 1fr}}@media print{body{background:#fff!important}.sheet{width:100%;margin:0;box-shadow:none!important}}@page{margin:10mm}</style></head><body class="${variant}"><main class="sheet">${identity}<div class="content">${content}</div><p class="fine">${escapeHtml(d.offline.fine)}</p></main></body></html>`;
   const blob = new Blob([html], { type: "text/html;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
@@ -98,10 +100,10 @@ function rangeLabel(range: WaitRange) {
   return range.min === range.max ? `${range.min} min` : `${range.min}-${range.max} min`;
 }
 
-function relativeReportTime(value: string) {
+function relativeReportTime(d: Dict, value: string) {
   const minutes = Math.max(0, Math.round((Date.now() - Date.parse(value)) / 60_000));
-  if (minutes < 1) return "Tani";
-  return `${minutes} min më parë`;
+  if (minutes < 1) return d.time.now;
+  return d.time.minutesAgo(minutes);
 }
 
 function waitLevel(minutes: number) {
@@ -110,37 +112,37 @@ function waitLevel(minutes: number) {
   return "green";
 }
 
-function WaitMeter({ minutes }: { minutes: number | null }) {
+function WaitMeter({ minutes, d }: { minutes: number | null; d: Dict }) {
   const level = waitLevel(minutes ?? 0);
   const scale = minutes === null ? 0 : Math.max(.08, Math.min(1, minutes / 45));
   const style = { "--wait-scale": scale } as CSSProperties;
   return (
-    <div className={styles.waitTrack} aria-label={minutes === null ? "Nuk ka të dhëna për pritjen" : `${minutes} minuta, niveli ${level}`}>
+    <div className={styles.waitTrack} aria-label={minutes === null ? d.meter.noData : d.meter.label(minutes, level)}>
       <span key={minutes ?? "empty"} className={styles[`wait${level[0].toUpperCase()}${level.slice(1)}`]} style={style} />
     </div>
   );
 }
 
-function ExactPlaceVisual({ place, Icon }: { place: NearbyPlace; Icon: ComponentType<{ "aria-hidden"?: boolean | "true" | "false"; size?: number }> }) {
+function ExactPlaceVisual({ place, Icon, d }: { place: NearbyPlace; Icon: ComponentType<{ "aria-hidden"?: boolean | "true" | "false"; size?: number }>; d: Dict }) {
   const [loaded, setLoaded] = useState(false);
   if (!place.photo) {
     return <div className={styles.nearbyPlaceholder}>
       <Icon aria-hidden="true" size={23} />
-      <span>Foto e saktë<br />s&apos;është verifikuar</span>
+      <span>{d.nearby.photoUnverified}</span>
     </div>;
   }
   return <div className={styles.nearbyVisual}>
-    <img className={loaded ? styles.nearbyImageLoaded : ""} src={place.photo.url} alt={`${place.name}, foto e verifikuar e vendit`} loading="lazy" onLoad={() => setLoaded(true)} />
+    <img className={loaded ? styles.nearbyImageLoaded : ""} src={place.photo.url} alt={d.nearby.photoAlt(place.name)} loading="lazy" onLoad={() => setLoaded(true)} />
     <small className={styles.nearbyPhotoCredit}>{place.photo.credit}</small>
   </div>;
 }
 
-function CityGuide({ city }: { city: KosovoCity }) {
+function CityGuide({ city, d }: { city: KosovoCity; d: Dict }) {
   const headerStyle = { "--city-image": `url(${city.places[0].image})` } as CSSProperties;
   return (
     <article className={styles.cityGuide}>
       <header style={headerStyle}>
-        <div className={styles.cityGuideBrand}><b>383</b><span>KARTA E QYTETIT</span></div>
+        <div className={styles.cityGuideBrand}><b>383</b><span>{d.city.brand}</span></div>
         <div className={styles.cityGuideCopy}><span>{city.region}</span><h3>{city.name}</h3><p>{city.tagline}</p></div>
         <div className={styles.cityGuideMap} aria-hidden="true"><KosovoFieldMap compact /></div>
       </header>
@@ -152,7 +154,7 @@ function CityGuide({ city }: { city: KosovoCity }) {
               <span>{place.category}<small><Clock3 aria-hidden="true" size={12} />{place.visitHint}</small></span>
               <h4>{place.name}</h4>
               <p>{place.description}</p>
-              <a href={`${MAPS}${encodeURIComponent(place.mapsQuery)}`} target="_blank" rel="noreferrer"><Navigation aria-hidden="true" size={15} />Hap drejtimet</a>
+              <a href={`${MAPS}${encodeURIComponent(place.mapsQuery)}`} target="_blank" rel="noreferrer"><Navigation aria-hidden="true" size={15} />{d.common.openDirections}</a>
             </div>
           </article>
         ))}
@@ -161,12 +163,12 @@ function CityGuide({ city }: { city: KosovoCity }) {
   );
 }
 
-function SavedCityCover({ city }: { city: KosovoCity }) {
+function SavedCityCover({ city, d }: { city: KosovoCity; d: Dict }) {
   return (
     <article className={styles.savedCityCover}>
       <img src={city.places[0].image} alt={city.places[0].imageAlt} loading="lazy" />
       <b className={styles.savedCity383}>383</b>
-      <div><span>{city.region}</span><h4>{city.name}</h4><p>{city.places.length} ndalesa me fotografi dhe drejtime</p></div>
+      <div><span>{city.region}</span><h4>{city.name}</h4><p>{d.city.stopsWithPhotos(city.places.length)}</p></div>
     </article>
   );
 }
@@ -187,7 +189,9 @@ async function imageAsDataUrl(path: string) {
 }
 
 export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) {
-  const t = xhepDict(lang).hero;
+  const d = xhepDict(lang);
+  const t = d.hero;
+  const countryOf = (id: BorderCrossingId) => d.common.countries[id];
   const [mode, setMode] = useState<"border" | "city">("border");
   const [borderPayload, setBorderPayload] = useState<BorderPayload | null>(null);
   const [borderLoading, setBorderLoading] = useState(true);
@@ -197,7 +201,7 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
   const [locationMessage, setLocationMessage] = useState("");
   const [locating, setLocating] = useState(false);
   const [locationProgress, setLocationProgress] = useState(0);
-  const [locationStage, setLocationStage] = useState("Gati për analizë");
+  const [locationStage, setLocationStage] = useState<string>(d.locate.ready);
   const [reportOpen, setReportOpen] = useState(false);
   const [reportMinutes, setReportMinutes] = useState(15);
   const [reportMessage, setReportMessage] = useState("");
@@ -245,11 +249,11 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
       const payload = (await response.json()) as BorderPayload;
       setBorderPayload(payload);
     } catch {
-      setBorderPayload({ official: [], community: {}, recentReports: [], generatedAt: new Date().toISOString(), error: "Pritjet nuk mund të përditësohen tani." });
+      setBorderPayload({ official: [], community: {}, recentReports: [], generatedAt: new Date().toISOString(), error: d.border.loadFailed });
     } finally {
       setBorderLoading(false);
     }
-  }, []);
+  }, [d]);
 
   useEffect(() => {
     void loadBorders();
@@ -258,39 +262,39 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
   }, [loadBorders]);
 
   const requestLocation = useCallback((fresh = false) => new Promise<BrowserLocation>((resolve, reject) => {
-    if (!navigator.geolocation) return reject(new Error("Shfletuesi nuk mbështet vendndodhjen."));
+    if (!navigator.geolocation) return reject(new Error(d.locate.unsupported));
     navigator.geolocation.getCurrentPosition(
       (position) => resolve({ latitude: position.coords.latitude, longitude: position.coords.longitude, accuracy: position.coords.accuracy }),
-      () => reject(new Error("Leja e vendndodhjes nuk u dha. Aktivizoje nga cilësimet e shfletuesit.")),
+      () => reject(new Error(d.locate.denied)),
       { enableHighAccuracy: true, timeout: 15_000, maximumAge: fresh ? 0 : 60_000 },
     );
-  }), []);
+  }), [d]);
 
   const locateServices = async () => {
     if (locating) return;
     setLocating(true);
     setLocationProgress(8);
-    setLocationStage("Po kërkohet leja e vendndodhjes");
+    setLocationStage(d.locate.asking);
     setLocationMessage("");
     try {
       const coordinates = await requestLocation();
       setLocationProgress(42);
-      setLocationStage("Vendndodhja u konfirmua");
+      setLocationStage(d.locate.confirmed);
       setLocationProgress(58);
-      setLocationStage("Po analizohen shërbimet brenda 10 km");
+      setLocationStage(d.locate.analysing);
       const response = await fetch(`/api/visit/nearby?lat=${coordinates.latitude}&lon=${coordinates.longitude}`, { cache: "no-store" });
       const payload = await response.json() as NearbyPayload & { error?: string };
-      if (!response.ok) throw new Error(payload.error ?? "Shërbimi i hartës nuk u përgjigj.");
+      if (!response.ok) throw new Error(d.locate.mapFailed);
       setLocationProgress(92);
-      setLocationStage("Po përgatitet karta 383");
+      setLocationStage(d.locate.preparing);
       setNearby(payload);
-      setLocationMessage(payload.degraded ? "Lidhjet hapin kërkimin më të afërt në hartë." : "U gjetën shërbimet pranë teje. Vendndodhja nuk ruhet.");
+      setLocationMessage(payload.degraded ? d.locate.degraded : d.locate.found);
       setLocationProgress(100);
-      setLocationStage("Analiza u krye");
+      setLocationStage(d.locate.done);
     } catch (error) {
       setLocationMessage(String(error instanceof Error ? error.message : error));
       setLocationProgress(0);
-      setLocationStage("Analiza nuk u përfundua");
+      setLocationStage(d.locate.failed);
     } finally {
       setLocating(false);
     }
@@ -298,7 +302,7 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
 
   const submitReport = async () => {
     setReporting(true);
-    setReportMessage("Po kontrollojmë nëse je pranë pikës së zgjedhur...");
+    setReportMessage(d.report.checking);
     try {
       const coordinates = await requestLocation(true);
       let deviceId = localStorage.getItem("visit-report-device");
@@ -311,8 +315,18 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ crossingId: selectedCrossing, direction, waitMinutes: reportMinutes, ...coordinates, deviceId, anonymous: reportMode === "anonymous" }),
       });
-      const payload = await response.json() as { message?: string; error?: string };
-      setReportMessage(payload.message ?? payload.error ?? "Raporti nuk u ruajt.");
+      const payload = await response.json() as { accepted?: boolean; code?: string; distanceKm?: number };
+      const errors = d.report.errors;
+      setReportMessage(
+        response.ok ? (payload.accepted ? d.report.accepted : d.report.quarantined)
+        : payload.code === "too_far" ? errors.tooFar(typeof payload.distanceKm === "number" ? payload.distanceKm : null)
+        : payload.code === "low_accuracy" ? errors.tooFar(null)
+        : payload.code === "sign_in" ? errors.signIn
+        : payload.code === "too_soon" ? errors.tooSoon
+        : payload.code === "save_failed" ? errors.saveFailed
+        : payload.code === "invalid_input" ? errors.invalid
+        : errors.generic,
+      );
       if (response.ok) {
         track("visit_report_submitted", { crossingId: selectedCrossing, direction, reporterMode: reportMode });
         await loadBorders();
@@ -324,6 +338,7 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
     }
   };
 
+  const emergencyLabel = (item: (typeof EMERGENCY_NUMBERS)[number]) => d.common.emergency[item.number as keyof Dict["common"]["emergency"]] ?? item.label;
   const currentCity = KOSOVO_CITIES.find((city) => city.id === selectedCity) ?? KOSOVO_CITIES[1];
   const currentCrossing = BORDER_CROSSINGS.find((crossing) => crossing.id === selectedCrossing) ?? BORDER_CROSSINGS[0];
   const savedCityCards = savedCities.flatMap((id) => KOSOVO_CITIES.find((city) => city.id === id) ?? []);
@@ -337,19 +352,19 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
         const current = borderPayload?.official.find((item) => item.crossingId === crossing.id);
         const range = direction === "entry" ? current?.entry : current?.exit;
         const minutes = range?.max ?? 0;
-        return `<div class="row"><b>${escapeHtml(crossing.name)} - ${direction === "entry" ? "Hyrje" : "Dalje"}</b><span style="float:right">${range ? escapeHtml(rangeLabel(range)) : "Pa të dhëna"}</span><div class="bar"><i style="width:${Math.max(3, Math.min(100, minutes / 45 * 100))}%;background:${minutes >= 30 ? "#c8261a" : minutes >= 15 ? "#e7a317" : "#198754"}"></i></div></div>`;
+        return `<div class="row"><b>${escapeHtml(crossing.name)} - ${escapeHtml(direction === "entry" ? d.border.entryShort : d.border.exitShort)}</b><span style="float:right">${escapeHtml(range ? rangeLabel(range) : t.noData)}</span><div class="bar"><i style="width:${Math.max(3, Math.min(100, minutes / 45 * 100))}%;background:${minutes >= 30 ? "#c8261a" : minutes >= 15 ? "#e7a317" : "#198754"}"></i></div></div>`;
       }).join("");
-      const serviceLabels: Record<string, string> = { police: "Policia", hospital: "Ambulanca", fire_station: "Zjarrfikësit", fuel: "Karburanti" };
+      const serviceLabels: Record<string, string> = d.common.services;
       const services = nearby ? (await Promise.all(Object.entries(nearby.nearest).map(async ([kind, place]) => {
-        if (!place) return `<div class="row"><b>${escapeHtml(serviceLabels[kind])}</b> <a href="${escapeHtml(nearby.fallbackSearches[kind as keyof NearbyPayload["fallbackSearches"]])}">Hap kërkimin më të afërt</a></div>`;
+        if (!place) return `<div class="row"><b>${escapeHtml(serviceLabels[kind])}</b> <a href="${escapeHtml(nearby.fallbackSearches[kind as keyof NearbyPayload["fallbackSearches"]])}">${escapeHtml(d.offline.openNearestSearch)}</a></div>`;
         const visual = place.photo?.embeddable
           ? `<img src="${escapeHtml(await imageAsDataUrl(place.photo.url))}" alt="${escapeHtml(place.photo.title)}">`
-          : `<div class="service-no-photo">Foto e saktë nuk është e verifikuar për përdorim offline.</div>`;
-        const credit = place.photo ? `<p class="credit">Foto e vendit: ${escapeHtml(place.photo.credit)} • ${escapeHtml(place.photo.license)}</p>` : "";
-        return `<article class="service">${visual}<div><small>${escapeHtml(serviceLabels[kind])}</small><h3>${escapeHtml(place.name)}</h3><p>${place.distanceKm.toFixed(1)} km larg • ${place.latitude.toFixed(5)}, ${place.longitude.toFixed(5)}</p><a href="${escapeHtml(place.mapsUrl)}">Hap drejtimet në Google Maps</a>${credit}</div></article>`;
-      }))).join("") : "<div class=\"row\">Lejo vendndodhjen para shkarkimit për të shtuar shërbimet më të afërta.</div>";
-      const emergency = EMERGENCY_NUMBERS.map((item) => `<b>${escapeHtml(item.label)} ${item.number}</b>`).join("");
-      downloadHtml("383-karta-e-kufirit.html", "Karta e kufirit - 383", `<h1>${escapeHtml(currentCrossing.name)}<br>${direction === "entry" ? "Hyrje" : "Dalje"}</h1><p class="meta">Kosovë / ${escapeHtml(currentCrossing.country)} • Përditësim automatik çdo 10 minuta</p><h2>Pritjet e fundit</h2>${waits}<h2>Shërbimet më të afërta</h2>${services}<h2>Numrat e emergjencës</h2><div class="emergency">${emergency}</div>`, "utility");
+          : `<div class="service-no-photo">${escapeHtml(d.offline.noOfflinePhoto)}</div>`;
+        const credit = place.photo ? `<p class="credit">${escapeHtml(d.offline.placePhoto)}: ${escapeHtml(place.photo.credit)} • ${escapeHtml(place.photo.license)}</p>` : "";
+        return `<article class="service">${visual}<div><small>${escapeHtml(serviceLabels[kind])}</small><h3>${escapeHtml(place.name)}</h3><p>${escapeHtml(d.offline.kmAway(place.distanceKm.toFixed(1)))} • ${place.latitude.toFixed(5)}, ${place.longitude.toFixed(5)}</p><a href="${escapeHtml(place.mapsUrl)}">${escapeHtml(d.common.openDirectionsGoogle)}</a>${credit}</div></article>`;
+      }))).join("") : `<div class="row">${escapeHtml(d.offline.allowLocationFirst)}</div>`;
+      const emergency = EMERGENCY_NUMBERS.map((item) => `<b>${escapeHtml(emergencyLabel(item))} ${item.number}</b>`).join("");
+      downloadHtml(d, "383-karta-e-kufirit.html", d.offline.title, `<h1>${escapeHtml(currentCrossing.name)}<br>${escapeHtml(direction === "entry" ? d.border.entryShort : d.border.exitShort)}</h1><p class="meta">${escapeHtml(d.common.kosovo)} / ${escapeHtml(countryOf(currentCrossing.id))} • ${escapeHtml(d.offline.autoRefreshEvery)}</p><h2>${escapeHtml(d.offline.latestWaits)}</h2>${waits}<h2>${escapeHtml(d.offline.nearestServices)}</h2>${services}<h2>${escapeHtml(d.offline.emergencyNumbers)}</h2><div class="emergency">${emergency}</div>`, "utility");
     } finally {
       setExportingUtility(false);
     }
@@ -359,10 +374,10 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
     setExportingCities(true);
     try {
       const sections = await Promise.all(cities.map(async (city) => {
-        const places = await Promise.all(city.places.map(async (place) => `<article class="place"><img src="${escapeHtml(await imageAsDataUrl(place.image))}" alt="${escapeHtml(place.imageAlt)}"><div><h3>${escapeHtml(place.name)}</h3><p>${escapeHtml(place.category)} - ${escapeHtml(place.visitHint)}</p><p>${escapeHtml(place.description)}</p><a href="${MAPS}${encodeURIComponent(place.mapsQuery)}">Hap drejtimet në Google Maps</a>${place.imageCredit ? `<p class="credit">${escapeHtml(place.imageCredit)} • ${escapeHtml(place.imageLicense)}</p>` : ""}</div></article>`));
+        const places = await Promise.all(city.places.map(async (place) => `<article class="place"><img src="${escapeHtml(await imageAsDataUrl(place.image))}" alt="${escapeHtml(place.imageAlt)}"><div><h3>${escapeHtml(place.name)}</h3><p>${escapeHtml(place.category)} - ${escapeHtml(place.visitHint)}</p><p>${escapeHtml(place.description)}</p><a href="${MAPS}${encodeURIComponent(place.mapsQuery)}">${escapeHtml(d.common.openDirectionsGoogle)}</a>${place.imageCredit ? `<p class="credit">${escapeHtml(place.imageCredit)} • ${escapeHtml(place.imageLicense)}</p>` : ""}</div></article>`));
         return `<section style="page-break-after:always"><h1>${escapeHtml(city.name)}</h1><p class="meta">${escapeHtml(city.tagline)} • ${escapeHtml(city.region)}</p>${places.join("")}</section>`;
       }));
-      downloadHtml(cities.length > 1 ? "383-kartat-e-qyteteve.html" : `383-${cities[0].id}.html`, cities.length > 1 ? "Kartat e qyteteve - 383" : `${cities[0].name} - 383`, sections.join(""), "travel");
+      downloadHtml(d, cities.length > 1 ? "383-kartat-e-qyteteve.html" : `383-${cities[0].id}.html`, cities.length > 1 ? d.offline.citiesTitle : `${cities[0].name} - 383`, sections.join(""), "travel");
       track("visit_card_download", { variant: "city", cities: cities.map((city) => city.id).join(",") });
     } finally {
       setExportingCities(false);
@@ -396,51 +411,51 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
           {BORDER_CROSSINGS.map((crossing) => {
             const wait = borderPayload?.official.find((item) => item.crossingId === crossing.id);
             const minutes = wait ? Math.max(wait.entry.max, wait.exit.max) : 0;
-            return <span key={crossing.id}><b>{crossing.name}</b><WaitMeter minutes={wait ? minutes : null} /><em>{wait ? `${minutes} min` : t.noData}</em></span>;
+            return <span key={crossing.id}><b>{crossing.name}</b><WaitMeter minutes={wait ? minutes : null} d={d} /><em>{wait ? `${minutes} min` : t.noData}</em></span>;
           })}
         </div>
       </section>
 
       <section className={styles.borderSection} id="visit-tools" aria-labelledby="border-card-title">
         <div className={styles.sectionIntro}>
-          <h2 id="border-card-title">Shiko pritjen. Zgjidh pikën. Nisu më i qetë.</h2>
-          <p>Katër pikat kryesore përditësohen çdo 10 minuta. Raportet e udhëtarëve shfaqen vetëm pasi vendndodhja konfirmon se janë pranë kufirit.</p>
+          <h2 id="border-card-title">{d.border.title}</h2>
+          <p>{d.border.intro}</p>
         </div>
 
         <div className={styles.utilityLayout} id="border-card">
           <div className={styles.utilityControls}>
-            <label>Pika kufitare<select value={selectedCrossing} onChange={(event) => { setSelectedCrossing(event.target.value as BorderCrossingId); setReportMessage(""); }}>{BORDER_CROSSINGS.map((crossing) => <option value={crossing.id} key={crossing.id}>{crossing.name} - {crossing.country}</option>)}</select><ChevronDown aria-hidden="true" size={16} /></label>
-            <fieldset><legend>Drejtimi</legend><button className={direction === "entry" ? styles.controlActive : ""} onClick={() => setDirection("entry")}>Hyrje në Kosovë</button><button className={direction === "exit" ? styles.controlActive : ""} onClick={() => setDirection("exit")}>Dalje nga Kosova</button></fieldset>
+            <label>{d.border.crossing}<select value={selectedCrossing} onChange={(event) => { setSelectedCrossing(event.target.value as BorderCrossingId); setReportMessage(""); }}>{BORDER_CROSSINGS.map((crossing) => <option value={crossing.id} key={crossing.id}>{crossing.name} - {countryOf(crossing.id)}</option>)}</select><ChevronDown aria-hidden="true" size={16} /></label>
+            <fieldset><legend>{d.border.direction}</legend><button className={direction === "entry" ? styles.controlActive : ""} onClick={() => setDirection("entry")}>{d.border.entry}</button><button className={direction === "exit" ? styles.controlActive : ""} onClick={() => setDirection("exit")}>{d.border.exit}</button></fieldset>
             <div className={styles.quickActions}>
-              <button className={styles.locateButton} disabled={locating} onClick={locateServices} aria-describedby="visit-location-note"><LocateFixed aria-hidden="true" size={21} /><span><b>{locating ? locationStage : "Gjej ndihmën më të afërt"}</b><small>{locationProgress > 0 ? `${locationProgress}% • ${locationStage}` : "Polici, ambulancë, zjarrfikës dhe karburant"}</small></span><ArrowRight aria-hidden="true" size={18} /><i className={styles.locationProgress} role="progressbar" aria-label="Përparimi i analizës" aria-valuemin={0} aria-valuemax={100} aria-valuenow={locationProgress}><i style={{ "--location-progress": `${locationProgress}%` } as CSSProperties} /></i></button>
-              <button className={styles.reportButton} aria-expanded={reportOpen} aria-controls="visit-report-panel" onClick={() => setReportOpen((open) => !open)}><Users aria-hidden="true" size={21} /><span><b>Raporto pritjen tani</b><small>1 minutë • pranohet vetëm pranë kufirit</small></span><ArrowRight aria-hidden="true" size={18} /></button>
+              <button className={styles.locateButton} disabled={locating} onClick={locateServices} aria-describedby="visit-location-note"><LocateFixed aria-hidden="true" size={21} /><span><b>{locating ? locationStage : d.border.findHelp}</b><small>{locationProgress > 0 ? `${locationProgress}% • ${locationStage}` : d.border.findHelpHint}</small></span><ArrowRight aria-hidden="true" size={18} /><i className={styles.locationProgress} role="progressbar" aria-label={d.border.progressLabel} aria-valuemin={0} aria-valuemax={100} aria-valuenow={locationProgress}><i style={{ "--location-progress": `${locationProgress}%` } as CSSProperties} /></i></button>
+              <button className={styles.reportButton} aria-expanded={reportOpen} aria-controls="visit-report-panel" onClick={() => setReportOpen((open) => !open)}><Users aria-hidden="true" size={21} /><span><b>{d.border.report}</b><small>{d.border.reportHint}</small></span><ArrowRight aria-hidden="true" size={18} /></button>
             </div>
-            <p id="visit-location-note" className={styles.actionTrust}><ShieldCheck aria-hidden="true" size={13} />Vendndodhja përdoret vetëm për këtë kërkim dhe nuk ruhet.</p>
+            <p id="visit-location-note" className={styles.actionTrust}><ShieldCheck aria-hidden="true" size={13} />{d.border.locationNote}</p>
             {locationMessage && <p className={styles.controlMessage} aria-live="polite">{locationMessage}</p>}
             {reportOpen && <div className={styles.reportPanel} id="visit-report-panel">
-              <h3>Raport për {BORDER_CROSSINGS.find((item) => item.id === selectedCrossing)?.name}</h3>
-              <div className={styles.reportIdentity} role="group" aria-label="Zgjidh si do të raportosh">
-                <button className={reportMode === "account" ? styles.reportIdentityActive : ""} disabled={!signedIn} onClick={() => setReportMode("account")}><Users aria-hidden="true" size={14} />Me llogarinë time</button>
-                <button className={reportMode === "anonymous" ? styles.reportIdentityActive : ""} onClick={() => setReportMode("anonymous")}><ShieldCheck aria-hidden="true" size={14} />Anonim</button>
+              <h3>{d.report.heading(currentCrossing.name)}</h3>
+              <div className={styles.reportIdentity} role="group" aria-label={d.report.identityLabel}>
+                <button className={reportMode === "account" ? styles.reportIdentityActive : ""} disabled={!signedIn} onClick={() => setReportMode("account")}><Users aria-hidden="true" size={14} />{d.report.withAccount}</button>
+                <button className={reportMode === "anonymous" ? styles.reportIdentityActive : ""} onClick={() => setReportMode("anonymous")}><ShieldCheck aria-hidden="true" size={14} />{d.report.anonymous}</button>
               </div>
-              {!signedIn && <p className={styles.signInHint}>Dëshiron ta raportosh me llogari? <a href="/hyr?next=/visit">Hyr këtu</a>. Raportimi anonim funksionon pa llogari.</p>}
-              <label>Sa minuta po pret?<input type="number" min="0" max="240" step="5" value={reportMinutes} onChange={(event) => setReportMinutes(Number(event.target.value))} /></label>
-              <p><Navigation aria-hidden="true" size={14} />Lejo vendndodhjen. Raporti pranohet vetëm brenda 1 km nga pika e zgjedhur.</p>
-              <button disabled={reporting} onClick={submitReport}><Send aria-hidden="true" size={15} />{reporting ? "Po verifikohet..." : "Verifiko dhe raporto"}</button>
+              {!signedIn && <p className={styles.signInHint}>{d.report.signInPrompt} <a href="/hyr?next=/visit">{d.report.signInLink}</a>. {d.report.signInRest}</p>}
+              <label>{d.report.minutesLabel}<input type="number" min="0" max="240" step="5" value={reportMinutes} onChange={(event) => setReportMinutes(Number(event.target.value))} /></label>
+              <p><Navigation aria-hidden="true" size={14} />{d.report.locationRule}</p>
+              <button disabled={reporting} onClick={submitReport}><Send aria-hidden="true" size={15} />{reporting ? d.report.submitting : d.report.submit}</button>
               {reportMessage && <output aria-live="polite">{reportMessage}</output>}
             </div>}
             <section className={styles.reportDashboard} aria-labelledby="recent-reports-title">
-              <header><div><span className={styles.liveDot} /><h3 id="recent-reports-title">Raportet e verifikuara</h3></div><b>{recentReports.length} live</b></header>
-              <div className={styles.reportTable} role="table" aria-label={`Raportet e fundit për ${currentCrossing.name}`}>
-                <div className={styles.reportTableHead} role="row"><span role="columnheader">Koha</span><span role="columnheader">Burimi</span><span role="columnheader">Pritja</span><span role="columnheader">Besimi</span></div>
-                {recentReports.length ? recentReports.map((report) => <div role="row" key={`${report.createdAt}-${report.waitMinutes}`}><time role="cell" dateTime={report.createdAt}>{relativeReportTime(report.createdAt)}</time><span role="cell">{report.reporterMode === "account" ? "Me llogari" : "Anonim"}</span><strong role="cell">{report.waitMinutes} min</strong><span role="cell" className={styles[`confidence${report.confidence[0]?.toUpperCase()}${report.confidence.slice(1)}`]}>{report.confidence === "high" ? "Lartë" : report.confidence === "medium" ? "Mesatar" : "Bazë"}</span></div>) : <p className={styles.reportEmpty}>Ende s&apos;ka raport të verifikuar për këtë drejtim. Raporti i parë mund të jetë i yti.</p>}
+              <header><div><span className={styles.liveDot} /><h3 id="recent-reports-title">{d.report.dashboard}</h3></div><b>{d.report.live(recentReports.length)}</b></header>
+              <div className={styles.reportTable} role="table" aria-label={d.report.tableLabel(currentCrossing.name)}>
+                <div className={styles.reportTableHead} role="row"><span role="columnheader">{d.report.columns.time}</span><span role="columnheader">{d.report.columns.source}</span><span role="columnheader">{d.report.columns.wait}</span><span role="columnheader">{d.report.columns.confidence}</span></div>
+                {recentReports.length ? recentReports.map((report) => <div role="row" key={`${report.createdAt}-${report.waitMinutes}`}><time role="cell" dateTime={report.createdAt}>{relativeReportTime(d, report.createdAt)}</time><span role="cell">{report.reporterMode === "account" ? d.report.sourceAccount : d.report.sourceAnonymous}</span><strong role="cell">{report.waitMinutes} min</strong><span role="cell" className={styles[`confidence${report.confidence[0]?.toUpperCase()}${report.confidence.slice(1)}`]}>{report.confidence === "high" ? d.report.confidence.high : report.confidence === "medium" ? d.report.confidence.medium : d.report.confidence.low}</span></div>) : <p className={styles.reportEmpty}>{d.report.empty}</p>}
               </div>
             </section>
           </div>
 
           <article className={styles.utilityCard}>
-            <div className={styles.utilitySideMark} aria-hidden="true">KUFIRI</div>
-            <header><div className={styles.utilityIdentity}><b>383</b><span>KARTA E KUFIRIT</span></div><div className={styles.utilityRoute}><small>KOSOVË / {currentCrossing.country.toUpperCase()}</small><h3>{currentCrossing.name}</h3><span>{direction === "entry" ? "Hyrje në Kosovë" : "Dalje nga Kosova"}</span></div><CarFront aria-hidden="true" size={32} /></header>
+            <div className={styles.utilitySideMark} aria-hidden="true">{d.border.sideMark}</div>
+            <header><div className={styles.utilityIdentity}><b>383</b><span>{d.border.cardBrand}</span></div><div className={styles.utilityRoute}><small>{d.common.kosovo.toUpperCase()} / {countryOf(currentCrossing.id).toUpperCase()}</small><h3>{currentCrossing.name}</h3><span>{direction === "entry" ? d.border.entry : d.border.exit}</span></div><CarFront aria-hidden="true" size={32} /></header>
             <div className={styles.waitList}>
               {BORDER_CROSSINGS.map((crossing) => {
                 const current = borderPayload?.official.find((item) => item.crossingId === crossing.id);
@@ -448,55 +463,56 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
                 const minutes = range?.max ?? 0;
                 const community = borderPayload?.community[`${crossing.id}:${direction}`];
                 return <div className={crossing.id === selectedCrossing ? styles.waitSelected : ""} id={`border-${crossing.id}`} key={crossing.id}>
-                  <button onClick={() => setSelectedCrossing(crossing.id)}><span><b>{crossing.name}</b><small>Kosovë - {crossing.country}</small></span><strong>{range ? rangeLabel(range) : "Pa të dhëna"}</strong></button>
-                  <WaitMeter minutes={range ? minutes : null} />
-                  <p><span><Clock3 aria-hidden="true" size={13} />{current?.updatedAt ? `Përditësuar ${current.updatedAt}` : "Duke pritur përditësimin"}</span><span>{community ? `${community.median} min nga ${community.sampleSize} raport${community.sampleSize === 1 ? "" : "e"}` : "Pa raport të verifikuar"}</span></p>
+                  <button onClick={() => setSelectedCrossing(crossing.id)}><span><b>{crossing.name}</b><small>{d.common.kosovo} - {countryOf(crossing.id)}</small></span><strong>{range ? rangeLabel(range) : t.noData}</strong></button>
+                  <WaitMeter minutes={range ? minutes : null} d={d} />
+                  <p><span><Clock3 aria-hidden="true" size={13} />{current?.updatedAt ? d.border.updatedAt(current.updatedAt) : d.border.awaitingUpdate}</span><span>{community ? d.border.communityMedian(community.median, community.sampleSize) : d.border.noVerifiedReport}</span></p>
                 </div>;
               })}
             </div>
 
             <div className={styles.nearbyGrid} id="nearby-services">
               {([
-                ["police", "Policia", Building2], ["hospital", "Ambulanca", Ambulance], ["fire_station", "Zjarrfikësit", Flame], ["fuel", "Karburanti", Fuel],
-              ] as const).map(([kind, label, Icon]) => {
+                ["police", Building2], ["hospital", Ambulance], ["fire_station", Flame], ["fuel", Fuel],
+              ] as const).map(([kind, Icon]) => {
+                const label = d.common.services[kind];
                 const place = nearby?.nearest[kind];
                 const fallback = nearby?.fallbackSearches[kind];
                 const href = place ? (place.photo?.sourceUrl ?? place.streetViewUrl) : fallback;
                 return <a key={kind} className={!href ? styles.nearbyDisabled : ""} href={href} target={href ? "_blank" : undefined} rel="noreferrer">
-                  {place ? <ExactPlaceVisual key={place.photo?.url ?? `${place.latitude}:${place.longitude}`} place={place} Icon={Icon} /> : <div className={styles.nearbyPlaceholder}><Icon aria-hidden="true" size={24} /></div>}
-                  <span className={styles.nearbyCopy}><small><Icon aria-hidden="true" size={13} />{label}</small><b>{place ? place.name : fallback ? "Hap më të afërtën" : "Kërko vendndodhjen"}</b>{place ? <><em>{place.distanceKm.toFixed(1)} km • Google Maps</em><i>{place.photo ? "Foto e lidhur me këtë vend" : "Hap pamjen reale të vendit"}</i></> : fallback ? <em>Kërkim në hartë</em> : null}</span>
+                  {place ? <ExactPlaceVisual key={place.photo?.url ?? `${place.latitude}:${place.longitude}`} place={place} Icon={Icon} d={d} /> : <div className={styles.nearbyPlaceholder}><Icon aria-hidden="true" size={24} /></div>}
+                  <span className={styles.nearbyCopy}><small><Icon aria-hidden="true" size={13} />{label}</small><b>{place ? place.name : fallback ? d.nearby.openNearest : d.nearby.askLocation}</b>{place ? <><em>{place.distanceKm.toFixed(1)} km • Google Maps</em><i>{place.photo ? d.nearby.photoLinked : d.nearby.openStreetView}</i></> : fallback ? <em>{d.nearby.mapSearch}</em> : null}</span>
                 </a>;
               })}
             </div>
 
             <footer>
-              <div className={styles.emergencyNumbers}>{EMERGENCY_NUMBERS.map((item) => <a href={`tel:${item.number}`} key={item.number}><span>{item.label}</span><b>{item.number}</b></a>)}</div>
-              <p><ShieldCheck aria-hidden="true" size={13} />Vendndodhja përdoret vetëm për kontrollin që kërkon ti.</p>
+              <div className={styles.emergencyNumbers}>{EMERGENCY_NUMBERS.map((item) => <a href={`tel:${item.number}`} key={item.number}><span>{emergencyLabel(item)}</span><b>{item.number}</b></a>)}</div>
+              <p><ShieldCheck aria-hidden="true" size={13} />{d.border.footerNote}</p>
             </footer>
           </article>
-          <button className={styles.downloadUtility} disabled={exportingUtility} onClick={() => void exportUtility()}><ArrowDownToLine aria-hidden="true" size={18} />{exportingUtility ? "Po përgatitet..." : "Shkarko kartën"} <span>Vende dhe drejtime të klikueshme</span></button>
+          <button className={styles.downloadUtility} disabled={exportingUtility} onClick={() => void exportUtility()}><ArrowDownToLine aria-hidden="true" size={18} />{exportingUtility ? d.border.downloading : d.border.download} <span>{d.border.downloadHint}</span></button>
         </div>
       </section>
 
       <section className={styles.citySection} id="city-card" aria-labelledby="city-card-title">
         <div className={styles.cityIntro}>
-          <h2 id="city-card-title">Zgjidh qytetin. Ne ta përgatisim ditën.</h2>
-          <p>Çdo kartë ka pesë vende me fotografinë e vet, përshkrim të shkurtër dhe drejtimin e gatshëm në Google Maps.</p>
+          <h2 id="city-card-title">{d.city.title}</h2>
+          <p>{d.city.intro}</p>
         </div>
         <div className={styles.cityBuilder}>
           <div className={styles.cityPicker}>
-            <label>Qyteti<select value={selectedCity} onChange={(event) => setSelectedCity(event.target.value as CityId)}>{KOSOVO_CITIES.map((city) => <option key={city.id} value={city.id}>{city.name} - {city.region}</option>)}</select><ChevronDown aria-hidden="true" size={16} /></label>
-            <div className={styles.cityPickerNote}><MapPinned aria-hidden="true" size={18} /><span><b>{currentCity.places.length} ndalesa të përzgjedhura</b><small>Mund ta shkarkosh vetëm këtë qytet ose të ndërtosh një paketë.</small></span></div>
-            <button className={styles.addCity} disabled={savedCities.includes(currentCity.id)} onClick={() => setSavedCities((cities) => [...cities, currentCity.id])}>{savedCities.includes(currentCity.id) ? <Check aria-hidden="true" size={16} /> : <Plus aria-hidden="true" size={16} />}{savedCities.includes(currentCity.id) ? "Karta është shtuar" : `Shto kartën e ${currentCity.name}`}</button>
+            <label>{d.city.picker}<select value={selectedCity} onChange={(event) => setSelectedCity(event.target.value as CityId)}>{KOSOVO_CITIES.map((city) => <option key={city.id} value={city.id}>{city.name} - {city.region}</option>)}</select><ChevronDown aria-hidden="true" size={16} /></label>
+            <div className={styles.cityPickerNote}><MapPinned aria-hidden="true" size={18} /><span><b>{d.city.curatedStops(currentCity.places.length)}</b><small>{d.city.pickerHint}</small></span></div>
+            <button className={styles.addCity} disabled={savedCities.includes(currentCity.id)} onClick={() => setSavedCities((cities) => [...cities, currentCity.id])}>{savedCities.includes(currentCity.id) ? <Check aria-hidden="true" size={16} /> : <Plus aria-hidden="true" size={16} />}{savedCities.includes(currentCity.id) ? d.city.added : d.city.add(currentCity.name)}</button>
           </div>
-          <CityGuide city={currentCity} />
+          <CityGuide city={currentCity} d={d} />
         </div>
 
         <div className={styles.savedCardsHead}>
-          <div><h3>Kartat e tua</h3><p>{savedCityCards.length} qytet{savedCityCards.length === 1 ? "" : "e"} në paketën e këtij udhëtimi</p></div>
-          {savedCityCards.length > 0 && <button disabled={exportingCities} onClick={() => void exportCities(savedCityCards)}><Download aria-hidden="true" size={15} />{exportingCities ? "Po përgatiten..." : "Shkarko të gjitha"}</button>}
+          <div><h3>{d.city.yourCards}</h3><p>{d.city.packageCount(savedCityCards.length)}</p></div>
+          {savedCityCards.length > 0 && <button disabled={exportingCities} onClick={() => void exportCities(savedCityCards)}><Download aria-hidden="true" size={15} />{exportingCities ? d.city.downloadingAll : d.city.downloadAll}</button>}
         </div>
-        <div className={styles.savedCards}>{savedCityCards.map((city) => <div key={city.id}><SavedCityCover city={city} /><div className={styles.savedActions}><button disabled={exportingCities} onClick={() => void exportCities([city])}><Download aria-hidden="true" size={15} />Shkarko</button><button onClick={() => setSavedCities((cities) => cities.filter((id) => id !== city.id))}>Hiq</button></div></div>)}</div>
+        <div className={styles.savedCards}>{savedCityCards.map((city) => <div key={city.id}><SavedCityCover city={city} d={d} /><div className={styles.savedActions}><button disabled={exportingCities} onClick={() => void exportCities([city])}><Download aria-hidden="true" size={15} />{d.city.download}</button><button onClick={() => setSavedCities((cities) => cities.filter((id) => id !== city.id))}>{d.city.remove}</button></div></div>)}</div>
       </section>
     </main>
   );
