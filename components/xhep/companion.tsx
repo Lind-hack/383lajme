@@ -2,9 +2,10 @@
 
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
-import { clearProfile, newSeed, readProfile, writeProfile } from "@/lib/xhep/profile.mjs";
+import { clearProfile, newSeed, PROFILE_EVENT, readProfile, writeProfile } from "@/lib/xhep/profile.mjs";
 import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
 import { tripUrl } from "@/lib/xhep/trip-link.mjs";
+import { requestGpsStamp } from "@/lib/xhep/gps-stamp";
 import { track } from "@/lib/analytics";
 import Quiz, { type QuizAnswers } from "./quiz";
 import MyCard from "./my-card";
@@ -31,6 +32,10 @@ export default function XhepCompanion({ lang, children }: { lang: XhepLang; chil
     setProfile(stored);
     setView(stored?.completed ? "card" : "intro");
     setLoaded(true);
+    // Stamps and packs written elsewhere on the page (the pack shelf) show here too.
+    const sync = () => setProfile(readProfile());
+    window.addEventListener(PROFILE_EVENT, sync);
+    return () => window.removeEventListener(PROFILE_EVENT, sync);
   }, []);
 
   const startQuiz = () => {
@@ -56,30 +61,13 @@ export default function XhepCompanion({ lang, children }: { lang: XhepLang; chil
   /** One fresh position → the server's verdict → a signed stamp on the card. */
   const addStamp = async (placeId: string): Promise<StampResult> => {
     if (!profile?.seed) return { ok: false, code: "generic" };
-    let position: GeolocationPosition;
-    try {
-      position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        if (!navigator.geolocation) return reject(new Error("unsupported"));
-        navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 20_000, maximumAge: 0 });
-      });
-    } catch {
-      return { ok: false, code: "denied" };
-    }
-    try {
-      const response = await fetch("/api/xhep/stamp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ placeId, seed: profile.seed, latitude: position.coords.latitude, longitude: position.coords.longitude, accuracy: position.coords.accuracy }),
-      });
-      const payload = (await response.json()) as { ok?: boolean; stamp?: string; code?: string; distanceM?: number };
-      if (!response.ok || !payload.ok || !payload.stamp) return { ok: false, code: payload.code ?? "generic", distanceM: payload.distanceM };
-      writeProfile({ ...profile, stamps: [...(profile.stamps ?? []), payload.stamp] });
-      setProfile(readProfile());
-      track("xhep_stamp", { city: placeId.split("-")[0] });
-      return { ok: true };
-    } catch {
-      return { ok: false, code: "generic" };
-    }
+    const result = await requestGpsStamp(placeId, profile.seed);
+    if (!result.ok) return { ok: false, code: result.code === "unknown_place" ? "generic" : result.code, distanceM: result.distanceM };
+    const current = readProfile() ?? profile;
+    writeProfile({ ...current, stamps: [...(current.stamps ?? []), result.stamp] });
+    setProfile(readProfile());
+    track("xhep_stamp", { city: placeId.split("-")[0] });
+    return { ok: true };
   };
 
   const reset = () => {

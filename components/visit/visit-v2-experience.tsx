@@ -6,19 +6,15 @@ import {
   ArrowRight,
   Building2,
   CarFront,
-  Check,
   ChevronDown,
   CircleGauge,
   Clock3,
-  Download,
-  ExternalLink,
   Flame,
   Fuel,
   LocateFixed,
   MapPinned,
   Navigation,
   Phone,
-  Plus,
   Send,
   ShieldCheck,
   Users,
@@ -32,7 +28,6 @@ import {
   type BorderCrossingId,
   type BorderDirection,
   type CityId,
-  type KosovoCity,
 } from "@/lib/visit-v2-data";
 import { track } from "@/lib/analytics";
 import { createClient } from "@/lib/supabase/client";
@@ -40,8 +35,8 @@ import styles from "./visit-v2.module.css";
 import DardaniImage from "@/components/dardani/dardani-image";
 import LangToggle from "@/components/xhep/lang-toggle";
 import XhepCompanion from "@/components/xhep/companion";
+import PackShelf from "@/components/xhep/packs/pack-shelf";
 import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
-import { localizedCity, localizedPlace } from "@/lib/xhep/places.mjs";
 
 type Dict = ReturnType<typeof xhepDict>;
 
@@ -74,7 +69,6 @@ type NearbyPayload = {
 };
 type BrowserLocation = { latitude: number; longitude: number; accuracy: number };
 
-const MAPS = "https://www.google.com/maps/search/?api=1&query=";
 
 function escapeHtml(value: string | number | null | undefined) {
   return String(value ?? "").replace(/[&<>'"]/g, (character) => ({
@@ -139,42 +133,6 @@ function ExactPlaceVisual({ place, Icon, d }: { place: NearbyPlace; Icon: Compon
   </div>;
 }
 
-function CityGuide({ city, d, lang }: { city: KosovoCity; d: Dict; lang: XhepLang }) {
-  const headerStyle = { "--city-image": `url(${city.places[0].image})` } as CSSProperties;
-  return (
-    <article className={styles.cityGuide}>
-      <header style={headerStyle}>
-        <div className={styles.cityGuideBrand}><b>383</b><span>{d.city.brand}</span></div>
-        <div className={styles.cityGuideCopy}><span>{localizedCity(city.id, city, lang).region}</span><h3>{city.name}</h3><p>{localizedCity(city.id, city, lang).tagline}</p></div>
-        <div className={styles.cityGuideMap} aria-hidden="true"><KosovoFieldMap compact lang={lang} /></div>
-      </header>
-      <div className={styles.placeGallery}>
-        {city.places.map((place) => { const local = localizedPlace(city.id, place, lang); return (
-          <article className={styles.placeCard} key={place.name}>
-            <img src={place.image} alt={place.imageAlt} loading="lazy" />
-            <div>
-              <span>{local.category}<small><Clock3 aria-hidden="true" size={12} />{local.visitHint}</small></span>
-              <h4>{place.name}</h4>
-              <p>{local.description}</p>
-              <a href={`${MAPS}${encodeURIComponent(place.mapsQuery)}`} target="_blank" rel="noreferrer"><Navigation aria-hidden="true" size={15} />{d.common.openDirections}</a>
-            </div>
-          </article>
-        ); })}
-      </div>
-    </article>
-  );
-}
-
-function SavedCityCover({ city, d, lang }: { city: KosovoCity; d: Dict; lang: XhepLang }) {
-  return (
-    <article className={styles.savedCityCover}>
-      <img src={city.places[0].image} alt={city.places[0].imageAlt} loading="lazy" />
-      <b className={styles.savedCity383}>383</b>
-      <div><span>{localizedCity(city.id, city, lang).region}</span><h4>{city.name}</h4><p>{d.city.stopsWithPhotos(city.places.length)}</p></div>
-    </article>
-  );
-}
-
 async function imageAsDataUrl(path: string) {
   try {
     const response = await fetch(path);
@@ -211,14 +169,14 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
   const [reportMode, setReportMode] = useState<"account" | "anonymous">("anonymous");
   const [signedIn, setSignedIn] = useState(false);
   const [exportingUtility, setExportingUtility] = useState(false);
-  const [selectedCity, setSelectedCity] = useState<CityId>("prizren");
+  const [focusCity, setFocusCity] = useState<CityId | null>(null);
 
   /** Arriving from search with a city already chosen. Validated against the
    *  real list so a hand-edited URL cannot select a city that does not exist. */
   useEffect(() => {
     const wanted = new URLSearchParams(window.location.search).get("qyteti");
     if (wanted && KOSOVO_CITIES.some((city) => city.id === wanted)) {
-      setSelectedCity(wanted as CityId);
+      setFocusCity(wanted as CityId);
     }
   }, []);
 
@@ -242,8 +200,6 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
     const timer = window.setInterval(() => setLocationProgress((progress) => Math.min(84, progress + (progress < 40 ? 4 : 2))), 450);
     return () => window.clearInterval(timer);
   }, [locating]);
-  const [savedCities, setSavedCities] = useState<CityId[]>(["prizren"]);
-  const [exportingCities, setExportingCities] = useState(false);
 
   const loadBorders = useCallback(async () => {
     try {
@@ -341,9 +297,7 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
   };
 
   const emergencyLabel = (item: (typeof EMERGENCY_NUMBERS)[number]) => d.common.emergency[item.number as keyof Dict["common"]["emergency"]] ?? item.label;
-  const currentCity = KOSOVO_CITIES.find((city) => city.id === selectedCity) ?? KOSOVO_CITIES[1];
   const currentCrossing = BORDER_CROSSINGS.find((crossing) => crossing.id === selectedCrossing) ?? BORDER_CROSSINGS[0];
-  const savedCityCards = savedCities.flatMap((id) => KOSOVO_CITIES.find((city) => city.id === id) ?? []);
   const recentReports = (borderPayload?.recentReports ?? []).filter((report) => report.crossingId === selectedCrossing && report.direction === direction).slice(0, 6);
 
   const exportUtility = async () => {
@@ -369,20 +323,6 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
       downloadHtml(d, "383-karta-e-kufirit.html", d.offline.title, `<h1>${escapeHtml(currentCrossing.name)}<br>${escapeHtml(direction === "entry" ? d.border.entryShort : d.border.exitShort)}</h1><p class="meta">${escapeHtml(d.common.kosovo)} / ${escapeHtml(countryOf(currentCrossing.id))} • ${escapeHtml(d.offline.autoRefreshEvery)}</p><h2>${escapeHtml(d.offline.latestWaits)}</h2>${waits}<h2>${escapeHtml(d.offline.nearestServices)}</h2>${services}<h2>${escapeHtml(d.offline.emergencyNumbers)}</h2><div class="emergency">${emergency}</div>`, "utility");
     } finally {
       setExportingUtility(false);
-    }
-  };
-
-  const exportCities = async (cities: KosovoCity[]) => {
-    setExportingCities(true);
-    try {
-      const sections = await Promise.all(cities.map(async (city) => {
-        const places = await Promise.all(city.places.map(async (place) => `<article class="place"><img src="${escapeHtml(await imageAsDataUrl(place.image))}" alt="${escapeHtml(place.imageAlt)}"><div><h3>${escapeHtml(place.name)}</h3><p>${escapeHtml(localizedPlace(city.id, place, lang).category)} - ${escapeHtml(localizedPlace(city.id, place, lang).visitHint)}</p><p>${escapeHtml(localizedPlace(city.id, place, lang).description)}</p><a href="${MAPS}${encodeURIComponent(place.mapsQuery)}">${escapeHtml(d.common.openDirectionsGoogle)}</a>${place.imageCredit ? `<p class="credit">${escapeHtml(place.imageCredit)} • ${escapeHtml(place.imageLicense)}</p>` : ""}</div></article>`));
-        return `<section style="page-break-after:always"><h1>${escapeHtml(city.name)}</h1><p class="meta">${escapeHtml(localizedCity(city.id, city, lang).tagline)} • ${escapeHtml(localizedCity(city.id, city, lang).region)}</p>${places.join("")}</section>`;
-      }));
-      downloadHtml(d, cities.length > 1 ? "383-kartat-e-qyteteve.html" : `383-${cities[0].id}.html`, cities.length > 1 ? d.offline.citiesTitle : `${cities[0].name} - 383`, sections.join(""), "travel");
-      track("visit_card_download", { variant: "city", cities: cities.map((city) => city.id).join(",") });
-    } finally {
-      setExportingCities(false);
     }
   };
 
@@ -498,25 +438,8 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
         </div>
       </section>
 
-      <section className={styles.citySection} id="city-card" aria-labelledby="city-card-title">
-        <div className={styles.cityIntro}>
-          <h2 id="city-card-title">{d.city.title}</h2>
-          <p>{d.city.intro}</p>
-        </div>
-        <div className={styles.cityBuilder}>
-          <div className={styles.cityPicker}>
-            <label>{d.city.picker}<select value={selectedCity} onChange={(event) => setSelectedCity(event.target.value as CityId)}>{KOSOVO_CITIES.map((city) => <option key={city.id} value={city.id}>{city.name} - {localizedCity(city.id, city, lang).region}</option>)}</select><ChevronDown aria-hidden="true" size={16} /></label>
-            <div className={styles.cityPickerNote}><MapPinned aria-hidden="true" size={18} /><span><b>{d.city.curatedStops(currentCity.places.length)}</b><small>{d.city.pickerHint}</small></span></div>
-            <button className={styles.addCity} disabled={savedCities.includes(currentCity.id)} onClick={() => setSavedCities((cities) => [...cities, currentCity.id])}>{savedCities.includes(currentCity.id) ? <Check aria-hidden="true" size={16} /> : <Plus aria-hidden="true" size={16} />}{savedCities.includes(currentCity.id) ? d.city.added : d.city.add(currentCity.name)}</button>
-          </div>
-          <CityGuide city={currentCity} d={d} lang={lang} />
-        </div>
-
-        <div className={styles.savedCardsHead}>
-          <div><h3>{d.city.yourCards}</h3><p>{d.city.packageCount(savedCityCards.length)}</p></div>
-          {savedCityCards.length > 0 && <button disabled={exportingCities} onClick={() => void exportCities(savedCityCards)}><Download aria-hidden="true" size={15} />{exportingCities ? d.city.downloadingAll : d.city.downloadAll}</button>}
-        </div>
-        <div className={styles.savedCards}>{savedCityCards.map((city) => <div key={city.id}><SavedCityCover city={city} d={d} lang={lang} /><div className={styles.savedActions}><button disabled={exportingCities} onClick={() => void exportCities([city])}><Download aria-hidden="true" size={15} />{d.city.download}</button><button onClick={() => setSavedCities((cities) => cities.filter((id) => id !== city.id))}>{d.city.remove}</button></div></div>)}</div>
+      <section className={styles.citySection} id="city-card" aria-label={d.city.title}>
+        <PackShelf lang={lang} focusCity={focusCity} />
       </section>
     </main>
   );

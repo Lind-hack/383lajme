@@ -25,6 +25,9 @@ export function resolveXhepLang(param: unknown, cookie: unknown): XhepLang {
 type CrossingId = "kulle" | "merdare" | "hani-i-elezit" | "vermice-morine";
 type ServiceKind = "police" | "hospital" | "fire_station" | "fuel";
 
+import type { OpenerText } from "@/components/xhep/packs/pack-opener";
+import type { DetailText } from "@/components/xhep/packs/card-detail";
+
 type XhepDict = {
   meta: { title: string; description: string };
   toggle: { label: string; en: string; sq: string };
@@ -296,6 +299,16 @@ type XhepDict = {
     placePhoto: string;
     kmAway: (km: string) => string;
     allowLocationFirst: string;
+  };
+  packs: {
+    title: string;
+    intro: string;
+    sealed: string;
+    sealedLabel: (city: string) => string;
+    openedLabel: (city: string, done: number, total: number) => string;
+    stampsShort: (done: number, total: number) => string;
+    opener: OpenerText;
+    detail: DetailText;
   };
 };
 
@@ -612,6 +625,92 @@ export const XHEP_DICT = {
       kmAway: (km) => `${km} km away`,
       allowLocationFirst: "Allow location before downloading to add the nearest services.",
     },
+    packs: {
+      title: "Open a city",
+      intro: "Every city is a pack of 10 cards: places worth your day, your own mural and story, and a stamp card that fills in as you go.",
+      sealed: "Sealed",
+      sealedLabel: (city) => `Open the ${city} pack`,
+      openedLabel: (city, done, total) => `${city}: opened, ${done} of ${total} stamped`,
+      stampsShort: (done, total) => `${done}/${total} stamps`,
+      opener: {
+        close: "Close",
+        tearHint: "Swipe across the top to tear it open",
+        tearHintMouse: "Click and drag across the top to tear it open",
+        tearButton: "Open the pack",
+        tapNext: "tap for the next card",
+        skip: "Show all cards",
+        binderTitle: (city) => `${city}: your cards`,
+        replay: "Open again",
+        cardOf: (i, n) => `${i} / ${n}`,
+        faces: {
+        stampCard: "Stamp card",
+        muralCard: "Your mural",
+        storyCard: "Your story",
+        muralEmpty: "Your trip photos and selfies go here",
+        storyEmpty: "What was it like?",
+        stampsDone: (n, of) => `${n} of ${of} stamped`,
+        photos: (n) => `${n} photo${n === 1 ? "" : "s"}`,
+      },
+      },
+      detail: {
+        close: "Close",
+        flipToGuide: "Read the guide",
+        flipToCard: "Back to the card",
+        whatToDo: "What to do",
+        timeToSpend: "Time to spend",
+        bestTime: "Best time",
+        bestTimes: { morning: "Morning", afternoon: "Afternoon", evening: "Evening", any: "Any time", day: "During the day" },
+        openMap: "Open in Maps",
+        stampGps: "I'm here: stamp with GPS",
+        stampHand: "I've been: mark it myself",
+        stampedGold: "Stamped at the place",
+        stampedHand: "Marked by you",
+        stampWorking: "Checking where you are…",
+        stampErrors: {
+          denied: "Location is off. Allow it for this site, or mark the place yourself.",
+          too_far: (km) => `You're about ${km} km away. Come closer, or mark it yourself.`,
+          low_accuracy: "Your phone can't tell exactly where you are yet. Step outside and try again.",
+          no_location: "This place has no verified map point yet, so it can only be marked by you.",
+          generic: "That didn't work. Try again in a moment.",
+        },
+        stampsTitle: "Stamp card",
+        stampsIntro: "Each place you visit colours in its piece of the city. Stamp all of them to finish the picture.",
+        stampsDone: (n, of) => `${n} of ${of} stamped`,
+        complete: (city) => `You've seen all of ${city}. The picture is yours.`,
+        qrLabel: "Trip QR code",
+        qrHint: "Scan to open this trip on another phone. Tap anywhere to close.",
+        muralTitle: "Your mural",
+        muralIntro: "Your photos and selfies from the trip, on one wall. They stay on this phone until you choose to send them.",
+        muralAdd: "Add photos",
+        muralRemove: "Remove photo",
+        muralCount: (n, max) => `${n} of ${max} photos`,
+        muralErrors: { type: "That file isn't a photo.", decode: "One photo couldn't be read on this phone.", full: "The mural holds 8 photos; the rest were left out." },
+        storyTitle: "Your story",
+        storyIntro: "Where you went, what surprised you, who you met. Saved on this phone as you type.",
+        storyPlaceholder: "My first evening in the city…",
+        storySaved: "Saved",
+        send: {
+          title: "Send it to 383",
+          intro: "We pick the best trips for the Kosova në xhep page. An editor reads every one first.",
+          signIn: "Sign in to send it",
+          consent: "383 may publish these photos and words. I'm in them or have the permission of everyone who is.",
+          send: "Send to 383",
+          sending: "Sending…",
+          sent: "Sent. An editor will look at it before anything is published.",
+          nothing: "Add a photo or a few words first.",
+          failed: "It didn't send. Check your connection and try again.",
+        },
+        faces: {
+        stampCard: "Stamp card",
+        muralCard: "Your mural",
+        storyCard: "Your story",
+        muralEmpty: "Your trip photos and selfies go here",
+        storyEmpty: "What was it like?",
+        stampsDone: (n, of) => `${n} of ${of} stamped`,
+        photos: (n) => `${n} photo${n === 1 ? "" : "s"}`,
+      },
+      },
+    },
   },
   sq: {
     meta: {
@@ -924,6 +1023,92 @@ export const XHEP_DICT = {
       placePhoto: "Foto e vendit",
       kmAway: (km) => `${km} km larg`,
       allowLocationFirst: "Lejo vendndodhjen para shkarkimit për të shtuar shërbimet më të afërta.",
+    },
+    packs: {
+      title: "Hap një qytet",
+      intro: "Çdo qytet është një paketë me 10 karta: vende që ia vlejnë ditës, muri dhe historia jote, dhe karta e vulave që mbushet ndërsa udhëton.",
+      sealed: "E mbyllur",
+      sealedLabel: (city) => `Hap paketën: ${city}`,
+      openedLabel: (city, done, total) => `${city}: e hapur, ${done} nga ${total} të vulosura`,
+      stampsShort: (done, total) => `${done}/${total} vula`,
+      opener: {
+        close: "Mbyll",
+        tearHint: "Rrëshqit gishtin mbi majë për ta grisur",
+        tearHintMouse: "Kliko dhe tërhiq përgjatë majës për ta grisur",
+        tearButton: "Hap paketën",
+        tapNext: "prek për kartën tjetër",
+        skip: "Shfaqi të gjitha kartat",
+        binderTitle: (city) => `${city}: kartat e tua`,
+        replay: "Rihape",
+        cardOf: (i, n) => `${i} / ${n}`,
+        faces: {
+        stampCard: "Karta e vulave",
+        muralCard: "Muri yt",
+        storyCard: "Historia jote",
+        muralEmpty: "Këtu shkojnë fotot dhe selfiet e udhëtimit",
+        storyEmpty: "Si ishte?",
+        stampsDone: (n, of) => `${n} nga ${of} të vulosura`,
+        photos: (n) => `${n} foto`,
+      },
+      },
+      detail: {
+        close: "Mbyll",
+        flipToGuide: "Lexo udhëzuesin",
+        flipToCard: "Kthehu te karta",
+        whatToDo: "Çfarë të bësh",
+        timeToSpend: "Sa kohë të qëndrosh",
+        bestTime: "Koha më e mirë",
+        bestTimes: { morning: "Mëngjes", afternoon: "Pasdite", evening: "Mbrëmje", any: "Kurdo", day: "Gjatë ditës" },
+        openMap: "Hape në hartë",
+        stampGps: "Jam këtu: vulos me GPS",
+        stampHand: "Kam qenë: e shënoj vetë",
+        stampedGold: "Vulosur në vend",
+        stampedHand: "Shënuar nga ti",
+        stampWorking: "Po shoh ku je…",
+        stampErrors: {
+          denied: "Vendndodhja është e fikur. Lejoje për këtë faqe, ose shëno vendin vetë.",
+          too_far: (km) => `Je rreth ${km} km larg. Afrohu, ose shënoje vetë.`,
+          low_accuracy: "Telefoni ende s'e di saktë ku je. Dil jashtë dhe provo sërish.",
+          no_location: "Ky vend ende s'ka pikë të verifikuar në hartë, ndaj mund ta shënosh vetëm vetë.",
+          generic: "Nuk funksionoi. Provo sërish pas pak.",
+        },
+        stampsTitle: "Karta e vulave",
+        stampsIntro: "Çdo vend që viziton ngjyros pjesën e vet të qytetit. Vulosi të gjitha për ta përfunduar pikturën.",
+        stampsDone: (n, of) => `${n} nga ${of} të vulosura`,
+        complete: (city) => `I ke parë të gjitha në ${city}. Piktura është e jotja.`,
+        qrLabel: "Kodi QR i udhëtimit",
+        qrHint: "Skanoje për ta hapur këtë udhëtim në një telefon tjetër. Prek kudo për ta mbyllur.",
+        muralTitle: "Muri yt",
+        muralIntro: "Fotot dhe selfiet e udhëtimit, në një mur. Qëndrojnë në këtë telefon derisa të vendosësh t'i dërgosh.",
+        muralAdd: "Shto foto",
+        muralRemove: "Hiq foton",
+        muralCount: (n, max) => `${n} nga ${max} foto`,
+        muralErrors: { type: "Ky skedar nuk është foto.", decode: "Një foto nuk u lexua dot në këtë telefon.", full: "Muri mban 8 foto; të tjerat mbetën jashtë." },
+        storyTitle: "Historia jote",
+        storyIntro: "Ku shkove, çfarë të befasoi, kë takove. Ruhet në këtë telefon ndërsa shkruan.",
+        storyPlaceholder: "Mbrëmja ime e parë në qytet…",
+        storySaved: "U ruajt",
+        send: {
+          title: "Dërgoje te 383",
+          intro: "Udhëtimet më të bukura i vendosim në faqen Kosova në xhep. Një redaktor e lexon secilin më parë.",
+          signIn: "Hyr për ta dërguar",
+          consent: "383 mund t'i publikojë këto foto dhe fjalë. Jam unë në to ose kam lejen e të gjithëve që janë.",
+          send: "Dërgoje te 383",
+          sending: "Po dërgohet…",
+          sent: "U dërgua. Një redaktor e shikon para se të publikohet diçka.",
+          nothing: "Shto një foto ose disa fjalë më parë.",
+          failed: "Nuk u dërgua. Kontrollo lidhjen dhe provo sërish.",
+        },
+        faces: {
+        stampCard: "Karta e vulave",
+        muralCard: "Muri yt",
+        storyCard: "Historia jote",
+        muralEmpty: "Këtu shkojnë fotot dhe selfiet e udhëtimit",
+        storyEmpty: "Si ishte?",
+        stampsDone: (n, of) => `${n} nga ${of} të vulosura`,
+        photos: (n) => `${n} foto`,
+      },
+      },
     },
   },
 } as const satisfies Record<XhepLang, XhepDict>;
