@@ -7,7 +7,7 @@ import { ROOM_CODE_RE } from "./rooms.mjs";
 
 export const ROOMS_KEY = "xhep.rooms.v1";
 export const ROOMS_EVENT = "xhep:rooms";
-export const roomUrl = (code: string, lang: "en" | "sq" = "sq") => `https://383ks.com/visit/r/${code}${lang === "en" ? "?lang=en" : ""}`;
+export const roomUrl = (code: string, lang: "en" | "sq" = "sq") => `https://383ks.com/visit/r/${code}?lang=${lang}`;
 
 export type MyRoom = { code: string; name: string; memberId: string; token: string };
 export type Progress = { opened: string[]; painted: string[]; cities: Record<string, number>; stamps: number };

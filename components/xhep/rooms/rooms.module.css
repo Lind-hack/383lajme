@@ -4,6 +4,8 @@
   background: radial-gradient(90% 70% at 100% 0%, rgba(255, 68, 34, 0.12), transparent 60%), linear-gradient(180deg, #13233a, #1c3150);
   color: #fff;
 }
+/* On its own page the section sits under the fixed top bar. */
+.together[data-page] { min-height: 70vh; padding-top: calc(var(--nav-h, 72px) + 32px); }
 .head { max-width: 720px; margin-bottom: 26px; }
 .head h2 { margin: 6px 0 10px; font-size: clamp(30px, 4vw, 48px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; }
 .head p { margin: 0; color: rgba(255, 255, 255, 0.78); font-size: 16px; line-height: 1.55; }

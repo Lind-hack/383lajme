@@ -24,11 +24,11 @@ export default function RoomJoin({ lang, code, name }: { lang: "en" | "sq"; code
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const shown = displayName || profile?.name || "";
-  const packsHref = `/visit${lang === "en" ? "?lang=en" : ""}#packs`;
+  const packsHref = `/visit?lang=${lang}#packs`;
 
   if (!name) {
     return (
-      <section className={styles.together}>
+      <section className={styles.together} data-page>
         <div className={styles.head}>
           <h2>{t.notFound}</h2>
           <p>
@@ -40,7 +40,7 @@ export default function RoomJoin({ lang, code, name }: { lang: "en" | "sq"; code
   }
 
   return (
-    <section className={styles.together} aria-labelledby="room-title">
+    <section className={styles.together} data-page aria-labelledby="room-title">
       <div className={styles.head}>
         <p className={styles.kicker}>Kosova në xhep · {t.roomTitle}</p>
         <h2 id="room-title">{mine ? name : t.joinTitle(name)}</h2>
