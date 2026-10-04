@@ -41,8 +41,16 @@ const TEXT = {
 };
 
 const cityName = (id: string) => CITY_NAMES[id as keyof typeof CITY_NAMES] ?? id;
-const when = (iso: string | null, lang: "en" | "sq") =>
-  iso ? new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "sq-AL", { month: "long", year: "numeric", timeZone: "Europe/Belgrade" }).format(new Date(iso)) : "";
+// Month names written out: the server's Intl data has no Albanian months.
+const MONTHS = {
+  en: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+  sq: ["janar", "shkurt", "mars", "prill", "maj", "qershor", "korrik", "gusht", "shtator", "tetor", "nëntor", "dhjetor"],
+};
+const when = (iso: string | null, lang: "en" | "sq") => {
+  if (!iso) return "";
+  const d = new Date(iso);
+  return `${MONTHS[lang][d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+};
 
 function TripViewer({ trip, lang, onClose }: { trip: ShowcaseTrip; lang: "en" | "sq"; onClose: () => void }) {
   const t = TEXT[lang];
@@ -100,7 +108,7 @@ function TripCard({ trip, lang, featured, onOpen }: { trip: ShowcaseTrip; lang: 
         <span className={styles.collage} data-count={shown.length}>
           {shown.map((src, i) => (
             // eslint-disable-next-line @next/next/no-img-element
-            <img key={src} src={src} alt="" loading="lazy" style={{ "--i": i } as React.CSSProperties} />
+            <img key={src} src={src} alt="" loading={featured ? "eager" : "lazy"} style={{ "--i": i } as React.CSSProperties} />
           ))}
           {trip.photos.length > shown.length && <span className={styles.more}><Images size={14} aria-hidden="true" />+{trip.photos.length - shown.length}</span>}
         </span>
