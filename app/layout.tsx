@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { jsonLdString } from "@/lib/json-ld";
 import { Manrope, Figtree, EB_Garamond } from "next/font/google";
 import "./globals.css";
-import SignupPrompt from "@/components/signup-prompt";
 import MotionProvider from "@/components/motion-provider";
 import Ga from "@/components/analytics/ga";
 import MobileTabBar from "@/components/mobile-tab-bar";
@@ -114,7 +113,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               highlight can slide from one tab to the next. */}
           <MobileTabBar />
           <LedgerVisit />
-          <SignupPrompt />
           <Ga />
         </MotionProvider>
       </body>
