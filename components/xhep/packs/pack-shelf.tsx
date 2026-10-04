@@ -26,9 +26,8 @@ import PackModel from "./pack-model";
 import { useXhepProfile } from "./use-profile";
 import styles from "./packs.module.css";
 
-const FEATURED = ["prizren", "peje", "prishtine"];
 
-export default function PackShelf({ lang, focusCity = null }: { lang: XhepLang; focusCity?: string | null }) {
+export default function PackShelf({ lang, focusCity = null, lead = null }: { lang: XhepLang; focusCity?: string | null; lead?: React.ReactNode }) {
   const t = xhepDict(lang).packs;
   const { profile, update } = useXhepProfile();
   const [open, setOpen] = useState<string | null>(null);
@@ -40,7 +39,8 @@ export default function PackShelf({ lang, focusCity = null }: { lang: XhepLang; 
   const cards = open ? (packCards(open) as PackCard[]) : [];
   const answered = Boolean(profile?.completed);
   const chosen = (profile?.cities ?? []).filter((c: string) => PACK_CITIES.includes(c));
-  const forYou: string[] = answered ? [...new Set([...chosen, ...suggestCities(profile?.interests ?? [])])].slice(0, 3) : FEATURED;
+  // Only the answers choose packs; before that nothing is picked at random.
+  const forYou: string[] = answered ? [...new Set([...chosen, ...suggestCities(profile?.interests ?? [])])].slice(0, 3) : [];
 
   // Arriving from search with a city chosen: open the box at that pack.
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function PackShelf({ lang, focusCity = null }: { lang: XhepLang; 
   /** One pack on the shelf: the object, its name and state, and a turn-over button. */
   // A render function, not a component: a component defined here would be a new
   // type every render and restart each pack's animation on every profile write.
-  const pack = ({ cityId, motion, delay = 0, big = false }: { cityId: string; motion: "spin" | "bob" | "still"; delay?: number; big?: boolean }) => {
+  const pack = ({ cityId, motion, delay = 0, big = false }: { cityId: string; motion: "wiggle" | "still"; delay?: number; big?: boolean }) => {
     const opened = Boolean(profile?.packs?.[cityId]);
     const state = stampState(profile, cityId);
     const isFlipped = flipped === cityId;
@@ -97,20 +97,22 @@ export default function PackShelf({ lang, focusCity = null }: { lang: XhepLang; 
         <p>{t.intro}</p>
       </div>
 
-      <div className={styles.showcase}>
-        <div className={styles.showcaseStage} aria-hidden="true" />
-        {forYou.map((cityId, i) => (
-          <div key={cityId} className={styles.showcaseSlot}>{pack({ cityId, motion: i === 0 ? "spin" : "bob", delay: i * 0.7, big: i === 0 })}</div>
-        ))}
-      </div>
-
+      <div className={styles.showcase} data-answered={answered || undefined}>
+        {lead && <div className={styles.lead}>{lead}</div>}
+        <div className={styles.forYou}>
+          {answered ? (
+            <div className={styles.forYouPacks}>
+              {forYou.map((cityId, i) => (
+                <div key={cityId} className={styles.showcaseSlot}>{pack({ cityId, motion: "wiggle", delay: i * 0.45 })}</div>
+              ))}
+            </div>
+          ) : (
+            <a className={styles.quizCta} href="#your-card">
+              <Sparkles aria-hidden="true" size={18} />
+              {t.quizCta}
+            </a>
+          )}
       <div className={styles.shelfActions}>
-        {!answered && (
-          <a className={styles.quizCta} href="#your-card">
-            <Sparkles aria-hidden="true" size={18} />
-            {t.quizCta}
-          </a>
-        )}
         <button type="button" className={styles.box} data-open={boxOpen || undefined} onClick={() => setBoxOpen((o) => !o)} aria-expanded={boxOpen} aria-controls="pack-box">
           <span className={styles.boxModel} aria-hidden="true">
             <span className={styles.boxLid}>
@@ -134,12 +136,14 @@ export default function PackShelf({ lang, focusCity = null }: { lang: XhepLang; 
           </span>
         </button>
       </div>
+        </div>
+      </div>
 
       {boxOpen && (
         <div className={styles.boxGrid} id="pack-box" ref={grid}>
           {PACK_CITIES.map((cityId, i) => (
             <div key={cityId} className={styles.boxGridItem} style={{ "--i": i } as React.CSSProperties}>
-              {pack({ cityId, motion: "bob", delay: i * 0.35 })}
+              {pack({ cityId, motion: "wiggle", delay: i * 0.3 })}
             </div>
           ))}
         </div>

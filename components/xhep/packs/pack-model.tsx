@@ -6,8 +6,8 @@
 //   back  — the pack's label: what is inside, the seven places and how long
 //           each takes, the total time, a barcode and the 383 mark.
 //
-// `motion` sets how it sits on the page: "spin" turns it slowly through 360°
-// like a showcase, "bob" floats it up and down, "still" holds it. `flipped`
+// `motion` sets how it sits on the page: "wiggle" gives it a little shake now
+// and then, like a pack in someone's hand; "still" holds it. `flipped`
 // shows the back. An opened pack keeps its torn top, with the backs of its
 // cards peeking out. Reduced motion holds every pack still.
 
@@ -97,10 +97,10 @@ export default function PackModel({
   cityId: string;
   lang: XhepLang;
   t: BackText;
-  motion?: "spin" | "bob" | "still";
+  motion?: "wiggle" | "still";
   flipped?: boolean;
   torn?: boolean;
-  /** Stagger for a row of bobbing packs, in seconds. */
+  /** Stagger for a row of packs, so they don't shake in unison, in seconds. */
   delay?: number;
 }) {
   const art = PACK_ART[cityId as keyof typeof PACK_ART];
@@ -125,7 +125,7 @@ export default function PackModel({
           <img src={art.src} alt="" draggable={false} width={640} height={1000} style={torn ? { clipPath: BODY_CLIP } : undefined} />
           <i className={styles.sheen} aria-hidden="true" style={{ "--pack-mask": `url(${art.src})` } as React.CSSProperties} />
         </span>
-        <span className={styles.backFace} aria-hidden={!flipped && motion !== "spin"}>
+        <span className={styles.backFace} aria-hidden={!flipped}>
           <PackBack cityId={cityId} lang={lang} t={t} />
         </span>
       </span>

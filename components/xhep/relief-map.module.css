@@ -1,0 +1,80 @@
+.map {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 1478 / 1625;
+  width: 100%;
+  font-family: inherit;
+}
+.map > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 28px;
+  -webkit-mask: radial-gradient(120% 110% at 50% 46%, #000 62%, transparent 92%);
+  mask: radial-gradient(120% 110% at 50% 46%, #000 62%, transparent 92%);
+}
+.overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.borderGlow { fill: none; stroke: rgba(255, 255, 255, 0.85); stroke-width: 9; stroke-linejoin: round; filter: drop-shadow(0 6px 10px rgba(60, 40, 20, 0.25)); }
+.border { fill: none; stroke: #3b2a1c; stroke-width: 2.4; stroke-linejoin: round; stroke-dasharray: none; }
+.neighbour { fill: rgba(80, 64, 50, 0.42); font-size: 30px; font-weight: 800; letter-spacing: 6px; text-anchor: middle; }
+
+.city {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #1b1410;
+  font: inherit;
+  transform: translate(-7px, -50%);
+  cursor: pointer;
+}
+.city[data-side="left"] { flex-direction: row-reverse; transform: translate(calc(-100% + 7px), -50%); }
+.city i {
+  width: 14px;
+  height: 14px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: var(--pin);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.city span {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255, 252, 246, 0.92);
+  font-size: clamp(11px, 1.2vw, 14px);
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(40, 25, 10, 0.18);
+}
+.city:focus-visible { outline: none; }
+.city:focus-visible span { outline: 3px solid #ff4422; outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .city:hover i { transform: scale(1.35); }
+}
+.crossing {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transform: translate(-6px, -50%);
+  pointer-events: none;
+}
+.crossing[data-side="left"] { flex-direction: row-reverse; transform: translate(calc(-100% + 6px), -50%); }
+.crossing i { width: 12px; height: 12px; border-radius: 3px; background: #13233a; box-shadow: 0 0 0 2px #fff; transform: rotate(45deg); }
+.crossing span { display: flex; gap: 4px; padding: 2px 7px; border-radius: 6px; background: #13233a; color: #fff; font-size: clamp(9.5px, 1vw, 12px); font-weight: 800; white-space: nowrap; }
+.crossing b { color: #9be7b4; }
+.peak { position: absolute; display: flex; align-items: center; gap: 4px; transform: translate(-6px, -60%); pointer-events: none; }
+.peak i { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 10px solid #fff; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5)); }
+.peak span { color: #fff; font-size: clamp(9.5px, 1vw, 12px); font-weight: 800; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7); white-space: nowrap; }
+.credit { position: absolute; right: 12px; bottom: 8px; color: rgba(60, 48, 38, 0.6); font-size: 10px; }
+@media (max-width: 700px) {
+  /* Small screens: crossings as markers only; the border card names them. */
+  .crossing span { display: none; }
+  .neighbour { font-size: 40px; }
+}
+@media (prefers-reduced-motion: reduce) { .city i { transition: none; } }

@@ -35,6 +35,9 @@ import LangToggle from "@/components/xhep/lang-toggle";
 import XhepCompanion from "@/components/xhep/companion";
 import type { LiveFuel } from "@/components/xhep/help";
 import PackShelf from "@/components/xhep/packs/pack-shelf";
+import ReliefMap from "@/components/xhep/relief-map";
+import TripHelp from "@/components/xhep/trip-help";
+import BorderCard, { type NearbyResult } from "./border-card";
 import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
 
 type Dict = ReturnType<typeof xhepDict>;
@@ -153,6 +156,8 @@ export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?:
   const countryOf = (id: BorderCrossingId) => d.common.countries[id];
   const [borderPayload, setBorderPayload] = useState<BorderPayload | null>(null);
   const [, setBorderLoading] = useState(true);
+  const [borderLoadedAt, setBorderLoadedAt] = useState<number | null>(null);
+  const [borderRefreshing, setBorderRefreshing] = useState(false);
   const [selectedCrossing, setSelectedCrossing] = useState<BorderCrossingId>("vermice-morine");
   const borderSheet = useRef<HTMLDialogElement>(null);
   const [direction, setDirection] = useState<BorderDirection>("entry");
@@ -200,15 +205,18 @@ export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?:
     return () => window.clearInterval(timer);
   }, [locating]);
 
-  const loadBorders = useCallback(async () => {
+  const loadBorders = useCallback(async (manual = false) => {
+    if (manual) setBorderRefreshing(true);
     try {
       const response = await fetch("/api/visit/borders", { cache: "no-store" });
       const payload = (await response.json()) as BorderPayload;
       setBorderPayload(payload);
+      setBorderLoadedAt(Date.now());
     } catch {
       setBorderPayload({ official: [], community: {}, recentReports: [], generatedAt: new Date().toISOString(), error: d.border.loadFailed });
     } finally {
       setBorderLoading(false);
+      setBorderRefreshing(false);
     }
   }, [d]);
 
@@ -295,6 +303,7 @@ export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?:
     }
   };
 
+  const mapWaits = Object.fromEntries((borderPayload?.official ?? []).map((o) => [o.crossingId, Math.max(o.entry.max, o.exit.max)]));
   const emergencyLabel = (item: (typeof EMERGENCY_NUMBERS)[number]) => d.common.emergency[item.number as keyof Dict["common"]["emergency"]] ?? item.label;
   const currentCrossing = BORDER_CROSSINGS.find((crossing) => crossing.id === selectedCrossing) ?? BORDER_CROSSINGS[0];
   const recentReports = (borderPayload?.recentReports ?? []).filter((report) => report.crossingId === selectedCrossing && report.direction === direction).slice(0, 6);
@@ -330,7 +339,7 @@ export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?:
       <a className={styles.skipLink} href="#visit-tools">{t.skipToTools}</a>
       <a className={styles.floatingEmergency} href="tel:112"><Phone aria-hidden="true" size={18} /><span>{t.helpNow}</span><strong>112</strong></a>
 
-      <section className={styles.visitHero} data-compact aria-labelledby="visit-v2-title">
+      <section className={styles.visitHero} data-mapped aria-labelledby="visit-v2-title">
         <div className={styles.heroCopy}>
           <LangToggle lang={lang} />
           <div className="visit-dardani">
@@ -341,51 +350,64 @@ export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?:
           <p className={styles.heroLead}>{t.lead}</p>
           <p className={styles.privacyLine}><ShieldCheck aria-hidden="true" size={15} />{t.privacy}</p>
         </div>
-      </section>
-
-      {/* The packs are the front of the page. */}
-      <section className={styles.citySection} id="city-card" aria-label={d.city.title}>
-        <PackShelf lang={lang} focusCity={focusCity} />
-      </section>
-
-      <XhepCompanion lang={lang} fuel={fuel} />
-
-      <section className={styles.borderSection} id="visit-tools" aria-labelledby="border-card-title">
-        <div className={styles.sectionIntro}>
-          <h2 id="border-card-title">{d.border.title}</h2>
-          <p>{d.border.intro}</p>
+        <div className={styles.heroRelief}>
+          <ReliefMap
+            lang={lang}
+            waits={mapWaits}
+            onCity={(id) => {
+              setFocusCity(null);
+              window.setTimeout(() => setFocusCity(id as CityId), 0);
+            }}
+          />
         </div>
+      </section>
 
-        <article className={styles.miniBorder} id="border-card">
-          <header>
-            <span className={styles.miniBorderBadge}><CarFront aria-hidden="true" size={18} /></span>
-            <span><b>{t.borderMode}</b><small>{direction === "entry" ? d.border.entry : d.border.exit}</small></span>
-            <span className={styles.miniBorder383}>383</span>
-          </header>
-          <ul>
-            {BORDER_CROSSINGS.map((crossing) => {
-              const current = borderPayload?.official.find((item) => item.crossingId === crossing.id);
-              const range = direction === "entry" ? current?.entry : current?.exit;
-              return (
-                <li key={crossing.id}>
-                  <span><b>{crossing.name}</b><small>{countryOf(crossing.id)}</small></span>
-                  <WaitMeter minutes={range ? range.max : null} d={d} />
-                  <strong>{range ? rangeLabel(range) : t.noData}</strong>
-                </li>
-              );
-            })}
-          </ul>
-          <p>{d.border.miniNote}</p>
-          <footer>
-            <a href="tel:112" className={styles.miniBorder112}><Phone aria-hidden="true" size={16} />112</a>
-            <button type="button" onClick={() => borderSheet.current?.showModal()}>{d.border.openCard}<ArrowRight aria-hidden="true" size={16} /></button>
-          </footer>
-        </article>
+      {/* The questions come first: the answers choose the packs. */}
+      <XhepCompanion lang={lang} />
 
+      <section className={styles.citySection} id="city-card" aria-label={d.city.title}>
+        <PackShelf
+          lang={lang}
+          focusCity={focusCity}
+          lead={
+            <BorderCard
+              d={d}
+              official={borderPayload?.official ?? []}
+              direction={direction}
+              setDirection={setDirection}
+              selected={selectedCrossing}
+              setSelected={setSelectedCrossing}
+              loadedAt={borderLoadedAt}
+              refreshing={borderRefreshing}
+              onRefresh={() => void loadBorders(true)}
+              countryOf={countryOf}
+              locating={locating}
+              locationStage={locationStage}
+              locationMessage={locationMessage}
+              onLocate={() => void locateServices()}
+              nearby={nearby as NearbyResult | null}
+              reportOpen={reportOpen}
+              setReportOpen={setReportOpen}
+              reportMinutes={reportMinutes}
+              setReportMinutes={setReportMinutes}
+              reporting={reporting}
+              reportMessage={reportMessage}
+              onReport={() => void submitReport()}
+              onOpenSheet={() => borderSheet.current?.showModal()}
+            />
+          }
+        />
+      </section>
+
+      <section className={styles.helpSection} aria-label={d.help.title}>
+        <TripHelp lang={lang} fuel={fuel} />
+      </section>
+
+      <section className={styles.borderSection} aria-label={t.borderMode}>
         <dialog
           ref={borderSheet}
           className={styles.borderSheet}
-          aria-labelledby="border-card-title"
+          aria-label={t.borderMode}
           onClick={(e) => {
             if (e.target === e.currentTarget) e.currentTarget.close();
           }}

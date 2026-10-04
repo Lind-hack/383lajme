@@ -10,28 +10,21 @@
 .shelfHead h2 { margin: 0; font-size: clamp(30px, 5.4vw, 52px); font-weight: 900; letter-spacing: -0.035em; line-height: 1; }
 .shelfHead > p:last-child { margin: 10px 0 0; color: #5e5048; font-size: 16px; line-height: 1.5; }
 
-/* The showcase: packs on a lit stage. */
+/* The showcase: the border card, then the packs the answers chose. */
 .showcase {
-  position: relative;
   display: grid;
-  grid-template-columns: 1.25fr 1fr 1fr;
-  align-items: end;
-  gap: clamp(10px, 3vw, 40px);
-  padding: 26px clamp(8px, 4vw, 48px) 8px;
+  grid-template-columns: minmax(300px, 400px) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(16px, 3vw, 36px);
 }
-.showcaseStage {
-  position: absolute;
-  inset: 34% 0 0;
-  border-radius: 50% / 34%;
-  background: radial-gradient(ellipse at 50% 40%, rgba(255, 140, 90, 0.28), transparent 70%);
-  pointer-events: none;
-}
-.showcaseSlot { position: relative; }
+.lead { min-width: 0; }
+.forYou { display: grid; gap: 22px; align-content: start; min-width: 0; }
+.forYouPacks { display: grid; grid-template-columns: repeat(3, minmax(0, 168px)); gap: clamp(12px, 2vw, 26px); padding-top: 6px; }
+.showcaseSlot { position: relative; min-width: 0; }
 .shelfItem { position: relative; display: grid; justify-items: center; gap: 8px; }
-.shelfItem[data-big] .shelfPack { width: 100%; }
 .shelfPack {
   display: block;
-  width: 88%;
+  width: 100%;
   padding: 0;
   border: 0;
   background: none;
@@ -68,7 +61,7 @@
 .shelfItem[data-focus] .shelfPack { animation: shelf-focus 1.6s ease-in-out 2; }
 @keyframes shelf-focus { 50% { transform: translateY(-12px) scale(1.05); } }
 
-.shelfActions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px 22px; }
+.shelfActions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
 .quizCta {
   display: inline-flex;
   align-items: center;
@@ -163,20 +156,22 @@
 
 .boxGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 26px 16px;
+  grid-template-columns: repeat(auto-fill, minmax(118px, 150px));
+  justify-content: start;
+  gap: 22px 16px;
   padding: 18px 4px 6px;
 }
 .boxGridItem { animation: pack-deal 520ms cubic-bezier(0.34, 1.56, 0.64, 1) both; animation-delay: calc(var(--i) * 60ms); }
 @keyframes pack-deal { from { opacity: 0; transform: translateY(-40px) scale(0.7) rotate(-8deg); } }
 
 @media (max-width: 700px) {
-  .showcase { grid-template-columns: 1.3fr 1fr; padding-top: 14px; }
-  .showcaseStage + .showcaseSlot { grid-row: span 2; align-self: center; }
+  .showcase { grid-template-columns: minmax(0, 1fr); }
+  .forYouPacks { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
   .shelfHead h2 { font-size: 34px; }
   .shelfHead > p:last-child { display: none; }
   .flipButton { min-height: 32px; padding: 0 10px; font-size: 12px; }
-  .boxGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .boxGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 10px; }
+  .shelfMeta b { font-size: 14px; }
 }
 
 /* ── Opener (full-screen dialog) ───────────────────────────────────────── */

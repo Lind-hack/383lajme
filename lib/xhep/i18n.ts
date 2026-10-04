@@ -198,6 +198,17 @@ type XhepDict = {
     openCard: string;
     closeCard: string;
     miniNote: string;
+    updated: (time: string) => string;
+    refresh: string;
+    refreshing: string;
+    nextRefresh: (minutes: number) => string;
+    byCar: (minutes: number, km: string) => string;
+    straight: (km: string) => string;
+    nearestCrossing: string;
+    helpTitle: string;
+    directions: string;
+    more: string;
+    officialSource: string;
     crossing: string;
     direction: string;
     entry: string;
@@ -352,11 +363,11 @@ export const XHEP_DICT = {
       noData: "No data",
     },
     companion: {
-      title: "Your Kosovo, in your pocket",
-      intro: "Answer six quick questions and get your own woven card, a plan for your days and the help that fits your trip. No account.",
-      start: "Make my card",
+      title: "Which packs are yours?",
+      intro: "Six quick questions about your trip, and we pick the city packs that fit it, with the help that matches your route. No account.",
+      start: "Pick my packs",
       startHint: "About 30 seconds",
-      resume: "Continue my card",
+      resume: "Change my answers",
     },
     quiz: {
       progress: (step, total) => `Step ${step} of ${total}`,
@@ -510,7 +521,7 @@ export const XHEP_DICT = {
       kosovo: "Kosovo",
       countries: { kulle: "Montenegro", merdare: "Serbia", "hani-i-elezit": "North Macedonia", "vermice-morine": "Albania" },
       emergency: { "112": "Emergency", "192": "Police", "193": "Fire", "194": "Ambulance" },
-      services: { police: "Police", hospital: "Ambulance", fire_station: "Fire brigade", fuel: "Fuel" },
+      services: { police: "Police", hospital: "Emergency hospital", fire_station: "Fire brigade", fuel: "Fuel" },
       openDirections: "Get directions",
       openDirectionsGoogle: "Get directions in Google Maps",
     },
@@ -522,6 +533,17 @@ export const XHEP_DICT = {
     time: { now: "Just now", minutesAgo: (minutes) => `${minutes} min ago` },
     border: {
       openCard: "Open the full border card",
+      updated: (time) => `Updated ${time}`,
+      refresh: "Refresh",
+      refreshing: "Refreshing…",
+      nextRefresh: (m) => `next check in ${m} min`,
+      byCar: (m, km) => `${m} min by car · ${km} km`,
+      straight: (km) => `${km} km in a straight line`,
+      nearestCrossing: "Nearest crossing",
+      helpTitle: "Help near you",
+      directions: "Directions",
+      more: "Reports, all services and offline copy",
+      officialSource: "Official waits: Kosovo Ministry of Internal Affairs",
       closeCard: "Close",
       miniNote: "Official waits, every 10 minutes. Inside: report yours, help nearby, save offline.",
       title: "Check the wait. Pick your crossing. Leave calmer.",
@@ -534,7 +556,7 @@ export const XHEP_DICT = {
       entryShort: "Entry",
       exitShort: "Exit",
       findHelp: "Find the nearest help",
-      findHelpHint: "Police, ambulance, fire brigade and fuel",
+      findHelpHint: "Police station, emergency hospital, fuel and the nearest crossing",
       progressLabel: "Search progress",
       report: "Report the wait now",
       reportHint: "1 minute • accepted only near the border",
@@ -649,7 +671,7 @@ export const XHEP_DICT = {
       stampsShort: (done, total) => `${done}/${total} stamps`,
       forYou: "Picked for you",
       featured: "Start here",
-      quizCta: "Answer a few questions, get your packs",
+      quizCta: "Answer the questions above to get your packs",
       flipLabel: (city) => `Turn the ${city} pack over`,
       flipBack: "Turn over",
       flipFront: "Front",
@@ -771,11 +793,11 @@ export const XHEP_DICT = {
       noData: "Pa të dhëna",
     },
     companion: {
-      title: "Kosova jote, në xhep",
-      intro: "Përgjigju gjashtë pyetjeve të shpejta dhe merr kartën tënde të endur, planin e ditëve dhe ndihmën që i përshtatet udhëtimit. Pa llogari.",
-      start: "Krijo kartën time",
+      title: "Cilat paketa janë për ty?",
+      intro: "Gjashtë pyetje të shpejta për udhëtimin, dhe ne zgjedhim paketat e qyteteve që të përshtaten, me ndihmën për rrugën tënde. Pa llogari.",
+      start: "Zgjidh paketat e mia",
       startHint: "Rreth 30 sekonda",
-      resume: "Vazhdo kartën time",
+      resume: "Ndrysho përgjigjet",
     },
     quiz: {
       progress: (step, total) => `Hapi ${step} nga ${total}`,
@@ -929,7 +951,7 @@ export const XHEP_DICT = {
       kosovo: "Kosovë",
       countries: { kulle: "Mali i Zi", merdare: "Serbi", "hani-i-elezit": "Maqedoni e Veriut", "vermice-morine": "Shqipëri" },
       emergency: { "112": "Urgjenca", "192": "Policia", "193": "Zjarrfikësit", "194": "Ambulanca" },
-      services: { police: "Policia", hospital: "Ambulanca", fire_station: "Zjarrfikësit", fuel: "Karburanti" },
+      services: { police: "Policia", hospital: "Spitali (urgjenca)", fire_station: "Zjarrfikësit", fuel: "Karburanti" },
       openDirections: "Hap drejtimet",
       openDirectionsGoogle: "Hap drejtimet në Google Maps",
     },
@@ -941,6 +963,17 @@ export const XHEP_DICT = {
     time: { now: "Tani", minutesAgo: (minutes) => `${minutes} min më parë` },
     border: {
       openCard: "Hap kartën e plotë të kufirit",
+      updated: (time) => `Përditësuar ${time}`,
+      refresh: "Rifresko",
+      refreshing: "Po rifreskohet…",
+      nextRefresh: (m) => `kontrolli tjetër pas ${m} min`,
+      byCar: (m, km) => `${m} min me makinë · ${km} km`,
+      straight: (km) => `${km} km në vijë ajrore`,
+      nearestCrossing: "Pika kufitare më e afërt",
+      helpTitle: "Ndihma pranë teje",
+      directions: "Udhëzimet",
+      more: "Raportet, të gjitha shërbimet dhe kopja offline",
+      officialSource: "Pritjet zyrtare: Ministria e Punëve të Brendshme",
       closeCard: "Mbyll",
       miniNote: "Pritjet zyrtare, çdo 10 minuta. Brenda: raporto tënden, ndihmë afër, ruaje offline.",
       title: "Shiko pritjen. Zgjidh pikën. Nisu më i qetë.",
@@ -953,7 +986,7 @@ export const XHEP_DICT = {
       entryShort: "Hyrje",
       exitShort: "Dalje",
       findHelp: "Gjej ndihmën më të afërt",
-      findHelpHint: "Polici, ambulancë, zjarrfikës dhe karburant",
+      findHelpHint: "Stacioni policor, spitali i urgjencës, karburanti dhe pika kufitare më e afërt",
       progressLabel: "Përparimi i analizës",
       report: "Raporto pritjen tani",
       reportHint: "1 minutë • pranohet vetëm pranë kufirit",
@@ -1068,7 +1101,7 @@ export const XHEP_DICT = {
       stampsShort: (done, total) => `${done}/${total} vula`,
       forYou: "Zgjedhur për ty",
       featured: "Nis këtu",
-      quizCta: "Përgjigju disa pyetjeve, merr paketat e tua",
+      quizCta: "Përgjigju pyetjeve më lart për paketat e tua",
       flipLabel: (city) => `Ktheje paketën: ${city}`,
       flipBack: "Ktheje",
       flipFront: "Përpara",

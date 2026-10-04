@@ -16,22 +16,18 @@
   transition: transform 700ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 .model[data-flipped] .turn { transform: rotateY(180deg); }
-.model[data-motion="spin"] .turn { animation: pack-spin 16s linear infinite; animation-delay: var(--delay); }
-.model[data-motion="bob"] .turn { animation: pack-bob 4.2s ease-in-out infinite; animation-delay: var(--delay); }
-.model[data-motion="bob"][data-flipped] .turn { animation: none; transform: rotateY(180deg); }
-/* Slow on the faces, quick past the edges, so each side is readable. */
-@keyframes pack-spin {
-  0% { transform: rotateY(0deg) translateY(0); }
-  22% { transform: rotateY(25deg) translateY(-6px); }
-  30% { transform: rotateY(155deg) translateY(-8px); }
-  52% { transform: rotateY(180deg) translateY(-2px); }
-  72% { transform: rotateY(205deg) translateY(-6px); }
-  80% { transform: rotateY(335deg) translateY(-8px); }
-  100% { transform: rotateY(360deg) translateY(0); }
-}
-@keyframes pack-bob {
-  0%, 100% { transform: translateY(0) rotateZ(-1deg); }
-  50% { transform: translateY(-10px) rotateZ(1deg); }
+/* A little shake every few seconds, then stillness: a pack in someone's
+   hand, not a spinning ad. The shake lives on .model so a flip (on .turn)
+   can play over it. */
+.model[data-motion="wiggle"]:not([data-flipped]) { animation: pack-wiggle 4.8s ease-in-out infinite; animation-delay: var(--delay); transform-origin: 50% 85%; }
+@keyframes pack-wiggle {
+  0%, 64%, 100% { transform: rotate(0deg) translateY(0); }
+  67% { transform: rotate(-3deg) translateY(-4px); }
+  71% { transform: rotate(3deg) translateY(-4px); }
+  75% { transform: rotate(-2.4deg) translateY(-2px); }
+  79% { transform: rotate(1.8deg) translateY(-1px); }
+  83% { transform: rotate(-0.8deg); }
+  87% { transform: rotate(0deg); }
 }
 .front,
 .backFace {
@@ -137,7 +133,7 @@
 .barcode { width: 5.5em; height: 1.8em; fill: var(--ink); }
 
 @media (prefers-reduced-motion: reduce) {
-  .model[data-motion] .turn,
+  .model[data-motion],
   .sheen { animation: none; }
   .turn { transition: none; }
 }
