@@ -7,6 +7,7 @@ import visitStyles from "@/components/visit/visit-v2.module.css";
 import { XHEP_LANG_COOKIE, resolveXhepLang, xhepDict } from "@/lib/xhep/i18n";
 import { getDailyFuelSnapshot } from "@/lib/home-market-data";
 import type { LiveFuel } from "@/components/xhep/help";
+import { getShowcase } from "@/lib/xhep/showcase";
 
 /** Today's pump prices across the big brands, for the trip help's price list. */
 async function liveFuel(): Promise<LiveFuel | null> {
@@ -44,7 +45,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 }
 
 export default async function VisitPage({ searchParams }: Props) {
-  const [lang, fuel] = await Promise.all([visitLang(searchParams), liveFuel()]);
+  const [lang, fuel, trips] = await Promise.all([visitLang(searchParams), liveFuel(), getShowcase()]);
   return (
     <>
       <div className={visitStyles.printHidden}>
@@ -59,7 +60,7 @@ export default async function VisitPage({ searchParams }: Props) {
       />
       {/* The site layout is Albanian; this subtree declares its own language. */}
       <div lang={lang}>
-        <VisitV2Experience lang={lang} fuel={fuel} />
+        <VisitV2Experience lang={lang} fuel={fuel} trips={trips} />
       </div>
       <div className={visitStyles.printHidden}>
         <Footer />

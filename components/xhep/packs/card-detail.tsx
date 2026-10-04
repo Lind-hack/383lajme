@@ -26,6 +26,7 @@ import { CardFace, cityName, placePhoto, Scene, type PackCard } from "./cards";
 import SendTo383, { type SendText } from "./send-to-383";
 import PuzzleReward, { type RewardText } from "./puzzle-reward";
 import ShareTripButton from "../rooms/share-trip-button";
+import CityTrips from "../trips/city-trips";
 import { useXhepProfile, type XhepProfile } from "./use-profile";
 import styles from "./detail.module.css";
 import * as sfx from "@/lib/xhep/sound";
@@ -312,7 +313,7 @@ function StampDetail({ cityId, lang, profile, t }: { cityId: string; lang: XhepL
   );
 }
 
-function MuralDetail({ cityId, t, signedStory }: { cityId: string; t: DetailText; signedStory: string }) {
+function MuralDetail({ cityId, lang, t, signedStory }: { cityId: string; lang: XhepLang; t: DetailText; signedStory: string }) {
   const [photos, setPhotos] = useState<MuralPhoto[]>([]);
   const [urls, setUrls] = useState<Record<string, string>>({});
   const [error, setError] = useState<string | null>(null);
@@ -367,6 +368,7 @@ function MuralDetail({ cityId, t, signedStory }: { cityId: string; t: DetailText
       <p className={styles.progress}>{t.muralCount(photos.length, MURAL_MAX)}</p>
       {error && <p className={styles.note} role="status">{error}</p>}
       <SendTo383 cityId={cityId} photos={photos} story={signedStory} t={t.send} />
+      <CityTrips cityId={cityId} lang={lang} />
     </div>
   );
 }
@@ -434,7 +436,7 @@ export default function CardDetail({
     <Sheet title={title} onClose={onClose} accent={accent} closeLabel={t.close}>
       {card.kind === "place" && <PlaceDetail card={card} cityId={cityId} lang={lang} profile={profile} t={t} index={index} total={total} />}
       {card.kind === "stamps" && <StampDetail cityId={cityId} lang={lang} profile={profile} t={t} />}
-      {card.kind === "mural" && <MuralDetail cityId={cityId} t={t} signedStory={readStory(cityId).text} />}
+      {card.kind === "mural" && <MuralDetail cityId={cityId} lang={lang} t={t} signedStory={readStory(cityId).text} />}
       {card.kind === "story" && <StoryDetail cityId={cityId} t={t} photos={photos} />}
     </Sheet>
   );

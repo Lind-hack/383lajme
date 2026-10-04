@@ -156,6 +156,18 @@ export default async function AdminXhepPage({ searchParams }: { searchParams: Pr
             <p key={row.id} style={{ margin: 0 }}>
               <strong>{CITY[row.city_id] ?? row.city_id}</strong> · {row.status === "approved" ? `Aprovuar → ${PLACE_LABEL[row.placement ?? ""] ?? "—"}` : "Refuzuar"} · {when(row.reviewed_at)}
               {row.admin_note ? ` · ${row.admin_note}` : ""}
+              {row.status === "approved" && (
+                <>
+                  {" · "}
+                  <a href="/visit?lang=sq#trips" target="_blank" rel="noreferrer">Shih në faqe</a>
+                  {" · "}
+                  <form action={rejectAction} style={{ display: "inline" }}>
+                    <input type="hidden" name="id" value={row.id} />
+                    <input type="hidden" name="note" value="Hequr nga faqja" />
+                    <button type="submit" style={{ border: 0, background: "none", color: "#b42318", fontWeight: 700, cursor: "pointer", padding: 0 }}>Hiq nga faqja</button>
+                  </form>
+                </>
+              )}
             </p>
           ))}
         </section>

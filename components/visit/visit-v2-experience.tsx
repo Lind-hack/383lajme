@@ -37,6 +37,8 @@ import PackShelf from "@/components/xhep/packs/pack-shelf";
 import ReliefMap from "@/components/xhep/relief-map";
 import TripHelp from "@/components/xhep/trip-help";
 import Together from "@/components/xhep/rooms/together";
+import TripsWall from "@/components/xhep/trips/trips-wall";
+import type { ShowcaseTrip } from "@/lib/xhep/showcase";
 import BorderCard, { type NearbyResult } from "./border-card";
 import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
 
@@ -136,7 +138,7 @@ function ExactPlaceVisual({ place, Icon, d }: { place: NearbyPlace; Icon: Compon
 }
 
 
-export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?: XhepLang; fuel?: LiveFuel | null }) {
+export default function VisitV2Experience({ lang = "en", fuel = null, trips = [] }: { lang?: XhepLang; fuel?: LiveFuel | null; trips?: ShowcaseTrip[] }) {
   const d = xhepDict(lang);
   const t = d.hero;
   const countryOf = (id: BorderCrossingId) => d.common.countries[id];
@@ -360,6 +362,9 @@ export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?:
       <section className={styles.citySection} id="city-card" aria-label={d.city.title}>
         <PackShelf lang={lang} focusCity={focusCity} />
       </section>
+
+      {/* Trips visitors shared and the team approved. */}
+      <TripsWall lang={lang} trips={trips} />
 
       {/* Share the trip, and travel it together in a trip room. */}
       <Together lang={lang} />
