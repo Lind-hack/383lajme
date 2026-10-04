@@ -19,8 +19,11 @@ export const BORDER_CROSSINGS: readonly BorderCrossing[] = [
     officialName: "Kullë",
     otherSide: "Kula",
     country: "Mali i Zi",
-    latitude: 42.657,
-    longitude: 20.057,
+    // OSM node 2493088781 "Granični prelaz Kula", where the Pejë–Rožaje road
+    // leaves Kosovo. The old point (42.657, 20.057) was ~18 km away inside
+    // Montenegro, so reports from the real crossing failed the 1 km check.
+    latitude: 42.80039,
+    longitude: 20.22122,
   },
   {
     id: "merdare",

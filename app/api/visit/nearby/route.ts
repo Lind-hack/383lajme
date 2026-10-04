@@ -152,6 +152,38 @@ async function drive(from: { lat: number; lon: number }, to: { lat: number; lon:
 
 type Option = NearbyBase & { rank: number | null; km: number; minutes?: number | null };
 
+/** Overpass mirrors, tried in order: any one of them being busy is common. */
+const OVERPASS = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter", "https://overpass.private.coffee/api/interpreter"];
+/** Map results per ~1 km cell for 30 minutes: places don't move, and it spares the mirrors. */
+const mapCache = new Map<string, { at: number; elements: OverpassElement[] }>();
+
+/** Police, hospitals, clinics and fuel around a point; null when every mirror failed. */
+async function mapElements(query: string, cell: string): Promise<OverpassElement[] | null> {
+  const hit = mapCache.get(cell);
+  if (hit && Date.now() - hit.at < 30 * 60_000) return hit.elements;
+  for (const url of OVERPASS) {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded", "User-Agent": "383ks-visitor-utility/3.1 (+https://www.383ks.com/visit)" },
+        body: new URLSearchParams({ data: query }),
+        cache: "no-store",
+        signal: AbortSignal.timeout(9_000),
+      });
+      if (!response.ok) continue;
+      const text = await response.text();
+      if (!text.startsWith("{")) continue; // a busy mirror answers with an HTML/XML error page
+      const elements = (JSON.parse(text) as { elements?: OverpassElement[] }).elements ?? [];
+      if (mapCache.size > 500) mapCache.delete(mapCache.keys().next().value as string);
+      mapCache.set(cell, { at: Date.now(), elements });
+      return elements;
+    } catch {
+      // Try the next mirror.
+    }
+  }
+  return null;
+}
+
 export async function GET(request: NextRequest) {
   const latitude = Number(request.nextUrl.searchParams.get("lat"));
   const longitude = Number(request.nextUrl.searchParams.get("lon"));
@@ -166,24 +198,10 @@ export async function GET(request: NextRequest) {
     fire_station: `https://www.google.com/maps/search/zjarrfikesit/@${latitude},${longitude},14z`,
     fuel: `https://www.google.com/maps/search/pike+karburanti/@${latitude},${longitude},14z`,
   };
-  let elements: OverpassElement[] = [];
-  let degraded = false;
+  const elements = await mapElements(query, `${latitude.toFixed(2)},${longitude.toFixed(2)}`);
+  const degraded = elements === null;
   try {
-    const response = await fetch("https://overpass-api.de/api/interpreter", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded", "User-Agent": "383ks-visitor-utility/3.1 (+https://www.383ks.com/visit)" },
-      body: new URLSearchParams({ data: query }),
-      cache: "no-store",
-      signal: AbortSignal.timeout(18_000),
-    });
-    if (!response.ok) throw new Error(`Overpass returned ${response.status}`);
-    elements = ((await response.json()) as { elements?: OverpassElement[] }).elements ?? [];
-  } catch {
-    // The map index is down: hospitals still come from the checked list.
-    degraded = true;
-  }
-  try {
-    const fromMap = (kind: NearbyKind, amenities: string[]): Option[] => elements.flatMap((element) => {
+    const fromMap = (kind: NearbyKind, amenities: string[]): Option[] => (elements ?? []).flatMap((element) => {
       const tags = element.tags;
       if (!tags || !amenities.includes(tags.amenity)) return [];
       const lat = element.lat ?? element.center?.lat;
