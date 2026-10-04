@@ -242,7 +242,7 @@ function StampDetail({ cityId, lang, profile, t }: { cityId: string; lang: XhepL
   const sceneWrap = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (state.complete && !wasComplete.current) {
-      // The pieces ripple, the seams melt, then the seal lands (puzzle-reward.tsx).
+      // The painting glows, the gold frame draws, then the seal lands (puzzle-reward.tsx).
       // Bring the picture into view first: the last stamp is pressed down in the list.
       sceneWrap.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       window.setTimeout(() => sfx.chime(), 700);
@@ -289,6 +289,8 @@ function StampDetail({ cityId, lang, profile, t }: { cityId: string; lang: XhepL
                 onStamped={(id) => {
                   setFresh(id);
                   setPicked(null);
+                  // Show the painting as its strokes go on.
+                  sceneWrap.current?.scrollIntoView({ behavior: "smooth", block: "start" });
                 }}
               />
             )}

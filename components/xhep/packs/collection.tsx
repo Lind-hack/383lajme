@@ -2,7 +2,7 @@
 
 // My collection: every card the visitor has unboxed, city by city, with what
 // is still to collect. An opened pack's ten cards live here for good; a
-// sealed city shows its pack and an invitation to open it. A finished puzzle
+// sealed city shows its pack and an invitation to open it. A finished painting
 // earns the city its gold seal.
 
 import { useEffect, useRef } from "react";

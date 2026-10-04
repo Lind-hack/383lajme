@@ -1,13 +1,12 @@
 "use client";
 
-// The reward for a finished puzzle: the city's gold seal, Dardani celebrating,
+// The reward for a finished painting: the city's gold seal, Dardani celebrating,
 // a burst of confetti the moment it completes, and a postcard of the whole
 // picture to keep or share (drawn here on a canvas from the pack art).
 
 import { useEffect, useState } from "react";
 import { Download, Share2 } from "lucide-react";
 import DardaniImage from "@/components/dardani/dardani-image";
-import { PACK_ART } from "@/lib/xhep/packs.mjs";
 import { downloadBlob, shareBlob } from "@/lib/xhep/card-export";
 import { track } from "@/lib/analytics";
 import * as sfx from "@/lib/xhep/sound";
@@ -23,13 +22,9 @@ export type RewardText = {
   postcardLine: (city: string) => string;
 };
 
-/** The pack's picture, cropped the way the puzzle shows it (cards.tsx CROP). */
-const CROP = { top: 0.26, bottom: 0.75, side: 0.055 };
-
 async function postcard(cityId: string, city: string, line: string, seal: string): Promise<Blob> {
-  const art = PACK_ART[cityId as keyof typeof PACK_ART];
   const img = new Image();
-  img.src = art.src;
+  img.src = `/visit/scenes/${cityId}.webp`;
   await img.decode();
   const W = 1080, H = 1350;
   const canvas = document.createElement("canvas");
@@ -42,8 +37,7 @@ async function postcard(cityId: string, city: string, line: string, seal: string
   g.fillStyle = bg;
   g.fillRect(0, 0, W, H);
   // The picture, in a gold frame.
-  const sx = img.naturalWidth * CROP.side, sy = img.naturalHeight * CROP.top;
-  const sw = img.naturalWidth * (1 - 2 * CROP.side), sh = img.naturalHeight * (CROP.bottom - CROP.top);
+  const sx = 0, sy = 0, sw = img.naturalWidth, sh = img.naturalHeight;
   const fw = W - 120, fh = Math.round((fw * sh) / sw);
   const fx = 60, fy = 150;
   g.fillStyle = "#e8b53e";
@@ -99,7 +93,7 @@ export default function PuzzleReward({ cityId, city, justCompleted, t }: { cityI
   const [burst, setBurst] = useState(false);
   useEffect(() => {
     if (!justCompleted) return;
-    // The seal lands after the pieces have rippled and the seams have melted.
+    // The seal lands after the painting has glowed and its frame has drawn.
     const land = window.setTimeout(() => {
       sfx.thump();
       sfx.fanfare();
@@ -116,7 +110,7 @@ export default function PuzzleReward({ cityId, city, justCompleted, t }: { cityI
     setBusy(true);
     try {
       const blob = await postcard(cityId, city, t.postcardLine(city), t.seal);
-      const name = `383-${cityId}-puzzle.png`;
+      const name = `383-${cityId}-painting.png`;
       if (!share || !(await shareBlob(blob, name, t.postcardLine(city)))) downloadBlob(blob, name);
       track("xhep_puzzle_postcard", { city: cityId, share });
     } finally {

@@ -5,7 +5,7 @@
 // the reveal and small in the binder.
 //
 //   PlaceFace   — a place to visit: photo, name, time to spend
-//   StampFace   — the city's scenery, one piece in colour per stamped place
+//   StampFace   — the city as a painting, one area painted in per stamped place
 //   MuralFace   — the visitor's own trip photos, as a painted wall
 //   StoryFace   — the visitor's own words about the city
 //
@@ -17,7 +17,6 @@ import { muralPhotos, PROFILE_JOURNAL_EVENT } from "@/lib/xhep/journal";
 import { KOSOVO_CITIES } from "@/lib/visit-v2-data";
 import { localizedPlace } from "@/lib/xhep/places.mjs";
 import { PACK_ART, stampState } from "@/lib/xhep/packs.mjs";
-import { puzzlePieces } from "@/lib/xhep/puzzle.mjs";
 import type { XhepLang } from "@/lib/xhep/i18n";
 import type { XhepProfile } from "./use-profile";
 import styles from "./packs.module.css";
@@ -39,73 +38,104 @@ export function cityName(cityId: string) {
   return KOSOVO_CITIES.find((c) => c.id === cityId)?.name ?? cityId;
 }
 
-/**
- * The scene: the pack's own illustration without its title, its bottom band
- * and its sealed side edges. In % of the pack art (64:100): the picture runs
- * from 26% to 75% of the height, and 5.5% in from each side.
- */
-const CROP = { top: 26, bottom: 75, side: 5.5 };
-const PACK_RATIO = 0.64;
-/** The scene's width : height. */
-export const SCENE_RATIO = (PACK_RATIO * (1 - (2 * CROP.side) / 100)) / ((CROP.bottom - CROP.top) / 100);
-/** The pack art's size and offset inside the scene, in % of the scene. */
-const ART_W = 100 / (1 - (2 * CROP.side) / 100);
-const ART_H = (ART_W * SCENE_RATIO) / PACK_RATIO;
-const ART_LEFT = -(CROP.side * ART_W) / 100;
-const ART_TOP = -(CROP.top * ART_H) / 100;
-
-/** The scene's viewBox: 1000 wide, as tall as the picture. */
+/** The stamp card's painting (public/visit/scenes, painted from the pack art): width : height. */
+export const SCENE_RATIO = 1000 / 868;
 const VB_W = 1000;
-const VB_H = Math.round(VB_W / SCENE_RATIO);
-/** The pack art inside that box. */
-const ART_BOX = { x: (ART_LEFT / 100) * VB_W, y: (ART_TOP / 100) * VB_H, width: (ART_W / 100) * VB_W, height: (ART_W / 100) * VB_W / 0.633 };
-/** One stable seed per city, so each city's puzzle is cut its own way. */
+const VB_H = 868;
+/** One stable seed per city, so each city's brush strokes fall their own way. */
 const seedOf = (cityId: string) => [...cityId].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0, 2166136261);
 
+/** Seven areas of the canvas, one per place: rows of 3, 2 and 2. */
+const ROWS = [
+  { cols: 3, h: 0.36 },
+  { cols: 2, h: 0.32 },
+  { cols: 2, h: 0.32 },
+];
+const AREAS = ROWS.flatMap((row, r) => {
+  const y = ROWS.slice(0, r).reduce((sum, x) => sum + x.h, 0);
+  return Array.from({ length: row.cols }, (_, c) => ({ x: c / row.cols, y, w: 1 / row.cols, h: row.h }));
+});
+
 /**
- * The stamp card's picture as a jigsaw: one piece per place. A stamped piece
- * sits in full colour; the rest stay a pencil sketch with their outline and
- * number. The freshly stamped piece snaps in; all seven melt the seams away.
+ * Three broad brush strokes that cover one area and reach a little past it,
+ * so neighbouring places overlap like paint and never meet in a seam.
+ */
+function strokesFor(area: (typeof AREAS)[number], seed: number) {
+  let s = seed || 1;
+  const rnd = () => ((s = (Math.imul(s, 1103515245) + 12345) >>> 0) / 4294967296);
+  const bleed = 0.05;
+  const x = (area.x - bleed) * VB_W;
+  const w = (area.w + 2 * bleed) * VB_W;
+  const top = (area.y - bleed) * VB_H;
+  const height = (area.h + 2 * bleed) * VB_H;
+  return [0, 1, 2].map((k) => {
+    const h = height / 2.2;
+    const y = top + (k * (height - h)) / 2;
+    return { x: x + (rnd() - 0.5) * 30, y, w: w * (0.92 + rnd() * 0.12), h, rot: (rnd() - 0.5) * 8 };
+  });
+}
+
+/**
+ * The stamp card: the city as an acrylic painting. Unvisited areas are the
+ * faded underpainting with their number; each stamped place paints its area
+ * in with three brush strokes. All seven: the whole painting, framed in gold.
  */
 export function Scene({ cityId, profile, justStamped, celebrate }: { cityId: string; profile: XhepProfile | null; justStamped?: string | null; celebrate?: boolean }) {
-  const art = PACK_ART[cityId as keyof typeof PACK_ART];
+  const src = `/visit/scenes/${cityId}.webp`;
   const state = stampState(profile, cityId);
   const uid = useId().replace(/:/g, "");
-  const pieces = useMemo(() => puzzlePieces(VB_W, VB_H, seedOf(cityId)), [cityId]);
-  const shape = (i: number) => pieces[i].points.map((p) => p.map((v) => v.toFixed(1)).join(",")).join(" ");
+  const seed = seedOf(cityId);
+  const strokes = useMemo(() => AREAS.map((area, i) => strokesFor(area, seed + i * 7919)), [seed]);
+  const places = state.places.slice(0, AREAS.length);
   return (
     <span className={styles.scene} data-complete={state.complete || undefined} data-celebrate={celebrate || undefined} style={{ aspectRatio: SCENE_RATIO }}>
-      <svg viewBox={`0 0 ${VB_W} ${VB_H}`} className={styles.puzzle} aria-hidden="true">
+      <svg viewBox={`0 0 ${VB_W} ${VB_H}`} className={styles.painting} aria-hidden="true">
         <defs>
-          {pieces.map((_, i) => (
-            <clipPath key={i} id={`${uid}-p${i}`}>
-              <polygon points={shape(i)} />
-            </clipPath>
-          ))}
-        </defs>
-        <image href={art.src} {...ART_BOX} className={styles.puzzleSketch} preserveAspectRatio="xMidYMin slice" />
-        {state.places.slice(0, pieces.length).map((entry, i) =>
-          entry.stamp ? (
-            <g key={entry.place.id} className={styles.puzzlePiece} data-fresh={justStamped === entry.place.id || undefined} data-stamp={entry.stamp} style={{ "--n": i } as React.CSSProperties}>
-              <g clipPath={`url(#${uid}-p${i})`}>
-                <image href={art.src} {...ART_BOX} preserveAspectRatio="xMidYMin slice" />
-              </g>
-              <polygon points={shape(i)} className={styles.puzzleEdge} />
+          {/* Ragged, bristly stroke edges. */}
+          <filter id={`${uid}-brush`} filterUnits="userSpaceOnUse" x="-50" y="-50" width={VB_W + 100} height={VB_H + 100}>
+            <feTurbulence type="fractalNoise" baseFrequency="0.011 0.03" numOctaves="3" seed={seed % 97} result="warp" />
+            <feDisplacementMap in="SourceGraphic" in2="warp" scale="70" xChannelSelector="R" yChannelSelector="G" result="shape" />
+            <feTurbulence type="fractalNoise" baseFrequency="0.6 0.025" numOctaves="2" seed={(seed >> 3) % 97} result="bristle" />
+            <feDisplacementMap in="shape" in2="bristle" scale="14" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+          <mask id={`${uid}-paint`} maskUnits="userSpaceOnUse" x="0" y="0" width={VB_W} height={VB_H}>
+            <g filter={`url(#${uid}-brush)`}>
+              {places.map((entry, i) =>
+                entry.stamp
+                  ? strokes[i].map((st, k) => (
+                      <rect
+                        key={`${entry.place.id}-${k}`}
+                        className={styles.paintStroke}
+                        data-fresh={justStamped === entry.place.id || undefined}
+                        style={{ "--k": k } as React.CSSProperties}
+                        x={st.x.toFixed(1)}
+                        y={st.y.toFixed(1)}
+                        width={st.w.toFixed(1)}
+                        height={st.h.toFixed(1)}
+                        rx={(st.h / 2).toFixed(1)}
+                        transform={`rotate(${st.rot.toFixed(2)} ${(st.x + st.w / 2).toFixed(1)} ${(st.y + st.h / 2).toFixed(1)})`}
+                        fill="#fff"
+                      />
+                    ))
+                  : null
+              )}
             </g>
-          ) : (
-            <polygon key={entry.place.id} points={shape(i)} className={styles.puzzleHole} />
-          )
-        )}
-        {/* The finished picture's gold frame, drawn round once it is whole. */}
-        {state.complete && <rect x="4" y="4" width={VB_W - 8} height={VB_H - 8} rx="14" pathLength={1} className={styles.puzzleFrame} />}
+          </mask>
+        </defs>
+        <image href={src} width={VB_W} height={VB_H} className={styles.underpainting} preserveAspectRatio="xMidYMid slice" />
+        <image href={src} width={VB_W} height={VB_H} mask={`url(#${uid}-paint)`} preserveAspectRatio="xMidYMid slice" />
+        {/* Finished: the whole painting, once the last strokes have gone on. */}
+        {state.complete && <image href={src} width={VB_W} height={VB_H} className={styles.paintFull} preserveAspectRatio="xMidYMid slice" />}
+        {/* The finished painting's gold frame, drawn round once it is whole. */}
+        {state.complete && <rect x="4" y="4" width={VB_W - 8} height={VB_H - 8} rx="14" pathLength={1} className={styles.paintFrame} />}
       </svg>
-      {state.places.slice(0, pieces.length).map((entry, i) => (
+      {places.map((entry, i) => (
         <span
           key={`mark-${i}`}
           className={styles.sceneMark}
           data-stamp={entry.stamp ?? "none"}
           data-fresh={justStamped === entry.place.id || undefined}
-          style={{ left: `${((pieces[i].cx / VB_W) * 100).toFixed(2)}%`, top: `${((pieces[i].cy / VB_H) * 100).toFixed(2)}%` }}
+          style={{ left: `${((AREAS[i].x + AREAS[i].w / 2) * 100).toFixed(2)}%`, top: `${((AREAS[i].y + AREAS[i].h / 2) * 100).toFixed(2)}%` }}
           aria-hidden="true"
         >
           {entry.stamp ? "✓" : i + 1}

@@ -3,7 +3,7 @@
 // The city packs, start to finish, in one place:
 //
 //   What they are — three points: seven places with a guide, two cards for
-//                   your own photos and story, one puzzle you complete by
+//                   your own photos and story, one painting you complete by
 //                   visiting.
 //   Pick yours    — before the questions: example packs and a start button;
 //                   the six questions run right here; after them, three packs
@@ -15,7 +15,7 @@
 // A tap on a pack opens it (pack-opener); a card opens in card-detail.
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, BookOpen, Images, MapPinned, Pencil, Puzzle, RotateCw, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, Images, MapPinned, Palette, Pencil, RotateCw, Sparkles } from "lucide-react";
 import { PACK_ART, PACK_CITIES, packCards, stampState } from "@/lib/xhep/packs.mjs";
 import { newSeed, suggestCities } from "@/lib/xhep/profile.mjs";
 import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
@@ -120,7 +120,7 @@ export default function PackShelf({ lang, focusCity = null }: { lang: XhepLang; 
           <small>{t.what.memoriesHint}</small>
         </li>
         <li>
-          <span className={styles.explainIcon} aria-hidden="true"><Puzzle size={20} /></span>
+          <span className={styles.explainIcon} aria-hidden="true"><Palette size={20} /></span>
           <b>{t.what.puzzle}</b>
           <small>{t.what.puzzleHint}</small>
         </li>

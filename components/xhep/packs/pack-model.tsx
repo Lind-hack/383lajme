@@ -101,7 +101,7 @@ export default function PackModel({
   motion?: "wiggle" | "still";
   flipped?: boolean;
   torn?: boolean;
-  /** Its puzzle is finished: the pack wears the city's gold seal. */
+  /** Its painting is finished: the pack wears the city's gold seal. */
   complete?: boolean;
   /** Stagger for a row of packs, so they don't shake in unison, in seconds. */
   delay?: number;
