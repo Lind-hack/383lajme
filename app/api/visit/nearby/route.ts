@@ -3,6 +3,7 @@ import { haversineKm } from "@/lib/visit-border-server";
 import { exactOsmImageReference, googleTypeForKind, selectExactGoogleCandidate } from "@/lib/visit-place-image.mjs";
 import { EMERGENCY_CHECKED_AT, HOSPITALS, crowKm, photoMatchesName, pickBest, rankPlace } from "@/lib/visit-emergency.mjs";
 import { BORDER_CROSSINGS } from "@/lib/visit-v2-data";
+import PLACES_FILE from "@/lib/visit-places-kosovo.json";
 
 export const runtime = "nodejs";
 
@@ -152,36 +153,22 @@ async function drive(from: { lat: number; lon: number }, to: { lat: number; lon:
 
 type Option = NearbyBase & { rank: number | null; km: number; minutes?: number | null };
 
-/** Overpass mirrors, tried in order: any one of them being busy is common. */
-const OVERPASS = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter", "https://overpass.private.coffee/api/interpreter"];
-/** Map results per ~1 km cell for 30 minutes: places don't move, and it spares the mirrors. */
-const mapCache = new Map<string, { at: number; elements: OverpassElement[] }>();
+/**
+ * Kosovo's police stations, fuel stations and emergency-capable hospitals,
+ * exported from OpenStreetMap (scripts/xhep-export-places.mjs). Searched
+ * here rather than asking Overpass per visitor: the live service was busy
+ * for most cities in a production check, and help near you cannot depend on it.
+ */
+const BUNDLED: OverpassElement[] = (PLACES_FILE.places as { k: string; n: string; lat: number; lon: number; osm: string; [tag: string]: string | number }[]).map((p) => {
+  const [type, id] = p.osm.split("/");
+  const tags: Record<string, string> = { amenity: p.k, name: p.n };
+  for (const tag of ["name:en", "emergency", "opening_hours", "brand", "wikimedia_commons", "image", "police"]) if (typeof p[tag] === "string") tags[tag] = p[tag] as string;
+  return { type: type as OverpassElement["type"], id: Number(id), lat: p.lat, lon: p.lon, tags };
+});
 
-/** Police, hospitals, clinics and fuel around a point; null when every mirror failed. */
-async function mapElements(query: string, cell: string): Promise<OverpassElement[] | null> {
-  const hit = mapCache.get(cell);
-  if (hit && Date.now() - hit.at < 30 * 60_000) return hit.elements;
-  for (const url of OVERPASS) {
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded", "User-Agent": "383ks-visitor-utility/3.1 (+https://www.383ks.com/visit)" },
-        body: new URLSearchParams({ data: query }),
-        cache: "no-store",
-        signal: AbortSignal.timeout(9_000),
-      });
-      if (!response.ok) continue;
-      const text = await response.text();
-      if (!text.startsWith("{")) continue; // a busy mirror answers with an HTML/XML error page
-      const elements = (JSON.parse(text) as { elements?: OverpassElement[] }).elements ?? [];
-      if (mapCache.size > 500) mapCache.delete(mapCache.keys().next().value as string);
-      mapCache.set(cell, { at: Date.now(), elements });
-      return elements;
-    } catch {
-      // Try the next mirror.
-    }
-  }
-  return null;
+/** Bundled places within 25 km of a point. */
+function placesNear(here: { lat: number; lon: number }) {
+  return BUNDLED.filter((e) => crowKm(here, { lat: e.lat!, lon: e.lon! }) < 25);
 }
 
 export async function GET(request: NextRequest) {
@@ -191,24 +178,23 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Location is outside the supported Kosovo area." }, { status: 400 });
   }
   const here = { lat: latitude, lon: longitude };
-  const query = `[out:json][timeout:15];(nw(around:15000,${latitude.toFixed(5)},${longitude.toFixed(5)})[amenity~"^(police|hospital|clinic|fuel)$"];);out center tags 150;`;
   const fallbackSearches = {
     police: `https://www.google.com/maps/search/stacioni+policor/@${latitude},${longitude},14z`,
     hospital: `https://www.google.com/maps/search/spitali/@${latitude},${longitude},13z`,
     fire_station: `https://www.google.com/maps/search/zjarrfikesit/@${latitude},${longitude},14z`,
     fuel: `https://www.google.com/maps/search/pike+karburanti/@${latitude},${longitude},14z`,
   };
-  const elements = await mapElements(query, `${latitude.toFixed(2)},${longitude.toFixed(2)}`);
-  const degraded = elements === null;
+  const elements = placesNear(here);
+  const degraded = false;
   try {
-    const fromMap = (kind: NearbyKind, amenities: string[]): Option[] => (elements ?? []).flatMap((element) => {
+    const fromMap = (kind: NearbyKind, amenities: string[]): Option[] => elements.flatMap((element) => {
       const tags = element.tags;
       if (!tags || !amenities.includes(tags.amenity)) return [];
       const lat = element.lat ?? element.center?.lat;
       const lon = element.lon ?? element.center?.lon;
       if (lat === undefined || lon === undefined) return [];
-      if (tags.amenity === "clinic" && !/qkmf|urgjenc|emergjenc/i.test(tags.name ?? "")) return [];
-      const name = tags["name:sq"] ?? tags.name ?? ({ police: "Polici", hospital: "Spital", fire_station: "Zjarrfikës", fuel: "Pikë karburanti" } as const)[kind];
+      // || not ??: an exported place with no name carries "".
+      const name = tags["name:sq"] || tags.name || tags.brand || ({ police: "Polici", hospital: "Spital", fire_station: "Zjarrfikës", fuel: "Pikë karburanti" } as const)[kind];
       const km = crowKm(here, { lat, lon });
       return [{ kind, name, latitude: lat, longitude: lon, distanceKm: km, km, openingHours: tags.opening_hours ?? null, tags, rank: rankPlace(kind, tags) }];
     });
@@ -219,7 +205,7 @@ export async function GET(request: NextRequest) {
     const candidates: Record<"police" | "hospital" | "fuel", Option[]> = {
       police: fromMap("police", ["police"]),
       // The checked list, plus map entries that mark an emergency department.
-      hospital: [...checkedHospitals, ...fromMap("hospital", ["hospital", "clinic"]).filter((o) => o.rank === 0 || o.rank === 2)],
+      hospital: [...checkedHospitals, ...fromMap("hospital", ["hospital"]).filter((o) => o.rank === 0)],
       fuel: fromMap("fuel", ["fuel"]),
     };
     // Route the closest few suitable options of each kind, and every border crossing, in one call.
@@ -263,7 +249,7 @@ export async function GET(request: NextRequest) {
     })));
     return NextResponse.json({
       nearest: { ...nearest, fire_station: null }, crossing: crossingTimes[0] ?? null, crossings: crossingTimes,
-      fallbackSearches, degraded, routed, attribution: "© OpenStreetMap contributors · routes: OSRM",
+      fallbackSearches, degraded, routed, attribution: `© OpenStreetMap contributors (export ${PLACES_FILE.exportedAt}) · routes: OSRM`,
       note: "Emergency hospitals are a checked list; other places come from OpenStreetMap. In an emergency call 112.",
       checkedAt: EMERGENCY_CHECKED_AT,
     }, { headers: { "Cache-Control": "private, max-age=300" } });
