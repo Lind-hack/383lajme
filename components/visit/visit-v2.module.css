@@ -500,3 +500,21 @@
   .heroRelief { padding: 4px 12px 12px; }
   .heroRelief > figure { max-width: 460px; }
 }
+
+/* ── The border band: intro left, the card right ─────────────────────── */
+.borderBand {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
+  align-items: start;
+  gap: clamp(24px, 4vw, 64px);
+  padding: 64px max(20px, calc((100vw - 1280px) / 2)) 72px;
+  background: linear-gradient(180deg, #eef5ff, #fff7ec);
+}
+.borderBandCopy { position: sticky; top: calc(var(--nav-h, 72px) + 24px); }
+.borderKicker { margin: 0 0 6px; color: #2b6cb0; font-size: 13px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.borderBandCopy h2 { margin: 0; font-size: clamp(28px, 4vw, 44px); font-weight: 900; letter-spacing: -.035em; line-height: 1.05; }
+.borderBandCopy p { max-width: 520px; color: #4a5d78; font-size: 16px; line-height: 1.55; }
+@media (max-width: 900px) {
+  .borderBand { grid-template-columns: minmax(0, 1fr); padding-top: 40px; }
+  .borderBandCopy { position: static; }
+}

@@ -11,12 +11,13 @@
 //
 // Holo shine follows the pointer through --mx/--my, set by the parent.
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import { Clock3, Images, PenLine, Stamp } from "lucide-react";
 import { muralPhotos, PROFILE_JOURNAL_EVENT } from "@/lib/xhep/journal";
 import { KOSOVO_CITIES } from "@/lib/visit-v2-data";
 import { localizedPlace } from "@/lib/xhep/places.mjs";
 import { PACK_ART, stampState } from "@/lib/xhep/packs.mjs";
+import { puzzlePieces } from "@/lib/xhep/puzzle.mjs";
 import type { XhepLang } from "@/lib/xhep/i18n";
 import type { XhepProfile } from "./use-profile";
 import styles from "./packs.module.css";
@@ -39,21 +40,6 @@ export function cityName(cityId: string) {
 }
 
 /**
- * The 7 pieces of a stamp card's scene, as rectangles in % of the scene:
- * three across the sky, two in the middle, two at the bottom — so no piece
- * is a sliver and each one shows something.
- */
-export const SCENE_TILES = [
-  { x: 0, y: 0, w: 33.34, h: 36 },
-  { x: 33.33, y: 0, w: 33.34, h: 36 },
-  { x: 66.66, y: 0, w: 33.34, h: 36 },
-  { x: 0, y: 36, w: 50, h: 32 },
-  { x: 50, y: 36, w: 50, h: 32 },
-  { x: 0, y: 68, w: 50, h: 32 },
-  { x: 50, y: 68, w: 50, h: 32 },
-];
-
-/**
  * The scene: the pack's own illustration without its title, its bottom band
  * and its sealed side edges. In % of the pack art (64:100): the picture runs
  * from 26% to 75% of the height, and 5.5% in from each side.
@@ -67,60 +53,62 @@ const ART_W = 100 / (1 - (2 * CROP.side) / 100);
 const ART_H = (ART_W * SCENE_RATIO) / PACK_RATIO;
 const ART_LEFT = -(CROP.side * ART_W) / 100;
 const ART_TOP = -(CROP.top * ART_H) / 100;
-/** How far a coloured piece reaches past its cell, in % of the scene. */
-const BLEED = 6;
 
+/** The scene's viewBox: 1000 wide, as tall as the picture. */
+const VB_W = 1000;
+const VB_H = Math.round(VB_W / SCENE_RATIO);
+/** The pack art inside that box. */
+const ART_BOX = { x: (ART_LEFT / 100) * VB_W, y: (ART_TOP / 100) * VB_H, w: (ART_W / 100) * VB_W, h: (ART_W / 100) * VB_W / 0.633 };
+/** One stable seed per city, so each city's puzzle is cut its own way. */
+const seedOf = (cityId: string) => [...cityId].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0, 2166136261);
+
+/**
+ * The stamp card's picture as a jigsaw: one piece per place. A stamped piece
+ * sits in full colour; the rest stay a pencil sketch with their outline and
+ * number. The freshly stamped piece snaps in; all seven melt the seams away.
+ */
 export function Scene({ cityId, profile, justStamped }: { cityId: string; profile: XhepProfile | null; justStamped?: string | null }) {
   const art = PACK_ART[cityId as keyof typeof PACK_ART];
   const state = stampState(profile, cityId);
+  const uid = useId().replace(/:/g, "");
+  const pieces = useMemo(() => puzzlePieces(VB_W, VB_H, seedOf(cityId)), [cityId]);
+  const shape = (i: number) => pieces[i].points.map((p) => p.map((v) => v.toFixed(1)).join(",")).join(" ");
   return (
     <span className={styles.scene} data-complete={state.complete || undefined} style={{ aspectRatio: SCENE_RATIO }}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className={styles.sceneSketch} src={art.src} alt="" draggable={false} style={{ left: `${ART_LEFT}%`, top: `${ART_TOP}%`, width: `${ART_W}%` }} />
-      {SCENE_TILES.slice(0, state.total).map((raw, i) => {
-        const entry = state.places[i];
-        if (!entry?.stamp) return null;
-        // Each coloured piece reaches a little past its cell and fades at the
-        // edge, so colour bleeds into the sketch like watercolour, not a block.
-        const tile = { x: raw.x - BLEED, y: raw.y - BLEED, w: raw.w + 2 * BLEED, h: raw.h + 2 * BLEED };
-        return (
-          <span
-            key={entry.place.id}
-            className={styles.sceneTile}
-            data-fresh={justStamped === entry.place.id || undefined}
-            style={{ left: `${tile.x}%`, top: `${tile.y}%`, width: `${tile.w}%`, height: `${tile.h}%` }}
-          >
-            {/* The same picture in colour, shifted so it lines up with the sketch. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={art.src}
-              alt=""
-              draggable={false}
-              style={{ left: `${((ART_LEFT - tile.x) * 100) / tile.w}%`, top: `${((ART_TOP - tile.y) * 100) / tile.h}%`, width: `${(ART_W * 100) / tile.w}%` }}
-            />
-          </span>
-        );
-      })}
-      {state.complete && (
-        // All of them: the whole picture in colour, so no seam is left.
-        // eslint-disable-next-line @next/next/no-img-element
-        <img className={styles.sceneFull} src={art.src} alt="" draggable={false} style={{ left: `${ART_LEFT}%`, top: `${ART_TOP}%`, width: `${ART_W}%` }} />
-      )}
-      {SCENE_TILES.slice(0, state.total).map((tile, i) => {
-        const entry = state.places[i];
-        return (
-          <span
-            key={`mark-${i}`}
-            className={styles.sceneMark}
-            data-stamp={entry?.stamp ?? "none"}
-            data-fresh={justStamped === entry?.place.id || undefined}
-            style={{ left: `${tile.x + tile.w / 2}%`, top: `${tile.y + tile.h / 2}%` }}
-            aria-hidden="true"
-          >
-            {entry?.stamp ? "✓" : i + 1}
-          </span>
-        );
-      })}
+      <svg viewBox={`0 0 ${VB_W} ${VB_H}`} className={styles.puzzle} aria-hidden="true">
+        <defs>
+          {pieces.map((_, i) => (
+            <clipPath key={i} id={`${uid}-p${i}`}>
+              <polygon points={shape(i)} />
+            </clipPath>
+          ))}
+        </defs>
+        <image href={art.src} {...ART_BOX} className={styles.puzzleSketch} preserveAspectRatio="xMidYMin slice" />
+        {state.places.slice(0, pieces.length).map((entry, i) =>
+          entry.stamp ? (
+            <g key={entry.place.id} className={styles.puzzlePiece} data-fresh={justStamped === entry.place.id || undefined} data-stamp={entry.stamp}>
+              <g clipPath={`url(#${uid}-p${i})`}>
+                <image href={art.src} {...ART_BOX} preserveAspectRatio="xMidYMin slice" />
+              </g>
+              <polygon points={shape(i)} className={styles.puzzleEdge} />
+            </g>
+          ) : (
+            <polygon key={entry.place.id} points={shape(i)} className={styles.puzzleHole} />
+          )
+        )}
+      </svg>
+      {state.places.slice(0, pieces.length).map((entry, i) => (
+        <span
+          key={`mark-${i}`}
+          className={styles.sceneMark}
+          data-stamp={entry.stamp ?? "none"}
+          data-fresh={justStamped === entry.place.id || undefined}
+          style={{ left: `${((pieces[i].cx / VB_W) * 100).toFixed(2)}%`, top: `${((pieces[i].cy / VB_H) * 100).toFixed(2)}%` }}
+          aria-hidden="true"
+        >
+          {entry.stamp ? "✓" : i + 1}
+        </span>
+      ))}
     </span>
   );
 }

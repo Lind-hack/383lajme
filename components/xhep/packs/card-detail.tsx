@@ -24,6 +24,7 @@ import { track } from "@/lib/analytics";
 import type { XhepLang } from "@/lib/xhep/i18n";
 import { CardFace, cityName, placePhoto, Scene, type PackCard } from "./cards";
 import SendTo383, { type SendText } from "./send-to-383";
+import PuzzleReward, { type RewardText } from "./puzzle-reward";
 import { useXhepProfile, type XhepProfile } from "./use-profile";
 import styles from "./detail.module.css";
 import * as sfx from "@/lib/xhep/sound";
@@ -61,6 +62,7 @@ export type DetailText = {
   storySaved: string;
   faces: Parameters<typeof CardFace>[0]["t"];
   send: SendText;
+  reward: RewardText;
 };
 
 function Sheet({ title, onClose, accent, children, closeLabel }: { title: string; onClose: () => void; accent: string; children: React.ReactNode; closeLabel: string }) {
@@ -236,8 +238,15 @@ function StampDetail({ cityId, lang, profile, t }: { cityId: string; lang: XhepL
   const city = cityName(cityId);
   // The moment the last place is stamped, the finished picture chimes once.
   const wasComplete = useRef(state.complete);
+  const [justCompleted, setJustCompleted] = useState(false);
   useEffect(() => {
-    if (state.complete && !wasComplete.current) window.setTimeout(() => sfx.chime(), 400);
+    if (state.complete && !wasComplete.current) {
+      window.setTimeout(() => sfx.chime(), 400);
+      setJustCompleted(true);
+      try {
+        navigator.vibrate?.([30, 60, 30, 60, 80]);
+      } catch {}
+    }
     wasComplete.current = state.complete;
   }, [state.complete]);
   const url = profile ? tripUrl(profile, lang) : null;
@@ -257,6 +266,7 @@ function StampDetail({ cityId, lang, profile, t }: { cityId: string; lang: XhepL
           {state.complete ? t.complete(city) : t.stampsDone(state.done, state.total)}
         </p>
       </div>
+      {state.complete && <PuzzleReward cityId={cityId} city={city} justCompleted={justCompleted} t={t.reward} />}
       <ol className={styles.placeList}>
         {state.places.map(({ place, stamp }, i) => (
           <li key={place.id} data-stamp={stamp ?? undefined}>

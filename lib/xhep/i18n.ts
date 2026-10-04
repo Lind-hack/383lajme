@@ -209,6 +209,9 @@ type XhepDict = {
     directions: string;
     more: string;
     officialSource: string;
+    downloadWaits: string;
+    downloadWithHelp: string;
+    reports: string;
     crossing: string;
     direction: string;
     entry: string;
@@ -328,6 +331,18 @@ type XhepDict = {
     flipLabel: (city: string) => string;
     flipBack: string;
     flipFront: string;
+    kicker: string;
+    what: { places: string; placesHint: string; memories: string; memoriesHint: string; puzzle: string; puzzleHint: string };
+    example: string;
+    pickTitle: string;
+    pickIntro: string;
+    quizStart: string;
+    quizCancel: string;
+    forYouTitle: string;
+    forYouIntro: string;
+    changeAnswers: string;
+    completeShort: string;
+    collection: { title: string; count: (have: number, all: number) => string; puzzles: (done: number, all: number) => string; cityProgress: (done: number, total: number) => string; openToCollect: string };
     box: { title: string; sub: string; close: string };
     back: BackText;
     opener: OpenerText;
@@ -544,6 +559,9 @@ export const XHEP_DICT = {
       directions: "Directions",
       more: "Reports, all services and offline copy",
       officialSource: "Official waits: Kosovo Ministry of Internal Affairs",
+      downloadWaits: "Save the waits",
+      downloadWithHelp: "Save the waits and the help found",
+      reports: "Travellers' reports",
       closeCard: "Close",
       miniNote: "Official waits, every 10 minutes. Inside: report yours, help nearby, save offline.",
       title: "Check the wait. Pick your crossing. Leave calmer.",
@@ -663,8 +681,33 @@ export const XHEP_DICT = {
       allowLocationFirst: "Allow location before downloading to add the nearest services.",
     },
     packs: {
-      title: "Open a city",
-      intro: "Every city is a pack of 10 cards: places worth your day, your own mural and story, and a stamp card that fills in as you go.",
+      title: "Every city is a pack of 10 cards",
+      intro: "Open a city like a pack of trading cards. Inside is a guide to the places worth your day, cards for your own memories, and a puzzle you finish by visiting.",
+      kicker: "City packs",
+      what: {
+        places: "7 places, with a guide",
+        placesHint: "What to do, how long to stay, the best time to go, and the map.",
+        memories: "2 cards for your trip",
+        memoriesHint: "A wall for your photos and selfies, and a page for your story.",
+        puzzle: "1 puzzle card",
+        puzzleHint: "Each place you visit adds a piece of the city's picture. Finish it to earn the city's gold seal.",
+      },
+      example: "Example",
+      pickTitle: "Get your three packs",
+      pickIntro: "Six quick questions about your trip, and we pick the three city packs that fit it best. Or open the whole box below.",
+      quizStart: "Answer the questions",
+      quizCancel: "Back to the packs",
+      forYouTitle: "Your three packs",
+      forYouIntro: "Picked from your answers. Tap one to tear it open, or open the whole box below.",
+      changeAnswers: "Change my answers",
+      completeShort: "Complete ★",
+      collection: {
+        title: "My collection",
+        count: (have, all) => `${have} of ${all} cards`,
+        puzzles: (done, all) => `${done} of ${all} puzzles complete`,
+        cityProgress: (done, total) => `10 cards · ${done} of ${total} puzzle pieces`,
+        openToCollect: "Open this pack to collect its cards",
+      },
       sealed: "Sealed",
       sealedLabel: (city) => `Open the ${city} pack`,
       openedLabel: (city, done, total) => `${city}: opened, ${done} of ${total} stamped`,
@@ -753,6 +796,15 @@ export const XHEP_DICT = {
           sent: "Sent. An editor will look at it before anything is published.",
           nothing: "Add a photo or a few words first.",
           failed: "It didn't send. Check your connection and try again.",
+        },
+        reward: {
+          title: (city) => `${city} is complete!`,
+          body: "Every piece is in: you've seen the whole city. Its gold seal is now on your pack and in your collection.",
+          seal: "Gold seal",
+          save: "Save the postcard",
+          share: "Share the postcard",
+          saving: "Making the postcard…",
+          postcardLine: (city) => `I've seen all of ${city}, piece by piece.`,
         },
         faces: {
         stampCard: "Stamp card",
@@ -974,6 +1026,9 @@ export const XHEP_DICT = {
       directions: "Udhëzimet",
       more: "Raportet, të gjitha shërbimet dhe kopja offline",
       officialSource: "Pritjet zyrtare: Ministria e Punëve të Brendshme",
+      downloadWaits: "Ruaj pritjet",
+      downloadWithHelp: "Ruaj pritjet dhe ndihmën e gjetur",
+      reports: "Raportet e udhëtarëve",
       closeCard: "Mbyll",
       miniNote: "Pritjet zyrtare, çdo 10 minuta. Brenda: raporto tënden, ndihmë afër, ruaje offline.",
       title: "Shiko pritjen. Zgjidh pikën. Nisu më i qetë.",
@@ -1093,8 +1148,33 @@ export const XHEP_DICT = {
       allowLocationFirst: "Lejo vendndodhjen para shkarkimit për të shtuar shërbimet më të afërta.",
     },
     packs: {
-      title: "Hap një qytet",
-      intro: "Çdo qytet është një paketë me 10 karta: vende që ia vlejnë ditës, muri dhe historia jote, dhe karta e vulave që mbushet ndërsa udhëton.",
+      title: "Çdo qytet është një paketë me 10 karta",
+      intro: "Hape një qytet si paketë kartash koleksioni. Brenda ke udhërrëfyesin e vendeve që ia vlejnë ditës, karta për kujtimet e tua dhe një puzzle që e përfundon duke i vizituar.",
+      kicker: "Paketat e qyteteve",
+      what: {
+        places: "7 vende, me udhërrëfyes",
+        placesHint: "Çfarë të bësh, sa të qëndrosh, koha më e mirë dhe harta.",
+        memories: "2 karta për udhëtimin tënd",
+        memoriesHint: "Një mur për fotot dhe selfiet, dhe një faqe për historinë tënde.",
+        puzzle: "1 kartë puzzle",
+        puzzleHint: "Çdo vend që viziton shton një copë të pikturës së qytetit. Përfundoje dhe fito vulën e artë të qytetit.",
+      },
+      example: "Shembull",
+      pickTitle: "Merr tri paketat e tua",
+      pickIntro: "Gjashtë pyetje të shpejta për udhëtimin, dhe ne zgjedhim tri paketat që të përshtaten më së miri. Ose hap gjithë kutinë më poshtë.",
+      quizStart: "Përgjigju pyetjeve",
+      quizCancel: "Kthehu te paketat",
+      forYouTitle: "Tri paketat e tua",
+      forYouIntro: "Zgjedhur nga përgjigjet e tua. Prek një për ta grisur, ose hap gjithë kutinë më poshtë.",
+      changeAnswers: "Ndrysho përgjigjet",
+      completeShort: "E plotë ★",
+      collection: {
+        title: "Koleksioni im",
+        count: (have, all) => `${have} nga ${all} karta`,
+        puzzles: (done, all) => `${done} nga ${all} puzzle të përfunduara`,
+        cityProgress: (done, total) => `10 karta · ${done} nga ${total} copa puzzle`,
+        openToCollect: "Hape këtë paketë për të mbledhur kartat",
+      },
       sealed: "E mbyllur",
       sealedLabel: (city) => `Hap paketën: ${city}`,
       openedLabel: (city, done, total) => `${city}: e hapur, ${done} nga ${total} të vulosura`,
@@ -1183,6 +1263,15 @@ export const XHEP_DICT = {
           sent: "U dërgua. Një redaktor e shikon para se të publikohet diçka.",
           nothing: "Shto një foto ose disa fjalë më parë.",
           failed: "Nuk u dërgua. Kontrollo lidhjen dhe provo sërish.",
+        },
+        reward: {
+          title: (city) => `${city} u plotësua!`,
+          body: "Të gjitha copat janë në vend: e ke parë gjithë qytetin. Vula e artë tani është në paketën dhe në koleksionin tënd.",
+          seal: "Vula e artë",
+          save: "Ruaje kartolinën",
+          share: "Ndaje kartolinën",
+          saving: "Po bëhet kartolina…",
+          postcardLine: (city) => `${city}: e pashë të tërin, copë pas cope.`,
         },
         faces: {
         stampCard: "Karta e vulave",

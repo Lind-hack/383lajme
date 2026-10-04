@@ -32,7 +32,6 @@ import { createClient } from "@/lib/supabase/client";
 import styles from "./visit-v2.module.css";
 import DardaniImage from "@/components/dardani/dardani-image";
 import LangToggle from "@/components/xhep/lang-toggle";
-import XhepCompanion from "@/components/xhep/companion";
 import type { LiveFuel } from "@/components/xhep/help";
 import PackShelf from "@/components/xhep/packs/pack-shelf";
 import ReliefMap from "@/components/xhep/relief-map";
@@ -82,7 +81,7 @@ function downloadHtml(d: Dict, filename: string, title: string, content: string,
   const identity = variant === "utility"
     ? `<header class="identity"><b>383</b><span>${escapeHtml(d.offline.utilityBrand)}</span><em>LIVE • OFFLINE</em></header>`
     : `<header class="identity"><b>383</b><span>${escapeHtml(d.offline.travelBrand)}</span><em>TRAVEL EDITION</em></header>`;
-  const html = `<!doctype html><html lang="${d.offline.htmlLang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)}</title><style>*{box-sizing:border-box}body{margin:0;color:#171614;font:15px/1.5 Arial,sans-serif}body.utility{background:#23211d}body.travel{background:#f6d999}.sheet{width:min(900px,calc(100% - 24px));margin:24px auto;overflow:hidden}.identity{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px}.identity b{font-size:34px;line-height:1;letter-spacing:-.08em}.identity span,.identity em{font-size:10px;font-style:normal;font-weight:900;letter-spacing:.14em}.utility .sheet{position:relative;background:#f4f0e8;border:1px solid #45423b;box-shadow:0 24px 80px rgba(0,0,0,.28)}.utility .sheet:before{content:"";position:absolute;inset:0 auto 0 0;width:13px;background:#ff4422}.utility .identity{padding:20px 28px 18px 38px;background:#171614;color:#fff;border-bottom:8px solid #ff4422}.utility .identity b{color:#ff4422}.utility .identity em{color:#b9ffcc}.utility .content{padding:28px 36px 34px}.utility h1{margin:0;font-size:46px;line-height:.98;letter-spacing:-.05em;text-transform:uppercase}.utility h2{margin:28px 0 8px;padding-top:10px;border-top:2px solid #1e1c19;font-size:12px;letter-spacing:.13em;text-transform:uppercase}.utility .meta{margin:8px 0 0;color:#5c574f}.utility .row{padding:15px 0;border-bottom:1px solid #cfc8bd}.utility .row:after{content:"";display:block;clear:both}.utility .bar{height:12px;margin-top:9px;overflow:hidden;background:#d8d2c8}.utility .bar i{display:block;height:100%}.utility .service{display:grid;grid-template-columns:220px 1fr;gap:0;margin:14px 0;border:1px solid #cfc8bd;background:#fff}.utility .service img{width:100%;height:170px;object-fit:cover}.utility .service-no-photo{display:grid;place-items:center;min-height:170px;padding:22px;background:#e8e1d6;color:#5c574f;text-align:center;font-size:12px;font-weight:700}.utility .service div{padding:17px}.utility .service small{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#d6381d}.utility .service h3{margin:4px 0;font-size:21px}.utility .service p{margin:5px 0;color:#5c574f}.utility .service a{display:inline-block;margin-top:7px;color:#b52918;font-weight:900}.utility .service .credit,.travel .place .credit{font-size:9px}.utility .emergency{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.utility .emergency b{padding:12px 10px;background:#9f211b;color:#fff;text-align:center}.travel .sheet{background:#fffaf0;border:1px solid rgba(83,54,17,.18);box-shadow:0 24px 80px rgba(91,54,9,.2)}.travel .identity{padding:18px 24px;background:#ff4422;color:#fff}.travel .identity em{color:#fff2b0}.travel .content{padding:30px}.travel section{position:relative;padding-bottom:26px}.travel h1{width:fit-content;margin:0;padding:5px 13px 8px;background:#171614;color:#fff;font-size:54px;line-height:1;letter-spacing:-.055em;transform:rotate(-1deg)}.travel h2{margin:24px 0 10px}.travel .meta{margin:15px 0 22px;color:#625947;font-size:17px;font-weight:700}.travel .place{display:grid;grid-template-columns:minmax(180px,36%) 1fr;gap:0;overflow:hidden;margin:14px 0;background:#fff;border:1px solid #ead9bd;box-shadow:7px 7px 0 #ffd46b}.travel .place:nth-of-type(even){box-shadow:7px 7px 0 #bce8d0}.travel .place img{width:100%;height:190px;object-fit:cover}.travel .place div{padding:20px}.travel .place h3{margin:0 0 5px;font-size:23px;letter-spacing:-.025em}.travel .place p{margin:5px 0;color:#5f594e}.travel .place a{display:inline-block;margin-top:12px;color:#d6381d;font-weight:900}.fine{margin:0;padding:16px 30px 22px;color:#6b655d;font-size:11px}.utility .fine{background:#e8e2d8}.travel .fine{background:#fff0ca}@media(max-width:600px){.identity{grid-template-columns:auto 1fr}.identity em{grid-column:2}.utility .content,.travel .content{padding:22px}.travel .place{grid-template-columns:1fr}.travel .place img{height:220px}.utility .service{grid-template-columns:1fr}.utility .service img{height:210px}.utility .emergency{grid-template-columns:1fr 1fr}}@media print{body{background:#fff!important}.sheet{width:100%;margin:0;box-shadow:none!important}}@page{margin:10mm}</style></head><body class="${variant}"><main class="sheet">${identity}<div class="content">${content}</div><p class="fine">${escapeHtml(d.offline.fine)}</p></main></body></html>`;
+  const html = `<!doctype html><html lang="${d.offline.htmlLang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)}</title><style>*{box-sizing:border-box}body{margin:0;color:#171614;font:15px/1.5 Arial,sans-serif}body.utility{background:#23211d}body.travel{background:#f6d999}.sheet{width:min(900px,calc(100% - 24px));margin:24px auto;overflow:hidden}.identity{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px}.identity b{font-size:34px;line-height:1;letter-spacing:-.08em}.identity span,.identity em{font-size:10px;font-style:normal;font-weight:900;letter-spacing:.14em}.utility .sheet{position:relative;background:#f4f0e8;border:1px solid #45423b;box-shadow:0 24px 80px rgba(0,0,0,.28)}.utility .sheet:before{content:"";position:absolute;inset:0 auto 0 0;width:13px;background:#ff4422}.utility .identity{padding:20px 28px 18px 38px;background:#171614;color:#fff;border-bottom:8px solid #ff4422}.utility .identity b{color:#ff4422}.utility .identity em{color:#b9ffcc}.utility .content{padding:28px 36px 34px}.utility h1{margin:0;font-size:46px;line-height:.98;letter-spacing:-.05em;text-transform:uppercase}.utility h2{margin:28px 0 8px;padding-top:10px;border-top:2px solid #1e1c19;font-size:12px;letter-spacing:.13em;text-transform:uppercase}.utility .meta{margin:8px 0 0;color:#5c574f}.utility .row{padding:15px 0;border-bottom:1px solid #cfc8bd}.utility .row:after{content:"";display:block;clear:both}.utility .bar{height:12px;margin-top:9px;overflow:hidden;background:#d8d2c8}.utility .bar i{display:block;height:100%}.utility .service{display:grid;grid-template-columns:220px 1fr;gap:0;margin:14px 0;border:1px solid #cfc8bd;background:#fff}.utility .service img{width:100%;height:170px;object-fit:cover}.utility .service-no-photo{display:grid;place-items:center;min-height:170px;padding:22px;background:#e8e1d6;color:#5c574f;text-align:center;font-size:12px;font-weight:700}.utility .service div{padding:17px}.utility .service small{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#d6381d}.utility .service h3{margin:4px 0;font-size:21px}.utility .service p{margin:5px 0;color:#5c574f}.utility .service a{display:inline-block;margin-top:7px;color:#b52918;font-weight:900}.utility .service .credit,.travel .place .credit{font-size:9px}.utility table.waits{width:100%;margin-top:18px;border-collapse:collapse}.utility table.waits th,.utility table.waits td{padding:12px 8px;border-bottom:1px solid #cfc8bd;text-align:left}.utility table.waits td{font-weight:900;font-variant-numeric:tabular-nums}.utility table.waits thead th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5c574f}.utility table.waits small{display:block;color:#5c574f;font-weight:400;font-size:12px}.utility .row small{display:block;font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#d6381d}.utility .row b{display:block;font-size:18px}.utility .row a{color:#b52918;font-weight:900}.utility .sos{margin-top:22px;padding:12px;background:#9f211b;color:#fff;font-size:22px;font-weight:900;text-align:center}.utility .emergency{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.utility .emergency b{padding:12px 10px;background:#9f211b;color:#fff;text-align:center}.travel .sheet{background:#fffaf0;border:1px solid rgba(83,54,17,.18);box-shadow:0 24px 80px rgba(91,54,9,.2)}.travel .identity{padding:18px 24px;background:#ff4422;color:#fff}.travel .identity em{color:#fff2b0}.travel .content{padding:30px}.travel section{position:relative;padding-bottom:26px}.travel h1{width:fit-content;margin:0;padding:5px 13px 8px;background:#171614;color:#fff;font-size:54px;line-height:1;letter-spacing:-.055em;transform:rotate(-1deg)}.travel h2{margin:24px 0 10px}.travel .meta{margin:15px 0 22px;color:#625947;font-size:17px;font-weight:700}.travel .place{display:grid;grid-template-columns:minmax(180px,36%) 1fr;gap:0;overflow:hidden;margin:14px 0;background:#fff;border:1px solid #ead9bd;box-shadow:7px 7px 0 #ffd46b}.travel .place:nth-of-type(even){box-shadow:7px 7px 0 #bce8d0}.travel .place img{width:100%;height:190px;object-fit:cover}.travel .place div{padding:20px}.travel .place h3{margin:0 0 5px;font-size:23px;letter-spacing:-.025em}.travel .place p{margin:5px 0;color:#5f594e}.travel .place a{display:inline-block;margin-top:12px;color:#d6381d;font-weight:900}.fine{margin:0;padding:16px 30px 22px;color:#6b655d;font-size:11px}.utility .fine{background:#e8e2d8}.travel .fine{background:#fff0ca}@media(max-width:600px){.identity{grid-template-columns:auto 1fr}.identity em{grid-column:2}.utility .content,.travel .content{padding:22px}.travel .place{grid-template-columns:1fr}.travel .place img{height:220px}.utility .service{grid-template-columns:1fr}.utility .service img{height:210px}.utility .emergency{grid-template-columns:1fr 1fr}}@media print{body{background:#fff!important}.sheet{width:100%;margin:0;box-shadow:none!important}}@page{margin:10mm}</style></head><body class="${variant}"><main class="sheet">${identity}<div class="content">${content}</div><p class="fine">${escapeHtml(d.offline.fine)}</p></main></body></html>`;
   const blob = new Blob([html], { type: "text/html;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
@@ -135,20 +134,6 @@ function ExactPlaceVisual({ place, Icon, d }: { place: NearbyPlace; Icon: Compon
   </div>;
 }
 
-async function imageAsDataUrl(path: string) {
-  try {
-    const response = await fetch(path);
-    const blob = await response.blob();
-    return await new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(String(reader.result));
-      reader.onerror = () => reject(reader.error);
-      reader.readAsDataURL(blob);
-    });
-  } catch {
-    return path;
-  }
-}
 
 export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?: XhepLang; fuel?: LiveFuel | null }) {
   const d = xhepDict(lang);
@@ -308,31 +293,37 @@ export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?:
   const currentCrossing = BORDER_CROSSINGS.find((crossing) => crossing.id === selectedCrossing) ?? BORDER_CROSSINGS[0];
   const recentReports = (borderPayload?.recentReports ?? []).filter((report) => report.crossingId === selectedCrossing && report.direction === direction).slice(0, 6);
 
+  /**
+   * The offline copy: just the border waits (both directions, with when they
+   * were updated), and — only if the visitor asked for help near them — what
+   * was found, by road, with directions links.
+   */
   const exportUtility = async () => {
     setExportingUtility(true);
     try {
-      track("visit_card_download", { variant: "border" });
-      const waits = BORDER_CROSSINGS.map((crossing) => {
-        const current = borderPayload?.official.find((item) => item.crossingId === crossing.id);
-        const range = direction === "entry" ? current?.entry : current?.exit;
-        const minutes = range?.max ?? 0;
-        return `<div class="row"><b>${escapeHtml(crossing.name)} - ${escapeHtml(direction === "entry" ? d.border.entryShort : d.border.exitShort)}</b><span style="float:right">${escapeHtml(range ? rangeLabel(range) : t.noData)}</span><div class="bar"><i style="width:${Math.max(3, Math.min(100, minutes / 45 * 100))}%;background:${minutes >= 30 ? "#c8261a" : minutes >= 15 ? "#e7a317" : "#198754"}"></i></div></div>`;
+      track("visit_card_download", { variant: "border", with_help: Boolean(nearby) });
+      const official = borderPayload?.official ?? [];
+      const updated = official.map((o) => o.updatedAt).filter(Boolean)[0] ?? "";
+      const cell = (r?: WaitRange) => (r ? escapeHtml(rangeLabel(r)) : escapeHtml(t.noData));
+      const rows = BORDER_CROSSINGS.map((c) => {
+        const o = official.find((x) => x.crossingId === c.id);
+        return `<tr><th>${escapeHtml(c.name)}<small>${escapeHtml(countryOf(c.id))}</small></th><td>${cell(o?.entry)}</td><td>${cell(o?.exit)}</td></tr>`;
       }).join("");
-      const serviceLabels: Record<string, string> = d.common.services;
-      const services = nearby ? (await Promise.all(Object.entries(nearby.nearest).map(async ([kind, place]) => {
-        if (!place) return `<div class="row"><b>${escapeHtml(serviceLabels[kind])}</b> <a href="${escapeHtml(nearby.fallbackSearches[kind as keyof NearbyPayload["fallbackSearches"]])}">${escapeHtml(d.offline.openNearestSearch)}</a></div>`;
-        const visual = place.photo?.embeddable
-          ? `<img src="${escapeHtml(await imageAsDataUrl(place.photo.url))}" alt="${escapeHtml(place.photo.title)}">`
-          : `<div class="service-no-photo">${escapeHtml(d.offline.noOfflinePhoto)}</div>`;
-        const credit = place.photo ? `<p class="credit">${escapeHtml(d.offline.placePhoto)}: ${escapeHtml(place.photo.credit)} • ${escapeHtml(place.photo.license)}</p>` : "";
-        return `<article class="service">${visual}<div><small>${escapeHtml(serviceLabels[kind])}</small><h3>${escapeHtml(place.name)}</h3><p>${escapeHtml(d.offline.kmAway(place.distanceKm.toFixed(1)))} • ${place.latitude.toFixed(5)}, ${place.longitude.toFixed(5)}</p><a href="${escapeHtml(place.mapsUrl)}">${escapeHtml(d.common.openDirectionsGoogle)}</a>${credit}</div></article>`;
-      }))).join("") : `<div class="row">${escapeHtml(d.offline.allowLocationFirst)}</div>`;
-      const emergency = EMERGENCY_NUMBERS.map((item) => `<b>${escapeHtml(emergencyLabel(item))} ${item.number}</b>`).join("");
-      downloadHtml(d, "383-karta-e-kufirit.html", d.offline.title, `<h1>${escapeHtml(currentCrossing.name)}<br>${escapeHtml(direction === "entry" ? d.border.entryShort : d.border.exitShort)}</h1><p class="meta">${escapeHtml(d.common.kosovo)} / ${escapeHtml(countryOf(currentCrossing.id))} • ${escapeHtml(d.offline.autoRefreshEvery)}</p><h2>${escapeHtml(d.offline.latestWaits)}</h2>${waits}<h2>${escapeHtml(d.offline.nearestServices)}</h2>${services}<h2>${escapeHtml(d.offline.emergencyNumbers)}</h2><div class="emergency">${emergency}</div>`, "utility");
+      const waits = `<table class="waits"><thead><tr><th></th><th>${escapeHtml(d.border.entry)}</th><th>${escapeHtml(d.border.exit)}</th></tr></thead><tbody>${rows}</tbody></table><p class="meta">${escapeHtml(updated ? d.border.updated(updated) : "")} · ${escapeHtml(d.border.officialSource)}</p>`;
+      const n = nearby as NearbyResult | null;
+      const line = (label: string, name: string, minutes: number | null, km: number, url?: string) =>
+        `<div class="row"><small>${escapeHtml(label)}</small><b>${escapeHtml(name)}</b><span>${escapeHtml(minutes != null ? d.border.byCar(minutes, km.toFixed(1)) : d.border.straight(km.toFixed(1)))}</span>${url ? ` <a href="${escapeHtml(url)}">${escapeHtml(d.border.directions)}</a>` : ""}</div>`;
+      const help = n
+        ? `<h2>${escapeHtml(d.border.helpTitle)}</h2>` +
+          (n.crossing ? line(d.border.nearestCrossing, n.crossing.name, n.crossing.minutes, n.crossing.km) : "") +
+          (["police", "hospital", "fuel"] as const).map((k) => { const p = n.nearest[k]; return p ? line(d.common.services[k], p.name, p.minutes, p.distanceKm, p.mapsUrl) : ""; }).join("")
+        : "";
+      downloadHtml(d, "383-pritjet-ne-kufi.html", d.offline.title, `<h1>${escapeHtml(t.waitsTitle)}</h1>${waits}${help}<p class="sos">112</p>`, "utility");
     } finally {
       setExportingUtility(false);
     }
   };
+
 
   return (
     <main className={styles.visitShell}>
@@ -362,14 +353,18 @@ export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?:
         </div>
       </section>
 
-      {/* The questions come first: the answers choose the packs. */}
-      <XhepCompanion lang={lang} />
-
+      {/* The packs, with the questions that pick them. */}
       <section className={styles.citySection} id="city-card" aria-label={d.city.title}>
-        <PackShelf
-          lang={lang}
-          focusCity={focusCity}
-          lead={
+        <PackShelf lang={lang} focusCity={focusCity} />
+      </section>
+
+      {/* The border, the card most visitors need first on the road. */}
+      <section className={styles.borderBand} aria-labelledby="border-band-title">
+        <div className={styles.borderBandCopy}>
+          <p className={styles.borderKicker}>{t.borderMode}</p>
+          <h2 id="border-band-title">{d.border.title}</h2>
+          <p>{d.border.intro}</p>
+        </div>
             <BorderCard
               d={d}
               official={borderPayload?.official ?? []}
@@ -394,9 +389,9 @@ export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?:
               reportMessage={reportMessage}
               onReport={() => void submitReport()}
               onOpenSheet={() => borderSheet.current?.showModal()}
+              onDownload={() => void exportUtility()}
+              downloading={exportingUtility}
             />
-          }
-        />
       </section>
 
       <section className={styles.helpSection} aria-label={d.help.title}>

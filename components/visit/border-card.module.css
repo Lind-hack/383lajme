@@ -100,3 +100,5 @@
   .help ul { animation: none; }
   .meter i { transition: none; }
 }
+.footer { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; border-top: 1px solid rgba(19, 35, 58, 0.12); }
+.footer .more { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-top: 0; }

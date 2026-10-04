@@ -132,6 +132,25 @@
 .backFoot { display: flex; align-items: flex-end; justify-content: space-between; gap: 0.6em; margin-top: auto; font-size: 0.85em; font-weight: 800; }
 .barcode { width: 5.5em; height: 1.8em; fill: var(--ink); }
 
+/* A finished puzzle: a gold seal on the pack, and a warm glow behind it. */
+.model[data-complete] .front img { filter: drop-shadow(0 0 14px rgba(240, 190, 70, 0.75)) drop-shadow(0 18px 22px rgba(30, 20, 10, 0.3)); }
+.seal {
+  position: absolute;
+  right: -6%;
+  top: 18%;
+  display: grid;
+  place-items: center;
+  width: 30%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff6c8, #e8b53e 55%, #a7741a);
+  color: #5a3d00;
+  font-size: clamp(14px, 12cqi, 26px);
+  font-weight: 900;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3), inset 0 0 0 3px rgba(255, 255, 255, 0.5);
+  transform: rotate(12deg);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .model[data-motion],
   .sheen { animation: none; }

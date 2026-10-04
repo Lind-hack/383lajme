@@ -92,6 +92,7 @@ export default function PackModel({
   motion = "still",
   flipped = false,
   torn = false,
+  complete = false,
   delay = 0,
 }: {
   cityId: string;
@@ -100,6 +101,8 @@ export default function PackModel({
   motion?: "wiggle" | "still";
   flipped?: boolean;
   torn?: boolean;
+  /** Its puzzle is finished: the pack wears the city's gold seal. */
+  complete?: boolean;
   /** Stagger for a row of packs, so they don't shake in unison, in seconds. */
   delay?: number;
 }) {
@@ -110,6 +113,7 @@ export default function PackModel({
       data-motion={motion}
       data-flipped={flipped || undefined}
       data-torn={torn || undefined}
+      data-complete={complete || undefined}
       style={{ "--delay": `${delay}s`, "--crimp": art.crimp } as React.CSSProperties}
     >
       <span className={styles.turn}>
@@ -124,6 +128,7 @@ export default function PackModel({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={art.src} alt="" draggable={false} width={640} height={1000} style={torn ? { clipPath: BODY_CLIP } : undefined} />
           <i className={styles.sheen} aria-hidden="true" style={{ "--pack-mask": `url(${art.src})` } as React.CSSProperties} />
+          {complete && <span className={styles.seal} aria-hidden="true">★</span>}
         </span>
         <span className={styles.backFace} aria-hidden={!flipped}>
           <PackBack cityId={cityId} lang={lang} t={t} />

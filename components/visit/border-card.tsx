@@ -14,7 +14,7 @@
 //     open in a sheet.
 
 import { useEffect, useState } from "react";
-import { Ambulance, Building2, CarFront, Fuel, LocateFixed, Phone, RefreshCw, Send, Users } from "lucide-react";
+import { Ambulance, Building2, CarFront, Download, Fuel, LocateFixed, Phone, RefreshCw, Send, Users } from "lucide-react";
 import { BORDER_CROSSINGS, type BorderCrossingId, type BorderDirection } from "@/lib/visit-v2-data";
 import type { xhepDict } from "@/lib/xhep/i18n";
 import styles from "./border-card.module.css";
@@ -57,6 +57,8 @@ export default function BorderCard({
   reportMessage,
   onReport,
   onOpenSheet,
+  onDownload,
+  downloading,
 }: {
   d: Dict;
   official: Official[];
@@ -81,6 +83,8 @@ export default function BorderCard({
   reportMessage: string;
   onReport: () => void;
   onOpenSheet: () => void;
+  onDownload: () => void;
+  downloading: boolean;
 }) {
   const b = d.border;
   // The "next check in" line counts down without re-fetching.
@@ -249,9 +253,15 @@ export default function BorderCard({
         </section>
       )}
 
-      <button type="button" className={styles.more} onClick={onOpenSheet}>
-        {b.more}
-      </button>
+      <div className={styles.footer}>
+        <button type="button" className={styles.more} onClick={onDownload} disabled={downloading}>
+          <Download size={16} aria-hidden="true" />
+          {downloading ? b.downloading : nearby ? b.downloadWithHelp : b.downloadWaits}
+        </button>
+        <button type="button" className={styles.more} onClick={onOpenSheet}>
+          {b.reports}
+        </button>
+      </div>
     </article>
   );
 }
