@@ -7,7 +7,7 @@ import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
 import { requestGpsStamp } from "@/lib/xhep/gps-stamp";
 import { track } from "@/lib/analytics";
 import Quiz, { type QuizAnswers } from "./quiz";
-import XhepHelp from "./help";
+import XhepHelp, { type LiveFuel } from "./help";
 import DayPlan, { type StampResult } from "./day-plan";
 import styles from "./xhep.module.css";
 
@@ -18,7 +18,7 @@ type Profile = ReturnType<typeof readProfile>;
  * visitor's own card. Everything stays on the device. The profile is read
  * after mount so the server render and the first client render agree.
  */
-export default function XhepCompanion({ lang, children }: { lang: XhepLang; children?: (profile: NonNullable<Profile>) => React.ReactNode }) {
+export default function XhepCompanion({ lang, fuel = null, children }: { lang: XhepLang; fuel?: LiveFuel | null; children?: (profile: NonNullable<Profile>) => React.ReactNode }) {
   const t = xhepDict(lang).companion;
   const cardText = xhepDict(lang).card;
   const [profile, setProfile] = useState<Profile>(null);
@@ -120,7 +120,7 @@ export default function XhepCompanion({ lang, children }: { lang: XhepLang; chil
         </button>
       )}
 
-      {loaded && view !== "quiz" && <XhepHelp key={profile?.updatedAt ?? "none"} lang={lang} profile={profile} />}
+      {loaded && view !== "quiz" && <XhepHelp key={profile?.updatedAt ?? "none"} lang={lang} profile={profile} fuel={fuel} />}
     </section>
   );
 }

@@ -1,6 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { haversineKm } from "@/lib/visit-border-server";
 import { exactOsmImageReference, googleTypeForKind, selectExactGoogleCandidate } from "@/lib/visit-place-image.mjs";
+import { EMERGENCY_CHECKED_AT, HOSPITALS, crowKm, photoMatchesName, pickBest, rankPlace } from "@/lib/visit-emergency.mjs";
+import { BORDER_CROSSINGS } from "@/lib/visit-v2-data";
 
 export const runtime = "nodejs";
 
@@ -99,61 +101,157 @@ async function exactPlacePhoto(place: NearbyBase) {
   return exactGooglePhoto(place);
 }
 
+/** Wikimedia photos taken within metres of the place whose title names it. */
+async function nearbyCommonsPhoto(place: NearbyBase) {
+  try {
+    const params = new URLSearchParams({
+      action: "query", generator: "geosearch", ggscoord: `${place.latitude}|${place.longitude}`, ggsradius: "150", ggsnamespace: "6", ggslimit: "20",
+      prop: "imageinfo", iiprop: "url|extmetadata", iiurlwidth: "900", format: "json", origin: "*",
+    });
+    const response = await fetch(`https://commons.wikimedia.org/w/api.php?${params}`, {
+      headers: { "User-Agent": "383ks-visitor-utility/3.1 (+https://www.383ks.com/visit)" }, cache: "no-store", signal: AbortSignal.timeout(6_000),
+    });
+    if (!response.ok) return null;
+    const payload = await response.json() as { query?: { pages?: Record<string, CommonsPage> } };
+    const page = Object.values(payload.query?.pages ?? {}).find((p) => photoMatchesName(p.title, place.name) && p.imageinfo?.[0]?.thumburl?.startsWith("https://upload.wikimedia.org/"));
+    const info = page?.imageinfo?.[0];
+    if (!page || !info?.thumburl) return null;
+    const metadata = info.extmetadata ?? {};
+    return {
+      url: info.thumburl,
+      sourceUrl: info.descriptionurl ?? `https://commons.wikimedia.org/?curid=${page.pageid}`,
+      title: stripTags(metadata.ImageDescription?.value) || page.title.replace(/^File:/, ""),
+      credit: stripTags(metadata.Artist?.value) || "Wikimedia Commons",
+      license: stripTags(metadata.LicenseShortName?.value) || "Commons licence",
+      provider: "wikimedia" as const, verified: true as const, embeddable: true as const,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/** Driving minutes and kilometres from one point to many (OSRM); null where routing failed. */
+async function drive(from: { lat: number; lon: number }, to: { lat: number; lon: number }[]) {
+  if (!to.length) return [];
+  try {
+    const coords = [from, ...to].map((p) => `${p.lon.toFixed(5)},${p.lat.toFixed(5)}`).join(";");
+    const response = await fetch(`https://router.project-osrm.org/table/v1/driving/${coords}?sources=0&annotations=duration,distance`, {
+      headers: { "User-Agent": "383ks-visitor-utility/3.1 (+https://www.383ks.com/visit)" }, cache: "no-store", signal: AbortSignal.timeout(7_000),
+    });
+    if (!response.ok) throw new Error(String(response.status));
+    const payload = await response.json() as { durations?: (number | null)[][]; distances?: (number | null)[][] };
+    return to.map((_, i) => {
+      const seconds = payload.durations?.[0]?.[i + 1];
+      const meters = payload.distances?.[0]?.[i + 1];
+      return typeof seconds === "number" && typeof meters === "number" ? { minutes: Math.max(1, Math.round(seconds / 60)), km: meters / 1000 } : null;
+    });
+  } catch {
+    return to.map(() => null);
+  }
+}
+
+type Option = NearbyBase & { rank: number | null; km: number; minutes?: number | null };
+
 export async function GET(request: NextRequest) {
   const latitude = Number(request.nextUrl.searchParams.get("lat"));
   const longitude = Number(request.nextUrl.searchParams.get("lon"));
   if (!Number.isFinite(latitude) || !Number.isFinite(longitude) || latitude < 41 || latitude > 44 || longitude < 19 || longitude > 23) {
     return NextResponse.json({ error: "Location is outside the supported Kosovo area." }, { status: 400 });
   }
-
-  const query = `[out:json][timeout:15];(nw(around:10000,${latitude.toFixed(5)},${longitude.toFixed(5)})[amenity~"^(police|hospital|fire_station|fuel)$"];);out center tags 80;`;
+  const here = { lat: latitude, lon: longitude };
+  const query = `[out:json][timeout:15];(nw(around:15000,${latitude.toFixed(5)},${longitude.toFixed(5)})[amenity~"^(police|hospital|clinic|fuel)$"];);out center tags 150;`;
   const fallbackSearches = {
-    police: `https://www.google.com/maps/search/police/@${latitude},${longitude},14z`,
-    hospital: `https://www.google.com/maps/search/hospital/@${latitude},${longitude},14z`,
-    fire_station: `https://www.google.com/maps/search/fire+station/@${latitude},${longitude},14z`,
-    fuel: `https://www.google.com/maps/search/gas+station/@${latitude},${longitude},14z`,
+    police: `https://www.google.com/maps/search/stacioni+policor/@${latitude},${longitude},14z`,
+    hospital: `https://www.google.com/maps/search/spitali/@${latitude},${longitude},13z`,
+    fire_station: `https://www.google.com/maps/search/zjarrfikesit/@${latitude},${longitude},14z`,
+    fuel: `https://www.google.com/maps/search/pike+karburanti/@${latitude},${longitude},14z`,
   };
+  let elements: OverpassElement[] = [];
+  let degraded = false;
   try {
     const response = await fetch("https://overpass-api.de/api/interpreter", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded", "User-Agent": "383ks-visitor-utility/3.0 (+https://www.383ks.com/visit)" },
+      headers: { "Content-Type": "application/x-www-form-urlencoded", "User-Agent": "383ks-visitor-utility/3.1 (+https://www.383ks.com/visit)" },
       body: new URLSearchParams({ data: query }),
       cache: "no-store",
       signal: AbortSignal.timeout(18_000),
     });
     if (!response.ok) throw new Error(`Overpass returned ${response.status}`);
-    const payload = (await response.json()) as { elements?: OverpassElement[] };
-    const nearestBase = Object.fromEntries(kinds.map((kind) => {
-      const options = (payload.elements ?? []).flatMap((element) => {
-        if (element.tags?.amenity !== kind) return [];
-        const lat = element.lat ?? element.center?.lat;
-        const lon = element.lon ?? element.center?.lon;
-        if (lat === undefined || lon === undefined) return [];
-        return [{
-          kind,
-          name: element.tags?.name ?? element.tags?.["name:sq"] ?? ({ police: "Polici", hospital: "Spital / ambulancë", fire_station: "Zjarrfikës", fuel: "Pikë karburanti" } as const)[kind],
-          latitude: lat,
-          longitude: lon,
-          distanceKm: haversineKm({ latitude, longitude }, { latitude: lat, longitude: lon }),
-          openingHours: element.tags?.opening_hours ?? null,
-          tags: element.tags ?? {},
-        }];
-      }).sort((a, b) => a.distanceKm - b.distanceKm);
-      return [kind, options[0] ?? null];
-    })) as Record<NearbyKind, NearbyBase | null>;
-    const nearest = Object.fromEntries(await Promise.all(kinds.map(async (kind) => {
+    elements = ((await response.json()) as { elements?: OverpassElement[] }).elements ?? [];
+  } catch {
+    // The map index is down: hospitals still come from the checked list.
+    degraded = true;
+  }
+  try {
+    const fromMap = (kind: NearbyKind, amenities: string[]): Option[] => elements.flatMap((element) => {
+      const tags = element.tags;
+      if (!tags || !amenities.includes(tags.amenity)) return [];
+      const lat = element.lat ?? element.center?.lat;
+      const lon = element.lon ?? element.center?.lon;
+      if (lat === undefined || lon === undefined) return [];
+      if (tags.amenity === "clinic" && !/qkmf|urgjenc|emergjenc/i.test(tags.name ?? "")) return [];
+      const name = tags["name:sq"] ?? tags.name ?? ({ police: "Polici", hospital: "Spital", fire_station: "Zjarrfikës", fuel: "Pikë karburanti" } as const)[kind];
+      const km = crowKm(here, { lat, lon });
+      return [{ kind, name, latitude: lat, longitude: lon, distanceKm: km, km, openingHours: tags.opening_hours ?? null, tags, rank: rankPlace(kind, tags) }];
+    });
+    const checkedHospitals: Option[] = HOSPITALS.map((h) => {
+      const km = crowKm(here, h);
+      return { kind: "hospital" as const, name: h.name, latitude: h.lat, longitude: h.lon, distanceKm: km, km, openingHours: "24/7", tags: {}, rank: 0 };
+    }).filter((h) => h.km < 60);
+    const candidates: Record<"police" | "hospital" | "fuel", Option[]> = {
+      police: fromMap("police", ["police"]),
+      // The checked list, plus map entries that mark an emergency department.
+      hospital: [...checkedHospitals, ...fromMap("hospital", ["hospital", "clinic"]).filter((o) => o.rank === 0 || o.rank === 2)],
+      fuel: fromMap("fuel", ["fuel"]),
+    };
+    // Route the closest few suitable options of each kind, and every border crossing, in one call.
+    const shortlist = {
+      police: candidates.police.filter((o) => o.rank !== null).sort((a, b) => a.km - b.km).slice(0, 4),
+      hospital: candidates.hospital.filter((o) => o.rank !== null).sort((a, b) => a.km - b.km).slice(0, 4),
+      fuel: candidates.fuel.filter((o) => o.rank !== null).sort((a, b) => a.km - b.km).slice(0, 4),
+    };
+    const flat = [...shortlist.police, ...shortlist.hospital, ...shortlist.fuel];
+    const crossings = BORDER_CROSSINGS.map((c) => ({ id: c.id, name: c.name, lat: c.latitude, lon: c.longitude }));
+    const routes = await drive(here, [...flat.map((o) => ({ lat: o.latitude, lon: o.longitude })), ...crossings]);
+    const routed = routes.some(Boolean);
+    flat.forEach((o, i) => {
+      const r = routes[i];
+      if (r) {
+        o.minutes = r.minutes;
+        o.km = r.km;
+      }
+    });
+    const crossingTimes = crossings
+      .map((c, i) => {
+        const r = routes[flat.length + i];
+        return { id: c.id, name: c.name, km: r?.km ?? crowKm(here, c), minutes: r?.minutes ?? null };
+      })
+      .sort((a, b) => (a.minutes ?? a.km * 1.6) - (b.minutes ?? b.km * 1.6));
+    const nearestBase = {
+      police: pickBest(shortlist.police) as Option | null,
+      hospital: pickBest(shortlist.hospital) as Option | null,
+      fuel: pickBest(shortlist.fuel) as Option | null,
+    };
+    const nearest = Object.fromEntries(await Promise.all((["police", "hospital", "fuel"] as const).map(async (kind) => {
       const place = nearestBase[kind];
       if (!place) return [kind, null];
-      const { tags: _tags, ...safePlace } = place;
-      return [kind, { ...safePlace, mapsUrl: mapsDirections(place.latitude, place.longitude), streetViewUrl: streetView(place.latitude, place.longitude), photo: await exactPlacePhoto(place) }];
+      const photo = (await exactPlacePhoto(place)) ?? (await nearbyCommonsPhoto(place));
+      return [kind, {
+        name: place.name, latitude: place.latitude, longitude: place.longitude,
+        distanceKm: place.km, minutes: place.minutes ?? null, byRoad: place.minutes != null,
+        openingHours: place.openingHours, mapsUrl: mapsDirections(place.latitude, place.longitude),
+        streetViewUrl: streetView(place.latitude, place.longitude), photo,
+      }];
     })));
     return NextResponse.json({
-      nearest, fallbackSearches, degraded: false, attribution: "© OpenStreetMap contributors",
-      note: "Only imagery tied to the exact place record is shown. Verify opening hours and call 112 in an emergency.",
+      nearest: { ...nearest, fire_station: null }, crossing: crossingTimes[0] ?? null, crossings: crossingTimes,
+      fallbackSearches, degraded, routed, attribution: "© OpenStreetMap contributors · routes: OSRM",
+      note: "Emergency hospitals are a checked list; other places come from OpenStreetMap. In an emergency call 112.",
+      checkedAt: EMERGENCY_CHECKED_AT,
     }, { headers: { "Cache-Control": "private, max-age=300" } });
   } catch (error) {
     return NextResponse.json({
-      nearest: { police: null, hospital: null, fire_station: null, fuel: null }, fallbackSearches, degraded: true,
+      nearest: { police: null, hospital: null, fire_station: null, fuel: null }, crossing: null, crossings: [], fallbackSearches, degraded: true, routed: false,
       attribution: "Google Maps search fallback", note: "The live map index is temporarily unavailable. Open a nearby search and verify the result before travelling.",
       detail: String(error instanceof Error ? error.message : error),
     }, { headers: { "Cache-Control": "private, max-age=60" } });

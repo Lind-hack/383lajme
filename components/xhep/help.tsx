@@ -66,7 +66,18 @@ function PhraseSheet({ big, small, onClose, closeLabel }: { big: string; small: 
   );
 }
 
-export default function XhepHelp({ lang, profile }: { lang: XhepLang; profile: Profile }) {
+/** Today's pump prices, read by the page from 383's daily fuel feed. */
+export type LiveFuel = {
+  petrol: { min: number; max: number } | null;
+  diesel: { min: number; max: number } | null;
+  checkedAt: string | null;
+  sourceUrl: string;
+};
+
+const euro = (n: number) => `€${n.toFixed(2)}`;
+const span = (r: { min: number; max: number }) => (r.min === r.max ? euro(r.min) : `${euro(r.min)}–${r.max.toFixed(2)}`);
+
+export default function XhepHelp({ lang, profile, fuel = null }: { lang: XhepLang; profile: Profile; fuel?: LiveFuel | null }) {
   const t = xhepDict(lang).help;
   const tabsId = useId();
   const [tab, setTab] = useState<Tab>("route");
@@ -177,9 +188,25 @@ export default function XhepHelp({ lang, profile }: { lang: XhepLang; profile: P
                     </td>
                   </tr>
                 ))}
+                {fuel?.petrol && (
+                  <tr>
+                    <th scope="row">{lang === "en" ? "Petrol (95), per litre, today" : "Benzinë (95), për litër, sot"}</th>
+                    <td>{span(fuel.petrol)}</td>
+                  </tr>
+                )}
+                {fuel?.diesel && (
+                  <tr>
+                    <th scope="row">{lang === "en" ? "Diesel, per litre, today" : "Naftë, për litër, sot"}</th>
+                    <td>{span(fuel.diesel)}</td>
+                  </tr>
+                )}
               </tbody>
             </table>
-            <SourceLine source={PRICES[0].source} extra={prices.find((p) => p.id === "skiPass")?.source} lang={lang} />
+            {/* Every source behind the table, once each. */}
+            {[...new Map(prices.map((p) => [p.source.url, p.source])).values()].map((source) => (
+              <SourceLine key={source.url} source={source} lang={lang} />
+            ))}
+            {fuel && <SourceLine source={{ name: lang === "en" ? "383ks.com daily fuel prices (Shell, IP, Petrol Company)" : "Çmimet ditore të karburantit në 383ks.com (Shell, IP, Petrol Company)", url: fuel.sourceUrl }} lang={lang} />}
           </>
         )}
 

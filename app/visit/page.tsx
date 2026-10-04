@@ -5,6 +5,23 @@ import Navbar from "@/components/navbar";
 import VisitV2Experience from "@/components/visit/visit-v2-experience";
 import visitStyles from "@/components/visit/visit-v2.module.css";
 import { XHEP_LANG_COOKIE, resolveXhepLang, xhepDict } from "@/lib/xhep/i18n";
+import { getDailyFuelSnapshot } from "@/lib/home-market-data";
+import type { LiveFuel } from "@/components/xhep/help";
+
+/** Today's pump prices across the big brands, for the trip help's price list. */
+async function liveFuel(): Promise<LiveFuel | null> {
+  try {
+    const snap = await getDailyFuelSnapshot();
+    if (snap.fallback) return null;
+    const range = (key: "petrol" | "diesel") => {
+      const v = snap.brands.map((b) => b[key]).filter((n): n is number => typeof n === "number" && n > 0);
+      return v.length ? { min: Math.min(...v), max: Math.max(...v) } : null;
+    };
+    return { petrol: range("petrol"), diesel: range("diesel"), checkedAt: snap.checkedAt ?? null, sourceUrl: snap.sourceUrl };
+  } catch {
+    return null;
+  }
+}
 
 type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> };
 
@@ -27,7 +44,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 }
 
 export default async function VisitPage({ searchParams }: Props) {
-  const lang = await visitLang(searchParams);
+  const [lang, fuel] = await Promise.all([visitLang(searchParams), liveFuel()]);
   return (
     <>
       <div className={visitStyles.printHidden}>
@@ -42,7 +59,7 @@ export default async function VisitPage({ searchParams }: Props) {
       />
       {/* The site layout is Albanian; this subtree declares its own language. */}
       <div lang={lang}>
-        <VisitV2Experience lang={lang} />
+        <VisitV2Experience lang={lang} fuel={fuel} />
       </div>
       <div className={visitStyles.printHidden}>
         <Footer />

@@ -33,6 +33,7 @@ import styles from "./visit-v2.module.css";
 import DardaniImage from "@/components/dardani/dardani-image";
 import LangToggle from "@/components/xhep/lang-toggle";
 import XhepCompanion from "@/components/xhep/companion";
+import type { LiveFuel } from "@/components/xhep/help";
 import PackShelf from "@/components/xhep/packs/pack-shelf";
 import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
 
@@ -146,7 +147,7 @@ async function imageAsDataUrl(path: string) {
   }
 }
 
-export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) {
+export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?: XhepLang; fuel?: LiveFuel | null }) {
   const d = xhepDict(lang);
   const t = d.hero;
   const countryOf = (id: BorderCrossingId) => d.common.countries[id];
@@ -347,7 +348,7 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
         <PackShelf lang={lang} focusCity={focusCity} />
       </section>
 
-      <XhepCompanion lang={lang} />
+      <XhepCompanion lang={lang} fuel={fuel} />
 
       <section className={styles.borderSection} id="visit-tools" aria-labelledby="border-card-title">
         <div className={styles.sectionIntro}>
