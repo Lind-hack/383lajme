@@ -17,35 +17,21 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { RotateCcw, X } from "lucide-react";
+import { RotateCcw, RotateCw, Volume2, VolumeX, X } from "lucide-react";
 import { PACK_ART, packCards } from "@/lib/xhep/packs.mjs";
 import type { XhepLang } from "@/lib/xhep/i18n";
-import { CardFace, cityName, type PackCard } from "./cards";
+import { CardBack, CardFace, cityName, type PackCard } from "./cards";
 import type { XhepProfile } from "./use-profile";
 import styles from "./packs.module.css";
+import * as sfx from "@/lib/xhep/sound";
+import { setSoundOn, soundOn } from "@/lib/xhep/sound";
+import PackModel, { type BackText } from "./pack-model";
+import { BODY_CLIP, STRIP_CLIP, TEAR_AT } from "./tear";
 
 type Phase = "sealed" | "torn" | "reveal" | "binder";
 
-/** Where the sealed strip ends, in % of the pack's height. */
-const TEAR_AT = 5.4;
-/** Teeth along the tear line. */
-const TEETH = 22;
 /** How far the finger must travel, as a share of the pack's width, to rip it. */
 const RIP_AT = 0.65;
-
-/** The jagged tear line, as polygon points: strip above it, pack body below. */
-function tearPoints() {
-  const pts: string[] = [];
-  for (let i = 0; i <= TEETH; i++) {
-    const x = (i / TEETH) * 100;
-    const y = TEAR_AT + (i % 2 === 0 ? 0.9 : -0.9);
-    pts.push(`${x.toFixed(2)}% ${y.toFixed(2)}%`);
-  }
-  return pts;
-}
-const LINE = tearPoints();
-const STRIP_CLIP = `polygon(0% 0%, 100% 0%, ${[...LINE].reverse().join(", ")})`;
-const BODY_CLIP = `polygon(${LINE.join(", ")}, 100% 100%, 0% 100%)`;
 
 function buzz(ms: number) {
   try {
@@ -64,6 +50,9 @@ export type OpenerText = {
   skip: string;
   binderTitle: (city: string) => string;
   replay: string;
+  soundOn: string;
+  soundOff: string;
+  turn: string;
   cardOf: (i: number, n: number) => string;
   faces: Parameters<typeof CardFace>[0]["t"];
 };
@@ -77,6 +66,7 @@ export default function PackOpener({
   onClose,
   onOpenCard,
   t,
+  back,
 }: {
   cityId: string;
   lang: XhepLang;
@@ -86,6 +76,7 @@ export default function PackOpener({
   onClose: () => void;
   onOpenCard: (card: PackCard) => void;
   t: OpenerText;
+  back: BackText;
 }) {
   const reduce = useReducedMotion();
   const art = PACK_ART[cityId as keyof typeof PACK_ART];
@@ -100,18 +91,27 @@ export default function PackOpener({
   const dialog = useRef<HTMLDialogElement>(null);
   // A swipe ends with a click too; this keeps one swipe to one card.
   const swiped = useRef(false);
+  // The top card arrives face down and turns over; a tap turns it sooner.
+  const [faceUp, setFaceUp] = useState(false);
+  // Reading the pack's back before tearing it.
+  const [turned, setTurned] = useState(false);
+  const [sound, setSound] = useState(true);
+  // Which crackle of the tear was last played, so each step sounds once.
+  const lastTick = useRef(0);
 
   useEffect(() => {
     dialog.current?.showModal();
     setTouch(window.matchMedia?.("(pointer: coarse)").matches ?? false);
+    setSound(soundOn());
   }, []);
 
   const rip = useCallback(() => {
     buzz(28);
+    sfx.rip();
     setTear(1);
     setPhase("torn");
     onOpened();
-    window.setTimeout(() => setPhase("reveal"), reduce ? 0 : 650);
+    window.setTimeout(() => setPhase("reveal"), reduce ? 0 : 1100);
   }, [onOpened, reduce]);
 
   // Foil shine and tilt follow the pointer while the pack is sealed.
@@ -135,6 +135,7 @@ export default function PackOpener({
       // Capture is a nicety (the finger may leave the strip); the tear works without it.
     }
     drag.current = { x: e.clientX, width: r.width, id: e.pointerId };
+    lastTick.current = 0;
     buzz(8);
   }
   function moveTear(e: React.PointerEvent) {
@@ -143,7 +144,15 @@ export default function PackOpener({
     if (!d || d.id !== e.pointerId) return;
     const dx = e.clientX - d.x;
     setDir(dx >= 0 ? 1 : -1);
-    setTear(Math.min(1, Math.abs(dx) / (d.width * 0.8)));
+    const progress = Math.min(1, Math.abs(dx) / (d.width * 0.8));
+    setTear(progress);
+    // The seam crackles as it gives: one tick for every eighth of the way.
+    const step = Math.floor(progress * 8);
+    if (step > lastTick.current) {
+      lastTick.current = step;
+      sfx.tick(progress);
+      if (step % 3 === 0) buzz(4);
+    }
     const r = packRef.current?.getBoundingClientRect();
     if (r) packRef.current?.style.setProperty("--seam", `${(((e.clientX - r.left) / r.width) * 100).toFixed(1)}%`);
   }
@@ -157,9 +166,30 @@ export default function PackOpener({
 
   const next = useCallback(() => {
     if (phase !== "reveal") return;
+    // A face-down card is turned over first; the next tap sends it away.
+    if (!faceUp) return setFaceUp(true);
+    sfx.whoosh();
     if (shown + 1 >= cards.length) setPhase("binder");
-    else setShown((n) => n + 1);
-  }, [phase, shown, cards.length]);
+    else {
+      setFaceUp(false);
+      setShown((n) => n + 1);
+    }
+  }, [phase, shown, cards.length, faceUp]);
+
+  // Each new top card turns over on its own after a beat; the last one, the
+  // stamp card, waits a little longer and chimes.
+  useEffect(() => {
+    if (phase !== "reveal" || faceUp) return;
+    const last = cards[shown]?.kind === "stamps";
+    const id = window.setTimeout(() => {
+      setFaceUp(true);
+      if (last) {
+        sfx.chime();
+        buzz(30);
+      }
+    }, reduce ? 0 : last ? 700 : 380);
+    return () => window.clearTimeout(id);
+  }, [phase, shown, faceUp, cards, reduce]);
 
   useEffect(() => {
     if (phase !== "reveal") return;
@@ -175,6 +205,8 @@ export default function PackOpener({
 
   const replay = () => {
     setShown(0);
+    setFaceUp(false);
+    setTurned(false);
     setTear(0);
     setPhase("sealed");
   };
@@ -208,6 +240,18 @@ export default function PackOpener({
               {t.replay}
             </button>
           )}
+          <button
+            type="button"
+            className={styles.openerIcon}
+            onClick={() => {
+              setSound(!sound);
+              setSoundOn(!sound);
+            }}
+            aria-pressed={sound}
+            aria-label={sound ? t.soundOn : t.soundOff}
+          >
+            {sound ? <Volume2 aria-hidden="true" size={19} /> : <VolumeX aria-hidden="true" size={19} />}
+          </button>
           <button type="button" className={styles.openerIcon} onClick={onClose} aria-label={t.close}>
             <X aria-hidden="true" size={20} />
           </button>
@@ -216,6 +260,11 @@ export default function PackOpener({
 
       {(phase === "sealed" || phase === "torn") && (
         <div className={styles.stage}>
+          {turned && phase === "sealed" ? (
+            <div className={styles.turned}>
+              <PackModel cityId={cityId} lang={lang} t={back} flipped />
+            </div>
+          ) : (
           <div
             ref={packRef}
             className={styles.pack}
@@ -249,13 +298,35 @@ export default function PackOpener({
                 <span className={styles.tearHand} />
               </span>
             )}
+            {phase === "torn" && (
+              // The cards rising out of the open pack.
+              <span className={styles.rising} aria-hidden="true">
+                <i />
+                <i />
+                <i />
+              </span>
+            )}
           </div>
+          )}
           {phase === "sealed" && (
             <div className={styles.tearHelp}>
-              <p>{touch ? t.tearHint : t.tearHintMouse}</p>
-              <button type="button" className={styles.openerBtn} onClick={rip}>
-                {t.tearButton}
-              </button>
+              <p>{turned ? " " : touch ? t.tearHint : t.tearHintMouse}</p>
+              <span className={styles.tearButtons}>
+                <button type="button" className={styles.openerBtn} onClick={() => setTurned((v) => !v)} aria-pressed={turned}>
+                  <RotateCw aria-hidden="true" size={16} />
+                  {t.turn}
+                </button>
+                <button
+                  type="button"
+                  className={styles.openerBtn}
+                  onClick={() => {
+                    setTurned(false);
+                    rip();
+                  }}
+                >
+                  {t.tearButton}
+                </button>
+              </span>
             </div>
           )}
         </div>
@@ -300,7 +371,15 @@ export default function PackOpener({
                     }}
                     style={{ zIndex: 10 - depth }}
                   >
-                    <CardFace card={card} cityId={cityId} lang={lang} profile={profile} index={cards.indexOf(card) + 1} total={cards.length} t={t.faces} />
+                    {/* Face down until it turns: the cards under the top one always are. */}
+                    <span className={styles.cardFlip} data-up={(top && faceUp) || undefined}>
+                      <span className={styles.cardFlipBack}>
+                        <CardBack />
+                      </span>
+                      <span className={styles.cardFlipFront}>
+                        <CardFace card={card} cityId={cityId} lang={lang} profile={profile} index={cards.indexOf(card) + 1} total={cards.length} t={t.faces} />
+                      </span>
+                    </span>
                   </motion.div>
                 );
               })}

@@ -27,6 +27,7 @@ type ServiceKind = "police" | "hospital" | "fire_station" | "fuel";
 
 import type { OpenerText } from "@/components/xhep/packs/pack-opener";
 import type { DetailText } from "@/components/xhep/packs/card-detail";
+import type { BackText } from "@/components/xhep/packs/pack-model";
 
 type XhepDict = {
   meta: { title: string; description: string };
@@ -194,6 +195,9 @@ type XhepDict = {
   border: {
     title: string;
     intro: string;
+    openCard: string;
+    closeCard: string;
+    miniNote: string;
     crossing: string;
     direction: string;
     entry: string;
@@ -307,6 +311,14 @@ type XhepDict = {
     sealedLabel: (city: string) => string;
     openedLabel: (city: string, done: number, total: number) => string;
     stampsShort: (done: number, total: number) => string;
+    forYou: string;
+    featured: string;
+    quizCta: string;
+    flipLabel: (city: string) => string;
+    flipBack: string;
+    flipFront: string;
+    box: { title: string; sub: string; close: string };
+    back: BackText;
     opener: OpenerText;
     detail: DetailText;
   };
@@ -509,6 +521,9 @@ export const XHEP_DICT = {
     },
     time: { now: "Just now", minutesAgo: (minutes) => `${minutes} min ago` },
     border: {
+      openCard: "Open the full border card",
+      closeCard: "Close",
+      miniNote: "Official waits, every 10 minutes. Inside: report yours, help nearby, save offline.",
       title: "Check the wait. Pick your crossing. Leave calmer.",
       intro:
         "The four main crossings update every 10 minutes. Traveller reports appear only after their location confirms they are at the border.",
@@ -632,6 +647,20 @@ export const XHEP_DICT = {
       sealedLabel: (city) => `Open the ${city} pack`,
       openedLabel: (city, done, total) => `${city}: opened, ${done} of ${total} stamped`,
       stampsShort: (done, total) => `${done}/${total} stamps`,
+      forYou: "Picked for you",
+      featured: "Start here",
+      quizCta: "Answer a few questions, get your packs",
+      flipLabel: (city) => `Turn the ${city} pack over`,
+      flipBack: "Turn over",
+      flipFront: "Front",
+      box: { title: "All of Kosovo", sub: "7 cities · 70 cards", close: "Close the box" },
+      back: {
+        inside: "Inside",
+        contents: "10 cards: 7 places · 2 to fill · 1 stamp card",
+        places: "The places",
+        total: (h) => `About ${h} hours to see it all`,
+        open: "Open",
+      },
       opener: {
         close: "Close",
         tearHint: "Swipe across the top to tear it open",
@@ -641,6 +670,9 @@ export const XHEP_DICT = {
         skip: "Show all cards",
         binderTitle: (city) => `${city}: your cards`,
         replay: "Open again",
+        soundOn: "Sound on",
+        soundOff: "Sound off",
+        turn: "Turn it over",
         cardOf: (i, n) => `${i} / ${n}`,
         faces: {
         stampCard: "Stamp card",
@@ -691,9 +723,9 @@ export const XHEP_DICT = {
         storySaved: "Saved",
         send: {
           title: "Send it to 383",
-          intro: "We pick the best trips for the Kosova në xhep page. An editor reads every one first.",
+          intro: "Share your trip with other travellers. If an editor picks it, it appears on the Kosova në xhep page as a trip made with the 383ks.com travel guide. Nothing goes up without an editor reading it first.",
           signIn: "Sign in to send it",
-          consent: "383 may publish these photos and words. I'm in them or have the permission of everyone who is.",
+          consent: "I agree that 383ks.com may show these photos and words on the Kosova në xhep page, only to showcase trips made with its travel guide, never for ads or anything else. I'm in the photos or have permission from everyone who is. I can ask for them to be removed at any time.",
           send: "Send to 383",
           sending: "Sending…",
           sent: "Sent. An editor will look at it before anything is published.",
@@ -908,6 +940,9 @@ export const XHEP_DICT = {
     },
     time: { now: "Tani", minutesAgo: (minutes) => `${minutes} min më parë` },
     border: {
+      openCard: "Hap kartën e plotë të kufirit",
+      closeCard: "Mbyll",
+      miniNote: "Pritjet zyrtare, çdo 10 minuta. Brenda: raporto tënden, ndihmë afër, ruaje offline.",
       title: "Shiko pritjen. Zgjidh pikën. Nisu më i qetë.",
       intro:
         "Katër pikat kryesore përditësohen çdo 10 minuta. Raportet e udhëtarëve shfaqen vetëm pasi vendndodhja konfirmon se janë pranë kufirit.",
@@ -1031,6 +1066,20 @@ export const XHEP_DICT = {
       sealedLabel: (city) => `Hap paketën: ${city}`,
       openedLabel: (city, done, total) => `${city}: e hapur, ${done} nga ${total} të vulosura`,
       stampsShort: (done, total) => `${done}/${total} vula`,
+      forYou: "Zgjedhur për ty",
+      featured: "Nis këtu",
+      quizCta: "Përgjigju disa pyetjeve, merr paketat e tua",
+      flipLabel: (city) => `Ktheje paketën: ${city}`,
+      flipBack: "Ktheje",
+      flipFront: "Përpara",
+      box: { title: "Kosova e plotë", sub: "7 qytete · 70 karta", close: "Mbyll kutinë" },
+      back: {
+        inside: "Brenda",
+        contents: "10 karta: 7 vende · 2 për t'i mbushur · 1 kartë vulash",
+        places: "Vendet",
+        total: (h) => `Rreth ${h} orë për t'i parë të gjitha`,
+        open: "Hape",
+      },
       opener: {
         close: "Mbyll",
         tearHint: "Rrëshqit gishtin mbi majë për ta grisur",
@@ -1040,6 +1089,9 @@ export const XHEP_DICT = {
         skip: "Shfaqi të gjitha kartat",
         binderTitle: (city) => `${city}: kartat e tua`,
         replay: "Rihape",
+        soundOn: "Zëri i ndezur",
+        soundOff: "Zëri i fikur",
+        turn: "Ktheje",
         cardOf: (i, n) => `${i} / ${n}`,
         faces: {
         stampCard: "Karta e vulave",
@@ -1090,9 +1142,9 @@ export const XHEP_DICT = {
         storySaved: "U ruajt",
         send: {
           title: "Dërgoje te 383",
-          intro: "Udhëtimet më të bukura i vendosim në faqen Kosova në xhep. Një redaktor e lexon secilin më parë.",
+          intro: "Ndaje udhëtimin me udhëtarët e tjerë. Nëse e zgjedh një redaktor, shfaqet në faqen Kosova në xhep si udhëtim i bërë me udhërrëfyesin e 383ks.com. Asgjë nuk publikohet pa e lexuar një redaktor më parë.",
           signIn: "Hyr për ta dërguar",
-          consent: "383 mund t'i publikojë këto foto dhe fjalë. Jam unë në to ose kam lejen e të gjithëve që janë.",
+          consent: "Pajtohem që 383ks.com t'i shfaqë këto foto dhe fjalë në faqen Kosova në xhep, vetëm për të treguar udhëtime të bëra me udhërrëfyesin e saj, kurrë për reklama apo diçka tjetër. Jam unë në foto ose kam lejen e të gjithëve që janë. Mund të kërkoj t'i hiqen në çdo kohë.",
           send: "Dërgoje te 383",
           sending: "Po dërgohet…",
           sent: "U dërgua. Një redaktor e shikon para se të publikohet diçka.",

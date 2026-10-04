@@ -1,26 +1,24 @@
 "use client";
 
 import {
+  X,
   Ambulance,
   ArrowDownToLine,
   ArrowRight,
   Building2,
   CarFront,
   ChevronDown,
-  CircleGauge,
   Clock3,
   Flame,
   Fuel,
   LocateFixed,
-  MapPinned,
   Navigation,
   Phone,
   Send,
   ShieldCheck,
   Users,
 } from "lucide-react";
-import { useCallback, useEffect, useState, type ComponentType, type CSSProperties } from "react";
-import KosovoFieldMap from "./kosovo-field-map";
+import { useCallback, useEffect, useRef, useState, type ComponentType, type CSSProperties } from "react";
 import {
   BORDER_CROSSINGS,
   EMERGENCY_NUMBERS,
@@ -152,10 +150,10 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
   const d = xhepDict(lang);
   const t = d.hero;
   const countryOf = (id: BorderCrossingId) => d.common.countries[id];
-  const [mode, setMode] = useState<"border" | "city">("border");
   const [borderPayload, setBorderPayload] = useState<BorderPayload | null>(null);
-  const [borderLoading, setBorderLoading] = useState(true);
+  const [, setBorderLoading] = useState(true);
   const [selectedCrossing, setSelectedCrossing] = useState<BorderCrossingId>("vermice-morine");
+  const borderSheet = useRef<HTMLDialogElement>(null);
   const [direction, setDirection] = useState<BorderDirection>("entry");
   const [nearby, setNearby] = useState<NearbyPayload | null>(null);
   const [locationMessage, setLocationMessage] = useState("");
@@ -331,7 +329,7 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
       <a className={styles.skipLink} href="#visit-tools">{t.skipToTools}</a>
       <a className={styles.floatingEmergency} href="tel:112"><Phone aria-hidden="true" size={18} /><span>{t.helpNow}</span><strong>112</strong></a>
 
-      <section className={styles.visitHero} aria-labelledby="visit-v2-title">
+      <section className={styles.visitHero} data-compact aria-labelledby="visit-v2-title">
         <div className={styles.heroCopy}>
           <LangToggle lang={lang} />
           <div className="visit-dardani">
@@ -340,22 +338,13 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
           </div>
           <h1 id="visit-v2-title"><span>{t.titleLead}</span> {t.titleRest}</h1>
           <p className={styles.heroLead}>{t.lead}</p>
-          <a className={styles.heroEmergency} href="tel:112"><Phone aria-hidden="true" size={20} />{t.emergency}</a>
-          <div className={styles.modeSwitch} aria-label={t.modeLabel}>
-            <button className={mode === "border" ? styles.modeActive : ""} onClick={() => { setMode("border"); document.getElementById("border-card")?.scrollIntoView({ behavior: "smooth", block: "start" }); }}><CircleGauge aria-hidden="true" size={20} /><span><strong>{t.borderMode}</strong><small>{t.borderModeHint}</small></span><ArrowRight aria-hidden="true" size={17} /></button>
-            <button className={mode === "city" ? styles.modeActive : ""} onClick={() => { setMode("city"); document.getElementById("city-card")?.scrollIntoView({ behavior: "smooth", block: "start" }); }}><MapPinned aria-hidden="true" size={20} /><span><strong>{t.cityMode}</strong><small>{t.cityModeHint}</small></span><ArrowRight aria-hidden="true" size={17} /></button>
-          </div>
           <p className={styles.privacyLine}><ShieldCheck aria-hidden="true" size={15} />{t.privacy}</p>
         </div>
-        <div className={styles.heroMap}><KosovoFieldMap lang={lang} /></div>
-        <div className={styles.heroUtilityPreview}>
-          <div><span>{t.waitsTitle}</span><strong>{borderLoading ? t.refreshing : t.autoRefresh}</strong></div>
-          {BORDER_CROSSINGS.map((crossing) => {
-            const wait = borderPayload?.official.find((item) => item.crossingId === crossing.id);
-            const minutes = wait ? Math.max(wait.entry.max, wait.exit.max) : 0;
-            return <span key={crossing.id}><b>{crossing.name}</b><WaitMeter minutes={wait ? minutes : null} d={d} /><em>{wait ? `${minutes} min` : t.noData}</em></span>;
-          })}
-        </div>
+      </section>
+
+      {/* The packs are the front of the page. */}
+      <section className={styles.citySection} id="city-card" aria-label={d.city.title}>
+        <PackShelf lang={lang} focusCity={focusCity} />
       </section>
 
       <XhepCompanion lang={lang} />
@@ -366,7 +355,45 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
           <p>{d.border.intro}</p>
         </div>
 
-        <div className={styles.utilityLayout} id="border-card">
+        <article className={styles.miniBorder} id="border-card">
+          <header>
+            <span className={styles.miniBorderBadge}><CarFront aria-hidden="true" size={18} /></span>
+            <span><b>{t.borderMode}</b><small>{direction === "entry" ? d.border.entry : d.border.exit}</small></span>
+            <span className={styles.miniBorder383}>383</span>
+          </header>
+          <ul>
+            {BORDER_CROSSINGS.map((crossing) => {
+              const current = borderPayload?.official.find((item) => item.crossingId === crossing.id);
+              const range = direction === "entry" ? current?.entry : current?.exit;
+              return (
+                <li key={crossing.id}>
+                  <span><b>{crossing.name}</b><small>{countryOf(crossing.id)}</small></span>
+                  <WaitMeter minutes={range ? range.max : null} d={d} />
+                  <strong>{range ? rangeLabel(range) : t.noData}</strong>
+                </li>
+              );
+            })}
+          </ul>
+          <p>{d.border.miniNote}</p>
+          <footer>
+            <a href="tel:112" className={styles.miniBorder112}><Phone aria-hidden="true" size={16} />112</a>
+            <button type="button" onClick={() => borderSheet.current?.showModal()}>{d.border.openCard}<ArrowRight aria-hidden="true" size={16} /></button>
+          </footer>
+        </article>
+
+        <dialog
+          ref={borderSheet}
+          className={styles.borderSheet}
+          aria-labelledby="border-card-title"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) e.currentTarget.close();
+          }}
+        >
+          <div className={styles.borderSheetHead}>
+            <b>{t.borderMode}</b>
+            <button type="button" onClick={() => borderSheet.current?.close()} aria-label={d.border.closeCard}><X aria-hidden="true" size={20} /></button>
+          </div>
+        <div className={styles.utilityLayout}>
           <div className={styles.utilityControls}>
             <label>{d.border.crossing}<select value={selectedCrossing} onChange={(event) => { setSelectedCrossing(event.target.value as BorderCrossingId); setReportMessage(""); }}>{BORDER_CROSSINGS.map((crossing) => <option value={crossing.id} key={crossing.id}>{crossing.name} - {countryOf(crossing.id)}</option>)}</select><ChevronDown aria-hidden="true" size={16} /></label>
             <fieldset><legend>{d.border.direction}</legend><button className={direction === "entry" ? styles.controlActive : ""} onClick={() => setDirection("entry")}>{d.border.entry}</button><button className={direction === "exit" ? styles.controlActive : ""} onClick={() => setDirection("exit")}>{d.border.exit}</button></fieldset>
@@ -436,11 +463,9 @@ export default function VisitV2Experience({ lang = "en" }: { lang?: XhepLang }) 
           </article>
           <button className={styles.downloadUtility} disabled={exportingUtility} onClick={() => void exportUtility()}><ArrowDownToLine aria-hidden="true" size={18} />{exportingUtility ? d.border.downloading : d.border.download} <span>{d.border.downloadHint}</span></button>
         </div>
+        </dialog>
       </section>
 
-      <section className={styles.citySection} id="city-card" aria-label={d.city.title}>
-        <PackShelf lang={lang} focusCity={focusCity} />
-      </section>
     </main>
   );
 }

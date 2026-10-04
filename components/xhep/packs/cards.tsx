@@ -160,12 +160,46 @@ function MuralWall({ cityId, empty }: { cityId: string; empty: string }) {
   );
 }
 
-function Frame({ cityId, kind, children, label }: { cityId: string; kind: string; children: React.ReactNode; label: string }) {
+/**
+ * A place card's family, from its category: each family has its own frame,
+ * like the types in a trading-card game, so a pack is a mix of colours.
+ */
+const FAMILY: Record<string, string> = {
+  History: "history",
+  Heritage: "heritage",
+  Architecture: "architecture",
+  Culture: "culture",
+  Art: "art",
+  Nature: "nature",
+  Waterfall: "water",
+  Mountain: "mountain",
+  Geology: "mountain",
+  "Day trip": "trip",
+  View: "view",
+  City: "city",
+  Centre: "city",
+  Walk: "walk",
+};
+
+/** The back every card shares: what you see before it turns over. */
+export function CardBack() {
+  return (
+    <span className={styles.cardBack} aria-hidden="true">
+      <span className={styles.cardBackMark}>
+        <b>383</b>
+        <small>Kosova në xhep</small>
+      </span>
+    </span>
+  );
+}
+
+function Frame({ cityId, kind, children, label, family }: { cityId: string; kind: string; children: React.ReactNode; label: string; family?: string }) {
   const art = PACK_ART[cityId as keyof typeof PACK_ART];
   return (
     <article
       className={styles.card}
       data-kind={kind}
+      data-family={family}
       aria-label={label}
       style={{ "--accent": art.accent, "--ink": art.ink, "--crimp": art.crimp } as React.CSSProperties}
     >
@@ -203,7 +237,7 @@ export function CardFace({
     const local = localizedPlace(cityId, card.place, lang);
     const stamp = stampState(profile, cityId).places.find((p) => p.place.id === card.place.id)?.stamp ?? null;
     return (
-      <Frame cityId={cityId} kind="place" label={card.place.name}>
+      <Frame cityId={cityId} kind="place" label={card.place.name} family={FAMILY[card.place.category.en] ?? "city"}>
         <span className={styles.cardTop}>
           {number}
           <span className={styles.cardCat}>{local.category}</span>

@@ -26,6 +26,7 @@ import { CardFace, cityName, placePhoto, Scene, type PackCard } from "./cards";
 import SendTo383, { type SendText } from "./send-to-383";
 import { useXhepProfile, type XhepProfile } from "./use-profile";
 import styles from "./detail.module.css";
+import * as sfx from "@/lib/xhep/sound";
 
 export type DetailText = {
   close: string;
@@ -121,6 +122,7 @@ function StampButtons({ placeId, profile, t, onStamped }: { placeId: string; pro
     try {
       navigator.vibrate?.([12, 40, 22]);
     } catch {}
+    sfx.thump();
     track("xhep_stamp", { city: placeId.split("-")[0], kind: "gold" });
     onStamped(placeId);
   }
@@ -130,6 +132,7 @@ function StampButtons({ placeId, profile, t, onStamped }: { placeId: string; pro
     try {
       navigator.vibrate?.(14);
     } catch {}
+    sfx.thump();
     track("xhep_stamp", { city: placeId.split("-")[0], kind: "hand" });
     onStamped(placeId);
   }
@@ -231,6 +234,12 @@ function StampDetail({ cityId, lang, profile, t }: { cityId: string; lang: XhepL
   const [picked, setPicked] = useState<string | null>(null);
   const state = stampState(profile, cityId);
   const city = cityName(cityId);
+  // The moment the last place is stamped, the finished picture chimes once.
+  const wasComplete = useRef(state.complete);
+  useEffect(() => {
+    if (state.complete && !wasComplete.current) window.setTimeout(() => sfx.chime(), 400);
+    wasComplete.current = state.complete;
+  }, [state.complete]);
   const url = profile ? tripUrl(profile, lang) : null;
   return (
     <div className={styles.stamps}>
@@ -335,7 +344,7 @@ function MuralDetail({ cityId, t, signedStory }: { cityId: string; t: DetailText
           </button>
         )}
       </div>
-      <input ref={input} type="file" accept="image/*" multiple hidden onChange={(e) => { void add(e.currentTarget.files); e.currentTarget.value = ""; }} />
+      <input ref={input} type="file" accept="image/*,.heic,.heif" multiple hidden onChange={(e) => { void add(e.currentTarget.files); e.currentTarget.value = ""; }} />
       <p className={styles.progress}>{t.muralCount(photos.length, MURAL_MAX)}</p>
       {error && <p className={styles.note} role="status">{error}</p>}
       <SendTo383 cityId={cityId} photos={photos} story={signedStory} t={t.send} />
