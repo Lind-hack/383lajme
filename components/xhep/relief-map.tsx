@@ -36,7 +36,7 @@ const MEDAL_FOCUS: Record<string, string> = {
 };
 
 /** Labels left or right of the pin, so neighbours don't collide. */
-const LABEL_SIDE: Record<string, "left" | "right"> = { peje: "right", gjakove: "left", prizren: "left", mitrovice: "right", prishtine: "right", gjilan: "right", ferizaj: "right" };
+const LABEL_SIDE: Record<string, "left" | "right"> = { peje: "right", gjakove: "left", prizren: "left", mitrovice: "right", prishtine: "right", gjilan: "right", ferizaj: "left" };
 /** Crossing labels on the side away from the nearest town label. */
 const CROSSING_SIDE: Record<string, "left" | "right"> = { kulle: "left", merdare: "right", "hani-i-elezit": "right", "vermice-morine": "left" };
 
@@ -86,6 +86,7 @@ export default function ReliefMap({
             key={id}
             type="button"
             className={styles.city}
+            aria-label={c.name}
             data-side={LABEL_SIDE[id]}
             style={{ ...pct(c.lon, c.lat), "--pin": art.accent } as React.CSSProperties}
             onClick={() => onCity?.(id)}
