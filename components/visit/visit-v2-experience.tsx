@@ -36,6 +36,7 @@ import type { LiveFuel } from "@/components/xhep/help";
 import PackShelf from "@/components/xhep/packs/pack-shelf";
 import ReliefMap from "@/components/xhep/relief-map";
 import TripHelp from "@/components/xhep/trip-help";
+import Together from "@/components/xhep/rooms/together";
 import BorderCard, { type NearbyResult } from "./border-card";
 import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
 
@@ -147,6 +148,7 @@ export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?:
   const borderSheet = useRef<HTMLDialogElement>(null);
   const [direction, setDirection] = useState<BorderDirection>("entry");
   const [nearby, setNearby] = useState<NearbyPayload | null>(null);
+  const [here, setHere] = useState<BrowserLocation | null>(null);
   const [locationMessage, setLocationMessage] = useState("");
   const [locating, setLocating] = useState(false);
   const [locationProgress, setLocationProgress] = useState(0);
@@ -228,6 +230,7 @@ export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?:
     setLocationMessage("");
     try {
       const coordinates = await requestLocation();
+      setHere(coordinates);
       setLocationProgress(42);
       setLocationStage(d.locate.confirmed);
       setLocationProgress(58);
@@ -358,6 +361,9 @@ export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?:
         <PackShelf lang={lang} focusCity={focusCity} />
       </section>
 
+      {/* Share the trip, and travel it together in a trip room. */}
+      <Together lang={lang} />
+
       {/* The border, the card most visitors need first on the road. */}
       <section className={styles.borderBand} aria-labelledby="border-band-title">
         <div className={styles.borderBandCopy}>
@@ -380,6 +386,8 @@ export default function VisitV2Experience({ lang = "en", fuel = null }: { lang?:
               locationStage={locationStage}
               locationMessage={locationMessage}
               onLocate={() => void locateServices()}
+              locationProgress={locationProgress}
+              here={here}
               nearby={nearby as NearbyResult | null}
               reportOpen={reportOpen}
               setReportOpen={setReportOpen}

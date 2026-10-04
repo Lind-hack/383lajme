@@ -30,7 +30,7 @@ const CROSSINGS = [
 ] as const;
 
 const INTERESTS: Interest[] = ["nature", "history", "food", "coffee", "nightlife", "skiing"];
-const STEPS = 6;
+const STEPS = 5;
 
 export default function Quiz({
   lang,
@@ -58,12 +58,9 @@ export default function Quiz({
   const suggestions = useMemo(() => suggestCities(a.interests) as CityId[], [a.interests]);
 
   const next = () => {
-    if (step === 4 && a.cities.length === 0) {
-      // Pre-fill the city step from the interests just chosen.
-      set("cities", suggestions.slice(0, a.days >= 7 ? 3 : 2));
-    }
     if (step < STEPS) setStep(step + 1);
-    else onDone(a);
+    // No city question: the three packs are recommended from the interests.
+    else onDone({ ...a, cities: suggestions.slice(0, 3) });
   };
   const toggle = <T extends string>(list: T[], value: T, max: number) =>
     list.includes(value) ? list.filter((v) => v !== value) : list.length < max ? [...list, value] : list;
@@ -152,21 +149,6 @@ export default function Quiz({
       )}
 
       {step === 5 && (
-        <fieldset className={styles.quizStep}>
-          <legend>{t.citiesTitle}</legend>
-          <p className={styles.quizHint}>{t.citiesHint}</p>
-          <div className={styles.chips}>
-            {suggestions.map((id) => (
-              <button type="button" key={id} className={a.cities.includes(id) ? styles.chipOn : styles.chip} aria-pressed={a.cities.includes(id)} onClick={() => set("cities", toggle(a.cities, id, 6))}>
-                {a.cities.includes(id) && <Check aria-hidden="true" size={14} />}
-                {CITY_NAMES[id]}
-              </button>
-            ))}
-          </div>
-        </fieldset>
-      )}
-
-      {step === 6 && (
         <fieldset className={styles.quizStep}>
           <legend>{t.budgetTitle}</legend>
           <div className={styles.choiceGrid}>

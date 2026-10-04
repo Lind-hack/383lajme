@@ -14,6 +14,7 @@ import Footer from "@/components/footer";
 import ReagimiDites from "@/components/reagimi-dites";
 import BotaHome from "@/components/home/bota-home";
 import HomeVisitPreview from "@/components/visit/home-visit-preview";
+import XhepBanner from "@/components/visit/xhep-banner";
 import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
@@ -313,6 +314,9 @@ export default async function HomePage() {
           </div>
         </div>
       )}
+
+      {/* Phones: Kosova në xhep right after the lead story. */}
+      <XhepBanner />
 
       {/* From here down: news, then a module, then news. Each news section is
           filled from the page's ledger (see above), so nothing repeats, and the

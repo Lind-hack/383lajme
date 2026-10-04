@@ -335,7 +335,7 @@
 }
 
 @media (max-width: 820px) {
-  .floatingEmergency { right: 12px; bottom: 12px; }
+  .floatingEmergency { right: 12px; bottom: calc(12px + var(--tabbar-h, 0px)); }
   .visitHero { display: flex; flex-direction: column; min-height: 0; }
   .heroCopy { padding: 58px 24px 24px; }
   .heroCopy h1 { font-size: clamp(50px, 13vw, 72px); }
@@ -429,6 +429,8 @@
 
 /* ── The border card, small like the rest ─────────────────────────────── */
 .borderSection:has(.miniBorder) { padding-top: 64px; padding-bottom: 72px; }
+/* Only the closed sheet lives here now: no space of its own, so the footer follows the trip help. */
+.borderSection:has(> .borderSheet:only-child) { padding: 0; background: none; }
 .miniBorder {
   position: relative;
   display: grid;

@@ -86,7 +86,10 @@
 .help ul { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; animation: help-in 360ms cubic-bezier(0.23, 1, 0.32, 1) both; }
 @keyframes help-in { from { opacity: 0; transform: translateY(8px); } }
 .service { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: center; gap: 12px; padding: 8px; border-radius: 16px; background: #fff; color: inherit; text-decoration: none; }
-.service > span:last-child { display: grid; gap: 1px; min-width: 0; }
+.service:has(.eta) { grid-template-columns: 64px minmax(0, 1fr) auto; padding-right: 14px; }
+.help li { border-radius: 16px; background: #fff; }
+.help li > .service { background: none; }
+.service > span:nth-child(2) { display: grid; gap: 1px; min-width: 0; }
 .service small { color: #5b6b80; font-size: 11px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
 .service b { overflow: hidden; font-size: 14px; text-overflow: ellipsis; white-space: nowrap; }
 .service em { color: #13233a; font-size: 12.5px; font-style: normal; font-weight: 700; }
@@ -102,3 +105,54 @@
 }
 .footer { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; border-top: 1px solid rgba(19, 35, 58, 0.12); }
 .footer .more { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-top: 0; }
+
+/* ── Help near you: the card's headline feature ─────────────────────── */
+.helpHero {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  margin-top: 4px;
+  padding: 16px 18px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ff5a36, #d9361a);
+  color: #fff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(217, 54, 26, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.helpHero:active { transform: scale(0.98); }
+.helpHero:disabled { cursor: progress; }
+@media (hover: hover) and (pointer: fine) { .helpHero:hover { transform: translateY(-2px); box-shadow: 0 18px 36px rgba(217, 54, 26, 0.38); } }
+.helpHeroText { display: grid; gap: 3px; }
+.helpHeroText b { font-size: 18px; font-weight: 900; letter-spacing: -0.01em; }
+.helpHeroText small { color: rgba(255, 255, 255, 0.86); font-size: 13px; line-height: 1.35; }
+.radar { position: relative; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: rgba(255, 255, 255, 0.18); }
+.radar::before, .radar::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.55); animation: radar 2.4s ease-out infinite; }
+.radar::after { animation-delay: 1.2s; }
+.helpHero[data-busy] .radar::before, .helpHero[data-busy] .radar::after { animation-duration: 1.1s; }
+@keyframes radar { from { transform: scale(1); opacity: 0.9; } to { transform: scale(1.9); opacity: 0; } }
+.helpProgress { position: absolute; left: 0; bottom: 0; height: 4px; background: #fff3c4; transition: width 400ms ease; }
+
+.eta { display: grid; justify-items: end; align-self: center; color: #13233a; font-size: 26px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+.eta small { color: #6b625b; font-size: 11px; font-weight: 800; }
+.serviceActions { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 12px 12px 12px; }
+.serviceActions a { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 14px; border-radius: 999px; background: #13233a; color: #fff; font-size: 13px; font-weight: 800; text-decoration: none; }
+.serviceActions a[data-call] { background: #c62d1f; }
+
+.whereAmI { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; margin-top: 12px; padding: 14px; border-radius: 18px; background: #13233a; color: #fff; }
+.whereIcon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: #c62d1f; }
+.whereAmI > div { display: grid; gap: 4px; }
+.whereAmI b { font-size: 15px; font-weight: 900; }
+.coords { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 20px; font-weight: 800; letter-spacing: 0.01em; }
+.whereAmI small { color: rgba(255, 255, 255, 0.75); font-size: 12.5px; }
+.whereActions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.whereActions button, .whereActions a { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 13px; border: 0; border-radius: 999px; background: rgba(255, 255, 255, 0.14); color: #fff; font: inherit; font-size: 13px; font-weight: 800; text-decoration: none; cursor: pointer; }
+.whereActions a { background: #c62d1f; }
+@media (prefers-reduced-motion: reduce) { .radar::before, .radar::after { animation: none; opacity: 0; } }

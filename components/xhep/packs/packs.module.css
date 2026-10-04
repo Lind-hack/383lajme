@@ -23,6 +23,7 @@
 .showcaseSlot { position: relative; min-width: 0; }
 .shelfItem { position: relative; display: grid; justify-items: center; gap: 8px; }
 .shelfPack {
+  position: relative;
   display: block;
   width: 100%;
   padding: 0;
@@ -40,24 +41,44 @@
 .shelfMeta b { font-size: 16px; font-weight: 800; }
 .shelfMeta small { color: #6b625b; font-size: 12.5px; font-weight: 700; }
 .shelfMeta small[data-open] { padding: 2px 9px; border-radius: 999px; background: #111; color: #fff; }
-.flipButton {
+.openButton {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   min-height: 36px;
-  padding: 0 12px;
-  border: 1.5px solid #e2d8cb;
+  padding: 0 18px;
+  border: 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
-  color: #3a2f28;
+  background: #ff4422;
+  color: #fff;
   font: inherit;
-  font-size: 13px;
-  font-weight: 800;
+  font-size: 13.5px;
+  font-weight: 900;
   cursor: pointer;
+  box-shadow: 0 6px 14px rgba(255, 68, 34, 0.3);
+  transition: transform 160ms ease;
 }
-.flipButton::before { content: ""; position: absolute; inset: -6px 0; }
-.flipButton { position: relative; }
-.flipButton:focus-visible { outline: 3px solid #ff4422; outline-offset: 2px; }
+.openButton::before { content: ""; position: absolute; inset: -6px 0; }
+.openButton:active { transform: scale(0.96); }
+.openButton:focus-visible { outline: 3px solid #ff4422; outline-offset: 2px; }
+.shelfItem[data-locked] .openButton { background: #2a2420; box-shadow: none; }
+.shelfItem[data-locked] .shelfPack { filter: saturate(0.75) brightness(0.96); }
+.packLock {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(20, 16, 12, 0.78);
+  color: #fff;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35), inset 0 0 0 2px rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+}
 .shelfItem[data-focus] .shelfPack { animation: shelf-focus 1.6s ease-in-out 2; }
 @keyframes shelf-focus { 50% { transform: translateY(-12px) scale(1.05); } }
 
@@ -145,7 +166,8 @@
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
 }
 .boxSide { display: none; }
-.box[data-open] .boxLid { transform: translateY(-10px) rotateX(70deg); }
+/* The lid lifts off and tilts, so the 383 stays readable. */
+.box[data-open] .boxLid { transform: translate(8px, -14px) rotate(-12deg); }
 .box[data-open] .boxFront img { transform: translateY(-30%) rotate(calc((var(--i) - 1) * 14deg)); }
 @media (hover: hover) and (pointer: fine) {
   .box:hover .boxFront img { transform: translateY(-14%) rotate(calc((var(--i) - 1) * 12deg)); }
@@ -169,7 +191,7 @@
   .forYouPacks { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
   .shelfHead h2 { font-size: 34px; }
   .shelfHead > p:last-child { display: none; }
-  .flipButton { min-height: 32px; padding: 0 10px; font-size: 12px; }
+  .openButton { min-height: 34px; padding: 0 14px; font-size: 12.5px; }
   .boxGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 10px; }
   .shelfMeta b { font-size: 14px; }
 }

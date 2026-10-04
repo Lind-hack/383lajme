@@ -317,3 +317,25 @@
   .reward, .reward *, .reward *::after, .confetti i, .sceneFrame[data-celebrate] { animation: none !important; }
   .confetti { display: none; }
 }
+
+/* Share the trip from the painting card: big, warm, impossible to miss. */
+.shareTrip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  margin-top: 4px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 999px;
+  background: #ff4422;
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(255, 68, 34, 0.3);
+}
+.shareTrip:active { transform: scale(0.97); }
+.shareTrip:disabled { opacity: 0.6; }

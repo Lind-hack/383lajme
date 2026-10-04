@@ -1,16 +1,16 @@
 "use client";
 
-import { AlertTriangle, CalendarDays, Coins, ExternalLink, Languages, Maximize2, Plane, Route, X } from "lucide-react";
+import { AlertTriangle, CalendarDays, Coins, ExternalLink, Languages, ListChecks, Maximize2, Plane, Route, X } from "lucide-react";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { CHECKED_AT, PHRASES, PRICES, ROUTE_PLACES, arrivalItems, entryFromCrossing, eventsFor, pricesAreStale, routeWarnings } from "@/lib/xhep/help.mjs";
+import { CHECKED_AT, ESSENTIALS, PHRASES, PRICES, ROUTE_PLACES, arrivalItems, entryFromCrossing, eventsFor, pricesAreStale, routeWarnings } from "@/lib/xhep/help.mjs";
 import type { readProfile } from "@/lib/xhep/profile.mjs";
 import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
 import DardaniImage from "@/components/dardani/dardani-image";
-import { BusTimeline, DateTile, PriceTiles, RoadRules } from "./help-visuals";
+import { BusTimeline, DateTile, EssentialTiles, PriceTiles, RoadRules } from "./help-visuals";
 import styles from "./xhep.module.css";
 
 type Profile = ReturnType<typeof readProfile>;
-type Tab = "route" | "arrival" | "prices" | "phrases" | "events";
+type Tab = "essentials" | "route" | "arrival" | "prices" | "phrases" | "events";
 type Source = { name: string; url: string };
 
 /** Curated items may carry a second source; the JS data has no static type for it. */
@@ -82,14 +82,14 @@ const span = (r: { min: number; max: number }) => (r.min === r.max ? euro(r.min)
 export default function XhepHelp({ lang, profile, fuel = null }: { lang: XhepLang; profile: Profile; fuel?: LiveFuel | null }) {
   const t = xhepDict(lang).help;
   const tabsId = useId();
-  const [tab, setTab] = useState<Tab>("route");
+  const [tab, setTab] = useState<Tab>("essentials");
   const [entry, setEntry] = useState<string>(() => entryFromCrossing(profile?.crossing ?? null, profile?.arrival ?? "fly"));
   const [exit, setExit] = useState<string>(() => entryFromCrossing(profile?.crossing ?? null, profile?.arrival ?? "fly"));
   const [sheet, setSheet] = useState<{ big: string; small: string } | null>(null);
-  const [custom, setCustom] = useState("");
   const closeSheet = useCallback(() => setSheet(null), []);
 
   const tabs: { id: Tab; icon: typeof Route }[] = [
+    { id: "essentials", icon: ListChecks },
     { id: "route", icon: Route },
     { id: "arrival", icon: Plane },
     { id: "prices", icon: Coins },
@@ -108,7 +108,7 @@ export default function XhepHelp({ lang, profile, fuel = null }: { lang: XhepLan
   return (
     <section className={styles.help} aria-labelledby={`${tabsId}-title`}>
       <div className={styles.helpHead}>
-        <DardaniImage key={tab} name={({ route: "diaspora", arrival: "airport", prices: "exchange", phrases: "explaining", events: "weather" } as const)[tab]} decorative className={styles.helpDardani} />
+        <DardaniImage key={tab} name={({ essentials: "reading", route: "diaspora", arrival: "airport", prices: "exchange", phrases: "explaining", events: "weather" } as const)[tab]} decorative className={styles.helpDardani} />
         <h3 id={`${tabsId}-title`}>{t.title}</h3>
         <p>
           {t.intro} {profile ? t.personal : ""}
@@ -133,6 +133,21 @@ export default function XhepHelp({ lang, profile, fuel = null }: { lang: XhepLan
       </div>
 
       <div className={styles.helpPanel} role="tabpanel" id={`${tabsId}-panel`} aria-labelledby={`${tabsId}-tab-${tab}`}>
+        {tab === "essentials" && (
+          <>
+            <p className={styles.helpLead}>{t.essentialsIntro}</p>
+            <EssentialTiles
+              items={ESSENTIALS.map((item) => ({
+                id: item.id,
+                value: typeof item.value === "string" ? item.value : item.value[lang],
+                title: item.title[lang],
+                body: item.body[lang],
+                source: <SourceLine source={item.source} extra={extraOf(item)} lang={lang} />,
+              }))}
+            />
+          </>
+        )}
+
         {tab === "route" && (
           <>
             <div className={styles.routePickers}>
@@ -218,22 +233,6 @@ export default function XhepHelp({ lang, profile, fuel = null }: { lang: XhepLan
                 </button>
               ))}
             </div>
-            <form
-              className={styles.customPhrase}
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (custom.trim()) setSheet({ big: custom.trim(), small: "" });
-              }}
-            >
-              <label className={styles.field}>
-                {t.customLabel}
-                <input type="text" maxLength={120} value={custom} placeholder={t.customPlaceholder} onChange={(e) => setCustom(e.target.value)} />
-              </label>
-              <button type="submit" className={styles.secondaryButton} disabled={!custom.trim()}>
-                <Maximize2 aria-hidden="true" size={15} />
-                {t.customShow}
-              </button>
-            </form>
           </>
         )}
 

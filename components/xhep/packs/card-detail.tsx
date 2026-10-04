@@ -25,6 +25,7 @@ import type { XhepLang } from "@/lib/xhep/i18n";
 import { CardFace, cityName, placePhoto, Scene, type PackCard } from "./cards";
 import SendTo383, { type SendText } from "./send-to-383";
 import PuzzleReward, { type RewardText } from "./puzzle-reward";
+import ShareTripButton from "../rooms/share-trip-button";
 import { useXhepProfile, type XhepProfile } from "./use-profile";
 import styles from "./detail.module.css";
 import * as sfx from "@/lib/xhep/sound";
@@ -269,6 +270,8 @@ function StampDetail({ cityId, lang, profile, t }: { cityId: string; lang: XhepL
         <p className={styles.progress} aria-live="polite">
           {state.complete ? t.complete(city) : t.stampsDone(state.done, state.total)}
         </p>
+        {/* Share the trip: the story card with every painting and a QR for friends. */}
+        <ShareTripButton lang={lang} profile={profile} className={styles.shareTrip} from="stamp_card" />
       </div>
       {state.complete && <PuzzleReward cityId={cityId} city={city} justCompleted={justCompleted} t={t.reward} />}
       <ol className={styles.placeList}>

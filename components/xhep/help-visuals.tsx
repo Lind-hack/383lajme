@@ -5,8 +5,8 @@
 // tiles, and calendar tiles for dates. Every number here comes from
 // lib/xhep/help.mjs, which carries its sources.
 
-import { Beer, Bus, CarTaxiFront, Coffee, Fuel, GlassWater, Mountain, Plane, ShieldCheck, Triangle, UtensilsCrossed, Wine } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Beer, Bus, CarTaxiFront, Clock, Coffee, Fuel, GlassWater, HandCoins, Lightbulb, Mountain, Phone, Plane, Plug, ShieldCheck, Siren, Snowflake, Triangle, UtensilsCrossed, Wallet, Wine } from "lucide-react";
+import { useEffect, useState, type ReactNode } from "react";
 import type { XhepLang } from "@/lib/xhep/i18n";
 import styles from "./help-visuals.module.css";
 
@@ -139,5 +139,38 @@ export function DateTile({ lang, month, day }: { lang: XhepLang; month: number; 
       <small>{MONTHS[lang][month - 1]}</small>
       <b>{day}</b>
     </span>
+  );
+}
+
+const ESSENTIAL_ICONS: Record<string, typeof Siren> = {
+  emergency: Siren,
+  lights: Lightbulb,
+  winter: Snowflake,
+  cash: Wallet,
+  tipping: HandCoins,
+  power: Plug,
+  time: Clock,
+  phone: Phone,
+};
+
+/** Day-one facts as tiles: an icon, the one thing to remember, then the detail and its source. */
+export function EssentialTiles({ items }: { items: { id: string; value: string; title: string; body: string; source: ReactNode }[] }) {
+  return (
+    <ul className={styles.essentials}>
+      {items.map((item) => {
+        const Icon = ESSENTIAL_ICONS[item.id] ?? Siren;
+        return (
+          <li key={item.id} data-id={item.id}>
+            <span className={styles.essentialTop}>
+              <Icon aria-hidden="true" size={20} />
+              <b>{item.value}</b>
+            </span>
+            <h4>{item.title}</h4>
+            <p>{item.body}</p>
+            {item.source}
+          </li>
+        );
+      })}
+    </ul>
   );
 }

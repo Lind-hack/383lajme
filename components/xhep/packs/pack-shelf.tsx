@@ -5,7 +5,7 @@
 //   What they are — three points: seven places with a guide, two cards for
 //                   your own photos and story, one painting you complete by
 //                   visiting.
-//   Pick yours    — before the questions: example packs and a start button;
+//   Pick yours    — before the questions: locked example packs and a start button;
 //                   the six questions run right here; after them, three packs
 //                   picked from the answers (chosen cities first, then the
 //                   cities the interests suggest).
@@ -15,7 +15,7 @@
 // A tap on a pack opens it (pack-opener); a card opens in card-detail.
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, BookOpen, Images, MapPinned, Palette, Pencil, RotateCw, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, Images, Lock, MapPinned, Palette, Pencil, Sparkles } from "lucide-react";
 import { PACK_ART, PACK_CITIES, packCards, stampState } from "@/lib/xhep/packs.mjs";
 import { newSeed, suggestCities } from "@/lib/xhep/profile.mjs";
 import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
@@ -40,7 +40,6 @@ export default function PackShelf({ lang, focusCity = null }: { lang: XhepLang; 
   const [boxOpen, setBoxOpen] = useState(false);
   const [collectionOpen, setCollectionOpen] = useState(false);
   const [quiz, setQuiz] = useState(false);
-  const [flipped, setFlipped] = useState<string | null>(null);
   const grid = useRef<HTMLDivElement>(null);
   const section = useRef<HTMLElement>(null);
 
@@ -61,6 +60,12 @@ export default function PackShelf({ lang, focusCity = null }: { lang: XhepLang; 
     track("xhep_pack_open", { city: cityId, first: !profile?.packs?.[cityId] });
   };
 
+  const startQuiz = () => {
+    setQuiz(true);
+    track("xhep_quiz_start");
+    window.setTimeout(() => section.current?.querySelector("#your-card")?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+  };
+
   const finishQuiz = (answers: QuizAnswers) => {
     update((p) => ({ ...answers, seed: p.seed ?? newSeed(), completed: true }));
     setQuiz(false);
@@ -73,17 +78,23 @@ export default function PackShelf({ lang, focusCity = null }: { lang: XhepLang; 
   const pack = (cityId: string, delay = 0, example = false) => {
     const isOpen = Boolean(profile?.packs?.[cityId]);
     const state = stampState(profile, cityId);
-    const isFlipped = flipped === cityId;
+    // An example before the questions is locked: a tap starts the questions instead.
+    const go = () => (example ? startQuiz() : openPack(cityId));
     return (
-      <div className={styles.shelfItem} data-city={cityId} data-focus={focusCity === cityId || undefined}>
+      <div className={styles.shelfItem} data-city={cityId} data-focus={focusCity === cityId || undefined} data-locked={example || undefined}>
         {example && <span className={styles.exampleTag}>{t.example}</span>}
         <button
           type="button"
           className={styles.shelfPack}
-          onClick={() => openPack(cityId)}
-          aria-label={isOpen ? t.openedLabel(cityName(cityId), state.done, state.total) : t.sealedLabel(cityName(cityId))}
+          onClick={go}
+          aria-label={example ? t.lockedLabel(cityName(cityId)) : isOpen ? t.openedLabel(cityName(cityId), state.done, state.total) : t.sealedLabel(cityName(cityId))}
         >
-          <PackModel cityId={cityId} lang={lang} t={t.back} motion={isFlipped ? "still" : "wiggle"} flipped={isFlipped} torn={isOpen} complete={state.complete} delay={delay} />
+          <PackModel cityId={cityId} lang={lang} t={t.back} motion={example ? "still" : "wiggle"} torn={isOpen} complete={state.complete} delay={delay} />
+          {example && (
+            <span className={styles.packLock} aria-hidden="true">
+              <Lock size={18} />
+            </span>
+          )}
         </button>
         <span className={styles.shelfMeta}>
           <b>{cityName(cityId)}</b>
@@ -91,9 +102,9 @@ export default function PackShelf({ lang, focusCity = null }: { lang: XhepLang; 
             {state.complete ? t.completeShort : isOpen ? t.stampsShort(state.done, state.total) : t.sealed}
           </small>
         </span>
-        <button type="button" className={styles.flipButton} onClick={() => setFlipped(isFlipped ? null : cityId)} aria-pressed={isFlipped} aria-label={t.flipLabel(cityName(cityId))}>
-          <RotateCw aria-hidden="true" size={14} />
-          {isFlipped ? t.flipFront : t.flipBack}
+        <button type="button" className={styles.openButton} onClick={go} aria-label={example ? t.lockedLabel(cityName(cityId)) : t.openLabel(cityName(cityId))}>
+          {example && <Lock aria-hidden="true" size={13} />}
+          {t.openButton}
         </button>
       </div>
     );
@@ -143,14 +154,7 @@ export default function PackShelf({ lang, focusCity = null }: { lang: XhepLang; 
                 {t.changeAnswers}
               </button>
             ) : (
-              <button
-                type="button"
-                className={styles.quizCta}
-                onClick={() => {
-                  setQuiz(true);
-                  track("xhep_quiz_start");
-                }}
-              >
+              <button type="button" className={styles.quizCta} onClick={startQuiz}>
                 <Sparkles aria-hidden="true" size={18} />
                 {t.quizStart}
                 <ArrowRight aria-hidden="true" size={18} />

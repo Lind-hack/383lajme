@@ -82,8 +82,6 @@ type XhepDict = {
     interestsTitle: string;
     interestsHint: string;
     interests: Record<"nature" | "history" | "food" | "coffee" | "nightlife" | "skiing", string>;
-    citiesTitle: string;
-    citiesHint: string;
     budgetTitle: string;
     budgets: Record<"easy" | "mid" | "treat", { label: string; hint: string }>;
     storageNote: string;
@@ -145,7 +143,7 @@ type XhepDict = {
     title: string;
     intro: string;
     personal: string;
-    tabs: Record<"route" | "arrival" | "prices" | "phrases" | "events", string>;
+    tabs: Record<"essentials" | "route" | "arrival" | "prices" | "phrases" | "events", string>;
     tabsLabel: string;
     source: string;
     checked: (date: string) => string;
@@ -161,9 +159,7 @@ type XhepDict = {
     phrasesIntro: string;
     phraseOpen: string;
     phraseClose: string;
-    customLabel: string;
-    customPlaceholder: string;
-    customShow: string;
+    essentialsIntro: string;
     eventsIntro: string;
     eventsNone: string;
     eventsNoDates: string;
@@ -220,6 +216,14 @@ type XhepDict = {
     exitShort: string;
     findHelp: string;
     findHelpHint: string;
+    findAgain: string;
+    call: (number: string) => string;
+    sosTitle: string;
+    sosBody: (metres: number) => string;
+    copyCoords: string;
+    copied: string;
+    shareLocation: string;
+    shareText: (coords: string, url: string) => string;
     progressLabel: string;
     report: string;
     reportHint: string;
@@ -328,9 +332,10 @@ type XhepDict = {
     forYou: string;
     featured: string;
     quizCta: string;
-    flipLabel: (city: string) => string;
-    flipBack: string;
-    flipFront: string;
+    openButton: string;
+    openLabel: (city: string) => string;
+    lockedLabel: (city: string) => string;
+    locked: string;
     kicker: string;
     what: { places: string; placesHint: string; memories: string; memoriesHint: string; puzzle: string; puzzleHint: string };
     example: string;
@@ -379,7 +384,7 @@ export const XHEP_DICT = {
     },
     companion: {
       title: "Which packs are yours?",
-      intro: "Six quick questions about your trip, and we pick the city packs that fit it, with the help that matches your route. No account.",
+      intro: "Five quick questions about your trip, and we pick the city packs that fit it, with the help that matches your route. No account.",
       start: "Pick my packs",
       startHint: "About 30 seconds",
       resume: "Change my answers",
@@ -411,8 +416,6 @@ export const XHEP_DICT = {
       interestsTitle: "What do you love?",
       interestsHint: "Pick up to four — they colour your card.",
       interests: { nature: "Mountains & nature", history: "History", food: "Food", coffee: "Coffee culture", nightlife: "Nights out", skiing: "Skiing" },
-      citiesTitle: "Where will you go?",
-      citiesHint: "Up to six cities. We suggested some from your interests.",
       budgetTitle: "How do you like to travel?",
       budgets: {
         easy: { label: "Easy on the wallet", hint: "Street food, buses, guesthouses" },
@@ -487,7 +490,7 @@ export const XHEP_DICT = {
       title: "Help for your trip",
       intro: "Checked facts for getting in, getting around and getting by. Every item shows where it comes from.",
       personal: "Tuned to your answers.",
-      tabs: { route: "Route check", arrival: "First 3 hours", prices: "Fair prices", phrases: "Show a local", events: "What's on" },
+      tabs: { essentials: "Essentials", route: "Route check", arrival: "First 3 hours", prices: "Fair prices", phrases: "Show a local", events: "What's on" },
       tabsLabel: "Trip help",
       source: "Source",
       checked: (date) => `Checked ${date}`,
@@ -503,9 +506,7 @@ export const XHEP_DICT = {
       phrasesIntro: "Tap a phrase to show it full screen — big Albanian text anyone can read.",
       phraseOpen: "Show full screen",
       phraseClose: "Close",
-      customLabel: "Your own words (an address, a dish…)",
-      customPlaceholder: "e.g. Rruga Garibaldi 7",
-      customShow: "Show it",
+      essentialsIntro: "What to know before you land or cross the border. Every line is checked against an official or trusted source.",
       eventsIntro: "What's happening while you're here.",
       eventsNone: "Nothing big on our calendar for your dates — a good time for quiet streets.",
       eventsNoDates: "What's on in the next 60 days. Add your dates in the questions to see only your trip.",
@@ -574,7 +575,15 @@ export const XHEP_DICT = {
       entryShort: "Entry",
       exitShort: "Exit",
       findHelp: "Find the nearest help",
-      findHelpHint: "Police station, emergency hospital, fuel and the nearest crossing",
+      findHelpHint: "Police station, emergency hospital, fuel and the nearest crossing, by road, in one tap",
+      findAgain: "Search again from here",
+      call: (number) => `Call ${number}`,
+      sosTitle: "Tell 112 where you are",
+      sosBody: (metres) => `Read these out, or send them. Accurate to about ${metres} m.`,
+      copyCoords: "Copy",
+      copied: "Copied",
+      shareLocation: "Send my location",
+      shareText: (coords, url) => `I'm here: ${coords} ${url}`,
       progressLabel: "Search progress",
       report: "Report the wait now",
       reportHint: "1 minute • accepted only near the border",
@@ -694,7 +703,7 @@ export const XHEP_DICT = {
       },
       example: "Example",
       pickTitle: "Get your three packs",
-      pickIntro: "Six quick questions about your trip, and we pick the three city packs that fit it best. Or open the whole box below.",
+      pickIntro: "Five quick questions about your trip, and we pick the three city packs that fit it best. Or open the whole box below.",
       quizStart: "Answer the questions",
       quizCancel: "Back to the packs",
       forYouTitle: "Your three packs",
@@ -715,9 +724,10 @@ export const XHEP_DICT = {
       forYou: "Picked for you",
       featured: "Start here",
       quizCta: "Answer the questions above to get your packs",
-      flipLabel: (city) => `Turn the ${city} pack over`,
-      flipBack: "Turn over",
-      flipFront: "Front",
+      openButton: "Open",
+      openLabel: (city) => `Open the ${city} pack`,
+      lockedLabel: (city) => `${city} pack: answer the questions to unlock it`,
+      locked: "Answer the questions to unlock",
       box: { title: "All of Kosovo", sub: "7 cities · 70 cards", close: "Close the box" },
       back: {
         inside: "Inside",
@@ -846,7 +856,7 @@ export const XHEP_DICT = {
     },
     companion: {
       title: "Cilat paketa janë për ty?",
-      intro: "Gjashtë pyetje të shpejta për udhëtimin, dhe ne zgjedhim paketat e qyteteve që të përshtaten, me ndihmën për rrugën tënde. Pa llogari.",
+      intro: "Pesë pyetje të shpejta për udhëtimin, dhe ne zgjedhim paketat e qyteteve që të përshtaten, me ndihmën për rrugën tënde. Pa llogari.",
       start: "Zgjidh paketat e mia",
       startHint: "Rreth 30 sekonda",
       resume: "Ndrysho përgjigjet",
@@ -878,8 +888,6 @@ export const XHEP_DICT = {
       interestsTitle: "Çfarë të pëlqen?",
       interestsHint: "Zgjidh deri në katër — ato i japin ngjyrë kartës.",
       interests: { nature: "Male e natyrë", history: "Histori", food: "Ushqim", coffee: "Kultura e kafes", nightlife: "Jeta e natës", skiing: "Ski" },
-      citiesTitle: "Ku do të shkosh?",
-      citiesHint: "Deri në gjashtë qytete. Disa i sugjeruam nga interesat e tua.",
       budgetTitle: "Si të pëlqen të udhëtosh?",
       budgets: {
         easy: { label: "Me pak shpenzime", hint: "Ushqim rruge, autobus, bujtina" },
@@ -954,7 +962,7 @@ export const XHEP_DICT = {
       title: "Ndihmë për udhëtimin",
       intro: "Fakte të verifikuara për hyrjen, lëvizjen dhe qëndrimin. Çdo element tregon nga vjen.",
       personal: "Përshtatur sipas përgjigjeve të tua.",
-      tabs: { route: "Kontrolli i rrugës", arrival: "3 orët e para", prices: "Çmime të drejta", phrases: "Trego një vendasi", events: "Çka ndodh" },
+      tabs: { essentials: "Bazat", route: "Kontrolli i rrugës", arrival: "3 orët e para", prices: "Çmime të drejta", phrases: "Trego një vendasi", events: "Çka ndodh" },
       tabsLabel: "Ndihmë për udhëtimin",
       source: "Burimi",
       checked: (date) => `Kontrolluar më ${date}`,
@@ -970,9 +978,7 @@ export const XHEP_DICT = {
       phrasesIntro: "Prek një frazë për ta treguar në ekran të plotë — tekst i madh shqip që e lexon kushdo.",
       phraseOpen: "Trego në ekran të plotë",
       phraseClose: "Mbyll",
-      customLabel: "Fjalët e tua (një adresë, një gjellë…)",
-      customPlaceholder: "p.sh. Rruga Garibaldi 7",
-      customShow: "Trego",
+      essentialsIntro: "Çka duhet të dish para se të aterosh ose të kalosh kufirin. Çdo rresht është kontrolluar me një burim zyrtar ose të besueshëm.",
       eventsIntro: "Çka po ndodh gjatë qëndrimit tënd.",
       eventsNone: "Asgjë e madhe në kalendarin tonë për datat e tua — kohë e mirë për rrugë të qeta.",
       eventsNoDates: "Çka ndodh në 60 ditët e ardhshme. Shto datat në pyetje për të parë vetëm udhëtimin tënd.",
@@ -1041,7 +1047,15 @@ export const XHEP_DICT = {
       entryShort: "Hyrje",
       exitShort: "Dalje",
       findHelp: "Gjej ndihmën më të afërt",
-      findHelpHint: "Stacioni policor, spitali i urgjencës, karburanti dhe pika kufitare më e afërt",
+      findHelpHint: "Stacioni policor, spitali i urgjencës, karburanti dhe pika kufitare më e afërt, me makinë, me një prekje",
+      findAgain: "Kërko sërish nga këtu",
+      call: (number) => `Thirr ${number}`,
+      sosTitle: "Thuaji 112-shit ku je",
+      sosBody: (metres) => `Lexoji me zë ose dërgoji. Saktësia rreth ${metres} m.`,
+      copyCoords: "Kopjo",
+      copied: "U kopjua",
+      shareLocation: "Dërgo vendndodhjen",
+      shareText: (coords, url) => `Jam këtu: ${coords} ${url}`,
       progressLabel: "Përparimi i analizës",
       report: "Raporto pritjen tani",
       reportHint: "1 minutë • pranohet vetëm pranë kufirit",
@@ -1161,7 +1175,7 @@ export const XHEP_DICT = {
       },
       example: "Shembull",
       pickTitle: "Merr tri paketat e tua",
-      pickIntro: "Gjashtë pyetje të shpejta për udhëtimin, dhe ne zgjedhim tri paketat që të përshtaten më së miri. Ose hap gjithë kutinë më poshtë.",
+      pickIntro: "Pesë pyetje të shpejta për udhëtimin, dhe ne zgjedhim tri paketat që të përshtaten më së miri. Ose hap gjithë kutinë më poshtë.",
       quizStart: "Përgjigju pyetjeve",
       quizCancel: "Kthehu te paketat",
       forYouTitle: "Tri paketat e tua",
@@ -1182,9 +1196,10 @@ export const XHEP_DICT = {
       forYou: "Zgjedhur për ty",
       featured: "Nis këtu",
       quizCta: "Përgjigju pyetjeve më lart për paketat e tua",
-      flipLabel: (city) => `Ktheje paketën: ${city}`,
-      flipBack: "Ktheje",
-      flipFront: "Përpara",
+      openButton: "Hape",
+      openLabel: (city) => `Hape paketën: ${city}`,
+      lockedLabel: (city) => `Paketa ${city}: përgjigju pyetjeve për ta hapur`,
+      locked: "Përgjigju pyetjeve për ta hapur",
       box: { title: "Kosova e plotë", sub: "7 qytete · 70 karta", close: "Mbyll kutinë" },
       back: {
         inside: "Brenda",

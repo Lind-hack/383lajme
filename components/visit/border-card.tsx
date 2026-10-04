@@ -5,16 +5,17 @@
 //
 //   - today's official waits at the four main crossings, entry or exit,
 //     with when they were updated and when they are checked next;
-//   - one tap for help near you: the nearest crossing, police station,
-//     emergency hospital and fuel, by road, with a photo when one is tied to
-//     the place;
+//   - one tap for help near you, the card's headline feature: the nearest
+//     crossing, police station, emergency hospital and fuel, by road, each
+//     with directions (and a call button for police and ambulance), plus the
+//     visitor's own coordinates to read out to 112 or send to family;
 //   - report the wait where you are standing (the server checks you are
 //     within 1 km of the crossing);
 //   - 112 always one tap away; the full tools (reports table, offline copy)
 //     open in a sheet.
 
 import { useEffect, useState } from "react";
-import { Ambulance, Building2, CarFront, Download, Fuel, LocateFixed, Phone, RefreshCw, Send, Users } from "lucide-react";
+import { Ambulance, Building2, CarFront, Check, Copy, Download, Fuel, LocateFixed, Navigation, Phone, RefreshCw, Send, Share2, Siren, Users } from "lucide-react";
 import { BORDER_CROSSINGS, type BorderCrossingId, type BorderDirection } from "@/lib/visit-v2-data";
 import type { xhepDict } from "@/lib/xhep/i18n";
 import styles from "./border-card.module.css";
@@ -32,6 +33,9 @@ export type NearbyResult = {
 };
 
 const fmtKm = (km: number) => (km < 10 ? km.toFixed(1) : String(Math.round(km)));
+/** The direct line for each kind of help (Emergency Management Agency of Kosovo). */
+const LINE: Partial<Record<"police" | "hospital" | "fuel", string>> = { police: "192", hospital: "194" };
+const directionsTo = (lat: number, lon: number) => `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}&travelmode=driving`;
 
 export default function BorderCard({
   d,
@@ -48,6 +52,8 @@ export default function BorderCard({
   locationStage,
   locationMessage,
   onLocate,
+  locationProgress,
+  here,
   nearby,
   reportOpen,
   setReportOpen,
@@ -74,6 +80,8 @@ export default function BorderCard({
   locationStage: string;
   locationMessage: string;
   onLocate: () => void;
+  locationProgress: number;
+  here: { latitude: number; longitude: number; accuracy: number } | null;
   nearby: NearbyResult | null;
   reportOpen: boolean;
   setReportOpen: (open: boolean) => void;
@@ -118,7 +126,7 @@ export default function BorderCard({
       ) : null
     ) : place ? (
       <li key={kind}>
-        <a href={place.mapsUrl} target="_blank" rel="noreferrer" className={styles.service}>
+        <div className={styles.service}>
           <span className={styles.serviceImg}>
             {place.photo?.embeddable ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -133,7 +141,20 @@ export default function BorderCard({
             <em>{place.minutes != null ? b.byCar(place.minutes, fmtKm(place.distanceKm)) : b.straight(fmtKm(place.distanceKm))}</em>
             {place.photo?.embeddable && <i className={styles.credit}>{place.photo.credit} · {place.photo.license}</i>}
           </span>
-        </a>
+          {place.minutes != null && <strong className={styles.eta}>{place.minutes}<small>min</small></strong>}
+        </div>
+        <span className={styles.serviceActions}>
+          <a href={place.mapsUrl} target="_blank" rel="noreferrer">
+            <Navigation size={15} aria-hidden="true" />
+            {b.directions}
+          </a>
+          {LINE[kind] && (
+            <a href={`tel:${LINE[kind]}`} data-call>
+              <Phone size={15} aria-hidden="true" />
+              {b.call(LINE[kind]!)}
+            </a>
+          )}
+        </span>
       </li>
     ) : null;
 
@@ -187,11 +208,18 @@ export default function BorderCard({
       </ul>
       <p className={styles.source}>{b.officialSource}</p>
 
+      {/* The headline feature: help near you, in one tap. */}
+      <button type="button" className={styles.helpHero} onClick={onLocate} disabled={locating} data-busy={locating || undefined}>
+        <span className={styles.radar} aria-hidden="true">
+          <LocateFixed size={24} />
+        </span>
+        <span className={styles.helpHeroText}>
+          <b>{locating ? locationStage : nearby ? b.findAgain : b.findHelp}</b>
+          <small>{b.findHelpHint}</small>
+        </span>
+        {locating && <i className={styles.helpProgress} style={{ width: `${locationProgress}%` }} aria-hidden="true" />}
+      </button>
       <div className={styles.actions}>
-        <button type="button" className={styles.primary} onClick={onLocate} disabled={locating}>
-          <LocateFixed size={18} aria-hidden="true" />
-          {locating ? locationStage : b.findHelp}
-        </button>
         <button type="button" className={styles.secondary} onClick={() => setReportOpen(!reportOpen)} aria-expanded={reportOpen}>
           <Users size={18} aria-hidden="true" />
           {b.report}
@@ -242,7 +270,19 @@ export default function BorderCard({
                     </b>
                     <em>{nearby.crossing.minutes != null ? b.byCar(nearby.crossing.minutes, fmtKm(nearby.crossing.km)) : b.straight(fmtKm(nearby.crossing.km))}</em>
                   </span>
+                  {nearby.crossing.minutes != null && <strong className={styles.eta}>{nearby.crossing.minutes}<small>min</small></strong>}
                 </div>
+                {(() => {
+                  const c = BORDER_CROSSINGS.find((x) => x.id === nearby.crossing?.id);
+                  return c ? (
+                    <span className={styles.serviceActions}>
+                      <a href={directionsTo(c.latitude, c.longitude)} target="_blank" rel="noreferrer">
+                        <Navigation size={15} aria-hidden="true" />
+                        {b.directions}
+                      </a>
+                    </span>
+                  ) : null;
+                })()}
               </li>
             )}
             {service("police", nearby.nearest.police)}
@@ -250,6 +290,7 @@ export default function BorderCard({
             {service("fuel", nearby.nearest.fuel)}
           </ul>
           {nearby.degraded && <p className={styles.message}>{d.locate.degraded}</p>}
+          {here && <WhereAmI here={here} b={b} />}
         </section>
       )}
 
@@ -263,5 +304,50 @@ export default function BorderCard({
         </button>
       </div>
     </article>
+  );
+}
+
+/** The visitor's own coordinates, to read out to 112 or send to someone. */
+function WhereAmI({ here, b }: { here: { latitude: number; longitude: number; accuracy: number }; b: Dict["border"] }) {
+  const [copied, setCopied] = useState(false);
+  const coords = `${here.latitude.toFixed(5)}, ${here.longitude.toFixed(5)}`;
+  const url = `https://maps.google.com/?q=${here.latitude.toFixed(5)},${here.longitude.toFixed(5)}`;
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(`${coords} ${url}`);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {}
+  };
+  const share = async () => {
+    const text = b.shareText(coords, url);
+    try {
+      if (navigator.share) await navigator.share({ text });
+      else window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank", "noopener");
+    } catch {}
+  };
+  return (
+    <div className={styles.whereAmI}>
+      <span className={styles.whereIcon} aria-hidden="true"><Siren size={20} /></span>
+      <div>
+        <b>{b.sosTitle}</b>
+        <output className={styles.coords}>{coords}</output>
+        <small>{b.sosBody(Math.max(5, Math.round(here.accuracy)))}</small>
+        <span className={styles.whereActions}>
+          <button type="button" onClick={() => void copy()}>
+            {copied ? <Check size={15} aria-hidden="true" /> : <Copy size={15} aria-hidden="true" />}
+            {copied ? b.copied : b.copyCoords}
+          </button>
+          <button type="button" onClick={() => void share()}>
+            <Share2 size={15} aria-hidden="true" />
+            {b.shareLocation}
+          </button>
+          <a href="tel:112">
+            <Phone size={15} aria-hidden="true" />
+            112
+          </a>
+        </span>
+      </div>
+    </div>
   );
 }

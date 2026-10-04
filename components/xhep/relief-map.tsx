@@ -1,13 +1,14 @@
 "use client";
 
-// Kosovo drawn as paper-cut height layers from real elevation, the Natural
-// Earth border, and on top the seven pack cities, the four main crossings
-// (with today's wait when we have it) and Gjeravica. Every point is placed
-// with the same projection the relief was drawn in (lib/xhep/kosovo-map),
-// so nothing sits "about" where it should.
+// Kosovo as an illustrated travel-poster map: drawn peaks, forests and rivers
+// from real elevation, the Natural Earth border and OSM rivers; on top, each
+// pack city as a round painted medallion, the four main crossings (with
+// today's wait when we have it) and Gjeravica. Every point is placed with the
+// same projection the map was drawn in (lib/xhep/kosovo-map), so nothing sits
+// "about" where it should. Data credits are in the figure's accessible text.
 
 import { BORDER_CROSSINGS } from "@/lib/visit-v2-data";
-import { KOSOVO_PATH, MAP_H, MAP_W, NEIGHBOURS, project } from "@/lib/xhep/kosovo-map";
+import { MAP_H, MAP_W, project } from "@/lib/xhep/kosovo-map";
 import { PACK_ART } from "@/lib/xhep/packs.mjs";
 import type { XhepLang } from "@/lib/xhep/i18n";
 import styles from "./relief-map.module.css";
@@ -23,17 +24,21 @@ export const CITY_POINTS: Record<string, { name: string; lat: number; lon: numbe
   ferizaj: { name: "Ferizaj", lat: 42.3702, lon: 21.1553 },
 };
 
-const NEIGHBOUR_NAMES: Record<string, { sq: string; en: string }> = {
-  Albania: { sq: "SHQIPËRI", en: "ALBANIA" },
-  "North Macedonia": { sq: "MAQEDONI E VERIUT", en: "NORTH MACEDONIA" },
-  Serbia: { sq: "SERBI", en: "SERBIA" },
-  Montenegro: { sq: "MAL I ZI", en: "MONTENEGRO" },
+/** Where each city's painting shows its landmark best, inside the round medallion. */
+const MEDAL_FOCUS: Record<string, string> = {
+  prizren: "52% 45%",
+  peje: "45% 40%",
+  prishtine: "50% 45%",
+  gjakove: "30% 50%",
+  mitrovice: "35% 70%",
+  ferizaj: "40% 55%",
+  gjilan: "60% 45%",
 };
 
 /** Labels left or right of the pin, so neighbours don't collide. */
 const LABEL_SIDE: Record<string, "left" | "right"> = { peje: "right", gjakove: "left", prizren: "left", mitrovice: "right", prishtine: "right", gjilan: "right", ferizaj: "right" };
 /** Crossing labels on the side away from the nearest town label. */
-const CROSSING_SIDE: Record<string, "left" | "right"> = { kulle: "left", merdare: "right", "hani-i-elezit": "right", "vermice-morine": "right" };
+const CROSSING_SIDE: Record<string, "left" | "right"> = { kulle: "left", merdare: "right", "hani-i-elezit": "right", "vermice-morine": "left" };
 
 export default function ReliefMap({
   lang,
@@ -53,18 +58,7 @@ export default function ReliefMap({
   return (
     <figure className={styles.map} aria-label={lang === "en" ? "Map of Kosovo" : "Harta e Kosovës"}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/visit/kosovo-art.webp" alt="" width={MAP_W} height={MAP_H} fetchPriority="high" />
-      <svg className={styles.overlay} viewBox={`0 0 ${MAP_W} ${MAP_H}`} aria-hidden="true">
-        <path d={KOSOVO_PATH} className={styles.borderGlow} />
-        <path d={KOSOVO_PATH} className={styles.border} />
-        {Object.entries(NEIGHBOURS).map(([name, at]) =>
-          at ? (
-            <text key={name} x={at[0]} y={at[1]} className={styles.neighbour}>
-              {NEIGHBOUR_NAMES[name][lang]}
-            </text>
-          ) : null
-        )}
-      </svg>
+      <img src="/visit/kosovo-illustrated.webp" alt="" width={MAP_W} height={MAP_H} fetchPriority="high" />
 
       {/* Gjeravica, 2,656 m (Wikipedia). */}
       <span className={styles.peak} style={pct(20.14, 42.5336)}>
@@ -96,13 +90,16 @@ export default function ReliefMap({
             style={{ ...pct(c.lon, c.lat), "--pin": art.accent } as React.CSSProperties}
             onClick={() => onCity?.(id)}
           >
-            <i aria-hidden="true" />
-            <span>{c.name}</span>
+            <span className={styles.medal} aria-hidden="true">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`/visit/scenes/${id}.webp`} alt="" loading="lazy" style={{ objectPosition: MEDAL_FOCUS[id] ?? "50% 50%" }} />
+            </span>
+            <span className={styles.cityName}>{c.name}</span>
           </button>
         );
       })}
-      <figcaption className={styles.credit}>
-        {lang === "en" ? "Heights: AWS Terrain Tiles · Border: Natural Earth" : "Lartësitë: AWS Terrain Tiles · Kufiri: Natural Earth"}
+      <figcaption className={styles.srOnly}>
+        {lang === "en" ? "Heights: AWS Terrain Tiles · Border: Natural Earth · Rivers: OpenStreetMap contributors" : "Lartësitë: AWS Terrain Tiles · Kufiri: Natural Earth · Lumenjtë: kontribuuesit e OpenStreetMap"}
       </figcaption>
     </figure>
   );
