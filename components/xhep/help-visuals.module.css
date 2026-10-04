@@ -1,0 +1,64 @@
+/* Road signs, the bus timeline, price tiles, calendar tiles. */
+.road { display: grid; gap: 14px; margin: 4px 0 16px; }
+.signs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.signs li { display: grid; justify-items: center; gap: 6px; text-align: center; }
+.signs small { color: #5e5048; font-size: 12px; font-weight: 700; line-height: 1.3; }
+.speed {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border: 7px solid #d32f2f;
+  border-radius: 50%;
+  background: #fff;
+  color: #111;
+  font-size: 22px;
+  font-weight: 900;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.alcohol { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 14px; background: #111; color: #fff; font-size: 15px; font-weight: 900; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); }
+.triangle { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 14px; background: #fff3d1; color: #d32f2f; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12); }
+.ticket {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: repeating-linear-gradient(90deg, transparent 0 10px, rgba(19, 35, 58, 0.04) 10px 11px), #eaf3ff;
+  color: #13233a;
+  box-shadow: inset 0 0 0 1.5px #b9cde6;
+}
+.ticket > span { display: grid; gap: 2px; }
+.ticket small { color: #4a5d78; font-size: 12.5px; line-height: 1.35; }
+.ticketPrices { grid-template-columns: auto auto; align-items: baseline; column-gap: 6px; padding-left: 14px; border-left: 2px dashed #9fb6d3; }
+.ticketPrices b { font-size: 22px; font-weight: 900; font-variant-numeric: tabular-nums; }
+
+.bus { display: grid; gap: 12px; margin: 4px 0 16px; padding: 16px; border-radius: 18px; background: #fff; box-shadow: inset 0 0 0 1px #ece3d6; }
+.bus header { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.bus header b { font-size: 14.5px; }
+.busBadge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 8px; background: #f2b705; color: #111; font-weight: 900; }
+.busRow { display: grid; gap: 6px; }
+.busRow small { color: #5e5048; font-size: 12px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+.busRow ol { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.busRow li { padding: 6px 9px; border-radius: 10px; background: #f4efe6; font-size: 13.5px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.busRow li[data-past] { color: #a59a8d; }
+.busRow li[data-next] { background: #13233a; color: #fff; box-shadow: 0 0 0 3px rgba(19, 35, 58, 0.18); }
+.busStops { display: flex; align-items: flex-start; gap: 6px; margin: 0; color: #5e5048; font-size: 12.5px; line-height: 1.4; }
+
+.prices { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin: 6px 0 14px; padding: 0; list-style: none; }
+.prices li { display: grid; gap: 4px; padding: 14px; border-radius: 16px; background: #fff; box-shadow: inset 0 0 0 1px #ece3d6; }
+.prices svg { color: #ff4422; }
+.prices b { font-size: 24px; font-weight: 900; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.prices span { color: #3a2f28; font-size: 13.5px; font-weight: 700; line-height: 1.3; }
+.prices small { color: #8a7d72; font-size: 11.5px; }
+
+.date { display: grid; flex: none; justify-items: center; width: 56px; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1), inset 0 0 0 1px #ece3d6; }
+.date small { width: 100%; padding: 2px 0; background: #ff4422; color: #fff; font-size: 11px; font-weight: 900; text-align: center; text-transform: uppercase; }
+.date b { padding: 4px 0 6px; font-size: 22px; font-weight: 900; }
+
+@media (max-width: 640px) {
+  .signs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ticket { grid-template-columns: auto minmax(0, 1fr); }
+  .ticketPrices { grid-column: 1 / -1; padding-left: 0; padding-top: 8px; border-left: 0; border-top: 2px dashed #9fb6d3; }
+}

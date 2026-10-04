@@ -58,7 +58,7 @@ const ART_TOP = -(CROP.top * ART_H) / 100;
 const VB_W = 1000;
 const VB_H = Math.round(VB_W / SCENE_RATIO);
 /** The pack art inside that box. */
-const ART_BOX = { x: (ART_LEFT / 100) * VB_W, y: (ART_TOP / 100) * VB_H, w: (ART_W / 100) * VB_W, h: (ART_W / 100) * VB_W / 0.633 };
+const ART_BOX = { x: (ART_LEFT / 100) * VB_W, y: (ART_TOP / 100) * VB_H, width: (ART_W / 100) * VB_W, height: (ART_W / 100) * VB_W / 0.633 };
 /** One stable seed per city, so each city's puzzle is cut its own way. */
 const seedOf = (cityId: string) => [...cityId].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0, 2166136261);
 
@@ -67,14 +67,14 @@ const seedOf = (cityId: string) => [...cityId].reduce((h, c) => Math.imul(h ^ c.
  * sits in full colour; the rest stay a pencil sketch with their outline and
  * number. The freshly stamped piece snaps in; all seven melt the seams away.
  */
-export function Scene({ cityId, profile, justStamped }: { cityId: string; profile: XhepProfile | null; justStamped?: string | null }) {
+export function Scene({ cityId, profile, justStamped, celebrate }: { cityId: string; profile: XhepProfile | null; justStamped?: string | null; celebrate?: boolean }) {
   const art = PACK_ART[cityId as keyof typeof PACK_ART];
   const state = stampState(profile, cityId);
   const uid = useId().replace(/:/g, "");
   const pieces = useMemo(() => puzzlePieces(VB_W, VB_H, seedOf(cityId)), [cityId]);
   const shape = (i: number) => pieces[i].points.map((p) => p.map((v) => v.toFixed(1)).join(",")).join(" ");
   return (
-    <span className={styles.scene} data-complete={state.complete || undefined} style={{ aspectRatio: SCENE_RATIO }}>
+    <span className={styles.scene} data-complete={state.complete || undefined} data-celebrate={celebrate || undefined} style={{ aspectRatio: SCENE_RATIO }}>
       <svg viewBox={`0 0 ${VB_W} ${VB_H}`} className={styles.puzzle} aria-hidden="true">
         <defs>
           {pieces.map((_, i) => (
@@ -86,7 +86,7 @@ export function Scene({ cityId, profile, justStamped }: { cityId: string; profil
         <image href={art.src} {...ART_BOX} className={styles.puzzleSketch} preserveAspectRatio="xMidYMin slice" />
         {state.places.slice(0, pieces.length).map((entry, i) =>
           entry.stamp ? (
-            <g key={entry.place.id} className={styles.puzzlePiece} data-fresh={justStamped === entry.place.id || undefined} data-stamp={entry.stamp}>
+            <g key={entry.place.id} className={styles.puzzlePiece} data-fresh={justStamped === entry.place.id || undefined} data-stamp={entry.stamp} style={{ "--n": i } as React.CSSProperties}>
               <g clipPath={`url(#${uid}-p${i})`}>
                 <image href={art.src} {...ART_BOX} preserveAspectRatio="xMidYMin slice" />
               </g>
@@ -96,6 +96,8 @@ export function Scene({ cityId, profile, justStamped }: { cityId: string; profil
             <polygon key={entry.place.id} points={shape(i)} className={styles.puzzleHole} />
           )
         )}
+        {/* The finished picture's gold frame, drawn round once it is whole. */}
+        {state.complete && <rect x="4" y="4" width={VB_W - 8} height={VB_H - 8} rx="14" pathLength={1} className={styles.puzzleFrame} />}
       </svg>
       {state.places.slice(0, pieces.length).map((entry, i) => (
         <span

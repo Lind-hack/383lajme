@@ -5,6 +5,8 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { CHECKED_AT, PHRASES, PRICES, ROUTE_PLACES, arrivalItems, entryFromCrossing, eventsFor, pricesAreStale, routeWarnings } from "@/lib/xhep/help.mjs";
 import type { readProfile } from "@/lib/xhep/profile.mjs";
 import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
+import DardaniImage from "@/components/dardani/dardani-image";
+import { BusTimeline, DateTile, PriceTiles, RoadRules } from "./help-visuals";
 import styles from "./xhep.module.css";
 
 type Profile = ReturnType<typeof readProfile>;
@@ -95,13 +97,18 @@ export default function XhepHelp({ lang, profile, fuel = null }: { lang: XhepLan
     { id: "events", icon: CalendarDays },
   ];
   const arrival = profile?.arrival === "drive" ? "drive" : "fly";
-  const events = eventsFor({ startDate: profile?.startDate ?? null, month: profile?.month ?? null, days: profile?.days ?? 1 });
+  // With no trip dates, show what is coming up in the next 60 days.
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Belgrade" }).format(new Date());
+  const events = profile?.startDate || profile?.month
+    ? eventsFor({ startDate: profile?.startDate ?? null, month: profile?.month ?? null, days: profile?.days ?? 1 })
+    : eventsFor({ startDate: today, month: null, days: 60 });
   const hasDates = Boolean(profile?.startDate || profile?.month);
   const prices = PRICES.filter((price) => !price.interest || profile?.interests?.includes(price.interest as never));
 
   return (
     <section className={styles.help} aria-labelledby={`${tabsId}-title`}>
       <div className={styles.helpHead}>
+        <DardaniImage key={tab} name={({ route: "diaspora", arrival: "airport", prices: "exchange", phrases: "explaining", events: "weather" } as const)[tab]} decorative className={styles.helpDardani} />
         <h3 id={`${tabsId}-title`}>{t.title}</h3>
         <p>
           {t.intro} {profile ? t.personal : ""}
@@ -142,6 +149,7 @@ export default function XhepHelp({ lang, profile, fuel = null }: { lang: XhepLan
                 </select>
               </label>
             </div>
+            {entry !== "fly" && <RoadRules lang={lang} />}
             <ul className={styles.helpList}>
               {routeWarnings({ entry, exit }).map((rule) => (
                 <li key={rule.id} className={styles[`level_${rule.level}`]}>
@@ -161,6 +169,7 @@ export default function XhepHelp({ lang, profile, fuel = null }: { lang: XhepLan
         {tab === "arrival" && (
           <>
             <p className={styles.helpLead}>{arrival === "drive" ? t.arrivalDrive : t.arrivalFly}</p>
+            {arrival === "fly" ? <BusTimeline lang={lang} /> : <RoadRules lang={lang} />}
             <ul className={styles.helpList}>
               {arrivalItems(arrival).map((item) => (
                 <li key={item.id}>
@@ -177,31 +186,18 @@ export default function XhepHelp({ lang, profile, fuel = null }: { lang: XhepLan
           <>
             <p className={styles.helpLead}>{t.pricesIntro}</p>
             {pricesAreStale() && <p className={styles.staleNote}>{t.pricesStale}</p>}
-            <table className={styles.priceTable}>
-              <tbody>
-                {prices.map((price) => (
-                  <tr key={price.id}>
-                    <th scope="row">{price.label[lang]}</th>
-                    <td>
-                      €{price.eur.toFixed(2)}
-                      {"perKm" in price && price.perKm ? <small> {t.perKm(price.perKm.toFixed(2))}</small> : null}
-                    </td>
-                  </tr>
-                ))}
-                {fuel?.petrol && (
-                  <tr>
-                    <th scope="row">{lang === "en" ? "Petrol (95), per litre, today" : "Benzinë (95), për litër, sot"}</th>
-                    <td>{span(fuel.petrol)}</td>
-                  </tr>
-                )}
-                {fuel?.diesel && (
-                  <tr>
-                    <th scope="row">{lang === "en" ? "Diesel, per litre, today" : "Naftë, për litër, sot"}</th>
-                    <td>{span(fuel.diesel)}</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+            <PriceTiles
+              items={[
+                ...prices.map((price) => ({
+                  id: price.id,
+                  label: price.label[lang],
+                  value: `€${price.eur.toFixed(2)}`,
+                  note: "perKm" in price && price.perKm ? t.perKm(price.perKm.toFixed(2)) : undefined,
+                })),
+                ...(fuel?.petrol ? [{ id: "petrol", label: lang === "en" ? "Petrol (95), per litre, today" : "Benzinë (95), për litër, sot", value: span(fuel.petrol) }] : []),
+                ...(fuel?.diesel ? [{ id: "diesel", label: lang === "en" ? "Diesel, per litre, today" : "Naftë, për litër, sot", value: span(fuel.diesel) }] : []),
+              ]}
+            />
             {/* Every source behind the table, once each. */}
             {[...new Map(prices.map((p) => [p.source.url, p.source])).values()].map((source) => (
               <SourceLine key={source.url} source={source} lang={lang} />
@@ -244,10 +240,11 @@ export default function XhepHelp({ lang, profile, fuel = null }: { lang: XhepLan
         {tab === "events" && (
           <>
             <p className={styles.helpLead}>{hasDates ? t.eventsIntro : t.eventsNoDates}</p>
-            {hasDates && events.length === 0 && <p className={styles.helpEmpty}>{t.eventsNone}</p>}
+            {events.length === 0 && <p className={styles.helpEmpty}>{t.eventsNone}</p>}
             <ul className={styles.helpList}>
               {events.map((event) => (
-                <li key={event.id}>
+                <li key={event.id} className={styles.eventItem}>
+                  <DateTile lang={lang} month={event.from[0]} day={event.from[1]} />
                   <h4>{event.title[lang]}</h4>
                   <p>{event.body[lang]}</p>
                   <SourceLine source={event.source} extra={extraOf(event)} lang={lang} />

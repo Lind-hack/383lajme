@@ -239,9 +239,13 @@ function StampDetail({ cityId, lang, profile, t }: { cityId: string; lang: XhepL
   // The moment the last place is stamped, the finished picture chimes once.
   const wasComplete = useRef(state.complete);
   const [justCompleted, setJustCompleted] = useState(false);
+  const sceneWrap = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (state.complete && !wasComplete.current) {
-      window.setTimeout(() => sfx.chime(), 400);
+      // The pieces ripple, the seams melt, then the seal lands (puzzle-reward.tsx).
+      // Bring the picture into view first: the last stamp is pressed down in the list.
+      sceneWrap.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.setTimeout(() => sfx.chime(), 700);
       setJustCompleted(true);
       try {
         navigator.vibrate?.([30, 60, 30, 60, 80]);
@@ -253,9 +257,9 @@ function StampDetail({ cityId, lang, profile, t }: { cityId: string; lang: XhepL
   return (
     <div className={styles.stamps}>
       <p className={styles.intro}>{t.stampsIntro}</p>
-      <div className={styles.sceneWrap} style={{ "--card-w": "min(100%, 520px)" } as React.CSSProperties}>
-        <div className={styles.sceneFrame} data-complete={state.complete || undefined}>
-          <Scene cityId={cityId} profile={profile} justStamped={fresh} />
+      <div ref={sceneWrap} className={styles.sceneWrap} style={{ "--card-w": "min(100%, 520px)" } as React.CSSProperties}>
+        <div className={styles.sceneFrame} data-complete={state.complete || undefined} data-celebrate={justCompleted || undefined}>
+          <Scene cityId={cityId} profile={profile} justStamped={fresh} celebrate={justCompleted} />
           {url && (
             <button type="button" className={styles.postmark} onClick={() => setQrBig(true)} aria-label={t.qrLabel}>
               <QrMark text={url} />

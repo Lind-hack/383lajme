@@ -130,3 +130,26 @@ export function chime() {
     o.stop(t + 0.65);
   });
 }
+
+/** A finished puzzle: a rising four-note fanfare with a sparkle on top. */
+export function fanfare() {
+  const c = audio();
+  if (!c) return;
+  [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => {
+    const t = c.currentTime + i * 0.11;
+    const last = i === 3;
+    for (const type of ["triangle", "sine"] as const) {
+      const o = c.createOscillator();
+      o.type = type;
+      o.frequency.value = type === "sine" ? f * 2 : f;
+      const g = c.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(type === "sine" ? 0.025 : 0.1, t + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + (last ? 1.2 : 0.35));
+      o.connect(g).connect(c.destination);
+      o.start(t);
+      o.stop(t + (last ? 1.25 : 0.4));
+    }
+  });
+  burst(c, { at: 0.38, dur: 0.6, from: 6000, to: 9000, q: 4, gain: 0.03 });
+}

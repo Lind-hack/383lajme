@@ -1,6 +1,6 @@
 "use client";
 
-// Kosovo as it really is: shaded relief from real elevation, the Natural
+// Kosovo drawn as paper-cut height layers from real elevation, the Natural
 // Earth border, and on top the seven pack cities, the four main crossings
 // (with today's wait when we have it) and Gjeravica. Every point is placed
 // with the same projection the relief was drawn in (lib/xhep/kosovo-map),
@@ -53,7 +53,7 @@ export default function ReliefMap({
   return (
     <figure className={styles.map} aria-label={lang === "en" ? "Map of Kosovo" : "Harta e Kosovës"}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/visit/kosovo-relief.webp" alt="" width={MAP_W} height={MAP_H} fetchPriority="high" />
+      <img src="/visit/kosovo-art.webp" alt="" width={MAP_W} height={MAP_H} fetchPriority="high" />
       <svg className={styles.overlay} viewBox={`0 0 ${MAP_W} ${MAP_H}`} aria-hidden="true">
         <path d={KOSOVO_PATH} className={styles.borderGlow} />
         <path d={KOSOVO_PATH} className={styles.border} />
@@ -102,7 +102,7 @@ export default function ReliefMap({
         );
       })}
       <figcaption className={styles.credit}>
-        {lang === "en" ? "Relief: AWS Terrain Tiles · Border: Natural Earth" : "Relievi: AWS Terrain Tiles · Kufiri: Natural Earth"}
+        {lang === "en" ? "Heights: AWS Terrain Tiles · Border: Natural Earth" : "Lartësitë: AWS Terrain Tiles · Kufiri: Natural Earth"}
       </figcaption>
     </figure>
   );

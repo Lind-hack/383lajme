@@ -10,6 +10,7 @@ import DardaniImage from "@/components/dardani/dardani-image";
 import { PACK_ART } from "@/lib/xhep/packs.mjs";
 import { downloadBlob, shareBlob } from "@/lib/xhep/card-export";
 import { track } from "@/lib/analytics";
+import * as sfx from "@/lib/xhep/sound";
 import styles from "./detail.module.css";
 
 export type RewardText = {
@@ -79,14 +80,36 @@ async function postcard(cityId: string, city: string, line: string, seal: string
   return new Promise((resolve, reject) => canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("canvas"))), "image/png"));
 }
 
+/** Gold, cream and 383 red only, thrown out from the seal and falling back. */
+const CONFETTI = Array.from({ length: 36 }, (_, i) => {
+  const angle = (i / 36) * Math.PI * 2 + (i % 3) * 0.2;
+  const power = 90 + ((i * 53) % 80);
+  return {
+    dx: Math.round(Math.cos(angle) * power * 1.6),
+    dy: Math.round(Math.sin(angle) * power - 40),
+    r: ((i * 97) % 720) - 360,
+    d: (i % 6) * 25,
+    shape: i % 4 === 0 ? "star" : i % 3 === 0 ? "dot" : "foil",
+    color: ["#e8b53e", "#f6d36b", "#fff3c4", "#c98a2b", "#ff4422"][i % 5],
+  };
+});
+
 export default function PuzzleReward({ cityId, city, justCompleted, t }: { cityId: string; city: string; justCompleted: boolean; t: RewardText }) {
   const [busy, setBusy] = useState(false);
-  const [burst, setBurst] = useState(justCompleted);
+  const [burst, setBurst] = useState(false);
   useEffect(() => {
     if (!justCompleted) return;
-    setBurst(true);
-    const id = window.setTimeout(() => setBurst(false), 2600);
-    return () => window.clearTimeout(id);
+    // The seal lands after the pieces have rippled and the seams have melted.
+    const land = window.setTimeout(() => {
+      sfx.thump();
+      sfx.fanfare();
+      setBurst(true);
+    }, 1750);
+    const done = window.setTimeout(() => setBurst(false), 1750 + 3200);
+    return () => {
+      window.clearTimeout(land);
+      window.clearTimeout(done);
+    };
   }, [justCompleted]);
 
   const run = async (share: boolean) => {
@@ -102,17 +125,17 @@ export default function PuzzleReward({ cityId, city, justCompleted, t }: { cityI
   };
 
   return (
-    <section className={styles.reward} aria-live="polite">
+    <section className={styles.reward} data-celebrate={justCompleted || undefined} aria-live="polite">
       {burst && (
         <span className={styles.confetti} aria-hidden="true">
-          {Array.from({ length: 28 }, (_, i) => (
-            <i key={i} style={{ "--i": i, "--x": `${(i * 37) % 100}%`, "--hue": (i * 47) % 360 } as React.CSSProperties} />
+          {CONFETTI.map((c, i) => (
+            <i key={i} data-shape={c.shape} style={{ "--dx": `${c.dx}px`, "--dy": `${c.dy}px`, "--r": `${c.r}deg`, "--d": `${c.d}ms`, "--c": c.color } as React.CSSProperties} />
           ))}
         </span>
       )}
       <DardaniImage name="celebrating" decorative className={styles.rewardDardani} />
       <div>
-        <span className={styles.rewardSeal}>★ {t.seal}</span>
+        <span className={styles.rewardSeal}><span className={styles.rewardStar} aria-hidden="true">★</span> {t.seal}</span>
         <h3>{t.title(city)}</h3>
         <p>{t.body}</p>
         <div className={styles.rewardActions}>

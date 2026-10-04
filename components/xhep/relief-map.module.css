@@ -16,7 +16,7 @@
 }
 .overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .borderGlow { fill: none; stroke: rgba(255, 255, 255, 0.85); stroke-width: 9; stroke-linejoin: round; filter: drop-shadow(0 6px 10px rgba(60, 40, 20, 0.25)); }
-.border { fill: none; stroke: #3b2a1c; stroke-width: 2.4; stroke-linejoin: round; stroke-dasharray: none; }
+.border { fill: none; stroke: #fffaf0; stroke-width: 4; stroke-linejoin: round; }
 .neighbour { fill: rgba(80, 64, 50, 0.42); font-size: 30px; font-weight: 800; letter-spacing: 6px; text-anchor: middle; }
 
 .city {

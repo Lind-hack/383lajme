@@ -767,6 +767,17 @@
 /* All seven in: the seams melt away and the picture is whole. */
 .scene[data-complete] .puzzleEdge { stroke-opacity: 0; }
 .scene[data-complete] .sceneMark { opacity: 0; transition: opacity 600ms ease 300ms; }
+/* The moment it completes: each piece lifts and glows in turn, then settles. */
+.scene[data-celebrate] .puzzlePiece { animation: piece-wave 620ms cubic-bezier(0.3, 1.4, 0.6, 1) calc(450ms + var(--n) * 85ms) both; }
+@keyframes piece-wave {
+  0% { transform: none; filter: none; }
+  45% { transform: translateY(-3%) scale(1.05); filter: brightness(1.25) drop-shadow(0 6px 10px rgba(232, 181, 62, 0.8)); }
+  100% { transform: none; filter: none; }
+}
+.puzzleFrame { fill: none; stroke: #e8b53e; stroke-width: 8; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.scene[data-celebrate] .puzzleFrame { animation: frame-draw 900ms ease-in-out 1100ms both; }
+@keyframes frame-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.scene[data-celebrate]::after { animation-delay: 1.5s; }
 
 @media (prefers-reduced-motion: reduce) {
   .pack,
@@ -777,6 +788,8 @@
   .boxGridItem,
   .shelfItem[data-focus] .shelfPack,
   .puzzlePiece[data-fresh],
+  .scene[data-celebrate] .puzzlePiece,
+  .scene[data-celebrate] .puzzleFrame,
   .rising i,
   .stackCard[data-last] .cardFlip[data-up]::after,
   .sceneMark[data-fresh],

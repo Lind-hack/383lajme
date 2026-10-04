@@ -508,7 +508,7 @@ export const XHEP_DICT = {
       customShow: "Show it",
       eventsIntro: "What's happening while you're here.",
       eventsNone: "Nothing big on our calendar for your dates — a good time for quiet streets.",
-      eventsNoDates: "Add your dates in the quiz to see what's on while you're here.",
+      eventsNoDates: "What's on in the next 60 days. Add your dates in the questions to see only your trip.",
     },
     card: {
       title: "Your card",
@@ -975,7 +975,7 @@ export const XHEP_DICT = {
       customShow: "Trego",
       eventsIntro: "Çka po ndodh gjatë qëndrimit tënd.",
       eventsNone: "Asgjë e madhe në kalendarin tonë për datat e tua — kohë e mirë për rrugë të qeta.",
-      eventsNoDates: "Shto datat në pyetësor për të parë çka ndodh gjatë qëndrimit.",
+      eventsNoDates: "Çka ndodh në 60 ditët e ardhshme. Shto datat në pyetje për të parë vetëm udhëtimin tënd.",
     },
     card: {
       title: "Karta jote",
