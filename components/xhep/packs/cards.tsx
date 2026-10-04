@@ -11,7 +11,9 @@
 //
 // Holo shine follows the pointer through --mx/--my, set by the parent.
 
+import { useEffect, useState } from "react";
 import { Clock3, Images, PenLine, Stamp } from "lucide-react";
+import { muralPhotos, PROFILE_JOURNAL_EVENT } from "@/lib/xhep/journal";
 import { KOSOVO_CITIES } from "@/lib/visit-v2-data";
 import { localizedPlace } from "@/lib/xhep/places.mjs";
 import { PACK_ART, stampState } from "@/lib/xhep/packs.mjs";
@@ -123,6 +125,41 @@ export function Scene({ cityId, profile, justStamped }: { cityId: string; profil
   );
 }
 
+/** The mural card's face: the visitor's own first photos, pinned up; or an invitation. */
+function MuralWall({ cityId, empty }: { cityId: string; empty: string }) {
+  const [urls, setUrls] = useState<string[]>([]);
+  useEffect(() => {
+    let alive = true;
+    let made: string[] = [];
+    const load = () =>
+      void muralPhotos(cityId).then((list) => {
+        if (!alive) return;
+        made.forEach((u) => URL.revokeObjectURL(u));
+        made = list.slice(0, 4).map((p) => URL.createObjectURL(p.blob));
+        setUrls(made);
+      });
+    load();
+    window.addEventListener(PROFILE_JOURNAL_EVENT, load);
+    return () => {
+      alive = false;
+      window.removeEventListener(PROFILE_JOURNAL_EVENT, load);
+      made.forEach((u) => URL.revokeObjectURL(u));
+    };
+  }, [cityId]);
+  return (
+    <span className={styles.muralWall} data-count={urls.length}>
+      {urls.length === 0 ? (
+        <span>{empty}</span>
+      ) : (
+        urls.map((src, i) => (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img key={src} src={src} alt="" style={{ "--i": i } as React.CSSProperties} />
+        ))
+      )}
+    </span>
+  );
+}
+
 function Frame({ cityId, kind, children, label }: { cityId: string; kind: string; children: React.ReactNode; label: string }) {
   const art = PACK_ART[cityId as keyof typeof PACK_ART];
   return (
@@ -219,9 +256,7 @@ export function CardFace({
             {t.muralCard}
           </span>
         </span>
-        <span className={styles.muralWall}>
-          <span>{t.muralEmpty}</span>
-        </span>
+        <MuralWall cityId={cityId} empty={t.muralEmpty} />
         <span className={styles.cardName}>{cityName(cityId)}</span>
       </Frame>
     );

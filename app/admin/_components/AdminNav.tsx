@@ -6,6 +6,7 @@ import { useState } from "react";
 import {
   FileText,
   FolderSearch,
+  Images,
   LineChart,
   LogOut,
   MessageSquare,
@@ -28,6 +29,7 @@ const SECTIONS = [
   { href: "/admin/tregu", label: "Tregu", Icon: LineChart },
   { href: "/admin/poll", label: "Sondazhi", Icon: Vote },
   { href: "/admin/reagimi", label: "Reagimi", Icon: MessageSquare },
+  { href: "/admin/xhep", label: "Xhep", Icon: Images },
 ] as const;
 
 function isCurrent(pathname: string, href: string): boolean {

@@ -13,6 +13,11 @@
  */
 
 export const MURAL_MAX = 8;
+/** Fired after the mural changes, so cards showing it redraw. */
+export const PROFILE_JOURNAL_EVENT = "xhep:journal";
+function announce() {
+  if (typeof window !== "undefined") window.dispatchEvent(new Event(PROFILE_JOURNAL_EVENT));
+}
 const MAX_EDGE = 1600;
 const DB = "xhep";
 const STORE = "mural";
@@ -91,6 +96,7 @@ export async function addMuralPhotos(cityId: string, files: File[]): Promise<{ a
       await done(db.transaction(STORE, "readwrite").objectStore(STORE).put(photo));
       db.close();
       added++;
+      announce();
     } catch (reason) {
       error ??= reason === "type" || reason === "decode" ? reason : "decode";
     }
@@ -103,6 +109,7 @@ export async function removeMuralPhoto(id: string): Promise<void> {
     const db = await open();
     await done(db.transaction(STORE, "readwrite").objectStore(STORE).delete(id));
     db.close();
+    announce();
   } catch {
     // Nothing stored, nothing to remove.
   }
