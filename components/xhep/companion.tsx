@@ -1,17 +1,14 @@
 "use client";
 
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Pencil, RotateCcw, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { clearProfile, newSeed, PROFILE_EVENT, readProfile, writeProfile } from "@/lib/xhep/profile.mjs";
 import { xhepDict, type XhepLang } from "@/lib/xhep/i18n";
-import { tripUrl } from "@/lib/xhep/trip-link.mjs";
 import { requestGpsStamp } from "@/lib/xhep/gps-stamp";
 import { track } from "@/lib/analytics";
 import Quiz, { type QuizAnswers } from "./quiz";
-import MyCard from "./my-card";
 import XhepHelp from "./help";
 import DayPlan, { type StampResult } from "./day-plan";
-import Memories from "./memories";
 import styles from "./xhep.module.css";
 
 type Profile = ReturnType<typeof readProfile>;
@@ -23,6 +20,7 @@ type Profile = ReturnType<typeof readProfile>;
  */
 export default function XhepCompanion({ lang, children }: { lang: XhepLang; children?: (profile: NonNullable<Profile>) => React.ReactNode }) {
   const t = xhepDict(lang).companion;
+  const cardText = xhepDict(lang).card;
   const [profile, setProfile] = useState<Profile>(null);
   const [loaded, setLoaded] = useState(false);
   const [view, setView] = useState<"intro" | "quiz" | "card">("intro");
@@ -76,7 +74,6 @@ export default function XhepCompanion({ lang, children }: { lang: XhepLang; chil
     setView("intro");
   };
 
-  const qrUrl = profile ? tripUrl(profile, lang) : `https://383ks.com/visit${lang === "sq" ? "?lang=sq" : ""}`;
 
   return (
     <section className={styles.companion} id="your-card" aria-labelledby="xhep-companion-title">
@@ -91,9 +88,25 @@ export default function XhepCompanion({ lang, children }: { lang: XhepLang; chil
         <Quiz lang={lang} initial={profile} onDone={finish} />
       ) : view === "card" && profile ? (
         <>
-          <MyCard lang={lang} profile={profile} qrUrl={qrUrl} onEdit={() => setView("quiz")} onReset={reset} />
+          {/* The woven qilim card and keepsake gave way to the city packs below
+              (stamp scene, mural, trip QR); the plan and the answers stay. */}
+          <div className={styles.cardMeta}>
+            <button type="button" className={styles.linkButton} onClick={() => setView("quiz")}>
+              <Pencil aria-hidden="true" size={14} />
+              {cardText.edit}
+            </button>
+            <button
+              type="button"
+              className={styles.linkButton}
+              onClick={() => {
+                if (window.confirm(cardText.resetConfirm)) reset();
+              }}
+            >
+              <RotateCcw aria-hidden="true" size={14} />
+              {cardText.reset}
+            </button>
+          </div>
           <DayPlan lang={lang} profile={profile} onStamp={addStamp} />
-          <Memories lang={lang} profile={profile} />
           {children?.(profile)}
         </>
       ) : (
