@@ -16023,7 +16023,10 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
     0 20px 46px -12px color-mix(in srgb, var(--uel-edge-2) 52%, transparent),
     0 2px 14px rgba(30, 6, 0, .5),
     inset 0 1px 0 rgba(255, 190, 150, .12);
-  animation: tregu-rise 420ms var(--ease-out) both, tregu-uel-edge 17s ease-in-out infinite;
+  /* No edge cycle on the floor card: animating the colours inside two large
+     blurred shadows repainted every Europa card on the floor every frame. The
+     market banner and the receipt, one at a time, keep it. */
+  animation: tregu-rise 420ms var(--ease-out) both;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 
@@ -16081,9 +16084,14 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
      breakpoint instead. */
   stroke-dasharray: 30 70;
   stroke-dashoffset: 100;
-  filter: drop-shadow(0 0 5px rgba(255, 128, 24, .75)) drop-shadow(0 0 16px rgba(255, 96, 10, .45));
   animation: tregu-uel-beam 6.5s linear infinite;
 }
+/* The halo: the same four beams, several times wider and faint, moving in
+   step. Replaces two drop-shadow filters per beam, which were re-blurred on
+   every frame of the dash animation on every card at once. stroke-width needs
+   !important to stay wide against the per-surface weights set further down. */
+.tregu-uel-beams .tregu-uel-glow { opacity: .2; }
+.tregu-uel-beams .tregu-uel-glow path { stroke-width: 7 !important; }
 
 /* Only the colour and weight vary between them; never the timing. */
 .tregu-uel-beams path:nth-child(1) { stroke: #FFA83C; stroke-width: 1.45; }
@@ -16113,9 +16121,13 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   user-select: none;
   -webkit-user-drag: none;
   filter: saturate(1.08) contrast(1.06);
-  -webkit-mask-image: radial-gradient(120% 92% at 62% 58%, #000 42%, rgba(0, 0, 0, .55) 72%, transparent 100%);
-  mask-image: radial-gradient(120% 92% at 62% 58%, #000 42%, rgba(0, 0, 0, .55) 72%, transparent 100%);
+  /* Its own layer, so the filter is rasterised once rather than again on
+     every repaint of the card underneath it. */
+  transform: translateZ(0);
+  /* No mask: the v2 artwork is a real cut-out. The old radial mask existed to
+     dissolve a rectangular photo's edges and would now fade the cup's own. */
 }
+.tregu-uel-shine { display: none; }
 
 /* --- Contrast ------------------------------------------------------------ */
 .tregu-native-market[data-competition="uefa.europa"] .tregu-native-title { color: var(--tg-text); }
@@ -16481,7 +16493,8 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
     0 20px 46px -12px color-mix(in srgb, var(--uecl-edge-2) 52%, transparent),
     0 2px 14px rgba(1, 20, 12, .5),
     inset 0 1px 0 rgba(150, 255, 200, .12);
-  animation: tregu-rise 420ms var(--ease-out) both, tregu-uecl-edge 17s ease-in-out infinite;
+  /* Static edge on the floor card, as for Europa above. */
+  animation: tregu-rise 420ms var(--ease-out) both;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 
@@ -16499,7 +16512,7 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 .tregu-native-market[data-competition="uefa.europa.conf"] .tregu-uel-beams path:nth-child(4) { stroke: #2BE38E; }
 
 .tregu-native-market[data-competition="uefa.europa.conf"] .tregu-uel-beams path {
-  filter: drop-shadow(0 0 5px rgba(30, 220, 120, .75)) drop-shadow(0 0 16px rgba(8, 180, 80, .45));
+  filter: none;
 }
 
 .tregu-native-market[data-competition="uefa.europa.conf"] .tregu-native-title { color: var(--tg-text); }
@@ -25050,3 +25063,288 @@ button.lgt-launch > span {
 @media (prefers-reduced-motion: reduce) {
   .tregu-goal-milestone, .tregu-goal[data-celebrate] .tregu-goal-prize, .home-guest-pick { animation: none; }
 }
+
+/* ==========================================================================
+   Basketball in the flagship slot — the hardwood court
+   --------------------------------------------------------------------------
+   The carousel gave basketball a navy night-arena ground, and beside the
+   Nations League slide (also navy) the two read as one design. Basketball now
+   gets its own: a honey parquet floor with the court painted on it — both keys,
+   the three-point arcs, the centre circle — in the league's colours, and the
+   ball in the corner. Superliga e Kosovës paints in Kosovo blue and gold, the
+   NBA in its navy and red, FIBA in black and orange.
+
+   Everything is background layers on the ground the carousel already
+   crossfades, so the treatment costs no extra elements and nothing animates.
+   The wood stays in the light-honey range on purpose: muted text (#4A3320)
+   measures 5.5:1 on its darkest plank and ink (#24160A) 8:1; yes/no colours
+   sit only on the cream panels (5.2:1 and 6.2:1).
+   ========================================================================== */
+.tregu-hero-row .tregu-car-grounds > i:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
+  --court-wood: linear-gradient(178deg, #EFCC98 0%, #E6BC82 55%, #DCAE70 100%);
+  /* Board seams every 46px, then a slower cycle of plank tones so neighbouring
+     boards are never the same shade, and fine grain running along them. */
+  --court-seams: repeating-linear-gradient(90deg, rgba(110, 62, 22, .2) 0 1px, transparent 1px 46px);
+  --court-tones: repeating-linear-gradient(90deg,
+    rgba(255, 238, 205, .16) 0 46px, rgba(150, 92, 38, .09) 46px 92px,
+    rgba(255, 228, 186, .07) 92px 138px, rgba(128, 74, 28, .12) 138px 184px,
+    rgba(255, 244, 222, .1) 184px 230px);
+  --court-grain: repeating-linear-gradient(0deg, rgba(122, 72, 30, .045) 0 1px, transparent 1px 6px);
+  /* The varnish: arena light caught on the floor, top left. Static. */
+  --court-varnish: radial-gradient(70% 60% at 22% -6%, rgba(255, 250, 236, .55) 0%, rgba(255, 250, 236, 0) 64%);
+}
+.tregu-hero-row .tregu-car-grounds > i[data-competition="fbk.kosovo"] {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1000 600%22 preserveAspectRatio=%22xMidYMid slice%22%3E %3Cg fill=%22none%22 stroke=%22rgba(30,70,170,.55)%22 stroke-width=%225%22 stroke-linecap=%22round%22%3E %3Crect x=%2214%22 y=%2214%22 width=%22972%22 height=%22572%22 rx=%224%22/%3E %3Cline x1=%22500%22 y1=%2214%22 x2=%22500%22 y2=%22586%22/%3E %3Ccircle cx=%22500%22 cy=%22300%22 r=%2292%22/%3E %3Crect x=%2214%22 y=%22214%22 width=%22196%22 height=%22172%22 fill=%22rgba(30,79,179,.16)%22/%3E %3Crect x=%22790%22 y=%22214%22 width=%22196%22 height=%22172%22 fill=%22rgba(30,79,179,.16)%22/%3E %3Cpath d=%22M210 240 A60 60 0 0 1 210 360%22/%3E %3Cpath d=%22M790 240 A60 60 0 0 0 790 360%22/%3E %3Cpath d=%22M14 62 L150 62 A262 262 0 0 1 150 538 L14 538%22/%3E %3Cpath d=%22M986 62 L850 62 A262 262 0 0 0 850 538 L986 538%22/%3E %3C/g%3E %3Ccircle cx=%22500%22 cy=%22300%22 r=%2230%22 fill=%22rgba(242,193,78,.75)%22/%3E %3C/svg%3E") center / cover no-repeat,
+    url("/images/tregu/basketball-ball-v1.webp") right -34px bottom -46px / 150px auto no-repeat,
+    var(--court-varnish),
+    var(--court-seams),
+    var(--court-tones),
+    var(--court-grain),
+    var(--court-wood);
+}
+.tregu-hero-row .tregu-car-grounds > i[data-competition="nba"] {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1000 600%22 preserveAspectRatio=%22xMidYMid slice%22%3E %3Cg fill=%22none%22 stroke=%22rgba(23,64,139,.5)%22 stroke-width=%225%22 stroke-linecap=%22round%22%3E %3Crect x=%2214%22 y=%2214%22 width=%22972%22 height=%22572%22 rx=%224%22/%3E %3Cline x1=%22500%22 y1=%2214%22 x2=%22500%22 y2=%22586%22/%3E %3Ccircle cx=%22500%22 cy=%22300%22 r=%2292%22/%3E %3Crect x=%2214%22 y=%22214%22 width=%22196%22 height=%22172%22 fill=%22rgba(200,16,46,.13)%22/%3E %3Crect x=%22790%22 y=%22214%22 width=%22196%22 height=%22172%22 fill=%22rgba(200,16,46,.13)%22/%3E %3Cpath d=%22M210 240 A60 60 0 0 1 210 360%22/%3E %3Cpath d=%22M790 240 A60 60 0 0 0 790 360%22/%3E %3Cpath d=%22M14 62 L150 62 A262 262 0 0 1 150 538 L14 538%22/%3E %3Cpath d=%22M986 62 L850 62 A262 262 0 0 0 850 538 L986 538%22/%3E %3C/g%3E %3Ccircle cx=%22500%22 cy=%22300%22 r=%2230%22 fill=%22rgba(200,16,46,.6)%22/%3E %3C/svg%3E") center / cover no-repeat,
+    url("/images/tregu/basketball-ball-v1.webp") right -34px bottom -46px / 150px auto no-repeat,
+    var(--court-varnish),
+    var(--court-seams),
+    var(--court-tones),
+    var(--court-grain),
+    var(--court-wood);
+}
+.tregu-hero-row .tregu-car-grounds > i[data-competition="fiba.world"] {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1000 600%22 preserveAspectRatio=%22xMidYMid slice%22%3E %3Cg fill=%22none%22 stroke=%22rgba(40,26,14,.5)%22 stroke-width=%225%22 stroke-linecap=%22round%22%3E %3Crect x=%2214%22 y=%2214%22 width=%22972%22 height=%22572%22 rx=%224%22/%3E %3Cline x1=%22500%22 y1=%2214%22 x2=%22500%22 y2=%22586%22/%3E %3Ccircle cx=%22500%22 cy=%22300%22 r=%2292%22/%3E %3Crect x=%2214%22 y=%22214%22 width=%22196%22 height=%22172%22 fill=%22rgba(240,122,42,.16)%22/%3E %3Crect x=%22790%22 y=%22214%22 width=%22196%22 height=%22172%22 fill=%22rgba(240,122,42,.16)%22/%3E %3Cpath d=%22M210 240 A60 60 0 0 1 210 360%22/%3E %3Cpath d=%22M790 240 A60 60 0 0 0 790 360%22/%3E %3Cpath d=%22M14 62 L150 62 A262 262 0 0 1 150 538 L14 538%22/%3E %3Cpath d=%22M986 62 L850 62 A262 262 0 0 0 850 538 L986 538%22/%3E %3C/g%3E %3Ccircle cx=%22500%22 cy=%22300%22 r=%2230%22 fill=%22rgba(240,122,42,.7)%22/%3E %3C/svg%3E") center / cover no-repeat,
+    url("/images/tregu/basketball-ball-v1.webp") right -34px bottom -46px / 150px auto no-repeat,
+    var(--court-varnish),
+    var(--court-seams),
+    var(--court-tones),
+    var(--court-grain),
+    var(--court-wood);
+}
+
+/* Ink on wood: the dark-arena tokens re-scoped for a light floor. */
+.tregu-hero-row :is(.tregu-carousel, .tregu-car-slide-link):is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
+  --tg-text: #24160A;
+  --tg-muted: #4A3320;
+  --tg-border: rgba(74, 44, 14, .2);
+  --tg-border-hi: rgba(74, 44, 14, .34);
+  --tg-panel: rgba(255, 248, 234, .72);
+  --tg-panel-hi: rgba(255, 250, 240, .86);
+  --tg-yes: #0B6B3A;
+  --tg-yes-dim: rgba(11, 107, 58, .14);
+  --tg-no: #A3122A;
+  --tg-no-dim: rgba(163, 18, 42, .12);
+  color: var(--tg-text);
+}
+/* The arena photograph belongs to the night treatment; on the court it is gone. */
+.tregu-hero-row .tregu-car-slide-link:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) :is(.tregu-arena-photo, .tregu-arena-light) {
+  display: none;
+}
+/* Panels the dark slides drew as faint glass need a real surface on wood. */
+.tregu-hero-row .tregu-car-slide-link:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-feature-head {
+  background: var(--tg-panel);
+  box-shadow: inset 0 0 0 1px var(--tg-border), 0 1px 2px rgba(74, 44, 14, .08);
+}
+.tregu-hero-row .tregu-car-slide-link:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-feature-tape {
+  border-radius: 12px;
+  background: var(--tg-panel);
+  box-shadow: inset 0 0 0 1px var(--tg-border);
+}
+
+/* ==========================================================================
+   Europa & Conference — the trophy reveal on a buy
+   --------------------------------------------------------------------------
+   The receipt used to stand a feathered rectangular photo of the trophy at
+   its foot. Now the cleanly cut trophy (v2) is the moment: it rises into the
+   top of the sheet as the beams run, a halo opens behind it, a shine passes
+   over the metal, confetti in the competition colours falls through, and the
+   receipt settles in underneath. Desktop keeps the bottom-right window;
+   mobile is full screen.
+
+   Only transform and opacity animate (plus the shine's background-position on
+   one small layer), and the entrance plays once — after that the sheet holds
+   still apart from the beams and the periodic shine. Reduced motion shows the
+   final frame.
+   ========================================================================== */
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) {
+  --reveal-h: 196px;
+  --confetti-1: #FF8A1F;
+  --confetti-2: #FFC067;
+  --confetti-3: #FFF4E6;
+  --confetti-4: #E2541A;
+  --halo: rgba(255, 150, 60, .55);
+  --fall: 640px;
+  /* Room above the receipt for the trophy to stand in. */
+  padding-top: calc(var(--reveal-h) + 26px);
+}
+.tregu-trade-celebration[data-competition="uefa.europa.conf"] {
+  --confetti-1: #2BE38E;
+  --confetti-2: #57F0A4;
+  --confetti-3: #EFFFF6;
+  --confetti-4: #0ACF5A;
+  --halo: rgba(60, 230, 140, .5);
+}
+
+/* The trophy and its shine share one placement: centred, standing at the top. */
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-uel-trophy {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  top: 22px;
+  bottom: auto;
+  left: 50%;
+  right: auto;
+  width: auto;
+  height: var(--reveal-h);
+  opacity: 1;
+  -webkit-mask-image: none;
+  mask-image: none;
+  transform: translateX(-50%);
+  animation: tregu-trophy-rise 900ms cubic-bezier(.16, 1, .3, 1) 80ms both;
+}
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) img.tregu-uel-trophy {
+  filter: drop-shadow(0 16px 22px rgba(0, 0, 0, .5)) saturate(1.05);
+}
+@keyframes tregu-trophy-rise {
+  0% { opacity: 0; transform: translate(-50%, 42px) scale(.84); }
+  55% { opacity: 1; }
+  100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+/* The shine: a bright band masked to the trophy's own shape (the mask is the
+   artwork, set inline), crossing as the trophy lands and again every few
+   seconds while the sheet is open. */
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-uel-shine {
+  z-index: 2;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .9) 49%, rgba(255, 250, 235, .35) 54%, transparent 64%) 120% 0 / 320% 100% no-repeat;
+  animation:
+    tregu-trophy-rise 900ms cubic-bezier(.16, 1, .3, 1) 80ms both,
+    tregu-trophy-shine 4.2s cubic-bezier(.45, 0, .2, 1) 700ms infinite;
+}
+@keyframes tregu-trophy-shine {
+  0% { background-position: 120% 0; }
+  30%, 100% { background-position: -40% 0; }
+}
+
+/* The halo behind it: the first ribbon layer, turned into a soft circle of
+   the competition's light that opens as the trophy rises. */
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-trade-celebration-ribbons {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-trade-celebration-ribbons i { display: none; }
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-trade-celebration-ribbons i:nth-child(1) {
+  display: block;
+  position: absolute;
+  top: calc(22px + var(--reveal-h) * .42);
+  left: 50%;
+  bottom: auto;
+  width: calc(var(--reveal-h) * 1.7);
+  height: calc(var(--reveal-h) * 1.7);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--halo) 0%, transparent 100%);
+  transform: translate(-50%, -50%) scale(.4);
+  opacity: 0;
+  animation: tregu-trophy-halo 1100ms cubic-bezier(.16, 1, .3, 1) 140ms both;
+}
+@keyframes tregu-trophy-halo {
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* Confetti: the seven spark pieces, recut as falling paper in the
+   competition's colours. One fall, staggered, gone by the end. */
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-trade-celebration-sparks {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+}
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-trade-celebration-sparks i {
+  position: absolute;
+  top: -18px;
+  bottom: auto;
+  left: var(--spark-x, 50%);
+  width: 7px;
+  height: 13px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--confetti-1);
+  opacity: 0;
+  animation: tregu-confetti-fall 2.6s cubic-bezier(.32, .58, .42, 1) calc(var(--spark-delay, 0ms) + 260ms) both;
+}
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-trade-celebration-sparks i:nth-child(2n) { background: var(--confetti-2); width: 6px; height: 11px; }
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-trade-celebration-sparks i:nth-child(3n) { background: var(--confetti-3); }
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-trade-celebration-sparks i:nth-child(4n) { background: var(--confetti-4); width: 8px; height: 8px; border-radius: 50%; }
+@keyframes tregu-confetti-fall {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0deg); }
+  8% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(calc((var(--spark-size, 7px) - 7px) * 6), var(--fall), 0) rotate(560deg); }
+}
+
+/* The receipt settles in as the trophy lands. */
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-trade-celebration-content {
+  position: relative;
+  z-index: 2;
+  animation: tregu-receipt-settle 560ms cubic-bezier(.16, 1, .3, 1) 380ms both;
+}
+@keyframes tregu-receipt-settle {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 760px) {
+  .tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) {
+    --reveal-h: min(34vh, 300px);
+    --fall: 110vh;
+    padding-top: calc(var(--reveal-h) + max(40px, env(safe-area-inset-top)) + 12px);
+  }
+  .tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-uel-trophy {
+    top: max(36px, env(safe-area-inset-top));
+  }
+  .tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-trade-celebration-ribbons i:nth-child(1) {
+    top: calc(max(36px, env(safe-area-inset-top)) + var(--reveal-h) * .42);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) :is(.tregu-uel-trophy, .tregu-uel-shine, .tregu-trade-celebration-content, .tregu-trade-celebration-ribbons i) {
+    animation: none;
+    opacity: 1;
+  }
+  .tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-uel-trophy { transform: translateX(-50%); }
+  .tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-trade-celebration-ribbons i:nth-child(1) { transform: translate(-50%, -50%); }
+  .tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-trade-celebration-sparks { display: none; }
+}
+
+/* The receipt stretches the beam viewBox about twice as hard vertically as a
+   card, so the card's halo width reads as thick tubes here. Thinner and
+   fainter on this surface only. */
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-uel-beams .tregu-uel-glow { opacity: .12; }
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-uel-beams .tregu-uel-glow path { stroke-width: 3.6 !important; }
+/* The mobile receipt's decorative ring would cut across the trophy. */
+.tregu-trade-celebration:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"])::after { display: none; }
+
+/* Floor card: size the v2 trophies by height. They were sized by width for the
+   v1 crop; the Conference cut-out is much narrower, so a width of ~110px made
+   it ~420px tall and it climbed the whole card. Capped by height, both stand
+   at the foot of the lane at a similar size. */
+.tregu-native-market:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-uel-trophy {
+  width: auto;
+  height: min(250px, 62%);
+}
+/* The card's halo, a touch quieter than the default. */
+.tregu-native-market:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-uel-beams .tregu-uel-glow { opacity: .15; }
+.tregu-native-market:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-uel-beams .tregu-uel-glow path { stroke-width: 5.5 !important; }

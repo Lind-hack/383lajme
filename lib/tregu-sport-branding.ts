@@ -114,8 +114,11 @@ export type CompetitionArt = { src: string; width: number; height: number };
    different photographs and do not share an aspect ratio, so a hardcoded
    width/height on the <img> would stretch one of them. */
 export const COMPETITION_TROPHY_ART: Record<string, CompetitionArt> = {
-  "uefa.europa": { src: "/images/tregu/uel-trophy-v1.webp", width: 420, height: 1142 },
-  "uefa.europa.conf": { src: "/images/tregu/uecl-trophy-v1.webp", width: 420, height: 906 },
+  // v2: properly cut out (clean alpha, gaps between handles and ribbons clear).
+  // v1 was a rectangular photo with the beams painted across it, feathered at
+  // the edges — no mask could make it read as a trophy on its own.
+  "uefa.europa": { src: "/images/tregu/uel-trophy-v2.webp", width: 488, height: 1100 },
+  "uefa.europa.conf": { src: "/images/tregu/uecl-trophy-v2.webp", width: 305, height: 1100 },
 };
 
 /* Basketball: the arena at night. A dark, lit-from-above card with a real

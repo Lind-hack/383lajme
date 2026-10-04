@@ -52,10 +52,22 @@ export default function CompetitionArtwork({ league }: { league?: string | null 
           aria-hidden
           focusable="false"
         >
-          <path d="M -10 -18 L 8 100 L 138 38" pathLength={100} />
-          <path d="M 14 -18 L 32 100 L 162 38" pathLength={100} />
-          <path d="M 38 -18 L 56 100 L 186 38" pathLength={100} />
-          <path d="M 62 -18 L 80 100 L 210 38" pathLength={100} />
+          {/* The glow is a wide, faint copy of each beam drawn underneath, not a
+              drop-shadow filter. A filter on a path whose dash moves every
+              frame is re-blurred every frame, on every card on the floor —
+              that was the lag. A second stroke costs almost nothing. */}
+          <g className="tregu-uel-glow">
+            <path d="M -10 -18 L 8 100 L 138 38" pathLength={100} />
+            <path d="M 14 -18 L 32 100 L 162 38" pathLength={100} />
+            <path d="M 38 -18 L 56 100 L 186 38" pathLength={100} />
+            <path d="M 62 -18 L 80 100 L 210 38" pathLength={100} />
+          </g>
+          <g>
+            <path d="M -10 -18 L 8 100 L 138 38" pathLength={100} />
+            <path d="M 14 -18 L 32 100 L 162 38" pathLength={100} />
+            <path d="M 38 -18 L 56 100 L 186 38" pathLength={100} />
+            <path d="M 62 -18 L 80 100 L 210 38" pathLength={100} />
+          </g>
         </svg>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -67,6 +79,19 @@ export default function CompetitionArtwork({ league }: { league?: string | null 
           decoding="async"
           width={trophyArt.width}
           height={trophyArt.height}
+        />
+        {/* The shine: a light sweep masked by the trophy itself, so it lights
+            the metal and nothing around it. Same class as the image, so every
+            surface's positioning applies to both alike; hidden everywhere
+            except the buy celebration. */}
+        <span
+          className="tregu-uel-trophy tregu-uel-shine"
+          aria-hidden
+          style={{
+            aspectRatio: `${trophyArt.width} / ${trophyArt.height}`,
+            WebkitMaskImage: `url(${trophyArt.src})`,
+            maskImage: `url(${trophyArt.src})`,
+          }}
         />
       </>
     );
