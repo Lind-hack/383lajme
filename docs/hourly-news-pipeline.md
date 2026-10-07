@@ -39,12 +39,18 @@ to avoid competing writers. The route requires `NEWS_SCHEDULER=github` to enable
 the explicit recovery path.
 
 Install runtime files from a committed Git archive into an immutable
-`/opt/data/workspaces/383lajme-news-<SHA>` directory. Link the existing secret
-`.env.automation`, use the existing Python virtualenv, assign Hermes ownership,
+`/opt/data/workspaces/383lajme-news-<SHA>` directory. Link `.env.automation` to
+the private `/opt/data/news-pipeline.env`, use the existing Python virtualenv, assign Hermes ownership,
 and point `383lajme-news-current` at that release. Install the committed service
 and timer under `/etc/systemd/system`, then daemon-reload and enable the timer.
 Never copy a dirty application checkout into production. Preserve the prior
 runtime link for rollback. A rollback of application code also goes through main.
+
+The worker's Supabase URL, anonymous key, service role key and automation secrets
+must match the live Railway website configuration. Production uses
+`https://supabase.383ks.com`; the older cloud Supabase configuration in the
+legacy worker is a different database. Keep credentials out of Git and logs.
+The private news configuration preserves the existing report delivery settings.
 
 ## Outcomes and evals
 
@@ -58,7 +64,10 @@ The worker has a 55-minute deadline. Retention remains disabled.
 
 The publication gate checks category ownership again, freshness, evidence,
 originality, structure, source mix and database deduplication. Supabase readback
-and a live article request must succeed before the completion report. A saved
+and a live article request must succeed before the completion report. After
+publication, the worker refreshes the article, category and news landing caches
+through the authenticated canonical `https://383ks.com/api/revalidate` endpoint.
+The `www` redirect cannot be used for this POST request. A saved
 publication outcome survives later verification/report failure to prevent a
 retry from rewriting the slot. Quality and availability metrics are written to
 `.last30days/hourly-quality-latest.json`; state lives in `hourly-runs/`.
