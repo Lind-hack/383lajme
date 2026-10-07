@@ -2121,6 +2121,33 @@ def publish_supabase(path: Path) -> int:
     return 0
 
 
+def refresh_news_pages(path: Path) -> int:
+    """Invalidate article and desk caches after verified database publication."""
+    load_env()
+    try:
+        articles = json.loads(path.read_text(encoding="utf-8"))
+        desks = {"Kosovë": "kosove", "Shqipëri": "shqiperi", "Sport": "sport", "Teknologji": "teknologji", "Ekonomi": "ekonomi", "Botë": "bote", "Showbiz": "showbiz"}
+        paths = list(dict.fromkeys(["/", "/toni", "/per-ty"] + [f"/article/{a['slug']}" for a in articles] + [f"/kategori/{desks[a['category']]}" for a in articles]))
+        if len(paths) > 20:
+            raise ValueError("News cache refresh exceeds the endpoint's 20-path limit")
+        secret = os.environ.get("TREGU_AUTOMATION_SECRET", "").strip() or os.environ.get("CRON_SECRET", "").strip()
+        if not secret:
+            raise ValueError("News cache refresh requires an automation secret")
+        site = (os.environ.get("SITE_URL", "").strip() or DEFAULT_SITE_URL).rstrip("/")
+        if site not in {"https://383ks.com", "https://www.383ks.com"}:
+            raise ValueError("News cache refresh requires the production website URL")
+        request = urllib.request.Request(site + "/api/revalidate", data=json.dumps({"paths": paths}).encode(), headers={"Authorization": "Bearer " + secret, "Content-Type": "application/json"}, method="POST")
+        with urllib.request.urlopen(request, timeout=30) as response:
+            result = json.load(response)
+        if result.get("failed") or set(result.get("revalidated", [])) != set(paths):
+            raise ValueError("Website did not refresh every requested news page")
+    except Exception as exc:
+        print(f"NEWS cache refresh failed: {type(exc).__name__}")
+        return 1
+    print(f"NEWS refreshed {len(paths)} article and desk pages")
+    return 0
+
+
 def finalize_supabase(path: Path) -> int:
     """Direct publication finalizer: no Git publishing and no deployment hook."""
     try:
@@ -2174,7 +2201,7 @@ def main() -> int:
         "command",
         choices=[
             "env-status", "github-auth", "normalize", "validate", "test-email", "deploy", "verify-site", "send-report", "send-html-report",
-            "send-status-report", "publish", "finalize", "dedupe-published", "publish-supabase", "finalize-supabase",
+            "send-status-report", "publish", "finalize", "dedupe-published", "publish-supabase", "finalize-supabase", "refresh-news-pages",
         ],
         help="Publication command. *-supabase commands publish directly through Supabase PostgREST without Git or deploy hooks.",
     )
@@ -2187,7 +2214,7 @@ def main() -> int:
     args = parser.parse_args()
 
     path = Path(args.file).resolve() if args.file else latest_batch_path()
-    if args.command in {"normalize", "validate", "send-report", "publish", "finalize", "dedupe-published", "publish-supabase", "finalize-supabase"}:
+    if args.command in {"normalize", "validate", "send-report", "publish", "finalize", "dedupe-published", "publish-supabase", "finalize-supabase", "refresh-news-pages"}:
         if path is None:
             print("No article batch found")
             return 2
@@ -2241,6 +2268,9 @@ def main() -> int:
     if args.command == "publish-supabase":
         assert path is not None
         return publish_supabase(path)
+    if args.command == "refresh-news-pages":
+        assert path is not None
+        return refresh_news_pages(path)
     if args.command == "finalize-supabase":
         assert path is not None
         return finalize_supabase(path)

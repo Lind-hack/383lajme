@@ -408,6 +408,8 @@ record_state published
 SLUG="$("$PYTHON_BIN" -c "import json; print(json.load(open('$BATCH', encoding='utf-8'))[0]['slug'])")"
 URL="https://www.383ks.com/article/${SLUG}?verify=${STAMP}"
 
+stage="news-cache-refresh"
+"$PYTHON_BIN" scripts/codex_automation_support.py refresh-news-pages --file "$BATCH"
 stage="live-readback"
 STATUS="$(curl -L -sS -o /tmp/383-live.html -w '%{http_code}' "$URL")"
 test "$STATUS" = 200
