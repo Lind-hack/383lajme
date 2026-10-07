@@ -77,7 +77,8 @@ on_error() {
 
 exec 9>"$LOCK_FILE"
 if ! flock -n 9; then
-  fail_run "another 383 production run already holds ${LOCK_FILE}; this invocation was blocked to prevent duplicate publication"
+  printf '383 ACTIVE RUN: %s is held; skipping this invocation without changing the active slot state\n' "$LOCK_FILE"
+  exit 0
 fi
 trap on_error ERR
 if "$PYTHON_BIN" scripts/news_run_state.py check "$STATE"; then
