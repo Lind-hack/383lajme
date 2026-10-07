@@ -33,7 +33,8 @@ Showbiz. Publishers owned by the same group count as one family.
 Railway deploys application code exclusively through a committed push to main.
 The existing VPS `383-production.timer` runs daily at 07:00 through 23:00,
 inclusive, in Europe/Warsaw, including weekends. The one-week trial beginning
-2026-10-07 uses GPT-6.1 Sol at medium reasoning effort for drafting, independent
+2026-10-07 uses GPT-6.1 Sol; from 2026-10-08 it uses low reasoning effort
+(the requested light setting) for drafting, independent
 editing and repairs, with OAuth and no API key. No model fallback changes the model.
 It invokes `scripts/run-hourly-news.sh` inside the existing Hermes container.
 The news worker writes validated Supabase rows and never deploys the website.

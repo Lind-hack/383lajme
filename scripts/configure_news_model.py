@@ -5,7 +5,7 @@ from pathlib import Path
 import yaml
 
 
-def configure(home: Path, effort: str = "medium") -> None:
+def configure(home: Path, effort: str = "low") -> None:
     if home.resolve().name != "news-pipeline-hermes":
         raise ValueError("Refusing to modify a shared Hermes configuration")
     path = home / "config.yaml"
@@ -21,6 +21,6 @@ def configure(home: Path, effort: str = "medium") -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--home", type=Path, required=True)
-    parser.add_argument("--effort", choices=["medium"], default="medium")
+    parser.add_argument("--effort", choices=["low"], default="low")
     args = parser.parse_args()
     configure(args.home, args.effort)
