@@ -123,7 +123,7 @@ stage="writer-source-fetch"
 
 # Count pairs whose primary and independent second article were both readable,
 # not just headline-similar URLs. An inaccessible second source cannot be used.
-L383_TARGET_ARTICLES="$(DISCOVERY_PATH="$DISCOVERY" "$PYTHON_BIN" -c 'import os,re; t=open(os.environ["DISCOVERY_PATH"],encoding="utf-8").read(); m=re.search(r"Verified source-ready pair inventory: (\d+)",t); print(min(10,int(os.environ.get("L383_MAX_ARTICLES", "10")),int(m.group(1))) if m else 0)')"
+L383_TARGET_ARTICLES="$(DISCOVERY_PATH="$DISCOVERY" "$PYTHON_BIN" -c 'import os,re; t=open(os.environ["DISCOVERY_PATH"],encoding="utf-8").read(); m=re.search(r"Verified source-ready pair inventory: (\d+)",t); print(min(20,int(os.environ.get("L383_MAX_ARTICLES", "20")),int(m.group(1))) if m else 0)')"
 if [ -z "$L383_TARGET_ARTICLES" ] || [ "$L383_TARGET_ARTICLES" -lt 1 ]; then
   stage="no-new-verified-news"
   record_state no_news
@@ -180,7 +180,7 @@ run_writer() {
       --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
       --model "$model" --ignore-rules -t file,terminal --yolo \
       --max-turns "${L383_WRITER_MAX_TURNS:-35}" -Q -q \
-      "Create ${BATCH} from today's prepared evidence. Read docs/albanian_newsroom.md, docs/news-output-schema.json, ${DISCOVERY}, and ${SOCIAL_CANDIDATES}; those files contain the complete rules and fresh source-evidence paths. Discovery lists corroboration pair IDs and the Verified source-ready pair IDs whose primary and independent second pages are readable. Select only verified source-ready pair IDs. Treat each as one article: choose the stronger URL as primary and put its explicitly listed independent URL in corroborating_sources. Ignore unpaired or unreadable leads. Write as many distinct eligible stories as the evidence supports, up to ${L383_TARGET_ARTICLES:-10} total; do not stop after one strong article. Save a populated draft early, then add and verify candidates in the same file before the deadline. Every article needs its discovery category, deterministic city for local lanes, the paired direct primary URL, its paired corroborating URL, a contextual HTTPS image whose actual dimensions are at least 1200x675, at least 220 grounded Albanian words in four HTML paragraphs, and all schema fields. If the first image is too small or unavailable, keep the story and try publisher-declared images from the primary and corroborating pages. If those fail, use web research to find up to three reputable publisher pages covering the exact same event and record them in image_source_pages; do not use raw image-search, gallery, stock-photo, social-profile, or merely topically similar pages. Preserve uncertainty and named attribution; never invent facts, local impact, quotes, images, or sources. Every publisher and corroborating publisher is locked to its category by scripts/news_sources.json. Cover all seven desks fairly using available evidence; Ekonomi includes US stocks, Wall Street and crypto. Prioritize documented local public controversies. Never change a discovery category or use an unregistered source. Do not run pipeline scripts, discover extra stories, repository-wide tests, publish, deploy, email, or write any other file. Save populated valid JSON to ${BATCH} before responding." 9>&-
+      "Create ${BATCH} from today's prepared evidence. Read docs/albanian_newsroom.md, docs/news-output-schema.json, ${DISCOVERY}, and ${SOCIAL_CANDIDATES}; those files contain the complete rules and fresh source-evidence paths. Discovery lists corroboration pair IDs and the Verified source-ready pair IDs whose primary and independent second pages are readable. Select only verified source-ready pair IDs. Treat each as one article: choose the stronger URL as primary and put its explicitly listed independent URL in corroborating_sources. Ignore unpaired or unreadable leads. Write as many distinct eligible stories as the evidence supports, up to ${L383_TARGET_ARTICLES:-20} total; do not stop after one strong article. Save a populated draft early, then add and verify candidates in the same file before the deadline. Every article needs its discovery category, deterministic city for local lanes, the paired direct primary URL, its paired corroborating URL, a contextual HTTPS image whose actual dimensions are at least 1200x675, at least 220 grounded Albanian words in four HTML paragraphs, and all schema fields. If the first image is too small or unavailable, keep the story and try publisher-declared images from the primary and corroborating pages. If those fail, use web research to find up to three reputable publisher pages covering the exact same event and record them in image_source_pages; do not use raw image-search, gallery, stock-photo, social-profile, or merely topically similar pages. Preserve uncertainty and named attribution; never invent facts, local impact, quotes, images, or sources. Every publisher and corroborating publisher is locked to its category by scripts/news_sources.json. Cover all seven desks fairly using available evidence; Ekonomi includes US stocks, Wall Street and crypto. Prioritize documented local public controversies. Never change a discovery category or use an unregistered source. Do not run pipeline scripts, discover extra stories, repository-wide tests, publish, deploy, email, or write any other file. Save populated valid JSON to ${BATCH} before responding." 9>&-
 }
 
 WRITER_RC=0
@@ -196,10 +196,10 @@ FALLBACK_WRITER_MODEL="${L383_WRITER_FALLBACK_MODEL:-gpt-5.6-terra}"
 printf '383 WRITER: provider=%s primary=%s fallback=%s max_turns=%s timeout=%ss\n' \
   "${L383_WRITER_PROVIDER:-openai-codex}" "$PRIMARY_WRITER_MODEL" "$FALLBACK_WRITER_MODEL" \
   "${L383_WRITER_MAX_TURNS:-35}" "${L383_WRITER_ATTEMPT_TIMEOUT:-300}"
-# Large all-at-once Luna requests have been rejected with HTTP 429 before
-# drafting. Start with at most three, then extend the same batch in small chunks.
+# Avoid an all-at-once 20-story request. Draft at most four per call, then
+# extend the same batch while preserving the existing sources and time budget.
 FULL_TARGET="$L383_TARGET_ARTICLES"
-L383_TARGET_ARTICLES="$((FULL_TARGET < 3 ? FULL_TARGET : 3))"
+L383_TARGET_ARTICLES="$((FULL_TARGET < 4 ? FULL_TARGET : 4))"
 if run_writer "$PRIMARY_WRITER_MODEL"; then
   WRITER_RC=0
 else
@@ -236,7 +236,7 @@ if [ "$BATCH_COUNT" -lt 1 ]; then
   fail_run "writer produced no verified article candidates"
 fi
 
-# Continue a fresh batch in bounded two-story increments. Reserve at least
+# Continue a fresh batch in bounded four-story increments. Reserve at least
 # 25 minutes of the 55-minute deadline for editing, gates, and publication.
 stage="writer-continuation"
 CONTINUATION_FAILURES=0
@@ -252,12 +252,12 @@ for continuation in {1..15}; do
     "$continuation" "$BATCH_COUNT" "$L383_TARGET_ARTICLES"
   CONTINUATION_BACKUP="$(mktemp /tmp/383-continuation.XXXXXX.json)"
   cp "$BATCH" "$CONTINUATION_BACKUP"
-  L383_TARGET_ARTICLES="$((BATCH_COUNT + 2 < FULL_TARGET ? BATCH_COUNT + 2 : FULL_TARGET))"
+  L383_TARGET_ARTICLES="$((BATCH_COUNT + 4 < FULL_TARGET ? BATCH_COUNT + 4 : FULL_TARGET))"
   if ! timeout --signal=TERM --kill-after=15s 600s \
     /opt/hermes/.venv/bin/hermes chat --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
       --model "$PRIMARY_WRITER_MODEL" --ignore-rules -t file,terminal --yolo \
       --max-turns 45 -Q -q \
-      "Continue the existing ${BATCH}; do not replace, remove, or edit its current articles. Read docs/albanian_newsroom.md, docs/news-output-schema.json, ${DISCOVERY}, and the existing batch. Its current ${BATCH_COUNT} drafts are not the full source-ready inventory of ${L383_TARGET_ARTICLES}. Add as many genuinely distinct articles as the remaining Verified source-ready pair IDs support, up to ${L383_TARGET_ARTICLES} total. Skip every primary or corroborating URL already used in the batch. Every new article must have a readable independent second source, 220+ grounded Albanian words in four HTML paragraphs, a verified 1200x675+ contextual image, all schema fields and a concrete title naming WHO and STAKE. If the first image is unusable, try the story's publisher pages and then up to three exact-event reputable coverage pages in image_source_pages; never use raw image-search, gallery, stock, social-profile, or merely topical pages. Do not fabricate or pad stories. Save valid JSON to the same ${BATCH} before responding. Do not run scripts, publish, deploy, or write another file." 9>&-; then
+      "Continue the existing ${BATCH}; do not replace, remove, or edit its current articles. Read docs/albanian_newsroom.md, docs/news-output-schema.json, ${DISCOVERY}, and the existing batch. Its current ${BATCH_COUNT} drafts are not the full source-ready inventory of ${L383_TARGET_ARTICLES}. Add as many genuinely distinct articles as the remaining Verified source-ready pair IDs support, up to ${L383_TARGET_ARTICLES} total. Skip every primary or corroborating URL already used in the batch. Every new article must have a readable independent second source, 220+ grounded Albanian words in four HTML paragraphs, a verified 1200x675+ contextual image, all schema fields and a concrete title naming WHO and STAKE. If the first image is unusable, try the story's publisher pages and then up to three exact-event reputable coverage pages in image_source_pages; never use raw image-search, gallery, stock, social-profile, or merely topical pages. Do not fabricate or pad stories. Save valid JSON to the same ${BATCH} before responding. Do not run pipeline scripts, npm, repository tests or builds, publish, deploy, send reports, or write another file. This is a data-only writing task; code-release checks are not part of it." 9>&-; then
     printf '383 WRITER CONTINUATION attempt=%s exited nonzero; retaining existing draft for deterministic checks\n' "$continuation" >&2
   fi
   L383_TARGET_ARTICLES="$FULL_TARGET"
@@ -411,9 +411,12 @@ URL="https://www.383ks.com/article/${SLUG}?verify=${STAMP}"
 stage="news-cache-refresh"
 "$PYTHON_BIN" scripts/codex_automation_support.py refresh-news-pages --file "$BATCH"
 stage="live-readback"
-STATUS="$(curl -L -sS -o /tmp/383-live.html -w '%{http_code}' "$URL")"
-test "$STATUS" = 200
-grep -Fq "$SLUG" /tmp/383-live.html
+while IFS= read -r verified_slug; do
+  STATUS="$(curl -L -sS --max-time 45 -o /tmp/383-live.html -w '%{http_code}' "https://383ks.com/article/${verified_slug}?verify=${STAMP}")"
+  test "$STATUS" = 200
+  grep -Fq "$verified_slug" /tmp/383-live.html
+done < <("$PYTHON_BIN" -c 'import json,sys; print("\n".join(a["slug"] for a in json.load(open(sys.argv[1],encoding="utf-8"))))' "$BATCH")
+printf '383 LIVE READBACK: every published article returned HTTP 200 with its slug\n'
 
 "$PYTHON_BIN" scripts/news_quality_report.py --file "$BATCH" --status published || printf "383 quality metrics unavailable\n" >&2
 

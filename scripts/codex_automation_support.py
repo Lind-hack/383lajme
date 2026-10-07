@@ -2128,8 +2128,6 @@ def refresh_news_pages(path: Path) -> int:
         articles = json.loads(path.read_text(encoding="utf-8"))
         desks = {"Kosovë": "kosove", "Shqipëri": "shqiperi", "Sport": "sport", "Teknologji": "teknologji", "Ekonomi": "ekonomi", "Botë": "bote", "Showbiz": "showbiz"}
         paths = list(dict.fromkeys(["/", "/toni", "/per-ty"] + [f"/article/{a['slug']}" for a in articles] + [f"/kategori/{desks[a['category']]}" for a in articles]))
-        if len(paths) > 20:
-            raise ValueError("News cache refresh exceeds the endpoint's 20-path limit")
         secret = os.environ.get("TREGU_AUTOMATION_SECRET", "").strip() or os.environ.get("CRON_SECRET", "").strip()
         if not secret:
             raise ValueError("News cache refresh requires an automation secret")
@@ -2138,11 +2136,13 @@ def refresh_news_pages(path: Path) -> int:
             raise ValueError("News cache refresh requires the production website URL")
         # The www host redirects POST requests to GET; use the canonical origin.
         site = "https://383ks.com"
-        request = urllib.request.Request(site + "/api/revalidate", data=json.dumps({"paths": paths}).encode(), headers={"Authorization": "Bearer " + secret, "Content-Type": "application/json", "User-Agent": "python-requests/2.32.5"}, method="POST")
-        with urllib.request.urlopen(request, timeout=30) as response:
-            result = json.load(response)
-        if result.get("failed") or set(result.get("revalidated", [])) != set(paths):
-            raise ValueError("Website did not refresh every requested news page")
+        for offset in range(0, len(paths), 20):
+            requested = paths[offset:offset + 20]
+            request = urllib.request.Request(site + "/api/revalidate", data=json.dumps({"paths": requested}).encode(), headers={"Authorization": "Bearer " + secret, "Content-Type": "application/json", "User-Agent": "python-requests/2.32.5"}, method="POST")
+            with urllib.request.urlopen(request, timeout=30) as response:
+                result = json.load(response)
+            if result.get("failed") or set(result.get("revalidated", [])) != set(requested):
+                raise ValueError("Website did not refresh every requested news page")
     except Exception as exc:
         print(f"NEWS cache refresh failed: {type(exc).__name__}")
         return 1

@@ -307,7 +307,7 @@ def topic_similarity(left: dict[str, Any], right: dict[str, Any]) -> float:
 def select_leads(collected: list[dict[str, Any]], limits: dict[str, int] | None = None, watchlist: tuple[str, ...] = (), published_urls: set[str] | tuple[str, ...] = ()) -> list[dict[str, Any]]:
     # Only pass paired leads to the writer. Unpaired RSS items cannot pass the
     # two-source publication gate and previously wasted much of its context.
-    limits = limits or {category: 12 for category in CATEGORIES}
+    limits = limits or {category: MANIFEST["category_limits"][category]["discovery_max"] for category in CATEGORIES}
     seen_urls = {canonical(url) for url in published_urls if canonical(url)}
     seen_titles: set[str] = set()
     unique: list[dict[str, Any]] = []

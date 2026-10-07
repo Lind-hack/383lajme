@@ -154,6 +154,22 @@ class DirectSupabasePublicationTests(unittest.TestCase):
         self.assertEqual(self.support.publish_supabase(self.path), 1)
         self.assertIn(("DELETE", "news_batches"), [call[:2] for call in calls])
 
+    def test_twenty_article_batch_is_published_and_all_rows_verified(self):
+        self.articles = [article(index) for index in range(1, 21)]
+        self.path.write_text(json.dumps(self.articles), encoding="utf-8")
+        writes = []
+        def fake_request(method, table, **kwargs):
+            if method == "POST":
+                writes.append((table, kwargs["payload"]))
+                return []
+            if table == "news_articles" and kwargs.get("query", {}).get("batch_key"):
+                return [{"id": a["id"], "slug": a["slug"]} for a in self.articles]
+            return []
+        self.support._supabase_request = fake_request
+        self.assertEqual(self.support.publish_supabase(self.path), 0)
+        self.assertEqual(writes[0][1]["article_count"], 20)
+        self.assertEqual(len(writes[1][1]), 20)
+
     def test_finalize_supabase_never_uses_git_or_deploy_hook(self):
         calls = []
         self.support.dedupe_published = lambda path: calls.append("dedupe") or 0

@@ -13,31 +13,31 @@
   "category_limits": {
     "Kosovë": {
       "min": 0,
-      "discovery_max": 20
+      "discovery_max": 40
     },
     "Shqipëri": {
       "min": 0,
-      "discovery_max": 20
+      "discovery_max": 40
     },
     "Botë": {
       "min": 0,
-      "discovery_max": 20
+      "discovery_max": 40
     },
     "Sport": {
       "min": 0,
-      "discovery_max": 20
+      "discovery_max": 40
     },
     "Teknologji": {
       "min": 0,
-      "discovery_max": 20
+      "discovery_max": 40
     },
     "Ekonomi": {
       "min": 0,
-      "discovery_max": 20
+      "discovery_max": 40
     },
     "Showbiz": {
       "min": 0,
-      "discovery_max": 20
+      "discovery_max": 40
     }
   },
   "publishers": [

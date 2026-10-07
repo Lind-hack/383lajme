@@ -56,7 +56,13 @@ The private news configuration preserves the existing report delivery settings.
 
 `L383_QA_ONLY=1` runs discovery, writer, independent editor and quality gates
 without publishing or sending a report. `L383_MAX_ARTICLES=2` limits a smoke run;
-production defaults to at most ten verified articles. Empty verified inventory
+production targets twenty verified articles, with a hard cap of twenty. Discovery
+and evidence preparation consider up to twenty independent topic pairs per desk.
+The writer adds up to four stories per call within a 30-minute writing budget,
+reserving the remaining deadline for editing and publication. Actual publication
+can be lower when there are fewer new independently verified topics or a story
+fails a quality gate. The target never overrides freshness or evidence requirements.
+Empty verified inventory
 is a successful `no_news` outcome, with no filler. Total discovery outage,
 authentication and publication errors fail visibly. A flock and atomic hourly
 records prevent concurrent publication and regeneration of a published slot.

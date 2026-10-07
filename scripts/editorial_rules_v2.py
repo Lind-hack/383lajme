@@ -403,7 +403,7 @@ def validate_run(articles: list[dict[str, Any]]) -> list[str]:
     minimum = 1 if HOURLY_NEWS_MODE else MIN_TOTAL_ARTICLES
     if len(articles) < minimum:
         errors.append(f"run contains {len(articles)} articles; minimum is {minimum}")
-    maximum = 10 if HOURLY_NEWS_MODE else MAX_TOTAL_ARTICLES
+    maximum = MAX_TOTAL_ARTICLES
     if len(articles) > maximum:
         errors.append(f"run contains {len(articles)} articles; Topic Selection v2 caps the run at {MAX_TOTAL_ARTICLES}")
     counts = Counter(canonical_category(article.get("category")) for article in articles)

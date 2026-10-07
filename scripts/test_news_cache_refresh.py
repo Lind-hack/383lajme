@@ -32,6 +32,36 @@ class NewsCacheRefreshTests(unittest.TestCase):
                 self.assertEqual(support.refresh_news_pages(batch), 1)
                 request.assert_not_called()
 
+    def test_twenty_articles_refresh_all_paths_in_bounded_requests(self):
+        from news_source_policy import CATEGORIES
+        with tempfile.TemporaryDirectory() as directory:
+            batch = Path(directory) / "batch.json"
+            rows = [{"slug": f"story-{i}", "category": CATEGORIES[i % 7]} for i in range(20)]
+            batch.write_text(json.dumps(rows), encoding="utf-8")
+            seen = []
+            def respond(request, timeout):
+                paths = json.loads(request.data)["paths"]
+                self.assertLessEqual(len(paths), 20)
+                seen.extend(paths)
+                return io.BytesIO(json.dumps({"revalidated": paths, "failed": []}).encode())
+            with patch.object(support, "load_env"), patch.dict(os.environ, {"SITE_URL": "https://383ks.com", "TREGU_AUTOMATION_SECRET": "test-secret"}), patch.object(support.urllib.request, "urlopen", side_effect=respond) as request:
+                self.assertEqual(support.refresh_news_pages(batch), 0)
+                self.assertEqual(request.call_count, 2)
+            self.assertEqual(len(seen), 30)
+            self.assertTrue(all(f"/article/story-{i}" in seen for i in range(20)))
+
+    def test_second_refresh_request_failure_is_not_reported_as_success(self):
+        with tempfile.TemporaryDirectory() as directory:
+            batch = Path(directory) / "batch.json"
+            batch.write_text(json.dumps([{"slug": f"story-{i}", "category": "Ekonomi"} for i in range(20)]), encoding="utf-8")
+            def respond(request, timeout):
+                paths = json.loads(request.data)["paths"]
+                if "/kategori/ekonomi" in paths:
+                    return io.BytesIO(b'{"failed":[{"path":"/kategori/ekonomi"}],"revalidated":[]}')
+                return io.BytesIO(json.dumps({"revalidated": paths, "failed": []}).encode())
+            with patch.object(support, "load_env"), patch.dict(os.environ, {"SITE_URL": "https://383ks.com", "TREGU_AUTOMATION_SECRET": "test-secret"}), patch.object(support.urllib.request, "urlopen", side_effect=respond):
+                self.assertEqual(support.refresh_news_pages(batch), 1)
+
 
 if __name__ == "__main__":
     unittest.main()

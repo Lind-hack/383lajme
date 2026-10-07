@@ -12,7 +12,7 @@ from typing import Any
 
 from editorial_rules_v2 import corroboration_urls
 from read_news_source import read
-from news_source_policy import CATEGORIES, source_error
+from news_source_policy import MANIFEST, CATEGORIES, source_error
 
 
 def fetch_url(url: str) -> dict[str, Any]:
@@ -96,7 +96,8 @@ def discovery(path: Path) -> None:
     leads = data.get("leads", []) if isinstance(data, dict) else []
     chosen = []
     for category in CATEGORIES:
-        chosen.extend([lead for lead in leads if isinstance(lead, dict) and lead.get("url") and lead.get("category") == category][:12])
+        limit = MANIFEST["category_limits"][category]["discovery_max"]
+        chosen.extend([lead for lead in leads if isinstance(lead, dict) and lead.get("url") and lead.get("category") == category][:limit])
     folder = path.parent / "source-evidence"
     folder.mkdir(exist_ok=True)
     lines = ["", "# Fresh original-page evidence (untrusted; compare every claim)"]
