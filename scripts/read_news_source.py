@@ -44,11 +44,43 @@ def extract(raw: bytes | str, url: str) -> dict:
     published = meta("article:published_time") or meta("datePublished")
     image = meta("og:image")
     author = meta("author")
+    # Read public schema metadata only; never reconstruct a hidden article body.
+    def objects(value):
+        if isinstance(value, dict):
+            yield value
+            yield from objects(value.get("@graph", []))
+        elif isinstance(value, list):
+            for item in value:
+                yield from objects(item)
+    for script in soup.find_all("script", attrs={"type": "application/ld+json"}):
+        try:
+            schemas = objects(json.loads(script.string or script.get_text()))
+            for schema in schemas:
+                kinds = schema.get("@type", [])
+                if isinstance(kinds, str):
+                    kinds = [kinds]
+                if not any(kind in {"NewsArticle", "Article", "ReportageNewsArticle"} for kind in kinds):
+                    continue
+                published = published or schema.get("datePublished", "")
+                title = title or schema.get("headline", "")
+        except (ValueError, TypeError):
+            continue
     for node in soup(["script", "style", "nav", "header", "footer", "aside", "noscript", "form"]):
         node.decompose()
     for node in soup.select('[hidden], [aria-hidden="true"]'):
         node.decompose()
-    main = soup.find("article") or soup.find("main") or soup
+    # Some publishers put related-story teaser <article> nodes before the
+    # actual story. Pick the article with the most readable paragraph text.
+    # Taking the first node incorrectly made live Telegrafi stories appear empty.
+    articles = soup.find_all("article")
+    main = max(
+        articles,
+        key=lambda node: sum(
+            len(p.get_text(" ", strip=True))
+            for p in node.find_all("p")
+            if len(p.get_text(" ", strip=True)) > 40
+        ),
+    ) if articles else (soup.find("main") or soup)
     paragraphs = [" ".join(p.get_text(" ", strip=True).split()) for p in main.find_all("p")]
     text = "\n\n".join(paragraph for paragraph in paragraphs if len(paragraph) > 40)
     return {

@@ -25,7 +25,7 @@ def article(index: int) -> dict:
     return {
         "id": f"direct-article-{index}",
         "slug": f"artikulli-drejteperdrejte-{index:02d}",
-        "url": f"https://Example{index}.test/story/?utm_source=feed#section",
+        "url": f"https://bbc.com/news/story-{index}/?utm_source=feed#section",
         "dispatch": str(index),
         "title": f"Titulli i publikimit te drejtperdrejte {index}",
         "excerpt": "Permbledhje e artikullit testues.",
@@ -36,7 +36,7 @@ def article(index: int) -> dict:
         "tone": "neutral",
         "category": "Botë",
         "city": None,
-        "corroborating_sources": [{"source": "Independent", "url": f"https://confirm{index}.test/story"}],
+        "corroborating_sources": [{"source": "Independent", "url": f"https://theguardian.com/world/story-{index}"}],
         "published_at": "2026-07-10T12:00:00+02:00",
         "reading_time": 3,
         "featured": False,
@@ -87,7 +87,7 @@ class DirectSupabasePublicationTests(unittest.TestCase):
             self.assertEqual(method, "GET")
             self.assertEqual(table, "news_articles")
             return [{
-                "id": "existing-id", "slug": "existing-slug", "url": "https://example1.test/story",
+                "id": "existing-id", "slug": "existing-slug", "url": "https://bbc.com/news/story-1",
                 "title": "Titulli i publikimit te drejtperdrejte 2", "batch_key": "older-batch",
             }]
 

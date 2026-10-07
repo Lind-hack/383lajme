@@ -9,15 +9,18 @@ independence.
 
 from __future__ import annotations
 
+import os
 import re
 import unicodedata
 from collections import Counter
 from urllib.parse import urlparse
 from typing import Any
+from news_source_policy import source_error, article_source_errors, independent
 
 
 MIN_TOTAL_ARTICLES = 13
 MAX_TOTAL_ARTICLES = 20
+HOURLY_NEWS_MODE = os.environ.get("L383_HOURLY_NEWS") == "1"
 
 LANE_QUOTAS: dict[str, dict[str, int]] = {
     "Kosovë": {"min": 6},
@@ -64,60 +67,8 @@ _CATEGORY_ALIASES = {
     "biznes": "Ekonomi",
 }
 
-# Exact publisher/domain exceptions requested by the user. They are legal only
-# in their own local lane; in all other lanes they remain discovery-only/banned
-# as a primary article source.
-LOCAL_COMPETITOR_LANES = {
-    "telegrafi.com": "Kosovë",
-    "koha.net": "Kosovë",
-    "gazetaexpress.com": "Kosovë",
-    "indeksonline.net": "Kosovë",
-    "kallxo.com": "Kosovë",
-    "gazetablic.com": "Kosovë",
-    "news24.al": "Shqipëri",
-    "balkanweb.com": "Shqipëri",
-    "euronews.al": "Shqipëri",
-    "abcnews.al": "Shqipëri",
-}
-
-# Other Kosovo-originating competitors stay prohibited as primary sources in
-# every lane. The v2 exception is deliberately narrow, not a global allowlist.
-ALWAYS_BANNED_COMPETITORS = {
-    "reporteri",
-    "reporter.al",
-    "rtk",
-    "rtklive",
-    "klan kosova",
-    "kosovapress",
-    "sinjali",
-    "nacionale",
-    "periskopi",
-    "dukagjini",
-    "bota sot",
-    "zeri",
-    "lajmi.net",
-    "insajderi",
-    "ekonomia online",
-    "albanian post",
-}
-
-# The source list in the user specification is also useful when only the
-# publisher name, rather than its URL, survives normalization.
-_SOURCE_NAME_LANES = {
-    "telegrafi": "Kosovë",
-    "koha": "Kosovë",
-    "gazeta express": "Kosovë",
-    "indeksonline": "Kosovë",
-    "kallxo": "Kosovë",
-    "gazeta blic": "Kosovë",
-    "news24": "Shqipëri",
-    "balkanweb": "Shqipëri",
-    "euronews albania": "Shqipëri",
-    "abc news": "Shqipëri",
-}
-
-# City order is intentional: the first matching city in this list wins, not the
-# first city in the article text. This mirrors the supplied editorial priority.
+# Within a title or body segment, city order breaks ties. A title match takes
+# precedence over a city mentioned only in the article body.
 KOSOVO_CITIES = [
     ("Prishtinë", ("prishtine", "prishtina")),
     ("Prizren", ("prizren",)),
@@ -205,6 +156,15 @@ TITLE_STAKE_MARKERS = {
     "takohen", "takim", "fiton", "humb", "kalon", "shënon", "shenon", "nis",
     "përfundon", "perfundon", "vendos", "kërkon", "kerkon", "paguan", "nga",
     "deri", "pas", "para", "shton", "heq", "jep", "merr", "konfirmon",
+    "pajto", "marrevesh", "zgjer", "dorezon", "dekreto", "arrest",
+    "mbahet", "mbahen", "perball", "pezull", "sjell", "ngre",
+    "kthe", "rrezo", "kundershto", "siguro", "paralajmer", "pergatit",
+    "godit", "largo", "shkark", "sulmo", "refuzo", "voto", "blloko",
+    "publiko", "shpall", "ndert", "nderron", "cakto", "nis", "rikthen",
+    "le ne fuqi", "zbulon", "ndeshen", "ftese", "hyn",
+    "vra", "plagos", "synon", "braktis",
+    "bie", "zbret", "ngjitet", "shtrenjto", "lire", "emet", "listo",
+    "faliment", "shkurto", "invest", "lancon",
 }
 
 TITLE_WHO_MARKERS = {
@@ -212,6 +172,10 @@ TITLE_WHO_MARKERS = {
     "banka", "aeroport", "kurti", "vucic", "vuçiç", "osmani", "sveçla", "be", "nato",
     "kfor", "drita", "ballkani", "prishtina", "llapi", "dua lipa", "rita ora",
     "bebe rexha", "era istrefi", "netflix", "europ", "trump", "messi", "ronaldo",
+    "bitcoin", "ethereum", "solana", "nasdaq", "wall street", "s&p", "dow jones",
+    "fed", "rezerva federale", "bqe", "bqk", "sec", "coinbase", "binance",
+    "nvidia", "apple", "microsoft", "amazon", "tesla", "meta", "google",
+    "openai", "anthropic", "chatgpt", "gemini", "samsung", "intel", "amd",
 }
 
 GLOBAL_RELEVANCE_MARKERS = {
@@ -225,7 +189,7 @@ SPORT_MARKERS = {
     "kosov", "drita", "ballkani", "prishtina", "llapi", "champions league",
     "premier league", "la liga", "serie a", "transfer", "muriq", "zhegrova",
     "rrahmani", "broja", "xhaka", "shaqiri", "messi", "ronaldo", "mbappe",
-    "haaland",
+    "haaland", "joshua", "fury",
 }
 
 SHOWBIZ_MARKERS = {
@@ -293,43 +257,9 @@ def _article_text(article: dict[str, Any]) -> str:
     return fold(" ".join(str(article.get(key) or "") for key in ("title", "excerpt", "body")))
 
 
-def _publisher_lane(source: object, url: object) -> tuple[str, str] | None:
-    host = hostname(url)
-    for domain, lane in LOCAL_COMPETITOR_LANES.items():
-        if host == domain or host.endswith("." + domain):
-            return domain, lane
-    source_text = fold(source)
-    for name, lane in _SOURCE_NAME_LANES.items():
-        if name in source_text:
-            return name, lane
-    return None
-
-
-def _always_banned(source: object, url: object) -> bool:
-    host = hostname(url)
-    source_text = fold(source)
-    for marker in ALWAYS_BANNED_COMPETITORS:
-        marker_folded = fold(marker)
-        if host == marker_folded or host.endswith("." + marker_folded) or marker_folded in source_text:
-            return True
-    return False
-
-
 def source_policy_error(category: object, source: object, url: object) -> str | None:
     """Return a source-policy error, or None when the primary source is legal."""
-    lane = canonical_category(category)
-    publisher = _publisher_lane(source, url)
-    if publisher:
-        publisher_name, allowed_lane = publisher
-        if lane == allowed_lane:
-            return None
-        return (
-            f"source {publisher_name!r} is discovery-only/banned as a primary source in "
-            f"the {lane or category!r} lane; local competitor exceptions apply only to {allowed_lane}"
-        )
-    if _always_banned(source, url):
-        return f"source {source!r} remains a prohibited competitor primary source"
-    return None
+    return source_error(canonical_category(category), url)
 
 
 def infer_city(category: object, title: object, body: object) -> str | None:
@@ -337,12 +267,19 @@ def infer_city(category: object, title: object, body: object) -> str | None:
     if lane not in {"Kosovë", "Shqipëri"}:
         return None
     first_200_words = " ".join(str(body or "").split()[:200])
-    text = fold(f"{title or ''} {first_200_words}")
     candidates = KOSOVO_CITIES if lane == "Kosovë" else ALBANIA_CITIES
-    for city, aliases in candidates:
-        for alias in aliases:
-            if _contains(text, alias):
-                return city
+    for is_title, text in ((True, fold(title)), (False, fold(first_200_words))):
+        for city, aliases in candidates:
+            for alias in aliases:
+                folded_alias = fold(alias)
+                if len(folded_alias) <= 3 and not is_title:
+                    continue
+                if len(folded_alias) <= 4:
+                    matched = bool(re.search(r"(?<!\w)" + re.escape(folded_alias) + r"(?!\w)", text))
+                else:
+                    matched = _contains(text, folded_alias)
+                if matched:
+                    return city
     return lane
 
 
@@ -406,8 +343,8 @@ def independent_source_error(article: dict[str, Any]) -> str | None:
     if not secondary:
         return "article needs at least one independently verifiable corroborating source URL"
     primary_host = hostname(primary)
-    independent = [url for url in secondary if hostname(url) and hostname(url) != primary_host]
-    if not independent:
+    independent_urls = [url for url in secondary if hostname(url) and independent(primary, url)]
+    if not independent_urls:
         return "corroborating source is not independent of the primary publisher"
     return None
 
@@ -418,6 +355,7 @@ def article_errors(article: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     if category not in CANONICAL_CATEGORIES:
         errors.append(f"unknown editorial lane: {article.get('category')!r}")
+    errors.extend(article_source_errors({**article, "category": category}))
     errors.extend(title_errors({**article, "category": category}))
     source_error = source_policy_error(category, article.get("source"), article.get("url"))
     if source_error:
@@ -437,13 +375,13 @@ def article_errors(article: dict[str, Any]) -> list[str]:
         if pattern.search(text):
             errors.append(f"banned topic: {label}")
     if category == "Sport":
-        if WOMEN_SPORT_PATTERN.search(text):
+        if os.environ.get("L383_HOURLY_NEWS") != "1" and WOMEN_SPORT_PATTERN.search(text):
             errors.append("women's sports are banned")
         if LOW_VALUE_SPORT_PATTERN.search(text) and not any(_contains(text, marker) for marker in KOSOVO_SPORT_INTEREST_MARKERS):
             errors.append("youth/lower-league/friendly sports without Kosovar interest are banned")
         if not any(_contains(text, marker) for marker in SPORT_MARKERS):
             errors.append("Sport story fails the Kosovo/major-league/major-player relevance rule")
-    elif category == "Botë":
+    elif category == "Botë" and os.environ.get("L383_HOURLY_NEWS") != "1":
         if not any(_contains(text, marker) for marker in GLOBAL_RELEVANCE_MARKERS):
             errors.append("Botë story lacks a Kosovo/Balkans/diaspora/EU/US angle")
     elif category == "Showbiz":
@@ -462,16 +400,18 @@ def article_errors(article: dict[str, Any]) -> list[str]:
 
 def validate_run(articles: list[dict[str, Any]]) -> list[str]:
     errors: list[str] = []
-    if len(articles) < MIN_TOTAL_ARTICLES:
-        errors.append(f"run contains {len(articles)} articles; Topic Selection v2 requires at least {MIN_TOTAL_ARTICLES}")
-    if len(articles) > MAX_TOTAL_ARTICLES:
+    minimum = 1 if HOURLY_NEWS_MODE else MIN_TOTAL_ARTICLES
+    if len(articles) < minimum:
+        errors.append(f"run contains {len(articles)} articles; minimum is {minimum}")
+    maximum = 10 if HOURLY_NEWS_MODE else MAX_TOTAL_ARTICLES
+    if len(articles) > maximum:
         errors.append(f"run contains {len(articles)} articles; Topic Selection v2 caps the run at {MAX_TOTAL_ARTICLES}")
     counts = Counter(canonical_category(article.get("category")) for article in articles)
     for category, quota in LANE_QUOTAS.items():
         count = counts.get(category, 0)
-        if count < quota["min"]:
+        if not HOURLY_NEWS_MODE and count < quota["min"]:
             errors.append(f"{category} quota is {count}; minimum is {quota['min']}")
-        if "max" in quota and count > quota["max"]:
+        if not HOURLY_NEWS_MODE and "max" in quota and count > quota["max"]:
             errors.append(f"{category} quota is {count}; maximum is {quota['max']}")
     for index, article in enumerate(articles, 1):
         for error in article_errors(article):

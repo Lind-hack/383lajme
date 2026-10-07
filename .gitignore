@@ -9,6 +9,10 @@ data/articles.db
 
 # Python
 __pycache__/
+.venv/
+.last30days/category-source-check.*
+.last30days/hourly-runs/
+.last30days/hourly-quality-*.json
 *.py[cod]
 .env
 .env.local

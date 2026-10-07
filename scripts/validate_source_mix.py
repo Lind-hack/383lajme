@@ -8,6 +8,7 @@ import json
 import os
 import re
 from pathlib import Path
+from news_source_policy import publisher_for
 from urllib.parse import urlparse
 
 
@@ -25,7 +26,7 @@ SOCIAL_DOMAINS = {
     "pinterest.com": "pinterest",
     "github.com": "github",
 }
-MIN_ARTICLES_PER_BATCH = 13
+MIN_ARTICLES_PER_BATCH = 1 if os.environ.get("L383_HOURLY_NEWS") == "1" else 13
 MAX_ARTICLES_PER_BATCH = 20
 MAX_X_ARTICLES = 2
 MAX_SOCIAL_SHARE = 0.40
@@ -91,7 +92,7 @@ def validate(path: Path) -> int:
         print(f"SOURCE MIX failed: {path} is not a JSON array")
         return 2
 
-    families = [source_family(article) for article in articles if isinstance(article, dict)]
+    families = [((publisher_for(article.get("url")) or {}).get("family") or source_family(article)) for article in articles if isinstance(article, dict)]
     unique_families = {family for family in families if family and family != "unknown"}
     x_count = sum(1 for family in families if family == "x/twitter")
     social_count = sum(1 for article in articles if isinstance(article, dict) and social_platform(article))
@@ -124,7 +125,7 @@ def validate(path: Path) -> int:
             errors.append(
                 f"too many social-driven articles ({social_count}); cap social platforms at {max_social} of {len(articles)} articles"
             )
-        if len(unique_families) < min(MIN_SOURCE_FAMILIES, len(articles)):
+        if os.environ.get("L383_HOURLY_NEWS") != "1" and len(unique_families) < min(MIN_SOURCE_FAMILIES, len(articles)):
             errors.append(
                 "not enough source variety: "
                 f"{len(unique_families)} families found ({', '.join(sorted(unique_families)) or 'none'})"

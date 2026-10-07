@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "name": "383 Lajme Topic Selection v2 article batch",
+  "version": 3,
+  "name": "383 hourly dedicated-category article batch",
   "categories": [
     "Kosovë",
     "Shqipëri",
@@ -32,37 +32,153 @@
     "city",
     "corroborating_sources",
     "image_source_pages",
-    "created_at"
+    "created_at",
+    "dispatch"
   ],
   "properties": {
-    "id": {"type": "string"},
-    "slug": {"type": "string"},
-    "url": {"type": "string", "format": "uri"},
-    "title": {"type": "string", "maxLength": 65},
-    "excerpt": {"type": "string"},
-    "body": {"type": "string"},
-    "source": {"type": "string"},
-    "category": {"enum": ["Kosovë", "Shqipëri", "Botë", "Sport", "Showbiz", "Ekonomi", "Teknologji"]},
-    "published_at": {"type": "string"},
-    "reading_time": {"type": "integer", "minimum": 1},
-    "featured": {"type": "boolean"},
-    "engagement_score": {"type": "number"},
-    "score_reason": {"type": "string"},
-    "score_breakdown": {"type": "object"},
-    "score_formula": {"type": "string"},
-    "image_url": {"type": "string", "format": "uri"},
-    "image_width": {"type": "integer", "minimum": 1200},
-    "image_height": {"type": "integer", "minimum": 675},
-    "city": {"type": ["string", "null"]},
+    "id": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 65
+    },
+    "excerpt": {
+      "type": "string"
+    },
+    "body": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "category": {
+      "enum": [
+        "Kosovë",
+        "Shqipëri",
+        "Botë",
+        "Sport",
+        "Showbiz",
+        "Ekonomi",
+        "Teknologji"
+      ]
+    },
+    "published_at": {
+      "type": "string"
+    },
+    "reading_time": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "featured": {
+      "type": "boolean"
+    },
+    "engagement_score": {
+      "type": "number"
+    },
+    "score_reason": {
+      "type": "string"
+    },
+    "score_breakdown": {
+      "type": "object",
+      "required": [
+        "relevance",
+        "urgency",
+        "public_impact",
+        "local_depth",
+        "controversy_interest",
+        "credibility",
+        "corroboration",
+        "editorial_safety"
+      ],
+      "properties": {
+        "relevance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "urgency": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "public_impact": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "local_depth": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "controversy_interest": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "credibility": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "corroboration": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "editorial_safety": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        }
+      }
+    },
+    "score_formula": {
+      "type": "string"
+    },
+    "image_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "image_width": {
+      "type": "integer",
+      "minimum": 1200
+    },
+    "image_height": {
+      "type": "integer",
+      "minimum": 675
+    },
+    "city": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "corroborating_sources": {
       "type": "array",
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["source", "url"],
+        "required": [
+          "source",
+          "url"
+        ],
         "properties": {
-          "source": {"type": "string"},
-          "url": {"type": "string", "format": "uri"}
+          "source": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
         }
       }
     },
@@ -72,16 +188,30 @@
       "description": "Optional reputable exact-event coverage pages used only to find a qualifying image.",
       "items": {
         "type": "object",
-        "required": ["source", "url"],
+        "required": [
+          "source",
+          "url"
+        ],
         "properties": {
-          "source": {"type": "string"},
-          "url": {"type": "string", "format": "uri"}
+          "source": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
         }
       }
     },
-    "created_at": {"type": "string"}
+    "created_at": {
+      "type": "string"
+    },
+    "dispatch": {
+      "type": "string",
+      "description": "UTC hourly slot YYYY-MM-DDTHH"
+    }
   },
-  "run_contract": {
+  "legacy_run_contract": {
     "minimum_articles": 13,
     "maximum_articles": 20,
     "minimum_by_category": {
@@ -97,6 +227,15 @@
       "Showbiz": 2
     },
     "independent_sources_required": 2,
+    "city_inference": "title plus first 200 body words; supplied priority order; national fallback"
+  },
+  "run_contract": {
+    "mode": "L383_HOURLY_NEWS=1",
+    "minimum_articles": 1,
+    "maximum_articles": 10,
+    "minimum_by_category": {},
+    "independent_sources_required": 2,
+    "no_verified_news": "successful no_news outcome without an article batch",
     "city_inference": "title plus first 200 body words; supplied priority order; national fallback"
   }
 }

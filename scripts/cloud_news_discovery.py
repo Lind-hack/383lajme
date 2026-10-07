@@ -16,6 +16,7 @@ import json
 import re
 import unicodedata
 from collections import Counter
+from difflib import SequenceMatcher
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from pathlib import Path
@@ -25,6 +26,8 @@ from zoneinfo import ZoneInfo
 
 import feedparser
 import requests
+from bs4 import BeautifulSoup
+from news_source_policy import MANIFEST, CATEGORIES, source_error, topic_error, publisher_for, independent
 
 try:
     from googlenewsdecoder import gnewsdecoder
@@ -35,94 +38,29 @@ except ImportError:  # pragma: no cover - optional decoder in minimal test envs
 KOSOVO_TIME = ZoneInfo("Europe/Belgrade")
 USER_AGENT = "383LajmeDiscovery/2.0 (+https://383ks.com)"
 
-# Exact feed inventory supplied in Topic Selection v2. Each item is tagged by
-# editorial lane; the writer must not reclassify a lead based only on a snippet.
-DIRECT_FEEDS: tuple[dict[str, Any], ...] = (
-    {"url": "https://telegrafi.com/feed/", "source": "Telegrafi", "category": "Kosovë", "lane": "KOSOVË", "mixed": True},
-    {"url": "https://www.koha.net/rss", "source": "Koha", "category": "Kosovë", "lane": "KOSOVË"},
-    {"url": "https://www.gazetaexpress.com/feed/", "source": "Gazeta Express", "category": "Kosovë", "lane": "KOSOVË"},
-    {"url": "https://indeksonline.net/feed/", "source": "Indeksonline", "category": "Kosovë", "lane": "KOSOVË"},
-    {"url": "https://kallxo.com/feed/", "source": "Kallxo", "category": "Kosovë", "lane": "KOSOVË"},
-    {"url": "https://gazetablic.com/feed/", "source": "Gazeta Blic", "category": "Kosovë", "lane": "KOSOVË"},
-    {"url": "https://www.news24.al/feed/", "source": "News24", "category": "Shqipëri", "lane": "SHQIPËRI"},
-    {"url": "https://www.balkanweb.com/feed/", "source": "BalkanWeb", "category": "Shqipëri", "lane": "SHQIPËRI"},
-    {"url": "https://euronews.al/feed/", "source": "Euronews Albania", "category": "Shqipëri", "lane": "SHQIPËRI"},
-    {"url": "https://abcnews.al/feed/", "source": "ABC News Albania", "category": "Shqipëri", "lane": "SHQIPËRI"},
-    {"url": "https://news.google.com/rss?hl=en&gl=US&ceid=US:en", "source": "Google News RSS", "category": "Botë", "lane": "BOTË", "wire_substitute": True},
-    {"url": "http://feeds.bbci.co.uk/news/world/rss.xml", "source": "BBC World", "category": "Botë", "lane": "BOTË"},
-    {"url": "https://www.aljazeera.com/xml/rss/all.xml", "source": "Al Jazeera", "category": "Botë", "lane": "BOTË"},
-    {"url": "https://www.euronews.com/rss?format=mrss", "source": "Euronews", "category": "Botë", "lane": "BOTË"},
-    {"url": "https://balkaninsight.com/feed/", "source": "Balkan Insight", "category": "Botë", "lane": "BOTË"},
-    {"url": "https://www.politico.eu/feed/", "source": "POLITICO Europe", "category": "Botë", "lane": "BOTË"},
-    {"url": "http://feeds.bbci.co.uk/sport/rss.xml", "source": "BBC Sport", "category": "Sport", "lane": "SPORT"},
-    {"url": "https://www.skysports.com/rss/12040", "source": "Sky Sports", "category": "Sport", "lane": "SPORT"},
-    {"url": "https://telegrafi.com/category/sport/feed/", "source": "Telegrafi Sport", "category": "Sport", "lane": "SPORT", "discovery_only": True},
-)
-
-# No public RSS was verified for these sources. They remain explicit fallback
-# lanes rather than silently disappearing or being replaced by banned filler.
-BROWSER_LANES = (
-    {"source": "RTK Live", "url": "https://www.rtklive.com/", "category": "Kosovë", "reason": "Cloudflare blocks server fetches"},
-    {"source": "Top Channel", "url": "https://top-channel.tv/", "category": "Shqipëri", "reason": "Cloudflare blocks server fetches"},
-    {"source": "Klan Kosova", "url": "https://klankosova.tv/", "category": "Kosovë", "reason": "Cloudflare/no reliable public RSS"},
-    {"source": "JOQ Albania", "url": "https://joq-albania.com/", "category": "Shqipëri", "reason": "no public RSS found"},
-    {"source": "SuperSport Albania", "url": "https://supersport.al/", "category": "Sport", "reason": "no public RSS found"},
-    {"source": "Shqiptarja", "url": "https://shqiptarja.com/", "category": "Shqipëri", "reason": "feed path returns 404"},
-    {"source": "Prive", "url": "https://prive.al/", "category": "Showbiz", "reason": "empty server responses"},
-    {"source": "Gazeta Olle", "url": "https://gazetaolle.com/", "category": "Sport", "reason": "empty server responses; unreliable"},
-)
-
-
-def _load_verified_manifest() -> None:
-    global DIRECT_FEEDS, BROWSER_LANES
-    manifest = Path(__file__).with_name("news_sources.json")
-    try:
-        data = json.loads(manifest.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        return
-    feeds = data.get("feeds")
-    browser_lanes = data.get("browser_lanes")
-    if isinstance(feeds, list) and feeds:
-        DIRECT_FEEDS = tuple(item for item in feeds if isinstance(item, dict) and item.get("url"))
-    if isinstance(browser_lanes, list) and browser_lanes:
-        BROWSER_LANES = tuple(item for item in browser_lanes if isinstance(item, dict) and item.get("url"))
-
-
-_load_verified_manifest()
-
-SEARCHES = (
-    ("Kosovë Prishtinë government economy prices when:1d", "KOSOVË social-discovery"),
-    ("Shqipëri Tiranë government economy when:1d", "SHQIPËRI social-discovery"),
-    ("Kosovo Albania EU NATO KFOR diaspora migration when:1d", "BOTË Kosovo-angle social-discovery"),
-    ("Kosovo Drita Ballkani Prishtina Llapi Champions League when:1d", "SPORT social-discovery"),
-    ("Dua Lipa Rita Ora Bebe Rexha Netflix when:1d", "SHOWBIZ social-discovery"),
-)
+# Fail closed: discovery and publication load the same validated registry.
+DIRECT_FEEDS = tuple(MANIFEST["feeds"])
+BROWSER_LANES = tuple(MANIFEST["browser_lanes"])
+SEARCHES = ()
 
 SERBIAN_SOURCE_MARKERS = (
     "b92", "kurir", "informer", "pink", "novosti", "blic", "danas", "politika", "rts", "n1 serbia", "nova rs", "kosovo online",
 )
-SHOWBIZ_DISCOVERY_MARKERS = (
-    "showbiz", "muzik", "kenge", "keng", "aktor", "aktore", "film", "serial", "netflix",
-    "dua lipa", "rita ora", "bebe rexha", "era istrefi", "taylor swift", "grammy", "oscar",
-    "ledri", "bertan", "elijona", "klodi", "kinematograf", "hite", "artist", "kend",
-)
-
-
-def _is_showbiz_discovery(spec: dict[str, Any], title: str, summary: str) -> bool:
-    if not spec.get("mixed") or fold(spec.get("source")) != "telegrafi":
-        return False
-    text = fold(f"{title} {summary}")
-    for marker in SHOWBIZ_DISCOVERY_MARKERS:
-        marker = fold(marker)
-        if " " in marker and marker in text:
-            return True
-        if " " not in marker and re.search(r"(?<!\w)" + re.escape(marker) + r"\w*", text):
-            return True
-    return False
-
 def fold(value: object) -> str:
     text = unicodedata.normalize("NFKD", str(value or "").casefold())
     return "".join(char for char in text if not unicodedata.combining(char))
+
+
+_SQ_SUFFIXES = ("ave", "ive", "eve", "të", "së", "it", "in", "et", "at", "ut", "ot", "a", "i", "u", "n")
+
+
+def stem_sq(token: str) -> str:
+    # Lightweight Albanian suffix strip so inflected forms of the
+    # same word match (hysenit/hyseni, marreveshje/marreveshjen).
+    for suffix in _SQ_SUFFIXES:
+        if token.endswith(suffix) and len(token) - len(suffix) >= 3:
+            return token[: -len(suffix)]
+    return token
 
 
 def clean_text(value: object) -> str:
@@ -136,7 +74,10 @@ def clean_text(value: object) -> str:
 
 
 def canonical(url: str) -> str:
-    parsed = urlsplit(str(url or "").strip())
+    try:
+        parsed = urlsplit(str(url or "").strip())
+    except ValueError:
+        return ""
     if parsed.scheme not in {"http", "https"} or not parsed.hostname or parsed.hostname == "news.google.com":
         return ""
     query = [(key, value) for key, value in parse_qsl(parsed.query) if not key.startswith("utm_") and key not in {"fbclid", "gclid"}]
@@ -192,6 +133,16 @@ def _spec(value: dict[str, Any] | str, label: str | None = None) -> dict[str, An
     return {"url": value, "source": label or value, "category": "Botë", "lane": "BOTË"}
 
 
+def is_recent_for_slot(published: datetime, now: datetime) -> bool:
+    local_now = now.astimezone(KOSOVO_TIME)
+    midnight = local_now.replace(hour=0, minute=0, second=0, microsecond=0)
+    # At midnight the feeds have not produced a new calendar day's inventory.
+    # Keep the prior evening available only during the first six local hours;
+    # published-URL filtering still prevents reusing a previously run story.
+    cutoff = midnight - timedelta(hours=6) if local_now.hour < 6 else midnight
+    return cutoff <= published.astimezone(KOSOVO_TIME) <= now.astimezone(KOSOVO_TIME) + timedelta(minutes=5)
+
+
 def fetch_feed(spec_value: dict[str, Any] | str, now: datetime | None = None, label: str | None = None) -> tuple[list[dict[str, str]], dict[str, Any]]:
     spec = _spec(spec_value, label)
     now = now or datetime.now(KOSOVO_TIME)
@@ -201,17 +152,27 @@ def fetch_feed(spec_value: dict[str, Any] | str, now: datetime | None = None, la
         audit["http_status"] = response.status_code
         response.raise_for_status()
         feed = feedparser.parse(response.content)
+        if not feed.entries:
+            raise ValueError("empty or non-XML feed")
         audit["entries"] = len(feed.entries)
         audit["status"] = "ok" if feed.entries else "empty_feed"
     except Exception as exc:
         audit["error"] = type(exc).__name__
-        return [], audit
+        publisher = next((p for p in MANIFEST["publishers"] if p["source"] == spec["source"]), None)
+        fallback, listing_audit = fetch_listing({**spec, "url": spec.get("listing_url") or "https://" + publisher["domains"][0] + "/"}, now) if publisher else ([], {})
+        audit["listing_fallback"] = listing_audit
+        audit["eligible"] = len(fallback)
+        return fallback, audit
 
     leads: list[dict[str, str]] = []
     for entry in feed.entries[:100]:
         pub = published_at(entry)
-        if pub is None or pub.astimezone(KOSOVO_TIME).date() != now.astimezone(KOSOVO_TIME).date() or pub > now.astimezone(timezone.utc) + timedelta(minutes=5):
+        if pub is None or not is_recent_for_slot(pub, now):
             audit["old_or_undated"] += 1
+            continue
+        allowed_tags = {fold(tag) for tag in spec.get("allowed_tags", [])}
+        entry_tags = {fold(tag.get("term", "")) for tag in entry.get("tags", [])}
+        if allowed_tags and not entry_tags.intersection(allowed_tags):
             continue
         title = clean_text(entry.get("title"))
         original_url = str(entry.get("link") or "").strip()
@@ -224,11 +185,17 @@ def fetch_feed(spec_value: dict[str, Any] | str, now: datetime | None = None, la
             title, publisher = title.rsplit(" - ", 1)
             source = clean_text(publisher) or source
         summary = clean_text(entry.get("summary"))[:650]
-        showbiz_discovery = _is_showbiz_discovery(spec, title, summary)
-        lead_category = "Showbiz" if showbiz_discovery else category_for(entry, spec)
+        showbiz_discovery = False
+        lead_category = category_for(entry, spec)
+        if source_error(lead_category, url) or topic_error(lead_category, title, summary, tags=[tag.get("term", "") for tag in entry.get("tags", [])], url=url):
+            audit["off_lane"] = audit.get("off_lane", 0) + 1
+            continue
         lead_discovery_only = bool(spec.get("discovery_only")) or showbiz_discovery
         source_key = fold(source)
-        if any(marker in source_key for marker in SERBIAN_SOURCE_MARKERS) or urlsplit(url).hostname and urlsplit(url).hostname.endswith(".rs"):
+        # Match Serbian publisher names at a word boundary, not inside RTSH
+        # (Albanian public broadcaster) or Gazeta Blic (Kosovo publisher).
+        serbian_source = any(source_key == marker or source_key.startswith(marker + " ") for marker in SERBIAN_SOURCE_MARKERS)
+        if serbian_source or (urlsplit(url).hostname or "").endswith(".rs"):
             continue
         leads.append({
             "title": title.strip(),
@@ -242,6 +209,51 @@ def fetch_feed(spec_value: dict[str, Any] | str, now: datetime | None = None, la
         })
     audit["eligible"] = len(leads)
     return leads, audit
+
+
+def fetch_listing(spec: dict, now: datetime | None = None):
+    """Public HTML discovery, never a paywall or anti-bot bypass."""
+    now = now or datetime.now(KOSOVO_TIME)
+    audit = {"source": spec["source"], "category": spec["category"], "url": spec["url"],
+             "status": "unavailable", "entries": 0, "eligible": 0, "method": "public_listing"}
+    try:
+        from read_news_source import read
+        response = requests.get(spec["url"], timeout=(5, 15), headers={"User-Agent": USER_AGENT})
+        audit["http_status"] = response.status_code
+        response.raise_for_status()
+        soup = BeautifulSoup(response.content, "html.parser")
+        from urllib.parse import urljoin
+        urls = []
+        for link in soup.select("a[href]"):
+            if len(link.get_text(" ", strip=True)) < 35:
+                continue
+            url = canonical(urljoin(response.url, link["href"]))
+            if url and url not in urls and not source_error(spec["category"], url) and len(urlsplit(url).path) > 12:
+                urls.append(url)
+        audit["entries"] = len(urls)
+        leads = []
+        for url in urls[:4]:
+            try:
+                evidence = read(url)
+            except Exception:
+                audit["unreadable"] = audit.get("unreadable", 0) + 1
+                continue
+            if evidence.get("status") != "text_extracted":
+                continue
+            pub = published_at({"published": evidence.get("published")})
+            if not pub or not is_recent_for_slot(pub, now):
+                continue
+            title = evidence.get("title", "")
+            summary = evidence.get("text", "")[:650]
+            if topic_error(spec["category"], title, summary, url=url):
+                continue
+            leads.append({"title": title, "url": url, "source": spec["source"], "category": spec["category"],
+                          "lane": spec["category"].upper(), "published": pub.isoformat(), "summary": summary, "discovery_only": False})
+        audit.update(status="ok" if urls else "no_article_links", eligible=len(leads))
+        return leads, audit
+    except Exception as exc:
+        audit["error"] = type(exc).__name__
+        return [], audit
 
 
 def rank(lead: dict[str, Any], watchlist: tuple[str, ...] = ()) -> int:
@@ -258,15 +270,51 @@ def rank(lead: dict[str, Any], watchlist: tuple[str, ...] = ()) -> int:
     return score
 
 
+TOPIC_STOPWORDS = {
+    "dhe", "per", "nga", "nje", "me", "ne", "te", "se", "qe", "si", "pas",
+    "mbi", "nen", "sot", "kjo", "kete", "the", "and", "for", "from", "with",
+    "after", "says", "said", "new", "live", "video", "kosove", "kosova",
+    "kosov", "shqiperi", "shqiperia", "albania", "alban", "futboll",
+}
+
+
+def topic_terms(lead: dict[str, Any], include_summary: bool = False) -> set[str]:
+    value = str(lead.get("title", ""))
+    if include_summary:
+        value += " " + str(lead.get("summary", ""))[:240]
+    return {
+        stem_sq(token)
+        for token in re.findall(r"[a-z0-9]+", fold(value))
+        if len(token) >= 3 and token not in TOPIC_STOPWORDS
+    }
+
+
+def topic_similarity(left: dict[str, Any], right: dict[str, Any]) -> float:
+    left_title = " ".join(sorted(topic_terms(left)))
+    right_title = " ".join(sorted(topic_terms(right)))
+    left_terms = topic_terms(left)
+    right_terms = topic_terms(right)
+    if not left_terms or not right_terms:
+        return 0.0
+    title_overlap = len(left_terms & right_terms) / min(len(left_terms), len(right_terms))
+    sequence = SequenceMatcher(None, left_title, right_title).ratio()
+    left_context = topic_terms(left, include_summary=True)
+    right_context = topic_terms(right, include_summary=True)
+    context_overlap = len(left_context & right_context) / min(len(left_context), len(right_context))
+    return max(title_overlap, sequence * 0.9, context_overlap * 0.75)
+
+
 def select_leads(collected: list[dict[str, Any]], limits: dict[str, int] | None = None, watchlist: tuple[str, ...] = (), published_urls: set[str] | tuple[str, ...] = ()) -> list[dict[str, Any]]:
-    limits = limits or {"Kosovë": 30, "Shqipëri": 20, "Botë": 30, "Sport": 20, "Showbiz": 15}
+    # Only pass paired leads to the writer. Unpaired RSS items cannot pass the
+    # two-source publication gate and previously wasted much of its context.
+    limits = limits or {category: 12 for category in CATEGORIES}
     seen_urls = {canonical(url) for url in published_urls if canonical(url)}
     seen_titles: set[str] = set()
     unique: list[dict[str, Any]] = []
     for lead in sorted(collected, key=lambda item: (-rank(item, watchlist), item.get("published", ""), item.get("url", ""))):
         url = canonical(lead.get("url", ""))
         title = " ".join(str(lead.get("title", "")).casefold().split())
-        if not url or url in seen_urls or title in seen_titles:
+        if not url or url in seen_urls or source_error(str(lead.get("category", "")), url):
             continue
         seen_urls.add(url)
         seen_titles.add(title)
@@ -274,17 +322,40 @@ def select_leads(collected: list[dict[str, Any]], limits: dict[str, int] | None 
     selected: list[dict[str, Any]] = []
     for category, limit in limits.items():
         pool = [lead for lead in unique if lead.get("category") == category]
+        used: set[str] = set()
         host_counts: Counter[str] = Counter()
         chosen: list[dict[str, Any]] = []
-        for lead in pool:
-            host = (urlsplit(lead["url"]).hostname or "").removeprefix("www.")
-            if host_counts[host] >= 12:
+        pair_target = limit // 2
+        for anchor in pool:
+            anchor_url = canonical(anchor.get("url", ""))
+            if anchor_url in used or len(chosen) // 2 >= pair_target:
                 continue
-            chosen.append(lead)
-            host_counts[host] += 1
-            if len(chosen) >= limit:
-                break
-        selected.extend(chosen)
+            anchor_host = (urlsplit(anchor_url).hostname or "").removeprefix("www.")
+            candidates: list[tuple[float, dict[str, Any]]] = []
+            for candidate in pool:
+                candidate_url = canonical(candidate.get("url", ""))
+                candidate_host = (urlsplit(candidate_url).hostname or "").removeprefix("www.")
+                if candidate_url == anchor_url or candidate_url in used or not independent(anchor_url, candidate_url):
+                    continue
+                candidates.append((topic_similarity(anchor, candidate), candidate))
+            if not candidates:
+                continue
+            score, match = max(candidates, key=lambda item: item[0])
+            anchor_terms = topic_terms(anchor)
+            match_terms = topic_terms(match)
+            shared_terms = len(anchor_terms & match_terms)
+            title_overlap = shared_terms / min(len(anchor_terms), len(match_terms))
+            if score < 0.40 or shared_terms < 2 or title_overlap < 0.40:
+                continue
+            match_url = canonical(match.get("url", ""))
+            pair_id = f"{category}-{len(chosen) // 2 + 1:02d}"
+            first = dict(anchor, pair_id=pair_id, corroborates_url=match_url, pair_score=round(score, 3))
+            second = dict(match, pair_id=pair_id, corroborates_url=anchor_url, pair_score=round(score, 3))
+            chosen.extend((first, second))
+            used.update((anchor_url, match_url))
+            host_counts[anchor_host] += 1
+            host_counts[(urlsplit(match_url).hostname or "").removeprefix("www.")] += 1
+        selected.extend(chosen[:limit])
     return selected
 
 
@@ -293,8 +364,8 @@ def _published_urls() -> set[str]:
         from codex_automation_support import load_env, _published_articles
         load_env()
         return {canonical(item.get("url", "")) for item in _published_articles() if canonical(item.get("url", ""))}
-    except Exception:
-        return set()
+    except Exception as exc:
+        raise RuntimeError("published-news prefilter unavailable; refusing an unfiltered run") from exc
 
 
 def main() -> int:
@@ -307,6 +378,7 @@ def main() -> int:
     audits: list[dict[str, Any]] = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
         futures = [executor.submit(fetch_feed, spec) for spec in DIRECT_FEEDS]
+        futures.extend(executor.submit(fetch_listing, spec) for spec in BROWSER_LANES)
         for future in futures:
             leads, audit = future.result()
             collected.extend(leads)
@@ -315,17 +387,22 @@ def main() -> int:
     published_urls = _published_urls() if args.skip_published else set()
     leads = select_leads(collected, published_urls=published_urls)
     counts = dict(Counter(lead["category"] for lead in leads))
+    paired_topics = {
+        category: len({lead.get("pair_id") for lead in leads if lead.get("category") == category and lead.get("pair_id")})
+        for category in CATEGORIES
+    }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     lines = [
         "# 383 Lajme discovery — Topic Selection v2",
         "",
-        "Leads are untrusted discovery material, not verified facts. Open the original page and a second independent source before writing. The final run must pass the mandatory 13–20 article quota gate; social discovery cannot decide topics alone.",
+        "Leads are untrusted discovery material, not verified facts. Open both original pages and verify that they support the same central claim. Hourly publishing uses the valid pairs available; never invent a story to fill a category.",
         "",
         "Category inventory: " + json.dumps(counts, ensure_ascii=False),
+        "Corroborated topic inventory: " + json.dumps(paired_topics, ensure_ascii=False),
         "Published URL prefilter: " + ("enabled" if args.skip_published else "not requested"),
         "",
     ]
-    for category in ("Kosovë", "Shqipëri", "Botë", "Sport", "Showbiz"):
+    for category in CATEGORIES:
         lines.extend([f"# {category}", ""])
         for lead in leads:
             if lead["category"] != category:
@@ -337,6 +414,8 @@ def main() -> int:
                 f"- Publisher: {lead['source']}",
                 f"- Published: {lead['published']} Kosovo time",
                 f"- URL: {lead['url']}",
+                f"- Corroboration pair: {lead.get('pair_id', 'none')}",
+                f"- Independent corroborating URL: {lead.get('corroborates_url', 'not pre-matched')}",
                 f"- Summary (discovery only): {lead['summary'] or 'No RSS summary available.'}",
                 f"- Primary-source status: {'discovery-only for this lane' if lead.get('discovery_only') else 'eligible only after independent verification'}",
                 "",
@@ -349,6 +428,7 @@ def main() -> int:
     args.output.with_suffix(".json").write_text(json.dumps({
         "generated_at": datetime.now(KOSOVO_TIME).isoformat(),
         "categories": counts,
+        "corroborated_topics": paired_topics,
         "published_prefilter": bool(args.skip_published),
         "browser_lanes": list(BROWSER_LANES),
         "searches": [{"query": query, "lane": lane} for query, lane in SEARCHES],
@@ -359,11 +439,12 @@ def main() -> int:
         "selected": len(leads),
         "raw_current_day": len(collected),
         "categories": counts,
+        "corroborated_topics": paired_topics,
         "working_feeds": sum(audit.get("status") == "ok" for audit in audits),
         "total_feeds": len(audits),
         "browser_lanes": len(BROWSER_LANES),
     }, ensure_ascii=False))
-    return 0 if leads else 1
+    return 0 if collected or any(a.get("status") == "ok" or a.get("listing_fallback", {}).get("status") == "ok" for a in audits) else 2
 
 
 if __name__ == "__main__":

@@ -2,34 +2,24 @@
 
 This document is authoritative for the hosted writer and deterministic gates. It amends older wording about “Kosovo audience fit” and the competitor-source rule. `scripts/editorial_rules_v2.py` and `scripts/topic_selection_gate.py` enforce the machine-checkable parts.
 
-## Core rule: relevance first
+## Hourly source policy v3
 
-Apply the Prishtina test to every candidate: *Would a reader in Pristina stop scrolling for this headline?* If the honest answer is no, do not write it. Relevance beats volume; 15 strong stories are better than 20 filler stories.
+The hourly worker has no category minimum and publishes at most ten verified
+articles. The supplied source-ready target is a ceiling, never a quota. A quiet
+hour can publish none. Every category is checked on every run. Prioritize
+interesting, well-supported news for Kosovo readers without inventing a local
+connection to world news.
 
-The social-discovery/last30days engine remains useful for finding leads, but it never decides the run alone. The quota table below is mandatory. If a feed is quiet, use the browser fallback lanes; never use a banned topic to fill a quota.
-
-## Mandatory run quotas
-
-The final batch contains 13–20 articles, subject to all of these lane limits:
-
-- `Kosovë`: minimum 6. Politics, economy, prices, everyday life, Prishtina and other cities. This is the core lane and must never be under-filled.
-- `Shqipëri`: minimum 3.
-- `Botë`: 3–4, only with a Kosovo/Balkans/diaspora/EU/US angle: EU integration, dialogue, visas, migration, KFOR/NATO, or major global events with a clear local stake. Never foreign domestic news with no Kosovo angle.
-- `Sport`: 2–3, only Kosovo national teams; Kosovar clubs in Europe (`Drita`, `Ballkani`, `Prishtina`, `Llapi`); Champions League; Premier League; La Liga; Serie A; transfers involving Albanian/Kosovar players; or global superstars.
-- `Showbiz`: 1–2, only people a 19-year-old in Pristina would recognize: Albanian/Kosovar stars (`Dua Lipa`, `Rita Ora`, `Bebe Rexha`, `Era Istrefi`, etc.), A-list global celebrities, Netflix or major-film mega-hits.
-
-The quotas imply an effective minimum of 15 when all mandatory lanes are populated, even though the outer contract is 13–20.
-
-## Source policy v2
-
-For `KOSOVË` and `SHQIPËRI` discovery, these local outlets may be used as discovery/primary reporting sources:
-
-- Kosovo: Telegrafi, Koha, Gazeta Express, Indeksonline, Kallxo, Gazeta Blic.
-- Albania: News24, BalkanWeb, Euronews Albania, ABC News.
-
-They must never be copied. Rewrite in 383 Lajme’s own words, add context/value, and verify every article against at least one independent second source. A same-publisher URL is not independent.
-
-The exception is lane-specific. Those publishers remain prohibited as the primary source for `BOTË`, `SPORT`, and `SHOWBIZ` (and for any other non-local lane). Telegrafi Sport and Telegrafi Showbiz items can be discovery leads only; use the wire/international/official source for a final Sport/Showbiz article. Kosovo-originating outlets not listed above remain prohibited as primary sources.
+`scripts/news_sources.json` is the authoritative source registry. Every primary
+and corroborating publisher belongs to exactly one desk. Reject off-topic stories
+instead of changing category. Local public controversies belong to Kosovë or
+Shqipëri; celebrity entertainment belongs to Showbiz. Ekonomi includes US stocks,
+Wall Street, crypto, business and finance. Technology product and AI reporting
+belongs to Teknologji. Never use a world publisher as technology or markets
+corroboration, or a local general portal as entertainment or sports corroboration.
+Two URLs must be from different ownership families and support the same central
+claim. Availability is checked anew every run. Blocked/paid sources do not supply
+facts from previews. Never copy another outlet's wording.
 
 ## Hard bans — never publish
 
@@ -71,20 +61,14 @@ Non-local articles carry `city: null`.
 
 ## Discovery lanes
 
-Verified feed inventory (checked 2026-09-21):
-
-- KOSOVË: `https://telegrafi.com/feed/`, `https://www.koha.net/rss`, `https://www.gazetaexpress.com/feed/`, `https://indeksonline.net/feed/`, `https://kallxo.com/feed/`, `https://gazetablic.com/feed/`; RTK Live and Klan Kosova use the browser lane because server fetches are blocked.
-- SHQIPËRI: `https://www.news24.al/feed/`, `https://www.balkanweb.com/feed/`, `https://euronews.al/feed/`, `https://abcnews.al/feed/`.
-- BOTË: `https://news.google.com/rss?hl=en&gl=US&ceid=US:en` (wire substitute), `http://feeds.bbci.co.uk/news/world/rss.xml`, `https://www.aljazeera.com/xml/rss/all.xml`, `https://www.euronews.com/rss?format=mrss`, `https://balkaninsight.com/feed/`, `https://www.politico.eu/feed/`.
-- `SPORT`: `http://feeds.bbci.co.uk/sport/rss.xml`, `https://www.skysports.com/rss/12040`, and Telegrafi Sport as discovery-only.
-- `SHOWBIZ`: Telegrafi main feed for discovery; Prive uses the browser lane.
-- Browser/no-feed fallbacks: RTK Live, Top Channel, Klan Kosova, JOQ Albania, SuperSport Albania, Shqiptarja, Prive and Gazeta Olle. Do not substitute banned topics when one of these lanes is unavailable.
-
-If a feed is quiet for more than a day, re-check its path. Blocked/no-feed sources belong in the browser lane, not in a filler quota.
+Use the prepared evidence and verified pair IDs only. Registry feeds and bounded
+public listing fallbacks are attempted each hour. Consult
+`docs/hourly-news-pipeline.md` for desks and operations. Never add unrelated news
+to fill a quiet lane.
 
 ## Batch article contract
 
-Every article must include `id`, `slug`, `url`, `title`, `excerpt`, `body`, `source`, `category`, `published_at`, `reading_time`, `featured`, `engagement_score`, `score_reason`, `score_breakdown`, `score_formula`, `image_url`, `image_width`, `image_height`, `city`, `corroborating_sources`, and `created_at`. Images must decode at 1200×675 or larger. If the first image is inadequate, retain the story and try publisher-declared images from its primary and corroborating pages. If those fail, web-search up to three reputable publisher pages covering the exact event and record them as optional `{source, url}` objects in `image_source_pages`. Never use raw image-search results, galleries, stock-photo pages, social profiles, or broad topic matches; the validator independently checks headline overlap, metadata, dimensions, and placeholder exclusions.
+Every article must include `id`, `slug`, `url`, `title`, `excerpt`, `body`, `source`, `category`, `published_at`, `reading_time`, `featured`, `engagement_score`, `score_reason`, `score_breakdown`, `score_formula`, `image_url`, `image_width`, `image_height`, `city`, `corroborating_sources`, and `created_at` and `dispatch` (UTC slot YYYY-MM-DDTHH). Images must decode at 1200×675 or larger. If the first image is inadequate, retain the story and try publisher-declared images from its primary and corroborating pages. If those fail, web-search up to three reputable publisher pages covering the exact event and record them as optional `{source, url}` objects in `image_source_pages`. Never use raw image-search results, galleries, stock-photo pages, social profiles, or broad topic matches; the validator independently checks headline overlap, metadata, dimensions, and placeholder exclusions.
 
 `corroborating_sources` is a non-empty list of objects such as:
 
@@ -94,8 +78,12 @@ Every article must include `id`, `slug`, `url`, `title`, `excerpt`, `body`, `sou
 ]
 ```
 
-The second URL must resolve to a different publisher from the primary URL. The source-evidence stage fetches both URLs; inaccessible evidence is rejected before publication.
+The second URL must resolve to a different ownership family in the same category from the primary URL. The source-evidence stage fetches both URLs; inaccessible evidence is rejected before publication.
 
 ## Originality
 
 Use sources as evidence, not as copy. Never copy sentences from source articles. A paraphrased rewrite or short excerpt plus a link must add context and be written in 383 Lajme’s own words. Drop a story that cannot meet this standard rather than padding the batch.
+
+## Ranking metadata
+
+Use 0–10 values for every score_breakdown key: relevance, urgency, public_impact, local_depth, controversy_interest, credibility, corroboration, editorial_safety. The normalizer calculates the weighted score. Incomplete ranking metadata receives an explicitly labelled neutral baseline; it never counts as evidence.

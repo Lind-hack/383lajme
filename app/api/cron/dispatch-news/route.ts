@@ -7,7 +7,7 @@ const REPO = "Lind-hack/383lajme";
 const WORKFLOW_ID = "codex-cloud-news.yml";
 const REF = "main";
 const KOSOVO_TIME_ZONE = "Europe/Belgrade";
-const TARGET_HOURS = [7, 9, 11, 13, 15, 17, 19, 21, 23];
+const TARGET_HOURS = Array.from({ length: 24 }, (_, hour) => hour);
 
 type KosovoParts = {
   date: string;
@@ -15,6 +15,15 @@ type KosovoParts = {
 };
 
 export async function GET(request: NextRequest) {
+  // The VPS owns publication; old hosted crons must not create competing writers.
+  if (process.env.NEWS_SCHEDULER !== "github") {
+    return NextResponse.json({
+      ok: true,
+      skipped: true,
+      scheduler: "vps-hourly",
+      reason: "Hourly news publication is managed by the VPS timer.",
+    });
+  }
   const url = new URL(request.url);
   const cronSecret = process.env.CRON_SECRET ?? "";
   const authHeader = request.headers.get("authorization") ?? "";

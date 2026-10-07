@@ -1,0 +1,21 @@
+name: News source isolation evals
+on:
+  push:
+    paths: ['scripts/**', '.github/workflows/news-source-evals.yml']
+  pull_request:
+    paths: ['scripts/**', '.github/workflows/news-source-evals.yml']
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r scripts/requirements.txt
+      - run: python -m unittest discover -s scripts -p test_news_source_policy.py -v
+      - run: python -m unittest discover -s scripts -p test_originality_gate.py -v
+      - run: python scripts/test_source_mix_relaxed_floor.py
+      - run: python scripts/test_codex_automation_support.py
+      - run: python -m unittest discover -s scripts -p 'test_direct_supabase*.py' -v
+      - run: bash -n scripts/run-hourly-news.sh scripts/run-news-editor.sh

@@ -34,6 +34,8 @@ from io import BytesIO
 from pathlib import Path
 from typing import Any
 
+from news_source_policy import article_source_errors
+
 from editorial_rules_v2 import (
     CANONICAL_CATEGORIES,
     canonical_category,
@@ -132,31 +134,6 @@ SOCIAL_DOMAINS = {
 }
 
 
-# Runtime contract mirrored by verify-production-deployment.mjs. These values
-# describe the currently deployed Tregu surface; they are checked rather than
-# inferred from a successful HTTP response.
-TREGU_CHART_UI_VERSION = "smooth-inspector-v3"
-F1_RACE_UI_VERSION = "race-grid-v3"
-FOOTBALL_MARKET_UI_VERSION = "stage-aware-v3"
-DEPLOYMENT_POLICY = "VERCEL deploy delegated to the GitHub main integration"
-
-
-def production_release_contract() -> dict[str, str]:
-    contract = {
-        "chart_ui_version": TREGU_CHART_UI_VERSION,
-        "f1_race_ui_version": F1_RACE_UI_VERSION,
-        "football_market_ui_version": FOOTBALL_MARKET_UI_VERSION,
-        "deployment_policy": DEPLOYMENT_POLICY,
-    }
-    required = (
-        contract.get("f1_race_ui_version", ""),
-        contract.get("football_market_ui_version", ""),
-        contract.get("deployment_policy", ""),
-    )
-    if not all(required):
-        raise RuntimeError("Production release contract is incomplete")
-    return contract
-
 SCORE_WEIGHTS = {
     "relevance": 0.22,
     "urgency": 0.14,
@@ -173,7 +150,7 @@ DEFAULT_GITHUB_REPO = "Lind-hack/383lajme"
 TREGU_CHART_UI_VERSION = "smooth-inspector-v3"
 F1_RACE_UI_VERSION = "race-live-v4"
 FOOTBALL_MARKET_UI_VERSION = "stage-aware-v3"
-DEPLOYMENT_POLICY = "VERCEL deploy delegated to the GitHub main integration"
+DEPLOYMENT_POLICY = "Railway deployment delegated to the GitHub main integration"
 
 
 def production_release_contract() -> dict[str, str]:
@@ -195,7 +172,7 @@ def production_release_contract() -> dict[str, str]:
 # Topic Selection v2 is a run-level contract: 13–20 articles. The separate
 # topic_selection_gate.py enforces lane minima/maxima; this structural validator
 # keeps the same outer cap so no later stage can publish an oversized batch.
-MIN_ARTICLES_PER_BATCH = 13
+MIN_ARTICLES_PER_BATCH = 1 if os.environ.get("L383_HOURLY_NEWS") == "1" else 13
 MAX_ARTICLES_PER_BATCH = 20
 MAX_X_ARTICLES = 2
 MAX_SOCIAL_SHARE = 0.40
@@ -471,6 +448,9 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
         if not str(article.get("published_at") or "").strip():
             article["published_at"] = batch_hour
             changed += 1
+        if not str(article.get("dispatch") or "").strip():
+            article["dispatch"] = path.stem
+            changed += 1
         # Supply deterministic non-editorial metadata defaults when omitted.
         if "source_flag" not in article:
             article["source_flag"] = ""
@@ -529,7 +509,7 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
             changed += 1
 
         breakdown = article.get("score_breakdown")
-        if not isinstance(breakdown, dict):
+        if not isinstance(breakdown, dict) or not all(key in breakdown for key in SCORE_WEIGHTS):
             # Scores are editorial ranking metadata, not a source claim. Supply a
             # transparent neutral baseline when the writer omits the object; the
             # deterministic weighted formula below owns the final score.
@@ -1021,6 +1001,7 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
                         f"{min_width}x{min_height}"
                     )
 
+        errors.extend(f"{label} {error}" for error in article_source_errors(article))
         source_error = source_policy_error(category, article.get("source"), article.get("url"))
         if source_error:
             errors.append(f"{label}: {source_error}")

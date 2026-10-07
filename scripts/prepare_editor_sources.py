@@ -6,11 +6,13 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
 from editorial_rules_v2 import corroboration_urls
 from read_news_source import read
+from news_source_policy import CATEGORIES, source_error
 
 
 def fetch_url(url: str) -> dict[str, Any]:
@@ -56,6 +58,18 @@ def load_articles(batch: Path) -> list[dict[str, Any]]:
 
 def prepare(batch: Path) -> Path:
     articles = load_articles(batch)
+    url_fields = sum(1 for a in articles if str(a.get("url") or "").strip())
+    url_fields += sum(
+        len(a.get("corroborating_sources") or a.get("secondary_sources") or [])
+        for a in articles
+    )
+    if articles and url_fields == 0:
+        print(
+            "383 EDITOR SOURCES: writer produced articles without any source "
+            "URL fields; failing fast before the editor stage",
+            file=sys.stderr,
+        )
+        sys.exit(1)
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
         records = list(pool.map(fetch, articles))
     target = batch.with_suffix(".editor-sources.json")
@@ -80,20 +94,59 @@ def discovery(path: Path) -> None:
         raise FileNotFoundError(f"discovery sidecar missing: {sidecar}")
     data = json.loads(sidecar.read_text(encoding="utf-8"))
     leads = data.get("leads", []) if isinstance(data, dict) else []
-    chosen = [lead for lead in leads if isinstance(lead, dict) and lead.get("url")][:80]
+    chosen = []
+    for category in CATEGORIES:
+        chosen.extend([lead for lead in leads if isinstance(lead, dict) and lead.get("url") and lead.get("category") == category][:12])
     folder = path.parent / "source-evidence"
     folder.mkdir(exist_ok=True)
     lines = ["", "# Fresh original-page evidence (untrusted; compare every claim)"]
+    paired_leads = [
+        {
+            **lead,
+            "slug": f"lead-{index:03d}",
+            "corroborating_sources": [
+                {"url": lead["corroborates_url"]}
+            ] if lead.get("corroborates_url") else [],
+        }
+        for index, lead in enumerate(chosen, 1)
+    ]
+    urls = list(dict.fromkeys(url for lead in paired_leads for url in
+                            [lead["url"], *[s["url"] for s in lead["corroborating_sources"]]]))
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
-        records = list(pool.map(fetch, [{**lead, "slug": f"lead-{index:03d}"} for index, lead in enumerate(chosen, 1)]))
-    for record in records:
+        fetched = dict(zip(urls, pool.map(fetch_url, urls)))
+    records = [{"slug": lead["slug"], "source_url": lead["url"], "evidence": fetched[lead["url"]],
+                "corroborating": [{"url": item["url"], "evidence": fetched[item["url"]]}
+                                  for item in lead["corroborating_sources"]]} for lead in paired_leads]
+    verified_pairs: set[str] = set()
+    for lead, record in zip(chosen, records):
         target = folder / f"{record['slug']}.json"
         target.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         evidence = record.get("evidence", {})
-        lines.append(f"{record['source_url']} | {evidence.get('status', 'unavailable')} | {target}")
+        secondary = record.get("corroborating", [])
+        secondary_ok = any(
+            item.get("evidence", {}).get("status") == "text_extracted"
+            and not source_error(lead["category"], item.get("evidence", {}).get("url"))
+            for item in secondary
+        )
+        pair_id = str(lead.get("pair_id") or "")
+        if pair_id and evidence.get("status") == "text_extracted" and not source_error(lead["category"], evidence.get("url")) and secondary_ok:
+            verified_pairs.add(pair_id)
+        lines.append(
+            f"{record['source_url']} | primary={evidence.get('status', 'unavailable')} "
+            f"| corroborating={'text_extracted' if secondary_ok else 'unavailable'} "
+            f"| pair_id={pair_id or '-'} | {target}"
+        )
+    data["verified_pair_ids"] = sorted(verified_pairs)
+    data["source_ready_categories"] = {category: len({lead["pair_id"] for lead in chosen if lead.get("category") == category and lead.get("pair_id") in verified_pairs}) for category in CATEGORIES}
+    sidecar.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    lines.insert(1, f"Verified source-ready pair inventory: {len(verified_pairs)}")
+    lines.insert(2, "Verified source-ready pair IDs: " + ", ".join(sorted(verified_pairs)))
     with path.open("a", encoding="utf-8") as output:
         output.write("\n".join(lines) + "\n")
-    print(f"383 WRITER EVIDENCE: {len(records)} direct lead fetches completed")
+    print(
+        f"383 WRITER EVIDENCE: {len(records)} direct lead fetches completed; "
+        f"verified_source_ready_pairs={len(verified_pairs)}"
+    )
 
 
 def main() -> int:

@@ -1,0 +1,17 @@
+[Unit]
+Description=383 hourly category-isolated news publisher
+After=docker.service network-online.target
+Requires=docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/local/sbin/cleanup-383-production-orphans
+ExecStart=/usr/bin/docker exec --user hermes --env HOME=/opt/data/home --env HERMES_HOME=/opt/data/news-pipeline-hermes --env L383_HERMES_HOME=/opt/data/news-pipeline-hermes --env L383_REPO=/opt/data/workspaces/383lajme-news-current --env L383_PYTHON_BIN=/opt/data/workspaces/383lajme/.venv/bin/python --env L383_WRITER_PROVIDER=openai-codex --env L383_WRITER_MODEL=gpt-6-luna --env L383_WRITER_FALLBACK_MODEL=gpt-6-luna --env L383_WRITER_MAX_TURNS=50 --env L383_WRITER_ATTEMPT_TIMEOUT=600 hermes /bin/bash /opt/data/workspaces/383lajme-news-current/scripts/run-hourly-news.sh
+ExecStopPost=/usr/local/sbin/cleanup-383-production-orphans
+TimeoutStartSec=3500
+TimeoutStopSec=30
+KillMode=control-group
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=383-production

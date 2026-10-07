@@ -1,0 +1,11 @@
+[Unit]
+Description=383 news discovery and verified publication every hour
+
+[Timer]
+OnCalendar=*-*-* *:00:00 UTC
+Persistent=false
+AccuracySec=1s
+Unit=383-production.service
+
+[Install]
+WantedBy=timers.target

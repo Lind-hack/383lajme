@@ -1,47 +1,944 @@
 {
-  "version": 2,
-  "verified_on": "2026-09-21",
+  "version": 3,
+  "categories": [
+    "Kosovë",
+    "Shqipëri",
+    "Sport",
+    "Teknologji",
+    "Ekonomi",
+    "Botë",
+    "Showbiz"
+  ],
+  "policy": "one publisher per category; reject off-topic items, never reassign",
   "category_limits": {
-    "Kosovë": {"min": 6},
-    "Shqipëri": {"min": 3},
-    "Botë": {"min": 3, "max": 4},
-    "Sport": {"min": 2, "max": 3},
-    "Showbiz": {"min": 1, "max": 2}
+    "Kosovë": {
+      "min": 0,
+      "discovery_max": 20
+    },
+    "Shqipëri": {
+      "min": 0,
+      "discovery_max": 20
+    },
+    "Botë": {
+      "min": 0,
+      "discovery_max": 20
+    },
+    "Sport": {
+      "min": 0,
+      "discovery_max": 20
+    },
+    "Teknologji": {
+      "min": 0,
+      "discovery_max": 20
+    },
+    "Ekonomi": {
+      "min": 0,
+      "discovery_max": 20
+    },
+    "Showbiz": {
+      "min": 0,
+      "discovery_max": 20
+    }
   },
+  "publishers": [
+    {
+      "source": "Koha",
+      "category": "Kosovë",
+      "domains": [
+        "koha.net"
+      ],
+      "family": "koha.net"
+    },
+    {
+      "source": "Kallxo",
+      "category": "Kosovë",
+      "domains": [
+        "kallxo.com"
+      ],
+      "family": "birn-kosovo"
+    },
+    {
+      "source": "Telegrafi",
+      "category": "Kosovë",
+      "domains": [
+        "telegrafi.com"
+      ],
+      "family": "telegrafi.com"
+    },
+    {
+      "source": "Gazeta Express",
+      "category": "Kosovë",
+      "domains": [
+        "gazetaexpress.com"
+      ],
+      "family": "gazetaexpress.com"
+    },
+    {
+      "source": "Indeksonline",
+      "category": "Kosovë",
+      "domains": [
+        "indeksonline.net"
+      ],
+      "family": "indeksonline.net"
+    },
+    {
+      "source": "Gazeta Blic",
+      "category": "Kosovë",
+      "domains": [
+        "gazetablic.com"
+      ],
+      "family": "gazetablic.com"
+    },
+    {
+      "source": "Prishtina Insight",
+      "category": "Kosovë",
+      "domains": [
+        "prishtinainsight.com"
+      ],
+      "family": "birn-kosovo"
+    },
+    {
+      "source": "Kosovo 2.0",
+      "category": "Kosovë",
+      "domains": [
+        "kosovotwopointzero.com"
+      ],
+      "family": "kosovotwopointzero.com"
+    },
+    {
+      "source": "TV Prizreni",
+      "category": "Kosovë",
+      "domains": [
+        "tvprizreni.net"
+      ],
+      "family": "tvprizreni.net"
+    },
+    {
+      "source": "BalkanWeb",
+      "category": "Shqipëri",
+      "domains": [
+        "balkanweb.com"
+      ],
+      "family": "focus-media"
+    },
+    {
+      "source": "News24",
+      "category": "Shqipëri",
+      "domains": [
+        "news24.al"
+      ],
+      "family": "focus-media"
+    },
+    {
+      "source": "Euronews Albania",
+      "category": "Shqipëri",
+      "domains": [
+        "euronews.al"
+      ],
+      "family": "euronews.al"
+    },
+    {
+      "source": "ABC News",
+      "category": "Shqipëri",
+      "domains": [
+        "abcnews.al"
+      ],
+      "family": "abcnews.al"
+    },
+    {
+      "source": "Reporter.al",
+      "category": "Shqipëri",
+      "domains": [
+        "reporter.al"
+      ],
+      "family": "reporter.al"
+    },
+    {
+      "source": "Lapsi",
+      "category": "Shqipëri",
+      "domains": [
+        "lapsi.al"
+      ],
+      "family": "lapsi.al"
+    },
+    {
+      "source": "Panorama",
+      "category": "Shqipëri",
+      "domains": [
+        "panorama.com.al"
+      ],
+      "family": "focus-media"
+    },
+    {
+      "source": "Top Channel",
+      "category": "Shqipëri",
+      "domains": [
+        "top-channel.tv"
+      ],
+      "family": "top-channel.tv"
+    },
+    {
+      "source": "The Rundown AI",
+      "category": "Teknologji",
+      "domains": [
+        "therundown.ai"
+      ],
+      "family": "therundown.ai"
+    },
+    {
+      "source": "TechCrunch",
+      "category": "Teknologji",
+      "domains": [
+        "techcrunch.com"
+      ],
+      "family": "techcrunch.com"
+    },
+    {
+      "source": "The Verge",
+      "category": "Teknologji",
+      "domains": [
+        "theverge.com"
+      ],
+      "family": "theverge.com"
+    },
+    {
+      "source": "MIT Technology Review",
+      "category": "Teknologji",
+      "domains": [
+        "technologyreview.com"
+      ],
+      "family": "technologyreview.com"
+    },
+    {
+      "source": "Monitor",
+      "category": "Ekonomi",
+      "domains": [
+        "monitor.al"
+      ],
+      "family": "monitor.al"
+    },
+    {
+      "source": "Ekonomia Online",
+      "category": "Ekonomi",
+      "domains": [
+        "ekonomiaonline.com"
+      ],
+      "family": "ekonomiaonline.com"
+    },
+    {
+      "source": "CNBC",
+      "category": "Ekonomi",
+      "domains": [
+        "cnbc.com"
+      ],
+      "family": "cnbc.com"
+    },
+    {
+      "source": "Financial Times",
+      "category": "Ekonomi",
+      "domains": [
+        "ft.com"
+      ],
+      "family": "ft.com"
+    },
+    {
+      "source": "MarketWatch",
+      "category": "Ekonomi",
+      "domains": [
+        "marketwatch.com"
+      ],
+      "family": "marketwatch.com"
+    },
+    {
+      "source": "CoinDesk",
+      "category": "Ekonomi",
+      "domains": [
+        "coindesk.com"
+      ],
+      "family": "coindesk.com"
+    },
+    {
+      "source": "The Block",
+      "category": "Ekonomi",
+      "domains": [
+        "theblock.co"
+      ],
+      "family": "theblock.co"
+    },
+    {
+      "source": "Decrypt",
+      "category": "Ekonomi",
+      "domains": [
+        "decrypt.co"
+      ],
+      "family": "decrypt.co"
+    },
+    {
+      "source": "BBC World",
+      "category": "Botë",
+      "domains": [
+        "bbc.com",
+        "bbc.co.uk"
+      ],
+      "family": "bbc"
+    },
+    {
+      "source": "Al Jazeera",
+      "category": "Botë",
+      "domains": [
+        "aljazeera.com"
+      ],
+      "family": "aljazeera.com"
+    },
+    {
+      "source": "DW",
+      "category": "Botë",
+      "domains": [
+        "dw.com"
+      ],
+      "family": "dw.com"
+    },
+    {
+      "source": "France 24",
+      "category": "Botë",
+      "domains": [
+        "france24.com"
+      ],
+      "family": "france24.com"
+    },
+    {
+      "source": "POLITICO Europe",
+      "category": "Botë",
+      "domains": [
+        "politico.eu"
+      ],
+      "family": "politico.eu"
+    },
+    {
+      "source": "Euronews International",
+      "category": "Botë",
+      "domains": [
+        "euronews.com"
+      ],
+      "family": "euronews.com"
+    },
+    {
+      "source": "The Guardian",
+      "category": "Botë",
+      "domains": [
+        "theguardian.com"
+      ],
+      "family": "theguardian.com"
+    },
+    {
+      "source": "RFE/RL",
+      "category": "Botë",
+      "domains": [
+        "rferl.org"
+      ],
+      "family": "rferl.org"
+    },
+    {
+      "source": "Reuters",
+      "category": "Botë",
+      "domains": [
+        "reuters.com"
+      ],
+      "family": "reuters.com"
+    },
+    {
+      "source": "AP News",
+      "category": "Botë",
+      "domains": [
+        "apnews.com"
+      ],
+      "family": "apnews.com"
+    },
+    {
+      "source": "Bloomberg",
+      "category": "Botë",
+      "domains": [
+        "bloomberg.com"
+      ],
+      "family": "bloomberg.com"
+    },
+    {
+      "source": "Sky Sports",
+      "category": "Sport",
+      "domains": [
+        "skysports.com"
+      ],
+      "family": "skysports.com"
+    },
+    {
+      "source": "ESPN",
+      "category": "Sport",
+      "domains": [
+        "espn.com"
+      ],
+      "family": "espn.com"
+    },
+    {
+      "source": "SuperSport Albania",
+      "category": "Sport",
+      "domains": [
+        "supersport.al"
+      ],
+      "family": "supersport.al"
+    },
+    {
+      "source": "Gazeta Olle",
+      "category": "Sport",
+      "domains": [
+        "gazetaolle.com"
+      ],
+      "family": "gazetaolle.com"
+    },
+    {
+      "source": "Variety",
+      "category": "Showbiz",
+      "domains": [
+        "variety.com"
+      ],
+      "family": "pmc"
+    },
+    {
+      "source": "Billboard",
+      "category": "Showbiz",
+      "domains": [
+        "billboard.com"
+      ],
+      "family": "pmc"
+    },
+    {
+      "source": "The Hollywood Reporter",
+      "category": "Showbiz",
+      "domains": [
+        "hollywoodreporter.com"
+      ],
+      "family": "pmc"
+    },
+    {
+      "source": "Deadline",
+      "category": "Showbiz",
+      "domains": [
+        "deadline.com"
+      ],
+      "family": "pmc"
+    },
+    {
+      "source": "Prive",
+      "category": "Showbiz",
+      "domains": [
+        "prive.al"
+      ],
+      "family": "prive.al"
+    },
+    {
+      "source": "Anabel",
+      "category": "Showbiz",
+      "domains": [
+        "anabelmagazine.com"
+      ],
+      "family": "anabelmagazine.com"
+    },
+    {
+      "source": "Revista Who",
+      "category": "Showbiz",
+      "domains": [
+        "revistawho.com"
+      ],
+      "family": "revistawho.com"
+    },
+    {
+      "source": "OpenAI",
+      "category": "Teknologji",
+      "domains": [
+        "openai.com"
+      ],
+      "family": "openai.com",
+      "role": "official_evidence"
+    },
+    {
+      "source": "Anthropic",
+      "category": "Teknologji",
+      "domains": [
+        "anthropic.com"
+      ],
+      "family": "anthropic.com",
+      "role": "official_evidence"
+    },
+    {
+      "source": "Google AI",
+      "category": "Teknologji",
+      "domains": [
+        "blog.google",
+        "deepmind.google"
+      ],
+      "family": "blog.google",
+      "role": "official_evidence"
+    },
+    {
+      "source": "UEFA",
+      "category": "Sport",
+      "domains": [
+        "uefa.com"
+      ],
+      "family": "uefa.com",
+      "role": "official_evidence"
+    },
+    {
+      "source": "NBA",
+      "category": "Sport",
+      "domains": [
+        "nba.com"
+      ],
+      "family": "nba.com",
+      "role": "official_evidence"
+    },
+    {
+      "source": "Formula 1",
+      "category": "Sport",
+      "domains": [
+        "formula1.com"
+      ],
+      "family": "formula1.com",
+      "role": "official_evidence"
+    },
+    {
+      "source": "Kosovo Football Federation",
+      "category": "Sport",
+      "domains": [
+        "ffk-kosova.com"
+      ],
+      "family": "ffk-kosova.com",
+      "role": "official_evidence"
+    },
+    {
+      "source": "Kosovo Basketball Federation",
+      "category": "Sport",
+      "domains": [
+        "basketbolli.com"
+      ],
+      "family": "basketbolli.com",
+      "role": "official_evidence"
+    },
+    {
+      "source": "Albanian Football Federation",
+      "category": "Sport",
+      "domains": [
+        "fshf.org"
+      ],
+      "family": "fshf.org",
+      "role": "official_evidence"
+    },
+    {
+      "source": "Kosovo Central Bank",
+      "category": "Ekonomi",
+      "domains": [
+        "bqk-kos.org"
+      ],
+      "family": "bqk-kos.org",
+      "role": "official_evidence"
+    },
+    {
+      "source": "Bank of Albania",
+      "category": "Ekonomi",
+      "domains": [
+        "bankofalbania.org"
+      ],
+      "family": "bankofalbania.org",
+      "role": "official_evidence"
+    },
+    {
+      "source": "SEC",
+      "category": "Ekonomi",
+      "domains": [
+        "sec.gov"
+      ],
+      "family": "sec.gov",
+      "role": "official_evidence"
+    },
+    {
+      "source": "Federal Reserve",
+      "category": "Ekonomi",
+      "domains": [
+        "federalreserve.gov"
+      ],
+      "family": "federalreserve.gov",
+      "role": "official_evidence"
+    },
+    {
+      "source": "People",
+      "category": "Showbiz",
+      "domains": [
+        "people.com"
+      ],
+      "family": "people-dotdash"
+    },
+    {
+      "source": "Ars Technica",
+      "category": "Teknologji",
+      "domains": [
+        "arstechnica.com"
+      ],
+      "family": "conde-nast"
+    },
+    {
+      "source": "TMZ",
+      "category": "Showbiz",
+      "domains": [
+        "tmz.com"
+      ],
+      "family": "fox-tmz"
+    },
+    {
+      "source": "Motorsport.com",
+      "category": "Sport",
+      "domains": [
+        "motorsport.com"
+      ],
+      "family": "motorsport-network"
+    }
+  ],
   "feeds": [
-    {"url": "https://telegrafi.com/feed/", "source": "Telegrafi", "category": "Kosovë", "lane": "KOSOVË", "mixed": true},
-    {"url": "https://www.koha.net/rss", "source": "Koha", "category": "Kosovë", "lane": "KOSOVË"},
-    {"url": "https://www.gazetaexpress.com/feed/", "source": "Gazeta Express", "category": "Kosovë", "lane": "KOSOVË"},
-    {"url": "https://indeksonline.net/feed/", "source": "Indeksonline", "category": "Kosovë", "lane": "KOSOVË"},
-    {"url": "https://kallxo.com/feed/", "source": "Kallxo", "category": "Kosovë", "lane": "KOSOVË"},
-    {"url": "https://gazetablic.com/feed/", "source": "Gazeta Blic", "category": "Kosovë", "lane": "KOSOVË"},
-    {"url": "https://www.news24.al/feed/", "source": "News24", "category": "Shqipëri", "lane": "SHQIPËRI"},
-    {"url": "https://www.balkanweb.com/feed/", "source": "BalkanWeb", "category": "Shqipëri", "lane": "SHQIPËRI"},
-    {"url": "https://euronews.al/feed/", "source": "Euronews Albania", "category": "Shqipëri", "lane": "SHQIPËRI"},
-    {"url": "https://abcnews.al/feed/", "source": "ABC News Albania", "category": "Shqipëri", "lane": "SHQIPËRI"},
-    {"url": "https://news.google.com/rss?hl=en&gl=US&ceid=US:en", "source": "Google News RSS", "category": "Botë", "lane": "BOTË", "wire_substitute": true},
-    {"url": "http://feeds.bbci.co.uk/news/world/rss.xml", "source": "BBC World", "category": "Botë", "lane": "BOTË"},
-    {"url": "https://www.aljazeera.com/xml/rss/all.xml", "source": "Al Jazeera", "category": "Botë", "lane": "BOTË"},
-    {"url": "https://www.euronews.com/rss?format=mrss", "source": "Euronews", "category": "Botë", "lane": "BOTË"},
-    {"url": "https://balkaninsight.com/feed/", "source": "Balkan Insight", "category": "Botë", "lane": "BOTË"},
-    {"url": "https://www.politico.eu/feed/", "source": "POLITICO Europe", "category": "Botë", "lane": "BOTË"},
-    {"url": "http://feeds.bbci.co.uk/sport/rss.xml", "source": "BBC Sport", "category": "Sport", "lane": "SPORT"},
-    {"url": "https://www.skysports.com/rss/12040", "source": "Sky Sports", "category": "Sport", "lane": "SPORT"},
-    {"url": "https://telegrafi.com/category/sport/feed/", "source": "Telegrafi Sport", "category": "Sport", "lane": "SPORT", "discovery_only": true}
+    {
+      "source": "Koha",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://www.koha.net/rss"
+    },
+    {
+      "source": "Kallxo",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://kallxo.com/feed/"
+    },
+    {
+      "source": "Telegrafi",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://telegrafi.com/feed/"
+    },
+    {
+      "source": "Gazeta Express",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://www.gazetaexpress.com/feed/"
+    },
+    {
+      "source": "Indeksonline",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://indeksonline.net/feed/"
+    },
+    {
+      "source": "Gazeta Blic",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://gazetablic.com/feed/"
+    },
+    {
+      "source": "Prishtina Insight",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://prishtinainsight.com/feed/"
+    },
+    {
+      "source": "Kosovo 2.0",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://kosovotwopointzero.com/feed/",
+      "listing_url": "https://www.kosovotwopointzero.com/sq/home"
+    },
+    {
+      "source": "TV Prizreni",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://tvprizreni.net/feed/"
+    },
+    {
+      "source": "BalkanWeb",
+      "category": "Shqipëri",
+      "lane": "SHQIPËRI",
+      "url": "https://www.balkanweb.com/feed/"
+    },
+    {
+      "source": "News24",
+      "category": "Shqipëri",
+      "lane": "SHQIPËRI",
+      "url": "https://www.news24.al/feed/"
+    },
+    {
+      "source": "Euronews Albania",
+      "category": "Shqipëri",
+      "lane": "SHQIPËRI",
+      "url": "https://euronews.al/feed/"
+    },
+    {
+      "source": "ABC News",
+      "category": "Shqipëri",
+      "lane": "SHQIPËRI",
+      "url": "https://abcnews.al/feed/"
+    },
+    {
+      "source": "Reporter.al",
+      "category": "Shqipëri",
+      "lane": "SHQIPËRI",
+      "url": "https://www.reporter.al/feed/"
+    },
+    {
+      "source": "Lapsi",
+      "category": "Shqipëri",
+      "lane": "SHQIPËRI",
+      "url": "https://lapsi.al/feed/"
+    },
+    {
+      "source": "Panorama",
+      "category": "Shqipëri",
+      "lane": "SHQIPËRI",
+      "url": "https://www.panorama.com.al/feed/"
+    },
+    {
+      "source": "Top Channel",
+      "category": "Shqipëri",
+      "lane": "SHQIPËRI",
+      "url": "https://top-channel.tv/feed/"
+    },
+    {
+      "source": "The Rundown AI",
+      "category": "Teknologji",
+      "lane": "TEKNOLOGJI",
+      "url": "https://www.therundown.ai/feed"
+    },
+    {
+      "source": "TechCrunch",
+      "category": "Teknologji",
+      "lane": "TEKNOLOGJI",
+      "url": "https://techcrunch.com/category/artificial-intelligence/feed/"
+    },
+    {
+      "source": "The Verge",
+      "category": "Teknologji",
+      "lane": "TEKNOLOGJI",
+      "url": "https://www.theverge.com/rss/index.xml"
+    },
+    {
+      "source": "MIT Technology Review",
+      "category": "Teknologji",
+      "lane": "TEKNOLOGJI",
+      "url": "https://www.technologyreview.com/feed/"
+    },
+    {
+      "source": "Monitor",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://monitor.al/feed/"
+    },
+    {
+      "source": "Ekonomia Online",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://ekonomiaonline.com/feed/"
+    },
+    {
+      "source": "CNBC",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html"
+    },
+    {
+      "source": "Financial Times",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://www.ft.com/global-economy?format=rss"
+    },
+    {
+      "source": "MarketWatch",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories"
+    },
+    {
+      "source": "CoinDesk",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://www.coindesk.com/arc/outboundfeeds/rss/"
+    },
+    {
+      "source": "The Block",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://www.theblock.co/rss.xml"
+    },
+    {
+      "source": "Decrypt",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://decrypt.co/feed"
+    },
+    {
+      "source": "BBC World",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://feeds.bbci.co.uk/news/world/rss.xml"
+    },
+    {
+      "source": "Al Jazeera",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.aljazeera.com/xml/rss/all.xml"
+    },
+    {
+      "source": "DW",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://rss.dw.com/rdf/rss-en-all"
+    },
+    {
+      "source": "France 24",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.france24.com/en/rss"
+    },
+    {
+      "source": "POLITICO Europe",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.politico.eu/feed/"
+    },
+    {
+      "source": "Euronews International",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.euronews.com/rss?format=mrss"
+    },
+    {
+      "source": "The Guardian",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.theguardian.com/world/rss"
+    },
+    {
+      "source": "RFE/RL",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.rferl.org/api/zrqiteuuir"
+    },
+    {
+      "source": "Sky Sports",
+      "category": "Sport",
+      "lane": "SPORT",
+      "url": "https://www.skysports.com/rss/12040"
+    },
+    {
+      "source": "ESPN",
+      "category": "Sport",
+      "lane": "SPORT",
+      "url": "https://www.espn.com/espn/rss/news"
+    },
+    {
+      "source": "Variety",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://variety.com/feed/"
+    },
+    {
+      "source": "Billboard",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://www.billboard.com/feed/"
+    },
+    {
+      "source": "The Hollywood Reporter",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://www.hollywoodreporter.com/feed/"
+    },
+    {
+      "source": "Deadline",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://deadline.com/feed/"
+    },
+    {
+      "source": "Prive",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://prive.al/feed/"
+    },
+    {
+      "source": "People",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://people.com/feed/"
+    },
+    {
+      "source": "Ars Technica",
+      "category": "Teknologji",
+      "lane": "TEKNOLOGJI",
+      "url": "https://feeds.arstechnica.com/arstechnica/index"
+    },
+    {
+      "source": "TMZ",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://www.tmz.com/rss.xml"
+    },
+    {
+      "source": "Motorsport.com",
+      "category": "Sport",
+      "lane": "SPORT",
+      "url": "https://www.motorsport.com/rss/all/news/"
+    }
   ],
   "browser_lanes": [
-    {"source": "RTK Live", "url": "https://www.rtklive.com/", "category": "Kosovë", "reason": "Cloudflare blocks server fetches"},
-    {"source": "Top Channel", "url": "https://top-channel.tv/", "category": "Shqipëri", "reason": "Cloudflare blocks server fetches"},
-    {"source": "Klan Kosova", "url": "https://klankosova.tv/", "category": "Kosovë", "reason": "Cloudflare/no reliable public RSS"},
-    {"source": "JOQ Albania", "url": "https://joq-albania.com/", "category": "Shqipëri", "reason": "no public RSS found"},
-    {"source": "SuperSport Albania", "url": "https://supersport.al/", "category": "Sport", "reason": "no public RSS found"},
-    {"source": "Shqiptarja", "url": "https://shqiptarja.com/", "category": "Shqipëri", "reason": "feed path returns 404"},
-    {"source": "Prive", "url": "https://prive.al/", "category": "Showbiz", "reason": "empty server responses"},
-    {"source": "Gazeta Olle", "url": "https://gazetaolle.com/", "category": "Sport", "reason": "empty server responses; unreliable"}
+    {
+      "source": "Reuters",
+      "category": "Botë",
+      "url": "https://reuters.com/",
+      "reason": "Conditional: authorized full-text/feed access required; public article discovery is checked, inaccessible previews never publish."
+    },
+    {
+      "source": "AP News",
+      "category": "Botë",
+      "url": "https://apnews.com/",
+      "reason": "Conditional: authorized full-text/feed access required; public article discovery is checked, inaccessible previews never publish."
+    },
+    {
+      "source": "Bloomberg",
+      "category": "Botë",
+      "url": "https://bloomberg.com/",
+      "reason": "Conditional: authorized full-text/feed access required; public article discovery is checked, inaccessible previews never publish."
+    },
+    {
+      "source": "SuperSport Albania",
+      "category": "Sport",
+      "url": "https://supersport.al/",
+      "reason": "Full-article access and automated discovery require validation; no bypass of access restrictions."
+    },
+    {
+      "source": "Gazeta Olle",
+      "category": "Sport",
+      "url": "https://gazetaolle.com/",
+      "reason": "Full-article access and automated discovery require validation; no bypass of access restrictions."
+    },
+    {
+      "source": "Anabel",
+      "category": "Showbiz",
+      "url": "https://anabelmagazine.com/",
+      "reason": "Full-article access and automated discovery require validation; no bypass of access restrictions."
+    },
+    {
+      "source": "Revista Who",
+      "category": "Showbiz",
+      "url": "https://revistawho.com/",
+      "reason": "Full-article access and automated discovery require validation; no bypass of access restrictions."
+    }
   ],
   "notes": [
-    "Reuters/AP have no public RSS in this inventory; Google News RSS is the wire substitute.",
-    "Telegrafi main feed carries Showbiz items but is still a discovery-only source for final Showbiz publication.",
-    "Re-check any lane that goes quiet for more than a day."
+    "RSS availability is recorded each run, not assumed. Browser candidates are attempted through public article listings; blocked or restricted pages remain unavailable.",
+    "Publisher-family checks prevent sister outlets and syndicated copies from counting as independent corroboration.",
+    "Hourly runs use eligible evidence, up to 10 articles; no quota padding."
   ]
 }
