@@ -16,7 +16,7 @@ class NewsCacheRefreshTests(unittest.TestCase):
             expected = ["/", "/toni", "/per-ty", "/article/bitcoin-test", "/article/local-test", "/kategori/ekonomi", "/kategori/kosove"]
             def respond(request, timeout):
                 self.assertEqual(json.loads(request.data), {"paths": expected})
-                self.assertEqual(request.full_url, "https://www.383ks.com/api/revalidate")
+                self.assertEqual(request.full_url, "https://383ks.com/api/revalidate")
                 self.assertEqual(request.get_header("Authorization"), "Bearer test-secret")
                 return io.BytesIO(json.dumps({"revalidated": expected, "failed": []}).encode())
             with patch.object(support, "load_env"), patch.dict(os.environ, {"SITE_URL": "https://www.383ks.com", "TREGU_AUTOMATION_SECRET": "test-secret"}), patch.object(support.urllib.request, "urlopen", side_effect=respond):
