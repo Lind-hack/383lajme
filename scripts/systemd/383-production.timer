@@ -1,8 +1,8 @@
 [Unit]
-Description=383 news discovery and verified publication every hour
+Description=383 news every hour 07:00-23:00 Europe/Warsaw
 
 [Timer]
-OnCalendar=*-*-* *:00:00 UTC
+OnCalendar=*-*-* 07..23:00:00 Europe/Warsaw
 Persistent=false
 AccuracySec=1s
 Unit=383-production.service

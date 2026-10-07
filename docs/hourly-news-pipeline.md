@@ -31,7 +31,10 @@ Showbiz. Publishers owned by the same group count as one family.
 ## Worker and release
 
 Railway deploys application code exclusively through a committed push to main.
-The existing VPS `383-production.timer` runs once every UTC hour, all 24 hours.
+The existing VPS `383-production.timer` runs daily at 07:00 through 23:00,
+inclusive, in Europe/Warsaw, including weekends. The one-week trial beginning
+2026-10-07 uses GPT-6.1 Sol at medium reasoning effort for drafting, independent
+editing and repairs, with OAuth and no API key. No model fallback changes the model.
 It invokes `scripts/run-hourly-news.sh` inside the existing Hermes container.
 The news worker writes validated Supabase rows and never deploys the website.
 GitHub news schedules and the application dispatch route are disabled by default
@@ -67,6 +70,12 @@ is a successful `no_news` outcome, with no filler. Total discovery outage,
 authentication and publication errors fail visibly. A flock and atomic hourly
 records prevent concurrent publication and regeneration of a published slot.
 The worker has a 55-minute deadline. Retention remains disabled.
+
+After acquiring the lock and passing authentication, website and database checks,
+the worker sends a startup confirmation using the existing email styling. The
+completion email retains the existing published-article report. Successful empty
+runs send a completion status instead. Busy-lock and already-published skips send
+no emails; genuine run failures retain their failure alert.
 
 The publication gate checks category ownership again, freshness, evidence,
 originality, structure, source mix and database deduplication. Supabase readback

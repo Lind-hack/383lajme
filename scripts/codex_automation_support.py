@@ -1733,7 +1733,7 @@ def send_html_report(recipient: str, subject: str, report_html: str) -> int:
     return _send_gmail_report(user, password, recipient, subject, report_html)
 
 
-def send_status_report(message: str) -> int:
+def send_status_report(message: str, phase: str = "no_news") -> int:
     """Send a cron outcome when a run has no batch to publish."""
     load_env()
     user = os.environ.get("GMAIL_USER", "").strip()
@@ -1747,17 +1747,19 @@ def send_status_report(message: str) -> int:
     now = _kosovo_time_label()
     cron_slot = _cron_slot_label()
     subject_time = cron_slot or now
+    heading = {"started": "Pipeline u nis dhe po ekzekutohet", "completed": "Pipeline përfundoi: pa artikuj të rinj"}.get(phase, "pa publikim të ri")
     report_html = (
         "<html><body style='margin:0;background:#f1f5f9;color:#0f172a;font-family:Arial,sans-serif'>"
         "<div style='max-width:720px;margin:0 auto;background:#ffffff'>"
         "<div style='background:#0f172a;color:#ffffff;padding:22px'>"
-        "<h2 style='font-size:22px;line-height:1.2;padding:0;margin:0'>383 Lajme: pa publikim të ri</h2>"
+        f"<h2 style='font-size:22px;line-height:1.2;padding:0;margin:0'>383 Lajme: {heading}</h2>"
         f"<p style='font-size:13px;line-height:1.5;margin:8px 0 0;color:#cbd5e1'>Cron slot: {html.escape(cron_slot or 'Manual run')} | Kontrolluar: {html.escape(now)}</p>"
         "</div>"
         f"<div style='padding:22px;font-size:15px;line-height:1.55'>{html.escape(message)}</div>"
         "</div></body></html>"
     )
-    subject = f"383 Lajme - pa artikuj të rinj [{subject_time}]"
+    subject_heading = heading if phase in {"started", "completed"} else "pa artikuj të rinj"
+    subject = f"383 Lajme - {subject_heading} [{subject_time}]"
     if resend_key and os.environ.get("EMAIL_PRIMARY", "resend").strip().lower() not in {"gmail", "smtp", "gmail_smtp"}:
         resend_code = _send_resend_report(resend_key, recipient, subject, report_html)
         if resend_code == 0:
@@ -2209,6 +2211,7 @@ def main() -> int:
     )
     parser.add_argument("--file", help="Article JSON file. Defaults to latest data/auto-articles/*.json")
     parser.add_argument("--message", help="Status text for send-status-report")
+    parser.add_argument("--phase", choices=["no_news", "started", "completed"], default="no_news", help="Status report phase")
     parser.add_argument("--recipient", help="Recipient for send-html-report")
     parser.add_argument("--subject", help="Subject for send-html-report")
     parser.add_argument("--html-file", help="UTF-8 HTML file for send-html-report")
@@ -2257,7 +2260,7 @@ def main() -> int:
             return 2
         return send_html_report(args.recipient, args.subject, report_html)
     if args.command == "send-status-report":
-        return send_status_report(args.message or "Nuk u gjet asnjë artikull i verifikuar për publikim në këtë kontroll.")
+        return send_status_report(args.message or "Nuk u gjet asnjë artikull i verifikuar për publikim në këtë kontroll.", phase=args.phase)
     if args.command == "publish":
         assert path is not None
         return git_publish(path)

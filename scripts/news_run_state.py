@@ -11,6 +11,7 @@ def save(path: Path, status: str, stage: str, batch: str = "") -> None:
     if status == "failed" and completed(path):
         status = "published"
     data = {"status": status, "stage": stage, "batch": batch,
+            "model": os.environ.get("L383_WRITER_MODEL", ""), "reasoning_effort": "medium",
             "updated_at": datetime.now(timezone.utc).isoformat()}
     temporary = path.with_suffix(".tmp")
     temporary.write_text(json.dumps(data) + "\n", encoding="utf-8")

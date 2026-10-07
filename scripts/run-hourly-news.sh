@@ -28,6 +28,7 @@ QA_ONLY="${L383_QA_ONLY:-0}"
 cd "$REPO"
 export HERMES_HOME="${L383_HERMES_HOME:-/opt/data/news-pipeline-hermes}"
 STAMP="${STAMP:-$(date -u +%Y-%m-%dT%H)}"
+export CRON_SLOT_LABEL="$(TZ=Europe/Warsaw date '+%Y-%m-%d %H:00 %Z')"
 DISCOVERY="$PWD/.last30days/cloud-news-discovery-current.md"
 SOCIAL_CANDIDATES="$PWD/.last30days/social-native-candidates-current.md"
 if [ "$QA_ONLY" = "1" ]; then
@@ -88,6 +89,7 @@ fi
 record_state running
 
 stage="writer-auth-preflight"
+/opt/hermes/.venv/bin/python scripts/configure_news_model.py --home "$HERMES_HOME" --effort medium
 if [ "${L383_WRITER_PROVIDER:-openai-codex}" = "openai-codex" ]; then
   /opt/hermes/.venv/bin/python -c 'from hermes_cli.auth import resolve_codex_runtime_credentials; c=resolve_codex_runtime_credentials(); assert c.get("api_key"), "No Codex access token"; print("383 CODEX AUTH: usable credentials resolved")'
 fi
@@ -104,6 +106,8 @@ if [ "$QA_ONLY" != "1" ]; then
   verify_deployment
   stage="database-schema-preflight"
   PYTHONPATH="$REPO/scripts" "$PYTHON_BIN" -c 'from codex_automation_support import load_env, _supabase_request; load_env(); _supabase_request("GET", "news_articles", query={"select":"id,city,category,raw_article", "limit":"0"}); print("383 DATABASE SCHEMA: publication columns available")'
+  stage="startup-confirmation"
+  "$PYTHON_BIN" scripts/codex_automation_support.py send-status-report --phase started --message "Pipeline u nis për orarin e shënuar dhe kaloi kontrollet e autentikimit, faqes dhe bazës së të dhënave. Po ekzekutohet me GPT-6.1 Sol, medium effort. Raporti përfundimtar do të listojë artikujt e publikuar."
 fi
 
 stage="retention"
@@ -128,6 +132,9 @@ if [ -z "$L383_TARGET_ARTICLES" ] || [ "$L383_TARGET_ARTICLES" -lt 1 ]; then
   stage="no-new-verified-news"
   record_state no_news
   "$PYTHON_BIN" scripts/news_quality_report.py --file "/tmp/383-no-batch-${STAMP}.json" --status no_news
+  if [ "$QA_ONLY" != "1" ]; then
+    "$PYTHON_BIN" scripts/codex_automation_support.py send-status-report --phase completed --message "Pipeline përfundoi me sukses. Nuk u gjetën artikuj të rinj me burime të lexueshme dhe verifikim të pavarur për publikim në këtë orar."
+  fi
   printf "383 SUCCESS NO_NEW_VERIFIED_NEWS slot=%s; no padding or publication\n" "$STAMP"
   exit 0
 fi
@@ -184,15 +191,15 @@ run_writer() {
 }
 
 WRITER_RC=0
-PRIMARY_WRITER_MODEL="${L383_WRITER_MODEL:-gpt-6-luna}"
+PRIMARY_WRITER_MODEL="${L383_WRITER_MODEL:-gpt-6.1-sol}"
 if [ "$PRIMARY_WRITER_MODEL" = "gpt-5.6-luna" ]; then
-  PRIMARY_WRITER_MODEL="gpt-6-luna"
+  PRIMARY_WRITER_MODEL="gpt-6.1-sol"
 fi
-EDITOR_MODEL="${L383_EDITOR_MODEL:-${L383_WRITER_MODEL:-gpt-6-luna}}"
+EDITOR_MODEL="${L383_EDITOR_MODEL:-${L383_WRITER_MODEL:-gpt-6.1-sol}}"
 if [ "$EDITOR_MODEL" = "gpt-5.6-luna" ]; then
-  EDITOR_MODEL="gpt-6-luna"
+  EDITOR_MODEL="gpt-6.1-sol"
 fi
-FALLBACK_WRITER_MODEL="${L383_WRITER_FALLBACK_MODEL:-gpt-5.6-terra}"
+FALLBACK_WRITER_MODEL="${L383_WRITER_FALLBACK_MODEL:-gpt-6.1-sol}"
 printf '383 WRITER: provider=%s primary=%s fallback=%s max_turns=%s timeout=%ss\n' \
   "${L383_WRITER_PROVIDER:-openai-codex}" "$PRIMARY_WRITER_MODEL" "$FALLBACK_WRITER_MODEL" \
   "${L383_WRITER_MAX_TURNS:-35}" "${L383_WRITER_ATTEMPT_TIMEOUT:-300}"
