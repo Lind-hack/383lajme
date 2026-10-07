@@ -102,6 +102,8 @@ printf '%s' "$DEPLOYMENT_INFO" | python3 -c 'import json,sys; d=json.load(sys.st
 if [ "$QA_ONLY" != "1" ]; then
   stage="deployment-preflight"
   verify_deployment
+  stage="database-schema-preflight"
+  "$PYTHON_BIN" -c 'from codex_automation_support import load_env, _supabase_request; load_env(); _supabase_request("GET", "news_articles", query={"select":"id,city,category,raw_article", "limit":"0"}); print("383 DATABASE SCHEMA: publication columns available")'
 fi
 
 stage="retention"
