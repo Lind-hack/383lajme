@@ -2138,7 +2138,7 @@ def refresh_news_pages(path: Path) -> int:
             raise ValueError("News cache refresh requires the production website URL")
         # The www host redirects POST requests to GET; use the canonical origin.
         site = "https://383ks.com"
-        request = urllib.request.Request(site + "/api/revalidate", data=json.dumps({"paths": paths}).encode(), headers={"Authorization": "Bearer " + secret, "Content-Type": "application/json"}, method="POST")
+        request = urllib.request.Request(site + "/api/revalidate", data=json.dumps({"paths": paths}).encode(), headers={"Authorization": "Bearer " + secret, "Content-Type": "application/json", "User-Agent": "python-requests/2.32.5"}, method="POST")
         with urllib.request.urlopen(request, timeout=30) as response:
             result = json.load(response)
         if result.get("failed") or set(result.get("revalidated", [])) != set(paths):
