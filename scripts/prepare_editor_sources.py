@@ -6,13 +6,14 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any
 
 from editorial_rules_v2 import corroboration_urls
 from read_news_source import read
-from news_source_policy import MANIFEST, CATEGORIES, source_error
+from news_source_policy import MANIFEST, CATEGORIES, source_error, needs_corroboration, hourly_targets, independent
 
 
 def fetch_url(url: str) -> dict[str, Any]:
@@ -93,6 +94,9 @@ def discovery(path: Path) -> None:
     if not sidecar.exists():
         raise FileNotFoundError(f"discovery sidecar missing: {sidecar}")
     data = json.loads(sidecar.read_text(encoding="utf-8"))
+    if os.environ.get("L383_HOURLY_NEWS") == "1":
+        prepare_hourly_inventory(path, data)
+        return
     leads = data.get("leads", []) if isinstance(data, dict) else []
     chosen = []
     for category in CATEGORIES:
@@ -148,6 +152,105 @@ def discovery(path: Path) -> None:
         f"383 WRITER EVIDENCE: {len(records)} direct lead fetches completed; "
         f"verified_source_ready_pairs={len(verified_pairs)}"
     )
+
+
+def ready_image(lead: dict, primary: dict, secondary: dict) -> dict:
+    from codex_automation_support import _fetch_image_dimensions, _larger_image_candidates, _looks_like_content_image_url
+    for evidence in (primary, secondary):
+        original = str(evidence.get("image_url") or "")
+        if not original or not _looks_like_content_image_url(original):
+            continue
+        for url in list(dict.fromkeys([original, *_larger_image_candidates(original)]))[:4]:
+            if not url.startswith("https://"):
+                continue
+            try:
+                width, height = _fetch_image_dimensions(url)
+                if width >= 1200 and height >= 675:
+                    return {"image_url": url, "image_width": width, "image_height": height}
+            except Exception:
+                continue
+    return {}
+
+
+def coverage_plan(leads: list[dict], total: int = 20) -> dict[str, int]:
+    """Reserve every available desk's allocation before redistributing gaps."""
+    counts = {category: sum(lead.get("category") == category for lead in leads) for category in CATEGORIES}
+    targets = hourly_targets()
+    plan = {category: min(targets[category], counts[category]) for category in CATEGORIES}
+    while sum(plan.values()) < total:
+        available = [category for category in CATEGORIES if plan[category] < counts[category]]
+        if not available:
+            break
+        category = min(available, key=lambda key: plan[key] / targets[key])
+        plan[category] += 1
+    return plan
+
+
+def prepare_hourly_inventory(path: Path, data: dict) -> None:
+    leads = data.get("leads", [])
+    urls = list(dict.fromkeys(url for lead in leads for url in
+                            (lead["url"], lead.get("corroborates_url")) if url))
+    with concurrent.futures.ThreadPoolExecutor(max_workers=12) as pool:
+        fetched = dict(zip(urls, pool.map(fetch_url, urls)))
+    eligible = []
+    rejected = {category: {"unreadable": 0, "needs_corroboration": 0, "image_unavailable": 0} for category in CATEGORIES}
+    for lead in leads:
+        primary = fetched[lead["url"]]
+        secondary_url = lead.get("corroborates_url", "")
+        secondary = fetched.get(secondary_url, {})
+        primary_ok = primary.get("status") == "text_extracted" and not source_error(lead["category"], primary.get("url"))
+        secondary_ok = (secondary.get("status") == "text_extracted"
+                        and not source_error(lead["category"], secondary.get("url"))
+                        and independent(primary.get("url"), secondary.get("url")))
+        if not primary_ok:
+            rejected[lead["category"]]["unreadable"] += 1
+            continue
+        sensitive = needs_corroboration({**lead, "body": primary.get("text", "")})
+        if sensitive and not secondary_ok:
+            rejected[lead["category"]]["needs_corroboration"] += 1
+            continue
+        eligible.append({**lead, "requires_corroboration": sensitive,
+                         "corroborates_url": secondary_url if secondary_ok else "",
+                         "primary_evidence": primary, "secondary_evidence": secondary if secondary_ok else {}})
+    # Oversample each desk to replace image failures and editorial rejections.
+    shortlist = [lead for category in CATEGORIES for lead in
+                 [item for item in eligible if item["category"] == category][:hourly_targets()[category] + 12]]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=12) as pool:
+        images = list(pool.map(lambda lead: ready_image(lead, lead["primary_evidence"], lead["secondary_evidence"]), shortlist))
+    folder = path.parent / "source-evidence"
+    folder.mkdir(exist_ok=True)
+    ready = []
+    for lead, image in zip(shortlist, images):
+        if not image:
+            rejected[lead["category"]]["image_unavailable"] += 1
+            continue
+        record = {"slug": lead["pair_id"], "source_url": lead["url"], "evidence": lead["primary_evidence"],
+                  "corroborating": [{"url": lead["corroborates_url"], "evidence": lead["secondary_evidence"]}]
+                                  if lead["corroborates_url"] else []}
+        target = folder / f"{lead['pair_id']}.json"
+        target.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        ready.append({key: value for key, value in {**lead, **image, "evidence_path": str(target)}.items()
+                      if key not in {"primary_evidence", "secondary_evidence"}})
+    plan = coverage_plan(ready)
+    data.update(verified_pair_ids=[lead["pair_id"] for lead in ready], ready_leads=ready,
+                source_ready_categories={category: sum(lead["category"] == category for lead in ready) for category in CATEGORIES},
+                publication_plan=plan, category_targets=hourly_targets(), rejected_inventory=rejected)
+    path.with_suffix(".json").write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    lines = ["# 383 prepared hourly story queue", "",
+             f"Verified source-ready pair inventory: {len(ready)}",
+             "Publication plan (aim for these category counts): " + json.dumps(plan, ensure_ascii=False),
+             "Target is 20 distinct new articles. Cover EVERY available category before adding extras to a busy desk.",
+             "Routine articles use one credited readable publisher; sensitive claims require the supplied independent source.",
+             "Images below have already decoded at the listed dimensions. Use them; do not repeat image research.", ""]
+    for category in CATEGORIES:
+        lines += [f"# {category} — publish {plan[category]}", ""]
+        for lead in ready:
+            if lead["category"] != category:
+                continue
+            lines += [json.dumps(lead, ensure_ascii=False), ""]
+    lines += ["# Inventory shortfalls", json.dumps(rejected, ensure_ascii=False)]
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print("383 READY INVENTORY " + json.dumps({"ready": data["source_ready_categories"], "plan": plan, "rejected": rejected}, ensure_ascii=False))
 
 
 def main() -> int:

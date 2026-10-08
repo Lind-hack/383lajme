@@ -181,8 +181,8 @@ MIN_SOURCE_FAMILIES = 5
 # A complete but concise breaking-news brief may legitimately be 220–300 words.
 # Keep it substantive while never withholding current verified local news merely
 # because the source is a short dispatch.
-MIN_ARTICLE_WORDS = 220
-MIN_ARTICLE_PARAGRAPHS = 4
+MIN_ARTICLE_WORDS = 140 if os.environ.get("L383_HOURLY_NEWS") == "1" else 220
+MIN_ARTICLE_PARAGRAPHS = 3 if os.environ.get("L383_HOURLY_NEWS") == "1" else 4
 WORDS_PER_READING_MINUTE = 200
 # Keep every published card sharp at the largest homepage slot and through a
 # tall object-cover crop. Social-native candidates follow the same quality bar.
@@ -1683,6 +1683,13 @@ def send_report(path: Path) -> int:
         "Scoring: relevance 22% + urgency 14% + public impact 16% + local depth 10% + "
         "controversy/interest 10% + credibility 16% + corroboration 8% + editorial safety 4%."
     )
+    if os.environ.get("L383_HOURLY_NEWS") == "1":
+        from news_source_policy import hourly_targets
+        coverage = "; ".join(
+            f"{category}: {sum(a.get('category') == category for a in articles)}/{target}"
+            for category, target in hourly_targets().items()
+        )
+        scoring_note += " Hourly target: 20. Coverage (published/target): " + coverage + "."
     report_html = (
         "<html><body style='margin:0;background:#f1f5f9;color:#0f172a;font-family:Arial,sans-serif'>"
         "<div style='max-width:820px;margin:0 auto;background:#ffffff'>"

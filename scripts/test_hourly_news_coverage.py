@@ -1,0 +1,80 @@
+import json
+import os
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+
+from cloud_news_discovery import select_hourly_leads
+from editorial_rules_v2 import independent_source_error
+from news_source_policy import CATEGORIES, hourly_targets
+from news_coverage import balance, deficits
+from prepare_editor_sources import coverage_plan, discovery
+
+
+class HourlyCoverageTests(unittest.TestCase):
+    def test_routine_stories_are_not_lost_without_matching_headlines(self):
+        leads = [{"category": "Teknologji", "url": "https://techcrunch.com/one", "title": "OpenAI releases a new model"},
+                 {"category": "Teknologji", "url": "https://therundown.ai/two", "title": "Apple unveils a security camera"}]
+        ready = select_hourly_leads(leads)
+        self.assertEqual(len(ready), 2)
+        self.assertTrue(all(not lead["corroborates_url"] for lead in ready))
+        self.assertEqual(len(select_hourly_leads(leads, {leads[0]["url"]})), 1)
+
+    def test_distinct_numbered_events_are_not_collapsed(self):
+        leads = [{"category": "Teknologji", "url": f"https://techcrunch.com/model-{i}",
+                  "title": f"OpenAI releases agent model {i:03d}"} for i in range(20)]
+        self.assertEqual(len(select_hourly_leads(leads)), 20)
+
+    def test_plan_reserves_all_seven_desks_before_redistributing(self):
+        leads = [{"category": category} for category in CATEGORIES for _ in range(30)]
+        self.assertEqual(coverage_plan(leads), hourly_targets())
+        self.assertEqual(sum(coverage_plan(leads).values()), 20)
+        sparse = [{"category": category} for category in CATEGORIES] + [{"category": "Botë"}] * 30
+        plan = coverage_plan(sparse)
+        self.assertEqual(sum(plan.values()), 20)
+        self.assertTrue(all(plan[category] >= 1 for category in CATEGORIES))
+
+    def test_excess_world_drafts_cannot_displace_other_desks(self):
+        plan = hourly_targets()
+        articles = [{"category": "Botë"}] * 20 + [{"category": category} for category in CATEGORIES]
+        result = balance(articles, plan)
+        self.assertEqual(sum(item["category"] == "Botë" for item in result), plan["Botë"])
+        self.assertTrue(all(any(item["category"] == category for item in result) for category in CATEGORIES))
+        self.assertGreater(deficits(result, plan)["Teknologji"], 0)
+
+    def test_sensitive_single_source_is_rejected_but_routine_is_allowed(self):
+        with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}):
+            routine = {"url": "https://techcrunch.com/model", "title": "OpenAI publikon modelin e ri"}
+            self.assertIsNone(independent_source_error(routine))
+            allegation = {"url": "https://koha.net/tender", "title": "Prishtinë: akuza për tenderin"}
+            self.assertIsNotNone(independent_source_error(allegation))
+            allegation["corroborating_sources"] = [{"url": "https://telegrafi.com/tender"}]
+            self.assertIsNone(independent_source_error(allegation))
+        with patch.dict(os.environ, {"L383_HOURLY_NEWS": "0"}):
+            self.assertIsNotNone(independent_source_error(routine))
+
+    def test_inventory_filters_unreadable_sensitive_and_missing_images(self):
+        leads = [{"category": "Teknologji", "source": "TechCrunch", "url": f"https://techcrunch.com/{slug}",
+                  "title": title, "pair_id": slug} for slug, title in
+                 [("good", "OpenAI releases a model"), ("blocked", "Apple releases camera"),
+                  ("sensitive", "Microsoft faces fraud allegations"), ("no-image", "Google releases model")]]
+        def fetch(url):
+            return {"status": "unavailable" if url.endswith("blocked") else "text_extracted", "url": url,
+                    "text": "Original reporting text", "image_url": "https://cdn.example/photo.jpg"}
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "discovery.md"
+            path.write_text("# Discovery", encoding="utf-8")
+            path.with_suffix(".json").write_text(json.dumps({"leads": leads}), encoding="utf-8")
+            with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch("prepare_editor_sources.fetch_url", side_effect=fetch), \
+                 patch("prepare_editor_sources.ready_image", side_effect=lambda lead, *_: {} if lead["pair_id"] == "no-image" else
+                       {"image_url": "https://cdn.example/photo.jpg", "image_width": 1200, "image_height": 675}):
+                discovery(path)
+            data = json.loads(path.with_suffix(".json").read_text(encoding="utf-8"))
+            self.assertEqual([lead["pair_id"] for lead in data["ready_leads"]], ["good"])
+            self.assertEqual(data["rejected_inventory"]["Teknologji"],
+                             {"unreadable": 1, "needs_corroboration": 1, "image_unavailable": 1})
+
+
+if __name__ == "__main__":
+    unittest.main()

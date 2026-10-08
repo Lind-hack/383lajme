@@ -15,7 +15,7 @@ import unicodedata
 from collections import Counter
 from urllib.parse import urlparse
 from typing import Any
-from news_source_policy import source_error, article_source_errors, independent
+from news_source_policy import source_error, article_source_errors, independent, needs_corroboration
 
 
 MIN_TOTAL_ARTICLES = 13
@@ -165,6 +165,7 @@ TITLE_STAKE_MARKERS = {
     "vra", "plagos", "synon", "braktis",
     "bie", "zbret", "ngjitet", "shtrenjto", "lire", "emet", "listo",
     "faliment", "shkurto", "invest", "lancon",
+    "urdher", "ruajt", "vdes", "vdiq", "protest", "padit", "kerkes",
 }
 
 TITLE_WHO_MARKERS = {
@@ -176,6 +177,7 @@ TITLE_WHO_MARKERS = {
     "fed", "rezerva federale", "bqe", "bqk", "sec", "coinbase", "binance",
     "nvidia", "apple", "microsoft", "amazon", "tesla", "meta", "google",
     "openai", "anthropic", "chatgpt", "gemini", "samsung", "intel", "amd",
+    "ministr", "gjykat", "obsh", "franc", "nunez", "spanj", "gjerman",
 }
 
 GLOBAL_RELEVANCE_MARKERS = {
@@ -341,6 +343,8 @@ def independent_source_error(article: dict[str, Any]) -> str | None:
         return "primary source URL is invalid"
     secondary = corroboration_urls(article)
     if not secondary:
+        if os.environ.get("L383_HOURLY_NEWS") == "1" and not needs_corroboration(article):
+            return None
         return "article needs at least one independently verifiable corroborating source URL"
     primary_host = hostname(primary)
     independent_urls = [url for url in secondary if hostname(url) and independent(primary, url)]
@@ -379,12 +383,12 @@ def article_errors(article: dict[str, Any]) -> list[str]:
             errors.append("women's sports are banned")
         if LOW_VALUE_SPORT_PATTERN.search(text) and not any(_contains(text, marker) for marker in KOSOVO_SPORT_INTEREST_MARKERS):
             errors.append("youth/lower-league/friendly sports without Kosovar interest are banned")
-        if not any(_contains(text, marker) for marker in SPORT_MARKERS):
+        if os.environ.get("L383_HOURLY_NEWS") != "1" and not any(_contains(text, marker) for marker in SPORT_MARKERS):
             errors.append("Sport story fails the Kosovo/major-league/major-player relevance rule")
     elif category == "Botë" and os.environ.get("L383_HOURLY_NEWS") != "1":
         if not any(_contains(text, marker) for marker in GLOBAL_RELEVANCE_MARKERS):
             errors.append("Botë story lacks a Kosovo/Balkans/diaspora/EU/US angle")
-    elif category == "Showbiz":
+    elif category == "Showbiz" and os.environ.get("L383_HOURLY_NEWS") != "1":
         if not any(_contains(text, marker) for marker in SHOWBIZ_MARKERS):
             errors.append("Showbiz story is not recognizable to the Pristina audience")
 

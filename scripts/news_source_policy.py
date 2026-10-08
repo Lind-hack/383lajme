@@ -32,6 +32,9 @@ def load_manifest(path: Path = MANIFEST_PATH) -> dict:
     expected = {"Kosovë", "Shqipëri", "Sport", "Teknologji", "Ekonomi", "Botë", "Showbiz"}
     if data.get("version") != 3 or set(data.get("categories", [])) != expected or len(data["categories"]) != 7:
         raise ValueError("news source registry must declare all seven categories")
+    targets = [data["category_limits"][category].get("target") for category in data["categories"]]
+    if not all(type(value) is int and value > 0 for value in targets) or sum(targets) != 20:
+        raise ValueError("hourly category targets must cover seven desks and total 20")
     owners = {}
     names = set()
     for publisher in data["publishers"]:
@@ -55,6 +58,26 @@ def load_manifest(path: Path = MANIFEST_PATH) -> dict:
 
 MANIFEST = load_manifest()
 CATEGORIES = tuple(MANIFEST["categories"])
+
+# Routine attributed reports need a readable primary; sensitive claims also
+# need an independent publisher. The same decision is used by all stages.
+_SENSITIVE = re.compile(
+    r"\b(?:accus\w*|alleg\w*|akuz\w*|pretend\w*|scandal\w*|skandal\w*|"
+    r"corrupt\w*|korrups\w*|arrest\w*|murder\w*|vras\w*|vrit\w*|"
+    r"rape\w*|perdhun\w*|abuz\w*|abuse\w*|fraud\w*|mashtrim\w*|"
+    r"divorc\w*|tradhti\w*|cheat\w*|rumou?r\w*|thashethem\w*|"
+    r"hetim\w*|investigat\w*|lawsuit\w*|padi\w*)\b"
+)
+
+
+def needs_corroboration(article: dict) -> bool:
+    return bool(_SENSITIVE.search(fold(" ".join(str(article.get(key) or "")
+                                             for key in ("title", "excerpt", "body", "summary")))))
+
+
+def hourly_targets() -> dict[str, int]:
+    return {category: int(MANIFEST["category_limits"][category]["target"])
+            for category in CATEGORIES}
 
 
 def publisher_for(url: object) -> dict | None:

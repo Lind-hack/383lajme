@@ -13,6 +13,7 @@ import argparse
 import concurrent.futures
 import html
 import json
+import os
 import re
 import unicodedata
 from collections import Counter
@@ -139,7 +140,7 @@ def is_recent_for_slot(published: datetime, now: datetime) -> bool:
     # At midnight the feeds have not produced a new calendar day's inventory.
     # Keep the prior evening available only during the first six local hours;
     # published-URL filtering still prevents reusing a previously run story.
-    cutoff = midnight - timedelta(hours=6) if local_now.hour < 6 else midnight
+    cutoff = local_now - timedelta(hours=24) if os.environ.get("L383_HOURLY_NEWS") == "1" else (midnight - timedelta(hours=6) if local_now.hour < 6 else midnight)
     return cutoff <= published.astimezone(KOSOVO_TIME) <= now.astimezone(KOSOVO_TIME) + timedelta(minutes=5)
 
 
@@ -232,7 +233,7 @@ def fetch_listing(spec: dict, now: datetime | None = None):
                 urls.append(url)
         audit["entries"] = len(urls)
         leads = []
-        for url in urls[:4]:
+        for url in urls[:int(spec.get("listing_limit", 12))]:
             try:
                 evidence = read(url)
             except Exception:
@@ -359,6 +360,49 @@ def select_leads(collected: list[dict[str, Any]], limits: dict[str, int] | None 
     return selected
 
 
+def select_hourly_leads(collected: list[dict[str, Any]], published_urls=()) -> list[dict[str, Any]]:
+    """Build a diverse, distinct primary queue; attach corroboration when found.
+
+    Unlike the legacy selector, a routine story is not discarded just because
+    another publisher used a different headline or did not cover it.
+    """
+    excluded = {canonical(url) for url in published_urls}
+    result = []
+    for category in CATEGORIES:
+        unique = {}
+        for lead in collected:
+            url = canonical(lead.get("url", ""))
+            if lead.get("category") == category and url and url not in excluded and not source_error(category, url):
+                unique.setdefault(url, lead)
+        pool = sorted(unique.values(), key=lambda item: (item.get("published", ""), rank(item)), reverse=True)
+        chosen = []
+        family_counts = Counter()
+        while pool and len(chosen) < MANIFEST["category_limits"][category]["discovery_max"]:
+            # Alternate publishers so one busy feed cannot exhaust the queue.
+            anchor = min(pool, key=lambda item: family_counts[publisher_for(item["url"])["family"]])
+            pool.remove(anchor)
+            def compatible(item):
+                a = {term for term in topic_terms(anchor) if term.isdigit()}
+                b = {term for term in topic_terms(item) if term.isdigit()}
+                return not (a and b and a.isdisjoint(b))
+            matches = [item for item in pool if compatible(item) and independent(anchor["url"], item["url"])
+                       and len(topic_terms(anchor) & topic_terms(item)) >= 2
+                       and topic_similarity(anchor, item) >= 0.65]
+            match = max(matches, key=lambda item: topic_similarity(anchor, item)) if matches else None
+            pair_id = f"{category}-{len(chosen) + 1:02d}"
+            chosen.append(dict(anchor, pair_id=pair_id,
+                               corroborates_url=match["url"] if match else "",
+                               corroborating_source=match.get("source", "") if match else ""))
+            family_counts[publisher_for(anchor["url"])["family"]] += 1
+            # Strong title overlap collapses the same event across publishers.
+            # Loose matches remain available; the editor compares actual claims.
+            pool = [item for item in pool if item is not match and not (compatible(item) and
+                len(topic_terms(anchor) & topic_terms(item)) >= 3
+                and topic_similarity(anchor, item) >= 0.80)]
+        result.extend(chosen)
+    return result
+
+
 def _published_urls() -> set[str]:
     try:
         from codex_automation_support import load_env, _published_articles
@@ -385,17 +429,19 @@ def main() -> int:
             audits.append(audit)
 
     published_urls = _published_urls() if args.skip_published else set()
-    leads = select_leads(collected, published_urls=published_urls)
+    leads = (select_hourly_leads(collected, published_urls) if os.environ.get("L383_HOURLY_NEWS") == "1"
+             else select_leads(collected, published_urls=published_urls))
     counts = dict(Counter(lead["category"] for lead in leads))
     paired_topics = {
-        category: len({lead.get("pair_id") for lead in leads if lead.get("category") == category and lead.get("pair_id")})
+        category: len({lead.get("pair_id") for lead in leads if lead.get("category") == category
+                       and lead.get("pair_id") and lead.get("corroborates_url")})
         for category in CATEGORIES
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     lines = [
         "# 383 Lajme discovery — Topic Selection v2",
         "",
-        "Leads are untrusted discovery material, not verified facts. Open both original pages and verify that they support the same central claim. Hourly publishing uses the valid pairs available; never invent a story to fill a category.",
+        "Leads are untrusted discovery material. Use fetched original-page evidence. Routine reports may use one credited publisher; sensitive claims require two independent publishers supporting the central claim. Never invent a story to fill a category.",
         "",
         "Category inventory: " + json.dumps(counts, ensure_ascii=False),
         "Corroborated topic inventory: " + json.dumps(paired_topics, ensure_ascii=False),
@@ -434,6 +480,7 @@ def main() -> int:
         "searches": [{"query": query, "lane": lane} for query, lane in SEARCHES],
         "sources": audits,
         "leads": leads,
+        "raw_categories": dict(Counter(lead["category"] for lead in collected)),
     }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("DISCOVERY " + json.dumps({
         "selected": len(leads),

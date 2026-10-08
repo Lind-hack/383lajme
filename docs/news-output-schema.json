@@ -164,7 +164,7 @@
     },
     "corroborating_sources": {
       "type": "array",
-      "minItems": 1,
+      "minItems": 0,
       "items": {
         "type": "object",
         "required": [
@@ -232,10 +232,21 @@
   "run_contract": {
     "mode": "L383_HOURLY_NEWS=1",
     "minimum_articles": 1,
-    "maximum_articles": 10,
+    "maximum_articles": 20,
     "minimum_by_category": {},
-    "independent_sources_required": 2,
+    "independent_sources_required": 1,
     "no_verified_news": "successful no_news outcome without an article batch",
-    "city_inference": "title plus first 200 body words; supplied priority order; national fallback"
+    "city_inference": "title plus first 200 body words; supplied priority order; national fallback",
+    "target_articles": 20,
+    "target_by_category": {
+      "Kosovë": 4,
+      "Shqipëri": 3,
+      "Botë": 3,
+      "Sport": 2,
+      "Teknologji": 3,
+      "Ekonomi": 3,
+      "Showbiz": 2
+    },
+    "sensitive_claims_independent_sources_required": 2
   }
 }

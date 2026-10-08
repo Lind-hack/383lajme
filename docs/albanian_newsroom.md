@@ -4,9 +4,11 @@ This document is authoritative for the hosted writer and deterministic gates. It
 
 ## Hourly source policy v3
 
-The hourly worker has no category minimum and publishes at most ten verified
-articles. The supplied source-ready target is a ceiling, never a quota. A quiet
-hour can publish none. Every category is checked on every run. Prioritize
+The hourly worker targets 20 distinct new articles: Kosovë 4; Shqipëri 3;
+Botë 3; Teknologji 3; Ekonomi 3; Sport 2; Showbiz 2. Follow the prepared
+publication_plan: cover every available category before taking extra stories
+from a busy desk. Use backup candidates if a draft fails. Unused slots in a
+quiet desk can be redistributed; report shortages honestly. Prioritize
 interesting, well-supported news for Kosovo readers without inventing a local
 connection to world news.
 
@@ -17,17 +19,19 @@ Shqipëri; celebrity entertainment belongs to Showbiz. Ekonomi includes US stock
 Wall Street, crypto, business and finance. Technology product and AI reporting
 belongs to Teknologji. Never use a world publisher as technology or markets
 corroboration, or a local general portal as entertainment or sports corroboration.
-Two URLs must be from different ownership families and support the same central
-claim. Availability is checked anew every run. Blocked/paid sources do not supply
+Routine reports may use one readable, explicitly credited registered publisher.
+Sensitive allegations, crime accusations, corruption, abuse, lawsuits and private-life
+rumours require two readable independent publishers supporting the central claim.
+When two URLs are supplied, they must be from different ownership families. Availability is checked anew every run. Blocked/paid sources do not supply
 facts from previews. Never copy another outlet's wording.
 
 ## Hard bans — never publish
 
 - Anime, manga, K-pop/J-pop fandom news, gaming and esports.
-- Women’s football and women’s sports.
-- Niche foreign domestic stories with no Kosovo/Balkans/diaspora/EU/US angle.
+- In legacy daily mode: women’s sports and niche foreign stories without a
+  Kosovo/Balkans/diaspora/EU/US angle. Hourly Sport and Botë use their dedicated desks.
 - Youth tournaments, lower leagues, or friendlies with no Kosovar interest.
-- Any story that cannot be verified from at least two independent sources.
+- Unreadable sources, unsupported claims, or sensitive allegations without independent corroboration.
 - A pure copy of one source with no added value, even if a quota is short.
 
 ## Title rules v2 — hooks, not labels
@@ -61,7 +65,9 @@ Non-local articles carry `city: null`.
 
 ## Discovery lanes
 
-Use the prepared evidence and verified pair IDs only. Registry feeds and bounded
+Use the prepared evidence and ready story IDs only. Use unpublished stories
+from the rolling last 24 hours. The queue supplies verified image URLs and
+dimensions; do not repeat web/image research. Registry feeds and bounded
 public listing fallbacks are attempted each hour. Consult
 `docs/hourly-news-pipeline.md` for desks and operations. Never add unrelated news
 to fill a quiet lane.
@@ -70,7 +76,11 @@ to fill a quiet lane.
 
 Every article must include `id`, `slug`, `url`, `title`, `excerpt`, `body`, `source`, `category`, `published_at`, `reading_time`, `featured`, `engagement_score`, `score_reason`, `score_breakdown`, `score_formula`, `image_url`, `image_width`, `image_height`, `city`, `corroborating_sources`, and `created_at` and `dispatch` (UTC slot YYYY-MM-DDTHH). Images must decode at 1200×675 or larger. If the first image is inadequate, retain the story and try publisher-declared images from its primary and corroborating pages. If those fail, web-search up to three reputable publisher pages covering the exact event and record them as optional `{source, url}` objects in `image_source_pages`. Never use raw image-search results, galleries, stock-photo pages, social profiles, or broad topic matches; the validator independently checks headline overlap, metadata, dimensions, and placeholder exclusions.
 
-`corroborating_sources` is a non-empty list of objects such as:
+Write at least 140 supported Albanian words in three HTML paragraphs. Prefer
+220+ words in four paragraphs when sources support that depth; never pad a brief.
+
+`corroborating_sources` may be empty for routine attributed news; sensitive claims
+require independently verified objects such as:
 
 ```json
 [
@@ -78,7 +88,10 @@ Every article must include `id`, `slug`, `url`, `title`, `excerpt`, `body`, `sou
 ]
 ```
 
-The second URL must resolve to a different ownership family in the same category from the primary URL. The source-evidence stage fetches both URLs; inaccessible evidence is rejected before publication.
+Every supplied second URL must resolve to a different ownership family in the
+same category. The source-evidence stage fetches all supplied URLs. Credit the
+primary publisher by name in the body and preserve uncertainty. The editor must
+reject sensitive single-source claims even when discovery missed them.
 
 ## Originality
 

@@ -4,8 +4,9 @@ The single source of truth is `scripts/news_sources.json`. Every publisher has
 one category and one ownership family. Discovery and final publication both
 use `news_source_policy.py`: off-category primary or corroborating sources are
 rejected, never reassigned. Sister publications cannot independently corroborate
-each other. The writer and independent editor must verify the shared claim on
-both original pages; headline pairing is only a discovery heuristic.
+each other. The writer and independent editor verify claims against fetched original text.
+Routine news may use one credited readable publisher; sensitive allegations
+require an independent second publisher. Headline pairing is a discovery heuristic.
 
 ## Desks
 
@@ -60,12 +61,17 @@ The private news configuration preserves the existing report delivery settings.
 
 `L383_QA_ONLY=1` runs discovery, writer, independent editor and quality gates
 without publishing or sending a report. `L383_MAX_ARTICLES=2` limits a smoke run;
-production targets twenty verified articles, with a hard cap of twenty. Discovery
-and evidence preparation consider up to twenty independent topic pairs per desk.
-The writer adds up to four stories per call within a 30-minute writing budget,
-reserving the remaining deadline for editing and publication. Actual publication
-can be lower when there are fewer new independently verified topics or a story
-fails a quality gate. The target never overrides freshness or evidence requirements.
+production targets 20 articles: Kosovo 4; Albania, world, technology and economy 3
+each; sport and showbiz 2 each. Readable unpublished stories from the rolling last
+24 hours are grouped by event. Routine news can use a credited primary; sensitive
+claims need independent corroboration. Source text and qualifying images are
+prepared outside model turns. Writers draft up to seven per call, covering every
+available desk first, then filling the plan. Overrepresented desk drafts are
+trimmed before continuing so they cannot displace other categories. Grounded
+briefs need 140+ words and three paragraphs; longer coverage is welcome. Never
+fabricate news to meet 20. Category targets, availability, rejection reasons and
+publication shortfalls are archived with every run and the completion email
+shows published/target counts.
 Empty verified inventory
 is a successful `no_news` outcome, with no filler. Total discovery outage,
 authentication and publication errors fail visibly. A flock and atomic hourly

@@ -13,31 +13,38 @@
   "category_limits": {
     "Kosovë": {
       "min": 0,
-      "discovery_max": 40
+      "discovery_max": 40,
+      "target": 4
     },
     "Shqipëri": {
       "min": 0,
-      "discovery_max": 40
+      "discovery_max": 40,
+      "target": 3
     },
     "Botë": {
       "min": 0,
-      "discovery_max": 40
+      "discovery_max": 40,
+      "target": 3
     },
     "Sport": {
       "min": 0,
-      "discovery_max": 40
+      "discovery_max": 40,
+      "target": 2
     },
     "Teknologji": {
       "min": 0,
-      "discovery_max": 40
+      "discovery_max": 40,
+      "target": 3
     },
     "Ekonomi": {
       "min": 0,
-      "discovery_max": 40
+      "discovery_max": 40,
+      "target": 3
     },
     "Showbiz": {
       "min": 0,
-      "discovery_max": 40
+      "discovery_max": 40,
+      "target": 2
     }
   },
   "publishers": [
@@ -715,7 +722,7 @@
       "source": "TechCrunch",
       "category": "Teknologji",
       "lane": "TEKNOLOGJI",
-      "url": "https://techcrunch.com/category/artificial-intelligence/feed/"
+      "url": "https://techcrunch.com/feed/"
     },
     {
       "source": "The Verge",

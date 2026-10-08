@@ -45,10 +45,19 @@ class TopicSelectionV2Tests(unittest.TestCase):
                 "Teknologji": "Kosova dhe përdoruesit në Prishtinë preken nga ky zhvillim teknologjik. " * 40,
             }[category]
         city = r.infer_city(category, title, body)
+        primary, secondary = {
+            "Kosovë": ("koha.net", "telegrafi.com"),
+            "Shqipëri": ("euronews.al", "lapsi.al"),
+            "Botë": ("bbc.com", "france24.com"),
+            "Sport": ("skysports.com", "espn.com"),
+            "Showbiz": ("variety.com", "tmz.com"),
+            "Ekonomi": ("cnbc.com", "coindesk.com"),
+            "Teknologji": ("techcrunch.com", "therundown.ai"),
+        }[category]
         return {
             "id": f"article-{index}",
             "slug": f"article-{index:02d}-verified",
-            "url": f"https://primary{index}.example/story",
+            "url": f"https://{primary}/story-{index}",
             "title": title,
             "excerpt": "Një ndryshim konkret me ndikim të verifikueshëm.",
             "body": body,
@@ -57,7 +66,7 @@ class TopicSelectionV2Tests(unittest.TestCase):
             "city": city,
             "score_breakdown": {"relevance": 8, "public_impact": 8, "urgency": 7, "credibility": 8, "corroboration": 8, "editorial_safety": 8},
             "corroborating_sources": [
-                {"source": "Independent source", "url": f"https://secondary{index}.example/confirm"}
+                {"source": "Independent source", "url": f"https://{secondary}/confirm-{index}"}
             ],
         }
 
@@ -128,9 +137,10 @@ class TopicSelectionV2Tests(unittest.TestCase):
                 json.dumps([
                     {
                         "slug": article["slug"],
-                        "evidence": {"status": "text_extracted"},
+                        "source_url": article["url"],
+                        "evidence": {"status": "text_extracted", "url": article["url"]},
                         "corroborating": [
-                            {"url": article["corroborating_sources"][0]["url"], "evidence": {"status": "text_extracted"}}
+                            {"url": article["corroborating_sources"][0]["url"], "evidence": {"status": "text_extracted", "url": article["corroborating_sources"][0]["url"]}}
                         ],
                     }
                     for article in articles
