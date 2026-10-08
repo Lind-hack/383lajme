@@ -9,10 +9,18 @@ from cloud_news_discovery import select_hourly_leads
 from editorial_rules_v2 import independent_source_error, article_errors, title_errors
 from news_source_policy import CATEGORIES, hourly_targets, topic_error, needs_corroboration
 from news_coverage import balance, deficits, replacement_plan
-from prepare_editor_sources import coverage_plan, discovery, fetch
+from prepare_editor_sources import coverage_plan, discovery, fetch, ready_image
 
 
 class HourlyCoverageTests(unittest.TestCase):
+    def test_native_open_graph_image_is_accepted_for_hourly_without_upscaling(self):
+        evidence = {"image_url": "https://euronews.al/wp-content/uploads/story.jpg"}
+        with patch("codex_automation_support._fetch_image_dimensions", return_value=(1200, 630)), patch("codex_automation_support._larger_image_candidates", return_value=[]):
+            with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}):
+                self.assertEqual(ready_image({}, evidence, {})["image_height"], 630)
+            with patch.dict(os.environ, {"L383_HOURLY_NEWS": "0"}):
+                self.assertEqual(ready_image({}, evidence, {}), {})
+
     def test_replacements_keep_available_desks_and_reassign_exhausted_slots(self):
         approved = [{"category": category, "url": f"https://example.com/{index}"}
                     for index, category in enumerate(CATEGORIES)]

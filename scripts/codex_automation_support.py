@@ -187,7 +187,7 @@ WORDS_PER_READING_MINUTE = 200
 # Keep every published card sharp at the largest homepage slot and through a
 # tall object-cover crop. Social-native candidates follow the same quality bar.
 MIN_IMAGE_WIDTH = 1200
-MIN_IMAGE_HEIGHT = 675
+MIN_IMAGE_HEIGHT = 630 if os.environ.get("L383_HOURLY_NEWS") == "1" else 675
 MIN_SOCIAL_IMAGE_WIDTH = MIN_IMAGE_WIDTH
 MIN_SOCIAL_IMAGE_HEIGHT = MIN_IMAGE_HEIGHT
 # Below this width a photo is still soft in the desktop lead on a 2x screen, so

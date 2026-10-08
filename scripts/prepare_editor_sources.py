@@ -182,7 +182,7 @@ def ready_image(lead: dict, primary: dict, secondary: dict) -> dict:
                 continue
             try:
                 width, height = _fetch_image_dimensions(url)
-                if width >= 1200 and height >= 675:
+                if width >= 1200 and height >= (630 if os.environ.get("L383_HOURLY_NEWS") == "1" else 675):
                     return {"image_url": url, "image_width": width, "image_height": height}
             except Exception:
                 continue

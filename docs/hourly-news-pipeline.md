@@ -106,3 +106,5 @@ Inspect `journalctl -u 383-production.service` and
 never relax verification to meet a volume target.
 
 Hourly model calls return complete JSON responses; the wrapper saves them atomically. Incomplete responses and continuations that alter existing articles leave the prior batch intact. The independent editor receives the source overlap feedback before its first review. Subject and action are checked by the editor against evidence rather than a finite entity/verb whitelist. After rejected drafts are removed, up to two bounded replacement passes fill missing desks from unused prepared evidence. If a desk has exhausted its readable new stories, spare slots go to other available desks; no stories are invented to reach 20.
+
+The source reader prefers the actual publisher article-body container, including Lapsi’s div-based article body, over sidebar paragraph widgets. Hourly images accept native 1200×630 photographs and larger decoded images; they are never upscaled to fabricate dimensions. Legacy daily image requirements remain 1200×675.

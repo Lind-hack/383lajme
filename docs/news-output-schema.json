@@ -154,7 +154,8 @@
     },
     "image_height": {
       "type": "integer",
-      "minimum": 675
+      "minimum": 630,
+      "description": "Hourly native image floor; legacy daily validation retains 675 pixels."
     },
     "city": {
       "type": [
