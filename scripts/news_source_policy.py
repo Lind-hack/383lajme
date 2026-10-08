@@ -62,7 +62,7 @@ CATEGORIES = tuple(MANIFEST["categories"])
 # Routine attributed reports need a readable primary; sensitive claims also
 # need an independent publisher. The same decision is used by all stages.
 _SENSITIVE = re.compile(
-    r"\b(?:accus\w*|alleg\w*|akuz\w*|pretend\w*|scandal\w*|skandal\w*|"
+    r"\b(?:accus\w*|alleg\w*|akuz\w*|scandal\w*|skandal\w*|"
     r"corrupt\w*|korrups\w*|arrest\w*|murder\w*|vras\w*|vrit\w*|"
     r"rape\w*|perdhun\w*|abuz\w*|abuse\w*|fraud\w*|mashtrim\w*|"
     r"divorc\w*|tradhti\w*|cheat\w*|rumou?r\w*|thashethem\w*|"

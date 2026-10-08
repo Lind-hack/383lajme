@@ -298,7 +298,10 @@ def title_errors(article: dict[str, Any]) -> list[str]:
     folded_words = [fold(word).strip("'-") for word in words]
     has_named_who = any(_contains(folded, marker) for marker in TITLE_WHO_MARKERS)
     has_proper_name = any(word[:1].isupper() for word in words[1:])
-    if not has_named_who and not has_proper_name:
+    # The independent hourly editor verifies subjects/actions against source
+    # text. Finite name/verb lists reject legitimate new entities and inflections.
+    hourly = os.environ.get("L383_HOURLY_NEWS") == "1"
+    if not hourly and not has_named_who and not has_proper_name:
         errors.append("title does not name the WHO (person, institution, team, or place)")
     if any(word in GENERIC_TITLE_NOUNS for word in folded_words):
         # Generic nouns are acceptable only when attached to a named/concrete
@@ -314,7 +317,7 @@ def title_errors(article: dict[str, Any]) -> list[str]:
         local_markers.update(alias for _, aliases in cities for alias in aliases)
         if not any(_contains(first_three, marker) for marker in local_markers):
             errors.append(f"{category} title must front-load Kosovo/Albania or a city in its first three words")
-    if not any(_contains(folded, marker) for marker in TITLE_STAKE_MARKERS) and not re.search(r"\d", title):
+    if not hourly and not any(_contains(folded, marker) for marker in TITLE_STAKE_MARKERS) and not re.search(r"\d", title):
         errors.append("title does not name a concrete stake or verifiable action")
     return errors
 

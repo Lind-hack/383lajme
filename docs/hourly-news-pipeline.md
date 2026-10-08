@@ -104,3 +104,5 @@ human editorial accuracy. Live audits provide per-source eligibility/access data
 Inspect `journalctl -u 383-production.service` and
 `systemctl list-timers 383-production.timer`. Diagnose failures before retrying;
 never relax verification to meet a volume target.
+
+Hourly model calls return complete JSON responses; the wrapper saves them atomically. Incomplete responses and continuations that alter existing articles leave the prior batch intact. The independent editor receives the source overlap feedback before its first review. Subject and action are checked by the editor against evidence rather than a finite entity/verb whitelist. After rejected drafts are removed, up to two bounded replacement passes fill missing desks from unused prepared evidence. If a desk has exhausted its readable new stories, spare slots go to other available desks; no stories are invented to reach 20.

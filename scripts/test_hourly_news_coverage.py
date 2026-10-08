@@ -6,13 +6,30 @@ from pathlib import Path
 from unittest.mock import patch
 
 from cloud_news_discovery import select_hourly_leads
-from editorial_rules_v2 import independent_source_error, article_errors
-from news_source_policy import CATEGORIES, hourly_targets, topic_error
-from news_coverage import balance, deficits
+from editorial_rules_v2 import independent_source_error, article_errors, title_errors
+from news_source_policy import CATEGORIES, hourly_targets, topic_error, needs_corroboration
+from news_coverage import balance, deficits, replacement_plan
 from prepare_editor_sources import coverage_plan, discovery, fetch
 
 
 class HourlyCoverageTests(unittest.TestCase):
+    def test_replacements_keep_available_desks_and_reassign_exhausted_slots(self):
+        approved = [{"category": category, "url": f"https://example.com/{index}"}
+                    for index, category in enumerate(CATEGORIES)]
+        attempted = [row["url"] for row in approved]
+        ready = approved + [{"category": "Botë", "url": f"https://bbc.com/new-{i}"} for i in range(25)]
+        plan = replacement_plan(approved, ready, attempted)
+        self.assertEqual(sum(plan.values()), 20)
+        self.assertTrue(all(plan[category] >= 1 for category in CATEGORIES))
+        self.assertEqual(plan["Botë"], 14)
+
+    def test_hourly_titles_accept_new_entities_and_real_albanian_verbs(self):
+        with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}):
+            for title in ("PepsiCo ul parashikimin e fitimit për 2026", "Britney Spears viziton Dollywood me djemtë", "Greqia propozon taksë mbi kriptovalutat"):
+                self.assertEqual(title_errors({"title": title, "category": "Botë"}), [])
+        self.assertFalse(needs_corroboration({"title": "Microsoft pretendon se kompjuteri është më i shpejtë"}))
+        self.assertTrue(needs_corroboration({"title": "Pretendime për korrupsion ndaj ministrit"}))
+
     def test_prepared_evidence_avoids_a_second_transient_source_fetch(self):
         url = "https://techcrunch.com/story"
         evidence = {"status": "text_extracted", "url": url, "text": "Original source text"}
