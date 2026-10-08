@@ -293,6 +293,7 @@ done
 printf '383 WRITER FINAL DRAFT COUNT: %s of %s source-ready pairs\n' "$BATCH_COUNT" "$L383_TARGET_ARTICLES"
 printf '383 CATEGORY DEFICITS: %s\n' "$COVERAGE_DEFICITS"
 
+review_candidates() {
 stage="normalize"
 "$PYTHON_BIN" scripts/codex_automation_support.py normalize --file "$BATCH"
 
@@ -382,12 +383,46 @@ stage="dedupe"
 "$PYTHON_BIN" scripts/codex_automation_support.py dedupe-published --prune --file "$BATCH"
 
 stage="topic-selection-v2"
-"$PYTHON_BIN" scripts/topic_selection_gate.py --prune --file "$BATCH" --evidence "${BATCH%.json}.editor-sources.json"
+"$PYTHON_BIN" scripts/topic_selection_gate.py --prune --file "$BATCH" --evidence "${BATCH%.json}.editor-sources.json" || { test "$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$BATCH")" = 0; }
 
 stage="structural-isolation"
 if ! "$PYTHON_BIN" scripts/isolate_valid_news_candidates.py --file "$BATCH"; then
-  fail_run "no individually valid article remains after structural checks"
+  printf "383 REFILL NEEDED: no individually valid article remains after structural checks\n"
 fi
+
+}
+
+ATTEMPTED="$BATCH.attempted-urls.json"
+"$PYTHON_BIN" -c 'import json,sys; json.dump([a["url"] for a in json.load(open(sys.argv[1],encoding="utf-8"))],open(sys.argv[2],"w",encoding="utf-8"))' "$BATCH" "$ATTEMPTED"
+review_candidates
+for refill_attempt in 1 2; do
+  APPROVED_COUNT="$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$BATCH")"
+  if [ "$APPROVED_COUNT" -ge "$FULL_TARGET" ] || [ "$(( $(date +%s) - START_EPOCH ))" -ge 2400 ]; then break; fi
+  COVERAGE_DEFICITS="$("$PYTHON_BIN" scripts/news_coverage.py "$BATCH" "${DISCOVERY%.md}.json")"
+  stage="replacement-writer"
+  printf '383 APPROVED REFILL: approved=%s target=%s deficits=%s attempt=%s\n' "$APPROVED_COUNT" "$FULL_TARGET" "$COVERAGE_DEFICITS" "$refill_attempt"
+  REFILL_BACKUP="$(mktemp /tmp/383-refill.XXXXXX.json)"
+  cp "$BATCH" "$REFILL_BACKUP"
+  trap - ERR
+  set +e
+  timeout --signal=TERM --kill-after=15s 420s /opt/hermes/.venv/bin/hermes chat \
+    --provider "${L383_WRITER_PROVIDER:-openai-codex}" --model "$PRIMARY_WRITER_MODEL" \
+    --ignore-rules -t file --yolo --max-turns 35 -Q -q \
+    "Append replacement articles to ${BATCH}, keeping every existing article unchanged. Read ${DISCOVERY}, docs/news-output-schema.json, docs/albanian_newsroom.md and ${ATTEMPTED}. Never use a URL in the attempted-urls file: those stories were already considered. Fill these category deficits: ${COVERAGE_DEFICITS}. Stop at ${FULL_TARGET} total articles. Use only unused ready stories, their original evidence files, supplied corroborators and verified image fields. Copy prepared ranking defaults. Every new article needs at least 140 grounded Albanian words in three HTML paragraphs and named source attribution. Sensitive claims require the independent source; choose another routine story if none is supplied. Save valid JSON before responding. This is a data-only task; do not run tests, build, publish, deploy, email or edit any other file." 9>&-
+  REFILL_RC=$?
+  set -e
+  trap on_error ERR
+  if [ "$REFILL_RC" -ne 0 ]; then printf '383 REFILL: writer exited %s; checking saved drafts\n' "$REFILL_RC"; fi
+  if ! "$PYTHON_BIN" -c 'import json,sys; old=json.load(open(sys.argv[1],encoding="utf-8")); new=json.load(open(sys.argv[2],encoding="utf-8")); assert isinstance(new,list) and len(new)>len(old); assert {a["url"] for a in old}.issubset({a["url"] for a in new})' "$REFILL_BACKUP" "$BATCH"; then
+    cp "$REFILL_BACKUP" "$BATCH"
+    rm -f "$REFILL_BACKUP"
+    break
+  fi
+  rm -f "$REFILL_BACKUP"
+  "$PYTHON_BIN" scripts/news_coverage.py "$BATCH" "${DISCOVERY%.md}.json" --balance
+  "$PYTHON_BIN" -c 'import json,sys; p=sys.argv[2]; old=json.load(open(p,encoding="utf-8")); new=json.load(open(sys.argv[1],encoding="utf-8")); json.dump(sorted(set(old)|{a["url"] for a in new}),open(p,"w",encoding="utf-8"))' "$BATCH" "$ATTEMPTED"
+  review_candidates
+done
 
 stage="batch-validation"
 if ! "$PYTHON_BIN" scripts/codex_automation_support.py validate --file "$BATCH"; then
