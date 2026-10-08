@@ -1,0 +1,1 @@
+export declare function freshNews<T extends { id: string; title: string; category: string; publishedAt?: string; createdAt?: string; engagementScore?: number }>(pool: readonly T[], options?: { now?: number; exclude?: ReadonlySet<string>; count?: number; diverse?: boolean }): T[];

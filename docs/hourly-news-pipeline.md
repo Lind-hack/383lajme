@@ -85,7 +85,8 @@ After acquiring the lock and passing authentication, website and database checks
 the worker sends a startup confirmation using the existing email styling. The
 completion email retains the existing published-article report. Successful empty
 runs send a completion status instead. Busy-lock and already-published skips send
-no emails; genuine run failures retain their failure alert.
+no emails. Failures are recorded in systemd journals and hourly state without
+sending extra emails. Infrastructure checks also log failures without mail.
 
 The publication gate checks category ownership again, freshness, evidence,
 originality, structure, source mix and database deduplication. Supabase readback
@@ -113,3 +114,14 @@ Hourly model calls return complete JSON responses; the wrapper saves them atomic
 The source reader prefers the actual publisher article-body container, including Lapsi’s div-based article body, over sidebar paragraph widgets. Hourly images accept native 1200×630 photographs and larger decoded images; they are never upscaled to fabricate dimensions. Legacy daily image requirements remain 1200×675.
 
 Hourly publication IDs are stable hashes of canonical primary URLs, independent of discovery ordinals; accented slugs are normalized to ASCII before editing. Wrong-category source topics are rejected before drafting. Replacement reviews contain only new drafts: previously approved articles retain their exact bodies, metadata and category slots, and the merged batch receives the usual final validation.
+
+Editorial ranking follows `docs/news-ranking-rubric.md`: eight evidence-based
+factors per story, rather than copied neutral defaults. The stored base score is
+fixed; website ranking subtracts 0.2 points per hour since publication. Top 5
+and Njoftimet admit only dated stories published within the last 24 hours and
+include the newest pool so older high base scores cannot hide recent news.
+
+Install `scripts/systemd/383-supabase-health-notification.conf` as the health
+service notification-policy drop-in, and `scripts/news-failure-log.sh` as the
+shared `/opt/data/scripts/send-383-failure-alert.sh`. These preserve infrastructure
+checks and failure diagnostics without additional email.

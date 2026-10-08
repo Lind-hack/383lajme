@@ -263,12 +263,8 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
              "Target is 20 distinct new articles. Cover EVERY available category before adding extras to a busy desk.",
              "Routine articles use one credited readable publisher; sensitive claims require the supplied independent source.",
              "Images below have already decoded at the listed dimensions. Use them; do not repeat image research.", ""]
-    lines += ["# Ranking defaults — copy these; do not inspect scoring scripts or calculate scores",
-              json.dumps({"engagement_score": 0, "score_reason": "Neutral ranking baseline; not a verification score",
-                          "score_formula": "deterministic neutral baseline; weighted editorial ranking",
-                          "score_breakdown": {key: 5 for key in ("relevance", "urgency", "public_impact", "local_depth",
-                                                                  "controversy_interest", "credibility", "corroboration", "editorial_safety")}}),
-              "The normalizer computes the final weighted score, reading time and city. Spend your time on supported facts and natural Albanian, not scoring.", ""]
+    lines += ["# Per-story editorial ranking",
+              "Read docs/news-ranking-rubric.md. Assign each score_breakdown factor individually from the fetched evidence and explain the stakes in score_reason. Never copy an all-5 baseline. The normalizer computes the weighted total; do not calculate weights or inspect scoring scripts.", ""]
     for category in CATEGORIES:
         lines += [f"# {category} — publish {plan[category]}", ""]
         for lead in ready:

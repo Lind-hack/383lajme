@@ -258,9 +258,9 @@ def test_status_report_uses_gmail_fallback():
             return 0
 
         support._send_gmail_report = fake_gmail
-        assert support.send_status_report("Nuk u gjet lajm i verifikuar.") == 0
+        assert support.send_status_report("Nuk u gjet lajm i verifikuar.", phase="completed") == 0
         assert sent["recipient"] == "reader@example.com"
-        assert "pa artikuj" in sent["subject"]
+        assert "përfundoi" in sent["subject"]
         assert "Nuk u gjet lajm" in sent["html"]
     finally:
         support.load_env = original_load_env

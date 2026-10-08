@@ -660,7 +660,7 @@ def _score_from_breakdown(breakdown: dict[str, Any]) -> float:
     total = 0.0
     for key, weight in SCORE_WEIGHTS.items():
         value = float(breakdown.get(key, 0))
-        total += max(1.0, min(10.0, value)) * weight
+        total += max(0.0, min(10.0, value)) * weight
     return round(total, 1)
 
 
@@ -1096,6 +1096,9 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
                 )
         except Exception:
             errors.append(f"{label} reading_time is not an integer")
+
+        if os.environ.get("L383_HOURLY_NEWS") == "1" and "neutral baseline" in str(article.get("score_formula", "")).lower():
+            errors.append(f"{label} ranking still uses a neutral fallback; editor must score this story individually")
 
         breakdown = article.get("score_breakdown")
         if not isinstance(breakdown, dict):
@@ -1758,6 +1761,9 @@ def send_html_report(recipient: str, subject: str, report_html: str) -> int:
 
 def send_status_report(message: str, phase: str = "no_news") -> int:
     """Send a cron outcome when a run has no batch to publish."""
+    if phase not in {"started", "completed"}:
+        print(f"EMAIL SUPPRESSED: phase={phase}; only launch and completion notifications are enabled")
+        return 0
     load_env()
     user = os.environ.get("GMAIL_USER", "").strip()
     password = _gmail_app_password()

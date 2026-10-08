@@ -18,8 +18,8 @@ import XhepBanner from "@/components/visit/xhep-banner";
 import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
-import { type AccordionSlide } from "@/components/image-accordion";
 import TopFive from "@/components/home/top-five";
+import { freshNews } from "@/lib/fresh-news.mjs";
 import {
   CurrencyExchangeCard,
   FuelPricesCard,
@@ -29,7 +29,7 @@ import {
   getDailyExchangeSnapshot,
   getDailyFuelSnapshot,
 } from "@/lib/home-market-data";
-import { CATEGORY_COLORS, getCategoryColor } from "@/lib/category-colors";
+import { getCategoryColor } from "@/lib/category-colors";
 import { CATEGORY_TO_SLUG, type NavCategory } from "@/lib/category-map";
 import { getCityWeather } from "@/lib/weather";
 import { getDailyStories, getToneHistory, getToneOutlets, summarizeToday } from "@/lib/tone-data";
@@ -37,19 +37,14 @@ import { dateKeyInKosovo, resolveView } from "@/lib/reagimi-data";
 import { getSondazhiData } from "@/lib/sondazhi-server";
 import { pickFrontPage, pickMostRead } from "@/lib/front-page.mjs";
 import { buildHomeSections, claim, createLedger } from "@/lib/home-sections.mjs";
-import { isSharpEnough, sharpFirst, withImageSizes } from "@/lib/image-size.mjs";
+import { sharpFirst, withImageSizes } from "@/lib/image-size.mjs";
 import CategoryBlock from "@/components/home/category-block";
 import SectionJump from "@/components/home/section-jump";
 import TreguHome from "@/components/home/tregu-home";
 import AdSlot from "@/components/home/ad-slot";
 
-// Ten minutes, not an hour: the pipeline publishes nine times a day and the
-// news sections below the front block now run as deep as the day does.
+// Refresh rankings every ten minutes between hourly publication batches.
 export const revalidate = 600;
-
-function titleKws(text: string) {
-  return new Set(text.toLowerCase().split(/\W+/).filter((w) => w.length > 4));
-}
 
 export default async function HomePage() {
   const [rawArticles, rawTickerArticles, rawRecentArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneOutlets, cityWeather] = await Promise.all([
@@ -98,7 +93,9 @@ export default async function HomePage() {
   // which hid the day's top story from the front block.
   // The lead is the largest photo on the page; it goes to the best-ranked story
   // whose photo can fill it without stretching.
-  const kryesore = sharpFirst(pickFrontPage([...articles, ...tickerArticles], 7), 1);
+  const homeNow = Date.now();
+  const freshPool = freshNews([...articles, ...recentArticles, ...tickerArticles], { now: homeNow, count: 200 });
+  const kryesore = sharpFirst(pickFrontPage(freshPool, 7, homeNow), 1);
   const kryesoreLead = kryesore[0];
   const kryesoreStack = kryesore.slice(1, 5);
   const kryesoreSecondary = kryesore.slice(5, 7);
@@ -124,11 +121,26 @@ export default async function HomePage() {
   // once each.
   const belowPool = [...articles, ...recentArticles];
 
-  // Category blocks claim first. The pipeline publishes a handful of Sport,
-  // Ekonomi, Teknologji or Showbiz stories a day, and anything claimed earlier
-  // by a general list would leave those sections too thin to show. Each block
-  // takes its best-ranked; one with fewer than three is left out, not shown
-  // half-empty.
+  // The poll's question and yesterday's outcome are both settled at request
+  // time, so they are rendered on the server rather than fetched after
+  // hydration — the card used to show an empty loading box for the several
+  // seconds this page takes to hydrate. Only the live tally is left to the
+  // client. Shares reagimiDateKey so the two adjacent cards cannot disagree
+  // about what day it is.
+  const sondazhi = await getSondazhiData(reagimiDateKey);
+
+  // Fresh, age-weighted notices get priority over the longer category shelves.
+  const njoftimeArticles = freshNews(freshPool, { now: homeNow, exclude: ledger.ids, count: 12 });
+  const njoftimeShown = claim(ledger, njoftimeArticles, 12);
+
+  // A ranking may repeat the lead: Top 5 is today's strongest news, rather
+  // than leftovers after every category shelf has claimed its stories.
+  const topFive = freshNews(freshPool, { now: homeNow, diverse: true, count: 5 });
+
+  const mostRead = pickMostRead(freshPool, 5, { exclude: kryesoreTopIds, now: homeNow });
+
+  // Category shelves follow the fresh notices. Each takes its best remaining
+  // stories; thin sections are omitted by their existing display threshold.
   const sections = buildHomeSections(belowPool, ledger, [
     // Kosovë and Shqipëri: a lead, its rail of four and a row of four more.
     { key: "Kosovë", count: 9, category: "Kosovë" },
@@ -140,112 +152,6 @@ export default async function HomePage() {
     { key: "Showbiz", count: 7, category: "Showbiz" },
   ]);
   const block = (category: NavCategory) => sections[category] ?? [];
-
-  // The poll's question and yesterday's outcome are both settled at request
-  // time, so they are rendered on the server rather than fetched after
-  // hydration — the card used to show an empty loading box for the several
-  // seconds this page takes to hydrate. Only the live tally is left to the
-  // client. Shares reagimiDateKey so the two adjacent cards cannot disagree
-  // about what day it is.
-  const sondazhi = await getSondazhiData(reagimiDateKey);
-
-  // NJOFTIME carries at least 12 headlines. It is a horizontally dragged rail, so
-  // the extra cards cost scroll distance inside the rail rather than page height.
-  const NJOFTIME_TARGET = 12;
-
-  // Tier 2: NJOFTIME — score ≥ 7.0, not in kryesore, deduped by keyword overlap
-  const njoftimePool = articles.filter(
-    (a) => !ledger.ids.has(a.id) && (a.engagementScore ?? 0) >= 7.0
-  );
-  const njoftimeArticles: typeof articles = [];
-  const njoftimeKws: Set<string>[] = [];
-  for (const a of njoftimePool) {
-    const kws = titleKws(a.title);
-    if (njoftimeKws.some((rk) => [...kws].filter((w) => rk.has(w)).length >= 3)) continue;
-    njoftimeArticles.push(a);
-    njoftimeKws.push(kws);
-    if (njoftimeArticles.length >= NJOFTIME_TARGET) break;
-  }
-
-  // Top up if the score-gated pool could not reach the target. Keyword dedupe
-  // still applies, so this widens the score floor rather than repeating a story.
-  if (njoftimeArticles.length < NJOFTIME_TARGET) {
-    const already = new Set(njoftimeArticles.map((a) => a.id));
-    for (const a of articles) {
-      if (already.has(a.id) || ledger.ids.has(a.id)) continue;
-      const kws = titleKws(a.title);
-      if (njoftimeKws.some((rk) => [...kws].filter((w) => rk.has(w)).length >= 3)) continue;
-      njoftimeArticles.push(a);
-      njoftimeKws.push(kws);
-      already.add(a.id);
-      if (njoftimeArticles.length >= NJOFTIME_TARGET) break;
-    }
-  }
-
-  // Më të lexuarat — the day's best-scored stories outside the kryesore top,
-  // from the newest as well as the ranked pool; may overlap NJOFTIME (a
-  // most-read rail legitimately repeats stories). See pickMostRead.
-  const mostRead = pickMostRead([...articles, ...tickerArticles, ...recentArticles], 5, {
-    exclude: kryesoreTopIds,
-  });
-
-  // NJOFTIME is claimed before the sections below so they cannot repeat it.
-  // The claim also drops a second write-up of a story the front block leads
-  // with, so the rail renders what it claimed.
-  const njoftimeShown = claim(ledger, njoftimeArticles, njoftimeArticles.length);
-
-  // Top 5 sot — top article per category, fallback to best unused
-  const accordionCats = [
-    { category: "Kosovë",    label: "Kosovë"    },
-    { category: "Shqipëri",  label: "Shqipëri"  },
-    { category: "Botë",      label: "Botë"      },
-    { category: "Sport",     label: "Sport"     },
-    { category: "Showbiz",   label: "Showbiz"   },
-  ];
-  // Five, as the heading promises: "5 tema, 5 lajme" carried six cards.
-  // The old fallback took an article from any category but kept the category we
-  // had *asked* for as the card's label and colour, so a quiet Teknologji day
-  // put a purple TEKNOLOGJI badge on a Sport story. A card now always names the
-  // category its article actually has; when a topic has nothing, the slot is
-  // filled from a topic not already on the row rather than mislabelled.
-  const usedAccordionCats = new Set<string>();
-  const accordionSlides: AccordionSlide[] = [];
-
-  for (const { category } of accordionCats) {
-    // Prefer a story with a sharp photo, so its thumbnail holds up on a 2x screen.
-    // claim() records what it returns, so the fallback runs only on a miss.
-    const sharpPick = claim(ledger, belowPool, 1, { predicate: (a) => a.category === category && isSharpEnough(a) });
-    const [exact] = sharpPick.length
-      ? sharpPick
-      : claim(ledger, belowPool, 1, { predicate: (a) => a.category === category });
-    const article =
-      exact ??
-      claim(ledger, belowPool, 1, {
-        predicate: (a) =>
-          !usedAccordionCats.has(a.category) &&
-          // Some stored rows carry a mangled category ("Bot?"), which would
-          // otherwise surface verbatim as a card label.
-          a.category in CATEGORY_COLORS,
-      })[0] ??
-      // A thin day can leave no fresh topic at all once the category sections
-      // have claimed theirs; the row still shows five stories, from a topic
-      // already on it, rather than four.
-      claim(ledger, belowPool, 1, { predicate: (a) => a.category in CATEGORY_COLORS })[0];
-    if (!article) continue;
-
-    usedAccordionCats.add(article.category);
-    accordionSlides.push({
-      article,
-      category: article.category,
-      label: article.category,
-    });
-  }
-
-  // Top 5 sot ranks the five topics' stories by the pipeline's score, so #1 is
-  // the day's biggest of them. Stored rows may predate the score; they rank last.
-  const topFive = accordionSlides
-    .map((slide) => slide.article)
-    .sort((a, b) => (b?.engagementScore ?? 0) - (a?.engagementScore ?? 0));
 
   // Lajmet e fundit claims last and takes the newest of what is left: it is
   // the one section that can show any story, so it gives way to the rest.

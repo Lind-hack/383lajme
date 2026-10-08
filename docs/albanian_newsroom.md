@@ -99,12 +99,13 @@ Use sources as evidence, not as copy. Never copy sentences from source articles.
 
 ## Ranking metadata
 
-Use 0–10 values for every score_breakdown key: relevance, urgency, public_impact, local_depth, controversy_interest, credibility, corroboration, editorial_safety. The normalizer calculates the weighted score. Incomplete ranking metadata receives an explicitly labelled neutral baseline; it never counts as evidence.
+Use 0–10 values for every score_breakdown key: relevance, urgency, public_impact, local_depth, controversy_interest, credibility, corroboration, editorial_safety. The normalizer calculates the weighted score. Incomplete ranking metadata receives an explicitly labelled neutral baseline for legacy drafts; hourly publication rejects that fallback until the editor supplies individual ratings.
 
-## Drafting ranking defaults
+## Individual editorial ranking
 
-Ranking is metadata, not proof of a claim. Copy the prepared queue's neutral
-ranking defaults without inspecting scripts or calculating weights. The worker
-normalizer computes engagement_score, reading_time and city. Accuracy, source
-attribution, category coverage and natural Albanian take priority over scoring.
+Read `docs/news-ranking-rubric.md`. Assign all eight factors individually from
+verified evidence, timeliness and audience stakes. Explain the specific reason
+in Albanian. Never copy a neutral all-5 template, inflate every story into breaking
+news, or compute the weighted total. The independent editor reassesses ranking;
+the normalizer calculates engagement_score, reading_time and city.
 The old Prishtina score floor applies only to legacy daily mode.

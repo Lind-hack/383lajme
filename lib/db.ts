@@ -5,6 +5,7 @@ import fs from "fs";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { MOCK_ARTICLES, type Article } from "./mock-data";
 import { remoteImageSrc } from "./remote-image.mjs";
+import { frontRank } from "./front-page.mjs";
 
 /**
  * Sample copy is for an empty development database, never for readers.
@@ -140,14 +141,8 @@ function getAutoArticles(exactCategory?: string): Article[] {
   return articles;
 }
 
-// 0.05 pts/hour → a 9.5 article at 20h = 8.5 effective (tied with a fresh 8.5)
-const DECAY_RATE = 0.05;
-
 function effectiveScore(article: Article): number {
-  const base = article.engagementScore ?? 0;
-  const anchor = article.createdAt ?? article.publishedAt;
-  const ageHours = (Date.now() - new Date(anchor).getTime()) / 3_600_000;
-  return Math.max(0, base - ageHours * DECAY_RATE);
+  return frontRank(article);
 }
 
 function supabaseNewsClient() {
