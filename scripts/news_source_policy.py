@@ -146,7 +146,7 @@ def topic_error(category: str, title: object, summary: object = "", *, tags=(), 
             r"business|biznes\w*|invest\w*|pension\w*|pag\w*|tatim\w*|taks\w*|"
             r"buxhet\w*|export\w*|import\w*|employment|jobs|unemployment|"
             r"oil|naft\w*|tariff\w*|tarif\w*|dollar|euro|debt|borxh\w*|"
-            r"revenue|profit\w*|rent|qira\w*|housing|mortgage|treasury|bond\w*)\b",
+            r"revenue|profit\w*|fitim\w*|bilanc\w*|te ardhur\w*|dollar\w*|euro\w*|rent|qira\w*|housing|mortgage|treasury|bond\w*)\b",
             fold(f"{title} {summary}"))
         if not financial:
             return "story lacks an explicit economic or markets subject"

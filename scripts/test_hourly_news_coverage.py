@@ -6,8 +6,8 @@ from pathlib import Path
 from unittest.mock import patch
 
 from cloud_news_discovery import select_hourly_leads
-from editorial_rules_v2 import independent_source_error
-from news_source_policy import CATEGORIES, hourly_targets
+from editorial_rules_v2 import independent_source_error, article_errors
+from news_source_policy import CATEGORIES, hourly_targets, topic_error
 from news_coverage import balance, deficits
 from prepare_editor_sources import coverage_plan, discovery
 
@@ -53,6 +53,16 @@ class HourlyCoverageTests(unittest.TestCase):
             self.assertIsNone(independent_source_error(allegation))
         with patch.dict(os.environ, {"L383_HOURLY_NEWS": "0"}):
             self.assertIsNotNone(independent_source_error(routine))
+
+    def test_neutral_ranking_is_not_confused_with_source_verification(self):
+        article = {"category": "Teknologji", "url": "https://techcrunch.com/model",
+                   "title": "OpenAI publikon modelin e ri", "score_breakdown": {"relevance": 5},
+                   "corroborating_sources": [{"url": "https://therundown.ai/model"}]}
+        with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}):
+            self.assertEqual(article_errors(article), [])
+        with patch.dict(os.environ, {"L383_HOURLY_NEWS": "0"}):
+            self.assertTrue(any("relevance score" in message for message in article_errors(article)))
+        self.assertIsNone(topic_error("Ekonomi", "Samsung parashikon 80.2 mld dollarë fitim operativ rekord"))
 
     def test_inventory_filters_unreadable_sensitive_and_missing_images(self):
         leads = [{"category": "Teknologji", "source": "TechCrunch", "url": f"https://techcrunch.com/{slug}",

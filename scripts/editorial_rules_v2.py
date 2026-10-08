@@ -368,7 +368,7 @@ def article_errors(article: dict[str, Any]) -> list[str]:
     if corroboration_error:
         errors.append(corroboration_error)
     breakdown = article.get("score_breakdown")
-    if isinstance(breakdown, dict):
+    if os.environ.get("L383_HOURLY_NEWS") != "1" and isinstance(breakdown, dict):
         try:
             if float(breakdown.get("relevance", 0)) < 6:
                 errors.append("Prishtina relevance score is below 6")

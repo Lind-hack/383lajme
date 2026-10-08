@@ -100,3 +100,11 @@ Use sources as evidence, not as copy. Never copy sentences from source articles.
 ## Ranking metadata
 
 Use 0–10 values for every score_breakdown key: relevance, urgency, public_impact, local_depth, controversy_interest, credibility, corroboration, editorial_safety. The normalizer calculates the weighted score. Incomplete ranking metadata receives an explicitly labelled neutral baseline; it never counts as evidence.
+
+## Drafting ranking defaults
+
+Ranking is metadata, not proof of a claim. Copy the prepared queue's neutral
+ranking defaults without inspecting scripts or calculating weights. The worker
+normalizer computes engagement_score, reading_time and city. Accuracy, source
+attribution, category coverage and natural Albanian take priority over scoring.
+The old Prishtina score floor applies only to legacy daily mode.

@@ -28,6 +28,8 @@ if __name__ == "__main__":
     parser.add_argument("--balance", action="store_true")
     args = parser.parse_args()
     articles = json.loads(args.batch.read_text(encoding="utf-8"))
+    if isinstance(articles, dict):
+        articles = articles["articles"]
     data = json.loads(args.discovery.read_text(encoding="utf-8"))
     plan = data["publication_plan"]
     if args.balance:
