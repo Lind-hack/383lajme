@@ -55,7 +55,7 @@ def originality_errors(article: dict[str, Any], evidence: dict[str, Any]) -> lis
         quoted = any(mark in sentence for mark in ('"', "“", "”", "«", "»"))
         if quoted and overlap <= 16:
             continue
-        errors.append(f"body contains an exact source overlap of {overlap} words; rewrite it in 383's own words")
+        errors.append(f"body contains an exact source overlap of {overlap} words; rewrite this entire sentence in 383's own words: {sentence!r}")
     return errors
 
 

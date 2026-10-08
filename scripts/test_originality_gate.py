@@ -12,6 +12,7 @@ class OriginalityGateTests(unittest.TestCase):
         article = {"body": "<p>Ministria njoftoi sot se projekti do të nisë në Prishtinë më 1 tetor pas përfundimit të procedurave.</p>"}
         errors = gate.originality_errors(article, {"evidence": {"text": source}})
         self.assertTrue(any("exact source overlap" in error for error in errors))
+        self.assertTrue(any(source in error for error in errors))
 
     def test_short_quoted_excerpt_is_allowed(self):
         source = "Ministria njoftoi sot se projekti do të nisë në Prishtinë më 1 tetor."

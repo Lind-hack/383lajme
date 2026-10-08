@@ -174,10 +174,10 @@ def discovery(path: Path) -> None:
 def ready_image(lead: dict, primary: dict, secondary: dict) -> dict:
     from codex_automation_support import _fetch_image_dimensions, _larger_image_candidates, _looks_like_content_image_url
     for evidence in (primary, secondary):
-        original = str(evidence.get("image_url") or "")
-        if not original or not _looks_like_content_image_url(original):
-            continue
-        for url in list(dict.fromkeys([original, *_larger_image_candidates(original)]))[:4]:
+        originals = list(dict.fromkeys([str(evidence.get("image_url") or ""), *evidence.get("image_candidates", [])]))[:4]
+        urls = [url for original in originals if original and _looks_like_content_image_url(original)
+                for url in [original, *_larger_image_candidates(original)]]
+        for url in list(dict.fromkeys(urls))[:10]:
             if not url.startswith("https://"):
                 continue
             try:
