@@ -13,6 +13,21 @@ from prepare_editor_sources import coverage_plan, discovery, fetch, ready_image
 
 
 class HourlyCoverageTests(unittest.TestCase):
+    def test_hourly_identity_survives_tracker_changes_and_avoids_ordinal_collisions(self):
+        from codex_automation_support import normalize_batch
+        with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}):
+            batch = Path(folder) / "2026-10-08T14.json"
+            rows = [{"id": "Botë-26", "url": url, "slug": "kievi-robërit-luftes", "category": "Botë", "body": "<p>Original report.</p>"}
+                    for url in ("https://bbc.com/story-one?utm_source=test", "https://bbc.com/story-two")]
+            batch.write_text(json.dumps(rows), encoding="utf-8")
+            normalized = normalize_batch(batch)
+            self.assertNotEqual(normalized[0]["id"], normalized[1]["id"])
+            self.assertEqual(normalized[0]["slug"], "kievi-roberit-luftes")
+            first_id = normalized[0]["id"]
+            normalized[0]["url"] = "https://www.bbc.com/story-one/"
+            batch.write_text(json.dumps(normalized), encoding="utf-8")
+            self.assertEqual(normalize_batch(batch)[0]["id"], first_id)
+
     def test_native_open_graph_image_is_accepted_for_hourly_without_upscaling(self):
         evidence = {"image_url": "https://euronews.al/wp-content/uploads/story.jpg"}
         with patch("codex_automation_support._fetch_image_dimensions", return_value=(1200, 630)), patch("codex_automation_support._larger_image_candidates", return_value=[]):
@@ -30,6 +45,14 @@ class HourlyCoverageTests(unittest.TestCase):
         self.assertEqual(sum(plan.values()), 20)
         self.assertTrue(all(plan[category] >= 1 for category in CATEGORIES))
         self.assertEqual(plan["Botë"], 14)
+        approved = [{"category": category, "url": f"https://example.com/approved-{i}"}
+                    for i, category in enumerate(["Botë"] * 5 + ["Sport"] * 3 + ["Shqipëri", "Teknologji", "Ekonomi", "Showbiz"])]
+        ready = [{"category": category, "url": f"https://example.com/new-{category}-{i}"}
+                 for category in CATEGORIES if category != "Kosovë" for i in range(20)]
+        plan = replacement_plan(approved, ready, [row["url"] for row in approved])
+        self.assertEqual(sum(plan.values()), 20)
+        self.assertGreaterEqual(plan["Botë"], 5)
+        self.assertGreaterEqual(plan["Sport"], 3)
 
     def test_hourly_titles_accept_new_entities_and_real_albanian_verbs(self):
         with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}):
@@ -37,6 +60,9 @@ class HourlyCoverageTests(unittest.TestCase):
                 self.assertEqual(title_errors({"title": title, "category": "Botë"}), [])
         self.assertFalse(needs_corroboration({"title": "Microsoft pretendon se kompjuteri është më i shpejtë"}))
         self.assertTrue(needs_corroboration({"title": "Pretendime për korrupsion ndaj ministrit"}))
+        self.assertFalse(needs_corroboration({"title": "Fury synon kurorën e padiskutueshme"}))
+        self.assertTrue(needs_corroboration({"title": "Gjykata pranon padinë ndaj kompanisë"}))
+        self.assertTrue(needs_corroboration({"title": "Kompania paditi ish-drejtorin"}))
 
     def test_prepared_evidence_avoids_a_second_transient_source_fetch(self):
         url = "https://techcrunch.com/story"
@@ -100,7 +126,10 @@ class HourlyCoverageTests(unittest.TestCase):
         leads = [{"category": "Teknologji", "source": "TechCrunch", "url": f"https://techcrunch.com/{slug}",
                   "title": title, "pair_id": slug} for slug, title in
                  [("good", "OpenAI releases a model"), ("blocked", "Apple releases camera"),
-                  ("sensitive", "Microsoft faces fraud allegations"), ("no-image", "Google releases model")]]
+                  ("sensitive", "Microsoft faces fraud allegations"), ("no-image", "Google releases model"),
+                  ("wrong-topic", "Nasdaq stocks and crypto markets surge")]]
+        leads.append({"category": "Kosovë", "source": "Telegrafi", "url": "https://telegrafi.com/ffk-orari",
+                      "title": "Kosovë: FFK publikon orarin e ndeshjeve të Superligës", "pair_id": "wrong-sports-lane"})
         def fetch(url):
             return {"status": "unavailable" if url.endswith("blocked") else "text_extracted", "url": url,
                     "text": "Original reporting text", "image_url": "https://cdn.example/photo.jpg"}
@@ -115,7 +144,8 @@ class HourlyCoverageTests(unittest.TestCase):
             data = json.loads(path.with_suffix(".json").read_text(encoding="utf-8"))
             self.assertEqual([lead["pair_id"] for lead in data["ready_leads"]], ["good"])
             self.assertEqual(data["rejected_inventory"]["Teknologji"],
-                             {"unreadable": 1, "needs_corroboration": 1, "image_unavailable": 1})
+                             {"unreadable": 1, "needs_corroboration": 1, "image_unavailable": 1, "topic_mismatch": 1})
+            self.assertEqual(data["rejected_inventory"]["Kosovë"]["topic_mismatch"], 1)
 
 
 if __name__ == "__main__":

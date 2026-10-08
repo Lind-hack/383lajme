@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import base64
 import html
+import hashlib
 import json
 import math
 import os
@@ -477,6 +478,21 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
                         article[canonical] = value.strip()
                         changed += 1
                         break
+        if os.environ.get("L383_HOURLY_NEWS") == "1":
+            # Discovery ordinals restart each hour; they identify evidence,
+            # not globally unique articles. Bind publication identity to URL.
+            source_identity = _canonical_url(article.get("url"))
+            if source_identity:
+                stable_id = "news-" + hashlib.sha256(source_identity.encode("utf-8")).hexdigest()[:24]
+                if article.get("id") != stable_id:
+                    article["id"] = stable_id
+                    changed += 1
+            slug = str(article.get("slug") or "")
+            ascii_slug = unicodedata.normalize("NFKD", slug).encode("ascii", "ignore").decode().lower()
+            ascii_slug = re.sub(r"[^a-z0-9-]+", "-", ascii_slug).strip("-")
+            if ascii_slug != slug:
+                article["slug"] = ascii_slug
+                changed += 1
         category = str(article.get("category") or "").strip()
         canonical = canonical_category(category)
         if canonical in VALID_CATEGORIES and canonical != category:

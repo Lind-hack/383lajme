@@ -66,7 +66,7 @@ _SENSITIVE = re.compile(
     r"corrupt\w*|korrups\w*|arrest\w*|murder\w*|vras\w*|vrit\w*|"
     r"rape\w*|perdhun\w*|abuz\w*|abuse\w*|fraud\w*|mashtrim\w*|"
     r"divorc\w*|tradhti\w*|cheat\w*|rumou?r\w*|thashethem\w*|"
-    r"hetim\w*|investigat\w*|lawsuit\w*|padi\w*)\b"
+    r"hetim\w*|investigat\w*|lawsuit\w*|padi(?:a|s[e]?|n[e]?|ve|sh)?|padit\w*)\b"
 )
 
 

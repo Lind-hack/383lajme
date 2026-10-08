@@ -23,8 +23,19 @@ def deficits(articles: list[dict], plan: dict[str, int]) -> dict[str, int]:
 
 def replacement_plan(articles: list[dict], ready: list[dict], attempted: list[str]) -> dict[str, int]:
     from prepare_editor_sources import coverage_plan
+    from news_source_policy import hourly_targets
     unavailable = set(attempted)
-    return coverage_plan(articles + [lead for lead in ready if lead.get("url") not in unavailable])
+    plan = coverage_plan(articles + [lead for lead in ready if lead.get("url") not in unavailable])
+    approved = Counter(article.get("category") for article in articles)
+    plan = {category: max(count, approved[category]) for category, count in plan.items()}
+    targets = hourly_targets()
+    while sum(plan.values()) > 20:
+        reducible = [category for category in plan if plan[category] > approved[category]]
+        if not reducible:
+            raise ValueError("Approved articles exceed the publication cap")
+        category = max(reducible, key=lambda key: plan[key] / targets[key])
+        plan[category] -= 1
+    return plan
 
 
 if __name__ == "__main__":

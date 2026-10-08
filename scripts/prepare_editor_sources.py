@@ -14,7 +14,7 @@ from typing import Any
 
 from editorial_rules_v2 import corroboration_urls
 from read_news_source import read
-from news_source_policy import MANIFEST, CATEGORIES, source_error, needs_corroboration, hourly_targets, independent
+from news_source_policy import MANIFEST, CATEGORIES, source_error, needs_corroboration, hourly_targets, independent, topic_error
 
 
 def fetch_url(url: str) -> dict[str, Any]:
@@ -210,7 +210,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     with concurrent.futures.ThreadPoolExecutor(max_workers=12) as pool:
         fetched = dict(zip(urls, pool.map(fetch_url, urls)))
     eligible = []
-    rejected = {category: {"unreadable": 0, "needs_corroboration": 0, "image_unavailable": 0} for category in CATEGORIES}
+    rejected = {category: {"unreadable": 0, "needs_corroboration": 0, "image_unavailable": 0, "topic_mismatch": 0} for category in CATEGORIES}
     for lead in leads:
         primary = fetched[lead["url"]]
         secondary_url = lead.get("corroborates_url", "")
@@ -221,6 +221,10 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
                         and independent(primary.get("url"), secondary.get("url")))
         if not primary_ok:
             rejected[lead["category"]]["unreadable"] += 1
+            continue
+        if topic_error(lead["category"], lead.get("title", ""), primary.get("text", ""),
+                       tags=lead.get("tags", []), url=lead["url"]):
+            rejected[lead["category"]]["topic_mismatch"] += 1
             continue
         sensitive = needs_corroboration({**lead, "body": primary.get("text", "")})
         if sensitive and not secondary_ok:

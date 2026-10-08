@@ -422,10 +422,21 @@ for refill_attempt in 1 2; do
     rm -f "$REFILL_BACKUP"
     break
   fi
-  rm -f "$REFILL_BACKUP"
   "$PYTHON_BIN" scripts/news_coverage.py "$BATCH" "${DISCOVERY%.md}.json" --balance
   "$PYTHON_BIN" -c 'import json,sys; p=sys.argv[2]; old=json.load(open(p,encoding="utf-8")); new=json.load(open(sys.argv[1],encoding="utf-8")); json.dump(sorted(set(old)|{a["url"] for a in new}),open(p,"w",encoding="utf-8"))' "$BATCH" "$ATTEMPTED"
+  # Approved text already passed the editor and every per-article gate. Review
+  # only the new replacements; re-editing old copy can reintroduce source text.
+  FULL_BATCH="$BATCH"
+  REPLACEMENT_FOLDER="$(mktemp -d /tmp/383-refill-review.XXXXXX)"
+  REPLACEMENT_BATCH="$REPLACEMENT_FOLDER/${STAMP}.json"
+  "$PYTHON_BIN" scripts/news_refill.py split "$REFILL_BACKUP" "$FULL_BATCH" "$REPLACEMENT_BATCH"
+  BATCH="$REPLACEMENT_BATCH"
   review_candidates
+  "$PYTHON_BIN" scripts/news_refill.py merge "$REFILL_BACKUP" "$BATCH" "$FULL_BATCH"
+  BATCH="$FULL_BATCH"
+  "$PYTHON_BIN" scripts/prepare_editor_sources.py "$BATCH"
+  "$PYTHON_BIN" scripts/editor_completion.py acknowledge "$BATCH"
+  rm -f "$REFILL_BACKUP"
 done
 
 stage="batch-validation"
