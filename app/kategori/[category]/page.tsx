@@ -13,6 +13,7 @@ import HeroDispatch from "@/components/hero-dispatch";
 import NewsGrid from "@/components/news-grid";
 import DispatchList from "@/components/dispatch-list";
 import Footer from "@/components/footer";
+import { pickFrontPage } from "@/lib/front-page.mjs";
 
 export const revalidate = 3600;
 
@@ -43,12 +44,15 @@ export default async function CategoryPage({
   const categoryName = RESOLVABLE_SLUGS[category];
   if (!categoryName) notFound();
 
-  const [allArticles, recentArticles] = await Promise.all([
+  const [rankedArticles, recentArticles] = await Promise.all([
     getArticles(50, categoryName),
     // The list below the grid runs by date, so "Shfaq më shumë" can continue
     // from its oldest row without skipping anything newer.
     getArticlesBefore({ limit: 40, category: categoryName }),
   ]);
+  // Include the newest desk stories before applying the shared 0.2/hour rank.
+  // The archive below still pages by publication date.
+  const allArticles = pickFrontPage([...rankedArticles, ...recentArticles], 50);
   const query = searchParams ? await searchParams : {};
   const requestedCity = typeof query.city === "string" ? query.city : undefined;
   const isCityCategory = categoryName === "Kosovë" || categoryName === "Shqipëri";
