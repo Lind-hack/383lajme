@@ -8,3 +8,5 @@
 Evidence: screenshot + live five-minute health journal; prepared defaults all 5; getArticles orders featured/raw score before limit; Njoftimet/Top 5 use raw scores and no freshness cutoff; fallback database score decay is 0.05 instead of 0.2.
 
 Verification: fake-clock tests for 0.2/hour, multi-day exclusion, tie-breaking and fresh low scores; model/ranking score derivation tests; real worker logs and publication scores; live rendered section links/date metadata; monitor interval with zero SMTP sends; exact production SHA and installed runtime.
+
+Completed validation and the observed publication shortfall are recorded in `tasks/news-ranking-todo.md`. Source timestamps are distinct from actual site publication time; age decay begins at site publication, and retries never restart it.
