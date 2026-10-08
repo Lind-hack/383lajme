@@ -21,8 +21,13 @@ def save_response(output: str, batch: Path, mode: str) -> int:
     if mode in {"append", "editor"}:
         old = json.loads(batch.read_text(encoding="utf-8"))
         by_url = {row["url"]: row for row in rows}
-        if mode == "append" and any(by_url.get(row["url"]) != row for row in old):
-            raise ValueError("Continuation changed or removed an existing article")
+        if mode == "append":
+            if set(by_url).isdisjoint({row["url"] for row in old}):
+                # The model can return just new drafts; preserve approved copy
+                # locally instead of spending tokens reproducing it each time.
+                rows = old + rows
+            elif any(by_url.get(row["url"]) != row for row in old):
+                raise ValueError("Continuation changed or removed an existing article")
         if mode == "editor" and not set(by_url).issubset({row["url"] for row in old}):
             raise ValueError("Editor introduced an unreviewed source URL")
     temporary = batch.with_suffix(".response.tmp")

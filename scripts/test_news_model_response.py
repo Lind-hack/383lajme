@@ -28,6 +28,19 @@ class ResponseTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 save_response("383_JSON_BEGIN " + json.dumps([row]) + " 383_JSON_END", batch, "editor")
 
+    def test_new_only_continuation_preserves_every_existing_field(self):
+        with tempfile.TemporaryDirectory() as folder:
+            batch = Path(folder) / "batch.json"
+            old = dict(url="https://bbc.com/a", title="Title", body="Approved body", category="Botë", slug="approved", custom={"verified": True})
+            new = {**old, "url": "https://bbc.com/b", "slug": "new"}
+            batch.write_text(json.dumps([old]), encoding="utf-8")
+            self.assertEqual(save_response("383_JSON_BEGIN " + json.dumps([new]) + " 383_JSON_END", batch, "append"), 2)
+            self.assertEqual(json.loads(batch.read_text(encoding="utf-8")), [old, new])
+            original = batch.read_bytes()
+            with self.assertRaises(ValueError):
+                save_response("383_JSON_BEGIN " + json.dumps([old, {**new, "url": "https://bbc.com/c"}]) + " 383_JSON_END", batch, "append")
+            self.assertEqual(batch.read_bytes(), original)
+
 
 if __name__ == "__main__":
     unittest.main()

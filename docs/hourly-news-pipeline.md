@@ -67,7 +67,10 @@ each; sport and showbiz 2 each. Readable unpublished stories from the rolling la
 claims need independent corroboration. Source text and qualifying images are
 prepared outside model turns. Writers draft up to seven per call, covering every
 available desk first, then filling the plan. Overrepresented desk drafts are
-trimmed before continuing so they cannot displace other categories. Grounded
+trimmed before continuing so they cannot displace other categories.
+Continuation calls return only new drafts; the wrapper appends them locally
+without reproducing earlier articles or changing their fields.
+Grounded
 briefs need 140+ words and three paragraphs; longer coverage is welcome. Never
 fabricate news to meet 20. Category targets, availability, rejection reasons and
 publication shortfalls are archived with every run and the completion email
