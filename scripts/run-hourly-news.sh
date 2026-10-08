@@ -357,7 +357,7 @@ for repair_attempt in 1 2; do
   set +e
   timeout --signal=TERM --kill-after=15s 420s \
     /opt/hermes/.venv/bin/hermes chat --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
-      --model "$EDITOR_MODEL" --safe-mode -t file --yolo --max-turns 35 -Q -q \
+      --model "$EDITOR_MODEL" --ignore-rules -t file --yolo --max-turns 35 -Q -q \
       "Repair only ${BATCH} using docs/albanian_newsroom.md, docs/news-output-schema.json, and ${BATCH%.json}.editor-sources.json. The wrapper found these exact defects: ${ORIGINALITY_FEEDBACK} ${JOURNALISM_FEEDBACK} ${TOPIC_FEEDBACK}. For each overlapping body sentence, check the original source and rewrite the entire sentence in natural Albanian with a different structure, while preserving only facts supported by the fetched primary and any supplied corroborating source. Every retained body must still contain at least 140 readable Albanian words, at least three readable HTML paragraphs, and explicit named source attribution; never meet the floor with repetition or invented claims. Fix title WHO and concrete STAKE defects with specific, evidenced subjects and actions. Keep all candidates that can be repaired truthfully; remove only unverified stories. Do not invent facts, pad length, change source URLs, publish, deploy, run validators, or touch another file. Save the corrected JSON to ${BATCH} before responding." 9>&-
   REPAIR_RC=$?
   set -e
