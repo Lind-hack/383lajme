@@ -5,6 +5,8 @@ import json
 import os
 import tempfile
 import unittest
+from unittest.mock import patch
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -169,6 +171,32 @@ class DirectSupabasePublicationTests(unittest.TestCase):
         self.assertEqual(self.support.publish_supabase(self.path), 0)
         self.assertEqual(writes[0][1]["article_count"], 20)
         self.assertEqual(len(writes[1][1]), 20)
+
+    def test_hourly_decay_clock_starts_at_site_publication_and_retry_does_not_reset_it(self):
+        original_source_time = self.articles[0]["published_at"]
+        writes = []
+        existing = False
+        def fake_request(method, table, **kwargs):
+            if method == "POST":
+                writes.append((table, kwargs["payload"]))
+                return []
+            if table == "news_batches":
+                return [{"batch_key": "2026-07-10T12"}] if existing else []
+            if kwargs.get("query", {}).get("batch_key"):
+                return [{"id": a["id"], "slug": a["slug"]} for a in self.articles]
+            return []
+        self.support._supabase_request = fake_request
+        started = datetime.now(timezone.utc)
+        with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}):
+            self.assertEqual(self.support.publish_supabase(self.path), 0)
+            saved = json.loads(self.path.read_text(encoding="utf-8"))
+            self.assertGreaterEqual(datetime.fromisoformat(saved[0]["published_at"]), started)
+            self.assertEqual(saved[0]["source_published_at"], original_source_time)
+            self.assertEqual(writes[1][1][0]["raw_article"]["published_at"], saved[0]["published_at"])
+            existing = True
+            self.assertEqual(self.support.publish_supabase(self.path), 0)
+            self.assertEqual(json.loads(self.path.read_text(encoding="utf-8"))[0]["published_at"], saved[0]["published_at"])
+            self.assertEqual(len(writes), 2)
 
     def test_finalize_supabase_never_uses_git_or_deploy_hook(self):
         calls = []

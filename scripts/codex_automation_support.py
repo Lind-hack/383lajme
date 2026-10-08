@@ -2142,8 +2142,19 @@ def publish_supabase(path: Path) -> int:
         return 1
 
     try:
+        if os.environ.get("L383_HOURLY_NEWS") == "1":
+            # Source time measures event freshness; ranking age starts when 383
+            # actually publishes, after writing and verification have finished.
+            published_now = datetime.now(timezone.utc).isoformat()
+            for article in articles:
+                article.setdefault("source_published_at", article["published_at"])
+                article["published_at"] = published_now
         _supabase_request("POST", "news_articles", payload=[_article_row(article, batch_key) for article in articles])
         _verify_batch_readback(batch_key, articles)
+        if os.environ.get("L383_HOURLY_NEWS") == "1":
+            temporary = path.with_suffix(".site-published.tmp")
+            temporary.write_text(json.dumps(articles, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            os.replace(temporary, path)
     except Exception as exc:
         print(f"SUPABASE publication failed after batch insert: {exc}")
         _cleanup_new_batch(batch_key)

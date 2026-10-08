@@ -125,3 +125,7 @@ Install `scripts/systemd/383-supabase-health-notification.conf` as the health
 service notification-policy drop-in, and `scripts/news-failure-log.sh` as the
 shared `/opt/data/scripts/send-383-failure-alert.sh`. These preserve infrastructure
 checks and failure diagnostics without additional email.
+
+For hourly inserts, published_at is the actual 383 publication time after the
+editorial checks. The original source timestamp is preserved as
+raw_article.source_published_at. Retrying an existing batch does not reset age.
