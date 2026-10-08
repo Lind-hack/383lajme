@@ -24,8 +24,11 @@ def validate_ratings(ratings, rows):
         raise ValueError("Ranking response changed or repeated story identities")
     for rating in ratings:
         factors = rating.get("score_breakdown")
-        if not isinstance(factors, dict) or set(factors) != set(SCORE_WEIGHTS):
+        if not isinstance(factors, dict) or not set(SCORE_WEIGHTS).issubset(factors):
             raise ValueError("Ranking requires all eight factors")
+        # Ignore misplaced descriptive metadata; never synthesize a factor.
+        factors = {key: factors[key] for key in SCORE_WEIGHTS}
+        rating["score_breakdown"] = factors
         if any(isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(v) or not 0 <= v <= 10 for v in factors.values()):
             raise ValueError("Ranking factors must be finite numbers from zero to ten")
         if len(str(rating.get("score_reason", "")).strip()) < 30:

@@ -18,7 +18,9 @@ class RankingTests(unittest.TestCase):
 
     def test_backfill_rejects_missing_ids_and_nonfinite_factors(self):
         rating = {"id": "story", "score_breakdown": dict.fromkeys(support.SCORE_WEIGHTS, 7), "score_reason": "Vendimi prek pagat e mijera punonjesve sot."}
+        rating["score_breakdown"]["score_formula"] = "misplaced model metadata"
         self.assertEqual(validate_ratings([rating], [{"id": "story"}])[0]["engagement_score"], 7.0)
+        self.assertEqual(set(rating["score_breakdown"]), set(support.SCORE_WEIGHTS))
         with self.assertRaises(ValueError):
             validate_ratings([rating], [{"id": "other"}])
         rating["score_breakdown"]["urgency"] = float("nan")
