@@ -9,10 +9,17 @@ from cloud_news_discovery import select_hourly_leads
 from editorial_rules_v2 import independent_source_error, article_errors
 from news_source_policy import CATEGORIES, hourly_targets, topic_error
 from news_coverage import balance, deficits
-from prepare_editor_sources import coverage_plan, discovery
+from prepare_editor_sources import coverage_plan, discovery, fetch
 
 
 class HourlyCoverageTests(unittest.TestCase):
+    def test_prepared_evidence_avoids_a_second_transient_source_fetch(self):
+        url = "https://techcrunch.com/story"
+        evidence = {"status": "text_extracted", "url": url, "text": "Original source text"}
+        with patch("prepare_editor_sources.fetch_url", side_effect=AssertionError("unexpected refetch")):
+            result = fetch({"url": url, "slug": "story"}, {url: evidence})
+        self.assertEqual(result["evidence"], evidence)
+
     def test_routine_stories_are_not_lost_without_matching_headlines(self):
         leads = [{"category": "Teknologji", "url": "https://techcrunch.com/one", "title": "OpenAI releases a new model"},
                  {"category": "Teknologji", "url": "https://therundown.ai/two", "title": "Apple unveils a security camera"}]

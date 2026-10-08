@@ -8,6 +8,7 @@ import concurrent.futures
 import json
 import os
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
@@ -23,12 +24,13 @@ def fetch_url(url: str) -> dict[str, Any]:
         return {"status": "unavailable", "error": type(exc).__name__}
 
 
-def fetch(article: dict[str, Any]) -> dict[str, Any]:
+def fetch(article: dict[str, Any], evidence_cache: dict | None = None) -> dict[str, Any]:
+    evidence_cache = evidence_cache or {}
     primary_url = str(article.get("url") or "")
     record: dict[str, Any] = {
         "slug": str(article.get("slug") or article.get("id") or ""),
         "source_url": primary_url,
-        "evidence": fetch_url(primary_url),
+        "evidence": evidence_cache.get(primary_url) or fetch_url(primary_url),
         "corroborating": [],
     }
     raw_sources = article.get("corroborating_sources") or article.get("secondary_sources") or []
@@ -43,7 +45,7 @@ def fetch(article: dict[str, Any]) -> dict[str, Any]:
         if url and url not in by_url:
             by_url[url] = {"url": url, "source": source}
     for item in by_url.values():
-        item["evidence"] = fetch_url(item["url"])
+        item["evidence"] = evidence_cache.get(item["url"]) or fetch_url(item["url"])
         record["corroborating"].append(item)
     return record
 
@@ -71,8 +73,23 @@ def prepare(batch: Path) -> Path:
             file=sys.stderr,
         )
         sys.exit(1)
+    evidence_cache = {}
+    folder = Path(".last30days/source-evidence")
+    if os.environ.get("L383_HOURLY_NEWS") == "1" and folder.exists():
+        for path in folder.glob("*.json"):
+            if not 0 <= time.time() - path.stat().st_mtime <= 3600:
+                continue
+            try:
+                record = json.loads(path.read_text(encoding="utf-8"))
+                for url, evidence in [(record.get("source_url"), record.get("evidence", {})),
+                                      *[(s.get("url"), s.get("evidence", {})) for s in record.get("corroborating", [])]]:
+                    if (url and evidence.get("status") == "text_extracted"
+                            and str(evidence.get("url") or "").rstrip("/") == url.rstrip("/")):
+                        evidence_cache[url] = evidence
+            except (ValueError, OSError, AttributeError):
+                continue
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
-        records = list(pool.map(fetch, articles))
+        records = list(pool.map(lambda article: fetch(article, evidence_cache), articles))
     target = batch.with_suffix(".editor-sources.json")
     target.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     primary_ok = sum(record.get("evidence", {}).get("status") == "text_extracted" for record in records)
