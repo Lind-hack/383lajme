@@ -103,11 +103,13 @@ export function DispatchRow({ article, index }: { article: Article; index: numbe
         </span>
 
         <span className="dispatch-body">
-          <span className="dispatch-cat" style={{ color }}>
-            <i style={{ background: color }} />
-            {article.category}
+          <span className="dispatch-lead">
+            <span className="dispatch-cat" style={{ color }}>
+              <i style={{ background: color }} />
+              {article.category}
+            </span>
+            <span className="dispatch-title">{article.title}</span>
           </span>
-          <span className="dispatch-title">{article.title}</span>
           {article.excerpt && <span className="dispatch-excerpt">{article.excerpt}</span>}
           <span className="dispatch-meta">
 

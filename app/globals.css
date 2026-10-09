@@ -11648,6 +11648,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
 }
 
 .dispatch-body { display: block; min-width: 0; }
+.dispatch-lead { display: block; min-width: 0; }
 
 .dispatch-cat {
   display: inline-flex;
@@ -20555,9 +20556,13 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 }
 /* 560, the width at which the base list drops its rank number. */
 @media (max-width: 560px) {
-  .dispatch-rows[data-size="lg"] .dispatch-row { grid-template-columns: 128px minmax(0, 1fr); gap: 12px; padding: 14px 4px; }
+  .dispatch-rows[data-size="lg"] .dispatch-row { grid-template-columns: 128px minmax(0, 1fr); gap: 10px 12px; padding: 16px 4px; }
+  .dispatch-rows[data-size="lg"] .dispatch-body { display: contents; }
+  .dispatch-rows[data-size="lg"] .dispatch-lead { grid-column: 2; min-height: 80px; }
+  .dispatch-rows[data-size="lg"] .dispatch-thumb { grid-column: 1; grid-row: 1; aspect-ratio: auto; height: 100%; min-height: 80px; align-self: stretch; }
   .dispatch-rows[data-size="lg"] .dispatch-title { font-size: 16px; }
-  .dispatch-rows[data-size="lg"] .dispatch-excerpt { font-size: 13.5px; -webkit-line-clamp: 2; }
+  .dispatch-rows[data-size="lg"] .dispatch-excerpt { grid-column: 1 / -1; margin-top: 0; font-size: 13.5px; -webkit-line-clamp: 2; }
+  .dispatch-rows[data-size="lg"] .dispatch-meta { grid-column: 1 / -1; margin-top: 0; }
 }
 
 /* --- Tregu on the homepage, in Tregu's own cards ------------------------- */

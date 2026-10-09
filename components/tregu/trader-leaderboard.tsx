@@ -41,11 +41,13 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
 
   useEffect(() => {
     let cancelled = false;
+    const unavailable: Board = { monthly: [], weekly: [], available: false, closes: { monthly: 0, weekly: 0 }, periods: { monthly: null, weekly: null }, prizesWon: null };
     const load = () => {
-      fetch("/api/tregu/leaderboard", { cache: "no-store" })
+      fetch("/api/tregu/leaderboard", { cache: "no-store", signal: AbortSignal.timeout(10_000) })
         .then((r) => (r.ok ? r.json() : null))
         .then((d) => {
-          if (cancelled || !d) return;
+          if (cancelled) return;
+          if (!d) { setBoard(unavailable); return; }
           setBoard({
             monthly: d.monthly ?? [],
             weekly: d.weekly ?? [],
@@ -57,7 +59,7 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
           if (d.prizes) setPrizes(d.prizes);
         })
         .catch(() => {
-          if (!cancelled) setBoard({ monthly: [], weekly: [], available: false, closes: { monthly: 0, weekly: 0 }, periods: { monthly: null, weekly: null }, prizesWon: null });
+          if (!cancelled) setBoard(unavailable);
         });
     };
     load();
@@ -82,7 +84,11 @@ export default function TraderLeaderboard({ loggedIn = false }: { loggedIn?: boo
   }, []);
 
   if (!board) {
-    return <div className="lbp lg-paper" style={{ height: 300, opacity: 0.5 }} aria-hidden />;
+    return (
+      <section className="lbp lg-paper" aria-busy="true" aria-label="Renditja e tregtarëve">
+        <div className="lbp-head"><div><h3>Tregtarët më të mirë</h3><p role="status">Duke ngarkuar renditjen…</p></div></div>
+      </section>
+    );
   }
 
   const rows = board[period];
