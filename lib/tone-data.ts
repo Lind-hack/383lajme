@@ -457,6 +457,8 @@ export interface DailyStory {
   title: string;
   originalTitle: string;
   url: string;
+  /** True when `url` is 383's Albanian reader page, false when it is the publisher's original. */
+  translated: boolean;
   imageUrl: string | null;
   sentiment: "positive" | "neutral" | "negative";
   outlet: string;
@@ -553,6 +555,7 @@ export function getDailyStories(
       title: withoutOutletSuffix(lead.albanianTitle as string, lead.outlet),
       originalTitle: lead.title,
       url: lead.readerUrl ?? lead.url,
+      translated: Boolean(lead.readerUrl),
       imageUrl: lead.imageUrl ? remoteImageSrc(lead.imageUrl, 480) : null,
       sentiment: lead.sentiment as DailyStory["sentiment"],
       outlet: lead.outlet,

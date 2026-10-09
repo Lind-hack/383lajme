@@ -27,27 +27,58 @@ export function ToneTag({ tone }: { tone: DailyStory["sentiment"] }) {
   );
 }
 
-export default function Stories({ stories, today }: { stories: DailyStory[]; today: string | null }) {
+/** "dje" for the day before `today`, else "9 tetor". Day keys are YYYY-MM-DD. */
+const MONTHS = ["janar", "shkurt", "mars", "prill", "maj", "qershor", "korrik", "gusht", "shtator", "tetor", "nëntor", "dhjetor"];
+function dayLabel(day: string, today: string) {
+  const diff = Date.parse(`${today}T00:00:00Z`) - Date.parse(`${day}T00:00:00Z`);
+  if (diff === 86_400_000) return "dje";
+  const [, m, d] = day.split("-").map(Number);
+  return m && d ? `${d} ${MONTHS[m - 1]}` : day;
+}
+
+/** A story with an Albanian reader page says so; one without opens the publisher. */
+export function readLabel(story: Pick<DailyStory, "translated">) {
+  return story.translated ? "Lexo në shqip" : "Lexo origjinalin";
+}
+export function linkProps(story: Pick<DailyStory, "translated">) {
+  return story.translated ? {} : { target: "_blank", rel: "noopener noreferrer" };
+}
+
+export default function Stories({
+  stories,
+  today,
+  featured = [],
+}: {
+  stories: DailyStory[];
+  today: string | null;
+  /** Already shown in the brief above; left out of the unfiltered list. */
+  featured?: string[];
+}) {
   const [filter, setFilter] = useState<Filter>("all");
   const [expanded, setExpanded] = useState(false);
   const [country, setCountry] = useState("");
   const [query, setQuery] = useState("");
-  const countries = [...new Set(stories.map((story) => story.country))].sort((a, b) => a < b ? -1 : a > b ? 1 : 0);
+  const countries = [...new Set(stories.map((story) => story.country))].sort((a, b) => a.localeCompare(b, "sq"));
 
-  const count = (t: DailyStory["sentiment"]) => stories.filter((x) => x.sentiment === t).length;
+  const needle = query.trim().toLocaleLowerCase("sq");
+  // Country and search narrow first; the tone chips then count what is left, so
+  // a chip never promises stories the results line cannot show. Browsing with
+  // no filter, the brief's stories are not listed a second time.
+  const narrowed = stories.filter((story) =>
+    (!country || story.country === country) &&
+    (!needle || `${story.title} ${story.blurb ?? ""} ${story.outlet} ${story.country}`.toLocaleLowerCase("sq").includes(needle))
+  );
+  const pool = !country && !needle && featured.length ? narrowed.filter((story) => !featured.includes(story.id)) : narrowed;
+
+  const count = (t: DailyStory["sentiment"]) => pool.filter((x) => x.sentiment === t).length;
   const options: Array<{ key: Filter; label: string; n: number }> = [
-    { key: "all", label: "Të gjitha", n: stories.length },
+    { key: "all", label: "Të gjitha", n: pool.length },
     { key: "positive", label: "Pozitive", n: count("positive") },
     { key: "negative", label: "Negative", n: count("negative") },
     { key: "neutral", label: "Neutrale", n: count("neutral") },
   ];
 
-  const needle = query.trim().toLocaleLowerCase("sq");
-  const shown = stories.filter((story) =>
-    (filter === "all" || story.sentiment === filter) &&
-    (!country || story.country === country) &&
-    (!needle || `${story.title} ${story.blurb ?? ""} ${story.outlet} ${story.country}`.toLocaleLowerCase("sq").includes(needle))
-  );
+  const shown = pool.filter((story) => filter === "all" || story.sentiment === filter);
   const visible = expanded ? shown : shown.slice(0, FIRST_PAGE);
 
   return (
@@ -98,7 +129,7 @@ export default function Stories({ stories, today }: { stories: DailyStory[]; tod
           <ul className={s.list}>
             {visible.map((x) => (
               <li key={x.id}>
-                <a className={s.story} href={x.url}>
+                <a className={s.story} href={x.url} {...linkProps(x)}>
                   <ToneTag tone={x.sentiment} />
                   <span>
                     <span className={s.storyTitle}>{x.title}</span>
@@ -106,10 +137,10 @@ export default function Stories({ stories, today }: { stories: DailyStory[]; tod
                       {x.flag} {x.country} · {x.outlet}
                       {x.alsoIn.length > 0 &&
                         ` · edhe ${x.alsoIn.length} ${x.alsoIn.length === 1 ? "media tjetër" : "media të tjera"}`}
-                      {today && x.day !== today && ` · ${x.day}`}
+                      {today && x.day !== today && ` · ${dayLabel(x.day, today)}`}
                     </span>
                     {x.blurb && <span className={s.storySummary}>{x.blurb}</span>}
-                    <span className={s.readLink}>Lexo në shqip <span aria-hidden>→</span></span>
+                    <span className={s.readLink}>{readLabel(x)} <span aria-hidden>→</span></span>
                   </span>
                   {x.imageUrl && (
                     // eslint-disable-next-line @next/next/no-img-element -- remote publisher images, already resized by remoteImageSrc

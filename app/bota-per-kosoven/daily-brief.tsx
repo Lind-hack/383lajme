@@ -2,10 +2,16 @@ import type { DailyStory } from "@/lib/tone-data";
 import s from "./bota.module.css";
 import BriefStories from "./brief-stories";
 
-export default function DailyBrief({ stories, date }: { stories: DailyStory[]; date: string }) {
-  if (!stories.length) return null;
+/** The brief: the first three of the latest day. The list below leaves them out. */
+export function briefOf(stories: DailyStory[]) {
+  if (!stories.length) return [];
   const latestDay = stories[0].day;
-  const brief = stories.filter((story) => story.day === latestDay).slice(0, 3);
+  return stories.filter((story) => story.day === latestDay).slice(0, 3);
+}
+
+export default function DailyBrief({ stories, date }: { stories: DailyStory[]; date: string }) {
+  const brief = briefOf(stories);
+  if (!brief.length) return null;
   return <section className={s.brief} aria-labelledby="bota-brief">
     <div className={s.briefHead}>
       <h2 id="bota-brief">Çfarë po shkruan bota?</h2>

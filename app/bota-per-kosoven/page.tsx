@@ -19,7 +19,7 @@ import Stories from "./stories";
 import BotaMap from "./bota-map";
 import s from "./bota.module.css";
 import PortrayalShortcut from "./portrayal-shortcut";
-import DailyBrief from "./daily-brief";
+import DailyBrief, { briefOf } from "./daily-brief";
 import DardaniImage from "@/components/dardani/dardani-image";
 
 export const revalidate = 3600;
@@ -113,7 +113,7 @@ export default async function BotaPerKosovenPage() {
               </p>
             </div>
           </div>
-          <Stories stories={stories} today={today.date} />
+          <Stories stories={stories} today={today.date} featured={briefOf(stories).map((story) => story.id)} />
         </section>
 
         <section id="harta" className={s.section} aria-labelledby="bota-harta">
@@ -190,6 +190,9 @@ export default async function BotaPerKosovenPage() {
         <details className={s.explanation}>
           <summary>Si e mbledhim dhe e vlerësojmë lajmin?</summary>
           <HowItWorks articles={today.articles} sources={today.sources} />
+        </details>
+        {/* Outside the <details>: /bota-per-kosoven#metodologjia links must land on
+            text the reader can see, and not every browser opens <details> for a fragment. */}
         <p id="metodologjia" className={s.method}>
           <b>Si e llogarisim.</b> Vlerësojmë mënyrën si artikulli e portretizon Kosovën,
           jo nëse ngjarja është e mirë apo e keqe. Dallojmë opinionet e personave të cituar
@@ -197,7 +200,6 @@ export default async function BotaPerKosovenPage() {
           (portretizim pozitiv); 50 është neutral ose i baraspeshuar. Çdo artikull ka
           shpjegimin e vlerësimit, përkthimin në shqip dhe lidhjen te burimi origjinal.
         </p>
-        </details>
         </div>
       </main>
 

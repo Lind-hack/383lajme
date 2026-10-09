@@ -6,6 +6,12 @@ import s from "./bota.module.css";
 
 const TEXT_KEY = "383-bota-large-text";
 
+/** The page itself: no #harta jump or ?vendi= country, which would open the
+ *  recipient mid-page with a sheet already open. */
+function pageLink() {
+  return `${window.location.origin}${window.location.pathname}`;
+}
+
 export default function ReadingTools({ children, title }: { children: ReactNode; title: string }) {
   const [large, setLarge] = useState(false);
   const [fallback, setFallback] = useState(false);
@@ -13,13 +19,13 @@ export default function ReadingTools({ children, title }: { children: ReactNode;
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    setUrl(window.location.href);
+    setUrl(pageLink());
     try { setLarge(localStorage.getItem(TEXT_KEY) === "1"); } catch { /* Reading works without storage. */ }
   }, []);
 
   async function share() {
     setMessage("");
-    const link = window.location.href;
+    const link = pageLink();
     setUrl(link);
     setFallback(false);
     if (navigator.share) {

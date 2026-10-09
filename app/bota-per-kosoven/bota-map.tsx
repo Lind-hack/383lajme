@@ -29,8 +29,9 @@ export default function BotaMap({
   const [hovered, setHovered] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const returnFocus = useRef<HTMLElement | null>(null);
-  const available = countries.filter((country) => (highlights[country.country]?.length ?? 0) > 0)
-    .sort((a, b) => a.country < b.country ? -1 : a.country > b.country ? 1 : 0);
+  const wasOpen = useRef(false);
+  const byName = (a: MapCountry, b: MapCountry) => a.country.localeCompare(b.country, "sq");
+  const available = countries.filter((country) => (highlights[country.country]?.length ?? 0) > 0).sort(byName);
 
   // Search results and old /toni links arrive with ?vendi=<country>. Read from
   // window.location so the page needs no Suspense boundary; runs once.
@@ -41,22 +42,41 @@ export default function BotaMap({
     requestAnimationFrame(() => ref.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "center" }));
   }, [countries]);
 
+  // Focus moves into the sheet when it opens and back when it closes — not on
+  // every change of country. A reader stepping through the select with the
+  // arrow keys keeps focus on the select, or each arrow would land on the
+  // sheet's close button. In fullscreen the sheet is portalled to <body>, so it
+  // is looked up in the document, not only inside this wrapper.
   useEffect(() => {
-    if (!selected) return;
-    returnFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : ref.current?.querySelector("select") ?? null;
-    ref.current?.querySelector<HTMLButtonElement>('[role="dialog"] button[aria-label="Mbyll"]')?.focus({ preventScroll: true });
-    return () => returnFocus.current?.focus({ preventScroll: true });
+    const open = Boolean(selected);
+    if (open && !wasOpen.current) {
+      const active = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      returnFocus.current = active ?? ref.current?.querySelector("select") ?? null;
+      if (!(active instanceof HTMLSelectElement)) {
+        const close =
+          ref.current?.querySelector<HTMLButtonElement>('[role="dialog"] button[aria-label="Mbyll"]') ??
+          document.querySelector<HTMLButtonElement>('[role="dialog"] button[aria-label="Mbyll"]');
+        close?.focus({ preventScroll: true });
+      }
+    } else if (!open && wasOpen.current) {
+      returnFocus.current?.focus({ preventScroll: true });
+      returnFocus.current = null;
+    }
+    wasOpen.current = open;
   }, [selected]);
 
   return (
     <div ref={ref} onKeyDown={(event) => {
+      // Keys from the fullscreen overlay bubble here through the React portal;
+      // there Escape belongs to the map (it leaves fullscreen), not to the sheet.
+      if (!ref.current?.contains(event.target as Node)) return;
       if (event.key === "Escape" && selected) { event.preventDefault(); setSelected(null); }
     }}>
       <div className={s.exploreTools}>
         <label>Zgjidh një vend
           <select aria-label="Zgjidh një vend" value={selected ?? ""} onChange={(event) => setSelected(event.target.value || null)}>
             <option value="">Shiko hartën</option>
-            {countries.slice().sort((a, b) => a.country < b.country ? -1 : a.country > b.country ? 1 : 0).map((country) => <option key={country.country} value={country.country}>{country.flag} {country.country}</option>)}
+            {countries.slice().sort(byName).map((country) => <option key={country.country} value={country.country}>{country.flag} {country.country}</option>)}
           </select>
         </label>
         <button type="button" disabled={!available.length} onClick={() => {
