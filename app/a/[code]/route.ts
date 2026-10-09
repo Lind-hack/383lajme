@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getArticles } from "@/lib/db";
-import { shortCode } from "@/lib/short-link.mjs";
+import { SHORT_BASE, shortCode } from "@/lib/short-link.mjs";
 
 /**
  * Short-link resolver: /a/<code> -> /article/<slug>.
@@ -20,19 +20,19 @@ export const runtime = "nodejs";
 const SEARCH_LIMIT = 1000;
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ code: string }> }
 ) {
   const { code } = await params;
   const wanted = String(code ?? "").trim().toLowerCase();
-  if (!wanted) return NextResponse.redirect(new URL("/", request.url), 307);
+  if (!wanted) return NextResponse.redirect(new URL("/", SHORT_BASE), 307);
 
   const articles = await getArticles(SEARCH_LIMIT);
   const match = articles.find((article) => shortCode(article.slug) === wanted);
 
   // An unknown code is a stale or mistyped link, not an error worth a page:
   // send the reader to the homepage, which is where they wanted to end up.
-  if (!match) return NextResponse.redirect(new URL("/", request.url), 307);
+  if (!match) return NextResponse.redirect(new URL("/", SHORT_BASE), 307);
 
-  return NextResponse.redirect(new URL(`/article/${match.slug}`, request.url), 307);
+  return NextResponse.redirect(new URL(`/article/${match.slug}`, SHORT_BASE), 307);
 }

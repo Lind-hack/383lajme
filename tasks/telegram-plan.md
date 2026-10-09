@@ -26,3 +26,6 @@ Approved by the user: keep this plan and its checklist separate from unfinished 
 - Public Telegram HTML can change: isolate parser, bound fetch and timeout, validate channel/post URLs, display an honest empty state on failure.
 - Concurrent dispatches can duplicate messages: inspect existing ledger/scheduler serialization and address concrete overlap risks before release.
 - Channel latest message must remain the source of truth, including messages posted outside this dispatcher.
+
+## Live acceptance follow-up
+The restored workflow published messages 61–63 and the repeat posted zero. Live acceptance found existing short links redirecting to Railway's internal localhost:8080 origin. Fix the resolver to use the same canonical public origin as the message-link generator, add proxy regression tests, rebuild/review and release; verify all three published links resolve to public articles before completion.
