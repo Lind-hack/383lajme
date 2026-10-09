@@ -1,24 +1,3 @@
-/**
- * Bota për Kosovën — one daily reading.
- *
- * This page used to stack seven things: an index hero, the translated
- * headlines (Bota Flet), a map dashboard with rows and drill-downs, topic
- * chips, "why it moved", an outlet ledger and an exclusions ledger. Two
- * features on one pipeline, and a newcomer had to work out how they related.
- *
- * It is now one answer to one daily question — how did the world write about
- * Kosovo today? — in reading order:
- *
- *   1. Today's index, the sentence it stands for, how it compares with
- *      yesterday, and the last seven days.
- *   2. The stories behind it, good and bad first, filterable.
- *   3. The map, for "which country's press".
- *   4. One paragraph on how it is counted.
- *
- * The index is stance v4: good or bad news for Kosovo's image abroad, counted
- * per day (see tools/tone_scraper.py and tools/tone_rebuild.py).
- */
-
 import type { Metadata } from "next";
 import { AlertTriangle, ArrowDownRight, ArrowUpRight, Minus } from "lucide-react";
 import TextureBg from "@/components/aurora-bg";
@@ -39,6 +18,8 @@ import HowItWorks from "./how-it-works";
 import Stories from "./stories";
 import BotaMap from "./bota-map";
 import s from "./bota.module.css";
+import ReadingTools from "./reading-tools";
+import DailyBrief from "./daily-brief";
 
 export const revalidate = 3600;
 
@@ -84,7 +65,7 @@ export default async function BotaPerKosovenPage() {
   const DeltaIcon = delta == null || delta === 0 ? Minus : delta > 0 ? ArrowUpRight : ArrowDownRight;
   const includesYesterday = stories.some((x) => x.day !== today.date);
 
-  // Days before the first v4 reading are gaps, and the chart says why once.
+  // Days before the first comparable reading are gaps, and the chart says why once.
   const firstReading = today.week.find((d) => d.index != null)?.date ?? null;
   const hasGapBeforeMethod = firstReading != null && today.week[0]?.date !== firstReading;
 
@@ -97,12 +78,17 @@ export default async function BotaPerKosovenPage() {
         <header className={s.head}>
           <h1 className={s.title}>Bota për Kosovën</h1>
           <p className={s.lede}>
-            Çdo ditë lexojmë çfarë shkruan shtypi i huaj për Kosovën dhe shënojmë nëse
-            artikulli e portretizon Kosovën pozitivisht, negativisht apo në mënyrë neutrale.
+            Çfarë thonë gazetat e huaja për ne? Lexoje në shqip, zbulo vende të reja
+            dhe ndaje një artikull me familjen.
           </p>
         </header>
 
-        <HowItWorks articles={today.articles} sources={today.sources} />
+        <ReadingTools title="Bota për Kosovën — 383">
+        <nav className={s.shortcuts} aria-label="Në këtë faqe">
+          <a href="#lajmet">Lexo lajmet <span aria-hidden>↓</span></a>
+          <a href="#harta">Eksploro vendet <span aria-hidden>↗</span></a>
+          <a href="#bota-sot">Si shkruhet për ne?</a>
+        </nav>
 
         {today.isStale && (
           <p role="status" className={s.stale}>
@@ -114,6 +100,38 @@ export default async function BotaPerKosovenPage() {
           </p>
         )}
 
+        <DailyBrief stories={stories} date={longDate(stories[0]?.day ?? today.date)} />
+
+        <section id="lajmet" className={s.section} aria-labelledby="bota-lajmet">
+          <div className={s.sectionHead}>
+            <div>
+              <h2 id="bota-lajmet" className={s.h2}>
+                {today.isStale ? "Lajmet e mbledhjes së fundit" : includesYesterday ? "Lajmet e sotme dhe të djeshme" : "Lajmet e sotme"}
+              </h2>
+              <p className={s.sectionNote}>
+                Lexo artikujt e përkthyer në shqip dhe shpjegimin e vlerësimit të secilit.
+              </p>
+            </div>
+          </div>
+          <Stories stories={stories} today={today.date} />
+        </section>
+
+        <section id="harta" className={s.section} aria-labelledby="bota-harta">
+          <div className={s.sectionHead}>
+            <div>
+              <h2 id="bota-harta" className={s.h2}>Sipas vendit</h2>
+              <p className={s.sectionNote}>
+                7 ditët e fundit. Prek një vend për të parë çfarë shkroi shtypi i tij.
+              </p>
+            </div>
+          </div>
+          <div className={`${s.panel} ${s.mapPanel}`}>
+            <BotaMap countries={countries} highlights={highlights} />
+          </div>
+        </section>
+
+        <section className={s.section} aria-label="Si e portretizon shtypi Kosovën">
+          <p className={s.sectionNote}>Kjo mat mënyrën si shkruajnë artikujt, jo qëndrimin e një vendi ndaj Kosovës.</p>
         <section className={`${s.panel} ${s.today}`} aria-labelledby="bota-sot">
           <div>
             <h2 id="bota-sot" className={s.verdict}>{dayVerdict(today.index)}</h2>
@@ -122,7 +140,7 @@ export default async function BotaPerKosovenPage() {
                 <>
                   <b className={s.good}>{positive} {positive === 1 ? "artikull pozitiv" : "artikuj pozitivë"}</b>,{" "}
                   <b className={s.bad}>{negative} {negative === 1 ? "negativ" : "negativë"}</b> dhe {neutral}{" "}
-                  {neutral === 1 ? "neutral" : "neutrale"} deri tani sot.
+                  {neutral === 1 ? "neutral" : "neutrale"} në mbledhjen e fundit.
                 </>
               ) : today.previous ? (
                 <>Lajmet e sotme sapo kanë nisur të vijnë. Dje indeksi ishte <b>{today.previous.index}</b>.</>
@@ -168,35 +186,10 @@ export default async function BotaPerKosovenPage() {
             )}
           </div>
         </section>
-
-        <section id="lajmet" className={s.section} aria-labelledby="bota-lajmet">
-          <div className={s.sectionHead}>
-            <div>
-              <h2 id="bota-lajmet" className={s.h2}>
-                {includesYesterday ? "Lajmet e sotme dhe të djeshme" : "Lajmet e sotme"}
-              </h2>
-              <p className={s.sectionNote}>
-                Lexo artikujt e përkthyer në shqip dhe shpjegimin e vlerësimit të secilit.
-              </p>
-            </div>
-          </div>
-          <Stories stories={stories} today={today.date} />
         </section>
-
-        <section id="harta" className={s.section} aria-labelledby="bota-harta">
-          <div className={s.sectionHead}>
-            <div>
-              <h2 id="bota-harta" className={s.h2}>Sipas vendit</h2>
-              <p className={s.sectionNote}>
-                7 ditët e fundit. Prek një vend për të parë çfarë shkroi shtypi i tij.
-              </p>
-            </div>
-          </div>
-          <div className={`${s.panel} ${s.mapPanel}`}>
-            <BotaMap countries={countries} highlights={highlights} />
-          </div>
-        </section>
-
+        <details className={s.explanation}>
+          <summary>Si e mbledhim dhe e vlerësojmë lajmin?</summary>
+          <HowItWorks articles={today.articles} sources={today.sources} />
         <p id="metodologjia" className={s.method}>
           <b>Si e llogarisim.</b> Vlerësojmë mënyrën si artikulli e portretizon Kosovën,
           jo nëse ngjarja është e mirë apo e keqe. Dallojmë opinionet e personave të cituar
@@ -204,6 +197,8 @@ export default async function BotaPerKosovenPage() {
           (portretizim pozitiv); 50 është neutral ose i baraspeshuar. Çdo artikull ka
           shpjegimin e vlerësimit, përkthimin në shqip dhe lidhjen te burimi origjinal.
         </p>
+        </details>
+        </ReadingTools>
       </main>
 
       <Footer />

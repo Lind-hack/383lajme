@@ -1,8 +1,5 @@
 "use client";
 
-// The stories behind today's number. One list, one filter: a reader who wants
-// only the bad news gets it in one tap, and nothing else on the page changes.
-
 import { useState } from "react";
 import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import type { DailyStory } from "@/lib/tone-data";
@@ -33,6 +30,9 @@ export function ToneTag({ tone }: { tone: DailyStory["sentiment"] }) {
 export default function Stories({ stories, today }: { stories: DailyStory[]; today: string | null }) {
   const [filter, setFilter] = useState<Filter>("all");
   const [expanded, setExpanded] = useState(false);
+  const [country, setCountry] = useState("");
+  const [query, setQuery] = useState("");
+  const countries = [...new Set(stories.map((story) => story.country))].sort((a, b) => a < b ? -1 : a > b ? 1 : 0);
 
   const count = (t: DailyStory["sentiment"]) => stories.filter((x) => x.sentiment === t).length;
   const options: Array<{ key: Filter; label: string; n: number }> = [
@@ -42,11 +42,28 @@ export default function Stories({ stories, today }: { stories: DailyStory[]; tod
     { key: "neutral", label: "Neutrale", n: count("neutral") },
   ];
 
-  const shown = filter === "all" ? stories : stories.filter((x) => x.sentiment === filter);
+  const needle = query.trim().toLocaleLowerCase("sq");
+  const shown = stories.filter((story) =>
+    (filter === "all" || story.sentiment === filter) &&
+    (!country || story.country === country) &&
+    (!needle || `${story.title} ${story.blurb ?? ""} ${story.outlet} ${story.country}`.toLocaleLowerCase("sq").includes(needle))
+  );
   const visible = expanded ? shown : shown.slice(0, FIRST_PAGE);
 
   return (
     <>
+      <div className={s.findStories}>
+        <label>Çfarë të intereson?
+          <input type="search" value={query} placeholder="Kërko një temë ose gazetë" onChange={(event) => { setQuery(event.target.value); setExpanded(false); }} />
+        </label>
+        <label>Nga cili vend?
+          <select aria-label="Nga cili vend?" value={country} onChange={(event) => { setCountry(event.target.value); setExpanded(false); }}>
+            <option value="">Të gjitha vendet</option>
+            {countries.map((name) => <option key={name}>{name}</option>)}
+          </select>
+        </label>
+      </div>
+      <p className={s.filterHint}>Si e portretizon artikulli Kosovën:</p>
       <div className={s.filters} role="group" aria-label="Filtro lajmet">
         {options.map((o) => (
           <button
@@ -65,12 +82,17 @@ export default function Stories({ stories, today }: { stories: DailyStory[]; tod
         ))}
       </div>
 
+      <div className={s.results}>
+        <p role="status">{shown.length} {shown.length === 1 ? "artikull" : "artikuj"}{!expanded && shown.length > FIRST_PAGE ? ` · po shfaqen ${FIRST_PAGE}` : ""}</p>
+        {(country || query || filter !== "all") && <button type="button" onClick={() => { setCountry(""); setQuery(""); setFilter("all"); setExpanded(false); }}>Hiq filtrat</button>}
+      </div>
+
       <div className={s.panel}>
         {visible.length === 0 ? (
           <p className={s.empty}>
             {stories.length === 0
               ? "Lajmet e sotme ende po mblidhen dhe vlerësohen. Kthehu pas pak."
-              : "Asnjë lajm i këtij lloji sot."}
+              : "Nuk gjetëm artikuj me këta filtra. Provo një temë tjetër ose hiqi filtrat."}
           </p>
         ) : (
           <ul className={s.list}>
@@ -81,12 +103,13 @@ export default function Stories({ stories, today }: { stories: DailyStory[]; tod
                   <span>
                     <span className={s.storyTitle}>{x.title}</span>
                     <span className={s.storyMeta}>
-                      {x.country}
+                      {x.flag} {x.country} · {x.outlet}
                       {x.alsoIn.length > 0 &&
                         ` · edhe ${x.alsoIn.length} ${x.alsoIn.length === 1 ? "media tjetër" : "media të tjera"}`}
-                      {today && x.day !== today && " · dje"}
+                      {today && x.day !== today && ` · ${x.day}`}
                     </span>
-                    {x.evidence && <q className={s.evidence}>{x.evidence}</q>}
+                    {x.blurb && <span className={s.storySummary}>{x.blurb}</span>}
+                    <span className={s.readLink}>Lexo në shqip <span aria-hidden>→</span></span>
                   </span>
                   {x.imageUrl && (
                     // eslint-disable-next-line @next/next/no-img-element -- remote publisher images, already resized by remoteImageSrc

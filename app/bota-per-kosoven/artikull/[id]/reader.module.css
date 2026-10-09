@@ -6,3 +6,11 @@
 .assessment p{margin:12px 0 0;line-height:1.7}
 .body{font-size:19px;line-height:1.85;overflow-wrap:anywhere}.body p{margin:0 0 24px}
 @media(max-width:600px){.reader{padding:85px 20px 50px}.body{font-size:17px}}
+.reader h2{font-size:21px;line-height:1.4;margin:0 0 12px}
+.back,.source{display:inline-flex;align-items:center;min-height:48px;font-size:17px}
+.summary{padding:22px;border-radius:16px;background:var(--color-white);border:1px solid var(--color-border);margin:20px 0 30px}
+.summary p{font-size:19px;line-height:1.75;margin:0}
+.meta,.original{font-size:16px;opacity:1;color:var(--color-muted)}
+.source{overflow-wrap:anywhere}
+.reader a:focus-visible{outline:3px solid var(--color-orange);outline-offset:4px}
+@media(max-width:600px){.reader{padding:calc(var(--nav-h) + 24px) 20px 50px}.body{font-size:19px}.summary{padding:18px}}
