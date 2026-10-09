@@ -8,7 +8,6 @@ import { EASE } from "@/lib/tokens";
 import { type Article, calcReadingTime } from "@/lib/mock-data";
 import TimeAgo from "./time-ago";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
-import SourceBadge from "./source-badge";
 
 interface HeroDispatchProps {
   article: Article;
@@ -170,7 +169,7 @@ export default function HeroDispatch({ article }: HeroDispatchProps) {
               flexWrap: "wrap",
             }}
           >
-            <SourceBadge source={article.source} flag={article.sourceFlag} bias={article.sourceBias} />
+
             <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", fontWeight: 500 }}>
               {calcReadingTime(article.body)} min lexim
             </span>

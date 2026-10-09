@@ -46,8 +46,7 @@ export default function NewsTile({
         <span className="news-tile-title">{article.title}</span>
         {size === "lg" && article.excerpt && <span className="news-tile-excerpt">{article.excerpt}</span>}
         <span className="news-tile-meta">
-          {article.source}
-          {article.source ? " · " : ""}
+
           <TimeAgo iso={article.publishedAt} />
         </span>
       </span>

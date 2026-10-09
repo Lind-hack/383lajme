@@ -437,7 +437,6 @@ export default function SearchOverlay({
                               <a href={a.url} target="_blank" rel="noopener noreferrer">
                                 <span className="kerko-title">{a.title}</span>
                                 <span className="kerko-meta">
-                                  {a.outlet}
                                   <em data-sentiment={a.sentiment} />
                                 </span>
                               </a>

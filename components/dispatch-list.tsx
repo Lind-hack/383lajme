@@ -9,7 +9,6 @@ import TimeAgo from "./time-ago";
 import { getCategoryColor } from "@/lib/category-colors";
 import { EASE, DUR, STAGGER } from "@/lib/tokens";
 import SectionLabel from "./section-label";
-import SourceBadge from "./source-badge";
 import { LoadMoreButton, focusFirstNew, useArticlePages } from "./load-more-articles";
 import { FeedAd, FeedMarket } from "./feed-sponsored";
 
@@ -111,12 +110,7 @@ export function DispatchRow({ article, index }: { article: Article; index: numbe
           <span className="dispatch-title">{article.title}</span>
           {article.excerpt && <span className="dispatch-excerpt">{article.excerpt}</span>}
           <span className="dispatch-meta">
-            <SourceBadge
-              source={article.source}
-              flag={article.sourceFlag}
-              size="sm"
-              bias={article.sourceBias}
-            />
+
             <span className="dispatch-time">
               <TimeAgo iso={article.publishedAt} /> më parë
             </span>

@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { type Article } from "@/lib/mock-data";
 import TimeAgo from "./time-ago";
-import SourceBadge from "@/components/source-badge";
 import ArticleCard from "@/components/article-card";
 import ArticleSidebar from "@/components/article-sidebar";
 import type { DosjeData } from "@/components/article-sidebar";
@@ -126,7 +125,7 @@ export default function ArticleContent({ article, related, moreFromCategory = []
                 borderBottom: "1px solid #E8E3DB",
               }}
             >
-              <SourceBadge source={article.source} flag={article.sourceFlag} />
+
               <span style={{ fontSize: "13px", color: "#6B6B6B", fontWeight: 500 }}>
                 <TimeAgo iso={article.publishedAt} /> më parë
               </span>

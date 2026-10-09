@@ -79,7 +79,7 @@ export default function BotaHome({ today, stories }: { today: ToneToday; stories
                   <ToneTag tone={x.sentiment} />
                   <span className={s.title}>{x.title}</span>
                   <span className={s.outlet}>
-                    {x.outlet} · {x.country}
+                    {x.country}
                   </span>
                 </Link>
               </li>

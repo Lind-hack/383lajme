@@ -8,40 +8,11 @@ import { type Article, calcReadingTime } from "@/lib/mock-data";
 import TimeAgo from "./time-ago";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
 import { EASE, DUR, STAGGER, RADIUS, SHADOW } from "@/lib/tokens";
-import SourceBadge from "./source-badge";
 
 interface ArticleCardProps {
   article: Article;
   variant?: "grid" | "mini" | "wide" | "full";
   index?: number;
-}
-
-/** Red warning badge for hostile (Serbian) sources — country code instead of emoji flag. */
-function HostileBadge({ left = "8px" }: { left?: string }) {
-  return (
-    <div style={{
-      position: "absolute",
-      top: "8px",
-      left,
-      display: "flex",
-      alignItems: "center",
-      gap: "5px",
-      background: "#E41E20",
-      color: "#fff",
-      fontSize: "9px",
-      fontWeight: 900,
-      letterSpacing: "0.1em",
-      textTransform: "uppercase",
-      padding: "3px 8px",
-      borderRadius: "4px",
-      zIndex: 2,
-      boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
-      whiteSpace: "nowrap",
-    }}>
-      <span style={{ fontWeight: 700, letterSpacing: "0.08em", opacity: 0.85 }}>RS</span>
-      <span>SERBI PËR KOSOVËN</span>
-    </div>
-  );
 }
 
 export default function ArticleCard({ article, variant = "grid", index = 0 }: ArticleCardProps) {
@@ -155,7 +126,6 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               {readMins} min
             </span>
 
-            {article.sourceBias === "hostile" && <HostileBadge />}
           </div>
 
           {/* Content — headline only. The excerpt used to compete with the
@@ -192,7 +162,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
 
             {/* Footer */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px", marginTop: "auto", paddingTop: "14px" }}>
-              <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} />
+
               <span style={{
                 fontSize: "11px",
                 fontWeight: 700,
@@ -251,7 +221,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               />
             )}
             <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: "4px", background: catColor }} />
-            {article.sourceBias === "hostile" && <HostileBadge left="16px" />}
+
           </div>
 
           {/* Content — right 60% */}
@@ -300,7 +270,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             </p>
 
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} />
+
               <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
                 <TimeAgo iso={article.publishedAt} /> · {readMins} min
               </span>
@@ -352,7 +322,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               />
             )}
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "4px", background: catColor }} />
-            {article.sourceBias === "hostile" && <HostileBadge />}
+
           </div>
 
           <div style={{ padding: "20px 24px 24px", flex: 1, display: "flex", flexDirection: "column" }}>
@@ -392,7 +362,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             </p>
 
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} />
+
               <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
                 <TimeAgo iso={article.publishedAt} /> · {readMins} min
               </span>
@@ -500,7 +470,6 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
             {readMins} min
           </span>
 
-          {article.sourceBias === "hostile" && <HostileBadge />}
         </div>
 
         <div style={{
@@ -542,7 +511,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
 
           {/* Footer */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} />
+
             <span style={{ fontSize: "11px", color: "#AAAAAA", fontWeight: 500 }}>
               <TimeAgo iso={article.publishedAt} />
             </span>

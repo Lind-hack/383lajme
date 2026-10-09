@@ -153,7 +153,7 @@ export default function ColorSpotlight({ articles, category, label, plain = fals
                 <h3>{lead.title}</h3>
                 {lead.excerpt && <p className="spot-lead-excerpt">{lead.excerpt}</p>}
                 <span className="spot-meta">
-                  {lead.source} · <TimeAgo iso={lead.publishedAt} /> më parë
+                  <TimeAgo iso={lead.publishedAt} /> më parë
                 </span>
               </div>
             </Link>
@@ -178,7 +178,7 @@ export default function ColorSpotlight({ articles, category, label, plain = fals
                     <span className="spot-item-body">
                       <span className="spot-item-title">{article.title}</span>
                       <span className="spot-meta">
-                        {article.source} · <TimeAgo iso={article.publishedAt} /> më parë
+                        <TimeAgo iso={article.publishedAt} /> më parë
                       </span>
                     </span>
                   </Link>
@@ -202,7 +202,7 @@ export default function ColorSpotlight({ articles, category, label, plain = fals
                   <span className="spot-item-body">
                     <span className="spot-item-title">{article.title}</span>
                     <span className="spot-meta">
-                      {article.source} · <TimeAgo iso={article.publishedAt} /> më parë
+                      <TimeAgo iso={article.publishedAt} /> më parë
                     </span>
                   </span>
                 </Link>

@@ -407,7 +407,7 @@ export default function ToneDashboard({
                         {!summary.isStale && " sot"}
                       </span>
                       <span style={{ fontSize: "11px", color: TONE_INK.faint }}>
-                        {a.outlet} · {a.country}
+                        {a.country}
                       </span>
                     </span>
                     {/* Clamped: these are an entry point, not the article. Two

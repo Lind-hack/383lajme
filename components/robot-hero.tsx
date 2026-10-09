@@ -199,16 +199,6 @@ export default function RobotHero({ article }: Props) {
               }}
             />
 
-            <span
-              style={{
-                fontSize: '12px',
-                color: 'rgba(255,255,255,0.35)',
-                fontWeight: 500,
-              }}
-            >
-              {article.source}
-            </span>
-
             <Link
               href={`/article/${article.slug}`}
               style={{

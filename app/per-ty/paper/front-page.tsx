@@ -40,12 +40,6 @@ export function Meta({ article, date = false }: { article: FeedArticle; date?: b
       <b style={{ color: getCategoryColor(article.category) }}>{article.category}</b>
       <i aria-hidden="true">·</i>
       {date ? <span>{shortDate(article.publishedAt)}</span> : <TimeAgo iso={article.publishedAt} />}
-      {article.source && (
-        <>
-          <i aria-hidden="true">·</i>
-          <span>{article.source}</span>
-        </>
-      )}
     </span>
   );
 }

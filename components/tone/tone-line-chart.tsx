@@ -333,9 +333,6 @@ export default function ToneLineChart({ history }: { history: ToneHistoryRow[] }
                     style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none", padding: "6px 8px", borderRadius: "8px", background: "#FFFFFF", border: "1px solid #F0EDE6" }}
                   >
                     <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: meta.color, flexShrink: 0 }} />
-                    <span style={{ fontSize: "10px", fontWeight: 700, color: "#9CA3AF", flexShrink: 0 }}>
-                      {h.flag} {h.source}
-                    </span>
                     <span style={{ fontSize: "12px", color: "#111111", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {h.title}
                     </span>

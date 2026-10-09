@@ -56,9 +56,6 @@ export function HeroCard({ item }: { item: ForeignCoverageItem }) {
       <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "clamp(16px, 3vw, 26px)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
           {item.flag && <span style={{ fontSize: "19px" }}>{item.flag}</span>}
-          <span style={{ fontSize: "14.5px", fontWeight: 800, color: "rgba(255,255,255,0.92)", letterSpacing: "0.02em" }}>
-            {item.outlet}
-          </span>
           <span
             style={{
               marginLeft: "auto",
@@ -138,19 +135,6 @@ export function StripCard({ item }: { item: ForeignCoverageItem }) {
       <div style={{ padding: "13px 14px 14px", display: "flex", flexDirection: "column", flex: 1 }}>
         <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "7px" }}>
           {item.flag && <span style={{ fontSize: "13.5px" }}>{item.flag}</span>}
-          <span
-            style={{
-              fontSize: "12px",
-              fontWeight: 800,
-              color: "#6B6B6B",
-              letterSpacing: "0.02em",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {item.outlet}
-          </span>
           <span style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", flexShrink: 0 }}>
             <span className="bota-flet-strip-badge-dot" style={{ width: "7px", height: "7px", borderRadius: "50%", background: color, flexShrink: 0 }} />
             <span className="bota-flet-strip-badge-label" style={{ fontSize: "10.5px", fontWeight: 800, color, letterSpacing: "0.05em", textTransform: "uppercase" }}>

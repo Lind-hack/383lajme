@@ -9,15 +9,6 @@ import SidebarMarketWidget from "@/components/tregu/sidebar-market-widget";
 import { type DosjeEntry } from "@/components/dosje-section";
 import { createClient } from "@/lib/supabase/client";
 
-function flagToCode(flag: string): string {
-  const cps = [...flag].map((c) => c.codePointAt(0) ?? 0);
-  if (cps.length !== 2) return flag.slice(0, 2);
-  const a = cps[0] - 0x1f1e6 + 65;
-  const b = cps[1] - 0x1f1e6 + 65;
-  if (a < 65 || a > 90 || b < 65 || b > 90) return flag.slice(0, 2);
-  return String.fromCharCode(a, b);
-}
-
 export interface DosjeVideo {
   id: string;
   channel: string;
@@ -387,13 +378,6 @@ export default function ArticleSidebar({ article, related }: Props) {
                     <p style={{ fontSize: "13px", fontWeight: 700, color: "#111111", margin: "0 0 6px", lineHeight: 1.35 }}>
                       {a.title}
                     </p>
-                    <span style={{
-                      display: "inline-flex", alignItems: "center", gap: "4px",
-                      background: "rgba(0,0,0,0.05)", padding: "2px 8px",
-                      borderRadius: "100px", fontSize: "11px", fontWeight: 600, color: "#6B6B6B",
-                    }}>
-                      {flagToCode(a.sourceFlag)} {a.source}
-                    </span>
                   </motion.div>
                 </a>
               ))}

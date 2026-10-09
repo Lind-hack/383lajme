@@ -81,7 +81,7 @@ export default function Stories({ stories, today }: { stories: DailyStory[]; tod
                   <span>
                     <span className={s.storyTitle}>{x.title}</span>
                     <span className={s.storyMeta}>
-                      {x.outlet} · {x.country}
+                      {x.country}
                       {x.alsoIn.length > 0 &&
                         ` · edhe ${x.alsoIn.length} ${x.alsoIn.length === 1 ? "media tjetër" : "media të tjera"}`}
                       {today && x.day !== today && " · dje"}

@@ -12,7 +12,6 @@ import { getCategoryColor, getCategoryTextColor } from "@/lib/category-colors";
  *  the card fills above it — so it is the honest ground to measure against. */
 const CARD_GROUND = "#F9F6F1";
 import { EASE, DUR, STAGGER, RADIUS, SHADOW } from "@/lib/tokens";
-import SourceBadge from "./source-badge";
 
 interface KryesoreFrontProps {
   lead: Article;
@@ -21,34 +20,6 @@ interface KryesoreFrontProps {
    *  arrive, so a thin news day degrades to three without leaving a gap. */
   stack: Article[];
   secondary: Article[];
-}
-
-/** Red warning badge for hostile (Serbian) sources — country code instead of emoji flag. */
-function HostileBadge({ left = "12px" }: { left?: string }) {
-  return (
-    <div style={{
-      position: "absolute",
-      top: "12px",
-      left,
-      display: "flex",
-      alignItems: "center",
-      gap: "5px",
-      background: "#E41E20",
-      color: "#fff",
-      fontSize: "9px",
-      fontWeight: 900,
-      letterSpacing: "0.1em",
-      textTransform: "uppercase",
-      padding: "3px 8px",
-      borderRadius: "4px",
-      zIndex: 2,
-      boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
-      whiteSpace: "nowrap",
-    }}>
-      <span style={{ fontWeight: 700, letterSpacing: "0.08em", opacity: 0.85 }}>RS</span>
-      <span>SERBI PËR KOSOVËN</span>
-    </div>
-  );
 }
 
 // Tone transparency chip — how the source covers the story. Matches the
@@ -207,7 +178,6 @@ function LeadCard({ article }: { article: Article }) {
             {readMins} min
           </span>
 
-          {article.sourceBias === "hostile" && <HostileBadge />}
         </div>
 
         {/* Content */}
@@ -242,7 +212,7 @@ function LeadCard({ article }: { article: Article }) {
 
           {/* Transparency strip: source + tone + freshness */}
           <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: "8px", marginTop: "4px" }}>
-            <SourceBadge source={article.source} flag={article.sourceFlag} size="sm" bias={article.sourceBias} />
+
             <ToneChip tone={article.tone} />
             <span style={{ fontSize: "11px", color: "#6B6B6B", fontWeight: 500, marginLeft: "auto" }}>
               <TimeAgo iso={article.publishedAt} />
@@ -326,7 +296,7 @@ function SecondaryCard({ article, index }: { article: Article; index: number }) 
             {article.title}
           </h4>
           <span style={{ fontSize: "12px", color: "#6B6B6B", fontWeight: 500, marginTop: "auto" }}>
-            {article.source} · <TimeAgo iso={article.publishedAt} />
+            <TimeAgo iso={article.publishedAt} />
           </span>
         </div>
       </motion.div>

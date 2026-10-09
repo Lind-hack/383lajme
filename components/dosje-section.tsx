@@ -196,7 +196,6 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
         {date && (
           <div style={{ font: `500 12px ${SANS}`, color: MUTED, marginBottom: "14px" }}>
             {date}
-            {e.source ? ` · ${e.source}` : ""}
           </div>
         )}
 
@@ -257,12 +256,7 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
               </div>
             )}
 
-            {/* The sources, in the open.
-                A historical claim the reader cannot check is precisely what
-                went wrong here before: a confident date, an authoritative
-                tone, and nothing underneath it. Two publishers had to answer
-                before this line could be published, and naming them is what
-                makes that requirement worth anything to the person reading. */}
+            {/* Keep supporting references accessible without publisher labels. */}
             {e.kind === "milestone" && e.citations && e.citations.length > 0 && (
               <div style={{ marginTop: "12px", display: "flex", flexWrap: "wrap", gap: "8px", alignItems: "baseline" }}>
                 <span style={{ font: `600 9px ${SANS}`, letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(43,37,33,.45)" }}>
@@ -286,7 +280,7 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
                       paddingBottom: "1px",
                     }}
                   >
-                    {c.publisher}
+                    Referencë
                     {c.date ? ` ${String(c.date).slice(0, 4)}` : ""}
                   </a>
                 ))}

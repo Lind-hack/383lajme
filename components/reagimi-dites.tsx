@@ -532,7 +532,7 @@ export default function ReagimiDites({ serverDateKey }: ReagimiDitesProps) {
             </h2>
 
             <p className="reagimi-attribution">
-              <span className="reagimi-speaker">{view.attributionName}</span>
+              {view.source === "curated" && <span className="reagimi-speaker">{view.attributionName}</span>}
               {view.attributionRole && <span className="reagimi-role">{view.attributionRole}</span>}
             </p>
 

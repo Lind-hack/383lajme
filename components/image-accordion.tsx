@@ -261,10 +261,6 @@ export default function ImageAccordion({ slides }: Props) {
                     overflow: 'hidden',
                   }}
                 >
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {slide.article.source}
-                  </span>
-                  <span aria-hidden style={{ opacity: 0.5 }}>·</span>
                   <TimeAgo iso={slide.article.publishedAt} />
                   <span aria-hidden style={{ opacity: 0.5 }}>·</span>
                   <span>{readMins} min</span>

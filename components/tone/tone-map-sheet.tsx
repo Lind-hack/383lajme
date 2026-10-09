@@ -69,8 +69,7 @@ export default function ToneMapSheet({
               <span className="tone-sheet__text">
                 <strong>{a.albanianTitle || a.title}</strong>
                 {a.blurb && <span className="tone-sheet__blurb">{a.blurb}</span>}
-                <span className="tone-sheet__outlet">{a.outlet}
-                  {formatArticleDate(a.date) ? ` · ${formatArticleDate(a.date)}` : ""}
+                <span className="tone-sheet__outlet">{formatArticleDate(a.date)}
                 </span>
               </span>
             </a>

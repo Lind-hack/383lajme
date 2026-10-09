@@ -71,7 +71,6 @@ export default function ToneArticleCard({ a }: { a: ToneCardArticle }) {
             Bangladeshi paper into the US feed, and the card was captioning
             "Bangladesh Post · SHBA". The masthead is the honest identity. */}
         <div className="tone-card__meta">
-          <span className="tone-card__outlet">{a.outlet}</span>
           {date && <span>{date}</span>}
           <span className="tone-card__badge" style={{ color: accent }}>
             {meta?.label ?? "—"}
@@ -112,7 +111,7 @@ export default function ToneArticleCard({ a }: { a: ToneCardArticle }) {
         )}
 
         <span className="tone-card__cta">
-          {a.readerUrl ? "Lexo në shqip" : `Lexo te ${a.outlet}`} <ExternalLink size={12} strokeWidth={2.2} />
+          {a.readerUrl ? "Lexo në shqip" : "Lexo artikullin"} <ExternalLink size={12} strokeWidth={2.2} />
         </span>
       </div>
     </a>
