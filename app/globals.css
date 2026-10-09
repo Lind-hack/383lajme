@@ -20243,17 +20243,13 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   position: absolute;
   inset: 0;
   z-index: -1;
-  /* Starts early and ends near-opaque: a three-line headline plus an excerpt
-     reaches well above the middle of a large tile, and a bright photo behind
-     it left the text barely readable at the old 30%/58% stops. */
-  background: linear-gradient(180deg, rgba(10, 8, 6, 0.05) 0%, rgba(10, 8, 6, 0.25) 28%, rgba(10, 8, 6, 0.7) 55%, rgba(10, 8, 6, 0.94) 100%);
+  /* Fade across the photograph without a hard edge behind the text. */
+  background: linear-gradient(180deg, rgba(10, 8, 6, 0) 0%, rgba(10, 8, 6, 0.12) 18%, rgba(10, 8, 6, 0.55) 40%, rgba(10, 8, 6, 0.74) 65%, rgba(10, 8, 6, 0.86) 100%);
 }
 .news-tile[data-variant="overlay"] .news-tile-body {
-  /* Keep the whole reading area dark even when a long headline reaches the
-     bright upper half of the photograph. The photo stays visible above it. */
-  background: rgba(10, 8, 6, 0.82);
+  background: transparent;
   color: #FFFFFF;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 16px rgba(0, 0, 0, 0.65);
 }
 .news-tile-body { display: grid; gap: 7px; padding: 16px 16px 15px; min-width: 0; }
 .news-tile[data-size="lg"] .news-tile-body { gap: 9px; padding: 22px 22px 20px; }
