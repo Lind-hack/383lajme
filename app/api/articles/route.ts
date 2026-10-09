@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getArticlesBefore } from "@/lib/db";
 import { SLUG_TO_CATEGORY } from "@/lib/category-map";
+import { cityOfArticle, hasCities } from "@/lib/section-cities.mjs";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +23,8 @@ export async function GET(request: NextRequest) {
   const category = slug ? SLUG_TO_CATEGORY[slug] ?? null : null;
 
   const articles = await getArticlesBefore({ before, limit, category });
+  // Kosovë and Shqipëri label each row with its city (lib/section-cities).
+  const byCity = hasCities(category);
   const items = articles.map((article) => ({
     id: article?.id,
     slug: article?.slug,
@@ -33,6 +36,7 @@ export async function GET(request: NextRequest) {
     category: article?.category ?? "",
     publishedAt: article?.publishedAt,
     imageUrl: article?.imageUrl ?? null,
+    ...(byCity ? { cityId: cityOfArticle(article, category) } : {}),
   })).filter((item) => item.id && item.slug && item.title && item.publishedAt);
 
   return NextResponse.json(

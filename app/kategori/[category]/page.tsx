@@ -1,21 +1,29 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { Inbox } from "lucide-react";
 import { getArticles, getArticlesBefore } from "@/lib/db";
+import type { Article } from "@/lib/mock-data";
 import { CATEGORY_TO_SLUG, RESOLVABLE_SLUGS } from "@/lib/category-map";
 import { getCategoryColor, getCategoryGradient, CATEGORY_LIGHT_BG } from "@/lib/category-colors";
 import { dateKeyInKosovo } from "@/lib/reagimi-data";
+import { cityOfArticle, hasCities, sectionCities, sectionCityById } from "@/lib/section-cities.mjs";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
 import CategoryBanner from "@/components/category-banner";
 import LatestStrip from "@/components/home/latest-strip";
-import HeroDispatch from "@/components/hero-dispatch";
-import NewsGrid from "@/components/news-grid";
-import DispatchList from "@/components/dispatch-list";
 import Footer from "@/components/footer";
+import KategoriLead from "@/components/kategori/lead";
+import CityPicker, { type PickerCity } from "@/components/kategori/city-picker";
+import KategoriTimeline, { type TimelineCity, type TimelineItem } from "@/components/kategori/timeline";
 import { pickFrontPage } from "@/lib/front-page.mjs";
 
 export const revalidate = 3600;
+
+/** Rows the timeline renders before it starts paging. */
+const FIRST_PAGE = 40;
+/** The recent stories a city section counts and filters its cities over. */
+const CITY_POOL = 150;
+/** "Only the main cities": the busiest ones with news, never a wall of chips. */
+const MAX_CITY_CHIPS = 10;
 
 export function generateStaticParams() {
   // Retired slugs are prerendered too, so an old link or an indexed search
@@ -38,49 +46,71 @@ export default async function CategoryPage({
   searchParams,
 }: {
   params: Promise<{ category: string }>;
-  searchParams?: Promise<{ city?: string | string[] }>;
+  searchParams?: Promise<{ qyteti?: string | string[] }>;
 }) {
   const { category } = await params;
   const categoryName = RESOLVABLE_SLUGS[category];
   if (!categoryName) notFound();
+  const slug = CATEGORY_TO_SLUG[categoryName];
+  const byCity = hasCities(categoryName);
 
   const [rankedArticles, recentArticles] = await Promise.all([
-    getArticles(50, categoryName),
-    // The list below the grid runs by date, so "Shfaq më shumë" can continue
-    // from its oldest row without skipping anything newer.
-    getArticlesBefore({ limit: 40, category: categoryName }),
+    getArticles(50, categoryName, { withBody: false }),
+    // Newest first: the timeline's spine, and the pool a city is counted over.
+    getArticlesBefore({ limit: byCity ? CITY_POOL : FIRST_PAGE, category: categoryName }),
   ]);
-  // Include the newest desk stories before applying the shared 0.2/hour rank.
-  // The archive below still pages by publication date.
-  const allArticles = pickFrontPage([...rankedArticles, ...recentArticles], 50);
+
+  // One city per story, decided once for everything this render can show.
+  const cityOf = new Map<string, string | null>();
+  for (const article of [...rankedArticles, ...recentArticles]) {
+    if (article?.id && !cityOf.has(article.id)) cityOf.set(article.id, cityOfArticle(article, categoryName));
+  }
+  const cities: Record<string, TimelineCity> = Object.fromEntries(
+    sectionCities(categoryName).map((c) => [c.id, { name: c.name, emblem: c.emblem }])
+  );
+
+  // Chips count the dated pool, so a number means "recent stories from here".
+  const counts = new Map<string, number>();
+  for (const article of recentArticles) {
+    const id = cityOf.get(article.id);
+    if (id) counts.set(id, (counts.get(id) ?? 0) + 1);
+  }
+  const pickerCities: PickerCity[] = sectionCities(categoryName)
+    .map((c) => ({ ...c, count: counts.get(c.id) ?? 0 }))
+    .filter((c) => c.count > 0)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, MAX_CITY_CHIPS);
+
   const query = searchParams ? await searchParams : {};
-  const requestedCity = typeof query.city === "string" ? query.city : undefined;
-  const isCityCategory = categoryName === "Kosovë" || categoryName === "Shqipëri";
-  const availableCities = isCityCategory
-    ? [...new Set(allArticles.map((article) => article.city).filter((city): city is string => Boolean(city)))]
-    : [];
-  const selectedCity = requestedCity && availableCities.includes(requestedCity) ? requestedCity : undefined;
-  const articles = selectedCity
-    ? allArticles.filter((article) => article.city === selectedCity)
-    : allArticles;
+  const selected = byCity && typeof query.qyteti === "string" ? sectionCityById(categoryName, query.qyteti) : null;
+
+  // A city is a filter over the pool; the whole section reads the ranked list
+  // for its lead and pages on through the archive below it.
+  const leadPool = selected
+    ? recentArticles.filter((a) => cityOf.get(a.id) === selected.id)
+    : [...rankedArticles, ...recentArticles];
+  const lead: Article | undefined = pickFrontPage(leadPool, 1)[0];
+  const timelineSource = selected ? leadPool : recentArticles.slice(0, FIRST_PAGE);
+  const timeline: TimelineItem[] = timelineSource
+    .filter((a) => a.id !== lead?.id && a.slug && a.title && a.publishedAt)
+    .map((a) => ({
+      id: a.id,
+      slug: a.slug,
+      title: a.title,
+      imageUrl: a.imageUrl ?? null,
+      publishedAt: a.publishedAt,
+      cityId: cityOf.get(a.id) ?? null,
+    }));
+
   const accent = getCategoryColor(categoryName);
   const [gradFrom, gradTo] = getCategoryGradient(categoryName);
   const lightBg = CATEGORY_LIGHT_BG.has(categoryName);
-  // Stories this section published today, Kosovo time — not the size of the
-  // query, which is what the old "50 artikuj" badge printed.
+  // Stories this section published today, Kosovo time.
   const todayKey = dateKeyInKosovo();
-  const todayCount = allArticles.filter(
+  const todayCount = recentArticles.filter(
     (a) => a.publishedAt && dateKeyInKosovo(new Date(a.publishedAt)) === todayKey
   ).length;
-
-  const hero = articles[0];
-  const gridArticles = articles.slice(hero ? 1 : 0, 7);
-  // A city is a filter over the ranked fifty, so it keeps that list; the full
-  // section reads the dated one and pages on through the archive.
-  const aboveIds = new Set([hero, ...gridArticles].filter(Boolean).map((a) => a!.id));
-  const listArticles = selectedCity
-    ? articles.slice(7)
-    : recentArticles.filter((a) => !aboveIds.has(a.id));
+  const leadCityId = lead ? cityOf.get(lead.id) : null;
 
   return (
     <>
@@ -98,97 +128,35 @@ export default async function CategoryPage({
         />
       </div>
 
-      <main
-        style={{
-          position: "relative",
-          zIndex: 1,
-          maxWidth: "1280px",
-          margin: "0 auto",
-          padding: "clamp(24px, 3vw, 40px) 24px",
-        }}
-      >
-
-        {isCityCategory && availableCities.length > 0 && (
-          <nav
-            aria-label={`Filtro sipas qytetit për ${categoryName}`}
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              alignItems: "center",
-              gap: "8px",
-              marginBottom: "28px",
-              padding: "12px 14px",
-              border: "1px solid rgba(0,0,0,0.08)",
-              borderRadius: "10px",
-              background: "rgba(255,255,255,0.72)",
-            }}
-          >
-            <span style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "#777" }}>
-              Qyteti
-            </span>
-            <Link
-              href={`/kategori/${category}`}
-              aria-current={!selectedCity ? "page" : undefined}
-              style={{ fontSize: "13px", fontWeight: !selectedCity ? 800 : 600, color: "#222", textDecoration: "none" }}
-            >
-              Të gjitha ({allArticles.length})
-            </Link>
-            {availableCities.map((city) => (
-              <Link
-                key={city}
-                href={`/kategori/${category}?city=${encodeURIComponent(city)}`}
-                aria-current={selectedCity === city ? "page" : undefined}
-                style={{ fontSize: "13px", fontWeight: selectedCity === city ? 800 : 600, color: selectedCity === city ? accent : "#555", textDecoration: "none" }}
-              >
-                {city} ({allArticles.filter((article) => article.city === city).length})
-              </Link>
-            ))}
-          </nav>
+      <main className="kat" style={{ ["--kat" as string]: accent }}>
+        {byCity && (
+          <CityPicker section={categoryName} slug={slug} cities={pickerCities} selected={selected?.id} />
         )}
 
-        {/* Empty state */}
-        {articles.length === 0 && (
-          <div
-            style={{
-              textAlign: "center",
-              padding: "120px 24px",
-              color: "#999",
-              fontSize: "15px",
-            }}
-          >
-            <Inbox
-              size={40}
-              strokeWidth={1.5}
-              style={{ color: "#CCCCCC", marginBottom: "16px", display: "block", margin: "0 auto 16px" }}
-            />
-            <p style={{ margin: 0 }}>
-              Asnjë artikull në kategorinë <strong>{categoryName}</strong> tani për tani.
+        {!lead && (
+          <div className="kat-empty">
+            <Inbox size={40} strokeWidth={1.5} aria-hidden="true" />
+            <p>
+              {selected ? (
+                <>Asnjë lajm i fundit nga <strong>{selected.name}</strong>.</>
+              ) : (
+                <>Asnjë artikull në kategorinë <strong>{categoryName}</strong> tani për tani.</>
+              )}
             </p>
           </div>
         )}
 
-        {/* Hero */}
-        {hero && (
-          <div style={{ marginBottom: "32px" }}>
-            <HeroDispatch article={hero} />
-          </div>
-        )}
+        {lead && <KategoriLead article={lead} city={leadCityId ? cities[leadCityId] : undefined} />}
 
-        {/* Grid */}
-        {gridArticles.length > 0 && (
-          <div style={{ marginBottom: "32px" }}>
-            <NewsGrid articles={gridArticles} title={categoryName.toUpperCase()} />
-          </div>
-        )}
-
-        {/* List */}
-        {listArticles.length > 0 && (
-          <DispatchList
-            articles={listArticles}
-            max={20}
-            loadMore={selectedCity ? undefined : { category: CATEGORY_TO_SLUG[categoryName], seenIds: [...aboveIds, ...listArticles.slice(0, 20).map((a) => a.id)], infinite: true }}
-          />
-        )}
+        <KategoriTimeline
+          // A new city is a new list: remount so paging state never carries over.
+          key={selected?.id ?? "all"}
+          items={timeline}
+          cities={cities}
+          todayKey={todayKey}
+          loadMore={selected ? undefined : { category: slug, seenIds: [lead?.id, ...timeline.map((t) => t.id)].filter((id): id is string => Boolean(id)) }}
+          endNote={selected ? `Këto janë lajmet e fundit nga ${selected.name}.` : undefined}
+        />
       </main>
 
       <Footer />
