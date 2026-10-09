@@ -1,15 +1,14 @@
-# Bota daily reading checklist
+# Bota briefing refinement checklist
 
-- [x] Inspect existing page, reader, data and live mobile baseline.
-- [x] Resolve product choice using the user's explicit delegation; write separate plan files.
-- [x] Implement daily briefing, country/search controls and accessible exploration.
-- [x] Implement shared text preference, sharing and reader improvements.
-- [x] Verify 33 data/publication tests and mobile/desktop interactions.
-- [x] Complete read-only quality and review-agent review; correct country ordering/hydration and reading-link contrast.
-- [x] Prepare the release from origin/main, preserving the original checkout and unrelated task work.
+- [x] Inspect current production-based worktree and requested skills; settle the scoped design.
+- [x] Remove the four top controls and implement the retained scroll shortcut.
+- [x] Build the featured briefing with real photo, summary and two supporting stories.
+- [x] Complete batched visual/interaction checks and correct the publisher-photo failure found.
+- [x] Complete 33 tests, webpack production build, detector and read-only reviews.
+- [x] Prepare the clean release from current origin/main.
 
-Final release gate: successful final production build, clean committed push through the Railway GitHub integration, exact live SHA and listing/reader verification. Completion evidence is recorded after deployment in the external `news-layout-evidence/bota-release-verification.txt` file.
+Final release gate: committed push through Railway GitHub integration, exact live origin/main SHA, and public-page verification. Completion is recorded after deployment in external news-layout-evidence/bota-refinement-release.txt.
 
-Browser checks cover 320px, 390px and desktop widths; country/search combinations and reset; larger text preserved between listing and reader; denied storage; clipboard success and denied clipboard fallback; native-share cancellation; country exploration focus and Escape; main controls at least 48px high. Current summaries, source labels and translated article links were exercised using the production dataset without modifying it.
+Verified at 320, 390, 768 and 1440px with real publication data. The pointer shortcut produced 26 distinct scroll positions and settled at 96px below the viewport top; reduced-motion and keyboard paths immediately reach and focus the same destination. Removed controls are absent from the main page. Long headlines and failed images retain readable content and no horizontal overflow. The featured image is always paired with its own article; failed photos are removed and an available supporting story becomes the lead.
 
-Review: no remaining actionable findings across correctness, readability, architecture, security and performance. Publication data, classification, home utility cards and Tregu remain outside this change. Existing unrelated Tregu email-export build warnings are recorded in release evidence.
+Source review: no remaining actionable findings. Web guidelines review passed for changed components; image dimensions, native link semantics, modifiers, focus and reduced motion are covered. Impeccable detector reported advisory font/radius mismatches against DESIGN.md, which is scoped to Tregu/visit. This Bota refinement intentionally retains Bota's existing sizes, radius and the site's serif font instead of altering those other surface systems. The known unrelated Tregu email-export build warning remains.

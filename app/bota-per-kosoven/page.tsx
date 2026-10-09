@@ -18,7 +18,7 @@ import HowItWorks from "./how-it-works";
 import Stories from "./stories";
 import BotaMap from "./bota-map";
 import s from "./bota.module.css";
-import ReadingTools from "./reading-tools";
+import PortrayalShortcut from "./portrayal-shortcut";
 import DailyBrief from "./daily-brief";
 
 export const revalidate = 3600;
@@ -83,12 +83,8 @@ export default async function BotaPerKosovenPage() {
           </p>
         </header>
 
-        <ReadingTools title="Bota për Kosovën — 383">
-        <nav className={s.shortcuts} aria-label="Në këtë faqe">
-          <a href="#lajmet">Lexo lajmet <span aria-hidden>↓</span></a>
-          <a href="#harta">Eksploro vendet <span aria-hidden>↗</span></a>
-          <a href="#bota-sot">Si shkruhet për ne?</a>
-        </nav>
+        <div className={s.reading}>
+        <PortrayalShortcut />
 
         {today.isStale && (
           <p role="status" className={s.stale}>
@@ -134,7 +130,7 @@ export default async function BotaPerKosovenPage() {
           <p className={s.sectionNote}>Kjo mat mënyrën si shkruajnë artikujt, jo qëndrimin e një vendi ndaj Kosovës.</p>
         <section className={`${s.panel} ${s.today}`} aria-labelledby="bota-sot">
           <div>
-            <h2 id="bota-sot" className={s.verdict}>{dayVerdict(today.index)}</h2>
+            <h2 id="bota-sot" tabIndex={-1} className={s.verdict}>{dayVerdict(today.index)}</h2>
             <p className={s.why}>
               {positive + negative + neutral > 0 ? (
                 <>
@@ -198,7 +194,7 @@ export default async function BotaPerKosovenPage() {
           shpjegimin e vlerësimit, përkthimin në shqip dhe lidhjen te burimi origjinal.
         </p>
         </details>
-        </ReadingTools>
+        </div>
       </main>
 
       <Footer />

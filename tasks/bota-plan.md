@@ -1,17 +1,17 @@
-# Bota për Kosovën: a useful daily reading
+# Bota briefing refinement
 
-The user delegated the design choice. Lead with foreign coverage in Albanian, make it easy to explore and share, and support older readers with clear labels, larger text and comfortable controls.
+Follow-up to the released Bota layout. The user explicitly requests removing the four top-level controls (larger text, sharing, news shortcut, country shortcut), retaining the portrayal shortcut with scroll animation, and making the briefing more eye-catching. Confidence is high; the prior instruction delegates routine design choices.
 
-## Implementation
-1. Show a dated briefing of three existing articles and their published Albanian summaries. Label older coverage accurately. Do not invent explanations or recency.
-2. Put stories before the optional statistics. Add country selection, text search, visible result counts and a reset action. Display publisher and Albanian summary rather than foreign quotations.
-3. Add a remembered larger-text setting shared by the listing and article reader, and sharing with a selectable-link fallback.
-4. Make map exploration accessible through a country dropdown and a playful random-country button; keep the existing map and country dialog.
-5. Improve the reader with its published summary, source, estimated reading time, clear source link and an explanation of the portrayal assessment. Keep the existing publication pipeline and translated content.
+## Decisions and acceptance
+- Remove the main-page reading toolbar and two shortcuts; keep only `Si shkruhet për ne?`. Reader tools and the existing story filters/map are outside this narrow request.
+- Use a native anchor with progressive enhancement for smooth pointer scrolling, instant reduced-motion/keyboard navigation, URL hash and focus transfer. The destination must clear the sticky navigation.
+- Replace the three equal briefing rows with a photographic lead story, readable ink fade, prominent headline and two supporting stories. Reuse 383 cream/ink/orange, Manrope/Georgia, real published imagery, summaries, dates, source labels and article links. No invented claims, fake imagery, autoplay or decorative counters.
+- Validate at 320, 390, 768 and 1440px: no overflow, legible long/missing-image states, labelled links, visible focus and image dimensions. Verify smooth intermediate scroll positions and final target alignment, reduced motion and keyboard operation.
 
-## Scope and acceptance
-No changes to publishing, classification, index formula, Tregu or home utility cards. Statistics describe media portrayal, not approval by countries. Listening is deferred unless a reliable Albanian voice is available; text and sharing must work independently.
-Mobile at 390 and 320 pixels and desktop must have no horizontal overflow. Main controls are at least 48px high, visible keyboard focus, labelled fields and understandable empty states. Larger text persists between listing and reader. Country/search filters combine correctly and reset; random selection opens actual available coverage; sharing cancellation is silent and fallback works. Existing articles retain internal reader links and original source links.
+## Sequence
+1. Refine the briefing component/CSS and add the single scroll shortcut.
+2. Run one batched mobile/desktop visual and interaction inspection; fix demonstrated issues and confirm in one pass.
+3. Run relevant data tests, webpack build, detector and read-only design/code reviews.
+4. Commit/push through the authorized Railway GitHub integration and verify latest origin/main SHA and live UI. Release evidence goes in external news-layout-evidence/bota-refinement-release.txt.
 
-## Verification and release
-Run publication/data tests, full webpack production build, mobile/desktop browser checks including keyboard and unavailable storage/share APIs. Perform read-only quality and review-agent review; fix demonstrated defects. Commit intended files from clean worktree and push to origin/main through authorized Railway GitHub integration. Verify exact production SHA and the live listing and reader. Preserve unrelated task checklists and checkout changes.
+Preserve unrelated task files, original dirty checkout, publishing/classification, reader content, Tregu and Per ty. Update this task's existing Bota files rather than overwrite another plan.
