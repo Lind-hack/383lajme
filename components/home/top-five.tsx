@@ -69,7 +69,7 @@ export default function TopFive({ articles }: { articles: Article[] }) {
                       src={article.imageUrl}
                       alt=""
                       fill
-                      sizes="(max-width: 640px) 92px, (max-width: 1024px) 220px, 280px"
+                      sizes="(max-width: 640px) 112px, (max-width: 1023px) 240px, 300px"
                       quality={90}
                     />
                   ) : (

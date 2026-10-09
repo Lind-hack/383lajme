@@ -45,7 +45,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
           onMouseLeave={() => setHovered(false)}
           style={{
             width: "246px",
-            height: "330px",
+            height: "348px",
             background: "linear-gradient(180deg, #FFFFFF 0%, #FAFAF8 100%)",
             borderRadius: RADIUS.md,
             border: "1px solid rgba(0,0,0,0.07)",
@@ -57,7 +57,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
           }}
         >
           {/* Image area */}
-          <div style={{ height: "146px", overflow: "hidden", position: "relative", flexShrink: 0 }}>
+          <div style={{ height: "164px", overflow: "hidden", position: "relative", flexShrink: 0 }}>
             {article.imageUrl && !imgFailed ? (
               <Image
                 src={article.imageUrl}
@@ -393,7 +393,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
         }}
       >
         {/* Image area */}
-        <div style={{ aspectRatio: "16/10", overflow: "hidden", position: "relative", flexShrink: 0 }}>
+        <div style={{ aspectRatio: "3/2", overflow: "hidden", position: "relative", flexShrink: 0 }}>
           {article.imageUrl && !imgFailed ? (
             <Image
               src={article.imageUrl}

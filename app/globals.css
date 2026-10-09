@@ -11606,9 +11606,9 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
 
 .dispatch-row {
   display: grid;
-  grid-template-columns: 34px 168px minmax(0, 1fr);
+  grid-template-columns: 34px 192px minmax(0, 1fr);
   gap: 18px;
-  align-items: center;
+  align-items: start;
   padding: 16px 14px;
   border-bottom: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
@@ -11717,7 +11717,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
 }
 
 @media (max-width: 860px) {
-  .dispatch-row { grid-template-columns: 26px 128px minmax(0, 1fr); gap: 13px; padding: 14px 10px; }
+  .dispatch-row { grid-template-columns: 26px 144px minmax(0, 1fr); gap: 13px; padding: 14px 10px; }
   .dispatch-title { font-size: 15.5px; }
   /* The summary is the first thing to go: on a narrow column the headline and
      the picture are what a reader is choosing between. */
@@ -11725,7 +11725,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
 }
 
 @media (max-width: 560px) {
-  .dispatch-row { grid-template-columns: 108px minmax(0, 1fr); gap: 12px; padding: 12px 4px; }
+  .dispatch-row { grid-template-columns: 120px minmax(0, 1fr); gap: 12px; padding: 12px 4px; }
   /* The rank is decoration once the row is this narrow, and it costs a column
      the headline needs more. */
   .dispatch-no { display: none; }
@@ -20010,10 +20010,10 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .top5-item { border-bottom: 1px solid var(--color-border); }
 .top5-row {
   display: grid;
-  grid-template-columns: 92px minmax(0, 1fr) 280px;
-  gap: 28px;
-  align-items: center;
-  padding: 24px 0;
+  grid-template-columns: 56px minmax(0, 1fr) 300px;
+  gap: 20px;
+  align-items: start;
+  padding: 20px 0;
   color: var(--color-ink);
   text-decoration: none;
   border-radius: 4px;
@@ -20021,7 +20021,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .top5-row:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 4px; }
 .top5-rank {
   justify-self: center;
-  font-size: 104px;
+  font-size: 72px;
   font-weight: 800;
   line-height: 0.8;
   letter-spacing: -0.04em;
@@ -20104,8 +20104,8 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .top5-row:hover .top5-thumb img { transform: scale(1.045); }
 }
 @media (max-width: 1023px) {
-  .top5-row { grid-template-columns: 72px minmax(0, 1fr) 220px; gap: 22px; }
-  .top5-rank { font-size: 84px; }
+  .top5-row { grid-template-columns: 48px minmax(0, 1fr) 240px; gap: 18px; }
+  .top5-rank { font-size: 64px; }
   .top5-title { font-size: 20px; }
   .top5-row[data-rank="1"] .top5-title { font-size: 23px; }
 }
@@ -20114,7 +20114,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .top5-head h2 { margin-bottom: 8px; }
   .top5-head p { font-size: 14.5px; }
   .top5-row {
-    grid-template-columns: 30px minmax(0, 1fr) 92px;
+    grid-template-columns: 26px minmax(0, 1fr) 112px;
     gap: 10px;
     align-items: start;
     padding: 18px 0;
@@ -20125,7 +20125,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .top5-cat { font-size: 10.5px; letter-spacing: 0.08em; }
   .top5-title, .top5-row[data-rank="1"] .top5-title { font-size: 16px; line-height: 1.32; -webkit-line-clamp: 4; }
   .top5-excerpt, .top5-read { display: none; }
-  .top5-thumb { border-radius: 10px; margin-top: 3px; }
+  .top5-thumb { border-radius: 10px; margin-top: 0; }
 }
 /* The one entrance: each rank rises into its row as the row scrolls in.
    Browsers without scroll-driven animation show the ranks as they are. */
@@ -20155,7 +20155,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
     column-gap: 32px;
   }
   .dispatch-rows[data-cols="2"] .dispatch-row {
-    grid-template-columns: 26px 128px minmax(0, 1fr);
+    grid-template-columns: 26px 144px minmax(0, 1fr);
     gap: 14px;
     padding: 14px 8px;
   }
@@ -20364,7 +20364,9 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 @container (max-width: 560px) {
   .cat-bento,
   .cat-mosaic-top,
-  .cat-overlay-row {
+  .cat-overlay-row,
+  .cat-overlay-row[data-row="first"],
+  .cat-overlay-row[data-row="next"] {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: none;
     grid-auto-rows: auto;
@@ -20385,8 +20387,8 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .cat-overlay-row[data-row="first"] > .news-tile:not(:first-child),
   .cat-overlay-row[data-row="next"] > .news-tile {
     display: grid;
-    grid-template-columns: 104px minmax(0, 1fr);
-    align-items: center;
+    grid-template-columns: 120px minmax(0, 1fr);
+    align-items: start;
     gap: 14px;
     height: auto;
     padding: 12px 0;
@@ -20411,7 +20413,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
     inset: auto;
     z-index: 0;
     grid-column: 1;
-    width: 104px;
+    width: 120px;
     aspect-ratio: 4 / 3;
     overflow: hidden;
     border-radius: 10px;
@@ -20456,9 +20458,9 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .story-list li + li .story-row { border-top: 1px solid var(--color-border); }
 .story-row {
   display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
+  grid-template-columns: 120px minmax(0, 1fr);
   gap: 14px;
-  align-items: center;
+  align-items: start;
   padding: 12px 0;
   color: var(--color-ink);
   text-decoration: none;
@@ -20540,7 +20542,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
    One story per row across the full column: a photograph large enough to
    read, the headline at reading size, and the standfirst in full. */
 .dispatch-rows[data-size="lg"] .dispatch-row {
-  grid-template-columns: 34px minmax(220px, 320px) minmax(0, 1fr);
+  grid-template-columns: 34px minmax(220px, 340px) minmax(0, 1fr);
   gap: 24px;
   align-items: start;
   padding: 22px 14px;
@@ -20549,11 +20551,11 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 .dispatch-rows[data-size="lg"] .dispatch-title { font-size: clamp(18px, 1.6vw, 22px); line-height: 1.28; letter-spacing: -0.015em; }
 .dispatch-rows[data-size="lg"] .dispatch-excerpt { display: -webkit-box; margin-top: 8px; font-size: 15px; line-height: 1.55; -webkit-line-clamp: 3; }
 @media (max-width: 900px) {
-  .dispatch-rows[data-size="lg"] .dispatch-row { grid-template-columns: 26px 180px minmax(0, 1fr); gap: 16px; padding: 18px 8px; }
+  .dispatch-rows[data-size="lg"] .dispatch-row { grid-template-columns: 26px 200px minmax(0, 1fr); gap: 16px; padding: 18px 8px; }
 }
 /* 560, the width at which the base list drops its rank number. */
 @media (max-width: 560px) {
-  .dispatch-rows[data-size="lg"] .dispatch-row { grid-template-columns: 120px minmax(0, 1fr); gap: 12px; padding: 14px 4px; }
+  .dispatch-rows[data-size="lg"] .dispatch-row { grid-template-columns: 128px minmax(0, 1fr); gap: 12px; padding: 14px 4px; }
   .dispatch-rows[data-size="lg"] .dispatch-title { font-size: 16px; }
   .dispatch-rows[data-size="lg"] .dispatch-excerpt { font-size: 13.5px; -webkit-line-clamp: 2; }
 }

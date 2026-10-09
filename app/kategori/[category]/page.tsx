@@ -104,7 +104,7 @@ export default async function CategoryPage({
           zIndex: 1,
           maxWidth: "1280px",
           margin: "0 auto",
-          padding: "var(--space-section) 24px",
+          padding: "clamp(24px, 3vw, 40px) 24px",
         }}
       >
 
@@ -169,14 +169,14 @@ export default async function CategoryPage({
 
         {/* Hero */}
         {hero && (
-          <div style={{ marginBottom: "var(--space-section)" }}>
+          <div style={{ marginBottom: "32px" }}>
             <HeroDispatch article={hero} />
           </div>
         )}
 
         {/* Grid */}
         {gridArticles.length > 0 && (
-          <div style={{ marginBottom: "var(--space-section)" }}>
+          <div style={{ marginBottom: "32px" }}>
             <NewsGrid articles={gridArticles} title={categoryName.toUpperCase()} />
           </div>
         )}
