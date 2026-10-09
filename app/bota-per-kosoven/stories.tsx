@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import type { DailyStory } from "@/lib/tone-data";
+import { sqCompare } from "@/lib/sq-order.mjs";
 import s from "./bota.module.css";
 
 type Filter = "all" | DailyStory["sentiment"];
@@ -58,7 +59,7 @@ export default function Stories({
   const [expanded, setExpanded] = useState(false);
   const [country, setCountry] = useState("");
   const [query, setQuery] = useState("");
-  const countries = [...new Set(stories.map((story) => story.country))].sort((a, b) => a.localeCompare(b, "sq"));
+  const countries = [...new Set(stories.map((story) => story.country))].sort(sqCompare);
 
   const needle = query.trim().toLocaleLowerCase("sq");
   // Country and search narrow first; the tone chips then count what is left, so

@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import ToneMap from "@/components/tone/tone-map";
 import type { ToneCardArticle } from "@/components/tone/tone-article-card";
 import { flagToCode } from "@/lib/tone-scale";
+import { sqCompare } from "@/lib/sq-order.mjs";
 import s from "./bota.module.css";
 
 export interface MapCountry {
@@ -30,7 +31,7 @@ export default function BotaMap({
   const ref = useRef<HTMLDivElement>(null);
   const returnFocus = useRef<HTMLElement | null>(null);
   const wasOpen = useRef(false);
-  const byName = (a: MapCountry, b: MapCountry) => a.country.localeCompare(b.country, "sq");
+  const byName = (a: MapCountry, b: MapCountry) => sqCompare(a.country, b.country);
   const available = countries.filter((country) => (highlights[country.country]?.length ?? 0) > 0).sort(byName);
 
   // Search results and old /toni links arrive with ?vendi=<country>. Read from
