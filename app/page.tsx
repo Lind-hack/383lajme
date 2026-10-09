@@ -43,7 +43,7 @@ import CategoryBlock from "@/components/home/category-block";
 import SectionJump from "@/components/home/section-jump";
 import TreguHome from "@/components/home/tregu-home";
 import AdSlot from "@/components/home/ad-slot";
-import PerTyHome, { PerTyHomeStrip } from "@/components/home/per-ty-home";
+import PerTyHome from "@/components/home/per-ty-home";
 
 // Refresh rankings every ten minutes between hourly publication batches.
 export const revalidate = 600;
@@ -195,9 +195,6 @@ export default async function HomePage() {
           weather={cityWeather[0] ?? null}
         />
         <CategoryRail />
-        <div className="pth-strip-wrap">
-          <PerTyHomeStrip />
-        </div>
       </div>
 
       {/* Kryesore now opens the editorial page instead of arriving after utility modules. */}
@@ -225,22 +222,6 @@ export default async function HomePage() {
           </div>
         </div>
       )}
-
-      {/* Gazeta jote: the door into Për ty, straight after the front block. The
-          same public pool goes to every reader; the box ranks it on the device. */}
-      <div className="pth-wrap">
-        <PerTyHome
-          pool={freshPool.slice(0, 150).map((a) => ({
-            slug: a.slug,
-            title: a.title,
-            excerpt: a.excerpt ?? "",
-            category: a.category,
-            city: a.city ?? undefined,
-            source: a.source ?? "",
-            publishedAt: a.publishedAt,
-          }))}
-        />
-      </div>
 
       {/* Phones: Kosova në xhep right after the lead story. */}
       <XhepBanner />
@@ -272,6 +253,11 @@ export default async function HomePage() {
         {/* Top 5 sot — one story per topic, ranked */}
         <div style={{ marginBottom: "var(--space-section)" }}>
           <TopFive articles={topFive} />
+        </div>
+
+        {/* Gazeta jote: one line pointing to Për ty, decided on the device. */}
+        <div className="pth-strip-wrap">
+          <PerTyHome />
         </div>
 
         {/* Lajmet e fundit — the day's run, one story to a row, and the way
