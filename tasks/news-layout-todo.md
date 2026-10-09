@@ -15,3 +15,8 @@
 
 The full empty viewport in the supplied Tregu screenshot was not reproduced on current production. Its loaded progress-to-leaderboard gap measures 14px. The empty loader and unhandled HTTP failure were confirmed in source and corrected.
 
+
+## Homepage gap and photo-overlay readability
+- [x] Remove the viewport-height homepage withdrawal wrapper; prove normal spacing to Teknologji at all tested sizes.
+- [x] Improve contrast/type on photo-overlay tiles; prove bright-image readability and preserve compact light rows.
+- [x] Inspect screenshots/long titles, pass 33 focused tests and production build, and perform read-only review. The GitHub-driven release and live acceptance results are tracked in homepage-gap-release-verification.txt in the external news-layout-evidence directory.

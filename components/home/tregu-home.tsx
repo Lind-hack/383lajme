@@ -274,7 +274,7 @@ export default function TreguHome() {
       </div>
 
       {/* The road to 10€, the same bar as on the Tregu floor. */}
-      <div className="tregu-scope home-tregu-goal">
+      <div className="tregu-scope home-tregu-scope home-tregu-goal">
         <WithdrawalProgress balance={balance} />
       </div>
 

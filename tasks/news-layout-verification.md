@@ -25,3 +25,12 @@ No findings. Reviewed the complete five-file source diff and its shared call sit
 The build emits pre-existing Tregu import warnings concerning sendPendingNewsMarketEmails. Those files are unchanged by this work. The production deployment guard skips checks for this local build as designed.
 
 No production release was performed. Release must follow the user-provided AGENTS.md policy; the current remote repository names Railway while the supplied policy names Vercel, so these policies must be reconciled before a production release.
+
+## Homepage gap and overlay readability review
+
+No findings. Read-only review covered the complete source diff and the news-tile call sites (bento, mosaic, overlay), their container breakpoints, and the homepage progress wrapper. The fix reuses the existing homepage scope override. Mobile compact rows explicitly reset the overlay background and color; their existing dark type remains on light paper. No data, auth, route, dependency, or market behavior changed.
+
+Verified with a browser on the actual local homepage: wrapper height equals the progress card at six width/height combinations; Teknologji follows by 48px (360/390/768) or 72px (1366/1440), with no horizontal overflow. A seven-tile fixture uses a white photo surface and long headlines: no body/title geometry spills beyond the tile at 360/390/560/640/768/1366/1440. Conservative white-image contrast is 12.32:1 headline, 11.09:1 excerpt, 10.31:1 time. Before/after and stress-fixture screenshots inspected.
+
+33 focused tests passed: home-tregu, home-sections, front-page, image-size. Production build verification is recorded in release evidence after completion. Release uses the user's existing Railway approval and GitHub integration.
+Production build passed compilation, TypeScript and all 63 static pages. Pre-existing Tregu email import warnings remain unrelated to these two source changes.
