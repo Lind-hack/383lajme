@@ -5969,7 +5969,8 @@ a.tregu-f1-top3-row:focus-visible {
    Cream-and-orange adaptation of the supplied glass-card material. */
 .home-front-layout {
   display: grid;
-  grid-template-areas: "currency editorial fuel";
+  grid-template-areas: "currency editorial fuel" "weather editorial ranking";
+  grid-template-rows: auto minmax(0, 1fr);
   grid-template-columns:
     minmax(196px, 240px)
     minmax(0, 1fr)
@@ -5984,8 +5985,13 @@ a.tregu-f1-top3-row:focus-visible {
   grid-area: editorial;
   min-width: 0;
 }
-.home-front-currency { grid-area: currency; }
-.home-front-fuel { grid-area: fuel; }
+.home-utility-rail, .home-utility-track { display: contents; }
+.home-utility-controls { display: none; }
+.home-front-layout .home-market-card-currency { grid-area: currency; }
+.home-front-layout .home-market-card-weather { grid-area: weather; }
+.home-front-layout .home-market-card-fuel { grid-area: fuel; }
+.home-front-ranking { grid-area: ranking; min-width: 0; display: flex; }
+.home-front-ranking > * { width: 100%; }
 
 .home-market-card {
   position: relative;
@@ -6339,7 +6345,9 @@ a.tregu-f1-top3-row:focus-visible {
   .home-front-layout {
     grid-template-areas:
       "editorial editorial"
-      "currency fuel";
+      "currency fuel"
+      "weather ranking";
+    grid-template-rows: auto auto auto;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     width: min(960px, 100%);
   }
@@ -6357,8 +6365,8 @@ a.tregu-f1-top3-row:focus-visible {
   .home-front-layout {
     grid-template-areas:
       "editorial"
-      "currency"
-      "fuel";
+      "utilities"
+      "ranking";
     grid-template-columns: minmax(0, 1fr);
     gap: 16px;
     padding-right: 14px;
@@ -18524,22 +18532,8 @@ span.tregu-bb-crest {
 
 .home-front-layout { align-items: stretch; }
 
-.home-front-currency,
-.home-front-fuel {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: clamp(12px, 1vw, 18px);
-  min-width: 0;
-}
-.home-front-currency > *,
-.home-front-fuel > * { min-width: 0; }
-
-/* The trailing card is being stretched, so the 374px floor that gives a lone
-   card presence would instead push the rail past the column it must match. */
-.home-front-currency > *:last-child,
-.home-front-fuel > *:last-child { display: flex; }
-.home-front-currency > *:last-child > .home-market-card-inner,
-.home-front-fuel > *:last-child > .home-market-card-inner {
+.home-front-layout .home-market-card-weather { display: flex; }
+.home-front-layout .home-market-card-weather > .home-market-card-inner {
   flex: 1 1 auto;
   min-height: 0;
 }
@@ -18691,10 +18685,7 @@ span.tregu-bb-crest {
 
 @media (max-width: 1120px) {
   .home-front-layout { align-items: start; }
-  .home-front-currency,
-  .home-front-fuel { grid-template-rows: auto auto; }
-  .home-front-currency > *:last-child > .home-market-card-inner,
-  .home-front-fuel > *:last-child > .home-market-card-inner { min-height: 350px; }
+  .home-front-layout .home-market-card-weather > .home-market-card-inner { min-height: 350px; }
 
   /* The stack cannot stay a narrow column once the lead goes full width; it
      becomes the row of picture cards underneath it. */
@@ -18711,10 +18702,7 @@ span.tregu-bb-crest {
 /* ── One column ───────────────────────────────────────────────────────────── */
 
 @media (max-width: 640px) {
-  .home-front-currency,
-  .home-front-fuel { gap: 14px; }
-  .home-front-currency > *:last-child > .home-market-card-inner,
-  .home-front-fuel > *:last-child > .home-market-card-inner { min-height: 344px; }
+  .home-front-layout .home-market-card-weather > .home-market-card-inner { min-height: 0; }
   .kf-stack { grid-template-columns: minmax(0, 1fr); }
   .kf-stack-card { grid-template-columns: 116px minmax(0, 1fr); }
   .kf-secondary { grid-column: span 12; }
@@ -25359,3 +25347,42 @@ button.lgt-launch > span {
 /* The card's halo, a touch quieter than the default. */
 .tregu-native-market:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-uel-beams .tregu-uel-glow { opacity: .15; }
 .tregu-native-market:is([data-competition="uefa.europa"], [data-competition="uefa.europa.conf"]) .tregu-uel-beams .tregu-uel-glow path { stroke-width: 5.5 !important; }
+
+/* Mobile utilities share one swipeable row instead of three tall cards. */
+@media (max-width: 640px) {
+  .home-utility-rail { grid-area: utilities; display: block; min-width: 0; }
+  .home-utility-controls { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+  .home-utility-controls > span { display: inline-flex; align-items: center; gap: 6px; color: #665a51; font-size: 12px; font-weight: 750; }
+  .home-utility-controls small { color: #8b776b; font-size: 11px; }
+  .home-utility-controls > div { display: flex; gap: 6px; }
+  .home-utility-controls button { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid #dfd5ca; border-radius: 50%; background: #fffaf3; color: #201812; cursor: pointer; }
+  .home-utility-controls button:disabled { opacity: .35; cursor: default; }
+  .home-utility-controls button:focus-visible { outline: 2px solid #ff4422; outline-offset: 2px; }
+  .home-utility-track { display: flex; align-items: stretch; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; padding-bottom: 6px; }
+  .home-utility-track::-webkit-scrollbar { display: none; }
+  .home-utility-track > .home-market-card { display: flex; flex: 0 0 calc(100% - 24px); scroll-snap-align: start; scroll-snap-stop: always; margin-top: 0; }
+  .home-utility-track > .home-market-card:last-child { scroll-snap-align: end; }
+  .home-utility-track .home-market-card-inner { flex: 1; width: 100%; min-height: 0; padding: 14px; }
+  .home-utility-track .home-market-card-head { min-height: 36px; gap: 8px; }
+  .home-utility-track .home-market-icon { width: 32px; height: 32px; flex-basis: 32px; border-radius: 10px; }
+  .home-utility-track .home-market-card-head strong { font-size: 16px; }
+  .home-utility-track .home-market-card-footer { padding-top: 8px; }
+  .home-utility-track .home-market-note { margin-top: 8px; }
+  .home-utility-track .home-exchange-rate { margin: 10px 0; padding: 10px; }
+  .home-utility-track .home-exchange-rate > span { grid-column: auto; margin-bottom: 0; align-self: center; }
+  .home-utility-track .home-exchange-fields { grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr); gap: 6px; align-items: end; }
+  .home-utility-track .home-exchange-fields label { min-width: 0; }
+  .home-utility-track .home-exchange-fields label:last-of-type { grid-column: 3; }
+  .home-utility-track .home-exchange-input, .home-utility-track .home-exchange-output { min-height: 44px; padding: 0 7px; gap: 4px; }
+  .home-utility-track .home-exchange-swap { position: static; grid-column: 2; grid-row: 1; width: 44px; height: 44px; transform: none; }
+  .home-utility-track .home-fuel-heading { margin-top: 10px; padding-bottom: 5px; }
+  .home-utility-track .home-fuel-heading, .home-utility-track .home-fuel-row { grid-template-columns: minmax(70px, 1.3fr) repeat(3, minmax(42px, .75fr)); }
+  .home-utility-track .home-fuel-row { min-height: 46px; padding: 6px; }
+  .home-utility-track .home-weather-list { margin-top: 6px; }
+  .home-utility-track .home-weather-row { grid-template-columns: 28px minmax(0, 1fr) auto; gap: 8px; padding: 6px 0; }
+  .home-utility-track .home-weather-glyph { width: 28px; height: 28px; }
+  .home-utility-track .home-weather-temp { font-size: 21px; }
+  .home-utility-track .home-weather-hours { flex: 0 0 auto; margin: 6px 0 8px; padding: 8px; gap: 6px; }
+  .home-utility-track .home-weather-hours li { display: grid; grid-template-columns: auto auto; justify-content: center; gap: 4px; }
+  .home-utility-track .home-weather-hours time, .home-utility-track .home-weather-hours small { grid-column: 1 / -1; text-align: center; }
+}

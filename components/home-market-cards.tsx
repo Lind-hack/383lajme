@@ -513,8 +513,8 @@ export function WeatherCard({ cities: initialCities }: { cities: CityWeather[] }
 
   return (
     <MarketCardFrame
-      eyebrow="MOTI SOT"
-      title="Tri qytete"
+      eyebrow="MOTI"
+      title="Në këto qytete"
       icon={<CloudSun size={20} strokeWidth={1.9} />}
       className="home-market-card-weather"
       dardani="weather"

@@ -19,6 +19,7 @@ import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
 import TopFive from "@/components/home/top-five";
+import UtilityRail from "@/components/home/utility-rail";
 import { freshNews } from "@/lib/fresh-news.mjs";
 import {
   CurrencyExchangeCard,
@@ -203,10 +204,11 @@ export default async function HomePage() {
           carries two cards, not the single one it was named for. */}
       {kryesoreLead && (
         <div className="home-front-layout">
-          <div className="home-front-currency">
+          <UtilityRail>
             <CurrencyExchangeCard snapshot={exchangeSnapshot} />
             <WeatherCard cities={cityWeather} />
-          </div>
+            <FuelPricesCard snapshot={fuelSnapshot} />
+          </UtilityRail>
           <div className="home-front-editorial">
             <KryesoreFront
               lead={kryesoreLead}
@@ -214,8 +216,7 @@ export default async function HomePage() {
               secondary={kryesoreSecondary}
             />
           </div>
-          <div className="home-front-fuel">
-            <FuelPricesCard snapshot={fuelSnapshot} />
+          <div className="home-front-ranking">
             <MostReadRail articles={mostRead} />
           </div>
         </div>
