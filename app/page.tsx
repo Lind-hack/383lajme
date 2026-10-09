@@ -205,9 +205,9 @@ export default async function HomePage() {
       {kryesoreLead && (
         <div className="home-front-layout">
           <UtilityRail>
+            <FuelPricesCard snapshot={fuelSnapshot} />
             <CurrencyExchangeCard snapshot={exchangeSnapshot} />
             <WeatherCard cities={cityWeather} />
-            <FuelPricesCard snapshot={fuelSnapshot} />
           </UtilityRail>
           <div className="home-front-editorial">
             <KryesoreFront
