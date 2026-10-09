@@ -43,6 +43,7 @@ import CategoryBlock from "@/components/home/category-block";
 import SectionJump from "@/components/home/section-jump";
 import TreguHome from "@/components/home/tregu-home";
 import AdSlot from "@/components/home/ad-slot";
+import PerTyHome, { PerTyHomeStrip } from "@/components/home/per-ty-home";
 
 // Refresh rankings every ten minutes between hourly publication batches.
 export const revalidate = 600;
@@ -194,6 +195,9 @@ export default async function HomePage() {
           weather={cityWeather[0] ?? null}
         />
         <CategoryRail />
+        <div className="pth-strip-wrap">
+          <PerTyHomeStrip />
+        </div>
       </div>
 
       {/* Kryesore now opens the editorial page instead of arriving after utility modules. */}
@@ -221,6 +225,22 @@ export default async function HomePage() {
           </div>
         </div>
       )}
+
+      {/* Gazeta jote: the door into Për ty, straight after the front block. The
+          same public pool goes to every reader; the box ranks it on the device. */}
+      <div className="pth-wrap">
+        <PerTyHome
+          pool={freshPool.slice(0, 150).map((a) => ({
+            slug: a.slug,
+            title: a.title,
+            excerpt: a.excerpt ?? "",
+            category: a.category,
+            city: a.city ?? undefined,
+            source: a.source ?? "",
+            publishedAt: a.publishedAt,
+          }))}
+        />
+      </div>
 
       {/* Phones: Kosova në xhep right after the lead story. */}
       <XhepBanner />
