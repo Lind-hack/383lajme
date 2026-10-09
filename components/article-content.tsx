@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { type Article } from "@/lib/mock-data";
@@ -34,9 +35,16 @@ interface Props {
   dosje: DosjeData | null;
   /** The orange latest-news strip, rendered on the server (home/latest-strip). */
   latestStrip?: React.ReactNode;
+  /** Alternate publication metadata and attribution, using the same reader layout. */
+  editorial?: {
+    metadata: React.ReactNode;
+    afterBody: React.ReactNode;
+    sidebar: React.ReactNode;
+    path: string;
+  };
 }
 
-export default function ArticleContent({ article, related, moreFromCategory = [], latestElsewhere = [], catColor, catBg, categorySlides, dosje, latestStrip }: Props) {
+export default function ArticleContent({ article, related, moreFromCategory = [], latestElsewhere = [], catColor, catBg, categorySlides, dosje, latestStrip, editorial }: Props) {
   // Counted from the prose, not from the markup the body is stored in.
   const dynamicReadTime = readingMinutes(article.body);
 
@@ -127,9 +135,9 @@ export default function ArticleContent({ article, related, moreFromCategory = []
               }}
             >
 
-              <span style={{ fontSize: "13px", color: "#6B6B6B", fontWeight: 500 }}>
+              {editorial ? editorial.metadata : <span style={{ fontSize: "13px", color: "#6B6B6B", fontWeight: 500 }}>
                 <TimeAgo iso={article.publishedAt} /> më parë
-              </span>
+              </span>}
               <span style={{ fontSize: "13px", color: "#6B6B6B", fontWeight: 500 }}>
                 {dynamicReadTime} min lexim
               </span>
@@ -143,7 +151,7 @@ export default function ArticleContent({ article, related, moreFromCategory = []
             transition={{ duration: DUR.slow, delay: 0.1, ease: EASE }}
           >
             {article.imageUrl && (
-              <ArticleHero src={article.imageUrl} alt={article.title} width={article.imageWidth} height={article.imageHeight} />
+              <ArticleHero src={article.imageUrl} alt={article.title} width={article.imageWidth} height={article.imageHeight} hideOnError={Boolean(editorial)} />
             )}
 
             <p
@@ -171,12 +179,12 @@ export default function ArticleContent({ article, related, moreFromCategory = []
               ))}
             </div>
             {/* The reader has just finished; this is where the questions are. */}
-            <ArticleAsk article={article} />
+            {editorial ? editorial.afterBody : <ArticleAsk article={article} />}
 
-            <ArticleShareRow slug={article.slug} title={article.title} />
+            <ArticleShareRow slug={article.slug} title={article.title} path={editorial?.path} />
 
             {/* After the third real read, Dardani offers the paper he made from them. */}
-            <PaperReady />
+            {!editorial && <PaperReady />}
           </motion.div>
         </article>
 
@@ -198,7 +206,7 @@ export default function ArticleContent({ article, related, moreFromCategory = []
         )}
 
         <div className="article-sidebar-col">
-          <ArticleSidebar article={article} related={related} />
+          {editorial ? editorial.sidebar : <ArticleSidebar article={article} related={related} />}
         </div>
       </div>
 
@@ -366,7 +374,10 @@ const HERO_COLUMN_WIDTH = 870;
  * narrower one is shown at its own size, centred on a blurred copy of itself,
  * so it is never enlarged.
  */
-function ArticleHero({ src, alt, width, height }: { src: string; alt: string; width?: number; height?: number }) {
+function ArticleHero({ src, alt, width, height, hideOnError = false }: { src: string; alt: string; width?: number; height?: number; hideOnError?: boolean }) {
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  if (hideOnError && failedSrc === src) return null;
+  const onError = hideOnError ? () => setFailedSrc(src) : undefined;
   const small = width !== undefined && height !== undefined && width < HERO_COLUMN_WIDTH;
   return (
     <div
@@ -406,6 +417,7 @@ function ArticleHero({ src, alt, width, height }: { src: string; alt: string; wi
             priority
             sizes={`${width}px`}
             quality={90}
+            onError={onError}
             style={{
               position: "relative",
               width: `min(100%, ${width}px)`,
@@ -424,6 +436,7 @@ function ArticleHero({ src, alt, width, height }: { src: string; alt: string; wi
           priority
           sizes={`(max-width: 1023px) 100vw, ${HERO_COLUMN_WIDTH}px`}
           quality={90}
+          onError={onError}
           style={{ objectFit: "cover" }}
         />
       )}

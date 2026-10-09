@@ -21,7 +21,19 @@
 
 .page ::selection { background: rgba(255, 68, 34, 0.22); }
 
-.head { max-width: 62ch; margin-bottom: 28px; }
+.head { display: grid; grid-template-columns: minmax(0, 1fr) 230px; align-items: center; gap: 40px; margin-bottom: 28px; }
+.headerMascot { width: 100% !important; height: auto; }
+.leadBody > [data-tone] { margin-bottom: 14px; }
+.supportStory > [data-tone] { margin: 0 0 12px; }
+@media (max-width: 560px) {
+  .head { grid-template-columns: minmax(0, 1fr) 112px; gap: 12px; }
+  .head .title { font-size: 34px; }
+  .head .lede { font-size: 15px; }
+  .head > div { display: contents; }
+  .head .title { grid-column: 1; grid-row: 1; }
+  .headerMascot { grid-column: 2; grid-row: 1; }
+  .head .lede { grid-column: 1 / -1; margin-top: 0; }
+}
 
 .title {
   margin: 0;

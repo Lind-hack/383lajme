@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { DailyStory } from "@/lib/tone-data";
 import BriefImage from "./brief-image";
 import s from "./bota.module.css";
+import { ToneTag } from "./stories";
 
 export default function BriefStories({ stories }: { stories: DailyStory[] }) {
   const [unavailable, setUnavailable] = useState<string[]>([]);
@@ -24,6 +25,7 @@ export default function BriefStories({ stories }: { stories: DailyStory[] }) {
         </div>
       </a>
       <div className={s.leadBody}>
+        <ToneTag tone={lead.sentiment} />
         {lead.blurb && <p className={s.briefSummary}>{lead.blurb}</p>}
         <a className={s.readLink} href={lead.url}>Lexo në shqip <ArrowUpRight size={20} aria-hidden /></a>
       </div>
@@ -34,6 +36,7 @@ export default function BriefStories({ stories }: { stories: DailyStory[] }) {
           <BriefImage src={story.imageUrl!} onUnavailable={() => failed(story.id)} />
         </a>}
         <p className={s.briefSource}>{story.flag} {story.country} · {story.outlet}</p>
+        <ToneTag tone={story.sentiment} />
         <h3><a href={story.url}>{story.title}</a></h3>
         {story.blurb && <p className={s.supportSummary}>{story.blurb}</p>}
         <a className={s.readLink} href={story.url}>Lexo në shqip <ArrowUpRight size={18} aria-hidden /></a>

@@ -20,6 +20,7 @@ import BotaMap from "./bota-map";
 import s from "./bota.module.css";
 import PortrayalShortcut from "./portrayal-shortcut";
 import DailyBrief from "./daily-brief";
+import DardaniImage from "@/components/dardani/dardani-image";
 
 export const revalidate = 3600;
 
@@ -76,11 +77,14 @@ export default async function BotaPerKosovenPage() {
 
       <main className={s.page}>
         <header className={s.head}>
+          <div>
           <h1 className={s.title}>Bota për Kosovën</h1>
           <p className={s.lede}>
             Çfarë thonë gazetat e huaja për ne? Lexoje në shqip, zbulo vende të reja
             dhe ndaje një artikull me familjen.
           </p>
+          </div>
+          <DardaniImage name="toni" className={s.headerMascot} priority sizes="(max-width: 560px) 112px, 230px" />
         </header>
 
         <div className={s.reading}>

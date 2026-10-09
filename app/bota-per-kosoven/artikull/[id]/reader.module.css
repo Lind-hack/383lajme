@@ -1,16 +1,9 @@
-.reader{max-width:780px;margin:0 auto;padding:100px 24px 70px;color:var(--text-primary)}
-.reader a{color:inherit;text-decoration:underline;text-underline-offset:4px}
-.reader h1{font-size:clamp(30px,5vw,48px);line-height:1.15;letter-spacing:-.035em;margin:20px 0}
-.meta,.original{font-size:14px;line-height:1.7;opacity:.7;margin:20px 0}
-.assessment{padding:20px;border:1px solid rgba(128,128,128,.25);border-radius:14px;margin:28px 0}
-.assessment p{margin:12px 0 0;line-height:1.7}
-.body{font-size:19px;line-height:1.85;overflow-wrap:anywhere}.body p{margin:0 0 24px}
-@media(max-width:600px){.reader{padding:85px 20px 50px}.body{font-size:17px}}
-.reader h2{font-size:21px;line-height:1.4;margin:0 0 12px}
-.back,.source{display:inline-flex;align-items:center;min-height:48px;font-size:17px}
-.summary{padding:22px;border-radius:16px;background:var(--color-white);border:1px solid var(--color-border);margin:20px 0 30px}
-.summary p{font-size:19px;line-height:1.75;margin:0}
-.meta,.original{font-size:16px;opacity:1;color:var(--color-muted)}
-.source{overflow-wrap:anywhere}
-.reader a:focus-visible{outline:3px solid var(--color-orange);outline-offset:4px}
-@media(max-width:600px){.reader{padding:calc(var(--nav-h) + 24px) 20px 50px}.body{font-size:19px}.summary{padding:18px}}
+.meta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 14px; color: #55524d; }
+.assessment { margin-top: 36px; padding: 24px 0; border-top: 1px solid #e8e3db; color: #333333; font-size: 17px; line-height: 1.7; }
+.assessment h2, .sidebar h2 { margin: 0 0 16px; font-size: 23px; line-height: 1.25; color: #111111; }
+.assessment p { margin: 16px 0; }
+.original { font-size: 14px; color: #55524d; }
+.source, .back { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: #a62c17; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+.source:focus-visible, .back:focus-visible { outline: 2px solid #ff4422; outline-offset: 4px; }
+.sidebar { position: sticky; top: calc(var(--nav-h) + 24px); padding: 28px; border: 1px solid #e8e3db; border-radius: 18px; background: #ffffff; line-height: 1.7; color: #55524d; }
+.sidebar p { margin: 12px 0; }

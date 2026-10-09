@@ -1,5 +1,12 @@
 # Bota briefing refinement
 
+## Globe, labels and unified reader extension
+Reuse the existing dardani-toni globe illustration at a larger size beside the homepage introduction and the destination heading. Preserve the cream/ink/orange identity and existing filters. Show country, publisher and explicit positive/neutral/negative labels on featured stories. These labels describe portrayal of Kosovo.
+
+Reuse ArticleContent for translated articles, with a typed optional editorial slot for country/source metadata, assessment and source sidebar, plus the actual translated sharing path. Do not enable main-news database bookmarks or article-question endpoints for foreign IDs. Preserve all translated paragraphs and original-source attribution.
+
+Verify homepage and destination at 320/390/768/1440px, country/tone labels, internal navigation, translated body, correct sharing URL, missing photos and unchanged standard readers. Run focused Bota/body tests and webpack build, then read-only reviews. Commit the intended files; release only through a clean GitHub push under the deployment policy explicitly authorized by the user.
+
 Follow-up to the released Bota layout. The user explicitly requests removing the four top-level controls (larger text, sharing, news shortcut, country shortcut), retaining the portrayal shortcut with scroll animation, and making the briefing more eye-catching. Confidence is high; the prior instruction delegates routine design choices.
 
 ## Decisions and acceptance

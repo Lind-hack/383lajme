@@ -18,12 +18,13 @@ const SITE = "https://www.383ks.com";
 interface Props {
   slug: string;
   title: string;
+  path?: string;
 }
 
-export default function ArticleShareRow({ slug, title }: Props) {
+export default function ArticleShareRow({ slug, title, path }: Props) {
   const [copied, setCopied] = useState(false);
 
-  const url = `${SITE}/article/${slug}`;
+  const url = `${SITE}${path ?? `/article/${slug}`}`;
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
 
@@ -82,7 +83,7 @@ export default function ArticleShareRow({ slug, title }: Props) {
         Ndaj
       </p>
 
-      <div style={{ display: "flex", gap: "8px" }}>
+      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
         <a
           href={`https://wa.me/?text=${encodedTitle}%20${encodedUrl}`}
           target="_blank"

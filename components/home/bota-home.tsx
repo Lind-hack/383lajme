@@ -13,6 +13,7 @@ import { ToneTag } from "@/app/bota-per-kosoven/stories";
 import type { DailyStory, ToneToday } from "@/lib/tone-data";
 import { dayVerdict, toneFill, toneLabel } from "@/lib/tone-scale";
 import s from "./bota-home.module.css";
+import DardaniImage from "@/components/dardani/dardani-image";
 
 export default function BotaHome({ today, stories }: { today: ToneToday; stories: DailyStory[] }) {
   const { positive, negative, neutral } = today.counts;
@@ -32,10 +33,16 @@ export default function BotaHome({ today, stories }: { today: ToneToday; stories
         }
       />
 
+      <div className={s.opening}>
+      <div>
+      <h2 className={s.heading}>Si flet bota për Kosovën?</h2>
       <p className={s.intro}>
         Çdo ditë lexojmë shtypin e huaj dhe vlerësojmë nëse Kosova portretizohet pozitivisht,
         negativisht apo në mënyrë neutrale. Indeksi tregon nga anon mbulimi.
       </p>
+      </div>
+      <DardaniImage name="toni" className={s.mascot} sizes="(max-width: 760px) 110px, 220px" />
+      </div>
 
       <div className={s.panel}>
         <div className={s.reading}>
@@ -79,7 +86,7 @@ export default function BotaHome({ today, stories }: { today: ToneToday; stories
                   <ToneTag tone={x.sentiment} />
                   <span className={s.title}>{x.title}</span>
                   <span className={s.outlet}>
-                    {x.country}
+                    {x.flag} {x.country} · {x.outlet}
                   </span>
                 </Link>
               </li>
