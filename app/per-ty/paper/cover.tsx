@@ -74,6 +74,7 @@ export default function Cover({
   readOnly = false,
   onShare,
   onCustomize,
+  tagline = "Lajmet që zgjodhe ti",
 }: {
   /** "Kurieri i Lindit" */
   title: string;
@@ -88,6 +89,8 @@ export default function Cover({
   readOnly?: boolean;
   onShare?: (() => void) | null;
   onCustomize?: () => void;
+  /** Under the title. A paper Dardani built from reading was not chosen, and says so. */
+  tagline?: string;
 }) {
   const art = lead.coverArt || lead.imageUrl || null;
   const word = coverWord(lead, leadKey);
@@ -127,7 +130,7 @@ export default function Cover({
         </h1>
       )}
       <p className="perty-cover-tagline">
-        <span>Lajmet që zgjodhe ti</span>
+        <span>{tagline}</span>
         <span>
           {count} {count === 1 ? "lajm" : "lajme"}
           {minutes ? ` · ${minutes} min` : ""}

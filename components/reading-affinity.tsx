@@ -20,6 +20,7 @@ import { readInterests, writeInterests, recordRead } from "@/lib/interests.mjs";
 import { articleKeys } from "@/lib/per-ty-rank.mjs";
 import { rememberRead } from "@/lib/perty-visits.mjs";
 import { noteRead } from "@/lib/reader-ledger.mjs";
+import { READ_EVENT } from "@/components/paper-ready";
 
 const DWELL_MS = 10_000;
 /** A click without the read that should follow it weighs half a read. */
@@ -60,6 +61,13 @@ export default function ReadingAffinity({
     const timer = window.setTimeout(() => record(1), DWELL_MS);
     return () => window.clearTimeout(timer);
   }, [title, excerpt, category, city]);
+
+  // Once both the ledger and the affinity above hold this read, tell anything
+  // waiting on it (Dardani's "Ta bëra gazetën", components/paper-ready.tsx).
+  useEffect(() => {
+    const timer = window.setTimeout(() => window.dispatchEvent(new Event(READ_EVENT)), DWELL_MS + 50);
+    return () => window.clearTimeout(timer);
+  }, [slug]);
 
   return null;
 }

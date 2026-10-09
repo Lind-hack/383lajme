@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import DardaniFace, { type DardaniFaceState } from "@/components/dardani/dardani-face";
 import DardaniImage from "@/components/dardani/dardani-image";
 import type { Chip } from "./ask-panel";
+import { PAPER_OFFER_EVENT } from "./paper-ready";
 
 /**
  * The questions this article raises, offered where the reader already is.
@@ -71,6 +72,17 @@ export default function ArticleAskBubble({
       window.clearTimeout(timer);
     };
   }, [dismissed]);
+
+  // Dardani's paper offer at the end of the article (components/paper-ready)
+  // is him talking too: the bubble folds back to its circle so only one speaks.
+  useEffect(() => {
+    const fold = () => {
+      openedOnce.current = true;
+      setOpen(false);
+    };
+    window.addEventListener(PAPER_OFFER_EVENT, fold);
+    return () => window.removeEventListener(PAPER_OFFER_EVENT, fold);
+  }, []);
 
   function close() {
     setOpen(false);

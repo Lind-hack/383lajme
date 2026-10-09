@@ -104,6 +104,7 @@ type CityPanelData = {
     exit: { lo: number; hi: number } | null;
     updatedAt: string | null;
   } | null;
+  fuel: { diesel: number | null; petrol: number | null } | null;
 };
 
 /** "15–40 min", or "10 min" when every crossing reads the same. */
@@ -112,17 +113,34 @@ function waitRange(range: { lo: number; hi: number } | null | undefined) {
   return range.lo === range.hi ? `${range.hi} min` : `${range.lo}–${range.hi} min`;
 }
 
+/** "1,74 €", the way prices are written here. */
+function euro(n: number) {
+  return `${n.toFixed(2).replace(".", ",")} €`;
+}
+
 /**
- * The reader's own town: today's weather, or for the diaspora the waits at the
- * border. Without a home town it asks for one instead.
+ * "Qyteti yt sot", at the top of the paper: the reader's town in one strip —
+ * the weather (for the diaspora, the waits at the border), the newest story
+ * from there, and the day's small print: cheapest fuel and the border. Without
+ * a home town it asks for one instead.
  */
-export function CityBox({ homeId, onPickCity }: { homeId: string | null; onPickCity: () => void }) {
+export function TownToday({
+  homeId,
+  story,
+  onPickCity,
+}: {
+  homeId: string | null;
+  /** The newest story from the town, if the paper has one. */
+  story: { slug: string; title: string } | null;
+  onPickCity: () => void;
+}) {
   const city = cityById(homeId);
   const [data, setData] = useState<CityPanelData | null>(null);
 
   useEffect(() => {
     if (!city) return;
     let alive = true;
+    setData(null);
     fetch(`/api/per-ty/city?id=${encodeURIComponent(city.id)}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((json) => {
@@ -136,48 +154,71 @@ export function CityBox({ homeId, onPickCity }: { homeId: string | null; onPickC
 
   if (!city) {
     return (
-      <button type="button" className="perty-box perty-box--ask" onClick={onPickCity}>
+      <button type="button" className="perty-box perty-box--ask perty-town--ask" onClick={onPickCity}>
         <MapPin size={18} strokeWidth={2.4} aria-hidden="true" />
         <span>
-          <strong>Nga je?</strong> Zgjidh qytetin tënd: moti dhe lajmet prej andej dalin këtu.
+          <strong>Nga je?</strong> Zgjidh qytetin tënd: moti, lajmet prej andej dhe çmimet e ditës dalin këtu.
         </span>
       </button>
     );
   }
 
-  if (city.id === "diaspora") {
-    const border = data?.border ?? null;
-    return (
-      <Link href="/visit" className="perty-box perty-box--city">
-        <span className="perty-box-label">Kufiri sot</span>
-        <span className="perty-box-big">{waitRange(border?.entry)}</span>
-        <span className="perty-box-note">
-          hyrje në Kosovë{border?.exit ? ` · dalje ${waitRange(border.exit)}` : ""}
-        </span>
-      </Link>
-    );
-  }
-
+  const diaspora = city.id === "diaspora";
   const weather = data?.weather ?? null;
+  const border = data?.border ?? null;
+  const fuel = data?.fuel ?? null;
+  const facts: string[] = [];
+  if (fuel?.diesel != null) facts.push(`Nafta ${euro(fuel.diesel)}`);
+  if (fuel?.petrol != null) facts.push(`Benzina ${euro(fuel.petrol)}`);
+  if (!diaspora && border?.entry) facts.push(`Kufiri ${waitRange(border.entry)}`);
+
   return (
-    <div className="perty-box perty-box--city">
-      <span className="perty-box-label">
-        <MapPin size={13} strokeWidth={2.6} aria-hidden="true" />
-        {city.name}
-      </span>
-      {weather ? (
-        <>
-          <span className="perty-box-big">{weather.tempC}°</span>
-          <span className="perty-box-note">
-            {weather.label}
-            {weather.highC !== null && weather.lowC !== null ? ` · ${weather.lowC}°/${weather.highC}°` : ""}
-            {weather.rainChance !== null && weather.rainChance >= 30 ? ` · shi ${weather.rainChance}%` : ""}
-          </span>
-        </>
-      ) : (
-        <span className="perty-box-skeleton" aria-hidden="true" />
-      )}
-    </div>
+    <section className="perty-box perty-town" aria-labelledby="perty-town-title">
+      <header className="perty-town-head">
+        <h2 id="perty-town-title" className="perty-box-label">
+          <MapPin size={13} strokeWidth={2.6} aria-hidden="true" />
+          {diaspora ? "Për diasporën sot" : `${city.name} sot`}
+        </h2>
+        <button type="button" className="perty-text-btn perty-town-change" onClick={onPickCity}>
+          Ndrysho
+        </button>
+      </header>
+
+      <div className="perty-town-main">
+        {!data ? (
+          <span className="perty-box-skeleton perty-town-now" aria-hidden="true" />
+        ) : diaspora ? (
+          <Link href="/visit" className="perty-town-now">
+            <span className="perty-box-big">{waitRange(border?.entry)}</span>
+            <span className="perty-box-note">
+              hyrje në Kosovë{border?.exit ? ` · dalje ${waitRange(border.exit)}` : ""}
+            </span>
+          </Link>
+        ) : weather ? (
+          <div className="perty-town-now">
+            <span className="perty-box-big">{weather.tempC}°</span>
+            <span className="perty-box-note">
+              {weather.label}
+              {weather.highC !== null && weather.lowC !== null ? ` · ${weather.lowC}°/${weather.highC}°` : ""}
+              {weather.rainChance !== null && weather.rainChance >= 30 ? ` · shi ${weather.rainChance}%` : ""}
+            </span>
+          </div>
+        ) : null}
+
+        {story ? (
+          <Link href={`/article/${story.slug}`} className="perty-town-story">
+            <span className="perty-town-story-kicker">{city.from}</span>
+            <strong>{story.title}</strong>
+          </Link>
+        ) : (
+          <p className="perty-town-story perty-town-story--none">
+            Sot s&apos;ka ende lajm {diaspora ? "për diasporën" : `nga ${city.name}`}. Kur të ketë, del këtu i pari.
+          </p>
+        )}
+      </div>
+
+      {facts.length > 0 && <p className="perty-town-facts">{facts.join(" · ")}</p>}
+    </section>
   );
 }
 

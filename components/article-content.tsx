@@ -19,6 +19,7 @@ import StoryList from "@/components/story-list";
 import { CATEGORY_TO_SLUG, normalizeCategory } from "@/lib/category-map";
 import type { AccordionSlide } from "@/components/image-accordion";
 import { EASE, DUR } from "@/lib/tokens";
+import PaperReady from "@/components/paper-ready";
 
 interface Props {
   article: Article;
@@ -173,6 +174,9 @@ export default function ArticleContent({ article, related, moreFromCategory = []
             <ArticleAsk article={article} />
 
             <ArticleShareRow slug={article.slug} title={article.title} />
+
+            {/* After the third real read, Dardani offers the paper he made from them. */}
+            <PaperReady />
           </motion.div>
         </article>
 

@@ -29,7 +29,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Coffee, MessageCircleQuestion, Share2, SlidersHorizontal, UserRound, X } from "lucide-react";
 import { readInterests, writeInterests, hasInterests, type Interests } from "@/lib/interests.mjs";
-import { rankFeed } from "@/lib/per-ty-rank.mjs";
+import { articleKeys, rankFeed } from "@/lib/per-ty-rank.mjs";
 import { buildPaper } from "@/lib/per-ty-paper.mjs";
 import { readPrefs, writePrefs, type PaperPrefs } from "@/lib/paper-prefs.mjs";
 import { cityById } from "@/lib/cities.mjs";
@@ -39,6 +39,7 @@ import { daysWithUs, forgetLedger, kosovoParts, noteVisit, readLedger, summarize
 import { defaultTitle, paperTitle, readName, writeName } from "@/lib/reader-name.mjs";
 import { absence, followUp } from "@/lib/perty-dardani-line.mjs";
 import { lastMonth, monthLabel } from "@/lib/monthly-wrapped.mjs";
+import { hasLearnedPaper, isLearnedPaper, learnedPicks, setLearnedPaper, totalReads } from "@/lib/perty-learned.mjs";
 import { kosovoDateKey } from "@/lib/home-tregu.mjs";
 import { mergeOnSignIn, pushInterests } from "@/lib/interests-sync";
 import { createClient } from "@/lib/supabase/client";
@@ -46,13 +47,14 @@ import { openPyet } from "@/lib/pyet-thread";
 import DardaniLoop from "@/components/dardani/dardani-loop";
 import DardaniImage from "@/components/dardani/dardani-image";
 import DardaniFace from "@/components/dardani/dardani-face";
+import PaperReveal from "@/components/paper-reveal";
 import Onboarding from "./onboarding";
 import MorningPush from "./morning-push";
 import Masthead from "./paper/masthead";
 import Cover, { dateline } from "./paper/cover";
 import FrontPage, { type Seen } from "./paper/front-page";
 import PaperSection from "./paper/section";
-import { AllReadCheer, CityBox, DardaniBrief, NumbersBox, TreguBox } from "./paper/boxes";
+import { AllReadCheer, DardaniBrief, NumbersBox, TownToday, TreguBox } from "./paper/boxes";
 import CustomizeSheet from "./paper/customize-sheet";
 import ShareSheet, { type ShareablePaper } from "./paper/share-sheet";
 
@@ -75,6 +77,8 @@ const PRINTED_KEY = "383:paper-printed";
 const SEEN_READ_KEY = "383:paper-seen-read";
 /** How deep the ranking goes: the sections need more than the edition does. */
 const RANK_LIMIT = 200;
+/** How far back "the newest story from your town" may reach. */
+const TOWN_STORY_MS = 48 * 3600_000;
 
 function readFlag(key: string) {
   try {
@@ -159,6 +163,12 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
   const [away, setAway] = useState<{ missed: number; last: string } | null>(null);
   // The first week of a month, last month's wrapped ("Tetori në 383") is offered.
   const [wrappedMonth, setWrappedMonth] = useState<string | null>(null);
+  // A guest with reading behind them is shown the paper Dardani made from it
+  // (components/paper-reveal) before the three questions; this is "Zgjidh vetë".
+  const [chooseMyself, setChooseMyself] = useState(false);
+  const [readsSoFar, setReadsSoFar] = useState(0);
+  // The paper was built from reading, not chosen: Dardani asks once if he got it right.
+  const [learned, setLearned] = useState(false);
 
   useEffect(() => {
     const stored = readInterests();
@@ -168,6 +178,8 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
     // paints fully set and then jumps back to blank to "print".
     if (hasInterests(stored)) setPrint(firstPrintToday());
     setDeviceName(readName());
+    setReadsSoFar(totalReads(readLedger()));
+    setLearned(isLearnedPaper());
     setSignupDismissed(readFlag(SIGNUP_DISMISSED));
     setNow(new Date());
     let alive = true;
@@ -228,6 +240,21 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
   );
 
   const homeFrom = cityById(home)?.from ?? null;
+
+  // The newest story from the reader's town in the last two days, for the
+  // strip at the top. Matched the way the ranking matches a town.
+  const townStory = useMemo(() => {
+    if (!home || !now) return null;
+    const key = `city:${home}`;
+    const from = now.getTime() - TOWN_STORY_MS;
+    let best: FeedArticle | null = null;
+    for (const a of pool) {
+      const t = Date.parse(a.publishedAt);
+      if (!(t >= from) || (best && t <= Date.parse(best.publishedAt))) continue;
+      if (articleKeys(a).includes(key)) best = a;
+    }
+    return best ? { slug: best.slug, title: best.title } : null;
+  }, [pool, home, now]);
   const paper = useMemo(
     () => buildPaper(feed, interests, prefs, { homeFrom, shelf }),
     [feed, interests, prefs, homeFrom, shelf]
@@ -274,18 +301,46 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
   // flashing onboarding at a reader who already has a feed.
   if (!interests || !prefs || !now) return <div className="perty-shell perty-shell--loading" aria-busy="true" />;
 
+  // Reading behind them but nothing chosen: Dardani's paper first, the
+  // questions one tap away.
+  const picks = !hasInterests(interests) && !editing && !chooseMyself ? learnedPicks(interests.affinity) : null;
+  if (picks && hasLearnedPaper(picks)) {
+    return (
+      <div className="perty-shell perty-shell--wide">
+        <PaperReveal
+          picks={picks}
+          reads={readsSoFar}
+          variant="page"
+          onOpen={(chosen) => {
+            save({ ...interests, ...chosen });
+            setLearnedPaper(true);
+            setLearned(true);
+            setJustFinished(true);
+            window.scrollTo({ top: 0 });
+          }}
+          onSecondary={() => setChooseMyself(true)}
+          secondaryLabel="Jo, zgjidh vetë"
+        />
+      </div>
+    );
+  }
+
   if (!hasInterests(interests) || editing) {
     return (
       <div className="perty-shell perty-shell--wide">
         <Onboarding
           pool={pool}
-          initial={interests}
+          // "Zgjidh vetë" after Dardani's paper starts from what he noticed.
+          initial={chooseMyself && !hasInterests(interests) ? { ...interests, ...learnedPicks(interests.affinity) } : interests}
           editing={editing}
           onCancel={() => setEditing(false)}
           onDone={(picks) => {
             save({ ...interests, ...picks });
             if (!editing) setJustFinished(true);
             setEditing(false);
+            // Edited or chosen by hand: no longer a guess to ask about.
+            setLearnedPaper(false);
+            setLearned(false);
             window.scrollTo({ top: 0 });
           }}
         />
@@ -310,7 +365,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
   const next = away ? null : followUp(edition, pool, read);
   const canShare = edition.length > 0;
   const boxes = prefs.boxes;
-  const showBoxes = boxes.city || boxes.numbers || boxes.tregu;
+  const showBoxes = boxes.numbers || boxes.tregu;
   // The stagger index for "the paper prints": masthead 0, then down the page.
   const sectionsFrom = edition.length + 3;
 
@@ -333,6 +388,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
           leadKey={edition[0].primaryKey}
           onShare={canShare ? () => setSharing(true) : null}
           onCustomize={() => setCustomizing(true)}
+          tagline={learned ? "Nga ajo që lexove" : undefined}
         />
       ) : (
         <h1 className="perty-cover-title perty-cover-title--bare">{paperTitle(displayName, prefs.title)}</h1>
@@ -345,6 +401,32 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
         setNaming={setNaming}
         onRename={(value) => setDeviceName(writeName(value))}
       />
+
+      {learned && (
+        <p className="perty-ed-say perty-ed-say--ask" role="status">
+          <DardaniFace state="happy" size={30} decorative />
+          <span>Këtë gazetë e bëra nga ajo që lexove. A e kam qëlluar?</span>
+          <span className="perty-ed-say-actions">
+            <button
+              type="button"
+              className="perty-text-btn"
+              onClick={() => {
+                setLearnedPaper(false);
+                setLearned(false);
+              }}
+            >
+              Po
+            </button>
+            <button type="button" className="perty-text-btn" onClick={() => setEditing(true)}>
+              Ndrysho
+            </button>
+          </span>
+        </p>
+      )}
+
+      {boxes.city && (
+        <TownToday homeId={home} story={townStory} onPickCity={() => setEditing(true)} />
+      )}
 
       {(away || next) && (
         <p className="perty-ed-say" role="status">
@@ -438,7 +520,6 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
 
           {showBoxes && (
             <div className="perty-boxes" data-print style={{ "--i": sectionsFrom - 1 } as React.CSSProperties}>
-              {boxes.city && <CityBox homeId={home} onPickCity={() => setEditing(true)} />}
               {boxes.numbers && <NumbersBox today={dayCount} days={issue} streak={streak} reads={monthReads} />}
               {boxes.tregu && <TreguBox />}
             </div>
