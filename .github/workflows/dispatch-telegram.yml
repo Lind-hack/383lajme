@@ -38,7 +38,7 @@ jobs:
           fi
           # pipefail so a failed curl is not masked by head's exit status.
           set -o pipefail
-          curl -fsS --max-time 120 \
+          curl --fail-with-body -sS --max-time 120 \
             -H "Authorization: Bearer $CRON_SECRET" \
             "$BASE/api/cron/dispatch-telegram" \
             | head -c 2000

@@ -1,6 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import type { TelegramPreview } from "@/lib/telegram-preview.mjs";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { EASE, DUR } from "@/lib/tokens";
 import { TELEGRAM_CHANNEL_URL, WHATSAPP_CHANNEL_URL } from "@/lib/channels";
@@ -78,6 +81,32 @@ function ChannelButton({
 
 export default function AlertsCta() {
   const isMobile = useIsMobile();
+  const [preview, setPreview] = useState<TelegramPreview | null>(null);
+  useEffect(() => {
+    if (isMobile) return;
+    let controller: AbortController | null = null;
+    let disposed = false;
+    const refresh = async () => {
+      if (document.hidden) return;
+      controller?.abort();
+      controller = new AbortController();
+      try {
+        const response = await fetch("/api/channels/telegram/latest", { signal: controller.signal });
+        if (!response.ok) return;
+        const { message } = await response.json();
+        if (!disposed && message && typeof message.text === "string" &&
+            /^https:\/\/t\.me\/Lajmet383\/\d+$/.test(message.url) &&
+            Number.isFinite(Date.parse(message.publishedAt)) &&
+            (message.articleUrl === null || /^https:\/\/(?:www\.)?383ks\.com\/(?:a\/[a-z0-9]+|article\/[a-z0-9-]+)$/.test(message.articleUrl))) {
+          setPreview(message);
+        }
+      } catch { /* Keep the last confirmed message during a temporary outage. */ }
+    };
+    void refresh();
+    const timer = window.setInterval(refresh, 60_000);
+    document.addEventListener("visibilitychange", refresh);
+    return () => { disposed = true; controller?.abort(); window.clearInterval(timer); document.removeEventListener("visibilitychange", refresh); };
+  }, [isMobile]);
   // The channels exist now; ChannelButton still falls back to "së shpejti"
   // if either address is ever emptied.
   const telegramUrl = TELEGRAM_CHANNEL_URL;
@@ -240,15 +269,15 @@ export default function AlertsCta() {
                       flexShrink: 0,
                     }}
                   >
-                    3
+                    <Image src="/bimi/383.svg" alt="383" width={36} height={36} style={{ borderRadius: "50%" }} />
                   </div>
                   <div>
                     <div style={{ fontSize: "13px", fontWeight: 700, color: "#FFFFFF" }}>383 Lajme</div>
-                    <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)" }}>Bot · Online</div>
+                    <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)" }}>Kanali i lajmeve</div>
                   </div>
                 </div>
 
-                {/* Example notification bubble */}
+                {/* Latest actual channel message, rendered as plain text. */}
                 <div
                   style={{
                     background: "rgba(255,255,255,0.07)",
@@ -265,7 +294,7 @@ export default function AlertsCta() {
                       margin: "0 0 6px",
                     }}
                   >
-                    🔔 <strong style={{ color: "#FF4422" }}>LAJM I FUNDIT</strong>
+                    <strong style={{ color: "#FF4422" }}>NË KANALIN TONË</strong>
                   </p>
                   <p
                     style={{
@@ -273,14 +302,21 @@ export default function AlertsCta() {
                       lineHeight: 1.6,
                       color: "rgba(255,255,255,0.75)",
                       margin: 0,
+                      whiteSpace: "pre-line",
+                      overflowWrap: "anywhere",
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 8,
+                      overflow: "hidden",
                     }}
                   >
-                    [BBC] sapo publikoi për Kosovën — Takimet mes Kurtit dhe Vuçiçit rifillojnë pas ndërhyrjes së BE-së...
+                    {preview?.text ?? "Mesazhet më të fundit i gjen në kanalin tonë në Telegram."}
                   </p>
+                  {preview && <a href={preview.articleUrl ?? preview.url} target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", marginTop: "10px", fontSize: "12px", fontWeight: 700, color: "#FF6644" }}>Lexo më shumë →</a>}
                 </div>
 
                 <div style={{ textAlign: "right" as const }}>
-                  <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.25)" }}>09:14 ✓✓</span>
+                  {preview && <a href={preview.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: "10px", color: "rgba(255,255,255,0.55)" }}><time dateTime={preview.publishedAt}>{new Intl.DateTimeFormat("sq-AL", { timeZone: "Europe/Tirane", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(preview.publishedAt))}</time></a>}
                 </div>
               </div>
             </motion.div>

@@ -21,13 +21,14 @@ export const maxDuration = 60;
  * key is required because the ledger is invisible to every other role.
  *
  * Schedule: any 15–30 min ping (cron-job.org or GitHub Actions backup) with
- * `Authorization: Bearer $CRON_SECRET` or `?secret=`.
+ * `Authorization: Bearer $CRON_SECRET`.
  */
 
 type TelegramResponse = {
   ok: boolean;
   description?: string;
   error_code?: number;
+  transportFailed?: boolean;
   result?: { message_id?: number };
 };
 
@@ -45,16 +46,20 @@ async function callTelegram(
   token: string,
   body: Record<string, unknown>
 ): Promise<TelegramResponse> {
-  const res = await fetch(`https://api.telegram.org/bot${token}/${method}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-    signal: AbortSignal.timeout(10_000),
-  });
   try {
-    return (await res.json()) as TelegramResponse;
+    const res = await fetch(`https://api.telegram.org/bot${token}/${method}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(10_000),
+    });
+    try {
+      return (await res.json()) as TelegramResponse;
+    } catch {
+      return { ok: false, description: `non-JSON response (${res.status})` };
+    }
   } catch {
-    return { ok: false, description: `non-JSON response (${res.status})` };
+    return { ok: false, transportFailed: true, description: "Telegram request failed or timed out" };
   }
 }
 
@@ -67,13 +72,12 @@ export async function GET(request: NextRequest) {
   const denied = automationDenied(request);
   if (denied) return denied;
 
-  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const token = process.env.TELEGRAM_NEWS_BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN;
   const channel = process.env.TELEGRAM_CHANNEL_ID;
   if (!token || !channel) {
-    // Soft state: pings before the bot exists are expected, not errors.
     return NextResponse.json(
-      { configured: false, posted: 0, note: "TELEGRAM_BOT_TOKEN / TELEGRAM_CHANNEL_ID not set." },
-      { headers: { "Cache-Control": "no-store" } }
+      { configured: false, posted: 0, note: "Telegram news token / TELEGRAM_CHANNEL_ID not set." },
+      { status: 503, headers: { "Cache-Control": "no-store" } }
     );
   }
 
@@ -147,7 +151,7 @@ export async function GET(request: NextRequest) {
         parse_mode: "HTML",
         reply_markup: markup,
       });
-      if (!response.ok) {
+      if (!response.ok && !response.transportFailed) {
         // Remote hosts sometimes block Telegram's fetcher; the text message
         // with a large link preview carries the same story.
         response = await callTelegram("sendMessage", token, {
@@ -194,6 +198,6 @@ export async function GET(request: NextRequest) {
       posted,
       failed,
     },
-    { headers: { "Cache-Control": "no-store" } }
+    { status: failed.length ? 502 : 200, headers: { "Cache-Control": "no-store" } }
   );
 }
