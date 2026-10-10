@@ -75,11 +75,12 @@ export default async function BotaPerKosovenPage() {
       <Navbar />
 
       <main className={s.page}>
+        {/* The masthead and the day's index are one object: the index rises into
+            the desk as the globe's horizon, rather than a card laid on top. */}
+        <div className={s.deskShell}>
         <WorldDesk />
 
-        <div className={s.reading}>
-
-        <section className={`${s.panel} ${s.today}`} aria-labelledby="bota-sot">
+        <section className={s.today} aria-labelledby="bota-sot">
           <div className={s.todayMain}>
             <h2 id="bota-sot" tabIndex={-1} className={s.verdict}>{dayVerdict(today.index)}</h2>
             <div className={s.score} aria-label={`Indeksi sot: ${today.index ?? "pa të dhëna"}`}>
@@ -132,6 +133,9 @@ export default async function BotaPerKosovenPage() {
             </p>
           </div>
         </section>
+        </div>
+
+        <div className={s.reading}>
 
         {today.isStale && (
           <p role="status" className={s.stale}>

@@ -415,14 +415,22 @@
    and the country's name in the world's scripts. The page's one statement:
    the world, looking at us. */
 
-.desk {
+.deskShell {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   border-radius: 28px;
+  background: var(--color-white);
+  box-shadow: 0 28px 64px -28px rgba(180, 36, 12, 0.45), 0 2px 10px rgba(17, 17, 17, 0.05);
+}
+.desk {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   background:
-    radial-gradient(120% 90% at 82% 30%, #2a211c 0%, #161210 55%, #111111 100%);
-  color: #f9f6f1;
+    radial-gradient(70% 90% at 84% 38%, rgba(255, 150, 110, 0.55) 0%, rgba(255, 110, 70, 0) 60%),
+    linear-gradient(100deg, #a91f08 0%, #c92a0d 34%, #ec3d1b 66%, #ff5a33 100%);
+  color: #fff8f0;
 }
 .globe {
   position: absolute;
@@ -432,11 +440,11 @@
   width: min(560px, 62%);
   height: auto;
   transform: translateY(-54%);
-  color: #f9f6f1;
+  color: #fff8f0;
 }
 .globeRing {
   fill: none;
-  stroke: #ff4422;
+  stroke: #fff8f0;
   stroke-width: 1.5;
   transform-box: fill-box;
   transform-origin: center;
@@ -451,7 +459,7 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
   gap: 24px;
-  padding: clamp(28px, 5vw, 56px) clamp(22px, 4.4vw, 56px) clamp(56px, 7vw, 88px);
+  padding: clamp(28px, 5vw, 56px) clamp(22px, 4.4vw, 56px) clamp(104px, 11vw, 140px);
 }
 .deskCopy { max-width: 620px; }
 .deskTitle {
@@ -468,9 +476,18 @@
   max-width: 46ch;
   font-size: 17px;
   line-height: 1.6;
-  color: rgba(249, 246, 241, 0.78);
+  color: #fff1e8;
 }
-.deskMascot { width: 150px !important; height: auto; filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.45)); }
+.deskMascotWrap { position: relative; display: block; width: 150px; }
+.deskMascotWrap::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -22% -26% -6%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 248, 240, 0.92), rgba(255, 248, 240, 0.35) 62%, rgba(255, 248, 240, 0) 100%);
+}
+.deskMascot { width: 100% !important; height: auto; filter: drop-shadow(0 12px 18px rgba(120, 24, 6, 0.35)); }
 
 /* ── The index, first ──────────────────────────────────────────────────────
    One instrument panel that rides up over the desk's bottom edge: the day's
@@ -482,9 +499,11 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 28px clamp(28px, 4vw, 56px);
-  margin: -44px clamp(12px, 2.4vw, 32px) 0;
-  padding: clamp(22px, 3vw, 32px);
-  box-shadow: 0 18px 44px rgba(17, 17, 17, 0.12);
+  margin-top: -84px;
+  padding: clamp(48px, 5.4vw, 64px) clamp(22px, 4.4vw, 56px) clamp(26px, 3.4vw, 40px);
+  border-radius: 50% 50% 0 0 / 84px 84px 0 0;
+  background: var(--color-white);
+  box-shadow: 0 -22px 44px -30px rgba(90, 14, 2, 0.55);
 }
 .todayMain { display: grid; gap: 16px; align-content: start; min-width: 0; }
 .verdict {
@@ -586,19 +605,19 @@
 #lajmet.section, .brief + .section { margin-top: clamp(36px, 4.4vw, 48px); }
 
 @media (max-width: 900px) {
-  .today { grid-template-columns: minmax(0, 1fr); margin-inline: 10px; }
+  .today { grid-template-columns: minmax(0, 1fr); }
   .week { padding: 22px 0 0; border-left: 0; border-top: 1px solid var(--rule); }
   .briefGrid, .briefGrid[data-count="2"] { grid-template-columns: minmax(0, 1fr); }
   .briefCard { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
   .briefVisual { aspect-ratio: auto; min-height: 100%; }
 }
 @media (max-width: 560px) {
-  .desk { border-radius: 22px; }
-  .deskInner { grid-template-columns: minmax(0, 1fr) 84px; align-items: start; gap: 12px; padding-bottom: 64px; }
-  .deskMascot { width: 84px !important; }
+  .deskShell { border-radius: 22px; }
+  .deskInner { grid-template-columns: minmax(0, 1fr) 84px; align-items: start; gap: 12px; padding-bottom: 84px; }
+  .deskMascotWrap { width: 84px; }
   .deskLede { grid-column: 1 / -1; font-size: 15.5px; }
   .globe { width: 120%; right: -48%; top: 52%; opacity: 0.45; }
-  .today { margin-inline: 6px; padding: 20px 18px; }
+  .today { margin-top: -48px; padding: 36px 18px 22px; border-radius: 50% 50% 0 0 / 48px 48px 0 0; }
   .score { gap: 14px; }
   .briefCard { display: flex; }
   .briefVisual { aspect-ratio: 16 / 9; min-height: 0; }

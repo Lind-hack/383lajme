@@ -1,5 +1,5 @@
-// The page's masthead: a foreign desk at night. Ink, a wireframe globe tilted
-// towards the Balkans with Kosovo pinned in 383 orange, the country's name in
+// The page's masthead: a foreign desk in 383 orange. A wireframe globe tilted
+// towards the Balkans with Kosovo pinned in ink and cream, the country's name in
 // the world's scripts running along the top like a wire dateline. Everything Bota says comes after this,
 // so it says the one thing first: the world, looking at us.
 
@@ -38,7 +38,8 @@ function Globe() {
       </g>
       <g className={s.globePin}>
         <circle className={s.globeRing} cx={KOSOVO.x} cy={KOSOVO.y} r="10" />
-        <circle cx={KOSOVO.x} cy={KOSOVO.y} r="5.5" fill="#ff4422" />
+        <circle cx={KOSOVO.x} cy={KOSOVO.y} r="7" fill="#111111" />
+        <circle cx={KOSOVO.x} cy={KOSOVO.y} r="4" fill="#fff8f0" />
       </g>
     </svg>
   );
@@ -57,7 +58,9 @@ export default function WorldDesk() {
             dhe ndaje një artikull me familjen.
           </p>
         </div>
-        <DardaniImage name="toni" className={s.deskMascot} priority sizes="(max-width: 560px) 84px, 150px" />
+        <span className={s.deskMascotWrap}>
+          <DardaniImage name="toni" className={s.deskMascot} priority sizes="(max-width: 560px) 84px, 150px" />
+        </span>
       </div>
     </header>
   );

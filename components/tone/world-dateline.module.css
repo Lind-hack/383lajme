@@ -1,6 +1,8 @@
 .dateline {
-  --dl-ink: rgba(249, 246, 241, 0.62);
-  --dl-rule: rgba(249, 246, 241, 0.16);
+  --dl-ink: rgba(255, 248, 240, 0.9);
+  --dl-rule: rgba(255, 248, 240, 0.22);
+  --dl-dot: rgba(17, 17, 17, 0.45);
+  --dl-home: #111111;
   position: relative;
   overflow: hidden;
   padding: 10px 0;
@@ -11,6 +13,8 @@
 .dateline[data-tone="light"] {
   --dl-ink: #6b625b;
   --dl-rule: #e3dbd1;
+  --dl-dot: #ff4422;
+  --dl-home: #b42a10;
 }
 .track {
   display: flex;
@@ -35,11 +39,9 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff4422;
-  opacity: 0.85;
+  background: var(--dl-dot);
 }
-.name[data-home] { color: #ff6a4d; }
-.dateline[data-tone="light"] .name[data-home] { color: #b42a10; }
+.name[data-home] { color: var(--dl-home); }
 @keyframes dateline-run {
   to { transform: translateX(-50%); }
 }
