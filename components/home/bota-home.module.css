@@ -31,7 +31,8 @@
 }
 
 .scale { margin-top: 6px; }
-.opening { display: grid; grid-template-columns: minmax(0, 1fr) 220px; align-items: center; gap: 24px; margin-bottom: 24px; }
+.opening { display: grid; grid-template-columns: minmax(0, 1fr) 150px; align-items: center; gap: 24px; margin-bottom: 18px; }
+.dateline { margin-bottom: 20px; }
 .heading { margin: 0 0 16px; font-family: Georgia, serif; font-size: clamp(30px, 4vw, 48px); line-height: 1.08; letter-spacing: -0.025em; text-wrap: balance; color: #111111; }
 .mascot { width: 100% !important; height: auto; }
 .opening .intro { margin-bottom: 0; font-size: 16px; }
@@ -152,7 +153,7 @@
 }
 
 @media (max-width: 760px) {
-  .opening { grid-template-columns: minmax(0, 1fr) 110px; gap: 12px; }
+  .opening { grid-template-columns: minmax(0, 1fr) 84px; gap: 12px; }
   .heading { font-size: 30px; }
   .opening .intro { font-size: 14px; }
   .opening > div { display: contents; }

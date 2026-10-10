@@ -1,0 +1,48 @@
+.dateline {
+  --dl-ink: rgba(249, 246, 241, 0.62);
+  --dl-rule: rgba(249, 246, 241, 0.16);
+  position: relative;
+  overflow: hidden;
+  padding: 10px 0;
+  border-block: 1px solid var(--dl-rule);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.dateline[data-tone="light"] {
+  --dl-ink: #6b625b;
+  --dl-rule: #e3dbd1;
+}
+.track {
+  display: flex;
+  width: max-content;
+  animation: dateline-run 60s linear infinite;
+}
+.run { display: flex; flex: none; }
+.name {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding-right: 18px;
+  color: var(--dl-ink);
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.name::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ff4422;
+  opacity: 0.85;
+}
+.name[data-home] { color: #ff6a4d; }
+.dateline[data-tone="light"] .name[data-home] { color: #b42a10; }
+@keyframes dateline-run {
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .track { animation: none; }
+}

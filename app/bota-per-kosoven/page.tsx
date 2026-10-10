@@ -18,9 +18,8 @@ import HowItWorks from "./how-it-works";
 import Stories from "./stories";
 import BotaMap from "./bota-map";
 import s from "./bota.module.css";
-import PortrayalShortcut from "./portrayal-shortcut";
 import DailyBrief, { briefOf } from "./daily-brief";
-import DardaniImage from "@/components/dardani/dardani-image";
+import WorldDesk from "./world-desk";
 
 export const revalidate = 3600;
 
@@ -76,19 +75,63 @@ export default async function BotaPerKosovenPage() {
       <Navbar />
 
       <main className={s.page}>
-        <header className={s.head}>
-          <div>
-          <h1 className={s.title}>Bota për Kosovën</h1>
-          <p className={s.lede}>
-            Çfarë thonë gazetat e huaja për ne? Lexoje në shqip, zbulo vende të reja
-            dhe ndaje një artikull me familjen.
-          </p>
-          </div>
-          <DardaniImage name="toni" className={s.headerMascot} priority sizes="(max-width: 560px) 112px, 230px" />
-        </header>
+        <WorldDesk />
 
         <div className={s.reading}>
-        <PortrayalShortcut />
+
+        <section className={`${s.panel} ${s.today}`} aria-labelledby="bota-sot">
+          <div className={s.todayMain}>
+            <h2 id="bota-sot" tabIndex={-1} className={s.verdict}>{dayVerdict(today.index)}</h2>
+            <div className={s.score} aria-label={`Indeksi sot: ${today.index ?? "pa të dhëna"}`}>
+              <span className={s.scoreValue}>
+                {today.index ?? "—"}
+                <small>/100</small>
+              </span>
+              <span className={s.scoreMeta}>
+                <span className={s.scoreBand}>
+                  <span className={s.swatch} style={{ background: toneFill(today.index) }} aria-hidden />
+                  {toneLabel(today.index)}
+                </span>
+                {delta != null && (
+                  <span className={s.delta} data-dir={delta > 0 ? "up" : delta < 0 ? "down" : "flat"}>
+                    <DeltaIcon size={15} strokeWidth={2.6} aria-hidden />
+                    {delta === 0 ? "njësoj si dje" : `${delta > 0 ? "+" : ""}${delta} nga dje`}
+                  </span>
+                )}
+              </span>
+            </div>
+            <div className={s.scaleRow}>
+              <ToneScaleBar index={today.index} previous={today.previous?.index ?? null} />
+            </div>
+            <p className={s.why}>
+              {positive + negative + neutral > 0 ? (
+                <>
+                  <b className={s.good}>{positive} {positive === 1 ? "artikull pozitiv" : "artikuj pozitivë"}</b>,{" "}
+                  <b className={s.bad}>{negative} {negative === 1 ? "negativ" : "negativë"}</b> dhe {neutral}{" "}
+                  {neutral === 1 ? "neutral" : "neutrale"} në mbledhjen e fundit.
+                </>
+              ) : today.previous ? (
+                <>Lajmet e sotme sapo kanë nisur të vijnë. Dje indeksi ishte <b>{today.previous.index}</b>.</>
+              ) : (
+                <>Lajmet e sotme sapo kanë nisur të vijnë.</>
+              )}
+            </p>
+          </div>
+
+          <div className={s.week}>
+            <p className={s.weekLabel}>7 ditët e fundit</p>
+            <WeekChart week={today.week} today={today.date} />
+            {hasGapBeforeMethod && (
+              <p className={s.weekNote}>
+                Mënyra e re e vlerësimit nisi më {longDate(firstReading)}; ditët para saj nuk krahasohen.
+              </p>
+            )}
+            <p className={s.date}>
+              {today.date ? `${longDate(today.date)} · përditësohet nëntë herë në ditë. ` : ""}
+              Mat mënyrën si shkruajnë artikujt, jo qëndrimin e një vendi ndaj Kosovës.
+            </p>
+          </div>
+        </section>
 
         {today.isStale && (
           <p role="status" className={s.stale}>
@@ -130,63 +173,6 @@ export default async function BotaPerKosovenPage() {
           </div>
         </section>
 
-        <section className={s.section} aria-label="Si e portretizon shtypi Kosovën">
-          <p className={s.sectionNote}>Kjo mat mënyrën si shkruajnë artikujt, jo qëndrimin e një vendi ndaj Kosovës.</p>
-        <section className={`${s.panel} ${s.today}`} aria-labelledby="bota-sot">
-          <div>
-            <h2 id="bota-sot" tabIndex={-1} className={s.verdict}>{dayVerdict(today.index)}</h2>
-            <p className={s.why}>
-              {positive + negative + neutral > 0 ? (
-                <>
-                  <b className={s.good}>{positive} {positive === 1 ? "artikull pozitiv" : "artikuj pozitivë"}</b>,{" "}
-                  <b className={s.bad}>{negative} {negative === 1 ? "negativ" : "negativë"}</b> dhe {neutral}{" "}
-                  {neutral === 1 ? "neutral" : "neutrale"} në mbledhjen e fundit.
-                </>
-              ) : today.previous ? (
-                <>Lajmet e sotme sapo kanë nisur të vijnë. Dje indeksi ishte <b>{today.previous.index}</b>.</>
-              ) : (
-                <>Lajmet e sotme sapo kanë nisur të vijnë.</>
-              )}
-            </p>
-            {today.date && (
-              <p className={s.date}>
-                {longDate(today.date)} · përditësohet nëntë herë në ditë
-              </p>
-            )}
-          </div>
-
-          <div className={s.score} aria-label={`Indeksi sot: ${today.index ?? "pa të dhëna"}`}>
-            <span className={s.scoreValue}>
-              {today.index ?? "—"}
-              <small>/100</small>
-            </span>
-            <span className={s.scoreBand}>
-              <span className={s.swatch} style={{ background: toneFill(today.index) }} aria-hidden />
-              {toneLabel(today.index)}
-            </span>
-            {delta != null && (
-              <span className={s.delta} data-dir={delta > 0 ? "up" : delta < 0 ? "down" : "flat"}>
-                <DeltaIcon size={15} strokeWidth={2.6} aria-hidden />
-                {delta === 0 ? "njësoj si dje" : `${delta > 0 ? "+" : ""}${delta} nga dje`}
-              </span>
-            )}
-          </div>
-
-          <div className={s.scaleRow}>
-            <ToneScaleBar index={today.index} previous={today.previous?.index ?? null} />
-          </div>
-
-          <div className={s.week}>
-            <p className={s.weekLabel}>7 ditët e fundit</p>
-            <WeekChart week={today.week} today={today.date} />
-            {hasGapBeforeMethod && (
-              <p className={s.weekNote}>
-                Mënyra e re e vlerësimit nisi më {longDate(firstReading)}; ditët para saj nuk krahasohen.
-              </p>
-            )}
-          </div>
-        </section>
-        </section>
         <details className={s.explanation}>
           <summary>Si e mbledhim dhe e vlerësojmë lajmin?</summary>
           <HowItWorks articles={today.articles} sources={today.sources} />

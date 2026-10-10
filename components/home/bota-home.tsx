@@ -14,6 +14,7 @@ import type { DailyStory, ToneToday } from "@/lib/tone-data";
 import { dayVerdict, toneFill, toneLabel } from "@/lib/tone-scale";
 import s from "./bota-home.module.css";
 import DardaniImage from "@/components/dardani/dardani-image";
+import WorldDateline from "@/components/tone/world-dateline";
 
 export default function BotaHome({ today, stories }: { today: ToneToday; stories: DailyStory[] }) {
   const { positive, negative, neutral } = today.counts;
@@ -41,7 +42,11 @@ export default function BotaHome({ today, stories }: { today: ToneToday; stories
         negativisht apo në mënyrë neutrale. Indeksi tregon nga anon mbulimi.
       </p>
       </div>
-      <DardaniImage name="toni" className={s.mascot} sizes="(max-width: 760px) 110px, 220px" />
+      <DardaniImage name="toni" className={s.mascot} sizes="(max-width: 760px) 84px, 150px" />
+      </div>
+
+      <div className={s.dateline}>
+        <WorldDateline tone="light" />
       </div>
 
       <div className={s.panel}>
