@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { Article } from "@/lib/mock-data";
 import TimeAgo from "@/components/time-ago";
-import type { TimelineCity } from "./timeline";
+import type { FeedCity } from "./feed";
 
 /**
  * The section's top story: the photograph beside the headline on wide screens,
@@ -11,7 +11,7 @@ import type { TimelineCity } from "./timeline";
  * standfirst, so the card sends readers into the story instead of standing in
  * for it.
  */
-export default function KategoriLead({ article, city }: { article: Article; city?: TimelineCity }) {
+export default function KategoriLead({ article, city }: { article: Article; city?: FeedCity }) {
   return (
     <Link href={`/article/${article.slug}`} className="kl">
       <span className="kl-photo">

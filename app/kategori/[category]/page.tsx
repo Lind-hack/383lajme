@@ -13,12 +13,13 @@ import LatestStrip from "@/components/home/latest-strip";
 import Footer from "@/components/footer";
 import KategoriLead from "@/components/kategori/lead";
 import CityPicker, { type PickerCity } from "@/components/kategori/city-picker";
-import KategoriTimeline, { type TimelineCity, type TimelineItem } from "@/components/kategori/timeline";
-import { pickFrontPage } from "@/lib/front-page.mjs";
+import KategoriFeed, { type FeedCity, type FeedHooks, type FeedItem } from "@/components/kategori/feed";
+import { pickFrontPage, pickMostRead } from "@/lib/front-page.mjs";
+import { getSectionMarket } from "@/lib/kategori-market";
 
 export const revalidate = 3600;
 
-/** Rows the timeline renders before it starts paging. */
+/** Cards the feed renders before it starts paging. */
 const FIRST_PAGE = 40;
 /** The recent stories a city section counts and filters its cities over. */
 const CITY_POOL = 150;
@@ -54,10 +55,11 @@ export default async function CategoryPage({
   const slug = CATEGORY_TO_SLUG[categoryName];
   const byCity = hasCities(categoryName);
 
-  const [rankedArticles, recentArticles] = await Promise.all([
+  const [rankedArticles, recentArticles, market] = await Promise.all([
     getArticles(50, categoryName, { withBody: false }),
-    // Newest first: the timeline's spine, and the pool a city is counted over.
+    // Newest first: the feed's order, and the pool a city is counted over.
     getArticlesBefore({ limit: byCity ? CITY_POOL : FIRST_PAGE, category: categoryName }),
+    getSectionMarket(slug),
   ]);
 
   // One city per story, decided once for everything this render can show.
@@ -65,7 +67,7 @@ export default async function CategoryPage({
   for (const article of [...rankedArticles, ...recentArticles]) {
     if (article?.id && !cityOf.has(article.id)) cityOf.set(article.id, cityOfArticle(article, categoryName));
   }
-  const cities: Record<string, TimelineCity> = Object.fromEntries(
+  const cities: Record<string, FeedCity> = Object.fromEntries(
     sectionCities(categoryName).map((c) => [c.id, { name: c.name, emblem: c.emblem }])
   );
 
@@ -90,17 +92,42 @@ export default async function CategoryPage({
     ? recentArticles.filter((a) => cityOf.get(a.id) === selected.id)
     : [...rankedArticles, ...recentArticles];
   const lead: Article | undefined = pickFrontPage(leadPool, 1)[0];
-  const timelineSource = selected ? leadPool : recentArticles.slice(0, FIRST_PAGE);
-  const timeline: TimelineItem[] = timelineSource
-    .filter((a) => a.id !== lead?.id && a.slug && a.title && a.publishedAt)
-    .map((a) => ({
-      id: a.id,
-      slug: a.slug,
-      title: a.title,
-      imageUrl: a.imageUrl ?? null,
-      publishedAt: a.publishedAt,
-      cityId: cityOf.get(a.id) ?? null,
-    }));
+  const toFeed = (a: Article): FeedItem => ({
+    id: a.id,
+    slug: a.slug,
+    title: a.title,
+    imageUrl: a.imageUrl ?? null,
+    publishedAt: a.publishedAt,
+    cityId: cityOf.get(a.id) ?? null,
+  });
+  const usable = (a: Article) => Boolean(a?.id && a.slug && a.title && a.publishedAt);
+
+  // The blocks that break the feed take their stories out of it, so nothing
+  // is shown twice. Most-read first, then the swipe row.
+  const used = new Set<string>(lead ? [lead.id] : []);
+  const top = pickMostRead(leadPool.filter(usable), 3, { exclude: used }) as Article[];
+  for (const a of top) used.add(a.id);
+
+  let carousel: FeedHooks["carousel"];
+  if (!selected) {
+    const withPhoto = recentArticles.filter((a) => usable(a) && a.imageUrl && !used.has(a.id));
+    // Kosovë/Shqipëri: the newest photo story from each of the busiest cities.
+    const perCity = byCity
+      ? pickerCities
+          .map((c) => withPhoto.find((a) => cityOf.get(a.id) === c.id))
+          .filter((a): a is Article => Boolean(a))
+          .slice(0, 8)
+      : [];
+    const slides = perCity.length >= 3 ? perCity : withPhoto.slice(FIRST_PAGE / 2, FIRST_PAGE / 2 + 6);
+    if (slides.length >= 3) {
+      carousel = { title: perCity.length >= 3 ? "Nga qytetet" : "Në fokus", items: slides.map(toFeed) };
+      for (const a of slides) used.add(a.id);
+    }
+  }
+
+  const feedSource = selected ? leadPool : recentArticles.slice(0, FIRST_PAGE);
+  const feed: FeedItem[] = feedSource.filter((a) => usable(a) && !used.has(a.id)).map(toFeed);
+  const hooks: FeedHooks = { top: top.length >= 3 ? top.map(toFeed) : undefined, carousel, market };
 
   const accent = getCategoryColor(categoryName);
   const [gradFrom, gradTo] = getCategoryGradient(categoryName);
@@ -126,12 +153,14 @@ export default async function CategoryPage({
           lightBg={lightBg}
           todayCount={todayCount}
         />
+        {byCity && (
+          <div className="kat-bar" style={{ ["--kat" as string]: accent }}>
+            <CityPicker section={categoryName} slug={slug} cities={pickerCities} selected={selected?.id} />
+          </div>
+        )}
       </div>
 
       <main className="kat" style={{ ["--kat" as string]: accent }}>
-        {byCity && (
-          <CityPicker section={categoryName} slug={slug} cities={pickerCities} selected={selected?.id} />
-        )}
 
         {!lead && (
           <div className="kat-empty">
@@ -148,13 +177,15 @@ export default async function CategoryPage({
 
         {lead && <KategoriLead article={lead} city={leadCityId ? cities[leadCityId] : undefined} />}
 
-        <KategoriTimeline
+        <KategoriFeed
           // A new city is a new list: remount so paging state never carries over.
           key={selected?.id ?? "all"}
-          items={timeline}
+          section={categoryName}
+          items={feed}
           cities={cities}
+          hooks={hooks}
           todayKey={todayKey}
-          loadMore={selected ? undefined : { category: slug, seenIds: [lead?.id, ...timeline.map((t) => t.id)].filter((id): id is string => Boolean(id)) }}
+          loadMore={selected ? undefined : { category: slug, seenIds: [...used, ...feed.map((t) => t.id)] }}
           endNote={selected ? `Këto janë lajmet e fundit nga ${selected.name}.` : undefined}
         />
       </main>
