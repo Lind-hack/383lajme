@@ -325,7 +325,7 @@ function Card({ item, city }: { item: FeedItem; city?: FeedCity }) {
 
 function CardGrid({ items, cities }: { items: FeedItem[]; cities: Record<string, FeedCity> }) {
   return (
-    <ul className="kf-grid">
+    <ul className="kf-cards">
       {items.map((item) => (
         <Card key={item.id} item={item} city={item.cityId ? cities[item.cityId] : undefined} />
       ))}
