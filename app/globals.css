@@ -25955,28 +25955,41 @@ button.lgt-launch > span {
   letter-spacing: -0.015em;
 }
 
-/* 1 · A story shown large, headline on the photograph */
+/* 1 · A story shown large, beside the next stories of its day */
+.kf-feature-block { display: grid; gap: 12px; }
+@media (min-width: 861px) {
+  .kf-feature-block { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
+}
+.kf-feature-side {
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 .kf-feature {
   position: relative;
   display: block;
-  aspect-ratio: 21 / 9;
-  min-height: 320px;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
-  border-radius: 24px;
+  border-radius: 20px;
   color: #FFFFFF;
   text-decoration: none;
   background: #1A1A1A;
-  box-shadow: 0 22px 50px rgba(17, 17, 17, 0.16);
+  box-shadow: 0 14px 34px rgba(17, 17, 17, 0.14);
   transition: transform 200ms var(--kat-ease);
 }
-@media (max-width: 860px) { .kf-feature { aspect-ratio: 16 / 11; } }
-@media (max-width: 640px) { .kf-feature { aspect-ratio: 4 / 5; min-height: 0; border-radius: 20px; } }
+@media (min-width: 861px) {
+  /* Beside its list it takes the row's height; alone it keeps its shape. */
+  .kf-feature-block[data-side] .kf-feature { aspect-ratio: auto; min-height: 340px; }
+}
 .kf-feature-photo { position: absolute; inset: 0; background: linear-gradient(135deg, var(--kat), #1A1A1A); }
 .kf-feature::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(10, 10, 10, 0.9) 0%, rgba(10, 10, 10, 0.55) 38%, rgba(10, 10, 10, 0) 70%);
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.88) 0%, rgba(10, 10, 10, 0.5) 40%, rgba(10, 10, 10, 0) 72%);
 }
 .kf-feature-body {
   position: absolute;
@@ -25985,17 +25998,8 @@ button.lgt-launch > span {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
-  padding: clamp(20px, 3.4vw, 44px);
-}
-.kf-feature-meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 13px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
+  gap: 10px;
+  padding: clamp(16px, 2.2vw, 26px);
 }
 .kf-feature-city {
   display: inline-flex;
@@ -26005,27 +26009,28 @@ button.lgt-launch > span {
   border-radius: 100px;
   background: rgba(255, 255, 255, 0.92);
   color: var(--color-ink);
+  font-size: 13px;
+  font-weight: 700;
 }
 .kf-feature-city img { width: 20px; height: 20px; object-fit: contain; }
 .kf-feature-title {
-  max-width: 30ch;
   overflow-wrap: break-word;
-  font-size: clamp(24px, 3.2vw, 46px);
+  font-size: clamp(20px, 2vw, 28px);
   font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.025em;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 .kf-feature-cta {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 40px;
-  padding: 0 16px;
+  min-height: 36px;
+  padding: 0 14px;
   border-radius: 100px;
   background: var(--kat);
   color: #FFFFFF;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 800;
 }
 .kf-feature-cta svg { transition: transform 200ms var(--kat-ease); }
@@ -26308,6 +26313,7 @@ button.lgt-launch > span {
       animation-timeline: view();
       animation-range: entry 0% entry 55%;
     }
+    .kf-feature-side .kf-cell { animation: none; }
     .kf-hook {
       animation: kf-arrive linear both;
       animation-timeline: view();

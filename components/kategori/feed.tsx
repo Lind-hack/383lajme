@@ -8,7 +8,7 @@ import type { Article } from "@/lib/mock-data";
 import type { SectionMarket } from "@/lib/kategori-market";
 import { LoadMoreButton, focusFirstNew, useArticlePages } from "@/components/load-more-articles";
 import { CoinIcon } from "@/components/tab-icons";
-import { dateKeyInKosovo, KOSOVO_TZ_FALLBACK } from "@/lib/reagimi-data";
+import { dateKeyInKosovo } from "@/lib/reagimi-data";
 import { PYET_OPEN_EVENT } from "@/lib/pyet-thread";
 
 /** What a feed card renders; the server sends nothing else. */
@@ -36,10 +36,8 @@ export type FeedHooks = {
 
 /** Cards between two blocks: two rows of three on desktop, ~6–8s on a phone. */
 const RUN = 6;
-
-// Belgrade shares Kosovo's offset and DST rules and is in every Intl build;
-// Europe/Pristina throws on trimmed ones, and this runs at module load.
-const TIME = new Intl.DateTimeFormat("sq-AL", { timeZone: KOSOVO_TZ_FALLBACK, hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+/** Stories listed beside a large one. */
+const FEATURE_SIDE = 3;
 
 // Spelled out rather than taken from Intl's "sq" locale, which trimmed ICU
 // builds (and some browsers) silently replace with English.
@@ -77,15 +75,11 @@ function toItem(article: Article): FeedItem {
   };
 }
 
-function timeOf(iso: string): string {
-  const when = new Date(iso);
-  return Number.isFinite(when.getTime()) ? TIME.format(when) : "";
-}
-
 /**
  * A category's stories with the run broken on purpose.
  *
- * Every six cards the feed changes shape — a full-width photo story, the
+ * Every six cards the feed changes shape — a large photo story beside the
+ * next few, the
  * section's most-read three, a swipe row, a Tregu market or Pyet Dardanin —
  * so a reader scrolling on is met by something new every few seconds instead
  * of the same card to the end of the archive. Once the one-off blocks are
@@ -197,7 +191,8 @@ export default function KategoriFeed({
     run = [];
   };
 
-  for (const item of all) {
+  for (let i = 0; i < all.length; i++) {
+    const item = all[i];
     const day = dateKeyInKosovo(new Date(item.publishedAt));
     if (day !== lastDay) {
       flush();
@@ -213,7 +208,13 @@ export default function KategoriFeed({
       flush();
       const hook = queue[next++] ?? "feature";
       if (hook === "feature") {
-        out.push(<FeatureCard key={`f-${item.id}`} item={item} city={item.cityId ? cities[item.cityId] : undefined} />);
+        // The large story shares its row with the next few from the same day,
+        // so the block is a photo beside a short list, not a wall of photo.
+        const side: FeedItem[] = [];
+        while (side.length < FEATURE_SIDE && i + 1 < all.length && dateKeyInKosovo(new Date(all[i + 1].publishedAt)) === day) {
+          side.push(all[++i]);
+        }
+        out.push(<FeatureBlock key={`f-${item.id}`} item={item} side={side} cities={cities} />);
         continue;
       }
       if (hook === "top") out.push(<TopThree key="top" section={section} items={hooks.top ?? []} />);
@@ -303,51 +304,68 @@ function CityTag({ city }: { city?: FeedCity }) {
   );
 }
 
+/** The standard card: photograph, headline, and the city when there is one. */
+function Card({ item, city }: { item: FeedItem; city?: FeedCity }) {
+  return (
+    <li className="kf-cell">
+      <Link href={`/article/${item.slug}`} className="kf-card">
+        <Photo src={item.imageUrl} sizes="(max-width: 640px) 112px, 160px" className="kf-thumb" />
+        <span className="kf-body">
+          <span className="kf-title">{item.title}</span>
+          {city && (
+            <span className="kf-meta">
+              <CityTag city={city} />
+            </span>
+          )}
+        </span>
+      </Link>
+    </li>
+  );
+}
+
 function CardGrid({ items, cities }: { items: FeedItem[]; cities: Record<string, FeedCity> }) {
   return (
     <ul className="kf-grid">
-      {items.map((item) => {
-        const city = item.cityId ? cities[item.cityId] : undefined;
-        return (
-          <li key={item.id} className="kf-cell">
-            <Link href={`/article/${item.slug}`} className="kf-card">
-              <Photo src={item.imageUrl} sizes="(max-width: 640px) 112px, 160px" className="kf-thumb" />
-              <span className="kf-body">
-                <span className="kf-title">{item.title}</span>
-                <span className="kf-meta">
-                  <CityTag city={city} />
-                  <time dateTime={item.publishedAt}>{timeOf(item.publishedAt)}</time>
-                </span>
-              </span>
-            </Link>
-          </li>
-        );
-      })}
+      {items.map((item) => (
+        <Card key={item.id} item={item} city={item.cityId ? cities[item.cityId] : undefined} />
+      ))}
     </ul>
   );
 }
 
-/** One story out of the run, full width, headline on the photograph. */
-function FeatureCard({ item, city }: { item: FeedItem; city?: FeedCity }) {
+/**
+ * One story shown large, headline on the photograph, beside the next stories
+ * of the same day. It used to take the full width at 21:9 — around 600px tall
+ * on a laptop, a whole screen of one photograph — which read as an interruption
+ * rather than a story. Half the row now, and the other half keeps reading.
+ */
+function FeatureBlock({ item, side, cities }: { item: FeedItem; side: FeedItem[]; cities: Record<string, FeedCity> }) {
+  const city = item.cityId ? cities[item.cityId] : undefined;
   return (
-    <Link href={`/article/${item.slug}`} className="kf-feature kf-hook">
-      <Photo src={item.imageUrl} sizes="(max-width: 860px) 100vw, 1400px" className="kf-feature-photo" />
-      <span className="kf-feature-body">
-        <span className="kf-feature-meta">
+    <div className="kf-feature-block kf-hook" data-side={side.length > 0 ? "true" : undefined}>
+      <Link href={`/article/${item.slug}`} className="kf-feature">
+        <Photo src={item.imageUrl} sizes="(max-width: 860px) 100vw, 720px" className="kf-feature-photo" />
+        <span className="kf-feature-body">
           {city && (
             <span className="kf-feature-city">
               <img src={city.emblem} alt="" width={20} height={20} loading="lazy" decoding="async" />
               {city.name}
             </span>
           )}
-          <time dateTime={item.publishedAt}>{timeOf(item.publishedAt)}</time>
+          <span className="kf-feature-title">{item.title}</span>
+          <span className="kf-feature-cta">
+            Lexo lajmin <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
+          </span>
         </span>
-        <span className="kf-feature-title">{item.title}</span>
-        <span className="kf-feature-cta">
-          Lexo lajmin <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
-        </span>
-      </span>
-    </Link>
+      </Link>
+      {side.length > 0 && (
+        <ul className="kf-feature-side">
+          {side.map((s) => (
+            <Card key={s.id} item={s} city={s.cityId ? cities[s.cityId] : undefined} />
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
 
