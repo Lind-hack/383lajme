@@ -91,6 +91,9 @@ const AUTO_DIR = path.join(process.cwd(), "data", "auto-articles");
 const MAX_AUTO_AGE_MS = 24 * 60 * 60 * 1000;
 
 function mapAutoRow(a: Record<string, unknown>): Article {
+  const raw = a.raw_article && typeof a.raw_article === "object" ? a.raw_article as Record<string, unknown> : a;
+  const rights = raw.image_rights && typeof raw.image_rights === "object" ? raw.image_rights as Record<string, unknown> : {};
+  const photoSource = String(rights.source_page ?? "");
   return sanitizeArticle({
     id:            String(a.id ?? ""),
     slug:          String(a.slug ?? ""),
@@ -113,6 +116,11 @@ function mapAutoRow(a: Record<string, unknown>): Article {
     readingTime:   Number(a.reading_time ?? 3),
     featured:      Boolean(a.featured),
     imageUrl:      a.image_url ? String(a.image_url) : undefined,
+    imageCaption: typeof raw.image_caption === "string" ? raw.image_caption : undefined,
+    imageSourcePage: /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/.test(photoSource) ? photoSource : undefined,
+    imageCreator: typeof rights.creator === "string" ? rights.creator : undefined,
+    imageLicense: typeof rights.license === "string" ? rights.license : undefined,
+    imageLicenseUrl: /^https:\/\/creativecommons\.org\/(?:licenses|publicdomain)\//.test(String(rights.license_url ?? "")) ? String(rights.license_url) : undefined,
     engagementScore: a.engagement_score ? Number(a.engagement_score) : undefined,
     videoClipUrl:  a.video_clip_url ? String(a.video_clip_url) : undefined,
   });
@@ -556,7 +564,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     try {
       const { data, error } = await supabase
         .from("news_articles")
-        .select(ARTICLE_COLUMNS)
+        .select(`${ARTICLE_COLUMNS},raw_article->image_caption,raw_article->image_rights`)
         .eq("slug", slug)
         .maybeSingle();
       if (error) throw new Error(error.message);

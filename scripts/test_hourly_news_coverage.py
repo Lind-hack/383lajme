@@ -15,7 +15,7 @@ from prepare_editor_sources import coverage_plan, discovery, fetch, ready_image
 class HourlyCoverageTests(unittest.TestCase):
     def test_hourly_identity_survives_tracker_changes_and_avoids_ordinal_collisions(self):
         from codex_automation_support import normalize_batch
-        with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}):
+        with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch("news_image_policy.trusted_photo", return_value={"image_subject": "Verified subject"}):
             batch = Path(folder) / "2026-10-08T14.json"
             rows = [{"id": "Botë-26", "url": url, "slug": "kievi-robërit-luftes", "category": "Botë", "body": "<p>Original report.</p>"}
                     for url in ("https://bbc.com/story-one?utm_source=test", "https://bbc.com/story-two")]
@@ -28,13 +28,11 @@ class HourlyCoverageTests(unittest.TestCase):
             batch.write_text(json.dumps(normalized), encoding="utf-8")
             self.assertEqual(normalize_batch(batch)[0]["id"], first_id)
 
-    def test_native_open_graph_image_is_accepted_for_hourly_without_upscaling(self):
+    def test_hourly_image_selection_never_uses_publisher_fallback(self):
         evidence = {"image_url": "https://euronews.al/wp-content/uploads/story.jpg"}
-        with patch("codex_automation_support._fetch_image_dimensions", return_value=(1200, 630)), patch("codex_automation_support._larger_image_candidates", return_value=[]):
-            with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}):
-                self.assertEqual(ready_image({}, evidence, {})["image_height"], 630)
-            with patch.dict(os.environ, {"L383_HOURLY_NEWS": "0"}):
-                self.assertEqual(ready_image({}, evidence, {}), {})
+        with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch("news_image_policy.select_photo", return_value={}) as selector, patch("codex_automation_support._fetch_image_dimensions", side_effect=AssertionError("publisher fallback must not run")):
+            self.assertEqual(ready_image({"title": "A verified story"}, evidence, {}), {})
+            selector.assert_called_once()
 
     def test_replacements_keep_available_desks_and_reassign_exhausted_slots(self):
         approved = [{"category": category, "url": f"https://example.com/{index}"}
@@ -137,7 +135,7 @@ class HourlyCoverageTests(unittest.TestCase):
             path = Path(folder) / "discovery.md"
             path.write_text("# Discovery", encoding="utf-8")
             path.with_suffix(".json").write_text(json.dumps({"leads": leads}), encoding="utf-8")
-            with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch("prepare_editor_sources.fetch_url", side_effect=fetch), \
+            with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch("news_image_policy.plan_subjects", return_value={}), patch("news_image_policy.CATALOG", Path(folder) / "image-provenance.json"), patch("prepare_editor_sources.fetch_url", side_effect=fetch), \
                  patch("prepare_editor_sources.ready_image", side_effect=lambda lead, *_: {} if lead["pair_id"] == "no-image" else
                        {"image_url": "https://cdn.example/photo.jpg", "image_width": 1200, "image_height": 675}):
                 discovery(path)

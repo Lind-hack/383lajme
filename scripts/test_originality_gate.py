@@ -7,6 +7,29 @@ import originality_gate as gate
 
 
 class OriginalityGateTests(unittest.TestCase):
+    def test_quoted_word_does_not_exempt_copied_prose(self):
+        source = "Ministria njoftoi sot se projekti do të nisë në Prishtinë më 1 tetor."
+        article = {"body": '<p>“Sot” Ministria njoftoi sot se projekti do të nisë në Prishtinë më 1 tetor.</p>'}
+        self.assertTrue(gate.originality_errors(article, {"evidence": {"text": source}}))
+
+    def test_secondary_source_headlines_and_excerpt_are_checked(self):
+        copied = "Kompania prezantoi një pajisje të re për përdoruesit e saj në Evropë"
+        for field in ("body", "title", "excerpt"):
+            article = {"body": "Një zhvillim i verifikuar.", field: copied}
+            evidence = {"evidence": {"text": "Primary verified facts."},
+                        "corroborating": [{"evidence": {"text": copied}}]}
+            self.assertTrue(any("corroborating source" in message for message in gate.originality_errors(article, evidence)))
+
+    def test_html_encoded_quotes_and_copy_are_not_a_bypass(self):
+        copied = "Ministria njoftoi sot se projekti do të nisë në Prishtinë më 1 tetor."
+        article = {"body": "<p>&quot;sot&quot; " + copied.replace("ë", "&#235;") + "</p>"}
+        self.assertTrue(gate.originality_errors(article, {"evidence": {"text": copied}}))
+
+    def test_many_short_quoted_fragments_do_not_exempt_entire_source(self):
+        fragments = [f"Institucioni konfirmoi vendimin numër {index} pas takimit" for index in range(8)]
+        article = {"body": " ".join(f'“{fragment}”' for fragment in fragments)}
+        self.assertTrue(gate.originality_errors(article, {"evidence": {"text": " ".join(fragments)}}))
+
     def test_long_unquoted_source_sentence_is_rejected(self):
         source = "Ministria njoftoi sot se projekti do të nisë në Prishtinë më 1 tetor pas përfundimit të procedurave."
         article = {"body": "<p>Ministria njoftoi sot se projekti do të nisë në Prishtinë më 1 tetor pas përfundimit të procedurave.</p>"}

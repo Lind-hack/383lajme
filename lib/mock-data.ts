@@ -17,6 +17,11 @@
   readingTime: number;
   featured: boolean;
   imageUrl?: string;
+  imageCaption?: string;
+  imageSourcePage?: string;
+  imageCreator?: string;
+  imageLicense?: string;
+  imageLicenseUrl?: string;
   /** Measured pixel size of imageUrl, when a page asked for it (lib/image-size.mjs). */
   imageWidth?: number;
   imageHeight?: number;

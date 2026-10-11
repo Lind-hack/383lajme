@@ -581,6 +581,16 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
             print(f"WARNING candidate {article.get('title', 'untitled')!r}: reader-facing direct-publisher attribution retained")
 
         image_url = str(article.get("image_url") or "").strip()
+        if os.environ.get("L383_HOURLY_NEWS") == "1":
+            from news_image_policy import trusted_photo
+            photo = trusted_photo(article)
+            if not photo:
+                rejected.append(article)
+                print(f"REJECTED candidate {article.get('title', 'untitled')!r}: no independently prepared contextual photo; publisher-image fallbacks are disabled")
+                continue
+            if any(article.get(key) != value for key, value in photo.items()):
+                article.update(photo)
+                changed += 1
         if image_url.startswith(("http://", "https://")):
             dimensions: tuple[int, int] | None = None
             failure_reason = ""
@@ -624,7 +634,7 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
                 failure_reason = f"image {dimensions[0]}x{dimensions[1]} below {min_width}x{min_height}"
 
             if failure_reason:
-                fallback = _find_source_image_fallback(article, image_url, min_width, min_height)
+                fallback = None if os.environ.get("L383_HOURLY_NEWS") == "1" else _find_source_image_fallback(article, image_url, min_width, min_height)
                 if fallback:
                     replacement_url, dimensions = fallback
                     article["image_url"] = replacement_url
@@ -981,6 +991,9 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
         seen_slugs.add(slug)
 
         image = str(article.get("image_url", ""))
+        if os.environ.get("L383_HOURLY_NEWS") == "1":
+            from news_image_policy import image_errors
+            errors.extend(f"{label} {error}" for error in image_errors(article))
         social_platform = _social_platform(article)
         if not image.startswith(("http://", "https://")):
             errors.append(f"{label} missing valid image_url")

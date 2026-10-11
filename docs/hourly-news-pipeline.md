@@ -5,7 +5,7 @@ one category and one ownership family. Discovery and final publication both
 use `news_source_policy.py`: off-category primary or corroborating sources are
 rejected, never reassigned. Sister publications cannot independently corroborate
 each other. The writer and independent editor verify claims against fetched original text.
-Routine news may use one credited readable publisher; sensitive allegations
+Routine news may use one readable registered publisher as factual evidence; sensitive allegations
 require an independent second publisher. Headline pairing is a discovery heuristic.
 
 ## Desks
@@ -63,7 +63,7 @@ The private news configuration preserves the existing report delivery settings.
 without publishing or sending a report. `L383_MAX_ARTICLES=2` limits a smoke run;
 production targets 20 articles: Kosovo 4; Albania, world, technology and economy 3
 each; sport and showbiz 2 each. Readable unpublished stories from the rolling last
-24 hours are grouped by event. Routine news can use a credited primary; sensitive
+24 hours are grouped by event. Routine news can use a verified primary; sensitive
 claims need independent corroboration. Source text and qualifying images are
 prepared outside model turns. Writers draft up to seven per call, covering every
 available desk first, then filling the plan. Overrepresented desk drafts are
@@ -111,7 +111,40 @@ never relax verification to meet a volume target.
 
 Hourly model calls return complete JSON responses; the wrapper saves them atomically. Incomplete responses and continuations that alter existing articles leave the prior batch intact. The independent editor receives the source overlap feedback before its first review. Subject and action are checked by the editor against evidence rather than a finite entity/verb whitelist. After rejected drafts are removed, up to two bounded replacement passes fill missing desks from unused prepared evidence. If a desk has exhausted its readable new stories, spare slots go to other available desks; no stories are invented to reach 20.
 
-The source reader prefers the actual publisher article-body container, including Lapsi’s div-based article body, over sidebar paragraph widgets. Hourly images accept native 1200×630 photographs and larger decoded images; they are never upscaled to fabricate dimensions. Legacy daily image requirements remain 1200×675.
+## Original copy and contextual photo policy
+
+Hourly writers build a fact outline and a fresh lead/structure in plain Albanian;
+they must not closely translate sources or imply interviews/eyewitness reporting
+by 383. Publisher introductions are removed unless the independent editor
+records necessary attribution for a direct quote, exclusive reporting or an
+unconfirmed claim. Internal sources, URLs and verification evidence remain.
+The journalism gate enforces structure and unnecessary publisher framing;
+originality compares body, headline and excerpt with primary and corroborating
+texts, limits quote exemptions to actual short quoted spans and catches stitched
+short fragments. Exact overlap checks are screening, not a guarantee against
+close paraphrase or translation; the independent editor must assess both.
+
+Before drafting, the existing GPT-6 Luna/max OAuth worker plans specific
+photographic subjects supported by exact phrases in each story. Commons search
+fetches file descriptions and license metadata. The automated pool accepts
+CC0, explicit public domain, and CC BY/CC BY-SA with creator credit and a linked
+license. Unknown, NC/ND, attribution-free claims without evidence and files with
+additional restrictions are rejected. Subject tokens must appear in the actual
+file description; writer/editor separately verify semantic relevance. Captions
+identify these as illustrative archive photos, never today's event. Crops of
+BY-SA photos are displayed under the same linked license.
+
+Publisher photographs are compared by URL identity, SHA-256 and visual
+fingerprints, including renamed/rehosted copies. If a declared source photo
+cannot be checked, the candidate is skipped. Publisher-photo fallbacks are
+disabled for hourly news. A run-local provenance catalog binds every prepared
+photo to the primary story URL; normalization and publication reject absent,
+changed or stale records. Every run reserves distinct photos across candidates.
+No suitable photo means an inventory shortfall, not a category stock image.
+The file-rights URL is linked alongside the photo caption on the article page;
+source/license/creator evidence remains stored in raw_article.
+
+The source reader prefers the actual publisher article-body container, including Lapsi’s div-based article body, over sidebar paragraph widgets. Hourly contextual photos require native 1200×630 or larger decoded images; they are never upscaled to fabricate dimensions. Legacy daily image requirements remain 1200×675.
 
 Hourly publication IDs are stable hashes of canonical primary URLs, independent of discovery ordinals; accented slugs are normalized to ASCII before editing. Wrong-category source topics are rejected before drafting. Replacement reviews contain only new drafts: previously approved articles retain their exact bodies, metadata and category slots, and the merged batch receives the usual final validation.
 

@@ -9,6 +9,7 @@ import json
 import os
 import sys
 import time
+import threading
 from pathlib import Path
 from typing import Any
 
@@ -172,6 +173,9 @@ def discovery(path: Path) -> None:
 
 
 def ready_image(lead: dict, primary: dict, secondary: dict) -> dict:
+    if os.environ.get("L383_HOURLY_NEWS") == "1":
+        from news_image_policy import select_photo
+        return select_photo(lead, primary, secondary)
     from codex_automation_support import _fetch_image_dimensions, _larger_image_candidates, _looks_like_content_image_url
     for evidence in (primary, secondary):
         originals = list(dict.fromkeys([str(evidence.get("image_url") or ""), *evidence.get("image_candidates", [])]))[:4]
@@ -234,9 +238,28 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
                          "corroborates_url": secondary_url if secondary_ok else "",
                          "primary_evidence": primary, "secondary_evidence": secondary if secondary_ok else {}})
     # Oversample each desk to replace image failures and editorial rejections.
-    shortlist = [lead for category in CATEGORIES for lead in
-                 [item for item in eligible if item["category"] == category][:hourly_targets()[category] + 12]]
-    with concurrent.futures.ThreadPoolExecutor(max_workers=12) as pool:
+    by_category = {category: [item for item in eligible if item["category"] == category][:hourly_targets()[category] + 12]
+                   for category in CATEGORIES}
+    # Research one candidate per desk before extras; a slow photo host must
+    # not consume the bounded research window before later desks get a turn.
+    shortlist = [items[index] for index in range(max(map(len, by_category.values()), default=0))
+                 for items in by_category.values() if index < len(items)]
+    from news_image_policy import CATALOG, plan_subjects
+    plans = plan_subjects(shortlist, path.parent)
+    reserved_photos: set[str] = set()
+    photo_lock = threading.Lock()
+    def reserve_photo(url: str) -> bool:
+        from news_image_policy import image_identity
+        identity = image_identity(url)
+        with photo_lock:
+            if identity in reserved_photos:
+                return False
+            reserved_photos.add(identity)
+            return True
+    photo_deadline = time.monotonic() + 600
+    shortlist = [{**lead, "photo_plan": plans.get(lead["pair_id"]), "_reserve_photo": reserve_photo,
+                  "_photo_deadline": photo_deadline} for lead in shortlist]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
         images = list(pool.map(lambda lead: ready_image(lead, lead["primary_evidence"], lead["secondary_evidence"]), shortlist))
     folder = path.parent / "source-evidence"
     folder.mkdir(exist_ok=True)
@@ -251,7 +274,10 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
         target = folder / f"{lead['pair_id']}.json"
         target.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         ready.append({key: value for key, value in {**lead, **image, "evidence_path": str(target)}.items()
-                      if key not in {"primary_evidence", "secondary_evidence"}})
+                      if key not in {"primary_evidence", "secondary_evidence", "photo_plan", "_reserve_photo", "_photo_deadline"}})
+    CATALOG.parent.mkdir(parents=True, exist_ok=True)
+    CATALOG.write_text(json.dumps({lead["url"]: {key: value for key, value in lead.items()
+                       if key.startswith("image_")} for lead in ready}, ensure_ascii=False, indent=2), encoding="utf-8")
     plan = coverage_plan(ready)
     data.update(verified_pair_ids=[lead["pair_id"] for lead in ready], ready_leads=ready,
                 source_ready_categories={category: sum(lead["category"] == category for lead in ready) for category in CATEGORIES},
@@ -261,8 +287,8 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
              f"Verified source-ready pair inventory: {len(ready)}",
              "Publication plan (aim for these category counts): " + json.dumps(plan, ensure_ascii=False),
              "Target is 20 distinct new articles. Cover EVERY available category before adding extras to a busy desk.",
-             "Routine articles use one credited readable publisher; sensitive claims require the supplied independent source.",
-             "Images below have already decoded at the listed dimensions. Use them; do not repeat image research.", ""]
+             "Use verified facts in original prose. Name a publisher only for a necessary quotation, exclusive claim or unconfirmed allegation; preserve internal evidence URLs.",
+             "Photos below are contextual rights-cleared archive photographs, independently checked against source images. Copy all image_* fields exactly. Never portray them as photos of today's event. The writer and editor must confirm that the photo subject fits the specific story, not just its category.", ""]
     lines += ["# Per-story editorial ranking",
               "Read docs/news-ranking-rubric.md. Assign each score_breakdown factor individually from the fetched evidence and explain the stakes in score_reason. Never copy an all-5 baseline. The normalizer computes the weighted total; do not calculate weights or inspect scoring scripts.", ""]
     for category in CATEGORIES:

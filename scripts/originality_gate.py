@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import html
 from pathlib import Path
 from typing import Any
 
@@ -13,7 +14,7 @@ from editorial_rules_v2 import fold
 
 
 def _words(value: object) -> list[str]:
-    return re.findall(r"[a-z0-9]+", fold(re.sub(r"<[^>]+>", " ", str(value or ""))))
+    return re.findall(r"[a-z0-9]+", fold(html.unescape(re.sub(r"<[^>]+>", " ", str(value or "")))))
 
 
 def _sentences(value: object) -> list[str]:
@@ -38,24 +39,50 @@ def _longest_exact_ngram(body_sentence: str, source_index: dict[int, set[tuple[s
     return 0
 
 
-def originality_errors(article: dict[str, Any], evidence: dict[str, Any]) -> list[str]:
-    source_text = str((evidence.get("evidence") or {}).get("text") or "")
-    if not source_text:
-        return ["primary evidence has no readable text for originality comparison"]
-    sentences = _sentences(article.get("body"))
+def _comparison_errors(article: dict[str, Any], source_text: str) -> list[str]:
+    # Exempt only the text inside short, balanced quotation marks. A quoted
+    # word must not exempt the surrounding copied paragraph.
+    body = html.unescape(str(article.get("body") or ""))
+    quote_pattern = r'"([^"\n]+)"|“([^”\n]+)”|«([^»\n]+)»'
+    quoted_words = sum(len(_words(match.group(0))) for match in re.finditer(quote_pattern, body))
+    def strip_short_quote(match):
+        return " " if len(_words(match.group(0))) <= 16 and quoted_words <= 25 else match.group(0)
+    unquoted_body = re.sub(quote_pattern, strip_short_quote, body)
+    sentences = _sentences(unquoted_body)
     maximum = min(32, max((len(_words(sentence)) for sentence in sentences), default=0))
-    if maximum < 8:
-        return []
     source_index = _source_index(source_text, maximum)
     errors: list[str] = []
     for sentence in sentences:
         overlap = _longest_exact_ngram(sentence, source_index)
         if overlap < 8:
             continue
-        quoted = any(mark in sentence for mark in ('"', "“", "”", "«", "»"))
-        if quoted and overlap <= 16:
-            continue
         errors.append(f"body contains an exact source overlap of {overlap} words; rewrite this entire sentence in 383's own words: {sentence!r}")
+    for field in ("title", "excerpt"):
+        overlap = _longest_exact_ngram(str(article.get(field) or ""), _source_index(source_text, 32))
+        if overlap:
+            errors.append(f"{field} contains an exact source overlap of {overlap} words; write an original {field}")
+    # Detect stitched paraphrases made of many short copied fragments.
+    words = _words(unquoted_body)
+    fragments = _source_index(source_text, 5, minimum=5).get(5, set())
+    copied_positions = set()
+    for index in range(len(words) - 4):
+        if tuple(words[index:index + 5]) in fragments:
+            copied_positions.update(range(index, index + 5))
+    if len(copied_positions) >= 40 and len(copied_positions) / max(1, len(words)) >= 0.25:
+        errors.append("body stitches together substantial source wording; draft from a fact outline with new structure")
+    return errors
+
+
+def originality_errors(article: dict[str, Any], evidence: dict[str, Any]) -> list[str]:
+    source = evidence.get("evidence") or {}
+    if not source.get("text"):
+        return ["primary evidence has no readable text for originality comparison"]
+    errors = _comparison_errors(article, str(source["text"]) + "\n" + str(source.get("title") or ""))
+    for item in evidence.get("corroborating", []):
+        secondary = item.get("evidence") or {}
+        if secondary.get("text"):
+            errors.extend("corroborating source: " + error for error in
+                          _comparison_errors(article, str(secondary["text"]) + "\n" + str(secondary.get("title") or "")))
     return errors
 
 

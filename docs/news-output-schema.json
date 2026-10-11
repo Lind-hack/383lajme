@@ -31,7 +31,9 @@
     "image_height",
     "city",
     "corroborating_sources",
-    "image_source_pages",
+    "image_subject",
+    "image_caption",
+    "image_rights",
     "created_at",
     "dispatch"
   ],
@@ -147,6 +149,22 @@
     "image_url": {
       "type": "string",
       "format": "uri"
+    },
+    "image_subject": {
+      "type": "string",
+      "description": "Specific story subject depicted by the independently prepared photo; copy unchanged."
+    },
+    "image_caption": {
+      "type": "string",
+      "description": "Prepared Albanian archive-photo description; never present this as a current-event photograph."
+    },
+    "image_rights": {
+      "type": "object",
+      "description": "Prepared, immutable Commons license, creator, file description, evidence phrase, verification timestamp, photo fingerprint and source-image distinctness record."
+    },
+    "required_attribution": {
+      "type": "object",
+      "description": "Only when publisher attribution is necessary: kind is direct_quote, exclusive_reporting or unconfirmed_claim, with a concrete reason. Internal source metadata always remains."
     },
     "image_width": {
       "type": "integer",

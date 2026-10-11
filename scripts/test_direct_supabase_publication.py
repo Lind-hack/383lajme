@@ -187,7 +187,7 @@ class DirectSupabasePublicationTests(unittest.TestCase):
             return []
         self.support._supabase_request = fake_request
         started = datetime.now(timezone.utc)
-        with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}):
+        with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch("news_image_policy.image_errors", return_value=[]):
             self.assertEqual(self.support.publish_supabase(self.path), 0)
             saved = json.loads(self.path.read_text(encoding="utf-8"))
             self.assertGreaterEqual(datetime.fromisoformat(saved[0]["published_at"]), started)

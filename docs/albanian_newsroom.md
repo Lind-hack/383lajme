@@ -19,7 +19,7 @@ Shqipëri; celebrity entertainment belongs to Showbiz. Ekonomi includes US stock
 Wall Street, crypto, business and finance. Technology product and AI reporting
 belongs to Teknologji. Never use a world publisher as technology or markets
 corroboration, or a local general portal as entertainment or sports corroboration.
-Routine reports may use one readable, explicitly credited registered publisher.
+Routine reports may use one readable registered publisher as factual evidence. Internal source URLs and names remain mandatory; public attribution is required for direct quotations, exclusive reporting and unconfirmed claims, not routine fact summaries.
 Sensitive allegations, crime accusations, corruption, abuse, lawsuits and private-life
 rumours require two readable independent publishers supporting the central claim.
 When two URLs are supplied, they must be from different ownership families. Availability is checked anew every run. Blocked/paid sources do not supply
@@ -74,7 +74,7 @@ to fill a quiet lane.
 
 ## Batch article contract
 
-Every article must include `id`, `slug`, `url`, `title`, `excerpt`, `body`, `source`, `category`, `published_at`, `reading_time`, `featured`, `engagement_score`, `score_reason`, `score_breakdown`, `score_formula`, `image_url`, `image_width`, `image_height`, `city`, `corroborating_sources`, and `created_at` and `dispatch` (UTC slot YYYY-MM-DDTHH). Hourly images must decode at 1200×630 or larger, including native Open Graph photographs; legacy daily images retain the 1200×675 floor. If the first image is inadequate, retain the story and try publisher-declared images from its primary and corroborating pages. If those fail, web-search up to three reputable publisher pages covering the exact event and record them as optional `{source, url}` objects in `image_source_pages`. Never use raw image-search results, galleries, stock-photo pages, social profiles, or broad topic matches; the validator independently checks headline overlap, metadata, dimensions, and placeholder exclusions.
+Every article must include `id`, `slug`, `url`, `title`, `excerpt`, `body`, `source`, `category`, `published_at`, `reading_time`, `featured`, `engagement_score`, `score_reason`, `score_breakdown`, `score_formula`, `image_url`, `image_width`, `image_height`, `city`, `corroborating_sources`, and `created_at` and `dispatch` (UTC slot YYYY-MM-DDTHH). Hourly photos must depict a specific subject of the story, not merely its category. Use only the prepared image_* fields, including image_subject, image_caption and image_rights, unchanged. Preparation searches Wikimedia Commons for a named person, place, institution, product or physical object supported by the story. Only independently checked CC0/public-domain or CC BY/CC BY-SA photographs with a visible creator credit and linked license are eligible in the automated pool. All scraped publisher images, same-photo copies/renditions and arbitrary image-search URLs are prohibited. The image's decoded size must be at least 1200×630. Writer and editor must verify the subject and file description against the story; reject unrelated images. Use the short Albanian archival/illustrative caption and never claim an archive photo depicts the current event. If no contextual, rights-cleared, distinct photo is available, skip the candidate and try another verified story. Legacy daily images retain their existing policy until migrated; do not use the legacy publisher-photo fallback for hourly publication.
 
 Write at least 140 supported Albanian words in three HTML paragraphs. Prefer
 220+ words in four paragraphs when sources support that depth; never pad a brief.
@@ -89,13 +89,13 @@ require independently verified objects such as:
 ```
 
 Every supplied second URL must resolve to a different ownership family in the
-same category. The source-evidence stage fetches all supplied URLs. Credit the
-primary publisher by name in the body and preserve uncertainty. The editor must
+same category. The source-evidence stage fetches all supplied URLs. Preserve uncertainty.
+Lead with the verified event, not “according to outlet X”. Name the original speaker, institution or document when evidence supports that attribution. Name a publisher only when necessary for a quotation, exclusive report or unconfirmed claim, and include required_attribution with kind (direct_quote, exclusive_reporting or unconfirmed_claim) and a concrete reason. Never misrepresent another outlet’s interviews or eyewitness work as 383 reporting. The editor must
 reject sensitive single-source claims even when discovery missed them.
 
 ## Originality
 
-Use sources as evidence, not as copy. Never copy sentences from source articles. A paraphrased rewrite or short excerpt plus a link must add context and be written in 383 Lajme’s own words. Drop a story that cannot meet this standard rather than padding the batch.
+Draft a fact outline first, then build a new lead, ordering and explanation for 383 readers. Use plain Albanian, short sentences and verified context; do not add unsupported background to appear original. Do not closely translate or lightly rearrange a source article. Use sources as evidence, not as copy. Never copy sentences from source articles. A paraphrased rewrite or short excerpt plus a link must add context and be written in 383 Lajme’s own words. Drop a story that cannot meet this standard rather than padding the batch.
 
 ## Ranking metadata
 
