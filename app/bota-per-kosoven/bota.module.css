@@ -630,3 +630,114 @@
   .globeRing { animation: none; opacity: 0; }
   .briefCard { transition: none; }
 }
+
+/* ── Receipts: what the day's number rests on ──────────────────────────────
+   The proof line sits first on the index panel; every story below carries the
+   outlet's own headline, its dates and the reason for its rating. */
+.proof {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #f7f3ec;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #47433e;
+}
+.proof svg { flex-shrink: 0; color: var(--good); }
+.proof span { flex: 1 1 260px; min-width: 0; }
+.proof b { color: var(--color-ink); font-weight: 800; font-variant-numeric: tabular-nums; }
+.proof a { margin-left: auto; color: #b72d13; font-weight: 700; text-decoration: none; white-space: nowrap; min-height: 32px; display: inline-flex; align-items: center; }
+.proof a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 132px;
+  gap: 20px;
+  align-items: start;
+  padding: 20px clamp(16px, 2.4vw, 28px);
+}
+.item:not(:has(.thumb)) { grid-template-columns: minmax(0, 1fr); }
+.item .thumb { width: 132px; height: 96px; }
+.itemMain { min-width: 0; }
+.itemMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin: 0 0 8px;
+  font-size: 15px;
+  color: var(--color-muted);
+}
+.itemTitle { margin: 0; font-size: 21px; font-weight: 700; line-height: 1.35; text-wrap: pretty; overflow-wrap: anywhere; }
+.itemTitle a { color: inherit; text-decoration: none; }
+.itemTitle a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.itemSummary { margin: 8px 0 0; font-size: 16px; line-height: 1.6; color: #47433e; max-width: 75ch; }
+
+.receipt {
+  display: grid;
+  gap: 6px;
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-left: 3px solid var(--rule);
+  background: #fbf9f5;
+  border-radius: 0 10px 10px 0;
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+.receipt > div { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 12px; }
+.receipt dt { font-weight: 800; color: var(--color-ink); }
+.receipt dd { margin: 0; color: #55524d; overflow-wrap: anywhere; }
+.originalTitle { font-style: italic; }
+.evidenceQuote { font-style: italic; color: var(--color-ink); }
+
+.coverage { margin-top: 14px; }
+.coverage p { margin: 0 0 8px; font-size: 14.5px; font-weight: 700; }
+.coverage ul { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.coverage a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 100px;
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.coverage a:hover { border-color: rgba(17, 17, 17, 0.28); }
+.coverageDot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.coverageDot[data-tone="positive"] { background: #4fc77c; }
+.coverageDot[data-tone="negative"] { background: #a3121a; }
+.coverageDot[data-tone="neutral"] { background: #9ca3af; }
+.coverageTone { color: var(--color-muted); font-weight: 500; }
+
+.itemActions { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; margin-top: 8px; }
+.sourceLink, .reportLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 48px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: rgba(17, 17, 17, 0.25);
+  text-underline-offset: 3px;
+}
+.reportLink { color: var(--color-muted); font-weight: 500; }
+
+@media (max-width: 720px) {
+  .item, .item:not(:has(.thumb)) { grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 18px 14px; }
+  .item .thumb { grid-row: 1; width: 100%; height: 170px; }
+  .itemTitle { font-size: 19px; }
+  .receipt > div { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .proof a { margin-left: 0; }
+}

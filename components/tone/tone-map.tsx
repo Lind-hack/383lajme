@@ -247,9 +247,7 @@ export default function ToneMap({
   // The key is only earned when something on the map is actually hatched.
   const hasThin = countries.some((c) => c.index != null && c.confident === false);
 
-  // The band is stated, not hidden. Compressing 0-100 into the BAND range is what
-  // makes near-50 countries distinguishable at all, and a reader is entitled
-  // to know the scale was compressed.
+  // The scale is stated on the legend, so a colour can be read back as a number.
   const legend = (
       <div
         className="tone-map__legend"
@@ -271,7 +269,7 @@ export default function ToneMap({
             minWidth: "90px",
             height: "6px",
             borderRadius: "100px",
-            background: `linear-gradient(90deg, ${toneFill(BAND.lo)}, ${toneFill(50)}, ${toneFill(BAND.hi)})`,
+            background: `linear-gradient(90deg, ${toneFill(BAND.lo)}, ${toneFill(30)}, ${toneFill(50)}, ${toneFill(70)}, ${toneFill(BAND.hi)})`,
           }}
         />
         <span style={{ fontWeight: 700 }}>Pozitiv</span>

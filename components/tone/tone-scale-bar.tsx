@@ -2,9 +2,9 @@
 // that makes "44" mean something without reading the method.
 //
 // The bar runs the full 0–100 the index is measured on, so 100 is its end. Its
-// gradient changes colour exactly where toneFill does (the 30–70 band's five
-// steps fall at 38, 46, 54 and 62), so a marker's colour on this bar and a
-// country's colour on the map still agree.
+// gradient puts one stop in the middle of each of toneFill's five steps (which
+// change at 20, 40, 60 and 80), so a marker's colour on this bar and a
+// country's colour on the map agree.
 
 import { TONE_COLOR, scalePosition, toneLabel } from "@/lib/tone-scale";
 import s from "./tone-scale-bar.module.css";
@@ -34,7 +34,7 @@ export default function ToneScaleBar({
         <span
           className={s.bar}
           style={{
-            background: `linear-gradient(90deg, ${TONE_COLOR.critical} 0%, ${TONE_COLOR.critical} 34%, ${TONE_COLOR.criticalSoft} 42%, ${TONE_COLOR.neutral} 50%, ${TONE_COLOR.positiveSoft} 58%, ${TONE_COLOR.positive} 66%, ${TONE_COLOR.positive} 100%)`,
+            background: `linear-gradient(90deg, ${TONE_COLOR.critical} 0%, ${TONE_COLOR.critical} 10%, ${TONE_COLOR.criticalSoft} 30%, ${TONE_COLOR.neutral} 50%, ${TONE_COLOR.positiveSoft} 70%, ${TONE_COLOR.positive} 90%, ${TONE_COLOR.positive} 100%)`,
           }}
         />
         <span className={s.mid} aria-hidden />

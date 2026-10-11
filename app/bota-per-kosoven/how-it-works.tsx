@@ -12,7 +12,7 @@ export default function HowItWorks({ articles, sources }: { articles: number; so
       <li className={s.step}>
         <span className={s.stepIcon} aria-hidden><Newspaper size={20} strokeWidth={2.2} /></span>
         <span className={s.stepBody}>
-          <strong>Lexojmë shtypin e huaj</strong>
+          <strong>Lexojmë artikullin e plotë</strong>
           <span>
             {articles > 0
               ? `${articles} artikuj nga ${sources} media sot`
@@ -36,8 +36,8 @@ export default function HowItWorks({ articles, sources }: { articles: number; so
       <li className={s.step}>
         <span className={s.stepIcon} aria-hidden><Gauge size={20} strokeWidth={2.2} /></span>
         <span className={s.stepBody}>
-          <strong>Nxjerrim indeksin e ditës</strong>
-          <span>0 negativ · 50 neutral · 100 pozitiv</span>
+          <strong>Nxjerrim mesataren e ditës</strong>
+          <span>pozitiv 100 · neutral 50 · negativ 0</span>
         </span>
       </li>
     </ol>

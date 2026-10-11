@@ -8,6 +8,7 @@ import { readFile } from "fs/promises";
 import path from "path";
 import { remoteImageSrc } from "./remote-image.mjs";
 import { readBotaSnapshot } from "./bota-store.mjs";
+import { articleIndex } from "./bota-publication.mjs";
 
 // tools/tone_scraper.py can now return "unknown" for an article it isn't
 // confident enough to score (deliberately, not a bug — see UNKNOWN in that
@@ -124,6 +125,10 @@ export interface CountrySummary {
 
 export interface ToneOutletsData {
   lastUpdated: string;
+  /** ISO time 383 last added an article (Supabase rows only). */
+  collectedAt?: string | null;
+  /** Countries in today's collection, "Të tjera" not counted. */
+  countryCount?: number;
   overallIndex: number | null;
   totalArticles: number;
   sourceCount: number;
@@ -396,6 +401,16 @@ function addDays(dayKey: string, n: number): string {
   return d.toISOString().slice(0, 10);
 }
 
+/** A day's index from its own counts when the row has them, so the number and
+ *  the arithmetic printed under it can never disagree; else the stored index. */
+function rowIndex(row: ToneHistoryRow | null | undefined): number | null {
+  const day = row?.day;
+  if (day && [day.positive, day.neutral, day.negative].every((v) => typeof v === "number")) {
+    return articleIndex(day.positive, day.neutral, day.negative);
+  }
+  return row?.overallIndex ?? null;
+}
+
 export function summarizeToday(history: ToneHistoryRow[]): ToneToday {
   const rows = [...history].filter((r) => r?.date).sort((a, b) => a.date.localeCompare(b.date));
   const latest = rows[rows.length - 1] ?? null;
@@ -412,19 +427,19 @@ export function summarizeToday(history: ToneHistoryRow[]): ToneToday {
 
   const byDate = new Map(rows.map((r) => [r.date, r]));
   const current = isCurrent(latest) ? latest : null;
-  const index = current?.overallIndex ?? null;
+  const index = rowIndex(current);
 
   const previousRow = [...rows]
     .reverse()
-    .find((r) => r.date < latest.date && isCurrent(r) && r.overallIndex != null);
+    .find((r) => r.date < latest.date && isCurrent(r) && rowIndex(r) != null);
   const previous = previousRow
-    ? { date: previousRow.date, index: previousRow.overallIndex as number }
+    ? { date: previousRow.date, index: rowIndex(previousRow) as number }
     : null;
 
   const week = Array.from({ length: 7 }, (_, i) => {
     const date = addDays(latest.date, i - 6);
     const row = byDate.get(date);
-    return { date, index: isCurrent(row) ? (row?.overallIndex ?? null) : null };
+    return { date, index: isCurrent(row) ? rowIndex(row) : null };
   });
 
   const rowTs = Date.parse(`${latest.date}T00:00:00Z`);
@@ -449,14 +464,37 @@ export function summarizeToday(history: ToneHistoryRow[]): ToneToday {
   };
 }
 
+/** One outlet's article inside a story: the receipt a reader can check. */
+export interface StoryCoverage {
+  outlet: string;
+  country: string;
+  flag: string;
+  sentiment: "positive" | "neutral" | "negative";
+  /** The headline as the outlet published it, in its own language. */
+  originalTitle: string;
+  /** The publisher's own page — always the original, never 383's. */
+  sourceUrl: string;
+  /** Where "read" goes: 383's Albanian page when there is one, else the original. */
+  url: string;
+  translated: boolean;
+  /** The publisher's date (YYYY-MM-DD), or null when the feed gave none we trust. */
+  publishedOn: string | null;
+  /** The day 383 first collected it. */
+  collectedOn: string;
+  reason: string;
+}
+
 /** One story of the day. Several outlets running the same event collapse into
  *  one entry; `alsoIn` names the others, and their number is what "biggest"
- *  ranks by after tone. */
+ *  ranks by after tone. `coverage` holds every outlet's article, lead first. */
 export interface DailyStory {
   id: string;
   title: string;
   originalTitle: string;
   url: string;
+  /** The publisher's original page, even when `url` is 383's Albanian one. */
+  sourceUrl: string;
+  publishedOn: string | null;
   /** True when `url` is 383's Albanian reader page, false when it is the publisher's original. */
   translated: boolean;
   imageUrl: string | null;
@@ -470,7 +508,10 @@ export interface DailyStory {
   /** The day key it belongs to — today's, or yesterday's on a thin morning. */
   day: string;
   alsoIn: string[];
+  coverage: StoryCoverage[];
 }
+
+const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
 
 /** Below this many stories today, yesterday's are added so the list is never
  *  a lone headline at 07:00. Each carries its own `day`, so the UI can say so. */
@@ -550,11 +591,29 @@ export function getDailyStories(
       (x, y) => Number(y.firstSeen === day) - Number(x.firstSeen === day) || strength(y) - strength(x),
     )[0];
     const others = [...new Set(members.map((m) => m.outlet))].filter((o) => o !== lead.outlet);
+    // One entry per outlet: a masthead that ran the event twice is one voice.
+    const seen = new Set<string>();
+    const voices = [lead, ...members.filter((m) => m !== lead)].filter((m) => !seen.has(m.outlet) && Boolean(seen.add(m.outlet)));
+    const coverage = voices.map((m) => ({
+      outlet: m.outlet,
+      country: m.country,
+      flag: FLAGS[m.country] ?? "",
+      sentiment: m.sentiment as StoryCoverage["sentiment"],
+      originalTitle: withoutOutletSuffix(m.title ?? "", m.outlet),
+      sourceUrl: m.url,
+      url: m.readerUrl ?? m.url,
+      translated: Boolean(m.readerUrl),
+      publishedOn: typeof m.date === "string" && ISO_DAY.test(m.date) ? m.date : null,
+      collectedOn: m.firstSeen as string,
+      reason: m.reason ?? "",
+    }));
     return {
       id: lead.url,
       title: withoutOutletSuffix(lead.albanianTitle as string, lead.outlet),
-      originalTitle: lead.title,
+      originalTitle: coverage[0].originalTitle,
       url: lead.readerUrl ?? lead.url,
+      sourceUrl: lead.url,
+      publishedOn: coverage[0].publishedOn,
       translated: Boolean(lead.readerUrl),
       imageUrl: lead.imageUrl ? remoteImageSrc(lead.imageUrl, 480) : null,
       sentiment: lead.sentiment as DailyStory["sentiment"],
@@ -566,6 +625,7 @@ export function getDailyStories(
       blurb: lead.blurb ?? "",
       day: lead.firstSeen as string,
       alsoIn: others,
+      coverage,
     } satisfies DailyStory;
   });
 
@@ -890,12 +950,9 @@ export function getTopics(
       label: label || top,
       count: members.length,
       ...counts,
-      // Identical arithmetic to country_index in tools/tone_scraper.py, so a
-      // topic and a country mean the same thing by the same scale: neutral
-      // coverage is not in the denominator, and 3 is INDEX_SMOOTHING.
-      index: scored
-        ? Math.round(50 + (50 * (counts.positive - counts.negative)) / (counts.positive + counts.negative + 3))
-        : null,
+      // The same average as the daily index (articleIndex in bota-publication),
+      // so a topic and a day mean the same thing by the same scale.
+      index: scored ? articleIndex(counts.positive, counts.neutral, counts.negative) : null,
       // Sorted the way the country drill-down sorts: the two ends of the
       // scale first, the neutral bulk after. No image requirement here — a
       // topic panel is about what was said, and demanding a resolved og:image

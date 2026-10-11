@@ -39,6 +39,7 @@ export default function BriefStories({ stories }: { stories: DailyStory[] }) {
                 {story.flag && <span className={s.briefCode}>{story.flag}</span>}
                 <span>
                   {story.country} · {story.outlet}
+                  {story.alsoIn.length > 0 && ` · +${story.alsoIn.length} ${story.alsoIn.length === 1 ? "gazetë" : "gazeta"}`}
                 </span>
               </p>
               <ToneTag tone={story.sentiment} />

@@ -36,16 +36,14 @@ export const TONE_COLOR = {
 export const TONE_INK = { strong: "#111111", muted: "#6B6B6B", faint: "#9CA3AF" } as const;
 
 /**
- * The scale is banded 30–70, not 0–100.
+ * The scale is the full 0–100, in five equal steps of 20.
  *
- * Widened from 35–65 with stance v4. The index no longer divides by neutral
- * coverage, so readings spread further from 50 than they did — but it is
- * smoothed toward 50 (INDEX_SMOOTHING in tools/tone_scraper.py), so the
- * extremes of 0–100 are rarely reached and a full ramp would still leave most
- * of the map grey. Clamped outside the band, and the band is stated in the
- * legend so the compression is visible rather than a hidden flattery.
+ * It was banded 30–70 while the index was smoothed toward 50 and rarely left
+ * that band. Since 2026-10-11 the index is the plain average of the day's
+ * articles (positive 100, neutral 50, negative 0), which reaches the ends on
+ * its own, so colours, words and lengths all use the scale the reader is told.
  */
-export const BAND = { lo: 30, hi: 70 } as const;
+export const BAND = { lo: 0, hi: 100 } as const;
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(Math.max(v, lo), hi);
 
@@ -54,12 +52,7 @@ export function bandPosition(index: number): number {
   return (clamp(index, BAND.lo, BAND.hi) - BAND.lo) / (BAND.hi - BAND.lo);
 }
 
-/**
- * Where an index sits on the full 0–100 scale, 0 to 1. For anything drawn as a
- * length or a position the reader measures — the scale bar, the week's bars —
- * so 100 is the end of the bar and 70 is not. Colours and words still come from
- * the band (toneFill, toneLabel), which is what keeps near-50 readings apart.
- */
+/** Where an index sits on the 0–100 scale, 0 to 1 — for lengths and positions. */
 export function scalePosition(index: number): number {
   return clamp(index, 0, 100) / 100;
 }

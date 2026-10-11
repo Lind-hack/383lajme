@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AlertTriangle, ArrowDownRight, ArrowUpRight, Minus } from "lucide-react";
+import { AlertTriangle, ArrowDownRight, ArrowUpRight, BadgeCheck, Minus } from "lucide-react";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -29,6 +29,20 @@ export const metadata: Metadata = {
     "Çdo ditë: a shkroi bota mirë apo keq për Kosovën, lajmet e huaja të përkthyera në shqip, dhe harta sipas vendit.",
 };
 
+/** "14:05", Kosovo time, from the ISO time 383 last added an article. */
+function clockTime(iso: string | null | undefined): string | null {
+  if (!iso || Number.isNaN(Date.parse(iso))) return null;
+  try {
+    return new Intl.DateTimeFormat("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "Europe/Belgrade",
+    }).format(new Date(iso));
+  } catch {
+    return null;
+  }
+}
+
 function longDate(dayKey: string | null): string {
   if (!dayKey) return "";
   try {
@@ -50,7 +64,8 @@ export default async function BotaPerKosovenPage() {
   ]);
 
   const today = summarizeToday(history);
-  const stories = getDailyStories(outlets, today.date, false);
+  // Grouped: one entry per event, with every outlet that ran it underneath.
+  const stories = getDailyStories(outlets, today.date);
   const highlights = getMapHighlights(outlets);
   const countries = summarizeToneHistory(history).countries.map((c) => ({
     country: c.country,
@@ -61,6 +76,9 @@ export default async function BotaPerKosovenPage() {
   }));
 
   const { positive, negative, neutral } = today.counts;
+  const scored = positive + negative + neutral;
+  const countryCount = outlets?.countryCount ?? null;
+  const collectedAt = clockTime(outlets?.collectedAt);
   const delta = today.delta;
   const DeltaIcon = delta == null || delta === 0 ? Minus : delta > 0 ? ArrowUpRight : ArrowDownRight;
   const includesYesterday = stories.some((x) => x.day !== today.date);
@@ -81,6 +99,18 @@ export default async function BotaPerKosovenPage() {
         <WorldDesk />
 
         <section className={s.today} aria-labelledby="bota-sot">
+          {today.articles > 0 && (
+            <p className={s.proof}>
+              <BadgeCheck size={17} strokeWidth={2.3} aria-hidden />
+              <span>
+                Sot lexuam <b>{today.articles} {today.articles === 1 ? "artikull" : "artikuj"}</b> të plotë nga{" "}
+                <b>{today.sources} {today.sources === 1 ? "gazetë" : "gazeta"}</b>
+                {countryCount ? <> në <b>{countryCount} {countryCount === 1 ? "vend" : "vende"}</b></> : null}
+                {collectedAt ? <> · shtuar së fundi në <b>{collectedAt}</b></> : null}
+              </span>
+              <a href="#metodologjia">Si e bëjmë</a>
+            </p>
+          )}
           <div className={s.todayMain}>
             <h2 id="bota-sot" tabIndex={-1} className={s.verdict}>{dayVerdict(today.index)}</h2>
             <div className={s.score} aria-label={`Indeksi sot: ${today.index ?? "pa të dhëna"}`}>
@@ -105,11 +135,12 @@ export default async function BotaPerKosovenPage() {
               <ToneScaleBar index={today.index} previous={today.previous?.index ?? null} />
             </div>
             <p className={s.why}>
-              {positive + negative + neutral > 0 ? (
+              {scored > 0 ? (
                 <>
-                  <b className={s.good}>{positive} {positive === 1 ? "artikull pozitiv" : "artikuj pozitivë"}</b>,{" "}
-                  <b className={s.bad}>{negative} {negative === 1 ? "negativ" : "negativë"}</b> dhe {neutral}{" "}
-                  {neutral === 1 ? "neutral" : "neutrale"} në mbledhjen e fundit.
+                  <b className={s.good}>{positive} {positive === 1 ? "pozitiv" : "pozitivë"}</b> ×100,{" "}
+                  <b>{neutral} {neutral === 1 ? "neutral" : "neutralë"}</b> ×50,{" "}
+                  <b className={s.bad}>{negative} {negative === 1 ? "negativ" : "negativë"}</b> ×0
+                  {" "}÷ {scored} {scored === 1 ? "artikull" : "artikuj"} = <b>{today.index}</b>
                 </>
               ) : today.previous ? (
                 <>Lajmet e sotme sapo kanë nisur të vijnë. Dje indeksi ishte <b>{today.previous.index}</b>.</>
@@ -120,7 +151,7 @@ export default async function BotaPerKosovenPage() {
           </div>
 
           <div className={s.week}>
-            <p className={s.weekLabel}>7 ditët e fundit · nga 0 te 100</p>
+            <p className={s.weekLabel}>7 ditët e fundit</p>
             <WeekChart week={today.week} today={today.date} />
             {hasGapBeforeMethod && (
               <p className={s.weekNote}>
@@ -156,7 +187,7 @@ export default async function BotaPerKosovenPage() {
                 {today.isStale ? "Lajmet e mbledhjes së fundit" : includesYesterday ? "Lajmet e sotme dhe të djeshme" : "Lajmet e sotme"}
               </h2>
               <p className={s.sectionNote}>
-                Lexo artikujt e përkthyer në shqip dhe shpjegimin e vlerësimit të secilit.
+                Një lajm i shkruar nga disa gazeta shfaqet një herë, me të gjitha gazetat poshtë tij. Te secili: titulli origjinal, data dhe pse e vlerësuam ashtu.
               </p>
             </div>
           </div>
@@ -184,11 +215,13 @@ export default async function BotaPerKosovenPage() {
         {/* Outside the <details>: /bota-per-kosoven#metodologjia links must land on
             text the reader can see, and not every browser opens <details> for a fragment. */}
         <p id="metodologjia" className={s.method}>
-          <b>Si e llogarisim.</b> Vlerësojmë mënyrën si artikulli e portretizon Kosovën,
-          jo nëse ngjarja është e mirë apo e keqe. Dallojmë opinionet e personave të cituar
-          nga zëri i gazetarit. Indeksi shkon nga 0 (portretizim negativ) te 100
-          (portretizim pozitiv); 50 është neutral ose i baraspeshuar. Çdo artikull ka
-          shpjegimin e vlerësimit, përkthimin në shqip dhe lidhjen te burimi origjinal.
+          <b>Si e llogarisim.</b> Gjejmë artikujt për Kosovën në shtypin e huaj, i lexojmë
+          të plotë nga faqja e gazetës dhe i përkthejmë në shqip. Secilin e vlerësojmë sipas
+          mënyrës si e portretizon Kosovën, jo nëse ngjarja është e mirë apo e keqe, dhe
+          dallojmë fjalët e personave të cituar nga zëri i gazetarit. Pozitiv vlen 100,
+          neutral 50, negativ 0; indeksi i ditës është mesatarja e të gjithë artikujve, nga
+          0 te 100. Çdo artikull ka titullin origjinal, arsyen e vlerësimit dhe lidhjen te
+          burimi. Nëse mendon se një vlerësim është gabim, na shkruaj nga vetë artikulli.
         </p>
         </div>
       </main>
