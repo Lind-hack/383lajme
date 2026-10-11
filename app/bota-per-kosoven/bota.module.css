@@ -83,6 +83,21 @@
   color: var(--color-muted);
 }
 
+/* The column is the 0–100 scale: bars rise from 0, the dashed rule marks 50. */
+.weekChart { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; --col: 160px; }
+.weekAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: var(--col);
+  margin-top: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 0;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+  text-align: right;
+}
 .weekGrid {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -90,41 +105,30 @@
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-.day {
-  display: grid;
-  grid-template-rows: 64px 64px auto;
-  justify-items: center;
   position: relative;
 }
-.day::before {
-  /* the 50 line */
+.weekGrid::before {
+  /* the 50 line, across every column */
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  top: 64px;
-  border-top: 1px dashed rgba(17, 17, 17, 0.14);
+  top: calc(20px + var(--col) / 2);
+  border-top: 1px dashed rgba(17, 17, 17, 0.22);
+  pointer-events: none;
 }
-
-.up, .down {
+.day { display: grid; grid-template-rows: auto auto; justify-items: center; }
+.column {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
+  height: calc(20px + var(--col));
+  border-bottom: 1px solid var(--rule);
 }
-.up { justify-content: flex-end; }
-.down { justify-content: flex-start; }
-
-.bar {
-  width: min(34px, 70%);
-  border-radius: 6px;
-  min-height: 3px;
-}
-.up .bar { border-bottom-left-radius: 1px; border-bottom-right-radius: 1px; }
-.down .bar { border-top-left-radius: 1px; border-top-right-radius: 1px; }
-
+.bar { width: min(34px, 70%); min-height: 3px; border-radius: 6px 6px 1px 1px; }
+.column .bar { max-height: var(--col); }
 .dayValue {
   font-size: 12.5px;
   font-weight: 800;
@@ -356,8 +360,7 @@
   .story:not(:has(.thumb)) { grid-template-columns: minmax(0, 1fr); }
   .tag { grid-column: 1 / -1; }
   .thumb { width: 72px; height: 56px; grid-column: 2; grid-row: 2; }
-  .day { grid-template-rows: 48px 48px auto; }
-  .day::before { top: 48px; }
+  .weekChart { --col: 120px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -9,7 +9,7 @@ import Link from "next/link";
 import { ArrowDownRight, ArrowRight, ArrowUpRight, Minus } from "lucide-react";
 import SectionLabel from "@/components/section-label";
 import ToneScaleBar from "@/components/tone/tone-scale-bar";
-import { ToneTag } from "@/app/bota-per-kosoven/stories";
+import { linkProps, ToneTag } from "@/app/bota-per-kosoven/stories";
 import type { DailyStory, ToneToday } from "@/lib/tone-data";
 import { dayVerdict, toneFill, toneLabel } from "@/lib/tone-scale";
 import s from "./bota-home.module.css";
@@ -87,7 +87,7 @@ export default function BotaHome({ today, stories }: { today: ToneToday; stories
           <ol className={s.list}>
             {top.map((x) => (
               <li key={x.id}>
-                <Link href={x.url} className={s.story}>
+                <Link href={x.url} className={s.story} {...linkProps(x)}>
                   <ToneTag tone={x.sentiment} />
                   <span className={s.title}>{x.title}</span>
                   <span className={s.outlet}>

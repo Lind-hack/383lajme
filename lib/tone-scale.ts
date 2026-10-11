@@ -54,6 +54,16 @@ export function bandPosition(index: number): number {
   return (clamp(index, BAND.lo, BAND.hi) - BAND.lo) / (BAND.hi - BAND.lo);
 }
 
+/**
+ * Where an index sits on the full 0–100 scale, 0 to 1. For anything drawn as a
+ * length or a position the reader measures — the scale bar, the week's bars —
+ * so 100 is the end of the bar and 70 is not. Colours and words still come from
+ * the band (toneFill, toneLabel), which is what keeps near-50 readings apart.
+ */
+export function scalePosition(index: number): number {
+  return clamp(index, 0, 100) / 100;
+}
+
 /** Five steps, not a continuous gradient — a reader can name a step. */
 export function toneFill(index: number | null): string {
   if (index == null) return "rgba(17,17,17,0.10)";

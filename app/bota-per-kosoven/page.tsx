@@ -120,7 +120,7 @@ export default async function BotaPerKosovenPage() {
           </div>
 
           <div className={s.week}>
-            <p className={s.weekLabel}>7 ditët e fundit</p>
+            <p className={s.weekLabel}>7 ditët e fundit · nga 0 te 100</p>
             <WeekChart week={today.week} today={today.date} />
             {hasGapBeforeMethod && (
               <p className={s.weekNote}>
