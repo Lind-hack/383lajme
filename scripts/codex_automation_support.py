@@ -490,6 +490,11 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
             slug = str(article.get("slug") or "")
             ascii_slug = unicodedata.normalize("NFKD", slug).encode("ascii", "ignore").decode().lower()
             ascii_slug = re.sub(r"[^a-z0-9-]+", "-", ascii_slug).strip("-")
+            if not re.fullmatch(r"[a-z0-9-]{8,120}", ascii_slug):
+                title_slug = unicodedata.normalize("NFKD", str(article.get("title") or "lajm")).encode("ascii", "ignore").decode().lower()
+                title_slug = re.sub(r"[^a-z0-9]+", "-", title_slug).strip("-")[:105].rstrip("-") or "lajm"
+                suffix = hashlib.sha256((source_identity or title_slug).encode("utf-8")).hexdigest()[:10]
+                ascii_slug = f"{title_slug}-{suffix}"
             if ascii_slug != slug:
                 article["slug"] = ascii_slug
                 changed += 1

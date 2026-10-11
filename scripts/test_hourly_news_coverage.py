@@ -13,6 +13,21 @@ from prepare_editor_sources import coverage_plan, discovery, fetch, ready_image
 
 
 class HourlyCoverageTests(unittest.TestCase):
+    def test_invalid_discovery_slugs_are_repaired_before_editing(self):
+        from codex_automation_support import normalize_batch
+        with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch("news_image_policy.trusted_photo", return_value={"image_subject": "Verified subject"}):
+            batch = Path(folder) / "2026-10-11T22.json"
+            rows = [{"url": f"https://techcrunch.com/story-{index}", "slug": slug,
+                     "title": "Apple hap zyrën në Kaliforni", "category": "Teknologji", "body": "<p>Fakte të verifikuara.</p>"}
+                    for index, slug in enumerate(("Botë-02", "", "x" * 140))]
+            batch.write_text(json.dumps(rows), encoding="utf-8")
+            normalized = normalize_batch(batch)
+            self.assertEqual(len({row["slug"] for row in normalized}), 3)
+            for row in normalized:
+                self.assertRegex(row["slug"], r"^[a-z0-9-]{8,120}$")
+                self.assertTrue(row["slug"].startswith("apple-hap-zyren-ne-kaliforni-"))
+            self.assertEqual([row["slug"] for row in normalize_batch(batch)], [row["slug"] for row in normalized])
+
     def test_hourly_identity_survives_tracker_changes_and_avoids_ordinal_collisions(self):
         from codex_automation_support import normalize_batch
         with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch("news_image_policy.trusted_photo", return_value={"image_subject": "Verified subject"}):
