@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import Navbar from "@/components/navbar";
-import TimeAgo from "@/components/time-ago";
 import MarketMiniCard from "@/components/tregu/market-mini-card";
 import MarketEventCard from "@/components/tregu/market-event-card";
 import { groupMarkets } from "@/lib/tregu-groups";
@@ -34,6 +33,7 @@ import type { MarketMedia } from "@/lib/tregu-market-media.mjs";
 import SpotlightTour, { type TourStep } from "@/components/spotlight-tour";
 import TradeTutorial, { openTradeTutorial } from "@/components/tregu/trade-tutorial";
 import LeagueTutorial from "@/components/tregu/league-tutorial";
+import LiveTape from "@/components/tregu/live-tape";
 import { DailyBonusButton, DailyBonusStrip, JackpotCelebration, useDailyBonus } from "@/components/tregu/daily-bonus";
 import DuelPin, { useMyDuels } from "@/components/tregu/duel-pin";
 import ResultsReveal from "@/components/tregu/results-reveal";
@@ -164,6 +164,7 @@ interface ActivityItem {
   name: string;
   action: string;
   side: string;
+  sideLabel?: string | null;
   coins: number;
   createdAt: string;
   question: string;
@@ -889,33 +890,7 @@ export default function TreguHub() {
         </div>
 
         {/* Live tape — latest real trades across the floor, the hub's pulse. */}
-        {activity.length > 0 && (
-          <div className="tregu-ticker" data-tour="floor-tape" aria-label="Tregtimet e fundit">
-            <span className="tregu-ticker-label">
-              <span className="tregu-live-dot" aria-hidden />
-              Live
-            </span>
-            <div className="tregu-ticker-track">
-              {activity.map((a, i) => (
-                <Link key={i} href={`/tregu/${a.slug}`} className="tregu-ticker-item">
-                  <strong>{a.name}</strong>
-                  <span>{a.action === "sell" ? "shiti" : "bleu"}</span>
-                  <span
-                    className="tregu-ticker-side"
-                    data-side={a.side === "PO" ? "po" : "jo"}
-                  >
-                    {a.side}
-                  </span>
-                  <span className="tregu-ticker-coins">
-                    {fmtNum(a.coins)} 383C
-                  </span>
-                  <span className="tregu-ticker-q">{a.question}</span>
-                  <TimeAgo iso={a.createdAt} format={timeAgo} className="tregu-ticker-time" />
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
+        <LiveTape trades={activity} format={timeAgo} />
 
         {/* Hero row — flagship carousel left, floor rail right. The big
             books rotate through one big card; the rail ranks the whole

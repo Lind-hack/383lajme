@@ -140,7 +140,7 @@ export async function GET(request: NextRequest) {
       : Promise.resolve({ data: [] as SportOracleRow[], error: null }),
     supabase
       .from("market_trades")
-      .select("action, side, coins, price_yes, created_at, profiles(display_name, is_anonymous), markets(question, slug)")
+      .select("action, side, coins, price_yes, created_at, profiles(display_name, is_anonymous), markets(question, slug, sport_outcomes)")
       .order("created_at", { ascending: false })
       .limit(10),
     sourceSlugs.length
@@ -326,11 +326,14 @@ export async function GET(request: NextRequest) {
     price_yes: number;
     created_at: string;
     profiles: { display_name: string | null; is_anonymous: boolean | null } | null;
-    markets: { question: string; slug: string } | null;
+    markets: { question: string; slug: string; sport_outcomes: { key?: string; label?: string }[] | null } | null;
   }[]).map((t) => ({
     name: publicProfileName(t.profiles),
     action: t.action,
     side: t.side,
+    // Sport books trade outcome keys ("home", "away", a driver code); the
+    // tape shows the outcome's own label instead of the raw key.
+    sideLabel: (Array.isArray(t.markets?.sport_outcomes) ? t.markets.sport_outcomes : []).find((o) => o?.key === t.side)?.label ?? null,
     coins: Number(t.coins),
     priceYes: Number(t.price_yes),
     createdAt: t.created_at,

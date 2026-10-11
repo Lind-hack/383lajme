@@ -2581,29 +2581,6 @@ header[data-overlay] .nav-coin-chip {
 }
 .tregu-activity-row:last-child { border-bottom: none; }
 
-/* Hub live tape — one scrollable row of the latest trades on the floor. */
-.tregu-ticker {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
-  padding: 9px 14px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid var(--tg-border);
-  overflow: hidden;
-}
-.tregu-ticker-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--tg-muted);
-  flex-shrink: 0;
-}
 .tregu-live-dot {
   width: 7px;
   height: 7px;
@@ -2611,42 +2588,180 @@ header[data-overlay] .nav-coin-chip {
   background: #00A651;
   box-shadow: 0 0 0 3px rgba(0, 166, 81, 0.18);
 }
-.tregu-ticker-track {
+/* Hub live tape — the latest real trades on the floor. A dark "Live" badge
+   docks a white rail: on desktop the trades run past as a marquee, on a
+   phone one trade rolls in at a time (components/tregu/live-tape.tsx). */
+.tregu-tape {
   display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin-bottom: 18px;
+  overflow: hidden;
+  border: 1px solid var(--tg-border);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(17, 17, 17, 0.03), 0 10px 24px -18px rgba(17, 17, 17, 0.35);
+}
+.tregu-tape-badge {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
-  gap: 22px;
+  gap: 7px;
+  padding: 0 14px 0 13px;
+  background: #111;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.tregu-tape-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #FF3B30;
+}
+.tregu-tape-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: inherit;
+  animation: tregu-tape-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes tregu-tape-ping {
+  0% { transform: scale(1); opacity: 0.7; }
+  80%, 100% { transform: scale(2.6); opacity: 0; }
+}
+
+/* Desktop rail */
+.tregu-tape-rail {
+  position: relative;
+  min-width: 0;
+  flex: 1;
   overflow-x: auto;
   scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 28px, #000 calc(100% - 48px), transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 28px, #000 calc(100% - 48px), transparent);
 }
-.tregu-ticker-track::-webkit-scrollbar { display: none; }
-.tregu-ticker-item {
+.tregu-tape-rail::-webkit-scrollbar { display: none; }
+.tregu-tape-rail[data-marquee] { overflow: hidden; }
+.tregu-tape-track { display: flex; width: max-content; }
+.tregu-tape-rail[data-marquee] .tregu-tape-track {
+  animation: tregu-tape-run var(--tape-duration, 50s) linear infinite;
+}
+.tregu-tape-rail[data-marquee]:hover .tregu-tape-track,
+.tregu-tape-rail[data-marquee]:focus-within .tregu-tape-track { animation-play-state: paused; }
+@keyframes tregu-tape-run {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.tregu-tape-group { display: flex; align-items: center; }
+.tregu-tape-rail .tregu-tape-item {
   display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
-  font-size: 12.5px;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px 9px 14px;
+  white-space: nowrap;
+  border-right: 1px solid rgba(17, 17, 17, 0.06);
+}
+
+/* One trade, shared by the rail and the phone stage */
+.tregu-tape-item {
   color: var(--tg-muted);
+  font-size: 12.5px;
   text-decoration: none;
+  font-variant-numeric: tabular-nums;
+}
+.tregu-tape-item:focus-visible { outline: 2px solid #FF4422; outline-offset: -2px; border-radius: 10px; }
+.tregu-tape-avatar {
+  display: grid;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 50%;
+  background: hsl(var(--h) 70% 92%);
+  color: hsl(var(--h) 55% 32%);
+  font-size: 11px;
+  font-weight: 850;
+}
+.tregu-tape-line { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+.tregu-tape-name { color: var(--tg-text); font-weight: 800; }
+.tregu-tape-side {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 800;
   white-space: nowrap;
 }
-.tregu-ticker-item strong { color: var(--tg-text); font-weight: 800; }
-.tregu-ticker-item:hover .tregu-ticker-q { color: var(--tg-text); }
-.tregu-ticker-side {
-  font-weight: 800;
-  font-size: 11px;
-  padding: 1px 7px;
-  border-radius: 100px;
-}
-.tregu-ticker-side[data-side="po"] { color: #00854A; background: rgba(0, 166, 81, 0.12); }
-.tregu-ticker-side[data-side="jo"] { color: #B91C1C; background: rgba(228, 30, 32, 0.10); }
-.tregu-ticker-coins { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--tg-text); }
-.tregu-ticker-q {
-  max-width: 260px;
+.tregu-tape-side[data-side="po"] { color: #00854A; background: rgba(0, 166, 81, 0.12); }
+.tregu-tape-side[data-side="jo"] { color: #B91C1C; background: rgba(228, 30, 32, 0.10); }
+.tregu-tape-side[data-side="pick"] { color: #1d1d1f; background: rgba(17, 17, 17, 0.07); }
+.tregu-tape-coins { color: var(--tg-text); font-weight: 800; }
+.tregu-tape-q {
+  max-width: 280px;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
   transition: color 160ms var(--ease-out);
 }
-.tregu-ticker-time { font-size: 11px; font-variant-numeric: tabular-nums; }
+.tregu-tape-time { color: #9a9a9a; font-size: 11px; }
+@media (hover: hover) and (pointer: fine) {
+  .tregu-tape-item:hover .tregu-tape-q { color: var(--tg-text); }
+}
+
+/* Phone stage: hidden on desktop, replaces the rail on a phone */
+.tregu-tape-stage { display: none; }
+@media (max-width: 760px) {
+  .tregu-tape-rail { display: none; }
+  .tregu-tape-badge { padding: 0 11px; font-size: 10.5px; }
+  .tregu-tape-stage {
+    position: relative;
+    display: block;
+    min-width: 0;
+    flex: 1;
+    height: 58px;
+    overflow: hidden;
+  }
+  .tregu-tape-slide { position: absolute; inset: 0; }
+  .tregu-tape-slide[data-animate] { animation: tregu-tape-roll 420ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+  .tregu-tape-stage .tregu-tape-item {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    align-items: center;
+    column-gap: 9px;
+    row-gap: 2px;
+    height: 100%;
+    padding: 0 12px;
+  }
+  .tregu-tape-stage .tregu-tape-avatar { grid-row: 1 / 3; width: 28px; height: 28px; font-size: 12px; }
+  .tregu-tape-stage .tregu-tape-line { overflow: hidden; }
+  .tregu-tape-stage .tregu-tape-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .tregu-tape-stage .tregu-tape-side { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  /* Right column: the amount on top, the age under it. */
+  .tregu-tape-stage .tregu-tape-coins { grid-column: 3; grid-row: 1; justify-self: end; white-space: nowrap; }
+  .tregu-tape-stage .tregu-tape-time { grid-column: 3; grid-row: 2; justify-self: end; }
+  .tregu-tape-stage .tregu-tape-q { grid-column: 2; grid-row: 2; max-width: none; font-size: 12px; }
+}
+@keyframes tregu-tape-roll {
+  from { transform: translateY(70%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tregu-tape-dot::after,
+  .tregu-tape-rail[data-marquee] .tregu-tape-track,
+  .tregu-tape-slide[data-animate] { animation: none; }
+}
 
 /* Chart overlays — HTML text so the stretched SVG never distorts it. */
 .tregu-axis-label {
@@ -15364,7 +15479,7 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
 .tregu-skeleton{position:relative;overflow:hidden;background:#eeeae4!important}.tregu-skeleton:after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);animation:tregu-skeleton-pass 1.4s linear infinite}@keyframes tregu-skeleton-pass{to{transform:translateX(100%)}}
 .tregu-native-market[data-competition]{isolation:isolate;position:relative;overflow:hidden}.tregu-competition-art{position:absolute;pointer-events:none;inset:auto 0 0;width:100%;height:auto;max-height:180px;z-index:-1;color:var(--competition-color);opacity:.5}.tregu-native-market[data-competition="uefa.champions"]{--competition-color:#263cc9;background:#f3f5ff;border-color:#bdc8ef}.tregu-native-market[data-competition="uefa.europa"]{--competition-color:#b95408;background:#fff7ee;border-color:#efd1b3}.tregu-native-market[data-competition="uefa.europa.conf"]{--competition-color:#13843c;background:#f1faf2;border-color:#b8dbc0}.tregu-native-market[data-competition] .tregu-native-outcome{background:rgba(255,255,255,.88)}
 .tregu-trade-celebration[data-competition="uefa.champions"]{--competition-color:#a1b8ff;background:#081950!important}.tregu-trade-celebration[data-competition="uefa.europa"]{--competition-color:#ff861d;background:#351508!important}.tregu-trade-celebration[data-competition="uefa.europa.conf"]{--competition-color:#31da74;background:#072a17!important}.tregu-trade-celebration[data-competition] .tregu-competition-art{z-index:0;max-height:none;opacity:.8}.tregu-trade-celebration:is([data-competition="uefa.champions"],[data-competition="uefa.europa"],[data-competition="uefa.europa.conf"]) .tregu-trade-celebration-wash{opacity:.12}
-@media(max-width:768px){.tregu-category-desktop{display:none!important}.tregu-category-mobile{display:block;width:135px;flex-shrink:0}.tregu-discovery-controls{gap:8px}.tregu-search input{padding:10px;font-size:16px}.tregu-ribbon-inner{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px 16px!important;white-space:normal!important;padding:16px 20px!important;min-width:0!important}.tregu-ribbon{overflow:visible!important}.tregu-stat{flex-wrap:wrap}.tregu-sports-discovery{grid-template-columns:1fr 1fr;gap:10px}.tregu-sports-discovery>[data-sport="football"]{grid-column:1/-1}.tregu-sports-discovery>.tregu-sport-card{padding:14px!important}.tregu-sports-discovery h3{font-size:14px!important}.tregu-sports-discovery p{font-size:12px!important}.tregu-basketball-soon{display:none!important}.tregu-sport-league{min-width:0}.tregu-sports-discovery .tregu-race-name{white-space:normal;font-size:12px}.tregu-ticker-track{overflow:visible!important;min-width:0;display:block!important}.tregu-ticker-item{white-space:normal!important;display:flex;flex-wrap:wrap;gap:4px 6px!important;padding:8px!important}.tregu-ticker-item:not(:first-child){display:none}.tregu-ticker-q{width:100%;white-space:normal!important;max-width:none!important}.tregu-ticker{align-items:start!important}.tregu-controls{flex-wrap:wrap;gap:12px}.tregu-sort{width:100%;display:flex}.tregu-sort button{flex:1;min-height:44px;padding:8px 6px;font-size:12px}.tregu-native-market{min-height:0!important}.tregu-native-title{min-height:0!important}.tregu-market-open{display:inline-flex!important}.tregu-native-outcome strong{font-size:19px}.f1-chart-shell{padding:14px!important}}
+@media(max-width:768px){.tregu-category-desktop{display:none!important}.tregu-category-mobile{display:block;width:135px;flex-shrink:0}.tregu-discovery-controls{gap:8px}.tregu-search input{padding:10px;font-size:16px}.tregu-ribbon-inner{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px 16px!important;white-space:normal!important;padding:16px 20px!important;min-width:0!important}.tregu-ribbon{overflow:visible!important}.tregu-stat{flex-wrap:wrap}.tregu-sports-discovery{grid-template-columns:1fr 1fr;gap:10px}.tregu-sports-discovery>[data-sport="football"]{grid-column:1/-1}.tregu-sports-discovery>.tregu-sport-card{padding:14px!important}.tregu-sports-discovery h3{font-size:14px!important}.tregu-sports-discovery p{font-size:12px!important}.tregu-basketball-soon{display:none!important}.tregu-sport-league{min-width:0}.tregu-sports-discovery .tregu-race-name{white-space:normal;font-size:12px}.tregu-controls{flex-wrap:wrap;gap:12px}.tregu-sort{width:100%;display:flex}.tregu-sort button{flex:1;min-height:44px;padding:8px 6px;font-size:12px}.tregu-native-market{min-height:0!important}.tregu-native-title{min-height:0!important}.tregu-market-open{display:inline-flex!important}.tregu-native-outcome strong{font-size:19px}.f1-chart-shell{padding:14px!important}}
 @media(prefers-reduced-motion:reduce){.tregu-skeleton:after{animation:none;transform:none;opacity:.25}}
 
 .tregu-native-market[data-competition] .tregu-competition-art{max-height:110px;opacity:.28}.tregu-native-market .tregu-market-open{opacity:1;visibility:visible;transform:none}
@@ -24600,6 +24715,7 @@ button.lgt-launch > span {
 }
 .tregu-bonus-steps i {
   display: grid;
+  flex-shrink: 0;
   width: 20px;
   height: 20px;
   place-items: center;
@@ -24671,26 +24787,42 @@ button.lgt-launch > span {
 .tregu-bonus-done strong { color: #00713f; font-weight: 800; }
 .tregu-bonus-done > span:not(:first-child) { color: #5f5a54; }
 .tregu-bonus-done em { display: inline-flex; align-items: center; gap: 3px; margin-left: auto; padding: 3px 9px; border-radius: 999px; background: #FFF1E6; color: #e8590c; font-style: normal; font-weight: 800; }
+/* Phone: Dardani sits beside the kicker and title only; the explainer, the
+   steps, the stats and the button each take the card's full width. The side
+   used to put the stats and the button on one row, which pushed the button
+   out of the card on 421-760px screens (big iPhones, most Androids). */
 @media (max-width: 760px) {
   .tregu-bonus-card {
-    grid-template-columns: 84px minmax(0, 1fr);
-    gap: 12px 14px;
-    padding: 16px 16px 16px 8px;
+    grid-template-columns: 76px minmax(0, 1fr);
+    grid-template-areas:
+      "dardani kicker"
+      "dardani title"
+      "lead lead"
+      "steps steps"
+      "side side";
+    align-items: end;
+    gap: 0 12px;
+    padding: 16px;
   }
-  .tregu-bonus-card-dardani { height: 96px; margin: 0; align-self: start; }
-  .tregu-bonus-card-lead { font-size: 13px; }
+  .tregu-bonus-card-main { display: contents; }
+  .tregu-bonus-card-dardani { grid-area: dardani; height: 84px; margin: -4px 0 0 -6px; align-self: center; }
+  .tregu-bonus-card-kicker { grid-area: kicker; }
+  .tregu-bonus-card-title { grid-area: title; align-self: start; margin-bottom: 0; font-size: 21px; }
+  .tregu-bonus-card-lead { grid-area: lead; max-width: none; margin: 12px 0 12px; font-size: 13px; }
+  .tregu-bonus-steps { grid-area: steps; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tregu-bonus-steps li { justify-content: center; min-width: 0; padding: 5px 8px 5px 5px; font-size: 12px; white-space: nowrap; }
   .tregu-bonus-card-side {
-    grid-column: 1 / -1;
-    grid-template-columns: 1fr auto;
-    align-items: center;
+    grid-area: side;
+    grid-template-columns: minmax(0, 1fr);
     justify-items: stretch;
-    padding-left: 8px;
+    gap: 10px;
+    margin-top: 14px;
   }
-  .tregu-bonus-card-stats { justify-items: start; grid-auto-flow: column; justify-content: start; }
-}
-@media (max-width: 420px) {
-  .tregu-bonus-card-side { grid-template-columns: 1fr; }
+  .tregu-bonus-card-stats { display: flex; flex-wrap: wrap; gap: 6px; }
   .tregu-bonus-card-cta { width: 100%; }
+}
+@media (max-width: 399px) {
+  .tregu-bonus-steps { display: flex; flex-wrap: wrap; }
 }
 @media (prefers-reduced-motion: reduce) {
   .tregu-bonus-card::after { animation: none; transform: none; opacity: .5; }
