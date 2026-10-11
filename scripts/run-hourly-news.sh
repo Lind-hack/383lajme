@@ -435,6 +435,20 @@ for refill_attempt in 1 2; do
   rm -f "$REFILL_BACKUP"
 done
 
+stage="independent-originality-review"
+"$PYTHON_BIN" scripts/news_copyright_review.py --file "$BATCH"
+if [ "$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$BATCH")" -eq 0 ]; then
+  stage="no-new-verified-news"
+  record_state no_news
+  "$PYTHON_BIN" scripts/news_quality_report.py --file "$BATCH" --status no_news
+  if [ "$QA_ONLY" != "1" ]; then
+    "$PYTHON_BIN" scripts/codex_automation_support.py send-status-report --phase completed --message "Pipeline përfundoi pa artikuj që kaluan kontrollin e origjinalitetit."
+  fi
+  printf '383 NO NEWS: independent originality review rejected all candidates\n'
+  exit 0
+fi
+"$PYTHON_BIN" scripts/news_copyright_review.py --verify --file "$BATCH"
+
 stage="batch-validation"
 if ! "$PYTHON_BIN" scripts/codex_automation_support.py validate --file "$BATCH"; then
   fail_run "remaining candidates did not meet the batch quality floor after per-candidate isolation"

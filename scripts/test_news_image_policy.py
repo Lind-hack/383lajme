@@ -17,14 +17,14 @@ def plan():
             "caption": "Selia e Apple në Kaliforni."}
 
 
-def page(license_name="CC BY-SA 4.0"):
+def page(license_name="CC0"):
     return {"title": "File:Apple Park.jpg", "imageinfo": [{
         "url": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Apple_Park.jpg",
         "descriptionurl": "https://commons.wikimedia.org/wiki/File:Apple_Park.jpg",
         "extmetadata": {"LicenseShortName": {"value": license_name},
                         "LicenseUrl": {"value": policy.LICENSES.get(license_name, "")},
                         "Artist": {"value": "<a>Jane Photographer</a>"},
-                        "Copyrighted": {"value": "True"},
+                        "Copyrighted": {"value": "False"},
                         "ImageDescription": {"value": "Apple Park in Cupertino"}}
     }]}
 
@@ -72,19 +72,20 @@ class NewsPhotoTests(unittest.TestCase):
     def test_license_creator_and_story_context_are_preserved(self):
         photo = policy.candidate_photo(page(), plan())
         self.assertEqual(photo["image_rights"]["creator"], "Jane Photographer")
-        self.assertEqual(photo["image_rights"]["license"], "CC BY-SA 4.0")
+        self.assertEqual(photo["image_rights"]["license"], "CC0")
         self.assertEqual(photo["image_subject"], "Apple Park")
 
     def test_unlicensed_nc_nd_missing_credit_and_unrelated_photos_fail(self):
-        for license_name in ("", "Fair use", "CC BY-NC 4.0", "CC BY-ND 4.0"):
+        for license_name in ("", "Fair use", "CC BY 4.0", "CC BY-SA 4.0", "CC BY-NC 4.0", "CC BY-ND 4.0"):
             self.assertIsNone(policy.candidate_photo(page(license_name), plan()))
         candidate = page()
         candidate["imageinfo"][0]["extmetadata"].pop("Artist")
-        self.assertIsNone(policy.candidate_photo(candidate, plan()))
+        self.assertIsNotNone(policy.candidate_photo(candidate, plan()))
         self.assertIsNone(policy.candidate_photo(page(), {**plan(), "subject": "Microsoft headquarters"}))
 
     def test_public_domain_requires_explicit_status_and_no_extra_restrictions(self):
         candidate = page("Public domain")
+        candidate["imageinfo"][0]["extmetadata"]["Copyrighted"]["value"] = "True"
         self.assertIsNone(policy.candidate_photo(candidate, plan()))
         candidate["imageinfo"][0]["extmetadata"]["Copyrighted"]["value"] = "False"
         self.assertIsNotNone(policy.candidate_photo(candidate, plan()))

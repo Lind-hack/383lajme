@@ -74,7 +74,7 @@ to fill a quiet lane.
 
 ## Batch article contract
 
-Every article must include `id`, `slug`, `url`, `title`, `excerpt`, `body`, `source`, `category`, `published_at`, `reading_time`, `featured`, `engagement_score`, `score_reason`, `score_breakdown`, `score_formula`, `image_url`, `image_width`, `image_height`, `city`, `corroborating_sources`, and `created_at` and `dispatch` (UTC slot YYYY-MM-DDTHH). Hourly photos must depict a specific subject of the story, not merely its category. Use only the prepared image_* fields, including image_subject, image_caption and image_rights, unchanged. Preparation searches Wikimedia Commons for a named person, place, institution, product or physical object supported by the story. Only independently checked CC0/public-domain or CC BY/CC BY-SA photographs with a visible creator credit and linked license are eligible in the automated pool. All scraped publisher images, same-photo copies/renditions and arbitrary image-search URLs are prohibited. The image's decoded size must be at least 1200×630. Writer and editor must verify the subject and file description against the story; reject unrelated images. Use the short Albanian archival/illustrative caption and never claim an archive photo depicts the current event. If no contextual, rights-cleared, distinct photo is available, skip the candidate and try another verified story. Legacy daily images retain their existing policy until migrated; do not use the legacy publisher-photo fallback for hourly publication.
+Every article must include `id`, `slug`, `url`, `title`, `excerpt`, `body`, `source`, `category`, `published_at`, `reading_time`, `featured`, `engagement_score`, `score_reason`, `score_breakdown`, `score_formula`, `image_url`, `image_width`, `image_height`, `city`, `corroborating_sources`, and `created_at` and `dispatch` (UTC slot YYYY-MM-DDTHH). Hourly photos must depict a specific subject of the story, not merely its category. Use only the prepared image_* fields, including image_subject, image_caption and image_rights, unchanged. Preparation searches Wikimedia Commons for a named person, place, institution, product or physical object supported by the story. Only independently checked CC0/public-domain photographs with an explicit matching rights URL and no attribution obligation/additional restrictions are eligible in the automated pool. BY/SA/NC/ND photographs are excluded from automatic publication because external distribution can lose required credits. All scraped publisher images, same-photo copies/renditions and arbitrary image-search URLs are prohibited. The image's decoded size must be at least 1200×630. Writer and editor must verify the subject and file description against the story; reject unrelated images. Use the short Albanian archival/illustrative caption and never claim an archive photo depicts the current event. If no contextual, rights-cleared, distinct photo is available, skip the candidate and try another verified story. Legacy daily images retain their existing policy until migrated; do not use the legacy publisher-photo fallback for hourly publication.
 
 Write at least 140 supported Albanian words in three HTML paragraphs. Prefer
 220+ words in four paragraphs when sources support that depth; never pad a brief.
@@ -95,7 +95,7 @@ reject sensitive single-source claims even when discovery missed them.
 
 ## Originality
 
-Draft a fact outline first, then build a new lead, ordering and explanation for 383 readers. Use plain Albanian, short sentences and verified context; do not add unsupported background to appear original. Do not closely translate or lightly rearrange a source article. Use sources as evidence, not as copy. Never copy sentences from source articles. A paraphrased rewrite or short excerpt plus a link must add context and be written in 383 Lajme’s own words. Drop a story that cannot meet this standard rather than padding the batch.
+Draft a fact outline first, then build a new lead, ordering and explanation for 383 readers. Use plain Albanian, short sentences and verified context; do not add unsupported background to appear original. Do not closely translate or lightly rearrange a source article. Use sources as evidence, not as copy. Never copy sentences from source articles. Develop a new article from a verified fact outline; a close paraphrase or short excerpt plus a link does not qualify as independent composition. Drop a story that cannot meet this standard rather than padding the batch.
 
 ## Ranking metadata
 
@@ -109,3 +109,30 @@ in Albanian. Never copy a neutral all-5 template, inflate every story into break
 news, or compute the weighted total. The independent editor reassesses ranking;
 the normalizer calculates engagement_score, reading_time and city.
 The old Prishtina score floor applies only to legacy daily mode.
+
+
+## Mandatory independent composition review
+
+Before publication, a separate GPT-6 Luna/max OAuth reviewer compares every
+final article against all original evidence, including foreign-language sources.
+Reject close translations, line-by-line rewrites, copied expressive framing or
+structure, borrowed exclusive interviews/analysis, unsupported context and false
+firsthand reporting. A changed publisher name or a source link is not originality.
+Prefer new organization and explanation of independently verified public facts.
+Never invent facts to make a short source look original or satisfy the word floor.
+
+Substantive direct quotations are excluded from automated output. Report verified
+statements through independently composed indirect speech, retaining necessary
+attribution. Short quoted names/product titles remain subject to review; there
+is no automatic word-count permission exception.
+
+`scripts/news_copyright_review.py` records individual approval/rejection and
+binds approved prose, source evidence and image rights by hash. Incomplete,
+expired or changed reviews block publication. The publication entry point
+rechecks these approvals, deterministic originality, journalism, source policy,
+evidence and photo rights before any database operation, including CLI/legacy
+entry points. Never hand-create approval receipts. Rejected stories are skipped;
+quality and rights take priority over the target of 20.
+
+These checks screen risk and cannot establish legal certainty. They must never
+label automated aggregation as original interviews or eyewitness reporting.

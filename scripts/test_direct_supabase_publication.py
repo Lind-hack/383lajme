@@ -63,6 +63,11 @@ class DirectSupabasePublicationTests(unittest.TestCase):
         self.directory = tempfile.TemporaryDirectory()
         self.path = Path(self.directory.name) / "2026-07-10T12.json"
         self.path.write_text(json.dumps(self.articles), encoding="utf-8")
+        self.path.with_suffix(".copyright-review.json").write_text(json.dumps({
+            "reviewed_at": datetime.now(timezone.utc).isoformat(), "model": "gpt-6-luna"}), encoding="utf-8")
+        copyright_patch = patch("news_copyright_review.validate_for_publication")
+        self.copyright_validator = copyright_patch.start()
+        self.addCleanup(copyright_patch.stop)
         self.old_fetch = self.support._fetch_image_dimensions
         self.old_load_env = self.support.load_env
         self.old_env = {key: os.environ.get(key) for key in ("NEXT_PUBLIC_SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY")}
@@ -101,6 +106,20 @@ class DirectSupabasePublicationTests(unittest.TestCase):
         self.assertIn("materially matches published headline", output.getvalue())
         self.assertTrue(all(method == "GET" for method, _, _ in calls))
 
+    def test_missing_originality_approval_blocks_publication_before_any_request(self):
+        self.copyright_validator.side_effect = ValueError("missing independent originality review")
+        calls = []
+        self.support._supabase_request = lambda *args, **kwargs: calls.append(args)
+        self.assertEqual(self.support.publish_supabase(self.path), 1)
+        self.assertEqual(calls, [])
+
+    def test_missing_originality_approval_blocks_legacy_git_publication(self):
+        self.copyright_validator.side_effect = ValueError("missing independent originality review")
+        with patch.object(self.support, "_git") as git:
+            with self.assertRaisesRegex(ValueError, "missing independent"):
+                self.support.git_publish(self.path)
+        git.assert_not_called()
+
     def test_validation_rejects_more_than_twenty_articles_before_any_request(self):
         self.path.write_text(json.dumps([article(index) for index in range(1, 22)]), encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "cap each run at 20"):
@@ -121,7 +140,11 @@ class DirectSupabasePublicationTests(unittest.TestCase):
             if method == "POST" and table == "news_articles":
                 payload = kwargs["payload"]
                 self.assertEqual(len(payload), 13)
-                self.assertEqual(payload[0]["raw_article"], self.articles[0])
+                raw = dict(payload[0]["raw_article"])
+                proof = raw.pop("originality_review")
+                self.assertEqual(raw, self.articles[0])
+                self.assertEqual(proof["policy"], "383-original-composition-v1")
+                self.assertEqual(proof["model"], "gpt-6-luna")
                 self.assertEqual(payload[0]["batch_key"], "2026-07-10T12")
                 self.assertEqual(payload[0]["source_flag"], "🌍")
                 return []

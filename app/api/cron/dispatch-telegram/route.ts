@@ -7,7 +7,6 @@ import {
   selectCandidates,
   MAX_AGE_HOURS,
 } from "@/lib/telegram-dispatch.mjs";
-import { remoteImageSrc } from "@/lib/remote-image.mjs";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -36,7 +35,6 @@ type Candidate = {
   slug: string;
   title: string;
   excerpt: string;
-  imageUrl?: string | null;
   publishedAt: string;
   featured: boolean;
 };
@@ -61,11 +59,6 @@ async function callTelegram(
   } catch {
     return { ok: false, transportFailed: true, description: "Telegram request failed or timed out" };
   }
-}
-
-function absoluteImage(url?: string | null): string | null {
-  if (!url) return null;
-  return /^https?:\/\//.test(url) ? url : null;
 }
 
 export async function GET(request: NextRequest) {
@@ -95,7 +88,7 @@ export async function GET(request: NextRequest) {
 
   const { data: rows, error: readError } = await supabase
     .from("news_articles")
-    .select("slug, title, excerpt, image_url, published_at, featured")
+    .select("slug, title, excerpt, published_at, featured,raw_article->originality_review")
     .eq("featured", true)
     .gte("published_at", freshSince)
     .order("published_at", { ascending: false })
@@ -115,11 +108,13 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "ledger read failed", message: ledgerError.message }, { status: 500 });
   }
 
-  const articles: Candidate[] = (rows ?? []).map((row) => ({
+  const articles: Candidate[] = (rows ?? []).filter((row) => {
+    const proof = row.originality_review as { policy?: string } | null;
+    return proof?.policy === "383-original-composition-v1";
+  }).map((row) => ({
     slug: String(row.slug ?? ""),
     title: String(row.title ?? ""),
     excerpt: String(row.excerpt ?? ""),
-    imageUrl: row.image_url ? remoteImageSrc(String(row.image_url), 1200) : null,
     publishedAt: String(row.published_at ?? ""),
     featured: row.featured === true,
   }));
@@ -137,40 +132,15 @@ export async function GET(request: NextRequest) {
     if (posted >= 3) break;
 
     const caption = renderCaption(article);
-    const image = absoluteImage(article.imageUrl);
-    // Every send path carries the button, including the text fallback: a photo
-    // that Telegram cannot fetch should not silently cost the post its CTA.
-    const markup = replyMarkup(article);
-
-    let response: TelegramResponse | null = null;
-    if (image) {
-      response = await callTelegram("sendPhoto", token, {
-        chat_id: channel,
-        photo: image,
-        caption,
-        parse_mode: "HTML",
-        reply_markup: markup,
-      });
-      if (!response.ok && !response.transportFailed) {
-        // Remote hosts sometimes block Telegram's fetcher; the text message
-        // with a large link preview carries the same story.
-        response = await callTelegram("sendMessage", token, {
-          chat_id: channel,
-          text: caption,
-          parse_mode: "HTML",
-          link_preview_options: { prefer_large_media: true },
-          reply_markup: markup,
-        });
-      }
-    } else {
-      response = await callTelegram("sendMessage", token, {
-        chat_id: channel,
-        text: caption,
-        parse_mode: "HTML",
-        link_preview_options: { prefer_large_media: true },
-        reply_markup: markup,
-      });
-    }
+    // Do not redistribute archive photos without their rights/context, or
+    // let cached platform previews revive old publisher photographs.
+    const response = await callTelegram("sendMessage", token, {
+      chat_id: channel,
+      text: caption,
+      parse_mode: "HTML",
+      link_preview_options: { is_disabled: true },
+      reply_markup: replyMarkup(article),
+    });
 
     if (response.ok) {
       posted += 1;

@@ -7,6 +7,10 @@ import originality_gate as gate
 
 
 class OriginalityGateTests(unittest.TestCase):
+    def test_link_attributes_are_not_direct_quotations(self):
+        article = {"body": '<p>Lexoni <a href="https://example.com/reports/new-project-consultation-dates">afatin</a>.</p>'}
+        self.assertEqual(gate.originality_errors(article, {"evidence": {"text": "Independent source facts."}}), [])
+
     def test_quoted_word_does_not_exempt_copied_prose(self):
         source = "Ministria njoftoi sot se projekti do të nisë në Prishtinë më 1 tetor."
         article = {"body": '<p>“Sot” Ministria njoftoi sot se projekti do të nisë në Prishtinë më 1 tetor.</p>'}
@@ -37,10 +41,10 @@ class OriginalityGateTests(unittest.TestCase):
         self.assertTrue(any("exact source overlap" in error for error in errors))
         self.assertTrue(any(source in error for error in errors))
 
-    def test_short_quoted_excerpt_is_allowed(self):
+    def test_short_quotation_is_not_an_automatic_permission_exception(self):
         source = "Ministria njoftoi sot se projekti do të nisë në Prishtinë më 1 tetor."
         article = {"body": "<p>Ministria tha: “projekti do të nisë në Prishtinë më 1 tetor”.</p>"}
-        self.assertEqual(gate.originality_errors(article, {"evidence": {"text": source}}), [])
+        self.assertTrue(gate.originality_errors(article, {"evidence": {"text": source}}))
 
     def test_batch_gate_drops_copy_without_replacing_it(self):
         article = {"slug": "copied-story", "title": "Prishtinë nis projektin", "body": "Ministria njoftoi sot se projekti do të nisë në Prishtinë më 1 tetor pas përfundimit të procedurave."}

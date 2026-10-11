@@ -40,11 +40,9 @@ export async function generateMetadata({
   const title = article.title;
   const description =
     article.excerpt || article.body.replace(/\s+/g, " ").trim().slice(0, 160);
-  const image = article.imageUrl
-    ? article.imageUrl.startsWith("http")
-      ? article.imageUrl
-      : `${SITE}${article.imageUrl}`
-    : fallbackOgUrl(title, article.category);
+  // Platforms can strip image credits/captions. Export an original 383 title
+  // card rather than redistributing an unlabelled archival photograph.
+  const image = fallbackOgUrl(title, article.category);
 
   return {
     title,

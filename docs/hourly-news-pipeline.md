@@ -120,19 +120,20 @@ records necessary attribution for a direct quote, exclusive reporting or an
 unconfirmed claim. Internal sources, URLs and verification evidence remain.
 The journalism gate enforces structure and unnecessary publisher framing;
 originality compares body, headline and excerpt with primary and corroborating
-texts, limits quote exemptions to actual short quoted spans and catches stitched
-short fragments. Exact overlap checks are screening, not a guarantee against
+texts, does not exempt copied text because it is quoted and catches stitched short
+fragments. Substantive direct quotations are excluded from automated output. Exact overlap checks are screening, not a guarantee against
 close paraphrase or translation; the independent editor must assess both.
 
 Before drafting, the existing GPT-6 Luna/max OAuth worker plans specific
 photographic subjects supported by exact phrases in each story. Commons search
 fetches file descriptions and license metadata. The automated pool accepts
-CC0, explicit public domain, and CC BY/CC BY-SA with creator credit and a linked
-license. Unknown, NC/ND, attribution-free claims without evidence and files with
+CC0 and explicit public domain, with matching rights URLs and no additional
+restrictions or attribution requirements. BY/SA/NC/ND are excluded from the
+automated pool to avoid obligations being lost in downstream distribution. Unknown, NC/ND, attribution-free claims without evidence and files with
 additional restrictions are rejected. Subject tokens must appear in the actual
 file description; writer/editor separately verify semantic relevance. Captions
-identify these as illustrative archive photos, never today's event. Crops of
-BY-SA photos are displayed under the same linked license.
+identify these as illustrative archive photos, never today's event. Prepared captions identify illustrative archive photographs; the narrower pool
+permits reuse across automatic card surfaces without attribution obligations.
 
 Publisher photographs are compared by URL identity, SHA-256 and visual
 fingerprints, including renamed/rehosted copies. If a declared source photo
@@ -162,3 +163,20 @@ checks and failure diagnostics without additional email.
 For hourly inserts, published_at is the actual 383 publication time after the
 editorial checks. The original source timestamp is preserved as
 raw_article.source_published_at. Retrying an existing batch does not reset age.
+
+
+A separate independent composition/rights review runs after all editing,
+normalization and refill steps. Its per-article receipt hashes all reader-facing
+prose, source evidence and photo rights. Publication itself requires the current
+receipt and reruns non-mutating deterministic gates, even for direct CLI and
+legacy finalize calls. Incomplete or failed reviews cannot publish. Review uses
+GPT-6 Luna through the existing Codex OAuth configuration at max effort and
+adds a bounded 360-second stage within the existing worker deadline. No new API
+billing or model fallback is introduced.
+
+Open Graph/Twitter previews use the existing original 383 title-card renderer,
+not archive photographs. Telegram automation accepts only articles carrying the
+publication-stamped originality review and sends text with previews disabled;
+it does not redistribute photos without their captions/rights. Do not call the
+Telegram route as a test: unit tests mock the network. These changes affect future
+automatic dispatches, not previously sent messages or the old article archive.
