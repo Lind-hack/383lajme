@@ -264,3 +264,46 @@ The utility is a quiet cream document with a near-white header, orange vehicle i
 - **Don't** restore visible source/provenance strips, badges, review dates, or authority chrome; sourcing stays internal to data and backend review.
 - **Don't** sell location, put safety or emergency numbers behind payment, or let commercial placement affect wait estimates, report validation, or safety access.
 - **Don't** restore the cobalt/yellow city section, black utility header, segmented meters, stamp, scalloped edge, yellow trust close, or cutout-raster map focal.
+
+---
+
+# Për ty — the photocopied paper
+
+Scope: `/per-ty` and the shared copy `/gazeta/<code>`. Styles in `app/per-ty/paper/newspaper.css` (every class `np-*`, scoped under `.np`), type case in `app/per-ty/paper/fonts.ts`, page turning in `app/per-ty/paper/newspaper.tsx`.
+
+## Overview
+
+**North Star: "someone photocopied a paper made just for you and handed it over."** Each reader's paper is a real newspaper you turn page by page: a sheet of newsprint lying on a dark desk, edge to edge on a desktop (never a centred feed column), with grain, toner speckle, a fold in four, halftone photos and a red rubber stamp, "Kopje personale — vetëm për <emri>". Front page, then "Më shumë nga sot" when the edition runs long, then one page per follow, then the back page "Kaq për sot".
+
+## Five kinds of paper
+
+The reading mix picks one (`lib/paper-look.mjs`, `[data-look]`); "Rregullo gazetën" can lock one.
+
+| Look | Paper | Spot | Nameplate / headlines |
+|---|---|---|---|
+| `e-perditshme` | `#ebe5d6` newsprint | `#a4161a` | UnifrakturMaguntia blackletter / Old Standard TT bold |
+| `sporti` | `#e9e5dc` | `#d42a2f` | Anton condensed capitals for both |
+| `tabloid` | `#f1eee7` | `#e0002a`, flash `#ffd400` | Alfa Slab One, nameplate white on a tilted red block |
+| `bota` | `#e7e3d8` | `#1f3c6e` | Old Standard TT spaced capitals |
+| `biznes` | `#efd8c6` salmon | `#0e5a63` | Old Standard TT bold italic |
+
+Body is always PT Serif; notes, kickers, datelines and "why" lines are Special Elite typewriter. One spot colour per paper, used at page scale (ear, banner, why-lines, stamp), never scattered.
+
+## Components
+
+- **Nameplate:** spot ear left ("Ndjek" + three follows), title centre (tap to rename), ink ear right (edition, issue, count), motto, then a double-ruled dateline.
+- **Front page:** the giant cover word (why the lead leads, e.g. KURTI) with toner wear, the lead headline in a spot banner, a framed date box with the stamp, the halftone photo (or the clay plate in colour, labelled "Ilustrim me AI"), the opening with a drop cap, then numbered columns. Right rail: "Në këtë numër" (tapping a page turns to it), town, Dardani's brief, numbers, Tregu.
+- **Why line:** every story's kicker is a dotted-underlined spot-colour button with one plain reason; it opens a boxed note with the long reason and "Më shumë si kjo / Më pak si kjo".
+- **Clipped note:** lined paper with a paper clip, typewriter text. Used for "Kjo është gazeta jote" (first open; reopened by "Si funksionon?"), naming and the shared-copy invite. Slips (yellow, dashed) carry one-line status notes.
+- **Foot strip:** an ink band on every page: "Kopje personale · <title> · Faqja n nga N" with a barcode.
+
+## Motion
+
+A page turn lifts the sheet around its left edge (`rotateY` 0 → −180°, 760 ms ease-in-out, perspective 3600 px aimed at the middle of the viewport), throwing a shadow on the page beneath. The same motion runs from the folded corner, the pager, ← →, the contents list and a touch swipe that follows the finger (commits past 33 % or on a flick). The corner peels by itself twice the first time. Reduced motion cross-fades instead. The page number lives in the URL hash (`#faqja-3`).
+
+## Do's and Don'ts
+
+- **Do** keep the sheet full width on desktop and the mobile pager above the site's tab bar (`--tabbar-h`).
+- **Do** give every story its why line; a shared copy shows none (it is the sharer's history, not the friend's).
+- **Don't** introduce rounded cards, glass or gradients inside the sheet: print has rules, boxes and ink.
+- **Don't** colour photos, except the AI clay plate, which is a printed colour plate.

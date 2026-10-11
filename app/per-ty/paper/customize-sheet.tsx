@@ -1,6 +1,7 @@
 "use client";
 
-// "Rregullo gazetën": the reader dresses and arranges their own paper. Every
+// "Rregullo gazetën": the reader dresses and arranges their own paper — its
+// name, its kind (or "vetë", following the reading), length, pages and boxes. Every
 // change applies at once, behind the sheet, so they see their paper change as
 // they tap. Saved on this device only (lib/paper-prefs.mjs).
 //
@@ -8,24 +9,11 @@
 // with a keyboard, a screen reader and a thumb alike.
 
 import { ArrowDown, ArrowUp, Eye, EyeOff, Plus } from "lucide-react";
-import { ACCENTS, LENGTHS, STYLES, moveKey, type PaperAccent, type PaperBox, type PaperPrefs, type PaperStyle } from "@/lib/paper-prefs.mjs";
+import { LENGTHS, moveKey, type PaperBox, type PaperPrefs } from "@/lib/paper-prefs.mjs";
+import { LOOKS, lookById, type LookId } from "@/lib/paper-look.mjs";
 import { describeSection } from "@/lib/per-ty-paper.mjs";
 import { TITLES, defaultTitle, paperTitle } from "@/lib/reader-name.mjs";
 import Sheet from "./sheet";
-
-const STYLE_LABEL: Record<PaperStyle, { name: string; note: string }> = {
-  klasike: { name: "Klasike", note: "Si gazetë e vërtetë" },
-  moderne: { name: "Moderne", note: "E pastër, e fortë" },
-  nate: { name: "Natë", note: "E errët, për mbrëmje" },
-};
-
-const ACCENT_LABEL: Record<PaperAccent, string> = {
-  portokalli: "Portokalli",
-  blu: "Blu",
-  gjelber: "Gjelbër",
-  vjollce: "Vjollcë",
-  kuqe: "E kuqe",
-};
 
 const LENGTH_LABEL: Record<number, string> = { 5: "Shkurt", 7: "Normal", 10: "Gjatë" };
 
@@ -43,6 +31,7 @@ export default function CustomizeSheet({
   onChange,
   keys,
   name,
+  autoLook,
   onRename,
   onAddFollows,
 }: {
@@ -53,6 +42,8 @@ export default function CustomizeSheet({
   /** Every followed section key, in the reader's current order. */
   keys: string[];
   name: string;
+  /** The kind the reading picks today, shown beside "Vetë, sipas leximit". */
+  autoLook: LookId;
   onRename: (name: string) => void;
   onAddFollows: () => void;
 }) {
@@ -100,43 +91,23 @@ export default function CustomizeSheet({
       </fieldset>
 
       <fieldset className="perty-cz-group">
-        <legend>Pamja</legend>
-        <div className="perty-cz-styles">
-          {STYLES.map((style) => (
-            <label key={style} className="perty-cz-style" data-style={style}>
-              <input
-                type="radio"
-                name="perty-style"
-                value={style}
-                checked={prefs.style === style}
-                onChange={() => set({ style })}
-              />
-              <span className="perty-cz-style-mini" aria-hidden="true">
-                <b>Gazeta</b>
-                <i />
-                <i />
+        <legend>Lloji i gazetës</legend>
+        <p className="perty-cz-note">
+          Gazeta jote ndryshon pamje sipas asaj që lexon. Mund ta lësh vetë, ose ta zgjedhësh dhe të mbetet ashtu.
+        </p>
+        <div className="perty-cz-looks">
+          <label className="perty-cz-look" data-look={autoLook}>
+            <input type="radio" name="perty-look" value="auto" checked={prefs.look === "auto"} onChange={() => set({ look: "auto" })} />
+            <span className="perty-cz-look-name">Vetë, sipas leximit</span>
+            <span className="perty-cz-look-note">Tani: {lookById(autoLook)?.name}</span>
+          </label>
+          {LOOKS.map((l) => (
+            <label key={l.id} className="perty-cz-look" data-look={l.id}>
+              <input type="radio" name="perty-look" value={l.id} checked={prefs.look === l.id} onChange={() => set({ look: l.id })} />
+              <span className="perty-cz-look-mini">
+                {l.name}
               </span>
-              <span className="perty-cz-style-name">{STYLE_LABEL[style].name}</span>
-              <span className="perty-cz-style-note">{STYLE_LABEL[style].note}</span>
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <fieldset className="perty-cz-group">
-        <legend>Ngjyra</legend>
-        <div className="perty-cz-accents">
-          {ACCENTS.map((accent) => (
-            <label key={accent} className="perty-cz-accent" data-accent={accent} title={ACCENT_LABEL[accent]}>
-              <input
-                type="radio"
-                name="perty-accent"
-                value={accent}
-                checked={prefs.accent === accent}
-                onChange={() => set({ accent })}
-                aria-label={ACCENT_LABEL[accent]}
-              />
-              <span aria-hidden="true" />
+              <span className="perty-cz-look-note">{l.about}</span>
             </label>
           ))}
         </div>

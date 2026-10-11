@@ -13,6 +13,8 @@ export interface PaperPrefs {
   order: string[];
   hidden: string[];
   boxes: Record<PaperBox, boolean>;
+  /** "auto" follows the reading; a LookId locks the paper's kind. */
+  look: "auto" | import("./paper-look.mjs").LookId;
 }
 
 export declare const PREFS_KEY: string;

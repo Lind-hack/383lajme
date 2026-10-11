@@ -2,8 +2,8 @@
 //
 // Personalisation lives only on the sharer's device, so this is a frozen copy
 // carried in the link (lib/paper-snapshot.mjs): the stories they had that day,
-// in their order, in their paper's look, under their name if they chose to
-// show it. Nothing about their reading travels with it — no reasons, no read
+// in their order, in their kind of paper, turned page by page like theirs
+// (./shared-paper.tsx), under their name if they chose to show it. Nothing about their reading travels with it — no reasons, no read
 // marks. The friend gets one clear next step: make their own.
 //
 // Public by link only; never indexed. Expires after 30 days.
@@ -17,12 +17,11 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import DardaniImage from "@/components/dardani/dardani-image";
 import { loadSharedPaper } from "@/lib/paper-snapshot-server";
+import { getCoverArtMap } from "@/lib/cover-art-server";
 import { sharedTitle } from "@/lib/reader-name.mjs";
 import type { Article } from "@/lib/mock-data";
-import FrontPage from "@/app/per-ty/paper/front-page";
-import Cover from "@/app/per-ty/paper/cover";
-import PaperSection from "@/app/per-ty/paper/section";
 import type { FeedArticle } from "@/app/per-ty/per-ty-feed";
+import SharedPaper from "./shared-paper";
 
 export const revalidate = 3600;
 
@@ -72,6 +71,7 @@ export default async function SharedPaperPage({ params }: { params: Promise<{ co
   const { code } = await params;
   const paper = await loadSharedPaper(code);
   if (paper.status === "invalid") notFound();
+  const covers = paper.status === "ok" ? await getCoverArtMap() : {};
 
   return (
     <>
@@ -88,61 +88,16 @@ export default async function SharedPaperPage({ params }: { params: Promise<{ co
             </Link>
           </div>
         ) : (
-          <div
-            className="perty-shell perty-shell--wide perty-paper gazeta-shared"
-            data-style={paper.snapshot.style}
-            data-accent={paper.snapshot.accent}
-          >
-            <Cover
-              readOnly
-              title={sharedTitle(paper.snapshot.name, paper.snapshot.title)}
-              issue={0}
-              date={dayLabel(paper.snapshot.date)}
-              count={paper.edition.length}
-              lead={toFeed(paper.edition[0])}
-              leadKey={paper.snapshot.leadKey}
-            />
-
-            <aside className="gazeta-invite">
-              <p>
-                <strong>{paper.snapshot.name ? `${paper.snapshot.name} ta ndau gazetën e vet.` : "Dikush ta ndau gazetën e vet."}</strong>{" "}
-                Në 383 secili ka gazetën e vet: zgjidh temat, njerëzit dhe qytetin, dhe çdo mëngjes të vjen e jotja.
-              </p>
-              <Link href="/per-ty" className="perty-btn perty-btn--primary">
-                Bëj gazetën tënde <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
-              </Link>
-            </aside>
-
-            <section className="perty-ed" aria-label="Faqja e parë">
-              <FrontPage items={paper.edition.map((a) => ({ article: toFeed(a), reason: "" }))} readOnly />
-            </section>
-
-            {paper.sections.length > 0 && (
-              <div className="perty-secs">
-                {paper.sections.map((s) => (
-                  <PaperSection
-                    key={s.key}
-                    readOnly
-                    section={{
-                      key: s.key,
-                      kind: s.kind,
-                      title: s.title,
-                      href: s.href,
-                      empty: false,
-                      items: s.items.map((a) => ({ article: toFeed(a), fromShelf: false })),
-                    }}
-                  />
-                ))}
-              </div>
-            )}
-
-            <div className="gazeta-cta">
-              <span>Gazeta jote të pret.</span>
-              <Link href="/per-ty" className="perty-btn perty-btn--primary">
-                Bëj gazetën tënde <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
-              </Link>
-            </div>
-          </div>
+          <SharedPaper
+            title={sharedTitle(paper.snapshot.name, paper.snapshot.title)}
+            sharer={paper.snapshot.name}
+            date={dayLabel(paper.snapshot.date)}
+            year={Number(paper.snapshot.date.slice(0, 4))}
+            look={paper.snapshot.look}
+            leadKey={paper.snapshot.leadKey}
+            edition={paper.edition.map((a) => ({ ...toFeed(a), coverArt: covers[a.slug] ?? null }))}
+            sections={paper.sections.map((s) => ({ key: s.key, kind: s.kind, title: s.title, href: s.href, items: s.items.map(toFeed) }))}
+          />
         )}
       </div>
       <Footer />

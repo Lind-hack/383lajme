@@ -12,6 +12,7 @@
 import type { Metadata } from "next";
 import { getArticles, getArticlesBefore, getCategoryShelf } from "@/lib/db";
 import { NAV_CATEGORIES } from "@/lib/category-map";
+import { getCoverArtMap } from "@/lib/cover-art-server";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -39,9 +40,10 @@ export default async function PerTyPage() {
   // Kosovë, so a reader who followed a smaller city or a less-covered person
   // was matched against almost nothing that had ever named them.
   const since = Date.now() - WINDOW_DAYS * 24 * 60 * 60 * 1000;
-  const [top, newest] = await Promise.all([
+  const [top, newest, covers] = await Promise.all([
     getArticles(100, undefined, { withBody: false }),
     getArticlesBefore({ limit: PAGE }),
+    getCoverArtMap(),
   ]);
   const older =
     newest.length === PAGE && Date.parse(newest[PAGE - 1]?.publishedAt ?? "") > since
@@ -67,6 +69,8 @@ export default async function PerTyPage() {
     publishedAt: a.publishedAt,
     imageUrl: a.imageUrl,
     engagementScore: a.engagementScore,
+    // The clay plate, when the story is one of the day's leads (lib/cover-art).
+    ...(covers[a.slug] ? { coverArt: covers[a.slug] } : {}),
   });
   const pool = articles.map(toFeed);
 

@@ -13,6 +13,8 @@ export interface Snapshot {
   leadKey: string;
   style: string;
   accent: string;
+  /** The paper's kind, lib/paper-look.mjs; the broadsheet for older links. */
+  look: string;
   edition: string[];
   sections: { key: string; slugs: string[] }[];
 }
@@ -24,6 +26,7 @@ export function encodeSnapshot(paper: {
   leadKey?: string;
   style?: string;
   accent?: string;
+  look?: string;
   edition: readonly string[];
   sections?: readonly { key: string; slugs: readonly string[] }[];
 }): string;

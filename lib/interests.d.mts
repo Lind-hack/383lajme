@@ -21,6 +21,10 @@ export interface Interests {
 export interface AffinityEntry {
   w: number;
   t: string;
+  /** Engaged seconds on stories with this key, decayed like `w`. */
+  s?: number;
+  /** Real reads of stories with this key, decayed like `w`. */
+  n?: number;
 }
 
 export declare const AFFINITY_HALF_LIFE_MS: number;
@@ -30,8 +34,15 @@ export function recordRead(
   keys: readonly string[],
   now?: number,
   /** 1 for a real read; less for a lighter signal (an article opened, not read). */
-  weight?: number
+  weight?: number,
+  extra?: { seconds?: number; read?: boolean }
 ): Record<string, AffinityEntry>;
+export function readingStats(
+  affinity: unknown,
+  key: string,
+  now?: number
+): { minutes: number; reads: number; weight: number };
+export function nudgeAffinity(affinity: unknown, key: string, delta: number, now?: number): Record<string, AffinityEntry>;
 export function toggleValue<T>(list: readonly T[] | null | undefined, value: T): T[];
 
 /** Minimal shape of Storage, so callers can pass a fake in tests. */

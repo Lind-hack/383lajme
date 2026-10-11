@@ -15,6 +15,7 @@ import { sendTreguLiveNotification } from "@/lib/tregu-live-email";
 import { runLeaderboardPayouts } from "@/lib/tregu-leaderboard-server";
 import { runRivalryJobs } from "@/lib/tregu-rivalry-server";
 import { runMorningEditionPush } from "@/lib/perty-morning-push";
+import { runCoverArt } from "@/lib/cover-art-server";
 import { runBorderWaitLog } from "@/lib/visit-border-log-server";
 import { sendPendingNewsMarketEmails } from "@/lib/tregu-creation-email";
 import { parseMarketResearchEvidence } from "@/lib/tregu-research-evidence-validated.mjs";
@@ -872,6 +873,9 @@ export async function runLiveSportsAutomation(now = new Date()) {
     // Kosova në xhep: official border waits into history, about every 10 minutes.
     // Bounded at 8s and never throws, so MPB trouble cannot touch the sports lane.
     runBorderWaitLog(now),
+    // Për ty: the day's clay cover plates, two at a time, every ten minutes at
+    // most, sixteen a day. Never throws.
+    runCoverArt(now),
   ]);
   const waitMs = Math.max(HEARTBEAT_MIN_WAIT_MS, HEARTBEAT_RESPONSE_BUDGET_MS - (Date.now() - startedAt));
   const settled = await Promise.race([background, new Promise<null>((resolve) => setTimeout(() => resolve(null), waitMs))]);

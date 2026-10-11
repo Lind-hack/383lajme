@@ -10,6 +10,7 @@ import LatestStrip from "@/components/home/latest-strip";
 import { probeImageSize } from "@/lib/image-size.mjs";
 import Footer from "@/components/footer";
 import ReadingAffinity from "@/components/reading-affinity";
+import { countWords } from "@/lib/reading-engagement.mjs";
 import type { AccordionSlide } from "@/components/image-accordion";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
 import { topicForArticle } from "@/lib/topics.mjs";
@@ -223,6 +224,7 @@ export default async function ArticlePage({
         excerpt={article.excerpt}
         category={article.category}
         city={article.city}
+        words={countWords(article.body)}
       />
       <Footer />
     </>

@@ -25,6 +25,8 @@ import Sheet from "./sheet";
 export type ShareablePaper = {
   title: string;
   leadKey: string;
+  /** The paper's kind (lib/paper-look.mjs), so a friend sees the same paper. */
+  look: string;
   edition: string[];
   sections: { key: string; slugs: string[] }[];
 };
@@ -129,6 +131,7 @@ export default function ShareSheet({
             leadKey: paper.leadKey,
             style: prefs.style,
             accent: prefs.accent,
+            look: paper.look,
             edition: paper.edition,
             sections: paper.sections,
           })
