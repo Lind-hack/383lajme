@@ -164,7 +164,7 @@
     },
     "required_attribution": {
       "type": "object",
-      "description": "Only when publisher attribution is necessary: kind is direct_quote, exclusive_reporting or unconfirmed_claim, with a concrete reason. Internal source metadata always remains."
+      "description": "Retired: publishers are never named in public copy, so no attribution can be justified. Internal source metadata always remains."
     },
     "image_width": {
       "type": "integer",

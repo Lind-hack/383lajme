@@ -1,4 +1,4 @@
-"""Reject weak copy and unnecessary publisher framing before publication."""
+"""Reject weak copy and any publisher named in public copy before publication."""
 from __future__ import annotations
 
 import argparse
@@ -19,14 +19,9 @@ def journalism_errors(article: dict) -> list[str]:
         errors.append("write at least 140 grounded words in three readable paragraphs")
     publisher_names = {fold(publisher["source"]) for publisher in MANIFEST["publishers"]}
     publisher_names.add(fold(str(article.get("source") or "")))
-    attribution = article.get("required_attribution")
-    justified = (isinstance(attribution, dict) and attribution.get("kind") in
-                 {"direct_quote", "exclusive_reporting", "unconfirmed_claim"}
-                 and len(str(attribution.get("reason") or "").strip()) >= 20)
-    # The lead is the first paragraph: like the title and excerpt it is 383's own
-    # voice, so no publisher framing there even when the body may justify one.
-    lead = next(iter(re.findall(r"<p\b[^>]*>(.*?)</p>", body, re.I | re.S)), "")
-    for field, raw in (("title", article.get("title")), ("excerpt", article.get("excerpt")), ("lead", lead), ("body", body)):
+    # Every article reads as 383's own: no publisher is named anywhere, and a
+    # story that cannot be told without one is dropped, not passed off as ours.
+    for field, raw in (("title", article.get("title")), ("excerpt", article.get("excerpt")), ("body", body)):
         value = fold(html.unescape(re.sub(r"<[^>]*>", " ", str(raw or ""))))
         for publisher in publisher_names - {""}:
             name_pattern = re.escape(publisher) + r"(?:it|in|i|t|s|ut|u|n|se|es)?"
@@ -34,8 +29,8 @@ def journalism_errors(article: dict) -> list[str]:
                 name_pattern = r"(?:" + name_pattern + "|" + re.escape(publisher[:-1]) + r"(?:a|e|i|es|en|it|in|ut|un|s|se|t))"
             framed = (re.search(r"\b(?:sipas|raporton|raportoi|shkruan|shkroi|publikon|njofton|transmeton|nga portali|nga media|nga mediat|nga gazeta|burimi)\b[^.!?]{0,65}\b" + name_pattern + r"\b", value)
                       or re.search(r"\b" + name_pattern + r"\b[^.!?]{0,40}\b(?:raporton|raportoi|raportuan|raportojne|shkruan|shkroi|shkruajne|vlereson|vleresoi|vleresojne|thote|thone|informon|informoi|zbulon|zbuloi|ben te ditur|bejne te ditur|beri te ditur|bene te ditur|njofton|njoftoi|publikon|publikoi|transmeton|citon|pohon|pohoi)\b", value))
-            if framed and (field != "body" or not justified):
-                errors.append(f"{field} uses unnecessary publisher framing ({publisher}); write from verified facts, or explain necessary body attribution for a quote/exclusive/unconfirmed claim")
+            if framed:
+                errors.append(f"{field} names a publisher ({publisher}); write from verified facts in 383's own voice, or drop a story that rests on that outlet's exclusive")
                 break
     return errors
 

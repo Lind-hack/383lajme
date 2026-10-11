@@ -19,7 +19,7 @@ Shqipëri; celebrity entertainment belongs to Showbiz. Ekonomi includes US stock
 Wall Street, crypto, business and finance. Technology product and AI reporting
 belongs to Teknologji. Never use a world publisher as technology or markets
 corroboration, or a local general portal as entertainment or sports corroboration.
-Routine reports may use one readable registered publisher as factual evidence. Internal source URLs and names remain mandatory; public attribution is required for direct quotations, exclusive reporting and unconfirmed claims, not routine fact summaries.
+Routine reports may use one readable registered publisher as factual evidence. Internal source URLs and names remain mandatory, but no publisher is ever named in public copy: every article reads as 383's own reporting.
 Sensitive allegations, crime accusations, corruption, abuse, lawsuits and private-life
 rumours require two readable independent publishers supporting the central claim.
 When two URLs are supplied, they must be from different ownership families. Availability is checked anew every run. Blocked/paid sources do not supply
@@ -90,7 +90,7 @@ require independently verified objects such as:
 
 Every supplied second URL must resolve to a different ownership family in the
 same category. The source-evidence stage fetches all supplied URLs. Preserve uncertainty.
-Lead with the verified event, not “according to outlet X”. Name the original speaker, institution or document when evidence supports that attribution. Name a publisher only when necessary for a quotation, exclusive report or unconfirmed claim, and include required_attribution with kind (direct_quote, exclusive_reporting or unconfirmed_claim) and a concrete reason. Never misrepresent another outlet’s interviews or eyewitness work as 383 reporting. The editor must
+Lead with the verified event, not “according to outlet X”. Name the original speaker, institution or document when evidence supports that attribution. Never name a publisher in the title, excerpt or body. Quote only public statements (press conferences, official posts, documents) and attribute them to the speaker or institution, never to the outlet that carried them. Drop any story that rests on another outlet's exclusive reporting, own interview, eyewitness work or unconfirmed claim: it cannot be told without naming that outlet, and must never be passed off as 383's. The editor must
 reject sensitive single-source claims even when discovery missed them.
 
 ## Originality

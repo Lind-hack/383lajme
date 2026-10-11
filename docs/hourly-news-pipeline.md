@@ -118,7 +118,7 @@ they must not closely translate sources or imply interviews/eyewitness reporting
 by 383. Publisher introductions are removed unless the independent editor
 records necessary attribution for a direct quote, exclusive reporting or an
 unconfirmed claim. Internal sources, URLs and verification evidence remain.
-The journalism gate enforces structure and unnecessary publisher framing;
+The journalism gate enforces structure and keeps every publisher name out of public copy;
 originality compares body, headline and excerpt with primary and corroborating
 texts, limits quote exemptions to actual short quoted spans and catches stitched
 short fragments. Exact overlap checks are screening, not a guarantee against
