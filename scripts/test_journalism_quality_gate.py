@@ -13,7 +13,7 @@ class JournalismTests(unittest.TestCase):
         self.assertEqual(journalism_errors(story("Ministria konfirmoi datën e nisjes.")), [])
 
     def test_generic_primary_and_secondary_publisher_framing_is_rejected(self):
-        for extra in ("Sipas Telegrafi, punimet nisin sot.", "Sipas Telegrafit, punimet nisin sot.", "Sipas Kohës, punimet nisin sot.", "Raporton TV Prizreni se punimet nisin sot."):
+        for extra in ("Sipas Telegrafi, punimet nisin sot.", "Sipas Telegrafit, punimet nisin sot.", "Sipas Kohës, punimet nisin sot.", "Raporton TV Prizreni se punimet nisin sot.", "Telegrafi shkruan se punimet nisin sot.", "Nga mediat Telegrafi dhe TV Prizreni u mësua lajmi."):
             self.assertTrue(any("publisher framing" in error for error in journalism_errors(story(extra))))
 
     def test_required_attribution_is_allowed_only_in_body_with_reason(self):

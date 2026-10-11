@@ -29,7 +29,8 @@ def journalism_errors(article: dict) -> list[str]:
             name_pattern = re.escape(publisher) + r"(?:it|in|i|t|s|ut|u|n|se|es)?"
             if publisher.endswith(("a", "e", "i")):
                 name_pattern = r"(?:" + name_pattern + "|" + re.escape(publisher[:-1]) + r"(?:a|e|i|es|en|it|in|ut|un|s|se|t))"
-            framed = re.search(r"\b(?:sipas|raporton|raportoi|shkruan|shkroi|publikon|njofton|nga portali|nga media|burimi)\b[^.!?]{0,65}\b" + name_pattern + r"\b", value)
+            framed = (re.search(r"\b(?:sipas|raporton|raportoi|shkruan|shkroi|publikon|njofton|nga portali|nga media|nga mediat|nga gazeta|burimi)\b[^.!?]{0,65}\b" + name_pattern + r"\b", value)
+                      or re.search(r"\b" + name_pattern + r"\b[^.!?]{0,40}\b(?:raporton|raportoi|raportuan|raportojne|shkruan|shkroi|shkruajne)\b", value))
             if framed and (field != "body" or not justified):
                 errors.append(f"{field} uses unnecessary publisher framing ({publisher}); write from verified facts, or explain necessary body attribution for a quote/exclusive/unconfirmed claim")
                 break
