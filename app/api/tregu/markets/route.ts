@@ -24,12 +24,18 @@ async function newestRows<T>(
   page: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: unknown }>,
   cap: number
 ): Promise<{ data: T[]; error: unknown }> {
+  // Every page at once: one database round trip instead of one per 1000 rows.
+  // Asked one after another, the tape's six pages alone held the floor (and
+  // every card waiting on it) for well over a second.
+  const ranges: [number, number][] = [];
+  for (let from = 0; from < cap; from += REST_PAGE) ranges.push([from, Math.min(cap, from + REST_PAGE) - 1]);
+  const pages = await Promise.all(ranges.map(([from, to]) => page(from, to)));
   const rows: T[] = [];
-  for (let from = 0; from < cap; from += REST_PAGE) {
-    const to = Math.min(cap, from + REST_PAGE) - 1;
-    const { data, error } = await page(from, to);
+  for (let i = 0; i < pages.length; i++) {
+    const { data, error } = pages[i];
     if (error) return { data: rows, error };
     rows.push(...(data ?? []));
+    const [from, to] = ranges[i];
     if (!data || data.length < to - from + 1) break;
   }
   return { data: rows, error: null };
