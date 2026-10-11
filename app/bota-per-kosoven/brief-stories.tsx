@@ -11,7 +11,8 @@ import { ArrowUpRight } from "lucide-react";
 import type { DailyStory } from "@/lib/tone-data";
 import BriefImage from "./brief-image";
 import s from "./bota.module.css";
-import { linkProps, readLabel, ToneTag } from "./stories";
+import { ToneTag } from "./stories";
+import { linkProps, readLabel } from "@/lib/bota-links";
 
 export default function BriefStories({ stories }: { stories: DailyStory[] }) {
   const [unavailable, setUnavailable] = useState<string[]>([]);

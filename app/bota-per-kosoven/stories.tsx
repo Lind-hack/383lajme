@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import type { DailyStory } from "@/lib/tone-data";
 import { sqCompare } from "@/lib/sq-order.mjs";
+import { linkProps, readLabel } from "@/lib/bota-links";
 import s from "./bota.module.css";
 
 type Filter = "all" | DailyStory["sentiment"];
@@ -37,13 +38,6 @@ function dayLabel(day: string, today: string) {
   return m && d ? `${d} ${MONTHS[m - 1]}` : day;
 }
 
-/** A story with an Albanian reader page says so; one without opens the publisher. */
-export function readLabel(story: Pick<DailyStory, "translated">) {
-  return story.translated ? "Lexo në shqip" : "Lexo origjinalin";
-}
-export function linkProps(story: Pick<DailyStory, "translated">) {
-  return story.translated ? {} : { target: "_blank", rel: "noopener noreferrer" };
-}
 
 export default function Stories({
   stories,
