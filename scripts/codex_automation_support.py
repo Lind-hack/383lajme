@@ -583,7 +583,7 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
         image_url = str(article.get("image_url") or "").strip()
         if os.environ.get("L383_HOURLY_NEWS") == "1":
             from news_image_policy import trusted_photo
-            photo = trusted_photo(article)
+            photo = trusted_photo(article, require_image_match=False)
             if not photo:
                 rejected.append(article)
                 print(f"REJECTED candidate {article.get('title', 'untitled')!r}: no independently prepared contextual photo; publisher-image fallbacks are disabled")
@@ -591,6 +591,7 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
             if any(article.get(key) != value for key, value in photo.items()):
                 article.update(photo)
                 changed += 1
+            image_url = str(article.get("image_url") or "").strip()
         if image_url.startswith(("http://", "https://")):
             dimensions: tuple[int, int] | None = None
             failure_reason = ""

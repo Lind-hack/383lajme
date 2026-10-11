@@ -241,13 +241,13 @@ def select_photo(lead: dict, primary: dict, secondary: dict) -> dict:
     return {}
 
 
-def trusted_photo(article: dict) -> dict | None:
+def trusted_photo(article: dict, *, require_image_match: bool = True) -> dict | None:
     try:
         data = json.loads(CATALOG.read_text(encoding="utf-8"))
         photo = data.get(str(article.get("url")), {})
         checked = datetime.fromisoformat(photo["image_rights"]["verified_at"])
         age = (datetime.now(timezone.utc) - checked).total_seconds()
-        if not 0 <= age <= 3600 or photo["image_url"] != article.get("image_url"):
+        if not 0 <= age <= 3600 or (require_image_match and photo["image_url"] != article.get("image_url")):
             return None
         return photo
     except (OSError, ValueError, KeyError, TypeError):

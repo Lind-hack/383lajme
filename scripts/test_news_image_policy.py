@@ -1,4 +1,5 @@
 import json
+import os
 import tempfile
 import unittest
 from datetime import datetime, timedelta, timezone
@@ -29,6 +30,22 @@ def page(license_name="CC BY-SA 4.0"):
 
 
 class NewsPhotoTests(unittest.TestCase):
+    def test_normalizer_restores_prepared_photo_without_fetching_model_url(self):
+        from codex_automation_support import normalize_batch
+        photo = {**policy.candidate_photo(page(), plan()), "image_width": 1920, "image_height": 1280}
+        draft = {"url": "https://techcrunch.com/story", "slug": "qa-original-article", "title": "Apple hap zyrën",
+                 "category": "Teknologji", "body": "<p>Fakte të verifikuara.</p>",
+                 "image_url": "https://publisher.example/copied.jpg"}
+        with tempfile.TemporaryDirectory() as folder, patch.object(policy, "CATALOG", Path(folder) / "catalog.json"), patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}):
+            policy.CATALOG.write_text(json.dumps({draft["url"]: photo}), encoding="utf-8")
+            batch = Path(folder) / "2026-10-11T22.json"
+            batch.write_text(json.dumps([draft]), encoding="utf-8")
+            with patch("codex_automation_support._fetch_image_dimensions", return_value=(1920, 1280)) as decoder:
+                rows = normalize_batch(batch)
+                self.assertEqual(rows[0]["image_url"], photo["image_url"])
+                self.assertEqual(rows[0]["image_rights"], photo["image_rights"])
+                decoder.assert_called_once_with(photo["image_url"])
+
     def test_single_word_named_subject_is_grounded_and_invented_evidence_fails(self):
         leads = [{"pair_id": "one", "title": "OpenAI releases a model", "primary_evidence": {"text": "OpenAI announced a new release."}}]
         rows = [{"pair_id": "one", "subject": "OpenAI", "subject_evidence": "OpenAI", "queries": ["OpenAI office"], "caption": "Zyra e OpenAI."}]
@@ -111,6 +128,9 @@ class NewsPhotoTests(unittest.TestCase):
             self.assertTrue(policy.image_errors(article))
             policy.CATALOG.write_text(json.dumps({article["url"]: photo}), encoding="utf-8")
             self.assertEqual(policy.image_errors(article), [])
+            wrong_image = {**article, "image_url": "https://publisher.example/photo.jpg"}
+            self.assertIsNone(policy.trusted_photo(wrong_image))
+            self.assertEqual(policy.trusted_photo(wrong_image, require_image_match=False), photo)
             self.assertTrue(policy.image_errors({**article, "image_subject": "Invented subject"}))
             photo["image_rights"]["verified_at"] = (datetime.now(timezone.utc) - timedelta(hours=2)).isoformat()
             policy.CATALOG.write_text(json.dumps({article["url"]: photo}), encoding="utf-8")
