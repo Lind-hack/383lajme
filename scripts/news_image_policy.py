@@ -59,8 +59,15 @@ def plan_subjects(leads: list[dict], folder: Path) -> dict[str, dict]:
     if not leads:
         return {}
     import concurrent.futures
-    chunks = [leads[start:start + PLAN_CHUNK] for start in range(0, len(leads), PLAN_CHUNK)]
+    # Wikipedia first: fast, no model call, and its lead photo is the picture
+    # readers recognise. The model only plans the leads Wikipedia cannot ground.
     plans: dict[str, dict] = {}
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
+        for lead, plan in zip(leads, pool.map(wiki_plan, leads)):
+            if plan:
+                plans[lead["pair_id"]] = plan
+    remaining = [lead for lead in leads if lead["pair_id"] not in plans]
+    chunks = [remaining[start:start + PLAN_CHUNK] for start in range(0, len(remaining), PLAN_CHUNK)]
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
         futures = {pool.submit(_plan_chunk, chunk, folder, index): index for index, chunk in enumerate(chunks)}
         for future in concurrent.futures.as_completed(futures):
@@ -70,6 +77,40 @@ def plan_subjects(leads: list[dict], folder: Path) -> dict[str, dict]:
                 print(f"383 PHOTO PLAN chunk {futures[future]} skipped ({type(exc).__name__}); its leads get no photo this hour")
     (folder / "news-photo-plan.json").write_text(json.dumps(plans, ensure_ascii=False, indent=2), encoding="utf-8")
     return plans
+
+
+NAME = re.compile(r"[A-ZÇË][\w'’.-]+(?:\s+(?:[A-ZÇË][\w'’.-]+|de|di|van|von|al|el|e|i))*")
+NOT_NAMES = {"the", "a", "an", "will", "why", "how", "what", "who", "new", "after", "before", "breaking"}
+
+
+def wiki_plan(lead: dict) -> dict | None:
+    """Ground a photo subject in Wikipedia: a page named in the story whose lead
+    image Wikipedia itself marks as freely licensed. Commons still decides."""
+    title = plain(lead.get("title"))
+    story = set(re.findall(r"[a-z0-9]+", fold(title + " " + str(lead.get("primary_evidence", {}).get("text", ""))[:1800])))
+    names = [name for name in dict.fromkeys(match.group(0).strip(" .-") for match in NAME.finditer(title))
+             if name.casefold() not in NOT_NAMES and len(name) >= 3][:3]
+    languages = ("sq", "en") if lead.get("category") in {"Kosovë", "Shqipëri"} else ("en", "sq")
+    for language in languages:
+        for name in names:
+            try:
+                response = requests.get(f"https://{language}.wikipedia.org/w/api.php", params={
+                    "action": "query", "format": "json", "generator": "search", "gsrsearch": name,
+                    "gsrnamespace": 0, "gsrlimit": 3, "prop": "pageimages", "piprop": "name",
+                    "pilicense": "free", "redirects": 1,
+                }, headers=HEADERS, timeout=10)
+                response.raise_for_status()
+                pages = sorted(response.json().get("query", {}).get("pages", {}).values(), key=lambda page: page.get("index", 0))
+            except (requests.RequestException, ValueError):
+                continue
+            for page in pages:
+                subject = re.sub(r"\s*\(.*?\)", "", str(page.get("title", ""))).strip()
+                tokens = {token for token in re.findall(r"[a-z0-9]+", fold(subject)) if len(token) >= 3}
+                if page.get("pageimage") and tokens and tokens <= story:
+                    return {"subject": subject, "subject_evidence": subject, "queries": [subject],
+                            "files": [str(page["pageimage"])], "caption": subject,
+                            "planner": f"{language}.wikipedia"}
+    return None
 
 
 def _plan_chunk(leads: list[dict], folder: Path, index: int) -> dict[str, dict]:
@@ -137,6 +178,19 @@ def commons_candidates(query: str) -> list[dict]:
     return sorted(data.get("query", {}).get("pages", {}).values(), key=lambda page: page.get("index", 0))
 
 
+def commons_files(names: list[str]) -> list[dict]:
+    """The named Commons files, with the same metadata a search returns."""
+    response = requests.get(COMMONS_API, params={
+        "action": "query", "format": "json", "titles": "|".join(f"File:{name}" for name in names[:10]),
+        "prop": "imageinfo", "iiprop": "url|size|extmetadata", "iiurlwidth": 1600,
+    }, headers=HEADERS, timeout=15)
+    response.raise_for_status()
+    pages = list(response.json().get("query", {}).get("pages", {}).values())
+    for page in pages:
+        page["lead_image"] = True
+    return [page for page in pages if page.get("imageinfo")]
+
+
 def candidate_photo(page: dict, plan: dict) -> dict | None:
     info = next(iter(page.get("imageinfo", [])), {})
     meta = info.get("extmetadata", {})
@@ -181,7 +235,8 @@ def hook_score(page: dict, now: datetime | None = None) -> float:
     info = next(iter(page.get("imageinfo", [])), {})
     meta = info.get("extmetadata", {})
     categories = plain(meta.get("Categories", {}).get("value")).casefold()
-    score = 0.0
+    # The photo Wikipedia leads its article with is the recognisable one.
+    score = 2.0 if page.get("lead_image") else 0.0
     if "featured pictures" in categories:
         score += 3
     elif "quality images" in categories:
@@ -255,12 +310,18 @@ def select_photo(lead: dict, primary: dict, secondary: dict) -> dict:
         try:
             source_fingerprints.append(photo_fingerprint(url))
         except Exception as exc:
-            # Cannot prove it is a different photo when the source image fails.
-            print(f"383 PHOTO SKIP {lead.get('pair_id', 'candidate')}: source comparison unavailable ({type(exc).__name__})")
-            return {}
+            # A publisher CDN that refuses us is common and must not cost the
+            # story its photo: a licensed Commons file is still compared by URL
+            # against it and by content against every source image we could read.
+            print(f"383 PHOTO NOTE {lead.get('pair_id', 'candidate')}: one source image unreadable ({type(exc).__name__})")
     # Gather every query's results first, then try the most clickable photo
     # first; search order breaks ties, so the specific query still leads.
     pages = []
+    if plan.get("files"):
+        try:
+            pages += commons_files(plan["files"])
+        except (requests.RequestException, ValueError):
+            pass
     for query in plan["queries"]:
         if time.monotonic() >= deadline:
             return {}
