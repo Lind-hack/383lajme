@@ -16,7 +16,7 @@
 
 import sharp from "sharp";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { getArticles } from "@/lib/db";
+import { getArticlesBefore } from "@/lib/db";
 import { kosovoDateKey } from "@/lib/home-tregu.mjs";
 import {
   COVER_BUCKET,
@@ -123,8 +123,11 @@ export async function runCoverArt(now = new Date()) {
     if (budget === 0) return { skipped: "not-due" };
     if (missing) await ensureBucket(admin);
 
-    const top = await getArticles(60, undefined, { withBody: false });
-    const chosen = pickCoverStories(top, index, { now: now.getTime(), max: budget });
+    // The newest stories, as Për ty's own pool is built: getArticles() puts
+    // featured and most-engaged first, and its top rows are mostly older than
+    // FRESH_MS, so it chose nothing. pickCoverStories ranks these by engagement.
+    const recent = await getArticlesBefore({ limit: 120 });
+    const chosen = pickCoverStories(recent, index, { now: now.getTime(), max: budget });
     const plates: { slug: string; path: string }[] = [];
     const failed: string[] = [];
     for (const article of chosen) {
@@ -145,7 +148,7 @@ export async function runCoverArt(now = new Date()) {
     index = withPlates(index, today, plates, now.getTime());
     await writeIndex(admin, index);
     if (failed.length) console.error("Cover art:", failed.join("; "));
-    return { made: plates.length, failed: failed.length };
+    return { considered: recent.length, chosen: chosen.length, made: plates.length, failed: failed.length };
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : String(error) };
   }
