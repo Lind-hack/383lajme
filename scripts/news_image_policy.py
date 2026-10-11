@@ -47,11 +47,33 @@ def image_identity(url: str) -> str:
     return f"{host}{path}".casefold()
 
 
+PLAN_CHUNK = 12
+
+
 def plan_subjects(leads: list[dict], folder: Path) -> dict[str, dict]:
-    """Ask the existing OAuth model for grounded subjects, never image URLs."""
+    """Ask the existing OAuth model for grounded subjects, never image URLs.
+
+    The shortlist (up to ~90 leads) went out as one request and timed out at max
+    reasoning, which failed the whole run. Small parallel chunks finish inside
+    the limit, and a chunk that fails only costs its own leads their photos."""
     if not leads:
         return {}
-    brief = folder / "news-photo-briefs.json"
+    import concurrent.futures
+    chunks = [leads[start:start + PLAN_CHUNK] for start in range(0, len(leads), PLAN_CHUNK)]
+    plans: dict[str, dict] = {}
+    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+        futures = {pool.submit(_plan_chunk, chunk, folder, index): index for index, chunk in enumerate(chunks)}
+        for future in concurrent.futures.as_completed(futures):
+            try:
+                plans.update(future.result())
+            except (subprocess.SubprocessError, OSError, ValueError) as exc:
+                print(f"383 PHOTO PLAN chunk {futures[future]} skipped ({type(exc).__name__}); its leads get no photo this hour")
+    (folder / "news-photo-plan.json").write_text(json.dumps(plans, ensure_ascii=False, indent=2), encoding="utf-8")
+    return plans
+
+
+def _plan_chunk(leads: list[dict], folder: Path, index: int) -> dict[str, dict]:
+    brief = folder / f"news-photo-briefs-{index}.json"
     brief.write_text(json.dumps([
         {"pair_id": lead["pair_id"], "title": lead["title"],
          "text": lead["primary_evidence"].get("text", "")[:1800]}
@@ -99,14 +121,13 @@ def plan_subjects(leads: list[dict], folder: Path) -> dict[str, dict]:
                 or any(not isinstance(query, str) or not 3 <= len(query) <= 120 for query in queries)):
             continue
         plans[row["pair_id"]] = {**row, "subject": subject, "caption": plain(row.get("caption"))[:240]}
-    (folder / "news-photo-plan.json").write_text(json.dumps(plans, ensure_ascii=False, indent=2), encoding="utf-8")
     return plans
 
 
 def commons_candidates(query: str) -> list[dict]:
     response = requests.get(COMMONS_API, params={
         "action": "query", "format": "json", "generator": "search", "gsrnamespace": 6,
-        "gsrsearch": query + " filetype:bitmap", "gsrlimit": 5, "prop": "imageinfo",
+        "gsrsearch": query + " filetype:bitmap", "gsrlimit": 10, "prop": "imageinfo",
         "iiprop": "url|size|extmetadata", "iiurlwidth": 1600,
     }, headers=HEADERS, timeout=15)
     response.raise_for_status()
@@ -151,6 +172,32 @@ def candidate_photo(page: dict, plan: dict) -> dict | None:
                              "license_url": LICENSES[license_name], "description": description[:1200],
                              "subject_evidence": plan["subject_evidence"],
                              "verified_at": datetime.now(timezone.utc).isoformat()}}
+
+
+def hook_score(page: dict, now: datetime | None = None) -> float:
+    """How strongly a licensed photo can carry a headline on a card: recent,
+    community-reviewed, wide shots first; old scans and tall crops last.
+    Only metadata is read here, so ranking costs no downloads."""
+    info = next(iter(page.get("imageinfo", [])), {})
+    meta = info.get("extmetadata", {})
+    categories = plain(meta.get("Categories", {}).get("value")).casefold()
+    score = 0.0
+    if "featured pictures" in categories:
+        score += 3
+    elif "quality images" in categories:
+        score += 2
+    elif "valued images" in categories:
+        score += 1
+    year = re.search(r"\b(19|20)\d{2}\b", plain(meta.get("DateTimeOriginal", {}).get("value")) or plain(meta.get("DateTime", {}).get("value")))
+    if year:
+        age = (now or datetime.now(timezone.utc)).year - int(year.group(0))
+        score += 2 if age <= 3 else 1 if age <= 8 else -1 if age > 20 else 0
+    width, height = info.get("width") or 0, info.get("height") or 0
+    if width and height:
+        ratio = width / height
+        score += 1 if 1.3 <= ratio <= 2.0 else -2 if ratio < 1 else 0
+        score += 0.5 if width >= 2400 else 0
+    return score
 
 
 def photo_fingerprint(url: str) -> tuple[int, int, str, int]:
@@ -211,33 +258,39 @@ def select_photo(lead: dict, primary: dict, secondary: dict) -> dict:
             # Cannot prove it is a different photo when the source image fails.
             print(f"383 PHOTO SKIP {lead.get('pair_id', 'candidate')}: source comparison unavailable ({type(exc).__name__})")
             return {}
+    # Gather every query's results first, then try the most clickable photo
+    # first; search order breaks ties, so the specific query still leads.
+    pages = []
     for query in plan["queries"]:
         if time.monotonic() >= deadline:
             return {}
         try:
-            pages = commons_candidates(query)
+            pages += commons_candidates(query)
         except (requests.RequestException, ValueError):
             continue
-        for page in pages:
-            if time.monotonic() >= deadline:
-                return {}
-            photo = candidate_photo(page, plan)
-            if not photo or any(image_identity(photo["image_url"]) == image_identity(url) for url in source_urls):
-                continue
-            try:
-                width, height, digest, visual = photo_fingerprint(photo["image_url"])
-            except Exception:
-                continue
-            if width < 1200 or height < 630:
-                continue
-            if any(digest == source[2] or (visual ^ source[3]).bit_count() <= 20 for source in source_fingerprints):
-                continue
-            reserve = lead.get("_reserve_photo")
-            if reserve and not reserve(photo["image_url"]):
-                continue
-            photo.update(image_width=width, image_height=height)
-            photo["image_rights"].update(sha256=digest, distinct_from_source=True, source_images_checked=source_urls)
-            return photo
+    seen_titles: set[str] = set()
+    pages = [page for page in pages if page.get("title") not in seen_titles and not seen_titles.add(page.get("title"))]
+    ranked = sorted(enumerate(pages), key=lambda item: (-hook_score(item[1]), item[0]))
+    for _, page in ranked:
+        if time.monotonic() >= deadline:
+            return {}
+        photo = candidate_photo(page, plan)
+        if not photo or any(image_identity(photo["image_url"]) == image_identity(url) for url in source_urls):
+            continue
+        try:
+            width, height, digest, visual = photo_fingerprint(photo["image_url"])
+        except Exception:
+            continue
+        if width < 1200 or height < 630:
+            continue
+        if any(digest == source[2] or (visual ^ source[3]).bit_count() <= 20 for source in source_fingerprints):
+            continue
+        reserve = lead.get("_reserve_photo")
+        if reserve and not reserve(photo["image_url"]):
+            continue
+        photo.update(image_width=width, image_height=height)
+        photo["image_rights"].update(sha256=digest, distinct_from_source=True, source_images_checked=source_urls)
+        return photo
     return {}
 
 

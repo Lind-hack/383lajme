@@ -59,6 +59,21 @@ class NewsPhotoTests(unittest.TestCase):
             model.return_value.stdout = "383_JSON_BEGIN" + json.dumps(rows) + "383_JSON_END"
             self.assertEqual(policy.plan_subjects(leads, Path(folder)), {})
 
+    def test_a_timed_out_planner_chunk_costs_only_its_own_leads(self):
+        leads = [{"pair_id": f"lead-{n}", "title": f"OpenAI story {n}", "primary_evidence": {"text": "OpenAI announced a new release."}}
+                 for n in range(policy.PLAN_CHUNK + 1)]
+        def answer(command, **_):
+            brief = json.loads(Path(command[-1].split("Read ", 1)[1].split(". ", 1)[0]).read_text(encoding="utf-8"))
+            if len(brief) > 1:
+                raise policy.subprocess.TimeoutExpired(command, 240)
+            rows = [{"pair_id": brief[0]["pair_id"], "subject": "OpenAI", "subject_evidence": "OpenAI",
+                     "queries": ["OpenAI office"], "caption": "Zyra e OpenAI."}]
+            return SimpleNamespace(returncode=0, stdout="383_JSON_BEGIN" + json.dumps(rows) + "383_JSON_END")
+        with tempfile.TemporaryDirectory() as folder, patch.object(policy.subprocess, "run", side_effect=answer):
+            plans = policy.plan_subjects(leads, Path(folder))
+            self.assertEqual(list(plans), [f"lead-{policy.PLAN_CHUNK}"])
+            self.assertTrue((Path(folder) / "news-photo-plan.json").exists())
+
     def test_photo_connection_uses_validated_ip_and_original_tls_hostname(self):
         payload = BytesIO()
         Image.new("RGB", (1200, 630), "red").save(payload, format="JPEG")
@@ -99,6 +114,23 @@ class NewsPhotoTests(unittest.TestCase):
         with patch.object(policy, "commons_candidates", return_value=[page()]), patch.object(policy, "photo_fingerprint", side_effect=[(1600, 900, "source", 0), (1600, 900, "different", (1 << 256) - 1)]):
             photo = policy.select_photo(lead, evidence, {})
             self.assertTrue(photo["image_rights"]["distinct_from_source"])
+
+    def test_recent_reviewed_wide_photo_outranks_the_first_search_hit(self):
+        def ranked(title, year, categories="", size=(1600, 1000)):
+            entry = page()
+            entry["title"] = f"File:{title}.jpg"
+            info = entry["imageinfo"][0]
+            info.update(url=f"https://upload.wikimedia.org/wikipedia/commons/a/ab/{title}.jpg",
+                        descriptionurl=f"https://commons.wikimedia.org/wiki/File:{title}.jpg", width=size[0], height=size[1])
+            info["extmetadata"].update(DateTimeOriginal={"value": f"{year}-05-01"}, Categories={"value": categories})
+            return entry
+        now = datetime(2026, 10, 12, tzinfo=timezone.utc)
+        old_scan = ranked("Apple Park old", 1998, size=(900, 1400))
+        fresh = ranked("Apple Park fresh", 2025, "Quality images|Apple Park")
+        self.assertGreater(policy.hook_score(fresh, now), policy.hook_score(old_scan, now))
+        with patch.object(policy, "commons_candidates", return_value=[old_scan, fresh]), \
+                patch.object(policy, "photo_fingerprint", return_value=(1600, 1000, "photo", 255)):
+            self.assertIn("fresh", policy.select_photo({"photo_plan": plan()}, {}, {})["image_url"])
 
     def test_already_reserved_photo_does_not_repeat_in_the_run(self):
         with patch.object(policy, "commons_candidates", return_value=[page()]), patch.object(policy, "photo_fingerprint", return_value=(1600, 900, "photo", 255)):

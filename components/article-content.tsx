@@ -188,6 +188,16 @@ export default function ArticleContent({ article, related, moreFromCategory = []
                 </p>
               ))}
             </div>
+            {/* The copy is 383's own; the outlet it was verified against is
+                credited once, here at the end, rather than in the lead. */}
+            {!editorial && article.source && article.url?.startsWith("https://") && (
+              <p style={{ fontSize: "14px", lineHeight: 1.6, color: "#59544C", margin: "-8px 0 32px", overflowWrap: "anywhere" }}>
+                Burimi:{" "}
+                <a href={article.url} target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: "3px" }}>
+                  {article.source}<span className="sr-only"> (hapet në skedë të re)</span>
+                </a>
+              </p>
+            )}
             {/* The reader has just finished; this is where the questions are. */}
             {editorial ? editorial.afterBody : <ArticleAsk article={article} />}
 
