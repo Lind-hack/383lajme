@@ -28,7 +28,7 @@ type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefi
 
 async function visitLang(searchParams: Props["searchParams"]) {
   const [params, cookieStore] = await Promise.all([searchParams, cookies()]);
-  return resolveXhepLang(params.lang, cookieStore.get(XHEP_LANG_COOKIE)?.value);
+  return resolveXhepLang(params.lang, cookieStore.get(XHEP_LANG_COOKIE)?.value, cookieStore.get("383_language")?.value ?? "sq");
 }
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
@@ -59,7 +59,7 @@ export default async function VisitPage({ searchParams }: Props) {
         }}
       />
       {/* The site layout is Albanian; this subtree declares its own language. */}
-      <div lang={lang}>
+      <div lang={lang} data-source-language={lang}>
         <VisitV2Experience lang={lang} fuel={fuel} trips={trips} />
       </div>
       <div className={visitStyles.printHidden}>

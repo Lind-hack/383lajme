@@ -76,8 +76,8 @@ export default function RoomPanel({ lang, room, onLeft }: { lang: "en" | "sq"; r
     <div className={styles.room}>
       <header className={styles.roomHead}>
         <span>
-          <small>{t.roomTitle} · {room.code.toUpperCase()}</small>
-          <b>{view?.room.name ?? room.name}</b>
+          <small data-no-translate>{t.roomTitle} · {room.code.toUpperCase()}</small>
+          <b data-no-translate>{view?.room.name ?? room.name}</b>
         </span>
         <button
           type="button"
@@ -97,7 +97,7 @@ export default function RoomPanel({ lang, room, onLeft }: { lang: "en" | "sq"; r
         <div>
           <b>{t.invite}</b>
           <small>{t.inviteHint}</small>
-          <span className={styles.code}>{room.code.toUpperCase()}</span>
+          <span className={styles.code} data-no-translate>{room.code.toUpperCase()}</span>
           <span className={styles.inviteActions}>
             <button type="button" onClick={() => void copy()}>
               {copied ? <Check size={15} aria-hidden="true" /> : <Copy size={15} aria-hidden="true" />}
@@ -128,7 +128,7 @@ export default function RoomPanel({ lang, room, onLeft }: { lang: "en" | "sq"; r
               <span className={styles.avatar} aria-hidden="true">{m.name.slice(0, 1).toUpperCase()}</span>
               <span className={styles.who}>
                 <b>
-                  {m.name}
+                  <span data-no-translate>{m.name}</span>
                   {m.id === room.memberId && <em> · {t.you}</em>}
                 </b>
                 <span className={styles.dots} aria-label={t.places(m.progress.stamps)}>
@@ -183,12 +183,12 @@ export default function RoomPanel({ lang, room, onLeft }: { lang: "en" | "sq"; r
                 <span>
                   {m.kind === "moment" ? (
                     <>
-                      <b>{who}</b>
+                      <b data-no-translate>{who}</b>
                       {m.cityId && <small> · {cityName(m.cityId)}</small>}
-                      <p>{m.body}</p>
+                      <p data-no-translate>{m.body}</p>
                     </>
                   ) : (
-                    <p>{m.kind === "join" ? t.feed.join(who) : m.kind === "pack" ? t.feed.pack(who, cityName(m.cityId)) : t.feed.complete(who, cityName(m.cityId))}</p>
+                    <p data-no-translate>{m.kind === "join" ? t.feed.join(who) : m.kind === "pack" ? t.feed.pack(who, cityName(m.cityId)) : t.feed.complete(who, cityName(m.cityId))}</p>
                   )}
                 </span>
                 <time dateTime={m.createdAt}>{t.ago(minutes)}</time>

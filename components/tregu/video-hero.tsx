@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import Link from "next/link";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
+import { useLanguage } from "@/components/language/language-provider";
 
 // Cinematic rotation (Pexels, free license): the cities the platform speaks
 // to, then the sports it prices. Two stacked <video> layers crossfade between
@@ -189,6 +190,7 @@ function AnimatedHeading({ text, initialDelay = 90 }: { text: string; initialDel
 
   return (
     <h1
+      data-no-translate
       className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal mb-4 text-white"
       style={{ letterSpacing: "-0.04em" }}
     >
@@ -229,6 +231,8 @@ function AnimatedHeading({ text, initialDelay = 90 }: { text: string; initialDel
 }
 
 export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
+  const { language } = useLanguage();
+  const heading = {sq:"Parashiko. Fito.\nMerr para.",en:"Predict. Win.\nGet paid.",de:"Vorhersagen. Gewinnen.\nGeld erhalten."}[language];
   const scrollToMarkets = (event: MouseEvent<HTMLAnchorElement>) => {
     const floor = document.getElementById("tregjet");
     if (!floor) return;
@@ -251,7 +255,7 @@ export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-black/35 md:bg-black/15" />
       <div className="relative z-10 flex h-full flex-col px-5 md:px-12 lg:px-16 pt-20 md:pt-24">
         <div className="flex flex-1 flex-col justify-end pb-6 lg:pb-12">
-          <AnimatedHeading text={"Parashiko. Fito.\nMerr para."} />
+          <AnimatedHeading text={heading} />
           {/* The whole idea in three steps: what you do, what you win, what
               it becomes. No paragraph: a step is read in a glance over video. */}
           <Reveal delay={320}>

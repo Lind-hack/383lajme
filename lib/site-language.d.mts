@@ -1,0 +1,12 @@
+export type SiteLanguage = "sq" | "en" | "de";
+export const SITE_LANGUAGES: SiteLanguage[];
+export const LANGUAGE_STORAGE_KEY: string;
+export const LANGUAGE_CACHE_VERSION: string;
+export const LANGUAGE_BATCH_LIMIT: number;
+export const LANGUAGE_CHARACTER_LIMIT: number;
+export function isSiteLanguage(value: unknown): value is SiteLanguage;
+export function localizedAnswerPrompt(prompt:string,language:unknown):string;
+export function localTranslation(text: string, language: SiteLanguage, sourceLanguage?: string): string | null;
+export function validateTranslationRequest(body: unknown): {language: SiteLanguage; texts: string[]};
+export function validateTranslationLanguage(text:string,language:SiteLanguage):void;
+export function validateTranslationOutput(texts: string[], output: unknown,language?:SiteLanguage): string[];

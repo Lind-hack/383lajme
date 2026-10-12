@@ -8,6 +8,8 @@ import DardaniImage from "@/components/dardani/dardani-image";
 import DardaniLoop from "@/components/dardani/dardani-loop";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { rememberQuestion } from "@/lib/dardani-memory-store";
+import { useLanguage } from "@/components/language/language-provider";
+import type { SiteLanguage } from "@/lib/site-language.mjs";
 
 /** A suggested question. `reason` marks one chosen for this reader ("Sepse ndjek Sport"). */
 export type Chip = { label: string; question: string; reason?: string };
@@ -18,6 +20,7 @@ export type Chip = { label: string; question: string; reason?: string };
  * written out on screen once and shows whole from then on.
  */
 type Turn = {
+  language?: SiteLanguage;
   id: number;
   question: string;
   state: "thinking" | "answered" | "refused";
@@ -101,6 +104,7 @@ export default function AskPanel({
   onStatus?: (status: AskStatus) => void;
 }) {
   const [typed, setTyped] = useState("");
+  const { language } = useLanguage();
   const [turns, setTurns] = useState<Turn[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const tailRef = useRef<HTMLDivElement>(null);
@@ -119,7 +123,7 @@ export default function AskPanel({
 
       const id = ++ticket.current;
       setTyped("");
-      setTurns((prev) => [...prev, { id, question, state: "thinking" }]);
+      setTurns((prev) => [...prev, { id, question, language, state: "thinking" }]);
       rememberQuestion(question);
 
       // Only exchanges that produced an answer are worth remembering; a refusal
@@ -136,7 +140,7 @@ export default function AskPanel({
         const res = await fetch("/api/pyet", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question, slug, history }),
+          body: JSON.stringify({ question, slug, history, language }),
         });
         const data = await res.json();
 
@@ -162,7 +166,7 @@ export default function AskPanel({
         });
       }
     },
-    [slug],
+    [slug, language],
   );
 
   // A question handed in from outside — the suggestion bubble on an article.
@@ -239,7 +243,7 @@ export default function AskPanel({
           {turns.map((turn) =>
             overlay ? (
               <article className="pyet-turn pyet-turn--chat" key={turn.id}>
-                <p className="pyet-asked">{turn.question}</p>
+                <p className="pyet-asked" data-no-translate>{turn.question}</p>
                 <div className="pyet-reply">
                   <DardaniFace state={faceOf(turn)} size={44} className="pyet-reply-face" />
                   <div className="pyet-reply-bubble">
@@ -249,7 +253,7 @@ export default function AskPanel({
               </article>
             ) : (
               <article className="pyet-turn" key={turn.id}>
-                <p className="pyet-asked">{turn.question}</p>
+                <p className="pyet-asked" data-no-translate>{turn.question}</p>
                 <TurnBody turn={turn} variant={variant} onRevealed={markRevealed} />
               </article>
             ),
@@ -375,9 +379,9 @@ function TurnBody({
     return (
       <div className="pyet-answer" aria-live="polite">
         {turn.revealed ? (
-          <p className="pyet-text">{turn.answer}</p>
+          <p className="pyet-text" data-no-translate lang={turn.language??"sq"}>{turn.answer}</p>
         ) : (
-          <Reveal text={turn.answer ?? ""} onDone={() => onRevealed(turn.id)} />
+          <Reveal text={turn.answer ?? ""} language={turn.language??"sq"} onDone={() => onRevealed(turn.id)} />
         )}
         {turn.revealed && turn.sources && turn.sources.length > 0 && (
           <div className="pyet-sources">
@@ -426,7 +430,7 @@ const REVEAL_TICK_MS = 28;
  * Writes the answer out with a caret, then hands over to the finished answer.
  * Screen readers get the full text at once; the partial text is visual only.
  */
-function Reveal({ text, onDone }: { text: string; onDone: () => void }) {
+function Reveal({ text, onDone, language }: { text: string; onDone: () => void; language: SiteLanguage }) {
   const reduced = usePrefersReducedMotion();
   const [shown, setShown] = useState(0);
   const doneRef = useRef(onDone);
@@ -452,7 +456,7 @@ function Reveal({ text, onDone }: { text: string; onDone: () => void }) {
   }, [text, reduced]);
 
   return (
-    <p className="pyet-text">
+    <p className="pyet-text" data-no-translate lang={language}>
       <span aria-hidden="true">
         {text.slice(0, shown)}
         <span className="pyet-caret" />

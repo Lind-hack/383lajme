@@ -15,7 +15,7 @@ type Props = { searchParams: Promise<{ [key: string]: string | string[] | undefi
 
 async function load(searchParams: Props["searchParams"]) {
   const [params, cookieStore] = await Promise.all([searchParams, cookies()]);
-  const lang = resolveXhepLang(params.lang, cookieStore.get(XHEP_LANG_COOKIE)?.value);
+  const lang = resolveXhepLang(params.lang, cookieStore.get(XHEP_LANG_COOKIE)?.value, cookieStore.get("383_language")?.value ?? "sq");
   const raw = Array.isArray(params.d) ? params.d[0] : params.d;
   const payload = typeof raw === "string" ? raw : "";
   return { lang, payload, trip: decodeTrip(payload) };
@@ -41,17 +41,18 @@ export default async function TripPage({ searchParams }: Props) {
   return (
     <>
       <Navbar />
-      <main className={visitStyles.visitShell} lang={lang}>
+      <main className={visitStyles.visitShell} lang={lang} data-source-language={lang}>
         <section className={xhepStyles.companion}>
           {trip ? (
             <>
               <div className={xhepStyles.companionHead}>
-                <h2>{trip.name ? t.heading(trip.name) : t.anon}</h2>
+                <h2 data-no-translate={trip.name?"":undefined}>{trip.name ? t.heading(trip.name) : t.anon}</h2>
                 <p>{t.summary(trip.days, trip.cities.map((id) => CITY_NAMES[id as keyof typeof CITY_NAMES]).join(" → "))}</p>
               </div>
               <div className={xhepStyles.cardLayout}>
                 {/* The generator escapes every visitor-supplied string, so its output is safe to inline. */}
                 <figure
+                  data-no-translate
                   className={xhepStyles.cardFigure}
                   dangerouslySetInnerHTML={{ __html: cardArt(trip, { lang, seed: trip.seed ?? "", qrUrl: tripUrl(trip, lang) }) }}
                 />
