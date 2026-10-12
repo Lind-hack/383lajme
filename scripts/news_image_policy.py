@@ -80,7 +80,11 @@ def plan_subjects(leads: list[dict], folder: Path) -> dict[str, dict]:
 
 
 NAME = re.compile(r"[A-ZÇËŠŽĆČ][\w'’-]+(?:[ 	]+[A-ZÇËŠŽĆČ][\w'’-]+){0,2}")
-NOT_NAMES = {"the", "a", "an", "will", "why", "how", "what", "who", "new", "after", "before", "breaking", "watch", "live", "latest"}
+NOT_NAMES = {"the", "a", "an", "will", "why", "how", "what", "who", "new", "after", "before", "breaking",
+             "watch", "live", "latest", "she", "he", "it", "they", "his", "her", "its", "this", "that",
+             "january", "february", "march", "april", "may", "june", "july", "august", "september",
+             "october", "november", "december", "monday", "tuesday", "wednesday", "thursday", "friday",
+             "saturday", "sunday"}
 
 
 def api_get(url: str, params: dict) -> requests.Response:
@@ -97,31 +101,42 @@ def api_get(url: str, params: dict) -> requests.Response:
 
 
 def story_names(title: str, text: str) -> list[str]:
-    """The names a story keeps returning to, most mentioned first. A single
-    capitalised word counts only where it is not just opening a sentence, so
-    'Failure' or 'Footage' at the head of a headline is never taken for a name."""
+    """The names a story is about, headline names first.
+
+    Headlines are often title case ('Kelly Osbourne Says She's Gained...'), so a
+    headline phrase counts only where the article text uses the same words, and
+    then as the longest such stretch. A lone word that the text also writes in
+    lower case ('life', 'waves') is an ordinary word, not a name."""
+    words_lower = set(re.findall(r"\b[a-zçëšžćč]+\b", text))
+    def runs(value: str):
+        for sentence in re.split(r"(?<=[.!?:])\s+|\n+", value):
+            sentence = sentence.strip(" \"'“”‘’«»-–")
+            for match in NAME.finditer(sentence):
+                words = [word.strip("'’-") for word in match.group(0).split()]
+                while words and words[0].casefold() in NOT_NAMES:
+                    words = words[1:]
+                if words:
+                    yield words, match.start() > 0
+    def acceptable(name: str, midsentence: bool) -> bool:
+        if len(name) < 3 or name.casefold() in NOT_NAMES:
+            return False
+        return " " in name or (midsentence and name.casefold() not in words_lower)
     counts: dict[str, int] = {}
-    named_midsentence: set[str] = set()
-    for sentence in re.split(r"(?<=[.!?:])\s+|\n+", title + "\n" + text):
-        sentence = sentence.strip(" \"'“”‘’«»-–")
-        for match in NAME.finditer(sentence):
-            name = re.sub(r"^(?:The|A|An)\s+", "", match.group(0).strip(" '’-"))
-            if name.casefold() in NOT_NAMES or len(name) < 3:
-                continue
+    for words, midsentence in runs(text):
+        name = " ".join(words)
+        if acceptable(name, midsentence):
             counts[name] = counts.get(name, 0) + 1
-            if match.start() > 0:
-                named_midsentence.add(name)
-    # A lone capitalised word must recur, or it is more likely an ordinary word.
-    names = [name for name in counts if " " in name or (name in named_midsentence and counts[name] >= 2)]
-    # The headline says who the story is about: names it shares with the text
-    # lead, then the rest by mentions. A lone word inside a longer chosen name
-    # ('Kelly' in 'Kelly Osbourne') is dropped so it cannot find a namesake.
-    # Headline-only runs ('Taylor Swift Spends') rank below names the text
-    # also uses, so title-case headlines still resolve to the real name.
-    in_title, in_text = fold(title), fold(text)
-    names.sort(key=lambda name: (fold(name) not in in_title, fold(name) not in in_text, -counts[name]))
+    headline: list[str] = []
+    for words, _ in runs(title):
+        # Longest stretch of the headline run that the text also names.
+        found = next((" ".join(words[i:j]) for size in range(len(words), 0, -1)
+                      for i in range(len(words) - size + 1) for j in [i + size]
+                      if " ".join(words[i:j]) in counts), None)
+        if found and found not in headline:
+            headline.append(found)
+    rest = sorted((name for name in counts if name not in headline), key=lambda name: -counts[name])
     chosen: list[str] = []
-    for name in names:
+    for name in headline + [name for name in rest if " " in name or counts[name] >= 2]:
         if not any(fold(name) in fold(other) or fold(other) in fold(name) for other in chosen):
             chosen.append(name)
     return chosen[:3]

@@ -168,15 +168,17 @@ class NewsPhotoTests(unittest.TestCase):
         def wiki(url, params, **_):
             pages = {"1": {"index": 1, "title": "Kelly Osbourne", "pageimage": "Kelly_Osbourne_2010.jpg"},
                      "2": {"index": 2, "title": "Ozzy Osbourne", "pageimage": "Ozzy.jpg"}}
-            if params["gsrsearch"] == "Unrelated":
-                pages = {"1": {"index": 1, "title": "Paris Hilton", "pageimage": "Paris.jpg"}}
+            if params["gsrsearch"] == "Paris Hilton":
+                pages = {"1": {"index": 1, "title": "Paris", "pageimage": "Paris.jpg"}}
             return SimpleNamespace(raise_for_status=lambda: None, json=lambda: {"query": {"pages": pages}})
-        lead = {"title": "Kelly Osbourne says she gained weight", "category": "Showbiz", "primary_evidence": {"text": "The singer spoke."}}
+        lead = {"title": "Kelly Osbourne says she gained weight", "category": "Showbiz", "primary_evidence": {"text": "The singer Kelly Osbourne spoke."}}
         with patch.object(policy.requests, "get", side_effect=wiki) as get:
             plan_row = policy.wiki_plan(lead)
             self.assertEqual((plan_row["subject"], plan_row["files"]), ("Kelly Osbourne", ["Kelly_Osbourne_2010.jpg"]))
             self.assertEqual(get.call_args.kwargs["params"]["pilicense"], "free")
-            self.assertIsNone(policy.wiki_plan({**lead, "title": "Unrelated"}))
+            # A namesake page that does not cover the whole name is refused.
+            self.assertIsNone(policy.wiki_plan({**lead, "title": "Paris Hilton speaks",
+                                                "primary_evidence": {"text": "Then Paris Hilton spoke."}}))
 
     def test_commons_thumbnail_and_original_have_same_identity(self):
         original = "https://upload.wikimedia.org/wikipedia/commons/a/ab/Apple_Park.jpg"
