@@ -236,7 +236,6 @@ export default function Navbar() {
           />
         </Link>
 
-        <LanguageSwitcher />
         {/* Crossfade between the full nav and the collapsed hamburger so the
             two states slide/fade into each other instead of popping. */}
         <AnimatePresence mode="wait" initial={false}>
@@ -247,7 +246,7 @@ export default function Navbar() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 6 }}
               transition={{ duration: DUR.slow, ease: EASE }}
-              style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center" }}
+              style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: "6px" }}
             >
               {/* Spacer pushes the controls to the right */}
               <div style={{ flex: 1, minWidth: 0 }} />
@@ -256,6 +255,7 @@ export default function Navbar() {
                   stand in for the categories that just disappeared, so burying
                   it inside the hamburger would cost the most at exactly the
                   moment the nav has the least. */}
+              <LanguageSwitcher />
               <button
                 type="button"
                 className="nav-search-btn"
@@ -332,6 +332,7 @@ export default function Navbar() {
 
               </div>
 
+              <LanguageSwitcher />
               <button
                 type="button"
                 className="nav-search-btn"
@@ -354,7 +355,6 @@ export default function Navbar() {
         </AnimatePresence>
       </div>
 
-      <LanguageSwitcher mobile />
       <NavSidePanel open={menuOpen} onClose={() => setMenuOpen(false)} />
       <SearchOverlay
         open={searchOpen}
