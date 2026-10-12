@@ -27,3 +27,10 @@ Branch: `codex/tregu-production-release` → `origin/main` (Railway auto-deploys
 - `tregu-recorded-market-ui.test.mjs:131` asserts the reduced-motion block mentions the wash
 - Regression guard: UEFA cups / nations / basketball receipts must be unchanged
 - `rm -rf .next` before every visual check (Turbopack stale CSS, 3x last session)
+
+# Compact language control — separate scoped task
+
+- [x] Remove globe/caption; small orange SQ / EN / DE control before search in both header layouts.
+- [x] Remove mobile language row/body offset; fit controls into the existing 72px header at 320px and above.
+- [x] Read-only review, language tests, production build and responsive browser checks pass.
+- [ ] Commit/push clean change through GitHub; exact production SHA verified; desktop/mobile screenshots saved.

@@ -19968,36 +19968,30 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .nav-search-btn { margin: 0 2px !important; }
 }
 
-/* One tap to each language. The mobile row has its own space in the fixed
-   header, so translated navigation never crowds the existing controls. */
-.site-language { display:flex;align-items:center;gap:8px;flex-shrink:0;color:#25231f; }
-.site-language-caption { display:flex;align-items:center;gap:6px;font-size:12px;font-weight:650; }
-.site-language-desktop .site-language-caption span { display:none; }
-.site-language-options { display:flex;border:1px solid #ded8ce;border-radius:100px;padding:2px;background:#fff; }
-.site-language-options button { min-width:38px;min-height:38px;padding:0 7px;border:0;border-radius:100px;background:transparent;color:#5d5850;font:750 12px var(--font-manrope),sans-serif;cursor:pointer; }
-.site-language-options button[aria-pressed="true"] { color:#fff;background:#27241f; }
+/* Compact language choices share the existing header row on every screen. */
+.site-language { position:relative;display:flex;align-items:center;flex-shrink:0; }
+.site-language-options { display:flex;border:1px solid #ffd0c5;border-radius:100px;padding:2px;background:#fff7f3; }
+.site-language-options button { min-width:28px;min-height:24px;padding:0 5px;border:0;border-radius:100px;background:transparent;color:#a52c16;font:750 10px var(--font-manrope),sans-serif;cursor:pointer; }
+.site-language-options button[aria-pressed="true"] { color:#fff;background:#ff4422; }
 .site-language-options button:focus-visible,.site-language-state button:focus-visible { outline:2px solid #ff4422;outline-offset:3px; }
-.site-language-state { display:flex;align-items:center;justify-content:center;width:14px;min-height:24px; }
-.site-language-state i { width:10px;height:10px;border:2px solid #d5cfc5;border-top-color:#ff4422;border-radius:50%;animation:language-spin .8s linear infinite; }
-.site-language-state button { width:22px;height:26px;border:0;background:transparent;color:#b33218;font-weight:850;cursor:pointer; }
-.site-language-mobile { display:none; }
-header[data-overlay] .site-language-desktop { color:#fff; }
+.site-language-state { position:absolute;top:calc(100% + 2px);left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center; }
+.site-language-state i { width:8px;height:8px;border:2px solid #d5cfc5;border-top-color:#ff4422;border-radius:50%;animation:language-spin .8s linear infinite; }
+.site-language-state button { width:24px;height:24px;border:0;border-radius:50%;background:#fff7f3;color:#a52c16;font-weight:850;cursor:pointer; }
 @keyframes language-spin { to { transform:rotate(360deg); } }
-@media (hover:hover) { .site-language-options button:not([aria-pressed="true"]):hover { background:#f0eae1;color:#171614; } }
-@media (max-width:1024px) {
-  body:has(.site-language-mobile) { padding-top:48px; }
-  .site-language-desktop { display:none; }
-  .site-language-mobile { display:flex;justify-content:flex-end;min-height:48px;padding:0 clamp(20px,2vw,32px);border-top:1px solid #e8e3db;background:#f9f6f1; }
-  .site-language-mobile .site-language-caption { margin-right:auto; }
-  .site-language-mobile .site-language-options button { min-width:44px;min-height:40px; }
-}
+@media (hover:hover) { .site-language-options button:not([aria-pressed="true"]):hover { background:#ffe5dc; } }
 @media (prefers-reduced-motion:reduce) { .site-language-state i { animation:none; } }
-@media (max-width:360px) {
-  .site-nav-inner { padding-left:16px!important;padding-right:16px!important;gap:6px!important; }
-  .nav-dardan-label { display:none; }
-  .nav-dardan { width:40px;padding:4px!important;justify-content:center; }
+@media (max-width:640px) {
+  .site-nav-inner { padding-left:12px!important;padding-right:12px!important;gap:6px!important; }
+  .site-nav-inner .logo-mark { margin-right:0!important; }
+  .site-nav-inner .nav-dardan-label { display:none; }
+  .site-nav-inner .nav-dardan { width:38px;padding:4px!important;justify-content:center; }
+  .site-nav-inner .nav-search-btn { margin:0!important; }
 }
-@media print { .site-language { display:none!important; } body:has(.site-language-mobile) { padding-top:0; } }
+@media (max-width:360px) {
+  .site-nav-inner .nav-search-btn { width:32px; }
+  .site-nav-inner .nav-menu-btn { width:36px!important; }
+}
+@media print { .site-language { display:none!important; } }
 
 /* ── /kerko results: laid out like a section of the paper (app/kerko/page).
    Same width as a category page; the lead, the card grid and the endless list
