@@ -88,6 +88,27 @@ def _sheet_chunk(leads: list[dict], folder: Path, index: int) -> dict[str, list[
     return sheets
 
 
+def fragment_notes(text: str, limit: int = 16) -> list[str]:
+    """Notes without a model call: the source cut into short fragments, fact-
+    bearing ones (names, numbers) first, in a fixed but scrambled order. The
+    writer keeps the facts but loses the source's sentences and sequence, so
+    it has to build its own article. Used when the model notes fail."""
+    import hashlib
+    pieces = []
+    for sentence in re.split(r"(?<=[.!?])\s+", " ".join(text.split())):
+        for clause in re.split(r"[,;:]\s+|\s+[–—-]\s+", sentence):
+            words = clause.strip(" .\"'“”").split()
+            for start in range(0, len(words), MAX_FACT_WORDS - 4):
+                piece = " ".join(words[start:start + MAX_FACT_WORDS - 4])
+                if len(piece.split()) >= 4:
+                    pieces.append(piece)
+    pieces = list(dict.fromkeys(pieces))
+    bearing = [piece for piece in pieces if re.search(r"\d|\b[A-ZÇË][a-zçë]+\s+[A-ZÇË]", piece)]
+    rest = [piece for piece in pieces if piece not in bearing]
+    scramble = lambda items: sorted(items, key=lambda piece: hashlib.sha256(piece.encode()).hexdigest())
+    return (scramble(bearing) + scramble(rest))[:limit]
+
+
 def build_fact_sheets(leads: list[dict], folder: Path) -> dict[str, Path]:
     """Notes for each lead, written next to its evidence; a failed chunk only
     costs its own leads. Returns pair_id -> notes path."""
@@ -100,6 +121,11 @@ def build_fact_sheets(leads: list[dict], folder: Path) -> dict[str, Path]:
             return _sheet_chunk(chunk, folder, index)
         except (subprocess.SubprocessError, ValueError):
             return _sheet_chunk(chunk, folder, index)
+    # At "max" reasoning the stream goes silent past Hermes's 12 s limit and
+    # every call failed (0 of 10 notes in 380 s), so model notes run only with
+    # the "high" config; otherwise every story gets fragment notes at once.
+    if not high_effort_flag():
+        chunks = []
     # Three at a time: more parallel calls on the one account stalled the stream.
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
         futures = {pool.submit(attempt, chunk, index): index for index, chunk in enumerate(chunks)}
@@ -108,6 +134,12 @@ def build_fact_sheets(leads: list[dict], folder: Path) -> dict[str, Path]:
                 sheets.update(future.result())
             except (subprocess.SubprocessError, OSError, ValueError) as exc:
                 print(f"383 FACT NOTES chunk {futures[future]} skipped ({type(exc).__name__})")
+    model_notes = len(sheets)
+    for lead in leads:
+        if lead["pair_id"] not in sheets:
+            fragments = fragment_notes(lead["text"] + " " + lead.get("corroborating", ""))
+            if len(fragments) >= 4:
+                sheets[lead["pair_id"]] = fragments
     paths = {}
     for lead in leads:
         if lead["pair_id"] in sheets:
@@ -115,5 +147,5 @@ def build_fact_sheets(leads: list[dict], folder: Path) -> dict[str, Path]:
             target.write_text(json.dumps({"pair_id": lead["pair_id"], "facts": sheets[lead["pair_id"]]},
                                          ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
             paths[lead["pair_id"]] = target
-    print(f"383 FACT NOTES ready={len(paths)} of {len(leads)}")
+    print(f"383 FACT NOTES ready={len(paths)} of {len(leads)} (model={model_notes}, fragments={len(paths) - model_notes})")
     return paths
