@@ -159,7 +159,7 @@ export default async function BotaPerKosovenPage() {
               </p>
             )}
             <p className={s.date}>
-              {today.date ? `${longDate(today.date)} · përditësohet nëntë herë në ditë. ` : ""}
+              {today.date ? `${longDate(today.date)} · mbledhim lajme çdo orë, 07:23–23:23. ` : ""}
               Mat mënyrën si shkruajnë artikujt, jo qëndrimin e një vendi ndaj Kosovës.
             </p>
           </div>

@@ -337,12 +337,12 @@ export default function ToneMap({
 
         {/* Context first, so the tracked countries paint over it. */}
         <g fill={CONTEXT_FILL} stroke={BORDER} strokeWidth={0.6} vectorEffect="non-scaling-stroke">
-          {MAP_SHAPES.filter((s) => !s.tracked).map((s, i) => (
+          {MAP_SHAPES.filter((s) => !s.tracked && !byCode.has(s.code)).map((s, i) => (
             <path key={`ctx-${uid}-${i}`} d={s.d} />
           ))}
         </g>
 
-        {MAP_SHAPES.filter((s) => s.tracked).map((s, i) => {
+        {MAP_SHAPES.filter((s) => s.tracked || byCode.has(s.code)).map((s, i) => {
           const data = byCode.get(s.code);
           const on = data != null && active === data.country;
           const isOpen = data != null && selected === data.country;

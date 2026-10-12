@@ -186,6 +186,12 @@ const FLAGS: Record<string, string> = {
   "Afrikë e Jugut":"🇿🇦", Nigeri:"🇳🇬", Egjipt:"🇪🇬", "Emiratet e Bashkuara Arabe":"🇦🇪",
   Katar:"🇶🇦", "Arabi Saudite":"🇸🇦", Izrael:"🇮🇱", Rusi:"🇷🇺", Ukrainë:"🇺🇦",
   Qipro:"🇨🇾", Luksemburg:"🇱🇺", Vietnam:"🇻🇳", Panama:"🇵🇦",
+  Peru:"🇵🇪", Kolumbi:"🇨🇴", Uruguai:"🇺🇾", Ekuador:"🇪🇨", "Kosta Rikë":"🇨🇷",
+  Bangladesh:"🇧🇩", "Sri Lankë":"🇱🇰", Nepal:"🇳🇵", Tajvan:"🇹🇼", Tajlandë:"🇹🇭", Filipine:"🇵🇭",
+  Kenia:"🇰🇪", Ganë:"🇬🇭", Etiopi:"🇪🇹", Marok:"🇲🇦", Tunizi:"🇹🇳", Algjeri:"🇩🇿",
+  Jordani:"🇯🇴", Liban:"🇱🇧", Oman:"🇴🇲", Bahrein:"🇧🇭", Kuvajt:"🇰🇼", Irak:"🇮🇶",
+  Gjeorgji:"🇬🇪", Armeni:"🇦🇲", Azerbajxhan:"🇦🇿", Kazakistan:"🇰🇿", Uzbekistan:"🇺🇿",
+  Maltë:"🇲🇹", Estoni:"🇪🇪", Letoni:"🇱🇻", Lituani:"🇱🇹",
 };
 
 /** The workflow runs nine times a day, so a row older than this is a failed
