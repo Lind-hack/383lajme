@@ -12,7 +12,7 @@ type Props = { params: Promise<{ code: string }>; searchParams: Promise<{ [key: 
 
 async function load({ params, searchParams }: Props) {
   const [{ code }, query, cookieStore] = await Promise.all([params, searchParams, cookies()]);
-  const lang = resolveXhepLang(query.lang, cookieStore.get(XHEP_LANG_COOKIE)?.value);
+  const lang = resolveXhepLang(query.lang, cookieStore.get(XHEP_LANG_COOKIE)?.value, cookieStore.get("383_language")?.value ?? "sq");
   if (!ROOM_CODE_RE.test(code)) return { lang, code, name: null };
   const { data } = (await roomsDb()?.from("xhep_rooms").select("name").eq("code", code).maybeSingle()) ?? { data: null };
   return { lang, code, name: (data?.name as string | undefined) ?? null };
@@ -34,7 +34,7 @@ export default async function RoomPage(props: Props) {
   return (
     <>
       <Navbar />
-      <main className={visitStyles.visitShell} lang={lang}>
+      <main className={visitStyles.visitShell} lang={lang} data-source-language={lang}>
         <RoomJoin lang={lang} code={code} name={name} />
       </main>
       <Footer />

@@ -1,0 +1,15 @@
+# Site languages
+
+Dardani's new answers are generated directly in the selected language through its existing private answer endpoint, with the same retrieval and citation validation. Conversation questions and answers are excluded from the shared public translation cache. Existing exchanges retain the language in which they were answered.
+
+The fixed header offers one-tap SQ (Shqip), EN (English) and DE (Deutsch). Desktop uses compact controls beside the logo; phones use a dedicated row that stays visible. The selection persists in local storage and the `383_language` cookie. The existing Kosovo travel section uses its curated Albanian/English dictionaries and the same global preference; German uses the public translation service.
+
+Common navigation, category, fuel and weather labels are reviewed local translations and switch without a request. Other public text, including article bodies, placeholders, accessible labels, image descriptions and document titles, is translated in bounded batches through the existing server-side Groq credentials, with configured Gemini keys as fallback. API keys never reach the browser. First-time article translation takes a provider request; repeat switches reuse memory, bounded browser storage and the service-only Supabase cache. Visible content is processed first. New text after navigation, stream updates and dialogs is observed without wrapping or replacing React elements.
+
+SQ restores the original Albanian source. Stale requests are cancelled when changing language or route, and responses cannot overwrite text React has subsequently changed. Inputs retain their values. Private names, room messages, private card artwork and explicitly marked `data-no-translate`/`translate="no"` elements remain untouched. Admin pages remain in Albanian and do not call the translation API.
+
+Automatic translations cannot be guaranteed 100% correct. The provider must preserve meaning, names, number order, signs and values; incomplete output, markup, changed numbers and empty strings are rejected. German decimal commas are allowed. On failure, source text stays readable and the switcher shows a retry control. The reviewed glossary distinguishes fuel prices from financial derivatives and technocratic governments from technicians. Cache version changes invalidate prior model output when translation rules change.
+
+Install `0107_site_translation_cache.sql` on the self-hosted Supabase database before releasing. Cache reads/writes have bounded timeouts; a database cache outage does not disable the live provider. The public endpoint limits payload size, rejects cross-origin browser requests, rate-limits uncached generation per instance/IP and caps concurrent generations. Its cache is not readable or writable by anonymous/authenticated Supabase clients.
+
+This feature changes the reader's presentation. It does not rewrite original stories, trading identifiers, input values, source evidence, article URLs, generated downloads or search-engine metadata into separate localized routes.

@@ -337,7 +337,7 @@ export default function VisitV2Experience({ lang = "en", fuel = null, trips = []
 
       <section className={styles.visitHero} data-mapped aria-labelledby="visit-v2-title">
         <div className={styles.heroCopy}>
-          <LangToggle lang={lang} />
+            <LangToggle />
           <div className="visit-dardani">
             <DardaniImage name="diaspora" decorative priority />
             <span>{t.greeting}</span>

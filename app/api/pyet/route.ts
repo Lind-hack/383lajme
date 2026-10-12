@@ -13,6 +13,7 @@ import { starterQuestions } from "@/lib/pyet-questions.mjs";
 import { hydrateBodies } from "@/lib/pyet-server";
 import { llmJSON } from "@/lib/llm";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { isSiteLanguage, localizedAnswerPrompt } from "@/lib/site-language.mjs";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -138,6 +139,7 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json().catch(() => null);
+  const language = isSiteLanguage(body?.language) ? body.language : "sq";
   // The pure modules are .mjs, so their union returns arrive here untyped.
   // Narrowed rather than cast: a cast would hide the day one of them changes.
   const check = validQuestion(body?.question);
@@ -200,7 +202,7 @@ export async function POST(request: NextRequest) {
   // ── Gate 2 ────────────────────────────────────────────────────────────────
   let raw: unknown;
   try {
-    raw = await llmJSON<unknown>(SYSTEM_PROMPT, buildPrompt(question, full, { history }), {
+    raw = await llmJSON<unknown>(localizedAnswerPrompt(SYSTEM_PROMPT, language), buildPrompt(question, full, { history }), {
       maxTokens: 900,
       // Zero. This is summarising supplied text, so there is nothing for
       // sampling to improve — and at 0.2 the same question against the same

@@ -8,6 +8,7 @@ import Ga from "@/components/analytics/ga";
 import MobileTabBar from "@/components/mobile-tab-bar";
 import PageLoader from "@/components/dardani/page-loader";
 import LedgerVisit from "@/components/ledger-visit";
+import LanguageProvider from "@/components/language/language-provider";
 
 // The dossier is set in a serif: it is the record behind the news rather than
 // the news, and design 3a leans on that register throughout — the topic title,
@@ -105,6 +106,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="sq"
+      suppressHydrationWarning
       className={`${manrope.variable} ${figtree.variable} ${ebGaramond.variable}`}
       style={{ background: "#F9F6F1" }}
     >
@@ -116,7 +118,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body style={{ fontFamily: "var(--font-manrope), sans-serif", background: "#F9F6F1" }}>
-        <MotionProvider>
+        <LanguageProvider><MotionProvider>
           <PageLoader />
           {children}
           {/* In the layout, not the navbar, so it survives navigation and its
@@ -124,7 +126,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <MobileTabBar />
           <LedgerVisit />
           <Ga />
-        </MotionProvider>
+        </MotionProvider></LanguageProvider>
       </body>
     </html>
   );

@@ -157,6 +157,7 @@ export default function UserMenu() {
             touchAction: "manipulation",
           }}
           title={user.user_metadata?.full_name ?? user.email ?? ""}
+          data-no-translate
         >
           {initials}
         </button>
@@ -194,7 +195,7 @@ export default function UserMenu() {
                   textOverflow: "ellipsis",
                 }}
               >
-                {user.user_metadata?.full_name ?? "Profili"}
+                {user.user_metadata?.full_name ? <span data-no-translate>{user.user_metadata.full_name}</span> : "Profili"}
               </p>
               <p
                 style={{

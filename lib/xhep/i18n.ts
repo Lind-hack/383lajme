@@ -15,7 +15,9 @@ export function isXhepLang(value: unknown): value is XhepLang {
   return typeof value === "string" && (XHEP_LANGS as readonly string[]).includes(value);
 }
 
-export function resolveXhepLang(param: unknown, cookie: unknown): XhepLang {
+export function resolveXhepLang(param: unknown, cookie: unknown, siteLanguage?: unknown): XhepLang {
+  if (siteLanguage === "sq" || siteLanguage === "en") return siteLanguage;
+  if (siteLanguage === "de") return "sq";
   const fromParam = Array.isArray(param) ? param[0] : param;
   if (isXhepLang(fromParam)) return fromParam;
   if (isXhepLang(cookie)) return cookie;

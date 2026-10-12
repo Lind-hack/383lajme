@@ -16,6 +16,7 @@ import { NAV_CATEGORIES } from "@/lib/category-map";
 import { occasionFor } from "@/lib/dardani-occasions.mjs";
 import { PYET_OPEN_EVENT } from "@/lib/pyet-thread";
 import DardaniImage from "./dardani/dardani-image";
+import LanguageSwitcher from "./language/language-switcher";
 
 /** Derived from lib/category-map, so the navbar, the side panel (which imports
  *  this), the footer and the pill row cannot drift apart. Order and membership
@@ -69,6 +70,7 @@ function RightPills({ treguActive, onAsk }: { treguActive: boolean; onAsk: () =>
         className="nav-dardan"
         onClick={onAsk}
         aria-haspopup="dialog"
+        aria-label="Pyet Dardanin"
         title={occasion?.copy}
       >
         <span className="nav-dardan-face" data-occasion={occasion ? "" : undefined}>
@@ -184,6 +186,7 @@ export default function Navbar() {
       }}
     >
       <div
+        className="site-nav-inner"
         style={{
           maxWidth: "1500px",
           margin: "0 auto",
@@ -233,6 +236,7 @@ export default function Navbar() {
           />
         </Link>
 
+        <LanguageSwitcher />
         {/* Crossfade between the full nav and the collapsed hamburger so the
             two states slide/fade into each other instead of popping. */}
         <AnimatePresence mode="wait" initial={false}>
@@ -350,6 +354,7 @@ export default function Navbar() {
         </AnimatePresence>
       </div>
 
+      <LanguageSwitcher mobile />
       <NavSidePanel open={menuOpen} onClose={() => setMenuOpen(false)} />
       <SearchOverlay
         open={searchOpen}

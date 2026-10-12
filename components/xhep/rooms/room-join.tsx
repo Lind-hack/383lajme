@@ -43,7 +43,7 @@ export default function RoomJoin({ lang, code, name }: { lang: "en" | "sq"; code
     <section className={styles.together} data-page aria-labelledby="room-title">
       <div className={styles.head}>
         <p className={styles.kicker}>Kosova në xhep · {t.roomTitle}</p>
-        <h2 id="room-title">{mine ? name : t.joinTitle(name)}</h2>
+        <h2 id="room-title" data-no-translate>{mine ? name : t.joinTitle(name)}</h2>
         {!mine && <p>{t.joinIntro}</p>}
       </div>
       <div className={styles.roomPage}>
