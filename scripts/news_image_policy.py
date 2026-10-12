@@ -218,7 +218,8 @@ def wiki_plan(lead: dict) -> dict | None:
                         and is_person(page.get("pageprops", {}).get("wikibase_item", ""))):
                     return {"subject": subject, "subject_evidence": subject, "queries": [subject],
                             "files": [str(page["pageimage"])], "caption": subject,
-                            "planner": f"{language}.wikipedia"}
+                            "planner": f"{language}.wikipedia",
+                            "qid": page.get("pageprops", {}).get("wikibase_item", "")}
     return None
 
 
@@ -275,12 +276,19 @@ def _plan_chunk(leads: list[dict], folder: Path, index: int) -> dict[str, dict]:
     return plans
 
 
-def commons_candidates(query: str) -> list[dict]:
-    response = api_get(COMMONS_API, {
+def commons_candidates(query: str, newest: bool = False) -> list[dict]:
+    """Commons search; newest=True sorts by upload date. Commons imports the
+    official photo streams (EU Commission, governments, the White House,
+    Kremlin) within days, so the newest uploads are often this week's events,
+    which a relevance search buries under years of older files."""
+    params = {
         "action": "query", "format": "json", "generator": "search", "gsrnamespace": 6,
         "gsrsearch": query + " filetype:bitmap", "gsrlimit": 20, "prop": "imageinfo",
         "iiprop": "url|size|extmetadata", "iiurlwidth": 1600,
-    })
+    }
+    if newest:
+        params["gsrsort"] = "create_timestamp_desc"
+    response = api_get(COMMONS_API, params)
     data = response.json()
     if data.get("error"):
         raise ValueError("Commons search unavailable")
@@ -312,6 +320,25 @@ def photo_year(meta: dict) -> int | None:
         if found:
             return int(found.group(0))
     return None
+
+
+_DEPICTS: dict[int, set[str]] = {}
+
+
+def depicted(pageid: object) -> set[str]:
+    """Wikidata items a Commons file is tagged as depicting (P180)."""
+    if not isinstance(pageid, int):
+        return set()
+    if pageid not in _DEPICTS:
+        try:
+            entity = api_get(COMMONS_API, {"action": "wbgetentities", "format": "json",
+                                           "ids": f"M{pageid}", "props": "claims"}).json()["entities"][f"M{pageid}"]
+            claims = entity.get("statements") or entity.get("claims") or {}
+            _DEPICTS[pageid] = {claim.get("mainsnak", {}).get("datavalue", {}).get("value", {}).get("id")
+                                for claim in claims.get("P180", [])} - {None}
+        except (requests.RequestException, ValueError, KeyError):
+            return set()
+    return _DEPICTS[pageid]
 
 
 def candidate_photo(page: dict, plan: dict) -> dict | None:
@@ -351,8 +378,11 @@ def candidate_photo(page: dict, plan: dict) -> dict | None:
     # 'Ella Bank Road, Langley' for Ella Langley.
     phrase = " ".join(re.findall(r"[a-z0-9]+", fold(plan["subject"])))
     in_title = f" {phrase} " in " " + " ".join(re.findall(r"[a-z0-9]+", fold(plain(page.get("title", ""))))) + " "
-    in_description = f" {phrase} " in " " + " ".join(re.findall(r"[a-z0-9]+", fold(description))) + " "
-    if not tokens or not (in_title or (len(phrase.split()) >= 2 and in_description)):
+    # Otherwise the file must be tagged as depicting that very person on
+    # Commons ('depicts' = the Wikidata item). A description that only
+    # mentions the name gave pilgrims at a screen for the Pope and a road
+    # blockade for Andy Burnham.
+    if not tokens or not (in_title or (plan.get("qid") and plan["qid"] in depicted(page.get("pageid")))):
         return None
     url = info.get("thumburl") or info.get("url", "")
     if urlsplit(url).hostname not in {"upload.wikimedia.org", "thumb.wikimedia.org"} or not url.startswith("https://"):
@@ -368,6 +398,38 @@ def candidate_photo(page: dict, plan: dict) -> dict | None:
                              "license_url": LICENSES[license_name], "description": description[:1200],
                              "subject_evidence": plan["subject_evidence"],
                              "verified_at": datetime.now(timezone.utc).isoformat()}}
+
+
+CROWD = re.compile(r"\b(pilgrims|crowd|fans|supporters|audience|spectators|protesters|outside|screens?|queue)\b", re.I)
+
+
+def prefetch_depicted(pageids: list[object]) -> None:
+    """Fill the depicts cache for many files in one call per 50."""
+    wanted = [pageid for pageid in dict.fromkeys(pageids) if isinstance(pageid, int) and pageid not in _DEPICTS]
+    for start in range(0, len(wanted), 50):
+        batch = wanted[start:start + 50]
+        try:
+            entities = api_get(COMMONS_API, {"action": "wbgetentities", "format": "json", "props": "claims",
+                                             "ids": "|".join(f"M{pageid}" for pageid in batch)}).json()["entities"]
+        except (requests.RequestException, ValueError, KeyError):
+            continue
+        for pageid in batch:
+            entity = entities.get(f"M{pageid}", {})
+            claims = entity.get("statements") or entity.get("claims") or {}
+            _DEPICTS[pageid] = {claim.get("mainsnak", {}).get("datavalue", {}).get("value", {}).get("id")
+                                for claim in claims.get("P180", [])} - {None}
+
+
+def subject_score(page: dict, plan: dict) -> float:
+    """Portraits of the person first: tagged as depicting them, or their name
+    opening the file title; crowd and screen shots last."""
+    title = plain(page.get("title", "")).removeprefix("File:")
+    score = 3.0 if plan.get("qid") and plan["qid"] in _DEPICTS.get(page.get("pageid"), set()) else 0.0
+    if plan.get("subject") and fold(title).startswith(fold(plan["subject"])):
+        score += 1.5
+    if CROWD.search(title):
+        score -= 2
+    return score
 
 
 def hook_score(page: dict, now: datetime | None = None) -> float:
@@ -467,13 +529,15 @@ def select_photo(lead: dict, primary: dict, secondary: dict) -> dict:
     for query in plan["queries"]:
         if time.monotonic() >= deadline:
             return {}
-        try:
-            pages += commons_candidates(query)
-        except (requests.RequestException, ValueError):
-            continue
+        for newest in (True, False):
+            try:
+                pages += commons_candidates(query, newest=newest)
+            except (requests.RequestException, ValueError):
+                continue
     seen_titles: set[str] = set()
     pages = [page for page in pages if page.get("title") not in seen_titles and not seen_titles.add(page.get("title"))]
-    ranked = sorted(enumerate(pages), key=lambda item: (-hook_score(item[1]), item[0]))
+    prefetch_depicted([page.get("pageid") for page in pages])
+    ranked = sorted(enumerate(pages), key=lambda item: (-hook_score(item[1]) - subject_score(item[1], plan), item[0]))
     for _, page in ranked:
         if time.monotonic() >= deadline:
             return {}

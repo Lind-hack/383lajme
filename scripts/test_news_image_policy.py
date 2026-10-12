@@ -135,7 +135,7 @@ class NewsPhotoTests(unittest.TestCase):
         self.assertIsNotNone(policy.candidate_photo(page(), plan()))
 
     def test_subject_must_appear_as_a_phrase_and_personality_tag_is_allowed(self):
-        person = {**plan(), "subject": "Ella Langley"}
+        person = {**plan(), "subject": "Ella Langley", "qid": "Q1"}
         road = page()
         road["title"] = "File:Ella Bank Road, Langley.jpg"
         road["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Ella Bank Road in Langley"}
@@ -144,9 +144,15 @@ class NewsPhotoTests(unittest.TestCase):
         singer["title"] = "File:Concert 2025.jpg"
         singer["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Ella Langley performing in 2025"}
         singer["imageinfo"][0]["extmetadata"]["Restrictions"] = {"value": "personality"}
-        self.assertIsNotNone(policy.candidate_photo(singer, person))
+        singer["pageid"] = 7
+        # Named only in the description: refused unless Commons tags it as depicting her.
+        with patch.object(policy, "depicted", return_value=set()):
+            self.assertIsNone(policy.candidate_photo(singer, person))
+        with patch.object(policy, "depicted", return_value={"Q1"}):
+            self.assertIsNotNone(policy.candidate_photo(singer, person))
         singer["imageinfo"][0]["extmetadata"]["Restrictions"] = {"value": "personality|trademarked"}
-        self.assertIsNone(policy.candidate_photo(singer, person))
+        with patch.object(policy, "depicted", return_value={"Q1"}):
+            self.assertIsNone(policy.candidate_photo(singer, person))
 
     def test_bare_headline_surname_resolves_to_the_full_name_in_the_text(self):
         names = policy.story_names("Verstappen wins in Singapore Grand Prix",
