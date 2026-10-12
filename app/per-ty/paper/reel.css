@@ -1,0 +1,1276 @@
+/* ───────────────────────────────────────────────────────────────────────────
+   Për ty — the reader's paper as a reel (reel.tsx, slides.tsx).
+
+   One full screen at a time, swiped up like TikTok; each screen set like an
+   Apple News story: the photo edge to edge, the headline large over a dark
+   fade, one spot colour for the reason a story is here. On a wide screen the
+   reel sits on the left with the whole paper listed on the right.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.fy {
+  --fy-accent: #ff4422;
+  --fy-accent-ink: #c2341b;
+  --fy-sans: var(--font-manrope), system-ui, sans-serif;
+  --fy-serif: var(--np-f-serif), Georgia, "Times New Roman", serif;
+  --fy-head: var(--fy-serif);
+  --fy-name: var(--fy-serif);
+  --fy-head-weight: 600;
+  --fy-case: none;
+  --fy-track: -0.015em;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  height: calc(100svh - var(--nav-h, 72px) - var(--tabbar-h, 0px));
+  min-height: 460px;
+  color: #151412;
+  font-family: var(--fy-sans);
+}
+
+/* Each kind of paper (lib/paper-look.mjs): a spot colour and a headline face. */
+.fy[data-look="sporti"] {
+  --fy-accent: #12a150;
+  --fy-accent-ink: #0a7f3f;
+  --fy-head: var(--np-f-poster), Impact, "Arial Narrow", sans-serif;
+  --fy-name: var(--np-f-poster), Impact, sans-serif;
+  --fy-head-weight: 400;
+  --fy-case: uppercase;
+  --fy-track: 0.005em;
+}
+.fy[data-look="tabloid"] {
+  --fy-accent: #ff1f3d;
+  --fy-accent-ink: #d10a25;
+  --fy-head: var(--np-f-poster), Impact, "Arial Narrow", sans-serif;
+  --fy-name: var(--np-f-poster), Impact, sans-serif;
+  --fy-head-weight: 400;
+  --fy-case: uppercase;
+  --fy-track: 0.005em;
+}
+.fy[data-look="bota"] {
+  --fy-accent: #2f6bff;
+  --fy-accent-ink: #1d4f9f;
+}
+.fy[data-look="biznes"] {
+  --fy-accent: #12a0aa;
+  --fy-accent-ink: #0d7680;
+}
+
+/* The reel takes the whole screen between the site's bars on a phone. */
+.perty-page:has(.fy) {
+  padding: var(--nav-h, 72px) 0 var(--tabbar-h, 0px);
+}
+
+.fy-main {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background: #0e0e0e;
+}
+.fy-reel {
+  height: 100%;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  overscroll-behavior-y: contain;
+  scrollbar-width: none;
+}
+.fy-reel::-webkit-scrollbar {
+  display: none;
+}
+.fy-screen {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* ── over the screen: progress, where, tools ──────────────────────────────── */
+
+.fy-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  padding: 10px 14px 26px;
+  color: #fff;
+  background: linear-gradient(rgb(0 0 0 / 0.5), transparent);
+  pointer-events: none;
+}
+.fy-top > * {
+  pointer-events: auto;
+}
+.fy-bars {
+  display: flex;
+  gap: 4px;
+  height: 3px;
+}
+.fy-bars span {
+  flex: 1;
+  border-radius: 2px;
+  background: rgb(255 255 255 / 0.32);
+  transition: background-color 0.25s ease;
+}
+.fy-bars span[data-on] {
+  background: #fff;
+}
+.fy-bars--all {
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgb(255 255 255 / 0.25);
+}
+.fy-bars--all span {
+  flex: none;
+  width: 100%;
+  background: #fff;
+  transform-origin: left center;
+  transition: transform 0.35s ease;
+}
+.fy-top-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.fy-top-where {
+  display: flex;
+  flex: 1;
+  align-items: baseline;
+  gap: 9px;
+  min-width: 0;
+  margin: 0;
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.35);
+}
+.fy-top-where b {
+  overflow: hidden;
+  font: 700 18px/1.1 var(--fy-name);
+  letter-spacing: -0.01em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fy-top-where span {
+  flex-shrink: 0;
+  font: 800 11px/1 var(--fy-sans);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+/* Light screens (the boxes, the end): dark type on top. */
+.fy-main[data-tone="light"] .fy-top {
+  color: #151412;
+  background: linear-gradient(#f7f4ee 55%, transparent);
+}
+.fy-main[data-tone="light"] .fy-bars span,
+.fy-main[data-tone="light"] .fy-bars--all {
+  background: rgb(21 20 18 / 0.18);
+}
+.fy-main[data-tone="light"] .fy-bars span[data-on],
+.fy-main[data-tone="light"] .fy-bars--all span {
+  background: #151412;
+}
+.fy-main[data-tone="light"] .fy-top-where {
+  text-shadow: none;
+}
+
+.fy-tools {
+  display: flex;
+  flex-shrink: 0;
+  gap: 6px;
+}
+.fy-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.16);
+  color: inherit;
+  font: 800 13.5px/1 var(--fy-sans);
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: transform 0.12s ease, background-color 0.15s ease;
+}
+.fy-tool:active {
+  transform: scale(0.95);
+}
+.fy-tool--primary {
+  background: #fff;
+  color: #151412;
+}
+.fy-tool--icon {
+  width: 38px;
+  padding: 0;
+}
+.fy-main[data-tone="light"] .fy-tool:not(.fy-tool--primary) {
+  background: rgb(21 20 18 / 0.08);
+}
+.fy-main[data-tone="light"] .fy-tool--primary {
+  background: #151412;
+  color: #fff;
+}
+.fy-tool:focus-visible,
+.fy-act:focus-visible,
+.fy-btn:focus-visible,
+.fy-why:focus-visible,
+.fy-steps button:focus-visible,
+.fy-hint:focus-visible,
+.fy-list button:focus-visible,
+.fy-cover a:focus-visible,
+.fy-head a:focus-visible {
+  outline: 2px solid var(--fy-accent);
+  outline-offset: 2px;
+}
+
+.fy-steps {
+  position: absolute;
+  top: 64px;
+  right: 22px;
+  z-index: 5;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+}
+.fy-steps button {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.16);
+  color: #fff;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.fy-steps button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.fy-main[data-tone="light"] .fy-steps button {
+  background: rgb(21 20 18 / 0.08);
+  color: #151412;
+}
+
+.fy-hint {
+  position: absolute;
+  top: 74px;
+  left: 50%;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #151412;
+  font: 800 13.5px/1.2 var(--fy-sans);
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
+  cursor: pointer;
+  transform: translateX(-50%);
+  animation: fy-bob 1.8s ease-in-out 0.6s infinite;
+}
+.fy-hint-wide {
+  display: none;
+}
+@keyframes fy-bob {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, -6px);
+  }
+}
+
+/* ── a screen with a photo: cover, story, section ─────────────────────────── */
+
+.fy-cover,
+.fy-story,
+.fy-section {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--fy-accent) 80%, #000), #121212 75%);
+}
+.fy-bg {
+  z-index: 0;
+}
+.fy-bg--blur {
+  filter: blur(28px) saturate(1.25);
+  transform: scale(1.2);
+}
+.fy-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0 / 0.94) 0%,
+    rgb(0 0 0 / 0.72) 30%,
+    rgb(0 0 0 / 0.12) 62%,
+    rgb(0 0 0 / 0.38) 100%
+  );
+  pointer-events: none;
+}
+.fy-story:not([data-photo]) .fy-shade {
+  background: linear-gradient(to top, rgb(0 0 0 / 0.45), transparent 70%);
+}
+.fy-credit {
+  position: absolute;
+  top: 78px;
+  right: 14px;
+  z-index: 2;
+  padding: 4px 7px;
+  border-radius: 4px;
+  background: rgb(0 0 0 / 0.5);
+  color: #fff;
+  font: 700 10.5px/1 var(--fy-sans);
+}
+
+/* ── a story ──────────────────────────────────────────────────────────────── */
+
+.fy-story-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  max-width: 940px;
+  padding: 0 86px 26px 20px;
+}
+.fy-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+.fy-why {
+  padding: 7px 11px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--fy-accent);
+  color: #fff;
+  font: 800 11.5px/1.1 var(--fy-sans);
+  letter-spacing: 0.05em;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.fy-why--plain {
+  cursor: default;
+}
+.fy-mark {
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.18);
+  font: 800 10.5px/1 var(--fy-sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.fy-mark--new {
+  background: #fff;
+  color: #151412;
+}
+.fy-head {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  font-family: var(--fy-head);
+  font-size: clamp(27px, 7.4vw, 36px);
+  font-weight: var(--fy-head-weight);
+  line-height: 1.08;
+  letter-spacing: var(--fy-track);
+  text-transform: var(--fy-case);
+  text-wrap: balance;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+.fy[data-look="sporti"] .fy-head,
+.fy[data-look="tabloid"] .fy-head {
+  line-height: 1.12;
+}
+.fy-head a {
+  color: inherit;
+  text-decoration: none;
+}
+.fy-story[data-read] .fy-head {
+  opacity: 0.7;
+}
+.fy-text {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  font: 500 15.5px/1.5 var(--fy-sans);
+  color: rgb(255 255 255 / 0.86);
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.fy-story[data-pace="short"] .fy-text {
+  display: none;
+}
+.fy-story[data-pace="long"] .fy-text {
+  -webkit-line-clamp: 5;
+}
+.fy-story-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-top: 4px;
+}
+.fy-meta {
+  font: 700 12.5px/1.2 var(--fy-sans);
+  color: rgb(255 255 255 / 0.7);
+}
+
+.fy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 46px;
+  padding: 0 19px;
+  border: 1.5px solid transparent;
+  border-radius: 999px;
+  font: 800 14.5px/1 var(--fy-sans);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.12s ease, background-color 0.15s ease;
+}
+.fy-btn:active {
+  transform: scale(0.96);
+}
+.fy-btn--light {
+  background: #fff;
+  color: #151412;
+}
+.fy-btn--ghost {
+  border-color: rgb(255 255 255 / 0.45);
+  background: rgb(255 255 255 / 0.12);
+  color: #fff;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.fy-btn--small {
+  height: 38px;
+  padding: 0 15px;
+  font-size: 13px;
+}
+
+/* the reader's buttons down the right side */
+.fy-actions {
+  position: absolute;
+  right: 10px;
+  bottom: 28px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.fy-act {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: 800 11px/1 var(--fy-sans);
+  text-shadow: 0 1px 4px rgb(0 0 0 / 0.55);
+  cursor: pointer;
+}
+.fy-act svg {
+  box-sizing: border-box;
+  width: 50px;
+  height: 50px;
+  padding: 13px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.15);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: transform 0.15s ease, background-color 0.2s ease;
+}
+.fy-act:hover svg {
+  background: rgb(255 255 255 / 0.26);
+}
+.fy-act:active svg {
+  transform: scale(0.88);
+}
+.fy-act[aria-pressed="true"] svg {
+  background: var(--fy-accent);
+  animation: fy-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes fy-pop {
+  40% {
+    transform: scale(1.18);
+  }
+}
+
+/* "Pse e sheh këtë?" */
+.fy-whysheet {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 18px 16px;
+  border-radius: 20px;
+  background: rgb(22 22 22 / 0.94);
+  color: #fff;
+  font: 500 15px/1.5 var(--fy-sans);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  animation: fy-up 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.fy-whysheet p {
+  margin: 0;
+}
+.fy-whysheet-title {
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fy-accent);
+}
+.fy-whysheet-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.fy-whysheet-close {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: rgb(255 255 255 / 0.75);
+  font: 700 13px/1 var(--fy-sans);
+  text-decoration: underline;
+  cursor: pointer;
+}
+@keyframes fy-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+.fy-toast {
+  position: absolute;
+  top: 76px;
+  left: 50%;
+  z-index: 6;
+  margin: 0;
+  padding: 9px 15px;
+  border-radius: 999px;
+  background: #fff;
+  color: #151412;
+  font: 800 13px/1.2 var(--fy-sans);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.fy-toast[data-on] {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ── the cover ────────────────────────────────────────────────────────────── */
+
+.fy-shade--cover {
+  background: linear-gradient(to top, rgb(0 0 0 / 0.95) 0%, rgb(0 0 0 / 0.6) 52%, rgb(0 0 0 / 0.3) 100%);
+}
+.fy-cover-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 900px;
+  padding: 0 20px 28px;
+}
+.fy-cover-kicker {
+  margin: 0;
+  font: 800 12px/1.3 var(--fy-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.82);
+}
+.fy-cover-name {
+  margin: 0;
+  font: 700 clamp(46px, 14vw, 72px)/0.95 var(--fy-name);
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.fy[data-look="sporti"] .fy-cover-name,
+.fy[data-look="tabloid"] .fy-cover-name {
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+.fy[data-look="biznes"] .fy-cover-name {
+  font-style: italic;
+}
+.fy-cover-name button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  text-transform: inherit;
+  cursor: pointer;
+}
+.fy-cover-line {
+  margin: 0;
+  font: 700 14.5px/1.4 var(--fy-sans);
+  color: rgb(255 255 255 / 0.86);
+}
+.fy-cover-heads {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: head;
+  border-top: 1px solid rgb(255 255 255 / 0.25);
+}
+.fy-cover-heads li {
+  counter-increment: head;
+}
+.fy-cover-heads a {
+  display: grid;
+  grid-template-columns: 1.4em minmax(0, 1fr);
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgb(255 255 255 / 0.18);
+  color: #fff;
+  font: 600 16.5px/1.3 var(--fy-serif);
+  text-decoration: none;
+}
+.fy-cover-heads a::before {
+  content: counter(head);
+  font: 800 13px/1.6 var(--fy-sans);
+  color: var(--fy-accent);
+}
+.fy-cover-heads a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.fy-cover-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+/* ── a follow's own screen ────────────────────────────────────────────────── */
+
+.fy-section {
+  background: var(--fy-accent);
+}
+.fy-shade--section {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--fy-accent) 72%, transparent),
+    color-mix(in srgb, var(--fy-accent) 90%, #000)
+  );
+}
+.fy-section-body {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  padding: 90px 24px 40px;
+}
+.fy-section-kicker,
+.fy-section-count {
+  margin: 0;
+  font: 800 12px/1.3 var(--fy-sans);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  opacity: 0.88;
+}
+.fy-section-title {
+  margin: 0;
+  font: var(--fy-head-weight) clamp(54px, 17vw, 104px)/0.95 var(--fy-head);
+  letter-spacing: -0.03em;
+  text-transform: var(--fy-case);
+  overflow-wrap: anywhere;
+}
+.fy-section-intro {
+  max-width: 36ch;
+  margin: 0;
+  font: 600 16.5px/1.45 var(--fy-sans);
+}
+.fy-section-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.fy-section-said {
+  margin: 0;
+  align-self: center;
+  font: 800 14px/1.3 var(--fy-sans);
+}
+
+/* ── light screens: the boxes and the end ─────────────────────────────────── */
+
+.fy-panel {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  background: #f7f4ee;
+  color: #151412;
+}
+.fy-panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 92px 20px 36px;
+  font: 500 15.5px/1.5 var(--fy-sans);
+}
+.fy-panel-body p {
+  margin: 0;
+}
+.fy-panel-kicker {
+  font: 800 12px/1.2 var(--fy-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fy-accent-ink);
+}
+.fy-panel-title {
+  margin: 0;
+  font: var(--fy-head-weight) clamp(34px, 9vw, 52px)/1 var(--fy-head);
+  letter-spacing: -0.02em;
+  text-transform: var(--fy-case);
+}
+.fy-panel section {
+  padding-top: 14px;
+  border-top: 1px solid rgb(21 20 18 / 0.12);
+}
+.fy-panel h3 {
+  margin: 0 0 8px;
+  font: 800 12px/1.2 var(--fy-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b665e;
+}
+.fy-panel .fy-btn--light {
+  background: #151412;
+  color: #fff;
+}
+.fy-panel .fy-btn--ghost {
+  border-color: rgb(21 20 18 / 0.2);
+  background: transparent;
+  color: #151412;
+}
+.fy-panel .fy-btn--accent {
+  background: var(--fy-accent);
+  color: #fff;
+}
+.fy-panel .perty-text-btn {
+  align-self: flex-start;
+}
+.fy-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.fy-boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+.fy-panel .perty-town-main {
+  grid-template-columns: 1fr;
+}
+.fy-panel .perty-box,
+.fy-panel .perty-brief {
+  margin: 0;
+}
+.fy-end-hello {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.fy-end-hello .perty-end-img {
+  flex-shrink: 0;
+  height: 96px;
+}
+.fy-end-big {
+  font: 700 22px/1.2 var(--fy-serif);
+}
+.fy-list-plain {
+  margin: 0;
+  padding-left: 1.25em;
+}
+.fy-list-plain li + li {
+  margin-top: 5px;
+}
+.fy-privacy {
+  font-size: 13px;
+  color: #6b665e;
+}
+.fy-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+.fy-links a,
+.fy-links button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #151412;
+  font: 800 14px/1.3 var(--fy-sans);
+  text-decoration: none;
+  cursor: pointer;
+}
+.fy-links a:hover,
+.fy-links button:hover {
+  color: var(--fy-accent-ink);
+}
+
+/* ── the list on the right, on a wide screen ──────────────────────────────── */
+
+.fy-side {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .perty-page:has(.fy) {
+    padding: calc(var(--nav-h, 72px) + 12px) 20px 20px;
+  }
+  .fy {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 20px;
+    max-width: 1680px;
+    height: calc(100svh - var(--nav-h, 72px) - 32px);
+    margin: 0 auto;
+  }
+  .fy-main {
+    border-radius: 24px;
+  }
+  .fy-tools--top {
+    display: none;
+  }
+  .fy-top {
+    padding: 16px 22px 30px;
+  }
+  .fy-steps {
+    display: flex;
+  }
+  .fy-credit {
+    right: 84px;
+  }
+  .fy-hint-phone {
+    display: none;
+  }
+  .fy-hint-wide {
+    display: inline;
+  }
+  .fy-story-body {
+    padding: 0 160px 46px 48px;
+  }
+  .fy-head {
+    font-size: clamp(34px, 3.6vw, 60px);
+  }
+  .fy-text {
+    max-width: 62ch;
+    font-size: 17px;
+  }
+  .fy-actions {
+    right: 24px;
+    bottom: 46px;
+  }
+  .fy-whysheet {
+    left: auto;
+    right: 96px;
+    bottom: 46px;
+    width: 380px;
+  }
+  .fy-cover-body {
+    padding: 0 48px 48px;
+  }
+  .fy-cover-name {
+    font-size: clamp(64px, 6.4vw, 112px);
+  }
+  .fy-section-body {
+    padding: 64px 72px;
+  }
+  .fy-section-title {
+    font-size: clamp(80px, 9vw, 160px);
+  }
+  .fy-panel-body {
+    padding: 84px 48px 48px;
+  }
+
+  .fy-side {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid rgb(21 20 18 / 0.08);
+    border-radius: 24px;
+    background: #fff;
+  }
+  .fy-side-head {
+    padding: 22px 22px 16px;
+    border-bottom: 1px solid rgb(21 20 18 / 0.08);
+  }
+  .fy-side-name {
+    margin: 0;
+    font: 700 30px/1.02 var(--fy-name);
+    letter-spacing: -0.02em;
+  }
+  .fy[data-look="sporti"] .fy-side-name,
+  .fy[data-look="tabloid"] .fy-side-name {
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+  .fy-side-sub {
+    margin: 6px 0 14px;
+    font: 600 13px/1.4 var(--fy-sans);
+    color: #6b665e;
+  }
+  .fy-side .fy-tool {
+    border: 1px solid rgb(21 20 18 / 0.14);
+    background: #fff;
+    color: #151412;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .fy-side .fy-tool--primary {
+    border-color: #151412;
+    background: #151412;
+    color: #fff;
+  }
+  .fy-list {
+    flex: 1;
+    min-height: 0;
+    margin: 0;
+    padding: 6px 10px 18px;
+    overflow-y: auto;
+    list-style: none;
+    scrollbar-width: thin;
+  }
+  .fy-list-group button {
+    display: block;
+    width: 100%;
+    padding: 16px 12px 6px;
+    border: 0;
+    background: none;
+    color: var(--fy-accent-ink);
+    font: 800 11.5px/1 var(--fy-sans);
+    letter-spacing: 0.08em;
+    text-align: left;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .fy-list-group button[aria-current] {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .fy-list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 44px;
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 12px;
+    background: none;
+    color: #151412;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+  .fy-list-item:hover {
+    background: #f4f1eb;
+  }
+  .fy-list-item[aria-current] {
+    background: #151412;
+    color: #fff;
+  }
+  .fy-list-thumb {
+    position: relative;
+    flex: 0 0 56px;
+    height: 56px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #ece7df;
+  }
+  .fy-list-thumb--none {
+    background: color-mix(in srgb, var(--fy-accent) 70%, #fff);
+  }
+  .fy-list-title {
+    display: -webkit-box;
+    overflow: hidden;
+    font: 600 15px/1.3 var(--fy-serif);
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .fy-list-item[data-read]:not([aria-current]) .fy-list-title {
+    color: #8a857c;
+  }
+}
+
+@media (max-width: 1023px) {
+  /* The boxes screen has to fit a phone like every other screen. */
+  .fy-panel-body {
+    gap: 12px;
+    padding-top: 84px;
+  }
+  .fy-screen[data-kind="brief"] .perty-box--tregu,
+  .fy-screen[data-kind="brief"] .fy-panel-kicker {
+    display: none;
+  }
+  .fy-screen[data-kind="brief"] .fy-boxes {
+    gap: 10px;
+  }
+  .fy-tool-label {
+    display: none;
+  }
+  .fy-tool--primary .fy-tool-label {
+    display: inline;
+  }
+  .fy-tool:not(.fy-tool--primary) {
+    width: 38px;
+    padding: 0;
+  }
+}
+
+/* Short phones: less text over the photo. */
+@media (max-height: 700px) and (max-width: 1023px) {
+  .fy-text {
+    -webkit-line-clamp: 2;
+  }
+  .fy-head {
+    -webkit-line-clamp: 4;
+  }
+  .fy-cover-heads li:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fy-hint,
+  .fy-act[aria-pressed="true"] svg,
+  .fy-whysheet {
+    animation: none;
+  }
+  .fy-bars span,
+  .fy-bars--all span,
+  .fy-toast,
+  .fy-btn,
+  .fy-act svg {
+    transition: none;
+  }
+}
+
+/* ── "Lloji i gazetës" in Rregullo gazetën: each kind shown by its nameplate ── */
+
+.perty-cz-looks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.perty-cz-look {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border: 1.5px solid #ddd6ca;
+  border-radius: 10px;
+  background: #fff;
+  color: #151412;
+  cursor: pointer;
+}
+.perty-cz-look:has(input:checked) {
+  border-color: #151412;
+  box-shadow: 0 0 0 1px #151412;
+}
+.perty-cz-look:has(input:focus-visible) {
+  outline: 2px solid #b3261e;
+  outline-offset: 2px;
+}
+.perty-cz-look input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.perty-cz-look-name {
+  font: 700 14px/1.2 var(--font-manrope), system-ui, sans-serif;
+}
+.perty-cz-look-mini {
+  font: 700 22px/1.05 var(--np-f-serif), Georgia, serif;
+  letter-spacing: -0.02em;
+}
+.perty-cz-look[data-look="sporti"] .perty-cz-look-mini {
+  font: 400 22px/1.05 var(--np-f-poster), Impact, sans-serif;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #0a7f3f;
+}
+.perty-cz-look[data-look="tabloid"] .perty-cz-look-mini {
+  align-self: flex-start;
+  padding: 1px 7px 3px;
+  font: 400 20px/1.05 var(--np-f-poster), Impact, sans-serif;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  background: #e1061b;
+  color: #fff;
+}
+.perty-cz-look[data-look="bota"] .perty-cz-look-mini {
+  font-variant: small-caps;
+  letter-spacing: 0.01em;
+  color: #1d4f9f;
+}
+.perty-cz-look[data-look="biznes"] {
+  background: #fff1e5;
+}
+.perty-cz-look[data-look="biznes"] .perty-cz-look-mini {
+  font-style: italic;
+  color: #0d7680;
+}
+.perty-cz-look-note {
+  font: 400 12.5px/1.35 var(--font-manrope), system-ui, sans-serif;
+  color: #55514a;
+}
+
+/* ── "Si funksionon?" ────────────────────────────────────────────────────── */
+
+.perty-help-list {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 14px;
+  padding-left: 1.3em;
+  font-size: 15.5px;
+  line-height: 1.5;
+}
+.perty-help-privacy {
+  margin: 0 0 14px;
+  font-size: 13.5px;
+  color: #6b625a;
+}
+
+/* ── "Ndaje gazetën": the link as a chat will show it ────────────────────── */
+
+.perty-share-lede {
+  margin: 0 0 12px;
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: #5e5048;
+}
+.perty-linkcard {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgb(21 20 18 / 0.12);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgb(0 0 0 / 0.12);
+}
+.perty-linkcard-img {
+  position: relative;
+  aspect-ratio: 1200 / 630;
+  background: #efeae2;
+}
+.perty-linkcard-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 260ms ease-out;
+}
+.perty-linkcard-img img[data-loaded] {
+  opacity: 1;
+}
+.perty-linkcard figcaption {
+  display: grid;
+  gap: 2px;
+  padding: 10px 13px 12px;
+  border-top: 1px solid rgb(21 20 18 / 0.08);
+}
+.perty-linkcard small {
+  font-size: 12px;
+  color: #7a6f66;
+}
+.perty-linkcard b {
+  font-size: 14.5px;
+  line-height: 1.3;
+}
+.perty-linkcard .perty-share-wait-img {
+  height: 70px;
+}
+.perty-share-main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+.perty-share-main .perty-btn {
+  min-height: 48px;
+  gap: 8px;
+  font-size: 15px;
+}
+.perty-share-wa {
+  border-color: #25d366;
+  background: #25d366;
+  color: #fff;
+}
+.perty-share-wa:hover {
+  background: #1fb857;
+}
+.perty-share-or {
+  margin: 16px 0 0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7a6f66;
+}
+.perty-share-downloads .perty-btn {
+  gap: 8px;
+}
+.perty-share-public {
+  margin-top: 12px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .perty-linkcard-img img {
+    transition: none;
+  }
+}

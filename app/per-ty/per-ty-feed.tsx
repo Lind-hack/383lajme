@@ -51,7 +51,7 @@ import { lastMonth, monthLabel } from "@/lib/monthly-wrapped.mjs";
 import { hasLearnedPaper, learnedPicks, setLearnedPaper, totalReads } from "@/lib/perty-learned.mjs";
 import { kosovoDateKey } from "@/lib/home-tregu.mjs";
 import { editionName, lookById, readingMix, readingPace, readLookState, resolveLook, writeLookState, type LookId } from "@/lib/paper-look.mjs";
-import { paperPages } from "@/lib/paper-pages.mjs";
+import { hashForSlide, reelSlides } from "@/lib/paper-reel.mjs";
 import { keyLabel, whyLine } from "@/lib/perty-why.mjs";
 import { noteShown, readShown, settleSkips, writeShown } from "@/lib/perty-skips.mjs";
 import { mergeOnSignIn, pushInterests } from "@/lib/interests-sync";
@@ -67,10 +67,10 @@ import { AllReadCheer, DardaniBrief, NumbersBox, TownToday, TreguBox } from "./p
 import CustomizeSheet from "./paper/customize-sheet";
 import Sheet from "./paper/sheet";
 import ShareSheet, { type ShareablePaper } from "./paper/share-sheet";
-import Newspaper, { type NewspaperPage } from "./paper/newspaper";
-import { EndSheet, FrontSheet, IndexSheet, MoreSheet, SectionSheet, type PaperMeta, type PaperStory } from "./paper/pages";
+import Reel, { type ReelScreen } from "./paper/reel";
+import { CoverSlide, PanelSlide, SectionSlide, StorySlide, type PaperStory, type ReelMeta } from "./paper/slides";
 import { newspaperFonts } from "./paper/fonts";
-import "./paper/newspaper.css";
+import "./paper/reel.css";
 
 export type FeedArticle = {
   slug: string;
@@ -315,26 +315,26 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
     setPrefs(next);
   }
 
-  const pages = useMemo(() => paperPages(paper), [paper]);
+  const slides = useMemo(
+    () => reelSlides(paper, { brief: Boolean(prefs?.boxes && Object.values(prefs.boxes).some(Boolean)) }),
+    [paper, prefs?.boxes]
+  );
 
-  // Stories on the page the reader is looking at count as shown once it has
-  // sat there a moment; tomorrow, the ones never opened teach the paper.
-  const onPageShown = useCallback(
-    (indexes: number[]) => {
+  // A story on screen a moment counts as shown; tomorrow, the ones never
+  // opened teach the paper (lib/perty-skips).
+  const onShown = useCallback(
+    (index: number) => {
       if (shownTimer.current) window.clearTimeout(shownTimer.current);
-      const items: { article: FeedArticle; primaryKey?: string }[] = [];
-      for (const page of indexes.map((i) => pages[i])) {
-        if (page?.kind === "front") items.push(...[page.lead, ...page.stories].filter((i): i is NonNullable<typeof i> => Boolean(i)));
-        else if (page?.kind === "more") items.push(...page.stories);
-        else if (page?.kind === "section") items.push(...page.items.map((i) => ({ article: i.article, primaryKey: page.section.key })));
-      }
-      if (!items.length) return;
+      const slide = slides[index];
+      if (slide?.kind !== "story") return;
+      const key = slide.section ? slide.section.key : ((slide.item as { primaryKey?: string }).primaryKey ?? "");
+      if (!key.includes(":")) return;
+      const slug = slide.item.article.slug;
       shownTimer.current = window.setTimeout(() => {
-        const list = items.map((i) => ({ slug: i.article.slug, key: i.primaryKey ?? "" })).filter((i) => i.key.includes(":"));
-        if (list.length) writeShown(noteShown(readShown(), kosovoDateKey(), list));
+        writeShown(noteShown(readShown(), kosovoDateKey(), [{ slug, key }]));
       }, SHOWN_AFTER_MS);
     },
-    [pages]
+    [slides]
   );
 
   useEffect(() => () => {
@@ -409,35 +409,17 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
     .map((k) => keyLabel(k))
     .filter((v): v is string => Boolean(v))
     .slice(0, 3);
-  const year = Number(new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Belgrade", year: "numeric" }).format(now));
+  const date = dateline(now);
+  const dateCap = date.charAt(0).toUpperCase() + date.slice(1);
 
   const onTaste = (key: string, more: boolean) => {
     save({ ...interests, affinity: nudgeAffinity(interests.affinity, key, more ? TASTE_STEP : -TASTE_STEP) });
-    // A follow with its own page moves one place up or down the paper too.
+    // A follow with its own screens moves one place up or down the paper too.
     if (paper.allKeys.includes(key)) savePrefs({ ...prefs, order: moveKey(paper.allKeys, key, more ? -1 : 1) });
   };
 
-  const meta: PaperMeta = {
-    title,
-    onRename: () => setCustomizing(true),
-    edition,
-    issue,
-    date: dateline(now),
-    year,
-    follows: followNames,
-    count: ed.length,
-    minutes: paper.minutes,
-    total: pages.length,
-    readOnly: false,
-    pace,
-    seen: { since, read },
-    onTaste,
-  };
-
-  const story = (item: (typeof ed)[number]): PaperStory => ({ article: item.article, why: whyLine(item, interests) });
-  const go = (n: number) => {
-    window.location.hash = `faqja-${n}`;
-  };
+  const meta: ReelMeta = { readOnly: false, pace, seen: { since, read }, onTaste };
+  const firstStory = slides.findIndex((s) => s.kind === "story");
 
   const forget = () => {
     save({ ...interests, affinity: {} });
@@ -452,7 +434,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
     quiet.length > 0 && (
       <section>
         <h3>Pa lajme këtë javë</h3>
-        <ul className="np-quiet">
+        <ul className="fy-list-plain">
           {quiet.map((s) => (
             <li key={s.key}>
               <b>{s.title}:</b>{" "}
@@ -467,128 +449,123 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
       </section>
     );
 
-  const howItWorks = (
-    <>
-      <section>
-        <h3>Si funksionon gazeta jote</h3>
-        <ol className="np-list">
-          <li>Zgjodhe tema, njerëz dhe qytete. Secili merr faqen e vet.</li>
-          <li>Çdo mëngjes faqet mbushen vetë me lajmet më të reja për to.</li>
-          <li>Gazeta mëson nga sa lexon çdo lajm. Tani është {lookInfo?.name.toLowerCase() ?? "e përditshme"}: {lookInfo?.about}.</li>
-          <li>Rreshti i ngjyrosur mbi çdo lajm thotë pse është aty. Prek atë për më shumë ose më pak si ai.</li>
-        </ol>
-      </section>
-      <p className="np-privacy">
-        Gazeta jote mëson nga ajo që lexon dhe sa gjatë e lexon — vetëm në këtë pajisje. Për përmbledhjen, Dardanit i
-        dërgohen vetëm adresat e lajmeve, asnjë e dhënë për ty.
-      </p>
-      <div className="np-actions">
-        <button type="button" className="np-btn np-btn--small np-btn--ghost" onClick={() => setEditing(true)}>
-          Ndrysho çka ndjek
-        </button>
-        {(Object.keys(interests.affinity).length > 0 || read.size > 0) && (
-          <button type="button" className="perty-text-btn" onClick={forget}>
-            Harro historikun e leximit
-          </button>
-        )}
-      </div>
-    </>
-  );
+  const sectionKicker = (kind: string, key: string) =>
+    key === `city:${home}` ? "Qyteti yt" : kind === "person" ? "Njeri që ndjek" : kind === "city" ? "Qytet që ndjek" : "Temë që ndjek";
 
-  const sheets: NewspaperPage[] = pages.map((page) => {
-    if (page.kind === "front") {
+  const screens: ReelScreen[] = slides.map((slide, i) => {
+    if (slide.kind === "cover") {
+      const lead = ed[0]?.article;
       return {
-        key: page.key,
-        title: page.title,
-        node: <FrontSheet meta={meta} lead={page.lead ? story(page.lead) : null} stories={page.stories.map(story)} />,
-      };
-    }
-    if (page.kind === "index") {
-      return {
-        key: page.key,
-        title: page.title,
-        // Its boxes fetch: drawn only when it is open.
-        prefetch: false,
+        key: slide.key,
+        kind: "cover",
+        title: title,
         node: (
-          <IndexSheet meta={meta} n={page.n} contents={page.contents} onJump={go}>
-            {boxes.brief && briefSlugs.length >= 2 && <DardaniBrief slugs={briefSlugs} />}
-            {boxes.city && <TownToday homeId={home} story={townStory} onPickCity={() => setEditing(true)} />}
-            {boxes.numbers && <NumbersBox today={dayCount} days={issue} streak={streak} reads={monthReads} />}
-            {boxes.tregu && <TreguBox />}
-          </IndexSheet>
+          <CoverSlide
+            title={title}
+            onRename={() => setCustomizing(true)}
+            kicker={`${dateCap} · ${edition}${issue > 0 ? ` · Nr. ${issue}` : ""}`}
+            line={`${ed.length === 1 ? "1 lajm" : `${ed.length} lajme`} · ${paper.minutes} min${followNames.length ? ` · për ${followNames.join(", ")}` : ""}`}
+            photo={lead ? lead.coverArt || lead.imageUrl || null : null}
+            heads={slides
+              .filter((s) => s.kind === "story")
+              .slice(0, 3)
+              .map((s) => ({ title: s.title, href: hashForSlide(s.n) }))}
+            start={{ label: readCount ? "Vazhdo leximin" : "Fillo leximin", href: hashForSlide(firstStory > 0 ? firstStory : 1) }}
+          />
         ),
       };
     }
-    if (page.kind === "more") {
-      return { key: page.key, title: page.title, node: <MoreSheet meta={meta} n={page.n} title={page.title} stories={page.stories.map(story)} /> };
+    if (slide.kind === "brief") {
+      return {
+        key: slide.key,
+        kind: "brief",
+        title: slide.title,
+        node: (
+          <PanelSlide kicker="Para se të fillosh" title="Shkurt, për sot">
+            <div className="fy-boxes">
+              {boxes.brief && briefSlugs.length >= 2 && <DardaniBrief slugs={briefSlugs} />}
+              {boxes.city && <TownToday homeId={home} story={townStory} onPickCity={() => setEditing(true)} />}
+              {boxes.numbers && <NumbersBox today={dayCount} days={issue} streak={streak} reads={monthReads} />}
+              {boxes.tregu && <TreguBox />}
+            </div>
+          </PanelSlide>
+        ),
+      };
     }
-    if (page.kind === "section") {
-      const s = page.section;
+    if (slide.kind === "section") {
+      const s = slide.section;
       const stats = readingStats(interests.affinity, s.key);
       const reads = Math.round(stats.reads);
       const minutes = Math.round(stats.minutes);
       const picked = s.kind === "category" ? (interests.categories as string[]).includes(s.title) : true;
       const intro =
-        (s.key === `city:${home}` ? `${s.title} është qyteti yt.` : picked ? `E zgjodhe ${s.title} kur e bëre gazetën.` : `E shtova sepse lexon shpesh për ${s.title}.`) +
+        (s.key === `city:${home}` ? `${s.title} është qyteti yt.` : picked ? `E zgjodhe kur e bëre gazetën.` : `E shtova vetë, sepse lexon shpesh për ${s.title}.`) +
         (reads >= 2 ? ` Kohët e fundit ke lexuar ${reads} lajme për këtë${minutes >= 1 ? `, ${minutes} minuta` : ""}.` : "");
+      const first = s.items.find((it) => !ed.some((e) => e.article.slug === it.article.slug))?.article ?? s.items[0]?.article;
       return {
-        key: page.key,
-        title: page.title,
+        key: slide.key,
+        kind: "section",
+        title: s.title,
         node: (
-          <SectionSheet
-            meta={meta}
-            n={page.n}
+          <SectionSlide
             title={s.title}
-            sectionKey={s.key}
-            href={s.href}
+            kicker={sectionKicker(s.kind, s.key)}
             intro={intro}
-            hidden={page.hidden}
-            stories={page.items.map((i) => ({
-              article: i.article,
-              // The page's heading already says why the follow is here; a story
-              // only says more when it is an older one topping the page up.
-              why: i.fromShelf
-                ? { short: "Nga muaji", long: `Për ${s.title} këtë javë ka pasur pak lajme, ndaj këtu janë më të fundit nga muaji.`, key: s.key, picked: true }
-                : null,
-            }))}
+            count={slide.count}
+            hidden={slide.hidden}
+            href={s.href}
+            photo={first ? first.coverArt || first.imageUrl || null : null}
+            sectionKey={s.key}
+            meta={meta}
           />
         ),
       };
     }
-    if (page.kind === "about") {
+    if (slide.kind === "story") {
+      const item = slide.item;
+      const fromShelf = Boolean((item as { fromShelf?: boolean }).fromShelf);
+      const story: PaperStory = {
+        article: item.article,
+        why: slide.section
+          ? fromShelf
+            ? { short: "Nga muaji", long: `Për ${slide.section.title} këtë javë ka pasur pak lajme, ndaj këtu janë më të fundit nga muaji.`, key: slide.section.key, picked: true }
+            : whyLine({ article: item.article, kind: slide.section.kind, primaryKey: slide.section.key }, interests)
+          : whyLine(item as (typeof ed)[number], interests),
+      };
       return {
-        key: page.key,
-        title: page.title,
-        node: (
-          <EndSheet meta={meta} n={page.n} title="Si funksionon">
-            {howItWorks}
-            {quietNotes(page.quiet)}
-          </EndSheet>
-        ),
+        key: slide.key,
+        kind: "story",
+        title: slide.title,
+        group: slide.group,
+        groupTitle: slide.groupTitle,
+        pos: slide.pos,
+        of: slide.of,
+        thumb: item.article.coverArt || item.article.imageUrl || null,
+        read: read.has(item.article.slug),
+        node: <StorySlide story={story} meta={meta} eager={i <= 3} />,
       };
     }
     return {
-      key: page.key,
-      title: page.title,
+      key: slide.key,
+      kind: "end",
+      title: slide.title,
       node: (
-        <EndSheet meta={meta} n={page.n} title={allRead ? "E mbarove!" : "Kaq për sot."}>
-          <div className="np-end-hello">
+        <PanelSlide kicker={allRead ? "E mbarove" : "Fundi i gazetës"} title={allRead ? "I lexove të gjitha!" : "Kaq për sot."}>
+          <div className="fy-end-hello">
             {allRead ? <AllReadCheer /> : <DardaniImage name="wave" decorative className="perty-end-img" />}
             <div>
-              <p className="np-end-big">
-                {allRead ? "I ke lexuar të gjitha." : readCount ? `${readCount} nga ${ed.length} i ke lexuar.` : "Shihemi nesër në mëngjes."}
-              </p>
-              <p>Ndaje me dikë që i pëlqejnë të njëjtat gjëra — ai sheh pikërisht këto faqe.</p>
+              <p className="fy-end-big">{readCount ? `${readCount} nga ${ed.length} lajme i ke lexuar.` : "Shihemi nesër në mëngjes."}</p>
+              <p>Ndaje me dikë që i pëlqejnë të njëjtat gjëra — ai sheh pikërisht këtë gazetë.</p>
             </div>
           </div>
-          <div className="np-actions">
+          <div className="fy-actions-row">
             {canShare && (
-              <button type="button" className="np-btn np-btn--accent" onClick={() => setSharing(true)}>
-                <Share2 size={16} strokeWidth={2.4} aria-hidden="true" />
+              <button type="button" className="fy-btn fy-btn--accent" onClick={() => setSharing(true)}>
+                <Share2 size={17} strokeWidth={2.4} aria-hidden="true" />
                 Ndaje gazetën
               </button>
             )}
-            <button type="button" className="np-btn np-btn--ghost" onClick={() => setCustomizing(true)}>
+            <button type="button" className="fy-btn fy-btn--ghost" onClick={() => setCustomizing(true)}>
               <SlidersHorizontal size={16} strokeWidth={2.3} aria-hidden="true" />
               Rregullo
             </button>
@@ -603,8 +580,8 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
             <section>
               <h3>Në çdo pajisje</h3>
               <p>Zgjedhjet ruhen në këtë pajisje. Me llogari, i ke njësoj në telefon dhe kompjuter.</p>
-              <div className="np-actions" style={{ marginTop: 8 }}>
-                <Link href="/hyr?tab=regjistrohu&next=/per-ty" className="np-btn np-btn--small">
+              <div className="fy-actions-row" style={{ marginTop: 10 }}>
+                <Link href="/hyr?tab=regjistrohu&next=/per-ty" className="fy-btn fy-btn--light fy-btn--small">
                   Regjistrohu
                 </Link>
                 <button
@@ -620,26 +597,70 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
               </div>
             </section>
           )}
-          <div className="np-actions">
-            <Link href="/" className="np-link">
+          <div className="fy-links">
+            <Link href="/">
               Kryesoret e ditës <ArrowRight size={14} strokeWidth={2.4} aria-hidden="true" />
             </Link>
-            <button type="button" className="np-link" style={{ background: "none", border: 0, cursor: "pointer" }} onClick={() => openPyet(firstUnread ? `Pse ndodhi kjo: ${firstUnread.article.title}` : undefined)}>
+            <button type="button" onClick={() => openPyet(firstUnread ? `Pse ndodhi kjo: ${firstUnread.article.title}` : undefined)}>
               <MessageCircleQuestion size={14} strokeWidth={2.3} aria-hidden="true" />
               Pyet Dardanin
             </button>
             {wrappedMonth && (
-              <Link href={`/muaji/${wrappedMonth}`} className="np-link">
+              <Link href={`/muaji/${wrappedMonth}`}>
                 {monthLabel(wrappedMonth)?.definite} në 383 <ArrowRight size={14} strokeWidth={2.4} aria-hidden="true" />
               </Link>
             )}
           </div>
-          {page.about && howItWorks}
-          {page.about && quietNotes(page.quiet)}
-        </EndSheet>
+          <section>
+            <h3>Si funksionon gazeta jote</h3>
+            <ol className="fy-list-plain">
+              <li>Zgjodhe tema, njerëz dhe qytete. Secili ka pjesën e vet këtu.</li>
+              <li>Çdo mëngjes gazeta mbushet vetë me lajmet më të reja për to.</li>
+              <li>
+                Mëson nga sa lexon çdo lajm. Tani është {lookInfo?.name.toLowerCase() ?? "e përditshme"}: {lookInfo?.about}.
+              </li>
+              <li>Etiketa me ngjyrë mbi çdo lajm thotë pse është aty; 👍 dhe 👎 anash e mësojnë çka do.</li>
+            </ol>
+          </section>
+          {quietNotes(slide.quiet)}
+          <p className="fy-privacy">
+            Gazeta jote mëson nga ajo që lexon dhe sa gjatë e lexon — vetëm në këtë pajisje. Për përmbledhjen, Dardanit i
+            dërgohen vetëm adresat e lajmeve, asnjë e dhënë për ty.
+          </p>
+          <div className="fy-actions-row">
+            <button type="button" className="fy-btn fy-btn--ghost fy-btn--small" onClick={() => setEditing(true)}>
+              Ndrysho çka ndjek
+            </button>
+            {(Object.keys(interests.affinity).length > 0 || read.size > 0) && (
+              <button type="button" className="perty-text-btn" onClick={forget}>
+                Harro historikun e leximit
+              </button>
+            )}
+          </div>
+        </PanelSlide>
       ),
     };
   });
+
+  const tools = (
+    <>
+      {canShare && (
+        <button type="button" className="fy-tool fy-tool--primary" onClick={() => setSharing(true)}>
+          <Share2 size={16} strokeWidth={2.4} aria-hidden="true" />
+          <span className="fy-tool-label">Ndaje</span>
+        </button>
+      )}
+      <button type="button" className="fy-tool" onClick={() => setCustomizing(true)} aria-label="Rregullo gazetën">
+        <SlidersHorizontal size={16} strokeWidth={2.4} aria-hidden="true" />
+        <span className="fy-tool-label" aria-hidden="true">
+          Rregullo
+        </span>
+      </button>
+      <button type="button" className="fy-tool fy-tool--icon" onClick={() => setHelping(true)} aria-label="Si funksionon gazeta jote?">
+        <HelpCircle size={17} strokeWidth={2.3} aria-hidden="true" />
+      </button>
+    </>
+  );
 
   return (
     <div className={`perty-paper-pages ${newspaperFonts}`}>
@@ -662,62 +683,45 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
           </div>
         </div>
       ) : (
-        <Newspaper
-          pages={sheets}
+        <Reel
+          screens={screens}
           look={look}
           label={title}
+          name={title}
+          sub={`${dateCap} · ${ed.length === 1 ? "1 lajm" : `${ed.length} lajme`} · ${paper.minutes} min`}
+          tools={tools}
           hint={howto}
-          onPageShown={onPageShown}
-          onTurn={() => {
+          onShown={onShown}
+          onMove={() => {
             if (!howto) return;
             setFlag(HOWTO_KEY);
             setHowto(false);
           }}
-          lead={
-            storageFailed ? (
-              <p className="np-notice" role="status">
-                Shfletuesi yt nuk lejon ruajtjen e zgjedhjeve, ndaj ato vlejnë vetëm për këtë vizitë.
-              </p>
-            ) : undefined
-          }
-          tools={
-            <>
-              {canShare && (
-                <button type="button" className="np-tool np-tool--primary" onClick={() => setSharing(true)}>
-                  <Share2 size={16} strokeWidth={2.4} aria-hidden="true" />
-                  <span className="np-tool-label">Ndaje</span>
-                </button>
-              )}
-              <button type="button" className="np-tool" onClick={() => setCustomizing(true)} aria-label="Rregullo gazetën">
-                <SlidersHorizontal size={16} strokeWidth={2.4} aria-hidden="true" />
-                <span className="np-tool-label" aria-hidden="true">
-                  Rregullo
-                </span>
-              </button>
-              <button type="button" className="np-tool np-tool--icon" onClick={() => setHelping(true)} aria-label="Si funksionon gazeta jote?">
-                <HelpCircle size={17} strokeWidth={2.3} aria-hidden="true" />
-              </button>
-            </>
-          }
         />
+      )}
+      {storageFailed && (
+        <p className="perty-share-hint" role="status">
+          Shfletuesi yt nuk lejon ruajtjen e zgjedhjeve, ndaj ato vlejnë vetëm për këtë vizitë.
+        </p>
       )}
 
       <Sheet open={helping} onClose={() => setHelping(false)} title="Si funksionon gazeta jote" titleId="perty-help-title">
         <ol className="perty-help-list">
           <li>
-            <b>E bëre ti.</b> Nga ato që zgjodhe{followNames.length ? ` — ${followNames.join(", ")}` : ""} — secila merr faqen e vet.
+            <b>E bëre ti.</b> Nga ato që zgjodhe{followNames.length ? ` — ${followNames.join(", ")}` : ""}.
           </li>
           <li>
-            <b>Mbushet vetë.</b> Çdo mëngjes faqet kanë lajmet më të reja për to.
+            <b>Një lajm për ekran.</b> Rrëshqit lart (në telefon) ose rrotullo / shtyp ↓ (në kompjuter) për lajmin tjetër.
           </li>
           <li>
-            <b>Të njeh.</b> Mëson nga sa lexon çdo lajm. Tani është {lookInfo?.name.toLowerCase() ?? "e përditshme"}: {lookInfo?.about}.
+            <b>Pse e sheh?</b> Etiketa me ngjyrë mbi çdo lajm të tregon arsyen.
           </li>
           <li>
-            <b>Pse e sheh?</b> Rreshti i ngjyrosur mbi çdo lajm të tregon arsyen. Prek atë për më shumë ose më pak si ai.
+            <b>Mësoje.</b> 👍 për më shumë si ai, 👎 për më pak. Gazeta mëson edhe nga sa gjatë lexon. Tani është{" "}
+            {lookInfo?.name.toLowerCase() ?? "e përditshme"}: {lookInfo?.about}.
           </li>
           <li>
-            <b>Kthe faqen</b> duke e tërhequr, duke klikuar anën e saj, me rrotëz, me ← → ose duke rrëshqitur me gisht.
+            <b>Ndaje.</b> Shoku yt merr një lidhje dhe e sheh gazetën tënde të sotme.
           </li>
         </ol>
         <p className="perty-help-privacy">Të gjitha ruhen vetëm në këtë pajisje.</p>

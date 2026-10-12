@@ -1,21 +1,21 @@
 "use client";
 
-// A shared paper (/gazeta/<code>), turned page by page like the sharer's own:
-// the same kind of paper, the same front page and the same follow pages, with
-// nothing of the sharer's reading on it — no reasons, no read marks. The bar
-// says at once whose paper this is; the friend's one next step, in the bar and
-// on the last page, is to make their own.
+// A shared paper (/gazeta/<code>) as the same reel the sharer reads: the same
+// kind of paper, the same stories in the same order, with nothing of the
+// sharer's reading on it — no reasons, no read marks, no "more / less". The
+// cover says at once whose paper it is; the friend's one next step, on the
+// cover, in the bar and on the last screen, is to make their own.
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { lookById } from "@/lib/paper-look.mjs";
 import { genitive } from "@/lib/reader-name.mjs";
-import { paperPages } from "@/lib/paper-pages.mjs";
-import Newspaper, { type NewspaperPage } from "@/app/per-ty/paper/newspaper";
-import { EndSheet, FrontSheet, IndexSheet, MoreSheet, NO_SEEN, SectionSheet, type PaperMeta, type PaperStory } from "@/app/per-ty/paper/pages";
+import { hashForSlide, reelSlides } from "@/lib/paper-reel.mjs";
+import Reel, { type ReelScreen } from "@/app/per-ty/paper/reel";
+import { CoverSlide, NO_SEEN, PanelSlide, SectionSlide, StorySlide, type ReelMeta } from "@/app/per-ty/paper/slides";
 import { newspaperFonts } from "@/app/per-ty/paper/fonts";
 import type { FeedArticle } from "@/app/per-ty/per-ty-feed";
-import "@/app/per-ty/paper/newspaper.css";
+import "@/app/per-ty/paper/reel.css";
 
 type SharedSection = { key: string; kind: "person" | "city" | "category"; title: string; href: string; items: FeedArticle[] };
 
@@ -23,7 +23,6 @@ export default function SharedPaper({
   title,
   sharer,
   date,
-  year,
   look,
   edition,
   sections,
@@ -33,127 +32,124 @@ export default function SharedPaper({
   sharer: string;
   /** "e shtunë, 3 tetor" */
   date: string;
-  year: number;
+  year?: number;
   look: string;
   edition: FeedArticle[];
   sections: SharedSection[];
 }) {
   const info = lookById(look) ?? lookById("e-perditshme");
-  const paper = {
+  const slides = reelSlides({
     edition: edition.map((article) => ({ article })),
     sections: sections.map((s) => ({ ...s, empty: s.items.length === 0, items: s.items.map((article) => ({ article })) })),
-  };
-  const pages = paperPages(paper);
-  const meta: PaperMeta = {
-    title,
-    edition: sharer ? `E ndarë nga ${sharer}` : "Kopje e ndarë",
-    issue: 0,
-    date,
-    year,
-    follows: sections.map((s) => s.title).slice(0, 3),
-    count: edition.length,
-    minutes: Math.max(2, Math.ceil(edition.reduce((n, a) => n + `${a.title} ${a.excerpt}`.split(/\s+/).length, 0) / 200)),
-    total: pages.length,
-    readOnly: true,
-    pace: "medium",
-    seen: NO_SEEN,
-  };
-  const story = (i: { article: FeedArticle }): PaperStory => ({ article: i.article, why: null });
+  });
+  const meta: ReelMeta = { readOnly: true, seen: NO_SEEN };
+  const who = sharer ? `${sharer} ta ndau gazetën e vet` : "Dikush ta ndau gazetën e vet";
   const whose = sharer && genitive(sharer) ? `e ${genitive(sharer)}` : "e dikujt tjetër";
-
-  const makeYours = (
-    <section>
-      <h3>Bëj tënden</h3>
-      <ol className="np-list">
-        <li>Zgjedh çka të intereson: tema, njerëz, qytete. Pa llogari, në një minutë.</li>
-        <li>Çdo mëngjes faqet mbushen vetë me lajmet e reja për to.</li>
-        <li>Sa më shumë lexon, aq më mirë të njeh — edhe pamja e gazetës ndryshon sipas teje.</li>
-      </ol>
-    </section>
+  const minutes = Math.max(2, Math.ceil(edition.reduce((n, a) => n + `${a.title} ${a.excerpt}`.split(/\s+/).length, 0) / 200));
+  const firstStory = slides.findIndex((s) => s.kind === "story");
+  const make = (
+    <Link href="/per-ty" className="fy-btn fy-btn--ghost">
+      Bëj tënden <ArrowRight size={16} strokeWidth={2.5} aria-hidden="true" />
+    </Link>
   );
 
-  const sheets: NewspaperPage[] = pages.map((page) => {
-    if (page.kind === "front") {
-      return { key: page.key, title: page.title, node: <FrontSheet meta={meta} lead={page.lead ? story(page.lead) : null} stories={page.stories.map(story)} /> };
-    }
-    if (page.kind === "index") {
+  const screens: ReelScreen[] = slides.map((slide) => {
+    if (slide.kind === "cover") {
+      const lead = edition[0];
       return {
-        key: page.key,
-        title: page.title,
+        key: slide.key,
+        kind: "cover",
+        title,
         node: (
-          <IndexSheet
-            meta={meta}
-            n={page.n}
-            contents={page.contents}
-            onJump={(n) => {
-              window.location.hash = `faqja-${n}`;
-            }}
+          <CoverSlide
+            title={title}
+            kicker={`${who} · ${date}`}
+            line={`${edition.length === 1 ? "1 lajm" : `${edition.length} lajme`} · ${minutes} min${sections.length ? ` · ${sections.map((s) => s.title).slice(0, 3).join(", ")}` : ""}`}
+            photo={lead ? lead.coverArt || lead.imageUrl || null : null}
+            heads={slides
+              .filter((s) => s.kind === "story")
+              .slice(0, 3)
+              .map((s) => ({ title: s.title, href: hashForSlide(s.n) }))}
+            start={{ label: "Shfletoje", href: hashForSlide(firstStory > 0 ? firstStory : 1) }}
           >
-            {makeYours}
-          </IndexSheet>
+            {make}
+          </CoverSlide>
         ),
       };
     }
-    if (page.kind === "more") {
-      return { key: page.key, title: page.title, node: <MoreSheet meta={meta} n={page.n} title={page.title} stories={page.stories.map(story)} /> };
-    }
-    if (page.kind === "section") {
-      const s = page.section;
+    if (slide.kind === "section") {
+      const s = slide.section;
+      const first = s.items[0]?.article;
       return {
-        key: page.key,
-        title: page.title,
-        node: <SectionSheet meta={meta} n={page.n} title={s.title} sectionKey={s.key} href={s.href} intro="" hidden={0} stories={page.items.map(story)} />,
-      };
-    }
-    if (page.kind === "about") {
-      return {
-        key: page.key,
-        title: page.title,
+        key: slide.key,
+        kind: "section",
+        title: s.title,
         node: (
-          <EndSheet meta={meta} n={page.n} title="Si funksionon">
-            {makeYours}
-            <div className="np-actions">
-              <Link href="/per-ty" className="np-btn np-btn--accent">
-                Bëj gazetën tënde <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
-              </Link>
-            </div>
-          </EndSheet>
+          <SectionSlide
+            title={s.title}
+            kicker={s.kind === "person" ? "Njeri që ndjek" : s.kind === "city" ? "Qytet që ndjek" : "Temë që ndjek"}
+            intro=""
+            count={slide.count}
+            hidden={slide.hidden}
+            href={s.href}
+            photo={first ? first.coverArt || first.imageUrl || null : null}
+            sectionKey={s.key}
+            meta={meta}
+          />
         ),
+      };
+    }
+    if (slide.kind === "story") {
+      return {
+        key: slide.key,
+        kind: "story",
+        title: slide.title,
+        group: slide.group,
+        groupTitle: slide.groupTitle,
+        pos: slide.pos,
+        of: slide.of,
+        thumb: slide.item.article.coverArt || slide.item.article.imageUrl || null,
+        node: <StorySlide story={{ article: slide.item.article, why: null }} meta={meta} eager={slide.n <= 3} />,
       };
     }
     return {
-      key: page.key,
-      title: page.title,
+      key: slide.key,
+      kind: slide.kind === "brief" ? "brief" : "end",
+      title: slide.title,
       node: (
-        <EndSheet meta={meta} n={page.n} title="Gazeta jote të pret.">
-          <p className="np-end-big">Kjo ishte gazeta {whose}.</p>
+        <PanelSlide kicker="Fundi" title="Gazeta jote të pret.">
+          <p className="fy-end-big">Kjo ishte gazeta {whose}.</p>
           <p>E jotja do të kishte lajmet për njerëzit, qytetin dhe temat që ndjek ti — dhe do të dukej ndryshe, sipas asaj që lexon.</p>
-          <div className="np-actions">
-            <Link href="/per-ty" className="np-btn np-btn--accent">
-              Bëj gazetën tënde <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
+          <div className="fy-actions-row">
+            <Link href="/per-ty" className="fy-btn fy-btn--accent">
+              Bëj gazetën tënde <ArrowRight size={16} strokeWidth={2.5} aria-hidden="true" />
             </Link>
           </div>
-          {page.about && makeYours}
-        </EndSheet>
+          <section>
+            <h3>Si funksionon</h3>
+            <ol className="fy-list-plain">
+              <li>Zgjedh çka të intereson: tema, njerëz, qytete. Pa llogari, në një minutë.</li>
+              <li>Çdo mëngjes gazeta mbushet vetë me lajmet e reja për to.</li>
+              <li>Sa më shumë lexon, aq më mirë të njeh — edhe pamja e gazetës ndryshon sipas teje.</li>
+            </ol>
+          </section>
+        </PanelSlide>
       ),
     };
   });
 
   return (
     <div className={`perty-paper-pages ${newspaperFonts}`}>
-      <Newspaper
-        pages={sheets}
+      <Reel
+        screens={screens}
         look={info?.id ?? "e-perditshme"}
         label={title}
+        name={title}
+        sub={`${who} · ${date}`}
         hint
-        lead={
-          <p className="np-shared-lead">
-            <b>{sharer ? `${sharer} ta ndau gazetën e vet` : "Dikush ta ndau gazetën e vet"}</b> · {date}. Në 383 secili ka gazetën e vet — kthe faqet.
-          </p>
-        }
         tools={
-          <Link href="/per-ty" className="np-tool np-tool--primary">
-            <span className="np-tool-label">Bëj tënden</span>
+          <Link href="/per-ty" className="fy-tool fy-tool--primary">
+            <span className="fy-tool-label">Bëj tënden</span>
             <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
           </Link>
         }
