@@ -12,6 +12,17 @@ from concurrent.futures import ThreadPoolExecutor
 RECIPIENT='lindsylqa@gmail.com'
 SITE='https://383ks.com'
 
+def verify_reader_html(text, article):
+    """Stable reader identity; accept both labels during a rolling release."""
+    from html import unescape
+    marker='data-bota-article="'+article['id']+'"'
+    if 'data-bota-article=' in text:
+        valid=marker in text and 'data-bota-language="sq"' in text
+    else:
+        valid=any(label in unescape(text) for label in ('Përkthim në shqip','Përkthyer në shqip'))
+    if not valid or article.get('albanianTitle','') not in unescape(text):
+        raise ValueError('Albanian reader identity or title mismatch')
+
 def verify_public(report, get=None):
     import httpx
     get=get or httpx.get
@@ -26,8 +37,7 @@ def verify_public(report, get=None):
         reader_url='/bota-per-kosoven/artikull/'+article['id']
         if article.get('readerUrl')!=reader_url:raise ValueError('Invalid internal article link')
         reader=get(SITE+reader_url,timeout=30);reader.raise_for_status()
-        if 'Përkthim në shqip' not in reader.text or escape(article['albanianTitle']) not in reader.text:
-            raise ValueError('Albanian reader attribution or title mismatch')
+        verify_reader_html(reader.text,article)
     with ThreadPoolExecutor(max_workers=8) as pool:list(pool.map(verify_reader,cards))
     if report['result'] in ('published_verified','dry_run_no_publication'):
         responses=report.get('responses',[])

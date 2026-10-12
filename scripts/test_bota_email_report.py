@@ -1,8 +1,15 @@
 import unittest
 from unittest.mock import Mock
-from bota_email_report import verify_public,render_report,send_report
+from bota_email_report import verify_public,verify_reader_html,render_report,send_report
 
 class EmailTests(unittest.TestCase):
+ def test_reader_wording_change_and_stable_identity(self):
+  article={'id':'a'*64,'albanianTitle':'Kosova & bota'}
+  for label in ['Përkthim në shqip','Përkthyer në shqip']:
+   verify_reader_html(label+' Kosova &amp; bota',article)
+  stable='<aside data-bota-article="'+article['id']+'" data-bota-language="sq">Kosova &amp; bota</aside>'
+  verify_reader_html(stable,article)
+  with self.assertRaises(ValueError):verify_reader_html(stable.replace(article['id'],'b'*64),article)
  def outcome(self,result='already_published'):
   return {'status':'ok','result':result,'date':'2026-10-02','articleCount':1,'responses':[{'actualModel':'gpt-6-luna','actualReasoningEffort':'xhigh'}],'public':{'http':200,'articleCount':1,'readerCount':1,'readerUrls':['https://383ks.com/bota-per-kosoven/artikull/'+'a'*64]}}
  def test_reports_distinguish_existing_publication_fresh_test_and_failed_run(self):

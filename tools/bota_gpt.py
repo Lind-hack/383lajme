@@ -232,6 +232,8 @@ def validate_publishable(article,date):
 
 def publish_saved(packet,report,headers,pending):
     import httpx
+    sys.path.insert(0,str(Path(__file__).parent.parent/'scripts'))
+    from bota_email_report import verify_reader_html
     r=httpx.post(SITE+'/api/automation/bota/daily',headers=headers,json=packet,timeout=60)
     if r.status_code>=400:
         try:validation_error=str(r.json().get('error','Request rejected'))[:300]
@@ -240,9 +242,15 @@ def publish_saved(packet,report,headers,pending):
     r.raise_for_status();report['publication']=r.json()
     public=httpx.get(SITE+'/api/bota',timeout=30);public.raise_for_status()
     if public.json().get('outlets',{}).get('lastUpdated')!=packet['date']:raise RuntimeError('Public publication verification failed')
-    for ident in report['publication']['articleIds']:
+    inserted=set(report['publication']['articleIds'])
+    # Verify stored readers even when a retry inserted zero rows. A lost
+    # response must not turn into an unverified "success" on the next run.
+    def verify(article):
+        ident=hashlib.sha256(article['url'].encode()).hexdigest()
+        if inserted and ident not in inserted:return
         reader=httpx.get(SITE+'/bota-per-kosoven/artikull/'+ident,timeout=30);reader.raise_for_status()
-        if 'Përkthim në shqip' not in reader.text:raise RuntimeError('Translated reader verification failed')
+        verify_reader_html(reader.text,{**article,'id':ident})
+    with ThreadPoolExecutor(max_workers=8) as pool:list(pool.map(verify,packet['articles']))
     report.update(status='ok',result='published_verified')
     receipt_file=RUN_STATE/'last-run.json'
     descriptor=os.open(receipt_file,os.O_WRONLY|os.O_CREAT|os.O_TRUNC,0o600)

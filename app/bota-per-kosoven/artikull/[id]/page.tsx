@@ -61,7 +61,7 @@ export default async function TranslatedArticle({ params }: { params: Promise<{ 
       editorial={{
         path: `/bota-per-kosoven/artikull/${id}`,
         metadata: <div className={s.meta}>{meta && <span>{meta}</span>}{date && <time dateTime={date}>{date}</time>}<span>Përkthyer në shqip</span><ToneTag tone={sentiment} /></div>,
-        afterBody: <aside className={s.assessment}>
+        afterBody: <aside className={s.assessment} data-bota-article={id} data-bota-language="sq">
           <h2>Si e portretizon artikulli Kosovën?</h2>
           <ToneTag tone={sentiment} />{reason && <p>{reason}</p>}
           <p>Vlerësojmë mënyrën si shkruhet për Kosovën, jo nëse ngjarja është e mirë apo e keqe.</p>

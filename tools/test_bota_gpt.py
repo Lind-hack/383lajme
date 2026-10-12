@@ -27,17 +27,18 @@ class BotaTests(unittest.TestCase):
    with self.assertRaises(ValueError):b.public_url(url)
  def test_saved_publication_retries_without_gpt_and_survives_http_failure(self):
   day=b.datetime.now(b.ZoneInfo('Europe/Belgrade')).date().isoformat()
-  packet={'date':day,'model':b.MODEL,'reasoningEffort':b.EFFORT,'articles':[{'id':'verified'}]}
+  url='https://example.org/kosovo';ident=b.hashlib.sha256(url.encode()).hexdigest()
+  packet={'date':day,'model':b.MODEL,'reasoningEffort':b.EFFORT,'articles':[{'url':url,'albanianTitle':'Kosova'}]}
   report={'date':day,'articleCount':1,'responses':[{'actualModel':b.MODEL,'actualReasoningEffort':b.EFFORT}]}
   class Response:
    status_code=200
-   text='Përkthim në shqip'
+   text='Përkthyer në shqip Kosova'
    def __init__(self,data):self.data=data
    def raise_for_status(self):pass
    def json(self):return self.data
   def get(url,**kwargs):return Response({'date':day,'alreadyPublished':False} if '/automation/' in url else {'outlets':{'lastUpdated':day}})
   from unittest.mock import Mock
-  post=Mock(side_effect=[RuntimeError('Temporary publishing failure'),Response({'articleIds':['verified']})])
+  post=Mock(side_effect=[RuntimeError('Temporary publishing failure'),Response({'articleIds':[ident]})])
   with tempfile.TemporaryDirectory() as folder,patch.object(b,'RUN_STATE',Path(folder)),patch.object(b,'secret',return_value='test-secret'),patch.object(b,'resolve_runtime',side_effect=AssertionError('GPT must not be called')),patch.dict(sys.modules,{'httpx':SimpleNamespace(get=get,post=post)}):
    pending=Path(folder)/(day+'-pending.json');b.save_pending(packet,report,pending)
    with self.assertRaises(RuntimeError):b.run()
