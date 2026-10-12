@@ -19982,9 +19982,13 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
 @media (prefers-reduced-motion:reduce) { .site-language-state i { animation:none; } }
 @media (max-width:640px) {
   .site-nav-inner { padding-left:12px!important;padding-right:12px!important;gap:6px!important; }
-  .site-nav-inner .logo-mark { margin-right:0!important; }
-  .site-nav-inner .nav-dardan-label { display:none; }
-  .site-nav-inner .nav-dardan { width:38px;padding:4px!important;justify-content:center; }
+  .site-nav-inner .logo-mark { margin-right:12px!important;align-self:flex-start;padding-top:10px; }
+  .site-nav-inner .logo-mark > span:first-child { font-size:28px!important; }
+  .site-nav-inner .site-language-header { position:absolute;left:12px;top:42px; }
+  .site-nav-inner .site-language-options button { min-width:24px;min-height:24px;padding:0 3px;font-size:9px; }
+  .site-nav-inner .nav-dardan-label { display:inline; }
+  .site-nav-inner .nav-dardan { width:auto;padding:4px 8px 4px 4px!important;gap:5px;font-size:11px; }
+  .site-nav-inner .nav-dardan-face { width:24px;height:24px; }
   .site-nav-inner .nav-search-btn { margin:0!important; }
 }
 @media (max-width:360px) {
