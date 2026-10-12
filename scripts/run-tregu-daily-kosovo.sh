@@ -3,7 +3,7 @@ set -eu
 
 # systemd is the schedule authority; this script runs inside the Hermes container.
 REPO="${L383_REPO:-/opt/data/workspaces/383lajme}"
-ENV_FILE="$REPO/.env.automation"
+ENV_FILE="${TREGU_ENV_FILE:-$REPO/.env.automation}"
 [ -r "$ENV_FILE" ] || { echo '{"ok":false,"error":"protected environment unavailable"}' >&2; exit 1; }
 set -a
 . "$ENV_FILE"
@@ -12,7 +12,10 @@ cd "$REPO"
 
 attempt=1
 max_attempts=2
-if [ "${TREGU_DAILY_MANUAL:-0}" = "1" ]; then
+if [ "${TREGU_DAILY_DRY_RUN:-0}" = "1" ]; then
+  set -- --dry-run
+  run_label="dry run"
+elif [ "${TREGU_DAILY_MANUAL:-0}" = "1" ]; then
   set -- --manual
   run_label="manual"
 else
@@ -38,6 +41,9 @@ while [ "$attempt" -le "$max_attempts" ]; do
   fi
   break
 done
+
+# Verification never sends a failure notification.
+[ "${TREGU_DAILY_DRY_RUN:-0}" = "1" ] && exit "$status"
 
 # Notify only after the final failed attempt, without putting credentials or
 # untrusted provider output into the message body.
