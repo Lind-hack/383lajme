@@ -1,11 +1,13 @@
 "use client";
 
-// "Ndaje gazetën": the reader's front page, sent as a picture and a link.
+// "Ndaje gazetën": a link first, a picture second.
 //
-// The link is /gazeta/<code>, a frozen copy of today's front page carried in
-// the code itself (lib/paper-snapshot.mjs) — a friend opening /per-ty would see
-// their own feed, not this one. The preview shows exactly the picture the
-// link carries, so nothing goes out that the reader has not seen.
+// The link is /gazeta/<code>, a frozen copy of today's paper carried in the
+// code itself (lib/paper-snapshot.mjs) — a friend opening /per-ty would see
+// their own feed, not this one. Chats unfurl it into the front page as a card
+// (/api/og/gazeta/<code>) under a title saying whose paper it is, so the friend
+// knows what they got before they tap, and the link opens every page. The
+// sheet shows that card the way a chat will, so nothing goes out unseen.
 //
 // Instagram has no web share link: on a phone the system share sheet with the
 // Stories-sized picture is the only way in; elsewhere the picture is saved and
@@ -35,14 +37,14 @@ type Channel = "whatsapp" | "instagram" | "facebook" | "viber" | "telegram" | "x
 
 function WhatsAppIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="currentColor">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor">
       <path d="M12.04 2C6.6 2 2.18 6.42 2.18 11.86c0 1.74.46 3.44 1.32 4.94L2.1 22l5.34-1.4a9.86 9.86 0 0 0 4.6 1.17h.01c5.44 0 9.86-4.42 9.86-9.86S17.48 2 12.04 2Zm5.78 14.01c-.24.68-1.42 1.3-1.95 1.34-.5.05-1.13.07-1.82-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.17-4.94-4.36-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.27-.29.58-.36.78-.36h.56c.18 0 .42-.07.66.5.24.58.82 2 .89 2.15.07.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.38-.43.5-.14.15-.29.3-.12.6.17.29.75 1.24 1.61 2 1.11.99 2.04 1.3 2.33 1.44.29.15.46.12.63-.07.17-.2.72-.84.92-1.13.19-.29.38-.24.65-.14.26.1 1.68.79 1.97.94.29.14.48.21.55.33.07.12.07.7-.17 1.38Z" />
     </svg>
   );
 }
 function InstagramIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2">
       <rect x="3" y="3" width="18" height="18" rx="5" />
       <circle cx="12" cy="12" r="4.2" />
       <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none" />
@@ -83,7 +85,7 @@ async function fetchFile(src: string, filename: string) {
   const response = await fetch(src);
   if (!response.ok) throw new Error(`image ${response.status}`);
   const blob = await response.blob();
-  return new File([blob], filename, { type: "image/png" });
+  return new File([blob], filename, { type: blob.type || "image/jpeg" });
 }
 
 function save(file: File) {
@@ -155,19 +157,24 @@ export default function ShareSheet({
       }).catch(() => {});
       return p;
     };
-    entry.feed = load("feed", `/api/og/gazeta/${code}?f=feed`, `${name}.png`);
-    entry.story = load("story", `/api/og/gazeta/${code}?f=story`, `${name}-story.png`);
+    entry.feed = load("feed", `/api/og/gazeta/${code}?f=feed`, `${name}.jpg`);
+    entry.story = load("story", `/api/og/gazeta/${code}?f=story`, `${name}-story.jpg`);
     files.current = entry;
   }, [open, code, date]);
 
   if (!code) return <Sheet open={open} onClose={onClose} title="Ndaje gazetën" titleId="perty-share-title">{null}</Sheet>;
 
-  const origin = typeof window === "undefined" ? "https://www.383ks.com" : window.location.origin;
+  const origin = typeof window === "undefined" ? "https://383ks.com" : window.location.origin;
   const url = `${origin}/gazeta/${code}`;
+  const host = origin.replace(/^https?:\/\//, "").replace(/^www\./, "");
+  const cardImg = `/api/og/gazeta/${code}`;
   const feedImg = `/api/og/gazeta/${code}?f=feed`;
   const storyImg = `/api/og/gazeta/${code}?f=story`;
   const title = sharedTitle(showName ? name : "", paper.title);
-  const text = `${title} për sot në 383 📰 Lajmet që zgjodha unë:`;
+  // What a chat prints above the card (app/gazeta/[code]/page.tsx metadata).
+  const cardTitle = showName && name ? `${name} të ndau gazetën e vet: ${title}` : `Të ndanë një gazetë personale: ${title}`;
+  // The words that travel with the link; the chat draws the card under them.
+  const text = `${title} — gazeta ime personale në 383 për sot. Kthe faqet:`;
   const file = `383-gazeta-${date}`;
 
   function sent(channel: Channel) {
@@ -196,7 +203,7 @@ export default function ShareSheet({
     if (!ready) setBusy(channel);
     try {
       const pending = files.current.code === code ? files.current[kind] : undefined;
-      await work(ready ?? (await (pending ?? fetchFile(kind === "story" ? storyImg : feedImg, `${file}${kind === "story" ? "-story" : ""}.png`))));
+      await work(ready ?? (await (pending ?? fetchFile(kind === "story" ? storyImg : feedImg, `${file}${kind === "story" ? "-story" : ""}.jpg`))));
       sent(channel);
     } catch (error) {
       if (error instanceof DOMException && error.name === "AbortError") return;
@@ -217,9 +224,10 @@ export default function ShareSheet({
       }
     });
 
+  // The link alone: every app then draws the card itself.
   const native = async () => {
     try {
-      await navigator.share({ title, text, url });
+      await navigator.share({ title: cardTitle, text, url });
       sent("native");
     } catch {
       // Dismissed: not an error.
@@ -229,26 +237,33 @@ export default function ShareSheet({
   const enc = encodeURIComponent;
   return (
     <Sheet open={open} onClose={onClose} title="Ndaje gazetën" titleId="perty-share-title" className="perty-sheet--share">
-      <div className="perty-share-preview" aria-busy={!loaded}>
-        {open && (
-          <Image
-            key={feedImg}
-            src={feedImg}
-            alt={`Pamja e gazetës që do të ndash: ${title}`}
-            width={1080}
-            height={1350}
-            unoptimized
-            onLoad={() => setLoaded(true)}
-            data-loaded={loaded || undefined}
-          />
-        )}
-        {!loaded && (
-          <span className="perty-share-wait">
-            <DardaniImage name="flying-news" decorative className="perty-share-wait-img" />
-            Po e shtyp gazetën…
-          </span>
-        )}
-      </div>
+      <p className="perty-share-lede">Shoku yt merr një lidhje. Në chat duket kështu — dhe me një prekje i shfleton të gjitha faqet.</p>
+      <figure className="perty-linkcard" aria-busy={!loaded}>
+        <div className="perty-linkcard-img">
+          {open && (
+            <Image
+              key={cardImg}
+              src={cardImg}
+              alt={`Faqja e parë e gazetës që do të ndash: ${title}`}
+              width={1200}
+              height={630}
+              unoptimized
+              onLoad={() => setLoaded(true)}
+              data-loaded={loaded || undefined}
+            />
+          )}
+          {!loaded && (
+            <span className="perty-share-wait">
+              <DardaniImage name="flying-news" decorative className="perty-share-wait-img" />
+              Po e shtyp gazetën…
+            </span>
+          )}
+        </div>
+        <figcaption>
+          <small>{host}</small>
+          <b>{cardTitle}</b>
+        </figcaption>
+      </figure>
 
       <label className="perty-cz-switch perty-share-name">
         <span>
@@ -263,27 +278,40 @@ export default function ShareSheet({
           onChange={(e) => setShowName(e.currentTarget.checked)}
         />
       </label>
-      <p className="perty-share-public">Kushdo me lidhjen e sheh këtë faqe dhe këto lajme — asgjë tjetër nga leximet e tua.</p>
 
-      <div className="perty-share-grid">
-        <button type="button" className="perty-share-btn" data-ch="whatsapp" onClick={() => openOut("whatsapp", `https://wa.me/?text=${enc(`${text} ${url}`)}`)}>
+      <div className="perty-share-main">
+        {canNative && (
+          <button type="button" className="perty-btn perty-btn--primary" onClick={native}>
+            <Share2 size={18} strokeWidth={2.4} aria-hidden="true" />
+            Ndaje lidhjen
+          </button>
+        )}
+        <button type="button" className="perty-btn perty-share-wa" onClick={() => openOut("whatsapp", `https://wa.me/?text=${enc(`${text}\n${url}`)}`)}>
           <WhatsAppIcon />
           WhatsApp
         </button>
-        <button type="button" className="perty-share-btn" data-ch="instagram" onClick={instagram} disabled={busy === "instagram"}>
-          <InstagramIcon />
-          {busy === "instagram" ? "Po përgatitet…" : "Instagram"}
+        <button type="button" className="perty-btn perty-btn--ghost" onClick={copy}>
+          {copied ? <Check size={18} strokeWidth={2.6} aria-hidden="true" /> : <Link2 size={18} strokeWidth={2.4} aria-hidden="true" />}
+          {copied ? "U kopjua" : "Kopjo lidhjen"}
         </button>
+      </div>
+
+      <div className="perty-share-grid">
         <button type="button" className="perty-share-btn" data-ch="facebook" onClick={() => openOut("facebook", `https://www.facebook.com/sharer/sharer.php?u=${enc(url)}`)}>
           <FacebookIcon />
           Facebook
         </button>
-        <button type="button" className="perty-share-btn" data-ch="viber" onClick={() => {
+        <button
+          type="button"
+          className="perty-share-btn"
+          data-ch="viber"
+          onClick={() => {
             // An app link, not a web page: opening it in a new tab leaves a
             // blank tab behind on a computer without Viber.
             sent("viber");
             window.location.href = `viber://forward?text=${enc(`${text} ${url}`)}`;
-          }}>
+          }}
+        >
           <ViberIcon />
           Viber
         </button>
@@ -294,38 +322,20 @@ export default function ShareSheet({
         <button type="button" className="perty-share-btn" data-ch="x" onClick={() => openOut("x", `https://x.com/intent/post?text=${enc(text)}&url=${enc(url)}`)}>
           <XIcon />X
         </button>
-        <button type="button" className="perty-share-btn" data-ch="copy" onClick={copy}>
-          {copied ? <Check size={20} strokeWidth={2.6} aria-hidden="true" /> : <Link2 size={20} strokeWidth={2.4} aria-hidden="true" />}
-          {copied ? "U kopjua" : "Kopjo lidhjen"}
-        </button>
-        {canNative && (
-          <button type="button" className="perty-share-btn" data-ch="native" onClick={native}>
-            <Share2 size={20} strokeWidth={2.4} aria-hidden="true" />
-            Më shumë…
-          </button>
-        )}
       </div>
 
+      <p className="perty-share-or">Ose si foto</p>
       <div className="perty-share-downloads">
-        <button
-          type="button"
-          className="perty-btn perty-btn--ghost"
-          disabled={busy === "download"}
-          onClick={() => withFile("download", "feed", async (f) => save(f))}
-        >
+        <button type="button" className="perty-btn perty-btn--ghost" onClick={instagram} disabled={busy === "instagram"}>
+          <InstagramIcon />
+          {busy === "instagram" ? "Po përgatitet…" : "Instagram Stories"}
+        </button>
+        <button type="button" className="perty-btn perty-btn--ghost" disabled={busy === "download"} onClick={() => withFile("download", "feed", async (f) => save(f))}>
           <Download size={16} strokeWidth={2.4} aria-hidden="true" />
           {busy === "download" ? "Po ruhet…" : "Shkarko foton"}
         </button>
-        <button
-          type="button"
-          className="perty-btn perty-btn--ghost"
-          disabled={busy === "story"}
-          onClick={() => withFile("story", "story", async (f) => save(f))}
-        >
-          <Download size={16} strokeWidth={2.4} aria-hidden="true" />
-          {busy === "story" ? "Po ruhet…" : "Për Stories (9:16)"}
-        </button>
       </div>
+      <p className="perty-share-public">Kushdo me lidhjen i sheh këto faqe dhe këto lajme — asgjë tjetër nga leximet e tua.</p>
       {hint && (
         <p className="perty-share-hint" role="status">
           {hint}

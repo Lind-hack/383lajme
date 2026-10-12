@@ -2,17 +2,17 @@
 
 // A shared paper (/gazeta/<code>), turned page by page like the sharer's own:
 // the same kind of paper, the same front page and the same follow pages, with
-// nothing of the sharer's reading on it — no reasons, no read marks. The
-// friend's one next step, on the front and the back: make their own.
+// nothing of the sharer's reading on it — no reasons, no read marks. The bar
+// says at once whose paper this is; the friend's one next step, in the bar and
+// on the last page, is to make their own.
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { coverWord } from "@/lib/per-ty-paper.mjs";
 import { lookById } from "@/lib/paper-look.mjs";
 import { genitive } from "@/lib/reader-name.mjs";
-import { FRONT_STORIES, paperPages } from "@/lib/paper-pages.mjs";
+import { paperPages } from "@/lib/paper-pages.mjs";
 import Newspaper, { type NewspaperPage } from "@/app/per-ty/paper/newspaper";
-import { BackSheet, FrontSheet, MoreSheet, NO_SEEN, SectionSheet, type PaperMeta, type PaperStory } from "@/app/per-ty/paper/pages";
+import { EndSheet, FrontSheet, IndexSheet, MoreSheet, NO_SEEN, SectionSheet, type PaperMeta, type PaperStory } from "@/app/per-ty/paper/pages";
 import { newspaperFonts } from "@/app/per-ty/paper/fonts";
 import type { FeedArticle } from "@/app/per-ty/per-ty-feed";
 import "@/app/per-ty/paper/newspaper.css";
@@ -25,7 +25,6 @@ export default function SharedPaper({
   date,
   year,
   look,
-  leadKey,
   edition,
   sections,
 }: {
@@ -36,7 +35,6 @@ export default function SharedPaper({
   date: string;
   year: number;
   look: string;
-  leadKey: string;
   edition: FeedArticle[];
   sections: SharedSection[];
 }) {
@@ -48,7 +46,6 @@ export default function SharedPaper({
   const pages = paperPages(paper);
   const meta: PaperMeta = {
     title,
-    motto: info?.motto ?? "",
     edition: sharer ? `E ndarë nga ${sharer}` : "Kopje e ndarë",
     issue: 0,
     date,
@@ -62,94 +59,105 @@ export default function SharedPaper({
     seen: NO_SEEN,
   };
   const story = (i: { article: FeedArticle }): PaperStory => ({ article: i.article, why: null });
+  const whose = sharer && genitive(sharer) ? `e ${genitive(sharer)}` : "e dikujt tjetër";
 
-  const invite = (
-    <aside className="np-note">
-      <h2>{sharer ? `${sharer} ta ndau gazetën e vet.` : "Dikush ta ndau gazetën e vet."}</h2>
-      <p>
-        Në 383 secili ka gazetën e vet: zgjedh temat, njerëzit dhe qytetin, dhe çdo mëngjes gazeta mbushet vetë me
-        lajmet e tyre. Kthe faqet për ta parë këtë, pastaj bëj tënden.
-      </p>
-      <div className="np-note-actions">
-        <Link href="/per-ty" className="np-btn">
-          Bëj gazetën tënde <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
-        </Link>
-      </div>
-    </aside>
+  const makeYours = (
+    <section>
+      <h3>Bëj tënden</h3>
+      <ol className="np-list">
+        <li>Zgjedh çka të intereson: tema, njerëz, qytete. Pa llogari, në një minutë.</li>
+        <li>Çdo mëngjes faqet mbushen vetë me lajmet e reja për to.</li>
+        <li>Sa më shumë lexon, aq më mirë të njeh — edhe pamja e gazetës ndryshon sipas teje.</li>
+      </ol>
+    </section>
   );
 
   const sheets: NewspaperPage[] = pages.map((page) => {
     if (page.kind === "front") {
+      return { key: page.key, title: page.title, node: <FrontSheet meta={meta} lead={page.lead ? story(page.lead) : null} stories={page.stories.map(story)} /> };
+    }
+    if (page.kind === "index") {
       return {
         key: page.key,
         title: page.title,
         node: (
-          <FrontSheet
+          <IndexSheet
             meta={meta}
-            lead={page.lead ? story(page.lead) : null}
-            leadWord={page.lead ? coverWord(page.lead.article, leadKey) : ""}
-            stories={page.stories.map(story)}
+            n={page.n}
             contents={page.contents}
             onJump={(n) => {
               window.location.hash = `faqja-${n}`;
             }}
-            before={invite}
-            stamp={
-              <>
-                <b>Kopje e ndarë</b>
-                {sharer ? `nga ${sharer}` : "nga një lexues"}
-              </>
-            }
-          />
+          >
+            {makeYours}
+          </IndexSheet>
         ),
       };
     }
     if (page.kind === "more") {
-      return { key: page.key, title: page.title, node: <MoreSheet meta={meta} n={page.n} stories={page.stories.map(story)} from={2 + FRONT_STORIES} /> };
+      return { key: page.key, title: page.title, node: <MoreSheet meta={meta} n={page.n} title={page.title} stories={page.stories.map(story)} /> };
     }
     if (page.kind === "section") {
       const s = page.section;
       return {
         key: page.key,
         title: page.title,
-        node: <SectionSheet meta={meta} n={page.n} title={s.title} sectionKey={s.key} href={s.href} intro="" stories={s.items.map(story)} />,
+        node: <SectionSheet meta={meta} n={page.n} title={s.title} sectionKey={s.key} href={s.href} intro="" hidden={0} stories={page.items.map(story)} />,
+      };
+    }
+    if (page.kind === "about") {
+      return {
+        key: page.key,
+        title: page.title,
+        node: (
+          <EndSheet meta={meta} n={page.n} title="Si funksionon">
+            {makeYours}
+            <div className="np-actions">
+              <Link href="/per-ty" className="np-btn np-btn--accent">
+                Bëj gazetën tënde <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
+              </Link>
+            </div>
+          </EndSheet>
+        ),
       };
     }
     return {
       key: page.key,
       title: page.title,
       node: (
-        <BackSheet meta={meta} n={page.n}>
-          <div className="np-back-end">
-            <h2>Gazeta jote të pret.</h2>
-            <p>
-              Kjo ishte gazeta {sharer && genitive(sharer) ? `e ${genitive(sharer)}` : "e dikujt tjetër"}. E jotja do të kishte lajmet për njerëzit, qytetin
-              dhe temat që ndjek ti — dhe do të dukej ndryshe, sipas asaj që lexon.
-            </p>
-            <div className="np-back-actions">
-              <Link href="/per-ty" className="np-btn np-btn--spot">
-                Bëj gazetën tënde <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
-              </Link>
-            </div>
+        <EndSheet meta={meta} n={page.n} title="Gazeta jote të pret.">
+          <p className="np-end-big">Kjo ishte gazeta {whose}.</p>
+          <p>E jotja do të kishte lajmet për njerëzit, qytetin dhe temat që ndjek ti — dhe do të dukej ndryshe, sipas asaj që lexon.</p>
+          <div className="np-actions">
+            <Link href="/per-ty" className="np-btn np-btn--accent">
+              Bëj gazetën tënde <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
+            </Link>
           </div>
-          <div>
-            <section className="np-box">
-              <h3 className="np-box-title">Si funksionon</h3>
-              <ol className="np-howto-list">
-                <li>Zgjedh çka të intereson: tema, njerëz, qytete. Pa llogari.</li>
-                <li>Çdo mëngjes faqet mbushen vetë me lajmet e reja për to.</li>
-                <li>Sa më shumë lexon, aq më mirë të njeh — edhe pamja e gazetës ndryshon sipas teje.</li>
-              </ol>
-            </section>
-          </div>
-        </BackSheet>
+          {page.about && makeYours}
+        </EndSheet>
       ),
     };
   });
 
   return (
     <div className={`perty-paper-pages ${newspaperFonts}`}>
-      <Newspaper pages={sheets} look={info?.id ?? "e-perditshme"} label={title} hint />
+      <Newspaper
+        pages={sheets}
+        look={info?.id ?? "e-perditshme"}
+        label={title}
+        hint
+        lead={
+          <p className="np-shared-lead">
+            <b>{sharer ? `${sharer} ta ndau gazetën e vet` : "Dikush ta ndau gazetën e vet"}</b> · {date}. Në 383 secili ka gazetën e vet — kthe faqet.
+          </p>
+        }
+        tools={
+          <Link href="/per-ty" className="np-tool np-tool--primary">
+            <span className="np-tool-label">Bëj tënden</span>
+            <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
+          </Link>
+        }
+      />
     </div>
   );
 }

@@ -267,43 +267,52 @@ The utility is a quiet cream document with a near-white header, orange vehicle i
 
 ---
 
-# Për ty — the photocopied paper
+# Për ty — the paper held open
 
-Scope: `/per-ty` and the shared copy `/gazeta/<code>`. Styles in `app/per-ty/paper/newspaper.css` (every class `np-*`, scoped under `.np`), type case in `app/per-ty/paper/fonts.ts`, page turning in `app/per-ty/paper/newspaper.tsx`.
+Scope: `/per-ty` and the shared copy `/gazeta/<code>`. Styles in `app/per-ty/paper/newspaper.css` (every class `np-*`, scoped under `.np`), type in `app/per-ty/paper/fonts.ts`, page turning in `app/per-ty/paper/newspaper.tsx`, the pages in `app/per-ty/paper/pages.tsx`, the page plan in `lib/paper-pages.mjs`.
 
 ## Overview
 
-**North Star: "someone photocopied a paper made just for you and handed it over."** Each reader's paper is a real newspaper you turn page by page: a sheet of newsprint lying on a dark desk, edge to edge on a desktop (never a centred feed column), with grain, toner speckle, a fold in four, halftone photos and a red rubber stamp, "Kopje personale — vetëm për <emri>". Front page, then "Më shumë nga sot" when the edition runs long, then one page per follow, then the back page "Kaq për sot".
+**North Star: a modern newspaper made just for you, held open in your hands.** On a wide screen it opens as spreads of two pages (1–2, 3–4…) with a fold down the middle; on a phone, one page at a time. The paper always fits the screen below the site's bar: a page is read whole and then turned, never scrolled. Front page → "Në këtë numër" → "Më shumë nga sot" (four a page) → one page per follow (four stories at most, the rest one tap away) → "Kaq për sot" and "Si funksionon". The count is always even so the last spread is never half empty.
+
+Nothing is pinned on top of the paper. How it works lives behind "?" in the bar; the first visit only shows one line on how to turn a page, and the corner lifts by itself.
 
 ## Five kinds of paper
 
-The reading mix picks one (`lib/paper-look.mjs`, `[data-look]`); "Rregullo gazetën" can lock one.
+The reading mix picks one (`lib/paper-look.mjs`, `[data-look]`); "Rregullo gazetën" can lock one. Each changes only the paper colour, one spot colour and the headline face.
 
-| Look | Paper | Spot | Nameplate / headlines |
+| Look | Paper | Spot | Headlines |
 |---|---|---|---|
-| `e-perditshme` | `#ebe5d6` newsprint | `#a4161a` | UnifrakturMaguntia blackletter / Old Standard TT bold |
-| `sporti` | `#e9e5dc` | `#d42a2f` | Anton condensed capitals for both |
-| `tabloid` | `#f1eee7` | `#e0002a`, flash `#ffd400` | Alfa Slab One, nameplate white on a tilted red block |
-| `bota` | `#e7e3d8` | `#1f3c6e` | Old Standard TT spaced capitals |
-| `biznes` | `#efd8c6` salmon | `#0e5a63` | Old Standard TT bold italic |
+| `e-perditshme` | `#fdfcfa` | `#b3261e` | Newsreader |
+| `sporti` | `#ffffff` | `#0a7f3f` | Anton capitals |
+| `tabloid` | `#ffffff` | `#e1061b` | Anton, nameplate white on a red block |
+| `bota` | `#f9f9f7` | `#1d4f9f` | Newsreader, small-caps nameplate |
+| `biznes` | `#fff1e5` salmon | `#0d7680` | Newsreader, italic nameplate |
 
-Body is always PT Serif; notes, kickers, datelines and "why" lines are Special Elite typewriter. One spot colour per paper, used at page scale (ear, banner, why-lines, stamp), never scattered.
+Text is always Newsreader; labels, kickers and page furniture are the site's sans (Manrope). Thin rules, no textures, no rounded cards inside a page. The spot colour marks the why lines, the rule above each page title and the progress line in the bar.
+
+## Fitting a page
+
+Every page is a CSS container (`container-type: size`). Photos take the room that is left (`flex: 1; min-height: 0`), headlines never shrink and keep whole lines (line-clamp), opening lines give way first. Narrow pages (`max-width: 560px`) stack stories as rows with a thumbnail; short pages (`max-height: 640px` / `520px`) drop opening lines. Pages with boxes or the back pages may scroll inside themselves as a last resort; the wheel scrolls them before it turns the page.
 
 ## Components
 
-- **Nameplate:** spot ear left ("Ndjek" + three follows), title centre (tap to rename), ink ear right (edition, issue, count), motto, then a double-ruled dateline.
-- **Front page:** the giant cover word (why the lead leads, e.g. KURTI) with toner wear, the lead headline in a spot banner, a framed date box with the stamp, the halftone photo (or the clay plate in colour, labelled "Ilustrim me AI"), the opening with a drop cap, then numbered columns. Right rail: "Në këtë numër" (tapping a page turns to it), town, Dardani's brief, numbers, Tregu.
-- **Why line:** every story's kicker is a dotted-underlined spot-colour button with one plain reason; it opens a boxed note with the long reason and "Më shumë si kjo / Më pak si kjo".
-- **Clipped note:** lined paper with a paper clip, typewriter text. Used for "Kjo është gazeta jote" (first open; reopened by "Si funksionon?"), naming and the shared-copy invite. Slips (yellow, dashed) carry one-line status notes.
-- **Foot strip:** an ink band on every page: "Kopje personale · <title> · Faqja n nga N" with a barcode.
+- **Bar:** pager (‹ "1–2 / 10" ›), then Ndaje (primary), Rregullo, "?"; a spot-colour progress line along its bottom. On a shared copy the bar opens with who shared it and ends in "Bëj tënden".
+- **Nameplate:** date and edition, the title (tap: Rregullo, to rename), then "Për <three follows> · N lajme · M min lexim" between a thin and a thick rule.
+- **Why line:** every story's kicker on the front and "more" pages is a dotted-underlined spot-colour button with one plain reason; it opens a dark popover with the long reason and "Më shumë si kjo / Më pak". Section pages say why once, under their title, and carry "Më shumë / Më pak" at the foot. A shared copy shows no reasons.
+- **Në këtë numër:** every page with its story count, tap to turn there; then the boxes (Dardani's thirty seconds, the town, numbers, Tregu).
 
 ## Motion
 
-A page turn lifts the sheet around its left edge (`rotateY` 0 → −180°, 760 ms ease-in-out, perspective 3600 px aimed at the middle of the viewport), throwing a shadow on the page beneath. The same motion runs from the folded corner, the pager, ← →, the contents list and a touch swipe that follows the finger (commits past 33 % or on a flick). The corner peels by itself twice the first time. Reduced motion cross-fades instead. The page number lives in the URL hash (`#faqja-3`).
+On a spread the right page lifts over the spine onto the left (`rotateY` 0 → −180°, 640 ms ease-in-out; a jump of several pages 760 ms), its back being the next left page, with light across it and its shadow on the page beneath. On a phone the page lifts away to the left. The same motion runs from a drag (mouse, finger or pen; it follows and falls back if short and slow, commits past 28 % or on a flick), a click on the page edge, the bar arrows, one wheel or trackpad gesture, ← → and Page Up / Down. A turn asked for mid-turn is queued. The neighbouring pages are drawn hidden so their photos are loaded before they come into view. Reduced motion cross-fades. The page lives in the URL hash (`#faqja-3`).
+
+## Sharing
+
+The link comes first: `/gazeta/<code>` unfurls in chats as a 1200×630 JPEG of the front page (`/api/og/gazeta/<code>`, well under WhatsApp's ~300 KB) under "<Emri> të ndau gazetën e vet", with the title and top headlines in the link text. Stories (`?f=story`, 1080×1920) and a feed picture (`?f=feed`) are the second choice.
 
 ## Do's and Don'ts
 
-- **Do** keep the sheet full width on desktop and the mobile pager above the site's tab bar (`--tabbar-h`).
-- **Do** give every story its why line; a shared copy shows none (it is the sharer's history, not the friend's).
-- **Don't** introduce rounded cards, glass or gradients inside the sheet: print has rules, boxes and ink.
-- **Don't** colour photos, except the AI clay plate, which is a printed colour plate.
+- **Do** keep the paper inside the screen; add a page rather than letting one scroll.
+- **Do** load paper photos eagerly: lazy loading never starts inside the turned-page layers.
+- **Don't** pin notes or slips on the paper; put explanations behind "?" or on the back pages.
+- **Don't** put `touch-action` only on the book: page bodies clip, and the rule must reach every element or a sideways swipe is taken by the browser.
