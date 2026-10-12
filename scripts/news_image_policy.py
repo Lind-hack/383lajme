@@ -79,34 +79,68 @@ def plan_subjects(leads: list[dict], folder: Path) -> dict[str, dict]:
     return plans
 
 
-NAME = re.compile(r"[A-ZÇË][\w'’.-]+(?:\s+(?:[A-ZÇË][\w'’.-]+|de|di|van|von|al|el|e|i))*")
-NOT_NAMES = {"the", "a", "an", "will", "why", "how", "what", "who", "new", "after", "before", "breaking"}
+NAME = re.compile(r"[A-ZÇËŠŽĆČ][\w'’-]+(?:[ 	]+[A-ZÇËŠŽĆČ][\w'’-]+){0,2}")
+NOT_NAMES = {"the", "a", "an", "will", "why", "how", "what", "who", "new", "after", "before", "breaking", "watch", "live", "latest"}
+
+
+def api_get(url: str, params: dict) -> requests.Response:
+    """Wikipedia and Commons throttle bursts with 429; wait and retry rather
+    than lose the story's photo to a busy minute."""
+    for attempt in range(4):
+        response = requests.get(url, params=params, headers=HEADERS, timeout=15)
+        if getattr(response, "status_code", 200) not in (429, 503) or attempt == 3:
+            response.raise_for_status()
+            return response
+        wait = str(getattr(response, "headers", {}).get("Retry-After", ""))
+        time.sleep(min(int(wait), 10) if wait.isdigit() else 2 ** attempt)
+    raise requests.RequestException("unreachable")
+
+
+def story_names(title: str, text: str) -> list[str]:
+    """The names a story keeps returning to, most mentioned first. A single
+    capitalised word counts only where it is not just opening a sentence, so
+    'Failure' or 'Footage' at the head of a headline is never taken for a name."""
+    counts: dict[str, int] = {}
+    named_midsentence: set[str] = set()
+    for sentence in re.split(r"(?<=[.!?:])\s+|\n+", title + "\n" + text):
+        sentence = sentence.strip(" \"'“”‘’«»-–")
+        for match in NAME.finditer(sentence):
+            name = re.sub(r"^(?:The|A|An)\s+", "", match.group(0).strip(" '’-"))
+            if name.casefold() in NOT_NAMES or len(name) < 3:
+                continue
+            counts[name] = counts.get(name, 0) + 1
+            if match.start() > 0:
+                named_midsentence.add(name)
+    names = [name for name in counts if " " in name or name in named_midsentence]
+    return sorted(names, key=lambda name: -counts[name])[:3]
 
 
 def wiki_plan(lead: dict) -> dict | None:
     """Ground a photo subject in Wikipedia: a page named in the story whose lead
     image Wikipedia itself marks as freely licensed. Commons still decides."""
     title = plain(lead.get("title"))
-    story = set(re.findall(r"[a-z0-9]+", fold(title + " " + str(lead.get("primary_evidence", {}).get("text", ""))[:1800])))
-    names = [name for name in dict.fromkeys(match.group(0).strip(" .-") for match in NAME.finditer(title))
-             if name.casefold() not in NOT_NAMES and len(name) >= 3][:3]
+    text = plain(lead.get("primary_evidence", {}).get("text", ""))[:1800]
+    story = set(re.findall(r"[a-z0-9]+", fold(title + " " + text)))
+    names = story_names(title, text)
     languages = ("sq", "en") if lead.get("category") in {"Kosovë", "Shqipëri"} else ("en", "sq")
     for language in languages:
         for name in names:
             try:
-                response = requests.get(f"https://{language}.wikipedia.org/w/api.php", params={
+                response = api_get(f"https://{language}.wikipedia.org/w/api.php", {
                     "action": "query", "format": "json", "generator": "search", "gsrsearch": name,
                     "gsrnamespace": 0, "gsrlimit": 3, "prop": "pageimages", "piprop": "name",
                     "pilicense": "free", "redirects": 1,
-                }, headers=HEADERS, timeout=10)
-                response.raise_for_status()
+                })
                 pages = sorted(response.json().get("query", {}).get("pages", {}).values(), key=lambda page: page.get("index", 0))
             except (requests.RequestException, ValueError):
                 continue
             for page in pages:
                 subject = re.sub(r"\s*\(.*?\)", "", str(page.get("title", ""))).strip()
                 tokens = {token for token in re.findall(r"[a-z0-9]+", fold(subject)) if len(token) >= 3}
-                if page.get("pageimage") and tokens and tokens <= story:
+                wanted = {token for token in re.findall(r"[a-z0-9]+", fold(name)) if len(token) >= 3}
+                # The page must be the name itself (not 'Can-can' for 'Can'), and
+                # everything in its title must be in the story.
+                if page.get("pageimage") and tokens and wanted <= tokens and tokens <= story:
                     return {"subject": subject, "subject_evidence": subject, "queries": [subject],
                             "files": [str(page["pageimage"])], "caption": subject,
                             "planner": f"{language}.wikipedia"}
@@ -166,12 +200,11 @@ def _plan_chunk(leads: list[dict], folder: Path, index: int) -> dict[str, dict]:
 
 
 def commons_candidates(query: str) -> list[dict]:
-    response = requests.get(COMMONS_API, params={
+    response = api_get(COMMONS_API, {
         "action": "query", "format": "json", "generator": "search", "gsrnamespace": 6,
         "gsrsearch": query + " filetype:bitmap", "gsrlimit": 10, "prop": "imageinfo",
         "iiprop": "url|size|extmetadata", "iiurlwidth": 1600,
-    }, headers=HEADERS, timeout=15)
-    response.raise_for_status()
+    })
     data = response.json()
     if data.get("error"):
         raise ValueError("Commons search unavailable")
@@ -180,11 +213,10 @@ def commons_candidates(query: str) -> list[dict]:
 
 def commons_files(names: list[str]) -> list[dict]:
     """The named Commons files, with the same metadata a search returns."""
-    response = requests.get(COMMONS_API, params={
+    response = api_get(COMMONS_API, {
         "action": "query", "format": "json", "titles": "|".join(f"File:{name}" for name in names[:10]),
         "prop": "imageinfo", "iiprop": "url|size|extmetadata", "iiurlwidth": 1600,
-    }, headers=HEADERS, timeout=15)
-    response.raise_for_status()
+    })
     pages = list(response.json().get("query", {}).get("pages", {}).values())
     for page in pages:
         page["lead_image"] = True
