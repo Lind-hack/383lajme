@@ -19,5 +19,11 @@ class WorldwideTests(unittest.TestCase):
   selected=balanced_sources(rows+rows,50,country_cap=10,outlet_cap=4)
   self.assertEqual([a['country'] for a in selected[:4]],['A','B','C','D'])
   self.assertEqual(len(selected),7);self.assertEqual(len({a['url'] for a in selected}),7)
+ def test_expanded_catalog_and_regional_publisher_ownership(self):
+  from bota_catalog import PUBLISHERS,PUBLISHER_DOMAINS,PUBLISHER_FEEDS
+  self.assertGreaterEqual(len(PUBLISHERS),90);self.assertGreaterEqual(len(PUBLISHER_DOMAINS),230);self.assertGreaterEqual(len(PUBLISHER_FEEDS),40)
+  for url,country in [('https://ba.n1info.com/news','Bosnjë dhe Hercegovinë'),('https://rs.n1info.com/news','Serbi'),('https://www.dawn.com/news','Pakistan'),('https://www.jordantimes.com/news','Jordani'),('https://news.err.ee/article','Estoni'),('https://www.nation.africa/news','Kenia')]:
+   self.assertEqual(publisher_country(url),country)
+  self.assertEqual(publisher_country('https://dawn.com.evil.test/news'),'Të tjera')
 
 if __name__=='__main__':unittest.main()

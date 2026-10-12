@@ -1,0 +1,21 @@
+name: Bota collection and publication evals
+on:
+  push:
+    paths: ['tools/bota*.py','tools/test_bota*.py','scripts/*bota*.py','lib/bota-*','supabase/migrations/0104_bota_balanced_400.sql','.github/workflows/bota-evals.yml']
+  pull_request:
+    paths: ['tools/bota*.py','tools/test_bota*.py','scripts/*bota*.py','lib/bota-*','supabase/migrations/0104_bota_balanced_400.sql','.github/workflows/bota-evals.yml']
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install beautifulsoup4 httpx
+      - run: python -m unittest discover -s tools -p 'test_bota*.py' -v
+      - run: python -m unittest discover -s scripts -p test_bota_email_report.py -v
+      - run: node --test lib/bota-publication.test.mjs lib/bota-pagination.test.mjs

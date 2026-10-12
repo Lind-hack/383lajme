@@ -39,7 +39,7 @@ try:
             if saved.get('date')!=date or saved.get('result')!=outcome.get('result'):raise ValueError('Current run receipt mismatch')
             outcome=saved
         outcome['public']=verify_public(outcome)
-        outcome['reusedSavedPacket']=reused_pending
+        outcome['reusedSavedPacket']=reused_pending and not outcome.get('freshAfterRecovery')
     save_private(ROOT/'latest-worker-log.json',{'started':started,'stdout':stdout[-20000:],'stderr':stderr[-20000:]})
 except Exception as error:
     outcome={'status':'failed','date':date,'reason':type(error).__name__}
