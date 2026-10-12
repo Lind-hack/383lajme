@@ -288,7 +288,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
              "Publication plan (aim for these category counts): " + json.dumps(plan, ensure_ascii=False),
              "Target is 20 distinct new articles. Cover EVERY available category before adding extras to a busy desk.",
              "Use verified facts in original prose. Never name a publisher in public copy; skip stories that rest on another outlet's exclusive, interview or unconfirmed claim; preserve internal evidence URLs.",
-             "Photos below are contextual rights-cleared archive photographs, independently checked against source images. Copy all image_* fields exactly. Never portray them as photos of today's event. The writer and editor must confirm that the photo subject fits the specific story, not just its category.", ""]
+             "Photos below are contextual rights-cleared archive photographs, independently checked against source images. Each story shows only image_subject and image_caption; leave the image fields out of your drafts, the pipeline restores the full prepared photo record by source URL. Never portray them as photos of today's event. The writer and editor must confirm that the photo subject fits the specific story, not just its category.", ""]
     lines += ["# Per-story editorial ranking",
               "Read docs/news-ranking-rubric.md. Assign each score_breakdown factor individually from the fetched evidence and explain the stakes in score_reason. Never copy an all-5 baseline. The normalizer computes the weighted total; do not calculate weights or inspect scoring scripts.", ""]
     for category in CATEGORIES:
@@ -296,7 +296,12 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
         for lead in ready:
             if lead["category"] != category:
                 continue
-            lines += [json.dumps(lead, ensure_ascii=False), ""]
+            # The full rights record (description, checked source images) made
+            # each line too long for the writer's file tool, which then refused
+            # to write; the normalizer restores it from the catalog by URL.
+            shown = {key: value for key, value in lead.items()
+                     if not key.startswith("image_") or key in {"image_subject", "image_caption"}}
+            lines += [json.dumps(shown, ensure_ascii=False), ""]
     lines += ["# Inventory shortfalls", json.dumps(rejected, ensure_ascii=False)]
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("383 READY INVENTORY " + json.dumps({"ready": data["source_ready_categories"], "plan": plan, "rejected": rejected}, ensure_ascii=False))
