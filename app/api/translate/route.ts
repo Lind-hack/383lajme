@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { LANGUAGE_CACHE_VERSION, localTranslation, validateTranslationRequest, type SiteLanguage } from "@/lib/site-language.mjs";
+import { LANGUAGE_CACHE_VERSION, isTranslationOriginAllowed, localTranslation, validateTranslationRequest, type SiteLanguage } from "@/lib/site-language.mjs";
 import { translateSiteTexts } from "@/lib/site-translation-provider.mjs";
 
 export const runtime = "nodejs";
@@ -16,7 +16,8 @@ function remember(key:string,value:string) {
 
 export async function POST(request:NextRequest) {
   const origin=request.headers.get("origin");
-  if(origin && origin !== request.nextUrl.origin) return NextResponse.json({error:"Invalid origin."},{status:403});
+  // Railway forwards HTTPS traffic to an internal HTTP origin.
+  if(!isTranslationOriginAllowed(origin,request.nextUrl.origin)) return NextResponse.json({error:"Invalid origin."},{status:403});
   if(Number(request.headers.get("content-length")??0)>50000) return NextResponse.json({error:"Request too large."},{status:413});
   const reader=request.body?.getReader();
   if(!reader) return NextResponse.json({error:"Invalid translation request."},{status:400});
