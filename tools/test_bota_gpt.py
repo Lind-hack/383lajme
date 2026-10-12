@@ -91,4 +91,15 @@ class BotaTests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as folder,patch.object(b,'RUN_STATE',Path(folder)),patch.object(b,'secret',return_value='test'),patch.object(b,'resolve_runtime',return_value={}),patch.object(b,'discover',return_value=[source]),patch.object(b,'editorial',editor),patch.object(b,'validate_publishable'),patch.object(b,'publish_saved',publish),patch.dict(sys.modules,{'httpx':SimpleNamespace(get=lambda *a,**k:Response())}):
    Path(folder,day+'-pending.json').write_text(json.dumps(saved))
    report=b.run();self.assertEqual(publish.call_count,2);self.assertEqual(editor.call_count,1);self.assertTrue(report['freshAfterRecovery'])
+ def test_quality_rejection_is_not_a_pipeline_outage_but_all_request_failures_are(self):
+  day=b.datetime.now(b.ZoneInfo('Europe/Belgrade')).date().isoformat()
+  class Response:
+   def raise_for_status(self):pass
+   def json(self):return {'date':day,'dailyCount':35,'alreadyPublished':False,'knownIds':[]}
+  source=dict(id='new',url='https://example.org/new',title='Kosovo',outlet='Example',country='Britani',date=day,sourceHash='a'*64,imageUrl=None)
+  with tempfile.TemporaryDirectory() as folder,patch.object(b,'RUN_STATE',Path(folder)),patch.object(b,'secret',return_value='test'),patch.object(b,'resolve_runtime',return_value={}),patch.object(b,'discover',return_value=[source]),patch.dict(sys.modules,{'httpx':SimpleNamespace(get=lambda *a,**k:Response())}):
+   with patch.object(b,'editorial',side_effect=ValueError('Incomplete paragraph translation')):
+    report=b.run();self.assertEqual(report['status'],'ok');self.assertEqual(report['newArticles'],0);self.assertEqual(report['failed'],1)
+   with patch.object(b,'editorial',side_effect=RuntimeError('Provider offline')):
+    with self.assertRaisesRegex(RuntimeError,'All GPT requests failed'):b.run()
 if __name__=='__main__':unittest.main()

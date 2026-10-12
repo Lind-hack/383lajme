@@ -314,7 +314,7 @@ def run(dry_run=False,limit=800):
         public=httpx.get(SITE+'/api/bota',timeout=30);public.raise_for_status()
         if public.json().get('outlets',{}).get('lastUpdated')!=date:raise RuntimeError('Published day failed public verification')
         return recovered or {'status':'ok','result':'already_published','date':date,'model':MODEL,'reasoningEffort':EFFORT}
-    runtime=resolve_runtime();sources=discover(set(context.get('knownIds',[])));articles=[];receipts=[];failed=0;processed=0
+    runtime=resolve_runtime();sources=discover(set(context.get('knownIds',[])));articles=[];receipts=[];failed=0;processed=0;transport_failures=0
     maximum=min(DAILY_TARGET,context.get('dailyMaximum',DAILY_TARGET))
     target=max(0,maximum-context.get('dailyCount',0)) if not dry_run else min(DAILY_TARGET,limit)
     country_counts=Counter(context.get('countryCounts',{}) if not dry_run else {})
@@ -351,13 +351,14 @@ def run(dry_run=False,limit=800):
             print(json.dumps({'stage':'translation','verified':len(articles),'target':target,'country':source['country']}),file=sys.stderr,flush=True)
           except Exception as error:
             failed+=1
+            if not isinstance(error,ValueError):transport_failures+=1
             print(json.dumps({'article':source['id'],'status':'rejected','reason':type(error).__name__,'detail':str(error)[:180] if isinstance(error,ValueError) else 'Request failed'}),file=sys.stderr,flush=True)
     if not articles:
         if recovered:return recovered
-        if failed:raise RuntimeError('New translations failed; saved and existing publications preserved')
+        if processed and transport_failures==processed:raise RuntimeError('All GPT requests failed; existing publications preserved')
         if not dry_run and context.get('dailyCount',0)>0:
             return {'status':'ok','result':'already_published','date':date,'model':MODEL,'reasoningEffort':EFFORT,'newArticles':0,'failed':failed,'targetReached':False}
-        if not sources and not dry_run:return {'status':'skipped','result':'no_new_articles','date':date,'reason':'No new eligible sources; existing index preserved'}
+        if not dry_run:return {'status':'skipped','result':'no_new_articles','date':date,'failed':failed,'reason':'No new eligible sources; existing index preserved'}
         raise RuntimeError('No fully translated verified articles; previous publication preserved')
     report.update(articleCount=len(articles),failed=failed,deferred=len(sources[:limit])-processed,freshAfterRecovery=recovered is not None)
     if not dry_run:
