@@ -21,6 +21,19 @@ MODEL, EFFORT = 'gpt-6-luna', 'xhigh'
 SITE = 'https://383ks.com'
 RUN_STATE = Path('/opt/data/automation/bota')
 EDITORIAL_BUDGET_SECONDS = 3000
+DAILY_TARGET = 400
+COUNTRY_CAP, OUTLET_CAP = 40, 12
+
+def next_balanced_source(sources, country_counts, outlet_counts, inflight, country_cap, outlet_cap):
+    """Balance against the WHOLE day, reserving slots for active requests."""
+    countries=Counter(country_counts);outlets=Counter(outlet_counts)
+    for source in inflight:
+        countries[source['country']]+=1
+        outlets[(source['country'],source['outlet'])]+=1
+    eligible=[(i,s) for i,s in enumerate(sources) if countries[s['country']]<country_cap and outlets[(s['country'],s['outlet'])]<outlet_cap]
+    if not eligible:return None
+    index,_=min(eligible,key=lambda item:(countries[item[1]['country']],outlets[(item[1]['country'],item[1]['outlet'])],item[0]))
+    return sources.pop(index)
 
 def public_url(url):
     p=urlparse(url)
@@ -30,6 +43,31 @@ def public_url(url):
     if not addresses or any(not ipaddress.ip_address(a[4][0]).is_global for a in addresses):
         raise ValueError('Private source address rejected')
     return url
+
+def publisher_date(soup):
+    """Publication dates override search timestamps; modified dates do not."""
+    for meta in soup.find_all('meta'):
+        key=(meta.get('property') or meta.get('name') or '').lower()
+        if key in {'article:published_time','datepublished','pubdate','publish-date','parsely-pub-date'}:
+            value=meta.get('content','')
+            if re.match(r'^\d{4}-\d{2}-\d{2}',value):return value[:10]
+    def find(value):
+        if isinstance(value,list):
+            for child in value:
+                result=find(child)
+                if result:return result
+        if isinstance(value,dict):
+            kind=value.get('@type',[]);kind=[kind] if isinstance(kind,str) else kind
+            raw=value.get('datePublished','')
+            if any(k in {'NewsArticle','Article','BlogPosting','ReportageNewsArticle','LiveBlogPosting'} for k in kind) and isinstance(raw,str) and re.match(r'^\d{4}-\d{2}-\d{2}',raw):return raw[:10]
+            return find(value.get('@graph',[]))
+        return None
+    for block in soup.find_all('script',type='application/ld+json'):
+        try:
+            result=find(json.loads(block.get_text()))
+            if result:return result
+        except (ValueError,TypeError):continue
+    return None
 
 def fetch_source(url):
     import requests
@@ -68,6 +106,8 @@ def fetch_source(url):
             raise ValueError('Complete article body unavailable or exceeds model input limit')
         if re.search(r'(subscribe to (?:continue|read)|subscription required|unlock (?:this|the) article|sign in to continue)',joined,re.I):raise ValueError('Truncated/paywalled source')
         result={'url':url,'sourceParagraphs':paragraphs,'sourceHash':hashlib.sha256(joined.encode()).hexdigest(),'imageUrl':image_url}
+        published=publisher_date(soup)
+        if published:result['date']=published
         if 5<=len(original_title)<=500:result['title']=original_title
         return result
     raise ValueError('Too many publisher redirects')
@@ -137,50 +177,41 @@ def secret():
     return value
 
 def discover(known):
+    discovery_deadline=time.monotonic()+600
     import tone_scraper as scraper
     from tone_sources import country_for,is_editorial,is_local_placename
     import feedparser,requests
     from bota_sources import worldwide_candidates,publisher_country,balanced_sources,excluded_publisher
     # Direct publisher feeds remain usable when Google's redirect decoder is
     # blocked. They are discovery only: each article still needs its full body.
-    feeds=[
-      ('https://www.theguardian.com/world/kosovo/rss','The Guardian'),
-      ('https://feeds.bbci.co.uk/news/world/rss.xml','BBC News'),
-      ('https://www.independent.co.uk/topic/kosovo/rss','The Independent'),
-      ('https://rss.orf.at/news.xml','ORF'),('https://rss.orf.at/sport.xml','ORF'),
-      ('https://www.tagesschau.de/xml/rss2','Tagesschau'),
-      ('https://rss.dw.com/rdf/rss-en-all','Deutsche Welle'),
-      ('https://www.france24.com/en/rss','France 24'),('https://www.france24.com/fr/rss','France 24'),
-      ('https://www.rfi.fr/en/rss','RFI'),('https://www.rfi.fr/fr/rss','RFI'),
-      ('https://www.aljazeera.com/xml/rss/all.xml','Al Jazeera'),
-      ('https://feeds.npr.org/1004/rss.xml','NPR'),
-      ('https://www.lemonde.fr/international/rss_full.xml','Le Monde'),
-    ]
+    from bota_catalog import PUBLISHER_FEEDS
+    feeds=PUBLISHER_FEEDS
+    feed_stats=Counter()
     def direct_feed(feed):
       url,outlet=feed
       try:
         response=requests.get(url,timeout=15);response.raise_for_status()
         if len(response.content)>3_000_000:return []
-        entries=feedparser.parse(response.content).entries;rows=[]
+        entries=feedparser.parse(response.content).entries;rows=[];feed_stats['ok']+=1
         for entry in entries:
           title=entry.get('title','');summary=entry.get('summary','');published=entry.get('published_parsed')
-          if not re.search(r'kosov|Kosova|Κόσοβ|Κοσσυφ|Косов',title+' '+summary,re.I) or not published:continue
+          if not re.search(r'kosov|kosow|Κόσοβ|Κοσσυφ|Косов|コソボ|科索沃|كوسوفو|코소보',title+' '+summary,re.I) or not published:continue
           day=datetime(*published[:6]).date().isoformat()
-          if scraper.is_fresh(day):rows.append({'title':title,'summary':summary,'url':entry.get('link',''),'date':day,'outlet':outlet,'country':country_for(entry.get('link',''),outlet) or 'Të tjera'})
+          if scraper.is_fresh(day):rows.append({'title':title,'summary':summary,'url':entry.get('link',''),'date':day,'outlet':outlet,'country':publisher_country(entry.get('link',''),outlet)})
         return rows
-      except Exception:return []
+      except Exception as error:feed_stats['failed_'+type(error).__name__]+=1;return []
     with ThreadPoolExecutor(max_workers=6) as pool:direct=[a for rows in pool.map(direct_feed,feeds) for a in rows]
     cached=[];cache_file=Path(__file__).parent.parent/'public/tone-article-cache.json'
     if cache_file.exists():
       cached=[a for a in json.loads(cache_file.read_text())['articles'].values() if 'news.google.com/' not in a.get('url','') and scraper.is_fresh(a.get('date',''))]
     original_links={scraper.normalize_title(a['title']):a['url'] for a in cached}
-    scraper.FEED_LOCALES['Bota']=('en-US','US')
-    scraper.FEEDS['Bota']=['https://news.google.com/rss/search?q=Kosovo+when%3A1d&hl=en-US&gl=US&ceid=US:en']
     # Independent direct-link discovery avoids Google's failing redirect RPC.
     worldwide=worldwide_candidates()
-    candidates=scraper.fetch_candidates()
+    # Google discovery returned thousands of stale redirects that were then
+    # discarded without decoding. Use independently accessible publisher links.
+    candidates={}
     for a in worldwide:candidates.setdefault(a['country'],[]).append(a)
-    for a in direct+cached:candidates.setdefault(country_for(a['url'],a['outlet']) or 'Të tjera',[]).insert(0,a)
+    for a in direct+cached:candidates.setdefault(publisher_country(a['url'],a['outlet']),[]).insert(0,a)
     rows=[];queues={k:list(v) for k,v in candidates.items() if v}
     while queues:
         for country in list(queues):
@@ -190,28 +221,33 @@ def discover(known):
     rejected=Counter()
     def extract(a):
         try:
+            if time.monotonic()>discovery_deadline:rejected['discovery_budget_deferred']+=1;return None
             resolved=original_links.get(scraper.normalize_title(a['title']),a['url'])
+            if hashlib.sha256(resolved.encode()).hexdigest() in known:return None
             resolved=scraper.resolve_google_news_url(resolved)
             if 'news.google.com/' in resolved:rejected['unresolved_google_link']+=1;return None
             if excluded_publisher(resolved):rejected['domestic_or_institution']+=1;return None
             source={**a,**fetch_source(resolved)}
+            if not scraper.is_fresh(source['date']):rejected['stale_publisher_date']+=1;return None
             if excluded_publisher(source['url']):rejected['domestic_or_institution']+=1;return None
             if not is_editorial(a['outlet'],source['url']) or not scraper.is_foreign_press(a['outlet'],source['url']) or is_local_placename(a['title'],' '.join(source['sourceParagraphs'])):return None
             source['id']=hashlib.sha256(source['url'].encode()).hexdigest()
             source['country']=publisher_country(source['url'],a['outlet'])
             return source
-        except Exception as error:rejected[type(error).__name__]+=1;return None
+        except Exception as error:
+            label=str(error)[:100] if isinstance(error,ValueError) else type(error).__name__
+            rejected[label]+=1;return None
     # Candidate limit bounds extraction cost; source ownership is decided only after resolving the publisher.
     direct_rows=[a for a in rows if 'news.google.com/' not in a['url']]
     google_rows=[a for a in rows if 'news.google.com/' in a['url'] and scraper.normalize_title(a['title']) in original_links]
-    extraction=balanced_sources(direct_rows+google_rows,800,country_cap=200,outlet_cap=60)
+    extraction=balanced_sources(direct_rows+google_rows,1600,country_cap=200,outlet_cap=60)
     with ThreadPoolExecutor(max_workers=8) as pool:
         for source in pool.map(extract,extraction):
             if not source or source['id'] in known or source['id'] in seen:continue
             seen.add(source['id']);available.append(source)
-    print(json.dumps({'sourceCandidates':len(rows),'extracted':len(available),'rejected':dict(rejected)}),file=sys.stderr)
+    print(json.dumps({'sourceCandidates':len(rows),'extracted':len(available),'nativeFeeds':dict(feed_stats),'countries':dict(Counter(a['country'] for a in available)),'rejected':dict(rejected)}),file=sys.stderr)
     # Round-robin countries so a busy locale cannot monopolize the daily publication.
-    return balanced_sources(available,300,country_cap=60,outlet_cap=20)
+    return balanced_sources(available,1200,country_cap=120,outlet_cap=40)
 
 def save_pending(packet,report,pending):
     temporary=pending.with_suffix('.tmp')
@@ -243,11 +279,12 @@ def publish_saved(packet,report,headers,pending):
     public=httpx.get(SITE+'/api/bota',timeout=30);public.raise_for_status()
     if public.json().get('outlets',{}).get('lastUpdated')!=packet['date']:raise RuntimeError('Public publication verification failed')
     inserted=set(report['publication']['articleIds'])
+    cards={a['id'] for c in public.json().get('outlets',{}).get('countries',{}).values() for o in c.get('outlets',[]) for a in o.get('articles',[])}
     # Verify stored readers even when a retry inserted zero rows. A lost
     # response must not turn into an unverified "success" on the next run.
     def verify(article):
         ident=hashlib.sha256(article['url'].encode()).hexdigest()
-        if inserted and ident not in inserted:return
+        if ident not in inserted and ident not in cards:return
         reader=httpx.get(SITE+'/bota-per-kosoven/artikull/'+ident,timeout=30);reader.raise_for_status()
         verify_reader_html(reader.text,{**article,'id':ident})
     with ThreadPoolExecutor(max_workers=8) as pool:list(pool.map(verify,packet['articles']))
@@ -258,7 +295,7 @@ def publish_saved(packet,report,headers,pending):
     pending.unlink(missing_ok=True)
     return report
 
-def run(dry_run=False,limit=300):
+def run(dry_run=False,limit=800):
     import httpx
     started=time.monotonic()
     date=datetime.now(ZoneInfo('Europe/Belgrade')).date().isoformat()
@@ -267,26 +304,36 @@ def run(dry_run=False,limit=300):
     headers={'Authorization':'Bearer '+secret()}
     context=httpx.get(SITE+'/api/automation/bota/daily',headers=headers,timeout=30);context.raise_for_status();context=context.json()
     if context.get('date')!=date:raise RuntimeError('Date protocol mismatch')
+    recovered=None
     if pending.exists() and not dry_run:
         saved=json.loads(pending.read_text())
         if saved['packet'].get('date')!=date or saved['packet'].get('model')!=MODEL or saved['packet'].get('reasoningEffort')!=EFFORT:raise RuntimeError('Invalid saved publication provenance')
-        return publish_saved(saved['packet'],saved['report'],headers,pending)
+        recovered=publish_saved(saved['packet'],saved['report'],headers,pending)
+        context=httpx.get(SITE+'/api/automation/bota/daily',headers=headers,timeout=30);context.raise_for_status();context=context.json()
     if context.get('alreadyPublished') and not dry_run:
         public=httpx.get(SITE+'/api/bota',timeout=30);public.raise_for_status()
         if public.json().get('outlets',{}).get('lastUpdated')!=date:raise RuntimeError('Published day failed public verification')
-        return {'status':'ok','result':'already_published','date':date,'model':MODEL,'reasoningEffort':EFFORT}
+        return recovered or {'status':'ok','result':'already_published','date':date,'model':MODEL,'reasoningEffort':EFFORT}
     runtime=resolve_runtime();sources=discover(set(context.get('knownIds',[])));articles=[];receipts=[];failed=0;processed=0
-    target=min(100,max(0,100-context.get('dailyCount',0))) if not dry_run else min(100,limit)
+    maximum=min(DAILY_TARGET,context.get('dailyMaximum',DAILY_TARGET))
+    target=max(0,maximum-context.get('dailyCount',0)) if not dry_run else min(DAILY_TARGET,limit)
+    country_counts=Counter(context.get('countryCounts',{}) if not dry_run else {})
+    outlet_counts=Counter({tuple(json.loads(k)):v for k,v in context.get('outletCounts',{}).items()} if not dry_run else {})
+    country_cap=context.get('countryMaximum',COUNTRY_CAP);outlet_cap=context.get('outletMaximum',OUTLET_CAP)
     report={'date':date,'model':MODEL,'reasoningEffort':EFFORT,'articleCount':0,'failed':0,'responses':receipts}
     packet={'date':date,'model':MODEL,'reasoningEffort':EFFORT,'articles':articles}
     # Four independent HTTP streams, not four agents. Admit/persist responses
     # serially, and never start more work than the remaining daily capacity.
-    candidates=iter(sources[:limit]);inflight={};exhausted=False
+    candidates=list(sources[:limit]);inflight={};exhausted=False
     with ThreadPoolExecutor(max_workers=4) as pool:
       while True:
         while not exhausted and len(inflight)<min(4,target-len(articles)) and time.monotonic()-started<EDITORIAL_BUDGET_SECONDS:
-            source=next(candidates,None)
-            if source is None:exhausted=True;break
+            source=next_balanced_source(candidates,country_counts,outlet_counts,inflight.values(),country_cap,outlet_cap)
+            if source is None:
+                # Reservations may disappear when a current request fails.
+                # Only stop permanently when no requests remain to release one.
+                exhausted=not inflight
+                break
             inflight[pool.submit(editorial,runtime,source)]=source;processed+=1
         if not inflight:break
         completed,_=wait(inflight,return_when=FIRST_COMPLETED)
@@ -298,14 +345,21 @@ def run(dry_run=False,limit=300):
             article={**{k:source[k] for k in ['url','title','outlet','country','date','sourceHash','imageUrl']},**result,**receipt,'complete':True}
             validate_publishable(article,date)
             articles.append(article);receipts.append(receipt)
+            country_counts[source['country']]+=1;outlet_counts[(source['country'],source['outlet'])]+=1
             report.update(articleCount=len(articles),failed=failed,deferred=len(sources[:limit])-processed)
             if not dry_run:save_pending(packet,report,pending)
             print(json.dumps({'stage':'translation','verified':len(articles),'target':target,'country':source['country']}),file=sys.stderr,flush=True)
           except Exception as error:
             failed+=1
             print(json.dumps({'article':source['id'],'status':'rejected','reason':type(error).__name__,'detail':str(error)[:180] if isinstance(error,ValueError) else 'Request failed'}),file=sys.stderr,flush=True)
-    if not articles:raise RuntimeError('No fully translated verified articles; previous publication preserved')
-    report.update(articleCount=len(articles),failed=failed,deferred=len(sources[:limit])-processed)
+    if not articles:
+        if recovered:return recovered
+        if failed:raise RuntimeError('New translations failed; saved and existing publications preserved')
+        if not dry_run and context.get('dailyCount',0)>0:
+            return {'status':'ok','result':'already_published','date':date,'model':MODEL,'reasoningEffort':EFFORT,'newArticles':0,'failed':failed,'targetReached':False}
+        if not sources and not dry_run:return {'status':'skipped','result':'no_new_articles','date':date,'reason':'No new eligible sources; existing index preserved'}
+        raise RuntimeError('No fully translated verified articles; previous publication preserved')
+    report.update(articleCount=len(articles),failed=failed,deferred=len(sources[:limit])-processed,freshAfterRecovery=recovered is not None)
     if not dry_run:
         save_pending(packet,report,pending)
         return publish_saved(packet,report,headers,pending)
@@ -315,9 +369,9 @@ def run(dry_run=False,limit=300):
     return report
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--dry-run',action='store_true');parser.add_argument('--limit',type=int,default=300);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--dry-run',action='store_true');parser.add_argument('--limit',type=int,default=800);args=parser.parse_args()
     try:
-        report=run(args.dry_run,max(1,min(args.limit,300)))
+        report=run(args.dry_run,max(1,min(args.limit,1200)))
         print(json.dumps({k:v for k,v in report.items() if k!='responses'},ensure_ascii=False))
     except Exception as error:
         print(json.dumps({'status':'failed','reason':type(error).__name__,'message':'Discovery, GPT verification or publishing failed; no substitution.'}),file=sys.stderr);sys.exit(1)

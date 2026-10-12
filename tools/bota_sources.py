@@ -3,6 +3,9 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from urllib.parse import urlparse, parse_qs
 import re
+import sys
+from collections import Counter
+from bota_catalog import PUBLISHER_DOMAINS
 
 COUNTRIES = {
  'rs':'Serbi','ba':'Bosnjë dhe Hercegovinë','me':'Mali i Zi','mk':'Maqedoni e Veriut',
@@ -40,9 +43,11 @@ TERMS = ['Kosovo','Kosova','Косово','Κόσοβο','コソボ','科索沃'
 
 def publisher_country(url, outlet=''):
     from tone_sources import country_for
+    host=(urlparse(url).hostname or '').lower()
+    for domain,country in sorted(PUBLISHER_DOMAINS.items(),key=lambda item:-len(item[0])):
+        if host==domain or host.endswith('.'+domain):return country
     known=country_for(url,outlet)
     if known:return known
-    host=(urlparse(url).hostname or '').lower()
     # MSN and other aggregators are not attributed to the search market.
     for domain,country in sorted(OWNERS.items(),key=lambda item:-len(item[0])):
         if host==domain or host.endswith('.'+domain):return country
@@ -61,28 +66,38 @@ def worldwide_candidates():
     from tone_scraper import is_fresh
     # Seven-day reporting window is validated again before publication. Search
     # results sometimes ignore freshness; RSS timestamps are mandatory.
-    queries=[(market,term) for market in MARKETS for term in ('Kosovo','Kosova')]
-    queries += [('en-US',term) for term in TERMS[2:]]
+    queries=[(market,term,None) for market in MARKETS for term in ('Kosovo','Kosova')]
+    queries += [('en-US',term,None) for term in TERMS[2:]]
+    # Market changes often return the SAME international wires. Domain queries
+    # actually reach additional newsrooms and minority-language reporting.
+    queries += [('en-US','(Kosovo OR Kosova OR Косово OR كوسوفو) site:'+domain,domain) for domain in PUBLISHER_DOMAINS]
+    stats=Counter()
     def search(query):
-        market,term=query
+        market,term,domain=query
         try:
             response=requests.get('https://www.bing.com/news/search',params={
                 'q':term,'format':'rss','setmkt':market,'freshness':'Week'},timeout=15)
             response.raise_for_status()
             if len(response.content)>3_000_000:return []
             rows=[]
-            for entry in feedparser.parse(response.content).entries:
+            entries=feedparser.parse(response.content).entries
+            stats['feeds_ok']+=1;stats['entries']+=len(entries)
+            for entry in entries:
                 published=entry.get('published_parsed');url=bing_original_url(entry.get('link',''))
                 if not published or not url:continue
+                host=(urlparse(url).hostname or '').lower()
+                if domain and not (host==domain or host.endswith('.'+domain)):continue
                 day=datetime(*published[:6]).date().isoformat()
                 if not is_fresh(day):continue
                 outlet=entry.get('news_source') or urlparse(url).hostname
                 rows.append({'title':entry.get('title',''),'summary':entry.get('summary',''),
                              'url':url,'date':day,'outlet':outlet,'country':publisher_country(url,outlet)})
             return rows
-        except Exception:return []
+        except Exception as error:stats['failed_'+type(error).__name__]+=1;return []
     with ThreadPoolExecutor(max_workers=8) as pool:
-        return [row for rows in pool.map(search,queries) for row in rows]
+        rows=[row for rows in pool.map(search,queries) for row in rows]
+    print({'stage':'bing_discovery','queries':len(queries),'freshCandidates':len(rows),**stats},file=sys.stderr)
+    return rows
 
 def balanced_sources(rows, limit, country_cap=25, outlet_cap=8):
     """Round-robin actual publisher countries; bound one country's/outlet's share."""

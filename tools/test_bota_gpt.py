@@ -6,6 +6,13 @@ from unittest.mock import patch
 import bota_gpt as b
 
 class BotaTests(unittest.TestCase):
+ def test_publication_date_overrides_recycled_search_dates(self):
+  from bs4 import BeautifulSoup
+  html='<script type="application/ld+json">{"@graph":[{"@type":"NewsArticle","datePublished":"2025-04-01T10:00:00Z","dateModified":"2026-10-12T10:00:00Z"}]}</script>'
+  self.assertEqual(b.publisher_date(BeautifulSoup(html,'html.parser')),'2025-04-01')
+  html='<meta property="article:published_time" content="2026-10-12T10:00:00Z">'
+  self.assertEqual(b.publisher_date(BeautifulSoup(html,'html.parser')),'2026-10-12')
+  self.assertIsNone(b.publisher_date(BeautifulSoup('<meta property="article:modified_time" content="2026-10-12">','html.parser')))
  def fixture(self):
   text=('This is original test material written for testing Kosovo reporting with 25 verified facts. ')*12
   source={'title':'Kosovo','sourceParagraphs':[text,text]}
@@ -36,7 +43,7 @@ class BotaTests(unittest.TestCase):
    def __init__(self,data):self.data=data
    def raise_for_status(self):pass
    def json(self):return self.data
-  def get(url,**kwargs):return Response({'date':day,'alreadyPublished':False} if '/automation/' in url else {'outlets':{'lastUpdated':day}})
+  def get(url,**kwargs):return Response({'date':day,'alreadyPublished':post.call_count>=2} if '/automation/' in url else {'outlets':{'lastUpdated':day}})
   from unittest.mock import Mock
   post=Mock(side_effect=[RuntimeError('Temporary publishing failure'),Response({'articleIds':[ident]})])
   with tempfile.TemporaryDirectory() as folder,patch.object(b,'RUN_STATE',Path(folder)),patch.object(b,'secret',return_value='test-secret'),patch.object(b,'resolve_runtime',side_effect=AssertionError('GPT must not be called')),patch.dict(sys.modules,{'httpx':SimpleNamespace(get=get,post=post)}):
@@ -57,10 +64,31 @@ class BotaTests(unittest.TestCase):
   sources=[dict(id=str(i),url=f'https://example.org/{i}',title='Kosovo',outlet='Example',country='Britani',date=day,sourceHash='a'*64,imageUrl=None) for i in range(20)]
   class Response:
    def raise_for_status(self):pass
-   def json(self):return {'date':day,'dailyCount':97,'alreadyPublished':False,'knownIds':[]}
+   def json(self):return {'date':day,'dailyCount':397,'dailyMaximum':400,'alreadyPublished':False,'knownIds':[]}
   from unittest.mock import Mock
   editor=Mock(return_value=({'sentiment':'neutral'}, {'actualModel':b.MODEL,'actualReasoningEffort':b.EFFORT}))
   saved=Mock();publish=Mock(side_effect=lambda packet,report,*args:report)
   with tempfile.TemporaryDirectory() as folder,patch.object(b,'RUN_STATE',Path(folder)),patch.object(b,'secret',return_value='test'),patch.object(b,'resolve_runtime',return_value={}),patch.object(b,'discover',return_value=sources),patch.object(b,'editorial',editor),patch.object(b,'validate_publishable'),patch.object(b,'save_pending',saved),patch.object(b,'publish_saved',publish),patch.dict(sys.modules,{'httpx':SimpleNamespace(get=lambda *a,**k:Response())}):
    report=b.run();self.assertEqual(report['articleCount'],3);self.assertEqual(editor.call_count,3);self.assertEqual(saved.call_count,4);self.assertEqual(report['deferred'],17)
+ def test_balance_uses_daily_history_and_reserves_inflight_country_slots(self):
+  from collections import Counter
+  sources=[{'country':'A','outlet':'A1'},{'country':'B','outlet':'B1'},{'country':'B','outlet':'B2'}]
+  countries=Counter({'A':39,'B':1});outlets=Counter()
+  self.assertEqual(b.next_balanced_source(sources,countries,outlets,[],40,12)['country'],'B')
+  chosen=b.next_balanced_source(sources,countries,outlets,[{'country':'A','outlet':'A1'}],40,12)
+  self.assertEqual(chosen['country'],'B')
+  self.assertIsNone(b.next_balanced_source(sources,countries,outlets,[{'country':'A','outlet':'A1'}],40,12))
+ def test_recovered_pending_batch_does_not_consume_entire_topup_run(self):
+  day=b.datetime.now(b.ZoneInfo('Europe/Belgrade')).date().isoformat()
+  from unittest.mock import Mock
+  class Response:
+   def raise_for_status(self):pass
+   def json(self):return {'date':day,'dailyCount':1,'alreadyPublished':False,'knownIds':['old']}
+  source=dict(id='new',url='https://example.org/new',title='Kosovo',outlet='Example',country='Britani',date=day,sourceHash='a'*64,imageUrl=None)
+  saved={'packet':{'date':day,'model':b.MODEL,'reasoningEffort':b.EFFORT,'articles':[]},'report':{}}
+  editor=Mock(return_value=({'sentiment':'neutral'},{'actualModel':b.MODEL,'actualReasoningEffort':b.EFFORT}))
+  publish=Mock(side_effect=lambda packet,report,*args:report)
+  with tempfile.TemporaryDirectory() as folder,patch.object(b,'RUN_STATE',Path(folder)),patch.object(b,'secret',return_value='test'),patch.object(b,'resolve_runtime',return_value={}),patch.object(b,'discover',return_value=[source]),patch.object(b,'editorial',editor),patch.object(b,'validate_publishable'),patch.object(b,'publish_saved',publish),patch.dict(sys.modules,{'httpx':SimpleNamespace(get=lambda *a,**k:Response())}):
+   Path(folder,day+'-pending.json').write_text(json.dumps(saved))
+   report=b.run();self.assertEqual(publish.call_count,2);self.assertEqual(editor.call_count,1);self.assertTrue(report['freshAfterRecovery'])
 if __name__=='__main__':unittest.main()

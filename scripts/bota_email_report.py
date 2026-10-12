@@ -54,8 +54,9 @@ def render_report(outcome, started, finished):
         if result not in labels or outcome.get('public',{}).get('http')!=200:raise ValueError('Success email requires public verification')
         label=labels[result]
         if result=='published_verified' and outcome.get('publication',{}).get('published') is not True:label='SUCCESS — saved batch and readers verified after retry'
-        if result!='dry_run_no_publication' and outcome['public']['articleCount']<50:label='SHORTFALL — verified publication; daily minimum of 50 not reached'
+        if result!='dry_run_no_publication' and outcome['public']['articleCount']<400:label='SHORTFALL — verified publication; daily target of 400 not reached'
     elif status=='skipped' and result=='already_running':label=labels[result]
+    elif status=='skipped' and result=='no_new_articles':label='NO NEW ARTICLES — previous publication preserved'
     else:label='FAILED — pipeline or public verification did not complete'
     rows=[('Date',outcome['date']),('Result',label),('Started (Europe/Warsaw)',started),('Finished (Europe/Warsaw)',finished),('Model setting','Hermes / OpenAI Codex subscription / GPT-6 Luna / xhigh')]
     if status=='ok':
@@ -63,7 +64,7 @@ def render_report(outcome, started, finished):
         fresh='0 — already published; no GPT call needed' if result=='already_published' else '0 — reused the saved translation packet' if outcome.get('reusedSavedPacket') else str(outcome.get('articleCount',0))
         changed='No — test only' if result=='dry_run_no_publication' else 'Yes' if outcome.get('publication',{}).get('published') is True else 'No — preserved existing batch'
         rows += [('Published articles today',str(public['articleCount'])),('Verified Albanian readers',str(public['readerCount'])),('Fresh verified GPT translations in this run',fresh),('Rejected candidates',str(outcome.get('failed',0))),('Deferred candidates',str(outcome.get('deferred',0))),('Publication changed',changed),('Live feature',SITE+'/bota-per-kosoven')]
-        rows += [('Daily target','50–100 unique articles'),('Countries represented',str(public.get('countryCount',0))),('Articles by country',', '.join(c+': '+str(n) for c,n in sorted(public.get('countries',{}).items()))),('Shortfall below 50',str(max(0,50-public['articleCount'])))]
+        rows += [('Daily target','400 unique articles; maximum 40/country and 12/outlet'),('Countries represented',str(public.get('countryCount',0))),('Articles by country',', '.join(c+': '+str(n) for c,n in sorted(public.get('countries',{}).items()))),('Shortfall below 400',str(max(0,400-public['articleCount'])))]
         rows += [('Reader',url) for url in public['readerUrls']]
     else:rows += [('Failure type',outcome.get('reason','WorkflowError')),('Details','See the protected Hermes run log. No success is claimed by this email.')]
     subject='383 Bota | '+outcome['date']+' | '+label
