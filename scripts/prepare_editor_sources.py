@@ -287,7 +287,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
              f"Verified source-ready pair inventory: {len(ready)}",
              "Publication plan (aim for these category counts): " + json.dumps(plan, ensure_ascii=False),
              "Target is 20 distinct new articles. Cover EVERY available category before adding extras to a busy desk.",
-             "Use verified facts in original prose. Never name a publisher in public copy; skip stories that rest on another outlet's exclusive, interview or unconfirmed claim; preserve internal evidence URLs.",
+             "Use verified facts in original prose. Never name a publisher in public copy; skip stories that rest on another outlet's exclusive, interview or unconfirmed claim; never follow the source's order of facts or its headline framing, and never add claims (even 'no deadline was given') the evidence does not state; preserve internal evidence URLs.",
              "Photos below are contextual rights-cleared archive photographs, independently checked against source images. Each story shows only image_subject and image_caption; leave the image fields out of your drafts, the pipeline restores the full prepared photo record by source URL. Never portray them as photos of today's event. The writer and editor must confirm that the photo subject fits the specific story, not just its category.", ""]
     lines += ["# Per-story editorial ranking",
               "Read docs/news-ranking-rubric.md. Assign each score_breakdown factor individually from the fetched evidence and explain the stakes in score_reason. Never copy an all-5 baseline. The normalizer computes the weighted total; do not calculate weights or inspect scoring scripts.", ""]

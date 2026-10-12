@@ -49,6 +49,25 @@ class CopyrightReviewTests(unittest.TestCase):
                 reviewed_snapshot=snapshot)
         self.assertFalse(self.batch.with_suffix(".copyright-review.json").exists())
 
+    def test_refill_rounds_share_one_receipt_and_skip_articles_already_approved(self):
+        shared = Path(self.folder.name) / "full.copyright-review.json"
+        with patch.dict(review.os.environ, {"L383_REVIEW_RECEIPT": str(shared)}):
+            self.save([decision(self.article)])
+            self.assertIn(self.article["slug"], json.loads(shared.read_text())["articles"])
+            # The same article in a later round costs no model call.
+            with patch.object(review.subprocess, "run") as model:
+                self.assertEqual(review.review(self.batch), 0)
+            model.assert_not_called()
+            # A new round's article is reviewed alone; the earlier approval stays.
+            second = {**self.article, "slug": "kosove-second-story", "url": "https://koha.net/second"}
+            self.batch.write_text(json.dumps([second]), encoding="utf-8")
+            self.evidence.write_text(json.dumps([{**self.record, "slug": second["slug"], "source_url": second["url"]}]), encoding="utf-8")
+            prior, when = review.prior_approvals(self.batch, [second], review.evidence_records(self.evidence))
+            self.assertEqual(prior, {})
+            review.save_review(self.batch, self.evidence, "383_REVIEW_BEGIN" + json.dumps([decision(second)]) + "383_REVIEW_END",
+                               prior=prior, prior_reviewed_at=json.loads(shared.read_text())["reviewed_at"])
+            self.assertEqual(set(json.loads(shared.read_text())["articles"]), {self.article["slug"], second["slug"]})
+
     def test_empty_candidates_finish_without_model_call(self):
         self.batch.write_text("[]", encoding="utf-8")
         with patch.object(review.subprocess, "run") as model:

@@ -97,6 +97,8 @@ reject sensitive single-source claims even when discovery missed them.
 
 Draft a fact outline first, then build a new lead, ordering and explanation for 383 readers. Use plain Albanian, short sentences and verified context; do not add unsupported background to appear original. Do not closely translate or lightly rearrange a source article. Use sources as evidence, not as copy. Never copy sentences from source articles. Develop a new article from a verified fact outline; a close paraphrase or short excerpt plus a link does not qualify as independent composition. Drop a story that cannot meet this standard rather than padding the batch.
 
+The independent reviewer rejects, and so must the writer avoid: (1) following the source's order of facts, even in new words — pick 383's own angle (what changed, why it matters here, the newest verified fact) and regroup the facts under it; (2) a headline that translates or keeps the source headline's framing — name the subject and the verified action in a different construction; (3) any claim the evidence does not state, including negative ones such as "no deadline was given" or "no details were announced"; (4) anecdotes, scene-setting or quotes lifted from one outlet's own reporting. Prefer a shorter article in 383's structure over a longer one in the source's.
+
 ## Ranking metadata
 
 Use 0–10 values for every score_breakdown key: relevance, urgency, public_impact, local_depth, controversy_interest, credibility, corroboration, editorial_safety. The normalizer calculates the weighted score. Incomplete ranking metadata receives an explicitly labelled neutral baseline for legacy drafts; hourly publication rejects that fallback until the editor supplies individual ratings.

@@ -43,7 +43,33 @@ def approved(decision: dict) -> bool:
             and len(str(decision.get("reason") or "").strip()) >= 40)
 
 
-def save_review(batch: Path, evidence: Path, output: str, *, reviewed_snapshot: str | None = None) -> int:
+def receipt_path(batch: Path) -> Path:
+    # Refill rounds review their own temporary batch; L383_REVIEW_RECEIPT keeps
+    # every round's approvals in the one receipt the published batch is checked against.
+    override = os.environ.get("L383_REVIEW_RECEIPT")
+    return Path(override) if override else batch.with_suffix(".copyright-review.json")
+
+
+def prior_approvals(batch: Path, articles: list[dict], records: dict[str, dict]) -> tuple[dict, str | None]:
+    """Approvals from earlier rounds this hour that still match the article and evidence."""
+    try:
+        receipt = json.loads(receipt_path(batch).read_text(encoding="utf-8"))
+        age = (datetime.now(timezone.utc) - datetime.fromisoformat(receipt["reviewed_at"])).total_seconds()
+        if receipt.get("policy") != POLICY or not 0 <= age <= 3600:
+            return {}, None
+    except (OSError, ValueError, KeyError, TypeError):
+        return {}, None
+    found = {}
+    for article in articles:
+        proof = receipt.get("articles", {}).get(article["slug"], {})
+        if (proof.get("article_sha256") == article_digest(article) and article["slug"] in records
+                and proof.get("evidence_sha256") == digest(records[article["slug"]]) and approved(proof.get("decision", {}))):
+            found[article["slug"]] = proof
+    return found, receipt["reviewed_at"]
+
+
+def save_review(batch: Path, evidence: Path, output: str, *, reviewed_snapshot: str | None = None,
+                prior: dict | None = None, prior_reviewed_at: str | None = None) -> int:
     start = output.rfind("383_REVIEW_BEGIN")
     end = output.find("383_REVIEW_END", start + 16)
     if start < 0 or end < 0:
@@ -51,15 +77,21 @@ def save_review(batch: Path, evidence: Path, output: str, *, reviewed_snapshot: 
     decisions = json.loads(output[start + len("383_REVIEW_BEGIN"):end])
     articles = json.loads(batch.read_text(encoding="utf-8"))
     records = evidence_records(evidence)
-    if reviewed_snapshot is not None and reviewed_snapshot != snapshot_digest(articles, records):
+    prior = prior or {}
+    todo = [article for article in articles if article["slug"] not in prior]
+    if reviewed_snapshot is not None and reviewed_snapshot != snapshot_digest(todo, records):
         raise ValueError("article or evidence changed during independent review; publication blocked")
     if not isinstance(decisions, list) or any(not isinstance(row, dict) for row in decisions):
         raise ValueError("review must return an array")
     by_slug = {row.get("slug"): row for row in decisions}
-    if len(by_slug) != len(decisions) or set(by_slug) != {row["slug"] for row in articles}:
+    if len(by_slug) != len(decisions) or set(by_slug) != {row["slug"] for row in todo}:
         raise ValueError("review omitted, duplicated or added an article")
     kept, attestations = [], {}
     for article in articles:
+        if article["slug"] in prior:
+            kept.append(article)
+            attestations[article["slug"]] = prior[article["slug"]]
+            continue
         decision = by_slug[article["slug"]]
         if decision.get("url") != article["url"] or decision.get("verdict") not in {"approve", "reject"}:
             raise ValueError("review identity or verdict invalid")
@@ -72,13 +104,21 @@ def save_review(batch: Path, evidence: Path, output: str, *, reviewed_snapshot: 
         kept.append(article)
         attestations[article["slug"]] = {"article_sha256": article_digest(article),
                                        "evidence_sha256": digest(record), "decision": decision}
+    # Keep every approval already in the shared receipt (other rounds' articles
+    # are not in this batch) and date it from the earliest review, so the
+    # one-hour freshness limit is never stretched.
+    try:
+        existing = json.loads(receipt_path(batch).read_text(encoding="utf-8")).get("articles", {}) if prior_reviewed_at else {}
+    except (OSError, ValueError):
+        existing = {}
     receipt = {"policy": POLICY, "model": "gpt-6-luna", "provider": "openai-codex",
-               "reviewed_at": datetime.now(timezone.utc).isoformat(), "articles": attestations}
-    batch.with_suffix(".copyright-review.json").write_text(json.dumps(receipt, ensure_ascii=False, indent=2), encoding="utf-8")
+               "reviewed_at": prior_reviewed_at or datetime.now(timezone.utc).isoformat(),
+               "articles": {**existing, **attestations}}
+    receipt_path(batch).write_text(json.dumps(receipt, ensure_ascii=False, indent=2), encoding="utf-8")
     temporary = batch.with_suffix(".copyright-approved.tmp")
     temporary.write_text(json.dumps(kept, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     os.replace(temporary, batch)
-    print(f"383 COPYRIGHT REVIEW approved={len(kept)} rejected={len(articles) - len(kept)}")
+    print(f"383 COPYRIGHT REVIEW approved={len(kept)} rejected={len(articles) - len(kept)} already_approved={len(prior)}")
     return len(kept)
 
 
@@ -88,7 +128,7 @@ def snapshot_digest(articles: list[dict], records: dict[str, dict]) -> str:
 
 
 def verify_review(batch: Path, articles: list[dict], records: dict[str, dict]) -> None:
-    receipt = json.loads(batch.with_suffix(".copyright-review.json").read_text(encoding="utf-8"))
+    receipt = json.loads(receipt_path(batch).read_text(encoding="utf-8"))
     age = (datetime.now(timezone.utc) - datetime.fromisoformat(receipt["reviewed_at"])).total_seconds()
     if (receipt.get("policy") != POLICY or receipt.get("model") != "gpt-6-luna"
             or receipt.get("provider") != "openai-codex" or not 0 <= age <= 3600):
@@ -130,11 +170,16 @@ def review(batch: Path) -> int:
     if not articles:
         print("383 COPYRIGHT REVIEW no remaining candidates")
         return 0
-    reviewed_snapshot = snapshot_digest(articles, records)
+    prior, prior_reviewed_at = prior_approvals(batch, articles, records)
+    todo = [article for article in articles if article["slug"] not in prior]
+    if not todo:
+        print(f"383 COPYRIGHT REVIEW all {len(articles)} already approved this hour")
+        return 0
+    reviewed_snapshot = snapshot_digest(todo, records)
     review_input = batch.with_suffix(".copyright-input.json")
     review_input.write_text(json.dumps([
         {"article": {key: article.get(key) for key in FIELDS}, "sources": records[article["slug"]]}
-        for article in articles
+        for article in todo
     ], ensure_ascii=False, indent=2), encoding="utf-8")
     prompt = (
         f"You are an independent originality reviewer, not the writer or copy editor. Read {review_input.resolve()} "
@@ -163,7 +208,8 @@ def review(batch: Path) -> int:
         stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding="utf-8", timeout=360)
     if result.returncode:
         raise ValueError("independent originality reviewer failed; publication blocked")
-    save_review(batch, evidence, result.stdout, reviewed_snapshot=reviewed_snapshot)
+    save_review(batch, evidence, result.stdout, reviewed_snapshot=reviewed_snapshot,
+                prior=prior, prior_reviewed_at=prior_reviewed_at)
     return 0
 
 

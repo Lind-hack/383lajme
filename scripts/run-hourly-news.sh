@@ -37,6 +37,9 @@ else
   BATCH="$PWD/data/auto-articles/${STAMP}.json"
 fi
 mkdir -p "$(dirname "$BATCH")"
+# One originality receipt for the hour: refill rounds review their own temporary
+# batches, and the published batch is verified against every round's approvals.
+export L383_REVIEW_RECEIPT="${BATCH%.json}.copyright-review.json"
 LOCK_FILE=/tmp/383-production.lock
 START_EPOCH="$(date +%s)"
 stage="initialization"
@@ -389,6 +392,12 @@ stage="structural-isolation"
 if ! "$PYTHON_BIN" scripts/isolate_valid_news_candidates.py --file "$BATCH"; then
   printf "383 REFILL NEEDED: no individually valid article remains after structural checks\n"
 fi
+
+# Review each round as it passes the gates, so the refill loop replaces what
+# the independent reviewer rejects instead of the whole hour failing at the end.
+stage="independent-originality-review-round"
+"$PYTHON_BIN" scripts/news_copyright_review.py --file "$BATCH" ||
+  printf '383 ROUND REVIEW unavailable; the final review will decide these articles\n'
 
 }
 
