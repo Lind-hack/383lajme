@@ -275,7 +275,7 @@ Scope: `/per-ty` and the shared copy `/gazeta/<code>`. Styles in `app/per-ty/pap
 
 **North Star: Apple News, read like TikTok.** The reader's own paper is a stack of full screens swiped up one at a time. Each screen is set like an Apple News story: the photo edge to edge, a large white headline over a dark fade, one spot-colour tag saying why the story is here. On a phone the reel fills the space between the site's bar and the tab bar. On a wide screen it fills the left of the page, with the whole paper listed on the right (Apple News sidebar) — tap any line to jump there.
 
-Order: cover (the paper's name over the lead's photo, how much is in it, "Fillo leximin ↓"; the top three headlines only on a wide screen — a phone's cover stays simple) → "Shkurt, për sot": each box the reader keeps on (Dardani's thirty seconds, town, numbers, Tregu) is a screen of its own, the box on a white card over the paper's colour with a soft wave, swiped like a story with its own progress bars — never a panel scrolling inside the reel → today's edition, one story a screen → for each follow, its own full-colour screen ("Qyteti yt · Prishtinë · 4 lajme") then its stories → "Kaq për sot".
+Order: cover (the paper's name over the lead's photo, how much is in it, "Fillo leximin ↓"; the top three headlines only on a wide screen — a phone's cover stays simple) → "Shkurt, për sot" — one screen, "Sot në 30 sekonda": a line for every story in the edition (Dardani's, or the story's own first sentence until he has written it, so it never says more than the stories), each a tap from its story, numbered in its section's colour, ticked once read, with a read counter; one line a story on short phones so the whole day always fits. The town, the numbers and Tregu sit on the end screen → today's edition, one story a screen → for each follow, its own full-colour screen ("Qyteti yt · Prishtinë · 4 lajme") then its stories → "Kaq për sot".
 
 ## Five kinds of paper
 
@@ -293,18 +293,19 @@ Labels, buttons and text over photos are Manrope. The end screen is light (`#f7f
 
 **Section colours.** Every story wears its section's colour from `lib/category-colors` (Kosovë blue, Sport cyan, Ekonomi green, Botë amber with dark ink, Kulturë rose…) on its reason tag, pressed buttons and reaction bars; a category follow's screen is painted in it too. Cities, people and anything without a section colour keep the paper's spot colour.
 
-**Sizes on a phone.** Headline `clamp(24px, 6.5vw, 31px)`, lines 14.5px, meta 12px, cover name `clamp(42px, 12.5vw, 64px)`. Six buttons down the side at 44px.
+**Sizes on a phone.** Headline `clamp(24px, 6.5vw, 31px)`, lines 14.5px, meta 12px, cover name `clamp(42px, 12.5vw, 64px)`. Five buttons down the side at 44px; under 640px of height their words go, the spacing stays.
 
 ## Components
 
 - **Over every screen:** Stories-style bars (one per story in the current group; a single progress line elsewhere), the paper's name and the group, and on a phone the tools (Ndaje, Rregullo, ?).
-- **Story:** the reason tag (tap → "Pse e sheh këtë?" sheet with "Më shumë si kjo / Më pak"), headline, three lines (one to five, following how long the reader stays on stories), "Lexo lajmin", category and time. Down the right side, TikTok-style: 👍 Më shumë, 👎 Më pak, Reago, 💬 comments with the count, Ndaje (this story), Pse?. A story with no photo is set on its spot colour.
+- **Story:** the reason tag (tap → "Pse e sheh këtë?" sheet with "Më shumë si kjo / Më pak"), headline, three lines (one to five, following how long the reader stays on stories), "Lexo lajmin", category and time. Down the right side, TikTok-style: 👍 Më shumë, 👎 Më pak, Reago, 💬 comments with the count, Ndaje (this story) — five, never more; "Pse?" is the reason tag itself. On a wide screen ↑ ↓ sit at the right end of the "Më pas" strip, never among these buttons. A story with no photo is set on its spot colour.
 - **Sheets** (Rregullo gazetën, Si funksionon, Ndaje): white, solid, with an orange `#ff4422` head that ends in a wave; the title in white. "Si funksionon" is one card per step, each with an orange emoji tile.
 - **Follow screen:** the follow's name huge on its colour over a blurred photo, why it is in the paper, how many stories, Më shumë / Më pak / Të gjitha.
 - **Sidebar (wide screens):** name, date and count, the tools, then every screen with thumbnails; the one on view is black.
 
 ## Living screens and reactions
 
+- **Cover:** always a full-bleed photo; from the second day in a row, "🔥 N ditë rresht — mos e prish sot".
 - **Photos:** the news photo always leads; the clay illustration (labelled "Ilustrim me AI") only stands in when a story has no photo or its photo fails to load. Photos load at quality 90 and sit high in frame (`object-position: center 30%`). A wide photo on a tall screen is shown whole and sharp above the headline, over a blurred copy of itself (TikTok's landscape picture), instead of being cropped to a sliver and blown up.
 - **Motion:** the photo on view drifts slowly (16 s, at most 8% larger, alternating direction); the headline rises in word by word as the screen arrives, the reason tag pops in, the rest follows. Reduced motion: still.
 - **Bursts in the middle of the screen:** 👍 sends a big ❤️ with a ring of small hearts flying out; 👎 drops a 👎 that shakes its head and sinks; picking a reaction bursts that emoji the same way. The paper re-ranks only after the pop, so the tap answers at once. Reduced motion: no bursts, the toast says it.
