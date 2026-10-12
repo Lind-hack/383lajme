@@ -159,10 +159,10 @@ class NewsPhotoTests(unittest.TestCase):
     def test_story_names_skip_sentence_openers_and_rank_by_mentions(self):
         names = policy.story_names("Failure to fit tags left offenders unmonitored in England",
                                    "Kelly Osbourne spoke. The Ministry said Kelly Osbourne was right, as Kelly Osbourne knew. Footage shows England.")
-        self.assertEqual(names[0], "Kelly Osbourne")
-        self.assertNotIn("Failure", names)
-        self.assertNotIn("Footage", names)
-        self.assertIn("England", names)
+        self.assertEqual(names, ["England", "Kelly Osbourne"])  # the headline's subject first
+        swift = policy.story_names("Taylor Swift Spends Her 100th Week at No. 1",
+                                   "Taylor Swift broke a record held by The Beatles. The Beatles had 99 weeks. Kelly said.")
+        self.assertEqual(swift[0], "Taylor Swift")
 
     def test_wikipedia_plan_needs_the_page_named_in_the_story_and_a_free_lead_photo(self):
         def wiki(url, params, **_):

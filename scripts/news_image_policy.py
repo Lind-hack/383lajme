@@ -111,8 +111,20 @@ def story_names(title: str, text: str) -> list[str]:
             counts[name] = counts.get(name, 0) + 1
             if match.start() > 0:
                 named_midsentence.add(name)
-    names = [name for name in counts if " " in name or name in named_midsentence]
-    return sorted(names, key=lambda name: -counts[name])[:3]
+    # A lone capitalised word must recur, or it is more likely an ordinary word.
+    names = [name for name in counts if " " in name or (name in named_midsentence and counts[name] >= 2)]
+    # The headline says who the story is about: names it shares with the text
+    # lead, then the rest by mentions. A lone word inside a longer chosen name
+    # ('Kelly' in 'Kelly Osbourne') is dropped so it cannot find a namesake.
+    # Headline-only runs ('Taylor Swift Spends') rank below names the text
+    # also uses, so title-case headlines still resolve to the real name.
+    in_title, in_text = fold(title), fold(text)
+    names.sort(key=lambda name: (fold(name) not in in_title, fold(name) not in in_text, -counts[name]))
+    chosen: list[str] = []
+    for name in names:
+        if not any(fold(name) in fold(other) or fold(other) in fold(name) for other in chosen):
+            chosen.append(name)
+    return chosen[:3]
 
 
 def wiki_plan(lead: dict) -> dict | None:
@@ -121,7 +133,11 @@ def wiki_plan(lead: dict) -> dict | None:
     title = plain(lead.get("title"))
     text = plain(lead.get("primary_evidence", {}).get("text", ""))[:1800]
     story = set(re.findall(r"[a-z0-9]+", fold(title + " " + text)))
-    names = story_names(title, text)
+    from news_source_policy import MANIFEST
+    outlets = {fold(publisher["source"]) for publisher in MANIFEST["publishers"]} | {fold(str(lead.get("source") or ""))}
+    # Never the outlet itself: its logo is not a news photo, and naming it is
+    # what this policy exists to avoid.
+    names = [name for name in story_names(title, text) if fold(name) not in outlets]
     languages = ("sq", "en") if lead.get("category") in {"Kosovë", "Shqipëri"} else ("en", "sq")
     for language in languages:
         for name in names:
@@ -140,7 +156,8 @@ def wiki_plan(lead: dict) -> dict | None:
                 wanted = {token for token in re.findall(r"[a-z0-9]+", fold(name)) if len(token) >= 3}
                 # The page must be the name itself (not 'Can-can' for 'Can'), and
                 # everything in its title must be in the story.
-                if page.get("pageimage") and tokens and wanted <= tokens and tokens <= story:
+                if (page.get("pageimage") and "logo" not in str(page["pageimage"]).casefold()
+                        and fold(subject) not in outlets and tokens and wanted <= tokens and tokens <= story):
                     return {"subject": subject, "subject_evidence": subject, "queries": [subject],
                             "files": [str(page["pageimage"])], "caption": subject,
                             "planner": f"{language}.wikipedia"}
