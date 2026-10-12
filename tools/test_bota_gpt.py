@@ -6,6 +6,20 @@ from unittest.mock import patch
 import bota_gpt as b
 
 class BotaTests(unittest.TestCase):
+ def test_daily_run_can_publish_all_400_in_one_batch(self):
+  from unittest.mock import Mock
+  from contextlib import redirect_stderr
+  from io import StringIO
+  day=b.datetime.now(b.ZoneInfo('Europe/Belgrade')).date().isoformat()
+  sources=[dict(id=str(i),url=f'https://example.org/{i}',title='Kosovo',outlet=f'Outlet{(i%40)//10}',country=f'Country{i//40}',date=day,sourceHash='a'*64,imageUrl=None) for i in range(400)]
+  class Response:
+   def raise_for_status(self):pass
+   def json(self):return {'date':day,'dailyCount':0,'dailyMaximum':400,'alreadyPublished':False,'knownIds':[]}
+  editor=Mock(return_value=({'sentiment':'neutral'},{'actualModel':b.MODEL,'actualReasoningEffort':b.EFFORT}))
+  publish=Mock(side_effect=lambda packet,report,*args:report)
+  with tempfile.TemporaryDirectory() as folder,redirect_stderr(StringIO()),patch.object(b,'RUN_STATE',Path(folder)),patch.object(b,'secret',return_value='test'),patch.object(b,'resolve_runtime',return_value={}),patch.object(b,'discover',return_value=sources),patch.object(b,'editorial',editor),patch.object(b,'validate_publishable'),patch.object(b,'save_pending'),patch.object(b,'publish_saved',publish),patch.dict(sys.modules,{'httpx':SimpleNamespace(get=lambda *a,**k:Response())}):
+   result=b.run();self.assertEqual(result['articleCount'],400);self.assertEqual(editor.call_count,400)
+   publish.assert_called_once();self.assertEqual(len(publish.call_args.args[0]['articles']),400)
  def test_daily_batch_refreshes_expired_subscription_auth_once(self):
   from openai import AuthenticationError
   import httpx
