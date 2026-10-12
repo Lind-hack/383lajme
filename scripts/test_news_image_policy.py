@@ -49,7 +49,7 @@ class NewsPhotoTests(unittest.TestCase):
     def test_single_word_named_subject_is_grounded_and_invented_evidence_fails(self):
         leads = [{"pair_id": "one", "title": "OpenAI releases a model", "primary_evidence": {"text": "OpenAI announced a new release."}}]
         rows = [{"pair_id": "one", "subject": "OpenAI", "subject_evidence": "OpenAI", "queries": ["OpenAI office"], "caption": "Zyra e OpenAI."}]
-        with tempfile.TemporaryDirectory() as folder, patch.object(policy.subprocess, "run") as model:
+        with tempfile.TemporaryDirectory() as folder, patch.object(policy, "wiki_plan", return_value=None), patch.object(policy.subprocess, "run") as model:
             model.return_value = SimpleNamespace(returncode=0, stdout="383_JSON_BEGIN" + json.dumps(rows) + "383_JSON_END")
             self.assertIn("one", policy.plan_subjects(leads, Path(folder)))
             command = model.call_args.args[0]
@@ -69,7 +69,7 @@ class NewsPhotoTests(unittest.TestCase):
             rows = [{"pair_id": brief[0]["pair_id"], "subject": "OpenAI", "subject_evidence": "OpenAI",
                      "queries": ["OpenAI office"], "caption": "Zyra e OpenAI."}]
             return SimpleNamespace(returncode=0, stdout="383_JSON_BEGIN" + json.dumps(rows) + "383_JSON_END")
-        with tempfile.TemporaryDirectory() as folder, patch.object(policy.subprocess, "run", side_effect=answer):
+        with tempfile.TemporaryDirectory() as folder, patch.object(policy, "wiki_plan", return_value=None), patch.object(policy.subprocess, "run", side_effect=answer):
             plans = policy.plan_subjects(leads, Path(folder))
             self.assertEqual(list(plans), [f"lead-{policy.PLAN_CHUNK}"])
             self.assertTrue((Path(folder) / "news-photo-plan.json").exists())
@@ -142,10 +142,33 @@ class NewsPhotoTests(unittest.TestCase):
             search.assert_not_called()
             fetch.assert_not_called()
 
-    def test_source_photo_failure_cannot_enable_an_unchecked_replacement(self):
-        with patch.object(policy, "photo_fingerprint", side_effect=ValueError("unavailable")), patch.object(policy, "commons_candidates") as search:
-            self.assertEqual(policy.select_photo({"photo_plan": plan()}, {"image_url": "https://publisher.example/photo.jpg"}, {}), {})
-            search.assert_not_called()
+    def test_unreadable_source_image_does_not_cost_the_story_its_licensed_photo(self):
+        def fingerprint(url):
+            if "publisher.example" in url:
+                raise ValueError("refused")
+            return (1600, 900, "licensed", 255)
+        with patch.object(policy, "photo_fingerprint", side_effect=fingerprint), patch.object(policy, "commons_candidates", return_value=[page()]):
+            photo = policy.select_photo({"photo_plan": plan()}, {"image_url": "https://publisher.example/photo.jpg"}, {})
+            self.assertEqual(photo["image_rights"]["provider"], "wikimedia-commons")
+        # The same file at the publisher's own URL is still refused by identity.
+        same = page()
+        same["imageinfo"][0]["url"] = "https://upload.wikimedia.org/wikipedia/commons/a/ab/Apple_Park.jpg"
+        with patch.object(policy, "photo_fingerprint", side_effect=fingerprint), patch.object(policy, "commons_candidates", return_value=[same]):
+            self.assertEqual(policy.select_photo({"photo_plan": plan()}, {"image_url": same["imageinfo"][0]["url"]}, {}), {})
+
+    def test_wikipedia_plan_needs_the_page_named_in_the_story_and_a_free_lead_photo(self):
+        def wiki(url, params, **_):
+            pages = {"1": {"index": 1, "title": "Kelly Osbourne", "pageimage": "Kelly_Osbourne_2010.jpg"},
+                     "2": {"index": 2, "title": "Ozzy Osbourne", "pageimage": "Ozzy.jpg"}}
+            if params["gsrsearch"] == "Unrelated":
+                pages = {"1": {"index": 1, "title": "Paris Hilton", "pageimage": "Paris.jpg"}}
+            return SimpleNamespace(raise_for_status=lambda: None, json=lambda: {"query": {"pages": pages}})
+        lead = {"title": "Kelly Osbourne says she gained weight", "category": "Showbiz", "primary_evidence": {"text": "The singer spoke."}}
+        with patch.object(policy.requests, "get", side_effect=wiki) as get:
+            plan_row = policy.wiki_plan(lead)
+            self.assertEqual((plan_row["subject"], plan_row["files"]), ("Kelly Osbourne", ["Kelly_Osbourne_2010.jpg"]))
+            self.assertEqual(get.call_args.kwargs["params"]["pilicense"], "free")
+            self.assertIsNone(policy.wiki_plan({**lead, "title": "Unrelated"}))
 
     def test_commons_thumbnail_and_original_have_same_identity(self):
         original = "https://upload.wikimedia.org/wikipedia/commons/a/ab/Apple_Park.jpg"
