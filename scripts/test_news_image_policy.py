@@ -1,3 +1,4 @@
+import re
 import json
 import os
 import tempfile
@@ -25,7 +26,8 @@ def page(license_name="CC0"):
                         "LicenseUrl": {"value": policy.LICENSES.get(license_name, "")},
                         "Artist": {"value": "<a>Jane Photographer</a>"},
                         "Copyrighted": {"value": "False"},
-                        "ImageDescription": {"value": "Apple Park in Cupertino"}}
+                        "ImageDescription": {"value": "Apple Park in Cupertino"},
+                        "DateTimeOriginal": {"value": f"{datetime.now(timezone.utc).year - 1}-06-01"}}
     }]}
 
 
@@ -63,10 +65,10 @@ class NewsPhotoTests(unittest.TestCase):
         leads = [{"pair_id": f"lead-{n}", "title": f"OpenAI story {n}", "primary_evidence": {"text": "OpenAI announced a new release."}}
                  for n in range(policy.PLAN_CHUNK + 1)]
         def answer(command, **_):
-            brief = json.loads(Path(command[-1].split("Read ", 1)[1].split(". ", 1)[0]).read_text(encoding="utf-8"))
+            brief = re.findall(r"## pair_id: (\S+)", Path(command[-1].split("Read ", 1)[1].split(". ", 1)[0]).read_text(encoding="utf-8"))
             if len(brief) > 1:
                 raise policy.subprocess.TimeoutExpired(command, 240)
-            rows = [{"pair_id": brief[0]["pair_id"], "subject": "OpenAI", "subject_evidence": "OpenAI",
+            rows = [{"pair_id": brief[0], "subject": "OpenAI", "subject_evidence": "OpenAI",
                      "queries": ["OpenAI office"], "caption": "Zyra e OpenAI."}]
             return SimpleNamespace(returncode=0, stdout="383_JSON_BEGIN" + json.dumps(rows) + "383_JSON_END")
         with tempfile.TemporaryDirectory() as folder, patch.object(policy, "wiki_plan", return_value=None), patch.object(policy.subprocess, "run", side_effect=answer):
@@ -122,6 +124,34 @@ class NewsPhotoTests(unittest.TestCase):
         with patch.object(policy, "commons_candidates", return_value=[page()]), patch.object(policy, "photo_fingerprint", side_effect=[(1600, 900, "source", 0), (1600, 900, "different", (1 << 256) - 1)]):
             photo = policy.select_photo(lead, evidence, {})
             self.assertTrue(photo["image_rights"]["distinct_from_source"])
+
+    def test_old_photos_and_charts_maps_logos_are_refused(self):
+        old = page()
+        old["imageinfo"][0]["extmetadata"]["DateTimeOriginal"] = {"value": "2014-07-01"}
+        self.assertIsNone(policy.candidate_photo(old, plan()))
+        chart = page()
+        chart["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Apple Park ranking chart"}
+        self.assertIsNone(policy.candidate_photo(chart, plan()))
+        self.assertIsNotNone(policy.candidate_photo(page(), plan()))
+
+    def test_subject_must_appear_as_a_phrase_and_personality_tag_is_allowed(self):
+        person = {**plan(), "subject": "Ella Langley"}
+        road = page()
+        road["title"] = "File:Ella Bank Road, Langley.jpg"
+        road["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Ella Bank Road in Langley"}
+        self.assertIsNone(policy.candidate_photo(road, person))
+        singer = page()
+        singer["title"] = "File:Concert 2025.jpg"
+        singer["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Ella Langley performing in 2025"}
+        singer["imageinfo"][0]["extmetadata"]["Restrictions"] = {"value": "personality"}
+        self.assertIsNotNone(policy.candidate_photo(singer, person))
+        singer["imageinfo"][0]["extmetadata"]["Restrictions"] = {"value": "personality|trademarked"}
+        self.assertIsNone(policy.candidate_photo(singer, person))
+
+    def test_bare_headline_surname_resolves_to_the_full_name_in_the_text(self):
+        names = policy.story_names("Verstappen wins in Singapore Grand Prix",
+                                   "Max Verstappen won the race. The Singapore Grand Prix ended late. Max Verstappen led.")
+        self.assertEqual(names[0], "Max Verstappen")
 
     def test_recent_reviewed_wide_photo_outranks_the_first_search_hit(self):
         def ranked(title, year, categories="", size=(1600, 1000)):
@@ -180,13 +210,16 @@ class NewsPhotoTests(unittest.TestCase):
                 pages = {"1": {"index": 1, "title": "Paris", "pageimage": "Paris.jpg"}}
             return SimpleNamespace(raise_for_status=lambda: None, json=lambda: {"query": {"pages": pages}})
         lead = {"title": "Kelly Osbourne says she gained weight", "category": "Showbiz", "primary_evidence": {"text": "The singer Kelly Osbourne spoke."}}
-        with patch.object(policy.requests, "get", side_effect=wiki) as get:
+        with patch.object(policy.requests, "get", side_effect=wiki) as get, patch.object(policy, "is_person", return_value=True):
             plan_row = policy.wiki_plan(lead)
             self.assertEqual((plan_row["subject"], plan_row["files"]), ("Kelly Osbourne", ["Kelly_Osbourne_2010.jpg"]))
             self.assertEqual(get.call_args.kwargs["params"]["pilicense"], "free")
             # A namesake page that does not cover the whole name is refused.
             self.assertIsNone(policy.wiki_plan({**lead, "title": "Paris Hilton speaks",
                                                 "primary_evidence": {"text": "Then Paris Hilton spoke."}}))
+        # Only people are planned from Wikipedia: a country or idea page is not.
+        with patch.object(policy.requests, "get", side_effect=wiki), patch.object(policy, "is_person", return_value=False):
+            self.assertIsNone(policy.wiki_plan(lead))
 
     def test_commons_thumbnail_and_original_have_same_identity(self):
         original = "https://upload.wikimedia.org/wikipedia/commons/a/ab/Apple_Park.jpg"

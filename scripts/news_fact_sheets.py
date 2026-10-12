@@ -15,10 +15,25 @@ import re
 import subprocess
 from pathlib import Path
 
+from news_image_policy import readable_brief
 from originality_gate import _words
 
-CHUNK = 5
+CHUNK = 2  # at max reasoning a 5-story answer overran Hermes's 90 s response limit
 MAX_FACT_WORDS = 22
+
+
+HIGH_EFFORT_CONFIG = Path("/opt/hermes/cli-config.yaml")
+
+
+def high_effort_flag() -> list[str]:
+    """Notes run at "high" through Hermes's install-level cli-config.yaml; if
+    that file is missing, stay on the pipeline's "max" rather than the
+    built-in "medium" that --ignore-user-config would otherwise give."""
+    try:
+        text = HIGH_EFFORT_CONFIG.read_text(encoding="utf-8")
+    except OSError:
+        return []
+    return ["--ignore-user-config"] if re.search(r"^\s*reasoning_effort:\s*high\s*$", text, re.M) else []
 
 
 def copied_run(fact: str, source_words: list[str], size: int = 8) -> bool:
@@ -29,12 +44,12 @@ def copied_run(fact: str, source_words: list[str], size: int = 8) -> bool:
 
 
 def _sheet_chunk(leads: list[dict], folder: Path, index: int) -> dict[str, list[str]]:
-    brief = folder / f"news-fact-briefs-{index}.json"
-    brief.write_text(json.dumps([
+    brief = folder / f"news-fact-briefs-{index}.md"
+    brief.write_text(readable_brief([
         {"pair_id": lead["pair_id"], "title": lead["title"], "text": lead["text"][:6000],
          "corroborating": lead.get("corroborating", "")[:2500]}
         for lead in leads
-    ], ensure_ascii=False), encoding="utf-8")
+    ]), encoding="utf-8")
     prompt = (
         f"Read {brief.resolve()}. For every story write reporter's notes in Albanian: 5 to 14 telegraphic "
         "facts, each at most 18 words, covering who, what, when, where, the numbers, named people and "
@@ -47,7 +62,7 @@ def _sheet_chunk(leads: list[dict], folder: Path, index: int) -> dict[str, list[
         "383_JSON_BEGIN and 383_JSON_END."
     )
     result = subprocess.run([
-        os.environ.get("L383_HERMES_BIN", "/opt/hermes/.venv/bin/hermes"), "chat",
+        os.environ.get("L383_HERMES_BIN", "/opt/hermes/.venv/bin/hermes"), "chat", *high_effort_flag(),
         "--provider", "openai-codex", "--model", os.environ.get("L383_WRITER_MODEL", "gpt-6-luna"),
         "--ignore-rules", "-t", "file", "--yolo", "--max-turns", "12", "-Q", "-q", prompt,
     ], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding="utf-8", timeout=360)
@@ -78,8 +93,16 @@ def build_fact_sheets(leads: list[dict], folder: Path) -> dict[str, Path]:
     costs its own leads. Returns pair_id -> notes path."""
     chunks = [leads[start:start + CHUNK] for start in range(0, len(leads), CHUNK)]
     sheets: dict[str, list[str]] = {}
-    with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
-        futures = {pool.submit(_sheet_chunk, chunk, folder, index): index for index, chunk in enumerate(chunks)}
+    def attempt(chunk: list[dict], index: int) -> dict[str, list[str]]:
+        # The Codex stream stalls now and then (no events for 12 s); one retry
+        # recovers most of those without costing the hour.
+        try:
+            return _sheet_chunk(chunk, folder, index)
+        except (subprocess.SubprocessError, ValueError):
+            return _sheet_chunk(chunk, folder, index)
+    # Three at a time: more parallel calls on the one account stalled the stream.
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
+        futures = {pool.submit(attempt, chunk, index): index for index, chunk in enumerate(chunks)}
         for future in concurrent.futures.as_completed(futures):
             try:
                 sheets.update(future.result())

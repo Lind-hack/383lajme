@@ -38,6 +38,22 @@ def plain(value: object) -> str:
     return " ".join(html.unescape(re.sub(r"<[^>]*>", " ", str(value or ""))).split())
 
 
+def readable_brief(stories: list[dict]) -> str:
+    """One section per story, text wrapped into short lines. The model's file
+    tool truncates long lines, so a one-line JSON brief showed it only the
+    first story of each batch and the rest silently got no plan."""
+    import textwrap
+    parts = []
+    for story in stories:
+        parts.append(f"## pair_id: {story['pair_id']}")
+        for key, value in story.items():
+            if key != "pair_id" and value:
+                parts.append(f"{key}:")
+                parts += textwrap.wrap(" ".join(str(value).split()), 160)
+        parts.append("")
+    return "\n".join(parts)
+
+
 def image_identity(url: str) -> str:
     from urllib.parse import unquote
     parsed = urlsplit(url)
@@ -135,6 +151,15 @@ def story_names(title: str, text: str) -> list[str]:
         found = next((" ".join(words[i:j]) for size in range(len(words), 0, -1)
                       for i in range(len(words) - size + 1) for j in [i + size]
                       if " ".join(words[i:j]) in counts), None)
+        if not found or " " not in found:
+            # 'Verstappen' in the headline is 'Max Verstappen' in the text; a
+            # bare surname otherwise lost to 'Singapore Grand Prix' and the
+            # photo showed another driver.
+            run_tokens = {word.casefold() for word in words}
+            fuller = sorted((name for name in counts if " " in name
+                             and run_tokens & {part.casefold() for part in name.split()}),
+                            key=lambda name: -counts[name])
+            found = fuller[0] if fuller else found
         if found and found not in headline:
             headline.append(found)
     rest = sorted((name for name in counts if name not in headline), key=lambda name: -counts[name])
@@ -143,6 +168,20 @@ def story_names(title: str, text: str) -> list[str]:
         if not any(fold(name) in fold(other) or fold(other) in fold(name) for other in chosen):
             chosen.append(name)
     return chosen[:3]
+
+
+def is_person(item: str) -> bool:
+    """Wikidata 'instance of: human'. Countries, cities and ideas have no
+    current photo that shows a news event, so only people are planned here."""
+    if not re.fullmatch(r"Q[0-9]+", item or ""):
+        return False
+    try:
+        claims = api_get("https://www.wikidata.org/w/api.php", {
+            "action": "wbgetclaims", "format": "json", "entity": item, "property": "P31"}).json().get("claims", {})
+    except (requests.RequestException, ValueError):
+        return False
+    return any(claim.get("mainsnak", {}).get("datavalue", {}).get("value", {}).get("id") == "Q5"
+               for claim in claims.get("P31", []))
 
 
 def wiki_plan(lead: dict) -> dict | None:
@@ -162,8 +201,8 @@ def wiki_plan(lead: dict) -> dict | None:
             try:
                 response = api_get(f"https://{language}.wikipedia.org/w/api.php", {
                     "action": "query", "format": "json", "generator": "search", "gsrsearch": name,
-                    "gsrnamespace": 0, "gsrlimit": 3, "prop": "pageimages", "piprop": "name",
-                    "pilicense": "free", "redirects": 1,
+                    "gsrnamespace": 0, "gsrlimit": 3, "prop": "pageimages|pageprops", "piprop": "name",
+                    "pilicense": "free", "redirects": 1, "ppprop": "wikibase_item",
                 })
                 pages = sorted(response.json().get("query", {}).get("pages", {}).values(), key=lambda page: page.get("index", 0))
             except (requests.RequestException, ValueError):
@@ -175,7 +214,8 @@ def wiki_plan(lead: dict) -> dict | None:
                 # The page must be the name itself (not 'Can-can' for 'Can'), and
                 # everything in its title must be in the story.
                 if (page.get("pageimage") and "logo" not in str(page["pageimage"]).casefold()
-                        and fold(subject) not in outlets and tokens and wanted <= tokens and tokens <= story):
+                        and fold(subject) not in outlets and tokens and wanted <= tokens and tokens <= story
+                        and is_person(page.get("pageprops", {}).get("wikibase_item", ""))):
                     return {"subject": subject, "subject_evidence": subject, "queries": [subject],
                             "files": [str(page["pageimage"])], "caption": subject,
                             "planner": f"{language}.wikipedia"}
@@ -183,12 +223,12 @@ def wiki_plan(lead: dict) -> dict | None:
 
 
 def _plan_chunk(leads: list[dict], folder: Path, index: int) -> dict[str, dict]:
-    brief = folder / f"news-photo-briefs-{index}.json"
-    brief.write_text(json.dumps([
+    brief = folder / f"news-photo-briefs-{index}.md"
+    brief.write_text(readable_brief([
         {"pair_id": lead["pair_id"], "title": lead["title"],
          "text": lead["primary_evidence"].get("text", "")[:1800]}
         for lead in leads
-    ], ensure_ascii=False), encoding="utf-8")
+    ]), encoding="utf-8")
     prompt = (
         f"Read {brief.resolve()}. For every story choose a specific physical photo subject "
         "grounded in its title/text: the named person, company building, exact place, product, "
@@ -259,6 +299,21 @@ def commons_files(names: list[str]) -> list[dict]:
     return [page for page in pages if page.get("imageinfo")]
 
 
+MAX_PHOTO_AGE_YEARS = 4
+NOT_A_PHOTO = re.compile(r"\b(chart|graph|diagram|ranking|statistics?|map|locator|flag|logo|emblem|coat of arms|"
+                         r"seal|infographic|screenshot|evolution|icon|wordmark|svg|plaque|statue|bust|signature|"
+                         r"autograph|grave|poster|stamp|coin|banknote|album cover|wax figure|mural|graffiti)\b", re.I)
+
+
+def photo_year(meta: dict) -> int | None:
+    """When the photo was taken (or, failing that, uploaded)."""
+    for key in ("DateTimeOriginal", "DateTime"):
+        found = re.search(r"\b(19|20)\d{2}\b", plain(meta.get(key, {}).get("value")))
+        if found:
+            return int(found.group(0))
+    return None
+
+
 def candidate_photo(page: dict, plan: dict) -> dict | None:
     info = next(iter(page.get("imageinfo", [])), {})
     meta = info.get("extmetadata", {})
@@ -267,7 +322,11 @@ def candidate_photo(page: dict, plan: dict) -> dict | None:
     if license_name not in LICENSES:
         return None
     attributed = license_name.startswith("CC BY")
-    if value("Restrictions") or (not attributed and (value("Copyrighted").lower() != "false"
+    # Commons tags most photos of real people 'personality' (likeness in ads,
+    # not copyright); editorial use of public figures is what it allows. Any
+    # other restriction (trademark, insignia, ...) still rules a file out.
+    restrictions = {part.strip().casefold() for part in value("Restrictions").split("|") if part.strip()}
+    if (restrictions - {"personality"}) or (not attributed and (value("Copyrighted").lower() != "false"
                                                       or value("AttributionRequired").lower() == "true")):
         return None
     creator = value("Attribution") or value("Artist")
@@ -278,9 +337,22 @@ def candidate_photo(page: dict, plan: dict) -> dict | None:
     if not str(page.get("title", "")).lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
         return None
     description = plain(page.get("title", "")) + " " + value("ImageDescription")
+    # A free licence does not make a chart, map, flag or logo a news photo.
+    if NOT_A_PHOTO.search(description):
+        return None
+    # Readers read an old photo as old news: the owner wants current pictures.
+    year = photo_year(meta)
+    if year is None or datetime.now(timezone.utc).year - year > MAX_PHOTO_AGE_YEARS:
+        return None
     tokens = set(re.findall(r"[a-z0-9]+", fold(plan["subject"]))) - {"the", "of", "in", "and", "building", "headquarters", "photo"}
-    metadata_tokens = set(re.findall(r"[a-z0-9]+", fold(description)))
-    if not tokens or not tokens.issubset(metadata_tokens):
+    # The subject must be named as a whole phrase: in the file's own title, or,
+    # for a full name of two or more words, in its description. Loose word
+    # matches gave a temple wall for 'Rama', a nebula for 'California' and
+    # 'Ella Bank Road, Langley' for Ella Langley.
+    phrase = " ".join(re.findall(r"[a-z0-9]+", fold(plan["subject"])))
+    in_title = f" {phrase} " in " " + " ".join(re.findall(r"[a-z0-9]+", fold(plain(page.get("title", ""))))) + " "
+    in_description = f" {phrase} " in " " + " ".join(re.findall(r"[a-z0-9]+", fold(description))) + " "
+    if not tokens or not (in_title or (len(phrase.split()) >= 2 and in_description)):
         return None
     url = info.get("thumburl") or info.get("url", "")
     if urlsplit(url).hostname not in {"upload.wikimedia.org", "thumb.wikimedia.org"} or not url.startswith("https://"):

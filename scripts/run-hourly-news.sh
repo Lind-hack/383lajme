@@ -40,6 +40,13 @@ mkdir -p "$(dirname "$BATCH")"
 # One originality receipt for the hour: refill rounds review their own temporary
 # batches, and the published batch is verified against every round's approvals.
 export L383_REVIEW_RECEIPT="${BATCH%.json}.copyright-review.json"
+# Drafting runs at "high" reasoning through Hermes's install-level cli-config.yaml
+# (owner's decision 2026-10-12); editing, repair and the originality review keep
+# "max" from the pipeline home. Without that file the flag is withheld, so
+# drafting falls back to "max" rather than Hermes's built-in "medium".
+WRITER_EFFORT_FLAG=""
+if grep -qs '^ *reasoning_effort: *high' /opt/hermes/cli-config.yaml; then WRITER_EFFORT_FLAG="--ignore-user-config"; fi
+if [ -n "$WRITER_EFFORT_FLAG" ]; then echo "383 WRITER EFFORT: high"; else echo "383 WRITER EFFORT: max (no high-effort cli-config)"; fi
 LOCK_FILE=/tmp/383-production.lock
 START_EPOCH="$(date +%s)"
 stage="initialization"
@@ -182,7 +189,7 @@ run_writer() {
   local model="$1"
   timeout --signal=TERM --kill-after=15s "${L383_WRITER_ATTEMPT_TIMEOUT:-300}s" \
     env HERMES_HOME="${L383_HERMES_HOME:-/opt/data/news-pipeline-hermes}" \
-    "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode replace -- /opt/hermes/.venv/bin/hermes chat \
+    "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode replace -- /opt/hermes/.venv/bin/hermes chat $WRITER_EFFORT_FLAG \
       --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
       --model "$model" --ignore-rules -t file --yolo \
       --max-turns "${L383_WRITER_MAX_TURNS:-35}" -Q -q \
@@ -261,7 +268,7 @@ for continuation in {1..15}; do
   cp "$BATCH" "$CONTINUATION_BACKUP"
   L383_TARGET_ARTICLES="$((BATCH_COUNT + 7 < FULL_TARGET ? BATCH_COUNT + 7 : FULL_TARGET))"
   if ! timeout --signal=TERM --kill-after=15s 600s \
-    "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode append -- /opt/hermes/.venv/bin/hermes chat --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
+    "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode append -- /opt/hermes/.venv/bin/hermes chat $WRITER_EFFORT_FLAG --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
       --model "$PRIMARY_WRITER_MODEL" --ignore-rules -t file --yolo \
       --max-turns 45 -Q -q \
       "Continue the existing ${BATCH}; do not replace, remove, or edit its current articles. Read docs/albanian_newsroom.md, docs/news-output-schema.json, ${DISCOVERY}, and the existing batch. Its current ${BATCH_COUNT} drafts are not the full source-ready inventory of ${L383_TARGET_ARTICLES}. Read docs/news-ranking-rubric.md and rate every new story individually from evidence; supply all factors and a concrete Albanian score_reason. Do not copy neutral defaults or calculate the total. Use the publication_plan in discovery to count current category coverage. FIRST fill every missing category, THEN each category allocation, before adding extras. Add distinct ready stories up to ${L383_TARGET_ARTICLES} total. Skip every primary or corroborating URL already used in the batch. Every new article uses its prepared primary evidence and no image fields (the pipeline restores the prepared photo by source URL), 140+ grounded Albanian words in three HTML paragraphs, all schema fields and a title naming WHO and STAKE. Routine news may have corroborating_sources=[]; sensitive claims need the supplied independent second publisher. Do not research or decode images again. Do not fabricate or pad stories. Do not edit files. Return ONLY the new articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END; exclude all existing articles because the wrapper appends your new drafts while preserving every existing field. Do not run pipeline scripts, npm, repository tests or builds, publish, deploy, send reports, or write another file. This is a data-only writing task; code-release checks are not part of it." 9>&-; then
@@ -414,7 +421,7 @@ for refill_attempt in 1 2; do
   cp "$BATCH" "$REFILL_BACKUP"
   trap - ERR
   set +e
-  timeout --signal=TERM --kill-after=15s 420s "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode append -- /opt/hermes/.venv/bin/hermes chat \
+  timeout --signal=TERM --kill-after=15s 420s "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode append -- /opt/hermes/.venv/bin/hermes chat $WRITER_EFFORT_FLAG \
     --provider "${L383_WRITER_PROVIDER:-openai-codex}" --model "$PRIMARY_WRITER_MODEL" \
     --ignore-rules -t file --yolo --max-turns 35 -Q -q \
     "Append replacement articles to ${BATCH}, keeping every existing article unchanged. Read ${DISCOVERY}, docs/news-output-schema.json, docs/albanian_newsroom.md and ${ATTEMPTED}. Never use a URL in the attempted-urls file: those stories were already considered. Fill these category deficits: ${COVERAGE_DEFICITS}. Stop at ${FULL_TARGET} total articles. Use only unused ready stories, their facts_path notes (evidence_path only where no notes exist), supplied corroborators . Leave image fields out; the pipeline restores the prepared photo by source URL. Read docs/news-ranking-rubric.md and individually rate every replacement from evidence with all factors and a specific score_reason; do not copy neutral defaults or calculate the total. Every new article needs at least 140 grounded Albanian words in three HTML paragraphs and necessary claim attribution. Sensitive claims require the independent source; choose another routine story if none is supplied. Do not edit files. Return ONLY the new replacement articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END; exclude the existing articles because the wrapper preserves them locally. This is a data-only task; do not run tests, build, publish, deploy, email or edit any other file." 9>&-

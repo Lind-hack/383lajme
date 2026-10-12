@@ -1,3 +1,4 @@
+import re
 import json
 import tempfile
 import unittest
@@ -39,10 +40,10 @@ class FactSheetTests(unittest.TestCase):
         leads = [lead(n) for n in range(sheets.CHUNK + 1)]
         good = ["Fakt i parë", "Fakt i dytë", "Fakt i tretë", "Fakt i katërt"]
         def answer(command, **_):
-            brief = json.loads(Path(command[-1].split("Read ", 1)[1].split(". ", 1)[0]).read_text(encoding="utf-8"))
+            brief = re.findall(r"## pair_id: (\S+)", Path(command[-1].split("Read ", 1)[1].split(". ", 1)[0]).read_text(encoding="utf-8"))
             if len(brief) > 1:
                 raise sheets.subprocess.TimeoutExpired(command, 360)
-            return reply([{"pair_id": brief[0]["pair_id"], "facts": good}])
+            return reply([{"pair_id": brief[0], "facts": good}])
         with tempfile.TemporaryDirectory() as folder, patch.object(sheets.subprocess, "run", side_effect=answer):
             self.assertEqual(list(sheets.build_fact_sheets(leads, Path(folder))), [f"Kosovë-{sheets.CHUNK}"])
 

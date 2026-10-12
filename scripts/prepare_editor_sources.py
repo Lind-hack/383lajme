@@ -207,6 +207,22 @@ def coverage_plan(leads: list[dict], total: int = 20) -> dict[str, int]:
     return plan
 
 
+def recently_published_photos(days: int = 14) -> set[str]:
+    """Photos already on the site in the last two weeks, so one laptop-and-
+    Bitcoin picture is not reused hour after hour. Empty if Supabase is down."""
+    from datetime import datetime, timedelta, timezone
+    from news_image_policy import image_identity
+    try:
+        from codex_automation_support import _supabase_request
+        since = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
+        rows = _supabase_request("GET", "news_articles", query={
+            "select": "image_url", "created_at": f"gte.{since}", "limit": "2000"})
+    except Exception as exc:  # the photo search must not fail on this
+        print(f"383 PHOTO HISTORY unavailable ({type(exc).__name__}); repeats are only blocked within this hour")
+        return set()
+    return {image_identity(str(row["image_url"])) for row in rows if row.get("image_url")}
+
+
 def prepare_hourly_inventory(path: Path, data: dict) -> None:
     leads = data.get("leads", [])
     urls = list(dict.fromkeys(url for lead in leads for url in
@@ -246,7 +262,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
                  for items in by_category.values() if index < len(items)]
     from news_image_policy import CATALOG, plan_subjects
     plans = plan_subjects(shortlist, path.parent)
-    reserved_photos: set[str] = set()
+    reserved_photos: set[str] = recently_published_photos()
     photo_lock = threading.Lock()
     def reserve_photo(url: str) -> bool:
         from news_image_policy import image_identity
