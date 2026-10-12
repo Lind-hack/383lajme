@@ -26,6 +26,31 @@
   font-family: var(--fy-sans);
 }
 
+/* The sheets (Rregullo, Si funksionon, Ndaje) and the boxes were drawn for the
+   old paper and read its --pp-* colours; without them here the sheets came out
+   see-through. */
+.perty-paper-pages {
+  --pp-bg: transparent;
+  --pp-card: #ffffff;
+  --pp-ink: #111111;
+  --pp-text: #2b2825;
+  --pp-soft-text: #4a443f;
+  --pp-muted: #5e5048;
+  --pp-faint: #6b625b;
+  --pp-rule: #e3dbd1;
+  --pp-rule-soft: #ece4da;
+  --pp-chip: #f1ebe3;
+  --pp-shadow: 0 14px 36px rgba(64, 40, 20, 0.07);
+  --pp-accent: #ff4422;
+  --pp-accent-ink: #b42a10;
+  --pp-accent-soft: #fff6f1;
+  --pp-accent-line: #f4ddd2;
+  --pp-read: #15803d;
+  --pp-read-soft: #e3f2e7;
+  --pp-plate-font: var(--font-garamond), Georgia, serif;
+  --pp-head-font: var(--font-garamond), Georgia, serif;
+}
+
 /* Each kind of paper (lib/paper-look.mjs): a spot colour and a headline face. */
 .fy[data-look="sporti"] {
   --fy-accent: #12a150;
@@ -303,6 +328,8 @@
 }
 .fy-bg {
   z-index: 0;
+  /* Faces and subjects sit high in news photos; keep them in frame on a tall screen. */
+  object-position: center 30%;
 }
 .fy-bg--blur {
   filter: blur(28px) saturate(1.25);
@@ -314,10 +341,11 @@
   z-index: 1;
   background: linear-gradient(
     to top,
-    rgb(0 0 0 / 0.94) 0%,
-    rgb(0 0 0 / 0.72) 30%,
-    rgb(0 0 0 / 0.12) 62%,
-    rgb(0 0 0 / 0.38) 100%
+    rgb(0 0 0 / 0.92) 0%,
+    rgb(0 0 0 / 0.66) 28%,
+    rgb(0 0 0 / 0.05) 58%,
+    rgb(0 0 0 / 0) 78%,
+    rgb(0 0 0 / 0.32) 100%
   );
   pointer-events: none;
 }
@@ -346,7 +374,7 @@
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 11px;
+  gap: 10px;
   max-width: 940px;
   padding: 0 86px 26px 20px;
 }
@@ -358,12 +386,12 @@
   margin: 0;
 }
 .fy-why {
-  padding: 7px 11px;
+  padding: 6px 10px;
   border: 0;
   border-radius: 999px;
   background: var(--fy-accent);
-  color: #fff;
-  font: 800 11.5px/1.1 var(--fy-sans);
+  color: var(--fy-accent-text, #fff);
+  font: 800 11px/1.1 var(--fy-sans);
   letter-spacing: 0.05em;
   text-align: left;
   text-transform: uppercase;
@@ -389,9 +417,9 @@
   margin: 0;
   overflow: hidden;
   font-family: var(--fy-head);
-  font-size: clamp(27px, 7.4vw, 36px);
+  font-size: clamp(24px, 6.5vw, 31px);
   font-weight: var(--fy-head-weight);
-  line-height: 1.08;
+  line-height: 1.1;
   letter-spacing: var(--fy-track);
   text-transform: var(--fy-case);
   text-wrap: balance;
@@ -413,8 +441,8 @@
   display: -webkit-box;
   margin: 0;
   overflow: hidden;
-  font: 500 15.5px/1.5 var(--fy-sans);
-  color: rgb(255 255 255 / 0.86);
+  font: 500 14.5px/1.48 var(--fy-sans);
+  color: rgb(255 255 255 / 0.88);
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
@@ -432,7 +460,7 @@
   margin-top: 4px;
 }
 .fy-meta {
-  font: 700 12.5px/1.2 var(--fy-sans);
+  font: 700 12px/1.2 var(--fy-sans);
   color: rgb(255 255 255 / 0.7);
 }
 
@@ -441,11 +469,11 @@
   align-items: center;
   justify-content: center;
   gap: 7px;
-  height: 46px;
-  padding: 0 19px;
+  height: 44px;
+  padding: 0 18px;
   border: 1.5px solid transparent;
   border-radius: 999px;
-  font: 800 14.5px/1 var(--fy-sans);
+  font: 800 14px/1 var(--fy-sans);
   text-decoration: none;
   cursor: pointer;
   transition: transform 0.12s ease, background-color 0.15s ease;
@@ -650,18 +678,18 @@
 }
 @keyframes fy-drift-a {
   from {
-    transform: scale(1.02) translate(0, 0);
+    transform: scale(1.01) translate(0, 0);
   }
   to {
-    transform: scale(1.14) translate(-2%, -1.5%);
+    transform: scale(1.08) translate(-1.2%, -1%);
   }
 }
 @keyframes fy-drift-b {
   from {
-    transform: scale(1.14) translate(2%, 1%);
+    transform: scale(1.08) translate(1.2%, 0.6%);
   }
   to {
-    transform: scale(1.03) translate(0, 0);
+    transform: scale(1.01) translate(0, 0);
   }
 }
 @keyframes fy-word {
@@ -717,6 +745,106 @@
   100% {
     opacity: 0;
     transform: translate(-50%, -110%) scale(1.05);
+  }
+}
+
+/* Liking, disliking and reacting: a burst in the middle of the screen — the
+   emoji pops up big, a ring of small ones flies out, and it all floats away. */
+.fy-burst {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  z-index: 7;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.fy-burst b {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 112px;
+  line-height: 1;
+  filter: drop-shadow(0 10px 28px rgb(0 0 0 / 0.4));
+  transform: translate(-50%, -50%);
+  animation: fy-burst-main 1.05s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.fy-burst i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 30px;
+  font-style: normal;
+  line-height: 1;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  animation: fy-burst-ring 0.9s cubic-bezier(0.15, 0.7, 0.3, 1) forwards;
+  animation-delay: calc(120ms + var(--w, 0ms));
+}
+.fy-burst[data-kind="dislike"] b {
+  animation-name: fy-burst-down;
+  filter: drop-shadow(0 10px 28px rgb(0 0 0 / 0.5)) grayscale(0.15);
+}
+@keyframes fy-burst-main {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2) rotate(-14deg);
+  }
+  28% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.22) rotate(8deg);
+  }
+  46% {
+    transform: translate(-50%, -50%) scale(0.96) rotate(-2deg);
+  }
+  62% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.04) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -150%) scale(0.9);
+  }
+}
+@keyframes fy-burst-ring {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--a)) translateY(0) rotate(calc(var(--a) * -1)) scale(0.4);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--a)) translateY(calc(var(--d) * -1)) rotate(calc(var(--a) * -1)) scale(1);
+  }
+}
+/* Thumbs down: it drops in, shakes its head, and sinks away. */
+@keyframes fy-burst-down {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -120%) scale(0.5);
+  }
+  22% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  34% {
+    transform: translate(-50%, -50%) scale(1) rotate(-12deg);
+  }
+  46% {
+    transform: translate(-50%, -50%) rotate(12deg);
+  }
+  58% {
+    transform: translate(-50%, -50%) rotate(-8deg);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 10%) scale(0.85);
   }
 }
 
@@ -947,7 +1075,7 @@
 }
 .fy-cover-name {
   margin: 0;
-  font: 700 clamp(46px, 14vw, 72px)/0.95 var(--fy-name);
+  font: 700 clamp(42px, 12.5vw, 64px)/0.95 var(--fy-name);
   letter-spacing: -0.03em;
   text-wrap: balance;
 }
@@ -1011,6 +1139,15 @@
   gap: 10px;
   margin-top: 6px;
 }
+.fy-btn--start {
+  height: 50px;
+  padding: 0 22px;
+  font-size: 15px;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.3);
+}
+.fy-btn--start svg {
+  animation: fy-nudge 1.6s ease-in-out infinite;
+}
 
 /* ── a follow's own screen ────────────────────────────────────────────────── */
 
@@ -1044,7 +1181,7 @@
 }
 .fy-section-title {
   margin: 0;
-  font: var(--fy-head-weight) clamp(54px, 17vw, 104px)/0.95 var(--fy-head);
+  font: var(--fy-head-weight) clamp(48px, 15vw, 96px)/0.95 var(--fy-head);
   letter-spacing: -0.03em;
   text-transform: var(--fy-case);
   overflow-wrap: anywhere;
@@ -1052,7 +1189,7 @@
 .fy-section-intro {
   max-width: 36ch;
   margin: 0;
-  font: 600 16.5px/1.45 var(--fy-sans);
+  font: 600 15.5px/1.45 var(--fy-sans);
 }
 .fy-section-actions {
   display: flex;
@@ -1066,7 +1203,167 @@
   font: 800 14px/1.3 var(--fy-sans);
 }
 
-/* ── light screens: the boxes and the end ─────────────────────────────────── */
+/* ── "Shkurt, për sot": one box a screen ──────────────────────────────────── */
+
+.fy-box {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: #fff;
+  background:
+    radial-gradient(120% 70% at 85% 0%, color-mix(in srgb, var(--fy-accent) 85%, #fff) 0%, transparent 60%),
+    linear-gradient(170deg, var(--fy-accent) 0%, color-mix(in srgb, var(--fy-accent) 55%, #120c0a) 100%);
+}
+.fy-box::after {
+  /* A soft wave across the bottom, the paper's own. */
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 38%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 200' preserveAspectRatio='none'%3E%3Cpath d='M0 60c100-40 200 40 300 0s200-40 300 0v140H0z' fill='%23000' fill-opacity='.14'/%3E%3Cpath d='M0 110c120-36 220 30 320 0s190-34 280-6v96H0z' fill='%23000' fill-opacity='.14'/%3E%3C/svg%3E") bottom / 100% 100% no-repeat;
+  pointer-events: none;
+}
+.fy-box-body {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 84px 18px 66px;
+}
+.fy-box-kicker {
+  margin: 0;
+  font: 800 12px/1.2 var(--fy-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.2);
+}
+.fy-box-card {
+  max-height: 100%;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #fff;
+  color: #151412;
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.28);
+}
+.fy-box-card:empty {
+  display: none;
+}
+.fy-box-card > * {
+  margin: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.fy-box .perty-town-main {
+  grid-template-columns: 1fr;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .fy-screen .fy-box-body > * {
+    opacity: 0;
+  }
+  .fy-screen[data-active] .fy-box-body > * {
+    animation: fy-rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  .fy-screen[data-active] .fy-box-card {
+    animation-delay: 90ms;
+  }
+}
+
+/* ── the sheets: Rregullo gazetën, Si funksionon, Ndaje ─────────────────────
+   White, with an orange head that ends in a wave — solid, never see-through. */
+
+.perty-paper-pages .perty-sheet-panel {
+  overflow: hidden;
+  background: #fff;
+}
+.perty-paper-pages .perty-sheet-handle,
+.perty-paper-pages .perty-sheet-head {
+  position: relative;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 80' preserveAspectRatio='none'%3E%3Cpath d='M0 30c60-20 120 20 200 0s140-20 200 0' fill='none' stroke='%23fff' stroke-opacity='.16' stroke-width='2'/%3E%3Cpath d='M0 52c70-18 130 18 200 0s130-18 200 0' fill='none' stroke='%23fff' stroke-opacity='.1' stroke-width='2'/%3E%3C/svg%3E") center / 100% 100% no-repeat,
+    #ff4422;
+}
+.perty-paper-pages .perty-sheet-handle {
+  background: #ff5a2e;
+}
+.perty-paper-pages .perty-sheet-handle i {
+  background: rgb(255 255 255 / 0.6);
+}
+.perty-paper-pages .perty-sheet-head {
+  z-index: 1;
+  padding: 6px 20px 18px;
+}
+.perty-paper-pages .perty-sheet-head::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -17px;
+  left: 0;
+  height: 18px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 18' preserveAspectRatio='none'%3E%3Cpath d='M0 0h600v6c-50 8-100 12-150 6S350 0 300 6 200 18 150 12 50 0 0 6z' fill='%23ff4422'/%3E%3C/svg%3E") top / 100% 100% no-repeat;
+  pointer-events: none;
+}
+.perty-paper-pages .perty-sheet-head h2 {
+  color: #fff;
+  font-size: 22px;
+}
+.perty-paper-pages .perty-sheet-head .perty-icon-btn {
+  border-color: transparent;
+  background: rgb(255 255 255 / 0.2);
+  color: #fff;
+}
+.perty-paper-pages .perty-sheet-body {
+  padding-top: 26px;
+  background: #fff;
+}
+
+/* "Si funksionon gazeta jote": each step on its own card. */
+.fy-help {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fy-help li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 14px;
+  border: 1px solid #f4ddd2;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fff, #fff8f4);
+}
+.fy-help-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #ff4422;
+  font-size: 20px;
+  line-height: 1;
+  box-shadow: 0 6px 16px rgb(255 68 34 / 0.25);
+}
+.fy-help b {
+  display: block;
+  color: #151412;
+  font: 800 15px/1.3 var(--font-manrope), system-ui, sans-serif;
+}
+.fy-help p {
+  margin: 2px 0 0;
+  color: #4a443f;
+  font: 500 14px/1.45 var(--font-manrope), system-ui, sans-serif;
+}
+
+/* ── light screens: the end ───────────────────────────────────────────────── */
 
 .fy-panel {
   position: absolute;
@@ -1130,19 +1427,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-}
-.fy-boxes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 14px;
-  align-items: start;
-}
-.fy-panel .perty-town-main {
-  grid-template-columns: 1fr;
-}
-.fy-panel .perty-box,
-.fy-panel .perty-brief {
-  margin: 0;
 }
 .fy-end-hello {
   display: flex;
@@ -1232,11 +1516,11 @@
     padding: 0 160px 46px 48px;
   }
   .fy-head {
-    font-size: clamp(34px, 3.6vw, 60px);
+    font-size: clamp(32px, 3.2vw, 54px);
   }
   .fy-text {
     max-width: 62ch;
-    font-size: 17px;
+    font-size: 16px;
   }
   .fy-actions {
     right: 24px;
@@ -1377,17 +1661,17 @@
 }
 
 @media (max-width: 1023px) {
-  /* The boxes screen has to fit a phone like every other screen. */
   .fy-panel-body {
     gap: 12px;
     padding-top: 84px;
   }
-  .fy-screen[data-kind="brief"] .perty-box--tregu,
-  .fy-screen[data-kind="brief"] .fy-panel-kicker {
+  /* A phone's cover stays simple: the name, how much is in it, "Fillo leximin ↓". */
+  .fy-cover-heads {
     display: none;
   }
-  .fy-screen[data-kind="brief"] .fy-boxes {
-    gap: 10px;
+  .fy-cover-body {
+    gap: 14px;
+    padding-bottom: 36px;
   }
   .fy-tool-label {
     display: none;
@@ -1398,6 +1682,24 @@
   .fy-tool:not(.fy-tool--primary) {
     width: 38px;
     padding: 0;
+  }
+}
+
+/* Phones: six buttons down the side have to fit beside the headline. */
+@media (max-width: 1023px) {
+  .fy-actions {
+    gap: 11px;
+  }
+  .fy-act svg,
+  .fy-act--emoji b {
+    width: 44px;
+    height: 44px;
+  }
+  .fy-act svg {
+    padding: 11px;
+  }
+  .fy-act--emoji b {
+    font-size: 22px;
   }
 }
 
@@ -1415,6 +1717,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* The toast says what happened; nothing flies. */
+  .fy-burst {
+    display: none;
+  }
+  .fy-btn--start svg,
   .fy-hint,
   .fy-act[aria-pressed="true"] svg,
   .fy-whysheet,

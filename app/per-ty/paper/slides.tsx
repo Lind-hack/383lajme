@@ -2,12 +2,16 @@
 
 // The screens of the reader's reel (app/per-ty/paper/reel.tsx, reel.css):
 //
-//   CoverSlide    the paper's name over the lead's photo, how much is in it,
-//                 the top three headlines and "Fillo"
+//   CoverSlide    the paper's name over the lead's photo, how much is in it
+//                 and "Fillo leximin ↓" (the first headlines only on a wide
+//                 screen — a phone's cover stays simple)
 //   StorySlide    one story, full screen: the photo, and over it why it is
 //                 here, the headline, two lines, "Lexo lajmin"; down the right
-//                 side the reader's buttons — more of this, less of this, share,
-//                 why
+//                 side the reader's buttons — more of this, less of this, react,
+//                 comments, share, why. Liking, disliking and reacting each
+//                 burst in the middle of the screen. Each story wears its
+//                 section's colour (lib/category-colors)
+//   BoxSlide      one of "Shkurt, për sot"'s boxes, a screen of its own
 //   SectionSlide  a follow's own screen in its colour: what it is, why it is in
 //                 the paper, how many stories, more / less of it
 //   PanelSlide    a light screen for the boxes and the end of the paper
@@ -18,8 +22,12 @@
 import { Fragment, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ChevronUp, Info, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
+import { ArrowRight, ChevronDown, Info, MessageCircle, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
 import TimeAgo from "@/components/time-ago";
+import CommentsSheet from "@/components/comments/comments-sheet";
+import { useCommentThread } from "@/components/comments/use-comment-thread";
+import { shortCount } from "@/lib/article-comments.mjs";
+import { CATEGORY_COLORS, CATEGORY_LIGHT_BG } from "@/lib/category-colors";
 import { isNewSince } from "@/lib/perty-visits.mjs";
 import { STORY_REACTIONS, shares, topLine } from "@/lib/story-reactions.mjs";
 import { useReactions } from "./reactions";
@@ -40,6 +48,46 @@ export type ReelMeta = {
   onTaste?: (key: string, more: boolean) => void;
 };
 
+/**
+ * A section's own colour, as the rest of 383 paints it (Sport cyan, Ekonomi
+ * green, Botë amber…), with the ink that reads on it. Sections without one keep
+ * the paper's colour.
+ */
+export function sectionTone(category: string | null | undefined): React.CSSProperties | undefined {
+  const color = category ? CATEGORY_COLORS[category] : undefined;
+  if (!color || !category) return undefined;
+  return { "--fy-accent": color, "--fy-accent-text": CATEGORY_LIGHT_BG.has(category) ? "#151412" : "#fff" } as React.CSSProperties;
+}
+
+/** A burst in the middle of the screen: the picked emoji, and a ring of small ones flying out. */
+type Burst = { id: number; emoji: string; kind: "like" | "dislike" | "react" | "tap"; x?: number; y?: number };
+const RING = [0, 45, 90, 135, 180, 225, 270, 315];
+
+/** Each burst leaves when its own animation ends, however late a busy phone gets to play it. */
+function Bursts({ list, onDone }: { list: Burst[]; onDone: (id: number) => void }) {
+  return (
+    <>
+      {list.map((b) =>
+        b.kind === "tap" ? (
+          <span key={b.id} className="fy-heart" style={{ left: b.x, top: b.y }} aria-hidden="true" onAnimationEnd={() => onDone(b.id)}>
+            {b.emoji}
+          </span>
+        ) : (
+          <span key={b.id} className="fy-burst" data-kind={b.kind} aria-hidden="true">
+            <b onAnimationEnd={() => onDone(b.id)}>{b.emoji}</b>
+            {b.kind !== "dislike" &&
+              RING.map((a, i) => (
+                <i key={a} style={{ "--a": `${a + (i % 2 ? 12 : 0)}deg`, "--d": `${i % 2 ? 92 : 128}px`, "--w": `${i * 18}ms` } as React.CSSProperties}>
+                  {b.emoji}
+                </i>
+              ))}
+          </span>
+        )
+      )}
+    </>
+  );
+}
+
 /** The news photo first; the clay illustration only stands in when a story has none. */
 const photoOf = (a: PaperStory["article"]) => a.imageUrl || a.coverArt || null;
 
@@ -58,6 +106,15 @@ async function shareStory(article: FeedArticle): Promise<string | null> {
   }
 }
 
+/**
+ * A wide news photo stretched over a tall phone is cropped to a sliver and
+ * blown up five or six times, and turns to mush. Such a photo is shown whole
+ * and sharp instead, over a blurred copy of itself — the way TikTok shows a
+ * landscape picture. Tall and square photos still fill the screen.
+ */
+const WIDE = 1.15;
+const TALL_SCREEN = 1.25;
+
 /** The screen's picture: the first of `src` and `fallback` that loads. */
 function Backdrop({
   src,
@@ -74,25 +131,40 @@ function Backdrop({
   onFallback?: () => void;
 }) {
   const [tries, setTries] = useState(0);
+  const [whole, setWhole] = useState(false);
   const list = [src, fallback].filter((s, i, all): s is string => Boolean(s) && all.indexOf(s) === i);
   const current = list[tries];
   if (!current) return null;
   return (
-    <Image
-      key={current}
-      src={current}
-      alt=""
-      fill
-      sizes="(min-width: 1024px) 70vw, 100vw"
-      priority={priority}
-      className={`fy-bg${blur ? " fy-bg--blur" : ""}`}
-      style={{ objectFit: "cover" }}
-      draggable={false}
-      onError={() => {
-        if (tries + 1 < list.length) onFallback?.();
-        setTries((t) => t + 1);
-      }}
-    />
+    <>
+      {whole && (
+        <Image key={`${current}#fill`} src={current} alt="" fill sizes="40vw" quality={60} className="fy-bg fy-bg--blur" style={{ objectFit: "cover" }} draggable={false} />
+      )}
+      <Image
+        key={current}
+        src={current}
+        alt=""
+        fill
+        sizes="(min-width: 1024px) 70vw, 100vw"
+        // Sharper than the default: the photo is the whole screen here.
+        quality={blur ? 75 : 90}
+        priority={priority}
+        className={`fy-bg${blur ? " fy-bg--blur" : ""}${whole ? " fy-bg--whole" : ""}`}
+        style={{ objectFit: whole ? "contain" : "cover" }}
+        draggable={false}
+        onLoad={(e) => {
+          if (blur) return;
+          const img = e.currentTarget;
+          const box = img.parentElement?.getBoundingClientRect();
+          if (!box?.width || !img.naturalWidth || !img.naturalHeight) return;
+          setWhole(img.naturalWidth / img.naturalHeight > WIDE && box.height > box.width * TALL_SCREEN);
+        }}
+        onError={() => {
+          if (tries + 1 < list.length) onFallback?.();
+          setTries((t) => t + 1);
+        }}
+      />
+    </>
   );
 }
 
@@ -144,8 +216,8 @@ export function CoverSlide({
           </ol>
         )}
         <div className="fy-cover-actions">
-          <a href={start.href} className="fy-btn fy-btn--light">
-            {start.label} <ChevronUp size={17} strokeWidth={2.6} aria-hidden="true" />
+          <a href={start.href} className="fy-btn fy-btn--light fy-btn--start">
+            {start.label} <ChevronDown size={18} strokeWidth={2.8} aria-hidden="true" />
           </a>
           {children}
         </div>
@@ -171,9 +243,12 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
   const [tray, setTray] = useState(false);
   const [taste, setTaste] = useState<null | "more" | "less">(null);
   const [toast, setToast] = useState<string | null>(null);
-  const [hearts, setHearts] = useState<{ id: number; x: number; y: number }[]>([]);
+  const [bursts, setBursts] = useState<Burst[]>([]);
+  const [talking, setTalking] = useState(false);
   const lastTap = useRef(0);
   const reactions = useReactions();
+  const thread = useCommentThread(article.slug, (n) => reactions.setComments(article.slug, n));
+  const comments = reactions.comments[article.slug] ?? 0;
   const mine = reactions.mine[article.slug];
   const tally = reactions.tallies[article.slug];
   const top = topLine(tally);
@@ -187,20 +262,33 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
     setToast(text);
     window.setTimeout(() => setToast((t) => (t === text ? null : t)), 2200);
   };
-  const vote = (more: boolean) => {
+  const done = (id: number) => setBursts((list) => list.filter((p) => p.id !== id));
+  const burst = (b: Omit<Burst, "id">) => {
+    const id = Date.now() + Math.random();
+    setBursts((list) => [...list.slice(-2), { ...b, id }]);
+    // Only a safety net: with reduced motion there is no animation to end.
+    window.setTimeout(() => done(id), 3000);
+  };
+  const vote = (more: boolean, quiet = false) => {
     if (!why?.key || !meta.onTaste) return;
-    meta.onTaste(why.key, more);
+    const key = why.key;
+    const taught = meta.onTaste;
+    // Teaching the paper re-ranks every story; let the burst pop first so the
+    // tap answers at once, even on a slow phone.
+    window.setTimeout(() => taught(key, more), 420);
     setTaste(more ? "more" : "less");
+    if (!quiet) burst(more ? { kind: "like", emoji: "❤️" } : { kind: "dislike", emoji: "👎" });
     say(more ? "Do të shohësh më shumë si kjo" : "Do të shohësh më pak si kjo");
   };
-  // Double-tap the picture: a heart, and "more like this".
+  const reacted = (emoji: string) => burst({ kind: "react", emoji });
+  // Double-tap the picture: a heart where the finger was, and "more like this".
   const heart = (x: number, y: number) => {
-    const id = Date.now();
-    setHearts((h) => [...h.slice(-2), { id, x, y }]);
-    window.setTimeout(() => setHearts((h) => h.filter((p) => p.id !== id)), 900);
-    if (canTaste && taste !== "more") vote(true);
+    burst({ kind: "tap", emoji: "❤️", x, y });
+    if (canTaste && taste !== "more") vote(true, true);
   };
   const onTap = (e: React.PointerEvent<HTMLDivElement>) => {
+    // Taps inside the comments (on <body>, but still React's child) are not on the picture.
+    if (!e.currentTarget.contains(e.target as Node)) return;
     if ((e.target as HTMLElement).closest("a, button")) return;
     const now = Date.now();
     const box = e.currentTarget.getBoundingClientRect();
@@ -211,15 +299,18 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
   };
 
   return (
-    <div className="fy-story" data-photo={photo ? "" : undefined} data-read={isRead || undefined} data-pace={meta.pace} onPointerUp={onTap}>
+    <div
+      className="fy-story"
+      data-photo={photo ? "" : undefined}
+      data-read={isRead || undefined}
+      data-pace={meta.pace}
+      style={sectionTone(article.category)}
+      onPointerUp={onTap}
+    >
       <Backdrop src={photo} fallback={article.coverArt ?? null} priority={eager} onFallback={() => setPlateStoodIn(true)} />
       <div className="fy-shade" />
       {plate && <small className="fy-credit">Ilustrim me AI</small>}
-      {hearts.map((h) => (
-        <span key={h.id} className="fy-heart" style={{ left: h.x, top: h.y }} aria-hidden="true">
-          ❤️
-        </span>
-      ))}
+      <Bursts list={bursts} onDone={done} />
 
       <div className="fy-story-body">
         <p className="fy-kicker">
@@ -279,6 +370,12 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
             <span aria-hidden="true">{mine ? "Reagove" : "Reago"}</span>
           </button>
         )}
+        {reactions.commentsOk && (
+          <button type="button" className="fy-act" onClick={() => setTalking(true)} aria-label={`Komentet: ${comments}`}>
+            <MessageCircle size={22} strokeWidth={2.2} aria-hidden="true" />
+            <span aria-hidden="true">{comments ? shortCount(comments) : "Komento"}</span>
+          </button>
+        )}
         <button
           type="button"
           className="fy-act"
@@ -299,7 +396,8 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
         )}
       </div>
 
-      {tray && <ReactionTray slug={article.slug} onClose={() => setTray(false)} />}
+      {tray && <ReactionTray slug={article.slug} onClose={() => setTray(false)} onPick={reacted} />}
+      {reactions.commentsOk && <CommentsSheet open={talking} onClose={() => setTalking(false)} thread={thread} title={article.title} />}
 
       {open && why && (
         <div className="fy-whysheet" role="note">
@@ -326,7 +424,7 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
 }
 
 /** "Si ndihesh?" — five feelings, then how everyone else felt. */
-function ReactionTray({ slug, onClose }: { slug: string; onClose: () => void }) {
+function ReactionTray({ slug, onClose, onPick }: { slug: string; onClose: () => void; onPick: (emoji: string) => void }) {
   const { tallies, mine, react } = useReactions();
   const picked = mine[slug];
   const [failed, setFailed] = useState(false);
@@ -341,6 +439,7 @@ function ReactionTray({ slug, onClose }: { slug: string; onClose: () => void }) 
               key={r.key}
               type="button"
               onClick={async () => {
+                onPick(r.emoji);
                 const saved = await react(slug, r.key);
                 setFailed(!saved);
               }}
@@ -354,7 +453,14 @@ function ReactionTray({ slug, onClose }: { slug: string; onClose: () => void }) 
         <ul className="fy-tray-results">
           {list.map((r) => (
             <li key={r.key} data-mine={r.key === picked || undefined}>
-              <button type="button" onClick={() => react(slug, r.key)} aria-label={`${r.label}: ${r.pct}%`}>
+              <button
+                type="button"
+                onClick={() => {
+                  if (r.key !== picked) onPick(r.emoji);
+                  react(slug, r.key);
+                }}
+                aria-label={`${r.label}: ${r.pct}%`}
+              >
                 <span className="fy-tray-bar" style={{ transform: `scaleX(${r.pct / 100})` }} aria-hidden="true" />
                 <b aria-hidden="true">{r.emoji}</b>
                 <span>{r.label}</span>
@@ -398,7 +504,7 @@ export function SectionSlide({
 }) {
   const [said, setSaid] = useState<null | "more" | "less">(null);
   return (
-    <div className="fy-section">
+    <div className="fy-section" style={sectionKey.startsWith("cat:") ? sectionTone(title) : undefined}>
       <Backdrop src={photo} blur />
       <div className="fy-shade fy-shade--section" />
       <div className="fy-section-body">
@@ -449,7 +555,22 @@ export function SectionSlide({
   );
 }
 
-/** A light screen for the boxes and the end of the paper; scrolls inside if it must. */
+/**
+ * One of "Shkurt, për sot"'s boxes as a screen of its own: the box on a white
+ * card in the middle, the paper's colour around it, swiped past like a story.
+ */
+export function BoxSlide({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="fy-box">
+      <div className="fy-box-body">
+        <p className="fy-box-kicker">{label}</p>
+        <div className="fy-box-card">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+/** A light screen for the end of the paper; scrolls inside if it must. */
 export function PanelSlide({ kicker, title, children }: { kicker?: string; title: string; children: ReactNode }) {
   return (
     <div className="fy-panel">

@@ -1,0 +1,25 @@
+export declare const MAX_BODY: number;
+export declare const REPORT_HIDE: number;
+export declare const RATE_MAX: number;
+export declare const RATE_WINDOW_S: number;
+export declare const THREAD_LIMIT: number;
+export type CommentRow = {
+  id: number;
+  parentId: number | null;
+  name: string;
+  body: string;
+  createdAt: string;
+  mine?: boolean;
+};
+export type Thread = CommentRow & { replies: CommentRow[] };
+export function isArticleSlug(v: unknown): v is string;
+export function isCommentId(v: unknown): v is number;
+export function cleanBody(raw: unknown): string | null;
+export function bodyProblem(raw: unknown): string | null;
+export function initials(name: unknown): string;
+export function avatarColor(seed: unknown): string;
+export function threads(rows: unknown): Thread[];
+export function countsFrom(rows: unknown): Record<string, number>;
+export function parseArticleSlugs(input: unknown, max?: number): string[];
+export function countLabel(n: unknown): string;
+export function shortCount(n: unknown): string;

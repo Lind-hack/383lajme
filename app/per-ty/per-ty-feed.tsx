@@ -69,7 +69,7 @@ import Sheet from "./paper/sheet";
 import ShareSheet, { type ShareablePaper } from "./paper/share-sheet";
 import Reel, { type ReelScreen } from "./paper/reel";
 import { ReactionsProvider } from "./paper/reactions";
-import { CoverSlide, PanelSlide, SectionSlide, StorySlide, type PaperStory, type ReelMeta } from "./paper/slides";
+import { BoxSlide, CoverSlide, PanelSlide, SectionSlide, StorySlide, type PaperStory, type ReelMeta } from "./paper/slides";
 import { newspaperFonts } from "./paper/fonts";
 import "./paper/reel.css";
 
@@ -316,10 +316,29 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
     setPrefs(next);
   }
 
-  const slides = useMemo(
-    () => reelSlides(paper, { brief: Boolean(prefs?.boxes && Object.values(prefs.boxes).some(Boolean)) }),
-    [paper, prefs?.boxes]
+  // Dardani's three lines are written from this edition, the stories not yet read.
+  const briefSlugs = useMemo(
+    () =>
+      paper.edition
+        .filter((i) => !read.has(i.article.slug))
+        .slice(0, 6)
+        .map((i) => i.article.slug),
+    [paper.edition, read]
   );
+
+  // "Shkurt, për sot": each box the reader keeps on is a screen of its own.
+  const boxKeys = useMemo(() => {
+    const on = prefs?.boxes;
+    if (!on) return [];
+    return [
+      on.brief && briefSlugs.length >= 2 ? "brief" : null,
+      on.city ? "city" : null,
+      on.numbers ? "numbers" : null,
+      on.tregu ? "tregu" : null,
+    ].filter((k): k is string => Boolean(k));
+  }, [prefs?.boxes, briefSlugs.length]);
+
+  const slides = useMemo(() => reelSlides(paper, { boxes: boxKeys }), [paper, boxKeys]);
 
   // A story on screen a moment counts as shown; tomorrow, the ones never
   // opened teach the paper (lib/perty-skips).
@@ -397,14 +416,8 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
   const ed = paper.edition;
   const readCount = ed.filter((i) => read.has(i.article.slug)).length;
   const allRead = ed.length > 0 && readCount === ed.length;
-  // Dardani's three lines are written from this edition, the stories not yet read.
-  const briefSlugs = ed
-    .filter((i) => !read.has(i.article.slug))
-    .slice(0, 6)
-    .map((i) => i.article.slug);
   const firstUnread = ed.find((i) => !read.has(i.article.slug)) ?? ed[0];
   const canShare = ed.length > 0;
-  const boxes = prefs.boxes;
   const showSignup = justFinished && signedIn === false && !signupDismissed;
   const followNames = paper.allKeys
     .map((k) => keyLabel(k))
@@ -478,20 +491,25 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
       };
     }
     if (slide.kind === "brief") {
+      const box =
+        slide.box === "brief" ? (
+          <DardaniBrief slugs={briefSlugs} />
+        ) : slide.box === "city" ? (
+          <TownToday homeId={home} story={townStory} onPickCity={() => setEditing(true)} />
+        ) : slide.box === "numbers" ? (
+          <NumbersBox today={dayCount} days={issue} streak={streak} reads={monthReads} />
+        ) : (
+          <TreguBox />
+        );
       return {
         key: slide.key,
         kind: "brief",
         title: slide.title,
-        node: (
-          <PanelSlide kicker="Para se të fillosh" title="Shkurt, për sot">
-            <div className="fy-boxes">
-              {boxes.brief && briefSlugs.length >= 2 && <DardaniBrief slugs={briefSlugs} />}
-              {boxes.city && <TownToday homeId={home} story={townStory} onPickCity={() => setEditing(true)} />}
-              {boxes.numbers && <NumbersBox today={dayCount} days={issue} streak={streak} reads={monthReads} />}
-              {boxes.tregu && <TreguBox />}
-            </div>
-          </PanelSlide>
-        ),
+        group: slide.group,
+        groupTitle: slide.groupTitle,
+        pos: slide.pos,
+        of: slide.of,
+        node: <BoxSlide label={`Shkurt, për sot · ${slide.pos + 1} nga ${slide.of}`}>{box}</BoxSlide>,
       };
     }
     if (slide.kind === "section") {
@@ -710,25 +728,66 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
       )}
 
       <Sheet open={helping} onClose={() => setHelping(false)} title="Si funksionon gazeta jote" titleId="perty-help-title">
-        <ol className="perty-help-list">
+        <ol className="fy-help">
           <li>
-            <b>E bëre ti.</b> Nga ato që zgjodhe{followNames.length ? ` — ${followNames.join(", ")}` : ""}.
+            <span className="fy-help-icon" aria-hidden="true">
+              ✍️
+            </span>
+            <div>
+              <b>E bëre ti</b>
+              <p>Nga ato që zgjodhe{followNames.length ? ` — ${followNames.join(", ")}` : ""}.</p>
+            </div>
           </li>
           <li>
-            <b>Një lajm për ekran.</b> Rrëshqit lart (në telefon) ose rrotullo / shtyp ↓ (në kompjuter) për lajmin tjetër.
+            <span className="fy-help-icon" aria-hidden="true">
+              👆
+            </span>
+            <div>
+              <b>Një lajm për ekran</b>
+              <p>Rrëshqit lart në telefon, ose rrotullo / shtyp ↓ në kompjuter, për lajmin tjetër.</p>
+            </div>
           </li>
           <li>
-            <b>Pse e sheh?</b> Etiketa me ngjyrë mbi çdo lajm të tregon arsyen.
+            <span className="fy-help-icon" aria-hidden="true">
+              🏷️
+            </span>
+            <div>
+              <b>Pse e sheh?</b>
+              <p>Etiketa mbi çdo lajm të tregon arsyen, me ngjyrën e rubrikës së vet.</p>
+            </div>
           </li>
           <li>
-            <b>Mësoje.</b> 👍 për më shumë si ai, 👎 për më pak. Gazeta mëson edhe nga sa gjatë lexon. Tani është{" "}
-            {lookInfo?.name.toLowerCase() ?? "e përditshme"}: {lookInfo?.about}.
+            <span className="fy-help-icon" aria-hidden="true">
+              ❤️
+            </span>
+            <div>
+              <b>Mësoje</b>
+              <p>
+                👍 për më shumë si ai, 👎 për më pak, ose prek dy herë foton. Gazeta mëson edhe nga sa gjatë lexon. Tani është{" "}
+                {lookInfo?.name.toLowerCase() ?? "e përditshme"}: {lookInfo?.about}.
+              </p>
+            </div>
           </li>
           <li>
-            <b>Ndaje.</b> Shoku yt merr një lidhje dhe e sheh gazetën tënde të sotme.
+            <span className="fy-help-icon" aria-hidden="true">
+              💬
+            </span>
+            <div>
+              <b>Reago dhe komento</b>
+              <p>Shih si u ndjenë të tjerët, dhe thuaj mendimin tënd te komentet.</p>
+            </div>
+          </li>
+          <li>
+            <span className="fy-help-icon" aria-hidden="true">
+              🔗
+            </span>
+            <div>
+              <b>Ndaje</b>
+              <p>Shoku yt merr një lidhje dhe e sheh gazetën tënde të sotme.</p>
+            </div>
           </li>
         </ol>
-        <p className="perty-help-privacy">Të gjitha ruhen vetëm në këtë pajisje.</p>
+        <p className="perty-help-privacy">Zgjedhjet dhe leximi ruhen vetëm në këtë pajisje.</p>
         <button
           type="button"
           className="perty-btn perty-btn--ghost"

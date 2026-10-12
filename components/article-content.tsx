@@ -10,6 +10,7 @@ import ArticleCard from "@/components/article-card";
 import ArticleSidebar from "@/components/article-sidebar";
 import type { DosjeData } from "@/components/article-sidebar";
 import DosjeSection from "@/components/dosje-section";
+import ArticleComments from "@/components/comments/article-comments";
 import ArticleShareRow from "@/components/article-share-row";
 import ArticleAsk from "@/components/article-ask";
 import { toParagraphs, readingMinutes } from "@/lib/article-body.mjs";
@@ -215,6 +216,9 @@ export default function ArticleContent({ article, related, moreFromCategory = []
             {editorial ? editorial.afterBody : <ArticleAsk article={article} />}
 
             <ArticleShareRow slug={article.slug} title={article.title} path={editorial?.path} />
+
+            {/* Readers' comments, TikTok-style (components/comments). */}
+            {!editorial && <ArticleComments slug={article.slug} title={article.title} accent={catColor} />}
 
             {/* After the third real read, Dardani offers the paper he made from them. */}
             {!editorial && <PaperReady />}

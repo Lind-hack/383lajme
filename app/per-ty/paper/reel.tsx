@@ -25,7 +25,7 @@ export type ReelScreen = {
   key: string;
   kind: "cover" | "brief" | "story" | "section" | "end";
   title: string;
-  /** Stories: their group, place in it and its size, for the bars at the top. */
+  /** Stories and the boxes: their group, place in it and its size, for the bars at the top. */
   group?: string;
   groupTitle?: string;
   pos?: number;
@@ -223,11 +223,11 @@ export default function Reel({
   }, [count, jump]);
 
   const current = screens[index];
-  const bars = current?.kind === "story" && current.of ? current : null;
+  const bars = (current?.kind === "story" || current?.kind === "brief") && current.of ? current : null;
 
   return (
     <div className="fy" data-look={look}>
-      <div className="fy-main" data-tone={current?.kind === "brief" || current?.kind === "end" ? "light" : "dark"}>
+      <div className="fy-main" data-tone={current?.kind === "end" ? "light" : "dark"}>
         <div className="fy-top">
           {bars ? (
             <div className="fy-bars" aria-hidden="true">
@@ -243,7 +243,7 @@ export default function Reel({
           <div className="fy-top-row">
             <p className="fy-top-where">
               <b>{name}</b>
-              {current?.kind === "story" && current.groupTitle ? <span>{current.groupTitle}</span> : null}
+              {bars?.groupTitle ? <span>{bars.groupTitle}</span> : null}
             </p>
             {tools && <div className="fy-tools fy-tools--top">{tools}</div>}
           </div>
