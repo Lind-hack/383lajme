@@ -17,12 +17,11 @@ type BriefLine = { slug: string; text: string };
 const BRIEF_KEY = "383:perty-brief";
 
 /**
- * "Në 30 sekonda": Dardani's three lines, written only from the stories of
- * this edition (app/api/per-ty/brief). Kept on the device for the day, for the
- * same stories, so a return visit costs nothing. When the model is down or says
- * nothing usable, the block is simply absent.
+ * Dardani's lines for these stories (app/api/per-ty/brief): null while he is
+ * writing, [] when he has nothing usable. Kept on the device for the day, for
+ * the same stories, so a return visit costs nothing.
  */
-export function DardaniBrief({ slugs, print = 0 }: { slugs: string[]; print?: number }) {
+export function useBriefLines(slugs: string[]) {
   const key = [...slugs].sort().join("|");
   const [lines, setLines] = useState<BriefLine[] | null>(null);
 
@@ -64,6 +63,16 @@ export function DardaniBrief({ slugs, print = 0 }: { slugs: string[]; print?: nu
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
+  return lines;
+}
+
+/**
+ * "Në 30 sekonda": Dardani's lines, written only from the stories of this
+ * edition. When the model is down or says nothing usable, the block is simply
+ * absent.
+ */
+export function DardaniBrief({ slugs, print = 0 }: { slugs: string[]; print?: number }) {
+  const lines = useBriefLines(slugs);
   if (lines && lines.length === 0) return null;
   return (
     <section

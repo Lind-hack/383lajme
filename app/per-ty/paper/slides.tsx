@@ -11,7 +11,9 @@
 //                 comments, share, why. Liking, disliking and reacting each
 //                 burst in the middle of the screen. Each story wears its
 //                 section's colour (lib/category-colors)
-//   BoxSlide      one of "Shkurt, për sot"'s boxes, a screen of its own
+//   RecapSlide    "Sot në 30 sekonda": the whole edition on one screen, a line
+//                 a story (Dardani's, or the story's own words), each a tap
+//                 from its screen, with how many the reader has read
 //   SectionSlide  a follow's own screen in its colour: what it is, why it is in
 //                 the paper, how many stories, more / less of it
 //   PanelSlide    a light screen for the boxes and the end of the paper
@@ -22,7 +24,10 @@
 import { Fragment, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ChevronDown, Info, MessageCircle, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, MessageCircle, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
+import DardaniFace from "@/components/dardani/dardani-face";
+import { recapRows } from "@/lib/perty-brief.mjs";
+import { useBriefLines } from "./boxes";
 import TimeAgo from "@/components/time-ago";
 import CommentsSheet from "@/components/comments/comments-sheet";
 import { useCommentThread } from "@/components/comments/use-comment-thread";
@@ -121,12 +126,15 @@ function Backdrop({
   fallback = null,
   priority = false,
   blur = false,
+  fit = "auto",
   onFallback,
 }: {
   src: string | null;
   fallback?: string | null;
   priority?: boolean;
   blur?: boolean;
+  /** "cover" always fills (the cover's name sits on the photo); "auto" shows a wide photo whole on a tall screen. */
+  fit?: "auto" | "cover";
   /** Told when the fallback had to stand in. */
   onFallback?: () => void;
 }) {
@@ -153,7 +161,7 @@ function Backdrop({
         style={{ objectFit: whole ? "contain" : "cover" }}
         draggable={false}
         onLoad={(e) => {
-          if (blur) return;
+          if (blur || fit === "cover") return;
           const img = e.currentTarget;
           const box = img.parentElement?.getBoundingClientRect();
           if (!box?.width || !img.naturalWidth || !img.naturalHeight) return;
@@ -176,6 +184,7 @@ export function CoverSlide({
   photo,
   heads,
   start,
+  streak = 0,
   children,
 }: {
   title: string;
@@ -188,11 +197,13 @@ export function CoverSlide({
   /** The first headlines, each turning to its screen. */
   heads: { title: string; href: string }[];
   start: { label: string; href: string };
+  /** Days in a row the reader has come; shown from the second. */
+  streak?: number;
   children?: ReactNode;
 }) {
   return (
     <div className="fy-cover">
-      <Backdrop src={photo} priority />
+      <Backdrop src={photo} priority fit="cover" />
       <div className="fy-shade fy-shade--cover" />
       <div className="fy-cover-body">
         <p className="fy-cover-kicker">{kicker}</p>
@@ -206,6 +217,11 @@ export function CoverSlide({
           )}
         </h1>
         <p className="fy-cover-line">{line}</p>
+        {streak >= 2 && (
+          <p className="fy-streak">
+            <span aria-hidden="true">🔥</span> {streak} ditë rresht — mos e prish sot
+          </p>
+        )}
         {heads.length > 0 && (
           <ol className="fy-cover-heads">
             {heads.map((h) => (
@@ -388,12 +404,6 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
           <Share2 size={22} strokeWidth={2.2} aria-hidden="true" />
           <span aria-hidden="true">Ndaje</span>
         </button>
-        {why && !meta.readOnly && (
-          <button type="button" className="fy-act" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-label="Pse e sheh këtë lajm?">
-            <Info size={22} strokeWidth={2.2} aria-hidden="true" />
-            <span aria-hidden="true">Pse?</span>
-          </button>
-        )}
       </div>
 
       {tray && <ReactionTray slug={article.slug} onClose={() => setTray(false)} onPick={reacted} />}
@@ -555,16 +565,54 @@ export function SectionSlide({
   );
 }
 
+export type RecapStory = { slug: string; title: string; excerpt?: string | null; category: string; href: string; read: boolean };
+
 /**
- * One of "Shkurt, për sot"'s boxes as a screen of its own: the box on a white
- * card in the middle, the paper's colour around it, swiped past like a story.
+ * "Sot në 30 sekonda": the day in one screen. Every story of the edition gets
+ * one line — Dardani's when he has written it, the story's own first sentence
+ * until then (lib/perty-brief recapRows), so it is whole and never says more
+ * than the stories do. Each line jumps to its story.
  */
-export function BoxSlide({ label, children }: { label: string; children: ReactNode }) {
+export function RecapSlide({ date, stories }: { date: string; stories: RecapStory[] }) {
+  const lines = useBriefLines(stories.map((s) => s.slug));
+  const rows = recapRows(stories, lines);
+  const bySlug = new Map(stories.map((s) => [s.slug, s]));
+  const read = stories.filter((s) => s.read).length;
   return (
-    <div className="fy-box">
-      <div className="fy-box-body">
-        <p className="fy-box-kicker">{label}</p>
-        <div className="fy-box-card">{children}</div>
+    <div className="fy-recap">
+      <div className="fy-recap-body">
+        <header className="fy-recap-head">
+          <DardaniFace state="happy" size={46} decorative />
+          <div>
+            <p className="fy-recap-kicker">Shkurt, për sot · {date}</p>
+            <h2 className="fy-recap-title">Sot në 30 sekonda</h2>
+          </div>
+        </header>
+        <div className="fy-recap-progress" aria-label={`${read} nga ${stories.length} lajme të lexuara`}>
+          <span>
+            <i style={{ transform: `scaleX(${stories.length ? read / stories.length : 0})` }} />
+          </span>
+          <b>
+            {read}/{stories.length}
+          </b>
+        </div>
+        <ol className="fy-recap-list">
+          {rows.map((r, i) => {
+            const s = bySlug.get(r.slug);
+            if (!s) return null;
+            return (
+              <li key={r.slug} style={{ ...sectionTone(s.category), "--i": i } as React.CSSProperties} data-read={s.read || undefined}>
+                <a href={s.href} aria-label={`${s.category}: ${r.text}`}>
+                  <span className="fy-recap-n" aria-hidden="true">
+                    {s.read ? <Check size={14} strokeWidth={3.2} /> : i + 1}
+                  </span>
+                  <span className="fy-recap-line">{r.text}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+        <p className="fy-recap-foot">{lines?.length ? "Përmbledhur nga Dardani, vetëm nga lajmet e sotme." : "Nga lajmet e sotme. Prek një për ta lexuar."}</p>
       </div>
     </div>
   );

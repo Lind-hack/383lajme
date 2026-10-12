@@ -223,7 +223,7 @@ export default function Reel({
   }, [count, jump]);
 
   const current = screens[index];
-  const bars = (current?.kind === "story" || current?.kind === "brief") && current.of ? current : null;
+  const bars = current?.kind === "story" && current.of ? current : null;
 
   return (
     <div className="fy" data-look={look}>
@@ -267,15 +267,6 @@ export default function Reel({
           ))}
         </div>
 
-        <div className="fy-steps">
-          <button type="button" onClick={() => jump(index - 1)} disabled={index === 0} aria-label="Lajmi i mëparshëm">
-            <ChevronUp size={20} strokeWidth={2.4} aria-hidden="true" />
-          </button>
-          <button type="button" onClick={() => jump(index + 1)} disabled={index >= count - 1} aria-label="Lajmi tjetër">
-            <ChevronDown size={20} strokeWidth={2.4} aria-hidden="true" />
-          </button>
-        </div>
-
         {/* What comes next, so there is always a reason to keep going. */}
         {screens[index + 1] && (
           <button type="button" className="fy-peek" onClick={() => jump(index + 1)}>
@@ -286,6 +277,16 @@ export default function Reel({
             <ChevronDown size={16} strokeWidth={2.6} aria-hidden="true" />
           </button>
         )}
+
+        {/* ↑ ↓ on a wide screen: at the end of the strip, clear of the reader's buttons. */}
+        <div className="fy-steps">
+          <button type="button" onClick={() => jump(index - 1)} disabled={index === 0} aria-label="Lajmi i mëparshëm">
+            <ChevronUp size={20} strokeWidth={2.4} aria-hidden="true" />
+          </button>
+          <button type="button" onClick={() => jump(index + 1)} disabled={index >= count - 1} aria-label="Lajmi tjetër">
+            <ChevronDown size={20} strokeWidth={2.4} aria-hidden="true" />
+          </button>
+        </div>
 
         {hint && index === 0 && (
           <button type="button" className="fy-hint" onClick={() => jump(1)}>

@@ -63,13 +63,13 @@ import PaperReveal from "@/components/paper-reveal";
 import Onboarding from "./onboarding";
 import MorningPush from "./morning-push";
 import { dateline } from "./paper/cover";
-import { AllReadCheer, DardaniBrief, NumbersBox, TownToday, TreguBox } from "./paper/boxes";
+import { AllReadCheer, NumbersBox, TownToday, TreguBox } from "./paper/boxes";
 import CustomizeSheet from "./paper/customize-sheet";
 import Sheet from "./paper/sheet";
 import ShareSheet, { type ShareablePaper } from "./paper/share-sheet";
 import Reel, { type ReelScreen } from "./paper/reel";
 import { ReactionsProvider } from "./paper/reactions";
-import { BoxSlide, CoverSlide, PanelSlide, SectionSlide, StorySlide, type PaperStory, type ReelMeta } from "./paper/slides";
+import { CoverSlide, PanelSlide, RecapSlide, SectionSlide, StorySlide, type PaperStory, type ReelMeta } from "./paper/slides";
 import { newspaperFonts } from "./paper/fonts";
 import "./paper/reel.css";
 
@@ -316,27 +316,12 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
     setPrefs(next);
   }
 
-  // Dardani's three lines are written from this edition, the stories not yet read.
-  const briefSlugs = useMemo(
-    () =>
-      paper.edition
-        .filter((i) => !read.has(i.article.slug))
-        .slice(0, 6)
-        .map((i) => i.article.slug),
-    [paper.edition, read]
+  // "Shkurt, për sot": the day's recap, one screen, when the reader keeps it on.
+  // The town, the numbers and Tregu are on the end screen.
+  const boxKeys = useMemo(
+    () => (prefs?.boxes?.brief && paper.edition.length >= 2 ? ["recap"] : []),
+    [prefs?.boxes?.brief, paper.edition.length]
   );
-
-  // "Shkurt, për sot": each box the reader keeps on is a screen of its own.
-  const boxKeys = useMemo(() => {
-    const on = prefs?.boxes;
-    if (!on) return [];
-    return [
-      on.brief && briefSlugs.length >= 2 ? "brief" : null,
-      on.city ? "city" : null,
-      on.numbers ? "numbers" : null,
-      on.tregu ? "tregu" : null,
-    ].filter((k): k is string => Boolean(k));
-  }, [prefs?.boxes, briefSlugs.length]);
 
   const slides = useMemo(() => reelSlides(paper, { boxes: boxKeys }), [paper, boxKeys]);
 
@@ -486,30 +471,29 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
               .slice(0, 3)
               .map((s) => ({ title: s.title, href: hashForSlide(s.n) }))}
             start={{ label: readCount ? "Vazhdo leximin" : "Fillo leximin", href: hashForSlide(firstStory > 0 ? firstStory : 1) }}
+            streak={streak}
           />
         ),
       };
     }
     if (slide.kind === "brief") {
-      const box =
-        slide.box === "brief" ? (
-          <DardaniBrief slugs={briefSlugs} />
-        ) : slide.box === "city" ? (
-          <TownToday homeId={home} story={townStory} onPickCity={() => setEditing(true)} />
-        ) : slide.box === "numbers" ? (
-          <NumbersBox today={dayCount} days={issue} streak={streak} reads={monthReads} />
-        ) : (
-          <TreguBox />
-        );
       return {
         key: slide.key,
         kind: "brief",
         title: slide.title,
-        group: slide.group,
-        groupTitle: slide.groupTitle,
-        pos: slide.pos,
-        of: slide.of,
-        node: <BoxSlide label={`Shkurt, për sot · ${slide.pos + 1} nga ${slide.of}`}>{box}</BoxSlide>,
+        node: (
+          <RecapSlide
+            date={dateCap}
+            stories={ed.slice(0, 8).map((item) => ({
+              slug: item.article.slug,
+              title: item.article.title,
+              excerpt: item.article.excerpt,
+              category: item.article.category,
+              href: hashForSlide(slides.findIndex((s) => s.kind === "story" && s.item.article.slug === item.article.slug)),
+              read: read.has(item.article.slug),
+            }))}
+          />
+        ),
       };
     }
     if (slide.kind === "section") {
@@ -591,6 +575,13 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
             </button>
           </div>
           <MorningPush />
+          {(prefs.boxes.city || prefs.boxes.numbers || prefs.boxes.tregu) && (
+            <div className="fy-end-boxes">
+              {prefs.boxes.city && <TownToday homeId={home} story={townStory} onPickCity={() => setEditing(true)} />}
+              {prefs.boxes.numbers && <NumbersBox today={dayCount} days={issue} streak={streak} reads={monthReads} />}
+              {prefs.boxes.tregu && <TreguBox />}
+            </div>
+          )}
           {streak >= 2 && (
             <p>
               <b>{streak} ditë rresht.</b> Kthehu nesër që të mos e prishësh.

@@ -251,20 +251,21 @@
   outline-offset: 2px;
 }
 
+/* ↑ ↓ (wide screens): at the right end of the "Më pas" strip, never among the
+   reader's buttons. */
 .fy-steps {
   position: absolute;
-  top: 64px;
-  right: 22px;
-  z-index: 5;
+  right: 10px;
+  bottom: 4px;
+  z-index: 6;
   display: none;
-  flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 .fy-steps button {
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
   border: 0;
   border-radius: 50%;
   background: rgb(255 255 255 / 0.16);
@@ -1203,76 +1204,178 @@
   font: 800 14px/1.3 var(--fy-sans);
 }
 
-/* ── "Shkurt, për sot": one box a screen ──────────────────────────────────── */
+/* ── "Shkurt, për sot": the day's recap, one screen ───────────────────────── */
 
-.fy-box {
+.fy-recap {
   position: absolute;
   inset: 0;
   overflow: hidden;
   color: #fff;
   background:
-    radial-gradient(120% 70% at 85% 0%, color-mix(in srgb, var(--fy-accent) 85%, #fff) 0%, transparent 60%),
-    linear-gradient(170deg, var(--fy-accent) 0%, color-mix(in srgb, var(--fy-accent) 55%, #120c0a) 100%);
+    radial-gradient(120% 60% at 90% 0%, color-mix(in srgb, var(--fy-accent) 70%, transparent) 0%, transparent 62%),
+    linear-gradient(175deg, #1c1411 0%, #0e0e0e 70%);
 }
-.fy-box::after {
-  /* A soft wave across the bottom, the paper's own. */
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 38%;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 200' preserveAspectRatio='none'%3E%3Cpath d='M0 60c100-40 200 40 300 0s200-40 300 0v140H0z' fill='%23000' fill-opacity='.14'/%3E%3Cpath d='M0 110c120-36 220 30 320 0s190-34 280-6v96H0z' fill='%23000' fill-opacity='.14'/%3E%3C/svg%3E") bottom / 100% 100% no-repeat;
-  pointer-events: none;
-}
-.fy-box-body {
+.fy-recap-body {
   position: absolute;
   inset: 0;
-  z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 14px;
-  max-width: 560px;
+  gap: 12px;
+  max-width: 640px;
   margin: 0 auto;
-  padding: 84px 18px 66px;
+  padding: 76px 18px 58px;
 }
-.fy-box-kicker {
+.fy-recap-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.fy-recap-kicker {
   margin: 0;
-  font: 800 12px/1.2 var(--fy-sans);
+  font: 800 11px/1.3 var(--fy-sans);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  text-shadow: 0 1px 6px rgb(0 0 0 / 0.2);
+  color: rgb(255 255 255 / 0.7);
 }
-.fy-box-card {
-  max-height: 100%;
+.fy-recap-title {
+  margin: 2px 0 0;
+  font: var(--fy-head-weight) clamp(26px, 7vw, 36px)/1.02 var(--fy-head);
+  letter-spacing: -0.02em;
+  text-transform: var(--fy-case);
+}
+.fy-recap-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.fy-recap-progress > span {
+  flex: 1;
+  height: 6px;
   overflow: hidden;
-  border-radius: 24px;
-  background: #fff;
-  color: #151412;
-  box-shadow: 0 24px 60px rgb(0 0 0 / 0.28);
+  border-radius: 6px;
+  background: rgb(255 255 255 / 0.14);
 }
-.fy-box-card:empty {
-  display: none;
+.fy-recap-progress i {
+  display: block;
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--fy-accent), #ffb020);
+  transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.fy-box-card > * {
-  margin: 0 !important;
-  border: 0 !important;
-  box-shadow: none !important;
+.fy-recap-progress b {
+  font: 800 13px/1 var(--fy-sans);
+  font-variant-numeric: tabular-nums;
 }
-.fy-box .perty-town-main {
-  grid-template-columns: 1fr;
+.fy-recap-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  list-style: none;
+}
+.fy-recap-list a {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 9px 10px;
+  border-radius: 14px;
+  background: rgb(255 255 255 / 0.06);
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.15s ease, transform 0.12s ease;
+}
+.fy-recap-list a:hover {
+  background: rgb(255 255 255 / 0.12);
+}
+.fy-recap-list a:active {
+  transform: scale(0.98);
+}
+.fy-recap-n {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--fy-accent);
+  color: var(--fy-accent-text, #fff);
+  font: 800 12.5px/1 var(--fy-sans);
+}
+.fy-recap-list li[data-read] .fy-recap-n {
+  background: #1f9d55;
+  color: #fff;
+}
+.fy-recap-list li[data-read] .fy-recap-line {
+  color: rgb(255 255 255 / 0.55);
+}
+.fy-recap-line {
+  display: -webkit-box;
+  min-width: 0;
+  overflow: hidden;
+  font: 600 14px/1.36 var(--fy-sans);
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.fy-recap-foot {
+  margin: 0;
+  font: 600 11.5px/1.3 var(--fy-sans);
+  color: rgb(255 255 255 / 0.55);
 }
 @media (prefers-reduced-motion: no-preference) {
-  .fy-screen .fy-box-body > * {
+  .fy-screen .fy-recap-list li {
     opacity: 0;
   }
-  .fy-screen[data-active] .fy-box-body > * {
-    animation: fy-rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  .fy-screen[data-active] .fy-recap-list li {
+    animation: fy-rise 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    animation-delay: calc(120ms + var(--i, 0) * 55ms);
   }
-  .fy-screen[data-active] .fy-box-card {
-    animation-delay: 90ms;
+}
+/* Short phones: one line a story, so the whole day still fits. */
+@media (max-height: 760px) {
+  .fy-recap-line {
+    -webkit-line-clamp: 1;
   }
+  .fy-recap-foot {
+    display: none;
+  }
+  .fy-recap-body {
+    gap: 9px;
+  }
+  .fy-recap-list a {
+    padding: 7px 10px;
+  }
+}
+
+/* The town, the numbers and Tregu, on the end screen. */
+.fy-end-boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+.fy-end-boxes > * {
+  margin: 0;
+}
+.fy-end-boxes .perty-town-main {
+  grid-template-columns: 1fr;
+}
+
+/* "🔥 4 ditë rresht" on the cover. */
+.fy-streak {
+  align-self: flex-start;
+  margin: 0;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.16);
+  font: 800 13px/1.2 var(--fy-sans);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 /* ── the sheets: Rregullo gazetën, Si funksionon, Ndaje ─────────────────────
@@ -1503,6 +1606,12 @@
   .fy-steps {
     display: flex;
   }
+  .fy-peek {
+    padding-right: 104px;
+  }
+  .fy-peek > svg {
+    display: none;
+  }
   .fy-credit {
     right: 84px;
   }
@@ -1703,6 +1812,16 @@
   }
 }
 
+/* Short screens: the side buttons keep their size and spacing; their words go. */
+@media (max-height: 640px) {
+  .fy-act > span {
+    display: none;
+  }
+  .fy-actions {
+    gap: 10px;
+  }
+}
+
 /* Short phones: less text over the photo. */
 @media (max-height: 700px) and (max-width: 1023px) {
   .fy-text {
@@ -1730,7 +1849,8 @@
   .fy-peek svg {
     animation: none;
   }
-  .fy-tray-bar {
+  .fy-tray-bar,
+  .fy-recap-progress i {
     transition: none;
   }
   .fy-bars span,
