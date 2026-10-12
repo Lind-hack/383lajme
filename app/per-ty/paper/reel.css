@@ -592,6 +592,335 @@
   transform: translate(-50%, 0);
 }
 
+/* ── living screens ───────────────────────────────────────────────────────
+   The photo drifts slowly while its screen is on view (one way on even
+   screens, the other on odd ones); the headline rises in word by word as the
+   screen arrives, then the rest follows. Reduced motion keeps everything still. */
+
+@media (prefers-reduced-motion: no-preference) {
+  .fy-screen[data-active] .fy-bg:not(.fy-bg--blur) {
+    animation: fy-drift-a 16s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+  }
+  .fy-screen[data-active][data-dir="b"] .fy-bg:not(.fy-bg--blur) {
+    animation-name: fy-drift-b;
+  }
+  .fy-screen .fy-w {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.45em);
+  }
+  .fy-screen[data-active] .fy-w {
+    animation: fy-word 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    animation-delay: calc(var(--i, 0) * 45ms + 120ms);
+  }
+  .fy-screen .fy-kicker,
+  .fy-screen .fy-text,
+  .fy-screen .fy-story-foot,
+  .fy-screen .fy-actions,
+  .fy-screen .fy-section-body > *,
+  .fy-screen .fy-cover-body > * {
+    opacity: 0;
+  }
+  .fy-screen[data-active] .fy-kicker {
+    animation: fy-pop-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 60ms both;
+  }
+  .fy-screen[data-active] .fy-text,
+  .fy-screen[data-active] .fy-story-foot {
+    animation: fy-rise 0.5s ease-out 0.45s both;
+  }
+  .fy-screen[data-active] .fy-actions {
+    animation: fy-rise 0.5s ease-out 0.3s both;
+  }
+  .fy-screen[data-active] .fy-section-body > *,
+  .fy-screen[data-active] .fy-cover-body > * {
+    animation: fy-rise 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  .fy-screen[data-active] .fy-section-body > :nth-child(2),
+  .fy-screen[data-active] .fy-cover-body > :nth-child(2) {
+    animation-delay: 80ms;
+  }
+  .fy-screen[data-active] .fy-section-body > :nth-child(3),
+  .fy-screen[data-active] .fy-cover-body > :nth-child(3) {
+    animation-delay: 160ms;
+  }
+  .fy-screen[data-active] .fy-section-body > :nth-child(n + 4),
+  .fy-screen[data-active] .fy-cover-body > :nth-child(n + 4) {
+    animation-delay: 240ms;
+  }
+}
+@keyframes fy-drift-a {
+  from {
+    transform: scale(1.02) translate(0, 0);
+  }
+  to {
+    transform: scale(1.14) translate(-2%, -1.5%);
+  }
+}
+@keyframes fy-drift-b {
+  from {
+    transform: scale(1.14) translate(2%, 1%);
+  }
+  to {
+    transform: scale(1.03) translate(0, 0);
+  }
+}
+@keyframes fy-word {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fy-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fy-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Double-tap: a heart where the finger was. */
+.fy-heart {
+  position: absolute;
+  z-index: 6;
+  font-size: 88px;
+  line-height: 1;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: fy-heart 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  filter: drop-shadow(0 6px 18px rgb(0 0 0 / 0.35));
+}
+@keyframes fy-heart {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3) rotate(-12deg);
+  }
+  25% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15) rotate(6deg);
+  }
+  45% {
+    transform: translate(-50%, -50%) scale(0.95) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -110%) scale(1.05);
+  }
+}
+
+/* Reactions: the button down the side, the crowd's top pick, the tray. */
+.fy-act--emoji b {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.15);
+  font-size: 25px;
+  line-height: 1;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: transform 0.15s ease;
+}
+.fy-act--emoji:active b {
+  transform: scale(0.88);
+}
+.fy-act--emoji[aria-expanded="true"] b {
+  background: var(--fy-accent);
+}
+.fy-mark--crowd {
+  border: 0;
+  color: #fff;
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.fy-tray {
+  position: absolute;
+  right: 74px;
+  bottom: 28px;
+  left: 12px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+  margin-left: auto;
+  padding: 16px;
+  border-radius: 22px;
+  background: rgb(22 22 22 / 0.94);
+  color: #fff;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  animation: fy-up 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.fy-tray-title {
+  margin: 0;
+  font: 800 15px/1.3 var(--fy-sans);
+}
+.fy-tray-pick {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+.fy-tray-pick button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 2px;
+  border: 0;
+  border-radius: 14px;
+  background: rgb(255 255 255 / 0.08);
+  color: #fff;
+  font: 700 10.5px/1.1 var(--fy-sans);
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+.fy-tray-pick button:hover {
+  background: rgb(255 255 255 / 0.16);
+}
+.fy-tray-pick button:active {
+  transform: scale(0.9);
+}
+.fy-tray-pick b {
+  font-size: 30px;
+  line-height: 1;
+}
+.fy-tray-results {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fy-tray-results button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 12px;
+  background: rgb(255 255 255 / 0.07);
+  color: #fff;
+  font: 700 14px/1 var(--fy-sans);
+  text-align: left;
+  cursor: pointer;
+}
+.fy-tray-bar {
+  position: absolute;
+  inset: 0;
+  background: rgb(255 255 255 / 0.16);
+  transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.fy-tray-results li[data-mine] .fy-tray-bar {
+  background: var(--fy-accent);
+}
+.fy-tray-results b,
+.fy-tray-results span,
+.fy-tray-results i {
+  position: relative;
+}
+.fy-tray-results b {
+  font-size: 20px;
+}
+.fy-tray-results i {
+  margin-left: auto;
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+}
+.fy-tray-foot {
+  margin: 0;
+  font: 600 12.5px/1.4 var(--fy-sans);
+  color: rgb(255 255 255 / 0.7);
+}
+
+/* "Më pas": the next screen, always in sight. */
+.fy-peek {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 16px;
+  border: 0;
+  border-top: 1px solid rgb(255 255 255 / 0.14);
+  background: rgb(10 10 10 / 0.72);
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.fy-peek-label {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--fy-accent);
+  font: 800 10.5px/1 var(--fy-sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.fy-peek-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font: 700 13.5px/1.2 var(--fy-sans);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fy-peek svg {
+  flex-shrink: 0;
+  animation: fy-nudge 1.6s ease-in-out infinite;
+}
+@keyframes fy-nudge {
+  50% {
+    transform: translateY(3px);
+  }
+}
+.fy-main[data-tone="light"] .fy-peek {
+  border-top-color: rgb(21 20 18 / 0.1);
+  background: rgb(247 244 238 / 0.85);
+  color: #151412;
+}
+/* Room for the strip under every screen's own content. */
+.fy-story-body,
+.fy-cover-body,
+.fy-actions,
+.fy-tray,
+.fy-whysheet {
+  margin-bottom: 46px;
+}
+.fy-panel-body {
+  padding-bottom: 82px;
+}
+
 /* ── the cover ────────────────────────────────────────────────────────────── */
 
 .fy-shade--cover {
@@ -1088,8 +1417,14 @@
 @media (prefers-reduced-motion: reduce) {
   .fy-hint,
   .fy-act[aria-pressed="true"] svg,
-  .fy-whysheet {
+  .fy-whysheet,
+  .fy-tray,
+  .fy-heart,
+  .fy-peek svg {
     animation: none;
+  }
+  .fy-tray-bar {
+    transition: none;
   }
   .fy-bars span,
   .fy-bars--all span,

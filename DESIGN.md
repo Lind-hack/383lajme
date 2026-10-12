@@ -298,6 +298,14 @@ Labels, buttons and text over photos are Manrope. Light screens (the boxes, the 
 - **Follow screen:** the follow's name huge on its colour over a blurred photo, why it is in the paper, how many stories, Më shumë / Më pak / Të gjitha.
 - **Sidebar (wide screens):** name, date and count, the tools, then every screen with thumbnails; the one on view is black.
 
+## Living screens and reactions
+
+- **Photos:** the news photo always leads; the clay illustration (labelled "Ilustrim me AI") only stands in when a story has no photo or its photo fails to load.
+- **Motion:** the photo on view drifts slowly (16 s, alternating direction); the headline rises in word by word as the screen arrives, the reason tag pops in, the rest follows. Reduced motion: still.
+- **Double-tap** the picture: a heart, and it counts as "Më shumë si kjo".
+- **Reago:** a button down the side opens five feelings (the Reagimi i Ditës set: 😠 😂 🤔 👍 ✨); after picking, live shares from every reader, the reader's own in the spot colour, changeable. A story with 3+ reactions shows its top one in the tag row ("😂 45% qesharake · 120"). Stored in `story_reactions` (migration 0105), one per anonymous device per story, through `app/api/per-ty/reactions`; without the table the button is simply absent.
+- **Më pas:** a strip along the bottom names the next screen and moves there on tap.
+
 ## Motion
 
 The browser's own snap scrolling (`scroll-snap-type: y mandatory`, `scroll-snap-stop: always`), so a swipe on a phone feels native and never sticks. A wheel or trackpad gesture moves exactly one screen (the reel takes the wheel: native snapping needs half a screen of wheel); a light screen with more in it scrolls first. ↑ ↓ / j k / Page Up/Down step one screen; the sidebar and the cover's headlines jump. The screen is in the address (`#lajmi-4`). First visit: a bobbing "Rrëshqit lart" pill on the cover.

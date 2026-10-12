@@ -12,6 +12,7 @@ import { lookById } from "@/lib/paper-look.mjs";
 import { genitive } from "@/lib/reader-name.mjs";
 import { hashForSlide, reelSlides } from "@/lib/paper-reel.mjs";
 import Reel, { type ReelScreen } from "@/app/per-ty/paper/reel";
+import { ReactionsProvider } from "@/app/per-ty/paper/reactions";
 import { CoverSlide, NO_SEEN, PanelSlide, SectionSlide, StorySlide, type ReelMeta } from "@/app/per-ty/paper/slides";
 import { newspaperFonts } from "@/app/per-ty/paper/fonts";
 import type { FeedArticle } from "@/app/per-ty/per-ty-feed";
@@ -65,7 +66,7 @@ export default function SharedPaper({
             title={title}
             kicker={`${who} · ${date}`}
             line={`${edition.length === 1 ? "1 lajm" : `${edition.length} lajme`} · ${minutes} min${sections.length ? ` · ${sections.map((s) => s.title).slice(0, 3).join(", ")}` : ""}`}
-            photo={lead ? lead.coverArt || lead.imageUrl || null : null}
+            photo={lead ? lead.imageUrl || lead.coverArt || null : null}
             heads={slides
               .filter((s) => s.kind === "story")
               .slice(0, 3)
@@ -92,7 +93,7 @@ export default function SharedPaper({
             count={slide.count}
             hidden={slide.hidden}
             href={s.href}
-            photo={first ? first.coverArt || first.imageUrl || null : null}
+            photo={first ? first.imageUrl || first.coverArt || null : null}
             sectionKey={s.key}
             meta={meta}
           />
@@ -108,7 +109,7 @@ export default function SharedPaper({
         groupTitle: slide.groupTitle,
         pos: slide.pos,
         of: slide.of,
-        thumb: slide.item.article.coverArt || slide.item.article.imageUrl || null,
+        thumb: slide.item.article.imageUrl || slide.item.article.coverArt || null,
         node: <StorySlide story={{ article: slide.item.article, why: null }} meta={meta} eager={slide.n <= 3} />,
       };
     }
@@ -140,20 +141,22 @@ export default function SharedPaper({
 
   return (
     <div className={`perty-paper-pages ${newspaperFonts}`}>
-      <Reel
-        screens={screens}
-        look={info?.id ?? "e-perditshme"}
-        label={title}
-        name={title}
-        sub={`${who} · ${date}`}
-        hint
-        tools={
-          <Link href="/per-ty" className="fy-tool fy-tool--primary">
-            <span className="fy-tool-label">Bëj tënden</span>
-            <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
-          </Link>
-        }
-      />
+      <ReactionsProvider slugs={slides.flatMap((s) => (s.kind === "story" ? [s.item.article.slug] : []))}>
+        <Reel
+          screens={screens}
+          look={info?.id ?? "e-perditshme"}
+          label={title}
+          name={title}
+          sub={`${who} · ${date}`}
+          hint
+          tools={
+            <Link href="/per-ty" className="fy-tool fy-tool--primary">
+              <span className="fy-tool-label">Bëj tënden</span>
+              <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
+            </Link>
+          }
+        />
+      </ReactionsProvider>
     </div>
   );
 }

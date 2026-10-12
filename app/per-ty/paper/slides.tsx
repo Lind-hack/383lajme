@@ -15,12 +15,14 @@
 // A shared copy (/gazeta) passes `readOnly`: no reasons, no read marks, no
 // "more / less" — those are the sharer's, not the friend's.
 
-import { useState, type ReactNode } from "react";
+import { Fragment, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ChevronUp, Info, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
 import TimeAgo from "@/components/time-ago";
 import { isNewSince } from "@/lib/perty-visits.mjs";
+import { STORY_REACTIONS, shares, topLine } from "@/lib/story-reactions.mjs";
+import { useReactions } from "./reactions";
 import type { FeedArticle } from "../per-ty-feed";
 
 export type Why = { short: string; long: string; key: string | null; picked: boolean };
@@ -38,7 +40,8 @@ export type ReelMeta = {
   onTaste?: (key: string, more: boolean) => void;
 };
 
-const photoOf = (a: PaperStory["article"]) => a.coverArt || a.imageUrl || null;
+/** The news photo first; the clay illustration only stands in when a story has none. */
+const photoOf = (a: PaperStory["article"]) => a.imageUrl || a.coverArt || null;
 
 /** Share one story: the system sheet on a phone, the clipboard elsewhere. */
 async function shareStory(article: FeedArticle): Promise<string | null> {
@@ -55,12 +58,29 @@ async function shareStory(article: FeedArticle): Promise<string | null> {
   }
 }
 
-function Backdrop({ src, priority = false, blur = false }: { src: string | null; priority?: boolean; blur?: boolean }) {
-  const [failed, setFailed] = useState(false);
-  if (!src || failed) return null;
+/** The screen's picture: the first of `src` and `fallback` that loads. */
+function Backdrop({
+  src,
+  fallback = null,
+  priority = false,
+  blur = false,
+  onFallback,
+}: {
+  src: string | null;
+  fallback?: string | null;
+  priority?: boolean;
+  blur?: boolean;
+  /** Told when the fallback had to stand in. */
+  onFallback?: () => void;
+}) {
+  const [tries, setTries] = useState(0);
+  const list = [src, fallback].filter((s, i, all): s is string => Boolean(s) && all.indexOf(s) === i);
+  const current = list[tries];
+  if (!current) return null;
   return (
     <Image
-      src={src}
+      key={current}
+      src={current}
       alt=""
       fill
       sizes="(min-width: 1024px) 70vw, 100vw"
@@ -68,7 +88,10 @@ function Backdrop({ src, priority = false, blur = false }: { src: string | null;
       className={`fy-bg${blur ? " fy-bg--blur" : ""}`}
       style={{ objectFit: "cover" }}
       draggable={false}
-      onError={() => setFailed(true)}
+      onError={() => {
+        if (tries + 1 < list.length) onFallback?.();
+        setTries((t) => t + 1);
+      }}
     />
   );
 }
@@ -142,13 +165,23 @@ function Toast({ text }: { text: string | null }) {
 export function StorySlide({ story, meta, eager = false }: { story: PaperStory; meta: ReelMeta; eager?: boolean }) {
   const { article, why } = story;
   const photo = photoOf(article);
+  const [plateStoodIn, setPlateStoodIn] = useState(false);
+  const plate = (!article.imageUrl || plateStoodIn) && Boolean(article.coverArt);
   const [open, setOpen] = useState(false);
+  const [tray, setTray] = useState(false);
   const [taste, setTaste] = useState<null | "more" | "less">(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [hearts, setHearts] = useState<{ id: number; x: number; y: number }[]>([]);
+  const lastTap = useRef(0);
+  const reactions = useReactions();
+  const mine = reactions.mine[article.slug];
+  const tally = reactions.tallies[article.slug];
+  const top = topLine(tally);
   const isRead = !meta.readOnly && meta.seen.read.has(article.slug);
   const isNew = !meta.readOnly && !isRead && isNewSince(article, meta.seen.since);
   const canTaste = !meta.readOnly && Boolean(why?.key && meta.onTaste);
   const href = `/article/${article.slug}`;
+  const words = article.title.split(/\s+/).filter(Boolean);
 
   const say = (text: string) => {
     setToast(text);
@@ -160,12 +193,33 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
     setTaste(more ? "more" : "less");
     say(more ? "Do të shohësh më shumë si kjo" : "Do të shohësh më pak si kjo");
   };
+  // Double-tap the picture: a heart, and "more like this".
+  const heart = (x: number, y: number) => {
+    const id = Date.now();
+    setHearts((h) => [...h.slice(-2), { id, x, y }]);
+    window.setTimeout(() => setHearts((h) => h.filter((p) => p.id !== id)), 900);
+    if (canTaste && taste !== "more") vote(true);
+  };
+  const onTap = (e: React.PointerEvent<HTMLDivElement>) => {
+    if ((e.target as HTMLElement).closest("a, button")) return;
+    const now = Date.now();
+    const box = e.currentTarget.getBoundingClientRect();
+    if (now - lastTap.current < 320) {
+      heart(e.clientX - box.left, e.clientY - box.top);
+      lastTap.current = 0;
+    } else lastTap.current = now;
+  };
 
   return (
-    <div className="fy-story" data-photo={photo ? "" : undefined} data-read={isRead || undefined} data-pace={meta.pace}>
-      <Backdrop src={photo} priority={eager} />
+    <div className="fy-story" data-photo={photo ? "" : undefined} data-read={isRead || undefined} data-pace={meta.pace} onPointerUp={onTap}>
+      <Backdrop src={photo} fallback={article.coverArt ?? null} priority={eager} onFallback={() => setPlateStoodIn(true)} />
       <div className="fy-shade" />
-      {article.coverArt && <small className="fy-credit">Ilustrim me AI</small>}
+      {plate && <small className="fy-credit">Ilustrim me AI</small>}
+      {hearts.map((h) => (
+        <span key={h.id} className="fy-heart" style={{ left: h.x, top: h.y }} aria-hidden="true">
+          ❤️
+        </span>
+      ))}
 
       <div className="fy-story-body">
         <p className="fy-kicker">
@@ -178,9 +232,22 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
           )}
           {isRead && <span className="fy-mark">Lexuar</span>}
           {isNew && <span className="fy-mark fy-mark--new">E re</span>}
+          {top && (
+            <button type="button" className="fy-mark fy-mark--crowd" onClick={() => setTray(true)}>
+              {top.emoji} {top.pct}% {top.label.toLowerCase()} · {top.total}
+            </button>
+          )}
         </p>
         <h2 className="fy-head">
-          <Link href={href}>{article.title}</Link>
+          <Link href={href} aria-label={article.title}>
+            {words.map((w, i) => (
+              <Fragment key={i}>
+                <span className="fy-w" style={{ "--i": i } as React.CSSProperties} aria-hidden="true">
+                  {w}
+                </span>{" "}
+              </Fragment>
+            ))}
+          </Link>
         </h2>
         {article.excerpt && <p className="fy-text">{article.excerpt}</p>}
         <div className="fy-story-foot">
@@ -206,6 +273,12 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
             </button>
           </>
         )}
+        {reactions.ok && (
+          <button type="button" className="fy-act fy-act--emoji" onClick={() => setTray((t) => !t)} aria-expanded={tray} aria-label="Reago ndaj këtij lajmi">
+            <b aria-hidden="true">{mine ? STORY_REACTIONS.find((r) => r.key === mine)?.emoji : "😮"}</b>
+            <span aria-hidden="true">{mine ? "Reagove" : "Reago"}</span>
+          </button>
+        )}
         <button
           type="button"
           className="fy-act"
@@ -225,6 +298,8 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
           </button>
         )}
       </div>
+
+      {tray && <ReactionTray slug={article.slug} onClose={() => setTray(false)} />}
 
       {open && why && (
         <div className="fy-whysheet" role="note">
@@ -246,6 +321,55 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
         </div>
       )}
       <Toast text={toast} />
+    </div>
+  );
+}
+
+/** "Si ndihesh?" — five feelings, then how everyone else felt. */
+function ReactionTray({ slug, onClose }: { slug: string; onClose: () => void }) {
+  const { tallies, mine, react } = useReactions();
+  const picked = mine[slug];
+  const [failed, setFailed] = useState(false);
+  const { total, list } = shares(tallies[slug]);
+  return (
+    <div className="fy-tray" role="dialog" aria-label="Reago ndaj këtij lajmi">
+      <p className="fy-tray-title">{picked ? "Si u ndjenë të tjerët" : "Si ndihesh për këtë lajm?"}</p>
+      {!picked ? (
+        <div className="fy-tray-pick">
+          {STORY_REACTIONS.map((r) => (
+            <button
+              key={r.key}
+              type="button"
+              onClick={async () => {
+                const saved = await react(slug, r.key);
+                setFailed(!saved);
+              }}
+            >
+              <b aria-hidden="true">{r.emoji}</b>
+              <span>{r.label}</span>
+            </button>
+          ))}
+        </div>
+      ) : (
+        <ul className="fy-tray-results">
+          {list.map((r) => (
+            <li key={r.key} data-mine={r.key === picked || undefined}>
+              <button type="button" onClick={() => react(slug, r.key)} aria-label={`${r.label}: ${r.pct}%`}>
+                <span className="fy-tray-bar" style={{ transform: `scaleX(${r.pct / 100})` }} aria-hidden="true" />
+                <b aria-hidden="true">{r.emoji}</b>
+                <span>{r.label}</span>
+                <i>{r.pct}%</i>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+      <p className="fy-tray-foot">
+        {failed ? "Nuk u ruajt — provo sërish." : picked ? `${total} ${total === 1 ? "reagim" : "reagime"} · prek një tjetër për ta ndryshuar` : "Pastaj sheh si ndihen lexuesit e tjerë."}
+      </p>
+      <button type="button" className="fy-whysheet-close" onClick={onClose}>
+        Mbyll
+      </button>
     </div>
   );
 }

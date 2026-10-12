@@ -52,6 +52,17 @@ function isEditable(el: EventTarget | null) {
   return Boolean(node?.closest?.("input, textarea, select, [contenteditable='true'], [role='dialog']"));
 }
 
+/** A small picture in the list; a broken one becomes a plain tile. */
+function ListThumb({ src }: { src: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return <span className="fy-list-thumb fy-list-thumb--none" aria-hidden="true" />;
+  return (
+    <span className="fy-list-thumb">
+      <Image src={src} alt="" fill sizes="56px" style={{ objectFit: "cover" }} onError={() => setFailed(true)} />
+    </span>
+  );
+}
+
 export default function Reel({
   screens,
   look,
@@ -245,6 +256,8 @@ export default function Reel({
               className="fy-screen"
               data-index={i}
               data-kind={s.kind}
+              data-active={i === index || undefined}
+              data-dir={i % 2 ? "b" : "a"}
               aria-posinset={i + 1}
               aria-setsize={count}
               aria-label={s.title}
@@ -262,6 +275,17 @@ export default function Reel({
             <ChevronDown size={20} strokeWidth={2.4} aria-hidden="true" />
           </button>
         </div>
+
+        {/* What comes next, so there is always a reason to keep going. */}
+        {screens[index + 1] && (
+          <button type="button" className="fy-peek" onClick={() => jump(index + 1)}>
+            <span className="fy-peek-label">Më pas</span>
+            <span className="fy-peek-title">
+              {screens[index + 1].kind === "section" ? `${screens[index + 1].title} — lajmet e tua` : screens[index + 1].title}
+            </span>
+            <ChevronDown size={16} strokeWidth={2.6} aria-hidden="true" />
+          </button>
+        )}
 
         {hint && index === 0 && (
           <button type="button" className="fy-hint" onClick={() => jump(1)}>
@@ -291,9 +315,7 @@ export default function Reel({
                 <button type="button" className="fy-list-item" onClick={() => jump(i)} aria-current={i === index ? "true" : undefined} data-read={s.read || undefined}>
                   {s.kind === "story" ? (
                     s.thumb ? (
-                      <span className="fy-list-thumb">
-                        <Image src={s.thumb} alt="" fill sizes="56px" style={{ objectFit: "cover" }} />
-                      </span>
+                      <ListThumb src={s.thumb} />
                     ) : (
                       <span className="fy-list-thumb fy-list-thumb--none" aria-hidden="true" />
                     )

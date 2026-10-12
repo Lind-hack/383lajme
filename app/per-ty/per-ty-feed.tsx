@@ -68,6 +68,7 @@ import CustomizeSheet from "./paper/customize-sheet";
 import Sheet from "./paper/sheet";
 import ShareSheet, { type ShareablePaper } from "./paper/share-sheet";
 import Reel, { type ReelScreen } from "./paper/reel";
+import { ReactionsProvider } from "./paper/reactions";
 import { CoverSlide, PanelSlide, SectionSlide, StorySlide, type PaperStory, type ReelMeta } from "./paper/slides";
 import { newspaperFonts } from "./paper/fonts";
 import "./paper/reel.css";
@@ -420,6 +421,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
 
   const meta: ReelMeta = { readOnly: false, pace, seen: { since, read }, onTaste };
   const firstStory = slides.findIndex((s) => s.kind === "story");
+  const storySlugs = slides.flatMap((s) => (s.kind === "story" ? [s.item.article.slug] : []));
 
   const forget = () => {
     save({ ...interests, affinity: {} });
@@ -465,7 +467,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
             onRename={() => setCustomizing(true)}
             kicker={`${dateCap} · ${edition}${issue > 0 ? ` · Nr. ${issue}` : ""}`}
             line={`${ed.length === 1 ? "1 lajm" : `${ed.length} lajme`} · ${paper.minutes} min${followNames.length ? ` · për ${followNames.join(", ")}` : ""}`}
-            photo={lead ? lead.coverArt || lead.imageUrl || null : null}
+            photo={lead ? lead.imageUrl || lead.coverArt || null : null}
             heads={slides
               .filter((s) => s.kind === "story")
               .slice(0, 3)
@@ -514,7 +516,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
             count={slide.count}
             hidden={slide.hidden}
             href={s.href}
-            photo={first ? first.coverArt || first.imageUrl || null : null}
+            photo={first ? first.imageUrl || first.coverArt || null : null}
             sectionKey={s.key}
             meta={meta}
           />
@@ -540,7 +542,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
         groupTitle: slide.groupTitle,
         pos: slide.pos,
         of: slide.of,
-        thumb: item.article.coverArt || item.article.imageUrl || null,
+        thumb: item.article.imageUrl || item.article.coverArt || null,
         read: read.has(item.article.slug),
         node: <StorySlide story={story} meta={meta} eager={i <= 3} />,
       };
@@ -683,21 +685,23 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
           </div>
         </div>
       ) : (
-        <Reel
-          screens={screens}
-          look={look}
-          label={title}
-          name={title}
-          sub={`${dateCap} · ${ed.length === 1 ? "1 lajm" : `${ed.length} lajme`} · ${paper.minutes} min`}
-          tools={tools}
-          hint={howto}
-          onShown={onShown}
-          onMove={() => {
-            if (!howto) return;
-            setFlag(HOWTO_KEY);
-            setHowto(false);
-          }}
-        />
+        <ReactionsProvider slugs={storySlugs}>
+          <Reel
+            screens={screens}
+            look={look}
+            label={title}
+            name={title}
+            sub={`${dateCap} · ${ed.length === 1 ? "1 lajm" : `${ed.length} lajme`} · ${paper.minutes} min`}
+            tools={tools}
+            hint={howto}
+            onShown={onShown}
+            onMove={() => {
+              if (!howto) return;
+              setFlag(HOWTO_KEY);
+              setHowto(false);
+            }}
+          />
+        </ReactionsProvider>
       )}
       {storageFailed && (
         <p className="perty-share-hint" role="status">

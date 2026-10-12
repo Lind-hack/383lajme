@@ -67,7 +67,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ code
 
   const covers = await getCoverArtMap().catch(() => ({}) as Record<string, string>);
   const [photo, fonts] = await Promise.all([
-    picture(covers[lead.slug] || lead.imageUrl, { width: W, height: H, timeoutMs: 3500, maxBytes: 5_000_000, tag: "[gazeta-og]" }),
+    picture(lead.imageUrl || covers[lead.slug], { width: W, height: H, timeoutMs: 3500, maxBytes: 5_000_000, tag: "[gazeta-og]" }),
     Promise.all([manrope(), garamond()]).then(([m, g]) => [...m, g]),
   ]);
 
