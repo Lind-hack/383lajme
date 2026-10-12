@@ -279,6 +279,26 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     CATALOG.write_text(json.dumps({lead["url"]: {key: value for key, value in lead.items()
                        if key.startswith("image_")} for lead in ready}, ensure_ascii=False, indent=2), encoding="utf-8")
     plan = coverage_plan(ready)
+    # Reporter's notes for the stories the writer will actually use (each desk's
+    # allocation plus a few spares). With notes, a story is written from them
+    # alone; a story whose notes failed is dropped rather than written from the
+    # source text, unless no notes came back at all this hour.
+    from news_fact_sheets import build_fact_sheets
+    wanted = [lead for category in CATEGORIES
+              for lead in [item for item in ready if item["category"] == category][:plan[category] + 3]]
+    notes_input = []
+    for lead in wanted:
+        record = json.loads(Path(lead["evidence_path"]).read_text(encoding="utf-8"))
+        notes_input.append({"pair_id": lead["pair_id"], "title": lead.get("title", ""),
+                            "text": str(record.get("evidence", {}).get("text", "")),
+                            "corroborating": " ".join(str(item.get("evidence", {}).get("text", ""))
+                                                      for item in record.get("corroborating", []))})
+    notes = build_fact_sheets(notes_input, folder) if notes_input else {}
+    if notes:
+        ready = [{**lead, "facts_path": str(notes[lead["pair_id"]])} for lead in ready if lead["pair_id"] in notes]
+        plan = coverage_plan(ready)
+    else:
+        print("383 FACT NOTES unavailable this hour; writer falls back to source evidence")
     data.update(verified_pair_ids=[lead["pair_id"] for lead in ready], ready_leads=ready,
                 source_ready_categories={category: sum(lead["category"] == category for lead in ready) for category in CATEGORIES},
                 publication_plan=plan, category_targets=hourly_targets(), rejected_inventory=rejected)
@@ -301,6 +321,9 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
             # to write; the normalizer restores it from the catalog by URL.
             shown = {key: value for key, value in lead.items()
                      if not key.startswith("image_") or key in {"image_subject", "image_caption"}}
+            if "facts_path" in shown:
+                # The writer works from the notes; the source text is for the editor.
+                shown.pop("evidence_path", None)
             lines += [json.dumps(shown, ensure_ascii=False), ""]
     lines += ["# Inventory shortfalls", json.dumps(rejected, ensure_ascii=False)]
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
