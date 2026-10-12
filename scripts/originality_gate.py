@@ -40,14 +40,10 @@ def _longest_exact_ngram(body_sentence: str, source_index: dict[int, set[tuple[s
 
 
 def _comparison_errors(article: dict[str, Any], source_text: str) -> list[str]:
-    # Exempt only the text inside short, balanced quotation marks. A quoted
-    # word must not exempt the surrounding copied paragraph.
+    # Quotation marks do not grant permission or prove attribution. Automated
+    # output uses independently composed indirect speech, not borrowed quotes.
     body = html.unescape(str(article.get("body") or ""))
-    quote_pattern = r'"([^"\n]+)"|“([^”\n]+)”|«([^»\n]+)»'
-    quoted_words = sum(len(_words(match.group(0))) for match in re.finditer(quote_pattern, body))
-    def strip_short_quote(match):
-        return " " if len(_words(match.group(0))) <= 16 and quoted_words <= 25 else match.group(0)
-    unquoted_body = re.sub(quote_pattern, strip_short_quote, body)
+    unquoted_body = body
     sentences = _sentences(unquoted_body)
     maximum = min(32, max((len(_words(sentence)) for sentence in sentences), default=0))
     source_index = _source_index(source_text, maximum)
@@ -78,6 +74,10 @@ def originality_errors(article: dict[str, Any], evidence: dict[str, Any]) -> lis
     if not source.get("text"):
         return ["primary evidence has no readable text for originality comparison"]
     errors = _comparison_errors(article, str(source["text"]) + "\n" + str(source.get("title") or ""))
+    body = html.unescape(re.sub(r"<[^>]+>", " ", str(article.get("body") or "")))
+    for match in re.finditer(r'"([^"\n]+)"|“([^”\n]+)”|«([^»\n]+)»', body):
+        if len(_words(match.group(0))) >= 6:
+            errors.append("substantive direct quotation is not permitted in automated copy; report supported facts in independently composed indirect speech")
     for item in evidence.get("corroborating", []):
         secondary = item.get("evidence") or {}
         if secondary.get("text"):

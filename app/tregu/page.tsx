@@ -223,11 +223,63 @@ export default function TreguHub() {
   const [category, setCategory] = useState("all");
   const [league, setLeague] = useState<string | null>(null);
   const [sort, setSort] = useState<SortKey>("vellim");
-  const [loading, setLoading] = useState(true);
+  const [balance, setBalance] = useState<number | null>(null);
+  /** The first portfolio answer arrived (or failed): the account bar can be placed. */
+  const [balanceTried, setBalanceTried] = useState(false);
+  const [marketsLoading, setLoading] = useState(true);
+  // Signed in, from the session already in the browser: no network, so the
+  // bonus and duel loads start with the markets instead of after them.
+  // `authKnown` matters: until the session is read, "signed out" is only the
+  // default, and revealing the floor on it would bring the bonus card in late.
+  const [signedIn, setSignedIn] = useState(false);
+  const [authKnown, setAuthKnown] = useState(false);
+  const authClient = useMemo(() => createClient(), []);
+  useEffect(() => {
+    let alive = true;
+    const supabase = authClient;
+    // A session read stuck behind the auth lock must never hold the floor back.
+    const fallback = window.setTimeout(() => {
+      if (alive) setAuthKnown(true);
+    }, 2500);
+    supabase.auth.getSession().then(({ data }) => {
+      if (!alive) return;
+      setSignedIn(Boolean(data.session?.user));
+      setAuthKnown(true);
+    }, () => {
+      if (alive) setAuthKnown(true);
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setSignedIn(Boolean(session?.user)));
+    return () => {
+      alive = false;
+      window.clearTimeout(fallback);
+      subscription.unsubscribe();
+    };
+  }, [authClient]);
+  const dailyBonus = useDailyBonus(signedIn);
+  const myDuels = useMyDuels(signedIn);
+  // The first view arrives whole: the market grid, the daily bonus card and
+  // the duel pin land in the same frame, never the grid first and the cards a
+  // beat later pushing it down. The grid's skeleton covers the wait. Only the
+  // first load is held this way, so switching category (which reloads the
+  // markets) never makes the cards blink. A stalled bonus or duel request
+  // cannot hold the floor back for more than two seconds past the markets.
+  const [extrasGaveUp, setExtrasGaveUp] = useState(false);
+  useEffect(() => {
+    if (marketsLoading || !authKnown || !signedIn) return;
+    const timer = window.setTimeout(() => setExtrasGaveUp(true), 2000);
+    return () => window.clearTimeout(timer);
+  }, [marketsLoading, authKnown, signedIn]);
+  const extrasReady = authKnown && (!signedIn || extrasGaveUp || (dailyBonus.loaded && myDuels.loaded && balanceTried));
+  const revealNow = !marketsLoading && extrasReady;
+  const [floorShown, setFloorShown] = useState(false);
+  useEffect(() => {
+    if (revealNow) setFloorShown(true);
+  }, [revealNow]);
+  const headerReady = floorShown || revealNow;
+  const loading = marketsLoading || !headerReady;
   const [loadError, setLoadError] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
   const [updatedAt, setUpdatedAt] = useState<string | null>(null);
-  const [balance, setBalance] = useState<number | null>(null);
   // What open trades would sell for now — the progress bar counts it, so going
   // all in does not read as a balance of zero.
   const [openValue, setOpenValue] = useState(0);
@@ -330,7 +382,10 @@ export default function TreguHub() {
     let controller: AbortController | null = null;
     setLoading(true);
     setLoadError(false);
-    const qs = category === "all" ? "?status=all" : `?category=${category}&status=all`;
+    // Open books only: the floor drops every other status on arrival, and
+    // status=all also shipped ~500 settled markets (4.9 MB, 2s+ on the server)
+    // that the first paint, and with it the bonus card, waited on.
+    const qs = category === "all" ? "?status=open" : `?category=${category}&status=open`;
 
     const load = async () => {
       if (document.visibilityState === "hidden") return;
@@ -426,6 +481,7 @@ export default function TreguHub() {
       fetch("/api/tregu/portfolio")
         .then((r) => (r.ok ? r.json() : null))
         .then((d) => {
+          if (!cancelled) setBalanceTried(true);
           if (cancelled || !d) return;
           const coins = d.profile?.coins;
           if (typeof coins !== "number") {
@@ -438,11 +494,16 @@ export default function TreguHub() {
           setOpenValue(Number(d.stats?.openValue) || 0);
           if (isMobile() && takeCelebrate()) celebrateMobile(coins);
         })
-        .catch(() => {});
+        .catch(() => {
+          if (!cancelled) setBalanceTried(true);
+        });
     };
 
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user && !cancelled) load();
+    // The session in the browser is enough to start: the portfolio route
+    // checks the user itself. getUser() asked the auth server first, one more
+    // round trip before the balance (and the account bar) could appear.
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user && !cancelled) load();
     });
 
     // Signup redirects can mount the floor before the session settles — the
@@ -661,39 +722,6 @@ export default function TreguHub() {
     results.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
   };
 
-  // Signed in, from the session already in the browser: no network, so the
-  // bonus and duel loads start with the markets instead of after the balance.
-  const [signedIn, setSignedIn] = useState(false);
-  const authClient = useMemo(() => createClient(), []);
-  useEffect(() => {
-    let alive = true;
-    const supabase = authClient;
-    supabase.auth.getSession().then(({ data }) => {
-      if (alive) setSignedIn(Boolean(data.session?.user));
-    });
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setSignedIn(Boolean(session?.user)));
-    return () => {
-      alive = false;
-      subscription.unsubscribe();
-    };
-  }, [authClient]);
-  const dailyBonus = useDailyBonus(signedIn);
-  const myDuels = useMyDuels(signedIn);
-  // Both cards land in the same frame as the market grid: never one, then the
-  // other, then a jump. Keyed to the *first* floor load, so switching category
-  // (which reloads the markets) never makes them blink. A stalled request
-  // cannot hold them back for more than four seconds.
-  const [floorShown, setFloorShown] = useState(false);
-  useEffect(() => {
-    if (!loading) setFloorShown(true);
-  }, [loading]);
-  const [extrasGaveUp, setExtrasGaveUp] = useState(false);
-  useEffect(() => {
-    if (!signedIn) return;
-    const timer = window.setTimeout(() => setExtrasGaveUp(true), 4000);
-    return () => window.clearTimeout(timer);
-  }, [signedIn]);
-  const headerReady = floorShown && (!signedIn || extrasGaveUp || (dailyBonus.loaded && myDuels.loaded));
   const [jackpot, setJackpot] = useState<{ streak: number } | null>(null);
   // Locked: the strip under the floor head explains it. Pressing the button
   // only makes the strip pulse (and brings it on screen if it is not); the
@@ -829,7 +857,7 @@ export default function TreguHub() {
               Si funksionon
             </button>
 
-            {balance !== null && (
+            {balance !== null && headerReady && (
               <div className="tregu-glass tregu-glass-hi tregu-headchip" data-tour="floor-balance">
                 <CoinFace size={26} spinning={coinSpin} hoverTilt />
                 <span className="tregu-headchip-amount">{fmtNum(balance)}</span>
@@ -890,7 +918,7 @@ export default function TreguHub() {
         </div>
 
         {/* Live tape — latest real trades across the floor, the hub's pulse. */}
-        <LiveTape trades={activity} format={timeAgo} />
+        {headerReady && <LiveTape trades={activity} format={timeAgo} />}
 
         {/* Hero row — flagship carousel left, floor rail right. The big
             books rotate through one big card; the rail ranks the whole

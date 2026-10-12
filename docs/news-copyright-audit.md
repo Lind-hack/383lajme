@@ -1,0 +1,13 @@
+# Automated news originality audit — 12 October 2026
+
+The previous pipeline could accept translated source narratives despite passing exact-word overlap checks. Direct publication also lacked the full review gates. Short quotations and a self-declared exclusive-attribution reason did not establish permission or supported attribution. Article photos could be redistributed in social previews without their rights information.
+
+New output requires an independent GPT-6 Luna review through Codex OAuth, separate from drafting and editing. It compares every supplied original with the draft for close translation, borrowed structure/expression, unsupported claims, false firsthand reporting, attribution and photo rights. Uncertainty rejects the candidate. Exact-copy and quotation checks remain deterministic publication checks; their word thresholds are screening rules, not legal allowances.
+
+The approval binds the reviewed article and full source evidence. Changes during review or afterward invalidate it. Both Supabase and legacy Git publication require approval and rerun the evidence, editorial, originality and image checks before publication. Empty approved batches finish as no news without filler.
+
+New automated photos must match the particular story subject, differ from the source article's image, and carry verified Commons CC0 or public-domain metadata. CC BY/SA/NC/ND images are excluded from this automatic pool. This reduces credit-related redistribution mistakes but does not certify every uploader's rights claim or remove other applicable rights. Story captions and provenance remain attached. Telegram sends reviewed text with previews disabled; article social metadata uses 383 title cards.
+
+Verification: a real saved article and its complete evidence were independently reviewed without publishing or sending messages. The reviewer rejected it for following the original narrative sequence and reusing an indirect rendition of quoted expression; its CC BY-SA photo also failed the new policy. This catches a defect that earlier exact-overlap checks missed. Regression tests cover approval invalidation, missing reviews at both publication paths, copied and translated candidates, quotes, image restrictions and Telegram distribution. The full application test suite and production build are required before release.
+
+Scope: future automatic output. Existing archived articles were not bulk rewritten or removed. Automated screening reduces risk; it cannot guarantee that every future article is original or legally cleared. Rejected candidates and reasons remain in the hourly run logs for follow-up.

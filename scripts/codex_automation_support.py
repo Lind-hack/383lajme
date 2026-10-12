@@ -2076,6 +2076,8 @@ def _git(command: list[str], *, check: bool = True) -> subprocess.CompletedProce
 
 
 def git_publish(path: Path) -> int:
+    from news_copyright_review import validate_for_publication
+    validate_for_publication(path)
     load_env()
     validate_batch(path)
     _ensure_git_origin()
@@ -2136,6 +2138,8 @@ def _cleanup_new_batch(batch_key: str) -> None:
 def publish_supabase(path: Path) -> int:
     """Idempotently insert one validated JSON batch through Supabase PostgREST."""
     try:
+        from news_copyright_review import validate_for_publication
+        validate_for_publication(path)
         articles = validate_batch(path)
         batch_key = _batch_key(path)
         conflicts = _published_conflicts(articles, ignore_batch_key=batch_key)
@@ -2168,6 +2172,11 @@ def publish_supabase(path: Path) -> int:
             for article in articles:
                 article.setdefault("source_published_at", article["published_at"])
                 article["published_at"] = published_now
+        from news_copyright_review import POLICY, article_digest
+        receipt = json.loads(path.with_suffix(".copyright-review.json").read_text(encoding="utf-8"))
+        for article in articles:
+            article["originality_review"] = {"policy": POLICY, "article_sha256": article_digest(article),
+                                             "reviewed_at": receipt["reviewed_at"], "model": receipt["model"]}
         _supabase_request("POST", "news_articles", payload=[_article_row(article, batch_key) for article in articles])
         _verify_batch_readback(batch_key, articles)
         if os.environ.get("L383_HOURLY_NEWS") == "1":
