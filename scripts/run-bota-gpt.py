@@ -17,5 +17,5 @@ with (ROOT/'run.lock').open('w') as lock:
   if result.returncode:print('Bota clean source refresh failed; no checkout overwritten',file=sys.stderr);sys.exit(1)
  if subprocess.check_output(['git','-C',str(REPO),'status','--porcelain'],text=True).strip():
   print('Bota source checkout is dirty; operator review required',file=sys.stderr);sys.exit(1)
- result=subprocess.run([sys.executable,str(REPO/'tools/bota_gpt.py'),*sys.argv[1:]],cwd=REPO,timeout=3600)
+ result=subprocess.run([sys.executable,str(REPO/'tools/bota_gpt.py'),*sys.argv[1:]],cwd=REPO,timeout=13800)
  sys.exit(result.returncode)

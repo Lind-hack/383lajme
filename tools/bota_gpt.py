@@ -20,7 +20,7 @@ from zoneinfo import ZoneInfo
 MODEL, EFFORT = 'gpt-6-luna', 'xhigh'
 SITE = 'https://383ks.com'
 RUN_STATE = Path('/opt/data/automation/bota')
-EDITORIAL_BUDGET_SECONDS = 3000
+EDITORIAL_BUDGET_SECONDS = 10800
 DAILY_TARGET = 400
 COUNTRY_CAP, OUTLET_CAP = 40, 12
 
@@ -146,6 +146,16 @@ def validate_editorial(result, source):
     return result
 
 def editorial(runtime,source):
+    from openai import AuthenticationError
+    try:return editorial_request(runtime,source)
+    except AuthenticationError:
+        # A daily batch may outlive the initial OAuth access token. Refresh
+        # through the same subscription provider; never switch providers.
+        refreshed=resolve_runtime()
+        runtime['api_key']=refreshed['api_key']
+        return editorial_request(refreshed,source)
+
+def editorial_request(runtime,source):
     from agent.transports.codex import ResponsesApiTransport
     from openai import OpenAI
     payload={k:source[k] for k in ['title','outlet','url','sourceParagraphs']}
@@ -295,7 +305,7 @@ def publish_saved(packet,report,headers,pending):
     pending.unlink(missing_ok=True)
     return report
 
-def run(dry_run=False,limit=800):
+def run(dry_run=False,limit=1200):
     import httpx
     started=time.monotonic()
     date=datetime.now(ZoneInfo('Europe/Belgrade')).date().isoformat()
@@ -370,7 +380,7 @@ def run(dry_run=False,limit=800):
     return report
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--dry-run',action='store_true');parser.add_argument('--limit',type=int,default=800);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--dry-run',action='store_true');parser.add_argument('--limit',type=int,default=1200);args=parser.parse_args()
     try:
         report=run(args.dry_run,max(1,min(args.limit,1200)))
         print(json.dumps({k:v for k,v in report.items() if k!='responses'},ensure_ascii=False))

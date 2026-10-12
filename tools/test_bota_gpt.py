@@ -6,6 +6,14 @@ from unittest.mock import patch
 import bota_gpt as b
 
 class BotaTests(unittest.TestCase):
+ def test_daily_batch_refreshes_expired_subscription_auth_once(self):
+  from openai import AuthenticationError
+  import httpx
+  expired=AuthenticationError('expired',response=httpx.Response(401,request=httpx.Request('POST','https://example.org')),body=None)
+  refreshed={'provider':'openai-codex','api_key':'test-refreshed'}
+  with patch.object(b,'editorial_request',side_effect=[expired,('result','receipt')]) as request,patch.object(b,'resolve_runtime',return_value=refreshed) as resolve:
+   self.assertEqual(b.editorial({'api_key':'old'},{}),('result','receipt'))
+   resolve.assert_called_once();self.assertEqual(request.call_args.args[0],refreshed)
  def test_publication_date_overrides_recycled_search_dates(self):
   from bs4 import BeautifulSoup
   html='<script type="application/ld+json">{"@graph":[{"@type":"NewsArticle","datePublished":"2025-04-01T10:00:00Z","dateModified":"2026-10-12T10:00:00Z"}]}</script>'

@@ -1,0 +1,11 @@
+[Unit]
+Description=383 Bota Flet daily collection and Albanian translation batch
+After=network-online.target docker.service
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=ubuntu
+ExecStart=/usr/bin/docker exec --user hermes hermes /opt/hermes/.venv/bin/python /opt/data/scripts/run-bota-gpt-email.py
+TimeoutStartSec=4h
