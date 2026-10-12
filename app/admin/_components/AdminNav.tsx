@@ -28,7 +28,7 @@ const SECTIONS = [
   { href: "/admin/dosje", label: "Dosje", Icon: FolderSearch },
   { href: "/admin/tregu", label: "Tregu", Icon: LineChart },
   { href: "/admin/poll", label: "Sondazhi", Icon: Vote },
-  { href: "/admin/reagimi", label: "Reagimi", Icon: MessageSquare },
+  { href: "/admin/kuiz", label: "Kuizi", Icon: MessageSquare },
   { href: "/admin/xhep", label: "Xhep", Icon: Images },
 ] as const;
 

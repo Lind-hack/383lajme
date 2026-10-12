@@ -21,7 +21,7 @@ import { activeStreak, advanceStreak, parseStreak } from "@/lib/reagimi-data";
 import { track } from "@/lib/analytics";
 import type { SondazhiServerData } from "@/lib/sondazhi-server";
 
-/** Shared with ReagimiDites and the pre-rewrite poll: one anonymous identity. */
+/** Shared with KuiziDites and the pre-rewrite poll: one anonymous identity. */
 const VOTER_KEY = "383_voter_id";
 const STREAK_KEY = "383_sondazhi_streak";
 

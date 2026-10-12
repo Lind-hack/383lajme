@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { isRecentSend, MORNING_NOTE, validEndpoint } from "@/lib/perty-morning.mjs";
+import { isRecentSend, morningNote, validEndpoint } from "@/lib/perty-morning.mjs";
+import { dateKeyInKosovo } from "@/lib/reagimi-data";
 
 export const dynamic = "force-dynamic";
 
@@ -25,5 +26,12 @@ export async function GET(request: NextRequest) {
     .eq("endpoint", endpoint)
     .maybeSingle();
   if (!isRecentSend(data?.last_sent_at ?? null)) return new NextResponse(null, { status: 204, headers });
-  return NextResponse.json(MORNING_NOTE, { headers });
+  // Mention the quiz only once it is actually published for today.
+  const { data: quiz } = await admin
+    .from("kuizi_daily")
+    .select("kuiz_date")
+    .eq("kuiz_date", dateKeyInKosovo())
+    .eq("status", "published")
+    .maybeSingle();
+  return NextResponse.json(morningNote(Boolean(quiz)), { headers });
 }
