@@ -150,7 +150,7 @@ def review(batch: Path) -> int:
         "not just the article's required_attribution declaration. No substantive direct quotations are allowed in "
         "automated output; quotation marks for short names/titles are fine. Reject unsupported claimed speakers, "
         "exclusivity and invented quotations. Check that the photo depicts a specific story subject and its "
-        "prepared rights show CC0 or explicit public-domain status, not BY/SA/NC/ND obligations. "
+        "prepared rights show CC0, explicit public domain, or CC BY/BY-SA with a named creator (credited on the page); never NC/ND. "
         "If uncertain, reject and give the concrete defect. Do not rewrite, edit files, publish, send messages, "
         "run code or tests. Return one object per article: slug, url, verdict (approve/reject), reason "
         "(at least 40 characters explaining the comparison), checks (boolean values for " + ", ".join(CHECKS) + "). "

@@ -127,13 +127,13 @@ close paraphrase or translation; the independent editor must assess both.
 Before drafting, the existing GPT-6 Luna/max OAuth worker plans specific
 photographic subjects supported by exact phrases in each story. Commons search
 fetches file descriptions and license metadata. The automated pool accepts
-CC0 and explicit public domain, with matching rights URLs and no additional
-restrictions or attribution requirements. BY/SA/NC/ND are excluded from the
-automated pool to avoid obligations being lost in downstream distribution. Unknown, NC/ND, attribution-free claims without evidence and files with
+CC0, explicit public domain, and CC BY/BY-SA with a named creator, all with
+matching rights URLs and no additional restrictions; the article page credits
+creator and licence, and no other surface carries the photo. NC/ND are excluded. Unknown, NC/ND, attribution-free claims without evidence and files with
 additional restrictions are rejected. Subject tokens must appear in the actual
 file description; writer/editor separately verify semantic relevance. Captions
 identify these as illustrative archive photos, never today's event. Prepared captions identify illustrative archive photographs; the narrower pool
-permits reuse across automatic card surfaces without attribution obligations.
+stay on the article page with their credit; cards and Telegram use no photo.
 
 Publisher photographs are compared by URL identity, SHA-256 and visual
 fingerprints, including renamed/rehosted copies. If a declared source photo

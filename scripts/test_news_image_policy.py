@@ -91,8 +91,15 @@ class NewsPhotoTests(unittest.TestCase):
         self.assertEqual(photo["image_subject"], "Apple Park")
 
     def test_unlicensed_nc_nd_missing_credit_and_unrelated_photos_fail(self):
-        for license_name in ("", "Fair use", "CC BY 4.0", "CC BY-SA 4.0", "CC BY-NC 4.0", "CC BY-ND 4.0"):
+        for license_name in ("", "Fair use", "CC BY-NC 4.0", "CC BY-ND 4.0"):
             self.assertIsNone(policy.candidate_photo(page(license_name), plan()))
+        # Credited licences pass only with a named creator for the credit line.
+        for license_name in ("CC BY 4.0", "CC BY-SA 4.0"):
+            credited = page(license_name)
+            credited["imageinfo"][0]["extmetadata"]["Artist"] = {"value": "Jane Photographer"}
+            self.assertEqual(policy.candidate_photo(credited, plan())["image_rights"]["creator"], "Jane Photographer")
+            credited["imageinfo"][0]["extmetadata"].pop("Artist")
+            self.assertIsNone(policy.candidate_photo(credited, plan()))
         candidate = page()
         candidate["imageinfo"][0]["extmetadata"].pop("Artist")
         self.assertIsNotNone(policy.candidate_photo(candidate, plan()))

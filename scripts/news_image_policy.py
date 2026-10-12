@@ -26,6 +26,12 @@ LICENSES = {
     "CC0": "https://creativecommons.org/publicdomain/zero/1.0/",
     "Public domain": "https://creativecommons.org/publicdomain/mark/1.0/",
 }
+# CC BY / BY-SA are allowed (owner's decision, 2026-10-12): the article page
+# credits creator and licence under the photo, which is what they require.
+# NC and ND stay out: 383 is commercial and crops every photo.
+for _kind in ("by", "by-sa"):
+    for _version in ("2.0", "2.5", "3.0", "4.0"):
+        LICENSES[f"CC {_kind.upper()} {_version}"] = f"https://creativecommons.org/licenses/{_kind}/{_version}/"
 
 
 def plain(value: object) -> str:
@@ -260,9 +266,13 @@ def candidate_photo(page: dict, plan: dict) -> dict | None:
     license_name = value("LicenseShortName")
     if license_name not in LICENSES:
         return None
-    if value("Restrictions") or value("Copyrighted").lower() != "false" or value("AttributionRequired").lower() == "true":
+    attributed = license_name.startswith("CC BY")
+    if value("Restrictions") or (not attributed and (value("Copyrighted").lower() != "false"
+                                                      or value("AttributionRequired").lower() == "true")):
         return None
     creator = value("Attribution") or value("Artist")
+    if attributed and not creator:
+        return None  # the credit line needs a name
     if value("LicenseUrl").replace("http://", "https://").rstrip("/") != LICENSES[license_name].rstrip("/"):
         return None
     if not str(page.get("title", "")).lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
@@ -434,7 +444,7 @@ def image_errors(article: dict) -> list[str]:
         return ["image has no current independently prepared rights/context/distinctness record"]
     rights = photo.get("image_rights", {})
     if rights.get("license") not in LICENSES or rights.get("license_url") != LICENSES.get(rights.get("license")):
-        return ["automated distribution requires documented CC0/public-domain photo rights"]
+        return ["photo rights must be CC0, public domain, or CC BY/BY-SA with a matching licence URL"]
     if any(article.get(key) != photo.get(key) for key in ("image_subject", "image_caption", "image_rights")):
         return ["image provenance was changed or omitted; use the prepared photo metadata"]
     return []
