@@ -11,7 +11,7 @@ import DispatchList from "@/components/dispatch-list";
 import ColorSpotlight from "@/components/color-spotlight";
 import GradientCta from "@/components/gradient-cta";
 import Footer from "@/components/footer";
-import ReagimiDites from "@/components/reagimi-dites";
+import KuiziDites from "@/components/kuizi-dites";
 import BotaHome from "@/components/home/bota-home";
 import HomeVisitPreview from "@/components/visit/home-visit-preview";
 import XhepBanner from "@/components/visit/xhep-banner";
@@ -34,7 +34,8 @@ import { getCategoryColor } from "@/lib/category-colors";
 import { CATEGORY_TO_SLUG, type NavCategory } from "@/lib/category-map";
 import { getCityWeather } from "@/lib/weather";
 import { getDailyStories, getToneHistory, getToneOutlets, summarizeToday } from "@/lib/tone-data";
-import { dateKeyInKosovo, resolveView } from "@/lib/reagimi-data";
+import { dateKeyInKosovo } from "@/lib/reagimi-data";
+import { getKuiziData } from "@/lib/kuizi-server";
 import { getSondazhiData } from "@/lib/sondazhi-server";
 import { pickFrontPage, pickMostRead } from "@/lib/front-page.mjs";
 import { buildHomeSections, claim, createLedger } from "@/lib/home-sections.mjs";
@@ -103,21 +104,14 @@ export default async function HomePage() {
   const kryesoreSecondary = kryesore.slice(5, 7);
   const kryesoreTopIds = new Set(kryesore.map((a) => a.id));
 
-  // Reagimi i Ditës — the auto fallback is restricted to articles published TODAY.
-  // The previous rule ("highest-scored non-hero article") had no date constraint, so
-  // a quiet news week left a days-old article under a heading that promises daily.
-  // A curated row wins when one exists; it loads client-side, where the clock is
-  // authoritative (this page is statically revalidated hourly).
-  const reagimiDateKey = dateKeyInKosovo();
-  const reagimiFallback = resolveView(null, articles, reagimiDateKey, kryesoreLead?.id);
+  // Kosovo's calendar day, shared by Kuizi i ditës and Sondazhi so the two
+  // daily cards cannot disagree about what day it is.
+  const homeDateKey = dateKeyInKosovo();
 
   // One ledger for the whole page below the front block: every section claims
   // through it, so no story is shown twice. Më të lexuarat is the exception —
   // a ranking legitimately repeats — and is never recorded here.
-  const reagimiArticle = reagimiFallback?.articleSlug
-    ? articles.find((a) => a.slug === reagimiFallback.articleSlug)
-    : undefined;
-  const ledger = createLedger([...kryesore, ...(reagimiArticle ? [reagimiArticle] : [])]);
+  const ledger = createLedger(kryesore);
 
   // Every section below reads the front block's sixty plus the day's newest,
   // once each.
@@ -127,9 +121,11 @@ export default async function HomePage() {
   // time, so they are rendered on the server rather than fetched after
   // hydration — the card used to show an empty loading box for the several
   // seconds this page takes to hydrate. Only the live tally is left to the
-  // client. Shares reagimiDateKey so the two adjacent cards cannot disagree
+  // client. Shares homeDateKey so the two daily cards cannot disagree
   // about what day it is.
-  const sondazhi = await getSondazhiData(reagimiDateKey);
+  const sondazhi = await getSondazhiData(homeDateKey);
+  // Today's quiz, else yesterday's under its own date, else nothing at all.
+  const kuizi = await getKuiziData(homeDateKey).catch(() => null);
 
   // Fresh, age-weighted notices get priority over the longer category shelves.
   const njoftimeArticles = freshNews(freshPool, { now: homeNow, exclude: ledger.ids, count: 12 });
@@ -276,7 +272,7 @@ export default async function HomePage() {
           </div>
         )}
 
-        <ReagimiDites fallbackView={reagimiFallback} serverDateKey={reagimiDateKey} />
+        {kuizi && <KuiziDites data={kuizi} />}
       </Contained>
 
       {/* Kosovë and Shqipëri on the page's own paper: a lead, its rail, and a

@@ -1,41 +1,53 @@
 "use client";
 
-// The reader's paper as pages you turn.
+// The reader's paper as a paper you hold open and turn.
 //
-// Every page stays mounted; only one shows. Turning lifts the page you are on
-// around its left edge, the way a sheet of newsprint turns, with its shadow
-// falling on the page beneath (forward), or brings the previous page back down
-// over it (back). The same motion runs from every way in:
+// On a wide screen it opens as spreads — two pages side by side, Faqja 1–2,
+// 3–4… — and turning lifts the right-hand page over the spine onto the left,
+// its back being the next left page, the way a newspaper turns. On a phone it
+// is one page at a time, lifted away to the left. Every page fits the screen
+// (app/per-ty/paper/newspaper.css), so a page is read whole and then turned.
 //
-//   • the folded corner at the bottom of the sheet, or the arrows in the pager;
-//   • ← and → on a keyboard;
-//   • a swipe on a phone or tablet — the page follows the finger, and lets go
-//     back if the swipe was short and slow.
+// Every way of turning runs the same motion and feels the same:
 //
-// With reduced motion the pages simply cross-fade. The page number lives in the
-// address (#faqja-3), so coming back from an article lands on the same page,
-// and a screen reader hears "Faqja 3 nga 6: Sport" after every turn.
+//   • drag the page (mouse, finger or pen) — it follows, and falls back if the
+//     drag was short and slow;
+//   • click or tap the edge of the page, or the arrows in the bar;
+//   • scroll — a wheel or trackpad turns one page per gesture;
+//   • ← → (and Page Up / Page Down) on a keyboard.
+//
+// A turn asked for while another runs is queued, never dropped, so quick taps
+// read as quick turns. With reduced motion pages simply cross-fade. The page
+// is in the address (#faqja-3), so coming back from an article lands on it.
 //
 // This component only turns pages; app/per-ty/paper/pages.tsx draws them.
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import { hashForPage, pageFromHash } from "@/lib/paper-pages.mjs";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { hashForPage, pageFromHash, spreadStart } from "@/lib/paper-pages.mjs";
 
-export type NewspaperPage = { key: string; title: string; node: ReactNode };
+export type NewspaperPage = {
+  key: string;
+  title: string;
+  node: ReactNode;
+  /** Drawn ahead of time (hidden) so its photos are loaded before it turns into view. Off for pages whose boxes fetch. */
+  prefetch?: boolean;
+};
 
 type Turn = { from: number; to: number; dir: 1 | -1 };
 
-/** A swipe this far across the sheet (of its width) turns the page on release. */
-const COMMIT_AT = 0.33;
+/** A drag this far through the turn commits it on release… */
+const COMMIT_AT = 0.28;
 /** …or a flick this fast, in px per ms. */
 const FLICK = 0.45;
+/** Wide and not taller than wide: two pages side by side. */
+const SPREAD_QUERY = "(min-width: 960px) and (min-aspect-ratio: 1/1)";
 
-const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 
 function reducedMotion() {
-  return typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  return typeof window !== "undefined" && Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
 }
 
 function isEditable(el: EventTarget | null) {
@@ -43,46 +55,78 @@ function isEditable(el: EventTarget | null) {
   return Boolean(node?.closest?.("input, textarea, select, [contenteditable='true'], [role='dialog']"));
 }
 
+/** Can this box still scroll in the wheel's direction? */
+function canScroll(el: Element | null, dy: number) {
+  if (!el) return false;
+  const box = el as HTMLElement;
+  if (box.scrollHeight <= box.clientHeight + 1) return false;
+  return dy > 0 ? box.scrollTop + box.clientHeight < box.scrollHeight - 1 : box.scrollTop > 0;
+}
+
 export default function Newspaper({
   pages,
   look,
   label,
+  lead,
   tools,
   hint = false,
   onPageShown,
+  onTurn,
   className = "",
 }: {
   pages: NewspaperPage[];
   look: string;
   /** "Gazeta e Lindit" — names the whole paper for assistive tech. */
   label: string;
-  /** Buttons for the bar above the paper: share, arrange, how it works. */
+  /** The left end of the bar: who shared it, on a shared copy. */
+  lead?: ReactNode;
+  /** Buttons at the right end of the bar: share, arrange, how it works. */
   tools?: ReactNode;
-  /** The first time: the corner lifts by itself to show that pages turn. */
+  /** First visit: the corner lifts by itself and a line says how to turn. */
   hint?: boolean;
-  /** Called with the page's index once it has settled on screen. */
-  onPageShown?: (index: number) => void;
+  /** The indexes on screen, once they have settled. */
+  onPageShown?: (indexes: number[]) => void;
+  /** The reader turned a page (any way at all). */
+  onTurn?: () => void;
   className?: string;
 }) {
   const count = pages.length;
+  const [view, setView] = useState<1 | 2>(1);
   const [index, setIndex] = useState(0);
   const [turn, setTurn] = useState<Turn | null>(null);
   const [fade, setFade] = useState(0);
   const [turned, setTurned] = useState(false);
+  const [announce, setAnnounce] = useState("");
   const stageRef = useRef<HTMLDivElement>(null);
-  const wrapRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const bookRef = useRef<HTMLDivElement>(null);
+  const leafRef = useRef<HTMLDivElement>(null);
   const frame = useRef<number | null>(null);
   const indexRef = useRef(0);
+  const viewRef = useRef<1 | 2>(1);
   const turnRef = useRef<Turn | null>(null);
-  const focusAfter = useRef(false);
+  const queued = useRef<number | null>(null);
   const swallowClick = useRef(false);
-  const [announce, setAnnounce] = useState("");
+  // The parent's callbacks change identity every render; the handlers read
+  // them through refs so a re-render never re-attaches them mid-gesture.
+  const onTurnRef = useRef(onTurn);
+  onTurnRef.current = onTurn;
+  const onShownRef = useRef(onPageShown);
+  onShownRef.current = onPageShown;
 
-  // The page in the address, once on the client.
+  // One page or two, from the screen; the address picks the page.
   useEffect(() => {
-    const start = pageFromHash(window.location.hash, count);
-    indexRef.current = start;
-    setIndex(start);
+    const mq = window.matchMedia(SPREAD_QUERY);
+    const apply = () => {
+      const v: 1 | 2 = mq.matches ? 2 : 1;
+      viewRef.current = v;
+      setView(v);
+      indexRef.current = spreadStart(indexRef.current, v);
+      setIndex(indexRef.current);
+    };
+    indexRef.current = pageFromHash(window.location.hash, count);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
     // Only on mount: later changes come from turning.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -90,47 +134,49 @@ export default function Newspaper({
   // Fewer pages than before (a follow removed): stay inside the paper.
   useEffect(() => {
     if (index > count - 1) {
-      indexRef.current = Math.max(0, count - 1);
+      indexRef.current = spreadStart(Math.max(0, count - 1), viewRef.current);
       setIndex(indexRef.current);
     }
   }, [count, index]);
 
   useEffect(() => {
     if (turn) return;
-    const page = pages[index];
-    if (!page) return;
+    const shown = view === 2 ? [index, index + 1].filter((i) => i < count) : [index];
+    if (!pages[index]) return;
     try {
       window.history.replaceState(window.history.state, "", hashForPage(index));
     } catch {
       // A sandboxed frame may refuse; the paper still works.
     }
-    setAnnounce(`Faqja ${index + 1} nga ${count}: ${page.title}`);
-    onPageShown?.(index);
-    if (focusAfter.current) {
-      focusAfter.current = false;
-      wrapRefs.current[index]?.focus({ preventScroll: true });
-    }
-    // pages change identity every render; the index and count are what matter.
+    setAnnounce(
+      shown.length > 1
+        ? `Faqet ${index + 1} dhe ${index + 2} nga ${count}: ${shown.map((i) => pages[i].title).join(", ")}`
+        : `Faqja ${index + 1} nga ${count}: ${pages[index].title}`
+    );
+    onShownRef.current?.(shown);
+    // pages change identity every render; the index, view and count are what matter.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, turn, count]);
+  }, [index, turn, count, view]);
 
   useEffect(() => () => {
     if (frame.current) cancelAnimationFrame(frame.current);
   }, []);
 
-  /** Put the turning page at progress p (0 = not lifted, 1 = turned over). */
+  /** The lifted page at progress p: 0 lying where it started, 1 turned over. */
   const paint = useCallback((t: Turn, p: number) => {
-    const leaf = wrapRefs.current[t.dir === 1 ? t.from : t.to];
-    const angle = t.dir === 1 ? -180 * p : -180 * (1 - p);
-    if (leaf) leaf.style.transform = `rotateY(${angle}deg)`;
-    const shade = Math.sin(Math.min(1, Math.max(0, p)) * Math.PI) * 0.95;
-    stageRef.current?.style.setProperty("--np-shade", String(shade));
+    const k = Math.min(1, Math.max(0, p));
+    const angle = t.dir === 1 ? -180 * k : -180 * (1 - k);
+    if (leafRef.current) leafRef.current.style.transform = `rotateY(${angle}deg)`;
+    // How far the page stands off the paper: 0 flat, 1 upright.
+    const lift = Math.sin((Math.abs(angle) / 180) * Math.PI);
+    bookRef.current?.style.setProperty("--np-lift", lift.toFixed(3));
+    bookRef.current?.style.setProperty("--np-over", Math.abs(angle) > 90 ? "1" : "0");
   }, []);
 
+  const goRef = useRef<(to: number, fast?: boolean) => void>(() => {});
+
   const finish = useCallback((t: Turn, done: boolean) => {
-    const leaf = wrapRefs.current[t.dir === 1 ? t.from : t.to];
-    if (leaf) leaf.style.transform = "";
-    stageRef.current?.style.setProperty("--np-shade", "0");
+    bookRef.current?.style.setProperty("--np-lift", "0");
     turnRef.current = null;
     setTurn(null);
     if (done) {
@@ -138,10 +184,16 @@ export default function Newspaper({
       setIndex(t.to);
       setTurned(true);
     }
+    const next = queued.current;
+    queued.current = null;
+    if (next !== null && next !== indexRef.current) {
+      // Let React draw the settled spread first.
+      requestAnimationFrame(() => goRef.current(next, true));
+    }
   }, []);
 
   const run = useCallback(
-    (t: Turn, fromP: number, toP: number, ms: number, curve = ease) => {
+    (t: Turn, fromP: number, toP: number, ms: number, curve = easeInOut) => {
       if (frame.current) cancelAnimationFrame(frame.current);
       const start = performance.now();
       const step = (now: number) => {
@@ -158,31 +210,24 @@ export default function Newspaper({
     [paint, finish]
   );
 
-  /** Look at the turning page from the middle of the screen, wherever the page is scrolled to. */
-  const aim = useCallback(() => {
-    const stage = stageRef.current;
-    if (!stage) return;
-    const rect = stage.getBoundingClientRect().top;
-    // toTop() is about to bring a scrolled-past paper back to 96 px from the top.
-    const top = rect < 0 ? 96 : rect;
-    const eye = Math.max(0, Math.min(stage.offsetHeight, window.innerHeight / 2 - top));
-    stage.style.setProperty("--np-eye", `${Math.round(eye)}px`);
-  }, []);
-
-  /** Bring the top of the paper into view if the reader had scrolled past it. */
-  const toTop = useCallback(() => {
+  /** Bring the paper back into view if the reader had scrolled away from it. */
+  const toPaper = useCallback(() => {
     const top = stageRef.current?.getBoundingClientRect().top ?? 0;
-    if (top < 0) {
-      window.scrollTo({ top: window.scrollY + top - 96, behavior: reducedMotion() ? "auto" : "smooth" });
-    }
+    if (top < 0) window.scrollTo({ top: window.scrollY + top - 80, behavior: reducedMotion() ? "auto" : "smooth" });
   }, []);
 
   const go = useCallback(
-    (to: number, opts: { focus?: boolean } = {}) => {
+    (target: number, fast = false) => {
+      const v = viewRef.current;
+      const to = spreadStart(Math.min(Math.max(target, 0), count - 1), v);
+      if (turnRef.current) {
+        queued.current = to;
+        return;
+      }
       const from = indexRef.current;
-      if (turnRef.current || to === from || to < 0 || to >= count) return;
-      focusAfter.current = Boolean(opts.focus);
-      toTop();
+      if (to === from) return;
+      onTurnRef.current?.();
+      toPaper();
       if (reducedMotion()) {
         indexRef.current = to;
         setIndex(to);
@@ -191,64 +236,112 @@ export default function Newspaper({
         return;
       }
       const t: Turn = { from, to, dir: to > from ? 1 : -1 };
-      aim();
       turnRef.current = t;
       setTurn(t);
-      // Let React place the leaf before it moves.
+      // Let React put the lifted page in place before it moves.
       requestAnimationFrame(() => {
         paint(t, 0);
-        run(t, 0, 1, Math.abs(to - from) > 1 ? 900 : 760);
+        run(t, 0, 1, fast ? 420 : Math.abs(to - from) > v ? 760 : 640);
       });
     },
-    [count, paint, run, toTop, aim]
+    [count, paint, run, toPaper]
   );
+  goRef.current = go;
 
-  // "Në këtë numër" and "Si funksionon?" turn to a page by its address.
+  const next = useCallback(() => go((turnRef.current ? (queued.current ?? turnRef.current.to) : indexRef.current) + viewRef.current), [go]);
+  const prev = useCallback(() => go((turnRef.current ? (queued.current ?? turnRef.current.to) : indexRef.current) - viewRef.current), [go]);
+
+  // "Në këtë numër" turns to a page by its address.
   useEffect(() => {
-    const onHash = () => go(pageFromHash(window.location.hash, count), { focus: true });
+    const onHash = () => go(pageFromHash(window.location.hash, count));
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, [go, count]);
 
-  const next = useCallback((focus = false) => go(indexRef.current + 1, { focus }), [go]);
-  const prev = useCallback((focus = false) => go(indexRef.current - 1, { focus }), [go]);
-
-  // ← →
+  // ← → and Page Up / Page Down
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || isEditable(e.target)) return;
       // A sheet (Rregullo, Ndaje) is open over the paper: its keys are its own.
       if (document.querySelector("dialog[open]")) return;
-      if (e.key === "ArrowRight") {
+      if (e.key === "ArrowRight" || e.key === "PageDown") {
         e.preventDefault();
-        next(true);
-      } else if (e.key === "ArrowLeft") {
+        next();
+      } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
         e.preventDefault();
-        prev(true);
+        prev();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [next, prev]);
 
-  // Swipe: touch and pen only; a mouse selects text and uses the corner.
+  // Wheel and trackpad: one page per gesture. At the first and last page the
+  // wheel scrolls the site as usual, and a page with more in it scrolls first.
   useEffect(() => {
-    const stage = stageRef.current;
-    if (!stage) return;
+    const book = bookRef.current;
+    if (!book) return;
+    let acc = 0;
+    let last = 0;
+    let spent = false;
+    const onWheel = (e: WheelEvent) => {
+      if (e.ctrlKey) return; // pinch-zoom
+      const now = performance.now();
+      const gap = now - last;
+      last = now;
+      if (gap > 260) {
+        acc = 0;
+        spent = false;
+      }
+      const scale = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1;
+      const horizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+      const d = (horizontal ? e.deltaX : e.deltaY) * scale;
+      if (!d) return;
+      if (!horizontal) {
+        if (canScroll((e.target as HTMLElement)?.closest?.(".np-body") ?? null, d)) return;
+        // Only while the paper is the thing on screen.
+        const r = stageRef.current?.getBoundingClientRect();
+        if (!r || r.top < -60 || r.bottom > window.innerHeight + 60) return;
+      }
+      const dir = d > 0 ? 1 : -1;
+      const base = turnRef.current ? (queued.current ?? turnRef.current.to) : indexRef.current;
+      const target = base + dir * viewRef.current;
+      if (target < 0 || target >= count) return;
+      e.preventDefault();
+      // The rest of a gesture that already turned a page (trackpad momentum).
+      if (spent) return;
+      acc += d;
+      if (Math.abs(acc) >= (horizontal ? 36 : 50)) {
+        acc = 0;
+        spent = true;
+        go(target);
+      }
+    };
+    book.addEventListener("wheel", onWheel, { passive: false });
+    return () => book.removeEventListener("wheel", onWheel);
+  }, [count, go]);
+
+  // Drag: the page follows the pointer and turns or falls back on release.
+  useEffect(() => {
+    const book = bookRef.current;
+    if (!book) return;
     let id: number | null = null;
     let x0 = 0;
     let y0 = 0;
-    let t0 = 0;
+    let lastX = 0;
+    let lastT = 0;
+    let v = 0;
     let dragging: Turn | null = null;
     let p = 0;
 
     const down = (e: PointerEvent) => {
-      if (e.pointerType === "mouse" || turnRef.current || reducedMotion()) return;
-      if ((e.target as HTMLElement)?.closest?.("button, input, textarea, select, [data-no-flip]")) return;
+      if (turnRef.current || reducedMotion() || (e.pointerType === "mouse" && e.button !== 0)) return;
+      if ((e.target as HTMLElement)?.closest?.("input, textarea, select, label, [data-no-flip]")) return;
       id = e.pointerId;
-      x0 = e.clientX;
+      x0 = lastX = e.clientX;
       y0 = e.clientY;
-      t0 = performance.now();
+      lastT = performance.now();
+      v = 0;
       dragging = null;
       p = 0;
     };
@@ -256,30 +349,37 @@ export default function Newspaper({
       if (e.pointerId !== id) return;
       const dx = e.clientX - x0;
       const dy = e.clientY - y0;
+      const now = performance.now();
+      v = (e.clientX - lastX) / Math.max(1, now - lastT);
+      lastX = e.clientX;
+      lastT = now;
       if (!dragging) {
-        if (Math.abs(dx) < 14 || Math.abs(dx) < Math.abs(dy) * 1.3) {
-          if (Math.abs(dy) > 14) id = null; // a scroll, not a swipe
+        if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy) * 1.2) {
+          if (Math.abs(dy) > 12) id = null; // a scroll, not a turn
           return;
         }
+        const vw = viewRef.current;
         const from = indexRef.current;
-        const to = dx < 0 ? from + 1 : from - 1;
+        const to = dx < 0 ? from + vw : from - vw;
         if (to < 0 || to >= count) {
           id = null;
           return;
         }
-        dragging = { from, to, dir: to > from ? 1 : -1 };
-        aim();
+        dragging = { from, to: spreadStart(to, vw), dir: dx < 0 ? 1 : -1 };
         turnRef.current = dragging;
         setTurn(dragging);
+        onTurnRef.current?.();
         swallowClick.current = true;
         try {
-          stage.setPointerCapture(e.pointerId);
+          book.setPointerCapture(e.pointerId);
         } catch {
           // fine without capture
         }
       }
-      const width = stage.clientWidth || 1;
-      p = Math.min(1, Math.max(0, (dragging.dir === 1 ? -dx : dx) / (width * 0.85)));
+      // Two pages open: from the edge to the spine is half a turn. One page: the width is the whole turn.
+      const leafW = (book.clientWidth || 1) / viewRef.current;
+      const span = viewRef.current === 2 ? leafW * 2 : leafW * 0.9;
+      p = Math.min(1, Math.max(0, (dragging.dir === 1 ? -dx : dx) / span));
       paint(dragging, p);
     };
     const up = (e: PointerEvent) => {
@@ -288,15 +388,15 @@ export default function Newspaper({
       if (!dragging) return;
       const t = dragging;
       dragging = null;
-      const v = (e.clientX - x0) / Math.max(1, performance.now() - t0);
       const flick = t.dir === 1 ? v < -FLICK : v > FLICK;
-      const commit = p > COMMIT_AT || flick;
-      if (commit) toTop();
-      run(t, p, commit ? 1 : 0, Math.max(180, 520 * (commit ? 1 - p : p)), easeOut);
-      // The click a swipe ends with (if any) arrives right away; never swallow a later, real tap.
+      const back = t.dir === 1 ? v > FLICK : v < -FLICK;
+      const commit = !back && (p > COMMIT_AT || flick);
+      if (commit) toPaper();
+      run(t, p, commit ? 1 : 0, Math.max(160, 480 * (commit ? 1 - p : p)), easeOut);
+      // The click a drag ends with arrives right away; never swallow a later, real one.
       window.setTimeout(() => {
         swallowClick.current = false;
-      }, 350);
+      }, 300);
     };
     const click = (e: MouseEvent) => {
       if (swallowClick.current) {
@@ -305,124 +405,154 @@ export default function Newspaper({
         e.stopPropagation();
       }
     };
+    const noDrag = (e: DragEvent) => e.preventDefault();
 
-    stage.addEventListener("pointerdown", down);
-    stage.addEventListener("pointermove", move);
-    stage.addEventListener("pointerup", up);
-    stage.addEventListener("pointercancel", up);
-    stage.addEventListener("click", click, true);
+    book.addEventListener("pointerdown", down);
+    book.addEventListener("pointermove", move);
+    book.addEventListener("pointerup", up);
+    book.addEventListener("pointercancel", up);
+    book.addEventListener("click", click, true);
+    book.addEventListener("dragstart", noDrag);
     return () => {
-      stage.removeEventListener("pointerdown", down);
-      stage.removeEventListener("pointermove", move);
-      stage.removeEventListener("pointerup", up);
-      stage.removeEventListener("pointercancel", up);
-      stage.removeEventListener("click", click, true);
+      book.removeEventListener("pointerdown", down);
+      book.removeEventListener("pointermove", move);
+      book.removeEventListener("pointerup", up);
+      book.removeEventListener("pointercancel", up);
+      book.removeEventListener("click", click, true);
+      book.removeEventListener("dragstart", noDrag);
     };
-  }, [count, paint, run, toTop, aim]);
+  }, [count, paint, run, toPaper]);
 
-  const current = pages[index];
-  const leafIndex = turn ? (turn.dir === 1 ? turn.from : turn.to) : -1;
-  const baseIndex = turn ? (turn.dir === 1 ? turn.to : turn.from) : index;
+  // What lies where: the pages open now, or, mid-turn, the pages beneath and
+  // the two faces of the one being lifted.
+  const page = (i: number) => pages[i] ?? null;
+  let left: NewspaperPage | null = null;
+  let right: NewspaperPage | null = null;
+  let front: NewspaperPage | null = null;
+  let back: NewspaperPage | null = null;
+  if (view === 2) {
+    if (!turn) {
+      left = page(index);
+      right = page(index + 1);
+    } else if (turn.dir === 1) {
+      left = page(turn.from);
+      right = page(turn.to + 1);
+      front = page(turn.from + 1);
+      back = page(turn.to);
+    } else {
+      left = page(turn.to);
+      right = page(turn.from + 1);
+      front = page(turn.to + 1);
+      back = page(turn.from);
+    }
+  } else if (!turn) {
+    right = page(index);
+  } else {
+    right = page(turn.dir === 1 ? turn.to : turn.from);
+    front = page(turn.dir === 1 ? turn.from : turn.to);
+  }
+
+  // The neighbours, drawn hidden, so their photos are ready when they turn into view.
+  const ahead: NewspaperPage[] = [];
+  for (let i = index - view; i < index + 3 * view; i++) {
+    const p = pages[i];
+    if (p && p.prefetch !== false && p !== left && p !== right && p !== front && p !== back) ahead.push(p);
+  }
+
+  const atStart = index === 0;
+  const atEnd = index + view >= count;
+  const where =
+    view === 2 && index + 1 < count ? `${index + 1}–${index + 2}` : `${index + 1}`;
+  const progress = count > 0 ? Math.min(1, (index + view) / count) : 0;
+  const face = (p: NewspaperPage | null) => p?.node ?? <div className="np-sheet np-sheet--blank" />;
 
   return (
     <div className={`np ${className}`} data-look={look}>
-      <div className="np-desk">
-        {tools && <div className="np-tools">{tools}</div>}
-
+      <div className="np-bar">
+        {lead && <div className="np-bar-lead">{lead}</div>}
         <nav className="np-pager" aria-label="Faqet e gazetës">
-          <button
-            type="button"
-            className="np-pager-btn"
-            onClick={() => prev(true)}
-            disabled={index === 0 || Boolean(turn)}
-            aria-label="Faqja e mëparshme"
-          >
-            <ArrowLeft size={18} strokeWidth={2.4} aria-hidden="true" />
-            <span aria-hidden="true">Faqja e mëparshme</span>
+          <button type="button" className="np-pager-btn" onClick={prev} disabled={atStart && !turn} aria-label="Faqja e mëparshme">
+            <ChevronLeft size={20} strokeWidth={2.4} aria-hidden="true" />
           </button>
-          <div className="np-pager-mid">
-            <p className="np-pager-where" aria-hidden="true">
-              <b>Faqja {index + 1}</b> nga {count}
-              {current ? ` · ${current.title}` : ""}
-            </p>
-            <div className="np-dots">
-              {pages.map((page, i) => (
-                <button
-                  key={page.key}
-                  type="button"
-                  className="np-dot"
-                  aria-label={`Faqja ${i + 1}: ${page.title}`}
-                  aria-current={i === index ? "page" : undefined}
-                  onClick={() => go(i, { focus: true })}
-                />
-              ))}
-            </div>
-          </div>
-          <button
-            type="button"
-            className="np-pager-btn"
-            onClick={() => next(true)}
-            disabled={index === count - 1 || Boolean(turn)}
-            aria-label="Faqja tjetër"
-          >
-            <span aria-hidden="true">Faqja tjetër</span>
-            <ArrowRight size={18} strokeWidth={2.4} aria-hidden="true" />
+          <p className="np-pager-where" aria-hidden="true">
+            <b>{where}</b> / {count}
+          </p>
+          <button type="button" className="np-pager-btn" onClick={next} disabled={atEnd && !turn} aria-label="Faqja tjetër">
+            <ChevronRight size={20} strokeWidth={2.4} aria-hidden="true" />
           </button>
         </nav>
+        {tools && <div className="np-tools">{tools}</div>}
+        <span className="np-progress" aria-hidden="true" style={{ transform: `scaleX(${progress})` }} />
+      </div>
 
+      <div ref={stageRef} className="np-stage">
         <div
-          ref={stageRef}
-          className="np-stage"
-          data-turning={turn ? "" : undefined}
-          data-hint={hint && !turned && index === 0 ? "" : undefined}
+          ref={bookRef}
+          className="np-book"
+          data-view={view}
+          data-turning={turn ? (turn.dir === 1 ? "next" : "prev") : undefined}
+          data-hint={hint && !turned && atStart ? "" : undefined}
           role="region"
           aria-label={label}
           aria-roledescription="gazetë"
         >
-          {turn && <div className="np-under-shade" aria-hidden="true" />}
-          {pages.map((page, i) => {
-            const isLeaf = i === leafIndex;
-            const isBase = i === baseIndex;
-            return (
-              <div
-                key={page.key}
-                ref={(el) => {
-                  wrapRefs.current[i] = el;
-                }}
-                hidden={!isLeaf && !isBase}
-                aria-hidden={isLeaf || undefined}
-                tabIndex={-1}
-                aria-label={`Faqja ${i + 1}: ${page.title}`}
-                className={`np-page${isLeaf ? " np-leaf" : isBase ? " np-current" : ""}`}
-                style={{ animation: isBase && fade ? `np-fade-${fade % 2} 180ms ease-out` : undefined }}
-              >
-                {page.node}
-                {isLeaf && <div className="np-leaf-back" aria-hidden="true" />}
-                {isLeaf && <div className="np-leaf-shade" aria-hidden="true" />}
-              </div>
-            );
-          })}
+          {view === 2 && (
+            <div key={`l-${left?.key ?? "none"}`} className="np-slot np-slot--left" style={{ animation: fade && !turn ? `np-fade-${fade % 2} 200ms ease-out` : undefined }}>
+              {face(left)}
+            </div>
+          )}
+          <div key={`r-${right?.key ?? "none"}`} className="np-slot np-slot--right" style={{ animation: fade && !turn ? `np-fade-${fade % 2} 200ms ease-out` : undefined }}>
+            {face(right)}
+            {turn && <div className="np-cast" aria-hidden="true" />}
+          </div>
+          {view === 2 && <div className="np-spine" aria-hidden="true" />}
 
-          {!turn && index > 0 && (
-            <button type="button" className="np-corner np-corner--prev" onClick={() => prev()} aria-label="Kthehu një faqe prapa">
-              <span className="np-corner-label" aria-hidden="true">
-                ← Prapa
-              </span>
+          {turn && (
+            <div ref={leafRef} className="np-leaf" aria-hidden="true" style={{ transform: turn.dir === 1 ? "rotateY(0deg)" : "rotateY(-180deg)" }}>
+              <div className="np-face np-face--front">
+                {face(front)}
+                <div className="np-face-shade" />
+              </div>
+              <div className="np-face np-face--back">
+                {view === 2 ? face(back) : <div className="np-sheet np-sheet--blank" />}
+                <div className="np-face-shade" />
+              </div>
+            </div>
+          )}
+
+          {!turn && !atStart && (
+            <button type="button" className="np-edge np-edge--prev" onClick={prev} aria-label="Kthehu një faqe prapa">
+              <ChevronLeft size={22} strokeWidth={2.2} aria-hidden="true" />
             </button>
           )}
-          {!turn && index < count - 1 && (
-            <button type="button" className="np-corner np-corner--next" onClick={() => next()} aria-label="Kthe faqen">
-              <span className="np-corner-label" aria-hidden="true">
-                Kthe faqen →
-              </span>
+          {!turn && !atEnd && (
+            <button type="button" className="np-edge np-edge--next" onClick={next} aria-label="Kthe faqen">
+              <span className="np-fold" aria-hidden="true" />
+              <ChevronRight size={22} strokeWidth={2.2} aria-hidden="true" />
             </button>
+          )}
+
+          {hint && !turned && atStart && !turn && !atEnd && (
+            <p className="np-hint" aria-hidden="true">
+              {view === 2 ? "Tërhiq faqen, kliko anën e saj ose rrotullo — si gazetë e vërtetë" : "Rrëshqit majtas për faqen tjetër"}
+            </p>
+          )}
+
+          {ahead.length > 0 && (
+            <div className="np-ahead" aria-hidden="true" inert>
+              {ahead.map((p) => (
+                <div key={p.key} className="np-ahead-page">
+                  {p.node}
+                </div>
+              ))}
+            </div>
           )}
         </div>
-
-        <p className="sr-only" aria-live="polite">
-          {announce}
-        </p>
       </div>
+
+      <p className="sr-only" aria-live="polite">
+        {announce}
+      </p>
     </div>
   );
 }

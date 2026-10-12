@@ -46,6 +46,10 @@ async function geminiChat(
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            // Under load the floating alias sometimes hangs instead of
+            // answering 503. Without a deadline that one hang held every
+            // caller until its route timed out, never reaching the next model.
+            signal: AbortSignal.timeout(25_000),
             body: JSON.stringify({
               contents: [{ role: "user", parts: [{ text: prompt }] }],
               generationConfig: {

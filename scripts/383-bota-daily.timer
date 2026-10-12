@@ -1,0 +1,10 @@
+[Unit]
+Description=Collect Bota Flet once daily at 07:23 Europe/Warsaw
+
+[Timer]
+OnCalendar=*-*-* 07:23:00 Europe/Warsaw
+Persistent=false
+Unit=383-bota-daily.service
+
+[Install]
+WantedBy=timers.target

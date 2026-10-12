@@ -267,43 +267,56 @@ The utility is a quiet cream document with a near-white header, orange vehicle i
 
 ---
 
-# Për ty — the photocopied paper
+# Për ty — the reel
 
-Scope: `/per-ty` and the shared copy `/gazeta/<code>`. Styles in `app/per-ty/paper/newspaper.css` (every class `np-*`, scoped under `.np`), type case in `app/per-ty/paper/fonts.ts`, page turning in `app/per-ty/paper/newspaper.tsx`.
+Scope: `/per-ty` and the shared copy `/gazeta/<code>`. Styles in `app/per-ty/paper/reel.css` (every class `fy-*`), the screens in `app/per-ty/paper/slides.tsx`, moving between them in `app/per-ty/paper/reel.tsx`, the screen plan in `lib/paper-reel.mjs`, type in `app/per-ty/paper/fonts.ts`.
 
 ## Overview
 
-**North Star: "someone photocopied a paper made just for you and handed it over."** Each reader's paper is a real newspaper you turn page by page: a sheet of newsprint lying on a dark desk, edge to edge on a desktop (never a centred feed column), with grain, toner speckle, a fold in four, halftone photos and a red rubber stamp, "Kopje personale — vetëm për <emri>". Front page, then "Më shumë nga sot" when the edition runs long, then one page per follow, then the back page "Kaq për sot".
+**North Star: Apple News, read like TikTok.** The reader's own paper is a stack of full screens swiped up one at a time. Each screen is set like an Apple News story: the photo edge to edge, a large white headline over a dark fade, one spot-colour tag saying why the story is here. On a phone the reel fills the space between the site's bar and the tab bar. On a wide screen it fills the left of the page, with the whole paper listed on the right (Apple News sidebar) — tap any line to jump there.
+
+Order: cover (the paper's name over the lead's photo, the top three headlines, "Fillo leximin") → "Shkurt, për sot" (Dardani's thirty seconds, town, numbers, Tregu — when the boxes are on) → today's edition, one story a screen → for each follow, its own full-colour screen ("Qyteti yt · Prishtinë · 4 lajme") then its stories → "Kaq për sot".
 
 ## Five kinds of paper
 
-The reading mix picks one (`lib/paper-look.mjs`, `[data-look]`); "Rregullo gazetën" can lock one.
+The reading mix picks one (`lib/paper-look.mjs`, `[data-look]`); "Rregullo gazetën" can lock one. Each changes only the spot colour and the headline face.
 
-| Look | Paper | Spot | Nameplate / headlines |
-|---|---|---|---|
-| `e-perditshme` | `#ebe5d6` newsprint | `#a4161a` | UnifrakturMaguntia blackletter / Old Standard TT bold |
-| `sporti` | `#e9e5dc` | `#d42a2f` | Anton condensed capitals for both |
-| `tabloid` | `#f1eee7` | `#e0002a`, flash `#ffd400` | Alfa Slab One, nameplate white on a tilted red block |
-| `bota` | `#e7e3d8` | `#1f3c6e` | Old Standard TT spaced capitals |
-| `biznes` | `#efd8c6` salmon | `#0e5a63` | Old Standard TT bold italic |
+| Look | Spot | Headlines |
+|---|---|---|
+| `e-perditshme` | `#ff4422` | Newsreader |
+| `sporti` | `#12a150` | Anton capitals |
+| `tabloid` | `#ff1f3d` | Anton capitals |
+| `bota` | `#2f6bff` | Newsreader |
+| `biznes` | `#12a0aa` | Newsreader, italic name |
 
-Body is always PT Serif; notes, kickers, datelines and "why" lines are Special Elite typewriter. One spot colour per paper, used at page scale (ear, banner, why-lines, stamp), never scattered.
+Labels, buttons and text over photos are Manrope. Light screens (the boxes, the end) are `#f7f4ee` with dark type; the bar over them turns dark too (`[data-tone="light"]`).
 
 ## Components
 
-- **Nameplate:** spot ear left ("Ndjek" + three follows), title centre (tap to rename), ink ear right (edition, issue, count), motto, then a double-ruled dateline.
-- **Front page:** the giant cover word (why the lead leads, e.g. KURTI) with toner wear, the lead headline in a spot banner, a framed date box with the stamp, the halftone photo (or the clay plate in colour, labelled "Ilustrim me AI"), the opening with a drop cap, then numbered columns. Right rail: "Në këtë numër" (tapping a page turns to it), town, Dardani's brief, numbers, Tregu.
-- **Why line:** every story's kicker is a dotted-underlined spot-colour button with one plain reason; it opens a boxed note with the long reason and "Më shumë si kjo / Më pak si kjo".
-- **Clipped note:** lined paper with a paper clip, typewriter text. Used for "Kjo është gazeta jote" (first open; reopened by "Si funksionon?"), naming and the shared-copy invite. Slips (yellow, dashed) carry one-line status notes.
-- **Foot strip:** an ink band on every page: "Kopje personale · <title> · Faqja n nga N" with a barcode.
+- **Over every screen:** Stories-style bars (one per story in the current group; a single progress line elsewhere), the paper's name and the group, and on a phone the tools (Ndaje, Rregullo, ?).
+- **Story:** the reason tag (tap → "Pse e sheh këtë?" sheet with "Më shumë si kjo / Më pak"), headline, three lines (one to five, following how long the reader stays on stories), "Lexo lajmin", category and time. Down the right side, TikTok-style: 👍 Më shumë, 👎 Më pak, Ndaje (this story), Pse?. A story with no photo is set on its spot colour.
+- **Follow screen:** the follow's name huge on its colour over a blurred photo, why it is in the paper, how many stories, Më shumë / Më pak / Të gjitha.
+- **Sidebar (wide screens):** name, date and count, the tools, then every screen with thumbnails; the one on view is black.
+
+## Living screens and reactions
+
+- **Photos:** the news photo always leads; the clay illustration (labelled "Ilustrim me AI") only stands in when a story has no photo or its photo fails to load.
+- **Motion:** the photo on view drifts slowly (16 s, alternating direction); the headline rises in word by word as the screen arrives, the reason tag pops in, the rest follows. Reduced motion: still.
+- **Double-tap** the picture: a heart, and it counts as "Më shumë si kjo".
+- **Reago:** a button down the side opens five feelings (the Reagimi i Ditës set: 😠 😂 🤔 👍 ✨); after picking, live shares from every reader, the reader's own in the spot colour, changeable. A story with 3+ reactions shows its top one in the tag row ("😂 45% qesharake · 120"). Stored in `story_reactions` (migration 0105), one per anonymous device per story, through `app/api/per-ty/reactions`; without the table the button is simply absent.
+- **Më pas:** a strip along the bottom names the next screen and moves there on tap.
 
 ## Motion
 
-A page turn lifts the sheet around its left edge (`rotateY` 0 → −180°, 760 ms ease-in-out, perspective 3600 px aimed at the middle of the viewport), throwing a shadow on the page beneath. The same motion runs from the folded corner, the pager, ← →, the contents list and a touch swipe that follows the finger (commits past 33 % or on a flick). The corner peels by itself twice the first time. Reduced motion cross-fades instead. The page number lives in the URL hash (`#faqja-3`).
+The browser's own snap scrolling (`scroll-snap-type: y mandatory`, `scroll-snap-stop: always`), so a swipe on a phone feels native and never sticks. A wheel or trackpad gesture moves exactly one screen (the reel takes the wheel: native snapping needs half a screen of wheel); a light screen with more in it scrolls first. ↑ ↓ / j k / Page Up/Down step one screen; the sidebar and the cover's headlines jump. The screen is in the address (`#lajmi-4`). First visit: a bobbing "Rrëshqit lart" pill on the cover.
+
+## Sharing
+
+The link comes first: `/gazeta/<code>` unfurls in chats as a 1200×630 JPEG set like the cover (`/api/og/gazeta/<code>`, ~100 KB): the lead's photo, "<Emri> të ndau gazetën e vet", the paper's name and date in the spot colour, the headline in white, "+ N lajme të tjera". Stories (`?f=story`, 1080×1920, with the next three headlines) and a feed picture (`?f=feed`) are the second choice. The friend opens the same reel, read-only, with "Bëj tënden" on the cover, in the bar and at the end.
 
 ## Do's and Don'ts
 
-- **Do** keep the sheet full width on desktop and the mobile pager above the site's tab bar (`--tabbar-h`).
-- **Do** give every story its why line; a shared copy shows none (it is the sharer's history, not the friend's).
-- **Don't** introduce rounded cards, glass or gradients inside the sheet: print has rules, boxes and ink.
-- **Don't** colour photos, except the AI clay plate, which is a printed colour plate.
+- **Do** make every screen fit; a light screen may scroll inside only as a last resort.
+- **Do** keep the reader's buttons on the right and the text on the left, clear of them.
+- **Don't** pin notes or slips over the reel; explanations live behind "?" and on the end screen.
+- **Don't** set `overscroll-behavior: contain` on a light screen: it traps the wheel and the reel stops moving.

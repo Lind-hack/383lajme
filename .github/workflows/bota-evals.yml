@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: pip install beautifulsoup4 httpx
+      - run: pip install beautifulsoup4 httpx openai
       - run: python -m unittest discover -s tools -p 'test_bota*.py' -v
       - run: python -m unittest discover -s scripts -p test_bota_email_report.py -v
       - run: node --test lib/bota-publication.test.mjs lib/bota-pagination.test.mjs

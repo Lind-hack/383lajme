@@ -1,0 +1,12 @@
+[Unit]
+Description=Run 383 Tregu daily creation at 07:20 Kosovo local time
+
+[Timer]
+# Europe/Belgrade is DST-equivalent to Kosovo and supported by this host.
+OnCalendar=*-*-* 07:20:00 Europe/Belgrade
+Persistent=false
+AccuracySec=1s
+Unit=tregu-daily-drafts.service
+
+[Install]
+WantedBy=timers.target

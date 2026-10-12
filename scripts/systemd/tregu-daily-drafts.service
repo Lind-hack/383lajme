@@ -1,0 +1,16 @@
+[Unit]
+Description=383 Tregu daily market discovery
+After=docker.service network-online.target
+Requires=docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+ExecStart=/usr/bin/docker exec --user hermes --env HOME=/opt/data/home --env L383_REPO=/opt/data/workspaces/383lajme-tregu-main --env TREGU_ENV_FILE=/opt/data/tregu-daily.env hermes /bin/sh /opt/data/workspaces/383lajme-tregu-main/scripts/run-tregu-daily-kosovo.sh
+# Two 1200-second transport attempts and a 30-second backoff must fit.
+TimeoutStartSec=2500
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=tregu-daily-drafts
+

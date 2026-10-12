@@ -6,6 +6,28 @@ from unittest.mock import patch
 import bota_gpt as b
 
 class BotaTests(unittest.TestCase):
+ def test_daily_run_can_publish_all_400_in_one_batch(self):
+  from unittest.mock import Mock
+  from contextlib import redirect_stderr
+  from io import StringIO
+  day=b.datetime.now(b.ZoneInfo('Europe/Belgrade')).date().isoformat()
+  sources=[dict(id=str(i),url=f'https://example.org/{i}',title='Kosovo',outlet=f'Outlet{(i%40)//10}',country=f'Country{i//40}',date=day,sourceHash='a'*64,imageUrl=None) for i in range(400)]
+  class Response:
+   def raise_for_status(self):pass
+   def json(self):return {'date':day,'dailyCount':0,'dailyMaximum':400,'alreadyPublished':False,'knownIds':[]}
+  editor=Mock(return_value=({'sentiment':'neutral'},{'actualModel':b.MODEL,'actualReasoningEffort':b.EFFORT}))
+  publish=Mock(side_effect=lambda packet,report,*args:report)
+  with tempfile.TemporaryDirectory() as folder,redirect_stderr(StringIO()),patch.object(b,'RUN_STATE',Path(folder)),patch.object(b,'secret',return_value='test'),patch.object(b,'resolve_runtime',return_value={}),patch.object(b,'discover',return_value=sources),patch.object(b,'editorial',editor),patch.object(b,'validate_publishable'),patch.object(b,'save_pending'),patch.object(b,'publish_saved',publish),patch.dict(sys.modules,{'httpx':SimpleNamespace(get=lambda *a,**k:Response())}):
+   result=b.run();self.assertEqual(result['articleCount'],400);self.assertEqual(editor.call_count,400)
+   publish.assert_called_once();self.assertEqual(len(publish.call_args.args[0]['articles']),400)
+ def test_daily_batch_refreshes_expired_subscription_auth_once(self):
+  from openai import AuthenticationError
+  import httpx
+  expired=AuthenticationError('expired',response=httpx.Response(401,request=httpx.Request('POST','https://example.org')),body=None)
+  refreshed={'provider':'openai-codex','api_key':'test-refreshed'}
+  with patch.object(b,'editorial_request',side_effect=[expired,('result','receipt')]) as request,patch.object(b,'resolve_runtime',return_value=refreshed) as resolve:
+   self.assertEqual(b.editorial({'api_key':'old'},{}),('result','receipt'))
+   resolve.assert_called_once();self.assertEqual(request.call_args.args[0],refreshed)
  def test_publication_date_overrides_recycled_search_dates(self):
   from bs4 import BeautifulSoup
   html='<script type="application/ld+json">{"@graph":[{"@type":"NewsArticle","datePublished":"2025-04-01T10:00:00Z","dateModified":"2026-10-12T10:00:00Z"}]}</script>'
@@ -91,4 +113,15 @@ class BotaTests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as folder,patch.object(b,'RUN_STATE',Path(folder)),patch.object(b,'secret',return_value='test'),patch.object(b,'resolve_runtime',return_value={}),patch.object(b,'discover',return_value=[source]),patch.object(b,'editorial',editor),patch.object(b,'validate_publishable'),patch.object(b,'publish_saved',publish),patch.dict(sys.modules,{'httpx':SimpleNamespace(get=lambda *a,**k:Response())}):
    Path(folder,day+'-pending.json').write_text(json.dumps(saved))
    report=b.run();self.assertEqual(publish.call_count,2);self.assertEqual(editor.call_count,1);self.assertTrue(report['freshAfterRecovery'])
+ def test_quality_rejection_is_not_a_pipeline_outage_but_all_request_failures_are(self):
+  day=b.datetime.now(b.ZoneInfo('Europe/Belgrade')).date().isoformat()
+  class Response:
+   def raise_for_status(self):pass
+   def json(self):return {'date':day,'dailyCount':35,'alreadyPublished':False,'knownIds':[]}
+  source=dict(id='new',url='https://example.org/new',title='Kosovo',outlet='Example',country='Britani',date=day,sourceHash='a'*64,imageUrl=None)
+  with tempfile.TemporaryDirectory() as folder,patch.object(b,'RUN_STATE',Path(folder)),patch.object(b,'secret',return_value='test'),patch.object(b,'resolve_runtime',return_value={}),patch.object(b,'discover',return_value=[source]),patch.dict(sys.modules,{'httpx':SimpleNamespace(get=lambda *a,**k:Response())}):
+   with patch.object(b,'editorial',side_effect=ValueError('Incomplete paragraph translation')):
+    report=b.run();self.assertEqual(report['status'],'ok');self.assertEqual(report['newArticles'],0);self.assertEqual(report['failed'],1)
+   with patch.object(b,'editorial',side_effect=RuntimeError('Provider offline')):
+    with self.assertRaisesRegex(RuntimeError,'All GPT requests failed'):b.run()
 if __name__=='__main__':unittest.main()

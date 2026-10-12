@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { jsonLdString } from "@/lib/json-ld";
-import { Manrope, Figtree, EB_Garamond } from "next/font/google";
+import { Figtree, EB_Garamond } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import MotionProvider from "@/components/motion-provider";
 import Ga from "@/components/analytics/ga";
@@ -29,9 +30,18 @@ const ebGaramond = EB_Garamond({
 // whole 0.595 mobile CLS to exactly that: "Web font loaded", pointing at
 // Manrope 400's latin-ext woff2. The currency card was blamed because it is
 // what visibly moved, not because it was at fault.
-const manrope = Manrope({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700", "800"],
+// Same cached Google Fonts face, now bundled: generated Google font URLs
+// failed Turbopack resolution in Railway builds. Keep Albanian and the
+// original-language headline glyphs; every file carries the 200–800 axis.
+const manrope = localFont({
+  src: [
+    { path: "../public/fonts/Manrope-subset-1.woff2", weight: "200 800", style: "normal" },
+    { path: "../public/fonts/Manrope-subset-2.woff2", weight: "200 800", style: "normal" },
+    { path: "../public/fonts/Manrope-subset-3.woff2", weight: "200 800", style: "normal" },
+    { path: "../public/fonts/Manrope-subset-4.woff2", weight: "200 800", style: "normal" },
+    { path: "../public/fonts/Manrope-latin-ext.woff2", weight: "200 800", style: "normal" },
+    { path: "../public/fonts/Manrope-latin.woff2", weight: "200 800", style: "normal" },
+  ],
   variable: "--font-manrope",
   display: "swap",
 });

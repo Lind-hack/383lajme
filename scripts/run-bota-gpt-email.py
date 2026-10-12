@@ -19,7 +19,7 @@ reused_pending=(ROOT/(date+'-pending.json')).exists() and '--dry-run' not in sys
 outcome={'status':'failed','date':date,'reason':'WorkflowError'}
 try:
     process=subprocess.Popen([sys.executable,'/opt/data/scripts/run-bota-gpt.py',*sys.argv[1:]],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,start_new_session=True)
-    try:stdout,stderr=process.communicate(timeout=3500)
+    try:stdout,stderr=process.communicate(timeout=14100)
     except subprocess.TimeoutExpired:
         os.killpg(process.pid,signal.SIGTERM)
         try:stdout,stderr=process.communicate(timeout=5)

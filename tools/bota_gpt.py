@@ -20,7 +20,7 @@ from zoneinfo import ZoneInfo
 MODEL, EFFORT = 'gpt-6-luna', 'xhigh'
 SITE = 'https://383ks.com'
 RUN_STATE = Path('/opt/data/automation/bota')
-EDITORIAL_BUDGET_SECONDS = 3000
+EDITORIAL_BUDGET_SECONDS = 10800
 DAILY_TARGET = 400
 COUNTRY_CAP, OUTLET_CAP = 40, 12
 
@@ -146,6 +146,16 @@ def validate_editorial(result, source):
     return result
 
 def editorial(runtime,source):
+    from openai import AuthenticationError
+    try:return editorial_request(runtime,source)
+    except AuthenticationError:
+        # A daily batch may outlive the initial OAuth access token. Refresh
+        # through the same subscription provider; never switch providers.
+        refreshed=resolve_runtime()
+        runtime['api_key']=refreshed['api_key']
+        return editorial_request(refreshed,source)
+
+def editorial_request(runtime,source):
     from agent.transports.codex import ResponsesApiTransport
     from openai import OpenAI
     payload={k:source[k] for k in ['title','outlet','url','sourceParagraphs']}
@@ -295,7 +305,7 @@ def publish_saved(packet,report,headers,pending):
     pending.unlink(missing_ok=True)
     return report
 
-def run(dry_run=False,limit=800):
+def run(dry_run=False,limit=1200):
     import httpx
     started=time.monotonic()
     date=datetime.now(ZoneInfo('Europe/Belgrade')).date().isoformat()
@@ -314,7 +324,7 @@ def run(dry_run=False,limit=800):
         public=httpx.get(SITE+'/api/bota',timeout=30);public.raise_for_status()
         if public.json().get('outlets',{}).get('lastUpdated')!=date:raise RuntimeError('Published day failed public verification')
         return recovered or {'status':'ok','result':'already_published','date':date,'model':MODEL,'reasoningEffort':EFFORT}
-    runtime=resolve_runtime();sources=discover(set(context.get('knownIds',[])));articles=[];receipts=[];failed=0;processed=0
+    runtime=resolve_runtime();sources=discover(set(context.get('knownIds',[])));articles=[];receipts=[];failed=0;processed=0;transport_failures=0
     maximum=min(DAILY_TARGET,context.get('dailyMaximum',DAILY_TARGET))
     target=max(0,maximum-context.get('dailyCount',0)) if not dry_run else min(DAILY_TARGET,limit)
     country_counts=Counter(context.get('countryCounts',{}) if not dry_run else {})
@@ -351,13 +361,14 @@ def run(dry_run=False,limit=800):
             print(json.dumps({'stage':'translation','verified':len(articles),'target':target,'country':source['country']}),file=sys.stderr,flush=True)
           except Exception as error:
             failed+=1
+            if not isinstance(error,ValueError):transport_failures+=1
             print(json.dumps({'article':source['id'],'status':'rejected','reason':type(error).__name__,'detail':str(error)[:180] if isinstance(error,ValueError) else 'Request failed'}),file=sys.stderr,flush=True)
     if not articles:
         if recovered:return recovered
-        if failed:raise RuntimeError('New translations failed; saved and existing publications preserved')
+        if processed and transport_failures==processed:raise RuntimeError('All GPT requests failed; existing publications preserved')
         if not dry_run and context.get('dailyCount',0)>0:
             return {'status':'ok','result':'already_published','date':date,'model':MODEL,'reasoningEffort':EFFORT,'newArticles':0,'failed':failed,'targetReached':False}
-        if not sources and not dry_run:return {'status':'skipped','result':'no_new_articles','date':date,'reason':'No new eligible sources; existing index preserved'}
+        if not dry_run:return {'status':'skipped','result':'no_new_articles','date':date,'failed':failed,'reason':'No new eligible sources; existing index preserved'}
         raise RuntimeError('No fully translated verified articles; previous publication preserved')
     report.update(articleCount=len(articles),failed=failed,deferred=len(sources[:limit])-processed,freshAfterRecovery=recovered is not None)
     if not dry_run:
@@ -369,7 +380,7 @@ def run(dry_run=False,limit=800):
     return report
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--dry-run',action='store_true');parser.add_argument('--limit',type=int,default=800);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--dry-run',action='store_true');parser.add_argument('--limit',type=int,default=1200);args=parser.parse_args()
     try:
         report=run(args.dry_run,max(1,min(args.limit,1200)))
         print(json.dumps({k:v for k,v in report.items() if k!='responses'},ensure_ascii=False))

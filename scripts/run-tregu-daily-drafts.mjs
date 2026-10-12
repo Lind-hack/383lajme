@@ -4,6 +4,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { dailySourcePacket, shortlistedSourceSlugs } from "../lib/tregu-daily-source-packet.mjs";
+import { requestDailyCodex } from "../lib/tregu-daily-codex.mjs";
 import {
   buildDailyCodexCommand,
   buildDraftReviewEmail,
@@ -38,19 +39,15 @@ function runDailyCodex(prompt, key, maximum, timeoutMs = 330_000) {
   if (!existsSync(configPath) || !/^\s*reasoning_effort:\s*["']?xhigh["']?\s*(?:#.*)?$/m.test(readFileSync(configPath, "utf8"))) {
     throw new Error(`Daily Tregu Hermes profile must configure agent.reasoning_effort: xhigh at ${configPath}`);
   }
-  let output;
-  try {
-    output = execFileSync(hermesBin, buildDailyCodexCommand(prompt, "gpt-6-luna"), {
+  const items = requestDailyCodex({ prompt, key, maximum, timeoutMs,
+    onRetry: ({ stage, ...event }) => console.log(JSON.stringify({ stage: "provider_retry", generation_stage: stage, ...event })),
+    execute: (request, remaining) => execFileSync(hermesBin, buildDailyCodexCommand(request, "gpt-6-luna"), {
       cwd: process.cwd(), env: { ...process.env, HERMES_HOME: hermesHome },
-      encoding: "utf8", timeout: timeoutMs, maxBuffer: 2 * 1024 * 1024,
-    });
-  } catch (error) {
-    // execFileSync's default error includes the entire news prompt in `spawnargs`.
-    throw new Error(`Daily GPT-6 Luna xhigh request failed: ${error?.code ?? error?.signal ?? error?.status ?? "unknown"}`);
-  }
-  const parsed = JSON.parse(output.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, ""));
-  if (!Array.isArray(parsed?.[key]) || parsed[key].length > maximum) throw new Error(`Daily GPT-6 Luna returned an invalid ${key} set`);
-  return { [key === "topics" ? "topics" : "candidates"]: parsed[key], provider: "openai-codex-oauth", model: "gpt-6-luna", reasoning_effort: "xhigh", fallback_reason: null };
+      encoding: "utf8", timeout: remaining, maxBuffer: 2 * 1024 * 1024,
+      stdio: ["ignore", "pipe", "pipe"],
+    }),
+  });
+  return { [key === "topics" ? "topics" : "candidates"]: items, provider: "openai-codex-oauth", model: "gpt-6-luna", reasoning_effort: "xhigh", fallback_reason: null };
 }
 
 // Stage one of two. Asking for discovery, filtering and the full ten-field contract in
