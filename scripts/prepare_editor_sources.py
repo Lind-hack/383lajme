@@ -338,8 +338,11 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
             shown = {key: value for key, value in lead.items()
                      if not key.startswith("image_") or key in {"image_subject", "image_caption"}}
             if "facts_path" in shown:
-                # The writer works from the notes; the source text is for the editor.
-                shown.pop("evidence_path", None)
+                # The writer works from the notes; the source text is for the
+                # editor. The source's own headline and summary go too: drafts
+                # kept translating the original headline (reviewer, 2026-10-12).
+                for key in ("evidence_path", "title", "summary"):
+                    shown.pop(key, None)
             lines += [json.dumps(shown, ensure_ascii=False), ""]
     lines += ["# Inventory shortfalls", json.dumps(rejected, ensure_ascii=False)]
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")

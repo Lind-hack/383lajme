@@ -258,7 +258,11 @@ for continuation in {1..15}; do
   if [ "$BATCH_COUNT" -ge "$L383_TARGET_ARTICLES" ]; then
     break
   fi
-  if [ "$(( $(date +%s) - START_EPOCH ))" -ge 1800 ]; then
+  # The editor needs about 1.2 min per article and the review 5 more: on
+  # 2026-10-12 drafting until minute 33 left 16 drafts the hour could not
+  # finish, and the deadline discarded ten approved ones. Stop at minute 20
+  # or 12 drafts; the refill loop tops up later if time remains.
+  if [ "$(( $(date +%s) - START_EPOCH ))" -ge 1200 ] || [ "$BATCH_COUNT" -ge 12 ]; then
     printf '383 WRITER CONTINUATION time budget reached; editing current drafts\n'
     break
   fi
@@ -342,6 +346,10 @@ stage="normalize-edited-copy"
 # pass prunes otherwise repairable drafts. Keep the actual gates unchanged.
 stage="editorial-repair"
 for repair_attempt in 1 2; do
+  if [ "$repair_attempt" -gt 1 ] && [ "$(( $(date +%s) - START_EPOCH ))" -ge 2580 ]; then
+    printf '383 EDITORIAL REPAIR skipped: keeping time for review and publication\n'
+    break
+  fi
   CHECK_BATCH="$(mktemp /tmp/383-originality-check.XXXXXX.json)"
   cp "$BATCH" "$CHECK_BATCH"
   ORIGINALITY_FEEDBACK="$("$PYTHON_BIN" scripts/originality_gate.py --file "$CHECK_BATCH" --evidence "${BATCH%.json}.editor-sources.json" 2>&1 || true)"
