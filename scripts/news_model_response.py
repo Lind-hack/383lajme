@@ -47,5 +47,11 @@ if __name__ == "__main__":
     if result.returncode:
         print(result.stdout[-2000:])
         raise SystemExit(result.returncode)
-    count = save_response(result.stdout, args.batch, args.mode)
+    try:
+        count = save_response(result.stdout, args.batch, args.mode)
+    except ValueError:
+        # Show what the model said instead of the JSON, so a refusal or a
+        # truncated answer can be told apart in the run log.
+        print(result.stdout[-1500:])
+        raise
     print(f"383 MODEL RESPONSE: mode={args.mode} articles={count}; complete JSON saved atomically")
