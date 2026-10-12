@@ -175,7 +175,9 @@ def discovery(path: Path) -> None:
 def ready_image(lead: dict, primary: dict, secondary: dict) -> dict:
     if os.environ.get("L383_HOURLY_NEWS") == "1":
         from news_image_policy import select_photo
-        return select_photo(lead, primary, secondary)
+        from news_video_policy import select_video
+        # No licensed photo of the person: an official channel's recent video.
+        return select_photo(lead, primary, secondary) or select_video(lead)
     from codex_automation_support import _fetch_image_dimensions, _larger_image_candidates, _looks_like_content_image_url
     for evidence in (primary, secondary):
         originals = list(dict.fromkeys([str(evidence.get("image_url") or ""), *evidence.get("image_candidates", [])]))[:4]
@@ -293,7 +295,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
                       if key not in {"primary_evidence", "secondary_evidence", "photo_plan", "_reserve_photo", "_photo_deadline"}})
     CATALOG.parent.mkdir(parents=True, exist_ok=True)
     CATALOG.write_text(json.dumps({lead["url"]: {key: value for key, value in lead.items()
-                       if key.startswith("image_")} for lead in ready}, ensure_ascii=False, indent=2), encoding="utf-8")
+                       if key.startswith("image_") or key == "video_clip_url"} for lead in ready}, ensure_ascii=False, indent=2), encoding="utf-8")
     plan = coverage_plan(ready)
     # Reporter's notes for the stories the writer will actually use (each desk's
     # allocation plus a few spares). With notes, a story is written from them
@@ -341,7 +343,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
                 # The writer works from the notes; the source text is for the
                 # editor. The source's own headline and summary go too: drafts
                 # kept translating the original headline (reviewer, 2026-10-12).
-                for key in ("evidence_path", "title", "summary"):
+                for key in ("evidence_path", "title", "summary", "video_clip_url"):
                     shown.pop(key, None)
             lines += [json.dumps(shown, ensure_ascii=False), ""]
     lines += ["# Inventory shortfalls", json.dumps(rejected, ensure_ascii=False)]

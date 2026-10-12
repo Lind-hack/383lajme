@@ -47,6 +47,8 @@ interface Props {
 export default function ArticleContent({ article, related, moreFromCategory = [], latestElsewhere = [], catColor, catBg, categorySlides, dosje, latestStrip, editorial }: Props) {
   // Counted from the prose, not from the markup the body is stored in.
   const dynamicReadTime = readingMinutes(article.body);
+  // Only the exact watch URL the pipeline writes; anything else shows the photo.
+  const youtubeId = article.videoClipUrl?.match(/^https:\/\/www\.youtube\.com\/watch\?v=([A-Za-z0-9_-]{11})$/)?.[1];
 
   return (
     <main
@@ -150,7 +152,28 @@ export default function ArticleContent({ article, related, moreFromCategory = []
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DUR.slow, delay: 0.1, ease: EASE }}
           >
-            {article.imageUrl && (
+            {youtubeId ? (
+              // An official channel's own recent video, embedded (YouTube's
+              // terms allow it) where no licensed photo of the subject exists.
+              <figure style={{ margin: "0" }}>
+                <div style={{ position: "relative", aspectRatio: "16 / 9", margin: "0 0 32px", background: "#111" }}>
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${youtubeId}`}
+                    title={article.imageCaption || article.title}
+                    loading="lazy"
+                    allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }}
+                  />
+                </div>
+                {article.imageCaption && (
+                  <figcaption style={{ fontSize: "13px", lineHeight: 1.6, color: "#59544C", margin: "-20px 0 32px", overflowWrap: "anywhere" }}>
+                    {article.imageCaption}
+                  </figcaption>
+                )}
+              </figure>
+            ) : article.imageUrl && (
               <figure style={{ margin: "0" }}>
                 <ArticleHero src={article.imageUrl} alt={article.imageCaption || article.title} width={article.imageWidth} height={article.imageHeight} hideOnError={Boolean(editorial)} />
                 {article.imageCaption && (

@@ -579,7 +579,8 @@ def image_errors(article: dict) -> list[str]:
     if not photo:
         return ["image has no current independently prepared rights/context/distinctness record"]
     rights = photo.get("image_rights", {})
-    if rights.get("license") not in LICENSES or rights.get("license_url") != LICENSES.get(rights.get("license")):
+    official_video = rights.get("provider") == "youtube-embed" and str(photo.get("video_clip_url", "")).startswith("https://www.youtube.com/watch?v=")
+    if not official_video and (rights.get("license") not in LICENSES or rights.get("license_url") != LICENSES.get(rights.get("license"))):
         return ["photo rights must be CC0, public domain, or CC BY/BY-SA with a matching licence URL"]
     if any(article.get(key) != photo.get(key) for key in ("image_subject", "image_caption", "image_rights")):
         return ["image provenance was changed or omitted; use the prepared photo metadata"]
