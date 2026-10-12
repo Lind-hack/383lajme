@@ -13,7 +13,7 @@ POLICY = "383-original-composition-v1"
 CHECKS = ("independent_composition", "claims_supported", "not_close_translation", "no_borrowed_exclusive_expression",
           "attribution_supported", "no_false_firsthand_reporting", "photo_context_and_rights")
 FIELDS = ("slug", "url", "source", "title", "excerpt", "body", "category", "city", "corroborating_sources",
-          "required_attribution", "image_url", "image_subject", "image_caption", "image_rights")
+          "required_attribution", "image_url", "image_subject", "image_caption", "image_rights", "video_clip_url")
 
 
 def digest(value: object) -> str:
@@ -193,10 +193,10 @@ def review(batch: Path) -> int:
         "when, what next), and an article written in 383's own sentences with its own lead and headline wording "
         "is independent composition even when its sequence resembles the source. Never "
         "invent context or pretend 383 did firsthand reporting. Check any attribution against the actual evidence, "
+        "not just the article's required_attribution declaration. "
         "Verify names, numbers, dates and the central claims against supplied evidence; a wrong or invented fact fails "
         "claims_supported. A minor side remark the evidence does not cover, that changes nothing material, is not "
-        "grounds for rejection on its own. "
-        "not just the article's required_attribution declaration. No substantive direct quotations are allowed in "
+        "grounds for rejection on its own. No substantive direct quotations are allowed in "
         "automated output; quotation marks for short names/titles are fine. Reject unsupported claimed speakers, "
         "exclusivity and invented quotations. Check that the photo depicts a specific story subject and its "
         "prepared rights show CC0, explicit public domain, or CC BY/BY-SA with a named creator (credited on the page), "

@@ -18,6 +18,7 @@ from pathlib import Path
 from news_image_policy import readable_brief
 from originality_gate import _words
 
+NOTES_DEADLINE = 240
 CHUNK = 2  # at max reasoning a 5-story answer overran Hermes's 90 s response limit
 MAX_FACT_WORDS = 22
 
@@ -28,7 +29,11 @@ HIGH_EFFORT_CONFIG = Path("/opt/hermes/cli-config.yaml")
 def high_effort_flag() -> list[str]:
     """Notes run at "high" through Hermes's install-level cli-config.yaml; if
     that file is missing, stay on the pipeline's "max" rather than the
-    built-in "medium" that --ignore-user-config would otherwise give."""
+    built-in "medium" that --ignore-user-config would otherwise give. The
+    hourly script decides once and exports WRITER_EFFORT_FLAG; this file is
+    only read when running outside it."""
+    if "WRITER_EFFORT_FLAG" in os.environ:
+        return [os.environ["WRITER_EFFORT_FLAG"]] if os.environ["WRITER_EFFORT_FLAG"] else []
     try:
         text = HIGH_EFFORT_CONFIG.read_text(encoding="utf-8")
     except OSError:
@@ -127,13 +132,20 @@ def build_fact_sheets(leads: list[dict], folder: Path) -> dict[str, Path]:
     if not high_effort_flag():
         chunks = []
     # Three at a time: more parallel calls on the one account stalled the stream.
-    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
-        futures = {pool.submit(attempt, chunk, index): index for index, chunk in enumerate(chunks)}
-        for future in concurrent.futures.as_completed(futures):
+    # Four minutes for the whole step: stories whose notes are not back by
+    # then get fragment notes, so a stalled stream cannot eat the hour.
+    pool = concurrent.futures.ThreadPoolExecutor(max_workers=3)
+    futures = {pool.submit(attempt, chunk, index): index for index, chunk in enumerate(chunks)}
+    try:
+        for future in concurrent.futures.as_completed(futures, timeout=NOTES_DEADLINE):
             try:
                 sheets.update(future.result())
             except (subprocess.SubprocessError, OSError, ValueError) as exc:
                 print(f"383 FACT NOTES chunk {futures[future]} skipped ({type(exc).__name__})")
+    except concurrent.futures.TimeoutError:
+        print(f"383 FACT NOTES deadline: {sum(not future.done() for future in futures)} chunk(s) left to fragment notes")
+    finally:
+        pool.shutdown(wait=False, cancel_futures=True)
     model_notes = len(sheets)
     for lead in leads:
         if lead["pair_id"] not in sheets:

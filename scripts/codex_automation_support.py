@@ -593,6 +593,9 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
                 rejected.append(article)
                 print(f"REJECTED candidate {article.get('title', 'untitled')!r}: no independently prepared contextual photo; publisher-image fallbacks are disabled")
                 continue
+            # The video decides the article's top visual, so it is never the
+            # writer's: only the prepared record's, or none.
+            photo = {**photo, "video_clip_url": photo.get("video_clip_url")}
             if any(article.get(key) != value for key, value in photo.items()):
                 article.update(photo)
                 changed += 1

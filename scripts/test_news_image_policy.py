@@ -125,6 +125,21 @@ class NewsPhotoTests(unittest.TestCase):
             photo = policy.select_photo(lead, evidence, {})
             self.assertTrue(photo["image_rights"]["distinct_from_source"])
 
+    def test_commons_real_licence_url_formats_are_accepted(self):
+        # As Commons actually reports them (2026-10-13): CC0 with a deed
+        # language suffix, public domain with no URL at all.
+        cc0 = page("CC0")
+        cc0["imageinfo"][0]["extmetadata"]["LicenseUrl"] = {"value": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"}
+        cc0["imageinfo"][0]["extmetadata"]["Copyrighted"] = {"value": "False"}
+        self.assertIsNotNone(policy.candidate_photo(cc0, plan()))
+        public = page("Public domain")
+        public["imageinfo"][0]["extmetadata"].pop("LicenseUrl")
+        public["imageinfo"][0]["extmetadata"]["Copyrighted"] = {"value": "False"}
+        self.assertIsNotNone(policy.candidate_photo(public, plan()))
+        wrong = page("CC BY 4.0")
+        wrong["imageinfo"][0]["extmetadata"]["LicenseUrl"] = {"value": "https://creativecommons.org/licenses/by-nc/4.0/"}
+        self.assertIsNone(policy.candidate_photo(wrong, plan()))
+
     def test_old_photos_and_charts_maps_logos_are_refused(self):
         old = page()
         old["imageinfo"][0]["extmetadata"]["DateTimeOriginal"] = {"value": "2014-07-01"}

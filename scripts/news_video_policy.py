@@ -128,6 +128,9 @@ def select_video(lead: dict) -> dict:
     """The newest embeddable official video whose title names the story's
     person (or, for a multi-word name, its organisation or event)."""
     from news_image_policy import plain, story_names
+    import time
+    if time.monotonic() >= lead.get("_photo_deadline", float("inf")):
+        return {}
     title = plain(lead.get("title"))
     names = story_names(title, plain(lead.get("primary_evidence", {}).get("text", ""))[:1800])
     # Only the headline's main subject, as a full name: single words matched
