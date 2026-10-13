@@ -11,5 +11,14 @@ export function reelSlides<T extends { article: { slug: string; title: string } 
   paper: { edition?: readonly T[]; sections?: readonly S[] } | null | undefined,
   opts?: { boxes?: readonly string[] }
 ): ReelSlide<T, S>[];
+export type MoreItem<A> = { article: A; kind: string; primaryKey?: string; keys?: string[] };
+export function moreStories<A extends { slug: string; engagementScore?: number }>(from?: {
+  ranked?: readonly MoreItem<A>[];
+  pool?: readonly A[];
+  older?: readonly A[];
+  taken?: ReadonlySet<string>;
+  read?: ReadonlySet<string>;
+  n?: number;
+}): MoreItem<A>[];
 export function slideFromHash(hash: unknown, count: number): number;
 export function hashForSlide(index: number): string;

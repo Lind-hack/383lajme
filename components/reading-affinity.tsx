@@ -3,7 +3,9 @@
 // Lets "Për ty" and Dardani's suggestions learn from what the reader clicks and
 // reads — and for how long.
 //
-// Mounted on the article page. Opening an article is a click, and counts a
+// Mounted on the article page, and in Për ty's reader (app/per-ty/paper/
+// reader-sheet.tsx), where the story scrolls inside a sheet: `scroller` is
+// that sheet. Opening an article is a click, and counts a
 // little straight away (OPEN_WEIGHT). From then on the page measures engaged
 // time: a second counts only while the tab is visible and the reader has
 // scrolled, touched or moved within the last half minute, so a tab left open
@@ -48,6 +50,7 @@ export default function ReadingAffinity({
   category,
   city,
   words,
+  scroller,
 }: {
   slug: string;
   title: string;
@@ -56,6 +59,8 @@ export default function ReadingAffinity({
   city?: string;
   /** Words in the story's body, so a minute counts as finishing a short story and a skim of a long one. */
   words?: number;
+  /** The box the story scrolls in, when it is not the page. */
+  scroller?: HTMLElement | null;
 }) {
   useEffect(() => {
     rememberRead(slug);
@@ -98,6 +103,12 @@ export default function ReadingAffinity({
 
     const story = () => document.querySelector<HTMLElement>(".article-story");
     const measureDepth = () => {
+      if (scroller) {
+        if (scroller.scrollHeight <= 0) return;
+        const seen = (scroller.scrollTop + scroller.clientHeight) / scroller.scrollHeight;
+        depth = Math.max(depth, Math.min(1, Math.max(0, seen)));
+        return;
+      }
       const el = story();
       if (!el) return;
       const rect = el.getBoundingClientRect();
@@ -130,7 +141,8 @@ export default function ReadingAffinity({
     }, 1000);
 
     measureDepth();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const scrolls: EventTarget = scroller ?? window;
+    scrolls.addEventListener("scroll", onScroll, { passive: true });
     for (const type of ["pointermove", "pointerdown", "keydown", "touchstart", "wheel"] as const) {
       window.addEventListener(type, active, { passive: true });
     }
@@ -140,7 +152,7 @@ export default function ReadingAffinity({
 
     return () => {
       window.clearInterval(tick);
-      window.removeEventListener("scroll", onScroll);
+      scrolls.removeEventListener("scroll", onScroll);
       for (const type of ["pointermove", "pointerdown", "keydown", "touchstart", "wheel"] as const) {
         window.removeEventListener(type, active);
       }
@@ -149,7 +161,7 @@ export default function ReadingAffinity({
       // Leaving for another page inside the site: the visit ends here.
       save();
     };
-  }, [slug, title, excerpt, category, city, words]);
+  }, [slug, title, excerpt, category, city, words, scroller]);
 
   return null;
 }

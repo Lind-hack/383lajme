@@ -6,7 +6,11 @@
 //                 and "Fillo leximin ↓" (the first headlines only on a wide
 //                 screen — a phone's cover stays simple)
 //   StorySlide    one story, full screen: the photo, and over it why it is
-//                 here, the headline, two lines, "Lexo lajmin"; down the right
+//                 here, the headline, its key points (lib/key-points — the
+//                 story's own sentences; the excerpt until they come) and
+//                 "Lexo". Tapping the headline or the points, "Lexo", or a
+//                 swipe to the left opens the whole story over the screen
+//                 (reader-sheet.tsx) without leaving the reel; down the right
 //                 side the reader's buttons — more of this, less of this, react,
 //                 comments, share, why. Liking, disliking and reacting each
 //                 burst in the middle of the screen. Each story wears its
@@ -16,12 +20,18 @@
 //                 from its screen, with how many the reader has read
 //   SectionSlide  a follow's own screen in its colour: what it is, why it is in
 //                 the paper, how many stories, more / less of it
-//   PanelSlide    a light screen for the boxes and the end of the paper
+//   CheckpointSlide  the end of the reader's own paper, said plainly: a big
+//                 tick, "Kaq ishte gazeta jote e sotme", how much of it they
+//                 read, the streak, and then "Vazhdo me më shumë lajme" — the
+//                 reel goes on without end after it
+//   PanelSlide    a light screen that scrolls inside (the shared copy's end)
 //
 // A shared copy (/gazeta) passes `readOnly`: no reasons, no read marks, no
 // "more / less" — those are the sharer's, not the friend's.
 
 import { Fragment, useRef, useState, type ReactNode } from "react";
+import ReaderSheet from "./reader-sheet";
+import { useStoryData } from "./story-data";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Check, ChevronDown, MessageCircle, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
@@ -32,7 +42,7 @@ import TimeAgo from "@/components/time-ago";
 import CommentsSheet from "@/components/comments/comments-sheet";
 import { useCommentThread } from "@/components/comments/use-comment-thread";
 import { shortCount } from "@/lib/article-comments.mjs";
-import { CATEGORY_COLORS, CATEGORY_LIGHT_BG } from "@/lib/category-colors";
+import { CATEGORY_COLORS, CATEGORY_LIGHT_BG, getCategoryColor } from "@/lib/category-colors";
 import { isNewSince } from "@/lib/perty-visits.mjs";
 import { STORY_REACTIONS, shares, topLine } from "@/lib/story-reactions.mjs";
 import { useReactions } from "./reactions";
@@ -51,6 +61,8 @@ export type ReelMeta = {
   seen: Seen;
   /** "Më shumë / Më pak"; absent on a shared copy. */
   onTaste?: (key: string, more: boolean) => void;
+  /** A story opened in the reel's reader. */
+  onRead?: (slug: string) => void;
 };
 
 /**
@@ -250,7 +262,24 @@ function Toast({ text }: { text: string | null }) {
   );
 }
 
-export function StorySlide({ story, meta, eager = false }: { story: PaperStory; meta: ReelMeta; eager?: boolean }) {
+/** A swipe this far to the left, and mostly sideways, opens the story. */
+const SWIPE_OPEN = 64;
+
+export function StorySlide({
+  story,
+  meta,
+  eager = false,
+  near = false,
+  next,
+}: {
+  story: PaperStory;
+  meta: ReelMeta;
+  eager?: boolean;
+  /** On screen or a couple away: its photo and key points load now. */
+  near?: boolean;
+  /** The next screen's address, for "Lajmi tjetër" in the reader. */
+  next?: string;
+}) {
   const { article, why } = story;
   const photo = photoOf(article);
   const [plateStoodIn, setPlateStoodIn] = useState(false);
@@ -261,7 +290,11 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
   const [toast, setToast] = useState<string | null>(null);
   const [bursts, setBursts] = useState<Burst[]>([]);
   const [talking, setTalking] = useState(false);
+  const [reading, setReading] = useState(false);
   const lastTap = useRef(0);
+  const down = useRef<{ x: number; y: number } | null>(null);
+  const data = useStoryData(article.slug, near || reading);
+  const points = data && data !== "off" ? data.points : [];
   const reactions = useReactions();
   const thread = useCommentThread(article.slug, (n) => reactions.setComments(article.slug, n));
   const comments = reactions.comments[article.slug] ?? 0;
@@ -271,8 +304,11 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
   const isRead = !meta.readOnly && meta.seen.read.has(article.slug);
   const isNew = !meta.readOnly && !isRead && isNewSince(article, meta.seen.since);
   const canTaste = !meta.readOnly && Boolean(why?.key && meta.onTaste);
-  const href = `/article/${article.slug}`;
   const words = article.title.split(/\s+/).filter(Boolean);
+  const read = () => {
+    setReading(true);
+    meta.onRead?.(article.slug);
+  };
 
   const say = (text: string) => {
     setToast(text);
@@ -305,7 +341,17 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
   const onTap = (e: React.PointerEvent<HTMLDivElement>) => {
     // Taps inside the comments (on <body>, but still React's child) are not on the picture.
     if (!e.currentTarget.contains(e.target as Node)) return;
-    if ((e.target as HTMLElement).closest("a, button")) return;
+    const from = down.current;
+    down.current = null;
+    if (from) {
+      const dx = e.clientX - from.x;
+      const dy = e.clientY - from.y;
+      if (dx < -SWIPE_OPEN && Math.abs(dy) < Math.abs(dx) * 0.6) {
+        read();
+        return;
+      }
+    }
+    if ((e.target as HTMLElement).closest("a, button, .fy-points")) return;
     const now = Date.now();
     const box = e.currentTarget.getBoundingClientRect();
     if (now - lastTap.current < 320) {
@@ -321,9 +367,15 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
       data-read={isRead || undefined}
       data-pace={meta.pace}
       style={sectionTone(article.category)}
+      onPointerDown={(e) => {
+        down.current = e.currentTarget.contains(e.target as Node) ? { x: e.clientX, y: e.clientY } : null;
+      }}
       onPointerUp={onTap}
+      onPointerCancel={() => {
+        down.current = null;
+      }}
     >
-      <Backdrop src={photo} fallback={article.coverArt ?? null} priority={eager} onFallback={() => setPlateStoodIn(true)} />
+      <Backdrop src={photo} fallback={article.coverArt ?? null} priority={eager || near} onFallback={() => setPlateStoodIn(true)} />
       <div className="fy-shade" />
       {plate && <small className="fy-credit">Ilustrim me AI</small>}
       <Bursts list={bursts} onDone={done} />
@@ -346,7 +398,7 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
           )}
         </p>
         <h2 className="fy-head">
-          <Link href={href} aria-label={article.title}>
+          <button type="button" onClick={read} aria-label={`${article.title}. Lexoje`}>
             {words.map((w, i) => (
               <Fragment key={i}>
                 <span className="fy-w" style={{ "--i": i } as React.CSSProperties} aria-hidden="true">
@@ -354,13 +406,23 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
                 </span>{" "}
               </Fragment>
             ))}
-          </Link>
+          </button>
         </h2>
-        {article.excerpt && <p className="fy-text">{article.excerpt}</p>}
+        {points.length > 0 ? (
+          <ul className="fy-points" onClick={read}>
+            {points.map((p, i) => (
+              <li key={i} style={{ "--i": i } as React.CSSProperties}>
+                {p}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          article.excerpt && <p className="fy-text">{article.excerpt}</p>
+        )}
         <div className="fy-story-foot">
-          <Link href={href} className="fy-btn fy-btn--light">
-            Lexo lajmin <ArrowRight size={16} strokeWidth={2.5} aria-hidden="true" />
-          </Link>
+          <button type="button" className="fy-btn fy-btn--light" onClick={read}>
+            Lexo <ArrowRight size={16} strokeWidth={2.5} aria-hidden="true" />
+          </button>
           <span className="fy-meta">
             {article.category} · <TimeAgo iso={article.publishedAt} />
           </span>
@@ -408,6 +470,23 @@ export function StorySlide({ story, meta, eager = false }: { story: PaperStory; 
 
       {tray && <ReactionTray slug={article.slug} onClose={() => setTray(false)} onPick={reacted} />}
       {reactions.commentsOk && <CommentsSheet open={talking} onClose={() => setTalking(false)} thread={thread} title={article.title} />}
+      {reading && (
+        <ReaderSheet
+          open={reading}
+          onClose={() => setReading(false)}
+          article={article}
+          data={data}
+          accent={getCategoryColor(article.category)}
+          onNext={
+            next
+              ? () => {
+                  setReading(false);
+                  window.location.hash = next;
+                }
+              : undefined
+          }
+        />
+      )}
 
       {open && why && (
         <div className="fy-whysheet" role="note">
@@ -614,6 +693,78 @@ export function RecapSlide({ date, stories }: { date: string; stories: RecapStor
         </ol>
         <p className="fy-recap-foot">{lines?.length ? "Përmbledhur nga Dardani, vetëm nga lajmet e sotme." : "Nga lajmet e sotme. Prek një për ta lexuar."}</p>
       </div>
+    </div>
+  );
+}
+
+/**
+ * The checkpoint: today's own paper is done, and the reader is told so before
+ * the reel carries on with more.
+ */
+export function CheckpointSlide({
+  read,
+  total,
+  streak,
+  minutes,
+  next,
+  onShare,
+  onMore,
+}: {
+  read: number;
+  total: number;
+  streak: number;
+  minutes: number;
+  /** The first screen after it; absent while nothing more has come. */
+  next?: string;
+  onShare?: () => void;
+  /** "Gazeta jote": tomorrow's edition, the boxes, how it works. */
+  onMore: () => void;
+}) {
+  const all = total > 0 && read >= total;
+  return (
+    <div className="fy-check">
+      <div className="fy-check-body">
+        <span className="fy-check-tick" aria-hidden="true">
+          <Check size={44} strokeWidth={3.4} />
+        </span>
+        <p className="fy-check-kicker">Fundi i gazetës sate</p>
+        <h2 className="fy-check-title">Kaq ishte gazeta jote e sotme.</h2>
+        <ul className="fy-check-stats">
+          <li>
+            <b>
+              {read}/{total}
+            </b>
+            <span>lajme lexuar</span>
+          </li>
+          {streak >= 1 && (
+            <li>
+              <b>🔥 {streak}</b>
+              <span>{streak === 1 ? "ditë" : "ditë rresht"}</span>
+            </li>
+          )}
+          <li>
+            <b>{minutes}</b>
+            <span>min lexim</span>
+          </li>
+        </ul>
+        <p className="fy-check-line">{all ? "I lexove të gjitha. Gazeta e nesërme del në 07:00." : "Gazeta e nesërme del në 07:00, me lajmet e reja për ty."}</p>
+        <div className="fy-check-actions">
+          {onShare && (
+            <button type="button" className="fy-btn fy-btn--light fy-btn--small" onClick={onShare}>
+              <Share2 size={15} strokeWidth={2.4} aria-hidden="true" /> Ndaje gazetën
+            </button>
+          )}
+          <button type="button" className="fy-btn fy-btn--ghost fy-btn--small" onClick={onMore}>
+            Gazeta jote
+          </button>
+        </div>
+      </div>
+      {next && (
+        <a href={next} className="fy-check-more">
+          <span>Vazhdo me më shumë lajme</span>
+          <ChevronDown size={22} strokeWidth={2.8} aria-hidden="true" />
+        </a>
+      )}
     </div>
   );
 }

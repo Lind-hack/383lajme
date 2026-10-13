@@ -11,7 +11,9 @@
 // on the same story.
 //
 // Bars at the top show where the reader is inside the current group (today's
-// edition, or one follow), the way Stories do.
+// edition, or one follow), the way Stories do. Between groups, one bar fills
+// towards the `checkpoint` — the end of the reader's own paper — and past it
+// the top says so ("✓ Më shumë për ty").
 //
 // This component only moves between screens; app/per-ty/paper/slides.tsx
 // draws them.
@@ -71,6 +73,7 @@ export default function Reel({
   sub,
   tools,
   hint = false,
+  checkpoint,
   onShown,
   onMove,
 }: {
@@ -86,6 +89,8 @@ export default function Reel({
   tools?: ReactNode;
   /** First visit: say how to move on. */
   hint?: boolean;
+  /** The screen where the reader's own paper ends and the endless part begins. */
+  checkpoint?: number;
   /** The screen on view, once it has settled. */
   onShown?: (index: number) => void;
   /** The reader moved on from the first screen (any way at all). */
@@ -224,10 +229,14 @@ export default function Reel({
 
   const current = screens[index];
   const bars = current?.kind === "story" && current.of ? current : null;
+  const past = checkpoint != null && index > checkpoint;
+  const toEnd = checkpoint != null ? checkpoint : count - 1;
+  // The checkpoint is a dark screen of its own; only a shared copy's end is light.
+  const light = current?.kind === "end" && checkpoint == null;
 
   return (
     <div className="fy" data-look={look}>
-      <div className="fy-main" data-tone={current?.kind === "end" ? "light" : "dark"}>
+      <div className="fy-main" data-tone={light ? "light" : "dark"}>
         <div className="fy-top">
           {bars ? (
             <div className="fy-bars" aria-hidden="true">
@@ -237,13 +246,13 @@ export default function Reel({
             </div>
           ) : (
             <div className="fy-bars fy-bars--all" aria-hidden="true">
-              <span style={{ transform: `scaleX(${count > 1 ? index / (count - 1) : 1})` }} />
+              <span style={{ transform: `scaleX(${toEnd > 0 ? Math.min(index / toEnd, 1) : 1})` }} />
             </div>
           )}
           <div className="fy-top-row">
             <p className="fy-top-where">
               <b>{name}</b>
-              {bars?.groupTitle ? <span>{bars.groupTitle}</span> : null}
+              {past ? <span>✓ Më shumë për ty</span> : bars?.groupTitle ? <span>{bars.groupTitle}</span> : null}
             </p>
             {tools && <div className="fy-tools fy-tools--top">{tools}</div>}
           </div>

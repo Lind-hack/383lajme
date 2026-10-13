@@ -275,7 +275,7 @@ Scope: `/per-ty` and the shared copy `/gazeta/<code>`. Styles in `app/per-ty/pap
 
 **North Star: Apple News, read like TikTok.** The reader's own paper is a stack of full screens swiped up one at a time. Each screen is set like an Apple News story: the photo edge to edge, a large white headline over a dark fade, one spot-colour tag saying why the story is here. On a phone the reel fills the space between the site's bar and the tab bar. On a wide screen it fills the left of the page, with the whole paper listed on the right (Apple News sidebar) — tap any line to jump there.
 
-Order: cover (the paper's name over the lead's photo, how much is in it, "Fillo leximin ↓"; the top three headlines only on a wide screen — a phone's cover stays simple) → "Shkurt, për sot" — one screen, "Sot në 30 sekonda": a line for every story in the edition (Dardani's, or the story's own first sentence until he has written it, so it never says more than the stories), each a tap from its story, numbered in its section's colour, ticked once read, with a read counter; one line a story on short phones so the whole day always fits. The town, the numbers and Tregu sit on the end screen → today's edition, one story a screen → for each follow, its own full-colour screen ("Qyteti yt · Prishtinë · 4 lajme") then its stories → "Kaq për sot".
+Order: cover (the paper's name over the lead's photo, how much is in it, "Fillo leximin ↓"; the top three headlines only on a wide screen — a phone's cover stays simple) → "Shkurt, për sot" — one screen, "Sot në 30 sekonda": a line for every story in the edition (Dardani's, or the story's own first sentence until he has written it, so it never says more than the stories), each a tap from its story, numbered in its section's colour, ticked once read, with a read counter; one line a story on short phones so the whole day always fits. The town, the numbers and Tregu sit on the end screen → today's edition, one story a screen → for each follow, its own full-colour screen ("Qyteti yt · Prishtinë · 4 lajme") then its stories → **the checkpoint**, "Kaq ishte gazeta jote e sotme": a big green tick, read / total, the streak, minutes, "Gazeta e nesërme del në 07:00", Ndaje gazetën and "Gazeta jote" (a sheet with tomorrow's push, the town, numbers and Tregu, how it works, forgetting) and "Vazhdo me më shumë lajme ↓" → **without end**: more of what the reader follows, then the week's most read on 383, then older stories page by page — never one already on a screen or read, six at a time as the reader nears the end, never reordered once shown. Past the checkpoint the top reads "✓ Më shumë për ty", and the top bar measures only the reader's own paper.
 
 ## Five kinds of paper
 
@@ -289,7 +289,7 @@ The reading mix picks one (`lib/paper-look.mjs`, `[data-look]`); "Rregullo gazet
 | `bota` | `#2f6bff` | Newsreader |
 | `biznes` | `#12a0aa` | Newsreader, italic name |
 
-Labels, buttons and text over photos are Manrope. The end screen is light (`#f7f4ee`, dark type; the bar turns dark too, `[data-tone="light"]`).
+Labels, buttons and text over photos are Manrope. The checkpoint is dark with the paper's colour glowing from the top; only a shared copy's end screen is light (`#f7f4ee`, `[data-tone="light"]`).
 
 **Section colours.** Every story wears its section's colour from `lib/category-colors` (Kosovë blue, Sport cyan, Ekonomi green, Botë amber with dark ink, Kulturë rose…) on its reason tag, pressed buttons and reaction bars; a category follow's screen is painted in it too. Cities, people and anything without a section colour keep the paper's spot colour.
 
@@ -298,7 +298,8 @@ Labels, buttons and text over photos are Manrope. The end screen is light (`#f7f
 ## Components
 
 - **Over every screen:** Stories-style bars (one per story in the current group; a single progress line elsewhere), the paper's name and the group, and on a phone the tools (Ndaje, Rregullo, ?).
-- **Story:** the reason tag (tap → "Pse e sheh këtë?" sheet with "Më shumë si kjo / Më pak"), headline, three lines (one to five, following how long the reader stays on stories), "Lexo lajmin", category and time. Down the right side, TikTok-style: 👍 Më shumë, 👎 Më pak, Reago, 💬 comments with the count, Ndaje (this story) — five, never more; "Pse?" is the reason tag itself. On a wide screen ↑ ↓ sit at the right end of the "Më pas" strip, never among these buttons. A story with no photo is set on its spot colour.
+- **Story:** the reason tag (tap → "Pse e sheh këtë?" sheet with "Më shumë si kjo / Më pak"), headline, **two or three key points** — whole sentences of the story itself, the excerpt's first line leading, a dot in the section's colour (lib/key-points; never written by a model, so never more than the story says; the excerpt stands in until they load, and when a story has too little) — "Lexo", category and time.
+- **Reading in the reel:** the headline, the points, "Lexo" or a swipe to the left raise the whole story as a white sheet over its screen (photo, headline, lead with the section's bar, text, comments). Dragged down, Mbyll or Esc returns to the same screen; "Lajmi tjetër ↓" at the bottom closes it and moves on. Reading there teaches the paper exactly as the article page does. The screens either side of the one on view load their photo and points ahead, so nothing waits. Down the right side, TikTok-style: 👍 Më shumë, 👎 Më pak, Reago, 💬 comments with the count, Ndaje (this story) — five, never more; "Pse?" is the reason tag itself. On a wide screen ↑ ↓ sit at the right end of the "Më pas" strip, never among these buttons. A story with no photo is set on its spot colour.
 - **Sheets** (Rregullo gazetën, Si funksionon, Ndaje): white, solid, with an orange `#ff4422` head that ends in a wave; the title in white. "Si funksionon" is one card per step, each with an orange emoji tile.
 - **Follow screen:** the follow's name huge on its colour over a blurred photo, why it is in the paper, how many stories, Më shumë / Më pak / Të gjitha.
 - **Sidebar (wide screens):** name, date and count, the tools, then every screen with thumbnails; the one on view is black.
@@ -333,7 +334,7 @@ The link comes first: `/gazeta/<code>` unfurls in chats as a 1200×630 JPEG set 
 
 ## Do's and Don'ts
 
-- **Do** make every screen fit; only the end screen may scroll inside, as a last resort.
+- **Do** make every screen fit; reading happens in the reader sheet, never inside a screen.
 - **Don't** use browser dialogs (confirm/alert) for "Raporto" or "Fshije"; ask once in place.
 - **Do** keep the reader's buttons on the right and the text on the left, clear of them.
 - **Don't** pin notes or slips over the reel; explanations live behind "?" and on the end screen.

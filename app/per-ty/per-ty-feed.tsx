@@ -19,6 +19,12 @@
 //   last      "Kaq për sot": sharing, tomorrow's 07:00 edition, the follows
 //             that had nothing this week, and how the paper works.
 //
+// Now a reel (app/per-ty/paper/reel.tsx): the reader's own paper ends at a
+// checkpoint that says so ("Kaq ishte gazeta jote e sotme"), and after it the
+// reel goes on without end — more of what they follow, the week's most read,
+// then older stories page by page (lib/paper-reel moreStories) — appended a
+// few at a time as the reader nears the end, never reordered once shown.
+//
 // Nothing is pinned on top of the paper: how it works is one tap away in the
 // bar ("Si funksionon?"), and the first visit only shows how to turn a page.
 //
@@ -51,7 +57,7 @@ import { lastMonth, monthLabel } from "@/lib/monthly-wrapped.mjs";
 import { hasLearnedPaper, learnedPicks, setLearnedPaper, totalReads } from "@/lib/perty-learned.mjs";
 import { kosovoDateKey } from "@/lib/home-tregu.mjs";
 import { editionName, lookById, readingMix, readingPace, readLookState, resolveLook, writeLookState, type LookId } from "@/lib/paper-look.mjs";
-import { hashForSlide, reelSlides } from "@/lib/paper-reel.mjs";
+import { hashForSlide, moreStories, reelSlides, type MoreItem } from "@/lib/paper-reel.mjs";
 import { keyLabel, whyLine } from "@/lib/perty-why.mjs";
 import { noteShown, readShown, settleSkips, writeShown } from "@/lib/perty-skips.mjs";
 import { mergeOnSignIn, pushInterests } from "@/lib/interests-sync";
@@ -69,7 +75,7 @@ import Sheet from "./paper/sheet";
 import ShareSheet, { type ShareablePaper } from "./paper/share-sheet";
 import Reel, { type ReelScreen } from "./paper/reel";
 import { ReactionsProvider } from "./paper/reactions";
-import { CoverSlide, PanelSlide, RecapSlide, SectionSlide, StorySlide, type PaperStory, type ReelMeta } from "./paper/slides";
+import { CheckpointSlide, CoverSlide, RecapSlide, SectionSlide, StorySlide, type PaperStory, type ReelMeta, type Why } from "./paper/slides";
 import { newspaperFonts } from "./paper/fonts";
 import "./paper/reel.css";
 
@@ -98,6 +104,12 @@ const TOWN_STORY_MS = 48 * 3600_000;
 const SHOWN_AFTER_MS = 1200;
 /** "Më shumë / Më pak si kjo": about two-thirds of a full read either way. */
 const TASTE_STEP = 1.2;
+/** After the checkpoint: stories added at a time, and how close to the end before the next ones come. */
+const MORE_STEP = 6;
+const MORE_AHEAD = 4;
+/** Screens either side of the one on view whose photo and key points load now. */
+const NEAR = 2;
+const RANKED_KINDS = new Set(["person", "city", "category", "learned"]);
 
 function readFlag(key: string) {
   try {
@@ -155,6 +167,15 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
   // The paper's kind as stored.
   const [lookState, setLookState] = useState<ReturnType<typeof readLookState>>(null);
   const shownTimer = useRef<number | null>(null);
+  // The screen on view, and the endless part after the checkpoint.
+  const [at, setAt] = useState(0);
+  const [more, setMore] = useState<MoreItem<FeedArticle>[]>([]);
+  const [older, setOlder] = useState<FeedArticle[]>([]);
+  // undefined: not asked yet; null: the archive has no more.
+  const [olderCursor, setOlderCursor] = useState<string | null | undefined>(undefined);
+  const olderBusy = useRef(false);
+  // "Gazeta jote", from the checkpoint.
+  const [paperOpen, setPaperOpen] = useState(false);
 
   useEffect(() => {
     const stored = readInterests();
@@ -329,6 +350,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
   // opened teach the paper (lib/perty-skips).
   const onShown = useCallback(
     (index: number) => {
+      setAt(index);
       if (shownTimer.current) window.clearTimeout(shownTimer.current);
       const slide = slides[index];
       if (slide?.kind !== "story") return;
@@ -345,6 +367,47 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
   useEffect(() => () => {
     if (shownTimer.current) window.clearTimeout(shownTimer.current);
   }, []);
+
+  // After the checkpoint: a few more whenever the reader nears the end, and
+  // older stories fetched when the week runs out.
+  useEffect(() => {
+    if (!ready || paper.edition.length === 0) return;
+    const checkpoint = slides.length - 1;
+    if (more.length >= MORE_STEP && at < checkpoint + more.length - MORE_AHEAD) return;
+    const taken = new Set([
+      ...slides.flatMap((s) => (s.kind === "story" ? [s.item.article.slug] : [])),
+      ...more.map((m) => m.article.slug),
+    ]);
+    const next = moreStories({ ranked: feed, pool, older, taken, read, n: MORE_STEP });
+    if (next.length) setMore((list) => [...list, ...next]);
+    if (next.length >= MORE_STEP || olderCursor === null || olderBusy.current) return;
+    const from =
+      olderCursor ??
+      pool.reduce<string | null>((min, a) => (!min || Date.parse(a.publishedAt) < Date.parse(min) ? a.publishedAt : min), null);
+    if (!from) return;
+    olderBusy.current = true;
+    fetch(`/api/articles?before=${encodeURIComponent(from)}&limit=24`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        const items: FeedArticle[] = (Array.isArray(j?.items) ? j.items : [])
+          .filter((i: { slug?: unknown; title?: unknown }) => typeof i?.slug === "string" && typeof i?.title === "string")
+          .map((i: Record<string, unknown>) => ({
+            slug: String(i.slug),
+            title: String(i.title),
+            excerpt: typeof i.excerpt === "string" ? i.excerpt : "",
+            category: typeof i.category === "string" ? i.category : "",
+            source: typeof i.source === "string" ? i.source : "",
+            publishedAt: String(i.publishedAt ?? ""),
+            ...(typeof i.imageUrl === "string" && i.imageUrl ? { imageUrl: i.imageUrl } : {}),
+          }));
+        setOlder((list) => [...list, ...items]);
+        setOlderCursor(typeof j?.next === "string" ? j.next : null);
+      })
+      .catch(() => setOlderCursor(null))
+      .finally(() => {
+        olderBusy.current = false;
+      });
+  }, [ready, paper.edition.length, slides, more, at, feed, pool, older, read, olderCursor]);
 
   // Before mount the device choices are unknown; render nothing rather than
   // flashing onboarding at a reader who already has a paper.
@@ -417,7 +480,9 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
     if (paper.allKeys.includes(key)) savePrefs({ ...prefs, order: moveKey(paper.allKeys, key, more ? -1 : 1) });
   };
 
-  const meta: ReelMeta = { readOnly: false, pace, seen: { since, read }, onTaste };
+  const onRead = (slug: string) => setRead((prev) => (prev.has(slug) ? prev : new Set([...prev, slug])));
+  const meta: ReelMeta = { readOnly: false, pace, seen: { since, read }, onTaste, onRead };
+  const near = (i: number) => Math.abs(i - at) <= NEAR;
   const firstStory = slides.findIndex((s) => s.kind === "story");
   const storySlugs = slides.flatMap((s) => (s.kind === "story" ? [s.item.article.slug] : []));
 
@@ -546,15 +611,52 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
         of: slide.of,
         thumb: item.article.imageUrl || item.article.coverArt || null,
         read: read.has(item.article.slug),
-        node: <StorySlide story={story} meta={meta} eager={i <= 3} />,
+        node: <StorySlide story={story} meta={meta} eager={i <= 3} near={near(i)} next={hashForSlide(i + 1)} />,
       };
     }
     return {
       key: slide.key,
       kind: "end",
-      title: slide.title,
+      title: "Fundi i gazetës sate",
       node: (
-        <PanelSlide kicker={allRead ? "E mbarove" : "Fundi i gazetës"} title={allRead ? "I lexove të gjitha!" : "Kaq për sot."}>
+        <CheckpointSlide
+          read={readCount}
+          total={ed.length}
+          streak={streak}
+          minutes={paper.minutes}
+          next={more.length ? hashForSlide(slides.length) : undefined}
+          onShare={canShare ? () => setSharing(true) : undefined}
+          onMore={() => setPaperOpen(true)}
+        />
+      ),
+    };
+  });
+
+  // After the checkpoint, without end.
+  for (const [j, item] of more.entries()) {
+    const i = slides.length + j;
+    const a = item.article;
+    const why: Why = RANKED_KINDS.has(item.kind)
+      ? whyLine(item as Parameters<typeof whyLine>[0], interests)
+      : item.kind === "older"
+        ? { short: a.category ? `Nga ${a.category}` : "Nga ditët e fundit", long: "Një lajm i ditëve të fundit që s'e ke parë ende. 👍 ose 👎 i tregon gazetës a do më shumë si ky.", key: a.category ? `cat:${a.category}` : null, picked: false }
+        : { short: "Më e lexuara në 383", long: "Nga më të lexuarat e javës në 383. 👍 ose 👎 i tregon gazetës a do më shumë si ky.", key: a.category ? `cat:${a.category}` : null, picked: false };
+    screens.push({
+      key: `m:${a.slug}`,
+      kind: "story",
+      title: a.title,
+      group: "more",
+      groupTitle: "Më shumë për ty",
+      thumb: a.imageUrl || a.coverArt || null,
+      read: read.has(a.slug),
+      node: <StorySlide story={{ article: a, why }} meta={meta} near={near(i)} next={hashForSlide(i + 1)} />,
+    });
+  }
+
+  const endSlide = slides[slides.length - 1];
+  const quiet = endSlide?.kind === "end" ? endSlide.quiet : [];
+  const paperMore = (
+        <div className="fy-more">
           <div className="fy-end-hello">
             {allRead ? <AllReadCheer /> : <DardaniImage name="wave" decorative className="perty-end-img" />}
             <div>
@@ -563,15 +665,16 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
             </div>
           </div>
           <div className="fy-actions-row">
-            {canShare && (
-              <button type="button" className="fy-btn fy-btn--accent" onClick={() => setSharing(true)}>
-                <Share2 size={17} strokeWidth={2.4} aria-hidden="true" />
-                Ndaje gazetën
-              </button>
-            )}
-            <button type="button" className="fy-btn fy-btn--ghost" onClick={() => setCustomizing(true)}>
+            <button
+              type="button"
+              className="fy-btn fy-btn--ghost"
+              onClick={() => {
+                setPaperOpen(false);
+                setCustomizing(true);
+              }}
+            >
               <SlidersHorizontal size={16} strokeWidth={2.3} aria-hidden="true" />
-              Rregullo
+              Rregullo gazetën
             </button>
           </div>
           <MorningPush />
@@ -633,13 +736,20 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
               <li>Etiketa me ngjyrë mbi çdo lajm thotë pse është aty; 👍 dhe 👎 anash e mësojnë çka do.</li>
             </ol>
           </section>
-          {quietNotes(slide.quiet)}
+          {quietNotes(quiet)}
           <p className="fy-privacy">
             Gazeta jote mëson nga ajo që lexon dhe sa gjatë e lexon — vetëm në këtë pajisje. Për përmbledhjen, Dardanit i
             dërgohen vetëm adresat e lajmeve, asnjë e dhënë për ty.
           </p>
           <div className="fy-actions-row">
-            <button type="button" className="fy-btn fy-btn--ghost fy-btn--small" onClick={() => setEditing(true)}>
+            <button
+              type="button"
+              className="fy-btn fy-btn--ghost fy-btn--small"
+              onClick={() => {
+                setPaperOpen(false);
+                setEditing(true);
+              }}
+            >
               Ndrysho çka ndjek
             </button>
             {(Object.keys(interests.affinity).length > 0 || read.size > 0) && (
@@ -648,10 +758,8 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
               </button>
             )}
           </div>
-        </PanelSlide>
-      ),
-    };
-  });
+        </div>
+  );
 
   const tools = (
     <>
@@ -703,6 +811,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
             sub={`${dateCap} · ${ed.length === 1 ? "1 lajm" : `${ed.length} lajme`} · ${paper.minutes} min`}
             tools={tools}
             hint={howto}
+            checkpoint={slides.length - 1}
             onShown={onShown}
             onMove={() => {
               if (!howto) return;
@@ -718,6 +827,9 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
         </p>
       )}
 
+      <Sheet open={paperOpen} onClose={() => setPaperOpen(false)} title="Gazeta jote" titleId="perty-paper-title">
+        {paperMore}
+      </Sheet>
       <Sheet open={helping} onClose={() => setHelping(false)} title="Si funksionon gazeta jote" titleId="perty-help-title">
         <ol className="fy-help">
           <li>
