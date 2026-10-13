@@ -8,7 +8,7 @@ import { judgeCommentAction } from "./actions";
 export const dynamic = "force-dynamic";
 
 /**
- * Reported comments (migration 0107): the ones readers hid with REPORT_HIDE
+ * Reported comments (migration 0108): the ones readers hid with REPORT_HIDE
  * reports first, then any still showing with a report or two. Keep makes a
  * comment visible again for good; delete takes it down.
  */
@@ -85,7 +85,7 @@ export default async function AdminKomentePage({ searchParams }: { searchParams:
       {ok && <p style={{ ...box, color: "var(--a-success, #15803d)" }}>{MESSAGES[ok]}</p>}
       {err && <p style={{ ...box, color: "var(--a-danger, #b91c1c)" }}>{err}</p>}
       {!supabase && <p style={box}>{ERRORS.env}</p>}
-      {failed && <p style={box}>Tabela e komenteve s&apos;u lexua — a është aplikuar migrimi 0107?</p>}
+      {failed && <p style={box}>Tabela e komenteve s&apos;u lexua — a është aplikuar migrimi 0108?</p>}
       {supabase && !failed && rows.length === 0 && <p style={box}>Asnjë koment i raportuar. 🎉</p>}
       {rows.map((r) => (
         <article key={r.id} style={{ ...box, display: "grid", gap: 10 }}>

@@ -4,7 +4,7 @@ import { countsFrom, parseArticleSlugs } from "@/lib/article-comments.mjs";
 
 /**
  * GET ?slugs=a,b,c → { ok, counts: { slug: n } } — visible comments per story,
- * for the count on each comment button (migration 0107).
+ * for the count on each comment button (migration 0108).
  */
 
 export const dynamic = "force-dynamic";

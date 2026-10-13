@@ -6,7 +6,7 @@ import { RATE_MAX, RATE_WINDOW_S, THREAD_LIMIT, bodyProblem, cleanBody, isArticl
 
 /**
  * Readers' comments under a story (lib/article-comments.mjs, table
- * article_comments, migration 0107).
+ * article_comments, migration 0108).
  *
  *   GET    ?slug=…                    → { ok, comments, viewer: { signedIn, name } }
  *   POST   { slug, body, parentId? }  → { comment }      signed-in readers only
