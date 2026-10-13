@@ -312,7 +312,11 @@ def commons_files(names: list[str]) -> list[dict]:
 MAX_PHOTO_AGE_YEARS = 4
 NOT_A_PHOTO = re.compile(r"\b(chart|graph|diagram|ranking|statistics?|map|locator|flag|logo|emblem|coat of arms|"
                          r"seal|infographic|screenshot|evolution|icon|wordmark|svg|plaque|statue|bust|signature|"
-                         r"autograph|grave|poster|stamp|coin|banknote|album cover|wax figure|mural|graffiti)\b", re.I)
+                         r"autograph|grave|poster|stamp|coin|banknote|album cover|wax figure|mural|graffiti|"
+                         # Objects and artwork named after the person (a perfume
+                         # box for Britney Spears, a caricature for Elon Musk).
+                         r"caricature|cartoon|drawing|illustration|painting|sketch|billboard|advert|"
+                         r"fragrance|perfume|bottle|packaging|doll|figurine|sculpture|tattoo)\b", re.I)
 
 
 def photo_year(meta: dict) -> int | None:
@@ -382,7 +386,9 @@ def candidate_photo(page: dict, plan: dict) -> dict | None:
     # matches gave a temple wall for 'Rama', a nebula for 'California' and
     # 'Ella Bank Road, Langley' for Ella Langley.
     phrase = " ".join(re.findall(r"[a-z0-9]+", fold(plan["subject"])))
-    in_title = f" {phrase} " in " " + " ".join(re.findall(r"[a-z0-9]+", fold(plain(page.get("title", ""))))) + " "
+    title_words = " " + " ".join(re.findall(r"[a-z0-9]+", fold(plain(page.get("title", ""))))) + " "
+    # 'Believe fragrance by Britney Spears' is her product, not her.
+    in_title = f" {phrase} " in title_words and f" by {phrase} " not in title_words
     # Otherwise the file must be tagged as depicting that very person on
     # Commons ('depicts' = the Wikidata item). A description that only
     # mentions the name gave pilgrims at a screen for the Pope and a road
