@@ -197,6 +197,11 @@ export default function PrivatesiaPage() {
               kohën dhe vendin e përafërt — për llogaritë tona të përbashkëta. Adresa IP
               anonimizohet dhe ne nuk shohim asnjë identitet.
             </Row>
+            <Row label="Microsoft Clarity">
+              Vetëm nëse pranon cookies për statistika. Analizon klikimet, lëvizjen në faqe
+              dhe regjistrimet e sesioneve për të përmirësuar përvojën. Të dhënat e ndjeshme
+              maskohen; nuk i dërgojmë emrin ose emailin e llogarisë.
+            </Row>
             <Row label="Google dhe Meta">
               Vetëm nëse zgjedh të hysh me llogarinë tënde Google ose Facebook. Në atë rast ata e
               dinë që ke hyrë në 383.
@@ -213,10 +218,12 @@ export default function PrivatesiaPage() {
             do të duhej të hyje sërish në çdo faqe.
           </p>
           <p>
-            Për statistika përdorim Google Analytics — por <strong className="font-bold text-ink">vetëm
+            Për statistika përdorim Google Analytics dhe Microsoft Clarity — por <strong className="font-bold text-ink">vetëm
             nëse e pranon</strong> te banderola e cookies. Kur pranon, regjistrohen shenja anonime:
             cilat faqe lexohen, sa zgjasin dhe vendi i përafërt. Adresa jote IP anonimizohet para se
-            të ruhet. Nuk kemi cookies reklamimi dhe nuk të ndjekim nëpër faqe të tjera.
+            të ruhet nga Google Analytics. Clarity analizon edhe klikimet, lëvizjen në faqe dhe
+            regjistrimet e sesioneve, me të dhënat e ndjeshme të maskuara. Clarity merr leje për
+            statistika, ndërsa leja për cookies reklamimi mbetet e refuzuar.
           </p>
           <p>
             Zgjedhja jote ruhet vetëm në shfletuesin tënd. Nëse e ndryshon mendjen, fshi të dhënat e
