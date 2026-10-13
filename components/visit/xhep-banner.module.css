@@ -12,7 +12,7 @@
     overflow: hidden;
     border-radius: 22px;
     background: radial-gradient(120% 140% at 0% 0%, #fff3cf, #ffe0a3 55%, #ffc978);
-    color: #1b1410;
+    color: var(--theme-ink, #1b1410);
     text-decoration: none;
     box-shadow: 0 12px 28px rgba(160, 100, 20, 0.22), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
     -webkit-tap-highlight-color: transparent;
@@ -41,6 +41,6 @@
 .copy small { color: #8a4b13; font-size: 11px; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; }
 .copy b { font-size: 21px; font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; }
 .copy em { color: #ff4422; font-style: normal; }
-.copy span { color: #4e3d2c; font-size: 13px; line-height: 1.35; }
+.copy span { color: var(--theme-ink, #4e3d2c); font-size: 13px; line-height: 1.35; }
 .go { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #ff4422; color: #fff; box-shadow: 0 6px 14px rgba(255, 68, 34, 0.35); }
 @media (prefers-reduced-motion: reduce) { .packs img { animation: none; } }

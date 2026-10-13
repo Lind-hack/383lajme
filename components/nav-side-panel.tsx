@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import ThemeToggle from "./theme/theme-toggle";
 import ToniGaugeIcon from "@/components/toni-gauge-icon";
 import {
   ArrowUpRight,
@@ -69,8 +70,8 @@ export default function NavSidePanel({ open, onClose }: Props) {
     supabaseRef.current = supabase;
 
     supabase.auth
-      .getUser()
-      .then(({ data }) => setUser(data.user))
+      .getSession()
+      .then(({ data }) => setUser(data.session?.user ?? null))
       .catch(() => {});
 
     const {
@@ -243,6 +244,154 @@ export default function NavSidePanel({ open, onClose }: Props) {
             </button>
           </div>
 
+          <div className="side-panel-account">
+            {user ? (
+              <div
+                style={{
+                  background: "#FFFFFF",
+                  border: "1.5px solid #E8E3DB",
+                  borderRadius: "16px",
+                  padding: "16px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    marginBottom: "14px",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "42px",
+                      height: "42px",
+                      borderRadius: "50%",
+                      background: "#FF4422",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "15px",
+                      fontWeight: 800,
+                      color: "#fff",
+                      letterSpacing: "0.04em",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <span data-no-translate>{getInitials(user)}</span>
+                  </div>
+                  <div style={{ minWidth: 0 }}>
+                    <p
+                      style={{
+                        margin: 0,
+                        fontSize: "14px",
+                        fontWeight: 700,
+                        color: "#111",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      <span data-no-translate>{user.user_metadata?.full_name ?? "Profili"}</span>
+                    </p>
+                    <p
+                      style={{
+                        margin: 0,
+                        fontSize: "12px",
+                        color: "#999",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      <span data-no-translate>{user.email}</span>
+                    </p>
+                  </div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  <button
+                    onClick={() => {
+                      onClose();
+                      router.push("/profili");
+                    }}
+                    style={{
+                      width: "100%",
+                      padding: "10px 14px",
+                      borderRadius: "100px",
+                      border: "1.5px solid rgba(17,17,17,0.18)",
+                      background: "transparent",
+                      fontSize: "13px",
+                      fontWeight: 700,
+                      color: "#111",
+                      cursor: "pointer",
+                      fontFamily: "var(--font-manrope), sans-serif",
+                    }}
+                  >
+                    Profili im
+                  </button>
+                  <button
+                    onClick={handleSignOut}
+                    style={{
+                      width: "100%",
+                      padding: "10px 14px",
+                      borderRadius: "100px",
+                      border: "1.5px solid rgba(229,62,62,0.3)",
+                      background: "transparent",
+                      fontSize: "13px",
+                      fontWeight: 700,
+                      color: "#e53e3e",
+                      cursor: "pointer",
+                      fontFamily: "var(--font-manrope), sans-serif",
+                    }}
+                  >
+                    Dil
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+                <Link
+                  href="/hyr"
+                  onClick={onClose}
+                  className="btn-outline"
+                  style={{
+                    display: "block",
+                    textAlign: "center",
+                    padding: "11px 16px",
+                    borderRadius: "100px",
+                    border: "1.5px solid rgba(17,17,17,0.2)",
+                    background: "transparent",
+                    fontSize: "14px",
+                    fontWeight: 700,
+                    color: "#111",
+                    textDecoration: "none",
+                  }}
+                >
+                  Hyr
+                </Link>
+                <Link
+                  href="/hyr?tab=regjistrohu"
+                  onClick={onClose}
+                  className="btn-primary"
+                  style={{
+                    display: "block",
+                    textAlign: "center",
+                    padding: "11px 16px",
+                    borderRadius: "100px",
+                    border: "none",
+                    fontSize: "14px",
+                    fontWeight: 700,
+                    color: "#fff",
+                    textDecoration: "none",
+                  }}
+                >
+                  Regjistrohu
+                </Link>
+              </div>
+            )}
+            <ThemeToggle />
+          </div>
+
           <div
             className="side-panel-scroll"
             style={{
@@ -309,7 +458,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
                       key={link.href}
                       href={link.href}
                       onClick={onClose}
-                      className="glossy-orange side-panel-link"
+                      className="side-panel-link"
                       aria-current={active ? "page" : undefined}
                     >
                       {link.label}
@@ -350,6 +499,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
             >
               <Link
                 href="/visit"
+                className="side-panel-feature"
                 onClick={onClose}
                 aria-current={pathname?.startsWith("/visit") ? "page" : undefined}
                 style={{
@@ -467,6 +617,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
             >
               <Link
                 href="/bota-per-kosoven"
+                className="side-panel-feature"
                 onClick={onClose}
                 style={{
                   position: "relative",
@@ -559,7 +710,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
             <Link
               href="/tregu"
               onClick={onClose}
-              className="glossy-orange side-panel-link side-panel-tregu"
+              className="side-panel-link side-panel-tregu"
               aria-current={
                 pathname?.startsWith("/tregu") && pathname !== "/tregu/portofoli"
                   ? "page"
@@ -634,150 +785,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
               </InfoCard>
             </div>
 
-            {user ? (
-              <div
-                style={{
-                  background: "#FFFFFF",
-                  border: "1.5px solid #E8E3DB",
-                  borderRadius: "16px",
-                  padding: "16px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "12px",
-                    marginBottom: "14px",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "42px",
-                      height: "42px",
-                      borderRadius: "50%",
-                      background: "#FF4422",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "15px",
-                      fontWeight: 800,
-                      color: "#fff",
-                      letterSpacing: "0.04em",
-                      flexShrink: 0,
-                    }}
-                  >
-                    {getInitials(user)}
-                  </div>
-                  <div style={{ minWidth: 0 }}>
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: "14px",
-                        fontWeight: 700,
-                        color: "#111",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {user.user_metadata?.full_name ?? "Profili"}
-                    </p>
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: "12px",
-                        color: "#999",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {user.email}
-                    </p>
-                  </div>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <button
-                    onClick={() => {
-                      onClose();
-                      router.push("/profili");
-                    }}
-                    style={{
-                      width: "100%",
-                      padding: "10px 14px",
-                      borderRadius: "100px",
-                      border: "1.5px solid rgba(17,17,17,0.18)",
-                      background: "transparent",
-                      fontSize: "13px",
-                      fontWeight: 700,
-                      color: "#111",
-                      cursor: "pointer",
-                      fontFamily: "var(--font-manrope), sans-serif",
-                    }}
-                  >
-                    Profili im
-                  </button>
-                  <button
-                    onClick={handleSignOut}
-                    style={{
-                      width: "100%",
-                      padding: "10px 14px",
-                      borderRadius: "100px",
-                      border: "1.5px solid rgba(229,62,62,0.3)",
-                      background: "transparent",
-                      fontSize: "13px",
-                      fontWeight: 700,
-                      color: "#e53e3e",
-                      cursor: "pointer",
-                      fontFamily: "var(--font-manrope), sans-serif",
-                    }}
-                  >
-                    Dil
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <Link
-                  href="/hyr"
-                  onClick={onClose}
-                  className="btn-outline"
-                  style={{
-                    display: "block",
-                    textAlign: "center",
-                    padding: "11px 16px",
-                    borderRadius: "100px",
-                    border: "1.5px solid rgba(17,17,17,0.2)",
-                    background: "transparent",
-                    fontSize: "14px",
-                    fontWeight: 700,
-                    color: "#111",
-                    textDecoration: "none",
-                  }}
-                >
-                  Hyr
-                </Link>
-                <Link
-                  href="/hyr?tab=regjistrohu"
-                  onClick={onClose}
-                  className="btn-primary"
-                  style={{
-                    display: "block",
-                    textAlign: "center",
-                    padding: "11px 16px",
-                    borderRadius: "100px",
-                    border: "none",
-                    fontSize: "14px",
-                    fontWeight: 700,
-                    color: "#fff",
-                    textDecoration: "none",
-                  }}
-                >
-                  Regjistrohu
-                </Link>
-              </div>
-            )}
+
           </div>
           </div>
         </div>

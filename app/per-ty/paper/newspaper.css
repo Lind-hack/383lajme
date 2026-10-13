@@ -32,7 +32,7 @@
   min-height: 460px;
   max-width: 1720px;
   margin: 0 auto;
-  color: var(--np-ink);
+  color: var(--theme-ink, var(--np-ink));
 }
 
 /* Each kind of paper (lib/paper-look.mjs): a paper colour, a spot colour, a headline face. */
@@ -102,7 +102,7 @@
   color: var(--np-ink-2);
 }
 .np-bar-lead b {
-  color: var(--np-ink);
+  color: var(--theme-ink, var(--np-ink));
 }
 .np-pager {
   display: flex;
@@ -118,8 +118,8 @@
   height: 38px;
   border: 1px solid rgb(21 20 18 / 0.16);
   border-radius: 999px;
-  background: #fff;
-  color: var(--np-ink);
+  background: var(--theme-surface, #fff);
+  color: var(--theme-ink, var(--np-ink));
   font: 700 13.5px/1 var(--np-sans);
   cursor: pointer;
   transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
@@ -161,7 +161,7 @@
   color: var(--np-ink-2);
 }
 .np-pager-where b {
-  color: var(--np-ink);
+  color: var(--theme-ink, var(--np-ink));
 }
 .np-tools {
   display: flex;
@@ -401,7 +401,7 @@
   background: linear-gradient(
     to top left,
     var(--np-desk) 50%,
-    color-mix(in srgb, var(--np-paper) 80%, #b9b1a3) 50%,
+    color-mix(in srgb, var(--np-paper) 80%, var(--theme-surface, #b9b1a3)) 50%,
     var(--np-paper) 100%
   );
   box-shadow: -2px -2px 6px rgb(0 0 0 / 0.08);
@@ -471,8 +471,8 @@
   height: 100%;
   padding: clamp(14px, 3.4cqh, 30px) clamp(18px, 5cqw, 40px) clamp(10px, 2cqh, 16px);
   overflow: hidden;
-  background: var(--np-paper);
-  color: var(--np-ink);
+  background: var(--theme-paper, var(--np-paper));
+  color: var(--theme-ink, var(--np-ink));
   font-family: var(--np-serif);
 }
 .np-body {
@@ -487,12 +487,12 @@
   gap: 12px;
   margin-top: clamp(8px, 1.4cqh, 12px);
   padding-top: 8px;
-  border-top: 1px solid var(--np-rule);
+  border-top: 1px solid var(--theme-border, var(--np-rule));
   font: 500 11px/1.2 var(--np-sans);
   color: var(--np-ink-3);
 }
 .np-foot b {
-  color: var(--np-ink);
+  color: var(--theme-ink, var(--np-ink));
   font-variant-numeric: tabular-nums;
 }
 .np-foot span:last-child {
@@ -739,7 +739,7 @@
   position: relative;
   display: block;
   overflow: hidden;
-  background: color-mix(in srgb, var(--np-ink) 7%, var(--np-paper));
+  background: color-mix(in srgb, var(--np-ink) 7%, var(--theme-paper, var(--np-paper)));
 }
 .np-photo img {
   transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -801,9 +801,9 @@
   flex-wrap: wrap;
 }
 .np-whybox .np-btn {
-  background: #fff;
-  border-color: #fff;
-  color: var(--np-ink);
+  background: var(--theme-surface, #fff);
+  border-color: var(--theme-border, #fff);
+  color: var(--theme-ink, var(--np-ink));
 }
 .np-whybox .np-btn--ghost {
   background: transparent;
@@ -846,7 +846,7 @@
 }
 .np-btn--ghost {
   background: transparent;
-  color: var(--np-ink);
+  color: var(--theme-ink, var(--np-ink));
 }
 .np-btn--ghost:hover {
   background: color-mix(in srgb, var(--np-ink) 6%, transparent);
@@ -866,7 +866,7 @@
   align-items: center;
   gap: 5px;
   font: 700 13px/1.2 var(--np-sans);
-  color: var(--np-ink);
+  color: var(--theme-ink, var(--np-ink));
   text-decoration: none;
 }
 .np-link:hover {
@@ -912,7 +912,7 @@
   padding-right: 0;
 }
 .np-row .np-story + .np-story {
-  border-left: 1px solid var(--np-rule);
+  border-left: 1px solid var(--theme-border, var(--np-rule));
 }
 .np-row .np-head {
   -webkit-line-clamp: 3;
@@ -944,9 +944,9 @@
   width: 100%;
   padding: clamp(7px, 1.4cqh, 11px) 2px;
   border: 0;
-  border-bottom: 1px solid var(--np-rule);
+  border-bottom: 1px solid var(--theme-border, var(--np-rule));
   background: none;
-  color: var(--np-ink);
+  color: var(--theme-ink, var(--np-ink));
   font: 500 clamp(15px, 3.3cqw, 19px)/1.25 var(--np-serif);
   text-align: left;
   cursor: pointer;
@@ -971,7 +971,7 @@
   text-underline-offset: 3px;
 }
 .np-contents button:hover svg {
-  color: var(--np-ink);
+  color: var(--theme-ink, var(--np-ink));
   transform: translateX(3px);
 }
 .np-boxes {
@@ -991,21 +991,21 @@
   border-radius: 0;
   background: transparent;
   box-shadow: none;
-  color: var(--np-ink);
+  color: var(--theme-ink, var(--np-ink));
 }
 .np .perty-box-label,
 .np .perty-brief h2 {
   font-family: var(--np-sans);
-  color: var(--np-ink);
+  color: var(--theme-ink, var(--np-ink));
 }
 .np .perty-brief a,
 .np .perty-town-story strong {
-  color: var(--np-ink);
+  color: var(--theme-ink, var(--np-ink));
   font-family: var(--np-serif);
 }
 .np .perty-box-big {
   font-family: var(--np-serif);
-  color: var(--np-ink);
+  color: var(--theme-ink, var(--np-ink));
 }
 .np .perty-town-main {
   grid-template-columns: 1fr;
@@ -1075,7 +1075,7 @@
   min-height: 0;
   padding-left: 18px;
   overflow: hidden;
-  border-left: 1px solid var(--np-rule);
+  border-left: 1px solid var(--theme-border, var(--np-rule));
 }
 .np-side > .np-story {
   flex-shrink: 0;
@@ -1089,7 +1089,7 @@
 .np-side .np-story + .np-story {
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid var(--np-rule);
+  border-top: 1px solid var(--theme-border, var(--np-rule));
 }
 .np-secfoot {
   display: flex;
@@ -1134,7 +1134,7 @@
 .np-index section,
 .np-end section {
   padding-top: 10px;
-  border-top: 1px solid var(--np-rule);
+  border-top: 1px solid var(--theme-border, var(--np-rule));
 }
 .np-end-big {
   font: var(--np-head-weight) clamp(22px, 6cqw, 34px)/1.12 var(--np-head);
@@ -1203,7 +1203,7 @@
   }
   .np-row .np-story + .np-story {
     border-left: 0;
-    border-top: 1px solid var(--np-rule);
+    border-top: 1px solid var(--theme-border, var(--np-rule));
   }
   .np-row .np-head {
     -webkit-line-clamp: 2;
@@ -1225,7 +1225,7 @@
     padding: 10px 0;
   }
   .np-grid .np-story + .np-story {
-    border-top: 1px solid var(--np-rule);
+    border-top: 1px solid var(--theme-border, var(--np-rule));
   }
   .np-grid .np-story:has(> .np-photo) {
     display: grid;
@@ -1278,7 +1278,7 @@
   .np-side .np-story + .np-story {
     margin: 0;
     padding: 8px 0;
-    border-top: 1px solid var(--np-rule);
+    border-top: 1px solid var(--theme-border, var(--np-rule));
   }
   .np-side .np-text,
   .np-side .np-meta {
@@ -1371,14 +1371,14 @@
   flex-direction: column;
   gap: 4px;
   padding: 12px;
-  border: 1.5px solid #ddd6ca;
+  border: 1.5px solid var(--theme-border, #ddd6ca);
   border-radius: 10px;
-  background: #fff;
-  color: #151412;
+  background: var(--theme-surface, #fff);
+  color: var(--theme-ink, #151412);
   cursor: pointer;
 }
 .perty-cz-look:has(input:checked) {
-  border-color: #151412;
+  border-color: var(--theme-border, #151412);
   box-shadow: 0 0 0 1px #151412;
 }
 .perty-cz-look:has(input:focus-visible) {
@@ -1418,7 +1418,7 @@
   color: #1d4f9f;
 }
 .perty-cz-look[data-look="biznes"] {
-  background: #fff1e5;
+  background: var(--theme-paper, #fff1e5);
 }
 .perty-cz-look[data-look="biznes"] .perty-cz-look-mini {
   font-style: italic;
@@ -1426,7 +1426,7 @@
 }
 .perty-cz-look-note {
   font: 400 12.5px/1.35 var(--font-manrope), system-ui, sans-serif;
-  color: #55514a;
+  color: var(--theme-ink, #55514a);
 }
 
 /* ── the shared copy's line in the bar ───────────────────────────────────── */
@@ -1456,7 +1456,7 @@
 .perty-help-privacy {
   margin: 0 0 14px;
   font-size: 13.5px;
-  color: #6b625a;
+  color: var(--theme-ink, #6b625a);
 }
 
 /* ── "Ndaje gazetën": the link as a chat will show it ────────────────────── */
@@ -1465,20 +1465,20 @@
   margin: 0 0 12px;
   font-size: 14.5px;
   line-height: 1.45;
-  color: #5e5048;
+  color: var(--theme-ink, #5e5048);
 }
 .perty-linkcard {
   margin: 0;
   overflow: hidden;
   border: 1px solid rgb(21 20 18 / 0.12);
   border-radius: 14px;
-  background: #fff;
+  background: var(--theme-surface, #fff);
   box-shadow: 0 10px 28px rgb(0 0 0 / 0.12);
 }
 .perty-linkcard-img {
   position: relative;
   aspect-ratio: 1200 / 630;
-  background: #efeae2;
+  background: var(--theme-paper, #efeae2);
 }
 .perty-linkcard-img img {
   display: block;
@@ -1499,7 +1499,7 @@
 }
 .perty-linkcard small {
   font-size: 12px;
-  color: #7a6f66;
+  color: var(--theme-muted, #7a6f66);
 }
 .perty-linkcard b {
   font-size: 14.5px;
@@ -1533,7 +1533,7 @@
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #7a6f66;
+  color: var(--theme-muted, #7a6f66);
 }
 .perty-share-downloads .perty-btn {
   gap: 8px;

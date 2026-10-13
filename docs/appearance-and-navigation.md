@@ -1,0 +1,7 @@
+# Appearance and account navigation
+
+The profile settings and the menu's top account section share the same accessible dark-mode switch. The choice is saved per device in `383-theme` local storage and the `383_theme` cookie; it is not an account-wide or cross-device preference. The small bootstrap script applies it before hydration, with the cookie as fallback when local storage is unavailable. Changes update the browser theme color and other open tabs.
+
+Neutral surface, ink, muted and border tokens have light-mode fallbacks in the existing public stylesheets. The dark palette changes those tokens, not images or semantic market/category accents. `app/site-theme.css` also covers older inline React styles (both compact server HTML and browser-normalized styles) and neutral Tailwind utilities. New UI should use the theme tokens directly rather than add hardcoded neutral inline colors.
+
+Account UI no longer awaits `getUser()` before rendering: signed-out links are present in the server HTML, and the browser's local session supplies the signed-in display. Protected server routes still verify the user. A valid session can replace the initial links after hydration; no network response gates the initial navigation. Scrolled desktop headers retain account access, and the menu account section is outside its content scroll area, above categories. Category links use steady text instead of animated gradient shine.

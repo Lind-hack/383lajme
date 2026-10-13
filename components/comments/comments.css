@@ -20,7 +20,7 @@
   overflow: visible;
   border: 0;
   background: transparent;
-  color: var(--cm-ink);
+  color: var(--theme-ink, var(--cm-ink));
   font-family: var(--font-manrope), system-ui, sans-serif;
 }
 .cm-sheet::backdrop {
@@ -50,7 +50,7 @@
   height: 100%;
   overflow: hidden;
   border-radius: 22px 22px 0 0;
-  background: #fff;
+  background: var(--theme-surface, #fff);
   box-shadow: 0 -16px 50px rgb(0 0 0 / 0.22);
 }
 
@@ -58,7 +58,7 @@
   position: relative;
   flex-shrink: 0;
   padding: 8px 52px 12px;
-  border-bottom: 1px solid var(--cm-line);
+  border-bottom: 1px solid var(--theme-border, var(--cm-line));
   text-align: center;
   cursor: grab;
   touch-action: none;
@@ -69,7 +69,7 @@
   height: 4px;
   margin: 0 auto 10px;
   border-radius: 4px;
-  background: #d9d3c9;
+  background: var(--theme-surface, #d9d3c9);
 }
 .cm-head h2 {
   margin: 0;
@@ -83,7 +83,7 @@
 .cm-story {
   margin: 3px 0 0;
   overflow: hidden;
-  color: var(--cm-muted);
+  color: var(--theme-muted, var(--cm-muted));
   font-size: 12.5px;
   font-weight: 600;
   text-overflow: ellipsis;
@@ -100,7 +100,7 @@
   border: 0;
   border-radius: 50%;
   background: var(--cm-soft);
-  color: var(--cm-ink);
+  color: var(--theme-ink, var(--cm-ink));
   cursor: pointer;
 }
 
@@ -164,14 +164,14 @@
   align-items: center;
   gap: 6px;
   margin: 0 0 2px;
-  color: var(--cm-muted);
+  color: var(--theme-muted, var(--cm-muted));
   font-size: 12.5px;
   font-weight: 700;
 }
 .cm-you {
   padding: 2px 6px;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--cm-accent) 14%, #fff);
+  background: color-mix(in srgb, var(--cm-accent) 14%, var(--theme-surface, #fff));
   color: #b42a10;
   font-size: 10.5px;
   font-weight: 800;
@@ -189,7 +189,7 @@
   align-items: center;
   gap: 4px 14px;
   margin-top: 5px;
-  color: var(--cm-muted);
+  color: var(--theme-muted, var(--cm-muted));
   font-size: 12px;
   font-weight: 600;
 }
@@ -197,19 +197,19 @@
   padding: 2px 0;
   border: 0;
   background: none;
-  color: var(--cm-muted);
+  color: var(--theme-muted, var(--cm-muted));
   font: inherit;
   font-weight: 800;
   cursor: pointer;
 }
 .cm-link:hover {
-  color: var(--cm-ink);
+  color: var(--theme-ink, var(--cm-ink));
 }
 .cm-link--strong {
   color: #c2341b;
 }
 .cm-ask {
-  color: var(--cm-ink);
+  color: var(--theme-ink, var(--cm-ink));
   font-weight: 800;
 }
 .cm-more {
@@ -220,7 +220,7 @@
   padding: 0;
   border: 0;
   background: none;
-  color: var(--cm-muted);
+  color: var(--theme-muted, var(--cm-muted));
   font: 800 12.5px/1 var(--font-manrope), system-ui, sans-serif;
   cursor: pointer;
 }
@@ -238,12 +238,12 @@
   gap: 6px;
   margin: 0;
   padding: 48px 28px;
-  color: var(--cm-muted);
+  color: var(--theme-muted, var(--cm-muted));
   font-size: 14px;
   text-align: center;
 }
 .cm-empty b {
-  color: var(--cm-ink);
+  color: var(--theme-ink, var(--cm-ink));
   font-size: 16px;
 }
 .cm-empty-icon {
@@ -276,7 +276,7 @@
   height: 10px;
   margin: 4px 0 10px;
   border-radius: 6px;
-  background: linear-gradient(90deg, var(--cm-soft), #fbf9f5, var(--cm-soft));
+  background: linear-gradient(90deg, var(--cm-soft), var(--theme-paper, #fbf9f5), var(--cm-soft));
   background-size: 200% 100%;
   animation: cm-shimmer 1.2s linear infinite;
 }
@@ -292,8 +292,8 @@
 .cm-foot {
   flex-shrink: 0;
   padding: 8px 12px calc(10px + env(safe-area-inset-bottom));
-  border-top: 1px solid var(--cm-line);
-  background: #fff;
+  border-top: 1px solid var(--theme-border, var(--cm-line));
+  background: var(--theme-surface, #fff);
 }
 .cm-signin {
   display: flex;
@@ -313,7 +313,7 @@
   align-items: center;
   gap: 6px;
   margin: 0 0 8px 4px;
-  color: var(--cm-muted);
+  color: var(--theme-muted, var(--cm-muted));
   font-size: 12.5px;
   font-weight: 600;
 }
@@ -326,7 +326,7 @@
   border: 0;
   border-radius: 50%;
   background: var(--cm-soft);
-  color: var(--cm-ink);
+  color: var(--theme-ink, var(--cm-ink));
   cursor: pointer;
 }
 .cm-error {
@@ -355,7 +355,7 @@
   border: 1.5px solid transparent;
   border-radius: 21px;
   background: var(--cm-soft);
-  color: var(--cm-ink);
+  color: var(--theme-ink, var(--cm-ink));
   /* 16px: anything smaller and iPhone zooms the page on focus. */
   font: 500 16px/1.25 var(--font-manrope), system-ui, sans-serif;
   resize: none;
@@ -363,14 +363,14 @@
 }
 .cm-field textarea:focus {
   border-color: var(--cm-accent);
-  background: #fff;
+  background: var(--theme-surface, #fff);
   outline: none;
 }
 .cm-count {
   position: absolute;
   right: 12px;
   bottom: -16px;
-  color: var(--cm-muted);
+  color: var(--theme-muted, var(--cm-muted));
   font-size: 11px;
   font-weight: 700;
 }
@@ -458,9 +458,9 @@
   --cm-soft: #f4f1eb;
   margin: 36px 0 8px;
   padding: 18px;
-  border: 1px solid #ece7df;
+  border: 1px solid var(--theme-border, #ece7df);
   border-radius: 20px;
-  background: #fff;
+  background: var(--theme-surface, #fff);
   font-family: var(--font-manrope), system-ui, sans-serif;
 }
 .cm-inline-head {
@@ -471,7 +471,7 @@
   padding: 0;
   border: 0;
   background: none;
-  color: var(--cm-ink);
+  color: var(--theme-ink, var(--cm-ink));
   text-align: left;
   cursor: pointer;
 }
@@ -488,7 +488,7 @@
 }
 .cm-inline-count {
   margin-left: auto;
-  color: var(--cm-muted);
+  color: var(--theme-muted, var(--cm-muted));
   font-size: 13.5px;
   font-weight: 700;
 }
@@ -503,9 +503,9 @@
   width: 100%;
   padding: 10px 0;
   border: 0;
-  border-top: 1px solid #f1ede6;
+  border-top: 1px solid var(--theme-border, #f1ede6);
   background: none;
-  color: var(--cm-ink);
+  color: var(--theme-ink, var(--cm-ink));
   text-align: left;
   cursor: pointer;
 }
@@ -515,7 +515,7 @@
   gap: 2px;
   min-width: 0;
   font-size: 12.5px;
-  color: var(--cm-muted);
+  color: var(--theme-muted, var(--cm-muted));
 }
 .cm-inline-text b {
   font-weight: 800;
@@ -526,7 +526,7 @@
 .cm-inline-body {
   display: -webkit-box;
   overflow: hidden;
-  color: var(--cm-ink);
+  color: var(--theme-ink, var(--cm-ink));
   font-size: 14.5px;
   line-height: 1.4;
   -webkit-line-clamp: 2;
@@ -540,7 +540,7 @@
   border: 0;
   border-radius: 999px;
   background: var(--cm-soft);
-  color: var(--cm-muted);
+  color: var(--theme-muted, var(--cm-muted));
   font: 600 15px/1.2 var(--font-manrope), system-ui, sans-serif;
   text-align: left;
   cursor: text;
@@ -550,7 +550,7 @@
   padding: 0;
   border: 0;
   background: none;
-  color: var(--cm-ink);
+  color: var(--theme-ink, var(--cm-ink));
   font: 800 13.5px/1.2 var(--font-manrope), system-ui, sans-serif;
   text-decoration: underline;
   text-underline-offset: 3px;

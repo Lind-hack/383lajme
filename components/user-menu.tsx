@@ -20,7 +20,6 @@ function getInitials(user: User): string {
 
 export default function UserMenu() {
   const [user, setUser] = useState<User | null>(null);
-  const [ready, setReady] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const supabaseRef = useRef<ReturnType<typeof createClient> | null>(null);
@@ -32,7 +31,6 @@ export default function UserMenu() {
 
     // If env vars are missing, show logged-out UI (buttons still visible, just non-functional)
     if (!url || !key) {
-      setReady(true);
       return;
     }
 
@@ -40,14 +38,12 @@ export default function UserMenu() {
     supabaseRef.current = supabase;
 
     supabase.auth
-      .getUser()
+      .getSession()
       .then(({ data }) => {
-        setUser(data.user);
-        setReady(true);
+        setUser(data.session?.user ?? null);
       })
       .catch(() => {
-        // Network/config error — still show logged-out UI
-        setReady(true);
+        // The initial signed-out controls remain usable if session loading fails.
       });
 
     const {
@@ -76,8 +72,6 @@ export default function UserMenu() {
     router.push("/");
     router.refresh();
   }
-
-  if (!ready) return <div style={{ width: "72px" }} />;
 
   if (!user) {
     return (
@@ -156,6 +150,8 @@ export default function UserMenu() {
             WebkitTapHighlightColor: "transparent",
             touchAction: "manipulation",
           }}
+          aria-label="Hap profilin"
+          aria-expanded={dropdownOpen}
           title={user.user_metadata?.full_name ?? user.email ?? ""}
           data-no-translate
         >
@@ -207,7 +203,7 @@ export default function UserMenu() {
                   textOverflow: "ellipsis",
                 }}
               >
-                {user.email}
+                <span data-no-translate>{user.email}</span>
               </p>
             </div>
             <button

@@ -7,6 +7,7 @@ import { ArrowRight, Bookmark, Check, ChevronRight, Coins, LogOut, Pencil, Shiel
 import { createClient } from "@/lib/supabase/client";
 import { normalizeBookmarkIds } from "@/lib/profile-hub.mjs";
 import styles from "./profile.module.css";
+import ThemeToggle from "@/components/theme/theme-toggle";
 import DardaniImage from "@/components/dardani/dardani-image";
 
 type SavedArticle = {
@@ -239,6 +240,7 @@ export default function ProfileHub({ identity, savedArticles: initialSaved, treg
       <div className={styles.sectionHeading}><div><h2>Emri dhe privatësia</h2><p>Kontrollo se si shfaqesh kur komenton, tregton dhe ndërvepron.</p></div></div>
       <div className={styles.settingsGrid}><div className={styles.nameSetting}><div className={styles.settingIcon}><UserRound size={20} aria-hidden /></div><div className={styles.settingBody}><span>Emri publik</span>{editingName ? <div className={styles.nameEditor}><label htmlFor="display-name">Emri që shfaqet</label><input id="display-name" value={draftName} onChange={(event) => setDraftName(event.target.value.slice(0, 48))} maxLength={48} /><div><button type="button" onClick={() => void saveSettings()} disabled={settingsBusy}>Ruaj</button><button type="button" onClick={() => { setDraftName(displayName); setEditingName(false); }}>Anulo</button></div></div> : <div className={styles.nameValue}><strong data-no-translate>{displayName}</strong><button type="button" onClick={() => setEditingName(true)}><Pencil size={14} aria-hidden /> Ndrysho</button></div>}</div></div>
         <div className={styles.anonymousSetting}><div><strong>Shfaqem si Anonim</strong><p>Emri yt fshihet nga komentet, listat e mbajtësve dhe aktiviteti publik në Tregu. Emaili nuk shfaqet kurrë.</p></div><button type="button" role="switch" aria-checked={anonymous} aria-label="Shfaqem si Anonim" className={styles.switch} data-on={anonymous} disabled={settingsBusy || profileUnavailable} onClick={() => void saveSettings(!anonymous, displayName)}><span /></button></div></div>
+      <ThemeToggle />
       {settingsMessage && <p className={styles.settingsMessage} role="status"><Check size={14} aria-hidden /> {settingsMessage}</p>}{profileUnavailable && <p className={styles.settingsError}>Cilësimet e reja kërkojnë përditësimin e bazës së të dhënave.</p>}
     </section>
 

@@ -290,6 +290,7 @@ export default function Navbar() {
                 <span className="hamburger-bar" aria-hidden />
                 <span className="hamburger-bar" aria-hidden />
               </button>
+              <div className="nav-auth-desktop"><NavBalance /><UserMenu /></div>
             </motion.div>
           ) : (
             <motion.div

@@ -17,7 +17,7 @@
   padding: 0;
   border: 0;
   background: none;
-  color: #1b1410;
+  color: var(--theme-ink, #1b1410);
   font: inherit;
   transform: translate(calc(var(--medal) / -2), -50%);
   cursor: pointer;
@@ -28,7 +28,7 @@
   width: var(--medal);
   height: var(--medal);
   overflow: hidden;
-  border: 3px solid #fffaf0;
+  border: 3px solid var(--theme-border, #fffaf0);
   border-radius: 50%;
   background: var(--pin);
   box-shadow: 0 0 0 2px var(--pin), 0 6px 14px rgba(60, 35, 10, 0.35);
@@ -38,7 +38,7 @@
 .cityName {
   padding: 3px 9px;
   border-radius: 999px;
-  background: #fffaf0;
+  background: var(--theme-paper, #fffaf0);
   font-size: clamp(11px, 1.2vw, 14px);
   font-weight: 850;
   white-space: nowrap;

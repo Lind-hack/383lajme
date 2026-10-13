@@ -3,6 +3,9 @@ import { jsonLdString } from "@/lib/json-ld";
 import { Figtree, EB_Garamond } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import "./site-theme.css";
+import ThemeProvider from "@/components/theme/theme-provider";
+import { themeBootstrap } from "@/lib/site-theme.mjs";
 import MotionProvider from "@/components/motion-provider";
 import Ga from "@/components/analytics/ga";
 import MobileTabBar from "@/components/mobile-tab-bar";
@@ -112,13 +115,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <head>
         <meta name="theme-color" content="#F9F6F1" />
+        <script dangerouslySetInnerHTML={{__html:themeBootstrap}} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLdString(structuredData) }}
         />
       </head>
       <body style={{ fontFamily: "var(--font-manrope), sans-serif", background: "#F9F6F1" }}>
-        <LanguageProvider><MotionProvider>
+        <ThemeProvider><LanguageProvider><MotionProvider>
           <PageLoader />
           {children}
           {/* In the layout, not the navbar, so it survives navigation and its
@@ -126,7 +130,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <MobileTabBar />
           <LedgerVisit />
           <Ga />
-        </MotionProvider></LanguageProvider>
+        </MotionProvider></LanguageProvider></ThemeProvider>
       </body>
     </html>
   );

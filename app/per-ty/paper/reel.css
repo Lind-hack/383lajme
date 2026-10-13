@@ -22,7 +22,7 @@
   grid-template-columns: minmax(0, 1fr);
   height: calc(100svh - var(--nav-h, 72px) - var(--tabbar-h, 0px));
   min-height: 460px;
-  color: #151412;
+  color: var(--theme-ink, #151412);
   font-family: var(--fy-sans);
 }
 
@@ -137,7 +137,7 @@
   transition: background-color 0.25s ease;
 }
 .fy-bars span[data-on] {
-  background: #fff;
+  background: var(--theme-surface, #fff);
 }
 .fy-bars--all {
   overflow: hidden;
@@ -147,7 +147,7 @@
 .fy-bars--all span {
   flex: none;
   width: 100%;
-  background: #fff;
+  background: var(--theme-surface, #fff);
   transform-origin: left center;
   transition: transform 0.35s ease;
 }
@@ -191,8 +191,8 @@
 
 /* Light screens (the boxes, the end): dark type on top. */
 .fy-main[data-tone="light"] .fy-top {
-  color: #151412;
-  background: linear-gradient(#f7f4ee 55%, transparent);
+  color: var(--theme-ink, #151412);
+  background: linear-gradient(var(--theme-paper, #f7f4ee) 55%, transparent);
 }
 .fy-main[data-tone="light"] .fy-bars span,
 .fy-main[data-tone="light"] .fy-bars--all {
@@ -233,8 +233,8 @@
   transform: scale(0.95);
 }
 .fy-tool--primary {
-  background: #fff;
-  color: #151412;
+  background: var(--theme-surface, #fff);
+  color: var(--theme-ink, #151412);
 }
 .fy-tool--icon {
   width: 38px;
@@ -289,7 +289,7 @@
 }
 .fy-main[data-tone="light"] .fy-steps button {
   background: rgb(21 20 18 / 0.08);
-  color: #151412;
+  color: var(--theme-ink, #151412);
 }
 
 .fy-hint {
@@ -303,8 +303,8 @@
   padding: 10px 16px;
   border: 0;
   border-radius: 999px;
-  background: #fff;
-  color: #151412;
+  background: var(--theme-surface, #fff);
+  color: var(--theme-ink, #151412);
   font: 800 13.5px/1.2 var(--fy-sans);
   white-space: nowrap;
   box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
@@ -431,7 +431,7 @@
   color: #fff;
 }
 .fy-for:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--theme-border, #fff);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -447,8 +447,8 @@
   min-width: 156px;
   padding: 6px;
   border-radius: 16px;
-  background: #fff;
-  color: #151412;
+  background: var(--theme-surface, #fff);
+  color: var(--theme-ink, #151412);
   box-shadow: 0 18px 44px rgb(0 0 0 / 0.35);
   transform-origin: bottom right;
   animation: fy-menu-in 0.18s cubic-bezier(0.23, 1, 0.32, 1);
@@ -472,11 +472,11 @@
   line-height: 1;
 }
 .fy-menu button:active {
-  background: #f4f1eb;
+  background: var(--theme-paper, #f4f1eb);
 }
 @media (hover: hover) {
   .fy-menu button:hover {
-    background: #f4f1eb;
+    background: var(--theme-paper, #f4f1eb);
   }
 }
 @keyframes fy-menu-in {
@@ -533,7 +533,7 @@
   min-height: 34px;
   padding: 0 13px;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--fy-accent, #ffffff) 38%, rgb(255 255 255 / 0.12));
+  background: color-mix(in srgb, var(--fy-accent, var(--theme-surface, #ffffff)) 38%, rgb(255 255 255 / 0.12));
   color: #fff;
   font: 700 13px/1 var(--fy-sans);
   text-decoration: none;
@@ -545,7 +545,7 @@
   transform: scale(0.96);
 }
 .fy-follows a:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--theme-border, #fff);
   outline-offset: 2px;
 }
 
@@ -573,8 +573,8 @@
   text-transform: uppercase;
 }
 .fy-mark--new {
-  background: #fff;
-  color: #151412;
+  background: var(--theme-surface, #fff);
+  color: var(--theme-ink, #151412);
 }
 .fy-head {
   display: -webkit-box;
@@ -689,8 +689,8 @@
   transform: scale(0.96);
 }
 .fy-btn--light {
-  background: #fff;
-  color: #151412;
+  background: var(--theme-surface, #fff);
+  color: var(--theme-ink, #151412);
 }
 .fy-btn--ghost {
   border-color: rgb(255 255 255 / 0.45);
@@ -818,8 +818,8 @@
   margin: 0;
   padding: 9px 15px;
   border-radius: 999px;
-  background: #fff;
-  color: #151412;
+  background: var(--theme-surface, #fff);
+  color: var(--theme-ink, #151412);
   font: 800 13px/1.2 var(--fy-sans);
   white-space: nowrap;
   opacity: 0;
@@ -1252,7 +1252,7 @@
 .fy-main[data-tone="light"] .fy-peek {
   border-top-color: rgb(21 20 18 / 0.1);
   background: rgb(247 244 238 / 0.85);
-  color: #151412;
+  color: var(--theme-ink, #151412);
 }
 /* Room for the strip under every screen's own content. */
 .fy-story-body,
@@ -1621,7 +1621,7 @@
 
 .perty-paper-pages .perty-sheet-panel {
   overflow: hidden;
-  background: #fff;
+  background: var(--theme-surface, #fff);
 }
 .perty-paper-pages .perty-sheet-handle,
 .perty-paper-pages .perty-sheet-head {
@@ -1661,7 +1661,7 @@
 }
 .perty-paper-pages .perty-sheet-body {
   padding-top: 26px;
-  background: #fff;
+  background: var(--theme-surface, #fff);
 }
 
 /* "Si funksionon gazeta jote": each step on its own card. */
@@ -1677,9 +1677,9 @@
   align-items: flex-start;
   gap: 12px;
   padding: 13px 14px;
-  border: 1px solid #f4ddd2;
+  border: 1px solid var(--theme-border, #f4ddd2);
   border-radius: 16px;
-  background: linear-gradient(180deg, #fff, #fff8f4);
+  background: linear-gradient(180deg, var(--theme-surface, #fff), var(--theme-paper, #fff8f4));
 }
 .fy-help-icon {
   display: grid;
@@ -1695,12 +1695,12 @@
 }
 .fy-help b {
   display: block;
-  color: #151412;
+  color: var(--theme-ink, #151412);
   font: 800 15px/1.3 var(--font-manrope), system-ui, sans-serif;
 }
 .fy-help p {
   margin: 2px 0 0;
-  color: #4a443f;
+  color: var(--theme-ink, #4a443f);
   font: 500 14px/1.45 var(--font-manrope), system-ui, sans-serif;
 }
 
@@ -1805,7 +1805,7 @@
   cursor: pointer;
 }
 .fy-check-links button:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--theme-border, #fff);
   outline-offset: 2px;
 }
 
@@ -1846,7 +1846,7 @@
   white-space: nowrap;
 }
 .fy-check-more:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--theme-border, #fff);
   outline-offset: 4px;
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -1903,7 +1903,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  color: #151412;
+  color: var(--theme-ink, #151412);
   font: 500 15px/1.5 var(--fy-sans);
 }
 .fy-more p {
@@ -1918,7 +1918,7 @@
   font: 800 12px/1.2 var(--fy-sans);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #6b665e;
+  color: var(--theme-ink, #6b665e);
 }
 .fy-more .fy-btn--light {
   background: #151412;
@@ -1927,7 +1927,7 @@
 .fy-more .fy-btn--ghost {
   border-color: rgb(21 20 18 / 0.2);
   background: transparent;
-  color: #151412;
+  color: var(--theme-ink, #151412);
 }
 
 /* ── light screens: the end ───────────────────────────────────────────────── */
@@ -1936,8 +1936,8 @@
   position: absolute;
   inset: 0;
   overflow-y: auto;
-  background: #f7f4ee;
-  color: #151412;
+  background: var(--theme-paper, #f7f4ee);
+  color: var(--theme-ink, #151412);
 }
 .fy-panel-body {
   display: flex;
@@ -1955,7 +1955,7 @@
   font: 800 12px/1.2 var(--fy-sans);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--fy-accent-ink);
+  color: var(--theme-ink, var(--fy-accent-ink));
 }
 .fy-panel-title {
   margin: 0;
@@ -1972,7 +1972,7 @@
   font: 800 12px/1.2 var(--fy-sans);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #6b665e;
+  color: var(--theme-ink, #6b665e);
 }
 .fy-panel .fy-btn--light {
   background: #151412;
@@ -1981,7 +1981,7 @@
 .fy-panel .fy-btn--ghost {
   border-color: rgb(21 20 18 / 0.2);
   background: transparent;
-  color: #151412;
+  color: var(--theme-ink, #151412);
 }
 .fy-panel .fy-btn--accent {
   background: var(--fy-accent);
@@ -2016,7 +2016,7 @@
 }
 .fy-privacy {
   font-size: 13px;
-  color: #6b665e;
+  color: var(--theme-ink, #6b665e);
 }
 .fy-links {
   display: flex;
@@ -2031,14 +2031,14 @@
   padding: 0;
   border: 0;
   background: none;
-  color: #151412;
+  color: var(--theme-ink, #151412);
   font: 800 14px/1.3 var(--fy-sans);
   text-decoration: none;
   cursor: pointer;
 }
 .fy-links a:hover,
 .fy-links button:hover {
-  color: var(--fy-accent-ink);
+  color: var(--theme-ink, var(--fy-accent-ink));
 }
 
 /* ── the list on the right, on a wide screen ──────────────────────────────── */
@@ -2132,7 +2132,7 @@
     overflow: hidden;
     border: 1px solid rgb(21 20 18 / 0.08);
     border-radius: 24px;
-    background: #fff;
+    background: var(--theme-surface, #fff);
   }
   .fy-side-head {
     padding: 22px 22px 16px;
@@ -2152,17 +2152,17 @@
   .fy-side-sub {
     margin: 6px 0 14px;
     font: 600 13px/1.4 var(--fy-sans);
-    color: #6b665e;
+    color: var(--theme-ink, #6b665e);
   }
   .fy-side .fy-tool {
     border: 1px solid rgb(21 20 18 / 0.14);
-    background: #fff;
-    color: #151412;
+    background: var(--theme-surface, #fff);
+    color: var(--theme-ink, #151412);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
   .fy-side .fy-tool--primary {
-    border-color: #151412;
+    border-color: var(--theme-border, #151412);
     background: #151412;
     color: #fff;
   }
@@ -2181,7 +2181,7 @@
     padding: 16px 12px 6px;
     border: 0;
     background: none;
-    color: var(--fy-accent-ink);
+    color: var(--theme-ink, var(--fy-accent-ink));
     font: 800 11.5px/1 var(--fy-sans);
     letter-spacing: 0.08em;
     text-align: left;
@@ -2202,13 +2202,13 @@
     border: 0;
     border-radius: 12px;
     background: none;
-    color: #151412;
+    color: var(--theme-ink, #151412);
     text-align: left;
     cursor: pointer;
     transition: background-color 0.15s ease;
   }
   .fy-list-item:hover {
-    background: #f4f1eb;
+    background: var(--theme-paper, #f4f1eb);
   }
   .fy-list-item[aria-current] {
     background: #151412;
@@ -2220,10 +2220,10 @@
     height: 56px;
     overflow: hidden;
     border-radius: 10px;
-    background: #ece7df;
+    background: var(--theme-paper, #ece7df);
   }
   .fy-list-thumb--none {
-    background: color-mix(in srgb, var(--fy-accent) 70%, #fff);
+    background: color-mix(in srgb, var(--fy-accent) 70%, var(--theme-surface, #fff));
   }
   .fy-list-title {
     display: -webkit-box;
@@ -2233,7 +2233,7 @@
     -webkit-box-orient: vertical;
   }
   .fy-list-item[data-read]:not([aria-current]) .fy-list-title {
-    color: #8a857c;
+    color: var(--theme-muted, #8a857c);
   }
 }
 
@@ -2356,14 +2356,14 @@
   flex-direction: column;
   gap: 4px;
   padding: 12px;
-  border: 1.5px solid #ddd6ca;
+  border: 1.5px solid var(--theme-border, #ddd6ca);
   border-radius: 10px;
-  background: #fff;
-  color: #151412;
+  background: var(--theme-surface, #fff);
+  color: var(--theme-ink, #151412);
   cursor: pointer;
 }
 .perty-cz-look:has(input:checked) {
-  border-color: #151412;
+  border-color: var(--theme-border, #151412);
   box-shadow: 0 0 0 1px #151412;
 }
 .perty-cz-look:has(input:focus-visible) {
@@ -2403,7 +2403,7 @@
   color: #1d4f9f;
 }
 .perty-cz-look[data-look="biznes"] {
-  background: #fff1e5;
+  background: var(--theme-paper, #fff1e5);
 }
 .perty-cz-look[data-look="biznes"] .perty-cz-look-mini {
   font-style: italic;
@@ -2411,7 +2411,7 @@
 }
 .perty-cz-look-note {
   font: 400 12.5px/1.35 var(--font-manrope), system-ui, sans-serif;
-  color: #55514a;
+  color: var(--theme-ink, #55514a);
 }
 
 /* ── "Si funksionon?" ────────────────────────────────────────────────────── */
@@ -2427,7 +2427,7 @@
 .perty-help-privacy {
   margin: 0 0 14px;
   font-size: 13.5px;
-  color: #6b625a;
+  color: var(--theme-ink, #6b625a);
 }
 
 /* ── "Ndaje gazetën": the link as a chat will show it ────────────────────── */
@@ -2436,20 +2436,20 @@
   margin: 0 0 12px;
   font-size: 14.5px;
   line-height: 1.45;
-  color: #5e5048;
+  color: var(--theme-ink, #5e5048);
 }
 .perty-linkcard {
   margin: 0;
   overflow: hidden;
   border: 1px solid rgb(21 20 18 / 0.12);
   border-radius: 14px;
-  background: #fff;
+  background: var(--theme-surface, #fff);
   box-shadow: 0 10px 28px rgb(0 0 0 / 0.12);
 }
 .perty-linkcard-img {
   position: relative;
   aspect-ratio: 1200 / 630;
-  background: #efeae2;
+  background: var(--theme-paper, #efeae2);
 }
 .perty-linkcard-img img {
   display: block;
@@ -2470,7 +2470,7 @@
 }
 .perty-linkcard small {
   font-size: 12px;
-  color: #7a6f66;
+  color: var(--theme-muted, #7a6f66);
 }
 .perty-linkcard b {
   font-size: 14.5px;
@@ -2504,7 +2504,7 @@
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #7a6f66;
+  color: var(--theme-muted, #7a6f66);
 }
 .perty-share-downloads .perty-btn {
   gap: 8px;
