@@ -65,6 +65,7 @@ function RightPills({ treguActive, onAsk }: { treguActive: boolean; onAsk: () =>
         <span className="nav-tregu-dot" aria-hidden="true" />
         <span className="nav-tregu-word">Tregu</span>
       </Link>
+      <LanguageSwitcher />
       <button
         type="button"
         className="nav-dardan"
@@ -256,7 +257,6 @@ export default function Navbar() {
                   stand in for the categories that just disappeared, so burying
                   it inside the hamburger would cost the most at exactly the
                   moment the nav has the least. */}
-              <LanguageSwitcher />
               <button
                 type="button"
                 className="nav-search-btn"
@@ -334,7 +334,6 @@ export default function Navbar() {
 
               </div>
 
-              <LanguageSwitcher />
               <button
                 type="button"
                 className="nav-search-btn"
