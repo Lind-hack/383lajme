@@ -5,13 +5,13 @@
 //   CoverSlide    the paper's name over the lead's photo, how much is in it
 //                 and "Fillo leximin ↓" (the first headlines only on a wide
 //                 screen — a phone's cover stays simple)
-//   StorySlide    one story, full screen: the photo, and over it why it is
-//                 here, the headline, its key points (lib/key-points — the
-//                 story's own sentences; the excerpt until they come) and
-//                 "Lexo lajmin" — the headline, the points and the button all
-//                 open the full article; down the right
-//                 side the reader's buttons — more of this, less of this, react,
-//                 comments, share, why. Liking, disliking and reacting each
+//   StorySlide    one story, full screen, and only five things on it: the
+//                 photo; one line saying it is the reader's ("Për ty, Lind ·
+//                 sepse ndjek Albin Kurtin" — a tap says why, with more / less);
+//                 the headline; its key points (lib/key-points — the story's
+//                 own sentences); and down the right
+//                 side 👍, 👎, 💬 and ⋯ (react, share). The headline and the
+//                 points open the full article. Liking, disliking and reacting each
 //                 burst in the middle of the screen. Each story wears its
 //                 section's colour (lib/category-colors)
 //   RecapSlide    "Sot në 30 sekonda": the whole edition on one screen, a line
@@ -32,17 +32,15 @@ import { Fragment, useRef, useState, type ReactNode } from "react";
 import { useStoryData } from "./story-data";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Check, ChevronDown, MessageCircle, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, MessageCircle, MoreHorizontal, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
 import DardaniFace from "@/components/dardani/dardani-face";
 import { recapRows } from "@/lib/perty-brief.mjs";
 import { useBriefLines } from "./boxes";
-import TimeAgo from "@/components/time-ago";
 import CommentsSheet from "@/components/comments/comments-sheet";
 import { useCommentThread } from "@/components/comments/use-comment-thread";
 import { shortCount } from "@/lib/article-comments.mjs";
 import { CATEGORY_COLORS, CATEGORY_LIGHT_BG } from "@/lib/category-colors";
-import { isNewSince } from "@/lib/perty-visits.mjs";
-import { STORY_REACTIONS, shares, topLine } from "@/lib/story-reactions.mjs";
+import { STORY_REACTIONS, shares } from "@/lib/story-reactions.mjs";
 import { useReactions } from "./reactions";
 import type { FeedArticle } from "../per-ty-feed";
 
@@ -186,7 +184,8 @@ function Backdrop({
 
 export function CoverSlide({
   title,
-  onRename,
+  greet,
+  follows = [],
   kicker,
   line,
   photo,
@@ -196,8 +195,11 @@ export function CoverSlide({
   children,
 }: {
   title: string;
-  onRename?: () => void;
-  /** "E hënë, 12 tetor · Botimi i mëngjesit · Nr. 4", or who shared it. */
+  /** "Mirëmëngjes, Lind" — the cover's big line; without it, the paper's name. */
+  greet?: string;
+  /** What the reader follows, each a tap to its own stories. */
+  follows?: { label: string; href: string; tone?: React.CSSProperties }[];
+  /** "Gazeta jote · E hënë, 12 tetor · Nr. 4", or who shared it. */
   kicker: string;
   /** "7 lajme · 3 min · për Prishtinë, Albin Kurti, Sport" */
   line: string;
@@ -215,16 +217,21 @@ export function CoverSlide({
       <div className="fy-shade fy-shade--cover" />
       <div className="fy-cover-body">
         <p className="fy-cover-kicker">{kicker}</p>
-        <h1 className="fy-cover-name">
-          {onRename ? (
-            <button type="button" onClick={onRename} aria-label={`${title}. Ndrysho emrin`}>
-              {title}
-            </button>
-          ) : (
-            title
-          )}
+        <h1 className="fy-cover-name" data-greet={greet ? "" : undefined}>
+          {greet ?? title}
         </h1>
         <p className="fy-cover-line">{line}</p>
+        {follows.length > 0 && (
+          <ul className="fy-follows" aria-label="Çka ndjek">
+            {follows.map((f) => (
+              <li key={f.href + f.label}>
+                <a href={f.href} style={f.tone}>
+                  {f.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
         {streak >= 2 && (
           <p className="fy-streak">
             <span aria-hidden="true">🔥</span> {streak} ditë rresht — mos e prish sot
@@ -263,12 +270,15 @@ export function StorySlide({
   meta,
   eager = false,
   near = false,
+  who = "",
 }: {
   story: PaperStory;
   meta: ReelMeta;
   eager?: boolean;
   /** On screen or a couple away: its photo and key points load now. */
   near?: boolean;
+  /** The reader's first name, for "Për ty, Lind". */
+  who?: string;
 }) {
   const { article, why } = story;
   const photo = photoOf(article);
@@ -280,6 +290,7 @@ export function StorySlide({
   const [toast, setToast] = useState<string | null>(null);
   const [bursts, setBursts] = useState<Burst[]>([]);
   const [talking, setTalking] = useState(false);
+  const [menu, setMenu] = useState(false);
   const lastTap = useRef(0);
   const data = useStoryData(article.slug, near);
   const points = data && data !== "off" ? data.points : [];
@@ -287,10 +298,7 @@ export function StorySlide({
   const thread = useCommentThread(article.slug, (n) => reactions.setComments(article.slug, n));
   const comments = reactions.comments[article.slug] ?? 0;
   const mine = reactions.mine[article.slug];
-  const tally = reactions.tallies[article.slug];
-  const top = topLine(tally);
   const isRead = !meta.readOnly && meta.seen.read.has(article.slug);
-  const isNew = !meta.readOnly && !isRead && isNewSince(article, meta.seen.since);
   const canTaste = !meta.readOnly && Boolean(why?.key && meta.onTaste);
   const href = `/article/${article.slug}`;
   const words = article.title.split(/\s+/).filter(Boolean);
@@ -352,18 +360,17 @@ export function StorySlide({
       <div className="fy-story-body">
         <p className="fy-kicker">
           {why && !meta.readOnly ? (
-            <button type="button" className="fy-why" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
-              {why.short}
+            <button type="button" className="fy-for" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
+              <i aria-hidden="true" />
+              <span>
+                <b>Për ty{who ? `, ${who}` : ""}</b> · {why.short.charAt(0).toLowerCase() + why.short.slice(1)}
+              </span>
             </button>
           ) : (
-            <span className="fy-why fy-why--plain">{article.category}</span>
-          )}
-          {isRead && <span className="fy-mark">Lexuar</span>}
-          {isNew && <span className="fy-mark fy-mark--new">E re</span>}
-          {top && (
-            <button type="button" className="fy-mark fy-mark--crowd" onClick={() => setTray(true)}>
-              {top.emoji} {top.pct}% {top.label.toLowerCase()} · {top.total}
-            </button>
+            <span className="fy-for fy-for--plain">
+              <i aria-hidden="true" />
+              <span>{article.category}</span>
+            </span>
           )}
         </p>
         <h2 className="fy-head">
@@ -388,16 +395,12 @@ export function StorySlide({
             </ul>
           </Link>
         ) : (
-          article.excerpt && <p className="fy-text">{article.excerpt}</p>
+          article.excerpt && (
+            <Link href={href} className="fy-points-link" tabIndex={-1} aria-hidden="true">
+              <p className="fy-text">{article.excerpt}</p>
+            </Link>
+          )
         )}
-        <div className="fy-story-foot">
-          <Link href={href} className="fy-btn fy-btn--light">
-            Lexo lajmin <ArrowRight size={16} strokeWidth={2.5} aria-hidden="true" />
-          </Link>
-          <span className="fy-meta">
-            {article.category} · <TimeAgo iso={article.publishedAt} />
-          </span>
-        </div>
       </div>
 
       <div className="fy-actions">
@@ -413,31 +416,46 @@ export function StorySlide({
             </button>
           </>
         )}
-        {reactions.ok && (
-          <button type="button" className="fy-act fy-act--emoji" onClick={() => setTray((t) => !t)} aria-expanded={tray} aria-label="Reago ndaj këtij lajmi">
-            <b aria-hidden="true">{mine ? STORY_REACTIONS.find((r) => r.key === mine)?.emoji : "😮"}</b>
-            <span aria-hidden="true">{mine ? "Reagove" : "Reago"}</span>
-          </button>
-        )}
         {reactions.commentsOk && (
           <button type="button" className="fy-act" onClick={() => setTalking(true)} aria-label={`Komentet: ${comments}`}>
             <MessageCircle size={22} strokeWidth={2.2} aria-hidden="true" />
             <span aria-hidden="true">{comments ? shortCount(comments) : "Komento"}</span>
           </button>
         )}
-        <button
-          type="button"
-          className="fy-act"
-          onClick={async () => {
-            const said = await shareStory(article);
-            if (said) say(said);
-          }}
-          aria-label="Ndaje këtë lajm"
-        >
-          <Share2 size={22} strokeWidth={2.2} aria-hidden="true" />
-          <span aria-hidden="true">Ndaje</span>
+        <button type="button" className="fy-act" onClick={() => setMenu((m) => !m)} aria-expanded={menu} aria-label="Më shumë: reago, ndaje">
+          <MoreHorizontal size={22} strokeWidth={2.4} aria-hidden="true" />
         </button>
       </div>
+
+      {menu && (
+        <div className="fy-menu" role="menu">
+          {reactions.ok && (
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                setMenu(false);
+                setTray(true);
+              }}
+            >
+              <b aria-hidden="true">{mine ? STORY_REACTIONS.find((r) => r.key === mine)?.emoji : "😮"}</b>
+              {mine ? "Reagove" : "Reago"}
+            </button>
+          )}
+          <button
+            type="button"
+            role="menuitem"
+            onClick={async () => {
+              setMenu(false);
+              const said = await shareStory(article);
+              if (said) say(said);
+            }}
+          >
+            <Share2 size={18} strokeWidth={2.4} aria-hidden="true" />
+            Ndaje
+          </button>
+        </div>
+      )}
 
       {tray && <ReactionTray slug={article.slug} onClose={() => setTray(false)} onPick={reacted} />}
       {reactions.commentsOk && <CommentsSheet open={talking} onClose={() => setTalking(false)} thread={thread} title={article.title} />}

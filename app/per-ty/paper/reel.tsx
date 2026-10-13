@@ -74,6 +74,7 @@ export default function Reel({
   tools,
   hint = false,
   checkpoint,
+  simpleTop = false,
   onShown,
   onMove,
 }: {
@@ -91,6 +92,12 @@ export default function Reel({
   hint?: boolean;
   /** The screen where the reader's own paper ends and the endless part begins. */
   checkpoint?: number;
+  /**
+   * Only one thin line at the top, how far into today's paper the reader is —
+   * no name, no tools (they are on the cover, the checkpoint, and the list on
+   * a wide screen). Past the checkpoint, "✓ Më shumë për ty".
+   */
+  simpleTop?: boolean;
   /** The screen on view, once it has settled. */
   onShown?: (index: number) => void;
   /** The reader moved on from the first screen (any way at all). */
@@ -255,8 +262,8 @@ export default function Reel({
   return (
     <div className="fy" data-look={look}>
       <div className="fy-main" data-tone={light ? "light" : "dark"}>
-        <div className="fy-top">
-          {bars ? (
+        <div className="fy-top" data-simple={simpleTop || undefined}>
+          {bars && !simpleTop ? (
             <div className="fy-bars" aria-hidden="true">
               {Array.from({ length: bars.of ?? 0 }, (_, i) => (
                 <span key={i} data-on={i <= (bars.pos ?? 0) || undefined} />
@@ -267,13 +274,21 @@ export default function Reel({
               <span style={{ transform: `scaleX(${toEnd > 0 ? Math.min(index / toEnd, 1) : 1})` }} />
             </div>
           )}
-          <div className="fy-top-row">
-            <p className="fy-top-where">
-              <b>{name}</b>
-              {past ? <span>✓ Më shumë për ty</span> : bars?.groupTitle ? <span>{bars.groupTitle}</span> : null}
-            </p>
-            {tools && <div className="fy-tools fy-tools--top">{tools}</div>}
-          </div>
+          {simpleTop ? (
+            past && (
+              <p className="fy-top-where">
+                <span>✓ Më shumë për ty</span>
+              </p>
+            )
+          ) : (
+            <div className="fy-top-row">
+              <p className="fy-top-where">
+                <b>{name}</b>
+                {past ? <span>✓ Më shumë për ty</span> : bars?.groupTitle ? <span>{bars.groupTitle}</span> : null}
+              </p>
+              {tools && <div className="fy-tools fy-tools--top">{tools}</div>}
+            </div>
+          )}
         </div>
 
         <div ref={reelRef} className="fy-reel" role="feed" aria-label={label} aria-busy="false">

@@ -58,6 +58,7 @@ import { hasLearnedPaper, learnedPicks, setLearnedPaper, totalReads } from "@/li
 import { kosovoDateKey } from "@/lib/home-tregu.mjs";
 import { editionName, lookById, readingMix, readingPace, readLookState, resolveLook, writeLookState, type LookId } from "@/lib/paper-look.mjs";
 import { hashForSlide, moreStories, reelSlides, type MoreItem } from "@/lib/paper-reel.mjs";
+import { dwellNudge, greeting } from "@/lib/perty-personal.mjs";
 import { keyLabel, whyLine } from "@/lib/perty-why.mjs";
 import { noteShown, readShown, settleSkips, writeShown } from "@/lib/perty-skips.mjs";
 import { mergeOnSignIn, pushInterests } from "@/lib/interests-sync";
@@ -75,7 +76,7 @@ import Sheet from "./paper/sheet";
 import ShareSheet, { type ShareablePaper } from "./paper/share-sheet";
 import Reel, { type ReelScreen } from "./paper/reel";
 import { ReactionsProvider } from "./paper/reactions";
-import { CheckpointSlide, CoverSlide, RecapSlide, SectionSlide, StorySlide, type PaperStory, type ReelMeta, type Why } from "./paper/slides";
+import { CheckpointSlide, CoverSlide, RecapSlide, SectionSlide, StorySlide, sectionTone, type PaperStory, type ReelMeta, type Why } from "./paper/slides";
 import { newspaperFonts } from "./paper/fonts";
 import "./paper/reel.css";
 
@@ -176,6 +177,8 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
   const olderBusy = useRef(false);
   // "Gazeta jote", from the checkpoint.
   const [paperOpen, setPaperOpen] = useState(false);
+  // The screen on view and since when, for what staying or flicking past teaches.
+  const entered = useRef<{ index: number; at: number } | null>(null);
 
   useEffect(() => {
     const stored = readInterests();
@@ -348,9 +351,40 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
 
   // A story on screen a moment counts as shown; tomorrow, the ones never
   // opened teach the paper (lib/perty-skips).
+  // The key a screen's story teaches, the edition's and the endless part's alike.
+  const keyAt = useCallback(
+    (index: number): string | null => {
+      const slide = slides[index];
+      if (slide) {
+        if (slide.kind !== "story") return null;
+        const key = slide.section ? slide.section.key : ((slide.item as { primaryKey?: string }).primaryKey ?? "");
+        return key.includes(":") ? key : null;
+      }
+      const item = more[index - slides.length];
+      if (!item) return null;
+      if (item.primaryKey?.includes(":")) return item.primaryKey;
+      return item.article.category ? `cat:${item.article.category}` : null;
+    },
+    [slides, more]
+  );
+
   const onShown = useCallback(
     (index: number) => {
       setAt(index);
+      // Staying to read a card's points is a quiet "more"; flicking past at once
+      // a quiet "less" (lib/perty-personal). Saved for the next visit only, so
+      // the reel never reorders under the reader's thumb.
+      const before = entered.current;
+      const now = performance.now();
+      entered.current = { index, at: now };
+      if (before && before.index !== index) {
+        const key = keyAt(before.index);
+        const nudge = dwellNudge(now - before.at);
+        if (key && nudge) {
+          const current = readInterests();
+          if (hasInterests(current)) writeInterests({ ...current, affinity: nudgeAffinity(current.affinity, key, nudge) });
+        }
+      }
       if (shownTimer.current) window.clearTimeout(shownTimer.current);
       const slide = slides[index];
       if (slide?.kind !== "story") return;
@@ -361,7 +395,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
         writeShown(noteShown(readShown(), kosovoDateKey(), [{ slug, key }]));
       }, SHOWN_AFTER_MS);
     },
-    [slides]
+    [slides, keyAt]
   );
 
   useEffect(() => () => {
@@ -471,11 +505,23 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
     .map((k) => keyLabel(k))
     .filter((v): v is string => Boolean(v))
     .slice(0, 3);
+  // "Lind", for "Mirëmëngjes, Lind" and "Për ty, Lind".
+  const who = displayName.trim().split(/\s+/)[0]?.slice(0, 24) ?? "";
+  // What the reader follows, each chip a tap to that follow's own screen.
+  const followChips = paper.allKeys.flatMap((key) => {
+    const label = keyLabel(key);
+    const at = slides.findIndex((s) => s.kind === "section" && s.section.key === key);
+    if (!label || at < 0) return [];
+    return [{ label, href: hashForSlide(at), tone: key.startsWith("cat:") ? sectionTone(key.slice(4)) : undefined }];
+  }).slice(0, 4);
   const date = dateline(now);
   const dateCap = date.charAt(0).toUpperCase() + date.slice(1);
 
   const onTaste = (key: string, more: boolean) => {
-    save({ ...interests, affinity: nudgeAffinity(interests.affinity, key, more ? TASTE_STEP : -TASTE_STEP) });
+    // From what is stored, which carries the quiet lessons of time on screen too.
+    const stored = readInterests();
+    const base = hasInterests(stored) ? stored : interests;
+    save({ ...base, affinity: nudgeAffinity(base.affinity, key, more ? TASTE_STEP : -TASTE_STEP) });
     // A follow with its own screens moves one place up or down the paper too.
     if (paper.allKeys.includes(key)) savePrefs({ ...prefs, order: moveKey(paper.allKeys, key, more ? -1 : 1) });
   };
@@ -526,9 +572,10 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
         node: (
           <CoverSlide
             title={title}
-            onRename={() => setCustomizing(true)}
-            kicker={`${dateCap} · ${edition}${issue > 0 ? ` · Nr. ${issue}` : ""}`}
-            line={`${ed.length === 1 ? "1 lajm" : `${ed.length} lajme`} · ${paper.minutes} min${followNames.length ? ` · për ${followNames.join(", ")}` : ""}`}
+            greet={greeting(now, who)}
+            follows={followChips}
+            kicker={`${title} · ${dateCap}${issue > 0 ? ` · Nr. ${issue}` : ""}`}
+            line={`${ed.length === 1 ? "1 lajm" : `${ed.length} lajme`} për ty sot · ${paper.minutes} min`}
             photo={lead ? lead.imageUrl || lead.coverArt || null : null}
             heads={slides
               .filter((s) => s.kind === "story")
@@ -536,7 +583,14 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
               .map((s) => ({ title: s.title, href: hashForSlide(s.n) }))}
             start={{ label: readCount ? "Vazhdo leximin" : "Fillo leximin", href: hashForSlide(firstStory > 0 ? firstStory : 1) }}
             streak={streak}
-          />
+          >
+            <button type="button" className="fy-btn fy-btn--ghost fy-btn--icon" onClick={() => setCustomizing(true)} aria-label="Rregullo gazetën">
+              <SlidersHorizontal size={18} strokeWidth={2.4} aria-hidden="true" />
+            </button>
+            <button type="button" className="fy-btn fy-btn--ghost fy-btn--icon" onClick={() => setHelping(true)} aria-label="Si funksionon gazeta jote?">
+              <HelpCircle size={19} strokeWidth={2.3} aria-hidden="true" />
+            </button>
+          </CoverSlide>
         ),
       };
     }
@@ -610,7 +664,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
         of: slide.of,
         thumb: item.article.imageUrl || item.article.coverArt || null,
         read: read.has(item.article.slug),
-        node: <StorySlide story={story} meta={meta} eager={i <= 3} near={near(i)} />,
+        node: <StorySlide story={story} meta={meta} eager={i <= 3} near={near(i)} who={who} />,
       };
     }
     return {
@@ -648,7 +702,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
       groupTitle: "Më shumë për ty",
       thumb: a.imageUrl || a.coverArt || null,
       read: read.has(a.slug),
-      node: <StorySlide story={{ article: a, why }} meta={meta} near={near(i)} />,
+      node: <StorySlide story={{ article: a, why }} meta={meta} near={near(i)} who={who} />,
     });
   }
 
@@ -803,6 +857,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
       ) : (
         <ReactionsProvider slugs={storySlugs}>
           <Reel
+            simpleTop
             screens={screens}
             look={look}
             label={title}
