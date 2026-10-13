@@ -30,7 +30,7 @@ const ALLOW_MOCK_ARTICLES =
   process.env.NODE_ENV !== "production" || process.env.ALLOW_MOCK_ARTICLES === "1";
 
 function mockArticles(): Article[] {
-  return ALLOW_MOCK_ARTICLES ? MOCK_ARTICLES.map(sanitizeArticle) : [];
+  return ALLOW_MOCK_ARTICLES ? MOCK_ARTICLES.map((a) => sanitizeArticle(a)) : [];
 }
 
 function mockArticle(slug: string): Article | null {
@@ -51,14 +51,18 @@ const DB_PATH = path.join(process.cwd(), "data", "articles.db");
  * still carry "Siguri" or "Shoqëri"; they now render under the section that
  * absorbed them instead of leaking a label with no page behind it.
  */
-function sanitizeArticle(a: Article): Article {
+function sanitizeArticle(a: Article, keepSource = false): Article {
   return {
     ...a,
     title: fixMojibake(a.title),
     excerpt: fixMojibake(a.excerpt),
     body: fixMojibake(a.body),
-    source: fixMojibake(a.source),
-    sourceFlag: fixMojibake(a.sourceFlag),
+    // Every story reads as 383's own: the outlet a draft was researched from
+    // never reaches a page, its payload or a public API. Only Tregu's oracle
+    // evidence (getLatestPersistedArticles) keeps it.
+    url: keepSource ? a.url : undefined,
+    source: keepSource ? fixMojibake(a.source) : "",
+    sourceFlag: keepSource ? fixMojibake(a.sourceFlag) : "",
     category: normalizeCategory(fixMojibake(a.category)),
     // Imagery is hotlinked from other outlets, which serve whatever size they
     // uploaded — one Al Jazeera hero measured 11.8 MB. Ask the hosts that
@@ -90,7 +94,7 @@ function getDb() {
 const AUTO_DIR = path.join(process.cwd(), "data", "auto-articles");
 const MAX_AUTO_AGE_MS = 24 * 60 * 60 * 1000;
 
-function mapAutoRow(a: Record<string, unknown>): Article {
+function mapAutoRow(a: Record<string, unknown>, keepSource = false): Article {
   const raw = a.raw_article && typeof a.raw_article === "object" ? a.raw_article as Record<string, unknown> : a;
   const rights = raw.image_rights && typeof raw.image_rights === "object" ? raw.image_rights as Record<string, unknown> : {};
   const photoSource = String(rights.source_page ?? "");
@@ -123,7 +127,7 @@ function mapAutoRow(a: Record<string, unknown>): Article {
     imageLicenseUrl: /^https:\/\/creativecommons\.org\/(?:licenses|publicdomain)\//.test(String(rights.license_url ?? "")) ? String(rights.license_url) : undefined,
     engagementScore: a.engagement_score ? Number(a.engagement_score) : undefined,
     videoClipUrl:  a.video_clip_url ? String(a.video_clip_url) : undefined,
-  });
+  }, keepSource);
 }
 
 function getAutoArticles(exactCategory?: string): Article[] {
@@ -531,7 +535,7 @@ export async function getLatestPersistedArticles(limit = 200): Promise<Article[]
   const { data, error } = await supabase.from("news_articles")
     .select(ARTICLE_COLUMNS).order("published_at", { ascending: false }).limit(limit);
   if (error) throw new Error(`Could not load persisted Tregu evidence: ${error.message}`);
-  return (data ?? []).map((article) => mapAutoRow(article as unknown as Record<string, unknown>));
+  return (data ?? []).map((article) => mapAutoRow(article as unknown as Record<string, unknown>, true));
 }
 
 /** Read the newsroom's vetted secondary URLs only for articles considered by Tregu. */
