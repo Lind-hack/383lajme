@@ -164,7 +164,9 @@ def story_names(title: str, text: str) -> list[str]:
             headline.append(found)
     rest = sorted((name for name in counts if name not in headline), key=lambda name: -counts[name])
     chosen: list[str] = []
-    for name in headline + [name for name in rest if " " in name or counts[name] >= 2]:
+    # A name the headline lacks must recur in the text: one passing mention
+    # put Jensen Huang's photo on an Anthropic story (2026-10-13).
+    for name in headline + [name for name in rest if counts[name] >= 2]:
         if not any(fold(name) in fold(other) or fold(other) in fold(name) for other in chosen):
             chosen.append(name)
     return chosen[:3]
