@@ -275,7 +275,7 @@ Scope: `/per-ty` and the shared copy `/gazeta/<code>`. Styles in `app/per-ty/pap
 
 **North Star: Apple News, read like TikTok.** The reader's own paper is a stack of full screens swiped up one at a time. Each screen is set like an Apple News story: the photo edge to edge, a large white headline over a dark fade, one spot-colour tag saying why the story is here. On a phone the reel fills the space between the site's bar and the tab bar. On a wide screen it fills the left of the page, with the whole paper listed on the right (Apple News sidebar) — tap any line to jump there.
 
-Order: cover (the paper's name over the lead's photo, the top three headlines, "Fillo leximin") → "Shkurt, për sot" (Dardani's thirty seconds, town, numbers, Tregu — when the boxes are on) → today's edition, one story a screen → for each follow, its own full-colour screen ("Qyteti yt · Prishtinë · 4 lajme") then its stories → "Kaq për sot".
+Order: cover (the paper's name over the lead's photo, how much is in it, "Fillo leximin ↓"; the top three headlines only on a wide screen — a phone's cover stays simple) → "Shkurt, për sot" — one screen, "Sot në 30 sekonda": a line for every story in the edition (Dardani's, or the story's own first sentence until he has written it, so it never says more than the stories), each a tap from its story, numbered in its section's colour, ticked once read, with a read counter; one line a story on short phones so the whole day always fits. The town, the numbers and Tregu sit on the end screen → today's edition, one story a screen → for each follow, its own full-colour screen ("Qyteti yt · Prishtinë · 4 lajme") then its stories → **the checkpoint**, "Kaq ishte gazeta jote e sotme": a big green tick, read / total, the streak, minutes, "Gazeta e nesërme del në 07:00", Ndaje gazetën and "Gazeta jote" (a sheet with tomorrow's push, the town, numbers and Tregu, how it works, forgetting) and "Vazhdo me më shumë lajme ↓" → **without end**: more of what the reader follows, then the week's most read on 383, then older stories page by page — never one already on a screen or read, six at a time as the reader nears the end, never reordered once shown. Past the checkpoint the top reads "✓ Më shumë për ty", and the top bar measures only the reader's own paper.
 
 ## Five kinds of paper
 
@@ -289,22 +289,39 @@ The reading mix picks one (`lib/paper-look.mjs`, `[data-look]`); "Rregullo gazet
 | `bota` | `#2f6bff` | Newsreader |
 | `biznes` | `#12a0aa` | Newsreader, italic name |
 
-Labels, buttons and text over photos are Manrope. Light screens (the boxes, the end) are `#f7f4ee` with dark type; the bar over them turns dark too (`[data-tone="light"]`).
+Labels, buttons and text over photos are Manrope. The checkpoint is dark with the paper's colour glowing from the top; only a shared copy's end screen is light (`#f7f4ee`, `[data-tone="light"]`).
+
+**Section colours.** Every story wears its section's colour from `lib/category-colors` (Kosovë blue, Sport cyan, Ekonomi green, Botë amber with dark ink, Kulturë rose…) on its reason tag, pressed buttons and reaction bars; a category follow's screen is painted in it too. Cities, people and anything without a section colour keep the paper's spot colour.
+
+**Sizes on a phone.** Headline `clamp(24px, 6.5vw, 31px)`, lines 14.5px, meta 12px, cover name `clamp(42px, 12.5vw, 64px)`. Five buttons down the side at 44px; under 640px of height their words go, the spacing stays.
 
 ## Components
 
 - **Over every screen:** Stories-style bars (one per story in the current group; a single progress line elsewhere), the paper's name and the group, and on a phone the tools (Ndaje, Rregullo, ?).
-- **Story:** the reason tag (tap → "Pse e sheh këtë?" sheet with "Më shumë si kjo / Më pak"), headline, three lines (one to five, following how long the reader stays on stories), "Lexo lajmin", category and time. Down the right side, TikTok-style: 👍 Më shumë, 👎 Më pak, Ndaje (this story), Pse?. A story with no photo is set on its spot colour.
+- **Story:** the reason tag (tap → "Pse e sheh këtë?" sheet with "Më shumë si kjo / Më pak"), headline, **two or three key points** — whole sentences of the story itself, the excerpt's first line leading, a dot in the section's colour (lib/key-points; never written by a model, so never more than the story says; the excerpt stands in until they load, and when a story has too little) — "Lexo lajmin", category and time. The headline, the points and the button all open the full article page; coming back lands on the same screen (#lajmi-N). The screens either side of the one on view load their photo and points ahead, so nothing waits. Down the right side, TikTok-style: 👍 Më shumë, 👎 Më pak, Reago, 💬 comments with the count, Ndaje (this story) — five, never more; "Pse?" is the reason tag itself. On a wide screen ↑ ↓ sit at the right end of the "Më pas" strip, never among these buttons. A story with no photo is set on its spot colour.
+- **Sheets** (Rregullo gazetën, Si funksionon, Ndaje): white, solid, with an orange `#ff4422` head that ends in a wave; the title in white. "Si funksionon" is one card per step, each with an orange emoji tile.
 - **Follow screen:** the follow's name huge on its colour over a blurred photo, why it is in the paper, how many stories, Më shumë / Më pak / Të gjitha.
 - **Sidebar (wide screens):** name, date and count, the tools, then every screen with thumbnails; the one on view is black.
 
 ## Living screens and reactions
 
-- **Photos:** the news photo always leads; the clay illustration (labelled "Ilustrim me AI") only stands in when a story has no photo or its photo fails to load.
-- **Motion:** the photo on view drifts slowly (16 s, alternating direction); the headline rises in word by word as the screen arrives, the reason tag pops in, the rest follows. Reduced motion: still.
-- **Double-tap** the picture: a heart, and it counts as "Më shumë si kjo".
+- **Cover:** always a full-bleed photo; from the second day in a row, "🔥 N ditë rresht — mos e prish sot".
+- **Photos:** the news photo always leads; the clay illustration (labelled "Ilustrim me AI") only stands in when a story has no photo or its photo fails to load. Photos load at quality 90 and sit high in frame (`object-position: center 30%`). A wide photo on a tall screen is shown whole and sharp above the headline, over a blurred copy of itself (TikTok's landscape picture), instead of being cropped to a sliver and blown up.
+- **Motion:** the photo on view drifts slowly (16 s, at most 8% larger, alternating direction); the headline rises in word by word as the screen arrives, the reason tag pops in, the rest follows. Reduced motion: still.
+- **Bursts in the middle of the screen:** 👍 sends a big ❤️ with a ring of small hearts flying out; 👎 drops a 👎 that shakes its head and sinks; picking a reaction bursts that emoji the same way. The paper re-ranks only after the pop, so the tap answers at once. Reduced motion: no bursts, the toast says it.
+- **Double-tap** the picture: a heart where the finger was, and it counts as "Më shumë si kjo".
 - **Reago:** a button down the side opens five feelings (the Reagimi i Ditës set: 😠 😂 🤔 👍 ✨); after picking, live shares from every reader, the reader's own in the spot colour, changeable. A story with 3+ reactions shows its top one in the tag row ("😂 45% qesharake · 120"). Stored in `story_reactions` (migration 0105), one per anonymous device per story, through `app/api/per-ty/reactions`; without the table the button is simply absent.
 - **Më pas:** a strip along the bottom names the next screen and moves there on tap.
+- **Komentet:** the 💬 button opens the comments the way TikTok and Instagram do — see *Comments* below.
+
+## Comments
+
+Scope: every story on 383 — in the reel and at the end of every article (`components/comments/`, styles in `comments.css`, every class `cm-*`). Rules in `lib/article-comments.mjs`, API `app/api/comments`, tables `article_comments` / `article_comment_reports` (migration 0107), editors' queue `/admin/komente`.
+
+- **The sheet:** white, from the bottom, three-quarters of the screen (a centred panel on a computer), dragged down by its head to close. On top the count ("12 komente") and the story's headline; then each comment with a round picture (initials on a steady colour per name), the name, the text, the time, "Përgjigju" and "Raporto" / "Fshije". Replies sit under their comment, folded behind "Shiko N përgjigje". The writing box is pinned to the bottom, grows to four lines, sends with the orange arrow (Enter on a computer).
+- **On an article:** a "Komentet" card after the share row: the count, the two newest comments, a box that looks like the sheet's ("Shto një koment…") and "Shiko të gjitha" — any of it opens the sheet.
+- **Who writes:** signed-in readers only; everyone reads. Signed out, the box is an orange "Hyr për të komentuar" that comes back to the same place. Comments show at once under the reader's public name (or "Anonim").
+- **Keeping it civil:** "Raporto" asks once in place; three reports from different readers hide a comment until an editor keeps or deletes it at `/admin/komente`. Five comments a minute per reader at most; 600 characters each.
 
 ## Motion
 
@@ -316,7 +333,8 @@ The link comes first: `/gazeta/<code>` unfurls in chats as a 1200×630 JPEG set 
 
 ## Do's and Don'ts
 
-- **Do** make every screen fit; a light screen may scroll inside only as a last resort.
+- **Do** make every screen fit; reading happens on the article page, never inside a screen.
+- **Don't** use browser dialogs (confirm/alert) for "Raporto" or "Fshije"; ask once in place.
 - **Do** keep the reader's buttons on the right and the text on the left, clear of them.
 - **Don't** pin notes or slips over the reel; explanations live behind "?" and on the end screen.
 - **Don't** set `overscroll-behavior: contain` on a light screen: it traps the wheel and the reel stops moving.

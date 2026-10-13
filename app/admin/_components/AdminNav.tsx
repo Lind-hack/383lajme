@@ -9,6 +9,7 @@ import {
   Images,
   LineChart,
   LogOut,
+  MessageCircle,
   MessageSquare,
   Vote,
   Activity,
@@ -29,6 +30,7 @@ const SECTIONS = [
   { href: "/admin/tregu", label: "Tregu", Icon: LineChart },
   { href: "/admin/poll", label: "Sondazhi", Icon: Vote },
   { href: "/admin/kuiz", label: "Kuizi", Icon: MessageSquare },
+  { href: "/admin/komente", label: "Komentet", Icon: MessageCircle },
   { href: "/admin/xhep", label: "Xhep", Icon: Images },
 ] as const;
 

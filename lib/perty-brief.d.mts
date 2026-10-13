@@ -8,3 +8,8 @@ export function buildBriefPrompt(
   articles: readonly { slug: string; title: string; excerpt?: string | null; body?: string | null }[]
 ): string;
 export function cleanBrief(raw: unknown, allowed: readonly string[]): { slug: string; text: string }[];
+export function firstSentence(text: unknown): string;
+export function recapRows(
+  stories: readonly { slug: string; title: string; excerpt?: string | null }[] | null | undefined,
+  lines: readonly { slug: string; text: string }[] | null | undefined
+): { slug: string; text: string; byDardani: boolean }[];

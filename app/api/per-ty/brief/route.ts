@@ -14,7 +14,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
- * Dardani's three lines for one reader's Për ty (lib/perty-brief.mjs).
+ * Dardani's recap of one reader's edition, a line per story (lib/perty-brief.mjs).
  *
  * POST /api/per-ty/brief   { slugs: string[] }   → { lines: { slug, text }[] }
  *
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
     // Gemini leads: on this account Groq's remaining models answer unreliably
     // (see lib/llm.ts); Groq still backs it up.
     const raw = await llmJSON<unknown>(BRIEF_SYSTEM, buildBriefPrompt(articles), {
-      maxTokens: 600,
+      maxTokens: 1100,
       temperature: 0.3,
       prefer: "gemini",
     });

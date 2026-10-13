@@ -65,6 +65,7 @@ function RightPills({ treguActive, onAsk }: { treguActive: boolean; onAsk: () =>
         <span className="nav-tregu-dot" aria-hidden="true" />
         <span className="nav-tregu-word">Tregu</span>
       </Link>
+      <LanguageSwitcher />
       <button
         type="button"
         className="nav-dardan"
@@ -242,6 +243,7 @@ export default function Navbar() {
           {collapsed ? (
             <motion.div
               key="collapsed"
+              className="site-nav-controls"
               initial={{ opacity: 0, x: 6 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 6 }}
@@ -255,7 +257,6 @@ export default function Navbar() {
                   stand in for the categories that just disappeared, so burying
                   it inside the hamburger would cost the most at exactly the
                   moment the nav has the least. */}
-              <LanguageSwitcher />
               <button
                 type="button"
                 className="nav-search-btn"
@@ -293,6 +294,7 @@ export default function Navbar() {
           ) : (
             <motion.div
               key="full"
+              className="site-nav-controls"
               initial={{ opacity: 0, x: -6 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -6 }}
@@ -332,7 +334,6 @@ export default function Navbar() {
 
               </div>
 
-              <LanguageSwitcher />
               <button
                 type="button"
                 className="nav-search-btn"

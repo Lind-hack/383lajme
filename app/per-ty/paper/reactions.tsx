@@ -4,6 +4,9 @@
 // paper opens, the reader's own picks remembered on the device, and saving a
 // pick (app/api/per-ty/reactions). When the server says reactions are not
 // available, `ok` stays false and the story screens leave them out.
+//
+// The same fetch-once holds each story's comment count (app/api/comments/counts),
+// for the number under the comment button; `commentsOk` is false without them.
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { MINE_KEY, normalizeMine, type StoryReactionKey, type Tally } from "@/lib/story-reactions.mjs";
@@ -16,9 +19,13 @@ type Reactions = {
   tallies: Record<string, Tally>;
   mine: Record<string, StoryReactionKey>;
   react: (slug: string, key: StoryReactionKey) => Promise<boolean>;
+  commentsOk: boolean;
+  comments: Record<string, number>;
+  /** A story's comment count once its comments are open. */
+  setComments: (slug: string, n: number) => void;
 };
 
-const Ctx = createContext<Reactions>({ ok: false, tallies: {}, mine: {}, react: async () => false });
+const Ctx = createContext<Reactions>({ ok: false, tallies: {}, mine: {}, react: async () => false, commentsOk: false, comments: {}, setComments: () => {} });
 
 export const useReactions = () => useContext(Ctx);
 
@@ -39,6 +46,8 @@ export function ReactionsProvider({ slugs, children }: { slugs: string[]; childr
   const [ok, setOk] = useState(false);
   const [tallies, setTallies] = useState<Record<string, Tally>>({});
   const [mine, setMine] = useState<Record<string, StoryReactionKey>>({});
+  const [commentsOk, setCommentsOk] = useState(false);
+  const [comments, setCommentCounts] = useState<Record<string, number>>({});
   const key = slugs.join(",");
 
   useEffect(() => {
@@ -60,10 +69,22 @@ export function ReactionsProvider({ slugs, children }: { slugs: string[]; childr
         if (json.tallies && typeof json.tallies === "object") setTallies(json.tallies);
       })
       .catch(() => {});
+    fetch(`/api/comments/counts?slugs=${encodeURIComponent(key)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((json) => {
+        if (!alive || !json) return;
+        setCommentsOk(json.ok === true);
+        if (json.counts && typeof json.counts === "object") setCommentCounts(json.counts);
+      })
+      .catch(() => {});
     return () => {
       alive = false;
     };
   }, [key]);
+
+  const setComments = useCallback((slug: string, n: number) => {
+    setCommentCounts((c) => (c[slug] === n ? c : { ...c, [slug]: n }));
+  }, []);
 
   const react = useCallback(async (slug: string, reaction: StoryReactionKey) => {
     const before = mine[slug];
@@ -98,6 +119,9 @@ export function ReactionsProvider({ slugs, children }: { slugs: string[]; childr
     }
   }, [mine]);
 
-  const value = useMemo(() => ({ ok, tallies, mine, react }), [ok, tallies, mine, react]);
+  const value = useMemo(
+    () => ({ ok, tallies, mine, react, commentsOk, comments, setComments }),
+    [ok, tallies, mine, react, commentsOk, comments, setComments]
+  );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

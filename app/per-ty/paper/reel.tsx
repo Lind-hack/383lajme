@@ -11,7 +11,9 @@
 // on the same story.
 //
 // Bars at the top show where the reader is inside the current group (today's
-// edition, or one follow), the way Stories do.
+// edition, or one follow), the way Stories do. Between groups, one bar fills
+// towards the `checkpoint` — the end of the reader's own paper — and past it
+// the top says so ("✓ Më shumë për ty").
 //
 // This component only moves between screens; app/per-ty/paper/slides.tsx
 // draws them.
@@ -25,7 +27,7 @@ export type ReelScreen = {
   key: string;
   kind: "cover" | "brief" | "story" | "section" | "end";
   title: string;
-  /** Stories: their group, place in it and its size, for the bars at the top. */
+  /** Stories and the boxes: their group, place in it and its size, for the bars at the top. */
   group?: string;
   groupTitle?: string;
   pos?: number;
@@ -71,6 +73,7 @@ export default function Reel({
   sub,
   tools,
   hint = false,
+  checkpoint,
   onShown,
   onMove,
 }: {
@@ -86,6 +89,8 @@ export default function Reel({
   tools?: ReactNode;
   /** First visit: say how to move on. */
   hint?: boolean;
+  /** The screen where the reader's own paper ends and the endless part begins. */
+  checkpoint?: number;
   /** The screen on view, once it has settled. */
   onShown?: (index: number) => void;
   /** The reader moved on from the first screen (any way at all). */
@@ -113,16 +118,29 @@ export default function Reel({
     reel.scrollTo({ top: target.offsetTop, behavior: smooth && !reducedMotion() ? "smooth" : "auto" });
   }, []);
 
-  // Start on the screen in the address.
+  // Start on the screen in the address — on mount, and again when the page is
+  // shown after the reader comes back from an article: Next keeps it alive but
+  // hidden, which loses the reel's scroll, so until the reel is laid out again
+  // and back on that screen, nothing it sees counts as a move.
   useEffect(() => {
+    ready.current = false;
     const start = slideFromHash(window.location.hash, count);
     indexRef.current = start;
     setIndex(start);
-    requestAnimationFrame(() => {
+    let tries = 0;
+    let frame = 0;
+    const go = () => {
+      const target = reelRef.current?.children[start] as HTMLElement | undefined;
+      if (start > 0 && (!target || target.offsetTop === 0) && tries++ < 30) {
+        frame = requestAnimationFrame(go);
+        return;
+      }
       jump(start, false);
       ready.current = true;
-    });
-    // Only on mount.
+    };
+    frame = requestAnimationFrame(go);
+    return () => cancelAnimationFrame(frame);
+    // Only on mount (and on being shown again).
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -152,10 +170,15 @@ export default function Reel({
 
   useEffect(() => {
     if (!screens[index]) return;
-    try {
-      window.history.replaceState(window.history.state, "", hashForSlide(index));
-    } catch {
-      // A sandboxed frame may refuse; the reel still works.
+    // Not before the reel has reached the screen it started on: the address
+    // is where it is going, and writing #lajmi-1 over it first lost the story
+    // a reader came back to.
+    if (ready.current) {
+      try {
+        window.history.replaceState(window.history.state, "", hashForSlide(index));
+      } catch {
+        // A sandboxed frame may refuse; the reel still works.
+      }
     }
     shownRef.current?.(index);
     listRef.current?.querySelector("[aria-current='true']")?.scrollIntoView({ block: "nearest" });
@@ -224,10 +247,14 @@ export default function Reel({
 
   const current = screens[index];
   const bars = current?.kind === "story" && current.of ? current : null;
+  const past = checkpoint != null && index > checkpoint;
+  const toEnd = checkpoint != null ? checkpoint : count - 1;
+  // The checkpoint is a dark screen of its own; only a shared copy's end is light.
+  const light = current?.kind === "end" && checkpoint == null;
 
   return (
     <div className="fy" data-look={look}>
-      <div className="fy-main" data-tone={current?.kind === "brief" || current?.kind === "end" ? "light" : "dark"}>
+      <div className="fy-main" data-tone={light ? "light" : "dark"}>
         <div className="fy-top">
           {bars ? (
             <div className="fy-bars" aria-hidden="true">
@@ -237,13 +264,13 @@ export default function Reel({
             </div>
           ) : (
             <div className="fy-bars fy-bars--all" aria-hidden="true">
-              <span style={{ transform: `scaleX(${count > 1 ? index / (count - 1) : 1})` }} />
+              <span style={{ transform: `scaleX(${toEnd > 0 ? Math.min(index / toEnd, 1) : 1})` }} />
             </div>
           )}
           <div className="fy-top-row">
             <p className="fy-top-where">
               <b>{name}</b>
-              {current?.kind === "story" && current.groupTitle ? <span>{current.groupTitle}</span> : null}
+              {past ? <span>✓ Më shumë për ty</span> : bars?.groupTitle ? <span>{bars.groupTitle}</span> : null}
             </p>
             {tools && <div className="fy-tools fy-tools--top">{tools}</div>}
           </div>
@@ -267,15 +294,6 @@ export default function Reel({
           ))}
         </div>
 
-        <div className="fy-steps">
-          <button type="button" onClick={() => jump(index - 1)} disabled={index === 0} aria-label="Lajmi i mëparshëm">
-            <ChevronUp size={20} strokeWidth={2.4} aria-hidden="true" />
-          </button>
-          <button type="button" onClick={() => jump(index + 1)} disabled={index >= count - 1} aria-label="Lajmi tjetër">
-            <ChevronDown size={20} strokeWidth={2.4} aria-hidden="true" />
-          </button>
-        </div>
-
         {/* What comes next, so there is always a reason to keep going. */}
         {screens[index + 1] && (
           <button type="button" className="fy-peek" onClick={() => jump(index + 1)}>
@@ -286,6 +304,16 @@ export default function Reel({
             <ChevronDown size={16} strokeWidth={2.6} aria-hidden="true" />
           </button>
         )}
+
+        {/* ↑ ↓ on a wide screen: at the end of the strip, clear of the reader's buttons. */}
+        <div className="fy-steps">
+          <button type="button" onClick={() => jump(index - 1)} disabled={index === 0} aria-label="Lajmi i mëparshëm">
+            <ChevronUp size={20} strokeWidth={2.4} aria-hidden="true" />
+          </button>
+          <button type="button" onClick={() => jump(index + 1)} disabled={index >= count - 1} aria-label="Lajmi tjetër">
+            <ChevronDown size={20} strokeWidth={2.4} aria-hidden="true" />
+          </button>
+        </div>
 
         {hint && index === 0 && (
           <button type="button" className="fy-hint" onClick={() => jump(1)}>
