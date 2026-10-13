@@ -2,14 +2,12 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getArticleBySlug } from "@/lib/db";
 import { toParagraphs } from "@/lib/article-body.mjs";
 import { keyPoints } from "@/lib/key-points.mjs";
-import { countWords } from "@/lib/reading-engagement.mjs";
 import { isArticleSlug } from "@/lib/article-comments.mjs";
 
 export const dynamic = "force-dynamic";
 
 /**
- * One story for the Për ty reel: its key points for the card and its text for
- * reading it without leaving the reel (app/per-ty/paper/reader-sheet.tsx).
+ * One story's key points for its card in the Për ty reel (lib/key-points).
  *
  * GET /api/per-ty/story?slug=<slug>
  *
@@ -24,15 +22,7 @@ export async function GET(request: NextRequest) {
 
   const paragraphs = toParagraphs(article.body);
   return NextResponse.json(
-    {
-      ok: true,
-      points: keyPoints({ title: article.title, excerpt: article.excerpt, paragraphs }),
-      paragraphs,
-      words: countWords(article.body),
-      city: article.city ?? null,
-      caption: article.imageCaption ?? null,
-      credit: article.imageCreator ?? null,
-    },
+    { ok: true, points: keyPoints({ title: article.title, excerpt: article.excerpt, paragraphs }) },
     { headers: { "Cache-Control": "public, s-maxage=600, stale-while-revalidate=3600" } }
   );
 }

@@ -298,8 +298,7 @@ Labels, buttons and text over photos are Manrope. The checkpoint is dark with th
 ## Components
 
 - **Over every screen:** Stories-style bars (one per story in the current group; a single progress line elsewhere), the paper's name and the group, and on a phone the tools (Ndaje, Rregullo, ?).
-- **Story:** the reason tag (tap → "Pse e sheh këtë?" sheet with "Më shumë si kjo / Më pak"), headline, **two or three key points** — whole sentences of the story itself, the excerpt's first line leading, a dot in the section's colour (lib/key-points; never written by a model, so never more than the story says; the excerpt stands in until they load, and when a story has too little) — "Lexo", category and time.
-- **Reading in the reel:** the headline, the points, "Lexo" or a swipe to the left raise the whole story as a white sheet over its screen (photo, headline, lead with the section's bar, text, comments). Dragged down, Mbyll or Esc returns to the same screen; "Lajmi tjetër ↓" at the bottom closes it and moves on. Reading there teaches the paper exactly as the article page does. The screens either side of the one on view load their photo and points ahead, so nothing waits. Down the right side, TikTok-style: 👍 Më shumë, 👎 Më pak, Reago, 💬 comments with the count, Ndaje (this story) — five, never more; "Pse?" is the reason tag itself. On a wide screen ↑ ↓ sit at the right end of the "Më pas" strip, never among these buttons. A story with no photo is set on its spot colour.
+- **Story:** the reason tag (tap → "Pse e sheh këtë?" sheet with "Më shumë si kjo / Më pak"), headline, **two or three key points** — whole sentences of the story itself, the excerpt's first line leading, a dot in the section's colour (lib/key-points; never written by a model, so never more than the story says; the excerpt stands in until they load, and when a story has too little) — "Lexo lajmin", category and time. The headline, the points and the button all open the full article page; coming back lands on the same screen (#lajmi-N). The screens either side of the one on view load their photo and points ahead, so nothing waits. Down the right side, TikTok-style: 👍 Më shumë, 👎 Më pak, Reago, 💬 comments with the count, Ndaje (this story) — five, never more; "Pse?" is the reason tag itself. On a wide screen ↑ ↓ sit at the right end of the "Më pas" strip, never among these buttons. A story with no photo is set on its spot colour.
 - **Sheets** (Rregullo gazetën, Si funksionon, Ndaje): white, solid, with an orange `#ff4422` head that ends in a wave; the title in white. "Si funksionon" is one card per step, each with an orange emoji tile.
 - **Follow screen:** the follow's name huge on its colour over a blurred photo, why it is in the paper, how many stories, Më shumë / Më pak / Të gjitha.
 - **Sidebar (wide screens):** name, date and count, the tools, then every screen with thumbnails; the one on view is black.
@@ -334,7 +333,7 @@ The link comes first: `/gazeta/<code>` unfurls in chats as a 1200×630 JPEG set 
 
 ## Do's and Don'ts
 
-- **Do** make every screen fit; reading happens in the reader sheet, never inside a screen.
+- **Do** make every screen fit; reading happens on the article page, never inside a screen.
 - **Don't** use browser dialogs (confirm/alert) for "Raporto" or "Fshije"; ask once in place.
 - **Do** keep the reader's buttons on the right and the text on the left, clear of them.
 - **Don't** pin notes or slips over the reel; explanations live behind "?" and on the end screen.

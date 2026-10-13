@@ -118,16 +118,29 @@ export default function Reel({
     reel.scrollTo({ top: target.offsetTop, behavior: smooth && !reducedMotion() ? "smooth" : "auto" });
   }, []);
 
-  // Start on the screen in the address.
+  // Start on the screen in the address — on mount, and again when the page is
+  // shown after the reader comes back from an article: Next keeps it alive but
+  // hidden, which loses the reel's scroll, so until the reel is laid out again
+  // and back on that screen, nothing it sees counts as a move.
   useEffect(() => {
+    ready.current = false;
     const start = slideFromHash(window.location.hash, count);
     indexRef.current = start;
     setIndex(start);
-    requestAnimationFrame(() => {
+    let tries = 0;
+    let frame = 0;
+    const go = () => {
+      const target = reelRef.current?.children[start] as HTMLElement | undefined;
+      if (start > 0 && (!target || target.offsetTop === 0) && tries++ < 30) {
+        frame = requestAnimationFrame(go);
+        return;
+      }
       jump(start, false);
       ready.current = true;
-    });
-    // Only on mount.
+    };
+    frame = requestAnimationFrame(go);
+    return () => cancelAnimationFrame(frame);
+    // Only on mount (and on being shown again).
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -157,10 +170,15 @@ export default function Reel({
 
   useEffect(() => {
     if (!screens[index]) return;
-    try {
-      window.history.replaceState(window.history.state, "", hashForSlide(index));
-    } catch {
-      // A sandboxed frame may refuse; the reel still works.
+    // Not before the reel has reached the screen it started on: the address
+    // is where it is going, and writing #lajmi-1 over it first lost the story
+    // a reader came back to.
+    if (ready.current) {
+      try {
+        window.history.replaceState(window.history.state, "", hashForSlide(index));
+      } catch {
+        // A sandboxed frame may refuse; the reel still works.
+      }
     }
     shownRef.current?.(index);
     listRef.current?.querySelector("[aria-current='true']")?.scrollIntoView({ block: "nearest" });

@@ -246,8 +246,7 @@
 .fy-hint:focus-visible,
 .fy-list button:focus-visible,
 .fy-cover a:focus-visible,
-.fy-head a:focus-visible,
-.fy-head button:focus-visible {
+.fy-head a:focus-visible {
   outline: 2px solid var(--fy-accent);
   outline-offset: 2px;
 }
@@ -436,25 +435,12 @@
   color: inherit;
   text-decoration: none;
 }
-/* The headline opens the story: a button that reads as the headline. */
-.fy-head button {
-  display: inline;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font: inherit;
-  letter-spacing: inherit;
-  text-align: left;
-  text-transform: inherit;
-  cursor: pointer;
-}
-/* Swiped up and down by the browser; a swipe to the left is ours (it opens the story). */
-.fy-story {
-  touch-action: pan-y;
-}
 
-/* "Pikat kryesore": the story's own sentences, a line each. */
+/* "Pikat kryesore": the story's own sentences, a line each; a tap opens the article. */
+.fy-points-link {
+  color: inherit;
+  text-decoration: none;
+}
 .fy-points {
   display: flex;
   flex-direction: column;

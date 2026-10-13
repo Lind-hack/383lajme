@@ -1,19 +1,12 @@
 "use client";
 
-// A story's key points and text for the reel (app/api/per-ty/story), fetched
+// A story's key points for its card in the reel (app/api/per-ty/story), fetched
 // once a story is near the screen and kept for the visit, so the card fills in
-// before the reader gets to it and the reader opens without a wait.
+// before the reader gets to it.
 
 import { useEffect, useState } from "react";
 
-export type StoryData = {
-  points: string[];
-  paragraphs: string[];
-  words: number;
-  city: string | null;
-  caption: string | null;
-  credit: string | null;
-};
+export type StoryData = { points: string[] };
 
 const cache = new Map<string, StoryData | "off">();
 const pending = new Map<string, Promise<StoryData | "off">>();
@@ -27,14 +20,7 @@ function fetchStory(slug: string): Promise<StoryData | "off"> {
     .then((r) => (r.ok ? r.json() : null))
     .then((j): StoryData | "off" =>
       j?.ok
-        ? {
-            points: Array.isArray(j?.points) ? j.points.filter((s: unknown) => typeof s === "string") : [],
-            paragraphs: Array.isArray(j?.paragraphs) ? j.paragraphs.filter((s: unknown) => typeof s === "string") : [],
-            words: Number(j?.words) || 0,
-            city: typeof j?.city === "string" ? j.city : null,
-            caption: typeof j?.caption === "string" ? j.caption : null,
-            credit: typeof j?.credit === "string" ? j.credit : null,
-          }
+        ? { points: Array.isArray(j?.points) ? j.points.filter((s: unknown) => typeof s === "string") : [] }
         : "off"
     )
     .catch((): "off" => "off")

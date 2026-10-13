@@ -480,8 +480,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
     if (paper.allKeys.includes(key)) savePrefs({ ...prefs, order: moveKey(paper.allKeys, key, more ? -1 : 1) });
   };
 
-  const onRead = (slug: string) => setRead((prev) => (prev.has(slug) ? prev : new Set([...prev, slug])));
-  const meta: ReelMeta = { readOnly: false, pace, seen: { since, read }, onTaste, onRead };
+  const meta: ReelMeta = { readOnly: false, pace, seen: { since, read }, onTaste };
   const near = (i: number) => Math.abs(i - at) <= NEAR;
   const firstStory = slides.findIndex((s) => s.kind === "story");
   const storySlugs = slides.flatMap((s) => (s.kind === "story" ? [s.item.article.slug] : []));
@@ -611,7 +610,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
         of: slide.of,
         thumb: item.article.imageUrl || item.article.coverArt || null,
         read: read.has(item.article.slug),
-        node: <StorySlide story={story} meta={meta} eager={i <= 3} near={near(i)} next={hashForSlide(i + 1)} />,
+        node: <StorySlide story={story} meta={meta} eager={i <= 3} near={near(i)} />,
       };
     }
     return {
@@ -649,7 +648,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
       groupTitle: "Më shumë për ty",
       thumb: a.imageUrl || a.coverArt || null,
       read: read.has(a.slug),
-      node: <StorySlide story={{ article: a, why }} meta={meta} near={near(i)} next={hashForSlide(i + 1)} />,
+      node: <StorySlide story={{ article: a, why }} meta={meta} near={near(i)} />,
     });
   }
 

@@ -8,9 +8,8 @@
 //   StorySlide    one story, full screen: the photo, and over it why it is
 //                 here, the headline, its key points (lib/key-points — the
 //                 story's own sentences; the excerpt until they come) and
-//                 "Lexo". Tapping the headline or the points, "Lexo", or a
-//                 swipe to the left opens the whole story over the screen
-//                 (reader-sheet.tsx) without leaving the reel; down the right
+//                 "Lexo lajmin" — the headline, the points and the button all
+//                 open the full article; down the right
 //                 side the reader's buttons — more of this, less of this, react,
 //                 comments, share, why. Liking, disliking and reacting each
 //                 burst in the middle of the screen. Each story wears its
@@ -30,7 +29,6 @@
 // "more / less" — those are the sharer's, not the friend's.
 
 import { Fragment, useRef, useState, type ReactNode } from "react";
-import ReaderSheet from "./reader-sheet";
 import { useStoryData } from "./story-data";
 import Link from "next/link";
 import Image from "next/image";
@@ -42,7 +40,7 @@ import TimeAgo from "@/components/time-ago";
 import CommentsSheet from "@/components/comments/comments-sheet";
 import { useCommentThread } from "@/components/comments/use-comment-thread";
 import { shortCount } from "@/lib/article-comments.mjs";
-import { CATEGORY_COLORS, CATEGORY_LIGHT_BG, getCategoryColor } from "@/lib/category-colors";
+import { CATEGORY_COLORS, CATEGORY_LIGHT_BG } from "@/lib/category-colors";
 import { isNewSince } from "@/lib/perty-visits.mjs";
 import { STORY_REACTIONS, shares, topLine } from "@/lib/story-reactions.mjs";
 import { useReactions } from "./reactions";
@@ -61,8 +59,6 @@ export type ReelMeta = {
   seen: Seen;
   /** "Më shumë / Më pak"; absent on a shared copy. */
   onTaste?: (key: string, more: boolean) => void;
-  /** A story opened in the reel's reader. */
-  onRead?: (slug: string) => void;
 };
 
 /**
@@ -262,23 +258,17 @@ function Toast({ text }: { text: string | null }) {
   );
 }
 
-/** A swipe this far to the left, and mostly sideways, opens the story. */
-const SWIPE_OPEN = 64;
-
 export function StorySlide({
   story,
   meta,
   eager = false,
   near = false,
-  next,
 }: {
   story: PaperStory;
   meta: ReelMeta;
   eager?: boolean;
   /** On screen or a couple away: its photo and key points load now. */
   near?: boolean;
-  /** The next screen's address, for "Lajmi tjetër" in the reader. */
-  next?: string;
 }) {
   const { article, why } = story;
   const photo = photoOf(article);
@@ -290,10 +280,8 @@ export function StorySlide({
   const [toast, setToast] = useState<string | null>(null);
   const [bursts, setBursts] = useState<Burst[]>([]);
   const [talking, setTalking] = useState(false);
-  const [reading, setReading] = useState(false);
   const lastTap = useRef(0);
-  const down = useRef<{ x: number; y: number } | null>(null);
-  const data = useStoryData(article.slug, near || reading);
+  const data = useStoryData(article.slug, near);
   const points = data && data !== "off" ? data.points : [];
   const reactions = useReactions();
   const thread = useCommentThread(article.slug, (n) => reactions.setComments(article.slug, n));
@@ -304,11 +292,8 @@ export function StorySlide({
   const isRead = !meta.readOnly && meta.seen.read.has(article.slug);
   const isNew = !meta.readOnly && !isRead && isNewSince(article, meta.seen.since);
   const canTaste = !meta.readOnly && Boolean(why?.key && meta.onTaste);
+  const href = `/article/${article.slug}`;
   const words = article.title.split(/\s+/).filter(Boolean);
-  const read = () => {
-    setReading(true);
-    meta.onRead?.(article.slug);
-  };
 
   const say = (text: string) => {
     setToast(text);
@@ -341,17 +326,7 @@ export function StorySlide({
   const onTap = (e: React.PointerEvent<HTMLDivElement>) => {
     // Taps inside the comments (on <body>, but still React's child) are not on the picture.
     if (!e.currentTarget.contains(e.target as Node)) return;
-    const from = down.current;
-    down.current = null;
-    if (from) {
-      const dx = e.clientX - from.x;
-      const dy = e.clientY - from.y;
-      if (dx < -SWIPE_OPEN && Math.abs(dy) < Math.abs(dx) * 0.6) {
-        read();
-        return;
-      }
-    }
-    if ((e.target as HTMLElement).closest("a, button, .fy-points")) return;
+    if ((e.target as HTMLElement).closest("a, button")) return;
     const now = Date.now();
     const box = e.currentTarget.getBoundingClientRect();
     if (now - lastTap.current < 320) {
@@ -367,13 +342,7 @@ export function StorySlide({
       data-read={isRead || undefined}
       data-pace={meta.pace}
       style={sectionTone(article.category)}
-      onPointerDown={(e) => {
-        down.current = e.currentTarget.contains(e.target as Node) ? { x: e.clientX, y: e.clientY } : null;
-      }}
       onPointerUp={onTap}
-      onPointerCancel={() => {
-        down.current = null;
-      }}
     >
       <Backdrop src={photo} fallback={article.coverArt ?? null} priority={eager || near} onFallback={() => setPlateStoodIn(true)} />
       <div className="fy-shade" />
@@ -398,7 +367,7 @@ export function StorySlide({
           )}
         </p>
         <h2 className="fy-head">
-          <button type="button" onClick={read} aria-label={`${article.title}. Lexoje`}>
+          <Link href={href} aria-label={article.title}>
             {words.map((w, i) => (
               <Fragment key={i}>
                 <span className="fy-w" style={{ "--i": i } as React.CSSProperties} aria-hidden="true">
@@ -406,23 +375,25 @@ export function StorySlide({
                 </span>{" "}
               </Fragment>
             ))}
-          </button>
+          </Link>
         </h2>
         {points.length > 0 ? (
-          <ul className="fy-points" onClick={read}>
-            {points.map((p, i) => (
-              <li key={i} style={{ "--i": i } as React.CSSProperties}>
-                {p}
-              </li>
-            ))}
-          </ul>
+          <Link href={href} className="fy-points-link" tabIndex={-1} aria-hidden="true">
+            <ul className="fy-points">
+              {points.map((p, i) => (
+                <li key={i} style={{ "--i": i } as React.CSSProperties}>
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </Link>
         ) : (
           article.excerpt && <p className="fy-text">{article.excerpt}</p>
         )}
         <div className="fy-story-foot">
-          <button type="button" className="fy-btn fy-btn--light" onClick={read}>
-            Lexo <ArrowRight size={16} strokeWidth={2.5} aria-hidden="true" />
-          </button>
+          <Link href={href} className="fy-btn fy-btn--light">
+            Lexo lajmin <ArrowRight size={16} strokeWidth={2.5} aria-hidden="true" />
+          </Link>
           <span className="fy-meta">
             {article.category} · <TimeAgo iso={article.publishedAt} />
           </span>
@@ -470,23 +441,6 @@ export function StorySlide({
 
       {tray && <ReactionTray slug={article.slug} onClose={() => setTray(false)} onPick={reacted} />}
       {reactions.commentsOk && <CommentsSheet open={talking} onClose={() => setTalking(false)} thread={thread} title={article.title} />}
-      {reading && (
-        <ReaderSheet
-          open={reading}
-          onClose={() => setReading(false)}
-          article={article}
-          data={data}
-          accent={getCategoryColor(article.category)}
-          onNext={
-            next
-              ? () => {
-                  setReading(false);
-                  window.location.hash = next;
-                }
-              : undefined
-          }
-        />
-      )}
 
       {open && why && (
         <div className="fy-whysheet" role="note">
