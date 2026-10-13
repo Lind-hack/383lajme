@@ -388,7 +388,9 @@ def candidate_photo(page: dict, plan: dict) -> dict | None:
     phrase = " ".join(re.findall(r"[a-z0-9]+", fold(plan["subject"])))
     title_words = " " + " ".join(re.findall(r"[a-z0-9]+", fold(plain(page.get("title", ""))))) + " "
     # 'Believe fragrance by Britney Spears' is her product, not her.
-    in_title = f" {phrase} " in title_words and f" by {phrase} " not in title_words
+    # A one-word subject must be tagged: 'Bab' (al-Mandab) matched the Báb and
+    # a minaret in Fes.
+    in_title = " " in phrase and f" {phrase} " in title_words and f" by {phrase} " not in title_words
     # Otherwise the file must be tagged as depicting that very person on
     # Commons ('depicts' = the Wikidata item). A description that only
     # mentions the name gave pilgrims at a screen for the Pope and a road
