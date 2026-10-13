@@ -347,7 +347,7 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
     [prefs?.boxes?.brief, paper.edition.length]
   );
 
-  const slides = useMemo(() => reelSlides(paper, { boxes: boxKeys }), [paper, boxKeys]);
+  const slides = useMemo(() => reelSlides(paper, { boxes: boxKeys, sectionScreens: false }), [paper, boxKeys]);
 
   // A story on screen a moment counts as shown; tomorrow, the ones never
   // opened teach the paper (lib/perty-skips).
@@ -507,13 +507,13 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
     .slice(0, 3);
   // "Lind", for "Mirëmëngjes, Lind" and "Për ty, Lind".
   const who = displayName.trim().split(/\s+/)[0]?.slice(0, 24) ?? "";
-  // What the reader follows, each chip a tap to that follow's own screen.
+  // What the reader follows, each chip a tap to that follow's first story.
   const followChips = paper.allKeys.flatMap((key) => {
     const label = keyLabel(key);
-    const at = slides.findIndex((s) => s.kind === "section" && s.section.key === key);
+    const at = slides.findIndex((s) => s.kind === "story" && s.group === key);
     if (!label || at < 0) return [];
     return [{ label, href: hashForSlide(at), tone: key.startsWith("cat:") ? sectionTone(key.slice(4)) : undefined }];
-  }).slice(0, 4);
+  }).slice(0, 3);
   const date = dateline(now);
   const dateCap = date.charAt(0).toUpperCase() + date.slice(1);
 
@@ -574,23 +574,15 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
             title={title}
             greet={greeting(now, who)}
             follows={followChips}
-            kicker={`${title} · ${dateCap}${issue > 0 ? ` · Nr. ${issue}` : ""}`}
-            line={`${ed.length === 1 ? "1 lajm" : `${ed.length} lajme`} për ty sot · ${paper.minutes} min`}
+            kicker=""
+            line={`${ed.length === 1 ? "1 lajm" : `${ed.length} lajme`} për ty sot · ${paper.minutes} min${streak >= 2 ? ` · 🔥 ${streak} ditë` : ""}`}
             photo={lead ? lead.imageUrl || lead.coverArt || null : null}
             heads={slides
               .filter((s) => s.kind === "story")
               .slice(0, 3)
               .map((s) => ({ title: s.title, href: hashForSlide(s.n) }))}
             start={{ label: readCount ? "Vazhdo leximin" : "Fillo leximin", href: hashForSlide(firstStory > 0 ? firstStory : 1) }}
-            streak={streak}
-          >
-            <button type="button" className="fy-btn fy-btn--ghost fy-btn--icon" onClick={() => setCustomizing(true)} aria-label="Rregullo gazetën">
-              <SlidersHorizontal size={18} strokeWidth={2.4} aria-hidden="true" />
-            </button>
-            <button type="button" className="fy-btn fy-btn--ghost fy-btn--icon" onClick={() => setHelping(true)} aria-label="Si funksionon gazeta jote?">
-              <HelpCircle size={19} strokeWidth={2.3} aria-hidden="true" />
-            </button>
-          </CoverSlide>
+          />
         ),
       };
     }
@@ -768,6 +760,16 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
             <Link href="/">
               Kryesoret e ditës <ArrowRight size={14} strokeWidth={2.4} aria-hidden="true" />
             </Link>
+            <button
+              type="button"
+              onClick={() => {
+                setPaperOpen(false);
+                setHelping(true);
+              }}
+            >
+              <HelpCircle size={14} strokeWidth={2.3} aria-hidden="true" />
+              Si funksionon
+            </button>
             <button type="button" onClick={() => openPyet(firstUnread ? `Pse ndodhi kjo: ${firstUnread.article.title}` : undefined)}>
               <MessageCircleQuestion size={14} strokeWidth={2.3} aria-hidden="true" />
               Pyet Dardanin

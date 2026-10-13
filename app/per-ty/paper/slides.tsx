@@ -10,8 +10,8 @@
 //                 sepse ndjek Albin Kurtin" — a tap says why, with more / less);
 //                 the headline; its key points (lib/key-points — the story's
 //                 own sentences); and down the right
-//                 side 👍, 👎, 💬 and ⋯ (react, share). The headline and the
-//                 points open the full article. Liking, disliking and reacting each
+//                 side ❤️ (more like this), 💬 and ⋯ (less like this, react,
+//                 share). The headline and the points open the full article. Liking, disliking and reacting each
 //                 burst in the middle of the screen. Each story wears its
 //                 section's colour (lib/category-colors)
 //   RecapSlide    "Sot në 30 sekonda": the whole edition on one screen, a line
@@ -32,7 +32,7 @@ import { Fragment, useRef, useState, type ReactNode } from "react";
 import { useStoryData } from "./story-data";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Check, ChevronDown, MessageCircle, MoreHorizontal, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, Heart, MessageCircle, MoreHorizontal, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
 import DardaniFace from "@/components/dardani/dardani-face";
 import { recapRows } from "@/lib/perty-brief.mjs";
 import { useBriefLines } from "./boxes";
@@ -216,7 +216,7 @@ export function CoverSlide({
       <Backdrop src={photo} priority fit="cover" />
       <div className="fy-shade fy-shade--cover" />
       <div className="fy-cover-body">
-        <p className="fy-cover-kicker">{kicker}</p>
+        {kicker && <p className="fy-cover-kicker">{kicker}</p>}
         <h1 className="fy-cover-name" data-greet={greet ? "" : undefined}>
           {greet ?? title}
         </h1>
@@ -405,30 +405,36 @@ export function StorySlide({
 
       <div className="fy-actions">
         {canTaste && (
-          <>
-            <button type="button" className="fy-act" onClick={() => vote(true)} aria-pressed={taste === "more"} aria-label="Më shumë si kjo">
-              <ThumbsUp size={22} strokeWidth={2.2} aria-hidden="true" />
-              <span aria-hidden="true">Më shumë</span>
-            </button>
-            <button type="button" className="fy-act" onClick={() => vote(false)} aria-pressed={taste === "less"} aria-label="Më pak si kjo">
-              <ThumbsDown size={22} strokeWidth={2.2} aria-hidden="true" />
-              <span aria-hidden="true">Më pak</span>
-            </button>
-          </>
+          <button type="button" className="fy-act fy-act--heart" onClick={() => vote(true)} aria-pressed={taste === "more"} aria-label="Më shumë si kjo">
+            <Heart size={25} strokeWidth={2.2} fill={taste === "more" ? "currentColor" : "none"} aria-hidden="true" />
+          </button>
         )}
         {reactions.commentsOk && (
           <button type="button" className="fy-act" onClick={() => setTalking(true)} aria-label={`Komentet: ${comments}`}>
-            <MessageCircle size={22} strokeWidth={2.2} aria-hidden="true" />
-            <span aria-hidden="true">{comments ? shortCount(comments) : "Komento"}</span>
+            <MessageCircle size={23} strokeWidth={2.2} aria-hidden="true" />
+            {comments > 0 && <span aria-hidden="true">{shortCount(comments)}</span>}
           </button>
         )}
-        <button type="button" className="fy-act" onClick={() => setMenu((m) => !m)} aria-expanded={menu} aria-label="Më shumë: reago, ndaje">
+        <button type="button" className="fy-act" onClick={() => setMenu((m) => !m)} aria-expanded={menu} aria-label="Më shumë: më pak si kjo, reago, ndaje">
           <MoreHorizontal size={22} strokeWidth={2.4} aria-hidden="true" />
         </button>
       </div>
 
       {menu && (
         <div className="fy-menu" role="menu">
+          {canTaste && (
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                setMenu(false);
+                vote(false);
+              }}
+            >
+              <ThumbsDown size={18} strokeWidth={2.4} aria-hidden="true" />
+              Më pak si kjo
+            </button>
+          )}
           {reactions.ok && (
             <button
               type="button"

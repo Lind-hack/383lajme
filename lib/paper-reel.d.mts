@@ -9,7 +9,7 @@ export type ReelSlide<T, S> = { n: number; key: string; title: string } & (
 );
 export function reelSlides<T extends { article: { slug: string; title: string } }, S extends { key: string; title: string; kind: string; empty?: boolean; items?: readonly unknown[] }>(
   paper: { edition?: readonly T[]; sections?: readonly S[] } | null | undefined,
-  opts?: { boxes?: readonly string[] }
+  opts?: { boxes?: readonly string[]; sectionScreens?: boolean }
 ): ReelSlide<T, S>[];
 export type MoreItem<A> = { article: A; kind: string; primaryKey?: string; keys?: string[] };
 export function moreStories<A extends { slug: string; engagementScore?: number }>(from?: {

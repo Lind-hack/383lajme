@@ -490,10 +490,25 @@
 .fy-cover-name[data-greet] {
   font-size: clamp(36px, 10.5vw, 58px);
 }
-/* A phone of ordinary height gets two points; the third only where there is room. */
-@media (max-width: 1023px) and (max-height: 859px) {
+/* One point on a phone, the story's own summary; two on a wide screen. */
+@media (max-width: 1023px) {
+  .fy-points li:nth-child(n + 2) {
+    display: none;
+  }
+}
+@media (min-width: 1024px) {
   .fy-points li:nth-child(n + 3) {
     display: none;
+  }
+}
+/* ❤️ fills and pops when pressed. */
+.fy-act--heart[aria-pressed="true"] svg {
+  color: #ff3b5c;
+  animation: fy-heart-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes fy-heart-pop {
+  40% {
+    transform: scale(1.25);
   }
 }
 @media (min-width: 1024px) {
@@ -503,7 +518,8 @@
 }
 .fy-follows {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow: hidden;
   gap: 6px;
   margin: 2px 0 0;
   padding: 0;
@@ -511,7 +527,9 @@
 }
 .fy-follows a {
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
+  white-space: nowrap;
   min-height: 34px;
   padding: 0 13px;
   border-radius: 999px;
@@ -2231,7 +2249,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fy-menu {
+  .fy-menu,
+  .fy-act--heart[aria-pressed="true"] svg {
     animation: none;
   }
   /* The toast says what happened; nothing flies. */
