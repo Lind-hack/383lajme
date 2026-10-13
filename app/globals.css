@@ -9582,7 +9582,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   height: 30px;
   border: 0;
   border-radius: 50%;
-  background: var(--color-ink);
+  background: var(--theme-inverse-surface, var(--color-ink));
   color: #FFFFFF;
   cursor: pointer;
   transition:
@@ -9748,7 +9748,7 @@ header[data-overlay="true"] .nav-search-btn { color: rgba(255, 255, 255, 0.9); }
   margin-top: 14px;
   padding: 9px 15px;
   border-radius: var(--radius-pill);
-  background: var(--color-ink);
+  background: var(--theme-inverse-surface, var(--color-ink));
   color: #FFFFFF;
   font-size: 12px;
   font-weight: 800;

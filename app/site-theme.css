@@ -174,3 +174,8 @@ html[data-theme="dark"] .site-language-options button:not([aria-pressed="true"])
 html[data-theme="dark"] .side-panel-feature {background-color:var(--theme-surface)!important;background-image:none!important;}
 
 html[data-theme="dark"] .nav-auth-desktop .btn-outline {background:var(--theme-surface)!important;color:var(--theme-ink)!important;border-color:var(--theme-border)!important;}
+
+/* Shared ink/cream tokens can be backgrounds or text: keep inverse cards readable. */
+html[data-theme="dark"] {--theme-inverse-surface:#39352f;--theme-inverse-ink:#eeeae4;}
+html[data-theme="dark"] .bg-ink,html[data-theme="dark"] .bg-charcoal {background-color:var(--theme-inverse-surface)!important;}
+html[data-theme="dark"] .text-cream,html[data-theme="dark"] [class*="text-cream/"] {color:var(--theme-inverse-ink)!important;}
