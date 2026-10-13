@@ -1318,8 +1318,30 @@
 }
 .fy-cover-line {
   margin: 0;
-  font: 700 14.5px/1.4 var(--fy-sans);
-  color: rgb(255 255 255 / 0.86);
+  max-width: 30ch;
+  font: 700 17px/1.4 var(--fy-sans);
+  color: rgb(255 255 255 / 0.92);
+  text-wrap: pretty;
+}
+.fy-cover-meta {
+  margin: -4px 0 0;
+  font: 600 13px/1.3 var(--fy-sans);
+  color: rgb(255 255 255 / 0.66);
+}
+
+/* A wide photo at the top of a tall screen, fading into it (slides.tsx Backdrop). */
+.fy-photo-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  height: min(78vw, 52%);
+  -webkit-mask-image: linear-gradient(#000 62%, transparent);
+  mask-image: linear-gradient(#000 62%, transparent);
+}
+.fy-photo-top .fy-bg {
+  object-position: center 30%;
 }
 .fy-cover-heads {
   margin: 4px 0 0;
@@ -1758,8 +1780,50 @@
 }
 .fy-check-line {
   margin: 0;
-  font: 600 14.5px/1.45 var(--fy-sans);
+  font: 600 15px/1.5 var(--fy-sans);
   color: rgb(255 255 255 / 0.85);
+}
+.fy-check-next {
+  margin-top: 10px;
+}
+.fy-check-links {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin: 2px 0 0;
+}
+.fy-check-links button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: rgb(255 255 255 / 0.72);
+  font: 700 14px/1 var(--fy-sans);
+  cursor: pointer;
+}
+.fy-check-links button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* On a phone the reel is the whole screen above the tab bar, like a video
+   feed: the site's own header steps aside while it is open. */
+@media (max-width: 1023px) {
+  html:has(.fy[data-immersive]) header:has(> .site-nav-inner) {
+    display: none !important;
+  }
+  .perty-page:has(.fy[data-immersive]) {
+    padding-top: 0;
+  }
+  .fy[data-immersive] {
+    height: calc(100svh - var(--tabbar-h, 0px));
+  }
+  .fy[data-immersive] .fy-top {
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
+  }
 }
 .fy-check-actions {
   display: flex;
@@ -1792,7 +1856,7 @@
   .fy-screen[data-active] .fy-check-body > :not(.fy-check-tick) {
     animation: fy-rise 0.5s ease-out 0.35s both;
   }
-  .fy-check-more svg {
+  .fy-check-next svg {
     animation: fy-nudge 1.4s ease-in-out infinite;
   }
 }

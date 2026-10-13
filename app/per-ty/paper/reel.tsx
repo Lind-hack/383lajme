@@ -260,7 +260,7 @@ export default function Reel({
   const light = current?.kind === "end" && checkpoint == null;
 
   return (
-    <div className="fy" data-look={look}>
+    <div className="fy" data-look={look} data-immersive={simpleTop || undefined}>
       <div className="fy-main" data-tone={light ? "light" : "dark"}>
         <div className="fy-top" data-simple={simpleTop || undefined}>
           {bars && !simpleTop ? (

@@ -20,9 +20,9 @@
 //   SectionSlide  a follow's own screen in its colour: what it is, why it is in
 //                 the paper, how many stories, more / less of it
 //   CheckpointSlide  the end of the reader's own paper, said plainly: a big
-//                 tick, "Kaq ishte gazeta jote e sotme", how much of it they
-//                 read, the streak, and then "Vazhdo me më shumë lajme" — the
-//                 reel goes on without end after it
+//                 tick, "Kaq për sot, Lind.", how much of it they read and the
+//                 streak in one line, then "Vazhdo me më shumë" — the reel goes
+//                 on without end after it
 //   PanelSlide    a light screen that scrolls inside (the shared copy's end)
 //
 // A shared copy (/gazeta) passes `readOnly`: no reasons, no read marks, no
@@ -119,9 +119,9 @@ async function shareStory(article: FeedArticle): Promise<string | null> {
 
 /**
  * A wide news photo stretched over a tall phone is cropped to a sliver and
- * blown up five or six times, and turns to mush. Such a photo is shown whole
- * and sharp instead, over a blurred copy of itself — the way TikTok shows a
- * landscape picture. Tall and square photos still fill the screen.
+ * blown up five or six times, and turns to mush. Such a photo sits at the top
+ * instead, nearly whole and sharp, and fades into the screen under it. Tall
+ * and square photos still fill the screen.
  */
 const WIDE = 1.15;
 const TALL_SCREEN = 1.25;
@@ -149,11 +149,7 @@ function Backdrop({
   const list = [src, fallback].filter((s, i, all): s is string => Boolean(s) && all.indexOf(s) === i);
   const current = list[tries];
   if (!current) return null;
-  return (
-    <>
-      {whole && (
-        <Image key={`${current}#fill`} src={current} alt="" fill sizes="40vw" quality={60} className="fy-bg fy-bg--blur" style={{ objectFit: "cover" }} draggable={false} />
-      )}
+  const image = (
       <Image
         key={current}
         src={current}
@@ -164,22 +160,22 @@ function Backdrop({
         quality={blur ? 75 : 90}
         priority={priority}
         className={`fy-bg${blur ? " fy-bg--blur" : ""}${whole ? " fy-bg--whole" : ""}`}
-        style={{ objectFit: whole ? "contain" : "cover" }}
+        style={{ objectFit: "cover" }}
         draggable={false}
         onLoad={(e) => {
-          if (blur || fit === "cover") return;
+          if (whole || blur || fit === "cover") return;
           const img = e.currentTarget;
           const box = img.parentElement?.getBoundingClientRect();
           if (!box?.width || !img.naturalWidth || !img.naturalHeight) return;
-          setWhole(img.naturalWidth / img.naturalHeight > WIDE && box.height > box.width * TALL_SCREEN);
+          if (img.naturalWidth / img.naturalHeight > WIDE && box.height > box.width * TALL_SCREEN) setWhole(true);
         }}
         onError={() => {
           if (tries + 1 < list.length) onFallback?.();
           setTries((t) => t + 1);
         }}
       />
-    </>
   );
+  return whole ? <div className="fy-photo-top">{image}</div> : image;
 }
 
 export function CoverSlide({
@@ -188,6 +184,7 @@ export function CoverSlide({
   follows = [],
   kicker,
   line,
+  meta,
   photo,
   heads,
   start,
@@ -201,8 +198,10 @@ export function CoverSlide({
   follows?: { label: string; href: string; tone?: React.CSSProperties }[];
   /** "Gazeta jote · E hënë, 12 tetor · Nr. 4", or who shared it. */
   kicker: string;
-  /** "7 lajme · 3 min · për Prishtinë, Albin Kurti, Sport" */
+  /** "Sot: 3 lajme për Albin Kurti, 2 për Prishtinë dhe 1 për Sport." */
   line: string;
+  /** "2 min lexim · 🔥 3 ditë rresht" */
+  meta?: string;
   photo: string | null;
   /** The first headlines, each turning to its screen. */
   heads: { title: string; href: string }[];
@@ -221,6 +220,7 @@ export function CoverSlide({
           {greet ?? title}
         </h1>
         <p className="fy-cover-line">{line}</p>
+        {meta && <p className="fy-cover-meta">{meta}</p>}
         {follows.length > 0 && (
           <ul className="fy-follows" aria-label="Çka ndjek">
             {follows.map((f) => (
@@ -680,22 +680,23 @@ export function RecapSlide({ date, stories }: { date: string; stories: RecapStor
  * the reel carries on with more.
  */
 export function CheckpointSlide({
+  who = "",
   read,
   total,
   streak,
-  minutes,
   next,
   onShare,
   onMore,
 }: {
+  /** The reader's first name: "Kaq për sot, Lind." */
+  who?: string;
   read: number;
   total: number;
   streak: number;
-  minutes: number;
   /** The first screen after it; absent while nothing more has come. */
   next?: string;
   onShare?: () => void;
-  /** "Gazeta jote": tomorrow's edition, the boxes, how it works. */
+  /** "Rregullo": the paper's sheet — what it follows, sharing, how it works. */
   onMore: () => void;
 }) {
   const all = total > 0 && read >= total;
@@ -705,44 +706,29 @@ export function CheckpointSlide({
         <span className="fy-check-tick" aria-hidden="true">
           <Check size={44} strokeWidth={3.4} />
         </span>
-        <p className="fy-check-kicker">Fundi i gazetës sate</p>
-        <h2 className="fy-check-title">Kaq ishte gazeta jote e sotme.</h2>
-        <ul className="fy-check-stats">
-          <li>
-            <b>
-              {read}/{total}
-            </b>
-            <span>lajme lexuar</span>
-          </li>
-          {streak >= 1 && (
-            <li>
-              <b>🔥 {streak}</b>
-              <span>{streak === 1 ? "ditë" : "ditë rresht"}</span>
-            </li>
-          )}
-          <li>
-            <b>{minutes}</b>
-            <span>min lexim</span>
-          </li>
-        </ul>
-        <p className="fy-check-line">{all ? "I lexove të gjitha. Gazeta e nesërme del në 07:00." : "Gazeta e nesërme del në 07:00, me lajmet e reja për ty."}</p>
-        <div className="fy-check-actions">
+        <h2 className="fy-check-title">Kaq për sot{who ? `, ${who}` : ""}.</h2>
+        <p className="fy-check-line">
+          {all ? "I lexove të gjitha" : read > 0 ? `Lexove ${read} nga ${total}` : `${total === 1 ? "1 lajm" : `${total} lajme`} për ty sot`}
+          {streak >= 2 ? ` · 🔥 ${streak} ditë rresht` : ""}
+          <br />
+          Gazeta jote e nesërme del në 07:00.
+        </p>
+        {next && (
+          <a href={next} className="fy-btn fy-btn--light fy-check-next">
+            Vazhdo me më shumë <ChevronDown size={18} strokeWidth={2.8} aria-hidden="true" />
+          </a>
+        )}
+        <p className="fy-check-links">
           {onShare && (
-            <button type="button" className="fy-btn fy-btn--light fy-btn--small" onClick={onShare}>
-              <Share2 size={15} strokeWidth={2.4} aria-hidden="true" /> Ndaje gazetën
+            <button type="button" onClick={onShare}>
+              <Share2 size={14} strokeWidth={2.4} aria-hidden="true" /> Ndaje
             </button>
           )}
-          <button type="button" className="fy-btn fy-btn--ghost fy-btn--small" onClick={onMore}>
-            Gazeta jote
+          <button type="button" onClick={onMore}>
+            Rregullo gazetën
           </button>
-        </div>
+        </p>
       </div>
-      {next && (
-        <a href={next} className="fy-check-more">
-          <span>Vazhdo me më shumë lajme</span>
-          <ChevronDown size={22} strokeWidth={2.8} aria-hidden="true" />
-        </a>
-      )}
     </div>
   );
 }

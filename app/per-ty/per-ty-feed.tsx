@@ -76,7 +76,7 @@ import Sheet from "./paper/sheet";
 import ShareSheet, { type ShareablePaper } from "./paper/share-sheet";
 import Reel, { type ReelScreen } from "./paper/reel";
 import { ReactionsProvider } from "./paper/reactions";
-import { CheckpointSlide, CoverSlide, RecapSlide, SectionSlide, StorySlide, sectionTone, type PaperStory, type ReelMeta, type Why } from "./paper/slides";
+import { CheckpointSlide, CoverSlide, RecapSlide, SectionSlide, StorySlide, type PaperStory, type ReelMeta, type Why } from "./paper/slides";
 import { newspaperFonts } from "./paper/fonts";
 import "./paper/reel.css";
 
@@ -507,15 +507,25 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
     .slice(0, 3);
   // "Lind", for "Mirëmëngjes, Lind" and "Për ty, Lind".
   const who = displayName.trim().split(/\s+/)[0]?.slice(0, 24) ?? "";
-  // What the reader follows, each chip a tap to that follow's first story.
-  const followChips = paper.allKeys.flatMap((key) => {
-    const label = keyLabel(key);
-    const at = slides.findIndex((s) => s.kind === "story" && s.group === key);
-    if (!label || at < 0) return [];
-    return [{ label, href: hashForSlide(at), tone: key.startsWith("cat:") ? sectionTone(key.slice(4)) : undefined }];
-  }).slice(0, 3);
   const date = dateline(now);
   const dateCap = date.charAt(0).toUpperCase() + date.slice(1);
+  // "3 lajme për Albin Kurti, 2 për Prishtinë dhe 1 për Sport": today's paper,
+  // said in the reader's own follows.
+  const perFollow = new Map<string, number>();
+  for (const item of ed) {
+    const key = (item as { primaryKey?: string }).primaryKey;
+    if (key && keyLabel(key)) perFollow.set(key, (perFollow.get(key) ?? 0) + 1);
+  }
+  const followParts = [...perFollow]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([key, n], i) => `${n}${i === 0 ? (n === 1 ? " lajm" : " lajme") : ""} për ${keyLabel(key)}`);
+  const coverLine =
+    followParts.length > 0
+      ? followParts.length === 1
+        ? `Sot: ${followParts[0]}.`
+        : `Sot: ${followParts.slice(0, -1).join(", ")} dhe ${followParts[followParts.length - 1]}.`
+      : `${ed.length === 1 ? "1 lajm" : `${ed.length} lajme`} për ty sot.`;
 
   const onTaste = (key: string, more: boolean) => {
     // From what is stored, which carries the quiet lessons of time on screen too.
@@ -573,15 +583,15 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
           <CoverSlide
             title={title}
             greet={greeting(now, who)}
-            follows={followChips}
             kicker=""
-            line={`${ed.length === 1 ? "1 lajm" : `${ed.length} lajme`} për ty sot · ${paper.minutes} min${streak >= 2 ? ` · 🔥 ${streak} ditë` : ""}`}
+            line={coverLine}
+            meta={`${paper.minutes} min lexim${streak >= 2 ? ` · 🔥 ${streak} ditë rresht` : ""}`}
             photo={lead ? lead.imageUrl || lead.coverArt || null : null}
             heads={slides
               .filter((s) => s.kind === "story")
               .slice(0, 3)
               .map((s) => ({ title: s.title, href: hashForSlide(s.n) }))}
-            start={{ label: readCount ? "Vazhdo leximin" : "Fillo leximin", href: hashForSlide(firstStory > 0 ? firstStory : 1) }}
+            start={{ label: readCount ? "Vazhdo" : "Fillo", href: hashForSlide(firstStory > 0 ? firstStory : 1) }}
           />
         ),
       };
@@ -665,10 +675,10 @@ export default function PerTyFeed({ pool, shelf }: { pool: FeedArticle[]; shelf:
       title: "Fundi i gazetës sate",
       node: (
         <CheckpointSlide
+          who={who}
           read={readCount}
           total={ed.length}
           streak={streak}
-          minutes={paper.minutes}
           next={more.length ? hashForSlide(slides.length) : undefined}
           onShare={canShare ? () => setSharing(true) : undefined}
           onMore={() => setPaperOpen(true)}
