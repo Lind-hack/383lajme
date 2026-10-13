@@ -242,6 +242,7 @@ export default function Navbar() {
           {collapsed ? (
             <motion.div
               key="collapsed"
+              className="site-nav-controls"
               initial={{ opacity: 0, x: 6 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 6 }}
@@ -293,6 +294,7 @@ export default function Navbar() {
           ) : (
             <motion.div
               key="full"
+              className="site-nav-controls"
               initial={{ opacity: 0, x: -6 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -6 }}
