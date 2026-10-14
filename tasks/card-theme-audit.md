@@ -14,7 +14,7 @@ Scope: inventory all 43 page templates and inspect shared UI/card families. This
 
 ## Verification
 
-- 18 theme, language and colour-contrast regression checks pass. They calculate contrast from actual stylesheet palettes and include both stops/metal ranks, glass alpha blending, admin inverse controls and newspaper buttons.
+- 20 theme, language and colour-contrast regression checks pass. They calculate contrast from actual stylesheet palettes and include both stops/metal ranks, glass alpha blending, admin inverse controls and newspaper buttons.
 - Final production build passed (three workers, exit 0). Production release identity is recorded below after GitHub deployment.
 - Browser candidates over gradients/images are estimates, not measured WCAG ratios. Every changed issue was traced to its owning style; physical photographs, flags, map artwork and intentional bright metal surfaces are preserved.
 - No horizontal page overflow was reported in the initial rendered 1280px/390px cases. Static monthly stories render as authored artwork; measured DOM text does not include text inside that artwork.
@@ -49,7 +49,7 @@ Scope: inventory all 43 page templates and inspect shared UI/card families. This
 ## Outstanding coverage
 
 - Authenticated profile/portfolio and authorized admin pages require the user's browser sign-in. On the latest check the sign-in tab remained `/hyr`; no credentials or tokens were inspected or injected.
-- Public shared newspaper/travel-report instances require valid published share codes; do not invent a code and treat a 404 as the actual template.
+- Shared newspaper instances require valid published share codes. `/visit/r/[code]` is a private trip-room invite, not a saved travel report; its join layout was reviewed from source. Do not invent a code and treat a 404 as the actual template.
 - Preview routes are intentionally unavailable on production. The code and local design-preview templates are separate from live market data.
 - Goal remains active until the remaining route/state checks and any resulting fixes are finished.
 
@@ -109,3 +109,10 @@ Final diff reviewed across correctness, readability, architecture, security and 
 Desktop screenshots confirm dark rail panels and readable metal podiums. The 390px mobile screenshot confirms that panels stack within the screen, with the compact header and bottom navigation visible. Viewport restored after inspection. A final rendered follow-up fixes the gold hero button's ink, featured probability labels, and failed rail thumbnail fallback. The added contrast cases pass; follow-up full production build passed, exit 0.
 
 Initial release `7bc320a259a61ecb098a3efdff1ce85bb655d6ff` completed through Railway GitHub integration (`87ed55ab-526b-423c-b494-56c5c804a4f7`, SUCCESS). This remains a partial site audit: authenticated/profile/admin rendered states and valid shared-instance routes still require verification. Do not mark the full goal complete from these public screenshots.
+
+
+## Admin continuation
+
+Source review found stale/warning and odds-change foregrounds retaining dark ink over dark semantic washes (warning contrast 2.36:1). Fixed those pairs, inherited form/fieldset labels, health/news panel backgrounds, neutral count/status chips and primary/secondary/danger hover states. Regression coverage checks these pairs in both palettes, including inherited panel ink and grouped CSS selectors. All 20 checks pass. Actual protected-page visual verification still awaits the user's sign-in; the last browser signal remains `/hyr` with a login link and no profile link.
+
+The second public release `8f6f9d830c11017287bb8862e1a3093e0c434eb7` completed through Railway GitHub integration (`589c97e6-c262-41cf-927b-3a6dd53a0ca7`, SUCCESS). The live deployment-info endpoint matched main/production/github-main and retained race-live-v4. The obsolete race-grid-v3 gate was not claimed as passed.
