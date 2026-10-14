@@ -36,6 +36,10 @@ export interface Paper<A> {
 export function defaultSectionKeys(interests: unknown): string[];
 export function describeSection(key: unknown): SectionInfo | null;
 export function coverWord(article: { title?: string } | null | undefined, primaryKey?: string): string;
+export function quietFollows(
+  feed: readonly { keys?: string[] }[] | null | undefined,
+  interests: unknown
+): { key: string; kind: string; title: string }[];
 export function buildPaper<A extends RankableArticle>(
   feed: readonly RankedItem<A>[] | null | undefined,
   interests: unknown,
