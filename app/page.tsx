@@ -75,6 +75,7 @@ export default async function HomePage() {
     key: v.key,
     videoId: v.videoId,
     title: v.title,
+    why: v.why,
     channel: v.channel,
     color: getCategoryColor(v.category),
     publishedAt: v.publishedAt,

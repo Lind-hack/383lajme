@@ -69,6 +69,7 @@ export default async function VideoPage({ params }: { params: Promise<{ id: stri
     key: v.key,
     videoId: v.videoId,
     title: v.title,
+    why: v.why,
     channel: v.channel,
     color: getCategoryColor(v.category),
     publishedAt: v.publishedAt,

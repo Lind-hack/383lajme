@@ -119,6 +119,7 @@ export default async function CategoryPage({
     key: v.key,
     videoId: v.videoId,
     title: v.title,
+    why: v.why,
     channel: v.channel,
     color: getCategoryColor(categoryName),
     publishedAt: v.publishedAt,
