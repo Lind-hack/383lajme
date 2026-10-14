@@ -16611,7 +16611,7 @@ span.tregu-bb-crest {
 .hero-cta-free {
   position: relative;
   overflow: hidden;
-  color: var(--theme-ink, #2A1B08);
+  color: #2A1B08;
   background:
     linear-gradient(103deg, transparent 28%, rgba(var(--theme-surface-rgb, 255, 255, 255), .42) 42%, transparent 56%),
     linear-gradient(168deg, #FFE8AE 0%, #F3C465 38%, #DFA23C 70%, #C8862A 100%);
@@ -25587,6 +25587,7 @@ button.lgt-launch > span {
 
 /* Probability labels and selected categories remain legible on dark panels. */
 html[data-theme="dark"] .tregu-native-outcome strong { color: var(--theme-ink); }
+.tregu-feature-outcome-rack strong { color: var(--tg-text, #111111); }
 html[data-theme="dark"] .cat-rail-item[aria-current="page"] .cat-rail-label {
   color: color-mix(in srgb, var(--cat) 25%, var(--theme-ink));
 }

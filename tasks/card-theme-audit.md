@@ -14,7 +14,7 @@ Scope: inventory all 43 page templates and inspect shared UI/card families. This
 
 ## Verification
 
-- 16 theme, language and colour-contrast regression checks pass. They calculate contrast from actual stylesheet palettes and include both stops/metal ranks, glass alpha blending, admin inverse controls and newspaper buttons.
+- 18 theme, language and colour-contrast regression checks pass. They calculate contrast from actual stylesheet palettes and include both stops/metal ranks, glass alpha blending, admin inverse controls and newspaper buttons.
 - Final production build passed (three workers, exit 0). Production release identity is recorded below after GitHub deployment.
 - Browser candidates over gradients/images are estimates, not measured WCAG ratios. Every changed issue was traced to its owning style; physical photographs, flags, map artwork and intentional bright metal surfaces are preserved.
 - No horizontal page overflow was reported in the initial rendered 1280px/390px cases. Static monthly stories render as authored artwork; measured DOM text does not include text inside that artwork.
@@ -102,3 +102,10 @@ Scope: inventory all 43 page templates and inspect shared UI/card families. This
 ## Review and release status
 
 Final diff reviewed across correctness, readability, architecture, security and performance. Changes are local theme/contrast roles and a themed not-found view; navigation behavior, content/data and authentication guards are unchanged. Private-page visual verification remains outstanding. Production-preview confirmation stalled in the browser tool; earlier production-preview checks loaded 1,028 real Tregu text nodes and identified the final correction batch. Do not treat the stalled confirmation as a passing visual test.
+
+
+## Confirmation and follow-up
+
+Desktop screenshots confirm dark rail panels and readable metal podiums. The 390px mobile screenshot confirms that panels stack within the screen, with the compact header and bottom navigation visible. Viewport restored after inspection. A final rendered follow-up fixes the gold hero button's ink, featured probability labels, and failed rail thumbnail fallback. The added contrast cases pass; follow-up full production build passed, exit 0.
+
+Initial release `7bc320a259a61ecb098a3efdff1ce85bb655d6ff` completed through Railway GitHub integration (`87ed55ab-526b-423c-b494-56c5c804a4f7`, SUCCESS). This remains a partial site audit: authenticated/profile/admin rendered states and valid shared-instance routes still require verification. Do not mark the full goal complete from these public screenshots.

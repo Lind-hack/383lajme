@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { fmtNum } from "@/lib/format";
 import { getCategoryColor } from "@/lib/category-colors";
 import { normalizeCategory } from "@/lib/category-map";
@@ -50,6 +51,7 @@ function usableImage(url?: string | null): string | null {
  * is worse than a plain disc.
  */
 function RailThumb({ market }: { market: MiniMarket }) {
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
   // Formula 1 wears its own mark. The championship book has twenty drivers and
   // formula1.com often answers with placeholder portraits, so it used to fall
   // through to the question's first letter: a blue "K" for "Kush do të shpallet…".
@@ -67,7 +69,7 @@ function RailThumb({ market }: { market: MiniMarket }) {
     usableImage(market.marketMedia?.src) ||
     null;
 
-  if (src) {
+  if (src && src !== failedSrc) {
     return (
       // Decorative: the question beside it is the link's accessible name.
       // eslint-disable-next-line @next/next/no-img-element
@@ -79,6 +81,7 @@ function RailThumb({ market }: { market: MiniMarket }) {
         loading="lazy"
         decoding="async"
         referrerPolicy="no-referrer"
+        onError={() => setFailedSrc(src)}
       />
     );
   }
