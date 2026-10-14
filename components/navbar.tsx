@@ -238,16 +238,18 @@ export default function Navbar() {
 
         <div className="site-nav-controls" data-collapsed={collapsed ? "true" : undefined} style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: "8px" }}>
           <div className="nav-destinations" style={{ flex: 1, minWidth: 0 }}>
-            <nav className="nav-scroll" style={{ display: "flex", alignItems: "center", overflowX: "auto" }}>
+            <nav className="nav-scroll" inert={collapsed} aria-hidden={collapsed || undefined} style={{ display: "flex", alignItems: "center", overflowX: "auto" }}>
               {PRIMARY_NAV.map((link) => <Link key={link.href} href={link.href} className="nav-pill nav-pill--primary" aria-current={(link.href === "/" ? pathname === "/" : pathname === link.href || pathname?.startsWith(link.href + "/")) ? "page" : undefined}>{link.label}</Link>)}
             </nav>
           </div>
           <RightPills treguActive={treguActive} onAsk={() => openSearch("pyet")} onSearch={() => openSearch("kerko")} />
           <div className="nav-account-slot">
+            <div className="nav-menu-motion" inert={!collapsed} aria-hidden={!collapsed || undefined}>
             <button className="nav-menu-btn" onClick={() => setMenuOpen(true)} aria-label="Hap menunë" aria-expanded={menuOpen}>
               <span className="hamburger-bar" aria-hidden /><span className="hamburger-bar" aria-hidden /><span className="hamburger-bar" aria-hidden />
             </button>
-            <div className="nav-auth-desktop"><NavBalance /><UserMenu /></div>
+            </div>
+            <div className="nav-auth-desktop" inert={collapsed} aria-hidden={collapsed || undefined}><NavBalance /><UserMenu /></div>
           </div>
         </div>
       </div>

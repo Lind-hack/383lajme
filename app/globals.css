@@ -25518,15 +25518,55 @@ button.lgt-launch > span {
   .kuiz-option::after { transition: none; }
 }
 
-/* Shared geometry keeps the controls anchored when the destinations collapse. */
-.nav-account-slot {width:220px;flex-shrink:0;display:flex;justify-content:flex-end;align-items:center;}
-.nav-account-slot .nav-menu-btn {display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:44px;height:44px;border-radius:12px;border:1.5px solid var(--theme-border,#e8e3db);background:var(--theme-surface,#fff);cursor:pointer;flex-shrink:0;}
-@media(max-width:1024px){.nav-account-slot{width:44px;}.nav-destinations{display:none;}.site-nav-controls{justify-content:flex-end;}}
+/* Keep one fixed control row; only the destinations and account slot crossfade. */
+.nav-account-slot {
+  position:relative;width:220px;height:44px;flex-shrink:0;
+  display:flex;justify-content:flex-end;align-items:center;
+}
+.nav-account-slot .nav-menu-btn {
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:5px;width:44px;height:44px;
+  border-radius:12px;border:1.5px solid var(--theme-border,#e8e3db);
+  background:var(--theme-surface,#fff);cursor:pointer;flex-shrink:0;
+}
+.nav-menu-motion {
+  position:absolute;right:0;top:0;width:44px;height:44px;
+  display:flex;justify-content:flex-end;align-items:center;
+  opacity:0;visibility:hidden;pointer-events:none;transform:translateY(4px);
+}
+.nav-account-slot .nav-auth-desktop, .nav-destinations .nav-scroll {
+  opacity:1;visibility:visible;transform:translateY(0);
+}
+.nav-account-slot .nav-menu-motion,
+.nav-account-slot .nav-auth-desktop,
+.nav-destinations .nav-scroll {
+  transition:opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out),
+    visibility 0s linear var(--duration-base);
+}
+.site-nav-controls[data-collapsed="true"] .nav-menu-motion {
+  opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0);
+  transition-delay:0s;
+}
+.site-nav-controls[data-collapsed="true"] .nav-auth-desktop,
+.site-nav-controls[data-collapsed="true"] .nav-destinations .nav-scroll {
+  opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-4px);
+}
+.site-nav-controls:not([data-collapsed="true"]) .nav-auth-desktop,
+.site-nav-controls:not([data-collapsed="true"]) .nav-destinations .nav-scroll {
+  transition-delay:0s;
+}
+@media(max-width:1024px){
+  .nav-account-slot{width:44px;}
+  .nav-destinations{display:none;}
+  .site-nav-controls{justify-content:flex-end;}
+  .nav-account-slot .nav-menu-motion{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:none;}
+  .nav-account-slot .nav-auth-desktop{display:none;}
+}
 @media(max-width:640px){.nav-account-slot{width:40px;}.nav-right-pills{gap:4px;}}
 @media(max-width:360px){.nav-account-slot{width:36px;}.nav-right-pills{gap:3px;}}
-
-.nav-account-slot .nav-menu-btn {display:none;}
-.site-nav-controls[data-collapsed="true"] .nav-menu-btn {display:flex;}
-.site-nav-controls[data-collapsed="true"] .nav-auth-desktop {display:none;}
-.site-nav-controls[data-collapsed="true"] .nav-destinations .nav-scroll {display:none!important;}
-@media(max-width:1024px){.nav-account-slot .nav-menu-btn{display:flex;}.nav-account-slot .nav-auth-desktop{display:none;}}
+@media(prefers-reduced-motion:reduce){
+  .nav-account-slot .nav-menu-motion,
+  .nav-account-slot .nav-auth-desktop,
+  .nav-destinations .nav-scroll{transition:none;transform:none!important;}
+}
