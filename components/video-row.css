@@ -232,3 +232,92 @@
   .vr-card, .vr-poster, .vr-play, .vr-nav button { transition: none; }
   .vr-card:hover, .vr-card:active { transform: none; }
 }
+
+/* Under the title: where the videos come from. */
+.vr-title-sub {
+  margin-left: 4px;
+  color: var(--theme-muted, #6B625B);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+@media (max-width: 480px) { .vr-title-sub { display: none; } }
+
+/* The muted preview: a 16:9 player cropped to fill the portrait card. */
+.vr-preview {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 500ms ease;
+}
+.vr-preview[data-ready] { opacity: 1; }
+.vr-preview iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(100% * 16 / 9 * 5 / 4);
+  height: 100%;
+  border: 0;
+  transform: translate(-50%, -50%);
+}
+.vr-card:has(.vr-preview[data-ready]) .vr-play { opacity: 0; }
+
+/* The player's dot before the channel. */
+.vr-player-meta { display: inline-flex; align-items: center; gap: 6px; }
+.vr-player-meta i { width: 9px; height: 9px; border-radius: 50%; }
+
+/* 👍 Pëlqej · Reago · Komento · Ndaje */
+.vr-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.vr-act {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 160ms ease, transform 160ms ease;
+}
+.vr-act > span { font-size: 18px; line-height: 1; }
+.vr-act b { font-weight: 800; font-variant-numeric: tabular-nums; }
+.vr-act[aria-pressed="true"],
+.vr-act[aria-expanded="true"] { border-color: #FF4422; background: rgba(255, 68, 34, 0.22); }
+.vr-act:active { transform: scale(0.95); }
+.vr-act:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+.vr-react-row { display: flex; flex-wrap: wrap; gap: 6px; margin: -4px 0 12px; }
+.vr-react-row button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 64px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #FFFFFF;
+  font: inherit;
+  cursor: pointer;
+}
+.vr-react-row button > span { font-size: 24px; line-height: 1; }
+.vr-react-row small { color: rgba(255, 255, 255, 0.75); font-size: 11.5px; font-weight: 700; }
+.vr-react-row button[aria-pressed="true"] { border-color: #FF4422; background: rgba(255, 68, 34, 0.22); }
+.vr-react-row button:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+.vr-note { margin: -4px 0 10px; color: rgba(255, 255, 255, 0.8); font-size: 13px; font-weight: 700; }
+@media (hover: hover) and (pointer: fine) {
+  .vr-act:hover, .vr-react-row button:hover { background: rgba(255, 255, 255, 0.16); }
+}
+@media (max-width: 768px) {
+  .vr-acts { gap: 6px; }
+  .vr-act { padding: 0 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vr-preview, .vr-act { transition: none; }
+}

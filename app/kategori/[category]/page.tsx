@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { Inbox } from "lucide-react";
-import { getArticles, getArticlesBefore, getVideoArticles } from "@/lib/db";
+import { getArticles, getArticlesBefore } from "@/lib/db";
+import { getSectionVideos } from "@/lib/video-feed";
 import type { Article } from "@/lib/mock-data";
 import { CATEGORY_TO_SLUG, RESOLVABLE_SLUGS } from "@/lib/category-map";
 import { getCategoryColor, getCategoryGradient, CATEGORY_LIGHT_BG } from "@/lib/category-colors";
@@ -17,7 +18,6 @@ import KategoriFeed, { type FeedCity, type FeedHooks, type FeedItem } from "@/co
 import { pickFrontPage, pickMostRead } from "@/lib/front-page.mjs";
 import { getSectionMarket } from "@/lib/kategori-market";
 import VideoRow, { type VideoItem } from "@/components/video-row";
-import { youtubeIdOf } from "@/lib/video-clip";
 
 export const revalidate = 3600;
 
@@ -62,7 +62,7 @@ export default async function CategoryPage({
     // Newest first: the feed's order, and the pool a city is counted over.
     getArticlesBefore({ limit: byCity ? CITY_POOL : FIRST_PAGE, category: categoryName }),
     getSectionMarket(slug),
-    getVideoArticles({ category: categoryName, limit: 12 }).catch(() => []),
+    getSectionVideos(categoryName),
   ]);
 
   // One city per story, decided once for everything this render can show.
@@ -111,27 +111,20 @@ export default async function CategoryPage({
   const top = pickMostRead(leadPool.filter(usable), 3, { exclude: used }) as Article[];
   for (const a of top) used.add(a.id);
 
-  // The section's official clips: a row of its own under the lead, in place of
-  // the photo carousel (two swipe rows would repeat each other). A city filter
-  // shows only that city's clips; with fewer than two, the carousel stays.
-  const videos: VideoItem[] = videoArticles.flatMap((a) => {
-    const videoId = youtubeIdOf(a.videoClipUrl);
-    const cityId = cityOfArticle(a, categoryName);
-    if (!videoId || (selected && cityId !== selected.id)) return [];
-    const city = cityId ? cities[cityId] : undefined;
-    return [
-      {
-        slug: a.slug,
-        title: a.title,
-        videoId,
-        publishedAt: a.publishedAt,
-        badge: city?.name ?? categoryName,
-        emblem: city?.emblem ?? null,
-        color: getCategoryColor(categoryName),
-      },
-    ];
-  });
-  const showVideos = videos.length >= 2;
+  // The section's official videos (lib/video-feed): a row of its own under the
+  // lead, in place of the photo carousel (two swipe rows would repeat each
+  // other). Not under a city filter: a channel is not a city. With fewer than
+  // three, the carousel stays.
+  const videos: VideoItem[] = videoArticles.map((v) => ({
+    key: v.key,
+    videoId: v.videoId,
+    title: v.title,
+    channel: v.channel,
+    color: getCategoryColor(categoryName),
+    publishedAt: v.publishedAt,
+    storySlug: v.storySlug,
+  }));
+  const showVideos = !selected && videos.length >= 3;
 
   let carousel: FeedHooks["carousel"];
   if (!selected && !showVideos) {
