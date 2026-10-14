@@ -77,17 +77,26 @@ a.perty-ed-city:focus-visible { outline: 2px solid var(--pp-accent); outline-off
 .perty-ed-row[data-lead] .perty-ed-excerpt { -webkit-line-clamp: 2; }
 .perty-ed-row[data-lead] .perty-ed-thumb { width: 168px; }
 
-/* Under each row: where it is from, and "Më pak si kjo". Outside the link, so
-   the button is its own target. */
-.perty-ed-row { padding-bottom: 4px; }
+/* Under each row's text: where it is from, and "Më pak si kjo". Outside the
+   link, so the button is its own target; laid over the row's foot, beside the
+   photo, so it sits right under the headline instead of under the photo. */
+.perty-ed-item { position: relative; }
+.perty-ed-body { padding-bottom: 32px; }
 .perty-ed-foot {
+  position: absolute;
+  right: 0;
+  bottom: 8px;
+  left: 42px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  min-height: 40px;
-  padding: 0 0 8px 42px;
+  min-height: 36px;
+  pointer-events: none;
 }
+.perty-ed-foot > * { pointer-events: auto; }
+.perty-ed-item[data-thumb] .perty-ed-foot { right: 134px; }
+.perty-ed-item[data-thumb]:first-child .perty-ed-foot { right: 182px; }
 .perty-ed-foot .perty-item-meta { min-width: 0; }
 .perty-ed-less {
   display: inline-flex;
@@ -184,8 +193,9 @@ a.perty-ed-city:focus-visible { outline: 2px solid var(--pp-accent); outline-off
   /* On a phone only the opener keeps its summary: the rest read as headlines. */
   .perty-ed-row[data-lead] .perty-ed-excerpt { display: -webkit-box; }
   .perty-ed-row[data-lead] .perty-ed-thumb { width: 96px; }
-  .perty-ed-row { padding-bottom: 2px; }
-  .perty-ed-foot { padding-left: 38px; }
+  .perty-ed-foot { left: 38px; }
+  .perty-ed-item[data-thumb] .perty-ed-foot { right: 92px; }
+  .perty-ed-item[data-thumb]:first-child .perty-ed-foot { right: 108px; }
   /* "Më pak" keeps its icon on a phone; the words are for screen readers. */
   .perty-ed-less span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .perty-ed-less { width: 40px; justify-content: center; padding: 0; margin-right: -8px; }
@@ -193,4 +203,113 @@ a.perty-ed-city:focus-visible { outline: 2px solid var(--pp-accent); outline-off
 }
 @media (prefers-reduced-motion: reduce) {
   .perty-more-group summary svg { transition: none; }
+}
+
+/* ── The wide screen: a front page across the whole width ─────────────────
+   Phones and tablets keep the one column above (the town box and the follow
+   columns are hidden there: the masthead already says the town, and "Më
+   shumë" folds the rest). From 1024 px the edition and the side share a grid,
+   and the follows get a column each. */
+.perty-front-town,
+.perty-cols { display: none; }
+
+@media (min-width: 1024px) {
+  .perty-shell--edition { max-width: min(1320px, 100%); }
+  .perty-ed-mast { padding-bottom: 22px; }
+  /* The town has its own box on the right. */
+  .perty-ed-mast .perty-ed-city { display: none; }
+
+  .perty-front {
+    display: grid;
+    grid-template-columns: minmax(0, 1.9fr) minmax(320px, 1fr);
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-areas:
+      "list brief"
+      "list town"
+      "list end"
+      "list .";
+    align-items: start;
+    column-gap: 48px;
+    row-gap: 18px;
+    margin-top: 28px;
+  }
+  .perty-front > .perty-ed { grid-area: list; margin-top: 0; }
+  .perty-front > .perty-brief { grid-area: brief; margin-top: 0; }
+  .perty-front > .perty-front-town { display: block; grid-area: town; }
+  .perty-front > .perty-end { grid-area: end; margin-top: 0; }
+  .perty-front-town .perty-box { margin: 0; }
+
+  /* The end card in a side column: stacked, Dardani small. */
+  .perty-front > .perty-end { grid-template-columns: 1fr; gap: 6px; padding: 20px 22px; }
+  .perty-front > .perty-end .perty-end-img { height: 84px; }
+  .perty-front > .perty-end h2 { font-size: 26px; }
+  .perty-front > .perty-end .perty-end-actions .perty-btn { flex: 1 1 100%; justify-content: center; }
+
+  /* The lead: photo and story side by side, newspaper-big. */
+  .perty-ed-row[data-lead] {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 24px;
+    padding-top: 20px;
+  }
+  .perty-ed-row[data-lead] .perty-ed-n { display: none; }
+  .perty-ed-row[data-lead] .perty-ed-thumb { grid-row: 1; grid-column: 1; width: 100%; aspect-ratio: 16 / 10; border-radius: 16px; }
+  .perty-ed-row[data-lead] .perty-ed-body { grid-row: 1; grid-column: 2; gap: 8px; align-self: center; }
+  .perty-ed-row[data-lead] .perty-ed-title { font-size: clamp(24px, 2.2vw, 32px); line-height: 1.15; letter-spacing: -0.02em; }
+  .perty-ed-row[data-lead] .perty-ed-excerpt { -webkit-line-clamp: 4; font-size: 16px; }
+  .perty-ed-item:first-child .perty-ed-foot,
+  .perty-ed-item[data-thumb]:first-child .perty-ed-foot { left: calc(52.4% + 12px); right: 0; }
+  .perty-ed-row:not([data-lead]) .perty-ed-thumb { width: 140px; }
+  .perty-ed-item[data-thumb] .perty-ed-foot { right: 154px; }
+
+  /* "Më shumë" becomes the columns below. */
+  .perty-more { display: none; }
+
+  .perty-cols {
+    display: grid;
+    grid-template-columns: repeat(var(--cols-md, 3), minmax(0, 1fr));
+    gap: 36px 40px;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 2px solid var(--theme-ink, var(--pp-ink));
+  }
+  .perty-col { display: flex; flex-direction: column; min-width: 0; }
+  .perty-col-head { padding-bottom: 10px; border-bottom: 1px solid var(--theme-border, var(--pp-rule)); }
+  .perty-col-kicker {
+    color: var(--pp-accent-ink);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .perty-col-head h2 { margin: 2px 0 0; font-family: var(--font-garamond), Georgia, serif; font-size: 28px; font-weight: 600; line-height: 1.1; }
+  .perty-col-head h2 a { color: var(--theme-ink, var(--pp-ink)); text-decoration: none; }
+  .perty-col ul { flex: 1; margin: 0; padding: 0; list-style: none; }
+  .perty-col li + li { border-top: 1px solid var(--pp-rule-soft); }
+  .perty-col-row { display: flex; flex-direction: column; gap: 6px; padding: 12px 0; color: inherit; text-decoration: none; }
+  .perty-col-row strong { color: var(--theme-ink, var(--pp-ink)); font-size: 15.5px; font-weight: 700; line-height: 1.35; text-wrap: pretty; }
+  .perty-col-row[data-first] strong { font-size: 18px; line-height: 1.25; }
+  .perty-col-row[data-read] strong { color: var(--pp-faint); }
+  .perty-col-img { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 12px; background: var(--pp-chip); margin-bottom: 4px; }
+  .perty-col-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 40px;
+    margin-top: 4px;
+    color: var(--pp-accent-ink);
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+  }
+  .perty-col-row:focus-visible,
+  .perty-col-all:focus-visible,
+  .perty-col-head h2 a:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 2px; border-radius: 8px; }
+}
+@media (min-width: 1360px) {
+  .perty-cols { grid-template-columns: repeat(var(--cols-lg, 4), minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .perty-col-row:hover strong,
+  .perty-col-head h2 a:hover,
+  .perty-col-all:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 }

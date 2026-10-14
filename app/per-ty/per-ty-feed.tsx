@@ -20,6 +20,12 @@
 //      follows the week had nothing for, said plainly rather than padded;
 //   5. "Më shumë", folded, for anyone who wants to keep going.
 //
+// On a phone that is one column, in that order. On a laptop or desktop it
+// becomes a front page across the whole width: the lead big with the six
+// below it on the left; Dardani's lines, the reader's town and the end on the
+// right; then one column per thing they follow (lib/per-ty-paper sections)
+// in place of the folded "Më shumë".
+//
 // The reel this replaced (app/per-ty/paper/reel.tsx and its slides) is parked,
 // not deleted: it is meant to come back as a row of reels on the homepage.
 //
@@ -47,7 +53,7 @@ import { getCategoryColor } from "@/lib/category-colors";
 import { readInterests, writeInterests, hasInterests, nudgeAffinity, type Interests } from "@/lib/interests.mjs";
 import { articleKeys, rankFeed, type RankedItem } from "@/lib/per-ty-rank.mjs";
 import { buildEdition } from "@/lib/per-ty-edition.mjs";
-import { quietFollows } from "@/lib/per-ty-paper.mjs";
+import { buildPaper, quietFollows } from "@/lib/per-ty-paper.mjs";
 import { cityById } from "@/lib/cities.mjs";
 import { nextStreak, STREAK_KEY } from "@/lib/perty-streak.mjs";
 import { forgetVisits, isNewSince, readSlugs, recordVisit } from "@/lib/perty-visits.mjs";
@@ -70,6 +76,7 @@ import DardaniFace from "@/components/dardani/dardani-face";
 import PaperReveal from "@/components/paper-reveal";
 import Onboarding from "./onboarding";
 import MorningPush from "./morning-push";
+import { TownToday } from "./paper/boxes";
 import "./edition.css";
 
 export type FeedArticle = {
@@ -98,6 +105,8 @@ const RANK_LIMIT = 200;
 const MORE_PER_GROUP = 8;
 /** "Më pak si kjo": about two-thirds of a full read, taken off. */
 const TASTE_STEP = 1.2;
+/** How far back "the newest story from your town" may reach. */
+const TOWN_STORY_MS = 48 * 3600_000;
 /** On screen this long (and at least half visible), a row counts as shown. */
 const SHOWN_AFTER_MS = 1000;
 
@@ -138,6 +147,16 @@ function firstName(meta: Record<string, unknown> | undefined) {
   const raw = [meta?.first_name, meta?.full_name, meta?.name].find((v) => typeof v === "string" && v.trim());
   const first = typeof raw === "string" ? raw.trim().split(/\s+/)[0] : "";
   return first.length > 1 && first.length <= 24 ? first : "";
+}
+
+/**
+ * How many follow columns per row, at most `max`, so the last row is never one
+ * column left alone (5 follows: 3 + 2, not 4 + 1).
+ */
+function colsFor(count: number, max: number) {
+  if (count <= max) return Math.max(1, count);
+  for (let n = max; n >= 2; n--) if (count % n !== 1) return n;
+  return max;
 }
 
 /** The key "Më pak si kjo" turns down: the follow behind the pick, or the story's topic for a top story. */
@@ -239,6 +258,27 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
 
   const homeFrom = cityById(home)?.from ?? null;
   const { edition, more, minutes } = useMemo(() => buildEdition(feed, { homeFrom }), [feed, homeFrom]);
+  // The wide screen's columns: one per follow, never repeating the seven.
+  const sections = useMemo(
+    () => (interests ? buildPaper(feed, interests, null, { homeFrom }).sections.filter((sec) => sec.items.length > 0) : []),
+    [feed, interests, homeFrom]
+  );
+  // The newest story from the reader's town in the last two days, for the
+  // town box. Matched the way the ranking matches a town.
+  const townStory = useMemo(() => {
+    if (!home || !now) return null;
+    const key = `city:${home}`;
+    const from = now.getTime() - TOWN_STORY_MS;
+    let best: FeedArticle | null = null;
+    // Not one the edition already shows.
+    const shown = new Set(edition.map((i) => i.article.slug));
+    for (const a of pool) {
+      const t = Date.parse(a.publishedAt);
+      if (shown.has(a.slug) || !(t >= from) || (best && t <= Date.parse(best.publishedAt))) continue;
+      if (articleKeys(a).includes(key)) best = a;
+    }
+    return best ? { slug: best.slug, title: best.title } : null;
+  }, [pool, home, now, edition]);
   // Against the whole week, not just what ranked: a follow is quiet only if no story named it.
   const poolKeys = useMemo(() => pool.map((a) => ({ keys: articleKeys(a) })), [pool]);
   const quiet = useMemo(() => (interests ? quietFollows(poolKeys, interests) : []), [poolKeys, interests]);
@@ -454,6 +494,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
         </div>
       ) : (
         <>
+          <div className="perty-front">
           {briefSlugs.length >= 2 && <DardaniBrief slugs={briefSlugs} positionOf={positionOf} />}
 
           <section className="perty-ed" aria-labelledby="perty-ed-title">
@@ -483,6 +524,10 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
               ))}
             </ol>
           </section>
+
+          <div className="perty-front-town">
+            <TownToday homeId={home} story={townStory} onPickCity={() => setEditing(true)} />
+          </div>
 
           <EndCard
             onSeen={() => trackPerty("perty_end", { read: readCount, stories: edition.length })}
@@ -542,6 +587,60 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
               <p className="perty-end-following">Ndjek: {following}</p>
             </div>
           </EndCard>
+          </div>
+
+          {sections.length > 0 && (
+            <div
+              className="perty-cols"
+              aria-label="Ato që ndjek"
+              style={{ "--cols-lg": colsFor(sections.length, 4), "--cols-md": colsFor(sections.length, 3) } as React.CSSProperties}
+            >
+              {sections.map((sec) => (
+                <section key={sec.key} className="perty-col" aria-labelledby={`perty-col-${sec.key}`}>
+                  <header className="perty-col-head">
+                    <span className="perty-col-kicker">
+                      {sec.key === `city:${home}` ? "Qyteti yt" : sec.kind === "person" ? "Njeri që ndjek" : sec.kind === "city" ? "Qytet që ndjek" : "Temë që ndjek"}
+                    </span>
+                    <h2 id={`perty-col-${sec.key}`}>
+                      <Link href={sec.href}>{sec.title}</Link>
+                    </h2>
+                  </header>
+                  <ul>
+                    {sec.items.map((it, j) => (
+                      <li key={it.article.slug}>
+                        <Link
+                          href={`/article/${it.article.slug}`}
+                          className="perty-col-row"
+                          data-first={j === 0 || undefined}
+                          data-read={read.has(it.article.slug) || undefined}
+                          onClick={() =>
+                            noteClick({ slug: it.article.slug, position: j + 1, kind: sec.kind, list: "section" })
+                          }
+                        >
+                          {j === 0 && (it.article.imageUrl || it.article.coverArt) && (
+                            <span className="perty-col-img">
+                              <Image
+                                src={(it.article.imageUrl || it.article.coverArt) as string}
+                                alt=""
+                                fill
+                                sizes="(min-width: 1024px) 400px, 1px"
+                                style={{ objectFit: "cover" }}
+                              />
+                            </span>
+                          )}
+                          <strong>{it.article.title}</strong>
+                          <Meta article={it.article} />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href={sec.href} className="perty-col-all">
+                    Të gjitha për {sec.title} <ArrowRight size={14} strokeWidth={2.4} aria-hidden="true" />
+                  </Link>
+                </section>
+              ))}
+            </div>
+          )}
 
           {more.length > 0 && (
             <section className="perty-more" aria-labelledby="perty-more-title">
@@ -681,7 +780,7 @@ function EditionRow({
   const ref = useSeen<HTMLLIElement>(onShown);
   const lessLabel = lessKey ? keyLabel(lessKey) : null;
   return (
-    <li ref={ref} className="perty-ed-item" data-less={lessKey ? true : undefined}>
+    <li ref={ref} className="perty-ed-item" data-less={lessKey ? true : undefined} data-thumb={picture ? true : undefined}>
       <Link
         href={`/article/${article.slug}`}
         className="perty-ed-row"

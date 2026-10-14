@@ -23,7 +23,7 @@
 
 import { track } from "@/lib/analytics";
 
-export type PertyList = "edition" | "more" | "brief";
+export type PertyList = "edition" | "more" | "brief" | "section";
 
 export type PertyClick = { slug: string; position: number; kind: string; list: PertyList; at: number };
 
@@ -57,7 +57,7 @@ export function takeClick(slug: string): PertyClick | null {
       slug,
       position: Number(raw?.position) || 0,
       kind: typeof raw?.kind === "string" ? raw.kind : "",
-      list: raw?.list === "more" || raw?.list === "brief" ? raw.list : "edition",
+      list: raw?.list === "more" || raw?.list === "brief" || raw?.list === "section" ? raw.list : "edition",
       at,
     };
   } catch {
