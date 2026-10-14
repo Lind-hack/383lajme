@@ -23,8 +23,10 @@
 // ledger (lib/reader-ledger.mjs), the tally their monthly and yearly wrapped
 // are made from, and anything waiting on it hears READ_EVENT (Dardani's "Ta
 // bëra gazetën", components/paper-ready.tsx). The story is also remembered as
-// opened, so Për ty files it below the ones not yet seen. Nothing is sent
-// anywhere; "Harro historikun e leximit" clears it.
+// opened, so Për ty files it below the ones not yet seen. Nothing of this is
+// sent anywhere; "Harro historikun e leximit" clears it. The one exception is
+// a visit that came from a Për ty row: GA (with consent) hears how long it was
+// read and how far, against the slug and the row's place (lib/perty-measure).
 //
 // Renders nothing.
 
@@ -33,6 +35,7 @@ import { readInterests, writeInterests, recordRead } from "@/lib/interests.mjs";
 import { articleKeys } from "@/lib/per-ty-rank.mjs";
 import { rememberRead } from "@/lib/perty-visits.mjs";
 import { noteRead } from "@/lib/reader-ledger.mjs";
+import { takeClick, trackPerty } from "@/lib/perty-measure";
 import { OPEN_WEIGHT, REAL_READ_S, visitWeight, weightToAdd } from "@/lib/reading-engagement.mjs";
 import { READ_EVENT } from "@/components/paper-ready";
 
@@ -69,6 +72,26 @@ export default function ReadingAffinity({
     let credited = 0;
     let creditedSeconds = 0;
     let realRead = false;
+    // Came from a Për ty row? Then GA hears how this visit went, once.
+    const from = takeClick(slug);
+    const mountedAt = Date.now();
+    let reported = false;
+    const report = () => {
+      if (!from || reported) return;
+      // React's dev double-mount tears the first mount down at once; that is
+      // not a visit.
+      if (engaged === 0 && Date.now() - mountedAt < 2000) return;
+      reported = true;
+      trackPerty("perty_read", {
+        slug,
+        position: from.position,
+        kind: from.kind,
+        list: from.list,
+        seconds: engaged,
+        depth: Math.round(depth * 100),
+        real_read: realRead,
+      });
+    };
 
     const save = (read = false) => {
       if (keys.length === 0) return;
@@ -113,7 +136,10 @@ export default function ReadingAffinity({
       measureDepth();
     };
     const onHide = () => {
-      if (document.visibilityState === "hidden") save();
+      if (document.visibilityState === "hidden") {
+        save();
+        report();
+      }
     };
 
     const tick = window.setInterval(() => {
@@ -134,7 +160,10 @@ export default function ReadingAffinity({
     for (const type of ["pointermove", "pointerdown", "keydown", "touchstart", "wheel"] as const) {
       window.addEventListener(type, active, { passive: true });
     }
-    const onLeave = () => save();
+    const onLeave = () => {
+      save();
+      report();
+    };
     document.addEventListener("visibilitychange", onHide);
     window.addEventListener("pagehide", onLeave);
 
@@ -148,6 +177,7 @@ export default function ReadingAffinity({
       window.removeEventListener("pagehide", onLeave);
       // Leaving for another page inside the site: the visit ends here.
       save();
+      report();
     };
   }, [slug, title, excerpt, category, city, words]);
 

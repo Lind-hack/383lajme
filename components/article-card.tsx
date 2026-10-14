@@ -46,7 +46,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
           style={{
             width: "246px",
             height: "348px",
-            background: "linear-gradient(180deg, #FFFFFF 0%, #FAFAF8 100%)",
+            background: "linear-gradient(180deg, var(--theme-surface, #FFFFFF) 0%, var(--theme-surface, #FAFAF8) 100%)",
             borderRadius: RADIUS.md,
             border: "1px solid rgba(0,0,0,0.07)",
             overflow: "hidden",
@@ -381,7 +381,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
         whileHover={hoverLift}
         transition={hoverTransition}
         style={{
-          background: "linear-gradient(180deg, #FFFFFF 0%, #FAFAF8 100%)",
+          background: "linear-gradient(180deg, var(--theme-surface, #FFFFFF) 0%, var(--theme-surface, #FAFAF8) 100%)",
           borderRadius: RADIUS.md,
           border: "1px solid rgba(0,0,0,0.07)",
           overflow: "hidden",

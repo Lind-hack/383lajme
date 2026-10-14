@@ -88,7 +88,7 @@ function LeadCard({ article }: { article: Article }) {
         whileHover={{ y: -4, boxShadow: `0 16px 40px ${catColor}1F` }}
         transition={{ duration: DUR.base, ease: EASE }}
         style={{
-          background: "linear-gradient(180deg, #FFFFFF 0%, #FAFAF8 100%)",
+          background: "linear-gradient(180deg, var(--theme-surface, #FFFFFF) 0%, var(--theme-surface, #FAFAF8) 100%)",
           borderRadius: RADIUS.md,
           border: "1px solid rgba(0,0,0,0.07)",
           overflow: "hidden",
@@ -236,7 +236,7 @@ function SecondaryCard({ article, index }: { article: Article; index: number }) 
         whileHover={{ y: -4, boxShadow: `0 16px 40px ${catColor}1F` }}
         transition={{ duration: DUR.base, ease: EASE }}
         style={{
-          background: "linear-gradient(180deg, #FFFFFF 0%, #FAFAF8 100%)",
+          background: "linear-gradient(180deg, var(--theme-surface, #FFFFFF) 0%, var(--theme-surface, #FAFAF8) 100%)",
           borderRadius: RADIUS.md,
           border: "1px solid rgba(0,0,0,0.07)",
           overflow: "hidden",
@@ -312,7 +312,7 @@ export function MostReadRail({ articles }: { articles: Article[] }) {
     <motion.aside
       {...reveal}
       style={{
-        background: "linear-gradient(180deg, #FFFFFF 0%, #FAFAF8 100%)",
+        background: "linear-gradient(180deg, var(--theme-surface, #FFFFFF) 0%, var(--theme-surface, #FAFAF8) 100%)",
         borderRadius: RADIUS.md,
         border: "1px solid rgba(0,0,0,0.07)",
         boxShadow: SHADOW.card,

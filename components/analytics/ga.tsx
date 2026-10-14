@@ -5,12 +5,12 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Consent-gated Google Analytics.
+ * Consent-gated Google Analytics and Microsoft Clarity.
  *
  * - Nothing loads until the reader explicitly accepts (Kosovo's data protection
  *   law, 06/L-082, is GDPR-aligned; the privacy policy promises opt-in stats).
  * - The choice lives in localStorage and survives across sessions; denying
- *   means no Google script ever touches the browser.
+ *   means neither analytics script touches the browser.
  * - App Router navigations are client-side, so page views after the first load
  *   are sent manually — gtag("config") only covers the initial HTML request.
  */
@@ -75,6 +75,16 @@ export default function Ga() {
 
   return (
     <>
+      {consent === "granted" && (
+        <Script id="microsoft-clarity" strategy="afterInteractive">
+          {`(function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            c[a]("consentv2",{ad_Storage:"denied",analytics_Storage:"granted"});
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window,document,"clarity","script","yxa7ek3m9v");`}
+        </Script>
+      )}
       {consent === "granted" && GA_ID && (
         <>
           <Script
@@ -98,8 +108,9 @@ export default function Ga() {
           <div className="mx-auto flex max-w-3xl flex-col gap-4 rounded-2xl border border-border bg-white p-5 shadow-[0_16px_40px_rgba(17,17,17,0.12)] sm:flex-row sm:items-center sm:gap-5">
             <p className="flex-1 text-[0.85rem] leading-[1.6] text-[#565656]">
               <span className="font-bold text-ink">Cookies për statistika.</span> Përdorim Google
-              Analytics për të kuptuar çfarë lexohet — pa reklama dhe pa të ndjekur nëpër faqe të
-              tjera; adresa IP anonimizohet. Zgjedhja jote ruhet vetëm në shfletuesin tënd.{" "}
+              Analytics dhe Microsoft Clarity për të kuptuar çfarë lexohet, ku klikohet dhe si
+              përdoret faqja, përfshirë regjistrime të sesioneve me të dhënat e ndjeshme të
+              maskuara. Zgjedhja jote ruhet vetëm në shfletuesin tënd.{" "}
               <a
                 href="/privatesia#cookies"
                 className="font-semibold text-orange underline underline-offset-2"

@@ -5,9 +5,9 @@
   gap: 2px;
   padding: 3px;
   margin-bottom: 18px;
-  border: 1px solid #d5cec4;
+  border: 1px solid var(--theme-border, #d5cec4);
   border-radius: 999px;
-  background: rgba(255, 254, 250, 0.72);
+  background: rgba(var(--theme-surface-rgb, 255, 254, 250), 0.72);
 }
 
 .toggle a {
@@ -16,7 +16,7 @@
   min-height: 42px;
   padding: 0 16px;
   border-radius: 999px;
-  color: #65615b;
+  color: var(--theme-ink, #65615b);
   font-size: 13px;
   font-weight: 800;
   text-decoration: none;
@@ -24,7 +24,7 @@
 }
 
 .toggle a:hover {
-  color: #191816;
+  color: var(--theme-ink, #191816);
 }
 
 .toggle .active {

@@ -4,8 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { EASE, DUR } from "@/lib/tokens";
 import UserMenu from "./user-menu";
 import NavBalance from "./nav-balance";
 import NavSidePanel from "./nav-side-panel";
@@ -55,17 +53,14 @@ export const PRIMARY_NAV = [
  * the occasion still, chosen by the Kosovo date after mount so a page cached
  * over midnight never shows yesterday's flag.
  */
-function RightPills({ treguActive, onAsk }: { treguActive: boolean; onAsk: () => void }) {
+function RightPills({ treguActive, onAsk, onSearch }: { treguActive: boolean; onAsk: () => void; onSearch: () => void }) {
   const [occasion, setOccasion] = useState<ReturnType<typeof occasionFor>>(null);
   useEffect(() => setOccasion(occasionFor()), []);
 
   return (
     <div className="nav-right-pills">
-      <Link href="/tregu" className="nav-tregu-link" data-active={treguActive ? "true" : undefined}>
-        <span className="nav-tregu-dot" aria-hidden="true" />
-        <span className="nav-tregu-word">Tregu</span>
-      </Link>
       <LanguageSwitcher />
+      <button type="button" className="nav-search-btn" onClick={onSearch} aria-label="Kërko"><Search size={19} strokeWidth={2.5} aria-hidden="true" /></button>
       <button
         type="button"
         className="nav-dardan"
@@ -90,6 +85,10 @@ function RightPills({ treguActive, onAsk }: { treguActive: boolean; onAsk: () =>
         </span>
         <span className="nav-dardan-label">Pyet Dardanin</span>
       </button>
+      <Link href="/tregu" className="nav-tregu-link" data-active={treguActive ? "true" : undefined}>
+        <span className="nav-tregu-dot" aria-hidden="true" />
+        <span className="nav-tregu-word">Tregu</span>
+      </Link>
     </div>
   );
 }
@@ -175,7 +174,7 @@ export default function Navbar() {
         top: 0,
         left: 0,
         right: 0,
-        zIndex: 50,
+        zIndex: menuOpen ? 110 : 50,
         background: overlay ? "transparent" : "#F9F6F1",
         borderBottom: overlay
           ? "1px solid transparent"
@@ -237,123 +236,22 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* Crossfade between the full nav and the collapsed hamburger so the
-            two states slide/fade into each other instead of popping. */}
-        <AnimatePresence mode="wait" initial={false}>
-          {collapsed ? (
-            <motion.div
-              key="collapsed"
-              className="site-nav-controls"
-              initial={{ opacity: 0, x: 6 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 6 }}
-              transition={{ duration: DUR.slow, ease: EASE }}
-              style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: "6px" }}
-            >
-              {/* Spacer pushes the controls to the right */}
-              <div style={{ flex: 1, minWidth: 0 }} />
-              <RightPills treguActive={treguActive} onAsk={() => openSearch("pyet")} />
-              {/* Search survives the collapse. It is the one thing that can
-                  stand in for the categories that just disappeared, so burying
-                  it inside the hamburger would cost the most at exactly the
-                  moment the nav has the least. */}
-              <button
-                type="button"
-                className="nav-search-btn"
-                onClick={() => openSearch("kerko")}
-                aria-label="Kërko"
-                style={{ margin: "0 8px" }}
-              >
-                <Search size={19} strokeWidth={2.5} aria-hidden="true" />
-              </button>
-              <button
-                className="nav-menu-btn"
-                onClick={() => setMenuOpen(true)}
-                aria-label="Hap menunë"
-                aria-expanded={menuOpen}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "5px",
-                  width: "44px",
-                  height: "44px",
-                  borderRadius: "12px",
-                  border: "1.5px solid #E8E3DB",
-                  background: "#FFFFFF",
-                  cursor: "pointer",
-                  flexShrink: 0,
-                }}
-              >
-                <span className="hamburger-bar" aria-hidden />
-                <span className="hamburger-bar" aria-hidden />
-                <span className="hamburger-bar" aria-hidden />
-              </button>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="full"
-              className="site-nav-controls"
-              initial={{ opacity: 0, x: -6 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -6 }}
-              transition={{ duration: DUR.slow, ease: EASE }}
-              style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: "8px" }}
-            >
-              {/* Scrollable nav pills */}
-              <div
-                className="nav-scroll"
-                style={{
-                  flex: 1,
-                  minWidth: 0,
-                  display: "flex",
-                  alignItems: "center",
-                  overflowX: "auto",
-                  WebkitOverflowScrolling: "touch",
-                }}
-              >
-                {PRIMARY_NAV.map((link) => {
-                  // "/" would otherwise match every path, so Sot is exact.
-                  const active =
-                    link.href === "/"
-                      ? pathname === "/"
-                      : pathname === link.href ||
-                        pathname?.startsWith(link.href + "/");
-                  return (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className="nav-pill nav-pill--primary"
-                      aria-current={active ? "page" : undefined}
-                    >
-                      {link.label}
-                    </Link>
-                  );
-                })}
-
-              </div>
-
-              <button
-                type="button"
-                className="nav-search-btn"
-                onClick={() => openSearch("kerko")}
-                aria-label="Kërko"
-                title="Kërko  ⌘K"
-              >
-                <Search size={19} strokeWidth={2.5} aria-hidden="true" />
-              </button>
-
-              <RightPills treguActive={treguActive} onAsk={() => openSearch("pyet")} />
-
-              {/* Desktop only: auth pinned right (mobile auth lives in the side panel) */}
-              <div className="nav-auth-desktop">
-                <NavBalance />
-                <UserMenu />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div className="site-nav-controls" data-collapsed={collapsed ? "true" : undefined} style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: "8px" }}>
+          <div className="nav-destinations" style={{ flex: 1, minWidth: 0 }}>
+            <nav className="nav-scroll" inert={collapsed} aria-hidden={collapsed || undefined} style={{ display: "flex", alignItems: "center", overflowX: "auto" }}>
+              {PRIMARY_NAV.map((link) => <Link key={link.href} href={link.href} className="nav-pill nav-pill--primary" aria-current={(link.href === "/" ? pathname === "/" : pathname === link.href || pathname?.startsWith(link.href + "/")) ? "page" : undefined}>{link.label}</Link>)}
+            </nav>
+          </div>
+          <RightPills treguActive={treguActive} onAsk={() => openSearch("pyet")} onSearch={() => openSearch("kerko")} />
+          <div className="nav-account-slot">
+            <div className="nav-menu-motion" inert={!collapsed} aria-hidden={!collapsed || undefined}>
+            <button className="nav-menu-btn" onClick={() => setMenuOpen(true)} aria-label="Hap menunë" aria-expanded={menuOpen}>
+              <span className="hamburger-bar" aria-hidden /><span className="hamburger-bar" aria-hidden /><span className="hamburger-bar" aria-hidden />
+            </button>
+            </div>
+            <div className="nav-auth-desktop" inert={collapsed} aria-hidden={collapsed || undefined}><NavBalance /><UserMenu /></div>
+          </div>
+        </div>
       </div>
 
       <NavSidePanel open={menuOpen} onClose={() => setMenuOpen(false)} />

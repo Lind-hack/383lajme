@@ -1,0 +1,315 @@
+/* ── Për ty: the morning edition ───────────────────────────────────────────
+   Read over one coffee, then closed. One reading column, five parts in a
+   fixed order: masthead, Dardani's three lines, the edition of seven, the
+   end, and the rest folded under "Më shumë". Every story uses the same row,
+   so nothing has to be learned twice.
+
+   The row, brief, progress and end-card rules it shares with the old front
+   page still live in globals.css; this file holds what only the edition uses,
+   and the site's dark theme for the paper's own colours. */
+
+/* Dark site theme: the paper's tokens follow it (the same values as the old
+   "Natë" paper, without its card frame). */
+html[data-theme="dark"] .perty-paper {
+  --pp-card: var(--theme-surface);
+  --pp-ink: #F7F2EB;
+  --pp-text: #E8E0D7;
+  --pp-soft-text: #CFC5BA;
+  --pp-muted: #B5A99E;
+  --pp-faint: #A0958B;
+  --pp-rule: var(--theme-border);
+  --pp-rule-soft: #2F2924;
+  --pp-chip: #2B2521;
+  --pp-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+  --pp-accent-ink: #FF8A70;
+  --pp-accent-soft: color-mix(in srgb, var(--pp-accent) 13%, #201B18);
+  --pp-accent-line: color-mix(in srgb, var(--pp-accent) 32%, #201B18);
+  --pp-read: #5EDB8A;
+  --pp-read-soft: rgba(94, 219, 138, 0.14);
+}
+/* The number disc and "E re" are ink on paper: flip them, or they vanish. */
+html[data-theme="dark"] .perty-paper .perty-ed-n,
+html[data-theme="dark"] .perty-paper .perty-mark--new { background: var(--pp-ink); color: var(--theme-paper); }
+html[data-theme="dark"] .perty-paper .perty-ed-row[data-read] .perty-ed-n { background: var(--pp-read-soft); color: var(--pp-read); }
+
+.perty-shell--edition { max-width: 720px; }
+
+.perty-ed-mast {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--theme-border, var(--pp-rule));
+}
+.perty-ed-dardani { height: 84px; }
+.perty-ed-hello {
+  margin: 0;
+  color: var(--theme-ink, var(--pp-ink));
+  font-family: var(--font-garamond), Georgia, serif;
+  font-size: clamp(32px, 5vw, 46px);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.perty-ed-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+  margin: 8px 0 0;
+  color: var(--theme-muted, var(--pp-muted));
+  font-size: 14.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.perty-ed-date { color: var(--theme-ink, var(--pp-ink)); font-weight: 800; }
+.perty-ed-city { display: inline-flex; align-items: center; gap: 5px; color: var(--theme-ink, var(--pp-text)); text-decoration: none; }
+.perty-ed-city svg { flex: none; color: var(--pp-accent-ink); }
+.perty-ed-city b { color: var(--theme-ink, var(--pp-ink)); font-weight: 800; }
+a.perty-ed-city:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 2px; border-radius: 4px; }
+.perty-ed-edit { align-self: start; min-height: 44px; padding: 0 14px; font-size: 14px; }
+
+/* The lead row: bigger title, two lines of summary, a bigger photo. */
+.perty-ed-row[data-lead] .perty-ed-title { font-size: clamp(19px, 2.4vw, 22px); line-height: 1.22; letter-spacing: -0.015em; }
+.perty-ed-row[data-lead] .perty-ed-excerpt { -webkit-line-clamp: 2; }
+.perty-ed-row[data-lead] .perty-ed-thumb { width: 168px; }
+
+/* Under each row's text: where it is from, and "Më pak si kjo". Outside the
+   link, so the button is its own target; laid over the row's foot, beside the
+   photo, so it sits right under the headline instead of under the photo. */
+.perty-ed-item { position: relative; }
+.perty-ed-body { padding-bottom: 32px; }
+.perty-ed-foot {
+  position: absolute;
+  right: 0;
+  bottom: 8px;
+  left: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 36px;
+  pointer-events: none;
+}
+.perty-ed-foot > * { pointer-events: auto; }
+.perty-ed-item[data-thumb] .perty-ed-foot { right: 134px; }
+.perty-ed-item[data-thumb]:first-child .perty-ed-foot { right: 182px; }
+.perty-ed-foot .perty-item-meta { min-width: 0; }
+.perty-ed-less {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 10px;
+  margin-right: -10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--theme-muted, var(--pp-muted));
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.perty-ed-less:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 1px; }
+.perty-ed-less[aria-pressed="true"] { color: var(--theme-ink, var(--pp-ink)); text-decoration: underline; text-underline-offset: 3px; }
+.perty-ed-less-note { margin: 0; color: var(--theme-muted, var(--pp-muted)); font-size: 13px; font-weight: 600; }
+/* Turned down: still there (the list never reshuffles), quieter. */
+.perty-ed-item[data-less] .perty-ed-row { opacity: 0.5; }
+
+/* The end */
+.perty-end-quiet,
+.perty-end-ask { color: var(--theme-ink, var(--pp-text)); }
+.perty-end-quiet b { color: var(--theme-ink, var(--pp-ink)); }
+.perty-end-ask { display: flex; align-items: flex-start; gap: 8px; }
+.perty-end-ask svg { flex: none; margin-top: 4px; color: var(--pp-accent-ink); }
+.perty-end-copy > .perty-end-wrapped { margin-top: 14px; font-size: 14.5px; font-weight: 800; }
+.perty-end-wrapped a { display: inline-flex; align-items: center; gap: 6px; color: var(--pp-accent-ink); text-decoration: none; }
+.perty-end-wrapped a:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 2px; border-radius: 4px; }
+.perty-end-copy > .perty-end-following { margin-top: 14px; color: var(--theme-muted, var(--pp-faint)); font-size: 13px; }
+
+/* "Më shumë, nëse ke kohë": folded, after the end */
+.perty-more { margin-top: 36px; }
+.perty-more h2 {
+  margin: 0 0 8px;
+  color: var(--theme-muted, var(--pp-muted));
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.perty-more-group { border-top: 1px solid var(--theme-border, var(--pp-rule)); }
+.perty-more-group:last-of-type { border-bottom: 1px solid var(--theme-border, var(--pp-rule)); }
+.perty-more-group summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  color: var(--theme-ink, var(--pp-ink));
+  font-size: 16px;
+  font-weight: 800;
+  list-style: none;
+  cursor: pointer;
+}
+.perty-more-group summary::-webkit-details-marker { display: none; }
+.perty-more-group summary b {
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--pp-chip);
+  color: var(--theme-muted, var(--pp-muted));
+  font-size: 12.5px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.perty-more-group summary svg { flex: none; margin-left: auto; color: var(--theme-muted, var(--pp-muted)); transition: transform 200ms var(--ease-out); }
+.perty-more-group[open] summary svg { transform: rotate(180deg); }
+.perty-more-group summary:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 2px; border-radius: 8px; }
+.perty-more-group ul { margin: 0 0 12px; padding: 0; list-style: none; }
+.perty-more-group li + li { border-top: 1px dashed var(--pp-rule-soft); }
+.perty-more-row { display: flex; flex-direction: column; gap: 4px; padding: 10px 0; color: inherit; text-decoration: none; }
+.perty-more-row:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 2px; border-radius: 8px; }
+.perty-more-row strong { color: var(--theme-ink, var(--pp-ink)); font-size: 15.5px; font-weight: 700; line-height: 1.35; text-wrap: pretty; }
+.perty-more-row[data-read] strong { color: var(--pp-faint); }
+.perty-more-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.perty-more-reason { color: var(--pp-accent-ink); font-size: 12.5px; font-weight: 800; }
+
+@media (hover: hover) and (pointer: fine) {
+  .perty-more-row:hover strong { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .perty-more-group summary:hover span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .perty-ed-less:hover { background: var(--pp-chip); color: var(--theme-ink, var(--pp-ink)); }
+}
+@media (max-width: 640px) {
+  .perty-ed-mast { gap: 12px; padding-bottom: 16px; }
+  .perty-ed-dardani { height: 60px; }
+  /* The edit button shrinks to its icon; its label stays for screen readers. */
+  .perty-ed-edit { width: 44px; padding: 0; justify-content: center; }
+  .perty-ed-edit span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .perty-ed-line { font-size: 13.5px; gap: 2px 12px; }
+  .perty-ed-row[data-lead] .perty-ed-title { font-size: 19px; }
+  /* On a phone only the opener keeps its summary: the rest read as headlines. */
+  .perty-ed-row[data-lead] .perty-ed-excerpt { display: -webkit-box; }
+  .perty-ed-row[data-lead] .perty-ed-thumb { width: 96px; }
+  .perty-ed-foot { left: 38px; }
+  .perty-ed-item[data-thumb] .perty-ed-foot { right: 92px; }
+  .perty-ed-item[data-thumb]:first-child .perty-ed-foot { right: 108px; }
+  /* "Më pak" keeps its icon on a phone; the words are for screen readers. */
+  .perty-ed-less span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .perty-ed-less { width: 40px; justify-content: center; padding: 0; margin-right: -8px; }
+  .perty-ed-less[aria-pressed="true"] { width: auto; padding: 0 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .perty-more-group summary svg { transition: none; }
+}
+
+/* ── The wide screen: a front page across the whole width ─────────────────
+   Phones and tablets keep the one column above (the town box and the follow
+   columns are hidden there: the masthead already says the town, and "Më
+   shumë" folds the rest). From 1024 px the edition and the side share a grid,
+   and the follows get a column each. */
+.perty-front-town,
+.perty-cols { display: none; }
+
+@media (min-width: 1024px) {
+  .perty-shell--edition { max-width: min(1320px, 100%); }
+  .perty-ed-mast { padding-bottom: 22px; }
+  /* The town has its own box on the right. */
+  .perty-ed-mast .perty-ed-city { display: none; }
+
+  .perty-front {
+    display: grid;
+    grid-template-columns: minmax(0, 1.9fr) minmax(320px, 1fr);
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-areas:
+      "list brief"
+      "list town"
+      "list end"
+      "list .";
+    align-items: start;
+    column-gap: 48px;
+    row-gap: 18px;
+    margin-top: 28px;
+  }
+  .perty-front > .perty-ed { grid-area: list; margin-top: 0; }
+  .perty-front > .perty-brief { grid-area: brief; margin-top: 0; }
+  .perty-front > .perty-front-town { display: block; grid-area: town; }
+  .perty-front > .perty-end { grid-area: end; margin-top: 0; }
+  .perty-front-town .perty-box { margin: 0; }
+
+  /* The end card in a side column: stacked, Dardani small. */
+  .perty-front > .perty-end { grid-template-columns: 1fr; gap: 6px; padding: 20px 22px; }
+  .perty-front > .perty-end .perty-end-img { height: 84px; }
+  .perty-front > .perty-end h2 { font-size: 26px; }
+  .perty-front > .perty-end .perty-end-actions .perty-btn { flex: 1 1 100%; justify-content: center; }
+
+  /* The lead: photo and story side by side, newspaper-big. */
+  .perty-ed-row[data-lead] {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 24px;
+    padding-top: 20px;
+  }
+  .perty-ed-row[data-lead] .perty-ed-n { display: none; }
+  .perty-ed-row[data-lead] .perty-ed-thumb { grid-row: 1; grid-column: 1; width: 100%; aspect-ratio: 16 / 10; border-radius: 16px; }
+  .perty-ed-row[data-lead] .perty-ed-body { grid-row: 1; grid-column: 2; gap: 8px; align-self: center; }
+  .perty-ed-row[data-lead] .perty-ed-title { font-size: clamp(24px, 2.2vw, 32px); line-height: 1.15; letter-spacing: -0.02em; }
+  .perty-ed-row[data-lead] .perty-ed-excerpt { -webkit-line-clamp: 4; font-size: 16px; }
+  .perty-ed-item:first-child .perty-ed-foot,
+  .perty-ed-item[data-thumb]:first-child .perty-ed-foot { left: calc(52.4% + 12px); right: 0; }
+  .perty-ed-row:not([data-lead]) .perty-ed-thumb { width: 140px; }
+  .perty-ed-item[data-thumb] .perty-ed-foot { right: 154px; }
+
+  /* "Më shumë" becomes the columns below. */
+  .perty-more { display: none; }
+
+  .perty-cols {
+    display: grid;
+    grid-template-columns: repeat(var(--cols-md, 3), minmax(0, 1fr));
+    gap: 22px 28px;
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 2px solid var(--theme-ink, var(--pp-ink));
+  }
+  .perty-col { display: flex; flex-direction: column; min-width: 0; }
+  .perty-col-head { padding-bottom: 6px; border-bottom: 1px solid var(--theme-border, var(--pp-rule)); }
+  .perty-col-kicker {
+    color: var(--pp-accent-ink);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .perty-col-head h2 { margin: 0; font-family: var(--font-garamond), Georgia, serif; font-size: 24px; font-weight: 600; line-height: 1.1; }
+  .perty-col-head h2 a { color: var(--theme-ink, var(--pp-ink)); text-decoration: none; }
+  .perty-col ul { margin: 0; padding: 0; list-style: none; }
+  .perty-col li + li { border-top: 1px solid var(--pp-rule-soft); }
+  .perty-col-row { display: flex; flex-direction: column; gap: 3px; padding: 8px 0; color: inherit; text-decoration: none; }
+  .perty-col-row strong { color: var(--theme-ink, var(--pp-ink)); font-size: 15.5px; font-weight: 700; line-height: 1.35; text-wrap: pretty; }
+  .perty-col-row[data-first] strong { font-size: 17px; line-height: 1.25; }
+  .perty-col-row[data-read] strong { color: var(--pp-faint); }
+  .perty-col-img { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 12px; background: var(--pp-chip); margin-bottom: 2px; }
+  .perty-col-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+    margin-top: 0;
+    color: var(--pp-accent-ink);
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+  }
+  .perty-col-row:focus-visible,
+  .perty-col-all:focus-visible,
+  .perty-col-head h2 a:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 2px; border-radius: 8px; }
+}
+@media (min-width: 1360px) {
+  .perty-cols { grid-template-columns: repeat(var(--cols-lg, 4), minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .perty-col-row:hover strong,
+  .perty-col-head h2 a:hover,
+  .perty-col-all:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+}

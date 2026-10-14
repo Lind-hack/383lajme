@@ -50,7 +50,7 @@
 .sheen {
   position: absolute;
   inset: 0;
-  background: linear-gradient(110deg, transparent 38%, rgba(255, 255, 255, 0.5) 50%, transparent 62%);
+  background: linear-gradient(110deg, transparent 38%, rgba(var(--theme-surface-rgb, 255, 255, 255), 0.5) 50%, transparent 62%);
   background-size: 260% 100%;
   mix-blend-mode: soft-light;
   -webkit-mask: var(--pack-mask) center / contain no-repeat;
@@ -77,11 +77,11 @@
   bottom: 0;
   width: 58%;
   height: 100%;
-  border: 2px solid #fff;
+  border: 2px solid var(--theme-border, #fff);
   border-radius: 8px;
   background:
-    radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.95) 0 16%, transparent 17%),
-    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.14) 0 6px, transparent 6px 12px),
+    radial-gradient(circle at 50% 42%, rgba(var(--theme-surface-rgb, 255, 255, 255), 0.95) 0 16%, transparent 17%),
+    repeating-linear-gradient(45deg, rgba(var(--theme-surface-rgb, 255, 255, 255), 0.14) 0 6px, transparent 6px 12px),
     linear-gradient(160deg, #ff6a3d, #c8321a);
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.25);
 }
@@ -102,9 +102,9 @@
   font-size: clamp(7px, 4.6cqi, 15px);
   border-radius: 6px;
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--crimp) 85%, #fff) 0 5%, transparent 5% 95%, color-mix(in srgb, var(--crimp) 85%, #fff) 95%),
-    linear-gradient(165deg, #fffaf0, #f2e8d6);
-  color: var(--ink);
+    linear-gradient(180deg, color-mix(in srgb, var(--crimp) 85%, var(--theme-surface, #fff)) 0 5%, transparent 5% 95%, color-mix(in srgb, var(--crimp) 85%, var(--theme-surface, #fff)) 95%),
+    linear-gradient(165deg, var(--theme-paper, #fffaf0), var(--theme-paper, #f2e8d6));
+  color: var(--theme-ink, var(--ink));
   box-shadow: 0 18px 30px rgba(30, 20, 10, 0.28), inset 0 0 0 2px color-mix(in srgb, var(--crimp) 45%, transparent);
 }
 /* Crimped ends, like the front. */

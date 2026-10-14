@@ -73,8 +73,47 @@ interface ArticleMediaRow {
   url?: string | null;
 }
 
+/**
+ * Article photos for editorial markets, kept per server instance. They change
+ * rarely, and asking for them needs the market rows first: a second database
+ * round trip on every floor load just to learn nothing changed. A miss (or a
+ * slug with no article) is re-asked after ten minutes.
+ */
+const ARTICLE_TTL_MS = 10 * 60_000;
+const articleCache = new Map<string, { row: ArticleMediaRow | null; at: number }>();
+
+async function articleMediaFor(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  slugs: string[]
+): Promise<ArticleMediaRow[]> {
+  const now = Date.now();
+  const missing = slugs.filter((slug) => {
+    const hit = articleCache.get(slug);
+    return !hit || now - hit.at > ARTICLE_TTL_MS;
+  });
+  if (missing.length) {
+    const { data, error } = await supabase
+      .from("news_articles")
+      .select("slug, title, image_url, category, source, url")
+      .in("slug", missing);
+    // Media is supplementary. A news-table failure must never block prices;
+    // the resolver supplies an owned category fallback for editorial markets.
+    if (!error) {
+      const found = new Map(((data ?? []) as ArticleMediaRow[]).map((row) => [row.slug, row]));
+      for (const slug of missing) articleCache.set(slug, { row: found.get(slug) ?? null, at: now });
+    }
+  }
+  return slugs.flatMap((slug) => {
+    const row = articleCache.get(slug)?.row;
+    return row ? [row] : [];
+  });
+}
+
 export async function GET(request: NextRequest) {
   const generatedAt = new Date();
+  // Server-Timing: where a slow floor load spends its time, readable in the
+  // browser's network panel or with curl -I.
+  const started = performance.now();
   const supabase = await createClient();
   const category = request.nextUrl.searchParams.get("category");
   const status = request.nextUrl.searchParams.get("status") ?? "open";
@@ -89,21 +128,77 @@ export async function GET(request: NextRequest) {
   } else {
     query = query.in("status", ["open", "closed", "resolved"]);
   }
-  const { data, error } = await query;
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  const rows = (data ?? []).filter((market) => matchesNewsFilter(market, category));
-  // History is fetched for the books a chart can show. The trading floor asks
-  // for status=all and then keeps only open books, but the three history
+  // History is fetched for the books a chart can show. The trading floor used
+  // to ask for status=all and keep only open books, but the three history
   // queries below are one newest-first window shared by every listed market —
   // and 366 settled markets, their live games alone worth thousands of oracle
   // rows, filled that window. On 2026-09-27 all 30 open sport books reached the
   // floor with one point each, so every card drew flat lines. A settled market
   // still comes back, just without history, unless settled markets are what
   // the caller asked for.
-  const ids = rows
-    .filter((m) => status !== "all" || m.status !== "resolved")
-    .map((m) => m.id);
+  const historyStatuses = status === "all" ? ["open", "closed"] : [status];
+
+  // One tape query for every listed market (sparklines + weekly deltas), the
+  // 5-minute cron snapshots (books move between trades, and most books have
+  // few or no trades — without snapshots every sparkline collapses to a dot).
+  //
+  // Without a category the listed markets are exactly the markets in
+  // `historyStatuses`, so the database filters through the market join and the
+  // history runs alongside the market query: one round trip, not two. A
+  // category is decided here in code, so that request filters by the ids of
+  // the markets it kept, after they arrive. (The inner join is always there:
+  // every history row belongs to a market, so with ids it filters nothing.)
+  const loadHistory = (ids: string[] | null) => {
+    const [column, values] = ids ? ["market_id", ids] : ["markets.status", historyStatuses];
+    if (ids && !ids.length) {
+      return Promise.resolve([
+        { data: [] as TapeRow[], error: null },
+        { data: [] as SnapRow[], error: null },
+        { data: [] as SportOracleRow[], error: null },
+      ] as const);
+    }
+    return Promise.all([
+      newestRows<TapeRow>((from, to) => supabase
+          .from("market_trades")
+          .select("market_id, price_yes, coins, outcome_prices, created_at, markets!inner(status)")
+          .in(column, values)
+          // Keep the freshest global window under the cap, then restore
+          // chronological order below. An ascending capped query silently
+          // discarded the newest movements once the floor grew past 4k rows.
+          .order("created_at", { ascending: false })
+          .range(from, to), 6000),
+      newestRows<SnapRow>((from, to) => supabase
+          .from("market_snapshots")
+          .select("market_id, market_prob, oracle_kind, evidence, created_at, markets!inner(status)")
+          .in(column, values)
+          .order("created_at", { ascending: false })
+          .range(from, to), 2000),
+      newestRows<SportOracleRow>((from, to) => supabase
+          .from("sport_oracle_events")
+          .select("market_id, reference_probabilities, created_at, markets!inner(status)")
+          .in(column, values)
+          .order("created_at", { ascending: false })
+          .range(from, to), 4000),
+    ] as const);
+  };
+
+  // The hub's proof the floor is alive: one short public feed of the latest trades.
+  const feedPromise = supabase
+    .from("market_trades")
+    .select("action, side, coins, price_yes, created_at, profiles(display_name, is_anonymous), markets(question, slug, sport_outcomes)")
+    .order("created_at", { ascending: false })
+    .limit(10);
+  const earlyHistory = category ? null : loadHistory(null);
+  // Settled before the early return below, so an error there leaves no
+  // rejected promise behind.
+  earlyHistory?.catch(() => {});
+
+  const { data, error } = await query;
+  const marketsMs = performance.now() - started;
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  const rows = (data ?? []).filter((market) => matchesNewsFilter(market, category));
   const sourceSlugs = [...new Set(
     rows.flatMap((market) =>
       Array.isArray(market.source_article_slugs)
@@ -112,56 +207,12 @@ export async function GET(request: NextRequest) {
     )
   )];
 
-  // One tape query for every listed market (sparklines + weekly deltas), the
-  // 5-minute cron snapshots (books move between trades, and most books have
-  // few or no trades — without snapshots every sparkline collapses to a dot),
-  // and one short public feed — the hub's proof the floor is alive.
-  const [tapeRes, snapRes, sportOracleRes, feedRes, articleRes] = await Promise.all([
-    ids.length
-      ? newestRows<TapeRow>((from, to) => supabase
-          .from("market_trades")
-          .select("market_id, price_yes, coins, outcome_prices, created_at")
-          .in("market_id", ids)
-          // Keep the freshest global window under the cap, then restore
-          // chronological order below. An ascending capped query silently
-          // discarded the newest movements once the floor grew past 4k rows.
-          .order("created_at", { ascending: false })
-          .range(from, to), 6000)
-      : Promise.resolve({ data: [] as TapeRow[], error: null }),
-    ids.length
-      ? newestRows<SnapRow>((from, to) => supabase
-          .from("market_snapshots")
-          .select("market_id, market_prob, oracle_kind, evidence, created_at")
-          .in("market_id", ids)
-          .order("created_at", { ascending: false })
-          .range(from, to), 2000)
-      : Promise.resolve({ data: [] as SnapRow[], error: null }),
-    ids.length
-      ? newestRows<SportOracleRow>((from, to) => supabase
-          .from("sport_oracle_events")
-          .select("market_id, reference_probabilities, created_at")
-          .in("market_id", ids)
-          .order("created_at", { ascending: false })
-          .range(from, to), 4000)
-      : Promise.resolve({ data: [] as SportOracleRow[], error: null }),
-    supabase
-      .from("market_trades")
-      .select("action, side, coins, price_yes, created_at, profiles(display_name, is_anonymous), markets(question, slug, sport_outcomes)")
-      .order("created_at", { ascending: false })
-      .limit(10),
-    sourceSlugs.length
-      ? supabase
-          .from("news_articles")
-          .select("slug, title, image_url, category, source, url")
-          .in("slug", sourceSlugs)
-      : Promise.resolve({ data: [] as ArticleMediaRow[], error: null }),
+  const [[tapeRes, snapRes, sportOracleRes], feedRes, articleMedia] = await Promise.all([
+    earlyHistory ?? loadHistory(rows.filter((m) => status !== "all" || m.status !== "resolved").map((m) => m.id)),
+    feedPromise,
+    articleMediaFor(supabase, sourceSlugs),
   ]);
-
-  // Media is supplementary. A news-table failure must never block prices;
-  // the resolver supplies an owned category fallback for editorial markets.
-  const articleMedia = articleRes.error
-    ? []
-    : ((articleRes.data ?? []) as ArticleMediaRow[]);
+  const dbMs = performance.now() - started;
 
   const byMarket = new Map<string, TapeRow[]>();
   for (const t of ([...((tapeRes.data ?? []) as TapeRow[])].reverse())) {
@@ -349,6 +400,11 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json(
     { markets, activity, generated_at: generatedAt.toISOString() },
-    { headers: { "Cache-Control": "private, no-store, max-age=0" } }
+    {
+      headers: {
+        "Cache-Control": "private, no-store, max-age=0",
+        "Server-Timing": `markets;dur=${marketsMs.toFixed(0)}, db;dur=${dbMs.toFixed(0)}, total;dur=${(performance.now() - started).toFixed(0)}`,
+      },
+    }
   );
 }
