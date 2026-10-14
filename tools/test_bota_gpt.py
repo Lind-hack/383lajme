@@ -57,7 +57,7 @@ class BotaTests(unittest.TestCase):
  def test_saved_publication_retries_without_gpt_and_survives_http_failure(self):
   day=b.datetime.now(b.ZoneInfo('Europe/Belgrade')).date().isoformat()
   url='https://example.org/kosovo';ident=b.hashlib.sha256(url.encode()).hexdigest()
-  packet={'date':day,'model':b.MODEL,'reasoningEffort':b.EFFORT,'articles':[{'url':url,'albanianTitle':'Kosova'}]}
+  packet={'date':day,'model':b.MODEL,'reasoningEffort':b.EFFORT,'articles':[{'url':url,'albanianTitle':'Kosova','imageUrl':'https://publisher.example/copied.jpg'}]}
   report={'date':day,'articleCount':1,'responses':[{'actualModel':b.MODEL,'actualReasoningEffort':b.EFFORT}]}
   class Response:
    status_code=200
@@ -73,7 +73,11 @@ class BotaTests(unittest.TestCase):
    with self.assertRaises(RuntimeError):b.run()
    self.assertTrue(pending.exists())
    result=b.run();self.assertEqual(result['result'],'published_verified');self.assertFalse(pending.exists())
-   self.assertEqual(post.call_args.kwargs['json'],packet)
+   sent=post.call_args.kwargs['json']
+   self.assertEqual(sent['articles'][0]['imageUrl'],None)
+   self.assertEqual(sent['articles'][0]['url'],url)
+   self.assertEqual(sent['articles'][0]['albanianTitle'],'Kosova')
+   self.assertEqual(packet['articles'][0]['imageUrl'],'https://publisher.example/copied.jpg')
    self.assertEqual(json.loads((Path(folder)/'last-run.json').read_text())['articleCount'],1)
  def test_editorial_output_must_also_pass_actual_publisher_validator(self):
   day=b.datetime.now(b.ZoneInfo('Europe/Belgrade')).date().isoformat();source,result=self.fixture()

@@ -49,6 +49,11 @@ export default async function TranslatedArticle({ params }: { params: Promise<{ 
     sourceBias: "neutral", tone: sentiment, category: "Botë",
     publishedAt: date ? `${date}T00:00:00Z` : "", readingTime: 0, featured: false,
     imageUrl: publication?.imageUrl || undefined,
+    imageCaption: publication?.imageCaption || undefined,
+    imageSourcePage: publication?.imageRights?.source_page,
+    imageCreator: publication?.imageRights?.creator,
+    imageLicense: publication?.imageRights?.license,
+    imageLicenseUrl: publication?.imageRights?.license_url,
     imageWidth: heroSize?.width, imageHeight: heroSize?.height,
   };
   const meta = [country, outlet].filter(Boolean).join(" · ");

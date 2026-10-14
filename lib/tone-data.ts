@@ -8,6 +8,7 @@ import { readFile } from "fs/promises";
 import path from "path";
 import { remoteImageSrc } from "./remote-image.mjs";
 import { readBotaSnapshot } from "./bota-store.mjs";
+import { safeBotaImage } from "./bota-image.mjs";
 import { articleIndex } from "./bota-publication.mjs";
 
 // tools/tone_scraper.py can now return "unknown" for an article it isn't
@@ -62,9 +63,8 @@ export interface ToneArticle {
    * in the pipeline. Optional: entries cached before the feature existed have
    * none until the backfill reaches them. */
   blurb?: string;
-  /** Resolved og:image from the publisher page. Null when scraping failed or
-   * the page has none — a bit under half of them, so the card's fallback is a
-   * normal state rather than an edge case. */
+  /** A separate contextual photo with recorded rights; legacy publisher
+   * images are removed at the read boundary. */
   imageUrl?: string | null;
 }
 
@@ -212,7 +212,11 @@ export async function getToneOutlets(): Promise<ToneOutletsData | null> {
   const snapshot=await readBotaSnapshot();
   if(snapshot)return snapshot.outlets;
   const legacy=await readJson<ToneOutletsData & {stanceVersion?:number}>("tone-outlets.json");
-  return legacy?.stanceVersion===CURRENT_STANCE_VERSION?legacy:null;
+  if (legacy?.stanceVersion !== CURRENT_STANCE_VERSION) return null;
+  for (const country of Object.values(legacy.countries)) for (const outlet of country.outlets) {
+    outlet.articles = outlet.articles.map(safeBotaImage);
+  }
+  return legacy;
 }
 
 /** One masthead's whole record, across every run we have kept. */
@@ -717,7 +721,9 @@ export interface ToneArticleCache {
 }
 
 export async function getToneArticleCache(): Promise<ToneArticleCache | null> {
-  return readJson<ToneArticleCache>("tone-article-cache.json");
+  const cache = await readJson<ToneArticleCache>("tone-article-cache.json");
+  if (cache) for (const [key, article] of Object.entries(cache.articles)) cache.articles[key] = safeBotaImage(article);
+  return cache;
 }
 
 interface ToneTopicsFile {
