@@ -429,6 +429,44 @@ export async function getCategoryShelf(
     .slice(0, limit);
 }
 
+/**
+ * The newest stories with an official video clip (scripts/news_video_policy.py
+ * attaches one only when a channel such as NATO, UEFA or the government posted
+ * the subject's own video). Light columns; only the exact watch URL the
+ * pipeline writes, the same shape the article page embeds.
+ */
+export async function getVideoArticles({
+  category,
+  sinceDays = 14,
+  limit = 12,
+}: { category?: string | null; sinceDays?: number; limit?: number } = {}): Promise<Article[]> {
+  const wanted = category ? normalizeCategory(category) : undefined;
+  const since = new Date(Date.now() - sinceDays * 86_400_000).toISOString();
+  const supabase = supabaseNewsClient();
+  if (supabase) {
+    try {
+      let query = supabase
+        .from("news_articles")
+        .select(ARTICLE_COLUMNS_LIGHT)
+        .like("video_clip_url", "https://www.youtube.com/watch?v=%")
+        .gte("published_at", since)
+        .order("published_at", { ascending: false })
+        .limit(limit);
+      if (wanted) query = query.in("category", categoryQueryValues(wanted));
+      const { data, error } = await query;
+      if (error) throw new Error(error.message);
+      return (data ?? []).map((a) => mapAutoRow(a as unknown as Record<string, unknown>));
+    } catch (error) {
+      console.error("[news] Supabase video stories unavailable; using committed fallback", error);
+    }
+  }
+  const cutoff = Date.parse(since);
+  return (await getArticles(300, wanted, { withBody: false }))
+    .filter((a) => a.videoClipUrl?.startsWith("https://www.youtube.com/watch?v=") && Date.parse(a.publishedAt) >= cutoff)
+    .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))
+    .slice(0, limit);
+}
+
 export async function getArticlesBefore({
   before,
   limit = 12,

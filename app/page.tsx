@@ -1,4 +1,4 @@
-import { getArticles, getArticlesBefore, getLatestArticles } from "@/lib/db";
+import { getArticles, getArticlesBefore, getLatestArticles, getVideoArticles } from "@/lib/db";
 import { MoveHorizontal } from "lucide-react";
 import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
@@ -45,6 +45,8 @@ import SectionJump from "@/components/home/section-jump";
 import TreguHome from "@/components/home/tregu-home";
 import AdSlot from "@/components/home/ad-slot";
 import PerTyHome from "@/components/home/per-ty-home";
+import VideoRow, { type VideoItem } from "@/components/video-row";
+import { youtubeIdOf } from "@/lib/video-clip";
 
 // Refresh rankings every ten minutes between hourly publication batches.
 export const revalidate = 600;
@@ -66,6 +68,15 @@ export default async function HomePage() {
     // card, never the page.
     getCityWeather().catch(() => []),
   ]);
+  // The newest official clips across 383, for the "Video" row. Its own query:
+  // clips are few, and the lists above would rarely hold more than one.
+  const videoArticles = await getVideoArticles({ limit: 12 }).catch(() => []);
+  const videos: VideoItem[] = videoArticles.flatMap((a) => {
+    const videoId = youtubeIdOf(a.videoClipUrl);
+    return videoId
+      ? [{ slug: a.slug, title: a.title, videoId, publishedAt: a.publishedAt, badge: a.category, color: getCategoryColor(a.category) }]
+      : [];
+  });
 
   // Each story's photo width, so the large slots below can go to photos big
   // enough to fill them (lib/image-size.mjs). Probes are shared per URL, so a
@@ -228,6 +239,9 @@ export default async function HomePage() {
           One <main> landmark covers the whole run, full-bleed bands included. */}
       <main>
       <Contained first>
+        {/* Real clips only; a row of one is not a row. */}
+        {videos.length >= 2 && <VideoRow title="Video" items={videos} list="home" />}
+
         <SectionLabel
           label="NJOFTIME"
           marginBottom={12}

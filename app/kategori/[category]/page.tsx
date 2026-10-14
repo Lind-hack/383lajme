@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { Inbox } from "lucide-react";
-import { getArticles, getArticlesBefore } from "@/lib/db";
+import { getArticles, getArticlesBefore, getVideoArticles } from "@/lib/db";
 import type { Article } from "@/lib/mock-data";
 import { CATEGORY_TO_SLUG, RESOLVABLE_SLUGS } from "@/lib/category-map";
 import { getCategoryColor, getCategoryGradient, CATEGORY_LIGHT_BG } from "@/lib/category-colors";
@@ -16,6 +16,8 @@ import CityPicker, { type PickerCity } from "@/components/kategori/city-picker";
 import KategoriFeed, { type FeedCity, type FeedHooks, type FeedItem } from "@/components/kategori/feed";
 import { pickFrontPage, pickMostRead } from "@/lib/front-page.mjs";
 import { getSectionMarket } from "@/lib/kategori-market";
+import VideoRow, { type VideoItem } from "@/components/video-row";
+import { youtubeIdOf } from "@/lib/video-clip";
 
 export const revalidate = 3600;
 
@@ -55,11 +57,12 @@ export default async function CategoryPage({
   const slug = CATEGORY_TO_SLUG[categoryName];
   const byCity = hasCities(categoryName);
 
-  const [rankedArticles, recentArticles, market] = await Promise.all([
+  const [rankedArticles, recentArticles, market, videoArticles] = await Promise.all([
     getArticles(50, categoryName, { withBody: false }),
     // Newest first: the feed's order, and the pool a city is counted over.
     getArticlesBefore({ limit: byCity ? CITY_POOL : FIRST_PAGE, category: categoryName }),
     getSectionMarket(slug),
+    getVideoArticles({ category: categoryName, limit: 12 }).catch(() => []),
   ]);
 
   // One city per story, decided once for everything this render can show.
@@ -108,8 +111,30 @@ export default async function CategoryPage({
   const top = pickMostRead(leadPool.filter(usable), 3, { exclude: used }) as Article[];
   for (const a of top) used.add(a.id);
 
+  // The section's official clips: a row of its own under the lead, in place of
+  // the photo carousel (two swipe rows would repeat each other). A city filter
+  // shows only that city's clips; with fewer than two, the carousel stays.
+  const videos: VideoItem[] = videoArticles.flatMap((a) => {
+    const videoId = youtubeIdOf(a.videoClipUrl);
+    const cityId = cityOfArticle(a, categoryName);
+    if (!videoId || (selected && cityId !== selected.id)) return [];
+    const city = cityId ? cities[cityId] : undefined;
+    return [
+      {
+        slug: a.slug,
+        title: a.title,
+        videoId,
+        publishedAt: a.publishedAt,
+        badge: city?.name ?? categoryName,
+        emblem: city?.emblem ?? null,
+        color: getCategoryColor(categoryName),
+      },
+    ];
+  });
+  const showVideos = videos.length >= 2;
+
   let carousel: FeedHooks["carousel"];
-  if (!selected) {
+  if (!selected && !showVideos) {
     const withPhoto = recentArticles.filter((a) => usable(a) && a.imageUrl && !used.has(a.id));
     // Kosovë/Shqipëri: the newest photo story from each of the busiest cities.
     const perCity = byCity
@@ -176,6 +201,12 @@ export default async function CategoryPage({
         )}
 
         {lead && <KategoriLead article={lead} city={leadCityId ? cities[leadCityId] : undefined} />}
+
+        {showVideos && (
+          <div style={{ ["--vr-gutter" as string]: "var(--kat-gutter)" }}>
+            <VideoRow title={`Video · ${categoryName}`} items={videos} list={slug} accent={accent} />
+          </div>
+        )}
 
         <KategoriFeed
           // A new city is a new list: remount so paging state never carries over.

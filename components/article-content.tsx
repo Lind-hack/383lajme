@@ -22,6 +22,7 @@ import { CATEGORY_TO_SLUG, normalizeCategory } from "@/lib/category-map";
 import type { AccordionSlide } from "@/components/image-accordion";
 import { EASE, DUR } from "@/lib/tokens";
 import PaperReady from "@/components/paper-ready";
+import { youtubeIdOf } from "@/lib/video-clip";
 
 interface Props {
   article: Article;
@@ -49,7 +50,7 @@ export default function ArticleContent({ article, related, moreFromCategory = []
   // Counted from the prose, not from the markup the body is stored in.
   const dynamicReadTime = readingMinutes(article.body);
   // Only the exact watch URL the pipeline writes; anything else shows the photo.
-  const youtubeId = article.videoClipUrl?.match(/^https:\/\/www\.youtube\.com\/watch\?v=([A-Za-z0-9_-]{11})$/)?.[1];
+  const youtubeId = youtubeIdOf(article.videoClipUrl);
 
   return (
     <main
