@@ -14,7 +14,7 @@ Scope: inventory all 43 page templates and inspect shared UI/card families. This
 
 ## Verification
 
-- 20 theme, language and colour-contrast regression checks pass. They calculate contrast from actual stylesheet palettes and include both stops/metal ranks, glass alpha blending, admin inverse controls and newspaper buttons.
+- 21 theme, language and colour-contrast regression checks pass. They calculate contrast from actual stylesheet palettes and include both stops/metal ranks, glass alpha blending, admin inverse controls, newspaper buttons and trip-room tabs/invites/actions.
 - Final production build passed (three workers, exit 0). Production release identity is recorded below after GitHub deployment.
 - Browser candidates over gradients/images are estimates, not measured WCAG ratios. Every changed issue was traced to its owning style; physical photographs, flags, map artwork and intentional bright metal surfaces are preserved.
 - No horizontal page overflow was reported in the initial rendered 1280px/390px cases. Static monthly stories render as authored artwork; measured DOM text does not include text inside that artwork.
@@ -116,3 +116,9 @@ Initial release `7bc320a259a61ecb098a3efdff1ce85bb655d6ff` completed through Rai
 Source review found stale/warning and odds-change foregrounds retaining dark ink over dark semantic washes (warning contrast 2.36:1). Fixed those pairs, inherited form/fieldset labels, health/news panel backgrounds, neutral count/status chips and primary/secondary/danger hover states. Regression coverage checks these pairs in both palettes, including inherited panel ink and grouped CSS selectors. All 20 checks pass. Actual protected-page visual verification still awaits the user's sign-in; the last browser signal remains `/hyr` with a login link and no profile link.
 
 The second public release `8f6f9d830c11017287bb8862e1a3093e0c434eb7` completed through Railway GitHub integration (`589c97e6-c262-41cf-927b-3a6dd53a0ca7`, SUCCESS). The live deployment-info endpoint matched main/production/github-main and retained race-live-v4. The obsolete race-grid-v3 gate was not claimed as passed.
+
+## Trip-room continuation
+
+Admin follow-up release `d5a83ed25974743e3ddba4f382fd61b3a5c4c56f` succeeded through Railway GitHub integration (`41f0b235-d98a-4c8a-9c98-edd08b68f3d6`); the live endpoint matched that SHA, main, production and github-main. The concurrent video-row addition was preserved and the combined production build passed.
+
+The shared newspaper uses the same Cover/Story/Panel slides, reel controls and dark paper palette as the personal newspaper. A valid shared edition still needs rendered verification. Trip-room source review found selected tabs using fixed dark ink over a theme-aware surface and gold invites mixing dark paper with a gold stop. Tabs now pair site ink/surface; invite cards retain two bright gold stops with constant dark ink. Orange action labels and the WhatsApp invite label now use contrasting fills/ink. The added regression covers both themes and both invite gradient stops; 21 checks pass. Browser account verification remains unavailable: the existing handoff tab still shows `/hyr` without a profile link.

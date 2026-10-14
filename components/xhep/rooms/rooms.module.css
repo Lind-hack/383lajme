@@ -52,7 +52,7 @@
   cursor: pointer;
   transition: transform 160ms ease;
 }
-.primary { background: #ff4422; color: #fff; box-shadow: 0 12px 26px rgba(255, 68, 34, 0.35); }
+.primary { background: #d93a0f; color: #fff; box-shadow: 0 12px 26px rgba(255, 68, 34, 0.35); }
 .ghost { min-height: 44px; background: rgba(var(--theme-surface-rgb, 255, 255, 255), 0.12); color: #fff; font-size: 14px; }
 .primary:active, .ghost:active { transform: scale(0.97); }
 .primary:disabled, .ghost:disabled { opacity: 0.55; cursor: default; }
@@ -78,7 +78,7 @@
 
 .roomTabs { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; }
 .roomTabs button { flex: none; min-height: 34px; padding: 0 14px; border: 0; border-radius: 999px; background: rgba(var(--theme-surface-rgb, 255, 255, 255), 0.1); color: #fff; font: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
-.roomTabs button[aria-selected="true"] { background: var(--theme-surface, #fff); color: #13233a; }
+.roomTabs button[aria-selected="true"] { background: var(--theme-surface, #fff); color: var(--theme-ink, #13233a); }
 
 .room { display: grid; gap: 18px; }
 .roomHead { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
@@ -87,7 +87,7 @@
 .roomHead b { font-size: 22px; font-weight: 900; }
 .leave { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border: 0; border-radius: 999px; background: rgba(var(--theme-surface-rgb, 255, 255, 255), 0.08); color: rgba(255, 255, 255, 0.7); font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; }
 
-.invite { display: grid; grid-template-columns: 148px minmax(0, 1fr); align-items: center; gap: 18px; padding: 16px; border-radius: 20px; background: linear-gradient(135deg, var(--theme-paper, #fff6dc), #ffd98f); color: var(--theme-ink, #1b1410); }
+.invite { display: grid; grid-template-columns: 148px minmax(0, 1fr); align-items: center; gap: 18px; padding: 16px; border-radius: 20px; background: linear-gradient(135deg, #fff6dc, #ffd98f); color: #1b1410; }
 .inviteQr { width: 148px; height: 148px; border-radius: 12px; box-shadow: 0 8px 18px rgba(80, 50, 10, 0.25); }
 .invite > div { display: grid; gap: 4px; }
 .invite b { font-size: 19px; font-weight: 900; }
@@ -95,7 +95,7 @@
 .code { width: fit-content; margin: 4px 0; padding: 4px 12px; border-radius: 10px; background: #1b1410; color: #ffd27a; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 22px; font-weight: 800; letter-spacing: 0.22em; }
 .inviteActions { display: flex; flex-wrap: wrap; gap: 8px; }
 .inviteActions button, .inviteActions a { display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 0 14px; border: 0; border-radius: 999px; background: #1b1410; color: #fff; font: inherit; font-size: 13px; font-weight: 800; text-decoration: none; cursor: pointer; }
-.inviteActions a[data-wa] { background: #1fa855; }
+.inviteActions a[data-wa] { background: #1fa855; color: #102b19; }
 
 .subhead { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; color: #ffd27a; font-size: 13px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; }
 .race { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
@@ -120,7 +120,7 @@
 
 .composer { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; margin-bottom: 12px; }
 .composer select { font-size: 14px; }
-.composer button { display: inline-flex; align-items: center; gap: 6px; min-height: 46px; padding: 0 16px; border: 0; border-radius: 14px; background: #ff4422; color: #fff; font: inherit; font-size: 14px; font-weight: 900; cursor: pointer; }
+.composer button { display: inline-flex; align-items: center; gap: 6px; min-height: 46px; padding: 0 16px; border: 0; border-radius: 14px; background: #d93a0f; color: #fff; font: inherit; font-size: 14px; font-weight: 900; cursor: pointer; }
 .composer button:disabled { opacity: 0.5; cursor: default; }
 .feed { display: grid; gap: 8px; max-height: 420px; margin: 0; padding: 0; overflow-y: auto; list-style: none; }
 .feed li { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: rgba(var(--theme-surface-rgb, 255, 255, 255), 0.05); animation: row-in 380ms cubic-bezier(0.23, 1, 0.32, 1) both; }
