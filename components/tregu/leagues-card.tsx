@@ -77,7 +77,10 @@ function PotMath({ fee, days }: { fee: number; days: number }) {
  * `embedded`: inside the leagues hub (leagues-hub.tsx), which shows the
  * reader's leagues itself — only create, join-by-code and their sheets here.
  */
-export default function LeaguesCard({ loggedIn, embedded = false }: { loggedIn: boolean; embedded?: boolean }) {
+/** The hub's join sheet hands a typed invite code to the card mounted on the page. */
+export const LEAGUE_CODE_EVENT = "tregu:league-code";
+
+export default function LeaguesCard({ loggedIn, embedded = false, quiet = false }: { loggedIn: boolean; embedded?: boolean; quiet?: boolean }) {
   const supabase = useMemo(() => createClient(), []);
   const [pulse, setPulse] = useState<Pulse | null>(null);
   const [leagues, setLeagues] = useState<LeagueSummary[]>([]);
@@ -186,6 +189,17 @@ export default function LeaguesCard({ loggedIn, embedded = false }: { loggedIn: 
     setStage({ kind: "create" });
     window.setTimeout(() => section.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
   }, [firstName, loggedIn]);
+
+  useEffect(() => {
+    const onCode = (event: Event) => {
+      const clean = String((event as CustomEvent<string>).detail ?? "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
+      setCode(clean);
+      void lookUp(clean);
+      window.setTimeout(() => section.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+    };
+    window.addEventListener(LEAGUE_CODE_EVENT, onCode);
+    return () => window.removeEventListener(LEAGUE_CODE_EVENT, onCode);
+  }, [lookUp]);
 
   // "Krijo një me këtë emër" from the hub's search.
   useEffect(() => {
@@ -362,7 +376,8 @@ export default function LeaguesCard({ loggedIn, embedded = false }: { loggedIn: 
         </nav>
       )}
 
-      {stage.kind === "idle" && (
+      {/* quiet: the hub draws its own "Hyr" and "Krijo" buttons. */}
+      {stage.kind === "idle" && !quiet && (
         <div className="lgc-actions">
           <button type="button" className="lgc-create" onClick={() => openCreate()}>
             <Plus size={22} strokeWidth={2.6} aria-hidden />
