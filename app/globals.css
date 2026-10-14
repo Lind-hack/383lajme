@@ -25570,3 +25570,17 @@ button.lgt-launch > span {
   .nav-account-slot .nav-auth-desktop,
   .nav-destinations .nav-scroll{transition:none;transform:none!important;}
 }
+
+/* Reclaim the desktop account space visually as the hamburger fades in.
+   Move the entire cluster with a compositor transform, preserving its order. */
+@media(min-width:1025px){
+  .site-nav-controls .nav-right-pills{
+    transition:transform var(--duration-base) var(--ease-out);
+  }
+  .site-nav-controls[data-collapsed="true"] .nav-right-pills{
+    transform:translateX(176px);
+  }
+}
+@media(min-width:1025px) and (prefers-reduced-motion:reduce){
+  .site-nav-controls .nav-right-pills{transition:none;}
+}
