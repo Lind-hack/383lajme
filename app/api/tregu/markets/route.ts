@@ -111,6 +111,9 @@ async function articleMediaFor(
 
 export async function GET(request: NextRequest) {
   const generatedAt = new Date();
+  // Server-Timing: where a slow floor load spends its time, readable in the
+  // browser's network panel or with curl -I.
+  const started = performance.now();
   const supabase = await createClient();
   const category = request.nextUrl.searchParams.get("category");
   const status = request.nextUrl.searchParams.get("status") ?? "open";
@@ -192,6 +195,7 @@ export async function GET(request: NextRequest) {
   earlyHistory?.catch(() => {});
 
   const { data, error } = await query;
+  const marketsMs = performance.now() - started;
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   const rows = (data ?? []).filter((market) => matchesNewsFilter(market, category));
@@ -208,6 +212,7 @@ export async function GET(request: NextRequest) {
     feedPromise,
     articleMediaFor(supabase, sourceSlugs),
   ]);
+  const dbMs = performance.now() - started;
 
   const byMarket = new Map<string, TapeRow[]>();
   for (const t of ([...((tapeRes.data ?? []) as TapeRow[])].reverse())) {
@@ -395,6 +400,11 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json(
     { markets, activity, generated_at: generatedAt.toISOString() },
-    { headers: { "Cache-Control": "private, no-store, max-age=0" } }
+    {
+      headers: {
+        "Cache-Control": "private, no-store, max-age=0",
+        "Server-Timing": `markets;dur=${marketsMs.toFixed(0)}, db;dur=${dbMs.toFixed(0)}, total;dur=${(performance.now() - started).toFixed(0)}`,
+      },
+    }
   );
 }
