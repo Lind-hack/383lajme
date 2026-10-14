@@ -157,7 +157,7 @@ export default function TopicCarousel({ children }: { children: React.ReactNode 
             padding: 0;
             border-radius: 12px;
             border: 1.5px solid #E8E3DB;
-            background: #FFFFFF;
+            background: var(--theme-surface, #FFFFFF);
             box-shadow: 0 4px 16px rgba(17,17,17,0.16);
             color: #111111;
             cursor: pointer;

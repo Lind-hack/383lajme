@@ -15,7 +15,8 @@ html[data-theme="dark"] input,html[data-theme="dark"] textarea,html[data-theme="
 /* Bright imagery and category/market accents retain their original colors. */
 .side-panel-account {flex-shrink:0;margin-bottom:18px;}
 .side-panel-account > div > a {flex:1;white-space:nowrap;}
-.side-panel-account .theme-setting {padding:10px 0;margin:8px 0 0;border-bottom:1px solid var(--theme-border,#e8e3db);border-radius:0;background:transparent;}
+.side-panel .theme-setting {padding:16px 0;margin:24px 0 0;border:0;border-radius:0;background:transparent;}
+.side-panel-scroll {padding-bottom: max(28px,env(safe-area-inset-bottom))!important;}
 .side-panel-link {color:var(--theme-ink,#2d2925);font-weight:700;}
 .side-panel-link[aria-current="page"] {color:#d43b22;}
 .cat-rail-label {text-shadow:none;filter:none;}
@@ -179,3 +180,24 @@ html[data-theme="dark"] .nav-auth-desktop .btn-outline {background:var(--theme-s
 html[data-theme="dark"] {--theme-inverse-surface:#39352f;--theme-inverse-ink:#eeeae4;}
 html[data-theme="dark"] .bg-ink,html[data-theme="dark"] .bg-charcoal {background-color:var(--theme-inverse-surface)!important;}
 html[data-theme="dark"] .text-cream,html[data-theme="dark"] [class*="text-cream/"] {color:var(--theme-inverse-ink)!important;}
+
+/* The personal paper and sport cards define their own component palettes. */
+html[data-theme="dark"] .perty-paper {
+ --pp-card:var(--theme-surface);--pp-chip:#302c27;--pp-sheet:var(--theme-paper);
+ --pp-ink:var(--theme-ink);--pp-text:var(--theme-ink);--pp-soft-text:var(--theme-muted);
+ --pp-muted:var(--theme-muted);--pp-faint:var(--theme-muted);--pp-rule:var(--theme-border);--pp-rule-soft:#39352f;
+ --pp-accent-ink:#ff987e;--pp-accent-soft:#35251f;--pp-accent-line:#684035;
+ --pp-read:#7fce98;--pp-read-soft:#20392a;
+}
+html[data-theme="dark"] .perty-paper[data-accent="blu"] {--pp-accent-ink:#a4bdff;--pp-accent-soft:#202b42;--pp-accent-line:#405477;}
+html[data-theme="dark"] .perty-paper[data-accent="gjelber"] {--pp-accent-ink:#8bdd9c;--pp-accent-soft:#20392a;--pp-accent-line:#3b6148;}
+html[data-theme="dark"] .perty-paper[data-accent="vjollce"] {--pp-accent-ink:#cfb0ff;--pp-accent-soft:#31243e;--pp-accent-line:#624777;}
+html[data-theme="dark"] .perty-paper[data-accent="kuqe"] {--pp-accent-ink:#ffaaaa;--pp-accent-soft:#3c2424;--pp-accent-line:#784848;}
+html[data-theme="dark"] .perty-ed-n,html[data-theme="dark"] .perty-mark--new,html[data-theme="dark"] .perty-ed-wrapped {background:var(--theme-inverse-surface);color:var(--theme-inverse-ink);}
+html[data-theme="dark"] .tregu-skeleton {background:var(--theme-surface)!important;}
+html[data-theme="dark"] .tregu-sport-card {--sport-tint:#302821;--sport-ink:var(--theme-ink);--brand-tint:#302821;}
+/* Warm accents stay visible without the old white highlight peak. */
+.side-panel .glossy-orange {background-image:linear-gradient(110deg,#d43b22 0%,#ff4422 30%,#ff7953 50%,#ff4422 70%,#d43b22 100%);}
+html[data-theme="dark"] .side-panel .glossy-orange {background-image:linear-gradient(110deg,#ff7953 0%,#ff987e 50%,#ff7953 100%);}
+.cat-rail-label {color:#d43b22;}
+html[data-theme="dark"] .cat-rail-label {color:#ff987e;}

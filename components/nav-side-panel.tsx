@@ -8,8 +8,6 @@ import ToniGaugeIcon from "@/components/toni-gauge-icon";
 import {
   ArrowUpRight,
   ChevronDown,
-  ExternalLink,
-  MapPin,
   Plane,
   X,
 } from "lucide-react";
@@ -17,15 +15,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { NAV_LINKS } from "./navbar";
-import {
-  InfoCard,
-  InfoCardContent,
-  InfoCardTitle,
-  InfoCardDescription,
-  InfoCardFooter,
-  InfoCardDismiss,
-  InfoCardAction,
-} from "./ui/info-card";
+
 
 function getInitials(user: User): string {
   const name = user.user_metadata?.full_name as string | undefined;
@@ -389,7 +379,6 @@ export default function NavSidePanel({ open, onClose }: Props) {
                 </Link>
               </div>
             )}
-            <ThemeToggle />
           </div>
 
           <div
@@ -458,7 +447,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
                       key={link.href}
                       href={link.href}
                       onClick={onClose}
-                      className="side-panel-link"
+                      className="side-panel-link glossy-orange"
                       aria-current={active ? "page" : undefined}
                     >
                       {link.label}
@@ -710,7 +699,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
             <Link
               href="/tregu"
               onClick={onClose}
-              className="side-panel-link side-panel-tregu"
+              className="side-panel-link side-panel-tregu glossy-orange"
               aria-current={
                 pathname?.startsWith("/tregu") && pathname !== "/tregu/portofoli"
                   ? "page"
@@ -732,61 +721,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
             )}
           </div>
 
-          {/* Kosovo tag */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              marginTop: "20px",
-              paddingTop: "20px",
-              borderTop: "1px solid #E8E3DB",
-              color: "#6B6B6B",
-              fontSize: "12px",
-              fontWeight: 700,
-              letterSpacing: "0.08em",
-            }}
-          >
-            <MapPin size={14} strokeWidth={2.5} color="#FF4422" />
-            <span>KOSOVË</span>
-          </div>
-
-          {/* Bottom area: tutorial card + profile/auth (normal scroll flow) */}
-          <div style={{ paddingTop: "28px" }}>
-            {/* How-to-use tutorial card (hover to expand the walkthrough video) */}
-            <div style={{ marginBottom: "16px" }}>
-              <InfoCard
-                dismissType="forever"
-                storageKey="383-tutorial-dismissed"
-                className="border-[#E8E3DB]"
-              >
-                <InfoCardContent>
-                  <InfoCardTitle className="text-[#111]">
-                    Si të përdoret 383
-                  </InfoCardTitle>
-                  <InfoCardDescription className="text-[#9C9C9C]">
-                    Shfletoni kategoritë, ruani lajme dhe personalizoni.
-                  </InfoCardDescription>
-                  <InfoCardFooter className="text-[#9C9C9C]">
-                    <InfoCardDismiss className="text-[#9C9C9C]">
-                      Mbylle
-                    </InfoCardDismiss>
-                    <InfoCardAction>
-                      <Link
-                        href="/rreth-nesh"
-                        onClick={onClose}
-                        className="flex flex-row items-center gap-1 underline text-[#FF4422]"
-                      >
-                        Mëso më shumë <ExternalLink size={12} />
-                      </Link>
-                    </InfoCardAction>
-                  </InfoCardFooter>
-                </InfoCardContent>
-              </InfoCard>
-            </div>
-
-
-          </div>
+          <div className="side-panel-appearance"><ThemeToggle /></div>
           </div>
         </div>
       </aside>

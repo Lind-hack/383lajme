@@ -276,13 +276,13 @@ body {
   100% { background-position: -200% center; }
 }
 .glossy-orange {
-  background: linear-gradient(110deg, #E41E20 0%, #FF4422 30%, #FFC9A8 50%, #FF4422 70%, #E41E20 100%);
+  background: linear-gradient(110deg, #E41E20 0%, #FF4422 30%, #FF7953 50%, #FF4422 70%, #E41E20 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  animation: shine-sweep 3.5s linear infinite;
+  animation: shine-sweep 7s linear infinite;
 }
 
 /* ── Nav menu button (hamburger) — solid, calm; accents on interaction only ── */
@@ -14087,7 +14087,7 @@ header[data-overlay="true"] .nav-search-btn[style*="margin-right"] {
   }
 }
 /* Tregu discovery: controls fit the viewport and data stays immediately usable. */
-.tregu-discovery-controls{display:flex;gap:12px;align-items:end;margin-bottom:16px}.tregu-search{flex:1;max-width:540px}.tregu-discovery-controls label>span{display:block;font-size:12px;font-weight:700;margin-bottom:6px}.tregu-discovery-controls input,.tregu-discovery-controls select{width:100%;min-height:46px;border:1px solid var(--theme-border, #d9d4cc);border-radius:12px;padding:10px 14px;background:white;color:var(--theme-ink, #111);font-size:16px}.tregu-category-mobile{display:none}.tregu-discovery-controls :focus-visible{outline:2px solid #ff4422;outline-offset:3px}
+.tregu-discovery-controls{display:flex;gap:12px;align-items:end;margin-bottom:16px}.tregu-search{flex:1;max-width:540px}.tregu-discovery-controls label>span{display:block;font-size:12px;font-weight:700;margin-bottom:6px}.tregu-discovery-controls input,.tregu-discovery-controls select{width:100%;min-height:46px;border:1px solid var(--theme-border, #d9d4cc);border-radius:12px;padding:10px 14px;background:var(--theme-surface,white);color:var(--theme-ink, #111);font-size:16px}.tregu-category-mobile{display:none}.tregu-discovery-controls :focus-visible{outline:2px solid #ff4422;outline-offset:3px}
 .tregu-sports-discovery{display:grid;grid-template-columns:2fr 1fr 1fr;gap:14px;align-items:start}.tregu-football-leagues{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tregu-football-leagues .tregu-sport-league{padding:9px;min-height:54px;font-size:12px}.tregu-sport-card{min-height:0!important}.f1-race-stage{grid-template-columns:minmax(0,1fr)!important}
 .tregu-skeleton{position:relative;overflow:hidden;background:#eeeae4!important}.tregu-skeleton:after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(var(--theme-surface-rgb, 255, 255, 255), .65),transparent);animation:tregu-skeleton-pass 1.4s linear infinite}@keyframes tregu-skeleton-pass{to{transform:translateX(100%)}}
 .tregu-native-market[data-competition]{isolation:isolate;position:relative;overflow:hidden}.tregu-competition-art{position:absolute;pointer-events:none;inset:auto 0 0;width:100%;height:auto;max-height:180px;z-index:-1;color:var(--competition-color);opacity:.5}.tregu-native-market[data-competition="uefa.champions"]{--competition-color:#263cc9;background:var(--theme-surface, #f3f5ff);border-color:#bdc8ef}.tregu-native-market[data-competition="uefa.europa"]{--competition-color:#b95408;background:var(--theme-paper, #fff7ee);border-color:#efd1b3}.tregu-native-market[data-competition="uefa.europa.conf"]{--competition-color:#13843c;background:var(--theme-surface, #f1faf2);border-color:#b8dbc0}.tregu-native-market[data-competition] .tregu-native-outcome{background:rgba(255,255,255,.88)}
@@ -19990,7 +19990,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .site-nav-inner .nav-dardan { width:auto;padding:4px 8px 4px 4px!important;gap:5px;font-size:11px; }
   .site-nav-inner .nav-dardan-face { width:24px;height:24px; }
   .site-nav-inner .nav-search-btn { width:28px;margin:0!important; }
-  .site-nav-inner .nav-menu-btn { width:32px!important; }
+  .site-nav-inner .nav-menu-btn { width:40px!important; }
 }
 @media (max-width:360px) {
   .site-nav-inner { padding-left:6px!important;padding-right:6px!important;gap:3px!important; }
@@ -19999,7 +19999,7 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .site-nav-inner .nav-dardan { padding:4px 6px 4px 3px!important;gap:3px;font-size:10px; }
   .site-nav-inner .nav-dardan-face { width:20px;height:20px; }
   .site-nav-inner .nav-search-btn { width:24px; }
-  .site-nav-inner .nav-menu-btn { width:28px!important; }
+  .site-nav-inner .nav-menu-btn { width:36px!important; }
 }
 @media print { .site-language { display:none!important; } }
 
@@ -25517,3 +25517,16 @@ button.lgt-launch > span {
   .kuiz[data-seen="true"] .kuiz-stage { animation: none; }
   .kuiz-option::after { transition: none; }
 }
+
+/* Shared geometry keeps the controls anchored when the destinations collapse. */
+.nav-account-slot {width:220px;flex-shrink:0;display:flex;justify-content:flex-end;align-items:center;}
+.nav-account-slot .nav-menu-btn {display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:44px;height:44px;border-radius:12px;border:1.5px solid var(--theme-border,#e8e3db);background:var(--theme-surface,#fff);cursor:pointer;flex-shrink:0;}
+@media(max-width:1024px){.nav-account-slot{width:44px;}.nav-destinations{display:none;}.site-nav-controls{justify-content:flex-end;}}
+@media(max-width:640px){.nav-account-slot{width:40px;}.nav-right-pills{gap:4px;}}
+@media(max-width:360px){.nav-account-slot{width:36px;}.nav-right-pills{gap:3px;}}
+
+.nav-account-slot .nav-menu-btn {display:none;}
+.site-nav-controls[data-collapsed="true"] .nav-menu-btn {display:flex;}
+.site-nav-controls[data-collapsed="true"] .nav-auth-desktop {display:none;}
+.site-nav-controls[data-collapsed="true"] .nav-destinations .nav-scroll {display:none!important;}
+@media(max-width:1024px){.nav-account-slot .nav-menu-btn{display:flex;}.nav-account-slot .nav-auth-desktop{display:none;}}
