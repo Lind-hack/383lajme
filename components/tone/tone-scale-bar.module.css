@@ -121,8 +121,8 @@
   font-weight: 700;
   color: var(--theme-muted, #6b6b6b);
 }
-.ends > :first-child { color: #a3121a; }
-.ends > :last-child { color: #16794a; }
+.ends > :first-child { color: var(--theme-negative-ink, #a3121a); }
+.ends > :last-child { color: var(--theme-positive-ink, #16794a); }
 .scale[data-size="sm"] .ends > :nth-child(2) { display: none; }
 
 [data-edge="start"] > .markerLabel,

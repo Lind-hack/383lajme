@@ -14,7 +14,7 @@ Scope: inventory all 43 page templates and inspect shared UI/card families. This
 
 ## Verification
 
-- 21 theme, language and colour-contrast regression checks pass. They calculate contrast from actual stylesheet palettes and include both stops/metal ranks, glass alpha blending, admin inverse controls, newspaper buttons and trip-room tabs/invites/actions.
+- 22 theme, language and colour-contrast regression checks pass. They calculate contrast from actual stylesheet palettes and include both stops/metal ranks, glass alpha blending, admin inverse controls, newspaper buttons, trip-room tabs/invites/actions and portrayal scale end labels.
 - Final production build passed (three workers, exit 0). Production release identity is recorded below after GitHub deployment.
 - Browser candidates over gradients/images are estimates, not measured WCAG ratios. Every changed issue was traced to its owning style; physical photographs, flags, map artwork and intentional bright metal surfaces are preserved.
 - No horizontal page overflow was reported in the initial rendered 1280px/390px cases. Static monthly stories render as authored artwork; measured DOM text does not include text inside that artwork.
@@ -122,3 +122,9 @@ The second public release `8f6f9d830c11017287bb8862e1a3093e0c434eb7` completed t
 Admin follow-up release `d5a83ed25974743e3ddba4f382fd61b3a5c4c56f` succeeded through Railway GitHub integration (`41f0b235-d98a-4c8a-9c98-edd08b68f3d6`); the live endpoint matched that SHA, main, production and github-main. The concurrent video-row addition was preserved and the combined production build passed.
 
 The shared newspaper uses the same Cover/Story/Panel slides, reel controls and dark paper palette as the personal newspaper. A valid shared edition still needs rendered verification. Trip-room source review found selected tabs using fixed dark ink over a theme-aware surface and gold invites mixing dark paper with a gold stop. Tabs now pair site ink/surface; invite cards retain two bright gold stops with constant dark ink. Orange action labels and the WhatsApp invite label now use contrasting fills/ink. The added regression covers both themes and both invite gradient stops; 21 checks pass. Browser account verification remains unavailable: the existing handoff tab still shows `/hyr` without a profile link.
+
+## Public index continuation
+
+Trip-room release `7136aaf07c1a7ba9ce6e2c7f97c8dcc29b5e305d` succeeded via Railway GitHub integration (`ac2a9560-8349-4a5e-9bcc-8a2265bec44e`) and matched the live endpoint. The public Bota page rendered at 1280px in light and dark themes without horizontal overflow. The dark screenshot exposed fixed red/green end-label ink on the index scale; these now use semantic theme ink. The original dark preference was restored after inspection. `/toni` is a permanent redirect to this page, rather than a separate unaudited template.
+
+An unresolved image-selection defect was also observed: Bota cards show publisher-branded photos, and `tools/bota_gpt.py` extracts `og:image` while `lib/bota-publication.mjs` accepts that URL without rights or distinct-from-source provenance. This does not meet the user's separate contextual-image requirement. Correcting the worker/publication image path remains required; a cosmetic fallback alone would not fulfill it. Account verification still shows the preserved `/hyr` handoff.
