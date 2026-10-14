@@ -147,7 +147,7 @@ export default function ArticleCard({ article, variant = "grid", index = 0 }: Ar
               fontSize: "16.5px",
               fontWeight: 800,
               lineHeight: 1.26,
-              color: hovered ? catColor : "#111111",
+              color: hovered ? `var(--theme-accent-ink, ${catColor})` : "#111111",
               margin: 0,
               display: "-webkit-box",
               WebkitLineClamp: 4,

@@ -902,7 +902,7 @@ export default function TreguHub() {
                   padding: "8px 16px",
                   borderRadius: 100,
                   border: "1px solid " + (active ? "#111111" : "rgba(17,17,17,0.12)"),
-                  background: active ? "#111111" : "rgba(255,255,255,0.6)",
+                  background: active ? "#111111" : "rgba(var(--theme-surface-rgb,255,255,255),0.6)",
                   color: active ? "#FFFFFF" : "#111111",
                   fontWeight: 700,
                   fontSize: 13,

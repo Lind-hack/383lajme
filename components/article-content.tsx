@@ -102,7 +102,7 @@ export default function ArticleContent({ article, related, moreFromCategory = []
                   fontWeight: 700,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  color: catColor,
+                  color: `var(--theme-accent-ink, ${catColor})`,
                   background: catBg,
                   padding: "5px 12px",
                   borderRadius: "100px",

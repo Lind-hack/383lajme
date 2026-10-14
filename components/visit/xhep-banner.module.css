@@ -44,3 +44,7 @@
 .copy span { color: var(--theme-ink, #4e3d2c); font-size: 13px; line-height: 1.35; }
 .go { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #ff4422; color: #fff; box-shadow: 0 6px 14px rgba(255, 68, 34, 0.35); }
 @media (prefers-reduced-motion: reduce) { .packs img { animation: none; } }
+
+:global(html[data-theme="dark"]) .banner {
+  background: radial-gradient(120% 140% at 0% 0%, #413020, #30271e 55%, #24221f);
+}

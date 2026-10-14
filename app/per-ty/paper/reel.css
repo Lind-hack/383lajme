@@ -2517,3 +2517,20 @@
     transition: none;
   }
 }
+
+html[data-theme="dark"] .perty-paper-pages {
+  --pp-card: #24221f;
+  --pp-ink: #eeeae4;
+  --pp-text: #e8e0d7;
+  --pp-soft-text: #cfc5ba;
+  --pp-muted: #c5bdb1;
+  --pp-faint: #b6ad9f;
+  --pp-rule: #49443d;
+  --pp-rule-soft: #39322c;
+  --pp-chip: #302b25;
+  --pp-accent-ink: #ff947d;
+  --pp-accent-soft: #38241c;
+  --pp-accent-line: #724430;
+  --pp-read: #77dca2;
+  --pp-read-soft: #1c3326;
+}

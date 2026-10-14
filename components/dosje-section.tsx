@@ -87,9 +87,9 @@ interface Props {
 
 const SERIF = "var(--font-garamond), Georgia, serif";
 const SANS = "var(--font-manrope), sans-serif";
-const INK = "#241F1B";
-const MUTED = "rgba(43,37,33,.52)";
-const RULE = "rgba(43,37,33,.2)";
+const INK = "var(--theme-ink, #241F1B)";
+const MUTED = "var(--theme-muted, rgba(43,37,33,.52))";
+const RULE = "var(--theme-border, rgba(43,37,33,.2))";
 const ACCENT = "#E4322B";
 
 /**
@@ -179,7 +179,7 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
         }}
       >
         {e.isCurrent && (
-          <div style={{ font: `600 9px ${SANS}`, letterSpacing: "0.2em", textTransform: "uppercase", color: ACCENT, marginBottom: "8px" }}>
+          <div style={{ font: `600 9px ${SANS}`, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--theme-accent-ink, #E4322B)", marginBottom: "8px" }}>
             Ky artikull
           </div>
         )}
@@ -218,7 +218,7 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
                    photograph here is this archive's own reporting of that
                    event, credited and linked so a reader can check it in one
                    click — or it is not shown. */
-                <figcaption style={{ marginTop: "6px", font: `500 10px ${SANS}`, color: "rgba(43,37,33,.5)", letterSpacing: "0.02em" }}>
+                <figcaption style={{ marginTop: "6px", font: `500 10px ${SANS}`, color: "var(--theme-muted, rgba(43,37,33,.5))", letterSpacing: "0.02em" }}>
                   <Link href={`/article/${e.imageSlug}`} style={{ color: "inherit", textDecoration: "underline" }}>
                     Nga mbulimi i 383-shit
                   </Link>
@@ -236,13 +236,13 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
                 step={24}
                 text={body}
                 showNib={!e.why}
-                style={{ margin: 0, font: `400 clamp(15px, 1.7vw, 16.5px)/1.72 ${SANS}`, color: "rgba(36,31,27,.9)" }}
+                style={{ margin: 0, font: `400 clamp(15px, 1.7vw, 16.5px)/1.72 ${SANS}`, color: "var(--theme-ink, rgba(36,31,27,.9))" }}
               />
             )}
 
             {e.why && (
               <div style={{ marginTop: "16px", borderTop: `1px solid rgba(43,37,33,.16)`, borderBottom: `1px solid rgba(43,37,33,.16)`, padding: "13px 0" }}>
-                <div style={{ font: `600 9px ${SANS}`, letterSpacing: "0.2em", textTransform: "uppercase", color: ACCENT, marginBottom: "7px" }}>
+                <div style={{ font: `600 9px ${SANS}`, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--theme-accent-ink, #E4322B)", marginBottom: "7px" }}>
                   Pse ka rëndësi
                 </div>
                 <DosjeWritten
@@ -251,7 +251,7 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
                   step={24}
                   text={e.why}
                   showNib
-                  style={{ margin: 0, font: `italic 400 clamp(15.5px, 1.8vw, 17px)/1.6 ${SERIF}`, color: "rgba(36,31,27,.9)" }}
+                  style={{ margin: 0, font: `italic 400 clamp(15.5px, 1.8vw, 17px)/1.6 ${SERIF}`, color: "var(--theme-ink, rgba(36,31,27,.9))" }}
                 />
               </div>
             )}
@@ -259,7 +259,7 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
             {/* Keep supporting references accessible without publisher labels. */}
             {e.kind === "milestone" && e.citations && e.citations.length > 0 && (
               <div style={{ marginTop: "12px", display: "flex", flexWrap: "wrap", gap: "8px", alignItems: "baseline" }}>
-                <span style={{ font: `600 9px ${SANS}`, letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(43,37,33,.45)" }}>
+                <span style={{ font: `600 9px ${SANS}`, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--theme-muted, rgba(43,37,33,.45))" }}>
                   Burimet
                 </span>
                 {e.citations.map((c) => (
@@ -274,7 +274,7 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
                     title={c.quote ? `“${c.quote}”` : (c.title ?? c.url)}
                     style={{
                       font: `500 11.5px ${SANS}`,
-                      color: "rgba(43,37,33,.68)",
+                      color: "var(--theme-muted, rgba(43,37,33,.68))",
                       textDecoration: "none",
                       borderBottom: `1px solid ${ACCENT}55`,
                       paddingBottom: "1px",
@@ -285,7 +285,7 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
                   </a>
                 ))}
                 {e.lastVerifiedAt && (
-                  <span style={{ font: `400 10.5px ${SANS}`, color: "rgba(43,37,33,.4)" }}>
+                  <span style={{ font: `400 10.5px ${SANS}`, color: "var(--theme-muted, rgba(43,37,33,.4))" }}>
                     · kontrolluar {String(e.lastVerifiedAt).slice(0, 10)}
                   </span>
                 )}
@@ -295,7 +295,7 @@ function Entry({ e, index, unlockIndex }: { e: DosjeEntry; index: number; unlock
             {e.slug && !e.isCurrent && (
               <Link
                 href={`/article/${e.slug}`}
-                style={{ display: "inline-block", marginTop: "14px", font: `600 10px ${SANS}`, letterSpacing: "0.16em", textTransform: "uppercase", color: ACCENT, textDecoration: "none" }}
+                style={{ display: "inline-block", marginTop: "14px", font: `600 10px ${SANS}`, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--theme-accent-ink, #E4322B)", textDecoration: "none" }}
               >
                 Lexo artikullin →
               </Link>
@@ -414,7 +414,7 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             {diamond(6, ACCENT)}
-            <span style={{ font: `600 10px ${SANS}`, letterSpacing: "0.24em", textTransform: "uppercase", color: "rgba(43,37,33,.66)" }}>
+            <span style={{ font: `600 10px ${SANS}`, letterSpacing: "0.24em", textTransform: "uppercase", color: "var(--theme-muted, rgba(43,37,33,.66))" }}>
               Dosje
             </span>
           </div>
@@ -427,7 +427,7 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
           {topicTitle}
         </h2>
 
-        <p style={{ margin: "12px 0 0", maxWidth: "62ch", font: `italic 400 clamp(16px, 2vw, 18px)/1.55 ${SERIF}`, color: "rgba(43,37,33,.74)" }}>
+        <p style={{ margin: "12px 0 0", maxWidth: "62ch", font: `italic 400 clamp(16px, 2vw, 18px)/1.55 ${SERIF}`, color: "var(--theme-muted, rgba(43,37,33,.74))" }}>
           {blurb}
         </p>
 
@@ -454,7 +454,7 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
               font: `600 10px ${SANS}`,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
-              color: sourced ? "#1a6b35" : "rgba(43,37,33,.58)",
+              color: sourced ? "var(--theme-positive-ink, #1a6b35)" : "var(--theme-muted, rgba(43,37,33,.58))",
             }}
           >
             {sourced ? verifiedLabel(entries) : "Kronologji pune — ende pa burime të verifikuara"}
@@ -464,7 +464,7 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
         <div style={{ margin: "20px 0 6px" }}><Rule /></div>
 
         {span && (
-          <div style={{ textAlign: "center", font: `500 10px ${SANS}`, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(43,37,33,.46)" }}>
+          <div style={{ textAlign: "center", font: `500 10px ${SANS}`, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--theme-muted, rgba(43,37,33,.46))" }}>
             {span}
           </div>
         )}
@@ -514,7 +514,7 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
             </h3>
           </div>
 
-          <p style={{ margin: "0 0 16px", maxWidth: "58ch", font: `italic 400 15px/1.55 ${SERIF}`, color: "rgba(43,37,33,.7)" }}>
+          <p style={{ margin: "0 0 16px", maxWidth: "58ch", font: `italic 400 15px/1.55 ${SERIF}`, color: "var(--theme-muted, rgba(43,37,33,.7))" }}>
             Nese do të kuptosh temen nga fillimi, këto jane shpjegimet më të mira në anglisht — nga Al Jazeera, BBC, DW dhe institute ndërkombëtare.
           </p>
 
@@ -526,7 +526,7 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
                 target="_blank"
                 rel="noopener noreferrer"
                 className="dosje-video"
-                style={{ display: "block", border: "1px solid rgba(43,37,33,.16)", background: "#fff", textDecoration: "none", overflow: "hidden" }}
+                style={{ display: "block", border: "1px solid rgba(43,37,33,.16)", background: "var(--theme-surface, #fff)", textDecoration: "none", overflow: "hidden" }}
               >
                 <span style={{ display: "block", position: "relative" }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -589,7 +589,7 @@ export default function DosjeSection({ topicSlug, topicTitle, blurb, videos, ent
           </Link>
         </div>
 
-        <p style={{ margin: "14px 0 0", textAlign: "center", font: `italic 400 14px/1.5 ${SERIF}`, color: "rgba(43,37,33,.58)" }}>
+        <p style={{ margin: "14px 0 0", textAlign: "center", font: `italic 400 14px/1.5 ${SERIF}`, color: "var(--theme-muted, rgba(43,37,33,.58))" }}>
           Kronologjia përditësohet me çdo artikull të ri.
         </p>
       </div>

@@ -340,7 +340,7 @@ function HyrForm() {
           {/* Logo */}
           <div style={{ display: "flex", alignItems: "flex-end", gap: "4px", marginBottom: "32px" }}>
             <span style={{ fontSize: "28px", fontWeight: 900, color: "#111", letterSpacing: "-0.04em" }}>383</span>
-            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#FF4422", display: "inline-block", marginBottom: "9px" }} />
+            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#D93A0F", display: "inline-block", marginBottom: "9px" }} />
             {!awaiting && <DardaniImage name="key" decorative priority className="auth-dardani" />}
           </div>
 
@@ -391,7 +391,7 @@ function HyrForm() {
                 style={{
                   padding: "13px",
                   borderRadius: "var(--radius-sm)",
-                  background: "#FF4422",
+                  background: "#D93A0F",
                   color: "#fff",
                   border: "none",
                   fontWeight: 700,
@@ -535,7 +535,7 @@ function HyrForm() {
               style={{
                 padding: "13px",
                 borderRadius: "var(--radius-sm)",
-                background: "#FF4422",
+                background: "#D93A0F",
                 color: "#fff",
                 border: "none",
                 fontWeight: 700,

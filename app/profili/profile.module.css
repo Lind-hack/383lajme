@@ -63,7 +63,7 @@
 .savedActions { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
 .savedActions a, .savedActions button { display: inline-flex; align-items: center; gap: 3px; min-height: 44px; padding: 0 4px; border: 0; background: transparent; font: inherit; font-size: 11px; font-weight: 800; cursor: pointer; }
 .savedActions a { color: var(--theme-ink, #111); text-decoration: none; }
-.savedActions button { color: #b72c19; }
+.savedActions button { color: var(--theme-accent-ink, #b72c19); }
 .savedActions button:disabled { opacity: .55; cursor: wait; }
 .treguGrid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr); gap: 0; overflow: hidden; border: 1px solid var(--theme-border, #d8d1c8); border-radius: 20px; background: rgba(var(--theme-surface-rgb, 255, 255, 255), .68); }
 .balancePanel, .activityPanel { min-width: 0; padding: 28px; }
@@ -83,13 +83,13 @@
 .activityRow strong, .activityRow span { display: block; }
 .activityRow strong { font-size: 12px; }
 .activityRow span { margin-top: 3px; overflow: hidden; color: var(--theme-muted, #77716a); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
-.activityRow b { color: #b4181a; font-size: 12px; font-variant-numeric: tabular-nums; }
-.activityRow b[data-positive="true"] { color: #007a3c; }
+.activityRow b { color: var(--theme-negative-ink, #b4181a); font-size: 12px; font-variant-numeric: tabular-nums; }
+.activityRow b[data-positive="true"] { color: var(--theme-positive-ink, #007a3c); }
 .noActivity { color: var(--theme-muted, #77716a); font-size: 12px; }
 .settingsGrid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); overflow: hidden; border: 1px solid var(--theme-border, #dcd6cd); border-radius: 18px; background: rgba(var(--theme-surface-rgb, 255, 255, 255), .58); }
 .nameSetting, .anonymousSetting { display: flex; align-items: flex-start; gap: 14px; min-height: 164px; padding: 26px; }
 .nameSetting { border-right: 1px solid var(--theme-border, #dcd6cd); }
-.settingIcon { display: grid; place-items: center; width: 40px; height: 40px; flex: 0 0 auto; border-radius: 50%; background: var(--theme-paper, #fff0eb); color: #d93618; }
+.settingIcon { display: grid; place-items: center; width: 40px; height: 40px; flex: 0 0 auto; border-radius: 50%; background: var(--theme-paper, #fff0eb); color: var(--theme-accent-ink, #d93618); }
 .settingBody { min-width: 0; flex: 1; }
 .settingBody > span { color: var(--theme-muted, #77716a); font-size: 11px; font-weight: 750; }
 .nameValue { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
@@ -111,8 +111,8 @@
 .switch:active { transform: scale(.97); }
 .switch:disabled { opacity: .5; cursor: not-allowed; }
 .settingsMessage, .settingsError { display: flex; align-items: center; gap: 7px; margin: 14px 0 0; font-size: 12px; font-weight: 700; }
-.settingsMessage { color: #007a3c; }
-.settingsError { color: #b4181a; }
+.settingsMessage { color: var(--theme-positive-ink, #007a3c); }
+.settingsError { color: var(--theme-negative-ink, #b4181a); }
 .accountSection { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); align-content: start; gap: clamp(34px, 5vw, 68px); min-height: calc(100dvh - 104px); padding: 64px 0 0; scroll-margin-top: 104px; }
 .accountInfo dl { margin: 24px 0 0; }
 .accountInfo dl > div { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--theme-border, #ded8cf); font-size: 11px; }
@@ -120,13 +120,13 @@
 .accountInfo dd { margin: 0; overflow-wrap: anywhere; font-weight: 700; }
 .accountInfo a { color: inherit; }
 .dangerZone { padding: 25px; border: 1px solid rgba(184, 36, 30, .25); border-radius: 18px; background: rgba(var(--theme-paper-rgb, 255, 248, 246), .76); }
-.dangerZone h2 { color: #a7241d; font-size: 22px; }
+.dangerZone h2 { color: var(--theme-negative-ink, #a7241d); font-size: 22px; }
 .dangerZone > p { margin: 8px 0 0; color: var(--theme-ink, #765d58); font-size: 12px; line-height: 1.55; }
 .dangerActions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
 .dangerActions button, .deleteConfirm button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; padding: 0 15px; border-radius: 999px; font: inherit; font-size: 11px; font-weight: 800; cursor: pointer; transition: transform 140ms cubic-bezier(.23, 1, .32, 1), background 160ms ease; }
 .dangerActions button:active, .deleteConfirm button:active { transform: scale(.97); }
 .signOut { border: 1px solid var(--theme-border, #cbc3ba); background: var(--theme-surface, #fff); color: var(--theme-ink, #111); }
-.deleteTrigger { border: 1px solid #c53128; background: transparent; color: #a7241d; }
+.deleteTrigger { border: 1px solid #c53128; background: transparent; color: var(--theme-negative-ink, #a7241d); }
 .deleteConfirm { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(184, 36, 30, .18); }
 .deleteConfirm label { color: var(--theme-ink, #765d58); font-size: 11px; }
 .deleteConfirm > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 9px; margin-top: 7px; }
@@ -136,13 +136,13 @@
 .dataError { display: flex; flex-direction: column; gap: 5px; padding: 22px 24px; border: 1px solid var(--theme-border, #d8d1c8); border-radius: 12px; background: rgba(var(--theme-surface-rgb, 255, 255, 255), .58); }
 .dataError strong { font-size: 13px; }
 .dataError span { color: var(--theme-ink, #6d6861); font-size: 12px; line-height: 1.5; }
-.inlineError { margin: 14px 0 0; color: #b4181a; font-size: 12px; font-weight: 700; }
+.inlineError { margin: 14px 0 0; color: var(--theme-negative-ink, #b4181a); font-size: 12px; font-weight: 700; }
 @media (hover: hover) and (pointer: fine) {
   .sectionNav a:hover { color: #ff4422; transform: translateX(4px); }
   .sectionNav a[data-active="true"]:hover { transform: translateX(6px); }
   .sectionNav a:hover > svg:last-child { color: #ff4422; }
   .emptyCopy > a:hover, .primaryLink:hover { background: #ff4422; }
-  .savedCopy h3 a:hover { color: #d93618; }
+  .savedCopy h3 a:hover { color: var(--theme-accent-ink, #d93618); }
   .savedLead:hover { box-shadow: 0 20px 44px rgba(61, 48, 35, .12); }
   .dangerActions button:hover { transform: translateY(-1px); }
 }

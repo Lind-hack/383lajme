@@ -169,7 +169,7 @@
   margin-left: auto;
 }
 .np-tool--primary {
-  background: var(--np-ink);
+  background: var(--theme-inverse-surface, var(--np-ink));
   border-color: var(--np-ink);
   color: #fff;
 }
@@ -435,7 +435,7 @@
   margin: 0;
   padding: 9px 15px;
   border-radius: 999px;
-  background: var(--np-ink);
+  background: var(--theme-inverse-surface, var(--np-ink));
   color: #fff;
   font: 600 13px/1.25 var(--np-sans);
   white-space: nowrap;
@@ -642,7 +642,7 @@
   letter-spacing: 0.045em;
   text-align: left;
   text-transform: uppercase;
-  color: var(--np-accent);
+  color: var(--np-accent-ink, var(--np-accent));
 }
 .np-why {
   cursor: pointer;
@@ -776,7 +776,7 @@
   width: min(300px, 78cqw);
   padding: 13px 15px;
   border-radius: 10px;
-  background: var(--np-ink);
+  background: var(--theme-inverse-surface, var(--np-ink));
   color: #fff;
   box-shadow: 0 14px 34px rgb(0 0 0 / 0.28);
   font: 400 13.5px/1.45 var(--np-sans);
@@ -870,7 +870,7 @@
   text-decoration: none;
 }
 .np-link:hover {
-  color: var(--np-accent);
+  color: var(--np-accent-ink, var(--np-accent));
 }
 
 /* ── the front page ──────────────────────────────────────────────────────── */
@@ -960,7 +960,7 @@
 .np-contents b {
   font: 700 13px/1 var(--np-sans);
   font-variant-numeric: tabular-nums;
-  color: var(--np-accent);
+  color: var(--np-accent-ink, var(--np-accent));
 }
 .np-contents svg {
   color: var(--np-ink-3);
@@ -1164,7 +1164,7 @@
 .np-end .perty-text-btn {
   align-self: flex-start;
   font-family: var(--np-sans);
-  color: var(--np-accent);
+  color: var(--np-accent-ink, var(--np-accent));
 }
 .np-list {
   margin: 0;
@@ -1546,3 +1546,17 @@
     transition: none;
   }
 }
+
+html[data-theme="dark"] .np {
+  --np-desk: #151513;
+  --np-paper: #24221f;
+  --np-ink: #eeeae4;
+  --np-ink-2: #cfc5ba;
+  --np-ink-3: #b6ad9f;
+  --np-rule: rgba(238,234,228,.2);
+  --np-accent-ink: #ff947d;
+}
+html[data-theme="dark"] .np[data-look="sporti"] { --np-accent-ink: #77dca2; }
+html[data-theme="dark"] .np[data-look="tabloid"] { --np-accent-ink: #ff9891; }
+html[data-theme="dark"] .np[data-look="bota"] { --np-accent-ink: #94bfff; }
+html[data-theme="dark"] .np[data-look="biznes"] { --np-accent-ink: #77d6dc; }

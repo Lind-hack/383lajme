@@ -180,7 +180,7 @@ export default function AuthModal({
                 width: "5px",
                 height: "5px",
                 borderRadius: "50%",
-                background: "#FF4422",
+                background: "#D93A0F",
                 display: "inline-block",
                 marginBottom: "3px",
               }}
@@ -280,7 +280,7 @@ export default function AuthModal({
             style={{
               padding: "12px",
               borderRadius: "10px",
-              background: "#FF4422",
+              background: "#D93A0F",
               color: "#fff",
               border: "none",
               fontWeight: 700,

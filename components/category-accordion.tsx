@@ -277,7 +277,7 @@ export default function CategoryAccordion({ slides }: Props) {
                   fontWeight: 800,
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
-                  color: catColor,
+                  color: `var(--theme-accent-ink, ${catColor})`,
                   background: '#FFFFFF',
                   padding: '7px 14px',
                   borderRadius: '100px',

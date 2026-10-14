@@ -4,6 +4,10 @@
    screen, the count on top, round pictures, the box pinned to the bottom.
    ─────────────────────────────────────────────────────────────────────────── */
 
+html[data-theme="dark"] :is(.cm-sheet, .cm-inline) {
+  --cm-soft: #302b25;
+}
+
 .cm-sheet {
   --cm-ink: #151412;
   --cm-muted: #6b665e;

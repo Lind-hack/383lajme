@@ -108,7 +108,7 @@ export default async function DosjePage({ params }: { params: Promise<{ slug: st
               font: "600 10px var(--font-manrope), sans-serif",
               letterSpacing: "0.2em",
               textTransform: "uppercase",
-              color: "rgba(43,37,33,.5)",
+              color: "var(--theme-muted, rgba(43,37,33,.5))",
               marginBottom: "14px",
             }}
           >
@@ -121,7 +121,7 @@ export default async function DosjePage({ params }: { params: Promise<{ slug: st
               href="/dosje"
               style={{
                 font: "500 13px var(--font-garamond), Georgia, serif",
-                color: "#a9362d",
+                color: "var(--theme-negative-ink, #a9362d)",
               }}
             >
               Të gjitha dosjet →
@@ -138,7 +138,7 @@ export default async function DosjePage({ params }: { params: Promise<{ slug: st
                   border: "1px solid rgba(43,37,33,.2)",
                   background: "#FAF6F1",
                   font: "600 13px var(--font-garamond), Georgia, serif",
-                  color: "#241F1B",
+                  color: "var(--theme-ink, #241F1B)",
                   textDecoration: "none",
                 }}
               >

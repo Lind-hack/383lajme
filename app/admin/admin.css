@@ -425,3 +425,19 @@
     padding-bottom: 10px;
   }
 }
+
+/* Keep operator panels and their semantic text readable in the site theme. */
+html[data-theme="dark"] .admin-root {
+  --a-bg: #151513;
+  --a-panel: #24221f;
+  --a-panel-2: #2b2722;
+  --a-panel-3: #37312a;
+  --a-border: #49443d;
+  --a-border-strong: #74695c;
+  --a-ink: #eeeae4;
+  --a-muted: #c5bdb1;
+  --a-faint: #b6ad9f;
+  --a-ok: #77dca2;
+  --a-warn: #f4cb7b;
+  --a-danger: #ff9891;
+}

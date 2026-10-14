@@ -220,7 +220,7 @@
 .downloadUtility:disabled { opacity: .62; cursor: wait; }
 .downloadUtility span { padding-left: 10px; border-left: 1px solid rgba(var(--theme-border-rgb, 255, 255, 255), .4); font-size: 10px; font-weight: 650; }
 
-.citySection { position: relative; overflow: hidden; padding: 112px max(28px, calc((100vw - 1280px) / 2)) 124px; border-top: 1px solid #e5c277; background: #fff3cf; color: var(--theme-ink, var(--visit-ink)); scroll-margin-top: 72px; }
+.citySection { position: relative; overflow: hidden; padding: 112px max(28px, calc((100vw - 1280px) / 2)) 124px; border-top: 1px solid #e5c277; background: var(--theme-surface, #fff3cf); color: var(--theme-ink, var(--visit-ink)); scroll-margin-top: 72px; }
 .citySection::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .62; background: radial-gradient(circle at 8% 8%, rgba(255,68,34,.16), transparent 25%), radial-gradient(circle at 92% 24%, rgba(30,143,92,.14), transparent 24%), linear-gradient(rgba(108,71,25,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(108,71,25,.045) 1px, transparent 1px); background-size: auto, auto, 44px 44px, 44px 44px; }
 .citySection > * { position: relative; z-index: 1; }
 .cityIntro { max-width: 900px; }
@@ -425,7 +425,7 @@
 .visitHero[data-compact] .heroCopy { max-width: 1280px; margin: 0 auto; padding: 36px max(20px, calc((100vw - 1280px) / 2)) 4px; }
 .visitHero[data-compact] .heroCopy h1 { font-size: clamp(38px, 5.4vw, 72px); }
 .visitHero[data-compact] .heroLead { margin-top: 14px; }
-.visitHero[data-compact] + .citySection { padding-top: 28px; border-top: 0; background: linear-gradient(180deg, var(--theme-paper, #fff7ec), #fff3cf 30%); }
+.visitHero[data-compact] + .citySection { padding-top: 28px; border-top: 0; background: linear-gradient(180deg, var(--theme-paper, #fff7ec), var(--theme-surface, #fff3cf) 30%); }
 
 /* ── The border card, small like the rest ─────────────────────────────── */
 .borderSection:has(.miniBorder) { padding-top: 64px; padding-bottom: 72px; }
@@ -491,7 +491,7 @@
 .heroRelief > figure { max-width: 640px; margin-inline: auto; }
 .visitHero[data-mapped] + section,
 .visitHero[data-mapped] ~ #your-card { scroll-margin-top: 80px; }
-.helpSection { padding: 24px max(20px, calc((100vw - 1280px) / 2)) 72px; background: #fff3cf; }
+.helpSection { padding: 24px max(20px, calc((100vw - 1280px) / 2)) 72px; background: var(--theme-surface, #fff3cf); }
 .citySection:has(+ .helpSection) { padding-bottom: 40px; }
 @media (max-width: 900px) {
   .visitHero[data-mapped] { display: block; }

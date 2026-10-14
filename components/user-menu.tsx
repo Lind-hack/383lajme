@@ -135,7 +135,7 @@ export default function UserMenu() {
             width: "36px",
             height: "36px",
             borderRadius: "50%",
-            background: "#FF4422",
+            background: "#D93A0F",
             border: "none",
             cursor: "pointer",
             display: "flex",

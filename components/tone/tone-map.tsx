@@ -257,7 +257,7 @@ export default function ToneMap({
           gap: "8px",
           marginTop: "10px",
           fontSize: "10.5px",
-          color: "#9CA3AF",
+          color: "var(--theme-muted, #625e58)",
           flexWrap: "wrap",
         }}
       >

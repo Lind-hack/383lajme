@@ -3,11 +3,11 @@
    are the three tone inks, and they always travel with a word. */
 
 .page {
-  --good: #16794a;
+  --good: var(--theme-positive-ink, #16794a);
   --good-bg: rgba(79, 199, 124, 0.16);
-  --bad: #a3121a;
+  --bad: var(--theme-negative-ink, #a3121a);
   --bad-bg: rgba(163, 18, 26, 0.08);
-  --flat: #5f5f5f;
+  --flat: var(--theme-muted, #5f5f5f);
   --flat-bg: rgba(17, 17, 17, 0.06);
   --rule: #ece7df;
 
@@ -237,11 +237,11 @@
 
 .tag {
   /* Self-contained: the homepage module renders this tag outside .page. */
-  --good: #16794a;
+  --good: var(--theme-positive-ink, #16794a);
   --good-bg: rgba(79, 199, 124, 0.16);
-  --bad: #a3121a;
+  --bad: var(--theme-negative-ink, #a3121a);
   --bad-bg: rgba(163, 18, 26, 0.08);
-  --flat: #5f5f5f;
+  --flat: var(--theme-muted, #5f5f5f);
   --flat-bg: rgba(17, 17, 17, 0.06);
   display: inline-flex;
   align-items: center;
@@ -380,7 +380,7 @@
 .linkFallback{display:grid;gap:8px;margin-bottom:16px;font-size:16px}
 .linkFallback input,.findStories input,.findStories select,.exploreTools select{width:100%;min-width:0;min-height:50px;padding:10px 12px;border:1px solid var(--theme-border, var(--color-border));border-radius:10px;background:var(--theme-surface, var(--color-white));color:var(--theme-ink, var(--color-ink));font:inherit;font-size:17px}
 .verdict { scroll-margin-top: calc(var(--nav-h) + 24px); }
-.readLink{display:inline-flex;align-items:center;gap:8px;min-height:48px;color:#b72d13;font-weight:700;font-size:16px;text-decoration:none}
+.readLink{display:inline-flex;align-items:center;gap:8px;min-height:48px;color:var(--theme-accent-ink,#b72d13);font-weight:700;font-size:16px;text-decoration:none}
 .findStories{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px;margin-bottom:20px}
 .findStories label,.exploreTools label{display:grid;gap:8px;min-width:0;font-size:17px;font-weight:700}
 .filterHint{font-size:16px;line-height:1.5;margin:0 0 12px}
@@ -396,7 +396,7 @@
 .exploreTools button:disabled{opacity:.6;cursor:default}
 .exploreHint{font-size:16px;line-height:1.6;margin:12px 0 20px;color:var(--color-muted)}
 .sectionNote,.method{font-size:16px;line-height:1.6}
-.explanation{margin:30px 0;border:1px solid var(--theme-border, var(--color-border));border-radius:16px;padding:18px;background:var(--color-white)}
+.explanation{margin:30px 0;border:1px solid var(--theme-border, var(--color-border));border-radius:16px;padding:18px;background:var(--theme-surface, var(--color-white))}
 .explanation summary{min-height:48px;align-content:center;font-size:18px;font-weight:700;cursor:pointer}
 .explanation[open] summary{margin-bottom:20px}
 .reading[data-large-text="true"]{--bota-reading-size:23px}
@@ -651,7 +651,7 @@
 .proof svg { flex-shrink: 0; color: var(--good); }
 .proof span { flex: 1 1 260px; min-width: 0; }
 .proof b { color: var(--theme-ink, var(--color-ink)); font-weight: 800; font-variant-numeric: tabular-nums; }
-.proof a { margin-left: auto; color: #b72d13; font-weight: 700; text-decoration: none; white-space: nowrap; min-height: 32px; display: inline-flex; align-items: center; }
+.proof a { margin-left: auto; color: var(--theme-accent-ink, #b72d13); font-weight: 700; text-decoration: none; white-space: nowrap; min-height: 32px; display: inline-flex; align-items: center; }
 .proof a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 .item {

@@ -64,13 +64,13 @@ export default function Footer() {
               </span>
               <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#FF4422", display: "inline-block", marginBottom: "5px" }} />
             </div>
-            <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.45)", margin: "0 0 28px", fontWeight: 400, maxWidth: "280px", lineHeight: 1.75 }}>
+            <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.65)", margin: "0 0 28px", fontWeight: 400, maxWidth: "280px", lineHeight: 1.75 }}>
               Lajmet kryesore ndërkombëtare, të filtruar dhe analizuar çdo ditë për Kosovën.
               Llogaria juaj (me Google ose Facebook) përdoret vetëm për identifikim — emrin dhe
               email-in tuaj — dhe për të personalizuar përvojën tuaj në 383.
             </p>
 
-            <p style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.3)", margin: "0 0 10px" }}>
+            <p style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.65)", margin: "0 0 10px" }}>
               REGJISTROHU PËR NJOFTIME
             </p>
             <div style={{ display: "flex", gap: "8px", marginBottom: "28px" }}>
@@ -127,7 +127,7 @@ export default function Footer() {
 
           {/* Col 2 — Categories */}
           <div>
-            <p style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.3)", margin: "0 0 20px" }}>
+            <p style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.65)", margin: "0 0 20px" }}>
               KATEGORITË
             </p>
             <div style={{ display: "flex", flexDirection: "column" as const, gap: "12px" }}>
@@ -150,7 +150,7 @@ export default function Footer() {
 
           {/* Col 3 — Company */}
           <div>
-            <p style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.3)", margin: "0 0 20px" }}>
+            <p style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.65)", margin: "0 0 20px" }}>
               KOMPANIA
             </p>
             <div style={{ display: "flex", flexDirection: "column" as const, gap: "12px" }}>
@@ -173,7 +173,7 @@ export default function Footer() {
 
           {/* Col 4 — Contact + social handles */}
           <div>
-            <p style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.3)", margin: "0 0 20px" }}>
+            <p style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.65)", margin: "0 0 20px" }}>
               KONTAKTI
             </p>
             <div style={{ display: "flex", flexDirection: "column" as const, gap: "10px", marginBottom: "32px" }}>
@@ -184,13 +184,13 @@ export default function Footer() {
               >
                 info@383media.com
               </a>
-              <span style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", color: "rgba(255,255,255,0.3)", fontWeight: 500 }}>
+              <span style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", color: "rgba(255,255,255,0.65)", fontWeight: 500 }}>
                 <MapPin size={14} strokeWidth={2} color="#FF4422" aria-hidden="true" />
                 Prishtinë, Kosovë
               </span>
             </div>
 
-            <p style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.3)", margin: "0 0 16px" }}>
+            <p style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.65)", margin: "0 0 16px" }}>
               RRJETET SOCIALE
             </p>
             <div style={{ display: "flex", flexDirection: "column" as const, gap: "12px" }}>
@@ -228,10 +228,10 @@ export default function Footer() {
             gap: "12px",
           }}
         >
-          <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.2)", margin: 0 }}>
+          <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.65)", margin: 0 }}>
             © {new Date().getFullYear()} 383 Media · Të gjitha të drejtat e rezervuara
           </p>
-          <p style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "12px", color: "rgba(255,255,255,0.12)", margin: 0 }}>
+          <p style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "12px", color: "rgba(255,255,255,0.65)", margin: 0 }}>
             Kodifikuar me
             <Heart size={11} fill="#FF4422" color="#FF4422" aria-hidden="true" />
             në Prishtinë
