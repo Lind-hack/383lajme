@@ -52,6 +52,17 @@ try {
 
   await page.goto(`${base}/hyr`);
   await page.getByRole("link", { name: "Ke harruar fjalëkalimin?" }).click();
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 844 });
+    const input = page.getByLabel("Email", { exact: true });
+    const fontSize = await input.evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
+    assert.ok(fontSize >= 16, `${width}px inputs must avoid iOS focus zoom`);
+    await input.focus();
+    const layout = await page.evaluate(() => ({ viewport: innerWidth, content: document.documentElement.scrollWidth, scale: visualViewport?.scale ?? 1 }));
+    assert.ok(layout.content <= layout.viewport, `${width}px no horizontal overflow`);
+    assert.equal(layout.scale, 1, `${width}px viewport stays at its initial scale on focus`);
+  }
+  console.log("PASS responsive recovery inputs: 16px minimum, no overflow or focus scale change");
   await page.getByLabel("Email", { exact: true }).fill("Auth-Test@Example.com");
   await page.getByRole("button", { name: "Dërgo linkun", exact: true }).click();
   await page.getByRole("alert").filter({ hasText: "Shumë kërkesa" }).waitFor();
@@ -75,6 +86,10 @@ try {
   await page.getByPlaceholder("Fjalëkalimi", { exact: true }).fill("Old-password-123!");
   await page.getByRole("button", { name: "Hyr", exact: true }).last().click();
   await page.waitForURL("**/hyr/fjalekalimi?mode=reset");
+  for (const input of await page.locator('input[type="password"]').all()) {
+    assert.ok(await input.evaluate((element) => parseFloat(getComputedStyle(element).fontSize)) >= 16,
+      "New-password inputs must also avoid iOS focus zoom");
+  }
   await page.getByLabel("Fjalëkalimi i ri", { exact: true }).fill("New-password-123!");
   await page.getByLabel("Përsërit fjalëkalimin", { exact: true }).fill("Different-password!");
   await page.getByRole("button", { name: "Ruaj fjalëkalimin" }).click();

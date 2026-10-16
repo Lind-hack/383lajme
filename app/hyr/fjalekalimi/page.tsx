@@ -4,6 +4,8 @@ import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/navbar";
+import DardaniImage from "@/components/dardani/dardani-image";
+import { ArrowLeft, Check } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import styles from "./password.module.css";
 
@@ -97,44 +99,61 @@ function PasswordForm() {
   return (
     <>
       <Navbar />
-      <main className="auth-stage" style={{ fontFamily: "var(--font-manrope), sans-serif" }}>
-        <section className="auth-card" aria-labelledby="password-heading">
-          <h1 id="password-heading" style={{ fontSize: 24, margin: "0 0 12px", color: "#111" }}>
+      <main className={`auth-stage ${styles.stage}`}>
+        <div className="auth-plumes" aria-hidden="true">
+          {["l1", "l2", "l3", "r1", "r2", "r3"].map((id) => (
+            <div key={id} className={`auth-plume auth-plume-${id}`}><div className="auth-plume-body" /></div>
+          ))}
+        </div>
+        <div className="auth-grain" aria-hidden="true" />
+        <section className={`auth-card ${styles.card}`} aria-labelledby="password-heading">
+          <div className="auth-rim" aria-hidden="true"><div className="auth-rim-sweep" /></div>
+          <div className={styles.brand}>
+            <Link href="/" className={styles.wordmark} aria-label="383 — faqja kryesore">383<span aria-hidden="true">.</span></Link>
+            <DardaniImage name="key" decorative priority className={styles.mascot} />
+          </div>
+          <h1 id="password-heading" className={styles.heading}>
             {resetting ? "Vendos fjalëkalimin e ri" : "Ke harruar fjalëkalimin?"}
           </h1>
-          <p style={{ color: "#666", lineHeight: 1.6, fontSize: 14, marginBottom: 24 }}>
+          <p className={styles.description}>
             {resetting ? "Zgjidh një fjalëkalim të ri për llogarinë tënde."
               : "Shkruaj emailin e llogarisë. Do të të dërgojmë një link për të ndryshuar fjalëkalimin."}
           </p>
           {success && (
-            <p role="status" style={{ color: "#22613B", fontSize: 14, lineHeight: 1.6 }}>
-              {resetting ? "Fjalëkalimi u ndryshua me sukses. Mund të vazhdosh me llogarinë tënde."
-                : "Nëse ky email ka një llogari, do të marrësh një link nga noreply@383ks.com. Kontrollo edhe dosjen e spamit."}
-            </p>
+            <div role="status" className={styles.success}>
+              <Check size={18} aria-hidden="true" />
+              <p>{resetting ? "Fjalëkalimi u ndryshua me sukses. Mund të vazhdosh me llogarinë tënde."
+                : "Nëse ky email ka një llogari, do të marrësh një link nga noreply@383ks.com. Kontrollo edhe dosjen e spamit."}</p>
+            </div>
           )}
           {!(resetting && success) && (
-            <form onSubmit={submit} style={{ display: "grid", gap: 12 }}>
+            <form onSubmit={submit} className={styles.form}>
               {resetting ? (
                 <>
-                  <label htmlFor="new-password">Fjalëkalimi i ri</label>
+                  <div className={styles.field}>
+                  <label htmlFor="new-password" className={styles.label}>Fjalëkalimi i ri</label>
                   <input id="new-password" type="password" autoComplete="new-password" required minLength={8}
                     value={password} onChange={(event) => setPassword(event.target.value)} disabled={!ready || loading}
                     className={styles.input} aria-describedby="password-help" />
-                  <p id="password-help" style={{ margin: 0, fontSize: 12, color: "#666" }}>Të paktën 8 karaktere.</p>
-                  <label htmlFor="confirm-password">Përsërit fjalëkalimin</label>
+                  <p id="password-help" className={styles.help}>Të paktën 8 karaktere.</p>
+                  </div>
+                  <div className={styles.field}>
+                  <label htmlFor="confirm-password" className={styles.label}>Përsërit fjalëkalimin</label>
                   <input id="confirm-password" type="password" autoComplete="new-password" required minLength={8}
                     value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} disabled={!ready || loading}
                     className={styles.input} />
-                  {!ready && !error && <p role="status">Duke verifikuar linkun…</p>}
+                  </div>
+                  {!ready && !error && <p role="status" className={styles.help}>Duke verifikuar linkun…</p>}
                 </>
               ) : (
-                <>
-                  <label htmlFor="recovery-email">Email</label>
+                <div className={styles.field}>
+                  <label htmlFor="recovery-email" className={styles.label}>Email</label>
                   <input id="recovery-email" type="email" autoComplete="email" required value={email}
+                    placeholder="emri@email.com" autoCapitalize="none" spellCheck={false}
                     onChange={(event) => setEmail(event.target.value)} disabled={loading} className={styles.input} />
-                </>
+                </div>
               )}
-              {error && <p role="alert" style={{ color: "#B52D21", fontSize: 13, margin: 0 }}>{error}</p>}
+              {error && <p role="alert" className={styles.error}>{error}</p>}
               <button type="submit" disabled={loading || (resetting && !ready) || (!resetting && resendIn > 0)}
                 className={styles.submit}>
                 {loading ? "Duke pritur…" : resetting ? "Ruaj fjalëkalimin" : resendIn > 0 ? `Dërgo përsëri (${resendIn}s)` : "Dërgo linkun"}
@@ -142,13 +161,14 @@ function PasswordForm() {
             </form>
           )}
           {resetting && !success && (
-            <p style={{ fontSize: 13 }}><a href="/hyr/fjalekalimi" style={{ color: "#A72D16" }}>Kërko një link të ri</a></p>
+            <a href="/hyr/fjalekalimi" className={styles.newLink}>Kërko një link të ri</a>
           )}
-          <p style={{ fontSize: 13, marginTop: 24 }}>
-            <Link href={resetting && success ? "/" : "/hyr"} style={{ color: "#A72D16" }}>
+          <div className={styles.footer}>
+            <Link href={resetting && success ? "/" : "/hyr"} className={styles.backLink}>
+              <ArrowLeft size={15} aria-hidden="true" />
               {resetting && success ? "Vazhdo në 383" : "Kthehu te hyrja"}
             </Link>
-          </p>
+          </div>
         </section>
       </main>
     </>
