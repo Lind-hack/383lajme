@@ -159,3 +159,11 @@ That inspection also exposed a historical player-profile/fixture reader and a TV
 - Validation: 13 auth race/origin tests, 4 image policy tests, 18 source tests and 22 Bota tests pass. npm run build passes on current main including the latest video work.
 - Browser: 1280px desktop account/hamburger spacing 8px, 390px mobile spacing 4px; no horizontal overflow. Search remains left of Pyet Dardanin; mobile auth actions are at the top of the drawer. Scoped layout detector: no findings.
 - A real signed-in account check is still pending: the provided Codex browser remains on the signed-out login page. Do not report an end-to-end login as verified.
+
+
+## Real signed-in verification
+
+- Verified the user's genuine browser session: signed-in avatar, 8px desktop account gap, no Hyr/Regjistrohu links in navbar or account drawer. Collapsed account controls become hidden after the transition; the drawer provides the profile action.
+- Server-rendered /profili stays signed in after a full reload. The profile-to-portfolio link opens /tregu/portofoli with the same session. At 390px the portfolio has no horizontal overflow or anonymous navbar links. Profile dark-mode control is present in profile settings.
+- Found remaining hardcoded dark brown copy in the saved-news empty state. Dark-mode-only overrides use existing muted/accent ink tokens for that copy, anonymous status and active profile navigation. Light colors remain unchanged. Actual theme paper #151513: empty-state copy contrast improves from 2.50:1 to 8.78:1; accent ink is 8.52:1.
+- Preserved the newer password-recovery work on main. All 18 auth/store/origin/recovery checks pass. No account settings, saved articles, positions or balances were changed during verification.
