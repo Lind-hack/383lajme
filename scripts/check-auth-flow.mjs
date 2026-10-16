@@ -13,7 +13,6 @@ try {
   let updatedPassword;
   let authorizeUrl;
   let rejectRecovery = true;
-  let azureEnabled = false;
   const user = { id: "11111111-1111-4111-8111-111111111111", aud: "authenticated", role: "authenticated", email: "auth-test@example.com", app_metadata: { provider: "email", providers: ["email"] }, user_metadata: {}, created_at: new Date().toISOString() };
   const jwt = [Buffer.from(JSON.stringify({ alg: "HS256", typ: "JWT" })).toString("base64url"), Buffer.from(JSON.stringify({ sub: user.id, role: "authenticated", exp: Math.floor(Date.now() / 1000) + 3600 })).toString("base64url"), "test-signature"].join(".");
   await context.route("**/auth/v1/**", async (route) => {
@@ -22,10 +21,9 @@ try {
     if (request.method() === "OPTIONS") return route.fulfill({ status: 200, headers: { "access-control-allow-origin": "*", "access-control-allow-headers": "*", "access-control-allow-methods": "*" } });
     let status = 200;
     let body = {};
-    if (path.endsWith("/settings")) body = { external: { azure: azureEnabled } };
     if (path.endsWith("/authorize")) {
       authorizeUrl = new URL(request.url());
-      return route.fulfill({ contentType: "text/html", body: "Microsoft authorization intercepted" });
+      return route.fulfill({ contentType: "text/html", body: "Google authorization intercepted" });
     }
     if (path.endsWith("/recover")) {
       recoveryRequest = { body: request.postDataJSON(), url: new URL(request.url()) };
@@ -44,18 +42,13 @@ try {
   await page.goto(`${base}/hyr?next=/tregu`);
   const google = page.getByRole("button", { name: "Hyr me Google", exact: true });
   const microsoft = page.getByRole("button", { name: "Hyr me Microsoft", exact: true });
-  await microsoft.waitFor();
-  assert.ok((await microsoft.boundingBox()).y > (await google.boundingBox()).y, "Microsoft appears below Google");
-  await microsoft.click();
-  await page.getByText("Hyrja me Microsoft nuk është aktivizuar ende.", { exact: true }).waitFor();
-  assert.equal(authorizeUrl, undefined);
-  azureEnabled = true;
-  await microsoft.click();
+  await google.waitFor();
+  assert.equal(await microsoft.count(), 0, "Microsoft login removed");
+  await google.click();
   await page.waitForURL((url) => url.pathname.endsWith("/authorize"));
-  assert.equal(authorizeUrl.searchParams.get("provider"), "azure");
-  assert.equal(authorizeUrl.searchParams.get("scopes"), "email");
+  assert.equal(authorizeUrl.searchParams.get("provider"), "google");
   assert.equal(new URL(authorizeUrl.searchParams.get("redirect_to")).searchParams.get("next"), "/tregu");
-  console.log("PASS Microsoft button order, Azure provider, email scope and return destination");
+  console.log("PASS Microsoft login removed; Google login preserves return destination");
 
   await page.goto(`${base}/hyr`);
   await page.getByRole("link", { name: "Ke harruar fjalëkalimin?" }).click();
