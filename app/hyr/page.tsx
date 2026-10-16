@@ -4,6 +4,7 @@ import { acceptAuthUser, useAuthUser } from "@/lib/use-auth-user";
 
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, MailCheck } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -252,22 +253,41 @@ function HyrForm() {
     }
   }
 
-  async function handleOAuth(provider: "google") {
+  async function handleOAuth(provider: "google" | "azure") {
     const supabase = getSupabase();
-    if (!supabase) return;
+    if (!supabase) {
+      setError("Hyrja nuk është konfiguruar. Provo përsëri më vonë.");
+      return;
+    }
     setError("");
     setLoading(true);
     try {
+      if (provider === "azure") {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/settings`, {
+          cache: "no-store",
+          headers: { apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! },
+        });
+        if (!response.ok) throw new Error("Auth settings unavailable");
+        const settings = await response.json();
+        if (settings.external?.azure !== true) {
+          setError("Hyrja me Microsoft nuk është aktivizuar ende.");
+          setLoading(false);
+          return;
+        }
+      }
       // sessionStorage survives the OAuth round-trip in the same tab.
       markCelebrate();
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
-        options: { redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}` },
+        options: {
+          redirectTo: callbackUrl(),
+          ...(provider === "azure" ? { scopes: "email" } : {}),
+        },
       });
       if (error) {
         const msg = error.message;
         if (msg.includes("not enabled") || msg.includes("validation_failed"))
-          setError("Hyrja me Google nuk është aktivizuar ende.");
+          setError(`Hyrja me ${provider === "azure" ? "Microsoft" : "Google"} nuk është aktivizuar ende.`);
         else setError(msg);
         setLoading(false);
       }
@@ -522,6 +542,11 @@ function HyrForm() {
             />
 
             {/* Fixed-height error slot — prevents layout shift */}
+            {tab === "hyr" && (
+              <Link href="/hyr/fjalekalimi" style={{ alignSelf: "flex-end", color: "#A72D16", fontSize: "13px", fontWeight: 600 }}>
+                Ke harruar fjalëkalimin?
+              </Link>
+            )}
             <div style={{ minHeight: "20px" }}>
               {error && (
                 <p style={{ color: "#e53e3e", fontSize: "13px", margin: 0 }}>{error}</p>
@@ -575,6 +600,23 @@ function HyrForm() {
                 <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335" />
               </svg>
               Hyr me Google
+            </motion.button>
+
+            <motion.button
+              onClick={() => handleOAuth("azure")}
+              disabled={loading}
+              whileHover={loading ? {} : { y: -2 }}
+              whileTap={loading ? {} : { scale: 0.98 }}
+              transition={{ duration: DUR.base, ease: EASE }}
+              style={oauthButtonStyle}
+            >
+              <svg width="18" height="18" viewBox="0 0 21 21" aria-hidden="true">
+                <path fill="#f25022" d="M1 1h9v9H1z" />
+                <path fill="#7fba00" d="M11 1h9v9h-9z" />
+                <path fill="#00a4ef" d="M1 11h9v9H1z" />
+                <path fill="#ffb900" d="M11 11h9v9h-9z" />
+              </svg>
+              Hyr me Microsoft
             </motion.button>
 
           </div>

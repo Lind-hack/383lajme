@@ -21,6 +21,7 @@ export async function GET(request: NextRequest) {
   const origin = authPublicOrigin(requestUrl, undefined, request.headers.get('x-forwarded-host') ?? request.headers.get('host'));
   const tokenHash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
+  const recovering = type === "recovery";
 
   const rawNext = searchParams.get("next") ?? "/";
   const next = rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/";
@@ -29,11 +30,11 @@ export async function GET(request: NextRequest) {
     const supabase = await createClient();
     const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash });
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`);
+      return NextResponse.redirect(`${origin}${recovering ? "/hyr/fjalekalimi?mode=reset" : next}`);
     }
   }
 
   // Expired or already-used link — send them back to sign-in with a reason,
   // not to a homepage that silently pretends nothing happened.
-  return NextResponse.redirect(`${origin}/hyr?error=confirm`);
+  return NextResponse.redirect(`${origin}${recovering ? "/hyr/fjalekalimi?error=recovery" : "/hyr?error=confirm"}`);
 }
