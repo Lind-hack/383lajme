@@ -1,5 +1,5 @@
 import { getArticles, getArticlesBefore, getLatestArticles } from "@/lib/db";
-import { getVideoFeed, mixForHome } from "@/lib/video-feed";
+import { getVideoFeed, mixForHome, toVideoItem } from "@/lib/video-feed";
 import { MoveHorizontal } from "lucide-react";
 import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
@@ -71,16 +71,7 @@ export default async function HomePage() {
   // The "Video" row: the official channels' newest uploads (lib/video-feed),
   // cached for fifteen minutes, so this never waits on YouTube; the sections
   // in turn, Kosovo first.
-  const videos: VideoItem[] = mixForHome(await getVideoFeed()).map((v) => ({
-    key: v.key,
-    videoId: v.videoId,
-    title: v.title,
-    why: v.why,
-    channel: v.channel,
-    color: getCategoryColor(v.category),
-    publishedAt: v.publishedAt,
-    storySlug: v.storySlug,
-  }));
+  const videos: VideoItem[] = mixForHome(await getVideoFeed()).map((v) => toVideoItem(v, getCategoryColor(v.category)));
 
   // Each story's photo width, so the large slots below can go to photos big
   // enough to fill them (lib/image-size.mjs). Probes are shared per URL, so a

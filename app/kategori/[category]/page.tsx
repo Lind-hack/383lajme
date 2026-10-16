@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Inbox } from "lucide-react";
 import { getArticles, getArticlesBefore } from "@/lib/db";
-import { getSectionVideos } from "@/lib/video-feed";
+import { getSectionVideos, toVideoItem } from "@/lib/video-feed";
 import type { Article } from "@/lib/mock-data";
 import { CATEGORY_TO_SLUG, RESOLVABLE_SLUGS } from "@/lib/category-map";
 import { getCategoryColor, getCategoryGradient, CATEGORY_LIGHT_BG } from "@/lib/category-colors";
@@ -115,16 +115,7 @@ export default async function CategoryPage({
   // lead, in place of the photo carousel (two swipe rows would repeat each
   // other). Not under a city filter: a channel is not a city. With fewer than
   // three, the carousel stays.
-  const videos: VideoItem[] = videoArticles.map((v) => ({
-    key: v.key,
-    videoId: v.videoId,
-    title: v.title,
-    why: v.why,
-    channel: v.channel,
-    color: getCategoryColor(categoryName),
-    publishedAt: v.publishedAt,
-    storySlug: v.storySlug,
-  }));
+  const videos: VideoItem[] = videoArticles.map((v) => toVideoItem(v, getCategoryColor(categoryName)));
   const showVideos = !selected && videos.length >= 3;
 
   let carousel: FeedHooks["carousel"];

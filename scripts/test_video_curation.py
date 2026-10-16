@@ -81,14 +81,42 @@ class RuleTests(unittest.TestCase):
 
 
 class PickTests(unittest.TestCase):
-    def test_keeps_last_week_newest_day_then_score(self):
-        def entry(vid, days, score, approved=True):
+    def test_keeps_last_week_best_first_with_age_and_outliers_counted(self):
+        def entry(vid, days, score, approved=True, outlier=None):
             when = (NOW - timedelta(days=days)).isoformat()
-            return {"approved": approved, "judged_at": when, "pick": {"id": vid, "score": score, "publishedAt": when}}
+            return {"approved": approved, "judged_at": when,
+                    "pick": {"id": vid, "score": score, "publishedAt": when, "outlier": outlier}}
         state = {"a": entry("a", 0, 6), "b": entry("b", 0, 9), "c": entry("c", 2, 10), "d": entry("d", 9, 10),
-                 "e": entry("e", 0, 10, approved=False)}
-        self.assertEqual([p["id"] for p in vc.picks_from(state, NOW)], ["b", "a", "c"])
+                 "e": entry("e", 0, 10, approved=False), "f": entry("f", 0, 8, outlier=9)}
+        # f: 8 + 3 = 11; b: 9 + 1 = 10; c: 10 + 1 - 1.5 = 9.5; a: 6 + 1 = 7. d is too old, e was rejected.
+        self.assertEqual([p["id"] for p in vc.picks_from(state, NOW)], ["f", "b", "c", "a"])
 
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TikTokTests(unittest.TestCase):
+    def test_a_tiktok_id_carries_its_posting_time(self):
+        # 7697372712783596822 was posted 2026-10-16 20:57:23 UTC.
+        self.assertEqual(vc.tt_created("7697372712783596822"), datetime(2026, 10, 16, 20, 57, 23, tzinfo=timezone.utc))
+        self.assertIsNone(vc.tt_created("not-a-number"))
+
+    def test_velocity_discounts_age(self):
+        posted = NOW - timedelta(hours=16)
+        self.assertEqual(vc.velocity(400_000, posted, NOW), 100_000)
+        self.assertEqual(vc.velocity(50_000, NOW, NOW), 50_000)  # under an hour counts as one
+
+    def test_tiktok_facts_must_be_upright_short_public_and_the_accounts_own(self):
+        def tiktok(**facts):
+            base = {"source": "tiktok-embed", "uploader_channel_id": "nba", "width": 576, "height": 1024, "duration_s": 21,
+                    "embeddable": True, "age_limit": 0, "live": False, "availability": "public"}
+            return {"platform": "tiktok", "id": "7697337967035125022", "channel_id": "nba", "channel": "NBA",
+                    "facts": {**base, **facts}}
+        self.assertEqual(vc.fixed_checks(tiktok()), (True, "ok"))
+        self.assertFalse(vc.fixed_checks(tiktok(uploader_channel_id="nbafan"))[0])
+        self.assertFalse(vc.fixed_checks(tiktok(width=1024, height=576))[0])
+        self.assertFalse(vc.fixed_checks(tiktok(duration_s=600))[0])
+        self.assertFalse(vc.fixed_checks(tiktok(availability="ad-or-private"))[0])
+        self.assertEqual(vc.source_url("tiktok", "7697337967035125022", "nba"),
+                         "https://www.tiktok.com/@nba/video/7697337967035125022")

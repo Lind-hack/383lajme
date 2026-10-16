@@ -130,19 +130,47 @@
   transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 300ms ease;
 }
 .vr-play svg { margin-left: 3px; }
-.vr-card-title {
+.vr-card-foot {
   position: absolute;
   inset: auto 0 0 0;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 12px 12px 14px;
+}
+.vr-card-stats {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.vr-card-title {
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
-  padding: 12px 12px 14px;
   font-size: 15px;
   font-weight: 800;
   line-height: 1.25;
 }
+.vr-hot {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  padding: 3px 8px;
+  border-radius: 100px;
+  background: rgba(255, 68, 34, 0.92);
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.vr-badge:has(+ .vr-hot) { max-width: calc(100% - 78px); }
 .vr-card:active { transform: scale(0.97); }
 .vr-card:focus-visible { outline: 3px solid var(--vr-accent); outline-offset: 3px; }
 @media (hover: hover) and (pointer: fine) {
@@ -171,20 +199,44 @@
 }
 .vr-card:has(.vr-preview[data-ready]) .vr-play { opacity: 0; }
 
-/* ── The player ──────────────────────────────────────────────────────────
-   Phone: the video fills the screen upright; the buttons stand on its right
-   edge and the title sits on a fade at the bottom, as in any short-video app.
-   Desktop: an upright stage as tall as the window, the buttons beside it. */
+/* ── The feed ────────────────────────────────────────────────────────────
+   One video per screen. Phone: the video fills the screen upright; the
+   buttons stand on its right edge and the words sit on a fade at the bottom,
+   as in any short-video app. Desktop: an upright stage as tall as the window,
+   the buttons beside it, the cover blurred behind. The scroll is the
+   browser's own (momentum and snap), so a flick feels like the phone's. */
 .vr-player {
+  --vr-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --vr-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   position: fixed;
   inset: 0;
   /* Above the site's own fixed layers: the tab bar, the cookie banner, Pyet. */
   z-index: 2147483000;
   background: #000000;
   color: #FFFFFF;
-  overscroll-behavior: contain;
-  touch-action: none;
 }
+.vr-feed {
+  position: absolute;
+  inset: 0;
+  overflow-y: scroll;
+  overscroll-behavior: contain;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+}
+.vr-feed::-webkit-scrollbar { display: none; }
+.vr-slide {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  overflow: hidden;
+  scroll-snap-align: start;
+  /* One video per flick, however hard the flick. */
+  scroll-snap-stop: always;
+}
+.vr-slide-bg { display: none; }
+
 .vr-player-top {
   position: absolute;
   top: 0;
@@ -195,11 +247,12 @@
   align-items: center;
   justify-content: space-between;
   padding: max(10px, env(safe-area-inset-top)) 12px 10px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
   pointer-events: none;
 }
 .vr-player-top > * { pointer-events: auto; }
-.vr-player-count { color: rgba(255, 255, 255, 0.85); font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.vr-player-brand { color: rgba(255, 255, 255, 0.9); font-size: 15px; font-weight: 700; letter-spacing: 0.01em; pointer-events: none; }
+.vr-player-brand b { color: #FF4422; font-weight: 900; }
 .vr-player-btn {
   display: grid;
   place-items: center;
@@ -210,11 +263,14 @@
   background: rgba(255, 255, 255, 0.14);
   color: #FFFFFF;
   cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: transform 140ms var(--vr-ease-out), background 160ms ease;
 }
+.vr-player-btn:active:not(:disabled) { transform: scale(0.92); }
 .vr-player-btn:disabled { opacity: 0.3; cursor: default; }
 .vr-player-btn:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+.vr-desk-nav { display: none; }
 
-.vr-stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
 .vr-frame {
   position: relative;
   width: 100%;
@@ -223,8 +279,35 @@
   background: #000000;
 }
 .vr-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.vr-slide-poster {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  transition: opacity 260ms ease;
+}
+.vr-slide-poster[data-hidden] { opacity: 0; }
 
-/* The gesture layer over the video. */
+/* Leaving and arriving videos sink back a little and dim as they cross the
+   screen: depth to the scroll, off the main thread (a scroll-driven
+   animation), and nothing at all where it is not supported. */
+@supports (animation-timeline: view()) {
+  .vr-frame {
+    animation: vr-depth linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
+  @keyframes vr-depth {
+    0% { opacity: 0.35; transform: scale(0.88); }
+    40%, 60% { opacity: 1; transform: none; }
+    100% { opacity: 0.35; transform: scale(0.88); }
+  }
+}
+
+/* The touch layer over the video: taps here, swipes scroll the feed. */
 .vr-touch {
   position: absolute;
   inset: 0;
@@ -236,7 +319,7 @@
   background: transparent;
   color: #FFFFFF;
   cursor: pointer;
-  touch-action: none;
+  touch-action: pan-y;
   -webkit-tap-highlight-color: transparent;
 }
 .vr-touch:focus-visible { outline: 3px solid rgba(255, 255, 255, 0.8); outline-offset: -6px; }
@@ -247,55 +330,107 @@
   height: 76px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.45);
+  animation: vr-pop-in 200ms var(--vr-ease-out);
 }
 .vr-paused svg { margin-left: 4px; }
+@keyframes vr-pop-in {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Double-tap: a thumbs-up where the finger is, tilted, with a ring of sparks. */
 .vr-burst {
   position: absolute;
-  font-size: 88px;
-  animation: vr-burst 700ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  z-index: 3;
+  width: 0;
+  height: 0;
+  color: #FF4422;
   pointer-events: none;
 }
-@keyframes vr-burst {
-  0% { opacity: 0; transform: scale(0.4); }
-  25% { opacity: 1; transform: scale(1.15); }
-  70% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.1) translateY(-30px); }
+.vr-burst svg {
+  position: absolute;
+  top: -48px;
+  left: -48px;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.35));
+  animation: vr-burst 900ms var(--vr-ease-out) forwards;
 }
+.vr-burst i {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #FFC93C;
+  opacity: 0;
+  animation: vr-spark 620ms var(--vr-ease-out) 60ms forwards;
+}
+.vr-burst i:nth-child(odd) { background: #FFFFFF; }
+@keyframes vr-burst {
+  0% { opacity: 0; transform: rotate(var(--tilt)) scale(0.6); }
+  18% { opacity: 1; transform: rotate(var(--tilt)) scale(1.2); }
+  34% { transform: rotate(var(--tilt)) scale(0.95); }
+  48% { transform: rotate(var(--tilt)) scale(1.05); }
+  72% { opacity: 1; transform: rotate(var(--tilt)) scale(1) translateY(0); }
+  100% { opacity: 0; transform: rotate(var(--tilt)) scale(1.1) translateY(-90px); }
+}
+@keyframes vr-spark {
+  0% { opacity: 1; transform: rotate(var(--a)) translateY(0) scale(1); }
+  100% { opacity: 0; transform: rotate(var(--a)) translateY(-74px) scale(0.4); }
+}
+
 .vr-unmute {
   position: absolute;
-  top: calc(max(10px, env(safe-area-inset-top)) + 54px);
-  left: 12px;
+  top: calc(max(10px, env(safe-area-inset-top)) + 56px);
+  left: 50%;
   z-index: 3;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 40px;
-  padding: 0 14px;
+  min-height: 42px;
+  padding: 0 16px;
   border: 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   color: #111111;
   font: inherit;
   font-size: 14px;
   font-weight: 800;
   cursor: pointer;
+  transform: translateX(-50%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  animation: vr-drop-in 260ms var(--vr-ease-out);
+}
+.vr-unmute:active { transform: translateX(-50%) scale(0.96); }
+@keyframes vr-drop-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+  to { opacity: 1; transform: translateX(-50%); }
 }
 
-/* Title and links on a fade at the bottom of the video. */
+/* The words on a fade at the bottom, coming up as the video settles. */
 .vr-info {
   position: absolute;
-  right: 76px;
+  right: 0;
   bottom: 0;
   left: 0;
   z-index: 2;
-  padding: 48px 14px max(18px, env(safe-area-inset-bottom));
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0));
+  /* The fade runs edge to edge; the words stop short of the buttons. */
+  padding: 56px 80px max(20px, env(safe-area-inset-bottom)) 14px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
   pointer-events: none;
 }
 .vr-info a { pointer-events: auto; }
+.vr-slide[data-active] .vr-info > * { animation: vr-rise 320ms var(--vr-ease-out) both; }
+.vr-slide[data-active] .vr-info > :nth-child(2) { animation-delay: 50ms; }
+.vr-slide[data-active] .vr-info > :nth-child(3) { animation-delay: 100ms; }
+.vr-slide[data-active] .vr-info > :nth-child(4) { animation-delay: 150ms; }
+@keyframes vr-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
 .vr-player-meta { display: inline-flex; align-items: center; gap: 6px; color: rgba(255, 255, 255, 0.85); font-size: 13px; font-weight: 700; }
 .vr-player-meta i { width: 9px; height: 9px; border-radius: 50%; }
-.vr-player-title { margin: 4px 0 4px; font-size: 17px; font-weight: 800; line-height: 1.25; text-wrap: pretty; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5); }
+.vr-player-title { margin: 4px 0; font-size: 17px; font-weight: 800; line-height: 1.25; text-wrap: pretty; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5); }
 .vr-why { margin: 0 0 8px; color: rgba(255, 255, 255, 0.85); font-size: 13.5px; line-height: 1.4; }
 .vr-player-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
 .vr-player-read {
@@ -311,32 +446,36 @@
   font-weight: 800;
   text-decoration: none;
 }
-.vr-player-yt {
+.vr-player-src {
   display: inline-flex;
   align-items: center;
+  gap: 5px;
   min-height: 38px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 13px;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 .vr-player-read:focus-visible,
-.vr-player-yt:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; border-radius: 999px; }
+.vr-player-src:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; border-radius: 999px; }
+
+/* How far through the video: a hairline along the bottom edge. */
+.vr-progress { position: absolute; right: 0; bottom: 0; left: 0; z-index: 3; height: 2px; background: rgba(255, 255, 255, 0.18); pointer-events: none; }
+.vr-progress i { display: block; height: 100%; background: #FFFFFF; transform-origin: left; transition: transform 260ms linear; }
 
 /* The buttons column on the right edge of the video. */
 .vr-side {
   position: absolute;
   right: 8px;
-  bottom: max(18px, env(safe-area-inset-bottom));
+  bottom: max(26px, calc(env(safe-area-inset-bottom) + 8px));
   z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
 }
-.vr-side-nav { display: none; flex-direction: column; gap: 8px; }
-.vr-acts { position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.vr-acts { position: relative; display: flex; flex-direction: column; align-items: center; gap: 16px; }
 .vr-act-wrap { position: relative; }
 .vr-act {
   display: flex;
@@ -350,8 +489,10 @@
   color: #FFFFFF;
   font: inherit;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 .vr-act-icon {
+  position: relative;
   display: grid;
   place-items: center;
   width: 48px;
@@ -359,15 +500,62 @@
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.16);
   backdrop-filter: blur(6px);
-  transition: transform 160ms ease, background 160ms ease;
+  transition: transform 140ms var(--vr-ease-out), background 180ms ease;
 }
 .vr-act-emoji { font-size: 24px; line-height: 1; }
 .vr-act b { font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6); }
 .vr-act[aria-pressed="true"] .vr-act-icon,
 .vr-act[aria-expanded="true"] .vr-act-icon { background: #FF4422; }
-.vr-act:active .vr-act-icon { transform: scale(0.9); }
+.vr-act:active .vr-act-icon { transform: scale(0.88); }
 .vr-act:focus-visible { outline: none; }
 .vr-act:focus-visible .vr-act-icon { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+
+/* Pëlqej: the icon jumps, a ring goes out from it. Reago: the new face pops in.
+   Ndaje: the arrow flies off and comes back. */
+.vr-act-icon[data-pop] { animation: vr-like 420ms var(--vr-ease-out); }
+.vr-act-like[data-pop]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid #FF4422;
+  border-radius: 50%;
+  animation: vr-ring 520ms var(--vr-ease-out) forwards;
+  pointer-events: none;
+}
+@keyframes vr-like {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.28) rotate(-10deg); }
+  55% { transform: scale(0.92) rotate(4deg); }
+  80% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+@keyframes vr-ring {
+  from { opacity: 0.9; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.75); }
+}
+.vr-act-share[data-pop] { animation: none; }
+.vr-act-share[data-pop] svg { animation: vr-send 460ms var(--vr-ease-out); }
+@keyframes vr-send {
+  0% { transform: none; }
+  40% { opacity: 0; transform: translate(14px, -14px) rotate(12deg); }
+  41% { opacity: 0; transform: translate(-10px, 10px); }
+  100% { opacity: 1; transform: none; }
+}
+.vr-fly {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  font-size: 34px;
+  pointer-events: none;
+  animation: vr-fly 900ms var(--vr-ease-out) forwards;
+}
+@keyframes vr-fly {
+  0% { opacity: 0; transform: translateX(-50%) translateY(10px) scale(0.6); }
+  25% { opacity: 1; transform: translateX(-50%) translateY(-20px) scale(1.25); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-120px) scale(1); }
+}
+
+/* The reactions open out of the button, one after another. */
 .vr-react-row {
   position: absolute;
   top: 50%;
@@ -376,9 +564,15 @@
   gap: 4px;
   padding: 6px;
   border-radius: 999px;
-  background: rgba(20, 20, 20, 0.92);
+  background: rgba(20, 20, 20, 0.94);
+  transform-origin: right center;
   transform: translateY(-50%);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  animation: vr-row-in 200ms var(--vr-ease-out);
+}
+@keyframes vr-row-in {
+  from { opacity: 0; transform: translateY(-50%) scale(0.9); }
+  to { opacity: 1; transform: translateY(-50%); }
 }
 .vr-react-row button {
   display: flex;
@@ -393,44 +587,139 @@
   color: #FFFFFF;
   font: inherit;
   cursor: pointer;
+  animation: vr-pick-in 240ms var(--vr-ease-out) var(--d, 0ms) both;
+  transition: transform 140ms var(--vr-ease-out);
+}
+.vr-react-row button:active { transform: scale(0.9); }
+@keyframes vr-pick-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.85); }
+  to { opacity: 1; transform: none; }
 }
 .vr-react-row button > span { font-size: 24px; line-height: 1.1; }
 .vr-react-row small { color: rgba(255, 255, 255, 0.75); font-size: 10px; font-weight: 700; }
 .vr-react-row button[aria-pressed="true"] { background: rgba(255, 68, 34, 0.35); }
 .vr-react-row button:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 1px; }
-.vr-note {
-  position: absolute;
-  right: calc(100% + 10px);
-  bottom: 0;
-  padding: 6px 10px;
-  border-radius: 8px;
-  background: rgba(20, 20, 20, 0.92);
-  font-size: 13px;
-  font-weight: 700;
-  white-space: nowrap;
+@keyframes vr-row-up {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: none; }
 }
+@media (max-width: 480px) {
+  .vr-react-row {
+    top: auto;
+    right: -4px;
+    bottom: calc(100% + 10px);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: max-content;
+    max-width: calc(100vw - 32px);
+    border-radius: 22px;
+    transform-origin: right bottom;
+    transform: none;
+    animation-name: vr-row-up;
+  }
+}
+
+/* Sharing: a card with the video's picture and its link, up from the bottom. */
+.vr-share { position: fixed; inset: 0; z-index: 10; display: flex; align-items: flex-end; justify-content: center; }
+.vr-share-scrim { position: absolute; inset: 0; border: 0; background: rgba(0, 0, 0, 0.5); cursor: default; animation: vr-fade 220ms ease; }
+@keyframes vr-fade { from { opacity: 0; } }
+.vr-share-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(100%, 460px);
+  padding: 10px 16px max(18px, env(safe-area-inset-bottom));
+  border-radius: 22px 22px 0 0;
+  background: #161616;
+  color: #FFFFFF;
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.5);
+  animation: vr-sheet-up 340ms var(--vr-ease-drawer);
+}
+@keyframes vr-sheet-up { from { transform: translateY(100%); } }
+@keyframes vr-sheet-in { from { opacity: 0; transform: translateY(16px) scale(0.97); } }
+.vr-share-grip { align-self: center; width: 40px; height: 4px; border-radius: 4px; background: rgba(255, 255, 255, 0.25); }
+.vr-share-preview { display: flex; gap: 12px; align-items: center; }
+.vr-share-preview img { flex: none; width: 64px; height: 112px; border-radius: 12px; object-fit: cover; background: #2A2A2A; }
+.vr-share-preview div { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.vr-share-preview small { color: rgba(255, 255, 255, 0.65); font-size: 12px; font-weight: 700; }
+.vr-share-preview b { font-size: 15px; font-weight: 800; line-height: 1.25; }
+.vr-share-url { overflow: hidden; color: #FF8A70; font-size: 13px; font-weight: 700; white-space: nowrap; text-overflow: ellipsis; }
+.vr-share-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.vr-share-copy,
+.vr-share-to {
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 140ms var(--vr-ease-out), background 180ms ease;
+}
+.vr-share-copy:first-child { background: #FF4422; }
+.vr-share-copy[data-done] { background: #1F9D55; }
+.vr-share-copy:active,
+.vr-share-to:active { transform: scale(0.97); }
+.vr-share-copy:focus-visible,
+.vr-share-to:focus-visible,
+.vr-share-src:focus-visible,
+.vr-share-close:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+.vr-share-src { display: inline-flex; align-items: center; gap: 5px; align-self: center; color: rgba(255, 255, 255, 0.75); font-size: 13px; font-weight: 700; }
+.vr-share-close { min-height: 44px; border: 0; border-radius: 14px; background: none; color: rgba(255, 255, 255, 0.7); font: inherit; font-weight: 800; cursor: pointer; }
 
 /* Desktop: an upright stage as tall as the window, the buttons beside it. */
 @media (min-width: 769px) {
   .vr-player { background: #0B0B0B; }
-  .vr-stage { gap: 18px; }
+  .vr-slide { gap: 18px; }
+  .vr-slide-bg {
+    position: absolute;
+    inset: -40px;
+    display: block;
+    width: calc(100% + 80px);
+    height: calc(100% + 80px);
+    object-fit: cover;
+    opacity: 0.32;
+    filter: blur(28px) saturate(1.2);
+    pointer-events: none;
+  }
   .vr-frame {
     width: auto;
     height: min(92dvh, 900px);
     aspect-ratio: 9 / 16;
     border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
   }
-  .vr-info { right: 0; }
-  .vr-side { position: static; justify-content: flex-end; align-self: center; gap: 22px; }
-  .vr-side-nav { display: flex; }
+  .vr-info { padding-right: 14px; }
+  /* TikTok's player keeps its own counts down the right edge. */
+  .vr-slide[data-platform="tiktok"] .vr-info { padding-right: 64px; }
+  .vr-side { position: relative; right: auto; bottom: auto; align-self: flex-end; margin-bottom: max(4dvh, 24px); }
+  .vr-acts { gap: 22px; }
+  .vr-desk-nav { position: absolute; top: 50%; right: 24px; z-index: 4; display: flex; flex-direction: column; gap: 10px; transform: translateY(-50%); }
+  .vr-share { align-items: center; }
+  .vr-share-card { border-radius: 22px; animation-name: vr-sheet-in; }
 }
 @media (hover: hover) and (pointer: fine) {
   .vr-player-btn:not(:disabled):hover { background: rgba(255, 255, 255, 0.24); }
   .vr-act:hover .vr-act-icon { background: rgba(255, 255, 255, 0.26); }
+  .vr-act[aria-pressed="true"]:hover .vr-act-icon { background: #FF4422; }
   .vr-player-read:hover { filter: brightness(1.08); }
+  .vr-share-to:hover { background: rgba(255, 255, 255, 0.16); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .vr-card, .vr-poster, .vr-play, .vr-nav button, .vr-preview, .vr-act-icon { transition: none; }
+  .vr-card, .vr-poster, .vr-play, .vr-nav button, .vr-preview, .vr-act-icon, .vr-slide-poster, .vr-progress i { transition: none; }
   .vr-card:hover, .vr-card:active { transform: none; }
-  .vr-burst { animation-duration: 1ms; }
+  .vr-frame { animation: none; }
+  .vr-burst svg, .vr-burst i, .vr-fly { animation-duration: 1ms; }
+  .vr-act-icon[data-pop], .vr-act-icon[data-pop]::after, .vr-act-share[data-pop] svg, .vr-react-row, .vr-react-row button,
+  .vr-share-card, .vr-unmute, .vr-paused, .vr-slide[data-active] .vr-info > * { animation: vr-fade 160ms ease both; }
 }
