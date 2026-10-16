@@ -33,9 +33,13 @@ SITE = "https://383ks.com"
 TZ = ZoneInfo("Europe/Belgrade")
 
 
+PLATFORMS = {"tiktok": "TikTok", "instagram": "Instagram", "youtube": "YouTube"}
+
+
 def site_link(pick: dict) -> str:
     vid = str(pick.get("id", ""))
-    return f"{SITE}/video/tt-{vid}" if pick.get("platform") == "tiktok" else f"{SITE}/video/{vid}"
+    prefix = {"tiktok": "tt-", "instagram": "ig-"}.get(str(pick.get("platform")), "")
+    return f"{SITE}/video/{prefix}{vid}"
 
 
 def compact(n: object) -> str:
@@ -95,15 +99,18 @@ def start() -> None:
     local = now.astimezone(TZ).strftime("%H:%M")
     send(f"383 Video: run started {local}", wrap(
         f"<h2 style='margin:0 0 8px'>Run started at {local}</h2>"
-        "<p style='margin:0;color:#555'>Social watchlists, then the video editor: official TikTok accounts' outliers "
-        "(Agent Reach / Exa search + TikTok's embed stats) and official YouTube Shorts, watched and judged for "
-        "engagement, safety and copyright. You get the results when it finishes.</p>"))
+        "<p style='margin:0;color:#555'>Social watchlists, then the video editor: official TikTok accounts' outliers, "
+        "teaching videos on this run's topics (TikTok + Instagram), official Instagram reels (Agent Reach / Exa search, "
+        "TikTok's embed stats, Instagram's embed rendered headless) and official YouTube Shorts, watched and judged "
+        "for engagement, safety and copyright. You get the results when it finishes.</p>"))
 
 
 def card(p: dict) -> str:
-    platform = "TikTok" if p.get("platform") == "tiktok" else "YouTube"
-    cover = p.get("cover") if p.get("platform") == "tiktok" else f"https://i.ytimg.com/vi/{p.get('id')}/oardefault.jpg"
-    stats = f"{compact(p.get('views'))} views · {compact(p.get('likes'))} likes"
+    platform = PLATFORMS.get(str(p.get("platform")), "YouTube")
+    cover = p.get("cover") if p.get("platform") in ("tiktok", "instagram") else f"https://i.ytimg.com/vi/{p.get('id')}/oardefault.jpg"
+    stats = (f"{compact(p.get('views'))} views · " if p.get("views") else "") + f"{compact(p.get('likes'))} likes"
+    if p.get("kind") == "learn":
+        stats = f"Mëso: {html.escape(str(p.get('topic', '')))} · " + stats
     if p.get("outlier"):
         stats += f" · {p['outlier']}× the account's usual"
     img = (f"<img src='{html.escape(str(cover))}' width='90' height='160' alt='' "
@@ -146,11 +153,13 @@ def finish(status: int) -> None:
     summary = (
         f"<p style='margin:0 0 4px'><b>{len(approved)}</b> new videos approved and published "
         f"(live on 383 within 5 minutes). The site now carries <b>{report.get('published', 0)}</b> "
-        f"({by.get('tiktok', 0)} TikTok, {by.get('youtube', 0)} YouTube).</p>"
+        f"({by.get('tiktok', 0)} TikTok, {by.get('instagram', 0)} Instagram, {by.get('youtube', 0)} YouTube; "
+        f"{report.get('publishedLearn', 0)} of them Mëso).</p>"
         f"<p style='margin:0;color:#555;font-size:13px'>Searched: {report.get('tiktok_accounts_ok', 0)} official TikTok "
-        f"accounts, {report.get('exa_queries', 0)} Agent Reach (Exa) searches finding {report.get('exa_found', 0)} more; "
-        f"{report.get('tiktok_candidates', 0)} TikTok outliers and {report.get('youtube_candidates', 0)} YouTube Shorts "
-        f"to judge, {report.get('judged', 0)} judged. Exit status {status}.</p>"
+        f"accounts, {report.get('exa_queries', 0)} Agent Reach (Exa) searches, {report.get('instagram_rendered', 0)} "
+        f"Instagram reels rendered; to judge: {report.get('tiktok_candidates', 0)} TikTok outliers, "
+        f"{report.get('learn_tiktok_candidates', 0)} TikTok Mëso, {report.get('instagram_candidates', 0)} Instagram reels, "
+        f"{report.get('youtube_candidates', 0)} YouTube Shorts; {report.get('judged', 0)} judged. Exit status {status}.</p>"
     )
     rows = "".join(card(p) for p in approved) or "<tr><td style='color:#777;padding:10px 0'>No new video passed this run.</td></tr>"
     send(f"383 Video: {len(approved)} new videos published ({now:%H:%M})", wrap(

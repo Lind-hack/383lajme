@@ -4,8 +4,9 @@
 // own — and the full-screen, endless, upright feed they open.
 //
 // Only what 383's video editor approved (lib/video-feed: the official TikTok
-// accounts' outliers and the official channels' YouTube Shorts, watched and
-// judged engaging, safe and the uploader's own). When the row comes into view
+// accounts' outliers, the official accounts' Instagram reels, the official
+// channels' YouTube Shorts and "Mëso" explainers, watched and judged engaging,
+// safe and the uploader's own). When the row comes into view
 // its first YouTube card plays muted in place of its poster (on a desktop,
 // whichever card the pointer is over).
 //
@@ -19,7 +20,9 @@
 //
 // Each video plays in its platform's own player (YouTube's privacy-enhanced
 // youtube-nocookie.com, TikTok's embed player), driven through their
-// documented iframe messages. A transparent layer over it takes the touches —
+// documented iframe messages. Instagram's embed has no such messages: a reel
+// starts when the reader taps it, in Instagram's own frame, and the reader
+// swipes on when they are done. A transparent layer over it takes the touches —
 // a touch on the platform's frame never reaches this page — so a tap pauses,
 // a double-tap gives 👍 where the finger is, and a swipe still scrolls the
 // feed. Beside it, TikTok-style: 👍 Pëlqej, the reactions, comments and
@@ -32,6 +35,7 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import {
   ArrowRight,
+  BookOpen,
   Check,
   ChevronDown,
   ChevronLeft,
@@ -59,9 +63,13 @@ import "./video-row.css";
 export type VideoItem = {
   /** Where its reactions and comments live: lib/video-key. */
   key: string;
-  platform: "youtube" | "tiktok";
-  /** YouTube's 11-character id, or TikTok's digits. */
+  platform: "youtube" | "tiktok" | "instagram";
+  /** YouTube's 11-character id, TikTok's digits, or an Instagram reel's code. */
   videoId: string;
+  /** "learn": a "Mëso" video that teaches something. */
+  kind?: "official" | "learn";
+  /** What a "Mëso" video teaches. */
+  topic?: string | null;
   title: string;
   /** Why it is worth watching (the editor's line), when there is one. */
   why?: string;
@@ -92,20 +100,31 @@ const WINDOW = 60;
 
 /** The upright cover: TikTok's own, or the Short's (landscape poster as the fallback). */
 function poster(item: VideoItem, upright = true) {
-  if (item.platform === "tiktok") return item.cover || "";
+  if (item.platform !== "youtube") return item.cover || "";
   return `https://i.ytimg.com/vi/${item.videoId}/${upright ? "oardefault" : "hqdefault"}.jpg`;
 }
 
 function platformName(item: VideoItem) {
-  return item.platform === "tiktok" ? "TikTok" : "YouTube";
+  return { tiktok: "TikTok", instagram: "Instagram", youtube: "YouTube" }[item.platform] ?? "YouTube";
 }
 
 function sourceUrl(item: VideoItem) {
-  return item.url || (item.platform === "tiktok" ? `https://www.tiktok.com/video/${item.videoId}` : `https://www.youtube.com/shorts/${item.videoId}`);
+  if (item.url) return item.url;
+  if (item.platform === "tiktok") return `https://www.tiktok.com/video/${item.videoId}`;
+  if (item.platform === "instagram") return `https://www.instagram.com/reel/${item.videoId}/`;
+  return `https://www.youtube.com/shorts/${item.videoId}`;
 }
 
 function shareUrl(item: VideoItem) {
-  return `${SITE}/video/${item.platform === "tiktok" ? `tt-${item.videoId}` : item.videoId}`;
+  const prefix = { tiktok: "tt-", instagram: "ig-", youtube: "" }[item.platform] ?? "";
+  return `${SITE}/video/${prefix}${item.videoId}`;
+}
+
+/** "14M shikime", or for a reel (Instagram shows no plays) "231K pëlqime". */
+function reach(item: VideoItem) {
+  if ((item.views ?? 0) > 0) return `${compact(item.views ?? 0)} shikime`;
+  if ((item.likes ?? 0) > 0) return `${compact(item.likes ?? 0)} pëlqime`;
+  return "";
 }
 
 /** A muted, chromeless, looping preview of the first seconds (YouTube only). */
@@ -183,20 +202,29 @@ export default function VideoRow({
   // One preview at a time: the YouTube card under the pointer, else the first
   // YouTube card (TikTok's player is too heavy for a card). None while the
   // player is open.
-  const firstYouTube = items.findIndex((v) => v.platform !== "tiktok");
+  const firstYouTube = items.findIndex((v) => v.platform === "youtube");
   const target = hovered ?? firstYouTube;
-  const previewing = allowed && inView && open === null && items[target]?.platform !== "tiktok" ? target : -1;
+  const previewing = allowed && inView && open === null && items[target]?.platform === "youtube" ? target : -1;
+  const openAt = (i: number, el: HTMLButtonElement | null, how: string) => {
+    opener.current = el;
+    setOpen(i);
+    const item = items[i];
+    track("video_open", { video: item.videoId, platform: item.platform, channel: item.channel, position: i + 1, list, how });
+  };
 
   return (
     <section ref={sectionRef} className="vr" aria-labelledby={`vr-${list}`} style={{ ["--vr-accent" as string]: accent }}>
+      {/* The site's section heading (components/section-label): bar, capitals, hairline. */}
       <div className="vr-head">
+        <span className="vr-bar" aria-hidden="true" />
         <h2 id={`vr-${list}`} className="vr-title">
-          <span className="vr-title-icon" aria-hidden="true">
-            <Play size={14} strokeWidth={0} fill="currentColor" />
-          </span>
           {title}
-          <span className="vr-title-sub">Nga llogaritë zyrtare</span>
         </h2>
+        <span className="vr-rule" aria-hidden="true" />
+        <button type="button" className="vr-all" onClick={(e) => openAt(0, e.currentTarget, "play-all")}>
+          <Play size={12} strokeWidth={0} fill="currentColor" aria-hidden="true" />
+          Luaj
+        </button>
         <span className="vr-nav">
           <button type="button" onClick={() => step(-1)} disabled={edge.start} aria-label="Videot e mëparshme">
             <ChevronLeft size={20} strokeWidth={2.2} aria-hidden="true" />
@@ -206,17 +234,14 @@ export default function VideoRow({
           </button>
         </span>
       </div>
+      <p className="vr-lede">Më të shikuarat nga llogaritë zyrtare, dhe video që të mësojnë diçka në një minutë.</p>
       <ul className="vr-track" ref={trackRef} onScroll={update}>
         {items.map((item, i) => (
           <li key={item.key} onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered((h) => (h === i ? null : h))}>
             <button
               type="button"
               className="vr-card"
-              onClick={(e) => {
-                opener.current = e.currentTarget;
-                setOpen(i);
-                track("video_open", { video: item.videoId, platform: item.platform, channel: item.channel, position: i + 1, list });
-              }}
+              onClick={(e) => openAt(i, e.currentTarget, "card")}
               aria-label={`Shiko videon: ${item.title}`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element -- the platform's own cover, already sized */}
@@ -240,21 +265,26 @@ export default function VideoRow({
                 <i style={{ background: item.color }} aria-hidden="true" />
                 {item.channel}
               </span>
-              {(item.outlier ?? 0) >= 3 && (
-                <span className="vr-hot" title={`${item.outlier}× më shumë shikime se zakonisht`}>
-                  🔥 {Math.round(item.outlier ?? 0)}×
+              {item.kind === "learn" ? (
+                <span className="vr-learn" title={item.topic ?? undefined}>
+                  <BookOpen size={12} strokeWidth={2.6} aria-hidden="true" />
+                  Mëso
                 </span>
+              ) : (
+                (item.outlier ?? 0) >= 3 && (
+                  <span className="vr-hot" title={`${item.outlier}× më shumë shikime se zakonisht`}>
+                    🔥 {Math.round(item.outlier ?? 0)}×
+                  </span>
+                )
               )}
               <span className="vr-play" aria-hidden="true">
-                <Play size={22} strokeWidth={0} fill="currentColor" />
+                <Play size={20} strokeWidth={0} fill="currentColor" />
               </span>
               <span className="vr-card-foot">
-                {(item.views ?? 0) > 0 && (
-                  <span className="vr-card-stats">
-                    <Play size={11} strokeWidth={0} fill="currentColor" aria-hidden="true" />
-                    {compact(item.views ?? 0)} · {platformName(item)}
-                  </span>
-                )}
+                <span className="vr-card-stats">
+                  {reach(item) && <>{reach(item)} · </>}
+                  {platformName(item)}
+                </span>
                 <span className="vr-card-title">{item.title}</span>
               </span>
             </button>
@@ -339,6 +369,11 @@ function useEmbed(
   // skipped like one that ended.
   const tiktok = item.platform === "tiktok";
   const origin = tiktok ? TT_ORIGIN : YT_ORIGIN;
+  // Instagram's frame takes no commands: nothing to drive, nothing to listen to.
+  if (item.platform === "instagram") {
+    src = null;
+    active = false;
+  }
   const [state, setState] = useState<PlayState>("loading");
   const [started, setStarted] = useState(false);
   const [muted, setMuted] = useState(false);
@@ -489,6 +524,7 @@ function useEmbed(
 
 /** The frame's address: chromeless, upright, ours to drive. `autoplay` only for the video on screen at load. */
 function embedSrc(item: VideoItem, autoplay: boolean) {
+  if (item.platform === "instagram") return `https://www.instagram.com/reel/${item.videoId}/embed/`;
   if (item.platform === "tiktok") {
     const off = "controls=0&progress_bar=0&play_button=0&volume_control=0&fullscreen_button=0&timestamp=0";
     return `${TT_ORIGIN}/player/v1/${item.videoId}?autoplay=${autoplay ? 1 : 0}&loop=0&${off}&music_info=0&description=0&rel=0&native_context_menu=0&closed_caption=0`;
@@ -686,7 +722,9 @@ function Player({ items, index, list, onClose }: { items: VideoItem[]; index: nu
           {soundOn ? <Volume2 size={20} strokeWidth={2.4} aria-hidden="true" /> : <VolumeX size={20} strokeWidth={2.4} aria-hidden="true" />}
         </button>
         <span className="vr-player-brand" aria-hidden="true">
-          Video <b>383</b>
+          <b>383</b>
+          <i />
+          <small>Video</small>
         </span>
         <button ref={closeRef} type="button" className="vr-player-btn" onClick={onClose} aria-label="Mbyll videon">
           <X size={22} strokeWidth={2.4} aria-hidden="true" />
@@ -746,6 +784,8 @@ function Slide({
   const failedRef = useRef(false);
   const player = useEmbed(item, frameRef, src, active && Boolean(src), wantSound, () => (failedRef.current ? onSkip() : onEnded()));
   failedRef.current = player.failed;
+  const ig = item.platform === "instagram";
+  const [igLoaded, setIgLoaded] = useState(false);
   const gesture = useRef<{ x: number; y: number; moved: boolean } | null>(null);
   const lastTap = useRef(0);
   const tapTimer = useRef<number | null>(null);
@@ -779,8 +819,11 @@ function Slide({
             ref={frameRef}
             src={src}
             title={item.title}
-            tabIndex={-1}
+            tabIndex={ig ? 0 : -1}
             allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            onLoad={ig ? () => setIgLoaded(true) : undefined}
+            // Instagram's card fits its frame; without scrolling of its own, a swipe on it moves the feed.
+            scrolling={ig ? "no" : undefined}
           />
         )}
         {cover && (
@@ -789,12 +832,21 @@ function Slide({
             className="vr-slide-poster"
             src={cover}
             alt=""
-            data-hidden={player.started || undefined}
+            data-hidden={(ig ? igLoaded : player.started) || undefined}
             referrerPolicy="no-referrer"
             loading={near ? "eager" : "lazy"}
           />
         )}
-        {/* Every touch on the video lands here: the platform's frame would swallow it. Swipes scroll the feed. */}
+        {/* Soft dark at the top and bottom, so the buttons and words read on any video. */}
+        <span className="vr-vignette" aria-hidden="true" />
+        {ig && active && (
+          <span className="vr-ig-hint" aria-hidden="true">
+            Prek videon për ta luajtur
+          </span>
+        )}
+        {/* Every touch on the video lands here: the platform's frame would swallow it. Swipes scroll the feed.
+            Not on a reel: Instagram's frame starts only from a tap of its own. */}
+        {!ig && (
         <button
           type="button"
           className="vr-touch"
@@ -838,6 +890,7 @@ function Slide({
             </span>
           )}
         </button>
+        )}
         {bursts.map((b) => (
           <span key={b.id} className="vr-burst" style={{ left: b.x, top: b.y, ["--tilt" as string]: `${b.tilt}deg` }} aria-hidden="true">
             <ThumbsUp size={96} strokeWidth={0} fill="currentColor" />
@@ -864,7 +917,13 @@ function Slide({
         <div className="vr-info">
           <span className="vr-player-meta">
             <i style={{ background: item.color }} aria-hidden="true" />
-            {item.channel} · zyrtare
+            {item.kind === "learn" ? (
+              <>
+                <span className="vr-meta-learn">Mëso</span> {item.channel}
+              </>
+            ) : (
+              <>{item.channel} · zyrtare</>
+            )}
             {item.publishedAt && (
               <>
                 {" · "}
@@ -892,14 +951,16 @@ function Slide({
               className="vr-player-src"
               onClick={() => track("video_source", { video: item.videoId, platform: item.platform, position: i + 1, list })}
             >
-              {(item.views ?? 0) > 0 && <>{compact(item.views ?? 0)} shikime · </>}
+              {reach(item) && <>{reach(item)} · </>}
               Shiko në {platformName(item)} <ExternalLink size={13} strokeWidth={2.4} aria-hidden="true" />
             </a>
           </div>
         </div>
-        <span className="vr-progress" aria-hidden="true">
-          <i style={{ transform: `scaleX(${player.progress})` }} />
-        </span>
+        {!ig && (
+          <span className="vr-progress" aria-hidden="true">
+            <i style={{ transform: `scaleX(${player.progress})` }} />
+          </span>
+        )}
       </div>
 
       <div className="vr-side">

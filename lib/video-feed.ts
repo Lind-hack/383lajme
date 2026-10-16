@@ -2,26 +2,32 @@
 // approved (scripts/video_curation.py, on the VPS every two hours 07:00-23:00).
 //
 // The curation job takes the official TikTok accounts' outliers (videos far
-// outrunning the account's usual plays) and the official channels' new
-// YouTube Shorts (the channels the news pipeline trusts: governments,
-// institutions, leagues, clubs, companies), has Agent Reach and a Hermes judge
-// watch each one, and keeps only what is engaging, safe and posted by the
-// rights holder, with an Albanian title. It publishes the approved list as a public JSON file in
+// outrunning the account's usual plays), the official accounts' Instagram
+// reels, the official channels' new YouTube Shorts (the channels the news
+// pipeline trusts: governments, institutions, leagues, clubs, companies) and
+// "Mëso" videos — short explainers on topics a reader can use, from creators
+// with a real audience — has Agent Reach and a Hermes judge watch each one,
+// and keeps only what is engaging, safe and posted by the rights holder, with
+// an Albanian title. It publishes the approved list as a public JSON file in
 // storage (video-picks/index.json); this reads it. A video that is also a 383
 // story's clip links to the story.
 
 import { unstable_cache } from "next/cache";
 import { getVideoArticles } from "./db";
 import { youtubeIdOf } from "./video-clip";
-import { tiktokKey, videoKey } from "./video-key.mjs";
+import { instagramKey, tiktokKey, videoKey } from "./video-key.mjs";
 import { NAV_CATEGORIES, type NavCategory } from "./category-map";
 
 export type FeedVideo = {
   /** Where its reactions and comments live (lib/video-key). */
   key: string;
-  platform: "youtube" | "tiktok";
-  /** YouTube's 11-character id, or TikTok's digits. */
+  platform: "youtube" | "tiktok" | "instagram";
+  /** YouTube's 11-character id, TikTok's digits, or an Instagram reel's code. */
   videoId: string;
+  /** "learn": a "Mëso" video that teaches something; "official": the rights holder's own. */
+  kind: "official" | "learn";
+  /** What a "Mëso" video teaches, in the editor's words (English). */
+  topic: string | null;
   /** The editor's Albanian title. */
   title: string;
   /** Why it is worth watching, one Albanian sentence. */
@@ -38,13 +44,18 @@ export type FeedVideo = {
   likes: number;
   /** How many times its account's usual it is doing (1 = usual). */
   outlier: number | null;
-  /** The upright cover: TikTok's own (refreshed every run); YouTube's comes from its id. */
+  /** The upright cover: TikTok's own (refreshed every run), Instagram's through /api/video-cover; YouTube's comes from its id. */
   cover: string | null;
   /** The video on its own platform. */
   url: string;
 };
 
 const TIKTOK_COVER = /^https:\/\/[a-z0-9.-]+\.(tiktokcdn|tiktokcdn-eu|tiktokcdn-us|ibyteimg)\.com\//;
+const HANDLE = /^[A-Za-z0-9_.]{2,30}$/;
+
+function platformOf(value: unknown): FeedVideo["platform"] {
+  return value === "tiktok" || value === "instagram" ? value : "youtube";
+}
 
 function num(value: unknown) {
   const n = Number(value);
@@ -68,10 +79,10 @@ function parsePicks(json: unknown): Omit<FeedVideo, "storySlug">[] {
   for (const row of rows) {
     const r = row as Record<string, unknown>;
     const id = typeof r?.id === "string" ? r.id : "";
-    const platform = r?.platform === "tiktok" ? "tiktok" : "youtube";
-    const key = platform === "tiktok" ? tiktokKey(id) : videoKey(id);
-    const handle = typeof r?.channelId === "string" && /^[A-Za-z0-9_.]{2,24}$/.test(r.channelId) ? r.channelId : "";
-    if (platform === "tiktok" && !handle) continue;
+    const platform = platformOf(r?.platform);
+    const key = platform === "tiktok" ? tiktokKey(id) : platform === "instagram" ? instagramKey(id) : videoKey(id);
+    const handle = typeof r?.channelId === "string" && HANDLE.test(r.channelId) ? r.channelId : "";
+    if (platform !== "youtube" && !handle) continue;
     const title = typeof r?.title === "string" ? r.title.trim() : "";
     const section = typeof r?.section === "string" && SECTIONS.has(r.section) ? (r.section as NavCategory) : null;
     const publishedAt = typeof r?.publishedAt === "string" && Number.isFinite(Date.parse(r.publishedAt)) ? r.publishedAt : "";
@@ -80,6 +91,8 @@ function parsePicks(json: unknown): Omit<FeedVideo, "storySlug">[] {
       key,
       platform,
       videoId: id,
+      kind: r?.kind === "learn" ? "learn" : "official",
+      topic: typeof r?.topic === "string" ? r.topic.slice(0, 80) : null,
       title: title.slice(0, 120),
       why: typeof r?.why === "string" ? r.why.slice(0, 200) : "",
       channel: typeof r?.channel === "string" ? r.channel.slice(0, 60) : "",
@@ -89,8 +102,18 @@ function parsePicks(json: unknown): Omit<FeedVideo, "storySlug">[] {
       views: num(r?.views),
       likes: num(r?.likes),
       outlier: num(r?.outlier) || null,
-      cover: platform === "tiktok" && typeof r?.cover === "string" && TIKTOK_COVER.test(r.cover) ? r.cover : null,
-      url: platform === "tiktok" ? `https://www.tiktok.com/@${handle}/video/${id}` : `https://www.youtube.com/shorts/${id}`,
+      cover:
+        platform === "tiktok" && typeof r?.cover === "string" && TIKTOK_COVER.test(r.cover)
+          ? r.cover
+          : platform === "instagram"
+            ? `/api/video-cover?ig=${encodeURIComponent(id)}`
+            : null,
+      url:
+        platform === "tiktok"
+          ? `https://www.tiktok.com/@${handle}/video/${id}`
+          : platform === "instagram"
+            ? `https://www.instagram.com/reel/${id}/`
+            : `https://www.youtube.com/shorts/${id}`,
     });
   }
   return out;
@@ -115,7 +138,7 @@ async function buildFeed(): Promise<FeedVideo[]> {
 
 // Five minutes: the editor publishes every two hours, so a new pick shows
 // within minutes of being approved.
-const cachedFeed = unstable_cache(buildFeed, ["video-picks-v2"], { revalidate: 300, tags: ["video-feed"] });
+const cachedFeed = unstable_cache(buildFeed, ["video-picks-v4"], { revalidate: 300, tags: ["video-feed"] });
 
 /** The approved videos, best and newest first; [] before the first run or when storage is unreachable. */
 export async function getVideoFeed(): Promise<FeedVideo[]> {
@@ -147,6 +170,8 @@ export function toVideoItem(v: FeedVideo, color: string) {
     key: v.key,
     platform: v.platform,
     videoId: v.videoId,
+    kind: v.kind,
+    topic: v.topic,
     title: v.title,
     why: v.why,
     channel: v.channel,

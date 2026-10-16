@@ -120,3 +120,44 @@ class TikTokTests(unittest.TestCase):
         self.assertFalse(vc.fixed_checks(tiktok(availability="ad-or-private"))[0])
         self.assertEqual(vc.source_url("tiktok", "7697337967035125022", "nba"),
                          "https://www.tiktok.com/@nba/video/7697337967035125022")
+
+
+class InstagramAndLearnTests(unittest.TestCase):
+    def test_an_instagram_code_carries_its_posting_time(self):
+        when = vc.ig_created("DaFxl8_s8Fk")
+        self.assertEqual((when.year, when.month, when.day), (2026, 6, 27))
+        self.assertIsNone(vc.ig_created("bad code!"))
+
+    def test_instagram_like_counts_read_as_shown(self):
+        self.assertEqual(vc.ig_count("26,225"), 26225)
+        self.assertEqual(vc.ig_count("1.2M"), 1_200_000)
+        self.assertEqual(vc.ig_count("43K"), 43_000)
+        self.assertEqual(vc.ig_count(""), 0)
+
+    def test_each_run_takes_the_next_topics_in_turn(self):
+        items = list(range(10))
+        first = vc.run_slice(items, 4, NOW)
+        later = vc.run_slice(items, 4, NOW + timedelta(hours=2))
+        self.assertEqual(len(first), 4)
+        self.assertEqual(later[0], (first[0] + 4) % 10)
+        self.assertEqual(vc.run_slice([], 4, NOW), [])
+
+    def test_learn_videos_and_reels_count_from_approval_and_blocked_channels_never_show(self):
+        def entry(vid, judged_days, published_days, **pick):
+            return {"approved": True, "judged_at": (NOW - timedelta(days=judged_days)).isoformat(),
+                    "pick": {"id": vid, "score": 8, "publishedAt": (NOW - timedelta(days=published_days)).isoformat(),
+                             "approvedAt": (NOW - timedelta(days=judged_days)).isoformat(), **pick}}
+        state = {
+            "learn": entry("learn", 3, 200, kind="learn", platform="tiktok"),
+            "old-learn": entry("old-learn", 30, 200, kind="learn", platform="tiktok"),
+            "reel": entry("reel", 1, 40, platform="instagram"),
+            "news": entry("news", 1, 9, platform="tiktok"),
+            "fifa": entry("fifa", 0, 0, platform="youtube", channel="FIFA"),
+        }
+        self.assertEqual({p["id"] for p in vc.picks_from(state, NOW)}, {"learn", "reel"})
+
+    def test_a_learn_video_needs_seven(self):
+        c = candidate()
+        c["kind"] = "learn"
+        self.assertFalse(vc.rules(c, {**GOOD, "engagement": 6})[0])
+        self.assertTrue(vc.rules(c, {**GOOD, "engagement": 7})[0])

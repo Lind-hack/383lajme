@@ -1,65 +1,86 @@
-/* ── Video row: upright cards that open a full-screen, upright player ─────
-   The card is the "Nga qytetet" card (rounded, a chip top-left, the title on
-   a dark fade), stood upright like the Short it plays. */
-.vr { margin: 0 0 var(--space-section, 48px); }
-.vr-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+/* ── Video row: upright cards that open a full-screen, upright feed ───────
+   The heading is the site's own section heading (components/section-label:
+   accent bar, spaced capitals, hairline), with "Luaj" to start the feed.
+   The card stands upright like the video it plays: the cover edge to edge,
+   a glass chip with the channel, the brand's play button, the words on a
+   soft fade at the bottom. */
+.vr {
+  --vr-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  margin: 0 0 var(--space-section, 48px);
+}
+.vr-head { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+.vr-bar { flex: none; width: 4px; height: 28px; border-radius: 2px; background: var(--vr-accent); }
 .vr-title {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
   margin: 0;
   color: var(--theme-ink, #111111);
-  font-size: clamp(20px, 2.2vw, 24px);
+  font-size: 13px;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
-.vr-title-icon {
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
+.vr-rule { flex: 1; min-width: 12px; height: 1px; background: #E8E3DB; }
+.vr-all {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 14px 0 12px;
+  border: 0;
+  border-radius: 999px;
   background: var(--vr-accent);
   color: #FFFFFF;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--vr-accent) 70%, transparent);
+  transition: transform 160ms var(--vr-ease-out), filter 160ms ease;
 }
-.vr-title-icon svg { margin-left: 2px; }
-.vr-title-sub { margin-left: 4px; color: var(--theme-muted, #6B625B); font-size: 13px; font-weight: 600; letter-spacing: 0; }
-@media (max-width: 480px) { .vr-title-sub { display: none; } }
-.vr-nav { display: flex; gap: 8px; }
+.vr-all:active { transform: scale(0.96); }
+.vr-all:focus-visible { outline: 2px solid var(--vr-accent); outline-offset: 3px; }
+.vr-nav { display: flex; flex: none; gap: 8px; }
 .vr-nav button {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid rgba(var(--theme-border-rgb, 17, 17, 17), 0.12);
+  width: 36px;
+  height: 36px;
+  border: 1px solid #E8E3DB;
   border-radius: 50%;
   background: var(--theme-surface, #FFFFFF);
   color: var(--theme-ink, #111111);
   cursor: pointer;
-  transition: transform 160ms ease, opacity 160ms ease, border-color 160ms ease;
+  transition: transform 160ms var(--vr-ease-out), opacity 160ms ease, border-color 160ms ease;
 }
 .vr-nav button:disabled { opacity: 0.35; cursor: default; }
 .vr-nav button:not(:disabled):active { transform: scale(0.94); }
 .vr-nav button:focus-visible { outline: 2px solid var(--vr-accent); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) {
   .vr-nav button:not(:disabled):hover { border-color: var(--vr-accent); }
+  .vr-all:hover { filter: brightness(1.06); }
 }
 @media (max-width: 640px) { .vr-nav { display: none; } }
+.vr-lede { max-width: 60ch; margin: 0 0 16px; color: #5F5B56; font-size: 14.5px; line-height: 1.55; }
 
 .vr-track {
   display: flex;
   gap: 12px;
-  margin: 0 calc(var(--vr-gutter, 0px) * -1);
-  padding: 4px var(--vr-gutter, 0px) 10px;
+  /* Room round the cards for their shadow: a scroller clips what overflows
+     it, and a clipped shadow shows as a pale box. 8px each side, given back
+     by the margin, so the cards still line up with the page. */
+  margin: 0 calc((var(--vr-gutter, 0px) + 8px) * -1);
+  padding: 4px calc(var(--vr-gutter, 0px) + 8px) 24px;
   list-style: none;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: var(--vr-gutter, 0px);
+  scroll-padding-inline: calc(var(--vr-gutter, 0px) + 8px);
   scrollbar-width: none;
   overscroll-behavior-x: contain;
 }
 .vr-track::-webkit-scrollbar { display: none; }
-.vr-track > li { flex: none; width: min(42vw, 210px); scroll-snap-align: start; }
+.vr-track > li { flex: none; width: min(41vw, 208px); scroll-snap-align: start; }
 
 .vr-card {
   position: relative;
@@ -69,14 +90,24 @@
   padding: 0;
   overflow: hidden;
   border: 0;
-  border-radius: 18px;
+  border-radius: 20px;
   background: #1A1A1A;
   color: #FFFFFF;
   font: inherit;
   text-align: left;
   cursor: pointer;
-  box-shadow: 0 12px 28px rgba(17, 17, 17, 0.12);
-  transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 10px 16px -10px rgba(17, 17, 17, 0.4), 0 1px 3px rgba(17, 17, 17, 0.08);
+  transition: transform 220ms var(--vr-ease-out);
+}
+/* A hairline of light round the edge: the card reads as glass, not a hole. */
+.vr-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  pointer-events: none;
 }
 .vr-poster {
   position: absolute;
@@ -84,13 +115,22 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform 300ms var(--vr-ease-out);
 }
 .vr-card::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(10, 10, 10, 0.9) 0%, rgba(10, 10, 10, 0.35) 38%, rgba(10, 10, 10, 0) 60%);
+  /* Eased stops: the fade has no visible edge. */
+  background: linear-gradient(
+    to top,
+    rgba(8, 8, 8, 0.88) 0%,
+    rgba(8, 8, 8, 0.74) 14%,
+    rgba(8, 8, 8, 0.5) 28%,
+    rgba(8, 8, 8, 0.26) 42%,
+    rgba(8, 8, 8, 0.08) 56%,
+    rgba(8, 8, 8, 0) 66%
+  );
 }
 .vr-badge {
   position: absolute;
@@ -101,33 +141,45 @@
   align-items: center;
   gap: 6px;
   max-width: calc(100% - 20px);
-  padding: 4px 10px 4px 6px;
+  padding: 5px 10px 5px 8px;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 100px;
-  background: rgba(17, 17, 17, 0.72);
+  background: rgba(17, 17, 17, 0.36);
   color: #FFFFFF;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 800;
   white-space: nowrap;
   text-overflow: ellipsis;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(10px) saturate(1.4);
 }
-.vr-badge i { flex: none; width: 9px; height: 9px; margin: 0 2px 0 4px; border-radius: 50%; }
+.vr-badge i { flex: none; width: 8px; height: 8px; border-radius: 50%; }
+/* The brand's play button: 383's orange, a soft glow, a ring that breathes out on hover. */
 .vr-play {
   position: absolute;
-  top: 50%;
+  top: 46%;
   left: 50%;
   z-index: 1;
   display: grid;
   place-items: center;
-  width: 52px;
-  height: 52px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.92);
-  color: #111111;
-  transform: translate(-50%, -70%);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-  transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 300ms ease;
+  background: #FF4422;
+  color: #FFFFFF;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 10px 24px -6px rgba(255, 68, 34, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transition: transform 220ms var(--vr-ease-out), opacity 300ms ease;
+}
+.vr-play::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 220ms ease, transform 320ms var(--vr-ease-out);
 }
 .vr-play svg { margin-left: 3px; }
 .vr-card-foot {
@@ -136,46 +188,54 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
   padding: 12px 12px 14px;
 }
 .vr-card-stats {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 12px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 11.5px;
   font-weight: 800;
+  letter-spacing: 0.02em;
   font-variant-numeric: tabular-nums;
 }
 .vr-card-title {
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 3;
   font-size: 15px;
   font-weight: 800;
   line-height: 1.25;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
 }
-.vr-hot {
+.vr-hot,
+.vr-learn {
   position: absolute;
   top: 10px;
   right: 10px;
   z-index: 1;
-  padding: 3px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 9px;
   border-radius: 100px;
-  background: rgba(255, 68, 34, 0.92);
   color: #FFFFFF;
   font-size: 12px;
   font-weight: 900;
   font-variant-numeric: tabular-nums;
 }
-.vr-badge:has(+ .vr-hot) { max-width: calc(100% - 78px); }
+.vr-hot { background: linear-gradient(135deg, #FF6A3D, #FF2E2E); }
+.vr-learn { background: rgba(14, 116, 255, 0.92); }
+.vr-badge:has(+ .vr-hot),
+.vr-badge:has(+ .vr-learn) { max-width: calc(100% - 84px); }
 .vr-card:active { transform: scale(0.97); }
 .vr-card:focus-visible { outline: 3px solid var(--vr-accent); outline-offset: 3px; }
 @media (hover: hover) and (pointer: fine) {
-  .vr-card:hover { transform: translateY(-3px); }
-  .vr-card:hover .vr-poster { transform: scale(1.05); }
+  .vr-card:hover { transform: translateY(-4px); box-shadow: 0 14px 18px -10px rgba(17, 17, 17, 0.42), 0 1px 3px rgba(17, 17, 17, 0.08); }
+  .vr-card:hover .vr-poster { transform: scale(1.04); }
+  .vr-card:hover .vr-play { transform: translate(-50%, -50%) scale(1.08); }
+  .vr-card:hover .vr-play::after { opacity: 1; transform: scale(1); }
 }
 
 /* The muted preview: the upright player fills the upright card. */
@@ -247,12 +307,33 @@
   align-items: center;
   justify-content: space-between;
   padding: max(10px, env(safe-area-inset-top)) 12px 10px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
   pointer-events: none;
 }
 .vr-player-top > * { pointer-events: auto; }
-.vr-player-brand { color: rgba(255, 255, 255, 0.9); font-size: 15px; font-weight: 700; letter-spacing: 0.01em; pointer-events: none; }
-.vr-player-brand b { color: #FF4422; font-weight: 900; }
+/* The site's wordmark (383 and its orange dot), centred on the screen
+   whatever the buttons either side are. */
+.vr-player-brand {
+  position: absolute;
+  top: calc(max(10px, env(safe-area-inset-top)) + 22px);
+  left: 50%;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  color: #FFFFFF;
+  transform: translate(-50%, -50%);
+  pointer-events: none !important;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+}
+.vr-player-brand b { font-size: 24px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; }
+.vr-player-brand i { width: 5px; height: 5px; margin-bottom: 3px; border-radius: 50%; background: #FF4422; }
+.vr-player-brand small {
+  margin-left: 6px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
 .vr-player-btn {
   display: grid;
   place-items: center;
@@ -305,6 +386,35 @@
     40%, 60% { opacity: 1; transform: none; }
     100% { opacity: 0.35; transform: scale(0.88); }
   }
+}
+
+/* A soft vignette top and bottom, eased so it has no edge: the buttons and the
+   words read on a white video, and the picture barely darkens. */
+.vr-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.38) 0%,
+      rgba(0, 0, 0, 0.3) 5%,
+      rgba(0, 0, 0, 0.19) 10%,
+      rgba(0, 0, 0, 0.09) 15%,
+      rgba(0, 0, 0, 0.03) 19%,
+      rgba(0, 0, 0, 0) 22%
+    ),
+    linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.62) 0%,
+      rgba(0, 0, 0, 0.52) 8%,
+      rgba(0, 0, 0, 0.38) 17%,
+      rgba(0, 0, 0, 0.22) 26%,
+      rgba(0, 0, 0, 0.1) 34%,
+      rgba(0, 0, 0, 0.03) 40%,
+      rgba(0, 0, 0, 0) 45%
+    );
 }
 
 /* The touch layer over the video: taps here, swipes scroll the feed. */
@@ -416,22 +526,23 @@
   z-index: 2;
   /* The fade runs edge to edge; the words stop short of the buttons. */
   padding: 56px 80px max(20px, env(safe-area-inset-bottom)) 14px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
   pointer-events: none;
 }
 .vr-info a { pointer-events: auto; }
-.vr-slide[data-active] .vr-info > * { animation: vr-rise 320ms var(--vr-ease-out) both; }
-.vr-slide[data-active] .vr-info > :nth-child(2) { animation-delay: 50ms; }
-.vr-slide[data-active] .vr-info > :nth-child(3) { animation-delay: 100ms; }
-.vr-slide[data-active] .vr-info > :nth-child(4) { animation-delay: 150ms; }
+/* Seen on every swipe: short, small, a quick stagger. */
+.vr-slide[data-active] .vr-info > * { animation: vr-rise 220ms var(--vr-ease-out) both; }
+.vr-slide[data-active] .vr-info > :nth-child(2) { animation-delay: 35ms; }
+.vr-slide[data-active] .vr-info > :nth-child(3) { animation-delay: 70ms; }
+.vr-slide[data-active] .vr-info > :nth-child(4) { animation-delay: 105ms; }
 @keyframes vr-rise {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: none; }
 }
-.vr-player-meta { display: inline-flex; align-items: center; gap: 6px; color: rgba(255, 255, 255, 0.85); font-size: 13px; font-weight: 700; }
+.vr-player-meta { display: inline-flex; align-items: center; gap: 6px; color: rgba(255, 255, 255, 0.85); font-size: 13px; font-weight: 700; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4); }
+.vr-meta-learn { padding: 1px 7px; border-radius: 6px; background: rgba(14, 116, 255, 0.92); color: #FFFFFF; font-size: 11.5px; font-weight: 900; text-shadow: none; }
 .vr-player-meta i { width: 9px; height: 9px; border-radius: 50%; }
 .vr-player-title { margin: 4px 0; font-size: 17px; font-weight: 800; line-height: 1.25; text-wrap: pretty; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5); }
-.vr-why { margin: 0 0 8px; color: rgba(255, 255, 255, 0.85); font-size: 13.5px; line-height: 1.4; }
+.vr-why { margin: 0 0 8px; color: rgba(255, 255, 255, 0.88); font-size: 13.5px; line-height: 1.4; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45); }
 .vr-player-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
 .vr-player-read {
   display: inline-flex;
@@ -460,6 +571,58 @@
 }
 .vr-player-read:focus-visible,
 .vr-player-src:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; border-radius: 999px; }
+
+/* A reel plays in Instagram's own frame (a card with its header and footer),
+   inset between the top bar and the words, on its cover blurred. It starts
+   only from a tap inside it, so it takes the touches itself. */
+.vr-slide[data-platform="instagram"] .vr-slide-bg {
+  position: absolute;
+  inset: -40px;
+  display: block;
+  width: calc(100% + 80px);
+  height: calc(100% + 80px);
+  object-fit: cover;
+  opacity: 0.45;
+  filter: blur(28px) saturate(1.2);
+  pointer-events: none;
+}
+.vr-slide[data-platform="instagram"] .vr-frame { background: transparent; }
+/* Instagram's card is its header (~54px), the reel at about 1.19 its width
+   tall, and a footer (~160px): sized so it fits without scrolling inside. */
+.vr-slide[data-platform="instagram"] .vr-frame {
+  --ig-top: calc(max(10px, env(safe-area-inset-top)) + 58px);
+  --ig-h: min(calc(100% - 250px), 660px);
+}
+.vr-slide[data-platform="instagram"] .vr-frame iframe {
+  top: var(--ig-top);
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  z-index: 2;
+  width: min(calc(100% - 24px), calc((min(100dvh - 250px, 660px) - 214px) / 1.19));
+  height: var(--ig-h);
+  transform: translateX(-50%);
+  border-radius: 16px;
+  background: #FFFFFF;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+.vr-slide[data-platform="instagram"] .vr-slide-poster { inset: auto; opacity: 0; }
+.vr-ig-hint {
+  position: absolute;
+  top: calc(var(--ig-top) + var(--ig-h) + 12px);
+  left: 50%;
+  translate: -50% 0;
+  white-space: nowrap;
+  z-index: 3;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  font-weight: 700;
+  pointer-events: none;
+  animation: vr-rise 320ms var(--vr-ease-out) 400ms both;
+}
 
 /* How far through the video: a hairline along the bottom edge. */
 .vr-progress { position: absolute; right: 0; bottom: 0; left: 0; z-index: 3; height: 2px; background: rgba(255, 255, 255, 0.18); pointer-events: none; }
@@ -716,10 +879,10 @@
   .vr-share-to:hover { background: rgba(255, 255, 255, 0.16); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .vr-card, .vr-poster, .vr-play, .vr-nav button, .vr-preview, .vr-act-icon, .vr-slide-poster, .vr-progress i { transition: none; }
+  .vr-card, .vr-poster, .vr-play, .vr-play::after, .vr-all, .vr-nav button, .vr-preview, .vr-act-icon, .vr-slide-poster, .vr-progress i { transition: none; }
   .vr-card:hover, .vr-card:active { transform: none; }
   .vr-frame { animation: none; }
   .vr-burst svg, .vr-burst i, .vr-fly { animation-duration: 1ms; }
   .vr-act-icon[data-pop], .vr-act-icon[data-pop]::after, .vr-act-share[data-pop] svg, .vr-react-row, .vr-react-row button,
-  .vr-share-card, .vr-unmute, .vr-paused, .vr-slide[data-active] .vr-info > * { animation: vr-fade 160ms ease both; }
+  .vr-share-card, .vr-unmute, .vr-paused, .vr-ig-hint, .vr-slide[data-active] .vr-info > * { animation: vr-fade 160ms ease both; }
 }

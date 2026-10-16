@@ -54,9 +54,10 @@ MAX_AGE = timedelta(hours=72)
 KEEP = timedelta(days=7)
 MAX_SECONDS = 180
 MIN_SCORE = 6
-MAX_JUDGE_PER_RUN = 40
+MIN_SCORE_LEARN = 7
+MAX_JUDGE_PER_RUN = 48
 BATCH = 8
-MAX_PICKS = 120
+MAX_PICKS = 160
 BUCKET = "video-picks"
 INDEX = "index.json"
 
@@ -67,6 +68,10 @@ STATE = Path(os.environ.get("L383_VIDEO_STATE", "/opt/data/video-curation/judged
 REPORT = STATE.with_name("last-run.json")   # what the run found, for the email (video_mail.py)
 COOKIES = Path(os.environ.get("L383_YOUTUBE_COOKIES", "/opt/data/video-curation/youtube-cookies.txt"))
 HEADERS = {"User-Agent": "383NewsVideo/1.0 (https://383ks.com; editorial video selection)"}
+
+# Official YouTube channels that allow embedding but block other sites when
+# the video plays (the reader sees YouTube's error page): never picked.
+YT_EMBED_BLOCKED = {"FIFA", "UEFA"}
 
 # The 383 section each official channel's videos belong in.
 SECTION = {
@@ -134,7 +139,8 @@ def candidates(now: datetime) -> list[dict]:
             return []
 
     with ThreadPoolExecutor(max_workers=8) as pool:
-        found = [v for group in pool.map(one, policy.CHANNELS) for v in group]
+        found = [v for group in pool.map(one, [c for c, n in policy.CHANNELS.items() if n not in YT_EMBED_BLOCKED])
+                 for v in group]
     return sorted(found, key=lambda v: v["published"], reverse=True)
 
 
@@ -304,12 +310,12 @@ def tt_page_state(url: str) -> dict | None:
         return None
 
 
-def tt_account(handle: str) -> list[dict]:
-    """The account's latest videos [{id, plays, desc, cover}], [] unless verified and this handle."""
+def tt_account(handle: str, verified_only: bool = True) -> list[dict]:
+    """The account's latest videos [{id, plays, desc, cover}], [] unless this handle (and verified, by default)."""
     data = tt_page_state(f"https://www.tiktok.com/embed/@{handle}")
     page = (data or {}).get(f"/embed/@{handle}") or {}
     user = page.get("userInfo") or {}
-    if user.get("verified") is not True or str(user.get("uniqueId", "")).lower() != handle:
+    if (verified_only and user.get("verified") is not True) or str(user.get("uniqueId", "")).lower() != handle:
         return []
     out = []
     for v in page.get("videoList") or []:
@@ -332,7 +338,9 @@ def tt_video(video_id: str) -> dict | None:
     covers = [c for c in (item.get("coversOrigin") or []) + (item.get("covers") or []) if isinstance(c, str)]
     return {
         "handle": str(author.get("uniqueId") or "").lower(),
+        "name": str(author.get("nickName") or ""),
         "verified": author.get("verified") is True,
+        "followers": int((vd.get("authorStats") or {}).get("followerCount") or 0),
         "text": str(item.get("text") or ""),
         "plays": int(item.get("playCount") or 0), "likes": int(item.get("diggCount") or 0),
         "comments": int(item.get("commentCount") or 0), "shares": int(item.get("shareCount") or 0),
@@ -346,7 +354,9 @@ def tt_video(video_id: str) -> dict | None:
 
 
 def exa_search(query: str, domain: str, n: int = 25) -> str:
-    """Agent Reach's web search (Exa's keyless MCP endpoint): the results as text."""
+    """Agent Reach's web search (Exa's keyless MCP endpoint): the results as text.
+    The keyless endpoint does not hold to includeDomains; the query has to name
+    the platform ("site:tiktok.com …", "Instagram reel …")."""
     body = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {
         "name": "web_search_exa", "arguments": {"query": query, "numResults": n, "includeDomains": [domain]}}}).encode()
     req = urllib.request.Request(EXA, data=body, method="POST", headers={
@@ -465,6 +475,280 @@ def refresh_tiktok(picks: list[dict]) -> None:
                 p.update(views=f["plays"], likes=f["likes"], comments=f["comments"], shares=f["shares"])
 
 
+# ── 2c. Instagram, and videos that teach ────────────────────────────────────
+#
+# Instagram answers a logged-out server with an empty shell, so its reels are
+# read the way a reader's browser sees them: the VPS's headless Chromium
+# renders the public embed (/reel/<code>/embed/captioned/) and gives the
+# owner, the verified badge, the caption, the likes and whether the reel
+# plays on other sites (a <video>) or only sends the reader to Instagram.
+# Only the ones that play are kept. A reel's code carries its posting time.
+#
+# "Mëso" videos: informative short videos on topics a reader can use — better
+# phone photos, what the news means for markets, how inflation works. Agent
+# Reach's search finds them on TikTok and Instagram; the creator's own video,
+# an account with a real audience, doing better than that account usually
+# does (TikTok), judged for accuracy and teaching value as well. They are
+# evergreen, so up to a year old, and stay on the site LEARN_KEEP after
+# being approved.
+
+IG_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+IG_EPOCH_MS = 1314220021721
+CHROMIUM = os.environ.get("L383_CHROMIUM", "/usr/bin/chromium")
+# handle → (name, 383 section): the official accounts' Instagram. Verified and
+# this exact owner, or nothing.
+INSTAGRAM = {
+    "realmadrid": ("Real Madrid", "Sport"), "fcbarcelona": ("FC Barcelona", "Sport"),
+    "championsleague": ("UEFA Champions League", "Sport"), "premierleague": ("Premier League", "Sport"),
+    "laliga": ("LALIGA", "Sport"), "nba": ("NBA", "Sport"), "f1": ("Formula 1", "Sport"),
+    "mancity": ("Man City", "Sport"), "liverpoolfc": ("Liverpool FC", "Sport"), "arsenal": ("Arsenal", "Sport"),
+    "manchesterunited": ("Manchester United", "Sport"), "fcbayern": ("FC Bayern München", "Sport"),
+    "juventus": ("Juventus", "Sport"), "acmilan": ("AC Milan", "Sport"), "psg": ("Paris Saint-Germain", "Sport"),
+    "albinkurti": ("Albin Kurti", "Kosovë"), "ediramaal": ("Edi Rama", "Shqipëri"),
+    "nasa": ("NASA", "Teknologji"), "spacex": ("SpaceX", "Teknologji"), "samsung": ("Samsung", "Teknologji"),
+    "unitednations": ("United Nations", "Botë"), "natgeo": ("National Geographic", "Botë"),
+    "netflix": ("Netflix", "Showbiz"), "marvel": ("Marvel", "Showbiz"),
+}
+IG_ACCOUNTS_PER_RUN = 8
+# Search finds Instagram's reels weeks late, so an official reel may be older
+# than a TikTok; the judge keeps an older one only when it is timeless.
+IG_OFFICIAL_MAX_AGE = timedelta(days=45)
+IG_MAX_RENDERS = 24
+IG_MIN_LIKES_OFFICIAL = 3_000
+IG_MIN_LIKES_LEARN = 10_000
+
+# (section, topic): what the "Mëso" videos teach. A few each run, in turn.
+LEARN_TOPICS = [
+    ("Teknologji", "iPhone camera tips for better photos"),
+    ("Teknologji", "hidden iPhone features and settings"),
+    ("Teknologji", "Android phone tips and tricks"),
+    ("Teknologji", "how to use ChatGPT and AI tools for work and study"),
+    ("Teknologji", "how to spot online scams and phishing"),
+    ("Teknologji", "phone battery and storage tips"),
+    ("Teknologji", "how a new technology works explained simply"),
+    ("Ekonomi", "how news moves the stock market explained"),
+    ("Ekonomi", "stock market basics for beginners explained"),
+    ("Ekonomi", "inflation explained simply"),
+    ("Ekonomi", "interest rates explained and how they affect your money"),
+    ("Ekonomi", "personal finance saving and budgeting tips"),
+    ("Ekonomi", "ETFs and index funds explained for beginners"),
+    ("Ekonomi", "bitcoin and crypto explained simply"),
+    ("Ekonomi", "how to read a company's earnings report explained"),
+    ("Botë", "geopolitics explained with a map"),
+    ("Botë", "history explained in one minute"),
+    ("Botë", "how elections and governments work explained"),
+    ("Sport", "football tactics explained"),
+    ("Sport", "workout form and technique tips"),
+    ("Sport", "football skills tutorial"),
+    ("Showbiz", "how famous movie scenes were filmed"),
+]
+LEARN_TOPICS_PER_RUN = 7
+LEARN_MAX_AGE = timedelta(days=365)
+LEARN_KEEP = timedelta(days=21)
+LEARN_MIN_FOLLOWERS = 50_000
+LEARN_MIN_PLAYS = 50_000
+LEARN_MAX_PER_RUN = 16
+
+
+def run_slice(items: list, per_run: int, now: datetime) -> list:
+    """This run's share of a list, in turn: each two-hour run takes the next per_run."""
+    if not items:
+        return []
+    start = (int(now.timestamp()) // 7200 * per_run) % len(items)
+    return [items[(start + i) % len(items)] for i in range(min(per_run, len(items)))]
+
+
+def ig_created(code: str) -> datetime | None:
+    """An Instagram code is the media id in base64; its top bits are milliseconds since Instagram's epoch."""
+    n = 0
+    for ch in code:
+        i = IG_ALPHABET.find(ch)
+        if i < 0:
+            return None
+        n = n * 64 + i
+    try:
+        return datetime.fromtimestamp(((n >> 23) + IG_EPOCH_MS) / 1000, timezone.utc)
+    except (OverflowError, OSError, ValueError):
+        return None
+
+
+def ig_count(text: str) -> int:
+    m = re.match(r"([\d.,]+)\s*([KkMm]?)", text.strip())
+    if not m:
+        return 0
+    num = m.group(1).replace(",", "")
+    try:
+        value = float(num)
+    except ValueError:
+        return 0
+    return int(value * {"k": 1_000, "m": 1_000_000}.get(m.group(2).lower(), 1))
+
+
+def ig_reel(code: str) -> dict | None:
+    """A reel's public embed as a browser renders it, None when it does not render."""
+    try:
+        done = subprocess.run([CHROMIUM, "--headless=new", "--no-sandbox", "--disable-gpu", "--mute-audio",
+                               "--virtual-time-budget=8000", f"--user-agent={TT_UA['User-Agent']}", "--dump-dom",
+                               f"https://www.instagram.com/reel/{code}/embed/captioned/"],
+                              capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=60, check=False)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    dom = done.stdout
+    owner = re.search(r'UsernameText">([A-Za-z0-9_.]{1,30})<', dom)
+    if not owner:
+        return None
+    caption_at = dom.find('class="Caption"')
+    header = dom[:caption_at] if caption_at > 0 else dom
+    caption = ""
+    if caption_at > 0:
+        block = dom[caption_at:caption_at + 6000]
+        block = re.split(r'class="CaptionComments|class="Footer|class="SocialProof', block)[0]
+        caption = unescape(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", block.split(">", 1)[-1]))).strip()
+        caption = re.sub(rf"^{re.escape(owner.group(1))}\s*", "", caption)
+    likes = re.search(r"([\d.,]+[KkMm]?) likes", dom)
+    cover = re.search(r'EmbeddedMediaImage"[^>]*src="([^"]+)"', dom)
+    return {
+        "handle": owner.group(1).lower(),
+        "verified": "VerifiedSprite" in header,
+        "playable": "<video" in dom,
+        "likes": ig_count(likes.group(1)) if likes else 0,
+        "caption": caption[:1500],
+        "cover": unescape(cover.group(1)) if cover else "",
+    }
+
+
+def ig_cover_url(code: str) -> str:
+    """Instagram's own redirect to the reel's current cover: never goes stale, unlike a CDN link."""
+    return f"https://www.instagram.com/p/{code}/media/?size=l"
+
+
+def exa_links(query: str, domain: str, pattern: str, report: dict) -> list[tuple[str, ...]]:
+    report["exa_queries"] = report.get("exa_queries", 0) + 1
+    return re.findall(pattern, exa_search(query, domain))
+
+
+def ig_candidate(code: str, reel: dict, kind: str, name: str, section: str, posted: datetime, topic: str = "") -> dict:
+    return {
+        "platform": "instagram", "kind": kind, "topic": topic, "id": code, "channel_id": reel["handle"],
+        "channel": name, "section": section, "feed_title": reel["caption"][:200], "published": posted.isoformat(),
+        "outlier": None, "via": "exa",
+        "facts": {
+            "source": "instagram-embed", "uploader_channel_id": reel["handle"], "uploader": name,
+            "duration_s": None, "width": None, "height": None,
+            "embeddable": reel["playable"], "age_limit": 0, "live": False, "availability": "public",
+            "license": "Instagram (plays in Instagram's own embed)",
+            "description": reel["caption"], "tags": re.findall(r"#(\w+)", reel["caption"])[:15],
+            "views": 0, "likes": reel["likes"], "comments": 0, "shares": 0,
+        },
+        "covers": [reel["cover"]] if reel["cover"] else [],
+    }
+
+
+def instagram_candidates(now: datetime, judged: set[str], report: dict) -> list[dict]:
+    """Official accounts' new reels and teaching reels, that play on other sites, not judged before."""
+    wanted: dict[str, tuple[str, str, str]] = {}   # code → (kind, section, topic or handle)
+    for handle in run_slice(sorted(INSTAGRAM), IG_ACCOUNTS_PER_RUN, now):
+        name = INSTAGRAM[handle][0]
+        for code in exa_links(f"{name} Instagram reel", "instagram.com",
+                              r"instagram\.com/(?:reel|reels|p)/([A-Za-z0-9_-]{9,14})", report):
+            wanted.setdefault(code, ("official", INSTAGRAM[handle][1], handle))
+    for section, topic in run_slice(LEARN_TOPICS, LEARN_TOPICS_PER_RUN, now):
+        for code in exa_links(f"{topic} Instagram reel", "instagram.com", r"instagram\.com/(?:reel|reels)/([A-Za-z0-9_-]{9,14})", report):
+            wanted.setdefault(code, ("learn", section, topic))
+
+    todo = []
+    for code, (kind, section, about) in wanted.items():
+        posted = ig_created(code)
+        if code in judged or not posted:
+            continue
+        age = now - posted
+        if (kind == "official" and age > IG_OFFICIAL_MAX_AGE) or (kind == "learn" and age > LEARN_MAX_AGE):
+            continue
+        todo.append((code, kind, section, about, posted))
+    todo = todo[:IG_MAX_RENDERS]
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        reels = list(pool.map(lambda t: ig_reel(t[0]), todo))
+    report["instagram_rendered"] = len(todo)
+
+    out = []
+    for (code, kind, section, about, posted), reel in zip(todo, reels):
+        if not reel or not reel["playable"]:
+            continue
+        if reel["handle"] in INSTAGRAM and reel["verified"]:
+            name, section = INSTAGRAM[reel["handle"]]
+            if now - posted > IG_OFFICIAL_MAX_AGE or reel["likes"] < IG_MIN_LIKES_OFFICIAL:
+                continue
+            out.append(ig_candidate(code, reel, "official", name, section, posted))
+        elif kind == "learn" and reel["likes"] >= IG_MIN_LIKES_LEARN:
+            out.append(ig_candidate(code, reel, "learn", "@" + reel["handle"], section, posted, about))
+    out.sort(key=lambda c: c["facts"]["likes"], reverse=True)
+    report["instagram_candidates"] = len(out)
+    return out
+
+
+def learn_tiktok_candidates(now: datetime, judged: set[str], report: dict) -> list[dict]:
+    """Teaching TikToks on this run's topics from accounts with a real audience, doing at least their usual."""
+    found: dict[str, tuple[str, str, str]] = {}   # id → (handle, section, topic)
+    for section, topic in run_slice(LEARN_TOPICS, LEARN_TOPICS_PER_RUN, now):
+        for handle, vid in exa_links(f"site:tiktok.com {topic}", "tiktok.com", r"tiktok\.com/@([A-Za-z0-9_.]+)/video/(\d{15,22})", report):
+            found.setdefault(vid, (handle.lower(), section, topic))
+    ids = [v for v in found if v not in judged and (p := tt_created(v)) and now - p <= LEARN_MAX_AGE][:40]
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        facts = dict(zip(ids, pool.map(tt_video, ids)))
+    good = {v: f for v, f in facts.items()
+            if f and f["handle"] == found[v][0] and not f["ad"] and not f["private"]
+            and (f["verified"] or f["followers"] >= LEARN_MIN_FOLLOWERS) and f["plays"] >= LEARN_MIN_PLAYS}
+    handles = sorted({f["handle"] for f in good.values()})
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        lists = dict(zip(handles, pool.map(lambda h: tt_account(h, verified_only=False), handles)))
+    out = []
+    for vid, f in good.items():
+        handle, section, topic = found[vid]
+        posted = tt_created(vid) or now
+        vels = sorted(velocity(v["plays"], tt_created(v["id"]) or now, now) for v in lists.get(handle) or [] if v["plays"])
+        ratio = velocity(f["plays"], posted, now) / vels[len(vels) // 2] if vels else 1.0
+        if ratio < 1.0 and f["plays"] < 300_000:
+            continue
+        out.append({
+            "platform": "tiktok", "kind": "learn", "topic": topic, "id": vid, "channel_id": handle,
+            "channel": f["name"] or "@" + handle, "section": section, "feed_title": f["text"][:200],
+            "published": posted.isoformat(), "outlier": round(ratio, 1), "via": "exa",
+            "facts": {
+                "source": "tiktok-embed", "uploader_channel_id": handle, "uploader": f["name"] or handle,
+                "duration_s": f["duration_s"], "width": f["width"], "height": f["height"],
+                "embeddable": True, "age_limit": 0, "live": False, "availability": "public",
+                "license": "TikTok (" + ("original sound" if f["original_sound"] else "licensed sound") + ")",
+                "description": f["text"][:1500], "tags": re.findall(r"#(\w+)", f["text"])[:15],
+                "views": f["plays"], "likes": f["likes"], "comments": f["comments"], "shares": f["shares"],
+                "followers": f["followers"],
+            },
+            "covers": f["covers"],
+        })
+    out.sort(key=lambda c: (c["outlier"], c["facts"]["views"]), reverse=True)
+    report["learn_tiktok_candidates"] = len(out)
+    return out[:LEARN_MAX_PER_RUN]
+
+
+def save_cover_frames(candidate: dict, folder: Path) -> list[str]:
+    """The judge's frames for a TikTok or a reel: its cover images."""
+    headers = TT_UA if candidate["platform"] == "tiktok" else HEADERS
+    urls = list(candidate.get("covers") or [])
+    if candidate["platform"] == "instagram":
+        urls.append(ig_cover_url(candidate["id"]))
+    paths = []
+    for i, url in enumerate(urls[:3]):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=15) as res:
+                body = res.read()
+            if len(body) > 2000:
+                path = folder / f"{candidate['platform']}-{candidate['id']}-{i}.jpg"
+                path.write_bytes(body)
+                paths.append(str(path))
+        except (urllib.error.URLError, TimeoutError, OSError, ValueError):
+            continue
+    return paths
+
+
 def facts_summary(candidate: dict, facts: dict) -> dict:
     width, height = facts.get("width") or 0, facts.get("height") or 0
     return {
@@ -488,9 +772,9 @@ def facts_summary(candidate: dict, facts: dict) -> dict:
 # ── 3. The judge ─────────────────────────────────────────────────────────────
 
 RUBRIC = """You are 383's video editor. 383 is a Kosovo news site; these clips play in a
-full-screen, upright, endless video feed on phones, embedded with YouTube's or
-TikTok's own player (383 never downloads or re-hosts them). For EVERY
-candidate in the brief:
+full-screen, upright, endless video feed on phones, embedded with YouTube's,
+TikTok's or Instagram's own player (383 never downloads or re-hosts them).
+For EVERY candidate in the brief:
 
 WATCH it: open each of its frame images with the vision tool (cover, start,
 middle, end — a TikTok has its covers) and read its captions, title,
@@ -518,6 +802,21 @@ Decide:
   institution's own event), the video is a normal public upload and nothing
   suggests it is a re-upload of someone else's broadcast or film. 383 only
   embeds; it never needs a copy.
+- A candidate of kind "learn" is a short video that should TEACH something on
+  its topic (better phone photos, what the news means for markets, how
+  inflation works...). For those, engagement also means: does a viewer come
+  away knowing something useful and correct? Score 7+ only for clear,
+  accurate, practical explanations with a strong hook. Not safe: financial
+  advice to buy or sell a named asset, get-rich-quick or "guaranteed
+  returns", trading signals, courses or referral links being sold, medical
+  claims, misinformation. copyright_ok for "learn" means the creator's own
+  original explanation, not a re-upload of someone else's podcast,
+  interview, TV or film clip. Reject (engagement 1) a "learn" video from a
+  news outlet or TV show, one off its topic, and one in a language other
+  than English or Albanian unless it is understood without the words.
+- An official video posted more than a week ago (Instagram is found late)
+  passes only when it is timeless: a skill, a feat, a view, a moment people
+  still share. Not a match preview, an announcement or anything dated.
 - title_sq: an Albanian headline for the card, <= 70 characters, accurate to
   what the video shows; no clickbait, no emoji, no hashtags, names spelled
   the Albanian way where one exists.
@@ -538,7 +837,9 @@ def judge(batch: list[dict], workdir: Path) -> dict[str, dict]:
             f"## Candidate {c['id']}",
             f"id: {c['id']}",
             f"platform: {c.get('platform', 'youtube')}",
-            f"official channel: {c['channel']} (section {c['section']})",
+            f"kind: {c.get('kind', 'official')}" + (f" - topic: {c['topic']}" if c.get("topic") else ""),
+            f"{'creator' if c.get('kind') == 'learn' else 'official channel'}: {c['channel']} (section {c['section']})"
+            + (f"; {c['facts']['followers']} followers" if c["facts"].get("followers") else ""),
             f"uploader: {f['uploader']} / channel id {f['uploader_channel_id']}",
             f"posted: {c['published']}",
             f"facts from: {f['source']}; duration: {f['duration_s'] or 'a Short (<= 3 min)'}; size {f['width'] or '?'}x{f['height'] or '?'} (upright); views {f['views']}; likes {f['likes']}; comments {f.get('comments', '?')}; shares {f.get('shares', '?')}",
@@ -595,8 +896,9 @@ def fixed_checks(candidate: dict) -> tuple[bool, str]:
     f = candidate.get("facts") or {}
     if f.get("uploader_channel_id") != candidate["channel_id"]:
         return False, "not uploaded by the official channel"
-    # From the feed, YouTube's own Shorts label stands for upright and short.
-    if f.get("source") != "feed":
+    # From the feed, YouTube's own Shorts label stands for upright and short;
+    # Instagram's embed says neither, but a reel is upright by definition.
+    if f.get("source") not in ("feed", "instagram-embed"):
         if not ((f.get("height") or 0) > (f.get("width") or 0) > 0):
             return False, "not upright"
         if not 0 < (f.get("duration_s") or 0) <= MAX_SECONDS:
@@ -621,7 +923,7 @@ def rules(candidate: dict, verdict: dict | None) -> tuple[bool, str]:
         score = int(verdict.get("engagement", 0))
     except (TypeError, ValueError):
         score = 0
-    if score < MIN_SCORE:
+    if score < (MIN_SCORE_LEARN if candidate.get("kind") == "learn" else MIN_SCORE):
         return False, f"judge: engagement {score}"
     if len(clean_title(verdict.get("title_sq"))) < 8:
         return False, "no usable Albanian title"
@@ -639,7 +941,7 @@ def load_state() -> dict:
 
 
 def save_state(state: dict, now: datetime) -> None:
-    cutoff = (now - timedelta(days=14)).isoformat()
+    cutoff = (now - timedelta(days=30)).isoformat()
     kept = {k: v for k, v in state.items() if isinstance(v, dict) and str(v.get("judged_at", "")) >= cutoff}
     STATE.parent.mkdir(parents=True, exist_ok=True)
     tmp = STATE.with_suffix(".tmp")
@@ -652,7 +954,9 @@ def rank(pick: dict, now: datetime) -> float:
     account's usual (square root, capped at 3 points), less 0.75 a day of age
     — a great clip from today beats a slightly better one from three days ago."""
     try:
-        age = max((now - datetime.fromisoformat(str(pick.get("publishedAt")))).total_seconds() / 86400, 0)
+        # A "Mëso" video is as fresh as its approval: it was old on purpose.
+        when = pick.get("approvedAt") if evergreen(pick) else pick.get("publishedAt")
+        age = max((now - datetime.fromisoformat(str(when))).total_seconds() / 86400, 0)
     except ValueError:
         age = 7
     try:
@@ -662,12 +966,27 @@ def rank(pick: dict, now: datetime) -> float:
     return float(pick.get("score") or 0) + outlier ** 0.5 - 0.75 * age
 
 
+def evergreen(pick: dict) -> bool:
+    """A "Mëso" video, or a reel (found late): counted from its approval, not its posting."""
+    return pick.get("kind") == "learn" or pick.get("platform") == "instagram"
+
+
 def picks_from(state: dict, now: datetime) -> list[dict]:
-    """Approved videos from the last KEEP, best first (rank)."""
-    cutoff = (now - KEEP).isoformat()
-    approved = [v["pick"] for v in state.values()
-                if isinstance(v, dict) and v.get("approved") and isinstance(v.get("pick"), dict)
-                and str(v["pick"].get("publishedAt", "")) >= cutoff]
+    """Approved videos, best first (rank): news posted in the last KEEP; "Mëso"
+    videos and reels approved in the last LEARN_KEEP."""
+    cutoff, learn_cutoff = (now - KEEP).isoformat(), (now - LEARN_KEEP).isoformat()
+    approved = []
+    for v in state.values():
+        if not (isinstance(v, dict) and v.get("approved") and isinstance(v.get("pick"), dict)):
+            continue
+        pick = v["pick"]
+        if pick.get("platform", "youtube") == "youtube" and pick.get("channel") in YT_EMBED_BLOCKED:
+            continue
+        if evergreen(pick):
+            if str(v.get("judged_at", "")) >= learn_cutoff:
+                approved.append(pick)
+        elif str(pick.get("publishedAt", "")) >= cutoff:
+            approved.append(pick)
     approved.sort(key=lambda p: rank(p, now), reverse=True)
     return approved[:MAX_PICKS]
 
@@ -707,18 +1026,26 @@ def main() -> int:
     report: dict = {"startedAt": now.isoformat(), "approved": [], "rejected": {}}
     youtube = sorted((c for c in candidates(now) if c["id"] not in state), key=lambda c: c["outlier"], reverse=True)
     tiktok = tiktok_candidates(now, set(state), report)
+    learn = learn_tiktok_candidates(now, set(state), report)
+    instagram = instagram_candidates(now, set(state), report)
     report["youtube_candidates"], report["tiktok_candidates"] = len(youtube), len(tiktok)
-    # TikTok first: its outliers are measured, YouTube's feed counts are thinner.
-    fresh = (tiktok + youtube)[:MAX_JUDGE_PER_RUN]
-    print(f"VIDEO CURATION: {len(fresh)} new official videos to judge ({len(tiktok)} TikTok outliers, {len(youtube)} YouTube Shorts)")
+    # In turn, so no one source fills the run: TikTok outliers, teaching videos, reels, Shorts.
+    fresh, queues = [], [tiktok, learn, instagram, youtube]
+    while any(queues) and len(fresh) < MAX_JUDGE_PER_RUN:
+        for q in queues:
+            if q and len(fresh) < MAX_JUDGE_PER_RUN:
+                fresh.append(q.pop(0))
+    print(f"VIDEO CURATION: {len(fresh)} new videos to judge ({report['tiktok_candidates']} TikTok outliers, "
+          f"{report.get('learn_tiktok_candidates', 0)} TikTok Mëso, {report.get('instagram_candidates', 0)} Instagram reels, "
+          f"{len(youtube)} YouTube Shorts)")
 
     with tempfile.TemporaryDirectory(prefix="383-video-") as tmp:
         workdir = Path(tmp)
         ready = []
         for c in fresh:
-            if c["platform"] == "tiktok":
-                c["captions"], c["caption_kind"] = "", "none on TikTok's embed; read the description"
-                c["frames"] = save_tt_frames(c, workdir)
+            if c["platform"] in ("tiktok", "instagram"):
+                c["captions"], c["caption_kind"] = "", f"none on {c['platform']}'s embed; read the description"
+                c["frames"] = save_cover_frames(c, workdir)
             else:
                 facts = video_facts(c["id"])
                 c["facts"] = facts_summary(c, facts) if facts else feed_facts(c)
@@ -741,7 +1068,7 @@ def main() -> int:
                 return batch, {}
             return batch, judge(batch, workdir)
 
-        with ThreadPoolExecutor(max_workers=2) as pool:
+        with ThreadPoolExecutor(max_workers=3) as pool:
             results = list(pool.map(judged, batches))
         for batch, verdicts in results:
             for c in batch:
@@ -763,7 +1090,10 @@ def main() -> int:
                         "views": f.get("views") or 0, "likes": f.get("likes") or 0,
                         "comments": f.get("comments") or 0, "shares": f.get("shares") or 0,
                         "url": source_url(c["platform"], c["id"], c["channel_id"]),
+                        "kind": c.get("kind", "official"), "approvedAt": now.isoformat(),
+                        **({"topic": c["topic"]} if c.get("topic") else {}),
                         **({"cover": (c.get("covers") or [""])[0]} if c["platform"] == "tiktok" else {}),
+                        **({"cover": ig_cover_url(c["id"])} if c["platform"] == "instagram" else {}),
                     }
                     report["approved"].append(entry["pick"])
                 else:
@@ -778,7 +1108,9 @@ def main() -> int:
     refresh_tiktok(picks)
     publish(picks, now)
     report.update(published=len(picks), finishedAt=datetime.now(timezone.utc).isoformat(),
-                  publishedByPlatform={p: sum(1 for x in picks if x.get("platform", "youtube") == p) for p in ("tiktok", "youtube")})
+                  publishedByPlatform={p: sum(1 for x in picks if x.get("platform", "youtube") == p)
+                                       for p in ("tiktok", "instagram", "youtube")},
+                  publishedLearn=sum(1 for x in picks if x.get("kind") == "learn"))
     REPORT.write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"VIDEO CURATION: published {len(picks)} approved videos")
     return 0
@@ -787,6 +1119,8 @@ def main() -> int:
 def source_url(platform: str, video_id: str, channel_id: str) -> str:
     if platform == "tiktok":
         return f"https://www.tiktok.com/@{channel_id}/video/{video_id}"
+    if platform == "instagram":
+        return f"https://www.instagram.com/reel/{video_id}/"
     return f"https://www.youtube.com/shorts/{video_id}"
 
 
