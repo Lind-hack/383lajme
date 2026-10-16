@@ -1,0 +1,46 @@
+name: Clarity daily usage email
+
+on:
+  schedule:
+    - cron: '0 9 * * *'
+      timezone: Europe/Warsaw
+  workflow_dispatch:
+    inputs:
+      inspect:
+        description: Inspect API field names without sending an email
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: clarity-daily-report
+  cancel-in-progress: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test report calculations and privacy handling
+        run: python -m unittest discover -s scripts -p test_clarity_daily_report.py
+      - name: Fetch Clarity data and send daily email
+        env:
+          CLARITY_EXPORT_TOKEN: ${{ secrets.CLARITY_EXPORT_TOKEN }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          INSPECT: ${{ inputs.inspect }}
+        shell: bash
+        run: |
+          if [ "$INSPECT" = "true" ]; then
+            python scripts/clarity_daily_report.py --inspect
+          else
+            python scripts/clarity_daily_report.py
+          fi
