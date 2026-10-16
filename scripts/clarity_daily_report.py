@@ -67,7 +67,8 @@ def fetch_usage():
     if not secret:
         raise RuntimeError('CRON_SECRET is missing; feature report cannot be generated.')
     request = urllib.request.Request('https://383ks.com/api/analytics/usage', headers={
-        'Authorization': 'Bearer ' + secret, 'Accept': 'application/json'})
+        'Authorization': 'Bearer ' + secret, 'Accept': 'application/json',
+        'User-Agent': '383-daily-clarity-report/1.0'})
     try:
         with urllib.request.urlopen(request, timeout=45) as response:
             data = json.load(response)
@@ -85,6 +86,8 @@ def main():
     token = os.environ.get('CLARITY_EXPORT_TOKEN', '').strip()
     if not token:
         raise RuntimeError('CLARITY_EXPORT_TOKEN is missing; no email sent.')
+    # Check our own collector before spending Clarity's limited daily API quota.
+    usage = None if args.inspect else fetch_usage()
     overall = fetch_export(token)
     by_url = fetch_export(token, 'URL')
     if args.inspect:
@@ -93,7 +96,7 @@ def main():
                 {'metric': m.get('metricName'), 'fields': sorted({k for r in m.get('information', []) for k in r})}
                 for m in export]}))
         return
-    _, markup = build_report(overall, by_url, fetch_usage())
+    _, markup = build_report(overall, by_url, usage)
     # Reuse the repository's established email providers and secret handling.
     from codex_automation_support import _send_resend_report, _send_gmail_report
     day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
