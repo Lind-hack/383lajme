@@ -15,7 +15,7 @@ function fail(origin: string, reason: string) {
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const { searchParams } = requestUrl;
-  const origin = authPublicOrigin(requestUrl);
+  const origin = authPublicOrigin(requestUrl, undefined, request.headers.get('x-forwarded-host') ?? request.headers.get('host'));
 
   // Supabase forwards provider-side failures here as params instead of a code —
   // a Facebook account with no email attached is the common one.

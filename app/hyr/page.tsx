@@ -1,5 +1,7 @@
 "use client";
 
+import { acceptAuthUser, useAuthUser } from "@/lib/use-auth-user";
+
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -108,8 +110,9 @@ function HyrForm() {
       });
       if (stopped) return;
       if (data?.session) {
+        acceptAuthUser(data.session.user);
         markCelebrate();
-        router.push(nextPath);
+        router.replace(nextPath);
         return;
       }
       const low = (error?.message ?? "").toLowerCase();
@@ -134,13 +137,10 @@ function HyrForm() {
     return supabaseRef.current;
   }
 
+  const auth = useAuthUser();
   useEffect(() => {
-    const supabase = getSupabase();
-    if (!supabase) return;
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) router.replace(nextPath);
-    });
-  }, [router, nextPath]);
+    if (auth.ready && auth.user) router.replace(nextPath);
+  }, [auth.ready, auth.user, router, nextPath]);
 
   function resetForm() {
     setError("");
@@ -196,13 +196,16 @@ function HyrForm() {
           return;
         }
 
+        acceptAuthUser(data.session.user);
         markCelebrate();
-        router.push(nextPath);
+        router.replace(nextPath);
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email: cleanEmail, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email: cleanEmail, password });
         if (error) throw error;
+        if (!data.session?.user) throw new Error("Hyrja nuk u konfirmua. Provo përsëri.");
+        acceptAuthUser(data.session.user);
         markCelebrate();
-        router.push(nextPath);
+        router.replace(nextPath);
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Ndodhi një gabim.";

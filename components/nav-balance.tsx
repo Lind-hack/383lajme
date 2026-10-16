@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { useAuthUser } from "@/lib/use-auth-user";
 import CoinFace from "@/components/tregu/coin-face";
 import { fmtNum } from "@/lib/format";
 import { Wallet } from "lucide-react";
@@ -41,6 +41,7 @@ function takeCelebrateFlag(): boolean {
 
 export default function NavBalance() {
   const pathname = usePathname();
+  const { user } = useAuthUser();
   // The coin balance lives in the navbar only inside the Tregu section.
   const onTregu = pathname === "/tregu" || Boolean(pathname?.startsWith("/tregu/"));
 
@@ -148,8 +149,11 @@ export default function NavBalance() {
   );
 
   useEffect(() => {
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) return;
-    const supabase = createClient();
+    if (!onTregu || !user) {
+      balanceRef.current = null;
+      setBalance(null);
+      return;
+    }
     let cancelled = false;
 
     const load = () => {
@@ -167,22 +171,7 @@ export default function NavBalance() {
         .catch(() => {});
     };
 
-    supabase.auth
-      .getUser()
-      .then(({ data }) => {
-        if (data.user && !cancelled) load();
-      })
-      .catch(() => {});
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN" && session?.user) load();
-      if (event === "SIGNED_OUT") {
-        balanceRef.current = null;
-        setBalance(null);
-      }
-    });
+    load();
 
     // Pages report balance changes (daily bonus, bets) via this event.
     const onBalance = (e: Event) => {
@@ -194,14 +183,13 @@ export default function NavBalance() {
     const timers = timersRef.current;
     return () => {
       cancelled = true;
-      subscription.unsubscribe();
       window.removeEventListener("tregu:balance", onBalance);
       cancelAnimationFrame(rafRef.current);
       timers.forEach((t) => window.clearTimeout(t));
     };
-  }, [applyBalance, celebrate, onTregu]);
+  }, [applyBalance, celebrate, onTregu, user?.id]);
 
-  if (!onTregu || balance === null) return null;
+  if (!onTregu || !user || balance === null) return null;
 
   const activeRewardAmount = flyCoins[0]?.amount ?? flight[0]?.amount ?? null;
 

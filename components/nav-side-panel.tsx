@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
+import { useAuthUser } from "@/lib/use-auth-user";
 import type { User } from "@supabase/supabase-js";
 import { NAV_LINKS } from "./navbar";
 
@@ -35,9 +36,8 @@ interface Props {
 }
 
 export default function NavSidePanel({ open, onClose }: Props) {
-  const [user, setUser] = useState<User | null>(null);
+  const { user, ready } = useAuthUser();
   const [catsOpen, setCatsOpen] = useState(true);
-  const supabaseRef = useRef<ReturnType<typeof createClient> | null>(null);
   const panelRef = useRef<HTMLElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -49,29 +49,6 @@ export default function NavSidePanel({ open, onClose }: Props) {
   useEffect(() => {
     onCloseRef.current = onClose;
   }, [onClose]);
-
-  // Supabase auth (same pattern as user-menu.tsx)
-  useEffect(() => {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    if (!url || !key) return;
-
-    const supabase = createClient();
-    supabaseRef.current = supabase;
-
-    supabase.auth
-      .getSession()
-      .then(({ data }) => setUser(data.session?.user ?? null))
-      .catch(() => {});
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   // Modal keyboard handling, focus containment, scroll lock and background isolation.
   useEffect(() => {
@@ -158,7 +135,7 @@ export default function NavSidePanel({ open, onClose }: Props) {
 
   async function handleSignOut() {
     onClose();
-    await supabaseRef.current?.auth.signOut();
+    await createClient().auth.signOut();
     router.push("/");
     router.refresh();
   }
@@ -235,7 +212,9 @@ export default function NavSidePanel({ open, onClose }: Props) {
           </div>
 
           <div className="side-panel-account">
-            {user ? (
+            {!ready ? (
+              <span role="status">Po kontrollohet hyrja…</span>
+            ) : user ? (
               <div
                 style={{
                   background: "#FFFFFF",

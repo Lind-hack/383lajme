@@ -25520,7 +25520,7 @@ button.lgt-launch > span {
 
 /* Keep one fixed control row; only the destinations and account slot crossfade. */
 .nav-account-slot {
-  position:relative;width:220px;height:44px;flex-shrink:0;
+  position:relative;width:auto;min-width:44px;height:44px;flex-shrink:0;
   display:flex;justify-content:flex-end;align-items:center;
 }
 .nav-account-slot .nav-menu-btn {
@@ -25571,19 +25571,12 @@ button.lgt-launch > span {
   .nav-destinations .nav-scroll{transition:none;transform:none!important;}
 }
 
-/* Reclaim the desktop account space visually as the hamburger fades in.
-   Move the entire cluster with a compositor transform, preserving its order. */
-@media(min-width:1025px){
-  .site-nav-controls .nav-right-pills{
-    transition:transform var(--duration-base) var(--ease-out);
-  }
-  .site-nav-controls[data-collapsed="true"] .nav-right-pills{
-    transform:translateX(176px);
-  }
-}
-@media(min-width:1025px) and (prefers-reduced-motion:reduce){
-  .site-nav-controls .nav-right-pills{transition:none;}
-}
+/* The account slot fits its content and collapses to the hamburger width. */
+.site-nav-controls[data-collapsed="true"] .nav-account-slot { width:44px; }
+.site-nav-controls[data-collapsed="true"] .nav-auth-desktop { position:absolute;right:0;top:0; }
+.nav-auth-loading { display:block;width:44px;height:44px;border-radius:50%;background:var(--theme-border,#e8e3db); }
+@media(max-width:640px){.site-nav-controls[data-collapsed="true"] .nav-account-slot{width:40px;min-width:40px;}}
+@media(max-width:360px){.site-nav-controls[data-collapsed="true"] .nav-account-slot{width:36px;min-width:36px;}}
 
 /* Probability labels and selected categories remain legible on dark panels. */
 html[data-theme="dark"] .tregu-native-outcome strong { color: var(--theme-ink); }

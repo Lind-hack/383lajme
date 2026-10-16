@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
+import {useAuthUser} from '@/lib/use-auth-user';
 
 function getInitials(user: User): string {
   const name = user.user_metadata?.full_name as string | undefined;
@@ -19,41 +20,10 @@ function getInitials(user: User): string {
 }
 
 export default function UserMenu() {
-  const [user, setUser] = useState<User | null>(null);
+  const {user,ready} = useAuthUser();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const supabaseRef = useRef<ReturnType<typeof createClient> | null>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-    // If env vars are missing, show logged-out UI (buttons still visible, just non-functional)
-    if (!url || !key) {
-      return;
-    }
-
-    const supabase = createClient();
-    supabaseRef.current = supabase;
-
-    supabase.auth
-      .getSession()
-      .then(({ data }) => {
-        setUser(data.session?.user ?? null);
-      })
-      .catch(() => {
-        // The initial signed-out controls remain usable if session loading fails.
-      });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   useEffect(() => {
     if (!dropdownOpen) return;
@@ -68,11 +38,12 @@ export default function UserMenu() {
 
   async function handleSignOut() {
     setDropdownOpen(false);
-    await supabaseRef.current?.auth.signOut();
+    await createClient().auth.signOut();
     router.push("/");
     router.refresh();
   }
 
+  if (!ready) return <span className="nav-auth-loading" role="status" aria-label="Po kontrollohet hyrja…" />;
   if (!user) {
     return (
       <div style={{ display: "flex", gap: "8px" }}>
@@ -132,8 +103,8 @@ export default function UserMenu() {
           onClick={() => setDropdownOpen((v) => !v)}
           className="btn-primary"
           style={{
-            width: "36px",
-            height: "36px",
+            width: "44px",
+            height: "44px",
             borderRadius: "50%",
             background: "#D93A0F",
             border: "none",

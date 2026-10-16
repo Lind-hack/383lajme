@@ -15,6 +15,7 @@ import { occasionFor } from "@/lib/dardani-occasions.mjs";
 import { PYET_OPEN_EVENT } from "@/lib/pyet-thread";
 import DardaniImage from "./dardani/dardani-image";
 import LanguageSwitcher from "./language/language-switcher";
+import {useAuthUser} from '@/lib/use-auth-user';
 
 /** Derived from lib/category-map, so the navbar, the side panel (which imports
  *  this), the footer and the pill row cannot drift apart. Order and membership
@@ -94,6 +95,7 @@ function RightPills({ treguActive, onAsk, onSearch }: { treguActive: boolean; on
 }
 
 export default function Navbar() {
+  const auth = useAuthUser();
   const [scrolled, setScrolled] = useState(false);
   // On /tregu the dark overlay holds until the hero actually ends — not at
   // 80px, which left a cream bar cutting across the video mid-hero.
@@ -236,7 +238,7 @@ export default function Navbar() {
           />
         </Link>
 
-        <div className="site-nav-controls" data-collapsed={collapsed ? "true" : undefined} style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: "8px" }}>
+        <div className="site-nav-controls" data-auth-state={!auth.ready ? "loading" : auth.user ? "signed-in" : "signed-out"} data-collapsed={collapsed ? "true" : undefined} style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: "8px" }}>
           <div className="nav-destinations" style={{ flex: 1, minWidth: 0 }}>
             <nav className="nav-scroll" inert={collapsed} aria-hidden={collapsed || undefined} style={{ display: "flex", alignItems: "center", overflowX: "auto" }}>
               {PRIMARY_NAV.map((link) => <Link key={link.href} href={link.href} className="nav-pill nav-pill--primary" aria-current={(link.href === "/" ? pathname === "/" : pathname === link.href || pathname?.startsWith(link.href + "/")) ? "page" : undefined}>{link.label}</Link>)}
