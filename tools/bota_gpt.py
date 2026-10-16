@@ -133,6 +133,8 @@ INSTRUCTIONS='''You assess how international journalism portrays Kosovo and tran
 
 INSTRUCTIONS += ''' Also return photoPlan: {"subject":"the specific person, named place, building or object central to this article", "subjectEvidence":"an exact source excerpt of at most 20 words containing that exact subject"}, or null if no specific photo subject can be grounded. Use its original spelling from the supplied text. Never use an outlet, broad news category, logo, chart or generic stock-photo topic as the subject. This plan is a search hint only; a separate policy verifies the actual photo and its rights.'''
 
+INSTRUCTIONS += ''' Player/profile database pages, fixture calendars, result tables and TV/streaming viewing guides are not journalistic portrayals of Kosovo. Return only {"relevant":false} for these even when they mention Kosovo materially. Ordinary narrative reporting about a match remains eligible.'''
+
 def validate_editorial(result, source):
     if result.get('relevant') is False:return None
     if result.get('relevant') is not True or result.get('sentiment') not in {'positive','negative','neutral'}:raise ValueError('Invalid editorial rating')
@@ -263,7 +265,7 @@ def discover(known):
             source={**a,**fetch_source(resolved)}
             if not scraper.is_fresh(source['date']):rejected['stale_publisher_date']+=1;return None
             if excluded_publisher(source['url']):rejected['domestic_or_institution']+=1;return None
-            if not is_editorial(a['outlet'],source['url']) or not scraper.is_foreign_press(a['outlet'],source['url']) or is_local_placename(a['title'],' '.join(source['sourceParagraphs'])):return None
+            if not is_editorial(a['outlet'],source['url'],a['title']) or not scraper.is_foreign_press(a['outlet'],source['url']) or is_local_placename(a['title'],' '.join(source['sourceParagraphs'])):return None
             source['id']=hashlib.sha256(source['url'].encode()).hexdigest()
             source['country']=publisher_country(source['url'],a['outlet'])
             return source

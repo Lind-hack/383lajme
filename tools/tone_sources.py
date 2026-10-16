@@ -101,7 +101,7 @@ def _host(url: str) -> str:
     return host[4:] if host.startswith("www.") else host
 
 
-def is_editorial(outlet: str, url: str) -> bool:
+def is_editorial(outlet: str, url: str, title: str = "") -> bool:
     """Does this source publish journalism with a stance worth measuring?
 
     False for score databases, fixture calendars, TV listings, social
@@ -109,6 +109,18 @@ def is_editorial(outlet: str, url: str) -> bool:
     """
     host = _host(url)
     name = (outlet or "").strip().lower()
+    # A newsroom domain can also host player databases and fixture feeds.
+    page_path = urlparse(url or "").path.lower()
+    if re.search(r"/(?:zawodnik|fixtures|standings|scoreboard)(?:/|$)", page_path):
+        return False
+    if re.search(r"/players?/(?:\d+(?:/|$)|_/id/)", page_path):
+        return False
+    # Viewing instructions have no media portrayal to measure. Keep normal
+    # narrative match reporting; the model checks the full extracted text too.
+    if re.search(r"^(?:where|how) to watch\b.*(?:\bvs\b|\btv\b|streaming|live stream)", title.strip(), re.I):
+        return False
+    if re.search(r"^d[oó]nde ver\b.*(?:en vivo|\btv\b|streaming)", title.strip(), re.I):
+        return False
 
     if host:
         if any(host == d or host.endswith("." + d) for d in NON_EDITORIAL_DOMAINS):

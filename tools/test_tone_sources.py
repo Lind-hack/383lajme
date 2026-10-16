@@ -93,6 +93,16 @@ def test_a_sports_desk_of_a_real_paper_is_still_journalism():
     assert is_editorial("Blick", "https://www.blick.ch/sport/fussball/kosovo-x")
 
 
+def test_newsroom_player_databases_and_viewing_guides_are_not_reporting():
+    assert not is_editorial("PodkarpacieLIVE", "https://podkarpacielive.pl/zawodnik/36115,muriqi-vedat")
+    assert not is_editorial("Example News", "https://example.org/soccer/player/12345")
+    assert not is_editorial("Example News", "https://example.org/standings/kosovo")
+    assert not is_editorial("Example News", "https://example.org/article", "Dónde ver EN VIVO Austria vs. Kosovo: TV y streaming online")
+    assert not is_editorial("Example News", "https://example.org/article", "How to watch Austria vs Kosovo on TV")
+    assert is_editorial("Example News", "https://example.org/article", "Austria beats Kosovo in World Cup play-off")
+    assert is_editorial("PodkarpacieLIVE", "https://podkarpacielive.pl/wydarzenia/12345,kosovo-match-report")
+
+
 # ── 3. Country attribution follows the outlet, not the feed ──────────────────
 
 def test_the_three_reported_misattributions():
