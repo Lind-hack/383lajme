@@ -1004,11 +1004,43 @@ def storage(method: str, path: str, body: bytes | None = None, extra: dict | Non
         return exc.code
 
 
+BUCKET_TYPES = ["application/json", "image/jpeg", "image/png", "image/webp"]
+
+
+def public_url(path: str) -> str:
+    return f"{os.environ['NEXT_PUBLIC_SUPABASE_URL'].rstrip('/')}/storage/v1/object/public/{BUCKET}/{path}"
+
+
+def store_instagram_covers(picks: list[dict]) -> None:
+    """Instagram's image server refuses other sites' pages and cloud servers, so
+    each reel's cover (Instagram's own, fetched from here, where it answers)
+    is kept beside the list, once per reel, for its card and its link preview."""
+    for pick in picks:
+        if pick.get("platform") != "instagram" or str(pick.get("cover", "")).startswith(public_url("covers/")):
+            continue
+        try:
+            with urllib.request.urlopen(urllib.request.Request(ig_cover_url(pick["id"]), headers=HEADERS), timeout=15) as res:
+                body, kind = res.read(), res.headers.get("Content-Type", "")
+        except (urllib.error.URLError, TimeoutError, OSError):
+            continue
+        if not kind.startswith("image/") or len(body) < 2000:
+            continue
+        path = f"covers/ig-{pick['id']}.jpg"
+        if storage("POST", f"object/{BUCKET}/{path}", body,
+                   {"Content-Type": "image/jpeg", "x-upsert": "true", "cache-control": "86400"}) in (200, 201):
+            pick["cover"] = public_url(path)
+
+
 def publish(picks: list[dict], now: datetime) -> None:
     if storage("GET", f"bucket/{BUCKET}") != 200:
         storage("POST", "bucket", json.dumps({"id": BUCKET, "name": BUCKET, "public": True,
-                                               "allowed_mime_types": ["application/json"]}).encode(),
+                                               "allowed_mime_types": BUCKET_TYPES}).encode(),
                 {"Content-Type": "application/json"})
+    else:
+        # The bucket began JSON-only; reel covers need images too.
+        storage("PUT", f"bucket/{BUCKET}", json.dumps({"public": True, "allowed_mime_types": BUCKET_TYPES}).encode(),
+                {"Content-Type": "application/json"})
+    store_instagram_covers(picks)
     body = json.dumps({"updatedAt": now.isoformat(), "videos": picks}, ensure_ascii=False).encode("utf-8")
     status = storage("POST", f"object/{BUCKET}/{INDEX}", body,
                      {"Content-Type": "application/json", "x-upsert": "true", "cache-control": "60"})
@@ -1107,6 +1139,7 @@ def main() -> int:
     picks = picks_from(state, now)
     refresh_tiktok(picks)
     publish(picks, now)
+    save_state(state, now)  # again: the picks now carry their stored reel covers
     report.update(published=len(picks), finishedAt=datetime.now(timezone.utc).isoformat(),
                   publishedByPlatform={p: sum(1 for x in picks if x.get("platform", "youtube") == p)
                                        for p in ("tiktok", "instagram", "youtube")},

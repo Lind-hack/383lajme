@@ -73,6 +73,8 @@ function picksUrl() {
 
 /** The approved list, validated field by field: it is data from another machine. */
 function parsePicks(json: unknown): Omit<FeedVideo, "storySlug">[] {
+  // Reel covers live beside the list (video_curation.store_instagram_covers).
+  const coversBase = picksUrl().replace(/index\.json$/, "covers/");
   const rows = (json as { videos?: unknown })?.videos;
   if (!Array.isArray(rows)) return [];
   const out: Omit<FeedVideo, "storySlug">[] = [];
@@ -106,7 +108,10 @@ function parsePicks(json: unknown): Omit<FeedVideo, "storySlug">[] {
         platform === "tiktok" && typeof r?.cover === "string" && TIKTOK_COVER.test(r.cover)
           ? r.cover
           : platform === "instagram"
-            ? `/api/video-cover?ig=${encodeURIComponent(id)}`
+            ? // The copy the editor keeps beside the list; else through /api/video-cover.
+              typeof r?.cover === "string" && coversBase && r.cover.startsWith(coversBase)
+              ? r.cover
+              : `/api/video-cover?ig=${encodeURIComponent(id)}`
             : null,
       url:
         platform === "tiktok"
