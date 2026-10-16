@@ -32,6 +32,7 @@ jobs:
       - name: Fetch Clarity data and send daily email
         env:
           CLARITY_EXPORT_TOKEN: ${{ secrets.CLARITY_EXPORT_TOKEN }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}

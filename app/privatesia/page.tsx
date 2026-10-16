@@ -202,6 +202,12 @@ export default function PrivatesiaPage() {
               dhe regjistrimet e sesioneve për të përmirësuar përvojën. Të dhënat e ndjeshme
               maskohen; nuk i dërgojmë emrin ose emailin e llogarisë.
             </Row>
+            <Row label="Statistikat e veçorive 383">
+              Vetëm pasi pranon statistikat, numërojmë hapjet e faqeve, klikimet në kontrolle dhe
+              kohën aktive. Përdorim një shenjë të rastësishme të shfletuesit, të koduar në server,
+              pa e lidhur me llogarinë. Nuk ruajmë tekst formularësh, adresa IP ose përmbajtjen e
+              butonave. Matjet fshihen pas shtatë ditësh dhe përmblidhen në raportin ditor.
+            </Row>
             <Row label="Google dhe Meta">
               Vetëm nëse zgjedh të hysh me llogarinë tënde Google ose Facebook. Në atë rast ata e
               dinë që ke hyrë në 383.

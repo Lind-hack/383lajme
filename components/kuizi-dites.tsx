@@ -422,6 +422,7 @@ function QuestionStage({
               key={o}
               type="button"
               className="kuiz-option"
+              data-usage-action="quiz_answer"
               data-state={state}
               data-mine={picked === o ? "true" : undefined}
               aria-pressed={answered ? picked === o : undefined}
@@ -474,7 +475,7 @@ function QuestionStage({
               >
                 Lexo lajmin
               </Link>
-              <button ref={nextRef} type="button" className="kuiz-next" onClick={onNext}>
+              <button ref={nextRef} type="button" className="kuiz-next" data-usage-action="quiz_next" onClick={onNext}>
                 {isLast ? "Shiko rezultatin" : "Pyetja tjetër"}
                 <ArrowRight size={15} strokeWidth={2.5} aria-hidden="true" />
               </button>

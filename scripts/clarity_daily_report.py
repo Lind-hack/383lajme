@@ -1,8 +1,6 @@
 """Email aggregate Clarity insights; never log tokens or raw visitor data."""
 import argparse
-from collections import defaultdict
 from datetime import datetime, timezone
-import html
 import json
 import math
 import os
@@ -42,82 +40,9 @@ def display(value):
     return f'{parsed:,.1f}'.removesuffix('.0') if parsed is not None else 'not available'
 
 
-def public_path(value):
-    parsed = urllib.parse.urlsplit(str(value or ''))
-    if parsed.hostname and parsed.hostname.lower() not in {'383ks.com', 'www.383ks.com'}:
-        return None
-    path = parsed.path or '/'
-    if not path.startswith('/') or any(path == p or path.startswith(p + '/') for p in
-                                       ('/admin', '/api', '/auth', '/hyr', '/profili')):
-        return None
-    return path  # Drop query strings and fragments, which may contain private values.
-
-
-def feature_name(path):
-    section = path.strip('/').split('/')[0]
-    return {'': 'Homepage', 'tregu': 'Tregu', 'per-ty': 'Për Ty', 'kuiz': 'Quiz',
-            'bota-per-kosoven': 'Bota për Kosovën', 'dosje': 'Dosje', 'kerko': 'Search',
-            'xhep': 'Kosova në Xhep', 'visit': 'Visit / travel', 'article': 'Articles',
-            'kategori': 'News categories', 'video': 'Video'}.get(section, 'Other public pages')
-
-
-def build_report(overall, by_url):
-    traffic = rows(overall, 'Traffic')
-    total = traffic[0] if traffic else {}
-    lines = ['383ks.com — daily usage report',
-             'Reporting window: the rolling 24 hours before this report (Clarity API).',
-             f'Total sessions: {display(field(total, "totalSessionCount"))}',
-             f'Unique users: {display(field(total, "distinctUserCount", "distantUserCount"))}',
-             '', 'MOST-USED SECTIONS']
-    pages = defaultdict(float)
-    for row in rows(by_url, 'Traffic'):
-        path = public_path(field(row, 'URL'))
-        count = number(field(row, 'totalSessionCount'))
-        if path and count is not None and count > 0:
-            pages[path] += count
-    sections = defaultdict(float)
-    for path, count in pages.items():
-        sections[feature_name(path)] += count
-    ranked_sections = sorted(sections.items(), key=lambda x: (-x[1], x[0]))
-    for name, count in ranked_sections[:10]:
-        lines.append(f'{name}: {display(count)} page sessions')
-    if not sections:
-        lines.append('No measured page sessions are available in this export.')
-    lines += ['', 'A page session is a session that viewed a page. Section totals add page sessions, '
-              'not unique feature users; a visitor viewing several pages can count several times.',
-              '', 'MOST-VISITED PAGES']
-    for path, count in sorted(pages.items(), key=lambda x: (-x[1], x[0]))[:10]:
-        lines.append(f'{path}: {display(count)} page sessions')
-    lines += ['', 'ENGAGEMENT & FRICTION']
-    for metric, label, keys in [
-        ('EngagementTime', 'Active engagement seconds', ('activeTime',)),
-        ('ScrollDepth', 'Average scroll depth', ('averageScrollDepth',)),
-        ('DeadClickCount', 'Dead clicks', ('subTotal',)),
-        ('RageClickCount', 'Rage clicks', ('subTotal',)),
-        ('QuickbackClick', 'Quick backs', ('subTotal',)),
-        ('ScriptErrorCount', 'Script errors', ('subTotal',)),
-    ]:
-        values = rows(overall, metric)
-        value = field(values[0], *keys) if values else None
-        lines.append(f'{label}: {display(value)}')
-    lines += ['', 'WHAT TO LOOK AT NEXT']
-    if ranked_sections:
-        name, count = ranked_sections[0]
-        lines.append(f'{name} has the most measured page sessions ({display(count)}). '
-                     'Review its Clarity heatmaps and recordings before changing its placement.')
-    else:
-        lines.append('Check traffic and analytics consent before drawing conclusions from this report.')
-    lines += ['Review dead clicks and rage clicks for confusing controls. Clicks can indicate frustration '
-              'as well as interest.', '', 'MEASUREMENT LIMITS',
-              'Exact button-click rankings, repeat use of individual features, and day-over-day changes '
-              'are not available in this report. These require additional event tracking and historical data.',
-              'Only consenting visitors are measured. These results indicate usage, not proven usefulness.',
-              'Open Clarity: https://clarity.microsoft.com/projects/view/yxa7ek3m9v/dashboard']
-    text = '\n'.join(lines)
-    markup = ('<html><body style="font-family:Arial,sans-serif;line-height:1.6;max-width:760px;'
-              'margin:24px auto;padding:20px"><div style="white-space:pre-wrap">'
-              + html.escape(text) + '</div></body></html>')
-    return text, markup
+def build_report(overall, by_url, usage=None):
+    from usage_email import render_email
+    return render_email(overall, by_url, usage or {})
 
 
 def fetch_export(token, dimension=None):
@@ -137,6 +62,22 @@ def fetch_export(token, dimension=None):
     return data
 
 
+def fetch_usage():
+    secret = os.environ.get('CRON_SECRET', '').strip()
+    if not secret:
+        raise RuntimeError('CRON_SECRET is missing; feature report cannot be generated.')
+    request = urllib.request.Request('https://383ks.com/api/analytics/usage', headers={
+        'Authorization': 'Bearer ' + secret, 'Accept': 'application/json'})
+    try:
+        with urllib.request.urlopen(request, timeout=45) as response:
+            data = json.load(response)
+    except urllib.error.HTTPError as error:
+        raise RuntimeError(f'Feature measurements HTTP {error.code}; no email sent.') from None
+    if not isinstance(data, dict) or not all(isinstance(data.get(key), list) for key in ('features', 'pages', 'buttons', 'destinations')):
+        raise RuntimeError('Feature measurement structure is invalid; no email sent.')
+    return data
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--inspect', action='store_true', help='Print metric/field names only; do not send email.')
@@ -152,7 +93,7 @@ def main():
                 {'metric': m.get('metricName'), 'fields': sorted({k for r in m.get('information', []) for k in r})}
                 for m in export]}))
         return
-    _, markup = build_report(overall, by_url)
+    _, markup = build_report(overall, by_url, fetch_usage())
     # Reuse the repository's established email providers and secret handling.
     from codex_automation_support import _send_resend_report, _send_gmail_report
     day = datetime.now(timezone.utc).strftime('%Y-%m-%d')

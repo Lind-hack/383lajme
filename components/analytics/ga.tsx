@@ -3,6 +3,7 @@
 import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import UsageTracker from './usage-tracker';
 
 /**
  * Consent-gated Google Analytics and Microsoft Clarity.
@@ -75,6 +76,7 @@ export default function Ga() {
 
   return (
     <>
+      <UsageTracker enabled={consent === 'granted'} />
       {consent === "granted" && (
         <Script id="microsoft-clarity" strategy="afterInteractive">
           {`(function(c,l,a,r,i,t,y){
