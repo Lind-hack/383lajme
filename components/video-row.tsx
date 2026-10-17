@@ -5,9 +5,12 @@
 //
 // What it is for: "tell me what happened today", in Albanian, in about three
 // minutes, and then stop. Each clip is one of the front page's stories, made
-// by 383 itself (scripts/video_edition.py): the story's photo, a voice that
-// reads a short script written from the story alone, and the words on screen
-// as they are said, so it works with the sound off too. Unlike a feed that
+// by 383 itself (scripts/video_edition.py): a warm voice reading a short
+// script written from the story alone, the words on screen as they are said
+// (so it works with the sound off too), and pictures that change every few
+// seconds — real photos of the story's people and places, a number shown big
+// the moment it is said, the map when the place is named, a quote, and
+// footage the people or institutions posted themselves. Unlike a feed that
 // never ends, the edition does: after the last clip the reader is told they
 // are caught up ("Je në dijeni"), with the day's headlines to read on. The
 // clips a reader has watched are remembered on this device, so the row says
@@ -33,6 +36,7 @@ import {
   Copy,
   MessageCircle,
   Play,
+  Quote,
   RotateCcw,
   Share2,
   SmilePlus,
@@ -48,7 +52,7 @@ import { ReactionsProvider, useReactions } from "@/app/per-ty/paper/reactions";
 import { STORY_REACTIONS, type StoryReactionKey } from "@/lib/story-reactions.mjs";
 import { activeStreak, advanceStreak, parseStreak } from "@/lib/reagimi-data";
 import { track } from "@/lib/analytics";
-import type { Edition, EditionClip } from "@/lib/video-edition";
+import type { Edition, EditionBeat, EditionClip } from "@/lib/video-edition";
 import "./video-row.css";
 
 /** "Pëlqej" is the 👍 reaction: one tap, the commonest one. */
@@ -337,8 +341,11 @@ function Player({
   const [playing, setPlaying] = useState(false);
   // The browser refused to start the voice without a tap of its own.
   const [blocked, setBlocked] = useState(false);
+  // Paused by the reader (not merely not started yet): only then the ▶ shows.
+  const [held, setHeld] = useState(false);
   const [muted, setMuted] = useState(false);
   const [word, setWord] = useState(-1);
+  const [beat, setBeat] = useState(0);
   const [streak, setStreak] = useState(0);
   const feedRef = useRef<HTMLDivElement | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
@@ -459,7 +466,15 @@ function Player({
     setPlaying(false);
   }, [clip, voiced]);
 
-  const toggle = useCallback(() => (live.current.playing ? pause() : play()), [pause, play]);
+  const toggle = useCallback(() => {
+    if (live.current.playing) {
+      pause();
+      setHeld(true);
+    } else {
+      setHeld(false);
+      play();
+    }
+  }, [pause, play]);
 
   // A new screen: report the one left, then start this one from the beginning.
   useEffect(() => {
@@ -478,6 +493,8 @@ function Player({
     how.current = "swipe";
     watched.current = 0;
     setWord(-1);
+    setBeat(0);
+    setHeld(false);
     const a = voice();
     if (!clip) {
       // "Je në dijeni": the edition is over.
@@ -540,6 +557,7 @@ function Player({
     if (!mounted) return;
     let raf = 0;
     let lastWord = -1;
+    let lastBeat = 0;
     const frame = () => {
       const c = clips[live.current.active];
       const t = c ? time() : 0;
@@ -555,6 +573,12 @@ function Player({
         if (w !== lastWord) {
           lastWord = w;
           setWord(w);
+        }
+        let b = 0;
+        for (let k = 0; k < c.beats.length; k++) if (c.beats[k].at <= t) b = k;
+        if (b !== lastBeat) {
+          lastBeat = b;
+          setBeat(b);
         }
         if (t >= c.duration * SEEN_AT) seenOnce(c.slug);
         if (!voiced(c) && t >= c.duration && silent.current.running) {
@@ -618,7 +642,9 @@ function Player({
               active={i === active}
               playing={i === active && playing}
               blocked={i === active && blocked}
+              held={i === active && held}
               word={i === active ? word : -1}
+              beat={i === active ? beat : 0}
               list={list}
               talking={talking}
               onTalk={setTalking}
@@ -688,15 +714,17 @@ function Player({
   );
 }
 
-/** The words on screen a few at a time, as they are said: a new line at a pause or after five words. */
+/** The words on screen a few at a time, as they are said: a new line at the
+ * script's commas and stops (or, for an older clip, a pause), or after five words. */
 function phrases(words: EditionClip["words"]): [number, number][] {
   const out: [number, number][] = [];
   let from = 0;
   let chars = 0;
+  const marked = words.some((w) => w[3] === 1);
   for (let k = 0; k < words.length; k++) {
     chars += words[k][2].length + 1;
     const next = words[k + 1];
-    const pause = next ? next[0] - words[k][1] > 0.28 : true;
+    const pause = !next || (marked ? words[k][3] === 1 : next[0] - words[k][1] > 0.28);
     if (pause || k - from >= 4 || chars > 26) {
       out.push([from, k]);
       from = k + 1;
@@ -716,7 +744,9 @@ function Slide({
   active,
   playing,
   blocked,
+  held,
   word,
+  beat,
   list,
   talking,
   onTalk,
@@ -730,7 +760,10 @@ function Slide({
   active: boolean;
   playing: boolean;
   blocked: boolean;
+  held: boolean;
   word: number;
+  /** The picture on screen: an index into clip.beats. */
+  beat: number;
   list: string;
   talking: boolean;
   onTalk: (open: boolean) => void;
@@ -746,6 +779,8 @@ function Slide({
   const [likePop, setLikePop] = useState(0);
   const lines = useMemo(() => phrases(clip.words), [clip.words]);
   const line = word < 0 ? (active ? lines[0] : undefined) : lines.find(([a, b]) => word >= a && word <= b);
+  const beats = useMemo(() => beatsOf(clip), [clip]);
+  const shown = beats[Math.min(active ? beat : 0, beats.length - 1)];
 
   const like = (x: number, y: number) => {
     if (!reactions.ok) return;
@@ -764,18 +799,7 @@ function Slide({
         <img className="vr-slide-bg" src={clip.image} alt="" aria-hidden="true" loading="lazy" />
       )}
       <div className="vr-frame">
-        {clip.image ? (
-          // eslint-disable-next-line @next/next/no-img-element -- the story's own photo
-          <img
-            className="vr-photo"
-            src={clip.image}
-            alt=""
-            data-dir={i % 2 || undefined}
-            style={{ ["--kb" as string]: `${clip.duration + 2}s` }}
-          />
-        ) : (
-          <span className="vr-photo vr-photo-none" style={{ ["--c" as string]: clip.color }} aria-hidden="true" />
-        )}
+        <Stage clip={clip} beats={beats} index={active ? Math.min(beat, beats.length - 1) : 0} active={active} playing={playing} />
         {/* Soft dark at the top and bottom, so the buttons and words read on any photo. */}
         <span className="vr-vignette" aria-hidden="true" />
         {/* Taps here: one pauses, two give 👍; a swipe scrolls the edition. */}
@@ -816,7 +840,7 @@ function Slide({
             if (e.key === "Enter") onToggle();
           }}
         >
-          {active && !playing && !blocked && (
+          {active && held && !blocked && (
             <span className="vr-paused" aria-hidden="true">
               <Play size={34} strokeWidth={0} fill="currentColor" />
             </span>
@@ -876,17 +900,7 @@ function Slide({
             <Link href={`/article/${clip.slug}`} className="vr-player-read" onClick={onRead}>
               Lexo lajmin <ArrowRight size={15} strokeWidth={2.4} aria-hidden="true" />
             </Link>
-            {clip.imageCreator && (
-              <a
-                className="vr-credit"
-                href={clip.imageSourcePage || undefined}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Foto: {clip.imageCreator}
-                {clip.imageLicense && <> · {clip.imageLicense}</>}
-              </a>
-            )}
+            <Credit clip={clip} beat={shown} />
           </div>
         </div>
       </div>
@@ -896,6 +910,190 @@ function Slide({
       </div>
     </section>
   );
+}
+
+/** A clip's beats; a clip made before beats has its story's photo for the whole clip. */
+function beatsOf(clip: EditionClip): EditionBeat[] {
+  if (clip.beats.length) return clip.beats;
+  return [clip.image ? { at: 0, kind: "photo", src: clip.image, credit: "", move: "in" } : { at: 0, kind: "plain" }];
+}
+
+/** The newest photo at or before a beat: what stays behind a card, blurred. */
+function backdropOf(beats: EditionBeat[], index: number, fallback: string) {
+  for (let k = index; k >= 0; k--) {
+    const b = beats[k];
+    if (b.kind === "photo") return b.src;
+  }
+  return fallback;
+}
+
+/**
+ * The pictures of one clip. The beat on screen is drawn over the one before
+ * it, which stays put underneath until the new one has faded in, so a change
+ * never shows black. Behind a card (a number, a quote, the map, footage) the
+ * last photo stays, blurred and dimmed. The next beat is already there,
+ * hidden — its picture loaded, its footage playing — and simply comes in
+ * when its time comes (the same element, so nothing reloads).
+ */
+function Stage({ clip, beats, index, active, playing }: { clip: EditionClip; beats: EditionBeat[]; index: number; active: boolean; playing: boolean }) {
+  const current = beats[index];
+  const before = index > 0 ? beats[index - 1] : null;
+  const next = beats[index + 1];
+  const length = (next?.at ?? clip.duration) - current.at;
+  const backdrop = backdropOf(beats, index, clip.image);
+  const card = current.kind !== "photo" && current.kind !== "plain";
+  return (
+    <div className="vr-stage" data-playing={playing || undefined} data-card={card || undefined} style={{ ["--c" as string]: clip.color }}>
+      {backdrop && (
+        // eslint-disable-next-line @next/next/no-img-element -- the last photo, blurred behind a card
+        <img className="vr-backdrop" src={backdrop} alt="" />
+      )}
+      {/* Same props as when it was on screen, so its drift carries on undisturbed underneath. */}
+      {before && <Beat key={`${clip.slug}-${index - 1}`} beat={before} length={current.at - before.at} active={active} entering={index - 1 > 0} leaving />}
+      <Beat key={`${clip.slug}-${index}`} beat={current} length={length} active={active} entering={index > 0} />
+      {next && active && (
+        <Beat key={`${clip.slug}-${index + 1}`} beat={next} length={(beats[index + 2]?.at ?? clip.duration) - next.at} active upcoming />
+      )}
+    </div>
+  );
+}
+
+const YT = "https://www.youtube-nocookie.com";
+
+function Beat({
+  beat,
+  length,
+  active,
+  entering = false,
+  upcoming = false,
+  leaving = false,
+}: {
+  beat: EditionBeat;
+  length: number;
+  active: boolean;
+  entering?: boolean;
+  /** Mounted ahead, hidden, so it is ready when its time comes. */
+  upcoming?: boolean;
+  /** The beat before the one on screen: a photo stays under it, a card goes. */
+  leaving?: boolean;
+}) {
+  const enter = (entering && !upcoming) || undefined;
+  const next = upcoming || undefined;
+  const gone = leaving || undefined;
+  if (beat.kind === "photo") {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- a real photo of the story's people or place
+      <img className="vr-beat vr-shot" data-move={beat.move} data-enter={enter} data-next={next} src={beat.src} alt="" style={{ ["--len" as string]: `${length + 0.9}s` }} />
+    );
+  }
+  if (beat.kind === "plain") return <span className="vr-beat vr-shot vr-photo-none" data-next={next} aria-hidden="true" />;
+  if (beat.kind === "fact") {
+    return (
+      <div className="vr-beat vr-panel vr-fact" data-enter={enter} data-next={next} data-gone={gone}>
+        <b className="vr-fact-value">{beat.value}</b>
+        <span className="vr-panel-label">
+          <i aria-hidden="true" />
+          {beat.label}
+        </span>
+      </div>
+    );
+  }
+  if (beat.kind === "quote") {
+    return (
+      <figure className="vr-beat vr-panel vr-quote" data-enter={enter} data-next={next} data-gone={gone}>
+        <Quote className="vr-quote-mark" size={30} strokeWidth={0} fill="currentColor" aria-hidden="true" />
+        <blockquote>{beat.text}</blockquote>
+        <figcaption className="vr-panel-label">
+          <i aria-hidden="true" />
+          {beat.who}
+        </figcaption>
+      </figure>
+    );
+  }
+  if (beat.kind === "map") {
+    return (
+      <div className="vr-beat vr-mapcard" data-enter={enter} data-next={next} data-gone={gone}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- the place, from OpenStreetMap, kept in our storage */}
+        <img src={beat.src} alt="" />
+        <span className="vr-pin" aria-hidden="true" />
+        <span className="vr-map-label">{beat.label}</span>
+      </div>
+    );
+  }
+  return <Footage beat={beat} active={active} enter={enter} next={next} gone={gone} />;
+}
+
+/**
+ * Footage from the people or institutions themselves, in YouTube's own
+ * player, muted under the voice, framed on its own: nothing drawn over it.
+ * It loads a beat early, hidden; Chrome will not start a video that was
+ * hidden when it loaded, so when its turn comes it is told to play through
+ * the player's documented messages, again until it has had time to answer.
+ */
+function Footage({
+  beat,
+  active,
+  enter,
+  next,
+  gone,
+}: {
+  beat: Extract<EditionBeat, { kind: "video" }>;
+  active: boolean;
+  enter?: true;
+  next?: true;
+  gone?: true;
+}) {
+  const frame = useRef<HTMLIFrameElement | null>(null);
+  const [src, setSrc] = useState<string | null>(null);
+  useEffect(() => {
+    if (!active) return;
+    const origin = encodeURIComponent(window.location.origin);
+    setSrc(`${YT}/embed/${beat.youtube}?autoplay=1&mute=1&controls=0&playsinline=1&rel=0&iv_load_policy=3&disablekb=1&fs=0&enablejsapi=1&origin=${origin}&start=${beat.start}`);
+  }, [active, beat.youtube, beat.start]);
+  const showing = !next;
+  useEffect(() => {
+    if (!showing || !src) return;
+    const say = (func: string) => frame.current?.contentWindow?.postMessage(JSON.stringify({ event: "command", func, args: [] }), YT);
+    const nudge = () => {
+      say("mute");
+      say("playVideo");
+    };
+    nudge();
+    const every = window.setInterval(nudge, 500);
+    const stop = window.setTimeout(() => window.clearInterval(every), 4000);
+    return () => {
+      window.clearInterval(every);
+      window.clearTimeout(stop);
+    };
+  }, [showing, src]);
+  return (
+    <div className="vr-beat vr-footage" data-enter={enter} data-next={next} data-gone={gone}>
+      <span className="vr-footage-frame">
+        {src && <iframe ref={frame} src={src} title={`Video: ${beat.channel}`} tabIndex={-1} allow="autoplay; encrypted-media" />}
+      </span>
+      <span className="vr-footage-src">
+        <Play size={11} strokeWidth={0} fill="currentColor" aria-hidden="true" />
+        {beat.channel}
+      </span>
+    </div>
+  );
+}
+
+/** Whose picture is on screen, as its licence asks. */
+function Credit({ clip, beat }: { clip: EditionClip; beat: EditionBeat }) {
+  let text = "";
+  if (beat.kind === "photo") text = beat.credit ? `Foto: ${beat.credit}` : "";
+  else if (beat.kind === "map") text = beat.credit;
+  else if (beat.kind === "video") text = `Video: ${beat.channel} · YouTube`;
+  if (!text && beat.kind === "photo" && beat.src === clip.image && clip.imageCreator) {
+    return (
+      <a className="vr-credit" href={clip.imageSourcePage || undefined} target="_blank" rel="noopener noreferrer">
+        Foto: {clip.imageCreator}
+        {clip.imageLicense && <> · {clip.imageLicense}</>}
+      </a>
+    );
+  }
+  return text ? <span className="vr-credit">{text}</span> : null;
 }
 
 /** The last screen: caught up, the day's headlines, and when the next edition comes. */

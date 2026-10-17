@@ -8,14 +8,16 @@ Kosovo time), inside the hermes container, with the edition's own venv
 1. The stories: the front page's seven, in its order (the site's
    /api/video-edition/plan picks them the way the homepage does).
 2. A spoken script for each new or changed story, 55-85 words of plain
-   Albanian, written by the newsroom's model from the story alone. Every
-   number and name in it must be in the story, or the clip says the story's
-   own headline and summary instead.
-3. The voice: Microsoft's Albanian neural voice through edge-tts (free, no
-   key), with the time of every word, so the site can show the words as
-   they are said.
-4. Published to the public storage bucket video-edition: audio/<slug>-<hash>.mp3
-   (never changes once written) and index.json, which the site reads.
+   Albanian, written by the newsroom's model from the story alone, with what
+   the clip can show: the story's people and places, two numbers to show
+   big, a quote, a search for footage. Every number, name and quote must be
+   in the story; a script that fails says the story's own headline and
+   summary instead.
+3. The footage: Agent Reach (Exa) finds YouTube videos of the event, and the
+   model keeps only those the people or institutions posted themselves.
+4. The voice, the photos, the map and the beats (scripts/video_edition_media.py).
+5. Published to the public storage bucket video-edition: audio/ and maps/
+   (never change once written) and index.json, which the site reads.
 
 A story that has not changed keeps its clip: only new stories cost a script
 and a voice. If the model or the voice fails, the clip still goes out, with
@@ -23,7 +25,6 @@ the story's own words or with no voice (the site shows the words alone).
 """
 from __future__ import annotations
 
-import asyncio
 import hashlib
 import json
 import os
@@ -38,16 +39,19 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import video_edition_media as media  # noqa: E402
+
 MAX_STORIES = 7
 BUCKET = "video-edition"
 INDEX = "index.json"
 KEEP_AUDIO = timedelta(days=3)
 MIN_WORDS, MAX_WORDS = 30, 110
+# Bumped when a clip is made differently: every story is made again once.
+CLIP_VERSION = "3"
 KOSOVO = ZoneInfo("Europe/Belgrade")  # the host has no Europe/Pristina; same clock
 
 SITE = os.environ.get("SITE_URL", "https://383ks.com").rstrip("/")
-VOICE = os.environ.get("L383_EDITION_VOICE", "sq-AL-AnilaNeural")
-RATE = os.environ.get("L383_EDITION_RATE", "+6%")
 HERMES = os.environ.get("L383_HERMES_BIN", "/opt/hermes/.venv/bin/hermes")
 MODEL = os.environ.get("L383_EDITION_MODEL", os.environ.get("L383_WRITER_MODEL", "gpt-6-luna"))
 STATE = Path(os.environ.get("L383_EDITION_STATE", "/opt/data/video-edition/clips.json"))
@@ -57,7 +61,7 @@ HEADERS = {"User-Agent": "383VideoEdition/1.0 (https://383ks.com; daily video ed
 SPELLED_OUT = {"Shtetet", "Shteteve", "Bashkuara", "Bashkimi", "Bashkimit", "Evropian", "Evropiane", "Kombet", "Kombeve"}
 
 RULES = """You write the voice-over for 383's video edition: each of today's top stories as one
-short clip, read aloud in Albanian by a synthetic voice over the story's photo.
+short clip, read aloud in Albanian by a warm synthetic voice over photos, maps and footage.
 
 For every story in the brief, write ONE spoken script:
 - Standard Albanian, the way a good newsreader talks to a friend: short, clear sentences.
@@ -76,9 +80,46 @@ For every story in the brief, write ONE spoken script:
 - No emoji, no hashtags, no quotation marks around whole sentences, no lists.
 - The last sentence ends the clip; do not say "lexoni më shumë" or "na ndiqni".
 
+For every story also say what the clip can show while the voice reads:
+- "subjects": up to 4 exact English Wikipedia article titles of the people, organisations,
+  buildings or places the story names (e.g. "Edi Rama", "Tirana", "California Department of
+  Forestry and Fire Protection"). Only ones the story itself names.
+- "place": the exact English Wikipedia title of the one city or region where it happens, or "";
+  "place_name": the same place's name in Albanian, in its base form (Parisi, Tirana, Kalifornia).
+- "facts": up to 2 striking numbers to show big on screen, each
+  {"value": "40 mijë", "label": "veta prisnin në protestën e Parisit"}: the value as the script
+  says it (digits and their unit word, at most 14 characters), the label 3 to 8 Albanian words.
+  Only numbers that are in the story and in your script.
+- "quote": one short sentence a person in the story said, copied EXACTLY as the story prints it,
+  as {"text": "...", "who": "<their name as in the story>"}, or null when there is none.
+- "youtube": 2 or 3 short YouTube searches (3 to 5 words each) for video of this very event:
+  the key names and the occasion, one in English and one in the language of the country where
+  it happened (e.g. ["Merz Junge Union Deutschlandtag", "Merz speech Junge Union"]). No dates.
+- "sources": up to 4 names of official channels that may have posted their own video of it: the
+  people or institutions themselves (governments, ministries, police, fire services, parties,
+  leagues, clubs, companies). Never a news outlet.
+
 Reply with ONLY this, exactly, nothing before or after:
 383_JSON_BEGIN
-[{"slug": "<the story's slug>", "script": "<the script>"}]
+[{"slug": "<the story's slug>", "script": "<the script>", "subjects": [], "place": "",
+  "place_name": "", "facts": [], "quote": null, "youtube": [], "sources": []}]
+383_JSON_END
+"""
+
+FOOTAGE_RULES = """You pick footage for 383's video edition. For each story in the brief there is a list of
+YouTube videos (channel and title). Keep a video ONLY if both are true:
+1. The channel is a primary source: the person, team or organisation in the story itself, or a
+   government, ministry, parliament, police, fire or emergency service, public agency, party,
+   league, club or company directly involved. NEVER a news outlet, TV channel, newspaper,
+   magazine, news agency, aggregator, commentator, fan or reaction channel, or a broadcaster
+   that holds the rights to the event.
+2. The title shows it is this very event (the same people, place and occasion), not a different
+   one. Every video listed was posted in the last week.
+At most 2 per story; none is a fine answer.
+
+Reply with ONLY this, exactly, nothing before or after:
+383_JSON_BEGIN
+{"<slug>": ["<video id>", ...]}
 383_JSON_END
 """
 
@@ -129,7 +170,7 @@ def newest_stories() -> list[dict]:
 # ── 2. The script ────────────────────────────────────────────────────────────
 
 def story_hash(story: dict) -> str:
-    text = "\n".join(str(story.get(k) or "") for k in ("title", "excerpt", "body"))
+    text = CLIP_VERSION + "\n" + "\n".join(str(story.get(k) or "") for k in ("title", "excerpt", "body", "imageUrl"))
     return hashlib.sha1(text.encode("utf-8")).hexdigest()[:10]
 
 
@@ -139,8 +180,34 @@ def plain(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
-def write_scripts(stories: list[dict], workdir: Path) -> dict[str, str]:
-    """One model call for every story that needs a script; {slug: script}."""
+def ask_model(prompt: str, label: str) -> str:
+    try:
+        done = subprocess.run([HERMES, "chat", "--provider", "openai-codex", "--model", MODEL, "--ignore-rules",
+                               # Built-in reasoning, not the newsroom's "max": at max the stream stalls
+                               # (no events for 12 s) and the call fails.
+                               "--ignore-user-config", "-t", "file", "--yolo", "--max-turns", "20", "-Q", "-q", prompt],
+                              capture_output=True, text=True, encoding="utf-8", timeout=600, check=False)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        print(f"EDITION {label} failed: {exc}", file=sys.stderr)
+        return ""
+    if "383_JSON_END" not in done.stdout:
+        print(f"EDITION {label} gave nothing (exit {done.returncode}): {(done.stdout + done.stderr)[-600:]}", file=sys.stderr)
+    return done.stdout
+
+
+def between_markers(output: str):
+    start = output.rfind("383_JSON_BEGIN")
+    end = output.find("383_JSON_END", start + 14)
+    if start < 0 or end < 0:
+        return None
+    try:
+        return json.loads(output[start + 14:end])
+    except ValueError:
+        return None
+
+
+def write_scripts(stories: list[dict], workdir: Path) -> dict[str, dict]:
+    """One model call for every story that needs a script; {slug: {"script", "subjects", ...}}."""
     if not stories:
         return {}
     brief = workdir / "edition-brief.md"
@@ -160,34 +227,74 @@ def write_scripts(stories: list[dict], workdir: Path) -> dict[str, str]:
         ]))
     brief.write_text("# Today's stories\n\n" + "\n\n".join(blocks) + "\n", encoding="utf-8")
     prompt = f"Read {brief} with the file tool, then follow these rules.\n\n{RULES}"
-    try:
-        done = subprocess.run([HERMES, "chat", "--provider", "openai-codex", "--model", MODEL, "--ignore-rules",
-                               # Built-in reasoning, not the newsroom's "max": at max the stream stalls
-                               # (no events for 12 s) and the call fails.
-                               "--ignore-user-config", "-t", "file", "--yolo", "--max-turns", "20", "-Q", "-q", prompt],
-                              capture_output=True, text=True, encoding="utf-8", timeout=600, check=False)
-    except (OSError, subprocess.TimeoutExpired) as exc:
-        print(f"EDITION script writer failed: {exc}", file=sys.stderr)
-        return {}
-    scripts = parse_scripts(done.stdout, {s["slug"] for s in stories})
-    if not scripts:
-        print(f"EDITION script writer gave nothing (exit {done.returncode}): {(done.stdout + done.stderr)[-600:]}", file=sys.stderr)
-    return scripts
+    return parse_scripts(ask_model(prompt, "script writer"), {s["slug"] for s in stories})
 
 
-def parse_scripts(output: str, slugs: set[str]) -> dict[str, str]:
-    start = output.rfind("383_JSON_BEGIN")
-    end = output.find("383_JSON_END", start + 14)
-    if start < 0 or end < 0:
-        return {}
-    try:
-        rows = json.loads(output[start + 14:end])
-    except ValueError:
-        return {}
+def strings(v, n: int, size: int = 120) -> list[str]:
+    return [str(x).strip()[:size] for x in v if isinstance(x, str) and x.strip()][:n] if isinstance(v, list) else []
+
+
+def parse_scripts(output: str, slugs: set[str]) -> dict[str, dict]:
+    rows = between_markers(output)
     out = {}
     for row in rows if isinstance(rows, list) else []:
-        if isinstance(row, dict) and row.get("slug") in slugs and isinstance(row.get("script"), str):
-            out[row["slug"]] = re.sub(r"\s+", " ", row["script"]).strip()
+        if not (isinstance(row, dict) and row.get("slug") in slugs and isinstance(row.get("script"), str)):
+            continue
+        quote = row.get("quote") if isinstance(row.get("quote"), dict) else None
+        out[row["slug"]] = {
+            "script": re.sub(r"\s+", " ", row["script"]).strip(),
+            "subjects": strings(row.get("subjects"), 4),
+            "place": str(row.get("place") or "").strip()[:120],
+            "place_name": str(row.get("place_name") or "").strip()[:40],
+            "facts": [{"value": str(f.get("value", "")).strip(), "label": str(f.get("label", "")).strip()}
+                      for f in row.get("facts", []) if isinstance(f, dict)][:2] if isinstance(row.get("facts"), list) else [],
+            "quote": {"text": str(quote.get("text", "")).strip(), "who": str(quote.get("who", "")).strip()} if quote else None,
+            "youtube": strings(row.get("youtube"), 3, 80) if isinstance(row.get("youtube"), list)
+                       else strings([row.get("youtube")], 1, 80),
+            "sources": strings(row.get("sources"), 4, 80),
+        }
+    return out
+
+
+def check_facts(facts: list[dict], script: str, story: dict) -> list[dict]:
+    """A number shown big must be in the story and said in the script."""
+    source = story_numbers(" ".join(plain(story.get(k)) for k in ("title", "excerpt", "body")))
+    said = numbers_in(script)
+    ok = []
+    for f in facts:
+        nums = numbers_in(f["value"])
+        if nums and nums <= source and nums <= said and len(f["value"]) <= 16 and 2 <= len(f["label"].split()) <= 10:
+            ok.append(f)
+    return ok
+
+
+def flat(text: str) -> str:
+    return re.sub(r"\s+", " ", re.sub(r"[“”„«»\"']", "", text)).strip().lower()
+
+
+def check_quote(quote: dict | None, story: dict) -> dict | None:
+    """A quote is shown only as the story prints it, word for word."""
+    if not quote or not quote.get("text") or not quote.get("who") or len(quote["text"]) > 170:
+        return None
+    body = flat(" ".join(plain(story.get(k)) for k in ("excerpt", "body")))
+    return quote if flat(quote["text"]) in body and flat(quote["who"]).split()[-1] in body else None
+
+
+def pick_footage(found: dict[str, list[dict]], workdir: Path) -> dict[str, list[dict]]:
+    """The model keeps only the people's and institutions' own videos of the event."""
+    found = {slug: c for slug, c in found.items() if c}
+    if not found:
+        return {}
+    brief = workdir / "footage-brief.md"
+    blocks = []
+    for slug, cands in found.items():
+        blocks.append("\n".join([f"## Story {slug}", *[f"- {c['id']} | channel: {c['channel']} | posted {c['posted']} | title: {c['title']}" for c in cands]]))
+    brief.write_text("# Footage candidates\n\n" + "\n\n".join(blocks) + "\n", encoding="utf-8")
+    picked = between_markers(ask_model(f"Read {brief} with the file tool, then follow these rules.\n\n{FOOTAGE_RULES}", "footage judge"))
+    out = {}
+    for slug, cands in found.items():
+        ids = picked.get(slug) if isinstance(picked, dict) and isinstance(picked.get(slug), list) else []
+        out[slug] = [c for c in cands if c["id"] in ids][:2]
     return out
 
 
@@ -197,6 +304,21 @@ def numbers_in(text: str) -> set[str]:
     return {re.sub(r"[.,\s  ]", "", n) for n in found}
 
 
+NUMBER_WORDS = {
+    "një": 1, "dy": 2, "tre": 3, "tri": 3, "katër": 4, "pesë": 5, "gjashtë": 6, "shtatë": 7, "tetë": 8, "nëntë": 9,
+    "dhjetë": 10, "njëmbëdhjetë": 11, "dymbëdhjetë": 12, "trembëdhjetë": 13, "katërmbëdhjetë": 14, "pesëmbëdhjetë": 15,
+    "gjashtëmbëdhjetë": 16, "shtatëmbëdhjetë": 17, "tetëmbëdhjetë": 18, "nëntëmbëdhjetë": 19, "njëzet": 20,
+    "tridhjetë": 30, "dyzet": 40, "pesëdhjetë": 50, "gjashtëdhjetë": 60, "shtatëdhjetë": 70, "tetëdhjetë": 80,
+    "nëntëdhjetë": 90, "njëqind": 100,
+}
+
+
+def story_numbers(text: str) -> set[str]:
+    """The story's numbers, the ones it spells out ("dy dispozita") as well."""
+    words = {str(NUMBER_WORDS[w]) for w in re.findall(r"[a-zçë]+", text.lower()) if w in NUMBER_WORDS}
+    return numbers_in(text) | words
+
+
 def check_script(script: str, story: dict) -> tuple[bool, str]:
     """The script may say only what the story says: its numbers and its names."""
     words = script.split()
@@ -204,7 +326,7 @@ def check_script(script: str, story: dict) -> tuple[bool, str]:
         return False, f"{len(words)} words"
     source = " ".join(plain(story.get(k)) for k in ("title", "excerpt", "body"))
     low = source.lower()
-    missing = numbers_in(script) - numbers_in(source)
+    missing = numbers_in(script) - story_numbers(source)
     if missing:
         return False, "numbers not in the story: " + ", ".join(sorted(missing))
     # A capitalised word that does not start a sentence is a name: the story must have it
@@ -234,47 +356,6 @@ def spoken(text: str) -> str:
     return text
 
 
-# ── 3. The voice ─────────────────────────────────────────────────────────────
-
-async def _voice(text: str) -> tuple[bytes, list[list]]:
-    import edge_tts  # in the edition's venv only
-
-    com = edge_tts.Communicate(text, VOICE, rate=RATE, boundary="WordBoundary")
-    audio = bytearray()
-    words: list[list] = []
-    async for chunk in com.stream():
-        if chunk["type"] == "audio":
-            audio.extend(chunk["data"])
-        elif chunk["type"] == "WordBoundary":
-            start = chunk["offset"] / 1e7
-            words.append([round(start, 2), round(start + chunk["duration"] / 1e7, 2), chunk["text"]])
-    return bytes(audio), words
-
-
-def voice(text: str) -> tuple[bytes, list[list]] | None:
-    for _ in range(2):
-        try:
-            audio, words = asyncio.run(_voice(text))
-        except Exception as exc:  # edge-tts raises its own types; any failure means no voice
-            print(f"EDITION voice failed: {exc}", file=sys.stderr)
-            continue
-        if len(audio) > 4000 and words:
-            return audio, words
-    return None
-
-
-def duration_of(audio: bytes, words: list[list]) -> float:
-    with tempfile.NamedTemporaryFile(suffix=".mp3") as f:
-        f.write(audio)
-        f.flush()
-        try:
-            out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", f.name],
-                                 capture_output=True, text=True, timeout=20, check=False).stdout.strip()
-            return round(float(out), 2)
-        except (OSError, ValueError, subprocess.TimeoutExpired):
-            return round(words[-1][1] + 0.4, 2) if words else 0.0
-
-
 # ── 4. Storage ───────────────────────────────────────────────────────────────
 
 def storage(method: str, path: str, body: bytes | None = None, extra: dict | None = None) -> tuple[int, bytes]:
@@ -295,9 +376,12 @@ def public_url(path: str) -> str:
 
 
 def ensure_bucket() -> None:
-    conf = {"public": True, "allowed_mime_types": ["application/json", "audio/mpeg"]}
+    conf = {"public": True, "allowed_mime_types": ["application/json", "audio/mpeg", "image/jpeg"]}
     if storage("GET", f"bucket/{BUCKET}")[0] != 200:
         storage("POST", "bucket", json.dumps({"id": BUCKET, "name": BUCKET, **conf}).encode(), {"Content-Type": "application/json"})
+    else:
+        # The bucket began with voices only; maps are images.
+        storage("PUT", f"bucket/{BUCKET}", json.dumps(conf).encode(), {"Content-Type": "application/json"})
 
 
 def upload(path: str, body: bytes, kind: str, cache: str) -> bool:
@@ -327,18 +411,39 @@ def save_state(state: dict) -> None:
     tmp.replace(STATE)
 
 
-def make_clip(story: dict, script: str, how: str, now: datetime) -> dict:
+def make_clip(story: dict, script: str, how: str, look: dict, footage: list[dict], now: datetime) -> dict:
+    """The voice, the pictures and the beats of one story's clip."""
     h = story_hash(story)
-    clip = {"hash": h, "script": script, "how": how, "madeAt": now.isoformat(), "audio": "", "duration": 0, "words": []}
-    voiced = voice(spoken(script))
+    clip = {"hash": h, "script": script, "how": how, "madeAt": now.isoformat(), "audio": "", "duration": 0,
+            "words": [], "beats": [], "files": [], "voice": ""}
+    voiced = media.voice_clip(spoken(script))
     if voiced:
-        audio, words = voiced
         path = f"audio/{story['slug']}-{h}.mp3"
-        if upload(path, audio, "audio/mpeg", "31536000"):
-            clip.update(audio=path, duration=duration_of(audio, words), words=words)
+        if upload(path, voiced["mp3"], "audio/mpeg", "31536000"):
+            clip.update(audio=path, duration=voiced["duration"], words=voiced["words"], voice=voiced["voice"])
+            clip["files"].append(path)
     if not clip["audio"]:
         # No voice: the words on screen alone, at an easy reading pace.
         clip["duration"] = round(max(8.0, len(script.split()) / 2.6), 1)
+
+    # The pictures: anything that fails here leaves the story's own photo, never no clip.
+    photos = [{"src": story["imageUrl"], "credit": ""}] if story.get("imageUrl") else []
+    place = None
+    try:
+        titles = look.get("subjects", []) + ([look["place"]] if look.get("place") else [])
+        pages = media.wiki_pages(titles)
+        photos = media.story_photos(story, look.get("subjects", []), pages) or photos
+        where = pages.get(look.get("place", "")) if look.get("place") else None
+        if where and where.get("lat") is not None:
+            jpeg = media.map_image(float(where["lat"]), float(where["lon"]), where.get("dim"))
+            path = f"maps/{story['slug']}-{h}.jpg"
+            if jpeg and upload(path, jpeg, "image/jpeg", "31536000"):
+                place = {"src": public_url(path), "label": look.get("place_name") or look["place"]}
+                clip["files"].append(path)
+    except Exception as exc:  # a picture source misbehaving must not stop the edition
+        print(f"EDITION {story['slug']}: pictures failed ({exc!r})", file=sys.stderr)
+    clip["beats"] = media.build_beats(clip["duration"], clip["words"], photos, look.get("facts", []), place,
+                                      look.get("quote"), footage)
     return clip
 
 
@@ -357,6 +462,7 @@ def edition_entry(story: dict, clip: dict) -> dict:
         "audio": public_url(clip["audio"]) if clip.get("audio") else "",
         "duration": clip.get("duration", 0),
         "words": clip.get("words", []),
+        "beats": clip.get("beats", []),
     }
 
 
@@ -373,36 +479,54 @@ def main(dry_run: bool = False) -> int:
 
     state = load_state()
     clips = state.get("clips", {}) if isinstance(state.get("clips"), dict) else {}
-    retired = [r for r in state.get("retired", []) if isinstance(r, dict) and r.get("audio")]
+    retired = [r for r in state.get("retired", []) if isinstance(r, dict) and (r.get("files") or r.get("audio"))]
     fresh = [s for s in stories if (clips.get(s["slug"]) or {}).get("hash") != story_hash(s)]
     print(f"EDITION {len(stories)} stories, {len(fresh)} new or changed")
 
     with tempfile.TemporaryDirectory(prefix="383-edition-") as tmp:
         written = write_scripts(fresh, Path(tmp))
-    if not dry_run:
-        ensure_bucket()
-    for s in fresh:
-        script, how = written.get(s["slug"], ""), "model"
-        ok, why = check_script(script, s) if script else (False, "no script")
-        if not ok:
-            print(f"EDITION {s['slug']}: own words ({why})")
-            script, how = fallback_script(s), "story"
-        if dry_run:
-            print(f"--- {s['slug']} [{how}]\n{script}\n")
-            continue
-        before = (clips.get(s["slug"]) or {}).get("audio")
-        clips[s["slug"]] = make_clip(s, script, how, now)
-        # A story that changed gets a new clip. Its old voice stays a day: pages
-        # cached on the site may still play it.
-        if before and before != clips[s["slug"]].get("audio"):
-            retired.append({"audio": before, "at": now.isoformat()})
+        looks: dict[str, dict] = {}
+        for s in fresh:
+            w = written.get(s["slug"]) or {}
+            script, how = w.get("script", ""), "model"
+            ok, why = check_script(script, s) if script else (False, "no script")
+            if not ok:
+                print(f"EDITION {s['slug']}: own words ({why})")
+                script, how = fallback_script(s), "story"
+            looks[s["slug"]] = {
+                "script": script, "how": how,
+                "subjects": w.get("subjects", []), "place": w.get("place", ""), "place_name": w.get("place_name", ""),
+                "facts": check_facts(w.get("facts", []), script, s), "quote": check_quote(w.get("quote"), s),
+            }
+        found = {s["slug"]: media.footage_candidates((written.get(s["slug"]) or {}).get("youtube", []),
+                                                     (written.get(s["slug"]) or {}).get("sources", []),
+                                                     ((written.get(s["slug"]) or {}).get("subjects") or [""])[0]) for s in fresh}
+        footage = pick_footage(found, Path(tmp))
     if dry_run:
+        for s in fresh:
+            print(f"--- {s['slug']} [{looks[s['slug']]['how']}]\n{json.dumps(looks[s['slug']], ensure_ascii=False, indent=1)}\n"
+                  f"footage: {footage.get(s['slug'])} of {len(found.get(s['slug']) or [])}\n")
         return 0
+    ensure_bucket()
+    for s in fresh:
+        look = looks[s["slug"]]
+        before = clips.get(s["slug"]) or {}
+        clips[s["slug"]] = make_clip(s, look["script"], look["how"], look, footage.get(s["slug"], []), now)
+        beats = clips[s["slug"]]["beats"]
+        print(f"EDITION {s['slug']}: {clips[s['slug']]['voice'] or 'no voice'}, {len(beats)} beats, "
+              f"{len({b['src'] for b in beats if b['kind'] == 'photo'})} photos "
+              f"({', '.join(sorted({b['kind'] for b in beats}))}); footage {len(footage.get(s['slug']) or [])} "
+              f"of {len(found.get(s['slug']) or [])}")
+        # A story that changed gets a new clip. Its old files stay a day: pages
+        # cached on the site may still play them.
+        old_files = before.get("files") or ([before["audio"]] if before.get("audio") else [])
+        stale = [f for f in old_files if f not in clips[s["slug"]]["files"]]
+        if stale:
+            retired.append({"files": stale, "at": now.isoformat()})
 
     edition = {
         "date": now.astimezone(KOSOVO).date().isoformat(),
         "updatedAt": now.isoformat(),
-        "voice": VOICE,
         "clips": [edition_entry(s, clips[s["slug"]]) for s in stories if s["slug"] in clips],
     }
     if not upload(INDEX, json.dumps(edition, ensure_ascii=False).encode("utf-8"), "application/json", "60"):
@@ -414,7 +538,8 @@ def main(dry_run: bool = False) -> int:
     old = [slug for slug, c in clips.items()
            if slug not in live and now - datetime.fromisoformat(c.get("madeAt", now.isoformat())) > KEEP_AUDIO]
     gone = [r for r in retired if now - datetime.fromisoformat(r.get("at", now.isoformat())) > timedelta(days=1)]
-    remove([clips[slug]["audio"] for slug in old if clips[slug].get("audio")] + [r["audio"] for r in gone])
+    remove([f for slug in old for f in (clips[slug].get("files") or [clips[slug].get("audio")]) if f]
+           + [f for r in gone for f in (r.get("files") or [r.get("audio")]) if f])
     for slug in old:
         clips.pop(slug, None)
     save_state({"clips": clips, "retired": [r for r in retired if r not in gone], "lastRun": now.isoformat()})

@@ -9,7 +9,17 @@ import { getCategoryColor } from "@/lib/category-colors";
  * then the reader is caught up.
  */
 
-export type EditionWord = [start: number, end: number, text: string];
+/** A word as it is said; `pause` is 1 where the script has a comma or a stop after it. */
+export type EditionWord = [start: number, end: number, text: string, pause?: number];
+
+/** What is on screen from `at` seconds until the next beat. */
+export type EditionBeat =
+  | { at: number; kind: "photo"; src: string; credit: string; move: "in" | "out" | "left" | "right" }
+  | { at: number; kind: "fact"; value: string; label: string }
+  | { at: number; kind: "quote"; text: string; who: string }
+  | { at: number; kind: "map"; src: string; label: string; credit: string }
+  | { at: number; kind: "video"; youtube: string; channel: string; start: number }
+  | { at: number; kind: "plain" };
 
 export type EditionClip = {
   slug: string;
@@ -31,6 +41,8 @@ export type EditionClip = {
   /** Seconds. */
   duration: number;
   words: EditionWord[];
+  /** The pictures, changing every few seconds; [] for a clip made before beats (the story's photo alone). */
+  beats: EditionBeat[];
 };
 
 export type Edition = {
@@ -55,7 +67,34 @@ const str = (v: unknown) => (typeof v === "string" ? v : "");
 
 /** Commons serves standard thumbnail widths; 1280 fills an upright phone screen. */
 function sized(url: string) {
-  return url.replace(/\/(\d{3,4})px-([^/]+)$/, (m, w, name) => (Number(w) > 1280 ? `/1280px-${name}` : m)).replace(/\?utm_[^#]*$/, "");
+  return url.replace(/\?utm_[^#]*$/, "").replace(/\/(\d{3,4})px-([^/]+)$/, (m, w, name) => (Number(w) > 1280 ? `/1280px-${name}` : m));
+}
+
+const MOVES = new Set(["in", "out", "left", "right"]);
+
+/** Each beat checked: pictures only over https, footage only as a YouTube id. */
+function parseBeats(v: unknown, duration: number): EditionBeat[] {
+  if (!Array.isArray(v)) return [];
+  const out: EditionBeat[] = [];
+  for (const b of v as Record<string, unknown>[]) {
+    const at = typeof b?.at === "number" && b.at >= 0 && b.at < duration ? b.at : -1;
+    if (at < 0 || (out.length && at <= out[out.length - 1].at)) continue;
+    const src = str(b?.src);
+    if (b?.kind === "photo" && /^https:\/\//.test(src)) {
+      out.push({ at, kind: "photo", src: sized(src), credit: str(b?.credit).slice(0, 120), move: (MOVES.has(str(b?.move)) ? str(b?.move) : "in") as "in" });
+    } else if (b?.kind === "fact" && str(b?.value) && str(b?.label)) {
+      out.push({ at, kind: "fact", value: str(b?.value).slice(0, 18), label: str(b?.label).slice(0, 80) });
+    } else if (b?.kind === "quote" && str(b?.text) && str(b?.who)) {
+      out.push({ at, kind: "quote", text: str(b?.text).slice(0, 180), who: str(b?.who).slice(0, 60) });
+    } else if (b?.kind === "map" && /^https:\/\//.test(src)) {
+      out.push({ at, kind: "map", src, label: str(b?.label).slice(0, 40), credit: str(b?.credit).slice(0, 40) });
+    } else if (b?.kind === "video" && /^[A-Za-z0-9_-]{11}$/.test(str(b?.youtube))) {
+      out.push({ at, kind: "video", youtube: str(b?.youtube), channel: str(b?.channel).slice(0, 80), start: typeof b?.start === "number" ? Math.max(0, Math.floor(b.start)) : 0 });
+    } else if (b?.kind === "plain") {
+      out.push({ at, kind: "plain" });
+    }
+  }
+  return out[0]?.at === 0 ? out : [];
 }
 
 function parseWords(v: unknown): EditionWord[] {
@@ -63,7 +102,7 @@ function parseWords(v: unknown): EditionWord[] {
   const out: EditionWord[] = [];
   for (const w of v) {
     if (Array.isArray(w) && typeof w[0] === "number" && typeof w[1] === "number" && typeof w[2] === "string" && w[2]) {
-      out.push([w[0], w[1], w[2]]);
+      out.push([w[0], w[1], w[2], w[3] === 1 ? 1 : 0]);
     }
   }
   return out;
@@ -104,6 +143,7 @@ export function parseEdition(raw: unknown, now = Date.now()): Edition | null {
       audio: audio.startsWith(audioBase) ? audio : "",
       duration,
       words: parseWords(c?.words),
+      beats: parseBeats(c?.beats, duration),
     });
   }
   return clips.length ? { date: str(data?.date), updatedAt, clips } : null;
@@ -118,7 +158,7 @@ const readEdition = unstable_cache(
       return null;
     }
   },
-  ["video-edition-v1"],
+  ["video-edition-v2"],
   { revalidate: 300 }
 );
 

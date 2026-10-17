@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getArticles, getArticlesBefore, getArticlesBySlugs, getLatestArticles } from "@/lib/db";
+import { getArticleBySlug, getArticles, getArticlesBefore, getLatestArticles } from "@/lib/db";
 import { freshNews } from "@/lib/fresh-news.mjs";
 import { pickFrontPage } from "@/lib/front-page.mjs";
 
@@ -16,10 +16,11 @@ export async function GET() {
   const now = Date.now();
   const pool = freshNews([...ranked, ...recent, ...latest], { now, count: 200 });
   const picked = pickFrontPage(pool, 7, now);
-  // The pool's lists carry no bodies; the clip is written from the whole story.
-  const full = new Map((await getArticlesBySlugs(picked.map((a) => a.slug))).map((a) => [a.slug, a]));
-  const stories = picked.map((a) => {
-    const f = full.get(a.slug) ?? a;
+  // The pool's lists carry no bodies or photo credits; the clip is written
+  // from the whole story, and its photo is credited the way the story page credits it.
+  const full = await Promise.all(picked.map((a) => getArticleBySlug(a.slug)));
+  const stories = picked.map((a, i) => {
+    const f = full[i] ?? a;
     return {
       slug: f.slug,
       title: f.title,

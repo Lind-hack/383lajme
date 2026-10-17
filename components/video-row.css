@@ -345,30 +345,206 @@
   overflow: hidden;
   background: #000000;
 }
-/* The story's photo, drifting slowly for as long as the voice reads (one way,
-   then the other way on the next story), and still while paused. */
-.vr-photo {
+/* ── The stage: the pictures of one clip ─────────────────────────────────
+   A new picture every three or four seconds. Each comes in over the one
+   before it (which stays put underneath, so a change never shows black):
+   a short fade out of a soft blur, the one moment of motion each beat has.
+   A photo then drifts for as long as it is on screen, a different way each
+   time, and stands still while the clip is paused. */
+.vr-stage { position: absolute; inset: 0; z-index: 0; overflow: hidden; background: #0B0B0B; }
+.vr-beat { position: absolute; inset: 0; }
+.vr-shot { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.vr-photo-none { background: linear-gradient(160deg, var(--c), #0B0B0B 80%); }
+/* The next beat, mounted ahead and hidden until its time. */
+.vr-stage [data-next] { visibility: hidden; opacity: 0; animation: none !important; }
+/* Footage is transparent rather than hidden: Chrome will not start a video
+   that loads hidden, so this one starts playing before its turn. */
+.vr-stage .vr-footage[data-next] { visibility: visible; pointer-events: none; }
+.vr-stage .vr-shot { animation: vr-move-in var(--len, 4s) linear both paused; }
+.vr-stage .vr-shot[data-move="out"] { animation-name: vr-move-out; }
+.vr-stage .vr-shot[data-move="left"] { animation-name: vr-move-left; }
+.vr-stage .vr-shot[data-move="right"] { animation-name: vr-move-right; }
+.vr-stage[data-playing] .vr-shot { animation-play-state: running; }
+.vr-stage .vr-beat[data-enter] { animation: vr-beat-in 420ms var(--vr-ease-out) both; }
+.vr-stage .vr-shot[data-enter] { animation: vr-beat-in 420ms var(--vr-ease-out) both, vr-move-in var(--len, 4s) linear both; }
+.vr-stage .vr-shot[data-enter][data-move="out"] { animation-name: vr-beat-in, vr-move-out; }
+.vr-stage .vr-shot[data-enter][data-move="left"] { animation-name: vr-beat-in, vr-move-left; }
+.vr-stage .vr-shot[data-enter][data-move="right"] { animation-name: vr-beat-in, vr-move-right; }
+/* Paused: the drift stops; a fade already under way still finishes. */
+.vr-stage:not([data-playing]) .vr-shot[data-enter] { animation-play-state: running, paused; }
+@keyframes vr-beat-in {
+  from { opacity: 0; filter: blur(10px); }
+  to { opacity: 1; filter: none; }
+}
+@keyframes vr-move-in {
+  from { transform: scale(1.02); }
+  to { transform: scale(1.14); }
+}
+@keyframes vr-move-out {
+  from { transform: scale(1.15); }
+  to { transform: scale(1.03); }
+}
+@keyframes vr-move-left {
+  from { transform: scale(1.12) translateX(3.5%); }
+  to { transform: scale(1.12) translateX(-3.5%); }
+}
+@keyframes vr-move-right {
+  from { transform: scale(1.12) translateX(-3.5%); }
+  to { transform: scale(1.12) translateX(3.5%); }
+}
+
+/* Behind a card, the last photo stays: blurred and dimmed, a room the card
+   sits in rather than a black void. It lies over the photos and under the
+   cards, so it covers whichever photo is still there. */
+.vr-backdrop {
   position: absolute;
-  inset: 0;
-  z-index: 0;
+  z-index: 1;
+  inset: -40px;
+  width: calc(100% + 80px);
+  height: calc(100% + 80px);
+  object-fit: cover;
+  opacity: 0;
+  filter: blur(26px) saturate(1.15) brightness(0.5);
+  transition: opacity 420ms ease;
+}
+.vr-stage[data-card] .vr-backdrop { opacity: 1; }
+
+/* The cards: a number, a quote, the map, footage. All sit in the same place,
+   the upper middle of the screen, clear of the buttons, the words and the
+   story's line; they rise into it. */
+.vr-panel,
+.vr-mapcard,
+.vr-footage {
+  z-index: 2;
+  top: calc(max(8px, env(safe-area-inset-top)) + 96px);
+  right: 76px;
+  bottom: auto;
+  left: 18px;
+  margin: 0 auto;
+}
+.vr-stage .vr-panel[data-enter],
+.vr-stage .vr-mapcard[data-enter],
+.vr-stage .vr-footage[data-enter] { animation: vr-card-in 520ms var(--vr-ease-out) both; }
+.vr-stage .vr-beat[data-gone] { animation: vr-card-out 240ms ease-out both; }
+@keyframes vr-card-out {
+  to { opacity: 0; transform: scale(0.98); }
+}
+@keyframes vr-card-in {
+  from { opacity: 0; filter: blur(8px); transform: translateY(18px) scale(0.97); }
+  to { opacity: 1; filter: none; transform: none; }
+}
+/* Cream paper, ink type, the section's colour bar: the site's own card. */
+.vr-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 420px;
+  padding: 26px 24px 22px;
+  border-radius: 24px;
+  background: #F9F6F1;
+  color: #111111;
+  box-shadow: 0 24px 50px -18px rgba(0, 0, 0, 0.6), 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.vr-fact-value {
+  font-size: clamp(56px, 17vw, 84px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  text-wrap: balance;
+}
+.vr-panel-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #3A3733;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.vr-panel-label i { flex: none; width: 4px; height: 1.35em; border-radius: 2px; background: var(--c, #FF4422); }
+.vr-quote { gap: 12px; margin: 0 auto; }
+.vr-quote-mark { color: #FF4422; }
+.vr-quote blockquote { margin: 0; font-size: clamp(20px, 5.8vw, 25px); font-weight: 800; line-height: 1.28; letter-spacing: -0.015em; text-wrap: pretty; }
+.vr-quote figcaption { font-size: 12px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #6B6B6B; }
+
+/* The map: the place itself, a pin that pulses once a second, its name. */
+.vr-mapcard {
+  max-width: 340px;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #E8E3DB;
+  box-shadow: 0 24px 50px -18px rgba(0, 0, 0, 0.6), 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.vr-mapcard img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.55) sepia(0.18) contrast(1.04); }
+.vr-pin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border: 3px solid #FFFFFF;
+  border-radius: 50%;
+  background: #FF4422;
+  box-shadow: 0 4px 12px rgba(17, 17, 17, 0.35);
+}
+.vr-pin::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: rgba(255, 68, 34, 0.45);
+  animation: vr-pulse 1.4s var(--vr-ease-out) infinite;
+}
+@keyframes vr-pulse {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(3.6); }
+}
+.vr-map-label {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #111111;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+/* Footage: the people's own video in YouTube's own player, framed on its
+   own with nothing drawn over it, its channel named beneath. */
+.vr-footage { display: flex; flex-direction: column; align-items: center; gap: 10px; max-width: 560px; }
+.vr-footage-frame {
+  position: relative;
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #1A1A1A;
+  box-shadow: 0 24px 50px -18px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
-.vr-photo-none { background: linear-gradient(160deg, var(--c), #0B0B0B 80%); }
-.vr-slide[data-active] .vr-photo { animation: vr-drift var(--kb, 30s) linear both paused; }
-.vr-slide[data-active] .vr-photo[data-dir] { animation-name: vr-drift-back; }
-.vr-slide[data-playing] .vr-photo { animation-play-state: running; }
-@keyframes vr-drift {
-  from { transform: scale(1.04) translateX(-2%); }
-  to { transform: scale(1.16) translateX(2%); }
+.vr-footage-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: none; }
+.vr-footage-src {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.6);
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 800;
+  backdrop-filter: blur(10px);
 }
-@keyframes vr-drift-back {
-  from { transform: scale(1.16) translateX(2%); }
-  to { transform: scale(1.04) translateX(-2%); }
-}
+.vr-footage-src svg { color: #FF4422; }
 
 /* Leaving and arriving videos sink back a little and dim as they cross the
    screen: depth to the scroll, off the main thread (a scroll-driven
@@ -523,33 +699,42 @@
 .vr-start:active span { transform: scale(0.94); }
 .vr-start:focus-visible span { outline: 3px solid #FFFFFF; outline-offset: 3px; }
 
-/* The words as they are said: a few at a time, big, the one being said in
-   the brand's orange. A new line just appears: it changes every second or
-   two, and motion there would only tire. */
+/* The words as they are said, in the lower third just above the story's
+   line: Manrope, heavy, white on a soft layered shadow so they read on any
+   picture. The word being said sits on the brand's orange pill (the site's
+   own button shape); the words still to come wait a step dimmer. A new line
+   just appears: it changes every second or two, and motion there would
+   only tire. */
 .vr-caption {
   position: absolute;
-  top: 50%;
   right: 76px;
-  left: 18px;
+  bottom: calc(max(20px, env(safe-area-inset-bottom)) + 164px);
+  left: 16px;
   z-index: 2;
   display: flex;
-  justify-content: center;
-  text-align: center;
+  justify-content: flex-start;
   pointer-events: none;
-  transform: translateY(-50%);
 }
-.vr-caption-line { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 8px; }
+.vr-caption-line { display: flex; flex-wrap: wrap; gap: 4px 2px; max-width: 15em; }
 .vr-caption-line span,
 .vr-caption-plain {
+  padding: 0.04em 0.2em;
+  border-radius: 0.24em;
   color: #FFFFFF;
-  font-size: clamp(24px, 7.2vw, 32px);
-  font-weight: 900;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.55), 0 0 22px rgba(0, 0, 0, 0.45);
+  font-size: clamp(23px, 6.6vw, 30px);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55), 0 3px 10px rgba(0, 0, 0, 0.45), 0 8px 28px rgba(0, 0, 0, 0.35);
 }
-.vr-caption-line span[data-now] { color: #FF6A3D; }
-.vr-caption-plain { font-size: clamp(18px, 5vw, 22px); font-weight: 800; line-height: 1.35; }
+.vr-caption-line span:not([data-said]):not([data-now]) { color: rgba(255, 255, 255, 0.8); }
+.vr-caption-line span[data-now] {
+  background: #FF4422;
+  color: #FFFFFF;
+  text-shadow: none;
+  box-shadow: 0 6px 18px -4px rgba(255, 68, 34, 0.55), 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+.vr-caption-plain { font-size: clamp(18px, 5vw, 22px); line-height: 1.35; }
 
 /* The story's line on a fade at the bottom, coming up as the screen settles. */
 .vr-info {
@@ -904,7 +1089,10 @@
   .vr-info { padding-right: 14px; }
   .vr-segs { width: calc(min(92dvh, 900px) * 9 / 16); margin: 0 auto; }
   .vr-caption { right: 18px; }
-  .vr-caption-line span { font-size: 30px; }
+  .vr-caption-line span { font-size: 28px; }
+  .vr-panel,
+  .vr-mapcard,
+  .vr-footage { right: 18px; }
   .vr-side { position: relative; right: auto; bottom: auto; align-self: flex-end; margin-bottom: max(4dvh, 24px); }
   .vr-acts { gap: 22px; }
   .vr-desk-nav { position: absolute; top: 50%; right: 24px; z-index: 4; display: flex; flex-direction: column; gap: 10px; transform: translateY(-50%); }
@@ -923,7 +1111,8 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .vr-card, .vr-poster, .vr-play, .vr-play::after, .vr-all, .vr-nav button, .vr-act-icon, .vr-end-btn, .vr-start span { transition: none; }
-  .vr-slide[data-active] .vr-photo { animation: none; }
+  .vr-stage .vr-shot, .vr-pin::after { animation: none !important; }
+  .vr-stage .vr-beat[data-enter], .vr-stage .vr-panel[data-enter], .vr-stage .vr-mapcard[data-enter], .vr-stage .vr-footage[data-enter] { animation: vr-fade 200ms ease both !important; }
   .vr-card:hover, .vr-card:active { transform: none; }
   .vr-frame { animation: none; }
   .vr-burst svg, .vr-burst i, .vr-fly { animation-duration: 1ms; }
