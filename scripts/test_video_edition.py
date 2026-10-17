@@ -114,5 +114,115 @@ class MediaTests(unittest.TestCase):
         self.assertTrue(all(a != b for a, b in zip(shown, shown[1:])))
 
 
+
+import re  # noqa: E402
+
+import video_edition_render as render  # noqa: E402
+
+LIB = {
+    "burns": [{"file": f"burns/burn{n:02d}.mp4", "duration": 1.6, "peak": 0.7, "sound": f"burns/burn{n:02d}.wav"} for n in range(2, 6)],
+    "sfx": {k: [{"file": f"sfx/{k}-{n}.wav", "duration": 3.0 if k in ("riser", "swell") else 1.0} for n in (1, 2)]
+            for k in ("whoosh", "swish", "riser", "swell", "impact", "boom", "pop", "shutter", "tick")},
+    "music": {m: [{"file": f"music/{m}-1.m4a", "duration": 60}] for m in render.MOODS},
+}
+
+
+def said(text, step=0.4):
+    return [[round(i * step, 2), round(i * step + step - 0.05, 2), w, 0] for i, w in enumerate(text.split())]
+
+
+WORDS = said("Qeveria miratoi sot buxhetin e ri me 90 mijë vende pune të reja për të rinjtë e Kosovës dhe "
+             "opozita tha se kjo është një fitore e madhe për qytetarët por jo e mjaftueshme sipas saj sot")
+BEATS = [{"at": 0.0, "kind": "photo", "src": "a", "move": "in"}, {"at": 3.0, "kind": "photo", "src": "b", "move": "left"},
+         {"at": 6.0, "kind": "fact", "value": "90 mijë", "label": "vende pune të reja"},
+         {"at": 9.2, "kind": "video", "file": "/x.mp4", "credit": "Video: Qeveria · YouTube"},
+         {"at": 12.0, "kind": "photo", "src": "c", "move": "out"}, {"at": 15.0, "kind": "map", "src": "m", "label": "Prishtina"},
+         {"at": 18.0, "kind": "photo", "src": "a", "move": "right"}]
+META = {"mood": "serious", "hook": "Qeveria miratoi sot buxhetin e ri", "climax": "një fitore e madhe", "emphasis": ["90", "opozita"]}
+
+
+class CueTests(unittest.TestCase):
+    def cues(self, **kw):
+        return render.build_cues(BEATS, 22.0, WORDS, {**META, **kw}, LIB, "story-slug")
+
+    def test_one_move_per_beat_and_the_clip_opens_on_a_burn(self):
+        c = self.cues()
+        self.assertEqual(len(c["moves"]), len(BEATS))
+        self.assertEqual(c["moves"][0], "burn")
+
+    def test_burns_are_few_and_far_apart(self):
+        cuts = [b["cut"] for b in self.cues()["burns"]]
+        self.assertLessEqual(len(cuts), render.MAX_BURNS)
+        self.assertTrue(all(b - a >= render.BURN_GAP for a, b in zip(cuts, cuts[1:])))
+
+    def test_the_riser_lands_on_the_climax_and_a_boom_hits_it(self):
+        c = self.cues()
+        start = render._word_at(WORDS, META["climax"])[0]
+        risers = [s for s in c["sfx"] if s["kind"] == "riser"]
+        self.assertTrue(any(abs(s["at"] + 3.0 - start) < 0.01 for s in risers))
+        self.assertTrue(any(s["kind"] == "boom" and abs(s["at"] - start) < 0.01 for s in c["sfx"]))
+
+    def test_a_number_card_ticks_and_hits(self):
+        kinds = {s["kind"] for s in self.cues()["sfx"] if 6.0 <= s["at"] <= 7.0}
+        self.assertTrue({"tick", "impact"} <= kinds)
+
+    def test_same_story_same_cut(self):
+        self.assertEqual(self.cues(), self.cues())
+
+    def test_music_follows_the_mood(self):
+        self.assertEqual(self.cues(mood="tense")["music"], "music/tense-1.m4a")
+        self.assertEqual(render.mood_for("Sport", ""), "bright")
+        self.assertEqual(render.mood_for("Politikë", "calm"), "calm")
+
+    def test_no_sound_before_the_clip_starts(self):
+        self.assertTrue(all(s["at"] >= 0 for s in self.cues()["sfx"]))
+
+
+class ComposeTests(unittest.TestCase):
+    def html(self):
+        cues = render.build_cues(BEATS, 22.0, WORDS, META, LIB, "story-slug")
+        clip = {"duration": 22.0, "words": WORDS, "title": "Qeveria miratoi buxhetin", "category": "Politikë"}
+        return render.compose(clip, BEATS, cues, META, {"a": "img0.jpg", "b": "img1.jpg", "c": "img4.jpg", "m": "img5.jpg", "/x.mp4": "foot3.mp4"})
+
+    def test_clips_on_one_track_never_overlap(self):
+        spans = {}
+        for start, dur, track in re.findall(r'data-start="([\d.]+)" data-duration="([\d.]+)"[^>]*data-track-index="(\d+)"', self.html()):
+            spans.setdefault(track, []).append((float(start), float(start) + float(dur)))
+        for track, s in spans.items():
+            s.sort()
+            self.assertTrue(all(b[0] >= a[1] - 1e-6 for a, b in zip(s, s[1:])), f"track {track} overlaps: {s}")
+
+    def test_every_word_is_on_screen_and_the_timeline_is_registered(self):
+        page = self.html()
+        self.assertEqual(page.count('class="w'), len(WORDS))
+        self.assertIn("window.__timelines['root']", page)
+        self.assertIn('data-composition-id="root"', page)
+
+    def test_text_is_escaped(self):
+        clip = {"duration": 5.0, "words": said("a <b> c"), "title": "<script>x</script>", "category": "A&B"}
+        beats = [{"at": 0.0, "kind": "plain"}]
+        page = render.compose(clip, beats, {"moves": ["cut"], "burns": [], "sfx": [], "music": ""}, {}, {})
+        self.assertNotIn("<script>x", page)
+        self.assertIn("&lt;b&gt;", page)
+
+    def test_a_number_counts_up_to_what_is_said(self):
+        self.assertEqual(render.count_target("90 mijë"), (90, 0, "", " mijë"))
+        self.assertEqual(render.count_target("3,5 për qind"), (3.5, 1, "", " për qind"))
+        self.assertEqual(render.count_target("16.000 euro")[0], 16000)
+        self.assertIsNone(render.count_target("shumë"))
+
+
+class FeelTests(unittest.TestCase):
+    def test_cues_are_kept_only_when_they_are_the_scripts_words(self):
+        script = "Qeveria miratoi sot buxhetin e ri. Opozita tha se kjo është një fitore e madhe."
+        got = ve.check_feel({"mood": "serious", "hook": "Qeveria miratoi sot buxhetin e ri.", "climax": "një fitore e madhe",
+                             "emphasis": ["Opozita", "Kurti"]}, script)
+        self.assertEqual(got["climax"], "një fitore e madhe")
+        self.assertEqual(got["emphasis"], ["Opozita"])
+        self.assertTrue(got["hook"])
+        bad = ve.check_feel({"mood": "angry", "hook": "Diçka tjetër", "climax": "fitore e pamundur"}, script)
+        self.assertEqual((bad["mood"], bad["hook"], bad["climax"]), ("", "", ""))
+
+
 if __name__ == "__main__":
     unittest.main()

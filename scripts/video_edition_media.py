@@ -311,13 +311,20 @@ def depicting(qid: str, n: int = 3) -> list[str]:
     """Commons photos whose structured data says they show this item."""
     if not re.fullmatch(r"Q\d+", qid or ""):
         return []
-    q = urllib.parse.urlencode({"action": "query", "format": "json", "list": "search", "srnamespace": "6", "srlimit": str(n + 3),
-                                "srsearch": f"haswbstatement:P180={qid} filemime:image/jpeg"})
-    try:
-        data = http_json(f"{COMMONS}?{q}")
-    except (urllib.error.URLError, TimeoutError, ValueError):
-        return []
-    return [r["title"].removeprefix("File:") for r in (data.get("query") or {}).get("search", [])][: n + 3]
+    found: list[str] = []
+    # Commons' own "quality images" first, then the newest uploads: a plain search
+    # brings up old engravings and 19th-century plates as readily as today's photos.
+    for extra, sort in ((" incategory:Quality_images", "relevance"), ("", "create_timestamp_desc")):
+        q = urllib.parse.urlencode({"action": "query", "format": "json", "list": "search", "srnamespace": "6", "srlimit": str(n + 3),
+                                    "srsort": sort, "srsearch": f"haswbstatement:P180={qid} filemime:image/jpeg{extra}"})
+        try:
+            data = http_json(f"{COMMONS}?{q}")
+        except (urllib.error.URLError, TimeoutError, ValueError):
+            continue
+        found += [r["title"].removeprefix("File:") for r in (data.get("query") or {}).get("search", [])]
+        if len(found) >= n:
+            break
+    return list(dict.fromkeys(found))[: n + 3]
 
 
 def photo_info(files: list[str]) -> list[dict]:
@@ -326,7 +333,8 @@ def photo_info(files: list[str]) -> list[dict]:
     out = []
     for i in range(0, len(files), 20):
         q = urllib.parse.urlencode({"action": "query", "format": "json", "formatversion": "2", "prop": "imageinfo",
-                                    "iiprop": "url|size|extmetadata|mime", "iiurlwidth": "1280",
+                                    # 1920 wide: the rendered video fills an upright 1080x1920 frame with it.
+                                    "iiprop": "url|size|extmetadata|mime", "iiurlwidth": "1920",
                                     "titles": "|".join("File:" + f for f in files[i:i + 20])})
         try:
             data = http_json(f"{COMMONS}?{q}")
@@ -542,10 +550,144 @@ def footage_candidates(queries: list[str], sources: list[str], subject: str = ""
     return out
 
 
+# ── Footage clips, cut for the rendered video ────────────────────────────────
+# A few seconds of moving picture each, upright 1080x1920, no sound, credited
+# on screen: first the people's and institutions' own YouTube videos of the
+# event (through yt-dlp with a YouTube cookie: YouTube refuses the VPS
+# without one), then freely licensed video of the story's people and places
+# on Wikimedia Commons, then a Pexels shot of the city it happened in.
+
+FOOT_DIR = os.environ.get("L383_EDITION_DIR", "/opt/data/video-edition")
+YTDLP = os.environ.get("L383_EDITION_YTDLP", os.path.join(FOOT_DIR, "yt-dlp"))
+YT_COOKIES = os.environ.get("L383_EDITION_YT_COOKIES", os.path.join(FOOT_DIR, "youtube-cookies.txt"))
+SEGMENT = 4.6  # seconds cut; a beat shows up to 3.8 of them
+
+
+def cut_segment(src: str, start: float, length: float, out: str) -> bool:
+    """A piece of a video (a file or a URL), filling an upright frame, silent."""
+    done = subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{start:.2f}", "-i", src, "-t", f"{length:.2f}",
+                           "-vf", "scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,fps=30,format=yuv420p",
+                           "-an", "-c:v", "libx264", "-preset", "veryfast", "-crf", "17", out],
+                          capture_output=True, timeout=240, check=False)
+    return done.returncode == 0 and os.path.exists(out) and os.path.getsize(out) > 30_000
+
+
+def probe_duration(src: str) -> float:
+    try:
+        out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", src],
+                             capture_output=True, text=True, timeout=60, check=False).stdout.strip()
+        return float(out)
+    except (OSError, ValueError, subprocess.TimeoutExpired):
+        return 0.0
+
+
+def youtube_clips(videos: list[dict], workdir: str, per_video: int = 2) -> list[dict]:
+    """Pieces of the picked YouTube videos (the judge kept only primary sources)."""
+    if not (videos and os.path.exists(YTDLP) and os.path.exists(YT_COOKIES)):
+        return []
+    out = []
+    base = [YTDLP, "--cookies", YT_COOKIES, "--js-runtimes", "node", "--remote-components", "ejs:github", "--no-playlist", "--no-warnings", "-q"]
+    for v in videos[:2]:
+        url = f"https://www.youtube.com/watch?v={v['id']}"
+        try:
+            meta = json.loads(subprocess.run(base + ["-J", url], capture_output=True, text=True, timeout=120, check=False).stdout or "{}")
+        except (OSError, ValueError, subprocess.TimeoutExpired):
+            continue
+        length = float(meta.get("duration") or 0)
+        if length < 8:
+            continue
+        # Past any intro, two moments far apart.
+        for n, frac in enumerate((0.22, 0.55)[:per_video]):
+            start = max(3.0, min(length - SEGMENT - 1, length * frac))
+            raw = os.path.join(workdir, f"yt-{v['id']}-{n}.mp4")
+            subprocess.run(base + ["-f", "bv*[height<=1080][vcodec^=avc1]/bv*[height<=1080]", "--download-sections",
+                                   f"*{start:.1f}-{start + SEGMENT + 1:.1f}", "-o", raw, url],
+                           capture_output=True, timeout=300, check=False)
+            got = next((os.path.join(workdir, f) for f in os.listdir(workdir) if f.startswith(f"yt-{v['id']}-{n}")), "")
+            seg = os.path.join(workdir, f"foot-yt-{v['id']}-{n}.mp4")
+            if got and cut_segment(got, 0.3, SEGMENT, seg):
+                out.append({"file": seg, "credit": f"Video: {v['channel']} · YouTube", "duration": SEGMENT,
+                            "source": url, "youtube": v["id"], "channel": v["channel"]})
+    if videos and not out:
+        print("EDITION youtube footage: none downloaded (cookie missing or refused)", file=sys.stderr)
+    return out
+
+
+def commons_clips(qids: list[str], workdir: str, limit: int = 1) -> list[dict]:
+    """Freely licensed video on Wikimedia Commons that shows the story's people or places."""
+    files: list[str] = []
+    for qid in [q for q in qids if re.fullmatch(r"Q\d+", q or "")][:4]:
+        q = urllib.parse.urlencode({"action": "query", "format": "json", "list": "search", "srnamespace": "6", "srlimit": "4",
+                                    "srsearch": f"haswbstatement:P180={qid} filemime:video"})
+        try:
+            files += [r["title"] for r in (http_json(f"{COMMONS}?{q}").get("query") or {}).get("search", [])]
+        except (urllib.error.URLError, TimeoutError, ValueError):
+            continue
+    out = []
+    for title in dict.fromkeys(files):
+        q = urllib.parse.urlencode({"action": "query", "format": "json", "formatversion": "2", "prop": "imageinfo",
+                                    "iiprop": "url|extmetadata|size", "titles": title})
+        try:
+            ii = ((http_json(f"{COMMONS}?{q}").get("query") or {}).get("pages") or [{}])[0].get("imageinfo", [{}])[0]
+        except (urllib.error.URLError, TimeoutError, ValueError, IndexError):
+            continue
+        meta = ii.get("extmetadata") or {}
+        licence = strip_html((meta.get("LicenseShortName") or {}).get("value", ""))
+        if not licence or NOT_FREE.search(licence) or not FREE.search(licence) or int(ii.get("height") or 0) < 480:
+            continue
+        length = probe_duration(ii.get("url", ""))
+        if length < SEGMENT + 1:
+            continue
+        seg = os.path.join(workdir, f"foot-commons-{len(out)}.mp4")
+        if cut_segment(ii["url"], min(length * 0.3, length - SEGMENT - 0.5), SEGMENT, seg):
+            creator = strip_html((meta.get("Artist") or {}).get("value", ""))[:50] or "Wikimedia Commons"
+            out.append({"file": seg, "credit": f"Video: {creator} · {licence}", "duration": SEGMENT, "source": ii.get("descriptionurl", "")})
+        if len(out) >= limit:
+            break
+    return out
+
+
+def pexels_clips(place: str, workdir: str) -> list[dict]:
+    """A shot of the city the story happened in (never of people or of an event:
+    a stock picture must not stand in for what happened)."""
+    key = os.environ.get("PEXELS_API_KEY", "")
+    token = norm(place.split(",")[0].split()[0]) if place else ""
+    if not key or len(token) < 4:
+        return []
+    q = urllib.parse.urlencode({"query": f"{place.split(',')[0]} city", "per_page": "12", "size": "medium"})
+    try:
+        data = http_json(f"https://api.pexels.com/videos/search?{q}", headers={"Authorization": key})
+    except (urllib.error.URLError, TimeoutError, ValueError):
+        return []
+    for v in data.get("videos", []):
+        # The page's own words must name the city (its address carries the description).
+        if token not in norm(v.get("url", "").replace("-", "")) or float(v.get("duration") or 0) < SEGMENT + 1:
+            continue
+        files = [f for f in v.get("video_files", []) if f.get("file_type") == "video/mp4" and f.get("link")]
+        files.sort(key=lambda f: (-(min(f.get("width") or 0, f.get("height") or 0) >= 1080), abs((f.get("height") or 0) - 1920)))
+        if not files:
+            continue
+        seg = os.path.join(workdir, f"foot-pexels-{v['id']}.mp4")
+        if cut_segment(files[0]["link"], 1.0, SEGMENT, seg):
+            name = str((v.get("user") or {}).get("name") or "Pexels")[:40]
+            return [{"file": seg, "credit": f"Video: {name} · Pexels", "duration": SEGMENT, "source": v.get("url", "")}]
+    return []
+
+
+def gather_footage(picked: list[dict], qids: list[str], place: str, workdir: str) -> list[dict]:
+    """Up to three pieces, the event's own first."""
+    found = youtube_clips(picked, workdir)
+    if len(found) < 3:
+        found += commons_clips(qids, workdir)
+    if len(found) < 3:
+        found += pexels_clips(place, workdir)
+    return found[:3]
+
+
 # ── The beats ────────────────────────────────────────────────────────────────
 
 MOVES = ["in", "left", "out", "right"]
-PHOTO_BEAT = (3.0, 4.4)
+PHOTO_BEAT = (2.4, 3.4)
 
 
 def first_word_at(words: list[list], test) -> float | None:
@@ -580,12 +722,16 @@ def build_beats(duration: float, words: list[list], photos: list[dict], facts: l
         at = first_word_at(words, lambda w, d=digits[0] if digits else "": bool(d) and d in w) if digits else None
         if at is not None and free(at - 0.15, 3.4):
             fixed.append((at - 0.15, 3.4, {"kind": "fact", "value": f["value"], "label": f["label"]}))
-    for k, v in enumerate(footage[:2]):
-        # The people's own footage is the strongest picture a clip has: early, else wherever it fits.
-        for at in ([4.0] + [duration * f for f in (0.5, 0.35, 0.65, 0.22, 0.78)] if k == 0 else [duration * f for f in (0.62, 0.3, 0.75)]):
+    for k, v in enumerate(footage[:3]):
+        # Moving picture is the strongest a clip has: early, else wherever it fits.
+        length = min(3.8, float(v.get("duration") or SEGMENT) - 0.8)
+        spots = ([3.2] + [duration * f for f in (0.45, 0.32, 0.6, 0.22, 0.75)] if k == 0
+                 else [duration * f for f in ((0.58, 0.3, 0.72, 0.85) if k == 1 else (0.78, 0.4, 0.66, 0.2))])
+        for at in spots:
             at = snap(at, words)
-            if free(at, 5.5):
-                fixed.append((at, 5.5, {"kind": "video", "youtube": v["id"], "channel": v["channel"], "start": 2}))
+            if free(at, length):
+                fixed.append((at, length, {"kind": "video", "file": v.get("file", ""), "credit": v.get("credit", ""),
+                                           "youtube": v.get("youtube", ""), "channel": v.get("channel", ""), "start": 2}))
                 break
     if place and place.get("src"):
         stem = norm(place["label"])[:4]
@@ -620,7 +766,7 @@ def build_beats(duration: float, words: list[list], photos: list[dict], facts: l
         # Photos until the next fixed moment, the gap cut into 3-4.4 s pieces.
         gap = start - t
         if gap > 0.05:
-            pieces = max(1, round(gap / 3.7))
+            pieces = max(1, round(gap / 2.9))
             if gap / pieces > PHOTO_BEAT[1] + 0.6:
                 pieces += 1
             for p in range(pieces):

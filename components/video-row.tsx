@@ -140,8 +140,104 @@ function voice(): HTMLAudioElement {
   return shared;
 }
 
-/** Inside the opening tap: start this clip's voice at once. */
-function startFromTap(clip: EditionClip | undefined) {
+// ── The videos: two elements, taking turns ──────────────────────────────────
+// A rendered clip is one video file. Two video elements share the edition:
+// one plays the clip on screen, the other has the next clip loaded and
+// waiting on its first frame in the screen below, so a swipe or the end of a
+// clip never waits for anything to load. Both are started inside the opening
+// tap (the second at once paused again), which is what lets a phone play
+// either of them with sound later.
+
+let deck: HTMLVideoElement[] = [];
+/** 1080x1920 unless the connection says to save data or is slow; once a clip stalls, 720x1280 from then on. */
+let sharp: boolean | null = null;
+const broken = new Set<string>();
+
+function decks(): HTMLVideoElement[] {
+  if (!deck.length) {
+    deck = [0, 1].map(() => {
+      const v = document.createElement("video");
+      v.className = "vr-video-el";
+      v.playsInline = true;
+      v.setAttribute("playsinline", "");
+      v.preload = "auto";
+      v.disableRemotePlayback = true;
+      v.setAttribute("aria-hidden", "true");
+      return v;
+    });
+  }
+  return deck;
+}
+
+function quality(): boolean {
+  if (sharp === null) {
+    const c = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string; downlink?: number } }).connection;
+    sharp = !(c?.saveData || (c?.effectiveType && c.effectiveType !== "4g") || (typeof c?.downlink === "number" && c.downlink < 3));
+  }
+  return sharp;
+}
+
+/** Plays as a video (else its voice over the beats drawn in the page). */
+function rendered(clip: EditionClip | undefined): clip is EditionClip & { video: NonNullable<EditionClip["video"]> } {
+  return Boolean(clip?.video) && !broken.has(clip?.slug ?? "");
+}
+
+function loadInto(v: HTMLVideoElement, clip: EditionClip & { video: NonNullable<EditionClip["video"]> }) {
+  if (v.dataset.slug === clip.slug) return;
+  v.pause();
+  v.dataset.slug = clip.slug;
+  v.poster = clip.video.poster;
+  v.src = quality() ? clip.video.hd : clip.video.sd;
+}
+
+/** Clip i on one element (the one that has it already, if any), the clip after it on the other. */
+function arrange(clips: EditionClip[], i: number, withNext = true): HTMLVideoElement | undefined {
+  const c = clips[i];
+  if (!rendered(c)) return undefined;
+  const els = decks();
+  const next = clips[i + 1];
+  const cur = els.find((v) => v.dataset.slug === c.slug) ?? els.find((v) => v.dataset.slug !== next?.slug) ?? els[0];
+  loadInto(cur, c);
+  const spare = els.find((v) => v !== cur);
+  if (withNext && spare && rendered(next)) loadInto(spare, next);
+  return cur;
+}
+
+/** What plays this clip: its video element, or the voice. */
+function mediaFor(clip: EditionClip | undefined): HTMLMediaElement {
+  return (rendered(clip) && decks().find((v) => v.dataset.slug === clip.slug)) || voice();
+}
+
+function pauseAll() {
+  voice().pause();
+  deck.forEach((v) => v.pause());
+}
+
+/** Inside the opening tap: start this clip at once, and let the next one play later. */
+function startFromTap(clips: EditionClip[], i: number) {
+  const clip = clips[i];
+  if (rendered(clip)) {
+    const v = arrange(clips, i);
+    if (!v) return;
+    v.currentTime = 0;
+    v.muted = false;
+    v.play().catch(() => {});
+    const spare = deck.find((x) => x !== v);
+    if (spare?.src) {
+      spare.muted = true;
+      spare.play().then(
+        () => {
+          spare.pause();
+          spare.currentTime = 0;
+          spare.muted = false;
+        },
+        () => {
+          spare.muted = false;
+        }
+      );
+    }
+    return;
+  }
   if (!clip?.audio) return;
   const a = voice();
   if (a.src !== clip.audio) a.src = clip.audio;
@@ -177,6 +273,25 @@ export default function VideoRow({
 
   useEffect(() => setSeen(readSeen(edition.date)), [edition.date]);
 
+  // In view: the first clip still to watch starts loading, so a tap plays it at once.
+  const rowRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    const el = rowRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        const first = Math.max(0, clips.findIndex((c) => !readSeen(edition.date).has(c.slug)));
+        // One clip only: a reader who never opens the edition should not download it.
+        if (quality()) arrange(clips, first, false);
+      },
+      { rootMargin: "200px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [clips, edition.date]);
+
   const update = useCallback(() => {
     const el = trackRef.current;
     if (!el) return;
@@ -208,14 +323,14 @@ export default function VideoRow({
   };
 
   const openAt = (i: number, el: HTMLButtonElement | null, how: string) => {
-    startFromTap(clips[i]);
+    startFromTap(clips, i);
     opener.current = el;
     setOpen(i);
     track("edition_open", { slug: clips[i]?.slug, position: i + 1, list, how, seen: seen.size });
   };
 
   return (
-    <section className="vr" aria-labelledby={`vr-${list}`} style={{ ["--vr-accent" as string]: accent }}>
+    <section ref={rowRef} className="vr" aria-labelledby={`vr-${list}`} style={{ ["--vr-accent" as string]: accent }}>
       {/* The site's section heading (components/section-label): bar, capitals, hairline. */}
       <div className="vr-head">
         <span className="vr-bar" aria-hidden="true" />
@@ -303,7 +418,7 @@ export default function VideoRow({
           list={list}
           onSeen={markSeen}
           onClose={() => {
-            voice().pause();
+            pauseAll();
             setOpen(null);
             opener.current?.focus();
           }}
@@ -347,7 +462,14 @@ function Player({
   const [word, setWord] = useState(-1);
   const [beat, setBeat] = useState(0);
   const [streak, setStreak] = useState(0);
+  // Bumped when a clip's video will not play: it is drawn on its voice and beats instead,
+  // and starts again that way if it is the one on screen (retryFor).
+  const [retry, setRetry] = useState(0);
+  const retryFor = useRef("");
+  const lastRetry = useRef(0);
   const feedRef = useRef<HTMLDivElement | null>(null);
+  // Each rendered clip's place for its video element, by slug.
+  const slots = useRef(new Map<string, HTMLDivElement>());
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
   const segRefs = useRef<(HTMLElement | null)[]>([]);
@@ -375,9 +497,21 @@ function Player({
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prev;
-      voice().pause();
+      pauseAll();
+      deck.forEach((v) => v.remove());
     };
   }, []);
+
+  /** Each video element into the screen of the clip it holds. */
+  const placeDeck = useCallback(() => {
+    for (const v of deck) {
+      const slot = v.dataset.slug ? slots.current.get(v.dataset.slug) : undefined;
+      if (slot && v.parentElement !== slot) slot.appendChild(v);
+    }
+  }, []);
+  useEffect(() => {
+    if (mounted) placeDeck();
+  }, [mounted, active, retry, placeDeck]);
 
   // Open on the tapped clip, without scrolling past the others.
   useLayoutEffect(() => {
@@ -411,11 +545,12 @@ function Player({
     [onSeen]
   );
 
-  const voiced = useCallback((c: EditionClip | undefined) => Boolean(c?.audio) && !noVoice.current.has(c?.slug ?? ""), []);
+  /** Has a timeline of its own: its video, or its voice. */
+  const voiced = useCallback((c: EditionClip | undefined) => rendered(c) || (Boolean(c?.audio) && !noVoice.current.has(c?.slug ?? "")), []);
 
   const time = useCallback(() => {
     if (!clip) return 0;
-    if (voiced(clip)) return voice().currentTime || 0;
+    if (voiced(clip)) return mediaFor(clip).currentTime || 0;
     const s = silent.current;
     return s.base + (s.running ? (performance.now() - s.startedAt) / 1000 : 0);
   }, [clip, voiced]);
@@ -442,7 +577,7 @@ function Player({
       setPlaying(true);
       return;
     }
-    const a = voice();
+    const a = mediaFor(clip);
     a.play().then(
       () => {
         setBlocked(false);
@@ -462,7 +597,7 @@ function Player({
       const s = silent.current;
       if (s.running) s.base += (performance.now() - s.startedAt) / 1000;
       s.running = false;
-    } else voice().pause();
+    } else mediaFor(clip).pause();
     setPlaying(false);
   }, [clip, voiced]);
 
@@ -479,6 +614,10 @@ function Player({
   // A new screen: report the one left, then start this one from the beginning.
   useEffect(() => {
     const prev = seen.current;
+    const retried = lastRetry.current !== retry;
+    lastRetry.current = retry;
+    // A video given up off screen changes nothing for the clip playing now.
+    if (retried && prev === active && retryFor.current !== clip?.slug) return;
     if (prev !== active && prev < clips.length) {
       track("edition_clip", {
         slug: clips[prev].slug,
@@ -495,10 +634,9 @@ function Player({
     setWord(-1);
     setBeat(0);
     setHeld(false);
-    const a = voice();
     if (!clip) {
       // "Je në dijeni": the edition is over.
-      a.pause();
+      pauseAll();
       setPlaying(false);
       // Reaching the end is being caught up, even past a clip skipped on the way.
       clips.forEach((c) => seenOnce(c.slug));
@@ -510,45 +648,83 @@ function Player({
       return;
     }
     silent.current = { base: 0, startedAt: performance.now(), running: !voiced(clip) };
-    if (voiced(clip)) {
+    const v = arrange(clips, active);
+    placeDeck();
+    // Only this clip plays; the other video waits, loaded, on its first frame.
+    voice().pause();
+    deck.forEach((d) => d !== v && d.pause());
+    if (v) {
+      if (prev !== active) v.currentTime = 0;
+      v.muted = muted;
+    } else if (voiced(clip)) {
+      const a = voice();
       if (a.src !== clip.audio) a.src = clip.audio;
       if (prev !== active || a.currentTime > 0.5) a.currentTime = 0;
       a.muted = muted;
     }
     play();
-    // Only when the screen changes; the sound setting is applied by its own effect.
+    // Only when the screen changes (or its video gave up); the sound setting is applied by its own effect.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active]);
+  }, [active, retry]);
 
   useEffect(() => {
     voice().muted = muted;
+    deck.forEach((v) => (v.muted = muted));
   }, [muted]);
 
-  // The voice ended: the next clip. A voice that will not load: the clip goes on without it.
+  // A clip ended: the next one. A video that will not load: the clip plays on its voice and beats.
+  // A voice that will not load: the clip goes on without it. A sharp video that keeps stalling:
+  // the lighter one from then on.
   useEffect(() => {
     const a = voice();
-    const onEnded = () => {
+    const els: HTMLMediaElement[] = [a, ...decks()];
+    let stalls = 0;
+    const current = (e: Event) => {
       const c = clips[live.current.active];
-      if (voiced(c) && c) {
+      return c && e.currentTarget === mediaFor(c) ? c : undefined;
+    };
+    const onEnded = (e: Event) => {
+      const c = current(e);
+      if (c) {
         seenOnce(c.slug);
         go(1, "ended");
       }
     };
-    const onError = () => {
-      const c = clips[live.current.active];
-      if (!c?.audio || a.src !== c.audio || noVoice.current.has(c.slug)) return;
+    const onError = (e: Event) => {
+      const t = e.currentTarget as HTMLMediaElement;
+      if (t !== a) {
+        // A video that will not load, on screen or waiting below: that clip is drawn instead.
+        const slug = (t as HTMLVideoElement).dataset.slug ?? "";
+        if (!slug || broken.has(slug)) return;
+        broken.add(slug);
+        delete (t as HTMLVideoElement).dataset.slug;
+        retryFor.current = clips[live.current.active]?.slug === slug ? slug : "";
+        setRetry((n) => n + 1);
+        return;
+      }
+      const c = current(e);
+      if (!c || !c.audio || a.src !== c.audio || noVoice.current.has(c.slug)) return;
       noVoice.current.add(c.slug);
       silent.current = { base: 0, startedAt: performance.now(), running: true };
       setBlocked(false);
       setPlaying(true);
     };
-    a.addEventListener("ended", onEnded);
-    a.addEventListener("error", onError);
-    return () => {
-      a.removeEventListener("ended", onEnded);
-      a.removeEventListener("error", onError);
+    const onWaiting = (e: Event) => {
+      const t = e.currentTarget as HTMLMediaElement;
+      if (t !== a && current(e) && t.currentTime > 0.5 && ++stalls >= 3) sharp = false;
     };
-  }, [clips, go, seenOnce, voiced]);
+    els.forEach((el) => {
+      el.addEventListener("ended", onEnded);
+      el.addEventListener("error", onError);
+      el.addEventListener("waiting", onWaiting);
+    });
+    return () =>
+      els.forEach((el) => {
+        el.removeEventListener("ended", onEnded);
+        el.removeEventListener("error", onError);
+        el.removeEventListener("waiting", onWaiting);
+      });
+  }, [clips, go, seenOnce]);
 
   // Every frame while open: the bars along the top, the word being said, and
   // the end of a clip with no voice. The bars are written straight to the page;
@@ -568,8 +744,9 @@ function Player({
         el.style.transform = `scaleX(${p})`;
       });
       if (c) {
+        // A rendered clip has its words in the picture.
         let w = -1;
-        for (let k = 0; k < c.words.length; k++) if (c.words[k][0] <= t + 0.05) w = k;
+        if (!rendered(c)) for (let k = 0; k < c.words.length; k++) if (c.words[k][0] <= t + 0.05) w = k;
         if (w !== lastWord) {
           lastWord = w;
           setWord(w);
@@ -645,6 +822,11 @@ function Player({
               held={i === active && held}
               word={i === active ? word : -1}
               beat={i === active ? beat : 0}
+              video={rendered(c)}
+              onSlot={(el) => {
+                if (el) slots.current.set(c.slug, el);
+                else slots.current.delete(c.slug);
+              }}
               list={list}
               talking={talking}
               onTalk={setTalking}
@@ -665,7 +847,7 @@ function Player({
             onAgain={() => {
               const el = feedRef.current;
               how.current = "again";
-              startFromTap(clips[0]);
+              startFromTap(clips, 0);
               if (el) el.scrollTo({ top: 0, behavior: "auto" });
             }}
             onClose={onClose}
@@ -747,6 +929,8 @@ function Slide({
   held,
   word,
   beat,
+  video,
+  onSlot,
   list,
   talking,
   onTalk,
@@ -764,6 +948,10 @@ function Slide({
   word: number;
   /** The picture on screen: an index into clip.beats. */
   beat: number;
+  /** Plays as its rendered video (pictures, sound and words in the file). */
+  video: boolean;
+  /** Where the player puts the clip's video element. */
+  onSlot: (el: HTMLDivElement | null) => void;
   list: string;
   talking: boolean;
   onTalk: (open: boolean) => void;
@@ -779,7 +967,7 @@ function Slide({
   const [likePop, setLikePop] = useState(0);
   const lines = useMemo(() => phrases(clip.words), [clip.words]);
   const line = word < 0 ? (active ? lines[0] : undefined) : lines.find(([a, b]) => word >= a && word <= b);
-  const beats = useMemo(() => beatsOf(clip), [clip]);
+  const beats = useMemo(() => beatsOf(clip, video), [clip, video]);
   const shown = beats[Math.min(active ? beat : 0, beats.length - 1)];
 
   const like = (x: number, y: number) => {
@@ -799,7 +987,16 @@ function Slide({
         <img className="vr-slide-bg" src={clip.image} alt="" aria-hidden="true" loading="lazy" />
       )}
       <div className="vr-frame">
-        <Stage clip={clip} beats={beats} index={active ? Math.min(beat, beats.length - 1) : 0} active={active} playing={playing} />
+        {video && clip.video ? (
+          <>
+            {/* The first frame at once; the video element is put in the slot over it. */}
+            {/* eslint-disable-next-line @next/next/no-img-element -- the clip's own first frame */}
+            <img className="vr-video-poster" src={clip.video.poster} alt="" loading={active ? "eager" : "lazy"} decoding="async" />
+            <div className="vr-video" ref={onSlot} />
+          </>
+        ) : (
+          <Stage clip={clip} beats={beats} index={active ? Math.min(beat, beats.length - 1) : 0} active={active} playing={playing} />
+        )}
         {/* Soft dark at the top and bottom, so the buttons and words read on any photo. */}
         <span className="vr-vignette" aria-hidden="true" />
         {/* Taps here: one pauses, two give 👍; a swipe scrolls the edition. */}
@@ -865,7 +1062,7 @@ function Slide({
 
         {/* The words as they are said; the whole script for a reader with a screen reader. */}
         <p className="sr-only">{clip.script}</p>
-        <div className="vr-caption" aria-hidden="true">
+        <div className="vr-caption" aria-hidden="true" hidden={video}>
           {clip.words.length === 0 ? (
             active && <span className="vr-caption-plain">{clip.script}</span>
           ) : (
@@ -912,9 +1109,11 @@ function Slide({
   );
 }
 
-/** A clip's beats; a clip made before beats has its story's photo for the whole clip. */
-function beatsOf(clip: EditionClip): EditionBeat[] {
-  if (clip.beats.length) return clip.beats;
+/** A clip's beats; a clip made before beats has its story's photo for the whole clip. Drawn in the
+ * page (not as a video), footage plays only where YouTube's player can show it. */
+function beatsOf(clip: EditionClip, video = false): EditionBeat[] {
+  const beats = video ? clip.beats : clip.beats.filter((b) => b.kind !== "video" || b.youtube);
+  if (beats.length) return beats;
   return [clip.image ? { at: 0, kind: "photo", src: clip.image, credit: "", move: "in" } : { at: 0, kind: "plain" }];
 }
 
@@ -1084,7 +1283,7 @@ function Credit({ clip, beat }: { clip: EditionClip; beat: EditionBeat }) {
   let text = "";
   if (beat.kind === "photo") text = beat.credit ? `Foto: ${beat.credit}` : "";
   else if (beat.kind === "map") text = beat.credit;
-  else if (beat.kind === "video") text = `Video: ${beat.channel} · YouTube`;
+  else if (beat.kind === "video") text = beat.credit || `Video: ${beat.channel} · YouTube`;
   if (!text && beat.kind === "photo" && beat.src === clip.image && clip.imageCreator) {
     return (
       <a className="vr-credit" href={clip.imageSourcePage || undefined} target="_blank" rel="noopener noreferrer">

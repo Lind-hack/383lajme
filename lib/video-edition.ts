@@ -18,7 +18,8 @@ export type EditionBeat =
   | { at: number; kind: "fact"; value: string; label: string }
   | { at: number; kind: "quote"; text: string; who: string }
   | { at: number; kind: "map"; src: string; label: string; credit: string }
-  | { at: number; kind: "video"; youtube: string; channel: string; start: number }
+  /** Moving picture: in a rendered clip it is in the video itself (youtube "" when it came from elsewhere); in an older clip, YouTube's player. */
+  | { at: number; kind: "video"; youtube: string; channel: string; start: number; credit: string }
   | { at: number; kind: "plain" };
 
 export type EditionClip = {
@@ -43,6 +44,9 @@ export type EditionClip = {
   words: EditionWord[];
   /** The pictures, changing every few seconds; [] for a clip made before beats (the story's photo alone). */
   beats: EditionBeat[];
+  /** The finished clip as a video (voice, music, sound, pictures and words in one file), or null:
+   * then the voice plays over the beats drawn in the page. hd is 1080x1920, sd 720x1280. */
+  video: { hd: string; sd: string; poster: string } | null;
 };
 
 export type Edition = {
@@ -72,8 +76,8 @@ function sized(url: string) {
 
 const MOVES = new Set(["in", "out", "left", "right"]);
 
-/** Each beat checked: pictures only over https, footage only as a YouTube id. */
-function parseBeats(v: unknown, duration: number): EditionBeat[] {
+/** Each beat checked: pictures only over https, footage only as a YouTube id (or, in a rendered clip, already in the video). */
+function parseBeats(v: unknown, duration: number, rendered: boolean): EditionBeat[] {
   if (!Array.isArray(v)) return [];
   const out: EditionBeat[] = [];
   for (const b of v as Record<string, unknown>[]) {
@@ -88,13 +92,24 @@ function parseBeats(v: unknown, duration: number): EditionBeat[] {
       out.push({ at, kind: "quote", text: str(b?.text).slice(0, 180), who: str(b?.who).slice(0, 60) });
     } else if (b?.kind === "map" && /^https:\/\//.test(src)) {
       out.push({ at, kind: "map", src, label: str(b?.label).slice(0, 40), credit: str(b?.credit).slice(0, 40) });
-    } else if (b?.kind === "video" && /^[A-Za-z0-9_-]{11}$/.test(str(b?.youtube))) {
-      out.push({ at, kind: "video", youtube: str(b?.youtube), channel: str(b?.channel).slice(0, 80), start: typeof b?.start === "number" ? Math.max(0, Math.floor(b.start)) : 0 });
+    } else if (b?.kind === "video" && (/^[A-Za-z0-9_-]{11}$/.test(str(b?.youtube)) || (rendered && str(b?.credit)))) {
+      const youtube = /^[A-Za-z0-9_-]{11}$/.test(str(b?.youtube)) ? str(b?.youtube) : "";
+      const channel = str(b?.channel).slice(0, 80);
+      out.push({ at, kind: "video", youtube, channel, start: typeof b?.start === "number" ? Math.max(0, Math.floor(b.start)) : 0, credit: str(b?.credit).slice(0, 120) || (channel ? `Video: ${channel} · YouTube` : "") });
     } else if (b?.kind === "plain") {
       out.push({ at, kind: "plain" });
     }
   }
   return out[0]?.at === 0 ? out : [];
+}
+
+/** A rendered clip's files, only from our own storage. */
+function parseVideo(v: unknown, base: string): EditionClip["video"] {
+  const o = v as Record<string, unknown> | null;
+  const hd = str(o?.hd);
+  const sd = str(o?.sd);
+  const poster = str(o?.poster);
+  return [hd, sd, poster].every((u) => u.startsWith(base)) ? { hd, sd, poster } : null;
 }
 
 function parseWords(v: unknown): EditionWord[] {
@@ -115,8 +130,8 @@ export function parseEdition(raw: unknown, now = Date.now()): Edition | null {
   const updatedAt = str(data?.updatedAt);
   const t = Date.parse(updatedAt);
   if (!Number.isFinite(t) || now - t > STALE_MS) return null;
-  // The voices sit beside the index.
-  const audioBase = indexUrl().replace(/index\.json$/, "");
+  // The voices and the videos sit beside the index.
+  const audioBase = indexUrl().replace(/[^/]+$/, "");
   const clips: EditionClip[] = [];
   for (const c of data.clips as Record<string, unknown>[]) {
     const slug = str(c?.slug);
@@ -127,6 +142,7 @@ export function parseEdition(raw: unknown, now = Date.now()): Edition | null {
     const category = str(c?.category);
     const duration = typeof c?.duration === "number" && c.duration > 0 ? Math.min(c.duration, 180) : 0;
     if (!duration) continue;
+    const video = parseVideo(c?.video, audioBase);
     clips.push({
       slug,
       title,
@@ -143,7 +159,8 @@ export function parseEdition(raw: unknown, now = Date.now()): Edition | null {
       audio: audio.startsWith(audioBase) ? audio : "",
       duration,
       words: parseWords(c?.words),
-      beats: parseBeats(c?.beats, duration),
+      beats: parseBeats(c?.beats, duration, Boolean(video)),
+      video,
     });
   }
   return clips.length ? { date: str(data?.date), updatedAt, clips } : null;
@@ -158,7 +175,7 @@ const readEdition = unstable_cache(
       return null;
     }
   },
-  ["video-edition-v2"],
+  ["video-edition-v3"],
   { revalidate: 300 }
 );
 

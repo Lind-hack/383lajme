@@ -351,6 +351,13 @@
    a short fade out of a soft blur, the one moment of motion each beat has.
    A photo then drifts for as long as it is on screen, a different way each
    time, and stands still while the clip is paused. */
+/* A rendered clip: its video over its own first frame, so a screen is never empty while it loads. */
+.vr-video-poster,
+.vr-video,
+.vr-video-el { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.vr-video-poster { z-index: 0; pointer-events: none; }
+.vr-video { z-index: 0; pointer-events: none; }
+.vr-video-el { display: block; background: transparent; }
 .vr-stage { position: absolute; inset: 0; z-index: 0; overflow: hidden; background: #0B0B0B; }
 .vr-beat { position: absolute; inset: 0; }
 .vr-shot { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
