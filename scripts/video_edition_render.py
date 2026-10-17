@@ -43,7 +43,8 @@ LIBRARY = Path(os.environ.get("L383_EDITION_LIBRARY", "/opt/data/video-edition/l
 HYPERFRAMES = Path(os.environ.get("L383_EDITION_HYPERFRAMES", "/opt/data/video-edition/hf"))
 W, H, FPS = 1080, 1920, 30
 # A phone screen is narrower than 9:16: the player fills it and crops about 100 px off each
-# side, so every word and card keeps 150 px clear of the edges.
+# side, so every word and card keeps 150 px clear of the edges; the words keep 290 px clear on
+# the right, where the site puts its buttons (Pëlqej, Reago, Komento, Ndaje) over the video.
 TAIL = 0.5  # seconds after the last word
 MOODS = ("tense", "serious", "calm", "bright")
 MAX_BURNS = 3
@@ -234,11 +235,11 @@ body{background:#111}
 .beat.plain{background:radial-gradient(120% 80% at 50% 30%,var(--c) 0%,#111 70%)}
 .shade-top{position:absolute;left:0;right:0;top:0;height:560px;background:linear-gradient(#000c,#0000);z-index:50}
 .shade-bottom{position:absolute;left:0;right:0;bottom:0;height:980px;background:linear-gradient(#0000,#0008 45%,#000d);z-index:50}
-.cardwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:300px 150px 720px}
+.cardwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:300px 190px 720px}
 .card{position:relative;width:100%;background:#F5F0E6;color:#111;border-radius:28px;padding:56px 60px 60px;box-shadow:0 30px 80px #0008,0 4px 14px #0005}
 .label{display:flex;align-items:center;gap:18px;font-size:30px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#111}
 .label i{display:block;width:14px;height:44px;border-radius:3px;background:#FF4422}
-.fact-value{font-size:188px;line-height:.95;font-weight:800;letter-spacing:-.04em;margin:34px 0 22px;color:#111;font-variant-numeric:tabular-nums}
+.fact-value{font-size:var(--fs,170px);line-height:.95;font-weight:800;letter-spacing:-.04em;margin:34px 0 22px;color:#111;font-variant-numeric:tabular-nums}
 .fact-label{font-size:46px;line-height:1.18;font-weight:700;color:#3a3530}
 .quote-mark{font-size:200px;line-height:.6;font-weight:800;color:#FF4422;height:96px}
 .quote-text{font-size:58px;line-height:1.2;font-weight:800;letter-spacing:-.015em;margin:12px 0 30px}
@@ -256,7 +257,7 @@ body{background:#111}
 .hook .label{color:#fff;font-size:30px}
 .hook h1{margin-top:30px;font-size:84px;line-height:1.04;font-weight:800;letter-spacing:-.025em;text-shadow:0 4px 30px #0009}
 .hook h1 span{display:inline-block;margin-right:.24em}
-.cap{position:absolute;left:150px;right:150px;bottom:500px;z-index:90;font-size:64px;line-height:1.2;font-weight:800;letter-spacing:-.01em;text-align:left}
+.cap{position:absolute;left:150px;right:290px;bottom:500px;z-index:90;font-size:64px;line-height:1.2;font-weight:800;letter-spacing:-.01em;text-align:left}
 .cap .w{position:relative;display:inline-block;margin-right:.22em;padding:0 .12em;color:#ffffffd0;text-shadow:0 2px 3px #0009,0 6px 22px #0008}
 .cap .w b{position:relative;z-index:1;font-weight:800}
 .cap .w i{position:absolute;inset:.06em -.02em .02em;border-radius:.22em;background:#FF4422;opacity:0;box-shadow:0 6px 18px #ff442255}
@@ -324,7 +325,7 @@ def compose(clip: dict, beats: list[dict], cues: dict, look: dict, assets: dict[
             bd = f'<img class="bd" src="{esc(blurred)}" alt="">' if blurred else ""
             if b["kind"] == "fact":
                 card = (f'<div class="card"><div class="label"><i></i>{esc(clip.get("category", ""))}</div>'
-                        f'<div class="fact-value" id="n{k}">{esc(b["value"])}</div><div class="fact-label">{esc(b["label"])}</div></div>')
+                        f'<div class="fact-value" id="n{k}" style="--fs:{170 if len(b["value"]) <= 6 else 136 if len(b["value"]) <= 9 else 108}px">{esc(b["value"])}</div><div class="fact-label">{esc(b["label"])}</div></div>')
                 target = count_target(b["value"])
                 if target and target[0] >= 2:
                     T({"sel": f"#n{k}", "count": {"n": target[0], "dec": target[1], "pre": target[2], "post": target[3], "d": 0.9}, "at": start + 0.15})
