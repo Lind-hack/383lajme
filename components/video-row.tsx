@@ -1,50 +1,39 @@
 "use client";
 
-// A row of short official videos — the homepage's "Video" and each section's
-// own — and the full-screen, endless, upright feed they open.
+// 383's video edition: today's top stories as short clips, a row of upright
+// cards on the homepage and the full-screen player they open.
 //
-// Only what 383's video editor approved (lib/video-feed: the official TikTok
-// accounts' outliers, the official accounts' Instagram reels, the official
-// channels' YouTube Shorts and "Mëso" explainers, watched and judged engaging,
-// safe and the uploader's own). When the row comes into view
-// its first YouTube card plays muted in place of its poster (on a desktop,
-// whichever card the pointer is over).
+// What it is for: "tell me what happened today", in Albanian, in about three
+// minutes, and then stop. Each clip is one of the front page's stories, made
+// by 383 itself (scripts/video_edition.py): the story's photo, a voice that
+// reads a short script written from the story alone, and the words on screen
+// as they are said, so it works with the sound off too. Unlike a feed that
+// never ends, the edition does: after the last clip the reader is told they
+// are caught up ("Je në dijeni"), with the day's headlines to read on. The
+// clips a reader has watched are remembered on this device, so the row says
+// what is new since.
 //
-// Tapping a card opens the feed the way a phone expects short video: the whole
-// screen, upright, sound on, one video per screen. Scroll or swipe and it snaps
-// to the next one, which starts by itself; when a video ends the next one
-// comes up; when the row's videos run out the feed goes on into every other
-// section's (/api/video-feed) and then round again — it never stops. Only the
-// video on screen plays; the ones either side are loaded and waiting, so the
-// next one starts at once.
-//
-// Each video plays in its platform's own player (YouTube's privacy-enhanced
-// youtube-nocookie.com, TikTok's embed player), driven through their
-// documented iframe messages. Instagram's embed has no such messages: a reel
-// starts when the reader taps it, in Instagram's own frame, and the reader
-// swipes on when they are done. A transparent layer over it takes the touches —
-// a touch on the platform's frame never reaches this page — so a tap pauses,
-// a double-tap gives 👍 where the finger is, and a swipe still scrolls the
-// feed. Beside it, TikTok-style: 👍 Pëlqej, the reactions, comments and
-// sharing (a card with the video's picture and its link), kept under the
-// video's own key (lib/video-key). If the browser refuses sound (iPhones do
-// until the reader taps), it plays muted with "Prek për zë".
+// Tapping a card (or "Luaj") opens the player at that clip, sound on: the tap
+// itself starts the voice, which is what a phone needs to allow sound. When a
+// clip ends the next one starts; a swipe, the wheel, ↑/↓ or the buttons move
+// between them; a tap pauses, a double-tap gives 👍. Beside each clip, as on
+// the story's own page: 👍 Pëlqej, the reactions and the comments (the
+// story's own, under its slug), and sharing.
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import {
   ArrowRight,
-  BookOpen,
   Check,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
   ChevronUp,
   Copy,
-  ExternalLink,
   MessageCircle,
   Play,
+  RotateCcw,
   Share2,
   SmilePlus,
   ThumbsUp,
@@ -57,88 +46,18 @@ import CommentsSheet from "@/components/comments/comments-sheet";
 import { useCommentThread } from "@/components/comments/use-comment-thread";
 import { ReactionsProvider, useReactions } from "@/app/per-ty/paper/reactions";
 import { STORY_REACTIONS, type StoryReactionKey } from "@/lib/story-reactions.mjs";
+import { activeStreak, advanceStreak, parseStreak } from "@/lib/reagimi-data";
 import { track } from "@/lib/analytics";
+import type { Edition, EditionClip } from "@/lib/video-edition";
 import "./video-row.css";
-
-export type VideoItem = {
-  /** Where its reactions and comments live: lib/video-key. */
-  key: string;
-  platform: "youtube" | "tiktok" | "instagram";
-  /** YouTube's 11-character id, TikTok's digits, or an Instagram reel's code. */
-  videoId: string;
-  /** "learn": a "Mëso" video that teaches something. */
-  kind?: "official" | "learn";
-  /** What a "Mëso" video teaches. */
-  topic?: string | null;
-  title: string;
-  /** Why it is worth watching (the editor's line), when there is one. */
-  why?: string;
-  /** The official channel: "NATO", "UEFA", "Real Madrid". */
-  channel: string;
-  /** The section's colour, for the chip's dot. */
-  color: string;
-  publishedAt: string;
-  /** The 383 story this is the clip of, if any. */
-  storySlug?: string | null;
-  views?: number;
-  likes?: number;
-  /** How many times its account's usual it is doing. */
-  outlier?: number | null;
-  /** TikTok's upright cover (YouTube's comes from the id). */
-  cover?: string | null;
-  /** The video on its own platform. */
-  url?: string;
-};
 
 /** "Pëlqej" is the 👍 reaction: one tap, the commonest one. */
 const LIKE: StoryReactionKey = "dakord";
 const SITE = "https://383ks.com";
-const YT_ORIGIN = "https://www.youtube-nocookie.com";
-const TT_ORIGIN = "https://www.tiktok.com";
-/** The reactions API answers for at most 60 keys at a time. */
-const WINDOW = 60;
-
-/** The upright cover: TikTok's own, or the Short's (landscape poster as the fallback). */
-function poster(item: VideoItem, upright = true) {
-  if (item.platform !== "youtube") return item.cover || "";
-  return `https://i.ytimg.com/vi/${item.videoId}/${upright ? "oardefault" : "hqdefault"}.jpg`;
-}
-
-function platformName(item: VideoItem) {
-  return { tiktok: "TikTok", instagram: "Instagram", youtube: "YouTube" }[item.platform] ?? "YouTube";
-}
-
-function sourceUrl(item: VideoItem) {
-  if (item.url) return item.url;
-  if (item.platform === "tiktok") return `https://www.tiktok.com/video/${item.videoId}`;
-  if (item.platform === "instagram") return `https://www.instagram.com/reel/${item.videoId}/`;
-  return `https://www.youtube.com/shorts/${item.videoId}`;
-}
-
-function shareUrl(item: VideoItem) {
-  const prefix = { tiktok: "tt-", instagram: "ig-", youtube: "" }[item.platform] ?? "";
-  return `${SITE}/video/${prefix}${item.videoId}`;
-}
-
-/** "14M shikime", or for a reel (Instagram shows no plays) "231K pëlqime". */
-function reach(item: VideoItem) {
-  if ((item.views ?? 0) > 0) return `${compact(item.views ?? 0)} shikime`;
-  if ((item.likes ?? 0) > 0) return `${compact(item.likes ?? 0)} pëlqime`;
-  return "";
-}
-
-/** A muted, chromeless, looping preview of the first seconds (YouTube only). */
-function previewSrc(id: string) {
-  return `${YT_ORIGIN}/embed/${id}?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=${id}&rel=0&disablekb=1&iv_load_policy=3&fs=0`;
-}
-
-/** No previews for a reader who asked for less motion or less data. */
-function previewsAllowed() {
-  if (typeof window === "undefined") return false;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-  const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-  return !conn?.saveData;
-}
+const SEEN_KEY = "383:edition-seen";
+const STREAK_KEY = "383:edition-streak";
+/** Watched this much of a clip, it counts as seen. */
+const SEEN_AT = 0.85;
 
 function reducedMotion() {
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -149,32 +68,110 @@ function compact(n: number) {
   return n >= 1000 ? `${(n / 1000).toFixed(n >= 10_000 ? 0 : 1).replace(".0", "")}K` : String(n);
 }
 
+function clock(seconds: number) {
+  const s = Math.max(0, Math.round(seconds));
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+}
+
+function minutes(clips: EditionClip[]) {
+  return Math.max(1, Math.round(clips.reduce((a, c) => a + c.duration, 0) / 60));
+}
+
+function clipUrl(clip: EditionClip) {
+  return `${SITE}/video/${clip.slug}`;
+}
+
+// ── What this device has watched (per edition day) ──────────────────────────
+
+function readSeen(date: string): Set<string> {
+  try {
+    const raw = JSON.parse(window.localStorage.getItem(SEEN_KEY) ?? "null");
+    // Optional-chained: stored data may predate this shape.
+    if (raw?.date !== date || !Array.isArray(raw?.slugs)) return new Set();
+    return new Set((raw.slugs as unknown[]).filter((s): s is string => typeof s === "string"));
+  } catch {
+    return new Set();
+  }
+}
+
+function writeSeen(date: string, seen: Set<string>) {
+  try {
+    window.localStorage.setItem(SEEN_KEY, JSON.stringify({ date, slugs: [...seen] }));
+  } catch {
+    // Private mode: remembered for this visit only.
+  }
+}
+
+/** Finishing the edition on consecutive days: the streak the end screen shows. */
+function finishDay(date: string): number {
+  try {
+    const next = advanceStreak(parseStreak(window.localStorage.getItem(STREAK_KEY)), date);
+    window.localStorage.setItem(STREAK_KEY, JSON.stringify(next));
+    return next.count;
+  } catch {
+    return 1;
+  }
+}
+
+function currentStreak(date: string): number {
+  try {
+    return activeStreak(parseStreak(window.localStorage.getItem(STREAK_KEY)), date);
+  } catch {
+    return 0;
+  }
+}
+
+// ── The voice: one audio element for the whole edition ─────────────────────
+// A phone plays sound only from a tap, and an element that started from a tap
+// may go on playing new sources after it. So the element is made and started
+// in the tap that opens the edition, and every clip plays through it.
+
+let shared: HTMLAudioElement | null = null;
+
+function voice(): HTMLAudioElement {
+  if (!shared) {
+    shared = new Audio();
+    shared.preload = "auto";
+  }
+  return shared;
+}
+
+/** Inside the opening tap: start this clip's voice at once. */
+function startFromTap(clip: EditionClip | undefined) {
+  if (!clip?.audio) return;
+  const a = voice();
+  if (a.src !== clip.audio) a.src = clip.audio;
+  a.currentTime = 0;
+  a.play().catch(() => {});
+}
+
+// ── The row ─────────────────────────────────────────────────────────────────
+
 export default function VideoRow({
-  title,
-  items,
+  edition,
   list,
   accent = "#FF4422",
-  openKey,
+  openSlug,
 }: {
-  title: string;
-  items: VideoItem[];
-  /** Where the row is, for analytics: "home", a section's slug, or "video". */
+  edition: Edition;
+  /** Where the row is, for analytics: "home", "video" or "share". */
   list: string;
   accent?: string;
-  /** Open the player on this video at once (the /video/<id> page). */
-  openKey?: string;
+  /** Open the player on this clip at once (the /video pages). */
+  openSlug?: string;
 }) {
-  const sectionRef = useRef<HTMLElement | null>(null);
+  const clips = edition.clips;
   const trackRef = useRef<HTMLUListElement | null>(null);
   const [edge, setEdge] = useState({ start: true, end: false });
+  const [seen, setSeen] = useState<Set<string>>(() => new Set());
   const [open, setOpen] = useState<number | null>(() => {
-    const i = openKey ? items.findIndex((v) => v.key === openKey) : -1;
-    return i >= 0 ? i : null;
+    if (openSlug === undefined) return null;
+    const i = clips.findIndex((c) => c.slug === openSlug);
+    return i >= 0 ? i : 0;
   });
-  const [inView, setInView] = useState(false);
-  const [hovered, setHovered] = useState<number | null>(null);
-  const [allowed, setAllowed] = useState(false);
   const opener = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => setSeen(readSeen(edition.date)), [edition.date]);
 
   const update = useCallback(() => {
     const el = trackRef.current;
@@ -183,14 +180,22 @@ export default function VideoRow({
   }, []);
   useEffect(update, [update]);
 
-  useEffect(() => {
-    setAllowed(previewsAllowed());
-    const el = sectionRef.current;
-    if (!el || typeof IntersectionObserver === "undefined") return;
-    const io = new IntersectionObserver(([e]) => setInView(Boolean(e?.isIntersecting)), { threshold: 0.5 });
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+  const markSeen = useCallback(
+    (slug: string) => {
+      setSeen((prev) => {
+        if (prev.has(slug)) return prev;
+        const next = new Set(prev).add(slug);
+        writeSeen(edition.date, next);
+        return next;
+      });
+    },
+    [edition.date]
+  );
+
+  if (clips.length === 0) return null;
+  const left = clips.filter((c) => !seen.has(c.slug));
+  const caughtUp = left.length === 0;
+  const firstNew = Math.max(0, clips.findIndex((c) => !seen.has(c.slug)));
 
   const step = (dir: 1 | -1) => {
     const el = trackRef.current;
@@ -198,105 +203,103 @@ export default function VideoRow({
     el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: reducedMotion() ? "auto" : "smooth" });
   };
 
-  if (items.length === 0) return null;
-  // One preview at a time: the YouTube card under the pointer, else the first
-  // YouTube card (TikTok's player is too heavy for a card). None while the
-  // player is open.
-  const firstYouTube = items.findIndex((v) => v.platform === "youtube");
-  const target = hovered ?? firstYouTube;
-  const previewing = allowed && inView && open === null && items[target]?.platform === "youtube" ? target : -1;
   const openAt = (i: number, el: HTMLButtonElement | null, how: string) => {
+    startFromTap(clips[i]);
     opener.current = el;
     setOpen(i);
-    const item = items[i];
-    track("video_open", { video: item.videoId, platform: item.platform, channel: item.channel, position: i + 1, list, how });
+    track("edition_open", { slug: clips[i]?.slug, position: i + 1, list, how, seen: seen.size });
   };
 
   return (
-    <section ref={sectionRef} className="vr" aria-labelledby={`vr-${list}`} style={{ ["--vr-accent" as string]: accent }}>
+    <section className="vr" aria-labelledby={`vr-${list}`} style={{ ["--vr-accent" as string]: accent }}>
       {/* The site's section heading (components/section-label): bar, capitals, hairline. */}
       <div className="vr-head">
         <span className="vr-bar" aria-hidden="true" />
         <h2 id={`vr-${list}`} className="vr-title">
-          {title}
+          Edicioni video
         </h2>
         <span className="vr-rule" aria-hidden="true" />
-        <button type="button" className="vr-all" onClick={(e) => openAt(0, e.currentTarget, "play-all")}>
-          <Play size={12} strokeWidth={0} fill="currentColor" aria-hidden="true" />
-          Luaj
+        <button
+          type="button"
+          className="vr-all"
+          data-done={caughtUp || undefined}
+          onClick={(e) => openAt(caughtUp ? 0 : firstNew, e.currentTarget, caughtUp ? "again" : "play-all")}
+        >
+          {caughtUp ? (
+            <RotateCcw size={13} strokeWidth={2.6} aria-hidden="true" />
+          ) : (
+            <Play size={12} strokeWidth={0} fill="currentColor" aria-hidden="true" />
+          )}
+          {caughtUp ? "Shiko sërish" : seen.size ? `Vazhdo · ${left.length} të reja` : `Luaj · ${minutes(clips)} min`}
         </button>
         <span className="vr-nav">
-          <button type="button" onClick={() => step(-1)} disabled={edge.start} aria-label="Videot e mëparshme">
+          <button type="button" onClick={() => step(-1)} disabled={edge.start} aria-label="Lajmet e mëparshme">
             <ChevronLeft size={20} strokeWidth={2.2} aria-hidden="true" />
           </button>
-          <button type="button" onClick={() => step(1)} disabled={edge.end} aria-label="Videot e tjera">
+          <button type="button" onClick={() => step(1)} disabled={edge.end} aria-label="Lajmet e tjera">
             <ChevronRight size={20} strokeWidth={2.2} aria-hidden="true" />
           </button>
         </span>
       </div>
-      <p className="vr-lede">Më të shikuarat nga llogaritë zyrtare, dhe video që të mësojnë diçka në një minutë.</p>
+      <p className="vr-lede">
+        {caughtUp ? (
+          <>
+            <b className="vr-done">
+              <Check size={14} strokeWidth={3} aria-hidden="true" /> Je në dijeni.
+            </b>{" "}
+            I ke parë të gjitha lajmet kryesore të sotme. Kur të ketë lajme të reja, shfaqen këtu.
+          </>
+        ) : (
+          <>
+            {clips.length} lajmet kryesore të sotme, me zë, në {minutes(clips)} minuta. Kur mbaron, je në dijeni.
+          </>
+        )}
+      </p>
       <ul className="vr-track" ref={trackRef} onScroll={update}>
-        {items.map((item, i) => (
-          <li key={item.key} onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered((h) => (h === i ? null : h))}>
-            <button
-              type="button"
-              className="vr-card"
-              onClick={(e) => openAt(i, e.currentTarget, "card")}
-              aria-label={`Shiko videon: ${item.title}`}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element -- the platform's own cover, already sized */}
-              <img
-                className="vr-poster"
-                src={poster(item)}
-                alt=""
-                loading={i < 4 ? "eager" : "lazy"}
-                decoding="async"
-                referrerPolicy="no-referrer"
-                onError={(e) => {
-                  const img = e.currentTarget;
-                  if (item.platform === "youtube" && !img.dataset.fallback) {
-                    img.dataset.fallback = "1";
-                    img.src = poster(item, false);
-                  }
-                }}
-              />
-              {previewing === i && <Preview id={item.videoId} />}
-              <span className="vr-badge">
-                <i style={{ background: item.color }} aria-hidden="true" />
-                {item.channel}
-              </span>
-              {item.kind === "learn" ? (
-                <span className="vr-learn" title={item.topic ?? undefined}>
-                  <BookOpen size={12} strokeWidth={2.6} aria-hidden="true" />
-                  Mëso
+        {clips.map((clip, i) => {
+          const done = seen.has(clip.slug);
+          return (
+            <li key={clip.slug}>
+              <button
+                type="button"
+                className="vr-card"
+                data-seen={done || undefined}
+                onClick={(e) => openAt(i, e.currentTarget, "card")}
+                aria-label={`${i + 1}. ${clip.title}${done ? " (e parë)" : ""}`}
+              >
+                {clip.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- the story's own photo, already sized
+                  <img className="vr-poster" src={clip.image} alt="" loading={i < 4 ? "eager" : "lazy"} decoding="async" />
+                ) : (
+                  <span className="vr-poster vr-poster-none" style={{ ["--c" as string]: clip.color }} aria-hidden="true" />
+                )}
+                <span className="vr-num" aria-hidden="true">
+                  {i + 1}
                 </span>
-              ) : (
-                (item.outlier ?? 0) >= 3 && (
-                  <span className="vr-hot" title={`${item.outlier}× më shumë shikime se zakonisht`}>
-                    🔥 {Math.round(item.outlier ?? 0)}×
-                  </span>
-                )
-              )}
-              <span className="vr-play" aria-hidden="true">
-                <Play size={20} strokeWidth={0} fill="currentColor" />
-              </span>
-              <span className="vr-card-foot">
-                <span className="vr-card-stats">
-                  {reach(item) && <>{reach(item)} · </>}
-                  {platformName(item)}
+                <span className="vr-badge">
+                  <i style={{ background: clip.color }} aria-hidden="true" />
+                  {clip.category}
                 </span>
-                <span className="vr-card-title">{item.title}</span>
-              </span>
-            </button>
-          </li>
-        ))}
+                <span className="vr-play" aria-hidden="true">
+                  {done ? <Check size={20} strokeWidth={3} /> : <Play size={20} strokeWidth={0} fill="currentColor" />}
+                </span>
+                <span className="vr-card-foot">
+                  <span className="vr-card-stats">{done ? "Parë" : clock(clip.duration)}</span>
+                  <span className="vr-card-title">{clip.title}</span>
+                </span>
+              </button>
+            </li>
+          );
+        })}
       </ul>
       {open !== null && (
         <Player
-          items={items}
+          edition={edition}
           index={open}
           list={list}
+          onSeen={markSeen}
           onClose={() => {
+            voice().pause();
             setOpen(null);
             opener.current?.focus();
           }}
@@ -306,259 +309,58 @@ export default function VideoRow({
   );
 }
 
-/**
- * The card's muted preview, faded in over the poster once YouTube says it is
- * playing — never for a video its owner blocks on other sites, which shows
- * YouTube's error page instead.
- */
-function Preview({ id }: { id: string }) {
-  const frame = useRef<HTMLIFrameElement | null>(null);
-  const [ready, setReady] = useState(false);
-  const [src, setSrc] = useState<string | null>(null);
-  useEffect(() => setSrc(`${previewSrc(id)}&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`), [id]);
-  useEffect(() => {
-    setReady(false);
-    const onMessage = (e: MessageEvent) => {
-      if (e.origin !== YT_ORIGIN || e.source !== frame.current?.contentWindow) return;
-      try {
-        const data = typeof e.data === "string" ? JSON.parse(e.data) : e.data;
-        const info = data?.info;
-        if ((typeof info === "number" ? info : info?.playerState) === 1) setReady(true);
-      } catch {
-        // Not YouTube's message.
-      }
-    };
-    window.addEventListener("message", onMessage);
-    const hello = window.setInterval(() => {
-      frame.current?.contentWindow?.postMessage(JSON.stringify({ event: "listening", id }), YT_ORIGIN);
-    }, 300);
-    const stop = window.setTimeout(() => window.clearInterval(hello), 8000);
-    return () => {
-      window.removeEventListener("message", onMessage);
-      window.clearInterval(hello);
-      window.clearTimeout(stop);
-    };
-  }, [id]);
-  return (
-    <span className="vr-preview" data-ready={ready || undefined} aria-hidden="true">
-      {src && <iframe ref={frame} src={src} title="" tabIndex={-1} allow="autoplay; encrypted-media" />}
-    </span>
-  );
-}
-
-type Controls = { mute: () => void; unmute: () => void; toggle: () => void };
-type PlayState = "loading" | "playing" | "paused";
+// ── The player ──────────────────────────────────────────────────────────────
 
 /**
- * One video's player, through the platform's documented iframe messages:
- * commands out (play, pause, mute, unmute) and its state back (playing,
- * paused, ended, the time). Plays only while `active`; sound on unless the
- * reader turned it off or the browser refuses it.
+ * The edition, full screen and upright on a phone; on a desktop, an upright
+ * stage as tall as the window with the buttons beside it. One clip per screen
+ * (scroll snap), the last screen says the reader is caught up. Esc or ✕ closes.
  */
-function useEmbed(
-  item: VideoItem,
-  frame: React.RefObject<HTMLIFrameElement | null>,
-  /** The frame's address; null while it is not loaded. */
-  src: string | null,
-  active: boolean,
-  wantSound: React.RefObject<boolean>,
-  onEnded: () => void
-) {
-  // Some owners allow embedding but block other sites when it plays: the
-  // player says so (YouTube 100/101/150, TikTok 1001-3001). Such a video is
-  // skipped like one that ended.
-  const tiktok = item.platform === "tiktok";
-  const origin = tiktok ? TT_ORIGIN : YT_ORIGIN;
-  // Instagram's frame takes no commands: nothing to drive, nothing to listen to.
-  if (item.platform === "instagram") {
-    src = null;
-    active = false;
-  }
-  const [state, setState] = useState<PlayState>("loading");
-  const [started, setStarted] = useState(false);
-  const [muted, setMuted] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [failed, setFailed] = useState(false);
-  const ready = useRef(false);
-  const live = useRef({ active, state, onEnded });
-  useEffect(() => {
-    live.current = { active, state, onEnded };
-  });
-
-  const send = useCallback(
-    (cmd: "play" | "pause" | "mute" | "unMute" | "seekTo", value?: number) => {
-      const win = frame.current?.contentWindow;
-      if (!win) return;
-      if (tiktok) {
-        win.postMessage({ type: cmd, value, "x-tiktok-player": true }, TT_ORIGIN);
-        return;
-      }
-      const func = { play: "playVideo", pause: "pauseVideo", mute: "mute", unMute: "unMute", seekTo: "seekTo" }[cmd];
-      const args = cmd === "seekTo" ? [value ?? 0, true] : [];
-      win.postMessage(JSON.stringify({ event: "command", func, args }), YT_ORIGIN);
-      if (cmd === "unMute") win.postMessage(JSON.stringify({ event: "command", func: "setVolume", args: [100] }), YT_ORIGIN);
-    },
-    [frame, tiktok]
-  );
-
-  const start = useCallback(() => {
-    if (wantSound.current) send("unMute");
-    else send("mute");
-    send("play");
-  }, [send, wantSound]);
-
-  // Messages from this video's frame only, from the moment it loads.
-  useEffect(() => {
-    ready.current = false;
-    setStarted(false);
-    setState("loading");
-    if (!src) return;
-    const onMessage = (e: MessageEvent) => {
-      if (e.origin !== origin || e.source !== frame.current?.contentWindow) return;
-      let data: Record<string, unknown> | null = null;
-      try {
-        data = typeof e.data === "string" ? JSON.parse(e.data) : e.data;
-      } catch {
-        return;
-      }
-      if (!data || typeof data !== "object") return;
-      if (tiktok) {
-        const value = data.value as unknown;
-        if (data.type === "onPlayerReady") {
-          ready.current = true;
-          if (live.current.active) start();
-        } else if (data.type === "onStateChange") {
-          if (value === 1) {
-            setState("playing");
-            setStarted(true);
-          } else if (value === 2) setState("paused");
-          else if (value === 0) live.current.onEnded();
-        } else if (data.type === "onCurrentTime" && value && typeof value === "object") {
-          const { currentTime, duration } = value as { currentTime?: number; duration?: number };
-          if (duration) setProgress(Math.min(1, (currentTime ?? 0) / duration));
-        } else if (data.type === "onMute" && typeof value === "boolean") setMuted(value);
-        else if (data.type === "onPlayerError") {
-          const code = (value as { errorCode?: number } | null)?.errorCode;
-          if (code === 3002) {
-            // The browser refused to start it with sound: play muted, offer sound.
-            send("mute");
-            send("play");
-            setMuted(true);
-          } else if (code) setFailed(true);
-        }
-        return;
-      }
-      if (data.event === "onError") setFailed(true);
-      if (data.event === "onReady") {
-        ready.current = true;
-        if (live.current.active) start();
-      }
-      const info = data.info as { playerState?: number; muted?: boolean; currentTime?: number; duration?: number } | number | undefined;
-      const playerState = typeof info === "number" ? info : info?.playerState;
-      if (info && typeof info === "object") {
-        if (typeof info.muted === "boolean") setMuted(info.muted);
-        if (typeof info.currentTime === "number" && typeof info.duration === "number" && info.duration > 0) {
-          setProgress(Math.min(1, info.currentTime / info.duration));
-        }
-      }
-      if (playerState === 1) {
-        setState("playing");
-        setStarted(true);
-      } else if (playerState === 2) setState("paused");
-      else if (playerState === 0) live.current.onEnded();
-    };
-    window.addEventListener("message", onMessage);
-    // YouTube reports only to a page that says it is listening; repeated until it answers, as its own script does.
-    const hello = tiktok
-      ? 0
-      : window.setInterval(() => {
-          frame.current?.contentWindow?.postMessage(JSON.stringify({ event: "listening", id: item.videoId }), YT_ORIGIN);
-        }, 250);
-    const stopHello = window.setTimeout(() => window.clearInterval(hello), 8000);
-    return () => {
-      window.removeEventListener("message", onMessage);
-      window.clearInterval(hello);
-      window.clearTimeout(stopHello);
-    };
-  }, [frame, item.videoId, origin, send, src, start, tiktok]);
-
-  // On screen: play (with sound if allowed). Off screen: pause and rewind, so it starts fresh when it comes back.
-  useEffect(() => {
-    if (!active) {
-      if (ready.current) {
-        send("pause");
-        send("seekTo", 0);
-      }
-      return;
-    }
-    if (ready.current) start();
-    // Not playing yet: the browser refused sound. Play muted, offer sound.
-    const fallback = window.setTimeout(() => {
-      if (live.current.state === "playing" || !live.current.active) return;
-      send("mute");
-      send("play");
-      setMuted(true);
-    }, 2600);
-    return () => window.clearTimeout(fallback);
-  }, [active, send, start]);
-
-  const controls: Controls = {
-    mute: () => {
-      send("mute");
-      setMuted(true);
-    },
-    unmute: () => {
-      send("unMute");
-      send("play");
-      setMuted(false);
-    },
-    toggle: () => send(state === "playing" ? "pause" : "play"),
-  };
-  // Unplayable on screen: on to the next one.
-  useEffect(() => {
-    if (failed && active) live.current.onEnded();
-  }, [failed, active]);
-
-  return { state, started, muted, progress, failed, controls };
-}
-
-/** The frame's address: chromeless, upright, ours to drive. `autoplay` only for the video on screen at load. */
-function embedSrc(item: VideoItem, autoplay: boolean) {
-  if (item.platform === "instagram") return `https://www.instagram.com/reel/${item.videoId}/embed/`;
-  if (item.platform === "tiktok") {
-    const off = "controls=0&progress_bar=0&play_button=0&volume_control=0&fullscreen_button=0&timestamp=0";
-    return `${TT_ORIGIN}/player/v1/${item.videoId}?autoplay=${autoplay ? 1 : 0}&loop=0&${off}&music_info=0&description=0&rel=0&native_context_menu=0&closed_caption=0`;
-  }
-  const origin = encodeURIComponent(window.location.origin);
-  return `${YT_ORIGIN}/embed/${item.videoId}?autoplay=${autoplay ? 1 : 0}&playsinline=1&rel=0&controls=0&enablejsapi=1&iv_load_policy=3&fs=0&disablekb=1&origin=${origin}`;
-}
-
-type Slot = { item: VideoItem; id: string };
-
-/**
- * The endless feed: full screen and upright on a phone; on a desktop, an
- * upright stage as tall as the window with the buttons beside it. One video
- * per screen (scroll snap), the next on a swipe, the wheel, ↑/↓ or the
- * buttons; Esc or ✕ closes.
- */
-function Player({ items, index, list, onClose }: { items: VideoItem[]; index: number; list: string; onClose: () => void }) {
-  const [slots, setSlots] = useState<Slot[]>(() => items.map((item) => ({ item, id: `${item.key}~0` })));
+function Player({
+  edition,
+  index,
+  list,
+  onSeen,
+  onClose,
+}: {
+  edition: Edition;
+  index: number;
+  list: string;
+  onSeen: (slug: string) => void;
+  onClose: () => void;
+}) {
+  const clips = edition.clips;
+  const total = clips.length + 1; // the clips, then "Je në dijeni"
   const [active, setActive] = useState(index);
   const [mounted, setMounted] = useState(false);
-  // While a sheet (comments, sharing) is open, keys and taps belong to it.
   const [talking, setTalking] = useState(false);
-  const [soundOn, setSoundOn] = useState(true);
-  const wantSound = useRef(true);
+  const [playing, setPlaying] = useState(false);
+  // The browser refused to start the voice without a tap of its own.
+  const [blocked, setBlocked] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [word, setWord] = useState(-1);
+  const [streak, setStreak] = useState(0);
   const feedRef = useRef<HTMLDivElement | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
-  const controls = useRef<Controls | null>(null);
-  const how = useRef("swipe");
-  const lastDir = useRef<1 | -1>(1);
+  const segRefs = useRef<(HTMLElement | null)[]>([]);
+  const how = useRef("open");
   const seen = useRef(index);
-  const loadedAll = useRef(false);
-  const extending = useRef(false);
-  const round = useRef(1);
+  // A clip without a voice keeps its own time.
+  const silent = useRef({ base: 0, startedAt: 0, running: false });
+  const watched = useRef(0);
+  const opened = useRef(Date.now());
+  const finished = useRef(false);
+  // Clips already reported seen, so a frame does not report one again.
+  const reported = useRef(new Set<string>());
+  // Clips whose voice would not load: they run on their own time, words still shown.
+  const noVoice = useRef(new Set<string>());
+  const live = useRef({ active, playing });
+  useEffect(() => {
+    live.current = { active, playing };
+  });
+
+  const clip = active < clips.length ? clips[active] : undefined;
 
   useEffect(() => {
     setMounted(true);
@@ -566,10 +368,11 @@ function Player({ items, index, list, onClose }: { items: VideoItem[]; index: nu
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prev;
+      voice().pause();
     };
   }, []);
 
-  // Open on the tapped video, without scrolling past the others.
+  // Open on the tapped clip, without scrolling past the others.
   useLayoutEffect(() => {
     const el = feedRef.current;
     if (mounted && el) el.scrollTop = index * el.clientHeight;
@@ -578,7 +381,7 @@ function Player({ items, index, list, onClose }: { items: VideoItem[]; index: nu
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted]);
 
-  // The video on screen is the one at least 60% in view.
+  // The screen at least 60% in view is the one playing.
   useEffect(() => {
     const root = feedRef.current;
     if (!root || typeof IntersectionObserver === "undefined") return;
@@ -590,65 +393,181 @@ function Player({ items, index, list, onClose }: { items: VideoItem[]; index: nu
     );
     root.querySelectorAll("[data-i]").forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, [mounted, slots.length]);
+  }, [mounted]);
 
-  useEffect(() => {
-    if (active === seen.current) return;
-    const dir = active > seen.current ? 1 : -1;
-    lastDir.current = dir;
-    seen.current = active;
-    const item = slots[active]?.item;
-    if (item) track("video_next", { video: item.videoId, platform: item.platform, position: active + 1, list, dir, how: how.current });
-    how.current = "swipe";
-  }, [active, list, slots]);
+  const seenOnce = useCallback(
+    (slug: string) => {
+      if (reported.current.has(slug)) return;
+      reported.current.add(slug);
+      onSeen(slug);
+    },
+    [onSeen]
+  );
 
-  // Never an end: near the last video, every section's videos, then round again.
-  useEffect(() => {
-    if (active < slots.length - 3 || extending.current) return;
-    extending.current = true;
-    (async () => {
-      let incoming: VideoItem[] = [];
-      if (!loadedAll.current) {
-        loadedAll.current = true;
-        try {
-          const res = await fetch("/api/video-feed");
-          const json = res.ok ? await res.json() : null;
-          incoming = Array.isArray(json?.items) ? (json.items as VideoItem[]).filter((v) => typeof v?.key === "string") : [];
-        } catch {
-          // Offline: go round the row's own videos.
-        }
-      }
-      setSlots((prev) => {
-        const have = new Set(prev.map((s) => s.item.key));
-        const fresh = incoming.filter((v) => !have.has(v.key));
-        if (fresh.length) return [...prev, ...fresh.map((item) => ({ item, id: `${item.key}~0` }))];
-        const distinct = [...new Map(prev.map((s) => [s.item.key, s.item])).values()];
-        const n = round.current++;
-        return [...prev, ...distinct.map((item) => ({ item, id: `${item.key}~${n}` }))];
-      });
-      extending.current = false;
-    })();
-  }, [active, slots.length]);
+  const voiced = useCallback((c: EditionClip | undefined) => Boolean(c?.audio) && !noVoice.current.has(c?.slug ?? ""), []);
+
+  const time = useCallback(() => {
+    if (!clip) return 0;
+    if (voiced(clip)) return voice().currentTime || 0;
+    const s = silent.current;
+    return s.base + (s.running ? (performance.now() - s.startedAt) / 1000 : 0);
+  }, [clip, voiced]);
 
   const go = useCallback(
     (dir: 1 | -1, via = "button") => {
       const el = feedRef.current;
-      const next = active + dir;
-      if (!el || next < 0 || next >= slots.length) return;
+      const next = live.current.active + dir;
+      if (!el || next < 0 || next >= total) return;
       how.current = via;
       el.scrollTo({ top: next * el.clientHeight, behavior: reducedMotion() ? "auto" : "smooth" });
     },
-    [active, slots.length]
+    [total]
   );
 
-  const toggleSound = useCallback(() => {
-    const on = !wantSound.current;
-    wantSound.current = on;
-    setSoundOn(on);
-    if (on) controls.current?.unmute();
-    else controls.current?.mute();
-    track("video_sound", { on, list });
-  }, [list]);
+  const play = useCallback(() => {
+    if (!clip) return;
+    if (!voiced(clip)) {
+      const s = silent.current;
+      if (!s.running) {
+        s.startedAt = performance.now();
+        s.running = true;
+      }
+      setPlaying(true);
+      return;
+    }
+    const a = voice();
+    a.play().then(
+      () => {
+        setBlocked(false);
+        setPlaying(true);
+      },
+      (err: unknown) => {
+        // Only a refusal needs the reader's tap; a play cut short by the next clip loading is not one.
+        if ((err as { name?: string } | null)?.name !== "NotAllowedError") return;
+        setBlocked(true);
+        setPlaying(false);
+      }
+    );
+  }, [clip, voiced]);
+
+  const pause = useCallback(() => {
+    if (clip && !voiced(clip)) {
+      const s = silent.current;
+      if (s.running) s.base += (performance.now() - s.startedAt) / 1000;
+      s.running = false;
+    } else voice().pause();
+    setPlaying(false);
+  }, [clip, voiced]);
+
+  const toggle = useCallback(() => (live.current.playing ? pause() : play()), [pause, play]);
+
+  // A new screen: report the one left, then start this one from the beginning.
+  useEffect(() => {
+    const prev = seen.current;
+    if (prev !== active && prev < clips.length) {
+      track("edition_clip", {
+        slug: clips[prev].slug,
+        position: prev + 1,
+        seconds: Math.round(watched.current),
+        done: watched.current >= clips[prev].duration * SEEN_AT,
+        list,
+        how: how.current,
+      });
+    }
+    seen.current = active;
+    how.current = "swipe";
+    watched.current = 0;
+    setWord(-1);
+    const a = voice();
+    if (!clip) {
+      // "Je në dijeni": the edition is over.
+      a.pause();
+      setPlaying(false);
+      // Reaching the end is being caught up, even past a clip skipped on the way.
+      clips.forEach((c) => seenOnce(c.slug));
+      if (!finished.current) {
+        finished.current = true;
+        setStreak(finishDay(edition.date));
+        track("edition_complete", { seconds: Math.round((Date.now() - opened.current) / 1000), clips: clips.length, list });
+      }
+      return;
+    }
+    silent.current = { base: 0, startedAt: performance.now(), running: !voiced(clip) };
+    if (voiced(clip)) {
+      if (a.src !== clip.audio) a.src = clip.audio;
+      if (prev !== active || a.currentTime > 0.5) a.currentTime = 0;
+      a.muted = muted;
+    }
+    play();
+    // Only when the screen changes; the sound setting is applied by its own effect.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
+
+  useEffect(() => {
+    voice().muted = muted;
+  }, [muted]);
+
+  // The voice ended: the next clip. A voice that will not load: the clip goes on without it.
+  useEffect(() => {
+    const a = voice();
+    const onEnded = () => {
+      const c = clips[live.current.active];
+      if (voiced(c) && c) {
+        seenOnce(c.slug);
+        go(1, "ended");
+      }
+    };
+    const onError = () => {
+      const c = clips[live.current.active];
+      if (!c?.audio || a.src !== c.audio || noVoice.current.has(c.slug)) return;
+      noVoice.current.add(c.slug);
+      silent.current = { base: 0, startedAt: performance.now(), running: true };
+      setBlocked(false);
+      setPlaying(true);
+    };
+    a.addEventListener("ended", onEnded);
+    a.addEventListener("error", onError);
+    return () => {
+      a.removeEventListener("ended", onEnded);
+      a.removeEventListener("error", onError);
+    };
+  }, [clips, go, seenOnce, voiced]);
+
+  // Every frame while open: the bars along the top, the word being said, and
+  // the end of a clip with no voice. The bars are written straight to the page;
+  // only a new word re-renders.
+  useEffect(() => {
+    if (!mounted) return;
+    let raf = 0;
+    let lastWord = -1;
+    const frame = () => {
+      const c = clips[live.current.active];
+      const t = c ? time() : 0;
+      if (c) watched.current = Math.max(watched.current, t);
+      segRefs.current.forEach((el, k) => {
+        if (!el) return;
+        const p = k < live.current.active ? 1 : k > live.current.active || !c ? 0 : Math.min(1, t / c.duration);
+        el.style.transform = `scaleX(${p})`;
+      });
+      if (c) {
+        let w = -1;
+        for (let k = 0; k < c.words.length; k++) if (c.words[k][0] <= t + 0.05) w = k;
+        if (w !== lastWord) {
+          lastWord = w;
+          setWord(w);
+        }
+        if (t >= c.duration * SEEN_AT) seenOnce(c.slug);
+        if (!voiced(c) && t >= c.duration && silent.current.running) {
+          silent.current = { base: c.duration, startedAt: 0, running: false };
+          seenOnce(c.slug);
+          go(1, "ended");
+        }
+      }
+      raf = requestAnimationFrame(frame);
+    };
+    raf = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(raf);
+  }, [clips, go, mounted, seenOnce, time, voiced]);
 
   useEffect(() => {
     if (talking) return;
@@ -673,69 +592,94 @@ function Player({ items, index, list, onClose }: { items: VideoItem[]; index: nu
       } else if (e.key === "ArrowUp" || e.key === "ArrowLeft" || e.key === "PageUp") {
         e.preventDefault();
         go(-1, "key");
-      } else if (e.key === "m" || e.key === "M") toggleSound();
+      } else if (e.key === "m" || e.key === "M") setMuted((m) => !m);
       else if (e.key === " " && !(document.activeElement instanceof HTMLButtonElement && !document.activeElement.classList.contains("vr-touch"))) {
         e.preventDefault();
-        controls.current?.toggle();
+        toggle();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [go, onClose, talking, toggleSound]);
+  }, [go, onClose, talking, toggle]);
 
-  // Reactions for the videos around this one (the API answers 60 at a time; a new window every 30 videos).
-  const windowKeys = useMemo(() => {
-    const from = Math.max(0, Math.floor(active / 30) * 30 - 10);
-    return [...new Set(slots.slice(from, from + WINDOW * 2).map((s) => s.item.key))].slice(0, WINDOW);
-  }, [active, slots]);
-
+  const slugs = useMemo(() => clips.map((c) => c.slug), [clips]);
   if (!mounted) return null;
-  const current = slots[active]?.item;
 
   return createPortal(
-    <div ref={dialogRef} className="vr-player" role="dialog" aria-modal="true" aria-label={current?.title ?? "Video"}>
-      <ReactionsProvider slugs={windowKeys}>
+    <div ref={dialogRef} className="vr-player" role="dialog" aria-modal="true" aria-label={clip?.title ?? "Je në dijeni"}>
+      <ReactionsProvider slugs={slugs}>
         <div ref={feedRef} className="vr-feed">
-          {slots.map((slot, i) => (
+          {clips.map((c, i) => (
             <Slide
-              key={slot.id}
+              key={c.slug}
               i={i}
-              item={slot.item}
+              count={clips.length}
+              clip={c}
               active={i === active}
-              near={Math.abs(i - active) <= 1}
+              playing={i === active && playing}
+              blocked={i === active && blocked}
+              word={i === active ? word : -1}
               list={list}
-              wantSound={wantSound}
               talking={talking}
               onTalk={setTalking}
-              onEnded={() => go(1, "ended")}
-              onSkip={() => go(i === 0 ? 1 : lastDir.current, "unplayable")}
-              onControls={(c) => {
-                if (i === active) controls.current = c;
+              onToggle={toggle}
+              onPlay={play}
+              onRead={() => {
+                pause();
+                track("edition_read", { slug: c.slug, position: i + 1, list });
               }}
             />
           ))}
+          <EndScreen
+            i={clips.length}
+            edition={edition}
+            active={active === clips.length}
+            streak={streak || currentStreak(edition.date)}
+            list={list}
+            onAgain={() => {
+              const el = feedRef.current;
+              how.current = "again";
+              startFromTap(clips[0]);
+              if (el) el.scrollTo({ top: 0, behavior: "auto" });
+            }}
+            onClose={onClose}
+          />
         </div>
       </ReactionsProvider>
 
       <div className="vr-player-top">
-        <button type="button" className="vr-player-btn" onClick={toggleSound} aria-label={soundOn ? "Hiq zërin" : "Me zë"} aria-pressed={!soundOn}>
-          {soundOn ? <Volume2 size={20} strokeWidth={2.4} aria-hidden="true" /> : <VolumeX size={20} strokeWidth={2.4} aria-hidden="true" />}
-        </button>
-        <span className="vr-player-brand" aria-hidden="true">
-          <b>383</b>
-          <i />
-          <small>Video</small>
-        </span>
-        <button ref={closeRef} type="button" className="vr-player-btn" onClick={onClose} aria-label="Mbyll videon">
-          <X size={22} strokeWidth={2.4} aria-hidden="true" />
-        </button>
+        {/* One bar per story: how far through the edition. */}
+        <div className="vr-segs" aria-hidden="true">
+          {clips.map((c, k) => (
+            <span key={c.slug}>
+              <i
+                ref={(el) => {
+                  segRefs.current[k] = el;
+                }}
+              />
+            </span>
+          ))}
+        </div>
+        <div className="vr-top-row">
+          <button type="button" className="vr-player-btn" onClick={() => setMuted((m) => !m)} aria-label={muted ? "Me zë" : "Hiq zërin"} aria-pressed={muted}>
+            {muted ? <VolumeX size={20} strokeWidth={2.4} aria-hidden="true" /> : <Volume2 size={20} strokeWidth={2.4} aria-hidden="true" />}
+          </button>
+          <span className="vr-player-brand" aria-hidden="true">
+            <b>383</b>
+            <i />
+            <small>Edicioni</small>
+          </span>
+          <button ref={closeRef} type="button" className="vr-player-btn" onClick={onClose} aria-label="Mbyll edicionin">
+            <X size={22} strokeWidth={2.4} aria-hidden="true" />
+          </button>
+        </div>
       </div>
 
       <span className="vr-desk-nav">
-        <button type="button" className="vr-player-btn" onClick={() => go(-1)} disabled={active === 0} aria-label="Videoja e mëparshme">
+        <button type="button" className="vr-player-btn" onClick={() => go(-1)} disabled={active === 0} aria-label="Lajmi i mëparshëm">
           <ChevronUp size={22} strokeWidth={2.4} aria-hidden="true" />
         </button>
-        <button type="button" className="vr-player-btn" onClick={() => go(1)} aria-label="Videoja tjetër">
+        <button type="button" className="vr-player-btn" onClick={() => go(1)} disabled={active >= clips.length} aria-label="Lajmi tjetër">
           <ChevronDown size={22} strokeWidth={2.4} aria-hidden="true" />
         </button>
       </span>
@@ -744,113 +688,101 @@ function Player({ items, index, list, onClose }: { items: VideoItem[]; index: nu
   );
 }
 
+/** The words on screen a few at a time, as they are said: a new line at a pause or after five words. */
+function phrases(words: EditionClip["words"]): [number, number][] {
+  const out: [number, number][] = [];
+  let from = 0;
+  let chars = 0;
+  for (let k = 0; k < words.length; k++) {
+    chars += words[k][2].length + 1;
+    const next = words[k + 1];
+    const pause = next ? next[0] - words[k][1] > 0.28 : true;
+    if (pause || k - from >= 4 || chars > 26) {
+      out.push([from, k]);
+      from = k + 1;
+      chars = 0;
+    }
+  }
+  return out;
+}
+
 type Burst = { id: number; x: number; y: number; tilt: number };
 
-/** One screen of the feed: the video, the touch layer, its words and its buttons. */
+/** One story's clip: its photo, the words as they are said, the story's line and its buttons. */
 function Slide({
   i,
-  item,
+  count,
+  clip,
   active,
-  near,
+  playing,
+  blocked,
+  word,
   list,
-  wantSound,
   talking,
   onTalk,
-  onEnded,
-  onSkip,
-  onControls,
+  onToggle,
+  onPlay,
+  onRead,
 }: {
   i: number;
-  item: VideoItem;
+  count: number;
+  clip: EditionClip;
   active: boolean;
-  near: boolean;
+  playing: boolean;
+  blocked: boolean;
+  word: number;
   list: string;
-  wantSound: React.RefObject<boolean>;
   talking: boolean;
   onTalk: (open: boolean) => void;
-  onEnded: () => void;
-  /** The video cannot play here: the feed moves on. */
-  onSkip: () => void;
-  onControls: (c: Controls) => void;
+  onToggle: () => void;
+  onPlay: () => void;
+  onRead: () => void;
 }) {
   const reactions = useReactions();
-  const frameRef = useRef<HTMLIFrameElement | null>(null);
-  // The frame's address is fixed when it loads: autoplay only if it loaded on screen.
-  const [src, setSrc] = useState<string | null>(null);
-  useEffect(() => {
-    if (near && !src) setSrc(embedSrc(item, active));
-    if (!near && src) setSrc(null);
-  }, [near, active, item, src]);
-  const failedRef = useRef(false);
-  const player = useEmbed(item, frameRef, src, active && Boolean(src), wantSound, () => (failedRef.current ? onSkip() : onEnded()));
-  failedRef.current = player.failed;
-  const ig = item.platform === "instagram";
-  const [igLoaded, setIgLoaded] = useState(false);
   const gesture = useRef<{ x: number; y: number; moved: boolean } | null>(null);
   const lastTap = useRef(0);
   const tapTimer = useRef<number | null>(null);
   const [bursts, setBursts] = useState<Burst[]>([]);
   const [likePop, setLikePop] = useState(0);
-  const cover = poster(item);
-
-  useEffect(() => {
-    if (active) onControls(player.controls);
-  });
+  const lines = useMemo(() => phrases(clip.words), [clip.words]);
+  const line = word < 0 ? (active ? lines[0] : undefined) : lines.find(([a, b]) => word >= a && word <= b);
 
   const like = (x: number, y: number) => {
     if (!reactions.ok) return;
-    if (reactions.mine[item.key] !== LIKE) reactions.react(item.key, LIKE);
+    if (reactions.mine[clip.slug] !== LIKE) reactions.react(clip.slug, LIKE);
     const id = Date.now();
     setBursts((b) => [...b.slice(-3), { id, x, y, tilt: Math.round(Math.random() * 30 - 15) }]);
     setLikePop((n) => n + 1);
     window.setTimeout(() => setBursts((b) => b.filter((p) => p.id !== id)), 950);
-    track("video_react", { video: item.videoId, platform: item.platform, reaction: LIKE, position: i + 1, list, how: "double-tap" });
+    track("edition_react", { slug: clip.slug, reaction: LIKE, position: i + 1, list, how: "double-tap" });
   };
 
   return (
-    <section className="vr-slide" data-i={i} data-platform={item.platform} data-active={active || undefined} aria-hidden={!active} inert={!active}>
-      {cover && (
-        // eslint-disable-next-line @next/next/no-img-element -- the platform's own cover, behind the stage
-        <img className="vr-slide-bg" src={cover} alt="" aria-hidden="true" referrerPolicy="no-referrer" loading="lazy" />
+    <section className="vr-slide" data-i={i} data-active={active || undefined} data-playing={playing || undefined} aria-hidden={!active} inert={!active}>
+      {clip.image && (
+        // eslint-disable-next-line @next/next/no-img-element -- the story's photo, blurred behind the stage
+        <img className="vr-slide-bg" src={clip.image} alt="" aria-hidden="true" loading="lazy" />
       )}
       <div className="vr-frame">
-        {src && (
-          <iframe
-            ref={frameRef}
-            src={src}
-            title={item.title}
-            tabIndex={ig ? 0 : -1}
-            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-            onLoad={ig ? () => setIgLoaded(true) : undefined}
-            // Instagram's card fits its frame; without scrolling of its own, a swipe on it moves the feed.
-            scrolling={ig ? "no" : undefined}
-          />
-        )}
-        {cover && (
-          // eslint-disable-next-line @next/next/no-img-element -- shown until the video is playing
+        {clip.image ? (
+          // eslint-disable-next-line @next/next/no-img-element -- the story's own photo
           <img
-            className="vr-slide-poster"
-            src={cover}
+            className="vr-photo"
+            src={clip.image}
             alt=""
-            data-hidden={(ig ? igLoaded : player.started) || undefined}
-            referrerPolicy="no-referrer"
-            loading={near ? "eager" : "lazy"}
+            data-dir={i % 2 || undefined}
+            style={{ ["--kb" as string]: `${clip.duration + 2}s` }}
           />
+        ) : (
+          <span className="vr-photo vr-photo-none" style={{ ["--c" as string]: clip.color }} aria-hidden="true" />
         )}
-        {/* Soft dark at the top and bottom, so the buttons and words read on any video. */}
+        {/* Soft dark at the top and bottom, so the buttons and words read on any photo. */}
         <span className="vr-vignette" aria-hidden="true" />
-        {ig && active && (
-          <span className="vr-ig-hint" aria-hidden="true">
-            Prek videon për ta luajtur
-          </span>
-        )}
-        {/* Every touch on the video lands here: the platform's frame would swallow it. Swipes scroll the feed.
-            Not on a reel: Instagram's frame starts only from a tap of its own. */}
-        {!ig && (
+        {/* Taps here: one pauses, two give 👍; a swipe scrolls the edition. */}
         <button
           type="button"
           className="vr-touch"
-          aria-label={player.state === "playing" ? "Ndalo videon" : "Luaj videon"}
+          aria-label={playing ? "Ndalo" : "Luaj"}
           onPointerDown={(e) => {
             gesture.current = { x: e.clientX, y: e.clientY, moved: false };
           }}
@@ -877,20 +809,19 @@ function Slide({
             lastTap.current = now;
             tapTimer.current = window.setTimeout(() => {
               tapTimer.current = null;
-              player.controls.toggle();
+              onToggle();
             }, 280);
           }}
           onKeyDown={(e) => {
-            if (e.key === "Enter") player.controls.toggle();
+            if (e.key === "Enter") onToggle();
           }}
         >
-          {player.state === "paused" && (
+          {active && !playing && !blocked && (
             <span className="vr-paused" aria-hidden="true">
               <Play size={34} strokeWidth={0} fill="currentColor" />
             </span>
           )}
         </button>
-        )}
         {bursts.map((b) => (
           <span key={b.id} className="vr-burst" style={{ left: b.x, top: b.y, ["--tilt" as string]: `${b.tilt}deg` }} aria-hidden="true">
             <ThumbsUp size={96} strokeWidth={0} fill="currentColor" />
@@ -899,86 +830,157 @@ function Slide({
             ))}
           </span>
         ))}
-        {active && player.muted && (
-          <button
-            type="button"
-            className="vr-unmute"
-            onClick={() => {
-              wantSound.current = true;
-              player.controls.unmute();
-              track("video_sound", { on: true, list, how: "prompt" });
-            }}
-          >
-            <Volume2 size={18} strokeWidth={2.4} aria-hidden="true" />
-            Prek për zë
+        {blocked && (
+          <button type="button" className="vr-start" onClick={onPlay}>
+            <span>
+              <Play size={30} strokeWidth={0} fill="currentColor" aria-hidden="true" />
+            </span>
+            Luaj me zë
           </button>
         )}
 
+        {/* The words as they are said; the whole script for a reader with a screen reader. */}
+        <p className="sr-only">{clip.script}</p>
+        <div className="vr-caption" aria-hidden="true">
+          {clip.words.length === 0 ? (
+            active && <span className="vr-caption-plain">{clip.script}</span>
+          ) : (
+            line && (
+              <span key={line[0]} className="vr-caption-line">
+                {clip.words.slice(line[0], line[1] + 1).map((w, k) => (
+                  <span key={k} data-now={line[0] + k === word || undefined} data-said={line[0] + k < word || undefined}>
+                    {w[2]}
+                  </span>
+                ))}
+              </span>
+            )
+          )}
+        </div>
+
         <div className="vr-info">
           <span className="vr-player-meta">
-            <i style={{ background: item.color }} aria-hidden="true" />
-            {item.kind === "learn" ? (
-              <>
-                <span className="vr-meta-learn">Mëso</span> {item.channel}
-              </>
-            ) : (
-              <>{item.channel} · zyrtare</>
-            )}
-            {item.publishedAt && (
+            <i style={{ background: clip.color }} aria-hidden="true" />
+            {clip.category}
+            {clip.publishedAt && (
               <>
                 {" · "}
-                <TimeAgo iso={item.publishedAt} />
+                <TimeAgo iso={clip.publishedAt} />
               </>
             )}
+            <span className="vr-count-of">
+              {i + 1}/{count}
+            </span>
           </span>
-          <h3 className="vr-player-title">{item.title}</h3>
-          {item.why && <p className="vr-why">{item.why}</p>}
+          <h3 className="vr-player-title">{clip.title}</h3>
           <div className="vr-player-actions">
-            {item.storySlug && (
-              <Link
-                href={`/article/${item.storySlug}`}
-                className="vr-player-read"
-                onClick={() => track("video_read", { video: item.videoId, position: i + 1, list })}
+            <Link href={`/article/${clip.slug}`} className="vr-player-read" onClick={onRead}>
+              Lexo lajmin <ArrowRight size={15} strokeWidth={2.4} aria-hidden="true" />
+            </Link>
+            {clip.imageCreator && (
+              <a
+                className="vr-credit"
+                href={clip.imageSourcePage || undefined}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Lexo lajmin <ArrowRight size={15} strokeWidth={2.4} aria-hidden="true" />
-              </Link>
+                Foto: {clip.imageCreator}
+                {clip.imageLicense && <> · {clip.imageLicense}</>}
+              </a>
             )}
-            {/* Some owners allow embedding but block other sites at play time; the platform itself always plays it. */}
-            <a
-              href={sourceUrl(item)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="vr-player-src"
-              onClick={() => track("video_source", { video: item.videoId, platform: item.platform, position: i + 1, list })}
-            >
-              {reach(item) && <>{reach(item)} · </>}
-              Shiko në {platformName(item)} <ExternalLink size={13} strokeWidth={2.4} aria-hidden="true" />
-            </a>
           </div>
         </div>
-        {!ig && (
-          <span className="vr-progress" aria-hidden="true">
-            <i style={{ transform: `scaleX(${player.progress})` }} />
-          </span>
-        )}
       </div>
 
       <div className="vr-side">
-        <Actions item={item} list={list} position={i + 1} likePop={likePop} onTalk={onTalk} />
+        <Actions clip={clip} list={list} position={i + 1} likePop={likePop} onTalk={onTalk} />
       </div>
     </section>
   );
 }
 
-/** The column beside the video: 👍 Pëlqej, the reactions, comments, share. */
+/** The last screen: caught up, the day's headlines, and when the next edition comes. */
+function EndScreen({
+  i,
+  edition,
+  active,
+  streak,
+  list,
+  onAgain,
+  onClose,
+}: {
+  i: number;
+  edition: Edition;
+  active: boolean;
+  streak: number;
+  list: string;
+  onAgain: () => void;
+  onClose: () => void;
+}) {
+  const [sharing, setSharing] = useState(false);
+  const clips = edition.clips;
+  return (
+    <section className="vr-slide vr-end" data-i={i} data-active={active || undefined} aria-hidden={!active} inert={!active}>
+      <div className="vr-end-inner">
+        <span className="vr-check" aria-hidden="true">
+          <svg viewBox="0 0 52 52" width="64" height="64">
+            <circle cx="26" cy="26" r="24" />
+            <path d="M15 27l7 7 15-16" />
+          </svg>
+        </span>
+        <h2 className="vr-end-title">Je në dijeni.</h2>
+        <p className="vr-end-sub">
+          {clips.length} lajmet kryesore të sotme, në {minutes(clips)} minuta.
+          {streak >= 2 && <span className="vr-streak"> 🔥 {streak} ditë radhazi</span>}
+        </p>
+        <ol className="vr-end-list">
+          {clips.map((c) => (
+            <li key={c.slug}>
+              <Link href={`/article/${c.slug}`} onClick={() => track("edition_read", { slug: c.slug, list, how: "end" })}>
+                <i style={{ background: c.color }} aria-hidden="true" />
+                {c.title}
+              </Link>
+            </li>
+          ))}
+        </ol>
+        <p className="vr-end-next">Edicioni përditësohet kur ka lajme të mëdha. I radhës: nesër në 07:00.</p>
+        <div className="vr-end-actions">
+          <button type="button" className="vr-end-btn" data-primary onClick={() => setSharing(true)}>
+            <Share2 size={17} strokeWidth={2.4} aria-hidden="true" />
+            Ndaje edicionin
+          </button>
+          <button type="button" className="vr-end-btn" onClick={onAgain}>
+            <RotateCcw size={16} strokeWidth={2.4} aria-hidden="true" />
+            Nga fillimi
+          </button>
+          <button type="button" className="vr-end-btn" onClick={onClose}>
+            Mbyll
+          </button>
+        </div>
+      </div>
+      {sharing && (
+        <ShareSheet
+          url={`${SITE}/video`}
+          title="Edicioni video i 383"
+          label={`${clips.length} lajmet kryesore të sotme, në ${minutes(clips)} minuta`}
+          image={clips.find((c) => c.image)?.image ?? ""}
+          what="edition"
+          list={list}
+          onClose={() => setSharing(false)}
+        />
+      )}
+    </section>
+  );
+}
+
+/** The column beside the clip: 👍 Pëlqej, the reactions, comments, share — the story's own. */
 function Actions({
-  item,
+  clip,
   list,
   position,
   likePop,
   onTalk,
 }: {
-  item: VideoItem;
+  clip: EditionClip;
   list: string;
   position: number;
   /** Bumped by a double-tap, so the button celebrates too. */
@@ -986,23 +988,23 @@ function Actions({
   onTalk: (open: boolean) => void;
 }) {
   const reactions = useReactions();
-  const thread = useCommentThread(item.key, (n) => reactions.setComments(item.key, n));
+  const thread = useCommentThread(clip.slug, (n) => reactions.setComments(clip.slug, n));
   const [picking, setPicking] = useState(false);
   const [talking, setTalking] = useState(false);
   const [sharing, setSharing] = useState(false);
   const [pop, setPop] = useState(0);
   const [fly, setFly] = useState<{ id: number; emoji: string } | null>(null);
   const [sent, setSent] = useState(0);
-  const tally = reactions.tallies[item.key] ?? {};
-  const mine = reactions.mine[item.key];
+  const tally = reactions.tallies[clip.slug] ?? {};
+  const mine = reactions.mine[clip.slug];
   const likes = tally[LIKE] ?? 0;
   const total = Object.values(tally).reduce((a: number, b) => a + (Number(b) || 0), 0);
-  const comments = reactions.comments[item.key] ?? 0;
+  const comments = reactions.comments[clip.slug] ?? 0;
   const likePops = pop + likePop;
 
   const react = (key: StoryReactionKey) => {
     const undo = mine === key;
-    reactions.react(item.key, key);
+    reactions.react(clip.slug, key);
     setPicking(false);
     if (key === LIKE) setPop((n) => n + 1);
     else if (!undo) {
@@ -1011,22 +1013,19 @@ function Actions({
       setFly({ id, emoji });
       window.setTimeout(() => setFly((f) => (f?.id === id ? null : f)), 900);
     }
-    track("video_react", { video: item.videoId, platform: item.platform, reaction: key, position, list });
+    track("edition_react", { slug: clip.slug, reaction: key, position, list });
   };
 
   const talk = (open: boolean) => {
     setTalking(open);
     onTalk(open);
-    if (open) track("video_comments", { video: item.videoId, position, list });
+    if (open) track("edition_comments", { slug: clip.slug, position, list });
   };
 
   const share = (open: boolean) => {
     setSharing(open);
     onTalk(open);
-    if (open) {
-      setSent((n) => n + 1);
-      track("video_share", { video: item.videoId, platform: item.platform, position, list });
-    }
+    if (open) setSent((n) => n + 1);
   };
 
   return (
@@ -1095,39 +1094,75 @@ function Actions({
         </span>
         <b className="vr-count">Ndaje</b>
       </button>
-      {reactions.commentsOk && <CommentsSheet open={talking} onClose={() => talk(false)} thread={thread} title={item.title} />}
-      {sharing && <ShareSheet item={item} list={list} position={position} onClose={() => share(false)} />}
+      {reactions.commentsOk && <CommentsSheet open={talking} onClose={() => talk(false)} thread={thread} title={clip.title} />}
+      {sharing && (
+        <ShareSheet
+          url={clipUrl(clip)}
+          title={clip.title}
+          label={`${clip.category} · Edicioni video i 383`}
+          image={clip.image}
+          what={clip.slug}
+          list={list}
+          position={position}
+          onClose={() => share(false)}
+        />
+      )}
     </div>
   );
 }
 
-/** Sharing: the video's picture, its title and its 383 link, to copy or send on. */
-function ShareSheet({ item, list, position, onClose }: { item: VideoItem; list: string; position: number; onClose: () => void }) {
-  const url = shareUrl(item);
+/** Sharing: the picture, the title and the 383 link, to copy or send on. */
+function ShareSheet({
+  url,
+  title,
+  label,
+  image,
+  what,
+  list,
+  position,
+  onClose,
+}: {
+  url: string;
+  title: string;
+  label: string;
+  image: string;
+  /** For analytics: the story's slug, or "edition". */
+  what: string;
+  list: string;
+  position?: number;
+  onClose: () => void;
+}) {
   const [copied, setCopied] = useState(false);
   const [canShare, setCanShare] = useState(false);
   const firstRef = useRef<HTMLButtonElement | null>(null);
-  const text = `${item.title} · ${item.channel}`;
+  // The player re-renders with every word said; the sheet opens once.
+  const close = useRef(onClose);
+  useEffect(() => {
+    close.current = onClose;
+  });
 
   useEffect(() => {
     setCanShare(typeof navigator.share === "function");
     firstRef.current?.focus({ preventScroll: true });
+    track("edition_share", { what, position, list });
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.stopPropagation();
-        onClose();
+        close.current();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+    // Once, when the sheet opens.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2200);
-      track("video_share_copy", { video: item.videoId, position, list });
+      track("edition_share_to", { what, to: "copy", position, list });
     } catch {
       // No clipboard: the link is on screen to copy by hand.
     }
@@ -1139,25 +1174,25 @@ function ShareSheet({ item, list, position, onClose }: { item: VideoItem; list: 
       target="_blank"
       rel="noopener noreferrer"
       className="vr-share-to"
-      onClick={() => track("video_share_to", { video: item.videoId, to: where, position, list })}
+      onClick={() => track("edition_share_to", { what, to: where, position, list })}
     >
       {where}
     </a>
   );
 
   return (
-    <div className="vr-share" role="dialog" aria-modal="true" aria-label="Ndaje videon">
+    <div className="vr-share" role="dialog" aria-modal="true" aria-label="Ndaje">
       <button type="button" className="vr-share-scrim" aria-label="Mbyll" tabIndex={-1} onClick={onClose} />
       <div className="vr-share-card">
         <span className="vr-share-grip" aria-hidden="true" />
         <div className="vr-share-preview">
-          {poster(item) && (
-            // eslint-disable-next-line @next/next/no-img-element -- the platform's own cover
-            <img src={poster(item)} alt="" referrerPolicy="no-referrer" />
+          {image && (
+            // eslint-disable-next-line @next/next/no-img-element -- the story's own photo
+            <img src={image} alt="" />
           )}
           <div>
-            <small>{item.channel} · {platformName(item)}</small>
-            <b>{item.title}</b>
+            <small>{label}</small>
+            <b>{title}</b>
             <span className="vr-share-url">{url.replace("https://", "")}</span>
           </div>
         </div>
@@ -1171,8 +1206,8 @@ function ShareSheet({ item, list, position, onClose }: { item: VideoItem; list: 
               type="button"
               className="vr-share-copy"
               onClick={() => {
-                navigator.share({ title: item.title, text, url }).catch(() => {});
-                track("video_share_to", { video: item.videoId, to: "native", position, list });
+                navigator.share({ title, text: title, url }).catch(() => {});
+                track("edition_share_to", { what, to: "native", position, list });
               }}
             >
               <Share2 size={18} strokeWidth={2.4} aria-hidden="true" />
@@ -1181,14 +1216,11 @@ function ShareSheet({ item, list, position, onClose }: { item: VideoItem; list: 
           )}
         </div>
         <div className="vr-share-row">
-          {out("WhatsApp", `https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`)}
+          {out("WhatsApp", `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`)}
           {out("Facebook", `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`)}
-          {out("X", `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`)}
-          {out("Telegram", `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`)}
+          {out("X", `https://x.com/intent/post?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`)}
+          {out("Telegram", `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`)}
         </div>
-        <a href={sourceUrl(item)} target="_blank" rel="noopener noreferrer" className="vr-share-src">
-          Origjinali në {platformName(item)} <ExternalLink size={13} strokeWidth={2.4} aria-hidden="true" />
-        </a>
         <button type="button" className="vr-share-close" onClick={onClose}>
           Mbyll
         </button>

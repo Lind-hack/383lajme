@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isReaction, isStorySlug, isVoter, parseSlugs, talliesFrom } from "@/lib/story-reactions.mjs";
-import { isKnownVideoKey } from "@/lib/video-feed";
-
 
 /**
  * Readers' reactions to Për ty stories (lib/story-reactions.mjs, table
@@ -51,12 +49,9 @@ export async function POST(request: Request) {
   }
   const client = createAdminClient();
   if (!client) return NextResponse.json({ error: "unavailable" }, { status: 503 });
-  // Only stories that exist, or a video the "Video" rows show: a reaction
-  // cannot be parked on an invented slug.
-  if (!(await isKnownVideoKey(slug))) {
-    const { data: found, error: findError } = await client.from("news_articles").select("slug").eq("slug", slug).maybeSingle();
-    if (findError || !found) return NextResponse.json({ error: "unknown story" }, { status: 404 });
-  }
+  // Only stories that exist: a reaction cannot be parked on an invented slug.
+  const { data: found, error: findError } = await client.from("news_articles").select("slug").eq("slug", slug).maybeSingle();
+  if (findError || !found) return NextResponse.json({ error: "unknown story" }, { status: 404 });
 
   const { error } = await client
     .from("story_reactions")

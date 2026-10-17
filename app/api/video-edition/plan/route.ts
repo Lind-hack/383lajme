@@ -1,0 +1,37 @@
+import { NextResponse } from "next/server";
+import { getArticles, getArticlesBefore, getArticlesBySlugs, getLatestArticles } from "@/lib/db";
+import { freshNews } from "@/lib/fresh-news.mjs";
+import { pickFrontPage } from "@/lib/front-page.mjs";
+
+/**
+ * The stories the video edition is made of: the front page's seven, picked
+ * the way the homepage picks its front block (app/page.tsx), in its order.
+ * The VPS edition job (scripts/video_edition.py) reads this, writes and
+ * voices a clip for each, and publishes the edition to storage.
+ */
+export const revalidate = 300;
+
+export async function GET() {
+  const [ranked, latest, recent] = await Promise.all([getArticles(60), getLatestArticles(10), getArticlesBefore({ limit: 120 })]);
+  const now = Date.now();
+  const pool = freshNews([...ranked, ...recent, ...latest], { now, count: 200 });
+  const picked = pickFrontPage(pool, 7, now);
+  // The pool's lists carry no bodies; the clip is written from the whole story.
+  const full = new Map((await getArticlesBySlugs(picked.map((a) => a.slug))).map((a) => [a.slug, a]));
+  const stories = picked.map((a) => {
+    const f = full.get(a.slug) ?? a;
+    return {
+      slug: f.slug,
+      title: f.title,
+      excerpt: f.excerpt,
+      body: (f.body ?? "").slice(0, 6000),
+      category: f.category,
+      publishedAt: f.publishedAt,
+      imageUrl: f.imageUrl ?? "",
+      imageCreator: f.imageCreator ?? "",
+      imageLicense: f.imageLicense ?? "",
+      imageSourcePage: f.imageSourcePage ?? "",
+    };
+  });
+  return NextResponse.json({ generatedAt: new Date(now).toISOString(), stories }, { headers: { "Cache-Control": "public, s-maxage=300" } });
+}

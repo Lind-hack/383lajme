@@ -1,5 +1,5 @@
 import { getArticles, getArticlesBefore, getLatestArticles } from "@/lib/db";
-import { getVideoFeed, mixForHome, toVideoItem } from "@/lib/video-feed";
+import { getEdition } from "@/lib/video-edition";
 import { MoveHorizontal } from "lucide-react";
 import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
@@ -46,7 +46,7 @@ import SectionJump from "@/components/home/section-jump";
 import TreguHome from "@/components/home/tregu-home";
 import AdSlot from "@/components/home/ad-slot";
 import PerTyHome from "@/components/home/per-ty-home";
-import VideoRow, { type VideoItem } from "@/components/video-row";
+import VideoRow from "@/components/video-row";
 
 // Refresh rankings every ten minutes between hourly publication batches.
 export const revalidate = 600;
@@ -68,10 +68,9 @@ export default async function HomePage() {
     // card, never the page.
     getCityWeather().catch(() => []),
   ]);
-  // The "Video" row: the official channels' newest uploads (lib/video-feed),
-  // cached for fifteen minutes, so this never waits on YouTube; the sections
-  // in turn, Kosovo first.
-  const videos: VideoItem[] = mixForHome(await getVideoFeed()).map((v) => toVideoItem(v, getCategoryColor(v.category)));
+  // Edicioni video: today's top stories as short voiced clips
+  // (lib/video-edition, cached five minutes; none when there is no edition today).
+  const edition = await getEdition();
 
   // Each story's photo width, so the large slots below can go to photos big
   // enough to fill them (lib/image-size.mjs). Probes are shared per URL, so a
@@ -234,8 +233,8 @@ export default async function HomePage() {
           One <main> landmark covers the whole run, full-bleed bands included. */}
       <main>
       <Contained first>
-        {/* Official videos only; a row of one or two is not a row. */}
-        {videos.length >= 3 && <VideoRow title="Video" items={videos} list="home" />}
+        {/* A short edition is still an edition; fewer than three is not. */}
+        {edition && edition.clips.length >= 3 && <VideoRow edition={edition} list="home" />}
 
         <SectionLabel
           label="NJOFTIME"

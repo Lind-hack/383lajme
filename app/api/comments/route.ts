@@ -3,8 +3,6 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { publicProfileName } from "@/lib/profile-hub.mjs";
 import { RATE_MAX, RATE_WINDOW_S, THREAD_LIMIT, bodyProblem, cleanBody, isArticleSlug, isCommentId } from "@/lib/article-comments.mjs";
-import { isKnownVideoKey } from "@/lib/video-feed";
-
 
 /**
  * Readers' comments under a story (lib/article-comments.mjs, table
@@ -98,11 +96,9 @@ export async function POST(request: Request) {
   const client = createAdminClient();
   if (!client) return NextResponse.json({ error: "Komentet s'janë në punë tani." }, { status: 503 });
 
-  // Only stories that exist, or a video the "Video" rows show.
-  if (!(await isKnownVideoKey(slug))) {
-    const { data: found } = await client.from("news_articles").select("slug").eq("slug", slug).maybeSingle();
-    if (!found) return NextResponse.json({ error: "Ky lajm nuk u gjet." }, { status: 404 });
-  }
+  // Only stories that exist.
+  const { data: found } = await client.from("news_articles").select("slug").eq("slug", slug).maybeSingle();
+  if (!found) return NextResponse.json({ error: "Ky lajm nuk u gjet." }, { status: 404 });
 
   // A reply goes under a visible comment of the same story; a reply to a reply goes under its comment.
   let parent: number | null = null;
