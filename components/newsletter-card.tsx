@@ -5,7 +5,7 @@ import styles from './newsletter-card.module.css';
 /* Local extension of 383, code-led; no new visual identity.
  * THESIS: a weekly letter interrupts the news scroll with a useful invitation.
  * OWN-WORLD: 383 orange, ink and cream; Manrope; a folded physical envelope.
- * STORY: recognise weekly news, enter email inline, confirm from the inbox.
+ * STORY: recognise weekly news, enter email inline, subscribe with one click.
  * FIRST VIEWPORT: large headline and form left, dimensional envelope right;
  * the drawer gets a compact version directly beneath Tregu, without navigation.
  * FORM: an editorial mail card, explicitly scoped by the user; no seed required.

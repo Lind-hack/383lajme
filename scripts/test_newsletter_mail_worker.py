@@ -40,11 +40,26 @@ class MailWorkerTests(unittest.TestCase):
         job = {'id': 'a'*64, 'subscriber_id': 'id', 'issue_id': '2026-10-18'}
         def api(config, path, body=None):
             if path == 'rpc/claim_newsletter_mail': return [job]
-            if path.startswith('newsletter_subscribers'): return [{'email': 'test@example.invalid', 'status': 'active'}]
+            if path.startswith('newsletter_subscribers'): return [{'email': 'test@example.invalid', 'status': 'active', 'confirmed_at': '2026-10-01T00:00:00Z'}]
+            if path.startswith('newsletter_issues'): return [{'cutoff': '2026-10-18T16:00:00Z'}]
             raise RuntimeError('database unavailable')
         with patch.object(worker, 'api', side_effect=api), patch.object(worker, 'decode_job', return_value={'to': 'test@example.invalid'}), patch.object(worker, 'deliver', return_value='receipt') as send:
             with self.assertRaises(RuntimeError): worker.run({'NEWSLETTER_SECRET': 'secret'}, limit=1)
             self.assertEqual(send.call_count, 1)
+
+    def test_rejoined_reader_cannot_receive_an_issue_from_previous_consent(self):
+        job = {'id': 'a'*64, 'subscriber_id': 'id', 'issue_id': '2026-10-18'}
+        calls = []
+        def api(config, path, body=None):
+            calls.append((path, body))
+            if path == 'rpc/claim_newsletter_mail': return [job]
+            if path.startswith('newsletter_subscribers'):
+                return [{'email': 'test@example.invalid', 'status': 'active', 'confirmed_at': '2026-10-19T10:00:00Z'}]
+            if path.startswith('newsletter_issues'): return [{'cutoff': '2026-10-18T16:00:00Z'}]
+        with patch.object(worker, 'api', side_effect=api), patch.object(worker, 'decode_job', return_value={'to': 'test@example.invalid'}), patch.object(worker, 'deliver') as send:
+            worker.run({'NEWSLETTER_SECRET': 'secret'}, limit=1)
+            send.assert_not_called()
+            self.assertEqual(calls[-1][1]['p_status'], 'cancelled')
 
 
 if __name__ == '__main__': unittest.main()

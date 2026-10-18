@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { normalizeEmail, newsletterRequestAllowed } from '@/lib/newsletter.mjs';
-import { requestNewsletter } from '@/lib/newsletter-server';
+import { requestNewsletter, NewsletterRateLimitError } from '@/lib/newsletter-server';
 
 export const runtime = 'nodejs';
 export async function POST(request: Request) {
@@ -14,11 +14,12 @@ export async function POST(request: Request) {
     input = JSON.parse(body);
   } catch { return NextResponse.json({ error: 'Kërkesë e pavlefshme.' }, { status: 400 }); }
   const email = normalizeEmail(input?.email);
-  if (!email || input?.consent !== true) return NextResponse.json({ error: 'Shkruaj një email të vlefshëm dhe prano abonimin javor.' }, { status: 400 });
+  if (!email || input?.consent !== true) return NextResponse.json({ error: 'Shkruaj një email të vlefshëm për t’u abonuar.' }, { status: 400 });
   try {
     await requestNewsletter(email, request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown');
-    return NextResponse.json({ message: 'Kontrollo emailin (edhe dosjen spam) për ta konfirmuar abonimin. Nëse je tashmë i abonuar, nuk ke nevojë të bësh asgjë.' }, { status: 202, headers: { 'Cache-Control': 'no-store' } });
-  } catch {
+    return NextResponse.json({ message: 'U abonove! Përmbledhja vjen çdo të diel në orën 18:00 në Kosovë.' }, { status: 200, headers: { 'Cache-Control': 'no-store' } });
+  } catch (error) {
+    if (error instanceof NewsletterRateLimitError) return NextResponse.json({ error: 'Shumë kërkesa. Provo përsëri pas një ore.' }, { status: 429, headers: { 'Retry-After': '3600', 'Cache-Control': 'no-store' } });
     return NextResponse.json({ error: 'Abonimi nuk është i disponueshëm tani. Provo përsëri pas pak minutash.' }, { status: 503 });
   }
 }

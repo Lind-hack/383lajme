@@ -1,6 +1,7 @@
 """Private queue worker on the existing server; no public mail relay or listener."""
 import base64
 import hashlib
+from datetime import datetime
 import json
 import smtplib
 import ssl
@@ -78,11 +79,17 @@ def run(config, limit=5):
         receipt = None
         try:
             payload = decode_job(job, config['NEWSLETTER_SECRET'])
-            rows = api(config, 'newsletter_subscribers?id=eq.' + urllib.parse.quote(job['subscriber_id']) + '&select=email,status,confirm_token_hash')
+            rows = api(config, 'newsletter_subscribers?id=eq.' + urllib.parse.quote(job['subscriber_id']) + '&select=email,status,confirm_token_hash,confirmed_at')
             subscriber = rows[0] if rows else None
             allowed = subscriber and subscriber['email'] == payload['to'] and (
                 subscriber['status'] == 'active' if job['issue_id'] else
                 subscriber['status'] == 'pending' and subscriber['confirm_token_hash'] == job['confirmation_hash'])
+            if allowed and job['issue_id']:
+                issues = api(config, 'newsletter_issues?id=eq.' + urllib.parse.quote(job['issue_id']) + '&select=cutoff')
+                activated = subscriber.get('confirmed_at')
+                cutoff = issues[0]['cutoff'] if issues else None
+                allowed = bool(activated and cutoff and
+                    datetime.fromisoformat(activated.replace('Z', '+00:00')) <= datetime.fromisoformat(cutoff.replace('Z', '+00:00')))
             if not allowed:
                 status, error = 'cancelled', 'consent_changed'
             else:

@@ -16,7 +16,7 @@ export default function NewsletterSignup({ compact = false, onNavigate }: { comp
     setState('sending'); setMessage('');
     try {
       const response = await fetch('/api/newsletter/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: data.get('email'), consent: data.get('consent') === 'on' }), signal: AbortSignal.timeout(15_000) });
+        body: JSON.stringify({ email: data.get('email'), consent: true }), signal: AbortSignal.timeout(15_000) });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Provo përsëri pas pak minutash.');
       setState('success'); setMessage(result.message); form.reset();
@@ -30,20 +30,16 @@ export default function NewsletterSignup({ compact = false, onNavigate }: { comp
       <div className={styles.inputRow}>
         <input id={`${id}-email`} name="email" type="email" inputMode="email" autoComplete="email" spellCheck={false} autoCapitalize="none" maxLength={254} placeholder="ti@shembull.com" required disabled={state === 'sending'} aria-describedby={`${id}-message`} />
         <button type="submit" disabled={state === 'sending'} aria-label={state === 'sending' ? 'Duke u regjistruar' : 'Abonohu në përmbledhjen javore'}>
-          <span>{state === 'sending' ? 'Po dërgohet' : 'Abonohu'}</span>
+          <span>{state === 'sending' ? 'Po abonohesh…' : 'Abonohu'}</span>
           {state === 'sending' ? <LoaderCircle className={styles.spinner} size={17} aria-hidden /> : state === 'success' ? <Check size={17} aria-hidden /> : <ArrowRight size={17} aria-hidden />}
         </button>
       </div>
       <div className={styles.consent}>
-      <label className={styles.consentChoice}>
-        <input type="checkbox" name="consent" required disabled={state === 'sending'} />
-        <span className={styles.consentControl} aria-hidden="true"><span /><Check size={13} strokeWidth={3} /></span>
-        <span>Dua përmbledhjen javore me email. Mund të çregjistrohem kurdo.</span>
-      </label>
+      <span>Duke klikuar «Abonohu», pranon përmbledhjen javore nga 383. Çregjistrohu kurdo.</span>{' '}
       <Link className={styles.privacy} href="/privatesia" onClick={onNavigate}>Privatësia</Link>
       </div>
       <p id={`${id}-message`} role={state === 'error' ? 'alert' : 'status'} aria-live="polite" data-state={state} className={styles.message}>
-        {state === 'sending' ? 'Duke dërguar kërkesën…' : message}
+        {state === 'sending' ? 'Po abonohesh…' : message}
       </p>
     </form>
   );

@@ -129,7 +129,7 @@ export default function PrivatesiaPage() {
         <Section index={2} id="cfare-mbledhim" title="Çfarë të dhënash mbledhim">
           <div className="mt-1">
             <Row label="Përmbledhja javore">
-              Vetëm kur e kërkon dhe e konfirmon: emailin, kohën e kërkesës, konfirmimit dhe
+              Kur klikon «Abonohu»: emailin, kohën e abonimit dhe
               çregjistrimit, versionin e pëlqimit dhe statusin teknik të dërgesave. Për të kufizuar
               abuzimin mbajmë përkohësisht një shenjë të koduar të adresës IP, jo IP-në e plotë.
               Abonimi është i veçantë nga llogaria dhe nga zgjedhja e interesave.
@@ -165,9 +165,9 @@ export default function PrivatesiaPage() {
           <p>
             <strong className="font-bold text-ink">Përmbledhja javore</strong> — me pëlqimin tënd,
             dërgojmë lajmet kryesore çdo të diel. Çdo email ka lidhje çregjistrimi pa hyrje në
-            llogari. Kërkesat e pakonfirmuara skadojnë pas 24 orësh dhe pastrohen pas shtatë ditësh
-            gjatë kërkesës ose ekzekutimit të radhës. Pas çregjistrimit ruajmë vetëm të dhënat e
-            nevojshme për të mos të dërguar përsëri pa një konfirmim të ri. Për fshirjen e tyre,
+            llogari. Abonimi aktivizohet menjëherë, pa email ose kod konfirmimi.
+            Pas çregjistrimit ruajmë vetëm të dhënat e
+            nevojshme për të mos të dërguar përsëri pa një kërkesë të re abonimi. Për fshirjen e tyre,
             na shkruaj te <MailLink />.
           </p>
           <p>
@@ -203,7 +203,7 @@ export default function PrivatesiaPage() {
               Hosting. Shërben faqen dhe mban regjistrat teknikë të serverit.
             </Row>
             <Row label="Resend dhe Gmail — përmbledhja javore">
-              Resend dërgon konfirmimin e abonimit dhe përmbledhjen e së dielës. Nëse kufiri ditor
+              Resend dërgon përmbledhjen e së dielës. Nëse kufiri ditor
               i tij është arritur, përdorim Gmail si rrugë rezervë. Ofruesi merr adresën e emailit
               dhe përmbajtjen e mesazhit. Nuk shtojmë pikselë matës në përmbledhje; matjen e
               hapjeve dhe klikimeve e mbajmë të çaktivizuar edhe te ofruesi i emailit.

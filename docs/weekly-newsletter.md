@@ -4,10 +4,15 @@ Readers subscribe directly in the illustrated homepage card (`/#newsletter`) or
 the compact card beneath Tregu in the hamburger menu. The footer links to the
 homepage card. Ordinary `/newsletter` visits redirect there; that route is reserved
 for confirmation and unsubscribe utility screens. No account is required.
-Consent is separate from login and interests. A confirmation email opens
-a page with a button; only its POST activates the subscription. Link scanners cannot
-subscribe or unsubscribe readers by fetching a GET URL. Confirmation expires in 24
-hours. Repeat requests return the same public response without exposing membership.
+Consent is separate from login and interests. Enter an email and click Abonohu:
+activation is immediate, with no confirmation email, code or welcome-message dependency.
+The disclosure under the button records deliberate weekly-email consent. A service-role
+RPC atomically records activation and limits each hashed IP to five requests per hour;
+throttled requests return HTTP 429 rather than a false success. Already-active readers
+keep their original audience cutoff; rejoining readers get a fresh activation timestamp.
+`confirmed_at` remains the internal activation timestamp and does not assert verified inbox ownership.
+Old pending readers are not activated in bulk. Previously issued confirmation links
+remain compatible. GET links cannot unsubscribe readers; the utility page requires POST.
 
 ## Content and schedule
 
@@ -15,10 +20,14 @@ Sunday at **18:00 Europe/Tirane (Kosovo)**. Each issue covers the previous Sunda
 18:00 through this Sunday 18:00, accounting for DST. It ranks the entire persisted
 `news_articles` archive for that interval by engagement score, deduplicates slugs and
 normalised titles, and gives different categories space in the lead selection.
-Up to twelve stories are grouped by topic. Each represented category receives a
-slot before the remaining slots are filled. Every story includes a short published
-summary, source label and article link; missing excerpts use the published body.
-Summaries end at a sentence or word boundary rather than mid-word. Tregu and Visit links finish the email. There is
+Up to eight stories form a numbered reading sequence with category labels. Each
+represented category receives a slot before remaining slots are filled. Every selected
+story has its own valid HTTPS article photo, a short published summary, source and
+full-story link. Candidates missing a real image or reporting text are skipped rather
+than illustrated with unrelated photos. Captions and creator/license attribution travel
+with the frozen image. Missing excerpts use the published body. Summaries end at a
+sentence or word boundary, at most 280 characters. The ending marks completion without
+promotional detours. Headlines and summaries remain readable with images blocked. There is
 no generated reporting, mock fallback, or dependency on an LLM. An empty archive
 skips sending rather than inventing a recap. Content is frozen in `newsletter_issues`
 before delivery, so later retries use the same edition.
@@ -32,7 +41,8 @@ worker before they outgrow this delivery window.
 
 ## Activation
 
-1. Apply `supabase/migrations/0111_weekly_newsletter.sql` to the intended database
+1. Apply migrations `0111_weekly_newsletter.sql`, `0112_newsletter_mail_queue.sql`
+   and `0113_newsletter_single_click.sql` to the intended database
    using the normal migration process. First run the rollback-only integration test
    `supabase/tests/weekly_newsletter.sql` in an isolated database with no subscribers.
 2. Set the server environment values below. Use the existing Supabase URL and
@@ -166,3 +176,17 @@ Inspect with `systemctl status 383-newsletter-mail.timer` and
 Run `supabase/tests/newsletter_mail_queue.sql` in an isolated database (or an empty
 newly installed queue); its fixtures roll back. Python worker tests cover consent
 revocation, explicit rejections, uncertain acceptance and receipt loss.
+
+
+## Single-click release verification
+
+`supabase/tests/newsletter_single_click.sql` checks immediate activation, repeat signup,
+fresh rejoin, stale confirmation cancellation, weekly queue cutoff cancellation,
+rate limiting, pending-reader isolation and service-role permissions. Run it in the
+isolated newsletter database alongside the legacy and queue tests. New signup requires
+only database access and `NEWSLETTER_SECRET`; provider credentials are needed for weekly delivery.
+The worker rechecks the issue cutoff immediately before SMTP, in addition to its database claim.
+
+New weekly snapshots contain photos and credits. Existing frozen editions remain unchanged,
+including already queued payloads; never rewrite a sent issue to retrofit its design.
+Email HTML has a plain-text alternative and is kept below 80 KB in release verification.

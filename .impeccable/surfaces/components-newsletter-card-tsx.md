@@ -51,3 +51,19 @@ The email is a table-based 600px editorial letter, grouped by topic, with a shor
 summary for every included article and a plain-text alternative.
 
 The homepage invitation now sits between Ekonomi and Sport. Both the full and compact cards use the same subtle orange gloss, inset rim and soft surface highlight; content remains unfiltered and sharp.
+
+
+## Single-click signup and concise recap
+
+The subscribe button records weekly-email consent through an adjacent plain-language
+disclosure. No checkbox, code, or inbox confirmation is needed; success is displayed
+only after atomic database activation. Signup has no email-provider dependency.
+
+The email is a numbered sequence of up to eight photo-backed reports, with each
+article's own image beside its headline, a factual published summary below, source,
+photo credits and a full-story link. Natural image ratios are preserved. The ending
+marks completion; unrelated promotional blocks are removed. Existing frozen issues
+remain unchanged. New selection excludes missing photos and empty reporting.
+
+Verified using real archive data: eight loaded JPEGs, no 390px overflow, about 20 KB
+HTML, published summaries present for all stories, plus plain-text fallback.

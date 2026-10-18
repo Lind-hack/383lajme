@@ -9,7 +9,7 @@ const admin = createClient(input.NEXT_PUBLIC_SUPABASE_URL, input.SUPABASE_SERVIC
 const window = weeklyWindow();
 const articles = [];
 for (let page = 0; page < 11; page++) {
-  const { data, error } = await admin.from('news_articles').select('slug,title,excerpt,body,source,category,published_at,engagement_score')
+  const { data, error } = await admin.from('news_articles').select('slug,title,excerpt,body,source,category,published_at,engagement_score,image_url,image_caption:raw_article->>image_caption,image_rights:raw_article->image_rights')
     .gt('published_at', window.start).lte('published_at', window.end).order('published_at').order('id').range(page * 1000, page * 1000 + 999);
   if (error || (page === 10 && data?.length)) throw new Error('Cannot read complete published archive');
   articles.push(...(data || []));

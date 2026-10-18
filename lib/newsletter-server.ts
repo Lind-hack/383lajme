@@ -1,20 +1,25 @@
 import 'server-only';
-import { createHash, createHmac, randomBytes } from 'node:crypto';
+import { createHash, createHmac } from 'node:crypto';
 import { encryptNewsletterMail } from './newsletter-mail.mjs';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { renderConfirmationEmail, renderWeeklyEmail, selectWeeklyStories, signUnsubscribe, weeklyWindow, type EmailMessage, type WeeklyIssue } from './newsletter.mjs';
+import { renderWeeklyEmail, selectWeeklyStories, signUnsubscribe, weeklyWindow, type EmailMessage, type WeeklyIssue } from './newsletter.mjs';
 
-export function newsletterConfig() {
+function newsletterStorageConfig() {
   const secret = process.env.NEWSLETTER_SECRET || '';
+  const admin = createAdminClient();
+  if (secret.length < 32 || !admin) throw new Error('Newsletter database configuration missing');
+  return { secret, admin };
+}
+export function newsletterConfig() {
+  const storage = newsletterStorageConfig();
   const key = process.env.RESEND_API_KEY || '';
   const from = process.env.NEWSLETTER_FROM || '';
   const origin = new URL(process.env.NEWSLETTER_SITE_URL || 'https://383ks.com');
   if (origin.protocol !== 'https:' && !(process.env.NODE_ENV !== 'production' && ['localhost', '127.0.0.1'].includes(origin.hostname))) throw new Error('Newsletter requires HTTPS');
-  if (secret.length < 32 || !key || !from || /[\r\n]/.test(from)) throw new Error('Newsletter email configuration missing');
-  const admin = createAdminClient();
-  if (!admin) throw new Error('Newsletter database configuration missing');
-  return { secret, key, from, origin: origin.origin, admin, queueEnabled: process.env.NEWSLETTER_SMTP_QUEUE === '1' };
+  if (!key || !from || /[\r\n]/.test(from)) throw new Error('Newsletter email configuration missing');
+  return { ...storage, key, from, origin: origin.origin, queueEnabled: process.env.NEWSLETTER_SMTP_QUEUE === '1' };
 }
+export class NewsletterRateLimitError extends Error {}
 export const tokenHash = (token: string) => createHash('sha256').update(token).digest('hex');
 
 class DeliveryError extends Error {
@@ -48,26 +53,11 @@ async function sendEmail(config: ReturnType<typeof newsletterConfig>, to: string
 }
 
 export async function requestNewsletter(email: string, ip: string) {
-  const config = newsletterConfig();
-  const token = randomBytes(32).toString('hex');
+  const config = newsletterStorageConfig();
   const ipHash = createHmac('sha256', config.secret).update('newsletter-ip:' + ip).digest('hex');
-  const { data: id, error } = await config.admin.rpc('request_newsletter_subscription', { p_email: email, p_ip_hash: ipHash, p_token_hash: tokenHash(token) });
-  if (error) throw new Error('subscription_storage_unavailable');
-  if (!id) return; // Same public response for active, throttled and new addresses.
-  try {
-    await sendEmail(config, email, renderConfirmationEmail(config.origin, token), 'newsletter-confirm/' + tokenHash(token), undefined, { subscriberId: id, confirmationHash: tokenHash(token), expiresAt: new Date(Date.now() + 24 * 3_600_000).toISOString() });
-  } catch (error) {
-    // A definite rejection cannot have delivered this token. Release its cooldown
-    // without touching a newer request or invalidating an uncertain network send.
-    if (error instanceof DeliveryError && error.status >= 400 && error.status < 500 && error.status !== 408) {
-      const released = await config.admin.from('newsletter_subscribers').update({
-        requested_at: new Date(Date.now() - 10 * 60_000 - 1000).toISOString(),
-        confirm_token_hash: null, confirm_expires_at: null,
-      }).eq('id', id).eq('status', 'pending').eq('confirm_token_hash', tokenHash(token));
-      if (released.error) throw new Error('confirmation_retry_unavailable');
-    }
-    throw error;
-  }
+  const { data, error } = await config.admin.rpc('activate_newsletter_subscription', { p_email: email, p_ip_hash: ipHash });
+  if (error || typeof data !== 'boolean') throw new Error('subscription_storage_unavailable');
+  if (!data) throw new NewsletterRateLimitError('newsletter_rate_limited');
 }
 
 async function loadIssue(config: ReturnType<typeof newsletterConfig>, window: ReturnType<typeof weeklyWindow>): Promise<WeeklyIssue | null> {
@@ -78,7 +68,7 @@ async function loadIssue(config: ReturnType<typeof newsletterConfig>, window: Re
   // Paginate the full week instead of taking only the most recent stories.
   for (let page = 0; page <= 10; page++) {
     const { data, error } = await config.admin.from('news_articles')
-      .select('id,slug,title,excerpt,body,source,category,published_at,engagement_score')
+      .select('id,slug,title,excerpt,body,source,category,published_at,engagement_score,image_url,image_caption:raw_article->>image_caption,image_rights:raw_article->image_rights')
       .gt('published_at', window.start).lte('published_at', window.end)
       .order('published_at').order('id').range(page * 1000, page * 1000 + 999);
     if (error) throw new Error('newsletter_archive_unavailable');
