@@ -265,10 +265,6 @@ export default async function HomePage() {
           <PerTyHome />
         </div>
 
-        <div style={{ marginBottom: "var(--space-section)" }}>
-          <NewsletterCard />
-        </div>
-
         {/* Lajmet e fundit — the day's run, one story to a row, and the way
             back through the archive. "Kalo te" above it opens each section. */}
         <SectionJump links={jumpLinks} />
@@ -312,6 +308,7 @@ export default async function HomePage() {
       <Contained>
         <CategoryBlock category="Botë" articles={block("Botë")} layout="bento" />
         <CategoryBlock category="Ekonomi" articles={block("Ekonomi")} layout="overlay" />
+        <NewsletterCard />
       </Contained>
 
       <Contained first>

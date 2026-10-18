@@ -49,3 +49,5 @@ track and a short check transition; its full label remains clickable, with a
 separate privacy link, keyboard focus, and reduced-motion behavior.
 The email is a table-based 600px editorial letter, grouped by topic, with a short
 summary for every included article and a plain-text alternative.
+
+The homepage invitation now sits between Ekonomi and Sport. Both the full and compact cards use the same subtle orange gloss, inset rim and soft surface highlight; content remains unfiltered and sharp.
