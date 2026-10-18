@@ -357,24 +357,30 @@ def photo_info(files: list[str]) -> list[dict]:
 
 
 def story_photos(story: dict, subjects: list[str], pages: dict[str, dict]) -> list[dict]:
-    """The story's own photo first, then each subject's: its Wikipedia lead
-    photo and a few more that show it. At most eight, none twice."""
+    """The story's own photo first, then each subject's: its Wikipedia lead photo, and for a
+    person or an organisation a couple more that show it. A place (anything with coordinates:
+    a country, a city, a building) gets its lead photo only: "photos that show Russia" are
+    any photo taken there (a mosque ceiling, a plant, a mine), not the story. Each photo
+    knows whose it is ("who"), so it can come up when that name is said. At most eight."""
     photos = []
     if story.get("imageUrl"):
         credit = " · ".join(x for x in (story.get("imageCreator"), story.get("imageLicense")) if x)
-        photos.append({"src": story["imageUrl"], "credit": credit, "page": story.get("imageSourcePage", ""), "file": ""})
-    files = []
+        photos.append({"src": story["imageUrl"], "credit": credit, "page": story.get("imageSourcePage", ""), "file": "", "who": ""})
+    files: list[tuple[str, str]] = []
     for name in subjects:
         page = pages.get(name) or {}
         if page.get("image"):
-            files.append(page["image"])
-        files += depicting(page.get("qid", ""), 2)
+            files.append((page["image"], name))
+        if page.get("lat") is None:
+            files += [(f, name) for f in depicting(page.get("qid", ""), 2)[:2]]
+    whose = {f.replace("_", " "): who for f, who in files}
     seen = {re.sub(r"^\d+px-", "", p["src"].rsplit("/", 1)[-1]) for p in photos}
-    for p in photo_info(files):
+    for p in photo_info([f for f, _ in files]):
         name = re.sub(r"^\d+px-", "", p["src"].rsplit("/", 1)[-1])
         if name in seen:
             continue
         seen.add(name)
+        p["who"] = whose.get(p.get("file", "").removeprefix("File:").replace("_", " "), "")
         photos.append(p)
     return photos[:8]
 
@@ -836,6 +842,12 @@ def build_beats(duration: float, words: list[list], photos: list[dict], facts: l
     k = 0
     shown = 0  # footage pieces used, in rich mode
     fills = 0
+    # When each photo's person or organisation is first named: their photo comes up then.
+    named = {}
+    for p in photos:
+        if p.get("who") and p["who"] not in named:
+            named[p["who"]] = _said_name(words, re.sub(r"\s*\(.*?\)", "", p["who"]))
+    last_src = ""
 
     def photo(at: float) -> dict:
         nonlocal k, shown, fills
@@ -854,10 +866,20 @@ def build_beats(duration: float, words: list[list], photos: list[dict], facts: l
                     "youtube": v.get("youtube", ""), "channel": v.get("channel", ""), "start": 2, "media": 0.8 * (k % 2)}
         if not photos:
             return {"at": round(at, 2), "kind": "plain"}
-        p = photos[k % len(photos)]
-        b = {"at": round(at, 2), "kind": "photo", "src": p["src"], "credit": p.get("credit", ""), "move": MOVES[k % len(MOVES)]}
-        k += 1
-        return b
+        nonlocal last_src
+        # The person just named (in the last few seconds, or about to be), else the next in turn.
+        recent = [p for p in photos if p.get("who") and named.get(p["who"]) is not None
+                  and at - 6.0 <= named[p["who"]] <= at + 0.8 and p["src"] != last_src]
+        if recent:
+            p = max(recent, key=lambda p: named[p["who"]])
+        else:
+            p = photos[k % len(photos)]
+            if p["src"] == last_src and len(photos) > 1:
+                k += 1
+                p = photos[k % len(photos)]
+            k += 1
+        last_src = p["src"]
+        return {"at": round(at, 2), "kind": "photo", "src": p["src"], "credit": p.get("credit", ""), "move": MOVES[(k + fills) % len(MOVES)]}
 
     t = 0.0
     for start, length, beat in fixed + [(duration, 0, None)]:

@@ -100,9 +100,11 @@ leave out every detail that is not needed to understand the news.
 - The last sentence ends the clip; do not say "lexoni më shumë" or "na ndiqni".
 
 For every story also say what the clip can show while the voice reads:
-- "subjects": up to 4 exact English Wikipedia article titles of the people, organisations,
-  buildings or places the story names (e.g. "Edi Rama", "Tirana", "California Department of
-  Forestry and Fire Protection"). Only ones the story itself names.
+- "subjects": up to 5 exact English Wikipedia article titles of the PEOPLE, organisations and
+  named buildings the script speaks about, in the order the script names them (e.g. "Donald
+  Trump", "Marco Rubio", "Volodymyr Zelenskyy", "White House"). Their photos are shown while the
+  voice talks about them, so: never a country, region or city (no "Russia", "Ukraine", "Tirana":
+  their photos show anything at all), and only ones the story itself names.
 - "place": the exact English Wikipedia title of the one city or region where it happens, or "";
   "place_name": the same place's name in Albanian, in its base form (Parisi, Tirana, Kalifornia).
 - "facts": up to 2 striking numbers to show big on screen, each

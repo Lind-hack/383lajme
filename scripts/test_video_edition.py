@@ -341,6 +341,20 @@ class GraphicsTests(unittest.TestCase):
         self.assertGreaterEqual(starts[0], 120 * 0.06)
 
 
+class PhotoTimingTests(unittest.TestCase):
+    def test_a_persons_photo_comes_up_when_they_are_named(self):
+        words = said("Presidenti Trump pezulloi sanksionet sot dhe pastaj sekretari Marco Rubio tha se do të shohë "
+                     "ndikimin ndërsa presidenti Zelenskyy e quajti gabim këtë vendim të ri sot", 0.5)
+        photos = [{"src": "trump.jpg", "who": "Donald Trump"}, {"src": "rubio.jpg", "who": "Marco Rubio"},
+                  {"src": "zel.jpg", "who": "Volodymyr Zelenskyy"}]
+        beats = media.build_beats(15.0, words, photos, [], None, None, [])
+        def shown_at(t):
+            return [b for b in beats if b["at"] <= t][-1]["src"]
+        rubio, zel = render._word_at(words, "Rubio")[0], render._word_at(words, "Zelenskyy")[0]
+        self.assertEqual(shown_at(rubio + 1.0), "rubio.jpg")
+        self.assertEqual(shown_at(zel + 1.5), "zel.jpg")
+
+
 class CoverTests(unittest.TestCase):
     def test_the_cover_keeps_only_the_storys_names_and_numbers(self):
         self.assertEqual(ve.check_cover("Ylli mposht Vëllaznimin 100:86", GAME), "Ylli mposht Vëllaznimin 100:86")
