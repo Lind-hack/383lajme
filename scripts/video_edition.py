@@ -603,7 +603,7 @@ def main(dry_run: bool = False, only: str = "", force: bool = False, keep: str =
             }
         found = {s["slug"]: media.footage_candidates((written.get(s["slug"]) or {}).get("youtube", []),
                                                      (written.get(s["slug"]) or {}).get("sources", []),
-                                                     ((written.get(s["slug"]) or {}).get("subjects") or [""])[0]) for s in fresh}
+                                                     (written.get(s["slug"]) or {}).get("subjects") or []) for s in fresh}
         footage = pick_footage(found, Path(tmp))
     if dry_run:
         for s in fresh:

@@ -514,18 +514,24 @@ def youtube_search(query: str, now: datetime) -> list[dict]:
     return out
 
 
-def footage_candidates(queries: list[str], sources: list[str], subject: str = "", limit: int = 14, max_age_days: int = 7) -> list[dict]:
+def footage_candidates(queries: list[str], sources: list[str], subject: str | list[str] = "", limit: int = 14, max_age_days: int = 7) -> list[dict]:
     """YouTube videos of the event that other sites may embed, posted in the
     last week (an older one is a different occasion): YouTube's own search
     with a few short queries (short ones find far more than long ones), then
     Agent Reach's (Exa) when it answers."""
+    subjects = [subject] if isinstance(subject, str) else list(subject)
+    subjects = [re.sub(r"\s*\(.*?\)", "", s).strip() for s in subjects if s]
     queries = [re.sub(r"\s+", " ", re.sub(r"\b(20\d\d)\b", "", q)).strip() for q in queries if q]
-    queries = [q for q in queries if q]
+    # The writer's searches can miss; the story's own names together always say who it is about.
+    if len(subjects) >= 2:
+        queries.append(f"{subjects[0]} {subjects[1]}")
+    queries = [q for q in dict.fromkeys(queries) if q]
     if not queries:
         return []
     now = datetime.now(timezone.utc)
     query = queries[0]
-    searches = queries[:3] + ([f"{s} {subject}" for s in sources[:2]] if subject else [])
+    subject = subjects[0] if subjects else ""
+    searches = queries[:4] + ([f"{s} {subject}" for s in sources[:2]] if subject else [])
     seen: dict[str, dict] = {}
     # Each search's top results in turn, so every search gets its best ones in.
     ranked = [youtube_search(q, now) for q in dict.fromkeys(searches)]
