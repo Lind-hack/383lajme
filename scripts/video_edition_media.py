@@ -636,7 +636,7 @@ def pick_moments(length: float, cuts: list[float], n: int, piece: float = CUT) -
     return starts
 
 
-def youtube_clips(videos: list[dict], workdir: str, per_video: tuple[int, ...] = (7, 4)) -> list[dict]:
+def youtube_clips(videos: list[dict], workdir: str, per_video: tuple[int, ...] = (7, 4, 3)) -> list[dict]:
     """Pieces of the picked YouTube videos (the judge kept only primary sources): many short
     moments from across each, most filling the frame, every third showing the whole picture."""
     if not (videos and os.path.exists(YTDLP) and os.path.exists(YT_COOKIES)):
@@ -654,7 +654,8 @@ def youtube_clips(videos: list[dict], workdir: str, per_video: tuple[int, ...] =
         if length < 8:
             continue
         wide = float(meta.get("width") or 16) >= float(meta.get("height") or 9)
-        credit = {"credit": f"Video: {v['channel']} · YouTube", "source": url, "youtube": v["id"], "channel": v["channel"]}
+        credit = {"credit": f"Video: {v['channel']} · YouTube", "source": url, "youtube": v["id"], "channel": v["channel"],
+                  "keys": list(v.get("keys") or [])}
 
         def piece(src: str, at: float, n: int) -> None:
             seg = os.path.join(workdir, f"foot-yt-{v['id']}-{n}.mp4")
@@ -694,8 +695,13 @@ def commons_clips(qids: list[str], workdir: str, limit: int = 1) -> list[dict]:
             files += [r["title"] for r in (http_json(f"{COMMONS}?{q}").get("query") or {}).get("search", [])]
         except (urllib.error.URLError, TimeoutError, ValueError):
             continue
+    return commons_cut(list(dict.fromkeys(files)), workdir, limit)
+
+
+def commons_cut(files: list[str], workdir: str, limit: int) -> list[dict]:
+    """A piece of each Commons video that is free, sharp enough and long enough."""
     out = []
-    for title in dict.fromkeys(files):
+    for title in files:
         q = urllib.parse.urlencode({"action": "query", "format": "json", "formatversion": "2", "prop": "imageinfo",
                                     "iiprop": "url|extmetadata|size", "titles": title})
         try:
@@ -709,7 +715,7 @@ def commons_clips(qids: list[str], workdir: str, limit: int = 1) -> list[dict]:
         length = probe_duration(ii.get("url", ""))
         if length < SEGMENT + 1:
             continue
-        seg = os.path.join(workdir, f"foot-commons-{len(out)}.mp4")
+        seg = os.path.join(workdir, f"foot-commons-{abs(hash(title)) % 10**8}.mp4")
         if cut_segment(ii["url"], min(length * 0.3, length - SEGMENT - 0.5), SEGMENT, seg):
             creator = strip_html((meta.get("Artist") or {}).get("value", ""))[:50] or "Wikimedia Commons"
             out.append({"file": seg, "credit": f"Video: {creator} · {licence}", "duration": SEGMENT, "source": ii.get("descriptionurl", "")})
@@ -745,11 +751,15 @@ def pexels_clips(place: str, workdir: str) -> list[dict]:
     return []
 
 
-def gather_footage(picked: list[dict], qids: list[str], place: str, workdir: str, photos: int = 0) -> list[dict]:
-    """The event's own video when there is any, and then nothing else: a clip of the game
-    is the game, never the city around it. Without it, free video of the story's people
-    and places; a stock shot of the city only when the story has no pictures at all."""
+def gather_footage(picked: list[dict], qids: list[str], place: str, workdir: str, photos: int = 0,
+                   names: list[str] | None = None) -> list[dict]:
+    """The event's own video when there is any (the people's and institutions' YouTube
+    uploads, then this week's free Commons video of them), and then nothing else: a clip of
+    the game is the game, never the city around it. Without it, free video of the story's
+    people and places; a stock shot of the city only when the story has no pictures at all."""
     found = youtube_clips(picked, workdir)
+    if len(found) < 3:
+        found += commons_recent(names or [], workdir)
     if found:
         return found
     found = commons_clips(qids, workdir)
@@ -760,6 +770,151 @@ def gather_footage(picked: list[dict], qids: list[str], place: str, workdir: str
 
 SPORT_WORDS = re.compile(r"(?i)\b(ndeshj\w*|kampionat\w*|superlig\w*|basketboll\w*|futboll\w*|volejboll\w*|hendboll\w*|"
                          r"skuadr\w*|trajner\w*|lojtar\w*|golat|golin|pikë|çerek\w*|stadium\w*|palestr\w*|kupa\w*|ligë|ligën|ligës)(?!\w)")
+
+
+# ── Official channels: straight to the people who were there ─────────────────
+# Each checked by hand (verified badge, or plainly the institution's own account): YouTube's
+# channel search alone brings up fan and fake channels for "Zelenskyy" or "Kurti". A story
+# that speaks of one of them has that channel's newest uploads read directly, so the video
+# the White House or the federation posted of the event is found even when a general search
+# buries it under news outlets.
+OFFICIAL_CHANNELS: list[tuple[str, str, tuple[str, ...]]] = [
+    ("UCYxRlFDqcWM4y7FfpiAN3KQ", "The White House", ("trump", "shtëpia e bardhë", "shtëpisë së bardhë", "white house", "vance", "leavitt")),
+    ("UC6ZhpmNnLxlOYipqh8wbM3A", "U.S. Department of State", ("rubio", "departamenti i shtetit", "departamentit të shtetit", "state department")),
+    ("UCpuofAxlrUAgnu7QEwKQwxw", "U.S. Department of War", ("pentagon", "hegseth", "departamenti i luftës", "departamenti i mbrojtjes")),
+    ("UCncq73xfx9sVA3Ht2uVRrCw", "Office of the President of Ukraine", ("zelensk", "zelenski", "presidenti ukrainas")),
+    ("UCp2zBKrqP0ZQF6RN4RJtF2Q", "Zelenskyy President", ("zelensk", "zelenski", "presidenti ukrainas")),
+    ("UCHlEaKbepQ_S9iIoZPKVQew", "NATO", ("nato", "rutte", "aleanca veriatlantike")),
+    ("UCMPaviJxybo1RTdzvYcU91A", "European Commission", ("komisioni evropian", "komisionit evropian", "von der leyen", "kallas")),
+    ("UCvU4p_w08osQsrNi_I4ZtDA", "European Parliament", ("parlamenti evropian", "parlamentit evropian", "metsola")),
+    ("UCLPG_xkgSWeWnOhBsi-jxCA", "Council of the EU", ("këshilli evropian", "këshillit evropian", "antónio costa", "antonio costa")),
+    ("UC5O114-PQNYkurlTg6hekZw", "United Nations", ("kombet e bashkuara", "kombeve të bashkuara", "guterres", "këshilli i sigurimit")),
+    ("UCawNWlihdgaycQpO3zi-jYg", "Israel Defense Forces", ("ushtria izraelite", "ushtrisë izraelite", "idf")),
+    ("UCcnFmkINMo4Jmkx5mvlCh6g", "Bundesregierung", ("merz", "qeveria gjermane", "kancelari gjerman")),
+    ("UCPaeEhnVIdn4T01gUphIltw", "Élysée", ("macron", "presidenti francez")),
+    ("UC8o7mIMg3mmO9-dx3e2iFgw", "10 Downing Street", ("starmer", "kryeministri britanik", "downing street")),
+    ("UCLA_DiR1FfKNvjuUpBHmylQ", "NASA", ("nasa", "artemis")),
+    ("UCx3ZnEUEVC4bZcqYYsTTpAg", "Zyra e Kryeministrit të Kosovës", ("kurti", "kryeministri i kosovës", "qeveria e kosovës", "qeverisë së kosovës")),
+    ("UCpgAmi6MlkRO-4GDHUlHKnA", "Lëvizja Vetëvendosje", ("vetëvendosje", "kurti")),
+    ("UC4Xc2nL2i8Pu3PL_tljnjjg", "Kuvendi i Republikës së Kosovës", ("kuvendi i kosovës", "kuvendit të kosovës", "deputetët", "seanca")),
+    ("UCk760jgRKgAvftBlGAQmuMA", "Vjosa Osmani", ("osmani", "presidentja")),
+    ("UC_l2qmM0mXkq5pOBEp3j2dw", "Edi Rama", ("rama", "kryeministri i shqipërisë", "qeveria shqiptare")),
+    ("UCSZa3itQ9eG9FZJIFb0Tubg", "Partia Demokratike e Shqipërisë", ("berisha", "partia demokratike", "pd-ja", "opozita shqiptare")),
+    ("UCzeT6tNab6BQ38KZvvNYyKA", "Federata e Futbollit e Kosovës", ("ffk", "dardanët", "kombëtarja e kosovës", "superliga e kosovës")),
+    ("UCftIBC9eGA55-o0f6tOVLpQ", "FSHF", ("fshf", "kombëtarja shqiptare", "kombëtarja kuqezi", "kuqezinjtë")),
+    ("UCpU_nXypDcGaWCliQE0NV7w", "Federata e Basketbollit e Kosovës FBK", ("basketboll", "fbk")),
+    ("UCyGa1YEx9ST66rYrJTGIKOw", "UEFA", ("uefa", "liga e kampionëve", "champions league", "liga e evropës", "liga e konferencës")),
+    ("UCpcTrCXblq78GZrTUTLWeBw", "FIFA", ("fifa", "kupa e botës", "botërori")),
+]
+
+STOP = {"this", "that", "with", "from", "have", "after", "over", "about", "will", "their", "they", "were", "what", "when",
+        "dhe", "për", "nga", "një", "është", "janë", "kanë", "ishte", "pas", "para", "duke", "edhe", "këtë", "ndaj",
+        "live", "video", "official", "full", "news", "today", "remarks", "president", "minister"}
+
+
+def story_keys(text: str) -> set[str]:
+    """The story's words that a video title about it would share (names, places, the topic),
+    each cut to its first 5 letters so endings do not matter (Rusisë / Rusia, sanksionet / sanctions)."""
+    return {norm(w)[:5] for w in re.findall(r"[\wçë-]+", text.lower()) if len(norm(w)) >= 4 and norm(w) not in STOP}
+
+
+def channels_for(text: str) -> list[tuple[str, str, tuple[str, ...]]]:
+    """The official channels a story speaks of, the most spoken of first."""
+    low = text.lower()
+    hits = []
+    for cid, name, keys in OFFICIAL_CHANNELS:
+        n = sum(len(re.findall(r"(?<![\wçë])" + re.escape(k), low)) for k in keys)
+        if n:
+            hits.append((n, cid, name, keys))
+    return [(cid, name, keys) for n, cid, name, keys in sorted(hits, key=lambda h: -h[0])][:4]
+
+
+def channel_uploads(cid: str, now: datetime) -> list[dict]:
+    """A channel's newest videos and streams: id, title, when."""
+    out = []
+    for tab in ("videos", "streams"):
+        try:
+            req = urllib.request.Request(f"https://www.youtube.com/channel/{cid}/{tab}", headers={"User-Agent": "Mozilla/5.0", "Accept-Language": "en-US,en"})
+            with urllib.request.urlopen(req, timeout=20) as res:
+                html = res.read().decode("utf-8", "replace")
+            data = json.loads(re.search(r"var ytInitialData = (\{.*?\});</script>", html).group(1))
+        except (urllib.error.URLError, TimeoutError, OSError, AttributeError, ValueError):
+            continue
+        for v in walk_videos(data):
+            title = ((v.get("title") or {}).get("runs") or [{}])[0].get("text", "")
+            when = posted_on((v.get("publishedTimeText") or {}).get("simpleText", ""), now)
+            if v.get("videoId") and title and when:
+                out.append({"id": v["videoId"], "title": title[:160], "when": when})
+        # Channel pages draw their videos as "lockups" (the search page still uses videoRenderer).
+        for lock in walk_key(data, "lockupViewModel"):
+            if lock.get("contentType") not in (None, "LOCKUP_CONTENT_TYPE_VIDEO") or not lock.get("contentId"):
+                continue
+            meta = (lock.get("metadata") or {}).get("lockupMetadataViewModel") or {}
+            title = str((meta.get("title") or {}).get("content") or "")
+            texts = [t for t in walk_key(meta, "content") if isinstance(t, str)]
+            when = next((posted_on(t, now) for t in texts if re.search(r"\bago\b|Streamed", t) and posted_on(t, now)), None)
+            if title and when:
+                out.append({"id": lock["contentId"], "title": title[:160], "when": when})
+    return list({v["id"]: v for v in out}.values())
+
+
+def walk_key(node, key: str):
+    """Every value stored under key, anywhere in a nested JSON."""
+    if isinstance(node, dict):
+        for k, v in node.items():
+            if k == key:
+                yield v
+            yield from walk_key(v, key)
+    elif isinstance(node, list):
+        for v in node:
+            yield from walk_key(v, key)
+
+
+def official_candidates(text: str, keys: set[str], max_age_days: int = 5, limit: int = 6) -> list[dict]:
+    """Videos the story's own people and institutions posted in the last few days whose title
+    is about this story: it must share a topic word with it beyond the channel's own name (every
+    White House video says "Trump"; one about these sanctions also says Russia or sanctions)."""
+    now = datetime.now(timezone.utc)
+    out = []
+    for cid, name, own in channels_for(text):
+        own_keys = {norm(w)[:5] for k in own for w in k.split() if len(norm(w)) >= 4}
+        for v in channel_uploads(cid, now):
+            if now - v["when"] > timedelta(days=max_age_days):
+                continue
+            title_keys = story_keys(v["title"])
+            score = len((title_keys & keys) - own_keys)
+            if score >= 1:
+                out.append({"id": v["id"], "channel": name, "title": v["title"], "posted": v["when"].date().isoformat(),
+                            "score": score, "keys": list(own), "official": True})
+    out.sort(key=lambda c: (c["score"], c["posted"]), reverse=True)  # most on topic, then newest
+    seen, best = set(), []
+    for c in out:
+        if c["id"] not in seen:
+            seen.add(c["id"])
+            best.append(c)
+    return best[:limit]
+
+
+def commons_recent(names: list[str], workdir: str, days: int = 10, limit: int = 2) -> list[dict]:
+    """Freely licensed video uploaded to Commons in the last days about the story's people
+    (governments upload their own: the White House, the Kremlin, parliaments)."""
+    now = datetime.now(timezone.utc)
+    titles: list[str] = []
+    for name in [n for n in names if n][:3]:
+        q = urllib.parse.urlencode({"action": "query", "format": "json", "list": "search", "srnamespace": "6", "srlimit": "6",
+                                    "srsort": "create_timestamp_desc", "srsearch": f'filemime:video "{name}"'})
+        try:
+            rows = (http_json(f"{COMMONS}?{q}").get("query") or {}).get("search", [])
+        except (urllib.error.URLError, TimeoutError, ValueError):
+            continue
+        for r in rows:
+            try:
+                when = datetime.fromisoformat(r.get("timestamp", "").replace("Z", "+00:00"))
+            except ValueError:
+                continue
+            if now - when <= timedelta(days=days):
+                titles.append(r["title"])
+    return commons_cut(list(dict.fromkeys(titles)), workdir, limit)
 
 
 def is_sport(story: dict) -> bool:
@@ -848,13 +1003,25 @@ def build_beats(duration: float, words: list[list], photos: list[dict], facts: l
         if p.get("who") and p["who"] not in named:
             named[p["who"]] = _said_name(words, re.sub(r"\s*\(.*?\)", "", p["who"]))
     last_src = ""
+    # Footage from someone's own channel comes up when they are named, like their photo.
+    def keys_said(keys: list[str]) -> float | None:
+        stems = [norm(k.split()[0])[:5] for k in keys if len(norm(k.split()[0])) >= 4]
+        return first_word_at(words, lambda w: any(w.startswith(s) for s in stems)) if stems else None
+    foot_named = [keys_said(v.get("keys") or []) for v in footage]
+    unused = list(range(len(footage)))
 
     def photo(at: float) -> dict:
         nonlocal k, shown, fills
         fills += 1
         if rich and (not photos or fills % 4):
-            # A fresh moment of the event each time; only when all are used, one again.
-            v = footage[shown % len(footage)]
+            # A fresh moment of the event each time (the one whose person was just named first);
+            # only when all are used, one again.
+            pool = unused or list(range(len(footage)))
+            near = [i for i in pool if foot_named[i] is not None and at - 6.0 <= foot_named[i] <= at + 0.8]
+            i = near[0] if near else pool[0]
+            if i in unused:
+                unused.remove(i)
+            v = footage[i]
             shown += 1
             return {"at": round(at, 2), "kind": "video", "file": v.get("file", ""), "credit": v.get("credit", ""),
                     "youtube": v.get("youtube", ""), "channel": v.get("channel", ""), "start": 2}

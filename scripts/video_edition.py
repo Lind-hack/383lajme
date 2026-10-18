@@ -164,7 +164,10 @@ YouTube videos (channel and title). Keep a video ONLY if both are true:
    that holds the rights to the event.
 2. The title shows it is this very event (the same people, place and occasion), not a different
    one. Every video listed was posted in the last week.
-At most 2 per story; none is a fine answer.
+Each story's headline and summary are given: keep a video only if it shows what THIS story is
+about (the same people and the same occasion), not merely the same person on another day. Videos
+marked "official" come straight from the uploads of a person or institution the story names: still
+check the title is this story. At most 3 per story; none is a fine answer.
 
 Reply with ONLY this, exactly, nothing before or after:
 383_JSON_BEGIN
@@ -450,22 +453,45 @@ def searches(story: dict, w: dict) -> list[str]:
     return out
 
 
-def pick_footage(found: dict[str, list[dict]], workdir: Path) -> dict[str, list[dict]]:
+def pick_footage(found: dict[str, list[dict]], workdir: Path, stories: list[dict] | None = None) -> dict[str, list[dict]]:
     """The model keeps only the people's and institutions' own videos of the event."""
     found = {slug: c for slug, c in found.items() if c}
     if not found:
         return {}
+    about = {s["slug"]: s for s in stories or []}
     brief = workdir / "footage-brief.md"
     blocks = []
     for slug, cands in found.items():
-        blocks.append("\n".join([f"## Story {slug}", *[f"- {c['id']} | channel: {c['channel']} | posted {c['posted']} | title: {c['title']}" for c in cands]]))
+        s = about.get(slug) or {}
+        blocks.append("\n".join([f"## Story {slug}", f"headline: {plain(s.get('title'))}", f"summary: {plain(s.get('excerpt'))}",
+                                 *[f"- {c['id']} | channel: {c['channel']}{' | official' if c.get('official') else ''} | posted {c['posted']} | title: {c['title']}"
+                                   for c in cands]]))
     brief.write_text("# Footage candidates\n\n" + "\n\n".join(blocks) + "\n", encoding="utf-8")
     picked = between_markers(ask_model(f"Read {brief} with the file tool, then follow these rules.\n\n{FOOTAGE_RULES}", "footage judge"))
     out = {}
     for slug, cands in found.items():
-        ids = picked.get(slug) if isinstance(picked, dict) and isinstance(picked.get(slug), list) else []
-        out[slug] = [c for c in cands if c["id"] in ids][:2]
+        if not isinstance(picked, dict):
+            # No judge (the model is down or out of quota): only what needs no judging, an official
+            # channel's own upload whose title shares two topic words with the story.
+            out[slug] = [c for c in cands if c.get("official") and c.get("score", 0) >= 2][:2]
+            continue
+        ids = picked.get(slug) if isinstance(picked.get(slug), list) else []
+        out[slug] = [c for c in cands if c["id"] in ids][:3]
+    if not isinstance(picked, dict):
+        print(f"EDITION footage judge unavailable: kept {sum(len(v) for v in out.values())} official uploads on their titles alone")
     return out
+
+
+def official_found(story: dict, w: dict) -> list[dict]:
+    """The official channels' own uploads about this story (media.official_candidates)."""
+    text = " ".join(plain(story.get(k)) for k in ("title", "excerpt", "body"))
+    keys = media.story_keys(" ".join([plain(story.get("title")), plain(story.get("excerpt")), *(w.get("youtube") or []),
+                                      *(w.get("subjects") or []), w.get("script", "")]))
+    try:
+        return media.official_candidates(text, keys)
+    except Exception as exc:  # a channel page misbehaving must not stop the edition
+        print(f"EDITION {story['slug']}: official channels failed ({exc!r})", file=sys.stderr)
+        return []
 
 
 def numbers_in(text: str) -> set[str]:
@@ -642,7 +668,8 @@ def make_clip(story: dict, script: str, how: str, look: dict, picked: list[dict]
         # Moving picture only for a clip that will be rendered (it needs the voice).
         try:
             qids = [p.get("qid", "") for t, p in pages.items() if not (sport and t == look.get("place"))]
-            footage = media.gather_footage(picked, qids, "" if sport else look.get("place", ""), str(workdir), len(photos))
+            footage = media.gather_footage(picked, qids, "" if sport else look.get("place", ""), str(workdir), len(photos),
+                                           [re.sub(r"\s*\(.*?\)", "", t) for t in look.get("subjects", [])])
         except Exception as exc:  # a footage source misbehaving must not stop the clip
             print(f"EDITION {story['slug']}: footage failed ({exc!r})", file=sys.stderr)
     # A score shown as a scoreboard is not shown again as a number card; a game with its own
@@ -799,6 +826,14 @@ def main(dry_run: bool = False, only: str = "", force: bool = False, keep: str =
 
     with tempfile.TemporaryDirectory(prefix="383-edition-") as tmp:
         written = write_scripts(fresh, Path(tmp))
+        if not written and not dry_run:
+            # The writer gave nothing at all (the model is down or out of quota): a story that already
+            # has a clip keeps it and is tried again next hour; only a story with none is made now,
+            # from its own words.
+            kept = [s["slug"] for s in fresh if (clips.get(s["slug"]) or {}).get("audio")]
+            if kept:
+                print(f"EDITION writer unavailable: {len(kept)} clips kept as they are until it is back")
+                fresh = [s for s in fresh if s["slug"] not in kept]
         # A script refused (a fact not in the story, too long a sentence, too many numbers) gets one
         # more try with the reason, before the story's own words stand in.
         refused = {}
@@ -828,10 +863,15 @@ def main(dry_run: bool = False, only: str = "", force: bool = False, keep: str =
                 **(check_feel(w, script) if how == "model" else {"mood": w.get("mood") if w.get("mood") in render.MOODS else ""}),
             }
             look["cover"] = look["cover"] or fallback_cover(s, look)
-        found = {s["slug"]: media.footage_candidates(searches(s, written.get(s["slug"]) or {}),
-                                                     (written.get(s["slug"]) or {}).get("sources", []),
-                                                     (written.get(s["slug"]) or {}).get("subjects") or []) for s in fresh}
-        footage = pick_footage(found, Path(tmp))
+        found = {}
+        for s in fresh:
+            w = written.get(s["slug"]) or {}
+            # The people's own channels first, then YouTube's search.
+            own = official_found(s, w)
+            general = media.footage_candidates(searches(s, w), w.get("sources", []), w.get("subjects") or [])
+            found[s["slug"]] = list({c["id"]: c for c in general + own}.values())
+            found[s["slug"]].sort(key=lambda c: not c.get("official"))
+        footage = pick_footage(found, Path(tmp), fresh)
     if dry_run:
         for s in fresh:
             print(f"--- {s['slug']} [{looks[s['slug']]['how']}]\n{json.dumps(looks[s['slug']], ensure_ascii=False, indent=1)}\n"

@@ -355,6 +355,38 @@ class PhotoTimingTests(unittest.TestCase):
         self.assertEqual(shown_at(zel + 1.5), "zel.jpg")
 
 
+class OfficialFootageTests(unittest.TestCase):
+    def test_a_story_finds_the_channels_of_the_people_it_speaks_of(self):
+        text = "Presidenti Donald Trump shtyu sanksionet. Zelenskyy e kritikoi. Rubio tha se do të vlerësojë."
+        names = [n for _, n, _ in media.channels_for(text)]
+        self.assertIn("The White House", names)
+        self.assertIn("U.S. Department of State", names)
+        self.assertTrue(any("Ukraine" in n or "Zelenskyy" in n for n in names))
+        self.assertEqual(media.channels_for("Moti në Prishtinë sot ishte i ngrohtë."), [])
+
+    def test_a_video_must_share_the_topic_not_just_the_name(self):
+        keys = media.story_keys("Trump shtyn sanksionet ndaj Rusisë Russia sanctions delay")
+        own = {"trump"}
+        on_topic = media.story_keys("President Trump on Russia sanctions") & keys - own
+        off_topic = media.story_keys("President Trump hosts first responders") & keys - own
+        self.assertTrue(on_topic)
+        self.assertFalse(off_topic)
+
+    def test_without_a_judge_only_strong_official_uploads_are_kept(self):
+        ve.ask_model = lambda prompt, label: ""  # the model is out of quota
+        try:
+            import tempfile, pathlib
+            found = {"s": [{"id": "a", "channel": "News TV", "posted": "2026-10-18", "title": "x"},
+                           {"id": "b", "channel": "The White House", "posted": "2026-10-18", "title": "y", "official": True, "score": 2},
+                           {"id": "c", "channel": "The White House", "posted": "2026-10-18", "title": "z", "official": True, "score": 1}]}
+            with tempfile.TemporaryDirectory() as d:
+                got = ve.pick_footage(found, pathlib.Path(d), [])
+            self.assertEqual([c["id"] for c in got["s"]], ["b"])
+        finally:
+            import importlib
+            importlib.reload(ve)
+
+
 class CoverTests(unittest.TestCase):
     def test_the_cover_keeps_only_the_storys_names_and_numbers(self):
         self.assertEqual(ve.check_cover("Ylli mposht Vëllaznimin 100:86", GAME), "Ylli mposht Vëllaznimin 100:86")
