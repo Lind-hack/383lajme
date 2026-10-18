@@ -2,7 +2,7 @@
 // Every storage call is wrapped: a browser that refuses storage still gets a
 // working chat, it just forgets on reload.
 
-import { MEMORY_KEY, normalizeMemory, recordQuestion, questionKeys } from "@/lib/dardani-memory.mjs";
+import { MEMORY_KEY, normalizeMemory, recordQuestion, recordName, questionKeys } from "@/lib/dardani-memory.mjs";
 import { readInterests, writeInterests, recordRead } from "@/lib/interests.mjs";
 import { noteQuestion } from "@/lib/reader-ledger.mjs";
 
@@ -11,6 +11,29 @@ export function readMemory() {
     return normalizeMemory(JSON.parse(localStorage.getItem(MEMORY_KEY) ?? "null"));
   } catch {
     return normalizeMemory(null);
+  }
+}
+
+/** What the reader asked Dardani to call them, if they ever said. */
+export function readName(): string | null {
+  return readMemory()?.name ?? null;
+}
+
+/** Keep the reader's name on this device only. */
+export function rememberName(name: string) {
+  try {
+    localStorage.setItem(MEMORY_KEY, JSON.stringify(recordName(readMemory(), name)));
+  } catch {
+    // Not remembered; Dardani asks again next time.
+  }
+}
+
+/** The topics the reader follows, for Dardani to chat about. */
+export function readFollowedTopics(): string[] {
+  try {
+    return (readInterests()?.categories ?? []).slice(0, 5);
+  } catch {
+    return [];
   }
 }
 

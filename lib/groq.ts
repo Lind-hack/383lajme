@@ -12,7 +12,7 @@ const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
  * from the outside — an empty completion or "Failed to validate JSON" — so the
  * per-model settings are recorded here with what they were measured against.
  */
-type GroqModel = {
+export type GroqModel = {
   id: string;
   /** Extra request fields this model needs. Sending them to a model that does
    *  not accept them is a 400, so they are never applied globally. */
@@ -44,6 +44,37 @@ const MODELS: GroqModel[] = [
   { id: "groq/compound-mini" },
 ];
 
+/**
+ * For answers a reader holds us to (Pyet): the models think before they answer.
+ *
+ * MODELS above switches reasoning off because the Tregu pipeline needs volume
+ * more than care. Pyet is the opposite: one question at a time, and an answer
+ * that swaps "postponed" for "added" is worse than a second of waiting. qwen3.8
+ * leads because the site translator already runs on it; qwen3.6 was retired.
+ * Thinking is billed against max_tokens, so callers give these room.
+ */
+export const THINKING_MODELS: GroqModel[] = [
+  {
+    id: "qwen/qwen3.8-27b",
+    params: { reasoning_format: "hidden", reasoning_effort: "default" },
+    maxTokens: 4000,
+  },
+  // No gpt-oss-20b: tested on Pyet it wrote "Letërta erdhen" and lower-cased
+  // names. When both of these are rate-limited, Gemini (llm.ts) is the better
+  // next step for Albanian.
+  { id: "openai/gpt-oss-120b", params: { reasoning_effort: "medium" } },
+];
+
+/** Small talk with Dardani: no facts at stake, so speed over thinking. */
+export const CHAT_MODELS: GroqModel[] = [
+  {
+    id: "qwen/qwen3.8-27b",
+    params: { reasoning_format: "hidden", reasoning_effort: "none" },
+    maxTokens: 4000,
+  },
+  { id: "openai/gpt-oss-120b", params: { reasoning_effort: "low" } },
+];
+
 /** Reasoning needs headroom even dialled down, so a caller asking for a small
  *  completion still gets a budget the model can finish inside. */
 const MIN_TOKENS = 1500;
@@ -51,7 +82,15 @@ const MIN_TOKENS = 1500;
 export async function groqChat(
   system: string,
   user: string,
-  opts: { json?: boolean; maxTokens?: number } = {}
+  opts: {
+    json?: boolean;
+    maxTokens?: number;
+    temperature?: number;
+    /** Overrides the default ladder for this call. */
+    models?: GroqModel[];
+    /** Told which model produced the returned content. */
+    onModel?: (id: string) => void;
+  } = {}
 ): Promise<string> {
   const key = process.env.GROQ_API_KEY;
   if (!key) {
@@ -62,7 +101,7 @@ export async function groqChat(
 
   const failures: string[] = [];
 
-  for (const model of MODELS) {
+  for (const model of opts.models ?? MODELS) {
     const budget = Math.min(
       Math.max(opts.maxTokens ?? 2000, MIN_TOKENS),
       model.maxTokens ?? Number.MAX_SAFE_INTEGER
@@ -84,7 +123,7 @@ export async function groqChat(
             { role: "system", content: system },
             { role: "user", content: user },
           ],
-          temperature: 0.4,
+          temperature: opts.temperature ?? 0.4,
           max_tokens: budget,
           ...(opts.json && jsonMode ? { response_format: { type: "json_object" } } : {}),
           ...(model.params ?? {}),
@@ -114,6 +153,7 @@ export async function groqChat(
         );
         continue;
       }
+      opts.onModel?.(model.id);
       return content;
     }
   }

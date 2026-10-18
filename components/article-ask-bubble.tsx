@@ -26,11 +26,14 @@ export default function ArticleAskBubble({
   chips,
   onPick,
   face = "neutral",
+  quiet = false,
 }: {
   chips: Chip[];
   onPick: (question: string) => void;
   /** The panel's current face while an answer is loading; neutral otherwise. */
   face?: DardaniFaceState;
+  /** The reader is already talking to Dardani in the panel. */
+  quiet?: boolean;
 }) {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -72,6 +75,14 @@ export default function ArticleAskBubble({
       window.clearTimeout(timer);
     };
   }, [dismissed]);
+
+  // A reader mid-conversation in the panel does not need to be offered the
+  // conversation: the open card covered the answers they were reading.
+  useEffect(() => {
+    if (!quiet) return;
+    openedOnce.current = true;
+    setOpen(false);
+  }, [quiet]);
 
   // Dardani's paper offer at the end of the article (components/paper-ready)
   // is him talking too: the bubble folds back to its circle so only one speaks.

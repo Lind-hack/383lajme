@@ -57,7 +57,12 @@ export default function ArticleAsk({ article }: { article: Article }) {
 
   return (
     <>
-      <ArticleAskBubble chips={chips} onPick={pick} face={status.busy ? status.face : "neutral"} />
+      <ArticleAskBubble
+        chips={chips}
+        onPick={pick}
+        face={status.busy ? status.face : "neutral"}
+        quiet={Boolean(status.started)}
+      />
 
       <section className="pyet-block" aria-labelledby="pyet-heading" ref={panelRef}>
         <div className="pyet-head">

@@ -10,7 +10,7 @@
  * Gemini keys optional).
  */
 
-import { groqChat, parseJSON } from "./groq";
+import { groqChat, parseJSON, type GroqModel } from "./groq";
 
 /*
  * A list, not one hardcoded name. `gemini-2.0-flash` was pinned here and has
@@ -28,7 +28,7 @@ async function geminiChat(
   key: string,
   system: string,
   user: string,
-  opts: { maxTokens?: number; temperature?: number } = {}
+  opts: { maxTokens?: number; temperature?: number; meta?: { model?: string } } = {}
 ): Promise<string> {
   const failures: string[] = [];
   const prompt = `${system}\n\n${user}`;
@@ -74,6 +74,7 @@ async function geminiChat(
         const data = await res.json();
         const content = data?.candidates?.[0]?.content?.parts?.[0]?.text;
         if (!content) throw new Error("empty response");
+        if (opts.meta) opts.meta.model = model;
         return content;
       } catch (err) {
         failures.push(`${model}${disableThinking ? "" : " (plain)"} ${err instanceof Error ? err.message : String(err)}`);
@@ -98,7 +99,15 @@ async function geminiChat(
 export async function llmJSON<T>(
   system: string,
   user: string,
-  opts: { maxTokens?: number; temperature?: number; prefer?: "groq" | "gemini" } = {}
+  opts: {
+    maxTokens?: number;
+    temperature?: number;
+    prefer?: "groq" | "gemini";
+    /** A Groq ladder for this call instead of the default one. */
+    groqModels?: GroqModel[];
+    /** Filled with the model that produced the answer. */
+    meta?: { model?: string };
+  } = {}
 ): Promise<T> {
   const failures: string[] = [];
 
@@ -108,7 +117,19 @@ export async function llmJSON<T>(
       return null;
     }
     try {
-      return parseJSON<T>(await groqChat(system, user, { json: true, maxTokens: opts.maxTokens }));
+      return parseJSON<T>(
+        await groqChat(system, user, {
+          json: true,
+          maxTokens: opts.maxTokens,
+          // Only a caller that names a temperature gets one; everyone else
+          // keeps the 0.4 this path has always sent.
+          temperature: opts.temperature,
+          models: opts.groqModels,
+          onModel: (id) => {
+            if (opts.meta) opts.meta.model = id;
+          },
+        })
+      );
     } catch (err) {
       failures.push(`groq: ${err instanceof Error ? err.message : String(err)}`);
       return null;

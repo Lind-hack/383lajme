@@ -7,7 +7,7 @@ import DardaniFace, { usePreloadDardaniFaces, type DardaniFaceState } from "@/co
 import DardaniImage from "@/components/dardani/dardani-image";
 import DardaniLoop from "@/components/dardani/dardani-loop";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
-import { rememberQuestion } from "@/lib/dardani-memory-store";
+import { rememberQuestion, rememberName, readName, readFollowedTopics } from "@/lib/dardani-memory-store";
 import { useLanguage } from "@/components/language/language-provider";
 import type { SiteLanguage } from "@/lib/site-language.mjs";
 
@@ -24,7 +24,11 @@ type Turn = {
   id: number;
   question: string;
   state: "thinking" | "answered" | "refused";
+  /** "chat" is small talk: an answer with no sources, because it makes no claims. */
+  kind?: "news" | "chat";
   answer?: string;
+  /** Questions Dardani suggests asking next, about the same articles. */
+  followups?: string[];
   sources?: { title: string; href: string; meta: string | null }[];
   refusal?: { headline: string; detail: string; ctaLabel: string; ctaHref: string };
   reason?: string;
@@ -32,7 +36,13 @@ type Turn = {
 };
 
 /** What the Dardani around the panel (card header, bubble, overlay header) should show. */
-export type AskStatus = { face: DardaniFaceState; status: string; busy: boolean };
+export type AskStatus = {
+  face: DardaniFaceState;
+  status: string;
+  busy: boolean;
+  /** A conversation is under way in the panel. */
+  started?: boolean;
+};
 
 /** How many earlier exchanges travel with the next question (the API caps it at 6 too). */
 const MEMORY_TURNS = 6;
@@ -54,6 +64,7 @@ function statusOf(turn: Turn | undefined): string {
   if (turn.state === "thinking") return "Po kërkon në arkivin e 383…";
   if (turn.state === "answered") {
     if (!turn.revealed) return "Po shkruan përgjigjen…";
+    if (turn.kind === "chat") return "Muhabet me Dardanin";
     const n = turn.sources?.length ?? 0;
     return `Bazuar në ${n} ${n === 1 ? "artikull" : "artikuj"} të 383`;
   }
@@ -65,9 +76,9 @@ function statusOf(turn: Turn | undefined): string {
  *
  * Shared by the search overlay and the article page because both render the
  * same contract: a grounded answer with the articles behind it, or a refusal.
- * There is no third rendering, which is the point — an answer without sources
- * never reaches this component, so there is no state here for "answered but
- * unattributed" and no way to accidentally introduce one.
+ * The one answer without sources is small talk (`kind: "chat"`): the server
+ * sends it only for messages with no subject in them, so it carries no claims
+ * that would need a source.
  *
  * It is a thread, not a single question box. Readers ask "pse ndodhi kjo" and
  * then "po kush e tha këtë" — the second question means nothing on its own, so
@@ -106,6 +117,10 @@ export default function AskPanel({
   const [typed, setTyped] = useState("");
   const { language } = useLanguage();
   const [turns, setTurns] = useState<Turn[]>([]);
+  // Read after mount: the name lives in this device's storage, which the
+  // server render cannot see.
+  const [readerName, setReaderName] = useState<string | null>(null);
+  useEffect(() => setReaderName(readName()), []);
   const inputRef = useRef<HTMLInputElement>(null);
   const tailRef = useRef<HTMLDivElement>(null);
   const ticket = useRef(0);
@@ -119,7 +134,7 @@ export default function AskPanel({
   const ask = useCallback(
     async (raw: string) => {
       const question = raw.trim();
-      if (question.length < 6) return;
+      if (question.length < 2) return;
 
       const id = ++ticket.current;
       setTyped("");
@@ -140,15 +155,32 @@ export default function AskPanel({
         const res = await fetch("/api/pyet", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question, slug, history, language }),
+          body: JSON.stringify({
+            question,
+            slug,
+            history,
+            language,
+            name: readName(),
+            interests: readFollowedTopics(),
+          }),
         });
         const data = await res.json();
+
+        // "Quhem Lind": the server recognised a name in the message.
+        if (typeof data?.name === "string" && data.name) {
+          rememberName(data.name);
+          setReaderName(data.name);
+        }
 
         if (data?.grounded) {
           settle({
             state: "answered",
+            kind: data.kind === "chat" ? "chat" : "news",
             answer: String(data.answer ?? ""),
             sources: Array.isArray(data.sources) ? data.sources : [],
+            followups: Array.isArray(data.followups)
+              ? data.followups.filter((q: unknown): q is string => typeof q === "string").slice(0, 2)
+              : [],
           });
         } else {
           settle({ state: "refused", refusal: data.refusal, reason: data?.reason });
@@ -193,22 +225,29 @@ export default function AskPanel({
   const busy = turns.some((t) => t.state === "thinking");
   const writing = turns.some((t) => t.state === "answered" && !t.revealed);
   const started = turns.length > 0;
+  const overlay = variant === "overlay";
   const face = faceOf(last);
   const status = statusOf(last);
 
   useEffect(() => {
-    onStatus?.({ face, status, busy: busy || writing });
-  }, [onStatus, face, status, busy, writing]);
+    onStatus?.({ face, status, busy: busy || writing, started });
+  }, [onStatus, face, status, busy, writing, started]);
 
   const markRevealed = useCallback((id: number) => {
     setTurns((prev) => prev.map((t) => (t.id === id ? { ...t, revealed: true } : t)));
   }, []);
 
-  // "Pyet edhe": the suggestions not asked yet, offered once an answer is done.
+  // "Pyet edhe": what Dardani suggests after his last answer, then the page's
+  // own suggestions, never one already asked. This is what keeps a
+  // conversation going instead of ending at every answer.
   const asked = new Set(turns.map((t) => t.question));
-  const followUps = chips.filter((c) => !asked.has(c.question));
-
-  const overlay = variant === "overlay";
+  const suggested: Chip[] = (last?.state === "answered" ? (last.followups ?? []) : []).map((q) => ({
+    label: q,
+    question: q,
+  }));
+  const followUps = [...suggested, ...chips]
+    .filter((c, i, all) => !asked.has(c.question) && all.findIndex((x) => x.question === c.question) === i)
+    .slice(0, overlay ? 2 : 3);
 
   return (
     <div className="pyet" data-variant={variant}>
@@ -216,8 +255,8 @@ export default function AskPanel({
         <div className="pyet-hello">
           <DardaniImage name="wave" alt="Dardani përshëndet" className="pyet-hello-img dardani-peek" />
           <div className="pyet-hello-say">
-            <strong>Tungjatjeta! Unë jam Dardani.</strong>
-            <p>Më pyet për çdo lajm. Përgjigjem vetëm nga artikujt e 383, gjithmonë me burim.</p>
+            <strong>{readerName ? `Tung, ${readerName}! Ç'kemi?` : "Tungjatjeta! Unë jam Dardani."}</strong>
+            <p>Bisedo me mua ose më pyet për çdo lajm. Për lajmet përgjigjem vetëm nga artikujt e 383, gjithmonë me burim.</p>
           </div>
         </div>
       )}
@@ -262,7 +301,7 @@ export default function AskPanel({
         </div>
       )}
 
-      {!overlay && started && !busy && !writing && followUps.length > 0 && (
+      {started && !busy && !writing && followUps.length > 0 && (
         <div className="pyet-more">
           <h4>PYET EDHE</h4>
           <ul className="pyet-chips">
@@ -293,7 +332,7 @@ export default function AskPanel({
             started
               ? "Pyet diçka tjetër…"
               : overlay
-                ? "Bëj një pyetje për lajmet…"
+                ? "Shkruaji Dardanit…"
                 : "Pyet për këtë lajm…"
           }
           aria-label="Bëj një pyetje"
@@ -304,7 +343,7 @@ export default function AskPanel({
         <button
           type="submit"
           className="pyet-send"
-          disabled={busy || typed.trim().length < 6}
+          disabled={busy || typed.trim().length < 2}
           aria-label="Dërgo pyetjen"
         >
           <ArrowUp size={15} strokeWidth={2.8} aria-hidden="true" />
@@ -326,7 +365,7 @@ export default function AskPanel({
 
       <p className="pyet-hint">
         {overlay
-          ? "Përgjigjet vijnë vetëm nga artikujt e botuar te 383. Nëse arkivi nuk e ka, Dardani ta thotë."
+          ? "Për lajmet, Dardani përgjigjet vetëm nga artikujt e botuar te 383. Nëse arkivi nuk e ka, ta thotë."
           : "Përgjigjet vijnë vetëm nga artikujt e botuar te 383, me burimet e lidhura."}
       </p>
 
