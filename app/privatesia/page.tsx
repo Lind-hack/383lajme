@@ -202,8 +202,9 @@ export default function PrivatesiaPage() {
             <Row label="Vercel">
               Hosting. Shërben faqen dhe mban regjistrat teknikë të serverit.
             </Row>
-            <Row label="Resend — përmbledhja javore">
-              Dërgon konfirmimin e abonimit dhe përmbledhjen e së dielës. Merr adresën e emailit
+            <Row label="Resend dhe Gmail — përmbledhja javore">
+              Resend dërgon konfirmimin e abonimit dhe përmbledhjen e së dielës. Nëse kufiri ditor
+              i tij është arritur, përdorim Gmail si rrugë rezervë. Ofruesi merr adresën e emailit
               dhe përmbajtjen e mesazhit. Nuk shtojmë pikselë matës në përmbledhje; matjen e
               hapjeve dhe klikimeve e mbajmë të çaktivizuar edhe te ofruesi i emailit.
             </Row>

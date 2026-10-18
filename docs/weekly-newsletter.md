@@ -15,8 +15,10 @@ Sunday at **18:00 Europe/Tirane (Kosovo)**. Each issue covers the previous Sunda
 18:00 through this Sunday 18:00, accounting for DST. It ranks the entire persisted
 `news_articles` archive for that interval by engagement score, deduplicates slugs and
 normalised titles, and gives different categories space in the lead selection.
-Up to eight main stories and four extra headlines include published excerpts,
-source labels and article links. Tregu and Visit links finish the email. There is
+Up to twelve stories are grouped by topic. Each represented category receives a
+slot before the remaining slots are filled. Every story includes a short published
+summary, source label and article link; missing excerpts use the published body.
+Summaries end at a sentence or word boundary rather than mid-word. Tregu and Visit links finish the email. There is
 no generated reporting, mock fallback, or dependency on an LLM. An empty archive
 skips sending rather than inventing a recap. Content is frozen in `newsletter_issues`
 before delivery, so later retries use the same edition.
@@ -110,3 +112,28 @@ transitive packages; npm audit reports zero vulnerabilities.
 
 Provider references: [Resend idempotency](https://resend.com/changelog/idempotency-keys),
 [email headers](https://www.resend.com/changelog/custom-email-headers).
+
+## Quota fallback and verification (18 October 2026)
+
+The live Resend API returned `429 daily_quota_exceeded`. The product owner approved
+the existing Gmail sender as a temporary fallback. Only that explicit rejection
+uses Gmail: timeouts and other uncertain Resend sends retain their idempotent retry.
+The fallback uses `GMAIL_USER` / `GMAIL_APP_PASSWORD`, identifies itself as 383,
+and replies to `NEWSLETTER_FROM`. Its authenticated Gmail address is visible.
+A definite confirmation rejection releases only the matching token/cooldown so a
+reader can retry; it never clears a newer request.
+
+Weekly SMTP delivery persists `held / smtp_inflight` before contacting Gmail.
+Successful delivery records the receipt as `sent`. A crash, uncertain SMTP response,
+or failed receipt stays held for operator inspection instead of sending a duplicate.
+A definite rejection remains retryable or held according to the error.
+Do not reset an SMTP hold without checking sent mail/provider receipts first.
+
+The workflow was dispatched successfully against production (run 39149833273).
+A real redesigned weekly preview reached the authorized test inbox through Gmail.
+`node scripts/preview-newsletter.mjs` reads an allowlisted configuration JSON from
+stdin and writes HTML to its `output` path. It sends only when `recipient` and
+`testId` are explicitly supplied; keep its output outside tracked/public files.
+The website card is approximately 199px high on desktop and 321px at 390px wide.
+It uses an unfiltered SVG illustration and a native checkbox behind an animated
+consent capsule, with keyboard focus and reduced-motion handling.

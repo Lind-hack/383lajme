@@ -34,11 +34,15 @@ export default function NewsletterSignup({ compact = false, onNavigate }: { comp
           {state === 'sending' ? <LoaderCircle className={styles.spinner} size={17} aria-hidden /> : state === 'success' ? <Check size={17} aria-hidden /> : <ArrowRight size={17} aria-hidden />}
         </button>
       </div>
-      <label className={styles.consent}>
+      <div className={styles.consent}>
+      <label className={styles.consentChoice}>
         <input type="checkbox" name="consent" required disabled={state === 'sending'} />
-        <span>Dua përmbledhjen javore me email. Mund të çregjistrohem kurdo. <Link href="/privatesia" onClick={onNavigate}>Privatësia</Link></span>
+        <span className={styles.consentControl} aria-hidden="true"><span /><Check size={13} strokeWidth={3} /></span>
+        <span>Dua përmbledhjen javore me email. Mund të çregjistrohem kurdo.</span>
       </label>
-      <p id={`${id}-message`} role={state === 'error' ? 'alert' : 'status'} aria-live="polite" className={styles.message}>
+      <Link className={styles.privacy} href="/privatesia" onClick={onNavigate}>Privatësia</Link>
+      </div>
+      <p id={`${id}-message`} role={state === 'error' ? 'alert' : 'status'} aria-live="polite" data-state={state} className={styles.message}>
         {state === 'sending' ? 'Duke dërguar kërkesën…' : message}
       </p>
     </form>

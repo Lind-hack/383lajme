@@ -1,5 +1,6 @@
 import 'server-only';
 import { createHash, createHmac, randomBytes } from 'node:crypto';
+import nodemailer from 'nodemailer';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { renderConfirmationEmail, renderWeeklyEmail, selectWeeklyStories, signUnsubscribe, weeklyWindow, type EmailMessage, type WeeklyIssue } from './newsletter.mjs';
 
@@ -12,22 +13,43 @@ export function newsletterConfig() {
   if (secret.length < 32 || !key || !from || /[\r\n]/.test(from)) throw new Error('Newsletter email configuration missing');
   const admin = createAdminClient();
   if (!admin) throw new Error('Newsletter database configuration missing');
-  return { secret, key, from, origin: origin.origin, admin };
+  const gmailUser = process.env.GMAIL_USER || '';
+  const gmailPassword = process.env.GMAIL_APP_PASSWORD || '';
+  return { secret, key, from, origin: origin.origin, admin, gmailUser, gmailPassword };
 }
 export const tokenHash = (token: string) => createHash('sha256').update(token).digest('hex');
 
 class DeliveryError extends Error {
   constructor(public status: number) { super('email_provider_' + status); }
 }
-async function sendEmail(config: ReturnType<typeof newsletterConfig>, to: string, message: EmailMessage, idempotencyKey: string, unsubscribe?: string) {
+class SmtpUncertain extends Error { constructor() { super('smtp_delivery_uncertain'); } }
+async function sendEmail(config: ReturnType<typeof newsletterConfig>, to: string, message: EmailMessage, idempotencyKey: string, unsubscribe?: string, beforeSmtp?: () => Promise<void>) {
+  const headers = unsubscribe ? { 'List-Unsubscribe': `<${unsubscribe}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } : {};
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST', signal: AbortSignal.timeout(8_000),
     headers: { Authorization: `Bearer ${config.key}`, 'Content-Type': 'application/json', 'Idempotency-Key': idempotencyKey },
     body: JSON.stringify({ from: config.from, to: [to], ...message,
-      ...(unsubscribe ? { headers: { 'List-Unsubscribe': `<${unsubscribe}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } } : {}) }),
+      headers }),
   });
-  if (!response.ok) throw new DeliveryError(response.status);
   const data = await response.json();
+  if (!response.ok) {
+    // Only a definite quota rejection is safe to reroute. An uncertain Resend
+    // timeout must retry its idempotency key, never send through a second provider.
+    if (response.status !== 429 || data.name !== 'daily_quota_exceeded' || !config.gmailUser || !config.gmailPassword) throw new DeliveryError(response.status);
+    await beforeSmtp?.();
+    const transport = nodemailer.createTransport({ service: 'gmail', auth: { user: config.gmailUser, pass: config.gmailPassword }, connectionTimeout: 8000, greetingTimeout: 5000, socketTimeout: 10000 });
+    try {
+      const receipt = await transport.sendMail({ from: { name: '383 · Përmbledhja javore', address: config.gmailUser }, replyTo: config.from,
+        to, ...message, headers, messageId: `<${createHash('sha256').update(idempotencyKey).digest('hex')}@383ks.com>` });
+      if (!receipt.accepted?.length) throw new DeliveryError(422);
+      return 'smtp:' + receipt.messageId;
+    } catch (error) {
+      if (error instanceof DeliveryError) throw error;
+      const code = (error as { responseCode?: number }).responseCode;
+      if (code && code >= 400) throw new DeliveryError(code < 500 ? 429 : 422);
+      throw new SmtpUncertain();
+    }
+  }
   if (typeof data.id !== 'string') throw new Error('email_provider_invalid_receipt');
   return data.id as string;
 }
@@ -39,7 +61,20 @@ export async function requestNewsletter(email: string, ip: string) {
   const { data: id, error } = await config.admin.rpc('request_newsletter_subscription', { p_email: email, p_ip_hash: ipHash, p_token_hash: tokenHash(token) });
   if (error) throw new Error('subscription_storage_unavailable');
   if (!id) return; // Same public response for active, throttled and new addresses.
-  await sendEmail(config, email, renderConfirmationEmail(config.origin, token), 'newsletter-confirm/' + tokenHash(token));
+  try {
+    await sendEmail(config, email, renderConfirmationEmail(config.origin, token), 'newsletter-confirm/' + tokenHash(token));
+  } catch (error) {
+    // A definite rejection cannot have delivered this token. Release its cooldown
+    // without touching a newer request or invalidating an uncertain network send.
+    if (error instanceof DeliveryError && error.status >= 400 && error.status < 500 && error.status !== 408) {
+      const released = await config.admin.from('newsletter_subscribers').update({
+        requested_at: new Date(Date.now() - 10 * 60_000 - 1000).toISOString(),
+        confirm_token_hash: null, confirm_expires_at: null,
+      }).eq('id', id).eq('status', 'pending').eq('confirm_token_hash', tokenHash(token));
+      if (released.error) throw new Error('confirmation_retry_unavailable');
+    }
+    throw error;
+  }
 }
 
 async function loadIssue(config: ReturnType<typeof newsletterConfig>, window: ReturnType<typeof weeklyWindow>): Promise<WeeklyIssue | null> {
@@ -50,7 +85,7 @@ async function loadIssue(config: ReturnType<typeof newsletterConfig>, window: Re
   // Paginate the full week instead of taking only the most recent stories.
   for (let page = 0; page <= 10; page++) {
     const { data, error } = await config.admin.from('news_articles')
-      .select('id,slug,title,excerpt,source,category,published_at,engagement_score')
+      .select('id,slug,title,excerpt,body,source,category,published_at,engagement_score')
       .gt('published_at', window.start).lte('published_at', window.end)
       .order('published_at').order('id').range(page * 1000, page * 1000 + 999);
     if (error) throw new Error('newsletter_archive_unavailable');
@@ -90,14 +125,20 @@ export async function sendWeeklyNewsletter() {
     try {
       const token = signUnsubscribe(claim.subscriber_id, config.secret);
       providerId = await sendEmail(config, claim.email, renderWeeklyEmail(issue, config.origin, token),
-        `newsletter-weekly/${issue.id}/${claim.subscriber_id}`, `${config.origin}/api/newsletter/unsubscribe?token=${encodeURIComponent(token)}`);
+        `newsletter-weekly/${issue.id}/${claim.subscriber_id}`, `${config.origin}/api/newsletter/unsubscribe?token=${encodeURIComponent(token)}`, async () => {
+          // SMTP has no provider idempotency. Persist a hold BEFORE contacting it;
+          // a crash or uncertain acceptance must never trigger an automatic resend.
+          const intent = await config.admin.from('newsletter_deliveries').update({ status: 'held', last_error: 'smtp_inflight' })
+            .eq('issue_id', issue.id).eq('subscriber_id', claim.subscriber_id).eq('claim_token', claim.claim_token).eq('status', 'pending').select('subscriber_id');
+          if (intent.error || intent.data?.length !== 1) throw new Error('smtp_intent_not_saved');
+        });
     } catch (error) {
       failed++;
-      const permanent = error instanceof DeliveryError && error.status >= 400 && error.status < 500 && ![408, 409, 429].includes(error.status);
+      const permanent = error instanceof SmtpUncertain || error instanceof DeliveryError && error.status >= 400 && error.status < 500 && ![408, 409, 429].includes(error.status);
       const updated = await config.admin.from('newsletter_deliveries').update({ status: permanent ? 'held' : 'pending',
-        last_error: error instanceof DeliveryError ? error.message : 'provider_timeout_or_network', claimed_until: null,
+        last_error: error instanceof DeliveryError || error instanceof SmtpUncertain ? error.message : 'provider_timeout_or_network', claimed_until: null,
         next_attempt_at: new Date(Date.now() + 5 * 60_000).toISOString() })
-        .eq('issue_id', issue.id).eq('subscriber_id', claim.subscriber_id).eq('claim_token', claim.claim_token).eq('status', 'pending');
+        .eq('issue_id', issue.id).eq('subscriber_id', claim.subscriber_id).eq('claim_token', claim.claim_token).in('status', ['pending', 'held']);
       if (updated.error) throw new Error('newsletter_retry_not_saved');
       break;
     }

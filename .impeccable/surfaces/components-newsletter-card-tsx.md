@@ -13,7 +13,7 @@ Make the weekly newsletter a distinctive invitation within the homepage news scr
 
 ## OWN-WORLD
 
-Extend the incumbent 383 Manrope, orange, cream, and ink system described in DESIGN.md and PRODUCT.md. The scoped orange card (#ff5a36), bold tightly tracked headline, cream input, and ink action give this invitation its own emphasis without changing global tokens. A dimensional folded cream envelope is built entirely in CSS; the compact drawer version uses a mail icon. No new raster assets.
+Extend the incumbent 383 Manrope, orange, cream, and ink system described in DESIGN.md and PRODUCT.md. The scoped orange card (#ff5a36), bold tightly tracked headline, cream input, and ink action give this invitation its own emphasis without changing global tokens. A folded cream envelope is drawn as a crisp inline SVG; the compact drawer version uses a mail icon. No new raster assets.
 
 ## STORY
 
@@ -37,3 +37,15 @@ Seed: the existing 383 visual system and user-directed editorial mail-card compo
 ## Verification evidence
 
 Rendered evidence: `.impeccable/review/newsletter/desktop.png`, `mobile.png`, and `menu-mobile.png`. The finishing review's privacy-link drawer issue was fixed through onNavigate. Release validation on current main: all 1,366 tests and the production build pass. The reduced-height homepage card keeps the reviewed illustration and form; the compact drawer dimensions are unchanged.
+
+
+## October 18 follow-up
+
+The desktop card places the headline and form alongside each other, approximately
+199px high at the reviewed desktop width. Mobile is 321px high at 390px wide,
+with a small envelope beside the heading. No CSS scaling, rotation or blur filters
+rasterize the illustration. The native required consent checkbox has a capsule
+track and a short check transition; its full label remains clickable, with a
+separate privacy link, keyboard focus, and reduced-motion behavior.
+The email is a table-based 600px editorial letter, grouped by topic, with a short
+summary for every included article and a plain-text alternative.

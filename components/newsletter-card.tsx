@@ -25,18 +25,23 @@ export default function NewsletterCard({ compact = false, onNavigate }: { compac
         <NewsletterSignup compact={compact} onNavigate={onNavigate} />
       </div>
       {!compact && <div className={styles.art} aria-hidden="true">
-        <div className={styles.postmark}><span>PRISHTINË</span><strong>383</strong><span>PËR TY</span></div>
-        <div className={styles.envelope}>
-          <div className={styles.envelopeBack} />
-          <div className={styles.letter}>
-            <div className={styles.letterHeader}><strong>383<span>.</span></strong><span>E DIEL<br />18:00</span></div>
-            <p>Java në<br />pak minuta.</p>
-            <div className={styles.letterLines}><i /><i /><i /></div>
-          </div>
-          <div className={styles.foldLeft} /><div className={styles.foldRight} /><div className={styles.foldBottom} />
-          <span className={styles.seal}>383</span>
-        </div>
-        <span className={styles.note}>Nga 383. Për ty.</span>
+        <svg viewBox="0 0 320 260" width="320" height="260" fill="none" focusable="false">
+          <path d="M33 105 151 20a14 14 0 0 1 17 0l119 85v130H33Z" fill="#e2c9aa" stroke="#9d7154" />
+          <rect x="55" y="43" width="210" height="181" rx="5" fill="#fff9f2" stroke="#d5bc9f" />
+          <text x="74" y="82" fill="#17130e" fontFamily="Arial,sans-serif" fontSize="31" fontWeight="800" letterSpacing="-1.5">383.</text>
+          <text x="243" y="69" fill="#572213" fontFamily="Arial,sans-serif" fontSize="8" textAnchor="end">E DIEL</text>
+          <text x="243" y="81" fill="#572213" fontFamily="Arial,sans-serif" fontSize="10" fontWeight="700" textAnchor="end">18:00</text>
+          <path d="M74 94h171" stroke="#e2d5c3" />
+          <text x="74" y="123" fill="#17130e" fontFamily="Arial,sans-serif" fontSize="21" fontWeight="700">Java në</text>
+          <text x="74" y="148" fill="#17130e" fontFamily="Arial,sans-serif" fontSize="21" fontWeight="700">pak minuta.</text>
+          <path d="M74 165h167m-167 9h140m-140 9h110" stroke="#dacbb7" strokeWidth="3" />
+          <path d="m33 140 127 48L287 140v95a6 6 0 0 1-6 6H39a6 6 0 0 1-6-6Z" fill="#f2e2cb" stroke="#d5bc9f" />
+          <path d="m33 235 119-81a14 14 0 0 1 16 0l119 81" fill="#fff0da" stroke="#dfcbb0" />
+          <circle cx="160" cy="188" r="22" fill="#ff5a36" stroke="#ac351d" />
+          <circle cx="160" cy="188" r="18" stroke="#ac351d" strokeDasharray="2 2" />
+          <text x="160" y="193" textAnchor="middle" fill="#17130e" fontFamily="Arial,sans-serif" fontSize="13" fontWeight="800">383</text>
+          <path d="m276 36 6 4 7-2-1 7 5 5-7 2-3 7-5-5-8 1 2-7-4-6Z" fill="#17130e" />
+        </svg>
       </div>}
     </section>
   );
