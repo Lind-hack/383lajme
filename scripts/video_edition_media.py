@@ -48,6 +48,8 @@ COMMONS = "https://commons.wikimedia.org/w/api.php"
 FREE = re.compile(r"(?i)\b(cc0|public domain|pd\b|pd-|cc[ -]by(?:-sa)?\b|attribution)")
 NOT_FREE = re.compile(r"(?i)\b(nc|nd|non-?commercial|no ?deriv|fair use|non-free)\b")
 NOT_A_PHOTO = re.compile(r"(?i)(logo|flag|map|coat[_ ]of[_ ]arms|seal|signature|diagram|chart|emblem|locator|svg)")
+# Graves and memorials say something no story about a city's match or market means to say.
+SOMBRE = re.compile(r"(?i)(cemetery|graveyard|grave|tomb|memorial|martyr|funeral|ossuary|varrez|varreza|dëshmor|deshmor|eshtëror|eshteror|të rënë|lapidar|mezar|gedenk|friedhof)")
 
 
 def http_json(url: str, data: bytes | None = None, headers: dict | None = None, timeout: int = 30, tries: int = 3):
@@ -329,7 +331,7 @@ def depicting(qid: str, n: int = 3) -> list[str]:
 
 def photo_info(files: list[str]) -> list[dict]:
     """Each file's 1280px rendition, creator and licence; only free, real photos."""
-    files = [f for f in dict.fromkeys(files) if f and not NOT_A_PHOTO.search(f) and re.search(r"(?i)\.jpe?g$", f)]
+    files = [f for f in dict.fromkeys(files) if f and not NOT_A_PHOTO.search(f) and not SOMBRE.search(f) and re.search(r"(?i)\.jpe?g$", f)]
     out = []
     for i in range(0, len(files), 20):
         q = urllib.parse.urlencode({"action": "query", "format": "json", "formatversion": "2", "prop": "imageinfo",
