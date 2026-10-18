@@ -64,9 +64,7 @@ function statusOf(turn: Turn | undefined): string {
   if (turn.state === "thinking") return "Po kërkon në arkivin e 383…";
   if (turn.state === "answered") {
     if (!turn.revealed) return "Po shkruan përgjigjen…";
-    if (turn.kind === "chat") return "Muhabet me Dardanin";
-    const n = turn.sources?.length ?? 0;
-    return `Bazuar në ${n} ${n === 1 ? "artikull" : "artikuj"} të 383`;
+    return turn.kind === "chat" ? "Muhabet me Dardanin" : "Dardani u përgjigj";
   }
   return FAILURES.has(turn.reason ?? "") ? "Nuk munda të përgjigjem tani" : "Arkivi nuk e ka këtë ende";
 }
@@ -256,7 +254,7 @@ export default function AskPanel({
           <DardaniImage name="wave" alt="Dardani përshëndet" className="pyet-hello-img dardani-peek" />
           <div className="pyet-hello-say">
             <strong>{readerName ? `Tung, ${readerName}! Ç'kemi?` : "Tungjatjeta! Unë jam Dardani."}</strong>
-            <p>Bisedo me mua ose më pyet për çdo lajm. Për lajmet përgjigjem vetëm nga artikujt e 383, gjithmonë me burim.</p>
+            <p>Bisedo me mua ose më pyet për çdo lajm. Për lajmet të them vetëm atë që ka shkruar 383.</p>
           </div>
         </div>
       )}
@@ -366,7 +364,7 @@ export default function AskPanel({
       <p className="pyet-hint">
         {overlay
           ? "Për lajmet, Dardani përgjigjet vetëm nga artikujt e botuar te 383. Nëse arkivi nuk e ka, ta thotë."
-          : "Përgjigjet vijnë vetëm nga artikujt e botuar te 383, me burimet e lidhura."}
+          : "Dardani përgjigjet vetëm nga lajmet e botuara te 383."}
       </p>
 
       {started && !busy && !writing && (
@@ -422,22 +420,8 @@ function TurnBody({
         ) : (
           <Reveal text={turn.answer ?? ""} language={turn.language??"sq"} onDone={() => onRevealed(turn.id)} />
         )}
-        {turn.revealed && turn.sources && turn.sources.length > 0 && (
-          <div className="pyet-sources">
-            <h4>BAZUAR NË</h4>
-            <ul>
-              {turn.sources.map((s) => (
-                <li key={s.href}>
-                  <Link href={s.href}>
-                    <span>{s.title}</span>
-                    {s.meta && <em>{s.meta}</em>}
-                    <ArrowRight size={13} strokeWidth={2.5} aria-hidden="true" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        {/* No "Bazuar në" list: Lind wants the answer to read as Dardani's own.
+            The server still refuses any news answer that cites no article. */}
       </div>
     );
   }
