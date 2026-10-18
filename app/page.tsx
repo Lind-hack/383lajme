@@ -234,9 +234,6 @@ export default async function HomePage() {
           One <main> landmark covers the whole run, full-bleed bands included. */}
       <main>
       <Contained first>
-        {/* A short edition is still an edition; fewer than three is not. */}
-        {edition && edition.clips.length >= 3 && <VideoRow edition={edition} list="home" />}
-
         <SectionLabel
           label="NJOFTIME"
           marginBottom={12}
@@ -280,6 +277,9 @@ export default async function HomePage() {
             <AdSlot />
           </div>
         )}
+
+        {/* A short edition is still an edition; fewer than three is not. */}
+        {edition && edition.clips.length >= 3 && <VideoRow edition={edition} list="home" />}
 
         {kuizi && <KuiziDites data={kuizi} />}
       </Contained>
