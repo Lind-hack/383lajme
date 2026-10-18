@@ -1,0 +1,43 @@
+name: 383 Weekly Newsletter
+on:
+  schedule:
+    # Both DST offsets. The endpoint gates Sunday 18:00 Europe/Tirane + 20h.
+    - cron: '*/15 16-23 * * 0'
+    - cron: '*/15 0-12 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: weekly-newsletter
+  cancel-in-progress: false
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Deliver confirmed subscribers in small, resumable batches
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          # Explicitly configured production origin; no automatic host switching.
+          SITE_URL: ${{ vars.NEWSLETTER_SITE_URL || 'https://383ks.com' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$CRON_SECRET" || { echo 'CRON_SECRET is required'; exit 1; }
+          for batch in $(seq 1 12); do
+            result=$(curl --fail-with-body --silent --show-error --max-time 65 \
+              -X POST -H "Authorization: Bearer $CRON_SECRET" \
+              "${SITE_URL%/}/api/automation/newsletter/weekly")
+            echo "$result" | jq '{issue,skipped,sent,failed,pending,held}'
+            if [ "$(echo "$result" | jq '.failed // 0')" -gt 0 ] || [ "$(echo "$result" | jq '.held // 0')" -gt 0 ]; then
+              echo 'Newsletter delivery needs attention; inspect newsletter_deliveries.' >&2
+              exit 1
+            fi
+            if [ "$(echo "$result" | jq '.pending // 0')" -eq 0 ]; then exit 0; fi
+            if [ "$(echo "$result" | jq '.sent // 0')" -eq 0 ]; then
+              echo 'Pending deliveries are leased or waiting for retry; the next run resumes.'
+              exit 0
+            fi
+            sleep 1
+          done
+          echo 'Batch limit reached; the next scheduled run resumes the remaining deliveries.'

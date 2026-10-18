@@ -45,6 +45,7 @@ export default function Ga() {
   }, []);
 
   useEffect(() => {
+    if (pathname === "/newsletter") return;
     // Skip the first path: gtag("config") already reported this page view.
     if (firstPath.current) {
       firstPath.current = false;
@@ -72,7 +73,7 @@ export default function Ga() {
   // pollutes the site's analytics with the operator's own traffic, and asking
   // them to consent to that sits a dismissable card over the article list they
   // came to work through. Placed after every hook so the order never varies.
-  if (pathname?.startsWith("/admin")) return null;
+  if (pathname?.startsWith("/admin") || pathname === "/newsletter") return null;
 
   return (
     <>

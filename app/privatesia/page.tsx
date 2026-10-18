@@ -121,13 +121,19 @@ export default function PrivatesiaPage() {
             për Mbrojtjen e të Dhënave Personale.
           </p>
           <p>
-            Mund të lexosh lajmet pa llogari. Të dhëna personale mbledhim vetëm kur regjistrohesh
-            ose kur përdor Tregun.
+            Mund të lexosh lajmet pa llogari. Të dhëna personale mbledhim vetëm kur regjistrohesh,
+            kur përdor Tregun ose kur kërkon përmbledhjen javore me email.
           </p>
         </Section>
 
         <Section index={2} id="cfare-mbledhim" title="Çfarë të dhënash mbledhim">
           <div className="mt-1">
+            <Row label="Përmbledhja javore">
+              Vetëm kur e kërkon dhe e konfirmon: emailin, kohën e kërkesës, konfirmimit dhe
+              çregjistrimit, versionin e pëlqimit dhe statusin teknik të dërgesave. Për të kufizuar
+              abuzimin mbajmë përkohësisht një shenjë të koduar të adresës IP, jo IP-në e plotë.
+              Abonimi është i veçantë nga llogaria dhe nga zgjedhja e interesave.
+            </Row>
             <Row label="Llogaria">
               Adresën e emailit, emrin e shfaqur dhe fjalëkalimin. Fjalëkalimi nuk ruhet asnjëherë
               si tekst — ruhet i enkriptuar (hash) nga Supabase dhe as ne nuk e shohim dot.
@@ -156,6 +162,14 @@ export default function PrivatesiaPage() {
         </Section>
 
         <Section index={3} id="pse" title="Pse i përdorim">
+          <p>
+            <strong className="font-bold text-ink">Përmbledhja javore</strong> — me pëlqimin tënd,
+            dërgojmë lajmet kryesore çdo të diel. Çdo email ka lidhje çregjistrimi pa hyrje në
+            llogari. Kërkesat e pakonfirmuara skadojnë pas 24 orësh dhe pastrohen pas shtatë ditësh
+            gjatë kërkesës ose ekzekutimit të radhës. Pas çregjistrimit ruajmë vetëm të dhënat e
+            nevojshme për të mos të dërguar përsëri pa një konfirmim të ri. Për fshirjen e tyre,
+            na shkruaj te <MailLink />.
+          </p>
           <p>
             <strong className="font-bold text-ink">Për të mbajtur llogarinë tënde</strong> — hyrje,
             konfirmim emaili, rikuperim fjalëkalimi. Pa këto të dhëna llogaria nuk ekziston.
@@ -187,6 +201,11 @@ export default function PrivatesiaPage() {
             </Row>
             <Row label="Vercel">
               Hosting. Shërben faqen dhe mban regjistrat teknikë të serverit.
+            </Row>
+            <Row label="Resend — përmbledhja javore">
+              Dërgon konfirmimin e abonimit dhe përmbledhjen e së dielës. Merr adresën e emailit
+              dhe përmbajtjen e mesazhit. Nuk shtojmë pikselë matës në përmbledhje; matjen e
+              hapjeve dhe klikimeve e mbajmë të çaktivizuar edhe te ofruesi i emailit.
             </Row>
             <Row label="Brevo">
               Dërgimi i emaileve — konfirmimi i llogarisë dhe rikuperimi i fjalëkalimit. Merr vetëm

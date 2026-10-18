@@ -1,0 +1,13 @@
+export type WeeklyWindow = { id: string; start: string; end: string };
+export type NewsletterStory = { slug: string; title: string; excerpt: string; source: string; category: string };
+export type WeeklyIssue = WeeklyWindow & { total: number; stories: NewsletterStory[] };
+export type EmailMessage = { subject: string; text: string; html: string };
+export function newsletterPublicOrigin(requestUrl: string, configured?: string, production?: boolean): string;
+export function newsletterRequestAllowed(origin: string | null, requestUrl: string, configured?: string, production?: boolean): boolean;
+export function normalizeEmail(value: unknown): string | null;
+export function weeklyWindow(now?: Date): WeeklyWindow;
+export function selectWeeklyStories(articles: Record<string, unknown>[], window: WeeklyWindow): { total: number; stories: NewsletterStory[] };
+export function signUnsubscribe(id: string, secret: string): string;
+export function verifyUnsubscribe(token: unknown, secret: string): string | null;
+export function renderConfirmationEmail(origin: string, token: string): EmailMessage;
+export function renderWeeklyEmail(issue: WeeklyIssue, origin: string, token: string): EmailMessage;

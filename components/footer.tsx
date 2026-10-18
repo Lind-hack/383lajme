@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Facebook, Heart, Instagram, MapPin } from "lucide-react";
+import { Facebook, Heart, Instagram, MapPin } from "lucide-react";
 import { NAV_CATEGORIES } from "@/lib/category-map";
 
 const FOOTER_CATEGORIES = NAV_CATEGORIES.map(({ label, slug }) => ({
@@ -70,45 +70,9 @@ export default function Footer() {
               email-in tuaj — dhe për të personalizuar përvojën tuaj në 383.
             </p>
 
-            <p style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.65)", margin: "0 0 10px" }}>
-              REGJISTROHU PËR NJOFTIME
-            </p>
-            <div style={{ display: "flex", gap: "8px", marginBottom: "28px" }}>
-              <input
-                type="email"
-                placeholder="Email-i juaj..."
-                style={{
-                  flex: 1,
-                  padding: "10px 16px",
-                  borderRadius: "var(--radius-pill)",
-                  border: "1px solid rgba(255,255,255,0.14)",
-                  background: "rgba(255,255,255,0.07)",
-                  color: "#fff",
-                  fontSize: "13px",
-                  outline: "none",
-                  fontFamily: "inherit",
-                  minWidth: 0,
-                }}
-              />
-              <button
-                className="footer-submit"
-                aria-label="Regjistrohu"
-                style={{
-                  padding: "10px 20px",
-                  borderRadius: "var(--radius-pill)",
-                  background: "#FF4422",
-                  color: "#fff",
-                  border: "none",
-                  cursor: "pointer",
-                  fontFamily: "inherit",
-                  flexShrink: 0,
-                  display: "inline-flex",
-                  alignItems: "center",
-                }}
-              >
-                <ArrowRight size={16} strokeWidth={2.5} />
-              </button>
-            </div>
+            <Link href="/#newsletter" className="footer-link" style={{ display: "inline-block", marginBottom: "28px", fontSize: "14px", textDecoration: "underline", textUnderlineOffset: "4px" }}>
+              Përmbledhja javore në email →
+            </Link>
 
             <div style={{ display: "flex", gap: "14px" }}>
               {SOCIAL.map(({ label, Icon }) => (

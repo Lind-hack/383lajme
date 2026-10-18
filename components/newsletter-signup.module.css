@@ -1,0 +1,26 @@
+.form { color: #17130e; width: 100%; max-width: 560px; }
+.label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 750; }
+.inputRow { display: flex; align-items: stretch; gap: 8px; }
+.inputRow input { flex: 1; min-width: 0; min-height: 54px; border: 1px solid #c63b20; border-radius: 10px; background: #fff9f2; padding: 12px 16px; color: #17130e; font: inherit; font-size: 16px; caret-color: #b82f14; }
+.inputRow input::placeholder { color: #72665d; opacity: 1; }
+.inputRow button { display: inline-flex; align-items: center; justify-content: center; gap: 14px; min-height: 54px; flex-shrink: 0; padding: 0 22px; border: 1px solid #17130e; border-radius: 10px; background: #17130e; color: #fff9f2; font: inherit; font-size: 14px; font-weight: 750; cursor: pointer; touch-action: manipulation; transition: background-color 160ms ease, transform 160ms cubic-bezier(.23,1,.32,1); }
+.inputRow button:active { transform: scale(.97); }
+.inputRow button:disabled { cursor: wait; background: #3b251b; }
+.inputRow input:focus-visible, .inputRow button:focus-visible, .consent input:focus-visible, .consent a:focus-visible { outline: 2px solid #17130e; outline-offset: 4px; }
+.consent { display: flex; align-items: flex-start; gap: 9px; margin-top: 13px; font-size: 12px; line-height: 1.65; color: #381b12; cursor: pointer; }
+.consent input { flex-shrink: 0; width: 17px; height: 17px; margin-top: 2px; accent-color: #17130e; cursor: pointer; }
+.consent a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.message { margin: 12px 0 0; font-size: 13px; line-height: 1.65; font-weight: 600; overflow-wrap: anywhere; }
+.message:empty { display: none; }
+.spinner { animation: turn .8s linear infinite; }
+.compact .inputRow { gap: 6px; }
+.compact .inputRow input { min-height: 46px; padding: 10px 11px; }
+.compact .inputRow button { min-height: 46px; padding: 0 12px; gap: 6px; font-size: 12px; }
+.compact .inputRow button svg { display: none; }
+.compact .label { font-size: 12px; }
+.compact .consent { font-size: 11px; gap: 7px; }
+.compact .message { font-size: 12px; }
+@keyframes turn { to { transform: rotate(360deg); } }
+@media (hover:hover) { .inputRow button:hover { background: #3b251b; } .consent a:hover { text-decoration-thickness: 2px; } }
+@media (max-width:400px) { .inputRow button { gap: 8px; padding: 0 15px; } }
+@media (prefers-reduced-motion:reduce) { .inputRow button { transition: none; } .spinner { animation: none; } }

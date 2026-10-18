@@ -1,5 +1,7 @@
 "use client";
 
+import NewsletterCard from "@/components/newsletter-card";
+
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -699,6 +701,8 @@ export default function NavSidePanel({ open, onClose }: Props) {
               </Link>
             )}
           </div>
+
+          <NewsletterCard compact onNavigate={onClose} />
 
           <div className="side-panel-appearance"><ThemeToggle /></div>
           </div>

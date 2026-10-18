@@ -12,6 +12,7 @@ import DispatchList from "@/components/dispatch-list";
 import ColorSpotlight from "@/components/color-spotlight";
 import GradientCta from "@/components/gradient-cta";
 import Footer from "@/components/footer";
+import NewsletterCard from "@/components/newsletter-card";
 import KuiziDites from "@/components/kuizi-dites";
 import BotaHome from "@/components/home/bota-home";
 import HomeVisitPreview from "@/components/visit/home-visit-preview";
@@ -262,6 +263,10 @@ export default async function HomePage() {
         {/* Gazeta jote: one line pointing to Për ty, decided on the device. */}
         <div className="pth-strip-wrap">
           <PerTyHome />
+        </div>
+
+        <div style={{ marginBottom: "var(--space-section)" }}>
+          <NewsletterCard />
         </div>
 
         {/* Lajmet e fundit — the day's run, one story to a row, and the way
