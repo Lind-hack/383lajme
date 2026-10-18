@@ -49,14 +49,22 @@ const MODELS: GroqModel[] = [
  *
  * MODELS above switches reasoning off because the Tregu pipeline needs volume
  * more than care. Pyet is the opposite: one question at a time, and an answer
- * that swaps "postponed" for "added" is worse than a second of waiting. qwen3.8
- * leads because the site translator already runs on it; qwen3.6 was retired.
+ * that swaps "postponed" for "added" is worse than a second of waiting.
+ *
+ * qwen3.8-27b leads because it is the strongest model this key can reach:
+ * Artificial Analysis Intelligence Index 28 at medium reasoning against 12 for
+ * gpt-oss-120b (high), and ahead on GPQA, MMLU-Pro and LiveCodeBench
+ * (checked 2026-10-18). Its effort must be "medium": measured on a Pyet
+ * prompt, "default" produced no reasoning at all (same as "none"), while
+ * "medium" reasoned ~1000 characters for ~0.6s more and gave the fuller answer.
+ * Not "high": the free tier allows qwen3.8 only 1000 output tokens a minute,
+ * a medium answer spends ~450, and every overflow falls to gpt-oss-120b.
  * Thinking is billed against max_tokens, so callers give these room.
  */
 export const THINKING_MODELS: GroqModel[] = [
   {
     id: "qwen/qwen3.8-27b",
-    params: { reasoning_format: "hidden", reasoning_effort: "default" },
+    params: { reasoning_format: "hidden", reasoning_effort: "medium" },
     maxTokens: 4000,
   },
   // No gpt-oss-20b: tested on Pyet it wrote "Letërta erdhen" and lower-cased
