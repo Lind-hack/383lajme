@@ -158,6 +158,8 @@
 }
 .vr-badge i { flex: none; width: 8px; height: 8px; border-radius: 50%; }
 .vr-badge { max-width: calc(100% - 56px); }
+/* A rendered thumbnail carries its own section label and cover line: no badge over it. */
+.vr-card[data-thumb] .vr-badge { display: none; }
 /* No photo: the section's colour, deepening to the bottom. */
 .vr-poster-none { background: linear-gradient(160deg, var(--c), #111111 85%); }
 /* The story's place in the edition. */

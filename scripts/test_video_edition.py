@@ -318,5 +318,23 @@ class GraphicsTests(unittest.TestCase):
         self.assertGreaterEqual(starts[0], 120 * 0.06)
 
 
+class CoverTests(unittest.TestCase):
+    def test_the_cover_keeps_only_the_storys_names_and_numbers(self):
+        self.assertEqual(ve.check_cover("Ylli mposht Vëllaznimin 100:86", GAME), "Ylli mposht Vëllaznimin 100:86")
+        self.assertEqual(ve.check_cover("Ylli fiton 110:86", GAME), "")
+        self.assertEqual(ve.check_cover("Ylli mposht Partizanin", GAME), "")
+        self.assertEqual(ve.check_cover("Ylli", GAME), "")
+        self.assertEqual(ve.check_cover("A do ta besoni çfarë ndodhi sonte?", GAME), "")
+
+    def test_without_a_cover_the_scoreboard_or_the_headline_says_it(self):
+        look = {"graphics": [{"type": "score", "teams": [{"name": "Ylli", "score": "100"}, {"name": "Vëllaznimi", "score": "86"}]}], "facts": []}
+        self.assertEqual(ve.fallback_cover(GAME, look), "Ylli 100:86")
+        self.assertLessEqual(len(ve.fallback_cover(GAME, {"graphics": [], "facts": []})), 32)
+
+    def test_the_strongest_word_is_orange(self):
+        self.assertEqual(render.cover_words("Ylli fiton 100:86"), "Ylli fiton <b>100:86</b>")
+        self.assertEqual(render.cover_words("Paqe në <Gaza>"), "Paqe në <b>&lt;Gaza&gt;</b>")
+
+
 if __name__ == "__main__":
     unittest.main()

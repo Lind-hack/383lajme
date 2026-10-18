@@ -45,8 +45,9 @@ export type EditionClip = {
   /** The pictures, changing every few seconds; [] for a clip made before beats (the story's photo alone). */
   beats: EditionBeat[];
   /** The finished clip as a video (voice, music, sound, pictures and words in one file), or null:
-   * then the voice plays over the beats drawn in the page. hd is 1080x1920, sd 720x1280. */
-  video: { hd: string; sd: string; poster: string } | null;
+   * then the voice plays over the beats drawn in the page. hd is 1080x1920, sd 720x1280; thumb
+   * (540x960, the clip's strongest picture with its cover line) is what the row shows, "" if none. */
+  video: { hd: string; sd: string; poster: string; thumb: string } | null;
 };
 
 export type Edition = {
@@ -109,7 +110,9 @@ function parseVideo(v: unknown, base: string): EditionClip["video"] {
   const hd = str(o?.hd);
   const sd = str(o?.sd);
   const poster = str(o?.poster);
-  return [hd, sd, poster].every((u) => u.startsWith(base)) ? { hd, sd, poster } : null;
+  const thumb = str(o?.thumb);
+  if (![hd, sd, poster].every((u) => u.startsWith(base))) return null;
+  return { hd, sd, poster, thumb: thumb.startsWith(base) ? thumb : "" };
 }
 
 function parseWords(v: unknown): EditionWord[] {

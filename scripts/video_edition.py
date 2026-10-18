@@ -31,12 +31,14 @@ from __future__ import annotations
 
 import hashlib
 import json
+from html import escape as html_escape
 import os
 import re
 import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -52,9 +54,10 @@ MAX_STORIES = 7
 BUCKET = "video-edition"
 INDEX = "index.json"
 KEEP_AUDIO = timedelta(days=3)
+BUDGET = 35 * 60  # seconds of rendering a run starts new clips in
 MIN_WORDS, MAX_WORDS = 30, 110
 # Bumped when a clip is made differently: every story is made again once.
-CLIP_VERSION = "5"
+CLIP_VERSION = "6"
 KOSOVO = ZoneInfo("Europe/Belgrade")  # the host has no Europe/Pristina; same clock
 
 SITE = os.environ.get("SITE_URL", "https://383ks.com").rstrip("/")
@@ -128,12 +131,16 @@ And how the clip should feel, the way a good short-form editor would cut it:
 - "climax": 2 to 6 consecutive words copied exactly from your script: the moment the viewer is
   waiting for (the outcome, the number, the decision). The sound builds up to it.
 - "emphasis": up to 3 single words from your script that carry the story (a name, a number, a verb).
+- "cover": the words on the clip's thumbnail, 2 to 5 Albanian words (at most 32 characters), the one
+  true thing that makes someone tap, like the cover of a viral short: concrete, a name or a number
+  in it, no question, no clickbait the story does not back (e.g. "Ylli mposht Vëllaznimin 100:86",
+  "40 mijë në protestë"). Only names and numbers that are in the story.
 
 Reply with ONLY this, exactly, nothing before or after:
 383_JSON_BEGIN
 [{"slug": "<the story's slug>", "script": "<the script>", "subjects": [], "place": "",
   "place_name": "", "facts": [], "quote": null, "youtube": [], "sources": [], "graphics": [],
-  "mood": "serious", "hook": "", "climax": "", "emphasis": []}]
+  "mood": "serious", "hook": "", "climax": "", "emphasis": [], "cover": ""}]
 383_JSON_END
 """
 
@@ -291,6 +298,7 @@ def parse_scripts(output: str, slugs: set[str]) -> dict[str, dict]:
             "hook": str(row.get("hook") or "").strip()[:300],
             "climax": str(row.get("climax") or "").strip()[:80],
             "emphasis": strings(row.get("emphasis"), 3, 30),
+            "cover": re.sub(r"\s+", " ", str(row.get("cover") or "")).strip()[:40],
             "graphics": [g for g in row.get("graphics") or [] if isinstance(g, dict)][:4] if isinstance(row.get("graphics"), list) else [],
         }
     return out
@@ -360,6 +368,38 @@ def check_graphics(graphics: list[dict], script: str, story: dict) -> list[dict]
                     and numbers_in(" ".join(s["when"] + " " + s["what"] for s in clean)) <= source:
                 out.append({"type": "timeline", "steps": clean})
     return out
+
+
+def check_cover(cover: str, story: dict) -> str:
+    """The thumbnail's words: short, and only the story's own names and numbers."""
+    cover = re.sub(r"[\"“”„«»?!]", "", str(cover or "")).strip().rstrip(".")
+    source_text = " ".join(plain(story.get(k)) for k in ("title", "excerpt", "body"))
+    low = source_text.lower()
+    if not (2 <= len(cover.split()) <= 5 and len(cover) <= 32) or not numbers_in(cover) <= story_numbers(source_text):
+        return ""
+    for word in re.findall(r"[A-ZÇË][\wçëÇË-]*", " ".join(cover.split()[1:])):
+        if word.lower()[: max(4, len(word) - 3)] not in low:
+            return ""
+    return cover
+
+
+def fallback_cover(story: dict, look: dict) -> str:
+    """No cover from the writer: the scoreboard, a number card, or the headline's first words."""
+    for g in look.get("graphics", []):
+        if g["type"] == "score":
+            a, b = g["teams"]
+            return f"{a['name']} {a['score']}:{b['score']}"[:32]
+    for f in look.get("facts", []):
+        cover = f"{f['value']} {' '.join(f['label'].split()[:2])}"
+        if len(cover) <= 32:
+            return cover
+    words = plain(story.get("title")).rstrip(".!?").split()
+    out = []
+    for w in words:
+        if len(" ".join(out + [w])) > 32:
+            break
+        out.append(w)
+    return " ".join(out)
 
 
 def check_feel(w: dict, script: str) -> dict:
@@ -596,13 +636,15 @@ def make_clip(story: dict, script: str, how: str, look: dict, picked: list[dict]
                                                   "color": ""}, voiced["mp3"], look, workdir)
         if made:
             video = {}
-            for kind, mime in (("hd", "video/mp4"), ("sd", "video/mp4"), ("poster", "image/jpeg")):
+            for kind, mime in (("hd", "video/mp4"), ("sd", "video/mp4"), ("poster", "image/jpeg"), ("thumb", "image/jpeg")):
+                if kind not in made:
+                    continue
                 # A new name every render: the files are cached for a year, so a re-render under the old name would not be seen.
-                path = f"video/{story['slug']}-{h}-{now:%m%d%H%M}-{kind}.{'jpg' if kind == 'poster' else 'mp4'}"
+                path = f"video/{story['slug']}-{h}-{now:%m%d%H%M}-{kind}.{'mp4' if mime == 'video/mp4' else 'jpg'}"
                 if upload(path, made[kind].read_bytes(), mime, "31536000"):
                     video[kind] = path
                     clip["files"].append(path)
-            if len(video) == 3:
+            if all(k in video for k in ("hd", "sd", "poster")):
                 clip["video"] = video
                 # What the video shows when, for the credit line under it.
                 clip["beats"] = made["beats"]
@@ -612,7 +654,7 @@ def make_clip(story: dict, script: str, how: str, look: dict, picked: list[dict]
 
 
 def edition_entry(story: dict, clip: dict) -> dict:
-    video = clip.get("video") if isinstance(clip.get("video"), dict) and len(clip["video"]) == 3 else {}
+    video = clip.get("video") if isinstance(clip.get("video"), dict) and all(clip["video"].get(k) for k in ("hd", "sd", "poster")) else {}
     return {
         "slug": story["slug"],
         "title": plain(story.get("title")),
@@ -635,6 +677,59 @@ def edition_entry(story: dict, clip: dict) -> dict:
 def public_beat(b: dict) -> dict:
     """A beat as the site gets it: no paths on this machine."""
     return {k: v for k, v in b.items() if k != "file"}
+
+
+def report(made: list[tuple[dict, dict]], edition: dict, now: datetime) -> None:
+    """After a run that made clips: one email to the editor (L383_EDITION_REPORT_TO) with each
+    new clip, its thumbnail and where to watch it. A run that made nothing sends nothing."""
+    to = os.environ.get("L383_EDITION_REPORT_TO", "").strip()
+    # The newsroom's EMAIL_FROM on the VPS is Resend's test sender (it may only mail the account's
+    # owner); the report goes out from the site's verified domain (L383_EDITION_REPORT_FROM).
+    key = os.environ.get("RESEND_API_KEY", "")
+    sender = os.environ.get("L383_EDITION_REPORT_FROM") or os.environ.get("EMAIL_FROM", "")
+    if not (made and to and key and sender):
+        return
+    live = {c["slug"]: c for c in edition.get("clips", [])}
+    rows = []
+    for story, clip in made:
+        entry = live.get(story["slug"]) or edition_entry(story, clip)
+        video = entry.get("video") or {}
+        thumb = video.get("thumb") or video.get("poster") or entry.get("image") or ""
+        page = f"{SITE}/video/{story['slug']}"
+        secs = int(round(float(clip.get("duration") or 0)))
+        what = [f"{secs // 60}:{secs % 60:02d}", entry.get("category") or ""]
+        what.append(f"{clip.get('footage', 0)} pjesë video" if clip.get("footage") else "pa video të ngjarjes")
+        if clip.get("graphics"):
+            names = {"score": "rezultati", "compare": "krahasim", "person": "emër", "timeline": "kronologji", "slam": "kulmi"}
+            what.append("grafika: " + ", ".join(dict.fromkeys(names.get(g, g) for g in clip["graphics"] if g != "bug")))
+        state = "" if video else '<p style="margin:6px 0 0;color:#B42318;font-weight:700">Pa video të renderuar: në faqe del me zë dhe foto.</p>'
+        img = (f'<a href="{html_escape(page)}"><img src="{html_escape(thumb)}" width="135" height="240" alt="" '
+               f'style="display:block;width:135px;height:240px;object-fit:cover;border-radius:12px;background:#222"></a>') if thumb else ""
+        links = f'<a href="{html_escape(page)}" style="color:#FF4422;font-weight:800">Shiko në faqe</a>'
+        if video.get("hd"):
+            links += f' · <a href="{html_escape(video["hd"])}" style="color:#555">MP4 HD</a>'
+        rows.append(f'<tr><td style="padding:14px 14px 14px 0;vertical-align:top;width:135px">{img}</td>'
+                    f'<td style="padding:14px 0;vertical-align:top;font-family:Arial,sans-serif">'
+                    f'<p style="margin:0;font-size:17px;font-weight:800;color:#111;line-height:1.3">{html_escape(entry.get("title", ""))}</p>'
+                    f'<p style="margin:6px 0 0;font-size:13px;color:#666">{html_escape(" · ".join(w for w in what if w))}</p>{state}'
+                    f'<p style="margin:10px 0 0;font-size:14px">{links}</p></td></tr>')
+    when = now.astimezone(KOSOVO)
+    n = len(made)
+    subject = f"383 Video · {n} {'klip i ri' if n == 1 else 'klipe të reja'} · {when:%H:%M}"
+    body = (f'<div style="max-width:620px;margin:0 auto;padding:20px;font-family:Arial,sans-serif;color:#111">'
+            f'<p style="margin:0 0 4px;font-size:12px;font-weight:800;letter-spacing:.16em;color:#FF4422">EDICIONI VIDEO · {when:%d.%m.%Y}</p>'
+            f'<h1 style="margin:0 0 6px;font-size:22px">{n} {"klip i ri u publikua" if n == 1 else "klipe të reja u publikuan"} në faqe</h1>'
+            f'<p style="margin:0 0 8px;font-size:14px;color:#555">Edicioni tani ka {len(edition.get("clips", []))} klipe. '
+            f'<a href="{SITE}/video" style="color:#FF4422">383ks.com/video</a></p>'
+            f'<table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse">{"".join(rows)}</table></div>')
+    req = urllib.request.Request("https://api.resend.com/emails", method="POST",
+                                 data=json.dumps({"from": f"383 Video <{sender}>", "to": [to], "subject": subject, "html": body}).encode(),
+                                 headers={**HEADERS, "Authorization": f"Bearer {key}", "Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=30) as res:
+            print(f"EDITION report sent ({res.status})")
+    except (urllib.error.URLError, TimeoutError, OSError) as exc:
+        print(f"EDITION report failed: {exc}", file=sys.stderr)
 
 
 def publish(stories: list[dict], clips: dict, now: datetime) -> dict | None:
@@ -688,13 +783,15 @@ def main(dry_run: bool = False, only: str = "", force: bool = False, keep: str =
             if not ok:
                 print(f"EDITION {s['slug']}: own words ({why})")
                 script, how = fallback_script(s), "story"
-            looks[s["slug"]] = {
+            looks[s["slug"]] = look = {
                 "script": script, "how": how,
                 "subjects": w.get("subjects", []), "place": w.get("place", ""), "place_name": w.get("place_name", ""),
                 "facts": check_facts(w.get("facts", []), script, s), "quote": check_quote(w.get("quote"), s),
                 "graphics": check_graphics(w.get("graphics", []), script, s) if how == "model" else [],
+                "cover": check_cover(w.get("cover", ""), s),
                 **(check_feel(w, script) if how == "model" else {"mood": w.get("mood") if w.get("mood") in render.MOODS else ""}),
             }
+            look["cover"] = look["cover"] or fallback_cover(s, look)
         found = {s["slug"]: media.footage_candidates(searches(s, written.get(s["slug"]) or {}),
                                                      (written.get(s["slug"]) or {}).get("sources", []),
                                                      (written.get(s["slug"]) or {}).get("subjects") or []) for s in fresh}
@@ -706,7 +803,14 @@ def main(dry_run: bool = False, only: str = "", force: bool = False, keep: str =
                   f"footage: {footage.get(s['slug'])} of {len(found.get(s['slug']) or [])}\n")
         return 0
     ensure_bucket()
+    made: list[tuple[dict, dict]] = []
+    started = time.monotonic()
     for s in fresh:
+        # A clip takes ~15 minutes and the runner stops the job at 55: past the budget the rest
+        # wait for the next hour, so this run still ends cleanly (and sends its report).
+        if made and time.monotonic() - started > BUDGET:
+            print(f"EDITION out of time: {len(fresh) - len(made)} left for the next run")
+            break
         look = looks[s["slug"]]
         before = clips.get(s["slug"]) or {}
         with tempfile.TemporaryDirectory(prefix=f"383-clip-{s['slug'][:20]}-") as work:
@@ -717,6 +821,7 @@ def main(dry_run: bool = False, only: str = "", force: bool = False, keep: str =
                 print(json.dumps(edition_entry(s, clip), ensure_ascii=False)[:3000])
                 continue
         clips[s["slug"]] = clip
+        made.append((s, clip))
         beats = clip["beats"]
         print(f"EDITION {s['slug']}: {clip['voice'] or 'no voice'}, {'video' if clip.get('video') else 'no video'}, "
               f"{len(beats)} beats, {len({b.get('src') for b in beats if b['kind'] == 'photo'})} photos "
@@ -751,6 +856,7 @@ def main(dry_run: bool = False, only: str = "", force: bool = False, keep: str =
     voiced = sum(1 for c in edition["clips"] if c["audio"])
     videos = sum(1 for c in edition["clips"] if c.get("video"))
     print(f"EDITION published {len(edition['clips'])} clips ({voiced} voiced, {videos} rendered, {len(fresh)} new)")
+    report(made, edition, now)
     return 0
 
 

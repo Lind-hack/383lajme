@@ -726,6 +726,98 @@ def review(path: Path, duration: float) -> str:
     return ""
 
 
+# ── The thumbnail ────────────────────────────────────────────────────────────
+# What a reader sees before tapping: the clip's strongest picture (the sharpest,
+# most vivid frame of its own footage or photos) with a few big words over it.
+
+CHROMIUM = os.environ.get("L383_EDITION_CHROMIUM", "/usr/bin/chromium")
+THUMB_W, THUMB_H = 540, 960
+
+THUMB_STYLE = """
+@font-face{font-family:Manrope;src:url(fonts/manrope-latin.woff2) format('woff2');font-weight:200 800;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215}
+@font-face{font-family:Manrope;src:url(fonts/manrope-latin-ext.woff2) format('woff2');font-weight:200 800;unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:540px;height:960px;overflow:hidden;background:#111}
+.t{position:relative;width:540px;height:960px;overflow:hidden;font-family:Manrope,system-ui,sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+.t img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.12) contrast(1.06)}
+.top{position:absolute;left:0;right:0;top:0;height:560px;background:linear-gradient(#000000d9 0%,#000000a6 38%,#0000 100%)}
+.bot{position:absolute;left:0;right:0;bottom:0;height:300px;background:linear-gradient(#0000,#0009)}
+.lab{position:absolute;left:34px;top:60px;display:flex;align-items:center;gap:12px;font-size:21px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+.lab i{display:block;width:10px;height:30px;border-radius:3px;background:#FF4422}
+h1{position:absolute;left:34px;right:70px;top:108px;font-size:var(--fs,74px);line-height:.98;font-weight:800;letter-spacing:-.03em;text-transform:uppercase;text-shadow:0 4px 30px #000c}
+h1 b{color:#FF4422;font-weight:800}
+"""
+
+
+def cover_words(text: str) -> str:
+    """The cover line with its strongest word (a number, else the last word) in orange."""
+    words = str(text).split()
+    if not words:
+        return ""
+    hot = next((j for j, w in enumerate(words) if re.search(r"\d", w)), len(words) - 1)
+    return " ".join(f"<b>{esc(w)}</b>" if j == hot else esc(w) for j, w in enumerate(words))
+
+
+def frame_score(path: Path) -> float:
+    """Sharp, contrasty and colourful wins (a blurred or grey frame loses)."""
+    from PIL import Image, ImageFilter, ImageStat
+    with Image.open(path) as im:
+        im = im.convert("RGB").resize((180, 320))
+        grey = im.convert("L")
+        edges = ImageStat.Stat(grey.filter(ImageFilter.FIND_EDGES)).mean[0]
+        contrast = ImageStat.Stat(grey).stddev[0]
+        sat = ImageStat.Stat(im.convert("HSV")).mean[1]
+        return edges * 1.0 + contrast * 0.45 + sat * 0.25
+
+
+def thumbnail(work: Path, clip: dict, keep: list[dict], meta: dict, assets: dict) -> Path | None:
+    """thumb.jpg (540x960) in work/, or None (the site then shows the story's photo)."""
+    cands: list[Path] = []
+    for n, b in enumerate(keep):
+        local = work / assets.get(b.get("file") or b.get("src") or "", "-")
+        if not local.is_file():
+            continue
+        if b["kind"] == "video":
+            for at in (1.0, 2.4):
+                out = work / f"cand-{n}-{at}.jpg"
+                try:
+                    run(["ffmpeg", "-v", "error", "-y", "-ss", str(at), "-i", str(local), "-frames:v", "1", "-q:v", "3", str(out)], timeout=60)
+                except (RuntimeError, subprocess.TimeoutExpired, OSError):
+                    continue
+                if out.is_file():
+                    cands.append(out)
+        elif b["kind"] == "photo":
+            cands.append(local)
+    best = None
+    try:
+        best = max(dict.fromkeys(cands), key=frame_score) if cands else None
+    except Exception as exc:  # a broken frame must not cost the clip its thumbnail
+        print(f"EDITION thumbnail scoring failed: {exc!r}", file=sys.stderr)
+        best = cands[0] if cands else None
+    words = str(meta.get("cover") or "").strip()
+    fs = 86 if len(words) <= 14 else 74 if len(words) <= 24 else 62
+    # The longest word must fit the line (436 px, capitals ~0.7 em wide).
+    fs = min(fs, int(436 / (0.7 * max((len(w) for w in words.split()), default=1))))
+    page = work / "thumb.html"
+    img = f'<img src="{esc(best.name)}" alt="">' if best else ""
+    page.write_text(f'<!doctype html><html><head><meta charset="utf-8"><style>{THUMB_STYLE}</style></head><body>'
+                    f'<div class="t" style="background:radial-gradient(120% 80% at 50% 30%,#FF4422 0%,#111 70%)">{img}<div class="top"></div><div class="bot"></div>'
+                    f'<div class="lab"><i></i>{esc(clip.get("category", ""))}</div><h1 style="--fs:{fs}px">{cover_words(words)}</h1></div></body></html>',
+                    encoding="utf-8")
+    png, jpg = work / "thumb.png", work / "thumb.jpg"
+    try:
+        run([CHROMIUM, "--headless=new", "--no-sandbox", "--disable-gpu", "--hide-scrollbars", "--allow-file-access-from-files",
+             "--force-device-scale-factor=1", f"--window-size={THUMB_W},{THUMB_H}", "--virtual-time-budget=4000",
+             f"--screenshot={png}", page.resolve().as_uri()], timeout=90)
+        from PIL import Image
+        with Image.open(png) as im:
+            im.convert("RGB").crop((0, 0, THUMB_W, THUMB_H)).save(jpg, "JPEG", quality=82, optimize=True, progressive=True)
+    except Exception as exc:  # no thumbnail is better than no clip
+        print(f"EDITION thumbnail failed: {exc!r}", file=sys.stderr)
+        return None
+    return jpg if jpg.is_file() and jpg.stat().st_size > 8000 else None
+
+
 # ── One clip ─────────────────────────────────────────────────────────────────
 
 def fetch(url: str, dest: Path) -> bool:
@@ -825,7 +917,11 @@ def finish(work: Path, slug: str, clip: dict, keep: list[dict], meta: dict, asse
     if why:
         print(f"EDITION {slug}: render not published ({why})", file=sys.stderr)
         return None
-    return {"hd": hd, "sd": sd, "poster": poster, "cues": cues, "beats": keep, "overlays": overlays}
+    made = {"hd": hd, "sd": sd, "poster": poster, "cues": cues, "beats": keep, "overlays": overlays}
+    thumb = thumbnail(work, clip, keep, meta, assets)
+    if thumb:
+        made["thumb"] = thumb
+    return made
 
 
 if __name__ == "__main__":
@@ -834,4 +930,4 @@ if __name__ == "__main__":
     folder = Path(sys.argv[1])
     saved = json.loads((folder / "clip.json").read_text(encoding="utf-8"))
     made = finish(folder, saved["slug"], saved["clip"], saved["beats"], saved["look"], saved["assets"], load_library())
-    print(json.dumps({k: str(v) for k, v in (made or {}).items() if k in ("hd", "sd", "poster")}))
+    print(json.dumps({k: str(v) for k, v in (made or {}).items() if k in ("hd", "sd", "poster", "thumb")}))

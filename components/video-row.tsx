@@ -377,18 +377,23 @@ export default function VideoRow({
       <ul className="vr-track" ref={trackRef} onScroll={update}>
         {clips.map((clip, i) => {
           const done = seen.has(clip.slug);
+          // The clip's own thumbnail (its strongest picture, its cover line, its section) when
+          // it was rendered; else the story's photo.
+          const thumb = clip.video?.thumb || "";
+          const cover = thumb || clip.image;
           return (
             <li key={clip.slug}>
               <button
                 type="button"
                 className="vr-card"
                 data-seen={done || undefined}
+                data-thumb={thumb ? "" : undefined}
                 onClick={(e) => openAt(i, e.currentTarget, "card")}
                 aria-label={`${i + 1}. ${clip.title}${done ? " (e parë)" : ""}`}
               >
-                {clip.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- the story's own photo, already sized
-                  <img className="vr-poster" src={clip.image} alt="" loading={i < 4 ? "eager" : "lazy"} decoding="async" />
+                {cover ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- already sized (540x960 thumbnail or the story's photo)
+                  <img className="vr-poster" src={cover} alt="" loading={i < 4 ? "eager" : "lazy"} decoding="async" />
                 ) : (
                   <span className="vr-poster vr-poster-none" style={{ ["--c" as string]: clip.color }} aria-hidden="true" />
                 )}
