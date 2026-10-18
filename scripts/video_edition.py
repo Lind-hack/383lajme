@@ -236,7 +236,7 @@ def mix_trends(stories: list[dict], data: dict, recent: list[dict] | None = None
     out = []
     for s in stories:
         t = video_trends.trend_for(about(s), data)
-        out.append({**s, "trend": t} if t else s)
+        out.append({**s, "trend": t} if t and t["traffic"] >= MIN_TREND_TRAFFIC else s)
     taken = {s["slug"] for s in out}
     terms = {s["trend"]["term"] for s in out if s.get("trend")}
     hot = []
