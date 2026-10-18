@@ -57,7 +57,7 @@ KEEP_AUDIO = timedelta(days=3)
 BUDGET = 35 * 60  # seconds of rendering a run starts new clips in
 MIN_WORDS, MAX_WORDS = 30, 110
 # Bumped when a clip is made differently: every story is made again once.
-CLIP_VERSION = "6"
+CLIP_VERSION = "7"
 KOSOVO = ZoneInfo("Europe/Belgrade")  # the host has no Europe/Pristina; same clock
 
 SITE = os.environ.get("SITE_URL", "https://383ks.com").rstrip("/")
@@ -73,13 +73,22 @@ SPELLED_OUT = {"Shtetet", "Shteteve", "Bashkuara", "Bashkimi", "Bashkimit", "Evr
 RULES = """You write the voice-over for 383's video edition: each of today's top stories as one
 short clip, read aloud in Albanian by a warm synthetic voice over photos, maps and footage.
 
-For every story in the brief, write ONE spoken script:
-- Standard Albanian, the way a good newsreader talks to a friend: short, clear sentences.
-- 55 to 85 words, 3 to 5 sentences.
-- The first sentence is the news itself, the strongest fact. No greeting, no "Në lajmin e sotëm",
-  no "Mirëmëngjes", no question to the viewer.
-- Then the context that makes it make sense, then what happens next or why it matters, but ONLY
-  if the story says so.
+For every story in the brief, write ONE spoken script.
+
+The listener knows NOTHING about this story, is scrolling on a phone, and hears it ONCE. After
+the clip they must be able to tell a friend in one sentence what happened. Clear beats complete:
+leave out every detail that is not needed to understand the news.
+- Plain, everyday Albanian, the way you would tell a friend. No officialese or newspaper phrases
+  ("në kuadër të", "lidhur me", "përkatësisht", "në fjalë", "ka bërë të ditur", "inicoi").
+- One idea per sentence, at most 15 words each. 55 to 85 words, 4 to 6 sentences.
+- The first sentence is the news itself in the simplest words: who did what. No greeting, no
+  "Në lajmin e sotëm", no "Mirëmëngjes", no question to the viewer.
+- Say who someone is the first time you name them, as the story describes them ("Edi Rama,
+  kryeministri i Shqipërisë", "Ylli nga Suhareka"). At most 3 names in the whole script.
+- At most 3 numbers in the whole script (a score like 100:86 counts as two): only the ones the
+  news is about. No running scores, no list of figures, no exact times or minor dates.
+- A word or abbreviation a teenager might not know: explain it in a few words, or leave it out.
+- Then why it matters or what happens next, in one plain sentence, ONLY if the story says so.
 - Use only facts that are in the story. No number, name, date or place that the story does not
   contain. Do not guess, do not add background you know from elsewhere.
 - Never name a newspaper, TV, website or news agency, and never say "sipas mediave".
@@ -244,11 +253,12 @@ def between_markers(output: str):
         return None
 
 
-def write_scripts(stories: list[dict], workdir: Path) -> dict[str, dict]:
-    """One model call for every story that needs a script; {slug: {"script", "subjects", ...}}."""
+def write_scripts(stories: list[dict], workdir: Path, redo: dict[str, str] | None = None) -> dict[str, dict]:
+    """One model call for every story that needs a script; {slug: {"script", "subjects", ...}}.
+    redo: {slug: why its last script was refused}, for the one second try."""
     if not stories:
         return {}
-    brief = workdir / "edition-brief.md"
+    brief = workdir / ("edition-brief-redo.md" if redo else "edition-brief.md")
     blocks = []
     for s in stories:
         # Readable lines: the model's file tool cuts very long ones.
@@ -260,6 +270,8 @@ def write_scripts(stories: list[dict], workdir: Path) -> dict[str, dict]:
             f"section: {s.get('category', '')}",
             f"headline: {plain(s.get('title'))}",
             f"summary: {plain(s.get('excerpt'))}",
+            *([f"YOUR LAST SCRIPT FOR THIS STORY WAS REFUSED: {redo[s['slug']]}. Write it again, simpler."]
+              if redo and s["slug"] in redo else []),
             "story:",
             *sentences,
         ]))
@@ -475,11 +487,21 @@ def story_numbers(text: str) -> set[str]:
     return numbers_in(text) | words
 
 
+MAX_SENTENCE = 20  # words: longer is hard to follow by ear
+MAX_NUMBERS = 4    # different numbers in a script: more and the listener loses the thread
+
+
 def check_script(script: str, story: dict) -> tuple[bool, str]:
-    """The script may say only what the story says: its numbers and its names."""
+    """The script may say only what the story says (its numbers and its names), and must be easy
+    to follow by ear: short sentences, few numbers."""
     words = script.split()
     if not MIN_WORDS <= len(words) <= MAX_WORDS:
         return False, f"{len(words)} words"
+    longest = max((len(s.split()) for s in re.split(r"(?<=[.!?])\s+", script)), default=0)
+    if longest > MAX_SENTENCE:
+        return False, f"a sentence of {longest} words (at most {MAX_SENTENCE})"
+    if len(numbers_in(script)) > MAX_NUMBERS:
+        return False, f"{len(numbers_in(script))} different numbers (at most {MAX_NUMBERS})"
     source = " ".join(plain(story.get(k)) for k in ("title", "excerpt", "body"))
     low = source.lower()
     missing = numbers_in(script) - story_numbers(source)
@@ -775,6 +797,18 @@ def main(dry_run: bool = False, only: str = "", force: bool = False, keep: str =
 
     with tempfile.TemporaryDirectory(prefix="383-edition-") as tmp:
         written = write_scripts(fresh, Path(tmp))
+        # A script refused (a fact not in the story, too long a sentence, too many numbers) gets one
+        # more try with the reason, before the story's own words stand in.
+        refused = {}
+        for s in fresh:
+            script = (written.get(s["slug"]) or {}).get("script", "")
+            ok, why = check_script(script, s) if script else (False, "no script")
+            if not ok:
+                refused[s["slug"]] = why
+        if refused:
+            print(f"EDITION second try for {len(refused)}: " + "; ".join(f"{k} ({v})" for k, v in refused.items()))
+            again = write_scripts([s for s in fresh if s["slug"] in refused], Path(tmp), refused)
+            written.update({k: v for k, v in again.items() if check_script(v.get("script", ""), next(s for s in fresh if s["slug"] == k))[0]})
         looks: dict[str, dict] = {}
         for s in fresh:
             w = written.get(s["slug"]) or {}

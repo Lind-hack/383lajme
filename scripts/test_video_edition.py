@@ -16,7 +16,22 @@ GOOD = ("Rreth 40 mijë veta priteshin në protestën e Parisit të shtunën. Or
         "druheshin nga dhuna gjatë ditës së 17 tetorit.")
 
 
+SHORT = GOOD.replace(" gjatë ditës së 17 tetorit", "")
+
+
 class ScriptCheckTests(unittest.TestCase):
+    def test_a_script_hard_to_follow_by_ear_fails(self):
+        long = GOOD.replace("Kryeministri Lecornu tha se autoritetet druheshin nga dhuna",
+                            "Kryeministri Lecornu tha se autoritetet e Francës dhe policia e Parisit druheshin shumë nga dhuna "
+                            "e mundshme në rrugët e kryeqytetit francez gjatë gjithë kohës")
+        ok, why = ve.check_script(long, STORY)
+        self.assertFalse(ok)
+        self.assertIn("sentence", why)
+        story = {**STORY, "body": STORY["body"] + " Ishin 12 grupe dhe 9 sindikata."}
+        ok, why = ve.check_script(GOOD + " Ishin 12 grupe.", story)
+        self.assertFalse(ok)
+        self.assertIn("numbers", why)
+
     def test_a_script_from_the_story_passes(self):
         self.assertEqual(ve.check_script(GOOD, STORY), (True, ""))
 
@@ -28,11 +43,11 @@ class ScriptCheckTests(unittest.TestCase):
     def test_numbers_match_however_they_are_grouped(self):
         story = {**STORY, "body": "Çmimi arriti 1.250 euro."}
         self.assertEqual(ve.numbers_in("1 250"), ve.numbers_in("1.250"))
-        self.assertTrue(ve.check_script(GOOD + " Çmimi arriti 1.250 euro.", {**story, "body": story["body"] + STORY["body"]})[0])
+        self.assertTrue(ve.check_script(SHORT + " Çmimi arriti 1.250 euro.", {**story, "body": story["body"] + STORY["body"]})[0])
 
     def test_a_number_the_story_spells_out_counts(self):
         story = {**STORY, "body": STORY["body"] + " Ai pezulloi dy dispozita."}
-        self.assertTrue(ve.check_script(GOOD + " Ai pezulloi 2 dispozita.", story)[0])
+        self.assertTrue(ve.check_script(SHORT + " Ai pezulloi 2 dispozita.", story)[0])
 
     def test_a_name_the_story_does_not_have_fails(self):
         ok, why = ve.check_script(GOOD.replace("Kryeministri Lecornu", "Kryeministri Macron"), STORY)
@@ -162,9 +177,17 @@ class CueTests(unittest.TestCase):
         self.assertTrue(any(abs(s["at"] + 3.0 - start) < 0.01 for s in risers))
         self.assertTrue(any(s["kind"] == "boom" and abs(s["at"] - start) < 0.01 for s in c["sfx"]))
 
-    def test_a_number_card_ticks_and_hits(self):
+    def test_a_number_card_lands_with_a_hit(self):
         kinds = {s["kind"] for s in self.cues()["sfx"] if 6.0 <= s["at"] <= 7.0}
-        self.assertTrue({"tick", "impact"} <= kinds)
+        self.assertIn("impact", kinds)
+
+    def test_sounds_are_few_spread_out_and_under_the_voice(self):
+        sfx = [s for s in self.cues()["sfx"] if s["kind"] != "riser"]  # a riser is the boom's lead-in
+        self.assertLessEqual(len(sfx), max(4, int(22.0 / render.SFX_EVERY)))
+        hits = sorted(s["at"] for s in sfx)
+        self.assertTrue(all(b - a >= render.SFX_GAP - 0.6 for a, b in zip(hits, hits[1:])), hits)
+        self.assertTrue(all(s["db"] <= -20 for s in self.cues()["sfx"]))
+        self.assertEqual(sum(s["kind"] == "riser" for s in self.cues()["sfx"]), 1)
 
     def test_same_story_same_cut(self):
         self.assertEqual(self.cues(), self.cues())

@@ -54,9 +54,15 @@ MOVES_IN = ("blur", "whip", "zoom", "wipe", "push", "flash")
 # A number or quote card is drawn one of a few ways, never the same way twice running.
 LOOKS = {"fact": ("card", "slab", "type"), "quote": ("card", "type")}
 
-# Peak level of each effect in the mix (the library peaks at about -1 dBFS).
-LEVELS = {"whoosh": -17, "swish": -16, "burn": -15, "riser": -21, "swell": -18, "impact": -14,
-          "boom": -13, "pop": -21, "shutter": -21, "tick": -20}
+# Peak level of each effect in the mix (the library peaks at about -1 dBFS): under the voice,
+# never over it. The effects bus also ducks a few dB more while the voice speaks (mix).
+LEVELS = {"whoosh": -25, "swish": -25, "burn": -23, "riser": -28, "swell": -26, "impact": -21,
+          "boom": -20, "pop": -29, "shutter": -29, "tick": -27}
+# How much sound a clip gets: the strongest moments only, never two close together.
+SFX_GAP = 1.6       # seconds between the starts (a riser counts at its hit)
+SFX_EVERY = 4.0     # at most one effect per this many seconds of clip
+# Which moments win when they compete (higher first).
+PRIORITY = {"boom": 10, "burn": 8, "score": 7, "impact": 6, "swell": 5, "whoosh": 3, "swish": 3, "pop": 2, "shutter": 1}
 MUSIC_DB = -25
 LUFS = -14
 
@@ -118,14 +124,19 @@ def build_cues(beats: list[dict], duration: float, words: list[list], meta: dict
         last_kind[kind] = o["file"]
         return o
 
-    def sound(kind: str, at: float, level: str | None = None, end_at: float | None = None) -> None:
+    wanted: list[dict] = []  # every moment that could have a sound; the strongest are kept below
+
+    def sound(kind: str, at: float, level: str | None = None, end_at: float | None = None, rank: str | None = None,
+              lead: dict | None = None) -> None:
         o = pick(kind)
         if not o:
             return
         start = (end_at - o["duration"]) if end_at is not None else at
         if start < 0 or start > duration + TAIL:
             return
-        sfx.append({"file": o["file"], "at": round(start, 3), "db": LEVELS[level or kind], "kind": kind})
+        hit = end_at if end_at is not None else at
+        wanted.append({"file": o["file"], "at": round(start, 3), "db": LEVELS[level or kind], "kind": kind,
+                       "hit": round(hit, 3), "rank": PRIORITY.get(rank or kind, 1), "lead": lead})
 
     def burn(at: float) -> bool:
         if not burns_lib or len(burns) >= MAX_BURNS or any(abs(at - b["cut"]) < BURN_GAP for b in burns):
@@ -135,9 +146,10 @@ def build_cues(beats: list[dict], duration: float, words: list[list], meta: dict
         burns.append({"file": b["file"], "start": round(max(0.0, start), 3), "media": round(max(0.0, -start), 3),
                       "length": round(b["duration"] - max(0.0, -start), 3), "cut": round(at, 3)})
         if b.get("sound"):
-            sfx.append({"file": b["sound"], "at": round(max(0.0, start), 3), "db": LEVELS["burn"], "kind": "burn"})
+            wanted.append({"file": b["sound"], "at": round(max(0.0, start), 3), "db": LEVELS["burn"], "kind": "burn",
+                           "hit": round(at, 3), "rank": PRIORITY["burn"], "lead": None})
         else:
-            sound("whoosh", at - 0.35)
+            sound("whoosh", at - 0.35, rank="burn")
         return True
 
     climax_beat = None
@@ -173,42 +185,47 @@ def build_cues(beats: list[dict], duration: float, words: list[list], meta: dict
         move = rng.choice(options)
         moves.append(move)
         previous = move
-        sound("swish" if move in ("whip", "push") else "whoosh", at - 0.3)
-        if b["kind"] == "photo" and move in ("blur", "zoom") and shutters < 2 and rng.random() < 0.5:
+        # Only the big cuts are heard; a blur or a zoom slips in silently.
+        if move in ("whip", "push"):
+            sound("swish", at - 0.3)
+        elif move in ("wipe", "flash"):
+            sound("whoosh", at - 0.3)
+        if b["kind"] == "photo" and move in ("blur", "zoom") and shutters < 1 and rng.random() < 0.4:
             sound("shutter", at + 0.05)
             shutters += 1
         if b["kind"] == "fact":
-            sound("tick", at + 0.1)
-            sound("impact", at + 0.55)
+            sound("impact", at + 0.5)
         if b["kind"] == "quote":
             sound("swell", 0, end_at=at + 0.05)
 
-    if hook and hook[1] - 0.2 > 1.6:
-        sound("riser", 0, end_at=hook[1])
-        sound("impact", hook[1])
     if climax and climax[0] > 3.0:
-        sound("riser", 0, end_at=climax[0])
-        sound("boom", climax[0])
+        # The one build-up of the clip: a riser into the climax and a boom on it.
+        riser = pick("riser")
+        lead = None
+        if riser and climax[0] - riser["duration"] >= 0:
+            lead = {"file": riser["file"], "at": round(climax[0] - riser["duration"], 3), "db": LEVELS["riser"], "kind": "riser"}
+        sound("boom", climax[0], lead=lead)
+    elif hook and hook[1] > 2.0:
+        sound("impact", hook[1])
     for o in overlays or []:
-        at = o["at"]
         if o["kind"] == "score":
-            sound("swish", at - 0.15)
-            sound("tick", at + 0.25)
-            sound("impact", at + 1.25)
-        elif o["kind"] == "compare":
-            sound("swish", at - 0.15)
-            sound("pop", at + 1.0)
-        elif o["kind"] == "person":
-            sound("swish", at - 0.1)
-        elif o["kind"] == "timeline":
-            for j in range(len(o["steps"])):
-                sound("pop", at + 0.5 + j * 1.1)
-        elif o["kind"] == "slam" and not (climax and abs(climax[0] - at) < 0.4):
-            sound("impact", at + 0.05)
-    for word in (meta.get("emphasis") or [])[:3]:
+            sound("impact", o["at"] + 1.25, rank="score")  # as the numbers land
+    for word in (meta.get("emphasis") or [])[:1]:
         span = _word_at(words, word)
-        if span and not any(abs(s["at"] - span[0]) < 0.3 for s in sfx):
+        if span:
             sound("pop", span[0])
+
+    # The strongest moments first; a sound too close to a kept one, or past the clip's budget, is dropped.
+    budget = max(4, int(duration / SFX_EVERY))
+    kept: list[dict] = []
+    for s in sorted(wanted, key=lambda s: (-s["rank"], s["hit"])):
+        if len(kept) >= budget or any(abs(s["hit"] - k["hit"]) < SFX_GAP for k in kept):
+            continue
+        kept.append(s)
+    for s in kept:
+        if s.get("lead"):
+            sfx.append(s["lead"])
+        sfx.append({k: s[k] for k in ("file", "at", "db", "kind")})
     sfx.sort(key=lambda s: s["at"])
     beds = (lib.get("music") or {}).get(meta.get("mood") or "serious") or []
     bed = beds[int(hashlib.sha1(seed.encode()).hexdigest(), 16) % len(beds)]["file"] if beds else ""
@@ -677,7 +694,7 @@ def mix(voice: Path, cues: dict, duration: float, out: Path, root: Path) -> None
     args = ["ffmpeg", "-v", "error", "-y", "-i", str(voice)]
     graph = ["[0:a]aresample=48000,aformat=channel_layouts=stereo,highpass=f=80,equalizer=f=500:t=q:w=1:g=-2,"
              "equalizer=f=3200:t=q:w=1:g=2.5,acompressor=threshold=-24dB:ratio=3:attack=4:release=60:makeup=3,"
-             f"apad=whole_dur={total},asplit=2[voice][key]"]
+             f"apad=whole_dur={total},asplit=3[voice][key][key2]"]
     mixes = ["[voice]"]
     n = 1
     if cues.get("music"):
@@ -689,12 +706,20 @@ def mix(voice: Path, cues: dict, duration: float, out: Path, root: Path) -> None
         n += 1
     else:
         graph.append("[key]anullsink")
+    fx = []
     for s in cues.get("sfx", []):
         args += ["-i", str(root / s["file"])]
         ms = int(round(s["at"] * 1000))
         graph.append(f"[{n}:a]aresample=48000,aformat=channel_layouts=stereo,volume={s['db']}dB,adelay={ms}|{ms}[s{n}]")
-        mixes.append(f"[s{n}]")
+        fx.append(f"[s{n}]")
         n += 1
+    if fx:
+        # All the effects as one bus, a few dB down while the voice speaks: they decorate it, never cover it.
+        graph.append(f"{''.join(fx)}amix=inputs={len(fx)}:normalize=0:duration=longest,apad=whole_dur={total}[fx0];"
+                     "[fx0][key2]sidechaincompress=threshold=0.05:ratio=3:attack=10:release=250:makeup=1[fx]")
+        mixes.append("[fx]")
+    else:
+        graph.append("[key2]anullsink")
     graph.append(f"{''.join(mixes)}amix=inputs={len(mixes)}:normalize=0:duration=first,atrim=0:{total}[pre]")
     raw = out.with_suffix(".pre.wav")
     run(args + ["-filter_complex", ";".join(graph), "-map", "[pre]", "-ac", "2", "-ar", "48000", str(raw)])
