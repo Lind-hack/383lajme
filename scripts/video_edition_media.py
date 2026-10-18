@@ -571,10 +571,20 @@ YT_COOKIES = os.environ.get("L383_EDITION_YT_COOKIES", os.path.join(FOOT_DIR, "y
 SEGMENT = 4.6  # seconds cut; a beat shows up to 3.8 of them
 
 
-def cut_segment(src: str, start: float, length: float, out: str) -> bool:
-    """A piece of a video (a file or a URL), filling an upright frame, silent."""
+# Two ways to put a wide video upright: filling the frame (close, punchy), or the whole
+# picture across the middle over a dark, soft copy of itself (the whole play in view).
+LAYOUTS = {
+    "fill": "scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920",
+    "frame": ("split[a][b];[a]scale=270:480:force_original_aspect_ratio=increase,crop=270:480,boxblur=10,"
+              "scale=1080:1920,eq=brightness=-0.2:saturation=0.8[bg];[b]scale=1080:-2:flags=lanczos[fg];"
+              "[bg][fg]overlay=0:(H-h)/2-140"),
+}
+
+
+def cut_segment(src: str, start: float, length: float, out: str, layout: str = "fill") -> bool:
+    """A piece of a video (a file or a URL), upright, silent."""
     done = subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{start:.2f}", "-i", src, "-t", f"{length:.2f}",
-                           "-vf", "scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,fps=30,format=yuv420p",
+                           "-vf", LAYOUTS.get(layout, LAYOUTS["fill"]) + ",fps=30,format=yuv420p",
                            "-an", "-c:v", "libx264", "-preset", "veryfast", "-crf", "17", out],
                           capture_output=True, timeout=240, check=False)
     return done.returncode == 0 and os.path.exists(out) and os.path.getsize(out) > 30_000
@@ -589,13 +599,46 @@ def probe_duration(src: str) -> float:
         return 0.0
 
 
-def youtube_clips(videos: list[dict], workdir: str, per_video: int = 2) -> list[dict]:
-    """Pieces of the picked YouTube videos (the judge kept only primary sources)."""
+CUT = 4.4  # seconds of each piece of the event's own video; a beat shows up to 3.1 of it (+0.7 under the next)
+LONG = 900  # a video longer than this (a whole game, a full session) is fetched in pieces
+
+
+def scene_cuts(path: str) -> list[float]:
+    """Where the shots change: a piece starting just after one opens on a fresh shot."""
+    try:
+        done = subprocess.run(["ffmpeg", "-hide_banner", "-i", path, "-vf", "scale=320:-2,select='gt(scene,0.3)',showinfo",
+                               "-an", "-f", "null", "-"], capture_output=True, text=True, timeout=300, check=False)
+    except (OSError, subprocess.TimeoutExpired):
+        return []
+    return [float(t) for t in re.findall(r"pts_time:([\d.]+)", done.stderr)]
+
+
+def pick_moments(length: float, cuts: list[float], n: int, piece: float = CUT) -> list[float]:
+    """n starts spread across the video, past its intro and before its outro, each on a new
+    shot where there is one near, none overlapping."""
+    lo, hi = max(2.0, length * 0.06), length * 0.94 - piece
+    if hi <= lo:
+        return [max(0.0, (length - piece) / 2)] if length >= piece + 0.5 else []
+    starts: list[float] = []
+    reach = (hi - lo) / (2 * n)
+    for j in range(n):
+        target = lo + (hi - lo) * (j + 0.5) / n
+        near = [c + 0.12 for c in cuts if lo <= c + 0.12 <= hi and abs(c + 0.12 - target) <= reach]
+        s = min(near, key=lambda c: abs(c - target)) if near else target
+        if all(abs(s - x) >= piece + 0.2 for x in starts):
+            starts.append(round(s, 2))
+    return starts
+
+
+def youtube_clips(videos: list[dict], workdir: str, per_video: tuple[int, ...] = (7, 4)) -> list[dict]:
+    """Pieces of the picked YouTube videos (the judge kept only primary sources): many short
+    moments from across each, most filling the frame, every third showing the whole picture."""
     if not (videos and os.path.exists(YTDLP) and os.path.exists(YT_COOKIES)):
         return []
     out = []
     base = [YTDLP, "--cookies", YT_COOKIES, "--js-runtimes", "node", "--remote-components", "ejs:github", "--no-playlist", "--no-warnings", "-q"]
-    for v in videos[:2]:
+    fmt = ["-f", "bv*[height<=1080][vcodec^=avc1]/bv*[height<=1080]"]
+    for vi, v in enumerate(videos[:len(per_video)]):
         url = f"https://www.youtube.com/watch?v={v['id']}"
         try:
             meta = json.loads(subprocess.run(base + ["-J", url], capture_output=True, text=True, timeout=120, check=False).stdout or "{}")
@@ -604,18 +647,32 @@ def youtube_clips(videos: list[dict], workdir: str, per_video: int = 2) -> list[
         length = float(meta.get("duration") or 0)
         if length < 8:
             continue
-        # Past any intro, two moments far apart.
-        for n, frac in enumerate((0.22, 0.55)[:per_video]):
-            start = max(3.0, min(length - SEGMENT - 1, length * frac))
-            raw = os.path.join(workdir, f"yt-{v['id']}-{n}.mp4")
-            subprocess.run(base + ["-f", "bv*[height<=1080][vcodec^=avc1]/bv*[height<=1080]", "--download-sections",
-                                   f"*{start:.1f}-{start + SEGMENT + 1:.1f}", "-o", raw, url],
-                           capture_output=True, timeout=300, check=False)
-            got = next((os.path.join(workdir, f) for f in os.listdir(workdir) if f.startswith(f"yt-{v['id']}-{n}")), "")
+        wide = float(meta.get("width") or 16) >= float(meta.get("height") or 9)
+        credit = {"credit": f"Video: {v['channel']} · YouTube", "source": url, "youtube": v["id"], "channel": v["channel"]}
+
+        def piece(src: str, at: float, n: int) -> None:
             seg = os.path.join(workdir, f"foot-yt-{v['id']}-{n}.mp4")
-            if got and cut_segment(got, 0.3, SEGMENT, seg):
-                out.append({"file": seg, "credit": f"Video: {v['channel']} · YouTube", "duration": SEGMENT,
-                            "source": url, "youtube": v["id"], "channel": v["channel"]})
+            layout = "frame" if wide and n % 3 == 2 else "fill"
+            if cut_segment(src, at, CUT, seg, layout):
+                out.append({"file": seg, "duration": CUT, "layout": layout, **credit})
+
+        if length <= LONG:
+            # The whole video once, then its moments cut from it.
+            subprocess.run(base + fmt + ["-o", os.path.join(workdir, f"yt-{v['id']}.%(ext)s"), url],
+                           capture_output=True, timeout=600, check=False)
+            got = next((os.path.join(workdir, f) for f in os.listdir(workdir) if f.startswith(f"yt-{v['id']}.")), "")
+            if not got:
+                continue
+            for n, at in enumerate(pick_moments(length, scene_cuts(got), per_video[vi])):
+                piece(got, at, n)
+        else:
+            for n, at in enumerate(pick_moments(length, [], min(per_video[vi], 4))):
+                subprocess.run(base + fmt + ["--download-sections", f"*{at:.1f}-{at + CUT + 1:.1f}",
+                                             "-o", os.path.join(workdir, f"yt-{v['id']}-{n}.%(ext)s"), url],
+                               capture_output=True, timeout=300, check=False)
+                got = next((os.path.join(workdir, f) for f in os.listdir(workdir) if f.startswith(f"yt-{v['id']}-{n}.")), "")
+                if got:
+                    piece(got, 0.3, n)
     if videos and not out:
         print("EDITION youtube footage: none downloaded (cookie missing or refused)", file=sys.stderr)
     return out
@@ -682,14 +739,30 @@ def pexels_clips(place: str, workdir: str) -> list[dict]:
     return []
 
 
-def gather_footage(picked: list[dict], qids: list[str], place: str, workdir: str) -> list[dict]:
-    """Up to three pieces, the event's own first."""
+def gather_footage(picked: list[dict], qids: list[str], place: str, workdir: str, photos: int = 0) -> list[dict]:
+    """The event's own video when there is any, and then nothing else: a clip of the game
+    is the game, never the city around it. Without it, free video of the story's people
+    and places; a stock shot of the city only when the story has no pictures at all."""
     found = youtube_clips(picked, workdir)
-    if len(found) < 3:
-        found += commons_clips(qids, workdir)
-    if len(found) < 3:
-        found += pexels_clips(place, workdir)
+    if found:
+        return found
+    found = commons_clips(qids, workdir)
+    if not found and not photos and place:
+        found = pexels_clips(place, workdir)
     return found[:3]
+
+
+SPORT_WORDS = re.compile(r"(?i)\b(ndeshj\w*|kampionat\w*|superlig\w*|basketboll\w*|futboll\w*|volejboll\w*|hendboll\w*|"
+                         r"skuadr\w*|trajner\w*|lojtar\w*|golat|golin|pikë|çerek\w*|stadium\w*|palestr\w*|kupa\w*|ligë|ligën|ligës)(?!\w)")
+
+
+def is_sport(story: dict) -> bool:
+    """A match story, whatever section the newsroom filed it under (a game in Gjakova can be
+    filed under Kosovë): the section says sport, or the story speaks of a game three times."""
+    if "sport" in str(story.get("category") or "").lower():
+        return True
+    text = " ".join(str(story.get(k) or "") for k in ("title", "excerpt", "body"))
+    return len(SPORT_WORDS.findall(text)) >= 3
 
 
 # ── The beats ────────────────────────────────────────────────────────────────
@@ -730,7 +803,9 @@ def build_beats(duration: float, words: list[list], photos: list[dict], facts: l
         at = first_word_at(words, lambda w, d=digits[0] if digits else "": bool(d) and d in w) if digits else None
         if at is not None and free(at - 0.15, 3.4):
             fixed.append((at - 0.15, 3.4, {"kind": "fact", "value": f["value"], "label": f["label"]}))
-    for k, v in enumerate(footage[:3]):
+    # Plenty of the event's own video: it carries the clip, cut between the fixed moments.
+    rich = len(footage) >= 3
+    for k, v in enumerate([] if rich else footage[:3]):
         # Moving picture is the strongest a clip has: early, else wherever it fits.
         length = min(3.8, float(v.get("duration") or SEGMENT) - 0.8)
         spots = ([3.2] + [duration * f for f in (0.45, 0.32, 0.6, 0.22, 0.75)] if k == 0
@@ -759,9 +834,18 @@ def build_beats(duration: float, words: list[list], photos: list[dict], facts: l
 
     beats: list[dict] = []
     k = 0
+    shown = 0  # footage pieces used, in rich mode
+    fills = 0
 
     def photo(at: float) -> dict:
-        nonlocal k
+        nonlocal k, shown, fills
+        fills += 1
+        if rich and (not photos or fills % 4):
+            # A fresh moment of the event each time; only when all are used, one again.
+            v = footage[shown % len(footage)]
+            shown += 1
+            return {"at": round(at, 2), "kind": "video", "file": v.get("file", ""), "credit": v.get("credit", ""),
+                    "youtube": v.get("youtube", ""), "channel": v.get("channel", ""), "start": 2}
         if not photos and footage:
             # No photo of the story: its footage again, from a little further in, rather than a blank screen.
             v = footage[k % len(footage)]
@@ -780,8 +864,10 @@ def build_beats(duration: float, words: list[list], photos: list[dict], facts: l
         # Photos until the next fixed moment, the gap cut into 3-4.4 s pieces.
         gap = start - t
         if gap > 0.05:
-            pieces = max(1, round(gap / 2.9))
-            if gap / pieces > PHOTO_BEAT[1] + 0.6:
+            # Footage cuts quicker than photos (and a piece is only CUT seconds long).
+            size, longest = (2.5, 3.1) if rich else (2.9, PHOTO_BEAT[1] + 0.6)
+            pieces = max(1, round(gap / size))
+            while gap / pieces > longest:
                 pieces += 1
             for p in range(pieces):
                 at = t + gap * p / pieces
@@ -790,3 +876,83 @@ def build_beats(duration: float, words: list[list], photos: list[dict], facts: l
             beats.append({"at": round(start, 2), **beat})
             t = start + length
     return beats
+
+
+# ── The graphics over the picture ────────────────────────────────────────────
+# Laid over photos and footage (the picture keeps moving underneath), each when
+# what it shows is said: a scoreboard, a comparison, a name tag, a timeline, and
+# the climax's words slammed across the screen. Never over a number, quote or
+# map card, never two at once; after a scoreboard, a small score stays in the corner.
+
+def _said_number(words: list[list], value: str) -> float | None:
+    digits = re.findall(r"\d+", str(value))
+    return first_word_at(words, lambda w, d=digits[0]: d in w) if digits else None
+
+
+def _said_name(words: list[list], name: str) -> float | None:
+    toks = [norm(t) for t in str(name).split() if len(norm(t)) >= 3]
+    if not toks:
+        return None
+    stem = toks[-1][: max(4, len(toks[-1]) - 2)]
+    return first_word_at(words, lambda w: w.startswith(stem))
+
+
+def build_overlays(beats: list[dict], duration: float, words: list[list], graphics: list[dict],
+                   climax: tuple[float, float] | None = None) -> list[dict]:
+    ends = [b["at"] for b in beats[1:]] + [duration]
+    cards = [(b["at"], ends[k]) for k, b in enumerate(beats) if b["kind"] in ("fact", "quote", "map")]
+    taken = list(cards)
+    out: list[dict] = []
+
+    def free(at: float, length: float) -> bool:
+        return at >= 2.6 and at + length <= duration - 0.3 and all(at + length + 0.25 <= s or at >= e + 0.25 for s, e in taken)
+
+    def place(spots: list[float | None], length: float, item: dict) -> bool:
+        for at in spots:
+            if at is None:
+                continue
+            snapped = round(snap(at, words, 0.3), 2)
+            at = snapped if free(snapped, length) else round(at, 2)
+            if free(at, length):
+                taken.append((at, at + length))
+                out.append({"at": at, "len": round(length, 2), **item})
+                return True
+        return False
+
+    later = [duration * f for f in (0.3, 0.5, 0.65, 0.42, 0.78, 0.22)]
+    score = None
+    # The climax first: the moment the clip builds to gets its words across the screen.
+    if climax and climax[0] > 3.0:
+        cw = [[w[0], w[2]] for w in words if climax[0] - 0.01 <= w[0] <= climax[1]]
+        if 2 <= len(cw) <= 6:
+            place([climax[0] - 0.08], min(2.8, max(1.8, climax[1] - climax[0] + 0.7)), {"kind": "slam", "words": cw})
+    for g in graphics:
+        kind = g.get("type")
+        if kind == "score" and not score:
+            said = _said_number(words, g["teams"][0]["score"])
+            # Said in the opening line, it comes in as soon as the headline has gone.
+            early = [said - 0.2, max(2.7, said - 0.2)] if said is not None else [2.7]
+            if place(early + later, 3.8, {"kind": "score", "teams": g["teams"], "note": g.get("note", "")}):
+                score = out[-1]
+        elif kind == "compare":
+            said = _said_number(words, g["items"][0]["value"])
+            # Never before its numbers are said.
+            spots = [said - 0.2] + [t for t in later if t >= said - 0.2] if said is not None else later
+            place(spots, 3.4, {"kind": "compare", "label": g.get("label", ""), "items": g["items"]})
+        elif kind == "person" and sum(o["kind"] == "person" for o in out) < 2:
+            said = _said_name(words, g["name"])
+            if said is not None:
+                place([said - 0.05, said + 0.6], 2.6, {"kind": "person", "name": g["name"], "role": g.get("role", "")})
+        elif kind == "timeline":
+            length = min(5.6, 1.4 + 1.3 * len(g["steps"]))
+            place([duration * f for f in (0.45, 0.3, 0.6)], length, {"kind": "timeline", "steps": g["steps"]})
+    if score:
+        # The score stays in the corner afterwards, out of the way of the cards and the other graphics.
+        t = score["at"] + score["len"]
+        for s, e in sorted(taken) + [(duration + 1, duration + 1)]:
+            if e <= t:
+                continue
+            if s - t > 2.2:
+                out.append({"at": round(t + 0.1, 2), "len": round(min(s, duration + 0.5) - t - 0.2, 2), "kind": "bug", "teams": score["teams"]})
+            t = max(t, e)
+    return sorted(out, key=lambda o: o["at"])

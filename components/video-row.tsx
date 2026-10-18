@@ -23,7 +23,7 @@
 // the story's own page: 👍 Pëlqej, the reactions and the comments (the
 // story's own, under its slug), and sharing.
 
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { type CSSProperties, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import {
@@ -1317,11 +1317,28 @@ function EndScreen({
   const clips = edition.clips;
   return (
     <section className="vr-slide vr-end" data-i={i} data-active={active || undefined} aria-hidden={!active} inert={!active}>
-      <div className="vr-end-inner">
-        <span className="vr-check" aria-hidden="true">
-          <svg viewBox="0 0 52 52" width="64" height="64">
-            <circle cx="26" cy="26" r="24" />
-            <path d="M15 27l7 7 15-16" />
+      <div className="vr-end-inner" style={{ "--n": clips.length } as CSSProperties}>
+        {/* One arc per story, in its section's colour, closing into a ring; then the tick. */}
+        <span className="vr-check vr-ring" aria-hidden="true">
+          <i className="vr-ring-glow" />
+          <svg viewBox="0 0 120 120" width="112" height="112">
+            {clips.map((c, k) => {
+              const share = 360 / clips.length;
+              return (
+                <circle
+                  key={c.slug}
+                  className="vr-arc"
+                  cx="60"
+                  cy="60"
+                  r="54"
+                  pathLength={100}
+                  transform={`rotate(${-90 + k * share + 4} 60 60)`}
+                  style={{ stroke: c.color || "#FF4422", "--seg": `${100 / clips.length - 100 * (8 / 360)}`, "--k": k } as CSSProperties}
+                />
+              );
+            })}
+            <circle className="vr-disc" cx="60" cy="60" r="40" />
+            <path d="M43 61l12 12 23-25" />
           </svg>
         </span>
         <h2 className="vr-end-title">Je në dijeni.</h2>
@@ -1330,8 +1347,8 @@ function EndScreen({
           {streak >= 2 && <span className="vr-streak"> 🔥 {streak} ditë radhazi</span>}
         </p>
         <ol className="vr-end-list">
-          {clips.map((c) => (
-            <li key={c.slug}>
+          {clips.map((c, k) => (
+            <li key={c.slug} style={{ "--i": k } as CSSProperties}>
               <Link href={`/article/${c.slug}`} onClick={() => track("edition_read", { slug: c.slug, list, how: "end" })}>
                 <i style={{ background: c.color }} aria-hidden="true" />
                 {c.title}

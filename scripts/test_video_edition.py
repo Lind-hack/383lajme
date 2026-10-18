@@ -238,5 +238,85 @@ class FillTests(unittest.TestCase):
         self.assertNotIn('"count"', page)
 
 
+GAME = {
+    "slug": "gjakove-ylli-mposht-vellaznimin-100-86", "category": "Sport",
+    "title": "Golden Eagle Ylli mposht Vëllaznimin 100:86 në Gjakovë",
+    "excerpt": "Ylli mori fitoren e tretë radhazi.",
+    "body": "Ylli fitoi 100:86. Çereku i dytë përfundoi 29 me 22. Davontrey Thomas shënoi 26 pikë, Kentrell Pullian 28.",
+}
+GAME_SCRIPT = ("Golden Eagle Ylli fitoi 100:86 në Gjakovë. Në çerekun e dytë Ylli shënoi 29 pikë kundrejt 22. "
+               "Davontrey Thomas udhëhoqi Yllin me 26 pikë.")
+
+
+class GraphicsTests(unittest.TestCase):
+    def test_graphics_keep_only_the_storys_numbers_and_names(self):
+        got = ve.check_graphics([
+            {"type": "score", "teams": [{"name": "Ylli", "score": "100"}, {"name": "Vëllaznimi", "score": "86"}], "note": "Superliga"},
+            {"type": "compare", "label": "pikë në çerekun e dytë", "items": [{"name": "Ylli", "value": "29"}, {"name": "Vëllaznimi", "value": "22"}]},
+            {"type": "compare", "label": "pikë në çerekun e tretë", "items": [{"name": "Ylli", "value": "31"}, {"name": "Vëllaznimi", "value": "22"}]},
+            {"type": "person", "name": "Davontrey Thomas", "role": "26 pikë për Yllin"},
+            {"type": "person", "name": "Kentrell Pullian", "role": "28 pikë"},
+            {"type": "person", "name": "Luka Dončić", "role": "lojtar"},
+        ], GAME_SCRIPT, GAME)
+        self.assertEqual([g["type"] for g in got], ["score", "compare", "person"])
+        self.assertEqual(got[0]["note"], "")  # one word: too short to say anything
+        self.assertEqual(got[2]["name"], "Davontrey Thomas")
+
+    def test_a_scoreboard_is_for_sport_only(self):
+        score = [{"type": "score", "teams": [{"name": "Ylli", "score": "100"}, {"name": "Vëllaznimi", "score": "86"}]}]
+        self.assertEqual(ve.check_graphics(score, GAME_SCRIPT, {**GAME, "category": "Politikë"}), [])
+
+    def test_a_game_filed_under_another_section_is_still_sport(self):
+        story = {**GAME, "category": "Kosovë", "body": GAME["body"] + " Ndeshja u luajt në palestrën e qytetit, në kampionat."}
+        self.assertTrue(media.is_sport(story))
+        self.assertFalse(media.is_sport({"category": "Kosovë", "title": "Qeveria miratoi buxhetin", "body": "Opozita kundër."}))
+
+    def test_graphics_land_when_said_and_stay_off_the_cards(self):
+        words = said(GAME_SCRIPT, 0.45)
+        beats = [{"at": 0.0, "kind": "video"}, {"at": 3.0, "kind": "video"}, {"at": 7.0, "kind": "fact", "value": "26 pikë", "label": "x y"},
+                 {"at": 10.4, "kind": "video"}, {"at": 13.0, "kind": "video"}]
+        graphics = ve.check_graphics([
+            {"type": "score", "teams": [{"name": "Ylli", "score": "100"}, {"name": "Vëllaznimi", "score": "86"}]},
+            {"type": "person", "name": "Davontrey Thomas", "role": "26 pikë për Yllin"}], GAME_SCRIPT, GAME)
+        out = media.build_overlays(beats, 16.0, words, graphics)
+        kinds = [o["kind"] for o in out]
+        self.assertIn("score", kinds)
+        self.assertIn("bug", kinds)
+        for o in out:
+            self.assertFalse(o["at"] < 10.4 and o["at"] + o["len"] > 7.0, f"{o['kind']} over the card")
+        main = [o for o in out if o["kind"] != "bug"]
+        self.assertTrue(all(b["at"] >= a["at"] + a["len"] for a, b in zip(main, main[1:])))
+
+    def test_the_climax_slams_and_the_words_below_give_way(self):
+        words = said("Qeveria miratoi sot buxhetin e ri dhe opozita tha se kjo është një fitore e madhe për të gjithë sot")
+        beats = [{"at": 0.0, "kind": "photo", "src": "a", "move": "in"}, {"at": 4.0, "kind": "photo", "src": "a", "move": "out"}]
+        climax = render._word_at(words, "një fitore e madhe")
+        out = media.build_overlays(beats, 9.0, words, [], climax)
+        self.assertEqual([o["kind"] for o in out], ["slam"])
+        cues = render.build_cues(beats, 9.0, words, {}, LIB, "s", out)
+        page = render.compose({"duration": 9.0, "words": words, "title": "t", "category": "Politikë"}, beats, cues, {}, {"a": "img0.jpg"}, out)
+        self.assertIn('class="slam"', page)
+        self.assertEqual(page.count('class="hot"'), 1)
+
+    def test_rich_footage_carries_the_clip(self):
+        foot = [{"file": f"/f{i}.mp4", "credit": "Video: FBK · YouTube", "duration": media.CUT} for i in range(8)]
+        photos = [{"src": "p.jpg", "credit": ""}]
+        beats = media.build_beats(36.0, WORDS * 2, photos, [], None, None, foot)
+        videos = [b for b in beats if b["kind"] == "video"]
+        self.assertGreater(len(videos), 2 * sum(b["kind"] == "photo" for b in beats))
+        self.assertEqual(len({b["file"] for b in videos}), min(8, len(videos)))
+        ends = [b["at"] for b in beats[1:]] + [36.5]
+        for b, e in zip(beats, ends):
+            if b["kind"] == "video":
+                self.assertLessEqual(e - b["at"] + 0.7, media.CUT + 1e-6)
+
+    def test_moments_are_spread_and_start_on_new_shots(self):
+        starts = media.pick_moments(120.0, [30.0, 47.3, 80.1], 6)
+        self.assertEqual(len(starts), 6)
+        self.assertTrue(all(b - a >= media.CUT for a, b in zip(starts, starts[1:])))
+        self.assertIn(30.12, starts)
+        self.assertGreaterEqual(starts[0], 120 * 0.06)
+
+
 if __name__ == "__main__":
     unittest.main()

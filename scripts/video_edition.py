@@ -54,7 +54,7 @@ INDEX = "index.json"
 KEEP_AUDIO = timedelta(days=3)
 MIN_WORDS, MAX_WORDS = 30, 110
 # Bumped when a clip is made differently: every story is made again once.
-CLIP_VERSION = "4"
+CLIP_VERSION = "5"
 KOSOVO = ZoneInfo("Europe/Belgrade")  # the host has no Europe/Pristina; same clock
 
 SITE = os.environ.get("SITE_URL", "https://383ks.com").rstrip("/")
@@ -104,7 +104,20 @@ For every story also say what the clip can show while the voice reads:
   it happened (e.g. ["Merz Junge Union Deutschlandtag", "Merz speech Junge Union"]). No dates.
 - "sources": up to 4 names of official channels that may have posted their own video of it: the
   people or institutions themselves (governments, ministries, police, fire services, parties,
-  leagues, clubs, companies). Never a news outlet.
+  leagues, federations, clubs, companies). Never a news outlet.
+- "graphics": up to 4 on-screen graphics made for THIS story, the ones that make it clearer (none
+  is fine). Each is one of:
+  {"type": "score", "teams": [{"name": "Ylli", "score": "100"}, {"name": "Vëllaznimi", "score": "86"}],
+   "note": "Superliga, java 3"}: the result of a match (sport only; the team names as the story writes
+   them, short; the note 2 to 6 words or "");
+  {"type": "compare", "label": "pikë në çerekun e fundit", "items": [{"name": "Ylli", "value": "28"},
+   {"name": "Vëllaznimi", "value": "19"}]}: 2 or 3 numbers of the same kind side by side (label 3 to 8
+   words, each value a number with at most one unit word);
+  {"type": "person", "name": "Davontrey Thomas", "role": "26 pikë për Yllin"}: a name tag shown when the
+   script names someone (the name exactly as your script says it, role 2 to 6 words), at most 2;
+  {"type": "timeline", "steps": [{"when": "Çereku i dytë", "what": "Ylli kalon përpara"}, ...]}: 2 to 4
+   steps in order, when the story is a sequence of moments (when 1 to 3 words, what 2 to 6 words).
+  Every number in a graphic must be in the story and in your script; every name must be in the story.
 
 And how the clip should feel, the way a good short-form editor would cut it:
 - "mood": the story's tone, one of "tense" (war, protests, crime, disasters, deaths), "serious"
@@ -119,7 +132,7 @@ And how the clip should feel, the way a good short-form editor would cut it:
 Reply with ONLY this, exactly, nothing before or after:
 383_JSON_BEGIN
 [{"slug": "<the story's slug>", "script": "<the script>", "subjects": [], "place": "",
-  "place_name": "", "facts": [], "quote": null, "youtube": [], "sources": [],
+  "place_name": "", "facts": [], "quote": null, "youtube": [], "sources": [], "graphics": [],
   "mood": "serious", "hook": "", "climax": "", "emphasis": []}]
 383_JSON_END
 """
@@ -278,6 +291,7 @@ def parse_scripts(output: str, slugs: set[str]) -> dict[str, dict]:
             "hook": str(row.get("hook") or "").strip()[:300],
             "climax": str(row.get("climax") or "").strip()[:80],
             "emphasis": strings(row.get("emphasis"), 3, 30),
+            "graphics": [g for g in row.get("graphics") or [] if isinstance(g, dict)][:4] if isinstance(row.get("graphics"), list) else [],
         }
     return out
 
@@ -292,6 +306,60 @@ def check_facts(facts: list[dict], script: str, story: dict) -> list[dict]:
         if nums and nums <= source and nums <= said and len(f["value"]) <= 16 and 2 <= len(f["label"].split()) <= 10:
             ok.append(f)
     return ok
+
+
+def _short(text, words: tuple[int, int], size: int = 60) -> str:
+    text = re.sub(r"\s+", " ", str(text or "")).strip()
+    return text if words[0] <= len(text.split()) <= words[1] and len(text) <= size else ""
+
+
+def _named(name: str, low: str) -> bool:
+    """Every part of a name is in the story (its stem: Albanian names take endings)."""
+    parts = [w for w in re.findall(r"[\wçëÇË-]+", name) if len(w) >= 2]
+    return bool(parts) and all(w.lower()[: max(3, len(w) - 3)] in low for w in parts)
+
+
+def check_graphics(graphics: list[dict], script: str, story: dict) -> list[dict]:
+    """A graphic shows only what the story says: its numbers (said in the script too) and its names."""
+    source_text = " ".join(plain(story.get(k)) for k in ("title", "excerpt", "body"))
+    low = source_text.lower()
+    source, said = story_numbers(source_text), numbers_in(script)
+    sport = media.is_sport(story)
+
+    def number_ok(value) -> bool:
+        value = str(value or "").strip()
+        nums = numbers_in(value)
+        return bool(nums) and nums <= source and nums <= said and len(value) <= 14 and len(value.split()) <= 2
+
+    out = []
+    for g in graphics:
+        kind = g.get("type")
+        if kind == "score" and sport:
+            teams = [t for t in g.get("teams") or [] if isinstance(t, dict)]
+            if len(teams) == 2 and all(_named(str(t.get("name", "")), low) and len(str(t.get("name", ""))) <= 24
+                                       and re.fullmatch(r"\d{1,3}", str(t.get("score", "")).strip()) and number_ok(t.get("score")) for t in teams):
+                out.append({"type": "score", "teams": [{"name": str(t["name"]).strip(), "score": str(t["score"]).strip()} for t in teams],
+                            "note": _short(g.get("note"), (2, 6), 40)})
+        elif kind == "compare":
+            items = [i for i in g.get("items") or [] if isinstance(i, dict)]
+            label = _short(g.get("label"), (2, 8))
+            if label and 2 <= len(items) <= 3 and all(_named(str(i.get("name", "")), low) and len(str(i.get("name", ""))) <= 24
+                                                      and number_ok(i.get("value")) for i in items):
+                out.append({"type": "compare", "label": label,
+                            "items": [{"name": str(i["name"]).strip(), "value": str(i["value"]).strip()} for i in items]})
+        elif kind == "person":
+            name = re.sub(r"\s+", " ", str(g.get("name") or "")).strip()
+            role = _short(g.get("role"), (2, 6), 44)
+            if 2 <= len(name.split()) <= 4 and len(name) <= 32 and _named(name, low) and flat(name.split()[-1])[:4] in flat(script) \
+                    and all(number_ok(n) for n in numbers_in(role)):
+                out.append({"type": "person", "name": name, "role": role})
+        elif kind == "timeline":
+            steps = [s for s in g.get("steps") or [] if isinstance(s, dict)]
+            clean = [{"when": _short(s.get("when"), (1, 3), 22), "what": _short(s.get("what"), (2, 6), 44)} for s in steps]
+            if 2 <= len(clean) <= 4 and all(s["when"] and s["what"] for s in clean) \
+                    and numbers_in(" ".join(s["when"] + " " + s["what"] for s in clean)) <= source:
+                out.append({"type": "timeline", "steps": clean})
+    return out
 
 
 def check_feel(w: dict, script: str) -> dict:
@@ -317,6 +385,15 @@ def check_quote(quote: dict | None, story: dict) -> dict | None:
         return None
     body = flat(" ".join(plain(story.get(k)) for k in ("excerpt", "body")))
     return quote if flat(quote["text"]) in body and flat(quote["who"]).split()[-1] in body else None
+
+
+def searches(story: dict, w: dict) -> list[str]:
+    """The writer's YouTube searches; for a match, its highlights by the two sides' names too."""
+    out = list(w.get("youtube") or [])
+    subjects = [re.sub(r"\s*\(.*?\)", "", s).strip() for s in w.get("subjects") or []]
+    if media.is_sport(story) and len(subjects) >= 2:
+        out.insert(0, f"{subjects[0]} {subjects[1]} highlights")
+    return out
 
 
 def pick_footage(found: dict[str, list[dict]], workdir: Path) -> dict[str, list[dict]]:
@@ -476,11 +553,15 @@ def make_clip(story: dict, script: str, how: str, look: dict, picked: list[dict]
     place = None
     footage: list[dict] = []
     pages: dict[str, dict] = {}
+    sport = media.is_sport(story)
     try:
         titles = look.get("subjects", []) + ([look["place"]] if look.get("place") else [])
         pages = media.wiki_pages(titles)
-        # The place too: a story about two clubs with no photos still has its city.
-        photos = media.story_photos(story, look.get("subjects", []) + ([look["place"]] if look.get("place") else []), pages) or photos
+        # The story's people and organisations; its city only when they have too few photos,
+        # and never for sport (a game is its players, not the town it was played in).
+        photos = media.story_photos(story, look.get("subjects", []), pages) or photos
+        if len(photos) < 2 and look.get("place") and not sport:
+            photos = media.story_photos(story, look.get("subjects", []) + [look["place"]], pages) or photos
         where = pages.get(look.get("place", "")) if look.get("place") else None
         if where and where.get("lat") is not None:
             jpeg = media.map_image(float(where["lat"]), float(where["lon"]), where.get("dim"))
@@ -493,11 +574,17 @@ def make_clip(story: dict, script: str, how: str, look: dict, picked: list[dict]
     if voiced:
         # Moving picture only for a clip that will be rendered (it needs the voice).
         try:
-            qids = [p.get("qid", "") for p in pages.values()]
-            footage = media.gather_footage(picked, qids, look.get("place", ""), str(workdir))
+            qids = [p.get("qid", "") for t, p in pages.items() if not (sport and t == look.get("place"))]
+            footage = media.gather_footage(picked, qids, "" if sport else look.get("place", ""), str(workdir), len(photos))
         except Exception as exc:  # a footage source misbehaving must not stop the clip
             print(f"EDITION {story['slug']}: footage failed ({exc!r})", file=sys.stderr)
-    clip["beats"] = media.build_beats(clip["duration"], clip["words"], photos, look.get("facts", []), place,
+    # A score shown as a scoreboard is not shown again as a number card; a game with its own
+    # footage needs no map of the town.
+    shown = {n for g in look.get("graphics", []) if g["type"] == "score" for t in g["teams"] for n in numbers_in(t["score"])}
+    facts = [f for f in look.get("facts", []) if not numbers_in(f["value"]) <= shown] if shown else look.get("facts", [])
+    if sport and len(footage) >= 3:
+        place = None
+    clip["beats"] = media.build_beats(clip["duration"], clip["words"], photos, facts, place,
                                       look.get("quote"), footage)
     clip["footage"] = len(footage)
     if voiced and clip["beats"]:
@@ -516,6 +603,7 @@ def make_clip(story: dict, script: str, how: str, look: dict, picked: list[dict]
                 # What the video shows when, for the credit line under it.
                 clip["beats"] = made["beats"]
                 clip["mood"] = made["cues"].get("music", "")
+                clip["graphics"] = [o["kind"] for o in made.get("overlays") or []]
     return clip
 
 
@@ -600,15 +688,17 @@ def main(dry_run: bool = False, only: str = "", force: bool = False, keep: str =
                 "script": script, "how": how,
                 "subjects": w.get("subjects", []), "place": w.get("place", ""), "place_name": w.get("place_name", ""),
                 "facts": check_facts(w.get("facts", []), script, s), "quote": check_quote(w.get("quote"), s),
+                "graphics": check_graphics(w.get("graphics", []), script, s) if how == "model" else [],
                 **(check_feel(w, script) if how == "model" else {"mood": w.get("mood") if w.get("mood") in render.MOODS else ""}),
             }
-        found = {s["slug"]: media.footage_candidates((written.get(s["slug"]) or {}).get("youtube", []),
+        found = {s["slug"]: media.footage_candidates(searches(s, written.get(s["slug"]) or {}),
                                                      (written.get(s["slug"]) or {}).get("sources", []),
                                                      (written.get(s["slug"]) or {}).get("subjects") or []) for s in fresh}
         footage = pick_footage(found, Path(tmp))
     if dry_run:
         for s in fresh:
             print(f"--- {s['slug']} [{looks[s['slug']]['how']}]\n{json.dumps(looks[s['slug']], ensure_ascii=False, indent=1)}\n"
+                  f"graphics asked for: {json.dumps((written.get(s['slug']) or {}).get('graphics'), ensure_ascii=False)}\n"
                   f"footage: {footage.get(s['slug'])} of {len(found.get(s['slug']) or [])}\n")
         return 0
     ensure_bucket()

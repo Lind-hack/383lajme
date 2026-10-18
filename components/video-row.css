@@ -1009,13 +1009,35 @@
   padding: calc(max(8px, env(safe-area-inset-top)) + 80px) 22px max(28px, env(safe-area-inset-bottom));
   text-align: center;
 }
-/* The tick draws itself once, when the end comes into view. */
-.vr-check svg { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.vr-check circle { fill: #FF4422; stroke: none; }
-.vr-check path { stroke: #FFFFFF; stroke-width: 4.5; stroke-dasharray: 36; stroke-dashoffset: 0; }
-.vr-end[data-active] .vr-check { animation: vr-pop-in 260ms var(--vr-ease-out) both; }
-.vr-end[data-active] .vr-check path { animation: vr-tick 380ms var(--vr-ease-out) 160ms both; }
-@keyframes vr-tick { from { stroke-dashoffset: 36; } to { stroke-dashoffset: 0; } }
+/* Caught up: one arc per story closes the ring, one after another, in each section's
+   colour; the disc lands in the middle, the tick draws itself, the rest rises in.
+   A rare moment (once a day at most), so it is allowed to take a breath: ~1.3 s in all. */
+.vr-ring { position: relative; display: grid; place-items: center; --arc: 85ms; }
+.vr-ring svg { position: relative; fill: none; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
+.vr-arc { fill: none; stroke-width: 6; stroke-dasharray: var(--seg) 100; }
+.vr-disc { fill: #FF4422; transform-box: fill-box; transform-origin: center; }
+.vr-ring path { stroke: #FFFFFF; stroke-width: 7; stroke-dasharray: 52; stroke-dashoffset: 0; }
+.vr-ring-glow {
+  position: absolute;
+  inset: -30px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 68, 34, 0.45), rgba(255, 68, 34, 0));
+  opacity: 0;
+  pointer-events: none;
+}
+.vr-end[data-active] .vr-arc { animation: vr-arc 320ms var(--vr-ease-out) calc(var(--k) * var(--arc)) both; }
+.vr-end[data-active] .vr-disc { animation: vr-pop-in 300ms var(--vr-ease-out) calc(var(--n) * var(--arc) + 60ms) both; }
+.vr-end[data-active] .vr-ring path { animation: vr-tick 360ms var(--vr-ease-out) calc(var(--n) * var(--arc) + 200ms) both; }
+.vr-end[data-active] .vr-ring-glow { animation: vr-glow 900ms var(--vr-ease-out) calc(var(--n) * var(--arc) + 60ms) both; }
+.vr-end[data-active] .vr-end-inner > :not(.vr-ring):not(.vr-end-list) {
+  animation: vr-rise 420ms var(--vr-ease-out) both;
+  animation-delay: calc(var(--n) * 85ms + 260ms);
+}
+.vr-end[data-active] .vr-end-list li { animation: vr-rise 380ms var(--vr-ease-out) both; animation-delay: calc(var(--n) * 85ms + 340ms + var(--i, 0) * 45ms); }
+@keyframes vr-arc { from { stroke-dasharray: 0 100; } }
+@keyframes vr-tick { from { stroke-dashoffset: 52; } to { stroke-dashoffset: 0; } }
+@keyframes vr-glow { 0% { opacity: 0; transform: scale(0.6); } 35% { opacity: 1; } 100% { opacity: 0; transform: scale(1.35); } }
+@keyframes vr-rise { from { opacity: 0; transform: translateY(12px); } }
 .vr-end-title { margin: 16px 0 6px; font-size: 34px; font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; }
 .vr-end-sub { margin: 0; color: rgba(255, 255, 255, 0.78); font-size: 15px; line-height: 1.5; }
 .vr-streak { color: #FFC93C; font-weight: 800; white-space: nowrap; }
@@ -1124,6 +1146,9 @@
   .vr-frame { animation: none; }
   .vr-burst svg, .vr-burst i, .vr-fly { animation-duration: 1ms; }
   .vr-act-icon[data-pop], .vr-act-icon[data-pop]::after, .vr-act-share[data-pop] svg, .vr-react-row, .vr-react-row button,
-  .vr-share-card, .vr-start, .vr-paused, .vr-end[data-active] .vr-check, .vr-slide[data-active] .vr-info > * { animation: vr-fade 160ms ease both; }
-  .vr-end[data-active] .vr-check path { animation: none; }
+  .vr-share-card, .vr-start, .vr-paused, .vr-slide[data-active] .vr-info > * { animation: vr-fade 160ms ease both; }
+  /* Caught up, without the movement: everything is simply there. */
+  .vr-end[data-active] .vr-arc, .vr-end[data-active] .vr-disc, .vr-end[data-active] .vr-ring path,
+  .vr-end[data-active] .vr-end-inner > *, .vr-end[data-active] .vr-end-list li { animation: vr-fade 200ms ease both; }
+  .vr-end[data-active] .vr-ring-glow { animation: none; }
 }
