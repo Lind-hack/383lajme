@@ -49,6 +49,7 @@ from zoneinfo import ZoneInfo
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import video_edition_media as media  # noqa: E402
 import video_edition_render as render  # noqa: E402
+import video_trends  # noqa: E402
 
 MAX_STORIES = 7
 BUCKET = "video-edition"
@@ -167,7 +168,9 @@ YouTube videos (channel and title). Keep a video ONLY if both are true:
 Each story's headline and summary are given: keep a video only if it shows what THIS story is
 about (the same people and the same occasion), not merely the same person on another day. Videos
 marked "official" come straight from the uploads of a person or institution the story names: still
-check the title is this story. At most 3 per story; none is a fine answer.
+check the title is this story. For a story marked TRENDING, the original video of the person who made the moment go viral (posted
+on their own channel or account) also counts as a primary source; a re-upload, compilation, reaction
+or commentary of it never does. At most 3 per story; none is a fine answer.
 
 Reply with ONLY this, exactly, nothing before or after:
 383_JSON_BEGIN
@@ -196,13 +199,13 @@ def plan() -> list[dict]:
     return stories[:MAX_STORIES]
 
 
-def newest_stories() -> list[dict]:
+def newest_stories(hours: int = 24, limit: int = MAX_STORIES) -> list[dict]:
     base = os.environ["NEXT_PUBLIC_SUPABASE_URL"].rstrip("/")
     key = os.environ["SUPABASE_SERVICE_ROLE_KEY"]
-    since = (datetime.now(timezone.utc) - timedelta(hours=24)).isoformat()
+    since = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat()
     query = urllib.parse.urlencode({
         "select": "slug,title,excerpt,body,category,published_at,image_url,raw_article",
-        "published_at": f"gte.{since}", "order": "published_at.desc", "limit": str(MAX_STORIES),
+        "published_at": f"gte.{since}", "order": "published_at.desc", "limit": str(limit),
     })
     rows = get_json(f"{base}/rest/v1/news_articles?{query}", {"apikey": key, "Authorization": f"Bearer {key}"})
     out = []
@@ -217,6 +220,52 @@ def newest_stories() -> list[dict]:
             "imageSourcePage": page if page.startswith("https://commons.wikimedia.org/wiki/File:") else "",
         })
     return out
+
+
+MAX_TREND_SWAPS = 2
+MIN_TREND_TRAFFIC = 200  # Google's "200+" searches in Albania today (a Wikipedia spike counts by its views)
+
+
+def mix_trends(stories: list[dict], data: dict, recent: list[dict] | None = None) -> list[dict]:
+    """What people are talking about today, in the seven: a front-page story that is trending is
+    marked so; a trending 383 article of the last day and a half that is not on the front page
+    takes the place of the last story that is not trending (two at most, one per trend)."""
+    if not data.get("trends"):
+        return stories
+    about = lambda s: f"{plain(s.get('title'))} {plain(s.get('excerpt'))}"  # noqa: E731
+    out = []
+    for s in stories:
+        t = video_trends.trend_for(about(s), data)
+        out.append({**s, "trend": t} if t else s)
+    taken = {s["slug"] for s in out}
+    terms = {s["trend"]["term"] for s in out if s.get("trend")}
+    hot = []
+    for s in recent if recent is not None else newest_stories(36, 60):
+        t = video_trends.trend_for(about(s), data)
+        if s.get("slug") in taken or not t or t["term"] in terms or t["traffic"] < MIN_TREND_TRAFFIC:
+            continue
+        terms.add(t["term"])
+        hot.append({**s, "trend": t})
+    hot.sort(key=lambda s: -s["trend"]["traffic"])
+    for s in hot[:MAX_TREND_SWAPS]:
+        spots = [i for i, x in enumerate(out) if not x.get("trend")]
+        if not spots:
+            break
+        print(f"EDITION trending: {s['slug']} ({s['trend']['term']}, {s['trend']['traffic']}) in place of {out[spots[-1]]['slug']}")
+        out[spots[-1]] = s
+    return out
+
+
+def todays_trends() -> dict:
+    """The trends saved in the last 45 minutes, else collected now (video_trends.collect)."""
+    data = video_trends.load(max_age=timedelta(minutes=45))
+    if data:
+        return data
+    try:
+        return video_trends.collect()
+    except Exception as exc:  # trends are extra: the edition goes out without them
+        print(f"EDITION trends unavailable ({exc!r})", file=sys.stderr)
+        return video_trends.load()
 
 
 # ── 2. The script ────────────────────────────────────────────────────────────
@@ -447,6 +496,9 @@ def check_quote(quote: dict | None, story: dict) -> dict | None:
 def searches(story: dict, w: dict) -> list[str]:
     """The writer's YouTube searches; for a match, its highlights by the two sides' names too."""
     out = list(w.get("youtube") or [])
+    if story.get("trend"):
+        # The search people made today, as they made it: it finds the video that went viral.
+        out.insert(0, story["trend"]["term"])
     subjects = [re.sub(r"\s*\(.*?\)", "", s).strip() for s in w.get("subjects") or []]
     if media.is_sport(story) and len(subjects) >= 2:
         out.insert(0, f"{subjects[0]} {subjects[1]} highlights")
@@ -463,7 +515,9 @@ def pick_footage(found: dict[str, list[dict]], workdir: Path, stories: list[dict
     blocks = []
     for slug, cands in found.items():
         s = about.get(slug) or {}
+        trending = f"TRENDING today (people search: {s['trend']['term']}): the creator's own original video may be kept" if s.get("trend") else ""
         blocks.append("\n".join([f"## Story {slug}", f"headline: {plain(s.get('title'))}", f"summary: {plain(s.get('excerpt'))}",
+                                 *([trending] if trending else []),
                                  *[f"- {c['id']} | channel: {c['channel']}{' | official' if c.get('official') else ''} | posted {c['posted']} | title: {c['title']}"
                                    for c in cands]]))
     brief.write_text("# Footage candidates\n\n" + "\n\n".join(blocks) + "\n", encoding="utf-8")
@@ -722,6 +776,8 @@ def edition_entry(story: dict, clip: dict) -> dict:
         "words": clip.get("words", []),
         "beats": [public_beat(b) for b in clip.get("beats", []) if b.get("kind") != "video" or b.get("youtube") or video],
         "video": {k: public_url(v) for k, v in video.items()} if video else None,
+        # Trending in Kosovo/Albania today: the card says so.
+        "trend": (story.get("trend") or {}).get("term", ""),
     }
 
 
@@ -815,6 +871,10 @@ def main(dry_run: bool = False, only: str = "", force: bool = False, keep: str =
     if not stories:
         print("EDITION no stories", file=sys.stderr)
         return 1
+    try:
+        stories = mix_trends(stories, todays_trends())
+    except Exception as exc:  # trends are extra: the front page's seven go out as they are
+        print(f"EDITION trends not mixed in ({exc!r})", file=sys.stderr)
 
     state = load_state()
     clips = state.get("clips", {}) if isinstance(state.get("clips"), dict) else {}

@@ -387,6 +387,41 @@ class OfficialFootageTests(unittest.TestCase):
             importlib.reload(ve)
 
 
+class TrendTests(unittest.TestCase):
+    DATA = {"trends": [{"term": "real madrid vs sevilla", "traffic": 2000, "source": "google:AL"},
+                       {"term": "bajram begaj", "traffic": 1000, "source": "google:AL"},
+                       {"term": "molotov", "traffic": 100, "source": "google:AL"}]}
+
+    def story(self, slug, title):
+        return {"slug": slug, "title": title, "excerpt": "", "body": ""}
+
+    def test_a_trending_article_takes_the_place_of_the_last_story_not_trending(self):
+        front = [self.story(f"s{i}", f"Lajm i zakonshëm numër {i}") for i in range(7)]
+        front[6] = self.story("begaj", "Presidenti Begaj takon ambasadorët")
+        recent = [self.story("rm", "Real Madridi mposht Sevillën në Bernabeu"),
+                  self.story("rm2", "Real Madrid dhe Sevilla: formacionet"),
+                  self.story("mol", "Molotov në oborrin e shkollës")]
+        got = ve.mix_trends(front, self.DATA, recent)
+        self.assertEqual(len(got), 7)
+        self.assertEqual(got[6]["slug"], "begaj")          # already trending: kept, and marked
+        self.assertEqual(got[6]["trend"]["term"], "bajram begaj")
+        self.assertEqual(got[5]["slug"], "rm")             # one article per trend
+        self.assertNotIn("rm2", [s["slug"] for s in got])
+        self.assertNotIn("mol", [s["slug"] for s in got])  # too few searches
+        self.assertEqual(ve.edition_entry(got[5], {"script": "x", "beats": []})["trend"], "real madrid vs sevilla")
+
+    def test_a_trend_matches_by_its_words_whatever_their_endings(self):
+        import video_trends as vt
+        self.assertTrue(vt.match("Real Madridi mposht Sevillën në Bernabeu", "real madrid c.f. vs sevilla fc"))
+        self.assertTrue(vt.match("Presidenti Begaj takoi ambasadorët", "bajram begaj"))
+        self.assertFalse(vt.match("Atletico Madrid humbi në shtëpi", "real madrid vs sevilla"))
+        self.assertFalse(vt.match("Moti sot në Prishtinë", "molotov"))
+
+    def test_no_trends_leaves_the_seven_alone(self):
+        front = [self.story(f"s{i}", f"Lajm {i}") for i in range(7)]
+        self.assertEqual(ve.mix_trends(front, {}, []), front)
+
+
 class CoverTests(unittest.TestCase):
     def test_the_cover_keeps_only_the_storys_names_and_numbers(self):
         self.assertEqual(ve.check_cover("Ylli mposht Vëllaznimin 100:86", GAME), "Ylli mposht Vëllaznimin 100:86")

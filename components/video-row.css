@@ -158,6 +158,21 @@
 }
 .vr-badge i { flex: none; width: 8px; height: 8px; border-radius: 50%; }
 .vr-badge { max-width: calc(100% - 56px); }
+/* What Kosovo and Albania are searching today: first line of the card's foot. */
+.vr-trend {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 9px 4px 7px;
+  border-radius: 100px;
+  background: #FF4422;
+  color: #FFFFFF;
+  font-size: 11.5px;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  box-shadow: 0 6px 14px -6px rgba(255, 68, 34, 0.7);
+}
 /* A rendered thumbnail carries its own section label and cover line: no badge over it. */
 .vr-card[data-thumb] .vr-badge { display: none; }
 /* No photo: the section's colour, deepening to the bottom. */

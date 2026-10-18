@@ -48,6 +48,8 @@ export type EditionClip = {
    * then the voice plays over the beats drawn in the page. hd is 1080x1920, sd 720x1280; thumb
    * (540x960, the clip's strongest picture with its cover line) is what the row shows, "" if none. */
   video: { hd: string; sd: string; poster: string; thumb: string } | null;
+  /** What people in Kosovo/Albania searched today that this story is about ("" if not trending). */
+  trend: string;
 };
 
 export type Edition = {
@@ -164,6 +166,7 @@ export function parseEdition(raw: unknown, now = Date.now()): Edition | null {
       words: parseWords(c?.words),
       beats: parseBeats(c?.beats, duration, Boolean(video)),
       video,
+      trend: str(c?.trend).slice(0, 60),
     });
   }
   return clips.length ? { date: str(data?.date), updatedAt, clips } : null;

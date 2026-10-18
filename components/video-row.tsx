@@ -34,6 +34,7 @@ import {
   ChevronRight,
   ChevronUp,
   Copy,
+  Flame,
   MessageCircle,
   Play,
   Quote,
@@ -408,6 +409,12 @@ export default function VideoRow({
                   {done ? <Check size={20} strokeWidth={3} /> : <Play size={20} strokeWidth={0} fill="currentColor" />}
                 </span>
                 <span className="vr-card-foot">
+                  {clip.trend && (
+                    <span className="vr-trend" title={`Në trend sot: ${clip.trend}`}>
+                      <Flame size={12} strokeWidth={2.6} aria-hidden="true" />
+                      Në trend
+                    </span>
+                  )}
                   <span className="vr-card-stats">{done ? "Parë" : clock(clip.duration)}</span>
                   <span className="vr-card-title">{clip.title}</span>
                 </span>
