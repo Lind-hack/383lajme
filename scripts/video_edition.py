@@ -506,7 +506,8 @@ def make_clip(story: dict, script: str, how: str, look: dict, picked: list[dict]
         if made:
             video = {}
             for kind, mime in (("hd", "video/mp4"), ("sd", "video/mp4"), ("poster", "image/jpeg")):
-                path = f"video/{story['slug']}-{h}-{kind}.{'jpg' if kind == 'poster' else 'mp4'}"
+                # A new name every render: the files are cached for a year, so a re-render under the old name would not be seen.
+                path = f"video/{story['slug']}-{h}-{now:%m%d%H%M}-{kind}.{'jpg' if kind == 'poster' else 'mp4'}"
                 if upload(path, made[kind].read_bytes(), mime, "31536000"):
                     video[kind] = path
                     clip["files"].append(path)
