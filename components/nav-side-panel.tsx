@@ -6,11 +6,13 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import ThemeToggle from "./theme/theme-toggle";
-import ToniGaugeIcon from "@/components/toni-gauge-icon";
+import styles from "./nav-side-panel.module.css";
 import {
   ArrowUpRight,
   ChevronDown,
-  Plane,
+  Globe2,
+  MapPinned,
+  Newspaper,
   X,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -213,151 +215,27 @@ export default function NavSidePanel({ open, onClose }: Props) {
             </button>
           </div>
 
-          <div className="side-panel-account">
+          <div className={`side-panel-account ${styles.account}`}>
             {!ready ? (
-              <span role="status">Po kontrollohet hyrja…</span>
+              <span role="status" className={styles.loading}>Po kontrollohet hyrja…</span>
             ) : user ? (
-              <div
-                style={{
-                  background: "#FFFFFF",
-                  border: "1.5px solid #E8E3DB",
-                  borderRadius: "16px",
-                  padding: "16px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "12px",
-                    marginBottom: "14px",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "42px",
-                      height: "42px",
-                      borderRadius: "50%",
-                      background: "#FF4422",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "15px",
-                      fontWeight: 800,
-                      color: "#fff",
-                      letterSpacing: "0.04em",
-                      flexShrink: 0,
-                    }}
-                  >
-                    <span data-no-translate>{getInitials(user)}</span>
-                  </div>
-                  <div style={{ minWidth: 0 }}>
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: "14px",
-                        fontWeight: 700,
-                        color: "#111",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      <span data-no-translate>{user.user_metadata?.full_name ?? "Profili"}</span>
-                    </p>
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: "12px",
-                        color: "#999",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      <span data-no-translate>{user.email}</span>
-                    </p>
+              <div className={styles.profile}>
+                <div className={styles.identity}>
+                  <span className={styles.avatar} aria-hidden data-no-translate>{getInitials(user)}</span>
+                  <div className={styles.userDetails}>
+                    <strong data-no-translate>{user.user_metadata?.full_name ?? "Profili"}</strong>
+                    <span data-no-translate>{user.email}</span>
                   </div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <button
-                    onClick={() => {
-                      onClose();
-                      router.push("/profili");
-                    }}
-                    style={{
-                      width: "100%",
-                      padding: "10px 14px",
-                      borderRadius: "100px",
-                      border: "1.5px solid rgba(17,17,17,0.18)",
-                      background: "transparent",
-                      fontSize: "13px",
-                      fontWeight: 700,
-                      color: "#111",
-                      cursor: "pointer",
-                      fontFamily: "var(--font-manrope), sans-serif",
-                    }}
-                  >
-                    Profili im
-                  </button>
-                  <button
-                    onClick={handleSignOut}
-                    style={{
-                      width: "100%",
-                      padding: "10px 14px",
-                      borderRadius: "100px",
-                      border: "1.5px solid rgba(229,62,62,0.3)",
-                      background: "transparent",
-                      fontSize: "13px",
-                      fontWeight: 700,
-                      color: "#e53e3e",
-                      cursor: "pointer",
-                      fontFamily: "var(--font-manrope), sans-serif",
-                    }}
-                  >
-                    Dil
-                  </button>
+                <div className={styles.accountActions}>
+                  <Link href="/profili" onClick={onClose} className={styles.accountButton}>Profili im</Link>
+                  <button type="button" onClick={handleSignOut} className={`${styles.accountButton} ${styles.signOut}`}>Dil</button>
                 </div>
               </div>
             ) : (
-              <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-                <Link
-                  href="/hyr"
-                  onClick={onClose}
-                  className="btn-outline"
-                  style={{
-                    display: "block",
-                    textAlign: "center",
-                    padding: "11px 16px",
-                    borderRadius: "100px",
-                    border: "1.5px solid rgba(17,17,17,0.2)",
-                    background: "transparent",
-                    fontSize: "14px",
-                    fontWeight: 700,
-                    color: "#111",
-                    textDecoration: "none",
-                  }}
-                >
-                  Hyr
-                </Link>
-                <Link
-                  href="/hyr?tab=regjistrohu"
-                  onClick={onClose}
-                  className="btn-primary"
-                  style={{
-                    display: "block",
-                    textAlign: "center",
-                    padding: "11px 16px",
-                    borderRadius: "100px",
-                    border: "none",
-                    fontSize: "14px",
-                    fontWeight: 700,
-                    color: "#fff",
-                    textDecoration: "none",
-                  }}
-                >
-                  Regjistrohu
-                </Link>
+              <div className={styles.accountActions}>
+                <Link href="/hyr" onClick={onClose} className={styles.accountButton}>Hyr</Link>
+                <Link href="/hyr?tab=regjistrohu" onClick={onClose} className={`${styles.accountButton} ${styles.register}`}>Regjistrohu</Link>
               </div>
             )}
           </div>
@@ -439,220 +317,28 @@ export default function NavSidePanel({ open, onClose }: Props) {
             )}
           </AnimatePresence>
 
-          {/* Kosova në xhep (visitor guide): a distinct utility destination between
-              editorial categories and the Tregu product. */}
-          <div
-            style={{
-              marginTop: "22px",
-              paddingTop: "20px",
-              borderTop: "1px solid #E8E3DB",
-            }}
-          >
-            <span
-              style={{
-                display: "block",
-                marginBottom: "10px",
-                fontSize: "10px",
-                fontWeight: 800,
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                color: "#C4BDB1",
-                fontFamily: "var(--font-manrope), sans-serif",
-              }}
-            >
-              Për vizitorët
-            </span>
-            <motion.div
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.985 }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            >
+          <nav className={styles.features} aria-label="Veçoritë e 383">
+            {[
+              { href: "/visit", title: "Kosova në xhep", description: "Qytetet, kufiri dhe ndihma pranë teje", Icon: MapPinned, variant: styles.visit },
+              { href: "/bota-per-kosoven", title: "Bota për Kosovën", description: "Si shkruan shtypi i huaj për Kosovën", Icon: Globe2, variant: styles.world },
+              { href: "/per-ty", title: "Për ty", description: "Gazeta jote, nga ajo që lexon", Icon: Newspaper, variant: styles.forYou },
+            ].map(({ href, title, description, Icon, variant }) => (
               <Link
-                href="/visit"
-                className="side-panel-feature"
+                key={href}
+                href={href}
                 onClick={onClose}
-                aria-current={pathname?.startsWith("/visit") ? "page" : undefined}
-                style={{
-                  position: "relative",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "12px",
-                  minHeight: "76px",
-                  padding: "14px",
-                  overflow: "hidden",
-                  border: pathname?.startsWith("/visit")
-                    ? "1px solid #FF4422"
-                    : "1px solid #D8CEC2",
-                  borderRadius: "14px",
-                  backgroundColor: "#EEE6DA",
-                  backgroundImage: "url('/visit/atlas-texture.webp')",
-                  backgroundSize: "330px auto",
-                  backgroundPosition: "center",
-                  boxShadow: "0 10px 28px rgba(46, 35, 24, 0.1)",
-                  color: "#171614",
-                  textDecoration: "none",
-                }}
+                className={`${styles.feature} ${variant}`}
+                aria-current={pathname === href || pathname?.startsWith(href + "/") ? "page" : undefined}
               >
-                <span
-                  aria-hidden
-                  style={{
-                    position: "absolute",
-                    width: "1px",
-                    height: "110px",
-                    right: "58px",
-                    top: "-17px",
-                    background: "rgba(23, 22, 20, 0.12)",
-                    transform: "rotate(3deg)",
-                  }}
-                />
-                <span
-                  aria-hidden
-                  style={{
-                    display: "grid",
-                    placeItems: "center",
-                    width: "42px",
-                    height: "42px",
-                    flexShrink: 0,
-                    border: "1px solid rgba(23, 22, 20, 0.2)",
-                    borderRadius: "11px",
-                    background: "rgba(255, 253, 249, 0.72)",
-                    color: "#FF4422",
-                    transform: "rotate(-4deg)",
-                  }}
-                >
-                  <Plane size={20} strokeWidth={2.2} />
+                <span className={styles.featureIcon} aria-hidden="true"><Icon size={25} strokeWidth={1.7} /></span>
+                <span className={styles.featureCopy}>
+                  <strong>{title}</strong>
+                  <span>{description}</span>
                 </span>
-                <span style={{ minWidth: 0, flex: 1 }}>
-                  <span
-                    style={{
-                      display: "block",
-                      fontSize: "14px",
-                      fontWeight: 800,
-                      lineHeight: 1.25,
-                    }}
-                  >
-                    Kosova në xhep
-                  </span>
-                  <span
-                    style={{
-                      display: "block",
-                      marginTop: "4px",
-                      color: "#665F57",
-                      fontSize: "10px",
-                      fontWeight: 650,
-                      lineHeight: 1.35,
-                    }}
-                  >
-                    Kosovë + Shqipëri: udhëtimi dhe ndihma
-                  </span>
-                </span>
-                <ArrowUpRight
-                  aria-hidden
-                  size={18}
-                  strokeWidth={2.2}
-                  style={{ flexShrink: 0 }}
-                />
+                <ArrowUpRight className={styles.featureArrow} aria-hidden="true" size={16} strokeWidth={2} />
               </Link>
-            </motion.div>
-          </div>
-
-          {/* Toni — a standing index, not a news category and not a visitor
-              utility. It gets the same standalone treatment as Tregu rather
-              than sitting under "Për vizitorët", which is about travelling. */}
-          <div
-            style={{
-              marginTop: "22px",
-              paddingTop: "20px",
-              borderTop: "1px solid #E8E3DB",
-            }}
-          >
-            <span
-              style={{
-                display: "block",
-                marginBottom: "10px",
-                fontSize: "10px",
-                fontWeight: 800,
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                color: "#C4BDB1",
-                fontFamily: "var(--font-manrope), sans-serif",
-              }}
-            >
-              Toni
-            </span>
-            <motion.div
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.985 }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <Link
-                href="/bota-per-kosoven"
-                className="side-panel-feature"
-                onClick={onClose}
-                style={{
-                  position: "relative",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "13px",
-                  overflow: "hidden",
-                  padding: "14px 16px",
-                  border: "1px solid rgba(23, 22, 20, 0.12)",
-                  borderRadius: "14px",
-                  backgroundColor: "#F7F3EC",
-                  boxShadow: "0 10px 28px rgba(46, 35, 24, 0.08)",
-                  color: "#171614",
-                  textDecoration: "none",
-                }}
-              >
-                <span
-                  style={{
-                    display: "grid",
-                    placeItems: "center",
-                    width: "42px",
-                    height: "42px",
-                    flexShrink: 0,
-                    border: "1px solid rgba(23, 22, 20, 0.2)",
-                    borderRadius: "11px",
-                    background: "rgba(255, 253, 249, 0.72)",
-                    color: "#FF4422",
-                    transform: "rotate(4deg)",
-                  }}
-                >
-                  <ToniGaugeIcon size={20} strokeWidth={2.2} />
-                </span>
-                <span style={{ minWidth: 0, flex: 1 }}>
-                  <span
-                    style={{
-                      display: "block",
-                      fontSize: "14px",
-                      fontWeight: 800,
-                      lineHeight: 1.25,
-                    }}
-                  >
-                    Toni ndaj Kosovës
-                  </span>
-                  <span
-                    style={{
-                      display: "block",
-                      marginTop: "4px",
-                      color: "#665F57",
-                      fontSize: "10px",
-                      fontWeight: 650,
-                      lineHeight: 1.35,
-                    }}
-                  >
-                    Si po shkruan bota për Kosovën, sipas shtetit
-                  </span>
-                </span>
-                <ArrowUpRight
-                  aria-hidden
-                  size={18}
-                  strokeWidth={2.2}
-                  style={{ flexShrink: 0 }}
-                />
-              </Link>
-            </motion.div>
-          </div>
+            ))}
+          </nav>
 
           {/* Tregu — standalone feature group, kept apart from the news
               categories above. Same label treatment as "Kategoritë". */}
