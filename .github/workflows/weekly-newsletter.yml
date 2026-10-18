@@ -28,13 +28,13 @@ jobs:
             result=$(curl --fail-with-body --silent --show-error --max-time 65 \
               -X POST -H "Authorization: Bearer $CRON_SECRET" \
               "${SITE_URL%/}/api/automation/newsletter/weekly")
-            echo "$result" | jq '{issue,skipped,sent,failed,pending,held}'
+            echo "$result" | jq '{issue,skipped,sent,queued,failed,pending,held}'
             if [ "$(echo "$result" | jq '.failed // 0')" -gt 0 ] || [ "$(echo "$result" | jq '.held // 0')" -gt 0 ]; then
               echo 'Newsletter delivery needs attention; inspect newsletter_deliveries.' >&2
               exit 1
             fi
             if [ "$(echo "$result" | jq '.pending // 0')" -eq 0 ]; then exit 0; fi
-            if [ "$(echo "$result" | jq '.sent // 0')" -eq 0 ]; then
+            if [ "$(echo "$result" | jq '(.sent // 0) + (.queued // 0)')" -eq 0 ]; then
               echo 'Pending deliveries are leased or waiting for retry; the next run resumes.'
               exit 0
             fi

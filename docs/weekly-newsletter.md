@@ -100,7 +100,7 @@ SQL tests passed in an isolated PostgreSQL-compatible PGlite database, including
 retry expiry, claim leases, consent and role permissions. HTTP validation covers
 origin, invalid input/tokens, consent, body limits and automation authentication.
 Desktop/mobile signup rendering and native email validation were browser-checked.
-Provider tests use mocked responses; no real test emails were sent.
+The initial release used mocked provider responses. The follow-up below includes real inbox verification.
 
 Production uses Railway's GitHub integration for `383ks.com`, as confirmed by the
 product owner. Newsletter sender settings were configured with `--skip-deploys`,
@@ -137,3 +137,32 @@ stdin and writes HTML to its `output` path. It sends only when `recipient` and
 The website card is approximately 199px high on desktop and 321px at 390px wide.
 It uses an unfiltered SVG illustration and a native checkbox behind an animated
 consent capsule, with keyboard focus and reduced-motion handling.
+
+## Hosted delivery correction
+
+The live Railway signup test could not deliver over SMTP, although the local
+Gmail preview reached the inbox. The fallback therefore runs on the existing
+private server instead of attempting SMTP from Railway. No public relay is exposed.
+
+Apply migration `0112_newsletter_mail_queue.sql`, upload the worker, install its
+private settings at `/etc/383-newsletter.json`, and run
+`scripts/install-newsletter-mail-worker.sh` as root. Settings contain the local
+Supabase API URL, service role, newsletter signing secret, sender and existing
+Gmail credentials. The settings file is root-owned, readable only by the dedicated
+newsletter service group; the systemd service has a read-only filesystem.
+Only then enable `NEWSLETTER_SMTP_QUEUE=1` in the application.
+
+After a definite Resend quota rejection, the application atomically queues the
+message. Tokens and email contents use AES-256-GCM, bound to the job identity.
+Only the private worker can read/decrypt them. It checks consent again, claims
+each job once, sends via Gmail and persists its receipt. Every 15 seconds it
+checks for more work. Known temporary rejections back off five minutes; uncertain
+SMTP acceptance or a crash stays held, never automatically duplicated. Weekly
+queued messages are counted separately from successful sends. Ciphertexts are
+cleared seven days after job expiry. Subscriber deletion cascades to queued mail.
+
+Inspect with `systemctl status 383-newsletter-mail.timer` and
+`journalctl -u 383-newsletter-mail.service`; logs contain counts, not recipients.
+Run `supabase/tests/newsletter_mail_queue.sql` in an isolated database (or an empty
+newly installed queue); its fixtures roll back. Python worker tests cover consent
+revocation, explicit rejections, uncertain acceptance and receipt loss.
