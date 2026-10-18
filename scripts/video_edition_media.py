@@ -754,6 +754,12 @@ def build_beats(duration: float, words: list[list], photos: list[dict], facts: l
 
     def photo(at: float) -> dict:
         nonlocal k
+        if not photos and footage:
+            # No photo of the story: its footage again, from a little further in, rather than a blank screen.
+            v = footage[k % len(footage)]
+            k += 1
+            return {"at": round(at, 2), "kind": "video", "file": v.get("file", ""), "credit": v.get("credit", ""),
+                    "youtube": v.get("youtube", ""), "channel": v.get("channel", ""), "start": 2, "media": 0.8 * (k % 2)}
         if not photos:
             return {"at": round(at, 2), "kind": "plain"}
         p = photos[k % len(photos)]

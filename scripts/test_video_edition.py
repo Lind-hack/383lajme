@@ -224,5 +224,19 @@ class FeelTests(unittest.TestCase):
         self.assertEqual((bad["mood"], bad["hook"], bad["climax"]), ("", "", ""))
 
 
+class FillTests(unittest.TestCase):
+    def test_a_story_without_photos_fills_with_its_footage_not_a_blank_screen(self):
+        foot = [{"file": "/a.mp4", "credit": "Video: FBK · YouTube", "duration": 4.6}]
+        beats = media.build_beats(24.0, WORDS, [], [], None, None, foot)
+        self.assertFalse([b for b in beats if b["kind"] == "plain"])
+        self.assertTrue(all(b["kind"] == "video" for b in beats))
+
+    def test_a_score_is_not_counted_up(self):
+        clip = {"duration": 8.0, "words": said("rezultati ishte 100:86 sot"), "title": "t", "category": "Sport"}
+        beats = [{"at": 0.0, "kind": "fact", "value": "100:86", "label": "rezultati përfundimtar"}]
+        page = render.compose(clip, beats, {"moves": ["cut"], "burns": [], "sfx": [], "music": ""}, {}, {})
+        self.assertNotIn('"count"', page)
+
+
 if __name__ == "__main__":
     unittest.main()

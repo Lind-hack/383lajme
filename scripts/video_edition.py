@@ -479,7 +479,8 @@ def make_clip(story: dict, script: str, how: str, look: dict, picked: list[dict]
     try:
         titles = look.get("subjects", []) + ([look["place"]] if look.get("place") else [])
         pages = media.wiki_pages(titles)
-        photos = media.story_photos(story, look.get("subjects", []), pages) or photos
+        # The place too: a story about two clubs with no photos still has its city.
+        photos = media.story_photos(story, look.get("subjects", []) + ([look["place"]] if look.get("place") else []), pages) or photos
         where = pages.get(look.get("place", "")) if look.get("place") else None
         if where and where.get("lat") is not None:
             jpeg = media.map_image(float(where["lat"]), float(where["lon"]), where.get("dim"))

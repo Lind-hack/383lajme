@@ -316,7 +316,8 @@ def compose(clip: dict, beats: list[dict], cues: dict, look: dict, assets: dict[
             T({"sel": f"#b{k} .ph", "m": "fromTo", "from": frm, "to": {**to, "duration": round(hold, 3), "ease": "none"}, "at": start})
         elif b["kind"] == "video":
             src = assets.get(b.get("file", ""), "")
-            inner = (f'<video id="v{k}" src="{esc(src)}" muted playsinline data-start="{start}" data-duration="{round(hold, 3)}" '
+            media_start = f' data-media-start="{b["media"]}"' if b.get("media") else ""
+            inner = (f'<video id="v{k}" src="{esc(src)}" muted playsinline data-start="{start}" data-duration="{round(hold, 3)}"{media_start} '
                      f'data-track-index="{20 + k % 2}"></video>'
                      f'<span class="chip"><i></i>{esc(b.get("credit", ""))}</span>')
         elif b["kind"] in CARD_KINDS:
@@ -327,7 +328,8 @@ def compose(clip: dict, beats: list[dict], cues: dict, look: dict, assets: dict[
                 card = (f'<div class="card"><div class="label"><i></i>{esc(clip.get("category", ""))}</div>'
                         f'<div class="fact-value" id="n{k}" style="--fs:{170 if len(b["value"]) <= 6 else 136 if len(b["value"]) <= 9 else 108}px">{esc(b["value"])}</div><div class="fact-label">{esc(b["label"])}</div></div>')
                 target = count_target(b["value"])
-                if target and target[0] >= 2:
+                # A score or a range (100:86, 2-1) is shown as it is, not counted up.
+                if target and target[0] >= 2 and not re.search(r"\d\s*[:\-–]\s*\d", b["value"]):
                     T({"sel": f"#n{k}", "count": {"n": target[0], "dec": target[1], "pre": target[2], "post": target[3], "d": 0.9}, "at": start + 0.15})
             elif b["kind"] == "quote":
                 card = (f'<div class="card"><div class="quote-mark">“</div><div class="quote-text">{esc(b["text"])}</div>'
