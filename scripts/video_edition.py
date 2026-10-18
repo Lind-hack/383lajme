@@ -559,9 +559,12 @@ def make_clip(story: dict, script: str, how: str, look: dict, picked: list[dict]
         pages = media.wiki_pages(titles)
         # The story's people and organisations; its city only when they have too few photos,
         # and never for sport (a game is its players, not the town it was played in).
-        photos = media.story_photos(story, look.get("subjects", []), pages) or photos
+        # (The writer sometimes lists the town among the subjects: a place, for sport, is left out.)
+        people = [t for t in look.get("subjects", []) if t != look.get("place")
+                  and not (sport and (pages.get(t) or {}).get("lat") is not None)]
+        photos = media.story_photos(story, people, pages) or photos
         if len(photos) < 2 and look.get("place") and not sport:
-            photos = media.story_photos(story, look.get("subjects", []) + [look["place"]], pages) or photos
+            photos = media.story_photos(story, people + [look["place"]], pages) or photos
         where = pages.get(look.get("place", "")) if look.get("place") else None
         if where and where.get("lat") is not None:
             jpeg = media.map_image(float(where["lat"]), float(where["lon"]), where.get("dim"))
@@ -583,7 +586,8 @@ def make_clip(story: dict, script: str, how: str, look: dict, picked: list[dict]
     shown = {n for g in look.get("graphics", []) if g["type"] == "score" for t in g["teams"] for n in numbers_in(t["score"])}
     facts = [f for f in look.get("facts", []) if not numbers_in(f["value"]) <= shown] if shown else look.get("facts", [])
     if sport and len(footage) >= 3:
-        place = None
+        # The game's own pictures from start to end.
+        place, photos = None, []
     clip["beats"] = media.build_beats(clip["duration"], clip["words"], photos, facts, place,
                                       look.get("quote"), footage)
     clip["footage"] = len(footage)
