@@ -186,7 +186,7 @@ class CueTests(unittest.TestCase):
         self.assertLessEqual(len(sfx), max(4, int(22.0 / render.SFX_EVERY)))
         hits = sorted(s["at"] for s in sfx)
         self.assertTrue(all(b - a >= render.SFX_GAP - 0.6 for a, b in zip(hits, hits[1:])), hits)
-        self.assertTrue(all(s["db"] <= -20 for s in self.cues()["sfx"]))
+        self.assertTrue(all(s["db"] <= -8 for s in self.cues()["sfx"]))
         self.assertEqual(sum(s["kind"] == "riser" for s in self.cues()["sfx"]), 1)
 
     def test_same_story_same_cut(self):
@@ -420,6 +420,44 @@ class TrendTests(unittest.TestCase):
     def test_no_trends_leaves_the_seven_alone(self):
         front = [self.story(f"s{i}", f"Lajm {i}") for i in range(7)]
         self.assertEqual(ve.mix_trends(front, {}, []), front)
+
+
+class ThemeTests(unittest.TestCase):
+    def test_each_kind_of_story_gets_its_own_look(self):
+        import video_edition_themes as th
+        self.assertEqual(th.theme_for("Sport", "Barcelona mposht Betisin 5-2, gola nga Yamal"), "football")
+        self.assertEqual(th.theme_for("Kosovë", "Ylli fiton në basketboll, çereku i fundit"), "basketball")
+        self.assertEqual(th.theme_for("Botë", "Verstappen fiton Grand Prix e Austinit para Hamilton"), "f1")
+        self.assertEqual(th.theme_for("Showbiz", "Këngëtarja publikon albumin e ri"), "showbiz")
+        self.assertEqual(th.theme_for("Ekonomi", "Inflacioni rritet"), "economy")
+        self.assertEqual(th.theme_for("Kosovë", "Qeveria e Kosovës miraton buxhetin"), "kosovo")
+        self.assertEqual(th.theme_for("Botë", "Papa takon presidentin"), "default")
+
+    def test_a_chart_and_a_ranking_keep_only_the_storys_numbers_and_names(self):
+        story = {"title": "Inflacioni", "excerpt": "", "category": "Ekonomi",
+                 "body": "Inflacioni ishte 2,4 në 2023, 3,1 në 2024 dhe 4,2 në 2025. Verstappen 331, Norris 318, Leclerc 290."}
+        got = ve.check_graphics([
+            {"type": "chart", "label": "inflacioni sipas vitit", "points": [{"label": "2023", "value": "2,4"}, {"label": "2025", "value": "4,2"}]},
+            {"type": "chart", "label": "inflacioni sipas vitit", "points": [{"label": "2023", "value": "2,4"}, {"label": "2026", "value": "9,9"}]},
+            {"type": "ranking", "label": "renditja e pilotëve", "rows": [{"name": "Verstappen", "value": "331"}, {"name": "Norris", "value": "318"}, {"name": "Leclerc", "value": "290"}]},
+            {"type": "ranking", "label": "renditja e pilotëve", "rows": [{"name": "Verstappen", "value": "331"}, {"name": "Alonso", "value": "250"}, {"name": "Leclerc", "value": "290"}]},
+        ], "Inflacioni u rrit.", story)
+        self.assertEqual([g["type"] for g in got], ["chart", "ranking"])
+
+    def test_a_script_without_a_writer_still_gets_its_numbers_shown(self):
+        story = {"title": "Protesta", "excerpt": "", "body": "Rreth 40 mijë veta protestuan në Paris të shtunën."}
+        facts = ve.auto_facts("Rreth 40 mijë veta protestuan në Paris të shtunën.", story)
+        self.assertEqual(facts[0]["value"], "40 mijë")
+        self.assertTrue(facts[0]["label"].startswith("veta protestuan"))
+
+    def test_a_wrongly_tagged_photo_is_left_out(self):
+        self.assertFalse(media.names_subject("Une vendeuse de banane à Aboisso", "Renew Europe"))
+        self.assertTrue(media.names_subject("Hémicycle Category:European Parliament", "European Parliament"))
+
+    def test_every_effect_sits_the_same_distance_under_the_voice(self):
+        loud = {"db": -9, "lufs": -5.0}
+        quiet = {"db": -9, "lufs": -25.0}
+        self.assertEqual(round(render.gain(loud, -18) + loud["lufs"], 1), round(render.gain(quiet, -18) + quiet["lufs"], 1))
 
 
 class CoverTests(unittest.TestCase):

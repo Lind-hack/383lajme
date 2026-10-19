@@ -351,8 +351,11 @@ def photo_info(files: list[str]) -> list[dict]:
             if ii.get("mime") != "image/jpeg" or int(ii.get("width") or 0) < 900:
                 continue
             creator = strip_html((meta.get("Artist") or {}).get("value", ""))[:80] or "Wikimedia Commons"
+            # What the photo says it shows: its name, description and categories.
+            about = " ".join([page.get("title", ""), strip_html((meta.get("ImageDescription") or {}).get("value", ""))[:600],
+                              str((meta.get("Categories") or {}).get("value", ""))[:600], strip_html((meta.get("ObjectName") or {}).get("value", ""))])
             out.append({"src": ii.get("thumburl") or ii.get("url"), "credit": f"{creator} · {licence}",
-                        "page": ii.get("descriptionurl", ""), "file": page.get("title", "")})
+                        "page": ii.get("descriptionurl", ""), "file": page.get("title", ""), "about": about})
     return out
 
 
@@ -367,12 +370,14 @@ def story_photos(story: dict, subjects: list[str], pages: dict[str, dict]) -> li
         credit = " · ".join(x for x in (story.get("imageCreator"), story.get("imageLicense")) if x)
         photos.append({"src": story["imageUrl"], "credit": credit, "page": story.get("imageSourcePage", ""), "file": "", "who": ""})
     files: list[tuple[str, str]] = []
+    lead: set[str] = set()
     for name in subjects:
         page = pages.get(name) or {}
         if page.get("image"):
             files.append((page["image"], name))
+            lead.add(page["image"].replace("_", " "))
         if page.get("lat") is None:
-            files += [(f, name) for f in depicting(page.get("qid", ""), 2)[:2]]
+            files += [(f, name) for f in depicting(page.get("qid", ""), 4)[:4]]
     whose = {f.replace("_", " "): who for f, who in files}
     seen = {re.sub(r"^\d+px-", "", p["src"].rsplit("/", 1)[-1]) for p in photos}
     for p in photo_info([f for f, _ in files]):
@@ -380,9 +385,31 @@ def story_photos(story: dict, subjects: list[str], pages: dict[str, dict]) -> li
         if name in seen:
             continue
         seen.add(name)
-        p["who"] = whose.get(p.get("file", "").removeprefix("File:").replace("_", " "), "")
+        key = p.get("file", "").removeprefix("File:").replace("_", " ")
+        p["who"] = whose.get(key, "")
+        # A Commons tag can be wrong ("shows Renew Europe" on a banana seller in Aboisso): a photo
+        # found by its tag must also name its subject in its title, description or categories.
+        if key not in lead and p["who"] and not names_subject(p.get("about", ""), p["who"]):
+            continue
+        if sum(1 for q in photos if q.get("who") == p["who"] and p["who"]) >= 3:
+            continue  # three of one subject at most
         photos.append(p)
     return photos[:8]
+
+
+def names_subject(text: str, subject: str) -> bool:
+    """The text mentions the subject: one of its telling words (first five letters, so "Weber"
+    meets "Weberit"), or for a name of short words only ("EPP", "S&D"), one of them whole."""
+    have = {norm(w) for w in re.findall(r"[\w'-]+", text.lower())}
+    stems = {w[:5] for w in have if len(w) >= 4}
+    words = [norm(w) for w in re.findall(r"[\w'-]+", re.sub(r"\s*\(.*?\)", "", subject).lower()) if norm(w)]
+    strong = [w for w in words if len(w) >= 4 and w not in GENERIC]
+    if strong:
+        return any(w[:5] in stems for w in strong)
+    return any(w in have for w in words if len(w) >= 2)
+
+
+GENERIC = {"party", "group", "union", "european", "national", "republic", "the", "and", "for", "of"}
 
 
 def map_image(lat: float, lon: float, dim: float | None) -> bytes | None:
@@ -1087,7 +1114,7 @@ def _said_name(words: list[list], name: str) -> float | None:
 
 
 def build_overlays(beats: list[dict], duration: float, words: list[list], graphics: list[dict],
-                   climax: tuple[float, float] | None = None) -> list[dict]:
+                   climax: tuple[float, float] | None = None, cover: str = "") -> list[dict]:
     ends = [b["at"] for b in beats[1:]] + [duration]
     cards = [(b["at"], ends[k]) for k, b in enumerate(beats) if b["kind"] in ("fact", "quote", "map")]
     taken = list(cards)
@@ -1115,7 +1142,9 @@ def build_overlays(beats: list[dict], duration: float, words: list[list], graphi
         cw = [[w[0], w[2]] for w in words if climax[0] - 0.01 <= w[0] <= climax[1]]
         if 2 <= len(cw) <= 6:
             place([climax[0] - 0.08], min(2.8, max(1.8, climax[1] - climax[0] + 0.7)), {"kind": "slam", "words": cw})
-    for g in graphics:
+    # The ones tied to a moment (a name, a score said) first; a ranking or a timeline fits around them.
+    order = {"score": 0, "person": 1, "compare": 2, "chart": 3, "ranking": 4, "timeline": 5}
+    for g in sorted(graphics, key=lambda g: order.get(g.get("type"), 9)):
         kind = g.get("type")
         if kind == "score" and not score:
             said = _said_number(words, g["teams"][0]["score"])
@@ -1128,13 +1157,29 @@ def build_overlays(beats: list[dict], duration: float, words: list[list], graphi
             # Never before its numbers are said.
             spots = [said - 0.2] + [t for t in later if t >= said - 0.2] if said is not None else later
             place(spots, 3.4, {"kind": "compare", "label": g.get("label", ""), "items": g["items"]})
-        elif kind == "person" and sum(o["kind"] == "person" for o in out) < 2:
+        elif kind == "person" and sum(o["kind"] in ("person", "profile") for o in out) < 2:
             said = _said_name(words, g["name"])
+            if said is not None and g.get("photo") and not any(o["kind"] == "profile" for o in out):
+                # With their photo: a full card (a star's, a player's), once a clip.
+                if place([said - 0.1, said + 0.6], 3.0, {"kind": "profile", "name": g["name"], "role": g.get("role", ""), "photo": g["photo"]}):
+                    continue
             if said is not None:
                 place([said - 0.05, said + 0.6], 2.6, {"kind": "person", "name": g["name"], "role": g.get("role", "")})
+        elif kind == "chart":
+            said = _said_number(words, g["points"][-1]["value"]) or _said_number(words, g["points"][0]["value"])
+            spots = [said - 0.4] + [t for t in later if t >= said - 0.4] if said is not None else later
+            place(spots, 4.6, {"kind": "chart", "label": g.get("label", ""), "points": g["points"]})
+        elif kind == "ranking":
+            said = _said_name(words, g["rows"][0]["name"])
+            spots = ([said - 0.2] if said is not None else []) + later
+            place(spots, 4.4, {"kind": "ranking", "label": g.get("label", ""), "rows": g["rows"]})
         elif kind == "timeline":
             length = min(5.6, 1.4 + 1.3 * len(g["steps"]))
             place([duration * f for f in (0.45, 0.3, 0.6)], length, {"kind": "timeline", "steps": g["steps"]})
+    # Few graphics in this clip: its cover line, big, half way (every clip gets at least two moments
+    # of motion graphics besides the opening).
+    if cover and sum(o["kind"] not in ("bug",) for o in out) < 2:
+        place([duration * f for f in (0.55, 0.4, 0.7, 0.3)], 2.6, {"kind": "keyline", "text": cover})
     if score:
         # The score stays in the corner afterwards, out of the way of the cards and the other graphics.
         t = score["at"] + score["len"]

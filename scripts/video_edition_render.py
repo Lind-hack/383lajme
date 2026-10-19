@@ -38,6 +38,7 @@ import urllib.error
 from pathlib import Path
 
 import video_edition_media as media
+import video_edition_themes as themes
 
 LIBRARY = Path(os.environ.get("L383_EDITION_LIBRARY", "/opt/data/video-edition/library"))
 HYPERFRAMES = Path(os.environ.get("L383_EDITION_HYPERFRAMES", "/opt/data/video-edition/hf"))
@@ -54,10 +55,15 @@ MOVES_IN = ("blur", "whip", "zoom", "wipe", "push", "flash")
 # A number or quote card is drawn one of a few ways, never the same way twice running.
 LOOKS = {"fact": ("card", "slab", "type"), "quote": ("card", "type")}
 
-# Peak level of each effect in the mix (the library peaks at about -1 dBFS): under the voice,
-# never over it. The effects bus also ducks a few dB more while the voice speaks (mix).
-LEVELS = {"whoosh": -25, "swish": -25, "burn": -23, "riser": -28, "swell": -26, "impact": -21,
-          "boom": -20, "pop": -29, "shutter": -29, "tick": -27}
+# How far under the voice each effect sits, in dB of loudness. The library's files differ by
+# up to 38 dB among themselves (a riser at -4 LUFS, a pop at -42), so every file's own
+# loudness is measured once (load_library) and each effect is placed relative to the measured
+# voice of its clip (mix): a boom is then never louder than a whoosh by accident.
+LEVELS = {"whoosh": -13, "swish": -13, "burn": -11, "riser": -14, "swell": -13, "impact": -9,
+          "boom": -8, "pop": -12, "shutter": -14, "tick": -14,
+          # the themes' signature sounds (video_edition_themes.THEMES[...]["sounds"])
+          "whistle": -12, "crowd": -12, "buzzer": -11, "engine": -11, "flash": -12, "sparkle": -13, "blip": -14, "sting": -10}
+QUIET = -38.0  # a file quieter than this (LUFS) is near silence: left out
 # How much sound a clip gets: the strongest moments only, never two close together.
 SFX_GAP = 1.6       # seconds between the starts (a riser counts at its hit)
 SFX_EVERY = 4.0     # at most one effect per this many seconds of clip
@@ -68,9 +74,38 @@ LUFS = -14
 
 
 def load_library(root: Path = LIBRARY) -> dict:
+    """library.json, with each sound's own loudness (measured the first time, then kept)."""
     data = json.loads((root / "library.json").read_text(encoding="utf-8"))
+    changed = False
+    for entries in (data.get("sfx") or {}).values():
+        for o in entries:
+            if "lufs" not in o:
+                o["lufs"] = loudness(root / o["file"])
+                changed = True
+    for b in data.get("burns") or []:
+        if b.get("sound") and "sound_lufs" not in b:
+            b["sound_lufs"] = loudness(root / b["sound"])
+            changed = True
+    if changed:
+        try:
+            (root / "library.json").write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+        except OSError:
+            pass  # measured again next time
+    data["sfx"] = {k: [o for o in v if o.get("lufs") is None or o["lufs"] > QUIET] for k, v in (data.get("sfx") or {}).items()}
     data["root"] = str(root)
     return data
+
+
+def loudness(path: Path) -> float | None:
+    """Integrated loudness (LUFS) of a sound file, or None if it cannot be measured."""
+    try:
+        out = subprocess.run(["ffmpeg", "-hide_banner", "-nostats", "-i", str(path), "-af", "ebur128", "-f", "null", "-"],
+                             capture_output=True, text=True, timeout=120, check=False).stderr
+        found = re.findall(r"I:\s+(-?[\d.]+) LUFS", out)
+        value = float(found[-1]) if found else None
+        return value if value is not None and value > -70 else None
+    except (OSError, ValueError, subprocess.TimeoutExpired):
+        return None
 
 
 def mood_for(category: str, wanted: str) -> str:
@@ -106,6 +141,9 @@ def build_cues(beats: list[dict], duration: float, words: list[list], meta: dict
     """{"moves": [per beat: how it comes in], "looks": {beat: look}, "burns": [...], "sfx": [...], "music": file}.
     Deterministic for a given story (seeded by its slug)."""
     rng = random.Random(hashlib.sha1(seed.encode()).hexdigest())
+    theme = themes.THEMES.get(meta.get("theme") or "default", themes.THEMES["default"])
+    signature = theme.get("sounds") or {}
+    signed = 0  # cuts given the theme's own wipe
     burns_lib = [b for b in lib.get("burns", []) if b.get("duration", 0) <= 2.2] or lib.get("burns", [])
     sfx_lib = lib.get("sfx", {})
     climax = _word_at(words, meta.get("climax", "")) if meta.get("climax") else None
@@ -135,7 +173,7 @@ def build_cues(beats: list[dict], duration: float, words: list[list], meta: dict
         if start < 0 or start > duration + TAIL:
             return
         hit = end_at if end_at is not None else at
-        wanted.append({"file": o["file"], "at": round(start, 3), "db": LEVELS[level or kind], "kind": kind,
+        wanted.append({"file": o["file"], "at": round(start, 3), "db": LEVELS[level or kind], "kind": kind, "lufs": o.get("lufs"),
                        "hit": round(hit, 3), "rank": PRIORITY.get(rank or kind, 1), "lead": lead})
 
     def burn(at: float) -> bool:
@@ -146,7 +184,7 @@ def build_cues(beats: list[dict], duration: float, words: list[list], meta: dict
         burns.append({"file": b["file"], "start": round(max(0.0, start), 3), "media": round(max(0.0, -start), 3),
                       "length": round(b["duration"] - max(0.0, -start), 3), "cut": round(at, 3)})
         if b.get("sound"):
-            wanted.append({"file": b["sound"], "at": round(max(0.0, start), 3), "db": LEVELS["burn"], "kind": "burn",
+            wanted.append({"file": b["sound"], "at": round(max(0.0, start), 3), "db": LEVELS["burn"], "kind": "burn", "lufs": b.get("sound_lufs"),
                            "hit": round(at, 3), "rank": PRIORITY["burn"], "lead": None})
         else:
             sound("whoosh", at - 0.35, rank="burn")
@@ -181,12 +219,18 @@ def build_cues(beats: list[dict], duration: float, words: list[list], meta: dict
             options = ["whip", "wipe", "push", "flash"]
         else:
             options = list(MOVES_IN)
+        if theme.get("wipe") not in (None, "", "plain") and signed < 2 and k in (1, len(beats) // 2) and "wipe" in MOVES_IN:
+            options = ["wipe"]  # the theme's own wipe: on the first cut and half way
         options = [o for o in options if o != previous] or options
         move = rng.choice(options)
+        if move == "wipe":
+            signed += 1
         moves.append(move)
         previous = move
         # Only the big cuts are heard; a blur or a zoom slips in silently.
-        if move in ("whip", "push"):
+        if k == 1 and signature.get("open"):
+            sound(signature["open"], at - 0.35, rank="burn")  # the theme opens with its own sound
+        elif move in ("whip", "push"):
             sound("swish", at - 0.3)
         elif move in ("wipe", "flash"):
             sound("whoosh", at - 0.3)
@@ -194,7 +238,7 @@ def build_cues(beats: list[dict], duration: float, words: list[list], meta: dict
             sound("shutter", at + 0.05)
             shutters += 1
         if b["kind"] == "fact":
-            sound("impact", at + 0.5)
+            sound(signature.get("card") or "impact", at + 0.5, rank="impact")
         if b["kind"] == "quote":
             sound("swell", 0, end_at=at + 0.05)
 
@@ -203,13 +247,20 @@ def build_cues(beats: list[dict], duration: float, words: list[list], meta: dict
         riser = pick("riser")
         lead = None
         if riser and climax[0] - riser["duration"] >= 0:
-            lead = {"file": riser["file"], "at": round(climax[0] - riser["duration"], 3), "db": LEVELS["riser"], "kind": "riser"}
+            lead = {"file": riser["file"], "at": round(climax[0] - riser["duration"], 3), "db": LEVELS["riser"], "kind": "riser",
+                    "lufs": riser.get("lufs")}
         sound("boom", climax[0], lead=lead)
     elif hook and hook[1] > 2.0:
-        sound("impact", hook[1])
+        sound(signature.get("hook") or "impact", hook[1], rank="impact")
     for o in overlays or []:
         if o["kind"] == "score":
-            sound("impact", o["at"] + 1.25, rank="score")  # as the numbers land
+            sound(signature.get("score") or "impact", o["at"] + 1.25, rank="score")  # as the numbers land
+        elif o["kind"] == "chart":
+            sound(signature.get("card") or "blip", o["at"] + 0.4, rank="impact")
+        elif o["kind"] == "profile":
+            sound(signature.get("open") if signature.get("open") in ("flash",) else "swell", 0, end_at=o["at"] + 0.15, rank="swell")
+        elif o["kind"] == "slam" and signature.get("slam"):
+            sound(signature["slam"], o["at"] + 0.1, rank="impact")
     for word in (meta.get("emphasis") or [])[:1]:
         span = _word_at(words, word)
         if span:
@@ -225,7 +276,7 @@ def build_cues(beats: list[dict], duration: float, words: list[list], meta: dict
     for s in kept:
         if s.get("lead"):
             sfx.append(s["lead"])
-        sfx.append({k: s[k] for k in ("file", "at", "db", "kind")})
+        sfx.append({k: s[k] for k in ("file", "at", "db", "kind", "lufs")})
     sfx.sort(key=lambda s: s["at"])
     beds = (lib.get("music") or {}).get(meta.get("mood") or "serious") or []
     bed = beds[int(hashlib.sha1(seed.encode()).hexdigest(), 16) % len(beds)]["file"] if beds else ""
@@ -278,22 +329,22 @@ body{background:#111}
 .shade-top{position:absolute;left:0;right:0;top:0;height:560px;background:linear-gradient(#000c,#0000);z-index:50}
 .shade-bottom{position:absolute;left:0;right:0;bottom:0;height:980px;background:linear-gradient(#0000,#0008 45%,#000d);z-index:50}
 .cardwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:300px 190px 720px}
-.card{position:relative;width:100%;background:#F5F0E6;color:#111;border-radius:28px;padding:56px 60px 60px;box-shadow:0 30px 80px #0008,0 4px 14px #0005}
+.card{position:relative;width:100%;background:var(--card);color:var(--cardink);border-radius:28px;padding:56px 60px 60px;box-shadow:0 30px 80px #0008,0 4px 14px #0005}
 .label{display:flex;align-items:center;gap:18px;font-size:30px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#111}
-.label i{display:block;width:14px;height:44px;border-radius:3px;background:#FF4422}
+.label{color:var(--cardink)}.label i{display:block;width:14px;height:44px;border-radius:3px;background:var(--acc)}
 .fact-value{font-size:var(--fs,170px);line-height:.95;font-weight:800;letter-spacing:-.04em;margin:34px 0 22px;color:#111;font-variant-numeric:tabular-nums}
-.fact-label{font-size:46px;line-height:1.18;font-weight:700;color:#3a3530}
-.quote-mark{font-size:200px;line-height:.6;font-weight:800;color:#FF4422;height:96px}
+.fact-label{font-size:46px;line-height:1.18;font-weight:700;color:var(--cardsub)}
+.quote-mark{font-size:200px;line-height:.6;font-weight:800;color:var(--acc);height:96px}
 .quote-text{font-size:58px;line-height:1.2;font-weight:800;letter-spacing:-.015em;margin:12px 0 30px}
-.quote-who{font-size:36px;font-weight:700;color:#6b625a;letter-spacing:.02em}
+.quote-who{font-size:36px;font-weight:700;color:var(--cardsub);letter-spacing:.02em}
 .map{position:relative;margin-top:30px;border-radius:18px;overflow:hidden;aspect-ratio:4/3}
 .map img{width:100%;height:100%;object-fit:cover;filter:saturate(.8) contrast(1.05)}
-.pin{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:#FF4422;border:7px solid #fff;box-shadow:0 6px 18px #0006}
-.pulse{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:#FF4422;opacity:0}
+.pin{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:var(--acc);border:7px solid #fff;box-shadow:0 6px 18px #0006}
+.pulse{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:var(--acc);opacity:0}
 .place{display:inline-block;margin-top:30px;background:#111;color:#fff;font-size:44px;font-weight:800;padding:14px 28px;border-radius:999px}
 .chip{position:absolute;left:150px;top:300px;z-index:3;display:flex;align-items:center;gap:14px;background:#111c;color:#fff;font-size:28px;font-weight:700;padding:12px 22px;border-radius:999px;letter-spacing:.01em}
-.chip i{width:12px;height:12px;border-radius:50%;background:#FF4422}
-.wipe{position:absolute;top:0;bottom:0;left:0;width:1080px;background:#FF4422;z-index:60;opacity:0}
+.chip i{width:12px;height:12px;border-radius:50%;background:var(--acc)}
+.wipe{position:absolute;top:0;bottom:0;left:0;width:1080px;background:var(--acc);z-index:60;opacity:0}
 .burn{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;z-index:70;pointer-events:none}
 .hook{position:absolute;left:150px;right:150px;top:360px;z-index:80}
 .hook .label{color:#fff;font-size:30px}
@@ -302,10 +353,10 @@ body{background:#111}
 .cap{position:absolute;left:150px;right:290px;bottom:500px;z-index:90;font-size:64px;line-height:1.2;font-weight:800;letter-spacing:-.01em;text-align:left}
 .cap .w{position:relative;display:inline-block;margin-right:.22em;padding:0 .12em;color:#ffffffd0;text-shadow:0 2px 3px #0009,0 6px 22px #0008}
 .cap .w b{position:relative;z-index:1;font-weight:800}
-.cap .w i{position:absolute;inset:.06em -.02em .02em;border-radius:.22em;background:#FF4422;opacity:0;box-shadow:0 6px 18px #ff442255}
+.cap .w i{position:absolute;inset:.06em -.02em .02em;border-radius:.22em;background:var(--acc);opacity:0;box-shadow:0 6px 18px #ff442255}
 .cap .w.em b{color:#FFE2D9}
 .flash{position:absolute;inset:0;background:#fff;z-index:61;opacity:0}
-.beat.slab{background:#FF4422}
+.beat.slab{background:var(--acc)}
 .slab-in{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:300px 150px 720px}
 .slab-in .label i{background:#111}
 .slab-in .fact-value{color:#fff;font-size:calc(var(--fs,170px) * 1.4);text-shadow:0 10px 40px #0002}
@@ -313,20 +364,20 @@ body{background:#111}
 .type{width:100%}
 .type .label{color:#fff}
 .type .fact-value{color:#fff;font-size:calc(var(--fs,170px) * 1.12);text-shadow:0 8px 40px #0009;margin-bottom:8px}
-.type-u{display:block;height:16px;width:280px;border-radius:8px;background:#FF4422;transform-origin:0 50%;margin:4px 0 30px}
+.type-u{display:block;height:16px;width:280px;border-radius:8px;background:var(--acc);transform-origin:0 50%;margin:4px 0 30px}
 .type-l{font-size:50px;line-height:1.18;font-weight:800;color:#fff;text-shadow:0 4px 24px #000a}
 .qtype-t{font-size:66px;line-height:1.16;font-weight:800;letter-spacing:-.02em;color:#fff;text-shadow:0 6px 30px #000a;margin:10px 0 28px}
 .qtype-t span{display:inline-block;margin-right:.24em}
 .qtype-w{font-size:36px;font-weight:800;color:#FFD9CE}
 .ov{position:absolute;left:150px;right:150px;top:330px;z-index:66;opacity:0}
-.sb{background:#F5F0E6;color:#111;border-radius:28px;padding:40px 46px 36px;box-shadow:0 30px 80px #0009,0 4px 14px #0005}
+.sb{background:var(--card);color:var(--cardink);border-radius:28px;padding:40px 46px 36px;box-shadow:0 30px 80px #0009,0 4px 14px #0005}
 .sb-row{position:relative;display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:20px;padding:10px 0 10px 32px}
 .sb-row i{position:absolute;left:0;top:8px;bottom:8px;width:12px;border-radius:4px;background:#d8d0c4;transform-origin:50% 100%}
-.sb-row.win i{background:#FF4422}
+.sb-row.win i{background:var(--acc)}
 .sb-name{font-weight:800;letter-spacing:-.02em;line-height:1.05}
 .sb-pts{font-size:124px;font-weight:800;letter-spacing:-.04em;line-height:.9;font-variant-numeric:tabular-nums}
 .sb-row.lose .sb-name,.sb-row.lose .sb-pts{color:#8a8178}
-.sb-note{margin-top:20px;font-size:30px;font-weight:700;color:#6b625a}
+.sb-note{margin-top:20px;font-size:30px;font-weight:700;color:var(--cardsub)}
 .panel{background:#111111eb;border:2px solid #ffffff1f;border-radius:28px;padding:40px 46px 44px;box-shadow:0 30px 80px #0009}
 .panel .label{color:#fff}
 .cmp-title{font-size:46px;font-weight:800;line-height:1.15;margin:20px 0 6px;color:#fff}
@@ -335,28 +386,28 @@ body{background:#111}
 .cmp-val{font-size:66px;color:#fff;font-variant-numeric:tabular-nums}
 .cmp-bar{margin-top:12px;height:30px;border-radius:15px;background:#ffffff1a;overflow:hidden}
 .cmp-bar b{display:block;height:100%;border-radius:15px;background:#F5F0E6;transform-origin:0 50%}
-.cmp-row.lead .cmp-bar b{background:#FF4422}
+.cmp-row.lead .cmp-bar b{background:var(--acc)}
 .cmp-row.lead .cmp-top{color:#fff}
 .tag{position:absolute;left:150px;top:1030px;z-index:66;max-width:780px;opacity:0}
 .tag-top{position:relative;display:inline-block}
-.tag-bar{position:absolute;inset:0;background:#FF4422;border-radius:14px;transform-origin:0 50%;box-shadow:0 10px 30px #0006}
+.tag-bar{position:absolute;inset:0;background:var(--acc);border-radius:14px;transform-origin:0 50%;box-shadow:0 10px 30px #0006}
 .tag-name{position:relative;display:block;padding:14px 28px 12px;font-weight:800;color:#fff;letter-spacing:-.01em;line-height:1.05}
 .tag-role{display:table;margin-top:10px;background:#F5F0E6;color:#111;font-size:34px;font-weight:700;padding:10px 22px;border-radius:10px;box-shadow:0 10px 30px #0005}
 .tl-steps{position:relative;margin-top:26px;padding-left:50px}
-.tl-line{position:absolute;left:11px;top:30px;bottom:30px;width:4px;border-radius:2px;background:#FF4422;transform-origin:50% 0}
+.tl-line{position:absolute;left:11px;top:30px;bottom:30px;width:4px;border-radius:2px;background:var(--acc);transform-origin:50% 0}
 .tl-step{position:relative;padding:12px 0}
-.tl-step i{position:absolute;left:-50px;top:20px;width:26px;height:26px;border-radius:50%;background:#111;border:5px solid #FF4422}
+.tl-step i{position:absolute;left:-50px;top:20px;width:26px;height:26px;border-radius:50%;background:#111;border:5px solid var(--acc)}
 .tl-when{font-size:28px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#FF8A6B}
 .tl-what{margin-top:4px;font-size:44px;font-weight:800;line-height:1.15;color:#fff}
 .slam{position:absolute;inset:0;z-index:66;opacity:0}
 .slam-dim{position:absolute;inset:0;background:radial-gradient(90% 60% at 50% 45%,#000a,#000d)}
 .slam-words{position:absolute;left:150px;right:150px;top:520px;display:flex;flex-direction:column;gap:4px}
 .slam-words span{display:inline-block;margin-right:.2em;font-size:var(--sf,128px);line-height:1;font-weight:800;letter-spacing:-.035em;text-transform:uppercase;color:#fff;text-shadow:0 6px 40px #000a}
-.slam-words span.hot{color:#FF4422}
+.slam-words span.hot{color:var(--acc)}
 .bug{position:absolute;right:150px;top:372px;z-index:64;display:flex;align-items:stretch;border-radius:14px;overflow:hidden;font-size:30px;font-weight:800;box-shadow:0 8px 24px #0007;opacity:0}
 .bug span{padding:10px 16px;background:#111111e6;color:#fff;letter-spacing:.06em}
 .bug b{padding:10px 16px;background:#F5F0E6;color:#111;font-variant-numeric:tabular-nums}
-.bug b.w{background:#FF4422;color:#fff}
+.bug b.w{background:var(--acc);color:#fff}
 """
 
 RUNTIME = """
@@ -398,8 +449,37 @@ def short_name(name: str) -> str:
     return last[:3].upper()
 
 
-def draw_overlays(overlays: list[dict], clip: dict, T) -> list[str]:
+def decor(theme: dict, duration: float, T) -> list[str]:
+    """The theme's quiet ambient layer: sparkles that twinkle, a chart grid, speed lines."""
+    kind = theme.get("decor") or ""
+    rng = random.Random(len(theme.get("acc", "")) * 7 + int(duration * 10))
+    if kind == "sparkles":
+        out = []
+        for j in range(9):
+            x, y = rng.randint(120, 920), rng.randint(220, 1250)
+            out.append(f'<span class="sp" id="sp{j}" style="left:{x}px;top:{y}px">{themes.sparkle_svg()}</span>')
+            first = round(rng.uniform(0.3, 3.0), 2)
+            T({"sel": f"#sp{j}", "m": "fromTo", "from": {"opacity": 0, "scale": 0.3, "rotation": 0},
+               "to": {"opacity": 0.9, "scale": 1, "rotation": 45, "duration": 0.6, "ease": "power2.out", "yoyo": True,
+                      "repeat": max(1, int((duration - first) / 1.2)), "repeatDelay": round(rng.uniform(0.6, 2.4), 2)}, "at": first})
+        return [f'<div class="decor">{"".join(out)}</div>']
+    if kind == "grid":
+        return ['<div class="decor grid"></div>']
+    if kind == "speed":
+        out = []
+        for j in range(6):
+            y, w = rng.randint(300, 1400), rng.randint(260, 620)
+            out.append(f'<i class="speed" id="spd{j}" style="top:{y}px;width:{w}px;left:-700px"></i>')
+            T({"sel": f"#spd{j}", "m": "fromTo", "from": {"x": 0, "opacity": 0.0}, "to": {"x": 2000, "opacity": 0.55, "duration": 0.55, "ease": "power2.in",
+               "repeat": max(1, int(duration / 4.5)), "repeatDelay": round(rng.uniform(3.2, 4.4), 2)}, "at": round(rng.uniform(0.5, 4.0), 2)})
+        return [f'<div class="decor">{"".join(out)}</div>']
+    return []
+
+
+def draw_overlays(overlays: list[dict], clip: dict, T, theme: dict | None = None, assets: dict | None = None) -> list[str]:
     """The graphics over the picture (media.build_overlays timed them)."""
+    theme = theme or themes.THEMES["default"]
+    assets = assets or {}
     parts = []
     cat = esc(clip.get("category", ""))
     for n, o in enumerate(overlays or []):
@@ -423,8 +503,8 @@ def draw_overlays(overlays: list[dict], clip: dict, T) -> list[str]:
             T(enter)
             T({"sel": f"#{oid} .sb-row", "m": "fromTo", "from": {"x": -60, "opacity": 0}, "to": {"x": 0, "opacity": 1, "duration": 0.4, "ease": "expo.out", "stagger": 0.1}, "at": at + 0.12})
             T({"sel": f"#{oid} .sb-row.win i", "m": "fromTo", "from": {"scaleY": 0}, "to": {"scaleY": 1, "duration": 0.35, "ease": "back.out(2)"}, "at": at + 1.2})
-            T({"sel": f"#{oid} .sb-row.win .sb-pts", "m": "fromTo", "from": {"scale": 1.28, "color": "#FF4422", "transformOrigin": "100% 50%"},
-               "to": {"scale": 1, "color": "#111111", "duration": 0.5, "ease": "expo.out"}, "at": at + 1.2})
+            T({"sel": f"#{oid} .sb-row.win .sb-pts", "m": "fromTo", "from": {"scale": 1.28, "color": theme["acc"], "transformOrigin": "100% 50%"},
+               "to": {"scale": 1, "color": theme["cardink"], "duration": 0.5, "ease": "expo.out"}, "at": at + 1.2})
             T(exit_)
         elif o["kind"] == "compare":
             vals = [_digits(i["value"]) for i in o["items"]]
@@ -485,6 +565,79 @@ def draw_overlays(overlays: list[dict], clip: dict, T) -> list[str]:
             T({"sel": f"#{oid} .slam-words", "m": "fromTo", "from": {"x": -10}, "to": {"x": 0, "duration": 0.45, "ease": "elastic.out(1,0.3)"},
                "at": round(float(said[-1][0]) + 0.1, 3)})
             T({"sel": f"#{oid}", "m": "to", "to": {"opacity": 0, "duration": 0.25, "ease": "power2.in"}, "at": round(end - 0.25, 3)})
+        elif o["kind"] == "chart":
+            pts = o["points"]
+            vals = [_digits(p_["value"]) for p_ in pts]
+            top = max(vals) or 1
+            bars = []
+            for j, (p_, v) in enumerate(zip(pts, vals)):
+                h = max(4, round(78 * v / top))
+                hi = " hi" if j == len(pts) - 1 else ""
+                bars.append(f'<div class="bar{hi}" style="--h:{h}%"><span id="{oid}c{j}">{esc(p_["value"])}</span><b style="height:{h}%"></b><i>{esc(p_["label"])}</i></div>')
+                target = count_target(str(p_["value"]))
+                if target and target[0] >= 2:
+                    T({"sel": f"#{oid}c{j}", "count": {"n": target[0], "dec": target[1], "pre": target[2], "post": target[3], "d": 0.7}, "at": round(at + 0.35 + 0.12 * j, 3)})
+            line = ""
+            if len(pts) >= 3:
+                # In the chart's own pixels (660 x 420, the box inside the card): the line joins the bar tops.
+                n_, gap_ = len(pts), 22
+                bw = (652 - gap_ * (n_ - 1)) / n_
+                coords = [(4 + j * (bw + gap_) + bw / 2, 420 - 420 * 0.78 * v / top) for j, v in enumerate(vals)]
+                dots = "".join(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="9"/>' for x, y in coords)
+                line = (f'<svg viewBox="0 0 660 420" preserveAspectRatio="none"><polyline points="{" ".join(f"{x:.0f},{y:.0f}" for x, y in coords)}" '
+                        f'pathLength="1" style="stroke-dasharray:1;stroke-dashoffset:1"/><g class="dots">{dots}</g></svg>')
+                T({"sel": f"#{oid} polyline", "m": "fromTo", "from": {"strokeDashoffset": 1}, "to": {"strokeDashoffset": 0, "duration": 1.0, "ease": "power2.inOut"}, "at": round(at + 0.9, 3)})
+                T({"sel": f"#{oid} .dots circle", "m": "fromTo", "from": {"opacity": 0}, "to": {"opacity": 1, "duration": 0.2, "stagger": 0.3}, "at": round(at + 0.9, 3)})
+            delta = ""
+            if len(vals) >= 2 and vals[-1] != vals[0]:
+                # The change in the chart's own unit (a rate of 2,4 to 4,2 rose 1,8, not "75 per cent").
+                ch = vals[-1] - vals[0]
+                dec = max((len(str(x["value"]).split(",")[1]) if "," in str(x["value"]) else 0) for x in pts[:1] + pts[-1:])
+                amount = f"{abs(ch):.{min(dec, 2)}f}".replace(".", ",")
+                delta = f'<div class="delta{" down" if ch < 0 else ""}">{"▲" if ch > 0 else "▼"} {amount} nga {esc(pts[0]["label"])}</div>'
+            parts.append(f'<div class="ov" id="{oid}"><div class="card"><div class="label"><i></i>{esc(o.get("label", ""))}</div>'
+                         f'<div class="chartbox">{"".join(bars)}{line}</div>{delta}</div></div>')
+            T(enter)
+            T({"sel": f"#{oid} .bar b", "m": "fromTo", "from": {"scaleY": 0}, "to": {"scaleY": 1, "duration": 0.7, "ease": "power3.out", "stagger": 0.12}, "at": at + 0.3})
+            T({"sel": f"#{oid} .bar span", "m": "fromTo", "from": {"opacity": 0, "y": 20}, "to": {"opacity": 1, "y": 0, "duration": 0.3, "stagger": 0.12}, "at": at + 0.45})
+            if delta:
+                T({"sel": f"#{oid} .delta", "m": "fromTo", "from": {"scale": 0.6, "opacity": 0}, "to": {"scale": 1, "opacity": 1, "duration": 0.4, "ease": "back.out(2.2)"}, "at": round(at + 1.3, 3)})
+            T(exit_)
+        elif o["kind"] == "ranking":
+            rows = "".join(f'<div class="row" id="{oid}r{j}"><span class="pos">{j + 1}</span><span class="nm">{esc(r_["name"])}</span>'
+                           f'<span class="val">{esc(r_.get("value", ""))}</span></div>' for j, r_ in enumerate(o["rows"]))
+            style = " f1" if clip.get("theme") == "f1" else ""
+            parts.append(f'<div class="ov" id="{oid}"><div class="card"><div class="label"><i></i>{esc(o.get("label", ""))}</div>'
+                         f'<div class="rank{style}">{rows}</div></div></div>')
+            T(enter)
+            T({"sel": f"#{oid} .row", "m": "fromTo", "from": {"x": -80, "opacity": 0}, "to": {"x": 0, "opacity": 1, "duration": 0.4, "ease": "expo.out", "stagger": 0.14}, "at": at + 0.2})
+            T({"sel": f"#{oid} .pos", "m": "fromTo", "from": {"scale": 0.4}, "to": {"scale": 1, "duration": 0.35, "ease": "back.out(2.6)", "stagger": 0.14}, "at": at + 0.3})
+            T(exit_)
+        elif o["kind"] == "profile":
+            img = assets.get(o.get("photo", ""), "")
+            ring = '<i class="ring"></i>' if clip.get("theme") == "showbiz" else ""
+            role = f'<span class="rl">{esc(o["role"])}</span>' if o.get("role") else ""
+            parts.append(f'<div class="profile" id="{oid}">{ring}<div class="ph"><img src="{esc(img)}" alt=""></div>'
+                         f'<div class="nm">{esc(o["name"])}</div>{role}</div>')
+            T({"sel": f"#{oid}", "m": "set", "to": {"opacity": 1}, "at": at})
+            T({"sel": f"#{oid} .ph", "m": "fromTo", "from": {"scale": 0.6, "opacity": 0}, "to": {"scale": 1, "opacity": 1, "duration": 0.55, "ease": "back.out(1.8)"}, "at": at})
+            T({"sel": f"#{oid} .ph img", "m": "fromTo", "from": {"scale": 1.2}, "to": {"scale": 1.0, "duration": round(o["len"], 3), "ease": "none"}, "at": at})
+            if ring:
+                T({"sel": f"#{oid} .ring", "m": "fromTo", "from": {"rotation": 0, "scale": 0.8, "opacity": 0}, "to": {"rotation": 90, "scale": 1.12, "opacity": 0.9, "duration": round(o["len"], 3), "ease": "none"}, "at": at})
+            T({"sel": f"#{oid} .nm", "m": "fromTo", "from": {"y": 40, "opacity": 0}, "to": {"y": 0, "opacity": 1, "duration": 0.4, "ease": "expo.out"}, "at": at + 0.25})
+            T({"sel": f"#{oid} .rl", "m": "fromTo", "from": {"scale": 0.7, "opacity": 0}, "to": {"scale": 1, "opacity": 1, "duration": 0.35, "ease": "back.out(2)"}, "at": at + 0.45})
+            T({"sel": f"#{oid}", "m": "to", "to": {"opacity": 0, "scale": 0.96, "duration": 0.28, "ease": "power2.in"}, "at": round(end - 0.28, 3)})
+        elif o["kind"] == "keyline":
+            words_ = str(o["text"]).split()
+            longest = max((len(w) for w in words_), default=1)
+            kf = max(70, min(118, int(780 / (0.66 * longest))))
+            spans = "".join(f"<span>{esc(w)}</span>" for w in words_)
+            parts.append(f'<div class="keyline" id="{oid}"><div class="kk">{esc(theme.get("kicker") or clip.get("category", ""))}</div>'
+                         f'<div class="kl" style="--kf:{kf}px">{spans}</div><u></u></div>')
+            T({"sel": f"#{oid}", "m": "set", "to": {"opacity": 1}, "at": at})
+            T({"sel": f"#{oid} .kl span", "m": "fromTo", "from": {"y": 70, "opacity": 0, "rotation": 4}, "to": {"y": 0, "opacity": 1, "rotation": 0, "duration": 0.45, "ease": "expo.out", "stagger": 0.08}, "at": at + 0.05})
+            T({"sel": f"#{oid} u", "m": "fromTo", "from": {"scaleX": 0}, "to": {"scaleX": 1, "duration": 0.5, "ease": "power3.out"}, "at": round(at + 0.2 + 0.08 * len(words_), 3)})
+            T({"sel": f"#{oid}", "m": "to", "to": {"opacity": 0, "y": -30, "duration": 0.28, "ease": "power2.in"}, "at": round(end - 0.28, 3)})
         elif o["kind"] == "bug":
             a, b = o["teams"][0], o["teams"][1]
             sa, sb = _digits(a["score"]), _digits(b["score"])
@@ -500,6 +653,7 @@ def compose(clip: dict, beats: list[dict], cues: dict, look: dict, assets: dict[
     duration = round(clip["duration"] + TAIL, 3)
     words = clip.get("words") or []
     color = clip.get("color") or "#FF4422"
+    theme = themes.THEMES.get(clip.get("theme") or "default", themes.THEMES["default"])
     tweens: list[dict] = []
     T = tweens.append
     parts: list[str] = []
@@ -614,7 +768,7 @@ def compose(clip: dict, beats: list[dict], cues: dict, look: dict, assets: dict[
             T({"sel": f"#f{k}", "m": "to", "to": {"opacity": 0, "duration": 0.32, "ease": "power2.out"}, "at": start})
             T({"sel": sel, "m": "set", "to": {"opacity": 1}, "at": start})
         elif move == "wipe":
-            parts.append(f'<div class="wipe" id="w{k}"></div>')
+            parts.append(f'<div class="{themes.wipe_class(theme)}" id="w{k}"></div>')
             # (No transform in its CSS: GSAP would fold it into its own and park the bar on screen.)
             T({"sel": f"#w{k}", "m": "fromTo", "from": {"xPercent": -110, "opacity": 1}, "to": {"xPercent": 110, "duration": 0.6, "ease": "power3.inOut"}, "at": start - 0.3})
             T({"sel": sel, "m": "fromTo", "from": {"opacity": 1, "clipPath": "inset(0% 100% 0% 0%)"},
@@ -623,7 +777,7 @@ def compose(clip: dict, beats: list[dict], cues: dict, look: dict, assets: dict[
         if k:
             T({"sel": f"#b{k - 1}", "m": "set", "to": {"opacity": 0}, "at": round(start + 0.62, 3)})
 
-    parts += draw_overlays(overlays or [], clip, T)
+    parts += draw_overlays(overlays or [], clip, T, theme, assets)
 
     for n, bn in enumerate(cues["burns"]):
         parts.append(f'<video class="burn" id="burn{n}" src="{esc(bn["file"])}" muted playsinline data-start="{bn["start"]}" '
@@ -632,7 +786,20 @@ def compose(clip: dict, beats: list[dict], cues: dict, look: dict, assets: dict[
     # The opening frame: the section and the headline, gone once the pictures take over.
     hook_until = min(3.2, beats[1]["at"] - 0.15 if len(beats) > 1 else 3.2, duration - 0.5)
     title_words = "".join(f"<span>{esc(w)}</span>" for w in str(clip.get("title", "")).split()[:16])
-    parts.append(f'<div class="hook" id="hook"><div class="label"><i></i>{esc(clip.get("category", ""))}</div><h1>{title_words}</h1></div>')
+    # The theme's kicker (icon + word) over the headline; Kosovo and Albania draw their outline behind it.
+    kick = theme.get("kicker") or clip.get("category", "")
+    ic = themes.icon(theme)
+    kicker = (f'<div class="label kicker"><span class="ic">{ic}</span>{esc(kick)}</div>' if ic
+              else f'<div class="label"><i></i>{esc(kick)}</div>')
+    if theme.get("icon") in themes.OUTLINES:
+        parts.append(f'<div class="outline" id="outline"><svg viewBox="0 0 100 100"><path d="{themes.outline_path(theme["icon"])}" pathLength="1" '
+                     f'style="stroke-dasharray:1;stroke-dashoffset:1"/></svg></div>')
+        T({"sel": "#outline", "m": "fromTo", "from": {"opacity": 0, "scale": 0.92}, "to": {"opacity": 1, "scale": 1, "duration": 0.6, "ease": "expo.out"}, "at": 0.0})
+        T({"sel": "#outline path", "m": "fromTo", "from": {"strokeDashoffset": 1}, "to": {"strokeDashoffset": 0, "duration": 1.4, "ease": "power2.out"}, "at": 0.05})
+        T({"sel": "#outline", "m": "to", "to": {"opacity": 0, "duration": 0.35}, "at": round(max(0.8, hook_until - 0.1), 3)})
+    parts.append(f'<div class="hook" id="hook">{kicker}<h1>{title_words}</h1></div>')
+    parts += decor(theme, duration, T)
+    T({"sel": "#hook .ic", "m": "fromTo", "from": {"scale": 0.4, "rotation": -20}, "to": {"scale": 1, "rotation": 0, "duration": 0.5, "ease": "back.out(2.4)"}, "at": 0.1})
     T({"sel": "#hook .label", "m": "fromTo", "from": {"x": -40, "opacity": 0}, "to": {"x": 0, "opacity": 1, "duration": 0.4, "ease": "expo.out"}, "at": 0.05})
     T({"sel": "#hook h1 span", "m": "fromTo", "from": {"y": 60, "opacity": 0},
        "to": {"y": 0, "opacity": 1, "duration": 0.5, "ease": "expo.out", "stagger": 0.035}, "at": 0.12})
@@ -672,8 +839,8 @@ def compose(clip: dict, beats: list[dict], cues: dict, look: dict, assets: dict[
                     T({"sel": f"#c{n}", "m": "to", "to": {"opacity": 1, "duration": 0.15}, "at": round(e, 3)})
 
     plan = json.dumps({"tweens": tweens}, ensure_ascii=False).replace("</", "<\\/")
-    return (f'<!doctype html><html><head><meta charset="utf-8"><style>{STYLE}</style></head><body>'
-            f'<div id="root" data-composition-id="root" data-start="0" data-duration="{duration}" data-width="{W}" data-height="{H}">'
+    return (f'<!doctype html><html><head><meta charset="utf-8"><style>{STYLE}{themes.STYLE}</style></head><body>'
+            f'<div id="root" style="{themes.variables(theme)}" data-composition-id="root" data-start="0" data-duration="{duration}" data-width="{W}" data-height="{H}">'
             f'{"".join(parts)}<div class="shade-top"></div><div class="shade-bottom"></div>'
             f'<script src="js/gsap.min.js"></script><script>window.PLAN={plan};</script><script>{RUNTIME}</script>'
             f'</div></body></html>')
@@ -688,9 +855,18 @@ def run(args: list[str], timeout: int = 600) -> str:
     return done.stdout + done.stderr
 
 
+def gain(s: dict, voice_lufs: float) -> float:
+    """The volume change that puts this effect s["db"] under the voice, whatever its file's own loudness."""
+    own = s.get("lufs")
+    if own is None:
+        own = -14.0  # unmeasured: treat it as an average file
+    return max(-45.0, min(18.0, voice_lufs + s["db"] - own))
+
+
 def mix(voice: Path, cues: dict, duration: float, out: Path, root: Path) -> None:
     """Voice + bed (ducking under the voice) + effects, at -14 LUFS, 48 kHz stereo."""
     total = round(duration + TAIL, 3)
+    voice_lufs = loudness(voice) or -18.0
     args = ["ffmpeg", "-v", "error", "-y", "-i", str(voice)]
     graph = ["[0:a]aresample=48000,aformat=channel_layouts=stereo,highpass=f=80,equalizer=f=500:t=q:w=1:g=-2,"
              "equalizer=f=3200:t=q:w=1:g=2.5,acompressor=threshold=-24dB:ratio=3:attack=4:release=60:makeup=3,"
@@ -710,7 +886,7 @@ def mix(voice: Path, cues: dict, duration: float, out: Path, root: Path) -> None
     for s in cues.get("sfx", []):
         args += ["-i", str(root / s["file"])]
         ms = int(round(s["at"] * 1000))
-        graph.append(f"[{n}:a]aresample=48000,aformat=channel_layouts=stereo,volume={s['db']}dB,adelay={ms}|{ms}[s{n}]")
+        graph.append(f"[{n}:a]aresample=48000,aformat=channel_layouts=stereo,volume={gain(s, voice_lufs):.1f}dB,adelay={ms}|{ms}[s{n}]")
         fx.append(f"[s{n}]")
         n += 1
     if fx:
@@ -796,6 +972,7 @@ def frame_score(path: Path) -> float:
 
 
 def thumbnail(work: Path, clip: dict, keep: list[dict], meta: dict, assets: dict) -> Path | None:
+    theme = themes.THEMES.get(clip.get("theme") or meta.get("theme") or "default", themes.THEMES["default"])
     """thumb.jpg (540x960) in work/, or None (the site then shows the story's photo)."""
     cands: list[Path] = []
     for n, b in enumerate(keep):
@@ -825,9 +1002,9 @@ def thumbnail(work: Path, clip: dict, keep: list[dict], meta: dict, assets: dict
     fs = min(fs, int(436 / (0.7 * max((len(w) for w in words.split()), default=1))))
     page = work / "thumb.html"
     img = f'<img src="{esc(best.name)}" alt="">' if best else ""
-    page.write_text(f'<!doctype html><html><head><meta charset="utf-8"><style>{THUMB_STYLE}</style></head><body>'
+    page.write_text(f'<!doctype html><html><head><meta charset="utf-8"><style>{THUMB_STYLE.replace("#FF4422", theme["acc"])}</style></head><body>'
                     f'<div class="t" style="background:radial-gradient(120% 80% at 50% 30%,#FF4422 0%,#111 70%)">{img}<div class="top"></div><div class="bot"></div>'
-                    f'<div class="lab"><i></i>{esc(clip.get("category", ""))}</div><h1 style="--fs:{fs}px">{cover_words(words)}</h1></div></body></html>',
+                    f'<div class="lab"><i></i>{esc(theme.get("kicker") or clip.get("category", ""))}</div><h1 style="--fs:{fs}px">{cover_words(words)}</h1></div></body></html>',
                     encoding="utf-8")
     png, jpg = work / "thumb.png", work / "thumb.jpg"
     try:
@@ -916,8 +1093,17 @@ def finish(work: Path, slug: str, clip: dict, keep: list[dict], meta: dict, asse
         if b["kind"] == "photo" and local.is_file() and not local.with_name(local.stem + "-bd.jpg").exists():
             blur_copy(local)
     words = clip.get("words") or []
+    clip = {**clip, "theme": meta.get("theme") or themes.theme_for(clip.get("category", ""), f'{clip.get("title", "")} {clip.get("script", "")}')}
+    meta = {**meta, "theme": clip["theme"]}
+    for g in meta.get("graphics") or []:
+        # A person's photo for their card: fetched like the beats' photos.
+        src = g.get("photo") or ""
+        if src and src not in assets:
+            local = work / f"prof{abs(hash(src)) % 10**6}.jpg"
+            if fetch(src, local):
+                assets[src] = local.name
     climax = _word_at(words, meta.get("climax", "")) if meta.get("climax") else None
-    overlays = media.build_overlays(keep, clip["duration"], words, meta.get("graphics") or [], climax)
+    overlays = media.build_overlays(keep, clip["duration"], words, meta.get("graphics") or [], climax, meta.get("cover", ""))
     cues = build_cues(keep, clip["duration"], words, meta, lib, slug, overlays)
     (work / "index.html").write_text(compose(clip, keep, cues, meta, assets, overlays), encoding="utf-8")
     voice = work / "voice.mp3"
@@ -942,8 +1128,8 @@ def finish(work: Path, slug: str, clip: dict, keep: list[dict], meta: dict, asse
     if why:
         print(f"EDITION {slug}: render not published ({why})", file=sys.stderr)
         return None
-    made = {"hd": hd, "sd": sd, "poster": poster, "cues": cues, "beats": keep, "overlays": overlays}
-    thumb = thumbnail(work, clip, keep, meta, assets)
+    made = {"hd": hd, "sd": sd, "poster": poster, "cues": cues, "beats": keep, "overlays": overlays, "theme": clip["theme"]}
+    thumb = thumbnail(work, clip, keep, meta, assets)  # (clip carries its theme)
     if thumb:
         made["thumb"] = thumb
     return made

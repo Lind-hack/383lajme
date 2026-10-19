@@ -58,7 +58,7 @@ KEEP_AUDIO = timedelta(days=3)
 BUDGET = 35 * 60  # seconds of rendering a run starts new clips in
 MIN_WORDS, MAX_WORDS = 30, 110
 # Bumped when a clip is made differently: every story is made again once.
-CLIP_VERSION = "7"
+CLIP_VERSION = "8"
 KOSOVO = ZoneInfo("Europe/Belgrade")  # the host has no Europe/Pristina; same clock
 
 SITE = os.environ.get("SITE_URL", "https://383ks.com").rstrip("/")
@@ -120,8 +120,9 @@ For every story also say what the clip can show while the voice reads:
 - "sources": up to 4 names of official channels that may have posted their own video of it: the
   people or institutions themselves (governments, ministries, police, fire services, parties,
   leagues, federations, clubs, companies). Never a news outlet.
-- "graphics": up to 4 on-screen graphics made for THIS story, the ones that make it clearer (none
-  is fine). Each is one of:
+- "graphics": 2 to 4 on-screen graphics made for THIS story, the ones that make it clearer and
+  fit its kind: a match gets its score and its players; an economy story a chart; a race or a
+  league its standings; a celebrity or a politician their name card. Each is one of:
   {"type": "score", "teams": [{"name": "Ylli", "score": "100"}, {"name": "Vëllaznimi", "score": "86"}],
    "note": "Superliga, java 3"}: the result of a match (sport only; the team names as the story writes
    them, short; the note 2 to 6 words or "");
@@ -132,7 +133,13 @@ For every story also say what the clip can show while the voice reads:
    script names someone (the name exactly as your script says it, role 2 to 6 words), at most 2;
   {"type": "timeline", "steps": [{"when": "Çereku i dytë", "what": "Ylli kalon përpara"}, ...]}: 2 to 4
    steps in order, when the story is a sequence of moments (when 1 to 3 words, what 2 to 6 words).
-  Every number in a graphic must be in the story and in your script; every name must be in the story.
+  {"type": "chart", "label": "inflacioni në Kosovë", "points": [{"label": "2024", "value": "3,1"},
+   {"label": "2025", "value": "4,2"}]}: 2 to 6 values of one thing over time or side by side (economy,
+   prices, votes, polls; label 2 to 8 words, each point label 1 to 3 words, each value a number);
+  {"type": "ranking", "label": "renditja e pilotëve", "rows": [{"name": "Verstappen", "value": "331 pikë"},
+   ...]}: 3 to 5 rows of a standings table or a top list, in order (sport tables, races, charts);
+  Every number in a graphic must be in the story (and, for a score, compare or person, in your
+  script); every name must be in the story.
 
 And how the clip should feel, the way a good short-form editor would cut it:
 - "mood": the story's tone, one of "tense" (war, protests, crime, disasters, deaths), "serious"
@@ -427,6 +434,21 @@ def check_graphics(graphics: list[dict], script: str, story: dict) -> list[dict]
             if 2 <= len(name.split()) <= 4 and len(name) <= 32 and _named(name, low) and flat(name.split()[-1])[:4] in flat(script) \
                     and all(number_ok(n) for n in numbers_in(role)):
                 out.append({"type": "person", "name": name, "role": role})
+        elif kind == "chart":
+            pts = [x for x in g.get("points") or [] if isinstance(x, dict)]
+            label = _short(g.get("label"), (2, 8))
+            clean = [{"label": _short(x.get("label"), (1, 3), 16), "value": str(x.get("value") or "").strip()} for x in pts]
+            if (label and 2 <= len(clean) <= 6
+                    and all(c["label"] and numbers_in(c["value"]) and numbers_in(c["value"]) <= source and len(c["value"]) <= 12 for c in clean)
+                    and numbers_in(" ".join(c["label"] for c in clean)) <= source):
+                out.append({"type": "chart", "label": label, "points": clean})
+        elif kind == "ranking":
+            rows = [x for x in g.get("rows") or [] if isinstance(x, dict)]
+            label = _short(g.get("label"), (2, 8))
+            clean = [{"name": re.sub(r"\s+", " ", str(x.get("name") or "")).strip()[:28], "value": str(x.get("value") or "").strip()[:14]} for x in rows]
+            if (label and 3 <= len(clean) <= 5 and all(c["name"] and _named(c["name"], low) for c in clean)
+                    and all(not c["value"] or (numbers_in(c["value"]) and numbers_in(c["value"]) <= source) for c in clean)):
+                out.append({"type": "ranking", "label": label, "rows": clean})
         elif kind == "timeline":
             steps = [s for s in g.get("steps") or [] if isinstance(s, dict)]
             clean = [{"when": _short(s.get("when"), (1, 3), 22), "what": _short(s.get("what"), (2, 6), 44)} for s in steps]
@@ -466,6 +488,24 @@ def fallback_cover(story: dict, look: dict) -> str:
             break
         out.append(w)
     return " ".join(out)
+
+
+UNITS = r"(?:mijë|milion[ëe]?|miliard[ëe]?|për qind|euro|dollarë|dollar|vjet|vite|ditë|orë|muaj|vende|veta|persona|banorë|pikë|gola|minuta|kilometra|metra|ushtarë|të vdekur|të plagosur)"
+
+
+def auto_facts(script: str, story: dict) -> list[dict]:
+    """Up to two of the script's numbers with their unit ("40 mijë veta"), each with the few words
+    after it as its label: number cards for a clip whose writer gave none (out of quota)."""
+    out = []
+    for sentence in re.split(r"(?<=[.!?])\s+", script):
+        for m_ in re.finditer(r"(\d[\d.,]*\s+" + UNITS + r")\s+((?:[\wçëÇË-]+\s*){2,6})", sentence):
+            value = m_.group(1).strip()
+            label = " ".join(re.sub(r"[,.;:!?]", "", m_.group(2)).split()[:6])
+            if len(value) <= 16 and 2 <= len(label.split()):
+                out.append({"value": value, "label": label})
+        if len(out) >= 2:
+            break
+    return check_facts(out[:2], script, story)
 
 
 def check_feel(w: dict, script: str) -> dict:
@@ -726,6 +766,13 @@ def make_clip(story: dict, script: str, how: str, look: dict, picked: list[dict]
                                            [re.sub(r"\s*\(.*?\)", "", t) for t in look.get("subjects", [])])
         except Exception as exc:  # a footage source misbehaving must not stop the clip
             print(f"EDITION {story['slug']}: footage failed ({exc!r})", file=sys.stderr)
+    # A person on screen gets their own photo on their card (their Wikipedia photo, found above).
+    for g in look.get("graphics", []):
+        if g.get("type") == "person":
+            last = media.norm(g["name"].split()[-1])[:5]
+            mine = next((p_ for p_ in photos if p_.get("who") and media.norm(p_["who"].split()[-1])[:5] == last), None)
+            if mine:
+                g["photo"] = mine["src"]
     # A score shown as a scoreboard is not shown again as a number card; a game with its own
     # footage needs no map of the town.
     shown = {n for g in look.get("graphics", []) if g["type"] == "score" for t in g["teams"] for n in numbers_in(t["score"])}
@@ -755,6 +802,7 @@ def make_clip(story: dict, script: str, how: str, look: dict, picked: list[dict]
                 clip["beats"] = made["beats"]
                 clip["mood"] = made["cues"].get("music", "")
                 clip["graphics"] = [o["kind"] for o in made.get("overlays") or []]
+                clip["theme"] = made.get("theme", "")
     return clip
 
 
@@ -807,7 +855,8 @@ def report(made: list[tuple[dict, dict]], edition: dict, now: datetime) -> None:
         what = [f"{secs // 60}:{secs % 60:02d}", entry.get("category") or ""]
         what.append(f"{clip.get('footage', 0)} pjesë video" if clip.get("footage") else "pa video të ngjarjes")
         if clip.get("graphics"):
-            names = {"score": "rezultati", "compare": "krahasim", "person": "emër", "timeline": "kronologji", "slam": "kulmi"}
+            names = {"score": "rezultati", "compare": "krahasim", "person": "emër", "timeline": "kronologji", "slam": "kulmi",
+                     "chart": "grafik", "ranking": "renditje", "profile": "kartë personi", "keyline": "fjalia kyçe"}
             what.append("grafika: " + ", ".join(dict.fromkeys(names.get(g, g) for g in clip["graphics"] if g != "bug")))
         state = "" if video else '<p style="margin:6px 0 0;color:#B42318;font-weight:700">Pa video të renderuar: në faqe del me zë dhe foto.</p>'
         img = (f'<a href="{html_escape(page)}"><img src="{html_escape(thumb)}" width="135" height="240" alt="" '
@@ -917,7 +966,7 @@ def main(dry_run: bool = False, only: str = "", force: bool = False, keep: str =
             looks[s["slug"]] = look = {
                 "script": script, "how": how,
                 "subjects": w.get("subjects", []), "place": w.get("place", ""), "place_name": w.get("place_name", ""),
-                "facts": check_facts(w.get("facts", []), script, s), "quote": check_quote(w.get("quote"), s),
+                "facts": check_facts(w.get("facts", []), script, s) or auto_facts(script, s), "quote": check_quote(w.get("quote"), s),
                 "graphics": check_graphics(w.get("graphics", []), script, s) if how == "model" else [],
                 "cover": check_cover(w.get("cover", ""), s),
                 **(check_feel(w, script) if how == "model" else {"mood": w.get("mood") if w.get("mood") in render.MOODS else ""}),
