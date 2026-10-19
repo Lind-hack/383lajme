@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
-      - name: Deliver confirmed subscribers in small, resumable batches
+      - name: Deliver active subscribers in small, resumable batches
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           # Explicitly configured production origin; no automatic host switching.

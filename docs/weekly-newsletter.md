@@ -18,9 +18,9 @@ remain compatible. GET links cannot unsubscribe readers; the utility page requir
 
 Sunday at **18:00 Europe/Tirane (Kosovo)**. Each issue covers the previous Sunday
 18:00 through this Sunday 18:00, accounting for DST. It ranks the entire persisted
-`news_articles` archive for that interval by engagement score, deduplicates slugs and
+`news_articles` archive for that interval by editorial featured status, engagement score and recency, deduplicates slugs and
 normalised titles, and gives different categories space in the lead selection.
-Up to eight stories form a numbered reading sequence with category labels. Each
+Up to eight stories are grouped under clear category headings in both HTML and plain text. Each
 represented category receives a slot before remaining slots are filled. Every selected
 story has its own valid HTTPS article photo, a short published summary, source and
 full-story link. Candidates missing a real image or reporting text are skipped rather
@@ -32,8 +32,9 @@ no generated reporting, mock fallback, or dependency on an LLM. An empty archive
 skips sending rather than inventing a recap. Content is frozen in `newsletter_issues`
 before delivery, so later retries use the same edition.
 
-The GitHub workflow checks every 15 minutes during Sunday evening/Monday retry
-hours; GitHub can delay cron, so delivery is approximate. The endpoint enforces
+The primary server calendar timer starts Sunday at 18:00 Europe/Tirane and retries
+every 15 minutes through Monday 13:45 local time. The existing GitHub schedule is a
+backup: both call the same idempotent endpoint, so overlap cannot duplicate a delivery. The endpoint enforces
 the local cutoff and stops after 20 hours. Up to five recipients per request;
 workflow runs process up to 12 requests and resume on the next scheduled run.
 This bounds serverless execution time. Larger lists may need a dedicated queue
@@ -190,3 +191,46 @@ The worker rechecks the issue cutoff immediately before SMTP, in addition to its
 New weekly snapshots contain photos and credits. Existing frozen editions remain unchanged,
 including already queued payloads; never rewrite a sent issue to retrofit its design.
 Email HTML has a plain-text alternative and is kept below 80 KB in release verification.
+
+
+## Verified audit — 19 October 2026
+
+The audit found scheduled GitHub runs but no weekly delivery receipts: the only reader
+joined after 18 October's cutoff. That reader's first eligible edition is 25 October,
+18:00 Kosovo / 17:00 UTC. Do not describe zero-recipient workflow success as inbox delivery.
+
+`383-weekly-newsletter.timer` is installed on the existing private server. Its
+`Europe/Tirane` calendar handles DST; the 25 October transition was checked using
+`systemd-analyze calendar`. `Persistent=true` catches a missed wakeup; the endpoint's
+20-hour gate prevents late midweek mail. GitHub remains backup. Manual execution
+reached production and returned `outside_weekly_window` on Monday evening.
+
+Install `run_weekly_newsletter.py` under `/opt/383-newsletter`, put `SITE_URL` and the
+existing automation credential (`CRON_SECRET`) in `/etc/383-newsletter-schedule.json`
+(root:newsletter,0640), then run `scripts/install-weekly-newsletter-timer.sh` as root.
+The request uses an explicit scheduler User-Agent; the server's default Python agent
+was rejected with HTTP403. Redirects are refused so the authorization header cannot
+be forwarded to another host. Logs contain counts and HTTP status, not credentials.
+
+`NEWSLETTER_MAIL_PROVIDER=gmail` uses the previously approved Gmail sender as the
+primary private queue transport, with `NEWSLETTER_SMTP_QUEUE=1`. It contacts no Resend
+API. `resend` remains the default when the variable is absent, with the existing
+quota-only Gmail fallback. Never switch an uncertain in-flight send to another provider.
+Queued is not sent: the worker writes the receipt only after SMTP acceptance.
+
+A new categorized preview was received in the approved Gmail inbox on 19 October
+(message `1a155d1fbdeb0b4f`), using the installed worker's actual SMTP transport.
+Inspection verified seven category headings, eight images from website article records,
+summaries, photo credits, plain-text categories and unsubscribe. Desktop and 390px preview
+had no horizontal overflow and all eight photos loaded. The preview is not a scheduled
+weekly-delivery receipt; recurring delivery still depends on server/provider availability.
+
+A further controlled test exercised the real production database claim, encrypted
+queue, worker and weekly receipt. The message reached Gmail (message
+`1a155de63b069a6c`), and the synthetic issue/queue/delivery fixtures were removed.
+Subscriber consent and activation time were unchanged. This verifies the delivery
+pipeline while preserving the distinction between a test and an actual Sunday issue.
+
+The selection is an editorial heuristic, not a claim that every important world event
+is included: it uses featured status, popularity, category diversity and the published
+weekly archive. Unpublished events and articles without usable photos/text cannot appear.

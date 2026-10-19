@@ -203,8 +203,8 @@ export default function PrivatesiaPage() {
               Hosting. Shërben faqen dhe mban regjistrat teknikë të serverit.
             </Row>
             <Row label="Resend dhe Gmail — përmbledhja javore">
-              Resend dërgon përmbledhjen e së dielës. Nëse kufiri ditor
-              i tij është arritur, përdorim Gmail si rrugë rezervë. Ofruesi merr adresën e emailit
+              Përmbledhjen javore e dërgojmë përmes Gmail. Resend mbetet ofrues alternativ
+              që mund të përdoret sipas konfigurimit të shërbimit. Ofruesi merr adresën e emailit
               dhe përmbajtjen e mesazhit. Nuk shtojmë pikselë matës në përmbledhje; matjen e
               hapjeve dhe klikimeve e mbajmë të çaktivizuar edhe te ofruesi i emailit.
             </Row>

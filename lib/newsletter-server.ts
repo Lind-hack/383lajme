@@ -16,8 +16,10 @@ export function newsletterConfig() {
   const from = process.env.NEWSLETTER_FROM || '';
   const origin = new URL(process.env.NEWSLETTER_SITE_URL || 'https://383ks.com');
   if (origin.protocol !== 'https:' && !(process.env.NODE_ENV !== 'production' && ['localhost', '127.0.0.1'].includes(origin.hostname))) throw new Error('Newsletter requires HTTPS');
-  if (!key || !from || /[\r\n]/.test(from)) throw new Error('Newsletter email configuration missing');
-  return { ...storage, key, from, origin: origin.origin, queueEnabled: process.env.NEWSLETTER_SMTP_QUEUE === '1' };
+  const provider = process.env.NEWSLETTER_MAIL_PROVIDER || 'resend';
+  if (!['resend', 'gmail'].includes(provider) || (provider === 'gmail' && process.env.NEWSLETTER_SMTP_QUEUE !== '1')) throw new Error('Newsletter provider configuration missing');
+  if ((provider === 'resend' && !key) || !from || /[\r\n]/.test(from)) throw new Error('Newsletter email configuration missing');
+  return { ...storage, key, from, provider, origin: origin.origin, queueEnabled: process.env.NEWSLETTER_SMTP_QUEUE === '1' };
 }
 export class NewsletterRateLimitError extends Error {}
 export const tokenHash = (token: string) => createHash('sha256').update(token).digest('hex');
@@ -27,6 +29,19 @@ class DeliveryError extends Error {
 }
 async function sendEmail(config: ReturnType<typeof newsletterConfig>, to: string, message: EmailMessage, idempotencyKey: string, unsubscribe?: string, delivery?: { subscriberId: string; issueId?: string; claimToken?: string; confirmationHash?: string; expiresAt: string }) {
   const headers = unsubscribe ? { 'List-Unsubscribe': `<${unsubscribe}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } : {};
+  const queueMail = async () => {
+    if (!delivery) throw new Error('newsletter_queue_context_missing');
+    const id = createHash('sha256').update(idempotencyKey).digest('hex');
+    const queued = await config.admin.rpc('enqueue_newsletter_mail', {
+      p_id: id, p_subscriber_id: delivery.subscriberId, p_issue_id: delivery.issueId || null,
+      p_claim_token: delivery.claimToken || null, p_confirmation_hash: delivery.confirmationHash || null,
+      p_expires_at: delivery.expiresAt,
+      p_payload: encryptNewsletterMail({ to, ...message, headers }, config.secret, id),
+    });
+    if (queued.error || queued.data !== true) throw new Error('newsletter_queue_unavailable');
+    return 'queue:' + id;
+  };
+  if (config.provider === 'gmail') return queueMail();
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST', signal: AbortSignal.timeout(8_000),
     headers: { Authorization: `Bearer ${config.key}`, 'Content-Type': 'application/json', 'Idempotency-Key': idempotencyKey },
@@ -38,15 +53,7 @@ async function sendEmail(config: ReturnType<typeof newsletterConfig>, to: string
     // Only a definite quota rejection is safe to reroute. An uncertain Resend
     // timeout must retry its idempotency key, never send through a second provider.
     if (response.status !== 429 || data.name !== 'daily_quota_exceeded' || !config.queueEnabled || !delivery) throw new DeliveryError(response.status);
-    const id = createHash('sha256').update(idempotencyKey).digest('hex');
-    const queued = await config.admin.rpc('enqueue_newsletter_mail', {
-      p_id: id, p_subscriber_id: delivery.subscriberId, p_issue_id: delivery.issueId || null,
-      p_claim_token: delivery.claimToken || null, p_confirmation_hash: delivery.confirmationHash || null,
-      p_expires_at: delivery.expiresAt,
-      p_payload: encryptNewsletterMail({ to, ...message, headers }, config.secret, id),
-    });
-    if (queued.error || queued.data !== true) throw new Error('newsletter_queue_unavailable');
-    return 'queue:' + id;
+    return queueMail();
   }
   if (typeof data.id !== 'string') throw new Error('email_provider_invalid_receipt');
   return data.id as string;
@@ -68,7 +75,7 @@ async function loadIssue(config: ReturnType<typeof newsletterConfig>, window: Re
   // Paginate the full week instead of taking only the most recent stories.
   for (let page = 0; page <= 10; page++) {
     const { data, error } = await config.admin.from('news_articles')
-      .select('id,slug,title,excerpt,body,source,category,published_at,engagement_score,image_url,image_caption:raw_article->>image_caption,image_rights:raw_article->image_rights')
+      .select('id,slug,title,excerpt,body,source,category,published_at,featured,engagement_score,image_url,image_caption:raw_article->>image_caption,image_rights:raw_article->image_rights')
       .gt('published_at', window.start).lte('published_at', window.end)
       .order('published_at').order('id').range(page * 1000, page * 1000 + 999);
     if (error) throw new Error('newsletter_archive_unavailable');

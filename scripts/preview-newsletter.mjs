@@ -9,7 +9,7 @@ const admin = createClient(input.NEXT_PUBLIC_SUPABASE_URL, input.SUPABASE_SERVIC
 const window = weeklyWindow();
 const articles = [];
 for (let page = 0; page < 11; page++) {
-  const { data, error } = await admin.from('news_articles').select('slug,title,excerpt,body,source,category,published_at,engagement_score,image_url,image_caption:raw_article->>image_caption,image_rights:raw_article->image_rights')
+  const { data, error } = await admin.from('news_articles').select('slug,title,excerpt,body,source,category,published_at,featured,engagement_score,image_url,image_caption:raw_article->>image_caption,image_rights:raw_article->image_rights')
     .gt('published_at', window.start).lte('published_at', window.end).order('published_at').order('id').range(page * 1000, page * 1000 + 999);
   if (error || (page === 10 && data?.length)) throw new Error('Cannot read complete published archive');
   articles.push(...(data || []));
@@ -26,8 +26,9 @@ if (input.recipient) {
 }
 const message = renderWeeklyEmail(issue, input.NEWSLETTER_SITE_URL || 'https://383ks.com', token);
 await fs.writeFile(input.output, message.html);
+if (input.messageOutput) await fs.writeFile(input.messageOutput, JSON.stringify({to:input.recipient,...message,subject:'[PROVË] '+message.subject}), {mode:0o600});
 console.log(JSON.stringify({ stories: issue.stories.length, archive: issue.total, htmlBytes: Buffer.byteLength(message.html), output: input.output }));
-if (input.recipient) {
+if (input.recipient && !input.previewOnly) {
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST', signal: AbortSignal.timeout(15000),
     headers: { Authorization: `Bearer ${input.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': `newsletter-preview/${issue.id}/${input.testId}` },

@@ -67,3 +67,13 @@ remain unchanged. New selection excludes missing photos and empty reporting.
 
 Verified using real archive data: eight loaded JPEGs, no 390px overflow, about 20 KB
 HTML, published summaries present for all stories, plus plain-text fallback.
+
+
+## Categorized recap audit — 19 October
+
+Group reports under Kosovë, Shqipëri, Botë, Ekonomi, Sport, Teknologji and Showbiz
+headings when represented. Every article is a third-level heading within its category.
+Keep the existing thumbnail, short summary, photo credits, source and article link.
+Featured reports lead within selection before engagement and recency. Both HTML and
+plain text preserve category grouping. Verified: seven sections/eight loaded photos,
+390px without overflow, and the actual categorized preview in the approved Gmail inbox.
