@@ -20,7 +20,7 @@ export default function NewsletterCard({ compact = false, onNavigate }: { compac
           {compact ? <>Java në email.<MailOpen size={27} strokeWidth={1.8} aria-hidden="true" /></> : <>Një javë lajme.<br />Një email për ty.</>}
         </Heading>
         <p className={styles.description}>
-          {compact ? <>Lajmet kryesore, shkurt e qartë.<br />Çdo të diel, ora 18:00.</> : <>Lajmet që shënuan javën, shkurt e qartë.<br />Çdo të diel, ora 18:00 në Kosovë.</>}
+          {compact ? <>Lajmet kryesore, shkurt e qartë.<br />Çdo të diel, ora 10:00.</> : <>Lajmet që shënuan javën, shkurt e qartë.<br />Çdo të diel, ora 10:00 në Kosovë.</>}
         </p>
         <NewsletterSignup compact={compact} onNavigate={onNavigate} />
       </div>
@@ -30,7 +30,7 @@ export default function NewsletterCard({ compact = false, onNavigate }: { compac
           <rect x="55" y="43" width="210" height="181" rx="5" fill="#fff9f2" stroke="#d5bc9f" />
           <text x="74" y="82" fill="#17130e" fontFamily="Arial,sans-serif" fontSize="31" fontWeight="800" letterSpacing="-1.5">383.</text>
           <text x="243" y="69" fill="#572213" fontFamily="Arial,sans-serif" fontSize="8" textAnchor="end">E DIEL</text>
-          <text x="243" y="81" fill="#572213" fontFamily="Arial,sans-serif" fontSize="10" fontWeight="700" textAnchor="end">18:00</text>
+          <text x="243" y="81" fill="#572213" fontFamily="Arial,sans-serif" fontSize="10" fontWeight="700" textAnchor="end">10:00</text>
           <path d="M74 94h171" stroke="#e2d5c3" />
           <text x="74" y="123" fill="#17130e" fontFamily="Arial,sans-serif" fontSize="21" fontWeight="700">Java në</text>
           <text x="74" y="148" fill="#17130e" fontFamily="Arial,sans-serif" fontSize="21" fontWeight="700">pak minuta.</text>

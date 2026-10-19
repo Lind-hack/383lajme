@@ -16,8 +16,8 @@ remain compatible. GET links cannot unsubscribe readers; the utility page requir
 
 ## Content and schedule
 
-Sunday at **18:00 Europe/Tirane (Kosovo)**. Each issue covers the previous Sunday
-18:00 through this Sunday 18:00, accounting for DST. It ranks the entire persisted
+Sunday at **10:00 Europe/Tirane (Kosovo)**. Each issue covers the previous Sunday
+10:00 through this Sunday 10:00, accounting for DST. It ranks the entire persisted
 `news_articles` archive for that interval by editorial featured status, engagement score and recency, deduplicates slugs and
 normalised titles, and gives different categories space in the lead selection.
 Up to eight stories are grouped under clear category headings in both HTML and plain text. Each
@@ -32,8 +32,8 @@ no generated reporting, mock fallback, or dependency on an LLM. An empty archive
 skips sending rather than inventing a recap. Content is frozen in `newsletter_issues`
 before delivery, so later retries use the same edition.
 
-The primary server calendar timer starts Sunday at 18:00 Europe/Tirane and retries
-every 15 minutes through Monday 13:45 local time. The existing GitHub schedule is a
+The primary server calendar timer starts Sunday at 10:00 Europe/Tirane and retries
+every 15 minutes through Monday 05:45 local time. The existing GitHub schedule is a
 backup: both call the same idempotent endpoint, so overlap cannot duplicate a delivery. The endpoint enforces
 the local cutoff and stops after 20 hours. Up to five recipients per request;
 workflow runs process up to 12 requests and resume on the next scheduled run.
@@ -234,3 +234,11 @@ pipeline while preserving the distinction between a test and an actual Sunday is
 The selection is an editorial heuristic, not a claim that every important world event
 is included: it uses featured status, popularity, category diversity and the published
 weekly archive. Unpublished events and articles without usable photos/text cannot appear.
+
+## Schedule update — 19 October 2026
+
+The reader-requested schedule is now Sunday at **10:00 Europe/Tirane (Kosovo)**
+for every active subscriber. This supersedes the earlier 18:00 timing in dated audit
+notes. The next dispatch is 25 October 2026 at 10:00 Kosovo / 09:00 UTC.
+The primary timer and GitHub backup retain the 20-hour retry window and delivery
+idempotency; existing subscriber consent and historical issue snapshots are unchanged.

@@ -1,9 +1,9 @@
 name: 383 Weekly Newsletter
 on:
   schedule:
-    # Both DST offsets. The endpoint gates Sunday 18:00 Europe/Tirane + 20h.
-    - cron: '*/15 16-23 * * 0'
-    - cron: '*/15 0-12 * * 1'
+    # Both DST offsets. The endpoint gates Sunday 10:00 Europe/Tirane + 20h.
+    - cron: '*/15 8-23 * * 0'
+    - cron: '*/15 0-4 * * 1'
   workflow_dispatch:
 permissions:
   contents: read

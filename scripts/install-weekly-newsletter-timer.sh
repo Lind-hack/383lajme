@@ -23,10 +23,10 @@ TimeoutStartSec=900
 UNIT
 cat > /etc/systemd/system/383-weekly-newsletter.timer <<'UNIT'
 [Unit]
-Description=383 Sunday 18:00 Kosovo recap and retry window
+Description=383 Sunday 10:00 Kosovo recap and retry window
 [Timer]
-OnCalendar=Sun *-*-* 18..23:00/15:00 Europe/Tirane
-OnCalendar=Mon *-*-* 00..13:00/15:00 Europe/Tirane
+OnCalendar=Sun *-*-* 10..23:00/15:00 Europe/Tirane
+OnCalendar=Mon *-*-* 00..05:00/15:00 Europe/Tirane
 AccuracySec=1s
 RandomizedDelaySec=0
 Persistent=true

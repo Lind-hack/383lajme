@@ -5,7 +5,7 @@ Updated: 2026-10-19. Status: RESOLVED design, delivery and operational decisions
 ## Scope
 Verify real Sunday scheduling and delivery; keep signup immediate; group weekly
 reports into category sections with the same article photos, factual short summaries,
-source and full-story link. Keep Sunday 18:00 Kosovo time and the approved Gmail route.
+source and full-story link. Keep Sunday 10:00 Kosovo time and the approved Gmail route.
 
 ## Evidence checkpoints
 
@@ -72,6 +72,13 @@ The original scheduler was configured but had no eligible weekly audience yet.
 The strongest evidence now combines real inbox delivery of the new email, live
 signup, DB cutoff/idempotency tests and an active DST-aware server calendar calling
 the same production sender. This establishes tested readiness, not proof of future
-inbox delivery or historical campaigns. First eligible edition remains 25 October at 18:00 Kosovo time.
+inbox delivery or historical campaigns. First eligible edition is 25 October at 10:00 Kosovo time (updated by D12).
 Gmail is the approved operational sender; Resend remains available as a configuration
 option but its earlier API acceptance must not be called confirmed inbox delivery.
+
+### D12 — Sunday morning schedule
+
+Source: subsequent reader instruction, 19 October 2026. Send every Sunday at
+10:00 Europe/Tirane (Kosovo) for all active subscribers. This supersedes D1 and
+the earlier next-run times above. Next eligible dispatch: 25 October at 09:00 UTC
+/ 10:00 Kosovo. Preserve the 20-hour retry window, consent checks and frozen history.
