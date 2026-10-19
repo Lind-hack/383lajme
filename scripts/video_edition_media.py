@@ -65,9 +65,26 @@ def http_json(url: str, data: bytes | None = None, headers: dict | None = None, 
             time.sleep(3 * (attempt + 1))
 
 
-def http_bytes(url: str, timeout: int = 30) -> bytes:
-    with urllib.request.urlopen(urllib.request.Request(url, headers=HEADERS), timeout=timeout) as res:
-        return res.read()
+def http_bytes(url: str, timeout: int = 30, tries: int = 3) -> bytes:
+    """The bytes at url, tried again (more slowly) when the server is busy or throttling: Wikimedia
+    refuses bursts of large thumbnails now and then, and a clip then lost all its people's photos."""
+    last: Exception | None = None
+    for attempt in range(tries):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=HEADERS), timeout=timeout) as res:
+                return res.read()
+        except urllib.error.HTTPError as exc:
+            last = exc
+            if exc.code not in (429, 500, 502, 503, 504):
+                break
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            last = exc
+        if attempt + 1 < tries:
+            time.sleep(2.0 * (attempt + 1))
+    if "/1920px-" in url:
+        # A size Wikimedia will not make right now: its smaller standard one.
+        return http_bytes(url.replace("/1920px-", "/1280px-"), timeout, 2)
+    raise last or OSError(f"no answer from {url}")
 
 
 # ── The voice ────────────────────────────────────────────────────────────────

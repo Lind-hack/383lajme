@@ -1026,7 +1026,8 @@ def fetch(url: str, dest: Path) -> bool:
     try:
         dest.write_bytes(media.http_bytes(url, 40))
         return dest.stat().st_size > 2000
-    except (urllib.error.URLError, TimeoutError, OSError, ValueError):
+    except (urllib.error.URLError, TimeoutError, OSError, ValueError) as exc:
+        print(f"EDITION picture not loaded ({exc!r}): {url[:120]}", file=sys.stderr)
         return False
 
 
