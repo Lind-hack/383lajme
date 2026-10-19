@@ -96,7 +96,7 @@ async function loadIssue(config: ReturnType<typeof newsletterConfig>, window: Re
 
 export async function sendWeeklyNewsletter() {
   const now = new Date(), window = weeklyWindow(now);
-  // Sunday evening through Monday afternoon only; no surprise midweek sends.
+  // Sunday morning through early Monday only; no surprise midweek sends.
   if (now.getTime() - Date.parse(window.end) >= 20 * 3_600_000) return { skipped: 'outside_weekly_window', sent: 0, failed: 0, pending: 0, held: 0 };
   const config = newsletterConfig();
   const issue = await loadIssue(config, window);
