@@ -48,6 +48,43 @@ THEMES: dict[str, dict] = {
 }
 
 
+# Which graphics belong to which kind of story: a scoreboard and standings are sport's, a chart
+# is the economy's and the news', a star card is showbiz's. A graphic outside its story's kind
+# is dropped (the writer is told the kind and these lists too).
+SPORTS = ("football", "basketball", "f1", "tennis", "sport")
+ALLOWED: dict[str, set[str]] = {
+    **{k: {"score", "compare", "person", "ranking", "timeline"} for k in SPORTS},
+    "showbiz": {"person", "ranking", "timeline", "compare"},
+    "economy": {"chart", "compare", "person", "timeline"},
+    "tech": {"chart", "compare", "person", "timeline"},
+    "kosovo": {"person", "chart", "compare", "timeline"},
+    "albania": {"person", "chart", "compare", "timeline"},
+    "conflict": {"person", "compare", "timeline"},
+    "default": {"person", "chart", "compare", "timeline"},
+}
+# What the writer is told fits each kind (in its brief, per story).
+FITS = {
+    "football": "the score (score), the players who made it (person), a league table (ranking)",
+    "basketball": "the score (score), the top scorers (person, compare), a table (ranking)",
+    "f1": "the drivers' standings (ranking), the winner (person), gaps between drivers (compare)",
+    "tennis": "the score (score), the players (person), a ranking (ranking)",
+    "sport": "the result (score), the athletes (person), a ranking (ranking)",
+    "showbiz": "the star's name card (person), a chart or top list (ranking), a career timeline (timeline)",
+    "economy": "numbers over time (chart), two values side by side (compare), who decided (person)",
+    "tech": "numbers over time (chart), side-by-side values (compare), who is behind it (person)",
+    "kosovo": "who is who (person), what happened in order (timeline), numbers over time (chart)",
+    "albania": "who is who (person), what happened in order (timeline), numbers over time (chart)",
+    "conflict": "what happened in order (timeline), who said what (person), counts side by side (compare)",
+    "default": "who is who (person), what happened in order (timeline), numbers (chart, compare)",
+}
+
+
+def fits(theme: str, graphics: list[dict]) -> list[dict]:
+    """Only the graphics that belong to this kind of story."""
+    allowed = ALLOWED.get(theme, ALLOWED["default"])
+    return [g for g in graphics if g.get("type") in allowed]
+
+
 def fold(text: str) -> str:
     text = unicodedata.normalize("NFKD", str(text or "").lower())
     return "".join(c for c in text if not unicodedata.combining(c))
@@ -61,9 +98,11 @@ def theme_for(category: str, text: str) -> str:
     """The theme of a story, from its section and its own words (the newsroom files a basketball
     game under Kosovë now and then: the words decide)."""
     c, t = fold(category), fold(text)
+    if "showbiz" in c or "argetim" in c:
+        return "showbiz"  # a concert in a stadium is still showbiz
     if _has(t, r"formula 1|formula one|f1|grand prix|verstappen|hamilton|leclerc|norris|piastri|russell|kualifikim|pilot") >= 2:
         return "f1"
-    sporty = _has(t, r"futboll|basketboll|tenis|boks|golf|ndeshj|kampionat|turne|gol|gola|goli|pike|trajner|lojtar|skuadr|"
+    sporty = _has(t, r"futboll|basketboll|tenis|boks|golf|ndeshj|kampionat|gol|gola|goli|pike|trajner|lojtar|skuadr|"
                      r"stadium|superlig|la ?liga|premier league|serie a|bundesliga|champions|uefa|fifa|formula|grand prix|wta|atp|nba|"
                      r"finale|gjysmefinal|kualifikim|medalj|olimpi|boks|revansh|nokaut|ring|golf|raund|superiore|abissnet|grupin")
     named = _has(t, r"basketboll|futboll|tenis|formula 1|boks|golf|volejboll|hendboll|atletik|ciklizem")
@@ -76,6 +115,11 @@ def theme_for(category: str, text: str) -> str:
                    r"superlig|superiore|abissnet|kombetarja|barcelona|real madrid|ligue 1|conference league") >= 1:
             return "football"
         return "sport"
+    # The newsroom's own section next: a Kosovo story looks like Kosovo, whatever it is about.
+    if "kosov" in c:
+        return "kosovo"
+    if "shqiperi" in c:
+        return "albania"
     if "teknolog" in c or "shkenc" in c or _has(t, r"inteligjenc[ae] artificiale|ai|openai|anthropic|chatgpt|tiktok|startup|"
                                                   r"aplikacion|teknologji|google|apple|microsoft|meta|spacex|nasa|robot") >= 2:
         return "tech"
@@ -85,7 +129,7 @@ def theme_for(category: str, text: str) -> str:
     if "ekonomi" in c or "biznes" in c or _has(t, r"inflacion|cmim|bank[ae]?|euro|bursa|eksport|import|buxhet|pag[ae]|tatim|"
                                                  r"investim|pib|rritje ekonomike|depozit|sanksion|tregti") >= 3:
         return "economy"
-    if _has(t, r"lufte|sulm|bombard|raket|protest|trazir|ushtar|vrase|plagos") >= 3:
+    if _has(t, r"lufte|luft|sulm|bombard|raket|dron|mbrojtje ajrore|protest|trazir|ushtar|vrase|plagos|viktim|shperth") >= 3:
         return "conflict"
     kosovo, albania = _has(t, r"kosov|prishtin|kurti|osmani|kuvendi i kosoves"), _has(t, r"shqiperi|tiran|rama|berisha|begaj")
     if "kosov" in c or (kosovo >= 2 and kosovo >= albania):

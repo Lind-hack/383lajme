@@ -1113,6 +1113,15 @@ def _said_name(words: list[list], name: str) -> float | None:
     return first_word_at(words, lambda w: w.startswith(stem))
 
 
+def _said_name_all(words: list[list], name: str) -> list[float]:
+    """Every time the name is said (by its last word's stem)."""
+    toks = [norm(t) for t in str(name).split() if len(norm(t)) >= 3]
+    if not toks:
+        return []
+    stem = toks[-1][: max(4, len(toks[-1]) - 2)]
+    return [w[0] for w in words if norm(w[2]).startswith(stem)]
+
+
 def build_overlays(beats: list[dict], duration: float, words: list[list], graphics: list[dict],
                    climax: tuple[float, float] | None = None, cover: str = "") -> list[dict]:
     ends = [b["at"] for b in beats[1:]] + [duration]
@@ -1135,7 +1144,7 @@ def build_overlays(beats: list[dict], duration: float, words: list[list], graphi
                 return True
         return False
 
-    later = [duration * f for f in (0.3, 0.5, 0.65, 0.42, 0.78, 0.22)]
+    later = [duration * f for f in (0.3, 0.5, 0.65, 0.42, 0.78, 0.22, 0.36, 0.58, 0.7, 0.26, 0.46)]
     score = None
     # The climax first: the moment the clip builds to gets its words across the screen.
     if climax and climax[0] > 3.0:
@@ -1158,13 +1167,16 @@ def build_overlays(beats: list[dict], duration: float, words: list[list], graphi
             spots = [said - 0.2] + [t for t in later if t >= said - 0.2] if said is not None else later
             place(spots, 3.4, {"kind": "compare", "label": g.get("label", ""), "items": g["items"]})
         elif kind == "person" and sum(o["kind"] in ("person", "profile") for o in out) < 2:
-            said = _said_name(words, g["name"])
-            if said is not None and g.get("photo") and not any(o["kind"] == "profile" for o in out):
+            # When the name is said: its first mention, or a later one, or (when it is only said in
+            # the opening, under the headline) as soon as the headline has gone.
+            times = _said_name_all(words, g["name"])
+            spots = [t for s in times for t in (s - 0.1, s + 0.6)] + ([2.7] if times and times[0] < 2.6 else [])
+            if times and g.get("photo") and not any(o["kind"] == "profile" for o in out):
                 # With their photo: a full card (a star's, a player's), once a clip.
-                if place([said - 0.1, said + 0.6], 3.0, {"kind": "profile", "name": g["name"], "role": g.get("role", ""), "photo": g["photo"]}):
+                if place(spots, 3.0, {"kind": "profile", "name": g["name"], "role": g.get("role", ""), "photo": g["photo"]}):
                     continue
-            if said is not None:
-                place([said - 0.05, said + 0.6], 2.6, {"kind": "person", "name": g["name"], "role": g.get("role", "")})
+            if times:
+                place(spots, 2.6, {"kind": "person", "name": g["name"], "role": g.get("role", "")})
         elif kind == "chart":
             said = _said_number(words, g["points"][-1]["value"]) or _said_number(words, g["points"][0]["value"])
             spots = [said - 0.4] + [t for t in later if t >= said - 0.4] if said is not None else later
@@ -1175,7 +1187,7 @@ def build_overlays(beats: list[dict], duration: float, words: list[list], graphi
             place(spots, 4.4, {"kind": "ranking", "label": g.get("label", ""), "rows": g["rows"]})
         elif kind == "timeline":
             length = min(5.6, 1.4 + 1.3 * len(g["steps"]))
-            place([duration * f for f in (0.45, 0.3, 0.6)], length, {"kind": "timeline", "steps": g["steps"]})
+            place([duration * f for f in (0.45, 0.3, 0.6, 0.2, 0.7, 0.38, 0.52)], length, {"kind": "timeline", "steps": g["steps"]})
     # Few graphics in this clip: its cover line, big, half way (every clip gets at least two moments
     # of motion graphics besides the opening).
     if cover and sum(o["kind"] not in ("bug",) for o in out) < 2:

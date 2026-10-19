@@ -433,6 +433,15 @@ class ThemeTests(unittest.TestCase):
         self.assertEqual(th.theme_for("Kosovë", "Qeveria e Kosovës miraton buxhetin"), "kosovo")
         self.assertEqual(th.theme_for("Botë", "Papa takon presidentin"), "default")
 
+    def test_graphics_never_cross_into_another_kind_of_story(self):
+        import video_edition_themes as th
+        gs = [{"type": t} for t in ("score", "ranking", "chart", "person", "compare", "timeline")]
+        self.assertEqual({g["type"] for g in th.fits("tennis", gs)}, {"score", "ranking", "person", "compare", "timeline"})
+        self.assertNotIn("score", {g["type"] for g in th.fits("economy", gs)})
+        self.assertNotIn("ranking", {g["type"] for g in th.fits("kosovo", gs)})
+        self.assertNotIn("chart", {g["type"] for g in th.fits("football", gs)})
+        self.assertEqual(set(th.ALLOWED), set(th.THEMES))  # every theme has its list
+
     def test_a_chart_and_a_ranking_keep_only_the_storys_numbers_and_names(self):
         story = {"title": "Inflacioni", "excerpt": "", "category": "Ekonomi",
                  "body": "Inflacioni ishte 2,4 në 2023, 3,1 në 2024 dhe 4,2 në 2025. Verstappen 331, Norris 318, Leclerc 290."}

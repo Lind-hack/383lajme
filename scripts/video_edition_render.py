@@ -1094,7 +1094,8 @@ def finish(work: Path, slug: str, clip: dict, keep: list[dict], meta: dict, asse
             blur_copy(local)
     words = clip.get("words") or []
     clip = {**clip, "theme": meta.get("theme") or themes.theme_for(clip.get("category", ""), f'{clip.get("title", "")} {clip.get("script", "")}')}
-    meta = {**meta, "theme": clip["theme"]}
+    # Only graphics of this kind of story, whoever made the list (the edition, or a re-render of an old clip).
+    meta = {**meta, "theme": clip["theme"], "graphics": themes.fits(clip["theme"], meta.get("graphics") or [])}
     for g in meta.get("graphics") or []:
         # A person's photo for their card: fetched like the beats' photos.
         src = g.get("photo") or ""

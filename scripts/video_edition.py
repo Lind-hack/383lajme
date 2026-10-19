@@ -50,6 +50,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import video_edition_media as media  # noqa: E402
 import video_edition_render as render  # noqa: E402
 import video_trends  # noqa: E402
+import video_edition_themes as themes  # noqa: E402
+
+
+def story_theme(story: dict) -> str:
+    """The kind of story (video_edition_themes): its look, its sounds and the graphics that fit it."""
+    return themes.theme_for(story.get("category", ""), " ".join(plain(story.get(k)) for k in ("title", "excerpt", "body"))[:4000])
 
 MAX_STORIES = 7
 BUCKET = "video-edition"
@@ -121,8 +127,10 @@ For every story also say what the clip can show while the voice reads:
   people or institutions themselves (governments, ministries, police, fire services, parties,
   leagues, federations, clubs, companies). Never a news outlet.
 - "graphics": 2 to 4 on-screen graphics made for THIS story, the ones that make it clearer and
-  fit its kind: a match gets its score and its players; an economy story a chart; a race or a
-  league its standings; a celebrity or a politician their name card. Each is one of:
+  fit its kind (each story's "kind" line in the brief says which fit): a match gets its score
+  and its players; an economy story a chart; a race or a league its standings; a celebrity or
+  a politician their name card. A graphic that does not fit the story's kind is not shown.
+  Each is one of:
   {"type": "score", "teams": [{"name": "Ylli", "score": "100"}, {"name": "Vëllaznimi", "score": "86"}],
    "note": "Superliga, java 3"}: the result of a match (sport only; the team names as the story writes
    them, short; the note 2 to 6 words or "");
@@ -329,6 +337,7 @@ def write_scripts(stories: list[dict], workdir: Path, redo: dict[str, str] | Non
             f"## Story {s['slug']}",
             f"slug: {s['slug']}",
             f"section: {s.get('category', '')}",
+            f"kind: {story_theme(s)} (graphics that fit it: {themes.FITS.get(story_theme(s), themes.FITS['default'])})",
             f"headline: {plain(s.get('title'))}",
             f"summary: {plain(s.get('excerpt'))}",
             *([f"YOUR LAST SCRIPT FOR THIS STORY WAS REFUSED: {redo[s['slug']]}. Write it again, simpler."]
@@ -967,7 +976,9 @@ def main(dry_run: bool = False, only: str = "", force: bool = False, keep: str =
                 "script": script, "how": how,
                 "subjects": w.get("subjects", []), "place": w.get("place", ""), "place_name": w.get("place_name", ""),
                 "facts": check_facts(w.get("facts", []), script, s) or auto_facts(script, s), "quote": check_quote(w.get("quote"), s),
-                "graphics": check_graphics(w.get("graphics", []), script, s) if how == "model" else [],
+                # Only graphics of this story's kind: no standings in a court story, no chart in a match.
+                "theme": story_theme(s),
+                "graphics": themes.fits(story_theme(s), check_graphics(w.get("graphics", []), script, s)) if how == "model" else [],
                 "cover": check_cover(w.get("cover", ""), s),
                 **(check_feel(w, script) if how == "model" else {"mood": w.get("mood") if w.get("mood") in render.MOODS else ""}),
             }
