@@ -1113,7 +1113,7 @@ def finish(work: Path, slug: str, clip: dict, keep: list[dict], meta: dict, asse
     try:
         mix(voice, cues, clip["duration"], sound, root)
         run(["nice", "-n", "12", str(HYPERFRAMES / "node_modules" / ".bin" / "hyperframes"), "render", str(work), "-o", str(master),
-             "--fps", str(FPS), "--quality", "high", "--workers", "2", "--quiet"], timeout=900)
+             "--fps", str(FPS), "--quality", "high", "--workers", "2", "--quiet"], timeout=1500)  # a busy VPS can take 20 min
         hd, sd, poster = work / "hd.mp4", work / "sd.mp4", work / "poster.jpg"
         common = ["-c:v", "libx264", "-preset", "medium", "-profile:v", "high", "-pix_fmt", "yuv420p", "-g", "60",
                   "-movflags", "+faststart", "-c:a", "copy", "-shortest"]

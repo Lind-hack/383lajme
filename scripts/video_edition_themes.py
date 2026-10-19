@@ -214,7 +214,8 @@ STYLE = """
 .wipe-stars::before{content:"★ ★ ★ ★ ★ ★";position:absolute;left:0;right:0;top:44%;text-align:center;color:var(--acc2);font-size:90px;letter-spacing:.2em}
 .decor{position:absolute;inset:0;z-index:52;pointer-events:none}
 .decor .sp{position:absolute;width:34px;height:34px;color:#fff;opacity:0}
-.decor .sp svg{width:100%;height:100%;display:block;filter:drop-shadow(0 0 10px #fff)}
+.decor .sp svg{width:100%;height:100%;display:block}
+.decor .sp::before{content:"";position:absolute;inset:-12px;border-radius:50%;background:radial-gradient(closest-side,#ffffff66,#fff0)}
 .decor.grid{opacity:.5;background-image:linear-gradient(#ffffff10 2px,transparent 2px),linear-gradient(90deg,#ffffff10 2px,transparent 2px);background-size:120px 120px}
 .decor .speed{position:absolute;height:6px;border-radius:3px;background:linear-gradient(90deg,transparent,#fff);opacity:0}
 .chartbox{position:relative;margin-top:24px;height:420px;display:flex;align-items:flex-end;gap:22px;padding:0 4px;border-bottom:4px solid var(--cardsub)}
