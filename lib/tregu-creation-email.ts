@@ -26,7 +26,7 @@ export async function sendPendingNewsMarketEmails({ marketId, limit = 10 }: { ma
         .order("created_at", { ascending: true }).limit(1).single();
       if (openingError || !opening) throw new Error(`Could not load opening graph: ${openingError?.message ?? "missing"}`);
       const message = buildNewsMarketOpenEmail(market, opening);
-      await sendMail({ to: recipient, subject: message.subject, html: message.html, text: message.text, fromName: "383 Tregu", idempotencyKey: `market-open-${claim.market_id}` });
+      await sendMail({ purpose: "operator", to: recipient, subject: message.subject, html: message.html, text: message.text, fromName: "383 Tregu", idempotencyKey: `market-open-${claim.market_id}` });
       const { data: marked, error: markError } = await admin.from("market_open_notifications")
         .update({ sent_at: new Date().toISOString(), claimed_until: null, last_error: null })
         .eq("market_id", claim.market_id).eq("claim_token", claim.claim_token).is("sent_at", null)

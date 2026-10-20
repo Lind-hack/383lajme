@@ -6,22 +6,21 @@ import codex_automation_support as support
 
 class StartupReportTests(unittest.TestCase):
     def test_failure_and_monitor_status_never_contact_email_providers(self):
-        with patch.object(support, "load_env") as env, patch.object(support, "_send_gmail_report") as smtp, patch.object(support, "_send_resend_report") as resend:
+        with patch.object(support, "load_env") as env, patch.object(support, "_send_gmail_report") as smtp:
             self.assertEqual(support.send_status_report("Infrastructure timer failure"), 0)
             env.assert_not_called()
             smtp.assert_not_called()
-            resend.assert_not_called()
 
     def test_started_and_empty_completion_use_existing_template_and_exact_slot(self):
-        with patch.object(support, "load_env"), patch.dict(os.environ, {"RESEND_API_KEY": "test", "EMAIL_PRIMARY": "resend", "CRON_SLOT_LABEL": "2026-10-07 23:00 CEST"}), patch.object(support, "_send_resend_report", return_value=0) as sender:
+        with patch.object(support, "load_env"), patch.dict(os.environ, {"RESEND_API_KEY": "test", "EMAIL_PRIMARY": "resend", "GMAIL_USER": "sender@example.com", "GMAIL_APP_PASSWORD": "smtp-pass", "CRON_SLOT_LABEL": "2026-10-07 23:00 CEST"}), patch.object(support, "_send_gmail_report", return_value=0) as sender:
             self.assertEqual(support.send_status_report("Running Luna max", phase="started"), 0)
             args = sender.call_args.args
-            self.assertIn("u nis", args[2])
-            self.assertIn("23:00 CEST", args[2])
-            self.assertIn("background:#0f172a", args[3])
-            self.assertIn("Running Luna max", args[3])
+            self.assertIn("u nis", args[3])
+            self.assertIn("23:00 CEST", args[3])
+            self.assertIn("background:#0f172a", args[4])
+            self.assertIn("Running Luna max", args[4])
             self.assertEqual(support.send_status_report("No fresh news", phase="completed"), 0)
-            self.assertIn("përfundoi", sender.call_args.args[2])
+            self.assertIn("përfundoi", sender.call_args.args[4])
 
 
 if __name__ == "__main__":

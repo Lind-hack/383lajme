@@ -1356,12 +1356,6 @@ def env_status() -> int:
 
 def test_email_login() -> int:
     load_env()
-    if os.environ.get("RESEND_API_KEY", "").strip():
-        sender = _email_from()
-        recipient = os.environ.get("RECIPIENT_EMAIL", "").strip() or "lindsylqa@gmail.com"
-        print(f"EMAIL HTTP provider configured: Resend ({sender} -> {recipient})")
-        return 0
-
     user = os.environ.get("GMAIL_USER", "").strip()
     password = _gmail_app_password()
     if not user or not password:
@@ -1713,9 +1707,8 @@ def send_report(path: Path) -> int:
     recipient = os.environ.get("RECIPIENT_EMAIL", "").strip() or "lindsylqa@gmail.com"
     site_url = os.environ.get("SITE_URL", "").strip().rstrip("/")
     remove_secret = os.environ.get("REMOVE_SECRET", "").strip()
-    resend_key = os.environ.get("RESEND_API_KEY", "").strip()
-    if not resend_key and (not user or not password):
-        print("EMAIL skipped: set RESEND_API_KEY or GMAIL_USER/GMAIL_APP_PASSWORD")
+    if not user or not password:
+        print("EMAIL skipped: GMAIL_USER and GMAIL_APP_PASSWORD are required; operator reports never use Resend")
         return 2
 
     now = _kosovo_time_label()
@@ -1782,14 +1775,6 @@ def send_report(path: Path) -> int:
         + "</div></body></html>"
     )
     subject = f"383 Lajme - {len(articles)} artikuj te rinj [{subject_time}]"
-    if resend_key and os.environ.get("EMAIL_PRIMARY", "resend").strip().lower() not in {"gmail", "smtp", "gmail_smtp"}:
-        resend_code = _send_resend_report(resend_key, recipient, subject, report_html)
-        if resend_code == 0:
-            return 0
-        if not user or not password:
-            return resend_code
-        print("EMAIL STATUS: primary=resend failed; fallback=gmail_smtp; attempting fallback.")
-
     return _send_gmail_report(user, password, recipient, subject, report_html)
 
 
@@ -1803,17 +1788,9 @@ def send_html_report(recipient: str, subject: str, report_html: str) -> int:
         return 2
     user = os.environ.get("GMAIL_USER", "").strip()
     password = _gmail_app_password()
-    resend_key = os.environ.get("RESEND_API_KEY", "").strip()
-    if not resend_key and (not user or not password):
-        print("EMAIL skipped: set RESEND_API_KEY or GMAIL_USER/GMAIL_APP_PASSWORD")
+    if not user or not password:
+        print("EMAIL skipped: GMAIL_USER and GMAIL_APP_PASSWORD are required; operator reports never use Resend")
         return 2
-    if resend_key and os.environ.get("EMAIL_PRIMARY", "resend").strip().lower() not in {"gmail", "smtp", "gmail_smtp"}:
-        resend_code = _send_resend_report(resend_key, recipient, subject, report_html)
-        if resend_code == 0:
-            return 0
-        if not user or not password:
-            return resend_code
-        print("EMAIL STATUS: primary=resend failed; fallback=gmail_smtp; attempting fallback.")
     return _send_gmail_report(user, password, recipient, subject, report_html)
 
 
@@ -1826,9 +1803,8 @@ def send_status_report(message: str, phase: str = "no_news") -> int:
     user = os.environ.get("GMAIL_USER", "").strip()
     password = _gmail_app_password()
     recipient = os.environ.get("RECIPIENT_EMAIL", "").strip() or "lindsylqa@gmail.com"
-    resend_key = os.environ.get("RESEND_API_KEY", "").strip()
-    if not resend_key and (not user or not password):
-        print("EMAIL skipped: set RESEND_API_KEY or GMAIL_USER/GMAIL_APP_PASSWORD")
+    if not user or not password:
+        print("EMAIL skipped: GMAIL_USER and GMAIL_APP_PASSWORD are required; operator reports never use Resend")
         return 2
 
     now = _kosovo_time_label()
@@ -1847,13 +1823,6 @@ def send_status_report(message: str, phase: str = "no_news") -> int:
     )
     subject_heading = heading if phase in {"started", "completed"} else "pa artikuj të rinj"
     subject = f"383 Lajme - {subject_heading} [{subject_time}]"
-    if resend_key and os.environ.get("EMAIL_PRIMARY", "resend").strip().lower() not in {"gmail", "smtp", "gmail_smtp"}:
-        resend_code = _send_resend_report(resend_key, recipient, subject, report_html)
-        if resend_code == 0:
-            return 0
-        if not user or not password:
-            return resend_code
-        print("EMAIL STATUS: primary=resend failed; fallback=gmail_smtp; attempting fallback.")
     return _send_gmail_report(user, password, recipient, subject, report_html)
 
 
@@ -1880,54 +1849,8 @@ def _send_gmail_report(user: str, password: str, recipient: str, subject: str, r
         return 1
 
 
-def _email_from() -> str:
-    return os.environ.get("EMAIL_FROM", "").strip() or "383 Lajme <onboarding@resend.dev>"
-
-
 def _cron_slot_label() -> str:
     return os.environ.get("CRON_SLOT_LABEL", "").strip()
-
-
-def _send_resend_report(api_key: str, recipient: str, subject: str, report_html: str) -> int:
-    payload = json.dumps(
-        {
-            "from": _email_from(),
-            "to": [recipient],
-            "subject": subject,
-            "html": report_html,
-        }
-    ).encode("utf-8")
-    request = urllib.request.Request(
-        "https://api.resend.com/emails",
-        data=payload,
-        method="POST",
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-            "User-Agent": "383-codex-news-bot",
-        },
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=30) as response:
-            status = response.getcode()
-            body = response.read().decode("utf-8", errors="replace")
-            if 200 <= status < 300:
-                try:
-                    message_id = json.loads(body or "{}").get("id", "")
-                except Exception:
-                    message_id = ""
-                suffix = f" ({message_id})" if message_id else ""
-                print(f"EMAIL report sent via Resend to {recipient}{suffix}")
-                return 0
-            print(f"EMAIL Resend failed HTTP {status}")
-            return 1
-    except urllib.error.HTTPError as exc:
-        detail = exc.read(300).decode("utf-8", errors="replace")
-        print(f"EMAIL Resend failed HTTP {exc.code}: {detail}")
-        return 1
-    except Exception as exc:
-        print(f"EMAIL Resend failed: {type(exc).__name__}")
-        return 1
 
 
 def _gmail_app_password() -> str:

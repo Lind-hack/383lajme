@@ -68,7 +68,7 @@ function configuredRecipient() {
 function gmailTransport() {
   const transport = {
     sendMail: (message: { to: string; subject: string; html: string; text?: string; from?: string }) =>
-      sendMail({ to: message.to, subject: message.subject, html: message.html, text: message.text, fromName: "383 Tregu" }),
+      sendMail({ purpose: "operator", to: message.to, subject: message.subject, html: message.html, text: message.text, fromName: "383 Tregu" }),
   };
   return { user: "383 Tregu", transport };
 }

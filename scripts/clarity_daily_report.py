@@ -98,12 +98,9 @@ def main():
         return
     _, markup = build_report(overall, by_url, usage)
     # Reuse the repository's established email providers and secret handling.
-    from codex_automation_support import _send_resend_report, _send_gmail_report
+    from codex_automation_support import _send_gmail_report
     day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     subject = f'383 — Daily website usage — {day}'
-    resend = os.environ.get('RESEND_API_KEY', '').strip()
-    if resend and _send_resend_report(resend, RECIPIENT, subject, markup) == 0:
-        return
     user = os.environ.get('GMAIL_USER', '').strip()
     password = os.environ.get('GMAIL_APP_PASSWORD', '').replace(' ', '').strip()
     if user and password and _send_gmail_report(user, password, RECIPIENT, subject, markup) == 0:

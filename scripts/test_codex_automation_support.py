@@ -231,11 +231,10 @@ def test_matching_web_coverage_supplies_a_sharp_fallback():
         support._fetch_page_image_metadata = original_metadata
 
 
-def test_status_report_uses_gmail_fallback():
+def test_status_report_uses_only_gmail_even_with_resend_credentials():
     support = load_support()
     original_env = {key: os.environ.get(key) for key in ("RESEND_API_KEY", "GMAIL_USER", "GMAIL_APP_PASSWORD", "RECIPIENT_EMAIL", "CRON_SLOT_LABEL")}
     original_load_env = support.load_env
-    original_resend = support._send_resend_report
     original_gmail = support._send_gmail_report
     original_clock = support._kosovo_time_label
     sent: dict[str, str] = {}
@@ -251,7 +250,6 @@ def test_status_report_uses_gmail_fallback():
         )
         support.load_env = lambda: None
         support._kosovo_time_label = lambda: "2026-07-10 13:05 Kosovo time"
-        support._send_resend_report = lambda *_: 1
 
         def fake_gmail(user, password, recipient, subject, report_html):
             sent.update({"user": user, "recipient": recipient, "subject": subject, "html": report_html})
@@ -264,7 +262,6 @@ def test_status_report_uses_gmail_fallback():
         assert "Nuk u gjet lajm" in sent["html"]
     finally:
         support.load_env = original_load_env
-        support._send_resend_report = original_resend
         support._send_gmail_report = original_gmail
         support._kosovo_time_label = original_clock
         for key, value in original_env.items():
@@ -320,6 +317,6 @@ if __name__ == "__main__":
     test_image_quality_floor_and_verified_source_fallback()
     test_web_image_source_must_match_exact_story_and_not_be_an_image_site()
     test_matching_web_coverage_supplies_a_sharp_fallback()
-    test_status_report_uses_gmail_fallback()
+    test_status_report_uses_only_gmail_even_with_resend_credentials()
     test_larger_image_rendition_only_swaps_for_measured_pixels()
     print("codex automation support checks passed")

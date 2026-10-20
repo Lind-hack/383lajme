@@ -847,11 +847,7 @@ def report(made: list[tuple[dict, dict]], edition: dict, now: datetime) -> None:
     """After a run that made clips: one email to the editor (L383_EDITION_REPORT_TO) with each
     new clip, its thumbnail and where to watch it. A run that made nothing sends nothing."""
     to = os.environ.get("L383_EDITION_REPORT_TO", "").strip()
-    # The newsroom's EMAIL_FROM on the VPS is Resend's test sender (it may only mail the account's
-    # owner); the report goes out from the site's verified domain (L383_EDITION_REPORT_FROM).
-    key = os.environ.get("RESEND_API_KEY", "")
-    sender = os.environ.get("L383_EDITION_REPORT_FROM") or os.environ.get("EMAIL_FROM", "")
-    if not (made and to and key and sender):
+    if not (made and to):
         return
     live = {c["slug"]: c for c in edition.get("clips", [])}
     rows = []
@@ -887,14 +883,14 @@ def report(made: list[tuple[dict, dict]], edition: dict, now: datetime) -> None:
             f'<p style="margin:0 0 8px;font-size:14px;color:#555">Edicioni tani ka {len(edition.get("clips", []))} klipe. '
             f'<a href="{SITE}/video" style="color:#FF4422">383ks.com/video</a></p>'
             f'<table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse">{"".join(rows)}</table></div>')
-    req = urllib.request.Request("https://api.resend.com/emails", method="POST",
-                                 data=json.dumps({"from": f"383 Video <{sender}>", "to": [to], "subject": subject, "html": body}).encode(),
-                                 headers={**HEADERS, "Authorization": f"Bearer {key}", "Content-Type": "application/json"})
-    try:
-        with urllib.request.urlopen(req, timeout=30) as res:
-            print(f"EDITION report sent ({res.status})")
-    except (urllib.error.URLError, TimeoutError, OSError) as exc:
-        print(f"EDITION report failed: {exc}", file=sys.stderr)
+    from codex_automation_support import load_env, _send_gmail_report, _gmail_app_password
+    load_env()
+    user = os.environ.get("GMAIL_USER", "").strip()
+    password = _gmail_app_password()
+    if not user or not password:
+        raise RuntimeError("Video operator report requires Gmail SMTP credentials")
+    if _send_gmail_report(user, password, to, subject, body) != 0:
+        raise RuntimeError("Video operator report SMTP delivery failed")
 
 
 def publish(stories: list[dict], clips: dict, now: datetime) -> dict | None:

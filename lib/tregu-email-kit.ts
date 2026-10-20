@@ -191,7 +191,7 @@ export function shell({ preheader, section, body, footer }: { preheader: string;
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;border-radius:22px;overflow:hidden;background:${PAPER}">
 <tr><td bgcolor="${INK}" style="background:${INK};padding:18px 26px;font-family:Arial,Helvetica,sans-serif">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-<td style="font-size:26px;font-weight:900;letter-spacing:-.04em;color:#ffffff">383<span style="color:${ORANGE}">.</span></td>
+<td><img src="https://383ks.com/email/383-logo-animated.gif" width="72" height="72" alt="383" style="display:block;width:72px;height:72px;border:0;border-radius:16px;background:#F9F6F1" /></td>
 <td align="right"><span style="display:inline-block;padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.22);color:#F5EFE6;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase">${esc(section)}</span></td>
 </tr></table>
 </td></tr>

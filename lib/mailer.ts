@@ -1,7 +1,11 @@
+import { createHash, randomUUID } from "node:crypto";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { encryptNewsletterMail } from "./newsletter-mail.mjs";
 import * as nodemailer from "nodemailer";
 
 /**
- * Every email the site sends goes through here.
+ * Site league and market mail goes through here. Operator reports use the
+ * encrypted private SMTP queue; reader mail retains the branded sender.
  *
  * Railway cannot reach smtp.gmail.com: on 2026-09-29 every send from
  * production failed with "Connection timeout" / "connect ENETUNREACH
@@ -16,6 +20,8 @@ import * as nodemailer from "nodemailer";
  */
 export type Mail = {
   to: string;
+  /** Operator reports use the private SMTP queue, never the reader provider. */
+  purpose?: "operator";
   subject: string;
   html: string;
   text?: string;
@@ -39,7 +45,21 @@ export function mailConfigured(): boolean {
   return Boolean(process.env.RESEND_API_KEY || (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD));
 }
 
-export async function sendMail(mail: Mail): Promise<{ id: string | null; via: "resend" | "smtp" }> {
+export async function sendMail(mail: Mail): Promise<{ id: string | null; via: "resend" | "smtp" | "smtp_queue" }> {
+  // Operator mail must never consume the transactional Resend quota. Railway
+  // cannot reach Gmail SMTP, so use the private server's encrypted durable queue.
+  if (mail.purpose === "operator") {
+    if (mail.to.trim().toLowerCase() !== "lindsylqa@gmail.com") throw new Error("Unexpected operator mail recipient");
+    const admin = createAdminClient();
+    const secret = process.env.NEWSLETTER_SECRET || "";
+    if (!admin || secret.length < 32) throw new Error("Operator SMTP queue configuration missing");
+    const id = createHash("sha256").update("operator:" + (mail.idempotencyKey || randomUUID())).digest("hex");
+    const { error } = await admin.from("site_smtp_mail_queue").upsert({
+      id, payload: encryptNewsletterMail(mail, secret, id),
+    }, { onConflict: "id", ignoreDuplicates: true });
+    if (error) throw new Error("Operator SMTP queue unavailable");
+    return { id: "queue:" + id, via: "smtp_queue" };
+  }
   const from = `${mail.fromName ?? "383"} <${senderAddress()}>`;
   const key = process.env.RESEND_API_KEY;
   if (key) {

@@ -29,20 +29,10 @@ await fs.writeFile(input.output, message.html);
 if (input.messageOutput) await fs.writeFile(input.messageOutput, JSON.stringify({to:input.recipient,...message,subject:'[PROVË] '+message.subject}), {mode:0o600});
 console.log(JSON.stringify({ stories: issue.stories.length, archive: issue.total, htmlBytes: Buffer.byteLength(message.html), output: input.output }));
 if (input.recipient && !input.previewOnly) {
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST', signal: AbortSignal.timeout(15000),
-    headers: { Authorization: `Bearer ${input.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': `newsletter-preview/${issue.id}/${input.testId}` },
-    body: JSON.stringify({ from: input.NEWSLETTER_FROM, to: [input.recipient], ...message, subject: '[PROVË] ' + message.subject }),
-  });
-  const result = await response.json();
-  console.log(JSON.stringify({ providerStatus: response.status, id: result.id, error: result.name, message: result.message }));
-  if (!response.ok) {
-    if (response.status !== 429 || result.name !== 'daily_quota_exceeded' || !input.GMAIL_USER || !input.GMAIL_APP_PASSWORD) process.exitCode = 1;
-    else {
-      const smtp = nodemailer.createTransport({ service: 'gmail', auth: { user: input.GMAIL_USER, pass: input.GMAIL_APP_PASSWORD }, connectionTimeout: 8000, socketTimeout: 10000 });
-      const receipt = await smtp.sendMail({ from: { name: '383 · Përmbledhja javore', address: input.GMAIL_USER }, replyTo: input.NEWSLETTER_FROM,
-        to: input.recipient, ...message, subject: '[PROVË] ' + message.subject });
-      console.log(JSON.stringify({ fallback: 'gmail', accepted: receipt.accepted.length }));
-    }
-  }
+  if (!input.GMAIL_USER || !input.GMAIL_APP_PASSWORD) throw new Error('Newsletter test delivery requires Gmail SMTP');
+  const smtp = nodemailer.createTransport({ service: 'gmail', auth: { user: input.GMAIL_USER, pass: input.GMAIL_APP_PASSWORD }, connectionTimeout: 8000, socketTimeout: 10000 });
+  const receipt = await smtp.sendMail({ from: { name: '383 · Përmbledhja javore', address: input.GMAIL_USER }, replyTo: input.NEWSLETTER_FROM,
+    to: input.recipient, ...message, subject: '[PROVË] ' + message.subject });
+  if (!receipt.accepted?.length || receipt.rejected?.length) throw new Error('SMTP did not accept the newsletter preview');
+  console.log(JSON.stringify({ provider: 'gmail_smtp', accepted: receipt.accepted.length }));
 }
