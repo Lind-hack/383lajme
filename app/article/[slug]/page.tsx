@@ -3,6 +3,7 @@ import { jsonLdString } from "@/lib/json-ld";
 import type { Metadata } from "next";
 import { getArticleBySlug, getArticles, getArticlesBefore } from "@/lib/db";
 import { isSameStory } from "@/lib/front-page.mjs";
+import { rankRelated } from "@/lib/related-articles.mjs";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
 import ArticleContent from "@/components/article-content";
@@ -66,10 +67,6 @@ export async function generateMetadata({
   };
 }
 
-function titleKws(text: string) {
-  return new Set(text.toLowerCase().split(/\W+/).filter((w) => w.length > 4));
-}
-
 export default async function ArticlePage({
   params,
 }: {
@@ -85,13 +82,13 @@ export default async function ArticlePage({
 
   const catColor = getCategoryColor(article.category);
   const catBg = getCategoryBg(article.category, 0.08);
-  // Related cards, the dossier's archive half and the accordion — all of which
-  // show a headline and an image. The article being read has its own body from
-  // getArticleBySlug; these fifty do not need theirs.
+  // The dossier's archive half reads the fifty most-read; everything a reader
+  // is offered next — related stories, the section and latest lists, the
+  // category row — comes from the newest 150, so it is about now. Neither list
+  // carries bodies: the article being read has its own from getArticleBySlug.
   const [allArticles, recentArticles] = await Promise.all([
     getArticles(50, undefined, { withBody: false }),
-    // What else is new, for the list that closes the page.
-    getArticlesBefore({ limit: 24 }),
+    getArticlesBefore({ limit: 150 }),
   ]);
 
   const canonicalUrl = `${SITE}/article/${slug}`;
@@ -123,52 +120,9 @@ export default async function ArticlePage({
     mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
   };
 
-  const related: typeof allArticles = [];
-  const relatedKws: Set<string>[] = [];
-  for (const a of allArticles) {
-    if (a.slug === slug || a.category !== article.category) continue;
-    const kws = titleKws(a.title);
-    if (relatedKws.some((rk) => [...kws].filter((w) => rk.has(w)).length >= 3)) continue;
-    related.push(a);
-    relatedKws.push(kws);
-    if (related.length >= 3) break;
-  }
-
-  // Where to go next, once the story is read: more from its section, then the
-  // newest from everywhere else. Neither repeats this story, the related
-  // cards above, or a second write-up of either.
-  const shownTitles = [article.title, ...related.map((a) => a.title)];
-  const shownIds = new Set([article.id, ...related.map((a) => a.id)]);
-  const nextUp = (pool: typeof allArticles, count: number, keep: (a: (typeof allArticles)[number]) => boolean) => {
-    const picked: typeof allArticles = [];
-    for (const a of pool) {
-      if (picked.length >= count) break;
-      if (shownIds.has(a.id) || !keep(a)) continue;
-      if (shownTitles.some((t) => isSameStory(t, a.title))) continue;
-      picked.push(a);
-      shownIds.add(a.id);
-      shownTitles.push(a.title);
-    }
-    return picked;
-  };
-  const moreFromCategory = nextUp(allArticles, 8, (a) => a.category === article.category);
-  const latestElsewhere = nextUp(recentArticles, 6, (a) => a.category !== article.category);
-
-  // Category cards (no image) — one top article per category, deduped
-  const accordionCats = [
-    { category: "Kosovë",     label: "Kosovë"     },
-    { category: "Shqipëri",   label: "Shqipëri"   },
-    { category: "Showbiz",    label: "Showbiz"    },
-    { category: "Botë",       label: "Botë"       },
-    { category: "Teknologji", label: "Teknologji" },
-    { category: "Sport",      label: "Sport"      },
-  ];
-  const usedAccordionIds = new Set<string>();
-  // Every branch here ended at allArticles[0], which is undefined once the
-  // archive is empty — and the next line read .id off it.
   // Which standing dossier this story belongs to, resolved from its own words
   // rather than a tag, so every article joins one without editorial work. Null
-  // when nothing matches, and the rail simply does not render.
+  // when nothing matches, and the dossier simply does not render.
   // Matched over every subject both halves know, so the rail beside a story and
   // the dossier it links to can never disagree about which file the story is in.
   const universe = await dosjeUniverse();
@@ -186,14 +140,54 @@ export default async function ArticlePage({
         }
       : null;
 
-  const categorySlides: AccordionSlide[] = accordionCats.flatMap(({ category, label }) => {
-    const a =
-      allArticles.find((x) => x.category === category && !usedAccordionIds.has(x.id)) ??
-      allArticles.find((x) => !usedAccordionIds.has(x.id)) ??
-      allArticles[0];
+  // Related means about the same thing: shared people, places and words,
+  // fresher first (lib/related-articles.mjs). Stories already in this dossier
+  // get a lift. The three closest go beside the story, the next three below
+  // it; every slot needs a photograph, and a weak match leaves a slot empty
+  // rather than filling it with something unrelated.
+  const pool = [...recentArticles, ...allArticles];
+  const topicSlugs = (dosje?.entries ?? []).flatMap((e) => (e.slug ? [e.slug] : []));
+  const closest = rankRelated(article, pool, { limit: 6, requireImage: true, topicSlugs });
+  const sidebarRelated = closest.slice(0, 3);
+  const related = closest.slice(3, 6);
+
+  // Where to go next, once the story is read: the newest from its section,
+  // then the newest from everywhere else. Neither repeats this story, a
+  // related story, or a second write-up of either, and each needs a photo so
+  // the two lists line up row for row.
+  const shownTitles = [article.title, ...closest.map((a) => a.title)];
+  const shownIds = new Set([article.id, ...closest.map((a) => a.id)]);
+  const nextUp = (count: number, keep: (a: (typeof recentArticles)[number]) => boolean) => {
+    const picked: typeof recentArticles = [];
+    for (const a of recentArticles) {
+      if (picked.length >= count) break;
+      if (!a.imageUrl || shownIds.has(a.id) || !keep(a)) continue;
+      if (shownTitles.some((t) => isSameStory(t, a.title))) continue;
+      picked.push(a);
+      shownIds.add(a.id);
+      shownTitles.push(a.title);
+    }
+    return picked;
+  };
+  const moreFromCategory = nextUp(6, (a) => a.category === article.category);
+  const latestElsewhere = nextUp(6, (a) => a.category !== article.category);
+
+  // One card per section for "Eksploro sipas kategorisë": that section's
+  // newest story with a photograph. A section with nothing recent is left out
+  // rather than filled with another section's story.
+  const exploreCats = ["Kosovë", "Shqipëri", "Botë", "Sport", "Teknologji", "Showbiz"];
+  const categorySlides: AccordionSlide[] = exploreCats.flatMap((category) => {
+    const a = recentArticles.find(
+      (x) =>
+        x.category === category &&
+        x.imageUrl &&
+        !shownIds.has(x.id) &&
+        !shownTitles.some((t) => isSameStory(t, x.title))
+    );
     if (!a) return [];
-    usedAccordionIds.add(a.id);
-    return [{ article: a, category, label }];
+    shownIds.add(a.id);
+    shownTitles.push(a.title);
+    return [{ article: a, category, label: category }];
   });
 
   return (
@@ -208,6 +202,7 @@ export default async function ArticlePage({
         latestStrip={<LatestStrip />}
         article={article}
         related={related}
+        sidebarRelated={sidebarRelated}
         moreFromCategory={moreFromCategory}
         latestElsewhere={latestElsewhere}
         catColor={catColor}

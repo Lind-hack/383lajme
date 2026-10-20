@@ -1,20 +1,21 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { type Article } from "@/lib/mock-data";
 import TimeAgo from "./time-ago";
 import ArticleCard from "@/components/article-card";
-import ArticleSidebar from "@/components/article-sidebar";
+import ArticleSidebar, { RelatedReads } from "@/components/article-sidebar";
 import type { DosjeData } from "@/components/article-sidebar";
-import DosjeSection from "@/components/dosje-section";
+import DosjeStory from "@/components/dosje-story";
+import SidebarMarketWidget from "@/components/tregu/sidebar-market-widget";
 import ArticleComments from "@/components/comments/article-comments";
 import ArticleShareRow from "@/components/article-share-row";
 import ArticleAsk from "@/components/article-ask";
 import { toParagraphs, readingMinutes } from "@/lib/article-body.mjs";
-import CategoryAccordion from "@/components/category-accordion";
+import ExploreCategories from "@/components/explore-categories";
 import SectionLabel from "@/components/section-label";
 import CategoryRail from "@/components/category-rail";
 import StoryList from "@/components/story-list";
@@ -26,7 +27,10 @@ import { youtubeIdOf } from "@/lib/video-clip";
 
 interface Props {
   article: Article;
+  /** Related stories for the bottom cards — the next closest after the rail's. */
   related: Article[];
+  /** The closest stories, for "Lexo gjithashtu" in the rail. */
+  sidebarRelated?: Article[];
   /** More from this story's section, after the related cards. */
   moreFromCategory?: Article[];
   /** The newest from the other sections. */
@@ -46,9 +50,27 @@ interface Props {
   };
 }
 
-export default function ArticleContent({ article, related, moreFromCategory = [], latestElsewhere = [], catColor, catBg, categorySlides, dosje, latestStrip, editorial }: Props) {
+const WIDE = "(min-width: 1024px)";
+const subscribeWide = (onChange: () => void) => {
+  const mq = window.matchMedia(WIDE);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+};
+
+/**
+ * Whether the rail is beside the story. The rail and its phone stand-in each
+ * mount only where they are shown, so the market is fetched once and the
+ * rail's account effects do not run on a phone. The server renders the wide
+ * layout; a phone switches after hydration.
+ */
+function useWide(): boolean {
+  return useSyncExternalStore(subscribeWide, () => window.matchMedia(WIDE).matches, () => true);
+}
+
+export default function ArticleContent({ article, related, sidebarRelated = [], moreFromCategory = [], latestElsewhere = [], catColor, catBg, categorySlides, dosje, latestStrip, editorial }: Props) {
   // Counted from the prose, not from the markup the body is stored in.
   const dynamicReadTime = readingMinutes(article.body);
+  const wide = useWide();
   // Only the exact watch URL the pipeline writes; anything else shows the photo.
   const youtubeId = youtubeIdOf(article.videoClipUrl);
 
@@ -97,7 +119,9 @@ export default function ArticleContent({ article, related, moreFromCategory = []
                   "NJOFTIM #cloud-news-discovery + direct publisher
                   verification" above the headline: internal plumbing, printed
                   to readers. */}
-              <span
+              <Link
+                href={`/kategori/${CATEGORY_TO_SLUG[normalizeCategory(article.category)]}`}
+                className="article-cat-chip"
                 style={{
                   fontSize: "11px",
                   fontWeight: 700,
@@ -108,10 +132,11 @@ export default function ArticleContent({ article, related, moreFromCategory = []
                   padding: "5px 12px",
                   borderRadius: "100px",
                   border: `1.5px solid ${catColor}33`,
+                  textDecoration: "none",
                 }}
               >
                 {article.category}
-              </span>
+              </Link>
             </div>
 
             <h1
@@ -232,7 +257,7 @@ export default function ArticleContent({ article, related, moreFromCategory = []
             rendered inside it reached no phone at all. */}
         {dosje && dosje.entries.length > 0 && (
           <div className="article-dosje">
-            <DosjeSection
+            <DosjeStory
               topicSlug={dosje.topicSlug}
               topicTitle={dosje.topicTitle}
               blurb={dosje.blurb}
@@ -244,8 +269,17 @@ export default function ArticleContent({ article, related, moreFromCategory = []
         )}
 
         <div className="article-sidebar-col">
-          {editorial ? editorial.sidebar : <ArticleSidebar article={article} related={related} />}
+          {editorial ? editorial.sidebar : wide && <ArticleSidebar article={article} related={sidebarRelated} />}
         </div>
+
+        {/* Phones have no rail, so what it offers that a reader would miss —
+            the closest stories and the market — follows the story instead. */}
+        {!editorial && !wide && (
+          <div className="article-mobile-rail">
+            <RelatedReads related={sidebarRelated} />
+            <SidebarMarketWidget articleCategory={article.category} articleTitle={article.title} articleExcerpt={article.excerpt} />
+          </div>
+        )}
       </div>
 
       <style>{`
@@ -266,6 +300,9 @@ export default function ArticleContent({ article, related, moreFromCategory = []
            has somewhere to travel; align-items:start alone would collapse it
            to content height and the stickiness would silently do nothing. */
         .article-sidebar-col { grid-area: rail; align-self: stretch; }
+        .article-mobile-rail { display: none; }
+        .article-cat-chip:focus-visible { outline: 2px solid #FF4422; outline-offset: 2px; }
+        @media (hover: hover) and (pointer: fine) { .article-cat-chip:hover { text-decoration: underline; text-underline-offset: 3px; } }
 
         @media (max-width: 1200px) {
           .article-grid { grid-template-columns: minmax(0, 1fr) 360px; }
@@ -273,17 +310,22 @@ export default function ArticleContent({ article, related, moreFromCategory = []
         @media (max-width: 1023px) {
           .article-grid {
             grid-template-columns: minmax(0, 1fr);
-            grid-template-rows: auto auto;
+            grid-template-rows: auto auto auto;
             grid-template-areas:
               "story"
-              "dosje";
-            row-gap: 44px;
+              "dosje"
+              "mrail";
+            row-gap: 0;
           }
+          /* Spacing on the blocks rather than the grid, so an article without
+             a dossier gets no empty gap where it would have been. */
+          .article-dosje, .article-mobile-rail { margin-top: 32px; }
           .article-sidebar-col { display: none; }
+          .article-mobile-rail { grid-area: mrail; display: grid; gap: 14px; }
         }
       `}</style>
 
-      {/* Category cards (no image) — explore by category */}
+      {/* One card per section, each led by its newest photograph. */}
       {categorySlides.length > 0 && (
         <div
           style={{
@@ -292,29 +334,8 @@ export default function ArticleContent({ article, related, moreFromCategory = []
             padding: "8px 24px 56px",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "16px",
-              marginBottom: "24px",
-            }}
-          >
-            <div style={{ width: "4px", height: "28px", background: catColor, borderRadius: "2px" }} />
-            <span
-              style={{
-                fontSize: "13px",
-                fontWeight: 800,
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                color: "#111111",
-              }}
-            >
-              EKSPLORO SIPAS KATEGORISË
-            </span>
-            <div style={{ flex: 1, height: "1px", background: "#E8E3DB" }} />
-          </div>
-          <CategoryAccordion slides={categorySlides} />
+          <SectionLabel label="Eksploro sipas kategorisë" accent={catColor} marginBottom={20} />
+          <ExploreCategories slides={categorySlides} />
         </div>
       )}
 
@@ -327,28 +348,7 @@ export default function ArticleContent({ article, related, moreFromCategory = []
           }}
         >
           <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "16px",
-                marginBottom: "32px",
-              }}
-            >
-              <div style={{ width: "4px", height: "28px", background: catColor, borderRadius: "2px" }} />
-              <span
-                style={{
-                  fontSize: "13px",
-                  fontWeight: 800,
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "#111111",
-                }}
-              >
-                NJOFTIME TË LIDHURA
-              </span>
-              <div style={{ flex: 1, height: "1px", background: "#E8E3DB" }} />
-            </div>
+            <SectionLabel label="Njoftime të lidhura" accent={catColor} marginBottom={24} />
             <div
               style={{
                 display: "grid",
