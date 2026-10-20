@@ -142,11 +142,11 @@ export default function Footer() {
             </p>
             <div style={{ display: "flex", flexDirection: "column" as const, gap: "10px", marginBottom: "32px" }}>
               <a
-                href="mailto:info@383media.com"
+                href="mailto:info@383ks.com"
                 className="footer-contact"
                 style={{ textDecoration: "none", fontSize: "14px", fontWeight: 500 }}
               >
-                info@383media.com
+                info@383ks.com
               </a>
               <span style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", color: "rgba(255,255,255,0.65)", fontWeight: 500 }}>
                 <MapPin size={14} strokeWidth={2} color="#FF4422" aria-hidden="true" />

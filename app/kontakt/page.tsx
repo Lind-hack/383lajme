@@ -9,10 +9,10 @@ import styles from "@/components/info-pages.module.css";
 export const metadata: Metadata = {
   title: "Kontakt",
   description:
-    "Kontakto 383: lajme dhe sugjerime, korrigjime, bashkëpunime biznesi. info@383media.com",
+    "Kontakto 383: lajme dhe sugjerime, korrigjime, bashkëpunime biznesi. info@383ks.com",
 };
 
-const CONTACT = "info@383media.com";
+const CONTACT = "info@383ks.com";
 
 const REASONS = [
   {

@@ -25,7 +25,7 @@ const TONE: Record<DailyStory["sentiment"], { label: string; why: string; Icon: 
  *  bulk; the rest is one tap away rather than a long scroll by default. */
 const FIRST_PAGE = 8;
 
-const REPORT_TO = "info@383media.com";
+const REPORT_TO = "info@383ks.com";
 
 export function ToneTag({ tone }: { tone: DailyStory["sentiment"] }) {
   const { label, Icon } = TONE[tone];

@@ -26,7 +26,7 @@ function vapidToken(endpoint: string, keys: VapidKeys, subject: string) {
 }
 
 /** Wake one subscription. Resolves "gone" when the browser has unsubscribed. */
-export async function sendEmptyPush(endpoint: string, keys: VapidKeys, subject = "mailto:info@383media.com") {
+export async function sendEmptyPush(endpoint: string, keys: VapidKeys, subject = "mailto:info@383ks.com") {
   const response = await fetch(endpoint, {
     method: "POST",
     headers: {

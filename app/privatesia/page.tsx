@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const UPDATED = "20 tetor 2026";
-const CONTACT = "info@383media.com";
+const CONTACT = "info@383ks.com";
 
 const SECTIONS = [
   { id: "kush-jemi", title: "Kush jemi" },
