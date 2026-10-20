@@ -1,6 +1,6 @@
 # Main contact address — 2026-10-21
 
-Status: prepared; receiving route and branded sender verification pending.
+Status: verified and configured; release through GitHub integration.
 
 ## User decision
 
@@ -8,7 +8,7 @@ Use `info@383ks.com` as the public contact address and weekly newsletter sender.
 Keep authentication on `noreply@383ks.com`, league mail on `tregu@383ks.com`,
 and operator reports on private Gmail SMTP with no Resend fallback.
 
-## Verified current state
+## State observed before cutover
 
 - The domain MX records point to Cloudflare Email Routing.
 - The connected Gmail account is `lindsylqa@gmail.com`.
@@ -27,7 +27,7 @@ and operator reports on private Gmail SMTP with no Resend fallback.
 Public contact links, newsletter HTML/plain-text footer and web push contact now
 use `info@383ks.com` instead of the old `info@383media.com`.
 
-## Remaining cutover
+## Cutover procedure (completed)
 
 1. Confirm or add an enabled Cloudflare route from `info@383ks.com` to the verified
    destination `lindsylqa@gmail.com`, or verify a catch-all provides that route.
@@ -55,5 +55,20 @@ In Gmail search `to:info@383ks.com`, or for existing domain mail use
 
 29 relevant newsletter/routing/branding tests pass. Production build and
 TypeScript checks pass. Reviewed the address-only diff; no transport, schedule,
-subscription, auth or league sender behavior has changed. Not deployed pending
-incoming-route confirmation and the authorized sender/delivery check.
+subscription, auth or league sender behavior has changed. Deployment follows the confirmed incoming route and successful authorized sender/delivery check.
+
+## Delivery and configuration verification — 2026-10-21
+
+- User confirmed creating the receiving route and authorized one verification.
+- Exactly one Resend request was accepted using idempotency key
+  `383-main-contact-verification-20261021`, receipt
+  `01a15b61-89b0-7d75-98b9-3c833b043cf6`.
+- Gmail independently confirms the message in INBOX, from `383 info@383ks.com`
+  to `info@383ks.com`, subject `383 main email verification - 2026-10-21`,
+  message ID `1a15b619484f4048`. This verifies both branded sending and forwarding.
+- Railway NEWSLETTER_FROM is `383 <info@383ks.com>` and provider is `resend`.
+  Variables were changed with `--skip-deploys`; the committed GitHub push is the
+  only release trigger. Existing Gmail quota fallback remains enabled.
+- Private newsletter worker Reply-To is `info@383ks.com`. A root-only backup was
+  saved before changing the configuration; credentials and permissions preserved.
+- Authentication, league senders, operator SMTP routing and Sunday timing unchanged.
