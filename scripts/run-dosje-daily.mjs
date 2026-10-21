@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { existsSync, openSync, closeSync, statSync, unlinkSync, writeSync } from "node:fs";
+import { existsSync, openSync, closeSync, readFileSync, statSync, unlinkSync, writeSync } from "node:fs";
 import { randomUUID } from "node:crypto";
 import { VETTED_CHANNELS } from "../lib/dosje-video.mjs";
 
@@ -48,13 +48,15 @@ function belgradeMinutes(d = new Date()) {
   const m = Number(parts.find((p) => p.type === "minute")?.value ?? 0);
   return h * 60 + m;
 }
-const STOP_AT = 6 * 60 + 50;
 const LAST_CALL = 6 * 60 + 40;
 const startedAt = new Date();
-const deadlineArg = Number(args[args.indexOf("--deadline-minutes") + 1]);
+const deadlineArg = args.includes("--deadline-minutes") ? Number(args[args.indexOf("--deadline-minutes") + 1]) : NaN;
 const nowMin = belgradeMinutes(startedAt);
-if (backfill && !(nowMin >= 0 && nowMin < LAST_CALL) && !args.includes("--deadline-minutes")) {
-  console.error(JSON.stringify({ ok: false, error: "backfill runs only between 00:00 and 06:40 Europe/Belgrade (Luna is the news writer's from 07:00)" }));
+// Luna belongs to the news writer from 07:00 to 23:00 (and Tregu, Bota after
+// it). Outside 00:00–06:40 any run — scheduled, backfill or manual — may use
+// Gemini only.
+if (nowMin >= LAST_CALL && !noLuna) {
+  console.error(JSON.stringify({ ok: false, error: "Luna runs only between 00:00 and 06:40 Europe/Belgrade; pass --no-luna for a Gemini-only run outside that window" }));
   process.exit(2);
 }
 // In the early window the deadline is 06:40 today; otherwise (a manual run
@@ -65,12 +67,27 @@ const lastCallAt =
     : nowMin < LAST_CALL
       ? startedAt.getTime() + (LAST_CALL - nowMin) * 60_000
       : startedAt.getTime() + 30 * 60_000;
-const timeLeft = () => lastCallAt - Date.now();
+// With Luna in play the last call is 06:40 whatever budget was asked for.
+const windowEnd = startedAt.getTime() + (LAST_CALL - nowMin) * 60_000;
+const lastCall = noLuna ? lastCallAt : Math.min(lastCallAt, windowEnd);
+const timeLeft = () => lastCall - Date.now();
 
 // ── one run at a time (daily and backfill share the lock) ─────────────────
+function holderAlive() {
+  try {
+    const pid = Number(readFileSync(LOCK, "utf8"));
+    if (!Number.isInteger(pid) || pid <= 0) return false;
+    process.kill(pid, 0);
+    return true;
+  } catch {
+    return false;
+  }
+}
 function takeLock() {
   try {
-    if (existsSync(LOCK) && Date.now() - statSync(LOCK).mtimeMs > 4 * 3600_000) unlinkSync(LOCK);
+    // A lock whose holder is gone (killed, crashed, container restarted) is
+    // stale whatever its age; one older than four hours is stale regardless.
+    if (existsSync(LOCK) && (!holderAlive() || Date.now() - statSync(LOCK).mtimeMs > 4 * 3600_000)) unlinkSync(LOCK);
     const fd = openSync(LOCK, "wx");
     writeSync(fd, String(process.pid));
     closeSync(fd);
@@ -104,6 +121,7 @@ async function site(path, init = {}) {
 
 // ── models ────────────────────────────────────────────────────────────────
 class LunaLimitError extends Error {}
+const LIMIT = /HTTP 429|usage limit has been reached|rate limit (?:reached|exceeded)/i;
 const run = {
   runId,
   date: startedAt.toISOString(),
@@ -136,14 +154,22 @@ function luna(prompt) {
       { env: { ...process.env, HERMES_HOME }, encoding: "utf8", timeout: budget, maxBuffer: 4 * 1024 * 1024, stdio: ["ignore", "pipe", "pipe"] }
     );
   } catch (err) {
-    const said = `${err?.stdout ?? ""}\n${err?.stderr ?? ""}\n${err?.message ?? ""}`;
+    // Only what Hermes printed: err.message also carries the whole argv, so a
+    // fetched article that mentions "429" would otherwise flip the run.
+    const said = `${err?.stdout ?? ""}\n${err?.stderr ?? ""}`;
     // A usage limit is not transient within this run: retrying only spends
     // the news writer's allowance. Switch for good.
-    if (/\b429\b|usage limit/i.test(said)) throw new LunaLimitError("Luna usage limit reached");
-    throw new Error(`luna failed: ${said.replace(/\s+/g, " ").slice(0, 240)}`);
+    if (LIMIT.test(said)) throw new LunaLimitError("Luna usage limit reached");
+    const why = err?.code === "ETIMEDOUT" || err?.signal ? "timed out" : said.replace(/\s+/g, " ").slice(-240);
+    throw new Error(`luna failed: ${why}`);
   }
-  if (/\b429\b.*usage limit|usage limit has been reached/i.test(out)) throw new LunaLimitError("Luna usage limit reached");
-  return parseMarked(out);
+  try {
+    return parseMarked(out);
+  } catch (parseError) {
+    // Hermes can exit 0 having printed only its failure line.
+    if (LIMIT.test(out)) throw new LunaLimitError("Luna usage limit reached");
+    throw parseError;
+  }
 }
 
 async function gemini(system, prompt) {
@@ -266,8 +292,15 @@ try {
     }
     const entry = { slug: subject.slug, title: subject.title };
     run.subjects.push(entry);
+    if (dryRun) {
+      // The evidence step claims the subject for the day; a dry run must not.
+      entry.skipped = "dry_run: do të hulumtohej";
+      continue;
+    }
+    let claimed = null;
     try {
       const ev = await site(`/daily/evidence?topic=${encodeURIComponent(subject.slug)}`);
+      if (ev.ok) claimed = ev.run_id;
       if (!ev.ok) {
         entry.skipped = ev.reason === "no_sources" ? `pa burime të mjaftueshme (${ev.publishers ?? 0} botues)` : ev.reason;
         continue;
@@ -279,10 +312,8 @@ try {
         `Momente që ekzistojnë tashmë (mos i përsërit): ${JSON.stringify((ev.existing ?? []).map((m) => `${m.event_date} ${m.title}`))}\n\n` +
         `Burimet:\n\n${sources}\n\nFormati: ${RESEARCH_FORMAT}`;
       const { json, model } = await ask(RESEARCH_SYSTEM, task);
-      if (dryRun) {
-        entry.skipped = `dry_run: ${Array.isArray(json?.milestones) ? json.milestones.length : 0} momente të propozuara`;
-        continue;
-      }
+      // From here the publish step owns the claim and closes it.
+      claimed = null;
       entry.receipt = await site("/daily/publish", {
         method: "POST",
         body: JSON.stringify({
@@ -299,6 +330,14 @@ try {
     } catch (err) {
       entry.error = String(err?.message ?? err).slice(0, 240);
       if (entry.error === "deadline") entry.error = "deadline: lëvizi për nesër";
+      // Release the day's claim so the subject can be tried again tomorrow,
+      // rather than counting as researched this week.
+      if (claimed !== null) {
+        await site("/daily/publish", {
+          method: "POST",
+          body: JSON.stringify({ topic_slug: subject.slug, run_id: claimed, abandon: true, reason: entry.error }),
+        }).catch(() => {});
+      }
     }
   }
 } catch (err) {
@@ -315,4 +354,4 @@ try {
   process.exitCode = 1;
 }
 log({ stage: "done", errors: run.errors, subjects: run.subjects.length, luna: run.calls.luna, gemini: run.calls.gemini });
-if (run.errors.length) process.exitCode = 1;
+if (run.errors.length || run.subjects.some((s) => s.error && !s.error.startsWith("deadline"))) process.exitCode = 1;

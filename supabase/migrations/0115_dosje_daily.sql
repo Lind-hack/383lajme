@@ -25,8 +25,9 @@
 --    (23505) are reported as outcomes; any other error aborts the whole call,
 --    so a bug is never reported as a refusal.
 --
---    A topic is inserted as a draft. On conflict its wording and vocabulary are
---    refreshed but its status is never touched, so re-running can never hide a
+--    A topic is inserted as a draft. On conflict its title, blurb and primer
+--    are refreshed (vocabulary is set when the topic is created) but its status
+--    is never touched, so re-running can never hide a
 --    live dossier. It becomes approved only when at least one of its moments
 --    did.
 --

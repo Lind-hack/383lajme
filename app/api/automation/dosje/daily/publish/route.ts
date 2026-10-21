@@ -51,7 +51,16 @@ export async function POST(req: Request) {
     milestones?: Draft[];
     primer?: { text?: string; claims?: Claim[] } | null;
     videos?: Array<{ id?: string }>;
+    abandon?: boolean;
+    reason?: string;
   } | null;
+
+  // The worker gave up on a subject after claiming it (model failure, the
+  // 06:40 deadline): free the day so tomorrow tries again.
+  if (body?.abandon) {
+    await finishRun(body.run_id, "abandoned", { reason: String(body.reason ?? "").slice(0, 200) });
+    return NextResponse.json({ ok: true, abandoned: true });
+  }
 
   const topic = (await dbTopics()).find((t) => t.slug === body?.topic_slug);
   if (!topic) return NextResponse.json({ ok: false, reason: "unknown_topic" }, { status: 404 });
@@ -77,7 +86,10 @@ export async function POST(req: Request) {
         archive_url: s.archive_url,
         live,
         fetched_at: s.fetched_at,
-        http_status: live ? 200 : s.http_status,
+        // Only a live page with text counts as verified. A Wayback copy proves
+        // the page once said this, not that the source still stands, so it is
+        // recorded without a 200 and the approval trigger does not count it.
+        http_status: live ? 200 : null,
       };
     })
   );
@@ -87,6 +99,18 @@ export async function POST(req: Request) {
   const rejected: Array<{ title: string; reasons: string[] }> = [];
   const bundle: Array<Record<string, unknown>> = [];
   for (const raw of drafts) {
+    // A moment is a short read; anything longer is a model rambling, refused
+    // rather than trimmed so no sentence loses its citation.
+    const tooLong =
+      String(raw?.title ?? "").length > 160 ||
+      String(raw?.summary ?? "").length > 900 ||
+      String(raw?.why ?? "").length > 400 ||
+      String(raw?.tag ?? "").length > 40 ||
+      String(raw?.display_date ?? "").length > 60;
+    if (tooLong) {
+      rejected.push({ title: String(raw?.title ?? "(pa titull)").slice(0, 160), reasons: ["too_long"] });
+      continue;
+    }
     const verdict = validateMilestoneDraft(raw, { sources });
     if (!verdict.ok || !verdict.milestone) {
       rejected.push({ title: String(raw?.title ?? "(pa titull)"), reasons: (verdict.reasons ?? []) as string[] });
@@ -170,7 +194,7 @@ export async function POST(req: Request) {
     const url = `https://www.youtube.com/watch?v=${id}`;
     const { data: had } = await db.from("dosje_media").select("id").eq("topic_slug", topic.slug).eq("url", url).maybeSingle();
     if (!had) {
-      await db.from("dosje_media").insert({
+      const { error: mediaError } = await db.from("dosje_media").insert({
         topic_slug: topic.slug,
         kind: "video",
         url,
@@ -182,16 +206,21 @@ export async function POST(req: Request) {
         approved: true,
         approved_by: "dosje-daily",
       });
+      if (mediaError) {
+        videos.push({ id, status: "refused", reason: "insert_failed", channel: check?.author ?? null, title: check?.title ?? null });
+        continue;
+      }
     }
     videos.push({ id, status: had ? "already_present" : "added", channel: check?.author ?? null, title: check?.title ?? null });
   }
 
   // ── where it now shows, and make that true ───────────────────────────────
-  const approvedKeys = new Set(
-    (receipt.results ?? []).filter((r) => r.outcome === "approved").map((r) => String(r.dedupe_key))
-  );
-  const published = bundle.filter((m) => approvedKeys.has(String(m.dedupe_key)));
-  const refusedByDb = (receipt.results ?? []).filter((r) => r.outcome !== "approved");
+  // The function returns one result per moment, in the order sent, so results
+  // pair with the bundle by position — not by title, which two moments can share.
+  const results = receipt.results ?? [];
+  const published = bundle.filter((_, i) => results[i]?.outcome === "approved");
+  const refusedByDb = results.filter((r) => r.outcome !== "approved");
+  const onlyDuplicates = bundle.length > 0 && results.length > 0 && results.every((r) => r.outcome === "duplicate");
   let showingOn: Array<{ slug: string; title: string }> = [];
   if (topicLive && (published.length || primer || videos.some((v) => v.status === "added"))) {
     const all = (await dbTopics()).filter((t) => t.status === "approved").map(matcherOf);
@@ -206,7 +235,7 @@ export async function POST(req: Request) {
 
   await finishRun(
     body?.run_id,
-    published.length ? "published" : "verify_failed",
+    published.length ? "published" : onlyDuplicates ? "duplicate" : "verify_failed",
     { model, published: published.length, rejected, refusedByDb, primerReasons },
     published.length ? 0 : 7
   );

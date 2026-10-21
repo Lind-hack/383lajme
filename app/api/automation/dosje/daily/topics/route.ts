@@ -54,7 +54,7 @@ export async function POST(req: Request) {
       rejected.push({ ...label, reasons: ["cluster_not_found"] });
       continue;
     }
-    const inCluster = new Set(cluster.articles.map((a) => a.slug));
+    const inCluster = new Set(cluster.members);
     const verdict = checkProposedTopic(raw, {
       cluster: cluster.articles,
       others: articles.filter((a) => !inCluster.has(a.slug)),

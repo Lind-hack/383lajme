@@ -114,10 +114,13 @@ export async function dueSubjects(limit: number, articles: PoolArticle[], topics
   const weekAgo = new Date(Date.now() - 7 * 86_400_000).toISOString().slice(0, 10);
   const { data: runs } = await admin()
     .from("dosje_research_runs")
-    .select("subject_key, run_date, cooldown_until")
+    .select("subject_key, run_date, cooldown_until, outcome")
     .gte("run_date", new Date(Date.now() - 60 * 86_400_000).toISOString().slice(0, 10));
   const last = new Map<string, { run: string; cooldown: string | null }>();
-  for (const r of (runs ?? []) as { subject_key: string; run_date: string; cooldown_until: string | null }[]) {
+  for (const r of (runs ?? []) as { subject_key: string; run_date: string; cooldown_until: string | null; outcome: string }[]) {
+    // An abandoned run (deadline, model failure) did no research; it must not
+    // count as this week's attempt.
+    if (r.outcome === "abandoned") continue;
     const prev = last.get(r.subject_key);
     if (!prev || r.run_date > prev.run) last.set(r.subject_key, { run: r.run_date, cooldown: r.cooldown_until });
   }
@@ -151,6 +154,8 @@ export async function dueSubjects(limit: number, articles: PoolArticle[], topics
 export function isoDay(value: unknown): string | null {
   const m = String(value ?? "").match(/^(\d{4}-\d{2}-\d{2})/);
   if (!m) return null;
-  const t = Date.parse(m[1]);
-  return Number.isFinite(t) ? m[1] : null;
+  const t = Date.parse(`${m[1]}T00:00:00Z`);
+  // Round-trip, because Date.parse is lenient: "2026-02-30" parses, and would
+  // then abort the whole publish at the ::date cast in SQL.
+  return Number.isFinite(t) && new Date(t).toISOString().slice(0, 10) === m[1] ? m[1] : null;
 }

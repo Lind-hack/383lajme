@@ -13,6 +13,6 @@ set +a
 cd "$REPO"
 
 # The script stops starting model calls at 06:40 by itself; this is the
-# outer bound in case a call hangs.
+# outer bound in case a call hangs, with room left for publishing and the email.
 # shellcheck disable=SC2086
-exec timeout 6600s node scripts/run-dosje-daily.mjs ${DOSJE_ARGS:-}
+exec timeout 7800s node scripts/run-dosje-daily.mjs ${DOSJE_ARGS:-}
