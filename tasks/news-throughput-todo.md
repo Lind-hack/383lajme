@@ -8,15 +8,19 @@
 - [x] Implement two-to-three category allocation, honest shortages and productive refill.
 - [x] Enforce Luna/max/Codex OAuth without API fallback and bounded work.
 - [x] Verify empty editorial results and optional rounds preserve approved work.
-- [ ] Review full changes; run source, photo, editorial, publication and scheduling tests plus build.
+- [x] Review full changes; run source, photo, editorial, publication and scheduling tests plus build.
 - [ ] Push intended clean changes to main; verify Railway production SHA/source.
-- [ ] Install committed versioned worker without interrupting a production run.
-- [ ] Verify full seven-desk QA and actual balanced production publication/category pages.
+- [x] Install committed versioned worker without interrupting a production run.
+- [ ] Verify a full seven-desk real-source run and actual balanced production publication/category pages.
 
 The final throughput item remains open until actual output proves it. Do not replace this with a weaker smoke-test success criterion.
 
 ## Verification 2026-10-21
 
-- Local relevant suite: 188 local tests passed (two Linux-only skips). The initial 186-test committed staging suite passed fully on Linux, including process-group cleanup; final follow-up Linux checks pending.
-- npm run build passed; Bash syntax and diff whitespace checks passed.
-- Full throughput and production release remain unverified. Current scheduled worker is active; staging must not change its symlink or shared state.
+- Final local suite: 188 tests, two Linux-only skips. Final Linux suite: all 188 passed, including timeout descendant cleanup and main-thread termination of model calls started by review threads.
+- Rebased onto current main, preserving the concurrent article and Dosje changes; npm run build passed after rebase. Bash syntax and diff whitespace checks passed.
+- Source discovery on committed release d05284c7 selected 322 current candidates across all seven categories, from 528 raw leads. 46 of 65 configured feed/listing retrievals were healthy; blocked and unavailable sources remain skipped.
+- Worker commit d05284c7f144a3cdcd9ebeb58e810ed8d73a2b23 was installed from its committed Git archive and activated under the publisher lock after the previous run finished. The previous release remains available for rollback. Production database host, max reasoning, saved publication state and the 07:00-23:00 Warsaw timer were verified.
+- The previous worker's 20:00 Warsaw run published four articles: two Kosovo and two Showbiz, with five desks empty. This is a baseline, not evidence of the fix's output.
+- The new worker's next scheduled run is 21:00 Warsaw. Use the actual scheduled run for full real-source verification so a separate QA run does not occupy the production lock and displace an hourly slot. Balanced publication and visible category readback remain pending.
+- Main received the intended news changes. Railway's official status reports builds and deployments paused during a platform outage (https://status.railway.com/). The website still reports dacf0ca834db42cc7264d5a6d91da21728f317eb, production/github-main. Do not mark the website release verified or bypass its GitHub integration.
