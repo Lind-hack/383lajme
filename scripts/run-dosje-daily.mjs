@@ -234,8 +234,9 @@ Do të marrësh burime të numëruara. Secili është tekst REAL i shkarkuar nga
 Rregullat, pa përjashtim:
 - Mbështetu VETËM te teksti i burimeve. MOS shkruaj asnjë URL; cito me indeksin e burimit.
 - "claims" ka NJË zë për ÇDO fjali të "summary"; fjalia kopjohet fjalë për fjalë nga "summary". Një fjali pa zë e hedh poshtë momentin.
-- Çdo moment mbështetet në të paktën DY botues të ndryshëm (shiko emrin e botuesit te çdo burim).
-- Çdo shifër, datë ose numër duhet të shfaqet fjalë për fjalë në një burim.
+- Zgjidh VETËM ngjarje që i përmendin të paktën DY botues të ndryshëm (lista "Botuesit" më poshtë tregon cili indeks i përket cilit botues).
+- Në çdo moment, "source_indexes" të claims-ave së bashku duhet të përfshijnë indekse nga të paktën DY botues të ndryshëm — p.sh. një fjali cito [0, 4] nëse 0 dhe 4 janë botues të ndryshëm që thonë të njëjtën gjë. Një moment me një botues të vetëm refuzohet automatikisht; më mirë më pak momente se sa momente të refuzuara.
+- Çdo shifër, datë ose numër duhet të shkruhet NJËSOJ siç shfaqet në burim (të njëjtat shifra). Mos llogarit, mos rrumbullako, mos shto numra.
 - Për çdo zë jep "quote": fjalinë E SAKTË nga burimi, shkronjë për shkronjë, pa përkthim. Nëse nuk e gjen, lëre bosh.
 - "summary": dy ose tri fjali të shkurtra. "why": një fjali, "Pse ka rëndësi" — shpjegim i thjeshtë për lexuesin.
 - Momentet janë në të kaluarën dhe renditen sipas datës. Mos përsërit momentet që ekzistojnë tashmë.
@@ -311,6 +312,9 @@ try {
         `Tema: ${ev.topic.title}\nPër lexuesin: ${ev.topic.blurb}\n` +
         `Lajmet e fundit për temën: ${JSON.stringify(subject.headlines ?? [])}\n` +
         `Momente që ekzistojnë tashmë (mos i përsërit): ${JSON.stringify((ev.existing ?? []).map((m) => `${m.event_date} ${m.title}`))}\n\n` +
+        // Spelled out because a moment is refused unless its citations span two
+        // publishers, and models otherwise cite one source per moment.
+        `Botuesit: ${ev.sources.map((s) => `[${s.index}] ${s.publisher ?? "?"}`).join(", ")}\n\n` +
         `Burimet:\n\n${sources}\n\nFormati: ${RESEARCH_FORMAT}`;
       const { json, model } = await ask(RESEARCH_SYSTEM, task);
       // From here the publish step owns the claim and closes it.
