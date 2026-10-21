@@ -222,7 +222,7 @@ Për çdo dosje:
 - "anchors": 1–4 terma shqip, me shkronja të vogla, që shfaqen në titujt/përmbledhjet e grupit dhe pa të cilët tema nuk ekziston.
 - "matchGroups": 2–4 grupe; çdo grup është 1–3 terma shqip që duhet të shfaqen TË GJITHË bashkë në titull ose përmbledhje që një artikull t'i përkasë dosjes. Kontrollo që shumica e artikujve të grupit të përputhen me të paktën një grup — shkruaj termat ashtu siç shfaqen në artikuj. Një nga grupet duhet të jetë një emër i vetëm dallues (personi, institucioni ose vendi specifik i temës). Mos përdor terma të përgjithshëm (kosova, qeveria, ministri) vetëm.
 - "signals": deri 6 terma ndihmës. "excludes": terma që, nëse shfaqen, e përjashtojnë artikullin.
-- "researchQuery": frazë ANGLISHT 3–7 fjalë për të gjetur faqen e Wikipedia-s anglisht për këtë temë.
+- "researchQuery": TITULLI I SAKTË i artikullit më të afërt në Wikipedia anglisht për këtë temë (p.sh. "Kosovo Specialist Chambers", "Pope Leo XIV"), jo një frazë kërkimi.
 - "researchGroups": 1–3 grupe termash ANGLISHT (të vogla) që një burim i huaj duhet t'i përmbajë bashkë për të qenë për këtë temë.`;
 
 const TOPIC_FORMAT = `{"topics":[{"cluster_id":"...","slug":"...","title":"...","blurb":"...","anchors":["..."],"matchGroups":[["...","..."]],"signals":[],"excludes":[],"researchQuery":"...","researchGroups":[["...","..."]]}]}`;
