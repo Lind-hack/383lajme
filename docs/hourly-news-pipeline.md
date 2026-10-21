@@ -226,3 +226,7 @@ for licensed-photo research. The logo is never carried into the prepared image
 files; the existing Commons rights, context, size and editorial gates decide
 whether an actual photograph qualifies. Namesakes and publisher subjects remain
 excluded even during identity-only resolution.
+
+The worker pins its working directory to the physical versioned release before
+creating evidence, batch or state paths. Historical artifacts therefore remain
+addressable after the current-release symlink changes.
