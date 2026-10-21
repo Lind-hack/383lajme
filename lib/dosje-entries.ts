@@ -1,5 +1,5 @@
 import { getDosje, listDosjeTopics, type DosjeCitation } from "@/lib/dosje-server";
-import { TOPICS, topicBySlug, timelineFor } from "@/lib/topics.mjs";
+import { TOPICS, timelineFor } from "@/lib/topics.mjs";
 import type { DosjeEntry } from "@/components/dosje-section";
 
 /**
@@ -130,19 +130,10 @@ export async function dosjeFor(
     };
   }
 
-  // Not approved yet. The file still renders, and says nothing about sources
-  // because it has none to show.
-  const topic = topicBySlug(slug);
-  if (!topic) return null;
-
-  return {
-    title: topic.title,
-    blurb: topic.blurb,
-    entries: timelineFor(slug, articles, currentSlug, currentArticle, universe) as DosjeEntry[],
-    sourced: false,
-    // The hand-written list, minus what the vetting pass has already refused.
-    videos: topic.videos ?? [],
-  };
+  // No approved dossier: nothing renders. The hand-written, unsourced file
+  // that used to stand in here was retired on 2026-10-21; every dossier now
+  // comes from the daily verified run (scripts/run-dosje-daily.mjs).
+  return null;
 }
 
 /**

@@ -48,3 +48,14 @@ Built: migration 0115 (dry-run on prod with BEGIN…ROLLBACK: approve / refuse /
 19 findings. Accepted 17: dry-run no longer claims subjects; Luna only 00:00–06:40 (else --no-luna), backfill guard can't be bypassed, deadline capped at 06:40 with Luna; archive-only sources recorded without 200 (trigger won't count them; email label now fires); RPC results paired by position; failed subjects release their claim ("abandoned") and abandoned runs don't count as this week's; 429 detection reads Hermes output only, anchored; lock checks holder pid; isoDay round-trips; video insert errors reported; duplicate-only runs recorded as duplicate; full cluster membership used for false-match rate; systemd Environment= removed, wrapper/unit timeouts leave room for the email; subject errors set a failing exit; length caps on moments; 0115 comment corrected.
 Rejected 2: #13 (unfetched sources counted by the validator's publisher tally — the DB trigger refuses them and its message reaches the email; not a bypass); #17 (prompt visible in ps inside the container — acceptable).
 Not changed: #11 primer citations are validated but not stored (the primer is re-validated on every run that writes it).
+
+## Ship 2 rollout notes (2026-10-21, 00:00–04:00 Kosovo)
+- Auth: VPS env has empty CRON_SECRET; dosje routes and the subjects mapper moved to the shared lib/require-automation.ts gate (either secret).
+- Incident caused by this session: a Luna test run as root in the Hermes container rewrote /opt/data/auth.json root-owned; every hermes-user profile lost Codex credentials. Restored to uid 10000 at ~00:20 UTC, before the 07:00 news run. Recorded in memory (vps-hermes-never-root).
+- Luna was at its shared usage limit all night; every backfill ran on Gemini via /daily/llm as designed.
+- Evidence search fixed twice: publishers interleaved (page-order references were one outlet), then the top three Wikipedia articles read instead of one (4–6 publishers per subject instead of 1).
+- Prompts: topic step considers every public-affairs cluster and returns an exact English Wikipedia title as research query; research step lists publishers per index and requires two per moment.
+- Backfill e published the first verified moment (Kosovo Specialist Chambers: first trial, 15 Sep 2021; Balkan Insight + BBC, both live 200) and a verified primer; topic approved; renders on /dosje/<slug> and three matching articles.
+
+## Ship 3 — file layer removed
+TOPICS emptied; the six hand-written dossiers moved to lib/topics-legacy.fixture.mjs (test-only) so the matcher regression tests keep their corpus; dosjeFor's unsourced fallback removed; assignImages now receives the topic set (it would have found no photos once the file emptied). 1308/1308 tests, tsc clean.
