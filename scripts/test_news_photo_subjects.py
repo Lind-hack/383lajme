@@ -85,6 +85,27 @@ class PhotoSubjectGroundingTests(unittest.TestCase):
         self.assertNotIn("OpenAI", names)
         self.assertIn("TechCrunch", names)
 
+    def test_logo_identifies_company_without_ever_becoming_the_prepared_photo(self):
+        page = wiki_page("Nvidia", "Nvidia_logo.svg", "American semiconductor company")
+        self.assertFalse(wiki_identity_allowed(page, "Nvidia", "Nvidia announced a new chip.", "Teknologji", set()))
+        self.assertTrue(wiki_identity_allowed(page, "Nvidia", "Nvidia announced a new chip.", "Teknologji", set(), require_photo=False))
+        response = SimpleNamespace(json=lambda: {"query": {"pages": {"1": page}}})
+        lead = {"category": "Teknologji", "title": "Nvidia announces a new chip",
+                "primary_evidence": {"text": "Nvidia announced a new chip."}}
+        with patch.object(policy, "api_get", return_value=response), \
+                patch.object(policy, "is_person", return_value=False), \
+                patch.object(policy, "is_place", return_value=False):
+            rows = list(policy._wiki_pages(lead, ["Nvidia"], set(), set()))
+        self.assertEqual(rows[0][1]["files"], [])
+        self.assertEqual(rows[0][1]["subject"], "Nvidia")
+        self.assertEqual(rows[0][1]["kind"], "thing")
+
+    def test_identity_only_resolution_still_rejects_namesakes_and_media_outlets(self):
+        deity = wiki_page("Rama", "Rama_flag.svg", "Hindu deity")
+        self.assertFalse(wiki_identity_allowed(deity, "Rama", "Rama spoke in Tirana.", "Shqip\u00ebri", set(), require_photo=False))
+        outlet = wiki_page("BBC", "BBC_logo.svg", "British broadcasting corporation")
+        self.assertFalse(wiki_identity_allowed(outlet, "BBC", "BBC published the news.", "Bot\u00eb", {"BBC"}, require_photo=False))
+
     def test_wikipedia_keeps_supported_second_subject_and_place(self):
         rows = [("Robert Fico", {"subject": "Robert Fico", "kind": "person"}),
                 ("Novi Sad", {"subject": "Novi Sad", "kind": "place"}),

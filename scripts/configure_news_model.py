@@ -11,7 +11,7 @@ def configure(home: Path, effort: str = "max") -> None:
     path = home / "config.yaml"
     config = yaml.safe_load(path.read_text()) or {}
     config.setdefault("agent", {})["reasoning_effort"] = effort
-    # Disable Hermes's internal provider fallback as well as pipeline retries.
+    # Keep Hermes's internal fallback from bypassing the pipeline model contract.
     config["fallback_model"] = None
     # Hermes does not yet recognize Luna as a reasoning model: its implicit
     # non-streaming watchdog aborts valid max-effort calls after 90 seconds.

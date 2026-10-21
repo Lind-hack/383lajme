@@ -55,7 +55,7 @@ def subject_allowed(subject, evidence, outlets):
             and not NON_PHOTO.search(name) and grounded(subject, evidence))
 
 
-def wiki_identity_allowed(page, searched_name, evidence, category, outlets):
+def wiki_identity_allowed(page, searched_name, evidence, category, outlets, *, require_photo=True):
     """A Wikipedia lead image must not resolve a namesake or a non-photo.
 
     Descriptions come in the same Wikipedia response, so these checks add no
@@ -68,8 +68,9 @@ def wiki_identity_allowed(page, searched_name, evidence, category, outlets):
     named_team = (category == "Sport" and team_alias != subject
                   and re.search(r"\b(?:football|basketball|sports)\s+(?:club|team)\b", description)
                   and subject_allowed(team_alias, evidence, outlets))
-    if (not image or image.lower().endswith(".svg") or NON_PHOTO.search(image)
-            or not (subject_allowed(subject, evidence, outlets) or named_team)):
+    if require_photo and (not image or image.lower().endswith(".svg") or NON_PHOTO.search(image)):
+        return False
+    if not (subject_allowed(subject, evidence, outlets) or named_team):
         return False
     if not (grounded(searched_name, subject) or grounded(subject, searched_name)):
         return False

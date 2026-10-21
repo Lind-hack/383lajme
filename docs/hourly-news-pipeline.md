@@ -219,3 +219,10 @@ and 900-second request timeout. Hermes otherwise applies an implicit 90-second
 non-stream watchdog to Luna; the 21:00 run recorded seven such note-call
 failures. Codex first-byte and event watchdogs are 300 seconds. These limits
 never extend a shorter worker phase/process deadline or the 55-minute run cap.
+
+Wikipedia entity resolution is separate from image qualification. A company or
+institution whose lead image is a logo can still supply a grounded entity ID
+for licensed-photo research. The logo is never carried into the prepared image
+files; the existing Commons rights, context, size and editorial gates decide
+whether an actual photograph qualifies. Namesakes and publisher subjects remain
+excluded even during identity-only resolution.

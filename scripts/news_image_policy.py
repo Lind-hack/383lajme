@@ -232,8 +232,8 @@ def is_place(item: str) -> bool:
 
 
 def wiki_plan(lead: dict) -> dict | None:
-    """Ground a photo subject in Wikipedia: a page named in the story whose lead
-    image Wikipedia itself marks as freely licensed. Commons still decides.
+    """Ground a named subject in Wikipedia, independently of its lead image.
+    A free photographic lead can be tried; Commons still decides all photos.
 
     The story's person is the subject; the first place, organisation or thing
     it names is kept as the last-resort 'place' plan. Before 2026-10-17 only
@@ -268,8 +268,9 @@ def wiki_plan(lead: dict) -> dict | None:
 
 
 def _wiki_pages(lead: dict, names: list[str], story: set[str], outlets: set[str]):
-    """Each name's Wikipedia page that the story names in full and whose lead
-    photo is free, as (name, plan) with kind 'person' or 'place'."""
+    """Ground named entities; carry only photographic free lead images.
+    A logo or missing image never supplies a photo, only a verified entity ID.
+    """
     languages = ("sq", "en") if lead.get("category") in {"Kosovë", "Shqipëri"} else ("en", "sq")
     resolved = set()
     evidence = plain(lead.get("title")) + " " + plain(lead.get("primary_evidence", {}).get("text", ""))[:1800]
@@ -289,17 +290,21 @@ def _wiki_pages(lead: dict, names: list[str], story: set[str], outlets: set[str]
                 continue
             for page in pages:
                 subject = re.sub(r"\s*\(.*?\)", "", str(page.get("title", ""))).strip()
-                if not wiki_identity_allowed(page, name, evidence, lead.get("category"), outlets):
+                if not wiki_identity_allowed(page, name, evidence, lead.get("category"), outlets, require_photo=False):
                     continue
                 qid = page.get("pageprops", {}).get("wikibase_item", "")
+                # A logo can identify an organization, but cannot become its
+                # article photo. Keep the grounded entity/QID for a separate
+                # licensed photograph search and omit the unusable lead image.
+                usable_lead = wiki_identity_allowed(page, name, evidence, lead.get("category"), outlets)
                 plan = {"subject": subject, "subject_evidence": name, "queries": [subject],
-                        "files": [str(page["pageimage"])], "caption": subject,
+                        "files": [str(page["pageimage"])] if usable_lead else [], "caption": subject,
                         "planner": f"{language}.wikipedia", "qid": qid}
                 if is_person(qid):
                     yield name, {**plan, "kind": "person"}
                 elif is_place(qid):
-                    # Only the photo Wikipedia leads the place's page with: a
-                    # Commons search on a place name found maps and charts.
+                    # Never search a loose place name. The free lead photo and
+                    # exact depicts-identity search are the only place paths.
                     yield name, {**plan, "kind": "place", "queries": []}
                 else:
                     # An organisation or product (KFOR, Tesla): its photos must
