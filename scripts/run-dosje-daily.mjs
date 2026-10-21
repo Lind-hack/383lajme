@@ -212,7 +212,7 @@ async function ask(system, task) {
 // ── prompts ───────────────────────────────────────────────────────────────
 const TOPIC_SYSTEM = `Ti je redaktor i dosjeve të 383, një faqe lajmesh në Kosovë. Një dosje është historia e një teme që lajmet vazhdojnë ta prekin: çfarë ndodhi më parë që e shpjegon lajmin e sotëm.
 
-Do të marrësh grupe artikujsh që flasin për të njëjtin subjekt. Për çdo grup që është një temë e vazhdueshme me histori për t'u shpjeguar, propozo një dosje. Mos propozo për ngjarje të njëhershme (një aksident, një ndeshje, një deklaratë pa histori). Përdor VETËM tekstin e artikujve.
+Do të marrësh grupe artikujsh që flasin për të njëjtin subjekt. Shqyrto ÇDO grup një nga një. Propozo një dosje për çdo grup që ka të bëjë me politikë, institucione, gjykata, luftë e paqe, ekonomi, shoqëri ose shëndet publik — çdo temë ku lexuesit i duhet historia për ta kuptuar lajmin. Kalo VETËM grupet për rezultate sportive, të famshëm, argëtim ose produkte. Përdor VETËM tekstin e artikujve.
 
 Për çdo dosje:
 - "cluster_id": id e grupit, saktësisht.
@@ -220,7 +220,7 @@ Për çdo dosje:
 - "title": titull shqip për lexuesin, deri 60 shenja, pa datë.
 - "blurb": një fjali shqip që thotë për çfarë është dosja.
 - "anchors": 1–4 terma shqip, me shkronja të vogla, që shfaqen në titujt/përmbledhjet e grupit dhe pa të cilët tema nuk ekziston.
-- "matchGroups": 1–4 grupe; çdo grup është 1–3 terma shqip që duhet të shfaqen TË GJITHË bashkë në titull ose përmbledhje që një artikull t'i përkasë dosjes. Mos përdor terma të përgjithshëm (kosova, qeveria, ministri) vetëm.
+- "matchGroups": 2–4 grupe; çdo grup është 1–3 terma shqip që duhet të shfaqen TË GJITHË bashkë në titull ose përmbledhje që një artikull t'i përkasë dosjes. Kontrollo që shumica e artikujve të grupit të përputhen me të paktën një grup — shkruaj termat ashtu siç shfaqen në artikuj. Një nga grupet duhet të jetë një emër i vetëm dallues (personi, institucioni ose vendi specifik i temës). Mos përdor terma të përgjithshëm (kosova, qeveria, ministri) vetëm.
 - "signals": deri 6 terma ndihmës. "excludes": terma që, nëse shfaqen, e përjashtojnë artikullin.
 - "researchQuery": frazë ANGLISHT 3–7 fjalë për të gjetur faqen e Wikipedia-s anglisht për këtë temë.
 - "researchGroups": 1–3 grupe termash ANGLISHT (të vogla) që një burim i huaj duhet t'i përmbajë bashkë për të qenë për këtë temë.`;
