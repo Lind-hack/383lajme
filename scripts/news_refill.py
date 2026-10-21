@@ -19,7 +19,31 @@ def merge(approved: list[dict], reviewed: list[dict]) -> list[dict]:
     return approved + reviewed
 
 
+def groups(folder: Path, output: Path) -> int:
+    """Drafts from the parallel desk-group writers, one array; a group that
+    failed or answered with something else is skipped."""
+    rows, seen = [], set()
+    for path in sorted(folder.glob("*.json")):
+        try:
+            part = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        for row in part if isinstance(part, list) else []:
+            if isinstance(row, dict) and row.get("slug") and row.get("url") not in seen:
+                seen.add(row["url"])
+                rows.append(row)
+    if not rows:
+        raise SystemExit("383 WRITER GROUPS: no desk group returned drafts")
+    output.write_text(json.dumps(rows, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"383 WRITER GROUPS: {len(rows)} drafts from parallel desk groups")
+    return len(rows)
+
+
 if __name__ == "__main__":
+    import sys
+    if sys.argv[1:2] == ["groups"]:
+        groups(Path(sys.argv[2]), Path(sys.argv[3]))
+        raise SystemExit(0)
     parser = argparse.ArgumentParser()
     parser.add_argument("action", choices=["split", "merge"])
     parser.add_argument("approved", type=Path)

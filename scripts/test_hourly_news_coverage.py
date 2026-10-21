@@ -1,3 +1,5 @@
+import os as _os
+_os.environ["L383_GEMINI_KEY"] = ""  # never the real Gemini API in tests
 import json
 import os
 import tempfile
@@ -45,26 +47,38 @@ class HourlyCoverageTests(unittest.TestCase):
 
     def test_hourly_image_selection_never_uses_publisher_fallback(self):
         evidence = {"image_url": "https://euronews.al/wp-content/uploads/story.jpg"}
-        with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch("news_image_policy.select_photo", return_value={}) as selector, patch("codex_automation_support._fetch_image_dimensions", side_effect=AssertionError("publisher fallback must not run")):
+        with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch("news_image_policy.photo_options", return_value=[]) as selector,                 patch("news_gallery_photos.gallery_options", return_value=[]) as gallery, patch("news_press_photos.press_options", return_value=[]),                 patch("news_video_policy.video_options", return_value=[]) as video,                 patch("codex_automation_support._fetch_image_dimensions", side_effect=AssertionError("publisher fallback must not run")):
             self.assertEqual(ready_image({"title": "A verified story"}, evidence, {}), {})
-            selector.assert_called_once()
+            # Recent visuals, then the dated archive photo of the person, then of the topic.
+            self.assertEqual([call.args[3] for call in selector.call_args_list], ["fresh", "older", "place"])
+            gallery.assert_called_once()
+            video.assert_called_once()
 
-    def test_replacements_keep_available_desks_and_reassign_exhausted_slots(self):
+    def test_the_photo_editor_order_wins_and_an_empty_verdict_means_no_photo(self):
+        options = [{"tier": "fresh", "name": "a"}, {"tier": "video", "name": "b"}, {"tier": "older", "name": "c"}]
+        def photo(lead, option):
+            return {"image_url": option["name"]}
+        with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch("news_image_policy.finalize_photo", side_effect=photo),                 patch("news_video_policy.finalize_video", side_effect=photo):
+            self.assertEqual(ready_image({"_visual_options": options}, {}, {})["image_url"], "a")
+            self.assertEqual(ready_image({"_visual_options": options, "_visual_choice": [2, 0]}, {}, {})["image_url"], "c")
+            self.assertEqual(ready_image({"_visual_options": options, "_visual_choice": []}, {}, {}), {})
+
+    def test_replacements_never_hide_short_desks_with_extra_world_stories(self):
         approved = [{"category": category, "url": f"https://example.com/{index}"}
                     for index, category in enumerate(CATEGORIES)]
         attempted = [row["url"] for row in approved]
         ready = approved + [{"category": "Botë", "url": f"https://bbc.com/new-{i}"} for i in range(25)]
         plan = replacement_plan(approved, ready, attempted)
-        self.assertEqual(sum(plan.values()), 20)
+        self.assertEqual(sum(plan.values()), 9)
         self.assertTrue(all(plan[category] >= 1 for category in CATEGORIES))
-        self.assertEqual(plan["Botë"], 14)
+        self.assertEqual(plan["Botë"], 3)
         approved = [{"category": category, "url": f"https://example.com/approved-{i}"}
-                    for i, category in enumerate(["Botë"] * 5 + ["Sport"] * 3 + ["Shqipëri", "Teknologji", "Ekonomi", "Showbiz"])]
+                    for i, category in enumerate(["Botë"] * 3 + ["Sport"] * 3 + ["Shqipëri", "Teknologji", "Ekonomi", "Showbiz"])]
         ready = [{"category": category, "url": f"https://example.com/new-{category}-{i}"}
                  for category in CATEGORIES if category != "Kosovë" for i in range(20)]
         plan = replacement_plan(approved, ready, [row["url"] for row in approved])
-        self.assertEqual(sum(plan.values()), 20)
-        self.assertGreaterEqual(plan["Botë"], 5)
+        self.assertEqual(sum(plan.values()), 18)
+        self.assertEqual(plan["Botë"], 3)
         self.assertGreaterEqual(plan["Sport"], 3)
 
     def test_hourly_titles_accept_new_entities_and_real_albanian_verbs(self):
@@ -92,6 +106,11 @@ class HourlyCoverageTests(unittest.TestCase):
         self.assertTrue(all(not lead["corroborates_url"] for lead in ready))
         self.assertEqual(len(select_hourly_leads(leads, {leads[0]["url"]})), 1)
 
+    def test_publishers_that_block_the_server_take_no_slots(self):
+        leads = [{"category": "Sport", "url": "https://www.motorsport.com/f1/news/one/1", "title": "Verstappen hits back at critics"},
+                 {"category": "Sport", "url": "https://www.skysports.com/football/news/two", "title": "Arsenal beat Lille in Paris"}]
+        self.assertEqual([lead["url"] for lead in select_hourly_leads(leads)], ["https://www.skysports.com/football/news/two"])
+
     def test_distinct_numbered_events_are_not_collapsed(self):
         leads = [{"category": "Teknologji", "url": f"https://techcrunch.com/model-{i}",
                   "title": f"OpenAI releases agent model {i:03d}"} for i in range(20)]
@@ -103,8 +122,9 @@ class HourlyCoverageTests(unittest.TestCase):
         self.assertEqual(sum(coverage_plan(leads).values()), 20)
         sparse = [{"category": category} for category in CATEGORIES] + [{"category": "Botë"}] * 30
         plan = coverage_plan(sparse)
-        self.assertEqual(sum(plan.values()), 20)
+        self.assertEqual(sum(plan.values()), 9)
         self.assertTrue(all(plan[category] >= 1 for category in CATEGORIES))
+        self.assertTrue(all(plan[category] <= 3 for category in CATEGORIES))
 
     def test_excess_world_drafts_cannot_displace_other_desks(self):
         plan = hourly_targets()
@@ -150,14 +170,16 @@ class HourlyCoverageTests(unittest.TestCase):
             path = Path(folder) / "discovery.md"
             path.write_text("# Discovery", encoding="utf-8")
             path.with_suffix(".json").write_text(json.dumps({"leads": leads}), encoding="utf-8")
-            with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch("news_image_policy.plan_subjects", return_value={}), patch("news_image_policy.CATALOG", Path(folder) / "image-provenance.json"), patch("prepare_editor_sources.fetch_url", side_effect=fetch), \
+            with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch("news_image_policy.plan_subjects", return_value={}), patch("news_image_policy.CATALOG", Path(folder) / "image-provenance.json"), patch("prepare_editor_sources.fetch_url", side_effect=fetch), patch("prepare_editor_sources.visual_options", return_value=[]), patch("news_fact_sheets.build_fact_sheets", return_value={}), \
                  patch("prepare_editor_sources.ready_image", side_effect=lambda lead, *_: {} if lead["pair_id"] == "no-image" else
                        {"image_url": "https://cdn.example/photo.jpg", "image_width": 1200, "image_height": 675}):
                 discovery(path)
             data = json.loads(path.with_suffix(".json").read_text(encoding="utf-8"))
+            # No photo of today's events: the story is dropped (owner, 2026-10-17 evening).
             self.assertEqual([lead["pair_id"] for lead in data["ready_leads"]], ["good"])
             self.assertEqual(data["rejected_inventory"]["Teknologji"],
-                             {"unreadable": 1, "needs_corroboration": 1, "image_unavailable": 1, "topic_mismatch": 1})
+                             {"unreadable": 1, "needs_corroboration": 1, "topic_mismatch": 1, "rejected_twice": 0,
+                              "no_fresh_photo": 1})
             self.assertEqual(data["rejected_inventory"]["Kosovë"]["topic_mismatch"], 1)
 
 

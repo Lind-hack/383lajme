@@ -40,20 +40,35 @@ mkdir -p "$(dirname "$BATCH")"
 # One originality receipt for the hour: refill rounds review their own temporary
 # batches, and the published batch is verified against every round's approvals.
 export L383_REVIEW_RECEIPT="${BATCH%.json}.copyright-review.json"
-# Drafting runs at "high" reasoning through Hermes's install-level cli-config.yaml
-# (owner's decision 2026-10-12); editing, repair and the originality review keep
-# "max" from the pipeline home. Without that file the flag is withheld, so
-# drafting falls back to "max" rather than Hermes's built-in "medium".
-WRITER_EFFORT_FLAG=""
-if grep -qs '^ *reasoning_effort: *high' /opt/hermes/cli-config.yaml; then WRITER_EFFORT_FLAG="--ignore-user-config"; fi
-# One decision for shell and Python (news_fact_sheets reads it).
-export WRITER_EFFORT_FLAG
-if [ -n "$WRITER_EFFORT_FLAG" ]; then echo "383 WRITER EFFORT: high"; else echo "383 WRITER EFFORT: max (no high-effort cli-config)"; fi
+# Drafts the reviewer rejects this hour, with its reasons, get one rewrite; a
+# story rejected twice in a day rests for a day (owner's decision 2026-10-17).
+export L383_REVIEW_REJECTED="${BATCH%.json}.copyright-rejected.json"
+rm -f "$L383_REVIEW_REJECTED"
+if [ "$QA_ONLY" = "1" ]; then
+  export L383_REJECTION_LEDGER="/opt/data/qa/383/copyright-rejections.json"
+else
+  export L383_REJECTION_LEDGER="$PWD/.last30days/copyright-rejections.json"
+fi
+# All model work uses the dedicated Codex OAuth home at max effort.
+export L383_WRITER_PROVIDER=openai-codex
+export L383_WRITER_MODEL=gpt-6-luna
+export L383_EDITOR_MODEL=gpt-6-luna
+export L383_WRITER_FALLBACK_MODEL=gpt-6-luna
+export HERMES_CODEX_EVENT_STALE_TIMEOUT_SECONDS="${HERMES_CODEX_EVENT_STALE_TIMEOUT_SECONDS:-120}"
+printf '383 MODEL CONTRACT: gpt-6-luna max through Codex OAuth; no API fallback\n'
 LOCK_FILE=/tmp/383-production.lock
 START_EPOCH="$(date +%s)"
+# Stop model work at minute 50, leaving five minutes for verified publication.
+export L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 3000))"
 stage="initialization"
 alerting=0
-STATE="$PWD/.last30days/hourly-runs/${STAMP}${QA_ONLY:+-mode${QA_ONLY}}.json"
+if [ "$QA_ONLY" = "1" ]; then
+  STATE_ROOT="${L383_STATE_ROOT:-/opt/data/qa/383/hourly-runs}"
+else
+  STATE_ROOT="${L383_STATE_ROOT:-/opt/data/news-pipeline-state/hourly-runs}"
+fi
+STATE="$STATE_ROOT/${STAMP}-mode${QA_ONLY}.json"
+LEGACY_STATE="$PWD/.last30days/hourly-runs/${STAMP}-mode${QA_ONLY}.json"
 record_state() { "$PYTHON_BIN" scripts/news_run_state.py save "$STATE" --status "$1" --stage "$stage" --batch "$BATCH"; }
 
 alert_failure() {
@@ -65,9 +80,26 @@ alert_failure() {
   printf "383 FAILURE LOGGED: %s\n" "$reason" >&2
 }
 
+# The ChatGPT account's usage limit (HTTP 429) since this run started: every
+# model call fails, so the hour has no news rather than a broken pipeline.
+quota_hit() {
+  local since
+  since="$(date -u -d "@$START_EPOCH" '+%Y-%m-%d %H:%M:%S')"
+  awk -v s="$since" 'substr($0, 1, 19) >= s && /usage limit has been reached/ {found = 1} END {exit !found}' \
+    "${L383_HERMES_HOME:-${HERMES_HOME:-/opt/data/news-pipeline-hermes}}/logs/errors.log" 2>/dev/null
+}
+
 fail_run() {
   local reason="$1"
   trap - ERR
+  # Not inside review_extra: there a non-zero exit is what keeps the
+  # approved drafts.
+  if [ "${IN_EXTRA_REVIEW:-0}" != "1" ] && quota_hit; then
+    stage="model-quota"
+    record_state no_news
+    printf '383 MODEL QUOTA: the ChatGPT usage limit is reached; no articles this hour (%s)\n' "$reason"
+    exit 0
+  fi
   record_state failed
   alert_failure "$reason"
   printf '383 NO_PUBLISH: %s for %s\n' "$reason" "$STAMP"
@@ -90,7 +122,7 @@ if ! flock -n 9; then
   exit 0
 fi
 trap on_error ERR
-if "$PYTHON_BIN" scripts/news_run_state.py check "$STATE"; then
+if "$PYTHON_BIN" scripts/news_run_state.py check "$STATE" || "$PYTHON_BIN" scripts/news_run_state.py check "$LEGACY_STATE"; then
   printf "383 SLOT ALREADY PUBLISHED: %s; refusing duplicate writer/publication\n" "$STAMP"
   exit 0
 fi
@@ -135,7 +167,7 @@ stage="writer-source-fetch"
 
 # Prepared inventory includes readable, lane-locked source text and decoded images.
 # Sensitive claims still require an independently readable second publisher.
-L383_TARGET_ARTICLES="$(DISCOVERY_PATH="$DISCOVERY" "$PYTHON_BIN" -c 'import os,re; t=open(os.environ["DISCOVERY_PATH"],encoding="utf-8").read(); m=re.search(r"Verified source-ready pair inventory: (\d+)",t); print(min(20,int(os.environ.get("L383_MAX_ARTICLES", "20")),int(m.group(1))) if m else 0)')"
+L383_TARGET_ARTICLES="$("$PYTHON_BIN" -c 'import json,os,sys; p=json.load(open(sys.argv[1],encoding="utf-8"))["publication_plan"]; print(min(20,int(os.environ.get("L383_MAX_ARTICLES", "20")),sum(p.values())))' "${DISCOVERY%.md}.json")"
 if [ -z "$L383_TARGET_ARTICLES" ] || [ "$L383_TARGET_ARTICLES" -lt 1 ]; then
   stage="no-new-verified-news"
   record_state no_news
@@ -180,34 +212,57 @@ fi
 # Prevent the writer from accidentally selecting stale legacy discovery artifacts.
 rm -f data/automation/cloud-news-discovery-current.md
 # A failed writer must not leave an old same-hour batch eligible for publication.
-rm -f "$BATCH"
+ATTEMPTED="$BATCH.attempted-urls.json"
+rm -f "$BATCH" "$ATTEMPTED"
 stage="writer"
 export HERMES_HOME="${L383_HERMES_HOME:-/opt/data/news-pipeline-hermes}"
 # The provider may legitimately pause for more than 12 seconds between SSE
 # frames while drafting. Do not classify that normal prefill as a dead stream.
 export HERMES_CODEX_EVENT_STALE_TIMEOUT_SECONDS="${HERMES_CODEX_EVENT_STALE_TIMEOUT_SECONDS:-90}"
 
+# Never start a model call with more time than its phase and publication reserve.
+model_budget() {
+  local cap="$1" phase_end="${2:-3000}" remaining
+  remaining=$((START_EPOCH + phase_end - $(date +%s)))
+  if [ "$remaining" -le 0 ]; then return 75; fi
+  if [ "$remaining" -lt "$cap" ]; then printf '%s' "$remaining"; else printf '%s' "$cap"; fi
+}
+track_attempted() {
+  "$PYTHON_BIN" - "$BATCH" "$ATTEMPTED" <<'PY'
+import json, sys
+from pathlib import Path
+batch, target = map(Path, sys.argv[1:])
+old = json.loads(target.read_text(encoding="utf-8")) if target.exists() else []
+rows = json.loads(batch.read_text(encoding="utf-8"))
+target.write_text(json.dumps(sorted(set(old) | {a["url"] for a in rows})), encoding="utf-8")
+PY
+}
+batch_count() { "$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$BATCH"; }
+refresh_merged_evidence() {
+  "$PYTHON_BIN" scripts/prepare_editor_sources.py "$BATCH"
+  if [ "$(batch_count)" -gt 0 ]; then
+    "$PYTHON_BIN" scripts/editor_completion.py acknowledge "$BATCH"
+  else
+    rm -f "${BATCH%.json}.editor-complete.json"
+  fi
+}
+
 run_writer() {
-  local model="$1"
-  timeout --signal=TERM --kill-after=15s "${L383_WRITER_ATTEMPT_TIMEOUT:-300}s" \
-    env HERMES_HOME="${L383_HERMES_HOME:-/opt/data/news-pipeline-hermes}" \
-    "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode replace -- /opt/hermes/.venv/bin/hermes chat $WRITER_EFFORT_FLAG \
+  local model="$1" writer_budget
+  writer_budget="$(model_budget "${L383_WRITER_ATTEMPT_TIMEOUT:-600}" 1500)" || return 75
+  timeout --signal=TERM --kill-after=15s "$((writer_budget + 5))s" \
+    env HERMES_HOME="${L383_HERMES_HOME:-/opt/data/news-pipeline-hermes}" L383_MODEL_CALL_TIMEOUT="$writer_budget" \
+    "$PYTHON_BIN" scripts/news_model_response.py --batch "${WRITER_BATCH:-$BATCH}" --mode replace -- /opt/hermes/.venv/bin/hermes chat \
       --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
       --model "$model" --ignore-rules -t file --yolo \
       --max-turns "${L383_WRITER_MAX_TURNS:-35}" -Q -q \
-      "Prepare articles for ${BATCH} from today's prepared evidence. Read docs/albanian_newsroom.md, docs/news-output-schema.json, ${DISCOVERY}, and ${SOCIAL_CANDIDATES}; those files contain the complete rules and fresh source-evidence paths. Discovery contains a Publication plan with category allocations and ready story IDs, facts_path notes (evidence_path files only where a story has no notes), and pre-verified image dimensions. Use only ready stories. Where a story has facts_path, write ONLY from those reporter's notes and never open its source evidence: compose 383's own article, lead and headline from the facts. Notes may be raw, scrambled fragments of the source; never reuse a fragment's wording, restate every fact in your own Albanian sentences and choose your own order. Routine reporting may use one readable registered publisher as factual evidence with corroborating_sources=[]; sensitive allegations require the supplied independently readable second source. Read docs/news-ranking-rubric.md and assign individual evidence-based score_breakdown values and a specific score_reason; never copy a neutral all-5 template or calculate the weighted total. The normalizer computes scores, reading time and city. Keep source URLs fixed. Write as many distinct eligible stories as the evidence supports, up to ${L383_TARGET_ARTICLES:-20} total; do not stop after one strong article. Do not edit any files. Return the complete article array in your final response between the literal markers 383_JSON_BEGIN and 383_JSON_END. The wrapper saves it. Every article needs its discovery category, deterministic city for local lanes, the prepared primary URL, supplied corroborating source when present, no image fields (the pipeline restores the prepared photo by source URL; judge only that image_subject fits the story), at least 140 grounded Albanian words in three HTML paragraphs, and all schema fields. Prefer 220+ words when the source supports that depth. Never pad a brief. The image is already verified outside your model call; do not fetch, decode or research images again. Read the notes (or evidence) files with the file tool; terminal commands, tests and builds are unavailable and unnecessary. Write from a fact outline in original 383 prose, with a new lead and structure; do not closely translate source prose or imply firsthand reporting. Preserve uncertainty and attribute claims to the speaking person or institution, never to a news outlet; never invent facts, local impact, quotes, images, or sources. Every publisher and corroborating publisher is locked to its category by scripts/news_sources.json. In the first drafting call, include at least one story from EVERY available category before adding extras. Follow the publication_plan counts across continuations; prioritize missing categories over more Botë stories; Ekonomi includes US stocks, Wall Street and crypto. Prioritize documented local public controversies. Never change a discovery category or use an unregistered source. Do not run pipeline scripts, discover extra stories, repository-wide tests, publish, deploy, email, or write any other file. Do not write files. Return the complete JSON array between 383_JSON_BEGIN and 383_JSON_END." 9>&-
+      "${WRITER_SCOPE:-}Prepare articles for ${BATCH} from today's prepared evidence. Read docs/albanian_newsroom.md, docs/news-output-schema.json, ${DISCOVERY}, and ${SOCIAL_CANDIDATES}; those files contain the complete rules and fresh source-evidence paths. Discovery contains a Publication plan with category allocations and ready story IDs, facts_path notes (evidence_path files only where a story has no notes), and pre-verified image dimensions. Use only ready stories. Where a story has facts_path, write ONLY from those reporter's notes and never open its source evidence: compose 383's own article, lead and headline from the facts. Notes may be raw, scrambled fragments of the source; never reuse a fragment's wording, restate every fact in your own Albanian sentences and choose your own order. Routine reporting may use one readable registered publisher as factual evidence with corroborating_sources=[]; sensitive allegations require the supplied independently readable second source. Read docs/news-ranking-rubric.md and assign individual evidence-based score_breakdown values and a specific score_reason; never copy a neutral all-5 template or calculate the weighted total. The normalizer computes scores, reading time and city. Keep source URLs fixed. Write as many distinct eligible stories as the evidence supports, up to ${L383_TARGET_ARTICLES:-20} total; do not stop after one strong article. Do not edit any files. Return the complete article array in your final response between the literal markers 383_JSON_BEGIN and 383_JSON_END. The wrapper saves it. Every article needs its discovery category, deterministic city for local lanes, the prepared primary URL, supplied corroborating source when present, no image fields (the pipeline restores the prepared photo by source URL; judge only that image_subject fits the story), at least 140 grounded Albanian words in three HTML paragraphs, and all schema fields. Prefer 220+ words when the source supports that depth. Never pad a brief. The image is already verified outside your model call; do not fetch, decode or research images again. Read the notes (or evidence) files with the file tool; terminal commands, tests and builds are unavailable and unnecessary. Write from a fact outline in original 383 prose, with a new lead and structure; do not closely translate source prose or imply firsthand reporting. Preserve uncertainty and attribute claims to the speaking person or institution, never to a news outlet; never invent facts, local impact, quotes, images, or sources. Every publisher and corroborating publisher is locked to its category by scripts/news_sources.json. In the first drafting call, include at least one story from EVERY available category before adding extras. Follow the publication_plan counts across continuations; prioritize missing categories over more Botë stories; Ekonomi includes US stocks, Wall Street and crypto. Prioritize documented local public controversies. Never change a discovery category or use an unregistered source. Do not run pipeline scripts, discover extra stories, repository-wide tests, publish, deploy, email, or write any other file. Do not write files. Return the complete JSON array between 383_JSON_BEGIN and 383_JSON_END." 9>&-
 }
 
 WRITER_RC=0
-PRIMARY_WRITER_MODEL="${L383_WRITER_MODEL:-gpt-6-luna}"
-if [ "$PRIMARY_WRITER_MODEL" = "gpt-5.6-luna" ]; then
-  PRIMARY_WRITER_MODEL="gpt-6-luna"
-fi
-EDITOR_MODEL="${L383_EDITOR_MODEL:-${L383_WRITER_MODEL:-gpt-6-luna}}"
-if [ "$EDITOR_MODEL" = "gpt-5.6-luna" ]; then
-  EDITOR_MODEL="gpt-6-luna"
-fi
-FALLBACK_WRITER_MODEL="${L383_WRITER_FALLBACK_MODEL:-gpt-6-luna}"
+PRIMARY_WRITER_MODEL=gpt-6-luna
+EDITOR_MODEL=gpt-6-luna
+FALLBACK_WRITER_MODEL=gpt-6-luna
 printf '383 WRITER: provider=%s primary=%s fallback=%s max_turns=%s timeout=%ss\n' \
   "${L383_WRITER_PROVIDER:-openai-codex}" "$PRIMARY_WRITER_MODEL" "$FALLBACK_WRITER_MODEL" \
   "${L383_WRITER_MAX_TURNS:-35}" "${L383_WRITER_ATTEMPT_TIMEOUT:-300}"
@@ -215,7 +270,30 @@ printf '383 WRITER: provider=%s primary=%s fallback=%s max_turns=%s timeout=%ss\
 # extend the same batch while preserving the existing sources and time budget.
 FULL_TARGET="$L383_TARGET_ARTICLES"
 L383_TARGET_ARTICLES="$((FULL_TARGET < 7 ? FULL_TARGET : 7))"
-if run_writer "$PRIMARY_WRITER_MODEL"; then
+# Ten or more ready stories: draft the three desk groups concurrently.
+# Each group receives the sum of its actual desk allocations, including eight
+# for Sport/Technology/Showbiz when all three have available inventory.
+run_writer_groups() {
+  local folder group desks
+  folder="$(mktemp -d /tmp/383-writer-groups.XXXXXX)"
+  group=0
+  for desks in "Kosovë, Shqipëri" "Botë, Ekonomi" "Sport, Teknologji, Showbiz"; do
+    group=$((group + 1))
+    (
+      WRITER_BATCH="$folder/$group.json"
+      L383_TARGET_ARTICLES="$("$PYTHON_BIN" -c 'import json,sys; p=json.load(open(sys.argv[1],encoding="utf-8"))["publication_plan"]; print(sum(p.get(c.strip(),0) for c in sys.argv[2].split(",")))' "${DISCOVERY%.md}.json" "$desks")"
+      if [ "$L383_TARGET_ARTICLES" -eq 0 ]; then exit 0; fi
+      WRITER_SCOPE="This call covers ONLY these categories: ${desks}. Write only their ready stories, following their publication_plan counts, up to ${L383_TARGET_ARTICLES} articles; ignore every other category, including the every-category rule below. "
+      run_writer "$PRIMARY_WRITER_MODEL"
+    ) > "$folder/$group.log" 2>&1 &
+  done
+  wait || true
+  tail -n 3 "$folder"/*.log || true
+  "$PYTHON_BIN" scripts/news_refill.py groups "$folder" "$BATCH"
+}
+if [ "$FULL_TARGET" -ge 10 ]; then
+  if run_writer_groups; then WRITER_RC=0; else WRITER_RC=$?; fi
+elif run_writer "$PRIMARY_WRITER_MODEL"; then
   WRITER_RC=0
 else
   WRITER_RC=$?
@@ -246,6 +324,7 @@ BATCH_MTIME="$(stat -c %Y "$BATCH")"
 if [ "$BATCH_MTIME" -lt "$START_EPOCH" ]; then
   fail_run "batch file is stale (mtime=${BATCH_MTIME}, run_start=${START_EPOCH})"
 fi
+track_attempted
 COVERAGE_DEFICITS="$("$PYTHON_BIN" scripts/news_coverage.py "$BATCH" "${DISCOVERY%.md}.json" --balance)"
 BATCH_COUNT="$("$PYTHON_BIN" -c 'import json,sys; d=json.load(open(sys.argv[1], encoding="utf-8")); a=d.get("articles", d) if isinstance(d, dict) else d; print(len(a) if isinstance(a, list) else 0)' "$BATCH")"
 if [ "$BATCH_COUNT" -lt 1 ]; then
@@ -260,11 +339,10 @@ for continuation in {1..15}; do
   if [ "$BATCH_COUNT" -ge "$L383_TARGET_ARTICLES" ]; then
     break
   fi
-  # The editor needs about 1.2 min per article and the review 5 more: on
-  # 2026-10-12 drafting until minute 33 left 16 drafts the hour could not
-  # finish, and the deadline discarded ten approved ones. Stop at minute 20
-  # or 12 drafts; the refill loop tops up later if time remains.
-  if [ "$(( $(date +%s) - START_EPOCH ))" -ge 1200 ] || [ "$BATCH_COUNT" -ge 12 ]; then
+  # On 2026-10-12 drafting until minute 33 left 16 drafts the hour could not
+  # finish. Editor and review run in parallel chunks. All drafting calls share the
+  # minute-25 deadline, including the time spent preparing evidence.
+  if [ "$(( $(date +%s) - START_EPOCH ))" -ge 1500 ]; then
     printf '383 WRITER CONTINUATION time budget reached; editing current drafts\n'
     break
   fi
@@ -273,8 +351,9 @@ for continuation in {1..15}; do
   CONTINUATION_BACKUP="$(mktemp /tmp/383-continuation.XXXXXX.json)"
   cp "$BATCH" "$CONTINUATION_BACKUP"
   L383_TARGET_ARTICLES="$((BATCH_COUNT + 7 < FULL_TARGET ? BATCH_COUNT + 7 : FULL_TARGET))"
-  if ! timeout --signal=TERM --kill-after=15s 600s \
-    "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode append -- /opt/hermes/.venv/bin/hermes chat $WRITER_EFFORT_FLAG --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
+  continuation_budget="$(model_budget 600 1500)" || break
+  if ! timeout --signal=TERM --kill-after=15s "$((continuation_budget + 5))s" \
+    env L383_MODEL_CALL_TIMEOUT="$continuation_budget" "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode append -- /opt/hermes/.venv/bin/hermes chat --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
       --model "$PRIMARY_WRITER_MODEL" --ignore-rules -t file --yolo \
       --max-turns 45 -Q -q \
       "Continue the existing ${BATCH}; do not replace, remove, or edit its current articles. Read docs/albanian_newsroom.md, docs/news-output-schema.json, ${DISCOVERY}, and the existing batch. Its current ${BATCH_COUNT} drafts are not the full source-ready inventory of ${L383_TARGET_ARTICLES}. Read docs/news-ranking-rubric.md and rate every new story individually from evidence; supply all factors and a concrete Albanian score_reason. Do not copy neutral defaults or calculate the total. Use the publication_plan in discovery to count current category coverage. FIRST fill every missing category, THEN each category allocation, before adding extras. Add distinct ready stories up to ${L383_TARGET_ARTICLES} total. Skip every primary or corroborating URL already used in the batch. Every new article uses its prepared primary evidence and no image fields (the pipeline restores the prepared photo by source URL), 140+ grounded Albanian words in three HTML paragraphs, all schema fields and a title naming WHO and STAKE. Routine news may have corroborating_sources=[]; sensitive claims need the supplied independent second publisher. Do not research or decode images again. Do not fabricate or pad stories. Do not edit files. Return ONLY the new articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END; exclude all existing articles because the wrapper appends your new drafts while preserving every existing field. Do not run pipeline scripts, npm, repository tests or builds, publish, deploy, send reports, or write another file. This is a data-only writing task; code-release checks are not part of it." 9>&-; then
@@ -291,6 +370,7 @@ for continuation in {1..15}; do
     continue
   fi
   rm -f "$CONTINUATION_BACKUP"
+  track_attempted
   COVERAGE_DEFICITS="$("$PYTHON_BIN" scripts/news_coverage.py "$BATCH" "${DISCOVERY%.md}.json" --balance)"
   NEXT_COUNT="$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$BATCH")"
   if [ "$NEXT_COUNT" -le "$BATCH_COUNT" ]; then
@@ -322,21 +402,49 @@ cp "$BATCH" "$EDITOR_INPUT_BACKUP"
 rm -f "${BATCH%.json}.editor-complete.json"
 trap - ERR
 set +e
-bash "$REPO/scripts/run-news-editor.sh" "$EDITOR_MODEL" "$BATCH" "$REPO" "${L383_EDITOR_MAX_TURNS:-30}" 9>&-
+if ! editor_budget="$(model_budget 900 2580)"; then
+  printf '[]\n' > "$BATCH"
+  rm -f "$EDITOR_INPUT_BACKUP"
+  return 0
+fi
+timeout --signal=TERM --kill-after=15s "$((editor_budget + 5))s" env L383_MODEL_DEADLINE_EPOCH="$(( $(date +%s) + editor_budget ))" L383_MODEL_CALL_TIMEOUT="$editor_budget" \
+  bash "$REPO/scripts/run-news-editor-parallel.sh" "$EDITOR_MODEL" "$BATCH" "$REPO" "${L383_EDITOR_MAX_TURNS:-30}" 9>&-
 
 EDITOR_RC=$?
 set -e
 trap on_error ERR
+if [ "$EDITOR_RC" -eq 0 ] && [ "$(batch_count)" -eq 0 ]; then
+  rm -f "$EDITOR_INPUT_BACKUP"
+  return 0
+fi
 if [ "$EDITOR_RC" -ne 0 ] || ! "$PYTHON_BIN" scripts/editor_completion.py verify "$BATCH" >/dev/null 2>&1; then
   printf '383 EDITOR RETRY: primary=%s rc=%s or completion missing; restoring original drafts for fallback=%s\n' "$EDITOR_MODEL" "$EDITOR_RC" "$FALLBACK_WRITER_MODEL" >&2
   cp "$EDITOR_INPUT_BACKUP" "$BATCH"
   rm -f "${BATCH%.json}.editor-complete.json"
-  if ! timeout --signal=TERM --kill-after=15s 600s \
-    bash "$REPO/scripts/run-news-editor.sh" "$FALLBACK_WRITER_MODEL" "$BATCH" "$REPO" 45 9>&-; then
-    fail_run "both primary and fallback Albanian editors failed before verification"
+  if ! editor_budget="$(model_budget 600 2580)"; then
+    printf '[]\n' > "$BATCH"
+    rm -f "$EDITOR_INPUT_BACKUP"
+    return 0
+  fi
+  if ! timeout --signal=TERM --kill-after=15s "$((editor_budget + 5))s" env L383_MODEL_DEADLINE_EPOCH="$(( $(date +%s) + editor_budget ))" L383_MODEL_CALL_TIMEOUT="$editor_budget" \
+    bash "$REPO/scripts/run-news-editor-parallel.sh" "$FALLBACK_WRITER_MODEL" "$BATCH" "$REPO" 45 9>&-; then
+    # Inside review_extra the caller keeps the approved drafts. In the first
+    # round nothing is approved yet: an editor that verified none of the
+    # drafts (the usual cause, e.g. a story resting on one outlet's own
+    # reporting) is an hour without news, not a failed run.
+    if [ "${IN_EXTRA_REVIEW:-0}" = "1" ]; then
+      fail_run "both primary and fallback Albanian editors failed before verification"
+    fi
+    printf '[]\n' > "$BATCH"
+    rm -f "$EDITOR_INPUT_BACKUP"
+    return 0
   fi
 fi
 
+if [ "$(batch_count)" -eq 0 ]; then
+  rm -f "$EDITOR_INPUT_BACKUP"
+  return 0
+fi
 stage="editor-completion-check"
 "$PYTHON_BIN" scripts/editor_completion.py verify "$BATCH"
 rm -f "$EDITOR_INPUT_BACKUP"
@@ -376,20 +484,22 @@ for repair_attempt in 1 2; do
   cp "$BATCH" "$REPAIR_BACKUP"
   trap - ERR
   set +e
-  timeout --signal=TERM --kill-after=15s 420s \
-    "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode editor -- /opt/hermes/.venv/bin/hermes chat --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
+  repair_budget="$(model_budget 420 2580)" || break
+  timeout --signal=TERM --kill-after=15s "$((repair_budget + 5))s" \
+    env L383_MODEL_CALL_TIMEOUT="$repair_budget" "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode editor -- /opt/hermes/.venv/bin/hermes chat --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
       --model "$EDITOR_MODEL" --ignore-rules -t file --yolo --max-turns 35 -Q -q \
       "Repair only ${BATCH} using docs/albanian_newsroom.md, docs/news-output-schema.json, and ${BATCH%.json}.editor-sources.json. The wrapper found these exact defects: ${ORIGINALITY_FEEDBACK} ${JOURNALISM_FEEDBACK} ${TOPIC_FEEDBACK}. For each overlapping body sentence, check the original source and rewrite the entire sentence in natural Albanian with a different structure, while preserving only facts supported by the fetched primary and any supplied corroborating source. Every retained body must still contain at least 140 readable Albanian words, at least three readable HTML paragraphs, and necessary attribution only for quotes, exclusive reporting or unconfirmed claims; never meet the floor with repetition or invented claims. Fix title WHO and concrete STAKE defects with specific, evidenced subjects and actions. Keep all candidates that can be repaired truthfully; remove only unverified stories. Do not invent facts, pad length, change source URLs, publish, deploy, run validators, or touch another file. Do not edit files. Return the complete corrected JSON array between 383_JSON_BEGIN and 383_JSON_END." 9>&-
   REPAIR_RC=$?
   set -e
   trap on_error ERR
-  if [ "$REPAIR_RC" -ne 0 ] || ! "$PYTHON_BIN" -c 'import json,sys; rows=json.load(open(sys.argv[1],encoding="utf-8")); assert isinstance(rows,list) and len(rows)>0' "$BATCH" >/dev/null 2>&1; then
+  if [ "$REPAIR_RC" -ne 0 ] || ! "$PYTHON_BIN" -c 'import json,sys; rows=json.load(open(sys.argv[1],encoding="utf-8")); assert isinstance(rows,list)' "$BATCH" >/dev/null 2>&1; then
     cp "$REPAIR_BACKUP" "$BATCH"
     rm -f "$REPAIR_BACKUP"
     printf '383 EDITORIAL REPAIR interrupted or invalid; restored valid drafts and continuing with per-candidate gates\n' >&2
     break
   fi
   rm -f "$REPAIR_BACKUP"
+  if [ "$(batch_count)" -eq 0 ]; then return 0; fi
   "$PYTHON_BIN" scripts/codex_automation_support.py normalize --file "$BATCH"
 done
 
@@ -418,20 +528,104 @@ stage="independent-originality-review-round"
 
 }
 
-ATTEMPTED="$BATCH.attempted-urls.json"
-"$PYTHON_BIN" -c 'import json,sys; json.dump([a["url"] for a in json.load(open(sys.argv[1],encoding="utf-8"))],open(sys.argv[2],"w",encoding="utf-8"))' "$BATCH" "$ATTEMPTED"
+# A second-round batch (rewrites, refills) that the editor empties or fails
+# must cost only itself: at 14:00 on 18 Oct the editor rightly refused the one
+# rewrite and the run failed, throwing away the article already approved.
+# It must also end by minute 50: at 22:00 on 18 Oct a rewrite round's
+# editorial repair ran into the 55-minute kill and the four approved articles
+# were lost with it. Past the budget the round is stopped, tree and all.
+EXTRA_REVIEW_END=3000
+kill_tree() {
+  local child
+  for child in $(pgrep -P "$1" 2>/dev/null); do kill_tree "$child"; done
+  kill -TERM "$1" 2>/dev/null || true
+}
+review_extra() {
+  local budget=$(( EXTRA_REVIEW_END - ($(date +%s) - START_EPOCH) ))
+  if [ "$budget" -lt 240 ]; then
+    printf '383 EXTRA REVIEW: %s round skipped, %ss left before minute 50; keeping the approved drafts only\n' "$1" "$budget"
+    printf '[]\n' > "$BATCH"
+    return 0
+  fi
+  trap - ERR
+  set +e
+  ( set -e; trap on_error ERR; IN_EXTRA_REVIEW=1; review_candidates ) &
+  local pid=$! waited=0
+  while kill -0 "$pid" 2>/dev/null && [ "$waited" -lt "$budget" ]; do
+    sleep 5
+    waited=$((waited + 5))
+  done
+  if kill -0 "$pid" 2>/dev/null; then
+    printf '383 EXTRA REVIEW: %s round stopped at minute 50\n' "$1"
+    kill_tree "$pid"
+  fi
+  wait "$pid"
+  local rc=$?
+  set -e
+  trap on_error ERR
+  if [ "$rc" -ne 0 ]; then
+    printf '383 EXTRA REVIEW: %s round failed (rc=%s); keeping the approved drafts only\n' "$1" "$rc"
+    printf '[]\n' > "$BATCH"
+  fi
+}
+
+track_attempted
 review_candidates
+
+# One rewrite of what the reviewer rejected, from the story's notes, aimed at
+# the concrete sentence or fact it named. On 15-16 Oct the reviewer rejected
+# about two drafts in three and every one of them was simply lost.
+# The first review usually ends around minute 35-40; optional rounds must be
+# done by minute 50, so a round starts only before minute 36 with a 6-minute writer.
+stage="rewrite-rejected"
+if [ -s "$L383_REVIEW_REJECTED" ] && [ "$(( $(date +%s) - START_EPOCH ))" -lt 2160 ]; then
+  REWRITE_FOLDER="$(mktemp -d /tmp/383-rewrite.XXXXXX)"
+  REWRITE_INPUT="$REWRITE_FOLDER/rejected.json"
+  mv "$L383_REVIEW_REJECTED" "$REWRITE_INPUT"
+  REWRITE_BATCH="$REWRITE_FOLDER/${STAMP}.json"
+  printf '383 REWRITE REJECTED: %s draft(s)\n' "$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$REWRITE_INPUT")"
+  trap - ERR
+  set +e
+  rewrite_budget="$(model_budget 360 2580)" || rewrite_budget=1
+  timeout --signal=TERM --kill-after=15s "$((rewrite_budget + 5))s" env L383_MODEL_CALL_TIMEOUT="$rewrite_budget" "$PYTHON_BIN" scripts/news_model_response.py --batch "$REWRITE_BATCH" --mode replace -- /opt/hermes/.venv/bin/hermes chat \
+    --provider "${L383_WRITER_PROVIDER:-openai-codex}" --model "$PRIMARY_WRITER_MODEL" \
+    --ignore-rules -t file --yolo --max-turns 35 -Q -q \
+    "Rewrite every article in ${REWRITE_INPUT}. Each was rejected by the independent originality reviewer; its rejection_reason names the copied sentence, the outlet's sequence it followed, or the wrong fact. Read docs/albanian_newsroom.md, docs/news-output-schema.json and ${DISCOVERY}; find each story there by its url and write ONLY from that story's facts_path notes (its evidence_path only where no notes exist). Write a new article, not an edit: a new headline, a new lead built on a different fact than the rejected one, your own paragraph order and sentences, and correct every fact the reason names. Restating what a person said in a public statement in your own words is fine; never translate a source sentence, keep no source phrasing or imagery, no direct quotations, no outlet names. Keep url, slug, category, city and corroborating_sources unchanged; leave image fields out. Read docs/news-ranking-rubric.md and rate each from evidence with all factors and a specific score_reason. At least 140 grounded Albanian words in three HTML paragraphs. Drop a story only if its facts cannot be told without the rejected material. Do not edit files. Return ONLY the rewritten articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END. This is a data-only task; do not run tests, build, publish, deploy, email or edit any other file." 9>&-
+  REWRITE_RC=$?
+  set -e
+  trap on_error ERR
+  # Only the rejected stories may come back: a rewrite is no way to add new ones.
+  if [ "$REWRITE_RC" -eq 0 ] && "$PYTHON_BIN" -c 'import json,sys; rows=json.load(open(sys.argv[1],encoding="utf-8")); asked={a["url"] for a in json.load(open(sys.argv[2],encoding="utf-8"))}; assert isinstance(rows,list) and rows and {a["url"] for a in rows} <= asked' "$REWRITE_BATCH" "$REWRITE_INPUT" 2>/dev/null; then
+    FULL_BATCH="$BATCH"
+    APPROVED_BACKUP="$(mktemp /tmp/383-approved.XXXXXX.json)"
+    cp "$BATCH" "$APPROVED_BACKUP"
+    BATCH="$REWRITE_BATCH"
+    review_extra rewrite
+    "$PYTHON_BIN" scripts/news_refill.py merge "$APPROVED_BACKUP" "$BATCH" "$FULL_BATCH"
+    BATCH="$FULL_BATCH"
+    refresh_merged_evidence
+    rm -f "$APPROVED_BACKUP"
+  else
+    printf '383 REWRITE REJECTED: writer exited %s or returned nothing; continuing with approved drafts\n' "$REWRITE_RC"
+  fi
+fi
+
 for refill_attempt in 1 2; do
   APPROVED_COUNT="$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$BATCH")"
-  if [ "$APPROVED_COUNT" -ge "$FULL_TARGET" ] || [ "$(( $(date +%s) - START_EPOCH ))" -ge 2400 ]; then break; fi
+  if [ "$APPROVED_COUNT" -ge "$FULL_TARGET" ] || [ "$(( $(date +%s) - START_EPOCH ))" -ge 2160 ]; then break; fi
   COVERAGE_DEFICITS="$("$PYTHON_BIN" scripts/news_coverage.py "$BATCH" "${DISCOVERY%.md}.json" --attempted "$ATTEMPTED")"
+  if ! "$PYTHON_BIN" -c 'import json,sys; d=json.load(open(sys.argv[1],encoding="utf-8")); used=set(json.load(open(sys.argv[2],encoding="utf-8"))); deficits=json.loads(sys.argv[3]); assert any(a["url"] not in used and deficits.get(a["category"],0)>0 for a in d["ready_leads"])' "${DISCOVERY%.md}.json" "$ATTEMPTED" "$COVERAGE_DEFICITS" 2>/dev/null; then
+    printf '383 REFILL: no unused source-ready candidates for missing categories\n'
+    break
+  fi
   stage="replacement-writer"
   printf '383 APPROVED REFILL: approved=%s target=%s deficits=%s attempt=%s\n' "$APPROVED_COUNT" "$FULL_TARGET" "$COVERAGE_DEFICITS" "$refill_attempt"
   REFILL_BACKUP="$(mktemp /tmp/383-refill.XXXXXX.json)"
   cp "$BATCH" "$REFILL_BACKUP"
   trap - ERR
   set +e
-  timeout --signal=TERM --kill-after=15s 420s "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode append -- /opt/hermes/.venv/bin/hermes chat $WRITER_EFFORT_FLAG \
+  refill_budget="$(model_budget 420 2580)" || refill_budget=1
+  timeout --signal=TERM --kill-after=15s "$((refill_budget + 5))s" env L383_MODEL_CALL_TIMEOUT="$refill_budget" "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode append -- /opt/hermes/.venv/bin/hermes chat \
     --provider "${L383_WRITER_PROVIDER:-openai-codex}" --model "$PRIMARY_WRITER_MODEL" \
     --ignore-rules -t file --yolo --max-turns 35 -Q -q \
     "Append replacement articles to ${BATCH}, keeping every existing article unchanged. Read ${DISCOVERY}, docs/news-output-schema.json, docs/albanian_newsroom.md and ${ATTEMPTED}. Never use a URL in the attempted-urls file: those stories were already considered. Fill these category deficits: ${COVERAGE_DEFICITS}. Stop at ${FULL_TARGET} total articles. Use only unused ready stories, their facts_path notes (evidence_path only where no notes exist), supplied corroborators . Leave image fields out; the pipeline restores the prepared photo by source URL. Read docs/news-ranking-rubric.md and individually rate every replacement from evidence with all factors and a specific score_reason; do not copy neutral defaults or calculate the total. Every new article needs at least 140 grounded Albanian words in three HTML paragraphs and necessary claim attribution. Sensitive claims require the independent source; choose another routine story if none is supplied. Do not edit files. Return ONLY the new replacement articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END; exclude the existing articles because the wrapper preserves them locally. This is a data-only task; do not run tests, build, publish, deploy, email or edit any other file." 9>&-
@@ -444,7 +638,8 @@ for refill_attempt in 1 2; do
     rm -f "$REFILL_BACKUP"
     break
   fi
-  "$PYTHON_BIN" scripts/news_coverage.py "$BATCH" "${DISCOVERY%.md}.json" --balance
+  "$PYTHON_BIN" scripts/news_coverage.py "$BATCH" "${DISCOVERY%.md}.json" --balance --attempted "$ATTEMPTED" --approved "$REFILL_BACKUP"
+  track_attempted
   "$PYTHON_BIN" -c 'import json,sys; p=sys.argv[2]; old=json.load(open(p,encoding="utf-8")); new=json.load(open(sys.argv[1],encoding="utf-8")); json.dump(sorted(set(old)|{a["url"] for a in new}),open(p,"w",encoding="utf-8"))' "$BATCH" "$ATTEMPTED"
   # Approved text already passed the editor and every per-article gate. Review
   # only the new replacements; re-editing old copy can reintroduce source text.
@@ -453,11 +648,10 @@ for refill_attempt in 1 2; do
   REPLACEMENT_BATCH="$REPLACEMENT_FOLDER/${STAMP}.json"
   "$PYTHON_BIN" scripts/news_refill.py split "$REFILL_BACKUP" "$FULL_BATCH" "$REPLACEMENT_BATCH"
   BATCH="$REPLACEMENT_BATCH"
-  review_candidates
+  review_extra refill
   "$PYTHON_BIN" scripts/news_refill.py merge "$REFILL_BACKUP" "$BATCH" "$FULL_BATCH"
   BATCH="$FULL_BATCH"
-  "$PYTHON_BIN" scripts/prepare_editor_sources.py "$BATCH"
-  "$PYTHON_BIN" scripts/editor_completion.py acknowledge "$BATCH"
+  refresh_merged_evidence
   rm -f "$REFILL_BACKUP"
 done
 

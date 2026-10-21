@@ -1,3 +1,5 @@
+import os as _os
+_os.environ["L383_GEMINI_KEY"] = ""  # never the real Gemini API in tests
 import re
 import json
 import os
@@ -27,7 +29,7 @@ def page(license_name="CC0"):
                         "Artist": {"value": "<a>Jane Photographer</a>"},
                         "Copyrighted": {"value": "False"},
                         "ImageDescription": {"value": "Apple Park in Cupertino"},
-                        "DateTimeOriginal": {"value": f"{datetime.now(timezone.utc).year - 1}-06-01"}}
+                        "DateTimeOriginal": {"value": (datetime.now(timezone.utc).date() - timedelta(days=90)).isoformat()}}
     }]}
 
 
@@ -51,7 +53,7 @@ class NewsPhotoTests(unittest.TestCase):
     def test_single_word_named_subject_is_grounded_and_invented_evidence_fails(self):
         leads = [{"pair_id": "one", "title": "OpenAI releases a model", "primary_evidence": {"text": "OpenAI announced a new release."}}]
         rows = [{"pair_id": "one", "subject": "OpenAI", "subject_evidence": "OpenAI", "queries": ["OpenAI office"], "caption": "Zyra e OpenAI."}]
-        with tempfile.TemporaryDirectory() as folder, patch.object(policy, "wiki_plan", return_value=None), patch.object(policy.subprocess, "run") as model:
+        with tempfile.TemporaryDirectory() as folder, patch.object(policy, "wiki_plan", return_value=None), patch("news_model.run_process") as model:
             model.return_value = SimpleNamespace(returncode=0, stdout="383_JSON_BEGIN" + json.dumps(rows) + "383_JSON_END")
             self.assertIn("one", policy.plan_subjects(leads, Path(folder)))
             command = model.call_args.args[0]
@@ -64,14 +66,14 @@ class NewsPhotoTests(unittest.TestCase):
     def test_a_timed_out_planner_chunk_costs_only_its_own_leads(self):
         leads = [{"pair_id": f"lead-{n}", "title": f"OpenAI story {n}", "primary_evidence": {"text": "OpenAI announced a new release."}}
                  for n in range(policy.PLAN_CHUNK + 1)]
-        def answer(command, **_):
+        def answer(command, *_args, **_):
             brief = re.findall(r"## pair_id: (\S+)", Path(command[-1].split("Read ", 1)[1].split(". ", 1)[0]).read_text(encoding="utf-8"))
             if len(brief) > 1:
                 raise policy.subprocess.TimeoutExpired(command, 240)
             rows = [{"pair_id": brief[0], "subject": "OpenAI", "subject_evidence": "OpenAI",
                      "queries": ["OpenAI office"], "caption": "Zyra e OpenAI."}]
             return SimpleNamespace(returncode=0, stdout="383_JSON_BEGIN" + json.dumps(rows) + "383_JSON_END")
-        with tempfile.TemporaryDirectory() as folder, patch.object(policy, "wiki_plan", return_value=None), patch.object(policy.subprocess, "run", side_effect=answer):
+        with tempfile.TemporaryDirectory() as folder, patch.object(policy, "wiki_plan", return_value=None), patch("news_model.run_process", side_effect=answer):
             plans = policy.plan_subjects(leads, Path(folder))
             self.assertEqual(list(plans), [f"lead-{policy.PLAN_CHUNK}"])
             self.assertTrue((Path(folder) / "news-photo-plan.json").exists())
@@ -107,6 +109,17 @@ class NewsPhotoTests(unittest.TestCase):
         self.assertIsNotNone(policy.candidate_photo(candidate, plan()))
         self.assertIsNone(policy.candidate_photo(page(), {**plan(), "subject": "Microsoft headquarters"}))
 
+    def test_uk_open_government_licence_needs_its_url_and_a_credit(self):
+        # As Commons reports a Number 10 photo (2026-10-17).
+        ogl = page("OGL 3")
+        meta = ogl["imageinfo"][0]["extmetadata"]
+        meta.update(LicenseUrl={"value": "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3"},
+                    Copyrighted={"value": "True"}, AttributionRequired={"value": "true"}, Artist={"value": "Number 10"})
+        photo = policy.candidate_photo(ogl, plan())
+        self.assertEqual((photo["image_rights"]["license"], photo["image_rights"]["creator"]), ("OGL 3", "Number 10"))
+        meta.pop("Artist")
+        self.assertIsNone(policy.candidate_photo(ogl, plan()))
+
     def test_public_domain_requires_explicit_status_and_no_extra_restrictions(self):
         candidate = page("Public domain")
         candidate["imageinfo"][0]["extmetadata"]["Copyrighted"]["value"] = "True"
@@ -117,12 +130,12 @@ class NewsPhotoTests(unittest.TestCase):
         self.assertIsNone(policy.candidate_photo(candidate, plan()))
 
     def test_same_photo_at_another_url_is_rejected_but_different_photo_is_kept(self):
-        lead = {"photo_plan": plan()}
         evidence = {"image_url": "https://publisher.example/copied.jpg"}
         with patch.object(policy, "commons_candidates", return_value=[page()]), patch.object(policy, "photo_fingerprint", return_value=(1600, 900, "identical", 0)):
-            self.assertEqual(policy.select_photo(lead, evidence, {}), {})
+            self.assertEqual(policy.select_photo({"photo_plan": plan()}, evidence, {}), {})
+        # A new story: the research cache lives on the lead for one run.
         with patch.object(policy, "commons_candidates", return_value=[page()]), patch.object(policy, "photo_fingerprint", side_effect=[(1600, 900, "source", 0), (1600, 900, "different", (1 << 256) - 1)]):
-            photo = policy.select_photo(lead, evidence, {})
+            photo = policy.select_photo({"photo_plan": plan()}, evidence, {})
             self.assertTrue(photo["image_rights"]["distinct_from_source"])
 
     def test_commons_real_licence_url_formats_are_accepted(self):
@@ -185,7 +198,7 @@ class NewsPhotoTests(unittest.TestCase):
             return entry
         now = datetime(2026, 10, 12, tzinfo=timezone.utc)
         old_scan = ranked("Apple Park old", 1998, size=(900, 1400))
-        fresh = ranked("Apple Park fresh", 2025, "Quality images|Apple Park")
+        fresh = ranked("Apple Park fresh", 2026, "Quality images|Apple Park")
         self.assertGreater(policy.hook_score(fresh, now), policy.hook_score(old_scan, now))
         with patch.object(policy, "commons_candidates", return_value=[old_scan, fresh]), \
                 patch.object(policy, "photo_fingerprint", return_value=(1600, 1000, "photo", 255)):
@@ -238,9 +251,138 @@ class NewsPhotoTests(unittest.TestCase):
             # A namesake page that does not cover the whole name is refused.
             self.assertIsNone(policy.wiki_plan({**lead, "title": "Paris Hilton speaks",
                                                 "primary_evidence": {"text": "Then Paris Hilton spoke."}}))
-        # Only people are planned from Wikipedia: a country or idea page is not.
-        with patch.object(policy.requests, "get", side_effect=wiki), patch.object(policy, "is_person", return_value=False):
-            self.assertIsNone(policy.wiki_plan(lead))
+        # A page with coordinates is the place plan (lead photo only, tried
+        # last); any other page is an organisation or product, whose photos
+        # must also show the story's topic.
+        with patch.object(policy.requests, "get", side_effect=wiki), patch.object(policy, "is_person", return_value=False),                 patch.object(policy, "is_place", return_value=True):
+            self.assertEqual((policy.wiki_plan(lead)["kind"], policy.wiki_plan(lead)["queries"]), ("place", []))
+        with patch.object(policy.requests, "get", side_effect=wiki), patch.object(policy, "is_person", return_value=False),                 patch.object(policy, "is_place", return_value=False):
+            self.assertEqual(policy.wiki_plan(lead)["kind"], "thing")
+
+    def test_person_plan_keeps_the_story_place_for_the_last_tier(self):
+        def wiki(url, params, **_):
+            pages = {"Robert Fico": {"1": {"index": 1, "title": "Robert Fico", "pageimage": "Robert_Fico_2023.jpg",
+                                           "pageprops": {"wikibase_item": "Q57606"}}},
+                     "Novi Sad": {"1": {"index": 1, "title": "Novi Sad", "pageimage": "Novi_Sad_panorama.jpg",
+                                        "pageprops": {"wikibase_item": "Q55630"}}}}.get(params["gsrsearch"], {})
+            return SimpleNamespace(raise_for_status=lambda: None, json=lambda: {"query": {"pages": pages}})
+        lead = {"title": "Robert Fico backs Vucic at the Novi Sad rally", "category": "Botë",
+                "primary_evidence": {"text": "Slovak prime minister Robert Fico spoke in Novi Sad. Robert Fico said the rally in Novi Sad was large."}}
+        with patch.object(policy.requests, "get", side_effect=wiki), patch.object(policy, "is_person", side_effect=lambda qid: qid == "Q57606"),                 patch.object(policy, "is_place", side_effect=lambda qid: qid == "Q55630"):
+            plan_row = policy.wiki_plan(lead)
+        self.assertEqual((plan_row["subject"], plan_row["kind"]), ("Robert Fico", "person"))
+        self.assertEqual(plan_row["place"]["subject"], "Novi Sad")
+        self.assertIn("Novi Sad", plan_row["context"])
+
+    def test_taken_date_reads_the_forms_commons_uses(self):
+        from datetime import date
+        for raw, expected in (("2026-10-14 09:12:00", date(2026, 10, 14)), ("2026:10:14", date(2026, 10, 14)),
+                              ("<div>Taken on 14 October 2026</div>", date(2026, 10, 14)),
+                              ("October 4, 2026", date(2026, 10, 4)), ("2026", None), ("", None)):
+            self.assertEqual(policy.taken_date({"DateTimeOriginal": {"value": raw}}), expected, raw)
+
+    def test_a_photo_from_this_week_beats_a_better_older_portrait(self):
+        today = datetime.now(timezone.utc).date()
+        def dated(title, days, categories=""):
+            entry = page()
+            entry["title"] = f"File:{title}.jpg"
+            info = entry["imageinfo"][0]
+            info.update(url=f"https://upload.wikimedia.org/wikipedia/commons/a/ab/{title.replace(' ', '_')}.jpg",
+                        descriptionurl=f"https://commons.wikimedia.org/wiki/File:{title.replace(' ', '_')}.jpg", width=2400, height=1400)
+            info["extmetadata"].update(DateTimeOriginal={"value": (today - timedelta(days=days)).isoformat()},
+                                       Categories={"value": categories})
+            return entry
+        portrait = dated("Apple Park portrait", 500, "Featured pictures")
+        this_week = dated("Apple Park opening", 2)
+        with patch.object(policy, "commons_candidates", return_value=[portrait, this_week]), \
+                patch.object(policy, "photo_fingerprint", return_value=(2400, 1400, "photo", 255)):
+            photo = policy.select_photo({"photo_plan": plan(), "title": "Apple opens its campus"}, {}, {})
+        self.assertIn("opening", photo["image_url"])
+        self.assertEqual(photo["image_rights"]["photo_tier"], "fresh")
+
+    def test_an_older_photo_must_show_the_story_context(self):
+        story = {"photo_plan": plan(), "title": "Apple campus hosts the iPhone launch event"}
+        unrelated = page()  # 'Apple Park in Cupertino' names no launch, event or iPhone
+        launch = page()
+        launch["title"] = "File:Apple Park iPhone launch event.jpg"
+        launch["imageinfo"][0]["url"] = "https://upload.wikimedia.org/wikipedia/commons/a/ab/Apple_Park_iPhone_launch.jpg"
+        launch["imageinfo"][0]["descriptionurl"] = "https://commons.wikimedia.org/wiki/File:Apple_Park_iPhone_launch.jpg"
+        with patch.object(policy, "commons_candidates", return_value=[unrelated]), \
+                patch.object(policy, "photo_fingerprint", return_value=(1600, 900, "photo", 255)):
+            self.assertEqual(policy.select_photo(dict(story), {}, {}), {})
+        with patch.object(policy, "commons_candidates", return_value=[unrelated, launch]), \
+                patch.object(policy, "photo_fingerprint", return_value=(1600, 900, "photo", 255)):
+            photo = policy.select_photo(dict(story), {}, {})
+        self.assertIn("launch", photo["image_url"])
+        self.assertEqual(photo["image_rights"]["photo_tier"], "older")
+
+    def test_an_archive_photo_is_at_most_two_years_old_and_says_so(self):
+        player = {**plan(), "subject": "Bukayo Saka", "qid": "Q1", "kind": "person"}
+        old = page()
+        old["title"] = "File:Bukayo Saka Arsenal v Lille.jpg"
+        old["imageinfo"][0]["extmetadata"]["DateTimeOriginal"] = {
+            "value": (datetime.now(timezone.utc).date() - timedelta(days=800)).isoformat()}
+        with patch.object(policy, "commons_candidates", return_value=[old]), patch.object(policy, "depicted", return_value=set()), \
+                patch.object(policy, "photo_fingerprint", return_value=(1600, 900, "photo", 255)):
+            lead = {"photo_plan": player, "title": "Saka scores against Lille", "category": "Sport"}
+            self.assertEqual(policy.select_photo(lead, {}, {}, "older"), {})
+        old["imageinfo"][0]["extmetadata"]["DateTimeOriginal"] = {"value": "2026-03-14"}
+        with patch.object(policy, "commons_candidates", return_value=[old]), patch.object(policy, "depicted", return_value=set()),                 patch.object(policy, "photo_fingerprint", return_value=(1600, 900, "photo", 255)),                 patch.object(policy, "datetime", wraps=datetime) as clock:
+            clock.now.return_value = datetime(2026, 10, 18, tzinfo=timezone.utc)
+            photo = policy.select_photo({**lead, "_photo_research": {}}, {}, {}, "older")
+        self.assertTrue(photo["image_caption"].startswith("Foto nga arkivi (mars 2026). "))
+
+    def test_research_also_searches_files_tagged_as_depicting_the_subject(self):
+        person = {**plan(), "subject": "Lewis Hamilton", "qid": "Q9673", "kind": "person"}
+        with patch.object(policy, "commons_candidates", return_value=[]) as search,                 patch.object(policy, "commons_files", return_value=[]):
+            policy._research({}, {}, {}, person, float("inf"))
+        self.assertIn("haswbstatement:P180=Q9673", [call.args[0] for call in search.call_args_list])
+        with patch.object(policy, "commons_candidates", return_value=[]) as search:
+            policy._research({}, {}, {}, plan(), float("inf"))
+        self.assertFalse(any("haswbstatement" in call.args[0] for call in search.call_args_list))
+
+    def test_tagged_in_someone_elses_photo_is_not_a_photo_of_them(self):
+        fico = {**plan(), "subject": "Robert Fico", "qid": "Q57606", "kind": "person"}
+        visit = page()
+        visit["title"] = "File:Visit of Raffaele Fitto, to Slovakia.jpg"
+        visit["pageid"] = 9
+        with patch.object(policy, "depicted", return_value={"Q57606", "Q1063445"}):
+            self.assertIsNone(policy.candidate_photo(visit, fico))
+        with patch.object(policy, "depicted", return_value={"Q57606"}):
+            self.assertIsNotNone(policy.candidate_photo(visit, fico))
+        visit["title"] = "File:Fico and Fitto in Bratislava.jpg"
+        with patch.object(policy, "depicted", return_value={"Q57606", "Q1063445"}):
+            self.assertIsNotNone(policy.candidate_photo(visit, fico))
+
+    def test_place_tier_uses_the_story_place_when_no_person_photo_exists(self):
+        fico = {**plan(), "subject": "Robert Fico", "qid": "Q57606", "kind": "person",
+                "place": {**plan(), "subject": "Novi Sad", "qid": "Q55630", "kind": "place", "caption": "Novi Sad.",
+                          "queries": [], "files": ["Novi Sad panorama.jpg"]}}
+        city = page()
+        city["title"] = "File:Novi Sad panorama.jpg"
+        city["imageinfo"][0]["url"] = "https://upload.wikimedia.org/wikipedia/commons/a/ab/Novi_Sad_panorama.jpg"
+        searched = {**city, "title": "File:Novi Sad protest map.jpg"}
+        with patch.object(policy, "commons_candidates", return_value=[searched]), \
+                patch.object(policy, "commons_files", return_value=[{**city, "lead_image": True}]), \
+                patch.object(policy, "depicted", return_value=set()), \
+                patch.object(policy, "photo_fingerprint", return_value=(1600, 900, "photo", 255)):
+            lead = {"photo_plan": fico, "title": "Fico backs Vucic in Novi Sad"}
+            self.assertEqual(policy.select_photo(lead, {}, {}), {})
+            photo = policy.select_photo(lead, {}, {}, "place")
+        self.assertEqual((photo["image_subject"], photo["image_rights"]["photo_tier"]), ("Novi Sad", "place"))
+        # Dated as an archive photo, never passed off as today's event.
+        self.assertTrue(photo["image_caption"].startswith("Foto nga arkivi ("))
+
+    def test_text_only_record_passes_only_with_an_empty_image(self):
+        record = policy.no_photo()
+        article = {"url": "https://techcrunch.com/story", **record}
+        with tempfile.TemporaryDirectory() as folder, patch.object(policy, "CATALOG", Path(folder) / "catalog.json"):
+            policy.CATALOG.write_text(json.dumps({article["url"]: record}), encoding="utf-8")
+            self.assertTrue(policy.is_no_photo(policy.trusted_photo(article)))
+            self.assertEqual(policy.image_errors(article), [])
+            # A writer cannot slip its own picture into a text-only story.
+            self.assertTrue(policy.image_errors({**article, "image_url": "https://publisher.example/photo.jpg"}))
+        self.assertTrue(policy.image_errors(article))  # no prepared record at all
 
     def test_commons_thumbnail_and_original_have_same_identity(self):
         original = "https://upload.wikimedia.org/wikipedia/commons/a/ab/Apple_Park.jpg"

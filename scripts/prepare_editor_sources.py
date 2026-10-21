@@ -7,6 +7,7 @@ import argparse
 import concurrent.futures
 import json
 import os
+import re
 import sys
 import time
 import threading
@@ -172,12 +173,41 @@ def discovery(path: Path) -> None:
     )
 
 
+def visual_options(lead: dict, primary: dict, secondary: dict) -> list[dict]:
+    """Owner, 2026-10-17 evening: every article carries a recent visual of
+    its subject, and a story without one is dropped. First the subject's own
+    official video of the last three days, then a Commons photo of the last
+    30 days (an official Flickr photo of the last two days, when a key
+    exists, ahead of it), then a photo of the story's own person or team
+    from the last two years, captioned as an archive photo, then a dated
+    archive photo of its institution, place, team or company. Text-only is
+    out."""
+    from news_gallery_photos import gallery_options
+    from news_image_policy import photo_options
+    from news_photo_editor import trimmed
+    from news_press_photos import press_options
+    from news_video_policy import video_options
+    # Lind, 18 Oct: the institution's own press photo of the last two days
+    # comes first, credited to it, as Kosovo and Albanian media do.
+    return trimmed(press_options(lead) + video_options(lead) + gallery_options(lead) + photo_options(lead, primary, secondary, "fresh")
+                   + photo_options(lead, primary, secondary, "older") + photo_options(lead, primary, secondary, "place"))
+
+
 def ready_image(lead: dict, primary: dict, secondary: dict) -> dict:
     if os.environ.get("L383_HOURLY_NEWS") == "1":
-        from news_image_policy import select_photo
-        from news_video_policy import select_video
-        # No licensed photo of the person: an official channel's recent video.
-        return select_photo(lead, primary, secondary) or select_video(lead)
+        from news_image_policy import finalize_photo
+        from news_video_policy import finalize_video
+        options = lead.get("_visual_options")
+        if options is None:
+            options = visual_options(lead, primary, secondary)
+        # The photo editor's picks, best first; [] means nothing shows the
+        # story. Without a verdict the tier order stands.
+        choice = lead.get("_visual_choice")
+        for option in [options[index] for index in choice] if choice is not None else options:
+            found = finalize_video(lead, option) if option["tier"] == "video" else finalize_photo(lead, option)
+            if found:
+                return found
+        return {}
     from codex_automation_support import _fetch_image_dimensions, _larger_image_candidates, _looks_like_content_image_url
     for evidence in (primary, secondary):
         originals = list(dict.fromkeys([str(evidence.get("image_url") or ""), *evidence.get("image_candidates", [])]))[:4]
@@ -196,17 +226,24 @@ def ready_image(lead: dict, primary: dict, secondary: dict) -> dict:
 
 
 def coverage_plan(leads: list[dict], total: int = 20) -> dict[str, int]:
-    """Reserve every available desk's allocation before redistributing gaps."""
+    """Plan two to three stories per desk without hiding missing inventory."""
+    from news_coverage import plan_counts
     counts = {category: sum(lead.get("category") == category for lead in leads) for category in CATEGORIES}
-    targets = hourly_targets()
-    plan = {category: min(targets[category], counts[category]) for category in CATEGORIES}
-    while sum(plan.values()) < total:
-        available = [category for category in CATEGORIES if plan[category] < counts[category]]
-        if not available:
-            break
-        category = min(available, key=lambda key: plan[key] / targets[key])
-        plan[category] += 1
-    return plan
+    return plan_counts(counts, total)
+
+
+def prioritize_grounded_leads(leads: list[dict]) -> list[dict]:
+    """Spend bounded photo time on substantial evidence before thin clips.
+
+    A brief primary can still qualify alongside a readable corroborator. This
+    ordering is not editorial approval and never substitutes for claim checks.
+    """
+    def priority(lead: dict) -> tuple[bool, bool]:
+        words = sum(len(re.findall(r"\w+", str(lead.get(key, {}).get("text") or "")))
+                    for key in ("primary_evidence", "secondary_evidence")
+                    if lead.get(key, {}).get("status") == "text_extracted")
+        return words < 140, words < 80
+    return sorted(leads, key=priority)
 
 
 def recently_published_photos(days: int = 14) -> set[str]:
@@ -232,8 +269,13 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     with concurrent.futures.ThreadPoolExecutor(max_workers=12) as pool:
         fetched = dict(zip(urls, pool.map(fetch_url, urls)))
     eligible = []
-    rejected = {category: {"unreadable": 0, "needs_corroboration": 0, "image_unavailable": 0, "topic_mismatch": 0} for category in CATEGORIES}
+    rejected = {category: {"unreadable": 0, "needs_corroboration": 0, "topic_mismatch": 0, "rejected_twice": 0, "no_fresh_photo": 0} for category in CATEGORIES}
+    from news_copyright_review import cooling_down
     for lead in leads:
+        # Rejected by the reviewer twice today (draft and rewrite): rest it.
+        if cooling_down(lead["url"]):
+            rejected[lead["category"]]["rejected_twice"] += 1
+            continue
         primary = fetched[lead["url"]]
         secondary_url = lead.get("corroborates_url", "")
         secondary = fetched.get(secondary_url, {})
@@ -248,7 +290,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
                        tags=lead.get("tags", []), url=lead["url"]):
             rejected[lead["category"]]["topic_mismatch"] += 1
             continue
-        sensitive = needs_corroboration({**lead, "body": primary.get("text", "")})
+        sensitive = needs_corroboration(lead)
         if sensitive and not secondary_ok:
             rejected[lead["category"]]["needs_corroboration"] += 1
             continue
@@ -256,7 +298,9 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
                          "corroborates_url": secondary_url if secondary_ok else "",
                          "primary_evidence": primary, "secondary_evidence": secondary if secondary_ok else {}})
     # Oversample each desk to replace image failures and editorial rejections.
-    by_category = {category: [item for item in eligible if item["category"] == category][:hourly_targets()[category] + 12]
+    # With a recent photo required, about one lead in twenty found one on 18 Oct,
+    # so every desk sends up to 30 more than its target.
+    by_category = {category: prioritize_grounded_leads([item for item in eligible if item["category"] == category])[:hourly_targets()[category] + 30]
                    for category in CATEGORIES}
     # Research one candidate per desk before extras; a slow photo host must
     # not consume the bounded research window before later desks get a turn.
@@ -264,7 +308,9 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
                  for items in by_category.values() if index < len(items)]
     from news_image_policy import CATALOG, plan_subjects
     plans = plan_subjects(shortlist, path.parent)
-    reserved_photos: set[str] = recently_published_photos()
+    # The owner permits a credited contextual photo in different hourly
+    # batches. Keep distinct photos within this batch, not a 14-day embargo.
+    reserved_photos: set[str] = set()
     photo_lock = threading.Lock()
     def reserve_photo(url: str) -> bool:
         from news_image_policy import image_identity
@@ -274,17 +320,31 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
                 return False
             reserved_photos.add(identity)
             return True
-    photo_deadline = time.monotonic() + 600
+    # Ten minutes for visuals in all: candidate research (six, six stories at
+    # a time), the photo editor's verdict (at most four), then downloads and
+    # checks of the chosen ones. Drafting stops at minute 20 whatever this takes.
+    research_deadline = time.monotonic() + 360
     shortlist = [{**lead, "photo_plan": plans.get(lead["pair_id"]), "_reserve_photo": reserve_photo,
-                  "_photo_deadline": photo_deadline} for lead in shortlist]
-    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
+                  "_photo_deadline": research_deadline} for lead in shortlist]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+        options = list(pool.map(lambda lead: visual_options(lead, lead["primary_evidence"], lead["secondary_evidence"]), shortlist))
+    from news_photo_editor import choose
+    picks = choose([{"pair_id": lead["pair_id"], "title": lead.get("title", ""),
+                     "text": str(lead["primary_evidence"].get("text", "")), "options": found}
+                    for lead, found in zip(shortlist, options)], path.parent)
+    finalize_deadline = time.monotonic() + 240
+    for lead, found in zip(shortlist, options):
+        lead.update(_visual_options=found, _photo_deadline=finalize_deadline)
+        if lead["pair_id"] in picks:
+            lead["_visual_choice"] = picks[lead["pair_id"]]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
         images = list(pool.map(lambda lead: ready_image(lead, lead["primary_evidence"], lead["secondary_evidence"]), shortlist))
     folder = path.parent / "source-evidence"
     folder.mkdir(exist_ok=True)
     ready = []
     for lead, image in zip(shortlist, images):
         if not image:
-            rejected[lead["category"]]["image_unavailable"] += 1
+            rejected[lead["category"]]["no_fresh_photo"] += 1
             continue
         record = {"slug": lead["pair_id"], "source_url": lead["url"], "evidence": lead["primary_evidence"],
                   "corroborating": [{"url": lead["corroborates_url"], "evidence": lead["secondary_evidence"]}]
@@ -292,11 +352,14 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
         target = folder / f"{lead['pair_id']}.json"
         target.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         ready.append({key: value for key, value in {**lead, **image, "evidence_path": str(target)}.items()
-                      if key not in {"primary_evidence", "secondary_evidence", "photo_plan", "_reserve_photo", "_photo_deadline"}})
+                      if key not in {"primary_evidence", "secondary_evidence", "photo_plan", "_reserve_photo", "_photo_deadline",
+                                     "_photo_research", "_source_fingerprints", "_source_urls",
+                                     "_visual_options", "_visual_choice"}})
     CATALOG.parent.mkdir(parents=True, exist_ok=True)
     CATALOG.write_text(json.dumps({lead["url"]: {key: value for key, value in lead.items()
                        if key.startswith("image_") or key == "video_clip_url"} for lead in ready}, ensure_ascii=False, indent=2), encoding="utf-8")
     plan = coverage_plan(ready)
+    photo_ready_counts = {category: sum(lead["category"] == category for lead in ready) for category in CATEGORIES}
     # Reporter's notes for the stories the writer will actually use (each desk's
     # allocation plus a few spares). With notes, a story is written from them
     # alone; a story whose notes failed is dropped rather than written from the
@@ -319,14 +382,21 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
         print("383 FACT NOTES unavailable this hour; writer falls back to source evidence")
     data.update(verified_pair_ids=[lead["pair_id"] for lead in ready], ready_leads=ready,
                 source_ready_categories={category: sum(lead["category"] == category for lead in ready) for category in CATEGORIES},
-                publication_plan=plan, category_targets=hourly_targets(), rejected_inventory=rejected)
+                publication_plan=plan, category_targets=hourly_targets(), rejected_inventory=rejected,
+                photo_ready_categories=photo_ready_counts,
+                funnel={category: {
+                    "selected": sum(lead["category"] == category for lead in leads),
+                    "readable_eligible": sum(lead["category"] == category for lead in eligible),
+                    "photo_qualified": photo_ready_counts[category],
+                    "writer_ready": sum(lead["category"] == category for lead in ready),
+                } for category in CATEGORIES})
     path.with_suffix(".json").write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     lines = ["# 383 prepared hourly story queue", "",
              f"Verified source-ready pair inventory: {len(ready)}",
              "Publication plan (aim for these category counts): " + json.dumps(plan, ensure_ascii=False),
-             "Target is 20 distinct new articles. Cover EVERY available category before adding extras to a busy desk.",
+             "Target is 20 distinct new articles: two to three per category, never more than three. Give every available desk two before adding a third. Report missing verified inventory instead of padding another desk.",
              "Use verified facts in original prose. Never name a publisher in public copy; skip stories that rest on another outlet's exclusive, interview or unconfirmed claim; write 383's own lead, sentences and headline wording rather than mirroring the source sentence by sentence, and never add claims (even 'no deadline was given') the evidence does not state; preserve internal evidence URLs.",
-             "Photos below are contextual rights-cleared archive photographs, independently checked against source images. Each story shows only image_subject and image_caption; leave the image fields out of your drafts, the pipeline restores the full prepared photo record by source URL. Never portray them as photos of today's event. The writer and editor must confirm that the photo subject fits the specific story, not just its category.", ""]
+             "Visuals below are the institution's own press photos of the last two days, the subject's own official videos of the last three days or rights-cleared photographs of the story's person or team (last 30 days, or archive photos of the last two years whose caption says so), independently checked against source images. Each story shows only image_subject and image_caption; leave the image fields out of your drafts, the pipeline restores the full prepared photo record by source URL. Do not claim a photo shows a moment the caption does not name. The writer and editor must confirm that the photo subject fits the specific story, not just its category.", ""]
     lines += ["# Per-story editorial ranking",
               "Read docs/news-ranking-rubric.md. Assign each score_breakdown factor individually from the fetched evidence and explain the stakes in score_reason. Never copy an all-5 baseline. The normalizer computes the weighted total; do not calculate weights or inspect scoring scripts.", ""]
     for category in CATEGORIES:
@@ -348,7 +418,8 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
             lines += [json.dumps(shown, ensure_ascii=False), ""]
     lines += ["# Inventory shortfalls", json.dumps(rejected, ensure_ascii=False)]
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print("383 READY INVENTORY " + json.dumps({"ready": data["source_ready_categories"], "plan": plan, "rejected": rejected}, ensure_ascii=False))
+    print("383 READY INVENTORY " + json.dumps({"ready": data["source_ready_categories"], "plan": plan,
+                                               "rejected": rejected}, ensure_ascii=False))
 
 
 def main() -> int:

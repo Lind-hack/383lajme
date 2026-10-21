@@ -39,6 +39,40 @@ class CopyrightReviewTests(unittest.TestCase):
         self.assertEqual(self.save([decision(self.article, not_close_translation=False)]), 0)
         self.assertEqual(json.loads(self.batch.read_text()), [])
 
+    def test_a_rejection_is_kept_for_one_rewrite_and_twice_rests_the_story_a_day(self):
+        drafts, ledger = Path(self.folder.name) / "rejected.json", Path(self.folder.name) / "ledger.json"
+        with patch.dict(review.os.environ, {"L383_REVIEW_REJECTED": str(drafts), "L383_REJECTION_LEDGER": str(ledger)}):
+            rejected = {**decision(self.article, "reject", not_close_translation=False),
+                        "reason": "The lead closely translates the source's first sentence about the Friday deadline."}
+            self.save([rejected])
+            rows = json.loads(drafts.read_text(encoding="utf-8"))
+            self.assertEqual((rows[0]["url"], rows[0]["rejection_reason"][:9]), (self.article["url"], "The lead "))
+            self.assertFalse(review.cooling_down(self.article["url"]))
+            self.batch.write_text(json.dumps([self.article]), encoding="utf-8")
+            self.save([rejected])
+            self.assertTrue(review.cooling_down(self.article["url"]))
+            self.assertEqual(len(json.loads(drafts.read_text(encoding="utf-8"))), 1)  # one row per story
+            stale = (datetime.now(timezone.utc) - timedelta(hours=30)).isoformat()
+            ledger.write_text(json.dumps({self.article["url"]: [stale, stale]}), encoding="utf-8")
+            self.assertFalse(review.cooling_down(self.article["url"]))
+
+    def test_a_failed_review_chunk_holds_back_only_its_own_articles(self):
+        articles = [{**self.article, "slug": f"kosove-original-story-{n}", "url": f"https://koha.net/story-{n}"} for n in range(8)]
+        records = [{**self.record, "slug": a["slug"], "source_url": a["url"]} for a in articles]
+        self.batch.write_text(json.dumps(articles), encoding="utf-8")
+        self.evidence.write_text(json.dumps(records), encoding="utf-8")
+        def chunk(batch, todo, records, index):
+            if index == 1:
+                raise review.subprocess.TimeoutExpired("hermes", 360)
+            return [decision(article) for article in todo]
+        drafts = Path(self.folder.name) / "rejected.json"
+        with patch.object(review, "_review_chunk", side_effect=chunk), \
+                patch.dict(review.os.environ, {"L383_REVIEW_REJECTED": str(drafts)}):
+            review.review(self.batch)
+        kept = [article["slug"] for article in json.loads(self.batch.read_text(encoding="utf-8"))]
+        self.assertEqual(kept, [article["slug"] for article in articles[:review.REVIEW_CHUNK]])
+        self.assertFalse(drafts.exists())
+
     def test_changes_while_reviewer_runs_cannot_receive_old_approval(self):
         snapshot = review.snapshot_digest([self.article], {self.article["slug"]: self.record})
         self.article["body"] = "An entirely different article after the review started."
@@ -49,13 +83,25 @@ class CopyrightReviewTests(unittest.TestCase):
                 reviewed_snapshot=snapshot)
         self.assertFalse(self.batch.with_suffix(".copyright-review.json").exists())
 
+    def test_unavailable_new_reviews_preserve_matching_prior_approvals(self):
+        self.save([decision(self.article)])
+        second = {**self.article, "slug": "kosove-unreviewed-story", "url": "https://koha.net/new"}
+        self.batch.write_text(json.dumps([self.article, second]), encoding="utf-8")
+        self.evidence.write_text(json.dumps([self.record, {**self.record, "slug": second["slug"],
+                                                         "source_url": second["url"]}]), encoding="utf-8")
+        with patch.object(review, "_review_chunk", side_effect=review.subprocess.TimeoutExpired("hermes", 360)):
+            self.assertEqual(review.review(self.batch), 0)
+        kept = json.loads(self.batch.read_text(encoding="utf-8"))
+        self.assertEqual(kept, [self.article])
+        review.verify_review(self.batch, kept, review.evidence_records(self.evidence))
+
     def test_refill_rounds_share_one_receipt_and_skip_articles_already_approved(self):
         shared = Path(self.folder.name) / "full.copyright-review.json"
         with patch.dict(review.os.environ, {"L383_REVIEW_RECEIPT": str(shared)}):
             self.save([decision(self.article)])
             self.assertIn(self.article["slug"], json.loads(shared.read_text())["articles"])
             # The same article in a later round costs no model call.
-            with patch.object(review.subprocess, "run") as model:
+            with patch("news_model.run_process") as model:
                 self.assertEqual(review.review(self.batch), 0)
             model.assert_not_called()
             # A new round's article is reviewed alone; the earlier approval stays.
@@ -70,7 +116,7 @@ class CopyrightReviewTests(unittest.TestCase):
 
     def test_empty_candidates_finish_without_model_call(self):
         self.batch.write_text("[]", encoding="utf-8")
-        with patch.object(review.subprocess, "run") as model:
+        with patch("news_model.run_process") as model:
             self.assertEqual(review.review(self.batch), 0)
         model.assert_not_called()
 

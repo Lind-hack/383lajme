@@ -7,6 +7,7 @@ from unittest.mock import patch
 from cloud_news_discovery import select_leads
 from prepare_editor_sources import discovery
 import editorial_rules_v2 as rules
+from news_source_policy import hourly_targets
 
 
 def technology_inventory():
@@ -38,8 +39,12 @@ class HourlyCapacityTests(unittest.TestCase):
 
     def test_twenty_is_allowed_but_twenty_one_stays_rejected(self):
         with patch.object(rules, "HOURLY_NEWS_MODE", True), patch.object(rules, "article_errors", return_value=[]):
-            self.assertEqual(rules.validate_run([{"category": "Botë"}] * 20), [])
-            self.assertTrue(any("caps the run" in message for message in rules.validate_run([{"category": "Botë"}] * 21)))
+            balanced = [{"category": category} for category, target in hourly_targets().items()
+                        for _ in range(target)]
+            self.assertEqual(len(balanced), 20)
+            self.assertEqual(rules.validate_run(balanced), [])
+            self.assertTrue(any("caps the run" in message for message in rules.validate_run(balanced + [{"category": "Showbiz"}])))
+            self.assertTrue(any("each category" in message for message in rules.validate_run([{"category": "Botë"}] * 20)))
 
 
 if __name__ == "__main__":

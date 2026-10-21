@@ -216,7 +216,10 @@ def fetch_listing(spec: dict, now: datetime | None = None):
     """Public HTML discovery, never a paywall or anti-bot bypass."""
     now = now or datetime.now(KOSOVO_TIME)
     audit = {"source": spec["source"], "category": spec["category"], "url": spec["url"],
-             "status": "unavailable", "entries": 0, "eligible": 0, "method": "public_listing"}
+             "status": "unavailable", "entries": 0, "eligible": 0, "method": "public_listing",
+             "attempted": 0, "unreadable": 0, "restricted": 0, "no_article_text": 0,
+             "undated": 0, "invalid_date": 0, "old_or_future": 0, "off_lane": 0,
+             "insufficient_content": 0}
     try:
         from read_news_source import read
         response = requests.get(spec["url"], timeout=(5, 15), headers={"User-Agent": USER_AGENT})
@@ -234,22 +237,38 @@ def fetch_listing(spec: dict, now: datetime | None = None):
         audit["entries"] = len(urls)
         leads = []
         for url in urls[:int(spec.get("listing_limit", 12))]:
+            audit["attempted"] += 1
             try:
                 evidence = read(url)
             except Exception:
-                audit["unreadable"] = audit.get("unreadable", 0) + 1
+                audit["unreadable"] += 1
                 continue
             if evidence.get("status") != "text_extracted":
+                reason = "restricted" if evidence.get("status") == "restricted" else "no_article_text"
+                audit[reason] += 1
+                continue
+            word_count = len(str(evidence.get("text") or "").split())
+            if word_count < 140:
+                # Diagnostic, not a rejection: paired evidence may ground a brief.
+                audit["insufficient_content"] += 1
+            if not evidence.get("published"):
+                audit["undated"] += 1
                 continue
             pub = published_at({"published": evidence.get("published")})
-            if not pub or not is_recent_for_slot(pub, now):
+            if not pub:
+                audit["invalid_date"] += 1
+                continue
+            if not is_recent_for_slot(pub, now):
+                audit["old_or_future"] += 1
                 continue
             title = evidence.get("title", "")
             summary = evidence.get("text", "")[:650]
             if topic_error(spec["category"], title, summary, url=url):
+                audit["off_lane"] += 1
                 continue
             leads.append({"title": title, "url": url, "source": spec["source"], "category": spec["category"],
-                          "lane": spec["category"].upper(), "published": pub.isoformat(), "summary": summary, "discovery_only": False})
+                          "lane": spec["category"].upper(), "published": pub.isoformat(), "summary": summary,
+                          "source_word_count": word_count, "discovery_only": False})
         audit.update(status="ok" if urls else "no_article_links", eligible=len(leads))
         return leads, audit
     except Exception as exc:
@@ -372,7 +391,11 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=()) -> l
         unique = {}
         for lead in collected:
             url = canonical(lead.get("url", ""))
-            if lead.get("category") == category and url and url not in excluded and not source_error(category, url):
+            # Publishers marked hourly_primary: false block the VPS or sit behind
+            # a paywall (Motorsport.com alone took 25 of 40 Sport slots and none
+            # could be read, 18 Oct); their slots go to readable sources.
+            if (lead.get("category") == category and url and url not in excluded and not source_error(category, url)
+                    and (publisher_for(url) or {}).get("hourly_primary", True)):
                 unique.setdefault(url, lead)
         pool = sorted(unique.values(), key=lambda item: (item.get("published", ""), rank(item)), reverse=True)
         chosen = []

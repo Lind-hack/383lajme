@@ -414,6 +414,10 @@ def validate_run(articles: list[dict[str, Any]]) -> list[str]:
     if len(articles) > maximum:
         errors.append(f"run contains {len(articles)} articles; Topic Selection v2 caps the run at {MAX_TOTAL_ARTICLES}")
     counts = Counter(canonical_category(article.get("category")) for article in articles)
+    if HOURLY_NEWS_MODE:
+        for category, count in counts.items():
+            if count > 3:
+                errors.append(f"{category} contains {count} articles; hourly coverage caps each category at 3")
     for category, quota in LANE_QUOTAS.items():
         count = counts.get(category, 0)
         if not HOURLY_NEWS_MODE and count < quota["min"]:

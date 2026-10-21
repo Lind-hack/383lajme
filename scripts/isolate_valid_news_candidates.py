@@ -34,8 +34,9 @@ def isolate(path: Path, validator=validate_batch) -> int:
                 str(article.get("url") or "").split("#", 1)[0].rstrip("/"),
                 str(article.get("image_url") or ""),
             )
+            # Text-only stories all have an empty image; that is no duplicate.
             if (identifiers[0] in seen_ids or identifiers[1] in seen_slugs
-                    or identifiers[2] in seen_urls or identifiers[3] in seen_images):
+                    or identifiers[2] in seen_urls or (identifiers[3] and identifiers[3] in seen_images)):
                 print(f"REJECTED structural candidate {index}: duplicate ID, slug, URL, or image")
                 rejected += 1
                 continue

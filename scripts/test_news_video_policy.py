@@ -54,6 +54,15 @@ class VideoTests(unittest.TestCase):
         with patch.object(video, "embeddable", return_value=True):
             self.assertEqual(video.select_video(LEAD), {})
 
+    def test_a_one_word_subject_matches_only_its_own_channel(self):
+        lead = {"title": "Waymo starts mapping Toronto streets",
+                "primary_evidence": {"text": "The company Waymo will map Toronto. Engineers at Waymo then test cars there."}}
+        own = {"video_id": "aaaaaaaaaaa", "title": "Mapping Toronto with the Waymo Driver", "published": NOW.isoformat(),
+               "channel_id": "UCh5Yo6HN5b2Hco70HosIzZA", "channel": "Waymo"}
+        other = {**own, "video_id": "bbbbbbbbbbb", "channel": "Uber", "title": "Waymo rides in Toronto, explained"}
+        video._FEED = [other, own]
+        self.assertEqual([option["video"]["video_id"] for option in video.video_options(lead)], ["aaaaaaaaaaa"])
+
 
 if __name__ == "__main__":
     unittest.main()

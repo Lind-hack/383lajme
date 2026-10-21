@@ -17,28 +17,11 @@ from pathlib import Path
 
 from news_image_policy import readable_brief
 from originality_gate import _words
+from news_model import ask_rows, stage_deadline
 
-NOTES_DEADLINE = 240
-CHUNK = 2  # at max reasoning a 5-story answer overran Hermes's 90 s response limit
+NOTES_DEADLINE = 420
+CHUNK = 3  # Keep individual max-effort requests small enough for the stage budget.
 MAX_FACT_WORDS = 22
-
-
-HIGH_EFFORT_CONFIG = Path("/opt/hermes/cli-config.yaml")
-
-
-def high_effort_flag() -> list[str]:
-    """Notes run at "high" through Hermes's install-level cli-config.yaml; if
-    that file is missing, stay on the pipeline's "max" rather than the
-    built-in "medium" that --ignore-user-config would otherwise give. The
-    hourly script decides once and exports WRITER_EFFORT_FLAG; this file is
-    only read when running outside it."""
-    if "WRITER_EFFORT_FLAG" in os.environ:
-        return [os.environ["WRITER_EFFORT_FLAG"]] if os.environ["WRITER_EFFORT_FLAG"] else []
-    try:
-        text = HIGH_EFFORT_CONFIG.read_text(encoding="utf-8")
-    except OSError:
-        return []
-    return ["--ignore-user-config"] if re.search(r"^\s*reasoning_effort:\s*high\s*$", text, re.M) else []
 
 
 def copied_run(fact: str, source_words: list[str], size: int = 8) -> bool:
@@ -48,7 +31,7 @@ def copied_run(fact: str, source_words: list[str], size: int = 8) -> bool:
     return any(tuple(words[i:i + size]) in grams for i in range(len(words) - size + 1))
 
 
-def _sheet_chunk(leads: list[dict], folder: Path, index: int) -> dict[str, list[str]]:
+def _sheet_chunk(leads: list[dict], folder: Path, index: int, deadline: float | None = None) -> dict[str, list[str]]:
     brief = folder / f"news-fact-briefs-{index}.md"
     brief.write_text(readable_brief([
         {"pair_id": lead["pair_id"], "title": lead["title"], "text": lead["text"][:6000],
@@ -66,18 +49,9 @@ def _sheet_chunk(leads: list[dict], folder: Path, index: int) -> dict[str, list[
         "edits, shell, tests or publication. Return only a JSON array of {pair_id, facts} between "
         "383_JSON_BEGIN and 383_JSON_END."
     )
-    result = subprocess.run([
-        os.environ.get("L383_HERMES_BIN", "/opt/hermes/.venv/bin/hermes"), "chat", *high_effort_flag(),
-        "--provider", "openai-codex", "--model", os.environ.get("L383_WRITER_MODEL", "gpt-6-luna"),
-        "--ignore-rules", "-t", "file", "--yolo", "--max-turns", "12", "-Q", "-q", prompt,
-    ], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding="utf-8", timeout=360)
-    if result.returncode:
-        raise ValueError("fact-sheet call failed")
-    start = result.stdout.rfind("383_JSON_BEGIN")
-    end = result.stdout.find("383_JSON_END", start + 14)
-    if start < 0 or end < 0:
-        raise ValueError("fact-sheet call returned no complete JSON")
-    rows = json.loads(result.stdout[start + 14:end])
+    rows = ask_rows(prompt, brief, ["--provider", "openai-codex", "--model",
+                                    "gpt-6-luna", "--ignore-rules", "-t", "file",
+                                    "--yolo", "--max-turns", "12", "-Q", "-q"], timeout=360, deadline=deadline)
     by_id = {lead["pair_id"]: lead for lead in leads}
     sheets = {}
     for row in rows if isinstance(rows, list) else []:
@@ -117,23 +91,20 @@ def fragment_notes(text: str, limit: int = 16) -> list[str]:
 def build_fact_sheets(leads: list[dict], folder: Path) -> dict[str, Path]:
     """Notes for each lead, written next to its evidence; a failed chunk only
     costs its own leads. Returns pair_id -> notes path."""
+    deadline = stage_deadline(NOTES_DEADLINE)
     chunks = [leads[start:start + CHUNK] for start in range(0, len(leads), CHUNK)]
     sheets: dict[str, list[str]] = {}
     def attempt(chunk: list[dict], index: int) -> dict[str, list[str]]:
         # The Codex stream stalls now and then (no events for 12 s); one retry
         # recovers most of those without costing the hour.
         try:
-            return _sheet_chunk(chunk, folder, index)
+            return _sheet_chunk(chunk, folder, index, deadline)
         except (subprocess.SubprocessError, ValueError):
-            return _sheet_chunk(chunk, folder, index)
-    # At "max" reasoning the stream goes silent past Hermes's 12 s limit and
-    # every call failed (0 of 10 notes in 380 s), so model notes run only with
-    # the "high" config; otherwise every story gets fragment notes at once.
-    if not high_effort_flag():
-        chunks = []
+            return _sheet_chunk(chunk, folder, index, deadline)
     # Three at a time: more parallel calls on the one account stalled the stream.
-    # Four minutes for the whole step: stories whose notes are not back by
-    # then get fragment notes, so a stalled stream cannot eat the hour.
+    # Seven minutes for the whole step (four left 22 of 40 stories on fragment
+    # notes on 17 Oct): stories whose notes are not back by then get fragment
+    # notes, so a stalled stream cannot eat the hour.
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=3)
     futures = {pool.submit(attempt, chunk, index): index for index, chunk in enumerate(chunks)}
     try:
@@ -145,7 +116,7 @@ def build_fact_sheets(leads: list[dict], folder: Path) -> dict[str, Path]:
     except concurrent.futures.TimeoutError:
         print(f"383 FACT NOTES deadline: {sum(not future.done() for future in futures)} chunk(s) left to fragment notes")
     finally:
-        pool.shutdown(wait=False, cancel_futures=True)
+        pool.shutdown(wait=True, cancel_futures=True)
     model_notes = len(sheets)
     for lead in leads:
         if lead["pair_id"] not in sheets:

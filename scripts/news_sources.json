@@ -13,38 +13,52 @@
   "category_limits": {
     "Kosovë": {
       "min": 0,
-      "discovery_max": 40,
-      "target": 4
+      "discovery_max": 60,
+      "target": 3,
+      "coverage_floor": 2,
+      "max": 3
     },
     "Shqipëri": {
       "min": 0,
-      "discovery_max": 40,
-      "target": 3
+      "discovery_max": 60,
+      "target": 3,
+      "coverage_floor": 2,
+      "max": 3
     },
     "Botë": {
       "min": 0,
-      "discovery_max": 40,
-      "target": 3
+      "discovery_max": 60,
+      "target": 3,
+      "coverage_floor": 2,
+      "max": 3
     },
     "Sport": {
       "min": 0,
-      "discovery_max": 40,
-      "target": 2
+      "discovery_max": 60,
+      "target": 3,
+      "coverage_floor": 2,
+      "max": 3
     },
     "Teknologji": {
       "min": 0,
-      "discovery_max": 40,
-      "target": 3
+      "discovery_max": 60,
+      "target": 3,
+      "coverage_floor": 2,
+      "max": 3
     },
     "Ekonomi": {
       "min": 0,
-      "discovery_max": 40,
-      "target": 3
+      "discovery_max": 60,
+      "target": 3,
+      "coverage_floor": 2,
+      "max": 3
     },
     "Showbiz": {
       "min": 0,
-      "discovery_max": 40,
-      "target": 2
+      "discovery_max": 60,
+      "target": 2,
+      "coverage_floor": 2,
+      "max": 3
     }
   },
   "publishers": [
@@ -54,7 +68,8 @@
       "domains": [
         "koha.net"
       ],
-      "family": "koha.net"
+      "family": "koha.net",
+      "hourly_primary": false
     },
     {
       "source": "Kallxo",
@@ -70,7 +85,8 @@
       "domains": [
         "telegrafi.com"
       ],
-      "family": "telegrafi.com"
+      "family": "telegrafi.com",
+      "hourly_primary": false
     },
     {
       "source": "Gazeta Express",
@@ -206,7 +222,8 @@
       "domains": [
         "theverge.com"
       ],
-      "family": "theverge.com"
+      "family": "theverge.com",
+      "hourly_primary": false
     },
     {
       "source": "MIT Technology Review",
@@ -246,7 +263,8 @@
       "domains": [
         "ft.com"
       ],
-      "family": "ft.com"
+      "family": "ft.com",
+      "hourly_primary": false
     },
     {
       "source": "MarketWatch",
@@ -254,7 +272,8 @@
       "domains": [
         "marketwatch.com"
       ],
-      "family": "marketwatch.com"
+      "family": "marketwatch.com",
+      "hourly_primary": false
     },
     {
       "source": "CoinDesk",
@@ -423,7 +442,8 @@
       "domains": [
         "hollywoodreporter.com"
       ],
-      "family": "pmc"
+      "family": "pmc",
+      "hourly_primary": false
     },
     {
       "source": "Deadline",
@@ -431,7 +451,8 @@
       "domains": [
         "deadline.com"
       ],
-      "family": "pmc"
+      "family": "pmc",
+      "hourly_primary": false
     },
     {
       "source": "Prive",
@@ -605,7 +626,105 @@
       "domains": [
         "motorsport.com"
       ],
-      "family": "motorsport-network"
+      "family": "motorsport-network",
+      "hourly_primary": false
+    },
+    {
+      "source": "Lajmi.net",
+      "category": "Kosovë",
+      "domains": [
+        "lajmi.net"
+      ],
+      "family": "lajmi.net"
+    },
+    {
+      "source": "Dukagjini",
+      "category": "Kosovë",
+      "domains": [
+        "dukagjini.com"
+      ],
+      "family": "dukagjini.com"
+    },
+    {
+      "source": "Botapress",
+      "category": "Kosovë",
+      "domains": [
+        "botapress.info"
+      ],
+      "family": "botapress.info"
+    },
+    {
+      "source": "RTSH",
+      "category": "Shqipëri",
+      "domains": [
+        "rtsh.al"
+      ],
+      "family": "rtsh.al"
+    },
+    {
+      "source": "Vizion Plus",
+      "category": "Shqipëri",
+      "domains": [
+        "vizionplus.tv"
+      ],
+      "family": "vizionplus.tv"
+    },
+    {
+      "source": "Sportekspres",
+      "category": "Sport",
+      "domains": [
+        "sportekspres.com"
+      ],
+      "family": "sportekspres.com"
+    },
+    {
+      "source": "Telesport",
+      "category": "Sport",
+      "domains": [
+        "telesport.al"
+      ],
+      "family": "telesport.al",
+      "hourly_primary": false
+    },
+    {
+      "source": "Sinjali",
+      "category": "Kosovë",
+      "domains": [
+        "sinjali.com"
+      ],
+      "family": "sinjali.com"
+    },
+    {
+      "source": "Rajoni Press",
+      "category": "Kosovë",
+      "domains": [
+        "rajonipress.com"
+      ],
+      "family": "rajonipress.com"
+    },
+    {
+      "source": "Citizens Channel",
+      "category": "Shqipëri",
+      "domains": [
+        "citizens.al"
+      ],
+      "family": "citizens.al"
+    },
+    {
+      "source": "Faktoje",
+      "category": "Shqipëri",
+      "domains": [
+        "faktoje.al"
+      ],
+      "family": "faktoje.al"
+    },
+    {
+      "source": "KultPlus",
+      "category": "Showbiz",
+      "domains": [
+        "kultplus.com"
+      ],
+      "family": "kultplus.com"
     }
   ],
   "feeds": [
@@ -620,12 +739,6 @@
       "category": "Kosovë",
       "lane": "KOSOVË",
       "url": "https://kallxo.com/feed/"
-    },
-    {
-      "source": "Telegrafi",
-      "category": "Kosovë",
-      "lane": "KOSOVË",
-      "url": "https://telegrafi.com/feed/"
     },
     {
       "source": "Gazeta Express",
@@ -897,6 +1010,72 @@
       "category": "Sport",
       "lane": "SPORT",
       "url": "https://www.motorsport.com/rss/all/news/"
+    },
+    {
+      "source": "Lajmi.net",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://lajmi.net/feed/"
+    },
+    {
+      "source": "Dukagjini",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://www.dukagjini.com/feed/"
+    },
+    {
+      "source": "Botapress",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://www.botapress.info/feed/"
+    },
+    {
+      "source": "RTSH",
+      "category": "Shqipëri",
+      "lane": "SHQIPËRI",
+      "url": "https://www.rtsh.al/feed/"
+    },
+    {
+      "source": "Vizion Plus",
+      "category": "Shqipëri",
+      "lane": "SHQIPËRI",
+      "url": "https://www.vizionplus.tv/feed/"
+    },
+    {
+      "source": "Sportekspres",
+      "category": "Sport",
+      "lane": "SPORT",
+      "url": "https://www.sportekspres.com/feed/"
+    },
+    {
+      "source": "Sinjali",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://sinjali.com/feed/"
+    },
+    {
+      "source": "Rajoni Press",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://rajonipress.com/feed/"
+    },
+    {
+      "source": "Citizens Channel",
+      "category": "Shqipëri",
+      "lane": "SHQIPËRI",
+      "url": "https://citizens.al/feed/"
+    },
+    {
+      "source": "Faktoje",
+      "category": "Shqipëri",
+      "lane": "SHQIPËRI",
+      "url": "https://faktoje.al/feed/"
+    },
+    {
+      "source": "KultPlus",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://kultplus.com/feed/"
     }
   ],
   "browser_lanes": [

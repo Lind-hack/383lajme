@@ -71,8 +71,13 @@ _SENSITIVE = re.compile(
 
 
 def needs_corroboration(article: dict) -> bool:
+    """The story's central claim is an allegation, arrest, scandal or the like:
+    its headline, excerpt or summary says so. The full text was scanned too
+    until 18 Oct, which flagged 74 of 182 leads (36 of 60 world stories) for a
+    passing 'investigation' or 'arrested'; the editor still checks every
+    claim against the evidence and rejects sensitive single-source claims."""
     return bool(_SENSITIVE.search(fold(" ".join(str(article.get(key) or "")
-                                             for key in ("title", "excerpt", "body", "summary")))))
+                                             for key in ("title", "excerpt", "summary")))))
 
 
 def hourly_targets() -> dict[str, int]:

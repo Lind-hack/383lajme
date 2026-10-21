@@ -26,6 +26,7 @@ import unicodedata
 import urllib.error
 from urllib.parse import parse_qsl, quote, urlencode, urljoin, urlparse, urlunparse
 import urllib.request
+from collections import Counter
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 from email.mime.multipart import MIMEMultipart
@@ -791,13 +792,18 @@ def _story_key(article: dict[str, Any]) -> set[str]:
     return {word[:6] for word in _headline_key(text) if len(word) >= 4 and word not in _STORY_STOP}
 
 
+def _story_overlap(candidate: dict[str, Any], existing: dict[str, Any]) -> float:
+    left, right = _story_key(candidate), _story_key(existing)
+    if len(left) < 8 or len(right) < 8:
+        return 0.0
+    return len(left & right) / len(left | right)
+
+CLEAR_REPEAT = 0.40
+
 def _same_story(candidate: dict[str, Any], existing: dict[str, Any]) -> bool:
     """Same event retold: measured on 2026-10-13, repeats scored 0.19-0.39 and
     distinct stories at most 0.19 (a sharing photo subject settles the 0.15+ band)."""
-    left, right = _story_key(candidate), _story_key(existing)
-    if len(left) < 8 or len(right) < 8:
-        return False
-    overlap = len(left & right) / len(left | right)
+    overlap = _story_overlap(candidate, existing)
     subject = str(candidate.get("image_subject") or "").strip().casefold()
     same_subject = bool(subject) and subject == str(existing.get("image_subject") or "").strip().casefold()
     return overlap >= 0.25 or (same_subject and overlap >= 0.15)
@@ -997,6 +1003,11 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
             f"{path.name} contains {len(articles)} articles; cap each run at "
             f"{MAX_ARTICLES_PER_BATCH} high-quality stories so weak filler is not published."
         )
+
+    if os.environ.get("L383_HOURLY_NEWS") == "1":
+        counts = Counter(article.get("category") for article in articles)
+        errors.extend(f"{category} exceeds the three-article hourly category ceiling ({count})"
+                      for category, count in counts.items() if count > 3)
 
     for index, article in enumerate(articles, 1):
         label = f"article {index}"
@@ -1300,12 +1311,36 @@ def dedupe_published(path: Path, *, prune: bool = False) -> int:
         return 1
     rejected: list[str] = []
     kept: list[dict[str, Any]] = []
+    # Owner's decision 2026-10-17: a new development of a published story is a
+    # new article. Only the uncertain band goes to the judge; clear repeats and
+    # identity collisions are still refused outright.
+    uncertain: list[tuple[int, dict[str, Any], list[dict[str, Any]]]] = []
     for index, article in enumerate(articles, 1):
-        conflicts = _published_conflicts([article]) + _recent_story_conflicts(article, recent)
+        conflicts = _published_conflicts([article])
+        story = [existing for existing in recent if str(existing.get("id", "")) != str(article.get("id", ""))
+                 and _same_story(article, existing)]
+        if not conflicts and story and prune and all(_story_overlap(article, existing) < CLEAR_REPEAT for existing in story):
+            uncertain.append((index, article, story))
+            continue
+        conflicts += [f"same story as published {str(existing.get('title', ''))!r}" for existing in story]
         if conflicts:
             rejected.extend([f"article {index}: {reason}" for reason in conflicts])
         else:
             kept.append(article)
+    if uncertain:
+        from news_development_judge import judge
+        pairs = [(article, existing) for _, article, story in uncertain for existing in story]
+        verdicts = iter(judge(pairs, path.parent))
+        for index, article, story in uncertain:
+            new = [next(verdicts) for _ in story]
+            if all(new):
+                print(f"DEDUPLICATION kept article {index} as a new development of {len(story)} published story(ies)")
+                kept.append(article)
+            else:
+                rejected.extend(f"article {index}: same story as published {str(existing.get('title', ''))!r}"
+                                for existing, fresh in zip(story, new) if not fresh)
+        order = {id(article): position for position, article in enumerate(articles)}
+        kept.sort(key=lambda article: order[id(article)])
     if rejected and prune:
         path.write_text(json.dumps(kept, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"DEDUPLICATION pruned {len(articles) - len(kept)} published duplicate candidate(s); retained {len(kept)} candidate(s)")

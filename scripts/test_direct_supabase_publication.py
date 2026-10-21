@@ -143,7 +143,7 @@ class DirectSupabasePublicationTests(unittest.TestCase):
                 raw = dict(payload[0]["raw_article"])
                 proof = raw.pop("originality_review")
                 self.assertEqual(raw, self.articles[0])
-                self.assertEqual(proof["policy"], "383-original-composition-v1")
+                self.assertEqual(proof["policy"], "383-original-composition-v3")
                 self.assertEqual(proof["model"], "gpt-6-luna")
                 self.assertEqual(payload[0]["batch_key"], "2026-07-10T12")
                 self.assertEqual(payload[0]["source_flag"], "🌍")
@@ -196,6 +196,8 @@ class DirectSupabasePublicationTests(unittest.TestCase):
         self.assertEqual(len(writes[1][1]), 20)
 
     def test_hourly_decay_clock_starts_at_site_publication_and_retry_does_not_reset_it(self):
+        self.articles = self.articles[:3]
+        self.path.write_text(json.dumps(self.articles), encoding="utf-8")
         original_source_time = self.articles[0]["published_at"]
         writes = []
         existing = False
@@ -210,7 +212,7 @@ class DirectSupabasePublicationTests(unittest.TestCase):
             return []
         self.support._supabase_request = fake_request
         started = datetime.now(timezone.utc)
-        with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch("news_image_policy.image_errors", return_value=[]):
+        with patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch.object(self.support, "MIN_ARTICLES_PER_BATCH", 1), patch("news_image_policy.image_errors", return_value=[]):
             self.assertEqual(self.support.publish_supabase(self.path), 0)
             saved = json.loads(self.path.read_text(encoding="utf-8"))
             self.assertGreaterEqual(datetime.fromisoformat(saved[0]["published_at"]), started)
