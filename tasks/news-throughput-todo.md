@@ -41,3 +41,12 @@ The final throughput item remains open until actual output proves it. Do not rep
 - Worker paths are now pinned to the physical release directory so past evidence and batch paths survive a later symlink switch.
 
 - Real three-story Luna/max note check completed all three fact sheets in 152.7 seconds after the timeout fix (no publication or email). Note work now rotates across desks before backups so a shared deadline does not starve later categories.
+
+## 22:00 and 23:00 Warsaw follow-up
+
+- Installed worker 3ae76c22. The 22:00 slot hit the OAuth account usage limit at the writer stage and published nothing; it must not be counted as a successful balanced run. No API-billed fallback was used.
+- The 23:00 slot prepared 24 writer-ready stories with a feasible 19-story plan. Writer produced 17, editor retained 11, independent review approved one World article and rejected ten for close translation or unsupported material claims. Exact publication readback succeeded. Balanced publication remains unproven.
+- Confirmed installed Hermes clips each file line after 2,000 characters. Thirteen of that run's 17 primary source texts exceeded this limit (longest 14,000). Raw JSON put each source and article body on one line, hiding evidence from model review.
+- Added lossless wrapped reading views for editor article input, primary/corroborating source evidence, parallel editor slices, repair evidence and independent originality review. Models are told to paginate. Original JSON, evidence digests, checks and receipt requirements remain unchanged.
+- Verification: 19 focused native Linux regressions and 40 adjacent coverage/photo/dedupe regressions passed; shell syntax and production build passed. Broad Windows discovery also surfaced existing environment/legacy-test failures (newsletter cryptography dependency, startup SMTP mock and environment-dependent photo/dedupe tests); those were not counted as passes or changed in this fix.
+- Railway still pauses deployments and now reports a security incident. Official notice recommends rotating credentials stored there. Website remains dacf0ca834db42cc7264d5a6d91da21728f317eb. This fix does not constitute a verified application deployment or prove the 20-article objective.

@@ -16,6 +16,23 @@ def decision(article, verdict="approve", **checks):
 
 
 class CopyrightReviewTests(unittest.TestCase):
+    def test_reviewer_receives_unclipped_article_and_source_text(self):
+        from types import SimpleNamespace
+        article = {**self.article, "body": "<p>Original prose. " * 300 + "END_ARTICLE</p>"}
+        record = {**self.record, "evidence": {**self.record["evidence"],
+                                             "text": "Verified evidence. " * 800 + "END_EVIDENCE"}}
+        def respond(command, **kwargs):
+            view = self.batch.with_suffix(".copyright-input-0.md").read_text(encoding="utf-8")
+            self.assertLessEqual(max(map(len, view.splitlines())), 160)
+            self.assertIn("END_ARTICLE", view)
+            self.assertIn("END_EVIDENCE", view)
+            self.assertIn("offset", command[-1])
+            return SimpleNamespace(returncode=0, stdout="383_REVIEW_BEGIN" +
+                                   json.dumps([decision(article)]) + "383_REVIEW_END")
+        with patch("news_model.run_process", side_effect=respond):
+            self.assertEqual(review._review_chunk(self.batch, [article], {article["slug"]: record}, 0),
+                             [decision(article)])
+
     def setUp(self):
         self.folder = tempfile.TemporaryDirectory()
         self.addCleanup(self.folder.cleanup)

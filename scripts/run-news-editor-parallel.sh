@@ -20,9 +20,11 @@ trap 'rm -rf "$WORK"' EXIT
 NAME="$(basename "$BATCH")"
 # chunk-N/<batch name> plus its own slice of the evidence file, which the
 # editor reads beside the batch.
-"$PYTHON_BIN" - "$BATCH" "$WORK" "$CHUNK" "$NAME" <<'PY'
+"$PYTHON_BIN" - "$BATCH" "$WORK" "$CHUNK" "$NAME" "$REPO" <<'PY'
 import json, sys
 from pathlib import Path
+sys.path.insert(0, str(Path(sys.argv[5]) / 'scripts'))
+from news_model_evidence import write_readable_evidence
 batch, work, size, name = Path(sys.argv[1]), Path(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
 articles = json.loads(batch.read_text(encoding="utf-8"))
 evidence = json.loads(batch.with_suffix(".editor-sources.json").read_text(encoding="utf-8"))
@@ -32,6 +34,8 @@ for index in range(0, len(articles), size):
     folder.mkdir()
     part = articles[index:index + size]
     (folder / name).write_text(json.dumps(part, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    chunk_evidence = [by_slug[a["slug"]] for a in part if a.get("slug") in by_slug]
+    write_readable_evidence((folder / name).with_suffix(".editor-sources.md"), chunk_evidence)
     (folder / name).with_suffix(".editor-sources.json").write_text(
         json.dumps([by_slug[a["slug"]] for a in part if a.get("slug") in by_slug], ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8")

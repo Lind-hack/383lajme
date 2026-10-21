@@ -234,3 +234,5 @@ addressable after the current-release symlink changes.
 Reporter-note work also rotates across desks before processing backups. A
 shared model deadline therefore prioritizes two notes per available category
 before a busy desk's fourth or later candidate.
+
+Model review reads wrapped .editor-sources.md and per-chunk .copyright-input-N.md evidence views, plus a wrapped article input. These preserve all serialized evidence characters across short lines so Hermes cannot clip source/body strings at its per-line limit. Original JSON is authoritative for gates and content-bound receipts. Models must continue reading with offsets when paginated.

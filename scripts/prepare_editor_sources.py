@@ -94,6 +94,8 @@ def prepare(batch: Path) -> Path:
         records = list(pool.map(lambda article: fetch(article, evidence_cache), articles))
     target = batch.with_suffix(".editor-sources.json")
     target.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    from news_model_evidence import write_readable_evidence
+    write_readable_evidence(batch.with_suffix(".editor-sources.md"), records)
     primary_ok = sum(record.get("evidence", {}).get("status") == "text_extracted" for record in records)
     secondary_total = sum(len(record.get("corroborating", [])) for record in records)
     secondary_ok = sum(
