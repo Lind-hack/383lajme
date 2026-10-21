@@ -153,6 +153,42 @@ class NewsPhotoTests(unittest.TestCase):
         wrong["imageinfo"][0]["extmetadata"]["LicenseUrl"] = {"value": "https://creativecommons.org/licenses/by-nc/4.0/"}
         self.assertIsNone(policy.candidate_photo(wrong, plan()))
 
+    def test_searched_place_requires_exact_depicts_identity_and_still_rejects_maps(self):
+        paris = {"subject": "Paris", "subject_evidence": "Paris", "kind": "place", "qid": "Q90",
+                 "queries": [], "caption": "Pamje arkivore nga Parisi."}
+        city = page()
+        city.update(title="File:Paris cityscape 2025.jpg", pageid=123)
+        city["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Paris cityscape"}
+        for tags in (set(), {"Q47899"}):  # Paris Hilton is not the city.
+            with patch.object(policy, "depicted", return_value=tags):
+                self.assertIsNone(policy.candidate_photo(city, paris, policy.PLACE_MAX_YEARS))
+        with patch.object(policy, "depicted", return_value={"Q90"}):
+            self.assertIsNotNone(policy.candidate_photo(city, paris, policy.PLACE_MAX_YEARS))
+            city["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Paris locator map"}
+            self.assertIsNone(policy.candidate_photo(city, paris, policy.PLACE_MAX_YEARS))
+
+    def test_place_research_queries_exact_depicts_without_loose_name_search(self):
+        paris = {"subject": "Paris", "subject_evidence": "Paris", "kind": "place", "qid": "Q90",
+                 "queries": [], "caption": "Pamje arkivore nga Parisi."}
+        with patch.object(policy, "commons_candidates", return_value=[]) as search, \
+                patch.object(policy, "prefetch_depicted"):
+            policy._research({}, {}, {}, paris, policy.time.monotonic() + 5)
+        self.assertEqual([call.args[0] for call in search.call_args_list],
+                         ["haswbstatement:P180=Q90"] * 2)
+
+    def test_place_tier_accepts_exact_tagged_search_result_when_lead_photo_is_unusable(self):
+        paris = {"subject": "Paris", "subject_evidence": "Paris", "kind": "place", "qid": "Q90",
+                 "queries": [], "caption": "Pamje arkivore nga Parisi."}
+        city = page()
+        city.update(title="File:Paris cityscape 2025.jpg", pageid=123)
+        city["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Paris cityscape"}
+        with patch.object(policy, "_research", return_value=([], [], [city])), \
+                patch.object(policy, "depicted", return_value={"Q90"}):
+            self.assertEqual(len(policy._photo_options_for_plan({}, {}, {}, "place", paris)), 1)
+        with patch.object(policy, "_research", return_value=([], [], [city])), \
+                patch.object(policy, "depicted", return_value={"Q47899"}):
+            self.assertEqual(policy._photo_options_for_plan({}, {}, {}, "place", paris), [])
+
     def test_old_photos_and_charts_maps_logos_are_refused(self):
         old = page()
         old["imageinfo"][0]["extmetadata"]["DateTimeOriginal"] = {"value": "2014-07-01"}

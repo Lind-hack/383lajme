@@ -205,3 +205,17 @@ approved work and exhausted candidate pools do not trigger impossible refills.
 Per-category selected, readable, photo-qualified and writer-ready counts are
 stored in the quality report. Actual 2-3-per-desk output must be verified after
 release; passing allocation tests alone does not establish publication yield.
+
+Place fallbacks may search Commons only by the exact grounded Wikidata depicts
+identity; searched images require that same depicts tag in the file metadata.
+This recovers alternatives to an old or unusable Wikipedia lead image without
+accepting a person with a shared place name. Maps, logos and other non-photo
+material remain rejected, alongside all rights, source-image and size checks.
+
+Hermes's internal fallback_model is explicitly disabled in the isolated news
+home, in addition to the pipeline's OAuth/model argument restrictions.
+The isolated Luna model configuration sets a 600-second non-stream stale limit
+and 900-second request timeout. Hermes otherwise applies an implicit 90-second
+non-stream watchdog to Luna; the 21:00 run recorded seven such note-call
+failures. Codex first-byte and event watchdogs are 300 seconds. These limits
+never extend a shorter worker phase/process deadline or the 55-minute run cap.

@@ -567,6 +567,11 @@ def candidate_photo(page: dict, plan: dict, max_years: int = MAX_PHOTO_AGE_YEARS
     # mentions the name gave pilgrims at a screen for the Pope and a road
     # blockade for Andy Burnham.
     tags = depicted(page.get("pageid")) if plan.get("qid") else set()
+    # A searched place must depict this exact geographic entity. A shared
+    # title word (Paris Hilton, a namesake road) is not sufficient. Wikipedia
+    # lead images retain their independently grounded page identity.
+    if plan.get("kind") == "place" and not page.get("lead_image") and plan.get("qid") not in tags:
+        return None
     surname = phrase.rsplit(" ", 1)[-1]
     # Tagged in someone else's photo is not a photo of them: 'Visit of
     # Raffaele Fitto, to Slovakia' carried a Fico story and 'Visit of Ursula
@@ -724,7 +729,7 @@ def _research(lead: dict, primary: dict, secondary: dict, plan: dict, deadline: 
     # 0 -> 8 usable photos of the last two years for Lewis Hamilton and 0 -> 14
     # for Elon Musk (18 Oct). Albanian politicians are rarely tagged; their
     # name search stays.
-    if plan.get("qid") and plan.get("kind") in {"person", "thing"}:
+    if plan.get("qid") and plan.get("kind") in {"person", "thing", "place"}:
         queries.append(f"haswbstatement:P180={plan['qid']}")
     for query in queries:
         if time.monotonic() >= deadline:
@@ -778,9 +783,10 @@ def _photo_options_for_plan(lead: dict, primary: dict, secondary: dict, tier: st
     def eligible(page: dict) -> bool:
         age = photo_age_days(page, now)
         if tier == "place":
-            # Only the photo Wikipedia leads the page with: searches on a place
-            # or company name found maps, charts and someone else's car.
-            return bool(page.get("lead_image"))
+            # Searched place images require an exact Commons depicts tag;
+            # unrelated people/places and loosely named company photos stay out.
+            return bool(page.get("lead_image") or (plan.get("kind") == "place"
+                        and plan.get("qid") and plan["qid"] in depicted(page.get("pageid"))))
         # A Porsche Boxster in a car park for a Porsche race team: a thing's
         # photo must share a word with the story, however new it is.
         if plan.get("kind") == "thing" and terms and not context_score(page, terms):

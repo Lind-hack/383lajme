@@ -11,6 +11,15 @@ def configure(home: Path, effort: str = "max") -> None:
     path = home / "config.yaml"
     config = yaml.safe_load(path.read_text()) or {}
     config.setdefault("agent", {})["reasoning_effort"] = effort
+    # Disable Hermes's internal provider fallback as well as pipeline retries.
+    config["fallback_model"] = None
+    # Hermes does not yet recognize Luna as a reasoning model: its implicit
+    # non-streaming watchdog aborts valid max-effort calls after 90 seconds.
+    # Scope the override to this model in the isolated news home. The worker
+    # still enforces the shorter remaining stage/process deadline.
+    model = config.setdefault("providers", {}).setdefault("openai-codex", {}).setdefault("models", {}).setdefault("gpt-6-luna", {})
+    model["stale_timeout_seconds"] = max(600, float(model.get("stale_timeout_seconds") or 0))
+    model["timeout_seconds"] = max(900, float(model.get("timeout_seconds") or 0))
     temporary = path.with_suffix(".tmp")
     temporary.write_text(yaml.safe_dump(config, allow_unicode=True, sort_keys=False))
     os.chmod(temporary, path.stat().st_mode & 0o777)

@@ -54,7 +54,9 @@ export L383_WRITER_PROVIDER=openai-codex
 export L383_WRITER_MODEL=gpt-6-luna
 export L383_EDITOR_MODEL=gpt-6-luna
 export L383_WRITER_FALLBACK_MODEL=gpt-6-luna
-export HERMES_CODEX_EVENT_STALE_TIMEOUT_SECONDS="${HERMES_CODEX_EVENT_STALE_TIMEOUT_SECONDS:-120}"
+export HERMES_CODEX_EVENT_STALE_TIMEOUT_SECONDS=300
+export HERMES_CODEX_TTFB_TIMEOUT_SECONDS=300
+export HERMES_CODEX_TTFB_MAX_SECONDS=300
 printf '383 MODEL CONTRACT: gpt-6-luna max through Codex OAuth; no API fallback\n'
 LOCK_FILE=/tmp/383-production.lock
 START_EPOCH="$(date +%s)"
@@ -218,7 +220,7 @@ stage="writer"
 export HERMES_HOME="${L383_HERMES_HOME:-/opt/data/news-pipeline-hermes}"
 # The provider may legitimately pause for more than 12 seconds between SSE
 # frames while drafting. Do not classify that normal prefill as a dead stream.
-export HERMES_CODEX_EVENT_STALE_TIMEOUT_SECONDS="${HERMES_CODEX_EVENT_STALE_TIMEOUT_SECONDS:-90}"
+# Keep the max-effort watchdog settings established before discovery.
 
 # Never start a model call with more time than its phase and publication reserve.
 model_budget() {
