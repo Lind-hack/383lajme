@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
+import { isAutomationRequest } from "@/lib/require-automation";
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getArticles, getArticlesBefore } from "@/lib/db";
@@ -32,13 +33,10 @@ export const maxDuration = 120;
  * mapping and a list of candidates.
  */
 
+// The shared gate: either automation secret, Bearer header only, constant
+// time. The daily dossier run on the VPS holds TREGU_AUTOMATION_SECRET.
 function authorised(req: Request): boolean {
-  const secret = process.env.CRON_SECRET ?? process.env.TREGU_AUTOMATION_SECRET ?? "";
-  if (!secret) return false;
-  const header = req.headers.get("authorization") ?? "";
-  return (
-    header === `Bearer ${secret}` || new URL(req.url).searchParams.get("secret") === secret
-  );
+  return isAutomationRequest(req as NextRequest);
 }
 
 type TopicRow = {

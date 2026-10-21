@@ -1,4 +1,5 @@
-import { timingSafeEqual } from "node:crypto";
+import type { NextRequest } from "next/server";
+import { isAutomationRequest } from "@/lib/require-automation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getArticlesBefore } from "@/lib/db";
 import { discoverClusters } from "@/lib/dosje-discover.mjs";
@@ -13,17 +14,14 @@ import { matchTopic } from "@/lib/dosje-match.mjs";
  */
 
 /**
- * Bearer header only, compared in constant time. The older dosje routes also
- * accept ?secret= in the query string and compare with ===; a query string
- * ends up in access logs, and === leaks timing.
+ * The house automation gate (lib/require-automation.ts): Bearer header only,
+ * constant-time, either secret. The older dosje routes also accept ?secret= in
+ * the query string and compare with ===; a query string ends up in access
+ * logs, and === leaks timing. Either secret matters: the VPS holds
+ * TREGU_AUTOMATION_SECRET and an empty CRON_SECRET.
  */
 export function authorised(req: Request): boolean {
-  const secret = process.env.CRON_SECRET ?? process.env.TREGU_AUTOMATION_SECRET ?? "";
-  if (!secret) return false;
-  const header = req.headers.get("authorization") ?? "";
-  const expected = Buffer.from(`Bearer ${secret}`);
-  const given = Buffer.from(header);
-  return given.length === expected.length && timingSafeEqual(given, expected);
+  return isAutomationRequest(req as NextRequest);
 }
 
 export type PoolArticle = {

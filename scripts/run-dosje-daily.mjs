@@ -26,18 +26,19 @@ import { VETTED_CHANNELS } from "../lib/dosje-video.mjs";
  * where Luna's allowance is the news writer's).
  */
 
-const base = (process.env.DOSJE_AUTOMATION_URL ?? process.env.TREGU_AUTOMATION_URL ?? "").replace(/\/$/, "");
-const secret = process.env.CRON_SECRET ?? process.env.TREGU_AUTOMATION_SECRET ?? "";
+// `||`, not `??`: the VPS env file sets CRON_SECRET to an empty string.
+const base = (process.env.DOSJE_AUTOMATION_URL || process.env.TREGU_AUTOMATION_URL || "").replace(/\/$/, "");
+const secret = process.env.TREGU_AUTOMATION_SECRET || process.env.CRON_SECRET || "";
 if (!base || !secret) {
-  console.error("DOSJE_AUTOMATION_URL (or TREGU_AUTOMATION_URL) and CRON_SECRET are required.");
+  console.error("DOSJE_AUTOMATION_URL (or TREGU_AUTOMATION_URL) and TREGU_AUTOMATION_SECRET (or CRON_SECRET) are required.");
   process.exit(1);
 }
 const args = process.argv.slice(2);
 const backfill = args.includes("--backfill");
 const dryRun = args.includes("--dry-run");
 const noLuna = args.includes("--no-luna");
-const HERMES_BIN = process.env.HERMES_BIN ?? "/opt/hermes/.venv/bin/hermes";
-const HERMES_HOME = process.env.DOSJE_HERMES_HOME ?? process.env.TREGU_DAILY_HERMES_HOME ?? "/opt/data/profiles/tregudaily";
+const HERMES_BIN = process.env.HERMES_BIN || "/opt/hermes/.venv/bin/hermes";
+const HERMES_HOME = process.env.DOSJE_HERMES_HOME || process.env.TREGU_DAILY_HERMES_HOME || "/opt/data/profiles/tregudaily";
 const LOCK = process.env.DOSJE_LOCK ?? "/tmp/383-dosje-daily.lock";
 const runId = `${new Date().toISOString().slice(0, 10)}-${randomUUID().slice(0, 8)}`;
 
