@@ -17,6 +17,6 @@ The final throughput item remains open until actual output proves it. Do not rep
 
 ## Verification 2026-10-21
 
-- Local relevant suite: 186 tests passed, two Linux process-group checks pending on the Linux staging release.
+- Local relevant suite: 188 local tests passed (two Linux-only skips). The initial 186-test committed staging suite passed fully on Linux, including process-group cleanup; final follow-up Linux checks pending.
 - npm run build passed; Bash syntax and diff whitespace checks passed.
 - Full throughput and production release remain unverified. Current scheduled worker is active; staging must not change its symlink or shared state.

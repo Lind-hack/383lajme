@@ -400,13 +400,13 @@ rm -f "$EDITOR_CHECK"
 EDITOR_INPUT_BACKUP="$(mktemp /tmp/383-editor-input.XXXXXX.json)"
 cp "$BATCH" "$EDITOR_INPUT_BACKUP"
 rm -f "${BATCH%.json}.editor-complete.json"
-trap - ERR
-set +e
 if ! editor_budget="$(model_budget 900 2580)"; then
   printf '[]\n' > "$BATCH"
   rm -f "$EDITOR_INPUT_BACKUP"
   return 0
 fi
+trap - ERR
+set +e
 timeout --signal=TERM --kill-after=15s "$((editor_budget + 5))s" env L383_MODEL_DEADLINE_EPOCH="$(( $(date +%s) + editor_budget ))" L383_MODEL_CALL_TIMEOUT="$editor_budget" \
   bash "$REPO/scripts/run-news-editor-parallel.sh" "$EDITOR_MODEL" "$BATCH" "$REPO" "${L383_EDITOR_MAX_TURNS:-30}" 9>&-
 
@@ -480,11 +480,11 @@ for repair_attempt in 1 2; do
     break
   fi
   printf '383 EDITORIAL PREFLIGHT REPAIR attempt=%s\n%s\n%s\n%s\n' "$repair_attempt" "$ORIGINALITY_FEEDBACK" "$JOURNALISM_FEEDBACK" "$TOPIC_FEEDBACK"
+  repair_budget="$(model_budget 420 2580)" || break
   REPAIR_BACKUP="$(mktemp /tmp/383-repair.XXXXXX.json)"
   cp "$BATCH" "$REPAIR_BACKUP"
   trap - ERR
   set +e
-  repair_budget="$(model_budget 420 2580)" || break
   timeout --signal=TERM --kill-after=15s "$((repair_budget + 5))s" \
     env L383_MODEL_CALL_TIMEOUT="$repair_budget" "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode editor -- /opt/hermes/.venv/bin/hermes chat --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
       --model "$EDITOR_MODEL" --ignore-rules -t file --yolo --max-turns 35 -Q -q \

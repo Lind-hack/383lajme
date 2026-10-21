@@ -26,8 +26,9 @@ feeds/listings. A registered source is an allowed source, not a guarantee of
 access or fresh articles. HTTP blocks, timeouts, undated pages and paywalls are
 recorded and skipped. No paywall bypass is used. Market and crypto stories stay
 in Ekonomi even when they concern technology companies. Local controversy must
-have a Kosovo/Albania subject and documented facts; celebrity stories stay in
-Showbiz. Publishers owned by the same group count as one family.
+have a Kosovo/Albania subject and documented facts. Verified local entertainment,
+public personalities and company news can remain in their local desk; unrelated
+international celebrity stories stay in Showbiz. Publishers owned by the same group count as one family.
 
 ## Worker and release
 
@@ -48,7 +49,10 @@ Install runtime files from a committed Git archive into an immutable
 the private `/opt/data/news-pipeline.env`, use the existing Python virtualenv, assign Hermes ownership,
 and point `383lajme-news-current` at that release. Install the committed service
 and timer under `/etc/systemd/system`, then daemon-reload and enable the timer.
-Never copy a dirty application checkout into production. Preserve the prior
+Never switch the current symlink during an active production or QA run.
+Hourly publication state lives outside releases at
+`/opt/data/news-pipeline-state/hourly-runs`; preserve the previous slot state and
+rejection ledger when installing a new release. Never copy a dirty application checkout into production. Preserve the prior
 runtime link for rollback. A rollback of application code also goes through main.
 
 The worker's Supabase URL, anonymous key, service role key and automation secrets
@@ -61,8 +65,9 @@ The private news configuration preserves the existing report delivery settings.
 
 `L383_QA_ONLY=1` runs discovery, writer, independent editor and quality gates
 without publishing or sending a report. `L383_MAX_ARTICLES=2` limits a smoke run;
-production targets 20 articles: Kosovo 4; Albania, world, technology and economy 3
-each; sport and showbiz 2 each. Readable unpublished stories from the rolling last
+production targets 20 articles: Kosovo, Albania, world, technology, economy and
+sport 3 each; showbiz 2. Every available category receives two places before
+third places; no desk may exceed three. Readable unpublished stories from the rolling last
 24 hours are grouped by event. Routine news can use a verified primary; sensitive
 claims need independent corroboration. Source text and qualifying images are
 prepared outside model turns. Writers draft up to seven per call, covering every
@@ -180,3 +185,23 @@ publication-stamped originality review and sends text with previews disabled;
 it does not redistribute photos without their captions/rights. Do not call the
 Telegram route as a test: unit tests mock the network. These changes affect future
 automatic dispatches, not previously sent messages or the old article archive.
+
+
+## Balanced throughput update, 2026-10-21
+
+Photo subjects are grounded against source evidence before Wikipedia resolution
+and bounded alternatives; deity, anatomy, unrelated city and acronym namesakes
+are rejected. Contextual rights-cleared photographs can be reused across hourly
+batches with accurate archive captions; they remain distinct within a batch.
+Every article still requires a qualifying photo. Source diagnostics distinguish
+short evidence, missing dates, restrictions and blocked access. Top Channel
+article dates use the article-specific date element with daylight-saving-aware
+local time.
+
+Every model stage uses Luna/max through Codex OAuth; no API-provider fallback
+is available. The full run remains bounded to 55 minutes, with model work ending
+by minute 50 to reserve publication time. Empty optional edits preserve already
+approved work and exhausted candidate pools do not trigger impossible refills.
+Per-category selected, readable, photo-qualified and writer-ready counts are
+stored in the quality report. Actual 2-3-per-desk output must be verified after
+release; passing allocation tests alone does not establish publication yield.

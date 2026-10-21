@@ -49,6 +49,21 @@ class SourceIsolation(unittest.TestCase):
 
 
 class TopicBoundary(unittest.TestCase):
+    def test_local_desks_include_verified_entertainment_and_company_news(self):
+        cases = [
+            ("Kosov\u00eb", "Dua Lipa njofton koncertin e ri n\u00eb Prishtin\u00eb"),
+            ("Shqip\u00ebri", "Aktori hap kompanin\u00eb e re n\u00eb Tiran\u00eb"),
+            ("Kosov\u00eb", "Kompania n\u00eb Prizren prezanton softuerin e ri"),
+            ("Shqip\u00ebri", "Bursa n\u00eb Tiran\u00eb publikon raportin e aksioneve"),
+        ]
+        for category, title in cases:
+            with self.subTest(category=category, title=title):
+                self.assertIsNone(topic_error(category, title))
+        self.assertIsNotNone(topic_error("Kosov\u00eb", "Taylor Swift announces a new album"))
+        self.assertIsNotNone(topic_error("Bot\u00eb", "Dua Lipa announces a new album"))
+        self.assertTrue(article_source_errors({"category": "Kosov\u00eb", "title": cases[0][1],
+                                               "url": "https://variety.com/one"}))
+
     def test_final_gate_rejects_cross_category_secondary(self):
         from editorial_rules_v2 import title_errors
         self.assertEqual(title_errors({"category": "Ekonomi", "title": "Bitcoin bie nën 84 mijë dollarë pas rritjes së naftës"}), [])
@@ -80,11 +95,9 @@ class TopicBoundary(unittest.TestCase):
             self.assertIsNone(topic_error("Ekonomi", title))
         self.assertIsNone(topic_error("Teknologji", "OpenAI releases a new AI model"))
 
-    def test_local_portals_cannot_supply_sport_showbiz_or_world(self):
+    def test_local_portals_exclude_sport_and_unrelated_world_stories(self):
         cases = [
             ("Kosovë", "Muriqi shënon dy gola për Kosovën", "Sport"),
-            ("Kosovë", "Dua Lipa publikon albumin e ri në Kosovë", "Showbiz"),
-            ("Shqipëri", "Big Brother Albania nis sezonin e ri", "Showbiz"),
             ("Kosovë", "Trump announces new immigration rules", "Botë"),
             ("Shqipëri", "Prishtina proteston kundër vendimit", "Kosovë"),
             ("Botë", "Bitcoin price jumps after crypto ETF approval", "Ekonomi"),
@@ -133,9 +146,9 @@ class DiscoveryEvals(unittest.TestCase):
             request.return_value.content = rss.encode()
             request.return_value.status_code = 200
             leads, audit = fetch_feed({"source": "Koha", "category": "Kosovë", "url": "https://koha.net/rss"}, now)
-        self.assertEqual([lead["url"] for lead in leads], ["https://koha.net/a"])
+        self.assertEqual([lead["url"] for lead in leads], ["https://koha.net/a", "https://koha.net/d"])
         self.assertEqual(audit["old_or_undated"], 2)
-        self.assertEqual(audit["off_lane"], 2)
+        self.assertEqual(audit["off_lane"], 1)
 
 
 class HourlyState(unittest.TestCase):

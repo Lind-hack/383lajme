@@ -136,7 +136,9 @@ def topic_error(category: str, title: object, summary: object = "", *, tags=(), 
         return "invalid publisher URL"
     if category != "Sport" and is_sports_story(title, summary, tags=tags, url=url):
         return "sports reporting is outside this publisher's assigned category"
-    if category in {"Kosovë", "Shqipëri", "Botë"}:
+    # Local desks cover verified local personalities, entertainment and companies.
+    # Their geographic check below still excludes unrelated international stories.
+    if category == "Botë":
         if _SHOWBIZ.search(headline) or labels & {"showbiz", "argetim", "entertainment"} or re.search(r"/(?:showbiz|show-biz|entertainment)/", path):
             return "entertainment reporting is outside this category"
         if _ECONOMY.search(headline) or labels & {"ekonomi", "economy", "business", "crypto", "markets"}:

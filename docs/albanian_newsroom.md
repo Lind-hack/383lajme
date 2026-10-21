@@ -4,18 +4,21 @@ This document is authoritative for the hosted writer and deterministic gates. It
 
 ## Hourly source policy v3
 
-The hourly worker targets 20 distinct new articles: Kosovë 4; Shqipëri 3;
-Botë 3; Teknologji 3; Ekonomi 3; Sport 2; Showbiz 2. Follow the prepared
+The hourly worker targets 20 distinct new articles: Kosovë 3; Shqipëri 3;
+Botë 3; Teknologji 3; Ekonomi 3; Sport 3; Showbiz 2. Follow the prepared
 publication_plan: cover every available category before taking extra stories
 from a busy desk. Use backup candidates if a draft fails. Unused slots in a
-quiet desk can be redistributed; report shortages honestly. Prioritize
+quiet desk can be redistributed only up to three articles per category; give
+every available desk two places before third places and report shortages honestly. Prioritize
 interesting, well-supported news for Kosovo readers without inventing a local
 connection to world news.
 
 `scripts/news_sources.json` is the authoritative source registry. Every primary
 and corroborating publisher belongs to exactly one desk. Reject off-topic stories
 instead of changing category. Local public controversies belong to Kosovë or
-Shqipëri; celebrity entertainment belongs to Showbiz. Ekonomi includes US stocks,
+Shqipëri. These local desks also cover verified entertainment, public personalities
+and company news with an explicit Kosovo/Albania connection. International
+celebrity entertainment belongs to Showbiz. Ekonomi includes US stocks,
 Wall Street, crypto, business and finance. Technology product and AI reporting
 belongs to Teknologji. Never use a world publisher as technology or markets
 corroboration, or a local general portal as entertainment or sports corroboration.
@@ -74,7 +77,7 @@ to fill a quiet lane.
 
 ## Batch article contract
 
-Every article must include `id`, `slug`, `url`, `title`, `excerpt`, `body`, `source`, `category`, `published_at`, `reading_time`, `featured`, `engagement_score`, `score_reason`, `score_breakdown`, `score_formula`, `image_url`, `image_width`, `image_height`, `city`, `corroborating_sources`, and `created_at` and `dispatch` (UTC slot YYYY-MM-DDTHH). Hourly photos must depict a specific subject of the story, not merely its category. Writers leave image fields out of drafts; the normalizer restores the prepared image_* record (subject, caption, rights) by source URL, unchanged. Preparation searches Wikimedia Commons for a named person, place, institution, product or physical object supported by the story. Eligible photographs are independently checked CC0, explicit public domain, or CC BY/BY-SA with a named creator and an exact matching licence URL; the article page credits creator and licence under the photo. NC/ND photographs are never used. The photo appears only on the article page: Telegram and social cards carry no photo, so the credit is never separated from it. All scraped publisher images, same-photo copies/renditions and arbitrary image-search URLs are prohibited. The image's decoded size must be at least 1200×630. Writer and editor must verify the subject and file description against the story; reject unrelated images. Use the short Albanian archival/illustrative caption and never claim an archive photo depicts the current event. If no contextual, rights-cleared, distinct photo is available, skip the candidate and try another verified story. Legacy daily images retain their existing policy until migrated; do not use the legacy publisher-photo fallback for hourly publication.
+Every article must include `id`, `slug`, `url`, `title`, `excerpt`, `body`, `source`, `category`, `published_at`, `reading_time`, `featured`, `engagement_score`, `score_reason`, `score_breakdown`, `score_formula`, `image_url`, `image_width`, `image_height`, `city`, `corroborating_sources`, and `created_at` and `dispatch` (UTC slot YYYY-MM-DDTHH). Hourly photos must depict a specific subject of the story, not merely its category. Writers leave image fields out of drafts; the normalizer restores the prepared image_* record (subject, caption, rights) by source URL, unchanged. Preparation searches Wikimedia Commons for a named person, place, institution, product or physical object supported by the story. Eligible photographs are independently checked CC0, explicit public domain, or CC BY/BY-SA with a named creator and an exact matching licence URL; the article page credits creator and licence under the photo. NC/ND photographs are never used. The photo appears only on the article page: Telegram and social cards carry no photo, so the credit is never separated from it. All scraped publisher images, same-photo copies/renditions and arbitrary image-search URLs are prohibited. The image's decoded size must be at least 1200×630. Writer and editor must verify the subject and file description against the story; reject unrelated images. Use the short Albanian archival/illustrative caption and never claim an archive photo depicts the current event. Relevant rights-cleared photos may be reused across different hourly batches with accurate archive captions. Photos must remain distinct within each batch. If no contextual, rights-cleared, distinct photo is available, skip the candidate and try another verified story. Legacy daily images retain their existing policy until migrated; do not use the legacy publisher-photo fallback for hourly publication.
 
 Write at least 140 supported Albanian words in three HTML paragraphs. Prefer
 220+ words in four paragraphs when sources support that depth; never pad a brief.

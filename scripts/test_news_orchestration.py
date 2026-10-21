@@ -23,6 +23,27 @@ class NewsOrchestrationTests(unittest.TestCase):
         result = self.invoke(helper + '\nSTART_EPOCH=1000; date() { printf 2500; }; model_budget 600 1500')
         self.assertEqual(result.returncode, 75, result.stderr)
 
+    def test_expired_editor_budget_keeps_the_outer_failure_guards(self):
+        start = RUNNER.index("review_candidates() {")
+        end = RUNNER.index('timeout --signal=TERM --kill-after=15s "$((editor_budget + 5))s"', start)
+        helper = RUNNER[start:end] + "\n}\n"
+        script = helper + '''
+set -e
+trap 'printf OUTER_ERROR' ERR
+BATCH=$(mktemp)
+printf '[]' > "$BATCH"
+PYTHON_BIN=fake_python
+fake_python() { :; }
+model_budget() { return 75; }
+review_candidates
+[[ $- == *e* ]]
+trap -p ERR
+rm -f "$BATCH"
+'''
+        result = self.invoke(script)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("OUTER_ERROR", result.stdout)
+
     def test_empty_merge_fetches_evidence_without_claiming_editor_completion(self):
         helper = RUNNER[RUNNER.index("refresh_merged_evidence() {"):RUNNER.index("run_writer() {")]
         base = helper + '''

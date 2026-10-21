@@ -258,14 +258,32 @@
     "city_inference": "title plus first 200 body words; supplied priority order; national fallback",
     "target_articles": 20,
     "target_by_category": {
-      "Kosovë": 4,
+      "Kosovë": 3,
       "Shqipëri": 3,
       "Botë": 3,
-      "Sport": 2,
+      "Sport": 3,
       "Teknologji": 3,
       "Ekonomi": 3,
       "Showbiz": 2
     },
-    "sensitive_claims_independent_sources_required": 2
+    "sensitive_claims_independent_sources_required": 2,
+    "maximum_by_category": {
+      "Kosovë": 3,
+      "Shqipëri": 3,
+      "Botë": 3,
+      "Sport": 3,
+      "Teknologji": 3,
+      "Ekonomi": 3,
+      "Showbiz": 3
+    },
+    "coverage_floor_by_category": {
+      "Kosovë": 2,
+      "Shqipëri": 2,
+      "Botë": 2,
+      "Sport": 2,
+      "Teknologji": 2,
+      "Ekonomi": 2,
+      "Showbiz": 2
+    }
   }
 }
