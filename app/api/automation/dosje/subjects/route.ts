@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { createAdminClient } from "@/lib/supabase/admin";
-import { getArticles } from "@/lib/db";
+import { getArticles, getArticlesBefore } from "@/lib/db";
 import { TOPICS } from "@/lib/topics.mjs";
 import { matchTopic, isStandingSubject } from "@/lib/dosje-match.mjs";
 
@@ -47,6 +47,8 @@ type TopicRow = {
   anchors: string[] | null;
   signals: string[] | null;
   excludes: string[] | null;
+  match_groups?: string[][] | null;
+  context?: string[] | null;
 };
 
 async function run(req: Request, dryRun: boolean) {
@@ -63,7 +65,7 @@ async function run(req: Request, dryRun: boolean) {
   // keep accumulating evidence, or it can never reach the point of publishing.
   const { data: topicRows, error: topicError } = await supabase
     .from("dosje_topics")
-    .select("slug, title, anchors, signals, excludes")
+    .select("slug, title, anchors, signals, excludes, match_groups, context")
     .neq("status", "retired");
 
   if (topicError) {
@@ -78,15 +80,22 @@ async function run(req: Request, dryRun: boolean) {
       anchors: canonical?.anchors ?? row.anchors ?? [],
       signals: canonical?.signals ?? row.signals ?? [],
       excludes: canonical?.excludes ?? row.excludes ?? [],
-      matchGroups: canonical?.matchGroups ?? [],
-      context: canonical?.context ?? [],
+      // Topics the daily run creates carry their own fingerprints (0115).
+      matchGroups: canonical?.matchGroups ?? row.match_groups ?? [],
+      context: canonical?.context ?? row.context ?? [],
     };
   });
   if (!topics.length) {
     return NextResponse.json({ ok: true, reason: "no_topics", matched: 0 });
   }
 
-  const articles = await getArticles(200, undefined, { withBody: false });
+  // The newest stories as well as the most-read: getArticles orders by
+  // engagement, so on its own it missed what was published today.
+  const [recent, popular] = await Promise.all([
+    getArticlesBefore({ limit: 150 }),
+    getArticles(200, undefined, { withBody: false }),
+  ]);
+  const articles = [...new Map([...recent, ...popular].map((a) => [a.slug, a])).values()];
 
   const matches: Array<{
     article_slug: string;

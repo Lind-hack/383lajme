@@ -261,6 +261,7 @@ export default function ArticleContent({ article, related, sidebarRelated = [], 
               topicSlug={dosje.topicSlug}
               topicTitle={dosje.topicTitle}
               blurb={dosje.blurb}
+              primer={dosje.primer}
               videos={dosje.videos}
               entries={dosje.entries}
               sourced={dosje.sourced ?? false}

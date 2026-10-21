@@ -103,6 +103,8 @@ export async function llmJSON<T>(
     maxTokens?: number;
     temperature?: number;
     prefer?: "groq" | "gemini";
+    /** One provider and no failover — for a caller that must name the model it used. */
+    only?: "groq" | "gemini";
     /** A Groq ladder for this call instead of the default one. */
     groqModels?: GroqModel[];
     /** Filled with the model that produced the answer. */
@@ -170,7 +172,9 @@ export async function llmJSON<T>(
     return null;
   };
 
-  const order = opts.prefer === "gemini" ? [tryGemini, tryGroq] : [tryGroq, tryGemini];
+  const order = opts.only
+    ? [opts.only === "gemini" ? tryGemini : tryGroq]
+    : opts.prefer === "gemini" ? [tryGemini, tryGroq] : [tryGroq, tryGemini];
   for (const attempt of order) {
     const result = await attempt();
     // null means "this provider could not answer", which is distinct from a

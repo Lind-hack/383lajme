@@ -11,9 +11,10 @@ name: Dosje research
 # A refusal is the system working. 422 means the evidence did not support a
 # claim, and the job exits 0 with a warning rather than paging anyone.
 
+# Retired from schedule 2026-10-21: the daily dossier run on the VPS
+# (scripts/run-dosje-daily.mjs, 383-dosje-daily.timer) maps, researches and
+# reports once a day. Kept for manual recovery runs only.
 on:
-  schedule:
-    - cron: "25 22 * * *"
   workflow_dispatch:
     inputs:
       subject:

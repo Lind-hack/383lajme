@@ -9,9 +9,10 @@ name: Dosje subjects
 # Cheap by design: string matching over articles already in the database. No
 # model, no fetching. The expensive half is dosje-research, which this feeds.
 
+# Retired from schedule 2026-10-21: the daily dossier run on the VPS
+# (scripts/run-dosje-daily.mjs, 383-dosje-daily.timer) maps, researches and
+# reports once a day. Kept for manual recovery runs only.
 on:
-  schedule:
-    - cron: "43 5,7,9,11,13,15,17,19,21 * * *"
   workflow_dispatch:
 
 jobs:

@@ -65,6 +65,11 @@ export interface DosjeTopic {
   signals?: string[] | null;
   /** Vetoes, whatever else matched. */
   excludes?: string[] | null;
+  /** Event fingerprints: every term of one group must appear (0115). */
+  match_groups?: string[][] | null;
+  context?: string[] | null;
+  /** "Në pak fjalë": the sourced two or three sentences that open the file. */
+  primer?: string | null;
 }
 
 export interface Dosje {
@@ -132,7 +137,7 @@ export async function listDosjeTopics(): Promise<DosjeTopic[]> {
     // came out empty.
     const { data, error } = await supabase
       .from("dosje_topics")
-      .select("slug, title, blurb, anchors, signals, excludes")
+      .select("slug, title, blurb, anchors, signals, excludes, match_groups, context, primer")
       .order("title");
     if (error || !data) return [];
     return data as DosjeTopic[];

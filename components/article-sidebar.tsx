@@ -26,6 +26,8 @@ export interface DosjeData {
   entries: DosjeEntry[];
   /** Whether this file's history carries verified sources. */
   sourced?: boolean;
+  /** The sourced opening paragraph ("Në pak fjalë"). */
+  primer?: string | null;
 }
 
 interface Props {

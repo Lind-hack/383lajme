@@ -1,0 +1,13 @@
+[Unit]
+Description=Run the 383 Dosje daily run at 05:00 Kosovo time
+
+[Timer]
+# Europe/Belgrade is DST-equivalent to Kosovo. 05:00 leaves 100 minutes of
+# model time before 06:40 and finishes before the news writer starts at 07:00.
+OnCalendar=*-*-* 05:00:00 Europe/Belgrade
+Persistent=false
+AccuracySec=1s
+Unit=383-dosje-daily.service
+
+[Install]
+WantedBy=timers.target

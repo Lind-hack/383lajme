@@ -134,6 +134,7 @@ export default async function ArticlePage({
           topicSlug: topic.slug,
           topicTitle: file.title,
           blurb: file.blurb,
+          primer: file.primer ?? null,
           videos: file.videos ?? [],
           entries: file.entries,
           sourced: file.sourced,

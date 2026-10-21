@@ -41,6 +41,8 @@ export interface DosjeResult {
   entries: DosjeEntry[];
   /** True when this dossier's history is sourced. Drives the citation UI. */
   sourced: boolean;
+  /** The sourced opening paragraph, when the daily run has written one. */
+  primer?: string | null;
   /**
    * Approved explainers. Empty until they have been vetted and approved, which
    * is correct: an unreviewed video is more persuasive than an unreviewed
@@ -113,9 +115,11 @@ export async function dosjeFor(
       lastVerifiedAt: m.last_verified_at ?? null,
     }));
 
+    const row = universe.find((t) => t.slug === slug);
     return {
       title: live.topic.title,
       blurb: live.topic.blurb,
+      primer: typeof row?.primer === "string" ? row.primer : null,
       entries: [...milestones, ...archiveEntries(slug, articles, currentSlug, currentArticle, universe)],
       sourced: true,
       videos: (live.videos ?? []).map((v) => ({
@@ -205,8 +209,9 @@ export async function dosjeUniverse(): Promise<DosjeTopicMatcher[]> {
       anchors: (canonical?.anchors as string[] | undefined) ?? row.anchors ?? [],
       signals: (canonical?.signals as string[] | undefined) ?? row.signals ?? [],
       excludes: (canonical?.excludes as string[] | undefined) ?? row.excludes ?? [],
-      matchGroups: (canonical?.matchGroups as unknown[] | undefined) ?? [],
-      context: (canonical?.context as string[] | undefined) ?? [],
+      matchGroups: (canonical?.matchGroups as unknown[] | undefined) ?? row.match_groups ?? [],
+      context: (canonical?.context as string[] | undefined) ?? row.context ?? [],
+      primer: row.primer ?? null,
       approved: true,
     });
   }
