@@ -230,3 +230,7 @@ excluded even during identity-only resolution.
 The worker pins its working directory to the physical versioned release before
 creating evidence, batch or state paths. Historical artifacts therefore remain
 addressable after the current-release symlink changes.
+
+Reporter-note work also rotates across desks before processing backups. A
+shared model deadline therefore prioritizes two notes per available category
+before a busy desk's fourth or later candidate.

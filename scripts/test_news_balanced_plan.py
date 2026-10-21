@@ -63,6 +63,23 @@ class BalancedPlanTests(unittest.TestCase):
                            capture_output=True, text=True, check=True)
             self.assertEqual(json.loads(batch.read_text(encoding="utf-8")), approved + additions)
 
+    def test_reporter_notes_cover_every_desk_twice_before_backup_work(self):
+        from collections import Counter
+        from prepare_editor_sources import reporter_note_candidates
+        ready = [{"category": category, "url": f"{category}/{index}"}
+                 for category in CATEGORIES for index in range(8)]
+        rows = reporter_note_candidates(ready, hourly_targets())
+        self.assertEqual(Counter(row["category"] for row in rows[:14]), dict.fromkeys(CATEGORIES, 2))
+        self.assertEqual(Counter(row["category"] for row in rows),
+                         {category: target + 3 for category, target in hourly_targets().items()})
+
+    def test_sparse_notes_queue_still_starts_with_all_available_desks(self):
+        from prepare_editor_sources import reporter_note_candidates
+        ready = [{"category": CATEGORIES[0], "url": str(index)} for index in range(20)]
+        ready += [{"category": category, "url": category} for category in CATEGORIES[1:]]
+        rows = reporter_note_candidates(ready, hourly_targets())
+        self.assertEqual([row["category"] for row in rows[:7]], list(CATEGORIES))
+
     def test_overfull_approved_input_cannot_expand_the_hourly_ceiling(self):
         rows = [{'category': 'Botë', 'url': f'https://bbc.com/{n}'} for n in range(4)]
         with self.assertRaises(ValueError):

@@ -246,6 +246,19 @@ def prioritize_grounded_leads(leads: list[dict]) -> list[dict]:
     return sorted(leads, key=priority)
 
 
+def reporter_note_candidates(ready: list[dict], plan: dict[str, int]) -> list[dict]:
+    """Give every desk notes before a busy desk's backup candidates.
+
+    Model work can exhaust its shared deadline. Round-robin order prevents
+    the last desks from getting only fragment fallbacks while early desks
+    spend the budget on their fourth, fifth and sixth candidates.
+    """
+    groups = {category: [lead for lead in ready if lead["category"] == category][:plan[category] + 3]
+              for category in CATEGORIES}
+    return [items[index] for index in range(max(map(len, groups.values()), default=0))
+            for items in groups.values() if index < len(items)]
+
+
 def recently_published_photos(days: int = 14) -> set[str]:
     """Photos already on the site in the last two weeks, so one laptop-and-
     Bitcoin picture is not reused hour after hour. Empty if Supabase is down."""
@@ -365,8 +378,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     # alone; a story whose notes failed is dropped rather than written from the
     # source text, unless no notes came back at all this hour.
     from news_fact_sheets import build_fact_sheets
-    wanted = [lead for category in CATEGORIES
-              for lead in [item for item in ready if item["category"] == category][:plan[category] + 3]]
+    wanted = reporter_note_candidates(ready, plan)
     notes_input = []
     for lead in wanted:
         record = json.loads(Path(lead["evidence_path"]).read_text(encoding="utf-8"))
