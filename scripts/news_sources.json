@@ -725,6 +725,22 @@
         "kultplus.com"
       ],
       "family": "kultplus.com"
+    },
+    {
+      "source": "NME",
+      "category": "Showbiz",
+      "domains": [
+        "nme.com"
+      ],
+      "family": "nme-networks"
+    },
+    {
+      "source": "Pitchfork",
+      "category": "Showbiz",
+      "domains": [
+        "pitchfork.com"
+      ],
+      "family": "conde-nast"
     }
   ],
   "feeds": [
@@ -1094,6 +1110,18 @@
       "category": "Showbiz",
       "lane": "SHOWBIZ",
       "url": "https://kultplus.com/feed/"
+    },
+    {
+      "source": "NME",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://www.nme.com/news/music/feed"
+    },
+    {
+      "source": "Pitchfork",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://pitchfork.com/rss/news/"
     },
     {
       "source": "OpenAI",

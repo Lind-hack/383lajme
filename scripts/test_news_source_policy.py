@@ -11,6 +11,15 @@ from news_run_state import completed, save
 
 
 class SourceIsolation(unittest.TestCase):
+    def test_music_publishers_stay_in_showbiz_and_keep_real_owner_families(self):
+        for domain in ("nme.com", "pitchfork.com"):
+            self.assertIsNone(source_error("Showbiz", f"https://{domain}/news/announcement"))
+            for category in CATEGORIES:
+                if category != "Showbiz":
+                    self.assertIsNotNone(source_error(category, f"https://{domain}/news/announcement"))
+        self.assertFalse(independent("https://pitchfork.com/news/announcement", "https://arstechnica.com/story"))
+        self.assertTrue(independent("https://nme.com/news/announcement", "https://pitchfork.com/news/announcement"))
+
     def test_every_registered_domain_in_every_category(self):
         for publisher in MANIFEST["publishers"]:
             for domain in publisher["domains"]:
