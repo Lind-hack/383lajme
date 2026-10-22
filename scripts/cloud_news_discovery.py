@@ -232,6 +232,9 @@ def fetch_listing(spec: dict, now: datetime | None = None):
             if len(link.get_text(" ", strip=True)) < 35:
                 continue
             url = canonical(urljoin(response.url, link["href"]))
+            prefix = str(spec.get("article_path_prefix") or "")
+            if prefix and not urlsplit(url).path.startswith(prefix):
+                continue
             if url and url not in urls and not source_error(spec["category"], url) and len(urlsplit(url).path) > 12:
                 urls.append(url)
         audit["entries"] = len(urls)

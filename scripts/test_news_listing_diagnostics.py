@@ -10,6 +10,17 @@ from cloud_news_discovery import fetch_listing
 
 
 class ListingDiagnosticsTests(unittest.TestCase):
+    def test_official_news_listing_does_not_fetch_product_navigation_as_articles(self):
+        response = Mock(url="https://www.anthropic.com/news", status_code=200, content=(
+            '<a href="/claude/enterprise">Explore enterprise products and services for your company</a>'
+            '<a href="/news/a-new-product-announcement">Introducing an official new product announcement today</a>'))
+        with patch("cloud_news_discovery.requests.get", return_value=response), \
+                patch("read_news_source.read", return_value={"status": "no_article_text"}) as reader:
+            _, audit = fetch_listing({"source": "Anthropic", "category": "Teknologji",
+                                      "url": response.url, "article_path_prefix": "/news/"})
+        self.assertEqual(audit["entries"], 1)
+        reader.assert_called_once_with("https://www.anthropic.com/news/a-new-product-announcement")
+
     @patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"})
     def test_listing_exposes_rejection_reasons_and_retains_short_grounding(self):
         urls = [f"https://top-channel.tv/2026/10/20/article-{i}/" for i in range(8)]

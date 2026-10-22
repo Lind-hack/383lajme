@@ -34,6 +34,104 @@ def page(license_name="CC0"):
 
 
 class NewsPhotoTests(unittest.TestCase):
+    def setUp(self):
+        policy._wiki_search.cache_clear()
+        policy._identity_claims.cache_clear()
+        policy.commons_candidates.cache_clear()
+
+    def test_cc0_waiver_is_not_overridden_by_commons_copyrighted_flag(self):
+        singer = {"subject": "Raye", "subject_evidence": "Raye", "kind": "person",
+                  "qid": "Q28071144", "caption": "Raye, foto arkivore"}
+        portrait = page()
+        portrait.update(title="File:Raye8888.jpg", pageid=123)
+        portrait["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Raye performing"}
+        portrait["imageinfo"][0]["extmetadata"]["Copyrighted"] = {"value": "True"}
+        with patch.object(policy, "depicted", return_value={"Q28071144"}):
+            self.assertIsNotNone(policy.candidate_photo(portrait, singer))
+            portrait["imageinfo"][0]["extmetadata"]["LicenseUrl"] = {"value": "https://example.com/unverified"}
+            self.assertIsNone(policy.candidate_photo(portrait, singer))
+        portrait["imageinfo"][0]["extmetadata"]["LicenseUrl"] = {"value": policy.LICENSES["CC0"]}
+        with patch.object(policy, "depicted", return_value=set()):
+            self.assertIsNone(policy.candidate_photo(portrait, singer))
+        public = page("Public domain")
+        public["imageinfo"][0]["extmetadata"]["Copyrighted"] = {"value": "True"}
+        self.assertIsNone(policy.candidate_photo(public, plan()))
+
+    def test_mononym_category_requires_exact_identity_and_a_named_photo(self):
+        singer = {"subject": "Raye", "subject_evidence": "Raye", "kind": "person",
+                  "qid": "Q28071144", "caption": "Raye, foto arkivore"}
+        concert = page("CC BY 4.0")
+        concert.update(title="File:Raye performing at Glastonbury 2025.jpg", pageid=123,
+                       _category_subject_qid="Q28071144")
+        concert["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Raye performing"}
+        with patch.object(policy, "depicted", return_value=set()):
+            self.assertIsNotNone(policy.candidate_photo(concert, singer))
+            self.assertIsNone(policy.candidate_photo({**concert, "_category_subject_qid": "Q108106738"}, singer))
+            self.assertIsNone(policy.candidate_photo({**concert, "title": "File:Support act on Raye tour.jpg"}, singer))
+            self.assertIsNone(policy.candidate_photo({**concert, "title": "File:Empty stage.jpg"}, singer))
+        with patch.object(policy, "depicted", return_value={"Q108106738"}):
+            self.assertIsNone(policy.candidate_photo(concert, singer))
+
+    def test_undersized_original_cannot_occupy_the_photo_editor_shortlist(self):
+        candidate = page()
+        candidate["imageinfo"][0].update(width=949, height=1098, thumbwidth=1600, thumbheight=1851)
+        self.assertIsNone(policy.candidate_photo(candidate, plan()))
+
+    def test_mononym_research_attests_only_the_wikidata_linked_category(self):
+        singer = {"subject": "Raye", "subject_evidence": "Raye", "kind": "person", "queries": ["Raye"],
+                  "qid": "Q28071144", "caption": "Raye, foto arkivore"}
+        concert = {**page(), "title": "File:Raye performing.jpg", "pageid": 123}
+        claims = {"P373": [{"mainsnak": {"datavalue": {"value": "Raye"}}}]}
+        with patch.object(policy, "_identity_claims", return_value=claims) as identity, \
+                patch.object(policy, "commons_candidates", return_value=[concert]) as search, \
+                patch.object(policy, "prefetch_depicted"):
+            research = policy._research({}, {}, {}, singer, policy.time.monotonic() + 5)
+        identity.assert_called_once_with("Q28071144", "P373")
+        self.assertIn('deepcat:"Raye"', [call.args[0] for call in search.call_args_list])
+        self.assertEqual(len(research[2]), 1)
+        self.assertEqual(research[2][0]["_category_subject_qid"], "Q28071144")
+        self.assertNotIn("_category_subject_qid", concert)  # shared search-cache rows remain unchanged
+        with patch.object(policy, "_identity_claims", return_value={}), \
+                patch.object(policy, "commons_candidates", return_value=[concert]), \
+                patch.object(policy, "prefetch_depicted"):
+            unlinked = policy._research({}, {}, {}, singer, policy.time.monotonic() + 5)
+        self.assertNotIn("_category_subject_qid", unlinked[2][0])
+
+    def test_named_headquarters_is_an_institution_photo_without_a_commons_depicts_tag(self):
+        company = {"subject": "Microsoft", "subject_evidence": "Microsoft", "qid": "Q2283",
+                   "kind": "thing", "archive_institution": True, "caption": "Selia e Microsoft"}
+        headquarters = page()
+        headquarters.update(title="File:Microsoft headquarters in Redmond.jpg", pageid=123)
+        headquarters["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Microsoft headquarters in Redmond"}
+        with patch.object(policy, "depicted", return_value=set()):
+            self.assertIsNotNone(policy.candidate_photo(headquarters, company))
+            self.assertIsNone(policy.candidate_photo(headquarters, {**company, "archive_institution": False}))
+        unrelated = page()
+        unrelated["title"] = "File:Microsoft GitHub Copilot conference.jpg"
+        unrelated["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Microsoft hackathon participants"}
+        self.assertFalse(policy.institution_building(unrelated, company))
+
+    def test_osm_map_and_underscored_map_filename_are_not_photographs(self):
+        candidate = page()
+        candidate.update(title="File:Saint-Mitre-les-Remparts_OSM_01.png")
+        candidate["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Carte de Saint-Mitre-les-Remparts"}
+        self.assertIsNone(policy.candidate_photo(candidate, plan()))
+        candidate["title"] = "File:Apple_Park_map.png"
+        candidate["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Apple Park"}
+        self.assertIsNone(policy.candidate_photo(candidate, plan()))
+
+    def test_archive_building_reaches_editor_before_unrelated_recent_events(self):
+        company = {"subject": "Microsoft", "subject_evidence": "Microsoft", "qid": "Q2283", "files": [],
+                   "queries": ["Microsoft"], "kind": "thing", "archive_institution": True, "caption": "Microsoft"}
+        headquarters = page()
+        headquarters.update(title="File:Microsoft headquarters.jpg", pageid=123)
+        event = page()
+        event.update(title="File:Microsoft hackathon.jpg", pageid=456)
+        with patch.object(policy, "_research", return_value=([], [], [event, headquarters])), \
+                patch.object(policy, "depicted", return_value={"Q2283"}):
+            options = policy._photo_options_for_plan({}, {}, {}, "place", company)
+        self.assertEqual(options[0]["page"]["pageid"], 123)
+
     def test_normalizer_restores_prepared_photo_without_fetching_model_url(self):
         from codex_automation_support import normalize_batch
         photo = {**policy.candidate_photo(page(), plan()), "image_width": 1920, "image_height": 1280}

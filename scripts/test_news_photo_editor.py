@@ -59,7 +59,7 @@ class PhotoEditorTests(unittest.TestCase):
     def test_trimmed_keeps_the_best_few_of_each_tier(self):
         options = [option("fresh", str(n)) for n in range(5)] + [option("video", "v")] + [option("place", str(n)) for n in range(3)]
         kept = editor.trimmed(options)
-        self.assertEqual([item["tier"] for item in kept], ["fresh"] * 3 + ["video", "place", "place"])
+        self.assertEqual([item["tier"] for item in kept], ["fresh"] * 3 + ["video", "place", "place", "place"])
 
 
 if __name__ == "__main__":

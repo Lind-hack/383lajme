@@ -76,9 +76,13 @@ def wiki_identity_allowed(page, searched_name, evidence, category, outlets, *, r
     named_company = (brand != subject and bool(re.search(r"\b(?:company|corporation)\b", description))
                      and subject_allowed(brand, evidence, outlets)
                      and (grounded(searched_name, brand) or grounded(brand, searched_name)))
+    local_place = (category in {"Kosovë", "Shqipëri"} and subject.endswith("i")
+                   and fold(subject[:-1]) == fold(searched_name)
+                   and bool(re.match(r"(?:a |an )?(?:city|town|municipality|qytet|komun|kryeqytet|vendbanim)", description))
+                   and subject_allowed(searched_name, evidence, outlets))
     if require_photo and (not image or image.lower().endswith(".svg") or NON_PHOTO.search(image)):
         return False
-    if not (subject_allowed(subject, evidence, outlets) or named_team or named_company):
+    if not (subject_allowed(subject, evidence, outlets) or named_team or named_company or local_place):
         return False
     if not (grounded(searched_name, subject) or grounded(subject, searched_name)):
         return False
@@ -88,7 +92,9 @@ def wiki_identity_allowed(page, searched_name, evidence, category, outlets, *, r
         # A bare word/acronym needs a concrete entity description from the
         # same response. Full names in the story remain eligible without one.
         if not re.search(r"\b(?:company|corporation|organisation|organization|institution|agency|bank|"
-                         r"club|team|city|town|municipality|stadium|airport|politician|singer|actor)\b", description):
+                         r"club|team|city|town|municipality|stadium|airport|politician|singer|actor|"
+                         r"qytet\w*|kryeqytet\w*|komun\w*|vendbanim\w*|aeroport\w*|stadium\w*|"
+                         r"kompani\w*|korporat\w*|institucion\w*|organizat\w*|bank\w*)\b", description):
             return False
         if subject.isupper():
             context = set(words(evidence)) - set(words(subject))

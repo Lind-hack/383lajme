@@ -19,7 +19,7 @@ from news_image_policy import plain, readable_brief
 
 CHUNK = 8
 EDITOR_DEADLINE = 240
-MAX_OPTIONS = {"press": 2, "fresh": 3, "video": 2, "older": 3, "place": 2}
+MAX_OPTIONS = {"press": 2, "fresh": 3, "video": 2, "older": 3, "place": 4}
 
 
 def describe(option: dict) -> str:

@@ -238,3 +238,24 @@ before a busy desk's fourth or later candidate.
 Model review reads wrapped .editor-sources.md and per-chunk .copyright-input-N.md evidence views, plus a wrapped article input. These preserve all serialized evidence characters across short lines so Hermes cannot clip source/body strings at its per-line limit. Original JSON is authoritative for gates and content-bound receipts. Models must continue reading with offsets when paginated.
 
 Model stages use per-request ASCII story IDs and map exact responses back to the original source records. Only missing or malformed decisions are retried; explicit rejections remain rejections. Reporter-note reuse is limited to model notes from identical source URL, title, primary text and corroborating text within 24 hours. Independent article, source, originality and image checks still apply on every run.
+
+Photo research caches successful Wikipedia, Wikidata and Commons responses only
+within the current process. Source-grounded local cities and Albanian geographic
+descriptions remain eligible for independently identified archive photographs.
+An institution's explicitly named headquarters may qualify without a Commons
+depicts tag; contradictory tags still reject it. Building photographs rank ahead
+of unrelated conferences, and the editor can consider four place alternatives.
+
+Known undersized original files are rejected before photo shortlisting, even
+when Commons advertises a larger thumbnail. A validated CC0 declaration is not
+cancelled by Commons' separate Copyrighted flag; bare Public Domain Mark claims
+still require an explicit noncopyrighted flag. Single-name artists may use a
+Commons category linked from that verified person's Wikidata P373 claim. These
+files must also name the artist, avoid conflicting identity tags and pass the
+photo editor, decoding, rights and source-image checks.
+
+Reporter-note policy version 2 excludes publisher analysis and exclusive
+interview material, scrambles atomic facts before drafting, and invalidates
+older cached notes. During deterministic preflight repair, drafts that already
+pass the gates are retained unchanged. The model returns only defective drafts
+it repaired; immutable identity and all publication gates are reapplied.

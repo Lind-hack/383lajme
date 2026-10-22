@@ -11,6 +11,7 @@ import threading
 import time
 from datetime import datetime, timezone
 from io import BytesIO
+from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -18,7 +19,7 @@ import requests
 import urllib3
 from PIL import Image, ImageOps
 
-from editorial_rules_v2 import fold
+from editorial_rules_v2 import fold, infer_city
 from news_photo_subjects import grounded, publisher_names, same_name_word, subject_allowed, wiki_identity_allowed
 
 COMMONS_API = "https://commons.wikimedia.org/w/api.php"
@@ -166,6 +167,16 @@ def story_names(title: str, text: str) -> list[str]:
                 while words and words[0].casefold() in NOT_NAMES:
                     words = words[1:]
                 if words:
+                    # A possessive separates names: "London's West End" is
+                    # London plus West End, not one invented three-word name.
+                    fragment = []
+                    for word in words:
+                        fragment.append(re.sub(r"['’]s$", "", word))
+                        if re.search(r"['’]s$", word):
+                            yield fragment, True
+                            fragment = []
+                    words = fragment
+                if words:
                     # Keep a company separate from the CEO named immediately after it.
                     followed_by_role = bool(re.match(r"\s+(?:CEO|CFO|CTO|COO|CMO)\b", sentence[match.end():]))
                     yield words, match.start() > 0 or followed_by_role
@@ -183,14 +194,16 @@ def story_names(title: str, text: str) -> list[str]:
         # Longest stretch of the headline run that the text also names.
         found = next((" ".join(words[i:j]) for size in range(len(words), 0, -1)
                       for i in range(len(words) - size + 1) for j in [i + size]
-                      if " ".join(words[i:j]) in counts), None)
+                      if " ".join(words[i:j]) in counts or (
+                          acceptable(" ".join(words[i:j]), True)
+                          and re.search(r"\b" + re.escape(" ".join(words[i:j])) + r"\b", text))), None)
         if not found or " " not in found:
             # 'Verstappen' in the headline is 'Max Verstappen' in the text; a
             # bare surname otherwise lost to 'Singapore Grand Prix' and the
             # photo showed another driver.
             run_tokens = {word.casefold() for word in words}
             fuller = sorted((name for name in counts if " " in name
-                             and any(same_name_word(fold(token), fold(part)) for token in run_tokens for part in name.split())),
+                             and any(same_name_word(fold(token), fold(name.split()[-1])) for token in run_tokens)),
                             key=lambda name: -counts[name])
             found = fuller[0] if fuller else found
         if found and found not in headline:
@@ -200,9 +213,32 @@ def story_names(title: str, text: str) -> list[str]:
     # A name the headline lacks must recur in the text: one passing mention
     # put Jensen Huang's photo on an Anthropic story (2026-10-13).
     for name in headline + [name for name in rest if counts[name] >= 2]:
-        if not any(fold(name) in fold(other) or fold(other) in fold(name) for other in chosen):
+        if not any(fold(name) == fold(other) or fold(other).startswith(fold(name) + " ")
+                   or fold(other).endswith(" " + fold(name)) or fold(name).startswith(fold(other) + " ")
+                   or fold(name).endswith(" " + fold(other)) for other in chosen):
             chosen.append(name)
     return chosen[:3]
+
+
+@lru_cache(maxsize=1024)
+def _identity_claims(item: str, property_name: str) -> dict:
+    data = api_get("https://www.wikidata.org/w/api.php", {
+        "action": "wbgetclaims", "format": "json", "entity": item, "property": property_name}).json()
+    if "error" in data:
+        raise ValueError("Wikidata identity lookup unavailable")
+    return data.get("claims", {})
+
+
+@lru_cache(maxsize=1024)
+def _wiki_search(language: str, name: str) -> tuple:
+    data = api_get(f"https://{language}.wikipedia.org/w/api.php", {
+        "action": "query", "format": "json", "generator": "search", "gsrsearch": name,
+        "gsrnamespace": 0, "gsrlimit": 3, "prop": "pageimages|pageprops|pageterms", "piprop": "name",
+        "wbptterms": "description", "pilicense": "free", "redirects": 1, "ppprop": "wikibase_item",
+    }).json()
+    if "error" in data:
+        raise ValueError("Wikipedia subject search unavailable")
+    return tuple(sorted(data.get("query", {}).get("pages", {}).values(), key=lambda page: page.get("index", 0)))
 
 
 def is_person(item: str) -> bool:
@@ -211,8 +247,7 @@ def is_person(item: str) -> bool:
     if not re.fullmatch(r"Q[0-9]+", item or ""):
         return False
     try:
-        claims = api_get("https://www.wikidata.org/w/api.php", {
-            "action": "wbgetclaims", "format": "json", "entity": item, "property": "P31"}).json().get("claims", {})
+        claims = _identity_claims(item, "P31")
     except (requests.RequestException, ValueError):
         return False
     return any(claim.get("mainsnak", {}).get("datavalue", {}).get("value", {}).get("id") == "Q5"
@@ -226,8 +261,7 @@ def is_place(item: str) -> bool:
     if not re.fullmatch(r"Q[0-9]+", item or ""):
         return False
     try:
-        claims = api_get("https://www.wikidata.org/w/api.php", {
-            "action": "wbgetclaims", "format": "json", "entity": item, "property": "P625"}).json().get("claims", {})
+        claims = _identity_claims(item, "P625")
     except (requests.RequestException, ValueError):
         return False
     return bool(claims.get("P625"))
@@ -249,8 +283,14 @@ def wiki_plan(lead: dict) -> dict | None:
     # what this policy exists to avoid.
     names = [name for name in story_names(title, text) if fold(name) not in outlets]
     city = str(lead.get("city") or "").strip()
-    if city and city not in names:
-        names.append(city)
+    if not city:
+        inferred = infer_city(lead.get("category"), title, text)
+        city = inferred if inferred != lead.get("category") else ""
+    if not city:
+        dateline = re.match(r"^([A-Z]{3,20})\s+(?:\([A-Z ]+\)\s+)?[—–-]\s", text)
+        city = dateline[1].title() if dateline else ""
+    if city and grounded(city, title + " " + text) and city not in names:
+        names.insert(min(1, len(names)), city)
     candidates = []
     for name, plan in _wiki_pages(lead, names, story, outlets):
         context = [other for other in names if other != name]
@@ -281,13 +321,7 @@ def _wiki_pages(lead: dict, names: list[str], story: set[str], outlets: set[str]
             if name in resolved:
                 continue
             try:
-                response = api_get(f"https://{language}.wikipedia.org/w/api.php", {
-                    "action": "query", "format": "json", "generator": "search", "gsrsearch": name,
-                    "gsrnamespace": 0, "gsrlimit": 3, "prop": "pageimages|pageprops|pageterms", "piprop": "name",
-                    "wbptterms": "description",
-                    "pilicense": "free", "redirects": 1, "ppprop": "wikibase_item",
-                })
-                pages = sorted(response.json().get("query", {}).get("pages", {}).values(), key=lambda page: page.get("index", 0))
+                pages = _wiki_search(language, name)
             except (requests.RequestException, ValueError):
                 continue
             for page in pages:
@@ -314,7 +348,8 @@ def _wiki_pages(lead: dict, names: list[str], story: set[str], outlets: set[str]
                     description = " ".join(page.get("terms", {}).get("description", []))
                     institution = bool(re.search(
                         r"\b(?:company|corporation|organisation|organization|institution|agency|bank|"
-                        r"university|parliament|sports club|football club|basketball club)\b", description, re.I))
+                        r"university|parliament|sports club|football club|basketball club|"
+                        r"kompani\w*|korporat\w*|institucion\w*|organizat\w*|bank\w*)\b", fold(description), re.I))
                     yield name, {**plan, "kind": "thing", "archive_institution": institution}
                 resolved.add(name)
                 break
@@ -382,6 +417,7 @@ def _plan_chunk(leads: list[dict], folder: Path, index: int, *, deadline: float 
     return plans
 
 
+@lru_cache(maxsize=64)
 def commons_candidates(query: str, newest: bool = False) -> list[dict]:
     """Commons search; newest=True sorts by upload date. Commons imports the
     official photo streams (EU Commission, governments, the White House,
@@ -527,8 +563,34 @@ def depicted(pageid: object) -> set[str]:
     return _DEPICTS[pageid]
 
 
+def institution_building(page: dict, plan: dict) -> bool:
+    """A named institution's explicit headquarters, not an unrelated event.
+
+    Only independently grounded Wikipedia institution plans may use this path.
+    Photo rights, dimensions, source-image distinction and editorial fit remain
+    separate checks. A logo or a conference mentioning the company never fits.
+    """
+    if plan.get("kind") != "thing" or plan.get("archive_institution") is not True or not plan.get("qid"):
+        return False
+    tags = depicted(page.get("pageid"))
+    if tags and plan["qid"] not in tags:
+        return False
+    brand = " ".join(re.findall(r"[a-z0-9]+", fold(plan.get("subject_evidence") or plan["subject"])))
+    if len(brand) < 4 or brand in {"bank", "company", "institution", "government", "agency", "office"}:
+        return False
+    meta = next(iter(page.get("imageinfo", [])), {}).get("extmetadata", {})
+    text = " ".join(re.findall(r"[a-z0-9]+", fold(str(page.get("title", "")) + " "
+                    + plain(meta.get("ImageDescription", {}).get("value")))))
+    return bool(re.search(r"\b" + re.escape(brand) + r"(?: s)? (?:global )?(?:headquarters|head office|campus|offices?)\b", text)
+                or re.search(r"\b(?:headquarters|head office|offices?) of (?:the )?" + re.escape(brand) + r"\b", text))
+
+
 def candidate_photo(page: dict, plan: dict, max_years: int = MAX_PHOTO_AGE_YEARS) -> dict | None:
     info = next(iter(page.get("imageinfo", [])), {})
+    # Reject known undersized originals before they occupy the editor's
+    # limited shortlist. Commons can advertise an upscaled thumbnail size.
+    if (info.get("width") and info["width"] < 1200) or (info.get("height") and info["height"] < 630):
+        return None
     meta = info.get("extmetadata", {})
     value = lambda key: plain(meta.get(key, {}).get("value"))
     license_name = value("LicenseShortName")
@@ -539,8 +601,14 @@ def candidate_photo(page: dict, plan: dict, max_years: int = MAX_PHOTO_AGE_YEARS
     # not copyright); editorial use of public figures is what it allows. Any
     # other restriction (trademark, insignia, ...) still rules a file out.
     restrictions = {part.strip().casefold() for part in value("Restrictions").split("|") if part.strip()}
-    if (restrictions - {"personality"}) or (not attributed and (value("Copyrighted").lower() != "false"
-                                                      or value("AttributionRequired").lower() == "true")):
+    # CC0 is the rightsholder's waiver (with a fallback reuse licence), not
+    # the Public Domain Mark. Commons can report Copyrighted=True alongside
+    # its explicit CC0 declaration; that flag does not cancel the waiver.
+    # The exact CC0 URL is still checked below. Bare public-domain claims
+    # continue to require an explicit noncopyrighted flag.
+    if (restrictions - {"personality"}) or (not attributed and (
+            (license_name == "Public domain" and value("Copyrighted").lower() != "false")
+            or value("AttributionRequired").lower() == "true")):
         return None
     creator = value("Attribution") or value("Artist")
     if attributed and not creator:
@@ -552,9 +620,10 @@ def candidate_photo(page: dict, plan: dict, max_years: int = MAX_PHOTO_AGE_YEARS
         return None
     if not str(page.get("title", "")).lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
         return None
-    description = plain(page.get("title", "")) + " " + value("ImageDescription")
+    file_title = plain(page.get("title", "")).replace("_", " ")
+    description = file_title + " " + value("ImageDescription")
     # A free licence does not make a chart, map, flag or logo a news photo.
-    if NOT_A_PHOTO.search(description):
+    if NOT_A_PHOTO.search(description) or (file_title.lower().endswith(".png") and re.search(r"\bOSM\b", file_title, re.I)):
         return None
     # Readers read an old photo as old news: the owner wants current pictures.
     year = photo_year(meta)
@@ -589,7 +658,15 @@ def candidate_photo(page: dict, plan: dict, max_years: int = MAX_PHOTO_AGE_YEARS
     # von der Leyen, to Kosovo' a Kurti one (2026-10-16). The file must name
     # them, or show no one else.
     tagged = plan.get("qid") in tags and (f" {surname} " in title_words or tags == {plan["qid"]})
-    if not tokens or not (in_title or tagged):
+    # For a mononym, exact Wikidata-linked Commons category membership is
+    # independent identity evidence. Still require the artist's whole name
+    # in the filename; support acts and empty stages in that category fail.
+    category_person = (plan.get("kind") == "person" and bool(plan.get("qid"))
+                       and page.get("_category_subject_qid") == plan["qid"]
+                       and f" {phrase} " in title_words and not CROWD.search(description)
+                       and not re.search(r"\b(?:support(?:ing)?|opening) act\b", description, re.I)
+                       and (not tags or plan["qid"] in tags))
+    if not tokens or not (in_title or tagged or category_person or institution_building(page, plan)):
         return None
     url = info.get("thumburl") or info.get("url", "")
     if urlsplit(url).hostname not in {"upload.wikimedia.org", "thumb.wikimedia.org"} or not url.startswith("https://"):
@@ -736,6 +813,8 @@ def _research(lead: dict, primary: dict, secondary: dict, plan: dict, deadline: 
         except (requests.RequestException, ValueError):
             pass
     queries = list(plan["queries"])
+    if plan.get("kind") == "thing" and plan.get("archive_institution") is True:
+        queries.append(f"{plan.get('subject_evidence') or plan['subject']} headquarters")
     # Files tagged on Commons as depicting the subject, whatever their name:
     # 0 -> 8 usable photos of the last two years for Lewis Hamilton and 0 -> 14
     # for Elon Musk (18 Oct). Albanian politicians are rarely tagged; their
@@ -750,6 +829,26 @@ def _research(lead: dict, primary: dict, secondary: dict, plan: dict, deadline: 
                 pages += commons_candidates(query, newest=newest)
             except (requests.RequestException, ValueError):
                 continue
+    # Bare stage names need a structured identity path; a loose name search
+    # is insufficient. P373 belongs to this already verified human QID.
+    if plan.get("kind") == "person" and plan.get("qid") and len(plan["subject"].split()) == 1:
+        try:
+            claims = _identity_claims(plan["qid"], "P373")
+            category = next((claim.get("mainsnak", {}).get("datavalue", {}).get("value")
+                             for claim in claims.get("P373", [])
+                             if claim.get("rank") != "deprecated"), None)
+            if isinstance(category, str) and 1 <= len(category) <= 120:
+                query = "deepcat:" + json.dumps(category, ensure_ascii=False)
+                for newest in (True, False):
+                    if time.monotonic() >= deadline:
+                        return None
+                    pages += [{**page, "_category_subject_qid": plan["qid"]}
+                              for page in commons_candidates(query, newest=newest)]
+        except (requests.RequestException, ValueError):
+            pass
+    category_titles = {page.get("title") for page in pages if page.get("_category_subject_qid") == plan.get("qid")}
+    pages = [{**page, "_category_subject_qid": plan["qid"]} if page.get("title") in category_titles else page
+             for page in pages] if plan.get("qid") else pages
     seen_titles: set[str] = set()
     pages = [page for page in pages if page.get("title") not in seen_titles and not seen_titles.add(page.get("title"))]
     prefetch_depicted([page.get("pageid") for page in pages])
@@ -798,7 +897,8 @@ def _photo_options_for_plan(lead: dict, primary: dict, secondary: dict, tier: st
             # unrelated people/places and loosely named company photos stay out.
             return bool(page.get("lead_image") or ((plan.get("kind") == "place"
                         or (plan.get("kind") == "thing" and plan.get("archive_institution") is True))
-                        and plan.get("qid") and plan["qid"] in depicted(page.get("pageid"))))
+                        and plan.get("qid") and plan["qid"] in depicted(page.get("pageid")))
+                        or institution_building(page, plan))
         # A Porsche Boxster in a car park for a Porsche race team: a thing's
         # photo must share a word with the story, however new it is.
         if plan.get("kind") == "thing" and terms and not context_score(page, terms):
@@ -819,6 +919,16 @@ def _photo_options_for_plan(lead: dict, primary: dict, secondary: dict, tier: st
         if tier == "fresh":
             # Closest to the story first; quality breaks ties within a day.
             return (age, -quality, index)
+        if tier == "place":
+            description = plain(page.get("title", "")) + " " + plain(next(iter(page.get("imageinfo", [])), {}).get(
+                "extmetadata", {}).get("ImageDescription", {}).get("value"))
+            event = bool(re.search(r"\b(?:protest\w*|demonstrat\w*|manifestation\w*|rally|conference\w*|"
+                                   r"hackathon\w*|meeting\w*|summit\w*|concert\w*|visit\w*)\b", description, re.I))
+            # Archive place fallbacks should show the place/building. Recent
+            # unrelated conferences had displaced every usable headquarters
+            # image before the editor could see one.
+            return (event, plan.get("archive_institution") is True and not institution_building(page, plan),
+                    -(quality - (age or 1460) / 365), index)
         # Every year of age costs a point, the story's own context earns 1.5.
         return (-(quality + 1.5 * context_score(page, terms) - (age or 1460) / 365), index)
     options = []

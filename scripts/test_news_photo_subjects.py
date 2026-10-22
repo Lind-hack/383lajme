@@ -15,6 +15,23 @@ def wiki_page(title, image, description="", qid="Q1"):
 
 
 class PhotoSubjectGroundingTests(unittest.TestCase):
+    def setUp(self):
+        policy._wiki_search.cache_clear()
+        policy._identity_claims.cache_clear()
+
+    def test_identity_requests_are_reused_but_request_failures_are_not_cached(self):
+        response = SimpleNamespace(json=lambda: {"claims": {"P31": [
+            {"mainsnak": {"datavalue": {"value": {"id": "Q5"}}}}]}})
+        with patch.object(policy, "api_get", return_value=response) as api:
+            self.assertTrue(policy.is_person("Q123"))
+            self.assertTrue(policy.is_person("Q123"))
+            self.assertEqual(api.call_count, 1)
+        policy._identity_claims.cache_clear()
+        with patch.object(policy, "api_get", side_effect=[policy.requests.Timeout(), response]) as api:
+            self.assertFalse(policy.is_person("Q123"))
+            self.assertTrue(policy.is_person("Q123"))
+            self.assertEqual(api.call_count, 2)
+
     def test_rama_and_tusk_namesakes_do_not_become_photo_plans(self):
         fixtures = [
             ("Rama", "Edi Rama", "Edi Ramës i kërkohet përgjigje për protestën.",
@@ -118,6 +135,44 @@ class PhotoSubjectGroundingTests(unittest.TestCase):
         self.assertEqual(names[0], "Tesla")
         self.assertIn("Elon Musk", names)
         self.assertNotIn("Tesla CEO Elon", names)
+
+    def test_possessive_keeps_the_named_city_separate_from_the_theatre_district(self):
+        names = policy.story_names("Jane Krakowski returns to London's West End",
+                                   "Jane Krakowski takes the role. The play opens in London's West End.")
+        self.assertEqual(names[:2], ["Jane Krakowski", "London"])
+        self.assertIn("West End", names)
+        crowded = policy.story_names("Jane Krakowski returns to London's West End",
+                                     "Jane Krakowski has the role. Other London Marys will join her in the West End.")
+        self.assertIn("London", crowded)
+        self.assertNotIn("Other London Marys", crowded)
+        play = policy.story_names("Jane Krakowski reprises 'Oh, Mary!' on London's West End",
+                                  "Jane Krakowski has the role. Other London Marys will join her in the West End.")
+        self.assertIn("London", play)
+
+    def test_only_explicit_local_city_or_dateline_can_supply_the_place_fallback(self):
+        seen = []
+        def pages(lead, names, *args):
+            seen.append(names)
+            return iter([])
+        with patch.object(policy, "_wiki_pages", side_effect=pages):
+            policy.wiki_plan({"category": "Kosovë", "title": "Rama shpall kandidaturen",
+                              "primary_evidence": {"text": "Kryetari i Prishtines, Perparim Rama, konfirmoi lajmin."}})
+            policy.wiki_plan({"category": "Botë", "title": "Macron announces restrictions",
+                              "primary_evidence": {"text": "PARIS — President Emmanuel Macron announced restrictions."}})
+            policy.wiki_plan({"category": "Kosovë", "title": "Qeveria njofton vendimin",
+                              "primary_evidence": {"text": "Qeveria njoftoi vendimin."}})
+        self.assertIn("Prishtinë", seen[0])
+        self.assertIn("Paris", seen[1])
+        self.assertNotIn("Kosovë", seen[2])
+
+    def test_albanian_place_description_and_definite_name_resolve_the_same_local_city(self):
+        pristina = wiki_page("Prishtina", "Prishtina_2025.jpg", "Kryeqyteti i Kosovës")
+        self.assertTrue(wiki_identity_allowed(pristina, "Prishtinë", "Kryetari i Prishtinës foli sot.", "Kosovë", set()))
+        drenas = wiki_page("Drenasi", "Drenasi_2024.jpg", "Komunë në Kosovë")
+        self.assertTrue(wiki_identity_allowed(drenas, "Drenas", "Kryetari foli në Drenas.", "Kosovë", set()))
+        self.assertFalse(wiki_identity_allowed(drenas, "Drenas", "Kryetari foli në Prishtinë.", "Kosovë", set()))
+        person = wiki_page("Drenasi", "Drenasi_2024.jpg", "Albanian actor")
+        self.assertFalse(wiki_identity_allowed(person, "Drenas", "Kryetari foli në Drenas.", "Kosovë", set()))
 
     def test_identity_only_resolution_still_rejects_namesakes_and_media_outlets(self):
         deity = wiki_page("Rama", "Rama_flag.svg", "Hindu deity")

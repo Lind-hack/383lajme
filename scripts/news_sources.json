@@ -964,6 +964,24 @@
       "url": "https://variety.com/feed/"
     },
     {
+      "source": "Variety",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://variety.com/v/music/feed/"
+    },
+    {
+      "source": "Variety",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://variety.com/v/film/feed/"
+    },
+    {
+      "source": "Variety",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://variety.com/v/tv/feed/"
+    },
+    {
       "source": "Billboard",
       "category": "Showbiz",
       "lane": "SHOWBIZ",
@@ -1076,6 +1094,18 @@
       "category": "Showbiz",
       "lane": "SHOWBIZ",
       "url": "https://kultplus.com/feed/"
+    },
+    {
+      "source": "OpenAI",
+      "category": "Teknologji",
+      "lane": "TEKNOLOGJI",
+      "url": "https://openai.com/news/rss.xml"
+    },
+    {
+      "source": "Google AI",
+      "category": "Teknologji",
+      "lane": "TEKNOLOGJI",
+      "url": "https://blog.google/technology/ai/rss/"
     }
   ],
   "browser_lanes": [
@@ -1120,11 +1150,19 @@
       "category": "Showbiz",
       "url": "https://revistawho.com/",
       "reason": "Full-article access and automated discovery require validation; no bypass of access restrictions."
+    },
+    {
+      "source": "Anthropic",
+      "category": "Teknologji",
+      "url": "https://www.anthropic.com/news",
+      "article_path_prefix": "/news/",
+      "listing_limit": 24,
+      "reason": "Approved official source; retrieve dated public news announcements only."
     }
   ],
   "notes": [
     "RSS availability is recorded each run, not assumed. Browser candidates are attempted through public article listings; blocked or restricted pages remain unavailable.",
     "Publisher-family checks prevent sister outlets and syndicated copies from counting as independent corroboration.",
-    "Hourly runs use eligible evidence, up to 10 articles; no quota padding."
+    "Hourly runs use eligible evidence, up to 20 articles, targeting two to three in every category; no quota padding."
   ]
 }

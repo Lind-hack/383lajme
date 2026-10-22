@@ -23,6 +23,18 @@ def reply(rows):
 
 
 class FactSheetTests(unittest.TestCase):
+    def test_notes_from_a_superseded_composition_policy_are_rebuilt(self):
+        item = lead(1)
+        facts = ["Keshilli | vendimi", "Ura | riparime", "Afati | mars", "Kryetari | deklarata"]
+        with tempfile.TemporaryDirectory() as folder, patch.object(sheets, "ask_rows",
+                return_value=[{"pair_id": "story-001", "facts": facts}]) as model:
+            cache = Path(folder) / "reporter-notes-cache.json"
+            cache.write_text(json.dumps({"version": 1, "entries": {sheets.evidence_key(item): {
+                "at": sheets.time.time(), "facts": ["Old source analysis"] * 4}}}), encoding="utf-8")
+            paths = sheets.build_fact_sheets([item], Path(folder))
+            model.assert_called_once()
+            self.assertNotIn("Old source analysis", paths[item["pair_id"]].read_text(encoding="utf-8"))
+
     def test_partial_model_notes_retry_only_the_missing_story_with_ascii_id(self):
         facts = ["Keshilli | vendimi", "Ura | riparime", "Afati | mars", "Kryetari | deklarata"]
         answers = [[{"pair_id": "story-001", "facts": facts}, {"pair_id": "story-OO2", "facts": facts}],
