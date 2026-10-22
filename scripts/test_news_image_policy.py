@@ -52,7 +52,7 @@ class NewsPhotoTests(unittest.TestCase):
 
     def test_single_word_named_subject_is_grounded_and_invented_evidence_fails(self):
         leads = [{"pair_id": "one", "title": "OpenAI releases a model", "primary_evidence": {"text": "OpenAI announced a new release."}}]
-        rows = [{"pair_id": "one", "subject": "OpenAI", "subject_evidence": "OpenAI", "queries": ["OpenAI office"], "caption": "Zyra e OpenAI."}]
+        rows = [{"pair_id": "story-001", "subject": "OpenAI", "subject_evidence": "OpenAI", "queries": ["OpenAI office"], "caption": "Zyra e OpenAI."}]
         with tempfile.TemporaryDirectory() as folder, patch.object(policy, "wiki_plan", return_value=None), patch("news_model.run_process") as model:
             model.return_value = SimpleNamespace(returncode=0, stdout="383_JSON_BEGIN" + json.dumps(rows) + "383_JSON_END")
             self.assertIn("one", policy.plan_subjects(leads, Path(folder)))
@@ -188,6 +188,19 @@ class NewsPhotoTests(unittest.TestCase):
         with patch.object(policy, "_research", return_value=([], [], [city])), \
                 patch.object(policy, "depicted", return_value={"Q47899"}):
             self.assertEqual(policy._photo_options_for_plan({}, {}, {}, "place", paris), [])
+
+    def test_institution_archive_requires_verified_type_and_exact_identity(self):
+        company = {**plan(), "subject": "Apple", "qid": "Q312", "kind": "thing",
+                   "archive_institution": True, "files": [], "queries": ["Apple headquarters"]}
+        building = page()
+        building.update(title="File:Apple headquarters.jpg", pageid=123)
+        with patch.object(policy, "_research", return_value=([], [], [building])), \
+                patch.object(policy, "depicted", return_value={"Q312"}):
+            self.assertEqual(len(policy._photo_options_for_plan({}, {}, {}, "place", company)), 1)
+            self.assertEqual(policy._photo_options_for_plan({}, {}, {}, "place", {**company, "archive_institution": False}), [])
+        with patch.object(policy, "_research", return_value=([], [], [building])), \
+                patch.object(policy, "depicted", return_value={"Q90"}):
+            self.assertEqual(policy._photo_options_for_plan({}, {}, {}, "place", company), [])
 
     def test_old_photos_and_charts_maps_logos_are_refused(self):
         old = page()

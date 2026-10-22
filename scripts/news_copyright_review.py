@@ -239,6 +239,8 @@ def review(batch: Path) -> int:
             unreviewed += chunk
         else:
             decisions += found
+            reviewed = {row["slug"] for row in found}
+            unreviewed += [article for article in chunk if article["slug"] not in reviewed]
     if unreviewed:
         dropped = {article["slug"] for article in unreviewed}
         print(f"383 COPYRIGHT REVIEW unavailable for {len(dropped)} article(s); they wait for another hour")
@@ -258,21 +260,28 @@ REVIEW_CHUNK = 6
 
 
 def _review_with_retry(batch: Path, todo: list[dict], records: dict[str, dict], index: int) -> list[dict] | None:
+    pending = list(todo)
+    decisions = {}
     for _ in range(2):
         try:
-            return _review_chunk(batch, todo, records, index)
+            found = _review_chunk(batch, pending, records, index)
+            decisions.update({row["slug"]: row for row in found})
+            pending = [article for article in pending if article["slug"] not in decisions]
+            if not pending:
+                break
         except (subprocess.SubprocessError, OSError, ValueError) as exc:
             print(f"383 COPYRIGHT REVIEW chunk {index} failed ({type(exc).__name__})")
-    return None
+    return list(decisions.values()) or None
 
 
 def _review_chunk(batch: Path, todo: list[dict], records: dict[str, dict], index: int) -> list[dict]:
     snapshot = snapshot_digest(todo, records)
     from news_model_evidence import write_readable_evidence
     review_input = batch.with_suffix(f".copyright-input-{index}.md")
+    by_id = {f"story-{number:03d}": article for number, article in enumerate(todo, 1)}
     write_readable_evidence(review_input, [
-        {"article": {key: article.get(key) for key in FIELDS}, "sources": records[article["slug"]]}
-        for article in todo
+        {"review_id": key, "article": {key: article.get(key) for key in FIELDS}, "sources": records[article["slug"]]}
+        for key, article in by_id.items()
     ])
     prompt = (
         f"You are an independent originality reviewer, not the writer or copy editor. Read {review_input.resolve()} "
@@ -297,10 +306,11 @@ def _review_chunk(batch: Path, todo: list[dict], records: dict[str, dict], index
         "Reject unsupported claimed speakers, exclusivity, invented quotations and any pretence that 383 did "
         "firsthand reporting. Photos are checked elsewhere; do not judge them. When you reject, the reason must "
         "name the specific copied sentence or the wrong fact. Otherwise approve. Do not rewrite, edit files, "
-        "publish, send messages, run code or tests. Return one object per article: slug, url, verdict "
+        "publish, send messages, run code or tests. Return one object per article: review_id, verdict "
         "(approve/reject), reason (at least 40 characters explaining the comparison), checks (boolean values "
         "for " + ", ".join(CHECKS) + "). Approval requires every check true. Return ONLY the complete JSON "
-        "array between 383_REVIEW_BEGIN and 383_REVIEW_END. This is screening, not a legal certification."
+        "array between 383_REVIEW_BEGIN and 383_REVIEW_END. Copy each short ASCII review_id exactly; "
+        "do not reproduce slugs or URLs, which the wrapper binds to the reviewed record. This is screening, not a legal certification."
     )
     from news_model import run_process
     result = run_process([os.environ.get("L383_HERMES_BIN", "/opt/hermes/.venv/bin/hermes"), "chat",
@@ -313,11 +323,27 @@ def _review_chunk(batch: Path, todo: list[dict], records: dict[str, dict], index
     if start < 0 or end < 0:
         raise ValueError("independent review response incomplete")
     decisions = json.loads(result.stdout[start + len("383_REVIEW_BEGIN"):end])
-    if not isinstance(decisions, list) or {row.get("slug") for row in decisions if isinstance(row, dict)} != {a["slug"] for a in todo}:
-        raise ValueError("review omitted or added an article")
+    if not isinstance(decisions, list):
+        raise ValueError("review must return an array")
+    # A malformed decision must not discard valid independent reviews of the
+    # other stories. Retry only the missing/invalid identities, never infer an
+    # approval or transfer one story's verdict to another.
+    from collections import Counter
+    counts = Counter(row.get("review_id") for row in decisions if isinstance(row, dict)
+                     and isinstance(row.get("review_id"), str))
+    valid = [row for row in decisions if isinstance(row, dict)
+             and isinstance(row.get("review_id"), str) and row["review_id"] in by_id
+             and counts[row["review_id"]] == 1
+             and row.get("verdict") in {"approve", "reject"}
+             and isinstance(row.get("checks"), dict)
+             and all(type(row["checks"].get(key)) is bool for key in CHECKS)
+             and len(str(row.get("reason") or "").strip()) >= 40]
+    if len(valid) != len(todo):
+        print(f"383 COPYRIGHT REVIEW chunk {index}: valid={len(valid)} expected={len(todo)}; retry only missing decisions")
     if snapshot != snapshot_digest(todo, records):
         raise ValueError("article or evidence changed during independent review")
-    return decisions
+    return [{**{key: value for key, value in row.items() if key not in {"review_id", "slug", "url"}},
+             "slug": by_id[row["review_id"]]["slug"], "url": by_id[row["review_id"]]["url"]} for row in valid]
 
 
 if __name__ == "__main__":

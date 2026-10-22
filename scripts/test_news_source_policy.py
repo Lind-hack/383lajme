@@ -49,6 +49,15 @@ class SourceIsolation(unittest.TestCase):
 
 
 class TopicBoundary(unittest.TestCase):
+    def test_showbiz_rejects_unrelated_general_feed_stories_before_photo_work(self):
+        for title in ("Oregon school shooting: calls to suspect's home", "Studentet duan te qeverisin Serbine",
+                      "Cilat jane frutat e thata me te shendetshme?",
+                      "Authorities announce police operation in Romania", "Company unveils new AI model"):
+            self.assertIsNotNone(topic_error("Showbiz", title))
+        for title in ("Jane Krakowski reprises theatre role in London", "ReMusica Festival rikthehet ne tetor",
+                      "Kim Kardashian shares Halloween costumes", "Botohet libri i autores Fatmire Halili"):
+            self.assertIsNone(topic_error("Showbiz", title))
+
     def test_local_desks_include_verified_entertainment_and_company_news(self):
         cases = [
             ("Kosov\u00eb", "Dua Lipa njofton koncertin e ri n\u00eb Prishtin\u00eb"),

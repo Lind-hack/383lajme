@@ -68,9 +68,17 @@ def wiki_identity_allowed(page, searched_name, evidence, category, outlets, *, r
     named_team = (category == "Sport" and team_alias != subject
                   and re.search(r"\b(?:football|basketball|sports)\s+(?:club|team)\b", description)
                   and subject_allowed(team_alias, evidence, outlets))
+    # Brand reporting commonly omits the corporate suffix used by Wikipedia.
+    # Strip only legal endings, and only for a page explicitly describing a
+    # company. This does not resolve loose acronyms or arbitrary name aliases.
+    brand = re.sub(r",?\s+(?:incorporated|inc\.?|corporation|corp\.?|limited|ltd\.?|plc|llc)$",
+                   "", subject, flags=re.I).strip()
+    named_company = (brand != subject and bool(re.search(r"\b(?:company|corporation)\b", description))
+                     and subject_allowed(brand, evidence, outlets)
+                     and (grounded(searched_name, brand) or grounded(brand, searched_name)))
     if require_photo and (not image or image.lower().endswith(".svg") or NON_PHOTO.search(image)):
         return False
-    if not (subject_allowed(subject, evidence, outlets) or named_team):
+    if not (subject_allowed(subject, evidence, outlets) or named_team or named_company):
         return False
     if not (grounded(searched_name, subject) or grounded(subject, searched_name)):
         return False

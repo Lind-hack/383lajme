@@ -384,7 +384,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     notes_input = []
     for lead in wanted:
         record = json.loads(Path(lead["evidence_path"]).read_text(encoding="utf-8"))
-        notes_input.append({"pair_id": lead["pair_id"], "title": lead.get("title", ""),
+        notes_input.append({"pair_id": lead["pair_id"], "source_url": lead["url"], "title": lead.get("title", ""),
                             "text": str(record.get("evidence", {}).get("text", "")),
                             "corroborating": " ".join(str(item.get("evidence", {}).get("text", ""))
                                                       for item in record.get("corroborating", []))})

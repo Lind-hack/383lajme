@@ -24,8 +24,20 @@ def story(pair_id, count=3):
 
 
 class PhotoEditorTests(unittest.TestCase):
+    def test_ascii_ids_and_retry_recover_only_the_missing_photo_decision(self):
+        stories = [story("Teknologji-03"), story("Kosove-07")]
+        responses = [[{"pair_id": "story-001", "picks": [1]}, {"pair_id": "story-OO2", "picks": [2]}],
+                     [{"pair_id": "story-001", "picks": [2]}]]
+        with tempfile.TemporaryDirectory() as folder, patch.object(editor, "ask_rows", side_effect=responses) as model:
+            result = editor.choose(stories, Path(folder))
+            brief = (Path(folder) / "news-photo-editor-0.md").read_text(encoding="utf-8")
+        self.assertEqual(result, {"Teknologji-03": [0], "Kosove-07": [1]})
+        self.assertEqual(model.call_count, 2)
+        self.assertIn("pair_id: story-001", brief)
+        self.assertNotIn("pair_id: Kosove-07", brief)
+
     def test_picks_are_kept_in_order_and_invented_numbers_ignored(self):
-        answer = [{"pair_id": "a", "picks": [3, 1, 3, 9, "2"]}, {"pair_id": "b", "picks": []}, {"pair_id": "ghost", "picks": [1]}]
+        answer = [{"pair_id": "story-001", "picks": [3, 1, 3, 9, "2"]}, {"pair_id": "story-002", "picks": []}, {"pair_id": "ghost", "picks": [1]}]
         with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {"WRITER_EFFORT_FLAG": "--ignore-user-config"}), \
                 patch.object(editor, "ask_rows", return_value=answer) as model:
             picks = editor.choose([story("a"), story("b")], Path(folder))
@@ -36,7 +48,7 @@ class PhotoEditorTests(unittest.TestCase):
         self.assertIn("[fresh] photo, taken 2026-10-15: photo 0", brief)
 
     def test_max_effort_without_high_override_still_gets_photo_judgment(self):
-        with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {"WRITER_EFFORT_FLAG": ""}), patch.object(editor, "ask_rows", return_value=[{"pair_id": "a", "picks": [1]}]):
+        with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {"WRITER_EFFORT_FLAG": ""}), patch.object(editor, "ask_rows", return_value=[{"pair_id": "story-001", "picks": [1]}]):
             self.assertEqual(editor.choose([story("a")], Path(folder)), {"a": [0]})
 
     def test_a_failed_chunk_leaves_its_stories_undecided(self):

@@ -99,6 +99,25 @@ class PhotoSubjectGroundingTests(unittest.TestCase):
         self.assertEqual(rows[0][1]["files"], [])
         self.assertEqual(rows[0][1]["subject"], "Nvidia")
         self.assertEqual(rows[0][1]["kind"], "thing")
+        self.assertIs(rows[0][1]["archive_institution"], True)
+
+    def test_corporate_legal_suffix_does_not_hide_grounded_brand_identity(self):
+        company = wiki_page("Tesla, Inc.", "Tesla_logo.svg", "American electric vehicle company")
+        self.assertTrue(wiki_identity_allowed(company, "Tesla", "Tesla announced Cybercab production.",
+                                              "Teknologji", set(), require_photo=False))
+        self.assertFalse(wiki_identity_allowed(company, "Tesla", "Tesla announced Cybercab production.",
+                                               "Teknologji", set(), require_photo=True))
+        self.assertFalse(wiki_identity_allowed(company, "Tesla", "Apple announced a new product.",
+                                               "Teknologji", set(), require_photo=False))
+        person = wiki_page("Nikola Tesla", "Nikola_Tesla.jpg", "Serbian-American inventor")
+        self.assertFalse(wiki_identity_allowed(person, "Tesla", "Tesla announced Cybercab production.",
+                                               "Teknologji", set(), require_photo=False))
+
+    def test_company_and_ceo_are_separate_grounded_photo_subjects(self):
+        names = policy.story_names("Tesla announces Cybercabs", "Tesla CEO Elon Musk spoke. Elon Musk confirmed production.")
+        self.assertEqual(names[0], "Tesla")
+        self.assertIn("Elon Musk", names)
+        self.assertNotIn("Tesla CEO Elon", names)
 
     def test_identity_only_resolution_still_rejects_namesakes_and_media_outlets(self):
         deity = wiki_page("Rama", "Rama_flag.svg", "Hindu deity")
@@ -120,7 +139,7 @@ class PhotoSubjectGroundingTests(unittest.TestCase):
     def test_model_alternative_is_kept_when_primary_subject_is_an_outlet(self):
         lead = {"pair_id": "one", "title": "BalkanWeb reports Edi Rama's announcement",
                 "primary_evidence": {"text": "BalkanWeb reports that Edi Rama spoke in Tiranë."}}
-        row = {"pair_id": "one", "subject": "BalkanWeb", "subject_evidence": "BalkanWeb",
+        row = {"pair_id": "story-001", "subject": "BalkanWeb", "subject_evidence": "BalkanWeb",
                "queries": ["BalkanWeb"], "caption": "BalkanWeb",
                "alternatives": [{"subject": "Edi Rama", "subject_evidence": "Edi Rama",
                                   "queries": ["Edi Rama"], "caption": "Edi Rama"}]}

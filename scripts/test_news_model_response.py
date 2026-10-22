@@ -6,6 +6,17 @@ from news_model_response import save_response
 
 
 class ResponseTests(unittest.TestCase):
+    def test_bad_editor_source_does_not_discard_other_verified_articles(self):
+        with tempfile.TemporaryDirectory() as folder:
+            batch = Path(folder) / "batch.json"
+            valid = dict(url="https://techcrunch.com/a", title="Title", body="Body",
+                         category="Teknologji", slug="valid-story")
+            batch.write_text(json.dumps([valid]), encoding="utf-8")
+            invented = {**valid, "url": "https://unknown.example/new", "slug": "invented-story"}
+            count = save_response("383_JSON_BEGIN " + json.dumps([valid, invented]) + " 383_JSON_END", batch, "editor")
+            self.assertEqual(count, 1)
+            self.assertEqual(json.loads(batch.read_text(encoding="utf-8")), [valid])
+
     def test_incomplete_and_changed_continuations_preserve_existing_batch(self):
         with tempfile.TemporaryDirectory() as folder:
             batch = Path(folder) / "batch.json"

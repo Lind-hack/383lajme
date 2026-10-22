@@ -71,6 +71,7 @@ else
   STATE_ROOT="${L383_STATE_ROOT:-/opt/data/news-pipeline-state/hourly-runs}"
 fi
 STATE="$STATE_ROOT/${STAMP}-mode${QA_ONLY}.json"
+export L383_NOTES_CACHE="${STATE_ROOT%/hourly-runs}/reporter-notes-cache.json"
 LEGACY_STATE="$PWD/.last30days/hourly-runs/${STAMP}-mode${QA_ONLY}.json"
 record_state() { "$PYTHON_BIN" scripts/news_run_state.py save "$STATE" --status "$1" --stage "$stage" --batch "$BATCH"; }
 

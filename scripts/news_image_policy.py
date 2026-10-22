@@ -125,12 +125,12 @@ def plan_subjects(leads: list[dict], folder: Path) -> dict[str, dict]:
     return plans
 
 
-NAME = re.compile(r"[A-ZÇËŠŽĆČ][\w'’-]+(?:[ 	]+[A-ZÇËŠŽĆČ][\w'’-]+){0,2}")
+NAME = re.compile(r"[A-ZÇËŠŽĆČ][\w'’-]+(?:[ 	]+(?!(?:CEO|CFO|CTO|COO|CMO)\b)[A-ZÇËŠŽĆČ][\w'’-]+){0,2}")
 NOT_NAMES = {"the", "a", "an", "will", "why", "how", "what", "who", "new", "after", "before", "breaking",
              "watch", "live", "latest", "she", "he", "it", "they", "his", "her", "its", "this", "that",
              "january", "february", "march", "april", "may", "june", "july", "august", "september",
              "october", "november", "december", "monday", "tuesday", "wednesday", "thursday", "friday",
-             "saturday", "sunday"}
+             "saturday", "sunday", "ceo", "cfo", "cto", "coo", "cmo"}
 
 
 def api_get(url: str, params: dict) -> requests.Response:
@@ -166,7 +166,9 @@ def story_names(title: str, text: str) -> list[str]:
                 while words and words[0].casefold() in NOT_NAMES:
                     words = words[1:]
                 if words:
-                    yield words, match.start() > 0
+                    # Keep a company separate from the CEO named immediately after it.
+                    followed_by_role = bool(re.match(r"\s+(?:CEO|CFO|CTO|COO|CMO)\b", sentence[match.end():]))
+                    yield words, match.start() > 0 or followed_by_role
     def acceptable(name: str, midsentence: bool) -> bool:
         if len(name) < 3 or name.casefold() in NOT_NAMES:
             return False
@@ -309,7 +311,11 @@ def _wiki_pages(lead: dict, names: list[str], story: set[str], outlets: set[str]
                 else:
                     # An organisation or product (KFOR, Tesla): its photos must
                     # also show the story's topic, in every tier.
-                    yield name, {**plan, "kind": "thing"}
+                    description = " ".join(page.get("terms", {}).get("description", []))
+                    institution = bool(re.search(
+                        r"\b(?:company|corporation|organisation|organization|institution|agency|bank|"
+                        r"university|parliament|sports club|football club|basketball club)\b", description, re.I))
+                    yield name, {**plan, "kind": "thing", "archive_institution": institution}
                 resolved.add(name)
                 break
 
@@ -318,10 +324,11 @@ def _plan_chunk(leads: list[dict], folder: Path, index: int, *, deadline: float 
     if deadline is not None and time.monotonic() >= deadline:
         return {}
     brief = folder / f"news-photo-briefs-{index}.md"
+    by_id = {f"story-{number:03d}": lead for number, lead in enumerate(leads, 1)}
     brief.write_text(readable_brief([
-        {"pair_id": lead["pair_id"], "title": lead["title"],
+        {"pair_id": key, "title": lead["title"],
          "text": lead["primary_evidence"].get("text", "")[:1800]}
-        for lead in leads
+        for key, lead in by_id.items()
     ]), encoding="utf-8")
     prompt = (
         f"Read {brief.resolve()}. For every story choose a specific physical photo subject "
@@ -338,17 +345,16 @@ def _plan_chunk(leads: list[dict], folder: Path, index: int, *, deadline: float 
         "Each row may include alternatives: up to two objects with subject, subject_evidence, queries and caption "
         "for other explicitly supported people, teams, institutions or places if the first subject has no usable photo. "
         "Do not invent evidence, URLs or licenses. No file edits, shell, tests or publication. "
-        "Return only JSON between 383_JSON_BEGIN and 383_JSON_END."
+        "Return only JSON between 383_JSON_BEGIN and 383_JSON_END. Copy each short ASCII pair_id exactly."
     )
     from news_model import ask_rows
     rows = ask_rows(prompt, brief, ["--provider", "openai-codex", "--model", os.environ.get("L383_WRITER_MODEL", "gpt-6-luna"),
                                     "--ignore-rules", "-t", "file", "--yolo", "--max-turns", "12", "-Q", "-q"], timeout=240, deadline=deadline)
-    by_id = {lead["pair_id"]: lead for lead in leads}
     from news_source_policy import MANIFEST
     outlets = publisher_names(MANIFEST["publishers"])
     plans = {}
     for row in rows:
-        if not isinstance(row, dict) or row.get("pair_id") not in by_id:
+        if not isinstance(row, dict) or not isinstance(row.get("pair_id"), str) or row["pair_id"] not in by_id:
             continue
         lead = by_id[row["pair_id"]]
         evidence = lead["title"] + " " + lead["primary_evidence"].get("text", "")[:1800]
@@ -372,7 +378,7 @@ def _plan_chunk(leads: list[dict], folder: Path, index: int, *, deadline: float 
             candidates += [validated(item) for item in alternatives[:2]]
         candidates = [item for item in candidates if item]
         if candidates:
-            plans[row["pair_id"]] = {**candidates[0], "alternatives": candidates[1:]}
+            plans[lead["pair_id"]] = {**candidates[0], "alternatives": candidates[1:]}
     return plans
 
 
@@ -790,7 +796,8 @@ def _photo_options_for_plan(lead: dict, primary: dict, secondary: dict, tier: st
         if tier == "place":
             # Searched place images require an exact Commons depicts tag;
             # unrelated people/places and loosely named company photos stay out.
-            return bool(page.get("lead_image") or (plan.get("kind") == "place"
+            return bool(page.get("lead_image") or ((plan.get("kind") == "place"
+                        or (plan.get("kind") == "thing" and plan.get("archive_institution") is True))
                         and plan.get("qid") and plan["qid"] in depicted(page.get("pageid"))))
         # A Porsche Boxster in a car park for a Porsche race team: a thing's
         # photo must share a word with the story, however new it is.

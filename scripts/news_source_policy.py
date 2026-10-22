@@ -115,6 +115,14 @@ _TECH = re.compile(r"\b(?:openai|anthropic|chatgpt|gemini|artificial intelligenc
 _SHOWBIZ = re.compile(r"\b(?:showbiz|big brother|ferma vip|kengetar\w*|aktor\w*|"
                       r"album\w*|grammy|oscar|dua lipa|rita ora|bebe rexha|"
                       r"ledri|luiz ejlli|tayna|noizy|taylor swift)\b")
+_CULTURE = re.compile(r"\b(?:showbiz|entertainment|celebr\w*|singer\w*|actor\w*|actress\w*|"
+                      r"music\w*|muzik\w*|film\w*|movie\w*|cinema\w*|kinema\w*|"
+                      r"theat\w*|teat\w*|broadway|west end|opera|operes|operen|ballet\w*|balet\w*|"
+                      r"concert\w*|koncert\w*|festival\w*|album\w*|kengetar\w*|aktor\w*|"
+                      r"books?|bookstore\w*|libr\w*|novels?|roman|romani|romanit|romaneve|"
+                      r"artist\w*|art|artwork\w*|piktur\w*|painting\w*|sculpt\w*|skulpt\w*|"
+                      r"literatur\w*|letersi\w*|poet\w*|poez\w*|nobel|ekspozit\w*|exhibition\w*|bienal\w*|"
+                      r"television|reality|tv star|fashion|moda|mode|modes|moden|kardashian|royal family|royals|mbreter\w*)\b")
 _LOCAL = {
     "Kosovë": re.compile(r"\b(?:kosov\w*|prishtin\w*|prizren\w*|pej[ae]\w*|gjilan\w*|"
                          r"ferizaj\w*|gjakov\w*|mitrovic\w*|kurti|osmani|haradinaj|hamza|"
@@ -147,6 +155,11 @@ def topic_error(category: str, title: object, summary: object = "", *, tags=(), 
             return "technology reporting is outside this category"
     if category == "Teknologji" and _ECONOMY.search(headline):
         return "stocks/earnings/crypto reporting belongs in Ekonomi"
+    if category == "Showbiz" and not (_SHOWBIZ.search(fold(f"{title} {summary}"))
+            or _CULTURE.search(fold(f"{title} {summary}"))
+            or labels & {"showbiz", "entertainment", "celebrity", "celebrities", "music", "film", "movies",
+                         "television", "tv", "culture", "kulture", "argetim", "books", "arts", "fashion"}):
+        return "story lacks an explicit entertainment or culture subject"
     if category == "Ekonomi":
         financial = _ECONOMY.search(fold(f"{title} {summary}")) or re.search(
             r"\b(?:econom\w*|ekonom\w*|financ\w*|bank\w*|market\w*|treg\w*|"

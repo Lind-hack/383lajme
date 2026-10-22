@@ -16,6 +16,18 @@ def save_response(output: str, batch: Path, mode: str) -> int:
     rows = json.loads(output[start + len("383_JSON_BEGIN"):end].strip())
     if not isinstance(rows, list) or (not rows and mode == "replace"):
         raise ValueError("Model response must be an article array; initial drafts cannot be empty")
+    if mode == "editor" and rows:
+        old = json.loads(batch.read_text(encoding="utf-8"))
+        allowed = {row["url"] for row in old}
+        retained = [row for row in rows if isinstance(row, dict)
+                    and all(row.get(key) for key in ("url", "title", "body", "category", "slug"))
+                    and isinstance(row["url"], str)
+                    and row["url"] in allowed]
+        if not retained:
+            raise ValueError("Editor returned no complete articles with reviewed source URLs")
+        if len(retained) != len(rows):
+            print(f"383 EDITOR RESPONSE isolated={len(rows) - len(retained)} invalid article(s); retained={len(retained)}")
+        rows = retained
     if any(not isinstance(row, dict) or not all(row.get(key) for key in ("url", "title", "body", "category", "slug")) for row in rows):
         raise ValueError("Model response contains incomplete articles")
     if len({row["url"] for row in rows}) != len(rows):

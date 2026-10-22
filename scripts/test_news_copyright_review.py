@@ -16,6 +16,30 @@ def decision(article, verdict="approve", **checks):
 
 
 class CopyrightReviewTests(unittest.TestCase):
+    def test_invalid_review_identity_is_retried_without_losing_good_decisions(self):
+        from types import SimpleNamespace
+        other = {**self.article, "slug": "other-story", "url": "https://koha.net/other"}
+        articles = [self.article, other]
+        records = {self.article["slug"]: self.record, other["slug"]: {**self.record, "slug": other["slug"]}}
+        bad = {**decision(other), "review_id": "story-999"}
+        replies = [[{**decision(self.article), "review_id": "story-001"}, bad], [bad]]
+        def respond(command, **kwargs):
+            return SimpleNamespace(returncode=0, stdout="383_REVIEW_BEGIN" +
+                                   json.dumps(replies.pop(0)) + "383_REVIEW_END")
+        with patch("news_model.run_process", side_effect=respond) as model:
+            result = review._review_with_retry(self.batch, articles, records, 0)
+        self.assertEqual(result, [decision(self.article)])
+        self.assertEqual(model.call_count, 2)
+
+    def test_partially_unavailable_reviews_preserve_only_explicit_valid_approvals(self):
+        other = {**self.article, "slug": "other-story", "url": "https://koha.net/other"}
+        self.batch.write_text(json.dumps([self.article, other]), encoding="utf-8")
+        self.evidence.write_text(json.dumps([self.record, {**self.record, "slug": other["slug"]}]), encoding="utf-8")
+        with patch.object(review, "_review_with_retry", return_value=[decision(self.article)]):
+            review.review(self.batch)
+        self.assertEqual(json.loads(self.batch.read_text(encoding="utf-8")), [self.article])
+        review.verify_review(self.batch, [self.article], review.evidence_records(self.evidence))
+
     def test_reviewer_receives_unclipped_article_and_source_text(self):
         from types import SimpleNamespace
         article = {**self.article, "body": "<p>Original prose. " * 300 + "END_ARTICLE</p>"}
@@ -28,7 +52,7 @@ class CopyrightReviewTests(unittest.TestCase):
             self.assertIn("END_EVIDENCE", view)
             self.assertIn("offset", command[-1])
             return SimpleNamespace(returncode=0, stdout="383_REVIEW_BEGIN" +
-                                   json.dumps([decision(article)]) + "383_REVIEW_END")
+                                   json.dumps([{**decision(article), "review_id": "story-001"}]) + "383_REVIEW_END")
         with patch("news_model.run_process", side_effect=respond):
             self.assertEqual(review._review_chunk(self.batch, [article], {article["slug"]: record}, 0),
                              [decision(article)])

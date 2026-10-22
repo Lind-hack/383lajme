@@ -236,3 +236,5 @@ shared model deadline therefore prioritizes two notes per available category
 before a busy desk's fourth or later candidate.
 
 Model review reads wrapped .editor-sources.md and per-chunk .copyright-input-N.md evidence views, plus a wrapped article input. These preserve all serialized evidence characters across short lines so Hermes cannot clip source/body strings at its per-line limit. Original JSON is authoritative for gates and content-bound receipts. Models must continue reading with offsets when paginated.
+
+Model stages use per-request ASCII story IDs and map exact responses back to the original source records. Only missing or malformed decisions are retried; explicit rejections remain rejections. Reporter-note reuse is limited to model notes from identical source URL, title, primary text and corroborating text within 24 hours. Independent article, source, originality and image checks still apply on every run.
