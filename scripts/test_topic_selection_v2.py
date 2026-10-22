@@ -22,6 +22,13 @@ class TopicSelectionV2Tests(unittest.TestCase):
     def setUpClass(cls):
         cls.rules = load_rules()
 
+    def test_young_adult_players_do_not_make_a_major_event_a_youth_competition(self):
+        pattern = self.rules.LOW_VALUE_SPORT_PATTERN
+        self.assertIsNone(pattern.search(self.rules.fold("Sherrock përballë Littler: dy lojtarë të rinj në një ngjarje madhore")))
+        for competition in ("kampionati për të rinj", "liga e të rinjve", "ekipi i të rinjve", "U-21", "youth league", "friendly match"):
+            with self.subTest(competition=competition):
+                self.assertIsNotNone(pattern.search(self.rules.fold(competition)))
+
     def article(self, index, category, title=None, body=None, source="Wire source"):
         r = self.rules
         if title is None:

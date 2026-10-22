@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# The Albanian copy editor in chunks of five drafts, three at a time.
-# One call takes about 1.2 minutes per draft, so twenty drafts in one call
-# needed most of the hour (2026-10-12). Small batches go straight through.
+# The Albanian copy editor in chunks of three drafts, five at a time.
+# Five-draft calls took about nine minutes in the October 23 QA run, leaving too
+# little time for review and replacements. Smaller independent calls retain
+# the same evidence and completion checks.
 set -euo pipefail
 
 MODEL="$1"
@@ -9,7 +10,7 @@ BATCH="$2"
 REPO="$3"
 MAX_TURNS="${4:-45}"
 PYTHON_BIN="${L383_PYTHON_BIN:-/opt/data/workspaces/383lajme/.venv/bin/python}"
-CHUNK="${L383_EDITOR_CHUNK:-5}"
+CHUNK="${L383_EDITOR_CHUNK:-3}"
 COUNT="$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$BATCH")"
 if [ "$COUNT" -le "$CHUNK" ]; then
   exec bash "$REPO/scripts/run-news-editor.sh" "$MODEL" "$BATCH" "$REPO" "$MAX_TURNS"
@@ -53,7 +54,7 @@ running=0
 for folder in "$WORK"/chunk-*; do
   edit_chunk "$folder" &
   running=$((running + 1))
-  if [ "$running" -ge 3 ]; then
+  if [ "$running" -ge 5 ]; then
     wait -n || true
     running=$((running - 1))
   fi

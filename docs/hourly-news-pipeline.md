@@ -259,3 +259,13 @@ interview material, scrambles atomic facts before drafting, and invalidates
 older cached notes. During deterministic preflight repair, drafts that already
 pass the gates are retained unchanged. The model returns only defective drafts
 it repaired; immutable identity and all publication gates are reapplied.
+
+The copy editor defaults to three articles per request with at most five
+concurrent requests. Each request receives only its own evidence slice; failed
+chunks are excluded, and the merged acknowledgement remains bound to the exact
+retained batch. The same global model and publication deadlines apply.
+
+Youth-sport exclusions require a youth competition/team context for the Albanian
+phrase "të rinj". A major adult event mentioning young players does not become a
+youth fixture. Explicit U-age competitions, lower leagues and friendlies remain
+subject to the existing Kosovo-interest rule.
