@@ -39,6 +39,12 @@ def _longest_exact_ngram(body_sentence: str, source_index: dict[int, set[tuple[s
     return 0
 
 
+def _matching_words(sentence: str, source_index: dict[int, set[tuple[str, ...]]], size: int) -> str:
+    words = _words(sentence)
+    return next((" ".join(words[i:i + size]) for i in range(len(words) - size + 1)
+                 if tuple(words[i:i + size]) in source_index.get(size, set())), "")
+
+
 def _comparison_errors(article: dict[str, Any], source_text: str) -> list[str]:
     # Quotation marks do not grant permission or prove attribution. Automated
     # output uses independently composed indirect speech, not borrowed quotes.
@@ -52,11 +58,14 @@ def _comparison_errors(article: dict[str, Any], source_text: str) -> list[str]:
         overlap = _longest_exact_ngram(sentence, source_index)
         if overlap < 8:
             continue
-        errors.append(f"body contains an exact source overlap of {overlap} words; rewrite this entire sentence in 383's own words: {sentence!r}")
+        matching = _matching_words(sentence, source_index, overlap)
+        errors.append(f"body contains an exact source overlap of {overlap} words; matching normalized words: {matching!r}; rewrite this entire sentence in 383's own words: {sentence!r}")
     for field in ("title", "excerpt"):
-        overlap = _longest_exact_ngram(str(article.get(field) or ""), _source_index(source_text, 32))
+        field_index = _source_index(source_text, 32)
+        overlap = _longest_exact_ngram(str(article.get(field) or ""), field_index)
         if overlap:
-            errors.append(f"{field} contains an exact source overlap of {overlap} words; write an original {field}")
+            matching = _matching_words(str(article.get(field) or ""), field_index, overlap)
+            errors.append(f"{field} contains an exact source overlap of {overlap} words; matching normalized words: {matching!r}; write an original {field}")
     # Detect stitched paraphrases made of many short copied fragments.
     words = _words(unquoted_body)
     fragments = _source_index(source_text, 5, minimum=5).get(5, set())

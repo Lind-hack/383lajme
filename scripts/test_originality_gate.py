@@ -7,6 +7,18 @@ import originality_gate as gate
 
 
 class OriginalityGateTests(unittest.TestCase):
+    def test_repair_feedback_pinpoints_the_matching_run_without_exempting_it(self):
+        shared = "projekti nis pasi komisioni miraton dokumentet e fundit"
+        source = "Institucioni shpjegoi se " + shared + " para votimit."
+        sentence = "Sipas vendimit, " + shared + " këtë muaj."
+        errors = gate.originality_errors({"body": "<p>" + sentence + "</p>"}, {"evidence": {"text": source}})
+        self.assertEqual(len(errors), 1)
+        self.assertIn("overlap of 8 words", errors[0])
+        self.assertIn("matching normalized words: '" + shared + "'", errors[0])
+        self.assertIn(sentence, errors[0])
+        independently_ordered = "Komisioni duhet të miratojë dokumentet përpara se të nisë projekti."
+        self.assertEqual(gate.originality_errors({"body": independently_ordered}, {"evidence": {"text": source}}), [])
+
     def test_link_attributes_are_not_direct_quotations(self):
         article = {"body": '<p>Lexoni <a href="https://example.com/reports/new-project-consultation-dates">afatin</a>.</p>'}
         self.assertEqual(gate.originality_errors(article, {"evidence": {"text": "Independent source facts."}}), [])

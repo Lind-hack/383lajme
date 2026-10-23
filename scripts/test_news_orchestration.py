@@ -18,6 +18,22 @@ class NewsOrchestrationTests(unittest.TestCase):
     def invoke(self, script):
         return subprocess.run([BASH, "-c", script], capture_output=True, text=True, timeout=10)
 
+    def test_extra_editor_can_run_at_minute_forty_four_while_initial_editor_cannot(self):
+        budget = RUNNER[RUNNER.index("model_budget() {"):RUNNER.index("track_attempted() {")]
+        start = RUNNER.index("review_candidates() {")
+        header = RUNNER[start:RUNNER.index('stage="normalize"', start)]
+        script = budget + '\n' + header + 'model_budget 900 "$editorial_phase_end"\n}\n' + '''
+START_EPOCH=1000
+date() { printf 3640; }
+IN_EXTRA_REVIEW=1
+review_candidates
+unset IN_EXTRA_REVIEW
+if review_candidates; then exit 1; fi
+'''
+        result = self.invoke(script)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout.splitlines(), ["240"])
+
     def test_preparation_model_deadline_reserves_writer_time_without_shortening_later_review(self):
         start = RUNNER.index('env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 1200))"')
         end = RUNNER.index('--discovery', start) + len('--discovery')

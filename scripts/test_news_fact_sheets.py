@@ -29,7 +29,7 @@ class FactSheetTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder, patch.object(sheets, "ask_rows",
                 return_value=[{"pair_id": "story-001", "facts": facts}]) as model:
             cache = Path(folder) / "reporter-notes-cache.json"
-            cache.write_text(json.dumps({"version": 1, "entries": {sheets.evidence_key(item): {
+            cache.write_text(json.dumps({"version": 2, "entries": {sheets.evidence_key(item): {
                 "at": sheets.time.time(), "facts": ["Old source analysis"] * 4}}}), encoding="utf-8")
             paths = sheets.build_fact_sheets([item], Path(folder))
             model.assert_called_once()

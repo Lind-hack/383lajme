@@ -158,3 +158,32 @@ The final throughput item remains open until actual output proves it. Do not rep
 - Railway verified release 36be451cc2964a31929ec8ca5b86bffda3d00641 as exact live
   production/github-main. Its worker archive is staged inactive; the next archive
   must also include the new preparation deadline and be activated only while idle.
+
+- The 16:00 Warsaw slot ultimately published two World articles and no others;
+  completion mail and HTTP/slug readback succeeded. The hourly objective remains
+  unmet. Its original writer snapshot and physical release artifacts remain
+  available for diagnosis. Website release 497a48a25453c531843804ed63bf9411c3ef38ed
+  was verified live as production/github-main; its worker is staged but inactive.
+- Found and fixed a second recovery timing conflict: replacement writers allowed
+  to finish at minute 44 were still sent to the initial editor's minute-43 cutoff.
+  Extra editorial calls/repairs now end by minute 48, independent review and all
+  extra model work still end by minute 50. A native shell regression at minute 44
+  grants the extra editor 240 seconds while refusing a late initial-editor call.
+- The isolated real-source temporal-note pilot returned 12 valid model notes in
+  88.3 seconds, marking the PSG match completed and the Clasico/awards planned.
+  Integrated that tested safeguard and raised the note-cache policy to version 3;
+  old v2 notes are rebuilt rather than silently reused. No pilot published news.
+- Live visual verification found PLD Space leading a published launch roundup
+  whose photo shows SpaceX. New composer/editor instructions require the photo's
+  subject in the actual main angle. The first isolated editor test dropped the
+  mismatched article (106.9 seconds). A targeted repair attempt timed out after
+  181.3 seconds, retaining its unchanged input; it is not an approved correction.
+  The existing published article is still uncorrected and remains an open item:
+  pld-space-miura-5-afrohet-fluturimit. Do not delete it or bypass fresh rights,
+  factual and independent review to repair it. No direct publication occurred.
+- Added precise matched-word feedback to the unchanged exact-overlap gate after
+  two repairs failed to remove the relevant eight-word sequence in real runs.
+  Native verification now passes 197 news tests plus 67 adjacent tests (264 total),
+  source-mix regression and bash syntax. Final production build passed
+  before the next committed worker activation. Full balanced publication and the
+  specific published-photo correction remain open; do not claim completion.

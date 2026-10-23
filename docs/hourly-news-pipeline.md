@@ -320,3 +320,21 @@ preparation process. This reserves at least five minutes for the grouped writers
 before their existing minute-25 cutoff. Completed notes and cache entries remain
 usable; the existing bounded fallback remains subject to all subsequent gates.
 Later editor/reviewer subprocesses retain the separate minute-50 run deadline.
+
+
+Extra-round editing has its own minute-48 cutoff, leaving two minutes for
+independent review before the minute-50 stop. It does not inherit the initial
+round's minute-43 editing cutoff; a replacement completed at minute 44 must still
+receive a real editorial review. Approved drafts remain untouched on timeout.
+
+Reporter notes use temporal policy version 3. Dates and weekdays stay attached to
+their event and completed/planned/proposed status; a past match must not become a
+future rematch. Older note-cache policies are rebuilt. A real-source Luna/max
+pilot corrected the previously misclassified Barcelona-PSG fixture in 88 seconds.
+
+Writers and editors must compare the final headline/opening paragraph with the
+prepared photo subject, rather than accepting a later mention in a roundup as
+sufficient. The new editor rejected a saved PLD-led article with a SpaceX image;
+this pilot did not repair or republish that existing article. Exact-overlap gate
+feedback now also identifies the matching normalized word sequence; its eight-word
+threshold and all independent checks remain unchanged.

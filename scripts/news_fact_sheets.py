@@ -25,7 +25,14 @@ NOTES_DEADLINE = 420
 CHUNK = 3  # Keep individual max-effort requests small enough for the stage budget.
 MAX_FACT_WORDS = 22
 NOTES_CACHE_SECONDS = 86400
-NOTES_CACHE_VERSION = 2
+NOTES_CACHE_VERSION = 3
+TEMPORAL_RULES = (
+    "Temporal safeguards for reporter notes: preserve whether each event was completed, announced, proposed or planned. "
+    "A weekday by itself does not establish a future event. Bind every date/weekday to its exact event and its supported status; "
+    "a match described with a past-tense verb must not become a forthcoming match or a rematch. "
+    "If the temporal relationship is unclear, retain the uncertainty or omit that date; do not infer the sequence. "
+    "Keep a proposal or a prediction separate from an implemented decision. "
+)
 
 
 def evidence_key(lead: dict) -> str:
@@ -64,7 +71,7 @@ def _sheet_chunk(leads: list[dict], folder: Path, index: int, deadline: float | 
          "corroborating": lead.get("corroborating", "")[:2500]}
         for key, lead in by_id.items()
     ]), encoding="utf-8")
-    prompt = (
+    prompt = TEMPORAL_RULES + (
         f"Read {brief.resolve()}. For every story write reporter's notes in Albanian: 5 to 14 telegraphic "
         "facts, each at most 18 words. Use atomic fields separated by |, for example "
         "'institucioni | vendimi | afati', rather than complete sentences. Cover who, what, when, where, the numbers, named people and "
