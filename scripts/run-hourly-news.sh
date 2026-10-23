@@ -72,6 +72,7 @@ else
 fi
 STATE="$STATE_ROOT/${STAMP}-mode${QA_ONLY}.json"
 export L383_NOTES_CACHE="${STATE_ROOT%/hourly-runs}/reporter-notes-cache.json"
+export L383_PHOTO_IDENTITY_CACHE="${STATE_ROOT%/hourly-runs}/photo-identity-cache.json"
 LEGACY_STATE="$PWD/.last30days/hourly-runs/${STAMP}-mode${QA_ONLY}.json"
 record_state() { "$PYTHON_BIN" scripts/news_run_state.py save "$STATE" --status "$1" --stage "$stage" --batch "$BATCH"; }
 
@@ -218,6 +219,11 @@ rm -f data/automation/cloud-news-discovery-current.md
 # A failed writer must not leave an old same-hour batch eligible for publication.
 ATTEMPTED="$BATCH.attempted-urls.json"
 rm -f "$BATCH" "$ATTEMPTED"
+stage="writer-brief"
+WRITER_BRIEF="$PWD/.last30days/news-writer-brief-current.md"
+if ! "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$WRITER_BRIEF"; then
+  fail_run "prepared writing brief is unavailable or invalid"
+fi
 stage="writer"
 export HERMES_HOME="${L383_HERMES_HOME:-/opt/data/news-pipeline-hermes}"
 # The provider may legitimately pause for more than 12 seconds between SSE
@@ -260,7 +266,7 @@ run_writer() {
       --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
       --model "$model" --ignore-rules -t file --yolo \
       --max-turns "${L383_WRITER_MAX_TURNS:-35}" -Q -q \
-      "${WRITER_SCOPE:-}Prepare articles for ${BATCH} from today's prepared evidence. Read docs/albanian_newsroom.md, docs/news-output-schema.json, ${DISCOVERY}, and ${SOCIAL_CANDIDATES}; those files contain the complete rules and fresh source-evidence paths. Discovery contains a Publication plan with category allocations and ready story IDs, facts_path notes (evidence_path files only where a story has no notes), and pre-verified image dimensions. Use only ready stories. Where a story has facts_path, write ONLY from those reporter's notes and never open its source evidence: compose 383's own article, lead and headline from the facts. Notes may be raw, scrambled fragments of the source; never reuse a fragment's wording, restate every fact in your own Albanian sentences and choose your own order. Routine reporting may use one readable registered publisher as factual evidence with corroborating_sources=[]; sensitive allegations require the supplied independently readable second source. Read docs/news-ranking-rubric.md and assign individual evidence-based score_breakdown values and a specific score_reason; never copy a neutral all-5 template or calculate the weighted total. The normalizer computes scores, reading time and city. Keep source URLs fixed. Write as many distinct eligible stories as the evidence supports, up to ${L383_TARGET_ARTICLES:-20} total; do not stop after one strong article. Do not edit any files. Return the complete article array in your final response between the literal markers 383_JSON_BEGIN and 383_JSON_END. The wrapper saves it. Every article needs its discovery category, deterministic city for local lanes, the prepared primary URL, supplied corroborating source when present, no image fields (the pipeline restores the prepared photo by source URL; judge only that image_subject fits the story), at least 140 grounded Albanian words in three HTML paragraphs, and all schema fields. Prefer 220+ words when the source supports that depth. Never pad a brief. The image is already verified outside your model call; do not fetch, decode or research images again. Read the notes (or evidence) files with the file tool; terminal commands, tests and builds are unavailable and unnecessary. Write from a fact outline in original 383 prose, with a new lead and structure; do not closely translate source prose or imply firsthand reporting. Preserve uncertainty and attribute claims to the speaking person or institution, never to a news outlet; never invent facts, local impact, quotes, images, or sources. Every publisher and corroborating publisher is locked to its category by scripts/news_sources.json. In the first drafting call, include at least one story from EVERY available category before adding extras. Follow the publication_plan counts across continuations; prioritize missing categories over more Botë stories; Ekonomi includes US stocks, Wall Street and crypto. Prioritize documented local public controversies. Never change a discovery category or use an unregistered source. Do not run pipeline scripts, discover extra stories, repository-wide tests, publish, deploy, email, or write any other file. Do not write files. Return the complete JSON array between 383_JSON_BEGIN and 383_JSON_END." 9>&-
+      "${WRITER_SCOPE:-}Prepare articles for ${BATCH} from today's prepared evidence. Read docs/albanian_newsroom.md, docs/news-output-schema.json, and ${WRITER_BRIEF}. The writing brief contains category allocations, ready story IDs and complete inline reporter notes. Use only ready stories. Write ONLY from the inline notes and never open source originals when notes are supplied: compose 383's own article, lead and headline from the facts. Only a story explicitly marked notes unavailable may use its verified-evidence fallback file. Notes may be raw, scrambled fragments of the source; never reuse a fragment's wording, restate every fact in your own Albanian sentences and choose your own order. Routine reporting may use one readable registered publisher as factual evidence with corroborating_sources=[]; sensitive allegations require the supplied independently readable second source. Read docs/news-ranking-rubric.md and assign individual evidence-based score_breakdown values and a specific score_reason; never copy a neutral all-5 template or calculate the weighted total. The normalizer computes scores, reading time and city. Keep source URLs fixed. Write as many distinct eligible stories as the evidence supports, up to ${L383_TARGET_ARTICLES:-20} total; do not stop after one strong article. Do not edit any files. Return the complete article array in your final response between the literal markers 383_JSON_BEGIN and 383_JSON_END. The wrapper saves it. Every article needs its discovery category, deterministic city for local lanes, the prepared primary URL, supplied corroborating source when present, no image fields (the pipeline restores the prepared photo by source URL; judge only that image_subject fits the story), at least 140 grounded Albanian words in three HTML paragraphs, and all schema fields. Prefer 220+ words when the source supports that depth. Never pad a brief. The image is already verified outside your model call; do not fetch, decode or research images again. Read every inline note; only an explicit notes-unavailable fallback may open its evidence file; terminal commands, tests and builds are unavailable and unnecessary. Write from a fact outline in original 383 prose, with a new lead and structure; do not closely translate source prose or imply firsthand reporting. Preserve uncertainty and attribute claims to the speaking person or institution, never to a news outlet; never invent facts, local impact, quotes, images, or sources. Every publisher and corroborating publisher is locked to its category by scripts/news_sources.json. In the first drafting call, include at least one story from EVERY available category before adding extras. Follow the publication_plan counts across continuations; prioritize missing categories over more Botë stories; Ekonomi includes US stocks, Wall Street and crypto. Prioritize documented local public controversies. Never change a discovery category or use an unregistered source. Do not run pipeline scripts, discover extra stories, repository-wide tests, publish, deploy, email, or write any other file. Do not write files. Return the complete JSON array between 383_JSON_BEGIN and 383_JSON_END." 9>&-
 }
 
 WRITER_RC=0
@@ -288,6 +294,8 @@ run_writer_groups() {
       L383_TARGET_ARTICLES="$("$PYTHON_BIN" -c 'import json,sys; p=json.load(open(sys.argv[1],encoding="utf-8"))["publication_plan"]; print(sum(p.get(c.strip(),0) for c in sys.argv[2].split(",")))' "${DISCOVERY%.md}.json" "$desks")"
       if [ "$L383_TARGET_ARTICLES" -eq 0 ]; then exit 0; fi
       WRITER_SCOPE="This call covers ONLY these categories: ${desks}. Write only their ready stories, following their publication_plan counts, up to ${L383_TARGET_ARTICLES} articles; ignore every other category, including the every-category rule below. "
+      WRITER_BRIEF="$folder/$group-brief.md"
+      "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$WRITER_BRIEF" --categories "$desks" || exit 1
       run_writer "$PRIMARY_WRITER_MODEL"
     ) > "$folder/$group.log" 2>&1 &
   done
@@ -360,7 +368,7 @@ for continuation in {1..15}; do
     env L383_MODEL_CALL_TIMEOUT="$continuation_budget" "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode append -- /opt/hermes/.venv/bin/hermes chat --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
       --model "$PRIMARY_WRITER_MODEL" --ignore-rules -t file --yolo \
       --max-turns 45 -Q -q \
-      "Continue the existing ${BATCH}; do not replace, remove, or edit its current articles. Read docs/albanian_newsroom.md, docs/news-output-schema.json, ${DISCOVERY}, and the existing batch. Its current ${BATCH_COUNT} drafts are not the full source-ready inventory of ${L383_TARGET_ARTICLES}. Read docs/news-ranking-rubric.md and rate every new story individually from evidence; supply all factors and a concrete Albanian score_reason. Do not copy neutral defaults or calculate the total. Use the publication_plan in discovery to count current category coverage. FIRST fill every missing category, THEN each category allocation, before adding extras. Add distinct ready stories up to ${L383_TARGET_ARTICLES} total. Skip every primary or corroborating URL already used in the batch. Every new article uses its prepared primary evidence and no image fields (the pipeline restores the prepared photo by source URL), 140+ grounded Albanian words in three HTML paragraphs, all schema fields and a title naming WHO and STAKE. Routine news may have corroborating_sources=[]; sensitive claims need the supplied independent second publisher. Do not research or decode images again. Do not fabricate or pad stories. Do not edit files. Return ONLY the new articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END; exclude all existing articles because the wrapper appends your new drafts while preserving every existing field. Do not run pipeline scripts, npm, repository tests or builds, publish, deploy, send reports, or write another file. This is a data-only writing task; code-release checks are not part of it." 9>&-; then
+      "Continue the existing ${BATCH}; do not replace, remove, or edit its current articles. Read docs/albanian_newsroom.md, docs/news-output-schema.json, ${WRITER_BRIEF}, and the existing batch. Its current ${BATCH_COUNT} drafts are not the full source-ready inventory of ${L383_TARGET_ARTICLES}. Read docs/news-ranking-rubric.md and rate every new story individually from evidence; supply all factors and a concrete Albanian score_reason. Do not copy neutral defaults or calculate the total. Use the publication plan in the writing brief to count current category coverage. Write only from its inline reporter notes; do not open source originals when notes are supplied. FIRST fill every missing category, THEN each category allocation, before adding extras. Add distinct ready stories up to ${L383_TARGET_ARTICLES} total. Skip every primary or corroborating URL already used in the batch. Every new article uses its prepared primary evidence and no image fields (the pipeline restores the prepared photo by source URL), 140+ grounded Albanian words in three HTML paragraphs, all schema fields and a title naming WHO and STAKE. Routine news may have corroborating_sources=[]; sensitive claims need the supplied independent second publisher. Do not research or decode images again. Do not fabricate or pad stories. Do not edit files. Return ONLY the new articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END; exclude all existing articles because the wrapper appends your new drafts while preserving every existing field. Do not run pipeline scripts, npm, repository tests or builds, publish, deploy, send reports, or write another file. This is a data-only writing task; code-release checks are not part of it." 9>&-; then
     printf '383 WRITER CONTINUATION attempt=%s exited nonzero; retaining existing draft for deterministic checks\n' "$continuation" >&2
   fi
   L383_TARGET_ARTICLES="$FULL_TARGET"
@@ -395,6 +403,25 @@ stage="normalize"
 
 stage="editor-source-fetch"
 "$PYTHON_BIN" scripts/prepare_editor_sources.py "$BATCH"
+
+if [ -n "${STATE_ROOT:-}" ] && [ "${IN_EXTRA_REVIEW:-0}" != "1" ]; then
+  "$PYTHON_BIN" - "$BATCH" "${BATCH%.json}.editor-sources.json" "$STATE_ROOT/${STAMP}-mode${QA_ONLY}-writer-snapshot.json" <<'PY'
+import json, os, sys, tempfile
+from pathlib import Path
+try:
+    target = Path(sys.argv[3])
+    target.parent.mkdir(parents=True, exist_ok=True)
+    snapshot = {"articles": json.loads(Path(sys.argv[1]).read_text(encoding="utf-8")),
+                "evidence": json.loads(Path(sys.argv[2]).read_text(encoding="utf-8"))}
+    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=target.parent, delete=False) as output:
+        temporary = Path(output.name)
+        json.dump(snapshot, output, ensure_ascii=False)
+    os.replace(temporary, target)
+    print("383 WRITER SNAPSHOT saved outside publication data")
+except (OSError, ValueError):
+    print("383 WRITER SNAPSHOT unavailable; authoritative evidence checks remain required")
+PY
+fi
 
 stage="albanian-editor"
 EDITOR_CHECK="$(mktemp /tmp/383-editor-originality.XXXXXX.json)"
@@ -578,44 +605,6 @@ review_extra() {
 track_attempted
 review_candidates
 
-# One rewrite of what the reviewer rejected, from the story's notes, aimed at
-# the concrete sentence or fact it named. On 15-16 Oct the reviewer rejected
-# about two drafts in three and every one of them was simply lost.
-# The first review usually ends around minute 35-40; optional rounds must be
-# done by minute 50, so a round starts only before minute 36 with a 6-minute writer.
-stage="rewrite-rejected"
-if [ -s "$L383_REVIEW_REJECTED" ] && [ "$(( $(date +%s) - START_EPOCH ))" -lt 2160 ]; then
-  REWRITE_FOLDER="$(mktemp -d /tmp/383-rewrite.XXXXXX)"
-  REWRITE_INPUT="$REWRITE_FOLDER/rejected.json"
-  mv "$L383_REVIEW_REJECTED" "$REWRITE_INPUT"
-  REWRITE_BATCH="$REWRITE_FOLDER/${STAMP}.json"
-  printf '383 REWRITE REJECTED: %s draft(s)\n' "$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$REWRITE_INPUT")"
-  trap - ERR
-  set +e
-  rewrite_budget="$(model_budget 360 2580)" || rewrite_budget=1
-  timeout --signal=TERM --kill-after=15s "$((rewrite_budget + 5))s" env L383_MODEL_CALL_TIMEOUT="$rewrite_budget" "$PYTHON_BIN" scripts/news_model_response.py --batch "$REWRITE_BATCH" --mode replace -- /opt/hermes/.venv/bin/hermes chat \
-    --provider "${L383_WRITER_PROVIDER:-openai-codex}" --model "$PRIMARY_WRITER_MODEL" \
-    --ignore-rules -t file --yolo --max-turns 35 -Q -q \
-    "Rewrite every article in ${REWRITE_INPUT}. Each was rejected by the independent originality reviewer; its rejection_reason names the copied sentence, the outlet's sequence it followed, or the wrong fact. Read docs/albanian_newsroom.md, docs/news-output-schema.json and ${DISCOVERY}; find each story there by its url and write ONLY from that story's facts_path notes (its evidence_path only where no notes exist). Write a new article, not an edit: a new headline, a new lead built on a different fact than the rejected one, your own paragraph order and sentences, and correct every fact the reason names. Restating what a person said in a public statement in your own words is fine; never translate a source sentence, keep no source phrasing or imagery, no direct quotations, no outlet names. Keep url, slug, category, city and corroborating_sources unchanged; leave image fields out. Read docs/news-ranking-rubric.md and rate each from evidence with all factors and a specific score_reason. At least 140 grounded Albanian words in three HTML paragraphs. Drop a story only if its facts cannot be told without the rejected material. Do not edit files. Return ONLY the rewritten articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END. This is a data-only task; do not run tests, build, publish, deploy, email or edit any other file." 9>&-
-  REWRITE_RC=$?
-  set -e
-  trap on_error ERR
-  # Only the rejected stories may come back: a rewrite is no way to add new ones.
-  if [ "$REWRITE_RC" -eq 0 ] && "$PYTHON_BIN" -c 'import json,sys; rows=json.load(open(sys.argv[1],encoding="utf-8")); asked={a["url"] for a in json.load(open(sys.argv[2],encoding="utf-8"))}; assert isinstance(rows,list) and rows and {a["url"] for a in rows} <= asked' "$REWRITE_BATCH" "$REWRITE_INPUT" 2>/dev/null; then
-    FULL_BATCH="$BATCH"
-    APPROVED_BACKUP="$(mktemp /tmp/383-approved.XXXXXX.json)"
-    cp "$BATCH" "$APPROVED_BACKUP"
-    BATCH="$REWRITE_BATCH"
-    review_extra rewrite
-    "$PYTHON_BIN" scripts/news_refill.py merge "$APPROVED_BACKUP" "$BATCH" "$FULL_BATCH"
-    BATCH="$FULL_BATCH"
-    refresh_merged_evidence
-    rm -f "$APPROVED_BACKUP"
-  else
-    printf '383 REWRITE REJECTED: writer exited %s or returned nothing; continuing with approved drafts\n' "$REWRITE_RC"
-  fi
-fi
-
 for refill_attempt in 1 2; do
   APPROVED_COUNT="$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$BATCH")"
   if [ "$APPROVED_COUNT" -ge "$FULL_TARGET" ] || [ "$(( $(date +%s) - START_EPOCH ))" -ge 2160 ]; then break; fi
@@ -634,7 +623,7 @@ for refill_attempt in 1 2; do
   timeout --signal=TERM --kill-after=15s "$((refill_budget + 5))s" env L383_MODEL_CALL_TIMEOUT="$refill_budget" "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode append -- /opt/hermes/.venv/bin/hermes chat \
     --provider "${L383_WRITER_PROVIDER:-openai-codex}" --model "$PRIMARY_WRITER_MODEL" \
     --ignore-rules -t file --yolo --max-turns 35 -Q -q \
-    "Append replacement articles to ${BATCH}, keeping every existing article unchanged. Read ${DISCOVERY}, docs/news-output-schema.json, docs/albanian_newsroom.md and ${ATTEMPTED}. Never use a URL in the attempted-urls file: those stories were already considered. Fill these category deficits: ${COVERAGE_DEFICITS}. Stop at ${FULL_TARGET} total articles. Use only unused ready stories, their facts_path notes (evidence_path only where no notes exist), supplied corroborators . Leave image fields out; the pipeline restores the prepared photo by source URL. Read docs/news-ranking-rubric.md and individually rate every replacement from evidence with all factors and a specific score_reason; do not copy neutral defaults or calculate the total. Every new article needs at least 140 grounded Albanian words in three HTML paragraphs and necessary claim attribution. Sensitive claims require the independent source; choose another routine story if none is supplied. Do not edit files. Return ONLY the new replacement articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END; exclude the existing articles because the wrapper preserves them locally. This is a data-only task; do not run tests, build, publish, deploy, email or edit any other file." 9>&-
+    "Append replacement articles to ${BATCH}, keeping every existing article unchanged. Read ${WRITER_BRIEF}, docs/news-output-schema.json, docs/albanian_newsroom.md and ${ATTEMPTED}. Never use a URL in the attempted-urls file: those stories were already considered. Fill these category deficits: ${COVERAGE_DEFICITS}. Stop at ${FULL_TARGET} total articles. Use only unused ready stories, their complete inline reporter notes (explicit evidence fallback only when notes are unavailable), and supplied corroborators. Leave image fields out; the pipeline restores the prepared photo by source URL. Read docs/news-ranking-rubric.md and individually rate every replacement from evidence with all factors and a specific score_reason; do not copy neutral defaults or calculate the total. Every new article needs at least 140 grounded Albanian words in three HTML paragraphs and necessary claim attribution. Sensitive claims require the independent source; choose another routine story if none is supplied. Do not edit files. Return ONLY the new replacement articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END; exclude the existing articles because the wrapper preserves them locally. This is a data-only task; do not run tests, build, publish, deploy, email or edit any other file." 9>&-
   REFILL_RC=$?
   set -e
   trap on_error ERR
@@ -660,6 +649,51 @@ for refill_attempt in 1 2; do
   refresh_merged_evidence
   rm -f "$REFILL_BACKUP"
 done
+
+# After fresh replacements, rewrite only rejected stories that still fit an
+# available category slot, from notes, aimed at
+# the concrete sentence or fact it named. On 15-16 Oct the reviewer rejected
+# about two drafts in three and every one of them was simply lost.
+# The first review usually ends around minute 35-40; optional rounds must be
+# done by minute 50, so a round starts only before minute 36 with a 6-minute writer.
+stage="rewrite-rejected"
+if [ -s "$L383_REVIEW_REJECTED" ] && [ "$(( $(date +%s) - START_EPOCH ))" -lt 2160 ]; then
+  REWRITE_FOLDER="$(mktemp -d /tmp/383-rewrite.XXXXXX)"
+  REWRITE_RAW="$REWRITE_FOLDER/rejected-full.json"
+  REWRITE_INPUT="$REWRITE_FOLDER/rejected.json"
+  mv "$L383_REVIEW_REJECTED" "$REWRITE_RAW"
+  if "$PYTHON_BIN" scripts/news_refill.py rewrite-input "$BATCH" "$REWRITE_RAW" "$REWRITE_INPUT" &&
+     "$PYTHON_BIN" -c 'import json,sys; assert json.load(open(sys.argv[1],encoding="utf-8"))' "$REWRITE_INPUT"; then
+    REWRITE_BATCH="$REWRITE_FOLDER/${STAMP}.json"
+    printf '383 REWRITE REJECTED: %s draft(s)\n' "$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$REWRITE_INPUT")"
+    trap - ERR
+    set +e
+    rewrite_budget="$(model_budget 360 2580)" || rewrite_budget=1
+    timeout --signal=TERM --kill-after=15s "$((rewrite_budget + 5))s" env L383_MODEL_CALL_TIMEOUT="$rewrite_budget" "$PYTHON_BIN" scripts/news_model_response.py --batch "$REWRITE_BATCH" --mode replace -- /opt/hermes/.venv/bin/hermes chat \
+      --provider "${L383_WRITER_PROVIDER:-openai-codex}" --model "$PRIMARY_WRITER_MODEL" \
+      --ignore-rules -t file --yolo --max-turns 35 -Q -q \
+      "Compose a fresh article for every selected story in ${REWRITE_INPUT}. The input contains immutable identity and review feedback, not the rejected prose. Each was rejected by the independent originality reviewer; its rejection_reason names the copied sentence, the outlet's sequence it followed, or the wrong fact. Read docs/albanian_newsroom.md, docs/news-output-schema.json and ${WRITER_BRIEF}; find each story there by its url and write ONLY from its inline reporter notes (the explicit verified-evidence fallback only where notes are unavailable). Write a new article, not an edit: a new headline, a new lead built on a different fact than the rejected one, your own paragraph order and sentences, and correct every fact the reason names. Restating what a person said in a public statement in your own words is fine; never translate a source sentence, keep no source phrasing or imagery, no direct quotations, no outlet names. Keep url, slug, category, city and corroborating_sources unchanged; leave image fields out. Read docs/news-ranking-rubric.md and rate each from evidence with all factors and a specific score_reason. At least 140 grounded Albanian words in three HTML paragraphs. Drop a story only if its facts cannot be told without the rejected material. Do not edit files. Return ONLY the rewritten articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END. This is a data-only task; do not run tests, build, publish, deploy, email or edit any other file." 9>&-
+    REWRITE_RC=$?
+    set -e
+    trap on_error ERR
+    # Only the rejected stories may come back: a rewrite is no way to add new ones.
+    if [ "$REWRITE_RC" -eq 0 ] && "$PYTHON_BIN" -c 'import json,sys; rows=json.load(open(sys.argv[1],encoding="utf-8")); asked={a["url"] for a in json.load(open(sys.argv[2],encoding="utf-8"))}; assert isinstance(rows,list) and rows and {a["url"] for a in rows} <= asked' "$REWRITE_BATCH" "$REWRITE_INPUT" 2>/dev/null; then
+      FULL_BATCH="$BATCH"
+      APPROVED_BACKUP="$(mktemp /tmp/383-approved.XXXXXX.json)"
+      cp "$BATCH" "$APPROVED_BACKUP"
+      BATCH="$REWRITE_BATCH"
+      review_extra rewrite
+      "$PYTHON_BIN" scripts/news_refill.py merge "$APPROVED_BACKUP" "$BATCH" "$FULL_BATCH"
+      BATCH="$FULL_BATCH"
+      refresh_merged_evidence
+      rm -f "$APPROVED_BACKUP"
+    else
+      printf '383 REWRITE REJECTED: writer exited %s or returned nothing; continuing with approved drafts\n' "$REWRITE_RC"
+    fi
+  else
+    printf '383 REWRITE: no remaining category slots or invalid input; retaining approved drafts\n'
+  fi
+fi
 
 stage="independent-originality-review"
 "$PYTHON_BIN" scripts/news_copyright_review.py --file "$BATCH"

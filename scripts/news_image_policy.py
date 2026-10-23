@@ -21,6 +21,7 @@ from PIL import Image, ImageOps
 
 from editorial_rules_v2 import fold, infer_city
 from news_photo_subjects import grounded, publisher_names, same_name_word, subject_allowed, wiki_identity_allowed
+import news_photo_identity_cache as identity_cache
 
 COMMONS_API = "https://commons.wikimedia.org/w/api.php"
 HEADERS = {"User-Agent": "383NewsPhotoResearch/1.0 (https://383ks.com; editorial image selection)"}
@@ -123,6 +124,7 @@ def plan_subjects(leads: list[dict], folder: Path) -> dict[str, dict]:
     finally:
         pool.shutdown(wait=False, cancel_futures=True)
     (folder / "news-photo-plan.json").write_text(json.dumps(plans, ensure_ascii=False, indent=2), encoding="utf-8")
+    identity_cache.save()
     return plans
 
 
@@ -222,15 +224,27 @@ def story_names(title: str, text: str) -> list[str]:
 
 @lru_cache(maxsize=1024)
 def _identity_claims(item: str, property_name: str) -> dict:
+    key = json.dumps(["claims", item, property_name])
+    cached = identity_cache.get(key)
+    if isinstance(cached, dict):
+        return cached
     data = api_get("https://www.wikidata.org/w/api.php", {
         "action": "wbgetclaims", "format": "json", "entity": item, "property": property_name}).json()
     if "error" in data:
         raise ValueError("Wikidata identity lookup unavailable")
-    return data.get("claims", {})
+    claims = data.get("claims", {})
+    if not isinstance(claims, dict):
+        raise ValueError("Invalid Wikidata identity claims")
+    identity_cache.remember(key, claims)
+    return claims
 
 
 @lru_cache(maxsize=1024)
 def _wiki_search(language: str, name: str) -> tuple:
+    key = json.dumps(["wiki", language, name], ensure_ascii=False)
+    cached = identity_cache.get(key)
+    if isinstance(cached, list) and cached and all(isinstance(page, dict) and page.get("title") for page in cached):
+        return tuple(cached)
     data = api_get(f"https://{language}.wikipedia.org/w/api.php", {
         "action": "query", "format": "json", "generator": "search", "gsrsearch": name,
         "gsrnamespace": 0, "gsrlimit": 3, "prop": "pageimages|pageprops|pageterms", "piprop": "name",
@@ -238,7 +252,10 @@ def _wiki_search(language: str, name: str) -> tuple:
     }).json()
     if "error" in data:
         raise ValueError("Wikipedia subject search unavailable")
-    return tuple(sorted(data.get("query", {}).get("pages", {}).values(), key=lambda page: page.get("index", 0)))
+    pages = sorted(data.get("query", {}).get("pages", {}).values(), key=lambda page: page.get("index", 0))
+    if pages:
+        identity_cache.remember(key, pages)
+    return tuple(pages)
 
 
 def is_person(item: str) -> bool:
@@ -563,6 +580,34 @@ def depicted(pageid: object) -> set[str]:
     return _DEPICTS[pageid]
 
 
+@lru_cache(maxsize=1024)
+def _entity_label(item: str) -> str:
+    key = json.dumps(["label", item, "en"])
+    cached = identity_cache.get(key)
+    if isinstance(cached, str) and cached:
+        return cached
+    data = api_get("https://www.wikidata.org/w/api.php", {
+        "action": "wbgetentities", "format": "json", "ids": item, "props": "labels", "languages": "en"}).json()
+    if "error" in data:
+        raise ValueError("Wikidata label lookup unavailable")
+    label = data.get("entities", {}).get(item, {}).get("labels", {}).get("en", {}).get("value", "")
+    if isinstance(label, str) and label:
+        identity_cache.remember(key, label)
+        return label
+    return ""
+
+
+def _organization_named(item: str, brand: str) -> bool:
+    """An exact same-name business identity, never a loose acronym/person."""
+    try:
+        claims = _identity_claims(item, "P31")
+        business = any(claim.get("mainsnak", {}).get("datavalue", {}).get("value", {}).get("id") == "Q4830453"
+                       for claim in claims.get("P31", []) if claim.get("rank") != "deprecated")
+        return business and " ".join(re.findall(r"[a-z0-9]+", fold(_entity_label(item)))) == brand
+    except (requests.RequestException, ValueError):
+        return False
+
+
 def institution_building(page: dict, plan: dict) -> bool:
     """A named institution's explicit headquarters, not an unrelated event.
 
@@ -572,17 +617,25 @@ def institution_building(page: dict, plan: dict) -> bool:
     """
     if plan.get("kind") != "thing" or plan.get("archive_institution") is not True or not plan.get("qid"):
         return False
-    tags = depicted(page.get("pageid"))
-    if tags and plan["qid"] not in tags:
-        return False
     brand = " ".join(re.findall(r"[a-z0-9]+", fold(plan.get("subject_evidence") or plan["subject"])))
     if len(brand) < 4 or brand in {"bank", "company", "institution", "government", "agency", "office"}:
         return False
     meta = next(iter(page.get("imageinfo", [])), {}).get("extmetadata", {})
     text = " ".join(re.findall(r"[a-z0-9]+", fold(str(page.get("title", "")) + " "
                     + plain(meta.get("ImageDescription", {}).get("value")))))
-    return bool(re.search(r"\b" + re.escape(brand) + r"(?: s)? (?:global )?(?:headquarters|head office|campus|offices?)\b", text)
-                or re.search(r"\b(?:headquarters|head office|offices?) of (?:the )?" + re.escape(brand) + r"\b", text))
+    named_headquarters = bool(re.search(r"\b" + re.escape(brand) + r"(?: s)? (?:global )?(?:headquarters|head office|campus|offices?)\b", text)
+                              or re.search(r"\b(?:headquarters|head office|offices?) of (?:the )?" + re.escape(brand) + r"\b", text))
+    if not named_headquarters:
+        return False
+    tags = depicted(page.get("pageid"))
+    if not tags or plan["qid"] in tags:
+        return True
+    # A company's verified Wikipedia lead can depict its headquarters
+    # building/neighborhood or same-name business entity instead of the
+    # corporate record on Wikipedia. These are compatible identities.
+    # Keep requiring the explicit company-HQ relation in the file metadata.
+    return bool(page.get("lead_image") is True
+                and all(not is_person(item) and (is_place(item) or _organization_named(item, brand)) for item in tags))
 
 
 def candidate_photo(page: dict, plan: dict, max_years: int = MAX_PHOTO_AGE_YEARS) -> dict | None:

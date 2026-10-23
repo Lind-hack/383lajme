@@ -321,7 +321,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     # not consume the bounded research window before later desks get a turn.
     shortlist = [items[index] for index in range(max(map(len, by_category.values()), default=0))
                  for items in by_category.values() if index < len(items)]
-    from news_image_policy import CATALOG, plan_subjects
+    from news_image_policy import CATALOG, plan_subjects, identity_cache
     plans = plan_subjects(shortlist, path.parent)
     # The owner permits a credited contextual photo in different hourly
     # batches. Keep distinct photos within this batch, not a 14-day embargo.
@@ -373,6 +373,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     CATALOG.parent.mkdir(parents=True, exist_ok=True)
     CATALOG.write_text(json.dumps({lead["url"]: {key: value for key, value in lead.items()
                        if key.startswith("image_") or key == "video_clip_url"} for lead in ready}, ensure_ascii=False, indent=2), encoding="utf-8")
+    identity_cache.save()
     plan = coverage_plan(ready)
     photo_ready_counts = {category: sum(lead["category"] == category for lead in ready) for category in CATEGORIES}
     # Reporter's notes for the stories the writer will actually use (each desk's

@@ -83,6 +83,12 @@ if __name__ == "__main__":
         # Feasibility changes as candidates are exhausted. Never overwrite the
         # original intended coverage with that smaller, achievable plan.
     if args.balance:
+        if args.approved and args.attempted:
+            approved_urls = {article["url"] for article in approved}
+            used = set(json.loads(args.attempted.read_text(encoding="utf-8")))
+            ready = {article["url"]: article["category"] for article in data["ready_leads"] if article["url"] not in used}
+            articles = [article for article in articles if article["url"] in approved_urls
+                        or ready.get(article["url"]) == article.get("category")]
         articles = balance(articles, plan)
         args.batch.write_text(json.dumps(articles, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(deficits(articles, plan), ensure_ascii=False))

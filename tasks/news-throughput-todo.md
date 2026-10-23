@@ -78,3 +78,23 @@ The final throughput item remains open until actual output proves it. Do not rep
 - Commit 53b588e791405bbef5e120df4858d43e508ba0dd also reached the live production/github-main deployment. QA A finished with seven approved articles (K1/AL1/Sport2/Eco1/World2, Tech0/Showbiz0). It published nothing and sent no mail. Its completed batch and review receipts were preserved before QA B began; the coverage objective remains unmet.
 - Expanded Showbiz's registry with NME and Pitchfork after six current public articles were independently readable from the VPS (148–816 words). Their music-news feeds are dedicated to Showbiz. Ownership families follow [NME Networks](https://nmenetworks.com/brands/nme) and [Condé Nast](https://www.condenast.com/brands/pitchfork); Pitchfork and Ars Technica therefore cannot count as independent corroborators. The full website inventory is documented in docs/news-source-inventory.md. New registry/isolation tests and the production build passed.
 - QA B started October 22 around 22:50 UTC with the latest photo, repair, editor and source changes. Initial discovery selected 313 current leads, including 53 Showbiz, with 54 of 73 feed/listing retrievals healthy. All final gates are still required. Only exact-evidence policy-v2 reporter notes were carried over; QA A approval receipts were archived separately.
+- QA B drafted all 18 feasible stories across seven categories, but ended with only six approved (K0/AL1/Sport2/Tech0/Eco1/World1/Showbiz1), including the bounded rewrite round. This does not meet the objective. Source-like phrasing and structure remain a substantive loss, with all rejection gates retained.
+- Comparing the two preparations showed verified Albin Kurti, Prishtina and Prizren subjects being missed under a later planning deadline. The next change persists successful public entity metadata for 24 hours, revalidating each source and every actual photo. A read-only warmup completed 222/222 lookups in 28.9 seconds; reloading its saved file recovered four previously missed local subjects with HTTP deliberately disabled. A broader source-focused warmup completed 363/375 public queries; failures were excluded from the saved success cache. Neither test called a model or published anything.
+- The actual OpenAI headquarters photo was being rejected because its Commons tags use a different exact-name business record and its neighborhood. A verified Wikipedia lead plus explicit Commons company-headquarters text can now accept compatible geographic/exact-name business identities. An independent Luna/max photo-editor pilot for a real readable AI-security story approved the licensed archive building photograph; decoding returned 1920x1280. Unrelated people/companies and generic category pictures remain rejected.
+- Copy-editing instructions now require preserving already accurate, original prose. A private atomic writer/evidence snapshot supports diagnosing any later source-like rewriting. Current native checks passed 126 focused cases, including the snapshot shell test; the production build passed. Full next-run and production per-category verification remain open.
+
+- October 23 release checks: 188 news tests, 18 hourly coverage/capacity tests,
+  16 source-reading tests and 22 originality/journalism/topic tests passed under
+  native Linux (244 total), plus the source-mix regression. Bash syntax, whitespace
+  checks and npm run build passed. An initial adjacent-test invocation used the
+  wrong working directory; rerunning from scripts passed all actual cases.
+- The current production 14:00 Warsaw slot still ran 874b7b7e and published only
+  three (Albania 1, Economy 1, World 1). No balanced success is claimed. The next
+  release adds inline scoped notes, fresh replacements before rewrites, exact
+  approved preservation and remaining-slot-only metadata rewrite inputs. The old
+  prepared queue already stripped titles/summaries when notes existed; this is a
+  scoped-input/file-read improvement, not a fix for an established source leak.
+- Railway's live endpoint now confirms dda30fc88bca696182fcd2df90191c3995d74cc9,
+  production/github-main. The following worker release must still be activated
+  idle under the lock, then measured in a scheduled production slot. QA C is idle;
+  do not occupy the lock across the next hourly production slot.

@@ -269,3 +269,33 @@ Youth-sport exclusions require a youth competition/team context for the Albanian
 phrase "të rinj". A major adult event mentioning young players does not become a
 youth fixture. Explicit U-age competitions, lower leagues and friendlies remain
 subject to the existing Kosovo-interest rule.
+
+Successful public Wikipedia entity results, Wikidata identity claims and entity
+labels are retained for 24 hours in `photo-identity-cache.json` beside the durable
+hourly state directory. The saved cache is limited to 2,048 entries; expired,
+future-dated and malformed records are ignored. Source grounding, current photo
+metadata/rights, decoding and article approvals are checked for each run.
+
+A verified company's Wikipedia lead photograph can identify its headquarters
+through explicit Commons description text while depicting a neighborhood or a
+distinct Wikidata business record with the exact same name. Those compatible
+identities are accepted; an unrelated organization or person is rejected. The
+photo editor still evaluates its relevance to the specific story.
+
+The copy editor checks every fact while preserving prose and paragraph order
+that are already accurate, original and natural Albanian. The initial normalized
+writer draft and its exact fetched evidence are saved together under the private
+hourly state directory before editing, so composition losses can be traced.
+
+
+Writers receive a category-scoped brief with complete inline reporter notes and
+immutable source/photo identity. The previous prepared queue already omitted
+original headlines and summaries when notes existed; this change reduces file
+lookups and scopes each desk group, rather than claiming to remove a prior leak.
+The explicit verified-evidence fallback remains for stories without notes.
+
+Recovery tries unused ready stories first, before another composition of rejected
+stories. Approved articles are preserved exactly. Replacement balancing rejects
+attempted, unready or category-mismatched new URLs. Later rewrites receive only
+identity and review feedback, and are limited to remaining category slots; every
+replacement and rewrite still passes the complete editorial and independent gates.

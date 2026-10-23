@@ -11,6 +11,23 @@ from news_source_policy import CATEGORIES, hourly_targets
 
 
 class BalancedPlanTests(unittest.TestCase):
+    def test_refill_drops_retried_unready_and_wrong_category_rows_while_preserving_approved(self):
+        with tempfile.TemporaryDirectory() as folder:
+            batch, discovery, attempted, backup = [Path(folder) / name for name in
+                                                   ("batch.json", "discovery.json", "attempted.json", "approved.json")]
+            approved = [{"category": "Sport", "url": "https://skysports.com/approved", "body": "Exact approved prose"}]
+            retried = {"category": "Teknologji", "url": "https://techcrunch.com/already-tried"}
+            fresh = {"category": "Teknologji", "url": "https://techcrunch.com/fresh"}
+            unready = {"category": "Teknologji", "url": "https://techcrunch.com/not-prepared"}
+            batch.write_text(json.dumps(approved + [retried, unready, {**fresh, "category": "Botë"}, fresh]), encoding="utf-8")
+            backup.write_text(json.dumps(approved), encoding="utf-8")
+            discovery.write_text(json.dumps({"publication_plan": hourly_targets(), "ready_leads": approved + [retried, fresh]}), encoding="utf-8")
+            attempted.write_text(json.dumps([approved[0]["url"], retried["url"]]), encoding="utf-8")
+            subprocess.run([sys.executable, str(Path(__file__).with_name("news_coverage.py")), str(batch), str(discovery),
+                            "--balance", "--attempted", str(attempted), "--approved", str(backup)],
+                           capture_output=True, text=True, check=True)
+            self.assertEqual(json.loads(batch.read_text(encoding="utf-8")), approved + [fresh])
+
     def test_ample_inventory_fills_twenty_with_two_or_three_in_every_desk(self):
         plan = plan_counts(dict.fromkeys(CATEGORIES, 60))
         self.assertEqual(sum(plan.values()), 20)

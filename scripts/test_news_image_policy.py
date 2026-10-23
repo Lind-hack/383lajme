@@ -38,6 +38,7 @@ class NewsPhotoTests(unittest.TestCase):
         policy._wiki_search.cache_clear()
         policy._identity_claims.cache_clear()
         policy.commons_candidates.cache_clear()
+        policy._entity_label.cache_clear()
 
     def test_cc0_waiver_is_not_overridden_by_commons_copyrighted_flag(self):
         singer = {"subject": "Raye", "subject_evidence": "Raye", "kind": "person",
@@ -110,6 +111,37 @@ class NewsPhotoTests(unittest.TestCase):
         unrelated["title"] = "File:Microsoft GitHub Copilot conference.jpg"
         unrelated["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Microsoft hackathon participants"}
         self.assertFalse(policy.institution_building(unrelated, company))
+
+    def test_verified_company_lead_headquarters_may_tag_its_building_and_neighborhood(self):
+        company = {"subject": "OpenAI", "subject_evidence": "OpenAI", "qid": "Q21708200",
+                   "kind": "thing", "archive_institution": True, "caption": "OpenAI"}
+        office = page("CC BY 4.0")
+        office.update(title="File:1515 Third Street.jpg", pageid=123, lead_image=True)
+        office["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Office building, headquarters of OpenAI in 2025"}
+        with patch.object(policy, "depicted", return_value={"Q124605186", "Q6878535"}), \
+                patch.object(policy, "is_place", return_value=True), patch.object(policy, "is_person", return_value=False):
+            self.assertIsNotNone(policy.candidate_photo(office, company))
+            self.assertIsNone(policy.candidate_photo({**office, "lead_image": False}, company))
+        for geographic, human in ((False, False), (True, True)):
+            with patch.object(policy, "depicted", return_value={"Qsomeone_else"}), \
+                    patch.object(policy, "is_place", return_value=geographic), patch.object(policy, "is_person", return_value=human), \
+                    patch.object(policy, "_organization_named", return_value=False):
+                self.assertIsNone(policy.candidate_photo(office, company))
+        with patch.object(policy, "depicted", return_value={"Q124605186", "Q6878535"}), \
+                patch.object(policy, "is_place", side_effect=lambda qid: qid == "Q6878535"), \
+                patch.object(policy, "is_person", return_value=False), \
+                patch.object(policy, "_organization_named", side_effect=lambda qid, name: qid == "Q124605186" and name == "openai"):
+            self.assertIsNotNone(policy.candidate_photo(office, company))
+
+    def test_same_name_headquarters_tag_must_be_a_verified_exact_business_name(self):
+        business = {"P31": [{"mainsnak": {"datavalue": {"value": {"id": "Q4830453"}}}}]}
+        with patch.object(policy, "_identity_claims", return_value=business), \
+                patch.object(policy, "_entity_label", return_value="OpenAI"):
+            self.assertTrue(policy._organization_named("Q124605186", "openai"))
+            self.assertFalse(policy._organization_named("Q124605186", "another company"))
+        with patch.object(policy, "_identity_claims", return_value={}), \
+                patch.object(policy, "_entity_label", return_value="OpenAI"):
+            self.assertFalse(policy._organization_named("Qsomeone", "openai"))
 
     def test_osm_map_and_underscored_map_filename_are_not_photographs(self):
         candidate = page()

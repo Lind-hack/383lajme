@@ -1,7 +1,10 @@
 """Exercise isolated shell helpers; never launch the production pipeline."""
 import os
+import json
 import shutil
 import subprocess
+import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -14,6 +17,79 @@ BASH = str(GIT_BASH) if GIT_BASH.exists() else shutil.which("bash")
 class NewsOrchestrationTests(unittest.TestCase):
     def invoke(self, script):
         return subprocess.run([BASH, "-c", script], capture_output=True, text=True, timeout=10)
+
+    def test_fresh_candidates_are_attempted_before_rewrites_and_failures_preserve_approved_copy(self):
+        start = RUNNER.index("track_attempted\nreview_candidates\n")
+        core = RUNNER[start:RUNNER.index('stage="independent-originality-review"', start)]
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            batch, discovery, attempted, rejected = [root / name for name in ("batch.json", "discovery.json", "attempted.json", "rejected.json")]
+            approved = [{"url": "https://skysports.com/approved", "category": "Sport", "body": "Exact approved copy"}]
+            batch.write_text(json.dumps(approved), encoding="utf-8")
+            discovery.write_text(json.dumps({"publication_plan": {"Sport": 1, "Teknologji": 2},
+                "ready_leads": [{"url": "https://techcrunch.com/fresh", "category": "Teknologji"}]}), encoding="utf-8")
+            attempted.write_text(json.dumps([approved[0]["url"]]), encoding="utf-8")
+            rejected.write_text(json.dumps([{"url": "https://techcrunch.com/rejected", "slug": "rejected", "category": "Teknologji"}]), encoding="utf-8")
+            script = '''
+set -e
+START_EPOCH=1000
+FULL_TARGET=20
+PRIMARY_WRITER_MODEL=gpt-6-luna
+STAMP=2026-10-23T07
+date() { printf 2000; }
+track_attempted() { :; }
+review_candidates() { :; }
+model_budget() { printf 100; }
+on_error() { :; }
+mktemp() {
+ if [ "$1" = "-d" ]; then command mktemp -d "$TEST_TEMP/${2##*/}";
+ else command mktemp "$TEST_TEMP/${1##*/}"; fi
+}
+timeout() {
+ case " $* " in
+  *"--mode append"*) printf 'fresh\\n' >> "$TEST_EVENTS";;
+  *"--mode replace"*) printf 'rewrite\\n' >> "$TEST_EVENTS";;
+ esac
+ return 1
+}
+''' + core
+            events = root / "events.txt"
+            exercise = root / "exercise.sh"
+            exercise.write_text(script, encoding="utf-8", newline="\n")
+            result = subprocess.run([BASH, exercise.as_posix()], cwd=Path(__file__).resolve().parent.parent,
+                                    capture_output=True, text=True, timeout=10, env={**os.environ,
+                                    "PYTHON_BIN": sys.executable, "BATCH": batch.as_posix(),
+                                    "DISCOVERY": discovery.with_suffix(".md").as_posix(), "ATTEMPTED": attempted.as_posix(),
+                                    "L383_REVIEW_REJECTED": rejected.as_posix(), "WRITER_BRIEF": (root / "brief.md").as_posix(),
+                                    "TEST_EVENTS": events.as_posix(), "TEST_TEMP": root.as_posix()})
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            self.assertEqual(events.read_text(encoding="utf-8").splitlines(), ["fresh", "rewrite"])
+            self.assertEqual(json.loads(batch.read_text(encoding="utf-8")), approved)
+
+    def test_writer_snapshot_preserves_exact_copy_and_evidence_outside_publication_data(self):
+        start = RUNNER.index("review_candidates() {")
+        helper = RUNNER[start:RUNNER.index('EDITOR_CHECK=', start)] + "\n}\n"
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            batch = root / "batch.json"
+            evidence = batch.with_suffix(".editor-sources.json")
+            articles = [{"slug": "verified", "body": "Original writer prose"}]
+            records = [{"slug": "verified", "evidence": {"text": "Exact fetched original"}}]
+            batch.write_text(json.dumps(articles), encoding="utf-8")
+            evidence.write_text(json.dumps(records), encoding="utf-8")
+            script = helper + '''
+PYTHON_BIN=fake_python
+fake_python() { if [ "$1" = "-" ]; then "$REAL_PYTHON" "$@"; fi; }
+review_candidates
+'''
+            result = subprocess.run([BASH, "-c", script], capture_output=True, text=True, timeout=10,
+                                    env={**os.environ, "REAL_PYTHON": sys.executable, "BATCH": batch.as_posix(),
+                                         "STATE_ROOT": (root / "private-state").as_posix(),
+                                         "STAMP": "2026-10-23T07", "QA_ONLY": "1"})
+            self.assertEqual(result.returncode, 0, result.stderr)
+            snapshot = root / "private-state/2026-10-23T07-mode1-writer-snapshot.json"
+            self.assertEqual(json.loads(snapshot.read_text(encoding="utf-8")), {"articles": articles, "evidence": records})
+            self.assertEqual(json.loads(batch.read_text(encoding="utf-8")), articles)
 
     def test_call_budget_cannot_exceed_phase_remaining_time(self):
         helper = RUNNER[RUNNER.index("model_budget() {"):RUNNER.index("track_attempted() {")]
