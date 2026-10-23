@@ -98,3 +98,17 @@ The final throughput item remains open until actual output proves it. Do not rep
   production/github-main. The following worker release must still be activated
   idle under the lock, then measured in a scheduled production slot. QA C is idle;
   do not occupy the lock across the next hourly production slot.
+
+- Activated worker 06990d3b275a18be084f2e1fdf0996bf46c4a99f on October 23
+  at 12:49 UTC while production was idle, holding the publisher lock. Its archive
+  came from the committed Git tree. Verified physical alias, max reasoning,
+  fallback_model=null, correct Supabase host and 705 valid public cache entries.
+  Ten additional native direct-publication tests passed (254 tests total plus
+  source-mix regression); these use mocks and did not publish test news.
+- Railway's GitHub deployment for 06990d3b failed during Next.js build after
+  22 seconds. Logs showed prebuild guard success and build start, then only
+  generic exit code 1; no compiler diagnostic. The identical source built locally.
+  Website still reports dda30fc8. Reauthenticated dashboard access is available;
+  one fresh GitHub documentation push retries the committed release. Do not call
+  the failed website deployment verified. Worker data publication is independent
+  of app-code deployment and uses the existing validated database/API interface.
