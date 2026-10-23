@@ -624,7 +624,8 @@ def institution_building(page: dict, plan: dict) -> bool:
     text = " ".join(re.findall(r"[a-z0-9]+", fold(str(page.get("title", "")) + " "
                     + plain(meta.get("ImageDescription", {}).get("value")))))
     named_headquarters = bool(re.search(r"\b" + re.escape(brand) + r"(?: s)? (?:global )?(?:headquarters|head office|campus|offices?)\b", text)
-                              or re.search(r"\b(?:headquarters|head office|offices?) of (?:the )?" + re.escape(brand) + r"\b", text))
+                              or re.search(r"\b(?:headquarters|head office|offices?) of (?:the )?" + re.escape(brand) + r"\b", text)
+                              or re.search(r"\bsede(?: central| principal| social)? de (?:la )?" + re.escape(brand) + r"\b", text))
     if not named_headquarters:
         return False
     tags = depicted(page.get("pageid"))

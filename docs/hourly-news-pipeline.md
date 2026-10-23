@@ -338,3 +338,15 @@ sufficient. The new editor rejected a saved PLD-led article with a SpaceX image;
 this pilot did not repair or republish that existing article. Exact-overlap gate
 feedback now also identifies the matching normalized word sequence; its eight-word
 threshold and all independent checks remain unchanged.
+
+Reporter notes begin while the already-selected photos finish HTTP download and
+image decoding. Photo-editor model calls finish first; note calls retain their
+three-worker limit and minute-20 deadline. Provisional candidates never establish
+photo readiness. The final photo-qualified inventory reuses only validated notes
+bound to the same primary and corroborating source text and policy version.
+
+Fresh replacement writing selects at most three unused deficit stories per call.
+It shares the existing optional-writing limits: start before minute 42, at most
+180 seconds, end by minute 45. This removes the older fresh-only minute-43 cutoff
+that left the observed 17:41 refill only 108 seconds. All new copy still receives
+normal editing, independent review and publication verification.

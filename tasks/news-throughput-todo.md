@@ -187,3 +187,28 @@ The final throughput item remains open until actual output proves it. Do not rep
   source-mix regression and bash syntax. Final production build passed
   before the next committed worker activation. Full balanced publication and the
   specific published-photo correction remain open; do not claim completion.
+
+- The 17:00 Warsaw slot on a29887fc published only two Kosovo articles; all
+  other desks remained empty. It had 65 photo-qualified candidates but only 12
+  model-produced note sets (26 fragment fallbacks), and two initial writer groups
+  timed out. Independent checks and publication/readback completed; the requested
+  balanced outcome remains unmet.
+- Reporter-note generation now overlaps final photo HTTP downloads/decoding,
+  after the photo editor has finished. Final readiness still requires successful
+  photo validation; exact-source-hash policy-3 notes are reused only after that
+  validation. Thread-event regressions cover overlap, failed decoding, explicit
+  photo rejection and optional warmup failure.
+- The actual fresh refill at 17:41 stopped after 108 seconds because it still
+  inherited a minute-43 cutoff. Fresh refill now uses the same three-minute cap
+  and minute-45 cutoff as rejected-story writing, with at most three selected
+  stories per call. A real shell-budget regression reproduces the observed start
+  time and requires the full 180 seconds. Later editing/review limits stay intact.
+- Spanish metadata explicitly naming the exact company's headquarters now reaches
+  normal place-photo review. The independently identified PLD Space exterior is
+  CC BY-SA 4.0, dated June 2018 and decoded at 1920x1440; the change does not
+  authorize its publication or repair the existing article by itself. Wrong
+  company, untyped institution and invalid license remain rejected.
+- Native verification: 201 news tests plus 67 previously checked adjacent tests
+  (268 total), shell syntax and whitespace checks pass. Production build must
+  finish before committing/activating this release. Real next-run publication
+  counts and the PLD photo correction remain open.

@@ -140,6 +140,13 @@ review_candidates
         result = self.invoke(helper + '\nSTART_EPOCH=1000; date() { printf 2500; }; model_budget 600 1500')
         self.assertEqual(result.returncode, 75, result.stderr)
 
+    def test_fresh_refill_has_three_minutes_after_a_minute_forty_one_review(self):
+        helper = RUNNER[RUNNER.index("model_budget() {"):RUNNER.index("track_attempted() {")]
+        command = next(line.strip() for line in RUNNER.splitlines() if line.strip().startswith('refill_budget="$(model_budget'))
+        result = self.invoke(helper + '\nSTART_EPOCH=1000; date() { printf 3472; }; ' + command + '\nprintf "%s" "$refill_budget"')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout, "180")
+
     def test_expired_editor_budget_keeps_the_outer_failure_guards(self):
         start = RUNNER.index("review_candidates() {")
         end = RUNNER.index('timeout --signal=TERM --kill-after=15s "$((editor_budget + 5))s"', start)

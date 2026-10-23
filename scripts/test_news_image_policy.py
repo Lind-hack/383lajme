@@ -112,6 +112,23 @@ class NewsPhotoTests(unittest.TestCase):
         unrelated["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Microsoft hackathon participants"}
         self.assertFalse(policy.institution_building(unrelated, company))
 
+    def test_spanish_headquarters_description_reaches_the_editor_without_relaxing_identity_or_rights(self):
+        company = {"subject": "PLD Space", "subject_evidence": "PLD Space", "qid": "Q21076153",
+                   "kind": "thing", "archive_institution": True, "caption": "Selia e PLD Space"}
+        office = page("CC BY-SA 4.0")
+        office.update(title="File:PLD Space, Elche, Alicante, España, 2018 05.jpg", pageid=123, lead_image=False)
+        meta = office["imageinfo"][0]["extmetadata"]
+        meta["ImageDescription"] = {"value": "Sede de PLD Space en Elche, Alicante, España."}
+        meta["DateTimeOriginal"] = {"value": "2018-06-07 13:00:41"}
+        with patch.object(policy, "_research", return_value=([], [], [office])), patch.object(policy, "depicted", return_value=set()):
+            self.assertEqual(len(policy._photo_options_for_plan({}, {}, {}, "place", company)), 1)
+            self.assertEqual(policy._photo_options_for_plan({}, {}, {}, "place", {**company, "archive_institution": False}), [])
+            meta["ImageDescription"] = {"value": "Sede de Otra Empresa en Elche, Alicante, España."}
+            self.assertEqual(policy._photo_options_for_plan({}, {}, {}, "place", company), [])
+            meta["ImageDescription"] = {"value": "Sede de PLD Space en Elche."}
+            meta["LicenseShortName"] = {"value": "All rights reserved"}
+            self.assertEqual(policy._photo_options_for_plan({}, {}, {}, "place", company), [])
+
     def test_verified_company_lead_headquarters_may_tag_its_building_and_neighborhood(self):
         company = {"subject": "OpenAI", "subject_evidence": "OpenAI", "qid": "Q21708200",
                    "kind": "thing", "archive_institution": True, "caption": "OpenAI"}

@@ -261,6 +261,19 @@ def reporter_note_candidates(ready: list[dict], plan: dict[str, int]) -> list[di
             for items in groups.values() if index < len(items)]
 
 
+def discovery_evidence(lead: dict) -> dict:
+    return {"slug": lead["pair_id"], "source_url": lead["url"], "evidence": lead["primary_evidence"],
+            "corroborating": [{"url": lead["corroborates_url"], "evidence": lead["secondary_evidence"]}]
+                             if lead["corroborates_url"] else []}
+
+
+def reporter_input(lead: dict, record: dict) -> dict:
+    return {"pair_id": lead["pair_id"], "source_url": lead["url"], "title": lead.get("title", ""),
+            "text": str(record.get("evidence", {}).get("text", "")),
+            "corroborating": " ".join(str(item.get("evidence", {}).get("text", ""))
+                                      for item in record.get("corroborating", []))}
+
+
 def recently_published_photos(days: int = 14) -> set[str]:
     """Photos already on the site in the last two weeks, so one laptop-and-
     Bitcoin picture is not reused hour after hour. Empty if Supabase is down."""
@@ -337,7 +350,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
             return True
     # Ten minutes for visuals in all: candidate research (six, six stories at
     # a time), the photo editor's verdict (at most four), then downloads and
-    # checks of the chosen ones. Drafting stops at minute 20 whatever this takes.
+    # checks of the chosen ones. Preparation model work stops at minute 20.
     research_deadline = time.monotonic() + 360
     shortlist = [{**lead, "photo_plan": plans.get(lead["pair_id"]), "_reserve_photo": reserve_photo,
                   "_photo_deadline": research_deadline} for lead in shortlist]
@@ -352,18 +365,36 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
         lead.update(_visual_options=found, _photo_deadline=finalize_deadline)
         if lead["pair_id"] in picks:
             lead["_visual_choice"] = picks[lead["pair_id"]]
-    with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
-        images = list(pool.map(lambda lead: ready_image(lead, lead["primary_evidence"], lead["secondary_evidence"]), shortlist))
     folder = path.parent / "source-evidence"
     folder.mkdir(exist_ok=True)
+    # Photo selection has finished its model calls. Warm only reporter notes
+    # while downloads/decoding do HTTP work; the usual three note calls remain
+    # the only active model work. Provisional notes never establish photo readiness.
+    from news_fact_sheets import build_fact_sheets
+    provisional = [lead for lead in shortlist if lead["_visual_options"] and lead.get("_visual_choice") != []]
+    warm_leads = reporter_note_candidates(provisional, coverage_plan(provisional))
+    warm_inputs = [reporter_input(lead, discovery_evidence(lead)) for lead in warm_leads]
+    if warm_inputs:
+        print(f"383 EARLY FACT NOTES candidates={len(warm_inputs)}; photo readiness still pending")
+    note_pool = concurrent.futures.ThreadPoolExecutor(max_workers=1)
+    warm_notes = note_pool.submit(build_fact_sheets, warm_inputs, folder) if warm_inputs else None
+    try:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+            images = list(pool.map(lambda lead: ready_image(lead, lead["primary_evidence"], lead["secondary_evidence"]), shortlist))
+    finally:
+        note_pool.shutdown(wait=True, cancel_futures=True)
+    if warm_notes:
+        try:
+            warm_notes.result()
+            print("383 EARLY FACT NOTES complete; rechecking against final photo-qualified inventory")
+        except Exception as exc:
+            print(f"383 EARLY FACT NOTES unavailable ({type(exc).__name__}); normal source-bound notes remain required")
     ready = []
     for lead, image in zip(shortlist, images):
         if not image:
             rejected[lead["category"]]["no_fresh_photo"] += 1
             continue
-        record = {"slug": lead["pair_id"], "source_url": lead["url"], "evidence": lead["primary_evidence"],
-                  "corroborating": [{"url": lead["corroborates_url"], "evidence": lead["secondary_evidence"]}]
-                                  if lead["corroborates_url"] else []}
+        record = discovery_evidence(lead)
         target = folder / f"{lead['pair_id']}.json"
         target.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         ready.append({key: value for key, value in {**lead, **image, "evidence_path": str(target)}.items()
@@ -380,15 +411,11 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     # allocation plus a few spares). With notes, a story is written from them
     # alone; a story whose notes failed is dropped rather than written from the
     # source text, unless no notes came back at all this hour.
-    from news_fact_sheets import build_fact_sheets
     wanted = reporter_note_candidates(ready, plan)
     notes_input = []
     for lead in wanted:
         record = json.loads(Path(lead["evidence_path"]).read_text(encoding="utf-8"))
-        notes_input.append({"pair_id": lead["pair_id"], "source_url": lead["url"], "title": lead.get("title", ""),
-                            "text": str(record.get("evidence", {}).get("text", "")),
-                            "corroborating": " ".join(str(item.get("evidence", {}).get("text", ""))
-                                                      for item in record.get("corroborating", []))})
+        notes_input.append(reporter_input(lead, record))
     notes = build_fact_sheets(notes_input, folder) if notes_input else {}
     if notes:
         ready = [{**lead, "facts_path": str(notes[lead["pair_id"]])} for lead in ready if lead["pair_id"] in notes]
