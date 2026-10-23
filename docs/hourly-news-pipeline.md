@@ -313,3 +313,10 @@ Photo name extraction retains complete mixed-case and dotted brand names such
 as inDrive, eBay and Pony.ai, rather than searching for substrings such as Drive
 or Pony. Names still require source evidence and independently grounded identity;
 the photo editor can reject any irrelevant image.
+
+
+Preparation model calls share a minute-20 cutoff, scoped only to the discovery
+preparation process. This reserves at least five minutes for the grouped writers
+before their existing minute-25 cutoff. Completed notes and cache entries remain
+usable; the existing bounded fallback remains subject to all subsequent gates.
+Later editor/reviewer subprocesses retain the separate minute-50 run deadline.

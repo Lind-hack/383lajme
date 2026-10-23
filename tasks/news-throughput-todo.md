@@ -138,3 +138,23 @@ The final throughput item remains open until actual output proves it. Do not rep
   Bash syntax, whitespace and npm run build passed. The 16:00 Warsaw run is active
   on 06990d3b; do not change its physical release. Activate the next committed
   archive only idle under the publisher lock, then verify a new scheduled run.
+
+- The 16:00 Warsaw run prepared 33 ready stories (20 new model notes, 10 cached,
+  3 fragments) with a feasible 20-story plan across every desk. Preparation left
+  under four minutes for initial writing: two desk groups timed out after about
+  230 seconds, so only five initial drafts returned (World 3/Economy 2). This is
+  an initial-stage finding, not its final published count; editorial/recovery is
+  still running on 06990d3b.
+- Added a child-scoped minute-20 deadline for preparation model calls, preserving
+  five minutes before initial writing's unchanged minute-25 cutoff. A real child
+  process regression verifies that the parent retains its minute-50 editorial
+  deadline. Native news suite now passes 196 cases (262 including the previously
+  verified adjacent suites), bash/whitespace checks and production build pass.
+- The saved 15:00 sports notes wrongly labeled a completed Barcelona-PSG fixture
+  as a future event. Independent review correctly rejected the resulting claim.
+  A proposed temporal-note pilot is prepared outside production but has not run;
+  no note-generation correction is yet claimed. Do not overlap its model call
+  with the active scheduled run or copy any QA approvals into production.
+- Railway verified release 36be451cc2964a31929ec8ca5b86bffda3d00641 as exact live
+  production/github-main. Its worker archive is staged inactive; the next archive
+  must also include the new preparation deadline and be activated only while idle.

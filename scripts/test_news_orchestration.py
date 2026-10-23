@@ -18,6 +18,21 @@ class NewsOrchestrationTests(unittest.TestCase):
     def invoke(self, script):
         return subprocess.run([BASH, "-c", script], capture_output=True, text=True, timeout=10)
 
+    def test_preparation_model_deadline_reserves_writer_time_without_shortening_later_review(self):
+        start = RUNNER.index('env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 1200))"')
+        end = RUNNER.index('--discovery', start) + len('--discovery')
+        command = RUNNER[start:end]
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "scripts").mkdir()
+            (root / "scripts/prepare_editor_sources.py").write_text(
+                'import os; print(os.environ["L383_MODEL_DEADLINE_EPOCH"])', encoding="utf-8")
+            script = 'START_EPOCH=1000\nexport L383_MODEL_DEADLINE_EPOCH=4000\n' + command + '\nprintf "%s\\n" "$L383_MODEL_DEADLINE_EPOCH"\n'
+            result = subprocess.run([BASH, "-c", script], cwd=root, capture_output=True, text=True, timeout=10,
+                                    env={**os.environ, "PYTHON_BIN": sys.executable, "DISCOVERY": "unused.md"})
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(result.stdout.splitlines(), ["2200", "4000"])
+
     def test_fresh_candidates_are_attempted_before_rewrites_and_failures_preserve_approved_copy(self):
         self.exercise_recovery(1000)
 

@@ -168,7 +168,11 @@ if ! "$PYTHON_BIN" scripts/cloud_news_discovery.py --output .last30days/cloud-ne
 fi
 
 stage="writer-source-fetch"
-"$PYTHON_BIN" scripts/prepare_editor_sources.py "$DISCOVERY" --discovery
+# Reserve five minutes for the grouped writers before their minute-25 deadline.
+# Scope this preparation-model deadline to the child; later editorial calls keep
+# the run's minute-50 limit. Slow notes must not consume the writing window.
+env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 1200))" \
+  "$PYTHON_BIN" scripts/prepare_editor_sources.py "$DISCOVERY" --discovery
 
 # Prepared inventory includes readable, lane-locked source text and decoded images.
 # Sensitive claims still require an independently readable second publisher.
