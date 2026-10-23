@@ -57,13 +57,22 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--batch", type=Path, required=True)
     parser.add_argument("--mode", choices=["replace", "append", "editor", "editor-decisions"], required=True)
+    parser.add_argument("--context-file", type=Path, action="append", default=[])
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
     command = args.command[1:] if args.command[:1] == ["--"] else args.command
     if len(command) < 3 or command[1] != "chat":
         raise ValueError("News response wrapper requires a Hermes chat command")
     command = command[:2] + model_args(command[2:-1]) + command[-1:]
-    result = run_process(command, float(os.environ.get("L383_MODEL_CALL_TIMEOUT", "600")))
+    if args.context_file:
+        from news_model_context import contextual_command
+        command, inlined = contextual_command(command, args.context_file)
+        print(f"383 MODEL CONTEXT: complete_documents={len(args.context_file)} toolset={'none' if inlined else 'file'}")
+    try:
+        result = run_process(command, float(os.environ.get("L383_MODEL_CALL_TIMEOUT", "600")))
+    except subprocess.TimeoutExpired:
+        print("383 MODEL RESPONSE: call timed out; no incomplete response saved and existing copy preserved")
+        raise SystemExit(75)
     if result.returncode:
         print(result.stdout[-2000:])
         raise SystemExit(result.returncode)

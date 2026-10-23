@@ -135,6 +135,7 @@ record_state running
 
 stage="writer-auth-preflight"
 /opt/hermes/.venv/bin/python scripts/configure_news_model.py --home "$HERMES_HOME" --effort max
+/opt/hermes/.venv/bin/python scripts/news_data_only_preflight.py
 if [ "${L383_WRITER_PROVIDER:-openai-codex}" = "openai-codex" ]; then
   /opt/hermes/.venv/bin/python -c 'from hermes_cli.auth import resolve_codex_runtime_credentials; c=resolve_codex_runtime_credentials(); assert c.get("api_key"), "No Codex access token"; print("383 CODEX AUTH: usable credentials resolved")'
 fi
@@ -263,10 +264,14 @@ refresh_merged_evidence() {
 
 run_writer() {
   local model="$1" writer_budget
+  local -a context_args=()
+  if ! grep -q '^Notes unavailable\.' "$WRITER_BRIEF"; then
+    context_args=(--context-file "$REPO/docs/albanian_newsroom.md" --context-file "$REPO/docs/news-output-schema.json" --context-file "$REPO/docs/news-ranking-rubric.md" --context-file "$WRITER_BRIEF")
+  fi
   writer_budget="$(model_budget "${L383_WRITER_ATTEMPT_TIMEOUT:-600}" "${WRITER_PHASE_END:-1500}")" || return 75
   timeout --signal=TERM --kill-after=15s "$((writer_budget + 5))s" \
     env HERMES_HOME="${L383_HERMES_HOME:-/opt/data/news-pipeline-hermes}" L383_MODEL_CALL_TIMEOUT="$writer_budget" \
-    "$PYTHON_BIN" scripts/news_model_response.py --batch "${WRITER_BATCH:-$BATCH}" --mode replace -- /opt/hermes/.venv/bin/hermes chat \
+    "$PYTHON_BIN" scripts/news_model_response.py --batch "${WRITER_BATCH:-$BATCH}" --mode replace "${context_args[@]}" -- /opt/hermes/.venv/bin/hermes chat \
       --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
       --model "$model" --ignore-rules -t file --yolo \
       --max-turns "${L383_WRITER_MAX_TURNS:-35}" -Q -q \
@@ -286,7 +291,7 @@ FULL_TARGET="$L383_TARGET_ARTICLES"
 L383_TARGET_ARTICLES="$((FULL_TARGET < 7 ? FULL_TARGET : 7))"
 recover_missing_writer_desks() {
   local folder="$1" missing recovery_budget desk needed index=0
-  recovery_budget="$(model_budget 180 1740)" || return 0
+  recovery_budget="$(model_budget 180 2160)" || return 0
   if [ "$recovery_budget" -lt 90 ]; then return 0; fi
   missing="$("$PYTHON_BIN" - "${DISCOVERY%.md}.json" "$BATCH" <<'PY'
 import json,sys
@@ -309,36 +314,45 @@ PY
     (
       WRITER_BATCH="$folder/recovery-$index.json"
       WRITER_BRIEF="$folder/recovery-$index.md"
-      WRITER_PHASE_END=1740
+      WRITER_PHASE_END=2160
       L383_WRITER_ATTEMPT_TIMEOUT=180
       L383_TARGET_ARTICLES="$needed"
       WRITER_SCOPE="Recover ONLY ${desk}: write at most ${needed} new stories selected by this brief; ignore every other category and the global counts below. "
       "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$WRITER_BRIEF" --categories "$desk" --approved "$BATCH" --attempted "$folder/recovery-attempted.txt" --limit "$needed" || exit 1
-      printf '383 MISSING DESK RECOVERY: category=%s articles=%s end_minute=29\n' "$desk" "$needed"
+      printf '383 MISSING DESK RECOVERY: category=%s articles=%s end_minute=36\n' "$desk" "$needed"
       run_writer "$PRIMARY_WRITER_MODEL"
     ) > "$folder/recovery-$index.log" 2>&1 &
   done <<< "$missing"
   wait || true
   tail -n 3 "$folder"/recovery-*.log || true
 }
-# Ten or more ready stories: draft the three desk groups concurrently.
-# Each group receives the sum of its actual desk allocations, including eight
-# for Sport/Technology/Showbiz when all three have available inventory.
+# Ten or more ready stories: establish the two-article floor independently
+# for every desk. Seven small requests, at most three active, fit three waves
+# in the minute-20 to minute-33 window even at the four-minute call cap.
 run_writer_groups() {
-  local folder group desks
+  local folder group desks target running=0
   folder="$(mktemp -d /tmp/383-writer-groups.XXXXXX)"
   group=0
-  for desks in "Kosovë, Shqipëri" "Botë, Ekonomi" "Sport, Teknologji, Showbiz"; do
+  for desks in "Kosovë" "Shqipëri" "Sport" "Teknologji" "Ekonomi" "Botë" "Showbiz"; do
     group=$((group + 1))
+    target="$("$PYTHON_BIN" -c 'import json,sys; p=json.load(open(sys.argv[1],encoding="utf-8"))["publication_plan"]; print(min(2,p.get(sys.argv[2],0)))' "${DISCOVERY%.md}.json" "$desks")"
+    if [ "$target" -eq 0 ]; then continue; fi
+    printf '383 DESK WRITER: category=%s target=%s cap=240s end_minute=33\n' "$desks" "$target"
     (
       WRITER_BATCH="$folder/$group.json"
-      L383_TARGET_ARTICLES="$("$PYTHON_BIN" -c 'import json,sys; p=json.load(open(sys.argv[1],encoding="utf-8"))["publication_plan"]; print(sum(p.get(c.strip(),0) for c in sys.argv[2].split(",")))' "${DISCOVERY%.md}.json" "$desks")"
-      if [ "$L383_TARGET_ARTICLES" -eq 0 ]; then exit 0; fi
+      L383_TARGET_ARTICLES="$target"
+      L383_WRITER_ATTEMPT_TIMEOUT=240
+      WRITER_PHASE_END=1980
       WRITER_SCOPE="This call covers ONLY these categories: ${desks}. Write only their ready stories, following their publication_plan counts, up to ${L383_TARGET_ARTICLES} articles; ignore every other category, including the every-category rule below. "
       WRITER_BRIEF="$folder/$group-brief.md"
-      "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$WRITER_BRIEF" --categories "$desks" --spares 1 || exit 1
+      "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$WRITER_BRIEF" --categories "$desks" --cap 2 --spares 1 || exit 1
       run_writer "$PRIMARY_WRITER_MODEL"
     ) > "$folder/$group.log" 2>&1 &
+    running=$((running + 1))
+    if [ "$running" -ge 3 ]; then
+      wait -n || true
+      running=$((running - 1))
+    fi
   done
   wait || true
   tail -n 3 "$folder"/*.log || true

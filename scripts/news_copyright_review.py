@@ -312,10 +312,14 @@ def _review_chunk(batch: Path, todo: list[dict], records: dict[str, dict], index
         "array between 383_REVIEW_BEGIN and 383_REVIEW_END. Copy each short ASCII review_id exactly; "
         "do not reproduce slugs or URLs, which the wrapper binds to the reviewed record. This is screening, not a legal certification."
     )
+    from news_review_rejection_basis import CLARIFICATION, grounded_rejection
+    from news_model_context import contextual_command
+    prompt += "\n" + CLARIFICATION
     from news_model import run_process
-    result = run_process([os.environ.get("L383_HERMES_BIN", "/opt/hermes/.venv/bin/hermes"), "chat",
+    command, inlined = contextual_command([os.environ.get("L383_HERMES_BIN", "/opt/hermes/.venv/bin/hermes"), "chat",
         "--provider", "openai-codex", "--model", "gpt-6-luna", "--ignore-rules", "-t", "file",
-        "--yolo", "--max-turns", "20", "-Q", "-q", prompt], timeout=360)
+        "--yolo", "--max-turns", "20", "-Q", "-q", prompt], [review_input])
+    result = run_process(command, timeout=360)
     if result.returncode:
         raise ValueError("independent originality reviewer failed")
     start = result.stdout.rfind("383_REVIEW_BEGIN")
@@ -338,6 +342,8 @@ def _review_chunk(batch: Path, todo: list[dict], records: dict[str, dict], index
              and isinstance(row.get("checks"), dict)
              and all(type(row["checks"].get(key)) is bool for key in CHECKS)
              and len(str(row.get("reason") or "").strip()) >= 40]
+    valid = [row for row in valid if approved(row) or grounded_rejection(
+        row, by_id[row["review_id"]], records[by_id[row["review_id"]]["slug"]])]
     if len(valid) != len(todo):
         print(f"383 COPYRIGHT REVIEW chunk {index}: valid={len(valid)} expected={len(todo)}; retry only missing decisions")
     if snapshot != snapshot_digest(todo, records):

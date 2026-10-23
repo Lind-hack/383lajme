@@ -75,6 +75,36 @@ class WriterBriefTests(unittest.TestCase):
             build(self.discovery, self.output, approved=self.root / "approved.json",
                   attempted=self.root / "attempted.json", spares=1)
 
+    def test_initial_selection_prefers_verified_model_outlines_and_labels_fragment_backups(self):
+        rows = []
+        for index, origin in enumerate(("fragments", "fragments", "fragments", "model", "cache")):
+            pair = f"Kosovë-{index}"
+            notes = self.root / f"{index}.facts.json"
+            notes.write_text(json.dumps({"pair_id": pair, "facts": ["A distinct fact"] * 4, "origin": origin}), encoding="utf-8")
+            rows.append({**self.lead, "pair_id": pair, "url": f"https://koha.net/item-{index}", "facts_path": str(notes)})
+        self.write(rows)
+        self.assertEqual(build(self.discovery, self.output, "Kosovë", spares=1), 3)
+        brief = self.output.read_text(encoding="utf-8")
+        for index in (3, 4, 0):
+            self.assertIn(f"https://koha.net/item-{index}", brief)
+        for index in (1, 2):
+            self.assertNotIn(f"https://koha.net/item-{index}", brief)
+        self.assertIn("Source-fragment fallback", brief)
+        self.assertEqual(build(self.discovery, self.output), 5)
+
+    def test_desk_floor_changes_only_the_reading_view_and_retains_one_unused_backup(self):
+        self.write([{**self.lead, "url": f"https://koha.net/item-{i}"} for i in range(5)])
+        data = json.loads(self.discovery.read_text(encoding="utf-8")); data["publication_plan"]["Kosovë"] = 3
+        self.discovery.write_text(json.dumps(data), encoding="utf-8")
+        before = self.discovery.read_bytes()
+        self.assertEqual(build(self.discovery, self.output, "Kosovë", cap=2, spares=1), 3)
+        self.assertIn('"Kosovë": 2', self.output.read_text(encoding="utf-8"))
+        self.assertEqual(self.discovery.read_bytes(), before)
+        self.assertEqual(build(self.discovery, self.output), 5)
+        self.assertIn('"Kosovë": 3', self.output.read_text(encoding="utf-8"))
+        with self.assertRaises(ValueError):
+            build(self.discovery, self.output, cap=0)
+
     def test_wrong_story_notes_and_wrong_category_sources_fail_closed(self):
         self.write()
         self.notes.write_text(json.dumps({"pair_id": "another-story", "facts": ["fact"] * 4}), encoding="utf-8")

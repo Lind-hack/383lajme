@@ -378,3 +378,28 @@ file title nor description names the person. These checks prevent a same-named
 school principal illustrating a golfer and a spacecraft being captioned as its
 company founder. All existing license, age, decoding and source-distinctness
 requirements remain mandatory.
+
+Initial writing now assigns one desk per request, targets two articles per
+available desk, and allows at most three requests concurrently. Each request has
+one spare story, a four-minute limit and a minute-33 cutoff; seven requests fit
+three bounded waves after preparation. Missing-desk recovery ends by minute 36.
+The final target remains 20, with two to three per desk when verified inventory
+and the remaining review budget support it. No inventory means no fabricated desk.
+
+Writer, editor and reviewer calls receive complete reference documents directly
+when they fit the safe UTF-8 argument limit. Those calls have zero tools; a
+startup check verifies that the installed Hermes resolves that tool selection to
+zero tools. Oversize requests retain complete file-based reading without clipping
+sources. Providers/models, max effort and OAuth-only inference stay fixed.
+
+Reporter note files explicitly distinguish new model notes, validated cache hits
+and source-fragment fallbacks. Initial desk selection prefers model/cache fact
+outlines; the complete replacement inventory remains available. Fragment backups
+are labeled plainly. Existing source-hash, cache-age and originality checks stay.
+
+The reviewer distinguishes factual overlap from expressive copying and supplies
+verifiable rejection grounds. Incorrect facts/attribution still fail. Copying
+rejections identify source/article passages and explain expression beyond public
+facts; a single genuinely distinctive borrowed expression remains sufficient.
+Unverifiable decisions are retried or blocked, never automatically approved.
+All six approval checks, content-bound receipts and final publication gates remain.

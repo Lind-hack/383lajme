@@ -143,8 +143,8 @@ review_candidates
     def test_missing_desk_recovery_retains_initial_copy_and_only_requests_the_floor_deficit(self):
         self.exercise_missing_desks(1500, False)
 
-    def test_missing_desk_recovery_does_not_start_at_minute_twenty_nine(self):
-        self.exercise_missing_desks(1740, False)
+    def test_missing_desk_recovery_does_not_start_at_minute_thirty_six(self):
+        self.exercise_missing_desks(2160, False)
 
     def test_missing_desk_recovery_never_starts_more_than_three_account_calls(self):
         self.exercise_missing_desks(1500, True)
@@ -171,9 +171,9 @@ review_candidates
                  'evidence_path': '/verified/evidence.json'} for category in CATEGORIES for i in range(3)]}), encoding='utf-8')
             script = helper + '''
 set -e
-model_budget() { test "$1" -eq 180 && test "$2" -eq 1740 || return 1; if [ "$TEST_ELAPSED" -ge 1740 ]; then return 75; fi; printf 180; }
+model_budget() { test "$1" -eq 180 && test "$2" -eq 2160 || return 1; if [ "$TEST_ELAPSED" -ge 2160 ]; then return 75; fi; printf 180; }
 run_writer() {
- test "$WRITER_PHASE_END" -eq 1740 && test "$L383_WRITER_ATTEMPT_TIMEOUT" -eq 180
+ test "$WRITER_PHASE_END" -eq 2160 && test "$L383_WRITER_ATTEMPT_TIMEOUT" -eq 180
  "$PYTHON_BIN" - "$WRITER_BRIEF" "$WRITER_BATCH" "$L383_TARGET_ARTICLES" "$TEST_EVENTS" <<'PY'
 import json,re,sys
 from pathlib import Path
@@ -198,7 +198,7 @@ recover_missing_writer_desks "$TEST_FOLDER"
             rows=json.loads(batch.read_text(encoding='utf-8'))
             self.assertEqual(rows[:len(prior)],prior)
             requested=dict(line.split('\t') for line in events.read_text(encoding='utf-8').splitlines()) if events.exists() else {}
-            if elapsed>=1740:
+            if elapsed>=2160:
                 self.assertEqual(requested,{})
                 self.assertEqual(rows,prior)
             elif empty:

@@ -283,3 +283,30 @@ The final throughput item remains open until actual output proves it. Do not rep
   The photo-only correction therefore remains blocked and unapplied. A genuine
   Luna rewrite plus fresh review is needed; do not reuse the earlier published
   approval or weaken the photo/copyright gates to apply this change.
+- The 20:00 run published three articles after returning four initial drafts and
+  one early recovery draft. The editor retained all five; preflight/review left
+  three approved. It did not achieve the requested coverage. No success claim.
+- Replaced broad multi-desk writing with seven independent two-article requests,
+  maximum three concurrent, 240 seconds each, ending by minute 33. Recovery can
+  run through minute 36. Native scheduling tests execute the actual Bash loop
+  with SQLite-tracked local fake writers: all available desks, strict concurrency,
+  isolated desk failure and zero-inventory behavior pass.
+- Added explicit note origins and prioritized model/cache outlines before raw
+  fragment backups in initial reading views. Added future-tense Albanian singing
+  recognition. The authoritative inventory and all substantive gates remain.
+- Complete inline references eliminate model file-read turns when safely sized;
+  an oversize request uses complete file reads instead of truncation. The actual
+  installed Hermes resolved the selected data-only toolset to zero tools.
+- A real Luna/max/OAuth two-Kosovo draft benchmark completed in 193.6 seconds,
+  with exact category/source scope, three paragraphs and eight factors per draft.
+  A simple whitespace count reported a 137-word minimum; the official gate count
+  still needs checking before describing either draft as publication-eligible.
+- Three isolated reviewer controls correctly approved factual reporting, rejected
+  a wrong month and rejected translated distinctive imagery. One quoted span had
+  a one-character typo; the separate exact imagery passage and failed exclusive-
+  expression check still substantiate rejection under the existing single-
+  distinctive-passage rule. The validator retains proven negative grounds and
+  never turns invalid grounds into approval. No QA article was published.
+- Latest native news suite: 234 cases pass. The production build passed at
+  20:59:46 Warsaw. Deployment/idle worker activation of this bundle is pending;
+  do not describe it as active in the already scheduled 21:00 slot.

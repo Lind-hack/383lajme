@@ -122,7 +122,7 @@ _CULTURE = re.compile(r"\b(?:showbiz|entertainment|celebr\w*|singer\w*|actor\w*|
                       r"books?|bookstore\w*|libr\w*|novels?|roman|romani|romanit|romaneve|"
                       r"artist\w*|art|artwork\w*|piktur\w*|painting\w*|sculpt\w*|skulpt\w*|"
                       r"literatur\w*|letersi\w*|poet\w*|poez\w*|nobel|ekspozit\w*|exhibition\w*|bienal\w*|"
-                      r"kendon|kendoi|kendojne|kenduan|kenduar|kendonte|televiziv\w*|"
+                      r"kendon|kendoi|kendojne|kendoje|kenduan|kenduar|kendonte|televiziv\w*|"
                       r"television|reality|tv star|fashion|moda|mode|modes|moden|kardashian|royal family|royals|mbreter\w*)\b")
 _LOCAL = {
     "Kosovë": re.compile(r"\b(?:kosov\w*|prishtin\w*|prizren\w*|pej[ae]\w*|gjilan\w*|"

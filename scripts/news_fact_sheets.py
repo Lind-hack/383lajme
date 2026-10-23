@@ -143,6 +143,7 @@ def build_fact_sheets(leads: list[dict], folder: Path) -> dict[str, Path]:
     except (OSError, ValueError, AttributeError):
         cache = {}
     sheets = cached_notes(leads, cache)
+    cached_ids = set(sheets)
     reused = len(sheets)
     pending = [lead for lead in leads if lead["pair_id"] not in sheets]
     chunks = [pending[start:start + CHUNK] for start in range(0, len(pending), CHUNK)]
@@ -177,6 +178,7 @@ def build_fact_sheets(leads: list[dict], folder: Path) -> dict[str, Path]:
     finally:
         pool.shutdown(wait=True, cancel_futures=True)
     model_notes = len(sheets)
+    model_ids = set(sheets)
     # Only model-produced, validated notes enter the cache. Never cache raw
     # source fragments or extend a cached entry's age merely because it is read.
     now = time.time()
@@ -202,7 +204,8 @@ def build_fact_sheets(leads: list[dict], folder: Path) -> dict[str, Path]:
     for lead in leads:
         if lead["pair_id"] in sheets:
             target = folder / f"{lead['pair_id']}.facts.json"
-            target.write_text(json.dumps({"pair_id": lead["pair_id"], "facts": sheets[lead["pair_id"]]},
+            origin = "cache" if lead["pair_id"] in cached_ids else "model" if lead["pair_id"] in model_ids else "fragments"
+            target.write_text(json.dumps({"pair_id": lead["pair_id"], "facts": sheets[lead["pair_id"]], "origin": origin},
                                          ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
             paths[lead["pair_id"]] = target
     print(f"383 FACT NOTES ready={len(paths)} of {len(leads)} (model={model_notes - reused}, "

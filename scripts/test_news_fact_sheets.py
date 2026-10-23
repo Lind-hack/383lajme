@@ -50,10 +50,12 @@ class FactSheetTests(unittest.TestCase):
         original = {**lead(1), "source_url": "https://example.com/story"}
         with tempfile.TemporaryDirectory() as folder, patch.object(sheets, "ask_rows",
                 return_value=[{"pair_id": "story-001", "facts": facts}]) as model:
-            sheets.build_fact_sheets([original], Path(folder))
+            first = sheets.build_fact_sheets([original], Path(folder))
+            self.assertEqual(json.loads(first[original["pair_id"]].read_text(encoding="utf-8"))["origin"], "model")
             renamed = {**original, "pair_id": "Kosove-99"}
             paths = sheets.build_fact_sheets([renamed], Path(folder))
             self.assertIn(renamed["pair_id"], paths)
+            self.assertEqual(json.loads(paths[renamed["pair_id"]].read_text(encoding="utf-8"))["origin"], "cache")
             self.assertEqual(model.call_count, 1)
             cache = json.loads((Path(folder) / "reporter-notes-cache.json").read_text(encoding="utf-8"))
             self.assertEqual(len(cache["entries"]), 1)
@@ -73,6 +75,7 @@ class FactSheetTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder, patch.object(sheets, "ask_rows", return_value=[]):
             paths = sheets.build_fact_sheets([{**lead(1), "text": text}], Path(folder))
             self.assertTrue(paths)
+            self.assertEqual(json.loads(paths[lead(1)["pair_id"]].read_text(encoding="utf-8"))["origin"], "fragments")
             cache = json.loads((Path(folder) / "reporter-notes-cache.json").read_text(encoding="utf-8"))
             self.assertEqual(cache["entries"], {})
 

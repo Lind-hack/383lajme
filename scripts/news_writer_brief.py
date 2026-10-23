@@ -10,18 +10,28 @@ from news_coverage import replacement_plan, CATEGORY_CEILING
 
 
 def build(discovery: Path, output: Path, categories: str = "", *, approved: Path | None = None,
-          attempted: Path | None = None, limit: int = 0, spares: int | None = None) -> int:
+          attempted: Path | None = None, limit: int = 0, spares: int | None = None, cap: int | None = None) -> int:
     data = json.loads(discovery.read_text(encoding="utf-8"))
     selected = [part.strip() for part in categories.split(",") if part.strip()] or list(CATEGORIES)
     if set(selected) - set(CATEGORIES):
         raise ValueError("unknown writing category")
     plan = {category: data["publication_plan"].get(category, 0) for category in selected}
+    if cap is not None:
+        if cap < 1 or approved:
+            raise ValueError("initial desk cap must be positive and cannot limit replacement selection")
+        plan = {category: min(count, cap) for category, count in plan.items()}
     leads = data.get("ready_leads", [])
     if bool(approved) != bool(attempted) or limit < 0 or (spares is not None and (spares < 0 or approved)):
         raise ValueError("replacement brief requires approved and attempted records together and a nonnegative limit")
     if spares is not None:
         # Bound each initial composer's reading, while preserving the complete
         # inventory/global brief for later fresh replacements and rewrites.
+        def note_priority(lead):
+            if not lead.get("facts_path"):
+                return 3
+            sheet = json.loads(Path(lead["facts_path"]).read_text(encoding="utf-8"))
+            return 0 if sheet.get("origin") in {"model", "cache"} else 2 if sheet.get("origin") == "fragments" else 1
+        leads = sorted(leads, key=note_priority)
         counts = Counter()
         initial = []
         for lead in leads:
@@ -83,7 +93,8 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
             if (not isinstance(sheet, dict) or sheet.get("pair_id") != lead["pair_id"] or not isinstance(facts, list) or len(facts) < 4
                     or any(not isinstance(fact, str) or not fact.strip() for fact in facts)):
                 raise ValueError("reporter notes do not match the prepared story")
-            lines.append("Reporter notes (complete):")
+            lines.append("Source-fragment fallback (complete; build a new fact outline, never translate these fragments):"
+                         if sheet.get("origin") == "fragments" else "Reporter notes (complete):")
             for fact in facts:
                 lines.extend(textwrap.wrap("- " + " ".join(fact.split()), width=160, break_on_hyphens=False))
         else:
@@ -110,5 +121,6 @@ if __name__ == "__main__":
     parser.add_argument("--attempted", type=Path)
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--spares", type=int)
+    parser.add_argument("--cap", type=int)
     args = parser.parse_args()
-    build(args.discovery, args.output, args.categories, approved=args.approved, attempted=args.attempted, limit=args.limit, spares=args.spares)
+    build(args.discovery, args.output, args.categories, approved=args.approved, attempted=args.attempted, limit=args.limit, spares=args.spares, cap=args.cap)
