@@ -263,7 +263,7 @@ refresh_merged_evidence() {
 
 run_writer() {
   local model="$1" writer_budget
-  writer_budget="$(model_budget "${L383_WRITER_ATTEMPT_TIMEOUT:-600}" 1500)" || return 75
+  writer_budget="$(model_budget "${L383_WRITER_ATTEMPT_TIMEOUT:-600}" "${WRITER_PHASE_END:-1500}")" || return 75
   timeout --signal=TERM --kill-after=15s "$((writer_budget + 5))s" \
     env HERMES_HOME="${L383_HERMES_HOME:-/opt/data/news-pipeline-hermes}" L383_MODEL_CALL_TIMEOUT="$writer_budget" \
     "$PYTHON_BIN" scripts/news_model_response.py --batch "${WRITER_BATCH:-$BATCH}" --mode replace -- /opt/hermes/.venv/bin/hermes chat \
@@ -284,6 +284,43 @@ printf '383 WRITER: provider=%s primary=%s fallback=%s max_turns=%s timeout=%ss\
 # extend the same batch while preserving the existing sources and time budget.
 FULL_TARGET="$L383_TARGET_ARTICLES"
 L383_TARGET_ARTICLES="$((FULL_TARGET < 7 ? FULL_TARGET : 7))"
+recover_missing_writer_desks() {
+  local folder="$1" missing recovery_budget desk needed index=0
+  recovery_budget="$(model_budget 180 1740)" || return 0
+  if [ "$recovery_budget" -lt 90 ]; then return 0; fi
+  missing="$("$PYTHON_BIN" - "${DISCOVERY%.md}.json" "$BATCH" <<'PY'
+import json,sys
+from collections import Counter
+sys.path.insert(0,'scripts')
+from news_source_policy import CATEGORIES
+discovery=json.load(open(sys.argv[1],encoding='utf-8'))
+prior=json.load(open(sys.argv[2],encoding='utf-8'))
+counts=Counter(a['category'] for a in prior)
+desks=sorted(CATEGORIES,key=lambda c:counts[c])
+missing=[(c,min(2,discovery['publication_plan'].get(c,0))-counts[c]) for c in desks]
+for category,needed in [(c,n) for c,n in missing if n>0][:3]:
+ print(category+'\t'+str(needed))
+PY
+)" || return 0
+  if [ -z "$missing" ]; then return 0; fi
+  "$PYTHON_BIN" -c 'import json,sys; json.dump([a["url"] for a in json.load(open(sys.argv[1],encoding="utf-8"))],open(sys.argv[2],"w",encoding="utf-8"))' "$BATCH" "$folder/recovery-attempted.txt"
+  while IFS=$'\t' read -r desk needed; do
+    index=$((index + 1))
+    (
+      WRITER_BATCH="$folder/recovery-$index.json"
+      WRITER_BRIEF="$folder/recovery-$index.md"
+      WRITER_PHASE_END=1740
+      L383_WRITER_ATTEMPT_TIMEOUT=180
+      L383_TARGET_ARTICLES="$needed"
+      WRITER_SCOPE="Recover ONLY ${desk}: write at most ${needed} new stories selected by this brief; ignore every other category and the global counts below. "
+      "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$WRITER_BRIEF" --categories "$desk" --approved "$BATCH" --attempted "$folder/recovery-attempted.txt" --limit "$needed" || exit 1
+      printf '383 MISSING DESK RECOVERY: category=%s articles=%s end_minute=29\n' "$desk" "$needed"
+      run_writer "$PRIMARY_WRITER_MODEL"
+    ) > "$folder/recovery-$index.log" 2>&1 &
+  done <<< "$missing"
+  wait || true
+  tail -n 3 "$folder"/recovery-*.log || true
+}
 # Ten or more ready stories: draft the three desk groups concurrently.
 # Each group receives the sum of its actual desk allocations, including eight
 # for Sport/Technology/Showbiz when all three have available inventory.
@@ -299,12 +336,14 @@ run_writer_groups() {
       if [ "$L383_TARGET_ARTICLES" -eq 0 ]; then exit 0; fi
       WRITER_SCOPE="This call covers ONLY these categories: ${desks}. Write only their ready stories, following their publication_plan counts, up to ${L383_TARGET_ARTICLES} articles; ignore every other category, including the every-category rule below. "
       WRITER_BRIEF="$folder/$group-brief.md"
-      "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$WRITER_BRIEF" --categories "$desks" || exit 1
+      "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$WRITER_BRIEF" --categories "$desks" --spares 1 || exit 1
       run_writer "$PRIMARY_WRITER_MODEL"
     ) > "$folder/$group.log" 2>&1 &
   done
   wait || true
   tail -n 3 "$folder"/*.log || true
+  if ! "$PYTHON_BIN" scripts/news_refill.py groups "$folder" "$BATCH"; then printf '[]\n' > "$BATCH"; fi
+  recover_missing_writer_desks "$folder"
   "$PYTHON_BIN" scripts/news_refill.py groups "$folder" "$BATCH"
 }
 if [ "$FULL_TARGET" -ge 10 ]; then

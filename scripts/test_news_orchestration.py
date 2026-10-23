@@ -140,6 +140,74 @@ review_candidates
         result = self.invoke(helper + '\nSTART_EPOCH=1000; date() { printf 2500; }; model_budget 600 1500')
         self.assertEqual(result.returncode, 75, result.stderr)
 
+    def test_missing_desk_recovery_retains_initial_copy_and_only_requests_the_floor_deficit(self):
+        self.exercise_missing_desks(1500, False)
+
+    def test_missing_desk_recovery_does_not_start_at_minute_twenty_nine(self):
+        self.exercise_missing_desks(1740, False)
+
+    def test_missing_desk_recovery_never_starts_more_than_three_account_calls(self):
+        self.exercise_missing_desks(1500, True)
+
+    def exercise_missing_desks(self, elapsed, empty):
+        from news_source_policy import CATEGORIES
+        start = RUNNER.index('recover_missing_writer_desks() {')
+        helper = RUNNER[start:RUNNER.index('# Ten or more ready stories:', start)]
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            folder = root / 'groups'; folder.mkdir()
+            # Use registry ownership rather than assuming dictionary order.
+            from news_source_policy import MANIFEST
+            hosts = {category: next(p['domains'][0] for p in MANIFEST['publishers'] if p['category'] == category) for category in CATEGORIES}
+            plan = {category: 2 if empty or category in ('Kosovë','Shqipëri','Sport','Botë') else 0 for category in CATEGORIES}
+            prior = [] if empty else [
+                {'slug': 'world-'+str(i), 'url': f'https://{hosts["Botë"]}/prior-{i}', 'category': 'Botë', 'body': 'Exact existing copy'} for i in range(2)] + [
+                {'slug': 'sport', 'url': f'https://{hosts["Sport"]}/prior', 'category': 'Sport', 'body': 'Exact existing copy'}]
+            batch = root / 'batch.json'; batch.write_text(json.dumps(prior), encoding='utf-8')
+            (folder / '1.json').write_text(json.dumps(prior), encoding='utf-8')
+            discovery = root / 'discovery.json'
+            discovery.write_text(json.dumps({'publication_plan': plan, 'ready_leads': [
+                {'pair_id': category+str(i), 'category': category, 'url': f'https://{hosts[category]}/fresh-{i}',
+                 'evidence_path': '/verified/evidence.json'} for category in CATEGORIES for i in range(3)]}), encoding='utf-8')
+            script = helper + '''
+set -e
+model_budget() { test "$1" -eq 180 && test "$2" -eq 1740 || return 1; if [ "$TEST_ELAPSED" -ge 1740 ]; then return 75; fi; printf 180; }
+run_writer() {
+ test "$WRITER_PHASE_END" -eq 1740 && test "$L383_WRITER_ATTEMPT_TIMEOUT" -eq 180
+ "$PYTHON_BIN" - "$WRITER_BRIEF" "$WRITER_BATCH" "$L383_TARGET_ARTICLES" "$TEST_EVENTS" <<'PY'
+import json,re,sys
+from pathlib import Path
+brief=Path(sys.argv[1]).read_text(encoding='utf-8')
+category=re.search(r'^category: (.+)$',brief,re.M).group(1)
+urls=re.findall(r'^url: (.+)$',brief,re.M)
+needed=int(sys.argv[3]);assert len(urls)==needed and needed<=2
+with open(sys.argv[4],'a',encoding='utf-8') as out:out.write(category+'\\t'+str(needed)+'\\n')
+Path(sys.argv[2]).write_text(json.dumps([{'slug':category+str(i),'url':url,'category':category,'body':'Recovered draft'} for i,url in enumerate(urls)]),encoding='utf-8')
+PY
+}
+recover_missing_writer_desks "$TEST_FOLDER"
+"$PYTHON_BIN" scripts/news_refill.py groups "$TEST_FOLDER" "$BATCH" || true
+'''
+            events = root / 'events.txt'
+            result = subprocess.run([BASH,'-c',script],cwd=Path(__file__).resolve().parent.parent,
+                capture_output=True,text=True,timeout=15,env={**os.environ,'PYTHON_BIN':sys.executable,
+                'DISCOVERY':discovery.with_suffix('.md').as_posix(),'BATCH':batch.as_posix(),
+                'TEST_FOLDER':folder.as_posix(),'TEST_EVENTS':events.as_posix(),'TEST_ELAPSED':str(elapsed),
+                'PRIMARY_WRITER_MODEL':'gpt-6-luna','PYTHONIOENCODING':'utf-8'})
+            self.assertEqual(result.returncode,0,result.stderr+result.stdout)
+            rows=json.loads(batch.read_text(encoding='utf-8'))
+            self.assertEqual(rows[:len(prior)],prior)
+            requested=dict(line.split('\t') for line in events.read_text(encoding='utf-8').splitlines()) if events.exists() else {}
+            if elapsed>=1740:
+                self.assertEqual(requested,{})
+                self.assertEqual(rows,prior)
+            elif empty:
+                self.assertEqual(len(requested),3)
+                self.assertEqual(len(rows),6)
+            else:
+                self.assertEqual(requested,{'Kosovë':'2','Shqipëri':'2','Sport':'1'})
+                self.assertEqual(len(rows),8)
+
     def test_fresh_refill_has_three_minutes_after_a_minute_forty_one_review(self):
         helper = RUNNER[RUNNER.index("model_budget() {"):RUNNER.index("track_attempted() {")]
         command = next(line.strip() for line in RUNNER.splitlines() if line.strip().startswith('refill_budget="$(model_budget'))

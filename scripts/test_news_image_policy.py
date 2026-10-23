@@ -545,10 +545,32 @@ class NewsPhotoTests(unittest.TestCase):
         with patch.object(policy, "depicted", return_value={"Q57606", "Q1063445"}):
             self.assertIsNone(policy.candidate_photo(visit, fico))
         with patch.object(policy, "depicted", return_value={"Q57606"}):
+            self.assertIsNone(policy.candidate_photo(visit, fico))
+            visit["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Portrait of Robert Fico at the meeting."}
             self.assertIsNotNone(policy.candidate_photo(visit, fico))
         visit["title"] = "File:Fico and Fitto in Bratislava.jpg"
         with patch.object(policy, "depicted", return_value={"Q57606", "Q1063445"}):
             self.assertIsNotNone(policy.candidate_photo(visit, fico))
+
+    def test_matching_full_name_cannot_override_a_different_persons_structured_identity(self):
+        golfer = {**plan(), "subject": "Ian Poulter", "qid": "Q615937", "kind": "person"}
+        namesake = page()
+        namesake.update(title="File:Ian Poulter MNZM investiture.jpg", pageid=193110045)
+        namesake["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Ian Poulter, honoured for services to education in Wellington."}
+        with patch.object(policy, "depicted", return_value={"Q17180701", "Q137642272"}):
+            self.assertIsNone(policy.candidate_photo(namesake, golfer))
+        namesake["title"] = "File:Ian Poulter at a golf tournament.jpg"
+        namesake["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "Ian Poulter playing golf."}
+        with patch.object(policy, "depicted", return_value={"Q615937"}):
+            self.assertIsNotNone(policy.candidate_photo(namesake, golfer))
+
+    def test_sole_person_tag_cannot_turn_a_spacecraft_into_a_portrait(self):
+        musk = {**plan(), "subject": "Elon Musk", "qid": "Q317521", "kind": "person"}
+        ship = page()
+        ship.update(title="File:The SpaceX Dragon spacecraft carrying Axiom Mission 4.jpg", pageid=168694924)
+        ship["imageinfo"][0]["extmetadata"]["ImageDescription"] = {"value": "The SpaceX Dragon spacecraft approaches the International Space Station."}
+        with patch.object(policy, "depicted", return_value={"Q317521"}):
+            self.assertIsNone(policy.candidate_photo(ship, musk))
 
     def test_place_tier_uses_the_story_place_when_no_person_photo_exists(self):
         fico = {**plan(), "subject": "Robert Fico", "qid": "Q57606", "kind": "person",

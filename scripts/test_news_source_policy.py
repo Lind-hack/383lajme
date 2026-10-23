@@ -11,6 +11,13 @@ from news_run_state import completed, save
 
 
 class SourceIsolation(unittest.TestCase):
+    def test_albanian_singing_and_television_terms_identify_culture_without_a_name_whitelist(self):
+        for title in ("Phoebe Bridgers këndon solo në SNL më 14 nëntor",
+                      "Publikohet programi televiziv i fundjavës"):
+            self.assertIsNone(topic_error("Showbiz", title))
+        self.assertIsNotNone(topic_error("Showbiz", "Banka shpall fitimin tremujor"))
+        self.assertIsNotNone(source_error("Showbiz", "https://cnbc.com/business/announcement"))
+
     def test_music_publishers_stay_in_showbiz_and_keep_real_owner_families(self):
         for domain in ("nme.com", "pitchfork.com"):
             self.assertIsNone(source_error("Showbiz", f"https://{domain}/news/announcement"))

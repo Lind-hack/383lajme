@@ -50,6 +50,31 @@ class WriterBriefTests(unittest.TestCase):
         self.assertNotIn("Shqipëri", brief)
         self.assertIn('"Kosovë": 2', brief)
 
+    def test_initial_composer_gets_one_spare_per_desk_without_losing_later_inventory(self):
+        rows = []
+        for category, host in (("Kosovë", "koha.net"), ("Shqipëri", "lapsi.al")):
+            for index in range(6):
+                pair = f"{category}-{index}"
+                notes = self.root / f"{pair}.json"
+                notes.write_text(json.dumps({"pair_id": pair, "facts": ["A distinct verified fact"] * 4}), encoding="utf-8")
+                rows.append({**self.lead, "category": category, "url": f"https://{host}/item-{index}",
+                             "pair_id": pair, "facts_path": str(notes)})
+        self.write(rows)
+        original = self.discovery.read_bytes()
+        self.assertEqual(build(self.discovery, self.output, spares=1), 6)
+        self.assertNotIn("/item-3", self.output.read_text(encoding="utf-8"))
+        self.assertEqual(self.discovery.read_bytes(), original)
+        self.assertEqual(build(self.discovery, self.output), 12)
+        self.assertIn("/item-5", self.output.read_text(encoding="utf-8"))
+
+    def test_initial_spares_cannot_silently_limit_replacement_selection(self):
+        self.write()
+        with self.assertRaises(ValueError):
+            build(self.discovery, self.output, spares=-1)
+        with self.assertRaises(ValueError):
+            build(self.discovery, self.output, approved=self.root / "approved.json",
+                  attempted=self.root / "attempted.json", spares=1)
+
     def test_wrong_story_notes_and_wrong_category_sources_fail_closed(self):
         self.write()
         self.notes.write_text(json.dumps({"pair_id": "another-story", "facts": ["fact"] * 4}), encoding="utf-8")

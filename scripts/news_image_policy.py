@@ -701,6 +701,15 @@ def candidate_photo(page: dict, plan: dict, max_years: int = MAX_PHOTO_AGE_YEARS
     # mentions the name gave pilgrims at a screen for the Pope and a road
     # blockade for Andy Burnham.
     tags = depicted(page.get("pageid")) if plan.get("qid") else set()
+    if plan.get("kind") == "person" and plan.get("qid"):
+        # A full name can belong to several people. Conversely, a wrong
+        # Commons tag can put a spacecraft under its company's founder.
+        # Require the file's own metadata to name the person, and never
+        # override a conflicting structured identity with a filename match.
+        named_words = " " + " ".join(re.findall(r"[a-z0-9]+", fold(description))) + " "
+        surname = phrase.rsplit(" ", 1)[-1]
+        if (tags and plan["qid"] not in tags) or f" {surname} " not in named_words:
+            return None
     # A searched place must depict this exact geographic entity. A shared
     # title word (Paris Hilton, a namesake road) is not sufficient. Wikipedia
     # lead images retain their independently grounded page identity.

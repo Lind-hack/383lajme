@@ -350,3 +350,31 @@ It shares the existing optional-writing limits: start before minute 42, at most
 180 seconds, end by minute 45. This removes the older fresh-only minute-43 cutoff
 that left the observed 17:41 refill only 108 seconds. All new copy still receives
 normal editing, independent review and publication verification.
+
+Initial desk-group briefs contain each desk's planned count plus one spare.
+Only these initial reading views are bounded: the authoritative ready inventory,
+global continuation/rewrite brief and unused-source replacement selection keep
+all eligible stories. This reduces reading and selection work without reducing
+publication allocations or accepting unverified stories.
+
+The initial copy editor returns per-URL keep/correct/drop decisions. Retained
+articles require explicit facts, attribution, originality, photo-fit and language
+checks. A keep decision preserves prose byte for byte. A correction names an exact
+unique draft span, replacement, defect and concrete reason; only title, excerpt
+and body spans can change. Score/attribution metadata has a separate allowlist.
+Missing, duplicate or malformed decisions cannot retain unreviewed copy. Images,
+sources, identities and timestamps cannot be patched. Normal post-edit gates and
+fresh independent originality review still apply to the resulting full articles.
+
+A bounded recovery before editing covers up to three desks below two initial
+drafts. It asks only for unused source-ready stories needed for that floor, up
+to two articles per desk, in at most three parallel Luna/max calls. Each call is
+capped at 180 seconds and ends by minute 29; existing drafts are retained exactly.
+The usual category ceilings and 20-article publication target remain in force.
+
+Person photographs cannot pass on a matching filename when Commons depicts a
+different identity. A sole structured tag is also insufficient when neither the
+file title nor description names the person. These checks prevent a same-named
+school principal illustrating a golfer and a spacecraft being captioned as its
+company founder. All existing license, age, decoding and source-distinctness
+requirements remain mandatory.

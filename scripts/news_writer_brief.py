@@ -10,15 +10,26 @@ from news_coverage import replacement_plan, CATEGORY_CEILING
 
 
 def build(discovery: Path, output: Path, categories: str = "", *, approved: Path | None = None,
-          attempted: Path | None = None, limit: int = 0) -> int:
+          attempted: Path | None = None, limit: int = 0, spares: int | None = None) -> int:
     data = json.loads(discovery.read_text(encoding="utf-8"))
     selected = [part.strip() for part in categories.split(",") if part.strip()] or list(CATEGORIES)
     if set(selected) - set(CATEGORIES):
         raise ValueError("unknown writing category")
     plan = {category: data["publication_plan"].get(category, 0) for category in selected}
     leads = data.get("ready_leads", [])
-    if bool(approved) != bool(attempted) or limit < 0:
+    if bool(approved) != bool(attempted) or limit < 0 or (spares is not None and (spares < 0 or approved)):
         raise ValueError("replacement brief requires approved and attempted records together and a nonnegative limit")
+    if spares is not None:
+        # Bound each initial composer's reading, while preserving the complete
+        # inventory/global brief for later fresh replacements and rewrites.
+        counts = Counter()
+        initial = []
+        for lead in leads:
+            category = lead["category"]
+            if category in selected and plan[category] > 0 and counts[category] < plan[category] + spares:
+                initial.append(lead)
+                counts[category] += 1
+        leads = initial
     if approved:
         prior = json.loads(approved.read_text(encoding="utf-8"))
         used = set(json.loads(attempted.read_text(encoding="utf-8"))) | {a["url"] for a in prior}
@@ -98,5 +109,6 @@ if __name__ == "__main__":
     parser.add_argument("--approved", type=Path)
     parser.add_argument("--attempted", type=Path)
     parser.add_argument("--limit", type=int, default=0)
+    parser.add_argument("--spares", type=int)
     args = parser.parse_args()
-    build(args.discovery, args.output, args.categories, approved=args.approved, attempted=args.attempted, limit=args.limit)
+    build(args.discovery, args.output, args.categories, approved=args.approved, attempted=args.attempted, limit=args.limit, spares=args.spares)

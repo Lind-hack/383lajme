@@ -16,6 +16,9 @@ def save_response(output: str, batch: Path, mode: str) -> int:
     rows = json.loads(output[start + len("383_JSON_BEGIN"):end].strip())
     if not isinstance(rows, list) or (not rows and mode == "replace"):
         raise ValueError("Model response must be an article array; initial drafts cannot be empty")
+    if mode == "editor-decisions":
+        from news_editor_decisions import apply_decisions
+        rows = apply_decisions(json.loads(batch.read_text(encoding="utf-8")), rows)
     if mode == "editor" and rows:
         old = json.loads(batch.read_text(encoding="utf-8"))
         allowed = {row["url"] for row in old}
@@ -53,7 +56,7 @@ def save_response(output: str, batch: Path, mode: str) -> int:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--batch", type=Path, required=True)
-    parser.add_argument("--mode", choices=["replace", "append", "editor"], required=True)
+    parser.add_argument("--mode", choices=["replace", "append", "editor", "editor-decisions"], required=True)
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
     command = args.command[1:] if args.command[:1] == ["--"] else args.command

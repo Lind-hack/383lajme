@@ -209,6 +209,77 @@ The final throughput item remains open until actual output proves it. Do not rep
   authorize its publication or repair the existing article by itself. Wrong
   company, untyped institution and invalid license remain rejected.
 - Native verification: 201 news tests plus 67 previously checked adjacent tests
-  (268 total), shell syntax and whitespace checks pass. Production build must
-  finish before committing/activating this release. Real next-run publication
+  (268 total), shell syntax and whitespace checks pass. Production build passed before committing this release. Real next-run publication
   counts and the PLD photo correction remain open.
+- Release 2b7efd1dc1b5d2cf8759706ab2b129564a080dae was pushed to main after
+  the production build passed. Railway reports success and the live deployment
+  endpoint reports this exact SHA, production and github-main. Its immutable
+  worker archive was activated under the publisher lock at 15:54:55 UTC while
+  the service was idle; the 18:00 Warsaw slot is the first intended real run.
+- The isolated Luna photo editor explicitly selected the PLD Space exterior for
+  the existing article's final headline/body. Fresh independent review then
+  timed out at its pre-hour deadline; no review receipt or DB correction was
+  created. All QA model work ended before the next scheduled slot.
+- In the 18:00 run, early notes actually started at 18:12:12 Warsaw, during photo
+  HTTP finalization. They finished at 18:19:15 with 21 new model-produced sets,
+  seven cache hits and ten fragment fallbacks. The final source-bound note pass
+  reused all 28 validated sets; 38 stories across seven desks supported a
+  feasible 20-story plan. These are preparation counts, not published counts.
+- Bounded only the initial desk-group reading views to planned count plus one
+  spare per desk. The global continuation/rewrite brief and authoritative
+  replacement inventory remain complete. Against the actual 18:00 input, group
+  sizes fell 12->8, 11->8 and 15->11 stories; reading characters fell 39%, 27%
+  and 30%. Native news tests pass 203 cases (270 with the previously verified
+  adjacent suites); the next production build is still running. This change is
+  not in the active 18:00 worker.
+- The 18:00 run ultimately published five: World 2, Economy 1, Sport 1, Albania 1;
+  Kosovo/Technology/Showbiz stayed empty. Exact DB identity/category/photo/rights
+  readback passed. The requested every-category outcome remains unmet. Its first
+  review rejected five for originality; none of those five reasons alleged a
+  factual defect. Fresh refill recovered one approved Albania article.
+- Confirmed two generated photo defects: Ian Poulter's image depicts the same-named
+  New Zealand school principal (Q137642272), not the golfer (Q615937); the photo
+  captioned Elon Musk actually shows a SpaceX spacecraft. The latter carried an
+  incorrect Commons depicts tag. Quarantined those exact generated provenance
+  records, with complete backups; no worker code, draft text or receipt was
+  changed. Existing mandatory-photo isolation removed the wrong-person draft.
+  Repeated the exact-image-hash quarantine during the still-old 19:00 run.
+- Permanent candidate validation now rejects conflicting person identities and
+  requires the person's name in the file's own metadata even with a sole tag.
+  Regression controls preserve a genuine same-person photo. Added explicit
+  Albanian singing/television forms to culture classification; financial-only
+  stories and unregistered category sources remain rejected.
+- The 18:00 writer/editor comparison found body similarities of 0.249 (Quest)
+  and 0.075 (Phoebe Bridgers). The editor introduced SNL background passages
+  absent from the writer; the independent reviewer specifically rejected those
+  added passages. Replaced the contradictory blanket rewrite instruction and
+  changed initial editing to explicit source-bound decisions and exact-span
+  corrections. Unaffected copy is now preserved by code; independent review is
+  unchanged. Seven new tests cover exact preservation, corrections, immutable
+  fields, missing checks, duplicates, ambiguous spans and atomic failure.
+- Added early missing-desk recovery, capped at three parallel calls, two draft
+  slots per desk, 180 seconds per call and minute 29. Native shell regressions
+  verify retained initial copy, exact floor deficits, the account-call ceiling
+  and no late starts. Normal initial writing still ends by minute 25.
+- Latest native news suite: 216 tests pass. An additional 23 originality,
+  journalism, topic and source-mix tests pass, including source-mix regression.
+  A production build of these changes passed. A real isolated Luna editor pilot
+  and its independent review are prepared but cannot run while the scheduled
+  publisher holds the account/publisher lock. Worker activation remains pending.
+- The PLD correction's fresh source/rights/decoding preflight passed again, with
+  the same explicitly selected exterior image hash. The conditional PostgREST
+  comparison against the entire old raw article was verified read-only. No
+  correction has been applied; a fresh independent approval is still required.
+- The 19:00 run finished with four published articles: World 2 and Sport 2;
+  five categories stayed empty. Exact DB photo/category/rights readback passed.
+  Its 14 initial drafts became four approvals; the late fresh writer timed out.
+  This is another failed coverage outcome, not completion of the user's goal.
+- The real isolated Luna/max pilot completed the new decision protocol with one
+  retained, explicitly checked article, zero unreviewed decisions, valid schema
+  and editorial completion acknowledgement. Independent review then rejected
+  that sample's remaining close paraphrasing; no pilot news was published. The
+  protocol is operational, but improved originality/coverage is not yet proven.
+- Fresh independent review rejected the old PLD Space copy for close translation.
+  The photo-only correction therefore remains blocked and unapplied. A genuine
+  Luna rewrite plus fresh review is needed; do not reuse the earlier published
+  approval or weaken the photo/copyright gates to apply this change.
