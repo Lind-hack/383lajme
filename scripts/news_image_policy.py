@@ -128,7 +128,7 @@ def plan_subjects(leads: list[dict], folder: Path) -> dict[str, dict]:
     return plans
 
 
-NAME = re.compile(r"[A-ZÇËŠŽĆČ][\w'’-]+(?:[ 	]+(?!(?:CEO|CFO|CTO|COO|CMO)\b)[A-ZÇËŠŽĆČ][\w'’-]+){0,2}")
+NAME = re.compile(r"(?<!\w)(?:[a-z]{1,8}(?=[A-Z])|[A-ZÇËŠŽĆČ])[\w'’-]+(?:\.[a-z]{2,8})?(?:[ 	]+(?!(?:CEO|CFO|CTO|COO|CMO)\b)[A-ZÇËŠŽĆČ][\w'’-]+){0,2}")
 NOT_NAMES = {"the", "a", "an", "will", "why", "how", "what", "who", "new", "after", "before", "breaking",
              "watch", "live", "latest", "she", "he", "it", "they", "his", "her", "its", "this", "that",
              "january", "february", "march", "april", "may", "june", "july", "august", "september",

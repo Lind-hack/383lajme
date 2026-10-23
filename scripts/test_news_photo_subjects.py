@@ -19,6 +19,21 @@ class PhotoSubjectGroundingTests(unittest.TestCase):
         policy._wiki_search.cache_clear()
         policy._identity_claims.cache_clear()
 
+    def test_robotaxi_brands_keep_complete_case_and_dot_names(self):
+        title = "Uber rival inDrive eyes robotaxi tests with Pony.ai and Nvidia"
+        text = ("Ride-hailing company inDrive is working with Pony.ai and Nvidia. "
+                "Pony.ai will bring robotaxis to the inDrive platform.")
+        names = policy.story_names(title, text)
+        self.assertIn("inDrive", names)
+        self.assertIn("Pony.ai", names)
+        self.assertNotIn("Drive", names)
+        self.assertNotIn("Pony", names)
+
+    def test_mixed_case_subjects_still_require_a_name_in_the_source_text(self):
+        self.assertIn("eBay", policy.story_names("eBay announces a change", "eBay announced a change."))
+        self.assertNotIn("inDrive", policy.story_names("inDrive announces a change", "A company announced a change."))
+        self.assertFalse(grounded("Drive", "inDrive is testing robotaxis"))
+
     def test_identity_requests_are_reused_but_request_failures_are_not_cached(self):
         response = SimpleNamespace(json=lambda: {"claims": {"P31": [
             {"mainsnak": {"datavalue": {"value": {"id": "Q5"}}}}]}})

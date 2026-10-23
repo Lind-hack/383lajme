@@ -112,3 +112,29 @@ The final throughput item remains open until actual output proves it. Do not rep
   one fresh GitHub documentation push retries the committed release. Do not call
   the failed website deployment verified. Worker data publication is independent
   of app-code deployment and uses the existing validated database/API interface.
+
+- GitHub retry a437a5525a19e2de7814637864b6637b5e60d92b reached Railway.
+  The live endpoint confirmed that exact SHA, production/github-main. The worker
+  remains 06990d3b; the subsequent app commit changes only this activation record.
+- The 15:00 Warsaw run qualified 44 photo-backed stories across every desk
+  (K10/AL5/Sport3/Tech6/Eco4/World13/Showbiz3). It made 33 reporter note sets
+  (27 model, 6 fragments) and 19 drafts, with every desk initially at least two.
+  After editing and all gates it published only five: K1/Sport1/Tech1/Eco2.
+  Exact database category, image URL/dimensions/attribution readback passed;
+  all published slugs returned HTTP 200. The completion email succeeded.
+  This is not balanced-publication success. The completed batch, original
+  writer snapshot, evidence, rejected copy and writing brief were preserved
+  outside the active release under QA/completed-production-20261023T13.
+- The first review finished at 13:39:54 UTC, past the old minute-36 optional
+  cutoff. Follow-up fixes allow bounded recovery before minute 42 with a
+  three-minute writer and seven-story unused, deficit-scoped replacement brief.
+  Writing ends by minute 45, extra review still by minute 50 and hard run by 55.
+  Source/review checks remain mandatory, and tests preserve approved articles.
+- Real photo diagnostics also showed inDrive/Pony.ai being split into Drive/Pony
+  and an inDrive story offered only irrelevant Uber photos. Fixed whole mixed-case
+  and dotted-name extraction without bypassing grounding or relevance checks.
+- Follow-up native verification: 195 news tests, 18 hourly tests, 16 source-reading
+  tests and 32 gate/direct-publication tests passed (261 total), plus source-mix.
+  Bash syntax, whitespace and npm run build passed. The 16:00 Warsaw run is active
+  on 06990d3b; do not change its physical release. Activate the next committed
+  archive only idle under the publisher lock, then verify a new scheduled run.

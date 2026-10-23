@@ -19,6 +19,15 @@ class NewsOrchestrationTests(unittest.TestCase):
         return subprocess.run([BASH, "-c", script], capture_output=True, text=True, timeout=10)
 
     def test_fresh_candidates_are_attempted_before_rewrites_and_failures_preserve_approved_copy(self):
+        self.exercise_recovery(1000)
+
+    def test_late_first_review_can_still_start_a_bounded_replacement_at_minute_forty(self):
+        self.exercise_recovery(2400)
+
+    def test_no_new_optional_writer_starts_at_minute_forty_two(self):
+        self.exercise_recovery(2520)
+
+    def exercise_recovery(self, elapsed):
         start = RUNNER.index("track_attempted\nreview_candidates\n")
         core = RUNNER[start:RUNNER.index('stage="independent-originality-review"', start)]
         with tempfile.TemporaryDirectory() as temporary:
@@ -27,7 +36,7 @@ class NewsOrchestrationTests(unittest.TestCase):
             approved = [{"url": "https://skysports.com/approved", "category": "Sport", "body": "Exact approved copy"}]
             batch.write_text(json.dumps(approved), encoding="utf-8")
             discovery.write_text(json.dumps({"publication_plan": {"Sport": 1, "Teknologji": 2},
-                "ready_leads": [{"url": "https://techcrunch.com/fresh", "category": "Teknologji"}]}), encoding="utf-8")
+                "ready_leads": [{"url": "https://techcrunch.com/fresh", "category": "Teknologji", "pair_id": "tech", "evidence_path": "/verified/evidence.json"}]}), encoding="utf-8")
             attempted.write_text(json.dumps([approved[0]["url"]]), encoding="utf-8")
             rejected.write_text(json.dumps([{"url": "https://techcrunch.com/rejected", "slug": "rejected", "category": "Teknologji"}]), encoding="utf-8")
             script = '''
@@ -36,10 +45,10 @@ START_EPOCH=1000
 FULL_TARGET=20
 PRIMARY_WRITER_MODEL=gpt-6-luna
 STAMP=2026-10-23T07
-date() { printf 2000; }
+date() { printf "$TEST_NOW"; }
 track_attempted() { :; }
 review_candidates() { :; }
-model_budget() { printf 100; }
+model_budget() { test "$1" -le 180 && test "$2" -eq 2700 || return 1; printf 100; }
 on_error() { :; }
 mktemp() {
  if [ "$1" = "-d" ]; then command mktemp -d "$TEST_TEMP/${2##*/}";
@@ -61,9 +70,10 @@ timeout() {
                                     "PYTHON_BIN": sys.executable, "BATCH": batch.as_posix(),
                                     "DISCOVERY": discovery.with_suffix(".md").as_posix(), "ATTEMPTED": attempted.as_posix(),
                                     "L383_REVIEW_REJECTED": rejected.as_posix(), "WRITER_BRIEF": (root / "brief.md").as_posix(),
-                                    "TEST_EVENTS": events.as_posix(), "TEST_TEMP": root.as_posix()})
+                                    "TEST_EVENTS": events.as_posix(), "TEST_TEMP": root.as_posix(), "TEST_NOW": str(1000 + elapsed)})
             self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
-            self.assertEqual(events.read_text(encoding="utf-8").splitlines(), ["fresh", "rewrite"])
+            self.assertEqual(events.read_text(encoding="utf-8").splitlines() if events.exists() else [],
+                             ["fresh", "rewrite"] if elapsed < 2520 else [])
             self.assertEqual(json.loads(batch.read_text(encoding="utf-8")), approved)
 
     def test_writer_snapshot_preserves_exact_copy_and_evidence_outside_publication_data(self):

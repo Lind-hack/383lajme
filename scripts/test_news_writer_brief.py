@@ -66,6 +66,39 @@ class WriterBriefTests(unittest.TestCase):
         self.assertIn(self.lead["evidence_path"], brief)
         self.assertNotIn("ORIGINAL_PROSE_SENTINEL", brief)
 
+    def test_replacement_brief_limits_work_and_excludes_used_or_full_categories(self):
+        approved, attempted = self.root / "approved.json", self.root / "attempted.json"
+        approved.write_text(json.dumps([{"url": f"https://lapsi.al/old-{i}", "category": "Shqipëri"}
+                                        for i in range(3)]), encoding="utf-8")
+        attempted.write_text(json.dumps([self.lead["url"]]), encoding="utf-8")
+        self.write([self.lead, {**self.lead, "url": "https://koha.net/new-1"},
+                    {**self.lead, "url": "https://koha.net/new-2"},
+                    {**self.lead, "category": "Shqipëri", "url": "https://lapsi.al/full"}])
+        self.assertEqual(build(self.discovery, self.output, approved=approved, attempted=attempted, limit=1), 1)
+        brief = self.output.read_text(encoding="utf-8")
+        self.assertIn("https://koha.net/new-1", brief)
+        self.assertNotIn("https://koha.net/new-2", brief)
+        self.assertNotIn("https://koha.net/example", brief)
+        self.assertNotIn("https://lapsi.al/full", brief)
+        self.assertIn('"Kosovë": 1', brief)
+        self.assertIn('"Shqipëri": 0', brief)
+
+    def test_replacement_brief_fills_an_empty_category_before_a_third_story(self):
+        approved, attempted = self.root / "approved.json", self.root / "attempted.json"
+        approved.write_text(json.dumps([{"url": f"https://koha.net/old-{i}", "category": "Kosovë"}
+                                        for i in range(2)]), encoding="utf-8")
+        attempted.write_text("[]", encoding="utf-8")
+        self.write([self.lead, {**self.lead, "category": "Shqipëri", "url": "https://lapsi.al/new"}])
+        build(self.discovery, self.output, approved=approved, attempted=attempted, limit=1)
+        brief = self.output.read_text(encoding="utf-8")
+        self.assertIn("https://lapsi.al/new", brief)
+        self.assertNotIn(self.lead["url"], brief)
+
+    def test_replacement_brief_requires_both_control_records(self):
+        self.write()
+        with self.assertRaises(ValueError):
+            build(self.discovery, self.output, approved=self.root / "missing.json")
+
 
 if __name__ == "__main__":
     unittest.main()

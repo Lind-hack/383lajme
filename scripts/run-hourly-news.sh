@@ -607,7 +607,7 @@ review_candidates
 
 for refill_attempt in 1 2; do
   APPROVED_COUNT="$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$BATCH")"
-  if [ "$APPROVED_COUNT" -ge "$FULL_TARGET" ] || [ "$(( $(date +%s) - START_EPOCH ))" -ge 2160 ]; then break; fi
+  if [ "$APPROVED_COUNT" -ge "$FULL_TARGET" ] || [ "$(( $(date +%s) - START_EPOCH ))" -ge 2520 ]; then break; fi
   COVERAGE_DEFICITS="$("$PYTHON_BIN" scripts/news_coverage.py "$BATCH" "${DISCOVERY%.md}.json" --attempted "$ATTEMPTED")"
   if ! "$PYTHON_BIN" -c 'import json,sys; d=json.load(open(sys.argv[1],encoding="utf-8")); used=set(json.load(open(sys.argv[2],encoding="utf-8"))); deficits=json.loads(sys.argv[3]); assert any(a["url"] not in used and deficits.get(a["category"],0)>0 for a in d["ready_leads"])' "${DISCOVERY%.md}.json" "$ATTEMPTED" "$COVERAGE_DEFICITS" 2>/dev/null; then
     printf '383 REFILL: no unused source-ready candidates for missing categories\n'
@@ -617,14 +617,20 @@ for refill_attempt in 1 2; do
   printf '383 APPROVED REFILL: approved=%s target=%s deficits=%s attempt=%s\n' "$APPROVED_COUNT" "$FULL_TARGET" "$COVERAGE_DEFICITS" "$refill_attempt"
   REFILL_BACKUP="$(mktemp /tmp/383-refill.XXXXXX.json)"
   cp "$BATCH" "$REFILL_BACKUP"
+  REFILL_BRIEF="$(mktemp /tmp/383-refill-brief.XXXXXX.md)"
+  if ! "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$REFILL_BRIEF" --approved "$REFILL_BACKUP" --attempted "$ATTEMPTED" --limit 7; then
+    rm -f "$REFILL_BACKUP" "$REFILL_BRIEF"
+    break
+  fi
   trap - ERR
   set +e
   refill_budget="$(model_budget 420 2580)" || refill_budget=1
   timeout --signal=TERM --kill-after=15s "$((refill_budget + 5))s" env L383_MODEL_CALL_TIMEOUT="$refill_budget" "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode append -- /opt/hermes/.venv/bin/hermes chat \
     --provider "${L383_WRITER_PROVIDER:-openai-codex}" --model "$PRIMARY_WRITER_MODEL" \
     --ignore-rules -t file --yolo --max-turns 35 -Q -q \
-    "Append replacement articles to ${BATCH}, keeping every existing article unchanged. Read ${WRITER_BRIEF}, docs/news-output-schema.json, docs/albanian_newsroom.md and ${ATTEMPTED}. Never use a URL in the attempted-urls file: those stories were already considered. Fill these category deficits: ${COVERAGE_DEFICITS}. Stop at ${FULL_TARGET} total articles. Use only unused ready stories, their complete inline reporter notes (explicit evidence fallback only when notes are unavailable), and supplied corroborators. Leave image fields out; the pipeline restores the prepared photo by source URL. Read docs/news-ranking-rubric.md and individually rate every replacement from evidence with all factors and a specific score_reason; do not copy neutral defaults or calculate the total. Every new article needs at least 140 grounded Albanian words in three HTML paragraphs and necessary claim attribution. Sensitive claims require the independent source; choose another routine story if none is supplied. Do not edit files. Return ONLY the new replacement articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END; exclude the existing articles because the wrapper preserves them locally. This is a data-only task; do not run tests, build, publish, deploy, email or edit any other file." 9>&-
+    "Append replacement articles to ${BATCH}, keeping every existing article unchanged. Read ${REFILL_BRIEF}, docs/news-output-schema.json, docs/albanian_newsroom.md and ${ATTEMPTED}. The brief selects at most seven replacements; compose only those stories and its category allocations. Never use a URL in the attempted-urls file: those stories were already considered. Fill these category deficits: ${COVERAGE_DEFICITS}. Stop at ${FULL_TARGET} total articles. Use only unused ready stories, their complete inline reporter notes (explicit evidence fallback only when notes are unavailable), and supplied corroborators. Leave image fields out; the pipeline restores the prepared photo by source URL. Read docs/news-ranking-rubric.md and individually rate every replacement from evidence with all factors and a specific score_reason; do not copy neutral defaults or calculate the total. Every new article needs at least 140 grounded Albanian words in three HTML paragraphs and necessary claim attribution. Sensitive claims require the independent source; choose another routine story if none is supplied. Do not edit files. Return ONLY the new replacement articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END; exclude the existing articles because the wrapper preserves them locally. This is a data-only task; do not run tests, build, publish, deploy, email or edit any other file." 9>&-
   REFILL_RC=$?
+  rm -f "$REFILL_BRIEF"
   set -e
   trap on_error ERR
   if [ "$REFILL_RC" -ne 0 ]; then printf '383 REFILL: writer exited %s; checking saved drafts\n' "$REFILL_RC"; fi
@@ -654,10 +660,11 @@ done
 # available category slot, from notes, aimed at
 # the concrete sentence or fact it named. On 15-16 Oct the reviewer rejected
 # about two drafts in three and every one of them was simply lost.
-# The first review usually ends around minute 35-40; optional rounds must be
-# done by minute 50, so a round starts only before minute 36 with a 6-minute writer.
+# The first review can finish at minute 40. Optional writing starts before
+# minute 42, lasts at most three minutes and ends by minute 45. Every extra
+# editorial/review stage still stops at minute 50, preserving publication time.
 stage="rewrite-rejected"
-if [ -s "$L383_REVIEW_REJECTED" ] && [ "$(( $(date +%s) - START_EPOCH ))" -lt 2160 ]; then
+if [ -s "$L383_REVIEW_REJECTED" ] && [ "$(( $(date +%s) - START_EPOCH ))" -lt 2520 ]; then
   REWRITE_FOLDER="$(mktemp -d /tmp/383-rewrite.XXXXXX)"
   REWRITE_RAW="$REWRITE_FOLDER/rejected-full.json"
   REWRITE_INPUT="$REWRITE_FOLDER/rejected.json"
@@ -668,7 +675,7 @@ if [ -s "$L383_REVIEW_REJECTED" ] && [ "$(( $(date +%s) - START_EPOCH ))" -lt 21
     printf '383 REWRITE REJECTED: %s draft(s)\n' "$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$REWRITE_INPUT")"
     trap - ERR
     set +e
-    rewrite_budget="$(model_budget 360 2580)" || rewrite_budget=1
+    rewrite_budget="$(model_budget 180 2700)" || rewrite_budget=1
     timeout --signal=TERM --kill-after=15s "$((rewrite_budget + 5))s" env L383_MODEL_CALL_TIMEOUT="$rewrite_budget" "$PYTHON_BIN" scripts/news_model_response.py --batch "$REWRITE_BATCH" --mode replace -- /opt/hermes/.venv/bin/hermes chat \
       --provider "${L383_WRITER_PROVIDER:-openai-codex}" --model "$PRIMARY_WRITER_MODEL" \
       --ignore-rules -t file --yolo --max-turns 35 -Q -q \

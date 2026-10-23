@@ -299,3 +299,17 @@ stories. Approved articles are preserved exactly. Replacement balancing rejects
 attempted, unready or category-mismatched new URLs. Later rewrites receive only
 identity and review feedback, and are limited to remaining category slots; every
 replacement and rewrite still passes the complete editorial and independent gates.
+
+
+The October 23 15:00 Warsaw run first finished independent review near minute 40,
+so the old minute-36 recovery cutoff skipped every fresh replacement. Optional
+recovery now starts only before minute 42, writes for at most three minutes and
+ends writing by minute 45. A replacement brief selects no more than seven unused
+ready stories, prioritizing missing categories and respecting existing approvals.
+All extra editorial work and independent review still stop at minute 50; the
+55-minute run limit and publication gates remain unchanged.
+
+Photo name extraction retains complete mixed-case and dotted brand names such
+as inDrive, eBay and Pony.ai, rather than searching for substrings such as Drive
+or Pony. Names still require source evidence and independently grounded identity;
+the photo editor can reject any irrelevant image.
