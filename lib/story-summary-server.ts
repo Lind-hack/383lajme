@@ -8,7 +8,8 @@
 // story, and rewrites index.json in the public perty-summaries bucket. A line
 // that fails the checks is replaced by the story's own first sentences; a model
 // that is down is simply asked again next run, until the story is GIVE_UP_MS
-// old and gets its own sentences too. It never throws.
+// old and gets its own sentences too, and meanwhile stories already that old
+// are filled with their own sentences, OWN_PER_RUN at a time. It never throws.
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getArticlesBefore, getArticlesBySlugs } from "@/lib/db";
@@ -29,6 +30,9 @@ import {
 } from "@/lib/story-summary.mjs";
 
 type Admin = NonNullable<ReturnType<typeof createAdminClient>>;
+
+/** Stories given their own sentences per run while the model is down (no model call, so more than PER_RUN). */
+const OWN_PER_RUN = 20;
 
 function publicBase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -99,6 +103,19 @@ export async function runStorySummaries(now = new Date()) {
       // been away for hours: the story's own words, so it is not asked forever.
       const age = now.getTime() - Date.parse(article.publishedAt ?? "");
       if (lines || age >= GIVE_UP_MS) {
+        const own = ownSummary(article);
+        if (own) made.push({ slug: article.slug, text: own, by: "own" });
+      }
+    }
+    // The model is down (usually its free daily quota): the newest stories wait
+    // for it, but stories already GIVE_UP_MS old would never be reached behind
+    // them, so they get their own sentences now, without the model.
+    if (!lines) {
+      const taken = new Set(chosen.map((a) => a.slug));
+      const aged = recent.filter((a) => !taken.has(a.slug) && now.getTime() - Date.parse(a.publishedAt ?? "") >= GIVE_UP_MS);
+      const older = pickStories(aged, index, { now: now.getTime(), max: OWN_PER_RUN });
+      const bodies = await getArticlesBySlugs(older.map((a) => a.slug)).catch(() => []);
+      for (const article of bodies) {
         const own = ownSummary(article);
         if (own) made.push({ slug: article.slug, text: own, by: "own" });
       }
