@@ -43,7 +43,6 @@ import {
   Coffee,
   MapPin,
   MessageCircleQuestion,
-  Plus,
   SlidersHorizontal,
   ThumbsDown,
   UserRound,
@@ -65,7 +64,6 @@ import { hasLearnedPaper, learnedPicks, setLearnedPaper, totalReads } from "@/li
 import { kosovoDateKey } from "@/lib/home-tregu.mjs";
 import { greeting } from "@/lib/perty-personal.mjs";
 import { keyLabel, whyLine } from "@/lib/perty-why.mjs";
-import { addFollow, followKeys, removeFollow, suggestFollows } from "@/lib/perty-suggest.mjs";
 import { noteShown, readShown, settleSkips, writeShown } from "@/lib/perty-skips.mjs";
 import { noteClick, trackPerty, type PertyList } from "@/lib/perty-measure";
 import type { CityWeather } from "@/lib/weather";
@@ -190,10 +188,6 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   // (components/paper-reveal) before the three questions; this is "Zgjidh vetë".
   const [chooseMyself, setChooseMyself] = useState(false);
   const [readsSoFar, setReadsSoFar] = useState(0);
-  // Suggestions passed over this visit ("Jo"), so the next one takes the place.
-  const [skipped, setSkipped] = useState<ReadonlySet<string>>(new Set());
-  // The follow just dropped from the bar, so one tap can bring it back.
-  const [dropped, setDropped] = useState<string | null>(null);
 
   useEffect(() => {
     setInterests(readInterests());
@@ -286,14 +280,8 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     return best ? { slug: best.slug, title: best.title } : null;
   }, [pool, home, now, edition]);
   // Against the whole week, not just what ranked: a follow is quiet only if no story named it.
-  const poolKeys = useMemo(() => pool.map((a) => ({ keys: articleKeys(a), publishedAt: a.publishedAt })), [pool]);
+  const poolKeys = useMemo(() => pool.map((a) => ({ keys: articleKeys(a) })), [pool]);
   const quiet = useMemo(() => (interests ? quietFollows(poolKeys, interests) : []), [poolKeys, interests]);
-  // "Gazeta jote ndjek": the follows, and the narrower ones Dardani would add.
-  const follows = useMemo(() => (interests ? followKeys(interests) : []), [interests]);
-  const suggestions = useMemo(
-    () => (interests && now ? suggestFollows(poolKeys, interests, { now: now.getTime(), skip: skipped }) : []),
-    [poolKeys, interests, now, skipped]
-  );
 
   // Once per visit, what the reader was given.
   const viewSent = useRef(false);
@@ -329,21 +317,6 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     setInterests(current);
     if (signedIn) pushInterests(current);
   }
-
-  // One tap on the follow bar. Unlike "Më pak si kjo" this is a choice the
-  // reader makes about the paper itself, so the edition re-ranks at once.
-  const follow = (key: string, why: string) => {
-    if (!interests) return;
-    save({ ...interests, ...(addFollow(interests, key) as Interests) });
-    setDropped(null);
-    trackPerty("perty_follow_add", { key: key.slice(0, key.indexOf(":")), why });
-  };
-  const unfollow = (key: string) => {
-    if (!interests) return;
-    save({ ...interests, ...(removeFollow(interests, key) as Interests) });
-    setDropped(key);
-    trackPerty("perty_follow_remove", { key: key.slice(0, key.indexOf(":")) });
-  };
 
   // "Më pak si kjo", and its undo. Saved straight to storage, not into this
   // visit's ranking: the list never reshuffles under the reader's thumb.
@@ -416,6 +389,11 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   }
 
   const who = (deviceName || name).trim().split(/\s+/)[0]?.slice(0, 24) ?? "";
+  const following = [
+    ...interests.categories,
+    ...interests.people.map((id) => keyLabel(`person:${id}`)).filter(Boolean),
+    ...interests.cities.map((id) => keyLabel(`city:${id}`)).filter(Boolean),
+  ].join(" · ");
 
   const showSignup = justFinished && signedIn === false && !signupDismissed;
   const seen: Seen = { since, read };
@@ -465,16 +443,6 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
           <span>Ndrysho</span>
         </button>
       </header>
-
-      <FollowBar
-        follows={follows}
-        dropped={dropped}
-        suggestions={suggestions}
-        onFollow={follow}
-        onUnfollow={unfollow}
-        onSkip={(key) => setSkipped((prev) => new Set(prev).add(key))}
-        onMore={() => setEditing(true)}
-      />
 
       {storageFailed && (
         <p className="perty-note" role="status">
@@ -616,6 +584,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
                   </Link>
                 </p>
               )}
+              <p className="perty-end-following">Ndjek: {following}</p>
             </div>
           </EndCard>
           </div>
@@ -724,104 +693,6 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
         )}
       </footer>
     </div>
-  );
-}
-
-/**
- * "Gazeta jote ndjek": every follow as a chip that drops it, "Shto" for the
- * full picker, and below, at most four narrower follows to add in one tap —
- * what the reader keeps reading first, then names in the day's news. The
- * last follow has no ×: without one there is no paper, only the onboarding.
- */
-function FollowBar({
-  follows,
-  dropped,
-  suggestions,
-  onFollow,
-  onUnfollow,
-  onSkip,
-  onMore,
-}: {
-  follows: string[];
-  dropped: string | null;
-  suggestions: { key: string; label: string; why: "learned" | "trending" }[];
-  onFollow: (key: string, why: string) => void;
-  onUnfollow: (key: string) => void;
-  onSkip: (key: string) => void;
-  onMore: () => void;
-}) {
-  const learned = suggestions.filter((s) => s.why === "learned");
-  const trending = suggestions.filter((s) => s.why === "trending");
-  const group = (title: string, items: typeof suggestions) =>
-    items.length > 0 && (
-      <div className="perty-follow-row">
-        <span className="perty-follow-label">{title}</span>
-        <ul className="perty-follow-chips">
-          {items.map((s) => (
-            <li key={s.key} className="perty-chip-pair">
-              <button type="button" className="perty-chip perty-chip--add" onClick={() => onFollow(s.key, s.why)}>
-                <Plus size={14} strokeWidth={2.6} aria-hidden="true" />
-                {s.label}
-              </button>
-              <button
-                type="button"
-                className="perty-chip-skip"
-                aria-label={`Jo, mos e shto ${s.label}`}
-                onClick={() => onSkip(s.key)}
-              >
-                <X size={13} strokeWidth={2.6} aria-hidden="true" />
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  return (
-    <section className="perty-follow" aria-label="Çka ndjek gazeta jote">
-      <div className="perty-follow-row">
-        <span className="perty-follow-label">Gazeta jote ndjek</span>
-        <ul className="perty-follow-chips">
-          {follows.map((key) => {
-            const label = keyLabel(key) ?? key;
-            return (
-              <li key={key}>
-                {follows.length > 1 ? (
-                  <button
-                    type="button"
-                    className="perty-chip"
-                    aria-label={`Mos e ndiq më: ${label}`}
-                    onClick={() => onUnfollow(key)}
-                  >
-                    {label}
-                    <X size={13} strokeWidth={2.6} aria-hidden="true" />
-                  </button>
-                ) : (
-                  <span className="perty-chip">{label}</span>
-                )}
-              </li>
-            );
-          })}
-          <li>
-            <button type="button" className="perty-chip perty-chip--more" onClick={onMore}>
-              <Plus size={14} strokeWidth={2.6} aria-hidden="true" />
-              Shto
-            </button>
-          </li>
-        </ul>
-      </div>
-      <p className="perty-follow-undo" role="status">
-        {dropped && (
-          <>
-            Hoqe {keyLabel(dropped) ?? ""} nga gazeta.{" "}
-            <button type="button" className="perty-text-btn" onClick={() => onFollow(dropped, "undo")}>
-              Zhbëj
-            </button>
-          </>
-        )}
-      </p>
-      {group("Lexon shpesh për", learned)}
-      {group("Sot në lajme", trending)}
-    </section>
   );
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-// "Gazeta jote" on the homepage: one line straight after the front page that points to
+// "Gazeta jote" on the homepage: one compact line under Top 5 that points to
 // Për ty, so a reader scrolling Sot meets their own paper instead of having to
 // guess what the tab means.
 //
@@ -59,7 +59,7 @@ export default function PerTyHome() {
   if (!line) return <div className="pth-strip pth-strip--loading" aria-hidden="true" />;
   return (
     <Link href="/per-ty" className="pth-strip" onClick={() => track("perty_home_open", { kind: line.kind })}>
-      <DardaniFace state="happy" size={40} decorative />
+      <DardaniFace state="happy" size={32} decorative />
       <span className="pth-strip-text">
         <strong>{line.title}</strong>
         <span>{line.sub}</span>

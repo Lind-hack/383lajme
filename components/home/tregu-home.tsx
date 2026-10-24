@@ -297,7 +297,7 @@ export default function TreguHome() {
       )}
 
       {steps && (
-        <SpotlightTour tourId={TOUR_ID} anchor={CARD} steps={steps} eyebrow="Si funksionon Tregu" autoOpen={false} />
+        <SpotlightTour tourId={TOUR_ID} anchor={CARD} steps={steps} eyebrow="Si funksionon Tregu" />
       )}
     </section>
   );
