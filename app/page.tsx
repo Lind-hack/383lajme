@@ -12,7 +12,6 @@ import DispatchList from "@/components/dispatch-list";
 import ColorSpotlight from "@/components/color-spotlight";
 import Footer from "@/components/footer";
 import NewsletterCard from "@/components/newsletter-card";
-import BotaHome from "@/components/home/bota-home";
 import HomeVisitPreview from "@/components/visit/home-visit-preview";
 import XhepBanner from "@/components/visit/xhep-banner";
 import AlertsCta from "@/components/alerts-cta";
@@ -32,7 +31,6 @@ import {
 import { getCategoryColor } from "@/lib/category-colors";
 import { CATEGORY_TO_SLUG, type NavCategory } from "@/lib/category-map";
 import { getCityWeather } from "@/lib/weather";
-import { getDailyStories, getToneHistory, getToneOutlets, summarizeToday } from "@/lib/tone-data";
 import { dateKeyInKosovo } from "@/lib/reagimi-data";
 import { getSondazhiData } from "@/lib/sondazhi-server";
 import { pickFrontPage, pickMostRead } from "@/lib/front-page.mjs";
@@ -49,7 +47,7 @@ import VideoRow from "@/components/video-row";
 export const revalidate = 600;
 
 export default async function HomePage() {
-  const [rawArticles, rawTickerArticles, rawRecentArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneOutlets, cityWeather] = await Promise.all([
+  const [rawArticles, rawTickerArticles, rawRecentArticles, exchangeSnapshot, fuelSnapshot, cityWeather] = await Promise.all([
     getArticles(60),
     getLatestArticles(10),
     // The day's run for the sections below the front block: newest first, no
@@ -57,10 +55,6 @@ export default async function HomePage() {
     getArticlesBefore({ limit: 120 }),
     getDailyExchangeSnapshot(),
     getDailyFuelSnapshot(),
-    getToneHistory(),
-    // Bota për Kosovën reads the rebuilt outlets file: its stories are already
-    // filtered to editorial sources and filed under the right country.
-    getToneOutlets().catch(() => null),
     // Keyless and individually caught: a weather outage costs the rail one
     // card, never the page.
     getCityWeather().catch(() => []),
@@ -78,10 +72,6 @@ export default async function HomePage() {
     withImageSizes(rawRecentArticles),
   ]);
 
-  // Bota për Kosovën: today's index and its stories, ranked the way the full
-  // page ranks them (lib/tone-data.ts, stance v4).
-  const toneToday = summarizeToday(toneHistory);
-  const botaStories = getDailyStories(toneOutlets, toneToday.date);
 
   // Tier 1: KRYESORE lead + secondary — claimed before NJOFTIME so the
   // front-page hierarchy always renders even when the article pool is small
@@ -285,11 +275,9 @@ export default async function HomePage() {
         </div>
       )}
 
-      {/* Bota për Kosovën straight after the Kosovo news, then Sondazhi i
-          ditës: a pause in the run of Kosovo and Albania news. Bota për
-          Kosovën is one daily reading — the index and the stories behind it. */}
+      {/* Sondazhi i ditës straight after the Kosovo news: a pause in the run
+          of Kosovo and Albania news. */}
       <Contained>
-        <BotaHome today={toneToday} stories={botaStories} />
         <DailyPoll data={sondazhi} />
       </Contained>
       {block("Shqipëri").length > 0 && (
