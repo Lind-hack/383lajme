@@ -11,6 +11,7 @@ import {
   ArrowUpRight,
   ChevronDown,
   Globe2,
+  CirclePlay,
   MapPinned,
   Newspaper,
   X,
@@ -319,9 +320,10 @@ export default function NavSidePanel({ open, onClose }: Props) {
 
           <nav className={styles.features} aria-label="Veçoritë e 383">
             {[
-              { href: "/visit", title: "Kosova në xhep", description: "Qytetet, kufiri dhe ndihma pranë teje", Icon: MapPinned, variant: styles.visit },
-              { href: "/bota-per-kosoven", title: "Bota për Kosovën", description: "Si shkruan shtypi i huaj për Kosovën", Icon: Globe2, variant: styles.world },
               { href: "/per-ty", title: "Për ty", description: "Gazeta jote, nga ajo që lexon", Icon: Newspaper, variant: styles.forYou },
+              { href: "/video", title: "Edicioni video", description: "Lajmet kryesore të ditës, me zë", Icon: CirclePlay, variant: styles.world },
+              { href: "/bota-per-kosoven", title: "Bota për Kosovën", description: "Si shkruan shtypi i huaj për Kosovën", Icon: Globe2, variant: styles.world },
+              { href: "/visit", title: "Kosova në xhep", description: "Qytetet, kufiri dhe ndihma pranë teje", Icon: MapPinned, variant: styles.visit },
             ].map(({ href, title, description, Icon, variant }) => (
               <Link
                 key={href}

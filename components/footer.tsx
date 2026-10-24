@@ -1,13 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { Facebook, Heart, Instagram, MapPin } from "lucide-react";
+import { Heart, MapPin, MessageCircle, Send } from "lucide-react";
 import { NAV_CATEGORIES } from "@/lib/category-map";
+import { TELEGRAM_CHANNEL_URL, WHATSAPP_CHANNEL_URL } from "@/lib/channels";
 
 const FOOTER_CATEGORIES = NAV_CATEGORIES.map(({ label, slug }) => ({
   label,
   href: `/kategori/${slug}`,
 }));
+
+// Everything that left the homepage at launch stays one tap away here.
+const FEATURE_LINKS = [
+  { label: "Për ty", href: "/per-ty" },
+  { label: "Tregu", href: "/tregu" },
+  { label: "Edicioni video", href: "/video" },
+  { label: "Bota për Kosovën", href: "/bota-per-kosoven" },
+  { label: "Kosova në xhep", href: "/visit" },
+];
 
 const COMPANY_LINKS = [
   { label: "Rreth nesh", href: "/rreth-nesh" },
@@ -16,26 +26,11 @@ const COMPANY_LINKS = [
   { label: "Kushtet", href: "/kushtet" },
 ];
 
-function InstagramIcon() {
-  return <Instagram size={18} strokeWidth={2} aria-hidden="true" />;
-}
-
-function TikTokIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.53V6.79a4.85 4.85 0 01-1.01-.1z" />
-    </svg>
-  );
-}
-
-function FacebookIcon() {
-  return <Facebook size={18} strokeWidth={2} aria-hidden="true" />;
-}
-
+// 383's real channels. The Instagram, TikTok and Facebook rows linked to "#"
+// and went nowhere; they come back once those accounts have addresses.
 const SOCIAL = [
-  { label: "Instagram", handle: "@383media", Icon: InstagramIcon },
-  { label: "TikTok", handle: "@383media", Icon: TikTokIcon },
-  { label: "Facebook", handle: "383 Media", Icon: FacebookIcon },
+  { label: "WhatsApp", handle: "Kanali në WhatsApp", href: WHATSAPP_CHANNEL_URL, Icon: MessageCircle },
+  { label: "Telegram", handle: "@Lajmet383", href: TELEGRAM_CHANNEL_URL, Icon: Send },
 ];
 
 export default function Footer() {
@@ -75,15 +70,17 @@ export default function Footer() {
             </Link>
 
             <div style={{ display: "flex", gap: "14px" }}>
-              {SOCIAL.map(({ label, Icon }) => (
+              {SOCIAL.map(({ label, href, Icon }) => (
                 <a
                   key={label}
-                  href="#"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="footer-social"
                   style={{ display: "inline-flex" }}
                 >
-                  <Icon />
+                  <Icon size={18} strokeWidth={2} aria-hidden="true" />
                 </a>
               ))}
             </div>
@@ -112,8 +109,23 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Col 3 — Company */}
+          {/* Col 3 — Features, then the company pages */}
           <div>
+            <p style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.65)", margin: "0 0 20px" }}>
+              VEÇORITË
+            </p>
+            <div style={{ display: "flex", flexDirection: "column" as const, gap: "12px", marginBottom: "32px" }}>
+              {FEATURE_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="footer-link"
+                  style={{ textDecoration: "none", fontSize: "14px", fontWeight: 600 }}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
             <p style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.65)", margin: "0 0 20px" }}>
               KOMPANIA
             </p>
@@ -158,10 +170,12 @@ export default function Footer() {
               RRJETET SOCIALE
             </p>
             <div style={{ display: "flex", flexDirection: "column" as const, gap: "12px" }}>
-              {SOCIAL.map(({ label, handle, Icon }) => (
+              {SOCIAL.map(({ label, handle, href, Icon }) => (
                 <a
                   key={label}
-                  href="#"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="footer-social"
                   style={{
                     textDecoration: "none",
@@ -172,7 +186,7 @@ export default function Footer() {
                     fontWeight: 500,
                   }}
                 >
-                  <Icon />
+                  <Icon size={18} strokeWidth={2} aria-hidden="true" />
                   {handle}
                 </a>
               ))}

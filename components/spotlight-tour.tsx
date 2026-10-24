@@ -102,6 +102,12 @@ interface SpotlightTourProps {
   /** One tour per surface — also the localStorage key and the openTour() id. */
   tourId: string;
   eyebrow?: string;
+  /**
+   * False: never opens by itself, only from openTour(). The homepage passes
+   * this so a first visit reads the news undisturbed; the first tour a reader
+   * meets is on /tregu, the page they chose to open.
+   */
+  autoOpen?: boolean;
 }
 
 interface Box {
@@ -235,6 +241,7 @@ export default function SpotlightTour({
   steps,
   tourId,
   eyebrow = "Si funksionon",
+  autoOpen = true,
 }: SpotlightTourProps) {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -398,7 +405,7 @@ export default function SpotlightTour({
   // stopped scrolling. Taking the camera mid-flick is what made the old tour
   // feel like a fight before a single pixel had moved.
   useEffect(() => {
-    if (seen(storageKey) || onboarded()) return;
+    if (!autoOpen || seen(storageKey) || onboarded()) return;
 
     let io: IntersectionObserver | null = null;
     let mo: MutationObserver | null = null;
@@ -463,7 +470,7 @@ export default function SpotlightTour({
       window.clearTimeout(idle);
       window.removeEventListener("scroll", onScroll);
     };
-  }, [anchor, storageKey, start]);
+  }, [anchor, storageKey, start, autoOpen]);
 
   // Hard scroll lock. Swallowing input is the lock, not `overflow: hidden` —
   // hiding the page's overflow collapses the scrollbar (the layout underneath

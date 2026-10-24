@@ -68,6 +68,80 @@ html[data-theme="dark"] .perty-paper .perty-ed-row[data-read] .perty-ed-n { back
 .perty-ed-date { color: var(--theme-ink, var(--pp-ink)); font-weight: 800; }
 .perty-ed-city { display: inline-flex; align-items: center; gap: 5px; color: var(--theme-ink, var(--pp-text)); text-decoration: none; }
 .perty-ed-city svg { flex: none; color: var(--pp-accent-ink); }
+
+/* "Gazeta jote ndjek": the follows as chips under the masthead, and the
+   narrower ones Dardani would add. One row each; chips wrap. */
+.perty-follow {
+  display: grid;
+  gap: 10px;
+  padding: 16px 0 18px;
+  border-bottom: 1px solid var(--theme-border, var(--pp-rule));
+}
+.perty-follow-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.perty-follow-label {
+  flex: none;
+  color: var(--theme-muted, var(--pp-muted));
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.perty-follow-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.perty-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--theme-border, var(--pp-rule));
+  border-radius: 999px;
+  background: var(--pp-card, #fff);
+  color: var(--theme-ink, var(--pp-ink));
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 120ms ease;
+}
+span.perty-chip { cursor: default; }
+.perty-chip svg { flex: none; color: var(--theme-muted, var(--pp-muted)); }
+.perty-chip:active { transform: scale(0.97); }
+.perty-chip--more { border-style: dashed; background: transparent; color: var(--theme-muted, var(--pp-muted)); }
+.perty-chip-pair { display: inline-flex; align-items: center; }
+.perty-chip--add {
+  border-color: var(--pp-accent-line, #ffd2c4);
+  border-radius: 999px 0 0 999px;
+  border-right: 0;
+  background: var(--pp-accent-soft, #fff1ec);
+  color: var(--pp-accent-ink, #c2330f);
+}
+.perty-chip--add svg { color: currentColor; }
+.perty-chip-skip {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  min-height: 36px;
+  border: 1px solid var(--pp-accent-line, #ffd2c4);
+  border-radius: 0 999px 999px 0;
+  background: var(--pp-accent-soft, #fff1ec);
+  color: var(--theme-muted, var(--pp-muted));
+  cursor: pointer;
+}
+.perty-chip,
+.perty-chip-skip { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.perty-follow-undo { margin: 0; color: var(--theme-muted, var(--pp-muted)); font-size: 13px; font-weight: 600; }
+/* Kept in the tree while empty so the live region still announces; the grid gap is taken back. */
+.perty-follow-undo:empty { margin-top: -10px; }
+.perty-chip:focus-visible,
+.perty-chip-skip:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 2px; }
+@media (hover: hover) {
+  .perty-chip:hover { border-color: var(--theme-ink, var(--pp-ink)); }
+  .perty-chip--add:hover, .perty-chip-skip:hover { border-color: var(--pp-accent-ink, #c2330f); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .perty-chip { transition: none; }
+  .perty-chip:active { transform: none; }
+}
 .perty-ed-city b { color: var(--theme-ink, var(--pp-ink)); font-weight: 800; }
 a.perty-ed-city:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 2px; border-radius: 4px; }
 .perty-ed-edit { align-self: start; min-height: 44px; padding: 0 14px; font-size: 14px; }

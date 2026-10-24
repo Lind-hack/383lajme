@@ -1,5 +1,5 @@
+import type { NavCategory } from "@/lib/category-map";
 import { getArticles, getArticlesBefore, getLatestArticles } from "@/lib/db";
-import { getEdition } from "@/lib/video-edition";
 import { MoveHorizontal } from "lucide-react";
 import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
@@ -10,17 +10,8 @@ import DispatchRow from "@/components/dispatch-row";
 import KryesoreFront, { MostReadRail } from "@/components/kryesore-front";
 import DispatchList from "@/components/dispatch-list";
 import ColorSpotlight from "@/components/color-spotlight";
-import GradientCta from "@/components/gradient-cta";
 import Footer from "@/components/footer";
 import NewsletterCard from "@/components/newsletter-card";
-import KuiziDites from "@/components/kuizi-dites";
-import BotaHome from "@/components/home/bota-home";
-import HomeVisitPreview from "@/components/visit/home-visit-preview";
-import XhepBanner from "@/components/visit/xhep-banner";
-import ThrowbackSection from "@/components/throwback-section";
-import AlertsCta from "@/components/alerts-cta";
-import DailyPoll from "@/components/daily-poll";
-import TopFive from "@/components/home/top-five";
 import UtilityRail from "@/components/home/utility-rail";
 import { freshNews } from "@/lib/fresh-news.mjs";
 import {
@@ -32,28 +23,20 @@ import {
   getDailyExchangeSnapshot,
   getDailyFuelSnapshot,
 } from "@/lib/home-market-data";
-import { getCategoryColor } from "@/lib/category-colors";
-import { CATEGORY_TO_SLUG, type NavCategory } from "@/lib/category-map";
 import { getCityWeather } from "@/lib/weather";
-import { getDailyStories, getToneHistory, getToneOutlets, summarizeToday } from "@/lib/tone-data";
-import { dateKeyInKosovo } from "@/lib/reagimi-data";
-import { getKuiziData } from "@/lib/kuizi-server";
-import { getSondazhiData } from "@/lib/sondazhi-server";
 import { pickFrontPage, pickMostRead } from "@/lib/front-page.mjs";
 import { buildHomeSections, claim, createLedger } from "@/lib/home-sections.mjs";
 import { sharpFirst, withImageSizes } from "@/lib/image-size.mjs";
 import CategoryBlock from "@/components/home/category-block";
-import SectionJump from "@/components/home/section-jump";
 import TreguHome from "@/components/home/tregu-home";
 import AdSlot from "@/components/home/ad-slot";
 import PerTyHome from "@/components/home/per-ty-home";
-import VideoRow from "@/components/video-row";
 
 // Refresh rankings every ten minutes between hourly publication batches.
 export const revalidate = 600;
 
 export default async function HomePage() {
-  const [rawArticles, rawTickerArticles, rawRecentArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneOutlets, cityWeather] = await Promise.all([
+  const [rawArticles, rawTickerArticles, rawRecentArticles, exchangeSnapshot, fuelSnapshot, cityWeather] = await Promise.all([
     getArticles(60),
     getLatestArticles(10),
     // The day's run for the sections below the front block: newest first, no
@@ -61,18 +44,10 @@ export default async function HomePage() {
     getArticlesBefore({ limit: 120 }),
     getDailyExchangeSnapshot(),
     getDailyFuelSnapshot(),
-    getToneHistory(),
-    // Bota për Kosovën reads the rebuilt outlets file: its stories are already
-    // filtered to editorial sources and filed under the right country.
-    getToneOutlets().catch(() => null),
     // Keyless and individually caught: a weather outage costs the rail one
     // card, never the page.
     getCityWeather().catch(() => []),
   ]);
-  // Edicioni video: today's top stories as short voiced clips
-  // (lib/video-edition, cached five minutes; none when there is no edition today).
-  const edition = await getEdition();
-
   // Each story's photo width, so the large slots below can go to photos big
   // enough to fill them (lib/image-size.mjs). Probes are shared per URL, so a
   // story in two of these lists is measured once.
@@ -81,11 +56,6 @@ export default async function HomePage() {
     withImageSizes(rawTickerArticles),
     withImageSizes(rawRecentArticles),
   ]);
-
-  // Bota për Kosovën: today's index and its stories, ranked the way the full
-  // page ranks them (lib/tone-data.ts, stance v4).
-  const toneToday = summarizeToday(toneHistory);
-  const botaStories = getDailyStories(toneOutlets, toneToday.date);
 
   // Tier 1: KRYESORE lead + secondary — claimed before NJOFTIME so the
   // front-page hierarchy always renders even when the article pool is small
@@ -110,10 +80,6 @@ export default async function HomePage() {
   const kryesoreSecondary = kryesore.slice(5, 7);
   const kryesoreTopIds = new Set(kryesore.map((a) => a.id));
 
-  // Kosovo's calendar day, shared by Kuizi i ditës and Sondazhi so the two
-  // daily cards cannot disagree about what day it is.
-  const homeDateKey = dateKeyInKosovo();
-
   // One ledger for the whole page below the front block: every section claims
   // through it, so no story is shown twice. Më të lexuarat is the exception —
   // a ranking legitimately repeats — and is never recorded here.
@@ -123,23 +89,9 @@ export default async function HomePage() {
   // once each.
   const belowPool = [...articles, ...recentArticles];
 
-  // The poll's question and yesterday's outcome are both settled at request
-  // time, so they are rendered on the server rather than fetched after
-  // hydration — the card used to show an empty loading box for the several
-  // seconds this page takes to hydrate. Only the live tally is left to the
-  // client. Shares homeDateKey so the two daily cards cannot disagree
-  // about what day it is.
-  const sondazhi = await getSondazhiData(homeDateKey);
-  // Today's quiz, else yesterday's under its own date, else nothing at all.
-  const kuizi = await getKuiziData(homeDateKey).catch(() => null);
-
   // Fresh, age-weighted notices get priority over the longer category shelves.
   const njoftimeArticles = freshNews(freshPool, { now: homeNow, exclude: ledger.ids, count: 12 });
   const njoftimeShown = claim(ledger, njoftimeArticles, 12);
-
-  // A ranking may repeat the lead: Top 5 is today's strongest news, rather
-  // than leftovers after every category shelf has claimed its stories.
-  const topFive = freshNews(freshPool, { now: homeNow, diverse: true, count: 5 });
 
   const mostRead = pickMostRead(freshPool, 5, { exclude: kryesoreTopIds, now: homeNow });
 
@@ -163,15 +115,6 @@ export default async function HomePage() {
 
   // Everything the page shows, so "Shfaq më shumë" never brings one back.
   const seenIds = [...new Set([...ledger.ids, ...mostRead.map((a) => a.id), ...tickerArticles.map((a) => a.id)])];
-
-  // "Kalo te" takes the reader to the whole section, not further down this page.
-  const jumpLinks = (["Kosovë", "Shqipëri", "Botë", "Ekonomi", "Sport", "Teknologji", "Showbiz"] as NavCategory[]).map(
-    (category) => ({
-      href: `/kategori/${CATEGORY_TO_SLUG[category]}`,
-      label: category,
-      color: getCategoryColor(category),
-    })
-  );
 
   return (
     <>
@@ -225,18 +168,21 @@ export default async function HomePage() {
         </div>
       )}
 
-      {/* Phones: Kosova në xhep right after the lead story. */}
-      <XhepBanner />
-
-      {/* From here down: news, then a module, then news. Each news section is
-          filled from the page's ledger (see above), so nothing repeats, and the
-          modules sit between them as pauses rather than in one run at the end.
-          One <main> landmark covers the whole run, full-bleed bands included. */}
+      {/* Launch layout (2026-10-24): the news, one way into Për ty and one
+          into Tregu, nothing else. Video, Bota për Kosovën, Kosova në xhep and
+          the channels moved off the page and stay one tap away in the menu
+          and the footer. Each news section is filled from the page's ledger
+          (see above), so nothing repeats. */}
       <main>
       <Contained first>
+        {/* Gazeta jote: the reader's own paper, decided on the device. */}
+        <div className="pth-strip-wrap">
+          <PerTyHome />
+        </div>
+
         <SectionLabel
           label="NJOFTIME"
-          marginBottom={12}
+          marginBottom={18}
           right={
             <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "11px", color: "#6B6B6B", fontWeight: 500 }}>
               tërhiq <MoveHorizontal size={14} strokeWidth={2} />
@@ -244,44 +190,12 @@ export default async function HomePage() {
           }
         />
 
-        <p style={{ margin: "0 0 18px", maxWidth: "60ch", color: "#5F5B56", fontSize: "14.5px", lineHeight: 1.55 }}>
-          Titujt e shpejtë të orëve të fundit. Tërhiq anash për të parë më shumë.
-        </p>
-
         <div style={{ marginBottom: "var(--space-section)" }}>
           <DispatchRow articles={njoftimeShown} />
         </div>
 
-        {/* Top 5 sot — one story per topic, ranked */}
-        <div style={{ marginBottom: "var(--space-section)" }}>
-          <TopFive articles={topFive} />
-        </div>
-
-        {/* Gazeta jote: one line pointing to Për ty, decided on the device. */}
-        <div className="pth-strip-wrap">
-          <PerTyHome />
-        </div>
-
-        {/* Lajmet e fundit — the day's run, one story to a row, and the way
-            back through the archive. "Kalo te" above it opens each section. */}
-        <SectionJump links={jumpLinks} />
-        {latest.length > 0 && (
-          <div className="home-latest">
-            <DispatchList
-              id="lajmet-e-fundit"
-              articles={latest}
-              max={12}
-              size="lg"
-              loadMore={{ seenIds }}
-            />
-            <AdSlot />
-          </div>
-        )}
-
-        {/* A short edition is still an edition; fewer than three is not. */}
-        {edition && edition.clips.length >= 3 && <VideoRow edition={edition} list="home" />}
-
-        {kuizi && <KuiziDites data={kuizi} />}
+        {/* 383 Tregu in its own cards, a new set every day. */}
+        <TreguHome />
       </Contained>
 
       {/* Kosovë and Shqipëri on the page's own paper: a lead, its rail, and a
@@ -291,14 +205,6 @@ export default async function HomePage() {
           <ColorSpotlight articles={block("Kosovë")} category="Kosovë" label="KOSOVË" plain more={4} />
         </div>
       )}
-
-      {/* Bota për Kosovën straight after the Kosovo news, then Sondazhi i
-          ditës: a pause in the run of Kosovo and Albania news. Bota për
-          Kosovën is one daily reading — the index and the stories behind it. */}
-      <Contained>
-        <BotaHome today={toneToday} stories={botaStories} />
-        <DailyPoll data={sondazhi} />
-      </Contained>
       {block("Shqipëri").length > 0 && (
         <div id="seksioni-shqiperi" className="home-anchor">
           <ColorSpotlight articles={block("Shqipëri")} category="Shqipëri" label="SHQIPËRI" plain more={4} />
@@ -313,25 +219,25 @@ export default async function HomePage() {
 
       <Contained first>
         <CategoryBlock category="Sport" articles={block("Sport")} layout="mosaic" />
-
-        {/* 383 Tregu in its own cards, a new set every day. */}
-        <TreguHome />
-
         <CategoryBlock category="Teknologji" articles={block("Teknologji")} layout="overlay" />
         <CategoryBlock category="Showbiz" articles={block("Showbiz")} layout="bento" />
 
-        <HomeVisitPreview />
-      </Contained>
-
-      {/* Throwback + Alerts CTA */}
-      <Contained first>
-        <ThrowbackSection />
-        <AlertsCta />
+        {/* Lajmet e fundit — everything the sections above left, newest
+            first, and the way back through the archive. */}
+        {latest.length > 0 && (
+          <div className="home-latest" style={{ marginBottom: "var(--space-section)" }}>
+            <DispatchList
+              id="lajmet-e-fundit"
+              articles={latest}
+              max={12}
+              size="lg"
+              loadMore={{ seenIds }}
+            />
+            <AdSlot />
+          </div>
+        )}
       </Contained>
       </main>
-
-      {/* Gradient CTA */}
-      <GradientCta />
 
       <Footer />
     </>
