@@ -1,6 +1,6 @@
 import unittest
 
-from prepare_editor_sources import prioritize_grounded_leads
+from prepare_editor_sources import prioritize_grounded_leads, source_basis_warning
 
 
 def lead(name, primary_words, secondary_words=0):
@@ -10,6 +10,20 @@ def lead(name, primary_words, secondary_words=0):
 
 
 class EvidencePriorityTests(unittest.TestCase):
+    def test_public_facts_precede_outlet_interviews_without_discarding_them(self):
+        for signal in ['Në një intervistë për Kubi Sportiv ai u shpreh',
+                       'Dubois told Sky Sports he wanted a fight',
+                       'Sources at the party tell TMZ the event was private',
+                       'Sipas qytetarëve të intervistuar rruga është bllokuar',
+                       'A representative told the Journal the deal closed']:
+            risky = lead('interview', 240)
+            risky['primary_evidence']['text'] += signal
+            public = lead('public announcement', 220)
+            self.assertTrue(source_basis_warning(risky), signal)
+            self.assertEqual(prioritize_grounded_leads([risky, public]), [public, risky])
+        public['primary_evidence']['text'] += ' The ministry announced the decision at a public press conference.'
+        self.assertFalse(source_basis_warning(public))
+
     def test_substantial_reports_precede_clips_without_discarding_brief_sources(self):
         rows = [lead('live commentary', 17), lead('full report', 240), lead('brief report', 126)]
         result = prioritize_grounded_leads(rows)

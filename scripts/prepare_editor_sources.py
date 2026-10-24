@@ -11,6 +11,7 @@ import re
 import sys
 import time
 import threading
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -239,17 +240,43 @@ def coverage_plan(leads: list[dict], total: int = 20) -> dict[str, int]:
     return plan_counts(counts, total)
 
 
+@lru_cache(maxsize=1)
+def _outlet_statement_pattern():
+    from editorial_rules_v2 import fold
+    from news_photo_subjects import publisher_names
+    names = publisher_names(MANIFEST["publishers"]) | {"the Journal"}
+    return re.compile(r"\b(?:told|tells|tell)\s+(?:" + "|".join(
+        re.escape(fold(name)) for name in sorted(names)) + r")\b")
+
+
+def source_basis_warning(lead: dict) -> str:
+    """An ordering hint for the existing ban, never an approval or rejection.
+
+    Outlet interviews and anonymous sourcing repeatedly consumed main writer
+    slots before the editor rejected them. Public statements remain preferred.
+    Incidental mentions can be false positives, so keep the candidate available.
+    """
+    from editorial_rules_v2 import fold
+    text = fold(str(lead.get("primary_evidence", {}).get("text", "")))
+    if re.search(r"\b(?:intervist\w*|interviews?|sources? at the|sources? close to|our sources|"
+                 r"we.re told|qytetareve te intervistuar|burime anonime|burimeve anonime)\b", text):
+        return "Source includes interview or anonymous material: use only independently supported public facts; choose another candidate if it cannot stand without outlet attribution."
+    if _outlet_statement_pattern().search(text):
+        return "Source includes a statement given to a news outlet: verify a separate public basis before using it; otherwise choose another candidate."
+    return ""
+
+
 def prioritize_grounded_leads(leads: list[dict]) -> list[dict]:
     """Spend bounded photo time on substantial evidence before thin clips.
 
     A brief primary can still qualify alongside a readable corroborator. This
     ordering is not editorial approval and never substitutes for claim checks.
     """
-    def priority(lead: dict) -> tuple[bool, bool]:
+    def priority(lead: dict) -> tuple[bool, bool, bool]:
         words = sum(len(re.findall(r"\w+", str(lead.get(key, {}).get("text") or "")))
                     for key in ("primary_evidence", "secondary_evidence")
                     if lead.get(key, {}).get("status") == "text_extracted")
-        return words < 140, words < 80
+        return bool(lead.get("source_basis_warning") or source_basis_warning(lead)), words < 140, words < 80
     return sorted(leads, key=priority)
 
 
@@ -329,7 +356,8 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
             continue
         eligible.append({**lead, "requires_corroboration": sensitive,
                          "corroborates_url": secondary_url if secondary_ok else "",
-                         "primary_evidence": primary, "secondary_evidence": secondary if secondary_ok else {}})
+                         "primary_evidence": primary, "secondary_evidence": secondary if secondary_ok else {},
+                         "source_basis_warning": source_basis_warning({**lead, "primary_evidence": primary})})
     # Oversample each desk to replace image failures and editorial rejections.
     # With a recent photo required, about one lead in twenty found one on 18 Oct,
     # so every desk sends up to 30 more than its target.

@@ -7,6 +7,17 @@ from news_writer_brief import build
 
 
 class WriterBriefTests(unittest.TestCase):
+    def test_public_fact_candidate_precedes_risky_cached_notes_and_warning_remains_visible(self):
+        risky = {**self.lead, 'source_basis_warning':'Interview material needs a separate public basis.'}
+        public = {key:value for key,value in {**self.lead, 'pair_id':'Kosovë-public',
+                  'url':'https://koha.net/public', 'evidence_path':'/private/public-evidence.json'}.items() if key!='facts_path'}
+        self.write([risky,public])
+        build(self.discovery,self.output,'Kosovë',cap=1,spares=0)
+        self.assertIn(public['url'],self.output.read_text(encoding='utf-8'))
+        self.assertNotIn(risky['url'],self.output.read_text(encoding='utf-8'))
+        build(self.discovery,self.output,'Kosovë',cap=1,spares=1)
+        self.assertIn(risky['source_basis_warning'],self.output.read_text(encoding='utf-8'))
+
     def test_identity_manifest_contains_only_the_scoped_prepared_pool(self):
         leads=[{**self.lead, 'pair_id':f'Kosovë-{i}', 'url':f'https://koha.net/slot-{i}',
                 'evidence_path':'/private/evidence.json'} for i in range(4)]

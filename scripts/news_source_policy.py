@@ -150,7 +150,7 @@ def topic_error(category: str, title: object, summary: object = "", *, tags=(), 
     # Local desks cover verified local personalities, entertainment and companies.
     # Their geographic check below still excludes unrelated international stories.
     if category == "Botë":
-        if _SHOWBIZ.search(headline) or labels & {"showbiz", "argetim", "entertainment"} or re.search(r"/(?:showbiz|show-biz|entertainment)/", path):
+        if _SHOWBIZ.search(headline) or labels & {"showbiz", "argetim", "entertainment", "music", "film"} or re.search(r"/(?:showbiz|show-biz|entertainment|music|film|stage|tv-and-radio|celebrity|entertainment-arts)/", path):
             return "entertainment reporting is outside this category"
         if _ECONOMY.search(headline) or labels & {"ekonomi", "economy", "business", "crypto", "markets"}:
             return "financial reporting is outside this category"

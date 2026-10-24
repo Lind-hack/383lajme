@@ -35,10 +35,11 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         # Bound each initial composer's reading, while preserving the complete
         # inventory/global brief for later fresh replacements and rewrites.
         def note_priority(lead):
+            risky = bool(lead.get("source_basis_warning"))
             if not lead.get("facts_path"):
-                return 3
+                return risky, 3
             sheet = json.loads(Path(lead["facts_path"]).read_text(encoding="utf-8"))
-            return 0 if sheet.get("origin") in {"model", "cache"} else 2 if sheet.get("origin") == "fragments" else 1
+            return risky, 0 if sheet.get("origin") in {"model", "cache"} else 2 if sheet.get("origin") == "fragments" else 1
         leads = sorted(leads, key=note_priority)
         if desk_slot is not None:
             # Each one-article request has its own main/spare candidates. A
@@ -90,7 +91,7 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
             raise ValueError("ready story source is outside its category")
         identities.append({key: lead[key] for key in ('pair_id', 'url', 'category')})
         metadata = {key: lead.get(key) for key in ("pair_id", "category", "source", "url", "published", "city",
-                                                   "requires_corroboration", "corroborates_url", "image_subject")
+                                                   "requires_corroboration", "corroborates_url", "image_subject", "source_basis_warning")
                     if lead.get(key) not in (None, "")}
         if lead.get("corroborates_url") and source_error(lead["category"], lead["corroborates_url"]):
             raise ValueError("corroborator is outside the story category")

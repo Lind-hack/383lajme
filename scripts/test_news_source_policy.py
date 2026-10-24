@@ -92,6 +92,12 @@ class SourceIsolation(unittest.TestCase):
 
 
 class TopicBoundary(unittest.TestCase):
+    def test_explicit_music_path_stays_out_of_world_even_without_a_named_star(self):
+        self.assertIsNotNone(topic_error('Botë', 'Sam Fender fans question high ticket prices',
+                                        url='https://www.theguardian.com/music/2026/oct/24/sam-fender'))
+        self.assertIsNone(topic_error('Botë', 'Government announces public transport investment',
+                                     url='https://www.theguardian.com/world/2026/oct/24/transport'))
+
     def test_showbiz_rejects_unrelated_general_feed_stories_before_photo_work(self):
         for title in ("Oregon school shooting: calls to suspect's home", "Studentet duan te qeverisin Serbine",
                       "Cilat jane frutat e thata me te shendetshme?",
