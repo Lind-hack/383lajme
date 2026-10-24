@@ -497,3 +497,9 @@ The final throughput item remains open until actual output proves it. Do not rep
 - Exact 40-candidate live inventory replay found ten warning-bearing candidates and selected no warning-bearing main sources across all twenty initial writer slots. This was a read-only source replay with QA briefs, no model/approval/publication. Proof: QA priority-replay-20261024/proof.json.
 - Self-review checked source/category binding, stable ordering, non-discarding behavior and warning propagation. Fixed the regression fixture to retain its exact notes identity. Combined native checks: 321 passed; production build passed.
 - Asset-photo commit a114fbb6 has deployed through Railway GitHub; its worker is staged only, while the d80 scheduled run is active. Install the next committed combined release only after live-SHA verification and idle publisher lock.
+
+## 24 October: exact 18:00 outcome and official results graphic
+- Exact Supabase readback for the 18:00 Warsaw slot: 9 published; Kosovë 2, Shqipëri 0, Sport 0, Teknologji 2, Ekonomi 2, Botë 2, Showbiz 1. Image records, decoded dimensions and categories match the committed worker batch. Goal remains unmet.
+- Combined ad88b84e app and worker verified and activated under the idle publisher lock at 18:45:27 Warsaw. Model remains Luna/max/OAuth, no provider/model fallback. Next run is 19:00 Warsaw.
+- Visually inspected the prepared FSHF kategoria-e-pare-java-7-web image: it is a results table with crests, not a photograph. Sport published zero, so this candidate did not reach the site. Added exact known graphic-series/graphic-filename exclusions during press-photo preparation and final trusted-image validation. Official provenance does not exempt it from the photo rule.
+- Reviewed the narrow exclusion against actual match-photo filenames. Press-photo/image-policy tests: 55 passed; production build passed. No source or rights rules weakened.

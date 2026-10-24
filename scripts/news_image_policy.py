@@ -1104,7 +1104,9 @@ def image_errors(article: dict) -> list[str]:
     if not asset and rights.get("provider") == "wikimedia-commons" and non_photographic_asset(asset_title, str(rights.get("description", ""))):
         return ["prepared image depicts a chart, map or other non-photographic asset"]
     official_video = rights.get("provider") == "youtube-embed" and str(photo.get("video_clip_url", "")).startswith("https://www.youtube.com/watch?v=")
-    from news_press_photos import FEEDS, LICENSE, site
+    from news_press_photos import FEEDS, LICENSE, site, non_photographic_press_image
+    if rights.get("provider") == "official-press" and non_photographic_press_image(str(photo.get("image_url", ""))):
+        return ["official press image is a results graphic, poster or logo rather than a photograph"]
     official_press = (rights.get("provider") == "official-press" and rights.get("license") == LICENSE
                       and site(str(rights.get("source_page", ""))) in {site(url) for url in FEEDS})
     if not (official_video or official_press) and (rights.get("license") not in LICENSES or rights.get("license_url") != LICENSES.get(rights.get("license"))):

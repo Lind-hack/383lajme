@@ -21,6 +21,21 @@ def item(title, image="https://president-ksgov.net/wp-content/uploads/x.jpg", cr
 
 
 class PressPhotoTests(unittest.TestCase):
+    def test_results_graphic_is_excluded_and_final_gate_cannot_trust_it_as_a_photo(self):
+        import news_image_policy as policy
+        graphic = 'https://fshf.org/app/uploads/2026/10/kategoria-e-pare-java-7-web.jpeg'
+        photograph = 'https://fshf.org/app/uploads/2026/10/besa-korabi-ndeshja.jpg'
+        self.assertTrue(press.non_photographic_press_image(graphic))
+        self.assertFalse(press.non_photographic_press_image(photograph))
+        title = 'Kategoria e Parë Besa fiton ndaj Korabit'
+        with patch.object(press, 'press_items', return_value=[item(title, graphic, 'FSHF'), item(title, photograph, 'FSHF')]):
+            options = press.press_options({'title':title})
+        self.assertEqual([option['photo']['image_url'] for option in options], [photograph])
+        invalid = {**options[0]['photo'], 'image_url':graphic}
+        with patch.object(policy, 'trusted_photo', return_value=invalid):
+            self.assertEqual(policy.image_errors(invalid),
+                             ['official press image is a results graphic, poster or logo rather than a photograph'])
+
     def test_rss_items_keep_their_own_image_and_date(self):
         [found] = press.parse_feed(RSS, "rss")
         self.assertEqual(found["link"], "https://president-ksgov.net/osmani-gjermani/")

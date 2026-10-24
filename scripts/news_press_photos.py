@@ -20,7 +20,7 @@ import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
-from urllib.parse import urljoin, urlsplit
+from urllib.parse import urljoin, urlsplit, unquote
 
 import requests
 
@@ -192,6 +192,18 @@ def _words(text: str) -> set[str]:
     return {word for word in re.findall(r"[a-z0-9]+", fold(text)) if len(word) >= 5}
 
 
+def non_photographic_press_image(url: str) -> bool:
+    """Known graphic filenames remain graphics even on an official press feed.
+
+    Visually checked 24 Oct: FSHF's kategoria-e-pare-java-7-web.jpeg is a
+    results table with crests, not a photograph of any of the matches.
+    """
+    name = unquote(urlsplit(url).path.rsplit("/", 1)[-1]).casefold().replace("_", "-")
+    return bool(re.search(r"(?:^|-)(?:logo|infographic|infografik\w*|scoreboard|poster|fixture\w*|"
+                          r"match-results|results-table)(?:-|\.)", name)
+                or re.search(r"(?:kategoria-e-pare|abissnet-superiore)-java-\d+-web(?:-|\.)", name))
+
+
 def press_options(lead: dict) -> list[dict]:
     """Official press photos of the last two days about this story: the
     headline's main name plus words about the event, or three shared words
@@ -206,6 +218,8 @@ def press_options(lead: dict) -> list[dict]:
     event = _words(title) - _words(name)
     options = []
     for item in press_items():
+        if non_photographic_press_image(item["image"]):
+            continue
         text = f"{item['title']} {item['summary']}"
         shared = len(event & _words(text))
         # Press pages often give only the surname ('Presidentja Osmani pret...'):
