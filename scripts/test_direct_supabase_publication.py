@@ -113,6 +113,19 @@ class DirectSupabasePublicationTests(unittest.TestCase):
         self.assertEqual(self.support.publish_supabase(self.path), 1)
         self.assertEqual(calls, [])
 
+    def test_clear_semantic_sibling_repeat_blocks_direct_publication_before_database_calls(self):
+        extra = ('Këshilli i qytetit miratoi financimin për autobusë elektrikë dhe stacione karikimi. '
+                 'Projekti i transportit urban mbulon linjat kryesore dhe nis zbatimin gjatë muajit nëntor. ')
+        self.articles[0]['body'] = extra + self.articles[0]['body']
+        self.articles[1]['body'] = self.articles[0]['body']
+        self.path.write_text(json.dumps(self.articles),encoding='utf-8')
+        self.assertTrue(self.support._same_story(self.articles[0], self.articles[1]))
+        output=io.StringIO()
+        with patch.object(self.support,'_supabase_request') as request, contextlib.redirect_stdout(output):
+            self.assertEqual(self.support.publish_supabase(self.path),1)
+        request.assert_not_called()
+        self.assertIn('same story is repeated within the pending publication batch',output.getvalue())
+
     def test_missing_originality_approval_blocks_legacy_git_publication(self):
         self.copyright_validator.side_effect = ValueError("missing independent originality review")
         with patch.object(self.support, "_git") as git:
@@ -127,6 +140,7 @@ class DirectSupabasePublicationTests(unittest.TestCase):
 
     def test_publish_inserts_exact_mapping_and_verifies_readback(self):
         calls = []
+        persisted = []
 
         def fake_request(method, table, **kwargs):
             calls.append((method, table, kwargs))
@@ -139,6 +153,7 @@ class DirectSupabasePublicationTests(unittest.TestCase):
                 return []
             if method == "POST" and table == "news_articles":
                 payload = kwargs["payload"]
+                persisted.extend(payload)
                 self.assertEqual(len(payload), 13)
                 raw = dict(payload[0]["raw_article"])
                 proof = raw.pop("originality_review")
@@ -149,7 +164,7 @@ class DirectSupabasePublicationTests(unittest.TestCase):
                 self.assertEqual(payload[0]["source_flag"], "🌍")
                 return []
             if method == "GET" and table == "news_articles" and query.get("batch_key") == "eq.2026-07-10T12":
-                return [{"id": item["id"], "slug": item["slug"]} for item in self.articles]
+                return persisted
             raise AssertionError(f"unexpected request: {method} {table} {kwargs}")
 
         self.support._supabase_request = fake_request
@@ -188,7 +203,7 @@ class DirectSupabasePublicationTests(unittest.TestCase):
                 writes.append((table, kwargs["payload"]))
                 return []
             if table == "news_articles" and kwargs.get("query", {}).get("batch_key"):
-                return [{"id": a["id"], "slug": a["slug"]} for a in self.articles]
+                return next(payload for table, payload in writes if table == 'news_articles')
             return []
         self.support._supabase_request = fake_request
         self.assertEqual(self.support.publish_supabase(self.path), 0)
@@ -208,7 +223,7 @@ class DirectSupabasePublicationTests(unittest.TestCase):
             if table == "news_batches":
                 return [{"batch_key": "2026-07-10T12"}] if existing else []
             if kwargs.get("query", {}).get("batch_key"):
-                return [{"id": a["id"], "slug": a["slug"]} for a in self.articles]
+                return next(payload for table, payload in writes if table == 'news_articles')
             return []
         self.support._supabase_request = fake_request
         started = datetime.now(timezone.utc)

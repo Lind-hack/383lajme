@@ -1277,8 +1277,8 @@ def _published_articles() -> list[dict[str, Any]]:
         offset += page_size
 
 
-def _published_conflicts(articles: list[dict[str, Any]], *, ignore_batch_key: str = "") -> list[str]:
-    published = _published_articles()
+def _published_conflicts(articles: list[dict[str, Any]], *, ignore_batch_key: str = "", published=None) -> list[str]:
+    published = _published_articles() if published is None else published
     errors: list[str] = []
     for index, article in enumerate(articles, 1):
         candidate_id, candidate_slug = str(article["id"]), str(article["slug"])
@@ -1316,7 +1316,7 @@ def dedupe_published(path: Path, *, prune: bool = False) -> int:
     # identity collisions are still refused outright.
     uncertain: list[tuple[int, dict[str, Any], list[dict[str, Any]]]] = []
     for index, article in enumerate(articles, 1):
-        conflicts = _published_conflicts([article])
+        conflicts = _published_conflicts([article], published=published)
         story = [existing for existing in recent if str(existing.get("id", "")) != str(article.get("id", ""))
                  and _same_story(article, existing)]
         if not conflicts and story and prune and all(_story_overlap(article, existing) < CLEAR_REPEAT for existing in story):
@@ -1341,6 +1341,14 @@ def dedupe_published(path: Path, *, prune: bool = False) -> int:
                                 for existing, fresh in zip(story, new) if not fresh)
         order = {id(article): position for position, article in enumerate(articles)}
         kept.sort(key=lambda article: order[id(article)])
+    from news_sibling_dedup import distinct
+    from news_development_judge import judge
+    before_siblings = kept
+    kept, siblings = distinct(kept, same_story=_same_story, overlap=_story_overlap, clear_repeat=CLEAR_REPEAT,
+                              judge=(lambda pairs: judge(pairs, path.parent)) if prune else (lambda pairs: [False] * len(pairs)))
+    positions = {id(article): index for index, article in enumerate(articles, 1)}
+    rejected.extend(f"article {positions[id(before_siblings[index])]}: same story as another candidate {before_siblings[previous].get('title', '')!r}"
+                    for index, previous in siblings)
     if rejected and prune:
         path.write_text(json.dumps(kept, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"DEDUPLICATION pruned {len(articles) - len(kept)} published duplicate candidate(s); retained {len(kept)} candidate(s)")
@@ -2115,13 +2123,11 @@ def _article_row(article: dict[str, Any], batch_key: str) -> dict[str, Any]:
 
 
 def _verify_batch_readback(batch_key: str, articles: list[dict[str, Any]]) -> None:
-    persisted = _supabase_request("GET", "news_articles", query={"select": "id,slug", "batch_key": f"eq.{batch_key}", "limit": "100"})
-    expected_ids = {str(article["id"]) for article in articles}
-    expected_slugs = {str(article["slug"]) for article in articles}
-    actual_ids = {str(article.get("id", "")) for article in persisted}
-    actual_slugs = {str(article.get("slug", "")) for article in persisted}
-    if len(persisted) != len(articles) or actual_ids != expected_ids or actual_slugs != expected_slugs:
-        raise RuntimeError(f"SUPABASE readback mismatch for batch {batch_key!r}: expected {len(articles)} exact IDs/slugs, got {len(persisted)} rows")
+    from news_publication_readback import verify_rows
+    expected = [_article_row(article, batch_key) for article in articles]
+    fields = ','.join(expected[0]) if expected else 'id'
+    persisted = _supabase_request("GET", "news_articles", query={"select": fields, "batch_key": f"eq.{batch_key}", "limit": "100"})
+    verify_rows(expected, persisted, batch_key)
 
 
 def _cleanup_new_batch(batch_key: str) -> None:
@@ -2138,6 +2144,9 @@ def publish_supabase(path: Path) -> int:
         from news_copyright_review import validate_for_publication
         validate_for_publication(path)
         articles = validate_batch(path)
+        from news_sibling_dedup import story_pairs
+        if any(score >= CLEAR_REPEAT for _, _, score in story_pairs(articles, _same_story, _story_overlap)):
+            raise ValueError("same story is repeated within the pending publication batch")
         batch_key = _batch_key(path)
         conflicts = _published_conflicts(articles, ignore_batch_key=batch_key)
         if conflicts:
