@@ -43,6 +43,7 @@ export function readingStats(
   now?: number
 ): { minutes: number; reads: number; weight: number };
 export function nudgeAffinity(affinity: unknown, key: string, delta: number, now?: number): Record<string, AffinityEntry>;
+export function mergeAffinity(a: unknown, b: unknown, now?: number): Record<string, AffinityEntry>;
 export function toggleValue<T>(list: readonly T[] | null | undefined, value: T): T[];
 
 /** Minimal shape of Storage, so callers can pass a fake in tests. */

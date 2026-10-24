@@ -23,7 +23,7 @@
 
 import { track } from "@/lib/analytics";
 
-export type PertyList = "edition" | "more" | "brief" | "section";
+export type PertyList = "edition" | "must" | "more" | "brief" | "section";
 
 export type PertyClick = { slug: string; position: number; kind: string; list: PertyList; at: number };
 

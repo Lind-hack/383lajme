@@ -12,6 +12,8 @@
 import type { Metadata } from "next";
 import { getArticles, getArticlesBefore } from "@/lib/db";
 import { getCoverArtMap } from "@/lib/cover-art-server";
+import { getSummaryMap } from "@/lib/story-summary-server";
+import { withImageSizes } from "@/lib/image-size.mjs";
 import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -37,10 +39,11 @@ export default async function PerTyPage() {
   // Kosovë, so a reader who followed a smaller city or a less-covered person
   // was matched against almost nothing that had ever named them.
   const since = Date.now() - WINDOW_DAYS * 24 * 60 * 60 * 1000;
-  const [top, newest, covers] = await Promise.all([
+  const [top, newest, covers, summaries] = await Promise.all([
     getArticles(100, undefined, { withBody: false }),
     getArticlesBefore({ limit: PAGE }),
     getCoverArtMap(),
+    getSummaryMap(),
   ]);
   const older =
     newest.length === PAGE && Date.parse(newest[PAGE - 1]?.publishedAt ?? "") > since
@@ -48,11 +51,15 @@ export default async function PerTyPage() {
       : [];
 
   const seen = new Set<string>();
-  const articles = [...top, ...newest, ...older].filter((a) => {
-    if (!a?.slug || seen.has(a.slug)) return false;
-    seen.add(a.slug);
-    return Date.parse(a.publishedAt) >= since;
-  });
+  // Measured so the big lead slot can prefer a photo that stays sharp in it
+  // (lib/image-size.mjs); widths are remembered per photo across renders.
+  const articles = await withImageSizes(
+    [...top, ...newest, ...older].filter((a) => {
+      if (!a?.slug || seen.has(a.slug)) return false;
+      seen.add(a.slug);
+      return Date.parse(a.publishedAt) >= since;
+    })
+  );
 
   const toFeed = (a: (typeof articles)[number]): FeedArticle => ({
     slug: a.slug,
@@ -65,7 +72,10 @@ export default async function PerTyPage() {
     source: a.source,
     publishedAt: a.publishedAt,
     imageUrl: a.imageUrl,
+    ...(a.imageWidth ? { imageWidth: a.imageWidth } : {}),
     engagementScore: a.engagementScore,
+    // Dardani's two or three sentences (lib/story-summary), once written.
+    ...(summaries[a.slug] ? { summary: summaries[a.slug].text, summaryByDardani: summaries[a.slug].byDardani } : {}),
     // The clay plate, when the story is one of the day's leads (lib/cover-art).
     ...(covers[a.slug] ? { coverArt: covers[a.slug] } : {}),
   });

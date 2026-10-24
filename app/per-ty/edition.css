@@ -313,3 +313,54 @@ a.perty-ed-city:focus-visible { outline: 2px solid var(--pp-accent); outline-off
   .perty-col-head h2 a:hover,
   .perty-col-all:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 }
+
+/* ── Dardani's summary under each story, and "Duhet ta dish sot" ──────────
+   The summary is the point of the row now: two or three sentences that tell
+   the story without opening it, so it is shown whole, on phones too, where
+   the old one-line excerpt was hidden. */
+.perty-ed-summary {
+  display: block;
+  color: var(--theme-ink, var(--pp-soft-text));
+  font-size: 15px;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+.perty-ed-row[data-read] .perty-ed-summary { color: var(--pp-faint); }
+
+/* The day's one or two must-knows: the same row, on a tinted band, so it reads
+   as "for everyone today" and the numbered seven stay the reader's own. */
+.perty-must {
+  margin: 6px 0 14px;
+  padding: 12px 16px 0;
+  border: 1px solid var(--pp-accent-line);
+  border-radius: 16px;
+  background: var(--pp-accent-soft);
+}
+.perty-must-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  color: var(--pp-accent-ink);
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.perty-must .perty-ed-list li + li { border-top-color: var(--pp-accent-line); }
+.perty-must .perty-ed-n.perty-must-n { background: var(--pp-accent); color: #fff; font-weight: 900; }
+/* Not the lead: the edition's first-row foot rules must not reach it. */
+.perty-must .perty-ed-item.perty-must-item .perty-ed-foot { left: 42px; right: 0; }
+.perty-must .perty-ed-item.perty-must-item[data-thumb] .perty-ed-foot { left: 42px; right: 134px; }
+
+@media (max-width: 640px) {
+  .perty-ed-summary { font-size: 14.5px; line-height: 1.5; }
+  .perty-must { padding: 10px 12px 0; margin-inline: -4px; }
+  .perty-must .perty-ed-item.perty-must-item .perty-ed-foot { left: 38px; }
+  .perty-must .perty-ed-item.perty-must-item[data-thumb] .perty-ed-foot { left: 38px; right: 92px; }
+}
+
+@media (min-width: 1024px) {
+  .perty-ed-row[data-lead] .perty-ed-summary { font-size: 16.5px; }
+  .perty-must .perty-ed-item.perty-must-item[data-thumb] .perty-ed-foot { left: 42px; right: 154px; }
+}

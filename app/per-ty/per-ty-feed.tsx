@@ -12,13 +12,16 @@
 //   1. a one-block masthead: "Mirëmëngjes, Lind", the date, how long this
 //      takes, the reader's town (weather, or the border waits for the diaspora);
 //   2. "Në 30 sekonda": Dardani's three lines on this edition;
-//   3. "Për ty sot": one numbered list of seven stories (lib/per-ty-edition),
+//   3. "Duhet ta dish sot": the one or two stories every reader should know,
+//      whatever they follow (lib/per-ty-must-know);
+//   4. "Për ty sot": one numbered list of seven stories (lib/per-ty-edition),
 //      read ones kept in place so "3 / 7 lexuar" can move; each says in one
-//      line why it is there (lib/perty-why) and can be turned down ("Më pak si
-//      kjo") for the next visit;
-//   4. "Kaq për sot": the end — the streak, tomorrow's 07:00 edition, and the
+//      line why it is there (lib/perty-why), carries Dardani's two or three
+//      sentences so it can be read without opening it (lib/story-summary),
+//      and can be turned down ("Më pak si kjo") for the next visit;
+//   5. "Kaq për sot": the end — the streak, tomorrow's 07:00 edition, and the
 //      follows the week had nothing for, said plainly rather than padded;
-//   5. "Më shumë", folded, for anyone who wants to keep going.
+//   6. "Më shumë", folded, for anyone who wants to keep going.
 //
 // On a phone that is one column, in that order. On a laptop or desktop it
 // becomes a front page across the whole width: the lead big with the six
@@ -38,6 +41,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowRight,
+  BellRing,
   Check,
   ChevronDown,
   Coffee,
@@ -50,9 +54,10 @@ import {
 } from "lucide-react";
 import TimeAgo from "@/components/time-ago";
 import { getCategoryColor } from "@/lib/category-colors";
-import { readInterests, writeInterests, hasInterests, nudgeAffinity, type Interests } from "@/lib/interests.mjs";
+import { readInterests, writeInterests, hasInterests, nudgeAffinity, recordRead, type Interests } from "@/lib/interests.mjs";
 import { articleKeys, rankFeed, type RankedItem } from "@/lib/per-ty-rank.mjs";
-import { buildEdition } from "@/lib/per-ty-edition.mjs";
+import { buildEdition, readingMinutes } from "@/lib/per-ty-edition.mjs";
+import { mustKnow } from "@/lib/per-ty-must-know.mjs";
 import { buildPaper, quietFollows } from "@/lib/per-ty-paper.mjs";
 import { cityById } from "@/lib/cities.mjs";
 import { nextStreak, STREAK_KEY } from "@/lib/perty-streak.mjs";
@@ -67,7 +72,7 @@ import { keyLabel, whyLine } from "@/lib/perty-why.mjs";
 import { noteShown, readShown, settleSkips, writeShown } from "@/lib/perty-skips.mjs";
 import { noteClick, trackPerty, type PertyList } from "@/lib/perty-measure";
 import type { CityWeather } from "@/lib/weather";
-import { mergeOnSignIn, pushInterests } from "@/lib/interests-sync";
+import { forgetAccountAffinity, mergeOnSignIn, pushInterests } from "@/lib/interests-sync";
 import { createClient } from "@/lib/supabase/client";
 import { openPyet } from "@/lib/pyet-thread";
 import DardaniLoop from "@/components/dardani/dardani-loop";
@@ -88,7 +93,12 @@ export type FeedArticle = {
   source: string;
   publishedAt: string;
   imageUrl?: string;
+  /** Measured width of imageUrl, when known (lib/image-size.mjs). */
+  imageWidth?: number;
   engagementScore?: number;
+  /** Dardani's two or three sentences (lib/story-summary), or the story's own when his failed the checks. */
+  summary?: string;
+  summaryByDardani?: boolean;
   /** The newsroom's clay illustration of the story, when it has one (lib/cover-art). Used only without a photo. */
   coverArt?: string | null;
 };
@@ -109,6 +119,34 @@ const TASTE_STEP = 1.2;
 const TOWN_STORY_MS = 48 * 3600_000;
 /** On screen this long (and at least half visible), a row counts as shown. */
 const SHOWN_AFTER_MS = 1000;
+/**
+ * A summary on screen this long (and at least half visible) counts as read
+ * here: about two sentences at reading pace. Reading the story in Për ty is
+ * the point now, so it must teach the ranking, not count as passing it over.
+ */
+const SUMMARY_READ_MS = 4000;
+/** What reading a summary is worth against a full read of the article (1). */
+const SUMMARY_READ_WEIGHT = 0.25;
+/** A photo at least this wide stays sharp in the lead's big slot on a laptop. */
+const LEAD_SHARP_PX = 1000;
+/** How far down the edition a sharper photo may be brought up to lead. */
+const LEAD_LOOK = 3;
+
+/**
+ * The edition with a sharp photo leading: when the first story's photo is
+ * small (or unmeasured) and one of the next two has a big one, that one leads.
+ * A small outlet photo stretched over half a laptop screen is the pixelation
+ * readers saw; no optimizer can add pixels the outlet never published.
+ */
+function sharpLead<T extends { article: FeedArticle }>(items: T[]): T[] {
+  const sharp = (i: T | undefined) => Boolean(i?.article.imageUrl) && (i?.article.imageWidth ?? 0) >= LEAD_SHARP_PX;
+  if (items.length < 2 || sharp(items[0])) return items;
+  const at = items.slice(1, LEAD_LOOK).findIndex(sharp);
+  if (at < 0) return items;
+  const out = [...items];
+  const [lead] = out.splice(at + 1, 1);
+  return [lead, ...out];
+}
 
 function readFlag(key: string) {
   try {
@@ -256,8 +294,24 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     [pool, interests]
   );
 
+  // The day's one or two must-knows, kept out of the reader's own seven. Fixed
+  // by what was read before this visit, so a story opened now stays put.
+  const must = useMemo(
+    () => (visited && now ? mustKnow(pool, { now: now.getTime(), read }) : []),
+    [pool, visited, now, read]
+  );
   const homeFrom = cityById(home)?.from ?? null;
-  const { edition, more, minutes } = useMemo(() => buildEdition(feed, { homeFrom }), [feed, homeFrom]);
+  const { edition, more } = useMemo(() => {
+    const skip = new Set(must.map((a) => a.slug));
+    // The must-know band carries the day now, so the general top stories only
+    // fill the places the reader's own stories leave empty.
+    const built = buildEdition(
+      feed.filter((i) => !skip.has(i.article.slug)),
+      { homeFrom, fillKinds: ["top"] }
+    );
+    return { more: built.more, edition: sharpLead(built.edition) };
+  }, [feed, homeFrom, must]);
+  const minutes = readingMinutes([...must.map((article) => ({ article })), ...edition]);
   // The wide screen's columns: one per follow, never repeating the seven.
   const sections = useMemo(
     () => (interests ? buildPaper(feed, interests, null, { homeFrom }).sections.filter((sec) => sec.items.length > 0) : []),
@@ -307,6 +361,31 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     if (item.primaryKey?.includes(":")) {
       writeShown(noteShown(readShown(), kosovoDateKey(), [{ slug, key: item.primaryKey }]));
     }
+  }, []);
+
+  // A summary read in place: a light read for the story's keys, and no longer
+  // a story passed over (lib/perty-skips). Once per story per visit.
+  const summaryRead = useRef(new Set<string>());
+  const onSummaryRead = useCallback((article: FeedArticle, position: number, list: PertyList) => {
+    if (!article.summary || summaryRead.current.has(article.slug)) return;
+    summaryRead.current.add(article.slug);
+    trackPerty("perty_summary_read", { slug: article.slug, position, list });
+    // A must-know is put in front of everyone; reading it says nothing about taste.
+    if (list === "must") return;
+    const log = readShown();
+    if (log) writeShown({ ...log, items: log.items.filter((i) => i.slug !== article.slug) });
+    const keys = articleKeys(article);
+    if (!keys.length) return;
+    // Straight to storage, not into this visit's ranking: the list never reshuffles under the reader's thumb.
+    const current = readInterests();
+    writeInterests({ ...current, affinity: recordRead(current.affinity, keys, Date.now(), SUMMARY_READ_WEIGHT) });
+  }, []);
+
+  // A must-know is not a taste: GA hears it, the skip lesson never does.
+  const onMustShown = useCallback((slug: string, position: number) => {
+    if (shownOnce.current.has(slug)) return;
+    shownOnce.current.add(slug);
+    trackPerty("perty_impression", { slug, position, kind: "must", list: "must" });
   }, []);
 
   function save(next: Interests) {
@@ -400,10 +479,10 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   const readCount = edition.filter((i) => read.has(i.article.slug)).length;
   const allRead = edition.length > 0 && readCount === edition.length;
   // Dardani's three lines are written from this edition, the stories not yet read.
-  const briefSlugs = edition
-    .filter((i) => !read.has(i.article.slug))
-    .slice(0, 6)
-    .map((i) => i.article.slug);
+  const briefSlugs = [
+    ...must.map((a) => a.slug),
+    ...edition.filter((i) => !read.has(i.article.slug)).map((i) => i.article.slug),
+  ].slice(0, 6);
   const firstUnread = edition.find((i) => !read.has(i.article.slug)) ?? edition[0];
   const positionOf = new Map(edition.map((i, n) => [i.article.slug, n + 1]));
 
@@ -412,6 +491,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     forgetVisits();
     forgetLedger();
     writeShown(null);
+    if (signedIn) void forgetAccountAffinity();
     setRead(new Set());
     setSince(null);
     setLess(new Map());
@@ -427,7 +507,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
             <span className="perty-ed-date">{dateline(now)}</span>
             {edition.length > 0 && (
               <span>
-                {edition.length} {edition.length === 1 ? "lajm" : "lajme"} · rreth {minutes} min
+                {edition.length + must.length} {edition.length + must.length === 1 ? "lajm" : "lajme"} · rreth {minutes} min
               </span>
             )}
             <HomeCity homeId={home} />
@@ -507,6 +587,26 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
                 {readCount} / {edition.length} lexuar
               </p>
             </header>
+            {must.length > 0 && (
+              <div className="perty-must" role="group" aria-labelledby="perty-must-title">
+                <h3 id="perty-must-title" className="perty-must-head">
+                  <BellRing size={14} strokeWidth={2.5} aria-hidden="true" />
+                  Duhet ta dish sot
+                </h3>
+                <ul className="perty-ed-list">
+                  {must.map((article, i) => (
+                    <MustRow
+                      key={article.slug}
+                      article={article}
+                      n={i + 1}
+                      seen={seen}
+                      onShown={() => onMustShown(article.slug, i + 1)}
+                      onSummaryRead={() => onSummaryRead(article, i + 1, "must")}
+                    />
+                  ))}
+                </ul>
+              </div>
+            )}
             <ol className="perty-ed-list">
               {edition.map((item, i) => (
                 <EditionRow
@@ -520,6 +620,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
                   canLess={tasteKey(item) !== null}
                   onLess={() => toggleLess(item, i + 1)}
                   onShown={() => onShown(item, i + 1, "edition")}
+                  onSummaryRead={() => onSummaryRead(item.article, i + 1, "edition")}
                 />
               ))}
             </ol>
@@ -623,6 +724,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
                                 src={(it.article.imageUrl || it.article.coverArt) as string}
                                 alt=""
                                 fill
+                                quality={90}
                                 sizes="(min-width: 1024px) 400px, 1px"
                                 style={{ objectFit: "cover" }}
                               />
@@ -683,7 +785,8 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
 
       <footer className="perty-foot">
         <p>
-          Renditja mëson pak nga ajo që lexon dhe sa gjatë e lexon, dhe mban mend çka ke hapur — vetëm në këtë pajisje.
+          Renditja mëson nga ajo që lexon, sa gjatë e lexon, çka ruan dhe ku komenton, dhe mban mend çka ke hapur. Ruhet
+          në këtë pajisje, dhe në llogarinë tënde kur je i kyçur, që telefoni dhe kompjuteri të mësojnë bashkë.
           Për përmbledhjen, Dardanit i dërgohen vetëm adresat e lajmeve, asnjë e dhënë për ty.
         </p>
         {(Object.keys(interests.affinity ?? {}).length > 0 || read.size > 0) && (
@@ -696,8 +799,8 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   );
 }
 
-/** Calls `onSeen` once the element has been at least half on screen for a moment. */
-function useSeen<T extends HTMLElement>(onSeen: () => void) {
+/** Calls `onSeen` once the element has been at least half on screen for `after` ms. */
+function useSeen<T extends HTMLElement>(onSeen: () => void, after = SHOWN_AFTER_MS) {
   const ref = useRef<T | null>(null);
   const cb = useRef(onSeen);
   useEffect(() => {
@@ -713,7 +816,7 @@ function useSeen<T extends HTMLElement>(onSeen: () => void) {
           if (timer === null) timer = window.setTimeout(() => {
             cb.current();
             io.disconnect();
-          }, SHOWN_AFTER_MS);
+          }, after);
         } else if (timer !== null) {
           window.clearTimeout(timer);
           timer = null;
@@ -726,8 +829,21 @@ function useSeen<T extends HTMLElement>(onSeen: () => void) {
       if (timer !== null) window.clearTimeout(timer);
       io.disconnect();
     };
-  }, []);
+  }, [after]);
   return ref;
+}
+
+/** One row, two moments: shown (a second on screen) and its summary read (SUMMARY_READ_MS). */
+function useBothSeen(onShown: () => void, onSummaryRead: () => void) {
+  const shown = useSeen<HTMLLIElement>(onShown);
+  const read = useSeen<HTMLLIElement>(onSummaryRead, SUMMARY_READ_MS);
+  return useCallback(
+    (el: HTMLLIElement | null) => {
+      shown.current = el;
+      read.current = el;
+    },
+    [shown, read]
+  );
 }
 
 function EndCard({ children, onSeen, allRead }: { children: React.ReactNode; onSeen: () => void; allRead: boolean }) {
@@ -763,6 +879,7 @@ function EditionRow({
   canLess,
   onLess,
   onShown,
+  onSummaryRead,
 }: {
   item: Item;
   n: number;
@@ -773,11 +890,12 @@ function EditionRow({
   canLess: boolean;
   onLess: () => void;
   onShown: () => void;
+  onSummaryRead: () => void;
 }) {
   const { article } = item;
   const isRead = seen.read.has(article.slug);
   const picture = article.imageUrl || article.coverArt || null;
-  const ref = useSeen<HTMLLIElement>(onShown);
+  const ref = useBothSeen(onShown, onSummaryRead);
   const lessLabel = lessKey ? keyLabel(lessKey) : null;
   return (
     <li ref={ref} className="perty-ed-item" data-less={lessKey ? true : undefined} data-thumb={picture ? true : undefined}>
@@ -797,20 +915,9 @@ function EditionRow({
             <Mark article={article} seen={seen} />
           </span>
           <strong className="perty-ed-title">{article.title}</strong>
-          {article.excerpt && <span className="perty-ed-excerpt">{article.excerpt}</span>}
+          <Summary article={article} />
         </span>
-        {picture && (
-          <span className="perty-ed-thumb">
-            <Image
-              src={picture}
-              alt=""
-              fill
-              priority={lead}
-              sizes={lead ? "(max-width: 640px) 96px, 168px" : "(max-width: 640px) 80px, 120px"}
-              style={{ objectFit: "cover" }}
-            />
-          </span>
-        )}
+        {picture && <Thumb src={picture} lead={lead} />}
       </Link>
       <div className="perty-ed-foot">
         {lessKey ? (
@@ -837,6 +944,80 @@ function EditionRow({
             )}
           </button>
         )}
+      </div>
+    </li>
+  );
+}
+
+/**
+ * What the story says, so it can be read here: Dardani's two or three
+ * sentences once written, the newsroom's excerpt until then.
+ */
+function Summary({ article }: { article: FeedArticle }) {
+  if (article.summary) return <span className="perty-ed-summary">{article.summary}</span>;
+  return article.excerpt ? <span className="perty-ed-excerpt">{article.excerpt}</span> : null;
+}
+
+/**
+ * A row's photo. `sizes` follows the slot's real width in edition.css: on a
+ * laptop the lead fills half the front page (about 600 CSS px), and the old
+ * "168px" fetched a photo a quarter that size and stretched it.
+ */
+function Thumb({ src, lead }: { src: string; lead: boolean }) {
+  return (
+    <span className="perty-ed-thumb">
+      <Image
+        src={src}
+        alt=""
+        fill
+        priority={lead}
+        quality={90}
+        sizes={lead ? "(max-width: 640px) 96px, (max-width: 1023px) 168px, 620px" : "(max-width: 640px) 80px, (max-width: 1023px) 120px, 140px"}
+        style={{ objectFit: "cover" }}
+      />
+    </span>
+  );
+}
+
+/** One of the day's must-knows: marked as such, with no "Më pak" (it is not a taste). */
+function MustRow({
+  article,
+  n,
+  seen,
+  onShown,
+  onSummaryRead,
+}: {
+  article: FeedArticle;
+  n: number;
+  seen: Seen;
+  onShown: () => void;
+  onSummaryRead: () => void;
+}) {
+  const picture = article.imageUrl || article.coverArt || null;
+  const ref = useBothSeen(onShown, onSummaryRead);
+  return (
+    <li ref={ref} className="perty-ed-item perty-must-item" data-thumb={picture ? true : undefined}>
+      <Link
+        href={`/article/${article.slug}`}
+        className="perty-ed-row"
+        data-read={seen.read.has(article.slug) || undefined}
+        onClick={() => noteClick({ slug: article.slug, position: n, kind: "must", list: "must" })}
+      >
+        <span className="perty-ed-n perty-must-n" aria-hidden="true">
+          !
+        </span>
+        <span className="perty-ed-body">
+          <span className="perty-ed-reason">
+            Për të gjithë sot
+            <Mark article={article} seen={seen} />
+          </span>
+          <strong className="perty-ed-title">{article.title}</strong>
+          <Summary article={article} />
+        </span>
+        {picture && <Thumb src={picture} lead={false} />}
+      </Link>
+      <div className="perty-ed-foot">
+        <Meta article={article} />
       </div>
     </li>
   );

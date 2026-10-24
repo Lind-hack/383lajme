@@ -2,7 +2,7 @@ export declare const WORDS_PER_MINUTE: number;
 export declare const MIN_MINUTES: number;
 
 export interface EditionItem {
-  article: { slug: string; title?: string; excerpt?: string };
+  article: { slug: string; title?: string; excerpt?: string; summary?: string | null };
   reason: string;
   kind: string;
 }
@@ -15,10 +15,10 @@ export interface MoreGroup<I> {
 }
 
 export function readingMinutes(
-  items: readonly { article: { title?: string; excerpt?: string } }[] | null | undefined
+  items: readonly { article: { title?: string; excerpt?: string; summary?: string | null } }[] | null | undefined
 ): number;
 
 export function buildEdition<I extends EditionItem>(
   feed: readonly I[] | null | undefined,
-  opts?: { size?: number; perReason?: number; homeFrom?: string | null }
+  opts?: { size?: number; perReason?: number; homeFrom?: string | null; fillKinds?: readonly string[] }
 ): { edition: I[]; more: MoreGroup<I>[]; minutes: number };
