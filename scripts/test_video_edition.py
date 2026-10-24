@@ -248,11 +248,58 @@ class FeelTests(unittest.TestCase):
 
 
 class FillTests(unittest.TestCase):
-    def test_a_story_without_photos_fills_with_its_footage_not_a_blank_screen(self):
+    def test_a_story_without_photos_opens_on_its_footage_then_its_words_never_a_loop(self):
         foot = [{"file": "/a.mp4", "credit": "Video: FBK · YouTube", "duration": 4.6}]
         beats = media.build_beats(24.0, WORDS, [], [], None, None, foot)
         self.assertFalse([b for b in beats if b["kind"] == "plain"])
-        self.assertTrue(all(b["kind"] == "video" for b in beats))
+        self.assertEqual(beats[0]["kind"], "video")
+        self.assertEqual(sum(b["kind"] == "video" for b in beats), 1)
+        self.assertTrue(all(b["kind"] == "line" for b in beats[1:]))
+
+    def test_two_photos_never_loop_through_a_whole_clip(self):
+        # 2026-10-24: two photos of Prishtina alternated ten times through a 32 s clip.
+        photos = [{"src": "a.jpg", "credit": ""}, {"src": "b.jpg", "credit": ""}]
+        beats = media.build_beats(32.0, WORDS * 2, photos, [], None, None, [])
+        shown = [b["src"] for b in beats if b["kind"] == "photo"]
+        self.assertLessEqual(max(shown.count(s) for s in set(shown)), media.MAX_PHOTO_USES)
+        self.assertTrue(all(a != b for a, b in zip(shown, shown[1:])))
+        self.assertTrue(any(b["kind"] == "line" for b in beats))
+        self.assertEqual(beats[0]["kind"], "photo")
+
+    def test_a_word_shot_shows_the_whole_sentence_and_the_captions_give_way(self):
+        words = said("Buxheti rritet sot. Ai hyn në fuqi në janar dhe opozita nuk e votoi atë.", 0.5)
+        beats = [{"at": 0.0, "kind": "photo", "src": "a", "move": "in"}, {"at": 2.0, "kind": "line"}]
+        cues = render.build_cues(beats, 8.0, words, {}, LIB, "s", [])
+        page = render.compose({"duration": 8.0, "words": words, "title": "t", "category": "Kosovë"}, beats, cues, {}, {"a": "img0.jpg"}, [])
+        self.assertIn('class="beat line"', page)
+        shown = re.findall(r'<span id="l1_\d+"[^>]*>([^<]+)</span>', page)
+        self.assertEqual(shown[0], "Ai")
+        self.assertTrue(shown[-1].endswith(".") or len(shown) == 12)
+        # The caption under it fades out when the word shot comes in.
+        self.assertRegex(page, r'"sel": "#c\d+", "m": "to", "to": \{"opacity": 0')
+
+    def test_footage_comes_before_photos_and_each_piece_shows_once(self):
+        foot = [{"file": f"/f{i}.mp4", "credit": "Pamje ilustruese · Pexels", "duration": 4.6, "stock": True} for i in range(3)]
+        photos = [{"src": "a.jpg", "credit": ""}, {"src": "b.jpg", "credit": ""}]
+        beats = media.build_beats(30.0, WORDS * 2, photos, [], None, None, foot)
+        files = [b["file"] for b in beats if b["kind"] == "video"]
+        self.assertEqual(sorted(files), ["/f0.mp4", "/f1.mp4", "/f2.mp4"])
+        self.assertGreaterEqual(len(files), sum(b["kind"] == "photo" for b in beats) - 1)
+        # No shot outlasts its piece (it would freeze on the last frame).
+        ends = [b["at"] for b in beats[1:]] + [30.0]
+        for b, e in zip(beats, ends):
+            if b["kind"] == "video":
+                self.assertLessEqual(e - b["at"] + 0.7, media.SEGMENT + 1e-6)
+
+    def test_a_stock_shot_comes_up_when_its_thing_is_said(self):
+        words = said("Sot " * 12 + "gjykata vendosi se ai mbetet në paraburgim " + "sot " * 12, 0.4)
+        foot = [{"file": "/a.mp4", "credit": "x", "duration": 4.6},
+                {"file": "/court.mp4", "credit": "x", "duration": 4.6, "said": ["gjykata"]},
+                {"file": "/c.mp4", "credit": "x", "duration": 4.6}]
+        beats = media.build_beats(len(words) * 0.4, words, [], [], None, None, foot)
+        court = render._word_at(words, "gjykata")[0]
+        at = next(b["at"] for b in beats if b.get("file") == "/court.mp4")
+        self.assertLessEqual(abs(at - court), 6.0)
 
     def test_a_score_is_not_counted_up(self):
         clip = {"duration": 8.0, "words": said("rezultati ishte 100:86 sot"), "title": "t", "category": "Sport"}

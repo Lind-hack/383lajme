@@ -126,6 +126,11 @@ For every story also say what the clip can show while the voice reads:
 - "sources": up to 4 names of official channels that may have posted their own video of it: the
   people or institutions themselves (governments, ministries, police, fire services, parties,
   leagues, federations, clubs, companies). Never a news outlet.
+- "broll": 3 or 4 stock-footage searches for what your script talks about, things a camera can
+  film anywhere, so the screen shows it while it is said, each as "english search | the Albanian
+  word in your script it goes with", 1 to 3 English words, most concrete first (e.g.
+  ["courtroom | gjykata", "police car lights | policia", "storm waves | tajfuni"]). Never a
+  person's name, a place, a flag, a logo or a brand.
 - "graphics": 2 to 4 on-screen graphics made for THIS story, the ones that make it clearer and
   fit its kind (each story's "kind" line in the brief says which fit): a match gets its score
   and its players; an economy story a chart; a race or a league its standings; a celebrity or
@@ -166,7 +171,7 @@ And how the clip should feel, the way a good short-form editor would cut it:
 Reply with ONLY this, exactly, nothing before or after:
 383_JSON_BEGIN
 [{"slug": "<the story's slug>", "script": "<the script>", "subjects": [], "place": "",
-  "place_name": "", "facts": [], "quote": null, "youtube": [], "sources": [], "graphics": [],
+  "place_name": "", "facts": [], "quote": null, "youtube": [], "sources": [], "broll": [], "graphics": [],
   "mood": "serious", "hook": "", "climax": "", "emphasis": [], "cover": ""}]
 383_JSON_END
 """
@@ -376,6 +381,7 @@ def parse_scripts(output: str, slugs: set[str]) -> dict[str, dict]:
             "youtube": strings(row.get("youtube"), 3, 80) if isinstance(row.get("youtube"), list)
                        else strings([row.get("youtube")], 1, 80),
             "sources": strings(row.get("sources"), 4, 80),
+            "broll": strings(row.get("broll"), 4, 60),
             "mood": str(row.get("mood") or "").strip().lower()[:12],
             "hook": str(row.get("hook") or "").strip()[:300],
             "climax": str(row.get("climax") or "").strip()[:80],
@@ -545,6 +551,10 @@ def check_quote(quote: dict | None, story: dict) -> dict | None:
 def searches(story: dict, w: dict) -> list[str]:
     """The writer's YouTube searches; for a match, its highlights by the two sides' names too."""
     out = list(w.get("youtube") or [])
+    # The headline's first words, as the people involved would title their own upload.
+    head = " ".join(re.findall(r"[\wçëÇË-]+", plain(story.get("title")))[:6])
+    if head:
+        out.append(head)
     if story.get("trend"):
         # The search people made today, as they made it: it finds the video that went viral.
         out.insert(0, story["trend"]["term"])
@@ -772,7 +782,9 @@ def make_clip(story: dict, script: str, how: str, look: dict, picked: list[dict]
         try:
             qids = [p.get("qid", "") for t, p in pages.items() if not (sport and t == look.get("place"))]
             footage = media.gather_footage(picked, qids, "" if sport else look.get("place", ""), str(workdir), len(photos),
-                                           [re.sub(r"\s*\(.*?\)", "", t) for t in look.get("subjects", [])])
+                                           [re.sub(r"\s*\(.*?\)", "", t) for t in look.get("subjects", [])],
+                                           broll=look.get("broll") or media.broll_terms(" ".join([plain(story.get("title")), script])),
+                                           sport=sport)
         except Exception as exc:  # a footage source misbehaving must not stop the clip
             print(f"EDITION {story['slug']}: footage failed ({exc!r})", file=sys.stderr)
     # A person on screen gets their own photo on their card (their Wikipedia photo, found above).
@@ -792,6 +804,7 @@ def make_clip(story: dict, script: str, how: str, look: dict, picked: list[dict]
     clip["beats"] = media.build_beats(clip["duration"], clip["words"], photos, facts, place,
                                       look.get("quote"), footage)
     clip["footage"] = len(footage)
+    clip["stock"] = sum(1 for f in footage if f.get("stock"))
     if voiced and clip["beats"]:
         made = render.make_video(story["slug"], {**clip, "title": plain(story.get("title")), "category": story.get("category", ""),
                                                   "color": ""}, voiced["mp3"], look, workdir)
@@ -976,6 +989,7 @@ def main(dry_run: bool = False, only: str = "", force: bool = False, keep: str =
                 "theme": story_theme(s),
                 "graphics": themes.fits(story_theme(s), check_graphics(w.get("graphics", []), script, s)) if how == "model" else [],
                 "cover": check_cover(w.get("cover", ""), s),
+                "broll": media.broll_terms(" ".join([plain(s.get("title")), plain(s.get("excerpt")), script]), w.get("broll")),
                 **(check_feel(w, script) if how == "model" else {"mood": w.get("mood") if w.get("mood") in render.MOODS else ""}),
             }
             look["cover"] = look["cover"] or fallback_cover(s, look)
@@ -1018,7 +1032,8 @@ def main(dry_run: bool = False, only: str = "", force: bool = False, keep: str =
         print(f"EDITION {s['slug']}: {clip['voice'] or 'no voice'}, {'video' if clip.get('video') else 'no video'}, "
               f"{len(beats)} beats, {len({b.get('src') for b in beats if b['kind'] == 'photo'})} photos "
               f"({', '.join(sorted({b['kind'] for b in beats}))}); footage {clip.get('footage', 0)} "
-              f"(youtube picked {len(footage.get(s['slug']) or [])} of {len(found.get(s['slug']) or [])})")
+              f"(youtube picked {len(footage.get(s['slug']) or [])} of {len(found.get(s['slug']) or [])}, b-roll {clip.get('stock', 0)}, "
+              f"{sum(b['kind'] == 'line' for b in beats)} word shots)")
         # A story that changed gets a new clip. Its old files stay a day: pages
         # cached on the site may still play them.
         old_files = before.get("files") or ([before["audio"]] if before.get("audio") else [])

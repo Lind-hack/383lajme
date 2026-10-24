@@ -17,6 +17,7 @@ from __future__ import annotations
 import asyncio
 import base64
 import difflib
+import html
 import io
 import json
 import math
@@ -294,7 +295,8 @@ def media_duration(audio: bytes) -> float:
 # ── The pictures ─────────────────────────────────────────────────────────────
 
 def strip_html(text: str) -> str:
-    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", str(text or ""))).strip()
+    """Plain text: no tags, and "&amp;" read as "&" (Commons credits carry both)."""
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", str(text or "")))).strip()
 
 
 def wiki_pages(titles: list[str]) -> dict[str, dict]:
@@ -397,11 +399,17 @@ def story_photos(story: dict, subjects: list[str], pages: dict[str, dict]) -> li
             files += [(f, name) for f in depicting(page.get("qid", ""), 4)[:4]]
     whose = {f.replace("_", " "): who for f, who in files}
     seen = {re.sub(r"^\d+px-", "", p["src"].rsplit("/", 1)[-1]) for p in photos}
+    series = {photo_series(p["src"]) for p in photos}
     for p in photo_info([f for f, _ in files]):
         name = re.sub(r"^\d+px-", "", p["src"].rsplit("/", 1)[-1])
         if name in seen:
             continue
         seen.add(name)
+        # Frames of one shoot ("Edi Rama, press conference, ITB 2015 (2)", "... (5)") look the same
+        # on screen: one of each, or the clip seems to show the same picture over and over.
+        if photo_series(p.get("file") or p["src"]) in series:
+            continue
+        series.add(photo_series(p.get("file") or p["src"]))
         key = p.get("file", "").removeprefix("File:").replace("_", " ")
         p["who"] = whose.get(key, "")
         # A Commons tag can be wrong ("shows Renew Europe" on a banana seller in Aboisso): a photo
@@ -412,6 +420,15 @@ def story_photos(story: dict, subjects: list[str], pages: dict[str, dict]) -> li
             continue  # three of one subject at most
         photos.append(p)
     return photos[:8]
+
+
+def photo_series(src: str) -> str:
+    """A photo's name without its numbers, size prefix and extension: frames of one shoot share it."""
+    name = urllib.parse.unquote(str(src or "").split("?")[0].rsplit("/", 1)[-1]).removeprefix("File:")
+    name = re.sub(r"^\d+px-", "", name)
+    name = re.sub(r"\.(jpe?g|png|webp)$", "", name, flags=re.I)
+    name = re.sub(r"\(.*?\)|\d+", " ", name.lower())
+    return " ".join(re.findall(r"[^\W\d_]+", name))
 
 
 def names_subject(text: str, subject: str) -> bool:
@@ -426,7 +443,12 @@ def names_subject(text: str, subject: str) -> bool:
     return any(w in have for w in words if len(w) >= 2)
 
 
-GENERIC = {"party", "group", "union", "european", "national", "republic", "the", "and", "for", "of"}
+# Words that name a kind of body, not which one: "Bangladesh Air Force" is not "Kosovo Security Force".
+GENERIC = {"party", "group", "union", "european", "national", "republic", "the", "and", "for", "of",
+           "security", "force", "forces", "army", "ministry", "office", "police", "council", "court", "city",
+           "municipality", "government", "state", "people", "democratic", "assembly", "agency", "bank", "service",
+           "department", "committee", "organization", "organisation", "international", "federation", "association",
+           "chamber", "chambers", "specialist", "football", "club", "league", "university", "airport", "news"}
 
 
 def map_image(lat: float, lon: float, dim: float | None) -> bytes | None:
@@ -618,7 +640,7 @@ def footage_candidates(queries: list[str], sources: list[str], subject: str | li
 FOOT_DIR = os.environ.get("L383_EDITION_DIR", "/opt/data/video-edition")
 YTDLP = os.environ.get("L383_EDITION_YTDLP", os.path.join(FOOT_DIR, "yt-dlp"))
 YT_COOKIES = os.environ.get("L383_EDITION_YT_COOKIES", os.path.join(FOOT_DIR, "youtube-cookies.txt"))
-SEGMENT = 4.6  # seconds cut; a beat shows up to 3.8 of them
+SEGMENT = 5.0  # seconds cut; a beat shows up to 4.0 of them (+0.7 under the next)
 
 
 # Two ways to put a wide video upright: filling the frame (close, punchy), or the whole
@@ -795,21 +817,219 @@ def pexels_clips(place: str, workdir: str) -> list[dict]:
     return []
 
 
+# ── B-roll: the thing being talked about, filmed anywhere ───────────────────
+# When the event's own video is not there (for most Kosovo and Albania stories every YouTube
+# result is a TV outlet, which 383 never uses), a shot of what the voice is talking about:
+# a courtroom while it speaks of the court, police lights while it speaks of an arrest. From
+# free stock libraries (Pexels, Pixabay: their licences allow it, credited on screen) and
+# freely licensed Commons video, always marked "Pamje ilustruese", so nobody takes a stock
+# shot for the event itself. Each shot must say in its own description what it was searched
+# for, and none is used twice in one edition.
+
+USED_STOCK: set[str] = set()
+STOCK_LABEL = "Pamje ilustruese"
+STOCK_STOP = {"with", "the", "and", "for", "from", "into", "over", "near", "a", "an", "of", "in", "on", "at", "to", "video", "footage", "shot"}
+
+# What a story speaks of (its Albanian words) -> what a camera films. Used when the writer gave
+# no searches of its own, or too few; the first matching rules win.
+BROLL_HINTS: list[tuple[str, tuple[str, ...]]] = [
+    (r"gjykat|gjyq|aktakuz|prokuror|paraburgim|dënua|dënim", ("courtroom", "judge gavel")),
+    (r"arrest|polic|ndalua|ndaloi|hetim", ("police car lights", "police officers street")),
+    (r"zjarr|djeg|flak", ("fire flames night", "firefighters")),
+    (r"aksident|përplas", ("ambulance lights", "car accident road")),
+    (r"kuvend|parlament|deputet|seancë plenare|projektligj", ("parliament session", "politicians voting")),
+    (r"zgjedhj|votim|votues|fushat", ("voting ballot box", "election campaign crowd")),
+    (r"gjob|inspekt", ("inspector clipboard", "restaurant kitchen inspection")),
+    (r"shkoll|nxënës|mësues|maturant|universitet|student", ("school classroom", "students walking campus")),
+    (r"spital|mjek|pacient|shëndet|sëmund|vaksin", ("hospital corridor", "doctor stethoscope")),
+    (r"ushtr|rekrut|ushtar|betohen|fsk\b|mbrojtj", ("soldiers marching", "military training")),
+    (r"dron", ("military drone",)),
+    (r"tajfun|uragan|stuhi|përmbytj|reshje|vërshim", ("storm waves", "heavy rain flood")),
+    (r"tërmet", ("earthquake damage",)),
+    (r"naft|karburant|benzin", ("gas station fuel pump",)),
+    (r"rrym|energji|elektrik", ("power lines", "electricity pylons")),
+    (r"inflacion|çmim|shtrenjt|ekonomi|bank|kredi|bursë|investim|miliard", ("money counting", "stock market screen")),
+    (r"pesticid|bujq|fermer", ("tractor spraying field", "farmer field")),
+    (r"turist|turiz|pushim|plazh", ("tourists city street", "beach summer")),
+    (r"aeroport|fluturim|avion|aviacion", ("airplane takeoff", "airport terminal")),
+    (r"kufi|pasaport|viz[ëa]", ("border checkpoint", "passport control")),
+    (r"protest|demonstrues|marshim", ("protest crowd",)),
+    (r"autostrad|infrastruktur|trafik", ("highway traffic", "road construction")),
+    (r"ndërtim|banes|urbanist", ("construction site crane",)),
+    (r"burg", ("prison bars",)),
+    (r"drog|kanabis|narkotik|kokain", ("cannabis plants", "police drugs seizure")),
+    (r"emigr|azil|refugj|diaspor", ("refugees walking", "airport arrivals hall")),
+    (r"thatësir|ujësjellës", ("water tap", "dry cracked land")),
+    (r"inteligjenc[ëe] artificiale|çip|teknologj|kompjuter|softuer", ("computer chips", "data center servers")),
+    (r"aplikacion|rrjete sociale|tiktok|instagram", ("smartphone scrolling",)),
+    (r"futboll|ndeshj|stadium", ("football stadium crowd", "soccer ball goal")),
+    (r"basketboll", ("basketball game",)),
+    (r"tenis", ("tennis match",)),
+]
+
+
+def broll_terms(text: str, written: list[str] | None = None, limit: int = 4) -> list[dict]:
+    """What to search the stock libraries for: the writer's own searches ("courtroom | gjykata":
+    the English search, then the word in the script it goes with), then the story's own words
+    through BROLL_HINTS. Each: {"q": English search, "said": [Albanian words]}."""
+    out: list[dict] = []
+    for item in written or []:
+        q, _, said = str(item).partition("|")
+        q = re.sub(r"[^\w\s-]", " ", q).strip().lower()
+        if 2 <= len(q) <= 40 and len(q.split()) <= 4:
+            out.append({"q": q, "said": [w for w in re.findall(r"[\wçë]+", said.lower()) if len(w) >= 4][:2]})
+    low = text.lower()
+    matched = []
+    for pattern, queries in BROLL_HINTS:
+        m = re.search(r"(?<![\wçë])(?:" + pattern + ")", low)
+        if m:
+            matched.append((m.start(), re.match(r"[\wçë]+", low[m.start():]).group(0), queries))
+    # What the story speaks of first is what it is about (the headline comes first): one shot of
+    # each thing before a second of any.
+    matched.sort(key=lambda x: x[0])
+    for n in range(2):
+        out += [{"q": queries[n], "said": [said]} for _, said, queries in matched if n < len(queries)]
+    seen, best = set(), []
+    for t in out:
+        if t["q"] not in seen:
+            seen.add(t["q"])
+            best.append(t)
+    return best[:limit]
+
+
+def stock_fits(query: str, described: str) -> bool:
+    """The shot's own description says what was searched for: every telling word of the search
+    (its first 4 letters, so "police" meets "policeman"), or all but one when there are three."""
+    have = {w[:4] for w in re.findall(r"[a-z]+", described.lower()) if len(w) >= 3}
+    want = [w[:4] for w in re.findall(r"[a-z]+", query.lower()) if len(w) >= 3 and w not in STOCK_STOP]
+    if not want:
+        return False
+    hits = sum(w in have for w in want)
+    return hits == len(want) or (len(want) >= 3 and hits >= len(want) - 1)
+
+
+def _stock_piece(link: str, key: str, wide: bool, credit: str, source: str, said: list[str], workdir: str) -> dict | None:
+    seg = os.path.join(workdir, f"foot-stock-{abs(hash(key)) % 10**9}.mp4")
+    layout = "frame" if wide else "fill"
+    if cut_segment(link, 1.0, SEGMENT, seg, layout):
+        USED_STOCK.add(key)
+        return {"file": seg, "credit": credit, "duration": SEGMENT, "layout": layout, "source": source, "said": said, "stock": True}
+    return None
+
+
+def pexels_broll(term: dict, workdir: str) -> dict | None:
+    key = os.environ.get("PEXELS_API_KEY", "")
+    if not key:
+        return None
+    # Upright first (it fills the phone without a crop); a wide shot only when no upright one fits.
+    for orientation in ("portrait", "landscape"):
+        q = urllib.parse.urlencode({"query": term["q"], "per_page": "15", "orientation": orientation, "size": "medium"})
+        try:
+            data = http_json(f"https://api.pexels.com/videos/search?{q}", headers={"Authorization": key})
+        except (urllib.error.URLError, TimeoutError, ValueError):
+            return None
+        for v in data.get("videos", []):
+            sid = f"pexels:{v.get('id')}"
+            # The page's address carries its description: ".../video/police-car-lights-at-night-1234/".
+            if sid in USED_STOCK or not stock_fits(term["q"], v.get("url", "").replace("-", " ")):
+                continue
+            if float(v.get("duration") or 0) < SEGMENT + 1.5:
+                continue
+            files = [f for f in v.get("video_files", []) if f.get("file_type") == "video/mp4" and f.get("link")]
+            files.sort(key=lambda f: (-(min(f.get("width") or 0, f.get("height") or 0) >= 1080),
+                                      abs(max(f.get("width") or 0, f.get("height") or 0) - 1920)))
+            if not files:
+                continue
+            wide = (files[0].get("width") or 0) > (files[0].get("height") or 0)
+            name = str((v.get("user") or {}).get("name") or "Pexels")[:40]
+            got = _stock_piece(files[0]["link"], sid, wide, f"{STOCK_LABEL} · {name} · Pexels", v.get("url", ""), term["said"], workdir)
+            if got:
+                return got
+    return None
+
+
+def pixabay_broll(term: dict, workdir: str) -> dict | None:
+    key = os.environ.get("PIXABAY_API_KEY", "")
+    if not key:
+        return None
+    q = urllib.parse.urlencode({"key": key, "q": term["q"], "per_page": "20", "safesearch": "true"})
+    try:
+        data = http_json(f"https://pixabay.com/api/videos/?{q}")
+    except (urllib.error.URLError, TimeoutError, ValueError):
+        return None
+    for v in data.get("hits", []):
+        sid = f"pixabay:{v.get('id')}"
+        if sid in USED_STOCK or not stock_fits(term["q"], str(v.get("tags", ""))) or float(v.get("duration") or 0) < SEGMENT + 1.5:
+            continue
+        sizes = v.get("videos") or {}
+        f = next((sizes[k] for k in ("large", "medium") if (sizes.get(k) or {}).get("url") and (sizes[k].get("height") or 0) >= 720), None)
+        if not f:
+            continue
+        got = _stock_piece(f["url"], sid, (f.get("width") or 0) > (f.get("height") or 0),
+                           f"{STOCK_LABEL} · {str(v.get('user') or 'Pixabay')[:40]} · Pixabay", v.get("pageURL", ""), term["said"], workdir)
+        if got:
+            return got
+    return None
+
+
+def commons_broll(term: dict, workdir: str) -> dict | None:
+    """Freely licensed Commons video whose own name says what was searched for (no key needed)."""
+    q = urllib.parse.urlencode({"action": "query", "format": "json", "list": "search", "srnamespace": "6", "srlimit": "8",
+                                "srsearch": f"filemime:video {term['q']}"})
+    try:
+        rows = (http_json(f"{COMMONS}?{q}").get("query") or {}).get("search", [])
+    except (urllib.error.URLError, TimeoutError, ValueError):
+        return None
+    titles = [r["title"] for r in rows if f"commons:{r['title']}" not in USED_STOCK and stock_fits(term["q"], r["title"].replace("_", " "))
+              and not SOMBRE.search(r["title"])][:3]
+    for title in titles:
+        got = commons_cut([title], workdir, 1)
+        if got:
+            USED_STOCK.add(f"commons:{title}")
+            got[0].update(credit=f"{STOCK_LABEL} · " + got[0]["credit"].removeprefix("Video: "), said=term["said"], stock=True)
+            return got[0]
+    return None
+
+
+def broll_clips(terms: list[dict], workdir: str, limit: int = 4) -> list[dict]:
+    """One shot per search, from the first library that has a fitting one."""
+    out = []
+    if not (os.environ.get("PEXELS_API_KEY") or os.environ.get("PIXABAY_API_KEY")):
+        print("EDITION b-roll: no PEXELS_API_KEY or PIXABAY_API_KEY, Commons only", file=sys.stderr)
+    for term in terms:
+        if len(out) >= limit:
+            break
+        for source in (pexels_broll, pixabay_broll, commons_broll):
+            try:
+                got = source(term, workdir)
+            except Exception as exc:  # one library misbehaving must not stop the clip
+                print(f"EDITION b-roll {source.__name__} failed ({exc!r})", file=sys.stderr)
+                got = None
+            if got:
+                out.append(got)
+                break
+    return out
+
+
 def gather_footage(picked: list[dict], qids: list[str], place: str, workdir: str, photos: int = 0,
-                   names: list[str] | None = None) -> list[dict]:
-    """The event's own video when there is any (the people's and institutions' YouTube
-    uploads, then this week's free Commons video of them), and then nothing else: a clip of
-    the game is the game, never the city around it. Without it, free video of the story's
-    people and places; a stock shot of the city only when the story has no pictures at all."""
+                   names: list[str] | None = None, broll: list[dict] | None = None, sport: bool = False) -> list[dict]:
+    """Moving picture, the strongest a clip has, in this order: the event's own video (the
+    people's and institutions' YouTube uploads, then this week's free Commons video of them),
+    free video of the story's people and places, then b-roll of what the story speaks of, up
+    to about six shots in all. A game with its own video is only the game: no stock shots."""
     found = youtube_clips(picked, workdir)
     if len(found) < 3:
         found += commons_recent(names or [], workdir)
-    if found:
+    if sport and len(found) >= 3:
         return found
-    found = commons_clips(qids, workdir)
+    if len(found) < 3:
+        found += commons_clips(qids, workdir)
+    want = 6 - len(found)
+    if want > 0 and broll:
+        found += broll_clips(broll, workdir, min(4, want))
     if not found and not photos and place:
         found = pexels_clips(place, workdir)
-    return found[:3]
+    return found
 
 
 SPORT_WORDS = re.compile(r"(?i)\b(ndeshj\w*|kampionat\w*|superlig\w*|basketboll\w*|futboll\w*|volejboll\w*|hendboll\w*|"
@@ -849,6 +1069,59 @@ OFFICIAL_CHANNELS: list[tuple[str, str, tuple[str, ...]]] = [
     ("UCpU_nXypDcGaWCliQE0NV7w", "Federata e Basketbollit e Kosovës FBK", ("basketboll", "fbk")),
     ("UCyGa1YEx9ST66rYrJTGIKOw", "UEFA", ("uefa", "liga e kampionëve", "champions league", "liga e evropës", "liga e konferencës")),
     ("UCpcTrCXblq78GZrTUTLWeBw", "FIFA", ("fifa", "kupa e botës", "botërori")),
+    # Added 2026-10-24, each checked the same way (the institution's own account, posting this
+    # month): Kosovo's and Albania's own institutions first, the newsroom's most common stories.
+    ("UCSi9E_FEvv5Fb0W0WA4DVOw", "Ministria e Mbrojtjes e Kosovës", ("fsk", "maqedonci", "forca e sigurisë", "forcës së sigurisë",
+                                                                     "ministria e mbrojtjes së kosovës", "ministrisë së mbrojtjes")),
+    ("UCqpmNXbs4ZQMt7FBBVmGung", "Policia e Kosovës", ("policia e kosovës", "policisë së kosovës", "policia kosovare")),
+    ("UCsAnh_Iv_beYv8CoO1aphYQ", "NATO KFOR", ("kfor",)),
+    ("UCxqi22Ew8nU-DkpgFc5sk2w", "EULEX Kosovo", ("eulex",)),
+    ("UCkkaSND-BvlIw9Wgv4P1ulw", "European Union in Kosovo", ("zyra e be", "zyrës së be", "bashkimi evropian në kosovë", "aivo orav")),
+    ("UC3B_yRiREiV2YaYVtd1jkHg", "U.S. Embassy Pristina", ("ambasada amerikane", "ambasadës amerikane", "ambasadori amerikan", "ambasadorit amerikan")),
+    ("UCrf9kF4uiN40wXbeq7_pehA", "Partia Demokratike e Kosovës", ("pdk", "bedri hamza", "partia demokratike e kosovës")),
+    ("UCSEjecdXlJWuzDz2FluIbBw", "Policia e Shtetit", ("policia e shtetit", "policisë së shtetit", "policia shqiptare", "policisë shqiptare")),
+    ("UC-lFCv9oCDYUbVi7GJa78FQ", "Kuvendi i Shqipërisë", ("kuvendi i shqipërisë", "kuvendit të shqipërisë", "parlamenti shqiptar", "parlamentit shqiptar")),
+    ("UCqaj6EAn7Q22kQvVvW3ACPg", "Ministria e Mbrojtjes (Shqipëri)", ("ministria e mbrojtjes së shqipërisë", "forcat e armatosura", "ushtria shqiptare", "ushtrisë shqiptare", "pirro vengu")),
+    ("UCvq_-EH6c3LeBCay5o9LESg", "Aleksandar Vučić", ("vuçiq", "vučić", "vucic", "presidenti serb")),
+    ("UCZkiUDyOBtkaTWGRfGnKaHw", "Kremlin", ("putin", "kremlin")),
+    ("UCfIsGtgdMS2bw--CF9W8wGA", "Ministry of Foreign Affairs of Ukraine", ("sybiha", "sibiha")),
+    ("UCw6E9hgCbubPf_IsofVkiqg", "EEAS", ("eeas", "shërbimi evropian i jashtëm")),
+    ("UCXB8fM4VyQubRu3UVGhd3wA", "European Central Bank", ("banka qendrore evropiane", "bankës qendrore evropiane", "bqe", "lagarde")),
+    ("UCIYhr3JsLYfKkCM7-W5B6DA", "IMF", ("fmn", "fondi monetar", "fondit monetar", "georgieva")),
+    ("UCE9mrcoX-oE-2f1BL-iPPoQ", "World Bank Group", ("banka botërore", "bankës botërore", "ajay banga")),
+    ("UC07-dOwgza1IguKA86jqxNA", "World Health Organization", ("obsh", "organizata botërore e shëndetësisë", "tedros")),
+    ("UC7E-LYc1wivk33iyt5bR5zQ", "Vatican News", ("papa ", "papës", "vatikan")),
+    ("UCTl3QQTvqHFjurroKxexy2Q", "Olympics", ("lojërat olimpike", "olimpiad")),
+    ("UCHuiy8bXnmK5nisYHUd1J5g", "NVIDIA", ("nvidia", "jensen huang")),
+    ("UC5WjFrtBdufl6CZojX3D8dQ", "Tesla", ("tesla",)),
+    ("UCtI0Hodo5o5dUb67FeUjDeA", "SpaceX", ("spacex", "starship")),
+    ("UCE_M8A5yxnLfW0KghEeajjw", "Apple", ("apple", "iphone")),
+    ("UCXZCJLdBC09xxGZ6gcdrc6A", "OpenAI", ("openai", "chatgpt", "sam altman")),
+    ("UCK8sQmJBp8GCxrOtXWBpyEA", "Google", ("google",)),
+    ("UCP7jMXSY2xbc3KCAE0MHQ-A", "Google DeepMind", ("deepmind", "gemini")),
+    ("UCFtEEv80fQVKkD4h1PF-Xqw", "Microsoft", ("microsoft",)),
+    ("UCB_qr75-ydFVKSF9Dmo6izg", "FORMULA 1", ("formula 1", "formula1", "grand prix", "verstappen", "hamilton", "leclerc", "norris")),
+    ("UCWJ2lWNubArHWmf3FIHbfcQ", "NBA", ("nba",)),
+    ("UCGr3nR_XH9r6E5b09ZJAT9w", "EuroLeague", ("euroleague", "euroliga", "euroligë")),
+    ("UCY_5h5zaSwN7Or4kIJDYNXA", "ATP Tour", ("atp", "sinner", "alcaraz", "djokoviq", "djokovic")),
+    ("UCaBIVVpHjq6j3tSyxwTE-8Q", "WTA", ("wta", "sabalenka", "swiatek", "gauff")),
+    ("UCG5qGWdu8nIRZqJ_GgDwQ-w", "Premier League", ("premier league", "premierliga")),
+    ("UCTv-XvfzLX3i4IGWAm4sbmA", "LALIGA", ("laliga", "la liga")),
+    ("UC6UL29enLNe4mqwTfAyeNuw", "Bundesliga", ("bundesliga",)),
+    ("UCBJeMCIeLQos7wacox4hmLQ", "Serie A", ("serie a",)),
+    ("UCWV3obpZVGgJ3j9FVhEjF2Q", "Real Madrid", ("real madrid", "mbappe", "mbappé", "vinicius")),
+    ("UC14UlmYlSNiQCBe9Eookf_A", "FC Barcelona", ("barcelon", "yamal")),
+    ("UCkzCjdRMrW2vXLx8mvPVLdQ", "Man City", ("manchester city", "man city", "guardiola", "haaland")),
+    ("UC6yW44UGJJBvYTlfC7CRg2Q", "Manchester United", ("manchester united", "man united")),
+    ("UC9LQwHZoucFT94I2h6JOcjw", "Liverpool FC", ("liverpool",)),
+    ("UCpryVRk_VDudG8SHXgWcG0w", "Arsenal", ("arsenal",)),
+    ("UCU2PacFf99vhb3hNiYDmxww", "Chelsea FC", ("chelsea",)),
+    ("UCZkcxFIsqW5htimoUQKA0iA", "FC Bayern Munich", ("bayern", "kompany")),
+    ("UCvXzEblUa0cfny4HAJ_ZOWw", "Inter", ("inter ", "interit", "interi")),
+    ("UCKcx1uK38H4AOkmfv4ywlrg", "AC Milan", ("milan",)),
+    ("UCt9a_qP9CqHCNwilf-iULag", "PSG", ("psg", "paris saint-germain")),
+    ("UCqb1KFVXOjNQGHAfYJcbcxg", "FC Prishtina", ("fc prishtina", "prishtinës në superligë", "kf prishtina")),
+    ("UCCplwNAt-CuZQf0QDqVFmUw", "FK Partizani", ("partizan",)),
 ]
 
 STOP = {"this", "that", "with", "from", "have", "after", "over", "about", "will", "their", "they", "were", "what", "when",
@@ -870,7 +1143,7 @@ def channels_for(text: str) -> list[tuple[str, str, tuple[str, ...]]]:
         n = sum(len(re.findall(r"(?<![\wçë])" + re.escape(k), low)) for k in keys)
         if n:
             hits.append((n, cid, name, keys))
-    return [(cid, name, keys) for n, cid, name, keys in sorted(hits, key=lambda h: -h[0])][:4]
+    return [(cid, name, keys) for n, cid, name, keys in sorted(hits, key=lambda h: -h[0])][:6]
 
 
 def channel_uploads(cid: str, now: datetime) -> list[dict]:
@@ -974,6 +1247,7 @@ def is_sport(story: dict) -> bool:
 
 MOVES = ["in", "left", "out", "right"]
 PHOTO_BEAT = (2.4, 3.4)
+MAX_PHOTO_USES = 2  # a third time and it reads as a loop
 
 
 def first_word_at(words: list[list], test) -> float | None:
@@ -993,9 +1267,9 @@ def build_beats(duration: float, words: list[list], photos: list[dict], facts: l
                 place: dict | None, quote: dict | None, footage: list[dict]) -> list[dict]:
     """What is on screen when: [{"at": seconds, "kind": ...}, ...], in order.
     Fixed moments first (a number when it is said, the map when the place is
-    named, the people's own footage early on), photos in between, each shown
-    3-4.5 seconds, taking the photos in turn (a story with one photo moves it
-    a different way each time)."""
+    named, the people's own footage early on), then the gaps cut into 2.5-4 s
+    shots: footage first (each piece once), then photos (each twice at most,
+    never twice in a row), and when both run out the words being said ("line")."""
     if duration <= 0:
         return []
     fixed: list[tuple[float, float, dict]] = []
@@ -1010,7 +1284,8 @@ def build_beats(duration: float, words: list[list], photos: list[dict], facts: l
             fixed.append((at - 0.15, 3.4, {"kind": "fact", "value": f["value"], "label": f["label"]}))
     # Plenty of the event's own video: it carries the clip, cut between the fixed moments.
     rich = len(footage) >= 3
-    for k, v in enumerate([] if rich else footage[:3]):
+    # (Without photos the footage opens the clip instead, as the first shots.)
+    for k, v in enumerate([] if rich or not photos else footage[:3]):
         # Moving picture is the strongest a clip has: early, else wherever it fits.
         length = min(3.8, float(v.get("duration") or SEGMENT) - 0.8)
         spots = ([3.2] + [duration * f for f in (0.45, 0.32, 0.6, 0.22, 0.75)] if k == 0
@@ -1038,59 +1313,66 @@ def build_beats(duration: float, words: list[list], photos: list[dict], facts: l
     fixed.sort(key=lambda x: x[0])
 
     beats: list[dict] = []
-    k = 0
-    shown = 0  # footage pieces used, in rich mode
     fills = 0
     # When each photo's person or organisation is first named: their photo comes up then.
     named = {}
     for p in photos:
         if p.get("who") and p["who"] not in named:
             named[p["who"]] = _said_name(words, re.sub(r"\s*\(.*?\)", "", p["who"]))
-    last_src = ""
-    # Footage from someone's own channel comes up when they are named, like their photo.
-    def keys_said(keys: list[str]) -> float | None:
-        stems = [norm(k.split()[0])[:5] for k in keys if len(norm(k.split()[0])) >= 4]
+    # Footage from someone's own channel comes up when they are named, like their photo; a
+    # stock shot when the thing it shows is said ("gjykata" for a courtroom).
+    def keys_said(v: dict) -> float | None:
+        stems = [norm(k.split()[0])[:5] for k in v.get("keys") or [] if k.split() and len(norm(k.split()[0])) >= 4]
+        stems += [norm(x)[:5] for x in v.get("said") or [] if len(norm(x)) >= 4]
         return first_word_at(words, lambda w: any(w.startswith(s) for s in stems)) if stems else None
-    foot_named = [keys_said(v.get("keys") or []) for v in footage]
+    foot_named = [keys_said(v) for v in footage]
+    # Nothing loops: each piece of footage once, each photo twice at most and never twice in a
+    # row. When the pictures run out, the words being said fill the screen ("line").
     unused = list(range(len(footage)))
+    if not rich:
+        placed = {b.get("file") for _, _, b in fixed if b.get("kind") == "video"}
+        unused = [i for i in unused if footage[i].get("file") not in placed]
+    uses = [0] * len(photos)
+    last = {"src": ""}
+
+    def video_beat(at: float, i: int) -> dict:
+        unused.remove(i)
+        v = footage[i]
+        last["src"] = v.get("file", "")
+        return {"at": round(at, 2), "kind": "video", "file": v.get("file", ""), "credit": v.get("credit", ""),
+                "youtube": v.get("youtube", ""), "channel": v.get("channel", ""), "start": 2}
+
+    def photo_beat(at: float, i: int) -> dict:
+        uses[i] += 1
+        p = photos[i]
+        last["src"] = p["src"]
+        return {"at": round(at, 2), "kind": "photo", "src": p["src"], "credit": p.get("credit", ""),
+                "move": MOVES[(sum(uses) + fills) % len(MOVES)]}
 
     def photo(at: float) -> dict:
-        nonlocal k, shown, fills
+        nonlocal fills
         fills += 1
-        if rich and (not photos or fills % 4):
-            # A fresh moment of the event each time (the one whose person was just named first);
-            # only when all are used, one again.
-            pool = unused or list(range(len(footage)))
-            near = [i for i in pool if foot_named[i] is not None and at - 6.0 <= foot_named[i] <= at + 0.8]
-            i = near[0] if near else pool[0]
-            if i in unused:
-                unused.remove(i)
-            v = footage[i]
-            shown += 1
-            return {"at": round(at, 2), "kind": "video", "file": v.get("file", ""), "credit": v.get("credit", ""),
-                    "youtube": v.get("youtube", ""), "channel": v.get("channel", ""), "start": 2}
-        if not photos and footage:
-            # No photo of the story: its footage again, from a little further in, rather than a blank screen.
-            v = footage[k % len(footage)]
-            k += 1
-            return {"at": round(at, 2), "kind": "video", "file": v.get("file", ""), "credit": v.get("credit", ""),
-                    "youtube": v.get("youtube", ""), "channel": v.get("channel", ""), "start": 2, "media": 0.8 * (k % 2)}
-        if not photos:
+        free_photos = [i for i, p in enumerate(photos) if uses[i] < MAX_PHOTO_USES and p["src"] != last["src"]]
+        # The person just named (in the last few seconds, or about to be), if their photo is free.
+        recent = [i for i in free_photos if photos[i].get("who") and named.get(photos[i]["who"]) is not None
+                  and at - 6.0 <= named[photos[i]["who"]] <= at + 0.8]
+        if recent and (not rich or uses[recent[0]] == 0):
+            return photo_beat(at, max(recent, key=lambda i: named[photos[i]["who"]]))
+        # Moving picture first: the piece whose person or thing was just said, else the next.
+        if unused and (rich or not free_photos or fills % 3 == 0):
+            near = [i for i in unused if foot_named[i] is not None and at - 6.0 <= foot_named[i] <= at + 0.8]
+            return video_beat(at, near[0] if near else unused[0])
+        if free_photos:
+            # A photo not shown yet before one shown once.
+            return photo_beat(at, min(free_photos, key=lambda i: (uses[i], i)))
+        if unused:
+            return video_beat(at, unused[0])
+        if at < 0.1 and photos:
+            return photo_beat(at, 0)  # the title needs a picture under it
+        if at < 0.1:
             return {"at": round(at, 2), "kind": "plain"}
-        nonlocal last_src
-        # The person just named (in the last few seconds, or about to be), else the next in turn.
-        recent = [p for p in photos if p.get("who") and named.get(p["who"]) is not None
-                  and at - 6.0 <= named[p["who"]] <= at + 0.8 and p["src"] != last_src]
-        if recent:
-            p = max(recent, key=lambda p: named[p["who"]])
-        else:
-            p = photos[k % len(photos)]
-            if p["src"] == last_src and len(photos) > 1:
-                k += 1
-                p = photos[k % len(photos)]
-            k += 1
-        last_src = p["src"]
-        return {"at": round(at, 2), "kind": "photo", "src": p["src"], "credit": p.get("credit", ""), "move": MOVES[(k + fills) % len(MOVES)]}
+        last["src"] = ""
+        return {"at": round(at, 2), "kind": "line"}
 
     t = 0.0
     for start, length, beat in fixed + [(duration, 0, None)]:
@@ -1142,7 +1424,7 @@ def _said_name_all(words: list[list], name: str) -> list[float]:
 def build_overlays(beats: list[dict], duration: float, words: list[list], graphics: list[dict],
                    climax: tuple[float, float] | None = None, cover: str = "") -> list[dict]:
     ends = [b["at"] for b in beats[1:]] + [duration]
-    cards = [(b["at"], ends[k]) for k, b in enumerate(beats) if b["kind"] in ("fact", "quote", "map")]
+    cards = [(b["at"], ends[k]) for k, b in enumerate(beats) if b["kind"] in ("fact", "quote", "map", "line")]
     taken = list(cards)
     out: list[dict] = []
 

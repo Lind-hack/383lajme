@@ -326,6 +326,15 @@ body{background:#111}
 .vw{position:absolute;inset:0;will-change:transform}
 .beat .bd{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .beat.plain{background:radial-gradient(120% 80% at 50% 30%,var(--c) 0%,#111 70%)}
+.beat.line{background:radial-gradient(120% 75% at 22% 18%,var(--acc) -10%,#151515 68%)}
+.beat.line .bd{filter:brightness(.62) saturate(.85);opacity:.9}
+.beat.line:after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,#0000 20%,#000a 85%)}
+.lw{z-index:2}
+.lw{position:absolute;left:150px;right:150px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;padding:300px 0 520px}
+.lw .lbar{display:block;width:120px;height:14px;border-radius:7px;background:var(--acc);margin-bottom:46px;transform-origin:0 50%}
+.lw p{font-size:var(--lfs,116px);line-height:1.02;font-weight:800;letter-spacing:-.035em;text-wrap:balance;text-shadow:0 8px 40px #0008}
+.lw p span{display:inline-block;margin-right:.22em;opacity:.26}
+.lw p span.em{color:var(--acc)}
 .shade-top{position:absolute;left:0;right:0;top:0;height:560px;background:linear-gradient(#000c,#0000);z-index:50}
 .shade-bottom{position:absolute;left:0;right:0;bottom:0;height:980px;background:linear-gradient(#0000,#0008 45%,#000d);z-index:50}
 .cardwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:300px 190px 720px}
@@ -659,6 +668,8 @@ def compose(clip: dict, beats: list[dict], cues: dict, look: dict, assets: dict[
     parts: list[str] = []
     ends = [b["at"] for b in beats[1:]] + [duration]
     last_photo = ""
+    lines: list[tuple[float, float]] = []  # word shots: the captions below give way while they are on
+    emphasis = {media.norm(e) for e in (look.get("emphasis") or [])}
     for k, b in enumerate(beats):
         start, end = b["at"], ends[k]
         hold = end - start + 0.7  # stays under the next one while it comes in
@@ -736,9 +747,37 @@ def compose(clip: dict, beats: list[dict], cues: dict, look: dict, assets: dict[
                "to": {"y": 0, "opacity": 1, "scale": 1, "duration": 0.55, "ease": "expo.out"}, "at": start + 0.08})
             if b["kind"] == "map" or b["kind"] == "quote" or b["kind"] == "fact":
                 T({"sel": f"#b{k} .bd", "m": "fromTo", "from": {"scale": 1.0}, "to": {"scale": 1.08, "duration": round(hold, 3), "ease": "none"}, "at": start})
+        elif b["kind"] == "line":
+            # No picture left: the words being said, big, each landing as it is spoken.
+            # The sentence being said, whole (dim), each word lighting up as it is spoken: the shot
+            # never ends on a half-finished line.
+            first = next((j for j, w in enumerate(words) if w[0] >= start - 0.05), len(words))
+            last_j = first
+            # From the start of its sentence when that was only a few words ago (those come in lit).
+            while first > 0 and last_j - first < 4 and not re.search(r"[.!?]$", words[first - 1][2]):
+                first -= 1
+            while last_j + 1 < len(words) and last_j - first < 11 and (words[last_j + 1][0] < end - 0.05
+                                                                     or not re.search(r"[.!?]$", words[last_j][2])):
+                last_j += 1
+            said = words[first:last_j + 1]
+            lines.append((start, end))
+            blurred = last_photo.replace(".jpg", "-bd.jpg") if last_photo else ""
+            bd = f'<img class="bd" src="{esc(blurred)}" alt="">' if blurred else ""
+            lfs = 150 if len(said) <= 4 else 116 if len(said) <= 7 else 92
+            # The words that carry it (the writer's emphasis, any number) in the accent colour.
+            hot = [' class="em"' if media.norm(w[2]) in emphasis or re.search(r"\d", w[2]) else "" for w in said]
+            spans = "".join(f'<span id="l{k}_{j}"{hot[j]}>{esc(w[2])}</span>' for j, w in enumerate(said))
+            inner = f'{bd}<div class="lw"><i class="lbar"></i><p style="--lfs:{lfs}px">{spans}</p></div>'
+            T({"sel": f"#b{k} .lbar", "m": "fromTo", "from": {"scaleX": 0}, "to": {"scaleX": 1, "duration": 0.45, "ease": "expo.out"}, "at": start + 0.05})
+            for j, w in enumerate(said):
+                T({"sel": f"#l{k}_{j}", "m": "fromTo", "from": {"opacity": 0.26, "scale": 0.96}, "to": {"opacity": 1, "scale": 1, "duration": 0.18, "ease": "power2.out"},
+                   "at": round(max(start + 0.05, w[0] - 0.04), 3)})
+            T({"sel": f"#b{k} .lw p", "m": "fromTo", "from": {"y": 60, "opacity": 0}, "to": {"y": 0, "opacity": 1, "duration": 0.45, "ease": "expo.out"}, "at": start})
+            if bd:
+                T({"sel": f"#b{k} .bd", "m": "fromTo", "from": {"scale": 1.12}, "to": {"scale": 1.0, "duration": round(hold, 3), "ease": "none"}, "at": start})
         else:
             inner = ""
-        cls = "beat plain" if b["kind"] == "plain" else "beat slab" if b["kind"] == "fact" and look_k == "slab" else "beat"
+        cls = "beat plain" if b["kind"] == "plain" else "beat line" if b["kind"] == "line" else "beat slab" if b["kind"] == "fact" and look_k == "slab" else "beat"
         parts.append(f'<div class="{cls}" id="b{k}" style="z-index:{z};--c:{esc(color)}">{inner}</div>')
 
         # How it comes in.
@@ -806,10 +845,9 @@ def compose(clip: dict, beats: list[dict], cues: dict, look: dict, assets: dict[
     T({"sel": "#hook", "m": "to", "to": {"opacity": 0, "y": -30, "duration": 0.3, "ease": "power2.in"}, "at": round(hook_until, 3)})
 
     # The words as they are said.
-    emphasis = {media.norm(e) for e in (look.get("emphasis") or [])}
+    # While the climax's words, or a word shot, fill the screen, the words below give way.
+    slams = [(o["at"], o["at"] + o["len"]) for o in overlays or [] if o["kind"] == "slam"] + lines
     lines = phrases(words)
-    # While the climax's words fill the screen, the words below give way.
-    slams = [(o["at"], o["at"] + o["len"]) for o in overlays or [] if o["kind"] == "slam"]
     for n, (a, b) in enumerate(lines):
         start = words[a][0]
         end = words[lines[n + 1][0]][0] if n + 1 < len(lines) else min(duration, words[b][1] + 0.6)
