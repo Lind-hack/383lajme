@@ -73,6 +73,7 @@ fi
 STATE="$STATE_ROOT/${STAMP}-mode${QA_ONLY}.json"
 export L383_NOTES_CACHE="${STATE_ROOT%/hourly-runs}/reporter-notes-cache.json"
 export L383_PHOTO_IDENTITY_CACHE="${STATE_ROOT%/hourly-runs}/photo-identity-cache.json"
+export L383_MODEL_QUOTA_FILE="$STATE_ROOT/${STAMP}-mode${QA_ONLY}.quota"
 LEGACY_STATE="$PWD/.last30days/hourly-runs/${STAMP}-mode${QA_ONLY}.json"
 record_state() { "$PYTHON_BIN" scripts/news_run_state.py save "$STATE" --status "$1" --stage "$stage" --batch "$BATCH"; }
 
@@ -88,6 +89,7 @@ alert_failure() {
 # The ChatGPT account's usage limit (HTTP 429) since this run started: every
 # model call fails, so the hour has no news rather than a broken pipeline.
 quota_hit() {
+  [ ! -f "${L383_MODEL_QUOTA_FILE:-}" ] || return 0
   local since
   since="$(date -u -d "@$START_EPOCH" '+%Y-%m-%d %H:%M:%S')"
   awk -v s="$since" 'substr($0, 1, 19) >= s && /usage limit has been reached/ {found = 1} END {exit !found}' \
@@ -96,12 +98,18 @@ quota_hit() {
 
 fail_run() {
   local reason="$1"
+  local published=0
   trap - ERR
+  if "$PYTHON_BIN" scripts/news_run_state.py check "$STATE" >/dev/null 2>&1; then published=1; fi
   # Not inside review_extra: there a non-zero exit is what keeps the
   # approved drafts.
-  if [ "${IN_EXTRA_REVIEW:-0}" != "1" ] && quota_hit; then
+  if [ "${IN_EXTRA_REVIEW:-0}" != "1" ] && [ "$published" = "0" ] && quota_hit; then
     stage="model-quota"
     record_state no_news
+    "$PYTHON_BIN" scripts/news_quality_report.py --file "$BATCH" --status model_quota || true
+    if [ "$QA_ONLY" != "1" ]; then
+      "$PYTHON_BIN" scripts/codex_automation_support.py send-status-report --phase completed --message "Pipeline përfundoi pa publikime: kufiri i përdorimit të modelit OAuth u arrit." || printf '383 COMPLETION NOTIFICATION unavailable for quota outcome\n' >&2
+    fi
     printf '383 MODEL QUOTA: the ChatGPT usage limit is reached; no articles this hour (%s)\n' "$reason"
     exit 0
   fi
@@ -131,6 +139,7 @@ if "$PYTHON_BIN" scripts/news_run_state.py check "$STATE" || "$PYTHON_BIN" scrip
   printf "383 SLOT ALREADY PUBLISHED: %s; refusing duplicate writer/publication\n" "$STAMP"
   exit 0
 fi
+rm -f "$L383_MODEL_QUOTA_FILE"
 record_state running
 
 stage="writer-auth-preflight"
@@ -700,7 +709,10 @@ review_candidates
 
 for refill_attempt in 1 2; do
   APPROVED_COUNT="$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$BATCH")"
-  if [ "$APPROVED_COUNT" -ge "$FULL_TARGET" ] || [ "$(( $(date +%s) - START_EPOCH ))" -ge 2520 ]; then break; fi
+  # Fresh one-story calls still end at minute45, leaving at least five
+  # minutes for their existing bounded review. Do not exclude a first review
+  # that legitimately completed at minute43. Rewrites keep their earlier cutoff.
+  if [ "$APPROVED_COUNT" -ge "$FULL_TARGET" ] || [ "$(( $(date +%s) - START_EPOCH ))" -ge 2640 ]; then break; fi
   COVERAGE_DEFICITS="$("$PYTHON_BIN" scripts/news_coverage.py "$BATCH" "${DISCOVERY%.md}.json" --attempted "$ATTEMPTED")"
   if ! "$PYTHON_BIN" -c 'import json,sys; d=json.load(open(sys.argv[1],encoding="utf-8")); used=set(json.load(open(sys.argv[2],encoding="utf-8"))); deficits=json.loads(sys.argv[3]); assert any(a["url"] not in used and deficits.get(a["category"],0)>0 for a in d["ready_leads"])' "${DISCOVERY%.md}.json" "$ATTEMPTED" "$COVERAGE_DEFICITS" 2>/dev/null; then
     printf '383 REFILL: no unused source-ready candidates for missing categories\n'
@@ -784,6 +796,9 @@ if [ -s "$L383_REVIEW_REJECTED" ] && [ "$(( $(date +%s) - START_EPOCH ))" -lt 25
     printf '383 REWRITE: no remaining category slots or invalid input; retaining approved drafts\n'
   fi
 fi
+
+stage="final-deduplication"
+"$PYTHON_BIN" scripts/codex_automation_support.py dedupe-published --prune --file "$BATCH"
 
 stage="independent-originality-review"
 "$PYTHON_BIN" scripts/news_copyright_review.py --file "$BATCH"

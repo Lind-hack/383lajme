@@ -15,6 +15,50 @@ BASH = str(GIT_BASH) if GIT_BASH.exists() else shutil.which("bash")
 
 @unittest.skipUnless(BASH, "bash is required for shell control-flow regressions")
 class NewsOrchestrationTests(unittest.TestCase):
+    def test_quota_exit_records_zero_outcome_and_only_one_allowed_completion_email(self):
+        helper=RUNNER[RUNNER.index('fail_run() {'):RUNNER.index('on_error() {')]
+        for qa in (0,1):
+            with tempfile.TemporaryDirectory() as folder:
+                events=Path(folder)/'events.txt'
+                script='''
+set -e
+quota_hit() { return 0; }
+record_state() { printf 'state %s\\n' "$1" >> "$TEST_EVENTS"; }
+fake_python() { if [ "$2" = check ]; then return 1; fi; printf '%s\\n' "$*" >> "$TEST_EVENTS"; }
+PYTHON_BIN=fake_python
+BATCH=/qa/batch.json
+STATE=/qa/state.json
+IN_EXTRA_REVIEW=0
+''' + f'QA_ONLY={qa}\n' + helper + '\nfail_run "known account exhaustion"\n'
+                result=subprocess.run([BASH,'-c',script],capture_output=True,text=True,timeout=10,
+                                      env={**os.environ,'TEST_EVENTS':events.as_posix()})
+                self.assertEqual(result.returncode,0,result.stderr)
+                lines=events.read_text(encoding='utf-8').splitlines()
+                self.assertEqual(lines[0],'state no_news')
+                self.assertTrue(any('--status model_quota' in line for line in lines))
+                emails=[line for line in lines if 'send-status-report' in line]
+                self.assertEqual(len(emails),0 if qa else 1)
+                self.assertTrue(all('--phase completed' in line for line in emails))
+
+    def test_quota_flag_cannot_reclassify_an_already_published_slot_as_zero_news(self):
+        helper=RUNNER[RUNNER.index('fail_run() {'):RUNNER.index('on_error() {')]
+        script='''
+quota_hit() { return 0; }
+record_state() { printf 'state %s\\n' "$1"; }
+alert_failure() { :; }
+fake_python() { if [ "$2" = check ]; then return 0; fi; printf 'unexpected zero-publication path'; }
+PYTHON_BIN=fake_python
+BATCH=/qa/batch.json
+STATE=/qa/state.json
+STAMP=slot
+IN_EXTRA_REVIEW=0
+QA_ONLY=0
+''' + helper + '\nfail_run "post-publication readback failure"\n'
+        result=self.invoke(script)
+        self.assertEqual(result.returncode,75,result.stderr)
+        self.assertNotIn('state no_news',result.stdout)
+        self.assertNotIn('unexpected zero-publication path',result.stdout)
+
     def invoke(self, script):
         return subprocess.run([BASH, "-c", script], capture_output=True, text=True, timeout=10)
 
@@ -55,12 +99,18 @@ if review_candidates; then exit 1; fi
     def test_late_first_review_can_still_start_a_bounded_replacement_at_minute_forty(self):
         self.exercise_recovery(2400)
 
-    def test_no_new_optional_writer_starts_at_minute_forty_two(self):
+    def test_late_first_review_can_start_fresh_replacements_at_minute_forty_two(self):
         self.exercise_recovery(2520)
+
+    def test_late_first_review_can_start_fresh_replacements_at_minute_forty_three(self):
+        self.exercise_recovery(2580)
+
+    def test_no_new_optional_writer_starts_at_minute_forty_four(self):
+        self.exercise_recovery(2640)
 
     def exercise_recovery(self, elapsed):
         start = RUNNER.index("track_attempted\nreview_candidates\n")
-        core = RUNNER[start:RUNNER.index('stage="independent-originality-review"', start)]
+        core = RUNNER[start:RUNNER.index('stage="final-deduplication"', start)]
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             batch, discovery, attempted, rejected = [root / name for name in ("batch.json", "discovery.json", "attempted.json", "rejected.json")]
@@ -104,7 +154,7 @@ timeout() {
                                     "TEST_EVENTS": events.as_posix(), "TEST_TEMP": root.as_posix(), "TEST_NOW": str(1000 + elapsed)})
             self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
             self.assertEqual(events.read_text(encoding="utf-8").splitlines() if events.exists() else [],
-                             ["fresh", "rewrite"] if elapsed < 2520 else [])
+                             (["fresh"] if elapsed < 2640 else []) + (["rewrite"] if elapsed < 2520 else []))
             self.assertEqual(json.loads(batch.read_text(encoding="utf-8")), approved)
 
     def test_writer_snapshot_preserves_exact_copy_and_evidence_outside_publication_data(self):

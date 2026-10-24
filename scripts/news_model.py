@@ -12,6 +12,7 @@ import subprocess
 import threading
 import time
 from pathlib import Path
+import news_model_quota
 
 MODEL = "gpt-6-luna"
 PROVIDER = "openai-codex"
@@ -86,6 +87,8 @@ def run_process(command: list[str], timeout: float, *, deadline: float | None = 
         _MAIN_SPAWNING = True
     try:
         with _LOCK:
+            if news_model_quota.exhausted():
+                return subprocess.CompletedProcess(command, 75, '', '383 MODEL QUOTA: account usage limit already reached in this run')
             process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                        text=True, encoding="utf-8", start_new_session=os.name == "posix")
             _ACTIVE.add(process)
@@ -97,6 +100,8 @@ def run_process(command: list[str], timeout: float, *, deadline: float | None = 
                 signal.getsignal(signal.SIGTERM)(*pending)
     try:
         stdout, stderr = process.communicate(timeout=remaining)
+        if process.returncode:
+            news_model_quota.observe_failure(stdout, stderr)
         return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
     except subprocess.TimeoutExpired:
         _stop(process)
