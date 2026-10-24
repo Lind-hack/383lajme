@@ -42,7 +42,6 @@ import Image from "next/image";
 import {
   ArrowRight,
   BellRing,
-  ChevronDown,
   Coffee,
   MapPin,
   SlidersHorizontal,
@@ -108,8 +107,8 @@ type Seen = { since: string | null; read: ReadonlySet<string> };
 const SIGNUP_DISMISSED = "383:perty-signup-dismissed";
 /** Deep enough for "Më shumë" and for knowing which follows the week covered. */
 const RANK_LIMIT = 200;
-/** A folded group shows at most this many. */
-const MORE_PER_GROUP = 8;
+/** "Më shumë për ty": headlines shown under an opened follow. */
+const MORE_PER_FOLLOW = 5;
 /** "Më pak si kjo": about two-thirds of a full read, taken off. */
 const TASTE_STEP = 1.2;
 /** How far back "the newest story from your town" may reach. */
@@ -162,16 +161,6 @@ function firstName(meta: Record<string, unknown> | undefined) {
   const raw = [meta?.first_name, meta?.full_name, meta?.name].find((v) => typeof v === "string" && v.trim());
   const first = typeof raw === "string" ? raw.trim().split(/\s+/)[0] : "";
   return first.length > 1 && first.length <= 24 ? first : "";
-}
-
-/**
- * How many follow columns per row, at most `max`, so the last row is never one
- * column left alone (5 follows: 3 + 2, not 4 + 1).
- */
-function colsFor(count: number, max: number) {
-  if (count <= max) return Math.max(1, count);
-  for (let n = max; n >= 2; n--) if (count % n !== 1) return n;
-  return max;
 }
 
 /** The key "Më pak si kjo" turns down: the follow behind the pick, or the story's topic for a top story. */
@@ -293,7 +282,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     [pool, visited, now, read]
   );
   const homeFrom = cityById(home)?.from ?? null;
-  const { edition, more } = useMemo(() => {
+  const { edition } = useMemo(() => {
     const skip = new Set(must.map((a) => a.slug));
     // The must-know band carries the day now, so the general top stories only
     // fill the places the reader's own stories leave empty.
@@ -301,7 +290,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
       feed.filter((i) => !skip.has(i.article.slug)),
       { homeFrom, fillKinds: ["top"] }
     );
-    return { more: built.more, edition: built.edition };
+    return { edition: built.edition };
   }, [feed, homeFrom, must]);
   const minutes = readingMinutes([...must.map((article) => ({ article })), ...edition]);
   // The panel files the seven under what the reader follows (lib/per-ty-edition groupEdition).
@@ -714,95 +703,13 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
           </EndCard>
           </div>
 
-          {sections.length > 0 && (
-            <h2 className="perty-cols-title">Më shumë për ty, nëse ke kohë</h2>
-          )}
-          {sections.length > 0 && (
-            <div
-              className="perty-cols"
-              aria-label="Më shumë për ty"
-              style={{ "--cols-lg": colsFor(sections.length, 4), "--cols-md": colsFor(sections.length, 3) } as React.CSSProperties}
-            >
-              {sections.map((sec) => (
-                <section key={sec.key} className="perty-col" aria-labelledby={`perty-col-${sec.key}`}>
-                  <header className="perty-col-head">
-                    <span className="perty-col-kicker">
-                      {sec.key === `city:${home}` ? "Qyteti yt" : sec.kind === "person" ? "Njeri që ndjek" : sec.kind === "city" ? "Qytet që ndjek" : "Temë që ndjek"}
-                    </span>
-                    <h2 id={`perty-col-${sec.key}`}>
-                      <Link href={sec.href}>{sec.title}</Link>
-                    </h2>
-                  </header>
-                  <ul>
-                    {sec.items.map((it, j) => (
-                      <li key={it.article.slug}>
-                        <Link
-                          href={`/article/${it.article.slug}`}
-                          className="perty-col-row"
-                          data-first={j === 0 || undefined}
-                          data-read={read.has(it.article.slug) || undefined}
-                          onClick={() =>
-                            noteClick({ slug: it.article.slug, position: j + 1, kind: sec.kind, list: "section" })
-                          }
-                        >
-                          <strong>{it.article.title}</strong>
-                          <Meta article={it.article} />
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                  <Link href={sec.href} className="perty-col-all">
-                    Të gjitha për {sec.title} <ArrowRight size={14} strokeWidth={2.4} aria-hidden="true" />
-                  </Link>
-                </section>
-              ))}
-            </div>
-          )}
-
-          {more.length > 0 && (
-            <section className="perty-more" aria-labelledby="perty-more-title">
-              <h2 id="perty-more-title">Më shumë, nëse ke kohë</h2>
-              {more.map((group) => (
-                <details
-                  key={group.key}
-                  className="perty-more-group"
-                  onToggle={(e) => {
-                    if ((e.currentTarget as HTMLDetailsElement).open) {
-                      trackPerty("perty_more_open", { group: group.kind, count: group.items.length });
-                    }
-                  }}
-                >
-                  <summary>
-                    <span>{group.title}</span>
-                    <b>{Math.min(group.items.length, MORE_PER_GROUP)}</b>
-                    <ChevronDown size={18} strokeWidth={2.4} aria-hidden="true" />
-                  </summary>
-                  <ul>
-                    {group.items.slice(0, MORE_PER_GROUP).map((item, j) => (
-                      <li key={item.article.slug}>
-                        <MoreRow
-                          item={item}
-                          seen={seen}
-                          showReason={group.kind === "topics"}
-                          onOpen={() =>
-                            noteClick({ slug: item.article.slug, position: j + 1, kind: item.kind, list: "more" })
-                          }
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                </details>
-              ))}
-            </section>
-          )}
+          {sections.length > 0 && <MoreForYou sections={sections} read={read} />}
         </>
       )}
 
       <footer className="perty-foot">
         <p>
-          Renditja mëson nga ajo që lexon, sa gjatë e lexon, çka ruan dhe ku komenton, dhe mban mend çka ke hapur. Ruhet
-          në këtë pajisje, dhe në llogarinë tënde kur je i kyçur, që telefoni dhe kompjuteri të mësojnë bashkë.
-          Për përmbledhjen, Dardanit i dërgohen vetëm adresat e lajmeve, asnjë e dhënë për ty.
+          Gazeta mëson nga ajo që lexon, ruan dhe komenton. Ruhet në këtë pajisje, dhe në llogarinë tënde kur je i kyçur.
         </p>
         {(Object.keys(interests.affinity ?? {}).length > 0 || read.size > 0) && (
           <button type="button" className="perty-text-btn" onClick={forget}>
@@ -1002,23 +909,65 @@ function MustRow({
   );
 }
 
-/** A folded "Më shumë" line: just the headline and where it is from. */
-function MoreRow({ item, seen, showReason, onOpen }: { item: Item; seen: Seen; showReason: boolean; onOpen: () => void }) {
-  const { article, reason } = item;
+/**
+ * "Më shumë për ty": the rest of the week for each follow, folded away. One row
+ * of chips (the follow and how many); a tap opens that follow's newest
+ * headlines underneath, at most MORE_PER_FOLLOW, one follow at a time. Nothing
+ * here repeats the panel or the must-knows above (sections are filtered).
+ */
+function MoreForYou({
+  sections,
+  read,
+}: {
+  sections: { key: string; title: string; kind: string; href: string; items: { article: FeedArticle }[] }[];
+  read: ReadonlySet<string>;
+}) {
+  const [open, setOpen] = useState<string | null>(null);
+  const current = sections.find((sec) => sec.key === open) ?? null;
   return (
-    <Link
-      href={`/article/${article.slug}`}
-      className="perty-more-row"
-      data-read={seen.read.has(article.slug) || undefined}
-      onClick={onOpen}
-    >
-      <strong>{article.title}</strong>
-      <span className="perty-more-meta">
-        {showReason && <span className="perty-more-reason">{reason.replace(/^Sepse ndjek /, "")}</span>}
-        <Meta article={article} />
-        <Mark article={article} seen={seen} />
-      </span>
-    </Link>
+    <section className="perty-mft" aria-labelledby="perty-mft-title">
+      <h2 id="perty-mft-title">Më shumë për ty</h2>
+      <div className="perty-mft-chips">
+        {sections.map((sec) => (
+          <button
+            key={sec.key}
+            type="button"
+            className="perty-mft-chip"
+            aria-expanded={open === sec.key}
+            aria-controls="perty-mft-list"
+            onClick={() => {
+              const next = open === sec.key ? null : sec.key;
+              setOpen(next);
+              if (next) trackPerty("perty_more_open", { group: sec.kind, count: sec.items.length });
+            }}
+          >
+            {sec.title}
+            <b>{sec.items.length}</b>
+          </button>
+        ))}
+      </div>
+      {current && (
+        <div id="perty-mft-list" className="perty-mft-list">
+          <ul>
+            {current.items.slice(0, MORE_PER_FOLLOW).map((it, j) => (
+              <li key={it.article.slug}>
+                <Link
+                  href={`/article/${it.article.slug}`}
+                  data-read={read.has(it.article.slug) || undefined}
+                  onClick={() => noteClick({ slug: it.article.slug, position: j + 1, kind: current.kind, list: "more" })}
+                >
+                  <span>{it.article.title}</span>
+                  <TimeAgo iso={it.article.publishedAt} />
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Link href={current.href} className="perty-mft-all">
+            Të gjitha për {current.title} <ArrowRight size={14} strokeWidth={2.4} aria-hidden="true" />
+          </Link>
+        </div>
+      )}
+    </section>
   );
 }
 
