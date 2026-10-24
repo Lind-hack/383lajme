@@ -10,13 +10,11 @@ import DispatchRow from "@/components/dispatch-row";
 import KryesoreFront, { MostReadRail } from "@/components/kryesore-front";
 import DispatchList from "@/components/dispatch-list";
 import ColorSpotlight from "@/components/color-spotlight";
-import GradientCta from "@/components/gradient-cta";
 import Footer from "@/components/footer";
 import NewsletterCard from "@/components/newsletter-card";
 import BotaHome from "@/components/home/bota-home";
 import HomeVisitPreview from "@/components/visit/home-visit-preview";
 import XhepBanner from "@/components/visit/xhep-banner";
-import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
 import TopFive from "@/components/home/top-five";
@@ -257,6 +255,10 @@ export default async function HomePage() {
           <PerTyHome />
         </div>
 
+        {/* Edicioni video under the Për ty card, above Lajmet e fundit. A
+            short edition is still an edition; fewer than three is not. */}
+        {edition && edition.clips.length >= 3 && <VideoRow edition={edition} list="home" />}
+
         {/* Lajmet e fundit — the day's run, one story to a row, and the way
             back through the archive. "Kalo te" above it opens each section. */}
         <SectionJump links={jumpLinks} />
@@ -273,8 +275,6 @@ export default async function HomePage() {
           </div>
         )}
 
-        {/* A short edition is still an edition; fewer than three is not. */}
-        {edition && edition.clips.length >= 3 && <VideoRow edition={edition} list="home" />}
       </Contained>
 
       {/* Kosovë and Shqipëri on the page's own paper: a lead, its rail, and a
@@ -316,15 +316,11 @@ export default async function HomePage() {
         <HomeVisitPreview />
       </Contained>
 
-      {/* Throwback + Alerts CTA */}
+      {/* Alerts CTA */}
       <Contained first>
-        <ThrowbackSection />
         <AlertsCta />
       </Contained>
       </main>
-
-      {/* Gradient CTA */}
-      <GradientCta />
 
       <Footer />
     </>
