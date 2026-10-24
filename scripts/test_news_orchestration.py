@@ -79,6 +79,7 @@ STAMP=2026-10-23T07
 date() { printf "$TEST_NOW"; }
 track_attempted() { :; }
 review_candidates() { :; }
+run_fresh_replacement_writers() { printf 'fresh\\n' >> "$TEST_EVENTS"; return 75; }
 model_budget() { test "$1" -le 180 && test "$2" -eq 2700 || return 1; printf 100; }
 on_error() { :; }
 mktemp() {
@@ -87,7 +88,6 @@ mktemp() {
 }
 timeout() {
  case " $* " in
-  *"--mode append"*) printf 'fresh\\n' >> "$TEST_EVENTS";;
   *"--mode replace"*) printf 'rewrite\\n' >> "$TEST_EVENTS";;
  esac
  return 1
@@ -210,8 +210,8 @@ recover_missing_writer_desks "$TEST_FOLDER"
 
     def test_fresh_refill_has_three_minutes_after_a_minute_forty_one_review(self):
         helper = RUNNER[RUNNER.index("model_budget() {"):RUNNER.index("track_attempted() {")]
-        command = next(line.strip() for line in RUNNER.splitlines() if line.strip().startswith('refill_budget="$(model_budget'))
-        result = self.invoke(helper + '\nSTART_EPOCH=1000; date() { printf 3472; }; ' + command + '\nprintf "%s" "$refill_budget"')
+        command = next(line.strip() for line in RUNNER.splitlines() if line.strip().startswith('writer_budget="$(model_budget'))
+        result = self.invoke(helper + '\nL383_WRITER_ATTEMPT_TIMEOUT=180; WRITER_PHASE_END=2700; START_EPOCH=1000; date() { printf 3472; }; ' + command + '\nprintf "%s" "$writer_budget"')
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(result.stdout, "180")
 

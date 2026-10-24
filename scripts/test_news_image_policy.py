@@ -129,6 +129,25 @@ class NewsPhotoTests(unittest.TestCase):
             meta["LicenseShortName"] = {"value": "All rights reserved"}
             self.assertEqual(policy._photo_options_for_plan({}, {}, {}, "place", company), [])
 
+    def test_restaurant_operator_with_a_named_headquarters_campus_is_a_verified_institution(self):
+        wiki = {'title': 'Darden Restaurants', 'pageprops': {'wikibase_item': 'Q742196'},
+                'terms': {'description': ['American multi-brand restaurant operator']}, 'pageimage': 'Darden_headquarters_01.jpg'}
+        lead = {'category': 'Ekonomi', 'title': 'Darden Restaurants updates its forecast',
+                'primary_evidence': {'text': 'Darden Restaurants updated its forecast.'}}
+        with patch.object(policy, '_wiki_search', return_value=(wiki,)), patch.object(policy, 'is_person', return_value=False), patch.object(policy, 'is_place', return_value=False):
+            plans = list(policy._wiki_pages(lead, ['Darden Restaurants'], set(), set()))
+        self.assertEqual(len(plans), 1)
+        company = plans[0][1]
+        self.assertTrue(company['archive_institution'])
+        campus = page('CC BY 4.0')
+        campus.update(title='File:Darden headquarters 01.jpg', lead_image=True)
+        meta = campus['imageinfo'][0]['extmetadata']
+        meta['ImageDescription'] = {'value': 'The headquarters campus of Darden Restaurants Inc. near Orlando, Florida'}
+        with patch.object(policy, 'depicted', return_value=set()):
+            self.assertIsNotNone(policy.candidate_photo(campus, company, policy.PLACE_MAX_YEARS))
+            meta['ImageDescription'] = {'value': 'The headquarters campus of Another Company. Darden Restaurants is mentioned by a visitor.'}
+            self.assertIsNone(policy.candidate_photo(campus, company, policy.PLACE_MAX_YEARS))
+
     def test_verified_company_lead_headquarters_may_tag_its_building_and_neighborhood(self):
         company = {"subject": "OpenAI", "subject_evidence": "OpenAI", "qid": "Q21708200",
                    "kind": "thing", "archive_institution": True, "caption": "OpenAI"}

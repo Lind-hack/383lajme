@@ -345,9 +345,13 @@ three-worker limit and minute-20 deadline. Provisional candidates never establis
 photo readiness. The final photo-qualified inventory reuses only validated notes
 bound to the same primary and corroborating source text and policy version.
 
-Fresh replacement writing selects at most three unused deficit stories per call.
-It shares the existing optional-writing limits: start before minute 42, at most
-180 seconds, end by minute 45. This removes the older fresh-only minute-43 cutoff
+Fresh replacement writing selects at most three unused deficit stories per round
+through the existing category planner. Each gets a separate one-story brief and
+output, with up to three requests in parallel. The collector excludes missing,
+malformed, extra-article and wrong-source/category responses independently.
+Approved articles are excluded from model inputs and preserved during merging.
+The round may start before minute 42; each call has at most 180 seconds and ends
+by minute 45. This removes the older fresh-only minute-43 cutoff
 that left the observed 17:41 refill only 108 seconds. All new copy still receives
 normal editing, independent review and publication verification.
 

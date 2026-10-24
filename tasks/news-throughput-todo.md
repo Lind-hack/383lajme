@@ -374,3 +374,32 @@ The final throughput item remains open until actual output proves it. Do not rep
 - The idle pilot selects the two least-covered desks in the just-completed run,
   so its small OAuth budget tests the current gaps rather than a stale category
   choice. Publication acceptance still requires two to three in every live desk.
+- 445a806c was verified on Railway and activated idle at 10:51:59 Warsaw. The
+  first live run is 11:00; actual publication counts are still pending. K/Albania
+  pilots returned one scoped article each in 106.4/73.1 seconds, with 151/160 words.
+  The pilot checker initially used shorthand score keys; their actual fields
+  match the committed schema. A schema-based replay passes all checks, preserves
+  the original report and draft hashes, and makes zero additional model calls.
+- Pending replacement-writing change addresses the repeatedly timed-out late
+  three-article request. The existing planner selects at most three unused
+  deficit stories; each gets one request/brief/output, at most three concurrent,
+  180 seconds and the same minute-45 deadline. Collector enforces exact source
+  and category, one article per job, and private output paths. Approved records
+  never enter those model inputs. All normal editorial/publication gates remain.
+- Native tests cover independent source pools, missing/invalid siblings, wrong
+  source/category, multiple returned articles, bounded real Bash concurrency,
+  unchanged approved data, all-request failure and temporary-directory failure.
+  The current news suite passes 248 tests; the production build passes. The
+  currently active 445a806c worker has NOT been modified with this pending change.
+
+- The 11:00 Warsaw run on 445a806c published four actual database records:
+  Kosovë 1, Shqipëri 1, Botë 2, all other desks 0. Exact photo/category and
+  live-page readback passed; all-seven coverage failed. This is not completion.
+- Recognize a verified restaurant operator as an institution and its explicitly
+  named headquarters campus as a company building. Real Darden source research
+  recovered three eligible options; final download passed at 1920x1013 with
+  source-image comparison and dated archive metadata. No article was approved
+  or published by this code-only check.
+- Final native news checks: 249 pass; build passes. The separate newsletter
+  test cannot import in the QA runtime because cryptography is absent. Its code
+  is unchanged. Replacement and restaurant-photo changes await committed release.

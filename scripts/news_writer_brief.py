@@ -11,7 +11,7 @@ from news_coverage import replacement_plan, CATEGORY_CEILING
 
 def build(discovery: Path, output: Path, categories: str = "", *, approved: Path | None = None,
           attempted: Path | None = None, limit: int = 0, spares: int | None = None, cap: int | None = None,
-          desk_slot: int | None = None) -> int:
+          desk_slot: int | None = None, selection_output: Path | None = None) -> int:
     data = json.loads(discovery.read_text(encoding="utf-8"))
     selected = [part.strip() for part in categories.split(",") if part.strip()] or list(CATEGORIES)
     if set(selected) - set(CATEGORIES):
@@ -26,6 +26,8 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         raise ValueError("desk slot requires one initial category, cap one and bounded spares")
     if bool(approved) != bool(attempted) or limit < 0 or (spares is not None and (spares < 0 or approved)):
         raise ValueError("replacement brief requires approved and attempted records together and a nonnegative limit")
+    if selection_output is not None and not approved:
+        raise ValueError("a replacement selection manifest requires approved and attempted records")
     if spares is not None:
         # Bound each initial composer's reading, while preserving the complete
         # inventory/global brief for later fresh replacements and rewrites.
@@ -115,6 +117,8 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         count += 1
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    if selection_output is not None:
+        selection_output.write_text(json.dumps({'publication_plan': plan, 'ready_leads': leads}, ensure_ascii=False) + '\n', encoding='utf-8')
     print(f"383 WRITER BRIEF stories={count}; category allocations and prepared facts only")
     return count
 

@@ -665,6 +665,35 @@ review_extra() {
   fi
 }
 
+run_fresh_replacement_writers() {
+  local approved="$1" folder jobs key desk brief output
+  folder="$(mktemp -d /tmp/383-refill-writers.XXXXXX)" || return 75
+  "$PYTHON_BIN" scripts/news_replacement_jobs.py prepare --folder "$folder" --discovery "${DISCOVERY%.md}.json" --approved "$approved" --attempted "$ATTEMPTED" || return 75
+  jobs="$("$PYTHON_BIN" - "$folder/jobs.json" <<'PYJOBS'
+import json,sys
+for job in json.load(open(sys.argv[1],encoding='utf-8'))['jobs']:
+ print('\t'.join(job[key] for key in ('key','category','brief','output')))
+PYJOBS
+)" || return 75
+  while IFS=$'\t' read -r key desk brief output; do
+    [ -n "$key" ] || continue
+    (
+      BATCH="$output"
+      WRITER_BATCH="$output"
+      WRITER_BRIEF="$brief"
+      WRITER_PHASE_END=2700
+      L383_WRITER_ATTEMPT_TIMEOUT=180
+      L383_TARGET_ARTICLES=1
+      WRITER_SCOPE="Replacement ONLY for ${desk}: compose the one unused story in this brief. Approved articles are excluded and preserved by the wrapper. Ignore all other desks and website-wide counts. "
+      run_writer "$PRIMARY_WRITER_MODEL"
+    ) > "$folder/$key.log" 2>&1 &
+  done <<< "$jobs"
+  wait || true
+  tail -n 3 "$folder"/job-*.log || true
+  "$PYTHON_BIN" scripts/news_replacement_jobs.py collect --folder "$folder" --output "$folder/candidates.json" || return 75
+  "$PYTHON_BIN" scripts/news_refill.py merge "$approved" "$folder/candidates.json" "$BATCH"
+}
+
 track_attempted
 review_candidates
 
@@ -680,20 +709,10 @@ for refill_attempt in 1 2; do
   printf '383 APPROVED REFILL: approved=%s target=%s deficits=%s attempt=%s\n' "$APPROVED_COUNT" "$FULL_TARGET" "$COVERAGE_DEFICITS" "$refill_attempt"
   REFILL_BACKUP="$(mktemp /tmp/383-refill.XXXXXX.json)"
   cp "$BATCH" "$REFILL_BACKUP"
-  REFILL_BRIEF="$(mktemp /tmp/383-refill-brief.XXXXXX.md)"
-  if ! "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$REFILL_BRIEF" --approved "$REFILL_BACKUP" --attempted "$ATTEMPTED" --limit 3; then
-    rm -f "$REFILL_BACKUP" "$REFILL_BRIEF"
-    break
-  fi
   trap - ERR
   set +e
-  refill_budget="$(model_budget 180 2700)" || refill_budget=1
-  timeout --signal=TERM --kill-after=15s "$((refill_budget + 5))s" env L383_MODEL_CALL_TIMEOUT="$refill_budget" "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode append -- /opt/hermes/.venv/bin/hermes chat \
-    --provider "${L383_WRITER_PROVIDER:-openai-codex}" --model "$PRIMARY_WRITER_MODEL" \
-    --ignore-rules -t file --yolo --max-turns 35 -Q -q \
-    "Append replacement articles to ${BATCH}, keeping every existing article unchanged. Read ${REFILL_BRIEF}, docs/news-output-schema.json, docs/albanian_newsroom.md and ${ATTEMPTED}. The brief selects at most three replacements; compose only those stories and its category allocations. Never use a URL in the attempted-urls file: those stories were already considered. Fill these category deficits: ${COVERAGE_DEFICITS}. Stop at ${FULL_TARGET} total articles. Use only unused ready stories, their complete inline reporter notes (explicit evidence fallback only when notes are unavailable), and supplied corroborators. Leave image fields out; the pipeline restores the prepared photo by source URL. The prepared photo's subject must be a main subject of your headline or opening paragraph, not just a later mention in a roundup. Use an evidenced angle centered on that subject, or choose another ready story; never imply a photo shows a different company, person or product. Read docs/news-ranking-rubric.md and individually rate every replacement from evidence with all factors and a specific score_reason; do not copy neutral defaults or calculate the total. Every new article needs at least 140 grounded Albanian words in three HTML paragraphs and necessary claim attribution. Sensitive claims require the independent source; choose another routine story if none is supplied. Do not edit files. Return ONLY the new replacement articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END; exclude the existing articles because the wrapper preserves them locally. This is a data-only task; do not run tests, build, publish, deploy, email or edit any other file." 9>&-
+  run_fresh_replacement_writers "$REFILL_BACKUP"
   REFILL_RC=$?
-  rm -f "$REFILL_BRIEF"
   set -e
   trap on_error ERR
   if [ "$REFILL_RC" -ne 0 ]; then printf '383 REFILL: writer exited %s; checking saved drafts\n' "$REFILL_RC"; fi
