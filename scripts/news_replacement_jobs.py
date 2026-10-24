@@ -26,7 +26,7 @@ def prepare(discovery: Path, approved: Path, attempted: Path, folder: Path, limi
         brief = folder/(key+'.md')
         scope.write_text(json.dumps({'publication_plan': {lead['category']: 1}, 'ready_leads': [lead]},
                                    ensure_ascii=False)+'\n', encoding='utf-8')
-        build(scope, brief, lead['category'], cap=1)
+        build(scope, brief, lead['category'], cap=1, identity_output=brief.with_suffix('.sources.json'))
         jobs.append({'key': key, 'category': lead['category'], 'url': lead['url'],
                      'brief': str(brief), 'output': str(folder/(key+'.json'))})
     (folder/'jobs.json').write_text(json.dumps({'jobs': jobs}, ensure_ascii=False)+'\n', encoding='utf-8')

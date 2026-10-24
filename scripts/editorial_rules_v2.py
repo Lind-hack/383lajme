@@ -317,7 +317,13 @@ def title_errors(article: dict[str, Any]) -> list[str]:
         local_markers = {"kosove", "kosova", "kosove", "shqiperi", "shqiperia"}
         cities = KOSOVO_CITIES if category == "Kosovë" else ALBANIA_CITIES
         local_markers.update(alias for _, aliases in cities for alias in aliases)
-        if not any(_contains(first_three, marker) for marker in local_markers):
+        if hourly:
+            if not any(_contains(folded, marker) for marker in local_markers):
+                errors.append(f"{category} title must naturally include its verified country or city in the headline")
+            labels = '|'.join(re.escape(marker) for marker in sorted(local_markers, key=len, reverse=True))
+            if re.match(rf"^(?:ne\s+)?(?:{labels})\s*[:–—]", folded):
+                errors.append('local title must integrate its location into the sentence, not start with a location label and colon or dash')
+        elif not any(_contains(first_three, marker) for marker in local_markers):
             errors.append(f"{category} title must front-load Kosovo/Albania or a city in its first three words")
     if not hourly and not any(_contains(folded, marker) for marker in TITLE_STAKE_MARKERS) and not re.search(r"\d", title):
         errors.append("title does not name a concrete stake or verifiable action")

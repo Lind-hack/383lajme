@@ -40,7 +40,7 @@ facts from previews. Never copy another outlet's wording.
 ## Title rules v2 — hooks, not labels
 
 1. Name the WHO and the STAKE. No exceptions.
-2. For local stories, put `Kosovë`, `Prishtinë`, or the relevant city in the first three words.
+2. For hourly local stories, include the verified location naturally in the headline's sentence, wherever it reads best. Do not prepend labels such as `Kosovë:`, `Prishtinë:` or `Pejë —`. For example, `Komuna hap pesë rrugë të reja në Prishtinë`. Never invent a location. Legacy daily titles retain their first-three-words location rule.
 3. Prefer concrete nouns and specifics: numbers, dates, minute marks (`5 ndryshime`, `nga 1 tetori`, `minuta e 89-të`).
 4. Curiosity is allowed; lying is not. The body must deliver exactly what the title promises.
 5. Keep titles to approximately 65 characters so mobile does not truncate them.

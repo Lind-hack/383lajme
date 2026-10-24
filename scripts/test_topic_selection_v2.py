@@ -2,6 +2,8 @@ import importlib.util
 import json
 import tempfile
 import unittest
+import os
+from unittest.mock import patch
 from pathlib import Path
 
 
@@ -97,6 +99,20 @@ class TopicSelectionV2Tests(unittest.TestCase):
         self.assertTrue(r.title_errors({"category": "Kosovë", "title": "Zhvillime të reja në dialog"}))
         self.assertTrue(r.title_errors({"category": "Kosovë", "title": "Ndryshon rregulli nga 1 tetori"}))
         self.assertEqual(r.title_errors({"category": "Kosovë", "title": "Prishtinë: 5 ndryshime nga 1 tetori"}), [])
+
+    def test_hourly_local_titles_integrate_location_without_dateline_labels(self):
+        with patch.dict(os.environ, {'L383_HOURLY_NEWS':'1'}):
+            for category,title in (
+                ('Kosovë','Komuna hap pesë rrugë të reja në Prishtinë'),
+                ('Shqipëri','Policia hap rrugën e bllokuar në Tiranë'),
+                ('Kosovë','Në Pejë nis riparimi i shkollës')):
+                self.assertEqual(self.rules.title_errors({'category':category,'title':title}),[])
+            for category,title in (
+                ('Kosovë','Prishtinë: Komuna hap pesë rrugë'),
+                ('Kosovë','Pejë — Nis riparimi i shkollës'),
+                ('Shqipëri','Shqipëri: Rama njofton masa për energjinë'),
+                ('Kosovë','Komuna hap pesë rrugë të reja')):
+                self.assertTrue(self.rules.title_errors({'category':category,'title':title}))
 
     def test_hard_bans_and_prishtina_test_are_enforced(self):
         r = self.rules

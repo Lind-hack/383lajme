@@ -7,6 +7,17 @@ from news_writer_brief import build
 
 
 class WriterBriefTests(unittest.TestCase):
+    def test_identity_manifest_contains_only_the_scoped_prepared_pool(self):
+        leads=[{**self.lead, 'pair_id':f'Kosovë-{i}', 'url':f'https://koha.net/slot-{i}',
+                'evidence_path':'/private/evidence.json'} for i in range(4)]
+        leads=[{k:v for k,v in lead.items() if k!='facts_path'} for lead in leads]
+        self.write(leads)
+        manifest=self.root/'identity.json'
+        build(self.discovery,self.output,'Kosovë',cap=1,spares=1,desk_slot=1,identity_output=manifest)
+        records=json.loads(manifest.read_text(encoding='utf-8'))
+        self.assertEqual(records,[{key:leads[i][key] for key in ('pair_id','url','category')} for i in (0,2)])
+        self.assertIn('source_pair_id',self.output.read_text(encoding='utf-8'))
+
     def test_three_allocated_slots_partition_all_six_sources_without_overlap(self):
         leads=[{**self.lead, 'pair_id':f'Kosovë-{i}', 'url':f'https://koha.net/slot-{i}'} for i in range(6)]
         leads=[{k:v for k,v in lead.items() if k!='facts_path'} for lead in leads]

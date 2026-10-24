@@ -432,3 +432,22 @@ The final throughput item remains open until actual output proves it. Do not rep
 - Read-only Commons metadata audit: 216 published records, 174 unique files,
   zero pre-1900 capture dates and zero unresolved metadata results. Neither
   the Treasury casino nor 1859 construction file occurs in the 250 newest rows.
+- User reaffirmed on October 24: publisher names stay banned everywhere in public
+  news copy and displays. Keep interview-dependent stories excluded when truthful
+  reporting would require naming the outlet. This clarification is resolved.
+- 63d7bb67 activated at 13:09 Warsaw, idle under the publisher lock. The 13:00
+  run had already stopped for model quota; 14:00 also stopped for quota. The
+  15:00 run published 11, with exact database/photo readback: Kosovë 2, Shqipëri 2,
+  Sport 1, Teknologji 2, Ekonomi 0, Botë 3, Showbiz 1. Coverage remains incomplete.
+  The 12:00 run failed during independent review and did not publish its drafts.
+- A writer truncated a long Top Channel URL by dropping `-ne-oborr`, disconnecting
+  a prepared Albania photo. Drafts now carry a short prepared source ID. The
+  writer-only wrapper restores a missing/cut-off URL from that exact scoped ID,
+  rejects unknown/conflicting IDs or categories, removes the temporary ID, and
+  leaves all prose and subsequent source/photo/review gates unchanged.
+- Replaced the hourly first-three-words location rule with natural location
+  inclusion anywhere in local headlines. Reject leading location labels followed
+  by a colon or dash. The verified city field and legacy daily behavior remain.
+- Identity/category-conflict and headline regressions included: 281 native
+  news/originality/topic checks pass; build passes. Pending worker activation
+  requires the committed release, live SHA, idle publisher lock and source-ID pilot.

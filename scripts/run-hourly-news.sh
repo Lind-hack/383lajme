@@ -271,7 +271,7 @@ run_writer() {
   writer_budget="$(model_budget "${L383_WRITER_ATTEMPT_TIMEOUT:-600}" "${WRITER_PHASE_END:-1500}")" || return 75
   timeout --signal=TERM --kill-after=15s "$((writer_budget + 5))s" \
     env HERMES_HOME="${L383_HERMES_HOME:-/opt/data/news-pipeline-hermes}" L383_MODEL_CALL_TIMEOUT="$writer_budget" \
-    "$PYTHON_BIN" scripts/news_model_response.py --batch "${WRITER_BATCH:-$BATCH}" --mode replace "${context_args[@]}" -- /opt/hermes/.venv/bin/hermes chat \
+    "$PYTHON_BIN" scripts/news_model_response.py --batch "${WRITER_BATCH:-$BATCH}" --mode replace --identity-manifest "${WRITER_BRIEF%.md}.sources.json" "${context_args[@]}" -- /opt/hermes/.venv/bin/hermes chat \
       --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
       --model "$model" --ignore-rules -t file --yolo \
       --max-turns "${L383_WRITER_MAX_TURNS:-35}" -Q -q \
