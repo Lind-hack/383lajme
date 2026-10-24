@@ -8,9 +8,12 @@ from news_writer_brief import build
 from news_source_policy import source_error
 
 
-def prepare(discovery: Path, approved: Path, attempted: Path, folder: Path, limit: int = 3) -> list[dict]:
-    if not 1 <= limit <= 3:
-        raise ValueError('replacement requests are limited to three concurrent stories')
+MAX_JOBS = 5  # Same ceiling as the initial writer; no longer model deadline.
+
+
+def prepare(discovery: Path, approved: Path, attempted: Path, folder: Path, limit: int = MAX_JOBS) -> list[dict]:
+    if not 1 <= limit <= MAX_JOBS:
+        raise ValueError('replacement requests are limited to five concurrent stories')
     folder.mkdir(parents=True, exist_ok=True)
     selection = folder/'selection.json'
     build(discovery, folder/'selected-brief.md', approved=approved, attempted=attempted,
@@ -36,7 +39,7 @@ def prepare(discovery: Path, approved: Path, attempted: Path, folder: Path, limi
 
 def collect(folder: Path, output: Path) -> list[dict]:
     jobs = json.loads((folder/'jobs.json').read_text(encoding='utf-8'))['jobs']
-    if not isinstance(jobs, list) or len(jobs) > 3:
+    if not isinstance(jobs, list) or len(jobs) > MAX_JOBS:
         raise ValueError('replacement manifest exceeds the bounded batch')
     rows, seen = [], set()
     for job in jobs:
@@ -44,7 +47,7 @@ def collect(folder: Path, output: Path) -> list[dict]:
             print('383 REPLACEMENT JOB isolated=invalid manifest entry')
             continue
         try:
-            if not re.fullmatch(r'job-[0-2]', str(job.get('key', ''))) or source_error(job.get('category'), job.get('url')):
+            if not re.fullmatch(r'job-[0-4]', str(job.get('key', ''))) or source_error(job.get('category'), job.get('url')):
                 raise ValueError('invalid replacement identity')
             expected = folder/(job['key']+'.json')
             if Path(job['output']).resolve() != expected.resolve() or expected.resolve().parent != folder.resolve():

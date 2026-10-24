@@ -3,13 +3,27 @@ import os
 import unittest
 from datetime import datetime, timezone
 from unittest.mock import Mock, patch
+from zoneinfo import ZoneInfo
 
 import requests
 
-from cloud_news_discovery import fetch_listing
+from cloud_news_discovery import fetch_listing, published_at
 
 
 class ListingDiagnosticsTests(unittest.TestCase):
+    @patch.dict(os.environ, {'L383_HOURLY_NEWS':'1'})
+    def test_declared_local_timestamp_does_not_make_a_current_article_look_future_dated(self):
+        response=Mock(url='https://shqiptarja.com/',status_code=200,content='<a href="/lajm/verified-local-announcement">Policia publikon vendimin e ri për qarkullimin në Tiranë</a>')
+        evidence={'status':'text_extracted','published':'2026-10-24 16:30:00','title':'Policia publikon vendimin në Tiranë','text':'Tiranë njofton ndryshimin e orarit të shërbimit publik.'}
+        spec={'source':'Shqiptarja','category':'Shqipëri','url':response.url}
+        with patch('cloud_news_discovery.requests.get',return_value=response),patch('read_news_source.read',return_value=evidence):
+            wrong,_=fetch_listing(spec,datetime(2026,10,24,15,tzinfo=timezone.utc))
+            right,_=fetch_listing({**spec,'naive_timezone':'Europe/Tirane'},datetime(2026,10,24,15,tzinfo=timezone.utc))
+        self.assertEqual(wrong,[])
+        self.assertEqual(len(right),1)
+        self.assertEqual(right[0]['published'],'2026-10-24T14:30:00+00:00')
+        self.assertEqual(published_at({'published':'2026-10-26 16:30:00'},naive_timezone=ZoneInfo('Europe/Tirane')).hour,15)
+
     def test_official_news_listing_does_not_fetch_product_navigation_as_articles(self):
         response = Mock(url="https://www.anthropic.com/news", status_code=200, content=(
             '<a href="/claude/enterprise">Explore enterprise products and services for your company</a>'

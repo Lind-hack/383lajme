@@ -1,10 +1,10 @@
 # Configured news websites by category
 
-This lists the repository registry, including publishers that are currently unavailable or restricted. Registration does not establish successful scraping or article approval. Availability is recorded for each run; blocked sources are skipped. Every publisher belongs to one category. Sister publishers retain their ownership family for corroboration checks.
+The registry contains 96 publishers, 78 feeds and 10 public listings. This lists the repository registry, including publishers that are currently unavailable or restricted. Registration does not establish successful scraping or article approval. Availability is recorded for each run; blocked sources are skipped. Every publisher belongs to one category. Sister publishers retain their ownership family for corroboration checks.
 
 The production worker must be activated from the corresponding committed release before these settings apply to its next run.
 
-## Kosovë (14)
+## Kosovë (15)
 
 | Publisher | Website(s) | Discovery | Hourly primary candidate |
 | --- | --- | --- | --- |
@@ -22,8 +22,9 @@ The production worker must be activated from the corresponding committed release
 | Botapress | [botapress.info](https://botapress.info) | feed | Subject to all source/article checks |
 | Sinjali | [sinjali.com](https://sinjali.com) | feed | Subject to all source/article checks |
 | Rajoni Press | [rajonipress.com](https://rajonipress.com) | feed | Subject to all source/article checks |
+| Kosova.info | [kosova.info](https://kosova.info) | feed | Subject to all source/article checks |
 
-## Shqipëri (12)
+## Shqipëri (14)
 
 | Publisher | Website(s) | Discovery | Hourly primary candidate |
 | --- | --- | --- | --- |
@@ -39,8 +40,10 @@ The production worker must be activated from the corresponding committed release
 | Vizion Plus | [vizionplus.tv](https://vizionplus.tv) | feed | Subject to all source/article checks |
 | Citizens Channel | [citizens.al](https://citizens.al) | feed | Subject to all source/article checks |
 | Faktoje | [faktoje.al](https://faktoje.al) | feed | Subject to all source/article checks |
+| A2 CNN | [a2news.com](https://a2news.com) | public listing | Subject to all source/article checks |
+| Shqiptarja | [shqiptarja.com](https://shqiptarja.com) | public listing | Subject to all source/article checks |
 
-## Sport (13)
+## Sport (14)
 
 | Publisher | Website(s) | Discovery | Hourly primary candidate |
 | --- | --- | --- | --- |
@@ -57,8 +60,9 @@ The production worker must be activated from the corresponding committed release
 | Motorsport.com | [motorsport.com](https://motorsport.com) | feed | Excluded after access checks |
 | Sportekspres | [sportekspres.com](https://sportekspres.com) | feed | Subject to all source/article checks |
 | Telesport | [telesport.al](https://telesport.al) | registered evidence only | Excluded after access checks |
+| CBS Sports | [cbssports.com](https://cbssports.com) | feed | Subject to all source/article checks |
 
-## Teknologji (8)
+## Teknologji (13)
 
 | Publisher | Website(s) | Discovery | Hourly primary candidate |
 | --- | --- | --- | --- |
@@ -70,8 +74,13 @@ The production worker must be activated from the corresponding committed release
 | Anthropic | [anthropic.com](https://anthropic.com) | public listing | Subject to all source/article checks |
 | Google AI | [blog.google](https://blog.google), [deepmind.google](https://deepmind.google) | feed | Subject to all source/article checks |
 | Ars Technica | [arstechnica.com](https://arstechnica.com) | feed | Subject to all source/article checks |
+| Engadget | [engadget.com](https://engadget.com) | feed | Subject to all source/article checks |
+| BleepingComputer | [bleepingcomputer.com](https://bleepingcomputer.com) | feed | Subject to all source/article checks |
+| MIT News | [news.mit.edu](https://news.mit.edu) | feeds (research and AI) | Subject to all source/article checks |
+| SiliconANGLE | [siliconangle.com](https://siliconangle.com) | feed | Subject to all source/article checks |
+| 9to5Google | [9to5google.com](https://9to5google.com) | feed | Subject to all source/article checks |
 
-## Ekonomi (12)
+## Ekonomi (14)
 
 | Publisher | Website(s) | Discovery | Hourly primary candidate |
 | --- | --- | --- | --- |
@@ -87,8 +96,10 @@ The production worker must be activated from the corresponding committed release
 | Bank of Albania | [bankofalbania.org](https://bankofalbania.org) | registered evidence only | Subject to all source/article checks |
 | SEC | [sec.gov](https://sec.gov) | registered evidence only | Subject to all source/article checks |
 | Federal Reserve | [federalreserve.gov](https://federalreserve.gov) | registered evidence only | Subject to all source/article checks |
+| RTÉ Business | [rte.ie](https://rte.ie) | feed | Subject to all source/article checks |
+| CryptoSlate | [cryptoslate.com](https://cryptoslate.com) | feed | Subject to all source/article checks |
 
-## Botë (11)
+## Botë (12)
 
 | Publisher | Website(s) | Discovery | Hourly primary candidate |
 | --- | --- | --- | --- |
@@ -103,8 +114,9 @@ The production worker must be activated from the corresponding committed release
 | Reuters | [reuters.com](https://reuters.com) | public listing | Subject to all source/article checks |
 | AP News | [apnews.com](https://apnews.com) | public listing | Subject to all source/article checks |
 | Bloomberg | [bloomberg.com](https://bloomberg.com) | public listing | Subject to all source/article checks |
+| CBS News | [cbsnews.com](https://cbsnews.com) | feed | Subject to all source/article checks |
 
-## Showbiz (12)
+## Showbiz (14)
 
 | Publisher | Website(s) | Discovery | Hourly primary candidate |
 | --- | --- | --- | --- |
@@ -120,6 +132,8 @@ The production worker must be activated from the corresponding committed release
 | KultPlus | [kultplus.com](https://kultplus.com) | feed | Subject to all source/article checks |
 | NME | [nme.com](https://nme.com) | feed | Subject to all source/article checks |
 | Pitchfork | [pitchfork.com](https://pitchfork.com) | feed | Subject to all source/article checks |
+| Stereogum | [stereogum.com](https://stereogum.com) | feed | Subject to all source/article checks |
+| Consequence | [consequence.net](https://consequence.net) | feed | Subject to all source/article checks |
 
 Image research is separate: Wikimedia Commons and the explicitly permitted official press/gallery/video providers do not become news corroborators.
 

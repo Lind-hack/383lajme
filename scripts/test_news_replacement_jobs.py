@@ -18,6 +18,27 @@ BASH = str(GIT_BASH) if GIT_BASH.exists() else shutil.which('bash')
 
 
 class ReplacementJobTests(unittest.TestCase):
+    def test_one_bounded_round_can_fill_five_floor_deficits_before_thirds(self):
+        counts={'Kosovë':3,'Shqipëri':1,'Sport':1,'Teknologji':0,'Ekonomi':2,'Botë':3,'Showbiz':1}
+        prior=[{'url':f'https://{self.hosts[c]}/old-{i}','category':c,'body':'Approved copy'}
+               for c,n in counts.items() for i in range(n)]
+        self.approved.write_text(json.dumps(prior),encoding='utf-8')
+        discovery=json.loads(self.discovery.read_text(encoding='utf-8'))
+        for c in ('Teknologji','Showbiz'):
+            for i in range(3):
+                pair=f'{c}-{i}'; notes=self.root/(pair+'.notes.json')
+                notes.write_text(json.dumps({'pair_id':pair,'facts':['Verified fact '+str(n) for n in range(4)]}),encoding='utf-8')
+                discovery['ready_leads'].append({'pair_id':pair,'category':c,'url':f'https://{self.hosts[c]}/new-{i}','facts_path':str(notes)})
+        self.discovery.write_text(json.dumps(discovery),encoding='utf-8')
+        jobs=prepare(self.discovery,self.approved,self.attempted,self.folder)
+        self.assertEqual(len(jobs),5)
+        for job in jobs:counts[job['category']]+=1
+        self.assertTrue(all(2<=n<=3 for n in counts.values()))
+
+    def test_more_than_five_requests_is_rejected(self):
+        with self.assertRaises(ValueError):
+            prepare(self.discovery,self.approved,self.attempted,self.folder,limit=6)
+
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
@@ -43,7 +64,7 @@ class ReplacementJobTests(unittest.TestCase):
         before = self.approved.read_bytes()
         jobs = prepare(self.discovery, self.approved, self.attempted, self.folder)
         self.assertEqual([j['category'] for j in jobs[:2]], ['Shqipëri', 'Shqipëri'])
-        self.assertEqual(len({j['url'] for j in jobs}), 3)
+        self.assertEqual(len({j['url'] for j in jobs}), 5)
         for job in jobs:
             text = Path(job['brief']).read_text(encoding='utf-8')
             self.assertEqual([line[5:] for line in text.splitlines() if line.startswith('url: ')], [job['url']])
@@ -88,7 +109,7 @@ class ReplacementJobTests(unittest.TestCase):
             collect(self.folder, self.root/'collected.json')
 
     @unittest.skipUnless(BASH, 'Bash is required for the actual scheduler')
-    def test_real_scheduler_runs_three_bounded_calls_and_preserves_approved_articles(self):
+    def test_real_scheduler_runs_five_bounded_calls_and_preserves_approved_articles(self):
         self.exercise_scheduler(False)
 
     @unittest.skipUnless(BASH, 'Bash is required for the actual scheduler')
@@ -139,7 +160,7 @@ exit $?
         self.assertEqual(result.returncode, 75 if fail or temp_fail else 0, result.stderr+result.stdout)
         with sqlite3.connect(database) as db:active, peak = db.execute('SELECT active,peak FROM load').fetchone()
         self.assertEqual(active, 0)
-        self.assertLessEqual(peak, 3)
+        self.assertLessEqual(peak, 5)
         if temp_fail:
             self.assertEqual(peak, 0)
         else:
@@ -149,7 +170,7 @@ exit $?
         else:
             rows = json.loads(batch.read_text(encoding='utf-8'))
             self.assertEqual(rows[:len(self.old)], self.old)
-            self.assertEqual(len(rows), len(self.old)+3)
+            self.assertEqual(len(rows), len(self.old)+5)
 
 
 if __name__ == '__main__':

@@ -345,9 +345,9 @@ three-worker limit and minute-20 deadline. Provisional candidates never establis
 photo readiness. The final photo-qualified inventory reuses only validated notes
 bound to the same primary and corroborating source text and policy version.
 
-Fresh replacement writing selects at most three unused deficit stories per round
+Fresh replacement writing selects at most five unused deficit stories per round
 through the existing category planner. Each gets a separate one-story brief and
-output, with up to three requests in parallel. The collector excludes missing,
+output, with up to five requests in parallel (the initial writer ceiling). The collector excludes missing,
 malformed, extra-article and wrong-source/category responses independently.
 Approved articles are excluded from model inputs and preserved during merging.
 The round may start before minute 42; each call has at most 180 seconds and ends
@@ -420,3 +420,7 @@ rejections identify source/article passages and explain expression beyond public
 facts; a single genuinely distinctive borrowed expression remains sufficient.
 Unverifiable decisions are retried or blocked, never automatically approved.
 All six approval checks, content-bound receipts and final publication gates remain.
+
+Public collection supports the visible `.articleBody` and `.article_content-wrapper` bodies before related-story cards or previews. Restricted and hidden content stays excluded. Publisher-declared geography paths can establish a local desk; explicit gaming/esports/anime/manga labels are excluded before photo/model work. Shqiptarja listing dates without an offset use Europe/Tirane, including its daylight-saving transition. Other naive dates keep the existing UTC default.
+
+Writer briefs carry a scoped source identity manifest. Fresh writer responses may return `source_pair_id`; only that exact prepared ID can restore a missing or truncated URL. Unknown/conflicting IDs, off-category sources and conflicting complete URLs fail closed. Existing exact-URL responses remain supported. The temporary ID is removed before ordinary editing, photo attachment and independent review.

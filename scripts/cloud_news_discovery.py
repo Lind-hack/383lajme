@@ -103,7 +103,7 @@ def resolve_google_news_url(url: str) -> str:
     return url
 
 
-def published_at(entry: object) -> datetime | None:
+def published_at(entry: object, *, naive_timezone=timezone.utc) -> datetime | None:
     getter = getattr(entry, "get", lambda *_: None)
     for key in ("published", "updated"):
         raw = getter(key)
@@ -116,7 +116,7 @@ def published_at(entry: object) -> datetime | None:
                 value = parsedate_to_datetime(raw)
             except (TypeError, ValueError, IndexError):
                 continue
-        return value.astimezone(timezone.utc) if value.tzinfo else value.replace(tzinfo=timezone.utc)
+        return value.astimezone(timezone.utc) if value.tzinfo else value.replace(tzinfo=naive_timezone).astimezone(timezone.utc)
     for key in ("published_parsed", "updated_parsed"):
         parsed = getter(key)
         if parsed:
@@ -257,7 +257,7 @@ def fetch_listing(spec: dict, now: datetime | None = None):
             if not evidence.get("published"):
                 audit["undated"] += 1
                 continue
-            pub = published_at({"published": evidence.get("published")})
+            pub = published_at({"published": evidence.get("published")}, naive_timezone=ZoneInfo(spec.get('naive_timezone', 'UTC')))
             if not pub:
                 audit["invalid_date"] += 1
                 continue

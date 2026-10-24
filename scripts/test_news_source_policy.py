@@ -11,6 +11,25 @@ from news_run_state import completed, save
 
 
 class SourceIsolation(unittest.TestCase):
+    def test_explicit_publisher_gaming_labels_are_excluded_before_expensive_preparation(self):
+        self.assertIsNotNone(topic_error('Teknologji','Valve developer mentions HLX',url='https://arstechnica.com/gaming/2026/10/example'))
+        self.assertIsNotNone(topic_error('Teknologji','New product announced',tags=['gaming']))
+        self.assertIsNone(topic_error('Sport','Olympic Games announce the final schedule'))
+        self.assertIsNone(topic_error('Teknologji','Nvidia announces a new data-centre processor','The announcement also mentions gaming.'))
+
+    def test_local_publisher_geography_path_is_explicit_location_evidence(self):
+        self.assertIsNone(topic_error('Shqipëri','Ministry building damaged during protest',url='https://a2news.com/shqiperia/aktualitet/example'))
+        self.assertIsNotNone(topic_error('Shqipëri','Ministry building damaged during protest',url='https://a2news.com/bota/aktualitet/example'))
+        self.assertIsNotNone(topic_error('Kosovë','Ministry building damaged during protest',url='https://a2news.com/shqiperia/aktualitet/example'))
+
+    def test_expanded_publishers_remain_locked_to_their_desk_and_sister_family(self):
+        for category,url in [('Teknologji','https://www.bleepingcomputer.com/news/example'),('Shqipëri','https://a2news.com/shqiperia/example'),('Ekonomi','https://cryptoslate.com/example'),('Showbiz','https://consequence.net/example')]:
+            self.assertIsNone(source_error(category,url))
+            for other in CATEGORIES:
+                if other!=category:self.assertIsNotNone(source_error(other,url))
+        self.assertFalse(independent('https://cbssports.com/example','https://cbsnews.com/example'))
+        self.assertFalse(independent('https://news.mit.edu/example','https://technologyreview.com/example'))
+
     def test_literary_awards_remain_culture_after_a_headline_edit(self):
         self.assertIsNone(topic_error("Showbiz", "Lezhë: Marku, Açka, Tufa, Përgega fitojnë çmimet e Fishtës",
                                       "Juria shpalli fituesit e çmimeve letrare të këtij edicioni."))

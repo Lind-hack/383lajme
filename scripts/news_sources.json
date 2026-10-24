@@ -741,6 +741,119 @@
         "pitchfork.com"
       ],
       "family": "conde-nast"
+    },
+    {
+      "source": "Kosova.info",
+      "category": "Kosovë",
+      "domains": [
+        "kosova.info"
+      ],
+      "family": "kosova.info"
+    },
+    {
+      "source": "A2 CNN",
+      "category": "Shqipëri",
+      "domains": [
+        "a2news.com"
+      ],
+      "family": "a2news.com"
+    },
+    {
+      "source": "Shqiptarja",
+      "category": "Shqipëri",
+      "domains": [
+        "shqiptarja.com"
+      ],
+      "family": "shqiptarja.com"
+    },
+    {
+      "source": "CBS Sports",
+      "category": "Sport",
+      "domains": [
+        "cbssports.com"
+      ],
+      "family": "cbs"
+    },
+    {
+      "source": "Engadget",
+      "category": "Teknologji",
+      "domains": [
+        "engadget.com"
+      ],
+      "family": "static-media"
+    },
+    {
+      "source": "BleepingComputer",
+      "category": "Teknologji",
+      "domains": [
+        "bleepingcomputer.com"
+      ],
+      "family": "bleepingcomputer.com"
+    },
+    {
+      "source": "MIT News",
+      "category": "Teknologji",
+      "domains": [
+        "news.mit.edu"
+      ],
+      "family": "technologyreview.com",
+      "role": "official_evidence"
+    },
+    {
+      "source": "SiliconANGLE",
+      "category": "Teknologji",
+      "domains": [
+        "siliconangle.com"
+      ],
+      "family": "siliconangle-media"
+    },
+    {
+      "source": "9to5Google",
+      "category": "Teknologji",
+      "domains": [
+        "9to5google.com"
+      ],
+      "family": "9to5-network"
+    },
+    {
+      "source": "RTÉ Business",
+      "category": "Ekonomi",
+      "domains": [
+        "rte.ie"
+      ],
+      "family": "rte.ie"
+    },
+    {
+      "source": "CryptoSlate",
+      "category": "Ekonomi",
+      "domains": [
+        "cryptoslate.com"
+      ],
+      "family": "cryptoslate.com"
+    },
+    {
+      "source": "CBS News",
+      "category": "Botë",
+      "domains": [
+        "cbsnews.com"
+      ],
+      "family": "cbs"
+    },
+    {
+      "source": "Stereogum",
+      "category": "Showbiz",
+      "domains": [
+        "stereogum.com"
+      ],
+      "family": "stereogum.com"
+    },
+    {
+      "source": "Consequence",
+      "category": "Showbiz",
+      "domains": [
+        "consequence.net"
+      ],
+      "family": "consequence-media"
     }
   ],
   "feeds": [
@@ -1134,6 +1247,85 @@
       "category": "Teknologji",
       "lane": "TEKNOLOGJI",
       "url": "https://blog.google/technology/ai/rss/"
+    },
+    {
+      "source": "Kosova.info",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://kosova.info/feed/"
+    },
+    {
+      "source": "CBS Sports",
+      "category": "Sport",
+      "lane": "SPORT",
+      "url": "https://www.cbssports.com/rss/headlines/"
+    },
+    {
+      "source": "Engadget",
+      "category": "Teknologji",
+      "lane": "TEKNOLOGJI",
+      "url": "https://www.engadget.com/rss.xml"
+    },
+    {
+      "source": "BleepingComputer",
+      "category": "Teknologji",
+      "lane": "TEKNOLOGJI",
+      "url": "https://www.bleepingcomputer.com/feed/"
+    },
+    {
+      "source": "MIT News",
+      "category": "Teknologji",
+      "lane": "TEKNOLOGJI",
+      "url": "https://news.mit.edu/rss/research"
+    },
+    {
+      "source": "MIT News",
+      "category": "Teknologji",
+      "lane": "TEKNOLOGJI",
+      "url": "https://news.mit.edu/rss/topic/artificial-intelligence2"
+    },
+    {
+      "source": "SiliconANGLE",
+      "category": "Teknologji",
+      "lane": "TEKNOLOGJI",
+      "url": "https://siliconangle.com/feed/"
+    },
+    {
+      "source": "9to5Google",
+      "category": "Teknologji",
+      "lane": "TEKNOLOGJI",
+      "url": "https://9to5google.com/feed/"
+    },
+    {
+      "source": "RTÉ Business",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://www.rte.ie/rss/business.xml",
+      "listing_url": "https://www.rte.ie/news/business/"
+    },
+    {
+      "source": "CryptoSlate",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://cryptoslate.com/feed/"
+    },
+    {
+      "source": "CBS News",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.cbsnews.com/latest/rss/world"
+    },
+    {
+      "source": "Stereogum",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://www.stereogum.com/feed/"
+    },
+    {
+      "source": "Consequence",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://consequence.net/feed/"
     }
   ],
   "browser_lanes": [
@@ -1186,6 +1378,23 @@
       "article_path_prefix": "/news/",
       "listing_limit": 24,
       "reason": "Approved official source; retrieve dated public news announcements only."
+    },
+    {
+      "source": "A2 CNN",
+      "category": "Shqipëri",
+      "url": "https://a2news.com/",
+      "article_path_prefix": "/shqiperia/",
+      "listing_limit": 20,
+      "reason": "Public Albania section; require dated readable original articles and all verification gates."
+    },
+    {
+      "source": "Shqiptarja",
+      "category": "Shqipëri",
+      "url": "https://shqiptarja.com/",
+      "article_path_prefix": "/lajm/",
+      "listing_limit": 20,
+      "reason": "Public original reporting pages; require an explicit Albania subject and all verification gates.",
+      "naive_timezone": "Europe/Tirane"
     }
   ],
   "notes": [

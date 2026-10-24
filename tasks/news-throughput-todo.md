@@ -451,3 +451,34 @@ The final throughput item remains open until actual output proves it. Do not rep
 - Identity/category-conflict and headline regressions included: 281 native
   news/originality/topic checks pass; build passes. Pending worker activation
   requires the committed release, live SHA, idle publisher lock and source-ID pilot.
+- 8ffcf05e merges the user's newer homepage commits without changing their intent.
+  Railway reports that exact SHA in production/main/github-main. Its committed
+  worker activated idle under lock at 16:55:42 Warsaw, for the 17:00 run.
+  The isolated model pilot timed out at 180 seconds, with no draft or approval;
+  record `/opt/data/qa/383/source-id-pilot-8ffcf05e/timeout-180.json` preserves this.
+  Deployment proceeded on 281 checks, build and backward-compatible exact-URL
+  handling. Live 17:00 writer responses subsequently returned valid source IDs
+  in six desks; this is real protocol evidence, not article-quality approval.
+- The 16:00 run on 63d7bb67 published 9: Kosovë 3, Shqipëri 0, Sport 0,
+  Teknologji 0, Ekonomi 2, Botë 3, Showbiz 1. It remains below acceptance.
+- Pending collection expansion registers 14 publishers, across all seven desks:
+  96 publishers total, 78 feeds, 10 public listings. MIT News shares the existing
+  MIT Technology Review family; CBS News/Sports share a family. No category leakage.
+  Public access probes excluded inaccessible/restricted alternatives rather than
+  treating a working RSS preview as a readable original article.
+- Fixed visible body selection for BleepingComputer (37 -> 640 actual words)
+  and A2 CNN. Hidden/restricted content remains excluded. Shqiptarja's naive
+  local timestamps use declared Europe/Tirane with a DST regression check.
+  Explicit publisher gaming labels are excluded before costly preparation;
+  this applies the existing ban and does not scan passing body mentions.
+- Real new-source-only discovery found 155 raw candidates: Kosovë 8, Shqipëri 29,
+  Sport 36, Teknologji 42, Ekonomi 12, Botë 13, Showbiz 15. These are neither
+  deduplicated nor photo/editorially approved. Proof is in QA expanded-only discovery.
+- Replacement capacity increases to five scoped one-story calls, the proven
+  initial concurrency ceiling, at the same 180-second/minute-45 limits. Native
+  tests reproduce five missing floor places and preserve approved copy unchanged.
+- Expanded checks: 306 pass, production build passes. Updated source inventory
+  describes the repository registry; worker activation is still required.
+- Pending user photo choice: whether clearly captioned physical asset-symbol
+  photographs (Bitcoin display tokens/euro notes) may illustrate that asset's
+  market news. Do not change photo eligibility while this answer is pending.

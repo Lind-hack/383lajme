@@ -164,7 +164,7 @@ def extract(raw: bytes | str, url: str) -> dict:
     # actual story. Pick the article with the most readable paragraph text.
     # Taking the first node incorrectly made live Telegrafi stories appear empty.
     articles = soup.find_all("article")
-    article_body = next((node for selector in (".layout-form_article-body", '[itemprop="articleBody"]',
+    article_body = next((node for selector in (".layout-form_article-body", ".articleBody", ".article_content-wrapper", '[itemprop="articleBody"]',
                         ".td-post-content", ".entry-content", ".article-body", ".article-content", ".post-content")
                         if (node := soup.select_one(selector)) is not None), None)
     main = article_body if article_body is not None else max(

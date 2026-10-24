@@ -143,6 +143,8 @@ def topic_error(category: str, title: object, summary: object = "", *, tags=(), 
         path = fold(urlsplit(str(url)).path) if url else ""
     except ValueError:
         return "invalid publisher URL"
+    if labels & {'gaming', 'esports', 'anime', 'manga'} or re.search(r'/(?:gaming|esports|anime|manga)/', path):
+        return 'publisher category is explicitly excluded by the newsroom'
     if category != "Sport" and is_sports_story(title, summary, tags=tags, url=url):
         return "sports reporting is outside this publisher's assigned category"
     # Local desks cover verified local personalities, entertainment and companies.
@@ -173,7 +175,9 @@ def topic_error(category: str, title: object, summary: object = "", *, tags=(), 
             return "story lacks an explicit economic or markets subject"
         if _SHOWBIZ.search(headline):
             return "entertainment reporting is outside Ekonomi"
-    if category in _LOCAL and not _LOCAL[category].search(fold(f"{title} {summary}")):
+    geography_path = (category == 'Shqipëri' and bool(re.search(r'/shqiperi(?:a)?/', path))) or (
+        category == 'Kosovë' and bool(re.search(r'/kosov(?:e|a)/', path)))
+    if category in _LOCAL and not (_LOCAL[category].search(fold(f"{title} {summary}")) or geography_path):
         return "local story lacks an explicit Kosovo/Albania subject"
     return None
 
