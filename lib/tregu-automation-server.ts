@@ -877,8 +877,9 @@ export async function runLiveSportsAutomation(now = new Date()) {
     // Për ty: the day's clay cover plates, two at a time, every ten minutes at
     // most, sixteen a day. Never throws.
     runCoverArt(now),
-    // Për ty: Dardani's two or three sentences under each new story, a few
-    // stories every four minutes. Never throws.
+    // Për ty: Dardani's two or three sentences under every story of the week,
+    // written once a day in the 06:00 Kosovo hour, before the 07:00 push; a
+    // no-op the rest of the day. Never throws.
     runStorySummaries(now),
     // Kuizi i ditës was retired 2026-10-24: it no longer publishes. Its tables
     // and lib/kuizi-server stay, so runKuiziDaily(now) can be added back here.

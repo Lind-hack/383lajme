@@ -1,27 +1,29 @@
-// Server only. Writes Dardani's short summaries of new stories (lib/story-summary.mjs)
-// and reads them back for Për ty.
+// Server only. Writes Dardani's short summaries of the week's stories
+// (lib/story-summary.mjs) and reads them back for Për ty.
 //
 // runStorySummaries runs from the two-minute heartbeat (runLiveSportsAutomation
-// in lib/tregu-automation-server.ts). Most runs do nothing: at most every
-// RUN_EVERY_MS it takes the PER_RUN newest stories that have no summary yet,
-// asks the model for all of them in one call, checks every line against its
-// story, and rewrites index.json in the public perty-summaries bucket. A line
-// that fails the checks is replaced by the story's own first sentences; a model
-// that is down is simply asked again next run, until the story is GIVE_UP_MS
-// old and gets its own sentences too, and meanwhile stories already that old
-// are filled with their own sentences, OWN_PER_RUN at a time. It never throws.
+// in lib/tregu-automation-server.ts) but does nothing outside the SUMMARY_HOUR
+// (06:00 Kosovo time). In that hour each run takes up to BATCHES_PER_RUN batches
+// of PER_RUN stories that have no summary yet, newest first, asks the model for
+// each batch in one call, checks every line against its story, and rewrites
+// index.json in the public perty-summaries bucket; once every story has one,
+// the remaining runs of the hour find nothing to do. A line that fails the
+// checks, or a whole batch the model could not answer (its free quota is often
+// spent by early morning), gets the story's own first sentences instead, so
+// every story is covered before the 07:00 push. Stories published later in the
+// day show the newsroom's excerpt until the next morning. It never throws.
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getArticlesBefore, getArticlesBySlugs } from "@/lib/db";
 import { llmJSON } from "@/lib/llm";
 import {
-  GIVE_UP_MS,
   INDEX_PATH,
+  PER_RUN,
   SUMMARY_BUCKET,
   SUMMARY_SYSTEM,
   buildSummaryPrompt,
   cleanSummaries,
-  isDue,
+  isSummaryHour,
   normalizeIndex,
   ownSummary,
   pickStories,
@@ -31,8 +33,8 @@ import {
 
 type Admin = NonNullable<ReturnType<typeof createAdminClient>>;
 
-/** Stories given their own sentences per run while the model is down (no model call, so more than PER_RUN). */
-const OWN_PER_RUN = 20;
+/** Model calls per heartbeat run: 2 x 6 stories every two minutes clears a busy week inside the hour. */
+const BATCHES_PER_RUN = 2;
 
 function publicBase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -64,58 +66,41 @@ async function ensureBucket(admin: Admin) {
 }
 
 export async function runStorySummaries(now = new Date()) {
+  if (!isSummaryHour(now.getTime())) return { skipped: "not-summary-hour" };
   try {
     const admin = createAdminClient();
     if (!admin) return { skipped: "no-admin" };
     const { index, missing } = await readIndex(admin);
-    if (!isDue(index, now.getTime())) return { skipped: "not-due" };
     if (missing) await ensureBucket(admin);
 
     const recent = await getArticlesBefore({ limit: 150 });
-    const chosen = pickStories(recent, index, { now: now.getTime() });
-    if (!chosen.length) {
-      await writeIndex(admin, withSummaries(index, [], now.getTime()));
-      return { made: 0 };
-    }
+    const chosen = pickStories(recent, index, { now: now.getTime(), max: PER_RUN * BATCHES_PER_RUN });
+    if (!chosen.length) return { made: 0 };
     // The light rows have no body; the model and the checks need it.
     const full = (await getArticlesBySlugs(chosen.map((a) => a.slug))).filter((a) => a?.slug && a?.title);
 
-    let lines: Map<string, string> | null = null;
-    try {
-      const raw = await llmJSON<unknown>(SUMMARY_SYSTEM, buildSummaryPrompt(full), {
-        maxTokens: 1400,
-        temperature: 0.4,
-        prefer: "gemini",
-      });
-      lines = cleanSummaries(raw, full);
-    } catch (error) {
-      console.error("[per-ty] summaries: model unavailable", error instanceof Error ? error.message : error);
-    }
-
     const made: { slug: string; text: string; by: "dardani" | "own" }[] = [];
-    for (const article of full) {
-      const line = lines?.get(article.slug);
-      if (line) {
-        made.push({ slug: article.slug, text: line, by: "dardani" });
-        continue;
+    for (let i = 0; i < full.length; i += PER_RUN) {
+      const batch = full.slice(i, i + PER_RUN);
+      let lines: Map<string, string> | null = null;
+      try {
+        const raw = await llmJSON<unknown>(SUMMARY_SYSTEM, buildSummaryPrompt(batch), {
+          maxTokens: 1400,
+          temperature: 0.4,
+          prefer: "gemini",
+        });
+        lines = cleanSummaries(raw, batch);
+      } catch (error) {
+        console.error("[per-ty] summaries: model unavailable", error instanceof Error ? error.message : error);
       }
-      // The model answered but this line failed its checks, or the model has
-      // been away for hours: the story's own words, so it is not asked forever.
-      const age = now.getTime() - Date.parse(article.publishedAt ?? "");
-      if (lines || age >= GIVE_UP_MS) {
-        const own = ownSummary(article);
-        if (own) made.push({ slug: article.slug, text: own, by: "own" });
-      }
-    }
-    // The model is down (usually its free daily quota): the newest stories wait
-    // for it, but stories already GIVE_UP_MS old would never be reached behind
-    // them, so they get their own sentences now, without the model.
-    if (!lines) {
-      const taken = new Set(chosen.map((a) => a.slug));
-      const aged = recent.filter((a) => !taken.has(a.slug) && now.getTime() - Date.parse(a.publishedAt ?? "") >= GIVE_UP_MS);
-      const older = pickStories(aged, index, { now: now.getTime(), max: OWN_PER_RUN });
-      const bodies = await getArticlesBySlugs(older.map((a) => a.slug)).catch(() => []);
-      for (const article of bodies) {
+      for (const article of batch) {
+        const line = lines?.get(article.slug);
+        if (line) {
+          made.push({ slug: article.slug, text: line, by: "dardani" });
+          continue;
+        }
+        // The model's line failed its checks, or the model is down: the story's
+        // own words, so every story is covered by 07:00.
         const own = ownSummary(article);
         if (own) made.push({ slug: article.slug, text: own, by: "own" });
       }
