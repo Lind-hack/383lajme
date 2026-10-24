@@ -10,14 +10,10 @@ import DispatchRow from "@/components/dispatch-row";
 import KryesoreFront, { MostReadRail } from "@/components/kryesore-front";
 import DispatchList from "@/components/dispatch-list";
 import ColorSpotlight from "@/components/color-spotlight";
-import GradientCta from "@/components/gradient-cta";
 import Footer from "@/components/footer";
 import NewsletterCard from "@/components/newsletter-card";
-import KuiziDites from "@/components/kuizi-dites";
-import BotaHome from "@/components/home/bota-home";
 import HomeVisitPreview from "@/components/visit/home-visit-preview";
 import XhepBanner from "@/components/visit/xhep-banner";
-import ThrowbackSection from "@/components/throwback-section";
 import AlertsCta from "@/components/alerts-cta";
 import DailyPoll from "@/components/daily-poll";
 import TopFive from "@/components/home/top-five";
@@ -35,9 +31,7 @@ import {
 import { getCategoryColor } from "@/lib/category-colors";
 import { CATEGORY_TO_SLUG, type NavCategory } from "@/lib/category-map";
 import { getCityWeather } from "@/lib/weather";
-import { getDailyStories, getToneHistory, getToneOutlets, summarizeToday } from "@/lib/tone-data";
 import { dateKeyInKosovo } from "@/lib/reagimi-data";
-import { getKuiziData } from "@/lib/kuizi-server";
 import { getSondazhiData } from "@/lib/sondazhi-server";
 import { pickFrontPage, pickMostRead } from "@/lib/front-page.mjs";
 import { buildHomeSections, claim, createLedger } from "@/lib/home-sections.mjs";
@@ -53,7 +47,7 @@ import VideoRow from "@/components/video-row";
 export const revalidate = 600;
 
 export default async function HomePage() {
-  const [rawArticles, rawTickerArticles, rawRecentArticles, exchangeSnapshot, fuelSnapshot, toneHistory, toneOutlets, cityWeather] = await Promise.all([
+  const [rawArticles, rawTickerArticles, rawRecentArticles, exchangeSnapshot, fuelSnapshot, cityWeather] = await Promise.all([
     getArticles(60),
     getLatestArticles(10),
     // The day's run for the sections below the front block: newest first, no
@@ -61,10 +55,6 @@ export default async function HomePage() {
     getArticlesBefore({ limit: 120 }),
     getDailyExchangeSnapshot(),
     getDailyFuelSnapshot(),
-    getToneHistory(),
-    // Bota për Kosovën reads the rebuilt outlets file: its stories are already
-    // filtered to editorial sources and filed under the right country.
-    getToneOutlets().catch(() => null),
     // Keyless and individually caught: a weather outage costs the rail one
     // card, never the page.
     getCityWeather().catch(() => []),
@@ -82,10 +72,6 @@ export default async function HomePage() {
     withImageSizes(rawRecentArticles),
   ]);
 
-  // Bota për Kosovën: today's index and its stories, ranked the way the full
-  // page ranks them (lib/tone-data.ts, stance v4).
-  const toneToday = summarizeToday(toneHistory);
-  const botaStories = getDailyStories(toneOutlets, toneToday.date);
 
   // Tier 1: KRYESORE lead + secondary — claimed before NJOFTIME so the
   // front-page hierarchy always renders even when the article pool is small
@@ -110,8 +96,7 @@ export default async function HomePage() {
   const kryesoreSecondary = kryesore.slice(5, 7);
   const kryesoreTopIds = new Set(kryesore.map((a) => a.id));
 
-  // Kosovo's calendar day, shared by Kuizi i ditës and Sondazhi so the two
-  // daily cards cannot disagree about what day it is.
+  // Kosovo's calendar day, for Sondazhi.
   const homeDateKey = dateKeyInKosovo();
 
   // One ledger for the whole page below the front block: every section claims
@@ -130,8 +115,6 @@ export default async function HomePage() {
   // client. Shares homeDateKey so the two daily cards cannot disagree
   // about what day it is.
   const sondazhi = await getSondazhiData(homeDateKey);
-  // Today's quiz, else yesterday's under its own date, else nothing at all.
-  const kuizi = await getKuiziData(homeDateKey).catch(() => null);
 
   // Fresh, age-weighted notices get priority over the longer category shelves.
   const njoftimeArticles = freshNews(freshPool, { now: homeNow, exclude: ledger.ids, count: 12 });
@@ -262,6 +245,10 @@ export default async function HomePage() {
           <PerTyHome />
         </div>
 
+        {/* Edicioni video under the Për ty card, above Lajmet e fundit. A
+            short edition is still an edition; fewer than three is not. */}
+        {edition && edition.clips.length >= 3 && <VideoRow edition={edition} list="home" />}
+
         {/* Lajmet e fundit — the day's run, one story to a row, and the way
             back through the archive. "Kalo te" above it opens each section. */}
         <SectionJump links={jumpLinks} />
@@ -278,10 +265,6 @@ export default async function HomePage() {
           </div>
         )}
 
-        {/* A short edition is still an edition; fewer than three is not. */}
-        {edition && edition.clips.length >= 3 && <VideoRow edition={edition} list="home" />}
-
-        {kuizi && <KuiziDites data={kuizi} />}
       </Contained>
 
       {/* Kosovë and Shqipëri on the page's own paper: a lead, its rail, and a
@@ -292,11 +275,9 @@ export default async function HomePage() {
         </div>
       )}
 
-      {/* Bota për Kosovën straight after the Kosovo news, then Sondazhi i
-          ditës: a pause in the run of Kosovo and Albania news. Bota për
-          Kosovën is one daily reading — the index and the stories behind it. */}
+      {/* Sondazhi i ditës straight after the Kosovo news: a pause in the run
+          of Kosovo and Albania news. */}
       <Contained>
-        <BotaHome today={toneToday} stories={botaStories} />
         <DailyPoll data={sondazhi} />
       </Contained>
       {block("Shqipëri").length > 0 && (
@@ -323,15 +304,11 @@ export default async function HomePage() {
         <HomeVisitPreview />
       </Contained>
 
-      {/* Throwback + Alerts CTA */}
+      {/* Alerts CTA */}
       <Contained first>
-        <ThrowbackSection />
         <AlertsCta />
       </Contained>
       </main>
-
-      {/* Gradient CTA */}
-      <GradientCta />
 
       <Footer />
     </>

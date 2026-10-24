@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { Facebook, Heart, Instagram, MapPin } from "lucide-react";
+import { Heart, MapPin, MessageCircle, Send } from "lucide-react";
 import { NAV_CATEGORIES } from "@/lib/category-map";
+import { TELEGRAM_CHANNEL_URL, WHATSAPP_CHANNEL_URL } from "@/lib/channels";
 
 const FOOTER_CATEGORIES = NAV_CATEGORIES.map(({ label, slug }) => ({
   label,
@@ -16,26 +17,19 @@ const COMPANY_LINKS = [
   { label: "Kushtet", href: "/kushtet" },
 ];
 
-function InstagramIcon() {
-  return <Instagram size={18} strokeWidth={2} aria-hidden="true" />;
+function WhatsAppIcon() {
+  return <MessageCircle size={18} strokeWidth={2} aria-hidden="true" />;
 }
 
-function TikTokIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.53V6.79a4.85 4.85 0 01-1.01-.1z" />
-    </svg>
-  );
+function TelegramIcon() {
+  return <Send size={18} strokeWidth={2} aria-hidden="true" />;
 }
 
-function FacebookIcon() {
-  return <Facebook size={18} strokeWidth={2} aria-hidden="true" />;
-}
-
+// 383's real channels. The Instagram, TikTok and Facebook rows linked to "#"
+// and went nowhere; they come back once those accounts have addresses.
 const SOCIAL = [
-  { label: "Instagram", handle: "@383media", Icon: InstagramIcon },
-  { label: "TikTok", handle: "@383media", Icon: TikTokIcon },
-  { label: "Facebook", handle: "383 Media", Icon: FacebookIcon },
+  { label: "WhatsApp", handle: "Kanali në WhatsApp", href: WHATSAPP_CHANNEL_URL, Icon: WhatsAppIcon },
+  { label: "Telegram", handle: "@Lajmet383", href: TELEGRAM_CHANNEL_URL, Icon: TelegramIcon },
 ];
 
 export default function Footer() {
@@ -75,10 +69,12 @@ export default function Footer() {
             </Link>
 
             <div style={{ display: "flex", gap: "14px" }}>
-              {SOCIAL.map(({ label, Icon }) => (
+              {SOCIAL.map(({ label, href, Icon }) => (
                 <a
                   key={label}
-                  href="#"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="footer-social"
                   style={{ display: "inline-flex" }}
@@ -158,10 +154,12 @@ export default function Footer() {
               RRJETET SOCIALE
             </p>
             <div style={{ display: "flex", flexDirection: "column" as const, gap: "12px" }}>
-              {SOCIAL.map(({ label, handle, Icon }) => (
+              {SOCIAL.map(({ label, handle, href, Icon }) => (
                 <a
                   key={label}
-                  href="#"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="footer-social"
                   style={{
                     textDecoration: "none",

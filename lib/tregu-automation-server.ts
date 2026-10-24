@@ -4,7 +4,6 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreMarketWithAI, slugifyQuestion, type Market } from "@/lib/tregu";
 import { buildDailyDraftPlan, buildLiveEventDraftRunKey, buildRepricePlan, dailyDraftPublicationReason, evidenceIdentity, isEligibleNewsDeadlineMarket, isManualDailyRunKey, newsDeadlineAction, newsDeadlineDecayCap, NEWS_DEADLINE_DECAY_INTERVAL_MS, repriceMarketSkipReason, validateDailyDraftSubmission } from "@/lib/tregu-automation.mjs";
 import { kosovoLocalDate } from "@/lib/tregu-date-key.mjs";
-import { runKuiziDaily } from "@/lib/kuizi-server";
 import { fetchEspnLiveEvents } from "@/lib/espn-live-score.mjs";
 import { ARGENTINA_SPAIN_PAIR, buildArgentinaSpainPairedBinaryPlan, buildSportMarketPlan, sportEventState, rescheduledSportClose, isDuplicateSportOracle } from "@/lib/tregu-sport-market.mjs";
 import { buildF1MarketPlan, buildF1RaceWinnerPlan, buildF1SettlementPlan, openF1ToWinnerLeaderboard } from "@/lib/f1-live-lite.mjs";
@@ -877,12 +876,8 @@ export async function runLiveSportsAutomation(now = new Date()) {
     // Për ty: the day's clay cover plates, two at a time, every ten minutes at
     // most, sixteen a day. Never throws.
     runCoverArt(now),
-    // Kuizi i ditës: publishes once a morning from 06:00, guarded in-module.
-    // Last, because results above are read by position. Never throws.
-    runKuiziDaily(now).catch((err) => {
-      console.error("[kuizi] daily run failed", err);
-      return null;
-    }),
+    // Kuizi i ditës was retired 2026-10-24: it no longer publishes. Its tables
+    // and lib/kuizi-server stay, so runKuiziDaily(now) can be added back here.
   ]);
   const waitMs = Math.max(HEARTBEAT_MIN_WAIT_MS, HEARTBEAT_RESPONSE_BUDGET_MS - (Date.now() - startedAt));
   const settled = await Promise.race([background, new Promise<null>((resolve) => setTimeout(() => resolve(null), waitMs))]);
