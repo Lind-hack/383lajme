@@ -1,0 +1,12 @@
+[Unit]
+Description=Run the 383 clip scout every two hours, 07:15 to 23:15 Europe/Belgrade
+
+[Timer]
+# Host systemd does not recognize Europe/Pristina; Europe/Belgrade keeps Kosovo time.
+# :15, clear of the hourly news run (:00) and the video edition (:40).
+OnCalendar=*-*-* 07..23/2:15:00 Europe/Belgrade
+Persistent=false
+Unit=383-clip-scout.service
+
+[Install]
+WantedBy=timers.target

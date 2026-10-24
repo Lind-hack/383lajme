@@ -1,0 +1,8 @@
+[Unit]
+Description=383 clip scout: viral Kosovo and Albania clips, queued for the editor (never posted)
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker exec --user hermes --env HOME=/opt/data/home hermes /bin/bash /opt/data/scripts/run-clip-scout.sh
+TimeoutStartSec=2600
