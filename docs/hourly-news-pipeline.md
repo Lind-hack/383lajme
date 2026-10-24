@@ -392,6 +392,8 @@ with at most five requests concurrently (the existing copy-editor ceiling).
 Each request has one spare story, a four-minute limit and a minute-33 cutoff;
 fourteen requests fit three bounded waves after preparation. One failed request
 cannot discard its sibling's draft. Missing-desk recovery ends by minute 36.
+The prompt treats this call's cap and brief allocations as binding. A one-story
+slot is never asked to produce multiple stories or cover other desks.
 The final target remains 20, with two to three per desk when verified inventory
 and the remaining review budget support it. No inventory means no fabricated desk.
 

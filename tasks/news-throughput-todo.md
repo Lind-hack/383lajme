@@ -366,3 +366,11 @@ The final throughput item remains open until actual output proves it. Do not rep
 - Final release checks on 24 October: production build passed; 240 news tests,
   18 hourly coverage/capacity tests and 25 targeted writer/editor checks pass.
   The default editor chunk is still three; no unproven editor setting is enabled.
+- df91b7cd was pushed and verified on Railway, then staged as a committed worker
+  archive; it was never activated. Final prompt review caught inherited clauses
+  saying not to stop at one article and to cover every category. Stopped its idle
+  activation waiter before any pilot ran. Follow-up instructions bind each call
+  to its cap and its own positive brief allocations, including the one-story cap.
+- The idle pilot selects the two least-covered desks in the just-completed run,
+  so its small OAuth budget tests the current gaps rather than a stale category
+  choice. Publication acceptance still requires two to three in every live desk.
