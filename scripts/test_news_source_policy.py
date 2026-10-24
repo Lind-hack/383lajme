@@ -11,6 +11,13 @@ from news_run_state import completed, save
 
 
 class SourceIsolation(unittest.TestCase):
+    def test_literary_awards_remain_culture_after_a_headline_edit(self):
+        self.assertIsNone(topic_error("Showbiz", "Lezhë: Marku, Açka, Tufa, Përgega fitojnë çmimet e Fishtës",
+                                      "Juria shpalli fituesit e çmimeve letrare të këtij edicioni."))
+        self.assertIsNone(topic_error("Showbiz", "Shkrimtarët marrin çmimet e jurisë"))
+        self.assertIsNotNone(topic_error("Showbiz", "Juria shpall fituesit e tenderit të bankës"))
+        self.assertIsNotNone(source_error("Shqipëri", "https://kultplus.com/awards"))
+
     def test_albanian_singing_and_television_terms_identify_culture_without_a_name_whitelist(self):
         for title in ("Phoebe Bridgers këndon solo në SNL më 14 nëntor",
                       "Phoebe Bridgers do të këndojë në SNL më 14 nëntor",

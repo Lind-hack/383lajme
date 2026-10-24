@@ -275,7 +275,7 @@ run_writer() {
       --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
       --model "$model" --ignore-rules -t file --yolo \
       --max-turns "${L383_WRITER_MAX_TURNS:-35}" -Q -q \
-      "${WRITER_SCOPE:-}Prepare articles for ${BATCH} from today's prepared evidence. Read docs/albanian_newsroom.md, docs/news-output-schema.json, and ${WRITER_BRIEF}. The writing brief contains category allocations, ready story IDs and complete inline reporter notes. Use only ready stories. Write ONLY from the inline notes and never open source originals when notes are supplied: compose 383's own article, lead and headline from the facts. Only a story explicitly marked notes unavailable may use its verified-evidence fallback file. Notes may be raw, scrambled fragments of the source; never reuse a fragment's wording, restate every fact in your own Albanian sentences and choose your own order. Routine reporting may use one readable registered publisher as factual evidence with corroborating_sources=[]; sensitive allegations require the supplied independently readable second source. The prepared photo's subject must be a main subject of your headline or opening paragraph, not just a later mention in a roundup. Use an evidenced angle centered on that subject, or choose another ready story; never imply a photo shows a different company, person or product. Read docs/news-ranking-rubric.md and assign individual evidence-based score_breakdown values and a specific score_reason; never copy a neutral all-5 template or calculate the weighted total. The normalizer computes scores, reading time and city. Keep source URLs fixed. Write as many distinct eligible stories as the evidence supports, up to ${L383_TARGET_ARTICLES:-20} total; do not stop after one strong article. Do not edit any files. Return the complete article array in your final response between the literal markers 383_JSON_BEGIN and 383_JSON_END. The wrapper saves it. Every article needs its discovery category, deterministic city for local lanes, the prepared primary URL, supplied corroborating source when present, no image fields (the pipeline restores the prepared photo by source URL; judge only that image_subject fits the story), at least 140 grounded Albanian words in three HTML paragraphs, and all schema fields. Prefer 220+ words when the source supports that depth. Never pad a brief. The image is already verified outside your model call; do not fetch, decode or research images again. Read every inline note; only an explicit notes-unavailable fallback may open its evidence file; terminal commands, tests and builds are unavailable and unnecessary. Write from a fact outline in original 383 prose, with a new lead and structure; do not closely translate source prose or imply firsthand reporting. Preserve uncertainty and attribute claims to the speaking person or institution, never to a news outlet; never invent facts, local impact, quotes, images, or sources. Every publisher and corroborating publisher is locked to its category by scripts/news_sources.json. In the first drafting call, include at least one story from EVERY available category before adding extras. Follow the publication_plan counts across continuations; prioritize missing categories over more Botë stories; Ekonomi includes US stocks, Wall Street and crypto. Prioritize documented local public controversies. Never change a discovery category or use an unregistered source. Do not run pipeline scripts, discover extra stories, repository-wide tests, publish, deploy, email, or write any other file. Do not write files. Return the complete JSON array between 383_JSON_BEGIN and 383_JSON_END." 9>&-
+      "${WRITER_SCOPE:-}Prepare articles for ${BATCH} from today's prepared evidence. Read docs/albanian_newsroom.md, docs/news-output-schema.json, and ${WRITER_BRIEF}. The writing brief contains category allocations, ready story IDs and complete inline reporter notes. Use only ready stories. Write ONLY from the inline notes and never open source originals when notes are supplied: compose 383's own article, lead and headline from the facts. Only a story explicitly marked notes unavailable may use its verified-evidence fallback file. Notes may be raw, scrambled fragments of the source; never reuse a fragment's wording, restate every fact in your own Albanian sentences and choose your own order. Routine reporting may use one readable registered publisher as factual evidence with corroborating_sources=[]; sensitive allegations require the supplied independently readable second source. The prepared photo's subject must be a main subject of your headline or opening paragraph, not just a later mention in a roundup. Use an evidenced angle centered on that subject, or choose another ready story; never imply a photo shows a different company, person or product. Read docs/news-ranking-rubric.md and assign individual evidence-based score_breakdown values and a specific score_reason; never copy a neutral all-5 template or calculate the weighted total. The normalizer computes scores, reading time and city. Keep source URLs fixed. Do not reproduce ceremonial attendee lists or chains of official titles. Retain only names and accurately stated roles needed to explain the central event, with your own sentence order; never invent a title synonym to evade overlap checks. Write as many distinct eligible stories as the evidence supports, up to ${L383_TARGET_ARTICLES:-20} total; do not stop after one strong article. Do not edit any files. Return the complete article array in your final response between the literal markers 383_JSON_BEGIN and 383_JSON_END. The wrapper saves it. Every article needs its discovery category, deterministic city for local lanes, the prepared primary URL, supplied corroborating source when present, no image fields (the pipeline restores the prepared photo by source URL; judge only that image_subject fits the story), at least 140 grounded Albanian words in three HTML paragraphs, and all schema fields. Prefer 220+ words when the source supports that depth. Never pad a brief. The image is already verified outside your model call; do not fetch, decode or research images again. Read every inline note; only an explicit notes-unavailable fallback may open its evidence file; terminal commands, tests and builds are unavailable and unnecessary. Write from a fact outline in original 383 prose, with a new lead and structure; do not closely translate source prose or imply firsthand reporting. Preserve uncertainty and attribute claims to the speaking person or institution, never to a news outlet; never invent facts, local impact, quotes, images, or sources. Every publisher and corroborating publisher is locked to its category by scripts/news_sources.json. In the first drafting call, include at least one story from EVERY available category before adding extras. Follow the publication_plan counts across continuations; prioritize missing categories over more Botë stories; Ekonomi includes US stocks, Wall Street and crypto. Prioritize documented local public controversies. Never change a discovery category or use an unregistered source. Do not run pipeline scripts, discover extra stories, repository-wide tests, publish, deploy, email, or write any other file. Do not write files. Return the complete JSON array between 383_JSON_BEGIN and 383_JSON_END." 9>&-
 }
 
 WRITER_RC=0
@@ -326,33 +326,35 @@ PY
   wait || true
   tail -n 3 "$folder"/recovery-*.log || true
 }
-# Ten or more ready stories: establish the two-article floor independently
-# for every desk. Seven small requests, at most three active, fit three waves
-# in the minute-20 to minute-33 window even at the four-minute call cap.
+# Isolate the two floor articles into distinct source pools. Fourteen one-story
+# calls fit three waves at five concurrent requests; one timeout loses one
+# candidate, not a complete category. This matches the existing editor ceiling.
 run_writer_groups() {
-  local folder group desks target running=0
+  local folder group desks target running=0 slot
   folder="$(mktemp -d /tmp/383-writer-groups.XXXXXX)"
   group=0
   for desks in "Kosovë" "Shqipëri" "Sport" "Teknologji" "Ekonomi" "Botë" "Showbiz"; do
-    group=$((group + 1))
     target="$("$PYTHON_BIN" -c 'import json,sys; p=json.load(open(sys.argv[1],encoding="utf-8"))["publication_plan"]; print(min(2,p.get(sys.argv[2],0)))' "${DISCOVERY%.md}.json" "$desks")"
-    if [ "$target" -eq 0 ]; then continue; fi
-    printf '383 DESK WRITER: category=%s target=%s cap=240s end_minute=33\n' "$desks" "$target"
-    (
-      WRITER_BATCH="$folder/$group.json"
-      L383_TARGET_ARTICLES="$target"
-      L383_WRITER_ATTEMPT_TIMEOUT=240
-      WRITER_PHASE_END=1980
-      WRITER_SCOPE="This call covers ONLY these categories: ${desks}. Write only their ready stories, following their publication_plan counts, up to ${L383_TARGET_ARTICLES} articles; ignore every other category, including the every-category rule below. "
-      WRITER_BRIEF="$folder/$group-brief.md"
-      "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$WRITER_BRIEF" --categories "$desks" --cap 2 --spares 1 || exit 1
-      run_writer "$PRIMARY_WRITER_MODEL"
-    ) > "$folder/$group.log" 2>&1 &
-    running=$((running + 1))
-    if [ "$running" -ge 3 ]; then
-      wait -n || true
-      running=$((running - 1))
-    fi
+    for ((slot=1; slot<=target; slot++)); do
+      group=$((group + 1))
+      printf '383 DESK WRITER: category=%s slot=%s target=1 cap=240s end_minute=33\n' "$desks" "$slot"
+      (
+        WRITER_BATCH="$folder/$group.json"
+        WRITER_DESK_SLOT="$slot"
+        L383_TARGET_ARTICLES=1
+        L383_WRITER_ATTEMPT_TIMEOUT=240
+        WRITER_PHASE_END=1980
+        WRITER_SCOPE="This call covers ONLY ${desks}, article slot ${slot}: write one eligible story from this brief; ignore every other category and global counts below. "
+        WRITER_BRIEF="$folder/$group-brief.md"
+        "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$WRITER_BRIEF" --categories "$desks" --cap 1 --spares 1 --desk-slot "$slot" || exit 1
+        run_writer "$PRIMARY_WRITER_MODEL"
+      ) > "$folder/$group.log" 2>&1 &
+      running=$((running + 1))
+      if [ "$running" -ge 5 ]; then
+        wait -n || true
+        running=$((running - 1))
+      fi
+    done
   done
   wait || true
   tail -n 3 "$folder"/*.log || true

@@ -121,7 +121,7 @@ _CULTURE = re.compile(r"\b(?:showbiz|entertainment|celebr\w*|singer\w*|actor\w*|
                       r"concert\w*|koncert\w*|festival\w*|album\w*|kengetar\w*|aktor\w*|"
                       r"books?|bookstore\w*|libr\w*|novels?|roman|romani|romanit|romaneve|"
                       r"artist\w*|art|artwork\w*|piktur\w*|painting\w*|sculpt\w*|skulpt\w*|"
-                      r"literatur\w*|letersi\w*|poet\w*|poez\w*|nobel|ekspozit\w*|exhibition\w*|bienal\w*|"
+                      r"literatur\w*|letersi\w*|letrar\w*|shkrimtar\w*|poet\w*|poez\w*|nobel|ekspozit\w*|exhibition\w*|bienal\w*|"
                       r"kendon|kendoi|kendojne|kendoje|kenduan|kenduar|kendonte|televiziv\w*|"
                       r"television|reality|tv star|fashion|moda|mode|modes|moden|kardashian|royal family|royals|mbreter\w*)\b")
 _LOCAL = {

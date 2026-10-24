@@ -25,6 +25,7 @@ def apply_decisions(articles: list[dict], decisions: list[dict]) -> list[dict]:
                 if not isinstance(decision.get("reason"), str) or len(decision["reason"].strip()) < 20:
                     raise ValueError("drop requires a concrete reason")
                 reviewed += 1
+                print(f"383 EDITOR DROP url={article['url']!r} reason={' '.join(decision['reason'].split())}")
                 continue
             if not isinstance(action, str) or action not in {"keep", "correct"}:
                 raise ValueError("unknown editorial action")
@@ -53,8 +54,9 @@ def apply_decisions(articles: list[dict], decisions: list[dict]) -> list[dict]:
             edited.update(metadata)
             retained.append(edited)
             reviewed += 1
-        except ValueError:
+        except ValueError as exc:
             invalid += 1
+            print(f"383 EDITOR UNREVIEWED url={article['url']!r} reason={exc}")
     if not reviewed:
         raise ValueError("Editor returned no valid source-bound decisions")
     print(f"383 EDITOR DECISIONS retained={len(retained)} reviewed={reviewed} unreviewed={invalid}")

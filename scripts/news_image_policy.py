@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 from io import BytesIO
 from functools import lru_cache
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, unquote
 
 import requests
 import urllib3
@@ -477,6 +477,17 @@ NOT_A_PHOTO = re.compile(r"\b(chart|graph|diagram|ranking|statistics?|map|locato
                          r"fragrance|perfume|bottle|packaging|doll|figurine|sculpture|tattoo)\b", re.I)
 
 
+def non_photographic_asset(title: str, description: str) -> bool:
+    title = unquote(plain(title)).replace("_", " ")
+    if NOT_A_PHOTO.search(title + " " + plain(description)):
+        return True
+    # Some Commons plots never say 'chart': their title is just the measure
+    # and historical period. A creator/depicts tag is not a photograph of the
+    # institution that produced those data.
+    series = re.match(r"^(?:File:)?\s*(?:inflation|unemployment|interest|exchange) rates?\b", title, re.I)
+    return bool(series and len(re.findall(r"\b(?:19|20)\d{2}\b", title)) >= 2)
+
+
 def photo_year(meta: dict) -> int | None:
     """When the photo was taken (or, failing that, uploaded)."""
     for key in ("DateTimeOriginal", "DateTime"):
@@ -677,7 +688,7 @@ def candidate_photo(page: dict, plan: dict, max_years: int = MAX_PHOTO_AGE_YEARS
     file_title = plain(page.get("title", "")).replace("_", " ")
     description = file_title + " " + value("ImageDescription")
     # A free licence does not make a chart, map, flag or logo a news photo.
-    if NOT_A_PHOTO.search(description) or (file_title.lower().endswith(".png") and re.search(r"\bOSM\b", file_title, re.I)):
+    if non_photographic_asset(file_title, description) or (file_title.lower().endswith(".png") and re.search(r"\bOSM\b", file_title, re.I)):
         return None
     # Readers read an old photo as old news: the owner wants current pictures.
     year = photo_year(meta)
@@ -1081,6 +1092,9 @@ def image_errors(article: dict) -> list[str]:
         return [] if not article.get("image_url") and article.get("image_rights") == photo["image_rights"] else [
             "image provenance was changed or omitted; use the prepared photo metadata"]
     rights = photo.get("image_rights", {})
+    asset_title = urlsplit(str(rights.get("source_page", ""))).path.rsplit("/", 1)[-1]
+    if rights.get("provider") == "wikimedia-commons" and non_photographic_asset(asset_title, str(rights.get("description", ""))):
+        return ["prepared image depicts a chart, map or other non-photographic asset"]
     official_video = rights.get("provider") == "youtube-embed" and str(photo.get("video_clip_url", "")).startswith("https://www.youtube.com/watch?v=")
     from news_press_photos import FEEDS, LICENSE, site
     official_press = (rights.get("provider") == "official-press" and rights.get("license") == LICENSE

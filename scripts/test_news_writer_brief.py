@@ -7,6 +7,19 @@ from news_writer_brief import build
 
 
 class WriterBriefTests(unittest.TestCase):
+    def test_two_single_article_slots_have_disjoint_sources_and_spares(self):
+        leads=[{**self.lead,'pair_id':'Kosovë-'+str(i),'url':'https://koha.net/slot-'+str(i)} for i in range(6)]
+        # No note files: this fixture tests complete evidence fallback pools.
+        leads=[{k:v for k,v in lead.items() if k!='facts_path'} for lead in leads]
+        self.write(leads)
+        pools=[]
+        for slot in (1,2):
+            self.assertEqual(build(self.discovery,self.output,'Kosovë',cap=1,spares=1,desk_slot=slot),2)
+            pools.append({line for line in self.output.read_text(encoding='utf-8').splitlines() if line.startswith('url: ')})
+            self.assertIn('"Kosovë": 1',self.output.read_text(encoding='utf-8'))
+        self.assertFalse(pools[0] & pools[1])
+        self.assertEqual(len(pools[0] | pools[1]),4)
+
     def setUp(self):
         folder = tempfile.TemporaryDirectory()
         self.addCleanup(folder.cleanup)

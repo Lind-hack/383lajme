@@ -18,8 +18,11 @@ BASH = str(GIT_BASH) if GIT_BASH.exists() else shutil.which('bash')
 
 @unittest.skipUnless(BASH, 'bash is required for the actual scheduler')
 class WriterDeskTests(unittest.TestCase):
-    def test_every_available_desk_gets_two_drafts_with_no_more_than_three_active_calls(self):
+    def test_every_available_desk_gets_two_drafts_with_no_more_than_five_active_calls(self):
         self.exercise()
+
+    def test_one_stalled_article_cannot_discard_its_sibling_in_the_same_desk(self):
+        self.exercise(failed='Teknologji:1')
 
     def test_one_failed_desk_cannot_discard_the_other_six_desk_results(self):
         self.exercise(failed='Teknologji')
@@ -34,7 +37,7 @@ class WriterDeskTests(unittest.TestCase):
             root = Path(temporary)
             database = root/'calls.sqlite'
             with sqlite3.connect(database) as db:
-                db.executescript('CREATE TABLE load(active INTEGER, peak INTEGER); INSERT INTO load VALUES(0,0); CREATE TABLE calls(category TEXT, target INTEGER);')
+                db.executescript('CREATE TABLE load(active INTEGER, peak INTEGER); INSERT INTO load VALUES(0,0); CREATE TABLE calls(category TEXT, target INTEGER, slot INTEGER);')
             hosts = {c:next(p['domains'][0] for p in MANIFEST['publishers'] if p['category']==c) for c in CATEGORIES}
             discovery = root/'discovery.json'; batch = root/'batch.json'
             discovery.write_text(json.dumps({'publication_plan':{c:0 if c==zero else 3 for c in CATEGORIES},
@@ -43,25 +46,25 @@ class WriterDeskTests(unittest.TestCase):
             fake = root/'fake_writer.py'
             fake.write_text('''import json,re,sqlite3,sys,time
 from pathlib import Path
-batch,brief,database,target,phase,cap,failed=sys.argv[1:]
-assert int(target)==2 and int(phase)==1980 and int(cap)==240
+batch,brief,database,target,phase,cap,failed,slot=sys.argv[1:]
+assert int(target)==1 and int(phase)==1980 and int(cap)==240
 text=Path(brief).read_text(encoding='utf-8')
 categories=re.findall(r'^category: (.+)$',text,re.M)
-assert len(set(categories))==1 and len(categories)==3
+assert len(set(categories))==1 and len(categories)==2
 category=categories[0]
 with sqlite3.connect(database,timeout=10) as db:
- db.execute('BEGIN IMMEDIATE');db.execute('UPDATE load SET active=active+1');db.execute('UPDATE load SET peak=max(peak,active)');db.execute('INSERT INTO calls VALUES(?,?)',(category,int(target)))
+ db.execute('BEGIN IMMEDIATE');db.execute('UPDATE load SET active=active+1');db.execute('UPDATE load SET peak=max(peak,active)');db.execute('INSERT INTO calls VALUES(?,?,?)',(category,int(target),int(slot)))
 time.sleep(0.3)
 with sqlite3.connect(database,timeout=10) as db:db.execute('UPDATE load SET active=active-1')
-if category==failed:raise SystemExit(75)
+if category==failed or category+':'+slot==failed:raise SystemExit(75)
 urls=re.findall(r'^url: (.+)$',text,re.M)[:int(target)]
-Path(batch).write_text(json.dumps([{'slug':category+str(i),'category':category,'url':url,'body':'Fake local draft'} for i,url in enumerate(urls)]),encoding='utf-8')
+Path(batch).write_text(json.dumps([{'slug':category+slot+str(i),'category':category,'url':url,'body':'Fake local draft'} for i,url in enumerate(urls)]),encoding='utf-8')
 ''',encoding='utf-8')
             script = helper + '''
 set -e
 mktemp() { command mktemp -d "$TEST_TEMP/${2##*/}"; }
 recover_missing_writer_desks() { :; }
-run_writer() { "$PYTHON_BIN" "$TEST_FAKE" "$WRITER_BATCH" "$WRITER_BRIEF" "$TEST_DB" "$L383_TARGET_ARTICLES" "$WRITER_PHASE_END" "$L383_WRITER_ATTEMPT_TIMEOUT" "$TEST_FAILED"; }
+run_writer() { "$PYTHON_BIN" "$TEST_FAKE" "$WRITER_BATCH" "$WRITER_BRIEF" "$TEST_DB" "$L383_TARGET_ARTICLES" "$WRITER_PHASE_END" "$L383_WRITER_ATTEMPT_TIMEOUT" "$TEST_FAILED" "$WRITER_DESK_SLOT"; }
 run_writer_groups
 '''
             result = subprocess.run([BASH,'-c',script],cwd=Path(__file__).resolve().parent.parent,capture_output=True,text=True,timeout=25,
@@ -71,11 +74,13 @@ run_writer_groups
             self.assertEqual(result.returncode,0,result.stderr+result.stdout)
             with sqlite3.connect(database) as db:
                 active,peak=db.execute('SELECT active,peak FROM load').fetchone()
-                calls=dict(db.execute('SELECT category,target FROM calls').fetchall())
-            self.assertEqual(active,0);self.assertLessEqual(peak,3)
-            self.assertEqual(calls,{c:2 for c in CATEGORIES if c!=zero})
+                calls=db.execute('SELECT category,target,slot FROM calls').fetchall()
+            self.assertEqual(active,0);self.assertLessEqual(peak,5)
+            self.assertEqual(set(calls),{(c,1,s) for c in CATEGORIES if c!=zero for s in (1,2)})
             rows=json.loads(batch.read_text(encoding='utf-8'))
             expected={c:2 for c in CATEGORIES if c not in {zero,failed}}
+            if ':' in failed:
+                expected[failed.split(':')[0]]=1
             self.assertEqual({c:sum(a['category']==c for a in rows) for c in expected},expected)
             self.assertEqual(len(rows),sum(expected.values()))
 

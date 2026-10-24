@@ -10,7 +10,8 @@ from news_coverage import replacement_plan, CATEGORY_CEILING
 
 
 def build(discovery: Path, output: Path, categories: str = "", *, approved: Path | None = None,
-          attempted: Path | None = None, limit: int = 0, spares: int | None = None, cap: int | None = None) -> int:
+          attempted: Path | None = None, limit: int = 0, spares: int | None = None, cap: int | None = None,
+          desk_slot: int | None = None) -> int:
     data = json.loads(discovery.read_text(encoding="utf-8"))
     selected = [part.strip() for part in categories.split(",") if part.strip()] or list(CATEGORIES)
     if set(selected) - set(CATEGORIES):
@@ -21,6 +22,8 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
             raise ValueError("initial desk cap must be positive and cannot limit replacement selection")
         plan = {category: min(count, cap) for category, count in plan.items()}
     leads = data.get("ready_leads", [])
+    if desk_slot is not None and (desk_slot not in (1, 2) or len(selected) != 1 or cap != 1 or spares is None or approved):
+        raise ValueError("desk slot requires one initial category, cap one and bounded spares")
     if bool(approved) != bool(attempted) or limit < 0 or (spares is not None and (spares < 0 or approved)):
         raise ValueError("replacement brief requires approved and attempted records together and a nonnegative limit")
     if spares is not None:
@@ -32,6 +35,10 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
             sheet = json.loads(Path(lead["facts_path"]).read_text(encoding="utf-8"))
             return 0 if sheet.get("origin") in {"model", "cache"} else 2 if sheet.get("origin") == "fragments" else 1
         leads = sorted(leads, key=note_priority)
+        if desk_slot is not None:
+            # Each one-article request has its own main/spare candidates. A
+            # slow or failed sibling cannot consume its source or photo.
+            leads = [lead for lead in leads if lead['category'] == selected[0]][desk_slot - 1::2]
         counts = Counter()
         initial = []
         for lead in leads:
@@ -122,5 +129,6 @@ if __name__ == "__main__":
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--spares", type=int)
     parser.add_argument("--cap", type=int)
+    parser.add_argument("--desk-slot", type=int)
     args = parser.parse_args()
-    build(args.discovery, args.output, args.categories, approved=args.approved, attempted=args.attempted, limit=args.limit, spares=args.spares, cap=args.cap)
+    build(args.discovery, args.output, args.categories, approved=args.approved, attempted=args.attempted, limit=args.limit, spares=args.spares, cap=args.cap, desk_slot=args.desk_slot)

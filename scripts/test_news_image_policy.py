@@ -358,6 +358,26 @@ class NewsPhotoTests(unittest.TestCase):
         self.assertIsNone(policy.candidate_photo(chart, plan()))
         self.assertIsNotNone(policy.candidate_photo(page(), plan()))
 
+    def test_time_series_filename_is_a_graph_even_without_the_word_chart(self):
+        title = "File:Inflation rate, United States and eurozone, January 2018 through November 2024.png"
+        graphic = page()
+        graphic['title'] = title
+        graphic['imageinfo'][0]['extmetadata']['ImageDescription'] = {'value': title}
+        with patch.object(policy, 'depicted', return_value={'Q47583'}):
+            self.assertIsNone(policy.candidate_photo(graphic, {'subject': 'Federal Reserve', 'qid': 'Q47583', 'caption': 'Federal Reserve'}))
+        self.assertFalse(policy.non_photographic_asset('File:Federal Reserve headquarters, 2018 and 2024.jpg', 'Headquarters building.'))
+
+    def test_prepared_graph_cannot_pass_final_photo_validation_after_model_approval(self):
+        photo = policy.candidate_photo(page(), plan())
+        title = 'Inflation_rate,_United_States_and_eurozone,_January_2018_through_November_2024.png'
+        photo = {**photo, 'image_url': 'https://upload.wikimedia.org/wikipedia/commons/3/31/'+title,
+                 'image_rights': {**photo['image_rights'], 'source_page': 'https://commons.wikimedia.org/wiki/File:'+title,
+                                  'description': title}}
+        article = {'url': 'https://cnbc.com/bonds', **photo}
+        with tempfile.TemporaryDirectory() as folder, patch.object(policy, 'CATALOG', Path(folder)/'catalog.json'):
+            policy.CATALOG.write_text(json.dumps({article['url']: photo}), encoding='utf-8')
+            self.assertEqual(policy.image_errors(article), ['prepared image depicts a chart, map or other non-photographic asset'])
+
     def test_subject_must_appear_as_a_phrase_and_personality_tag_is_allowed(self):
         person = {**plan(), "subject": "Ella Langley", "qid": "Q1"}
         road = page()

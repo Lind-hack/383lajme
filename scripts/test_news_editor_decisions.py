@@ -1,6 +1,8 @@
 import json
 import tempfile
 import unittest
+import io
+from contextlib import redirect_stdout
 from pathlib import Path
 
 from news_editor_decisions import CHECKS, apply_decisions
@@ -8,6 +10,19 @@ from news_model_response import save_response
 
 
 class EditorialDecisionsTests(unittest.TestCase):
+    def test_drops_and_invalid_corrections_leave_actionable_audit_reasons(self):
+        dropped = {"url": self.article["url"], "action": "drop", "reason": "No independently readable confirmation\nfor this allegation."}
+        output = io.StringIO()
+        with redirect_stdout(output):
+            self.assertEqual(apply_decisions([self.article], [dropped]), [])
+        self.assertIn("reason=No independently readable confirmation for this allegation.", output.getvalue())
+        output = io.StringIO()
+        with redirect_stdout(output), self.assertRaises(ValueError):
+            apply_decisions([self.article], [])
+        with redirect_stdout(output), self.assertRaises(ValueError):
+            apply_decisions([self.article], [{**self.keep, "checks": {}}])
+        self.assertIn("retained copy requires every editorial check", output.getvalue())
+
     def setUp(self):
         self.article = {"url": "https://techcrunch.com/verified", "slug": "verified", "category": "Teknologji",
                         "title": "Titull i verifikuar", "excerpt": "Përmbledhje e verifikuar.",

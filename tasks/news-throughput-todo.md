@@ -299,8 +299,9 @@ The final throughput item remains open until actual output proves it. Do not rep
   installed Hermes resolved the selected data-only toolset to zero tools.
 - A real Luna/max/OAuth two-Kosovo draft benchmark completed in 193.6 seconds,
   with exact category/source scope, three paragraphs and eight factors per draft.
-  A simple whitespace count reported a 137-word minimum; the official gate count
-  still needs checking before describing either draft as publication-eligible.
+  A simple whitespace count reported a 137-word minimum; the official gate counts
+  are 143 and 145, both above the unchanged 140-word floor. These remain unreviewed
+  benchmark drafts, not publication-eligible articles or published output.
 - Three isolated reviewer controls correctly approved factual reporting, rejected
   a wrong month and rejected translated distinctive imagery. One quoted span had
   a one-character typo; the separate exact imagery passage and failed exclusive-
@@ -308,5 +309,60 @@ The final throughput item remains open until actual output proves it. Do not rep
   distinctive-passage rule. The validator retains proven negative grounds and
   never turns invalid grounds into approval. No QA article was published.
 - Latest native news suite: 234 cases pass. The production build passed at
-  20:59:46 Warsaw. Deployment/idle worker activation of this bundle is pending;
-  do not describe it as active in the already scheduled 21:00 slot.
+  20:59:46 Warsaw. Commit 1ce71a074219c4316ea00de588ea52d2c1dd4268 was pushed to
+  main and Railway deployment was verified at 21:10:37 Warsaw with that exact SHA,
+  production environment and github-main source. Idle worker activation is pending;
+  the already scheduled 21:00 slot remains on 76cda6b3.
+- Replaying the same three reviewer decisions against the final 1ce validator
+  passes all five classification/evidence checks, with zero additional model
+  calls. The earlier evaluation is preserved alongside the replay report.
+- The idle installer selected 1ce71a07 before the 22:00 run. Exact DB readback
+  confirmed the 21:00 run published eight (six categories), the 22:00 run seven
+  (five categories), and the 23:00 run eight: Kosovo 2, Albania 1, Sport 1,
+  Technology 1, Economy 1, World 0, Showbiz 2. All remain failed coverage outcomes.
+- Read-only Hermes decision retrieval identified the 22:00 editor's three drops:
+  an uncorroborated allegation, dependence on another outlet's reporting and a
+  mismatched inflation chart plus a wrong bond yield. Those checks are retained.
+  Its slowest three-article edit took 548 seconds with zero tool calls.
+- Pending implementation splits each desk into two independent one-article
+  source pools, at most five concurrent requests, preserving the minute-33 cap.
+  Native tests cover disjoint pools, one failed sibling, a whole failed desk,
+  zero inventory and actual concurrency. The news suite passes 238 cases.
+- Added the Albanian literary adjective and writer terms to culture recognition;
+  a real literary-awards headline/excerpt now stays in its registered category.
+  Cross-category source restrictions remain unchanged. Editor drops and invalid
+  decisions now retain concrete reasons in the worker log.
+- Writer/editor instructions discourage irrelevant ceremonial attendee lists
+  and role chains; necessary names and official titles must stay accurate. The
+  eight-word overlap gate is unchanged. Real isolated model benchmarks and an
+  end-to-end QA run are still required before activating this next worker.
+- The three difficult editor inputs took 313.6 seconds as independent articles,
+  versus 548 seconds in their original shared call. All three were retained;
+  one still carried a historical inflation graphic mislabeled as Federal Reserve.
+  This is not proof of improved editorial correctness. The default editor chunk
+  remains three; one-article editing was only an isolated/QA experiment.
+- The confirmed graph filename never says chart/graph. Added time-series asset
+  detection before photo selection and to the final Commons provenance gate,
+  so a creator/depicts tag cannot make that graphic a photograph. The known
+  graphic has zero published DB matches. The news suite passes 240 cases;
+  48 photo tests and 18 hourly coverage/capacity tests also pass independently.
+- PLD Space photo correction is complete: fresh Luna/max review approved the
+  unchanged copy, the conditional photo-only PATCH passed full validation and
+  exact readback, and the live page shows the dated, credited Elche HQ photo.
+  Copy and publication timestamps are preserved; zero emails were sent.
+- Full isolated QA started 23 October at 23:58 Warsaw with fresh discovery,
+  no publication/emails and separate state. It stopped at 00:11 on an OAuth
+  usage-limit response with no drafts; it does not establish model performance
+  or coverage for the pending writer scheduler. Morning production resumed on
+  1ce71a07 but still published only 6, 7 and 4 articles at 07:00, 08:00 and 09:00.
+- A real one-article-per-category pilot must run only in an idle account window,
+  with an explicit pre-hour deadline. Do not activate the pending worker on the
+  strength of the quota-blocked end-to-end QA, or claim the coverage goal met.
+- To conserve OAuth capacity for production, first target the World/Albania
+  requests that stalled or underfilled, rather than running seven extra shadow
+  writers. Both calls must meet the unchanged word floor, source/category scope
+  and eight-factor schema within their four-minute cap. Full seven-category
+  publication remains the acceptance check for the next live worker run.
+- Final release checks on 24 October: production build passed; 240 news tests,
+  18 hourly coverage/capacity tests and 25 targeted writer/editor checks pass.
+  The default editor chunk is still three; no unproven editor setting is enabled.

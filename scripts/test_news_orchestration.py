@@ -152,7 +152,7 @@ review_candidates
     def exercise_missing_desks(self, elapsed, empty):
         from news_source_policy import CATEGORIES
         start = RUNNER.index('recover_missing_writer_desks() {')
-        helper = RUNNER[start:RUNNER.index('# Ten or more ready stories:', start)]
+        helper = RUNNER[start:RUNNER.index('run_writer_groups() {', start)]
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             folder = root / 'groups'; folder.mkdir()

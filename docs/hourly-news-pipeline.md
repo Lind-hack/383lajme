@@ -351,11 +351,13 @@ It shares the existing optional-writing limits: start before minute 42, at most
 that left the observed 17:41 refill only 108 seconds. All new copy still receives
 normal editing, independent review and publication verification.
 
-Initial desk-group briefs contain each desk's planned count plus one spare.
+Initial desk slots each request one article from a separate pool containing a
+main story and one spare. The two slots split the ordered desk inventory, so
+their source URLs and prepared photos cannot overlap.
 Only these initial reading views are bounded: the authoritative ready inventory,
 global continuation/rewrite brief and unused-source replacement selection keep
 all eligible stories. This reduces reading and selection work without reducing
-publication allocations or accepting unverified stories.
+the authoritative publication allocations or accepting unverified stories.
 
 The initial copy editor returns per-URL keep/correct/drop decisions. Retained
 articles require explicit facts, attribution, originality, photo-fit and language
@@ -369,7 +371,7 @@ fresh independent originality review still apply to the resulting full articles.
 A bounded recovery before editing covers up to three desks below two initial
 drafts. It asks only for unused source-ready stories needed for that floor, up
 to two articles per desk, in at most three parallel Luna/max calls. Each call is
-capped at 180 seconds and ends by minute 29; existing drafts are retained exactly.
+capped at 180 seconds and ends by minute 36; existing drafts are retained exactly.
 The usual category ceilings and 20-article publication target remain in force.
 
 Person photographs cannot pass on a matching filename when Commons depicts a
@@ -379,10 +381,17 @@ school principal illustrating a golfer and a spacecraft being captioned as its
 company founder. All existing license, age, decoding and source-distinctness
 requirements remain mandatory.
 
-Initial writing now assigns one desk per request, targets two articles per
-available desk, and allows at most three requests concurrently. Each request has
-one spare story, a four-minute limit and a minute-33 cutoff; seven requests fit
-three bounded waves after preparation. Missing-desk recovery ends by minute 36.
+Commons data-series graphics cannot qualify as photographs merely because the
+institution that produced them appears in a structured tag. Time-series filenames
+such as an inflation rate over historical years are rejected before selection
+and by final provenance validation, even when they omit the words chart/graph.
+Editorial drop and invalid-decision reasons are retained in the worker log.
+
+Initial writing assigns two independent one-article slots per available desk,
+with at most five requests concurrently (the existing copy-editor ceiling).
+Each request has one spare story, a four-minute limit and a minute-33 cutoff;
+fourteen requests fit three bounded waves after preparation. One failed request
+cannot discard its sibling's draft. Missing-desk recovery ends by minute 36.
 The final target remains 20, with two to three per desk when verified inventory
 and the remaining review budget support it. No inventory means no fabricated desk.
 
