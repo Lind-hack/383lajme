@@ -22,3 +22,7 @@ export function buildEdition<I extends EditionItem>(
   feed: readonly I[] | null | undefined,
   opts?: { size?: number; perReason?: number; homeFrom?: string | null; fillKinds?: readonly string[] }
 ): { edition: I[]; more: MoreGroup<I>[]; minutes: number };
+
+export function groupEdition<I extends { article: { slug: string }; kind: string; primaryKey?: string }>(
+  edition: readonly I[] | null | undefined
+): { key: string; kind: string; items: I[] }[];

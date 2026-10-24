@@ -364,3 +364,144 @@ a.perty-ed-city:focus-visible { outline: 2px solid var(--pp-accent); outline-off
   .perty-ed-row[data-lead] .perty-ed-summary { font-size: 16.5px; }
   .perty-must .perty-ed-item.perty-must-item[data-thumb] .perty-ed-foot { left: 42px; right: 154px; }
 }
+
+/* ── The "Për ty" panel: the reader's seven, filed under what they follow ──
+   The one warm, framed thing on the page, so it reads as theirs; everything
+   after it (must-knows, more) is plain and quieter. Each group is one follow:
+   a coloured dot, its name, how many; one quiet "Më pak" for the whole group. */
+.perty-panel {
+  padding: 22px 24px 6px;
+  border: 1px solid var(--pp-accent-line);
+  border-radius: 22px;
+  background: linear-gradient(180deg, var(--pp-accent-soft), var(--pp-card, var(--theme-surface)) 160px);
+  box-shadow: var(--pp-shadow);
+}
+.perty-panel-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--theme-ink, var(--pp-ink));
+}
+.perty-panel-head h2 {
+  margin: 0;
+  color: var(--theme-ink, var(--pp-ink));
+  font-family: var(--font-garamond), Georgia, serif;
+  font-size: 32px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+.perty-group { margin: 0; padding: 16px 0 2px; }
+.perty-group + .perty-group { border-top: 1px solid var(--pp-rule-soft); }
+.perty-group-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.perty-group-head h3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--theme-ink, var(--pp-ink));
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.perty-group-head h3 i { width: 9px; height: 9px; flex: none; border-radius: 50%; }
+.perty-group-head h3 b {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--pp-chip);
+  color: var(--theme-muted, var(--pp-muted));
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+.perty-group-less {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 5px;
+  min-height: 36px;
+  padding: 0 10px;
+  margin-right: -10px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--theme-muted, var(--pp-muted));
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.perty-group-less:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 2px; }
+.perty-group-note { margin: 2px 0 0; color: var(--theme-muted, var(--pp-muted)); font-size: 13px; }
+.perty-group-list { margin: 0; padding: 0; list-style: none; }
+.perty-prow-item + .perty-prow-item .perty-prow { border-top: 1px solid var(--pp-rule-soft); }
+.perty-prow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 18px;
+  padding: 12px 0 14px;
+  color: inherit;
+  text-decoration: none;
+}
+.perty-prow-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.perty-prow-why { color: var(--pp-accent-ink); font-size: 12.5px; font-weight: 800; }
+.perty-prow-title {
+  color: var(--theme-ink, var(--pp-ink));
+  font-size: 17px;
+  font-weight: 750;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+.perty-prow[data-first] .perty-prow-title { font-size: 20px; line-height: 1.22; }
+.perty-prow .perty-ed-excerpt { -webkit-line-clamp: 3; }
+.perty-prow-meta { display: inline-flex; align-items: center; gap: 8px; color: var(--theme-muted, var(--pp-muted)); font-size: 12.5px; font-weight: 600; }
+.perty-prow .perty-ed-thumb { width: 200px; aspect-ratio: 4 / 3; border-radius: 14px; }
+.perty-prow[data-read] .perty-prow-title { color: var(--pp-faint); }
+.perty-prow[data-read] .perty-ed-thumb { opacity: 0.55; }
+.perty-prow:focus-visible { outline: 2px solid var(--pp-accent); outline-offset: 4px; border-radius: 8px; }
+@media (hover: hover) and (pointer: fine) {
+  .perty-prow:hover .perty-prow-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .perty-group-less:hover { background: var(--pp-chip); color: var(--theme-ink, var(--pp-ink)); }
+}
+/* The must-knows come after the reader's own, and below them the quiet rest. */
+.perty-panel + .perty-must { margin-top: 20px; }
+.perty-cols-title { display: none; }
+
+@media (max-width: 1023px) {
+  .perty-prow .perty-ed-thumb { width: 150px; }
+}
+@media (max-width: 640px) {
+  .perty-panel { padding: 16px 14px 4px; margin-inline: -4px; border-radius: 18px; }
+  .perty-panel-head h2 { font-size: 26px; }
+  .perty-prow { gap: 12px; }
+  .perty-prow-title { font-size: 16px; }
+  .perty-prow[data-first] .perty-prow-title { font-size: 17.5px; }
+  .perty-prow .perty-ed-excerpt { display: -webkit-box; font-size: 14.5px; }
+  .perty-prow .perty-ed-thumb { width: 104px; border-radius: 12px; }
+  /* "Më pak për Albin Kurti" keeps its icon on a phone; the words are for screen readers. */
+  .perty-group-less span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+@media (min-width: 1024px) {
+  .perty-cols-title {
+    display: block;
+    margin: 36px 0 -8px;
+    color: var(--theme-muted, var(--pp-muted));
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  /* Quieter than the panel: smaller names, no photos. */
+  .perty-col-head h2 { font-size: 20px; }
+  .perty-col-row strong,
+  .perty-col-row[data-first] strong { font-size: 15px; line-height: 1.35; }
+}
+.perty-panel-head + .perty-group { padding-top: 12px; }
+.perty-panel-head .perty-ed-progress { margin: 0; }

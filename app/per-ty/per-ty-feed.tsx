@@ -42,11 +42,9 @@ import Image from "next/image";
 import {
   ArrowRight,
   BellRing,
-  Check,
   ChevronDown,
   Coffee,
   MapPin,
-  MessageCircleQuestion,
   SlidersHorizontal,
   ThumbsDown,
   UserRound,
@@ -56,7 +54,7 @@ import TimeAgo from "@/components/time-ago";
 import { getCategoryColor } from "@/lib/category-colors";
 import { readInterests, writeInterests, hasInterests, nudgeAffinity, recordRead, type Interests } from "@/lib/interests.mjs";
 import { articleKeys, rankFeed, type RankedItem } from "@/lib/per-ty-rank.mjs";
-import { buildEdition, readingMinutes } from "@/lib/per-ty-edition.mjs";
+import { buildEdition, groupEdition, readingMinutes } from "@/lib/per-ty-edition.mjs";
 import { mustKnow } from "@/lib/per-ty-must-know.mjs";
 import { buildPaper, quietFollows } from "@/lib/per-ty-paper.mjs";
 import { cityById } from "@/lib/cities.mjs";
@@ -74,7 +72,6 @@ import { noteClick, trackPerty, type PertyList } from "@/lib/perty-measure";
 import type { CityWeather } from "@/lib/weather";
 import { forgetAccountAffinity, mergeOnSignIn, pushInterests } from "@/lib/interests-sync";
 import { createClient } from "@/lib/supabase/client";
-import { openPyet } from "@/lib/pyet-thread";
 import DardaniLoop from "@/components/dardani/dardani-loop";
 import DardaniImage from "@/components/dardani/dardani-image";
 import DardaniFace from "@/components/dardani/dardani-face";
@@ -127,26 +124,6 @@ const SHOWN_AFTER_MS = 1000;
 const SUMMARY_READ_MS = 4000;
 /** What reading a summary is worth against a full read of the article (1). */
 const SUMMARY_READ_WEIGHT = 0.25;
-/** A photo at least this wide stays sharp in the lead's big slot on a laptop. */
-const LEAD_SHARP_PX = 1000;
-/** How far down the edition a sharper photo may be brought up to lead. */
-const LEAD_LOOK = 3;
-
-/**
- * The edition with a sharp photo leading: when the first story's photo is
- * small (or unmeasured) and one of the next two has a big one, that one leads.
- * A small outlet photo stretched over half a laptop screen is the pixelation
- * readers saw; no optimizer can add pixels the outlet never published.
- */
-function sharpLead<T extends { article: FeedArticle }>(items: T[]): T[] {
-  const sharp = (i: T | undefined) => Boolean(i?.article.imageUrl) && (i?.article.imageWidth ?? 0) >= LEAD_SHARP_PX;
-  if (items.length < 2 || sharp(items[0])) return items;
-  const at = items.slice(1, LEAD_LOOK).findIndex(sharp);
-  if (at < 0) return items;
-  const out = [...items];
-  const [lead] = out.splice(at + 1, 1);
-  return [lead, ...out];
-}
 
 function readFlag(key: string) {
   try {
@@ -201,6 +178,21 @@ function colsFor(count: number, max: number) {
 function tasteKey(item: Item) {
   if (item.primaryKey?.includes(":")) return item.primaryKey;
   return item.article.category ? `cat:${item.article.category}` : null;
+}
+
+/** A group's heading in the panel: the follow, as the reader would say it. */
+function groupTitle(group: { key: string; kind: string }, home: string | null) {
+  if (group.kind === "learned") return "Nga ajo që lexon";
+  if (group.kind === "top") return "Kryesoret e ditës";
+  const label = keyLabel(group.key) ?? group.key;
+  return group.key === `city:${home}` ? `${label} · qyteti yt` : label;
+}
+
+/** The dot beside a group's heading: the topic's own colour, the paper's accent for people and towns. */
+function groupColor(group: { key: string; kind: string }) {
+  if (group.kind === "category") return getCategoryColor(group.key.replace(/^cat:/, ""));
+  if (group.kind === "person" || group.kind === "city") return "var(--pp-accent)";
+  return "var(--pp-faint)";
 }
 
 export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
@@ -309,14 +301,20 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
       feed.filter((i) => !skip.has(i.article.slug)),
       { homeFrom, fillKinds: ["top"] }
     );
-    return { more: built.more, edition: sharpLead(built.edition) };
+    return { more: built.more, edition: built.edition };
   }, [feed, homeFrom, must]);
   const minutes = readingMinutes([...must.map((article) => ({ article })), ...edition]);
+  // The panel files the seven under what the reader follows (lib/per-ty-edition groupEdition).
+  const groups = useMemo(() => groupEdition(edition), [edition]);
   // The wide screen's columns: one per follow, never repeating the seven.
-  const sections = useMemo(
-    () => (interests ? buildPaper(feed, interests, null, { homeFrom }).sections.filter((sec) => sec.items.length > 0) : []),
-    [feed, interests, homeFrom]
-  );
+  // Nothing already in the panel or the must-know band, and no column left empty by that.
+  const sections = useMemo(() => {
+    if (!interests) return [];
+    const shown = new Set([...edition.map((i) => i.article.slug), ...must.map((a) => a.slug)]);
+    return buildPaper(feed, interests, null, { homeFrom })
+      .sections.map((sec) => ({ ...sec, items: sec.items.filter((it) => !shown.has(it.article.slug)) }))
+      .filter((sec) => sec.items.length > 0);
+  }, [feed, interests, homeFrom, edition, must]);
   // The newest story from the reader's town in the last two days, for the
   // town box. Matched the way the ranking matches a town.
   const townStory = useMemo(() => {
@@ -468,11 +466,6 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   }
 
   const who = (deviceName || name).trim().split(/\s+/)[0]?.slice(0, 24) ?? "";
-  const following = [
-    ...interests.categories,
-    ...interests.people.map((id) => keyLabel(`person:${id}`)).filter(Boolean),
-    ...interests.cities.map((id) => keyLabel(`city:${id}`)).filter(Boolean),
-  ].join(" · ");
 
   const showSignup = justFinished && signedIn === false && !signupDismissed;
   const seen: Seen = { since, read };
@@ -483,7 +476,6 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     ...must.map((a) => a.slug),
     ...edition.filter((i) => !read.has(i.article.slug)).map((i) => i.article.slug),
   ].slice(0, 6);
-  const firstUnread = edition.find((i) => !read.has(i.article.slug)) ?? edition[0];
   const positionOf = new Map(edition.map((i, n) => [i.article.slug, n + 1]));
 
   const forget = () => {
@@ -578,15 +570,73 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
           {briefSlugs.length >= 2 && <DardaniBrief slugs={briefSlugs} positionOf={positionOf} />}
 
           <section className="perty-ed" aria-labelledby="perty-ed-title">
-            <header className="perty-ed-head">
-              <h2 id="perty-ed-title">Për ty sot</h2>
-              <p className="perty-ed-progress" aria-live="polite">
-                <span className="perty-ed-bar" aria-hidden="true">
-                  <i style={{ width: `${(readCount / edition.length) * 100}%` }} />
-                </span>
-                {readCount} / {edition.length} lexuar
-              </p>
-            </header>
+            <div className="perty-panel">
+              <header className="perty-panel-head">
+                <h2 id="perty-ed-title">Për ty{who ? `, ${who}` : ""}</h2>
+                <p className="perty-ed-progress" aria-live="polite">
+                  <span className="perty-ed-bar" aria-hidden="true">
+                    <i style={{ width: `${(readCount / edition.length) * 100}%` }} />
+                  </span>
+                  {readCount} / {edition.length} lexuar
+                </p>
+              </header>
+              {groups.map((group) => {
+                const first = group.items[0];
+                const key = tasteKey(first);
+                const lessOn = group.items.some((i) => less.has(i.article.slug));
+                const label = key ? keyLabel(key) : null;
+                return (
+                  <section key={group.key} className="perty-group" aria-labelledby={`perty-group-${group.key}`}>
+                    <header className="perty-group-head">
+                      <h3 id={`perty-group-${group.key}`}>
+                        <i aria-hidden="true" style={{ background: groupColor(group) }} />
+                        {groupTitle(group, home)}
+                        <b>{group.items.length}</b>
+                      </h3>
+                      {key && group.kind !== "top" && (
+                        <button
+                          type="button"
+                          className="perty-group-less"
+                          aria-pressed={lessOn}
+                          onClick={() => toggleLess(first, positionOf.get(first.article.slug) ?? 0)}
+                        >
+                          {lessOn ? (
+                            "Zhbëj"
+                          ) : (
+                            <>
+                              <ThumbsDown size={13} strokeWidth={2.3} aria-hidden="true" />
+                              <span>Më pak{label ? ` për ${label}` : ""}</span>
+                            </>
+                          )}
+                        </button>
+                      )}
+                    </header>
+                    {lessOn && (
+                      <p className="perty-group-note" role="status">
+                        Në rregull: më pak{label ? ` për ${label}` : " si kjo"}, nga vizita e ardhshme.
+                      </p>
+                    )}
+                    <ol className="perty-group-list">
+                      {group.items.map((item, j) => {
+                        const n = positionOf.get(item.article.slug) ?? 0;
+                        return (
+                          <PanelRow
+                            key={item.article.slug}
+                            item={item}
+                            seen={seen}
+                            first={j === 0}
+                            why={group.kind === "learned" ? whyLine(item, interests).short : null}
+                            onOpen={() => noteClick({ slug: item.article.slug, position: n, kind: item.kind, list: "edition" })}
+                            onShown={() => onShown(item, n, "edition")}
+                            onSummaryRead={() => onSummaryRead(item.article, n, "edition")}
+                          />
+                        );
+                      })}
+                    </ol>
+                  </section>
+                );
+              })}
+            </div>
             {must.length > 0 && (
               <div className="perty-must" role="group" aria-labelledby="perty-must-title">
                 <h3 id="perty-must-title" className="perty-must-head">
@@ -607,23 +657,6 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
                 </ul>
               </div>
             )}
-            <ol className="perty-ed-list">
-              {edition.map((item, i) => (
-                <EditionRow
-                  key={item.article.slug}
-                  item={item}
-                  n={i + 1}
-                  seen={seen}
-                  lead={i === 0}
-                  why={whyLine(item, interests).short}
-                  lessKey={less.get(item.article.slug) ?? null}
-                  canLess={tasteKey(item) !== null}
-                  onLess={() => toggleLess(item, i + 1)}
-                  onShown={() => onShown(item, i + 1, "edition")}
-                  onSummaryRead={() => onSummaryRead(item.article, i + 1, "edition")}
-                />
-              ))}
-            </ol>
           </section>
 
           <div className="perty-front-town">
@@ -665,14 +698,6 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
                 <Link href="/" className="perty-btn perty-btn--primary">
                   Kryesoret e ditës <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
                 </Link>
-                <button
-                  type="button"
-                  className="perty-btn perty-btn--ghost"
-                  onClick={() => openPyet(firstUnread ? `Pse ndodhi kjo: ${firstUnread.article.title}` : undefined)}
-                >
-                  <MessageCircleQuestion size={16} strokeWidth={2.3} aria-hidden="true" />
-                  Pyet Dardanin
-                </button>
                 <button type="button" className="perty-btn perty-btn--ghost" onClick={() => setEditing(true)}>
                   <SlidersHorizontal size={16} strokeWidth={2.3} aria-hidden="true" />
                   {home ? "Ndrysho interesat" : "Zgjidh qytetin"}
@@ -685,15 +710,17 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
                   </Link>
                 </p>
               )}
-              <p className="perty-end-following">Ndjek: {following}</p>
             </div>
           </EndCard>
           </div>
 
           {sections.length > 0 && (
+            <h2 className="perty-cols-title">Më shumë për ty, nëse ke kohë</h2>
+          )}
+          {sections.length > 0 && (
             <div
               className="perty-cols"
-              aria-label="Ato që ndjek"
+              aria-label="Më shumë për ty"
               style={{ "--cols-lg": colsFor(sections.length, 4), "--cols-md": colsFor(sections.length, 3) } as React.CSSProperties}
             >
               {sections.map((sec) => (
@@ -718,18 +745,6 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
                             noteClick({ slug: it.article.slug, position: j + 1, kind: sec.kind, list: "section" })
                           }
                         >
-                          {j === 0 && (it.article.imageUrl || it.article.coverArt) && (
-                            <span className="perty-col-img">
-                              <Image
-                                src={(it.article.imageUrl || it.article.coverArt) as string}
-                                alt=""
-                                fill
-                                quality={90}
-                                sizes="(min-width: 1024px) 400px, 1px"
-                                style={{ objectFit: "cover" }}
-                              />
-                            </span>
-                          )}
                           <strong>{it.article.title}</strong>
                           <Meta article={it.article} />
                         </Link>
@@ -864,87 +879,51 @@ function Mark({ article, seen }: { article: FeedArticle; seen: Seen }) {
 }
 
 /**
- * One story of the edition. The number turns into a tick once it has been
- * opened; the row stays where it was. A picture only when the story has one —
- * an empty grey box is not a picture. Below it, where the story is from and
- * "Më pak si kjo".
+ * One story in the "Për ty" panel: headline, Dardani's summary and, for the
+ * first story of a group, its photo. Where it is from and how old sit in the
+ * text, not in a separate foot. A tick replaces nothing; "Lexuar" says it.
  */
-function EditionRow({
+function PanelRow({
   item,
-  n,
   seen,
-  lead,
+  first,
   why,
-  lessKey,
-  canLess,
-  onLess,
+  onOpen,
   onShown,
   onSummaryRead,
 }: {
   item: Item;
-  n: number;
   seen: Seen;
-  lead: boolean;
-  why: string;
-  lessKey: string | null;
-  canLess: boolean;
-  onLess: () => void;
+  first: boolean;
+  why: string | null;
+  onOpen: () => void;
   onShown: () => void;
   onSummaryRead: () => void;
 }) {
   const { article } = item;
-  const isRead = seen.read.has(article.slug);
-  const picture = article.imageUrl || article.coverArt || null;
+  const picture = first ? article.imageUrl || article.coverArt || null : null;
   const ref = useBothSeen(onShown, onSummaryRead);
-  const lessLabel = lessKey ? keyLabel(lessKey) : null;
   return (
-    <li ref={ref} className="perty-ed-item" data-less={lessKey ? true : undefined} data-thumb={picture ? true : undefined}>
+    <li ref={ref} className="perty-prow-item">
       <Link
         href={`/article/${article.slug}`}
-        className="perty-ed-row"
-        data-read={isRead || undefined}
-        data-lead={lead || undefined}
-        onClick={() => noteClick({ slug: article.slug, position: n, kind: item.kind, list: "edition" })}
+        className="perty-prow"
+        data-read={seen.read.has(article.slug) || undefined}
+        data-first={first || undefined}
+        data-thumb={picture ? true : undefined}
+        onClick={onOpen}
       >
-        <span className="perty-ed-n" aria-hidden="true">
-          {isRead ? <Check size={15} strokeWidth={3} /> : n}
-        </span>
-        <span className="perty-ed-body">
-          <span className="perty-ed-reason">
-            {why}
+        <span className="perty-prow-body">
+          {why && <span className="perty-prow-why">{why}</span>}
+          <strong className="perty-prow-title">{article.title}</strong>
+          <Summary article={article} />
+          <span className="perty-prow-meta">
+            <TimeAgo iso={article.publishedAt} />
             <Mark article={article} seen={seen} />
           </span>
-          <strong className="perty-ed-title">{article.title}</strong>
-          <Summary article={article} />
         </span>
-        {picture && <Thumb src={picture} lead={lead} />}
+        {picture && <Thumb src={picture} lead={first} />}
       </Link>
-      <div className="perty-ed-foot">
-        {lessKey ? (
-          <p className="perty-ed-less-note" role="status">
-            Në rregull: më pak{lessLabel ? ` për ${lessLabel}` : " si kjo"}, nga vizita e ardhshme.
-          </p>
-        ) : (
-          <Meta article={article} />
-        )}
-        {canLess && (
-          <button
-            type="button"
-            className="perty-ed-less"
-            aria-pressed={Boolean(lessKey)}
-            onClick={onLess}
-          >
-            {lessKey ? (
-              "Zhbëj"
-            ) : (
-              <>
-                <ThumbsDown size={14} strokeWidth={2.3} aria-hidden="true" />
-                <span>Më pak si kjo</span>
-              </>
-            )}
-          </button>
-        )}
-      </div>
     </li>
   );
 }
@@ -959,9 +938,9 @@ function Summary({ article }: { article: FeedArticle }) {
 }
 
 /**
- * A row's photo. `sizes` follows the slot's real width in edition.css: on a
- * laptop the lead fills half the front page (about 600 CSS px), and the old
- * "168px" fetched a photo a quarter that size and stretched it.
+ * A row's photo. `sizes` follows the slot's real width in edition.css (a
+ * group's first photo is 200 CSS px on a laptop, 112 on a phone): a `sizes`
+ * smaller than the slot is how the old lead came out pixelated.
  */
 function Thumb({ src, lead }: { src: string; lead: boolean }) {
   return (
@@ -972,7 +951,7 @@ function Thumb({ src, lead }: { src: string; lead: boolean }) {
         fill
         priority={lead}
         quality={90}
-        sizes={lead ? "(max-width: 640px) 96px, (max-width: 1023px) 168px, 620px" : "(max-width: 640px) 80px, (max-width: 1023px) 120px, 140px"}
+        sizes={lead ? "(max-width: 640px) 112px, 200px" : "(max-width: 640px) 80px, (max-width: 1023px) 120px, 140px"}
         style={{ objectFit: "cover" }}
       />
     </span>
