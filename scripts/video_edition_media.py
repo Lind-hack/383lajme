@@ -840,6 +840,12 @@ BROLL_HINTS: list[tuple[str, tuple[str, ...]]] = [
     (r"kuvend|parlament|deputet|seancë plenare|projektligj", ("parliament session", "politicians voting")),
     (r"zgjedhj|votim|votues|fushat", ("voting ballot box", "election campaign crowd")),
     (r"gjob|inspekt", ("inspector clipboard", "restaurant kitchen inspection")),
+    (r"mbeturin|deponi|ndot|plehr|ambient", ("garbage landfill", "waste dump truck")),
+    (r"komun|kryetar i komunës|bashki", ("city hall", "city aerial")),
+    (r"qeveri|ministr|kryeministr", ("government meeting", "press conference microphones")),
+    (r"sanksion|diplomat|takim|samit", ("diplomats handshake", "conference flags")),
+    (r"luft|sulm|raket|bombard", ("war destroyed buildings", "military tanks")),
+    (r"vrasj|vdekj|trup i pajetë|krim", ("police tape", "crime scene")),
     (r"shkoll|nxënës|mësues|maturant|universitet|student", ("school classroom", "students walking campus")),
     (r"spital|mjek|pacient|shëndet|sëmund|vaksin", ("hospital corridor", "doctor stethoscope")),
     (r"ushtr|rekrut|ushtar|betohen|fsk\b|mbrojtj", ("soldiers marching", "military training")),
@@ -868,7 +874,7 @@ BROLL_HINTS: list[tuple[str, tuple[str, ...]]] = [
 ]
 
 
-def broll_terms(text: str, written: list[str] | None = None, limit: int = 4) -> list[dict]:
+def broll_terms(text: str, written: list[str] | None = None, limit: int = 6) -> list[dict]:
     """What to search the stock libraries for: the writer's own searches ("courtroom | gjykata":
     the English search, then the word in the script it goes with), then the story's own words
     through BROLL_HINTS. Each: {"q": English search, "said": [Albanian words]}."""

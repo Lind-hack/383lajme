@@ -330,6 +330,15 @@ body{background:#111}
 .beat.line .bd{filter:brightness(.62) saturate(.85);opacity:.9}
 .beat.line:after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,#0000 20%,#000a 85%)}
 .lw{z-index:2}
+.beat.line.l-slab{background:var(--acc)}
+.beat.line.l-slab:after{background:repeating-linear-gradient(135deg,#ffffff0d 0 40px,#0000 40px 80px)}
+.beat.line.l-slab .lbar{background:#111}
+.beat.line.l-slab .lw p span{opacity:.38}
+.beat.line.l-slab .lw p span.em{color:#111}
+.beat.line.l-photo{background:#111}
+.beat.line.l-photo .ph{filter:brightness(.5) saturate(.9)}
+.beat.line.l-photo:after{background:linear-gradient(#0000 25%,#000c 80%)}
+.beat.line.l-photo .lw{justify-content:flex-end;padding-bottom:560px}
 .lw{position:absolute;left:150px;right:150px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;padding:300px 0 520px}
 .lw .lbar{display:block;width:120px;height:14px;border-radius:7px;background:var(--acc);margin-bottom:46px;transform-origin:0 50%}
 .lw p{font-size:var(--lfs,116px);line-height:1.02;font-weight:800;letter-spacing:-.035em;text-wrap:balance;text-shadow:0 8px 40px #0008}
@@ -760,9 +769,17 @@ def compose(clip: dict, beats: list[dict], cues: dict, look: dict, assets: dict[
                                                                      or not re.search(r"[.!?]$", words[last_j][2])):
                 last_j += 1
             said = words[first:last_j + 1]
+            # Three looks in turn, so word shots one after another never look alike: dark over the
+            # blurred photo, the story's colour edge to edge, the photo itself darkened under the words.
+            look_l = ("dark", "slab", "photo")[len(lines) % 3]
+            if look_l == "photo" and not last_photo:
+                look_l = "slab"
             lines.append((start, end))
             blurred = last_photo.replace(".jpg", "-bd.jpg") if last_photo else ""
-            bd = f'<img class="bd" src="{esc(blurred)}" alt="">' if blurred else ""
+            bd = f'<img class="bd" src="{esc(blurred)}" alt="">' if blurred and look_l == "dark" else ""
+            if look_l == "photo":
+                bd = f'<img class="ph" src="{esc(last_photo)}" alt="">'
+                T({"sel": f"#b{k} .ph", "m": "fromTo", "from": {"scale": 1.18, "xPercent": 4}, "to": {"scale": 1.06, "xPercent": -2, "duration": round(hold, 3), "ease": "none"}, "at": start})
             lfs = 150 if len(said) <= 4 else 116 if len(said) <= 7 else 92
             # The words that carry it (the writer's emphasis, any number) in the accent colour.
             hot = [' class="em"' if media.norm(w[2]) in emphasis or re.search(r"\d", w[2]) else "" for w in said]
@@ -773,11 +790,11 @@ def compose(clip: dict, beats: list[dict], cues: dict, look: dict, assets: dict[
                 T({"sel": f"#l{k}_{j}", "m": "fromTo", "from": {"opacity": 0.26, "scale": 0.96}, "to": {"opacity": 1, "scale": 1, "duration": 0.18, "ease": "power2.out"},
                    "at": round(max(start + 0.05, w[0] - 0.04), 3)})
             T({"sel": f"#b{k} .lw p", "m": "fromTo", "from": {"y": 60, "opacity": 0}, "to": {"y": 0, "opacity": 1, "duration": 0.45, "ease": "expo.out"}, "at": start})
-            if bd:
+            if bd and look_l == "dark":
                 T({"sel": f"#b{k} .bd", "m": "fromTo", "from": {"scale": 1.12}, "to": {"scale": 1.0, "duration": round(hold, 3), "ease": "none"}, "at": start})
         else:
             inner = ""
-        cls = "beat plain" if b["kind"] == "plain" else "beat line" if b["kind"] == "line" else "beat slab" if b["kind"] == "fact" and look_k == "slab" else "beat"
+        cls = "beat plain" if b["kind"] == "plain" else f"beat line l-{look_l}" if b["kind"] == "line" else "beat slab" if b["kind"] == "fact" and look_k == "slab" else "beat"
         parts.append(f'<div class="{cls}" id="b{k}" style="z-index:{z};--c:{esc(color)}">{inner}</div>')
 
         # How it comes in.

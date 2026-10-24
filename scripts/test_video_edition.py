@@ -271,7 +271,7 @@ class FillTests(unittest.TestCase):
         beats = [{"at": 0.0, "kind": "photo", "src": "a", "move": "in"}, {"at": 2.0, "kind": "line"}]
         cues = render.build_cues(beats, 8.0, words, {}, LIB, "s", [])
         page = render.compose({"duration": 8.0, "words": words, "title": "t", "category": "Kosovë"}, beats, cues, {}, {"a": "img0.jpg"}, [])
-        self.assertIn('class="beat line"', page)
+        self.assertIn('class="beat line l-dark"', page)
         shown = re.findall(r'<span id="l1_\d+"[^>]*>([^<]+)</span>', page)
         self.assertEqual(shown[0], "Ai")
         self.assertTrue(shown[-1].endswith(".") or len(shown) == 12)
