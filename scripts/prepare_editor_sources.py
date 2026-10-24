@@ -257,6 +257,14 @@ def source_basis_warning(lead: dict) -> str:
     Incidental mentions can be false positives, so keep the candidate available.
     """
     from editorial_rules_v2 import fold
+    from urllib.parse import urlsplit
+    title = fold(str(lead.get("title", "")))
+    labels = {fold(str(tag)) for tag in (lead.get("tags") or [])}
+    path = urlsplit(str(lead.get("url", ""))).path.casefold()
+    if (labels & {"opinion", "opinione", "editorial", "analysis", "analiza", "review", "reviews", "gallery", "galeri", "betting"}
+            or re.search(r"/(?:opinion|opinione|editorial|gallery|galleries|galeri|betting)/", path)
+            or re.search(r"\((?:exclusive|ekskluzive)\)|^(?:exclusive|ekskluzive|opinion|editorial)\s*:", title)):
+        return "Source explicitly labels exclusive, opinion, review, gallery or betting material: prefer a public announcement; use only independently supported public facts."
     text = fold(str(lead.get("primary_evidence", {}).get("text", "")))
     if re.search(r"\b(?:intervist\w*|interviews?|sources? at the|sources? close to|our sources|"
                  r"we.re told|qytetareve te intervistuar|burime anonime|burimeve anonime)\b", text):
@@ -293,6 +301,20 @@ def reporter_note_candidates(ready: list[dict], plan: dict[str, int]) -> list[di
             for items in groups.values() if index < len(items)]
 
 
+def join_reporter_notes(ready: list[dict], requested: list[dict], notes: dict[str, Path]) -> list[dict]:
+    """Keep unrequested photo-qualified reserves on verified evidence fallback.
+
+    A bounded notes request is not a capacity limit. Missing notes for a
+    requested story retain the existing failure behavior; unrequested stories
+    were never judged by that step and remain available to the writer/refill.
+    """
+    if not notes:
+        return ready
+    requested_ids = {lead["pair_id"] for lead in requested}
+    return [{**lead, "facts_path": str(notes[lead["pair_id"]])} if lead["pair_id"] in notes else lead
+            for lead in ready if lead["pair_id"] in notes or lead["pair_id"] not in requested_ids]
+
+
 def discovery_evidence(lead: dict) -> dict:
     return {"slug": lead["pair_id"], "source_url": lead["url"], "evidence": lead["primary_evidence"],
             "corroborating": [{"url": lead["corroborates_url"], "evidence": lead["secondary_evidence"]}]
@@ -301,6 +323,7 @@ def discovery_evidence(lead: dict) -> dict:
 
 def reporter_input(lead: dict, record: dict) -> dict:
     return {"pair_id": lead["pair_id"], "source_url": lead["url"], "title": lead.get("title", ""),
+            "source_basis_warning": lead.get("source_basis_warning", ""),
             "text": str(record.get("evidence", {}).get("text", "")),
             "corroborating": " ".join(str(item.get("evidence", {}).get("text", ""))
                                       for item in record.get("corroborating", []))}
@@ -369,6 +392,8 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
                  for items in by_category.values() if index < len(items)]
     from news_image_policy import CATALOG, plan_subjects, identity_cache
     plans = plan_subjects(shortlist, path.parent)
+    from news_model_quota import require_available
+    require_available()
     # The owner permits a credited contextual photo in different hourly
     # batches. Keep distinct photos within this batch, not a 14-day embargo.
     reserved_photos: set[str] = set()
@@ -393,6 +418,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     picks = choose([{"pair_id": lead["pair_id"], "title": lead.get("title", ""),
                      "text": str(lead["primary_evidence"].get("text", "")), "options": found}
                     for lead, found in zip(shortlist, options)], path.parent)
+    require_available()
     finalize_deadline = time.monotonic() + 240
     for lead, found in zip(shortlist, options):
         lead.update(_visual_options=found, _photo_deadline=finalize_deadline)
@@ -442,8 +468,8 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     photo_ready_counts = {category: sum(lead["category"] == category for lead in ready) for category in CATEGORIES}
     # Reporter's notes for the stories the writer will actually use (each desk's
     # allocation plus a few spares). With notes, a story is written from them
-    # alone; a story whose notes failed is dropped rather than written from the
-    # source text, unless no notes came back at all this hour.
+    # alone; requested stories whose notes failed keep their existing failure
+    # behavior. Unrequested reserves use the verified-evidence fallback.
     wanted = reporter_note_candidates(ready, plan)
     notes_input = []
     for lead in wanted:
@@ -451,7 +477,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
         notes_input.append(reporter_input(lead, record))
     notes = build_fact_sheets(notes_input, folder) if notes_input else {}
     if notes:
-        ready = [{**lead, "facts_path": str(notes[lead["pair_id"]])} for lead in ready if lead["pair_id"] in notes]
+        ready = join_reporter_notes(ready, wanted, notes)
         plan = coverage_plan(ready)
     else:
         print("383 FACT NOTES unavailable this hour; writer falls back to source evidence")

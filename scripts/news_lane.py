@@ -21,17 +21,18 @@ def _fold(value: object) -> str:
 
 _SPORT_TAGS = {
     "sport", "sports", "futboll", "football", "basketboll", "basketball",
-    "boks", "boxing", "tenis", "tennis", "olimpiade", "formula 1", "f1",
+    "boks", "boxing", "tenis", "tennis", "olimpiade", "formula 1", "f1", "skiing", "ski", "ski alpine", "slalom",
 }
 _SPORT_URL_SEGMENT = re.compile(
-    r"(?:^|/)(?:sport|sports|futboll|football|basketboll|basketball|boxing|boks|tenis|formula-1)(?:/|$)"
+    r"(?:^|/)(?:sport|sports|futboll|football|basketboll|basketball|boxing|boks|tenis|formula-1|skiing|alpine-skiing|slalom)(?:/|$)"
 )
 _SPORT_TITLE = re.compile(
     r"\b(?:futboll\w*|basketboll\w*|boks\w*|ndeshj\w*|gol(?:a|in|at|it|ave)?|"
     r"asistim\w*|penallti\w*|kampionat\w*|turne\w*|medalj\w*|bronzin|"
     r"cerekfinal\w*|gjysmefinal\w*|finalen|skuadr\w*|lojtar\w*|trajner\w*|"
     r"perzgjedhes\w*|liga e kombeve|nations league|champions league|"
-    r"premier league|euroliga|uefa|fifa|nba|grand prix|kualifikim\w* ne boteror)\b"
+    r"premier league|euroliga|uefa|fifa|nba|grand prix|kualifikim\w* ne boteror|skiator\w*|slalom\w*|"
+    r"(?:alpine |giant )?ski(?:ing)? race\w*|skiing world cup)\b"
 )
 _SPORT_PERSON_OR_TEAM = re.compile(
     r"\b(?:mbappe|muriqi|rashica|zhegrova|franco foda|donjeta sadiku|"

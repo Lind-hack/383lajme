@@ -92,6 +92,13 @@ class SourceIsolation(unittest.TestCase):
 
 
 class TopicBoundary(unittest.TestCase):
+    def test_ski_race_result_stays_out_of_albania_without_excluding_resort_investment(self):
+        self.assertIsNotNone(topic_error('Shqipëri',
+            'Nisje e jashtëzakonshme e sezonit për Colturin, skiatorja e Shqipërisë e dyta në Solden'))
+        self.assertIsNotNone(topic_error('Shqipëri', 'Colturi wins giant slalom race'))
+        self.assertIsNone(topic_error('Shqipëri', 'Shqipëria investon në transportin drejt qendrës së skive'))
+        self.assertIsNone(topic_error('Ekonomi', 'New investment in alpine ski resort infrastructure'))
+
     def test_explicit_music_path_stays_out_of_world_even_without_a_named_star(self):
         self.assertIsNotNone(topic_error('Botë', 'Sam Fender fans question high ticket prices',
                                         url='https://www.theguardian.com/music/2026/oct/24/sam-fender'))

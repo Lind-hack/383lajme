@@ -68,6 +68,7 @@ def _sheet_chunk(leads: list[dict], folder: Path, index: int, deadline: float | 
     by_id = {f"story-{number:03d}": lead for number, lead in enumerate(leads, 1)}
     brief.write_text(readable_brief([
         {"pair_id": key, "title": lead["title"], "text": lead["text"][:6000],
+         "source_basis_warning": lead.get("source_basis_warning", ""),
          "corroborating": lead.get("corroborating", "")[:2500]}
         for key, lead in by_id.items()
     ]), encoding="utf-8")
