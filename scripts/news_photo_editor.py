@@ -19,7 +19,7 @@ from news_image_policy import plain, readable_brief
 
 CHUNK = 8
 EDITOR_DEADLINE = 240
-MAX_OPTIONS = {"press": 2, "fresh": 3, "video": 2, "older": 3, "place": 4}
+MAX_OPTIONS = {"press": 2, "fresh": 3, "video": 2, "older": 3, "place": 4, "asset": 4}
 
 
 def describe(option: dict) -> str:
@@ -58,6 +58,7 @@ def _choose_chunk(stories: list[dict], folder: Path, index: int, deadline: float
         f"Read {brief.resolve()}. You are the photo editor of a news site. For every story, list the numbers of "
         "the options that truthfully illustrate THIS story, best first: the story's own person at a relevant "
         "moment, its event, its team, its product or its place; [press] options are photos from the press release of the institution named in the story, the last two days; [video] options are the subject's own official videos of the last three days, [fresh] photos were taken in the last 30 days, [older] are archive photos of the last two years: use one only if it shows the story's own person or team; [place] are dated archive photos of the story's own institution, place, team or company (its building, city, stadium, headquarters), the last resort. "
+        "[asset] options are visually reviewed photographs of physical tokens or banknotes for that exact asset's market story, explicitly captioned as illustrations with their actual capture dates. They may illustrate market price/flow news about that exact asset; they are not photographs of today's trading event. Prefer documentary photos first. "
         "Prefer a photo of the very event the story reports. A clear photo or portrait of the story's main "
         "person, team or institution taken on another occasion IS a correct pick (its caption gives the date), "
         "so pick it when nothing of the event itself exists; on 18 Oct three official portraits of Ed Davey "

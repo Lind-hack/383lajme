@@ -458,7 +458,7 @@ def commons_files(names: list[str]) -> list[dict]:
     """The named Commons files, with the same metadata a search returns."""
     response = api_get(COMMONS_API, {
         "action": "query", "format": "json", "titles": "|".join(f"File:{name}" for name in names[:10]),
-        "prop": "imageinfo", "iiprop": "url|size|extmetadata", "iiurlwidth": 1600,
+        "prop": "imageinfo", "iiprop": "url|size|extmetadata|sha1", "iiurlwidth": 1600,
     })
     pages = list(response.json().get("query", {}).get("pages", {}).values())
     for page in pages:
@@ -651,6 +651,10 @@ def institution_building(page: dict, plan: dict) -> bool:
 
 
 def candidate_photo(page: dict, plan: dict, max_years: int = MAX_PHOTO_AGE_YEARS) -> dict | None:
+    from news_asset_photos import curated_page
+    asset = curated_page(page, plan.get("asset_code", "")) if plan.get("kind") == "asset" else None
+    if plan.get("kind") == "asset" and not asset:
+        return None
     info = next(iter(page.get("imageinfo", [])), {})
     # Reject known undersized originals before they occupy the editor's
     # limited shortlist. Commons can advertise an upscaled thumbnail size.
@@ -688,7 +692,7 @@ def candidate_photo(page: dict, plan: dict, max_years: int = MAX_PHOTO_AGE_YEARS
     file_title = plain(page.get("title", "")).replace("_", " ")
     description = file_title + " " + value("ImageDescription")
     # A free licence does not make a chart, map, flag or logo a news photo.
-    if non_photographic_asset(file_title, description) or (file_title.lower().endswith(".png") and re.search(r"\bOSM\b", file_title, re.I)):
+    if not asset and (non_photographic_asset(file_title, description) or (file_title.lower().endswith(".png") and re.search(r"\bOSM\b", file_title, re.I))):
         return None
     # Readers read an old photo as old news: the owner wants current pictures.
     year = photo_year(meta)
@@ -740,7 +744,7 @@ def candidate_photo(page: dict, plan: dict, max_years: int = MAX_PHOTO_AGE_YEARS
                        and f" {phrase} " in title_words and not CROWD.search(description)
                        and not re.search(r"\b(?:support(?:ing)?|opening) act\b", description, re.I)
                        and (not tags or plan["qid"] in tags))
-    if not tokens or not (in_title or tagged or category_person or institution_building(page, plan)):
+    if not tokens or not (asset or in_title or tagged or category_person or institution_building(page, plan)):
         return None
     url = info.get("thumburl") or info.get("url", "")
     if urlsplit(url).hostname not in {"upload.wikimedia.org", "thumb.wikimedia.org"} or not url.startswith("https://"):
@@ -1092,8 +1096,12 @@ def image_errors(article: dict) -> list[str]:
         return [] if not article.get("image_url") and article.get("image_rights") == photo["image_rights"] else [
             "image provenance was changed or omitted; use the prepared photo metadata"]
     rights = photo.get("image_rights", {})
+    from news_asset_photos import valid_asset_photo
+    asset = rights.get("photo_tier") == "asset" and valid_asset_photo(article, photo)
+    if (rights.get("photo_tier") == "asset" or rights.get("asset_code")) and not asset:
+        return ["asset illustration no longer matches the market story or curated photo record"]
     asset_title = urlsplit(str(rights.get("source_page", ""))).path.rsplit("/", 1)[-1]
-    if rights.get("provider") == "wikimedia-commons" and non_photographic_asset(asset_title, str(rights.get("description", ""))):
+    if not asset and rights.get("provider") == "wikimedia-commons" and non_photographic_asset(asset_title, str(rights.get("description", ""))):
         return ["prepared image depicts a chart, map or other non-photographic asset"]
     official_video = rights.get("provider") == "youtube-embed" and str(photo.get("video_clip_url", "")).startswith("https://www.youtube.com/watch?v=")
     from news_press_photos import FEEDS, LICENSE, site

@@ -482,3 +482,10 @@ The final throughput item remains open until actual output proves it. Do not rep
 - Pending user photo choice: whether clearly captioned physical asset-symbol
   photographs (Bitcoin display tokens/euro notes) may illustrate that asset's
   market news. Do not change photo eligibility while this answer is pending.
+
+## 24 October: approved asset photographs
+- User approved clearly labelled photographs of the exact market asset. Implemented a finite, visually reviewed Commons inventory: two Bitcoin, three Ethereum, two euro photos. Chart-background candidates and a hardware-wallet-dominated photo were excluded.
+- Original SHA1, current creator/licence and actual capture date must match. Known-date, stable asset illustrations use the ten-year archive ceiling, with immutable dated Albanian illustrative captions. Only exact-asset Ekonomi market headlines qualify; company stock stories, forks, software/security stories, unrelated amounts and ambiguous tickers fail closed.
+- Normal source fingerprints, decoded 1200x630 minimum, model photo fit, within-batch uniqueness and trusted provenance remain required. Final validation checks that the writer has kept the same market asset.
+- QA: 281 news/originality/topic checks plus 37 hourly/source-reader checks passed; production build passed. Seven real Commons files fetched, decoded and revalidated successfully in isolated QA (asset-photo-real-proof-20261024.json). Asset-specific checks rerun after headline exclusions. No QA articles or approval receipts were published.
+- Expanded-source d80 worker activated 17:49 Warsaw; 18:00 run produced 18 initial drafts across all desks. Final editorial/review/publication counts remain pending. The 2-3 per category goal is not complete.

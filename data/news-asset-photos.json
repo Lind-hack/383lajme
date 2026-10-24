@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-10-24",
+  "photos": [
+    {
+      "asset": "EUR",
+      "title": "File:10 euro banknotes and 10 euro cent coins 20180207.jpg",
+      "original_sha1": "47906f7615809278b0555157140cfafc7ed3445d",
+      "creator": "Santeri Viinamäki",
+      "license": "CC BY-SA 4.0",
+      "taken": "2018-02-07"
+    },
+    {
+      "asset": "EUR",
+      "title": "File:50 euro banknotes 20190226.jpg",
+      "original_sha1": "e3e299e242954551ceb9f61992a722de2bf28e0d",
+      "creator": "Santeri Viinamäki",
+      "license": "CC BY-SA 4.0",
+      "taken": "2019-02-26"
+    },
+    {
+      "asset": "BTC",
+      "title": "File:Close-up of a Bitcoin physical coin in a womans hand and a laptop on her lap.jpg",
+      "original_sha1": "31376904e8612c1842f9b46b508b0252c0f54b62",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "taken": "2021-10-30"
+    },
+    {
+      "asset": "ETH",
+      "title": "File:Close-up of a physical Ethereum coin (51002904687).jpg",
+      "original_sha1": "fb983d7994def8d5bd2655d6af787910816569e1",
+      "creator": "Ivan Radic",
+      "license": "CC BY 2.0",
+      "taken": "2021-02-27"
+    },
+    {
+      "asset": "ETH",
+      "title": "File:Ethereum (46501365895).jpg",
+      "original_sha1": "ac704cb6abe8f925f5fd936b4e965f1dd2182067",
+      "creator": "Tim Reckmann from Hamm, Deutschland",
+      "license": "CC BY 2.0",
+      "taken": "2019-03-18"
+    },
+    {
+      "asset": "ETH",
+      "title": "File:Ethereum Crypto Sustainability.jpg",
+      "original_sha1": "9c348f72471890de4f790e9b44266929f41c5191",
+      "creator": "Edwin.images",
+      "license": "CC BY-SA 4.0",
+      "taken": "2022-11-09"
+    },
+    {
+      "asset": "BTC",
+      "title": "File:Physical Bitcoin 2011 Casascius 1 Bitcoin Coin Token.png",
+      "original_sha1": "52488dab6749947d3ee64e0d162193193c758bf3",
+      "creator": "Tiberiandusk",
+      "license": "CC BY-SA 4.0",
+      "taken": "2020-12-06"
+    }
+  ]
+}

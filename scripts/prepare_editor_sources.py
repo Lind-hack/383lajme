@@ -185,14 +185,19 @@ def visual_options(lead: dict, primary: dict, secondary: dict) -> list[dict]:
     archive photo of its institution, place, team or company. Text-only is
     out."""
     from news_gallery_photos import gallery_options
+    from news_asset_photos import asset_options
     from news_image_policy import photo_options
     from news_photo_editor import trimmed
     from news_press_photos import press_options
     from news_video_policy import video_options
+    # Prepare this finite fallback before slower subject searches consume
+    # the research window; its position in the editor's tier order stays last.
+    asset = asset_options(lead, primary, secondary)
     # Lind, 18 Oct: the institution's own press photo of the last two days
     # comes first, credited to it, as Kosovo and Albanian media do.
     return trimmed(press_options(lead) + video_options(lead) + gallery_options(lead) + photo_options(lead, primary, secondary, "fresh")
-                   + photo_options(lead, primary, secondary, "older") + photo_options(lead, primary, secondary, "place"))
+                   + photo_options(lead, primary, secondary, "older") + photo_options(lead, primary, secondary, "place")
+                   + asset)
 
 
 def ready_image(lead: dict, primary: dict, secondary: dict) -> dict:
