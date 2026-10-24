@@ -5,6 +5,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { threads, type CommentRow } from "@/lib/article-comments.mjs";
+import { announceStoryAction } from "@/lib/story-actions.mjs";
 
 export type Viewer = { signedIn: boolean; name: string | null };
 export type ThreadState = ReturnType<typeof useCommentThread>;
@@ -51,6 +52,8 @@ export function useCommentThread(slug: string, onCount?: (n: number) => void) {
         if (r.status === 401) setViewer({ signedIn: false, name: null });
         if (!r.ok || !json?.comment) return typeof json?.error === "string" ? json.error : "Nuk u ruajt — provo sërish.";
         setRows((prev) => [json.comment as CommentRow, ...prev]);
+        // Për ty learns from what the reader answered (components/reading-affinity.tsx).
+        announceStoryAction(slug, "comment");
         return null;
       } catch {
         return "S'ka lidhje — provo sërish.";

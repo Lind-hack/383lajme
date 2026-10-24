@@ -24,20 +24,25 @@
 // are made from, and anything waiting on it hears READ_EVENT (Dardani's "Ta
 // bëra gazetën", components/paper-ready.tsx). The story is also remembered as
 // opened, so Për ty files it below the ones not yet seen. Nothing of this is
-// sent anywhere; "Harro historikun e leximit" clears it. The one exception is
+// sent anywhere; "Harro historikun e leximit" clears it.
+//
+// Saving the story or commenting on it counts on top of the reading
+// (lib/story-actions.mjs): the save button and the comment box announce it,
+// and this, which knows the story's keys, credits them. The one exception is
 // a visit that came from a Për ty row: GA (with consent) hears how long it was
 // read and how far, against the slug and the row's place (lib/perty-measure).
 //
 // Renders nothing.
 
 import { useEffect } from "react";
-import { readInterests, writeInterests, recordRead } from "@/lib/interests.mjs";
+import { readInterests, writeInterests, recordRead, nudgeAffinity } from "@/lib/interests.mjs";
 import { articleKeys } from "@/lib/per-ty-rank.mjs";
 import { rememberRead } from "@/lib/perty-visits.mjs";
 import { noteRead } from "@/lib/reader-ledger.mjs";
 import { takeClick, trackPerty } from "@/lib/perty-measure";
 import { OPEN_WEIGHT, REAL_READ_S, visitWeight, weightToAdd } from "@/lib/reading-engagement.mjs";
 import { READ_EVENT } from "@/components/paper-ready";
+import { STORY_ACTION_EVENT, actionWeight } from "@/lib/story-actions.mjs";
 
 /** No scroll, touch or key for this long and the reader has stopped reading. */
 const IDLE_MS = 30_000;
@@ -63,6 +68,27 @@ export default function ReadingAffinity({
   useEffect(() => {
     rememberRead(slug);
   }, [slug]);
+
+  // A save, an unsave or a comment on this story.
+  useEffect(() => {
+    const keys = articleKeys({ title, excerpt, category, city });
+    if (keys.length === 0) return;
+    const onAction = (event: Event) => {
+      const weight = actionWeight((event as CustomEvent).detail, slug);
+      if (!weight) return;
+      try {
+        const current = readInterests();
+        let affinity = current.affinity;
+        if (weight > 0) affinity = recordRead(affinity, keys, Date.now(), weight);
+        else for (const key of keys) affinity = nudgeAffinity(affinity, key, weight);
+        writeInterests({ ...current, affinity });
+      } catch {
+        // Storage refused: the paper learns less from this one.
+      }
+    };
+    window.addEventListener(STORY_ACTION_EVENT, onAction);
+    return () => window.removeEventListener(STORY_ACTION_EVENT, onAction);
+  }, [slug, title, excerpt, category, city]);
 
   useEffect(() => {
     const keys = articleKeys({ title, excerpt, category, city });

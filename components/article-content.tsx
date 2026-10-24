@@ -241,7 +241,7 @@ export default function ArticleContent({ article, related, sidebarRelated = [], 
             {/* The reader has just finished; this is where the questions are. */}
             {editorial ? editorial.afterBody : <ArticleAsk article={article} />}
 
-            <ArticleShareRow slug={article.slug} title={article.title} path={editorial?.path} />
+            <ArticleShareRow slug={article.slug} title={article.title} path={editorial?.path} saveFor={editorial ? undefined : article} />
 
             {/* Readers' comments, TikTok-style (components/comments). */}
             {!editorial && <ArticleComments slug={article.slug} title={article.title} accent={catColor} />}

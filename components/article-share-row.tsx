@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Link2, Share2 } from "lucide-react";
+import { Bookmark, Link2, Share2 } from "lucide-react";
+import { useArticleSave } from "@/components/use-article-save";
 
 /**
  * Sharing for phones. The sidebar that carries the share buttons is hidden
@@ -11,6 +12,9 @@ import { Link2, Share2 } from "lucide-react";
  * The link is built from the slug rather than window.location.href: that is
  * stable between server and client (no hydration mismatch), and it shares the
  * canonical URL instead of whatever query string the reader arrived with.
+ *
+ * Saving lives here too, for the same reason: the sidebar's "Ruaj artikullin"
+ * never reached a phone (components/use-article-save, shared with it).
  */
 
 const SITE = "https://www.383ks.com";
@@ -19,9 +23,11 @@ interface Props {
   slug: string;
   title: string;
   path?: string;
+  /** The article to save; without it (an editorial page) the row only shares. */
+  saveFor?: { id: string; slug: string };
 }
 
-export default function ArticleShareRow({ slug, title, path }: Props) {
+export default function ArticleShareRow({ slug, title, path, saveFor }: Props) {
   const [copied, setCopied] = useState(false);
 
   const url = `${SITE}${path ?? `/article/${slug}`}`;
@@ -80,8 +86,10 @@ export default function ArticleShareRow({ slug, title, path }: Props) {
           margin: "0 0 10px",
         }}
       >
-        Ndaj
+        {saveFor ? "Ruaje ose ndaje" : "Ndaj"}
       </p>
+
+      {saveFor && <SaveButton article={saveFor} base={base} />}
 
       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
         <a
@@ -130,5 +138,29 @@ export default function ArticleShareRow({ slug, title, path }: Props) {
         }
       `}</style>
     </div>
+  );
+}
+
+/** The phone's "Ruaj artikullin": full width above the share buttons, the same save as the sidebar's. */
+function SaveButton({ article, base }: { article: { id: string; slug: string }; base: React.CSSProperties }) {
+  const { saved, account, busy, toggle } = useArticleSave(article);
+  return (
+    <button
+      type="button"
+      onClick={toggle}
+      disabled={busy}
+      aria-pressed={saved}
+      style={{
+        ...base,
+        width: "100%",
+        marginBottom: "8px",
+        background: saved ? "#FFF5F5" : "#FFFFFF",
+        border: `1px solid ${saved ? "rgba(255,68,34,0.3)" : "#E8E3DB"}`,
+        color: saved ? "#FF4422" : "#111111",
+      }}
+    >
+      <Bookmark size={16} strokeWidth={2} style={{ fill: saved ? "#FF4422" : "none" }} aria-hidden="true" />
+      {busy ? "Po ruhet…" : saved ? (account ? "Ruajtur në profil" : "Ruajtur në pajisje") : "Ruaj artikullin"}
+    </button>
   );
 }

@@ -9,7 +9,7 @@ import { type Article } from "@/lib/mock-data";
 import { EASE, DUR } from "@/lib/tokens";
 import SidebarMarketWidget from "@/components/tregu/sidebar-market-widget";
 import { type DosjeEntry } from "@/components/dosje-section";
-import { createClient } from "@/lib/supabase/client";
+import { useArticleSave } from "@/components/use-article-save";
 import { CATEGORY_TO_SLUG, normalizeCategory } from "@/lib/category-map";
 
 export interface DosjeVideo {
@@ -95,9 +95,7 @@ export function RelatedReads({ related }: { related: Article[] }) {
 
 export default function ArticleSidebar({ article, related }: Props) {
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const [bookmarkAccount, setBookmarkAccount] = useState(false);
-  const [bookmarkBusy, setBookmarkBusy] = useState(false);
+  const { saved: isBookmarked, account: bookmarkAccount, busy: bookmarkBusy, toggle: toggleBookmark } = useArticleSave(article);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -108,76 +106,6 @@ export default function ArticleSidebar({ article, related }: Props) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    let active = true;
-    const localSaved = (() => {
-      try {
-        return (JSON.parse(localStorage.getItem("bookmarks") ?? "[]") as string[]).includes(article.id);
-      } catch {
-        return false;
-      }
-    })();
-    setIsBookmarked(localSaved);
-
-    const supabase = createClient();
-    supabase.auth.getUser().then(async ({ data: { user } }) => {
-      if (!active || !user) return;
-      setBookmarkAccount(true);
-      try {
-        const response = await fetch("/api/profile/saved-articles", { cache: "no-store" });
-        if (!response.ok) return;
-        const data = await response.json();
-        const remoteSaved = (data.articles ?? []).some((item: { article_id?: string }) => item.article_id === article.id);
-        if (localSaved && !remoteSaved) {
-          await fetch("/api/profile/saved-articles", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ articleId: article.id, slug: article.slug }),
-          });
-        }
-        if (active) setIsBookmarked(localSaved || remoteSaved);
-      } catch {
-        // The local reading list remains usable while the account service recovers.
-      }
-    });
-    return () => { active = false; };
-  }, [article.id, article.slug]);
-
-  async function toggleBookmark() {
-    if (bookmarkBusy) return;
-    const nextState = !isBookmarked;
-    try {
-      const saved = JSON.parse(localStorage.getItem("bookmarks") ?? "[]") as string[];
-      const next = isBookmarked
-        ? saved.filter((id) => id !== article.id)
-        : [...saved, article.id];
-      localStorage.setItem("bookmarks", JSON.stringify(next));
-      setIsBookmarked(nextState);
-    } catch { /* ignore */ }
-
-    if (!bookmarkAccount) return;
-    setBookmarkBusy(true);
-    try {
-      const response = await fetch("/api/profile/saved-articles", {
-        method: nextState ? "POST" : "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ articleId: article.id, slug: article.slug }),
-      });
-      if (!response.ok) throw new Error("bookmark");
-    } catch {
-      setIsBookmarked(!nextState);
-      try {
-        const saved = JSON.parse(localStorage.getItem("bookmarks") ?? "[]") as string[];
-        const restored = nextState
-          ? saved.filter((id) => id !== article.id)
-          : [...new Set([...saved, article.id])];
-        localStorage.setItem("bookmarks", JSON.stringify(restored));
-      } catch { /* ignore */ }
-    } finally {
-      setBookmarkBusy(false);
-    }
-  }
 
   function copyLink() {
     const url = typeof window !== "undefined" ? window.location.href : "";

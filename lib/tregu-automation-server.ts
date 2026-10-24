@@ -16,6 +16,7 @@ import { runLeaderboardPayouts } from "@/lib/tregu-leaderboard-server";
 import { runRivalryJobs } from "@/lib/tregu-rivalry-server";
 import { runMorningEditionPush } from "@/lib/perty-morning-push";
 import { runCoverArt } from "@/lib/cover-art-server";
+import { runStorySummaries } from "@/lib/story-summary-server";
 import { runBorderWaitLog } from "@/lib/visit-border-log-server";
 import { sendPendingNewsMarketEmails } from "@/lib/tregu-creation-email";
 import { parseMarketResearchEvidence } from "@/lib/tregu-research-evidence-validated.mjs";
@@ -876,6 +877,9 @@ export async function runLiveSportsAutomation(now = new Date()) {
     // Për ty: the day's clay cover plates, two at a time, every ten minutes at
     // most, sixteen a day. Never throws.
     runCoverArt(now),
+    // Për ty: Dardani's two or three sentences under each new story, a few
+    // stories every four minutes. Never throws.
+    runStorySummaries(now),
     // Kuizi i ditës was retired 2026-10-24: it no longer publishes. Its tables
     // and lib/kuizi-server stay, so runKuiziDaily(now) can be added back here.
   ]);

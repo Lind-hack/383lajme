@@ -9,13 +9,15 @@
 //   - after that, each edit is written through as-is, so removing a topic on
 //     one device removes it everywhere.
 //
-// Only explicit choices travel. Learned reading affinity stays on the device.
+// Explicit choices travel as described. Learned reading affinity travels too,
+// but only in the once-a-session merge (mergeAffinity: the stronger of the two
+// per key), never written through on every read.
 // Every failure here is swallowed on purpose: a missing table, a 402 from a
 // restricted project or a dropped connection must cost the reader sync, never
 // the feed.
 
 import { createClient } from "@/lib/supabase/client";
-import { normalizeInterests, readInterests, writeInterests, type Interests } from "@/lib/interests.mjs";
+import { mergeAffinity, normalizeInterests, readInterests, writeInterests, type Interests } from "@/lib/interests.mjs";
 
 const MERGED_KEY = "383:interests-merged";
 
@@ -80,10 +82,41 @@ export async function mergeOnSignIn(): Promise<Interests | null> {
       cities: row?.cities ?? local.cities,
     });
     writeInterests(merged);
+    await syncAffinity(userId);
     markMerged(userId);
     return readInterests();
   } catch {
     return null;
+  }
+}
+
+/**
+ * What this device learned, merged with what the account learned elsewhere,
+ * written to both. A database without the affinity column (before migration
+ * 0116) just leaves it on the device.
+ */
+async function syncAffinity(userId: string) {
+  try {
+    const supabase = createClient();
+    const { data, error } = await supabase.from("reader_interests").select("affinity").eq("user_id", userId).maybeSingle();
+    if (error) return;
+    const local = readInterests();
+    const affinity = mergeAffinity(local.affinity, data?.affinity ?? null);
+    writeInterests({ ...local, affinity });
+    await supabase.from("reader_interests").update({ affinity }).eq("user_id", userId);
+  } catch {
+    // Best-effort, as everything here.
+  }
+}
+
+/** "Harro historikun e leximit": the account's copy goes too, or the next merge would bring it back. */
+export async function forgetAccountAffinity() {
+  const userId = await currentUserId();
+  if (!userId) return;
+  try {
+    await createClient().from("reader_interests").update({ affinity: {} }).eq("user_id", userId);
+  } catch {
+    // Best-effort, as everything here.
   }
 }
 
