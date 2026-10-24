@@ -57,3 +57,11 @@ After release, require exact production SHA/source/ref, idle-lock worker activat
 and two scheduled runs with two to three genuinely verified articles in every
 category and qualifying photos. Process completion and deployment health alone
 do not satisfy those publication criteria.
+
+## Merged release validation
+
+Merged the two newer main commits for Për ty without conflicts or edits to their
+features. Their 59 relevant frontend checks and the merged production build passed.
+The final published-state safeguard also passed all 17 Linux orchestration checks.
+The staged release remains subject to Railway exact-SHA verification and idle-lock
+activation; live all-category publication acceptance is still outstanding.
