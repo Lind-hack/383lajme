@@ -148,6 +148,15 @@ class NewsPhotoTests(unittest.TestCase):
             meta['ImageDescription'] = {'value': 'The headquarters campus of Another Company. Darden Restaurants is mentioned by a visitor.'}
             self.assertIsNone(policy.candidate_photo(campus, company, policy.PLACE_MAX_YEARS))
 
+    def test_historic_capture_year_cannot_be_replaced_by_recent_upload_year(self):
+        historic = page('Public domain')
+        historic.update(title='File:Treasury building construction.jpg')
+        meta = historic['imageinfo'][0]['extmetadata']
+        meta['DateTimeOriginal'] = {'value': '1859'}
+        meta['DateTime'] = {'value': '2026-02-15 17:57:22'}
+        self.assertEqual(policy.photo_year(meta), 1859)
+        self.assertIsNone(policy.candidate_photo(historic, plan(), policy.PLACE_MAX_YEARS))
+
     def test_verified_company_lead_headquarters_may_tag_its_building_and_neighborhood(self):
         company = {"subject": "OpenAI", "subject_evidence": "OpenAI", "qid": "Q21708200",
                    "kind": "thing", "archive_institution": True, "caption": "OpenAI"}

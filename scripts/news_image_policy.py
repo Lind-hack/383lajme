@@ -20,7 +20,7 @@ import urllib3
 from PIL import Image, ImageOps
 
 from editorial_rules_v2 import fold, infer_city
-from news_photo_subjects import grounded, publisher_names, same_name_word, subject_allowed, wiki_identity_allowed
+from news_photo_subjects import grounded, publisher_names, same_name_word, subject_allowed, wiki_identity_allowed, treasury_search_name
 import news_photo_identity_cache as identity_cache
 
 COMMONS_API = "https://commons.wikimedia.org/w/api.php"
@@ -338,7 +338,7 @@ def _wiki_pages(lead: dict, names: list[str], story: set[str], outlets: set[str]
             if name in resolved:
                 continue
             try:
-                pages = _wiki_search(language, name)
+                pages = _wiki_search(language, treasury_search_name(name, evidence) if language == "en" else name)
             except (requests.RequestException, ValueError):
                 continue
             for page in pages:
@@ -355,7 +355,7 @@ def _wiki_pages(lead: dict, names: list[str], story: set[str], outlets: set[str]
                         "planner": f"{language}.wikipedia", "qid": qid}
                 if is_person(qid):
                     yield name, {**plan, "kind": "person"}
-                elif is_place(qid):
+                elif is_place(qid) and not (qid == "Q648666" and subject == "United States Department of the Treasury"):
                     # Never search a loose place name. The free lead photo and
                     # exact depicts-identity search are the only place paths.
                     yield name, {**plan, "kind": "place", "queries": []}
@@ -365,7 +365,7 @@ def _wiki_pages(lead: dict, names: list[str], story: set[str], outlets: set[str]
                     description = " ".join(page.get("terms", {}).get("description", []))
                     institution = bool(re.search(
                         r"\b(?:company|corporation|organisation|organization|institution|agency|bank|"
-                        r"university|parliament|sports club|football club|basketball club|restaurant (?:operator|group|chain)|"
+                        r"university|parliament|federal executive department|sports club|football club|basketball club|restaurant (?:operator|group|chain)|"
                         r"kompani\w*|korporat\w*|institucion\w*|organizat\w*|bank\w*)\b", fold(description), re.I))
                     yield name, {**plan, "kind": "thing", "archive_institution": institution}
                 resolved.add(name)
@@ -491,7 +491,7 @@ def non_photographic_asset(title: str, description: str) -> bool:
 def photo_year(meta: dict) -> int | None:
     """When the photo was taken (or, failing that, uploaded)."""
     for key in ("DateTimeOriginal", "DateTime"):
-        found = re.search(r"\b(19|20)\d{2}\b", plain(meta.get(key, {}).get("value")))
+        found = re.search(r"\b(?:1\d{3}|20\d{2})\b", plain(meta.get(key, {}).get("value")))
         if found:
             return int(found.group(0))
     return None

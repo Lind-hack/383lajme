@@ -86,7 +86,7 @@ def originality_errors(article: dict[str, Any], evidence: dict[str, Any]) -> lis
     body = html.unescape(re.sub(r"<[^>]+>", " ", str(article.get("body") or "")))
     for match in re.finditer(r'"([^"\n]+)"|“([^”\n]+)”|«([^»\n]+)»', body):
         if len(_words(match.group(0))) >= 6:
-            errors.append("substantive direct quotation is not permitted in automated copy; report supported facts in independently composed indirect speech")
+            errors.append(f"substantive direct quotation is not permitted in automated copy; flagged span: {match.group(0)!r}; report supported facts in independently composed indirect speech")
     for item in evidence.get("corroborating", []):
         secondary = item.get("evidence") or {}
         if secondary.get("text"):

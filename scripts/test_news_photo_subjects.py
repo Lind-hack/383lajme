@@ -6,7 +6,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 import news_image_policy as policy
-from news_photo_subjects import grounded, publisher_names, subject_allowed, wiki_identity_allowed
+from news_photo_subjects import grounded, publisher_names, subject_allowed, wiki_identity_allowed, treasury_search_name
 
 
 def wiki_page(title, image, description="", qid="Q1"):
@@ -18,6 +18,33 @@ class PhotoSubjectGroundingTests(unittest.TestCase):
     def setUp(self):
         policy._wiki_search.cache_clear()
         policy._identity_claims.cache_clear()
+
+    def test_us_treasury_alias_requires_explicit_country_and_exact_entity(self):
+        canonical = 'United States Department of the Treasury'
+        page = wiki_page(canonical, 'Treasury_building.jpg', 'United States federal executive department', 'Q648666')
+        for alias in ('Treasury', 'U.S. Treasury', 'US Treasury'):
+            evidence = 'U.S. Treasury yields rose as investors assessed the bond auction.'
+            self.assertEqual(treasury_search_name(alias, evidence), canonical)
+            self.assertTrue(wiki_identity_allowed(page, alias, evidence, 'Ekonomi', set()))
+            wrong = {**page, 'pageprops': {'wikibase_item': 'Q10756188'}}
+            self.assertFalse(wiki_identity_allowed(wrong, alias, evidence, 'Ekonomi', set()))
+        for evidence in ('Treasury yields rose.', 'UK Treasury announced a measure.'):
+            self.assertEqual(treasury_search_name('Treasury', evidence), 'Treasury')
+            self.assertFalse(wiki_identity_allowed(page, 'Treasury', evidence, 'Ekonomi', set()))
+        generic = wiki_page('Treasury', 'Treasury_Casino_Brisbane.jpg', 'department of an organisation related to finance', 'Q10756188')
+        self.assertFalse(wiki_identity_allowed(generic, 'Treasury', 'U.S. Treasury yields rose.', 'Ekonomi', set()))
+
+    def test_explicit_us_treasury_uses_canonical_search_and_institution_plan(self):
+        page = wiki_page('United States Department of the Treasury', 'Treasury_building.jpg',
+                         'United States federal executive department', 'Q648666')
+        lead = {'title': 'U.S. Treasury yields rise', 'category': 'Ekonomi',
+                'primary_evidence': {'text': 'U.S. Treasury yields rose after the auction.'}}
+        with patch.object(policy, '_wiki_search', return_value=(page,)) as search, \
+                patch.object(policy, 'is_person', return_value=False), patch.object(policy, 'is_place', return_value=True):
+            plans = list(policy._wiki_pages(lead, ['Treasury'], set(), set()))
+        search.assert_called_once_with('en', 'United States Department of the Treasury')
+        self.assertEqual(plans[0][1]['qid'], 'Q648666')
+        self.assertTrue(plans[0][1]['archive_institution'])
 
     def test_robotaxi_brands_keep_complete_case_and_dot_names(self):
         title = "Uber rival inDrive eyes robotaxi tests with Pony.ai and Nvidia"

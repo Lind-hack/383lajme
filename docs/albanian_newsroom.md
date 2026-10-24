@@ -130,6 +130,11 @@ Substantive direct quotations are excluded from automated output. Report verifie
 statements through independently composed indirect speech, retaining necessary
 attribution. Short quoted names/product titles remain subject to review; there
 is no automatic word-count permission exception.
+Write verified song, album and film titles as proper names in running text,
+without quotation marks. Preserve their exact official spelling. This concerns
+names only: never remove quotation marks from a borrowed statement to hide a
+quotation; report its supported facts in independently composed indirect speech.
+All exact-overlap and independent originality checks still apply to work titles.
 
 `scripts/news_copyright_review.py` records individual approval/rejection and
 binds approved prose, source evidence and image rights by hash. Incomplete,

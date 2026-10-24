@@ -7,7 +7,7 @@ from editorial_rules_v2 import fold
 GENERIC_SUBJECTS = {
     "policia", "police",
     "qeveria", "government", "news", "video", "photo", "park",
-    "shopping basket", "internet", "politics", "economy", "technology",
+    "shopping basket", "internet", "politics", "economy", "technology", "treasury",
 }
 NON_PHOTO = re.compile(
     r"\b(?:flag|logo|emblem|signature|nenshkrim|flamur|map|diagram|chart|"
@@ -55,6 +55,14 @@ def subject_allowed(subject, evidence, outlets):
             and not NON_PHOTO.search(name) and grounded(subject, evidence))
 
 
+def treasury_search_name(name, evidence):
+    """Resolve an explicit US institution alias, never a bare treasury concept."""
+    normalized = " ".join(words(evidence))
+    explicit = re.search(r"\b(?:u s|us|united states) treasur(?:y|ies|ys)\b", normalized)
+    alias = " ".join(words(name)) in {'treasury', 'u s treasury', 'us treasury', 'united states treasury'}
+    return ("United States Department of the Treasury" if explicit and alias else name)
+
+
 def wiki_identity_allowed(page, searched_name, evidence, category, outlets, *, require_photo=True):
     """A Wikipedia lead image must not resolve a namesake or a non-photo.
 
@@ -76,15 +84,19 @@ def wiki_identity_allowed(page, searched_name, evidence, category, outlets, *, r
     named_company = (brand != subject and bool(re.search(r"\b(?:company|corporation)\b", description))
                      and subject_allowed(brand, evidence, outlets)
                      and (grounded(searched_name, brand) or grounded(brand, searched_name)))
+    named_us_treasury = (
+        subject == "United States Department of the Treasury"
+        and page.get("pageprops", {}).get("wikibase_item") == "Q648666"
+        and treasury_search_name(searched_name, evidence) == subject)
     local_place = (category in {"Kosovë", "Shqipëri"} and subject.endswith("i")
                    and fold(subject[:-1]) == fold(searched_name)
                    and bool(re.match(r"(?:a |an )?(?:city|town|municipality|qytet|komun|kryeqytet|vendbanim)", description))
                    and subject_allowed(searched_name, evidence, outlets))
     if require_photo and (not image or image.lower().endswith(".svg") or NON_PHOTO.search(image)):
         return False
-    if not (subject_allowed(subject, evidence, outlets) or named_team or named_company or local_place):
+    if not (subject_allowed(subject, evidence, outlets) or named_team or named_company or local_place or named_us_treasury):
         return False
-    if not (grounded(searched_name, subject) or grounded(subject, searched_name)):
+    if not (grounded(searched_name, subject) or grounded(subject, searched_name) or named_us_treasury):
         return False
     if re.search(r"\b(?:deity|mytholog\w*|anatom\w*|geolog\w*|common name|surname|disambiguation)\b", description):
         return False

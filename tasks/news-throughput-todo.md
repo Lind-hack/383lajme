@@ -403,3 +403,18 @@ The final throughput item remains open until actual output proves it. Do not rep
 - Final native news checks: 249 pass; build passes. The separate newsletter
   test cannot import in the QA runtime because cryptography is absent. Its code
   is unchanged. Replacement and restaurant-photo changes await committed release.
+- 170b5af2 was verified on Railway (production/main/github-main) and activated
+  idle under the publisher lock at 11:56:36 Warsaw. Runtime health confirms max
+  reasoning and no fallback model. Its first scheduled run began at 12:00.
+- Follow-up photo matching rejects the generic Treasury concept/casino image;
+  explicit US Treasury aliases resolve only to the exact US department entity.
+  A live metadata check confirmed that identity but uncovered an 1859 construction
+  image incorrectly dated by its 2018 upload. The corrected capture-year parser
+  rejects it. Preserve the original QA report and its failing date-policy replay;
+  no Treasury photo or article was published by these code-only checks.
+- Raye's repeated quotation failure was a seven-word song title, not a quoted
+  statement. Writer guidance now uses proper work names in running text and
+  repair feedback identifies the exact flagged span. This creates no exception
+  to quotation, exact-source-overlap or independent review gates.
+- Follow-up checks: 261 relevant native news/originality tests pass; production
+  build passes. This follow-up is not active in the running 12:00 worker.
