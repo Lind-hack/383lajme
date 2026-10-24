@@ -22,8 +22,11 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
             raise ValueError("initial desk cap must be positive and cannot limit replacement selection")
         plan = {category: min(count, cap) for category, count in plan.items()}
     leads = data.get("ready_leads", [])
-    if desk_slot is not None and (desk_slot not in (1, 2) or len(selected) != 1 or cap != 1 or spares is None or approved):
+    if desk_slot is not None and (desk_slot not in (1, 2, 3) or len(selected) != 1 or cap != 1 or spares is None or approved):
         raise ValueError("desk slot requires one initial category, cap one and bounded spares")
+    slot_count = min(3, data['publication_plan'].get(selected[0], 0)) if desk_slot is not None else 0
+    if desk_slot is not None and desk_slot > slot_count:
+        raise ValueError('desk slot exceeds its source-ready publication allocation')
     if bool(approved) != bool(attempted) or limit < 0 or (spares is not None and (spares < 0 or approved)):
         raise ValueError("replacement brief requires approved and attempted records together and a nonnegative limit")
     if selection_output is not None and not approved:
@@ -40,7 +43,7 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         if desk_slot is not None:
             # Each one-article request has its own main/spare candidates. A
             # slow or failed sibling cannot consume its source or photo.
-            leads = [lead for lead in leads if lead['category'] == selected[0]][desk_slot - 1::2]
+            leads = [lead for lead in leads if lead['category'] == selected[0]][desk_slot - 1::slot_count]
         counts = Counter()
         initial = []
         for lead in leads:

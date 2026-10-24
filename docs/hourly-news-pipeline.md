@@ -391,10 +391,12 @@ such as an inflation rate over historical years are rejected before selection
 and by final provenance validation, even when they omit the words chart/graph.
 Editorial drop and invalid-decision reasons are retained in the worker log.
 
-Initial writing assigns two independent one-article slots per available desk,
+Initial writing assigns the full source-ready allocation, up to three independent
+one-article slots per available desk. Requests run in desk order by slot: every
+first request, then every second, then third requests where allocated,
 with at most five requests concurrently (the existing copy-editor ceiling).
-Each request has one spare story, a four-minute limit and a minute-33 cutoff;
-fourteen requests fit three bounded waves after preparation. One failed request
+Each request has up to one spare story, a four-minute limit and a minute-33 cutoff;
+up to twenty requests use four waves when time permits. One failed request
 cannot discard its sibling's draft. Missing-desk recovery ends by minute 36.
 The prompt treats this call's cap and brief allocations as binding. A one-story
 slot is never asked to produce multiple stories or cover other desks.

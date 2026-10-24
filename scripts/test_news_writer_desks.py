@@ -40,7 +40,7 @@ class WriterDeskTests(unittest.TestCase):
                 db.executescript('CREATE TABLE load(active INTEGER, peak INTEGER); INSERT INTO load VALUES(0,0); CREATE TABLE calls(category TEXT, target INTEGER, slot INTEGER);')
             hosts = {c:next(p['domains'][0] for p in MANIFEST['publishers'] if p['category']==c) for c in CATEGORIES}
             discovery = root/'discovery.json'; batch = root/'batch.json'
-            discovery.write_text(json.dumps({'publication_plan':{c:0 if c==zero else 3 for c in CATEGORIES},
+            discovery.write_text(json.dumps({'publication_plan':{c:0 if c==zero else 2 for c in CATEGORIES},
                 'ready_leads':[{'pair_id':c+str(i),'category':c,'url':f'https://{hosts[c]}/story-{i}',
                                 'evidence_path':'/verified/evidence.json'} for c in CATEGORIES for i in range(4)]}),encoding='utf-8')
             fake = root/'fake_writer.py'

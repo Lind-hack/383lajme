@@ -7,6 +7,23 @@ from news_writer_brief import build
 
 
 class WriterBriefTests(unittest.TestCase):
+    def test_three_allocated_slots_partition_all_six_sources_without_overlap(self):
+        leads=[{**self.lead, 'pair_id':f'Kosovë-{i}', 'url':f'https://koha.net/slot-{i}'} for i in range(6)]
+        leads=[{k:v for k,v in lead.items() if k!='facts_path'} for lead in leads]
+        self.discovery.write_text(json.dumps({'publication_plan':{'Kosovë':3}, 'ready_leads':leads}),encoding='utf-8')
+        seen=set()
+        for slot in (1,2,3):
+            self.assertEqual(build(self.discovery,self.output,'Kosovë',cap=1,spares=1,desk_slot=slot),2)
+            pool={line for line in self.output.read_text(encoding='utf-8').splitlines() if line.startswith('url: ')}
+            self.assertFalse(seen & pool)
+            seen |= pool
+        self.assertEqual(len(seen),6)
+
+    def test_third_slot_is_not_created_for_a_two_story_desk(self):
+        self.write()
+        with self.assertRaises(ValueError):
+            build(self.discovery,self.output,'Kosovë',cap=1,spares=1,desk_slot=3)
+
     def test_two_single_article_slots_have_disjoint_sources_and_spares(self):
         leads=[{**self.lead,'pair_id':'Kosovë-'+str(i),'url':'https://koha.net/slot-'+str(i)} for i in range(6)]
         # No note files: this fixture tests complete evidence fallback pools.

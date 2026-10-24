@@ -326,16 +326,17 @@ PY
   wait || true
   tail -n 3 "$folder"/recovery-*.log || true
 }
-# Isolate the two floor articles into distinct source pools. Fourteen one-story
-# calls fit three waves at five concurrent requests; one timeout loses one
-# candidate, not a complete category. This matches the existing editor ceiling.
+# Compose the complete source-ready allocation in disjoint one-story calls.
+# Round-robin slots give every desk its first and second request before thirds.
+# Keep five concurrent requests and the same minute-33 deadline.
 run_writer_groups() {
   local folder group desks target running=0 slot
-  folder="$(mktemp -d /tmp/383-writer-groups.XXXXXX)"
+  folder="$(mktemp -d /tmp/383-writer-groups.XXXXXX)" || return 75
   group=0
-  for desks in "Kosovë" "Shqipëri" "Sport" "Teknologji" "Ekonomi" "Botë" "Showbiz"; do
-    target="$("$PYTHON_BIN" -c 'import json,sys; p=json.load(open(sys.argv[1],encoding="utf-8"))["publication_plan"]; print(min(2,p.get(sys.argv[2],0)))' "${DISCOVERY%.md}.json" "$desks")"
-    for ((slot=1; slot<=target; slot++)); do
+  for slot in 1 2 3; do
+    for desks in "Kosovë" "Shqipëri" "Sport" "Teknologji" "Ekonomi" "Botë" "Showbiz"; do
+      target="$("$PYTHON_BIN" -c 'import json,sys; p=json.load(open(sys.argv[1],encoding="utf-8"))["publication_plan"]; print(min(3,p.get(sys.argv[2],0)))' "${DISCOVERY%.md}.json" "$desks")"
+      [ "$slot" -le "$target" ] || continue
       group=$((group + 1))
       printf '383 DESK WRITER: category=%s slot=%s target=1 cap=240s end_minute=33\n' "$desks" "$slot"
       (

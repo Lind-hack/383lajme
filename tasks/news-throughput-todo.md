@@ -418,3 +418,17 @@ The final throughput item remains open until actual output proves it. Do not rep
   to quotation, exact-source-overlap or independent review gates.
 - Follow-up checks: 261 relevant native news/originality tests pass; production
   build passes. This follow-up is not active in the running 12:00 worker.
+- 64077357 is verified on Railway; its worker has not been activated during the
+  running 12:00 run. Keep the active 170b5af2 workspace immutable.
+- The next initial scheduler requests the full source-ready allocation (up to
+  twenty one-story requests), in desk order: all first slots, all seconds, then
+  thirds where allocated. Source pools remain disjoint, max concurrency five,
+  cap 240 seconds and phase end minute 33. Empty desks launch no calls.
+- Native real-Bash checks exercise all twenty requests, round-robin order,
+  five-call concurrency ceiling, one failed request, disjoint three-slot pools,
+  unavailable third slots, and temporary-directory failure. The relevant suite
+  passed 264 tests; the subsequent directory guard and both scheduler tests pass.
+  Build passes. These are code checks; the 2–3-per-desk live acceptance remains unmet.
+- Read-only Commons metadata audit: 216 published records, 174 unique files,
+  zero pre-1900 capture dates and zero unresolved metadata results. Neither
+  the Treasury casino nor 1859 construction file occurs in the 250 newest rows.
