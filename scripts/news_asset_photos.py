@@ -98,7 +98,7 @@ def _current_pages() -> list[dict]:
     from news_image_policy import commons_files
     with _LOCK:
         now = time.monotonic()
-        if now - _PAGES[0] >= 1800:
+        if not _PAGES[0] or now - _PAGES[0] >= 1800:
             pages = commons_files([row["title"].removeprefix("File:") for row in inventory()["photos"]])
             _PAGES = (now, pages)
         return _PAGES[1]

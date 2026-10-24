@@ -23,6 +23,15 @@ def reviewed_page(code="BTC"):
 
 
 class AssetPhotos(unittest.TestCase):
+    def test_first_fetch_is_not_skipped_during_first_half_hour_after_reboot(self):
+        page = reviewed_page()
+        with patch.object(assets, '_PAGES', (0, [])), \
+                patch.object(assets.time, 'monotonic', return_value=20), \
+                patch.object(policy, 'commons_files', return_value=[page]) as fetch:
+            self.assertEqual(assets._current_pages(), [page])
+            self.assertEqual(assets._current_pages(), [page])
+        self.assertEqual(fetch.call_count, 1)
+
     def test_exact_market_subject_and_desk(self):
         for title, code in [("Çmimi i Bitcoin rritet pas flukseve në ETF", "BTC"),
                             ("Ethereum price falls", "ETH"), ("Kursi i euros bie kundrejt dollarit", "EUR")]:
