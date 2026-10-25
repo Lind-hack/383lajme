@@ -67,7 +67,11 @@ run inside the production container using an isolated fake request process.
 
 Direct review fixed misleading restricted-page completion, archive starvation,
 per-URL transaction overhead, unnecessary evidence refetches and container
-process shutdown. Remaining coverage/access limitations are recorded above.
+process shutdown. Follow-up checks preserve pagination inside navigation,
+apply the rolling 24-hour window without relying on a caller's environment,
+keep missing declared sitemaps failed, and avoid repeatedly downloading an
+already retrieved old article unless its discovery metadata changes.
+Remaining coverage/access limitations are recorded above.
 
 ## Release operations
 

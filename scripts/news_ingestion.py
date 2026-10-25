@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urljoin
 
-from cloud_news_discovery import canonical, is_recent_for_slot, published_at
+from cloud_news_discovery import canonical, published_at
 from news_ingestion_protocol import feed_items, feed_pages, listing_links, owned, sitemap_items, wordpress_items, wordpress_url
 from news_ingestion_store import Inventory, collector_lock
 from news_source_policy import topic_error, hourly_targets
@@ -58,10 +58,11 @@ def _execute(task, publishers, cutoffs, now, fetcher):
     elif task['kind']=='robots':
         maps = [line.split(':',1)[1].strip() for line in body.decode('utf-8','replace').splitlines()
                 if line.strip().lower().startswith('sitemap:')]
+        declared = bool(maps)
         if not maps:
             maps = [urljoin(base,'/news-sitemap.xml'),urljoin(base,'/sitemap.xml'),urljoin(base,'/sitemap_index.xml')]
         result['tasks'] = [dict(source=task['source'],kind='sitemap',url=canonical(url),priority=3,
-                               hint={'optional':True}) for url in maps if owned(url,publisher)]
+                               hint={'optional':not declared}) for url in maps if owned(url,publisher)]
     elif task['kind']=='sitemap':
         kind, rows = sitemap_items(body)
         result['index_confirmed'] = True
@@ -242,7 +243,7 @@ def _snapshot(store, publishers, now, counters, started, *, checkpoint):
         if not owned(evidence.get('url',''),publisher):
             continue
         published = published_at({'published':evidence.get('published') or row['hint'].get('published')})
-        if not published or not is_recent_for_slot(published,now):
+        if not published or not now.timestamp()-86400 <= published.timestamp() <= now.timestamp()+300:
             continue
         title, text = str(evidence.get('title') or row['hint'].get('title') or ''),str(evidence.get('text') or '')
         if topic_error(publisher['category'],title,text,tags=row['hint'].get('tags',[]),url=row['url']):

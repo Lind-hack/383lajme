@@ -1,5 +1,6 @@
 import tempfile
 import unittest
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from news_ingestion_store import Inventory
@@ -40,6 +41,20 @@ class InventoryTests(unittest.TestCase):
             changed={**task,'hint':{'updated':'second'}}
             store.enqueue(changed,'run2')
             self.assertIsNone(store.evidence(task['url'],changed['hint']))
+            self.assertEqual(len(store.ready()),1)
+            store.close()
+
+    def test_unchanged_old_archive_article_is_not_downloaded_on_every_poll(self):
+        with tempfile.TemporaryDirectory() as folder:
+            store=Inventory(Path(folder)/'inventory.sqlite')
+            task={'source':'TechCrunch','kind':'article','url':'https://techcrunch.com/archive','hint':{}}
+            identity=store.enqueue(task,'run1')
+            store.save_evidence('TechCrunch',task['url'],{}, {'status':'text_extracted',
+                'published':(datetime.now(timezone.utc)-timedelta(days=2)).isoformat(),'text':'Original reporting'})
+            store.finish(identity,'run1')
+            store.enqueue(task,'run2',refresh=True)
+            self.assertEqual(store.ready(),[])
+            store.enqueue({**task,'hint':{'updated':'changed'}},'run3',refresh=True)
             self.assertEqual(len(store.ready()),1)
             store.close()
 

@@ -153,5 +153,30 @@ class IngestionTests(unittest.TestCase):
             self.assertTrue(report['collector_active'])
             pause.assert_called_once()
 
+    def test_collector_window_includes_previous_evening_without_hourly_environment(self):
+        import os
+        with tempfile.TemporaryDirectory() as folder:
+            state=Path(folder)/'inventory.sqlite'
+            store=Inventory(state)
+            url='https://techcrunch.com/previous-evening'
+            evidence=extract(fixture_fetch('https://techcrunch.com/story-1')['payload'],url)
+            evidence['published']='2026-10-24T22:00:00Z'
+            store.save_evidence('TechCrunch',url,{},evidence)
+            store.close()
+            with collector_lock(state), patch.dict(os.environ,{'L383_HOURLY_NEWS':'0'}):
+                leads,_,_,_=collect(MANIFEST,state,now=NOW,budget_seconds=0)
+            self.assertEqual([lead['url'] for lead in leads],[url])
+
+    def test_missing_declared_sitemap_is_not_silently_optional(self):
+        def missing(url,**kwargs):
+            if url.endswith('/news.xml'):
+                raise PublicHTTPError(404)
+            return fixture_fetch(url,**kwargs)
+        with tempfile.TemporaryDirectory() as folder:
+            _,audits,_,report=collect(MANIFEST,Path(folder)/'inventory.sqlite',
+                                      now=NOW,budget_seconds=0,fetcher=missing)
+        self.assertEqual(report['complete_publishers'],0)
+        self.assertGreater(audits[0]['failed_requests'],0)
+
 
 if __name__=='__main__':unittest.main()

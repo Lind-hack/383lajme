@@ -6,6 +6,7 @@ import time
 import os
 import errno
 from contextlib import contextmanager
+from datetime import datetime
 from pathlib import Path
 
 
@@ -83,6 +84,17 @@ class Inventory:
             merged = {**prior_hint,**{key:value for key,value in incoming.items() if value not in ('',None,[])}}
             hint = json.dumps(merged,ensure_ascii=False,sort_keys=True)
             pending = (refresh or previous['hint'] != hint) and previous['done_run'] != run
+            if pending and task['kind']=='article' and previous['state']=='done' and previous['hint']==hint:
+                row = self.db.execute('SELECT evidence FROM articles WHERE url=?',(task['url'],)).fetchone()
+                if row is not None:
+                    evidence = json.loads(row[0])
+                    try:
+                        published = datetime.fromisoformat(evidence.get('published') or prior_hint.get('published') or '')
+                    except (TypeError,ValueError):
+                        published = None
+                    if (evidence.get('status')=='text_extracted' and published and published.tzinfo
+                            and published.timestamp() < time.time()-86400):
+                        pending = False  # An unchanged old URL was already retrieved.
             state = 'pending' if pending else previous['state']
             self.db.execute('UPDATE tasks SET hint=?,priority=?,state=?,seen_run=? WHERE id=?',
                 (hint,min(previous['priority'],task.get('priority',5)),state,run,identity))

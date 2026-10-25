@@ -56,6 +56,12 @@ class IngestionProtocolTests(unittest.TestCase):
         html='<nav><a href="/latest-news">Latest News</a></nav><footer><a href="/our-team">Our Team</a></footer><a href="/politics">Politics</a><article><h2><a href="/ai">AI</a></h2></article>'
         self.assertEqual([row['url'] for row in listing_links(html,'https://techcrunch.com/',PUBLISHER)['articles']],['https://techcrunch.com/ai'])
 
+    def test_pagination_inside_navigation_is_preserved(self):
+        html='<nav><a rel="next" href="/page/2">Next page</a><a href="/our-team">Our Team</a></nav>'
+        result=listing_links(html,'https://techcrunch.com/',PUBLISHER)
+        self.assertEqual(result['pages'],['https://techcrunch.com/page/2'])
+        self.assertEqual(result['articles'],[])
+
     def test_sitemap_index_and_news_dates_do_not_confuse_lastmod_with_publication(self):
         kind,rows=sitemap_items(b'<sitemapindex><sitemap><loc>https://techcrunch.com/news.xml</loc><lastmod>2026-10-25</lastmod></sitemap></sitemapindex>')
         self.assertEqual(kind,'sitemapindex');self.assertNotIn('published',rows[0])

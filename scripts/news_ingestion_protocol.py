@@ -9,7 +9,7 @@ from xml.etree import ElementTree
 import feedparser
 from bs4 import BeautifulSoup
 
-from cloud_news_discovery import canonical, clean_text, published_at, is_recent_for_slot
+from cloud_news_discovery import canonical, clean_text, published_at
 from news_source_policy import publisher_for
 
 
@@ -32,7 +32,8 @@ def feed_items(payload, publisher, now, *, since=None):
             continue
         published = published_at(entry)
         if published:
-            recent = is_recent_for_slot(published,now) if since is None else since <= published.timestamp() <= now.timestamp()+300
+            cutoff = now.timestamp()-86400 if since is None else since
+            recent = cutoff <= published.timestamp() <= now.timestamp()+300
             if not recent:
                 continue
         rows.setdefault(url, {'url':url, 'title':clean_text(entry.get('title')),
@@ -88,8 +89,6 @@ _UTILITY = {'about','about-us','contact','contact-us','privacy','privacy-policy'
 def listing_links(payload, base, publisher, spec=None):
     """Enumerate public article links and real pagination, without slicing."""
     soup = BeautifulSoup(payload,'html.parser')
-    for node in soup.select('nav, footer, form'):
-        node.decompose()
     spec = spec or {}
     articles, pages, maps, apis = {}, set(), set(), set()
     prefix = str(spec.get('article_path_prefix') or '')
@@ -116,6 +115,8 @@ def listing_links(payload, base, publisher, spec=None):
             continue
         if link.name != 'a':
             continue
+        if link.find_parent(['nav','footer','form']) is not None:
+            continue  # Preserve pagination above, but do not scrape menu labels.
         path = parsed.path.rstrip('/')
         parts = [part for part in path.split('/') if part]
         query_article = str(query.get('p','')).isdigit()
