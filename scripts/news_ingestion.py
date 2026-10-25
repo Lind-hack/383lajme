@@ -10,7 +10,7 @@ from urllib.parse import urljoin
 from cloud_news_discovery import canonical, is_recent_for_slot, published_at
 from news_ingestion_protocol import feed_items, feed_pages, listing_links, owned, sitemap_items, wordpress_items, wordpress_url
 from news_ingestion_store import Inventory, collector_lock
-from news_source_policy import topic_error
+from news_source_policy import topic_error, hourly_targets
 from read_news_source import PublicHTTPError, extract, fetch_public
 
 
@@ -103,14 +103,24 @@ def collect(manifest, state, *, budget_seconds=240, now=None, fetcher=fetch_publ
         if acquired:
             return _collect(manifest,state,budget_seconds=budget_seconds,now=now,fetcher=fetcher)
         now = now or datetime.now(timezone.utc)
-        store = Inventory(state)
-        try:
-            result = _snapshot(store,{p['source']:p for p in manifest['publishers']},now,
-                               {},time.time(),checkpoint=False)
-            result[3]['collector_active'] = True
-            return result
-        finally:
-            store.close()
+        started = time.time()
+        deadline = time.monotonic()+budget_seconds
+        publishers = {p['source']:p for p in manifest['publishers']}
+        categories = {p['category'] for p in publishers.values()}
+        while True:
+            store = Inventory(state)
+            try:
+                result = _snapshot(store,publishers,now,{},started,checkpoint=False)
+            finally:
+                store.close()
+            counts = Counter(lead['category'] for lead in result[0])
+            # At morning startup the collector may own an empty/stale queue.
+            # Allow it the normal discovery window to prepare every desk.
+            if (all(counts[c] >= hourly_targets()[c]*4 for c in categories)
+                    or not budget_seconds or time.monotonic() >= deadline):
+                result[3]['collector_active'] = True
+                return result
+            time.sleep(min(2,max(0,deadline-time.monotonic())))
 
 
 def _collect(manifest, state, *, budget_seconds=240, now=None, fetcher=fetch_public):
@@ -127,7 +137,7 @@ def _collect(manifest, state, *, budget_seconds=240, now=None, fetcher=fetch_pub
     store = Inventory(state)
     store.recover()
     cutoffs = {source:store.since(source,now.timestamp()) for source in publishers}
-    fields = ('documents_retrieved','usable_indexes','articles_retrieved','readable_this_run',
+    fields = ('requests_started','documents_retrieved','usable_indexes','articles_retrieved','readable_this_run',
               'cache_hits','failed_requests','article_links_seen','distinct_urls_seen','off_category',
               'older_than_checkpoint','optional_routes_absent')
     counters = {source:Counter({field:0 for field in fields}) for source in publishers}
@@ -155,6 +165,7 @@ def _collect(manifest, state, *, budget_seconds=240, now=None, fetcher=fetch_pub
                     continue
                 occupied.add(task['source'])
                 store.running(task['id'])
+                counters[task['source']]['requests_started'] += 1
                 active[pool.submit(_execute,task,publishers,cutoffs,now,fetcher)] = task
             if not active:
                 break
@@ -252,6 +263,7 @@ def _snapshot(store, publishers, now, counters, started, *, checkpoint):
             'scope':'configured public feeds, listings and discovered sitemaps',
             'eligible':sum(lead['source']==source for lead in leads)})
     report = {'run':now.isoformat(),'registered_publishers':len(publishers),'elapsed_seconds':round(time.time()-started,1),
+              'publishers_attempted_this_pass':sum(a.get('requests_started',0)>0 for a in audits),
               'complete_publishers':sum(a['status']=='complete' for a in audits),
               'articles_retrieved':sum(a.get('articles_retrieved',0) for a in audits),
               'cached_articles':sum(a.get('cache_hits',0) for a in audits),

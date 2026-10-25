@@ -46,6 +46,7 @@ class IngestionTests(unittest.TestCase):
         self.assertEqual(audits[0]['articles_retrieved'],225)
         self.assertEqual(report['pending_tasks'],0)
         self.assertEqual(report['complete_publishers'],1)
+        self.assertEqual(report['publishers_attempted_this_pass'],1)
 
     def test_every_registered_publisher_gets_routes_even_without_a_feed(self):
         manifest={**MANIFEST,'publishers':[PUBLISHER,{'source':'Anthropic','category':'Teknologji','domains':['anthropic.com']} ]}
@@ -133,6 +134,24 @@ class IngestionTests(unittest.TestCase):
                         fetcher=lambda *a,**k: self.fail('competing collector made a request'))
                 self.assertEqual(len(leads),225)
                 self.assertTrue(report['collector_active'])
+
+    def test_empty_morning_inventory_waits_for_background_collection(self):
+        with tempfile.TemporaryDirectory() as folder:
+            state=Path(folder)/'inventory.sqlite'
+            Inventory(state).close()
+            def populate(_seconds):
+                store=Inventory(state)
+                for i in range(12):
+                    url=f'https://techcrunch.com/story-{i}'
+                    evidence=extract(fixture_fetch(url)['payload'],url,max_text_chars=None)
+                    store.save_evidence('TechCrunch',url,{},evidence)
+                store.close()
+            with collector_lock(state), patch('news_ingestion.time.sleep',side_effect=populate) as pause:
+                leads,_,_,report=collect(MANIFEST,state,now=NOW,budget_seconds=1,
+                    fetcher=lambda *a,**k:self.fail('competing network request'))
+            self.assertEqual(len(leads),12)
+            self.assertTrue(report['collector_active'])
+            pause.assert_called_once()
 
 
 if __name__=='__main__':unittest.main()

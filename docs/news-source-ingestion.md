@@ -26,6 +26,9 @@ publishers rotate and have at most one request in flight each, eight overall.
 Publication remains hourly at 07:00–23:00 Europe/Warsaw. Both paths share a
 collector lock: publication reads committed recent evidence if collection is
 active, or collects itself if it is idle. SQLite WAL permits concurrent reads.
+If collection starts with an empty morning inventory, publication waits within
+its normal discovery budget for every category to have candidate depth rather
+than immediately treating the empty startup snapshot as a failed news run.
 Stopping the service terminates its container request process group.
 
 The latest retrieval report is
