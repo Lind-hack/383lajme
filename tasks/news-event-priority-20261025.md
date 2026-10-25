@@ -80,3 +80,14 @@ option pools and verify that packing does not reduce tile size.
 All 63 targeted Linux photo-editor, contact-sheet, image-policy and preparation
 overlap checks passed. Direct review found no remaining actionable regressions
 in the packing change.
+
+## News genre and announcement ordering
+
+Feed tags were used for the category check but then discarded, so the existing
+preparation warning could not recognize a feed's explicit Reviews/Opinion label.
+Preserve those tags. Extend the existing discovery rank's announcement vocabulary
+to English, including launches, approvals, recalls, outages, breaches and major
+discovery language, with a lower rank for explicitly labelled review/gallery/
+opinion material. This changes order, not eligibility or publication scores.
+No keyword constitutes factual verification or a public breaking-news label.
+All 32 targeted Linux event/source-policy checks passed after direct review.

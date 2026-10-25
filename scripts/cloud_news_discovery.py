@@ -208,6 +208,7 @@ def fetch_feed(spec_value: dict[str, Any] | str, now: datetime | None = None, la
             "lane": str(spec.get("lane") or lead_category or ""),
             "published": pub.astimezone(KOSOVO_TIME).isoformat(timespec="minutes"),
             "summary": summary,
+            "tags": [str(tag.get('term', '')) for tag in entry.get('tags', [])],
             "discovery_only": lead_discovery_only,
         })
     audit["eligible"] = len(leads)
@@ -286,8 +287,14 @@ def rank(lead: dict[str, Any], watchlist: tuple[str, ...] = ()) -> int:
     score = 0
     if re.search(r"\b(kosov|prishtin|shqiper|alban|balkan|diaspor|eu|nato|kfor|viza|migr)\w*", text):
         score += 6
-    if re.search(r"\b(njofton|miraton|vendos|fiton|rekord|zbul|rrit|ul|cmim|paga|pune|transfer|final)\w*", text):
+    if re.search(r"\b(njofton|miraton|vendos|fiton|rekord|zbul|rrit|ul|cmim|paga|pune|transfer|final|"
+                 r"announc|launch|releas|approv|recall|outage|breach|election|ceasefire|discover)\w*", text):
         score += 2
+    if re.search(r"\b(?:breakthrough|world.first|first.ever|groundbreaking)\b", text):
+        score += 4
+    labels = {fold(str(tag)) for tag in (lead.get('tags') or [])}
+    if labels & {'review', 'reviews', 'opinion', 'opinione', 'gallery', 'galeri', 'betting', 'buying guide'}:
+        score -= 8
     if any(fold(name) in text for name in watchlist):
         score += 5
     if re.search(r"\b(horoskop|sponsoriz|promo|advertorial|coupon|shopping|shop now)\b", text):

@@ -18,7 +18,7 @@ class EventCoverageTests(unittest.TestCase):
         now=datetime(2026,10,25,11,tzinfo=timezone.utc)
         old={'title':'OpenAI releases an earlier model','link':'https://techcrunch.com/old',
              'published':(now-timedelta(days=3)).isoformat()}
-        fresh={**old,'link':'https://techcrunch.com/fresh','published':now.isoformat()}
+        fresh={**old,'link':'https://techcrunch.com/fresh','published':now.isoformat(),'tags':[{'term':'Reviews'}]}
         response=SimpleNamespace(status_code=200,content=b'feed',raise_for_status=lambda:None)
         with patch.dict(os.environ,{'L383_HOURLY_NEWS':'1'}), \
                 patch('cloud_news_discovery.requests.get',return_value=response), \
@@ -26,6 +26,15 @@ class EventCoverageTests(unittest.TestCase):
             leads,audit=fetch_feed({'source':'TechCrunch','category':'Teknologji','url':'https://techcrunch.com/feed/'},now)
         self.assertEqual([r['url'] for r in leads],[fresh['link']])
         self.assertEqual(audit['entries'],101)
+        self.assertEqual(leads[0]['tags'],['Reviews'])
+
+    def test_substantive_english_announcement_precedes_a_newer_labelled_review(self):
+        review=story('techcrunch.com','review','Testing a new tablet',tags=['Reviews'],
+                     published='2026-10-25T11:00:00+01:00')
+        announcement=story('techcrunch.com','launch','OpenAI announces a breakthrough agent model')
+        selected=select_hourly_leads([review,announcement])
+        self.assertEqual(selected[0]['url'],announcement['url'])
+        self.assertEqual(len(selected),2)  # Ordering never discards a review.
 
     def test_independent_coverage_survives_collapse_and_outranks_a_newer_singleton(self):
         event=[story(host,'orion') for host in ('techcrunch.com','therundown.ai','engadget.com')]
