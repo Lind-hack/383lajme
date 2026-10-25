@@ -145,3 +145,29 @@ remained healthy on 647fb50a. The local Railway CLI login is invalid, browser
 automation fails to initialize, and a request for the actual build/start error
 is pending. Do not activate a worker against an unverified application SHA or
 substitute a direct upload. The active 12:00 worker remains on 533d4066.
+
+## Railway font build failure
+
+The user supplied the failed 12e91cdd deployment screenshot. It identifies
+`next/font/google queries have exactly one entry` during the image build.
+This matches the extensionless Google Fonts URL parsing bug documented at
+https://github.com/vercel/next.js/issues/99114 . The project already bundles
+Manrope after the same failure; Figtree and EB Garamond still used Google imports.
+
+Bundle those remaining faces with their original OFL licences, preserving their
+font variables, styles, requested weight ranges and full character coverage.
+The downloaded Google Fonts repository files match production's font revisions
+(Figtree 2.002, EB Garamond 1.003). All glyph metrics in the six currently
+preloaded production subsets matched the corresponding bundled fonts. The serif
+files load when used instead of preloading both full multilingual files globally.
+
+The local node_modules installation was 16.3.4 while package-lock pins 16.3.8.
+`npm ci` aligned it with the lockfile. The fresh 16.3.8 production build passed,
+and the local production HTTP smoke check returned 200 for the homepage and all
+three generated bundled font assets, with no Google Fonts CSS dependency.
+Direct review found no remaining actionable issues in this deployment fix.
+
+The 12:00 run then failed before insertion because one final image fetch returned
+HTTP429. Ten independently approved articles were not inserted. This is a separate
+publication-reliability defect to resolve; do not report those ten as published
+or consider the all-category acceptance complete.

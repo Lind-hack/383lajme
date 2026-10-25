@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { jsonLdString } from "@/lib/json-ld";
-import { Figtree, EB_Garamond } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import "./site-theme.css";
@@ -16,27 +15,22 @@ import LanguageProvider from "@/components/language/language-provider";
 // The dossier is set in a serif: it is the record behind the news rather than
 // the news, and design 3a leans on that register throughout — the topic title,
 // every entry title, and the italic notes.
-const ebGaramond = EB_Garamond({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
+// Same font revision as the Google files, with all original-language glyphs.
+// Load the dossier face when used instead of preloading both full font files.
+const ebGaramond = localFont({
+  src: [
+    { path: "../public/fonts/EBGaramond-variable-normal.woff2", weight: "400 600", style: "normal" },
+    { path: "../public/fonts/EBGaramond-variable-italic.woff2", weight: "400 600", style: "italic" },
+  ],
+  preload: false,
+  adjustFontFallback: "Times New Roman",
   display: "swap",
   variable: "--font-garamond",
 });
 
-// latin-ext is declared for the same reason it is on the other two faces, and
-// leaving it off here was the single largest layout shift on the site.
-//
-// next/font only preloads the subsets a font actually declares. Manrope asked
-// for "latin" alone, so Google's latin-ext @font-face was still emitted and
-// still matched by characters on the page — but its file was never preloaded.
-// It therefore arrived after first paint and swapped, and Lighthouse traced the
-// whole 0.595 mobile CLS to exactly that: "Web font loaded", pointing at
-// Manrope 400's latin-ext woff2. The currency card was blamed because it is
-// what visibly moved, not because it was at fault.
-// Same cached Google Fonts face, now bundled: generated Google font URLs
-// failed Turbopack resolution in Railway builds. Keep Albanian and the
-// original-language headline glyphs; every file carries the 200–800 axis.
+// Keep Manrope's existing multilingual subsets and preloads. A missing
+// latin-ext preload previously caused a measured 0.595 mobile layout shift.
+// Every bundled file carries the 200–800 axis.
 const manrope = localFont({
   src: [
     { path: "../public/fonts/Manrope-subset-1.woff2", weight: "200 800", style: "normal" },
@@ -53,9 +47,10 @@ const manrope = localFont({
 // Softer, rounder terminals than Manrope for the nav category links,
 // while staying a serious grotesque rather than a playful display face.
 // latin-ext covers ë/ç.
-const figtree = Figtree({
-  subsets: ["latin", "latin-ext"],
-  weight: ["500", "600", "700"],
+const figtree = localFont({
+  src: "../public/fonts/Figtree-variable-normal.woff2",
+  weight: "500 700",
+  style: "normal",
   variable: "--font-figtree",
   display: "swap",
 });
