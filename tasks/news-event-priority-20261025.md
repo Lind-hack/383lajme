@@ -122,3 +122,14 @@ are retained under /opt/data/qa/383/*-20261025.json.
 All 49 targeted Linux source, hourly-coverage and event-coverage checks passed,
 as did the production build. Direct review found no remaining actionable
 regressions in the source restoration and category corrections.
+
+## Official entities are not media outlets
+
+The journalism gate built its forbidden publisher set from every registry entry,
+including official-evidence entities. Five counterexamples failed: ordinary
+OpenAI, Anthropic, Federal Reserve and UEFA announcements, and an OpenAI subject
+reported through TechCrunch. Reuse the existing outlet-name helper, which already
+excludes official institutions and preserves actual media publishers/current
+unknown outlets. The publisher-attribution ban remains; factual company and
+institution subjects remain usable. All seven journalism tests and 15 independent
+copyright-review tests passed on Linux after the fix and direct review.

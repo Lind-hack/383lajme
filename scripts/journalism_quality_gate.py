@@ -9,6 +9,7 @@ from pathlib import Path
 
 from editorial_rules_v2 import fold
 from news_source_policy import MANIFEST
+from news_photo_subjects import publisher_names as outlet_names
 
 
 def journalism_errors(article: dict) -> list[str]:
@@ -17,8 +18,7 @@ def journalism_errors(article: dict) -> list[str]:
     errors = []
     if len(re.findall(r"\w+", text)) < 140 or len(re.findall(r"<p\b[^>]*>.*?</p>", body, re.I | re.S)) < 3:
         errors.append("write at least 140 grounded words in three readable paragraphs")
-    publisher_names = {fold(publisher["source"]) for publisher in MANIFEST["publishers"]}
-    publisher_names.add(fold(str(article.get("source") or "")))
+    publisher_names = {fold(name) for name in outlet_names(MANIFEST['publishers'], str(article.get('source') or ''))}
     # Every article reads as 383's own: no publisher is named anywhere, and a
     # story that cannot be told without one is dropped, not passed off as ours.
     for field, raw in (("title", article.get("title")), ("excerpt", article.get("excerpt")), ("body", body)):

@@ -9,6 +9,15 @@ def story(body_extra="", **fields):
 
 
 class JournalismTests(unittest.TestCase):
+    def test_official_news_subjects_are_not_misclassified_as_media_publishers(self):
+        for source,text in [('OpenAI','OpenAI njofton modelin e ri.'),
+                            ('Anthropic','Anthropic publikon udhëzimet e produktit.'),
+                            ('Federal Reserve','Federal Reserve njofton ndryshimin e normave.'),
+                            ('UEFA','UEFA publikon programin e ndeshjeve.')]:
+            with self.subTest(source=source):
+                self.assertEqual(journalism_errors(story(text,source=source)),[])
+        self.assertEqual(journalism_errors(story('OpenAI njofton modelin e ri.',source='TechCrunch')),[])
+
     def test_original_factual_reporting_does_not_need_outlet_credit(self):
         self.assertEqual(journalism_errors(story("Ministria konfirmoi datën e nisjes.")), [])
 
