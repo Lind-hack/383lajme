@@ -128,11 +128,12 @@ _LOCAL = {
     "Kosovë": re.compile(r"\b(?:kosov\w*|prishtin\w*|prizren\w*|pej[ae]\w*|gjilan\w*|"
                          r"ferizaj\w*|gjakov\w*|mitrovic\w*|kurti|osmani|haradinaj|hamza|"
                          r"suharek\w*|vushtrri\w*|podujev\w*|drenas\w*|rahovec\w*|"
-                         r"skenderaj\w*|kamenic\w*|viti|lipjan\w*|malishev\w*|klina|decan\w*)\b"),
+                         r"skenderaj\w*|kamenic\w*|lipjan\w*|malishev\w*|klina|decan\w*)\b"),
     "Shqipëri": re.compile(r"\b(?:shqiper\w*|albania\w*|tiran\w*|durres\w*|shkod\w*|"
                            r"vlor\w*|elbasan\w*|korce\w*|berat\w*|fier\w*|spak|"
                            r"edi rama|berisha|balluku|lezhe\w*|kukes\w*|sarand\w*)\b"),
 }
+_VITI_LOCATION = re.compile(r"\b(?:ne viti(?!\s+\d)|vitise)\b|^\s*viti\s*:")
 
 
 def topic_error(category: str, title: object, summary: object = "", *, tags=(), url="") -> str | None:
@@ -177,8 +178,14 @@ def topic_error(category: str, title: object, summary: object = "", *, tags=(), 
             return "entertainment reporting is outside Ekonomi"
     geography_path = (category == 'Shqipëri' and bool(re.search(r'/shqiperi(?:a)?/', path))) or (
         category == 'Kosovë' and bool(re.search(r'/kosov(?:e|a)/', path)))
-    if category in _LOCAL and not (_LOCAL[category].search(fold(f"{title} {summary}")) or geography_path):
-        return "local story lacks an explicit Kosovo/Albania subject"
+    if category in _LOCAL:
+        text = fold(f"{title} {summary}")
+        local = _LOCAL[category].search(text) or geography_path
+        if category == 'Kosovë':
+            # Albanian 'viti' usually means 'the year', not the town of Viti.
+            local = local or _VITI_LOCATION.search(text) or labels & {'viti', 'vitise'}
+        if not local:
+            return "local story lacks an explicit Kosovo/Albania subject"
     return None
 
 

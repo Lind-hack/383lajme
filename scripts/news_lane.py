@@ -29,7 +29,7 @@ _SPORT_URL_SEGMENT = re.compile(
 _SPORT_TITLE = re.compile(
     r"\b(?:futboll\w*|basketboll\w*|boks\w*|ndeshj\w*|gol(?:a|in|at|it|ave)?|"
     r"asistim\w*|penallti\w*|kampionat\w*|turne\w*|medalj\w*|bronzin|"
-    r"cerekfinal\w*|gjysmefinal\w*|finalen|skuadr\w*|lojtar\w*|trajner\w*|"
+    r"cerekfinal\w*|gjysmefinal\w*|finalen|skuadr\w*|lojtar\w*|trajner\w*|mesfushor\w*|superlig\w*|kryederb\w*|"
     r"perzgjedhes\w*|liga e kombeve|nations league|champions league|"
     r"premier league|euroliga|uefa|fifa|nba|grand prix|kualifikim\w* ne boteror|skiator\w*|slalom\w*|"
     r"(?:alpine |giant )?ski(?:ing)? race\w*|skiing world cup)\b"
@@ -73,7 +73,7 @@ def is_sports_story(
         return True
     if _SPORT_PERSON_OR_TEAM.search(headline) and _SPORT_CONTEXT.search(context):
         return True
-    if re.search(r"\b(?:stervitj\w*|fitore ndaj|fitorj\w* ndaj|duel\w*|debuton|demtim\w*)\b", headline):
+    if re.search(r"\b(?:stervitj\w*|fitore ndaj|fitorj\w* ndaj|duel\w*|debuton|demtim\w*|formacion\w*)\b", headline):
         if _MILITARY_CONTEXT.search(headline):
             return False
         return bool(_SPORT_CONTEXT.search(context))

@@ -11,6 +11,23 @@ from news_run_state import completed, save
 
 
 class SourceIsolation(unittest.TestCase):
+    def test_albanian_year_does_not_turn_foreign_reporting_into_a_kosovo_story(self):
+        self.assertIsNotNone(topic_error('Kosovë','Kim Kardashian rikthen fustanin nga viti 1998',
+                                        'Premiera u mbajt në Romë.'))
+        self.assertIsNotNone(topic_error('Kosovë','LSDM kritikon Qeverinë e Mickoskit për pagat',
+                                        'Çmimet në Maqedoninë e Veriut u rritën gjatë këtij viti.'))
+        for title in ('Rindërtohet shkolla në Viti','Komuna e Vitisë miraton buxhetin','Viti: hapet shkolla'):
+            self.assertIsNone(topic_error('Kosovë',title))
+        self.assertIsNone(topic_error('Kosovë','Rindërtohet shkolla',tags=['Viti']))
+
+    def test_lineups_and_midfield_debuts_stay_out_of_local_publisher_desks(self):
+        self.assertIsNotNone(topic_error('Kosovë','Feronikeli dhe Dukagjini kërkojnë fitore, formacionet zyrtare',
+                                        'Trajnerët publikuan formacionet për ndeshjen e sotme.'))
+        self.assertIsNotNone(topic_error('Kosovë','Enis Zeqiri mund të debutojë në Superligën e Danimarkës',
+                                        'Mesfushori me prejardhje nga Kosova ftohet nga klubi.'))
+        self.assertIsNone(topic_error('Kosovë','KFOR prezanton formacionet e reja ushtarake në Kosovë',
+                                     'Ushtarët kryen stërvitje në bazë.'))
+
     def test_explicit_publisher_gaming_labels_are_excluded_before_expensive_preparation(self):
         self.assertIsNotNone(topic_error('Teknologji','Valve developer mentions HLX',url='https://arstechnica.com/gaming/2026/10/example'))
         self.assertIsNotNone(topic_error('Teknologji','New product announced',tags=['gaming']))

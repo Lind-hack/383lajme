@@ -91,3 +91,34 @@ discovery language, with a lower rank for explicitly labelled review/gallery/
 opinion material. This changes order, not eligibility or publication scores.
 No keyword constitutes factual verification or a public breaking-news label.
 All 32 targeted Linux event/source-policy checks passed after direct review.
+
+## Recover registered discovery routes
+
+Read-only VPS checks found that Telegrafi and Telesport now return public RSS and
+readable articles, although the registry still excluded them as primary sources
+and supplied no discovery route. Two Telegrafi samples yielded 582/542 readable
+words; two Telesport samples yielded 226/310. Restore their feeds and primary
+eligibility within their existing category assignments. Rechecks of Koha, The
+Verge, Financial Times, MarketWatch, The Hollywood Reporter, Deadline and
+Motorsport.com still failed or were restricted; their exclusions remain.
+
+That probe reproduced a geography bug: bare Albanian 'viti' (the year) counted as
+the town Viti, admitting a Kardashian fashion story and Macedonian wage politics
+to Kosovë. Require actual town context/inflection or an explicit location tag.
+Also recognize Superliga/midfield headlines and lineup headlines with sporting
+context in the existing sports classifier. Keep civic and military exceptions.
+The actual Telegrafi feed then yielded seven Kosovo candidates instead of 12,
+excluding the five demonstrated foreign/sports items. Those seven are candidates,
+not verified or publication-approved articles.
+
+The SEC and Federal Reserve already have approved official-source registrations.
+Their documented public RSS feeds returned 25/20 entries and readable sample
+bodies, so add those discovery routes as well. Samples were outside the current
+24-hour window: adding a feed does not manufacture fresh Sunday news.
+
+Source evidence: https://www.sec.gov/about/rss-feeds and
+https://www.federalreserve.gov/feeds/feeds.htm . VPS route and readability results
+are retained under /opt/data/qa/383/*-20261025.json.
+All 49 targeted Linux source, hourly-coverage and event-coverage checks passed,
+as did the production build. Direct review found no remaining actionable
+regressions in the source restoration and category corrections.

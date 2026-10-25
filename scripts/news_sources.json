@@ -85,8 +85,7 @@
       "domains": [
         "telegrafi.com"
       ],
-      "family": "telegrafi.com",
-      "hourly_primary": false
+      "family": "telegrafi.com"
     },
     {
       "source": "Gazeta Express",
@@ -683,8 +682,7 @@
       "domains": [
         "telesport.al"
       ],
-      "family": "telesport.al",
-      "hourly_primary": false
+      "family": "telesport.al"
     },
     {
       "source": "Sinjali",
@@ -1326,6 +1324,30 @@
       "category": "Showbiz",
       "lane": "SHOWBIZ",
       "url": "https://consequence.net/feed/"
+    },
+    {
+      "source": "Telegrafi",
+      "category": "Kosovë",
+      "lane": "KOSOVË",
+      "url": "https://telegrafi.com/feed/"
+    },
+    {
+      "source": "Telesport",
+      "category": "Sport",
+      "lane": "SPORT",
+      "url": "https://telesport.al/feed/"
+    },
+    {
+      "source": "Federal Reserve",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://www.federalreserve.gov/feeds/press_all.xml"
+    },
+    {
+      "source": "SEC",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://www.sec.gov/news/pressreleases.rss"
     }
   ],
   "browser_lanes": [
