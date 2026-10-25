@@ -133,3 +133,15 @@ excludes official institutions and preserves actual media publishers/current
 unknown outlets. The publisher-attribution ban remains; factual company and
 institution subjects remain usable. All seven journalism tests and 15 independent
 copyright-review tests passed on Linux after the fix and direct review.
+
+The 12:00 writer snapshot also contained the ordinary phrase 'sipas kohës lokale'
+(local time), which the same gate interpreted as attribution to Koha. A failing
+regression reproduced that rejection. Exclude only this fixed temporal phrase
+from the Koha attribution match; actual 'Sipas Kohës, ...' attribution remains
+rejected. All eight Linux journalism tests passed after direct review.
+
+Release note: Railway reported deployment failure for 12e91cdd while production
+remained healthy on 647fb50a. The local Railway CLI login is invalid, browser
+automation fails to initialize, and a request for the actual build/start error
+is pending. Do not activate a worker against an unverified application SHA or
+substitute a direct upload. The active 12:00 worker remains on 533d4066.

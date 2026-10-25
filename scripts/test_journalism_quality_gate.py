@@ -9,6 +9,10 @@ def story(body_extra="", **fields):
 
 
 class JournalismTests(unittest.TestCase):
+    def test_local_time_is_not_false_publisher_attribution(self):
+        self.assertEqual(journalism_errors(story('Qendrat e votimit mbyllen në orën 20:00 sipas kohës lokale.')),[])
+        self.assertTrue(journalism_errors(story('Sipas Kohës, qendrat e votimit mbyllen në orën 20:00.')))
+
     def test_official_news_subjects_are_not_misclassified_as_media_publishers(self):
         for source,text in [('OpenAI','OpenAI njofton modelin e ri.'),
                             ('Anthropic','Anthropic publikon udhëzimet e produktit.'),

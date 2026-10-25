@@ -24,11 +24,13 @@ def journalism_errors(article: dict) -> list[str]:
     for field, raw in (("title", article.get("title")), ("excerpt", article.get("excerpt")), ("body", body)):
         value = fold(html.unescape(re.sub(r"<[^>]*>", " ", str(raw or ""))))
         for publisher in publisher_names - {""}:
+            # The ordinary time-zone phrase is not attribution to Koha.
+            publisher_value = re.sub(r'\bsipas\s+kohes\s+lokale\b', '', value) if publisher == 'koha' else value
             name_pattern = re.escape(publisher) + r"(?:it|in|i|t|s|ut|u|n|se|es)?"
             if publisher.endswith(("a", "e", "i")):
                 name_pattern = r"(?:" + name_pattern + "|" + re.escape(publisher[:-1]) + r"(?:a|e|i|es|en|it|in|ut|un|s|se|t))"
-            framed = (re.search(r"\b(?:sipas|raporton|raportoi|shkruan|shkroi|publikon|njofton|transmeton|nga portali|nga media|nga mediat|nga gazeta|burimi)\b[^.!?]{0,65}\b" + name_pattern + r"\b", value)
-                      or re.search(r"\b" + name_pattern + r"\b[^.!?]{0,40}\b(?:raporton|raportoi|raportuan|raportojne|shkruan|shkroi|shkruajne|vlereson|vleresoi|vleresojne|thote|thone|informon|informoi|zbulon|zbuloi|ben te ditur|bejne te ditur|beri te ditur|bene te ditur|njofton|njoftoi|publikon|publikoi|transmeton|citon|pohon|pohoi)\b", value))
+            framed = (re.search(r"\b(?:sipas|raporton|raportoi|shkruan|shkroi|publikon|njofton|transmeton|nga portali|nga media|nga mediat|nga gazeta|burimi)\b[^.!?]{0,65}\b" + name_pattern + r"\b", publisher_value)
+                      or re.search(r"\b" + name_pattern + r"\b[^.!?]{0,40}\b(?:raporton|raportoi|raportuan|raportojne|shkruan|shkroi|shkruajne|vlereson|vleresoi|vleresojne|thote|thone|informon|informoi|zbulon|zbuloi|ben te ditur|bejne te ditur|beri te ditur|bene te ditur|njofton|njoftoi|publikon|publikoi|transmeton|citon|pohon|pohoi)\b", publisher_value))
             if framed:
                 errors.append(f"{field} names a publisher ({publisher}); write from verified facts in 383's own voice, or drop a story that rests on that outlet's exclusive")
                 break
