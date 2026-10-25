@@ -71,11 +71,12 @@ def prepare(by_id, folder: Path, index: int, deadline: float):
     visible = {key: [] for key in by_id}
     if not loaded:
         return None, visible
-    sheet = Image.new('RGB', (MAX_VISIBLE * TILE_WIDTH, len(by_id) * TILE_HEIGHT), 'white')
+    sheet = Image.new('RGB', (MAX_VISIBLE * TILE_WIDTH,
+                             ((len(loaded) + MAX_VISIBLE - 1) // MAX_VISIBLE) * TILE_HEIGHT), 'white')
     draw = ImageDraw.Draw(sheet)
-    row = {key: position for position, key in enumerate(by_id)}
-    for key, number, thumbnail in loaded:
-        x, y = len(visible[key]) * TILE_WIDTH, row[key] * TILE_HEIGHT
+    for position, (key, number, thumbnail) in enumerate(loaded):
+        row, column = divmod(position, MAX_VISIBLE)
+        x, y = column * TILE_WIDTH, row * TILE_HEIGHT
         draw.text((x + 4, y + 3), f'{key} option {number}', fill='black')
         with Image.open(BytesIO(thumbnail)) as image:
             sheet.paste(image, (x + 4, y + 22))

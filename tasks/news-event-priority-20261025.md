@@ -57,3 +57,26 @@ Root inspected the complete change, tests and downstream call sites with the
 requested review skills. Coverage metadata stays internal and cannot replace
 source evidence or approve an article. No model/provider or billing path changes.
 The active hourly worker must finish before committed-release activation.
+
+## Photo review capacity
+
+The same 11:00 UTC run offered 97 stories to the photo editor. Only seven chunk
+contact sheets appeared before the four-minute window ended; 74 stories either
+had no fitting image or were unreviewed. That aggregate is not evidence that all
+74 were bad images. Fixed eight-story chunks wasted contact-sheet space when a
+story had only three or four candidates.
+
+The photo editor now packs up to 16 stories while preserving a maximum of 64
+offered cells per request. Tiles remain 200×150 and retain their story/option
+labels; 64 cells still occupy 1600×1200. Neither the four-minute deadline nor the
+three-call concurrency limit changes. All previous native-pixel, exact-byte,
+rights, subject and final publication gates remain in place.
+
+A real 16-story / 64-cell Luna/max OAuth fixture passed all 16 exact-asset and
+results-graphic checks in 22.6 seconds. It published nothing. This validates the
+mapping and readability of that fixture, not the completion time or acceptance
+rate of an arbitrary live batch. Regression checks cover both sparse and full
+option pools and verify that packing does not reduce tile size.
+All 63 targeted Linux photo-editor, contact-sheet, image-policy and preparation
+overlap checks passed. Direct review found no remaining actionable regressions
+in the packing change.

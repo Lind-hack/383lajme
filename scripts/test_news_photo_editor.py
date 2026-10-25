@@ -64,6 +64,17 @@ class PhotoEditorTests(unittest.TestCase):
                 patch.object(editor, "ask_rows", side_effect=editor.subprocess.TimeoutExpired("hermes", 240)):
             self.assertEqual(editor.choose([story("a")], Path(folder)), {'a':[]})
 
+    def test_sparse_story_options_share_a_sheet_without_exceeding_cell_or_story_limits(self):
+        for offered,expected in [(4,[1,16,16]),(8,[1,8,8,8,8])]:
+            stories=[story(str(i),count=offered) for i in range(33)]
+            with tempfile.TemporaryDirectory() as folder,patch.object(editor,'_choose_chunk',return_value={}) as call:
+                editor.choose(stories,Path(folder))
+            chunks=[invocation.args[0] for invocation in call.call_args_list]
+            # Missing decisions get the existing retry, so consider first attempts.
+            unique={tuple(s['pair_id'] for s in chunk):chunk for chunk in chunks}
+            self.assertEqual(sorted(map(len,unique.values())),expected)
+            self.assertTrue(all(sum(min(8,len(s['options'])) for s in chunk)<=64 for chunk in unique.values()))
+
     def test_trimmed_keeps_the_best_few_of_each_tier(self):
         options = [option("fresh", str(n)) for n in range(5)] + [option("video", "v")] + [option("place", str(n)) for n in range(3)]
         kept = editor.trimmed(options)

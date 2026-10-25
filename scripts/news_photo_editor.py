@@ -16,9 +16,10 @@ from pathlib import Path
 
 from news_model import ask_rows, stage_deadline
 from news_image_policy import plain, readable_brief
-from news_visual_contact import prepare as prepare_contact, attestation
+from news_visual_contact import prepare as prepare_contact, attestation, MAX_VISIBLE
 
-CHUNK = 8
+CHUNK = 16
+CHUNK_CELLS = 64
 EDITOR_DEADLINE = 240
 MAX_OPTIONS = {"press": 2, "fresh": 3, "video": 2, "older": 3, "place": 4, "asset": 4}
 
@@ -98,7 +99,19 @@ def choose(stories: list[dict], folder: Path) -> dict[str, list[int]]:
     fits). Unreviewed pixels never fall back to metadata-only acceptance."""
     deadline = stage_deadline(EDITOR_DEADLINE)
     stories = [story for story in stories if story["options"]]
-    chunks = [stories[start:start + CHUNK] for start in range(0, len(stories), CHUNK)]
+    # Most stories offer only three or four images. Pack those cells rather
+    # than spending a model request and an otherwise empty image row per story.
+    # Keep the tested 64-cell maximum and original tile size, not denser pixels.
+    chunks, chunk, cells = [], [], 0
+    for story in stories:
+        offered = min(MAX_VISIBLE, len(story['options']))
+        if chunk and (len(chunk) == CHUNK or cells + offered > CHUNK_CELLS):
+            chunks.append(chunk)
+            chunk, cells = [], 0
+        chunk.append(story)
+        cells += offered
+    if chunk:
+        chunks.append(chunk)
     picks: dict[str, list[int]] = {}
     def attempt(chunk: list[dict], index: int) -> dict[str, list[int]]:
         found = {}

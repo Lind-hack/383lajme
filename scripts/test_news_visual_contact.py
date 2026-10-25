@@ -52,6 +52,14 @@ class VisualContactTests(unittest.TestCase):
                              (None,{'story-001':[]}))
             download.assert_not_called()
 
+    def test_sixteen_sparse_stories_keep_sixty_four_original_size_cells(self):
+        buffer=BytesIO();Image.new('RGB',(1600,1000),'green').save(buffer,format='JPEG')
+        by_id={f'story-{i:03d}':{'options':[option() for _ in range(4)]} for i in range(16)}
+        with tempfile.TemporaryDirectory() as folder,patch.object(policy,'photo_payload',return_value=buffer.getvalue()):
+            sheet,visible=contact.prepare(by_id,Path(folder),0,time.monotonic()+10)
+            with Image.open(sheet) as image:self.assertEqual(image.size,(1600,1200))
+        self.assertTrue(all(numbers==[1,2,3,4] for numbers in visible.values()))
+
     def test_finalization_requires_pixel_review_and_refuses_changed_source_bytes(self):
         item=option();item['_visual_review']={'policy':contact.POLICY,'provider':'openai-codex','model':'gpt-6-luna',
             'effort':'max','image_sha256':'a'*64,'contact_sheet_sha256':'c'*64,'reviewed_at':datetime.now(timezone.utc).isoformat()}
