@@ -23,6 +23,7 @@ def report(batch: Path, status: str) -> dict:
                "shortfalls": {c: max(0, hourly_targets()[c] - counts[c]) for c in CATEGORIES},
                "inventory_rejections": data.get("rejected_inventory", {}),
                "source_health": data.get("sources", []),
+               "ingestion": data.get("ingestion_report", {}),
                 "funnel": data.get("funnel", {}),
                "families": dict(Counter((publisher_for(a.get("url")) or {}).get("family", "unknown") for a in articles))}
     target = discovery.parent / "hourly-quality-latest.json"

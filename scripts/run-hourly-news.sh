@@ -73,6 +73,7 @@ fi
 STATE="$STATE_ROOT/${STAMP}-mode${QA_ONLY}.json"
 export L383_NOTES_CACHE="${STATE_ROOT%/hourly-runs}/reporter-notes-cache.json"
 export L383_PHOTO_IDENTITY_CACHE="${STATE_ROOT%/hourly-runs}/photo-identity-cache.json"
+export L383_INGESTION_STATE="${STATE_ROOT%/hourly-runs}/source-inventory.sqlite"
 export L383_MODEL_QUOTA_FILE="$STATE_ROOT/${STAMP}-mode${QA_ONLY}.quota"
 LEGACY_STATE="$PWD/.last30days/hourly-runs/${STAMP}-mode${QA_ONLY}.json"
 record_state() { "$PYTHON_BIN" scripts/news_run_state.py save "$STATE" --status "$1" --stage "$stage" --batch "$BATCH"; }

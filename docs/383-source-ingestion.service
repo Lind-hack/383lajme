@@ -1,0 +1,17 @@
+[Unit]
+Description=383 registered news source retrieval
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/docker exec --user hermes hermes bash /opt/data/workspaces/383lajme-news-current/scripts/run-source-ingestion.sh
+ExecStop=-/usr/bin/docker exec --user hermes hermes /usr/bin/pkill -TERM -f "^bash /opt/data/workspaces/383lajme-news-current/scripts/run-source-ingestion.sh$"
+Restart=on-failure
+RestartSec=15
+KillMode=control-group
+TimeoutStopSec=20
+Nice=10
+
+[Install]
+WantedBy=multi-user.target

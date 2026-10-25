@@ -498,13 +498,22 @@ def main() -> int:
 
     collected: list[dict[str, Any]] = []
     audits: list[dict[str, Any]] = []
-    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
-        futures = [executor.submit(fetch_feed, spec) for spec in DIRECT_FEEDS]
-        futures.extend(executor.submit(fetch_listing, spec) for spec in BROWSER_LANES)
-        for future in futures:
-            leads, audit = future.result()
-            collected.extend(leads)
-            audits.append(audit)
+    retrieved, ingestion = {}, {}
+    if os.environ.get('L383_HOURLY_NEWS') == '1':
+        from news_ingestion import collect
+        state = Path(os.environ.get('L383_INGESTION_STATE',str(args.output.parent/'source-inventory.sqlite')))
+        collected,audits,retrieved,ingestion = collect(MANIFEST,state,
+            budget_seconds=float(os.environ.get('L383_INGESTION_BUDGET_SECONDS','240')))
+        args.output.parent.mkdir(parents=True,exist_ok=True)
+        args.output.with_suffix('.ingestion.json').write_text(json.dumps(ingestion,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    else:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+            futures = [executor.submit(fetch_feed, spec) for spec in DIRECT_FEEDS]
+            futures.extend(executor.submit(fetch_listing, spec) for spec in BROWSER_LANES)
+            for future in futures:
+                leads, audit = future.result()
+                collected.extend(leads)
+                audits.append(audit)
 
     published_urls = _published_urls() if args.skip_published else set()
     leads = (select_hourly_leads(collected, published_urls) if os.environ.get("L383_HOURLY_NEWS") == "1"
@@ -560,6 +569,8 @@ def main() -> int:
         "sources": audits,
         "leads": leads,
         "raw_leads": collected,
+        "retrieved_evidence": retrieved,
+        "ingestion_report": ingestion,
         "raw_categories": dict(Counter(lead["category"] for lead in collected)),
     }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("DISCOVERY " + json.dumps({
@@ -567,11 +578,15 @@ def main() -> int:
         "raw_current_day": len(collected),
         "categories": counts,
         "corroborated_topics": paired_topics,
-        "working_feeds": sum(audit.get("status") == "ok" for audit in audits),
-        "total_feeds": len(audits),
+        "working_feeds": None if ingestion else sum(audit.get("status") == "ok" for audit in audits),
+        "total_feeds": len(DIRECT_FEEDS) if ingestion else len(audits),
         "browser_lanes": len(BROWSER_LANES),
+        "registered_publishers": ingestion.get('registered_publishers'),
+        "complete_publishers": ingestion.get('complete_publishers'),
+        "articles_retrieved": ingestion.get('articles_retrieved'),
+        "pending_retrieval_tasks": ingestion.get('pending_tasks'),
     }, ensure_ascii=False))
-    return 0 if collected or any(a.get("status") == "ok" or a.get("listing_fallback", {}).get("status") == "ok" for a in audits) else 2
+    return 0 if collected or any(a.get("status") in {"ok","complete"} or a.get("listing_fallback", {}).get("status") == "ok" for a in audits) else 2
 
 
 if __name__ == "__main__":

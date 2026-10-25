@@ -347,12 +347,29 @@ def recently_published_photos(days: int = 14) -> set[str]:
     return {image_identity(str(row["image_url"])) for row in rows if row.get("image_url")}
 
 
+def prepared_evidence(url: str, retrieved: dict) -> dict:
+    """Reuse fresh crawler evidence only within the exact registered publisher."""
+    from datetime import datetime, timezone
+    from news_source_policy import publisher_for
+    evidence = retrieved.get(url,{})
+    try:
+        age = (datetime.now(timezone.utc)-datetime.fromisoformat(evidence.get('fetched_at',''))).total_seconds()
+    except (TypeError,ValueError):
+        age = -1
+    owner, actual_owner = publisher_for(url), publisher_for(evidence.get('url',''))
+    if (evidence.get('status') == 'text_extracted' and 0 <= age <= 3600
+            and owner and actual_owner and owner['source'] == actual_owner['source']):
+        return evidence
+    return fetch_url(url)
+
+
 def prepare_hourly_inventory(path: Path, data: dict) -> None:
     leads = data.get("leads", [])
     urls = list(dict.fromkeys(url for lead in leads for url in
                             (lead["url"], lead.get("corroborates_url")) if url))
+    retrieved = data.get('retrieved_evidence',{})
     with concurrent.futures.ThreadPoolExecutor(max_workers=12) as pool:
-        fetched = dict(zip(urls, pool.map(fetch_url, urls)))
+        fetched = dict(zip(urls, pool.map(lambda url: prepared_evidence(url,retrieved), urls)))
     eligible = []
     rejected = {category: {"unreadable": 0, "needs_corroboration": 0, "topic_mismatch": 0, "rejected_twice": 0, "no_fresh_photo": 0} for category in CATEGORIES}
     from news_copyright_review import cooling_down
