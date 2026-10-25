@@ -7,6 +7,19 @@ from news_writer_brief import build
 
 
 class WriterBriefTests(unittest.TestCase):
+    def test_widely_covered_ready_event_precedes_singleton_without_becoming_verification(self):
+        first={**self.lead,'pair_id':'Kosovë-single','url':'https://kallxo.com/single'}
+        event={**self.lead,'pair_id':'Kosovë-event','url':'https://gazetaexpress.com/event',
+               'coverage_family_count':4,'evidence_path':'/private/event-evidence.json'}
+        event.pop('facts_path',None)
+        self.write([first,event])
+        build(self.discovery,self.output,'Kosovë',cap=1,spares=0)
+        result=self.output.read_text(encoding='utf-8')
+        self.assertIn(event['url'],result)
+        self.assertNotIn(first['url'],result)
+        self.assertIn('coverage_family_count: 4',result)
+        self.assertIn('never call it breaking or confirmed solely from that count',result)
+
     def test_public_fact_candidate_precedes_risky_cached_notes_and_warning_remains_visible(self):
         risky = {**self.lead, 'source_basis_warning':'Interview material needs a separate public basis.'}
         public = {key:value for key,value in {**self.lead, 'pair_id':'Kosovë-public',

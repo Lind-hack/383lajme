@@ -280,11 +280,13 @@ def prioritize_grounded_leads(leads: list[dict]) -> list[dict]:
     A brief primary can still qualify alongside a readable corroborator. This
     ordering is not editorial approval and never substitutes for claim checks.
     """
-    def priority(lead: dict) -> tuple[bool, bool, bool]:
+    def priority(lead: dict) -> tuple:
         words = sum(len(re.findall(r"\w+", str(lead.get(key, {}).get("text") or "")))
                     for key in ("primary_evidence", "secondary_evidence")
                     if lead.get(key, {}).get("status") == "text_extracted")
-        return bool(lead.get("source_basis_warning") or source_basis_warning(lead)), words < 140, words < 80
+        return (bool(lead.get("source_basis_warning") or source_basis_warning(lead)),
+                words < 140, words < 80, bool(lead.get('coverage_already_published')),
+                -min(lead.get('coverage_family_count', 1), 5))
     return sorted(leads, key=priority)
 
 

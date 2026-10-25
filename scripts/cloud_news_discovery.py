@@ -166,7 +166,9 @@ def fetch_feed(spec_value: dict[str, Any] | str, now: datetime | None = None, la
         return fallback, audit
 
     leads: list[dict[str, str]] = []
-    for entry in feed.entries[:100]:
+    # Parse every item the feed supplied; an older first page/order must not
+    # hide a fresh item after position 100. Preparation remains bounded later.
+    for entry in feed.entries:
         pub = published_at(entry)
         if pub is None or not is_recent_for_slot(pub, now):
             audit["old_or_undated"] += 1
@@ -382,6 +384,42 @@ def select_leads(collected: list[dict[str, Any]], limits: dict[str, int] | None 
     return selected
 
 
+def event_coverage(collected: list[dict[str, Any]]) -> dict[str, dict]:
+    """Retain independent same-event attention before discovery collapses it.
+
+    This is a selection signal, not corroboration or a breaking-news verdict.
+    Compare directly with each anchor, never transitively through a loose match.
+    Duplicate feeds and sister publications count once per publisher family.
+    """
+    unique = {}
+    for lead in collected:
+        url = canonical(lead.get('url', ''))
+        if url and not source_error(str(lead.get('category', '')), url):
+            unique.setdefault(url, lead)
+    terms = {url: topic_terms(lead) for url, lead in unique.items()}
+    owners = {url: publisher_for(url)['family'] for url in unique}
+    result = {}
+    for url, anchor in unique.items():
+        family = owners[url]
+        families = {family: url}
+        for other_url, other in unique.items():
+            if other_url == url or other['category'] != anchor['category']:
+                continue
+            other_family = owners[other_url]
+            if other_family in families:
+                continue
+            left, right = terms[url], terms[other_url]
+            numbers_left = {term for term in left if term.isdigit()}
+            numbers_right = {term for term in right if term.isdigit()}
+            if numbers_left and numbers_right and numbers_left.isdisjoint(numbers_right):
+                continue
+            if len(left & right) >= 3 and topic_similarity(anchor, other) >= 0.80:
+                families[other_family] = other_url
+        result[url] = {'coverage_family_count': len(families),
+                       'coverage_urls': list(families.values())}
+    return result
+
+
 def select_hourly_leads(collected: list[dict[str, Any]], published_urls=()) -> list[dict[str, Any]]:
     """Build a diverse, distinct primary queue; attach corroboration when found.
 
@@ -389,6 +427,7 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=()) -> l
     another publisher used a different headline or did not cover it.
     """
     excluded = {canonical(url) for url in published_urls}
+    coverage = event_coverage(collected)
     result = []
     for category in CATEGORIES:
         unique = {}
@@ -399,13 +438,19 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=()) -> l
             # could be read, 18 Oct); their slots go to readable sources.
             if (lead.get("category") == category and url and url not in excluded and not source_error(category, url)
                     and (publisher_for(url) or {}).get("hourly_primary", True)):
-                unique.setdefault(url, lead)
-        pool = sorted(unique.values(), key=lambda item: (item.get("published", ""), rank(item)), reverse=True)
+                unique.setdefault(url, dict(lead, **coverage[url],
+                    coverage_already_published=bool(set(coverage[url]['coverage_urls']) & excluded)))
+        pool = sorted(unique.values(), key=lambda item: (
+            not item['coverage_already_published'], min(item['coverage_family_count'], 5),
+            rank(item), item.get("published", "")), reverse=True)
         chosen = []
         family_counts = Counter()
         while pool and len(chosen) < MANIFEST["category_limits"][category]["discovery_max"]:
-            # Alternate publishers so one busy feed cannot exhaust the queue.
-            anchor = min(pool, key=lambda item: family_counts[publisher_for(item["url"])["family"]])
+            # Prioritize fresh widely covered events, then alternate publishers.
+            # Known covered events remain reserves for a genuine new development.
+            anchor = min(pool, key=lambda item: (item['coverage_already_published'],
+                         -min(item['coverage_family_count'], 5),
+                         family_counts[publisher_for(item["url"])["family"]]))
             pool.remove(anchor)
             def compatible(item):
                 a = {term for term in topic_terms(anchor) if term.isdigit()}
@@ -488,6 +533,7 @@ def main() -> int:
                 f"- URL: {lead['url']}",
                 f"- Corroboration pair: {lead.get('pair_id', 'none')}",
                 f"- Independent corroborating URL: {lead.get('corroborates_url', 'not pre-matched')}",
+                f"- Independent publisher families covering this event: {lead.get('coverage_family_count', 1)} (discovery signal, not verification)",
                 f"- Summary (discovery only): {lead['summary'] or 'No RSS summary available.'}",
                 f"- Primary-source status: {'discovery-only for this lane' if lead.get('discovery_only') else 'eligible only after independent verification'}",
                 "",
@@ -506,6 +552,7 @@ def main() -> int:
         "searches": [{"query": query, "lane": lane} for query, lane in SEARCHES],
         "sources": audits,
         "leads": leads,
+        "raw_leads": collected,
         "raw_categories": dict(Counter(lead["category"] for lead in collected)),
     }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("DISCOVERY " + json.dumps({

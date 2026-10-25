@@ -36,10 +36,11 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         # inventory/global brief for later fresh replacements and rewrites.
         def note_priority(lead):
             risky = bool(lead.get("source_basis_warning"))
+            attention = (bool(lead.get('coverage_already_published')), -min(lead.get('coverage_family_count', 1), 5))
             if not lead.get("facts_path"):
-                return risky, 3
+                return risky, *attention, 3
             sheet = json.loads(Path(lead["facts_path"]).read_text(encoding="utf-8"))
-            return risky, 0 if sheet.get("origin") in {"model", "cache"} else 2 if sheet.get("origin") == "fragments" else 1
+            return risky, *attention, 0 if sheet.get("origin") in {"model", "cache"} else 2 if sheet.get("origin") == "fragments" else 1
         leads = sorted(leads, key=note_priority)
         if desk_slot is not None:
             # Each one-article request has its own main/spare candidates. A
@@ -91,13 +92,18 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
             raise ValueError("ready story source is outside its category")
         identities.append({key: lead[key] for key in ('pair_id', 'url', 'category')})
         metadata = {key: lead.get(key) for key in ("pair_id", "category", "source", "url", "published", "city",
-                                                   "requires_corroboration", "corroborates_url", "image_subject", "source_basis_warning")
+                                                   "requires_corroboration", "corroborates_url", "image_subject", "source_basis_warning",
+                                                   "coverage_family_count", "coverage_already_published")
                     if lead.get(key) not in (None, "")}
         if lead.get("corroborates_url") and source_error(lead["category"], lead["corroborates_url"]):
             raise ValueError("corroborator is outside the story category")
         secondary = publisher_for(lead.get("corroborates_url"))
         if secondary:
             metadata["corroborating_source"] = secondary["source"]
+        if lead.get('coverage_family_count', 1) > 1:
+            lines.append('Widely covered event: prioritize its verified public facts. Publisher count is discovery attention only; never call it breaking or confirmed solely from that count.')
+        if lead.get('coverage_already_published'):
+            lines.append('383 already used a source covering this event. Use only a genuinely new evidenced development; a new publisher URL alone is not a new story.')
         lines.append(f"## Ready story {lead['pair_id']}")
         for key, value in metadata.items():
             if key in {"url", "corroborates_url"}:
