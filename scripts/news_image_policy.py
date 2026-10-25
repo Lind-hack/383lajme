@@ -821,7 +821,7 @@ def hook_score(page: dict, now: datetime | None = None) -> float:
     return score
 
 
-def photo_fingerprint(url: str) -> tuple[int, int, str, int]:
+def photo_payload(url: str) -> bytes:
     from read_news_source import check_public
     # Check every redirect before following it; do not fetch private addresses.
     for _ in range(5):
@@ -849,15 +849,20 @@ def photo_fingerprint(url: str) -> tuple[int, int, str, int]:
             if response is not None:
                 response.close()
             pool.close()
-        with Image.open(BytesIO(payload)) as image:
-            if image.width * image.height > 50_000_000:
-                raise ValueError("Photo exceeds decoded size limit")
-            width, height = image.size
-            pixels = list(ImageOps.exif_transpose(image).convert("L").resize((16, 16)).tobytes())
-            mean = sum(pixels) / len(pixels)
-            visual = sum((pixel > mean) << index for index, pixel in enumerate(pixels))
-        return width, height, hashlib.sha256(payload).hexdigest(), visual
+        return payload
     raise ValueError("Too many photo redirects")
+
+
+def photo_fingerprint(url: str) -> tuple[int, int, str, int]:
+    payload = photo_payload(url)
+    with Image.open(BytesIO(payload)) as image:
+        if image.width * image.height > 50_000_000:
+            raise ValueError("Photo exceeds decoded size limit")
+        width, height = image.size
+        pixels = list(ImageOps.exif_transpose(image).convert("L").resize((16, 16)).tobytes())
+        mean = sum(pixels) / len(pixels)
+        visual = sum((pixel > mean) << index for index, pixel in enumerate(pixels))
+    return width, height, hashlib.sha256(payload).hexdigest(), visual
 
 
 def _research(lead: dict, primary: dict, secondary: dict, plan: dict, deadline: float):
@@ -1023,6 +1028,9 @@ def finalize_photo(lead: dict, option: dict) -> dict:
     every source image and not already used this run."""
     if time.monotonic() >= lead.get("_photo_deadline", float("inf")):
         return {}
+    visual_review = option.get('_visual_review')
+    if os.environ.get('L383_HOURLY_NEWS') == '1' and not visual_review:
+        return {}
     photo = {**option["photo"], "image_rights": dict(option["photo"]["image_rights"])}
     try:
         width, height, digest, visual = photo_fingerprint(photo["image_url"])
@@ -1030,6 +1038,10 @@ def finalize_photo(lead: dict, option: dict) -> dict:
         return {}
     if width < 1200 or height < 630:
         return {}
+    if visual_review:
+        from news_visual_contact import valid_record
+        if not valid_record({'sha256':digest,'visual_review':visual_review}):
+            return {}
     # An outlet often runs the institution's own press photo; that photo is
     # still the institution's, so only other tiers must differ from sources.
     if option["tier"] != "press" and any(digest == source[2] or (visual ^ source[3]).bit_count() <= 20
@@ -1048,6 +1060,8 @@ def finalize_photo(lead: dict, option: dict) -> dict:
     photo["image_rights"].update(sha256=digest, distinct_from_source=True,
                                  source_images_checked=lead.get("_source_urls", []),
                                  photo_tier=option["tier"], taken=taken if isinstance(taken, str) else taken.isoformat() if taken else "")
+    if visual_review:
+        photo['image_rights']['visual_review'] = dict(visual_review)
     return photo
 
 
@@ -1096,6 +1110,10 @@ def image_errors(article: dict) -> list[str]:
         return [] if not article.get("image_url") and article.get("image_rights") == photo["image_rights"] else [
             "image provenance was changed or omitted; use the prepared photo metadata"]
     rights = photo.get("image_rights", {})
+    if os.environ.get('L383_HOURLY_NEWS') == '1':
+        from news_visual_contact import valid_record
+        if not valid_record(rights):
+            return ['image has no current native Luna/max pixel review bound to its exact bytes']
     from news_asset_photos import valid_asset_photo
     asset = rights.get("photo_tier") == "asset" and valid_asset_photo(article, photo)
     if (rights.get("photo_tier") == "asset" or rights.get("asset_code")) and not asset:

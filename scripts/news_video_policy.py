@@ -8,6 +8,7 @@ from the last few days. The article embeds the player (allowed by YouTube's
 terms); the video's own thumbnail is its poster on cards.
 """
 from __future__ import annotations
+import os
 
 import concurrent.futures
 import re
@@ -280,6 +281,9 @@ def video_options(lead: dict) -> list[dict]:
 
 
 def finalize_video(lead: dict, option: dict) -> dict:
+    visual_review = option.get('_visual_review')
+    if os.environ.get('L383_HOURLY_NEWS') == '1' and not visual_review:
+        return {}
     video, name = option["video"], option["name"]
     if not embeddable(video["video_id"]):
         return {}
@@ -291,6 +295,10 @@ def finalize_video(lead: dict, option: dict) -> dict:
         return {}
     if width < 1200 or height < 630:
         return {}
+    if visual_review:
+        from news_visual_contact import valid_record
+        if not valid_record({'sha256':digest,'visual_review':visual_review}):
+            return {}
     reserve = lead.get("_reserve_photo")
     if reserve and not reserve(thumbnail):
         return {}
@@ -302,6 +310,7 @@ def finalize_video(lead: dict, option: dict) -> dict:
                              "license": "YouTube embed", "license_url": "https://www.youtube.com/t/terms",
                              "description": video["title"][:300], "channel_id": video["channel_id"],
                              "published": video["published"], "sha256": digest,
+                             **({'visual_review':dict(visual_review)} if visual_review else {}),
                              "verified_at": datetime.now(timezone.utc).isoformat()}}
 
 

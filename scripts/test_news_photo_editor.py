@@ -24,6 +24,14 @@ def story(pair_id, count=3):
 
 
 class PhotoEditorTests(unittest.TestCase):
+    def setUp(self):
+        def contact(by_id, folder, index, deadline):
+            path=folder/f'contact-{index}.jpg';path.write_bytes(b'unit fixture')
+            for story in by_id.values():
+                for item in story['options']:item['_visual_source_sha256']='a'*64
+            return path,{key:list(range(1,len(story['options'])+1)) for key,story in by_id.items()}
+        patcher=patch.object(editor,'prepare_contact',side_effect=contact)
+        patcher.start();self.addCleanup(patcher.stop)
     def test_ascii_ids_and_retry_recover_only_the_missing_photo_decision(self):
         stories = [story("Teknologji-03"), story("Kosove-07")]
         responses = [[{"pair_id": "story-001", "picks": [1]}, {"pair_id": "story-OO2", "picks": [2]}],
@@ -51,10 +59,10 @@ class PhotoEditorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {"WRITER_EFFORT_FLAG": ""}), patch.object(editor, "ask_rows", return_value=[{"pair_id": "story-001", "picks": [1]}]):
             self.assertEqual(editor.choose([story("a")], Path(folder)), {"a": [0]})
 
-    def test_a_failed_chunk_leaves_its_stories_undecided(self):
+    def test_a_failed_pixel_chunk_refuses_its_stories(self):
         with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {"WRITER_EFFORT_FLAG": "--ignore-user-config"}), \
                 patch.object(editor, "ask_rows", side_effect=editor.subprocess.TimeoutExpired("hermes", 240)):
-            self.assertEqual(editor.choose([story("a")], Path(folder)), {})
+            self.assertEqual(editor.choose([story("a")], Path(folder)), {'a':[]})
 
     def test_trimmed_keeps_the_best_few_of_each_tier(self):
         options = [option("fresh", str(n)) for n in range(5)] + [option("video", "v")] + [option("place", str(n)) for n in range(3)]

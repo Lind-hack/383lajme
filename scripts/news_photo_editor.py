@@ -16,6 +16,7 @@ from pathlib import Path
 
 from news_model import ask_rows, stage_deadline
 from news_image_policy import plain, readable_brief
+from news_visual_contact import prepare as prepare_contact, attestation
 
 CHUNK = 8
 EDITOR_DEADLINE = 240
@@ -48,16 +49,22 @@ def _choose_chunk(stories: list[dict], folder: Path, index: int, deadline: float
     brief = folder / f"news-photo-editor-{index}.md"
     rows = []
     by_id = {f"story-{number:03d}": story for number, story in enumerate(stories, 1)}
+    sheet, visible = prepare_contact(by_id, folder, index, deadline if deadline is not None else stage_deadline(EDITOR_DEADLINE))
+    if sheet is None:
+        return {story['pair_id']: [] for story in stories}
     for key, story in by_id.items():
         row = {"pair_id": key, "headline": story["title"], "story": story["text"][:700]}
         row.update({f"option {number}": f"[{option['tier']}] {describe(option)}"
                     for number, option in enumerate(story["options"], 1)})
-        rows.append(row)
+        rows.append({name:value for name,value in row.items()
+                     if not name.startswith('option ') or int(name.split()[1]) in visible[key]})
     brief.write_text(readable_brief(rows), encoding="utf-8")
     prompt = (
-        f"Read {brief.resolve()}. You are the photo editor of a news site. For every story, list the numbers of "
-        "the options that truthfully illustrate THIS story, best first: the story's own person at a relevant "
-        "moment, its event, its team, its product or its place; [press] options are photos from the press release of the institution named in the story, the last two days; [video] options are the subject's own official videos of the last three days, [fresh] photos were taken in the last 30 days, [older] are archive photos of the last two years: use one only if it shows the story's own person or team; [place] are dated archive photos of the story's own institution, place, team or company (its building, city, stadium, headquarters), the last resort. "
+        f"Read {brief.resolve()}. You are the photo editor of a news site. "
+        "Use the attached contact sheet's actual pixels. Every cell is labelled story-ID option N. Only shown options may be selected. Metadata does not turn a results table, infographic, chart, logo, poster, album cover or render into a photograph; reject those even on official sites. A video option also requires a photographic poster that shows the story's subject. "
+        "For every story, list the numbers of options that truthfully illustrate its own person, event, team, product or place. "
+        "Include every suitable photographed alternative, best first, because one image may only be used once in this hourly batch. "
+        "[press] options are photos from the press release of the institution named in the story, the last two days; [video] options are the subject's own official videos of the last three days, [fresh] photos were taken in the last 30 days, [older] are archive photos of the last two years: use one only if it shows the story's own person or team; [place] are dated archive photos of the story's own institution, place, team or company (its building, city, stadium, headquarters), the last resort. "
         "[asset] options are visually reviewed photographs of physical tokens or banknotes for that exact asset's market story, explicitly captioned as illustrations with their actual capture dates. They may illustrate market price/flow news about that exact asset; they are not photographs of today's trading event. Prefer documentary photos first. "
         "Prefer a photo of the very event the story reports. A clear photo or portrait of the story's main "
         "person, team or institution taken on another occasion IS a correct pick (its caption gives the date), "
@@ -72,22 +79,23 @@ def _choose_chunk(stories: list[dict], folder: Path, index: int, deadline: float
     )
     answer = ask_rows(prompt, brief, ["--provider", "openai-codex", "--model",
                                       "gpt-6-luna", "--ignore-rules", "-t", "file",
-                                      "--yolo", "--max-turns", "8", "-Q", "-q"], timeout=EDITOR_DEADLINE, deadline=deadline)
-    picks: dict[str, list[int]] = {}
+                                      "--yolo", "--max-turns", "8", "-Q", "-q"], timeout=EDITOR_DEADLINE, deadline=deadline, image_path=sheet)
+    picks: dict[str, list[int]] = {story['pair_id']: [] for key,story in by_id.items() if not visible[key]}
     for row in answer if isinstance(answer, list) else []:
         story = by_id.get(row["pair_id"]) if isinstance(row, dict) and isinstance(row.get("pair_id"), str) else None
         if not story or not isinstance(row.get("picks"), list):
             continue
         # Numbers the model invented or repeated are ignored, never trusted.
         picks[story["pair_id"]] = list(dict.fromkeys(
-            number - 1 for number in row["picks"] if type(number) is int and 1 <= number <= len(story["options"])))
+            number - 1 for number in row["picks"] if type(number) is int and number in visible[row['pair_id']]))
+        for number in picks[story['pair_id']]:
+            story['options'][number]['_visual_review'] = attestation(story['options'][number], sheet)
     return picks
 
 
 def choose(stories: list[dict], folder: Path) -> dict[str, list[int]]:
     """pair_id -> indexes into that story's options, best first ([] = none
-    fits). Stories missing from the result keep the deterministic order:
-    its model chunk failed or exhausted the shared deadline."""
+    fits). Unreviewed pixels never fall back to metadata-only acceptance."""
     deadline = stage_deadline(EDITOR_DEADLINE)
     stories = [story for story in stories if story["options"]]
     chunks = [stories[start:start + CHUNK] for start in range(0, len(stories), CHUNK)]
@@ -112,10 +120,12 @@ def choose(stories: list[dict], folder: Path) -> dict[str, list[int]]:
             try:
                 picks.update(future.result())
             except (subprocess.SubprocessError, OSError, ValueError) as exc:
-                print(f"383 PHOTO EDITOR chunk {futures[future]} skipped ({type(exc).__name__}); deterministic order")
+                print(f"383 PHOTO EDITOR chunk {futures[future]} skipped ({type(exc).__name__}); unverified images refused")
     except concurrent.futures.TimeoutError:
-        print(f"383 PHOTO EDITOR deadline: {sum(not future.done() for future in futures)} chunk(s) kept deterministic order")
+        print(f"383 PHOTO EDITOR deadline: {sum(not future.done() for future in futures)} chunk(s) unverified")
     finally:
         pool.shutdown(wait=True, cancel_futures=True)
-    print(f"383 PHOTO EDITOR judged={len(picks)} of {len(stories)} none_fit={sum(not value for value in picks.values())}")
+    for story in stories:
+        picks.setdefault(story['pair_id'], [])
+    print(f"383 PHOTO EDITOR decisions={len(picks)} of {len(stories)} none_fit_or_unverified={sum(not value for value in picks.values())}")
     return picks

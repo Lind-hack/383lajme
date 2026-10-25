@@ -5,6 +5,7 @@ import sys
 import tempfile
 import time
 import unittest
+import hashlib
 from pathlib import Path
 from unittest.mock import patch
 
@@ -12,6 +13,23 @@ import news_model as model
 
 
 class NewsModelTests(unittest.TestCase):
+    def test_native_image_response_requires_wire_proof_and_complete_inline_brief(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);image=root/'contact.jpg';image.write_bytes(b'fixture')
+            brief=root/'brief.md';brief.write_text('Complete story and photo metadata.',encoding='utf-8')
+            proof={'provider':'openai-codex','model':'gpt-6-luna','effort':'max','wire_requests':1,
+                   'image_sha256':hashlib.sha256(image.read_bytes()).hexdigest()}
+            result=subprocess.CompletedProcess([],0,'383_JSON_BEGIN [] 383_JSON_END',
+                '383_NATIVE_PIXELS_VERIFIED '+json.dumps(proof))
+            with patch.object(model,'run_process',return_value=result) as call:
+                self.assertEqual(model.ask_rows('Judge the attached pixels.',brief,[],10,image_path=image),[])
+                self.assertIn('news_native_pixels.py',call.call_args.args[0][1])
+                self.assertIn(brief.read_text(),image.with_suffix('.prompt.txt').read_text())
+            for stderr in ('', '383_NATIVE_PIXELS_VERIFIED '+json.dumps({**proof,'effort':'low'}),
+                           '383_NATIVE_PIXELS_VERIFIED '+json.dumps({**proof,'image_sha256':'changed'})):
+                with patch.object(model,'run_process',return_value=subprocess.CompletedProcess([],0,result.stdout,stderr)):
+                    with self.assertRaises(ValueError):model.ask_rows('Judge pixels.',brief,[],10,image_path=image)
+
     def test_only_luna_oauth_and_retained_max_configuration_are_allowed(self):
         args = model.model_args(["-t", "file"])
         self.assertEqual(args[args.index("--model") + 1], "gpt-6-luna")

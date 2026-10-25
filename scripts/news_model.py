@@ -13,6 +13,7 @@ import threading
 import time
 from pathlib import Path
 import news_model_quota
+import hashlib
 
 MODEL = "gpt-6-luna"
 PROVIDER = "openai-codex"
@@ -138,12 +139,27 @@ def rows(answer) -> list:
 
 
 def ask_rows(prompt: str, brief: Path, hermes_args: list[str], timeout: int,
-             *, deadline: float | None = None) -> list:
+             *, deadline: float | None = None, image_path: Path | None = None) -> list:
     command = [os.environ.get("L383_HERMES_BIN", "/opt/hermes/.venv/bin/hermes"), "chat",
                *model_args(hermes_args), prompt]
+    if image_path is not None:
+        complete = prompt + '\n\nThe complete brief follows; use it directly without file tools:\n' + brief.read_text(encoding='utf-8')
+        if len(complete.encode('utf-8')) > 96_000:
+            raise ValueError('native photo brief exceeds complete-context limit')
+        prompt_file = image_path.with_suffix('.prompt.txt')
+        prompt_file.write_text(complete, encoding='utf-8')
+        command = ['/opt/hermes/.venv/bin/python', str(Path(__file__).with_name('news_native_pixels.py')),
+                   '--image', str(image_path.resolve()), '--prompt', str(prompt_file.resolve())]
     result = run_process(command, timeout, deadline=deadline)
     if result.returncode:
         raise ValueError("Codex OAuth model call failed")
+    if image_path is not None:
+        prefix = '383_NATIVE_PIXELS_VERIFIED '
+        proof = next((json.loads(line[len(prefix):]) for line in (result.stderr or '').splitlines() if line.startswith(prefix)), {})
+        if (not isinstance(proof,dict) or proof.get('provider') != PROVIDER or proof.get('model') != MODEL or proof.get('effort') != 'max'
+                or type(proof.get('wire_requests')) is not int or proof['wire_requests'] < 1
+                or proof.get('image_sha256') != hashlib.sha256(image_path.read_bytes()).hexdigest()):
+            raise ValueError('native photo response has no matching verified pixel request')
     start = result.stdout.rfind("383_JSON_BEGIN")
     end = result.stdout.find("383_JSON_END", start + 14)
     if start < 0 or end < 0:

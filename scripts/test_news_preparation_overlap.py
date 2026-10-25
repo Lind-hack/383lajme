@@ -28,7 +28,7 @@ class PreparationOverlapTests(unittest.TestCase):
 
         def choose(*_):
             self.assertFalse(notes_started.is_set(), "reporter model work must wait for the photo editor")
-            return {"none": []}
+            return {"good":[0],"bad":[0],"none": []}
 
         def notes(inputs, folder):
             calls.append(inputs)

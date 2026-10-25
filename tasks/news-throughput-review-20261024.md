@@ -46,12 +46,11 @@ in this reviewed change set.
 
 The goal is not complete. The 18:00 run published nine articles, with missing
 Shqipëri/Sport and only one Showbiz article. The 19:00 run encountered actual
-OAuth account exhaustion. The 20:00 run is still active on worker5dfc0b5d.
-
-Ordinary photo-editor calls currently see metadata. Installed Hermes supports
-native images but may strip rejected images or invoke auxiliary vision. A guarded
-native-only visual fixture must succeed before claiming pixel inspection. Do not
-introduce another model/provider or treat text-only fallback as visual approval.
+OAuth account exhaustion. The 20:00 run failed independent originality review;
+its ten candidates were not published. The 21:00–23:00 runs also exhausted the
+account allowance. The reviewed reserve/integrity changes became active in worker
+fdfe2129 at 23:45 UTC, after those slots. Do not count those earlier outcomes as
+acceptance of the new worker.
 
 After release, require exact production SHA/source/ref, idle-lock worker activation,
 and two scheduled runs with two to three genuinely verified articles in every
@@ -65,3 +64,43 @@ features. Their 59 relevant frontend checks and the merged production build pass
 The final published-state safeguard also passed all 17 Linux orchestration checks.
 The staged release remains subject to Railway exact-SHA verification and idle-lock
 activation; live all-category publication acceptance is still outstanding.
+
+## Native photo inspection, 25 October
+
+The photo editor now receives actual contact-sheet pixels in its existing Luna
+calls. Each eight-story chunk offers at most eight images per story, preserving
+available tiers. Downloads retain the existing public-address, redirect and size
+checks; six downloads run concurrently, with a 128-thumbnail process-local cache.
+Unseen, unreadable or unreviewed images cannot fall back to metadata approval.
+
+The isolated subprocess requires openai-codex, gpt-6-luna and max effort, disables
+tools and aborts auxiliary vision and image stripping. It checks the exact image
+digest in the outgoing Codex request. A positive verdict records the original
+image and contact-sheet digests. Final photo/video qualification re-fetches the
+image and requires matching bytes and a current review record; publication checks
+the retained record. Provider or runtime incompatibility fails closed.
+
+Direct review found and fixed an early qualification gap: checking only the source
+digest could retain a malformed review until the final publication gate. Both
+photo and video qualification now validate the complete native review record.
+
+Validation:
+
+- Live opaque-image probe: Luna identified the Ethereum token, moss and grass;
+  the outgoing image digest/provider/model/max checks passed.
+- Real two-story contact fixture: Ethereum photo accepted, federation results
+  graphic and unrelated subject refused, in 11.1 seconds.
+- Dense eight-story / 64-cell fixture: all eight exact-asset and results-graphic
+  checks passed in 34.2 seconds, including multiple fitting alternatives.
+- These QA fixtures wrote no articles or publication approvals.
+- Combined Linux news/source/hourly/originality/publication checks: 362 passed
+  before the final stricter review-record validation; targeted checks cover that
+  validation and both photo/video poster qualification.
+- After that validation change, all 58 targeted Linux contact/image/video checks
+  passed. The final production build passed. Direct read-only review of the
+  complete native change, tests and call sites found no remaining actionable
+  regressions; live hourly coverage and account capacity remain unproven.
+
+Native pixel inspection is an image-quality safeguard, not evidence that all
+seven desks now meet their hourly publication floor. Scheduled acceptance remains
+required, including verification against complete reviewed database rows.

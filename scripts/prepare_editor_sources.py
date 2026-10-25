@@ -422,8 +422,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     finalize_deadline = time.monotonic() + 240
     for lead, found in zip(shortlist, options):
         lead.update(_visual_options=found, _photo_deadline=finalize_deadline)
-        if lead["pair_id"] in picks:
-            lead["_visual_choice"] = picks[lead["pair_id"]]
+        lead["_visual_choice"] = picks.get(lead["pair_id"], [])
     folder = path.parent / "source-evidence"
     folder.mkdir(exist_ok=True)
     # Photo selection has finished its model calls. Warm only reporter notes
