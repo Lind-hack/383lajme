@@ -261,10 +261,11 @@ def source_basis_warning(lead: dict) -> str:
     title = fold(str(lead.get("title", "")))
     labels = {fold(str(tag)) for tag in (lead.get("tags") or [])}
     path = urlsplit(str(lead.get("url", ""))).path.casefold()
-    if (labels & {"opinion", "opinione", "editorial", "analysis", "analiza", "review", "reviews", "gallery", "galeri", "betting"}
-            or re.search(r"/(?:opinion|opinione|editorial|gallery|galleries|galeri|betting)/", path)
+    if (labels & {"opinion", "opinione", "editorial", "analysis", "analiza", "review", "reviews", "gallery", "galeri", "betting", "how-to", "howto", "guide", "guides", "tutorial", "explainer"}
+            or re.search(r"/(?:opinion|opinione|editorial|gallery|galleries|galeri|betting|how-to|guide|guides|explainer)/", path)
+            or re.search(r'^(?:how to|should you|do you (?:really )?need|what (?:is|are))\b',title)
             or re.search(r"\((?:exclusive|ekskluzive)\)|^(?:exclusive|ekskluzive|opinion|editorial)\s*:", title)):
-        return "Source explicitly labels exclusive, opinion, review, gallery or betting material: prefer a public announcement; use only independently supported public facts."
+        return "Source labels exclusive, opinion, review, how-to, explanatory, gallery or betting material: prefer a public announcement; use only independently supported public facts."
     text = fold(str(lead.get("primary_evidence", {}).get("text", "")))
     if re.search(r"\b(?:intervist\w*|interviews?|sources? at the|sources? close to|our sources|"
                  r"we.re told|qytetareve te intervistuar|burime anonime|burimeve anonime)\b", text):
@@ -288,6 +289,21 @@ def prioritize_grounded_leads(leads: list[dict]) -> list[dict]:
                 words < 140, words < 80, bool(lead.get('coverage_already_published')),
                 -min(lead.get('coverage_family_count', 1), 5))
     return sorted(leads, key=priority)
+
+
+def mark_recent_story_attention(leads: list[dict], recent: list[dict]) -> list[dict]:
+    """Demote likely retellings before photo/writing work, never discard updates."""
+    from codex_automation_support import _story_key
+    keys=[_story_key(article) for article in recent]
+    marked=[]
+    for lead in leads:
+        words=_story_key({'title':lead.get('title',''),'excerpt':lead.get('summary',''),
+                          'body':lead.get('primary_evidence',{}).get('text','')})
+        overlap=max((len(words & old)/len(words | old) for old in keys
+                     if len(words)>=8 and len(old)>=8),default=0)
+        marked.append({**lead,'coverage_already_published':bool(lead.get('coverage_already_published')) or overlap>=0.25,
+                       'published_story_overlap':round(overlap,3)})
+    return marked
 
 
 def reporter_note_candidates(ready: list[dict], plan: dict[str, int]) -> list[dict]:
@@ -400,6 +416,13 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
                          "corroborates_url": secondary_url if secondary_ok else "",
                          "primary_evidence": primary, "secondary_evidence": secondary if secondary_ok else {},
                          "source_basis_warning": source_basis_warning({**lead, "primary_evidence": primary})})
+    # Spend photo/model work on untold stories first. This is only an ordering
+    # signal; the final gate still judges genuine developments independently.
+    try:
+        from codex_automation_support import _recently_published
+        eligible=mark_recent_story_attention(eligible,_recently_published())
+    except Exception as exc:
+        print(f'383 PUBLISHED STORY ATTENTION unavailable ({type(exc).__name__}); final deduplication remains required')
     # Oversample each desk to replace image failures and editorial rejections.
     # With a recent photo required, about one lead in twenty found one on 18 Oct,
     # so every desk sends up to 30 more than its target.

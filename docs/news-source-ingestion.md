@@ -73,6 +73,18 @@ keep missing declared sitemaps failed, and avoid repeatedly downloading an
 already retrieved old article unless its discovery metadata changes.
 Remaining coverage/access limitations are recorded above.
 
+The first live scheduled run on this ingestion release produced 686 current
+eligible source leads, 374 unpublished selections and 51 photo-qualified ready
+stories across all seven desks, but published only three articles. Retrieval
+success is not publication success: editorial deadlines, already published
+events, topic classification and originality rejection still affected output.
+Follow-up changes align URL identity with the publication gate, mark likely
+retellings before expensive preparation without removing potential updates,
+preserve the Albania youth-sport exception in Albanian, distinguish concert
+tours from tournaments, inline verified fallback facts for the tool-free
+writer, and supply existing originality diagnostics to the initial editor.
+These changes do not waive any final check or establish a guaranteed quota.
+
 ## Release operations
 
 Publish code only through a clean commit pushed to `origin/main` and Railway's

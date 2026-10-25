@@ -45,7 +45,10 @@ class WriterBriefTests(unittest.TestCase):
     def test_three_allocated_slots_partition_all_six_sources_without_overlap(self):
         leads=[{**self.lead, 'pair_id':f'Kosovë-{i}', 'url':f'https://koha.net/slot-{i}'} for i in range(6)]
         leads=[{k:v for k,v in lead.items() if k!='facts_path'} for lead in leads]
-        self.discovery.write_text(json.dumps({'publication_plan':{'Kosovë':3}, 'ready_leads':leads}),encoding='utf-8')
+        self.write(leads)
+        data=json.loads(self.discovery.read_text())
+        data['publication_plan']['Kosovë']=3
+        self.discovery.write_text(json.dumps(data),encoding='utf-8')
         seen=set()
         for slot in (1,2,3):
             self.assertEqual(build(self.discovery,self.output,'Kosovë',cap=1,spares=1,desk_slot=slot),2)
@@ -86,8 +89,17 @@ class WriterBriefTests(unittest.TestCase):
                      "image_subject": "Prishtina", "published": "2026-10-22T12:00:00Z"}
 
     def write(self, rows=None):
+        rows=rows if rows is not None else [self.lead]
+        for lead in rows:
+            evidence=self.root/(lead['pair_id']+'.evidence.json')
+            evidence.write_text(json.dumps({'source_url':lead['url'],'evidence':{
+                'url':lead['url'],'status':'text_extracted',
+                'text':'Verified municipal decision on 25 October. Council approval starts a new public service. '
+                       'The published timetable lists three routes. The budget contains 20 vehicles. '
+                       'Residents can apply on Monday. The authority published the exact implementation date.'}}),encoding='utf-8')
+            lead['evidence_path']=str(evidence)
         self.discovery.write_text(json.dumps({"publication_plan": {"Kosovë": 2, "Shqipëri": 2},
-                                              "ready_leads": rows if rows is not None else [self.lead],
+                                              "ready_leads": rows,
                                               "leads": [{"summary": "UNREADY_SOURCE_SENTINEL"}]}), encoding="utf-8")
 
     def test_composer_gets_exact_notes_and_provenance_without_original_headlines_or_summaries(self):
@@ -179,12 +191,42 @@ class WriterBriefTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             build(self.discovery, self.output)
 
-    def test_no_notes_retains_only_the_existing_verified_evidence_fallback(self):
+    def test_no_notes_inlines_verified_evidence_without_requiring_a_file_tool(self):
         self.write([{key: value for key, value in self.lead.items() if key != "facts_path"}])
         build(self.discovery, self.output)
         brief = self.output.read_text(encoding="utf-8")
-        self.assertIn(self.lead["evidence_path"], brief)
+        self.assertIn('The budget contains 20 vehicles',brief)
+        self.assertIn('Verified source fragments',brief)
+        self.assertNotIn(self.lead["evidence_path"], brief)
         self.assertNotIn("ORIGINAL_PROSE_SENTINEL", brief)
+
+    def test_fallback_rejects_restricted_or_mismatched_source_evidence(self):
+        row={key:value for key,value in self.lead.items() if key!='facts_path'}
+        self.write([row])
+        path=Path(row['evidence_path'])
+        original=json.loads(path.read_text())
+        for invalid in ({**original,'source_url':'https://koha.net/another'},
+                        {**original,'evidence':{**original['evidence'],'status':'restricted'}},
+                        {**original,'evidence':{**original['evidence'],'url':'https://telegrafi.com/another'}}):
+            path.write_text(json.dumps(invalid))
+            with self.assertRaises(ValueError):
+                build(self.discovery,self.output)
+
+    def test_fallback_inlines_the_required_independent_corroboration(self):
+        row={key:value for key,value in self.lead.items() if key!='facts_path'}
+        row.update(corroborates_url='https://telegrafi.com/confirmation',requires_corroboration=True)
+        self.write([row])
+        path=Path(row['evidence_path'])
+        record=json.loads(path.read_text())
+        record['corroborating']=[{'url':row['corroborates_url'],'evidence':{
+            'url':row['corroborates_url'],'status':'text_extracted',
+            'text':'The independent confirmation lists 20 vehicles and the same council decision.'}}]
+        path.write_text(json.dumps(record))
+        build(self.discovery,self.output)
+        text=self.output.read_text(encoding='utf-8')
+        self.assertIn('independent corroboration',text)
+        self.assertIn('20 vehicles',text)
+        self.assertNotIn(str(path),text)
 
     def test_replacement_brief_limits_work_and_excludes_used_or_full_categories(self):
         approved, attempted = self.root / "approved.json", self.root / "attempted.json"

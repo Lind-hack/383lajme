@@ -213,7 +213,7 @@ WOMEN_SPORT_PATTERN = re.compile(
 LOW_VALUE_SPORT_PATTERN = re.compile(
     r"\b(youth|u-?\d+|(?:kampionat\w*|lig\w*|ekip\w*|skuadr\w*|turne\w*|kombetar\w*)"
     r"(?: (?:per|e|i|te)){0,3} (?:te )?rinj\w*|lower league|liga e ulet|friendly|miqesor\w*)\b", re.I)
-KOSOVO_SPORT_INTEREST_MARKERS = {"kosov", "alban", "drita", "ballkani", "prishtina", "llapi"}
+KOSOVO_SPORT_INTEREST_MARKERS = {"kosov", "alban", "shqiper", "drita", "ballkani", "prishtina", "llapi"}
 
 
 def fold(value: object) -> str:

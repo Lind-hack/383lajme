@@ -28,7 +28,7 @@ _SPORT_URL_SEGMENT = re.compile(
 )
 _SPORT_TITLE = re.compile(
     r"\b(?:futboll\w*|basketboll\w*|boks\w*|ndeshj\w*|gol(?:a|in|at|it|ave)?|"
-    r"asistim\w*|penallti\w*|kampionat\w*|turne\w*|medalj\w*|bronzin|"
+    r"asistim\w*|penallti\w*|kampionat\w*|tenis\w*|medalj\w*|bronzin|"
     r"cerekfinal\w*|gjysmefinal\w*|finalen|skuadr\w*|lojtar\w*|trajner\w*|mesfushor\w*|superlig\w*|kryederb\w*|"
     r"perzgjedhes\w*|liga e kombeve|nations league|champions league|"
     r"premier league|euroliga|uefa|fifa|nba|grand prix|kualifikim\w* ne boteror|skiator\w*|slalom\w*|"
@@ -71,6 +71,15 @@ def is_sports_story(
         return True
     if _SPORT_TITLE.search(headline) or _SCORE.search(headline):
         return True
+    if re.search(r'\b(?:derbi(?:n|t|ve)?|derbet)\b',headline):
+        political = re.search(r'\b(?:zgjedh\w*|vot\w*|parti\w*|parlament\w*)\b',headline)
+        return bool(_SPORT_CONTEXT.search(context)) or not political
+    if re.search(r"\bturne\w*\b", headline):
+        # Albanian uses the same word for a concert tour and a tournament.
+        # A translated music headline must not acquire a sports classification.
+        if re.search(r"\b(?:koncert\w*|concert\w*|muzik\w*|music\w*|kengetar\w*|singer\w*|album\w*)\b", headline+' '+context):
+            return False
+        return bool(_SPORT_CONTEXT.search(context))
     if _SPORT_PERSON_OR_TEAM.search(headline) and _SPORT_CONTEXT.search(context):
         return True
     if re.search(r"\b(?:stervitj\w*|fitore ndaj|fitorj\w* ndaj|duel\w*|debuton|demtim\w*|formacion\w*)\b", headline):

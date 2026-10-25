@@ -11,6 +11,24 @@ from news_run_state import completed, save
 
 
 class SourceIsolation(unittest.TestCase):
+    def test_albanian_language_country_name_preserves_existing_youth_sport_exception(self):
+        from editorial_rules_v2 import article_errors
+        for title in ('Shqipëria U-15 fiton ndaj Ruandës','Albania U-15 fiton ndaj Ruandës'):
+            self.assertFalse(any('youth/lower-league' in error for error in article_errors(
+                {'category':'Sport','title':title,'excerpt':'Skuadra fitoi katër me zero.'})))
+        self.assertTrue(any('youth/lower-league' in error for error in article_errors(
+            {'category':'Sport','title':'Anglia U-15 fiton ndaj Ruandës','excerpt':'Skuadra fitoi katër me zero.'})))
+
+    def test_albanian_concert_tours_are_not_sports_tournaments(self):
+        self.assertIsNone(topic_error('Showbiz','Sam Fender heq Front Standing nga turneu i vitit 2027',
+            'Këngëtari ndryshon kategoritë e biletave për koncertet e ardhshme.'))
+        self.assertIsNone(topic_error('Showbiz','Dua Lipa shpall turneun e ri',
+            'Koncertet për albumin do të mbahen edhe në stadiume futbolli.'))
+        self.assertIsNotNone(topic_error('Botë','Turneu i tenisit shpall finalen',
+            'Lojtarët do të garojnë për trofeun.'))
+        self.assertIsNotNone(topic_error('Kosovë','Kosova nis turneun përgatitor',
+            'Trajneri mblodhi futbollistët e kombëtares për ndeshjet.'))
+
     def test_albanian_year_does_not_turn_foreign_reporting_into_a_kosovo_story(self):
         self.assertIsNotNone(topic_error('Kosovë','Kim Kardashian rikthen fustanin nga viti 1998',
                                         'Premiera u mbajt në Romë.'))
@@ -21,6 +39,9 @@ class SourceIsolation(unittest.TestCase):
         self.assertIsNone(topic_error('Kosovë','Rindërtohet shkolla',tags=['Viti']))
 
     def test_lineups_and_midfield_debuts_stay_out_of_local_publisher_desks(self):
+        self.assertIsNotNone(topic_error('Kosovë','Drita fiton derbin ndaj Prishtinës, Nikli 74 mposht Dukagjinin, kjo është tabela'))
+        self.assertIsNone(topic_error('Kosovë','Derbi zgjedhor në Prishtinë mes dy partive',
+                                     'Qytetarët votojnë për kryetarin e komunës.'))
         self.assertIsNotNone(topic_error('Kosovë','Feronikeli dhe Dukagjini kërkojnë fitore, formacionet zyrtare',
                                         'Trajnerët publikuan formacionet për ndeshjen e sotme.'))
         self.assertIsNotNone(topic_error('Kosovë','Enis Zeqiri mund të debutojë në Superligën e Danimarkës',

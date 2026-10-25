@@ -40,9 +40,18 @@ class WriterDeskTests(unittest.TestCase):
                 db.executescript('CREATE TABLE load(active INTEGER, peak INTEGER); INSERT INTO load VALUES(0,0); CREATE TABLE calls(category TEXT, target INTEGER, slot INTEGER);')
             hosts = {c:next(p['domains'][0] for p in MANIFEST['publishers'] if p['category']==c) for c in CATEGORIES}
             discovery = root/'discovery.json'; batch = root/'batch.json'
+            leads=[]
+            for category in CATEGORIES:
+                for index in range(4):
+                    url=f'https://{hosts[category]}/story-{index}'
+                    evidence=root/f'{category}-{index}.evidence.json'
+                    evidence.write_text(json.dumps({'source_url':url,'evidence':{
+                        'url':url,'status':'text_extracted','text':
+                        'The public decision was announced on Monday. The council approved three routes. '
+                        'The timetable includes 20 vehicles. Residents can apply next week.'}}),encoding='utf-8')
+                    leads.append({'pair_id':category+str(index),'category':category,'url':url,'evidence_path':str(evidence)})
             discovery.write_text(json.dumps({'publication_plan':{c:0 if c==zero else 2 for c in CATEGORIES},
-                'ready_leads':[{'pair_id':c+str(i),'category':c,'url':f'https://{hosts[c]}/story-{i}',
-                                'evidence_path':'/verified/evidence.json'} for c in CATEGORIES for i in range(4)]}),encoding='utf-8')
+                'ready_leads':leads}),encoding='utf-8')
             fake = root/'fake_writer.py'
             fake.write_text('''import json,re,sqlite3,sys,time
 from pathlib import Path

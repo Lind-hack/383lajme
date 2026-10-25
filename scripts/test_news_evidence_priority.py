@@ -12,6 +12,8 @@ def lead(name, primary_words, secondary_words=0):
 class EvidencePriorityTests(unittest.TestCase):
     def test_explicit_genre_markers_warn_without_discarding_public_facts_or_generic_exclusive_words(self):
         for metadata in [dict(title="Kartik Aaryan movie announced (EXCLUSIVE)"),
+                         dict(title='Should you connect mesh Wi-Fi nodes with Ethernet?'),
+                         dict(url='https://engadget.com/how-to/mesh-backhaul-guide'),dict(tags=['guide']),
                          dict(url="https://variety.com/gallery/red-carpet-celebrity-photos"),
                          dict(tags=["opinion"]), dict(url="https://cbssports.com/betting/news/preview")]:
             risky = {**lead('labelled', 220), **metadata}
@@ -19,6 +21,7 @@ class EvidencePriorityTests(unittest.TestCase):
             self.assertTrue(source_basis_warning(risky))
             self.assertEqual(prioritize_grounded_leads([risky,public]),[public,risky])
         self.assertFalse(source_basis_warning({**lead('public venue',200), 'title':'Public concert announced at an exclusive venue'}))
+        self.assertFalse(source_basis_warning({**lead('public retailer',200),'title':'Best Buy announces a new investment programme'}))
 
     def test_public_facts_precede_outlet_interviews_without_discarding_them(self):
         for signal in ['Në një intervistë për Kubi Sportiv ai u shpreh',

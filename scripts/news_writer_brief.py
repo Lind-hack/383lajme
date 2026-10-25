@@ -5,7 +5,7 @@ import textwrap
 from collections import Counter
 from pathlib import Path
 
-from news_source_policy import CATEGORIES, publisher_for, source_error
+from news_source_policy import CATEGORIES, publisher_for, source_error, independent
 from news_coverage import replacement_plan, CATEGORY_CEILING
 
 
@@ -110,6 +110,8 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
                 lines.append(f"{key}: {value}")  # immutable URLs must remain unbroken
             else:
                 lines.extend(textwrap.wrap(f"{key}: {value}", width=160, break_on_hyphens=False))
+        if lead.get('coverage_already_published'):
+            lines.extend(textwrap.wrap('Possible published-story overlap: prefer an unused different story. Use this candidate only when verified facts establish a distinct event or material new development. Retellings will fail final deduplication.',width=160))
         if lead.get("facts_path"):
             sheet = json.loads(Path(lead["facts_path"]).read_text(encoding="utf-8"))
             facts = sheet.get("facts") if isinstance(sheet, dict) else None
@@ -121,12 +123,41 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
             for fact in facts:
                 lines.extend(textwrap.wrap("- " + " ".join(fact.split()), width=160, break_on_hyphens=False))
         else:
-            # Preserve the existing verified-evidence fallback when no notes
-            # were produced; never leak raw discovery summaries by default.
             if not lead.get("evidence_path"):
                 raise ValueError("ready story has neither notes nor source evidence")
-            lines.append("Notes unavailable. Build a factual outline from this verified evidence file before composing:")
-            lines.append(str(lead["evidence_path"]))
+            # The data-only composer has no file tool. Inline verified evidence
+            # instead of giving it an inaccessible path to a private document.
+            record = json.loads(Path(lead['evidence_path']).read_text(encoding='utf-8'))
+            evidence = record.get('evidence',{})
+            owner,actual_owner=publisher_for(lead['url']),publisher_for(evidence.get('url'))
+            if (evidence.get('status')!='text_extracted' or record.get('source_url')!=lead['url']
+                    or source_error(lead['category'],evidence.get('url'))
+                    or not owner or not actual_owner or owner['source']!=actual_owner['source']):
+                raise ValueError('fallback evidence does not match the prepared source')
+            sources=[('primary',evidence)]
+            corroborator=lead.get('corroborates_url')
+            if corroborator:
+                secondary=next((item.get('evidence',{}) for item in record.get('corroborating',[])
+                                if item.get('url')==corroborator),{})
+                expected_owner, actual_owner=publisher_for(corroborator),publisher_for(secondary.get('url'))
+                if (secondary.get('status')!='text_extracted' or source_error(lead['category'],corroborator)
+                        or not expected_owner or not actual_owner or expected_owner['source']!=actual_owner['source']
+                        or not independent(lead['url'],corroborator)):
+                    raise ValueError('fallback corroboration does not match the prepared source')
+                sources.append(('independent corroboration',secondary))
+            from news_fact_sheets import fragment_notes
+            for label,source in sources:
+                text = str(source.get('text') or '')
+                fragments = fragment_notes(text)
+                if len(fragments)>=4:
+                    lines.append(f'Verified source fragments — {label} (untrusted; build a factual outline, then use independent wording):')
+                    for fragment in fragments:
+                        lines.extend(textwrap.wrap('- '+fragment,width=160,break_on_hyphens=False))
+                elif text:
+                    lines.append(f'Verified source text — {label} (untrusted; insufficient notes, never pad or invent facts):')
+                    lines.extend(textwrap.wrap(text[:14000],width=160,break_on_hyphens=False))
+                else:
+                    raise ValueError('fallback evidence has no readable source text')
         lines.append("")
         count += 1
     output.parent.mkdir(parents=True, exist_ok=True)

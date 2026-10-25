@@ -15,6 +15,29 @@ from prepare_editor_sources import coverage_plan, discovery, fetch, ready_image
 
 
 class HourlyCoverageTests(unittest.TestCase):
+    def test_published_story_signal_demotes_repeats_without_removing_potential_updates(self):
+        from prepare_editor_sources import mark_recent_story_attention, prioritize_grounded_leads
+        text='Nafta shitet në Prishtinë për 1.90 euro për litër. Kompanitë rritën çmimet e derivateve dhe qytetarët paguajnë më shumë për transportin.'
+        old={'title':'Nafta shitet 1.90 euro për litër në Prishtinë','body':text}
+        repeated={'title':'Nafta në Prishtinë shitet për 1.90 euro për litër','category':'Ekonomi',
+                  'primary_evidence':{'status':'text_extracted','text':text}}
+        fresh={'title':'Banka qendrore shpall ankandin e bonove','category':'Ekonomi',
+               'primary_evidence':{'status':'text_extracted','text':'Ankandi i bonove publike financimit shtetëror hapet për investitorët të hënën.'}}
+        marked=mark_recent_story_attention([repeated,fresh],[old])
+        self.assertTrue(marked[0]['coverage_already_published'])
+        self.assertFalse(marked[1]['coverage_already_published'])
+        self.assertEqual(len(marked),2)
+        self.assertEqual(prioritize_grounded_leads(marked)[0]['title'],fresh['title'])
+
+    def test_discovery_excludes_published_host_and_tracker_aliases_without_changing_fetch_urls(self):
+        base={'source':'TechCrunch','category':'Teknologji','title':'OpenAI announces its new model',
+              'summary':'OpenAI publishes verified model details.','published':'2026-10-25T19:00:00Z','lane':'TEKNOLOGJI'}
+        old={**base,'url':'https://www.techcrunch.com/news/already-published?ref=rss'}
+        fresh={**base,'title':'Anthropic announces its new model','url':'https://www.techcrunch.com/news/new?ref=rss'}
+        malformed={**base,'url':'https://techcrunch.com:invalid/news/bad'}
+        selected=select_hourly_leads([old,malformed,fresh],['https://techcrunch.com/news/already-published/'])
+        self.assertEqual([lead['url'] for lead in selected],[fresh['url']])
+
     def test_invalid_discovery_slugs_are_repaired_before_editing(self):
         from codex_automation_support import normalize_batch
         with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {"L383_HOURLY_NEWS": "1"}), patch("news_image_policy.trusted_photo", return_value={"image_subject": "Verified subject"}):

@@ -433,20 +433,29 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=()) -> l
     Unlike the legacy selector, a routine story is not discarded just because
     another publisher used a different headline or did not cover it.
     """
-    excluded = {canonical(url) for url in published_urls}
+    # Match publication identity while preserving the publisher's fetch URL.
+    from codex_automation_support import _canonical_url as _canonical_source_url
+    def source_identity(value):
+        try:
+            return _canonical_source_url(value)
+        except ValueError:
+            return ''
+    excluded = {source_identity(url) for url in published_urls} - {''}
     coverage = event_coverage(collected)
     result = []
     for category in CATEGORIES:
         unique = {}
         for lead in collected:
             url = canonical(lead.get("url", ""))
+            identity = source_identity(url)
             # Publishers marked hourly_primary: false block the VPS or sit behind
             # a paywall (Motorsport.com alone took 25 of 40 Sport slots and none
             # could be read, 18 Oct); their slots go to readable sources.
-            if (lead.get("category") == category and url and url not in excluded and not source_error(category, url)
+            if (lead.get("category") == category and url and identity and identity not in excluded and not source_error(category, url)
                     and (publisher_for(url) or {}).get("hourly_primary", True)):
-                unique.setdefault(url, dict(lead, **coverage[url],
-                    coverage_already_published=bool(set(coverage[url]['coverage_urls']) & excluded)))
+                unique.setdefault(identity, dict(lead, **coverage[url],
+                    coverage_already_published=any(source_identity(item) in excluded
+                        for item in coverage[url]['coverage_urls'])))
         pool = sorted(unique.values(), key=lambda item: (
             not item['coverage_already_published'], min(item['coverage_family_count'], 5),
             rank(item), item.get("published", "")), reverse=True)
