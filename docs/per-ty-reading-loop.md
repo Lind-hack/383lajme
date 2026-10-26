@@ -1,5 +1,36 @@
 # Për ty reading-loop measurement
 
+## Run the localhost demo
+
+```sh
+# Build once if this checkout has no .next/BUILD_ID.
+NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:9 \
+NEXT_PUBLIC_SUPABASE_ANON_KEY=local-preview-placeholder npm run build
+npm run demo:per-ty
+```
+
+Open `http://localhost:43183/per-ty`. Set `PERTY_DEMO_PORT` to use another port.
+The launcher runs the compiled application with a disposable sample database and
+an isolated copy of its build cache. It does not modify the repository database.
+External API actions and third-party analytics are disabled in this demo.
+
+1. Click **Enable demo analytics**, then finish onboarding with **Kosovë** selected.
+2. Read each summary for four seconds, or open its article and return. The edition
+   progresses to completion using the real application code.
+3. Open **Captured events & report** to see local starts and completions.
+4. Click **Tomorrow →** to return as the same browser with fresh daily progress.
+   Click it again to close that return day and see a mature D+1 rate in the report.
+5. Click **Reset demo** to clear this demo's reading choices and captured events.
+
+Events are stored only in the local demo process's memory. The real production
+report remains credential-protected. Stop the launcher with Ctrl+C to remove its
+temporary runtime. This command does not deploy anything.
+
+The live launcher was browser-verified through summary completion (1/1), opening
+a real sample article from its isolated database, next-day progress reset (0/4),
+mature next-day return (1/1), and reset back to onboarding with no captured events.
+The 15 reading-loop, daily-history and usage-validation tests also passed.
+
 The weekly goal is a reader choosing follows, opening a bounded edition,
 finishing it and opening another edition the next Kosovo day. Newsletter
 activation is a separate channel, not a prerequisite.

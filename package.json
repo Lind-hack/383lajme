@@ -13,7 +13,8 @@
     "test": "node --test \"lib/**/*.test.mjs\" \"scripts/**/*.test.mjs\"",
     "verify:production-deployment": "node scripts/verify-production-deployment.mjs",
     "tregu:argentina-england:preflight": "node scripts/argentina-england-three-outcome-draft.mjs",
-    "tregu:argentina-england:refresh": "node scripts/run-tregu-argentina-england-refresh.mjs"
+    "tregu:argentina-england:refresh": "node scripts/run-tregu-argentina-england-refresh.mjs",
+    "demo:per-ty": "node scripts/demo-per-ty.mjs"
   },
   "dependencies": {
     "@sparticuz/chromium": "143.0.4",
