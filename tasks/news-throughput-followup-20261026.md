@@ -105,3 +105,13 @@ existing behavior. Already published batches remain published. Three native
 shell integration tests exercise the real handlers without model, mail or
 database requests. This reports quota honestly; it does not create capacity
 or publish unreviewed drafts.
+
+## Asset reference-page exclusion
+
+The 23:00 Warsaw run exposed CryptoSlate `/coins/bitcoin` and `/coins/ethereum`
+reference pages in the candidate pool. Topic policy now rejects that exact
+publisher route as publication input while leaving retrieval, ordinary reports
+and nested news routes intact. The regression uses the observed routes plus
+nearby valid news routes. The existing cache-reuse test also now aligns wall
+time with its fixed publication fixture so advancing calendar dates cannot
+silently turn a cache test into an expired-queue test.

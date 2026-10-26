@@ -11,6 +11,15 @@ from news_run_state import completed, save
 
 
 class SourceIsolation(unittest.TestCase):
+    def test_asset_reference_pages_are_not_reported_news(self):
+        for url in ('https://cryptoslate.com/coins/ethereum',
+                    'https://www.cryptoslate.com/coins/bitcoin/?ref=home'):
+            self.assertIn('reference data', topic_error('Ekonomi', 'Bitcoin rises today', url=url))
+        for url in ('https://cryptoslate.com/bitcoin-rises-after-fed-announcement/',
+                    'https://cryptoslate.com/coins/bitcoin/news/market-update'):
+            self.assertIsNone(topic_error('Ekonomi', 'Bitcoin rises today', url=url))
+        self.assertIsNone(source_error('Ekonomi', 'https://cryptoslate.com/coins/bitcoin'))
+
     def test_albanian_language_country_name_preserves_existing_youth_sport_exception(self):
         from editorial_rules_v2 import article_errors
         for title in ('Shqipëria U-15 fiton ndaj Ruandës','Albania U-15 fiton ndaj Ruandës'):

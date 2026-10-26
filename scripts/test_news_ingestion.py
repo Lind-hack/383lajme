@@ -101,9 +101,13 @@ class IngestionTests(unittest.TestCase):
     def test_second_run_reuses_unchanged_readable_articles(self):
         with tempfile.TemporaryDirectory() as folder:
             state=Path(folder)/'inventory.sqlite'
-            collect(MANIFEST,state,budget_seconds=0,now=NOW,fetcher=fixture_fetch)
+            # Keep cache/checkpoint wall time aligned with the fixture's source
+            # dates; otherwise it ages out of the queue as the calendar advances.
+            with patch('time.time', return_value=NOW.timestamp()):
+                collect(MANIFEST,state,budget_seconds=0,now=NOW,fetcher=fixture_fetch)
             from datetime import timedelta
-            leads,_,_,report=collect(MANIFEST,state,budget_seconds=0,now=NOW+timedelta(minutes=1),fetcher=fixture_fetch)
+            with patch('time.time', return_value=NOW.timestamp()+60):
+                leads,_,_,report=collect(MANIFEST,state,budget_seconds=0,now=NOW+timedelta(minutes=1),fetcher=fixture_fetch)
         self.assertEqual(len(leads),225)
         self.assertEqual(report['cached_articles'],225)
         self.assertEqual(report['articles_retrieved'],0)
