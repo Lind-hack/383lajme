@@ -122,6 +122,9 @@ fail_run() {
 
 on_error() {
   local rc=$?
+  if [ "${IN_EXTRA_REVIEW:-0}" != "1" ] && quota_hit; then
+    fail_run "stage=${stage} exit=${rc}"
+  fi
   record_state failed || true
   if [ "$alerting" -eq 0 ]; then
     alerting=1

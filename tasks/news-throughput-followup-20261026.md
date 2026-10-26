@@ -94,3 +94,14 @@ REST 403/429. It keeps the existing repository/branch/integration metadata and
 exact SHA checks. Malformed, missing, conflicting, case-mismatched or stale
 refs fail closed; no token is forwarded to the public Git transport. Local
 live Git transport and `git ls-remote` agreed. The 12 guard tests pass.
+
+## Quota outcome reporting
+
+The 21:00 and 22:00 Warsaw runs hit explicit OAuth account exhaustion. Bare
+command errors reached `on_error` without using the existing model-quota
+completion path. The handler now routes those errors through `fail_run`;
+ordinary infrastructure errors and optional review failures keep their
+existing behavior. Already published batches remain published. Three native
+shell integration tests exercise the real handlers without model, mail or
+database requests. This reports quota honestly; it does not create capacity
+or publish unreviewed drafts.
