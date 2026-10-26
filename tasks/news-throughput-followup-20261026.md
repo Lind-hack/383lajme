@@ -84,3 +84,13 @@ source freshness. The durable retrieval inventory is not truncated or purged.
 The combined Linux suite passes 181 tests, including UTC-offset boundaries,
 missing dates, modification-date rejection and preservation of older reserves
 through the scoped writer brief. The production build passes.
+
+## Release verification availability
+
+Railway's GitHub deployment of `881c20b8` stopped in prebuild because GitHub's
+REST head check returned HTTP 403. A fallback now verifies the same exact
+`refs/heads/main` through GitHub's public smart-Git advertisement, only after
+REST 403/429. It keeps the existing repository/branch/integration metadata and
+exact SHA checks. Malformed, missing, conflicting, case-mismatched or stale
+refs fail closed; no token is forwarded to the public Git transport. Local
+live Git transport and `git ls-remote` agreed. The 12 guard tests pass.

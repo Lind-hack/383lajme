@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { githubMainViaGit } from "./github-main-ref.mjs";
 
 const REPOSITORY = "Lind-hack/383lajme";
 const PRODUCTION_BRANCH = "main";
@@ -368,13 +369,20 @@ export async function verifyProductionSource({
       },
     }
   );
+  let mainSha;
   if (!response.ok) {
-    throw new Error(
-      `Could not verify GitHub ${PRODUCTION_BRANCH} (HTTP ${response.status}); refusing production build.`
-    );
+    try {
+      if (![403, 429].includes(response.status)) throw new Error("GitHub REST request failed");
+      mainSha = await githubMainViaGit(fetchImpl, REPOSITORY);
+    } catch {
+      throw new Error(
+        `Could not verify GitHub ${PRODUCTION_BRANCH} (HTTP ${response.status}); refusing production build.`
+      );
+    }
+  } else {
+    const payload = await response.json();
+    mainSha = String(payload?.sha ?? "").trim();
   }
-  const payload = await response.json();
-  const mainSha = String(payload?.sha ?? "").trim();
   if (!/^[0-9a-f]{40}$/i.test(mainSha)) {
     throw new Error("GitHub returned an invalid main commit SHA; failing production build closed.");
   }
