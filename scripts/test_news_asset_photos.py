@@ -60,6 +60,16 @@ class AssetPhotos(unittest.TestCase):
             self.assertIsNone(assets.curated_page(altered, "BTC"), key)
         self.assertIsNone(assets.curated_page(page, "ETH"))
 
+    def test_moving_average_headlines_keep_the_exact_asset_photo(self):
+        for title in ('Bitcoin rikthehet mbi mesataren 50-javore pas 44 javësh',
+                      'Ethereum kalon mesataren lëvizëse për herë të parë këtë muaj'):
+            expected = 'BTC' if title.startswith('Bitcoin') else 'ETH'
+            self.assertEqual(assets.market_asset(story(title)), expected)
+        for title in ('Bitcoin Core kalon mesataren 50-ditore',
+                      'Bitcoin dhe Ethereum kalojnë mesataren 50-javore',
+                      'Kompania Bitcoin kalon mesataren 50-javore'):
+            self.assertIsNone(assets.market_asset(story(title)), title)
+
     def test_normal_rights_size_source_distinctness_and_batch_reuse_still_apply(self):
         page = reviewed_page()
         lead = story()

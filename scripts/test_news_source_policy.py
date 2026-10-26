@@ -83,6 +83,14 @@ class SourceIsolation(unittest.TestCase):
         self.assertIsNotNone(topic_error("Showbiz", "Banka shpall fitimin tremujor"))
         self.assertIsNotNone(source_error("Showbiz", "https://cnbc.com/business/announcement"))
 
+    def test_song_and_recording_terms_survive_albanian_headline_edits(self):
+        for title in ('Kënga e Ella Langley kryeson Hot 100 për javën e 25-të',
+                      'Publikohen këngët e reja të javës',
+                      'Disku i ri shënon rekord në renditjen muzikore'):
+            self.assertIsNone(topic_error('Showbiz', title), title)
+        self.assertIsNotNone(topic_error('Showbiz', 'Banka kryeson renditjen e fitimit'))
+        self.assertIsNotNone(topic_error('Botë', 'Këngëtarja publikon këngën e re'))
+
     def test_music_publishers_stay_in_showbiz_and_keep_real_owner_families(self):
         for domain in ("nme.com", "pitchfork.com"):
             self.assertIsNone(source_error("Showbiz", f"https://{domain}/news/announcement"))

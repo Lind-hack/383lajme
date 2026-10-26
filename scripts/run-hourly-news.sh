@@ -498,10 +498,10 @@ PY
 fi
 
 stage="albanian-editor"
-EDITOR_CHECK="$(mktemp /tmp/383-editor-originality.XXXXXX.json)"
-cp "$BATCH" "$EDITOR_CHECK"
-export L383_EDITOR_GATE_FEEDBACK="$("$PYTHON_BIN" scripts/originality_gate.py --file "$EDITOR_CHECK" --evidence "${BATCH%.json}.editor-sources.json" 2>&1 || true)"
-rm -f "$EDITOR_CHECK"
+if ! L383_EDITOR_GATE_FEEDBACK="$("$PYTHON_BIN" scripts/news_editor_preflight.py --file "$BATCH" --evidence "${BATCH%.json}.editor-sources.json")"; then
+  fail_run "initial editor preflight could not read the prepared draft evidence"
+fi
+export L383_EDITOR_GATE_FEEDBACK
 EDITOR_INPUT_BACKUP="$(mktemp /tmp/383-editor-input.XXXXXX.json)"
 cp "$BATCH" "$EDITOR_INPUT_BACKUP"
 rm -f "${BATCH%.json}.editor-complete.json"

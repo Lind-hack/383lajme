@@ -13,6 +13,15 @@ class JournalismTests(unittest.TestCase):
         self.assertEqual(journalism_errors(story('Qendrat e votimit mbyllen në orën 20:00 sipas kohës lokale.')),[])
         self.assertTrue(journalism_errors(story('Sipas Kohës, qendrat e votimit mbyllen në orën 20:00.')))
 
+    def test_named_time_zones_are_not_koha_attribution(self):
+        for zone in ('lindore të SHBA-së', 'qendrore evropiane', 'perëndimore', 'universale'):
+            with self.subTest(zone=zone):
+                self.assertEqual(journalism_errors(story(f'Ndeshja nis në 12:30 sipas kohës {zone}.')), [])
+        for text in ('Sipas Kohës, ndeshja nis në 12:30 sipas kohës lindore të SHBA-së.',
+                     'Koha njoftoi orarin e ri sipas kohës lokale.',
+                     'Sipas gazetës Koha, ndeshja nis të enjten.'):
+            self.assertTrue(any('names a publisher' in error for error in journalism_errors(story(text))))
+
     def test_official_news_subjects_are_not_misclassified_as_media_publishers(self):
         for source,text in [('OpenAI','OpenAI njofton modelin e ri.'),
                             ('Anthropic','Anthropic publikon udhëzimet e produktit.'),

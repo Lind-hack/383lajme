@@ -24,8 +24,11 @@ def journalism_errors(article: dict) -> list[str]:
     for field, raw in (("title", article.get("title")), ("excerpt", article.get("excerpt")), ("body", body)):
         value = fold(html.unescape(re.sub(r"<[^>]*>", " ", str(raw or ""))))
         for publisher in publisher_names - {""}:
-            # The ordinary time-zone phrase is not attribution to Koha.
-            publisher_value = re.sub(r'\bsipas\s+kohes\s+lokale\b', '', value) if publisher == 'koha' else value
+            # Albanian "kohës" means time as well as the outlet's inflected
+            # name. Mask only explicit time zones; keep actual Koha credit.
+            publisher_value = re.sub(
+                r'\bsipas\s+kohes\s+(?:lokale|lindore|qendrore|perendimore|malore|universale)\b',
+                '', value) if publisher == 'koha' else value
             name_pattern = re.escape(publisher) + r"(?:it|in|i|t|s|ut|u|n|se|es)?"
             if publisher.endswith(("a", "e", "i")):
                 name_pattern = r"(?:" + name_pattern + "|" + re.escape(publisher[:-1]) + r"(?:a|e|i|es|en|it|in|ut|un|s|se|t))"

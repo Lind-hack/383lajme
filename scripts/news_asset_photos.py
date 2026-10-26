@@ -24,7 +24,8 @@ _LOCK = threading.Lock()
 _PAGES: tuple[float, list[dict]] = (0, [])
 MARKET = re.compile(r"\b(?:prices?|markets?|trading|rall(?:y|ies)|surges?|falls?|fell|rises?|rose|drops?|"
                     r"gains?|losses?|inflows?|outflows?|etfs?|exchanges?|kurs\w*|cmim\w*|treg\w*|"
-                    r"rrit\w*|ngrit\w*|renie\w*|bie|humb\w*|fitim\w*|investitor\w*|fluks\w*)\b")
+                    r"rrit\w*|ngrit\w*|renie\w*|bie|humb\w*|fitim\w*|investitor\w*|fluks\w*|"
+                    r"mesatar(?:e|ja|en|es)?\s+(?:(?:e|te)\s+)?(?:leviz\w*|\d+[- ](?:javore|ditore)))\b")
 
 
 def market_asset(article: dict) -> str | None:
