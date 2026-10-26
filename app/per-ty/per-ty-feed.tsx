@@ -63,6 +63,8 @@ import { forgetLedger, kosovoParts, noteVisit, readLedger } from "@/lib/reader-l
 import { readName } from "@/lib/reader-name.mjs";
 import { lastMonth, monthLabel } from "@/lib/monthly-wrapped.mjs";
 import { hasLearnedPaper, learnedPicks, setLearnedPaper, totalReads } from "@/lib/perty-learned.mjs";
+import { measurePertyLoop } from "@/lib/perty-loop-client";
+import { rememberRead, readTodaySlugs } from "@/lib/perty-visits.mjs";
 import { kosovoDateKey } from "@/lib/home-tregu.mjs";
 import { greeting } from "@/lib/perty-personal.mjs";
 import { keyLabel, whyLine } from "@/lib/perty-why.mjs";
@@ -198,6 +200,8 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   const [visited, setVisited] = useState(false);
   const [now, setNow] = useState<Date | null>(null);
   const [since, setSince] = useState<string | null>(null);
+  const [todayRead, setTodayRead] = useState<ReadonlySet<string>>(new Set());
+  const initialRead = useRef<ReadonlySet<string>>(new Set());
   const [read, setRead] = useState<ReadonlySet<string>>(new Set());
   // Rows turned down this visit (slug → key), shown as such until the next one.
   const [less, setLess] = useState<ReadonlyMap<string, string>>(new Map());
@@ -247,7 +251,9 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     if (!ready) return;
     setSince(recordVisit());
     const readNow = new Set(readSlugs());
+    initialRead.current = readNow;
     setRead(readNow);
+    setTodayRead(new Set(readTodaySlugs()));
     noteVisit();
     if (kosovoParts().day <= 7) setWrappedMonth(lastMonth());
     try {
@@ -278,8 +284,8 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   // The day's one or two must-knows, kept out of the reader's own seven. Fixed
   // by what was read before this visit, so a story opened now stays put.
   const must = useMemo(
-    () => (visited && now ? mustKnow(pool, { now: now.getTime(), read }) : []),
-    [pool, visited, now, read]
+    () => (visited && now ? mustKnow(pool, { now: now.getTime(), read: initialRead.current }) : []),
+    [pool, visited, now]
   );
   const homeFrom = cityById(home)?.from ?? null;
   const { edition } = useMemo(() => {
@@ -337,6 +343,36 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     });
   }, [visited, interests, edition.length, quiet.length, streak]);
 
+  // Counts are deduplicated by visitor + Kosovo day in the report. Listening
+  // for consent also captures a reader who accepts after the edition loads.
+  const loopSent = useRef(new Set<string>());
+  const complete = edition.length > 0 && edition.every((i) => todayRead.has(i.article.slug));
+  useEffect(() => {
+    if (!visited || editing || !edition.length) return;
+    const measure = () => {
+      for (const action of complete ? ['start', 'complete'] as const : ['start'] as const) {
+        if (!loopSent.current.has(action) && measurePertyLoop(action)) loopSent.current.add(action);
+      }
+    };
+    measure();
+    window.addEventListener('383:consent', measure);
+    return () => window.removeEventListener('383:consent', measure);
+  }, [visited, editing, edition.length, complete]);
+
+  // App Router back navigation can restore this component without mounting it.
+  useEffect(() => {
+    const refresh = () => {
+      setRead(new Set(readSlugs()));
+      setTodayRead(new Set(readTodaySlugs()));
+    };
+    window.addEventListener('pageshow', refresh);
+    window.addEventListener('focus', refresh);
+    return () => {
+      window.removeEventListener('pageshow', refresh);
+      window.removeEventListener('focus', refresh);
+    };
+  }, []);
+
   // A row on screen a moment counts as shown: GA hears it once, and tomorrow
   // the ones never opened teach the ranking a little (lib/perty-skips).
   const shownOnce = useRef(new Set<string>());
@@ -354,8 +390,11 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   // a story passed over (lib/perty-skips). Once per story per visit.
   const summaryRead = useRef(new Set<string>());
   const onSummaryRead = useCallback((article: FeedArticle, position: number, list: PertyList) => {
-    if (!article.summary || summaryRead.current.has(article.slug)) return;
+    if (!(article.summary || article.excerpt) || summaryRead.current.has(article.slug)) return;
     summaryRead.current.add(article.slug);
+    rememberRead(article.slug);
+    setTodayRead((previous) => new Set([...previous, article.slug]));
+    setRead((previous) => new Set([...previous, article.slug]));
     trackPerty("perty_summary_read", { slug: article.slug, position, list });
     // A must-know is put in front of everyone; reading it says nothing about taste.
     if (list === "must") return;
@@ -421,6 +460,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
           variant="page"
           onOpen={(chosen) => {
             save({ ...interests, ...chosen });
+            measurePertyLoop('follow');
             setLearnedPaper(true);
             setJustFinished(true);
             window.scrollTo({ top: 0 });
@@ -443,6 +483,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
           onCancel={() => setEditing(false)}
           onDone={(chosen) => {
             save({ ...interests, ...chosen });
+            measurePertyLoop('follow');
             if (!editing) setJustFinished(true);
             setEditing(false);
             // Edited or chosen by hand: no longer a guess to ask about.
@@ -458,7 +499,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
 
   const showSignup = justFinished && signedIn === false && !signupDismissed;
   const seen: Seen = { since, read };
-  const readCount = edition.filter((i) => read.has(i.article.slug)).length;
+  const readCount = edition.filter((i) => todayRead.has(i.article.slug)).length;
   const allRead = edition.length > 0 && readCount === edition.length;
   // Dardani's three lines are written from this edition, the stories not yet read.
   const briefSlugs = [
@@ -474,6 +515,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     writeShown(null);
     if (signedIn) void forgetAccountAffinity();
     setRead(new Set());
+    setTodayRead(new Set());
     setSince(null);
     setLess(new Map());
   };
@@ -732,17 +774,31 @@ function useSeen<T extends HTMLElement>(onSeen: () => void, after = SHOWN_AFTER_
     const el = ref.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
     let timer: number | null = null;
+    let intersecting = false;
+    const update = () => {
+      if (intersecting && document.visibilityState === 'visible' && document.hasFocus()) {
+        if (timer === null) timer = window.setTimeout(() => {
+          cb.current();
+          io.disconnect();
+          cleanup();
+        }, after);
+      } else if (timer !== null) {
+        window.clearTimeout(timer);
+        timer = null;
+      }
+    };
+    const cleanup = () => {
+      document.removeEventListener('visibilitychange', update);
+      window.removeEventListener('focus', update);
+      window.removeEventListener('blur', update);
+    };
+    document.addEventListener('visibilitychange', update);
+    window.addEventListener('focus', update);
+    window.addEventListener('blur', update);
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry?.isIntersecting) {
-          if (timer === null) timer = window.setTimeout(() => {
-            cb.current();
-            io.disconnect();
-          }, after);
-        } else if (timer !== null) {
-          window.clearTimeout(timer);
-          timer = null;
-        }
+        intersecting = Boolean(entry?.isIntersecting && entry.intersectionRatio >= 0.5);
+        update();
       },
       { threshold: 0.5 }
     );
@@ -750,6 +806,7 @@ function useSeen<T extends HTMLElement>(onSeen: () => void, after = SHOWN_AFTER_
     return () => {
       if (timer !== null) window.clearTimeout(timer);
       io.disconnect();
+      cleanup();
     };
   }, [after]);
   return ref;

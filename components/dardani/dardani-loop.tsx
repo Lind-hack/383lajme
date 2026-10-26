@@ -187,16 +187,35 @@ function playStacked(canvas: HTMLCanvasElement, video: HTMLVideoElement, onFirst
   if (!gl) return () => {};
 
   const compile = (type: number, source: string) => {
-    const shader = gl.createShader(type)!;
+    const shader = gl.createShader(type);
+    if (!shader) return null;
     gl.shaderSource(shader, source);
     gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      gl.deleteShader(shader);
+      return null;
+    }
     return shader;
   };
-  const program = gl.createProgram()!;
-  gl.attachShader(program, compile(gl.VERTEX_SHADER, VERTEX));
-  gl.attachShader(program, compile(gl.FRAGMENT_SHADER, FRAGMENT));
+  const program = gl.createProgram();
+  if (!program) return () => {};
+  const vertex = compile(gl.VERTEX_SHADER, VERTEX);
+  const fragment = compile(gl.FRAGMENT_SHADER, FRAGMENT);
+  if (!vertex || !fragment) {
+    if (vertex) gl.deleteShader(vertex);
+    if (fragment) gl.deleteShader(fragment);
+    gl.deleteProgram(program);
+    return () => {};
+  }
+  gl.attachShader(program, vertex);
+  gl.attachShader(program, fragment);
   gl.linkProgram(program);
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return () => {};
+  gl.deleteShader(vertex);
+  gl.deleteShader(fragment);
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    gl.deleteProgram(program);
+    return () => {};
+  }
   gl.useProgram(program);
 
   const quad = gl.createBuffer();

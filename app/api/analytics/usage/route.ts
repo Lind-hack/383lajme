@@ -1,6 +1,7 @@
 import { createHash, createHmac, timingSafeEqual } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { pertyLoopReport, type LoopEvent } from '@/lib/perty-loop-report.mjs';
 import { parseUsageBatch } from '@/lib/usage-events.mjs';
 
 export const runtime = 'nodejs';
@@ -43,6 +44,25 @@ export async function GET(request: Request) {
   if (!secret || !timingSafeEqual(hash(supplied), hash('Bearer ' + secret))) return new Response(null, { status: 401 });
   const client = createAdminClient();
   if (!client) return new Response(null, { status: 503 });
+  if (new URL(request.url).searchParams.get('report') === 'per-ty') {
+    const now = new Date();
+    const since = new Date(now.getTime() - 7 * 86400_000).toISOString();
+    const events: LoopEvent[] = [];
+    // Supabase caps pages at 1,000. Never silently report a truncated denominator.
+    for (let offset = 0; offset < 50_000; offset += 1000) {
+      const { data, error } = await client.from('site_usage_events')
+        .select('path,visitor_hash,created_at,kind,action')
+        .eq('path', '/per-ty').in('kind', ['page', 'click'])
+        .gte('created_at', since).lte('created_at', now.toISOString())
+        .order('created_at').order('id').range(offset, offset + 999);
+      if (error) return NextResponse.json({ error: 'Reading measurements unavailable' }, { status: 503 });
+      events.push(...(data || []));
+      if (!data || data.length < 1000) return NextResponse.json(pertyLoopReport(events, now), {
+        headers: { 'Cache-Control': 'private, no-store' },
+      });
+    }
+    return NextResponse.json({ error: 'Report exceeds event limit; narrow the window before reporting' }, { status: 503 });
+  }
   const { data, error } = await client.rpc('site_usage_summary');
   if (error) return NextResponse.json({ error: 'Usage measurements unavailable' }, { status: 503 });
   return NextResponse.json(data, { headers: { 'Cache-Control': 'private, no-store' } });
