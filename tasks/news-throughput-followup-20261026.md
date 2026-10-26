@@ -70,3 +70,17 @@ This is still not evidence that every production category meets the quota.
 The combined Linux regression suite passed 170 tests and the production build
 passed. A final deterministic replay of the three real editor decisions has
 zero remaining copy diagnostics and retains the exact BTC asset match.
+
+## Freshness priority
+
+A 20:31 UTC inventory audit found unused readable candidates from the last
+three hours in every category (Kosovë 20, Shqipëri 13, Sport 10, Teknologji 18,
+Ekonomi 12, Botë 42, Showbiz 13). They are not necessarily distinct events or
+approved articles. Selection now prioritizes the last three source-publication
+hours, then six, before older reserves within otherwise comparable coverage
+and quality. The same priority survives photo preparation and desk briefs.
+Publication timestamps on 383 and sitemap modification dates are not used as
+source freshness. The durable retrieval inventory is not truncated or purged.
+The combined Linux suite passes 181 tests, including UTC-offset boundaries,
+missing dates, modification-date rejection and preservation of older reserves
+through the scoped writer brief. The production build passes.

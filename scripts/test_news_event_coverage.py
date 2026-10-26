@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from cloud_news_discovery import canonical, event_coverage, fetch_feed, select_hourly_leads
+from cloud_news_discovery import canonical, event_coverage, fetch_feed, select_hourly_leads, freshness_bucket
 from prepare_editor_sources import prioritize_grounded_leads
 
 
@@ -14,6 +14,30 @@ def story(host, path, title='OpenAI launches Orion agent model worldwide', categ
 
 
 class EventCoverageTests(unittest.TestCase):
+    def test_recent_reports_precede_day_old_wide_coverage_without_deleting_reserves(self):
+        now = datetime(2026, 10, 26, 20, tzinfo=timezone.utc)
+        older = [story(host, 'orion', published='2026-10-26T03:00:00Z')
+                 for host in ('techcrunch.com', 'therundown.ai', 'engadget.com')]
+        recent = story('bleepingcomputer.com', 'patch', 'Microsoft fixes Windows security vulnerability',
+                       published='2026-10-26T21:30:00+02:00')
+        selected = select_hourly_leads([*older, recent], now=now)
+        self.assertEqual(selected[0]['url'], recent['url'])
+        self.assertEqual(len(selected), 2)
+        self.assertEqual(selected[1]['coverage_family_count'], 3)
+        prepared = [{**lead, 'primary_evidence': {'status': 'text_extracted', 'text': 'fact '*200}}
+                    for lead in reversed(selected)]
+        self.assertEqual(prioritize_grounded_leads(prepared, now=now)[0]['url'], recent['url'])
+
+    def test_freshness_uses_source_time_offsets_and_preserves_unknown_dates_as_reserves(self):
+        now = datetime(2026, 10, 26, 20, tzinfo=timezone.utc)
+        for timestamp, expected in [('2026-10-26T17:00:00Z', 0), ('2026-10-26T16:59:59Z', 1),
+                                    ('2026-10-26T14:00:00Z', 1), ('2026-10-26T13:59:59Z', 2),
+                                    ('2026-10-26T21:30:00+02:00', 0), ('2026-10-26T21:00:00Z', 2),
+                                    ('invalid', 2)]:
+            self.assertEqual(freshness_bucket({'published': timestamp}, now), expected, timestamp)
+        self.assertEqual(freshness_bucket({}, now), 2)
+        self.assertEqual(freshness_bucket({'updated': now.isoformat(), 'lastmod': now.isoformat()}, now), 2)
+
     def test_fresh_feed_item_after_the_first_hundred_is_still_discovered(self):
         now=datetime(2026,10,25,11,tzinfo=timezone.utc)
         old={'title':'OpenAI releases an earlier model','link':'https://techcrunch.com/old',

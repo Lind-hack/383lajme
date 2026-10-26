@@ -2,11 +2,28 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from datetime import datetime, timedelta, timezone
 
 from news_writer_brief import build
 
 
 class WriterBriefTests(unittest.TestCase):
+    def test_fresh_ready_story_is_not_displaced_by_an_older_widely_covered_reserve(self):
+        now = datetime.now(timezone.utc)
+        older = {**self.lead, 'pair_id': 'Kosovë-old', 'url': 'https://koha.net/older',
+                 'published': (now-timedelta(hours=20)).isoformat(), 'coverage_family_count': 4}
+        fresh = {**self.lead, 'pair_id': 'Kosovë-new', 'url': 'https://koha.net/new',
+                 'published': (now-timedelta(hours=1)).isoformat()}
+        for lead in (older, fresh):
+            lead.pop('facts_path')
+        self.write([older, fresh])
+        build(self.discovery, self.output, 'Kosovë', cap=1, spares=0)
+        result = self.output.read_text(encoding='utf-8')
+        self.assertIn(fresh['url'], result)
+        self.assertNotIn(older['url'], result)
+        build(self.discovery, self.output, 'Kosovë', cap=1, spares=1)
+        self.assertIn(older['url'], self.output.read_text(encoding='utf-8'))
+
     def test_widely_covered_ready_event_precedes_singleton_without_becoming_verification(self):
         first={**self.lead,'pair_id':'Kosovë-single','url':'https://kallxo.com/single'}
         event={**self.lead,'pair_id':'Kosovë-event','url':'https://gazetaexpress.com/event',

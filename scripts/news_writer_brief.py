@@ -4,9 +4,11 @@ import json
 import textwrap
 from collections import Counter
 from pathlib import Path
+from datetime import datetime, timezone
 
 from news_source_policy import CATEGORIES, publisher_for, source_error, independent
 from news_coverage import replacement_plan, CATEGORY_CEILING
+from cloud_news_discovery import freshness_bucket
 
 
 def build(discovery: Path, output: Path, categories: str = "", *, approved: Path | None = None,
@@ -34,9 +36,11 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
     if spares is not None:
         # Bound each initial composer's reading, while preserving the complete
         # inventory/global brief for later fresh replacements and rewrites.
+        now = datetime.now(timezone.utc)
         def note_priority(lead):
             risky = bool(lead.get("source_basis_warning"))
-            attention = (bool(lead.get('coverage_already_published')), -min(lead.get('coverage_family_count', 1), 5))
+            attention = (bool(lead.get('coverage_already_published')), freshness_bucket(lead, now),
+                         -min(lead.get('coverage_family_count', 1), 5))
             if not lead.get("facts_path"):
                 return risky, *attention, 3
             sheet = json.loads(Path(lead["facts_path"]).read_text(encoding="utf-8"))

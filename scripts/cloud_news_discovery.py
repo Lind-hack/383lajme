@@ -144,6 +144,18 @@ def is_recent_for_slot(published: datetime, now: datetime) -> bool:
     return cutoff <= published.astimezone(KOSOVO_TIME) <= now.astimezone(KOSOVO_TIME) + timedelta(minutes=5)
 
 
+def freshness_bucket(lead: dict, now: datetime | None = None) -> int:
+    """Prefer the last three hours, then six; older leads remain reserves."""
+    published = published_at({'published': lead.get('published')})
+    if published is not None:
+        age = ((now or datetime.now(timezone.utc)) - published).total_seconds()
+        if -300 <= age <= 3 * 3600:
+            return 0
+        if 3 * 3600 < age <= 6 * 3600:
+            return 1
+    return 2
+
+
 def fetch_feed(spec_value: dict[str, Any] | str, now: datetime | None = None, label: str | None = None) -> tuple[list[dict[str, str]], dict[str, Any]]:
     spec = _spec(spec_value, label)
     now = now or datetime.now(KOSOVO_TIME)
@@ -427,7 +439,7 @@ def event_coverage(collected: list[dict[str, Any]]) -> dict[str, dict]:
     return result
 
 
-def select_hourly_leads(collected: list[dict[str, Any]], published_urls=()) -> list[dict[str, Any]]:
+def select_hourly_leads(collected: list[dict[str, Any]], published_urls=(), *, now: datetime | None = None) -> list[dict[str, Any]]:
     """Build a diverse, distinct primary queue; attach corroboration when found.
 
     Unlike the legacy selector, a routine story is not discarded just because
@@ -440,6 +452,7 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=()) -> l
             return _canonical_source_url(value)
         except ValueError:
             return ''
+    now = now or datetime.now(timezone.utc)
     excluded = {source_identity(url) for url in published_urls} - {''}
     coverage = event_coverage(collected)
     result = []
@@ -457,7 +470,7 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=()) -> l
                     coverage_already_published=any(source_identity(item) in excluded
                         for item in coverage[url]['coverage_urls'])))
         pool = sorted(unique.values(), key=lambda item: (
-            not item['coverage_already_published'], min(item['coverage_family_count'], 5),
+            not item['coverage_already_published'], -freshness_bucket(item, now), min(item['coverage_family_count'], 5),
             rank(item), item.get("published", "")), reverse=True)
         chosen = []
         family_counts = Counter()
@@ -465,6 +478,7 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=()) -> l
             # Prioritize fresh widely covered events, then alternate publishers.
             # Known covered events remain reserves for a genuine new development.
             anchor = min(pool, key=lambda item: (item['coverage_already_published'],
+                         freshness_bucket(item, now),
                          -min(item['coverage_family_count'], 5),
                          family_counts[publisher_for(item["url"])["family"]]))
             pool.remove(anchor)
