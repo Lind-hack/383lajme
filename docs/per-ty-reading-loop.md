@@ -8,13 +8,14 @@ activation is a separate channel, not a prerequisite.
 
 `perty:follow`, `perty:start`, and `perty:complete` reuse the existing
 consent-gated `/api/analytics/usage` endpoint and `site_usage_events` table.
-No migration is needed. The browser shares the existing anonymous visitor/session
+No migration is needed. Completion marks expire at Kosovo midnight; historical
+read marks remain available for personalization. The browser shares the existing anonymous visitor/session
 IDs; the server hashes them. No chosen topics, names, towns or account IDs are
 added. Denying analytics sends no loop events. Accepting while an edition is
 already open starts measurement then; earlier actions are not backfilled.
 
 A start requires saved interests and a nonempty personal edition. A completion
-means every personal-edition item was opened or its summary/excerpt stayed at
+means every personal-edition item was opened that local day or its summary/excerpt stayed at
 least half visible for four continuous seconds in a visible, focused tab.
 This is a reading proxy, not proof that full articles were read. Must-know
 stories and folded extras do not enter its denominator. `perty_end` in GA4
@@ -77,11 +78,28 @@ Read-only run evidence:
 - [26 October 08:31 UTC](https://github.com/Lind-hack/383lajme/actions/runs/40292835419):
   `outside_weekly_window`, sent 0. A green run does not prove inbox delivery.
 
-Remaining operational work: an operator with Actions write permission must run
-the existing workflow once and capture its response; an operator with database
-access must capture active subscriber count and inspect cumulative delivery/queue
-receipts. A manual run outside the weekly window verifies authentication and
-execution only. Real mail must still respect the normal delivery window and consent.
+Read-only subscriber/receipt queries for an authorized database operator:
+
+```sql
+select count(*) as active_subscribers
+from public.newsletter_subscribers where status = 'active';
+select issue_id, status, count(*) as deliveries
+from public.newsletter_deliveries
+where issue_id = '2026-10-25'
+group by issue_id, status;
+```
+
+The connected GitHub integration subsequently permitted a manual rerun of the
+existing `send` job in run `40292835419`, attempt 2, job `121870695542` at
+21:52 UTC on 26 October. It completed successfully and returned
+`outside_weekly_window`, issue null, sent 0, failed 0, pending 0, held 0.
+No new issue or delivery was forced. This resolves manual execution verification;
+it does not verify an actual send or reveal audience size.
+
+Remaining operational work: an operator with database access must capture active
+subscriber count and inspect cumulative delivery/queue receipts. An actual send
+must still respect the normal delivery window and consent. The manual rerun
+verified production authentication and endpoint execution only.
 
 ## Failures found and fixes
 
@@ -94,7 +112,11 @@ execution only. Real mail must still respect the normal delivery window and cons
 4. Visibility timers could count a background tab or less than half a row.
    They now require a focused visible tab and intersection ratio of at least 0.5,
    resetting the timer on blur or loss of visibility.
-5. Restoring an existing feed could leave its read markers stale. Page-show and
+5. Historical read marks could incorrectly satisfy a new day. A separate
+   bounded daily read record now controls completion.
+6. A failed WebGL shader allocation could crash mascot animation in onboarding.
+   Shader/program allocation failures now leave the still-image fallback visible.
+7. Restoring an existing feed could leave its read markers stale. Page-show and
    focus now refresh stored reads.
 
 ## Verification procedure
@@ -108,3 +130,49 @@ analytics denied and confirm no loop payload is sent. Move a browser test clock
 forward one Kosovo day and reopen the edition; the visitor must remain stable.
 Use timestamped report fixtures for D+1 eligibility, duplicates, missing return
 days and the October DST boundary. Synthetic results are not production cohorts.
+
+
+## Verification evidence from this branch
+
+Production mobile browser: guest onboarding → choose Kosovë → open personal
+edition → open its first article → back to the edition passed. The article's
+read marker persisted. Browser analytics consent was denied for this production
+check. No newsletter subscribers, push subscriptions or production database rows
+were added by the browser test.
+
+The default Node 20 test invocation cannot expand the repository's quoted test
+globs and cannot import its existing TypeScript test subjects. The complete suite
+passes under Node 24; no package configuration was changed for that environment
+limitation. There is no separate lint script in package.json.
+
+The first build passed compilation and TypeScript, then failed on the existing
+Tregu page because the unattended environment has no public Supabase settings.
+The final build uses a loopback URL and a non-secret placeholder public key;
+it has no production service-role credentials. Browser verification against
+that compiled preview intercepts analytics ingestion, so it verifies payloads
+and consent behavior, not persistence in the production analytics database.
+
+Final automated verification: all 1,438 repository tests passed under Node 24.
+`npm run build` passed, including TypeScript and both deployment-guard hooks,
+with the local placeholder Supabase configuration described above. Expected
+unavailable-data fallback logs and the existing middleware-deprecation warning
+remain. No deployment was performed.
+
+Compiled mobile preview passed with four published disposable fixture stories:
+
+- Onboarding saved follows; the captured payloads contained one follow, one start
+  and one completion milestone after all four summaries were read in place.
+- Completion persisted on reload. Advancing the browser clock to the next Kosovo
+  day preserved visitor identity and cleared the prior day's completion.
+- Denied consent sent no milestones; granting consent after opening the edition
+  emitted the start milestone.
+- Forcing WebGL shader allocation to return null produced no page errors and kept
+  onboarding usable with its still-image fallback.
+- Local HTTP checks returned 401 for the private report without authorization and
+  403 for usage ingestion from a foreign origin.
+
+Setup failures were corrected before this check: the original local database had
+unpublished rows without slugs and therefore correctly produced an empty edition;
+the preview used explicit published fixtures instead. Initial browser launch needed
+ARM Chromium and its missing shared libraries, installed only under `/tmp`.
+Temporary fixture data and generated type/build metadata were restored before commit.
