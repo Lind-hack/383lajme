@@ -106,7 +106,7 @@ def _current_pages() -> list[dict]:
 
 
 def asset_options(lead: dict, primary: dict, secondary: dict) -> list[dict]:
-    from news_image_policy import _research, candidate_photo, image_identity
+    from news_image_policy import _research, candidate_photo, image_identity, source_photo_allowed
     code = market_asset(lead)
     if not code or time.monotonic() >= lead.get("_photo_deadline", float("inf")):
         return []
@@ -129,10 +129,11 @@ def asset_options(lead: dict, primary: dict, secondary: dict) -> list[dict]:
         plan = {"kind": "asset", "asset_code": code, "subject": SUBJECTS[code],
                 "subject_evidence": SUBJECTS[code], "caption": caption(entry)}
         photo = candidate_photo(page, plan, 10)
-        if photo and not any(image_identity(photo["image_url"]) == image_identity(url) for url in research[0]):
+        source_match = bool(photo) and any(image_identity(photo['image_url']) == image_identity(url) for url in research[0])
+        if photo and (not source_match or source_photo_allowed(lead, photo)):
             photo["image_rights"].update(asset_code=code, original_sha1=entry["original_sha1"],
                                          inventory_version=inventory()["version"])
-            options.append({"tier": "asset", "page": page, "photo": photo})
+            options.append({'tier': 'asset', 'page': page, 'photo': photo, 'source_image_match': source_match})
     return options
 
 

@@ -44,3 +44,29 @@ but publisher access refusals and technical failures prevent confirmed
 exhaustive retrieval. The owner has no additional approved access. Outlet
 images are not treated as licensed merely because they appear on an article.
 Do not mark the full objective complete from these regression results.
+
+## Source-photo reuse follow-up
+
+International desks now retain a source-matching Commons photo when the
+pipeline independently verifies its permitted licence, creator, source page,
+exact bytes, size and visual relevance. Exact Commons source URLs are looked
+up directly, including thumbnails, rather than relying only on subject search.
+They are not treated as independently grounded Wikipedia lead images. Other
+publisher images are not presumed licensed. Matching options are offered first
+to the native photo editor, retain archive/illustration captions and record
+`source_image_reuse=true`, `distinct_from_source=false` truthfully.
+
+Kosovë and Shqipëri still refuse source-matching Commons photos; the existing
+institutional press-photo policy is unchanged. Batch uniqueness and native
+pixel review remain mandatory. Tests cover all five international categories,
+both local categories, malformed or unlicensed inputs, thumbnails, final
+category changes, the option cap and the original photo comparison rules.
+
+The real Luna/max editor QA on three saved production drafts returned three
+verified decisions in 259.2 seconds without publication. Its edited Showbiz
+headline used “hiti” and “Hot 100”, exposing another missing culture vocabulary
+case; the follow-up adds those and “singëll” alongside song inflections.
+This is still not evidence that every production category meets the quota.
+The combined Linux regression suite passed 170 tests and the production build
+passed. A final deterministic replay of the three real editor decisions has
+zero remaining copy diagnostics and retains the exact BTC asset match.

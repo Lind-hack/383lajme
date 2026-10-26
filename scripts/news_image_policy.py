@@ -1,4 +1,4 @@
-"""Contextual, rights-cleared news photos; publisher images are evidence only."""
+"""Contextual, rights-cleared photos with category-specific source reuse."""
 from __future__ import annotations
 
 import hashlib
@@ -895,6 +895,28 @@ def _research(lead: dict, primary: dict, secondary: dict, plan: dict, deadline: 
             pages += commons_files(plan["files"])
         except (requests.RequestException, ValueError):
             pass
+    if lead.get('category') in {'Sport', 'Teknologji', 'Ekonomi', 'Botë', 'Showbiz'}:
+        source_files = []
+        for url in source_urls:
+            try:
+                parsed = urlsplit(url)
+            except ValueError:
+                continue
+            if parsed.scheme != 'https' or parsed.hostname not in {'upload.wikimedia.org', 'thumb.wikimedia.org'}:
+                continue
+            path = unquote(parsed.path)
+            if '/thumb/' in path:
+                path = path.replace('/thumb/', '/').rsplit('/', 1)[0]
+            if re.fullmatch(r'/wikipedia/commons/[0-9a-f]/[0-9a-f]{2}/[^|\r\n/]+', path):
+                source_files.append(path.rsplit('/', 1)[-1])
+        if source_files:
+            try:
+                # Source use does not establish the independent Wikipedia
+                # identity that commons_files marks on planned lead images.
+                pages += [{**page, 'lead_image': False}
+                          for page in commons_files(list(dict.fromkeys(source_files)))]
+            except (requests.RequestException, ValueError):
+                pass
     queries = list(plan["queries"])
     if plan.get("kind") == "thing" and plan.get("archive_institution") is True:
         queries.append(f"{plan.get('subject_evidence') or plan['subject']} headquarters")
@@ -937,6 +959,24 @@ def _research(lead: dict, primary: dict, secondary: dict, plan: dict, deadline: 
     prefetch_depicted([page.get("pageid") for page in pages])
     cache[plan["subject"]] = (source_urls, lead["_source_fingerprints"], pages)
     return cache[plan["subject"]]
+
+
+def source_photo_allowed(lead: dict, photo: dict) -> bool:
+    """An outlet's use is not permission; independently verified Commons rights are."""
+    rights = photo.get('image_rights', {})
+    try:
+        page = urlsplit(str(rights.get('source_page', '')))
+        image = urlsplit(str(photo.get('image_url', '')))
+    except ValueError:
+        return False
+    return bool(lead.get('category') in {'Sport', 'Teknologji', 'Ekonomi', 'Botë', 'Showbiz'}
+                and rights.get('provider') == 'wikimedia-commons'
+                and rights.get('creator') and rights.get('license') in LICENSES
+                and rights.get('license_url') == LICENSES.get(rights.get('license'))
+                and page.scheme == 'https' and page.hostname == 'commons.wikimedia.org'
+                and page.path.startswith('/wiki/File:')
+                and image.scheme == 'https'
+                and image.hostname in {'upload.wikimedia.org', 'thumb.wikimedia.org'})
 
 
 def photo_options(lead: dict, primary: dict, secondary: dict, tier: str) -> list[dict]:
@@ -1018,14 +1058,15 @@ def _photo_options_for_plan(lead: dict, primary: dict, secondary: dict, tier: st
     for _, page in sorted(((index, page) for index, page in enumerate(pages) if eligible(page)), key=rank):
         # A city or stadium looks the same for years; people and events do not.
         photo = candidate_photo(page, plan, PLACE_MAX_YEARS if tier == "place" else MAX_PHOTO_AGE_YEARS)
-        if photo and not any(image_identity(photo["image_url"]) == image_identity(url) for url in source_urls):
-            options.append({"tier": tier, "page": page, "photo": photo})
-    return options
+        if photo:
+            source_match = any(image_identity(photo['image_url']) == image_identity(url) for url in source_urls)
+            if not source_match or source_photo_allowed(lead, photo):
+                options.append({'tier': tier, 'page': page, 'photo': photo, 'source_image_match': source_match})
+    return sorted(options, key=lambda option: not option.get('source_image_match'))
 
 
 def finalize_photo(lead: dict, option: dict) -> dict:
-    """Download one option and keep it only if it is large, distinct from
-    every source image and not already used this run."""
+    """Check size, native review and batch uniqueness; local photos stay distinct."""
     if time.monotonic() >= lead.get("_photo_deadline", float("inf")):
         return {}
     visual_review = option.get('_visual_review')
@@ -1042,10 +1083,13 @@ def finalize_photo(lead: dict, option: dict) -> dict:
         from news_visual_contact import valid_record
         if not valid_record({'sha256':digest,'visual_review':visual_review}):
             return {}
-    # An outlet often runs the institution's own press photo; that photo is
-    # still the institution's, so only other tiers must differ from sources.
-    if option["tier"] != "press" and any(digest == source[2] or (visual ^ source[3]).bit_count() <= 20
-                                         for source in lead.get("_source_fingerprints", [])):
+    # Institutional press photos keep their existing permission. Other source
+    # matches need independently verified reuse rights and an international desk.
+    source_match = (any(image_identity(photo['image_url']) == image_identity(url) for url in lead.get('_source_urls', []))
+                    or any(digest == source[2] or (visual ^ source[3]).bit_count() <= 20
+                           for source in lead.get('_source_fingerprints', [])))
+    reused_source = option['tier'] != 'press' and source_match
+    if reused_source and not source_photo_allowed(lead, photo):
         return {}
     reserve = lead.get("_reserve_photo")
     if reserve and not reserve(photo["image_url"]):
@@ -1057,9 +1101,11 @@ def finalize_photo(lead: dict, option: dict) -> dict:
         dated = f" ({ARCHIVE_MONTHS[when.month - 1]} {when.year})" if when else ""
         photo["image_caption"] = f"Foto nga arkivi{dated}. {photo['image_caption']}"
     taken = option.get("taken") or taken_date(next(iter(option["page"].get("imageinfo", [])), {}).get("extmetadata", {}))
-    photo["image_rights"].update(sha256=digest, distinct_from_source=True,
+    photo["image_rights"].update(sha256=digest, distinct_from_source=not reused_source,
                                  source_images_checked=lead.get("_source_urls", []),
                                  photo_tier=option["tier"], taken=taken if isinstance(taken, str) else taken.isoformat() if taken else "")
+    if reused_source:
+        photo['image_rights']['source_image_reuse'] = True
     if visual_review:
         photo['image_rights']['visual_review'] = dict(visual_review)
     return photo
@@ -1110,6 +1156,8 @@ def image_errors(article: dict) -> list[str]:
         return [] if not article.get("image_url") and article.get("image_rights") == photo["image_rights"] else [
             "image provenance was changed or omitted; use the prepared photo metadata"]
     rights = photo.get("image_rights", {})
+    if rights.get('source_image_reuse') and not source_photo_allowed(article, photo):
+        return ['source-photo reuse requires an international category and independently verified Commons rights']
     if os.environ.get('L383_HOURLY_NEWS') == '1':
         from news_visual_contact import valid_record
         if not valid_record(rights):

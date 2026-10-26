@@ -116,7 +116,8 @@ _SHOWBIZ = re.compile(r"\b(?:showbiz|big brother|ferma vip|kengetar\w*|aktor\w*|
                       r"album\w*|grammy|oscar|dua lipa|rita ora|bebe rexha|"
                       r"ledri|luiz ejlli|tayna|noizy|taylor swift)\b")
 _CULTURE = re.compile(r"\b(?:showbiz|entertainment|celebr\w*|singer\w*|actor\w*|actress\w*|"
-                      r"music\w*|muzik\w*|keng(?:a|e|en|es|et|eve)|film\w*|movie\w*|cinema\w*|kinema\w*|"
+                      r"music\w*|muzik\w*|keng(?:a|e|en|es|et|eve|esh)|singell\w*|hit(?:i|it|in|et|eve)|hot\s+100|"
+                      r"film\w*|movie\w*|cinema\w*|kinema\w*|"
                       r"theat\w*|teat\w*|broadway|west end|opera|operes|operen|ballet\w*|balet\w*|"
                       r"concert\w*|koncert\w*|festival\w*|album\w*|kengetar\w*|aktor\w*|"
                       r"books?|bookstore\w*|libr\w*|novels?|roman|romani|romanit|romaneve|"

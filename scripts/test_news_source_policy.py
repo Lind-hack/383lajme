@@ -86,7 +86,9 @@ class SourceIsolation(unittest.TestCase):
     def test_song_and_recording_terms_survive_albanian_headline_edits(self):
         for title in ('Kënga e Ella Langley kryeson Hot 100 për javën e 25-të',
                       'Publikohen këngët e reja të javës',
-                      'Disku i ri shënon rekord në renditjen muzikore'):
+                      'Disku i ri shënon rekord në renditjen muzikore',
+                      'Ella Langley: hiti i saj numëron 25 javë në krye të Hot 100',
+                      'Publikohet singëlli i ri', 'Festivali sjell dhjetë këngësh të reja'):
             self.assertIsNone(topic_error('Showbiz', title), title)
         self.assertIsNotNone(topic_error('Showbiz', 'Banka kryeson renditjen e fitimit'))
         self.assertIsNotNone(topic_error('Botë', 'Këngëtarja publikon këngën e re'))

@@ -32,14 +32,15 @@ def describe(option: dict) -> str:
     page = option["page"]
     meta = next(iter(page.get("imageinfo", [])), {}).get("extmetadata", {})
     taken = option["photo"]["image_rights"].get("taken") or plain(meta.get("DateTimeOriginal", {}).get("value"))[:20]
-    return (f"photo, taken {taken or 'unknown'}: {plain(page.get('title', '')).removeprefix('File:')} | "
+    origin = ' [rights-cleared source article image]' if option.get('source_image_match') else ''
+    return (f"photo, taken {taken or 'unknown'}: {plain(page.get('title', '')).removeprefix('File:')}{origin} | "
             f"{plain(meta.get('ImageDescription', {}).get('value'))[:240]}")
 
 
 def trimmed(options: list[dict]) -> list[dict]:
     """The best few of each tier, in the owner's tier order."""
     kept, counts = [], {tier: 0 for tier in MAX_OPTIONS}
-    for option in options:
+    for option in sorted(options, key=lambda item: not item.get('source_image_match')):
         if counts[option["tier"]] < MAX_OPTIONS[option["tier"]]:
             counts[option["tier"]] += 1
             kept.append(option)
@@ -65,6 +66,7 @@ def _choose_chunk(stories: list[dict], folder: Path, index: int, deadline: float
         "Use the attached contact sheet's actual pixels. Every cell is labelled story-ID option N. Only shown options may be selected. Metadata does not turn a results table, infographic, chart, logo, poster, album cover or render into a photograph; reject those even on official sites. A video option also requires a photographic poster that shows the story's subject. "
         "For every story, list the numbers of options that truthfully illustrate its own person, event, team, product or place. "
         "Include every suitable photographed alternative, best first, because one image may only be used once in this hourly batch. "
+        "An option marked rights-cleared source article image has independently verified reuse rights and belongs to an international desk. Prefer it over comparably relevant alternatives; its source use alone is never permission. All subject, pixel and capture-date checks still apply. "
         "[press] options are photos from the press release of the institution named in the story, the last two days; [video] options are the subject's own official videos of the last three days, [fresh] photos were taken in the last 30 days, [older] are archive photos of the last two years: use one only if it shows the story's own person or team; [place] are dated archive photos of the story's own institution, place, team or company (its building, city, stadium, headquarters), the last resort. "
         "[asset] options are visually reviewed photographs of physical tokens or banknotes for that exact asset's market story, explicitly captioned as illustrations with their actual capture dates. They may illustrate market price/flow news about that exact asset; they are not photographs of today's trading event. Prefer documentary photos first. "
         "Prefer a photo of the very event the story reports. A clear photo or portrait of the story's main "
