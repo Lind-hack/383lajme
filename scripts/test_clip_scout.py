@@ -166,6 +166,25 @@ class ScoutTests(unittest.TestCase):
         self.assertNotIn("Rama", got)
         self.assertNotIn("Është", got)
 
+    def test_the_site_gets_only_finds_passed_for_it(self):
+        def entry(i, **kw):
+            return {"id": f"tt:{i}", "site": True, "status": "ready", "file": f"https://s/{i}.mp4", "score": 10 - i,
+                    "found_at": NOW.isoformat(), "duration": 30, "headline": "h", **kw}
+        state = {"queued": {e["id"]: e for e in [
+            entry(1), entry(2, site=False), entry(3, status="ready (no text)"), entry(4, found_at=(NOW - timedelta(hours=30)).isoformat()),
+            entry(5), entry(6, duration=400), entry(7, site=None), entry(8, file="")]}}
+        got = cs.on_site(state, NOW, removed={"tt:5"})
+        self.assertEqual([e["id"] for e in got], ["tt:1", "tt:6"])
+        self.assertEqual(got[1]["duration"], 180)
+
+    def test_the_take_down_link_is_signed_for_one_find(self):
+        import os
+        os.environ["SUPABASE_SERVICE_ROLE_KEY"] = "k"
+        # The same sum as app/api/virale/hiq (Node: createHmac("sha256","k").update("clip-scout-remove:tt:1")).
+        self.assertEqual(cs.sign("tt:1"), "389ab0f8b463f31d93ce49b2a0c35f7e")
+        self.assertNotEqual(cs.sign("tt:1"), cs.sign("tt:2"))
+        self.assertIn("/api/virale/hiq?id=tt%3A1&t=", cs.remove_link("tt:1"))
+
     def test_instagram_says_what_to_do(self):
         self.assertIn("pass the check", cs.ig_problem('400 Bad Request - "fail" status, message "challenge_required"'))
         self.assertIn("expired", cs.ig_problem("login_required"))

@@ -23,7 +23,7 @@
 // the story's own page: 👍 Pëlqej, the reactions and the comments (the
 // story's own, under its slug), and sharing.
 
-import { type CSSProperties, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { type CSSProperties, Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import {
@@ -80,6 +80,11 @@ function clock(seconds: number) {
 
 function minutes(clips: EditionClip[]) {
   return Math.max(1, Math.round(clips.reduce((a, c) => a + c.duration, 0) / 60));
+}
+
+/** The edition's own stories, without the viral finds after them ("Virale sot", clip.source). */
+function ownClips(clips: EditionClip[]) {
+  return clips.filter((c) => !c.source);
 }
 
 function clipUrl(clip: EditionClip) {
@@ -313,7 +318,9 @@ export default function VideoRow({
   );
 
   if (clips.length === 0) return null;
-  const left = clips.filter((c) => !seen.has(c.slug));
+  // Caught up means the day's stories; the viral finds after them are extra.
+  const stories = ownClips(clips);
+  const left = stories.filter((c) => !seen.has(c.slug));
   const caughtUp = left.length === 0;
   const firstNew = Math.max(0, clips.findIndex((c) => !seen.has(c.slug)));
 
@@ -371,7 +378,7 @@ export default function VideoRow({
           </>
         ) : (
           <>
-            {clips.length} lajmet kryesore të sotme, me zë, në {minutes(clips)} minuta. Kur mbaron, je në dijeni.
+            {stories.length} lajmet kryesore të sotme, me zë, në {minutes(stories)} minuta. Kur mbaron, je në dijeni.
           </>
         )}
       </p>
@@ -382,15 +389,23 @@ export default function VideoRow({
           // it was rendered; else the story's photo.
           const thumb = clip.video?.thumb || "";
           const cover = thumb || clip.image;
+          const viral = clip.source;
           return (
-            <li key={clip.slug}>
+            <Fragment key={clip.slug}>
+              {viral && !clips[i - 1]?.source && (
+                <li className="vr-divider" aria-hidden="true">
+                  <span>Virale sot</span>
+                </li>
+              )}
+            <li>
               <button
                 type="button"
                 className="vr-card"
                 data-seen={done || undefined}
                 data-thumb={thumb ? "" : undefined}
+                data-viral={viral ? "" : undefined}
                 onClick={(e) => openAt(i, e.currentTarget, "card")}
-                aria-label={`${i + 1}. ${clip.title}${done ? " (e parë)" : ""}`}
+                aria-label={viral ? `Virale: ${clip.title}, video nga @${viral.author}${done ? " (e parë)" : ""}` : `${i + 1}. ${clip.title}${done ? " (e parë)" : ""}`}
               >
                 {cover ? (
                   // eslint-disable-next-line @next/next/no-img-element -- already sized (540x960 thumbnail or the story's photo)
@@ -398,12 +413,14 @@ export default function VideoRow({
                 ) : (
                   <span className="vr-poster vr-poster-none" style={{ ["--c" as string]: clip.color }} aria-hidden="true" />
                 )}
-                <span className="vr-num" aria-hidden="true">
-                  {i + 1}
-                </span>
+                {!viral && (
+                  <span className="vr-num" aria-hidden="true">
+                    {i + 1}
+                  </span>
+                )}
                 <span className="vr-badge">
                   <i style={{ background: clip.color }} aria-hidden="true" />
-                  {clip.category}
+                  {viral ? `Virale${viral.platform ? ` · ${viral.platform}` : ""}` : clip.category}
                 </span>
                 <span className="vr-play" aria-hidden="true">
                   {done ? <Check size={20} strokeWidth={3} /> : <Play size={20} strokeWidth={0} fill="currentColor" />}
@@ -420,6 +437,7 @@ export default function VideoRow({
                 </span>
               </button>
             </li>
+            </Fragment>
           );
         })}
       </ul>
@@ -815,7 +833,7 @@ function Player({
     return () => window.removeEventListener("keydown", onKey);
   }, [go, onClose, talking, toggle]);
 
-  const slugs = useMemo(() => clips.map((c) => c.slug), [clips]);
+  const slugs = useMemo(() => ownClips(clips).map((c) => c.slug), [clips]);
   if (!mounted) return null;
 
   return createPortal(
@@ -983,7 +1001,7 @@ function Slide({
   const shown = beats[Math.min(active ? beat : 0, beats.length - 1)];
 
   const like = (x: number, y: number) => {
-    if (!reactions.ok) return;
+    if (!reactions.ok || clip.source) return;
     if (reactions.mine[clip.slug] !== LIKE) reactions.react(clip.slug, LIKE);
     const id = Date.now();
     setBursts((b) => [...b.slice(-3), { id, x, y, tilt: Math.round(Math.random() * 30 - 15) }]);
@@ -1106,10 +1124,24 @@ function Slide({
           </span>
           <h3 className="vr-player-title">{clip.title}</h3>
           <div className="vr-player-actions">
-            <Link href={`/article/${clip.slug}`} className="vr-player-read" onClick={onRead}>
-              Lexo lajmin <ArrowRight size={15} strokeWidth={2.4} aria-hidden="true" />
-            </Link>
-            <Credit clip={clip} beat={shown} />
+            {clip.source ? (
+              // A viral find has no article: its creator's own post, credited.
+              <a href={clip.source.link} className="vr-player-read" target="_blank" rel="noopener noreferrer" onClick={onRead}>
+                Origjinali · @{clip.source.author} <ArrowRight size={15} strokeWidth={2.4} aria-hidden="true" />
+              </a>
+            ) : (
+              <Link href={`/article/${clip.slug}`} className="vr-player-read" onClick={onRead}>
+                Lexo lajmin <ArrowRight size={15} strokeWidth={2.4} aria-hidden="true" />
+              </Link>
+            )}
+            {clip.source ? (
+              <span className="vr-credit">
+                Video: @{clip.source.author}
+                {clip.source.platform && <> · {clip.source.platform}</>}
+              </span>
+            ) : (
+              <Credit clip={clip} beat={shown} />
+            )}
           </div>
         </div>
       </div>
@@ -1326,7 +1358,8 @@ function EndScreen({
   onClose: () => void;
 }) {
   const [sharing, setSharing] = useState(false);
-  const clips = edition.clips;
+  // "Je në dijeni" is about the day's stories: the viral finds are not news to be caught up on.
+  const clips = ownClips(edition.clips);
   return (
     <section className="vr-slide vr-end" data-i={i} data-active={active || undefined} aria-hidden={!active} inert={!active}>
       <div className="vr-end-inner" style={{ "--n": clips.length } as CSSProperties}>
@@ -1427,6 +1460,8 @@ function Actions({
   const total = Object.values(tally).reduce((a: number, b) => a + (Number(b) || 0), 0);
   const comments = reactions.comments[clip.slug] ?? 0;
   const likePops = pop + likePop;
+  // A viral find is no story of ours: nothing to react to or comment on, only to share.
+  const own = !clip.source;
 
   const react = (key: StoryReactionKey) => {
     const undo = mine === key;
@@ -1456,7 +1491,7 @@ function Actions({
 
   return (
     <div className="vr-acts">
-      {reactions.ok && (
+      {own && reactions.ok && (
         <button type="button" className="vr-act" aria-pressed={mine === LIKE} onClick={() => react(LIKE)} aria-label="Pëlqej">
           <span className="vr-act-icon vr-act-like" key={likePops} data-pop={likePops > 0 || undefined}>
             <ThumbsUp size={24} strokeWidth={2.2} fill={mine === LIKE ? "currentColor" : "none"} aria-hidden="true" />
@@ -1466,7 +1501,7 @@ function Actions({
           </b>
         </button>
       )}
-      {reactions.ok && (
+      {own && reactions.ok && (
         <span className="vr-act-wrap">
           <button type="button" className="vr-act" aria-expanded={picking} onClick={() => setPicking((p) => !p)} aria-label="Reago">
             <span className="vr-act-icon" key={mine ?? "none"} data-pop={mine && mine !== LIKE ? true : undefined}>
@@ -1506,7 +1541,7 @@ function Actions({
           )}
         </span>
       )}
-      {reactions.commentsOk && (
+      {own && reactions.commentsOk && (
         <button type="button" className="vr-act" onClick={() => talk(true)} aria-label="Komento">
           <span className="vr-act-icon">
             <MessageCircle size={24} strokeWidth={2.2} aria-hidden="true" />
@@ -1520,13 +1555,13 @@ function Actions({
         </span>
         <b className="vr-count">Ndaje</b>
       </button>
-      {reactions.commentsOk && <CommentsSheet open={talking} onClose={() => talk(false)} thread={thread} title={clip.title} />}
+      {own && reactions.commentsOk && <CommentsSheet open={talking} onClose={() => talk(false)} thread={thread} title={clip.title} />}
       {sharing && (
         <ShareSheet
           url={clipUrl(clip)}
           title={clip.title}
-          label={`${clip.category} · Edicioni video i 383`}
-          image={clip.image}
+          label={clip.source ? `Video nga @${clip.source.author} · 383` : `${clip.category} · Edicioni video i 383`}
+          image={clip.image || clip.video?.thumb || ""}
           what={clip.slug}
           list={list}
           position={position}

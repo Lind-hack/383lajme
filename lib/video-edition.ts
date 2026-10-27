@@ -50,6 +50,9 @@ export type EditionClip = {
   video: { hd: string; sd: string; poster: string; thumb: string } | null;
   /** What people in Kosovo/Albania searched today that this story is about ("" if not trending). */
   trend: string;
+  /** A viral clip from social media (the clip scout's), not a 383 story: whose it is and where it
+   * was first posted. It has no article, so no reactions or comments; null for the edition's own. */
+  source: { author: string; platform: string; link: string } | null;
 };
 
 export type Edition = {
@@ -167,25 +170,94 @@ export function parseEdition(raw: unknown, now = Date.now()): Edition | null {
       beats: parseBeats(c?.beats, duration, Boolean(video)),
       video,
       trend: str(c?.trend).slice(0, 60),
+      source: null,
     });
   }
   return clips.length ? { date: str(data?.date), updatedAt, clips } : null;
 }
 
-const readEdition = unstable_cache(
-  async (): Promise<unknown> => {
-    try {
-      const res = await fetch(indexUrl(), { signal: AbortSignal.timeout(6000), cache: "no-store" });
-      return res.ok ? await res.json() : null;
-    } catch {
-      return null;
-    }
+/** "Virale sot": at most this many of the clip scout's finds, after the edition's own stories. */
+const VIRAL_MAX = 4;
+/** A find older than this has had its day. */
+const VIRAL_MS = 24 * 60 * 60 * 1000;
+const PLATFORMS: Record<string, string> = { tiktok: "TikTok", x: "X", instagram: "Instagram", youtube: "YouTube" };
+const SOURCE_HOSTS = /^https:\/\/(www\.)?(tiktok\.com|x\.com|twitter\.com|instagram\.com|youtube\.com|youtu\.be)\//;
+
+export function scoutBase() {
+  return `${storageBase()}/storage/v1/object/public/clip-scout/`;
+}
+
+/** The scout's published finds (scripts/clip_scout.py writes clip-scout/published.json each run),
+ * every field checked, without those the editor took down (removed.json, written by /api/virale/hiq). */
+export function parseViral(raw: unknown, removed: unknown, now = Date.now()): EditionClip[] {
+  const items = (raw as Record<string, unknown> | null)?.items;
+  if (!Array.isArray(items)) return [];
+  const gone = new Set(Array.isArray((removed as Record<string, unknown> | null)?.ids) ? ((removed as { ids: unknown[] }).ids.map(str)) : []);
+  const base = scoutBase();
+  const out: EditionClip[] = [];
+  for (const c of items as Record<string, unknown>[]) {
+    const id = str(c?.id);
+    const file = str(c?.file);
+    const thumb = str(c?.thumb);
+    const link = str(c?.link);
+    const title = str(c?.headline).slice(0, 140);
+    const found = Date.parse(str(c?.found_at));
+    const duration = typeof c?.duration === "number" && c.duration > 0 ? Math.min(c.duration, 180) : 0;
+    if (!id || gone.has(id) || !title || !duration || !file.startsWith(base) || !SOURCE_HOSTS.test(link)) continue;
+    if (!Number.isFinite(found) || now - found > VIRAL_MS) continue;
+    const slug = `virale-${id.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`.slice(0, 160);
+    const poster = thumb.startsWith(base) ? thumb : "";
+    out.push({
+      slug,
+      title,
+      excerpt: str(c?.post_text).slice(0, 400),
+      category: "Virale",
+      color: "#FF4422",
+      publishedAt: str(c?.created),
+      image: "",
+      imageCreator: "",
+      imageLicense: "",
+      imageSourcePage: "",
+      script: str(c?.post_text) || title,
+      audio: "",
+      duration,
+      words: [],
+      beats: [],
+      video: { hd: file, sd: file, poster, thumb: poster },
+      trend: "",
+      source: { author: str(c?.author).slice(0, 60), platform: PLATFORMS[str(c?.platform)] ?? "", link },
+    });
+    if (out.length === VIRAL_MAX) break;
+  }
+  return out;
+}
+
+async function readJson(url: string): Promise<unknown> {
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(6000), cache: "no-store" });
+    return res.ok ? await res.json() : null;
+  } catch {
+    return null;
+  }
+}
+
+const readEdition = unstable_cache(async (): Promise<unknown> => readJson(indexUrl()), ["video-edition-v3"], { revalidate: 300 });
+
+/** Tagged so taking a find down (/api/virale/hiq) shows at once. The query keeps the storage CDN's copy from answering. */
+export const VIRAL_TAG = "clip-scout";
+const readViral = unstable_cache(
+  async (): Promise<[unknown, unknown]> => {
+    const v = Date.now();
+    return Promise.all([readJson(`${scoutBase()}published.json?v=${v}`), readJson(`${scoutBase()}removed.json?v=${v}`)]);
   },
-  ["video-edition-v3"],
-  { revalidate: 300 }
+  ["clip-scout-v1"],
+  { revalidate: 300, tags: [VIRAL_TAG] }
 );
 
-/** Today's edition, or null (none yet today, or storage unreachable). */
+/** Today's edition, its viral finds after its own stories, or null (none yet today, or storage unreachable). */
 export async function getEdition(): Promise<Edition | null> {
-  return parseEdition(await readEdition());
+  const [edition, [published, removed]] = await Promise.all([readEdition(), readViral()]);
+  const parsed = parseEdition(edition);
+  if (!parsed) return null;
+  return { ...parsed, clips: [...parsed.clips, ...parseViral(published, removed)] };
 }

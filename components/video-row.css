@@ -175,6 +175,27 @@
 }
 /* A rendered thumbnail carries its own section label and cover line: no badge over it. */
 .vr-card[data-thumb] .vr-badge { display: none; }
+/* A viral find's thumbnail is its own clip, not 383's: the badge says so. */
+.vr-card[data-viral] .vr-badge { display: inline-flex; }
+/* "Virale sot": the viral finds after the day's stories, labelled up the gap between them. */
+.vr-track > li.vr-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  padding: 0 2px;
+  scroll-snap-align: none;
+}
+.vr-divider span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  color: var(--vr-accent, #FF4422);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
 /* No photo: the section's colour, deepening to the bottom. */
 .vr-poster-none { background: linear-gradient(160deg, var(--c), #111111 85%); }
 /* The story's place in the edition. */

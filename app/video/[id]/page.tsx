@@ -21,12 +21,16 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   const clip = (await getEdition())?.clips.find((c) => c.slug === id);
   if (!clip) return {};
-  const description = `${clip.category} · Edicioni video i 383: lajmet kryesore të sotme, me zë, në pak minuta.`;
+  const description = clip.source
+    ? `Video nga @${clip.source.author}${clip.source.platform ? ` · ${clip.source.platform}` : ""}, në Edicionin video të 383.`
+    : `${clip.category} · Edicioni video i 383: lajmet kryesore të sotme, me zë, në pak minuta.`;
+  // A viral find has no story photo: its own thumbnail.
+  const image = clip.image || clip.video?.thumb || "";
   return {
     title: clip.title,
     description,
-    openGraph: { title: clip.title, description, images: clip.image ? [clip.image] : [], type: "video.other" },
-    twitter: { card: "summary_large_image", title: clip.title, images: clip.image ? [clip.image] : [] },
+    openGraph: { title: clip.title, description, images: image ? [image] : [], type: "video.other" },
+    twitter: { card: "summary_large_image", title: clip.title, images: image ? [image] : [] },
   };
 }
 

@@ -27,15 +27,23 @@ Runs on the VPS every two hours (383-clip-scout.timer). Each run:
    platform's cookie; TikTok without one through the scraper's own session), writes a short Albanian headline of what is
    happening (Groq, gpt-oss-120b; the caption itself when the model is down), and renders an
    upright 1080x1920 post: the headline on top, the clip, and the creator's credit tag.
-4. Queues them for the editor. Nothing is posted anywhere: the files go to the storage bucket
-   clip-scout (clips/<day>/...), with queue.json beside them, and one email lists the run's
-   finds with their numbers, why each was picked, and links to the original and the file.
+4. Queues them for the editor: the files go to the storage bucket clip-scout (clips/<day>/...),
+   with queue.json beside them, and one email lists the run's finds with their numbers, why each
+   was picked, and links to the original and the file.
+5. Puts the day's best on 383's own site, "Virale sot" after the video edition's stories: only
+   finds the model passed for the site by itself (news, events, public figures; nothing that may
+   be staged, AI-made or a claim the post cannot prove), rendered with their headline and credit
+   (published.json; the site shows four). Each is in the email with a "Hiq nga faqja" link,
+   signed for it alone, that takes it down at once (the site's /api/virale/hiq writes
+   removed.json, which every run respects). Nothing is ever posted to social media.
 
 State (what was seen, queued, each creator's usual numbers) lives in /opt/data/clip-scout/state.json.
 `python clip_scout.py --dry-run` looks and scores, and prints instead of downloading or sending.
 """
 from __future__ import annotations
 
+import hashlib
+import hmac
 import json
 import math
 import os
@@ -97,6 +105,8 @@ MIN_SCORE = {"x": 6.0}
 MIN_SCORE_OTHERS = 7.0
 VET_TOP = 40            # the best this many are checked by the model for news value; only they are picked
 KEEP_DAYS = 7
+SITE = "https://383ks.com"
+SITE_KEEP = 8           # finds in published.json; the site shows four, the rest fill in for any taken down
 COLLECT_TIMEOUT = 420   # X and Instagram each run in a child process cut off after this
 X_PER_QUERY = 40
 # Albanian tweets read for what Albanian X talks about. X lets an account about 50 searches (20
@@ -787,7 +797,13 @@ def vet(ranked: list[dict], state: dict, now: datetime) -> bool:
               "entertainment with no Kosovo/Albania angle, or not about Albanians at all. A post with no text is kept "
               "only if its creator is clearly a news or local account. For each kept post give its story in 2 to 5 "
               "Albanian words (the same words for posts about the same event).\n"
-              "Reply with only JSON: {\"items\": [{\"n\": 1, \"keep\": true, \"story\": \"...\"}]}\n\n" + "\n".join(lines))
+              "Also say if a kept post may go on 383's own site by itself, with no editor looking (\"site\"): only "
+              "news, an event, a protest, politics, sport or a public figure, and only when nothing suggests it is "
+              "staged, AI-made, satire, a prank, a meme, or a startling claim the post alone cannot prove (a "
+              "politician doing something outlandish, an accident or crime with no source). Entertainment, cars, "
+              "lifestyle and humour are never \"site\". When in doubt, false.\n"
+              "Reply with only JSON: {\"items\": [{\"n\": 1, \"keep\": true, \"site\": false, \"story\": \"...\"}]}\n\n"
+              + "\n".join(lines))
     got = groq_json(prompt, key, "vet")
     items = got.get("items") if isinstance(got, dict) else None
     if not isinstance(items, list):
@@ -797,7 +813,9 @@ def vet(ranked: list[dict], state: dict, now: datetime) -> bool:
             c = todo[int(it.get("n")) - 1]
         except (TypeError, ValueError, IndexError, AttributeError):
             continue
-        verdicts[c["id"]] = {"keep": bool(it.get("keep")), "story": str(it.get("story") or "").strip().lower()[:60], "at": now_iso()}
+        keep = it.get("keep") is True
+        verdicts[c["id"]] = {"keep": keep, "site": keep and it.get("site") is True,
+                             "story": str(it.get("story") or "").strip().lower()[:60], "at": now_iso()}
     return True
 
 
@@ -916,7 +934,7 @@ def render(raw: Path, clip: dict, headline: str, out: Path, work: Path) -> bool:
 
 
 def thumb(video: Path, out: Path) -> bool:
-    done = subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", "1.5", "-i", str(video), "-frames:v", "1", "-vf", "scale=360:-2", str(out)],
+    done = subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", "1.5", "-i", str(video), "-frames:v", "1", "-vf", "scale=540:-2", str(out)],
                           capture_output=True, timeout=120, check=False)
     return done.returncode == 0 and out.exists()
 
@@ -958,7 +976,7 @@ def package(clip: dict, day: str) -> dict:
     """Download, describe, render and upload one find; what could not be done is said in the entry."""
     words = describe(clip)
     entry = {k: clip.get(k) for k in ("id", "platform", "link", "author", "author_name", "caption", "created", "plays",
-                                      "likes", "shares", "saves", "comments", "followers", "duration", "found_by", "score", "why", "story")}
+                                      "likes", "shares", "saves", "comments", "followers", "duration", "found_by", "score", "why", "story", "site")}
     entry.update(headline=words["headline"], post_text=words.get("caption", ""), written_by=words["how"], found_at=now_iso(),
                  file="", thumb="", status="needs download")
     with tempfile.TemporaryDirectory(prefix="383-scout-") as tmp:
@@ -983,6 +1001,50 @@ def publish_queue(state: dict, now: datetime) -> None:
     upload("queue.json", json.dumps({"updatedAt": now_iso(), "items": items}, ensure_ascii=False).encode(), "application/json")
 
 
+def sign(clip_id: str) -> str:
+    """The editor's "Hiq" link's proof for this find alone (the site's /api/virale/hiq does the same sum)."""
+    key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
+    return hmac.new(key.encode(), f"clip-scout-remove:{clip_id}".encode(), hashlib.sha256).hexdigest()[:32]
+
+
+def remove_link(clip_id: str) -> str:
+    return f"{SITE}/api/virale/hiq?" + urllib.parse.urlencode({"id": clip_id, "t": sign(clip_id)})
+
+
+def removed_ids() -> set[str]:
+    """The finds the editor took off the site (clip-scout/removed.json, written by the site)."""
+    status, body = storage("GET", f"object/{BUCKET}/removed.json")
+    if status != 200:
+        return set()
+    try:
+        ids = json.loads(body.decode("utf-8")).get("ids")
+    except (ValueError, AttributeError):
+        return set()
+    return {str(i) for i in ids} if isinstance(ids, list) else set()
+
+
+def on_site(state: dict, now: datetime, removed: set[str]) -> list[dict]:
+    """What "Virale sot" shows on the site: the day's finds the model passed for the site by itself
+    (news, events, people; nothing that may be staged), rendered with their headline and credit,
+    best first; the site shows the first SITE_SHOWN, the rest stand in for any the editor takes down."""
+    day_ago = (now - timedelta(hours=24)).isoformat()
+    fit = [e for e in (state.get("queued") or {}).values()
+           if e.get("site") is True and e.get("status") == "ready" and e.get("file") and e.get("found_at", "") >= day_ago
+           and e.get("id") not in removed and (e.get("duration") or 0) > 0]
+    fit.sort(key=lambda e: -(e.get("score") or 0))
+    keys = ("id", "platform", "link", "author", "headline", "post_text", "created", "found_at", "duration", "file", "thumb", "score")
+    return [{**{k: e.get(k) for k in keys}, "duration": min(int(e.get("duration") or 0), 180)} for e in fit[:SITE_KEEP]]
+
+
+def publish_site(state: dict, now: datetime) -> list[dict]:
+    removed = removed_ids()
+    for cid in removed & set(state.get("queued") or {}):
+        state["queued"][cid]["status"] = "removed from the site"
+    items = on_site(state, now, removed)
+    upload("published.json", json.dumps({"updatedAt": now_iso(), "items": items}, ensure_ascii=False).encode(), "application/json")
+    return items
+
+
 def health_lines(health: dict) -> list[str]:
     """Each source in a word: "✓ X: 212 video" or "✗ Instagram: cookie expired..."."""
     return [f"{'✓' if ok else '✗'} {name}: {note}" for name, (ok, note) in health.items()]
@@ -997,7 +1059,7 @@ def should_email(found: list[dict], health: dict, state: dict, now: datetime) ->
     return state.get("alerted", "") < (now - timedelta(hours=20)).isoformat()
 
 
-def email(found: list[dict], health: dict | None = None, trending: dict | None = None) -> bool:
+def email(found: list[dict], health: dict | None = None, trending: dict | None = None, site: set[str] | None = None) -> bool:
     """One email per run that found something: each clip, its numbers, why, and its links; above them
     how each source did and what is trending."""
     health, trending = health or {}, trending or {}
@@ -1021,6 +1083,9 @@ def email(found: list[dict], health: dict | None = None, trending: dict | None =
                     f'<div style="font-size:17px;font-weight:700">{esc(e["headline"])}</div>'
                     f'<div style="color:#555;font-size:13px;margin:4px 0">{esc(" · ".join(e.get("why") or []))}</div>'
                     f'<div style="font-size:13px">{file}<a href="{esc(e["link"])}">Origjinali (@{esc(e["author"])}, {esc(e["platform"])})</a></div>'
+                    + (f'<div style="font-size:13px;margin-top:4px;color:#1a7f37"><b>Në faqe</b> (Virale sot) · '
+                       f'<a href="{esc(remove_link(e["id"]))}" style="color:#c62828">Hiq nga faqja</a></div>' if e["id"] in (site or set()) else "")
+                    + 
                     f'<div style="color:#888;font-size:12px;margin-top:4px">{esc(e.get("post_text") or "")}</div></td></tr>')
     title = f"{len(found)} klipe të reja për rishikim" if found else "Asnjë klip i ri: një burim nuk punon"
     body = (f'<div style="font-family:Arial,sans-serif"><h2>{title}</h2><div style="margin-bottom:12px">{top}</div>'
@@ -1082,6 +1147,7 @@ def pick(ranked: list[dict], state: dict | None = None, now: datetime | None = N
         if story and (stories.get(story, 0) >= PER_STORY or queued_stories.get(story, 0) >= STORY_PER_DAY):
             continue
         c["story"] = story
+        c["site"] = verdict.get("site") is True  # may go on the site by itself ("Virale sot")
         picks.append(c)
         per[c["platform"]] = per.get(c["platform"], 0) + 1
         by[author_key(c)] = by.get(author_key(c), 0) + 1
@@ -1176,8 +1242,9 @@ def main(dry_run: bool = False) -> int:
         remember_seen(state, pool, now)
         grow_watchlist(state, pool)
         publish_queue(state, now)
+        site = {e["id"] for e in publish_site(state, now)}
         state["trending"] = {"at": now_iso(), **trending}
-        if should_email(found, health, state, now) and email(found, health, trending) and not found:
+        if should_email(found, health, state, now) and email(found, health, trending, site) and not found:
             state["alerted"] = now_iso()
     finally:
         if proc:
