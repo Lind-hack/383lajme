@@ -7,6 +7,23 @@ from news_reader_value import reader_value
 
 
 class ReaderValueTests(unittest.TestCase):
+    def test_observed_speculation_and_listicles_do_not_beat_reported_developments(self):
+        weak = [('Ekonomi', 'Now is the time to accumulate bitcoin, Galaxy says'),
+                ('Sport', 'Man Utd transfer news, rumours and gossip: Live updates'),
+                ('Showbiz', 'East of Eden: 5 ndryshime mes romanit dhe serialit'),
+                ('Showbiz', 'Xhaketat elegante: 3 mënyra për t’i veshur çdo ditë')]
+        for category, title in weak:
+            value = reader_value(dict(category=category, title=title))
+            self.assertTrue(value['reserve_genre'], title)
+            self.assertLess(value['score'], 0, title)
+        for category, title in [('Ekonomi','Taksa shtesë 85 mln euro për bizneset'),
+                                ('Ekonomi','Bitcoin price falls after interest rate decision'),
+                                ('Ekonomi','5 ndryshime në taksat dhe pensionet që hyjnë në fuqi'),
+                                ('Teknologji','5 things to know about the Windows security patch'),
+                                ('Sport','Kosova fiton finalen me rezultatin 3–1'),
+                                ('Showbiz','Bebe Rexha performon në NRJ Music Awards')]:
+            self.assertFalse(reader_value(dict(category=category, title=title))['reserve_genre'], title)
+
     def test_concrete_reader_consequences_across_desks(self):
         cases = [('Kosovë', 'Prishtina publikon orarin e ndërprerjes së ujit'),
                  ('Shqipëri', 'Shqipëria ndryshon taksat për pagat'),

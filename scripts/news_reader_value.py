@@ -29,6 +29,11 @@ def reader_value(lead: dict) -> dict:
     # but do not consume the first preparation slots for newly reported news.
     labels = {str(tag).casefold() for tag in (lead.get('tags') or [])}
     reserve = bool(labels & {'opinion', 'review', 'reviews', 'sponsored', 'buying guide', 'betting'}
-                   or re.search(r'\b(?:horoskop\w*|sponsoriz\w*|advertorial|coupon\w*|promo code|buying guide|what is|cfare eshte)\b', text))
+                   or re.search(r'\b(?:horoskop\w*|sponsoriz\w*|advertorial|coupon\w*|promo code|buying guide|what is|cfare eshte|rumours?|rumors?|gossip|thashethem\w*)\b', text)
+                   or (not any(reason in signals for reason in reasons)
+                       and re.search(r'\b\d+\s+(?:menyra|ndryshime|keshilla|ways|things|tips|differences)\b', text))
+                   or category == 'Ekonomi' and re.search(
+                       r'\b(?:time to|should|recommend\w*|urges?|advis\w*|koha|duhet|rekomand\w*)\b.{0,48}'
+                       r'\b(?:buy|sell|accumulat\w*|invest\w*|blere|shitur|blerj\w*|shitj\w*)\b', text))
     return {'score': len(reasons) - (4 if reserve else 0), 'signals': reasons,
             'reserve_genre': reserve, 'basis': 'headline_and_genre_signals_not_measured_engagement'}

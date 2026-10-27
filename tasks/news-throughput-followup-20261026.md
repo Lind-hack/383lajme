@@ -163,3 +163,14 @@ passed. Real Luna/max repair QA retained one of two previously defective
 production drafts in 242.3 seconds with zero remaining copy diagnostics and
 no publication; the other request timed out. This does not establish full
 hourly per-category output.
+
+## Reserve genres after live candidate review
+
+The first new discovery pool exposed explicit transfer-rumour feeds, numbered
+lifestyle lists and investment-buying advice above factual developments.
+Reader priority now demotes those genres while retaining them as reserves.
+Numbered tax, pension and security explainers retain practical-value priority;
+a number in a useful public-service headline is not itself a penalty. The
+observed source headlines and positive counterexamples pass the 39 affected
+Windows and Linux tests. No publication rule, source access or photo policy
+was weakened.
