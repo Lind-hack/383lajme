@@ -3,20 +3,28 @@
 
 Runs on the VPS every two hours (383-clip-scout.timer). Each run:
 
-1. Looks. TikTok through a local copy of omkarcloud/tiktok-scraper (MIT; no key, it talks to
-   tiktok.com itself): the Albanian hashtags (#kosova, #shqiperi, #prishtina...), today's trends
-   as hashtags (/opt/data/trends/trends.json, Google Trends Albania and sq.wikipedia spikes), and
-   a watchlist of Albanian creators the scout has met before. YouTube: today's uploads for the
-   same terms. Free only: TikTok's free-text search is closed to logged-out visitors, X and
-   Instagram need a logged-in account (cookies), and no public site publishes X trends for
-   Albania or Kosovo.
+1. Looks, free sources only. X first, through twscrape and a spare account's cookies
+   (x-cookies.txt). X has no trends for Albania or Kosovo, so the scout counts them itself: a few
+   hundred of today's Albanian tweets, the hashtags and names the most people post about against
+   what they usually do; X's own list (x.com/explore read in headless Chromium, x_trends.mjs, as
+   Agent-Reach does) joins where it touches Albanians. Then the Top video posts of Albanian X and
+   of the last run's trends and topics. TikTok through a local copy of omkarcloud/tiktok-scraper
+   (MIT; no key, it talks to tiktok.com itself): the Albanian hashtags (#kosova, #shqiperi...),
+   the X trends and today's searches (/opt/data/trends/trends.json) as hashtags, and a watchlist
+   of Albanian creators the scout has met before. YouTube: today's uploads for the same terms.
+   Instagram through instaloader and a spare account (ig-cookies.txt): the hashtags' top posts
+   and a watchlist of its own, slowly (a long wait asked for ends Instagram for the run). X and
+   Instagram run in child processes cut off after seven minutes. Each source's result is a line
+   at the top of the email, so a cookie that expired is said, not silent.
 2. Scores. An outlier is a clip far above what its creator normally gets, spreading fast, and
    shared and saved more than watched: plays per hour, plays against the creator's median (their
    last dozen posts) or their followers, and shares and saves per play. Older than three days it
    is not news. A clip already on three or more accounts has been seen; it is dropped.
-3. Packages the best few: downloads the clip (YouTube through yt-dlp and the YouTube cookie;
-   TikTok through the scraper's own session, which TikTok serves from a home connection, or
-   yt-dlp with a TikTok cookie when there is one), writes a short Albanian headline of what is
+3. Vets the best thirty with the model as an editor would (news, events, public figures stay; ads,
+   shops, giveaways and filler go) and names each one's story. Packages the best few that clear a
+   minimum score: at most three from one platform, one from an account, two of a story (none of a
+   story queued four times that day). Downloads the clip (yt-dlp with the
+   platform's cookie; TikTok without one through the scraper's own session), writes a short Albanian headline of what is
    happening (Groq, gpt-oss-120b; the caption itself when the model is down), and renders an
    upright 1080x1920 post: the headline on top, the clip, and the creator's credit tag.
 4. Queues them for the editor. Nothing is posted anywhere: the files go to the storage bucket
@@ -57,6 +65,10 @@ TRENDS = Path(os.environ.get("L383_TRENDS", "/opt/data/trends/trends.json"))
 YTDLP = os.environ.get("L383_EDITION_YTDLP", "/opt/data/video-edition/yt-dlp")
 YT_COOKIES = os.environ.get("L383_EDITION_YT_COOKIES", "/opt/data/video-edition/youtube-cookies.txt")
 TT_COOKIES = HOME / "tiktok-cookies.txt"
+# A spare account's cookies (cookies.txt, as a browser extension exports them) for each; never a real one.
+X_COOKIES = HOME / "x-cookies.txt"
+IG_COOKIES = HOME / "ig-cookies.txt"
+X_DB = HOME / "x-accounts.db"   # twscrape's account pool
 FONT = os.environ.get("L383_SCOUT_FONT", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf")
 BUCKET = "clip-scout"
 GROQ = "https://api.groq.com/openai/v1/chat/completions"
@@ -75,12 +87,51 @@ WATCH_MAX = 200
 WATCH_MIN_FOLLOWERS = 5_000
 SEEN_BY = 3             # a clip on this many accounts has been seen already
 PICKS_PER_RUN = 6
+PER_PLATFORM = 3        # X counts views generously; no one platform takes the whole run
+PER_AUTHOR = 1          # one account does not fill the run (Tirana_Report took all of X once)
+PER_STORY = 2           # nor one story: two clips of it a run...
+STORY_PER_DAY = 4       # ...and no more once it has been queued this often in a day
+# Below this a find is not worth the editor's time. X scores lower for the same reach: a big
+# account's views are measured against its followers, so even 1.6M views is "1.8×".
+MIN_SCORE = {"x": 6.0}
+MIN_SCORE_OTHERS = 7.0
+VET_TOP = 40            # the best this many are checked by the model for news value; only they are picked
 KEEP_DAYS = 7
+COLLECT_TIMEOUT = 420   # X and Instagram each run in a child process cut off after this
+X_PER_QUERY = 40
+# Albanian tweets read for what Albanian X talks about. X lets an account about 50 searches (20
+# tweets each) a quarter of an hour: these eight and two each for the video queries stay under it.
+X_TALK = (("Latest", 100), ("Top", 60))
+X_TERMS = 8             # trends and topics searched for video on X a run
+X_TRENDS_JS = Path(__file__).resolve().parent / "x_trends.mjs"
+# Capitalised words that start a sentence or are always there: not a trend.
+NOT_TRENDS = {"sot", "ky", "kjo", "këto", "keto", "këta", "keta", "ai", "ajo", "ata", "ato", "unë", "une", "ne", "ju", "në", "ne",
+              "për", "per", "dhe", "por", "nuk", "po", "jo", "si", "kur", "çfarë", "cfare", "pse", "kush", "ku", "edhe", "me",
+              "nga", "pas", "para", "mirë", "faleminderit", "lajm", "lajme", "video", "rt", "breaking", "the", "this",
+              "kosova", "kosovo", "kosovës", "shqipëria", "shqipëri", "shqiperia", "shqiperi", "shqipërisë", "albania",
+              "shqip", "shqiptar", "shqiptarët", "shqiptaret", "tirana", "tiranë", "prishtina", "prishtinë", "zoti", "allah",
+              "një", "nje", "çdo", "cdo", "është", "eshte", "qeveria", "kryeministri", "kryeministrit", "ka", "kanë", "jam",
+              "jemi", "janë", "jane", "ishte", "duhet", "mund", "tani", "vetëm", "vetem", "shumë", "shume", "kështu",
+              "atëherë", "pra", "nëse", "nese", "sepse", "apo", "ose", "deri", "mbi", "pa", "te", "tek", "ti", "im", "yt",
+              "kundër", "kunder", "pse", "sipas", "rreth", "lajmi", "fundit", "urgjent", "zyrtare", "live"}
+NOT_STEMS: set[str] = set()   # NOT_TRENDS by stem, filled once stem() is defined below
+# What Albanian X posts with video. min_faves keeps the timeline's noise out; X's own Top tab ranks.
+# Not lang:sq: X finds nothing for it (it does not detect Albanian); words only Albanian uses do.
+ALBANIAN_X = "(është OR eshte OR shqiptarët OR qeveria OR kryeministri OR shqipëri OR kosovë)"
+X_QUERIES = [f"{ALBANIAN_X} filter:native_video min_faves:100",
+             "(kosova OR kosovo OR prishtina OR prishtinë) filter:native_video min_faves:100",
+             "(shqipëri OR shqiperi OR tirana OR tiranë) filter:native_video min_faves:100"]
+IG_HASHTAGS = ["kosova", "shqiperi", "prishtina", "tirana", "albania"]
+IG_PER_TAG = 30
+IG_WATCH_POLLS = 4      # with the five hashtags, nine requests a run: Instagram stops a pushier scraper
+IG_WATCH_MIN_PLAYS = 50_000
 
 ALBANIAN_WORDS = re.compile(r"(?i)(?<![\wçë])(dhe|është|eshte|për|per|nga|shqip\w*|kosov\w*|prishtin\w*|tiran\w*|"
                             r"shqipëri\w*|shqiperi\w*|durr\w*|prizren\w*|vlor\w*|ferizaj|gjakov\w*|mitrovic\w*|"
                             r"pej[aë]\w*|gjilan\w*|kurti|rama|berisha|osmani|dardan\w*|kuqezi\w*|vëlla|vella|"
                             r"motr\w*|nën[aë]|babai|qytet\w*|lajm\w*|sot|shiko|kjo|ky)(?![\wçë])")
+
+ABOUT_PLACE = re.compile(r"(?i)\b(albania|albanian|albanians|kosovo|kosova|tirana|pristina|prishtina|durr[eë]s|prizren)\b")
 
 
 # ── 1. Looking ───────────────────────────────────────────────────────────────
@@ -128,14 +179,18 @@ def trend_terms(path: Path = TRENDS) -> list[str]:
     return [str(t.get("term", "")).strip() for t in trends[:12] if str(t.get("term", "")).strip()]
 
 
-def trend_tags(path: Path = TRENDS) -> list[str]:
-    """Today's trends as TikTok hashtags: "Vincent Kompany" -> "vincentkompany"."""
+def as_tags(terms: list[str]) -> list[str]:
+    """Trends as TikTok hashtags: "Vincent Kompany" -> "vincentkompany", "#Kurti" -> "kurti"."""
     tags = []
-    for term in trend_terms(path):
+    for term in terms:
         tag = re.sub(r"[^\wçë]", "", term.lower())
         if 4 <= len(tag) <= 30 and tag not in tags:
             tags.append(tag)
     return tags
+
+
+def trend_tags(path: Path = TRENDS) -> list[str]:
+    return as_tags(trend_terms(path))
 
 
 def tiktok_clip(v: dict, found_by: str) -> dict | None:
@@ -220,6 +275,306 @@ def collect_youtube(terms: list[str]) -> list[dict]:
     return out
 
 
+def read_cookies(path: Path) -> dict[str, str]:
+    """A cookies.txt (Netscape format, as browser extensions export it) as name -> value."""
+    out = {}
+    try:
+        lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    except OSError:
+        return out
+    for line in lines:
+        line = line[len("#HttpOnly_"):] if line.startswith("#HttpOnly_") else line
+        parts = line.split("\t")
+        if len(parts) >= 7 and not line.startswith("#"):
+            out[parts[5]] = parts[6].strip()
+    return out
+
+
+def run_collector(name: str, payload: dict) -> dict:
+    """X or Instagram in a child process (this file, --collect <name>), so a scraper that hangs or
+    is told to wait costs the run a few minutes, not the whole of it."""
+    py = HOME / ".venv" / "bin" / "python"
+    try:
+        done = subprocess.run([str(py if py.exists() else sys.executable), str(Path(__file__).resolve()), "--collect", name],
+                              input=json.dumps(payload), capture_output=True, text=True, timeout=COLLECT_TIMEOUT, check=False)
+    except subprocess.TimeoutExpired:
+        return {"error": f"cut off after {COLLECT_TIMEOUT // 60} min"}
+    sys.stderr.write(done.stderr[-2000:])
+    try:
+        got = json.loads((done.stdout.strip().splitlines() or [""])[-1])
+        return got if isinstance(got, dict) else {"error": "bad output"}
+    except ValueError:
+        return {"error": ((done.stderr or "").strip().splitlines() or ["no output"])[-1][:200]}
+
+
+def collect_child(name: str) -> int:
+    payload = json.loads(sys.stdin.read() or "{}")
+    try:
+        if name == "x":
+            import asyncio
+            got = asyncio.run(x_collect(payload.get("terms") or []))
+        else:
+            got = ig_collect(payload.get("watch") or [])
+    except Exception as exc:  # noqa: BLE001  (whatever broke is the health line the editor reads)
+        got = {"error": f"{type(exc).__name__}: {exc}"[:200]}
+    print(json.dumps(got, ensure_ascii=False))
+    return 0
+
+
+def x_clip(tw, found_by: str) -> dict | None:
+    """A twscrape tweet with a video as the scout's candidate (a repost counts as its original)."""
+    tw = getattr(tw, "retweetedTweet", None) or tw
+    videos = getattr(getattr(tw, "media", None), "videos", None) or []
+    user = getattr(tw, "user", None)
+    if not videos or user is None or not getattr(tw, "id", None):
+        return None
+    name = str(getattr(user, "username", "") or "")
+    when = getattr(tw, "date", None)
+    dur = float(getattr(videos[0], "duration", 0) or 0)
+    num = lambda key: int(getattr(tw, key, 0) or 0)  # noqa: E731
+    return {
+        "platform": "x", "id": f"x:{tw.id}", "vid": str(tw.id), "link": f"https://x.com/{name}/status/{tw.id}",
+        "caption": str(getattr(tw, "rawContent", "") or "")[:600], "language": str(getattr(tw, "lang", "") or ""),
+        "created": when.isoformat() if hasattr(when, "isoformat") else str(when or ""), "author": name,
+        "author_name": str(getattr(user, "displayname", "") or ""), "followers": int(getattr(user, "followersCount", 0) or 0),
+        "plays": num("viewCount") or int(getattr(videos[0], "views", 0) or 0), "likes": num("likeCount"),
+        "comments": num("replyCount"), "shares": num("retweetCount") + num("quoteCount"), "saves": num("bookmarkedCount"),
+        "duration": int(dur / 1000 if dur > 1000 else dur), "music": "",
+        "cover": str(getattr(videos[0], "thumbnailUrl", "") or ""), "found_by": found_by,
+    }
+
+
+async def x_collect(terms: list[str]) -> dict:
+    """X through twscrape and the spare account: what Albanian X is saying today (its tweets, for
+    the trends the scout counts itself), then the Top video posts for Albanian X and for each of
+    the terms (the last run's trends and topics)."""
+    from twscrape import API  # the scout's venv; when it is missing the health line says so
+    cookies = read_cookies(X_COOKIES)
+    if not (cookies.get("auth_token") and cookies.get("ct0")):
+        return {"error": "no X cookie (x-cookies.txt has no auth_token/ct0)"}
+    try:
+        api = API(str(X_DB), raise_when_no_account=True)  # fail fast instead of waiting out a rate limit
+    except TypeError:
+        api = API(str(X_DB))
+    await api.pool.add_account_cookies("scout", "; ".join(f"{k}={v}" for k, v in cookies.items()))
+    day = (datetime.now(timezone.utc) - timedelta(hours=24)).strftime("%Y-%m-%d")
+    talk, failed, limited = [], 0, 0
+    for product, limit in X_TALK:
+        try:
+            async for tw in api.search(f"{ALBANIAN_X} -filter:replies since:{day}", limit=limit, kv={"product": product}):
+                name = str(getattr(getattr(tw, "user", None), "username", "") or "")
+                if name and len(ALBANIAN_WORDS.findall(getattr(tw, "rawContent", "") or "")) >= 2:
+                    talk.append({"author": name, "text": str(tw.rawContent)[:400]})
+        except Exception as exc:  # noqa: BLE001
+            failed += 1
+            limited += type(exc).__name__ == "NoAccountError"
+            print(f"SCOUT X talk ({product}): {exc!r}"[:240], file=sys.stderr)
+    since = (datetime.now(timezone.utc) - timedelta(hours=MAX_AGE_H)).strftime("%Y-%m-%d")
+    quoted = [f'"{t}"' if " " in t else t for t in list(dict.fromkeys(terms))[:X_TERMS]]
+    queries = X_QUERIES + [f"{t} filter:native_video min_faves:50" for t in quoted]
+    clips = []
+    for q in queries:
+        try:
+            async for tw in api.search(f"{q} since:{since}", limit=X_PER_QUERY, kv={"product": "Top"}):
+                if c := x_clip(tw, "X: " + q.split(" filter:")[0]):
+                    clips.append(c)
+        except Exception as exc:  # noqa: BLE001
+            failed += 1
+            limited += type(exc).__name__ == "NoAccountError"
+            print(f"SCOUT X search {q[:60]}: {exc!r}"[:240], file=sys.stderr)
+    if failed == len(queries) + len(X_TALK):
+        if limited == failed:  # twscrape has the account resting until X's quarter-hour limit resets
+            return {"error": "X rate limit: the spare account's searches were used up; it is back in 15 minutes"}
+        return {"error": "every X search failed (cookie expired? re-export x.com_cookies.txt)"}
+    return {"clips": clips, "talk": talk}
+
+
+def x_browser_trends() -> list[dict]:
+    """X's own trends list, read off x.com/explore in headless Chromium (x_trends.mjs), as
+    Agent-Reach's OpenCLI does. X has no trends for Albania or Kosovo (its 467 places leave
+    them out), so this is the account's location's list; the scout keeps what touches Albanians."""
+    if not X_TRENDS_JS.exists():
+        return []
+    try:
+        done = subprocess.run(["node", str(X_TRENDS_JS), str(X_COOKIES), "20"], capture_output=True, text=True, timeout=150, check=False)
+        got = json.loads((done.stdout.strip().splitlines() or ["{}"])[-1])
+    except (subprocess.TimeoutExpired, OSError, ValueError) as exc:
+        print(f"SCOUT X browser trends: {exc!r}"[:200], file=sys.stderr)
+        return []
+    if got.get("error"):
+        print(f"SCOUT X browser trends: {got['error']}", file=sys.stderr)
+    return [t for t in got.get("trends") or [] if isinstance(t, dict) and t.get("topic")]
+
+
+def x_trending(talk: list[dict], browser: list[dict], state: dict) -> list[str]:
+    """Albanian X's trends, counted: the hashtags and names the most people posted about today,
+    the more so against what they usually post about (the earlier runs). X's own list joins in
+    where it touches Albanians: about the place, written in Albanian, or what they also talk about."""
+    authors: dict[str, set[str]] = {}
+    forms: dict[str, dict[str, int]] = {}
+    for t in talk:
+        text = re.sub(r"https?://\S+|@\w+", " ", t.get("text", ""))
+        terms = {"#" + h for h in re.findall(r"#(\w{3,30})", text)}
+        # Every name and pair of names in a run of capitals: "Kundër Edi Ramës" holds "Edi Ramës".
+        for run in re.findall(r"(?<![\w#])[A-ZÇË][a-zçë]{2,}(?:\s+[A-ZÇË][a-zçë]{2,})*", text):
+            words = run.split()
+            terms |= set(words) | {f"{a} {b}" for a, b in zip(words, words[1:])}
+        for term in terms:
+            key = term_key(term)
+            if any(w in NOT_STEMS for w in key.split()) or term.lstrip("#").lower() in NOT_TRENDS:
+                continue  # also #Albania, #Kosova: always there
+            authors.setdefault(key, set()).add(t.get("author", ""))
+            forms.setdefault(key, {})[term] = forms.get(key, {}).get(term, 0) + 1
+    usual = state.setdefault("x_terms", {})
+    scored = []
+    for key, who in authors.items():
+        n, before = len(who), float(usual.get(key, 0))
+        if n >= 3:
+            scored.append((n * n / (n + before), key))
+    # What each term usually gets: an average that forgets, so a word that is always there is not a trend.
+    for key in set(usual) | set(authors):
+        usual[key] = round(0.7 * float(usual.get(key, 0)) + 0.3 * len(authors.get(key, ())), 2)
+    state["x_terms"] = {k: v for k, v in sorted(usual.items(), key=lambda kv: -kv[1])[:400] if v >= 0.3}
+    ranked_keys = [key for _, key in sorted(scored, key=lambda s: (-s[0], -len(s[1].split())))][:16]
+    # "Rama" says less than "Edi Rama" beside it; "Edi Ramës" is "Edi Rama" (the same stems).
+    keys = [key for key in ranked_keys if not any(key != k and key in k.split() for k in ranked_keys)]
+    out = [max(forms[k], key=forms[k].get) for k in keys[:12]]
+    for t in browser:
+        topic = str(t["topic"]).strip()
+        if term_key(topic) in authors or ABOUT_PLACE.search(topic) or re.search(r"[çë]", topic, re.I):
+            if topic not in out:
+                out.append(topic)
+    return out[:15]
+
+
+ENDINGS = ("eve", "es", "it", "in", "en", "et", "ja", "ne", "a", "e", "i")   # Albanian case endings, without ë
+
+
+def stem(word: str) -> str:
+    word = word.lower().replace("ë", "e").replace("ç", "c")
+    for end in ENDINGS:
+        if word.endswith(end) and len(word) - len(end) >= 3:
+            word = word[: -len(end)]
+            break
+    return word[:5]
+
+
+def term_key(term: str) -> str:
+    """A term by its words' stems: "Edi Ramës", "Edi Rames" and "Edi Rama" are one, "Kurtit" is "Kurti".
+    A hashtag stays whole: #AlbaniaYouthRiseUp is not "Albania"."""
+    if term.startswith("#"):
+        return term.lower()
+    return " ".join(stem(w) for w in re.sub(r"[^\w\s]", " ", term).split())
+
+
+NOT_STEMS.update(stem(w) for w in NOT_TRENDS)
+
+
+def ig_medias(node):
+    """Every media in an Instagram app reply, whatever layout holds it (medias, fill_items, one_by_two_item...)."""
+    if isinstance(node, dict):
+        if isinstance(node.get("media"), dict) and node["media"].get("code"):
+            yield node["media"]
+        elif node.get("code") and "media_type" in node:
+            yield node
+        else:
+            for v in node.values():
+                yield from ig_medias(v)
+    elif isinstance(node, list):
+        for v in node:
+            yield from ig_medias(v)
+
+
+def ig_raw_clip(m: dict, found_by: str) -> dict | None:
+    """A media from Instagram's app reply that is a video as the scout's candidate."""
+    if m.get("media_type") != 2 or not m.get("code"):
+        return None
+    user, cover = m.get("user") or {}, ((m.get("image_versions2") or {}).get("candidates") or [{}])[0]
+    taken = m.get("taken_at")
+    return {
+        "platform": "instagram", "id": f"ig:{m['code']}", "vid": m["code"], "link": f"https://www.instagram.com/reel/{m['code']}/",
+        "caption": str((m.get("caption") or {}).get("text") or "")[:600], "language": "",
+        "created": datetime.fromtimestamp(int(taken), timezone.utc).isoformat() if taken else "",
+        "author": str(user.get("username") or ""), "author_name": str(user.get("full_name") or ""), "followers": 0,
+        "plays": int(m.get("play_count") or m.get("ig_play_count") or m.get("view_count") or 0),
+        "likes": int(m.get("like_count") or 0), "comments": int(m.get("comment_count") or 0),
+        "shares": int(m.get("reshare_count") or 0), "saves": 0, "duration": int(m.get("video_duration") or 0), "music": "",
+        "cover": str(cover.get("url") or ""), "media_url": str(((m.get("video_versions") or [{}])[0]).get("url") or ""),
+        "found_by": found_by,
+    }
+
+
+def ig_problem(text: str) -> str:
+    """What the editor must do when Instagram refuses the spare account, or "" for a passing error."""
+    low = text.lower()
+    if "challenge_required" in low or "checkpoint" in low:
+        return ("Instagram flagged the spare account (challenge_required): open Instagram on it, pass the check, "
+                "then re-export www.instagram.com_cookies.txt")
+    if any(w in low for w in ("login_required", "user_has_logged_out", "401 unauthorized", "not logged in")):
+        return "Instagram cookie expired: re-export www.instagram.com_cookies.txt"
+    if "wait" in low and "instagram asked" in low:
+        return f"Instagram is rate-limiting the spare account; it is left alone this run ({text[:80]})"
+    return ""
+
+
+def ig_collect(watch: list[str]) -> dict:
+    """Instagram Reels through instaloader and the spare account: the top posts of the Albanian
+    hashtags, and a few watched creators each run (their last posts are their usual numbers)."""
+    import itertools
+
+    import instaloader
+    cookies = read_cookies(IG_COOKIES)
+    if not cookies.get("sessionid"):
+        return {"error": "no Instagram cookie (ig-cookies.txt has no sessionid)"}
+
+    class NoLongWaits(instaloader.RateController):
+        def sleep(self, secs):  # Instagram bans scrapers that push on; a long wait means stop for this run
+            if secs > 60:
+                raise RuntimeError(f"Instagram asked to wait {secs:.0f}s")
+            time.sleep(secs)
+
+    loader = instaloader.Instaloader(quiet=True, download_pictures=False, download_videos=False, save_metadata=False,
+                                     rate_controller=lambda ctx: NoLongWaits(ctx))
+    loader.context._session.cookies.update(cookies)  # as instaloader's own browser-session import does
+    # No test_login: the graphql page it asks answers a logged-in session with an empty page now,
+    # which read as "cookie expired". The first hashtag is the test, and its answer says what is wrong.
+    started, clips, baselines, errors, reads = time.time(), [], {}, [], 0
+    for tag in IG_HASHTAGS:
+        if time.time() - started > COLLECT_TIMEOUT - 120:
+            break
+        reads += 1
+        try:
+            # The app's own reply, read directly: its layouts outran instaloader's Hashtag ('medias'),
+            # and each media already carries its plays, likes, creator and file, so one request a tag.
+            reply = loader.context.get_iphone_json(f"api/v1/tags/web_info/?tag_name={urllib.parse.quote(tag)}", {})
+            top = (reply.get("data") or {}).get("top") or {}
+            clips += [c for m in itertools.islice(ig_medias(top), IG_PER_TAG) if (c := ig_raw_clip(m, f"IG #{tag}"))]
+        except Exception as exc:  # noqa: BLE001
+            if problem := ig_problem(str(exc)):
+                return {"error": problem}  # pushing on with a flagged account only makes it worse
+            errors.append(f"#{tag}: {exc}"[:160])
+    for name in watch[:IG_WATCH_POLLS]:
+        if time.time() - started > COLLECT_TIMEOUT - 60:
+            break
+        reads += 1
+        try:
+            # The app's feed of the creator, as the hashtags: instaloader's Profile page answers 302 now.
+            reply = loader.context.get_iphone_json(f"api/v1/feed/user/{urllib.parse.quote(name)}/username/?count=12", {})
+            mine = [c for m in ig_medias(reply) if (c := ig_raw_clip(m, f"IG @{name}"))]
+        except Exception as exc:  # noqa: BLE001
+            if problem := ig_problem(str(exc)):
+                return {"error": problem, "clips": clips}
+            errors.append(f"@{name}: {exc}"[:160])
+            continue
+        plays = [c["plays"] for c in mine if c["plays"]]
+        if len(plays) >= 4:
+            baselines[name] = int(statistics.median(plays))
+        clips += mine
+    if reads and len(errors) == reads:
+        return {"error": "; ".join(errors[:2])}
+    return {"clips": clips, "baselines": baselines, "notes": errors[:3]}
+
+
 # ── 2. Scoring ───────────────────────────────────────────────────────────────
 
 def now_iso() -> str:
@@ -237,6 +592,11 @@ def hours_old(clip: dict, now: datetime) -> float:
 def is_albanian(clip: dict) -> bool:
     if clip.get("language") == "sq":
         return True
+    # On X the world posts about Kosovo and Albania in English (protests in Tirana): about the place
+    # counts, and an English post is not taken for Albanian on a word or two ("per"). X cannot tell
+    # Albanian (it calls it Estonian, Romanian, Tagalog...), so any other label goes by the words.
+    if clip.get("platform") == "x" and clip.get("language") == "en":
+        return bool(ABOUT_PLACE.search(clip.get("caption", "")))
     text = f"{clip.get('caption', '')} {clip.get('author', '')} {clip.get('author_name', '')}"
     return len(ALBANIAN_WORDS.findall(text)) >= 2 or (("ë" in text or "ç" in text) and len(ALBANIAN_WORDS.findall(text)) >= 1)
 
@@ -259,12 +619,17 @@ def same_clip_key(clip: dict) -> str:
     return "id:" + clip["id"]
 
 
+def author_key(clip: dict) -> str:
+    """Whose usual numbers: TikTok creators by name (as the state always kept them), others by platform:name."""
+    return clip.get("author", "") if clip.get("platform") in ("tiktok", "youtube") else f"{clip.get('platform')}:{clip.get('author', '')}"
+
+
 def score(clip: dict, state: dict, now: datetime) -> tuple[float, list[str]]:
     """How much of an outlier this clip is, and why, in words for the editor."""
     age = hours_old(clip, now)
     plays = clip.get("plays", 0)
     per_hour = plays / age
-    base = (state.get("authors") or {}).get(clip.get("author", ""), {}).get("median")
+    base = (state.get("authors") or {}).get(author_key(clip), {}).get("median")
     if base:
         outlier, against = plays / max(base, 300), f"{plays / max(base, 300):.0f}× zakonisht të @{clip['author']}"
     elif clip.get("followers"):
@@ -344,9 +709,18 @@ def describe(clip: dict) -> dict:
         f"Platform: {clip['platform']}\nCreator: @{clip.get('author', '')} ({clip.get('author_name', '')})\n"
         f"Post text: {clip.get('caption', '')}\n"
     )
-    got = None
-    # Each Groq model has its own free quota (and Pyet and the newsroom share the first): a model
-    # that is out after one wait hands over to the next.
+    got = groq_json(prompt, key, "headline")
+    if not isinstance(got, dict):
+        return fallback
+    headline = re.sub(r"\s+", " ", str(got.get("headline") or "")).strip()
+    if not 3 <= len(headline.split()) <= 18:
+        return fallback
+    return {"headline": headline[:120], "caption": re.sub(r"\s+", " ", str(got.get("caption") or "")).strip()[:400], "how": "model"}
+
+
+def groq_json(prompt: str, key: str, what: str) -> dict | None:
+    """The model's JSON reply, or None. Each Groq model has its own free quota (and Pyet and the
+    newsroom share the first): a model that is out after one wait hands over to the next."""
     tries = [GROQ_MODEL, GROQ_MODEL, "qwen/qwen3.8-27b", "openai/gpt-oss-20b"]
     for attempt, model in enumerate(tries):
         body = json.dumps({"model": model, "messages": [{"role": "user", "content": prompt}], "temperature": 0.3,
@@ -355,8 +729,7 @@ def describe(clip: dict) -> dict:
                                      headers={**HEADERS, "Authorization": f"Bearer {key}", "Content-Type": "application/json"})
         try:
             with urllib.request.urlopen(req, timeout=60) as res:
-                got = json.loads(json.loads(res.read().decode("utf-8"))["choices"][0]["message"]["content"])
-            break
+                return json.loads(json.loads(res.read().decode("utf-8"))["choices"][0]["message"]["content"])
         except urllib.error.HTTPError as exc:
             # The free tier allows a few calls a minute: the first model once more after the wait it
             # asks for, then the others straight away.
@@ -364,17 +737,68 @@ def describe(clip: dict) -> dict:
                 if attempt == 0:
                     time.sleep(min(30.0, float(exc.headers.get("retry-after") or 12)))
                 continue
-            print(f"SCOUT headline model failed (HTTP {exc.code}): caption used", file=sys.stderr)
-            return fallback
+            print(f"SCOUT {what} model failed (HTTP {exc.code})", file=sys.stderr)
+            return None
         except (urllib.error.URLError, OSError, ValueError, KeyError, IndexError, TypeError) as exc:
-            print(f"SCOUT headline model failed ({exc!r}): caption used", file=sys.stderr)
-            return fallback
-    if not isinstance(got, dict):
-        return fallback
-    headline = re.sub(r"\s+", " ", str(got.get("headline") or "")).strip()
-    if not 3 <= len(headline.split()) <= 18:
-        return fallback
-    return {"headline": headline[:120], "caption": re.sub(r"\s+", " ", str(got.get("caption") or "")).strip()[:400], "how": "model"}
+            print(f"SCOUT {what} model failed ({exc!r})", file=sys.stderr)
+            return None
+    return None
+
+
+def topics_of(ranked: list[dict]) -> list[str]:
+    """What Albanian social media is about right now, from the captions of the run's most viral
+    clips: the topics and people, short enough to search with (next run's X searches and hashtags).
+    Stands in for X's trends list, which twscrape cannot read (X answers it with a server error)."""
+    key = os.environ.get("GROQ_API_KEY", "")
+    lines = [clean_caption(c.get("caption", ""))[:160] for c in ranked[:40]]
+    lines = [line for line in lines if len(line) >= 12]
+    if not key or len(lines) < 5:
+        return []
+    prompt = ("These are the captions of the most viral Kosovo and Albania videos on social media right now, most "
+              "viral first. Name the 5 to 8 topics or people most of them are about (an event, a person, a place in "
+              "the news), each as a 1 to 3 word search term in the language the captions use, most talked about "
+              "first. Leave out generic words (video, viral, funny, music, love). Reply with only JSON: "
+              "{\"topics\": [\"...\"]}\n\n" + "\n".join(f"- {line}" for line in lines))
+    got = groq_json(prompt, key, "topics") or {}
+    topics = got.get("topics") if isinstance(got, dict) else None
+    return [str(t).strip()[:40] for t in topics or [] if 2 <= len(str(t).strip()) <= 40][:8]
+
+
+def vet(ranked: list[dict], state: dict, now: datetime) -> bool:
+    """The model reads the best finds as an editor would: a news moment, an event or a public
+    figure Kosovo and Albania care about stays; an ad, a product, a giveaway or filler with a
+    word or two of Albanian goes. Each also gets its story in a few words, so one story does not
+    fill the run. Verdicts are kept (state "verdicts"); False when the model could not be asked."""
+    verdicts = state.setdefault("verdicts", {})
+    cutoff = (now - timedelta(days=4)).isoformat()
+    state["verdicts"] = verdicts = {k: v for k, v in verdicts.items() if v.get("at", "") >= cutoff}
+    todo = [c for c in ranked[:VET_TOP] if c["id"] not in verdicts]
+    key = os.environ.get("GROQ_API_KEY", "")
+    if not todo:
+        return True
+    if not key:
+        return False
+    lines = [f"{n}. [{c['platform']}] @{c.get('author', '')} ({c.get('author_name', '')}): "
+             f"{clean_caption(c.get('caption', ''))[:220] or '(no text)'}" for n, c in enumerate(todo, 1)]
+    prompt = ("You are the editor of 383, a Kosovo news site that reposts viral clips from social media. For each post "
+              "below, decide if it is worth reposting: keep it if it is a news moment, an event, protest, politics, "
+              "sport, a public figure, or a genuinely viral human moment in or about Kosovo, Albania or Albanians. "
+              "Drop it if it is an ad, a product or shop post, a giveaway or contest, self-promotion, generic "
+              "entertainment with no Kosovo/Albania angle, or not about Albanians at all. A post with no text is kept "
+              "only if its creator is clearly a news or local account. For each kept post give its story in 2 to 5 "
+              "Albanian words (the same words for posts about the same event).\n"
+              "Reply with only JSON: {\"items\": [{\"n\": 1, \"keep\": true, \"story\": \"...\"}]}\n\n" + "\n".join(lines))
+    got = groq_json(prompt, key, "vet")
+    items = got.get("items") if isinstance(got, dict) else None
+    if not isinstance(items, list):
+        return False
+    for it in items:
+        try:
+            c = todo[int(it.get("n")) - 1]
+        except (TypeError, ValueError, IndexError, AttributeError):
+            continue
+        verdicts[c["id"]] = {"keep": bool(it.get("keep")), "story": str(it.get("story") or "").strip().lower()[:60], "at": now_iso()}
+    return True
 
 
 def clean_caption(text: str) -> str:
@@ -384,15 +808,30 @@ def clean_caption(text: str) -> str:
 
 
 def download(clip: dict, out: Path) -> bool:
-    """The original file: YouTube through yt-dlp and its cookie; TikTok through the scraper's own session
-    (TikTok serves its files to a home connection), else yt-dlp with a TikTok cookie."""
+    """The original file through yt-dlp and the platform's cookie; TikTok without a cookie through the
+    scraper's own session (TikTok serves its files to a home connection, not to a server)."""
     if clip["platform"] == "tiktok":
-        if tiktok_session_download(clip["vid"], out):
+        if TT_COOKIES.exists() and ytdlp(clip["link"], out, ["--cookies", str(TT_COOKIES)]):
             return True
-        cookies = ["--cookies", str(TT_COOKIES)] if TT_COOKIES.exists() else []
-        return ytdlp(clip["link"], out, cookies)
+        return tiktok_session_download(clip["vid"], out)
+    if clip["platform"] in ("x", "instagram"):
+        jar = X_COOKIES if clip["platform"] == "x" else IG_COOKIES
+        if ytdlp(clip["link"], out, (["--cookies", str(jar)] if jar.exists() else []) + ["-f", "bv*[height<=1920]+ba/b"]):
+            return True
+        return bool(clip.get("media_url")) and fetch_file(clip["media_url"], out)  # Instagram's reply named the file
     cookies = ["--cookies", YT_COOKIES] if os.path.exists(YT_COOKIES) else []
     return ytdlp(clip["link"], out, cookies + ["-f", "bv*[height<=1920][vcodec^=avc1]+ba/b[height<=1920]/b"])
+
+
+def fetch_file(url: str, out: Path) -> bool:
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0", "Referer": "https://www.instagram.com/"})
+        with urllib.request.urlopen(req, timeout=120) as res:
+            out.write_bytes(res.read())
+    except (urllib.error.URLError, OSError) as exc:
+        print(f"SCOUT fetch {url[:80]}: {exc}", file=sys.stderr)
+        return False
+    return out.stat().st_size > 100_000
 
 
 def ytdlp(url: str, out: Path, extra: list[str]) -> bool:
@@ -428,6 +867,9 @@ def tiktok_session_download(vid: str, out: Path) -> bool:
     return done.returncode == 0 and out.exists() and out.stat().st_size > 100_000
 
 
+PLATFORM_NAMES = {"tiktok": "TikTok", "youtube": "YouTube", "x": "X", "instagram": "Instagram"}
+
+
 def wrap(text: str, width: int) -> list[str]:
     lines, line = [], ""
     for word in text.split():
@@ -447,7 +889,7 @@ def render(raw: Path, clip: dict, headline: str, out: Path, work: Path) -> bool:
     # One file per line: drawtext draws a line break inside a text file as a missing-glyph box.
     for n, line in enumerate(lines):
         (work / f"line{n}.txt").write_text(line, encoding="utf-8")
-    platform = {"tiktok": "TikTok", "youtube": "YouTube"}.get(clip["platform"], clip["platform"])
+    platform = PLATFORM_NAMES.get(clip["platform"], clip["platform"])
     (work / "credit.txt").write_text(f"Video: @{clip.get('author', '')} · {platform}", encoding="utf-8")
     (work / "brand.txt").write_text("383ks.com", encoding="utf-8")
     font = FONT.replace(":", "\\:")
@@ -516,7 +958,7 @@ def package(clip: dict, day: str) -> dict:
     """Download, describe, render and upload one find; what could not be done is said in the entry."""
     words = describe(clip)
     entry = {k: clip.get(k) for k in ("id", "platform", "link", "author", "author_name", "caption", "created", "plays",
-                                      "likes", "shares", "saves", "comments", "followers", "duration", "found_by", "score", "why")}
+                                      "likes", "shares", "saves", "comments", "followers", "duration", "found_by", "score", "why", "story")}
     entry.update(headline=words["headline"], post_text=words.get("caption", ""), written_by=words["how"], found_at=now_iso(),
                  file="", thumb="", status="needs download")
     with tempfile.TemporaryDirectory(prefix="383-scout-") as tmp:
@@ -541,16 +983,36 @@ def publish_queue(state: dict, now: datetime) -> None:
     upload("queue.json", json.dumps({"updatedAt": now_iso(), "items": items}, ensure_ascii=False).encode(), "application/json")
 
 
-def email(found: list[dict]) -> None:
-    """One email per run that found something: each clip, its numbers, why, and its links."""
+def health_lines(health: dict) -> list[str]:
+    """Each source in a word: "✓ X: 212 video" or "✗ Instagram: cookie expired..."."""
+    return [f"{'✓' if ok else '✗'} {name}: {note}" for name, (ok, note) in health.items()]
+
+
+def should_email(found: list[dict], health: dict, state: dict, now: datetime) -> bool:
+    """Every run with finds; a run with none only to say a source is down, once a day."""
+    if found:
+        return True
+    if all(ok for ok, _ in health.values()):
+        return False
+    return state.get("alerted", "") < (now - timedelta(hours=20)).isoformat()
+
+
+def email(found: list[dict], health: dict | None = None, trending: dict | None = None) -> bool:
+    """One email per run that found something: each clip, its numbers, why, and its links; above them
+    how each source did and what is trending."""
+    health, trending = health or {}, trending or {}
     to = os.environ.get("L383_SCOUT_REPORT_TO") or os.environ.get("L383_EDITION_REPORT_TO", "")
     # Operator mail goes through the newsroom's Gmail (SMTP with an app password), as its other reports do.
     user, password = os.environ.get("GMAIL_USER", "").strip(), os.environ.get("GMAIL_APP_PASSWORD", "").replace(" ", "")
-    if not (found and to and user and password):
-        if found:
-            print("SCOUT email skipped: no report address or Gmail credentials", file=sys.stderr)
-        return
+    if not (to and user and password):
+        print("SCOUT email skipped: no report address or Gmail credentials", file=sys.stderr)
+        return False
     esc = lambda s: str(s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")  # noqa: E731
+    top = "".join(f'<div style="font-size:13px;color:{"#1a7f37" if line[0] == "✓" else "#c62828"}">{esc(line)}</div>'
+                  for line in health_lines(health))
+    for label, terms in trending.items():
+        if terms:
+            top += f'<div style="font-size:13px;margin-top:8px"><b>{esc(label)}:</b> {esc(" · ".join(terms[:15]))}</div>'
     rows = []
     for e in found:
         img = f'<img src="{esc(e["thumb"])}" width="120" style="border-radius:8px;display:block">' if e.get("thumb") else ""
@@ -560,19 +1022,23 @@ def email(found: list[dict]) -> None:
                     f'<div style="color:#555;font-size:13px;margin:4px 0">{esc(" · ".join(e.get("why") or []))}</div>'
                     f'<div style="font-size:13px">{file}<a href="{esc(e["link"])}">Origjinali (@{esc(e["author"])}, {esc(e["platform"])})</a></div>'
                     f'<div style="color:#888;font-size:12px;margin-top:4px">{esc(e.get("post_text") or "")}</div></td></tr>')
-    body = f'<div style="font-family:Arial,sans-serif"><h2>{len(found)} klipe të reja për rishikim</h2><table>{"".join(rows)}</table></div>'
+    title = f"{len(found)} klipe të reja për rishikim" if found else "Asnjë klip i ri: një burim nuk punon"
+    body = (f'<div style="font-family:Arial,sans-serif"><h2>{title}</h2><div style="margin-bottom:12px">{top}</div>'
+            f'<table>{"".join(rows)}</table></div>')
     msg = EmailMessage()
     msg["From"], msg["To"] = f"383 Klipe <{user}>", to
-    msg["Subject"] = f"383 klipe: {found[0]['headline'][:60]}"
-    msg.set_content(f"{len(found)} klipe të reja për rishikim.")
+    msg["Subject"] = f"383 klipe: {found[0]['headline'][:60]}" if found else "383 klipe: një burim nuk punon"
+    msg.set_content(title + "\n\n" + "\n".join(health_lines(health)))
     msg.add_alternative(body, subtype="html")
     try:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=30) as smtp:
             smtp.login(user, password)
             smtp.send_message(msg)
         print("SCOUT email sent")
+        return True
     except (smtplib.SMTPException, OSError) as exc:
         print(f"SCOUT email failed: {exc}", file=sys.stderr)
+        return False
 
 
 # ── The run ──────────────────────────────────────────────────────────────────
@@ -592,25 +1058,110 @@ def save_state(state: dict) -> None:
     tmp.replace(STATE)
 
 
+def pick(ranked: list[dict], state: dict | None = None, now: datetime | None = None, vetted: bool = False) -> list[dict]:
+    """The run's best that clear the bar and the editor's model: no more than PER_PLATFORM from
+    one platform, PER_AUTHOR from one account, PER_STORY of one story, and none of a story
+    already queued STORY_PER_DAY times in the last day. When the model read this run's finds
+    (vetted), only what it kept is picked: one it did not reach is not waved through."""
+    state, now = state or {}, now or datetime.now(timezone.utc)
+    verdicts = state.get("verdicts") or {}
+    day_ago = (now - timedelta(hours=24)).isoformat()
+    queued_stories: dict[str, int] = {}
+    for e in (state.get("queued") or {}).values():
+        if e.get("story") and e.get("found_at", "") >= day_ago:
+            queued_stories[e["story"]] = queued_stories.get(e["story"], 0) + 1
+    picks, per, by, stories = [], {}, {}, {}
+    for c in ranked:
+        verdict = verdicts.get(c["id"]) or {}
+        story = verdict.get("story", "")
+        if (vetted and not verdict.get("keep")) or verdict.get("keep") is False or \
+                c.get("score", 0) < MIN_SCORE.get(c["platform"], MIN_SCORE_OTHERS):
+            continue
+        if per.get(c["platform"], 0) >= PER_PLATFORM or by.get(author_key(c), 0) >= PER_AUTHOR:
+            continue
+        if story and (stories.get(story, 0) >= PER_STORY or queued_stories.get(story, 0) >= STORY_PER_DAY):
+            continue
+        c["story"] = story
+        picks.append(c)
+        per[c["platform"]] = per.get(c["platform"], 0) + 1
+        by[author_key(c)] = by.get(author_key(c), 0) + 1
+        if story:
+            stories[story] = stories.get(story, 0) + 1
+        if len(picks) == PICKS_PER_RUN:
+            break
+    return picks
+
+
+def count_line(clips: list[dict], noun: str = "video") -> str:
+    return f"{len(clips)} {noun}"
+
+
 def main(dry_run: bool = False) -> int:
     now = datetime.now(timezone.utc)
     state = load_state()
-    tags = list(dict.fromkeys(HASHTAGS + trend_tags()))
+    health: dict[str, tuple[bool, str]] = {}
+    # X first: what is trending there steers every other platform's search.
+    # The last run's X trends and the topics its viral clips were about steer this run's X searches.
+    # Not today's Google searches: Albania's are mostly the world's (weather, football), and X finds those worldwide.
+    topics_before = [str(t) for t in (state.get("topics") or {}).get("terms") or []][:6]
+    x_before = [str(t) for t in (state.get("x_trends") or {}).get("terms") or []][:6]
+    browser = x_browser_trends()
+    x = run_collector("x", {"terms": x_before + topics_before})
+    pool = [c for c in x.get("clips") or [] if isinstance(c, dict)]
+    talk = [t for t in x.get("talk") or [] if isinstance(t, dict)]
+    x_trends = x_trending(talk, browser, state)
+    if x_trends:
+        state["x_trends"] = {"at": now_iso(), "terms": x_trends}
+    health["X"] = (False, x["error"]) if x.get("error") else (
+        True, f"{count_line(pool)}, {len(talk)} postime shqip, {len(x_trends)} trende"
+              + ("" if browser else " (lista e X-it nuk u lexua)"))
+    tags = list(dict.fromkeys(HASHTAGS + as_tags(x_trends[:8] + topics_before) + trend_tags()))
     proc = start_scraper()
     try:
-        pool = collect_tiktok(state, tags) if proc else []
+        tiktok_pool = collect_tiktok(state, tags) if proc else []
+        health["TikTok"] = (bool(tiktok_pool), count_line(tiktok_pool) if tiktok_pool else
+                            "scraper did not start" if not proc else "nothing came back (blocked?)")
+        pool += tiktok_pool
         ranked = rank(pool, state, now)
         # The creators behind the best ones: their usual numbers make the outlier score honest.
         for c in [c for c in ranked if c["platform"] == "tiktok" and c["author"] not in (state.get("authors") or {})][:BASELINE_LOOKUPS]:
             page = tiktok("users/videos", user=c["author"])
             if not page.get("error"):
                 remember_baseline(state, c["author"], [x for v in page.get("videos") or [] if (x := tiktok_clip(v, ""))])
-        pool += collect_youtube(["kosova", "shqiperi", "prishtina", "tirana"] + trend_terms()[:4])
+        youtube = collect_youtube(["kosova", "shqiperi", "prishtina", "tirana"] + trend_terms()[:4])
+        health["YouTube"] = (bool(youtube), count_line(youtube) if youtube else "nothing came back")
+        pool += youtube
+        # Instagram last and slowest: the watched creators that were read the longest ago.
+        ig_watch = state.setdefault("ig_watch", {})
+        due = sorted(ig_watch, key=lambda n: ig_watch[n].get("polled", ""))[:IG_WATCH_POLLS]
+        ig = run_collector("instagram", {"watch": due})
+        for name in due:
+            ig_watch[name]["polled"] = now_iso()
+        for name, median in (ig.get("baselines") or {}).items():
+            state.setdefault("authors", {})[f"instagram:{name}"] = {"median": int(median), "at": now_iso()}
+        ig_pool = [c for c in ig.get("clips") or [] if isinstance(c, dict)]
+        health["Instagram"] = (False, ig["error"]) if ig.get("error") else (True, count_line(ig_pool))
+        for c in ig_pool:
+            if c.get("author") and c.get("plays", 0) >= IG_WATCH_MIN_PLAYS and is_albanian(c):
+                ig_watch.setdefault(c["author"], {"polled": ""})["hit"] = now_iso()
+        if len(ig_watch) > WATCH_MAX:
+            state["ig_watch"] = {n: ig_watch[n] for n in sorted(ig_watch, key=lambda n: ig_watch[n].get("hit", ""), reverse=True)[:WATCH_MAX]}
+        pool += ig_pool
         ranked = rank(pool, state, now)
-        print(f"SCOUT {len(pool)} clips looked at ({sum(c['platform'] == 'tiktok' for c in pool)} TikTok), "
-              f"{len(ranked)} fresh Albanian outliers, watching {len(state.get('watch') or {})} creators")
-        picks = ranked[:PICKS_PER_RUN]
+        print(f"SCOUT {len(pool)} clips looked at, {len(ranked)} fresh Albanian outliers, watching "
+              f"{len(state.get('watch') or {})} TikTok and {len(state.get('ig_watch') or {})} Instagram creators")
+        for line in health_lines(health):
+            print(f"SCOUT {line}")
+        topics = topics_of(ranked)
+        if topics:
+            state["topics"] = {"at": now_iso(), "terms": topics}
+        trending = {"Temat e ditës": topics, "Trending në X (shqip)": x_trends, "Google (Shqipëri)": trend_terms()}
+        vetted = vet(ranked, state, now)
+        if not vetted:
+            health["Kontrolli i lajmit"] = (False, "the model could not be asked: this run's finds are not checked for ads")
+        picks = pick(ranked, state, now, vetted)
         if dry_run:
+            print(f"SCOUT topics: {' · '.join(topics)} | X trends: {' · '.join(x_trends[:15])}")
             for c in picks:
                 print(f"  {c['score']:.2f} {c['link']}  {' · '.join(c['why'])}\n       {clean_caption(c['caption'])[:120]}")
             return 0
@@ -625,7 +1176,9 @@ def main(dry_run: bool = False) -> int:
         remember_seen(state, pool, now)
         grow_watchlist(state, pool)
         publish_queue(state, now)
-        email(found)
+        state["trending"] = {"at": now_iso(), **trending}
+        if should_email(found, health, state, now) and email(found, health, trending) and not found:
+            state["alerted"] = now_iso()
     finally:
         if proc:
             proc.terminate()
@@ -634,4 +1187,6 @@ def main(dry_run: bool = False) -> int:
 
 
 if __name__ == "__main__":
+    if sys.argv[1:2] == ["--collect"]:
+        sys.exit(collect_child(sys.argv[2] if len(sys.argv) > 2 else ""))
     sys.exit(main(dry_run="--dry-run" in sys.argv[1:]))
