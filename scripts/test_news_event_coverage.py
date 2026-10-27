@@ -60,15 +60,15 @@ class EventCoverageTests(unittest.TestCase):
         self.assertEqual(selected[0]['url'],announcement['url'])
         self.assertEqual(len(selected),2)  # Ordering never discards a review.
 
-    def test_independent_coverage_survives_collapse_and_outranks_a_newer_singleton(self):
+    def test_independent_coverage_survives_while_direct_reader_safety_gets_priority(self):
         event=[story(host,'orion') for host in ('techcrunch.com','therundown.ai','engadget.com')]
         newest=story('bleepingcomputer.com','patch','Microsoft fixes Windows security vulnerability',
                      published='2026-10-25T11:00:00+01:00')
         selected=select_hourly_leads([newest,*event])
         self.assertEqual(len(selected),2)
-        self.assertEqual(selected[0]['coverage_family_count'],3)
-        self.assertEqual(set(selected[0]['coverage_urls']),{s['url'] for s in event})
-        self.assertEqual(selected[1]['url'],newest['url'])
+        self.assertEqual(selected[1]['coverage_family_count'],3)
+        self.assertEqual(set(selected[1]['coverage_urls']),{s['url'] for s in event})
+        self.assertEqual(selected[0]['url'],newest['url'])
         self.assertNotIn('breaking',selected[0])
 
     def test_sister_publishers_duplicate_feeds_and_other_desks_do_not_inflate_attention(self):

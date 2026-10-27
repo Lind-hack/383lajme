@@ -2,11 +2,29 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
-from news_editor_preflight import diagnostics
+from news_editor_preflight import diagnostics, prepare_repair
 
 
 class PreflightTests(unittest.TestCase):
+    def test_repair_input_excludes_passing_copy_and_unrelated_source_text(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            batch, evidence, output = root/'batch.json', root/'sources.json', root/'repair.json'
+            articles = [{'slug': key, 'url': 'https://example.com/'+key, 'title': key} for key in ('good', 'bad')]
+            records = [{'slug': a['slug'], 'source_url': a['url'], 'evidence': {'text': a['slug']+' source'}} for a in articles]
+            batch.write_text(json.dumps(articles))
+            evidence.write_text(json.dumps(records))
+            before = batch.read_bytes(), evidence.read_bytes()
+            feedback = [{'url': articles[1]['url'], 'title': 'bad', 'defects': ['short headline']}]
+            with patch('news_editor_preflight.diagnostics', return_value=feedback):
+                self.assertEqual(prepare_repair(batch, evidence, output), feedback)
+            self.assertEqual(json.loads(output.read_text()), [articles[1]])
+            self.assertEqual(json.loads(output.with_suffix('.editor-sources.json').read_text()), [records[1]])
+            self.assertNotIn('good source', output.with_suffix('.editor-sources.md').read_text())
+            self.assertEqual((batch.read_bytes(), evidence.read_bytes()), before)
+
     def test_all_known_defects_have_exact_identity_without_mutating_inputs(self):
         with tempfile.TemporaryDirectory() as folder:
             batch, evidence = Path(folder)/'batch.json', Path(folder)/'sources.json'

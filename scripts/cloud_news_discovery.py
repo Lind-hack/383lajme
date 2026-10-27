@@ -452,6 +452,7 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=(), *, n
             return _canonical_source_url(value)
         except ValueError:
             return ''
+    from news_reader_value import reader_value
     now = now or datetime.now(timezone.utc)
     excluded = {source_identity(url) for url in published_urls} - {''}
     coverage = event_coverage(collected)
@@ -466,11 +467,11 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=(), *, n
             # could be read, 18 Oct); their slots go to readable sources.
             if (lead.get("category") == category and url and identity and identity not in excluded and not source_error(category, url)
                     and (publisher_for(url) or {}).get("hourly_primary", True)):
-                unique.setdefault(identity, dict(lead, **coverage[url],
+                unique.setdefault(identity, dict(lead, **coverage[url], reader_value=reader_value(lead),
                     coverage_already_published=any(source_identity(item) in excluded
                         for item in coverage[url]['coverage_urls'])))
         pool = sorted(unique.values(), key=lambda item: (
-            not item['coverage_already_published'], -freshness_bucket(item, now), min(item['coverage_family_count'], 5),
+            not item['coverage_already_published'], -freshness_bucket(item, now), item['reader_value']['score'], min(item['coverage_family_count'], 5),
             rank(item), item.get("published", "")), reverse=True)
         chosen = []
         family_counts = Counter()
@@ -479,6 +480,7 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=(), *, n
             # Known covered events remain reserves for a genuine new development.
             anchor = min(pool, key=lambda item: (item['coverage_already_published'],
                          freshness_bucket(item, now),
+                         -item['reader_value']['score'],
                          -min(item['coverage_family_count'], 5),
                          family_counts[publisher_for(item["url"])["family"]]))
             pool.remove(anchor)

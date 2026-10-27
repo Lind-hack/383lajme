@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from news_source_policy import CATEGORIES, publisher_for, source_error, independent
 from news_coverage import replacement_plan, CATEGORY_CEILING
 from cloud_news_discovery import freshness_bucket
+from news_reader_value import reader_value
 
 
 def build(discovery: Path, output: Path, categories: str = "", *, approved: Path | None = None,
@@ -40,6 +41,7 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         def note_priority(lead):
             risky = bool(lead.get("source_basis_warning"))
             attention = (bool(lead.get('coverage_already_published')), freshness_bucket(lead, now),
+                         -reader_value(lead)['score'],
                          -min(lead.get('coverage_family_count', 1), 5))
             if not lead.get("facts_path"):
                 return risky, *attention, 3
@@ -85,6 +87,8 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
              "Compose independent Albanian reporting from the embedded notes; choose your own lead and structure.",
              "Original headlines, RSS summaries and unready discovery material are omitted.",
              "Metadata identifies provenance and the prepared photo; it is not additional reporting evidence.",
+             "Prefer new developments with a concrete consequence for readers: costs, services, safety, rights, decisions, results or cultural releases.",
+             "Explain that consequence only when supported by the notes. Never invent local impact or call a story viral/trending from these ranking signals.",
              "Include source_pair_id in every returned article, copied exactly from that story's pair_id. This temporary field is removed locally.",
              "The wrapper resolves its full prepared URL. Never invent, shorten or reconstruct source URLs.", ""]
     count = 0
@@ -99,6 +103,7 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
                                                    "requires_corroboration", "corroborates_url", "image_subject", "source_basis_warning",
                                                    "coverage_family_count", "coverage_already_published")
                     if lead.get(key) not in (None, "")}
+        metadata['reader_value'] = reader_value(lead)
         if lead.get("corroborates_url") and source_error(lead["category"], lead["corroborates_url"]):
             raise ValueError("corroborator is outside the story category")
         secondary = publisher_for(lead.get("corroborates_url"))

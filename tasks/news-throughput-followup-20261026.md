@@ -115,3 +115,30 @@ and nested news routes intact. The regression uses the observed routes plus
 nearby valid news routes. The existing cache-reuse test also now aligns wall
 time with its fixed publication fixture so advancing calendar dates cannot
 silently turn a cache test into an expired-queue test.
+
+## Reader value and bounded parallel repair — 27 October
+
+The 26 October final run had 43 photo-qualified candidates and 19 drafts but
+published 11. The first independent review finished after the replacement
+cutoff. The 27 October 10:00 Warsaw run again reached its repair deadline
+before completing a grouped repair. These are production symptoms, not just
+synthetic failures.
+
+Selection now carries an auditable headline/genre reader-value priority through
+discovery, grounded-evidence preparation and scoped writer briefs. Within the
+same freshness band, concrete costs, services, safety, rights, public decisions,
+market moves, results and cultural releases precede generic announcements.
+Independent-family coverage remains a secondary signal. This is a heuristic;
+it is not measured engagement or proof that an article is viral. Freshness,
+readability, corroboration, category restrictions and all publication gates
+remain. Lower-ranked candidates remain in retrieval and reserve inventories.
+
+Repairs now isolate only the defective articles and matching source evidence,
+then reuse the existing parallel editor with one article per request. Passing
+articles are restored unchanged by the existing preservation check. Global
+repair/publication deadlines and independent review remain. This removes the
+all-defects-in-one-model-call bottleneck; it does not certify a future quota.
+
+The isolated Linux regression run passed 217 tests, including native shell
+coordination with one-article chunks and matching evidence, without model
+calls or publication. Focused Windows tests and the production build passed.

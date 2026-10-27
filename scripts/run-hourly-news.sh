@@ -591,15 +591,20 @@ for repair_attempt in 1 2; do
   repair_budget="$(model_budget 420 "$editorial_phase_end")" || break
   REPAIR_BACKUP="$(mktemp /tmp/383-repair.XXXXXX.json)"
   cp "$BATCH" "$REPAIR_BACKUP"
+  REPAIR_WORK="$(mktemp -d /tmp/383-repair-jobs.XXXXXX)"
+  REPAIR_BATCH="$REPAIR_WORK/repair.json"
+  REPAIR_FEEDBACK="$("$PYTHON_BIN" scripts/news_editor_preflight.py --file "$BATCH" --evidence "${BATCH%.json}.editor-sources.json" --repair-output "$REPAIR_BATCH")"
   trap - ERR
   set +e
   timeout --signal=TERM --kill-after=15s "$((repair_budget + 5))s" \
-    env L383_MODEL_CALL_TIMEOUT="$repair_budget" "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode editor -- /opt/hermes/.venv/bin/hermes chat --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
-      --model "$EDITOR_MODEL" --ignore-rules -t file --yolo --max-turns 35 -Q -q \
-      "Repair only the defective articles in ${BATCH}. The wrapper preserves every unaffected draft unchanged; omit those passing drafts from your response. Use docs/albanian_newsroom.md, docs/news-output-schema.json, and ${BATCH%.json}.editor-sources.md. Read all wrapped evidence, continuing with offset if paginated. The wrapper found these exact defects: ${ORIGINALITY_FEEDBACK} ${JOURNALISM_FEEDBACK} ${TOPIC_FEEDBACK}. For each overlapping body sentence, check the original source and rewrite the entire sentence in natural Albanian with a different structure, while preserving only facts supported by the fetched primary and any supplied corroborating source. Every retained body must still contain at least 140 readable Albanian words, at least three readable HTML paragraphs, and necessary attribution only for quotes, exclusive reporting or unconfirmed claims; never meet the floor with repetition or invented claims. Fix title WHO and concrete STAKE defects with specific, evidenced subjects and actions. Keep all candidates that can be repaired truthfully; remove only unverified stories. Do not invent facts, pad length, change source URLs, publish, deploy, run validators, or touch another file. Do not edit files. Return ONLY the repaired articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END; omit unaffected articles and return [] if every defective article must be dropped." 9>&-
+    env L383_MODEL_CALL_TIMEOUT="$repair_budget" L383_MODEL_DEADLINE_EPOCH="$(( $(date +%s) + repair_budget ))" \
+      L383_EDITOR_CHUNK=1 L383_EDITOR_GATE_FEEDBACK="$REPAIR_FEEDBACK" \
+      bash "$REPO/scripts/run-news-editor-parallel.sh" "$EDITOR_MODEL" "$REPAIR_BATCH" "$REPO" 35 9>&-
   REPAIR_RC=$?
   set -e
   trap on_error ERR
+  if [ "$REPAIR_RC" -eq 0 ]; then cp "$REPAIR_BATCH" "$BATCH"; fi
+  rm -rf "$REPAIR_WORK"
   if [ "$REPAIR_RC" -ne 0 ] || ! "$PYTHON_BIN" -c 'import json,sys; rows=json.load(open(sys.argv[1],encoding="utf-8")); assert isinstance(rows,list)' "$BATCH" >/dev/null 2>&1 ||
      ! "$PYTHON_BIN" scripts/news_repair_preserve.py "$REPAIR_BACKUP" "$BATCH" "${BATCH%.json}.editor-sources.json"; then
     cp "$REPAIR_BACKUP" "$BATCH"
