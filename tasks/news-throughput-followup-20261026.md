@@ -174,3 +174,13 @@ a number in a useful public-service headline is not itself a penalty. The
 observed source headlines and positive counterexamples pass the 39 affected
 Windows and Linux tests. No publication rule, source access or photo policy
 was weakened.
+
+## Reproduced on-demand/simultaneous-release false rejection
+
+The 12:00 Warsaw run's Economy draft stated that Channel 4 titles would be
+available in Disney+ on demand at the same time as broadcast. The publisher
+framing detector joined `sipas kërkesës` with `në të njëjtën kohë` and falsely
+reported a Koha attribution. A regression reproduced that rejection before
+the fix. Only the unambiguous simultaneous-time phrase is masked; actual
+Koha credit elsewhere in the same text remains rejected. All 27 affected
+native Linux tests pass, including real shell coordination. The build passed.
