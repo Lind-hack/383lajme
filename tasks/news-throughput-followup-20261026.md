@@ -142,3 +142,24 @@ all-defects-in-one-model-call bottleneck; it does not certify a future quota.
 The isolated Linux regression run passed 217 tests, including native shell
 coordination with one-article chunks and matching evidence, without model
 calls or publication. Focused Windows tests and the production build passed.
+
+## Cross-language retelling priority
+
+The 27 October 10:00 Warsaw run spent writing/editor time on three already
+published stories. The early attention check compared English original text
+with Albanian output and missed these. Published-record reads now include the
+original URL and category. The prefilter also compares each lead against the
+already retrieved source text for prior publications in its own category.
+This uses the current inventory, makes no extra publisher requests, and demotes
+rather than deletes possible updates. Missing/restricted cache entries retain
+the prior fallback. The final independent deduplication gate remains mandatory.
+
+A read-only replay against 144 recent live publications and 420 candidates
+found cached originals for 80 publications. The added comparison demoted nine
+additional likely retellings across five categories without deleting any
+candidate or making model/publisher requests. The live PostgREST read with
+original URL/category succeeded. All 56 affected Linux tests and the build
+passed. Real Luna/max repair QA retained one of two previously defective
+production drafts in 242.3 seconds with zero remaining copy diagnostics and
+no publication; the other request timed out. This does not establish full
+hourly per-category output.

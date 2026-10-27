@@ -15,6 +15,24 @@ from prepare_editor_sources import coverage_plan, discovery, fetch, ready_image
 
 
 class HourlyCoverageTests(unittest.TestCase):
+    def test_english_source_repeat_is_recognized_after_albanian_publication(self):
+        from prepare_editor_sources import mark_recent_story_attention
+        text='Apple introduced a compact tablet featuring a larger OLED display and faster processor with new storage options available starting November sixth.'
+        old={'category':'Teknologji','url':'https://engadget.com/tablet',
+             'title':'Apple nxjerr iPad mini të ri me ekran më të madh',
+             'body':'Pajisja del në dyqane javën tjetër dhe ofron kapacitet më të lartë.'}
+        repeated={'category':'Teknologji','title':'Apple introduces compact tablet',
+                  'primary_evidence':{'status':'text_extracted','text':text}}
+        cache={old['url']:{'status':'text_extracted','text':text}}
+        self.assertFalse(mark_recent_story_attention([repeated],[old])[0]['coverage_already_published'])
+        marked=mark_recent_story_attention([repeated],[old],cache)
+        self.assertTrue(marked[0]['coverage_already_published'])
+        self.assertEqual(len(marked),1) # Potential updates remain available.
+        other={**repeated,'category':'Ekonomi'}
+        self.assertFalse(mark_recent_story_attention([other],[old],cache)[0]['coverage_already_published'])
+        cache[old['url']]['status']='restricted'
+        self.assertFalse(mark_recent_story_attention([repeated],[old],cache)[0]['coverage_already_published'])
+
     def test_published_story_signal_demotes_repeats_without_removing_potential_updates(self):
         from prepare_editor_sources import mark_recent_story_attention, prioritize_grounded_leads
         text='Nafta shitet në Prishtinë për 1.90 euro për litër. Kompanitë rritën çmimet e derivateve dhe qytetarët paguajnë më shumë për transportin.'

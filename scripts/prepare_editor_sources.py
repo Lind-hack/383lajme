@@ -296,15 +296,22 @@ def prioritize_grounded_leads(leads: list[dict], *, now=None) -> list[dict]:
     return sorted(leads, key=priority)
 
 
-def mark_recent_story_attention(leads: list[dict], recent: list[dict]) -> list[dict]:
+def mark_recent_story_attention(leads: list[dict], recent: list[dict], retrieved: dict | None = None) -> list[dict]:
     """Demote likely retellings before photo/writing work, never discard updates."""
     from codex_automation_support import _story_key
     keys=[_story_key(article) for article in recent]
+    native_keys=[]
+    for article in recent:
+        evidence=(retrieved or {}).get(article.get('url'), {})
+        if evidence.get('status') == 'text_extracted':
+            native_keys.append((article.get('category'), _story_key({
+                'title':evidence.get('title',''), 'body':evidence.get('text','')})))
     marked=[]
     for lead in leads:
         words=_story_key({'title':lead.get('title',''),'excerpt':lead.get('summary',''),
                           'body':lead.get('primary_evidence',{}).get('text','')})
-        overlap=max((len(words & old)/len(words | old) for old in keys
+        comparable=keys+[key for category,key in native_keys if category == lead.get('category')]
+        overlap=max((len(words & old)/len(words | old) for old in comparable
                      if len(words)>=8 and len(old)>=8),default=0)
         marked.append({**lead,'coverage_already_published':bool(lead.get('coverage_already_published')) or overlap>=0.25,
                        'published_story_overlap':round(overlap,3)})
@@ -425,7 +432,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     # signal; the final gate still judges genuine developments independently.
     try:
         from codex_automation_support import _recently_published
-        eligible=mark_recent_story_attention(eligible,_recently_published())
+        eligible=mark_recent_story_attention(eligible,_recently_published(),retrieved)
     except Exception as exc:
         print(f'383 PUBLISHED STORY ATTENTION unavailable ({type(exc).__name__}); final deduplication remains required')
     # Oversample each desk to replace image failures and editorial rejections.

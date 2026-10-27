@@ -817,7 +817,7 @@ def _recent_story_conflicts(article: dict[str, Any], recent: list[dict[str, Any]
 def _recently_published(hours: int = 36) -> list[dict[str, Any]]:
     since = datetime.fromtimestamp(time.time() - hours * 3600, timezone.utc).isoformat()
     return _supabase_request("GET", "news_articles", query={
-        "select": "id,title,excerpt,body,image_subject:raw_article->>image_subject",
+        "select": "id,title,excerpt,body,category,url:raw_article->>url,image_subject:raw_article->>image_subject",
         "published_at": f"gte.{since}", "limit": "500"})
 
 
