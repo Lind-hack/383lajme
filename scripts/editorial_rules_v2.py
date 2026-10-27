@@ -110,7 +110,9 @@ KOSOVO_CITIES = [
 ALBANIA_CITIES = [
     ("Tiranë", ("tirane", "tirana")),
     ("Durrës", ("durres",)),
-    ("Shkodër", ("shkoder",)),
+    # The case forms drop the middle ë; do not broaden to "shkodr", which
+    # would also treat the personal name Shkodran as a city mention.
+    ("Shkodër", ("shkoder", "shkodres", "shkodren")),
     ("Vlorë", ("vlore",)),
     ("Elbasan", ("elbasan",)),
     ("Fier", ("fier",)),

@@ -212,3 +212,16 @@ from 23.55 hours to 0.61 hours. Replay elapsed time fell from 33.169 seconds to
 publications or live database writes; it is queue-order evidence, not proof of
 publication or exhaustive retrieval. All 236 Linux regression tests and the
 production build passed. Direct review found no actionable introduced defect.
+
+## Verified Shkodër headline rejected by missing case aliases
+
+The 15:00 Warsaw run rejected the headline `Taulant Hoti plagoset me armë në
+Shtoj të Shkodrës` because the local-location matcher knew only `shkoder`.
+The standard case forms `shkodres` and `shkodren` are now explicit aliases
+for Shkodër, shared by deterministic city inference and headline checks.
+The regression fails before the change and passes afterward. A negative
+case keeps the personal name Shkodran Mustafi from becoming a city match;
+the fix does not add a loose `shkodr` stem. Other headline, evidence and
+category requirements remain. All 237 Linux tests and the production build
+passed. This correction
+does not modify the active run or reinstate its rejected article mid-run.

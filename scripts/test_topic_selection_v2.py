@@ -114,6 +114,16 @@ class TopicSelectionV2Tests(unittest.TestCase):
                 ('Kosovë','Komuna hap pesë rrugë të reja')):
                 self.assertTrue(self.rules.title_errors({'category':category,'title':title}))
 
+    def test_shkoder_case_forms_identify_the_city_without_accepting_a_persons_name(self):
+        with patch.dict(os.environ, {'L383_HOURLY_NEWS':'1'}):
+            for title in ('Taulant Hoti plagoset me armë në Shtoj të Shkodrës',
+                          'Qeveria njofton investimet për Shkodrën'):
+                self.assertEqual(self.rules.infer_city('Shqipëri', title, ''), 'Shkodër')
+                self.assertEqual(self.rules.title_errors({'category':'Shqipëri','title':title}), [])
+            title = 'Shkodran Mustafi flet për ndeshjen e djeshme'
+            self.assertEqual(self.rules.infer_city('Shqipëri', title, ''), 'Shqipëri')
+            self.assertTrue(self.rules.title_errors({'category':'Shqipëri','title':title}))
+
     def test_hard_bans_and_prishtina_test_are_enforced(self):
         r = self.rules
         banned = self.article(1, "Showbiz", title="K-pop grupi njofton albumin e ri")
