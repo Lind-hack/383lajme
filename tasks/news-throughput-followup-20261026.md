@@ -184,3 +184,31 @@ reported a Koha attribution. A regression reproduced that rejection before
 the fix. Only the unambiguous simultaneous-time phrase is masked; actual
 Koha credit elsewhere in the same text remains rejected. All 27 affected
 native Linux tests pass, including real shell coordination. The build passed.
+
+## Fresh-source dispatch with durable backlog turns, 27 October
+
+The 14:00 Warsaw run had photo-qualified source-ready candidates in all seven
+categories (4/6/11/5/4/3/4), but published zero after the Codex OAuth account
+reported usage exhaustion. This is not a quota success. Luna/max and OAuth-only
+execution remain mandatory. The owner reversed the proposed fifteen-year
+portrait exception: archive portraits remain limited to 730 days. No age change
+was implemented.
+
+A read-only inspection found 25 October articles ahead of fresh 27 October
+discoveries at the same queue priority. Retrieval now sorts by source publication
+hint (as an instant), then latest sighting for undated URLs, while retaining the
+existing index priority and per-publisher rotation. Every fifth actual article
+request for each publisher selects its oldest ready task. The request counter
+persists across collector restarts. Cached hits do not consume request turns;
+backoff, publisher ownership, durable URLs and checkpoint requirements remain.
+An expression index avoids repeatedly sorting the pending queue. These dates
+order retrieval only; publication still verifies the source article timestamp.
+
+On a private copy of 51,513 live tasks, with index tasks removed only from the
+replay copies to isolate article scheduling, the next 150 dispatches contained
+74 dated-within-24-hours articles before and 129 after. Median dated age fell
+from 23.55 hours to 0.61 hours. Replay elapsed time fell from 33.169 seconds to
+2.636 seconds. This comparison made no publisher requests, model calls,
+publications or live database writes; it is queue-order evidence, not proof of
+publication or exhaustive retrieval. All 236 Linux regression tests and the
+production build passed. Direct review found no actionable introduced defect.

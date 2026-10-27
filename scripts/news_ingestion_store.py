@@ -57,6 +57,10 @@ class Inventory:
             CREATE INDEX IF NOT EXISTS task_queue ON tasks(state,next_try,priority);
             CREATE INDEX IF NOT EXISTS task_dispatch ON tasks(state,priority);
             CREATE INDEX IF NOT EXISTS task_source ON tasks(source,state,priority);
+            CREATE INDEX IF NOT EXISTS task_recent ON tasks(
+                state,priority,julianday(json_extract(hint,'$.published')) DESC,seen_run DESC);
+            CREATE TABLE IF NOT EXISTS dispatches (
+                source TEXT PRIMARY KEY, articles INTEGER NOT NULL);
             CREATE TABLE IF NOT EXISTS articles (
                 url TEXT PRIMARY KEY, source TEXT NOT NULL, hint TEXT NOT NULL,
                 evidence TEXT NOT NULL, fetched_at REAL NOT NULL, status TEXT NOT NULL);
@@ -108,15 +112,31 @@ class Inventory:
             for task in tasks:
                 self.enqueue(task,run,refresh=refresh,commit=False)
 
-    def ready(self, now=None, *, limit=None, exclude_sources=()):
+    def ready(self, now=None, *, limit=None, exclude_sources=(), source=None, recent=False):
         now = time.time() if now is None else now
         clause = ' AND source NOT IN ('+','.join('?' for _ in exclude_sources)+')' if exclude_sources else ''
+        if source is not None:
+            clause += ' AND source=?'
         suffix = ' LIMIT ?' if limit is not None else ''
-        parameters = (now,*exclude_sources,*((limit,) if limit is not None else ()))
+        parameters = (now,*exclude_sources,*((source,) if source is not None else ()),
+                      *((limit,) if limit is not None else ()))
+        # Dates order retrieval only; publication still verifies the actual
+        # article timestamp. Undated discoveries use their latest sighting.
+        order = ("priority,julianday(json_extract(hint,'$.published')) DESC,seen_run DESC,rowid"
+                 if recent else 'priority,rowid')
+        table = 'tasks INDEXED BY task_recent' if recent else 'tasks'
         return [{**dict(row),'hint':json.loads(row['hint'])} for row in self.db.execute(
-            "SELECT * FROM tasks WHERE state='pending' AND next_try<=?"+clause+' ORDER BY priority,rowid'+suffix,parameters)]
+            "SELECT * FROM "+table+" WHERE state='pending' AND next_try<=?"+clause+' ORDER BY '+order+suffix,parameters)]
+
+    def backlog_turn(self, source):
+        """Reserve every fifth article request per publisher across restarts."""
+        row = self.db.execute('SELECT articles FROM dispatches WHERE source=?',(source,)).fetchone()
+        return row is not None and row[0] % 5 == 4
 
     def running(self, identity):
+        self.db.execute('''INSERT INTO dispatches(source,articles)
+            SELECT source,1 FROM tasks WHERE id=? AND kind='article'
+            ON CONFLICT(source) DO UPDATE SET articles=articles+1''',(identity,))
         self.db.execute("UPDATE tasks SET state='running' WHERE id=?",(identity,))
         self.db.commit()
 

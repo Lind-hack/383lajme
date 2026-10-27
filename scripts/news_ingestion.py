@@ -34,6 +34,17 @@ def _date(value):
     return parsed.timestamp() if parsed else None
 
 
+def next_task(store, excluded):
+    """Fresh discoveries first, with a durable per-publisher backlog turn."""
+    rows = store.ready(limit=1, exclude_sources=tuple(excluded), recent=True)
+    if not rows:
+        return None
+    task = rows[0]
+    if task['kind'] == 'article' and store.backlog_turn(task['source']):
+        task = store.ready(limit=1, source=task['source'])[0]
+    return task
+
+
 def _execute(task, publishers, cutoffs, now, fetcher):
     publisher = publishers[task['source']]
     if task['kind']!='feed' and not owned(task['url'],publisher):
@@ -152,13 +163,12 @@ def _collect(manifest, state, *, budget_seconds=240, now=None, fetcher=fetch_pub
         while time.monotonic() < deadline:
             occupied = {task['source'] for task in active.values()}
             while len(active) < 8:
-                ready = store.ready(limit=1,exclude_sources=tuple(occupied | rotation))
-                if not ready:
+                task = next_task(store, occupied | rotation)
+                if task is None:
                     rotation.clear()
-                    ready = store.ready(limit=1,exclude_sources=tuple(occupied))
-                if not ready:
+                    task = next_task(store, occupied)
+                if task is None:
                     break
-                task = ready[0]
                 rotation.add(task['source'])
                 if task['kind']=='article' and store.evidence(task['url'],task['hint']) is not None:
                     counters[task['source']]['cache_hits'] += 1
