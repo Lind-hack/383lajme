@@ -21,12 +21,14 @@ and close-translation checks as other desks. This work does not claim the wider
 
 ## Implementation
 
-`news_context_review.py` independently compares the complete finished batch
-with complete published copy from the preceding 36 hours, across categories,
-and each draft with all preceding siblings. History is paged without the old
-500-record ceiling, then split into bounded groups; no lexical prefilter selects
-which history reaches this reviewer. Every history group must explicitly approve
-a draft. Invalid/missing decisions hold that draft. Located passages are required
+`news_context_candidates.py` independently scans every recent headline/excerpt
+for potentially related events, across categories, without a lexical prefilter.
+Every catalogue page must return a valid selection for each draft. Uncertainty
+includes the related record for full comparison. `news_context_review.py` then
+compares complete finished drafts against complete selected old articles and
+all preceding siblings, with four review targets per request. History is paged
+without the old 500-record ceiling. Invalid/missing decisions hold that draft.
+Located passages are required
 for both the draft event and any identified retelling. Genuine separate subsequent
 developments remain allowed. A shared subject or photo alone is not a duplicate.
 
@@ -39,8 +41,10 @@ uses the existing GPT-6 Luna/max Codex OAuth runtime, inline complete evidence
 where it fits and file reads otherwise. Its final shared deadline ends at minute
 53; the existing 55-minute process limit still covers all publication work.
 
-Batch image validation checks normalized Commons file identity and prepared
-SHA-256 digests as well as existing URL/dimension/rights/native-review gates.
+Batch image validation checks normalized Commons file identity, prepared
+SHA-256 digests and existing 256-bit perceptual fingerprints as well as existing
+URL/dimension/rights/native-review gates. Resizing or recompression does not
+make a photo distinct.
 Dynamic image URL query identifiers remain distinct. There is no cross-hour
 photo ban. The 730-day portrait limit, source access rules and copyright review
 policy have not changed.
@@ -54,14 +58,31 @@ deleted by this change.
 
 ## Verification and release status
 
-- Windows regression suite: 146 tests passed, two native Bash checks skipped.
+- Regression suite: 156 Linux tests passed; Windows passed with two native
+  Bash checks skipped. Official-video thumbnails retain their perceptual hash
+  and participate in the same batch comparison.
 - Production application build passed.
 - An existing 12-article production batch passed real public-content readback;
   this is readback evidence, not proof of the new model reviewer in production.
 - Independent review found and prompted fixes for moving-window expiry,
   malformed verdict isolation, official-video rendering, HTML paragraph splitting
   and unreviewed paragraph suffixes. Each has regression coverage.
-- Native Linux checks and real OAuth model QA remain pending at this checkpoint.
+- The actual bounded Bash scheduler passed. Its fixture now supplies matching
+  prepared source evidence rather than an unavailable private path.
+- Real Luna/max OAuth synthetic QA rejected both a rephrased event and a second
+  announcement angle, keeping a later vote and an unrelated story (29.1s).
+  Full-source originality QA rejected close-translated distinctive expression in
+  both Kosovë and Shqipëri (32.0s).
+- An exhaustive full-copy replay against 241 recent articles found actual Rama
+  tax-package angle repeats, but exceeded the final 180-second review budget.
+  Complete semantic catalogue selection followed by focused full-copy review
+  replaces that repeated all-pairs workload. The revised native replay completed
+  in 167.89s with 20 candidates against a 241-row history read (229 after excluding
+  the copied batch). It held all eight deliberately included previously published
+  articles, flagged three articles from the real batch as retellings (including
+  the Rama tax-package angles), held one for an invalid/missing comparison, and
+  approved eight. No live database writes, publications or emails occurred.
+  This is one bounded workload, not a production quota or future-latency guarantee.
 - No production activation or push has occurred. The explicit current user
   deployment policy requires Vercel GitHub integration; current GitHub deployment
   records identify Railway. This mismatch needs resolution before a release
@@ -69,3 +90,5 @@ deleted by this change.
 
 Local verification evidence is in
 `C:/Users/PC1/.codex/visualizations/2026/10/28/01a18336-eb9c-7b90-a6b6-1fb23252d7ad/news-review-verification/`.
+
+Draft review: https://github.com/Lind-hack/383lajme/pull/3
