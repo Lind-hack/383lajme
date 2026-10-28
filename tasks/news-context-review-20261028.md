@@ -98,3 +98,28 @@ Local verification evidence is in
 `C:/Users/PC1/.codex/visualizations/2026/10/28/01a18336-eb9c-7b90-a6b6-1fb23252d7ad/news-review-verification/`.
 
 Draft review: https://github.com/Lind-hack/383lajme/pull/3
+
+## Post-activation completion audit
+
+PR #3 merged as `2a92617d8f0a90cda47e02166996ab579d91b6ee`. Railway's GitHub
+deployment and the public deployment-info endpoint matched that SHA. The committed
+worker was activated at 16:55 UTC while idle, under both locks, and the collector
+restarted. Its first actual production run started at 17:00 UTC (18:00 Warsaw);
+publication verification remains pending at this checkpoint.
+
+The completion audit reproduced two further gaps before correcting them:
+
+- Later photo aliases could survive per-article isolation and cause the entire
+  mixed batch to fail final image validation. Structural isolation now compares
+  each valid candidate with retained photos. Final context entry also filters
+  duplicate photos across combined refill rounds before model work, preserving
+  the other drafts unchanged and binding receipts to the filtered order.
+- Legacy Git/Supabase finalizers sent completion reports before checking the
+  public site. Both now require site health and exact visible-content readback
+  before sending the existing report. A failed Git publication aborts immediately.
+
+The regressions failed before each correction and passed afterward. All 162
+targeted Linux tests and the build passed; Windows passed with two Bash-only
+skips. Independent review found no actionable defect in the correction. No
+active worker is changed during a live run. This correction remains part of the
+same explicitly authorized Railway GitHub release.
