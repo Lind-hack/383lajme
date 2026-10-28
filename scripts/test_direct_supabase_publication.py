@@ -260,8 +260,9 @@ class DirectSupabasePublicationTests(unittest.TestCase):
         self.support.git_publish = lambda path: (_ for _ in ()).throw(AssertionError("legacy git publish called"))
         self.support.post_vercel_hook = lambda: (_ for _ in ()).throw(AssertionError("deploy hook called"))
 
-        self.assertEqual(self.support.finalize_supabase(self.path), 0)
-        self.assertEqual(calls, ["dedupe", "publish", "email", "verify"])
+        with patch('news_publication_readback.verify_live',side_effect=lambda path:calls.append('content')):
+            self.assertEqual(self.support.finalize_supabase(self.path), 0)
+        self.assertEqual(calls, ["dedupe", "publish", "verify", "content", "email"])
 
 
 if __name__ == "__main__":
