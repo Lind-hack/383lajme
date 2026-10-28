@@ -1,4 +1,5 @@
 import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -37,6 +38,38 @@ class ContextReviewTests(unittest.TestCase):
 
     def save(self, articles):
         self.batch.write_text(json.dumps(articles), encoding="utf-8")
+
+    def test_target_group_keeps_every_preceding_sibling_without_supplying_later_copy(self):
+        drafts = [article(i, body=f'<p>Complete comparison prose for unique story {i}.</p>')
+                  for i in range(1, 7)]
+        old = article(20, batch_key='older')
+        def compare(prompt, brief, *args, **kwargs):
+            text = brief.read_text(encoding='utf-8')
+            for row in [*drafts[:4], old]:
+                self.assertIn(row['body'], text)
+            for row in drafts[4:]:
+                self.assertNotIn(row['body'], text)
+            return [distinct(drafts[i], review_id=f'draft-{i}') for i in (1, 3)]
+        with patch.object(review, 'ask_rows', side_effect=compare):
+            decisions = review.review_chunk(self.batch, drafts, [old], 0, float('inf'),
+                                           {drafts[1]['slug'], drafts[3]['slug']})
+        self.assertEqual(set(decisions), {drafts[1]['slug'], drafts[3]['slug']})
+
+    def test_one_slow_comparison_holds_only_its_target(self):
+        drafts = [article(i) for i in range(1, 5)]
+        self.save(drafts)
+        def compare(batch, articles, history, index, deadline, targets=None):
+            self.assertEqual(len(targets), 1)
+            target = next(iter(targets))
+            if target == drafts[1]['slug']:
+                raise subprocess.TimeoutExpired('independent comparison', 1)
+            return {row['slug']: distinct(row, review_id=f'draft-{i}')
+                    for i, row in enumerate(articles) if row['slug'] in targets}
+        with patch.object(review, 'review_chunk', side_effect=compare):
+            self.assertEqual(review.review(self.batch, []), 3)
+        kept = [drafts[i] for i in (0, 2, 3)]
+        self.assertEqual(json.loads(self.batch.read_text(encoding='utf-8')), kept)
+        review.verify(self.batch, kept, [])
 
     def test_low_overlap_paraphrase_is_compared_with_complete_history_across_categories(self):
         old = article(1, category="Ekonomi", title="Qeveria ul barrën fiskale për shportën bazë",
