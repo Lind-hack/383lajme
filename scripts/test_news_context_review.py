@@ -26,6 +26,14 @@ class ContextReviewTests(unittest.TestCase):
         self.folder = tempfile.TemporaryDirectory()
         self.addCleanup(self.folder.cleanup)
         self.batch = Path(self.folder.name) / "2026-10-28T12.json"
+        def select(batch, articles, history, deadline):
+            count = (len(history) + review.CATALOGUE_CHUNK - 1) // review.CATALOGUE_CHUNK
+            return ({row['slug']: history for row in articles},
+                    {row['slug']: [{'related_ids': [], 'reason': 'A complete catalogue comparison selected the supplied related records.'}] * count
+                     for row in articles})
+        selector = patch.object(review, 'select_comparisons', side_effect=select)
+        selector.start()
+        self.addCleanup(selector.stop)
 
     def save(self, articles):
         self.batch.write_text(json.dumps(articles), encoding="utf-8")
@@ -95,17 +103,15 @@ class ContextReviewTests(unittest.TestCase):
         with patch.object(review, "ask_rows", side_effect=ValueError("unavailable")), self.assertRaises(ValueError):
             review.review(self.batch, [])
 
-    def test_every_history_chunk_must_approve_and_pagination_keeps_late_duplicates(self):
+    def test_late_semantic_matches_and_paginated_history_are_not_truncated(self):
         new = article(1)
         history = [article(i, batch_key="older") for i in range(2, 29)]
         self.save([new])
         def compare(prompt, brief, *args, **kwargs):
-            if brief.name.endswith("context-input-1.md"):
-                return [distinct(new, verdict="retelling", against_id="published-0", against_span=history[25]["title"])]
-            return [distinct(new)]
+            return [distinct(new, verdict="retelling", against_id="published-25", against_span=history[25]["title"])]
         with patch.object(review, "ask_rows", side_effect=compare) as model:
             self.assertEqual(review.review(self.batch, history), 0)
-        self.assertEqual(model.call_count, 2)
+        self.assertEqual(model.call_count, 1)
         with patch.object(support, "_supabase_request", side_effect=[[{}] * 500, [history[-1]]]) as request:
             rows = support._recently_published()
         self.assertEqual(len(rows), 501)
@@ -132,6 +138,15 @@ class ContextReviewTests(unittest.TestCase):
         with patch.object(review, "ask_rows", side_effect=compare), self.assertRaises(ValueError):
             review.review(self.batch, [])
         self.assertFalse(review.receipt_path(self.batch).exists())
+
+    def test_incomplete_catalogue_never_reaches_approval_or_reports_no_news(self):
+        row = article(1)
+        self.save([row])
+        with patch.object(review, 'select_comparisons', return_value=({}, {})), \
+                patch.object(review, 'ask_rows') as model, self.assertRaises(ValueError):
+            review.review(self.batch, [article(2)])
+        model.assert_not_called()
+        self.assertEqual(json.loads(self.batch.read_text(encoding='utf-8')), [row])
 
 
 class BatchImageTests(unittest.TestCase):
