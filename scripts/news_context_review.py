@@ -11,6 +11,7 @@ import json
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
+from time import monotonic
 
 from news_copyright_review import article_digest, digest
 from news_model import ask_rows, stage_deadline
@@ -43,6 +44,7 @@ def _located(span, article):
 
 
 def review_chunk(batch, articles, history, index, deadline):
+    started = monotonic()
     candidates = {f"draft-{i}": article for i, article in enumerate(articles)}
     references = {f"published-{i}": row for i, row in enumerate(history)}
     brief = batch.with_suffix(f".context-input-{index}.md")
@@ -90,6 +92,7 @@ def review_chunk(batch, articles, history, index, deadline):
             if not counterpart or not _located(row.get("against_span"), counterpart):
                 continue
         decisions[article["slug"]] = row
+    print(f"383 CONTEXT REVIEW chunk={index} valid={len(decisions)} expected={len(articles)} seconds={monotonic() - started:.1f}")
     return decisions
 
 
@@ -107,7 +110,7 @@ def review(batch: Path, recent: list[dict]) -> int:
     snapshot = digest(articles)
     deadline = stage_deadline(180)
     results = []
-    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
         futures = [pool.submit(review_chunk, batch, articles, chunk, i, deadline) for i, chunk in enumerate(chunks)]
         for future in futures:
             try:
