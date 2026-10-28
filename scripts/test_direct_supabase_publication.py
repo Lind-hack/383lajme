@@ -68,6 +68,9 @@ class DirectSupabasePublicationTests(unittest.TestCase):
         copyright_patch = patch("news_copyright_review.validate_for_publication")
         self.copyright_validator = copyright_patch.start()
         self.addCleanup(copyright_patch.stop)
+        context_patch = patch("news_context_review.verify")
+        self.context_validator = context_patch.start()
+        self.addCleanup(context_patch.stop)
         self.old_fetch = self.support._fetch_image_dimensions
         self.old_load_env = self.support.load_env
         self.old_env = {key: os.environ.get(key) for key in ("NEXT_PUBLIC_SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY")}
@@ -112,6 +115,16 @@ class DirectSupabasePublicationTests(unittest.TestCase):
         self.support._supabase_request = lambda *args, **kwargs: calls.append(args)
         self.assertEqual(self.support.publish_supabase(self.path), 1)
         self.assertEqual(calls, [])
+
+    def test_missing_context_approval_blocks_both_publication_paths_before_writes(self):
+        self.context_validator.side_effect = ValueError("missing independent event context review")
+        with patch.object(self.support, "_supabase_request", return_value=[]) as request:
+            self.assertEqual(self.support.publish_supabase(self.path), 1)
+            self.assertTrue(all(call.args[0] == "GET" for call in request.call_args_list))
+        with patch.object(self.support, "_recently_published", return_value=[]), patch.object(self.support, "_git") as git:
+            with self.assertRaisesRegex(ValueError, "missing independent event context review"):
+                self.support.git_publish(self.path)
+        git.assert_not_called()
 
     def test_clear_semantic_sibling_repeat_blocks_direct_publication_before_database_calls(self):
         extra = ('Këshilli i qytetit miratoi financimin për autobusë elektrikë dhe stacione karikimi. '
@@ -170,7 +183,7 @@ class DirectSupabasePublicationTests(unittest.TestCase):
         self.support._supabase_request = fake_request
         self.assertEqual(self.support.publish_supabase(self.path), 0)
         self.assertEqual([call[:2] for call in calls], [
-            ("GET", "news_articles"), ("GET", "news_batches"), ("POST", "news_batches"),
+            ("GET", "news_articles"), ("GET", "news_articles"), ("GET", "news_batches"), ("POST", "news_batches"),
             ("POST", "news_articles"), ("GET", "news_articles"),
         ])
 

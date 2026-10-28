@@ -21,6 +21,19 @@ LEAD = {"title": "Verstappen wins the race in Singapore",
 
 
 class VideoTests(unittest.TestCase):
+    def test_recompressed_video_posters_use_the_same_batch_visual_identity_check(self):
+        from news_image_policy import batch_image_errors
+        clips = [{'video_id':key, 'title':"Max Verstappen's winning lap", 'published':NOW.isoformat(),
+                  'channel_id':'UCB_qr75-ydFVKSF9Dmo6izg', 'channel':'Formula 1'}
+                 for key in ('aaaaaaaaaaa','bbbbbbbbbbb')]
+        with patch.dict(video.os.environ, {'L383_HOURLY_NEWS':'0'}), \
+                patch.object(video, 'embeddable', return_value=True), \
+                patch('news_image_policy.photo_fingerprint', side_effect=[(1280,720,'a'*64,123456), (1280,720,'b'*64,123456)]):
+            photos = [video.finalize_video(LEAD, {'video':clip,'name':'Max Verstappen'}) for clip in clips]
+        self.assertNotEqual(photos[0]['image_url'], photos[1]['image_url'])
+        self.assertNotEqual(photos[0]['image_rights']['sha256'], photos[1]['image_rights']['sha256'])
+        self.assertTrue(batch_image_errors(photos))
+
     def setUp(self):
         video._FEED = None
 
