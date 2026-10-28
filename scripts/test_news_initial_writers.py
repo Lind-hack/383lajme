@@ -30,10 +30,16 @@ class InitialWriterSchedulerTests(unittest.TestCase):
             discovery=root/'discovery.json'
             targets=hourly_targets()
             hosts={c:next(p['domains'][0] for p in MANIFEST['publishers'] if p['category']==c) for c in CATEGORIES}
-            discovery.write_text(json.dumps({'publication_plan':targets,'ready_leads':[
-                {'pair_id':f'{c}-{i}', 'category':c, 'url':f'https://{hosts[c]}/{n}/{i}',
-                 'evidence_path':'/private/verified-evidence.json'}
-                for n,c in enumerate(CATEGORIES) for i in range(6)]}),encoding='utf-8')
+            leads=[]
+            for n,category in enumerate(CATEGORIES):
+                for i in range(6):
+                    url=f'https://{hosts[category]}/{n}/{i}'
+                    evidence=root/f'evidence-{n}-{i}.json'
+                    evidence.write_text(json.dumps({'source_url':url, 'evidence':{'status':'text_extracted',
+                        'url':url, 'text':'Prepared source facts for the isolated scheduler fixture.'}}),encoding='utf-8')
+                    leads.append({'pair_id':f'{category}-{i}', 'category':category, 'url':url,
+                                  'evidence_path':evidence.as_posix()})
+            discovery.write_text(json.dumps({'publication_plan':targets,'ready_leads':leads}),encoding='utf-8')
             database=root/'load.sqlite'
             with sqlite3.connect(database) as db:
                 db.executescript('CREATE TABLE load(active,peak); INSERT INTO load VALUES(0,0);')
