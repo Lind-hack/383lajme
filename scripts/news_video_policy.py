@@ -290,7 +290,7 @@ def finalize_video(lead: dict, option: dict) -> dict:
     thumbnail = f"https://i.ytimg.com/vi/{video['video_id']}/maxresdefault.jpg"
     try:
         from news_image_policy import photo_fingerprint
-        width, height, digest, _ = photo_fingerprint(thumbnail)
+        width, height, digest, visual = photo_fingerprint(thumbnail)
     except Exception:
         return {}
     if width < 1200 or height < 630:
@@ -309,7 +309,7 @@ def finalize_video(lead: dict, option: dict) -> dict:
             "image_rights": {"provider": "youtube-embed", "source_page": watch, "creator": video["channel"],
                              "license": "YouTube embed", "license_url": "https://www.youtube.com/t/terms",
                              "description": video["title"][:300], "channel_id": video["channel_id"],
-                             "published": video["published"], "sha256": digest,
+                             "published": video["published"], "sha256": digest, "perceptual_hash": f"{visual:064x}",
                              **({'visual_review':dict(visual_review)} if visual_review else {}),
                              "verified_at": datetime.now(timezone.utc).isoformat()}}
 
