@@ -17,7 +17,7 @@ from news_copyright_review import article_digest, digest
 from news_model import ask_rows, stage_deadline
 from news_model_evidence import write_readable_evidence
 from news_model_context import inline_context, ContextTooLarge
-from news_image_policy import plain
+from news_image_policy import plain, duplicate_photo_pairs
 from news_context_candidates import select_comparisons, CATALOGUE_CHUNK
 
 POLICY = "383-event-context-v2"
@@ -111,6 +111,12 @@ def review(batch: Path, recent: list[dict]) -> int:
         return 0
     history = history_records(recent, batch)
     snapshot = digest(articles)
+    original_count = len(articles)
+    photo_duplicates = duplicate_photo_pairs(articles)
+    for index, previous in photo_duplicates:
+        print(f"383 CONTEXT REVIEW held {articles[index-1]['slug']}: photo repeats {articles[previous-1]['slug']}")
+    rejected_photos = {index for index, _ in photo_duplicates}
+    articles = [row for index, row in enumerate(articles, 1) if index not in rejected_photos]
     deadline = stage_deadline(180)
     selected, catalogue_proofs = select_comparisons(batch, articles, history, deadline)
     targets = [row for row in articles if row['slug'] in selected]
@@ -151,7 +157,7 @@ def review(batch: Path, recent: list[dict]) -> int:
     temporary = batch.with_suffix(".context-approved.tmp")
     temporary.write_text(json.dumps(kept, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     temporary.replace(batch)
-    print(f"383 CONTEXT REVIEW approved={len(kept)} held={len(articles) - len(kept)} history={len(history)}")
+    print(f"383 CONTEXT REVIEW approved={len(kept)} held={original_count - len(kept)} history={len(history)}")
     return len(kept)
 
 

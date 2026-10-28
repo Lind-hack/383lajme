@@ -2238,6 +2238,19 @@ def refresh_news_pages(path: Path) -> int:
     return 0
 
 
+def _verify_completed_publication(path: Path) -> int:
+    if verify_public_site(path) != 0:
+        print("ERROR public site verification did not confirm the new batch on the production domain.")
+        return 1
+    try:
+        from news_publication_readback import verify_live
+        verify_live(path)
+    except Exception as exc:
+        print(f"ERROR public content readback failed: {exc}")
+        return 1
+    return 0
+
+
 def finalize_supabase(path: Path) -> int:
     """Direct publication finalizer: no Git publishing and no deployment hook."""
     try:
@@ -2248,27 +2261,30 @@ def finalize_supabase(path: Path) -> int:
     print(f"VALID {path.name}: {len(articles)} articles")
     if dedupe_published(path) != 0 or publish_supabase(path) != 0:
         return 1
+    if _verify_completed_publication(path) != 0:
+        return 1
     email_code = send_report(path)
     if email_code != 0:
         print("EMAIL report did not complete.")
         if os.environ.get("REQUIRE_EMAIL_REPORT", "").strip().lower() in {"1", "true", "yes"}:
             print("ERROR email report is required for this run.")
             return 1
-    if verify_public_site(path) != 0:
-        print("ERROR public site verification did not confirm the new batch on the production domain.")
-        return 1
     return 0
 
 
 def finalize(path: Path) -> int:
     articles = validate_batch(path)
     print(f"VALID {path.name}: {len(articles)} articles")
-    git_publish(path)
+    if git_publish(path) != 0:
+        return 1
 
     # GitHub main is the only production source. Vercel's Git integration
     # deploys the commit pushed above; invoking an old deploy hook here can
     # rebuild a stale dirty snapshot and overwrite the protected release.
     print("VERCEL deploy delegated to the GitHub main integration")
+
+    if _verify_completed_publication(path) != 0:
+        return 1
 
     email_code = send_report(path)
     if email_code != 0:
@@ -2276,11 +2292,6 @@ def finalize(path: Path) -> int:
         if os.environ.get("REQUIRE_EMAIL_REPORT", "").strip().lower() in {"1", "true", "yes"}:
             print("ERROR email report is required for this run.")
             return 1
-
-    verify_code = verify_public_site(path)
-    if verify_code != 0:
-        print("ERROR public site verification did not confirm the new batch on the production domain.")
-        return 1
 
     return 0
 

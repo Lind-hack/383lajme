@@ -9,6 +9,7 @@ import tempfile
 from pathlib import Path
 
 from codex_automation_support import validate_batch
+from news_image_policy import batch_image_errors
 
 
 def isolate(path: Path, validator=validate_batch) -> int:
@@ -43,6 +44,9 @@ def isolate(path: Path, validator=validate_batch) -> int:
             probe.write_text(json.dumps([article], ensure_ascii=False) + "\n", encoding="utf-8")
             try:
                 validator(probe)
+                photo_errors = batch_image_errors([*kept, article])
+                if photo_errors:
+                    raise ValueError(photo_errors[0])
             except Exception as exc:
                 reason = str(exc).splitlines()[0] if str(exc) else type(exc).__name__
                 print(f"REJECTED structural candidate {index} {article.get('title', 'untitled')!r}: {reason}")
