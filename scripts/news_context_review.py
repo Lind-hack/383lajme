@@ -21,7 +21,7 @@ from news_image_policy import plain, duplicate_photo_pairs
 from news_context_candidates import select_comparisons, CATALOGUE_CHUNK
 
 POLICY = "383-event-context-v2"
-DRAFT_CHUNK = 4
+DRAFT_CHUNK = 1
 
 
 def copy_record(article):
@@ -48,6 +48,12 @@ def review_chunk(batch, articles, history, index, deadline, targets=None):
     started = monotonic()
     candidates = {f"draft-{i}": article for i, article in enumerate(articles)}
     targets = set(candidates) if targets is None else {key for key, row in candidates.items() if row['slug'] in targets}
+    if not targets:
+        return {}
+    # A target compares with its entire preceding prefix. Later copy cannot
+    # affect that decision and needlessly consumes the shared review deadline.
+    last_target = max(i for i, key in enumerate(candidates) if key in targets)
+    candidates = dict(list(candidates.items())[:last_target + 1])
     references = {f"published-{i}": row for i, row in enumerate(history)}
     brief = batch.with_suffix(f".context-input-{index}.md")
     write_readable_evidence(brief, {"review_targets": sorted(targets),

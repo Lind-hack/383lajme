@@ -237,3 +237,29 @@ the fix. All 41 source-policy/topic tests pass on Windows and Linux afterward,
 including the negative crime and banknote cases. The production build passes,
 and the independent review reports no findings. This change does not reinstate
 the rejected draft in the active run or bypass its other publication gates.
+
+## Isolate final event comparisons after the first reviewer release
+
+The first actual run on `2a92617d` published six fully audited articles. Its
+final reviewer compared ten finished drafts against 248 recent publications;
+one four-target request timed out and held all four drafts, while the other
+requests completed. Supply only the complete draft prefix through each target,
+and give each target its own comparison request. Preserve every preceding
+sibling, all selected historical bodies, six concurrent workers, the shared
+180-second deadline and hash-bound receipts. Missing decisions still hold copy.
+
+Both regressions failed before the corrections: later drafts must be omitted
+without losing any preceding sibling, and one timed-out comparison must hold
+only its own target. All 101 relevant tests pass on Windows and Linux, the build
+passes, and independent review reports no findings. Prefix trimming alone still
+timed out in a native replay of the first request; it is not evidence that the
+timing problem is solved. Neither tests nor replays establish 20 publications
+or complete category coverage. The active hourly run is preserved.
+
+The final per-target native replay completed all ten valid comparisons against
+the exact 248 archived records in 148.67 seconds, within the unchanged
+180-second limit. It held two same-event retellings (the Superiore round recap
+and Israeli coalition arithmetic) and approved eight, including two useful
+stories lost to the original timeout. No live records, publication state or
+emails were changed by the replay. This is a measured replay result, not an
+hourly publication count or a timing guarantee.
