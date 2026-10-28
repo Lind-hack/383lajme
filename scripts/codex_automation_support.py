@@ -816,9 +816,14 @@ def _recent_story_conflicts(article: dict[str, Any], recent: list[dict[str, Any]
 
 def _recently_published(hours: int = 36) -> list[dict[str, Any]]:
     since = datetime.fromtimestamp(time.time() - hours * 3600, timezone.utc).isoformat()
-    return _supabase_request("GET", "news_articles", query={
-        "select": "id,title,excerpt,body,category,url:raw_article->>url,image_subject:raw_article->>image_subject",
-        "published_at": f"gte.{since}", "limit": "500"})
+    records = []
+    while True:
+        page = _supabase_request("GET", "news_articles", query={
+            "select": "id,slug,batch_key,title,excerpt,body,category,published_at,url:raw_article->>url,image_subject:raw_article->>image_subject",
+            "published_at": f"gte.{since}", "order": "id.asc", "limit": "500", "offset": str(len(records))})
+        records.extend(page)
+        if len(page) < 500:
+            return records
 
 
 def _source_family(article: dict[str, Any]) -> str:
@@ -1008,6 +1013,9 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
         counts = Counter(article.get("category") for article in articles)
         errors.extend(f"{category} exceeds the three-article hourly category ceiling ({count})"
                       for category, count in counts.items() if count > 3)
+
+    from news_image_policy import batch_image_errors
+    errors.extend(batch_image_errors(articles))
 
     for index, article in enumerate(articles, 1):
         label = f"article {index}"
@@ -2084,7 +2092,9 @@ def git_publish(path: Path) -> int:
     from news_copyright_review import validate_for_publication
     validate_for_publication(path)
     load_env()
-    validate_batch(path)
+    articles = validate_batch(path)
+    from news_context_review import verify as verify_context
+    verify_context(path, articles, _recently_published())
     _ensure_git_origin()
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
     _git(["config", "user.name", "383 Codex News Bot"])
@@ -2147,6 +2157,8 @@ def publish_supabase(path: Path) -> int:
         from news_sibling_dedup import story_pairs
         if any(score >= CLEAR_REPEAT for _, _, score in story_pairs(articles, _same_story, _story_overlap)):
             raise ValueError("same story is repeated within the pending publication batch")
+        from news_context_review import verify as verify_context
+        verify_context(path, articles, _recently_published())
         batch_key = _batch_key(path)
         conflicts = _published_conflicts(articles, ignore_batch_key=batch_key)
         if conflicts:

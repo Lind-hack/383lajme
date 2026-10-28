@@ -199,13 +199,16 @@ class CopyrightReviewTests(unittest.TestCase):
         text = "Ministria njoftoi sot se projekti do të nisë në Prishtinë më 1 tetor pas përfundimit të procedurave."
         self.article["body"] = "<p>" + text + "</p>"
         self.record["evidence"]["text"] = text
-        self.batch.write_text(json.dumps([self.article]), encoding="utf-8")
-        self.evidence.write_text(json.dumps([self.record]), encoding="utf-8")
-        self.save([decision(self.article)])
-        with patch("topic_selection_gate.evidence_errors", return_value=[]), patch("editorial_rules_v2.article_errors", return_value=[]), \
-             patch("news_image_policy.image_errors", return_value=[]), patch("journalism_quality_gate.journalism_errors", return_value=[]):
-            with self.assertRaisesRegex(ValueError, "exact source overlap"):
-                review.validate_for_publication(self.batch)
+        for category in ("Kosovë", "Shqipëri"):
+            self.article["category"] = category
+            self.batch.write_text(json.dumps([self.article]), encoding="utf-8")
+            self.evidence.write_text(json.dumps([self.record]), encoding="utf-8")
+            self.save([decision(self.article)])
+            with self.subTest(category=category), patch("topic_selection_gate.evidence_errors", return_value=[]), \
+                 patch("editorial_rules_v2.article_errors", return_value=[]), patch("news_image_policy.image_errors", return_value=[]), \
+                 patch("journalism_quality_gate.journalism_errors", return_value=[]):
+                with self.assertRaisesRegex(ValueError, "exact source overlap"):
+                    review.validate_for_publication(self.batch)
 
 
 if __name__ == "__main__":

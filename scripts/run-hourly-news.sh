@@ -811,14 +811,21 @@ stage="final-deduplication"
 
 stage="independent-originality-review"
 "$PYTHON_BIN" scripts/news_copyright_review.py --file "$BATCH"
+
+# Review complete copy against all recent publications, including pairs the
+# lexical prefilter never selected. Reserve minutes 50-53 for this final gate;
+# the existing 55-minute process deadline still bounds publication/readback.
+stage="independent-event-context-review"
+env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 3180))" \
+  "$PYTHON_BIN" scripts/news_context_review.py --file "$BATCH"
 if [ "$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$BATCH")" -eq 0 ]; then
   stage="no-new-verified-news"
   record_state no_news
   "$PYTHON_BIN" scripts/news_quality_report.py --file "$BATCH" --status no_news
   if [ "$QA_ONLY" != "1" ]; then
-    "$PYTHON_BIN" scripts/codex_automation_support.py send-status-report --phase completed --message "Pipeline përfundoi pa artikuj që kaluan kontrollin e origjinalitetit."
+    "$PYTHON_BIN" scripts/codex_automation_support.py send-status-report --phase completed --message "Pipeline përfundoi pa artikuj që kaluan kontrollin e origjinalitetit dhe kontekstit të lajmeve."
   fi
-  printf '383 NO NEWS: independent originality review rejected all candidates\n'
+  printf '383 NO NEWS: independent originality/context review retained no candidates\n'
   exit 0
 fi
 "$PYTHON_BIN" scripts/news_copyright_review.py --verify --file "$BATCH"
@@ -856,12 +863,7 @@ URL="https://www.383ks.com/article/${SLUG}?verify=${STAMP}"
 stage="news-cache-refresh"
 "$PYTHON_BIN" scripts/codex_automation_support.py refresh-news-pages --file "$BATCH"
 stage="live-readback"
-while IFS= read -r verified_slug; do
-  STATUS="$(curl -L -sS --max-time 45 -o /tmp/383-live.html -w '%{http_code}' "https://383ks.com/article/${verified_slug}?verify=${STAMP}")"
-  test "$STATUS" = 200
-  grep -Fq "$verified_slug" /tmp/383-live.html
-done < <("$PYTHON_BIN" -c 'import json,sys; print("\n".join(a["slug"] for a in json.load(open(sys.argv[1],encoding="utf-8"))))' "$BATCH")
-printf '383 LIVE READBACK: every published article returned HTTP 200 with its slug\n'
+"$PYTHON_BIN" scripts/news_publication_readback.py --file "$BATCH"
 
 "$PYTHON_BIN" scripts/news_quality_report.py --file "$BATCH" --status published || printf "383 quality metrics unavailable\n" >&2
 

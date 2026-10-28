@@ -75,6 +75,29 @@ def image_identity(url: str) -> str:
     return f"{host}{path}".casefold()
 
 
+def batch_image_errors(articles: list[dict]) -> list[str]:
+    """Photo identity survives URL aliases; reuse in another batch is allowed."""
+    seen, errors = {}, []
+    for index, article in enumerate(articles, 1):
+        url = str(article.get("image_url") or "")
+        rights = article.get("image_rights") or {}
+        parsed = urlsplit(url)
+        # Dynamic image endpoints can serve unrelated photos by ?id= or ?url=.
+        # Only Commons' documented original/thumbnail paths are interchangeable.
+        canonical = image_identity(url) if parsed.hostname in {"upload.wikimedia.org", "thumb.wikimedia.org"} else (
+            f"{parsed.hostname}{parsed.path}" + ("?" + parsed.query if parsed.query else ""))
+        identities = {"url:" + canonical} if url else set()
+        sha = str(rights.get("sha256") or "").lower() if isinstance(rights, dict) else ""
+        if re.fullmatch(r"[0-9a-f]{64}", sha):
+            identities.add("sha256:" + sha)
+        previous = next((seen[key] for key in identities if key in seen), None)
+        if previous is not None:
+            errors.append(f"article {index} repeats the photo of article {previous} in the same batch")
+        for key in identities:
+            seen.setdefault(key, index)
+    return errors
+
+
 PLAN_CHUNK = 12
 PLAN_DEADLINE = 180
 _NETWORK_BUDGET = threading.local()
