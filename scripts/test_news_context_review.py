@@ -148,6 +148,20 @@ class ContextReviewTests(unittest.TestCase):
         model.assert_not_called()
         self.assertEqual(json.loads(self.batch.read_text(encoding='utf-8')), [row])
 
+    def test_duplicate_refill_photo_is_held_before_final_review_and_good_drafts_remain_unchanged(self):
+        first = article(1, image_url='https://first.example/photo.jpg', image_rights={'sha256':'a'*64})
+        alias = article(2, image_url='https://alias.example/photo.jpg', image_rights={'sha256':'a'*64})
+        other = article(3, image_url='https://other.example/photo.jpg', image_rights={'sha256':'b'*64})
+        self.save([first,alias,other])
+        def approved(batch, articles, history, index, deadline, targets=None):
+            return {row['slug']:distinct(row,review_id=f'draft-{i}') for i,row in enumerate(articles)
+                    if targets is None or row['slug'] in targets}
+        with patch.object(review,'review_chunk',side_effect=approved):
+            self.assertEqual(review.review(self.batch, []), 2)
+        kept = json.loads(self.batch.read_text(encoding='utf-8'))
+        self.assertEqual(kept,[first,other])
+        review.verify(self.batch,kept,[])
+
 
 class BatchImageTests(unittest.TestCase):
     def test_recompressed_same_photo_is_rejected_even_with_different_urls_and_byte_digests(self):

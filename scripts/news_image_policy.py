@@ -75,9 +75,9 @@ def image_identity(url: str) -> str:
     return f"{host}{path}".casefold()
 
 
-def batch_image_errors(articles: list[dict]) -> list[str]:
-    """Photo identity survives URL aliases; reuse in another batch is allowed."""
-    seen, visuals, errors = {}, [], []
+def duplicate_photo_pairs(articles: list[dict]) -> list[tuple[int, int]]:
+    """Later duplicate and retained-photo positions, both one-based."""
+    seen, visuals, duplicates = {}, [], []
     for index, article in enumerate(articles, 1):
         url = str(article.get("image_url") or "")
         rights = article.get("image_rights") or {}
@@ -97,12 +97,20 @@ def batch_image_errors(articles: list[dict]) -> list[str]:
             # Same existing 256-bit photo comparison used for source-image
             # distinctness: resizing/recompression must not defeat batch checks.
             previous = previous or next((old for bits, old in visuals if (fingerprint ^ bits).bit_count() <= 20), None)
-            visuals.append((fingerprint, index))
         if previous is not None:
-            errors.append(f"article {index} repeats the photo of article {previous} in the same batch")
+            duplicates.append((index, previous))
+            continue
+        if re.fullmatch(r"[0-9a-f]{64}", visual):
+            visuals.append((fingerprint, index))
         for key in identities:
             seen.setdefault(key, index)
-    return errors
+    return duplicates
+
+
+def batch_image_errors(articles: list[dict]) -> list[str]:
+    """Photo identity survives URL aliases; reuse in another batch is allowed."""
+    return [f"article {index} repeats the photo of article {previous} in the same batch"
+            for index, previous in duplicate_photo_pairs(articles)]
 
 
 PLAN_CHUNK = 12
