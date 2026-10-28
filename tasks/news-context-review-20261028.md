@@ -88,6 +88,12 @@ deleted by this change.
   records identify Railway. This mismatch needs resolution before a release
   that could update production domains.
 
+The owner subsequently explicitly authorized Railway's GitHub integration for
+this release. This is a release-specific exception; it does not replace the
+Vercel-only default for future releases. Release preparation will verify the
+origin/main SHA at the production endpoint, then activate the immutable committed
+worker archive only while idle under both publisher/inventory locks.
+
 Local verification evidence is in
 `C:/Users/PC1/.codex/visualizations/2026/10/28/01a18336-eb9c-7b90-a6b6-1fb23252d7ad/news-review-verification/`.
 
