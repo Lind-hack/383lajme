@@ -225,3 +225,15 @@ the fix does not add a loose `shkodr` stem. Other headline, evidence and
 category requirements remain. All 237 Linux tests and the production build
 passed. This correction
 does not modify the active run or reinstate its rejected article mid-run.
+
+## Recognize Albanian TV-series cases after live review, 28 October
+
+The 17:00 UTC run dropped `Emma Corrin luan Elizabeth Bennet në serialin
+Pride and Prejudice` because the culture-subject matcher omitted the Albanian
+word for a TV series. Recognize only the definite forms `seriali`, `serialin`
+and `serialit`; avoid a broad `serial` stem that would also match crime reports
+or product serial numbers. The observed headline fails the regression before
+the fix. All 41 source-policy/topic tests pass on Windows and Linux afterward,
+including the negative crime and banknote cases. The production build passes,
+and the independent review reports no findings. This change does not reinstate
+the rejected draft in the active run or bypass its other publication gates.

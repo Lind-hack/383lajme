@@ -11,6 +11,20 @@ from news_run_state import completed, save
 
 
 class SourceIsolation(unittest.TestCase):
+    def test_albanian_tv_series_cases_identify_culture_without_broad_serial_matches(self):
+        for title in (
+            'Emma Corrin luan Elizabeth Bennet në serialin Pride and Prejudice',
+            'Seriali i ri nis xhirimet në nëntor',
+            'Publikohet data e premierës së serialit të ri',
+        ):
+            self.assertIsNone(topic_error('Showbiz', title), title)
+        for title in (
+            'Policia arreston vrasësin serial',
+            'Banka kontrollon numrat serialë të kartëmonedhave',
+            'Hetohen vrasje seriale në qytet',
+        ):
+            self.assertIsNotNone(topic_error('Showbiz', title), title)
+
     def test_asset_reference_pages_are_not_reported_news(self):
         for url in ('https://cryptoslate.com/coins/ethereum',
                     'https://www.cryptoslate.com/coins/bitcoin/?ref=home'):
