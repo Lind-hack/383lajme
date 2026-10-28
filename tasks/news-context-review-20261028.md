@@ -26,7 +26,7 @@ for potentially related events, across categories, without a lexical prefilter.
 Every catalogue page must return a valid selection for each draft. Uncertainty
 includes the related record for full comparison. `news_context_review.py` then
 compares complete finished drafts against complete selected old articles and
-all preceding siblings, with four review targets per request. History is paged
+all preceding siblings, with one review target per request. History is paged
 without the old 500-record ceiling. Invalid/missing decisions hold that draft.
 Located passages are required
 for both the draft event and any identified retelling. Genuine separate subsequent
@@ -123,3 +123,28 @@ targeted Linux tests and the build passed; Windows passed with two Bash-only
 skips. Independent review found no actionable defect in the correction. No
 active worker is changed during a live run. This correction remains part of the
 same explicitly authorized Railway GitHub release.
+
+## Verified production result and isolated comparisons
+
+The first reviewer run completed at 17:52 UTC (18:52 Warsaw), publishing six:
+Kosovë 1, Shqipëri 1, Sport 0, Teknologji 1, Ekonomi 1, Botë 2 and Showbiz 0.
+The independent read-only audit verified exact database/public content, distinct
+current photos, native approvals at publication, original-source receipts and
+the context receipt against its exact 248 historical records. The 20-article
+and category targets remain unmet. Later runs stopped on the Codex OAuth usage
+limit and published no unreviewed copy.
+
+PR #5 merged as `7a6afb8a`. Each final event comparison now has one target and
+its complete preceding prefix, keeping six concurrent workers and the shared
+180-second limit. A timeout holds only that target. A native replay of the ten
+actual finished drafts against the exact 248 historical records completed in
+148.67 seconds: two retellings held, eight approved. All 101 relevant Windows
+and Linux tests, the build and independent reviews passed. This replay is not
+a publication count or future timing guarantee.
+
+Railway temporarily paused deployments during PR #5's GitHub event. The site
+remained on `10accc4b`; its matching worker was activated at 21:52 UTC while
+idle under both locks, and the collector restarted. All seventeen changed
+files matched the tested release. The nineteen-file PR #5 worker is staged
+and must wait for a matching GitHub application deployment before activation.
+The isolated model remains GPT-6 Luna/max/Codex OAuth with fallback disabled.
