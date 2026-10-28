@@ -77,7 +77,7 @@ def image_identity(url: str) -> str:
 
 def batch_image_errors(articles: list[dict]) -> list[str]:
     """Photo identity survives URL aliases; reuse in another batch is allowed."""
-    seen, errors = {}, []
+    seen, visuals, errors = {}, [], []
     for index, article in enumerate(articles, 1):
         url = str(article.get("image_url") or "")
         rights = article.get("image_rights") or {}
@@ -91,6 +91,13 @@ def batch_image_errors(articles: list[dict]) -> list[str]:
         if re.fullmatch(r"[0-9a-f]{64}", sha):
             identities.add("sha256:" + sha)
         previous = next((seen[key] for key in identities if key in seen), None)
+        visual = str(rights.get("perceptual_hash") or "").lower() if isinstance(rights, dict) else ""
+        if re.fullmatch(r"[0-9a-f]{64}", visual):
+            fingerprint = int(visual, 16)
+            # Same existing 256-bit photo comparison used for source-image
+            # distinctness: resizing/recompression must not defeat batch checks.
+            previous = previous or next((old for bits, old in visuals if (fingerprint ^ bits).bit_count() <= 20), None)
+            visuals.append((fingerprint, index))
         if previous is not None:
             errors.append(f"article {index} repeats the photo of article {previous} in the same batch")
         for key in identities:
@@ -1124,7 +1131,7 @@ def finalize_photo(lead: dict, option: dict) -> dict:
         dated = f" ({ARCHIVE_MONTHS[when.month - 1]} {when.year})" if when else ""
         photo["image_caption"] = f"Foto nga arkivi{dated}. {photo['image_caption']}"
     taken = option.get("taken") or taken_date(next(iter(option["page"].get("imageinfo", [])), {}).get("extmetadata", {}))
-    photo["image_rights"].update(sha256=digest, distinct_from_source=not reused_source,
+    photo["image_rights"].update(sha256=digest, perceptual_hash=f"{visual:064x}", distinct_from_source=not reused_source,
                                  source_images_checked=lead.get("_source_urls", []),
                                  photo_tier=option["tier"], taken=taken if isinstance(taken, str) else taken.isoformat() if taken else "")
     if reused_source:

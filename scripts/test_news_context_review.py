@@ -135,6 +135,27 @@ class ContextReviewTests(unittest.TestCase):
 
 
 class BatchImageTests(unittest.TestCase):
+    def test_recompressed_same_photo_is_rejected_even_with_different_urls_and_byte_digests(self):
+        from io import BytesIO
+        from PIL import Image, ImageDraw
+        from news_image_policy import photo_fingerprint
+        image = Image.new('RGB', (1600, 900), '#6f8a92')
+        draw = ImageDraw.Draw(image)
+        draw.rectangle((150, 120, 650, 700), fill='#152733')
+        draw.ellipse((850, 200, 1450, 800), fill='#dbc276')
+        payloads = {}
+        for quality in (95, 55):
+            output = BytesIO()
+            image.save(output, format='JPEG', quality=quality)
+            payloads[str(quality)] = output.getvalue()
+        with patch('news_image_policy.photo_payload', side_effect=lambda url: payloads[url]):
+            first, second = photo_fingerprint('95'), photo_fingerprint('55')
+        self.assertNotEqual(first[2], second[2])
+        rows = [article(i, image_url=f'https://photo.example/{i}.jpg', image_rights={
+                    'sha256': value[2], 'perceptual_hash': f'{value[3]:064x}'})
+                for i, value in enumerate((first, second), 1)]
+        self.assertTrue(batch_image_errors(rows))
+
     def test_commons_thumbnail_and_original_and_same_bytes_at_different_hosts_are_duplicates(self):
         rows = [article(1, image_url="https://upload.wikimedia.org/wikipedia/commons/a/ab/Photo.jpg"),
                 article(2, image_url="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Photo.jpg/1600px-Photo.jpg")]
