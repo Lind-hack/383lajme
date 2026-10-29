@@ -148,3 +148,24 @@ idle under both locks, and the collector restarted. All seventeen changed
 files matched the tested release. The nineteen-file PR #5 worker is staged
 and must wait for a matching GitHub application deployment before activation.
 The isolated model remains GPT-6 Luna/max/Codex OAuth with fallback disabled.
+
+## Registry recovery and verified late run, 29 October
+
+The two later GitHub releases built successfully but failed at container
+creation because Railway could not pull their internal-registry image. Their
+build logs ended after image export; the successful release also logged the
+image push. This localizes the failure to the image handoff, not compilation.
+An uncached rebuild tests whether reusing build layers contributed to it.
+
+With the owner's explicit approval, a temporary token scoped to this project's
+production environment applied `NO_CACHE=1` through the official CLI using
+`--skip-deploys`. No deployment was created by that settings change. The next
+clean committed push uses only Railway's GitHub integration. Revoke the
+temporary token after the rebuild attempt; never store its value in the repo,
+logs or release notes. No registry credentials or production domains changed.
+
+The 23:00 Warsaw run completed with thirteen publications on `10accc4b`:
+Kosovë 2, Shqipëri 0, Sport 2, Teknologji 3, Ekonomi 3, Botë 2, Showbiz 1.
+The independent audit verified exact database/public content, source/copy
+receipt hashes, 209 historical comparisons, distinct current photo bytes and
+native image approvals at publication. Neither throughput target is met.
