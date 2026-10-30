@@ -7,9 +7,12 @@ from pathlib import Path
 import sys
 import urllib.request
 
-ROOT = Path('/opt/data/workspaces/383lajme-prod-f731569')
-sys.path.insert(0, str(ROOT / 'scripts'))
-from codex_automation_support import load_env
+SOURCE_ROOT = Path(os.environ.get('L383_REPO', '/opt/data/workspaces/383lajme-tregu-main'))
+ROOT = Path(os.environ.get('L383_NEWS_REPO', '/opt/data/workspaces/383lajme-news-current'))
+sys.path.insert(0, str(SOURCE_ROOT / 'scripts'))
+from codex_automation_support import load_env, ENV_FILES
+# Read protected current database credentials before any legacy checkout env.
+ENV_FILES.insert(0, Path(os.environ.get('L383_AUTOMATION_ENV', '/opt/data/automation/tregu.env')))
 from prepare_social_native_candidates import _records
 
 

@@ -4,16 +4,20 @@ export async function runReprice({ env = process.env, fetchImpl = fetch, sleep =
   const baseUrl = env.TREGU_AUTOMATION_URL;
   const secret = env.TREGU_AUTOMATION_SECRET || env.CRON_SECRET;
   if (!baseUrl || !secret) throw new Error("TREGU_AUTOMATION_URL and TREGU_AUTOMATION_SECRET (or CRON_SECRET) are required.");
+  const endpoint = new URL(`${baseUrl.replace(/\/$/, "")}/api/automation/tregu/reprice`);
+  // Production's www -> apex 301 changes POST to GET in fetch (then HTTP 405).
+  if (endpoint.hostname === "www.383ks.com") endpoint.hostname = "383ks.com";
   // Two bounded requests fit inside the systemd service's 150-second budget.
   // The server's evidence ledger prevents a repeated request moving odds twice.
   for (let attempt = 0; attempt < 2; attempt++) {
     let response;
     let body;
     try {
-      response = await fetchImpl(`${baseUrl.replace(/\/$/, "")}/api/automation/tregu/reprice`, {
+      response = await fetchImpl(endpoint.href, {
         method: "POST",
         headers: { authorization: `Bearer ${secret}` },
         signal: AbortSignal.timeout(65_000),
+        redirect: "manual",
       });
       body = await response.text();
     } catch {

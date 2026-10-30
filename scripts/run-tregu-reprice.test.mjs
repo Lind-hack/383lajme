@@ -26,6 +26,15 @@ test("authentication errors are not retried", async () => {
   await assert.rejects(runReprice(options), /HTTP 401/);
   assert.equal(options.calls.length, 1);
 });
+test("uses the production canonical host and prevents POST-to-GET redirects", async () => {
+  const options = setup([reply(200)]);
+  options.env = { ...env, TREGU_AUTOMATION_URL: "https://www.383ks.com" };
+  await runReprice(options);
+  assert.equal(options.calls[0][0], "https://383ks.com/api/automation/tregu/reprice");
+  assert.equal(options.calls[0][1].method, "POST");
+  assert.equal(options.calls[0][1].redirect, "manual");
+  await assert.rejects(runReprice(setup([reply(301)])), /HTTP 301/);
+});
 test("fails on partial provider errors, invalid JSON and exhausted retries", async () => {
   for (const response of [reply(200, { ok: true, outcome: "completed_with_market_errors" }), reply(200, { ok: false }), new Response("<html>proxy error</html>")]) {
     await assert.rejects(runReprice(setup([response])));

@@ -12,11 +12,11 @@ test -f "$SOURCE/scripts/run-tregu-worker.sh"
 test -f "$HOST_DATA/automation/tregu.env"
 # Retain all previous effective units for rollback; never delete old releases.
 systemctl cat 383-tregu-reprice.service 383-tregu-research.service 383-tregu-monitor-failure@.service > "$backup/previous-units.txt"
-for name in run-tregu-worker.sh automation_http.py bota_email_report.py run-bota-gpt.py run-bota-gpt-email.py; do
+for name in run-tregu-worker.sh automation_http.py bota_email_report.py run-bota-gpt.py run-bota-gpt-email.py publish-automation-status.py; do
   if test -f "$HOST_DATA/scripts/$name"; then cp -p "$HOST_DATA/scripts/$name" "$backup/$name"; fi
   install -m 644 "$SOURCE/scripts/$name" "$HOST_DATA/scripts/$name"
 done
-chown --reference="$SOURCE/scripts/run-tregu-worker.sh" "$HOST_DATA/scripts/run-tregu-worker.sh" "$HOST_DATA/scripts/automation_http.py" "$HOST_DATA/scripts/bota_email_report.py" "$HOST_DATA/scripts/run-bota-gpt.py" "$HOST_DATA/scripts/run-bota-gpt-email.py"
+chown --reference="$SOURCE/scripts/run-tregu-worker.sh" "$HOST_DATA/scripts/run-tregu-worker.sh" "$HOST_DATA/scripts/automation_http.py" "$HOST_DATA/scripts/bota_email_report.py" "$HOST_DATA/scripts/run-bota-gpt.py" "$HOST_DATA/scripts/run-bota-gpt-email.py" "$HOST_DATA/scripts/publish-automation-status.py"
 for pair in '383-tregu-reprice.service reprice' '383-tregu-research.service research' '383-tregu-monitor-failure@.service alert'; do
   set -- $pair
   service=$1
