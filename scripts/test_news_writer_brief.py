@@ -8,6 +8,26 @@ from news_writer_brief import build
 
 
 class WriterBriefTests(unittest.TestCase):
+    def test_fresh_homepage_priority_survives_initial_writer_cap(self):
+        now = datetime.now(timezone.utc)
+        top = {**self.lead, 'pair_id':'Kosovë-top', 'url':'https://koha.net/top',
+               'published':now.isoformat(), 'title':'Government announces next meeting',
+               'homepage':{'url':'https://koha.net/', 'position':1, 'article_count':30,
+                           'observed_at':now.isoformat(), 'method':'public_html_dom_order'}}
+        other = {**self.lead, 'pair_id':'Kosovë-other', 'url':'https://koha.net/other',
+                 'published':now.isoformat(), 'title':'Urgent pension tax reform announced'}
+        for row in (top, other):
+            row.pop('facts_path',None)
+        self.write([other, top])
+        build(self.discovery,self.output,'Kosovë',cap=1,spares=0)
+        result = self.output.read_text(encoding='utf-8')
+        self.assertIn(top['url'],result)
+        self.assertNotIn(other['url'],result)
+        self.assertIn('public_html_dom_order',result)
+        self.assertIn('not measured visual position',result)
+        build(self.discovery,self.output,'Kosovë',cap=1,spares=1)
+        self.assertIn(other['url'],self.output.read_text(encoding='utf-8'))
+
     def test_fresh_ready_story_is_not_displaced_by_an_older_widely_covered_reserve(self):
         now = datetime.now(timezone.utc)
         older = {**self.lead, 'pair_id': 'Kosovë-old', 'url': 'https://koha.net/older',

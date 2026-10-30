@@ -10,6 +10,7 @@ from news_source_policy import CATEGORIES, publisher_for, source_error, independ
 from news_coverage import replacement_plan, CATEGORY_CEILING
 from cloud_news_discovery import freshness_bucket
 from news_reader_value import reader_value
+from news_homepage_priority import homepage_weight
 
 
 def build(discovery: Path, output: Path, categories: str = "", *, approved: Path | None = None,
@@ -41,6 +42,7 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         def note_priority(lead):
             risky = bool(lead.get("source_basis_warning"))
             attention = (bool(lead.get('coverage_already_published')), freshness_bucket(lead, now),
+                         reader_value(lead)['reserve_genre'], -homepage_weight(lead, now),
                          -reader_value(lead)['score'],
                          -min(lead.get('coverage_family_count', 1), 5))
             if not lead.get("facts_path"):
@@ -101,9 +103,11 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         identities.append({key: lead[key] for key in ('pair_id', 'url', 'category')})
         metadata = {key: lead.get(key) for key in ("pair_id", "category", "source", "url", "published", "city",
                                                    "requires_corroboration", "corroborates_url", "image_subject", "source_basis_warning",
-                                                   "coverage_family_count", "coverage_already_published")
+                                                   "coverage_family_count", "coverage_already_published", "homepage")
                     if lead.get(key) not in (None, "")}
         metadata['reader_value'] = reader_value(lead)
+        if homepage_weight(lead) > 0:
+            lines.append('Fresh publisher homepage order: prefer this lead over lower or unfeatured stories of comparable freshness and evidence. HTML order is an attention signal, not measured visual position, factual confirmation or a breaking-news label.')
         if lead.get("corroborates_url") and source_error(lead["category"], lead["corroborates_url"]):
             raise ValueError("corroborator is outside the story category")
         secondary = publisher_for(lead.get("corroborates_url"))

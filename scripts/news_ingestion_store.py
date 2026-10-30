@@ -68,12 +68,41 @@ class Inventory:
                 source TEXT PRIMARY KEY, completed_at REAL NOT NULL);
             CREATE TABLE IF NOT EXISTS scopes (
                 source TEXT PRIMARY KEY, since REAL NOT NULL);
+            CREATE TABLE IF NOT EXISTS homepage_pages (
+                url TEXT PRIMARY KEY, source TEXT NOT NULL, observed_at REAL NOT NULL,
+                articles TEXT NOT NULL);
             CREATE INDEX IF NOT EXISTS article_source ON articles(source,status);
             CREATE INDEX IF NOT EXISTS article_recent ON articles(fetched_at,status);
         ''')
 
     def close(self):
         self.db.close()
+
+    def save_homepage(self, source, url, articles, now):
+        # Replace the whole page, including an empty result. Feed/sitemap updates
+        # must neither overwrite the observation nor invalidate article caches.
+        from news_homepage_priority import homepage_article_identity
+        urls = list(dict.fromkeys(identity for row in articles
+                                  if (identity := homepage_article_identity(row['url']))))
+        self.db.execute('INSERT INTO homepage_pages VALUES(?,?,?,?) ON CONFLICT(url) DO UPDATE SET '
+                        'source=excluded.source,observed_at=excluded.observed_at,articles=excluded.articles',
+                        (url,source,now.timestamp(),json.dumps(urls)))
+        self.db.commit()
+
+    def homepage_observations(self, now):
+        from news_homepage_priority import MAX_AGE_SECONDS
+        from datetime import timezone
+        result = {}
+        for page in self.db.execute('SELECT * FROM homepage_pages WHERE observed_at BETWEEN ? AND ?',
+                                   (now.timestamp()-MAX_AGE_SECONDS,now.timestamp())):
+            urls = json.loads(page['articles'])
+            for position,url in enumerate(urls,1):
+                observation = dict(url=page['url'],source=page['source'],position=position,article_count=len(urls),
+                    observed_at=datetime.fromtimestamp(page['observed_at'],timezone.utc).isoformat(),
+                    method='public_html_dom_order')
+                if url not in result or position < result[url]['position']:
+                    result[url] = observation
+        return result
 
     def enqueue(self, task, run, *, refresh=False, commit=True):
         identity = hashlib.sha256(json.dumps([task['source'],task['kind'],task['url']]).encode()).hexdigest()

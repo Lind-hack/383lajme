@@ -47,6 +47,10 @@ class IngestionTests(unittest.TestCase):
         self.assertEqual(report['pending_tasks'],0)
         self.assertEqual(report['complete_publishers'],1)
         self.assertEqual(report['publishers_attempted_this_pass'],1)
+        promoted = [row for row in leads if row.get('homepage')]
+        self.assertEqual(len(promoted),20)
+        self.assertEqual({row['homepage']['position'] for row in promoted},set(range(1,21)))
+        self.assertTrue(all(row['homepage']['article_count']==20 for row in promoted))
 
     def test_every_registered_publisher_gets_routes_even_without_a_feed(self):
         manifest={**MANIFEST,'publishers':[PUBLISHER,{'source':'Anthropic','category':'Teknologji','domains':['anthropic.com']} ]}

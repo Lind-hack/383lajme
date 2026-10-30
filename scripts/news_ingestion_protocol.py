@@ -91,6 +91,7 @@ def listing_links(payload, base, publisher, spec=None):
     soup = BeautifulSoup(payload,'html.parser')
     spec = spec or {}
     articles, pages, maps, apis = {}, set(), set(), set()
+    homepage_articles = {}
     prefix = str(spec.get('article_path_prefix') or '')
     for link in soup.select('a[href], link[href]'):
         url = canonical(urljoin(base,str(link.get('href') or '')))
@@ -137,7 +138,17 @@ def listing_links(payload, base, publisher, spec=None):
             continue  # Navigation labels are not evidence of article URLs.
         clock = card.find('time',datetime=True) if card else None
         articles.setdefault(url,{'url':url,'title':title,'published':str(clock.get('datetime')) if clock else ''})
-    return {'articles':list(articles.values()),'pages':sorted(pages),'sitemaps':sorted(maps),'wordpress':sorted(apis)}
+        # Keep hidden links in retrieval inventory, but never call them prominent.
+        hidden = any(node.has_attr('hidden') or str(node.get('aria-hidden','')).lower() == 'true'
+                     or node.name in {'template','noscript','script','style'}
+                     or re.search(r'(?:display\s*:\s*none|visibility\s*:\s*hidden)',str(node.get('style','')),re.I)
+                     for node in [link,*link.parents] if getattr(node,'attrs',None) is not None)
+        # A card's category/author/image link must not borrow its headline.
+        if not hidden and (link.find(['h1','h2','h3']) is not None
+                           or link.find_parent(['h1','h2','h3']) is not None):
+            homepage_articles.setdefault(url,articles[url])
+    return {'articles':list(articles.values()),'pages':sorted(pages),'sitemaps':sorted(maps),'wordpress':sorted(apis),
+            'homepage_articles':list(homepage_articles.values())}
 
 
 def wordpress_url(base, after, page=1):
