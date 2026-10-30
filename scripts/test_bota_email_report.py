@@ -1,8 +1,18 @@
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 from bota_email_report import verify_public,verify_reader_html,render_report,send_report
 
 class EmailTests(unittest.TestCase):
+ def test_temporary_public_index_and_reader_errors_recover_before_reporting(self):
+  import httpx
+  article={'id':'a'*64,'firstSeen':'2026-10-02','readerUrl':'/bota-per-kosoven/artikull/'+'a'*64,'albanianTitle':'Kosova & bota'}
+  snapshot={'outlets':{'lastUpdated':'2026-10-02','stanceVersion':5,'totalArticles':1,'countries':{'Britani':{'outlets':[{'articles':[article]}]}}}}
+  request=httpx.Request('GET','https://383ks.com/api/bota')
+  responses=[httpx.Response(503,request=request),httpx.Response(200,json=snapshot,request=request),httpx.ReadTimeout('temporary reader failure'),httpx.Response(200,text='Përkthyer në shqip Kosova &amp; bota',request=request)]
+  with patch('httpx.get',side_effect=responses) as get, patch('automation_http.time.sleep'):
+   result=verify_public(self.outcome())
+  self.assertEqual(result['readerCount'],1)
+  self.assertEqual(get.call_count,4)
  def test_reader_wording_change_and_stable_identity(self):
   article={'id':'a'*64,'albanianTitle':'Kosova & bota'}
   for label in ['Përkthim në shqip','Përkthyer në shqip']:

@@ -1,5 +1,7 @@
 # 383 Tregu market automation (VPS runbook)
 
+October 30 recovery: the active repricer, research and failure-alert units referenced deleted `383lajme-news-373e7b3` / `383lajme-tregu-monitor-88fabce` releases. Keep these three workers on the dedicated clean `/opt/data/workspaces/383lajme-tregu-main` checkout using `scripts/run-tregu-worker.sh` and a mode-600 `/opt/data/automation/tregu.env` copied from the current verified Oracle environment. Do not use the legacy base checkout's Supabase configuration. `scripts/install-news-automation-reliability.sh` installs persistent runners and last-applied systemd overrides, retaining rollback files. News-release cleanup must retain this stable checkout and protected configuration. The repricer now bounds each HTTP request to 65 seconds and retries a transient failure once, fitting the service's 150-second budget. HTTP status, invalid JSON and explicit market/provider failures produce a failing exit status; successful evidence-free scans remain successful. Existing evidence fingerprints and odds caps still apply.
+
 383 Tregu is a virtual, educational 383C prediction market. Its live LMSR probability is moved by authenticated PO/JO 383C bets, a bounded verified-news Groq oracle, and bounded official live-score signals for configured sporting events. System adjustments change only LMSR market state (`q_yes`/`q_no`) and an auditable snapshot; they never change user balances, positions, or transactions. See [the current news-market flow](tregu-news-market-flow.md) for category and VPS state.
 
 ## Required environment

@@ -17,6 +17,9 @@ import time
 from urllib.parse import urlparse, urljoin
 from zoneinfo import ZoneInfo
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'scripts'))
+from automation_http import retry_http
+
 MODEL, EFFORT = 'gpt-6-luna', 'xhigh'
 SITE = 'https://383ks.com'
 RUN_STATE = Path('/opt/data/automation/bota')
@@ -312,13 +315,15 @@ def publish_saved(packet,report,headers,pending):
     packet=json.loads(checked.stdout)
     sys.path.insert(0,str(Path(__file__).parent.parent/'scripts'))
     from bota_email_report import verify_reader_html
-    r=httpx.post(SITE+'/api/automation/bota/daily',headers=headers,json=packet,timeout=60)
+    # The database deduplicates this exact packet by daily source identity.
+    # A lost response can therefore be retried without duplicating articles.
+    r=retry_http(httpx.post,SITE+'/api/automation/bota/daily',headers=headers,json=packet,timeout=60)
     if r.status_code>=400:
         try:validation_error=str(r.json().get('error','Request rejected'))[:300]
         except Exception:validation_error='Request rejected'
         print(json.dumps({'stage':'publish','httpStatus':r.status_code,'detail':validation_error}),file=sys.stderr)
     r.raise_for_status();report['publication']=r.json()
-    public=httpx.get(SITE+'/api/bota',timeout=30);public.raise_for_status()
+    public=retry_http(httpx.get,SITE+'/api/bota',timeout=30);public.raise_for_status()
     if public.json().get('outlets',{}).get('lastUpdated')!=packet['date']:raise RuntimeError('Public publication verification failed')
     inserted=set(report['publication']['articleIds'])
     cards={a['id'] for c in public.json().get('outlets',{}).get('countries',{}).values() for o in c.get('outlets',[]) for a in o.get('articles',[])}
@@ -327,7 +332,7 @@ def publish_saved(packet,report,headers,pending):
     def verify(article):
         ident=hashlib.sha256(article['url'].encode()).hexdigest()
         if ident not in inserted and ident not in cards:return
-        reader=httpx.get(SITE+'/bota-per-kosoven/artikull/'+ident,timeout=30);reader.raise_for_status()
+        reader=retry_http(httpx.get,SITE+'/bota-per-kosoven/artikull/'+ident,timeout=30);reader.raise_for_status()
         verify_reader_html(reader.text,{**article,'id':ident})
     with ThreadPoolExecutor(max_workers=8) as pool:list(pool.map(verify,packet['articles']))
     report.update(status='ok',result='published_verified')
@@ -344,16 +349,16 @@ def run(dry_run=False,limit=1200):
     RUN_STATE.mkdir(parents=True,exist_ok=True)
     pending=RUN_STATE/(date+'-pending.json')
     headers={'Authorization':'Bearer '+secret()}
-    context=httpx.get(SITE+'/api/automation/bota/daily',headers=headers,timeout=30);context.raise_for_status();context=context.json()
+    context=retry_http(httpx.get,SITE+'/api/automation/bota/daily',headers=headers,timeout=30);context.raise_for_status();context=context.json()
     if context.get('date')!=date:raise RuntimeError('Date protocol mismatch')
     recovered=None
     if pending.exists() and not dry_run:
         saved=json.loads(pending.read_text())
         if saved['packet'].get('date')!=date or saved['packet'].get('model')!=MODEL or saved['packet'].get('reasoningEffort')!=EFFORT:raise RuntimeError('Invalid saved publication provenance')
         recovered=publish_saved(saved['packet'],saved['report'],headers,pending)
-        context=httpx.get(SITE+'/api/automation/bota/daily',headers=headers,timeout=30);context.raise_for_status();context=context.json()
+        context=retry_http(httpx.get,SITE+'/api/automation/bota/daily',headers=headers,timeout=30);context.raise_for_status();context=context.json()
     if context.get('alreadyPublished') and not dry_run:
-        public=httpx.get(SITE+'/api/bota',timeout=30);public.raise_for_status()
+        public=retry_http(httpx.get,SITE+'/api/bota',timeout=30);public.raise_for_status()
         if public.json().get('outlets',{}).get('lastUpdated')!=date:raise RuntimeError('Published day failed public verification')
         return recovered or {'status':'ok','result':'already_published','date':date,'model':MODEL,'reasoningEffort':EFFORT}
     runtime=resolve_runtime();sources=discover(set(context.get('knownIds',[])));articles=[];receipts=[];failed=0;processed=0;transport_failures=0

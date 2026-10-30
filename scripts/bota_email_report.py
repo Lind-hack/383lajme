@@ -8,6 +8,7 @@ from pathlib import Path
 import smtplib
 import ssl
 from concurrent.futures import ThreadPoolExecutor
+from automation_http import retry_http
 
 RECIPIENT='lindsylqa@gmail.com'
 SITE='https://383ks.com'
@@ -25,7 +26,7 @@ def verify_reader_html(text, article):
 
 def verify_public(report, get=None):
     import httpx
-    get=get or httpx.get
+    get=get or (lambda *args, **kwargs: retry_http(httpx.get, *args, **kwargs))
     response=get(SITE+'/api/bota',timeout=30);response.raise_for_status()
     snapshot=response.json().get('outlets',{})
     if snapshot.get('lastUpdated')!=report['date'] or snapshot.get('stanceVersion')!=5:
