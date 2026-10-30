@@ -25,6 +25,10 @@ def fields(item, names):
     return {key: str(item.get(key) or '')[:500] for key in names}
 
 
+def storage_base(environ):
+    return (environ.get('AUTOMATION_STATUS_SUPABASE_URL') or environ['NEXT_PUBLIC_SUPABASE_URL']).rstrip('/') + '/storage/v1'
+
+
 def main():
     report = json.load(sys.stdin)
     discovery = read(ROOT / '.last30days/cloud-news-discovery-current.json', {})
@@ -48,9 +52,9 @@ def main():
         videos=[fields(v, ('title', 'url', 'publisher', 'published')) for v in videos[:40]])
     os.chdir(ROOT)
     load_env()
-    base = os.environ['NEXT_PUBLIC_SUPABASE_URL'].rstrip('/') + '/storage/v1'
+    base = storage_base(os.environ)
     key = os.environ['SUPABASE_SERVICE_ROLE_KEY']
-    headers = {'Authorization':'Bearer ' + key, 'apikey':key, 'Content-Type':'application/json'}
+    headers = {'Authorization':'Bearer ' + key, 'apikey':key, 'Content-Type':'application/json', 'User-Agent':'383-automation-status/1.0'}
     if '--setup' in sys.argv:
         req = urllib.request.Request(base + '/bucket', json.dumps({'id':'automation-status','name':'automation-status','public':False}).encode(), headers, method='POST')
         try:
