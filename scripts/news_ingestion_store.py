@@ -53,7 +53,8 @@ class Inventory:
                 url TEXT NOT NULL, hint TEXT NOT NULL, priority INTEGER NOT NULL,
                 state TEXT NOT NULL DEFAULT 'pending', next_try REAL NOT NULL DEFAULT 0,
                 attempts INTEGER NOT NULL DEFAULT 0, error TEXT NOT NULL DEFAULT '',
-                seen_run TEXT NOT NULL, done_run TEXT NOT NULL DEFAULT '');
+                seen_run TEXT NOT NULL, done_run TEXT NOT NULL DEFAULT '',
+                url_identity TEXT NOT NULL DEFAULT '');
             CREATE INDEX IF NOT EXISTS task_queue ON tasks(state,next_try,priority);
             CREATE INDEX IF NOT EXISTS task_dispatch ON tasks(state,priority);
             CREATE INDEX IF NOT EXISTS task_source ON tasks(source,state,priority);
@@ -68,20 +69,116 @@ class Inventory:
                 source TEXT PRIMARY KEY, completed_at REAL NOT NULL);
             CREATE TABLE IF NOT EXISTS scopes (
                 source TEXT PRIMARY KEY, since REAL NOT NULL);
+            CREATE TABLE IF NOT EXISTS homepage_pages (
+                url TEXT PRIMARY KEY, source TEXT NOT NULL, observed_at REAL NOT NULL,
+                articles TEXT NOT NULL, metadata TEXT NOT NULL DEFAULT '{}');
+            CREATE TABLE IF NOT EXISTS homepage_links (
+                homepage TEXT NOT NULL, source TEXT NOT NULL, article_identity TEXT NOT NULL,
+                position INTEGER NOT NULL, observed_at REAL NOT NULL,
+                PRIMARY KEY(homepage,article_identity));
+            CREATE INDEX IF NOT EXISTS homepage_rank ON homepage_links(position,observed_at,source);
             CREATE INDEX IF NOT EXISTS article_source ON articles(source,status);
             CREATE INDEX IF NOT EXISTS article_recent ON articles(fetched_at,status);
         ''')
+        if 'url_identity' not in {row[1] for row in self.db.execute('PRAGMA table_info(tasks)')}:
+            try:
+                self.db.execute("ALTER TABLE tasks ADD COLUMN url_identity TEXT NOT NULL DEFAULT ''")
+            except sqlite3.OperationalError:
+                if 'url_identity' not in {row[1] for row in self.db.execute('PRAGMA table_info(tasks)')}:
+                    raise
+        # Resumable even if a previous process stopped after ALTER or mid-backfill.
+        self.db.execute("CREATE INDEX IF NOT EXISTS task_missing_identity ON tasks(id) WHERE kind='article' AND url_identity=''")
+        rows = self.db.execute("SELECT id,url FROM tasks WHERE kind='article' AND url_identity='' "
+                               "AND (url LIKE 'http://%' OR url LIKE 'https://%')").fetchall()
+        if rows:
+            from news_homepage_priority import homepage_article_identity
+            with self.db:
+                self.db.executemany("UPDATE tasks SET url_identity=? WHERE id=? AND url_identity=''",
+                    [(identity,row['id']) for row in rows if (identity := homepage_article_identity(row['url']))])
+        self.db.execute('CREATE INDEX IF NOT EXISTS task_identity ON tasks(source,kind,url_identity)')
+        if 'metadata' not in {row[1] for row in self.db.execute('PRAGMA table_info(homepage_pages)')}:
+            self.db.execute("ALTER TABLE homepage_pages ADD COLUMN metadata TEXT NOT NULL DEFAULT '{}'")
+            self.db.commit()
 
     def close(self):
         self.db.close()
 
+    def save_homepage(self, source, url, articles, now, *, method='public_html_dom_order', viewport=None,
+                      render_error='', discovered_articles=None):
+        # Replace the whole page, including an empty result. Feed/sitemap updates
+        # must neither overwrite the observation nor invalidate article caches.
+        from news_homepage_priority import homepage_article_identity
+        urls = list(dict.fromkeys(identity for row in articles
+                                  if (identity := homepage_article_identity(row['url']))))
+        geometry = {}
+        for row in articles:
+            geometry.setdefault(homepage_article_identity(row['url']),row.get('geometry'))
+        metadata = dict(method=method,viewport=viewport,geometry=geometry,render_error=render_error,
+                        discovered_articles=discovered_articles if discovered_articles is not None else articles)
+        from news_homepage_priority import homepage_weight
+        links = []
+        for position,identity in enumerate(urls,1):
+            attention = dict(position=position,article_count=len(urls),observed_at=now.isoformat(),
+                             method=method,geometry=geometry[identity],viewport=viewport)
+            if homepage_weight({'homepage':attention},now) > 0:
+                links.append((url,source,identity,position,now.timestamp()))
+        with self.db:
+            self.db.execute('INSERT INTO homepage_pages(url,source,observed_at,articles,metadata) VALUES(?,?,?,?,?) '
+                            'ON CONFLICT(url) DO UPDATE SET source=excluded.source,observed_at=excluded.observed_at,'
+                            'articles=excluded.articles,metadata=excluded.metadata',
+                            (url,source,now.timestamp(),json.dumps(urls),json.dumps(metadata)))
+            self.db.execute('DELETE FROM homepage_links WHERE homepage=?',(url,))
+            self.db.executemany('INSERT INTO homepage_links VALUES(?,?,?,?,?)',links)
+
+    def cached_homepage(self, url, now, *, max_age=900):
+        page = self.db.execute('SELECT * FROM homepage_pages WHERE url=? AND observed_at BETWEEN ? AND ?',
+                              (url,now.timestamp()-max_age,now.timestamp())).fetchone()
+        if page is None:
+            return None
+        metadata = json.loads(page['metadata'])
+        if metadata.get('method') != 'public_browser_geometry':
+            return None
+        return dict(url=url,method=metadata['method'],viewport=metadata['viewport'],
+                    discovered_articles=metadata.get('discovered_articles',[]),
+                    captured_at=page['observed_at'],articles=[dict(url=url,title='',published='',
+                        geometry=metadata['geometry'].get(url)) for url in json.loads(page['articles'])])
+
+    def homepage_status(self, source, now):
+        result = []
+        for page in self.db.execute('SELECT * FROM homepage_pages WHERE source=?',(source,)):
+            metadata = json.loads(page['metadata'])
+            result.append(dict(url=page['url'],method=metadata.get('method','public_html_dom_order'),
+                age_seconds=round(now.timestamp()-page['observed_at'],1),
+                headline_links=len(json.loads(page['articles'])),render_error=metadata.get('render_error','')))
+        return result
+
+    def homepage_observations(self, now):
+        from news_homepage_priority import MAX_AGE_SECONDS
+        from datetime import timezone
+        result = {}
+        for page in self.db.execute('SELECT * FROM homepage_pages WHERE observed_at BETWEEN ? AND ?',
+                                   (now.timestamp()-MAX_AGE_SECONDS,now.timestamp())):
+            urls = json.loads(page['articles'])
+            metadata = json.loads(page['metadata'])
+            for position,url in enumerate(urls,1):
+                observation = dict(url=page['url'],source=page['source'],position=position,article_count=len(urls),
+                    observed_at=datetime.fromtimestamp(page['observed_at'],timezone.utc).isoformat(),
+                    method=metadata.get('method','public_html_dom_order'))
+                if observation['method'] == 'public_browser_geometry':
+                    observation.update(geometry=metadata['geometry'].get(url),viewport=metadata['viewport'])
+                if url not in result or position < result[url]['position']:
+                    result[url] = observation
+        return result
+
     def enqueue(self, task, run, *, refresh=False, commit=True):
+        from news_homepage_priority import homepage_article_identity
         identity = hashlib.sha256(json.dumps([task['source'],task['kind'],task['url']]).encode()).hexdigest()
         previous = self.db.execute('SELECT * FROM tasks WHERE id=?',(identity,)).fetchone()
         hint = json.dumps(task.get('hint',{}),ensure_ascii=False,sort_keys=True)
         if previous is None:
-            self.db.execute('INSERT INTO tasks(id,source,kind,url,hint,priority,seen_run) VALUES(?,?,?,?,?,?,?)',
-                (identity,task['source'],task['kind'],task['url'],hint,task.get('priority',5),run))
+            self.db.execute('INSERT INTO tasks(id,source,kind,url,hint,priority,seen_run,url_identity) VALUES(?,?,?,?,?,?,?,?)',
+                (identity,task['source'],task['kind'],task['url'],hint,task.get('priority',5),run,
+                 homepage_article_identity(task['url']) if task['kind']=='article' else ''))
         else:
             prior_hint = json.loads(previous['hint'])
             incoming = task.get('hint',{})
@@ -133,6 +230,21 @@ class Inventory:
         row = self.db.execute('SELECT articles FROM dispatches WHERE source=?',(source,)).fetchone()
         return row is not None and row[0] % 5 == 4
 
+    def homepage_task(self, now=None, *, exclude_sources=(), source=None):
+        """Indexed current homepage candidates; never replace source-cache hints."""
+        from news_homepage_priority import MAX_AGE_SECONDS
+        now = time.time() if now is None else now
+        clause = ' AND h.source NOT IN ('+','.join('?' for _ in exclude_sources)+')' if exclude_sources else ''
+        if source is not None:
+            clause += ' AND h.source=?'
+        row = self.db.execute('''SELECT t.* FROM homepage_links AS h INDEXED BY homepage_rank
+            CROSS JOIN tasks AS t INDEXED BY task_identity
+            ON t.source=h.source AND t.kind='article' AND t.url_identity=h.article_identity
+            WHERE h.observed_at BETWEEN ? AND ? AND t.state='pending' AND t.next_try<=?'''+clause+'''
+            ORDER BY h.position,t.priority,julianday(json_extract(t.hint,'$.published')) DESC,t.seen_run DESC,t.rowid LIMIT 1''',
+            (now-MAX_AGE_SECONDS,now,now,*exclude_sources,*((source,) if source is not None else ()))).fetchone()
+        return {**dict(row),'hint':json.loads(row['hint'])} if row else None
+
     def running(self, identity):
         self.db.execute('''INSERT INTO dispatches(source,articles)
             SELECT source,1 FROM tasks WHERE id=? AND kind='article'
@@ -165,8 +277,9 @@ class Inventory:
         for row in self.db.execute('SELECT * FROM articles'+where,values):
             yield {**dict(row),'hint':json.loads(row['hint']),'evidence':json.loads(row['evidence'])}
 
-    def finish(self, identity, run):
-        self.db.execute("UPDATE tasks SET state='done',done_run=?,error='',next_try=0,attempts=attempts+1 WHERE id=?",(run,identity))
+    def finish(self, identity, run, *, next_try=0):
+        self.db.execute("UPDATE tasks SET state='done',done_run=?,error='',next_try=?,attempts=attempts+1 WHERE id=?",
+                        (run,next_try,identity))
         self.db.commit()
 
     def fail(self, identity, error, *, retry_after=300):

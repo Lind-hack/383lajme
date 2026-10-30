@@ -27,6 +27,7 @@ from zoneinfo import ZoneInfo
 
 import feedparser
 import requests
+from news_homepage_priority import homepage_weight
 from bs4 import BeautifulSoup
 from news_source_policy import MANIFEST, CATEGORIES, source_error, topic_error, publisher_for, independent
 
@@ -470,8 +471,12 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=(), *, n
                 unique.setdefault(identity, dict(lead, **coverage[url], reader_value=reader_value(lead),
                     coverage_already_published=any(source_identity(item) in excluded
                         for item in coverage[url]['coverage_urls'])))
+                if homepage_weight(lead, now) > homepage_weight(unique[identity], now):
+                    unique[identity]['homepage'] = lead['homepage']
         pool = sorted(unique.values(), key=lambda item: (
-            not item['coverage_already_published'], -freshness_bucket(item, now), item['reader_value']['score'], min(item['coverage_family_count'], 5),
+            not item['coverage_already_published'], -freshness_bucket(item, now),
+            not item['reader_value']['reserve_genre'], homepage_weight(item, now),
+            item['reader_value']['score'], min(item['coverage_family_count'], 5),
             rank(item), item.get("published", "")), reverse=True)
         chosen = []
         family_counts = Counter()
@@ -480,6 +485,8 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=(), *, n
             # Known covered events remain reserves for a genuine new development.
             anchor = min(pool, key=lambda item: (item['coverage_already_published'],
                          freshness_bucket(item, now),
+                         item['reader_value']['reserve_genre'],
+                         -homepage_weight(item, now),
                          -item['reader_value']['score'],
                          -min(item['coverage_family_count'], 5),
                          family_counts[publisher_for(item["url"])["family"]]))
@@ -575,6 +582,7 @@ def main() -> int:
                 f"- Corroboration pair: {lead.get('pair_id', 'none')}",
                 f"- Independent corroborating URL: {lead.get('corroborates_url', 'not pre-matched')}",
                 f"- Independent publisher families covering this event: {lead.get('coverage_family_count', 1)} (discovery signal, not verification)",
+                f"- Publisher homepage observation (attention only): {json.dumps(lead.get('homepage'), ensure_ascii=False)}",
                 f"- Summary (discovery only): {lead['summary'] or 'No RSS summary available.'}",
                 f"- Primary-source status: {'discovery-only for this lane' if lead.get('discovery_only') else 'eligible only after independent verification'}",
                 "",

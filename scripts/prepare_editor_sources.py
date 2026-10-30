@@ -283,6 +283,7 @@ def prioritize_grounded_leads(leads: list[dict], *, now=None) -> list[dict]:
     """
     from cloud_news_discovery import freshness_bucket
     from news_reader_value import reader_value
+    from news_homepage_priority import homepage_weight
     from datetime import datetime, timezone
     now = now or datetime.now(timezone.utc)
     def priority(lead: dict) -> tuple:
@@ -291,6 +292,7 @@ def prioritize_grounded_leads(leads: list[dict], *, now=None) -> list[dict]:
                     if lead.get(key, {}).get("status") == "text_extracted")
         return (bool(lead.get("source_basis_warning") or source_basis_warning(lead)),
                 words < 140, words < 80, bool(lead.get('coverage_already_published')), freshness_bucket(lead, now),
+                reader_value(lead)['reserve_genre'], -homepage_weight(lead, now),
                 -reader_value(lead)['score'],
                 -min(lead.get('coverage_family_count', 1), 5))
     return sorted(leads, key=priority)

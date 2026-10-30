@@ -38,6 +38,28 @@ def fixture_fetch(url,**kwargs):
 
 
 class IngestionTests(unittest.TestCase):
+    def test_homepage_refresh_is_not_repeated_on_every_collector_pass(self):
+        from datetime import timedelta
+        roots = []
+        def fetcher(url, **kwargs):
+            if url == 'https://techcrunch.com/':
+                roots.append(url)
+                body = '<h2><a href="/one-story">OpenAI launches a model today</a></h2>'
+            elif url == 'https://techcrunch.com/one-story':
+                body = ('<meta property="article:published_time" content="'+NOW.isoformat()+'">'
+                        '<article><h1>OpenAI launches a model today</h1><p>'+('Verified OpenAI model news. '*100)+'</p></article>')
+            else:
+                raise PublicHTTPError(404)
+            return dict(url=url,payload=body.encode(),headers={})
+        manifest = {**MANIFEST,'feeds':[]}
+        with tempfile.TemporaryDirectory() as folder:
+            state = Path(folder)/'inventory.sqlite'
+            for seconds in (0,60,301):
+                now = NOW+timedelta(seconds=seconds)
+                with patch('time.time',return_value=now.timestamp()):
+                    collect(manifest,state,budget_seconds=0,now=now,fetcher=fetcher)
+                self.assertEqual(len(roots),2 if seconds == 301 else 1)
+
     def test_feed_sitemap_and_pagination_all_retrieve_before_any_publication_cap(self):
         with tempfile.TemporaryDirectory() as folder:
             leads,audits,evidence,report=collect(MANIFEST,Path(folder)/'inventory.sqlite',budget_seconds=0,now=NOW,fetcher=fixture_fetch)
@@ -47,6 +69,10 @@ class IngestionTests(unittest.TestCase):
         self.assertEqual(report['pending_tasks'],0)
         self.assertEqual(report['complete_publishers'],1)
         self.assertEqual(report['publishers_attempted_this_pass'],1)
+        promoted = [row for row in leads if row.get('homepage')]
+        self.assertEqual(len(promoted),20)
+        self.assertEqual({row['homepage']['position'] for row in promoted},set(range(1,21)))
+        self.assertTrue(all(row['homepage']['article_count']==20 for row in promoted))
 
     def test_every_registered_publisher_gets_routes_even_without_a_feed(self):
         manifest={**MANIFEST,'publishers':[PUBLISHER,{'source':'Anthropic','category':'Teknologji','domains':['anthropic.com']} ]}
@@ -109,7 +135,10 @@ class IngestionTests(unittest.TestCase):
             with patch('time.time', return_value=NOW.timestamp()+60):
                 leads,_,_,report=collect(MANIFEST,state,budget_seconds=0,now=NOW+timedelta(minutes=1),fetcher=fixture_fetch)
         self.assertEqual(len(leads),225)
-        self.assertEqual(report['cached_articles'],225)
+        # The root cooldown also avoids reopening its pagination chain. Those
+        # 25 stored articles remain usable without even a new queue-cache check.
+        self.assertEqual(report['cached_articles'],200)
+        self.assertEqual(report['stored_readable_articles'],225)
         self.assertEqual(report['articles_retrieved'],0)
 
     def test_editor_reuses_fresh_evidence_but_refetches_stale_or_wrong_publisher(self):
