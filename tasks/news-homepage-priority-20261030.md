@@ -73,3 +73,58 @@ eight with exact live readback: Kosovë 2, Shqipëri 1, Sport 0, Teknologji 0,
 Ekonomi 1, Botë 2, Showbiz 2. All eight final context reviews returned valid
 decisions, against 154 historical articles. Twenty publications and two to three
 per category remain unproven and unmet in this run.
+
+## Rendered geometry implementation checkpoint
+
+The common production root-listing path now uses the existing Chromium and
+playwright-core stack to measure headline/card geometry at 1440×1000. No new
+scraping account, provider or dependency was added. Public HTTP remains routed
+through `fetch_public`, including its pinned public-address checks and access
+failures. CSS must load successfully with a CSS MIME type; a transport error,
+soft block or timeout records an explicit HTML fallback rather than approving
+unstyled geometry.
+
+Visible headline cards rank by their actual top edge, then headline size/card
+area for ties. Dynamic, hidden, horizontal-offscreen and below-fold headline
+links remain a separate retrieval inventory. Geometry stays solely in homepage
+metadata, outside article cache hints. Successful geometry can be reused for
+fifteen minutes with its original capture timestamp; attention still expires
+after one hour. The collector report exposes each page's method, age and error.
+
+Bounds: two simultaneous browsers per collector; four simultaneous resource
+fetches per render; 256 requests; 32 MB of body allocations reserved before
+parallel retrieval; a spawned renderer/bridge process with a 42-second parent
+deadline. Linux cleanup captures descendant PID identities before the wrapper
+exits and forces remaining children down independently of wrapper liveness or
+Chromium's detached group. Windows uses the preserved wrapper process tree.
+
+Native checks prove CSS order over document order, dynamic wrapper changes,
+lower/hidden/offscreen retention through the production root path, unchanged
+article-cache keys, cache timestamp preservation, parallel body limits, slow
+fetch termination and a detached child ignoring normal termination. The 137-test
+native suite passes; the final HTTP200/HTML-as-CSS regression passes separately.
+The 137-test Windows run passes with seven native-browser tests skipped. The
+production build passes. Independent review found these defects and their
+regressions before the checkpoint was committed.
+
+The real seven-publisher geometry probe returned candidates from TechCrunch,
+Telegrafi, Lapsi, Al Jazeera and Variety, zero from ESPN and a CNBC deadline.
+These initial counts precede the stricter CSS guard, so they are not proof that
+all those sites pass the final implementation. A subsequent strict-CSS native
+TechCrunch probe found 76 candidates, with the same large lead, DoorDash card
+and top-headlines column shown in the owner's image. The saved screenshot was
+inspected against that image. Noncritical resource failures remain reported.
+The final independent review reports no findings after all identified fixes.
+
+The 15:00 UTC production slot on the unchanged `4f4322f4` worker completed with
+five articles (Kosovë 2, Shqipëri 0, Sport 1, Teknologji 1, Ekonomi 0, Botë 0,
+Showbiz 1). The independent read-only audit at 15:49 UTC verified 162 historical
+comparisons, source/copy hashes, native image attestations at publication,
+distinct current photo bytes and exact database/public content for all five.
+This is another verified shortfall, not production evidence for unreleased code.
+
+Still required: registry-wide shadow evidence and scheduling/capacity checks,
+verify top-homepage stories get early retrieval as well as editorial priority,
+complete review of any follow-up changes, release and scheduled production
+verification. This remains an unreleased checkpoint and does not establish
+complete coverage of every website or the publication/category target.

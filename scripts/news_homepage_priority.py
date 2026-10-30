@@ -1,5 +1,6 @@
 """Fresh publisher-homepage attention, never factual or publication approval."""
 from datetime import datetime, timezone
+import math
 from urllib.parse import urlsplit
 
 
@@ -35,10 +36,18 @@ def homepage_weight(lead, now=None):
         position, total = observed['position'], observed['article_count']
         checked = datetime.fromisoformat(observed['observed_at'])
         age = ((now or datetime.now(timezone.utc))-checked).total_seconds()
-        if (observed.get('method') != 'public_html_dom_order'
+        if (observed.get('method') not in {'public_html_dom_order','public_browser_geometry'}
                 or type(position) is not int or type(total) is not int
                 or not 1 <= position <= total or not 0 <= age <= MAX_AGE_SECONDS):
             return 0.0
+        if observed['method'] == 'public_browser_geometry':
+            geometry, viewport = observed.get('geometry') or {}, observed.get('viewport') or {}
+            if not (isinstance(geometry,dict) and isinstance(viewport,dict)
+                    and all(isinstance(geometry.get(k),(int,float)) and math.isfinite(geometry[k])
+                        and geometry[k] >= 0 for k in ('top','left','width','height'))
+                    and geometry['width'] > 0 and geometry['height'] > 0
+                    and viewport.get('width',0) > 0 and viewport.get('height',0) > 0):
+                return 0.0
         return 1.0/position
     except (KeyError, TypeError, ValueError, OverflowError):
         return 0.0

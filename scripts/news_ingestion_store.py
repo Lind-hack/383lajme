@@ -70,24 +70,56 @@ class Inventory:
                 source TEXT PRIMARY KEY, since REAL NOT NULL);
             CREATE TABLE IF NOT EXISTS homepage_pages (
                 url TEXT PRIMARY KEY, source TEXT NOT NULL, observed_at REAL NOT NULL,
-                articles TEXT NOT NULL);
+                articles TEXT NOT NULL, metadata TEXT NOT NULL DEFAULT '{}');
             CREATE INDEX IF NOT EXISTS article_source ON articles(source,status);
             CREATE INDEX IF NOT EXISTS article_recent ON articles(fetched_at,status);
         ''')
+        if 'metadata' not in {row[1] for row in self.db.execute('PRAGMA table_info(homepage_pages)')}:
+            self.db.execute("ALTER TABLE homepage_pages ADD COLUMN metadata TEXT NOT NULL DEFAULT '{}'")
+            self.db.commit()
 
     def close(self):
         self.db.close()
 
-    def save_homepage(self, source, url, articles, now):
+    def save_homepage(self, source, url, articles, now, *, method='public_html_dom_order', viewport=None,
+                      render_error='', discovered_articles=None):
         # Replace the whole page, including an empty result. Feed/sitemap updates
         # must neither overwrite the observation nor invalidate article caches.
         from news_homepage_priority import homepage_article_identity
         urls = list(dict.fromkeys(identity for row in articles
                                   if (identity := homepage_article_identity(row['url']))))
-        self.db.execute('INSERT INTO homepage_pages VALUES(?,?,?,?) ON CONFLICT(url) DO UPDATE SET '
-                        'source=excluded.source,observed_at=excluded.observed_at,articles=excluded.articles',
-                        (url,source,now.timestamp(),json.dumps(urls)))
+        geometry = {}
+        for row in articles:
+            geometry.setdefault(homepage_article_identity(row['url']),row.get('geometry'))
+        metadata = dict(method=method,viewport=viewport,geometry=geometry,render_error=render_error,
+                        discovered_articles=discovered_articles if discovered_articles is not None else articles)
+        self.db.execute('INSERT INTO homepage_pages(url,source,observed_at,articles,metadata) VALUES(?,?,?,?,?) '
+                        'ON CONFLICT(url) DO UPDATE SET source=excluded.source,observed_at=excluded.observed_at,'
+                        'articles=excluded.articles,metadata=excluded.metadata',
+                        (url,source,now.timestamp(),json.dumps(urls),json.dumps(metadata)))
         self.db.commit()
+
+    def cached_homepage(self, url, now, *, max_age=900):
+        page = self.db.execute('SELECT * FROM homepage_pages WHERE url=? AND observed_at BETWEEN ? AND ?',
+                              (url,now.timestamp()-max_age,now.timestamp())).fetchone()
+        if page is None:
+            return None
+        metadata = json.loads(page['metadata'])
+        if metadata.get('method') != 'public_browser_geometry':
+            return None
+        return dict(url=url,method=metadata['method'],viewport=metadata['viewport'],
+                    discovered_articles=metadata.get('discovered_articles',[]),
+                    captured_at=page['observed_at'],articles=[dict(url=url,title='',published='',
+                        geometry=metadata['geometry'].get(url)) for url in json.loads(page['articles'])])
+
+    def homepage_status(self, source, now):
+        result = []
+        for page in self.db.execute('SELECT * FROM homepage_pages WHERE source=?',(source,)):
+            metadata = json.loads(page['metadata'])
+            result.append(dict(url=page['url'],method=metadata.get('method','public_html_dom_order'),
+                age_seconds=round(now.timestamp()-page['observed_at'],1),
+                headline_links=len(json.loads(page['articles'])),render_error=metadata.get('render_error','')))
+        return result
 
     def homepage_observations(self, now):
         from news_homepage_priority import MAX_AGE_SECONDS
@@ -96,10 +128,13 @@ class Inventory:
         for page in self.db.execute('SELECT * FROM homepage_pages WHERE observed_at BETWEEN ? AND ?',
                                    (now.timestamp()-MAX_AGE_SECONDS,now.timestamp())):
             urls = json.loads(page['articles'])
+            metadata = json.loads(page['metadata'])
             for position,url in enumerate(urls,1):
                 observation = dict(url=page['url'],source=page['source'],position=position,article_count=len(urls),
                     observed_at=datetime.fromtimestamp(page['observed_at'],timezone.utc).isoformat(),
-                    method='public_html_dom_order')
+                    method=metadata.get('method','public_html_dom_order'))
+                if observation['method'] == 'public_browser_geometry':
+                    observation.update(geometry=metadata['geometry'].get(url),viewport=metadata['viewport'])
                 if url not in result or position < result[url]['position']:
                     result[url] = observation
         return result

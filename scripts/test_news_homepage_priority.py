@@ -25,6 +25,43 @@ def observation(position, **extra):
 
 
 class HomepagePriorityTests(unittest.TestCase):
+    def test_rendered_priority_is_cached_without_renewing_capture_time_or_losing_dynamic_urls(self):
+        from news_homepage_priority import homepage_weight
+        top = dict(url='https://techcrunch.com/dynamic', title='Dynamic headline news', published='',
+                   geometry=dict(top=40,left=0,width=600,height=400))
+        viewport = dict(width=1440,height=1000)
+        with tempfile.TemporaryDirectory() as folder:
+            store = Inventory(Path(folder)/'inventory.sqlite')
+            try:
+                store.save_homepage(PUB['source'],'https://techcrunch.com/',[top],NOW,
+                                    method='public_browser_geometry',viewport=viewport)
+                cached = store.cached_homepage('https://techcrunch.com/',NOW+timedelta(minutes=5))
+                self.assertEqual(cached['captured_at'],NOW.timestamp())
+                self.assertIsNone(store.cached_homepage('https://techcrunch.com/',NOW+timedelta(minutes=16)))
+                observation = store.homepage_observations(NOW)[top['url']]
+                self.assertGreater(homepage_weight({'homepage':observation},NOW),0)
+                task = dict(source=PUB['source'],kind='listing',url='https://techcrunch.com/',
+                            hint={},homepage_cached=cached)
+                result = _execute(task,{PUB['source']:PUB},{},NOW,
+                    lambda url,**kw:dict(url=url,payload=b'<html></html>',headers={}),
+                    renderer=lambda *args: self.fail('cached page must not relaunch browser'))
+                self.assertIn(top['url'],[row['url'] for row in result['articles']])
+                self.assertNotIn('geometry',result['articles'][0])
+                self.assertEqual(result['homepage']['captured_at'],NOW.timestamp())
+            finally:
+                store.close()
+
+    def test_renderer_failure_keeps_html_and_explicit_diagnostic(self):
+        task = dict(source=PUB['source'],kind='listing',url='https://techcrunch.com/',hint={})
+        def unavailable(*args):
+            raise ValueError('renderer deadline')
+        result = _execute(task,{PUB['source']:PUB},{},NOW,
+            lambda url,**kw:dict(url=url,payload=b'<h2><a href="/fallback">Fallback headline news</a></h2>',headers={}),
+            renderer=unavailable)
+        self.assertEqual(result['homepage']['method'],'public_html_dom_order')
+        self.assertEqual(result['homepage']['render_error'],'renderer deadline')
+        self.assertEqual(len(result['articles']),1)
+
     def test_homepage_order_survives_selection_and_grounded_preparation(self):
         lower = lead('Atlas', homepage=observation(90))
         top = lead('Orion', homepage=observation(1))

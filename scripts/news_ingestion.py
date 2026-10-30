@@ -46,7 +46,7 @@ def next_task(store, excluded):
     return task
 
 
-def _execute(task, publishers, cutoffs, now, fetcher):
+def _execute(task, publishers, cutoffs, now, fetcher, *, renderer=None):
     publisher = publishers[task['source']]
     if task['kind']!='feed' and not owned(task['url'],publisher):
         raise ValueError('discovery task leaves its registered publisher')
@@ -96,7 +96,26 @@ def _execute(task, publishers, cutoffs, now, fetcher):
         # A root may redirect to its owned regional/edition landing page.
         # Ownership was checked above; ordinary section tasks still cannot qualify.
         if is_homepage(task['url'],publisher):
-            result['homepage'] = {'url':task['url'],'articles':links['homepage_articles']}
+            homepage = dict(url=task['url'],articles=links['homepage_articles'],method='public_html_dom_order')
+            if renderer is None and fetcher is fetch_public:
+                from news_homepage_render import render_homepage
+                renderer = render_homepage
+            if task.get('homepage_cached'):
+                homepage = task['homepage_cached']
+            elif renderer is not None:
+                try:
+                    rendered = renderer(response,publisher)
+                    homepage['discovered_articles'] = rendered.get('discovered_articles',rendered['articles'])
+                    if rendered['articles']:
+                        homepage.update(articles=rendered['articles'],method=rendered['method'],viewport=rendered['viewport'])
+                    else:
+                        homepage['render_error'] = 'no rendered headline links'
+                except Exception as exc:
+                    homepage['render_error'] = str(exc)[:500]
+            result['homepage'] = homepage
+            if homepage.get('discovered_articles') or homepage['method'] == 'public_browser_geometry':
+                result['articles'] += [{key:row.get(key,'') for key in ('url','title','published')}
+                                       for row in homepage.get('discovered_articles',homepage['articles'])]
         result['tasks'] = [dict(source=task['source'],kind='listing',url=url,priority=3,hint=task['hint']) for url in links['pages']]
         result['tasks'] += [dict(source=task['source'],kind='sitemap',url=url,priority=3,hint={}) for url in links['sitemaps']]
         for api in links['wordpress']:
@@ -181,6 +200,8 @@ def _collect(manifest, state, *, budget_seconds=240, now=None, fetcher=fetch_pub
                     continue
                 occupied.add(task['source'])
                 store.running(task['id'])
+                if task['kind']=='listing' and is_homepage(task['url'],publishers[task['source']]):
+                    task['homepage_cached'] = store.cached_homepage(task['url'],now)
                 counters[task['source']]['requests_started'] += 1
                 active[pool.submit(_execute,task,publishers,cutoffs,now,fetcher)] = task
             if not active:
@@ -195,8 +216,12 @@ def _collect(manifest, state, *, budget_seconds=240, now=None, fetcher=fetch_pub
                     counter['documents_retrieved'] += 1
                     counter['usable_indexes'] += result['index_confirmed']
                     if result['homepage'] is not None:
-                        store.save_homepage(task['source'],result['homepage']['url'],
-                                            result['homepage']['articles'],now)
+                        page = result['homepage']
+                        captured = datetime.fromtimestamp(page['captured_at'],timezone.utc) if 'captured_at' in page else now
+                        store.save_homepage(task['source'],page['url'],page['articles'],captured,
+                                            method=page['method'],viewport=page.get('viewport'),
+                                            render_error=page.get('render_error',''),
+                                            discovered_articles=page.get('discovered_articles',[]))
                     if result['evidence'] is not None:
                         evidence = result['evidence']
                         store.save_evidence(task['source'],task['url'],task['hint'],evidence)
@@ -284,6 +309,7 @@ def _snapshot(store, publishers, now, counters, started, *, checkpoint):
             'url':'https://'+publisher['domains'][0]+'/',
             'status':'complete' if complete else 'incomplete',
             'scope':'configured public feeds, listings and discovered sitemaps',
+            'homepages':store.homepage_status(source,now),
             'homepage_promoted_articles':sum(lead['source']==source and bool(lead.get('homepage')) for lead in leads),
             'eligible':sum(lead['source']==source for lead in leads)})
     report = {'run':now.isoformat(),'registered_publishers':len(publishers),'elapsed_seconds':round(time.time()-started,1),

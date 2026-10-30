@@ -107,7 +107,7 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
                     if lead.get(key) not in (None, "")}
         metadata['reader_value'] = reader_value(lead)
         if homepage_weight(lead) > 0:
-            lines.append('Fresh publisher homepage order: prefer this lead over lower or unfeatured stories of comparable freshness and evidence. HTML order is an attention signal, not measured visual position, factual confirmation or a breaking-news label.')
+            lines.append('Fresh publisher homepage order: prefer this lead over lower or unfeatured stories of comparable freshness and evidence. public_browser_geometry measures rendered headline/card positions; public_html_dom_order is an HTML fallback, not measured visual position. Neither is factual confirmation or a breaking-news label.')
         if lead.get("corroborates_url") and source_error(lead["category"], lead["corroborates_url"]):
             raise ValueError("corroborator is outside the story category")
         secondary = publisher_for(lead.get("corroborates_url"))
