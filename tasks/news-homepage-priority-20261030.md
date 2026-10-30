@@ -123,8 +123,62 @@ comparisons, source/copy hashes, native image attestations at publication,
 distinct current photo bytes and exact database/public content for all five.
 This is another verified shortfall, not production evidence for unreleased code.
 
-Still required: registry-wide shadow evidence and scheduling/capacity checks,
-verify top-homepage stories get early retrieval as well as editorial priority,
-complete review of any follow-up changes, release and scheduled production
-verification. This remains an unreleased checkpoint and does not establish
-complete coverage of every website or the publication/category target.
+The subsequent follow-up below closes the retrieval and registry checks. Release
+and scheduled production verification remain open, as does the publication target.
+
+## Homepage dispatch, complete registry probes and resilient layouts
+
+Fresh homepage positions now drive actual article retrieval as well as writing.
+An indexed canonical identity joins page positions to durable task URLs without
+rewriting fetch URLs, IDs or cache hints. Legacy identity migration resumes after
+interruption. Root/feed refresh, publisher exclusions, HTTP backoff and every
+fifth actual article request's older backlog turn remain. Empty/replaced pages
+remove only their promotions; lower and unfeatured tasks stay in the queue.
+
+On a read-only backup of 74,634 live tasks, migration preserved every original
+task field. With 35 captured homepage snapshots, the first 150 uncached article
+dispatches included 28 top-five homepage candidates instead of two, and 48
+homepage candidates instead of 18. The private replay removed index tasks only
+in its copies to isolate article dispatch. Baseline/updated elapsed time was
+31.392/42.351 seconds, including SQLite writes and concurrent browser load; this
+is an observed cost, not a speedup claim. Migration took 19.914 seconds. Separate
+read-only homepage selection measurements were 0.2–0.6 ms per query.
+
+The complete initial probe attempted 98 roots across all 96 publishers in
+13½ minutes: 64 returned rendered candidates, eight none and 26 access/render
+errors. Actual screenshots exposed non-heading text, sibling headline/Read-more
+cards and clipped carousels. The renderer now handles these without publisher
+CSS-class rules, retains hidden/offscreen URLs separately, rejects utility and
+section-index links using the shared HTML policy, and treats tracker aliases as
+one card target while preserving request URLs. Ambiguous or hidden neighboring
+links cannot borrow a visible title. Public media assets cannot become news URLs.
+
+The final frozen-code probe again attempted all 98 roots: 61 returned rendered
+candidates, two returned no headlines, and 35 had explicit access/render errors.
+Its source hashes remained unchanged throughout and match the current code.
+The two no-headline pages were ESPN and the Kosovo Football Federation; the
+latter rendered only a loading screen. CSS failures/pending resources are not
+misreported as visual verification: production retains the explicit HTML-order
+fallback. A later identical-code TechCrunch retry rendered its lead card and
+headline column successfully. These varying public responses do not establish
+permanent source availability. No new access or credentials were requested.
+
+Measured registry duration exceeds the four-minute hourly discovery window.
+Source ingestion therefore warms from 06:35 Warsaw; publication remains
+07:00–23:00. Successful rendered roots revisit after 20 minutes and HTML fallback
+after five, at their original observation time. This prevents already-refreshed
+roots repeatedly occupying the queue before later publishers get a turn.
+
+Final verification: 166 native Linux tests pass; 166 Windows tests pass with two
+Linux-only skips; a further public cross-origin CSS regression passes on both.
+The production build passes. Independent complete-diff review reports no
+findings after visibility, alias, utility and migration fixes. These tests and
+probes perform no model calls or publication writes. Full artifacts remain in
+the external news-review-verification directory; registry screenshots/JSON are
+under `/tmp/383-homepage-registry-20261030-v2` in the worker container.
+
+Current production is still the unchanged `4f4322f4` release. No homepage change
+has been activated. Next: release via committed GitHub integration, activate the
+matching immutable worker while publisher-idle under both locks, and verify
+actual scheduled source ordering, receipts, exact live content and category yield.
+Neither tests nor source inventory counts establish twenty real publications.

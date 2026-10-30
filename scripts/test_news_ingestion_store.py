@@ -7,6 +7,112 @@ from news_ingestion_store import Inventory
 
 
 class InventoryTests(unittest.TestCase):
+    def test_root_refresh_cooldown_survives_reseeding_without_blocking_other_work(self):
+        now = datetime.now(timezone.utc).timestamp()
+        with tempfile.TemporaryDirectory() as folder:
+            store = Inventory(Path(folder)/'inventory.sqlite')
+            try:
+                task = dict(source='TechCrunch',kind='listing',url='https://techcrunch.com/',priority=0)
+                identity = store.enqueue(task,'run')
+                store.finish(identity,'run',next_try=now+1200)
+                store.enqueue(task,'later-pass',refresh=True)
+                store.enqueue(dict(source='TechCrunch',kind='article',url='https://techcrunch.com/lower',priority=1),'run')
+                self.assertEqual(store.ready(now=now+60)[0]['kind'],'article')
+                self.assertEqual(store.ready(now=now+1201)[0]['kind'],'listing')
+            finally:
+                store.close()
+
+    def test_interrupted_identity_backfill_resumes_without_changing_task_or_hint(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder)/'inventory.sqlite'
+            store = Inventory(path)
+            url = 'https://www.techcrunch.com/lead?utm_source=home'
+            hint = {'title':'Preserved source headline'}
+            identity = store.enqueue(dict(source='TechCrunch',kind='article',url=url,hint=hint),'run')
+            store.db.execute("UPDATE tasks SET url_identity='' WHERE id=?",(identity,))
+            store.db.commit()
+            store.close()
+            store = Inventory(path)
+            try:
+                store.save_homepage('TechCrunch','https://techcrunch.com/',
+                                    [{'url':'https://techcrunch.com/lead'}],datetime.now(timezone.utc))
+                task = store.homepage_task()
+                self.assertEqual(task['id'],identity)
+                self.assertEqual(task['url'],url)
+                self.assertEqual(task['hint'],hint)
+                self.assertEqual(task['url_identity'],'https://techcrunch.com/lead')
+            finally:
+                store.close()
+
+    def test_homepage_dispatch_precedes_newer_feed_articles_without_losing_backlog(self):
+        from news_ingestion import next_task
+        now = datetime.now(timezone.utc)
+        with tempfile.TemporaryDirectory() as folder:
+            store = Inventory(Path(folder)/'inventory.sqlite')
+            try:
+                urls = [f'https://techcrunch.com/story-{i}' for i in range(7)]
+                for i,url in enumerate(urls):
+                    store.enqueue(dict(source='TechCrunch',kind='article',url=url,priority=1,
+                        hint={'published':(now-timedelta(minutes=7-i)).isoformat()}),'run')
+                # Top article is undated in discovery; retrieval verifies its date.
+                top = 'https://www.techcrunch.com/lead?utm_source=homepage'
+                store.enqueue(dict(source='TechCrunch',kind='article',url=top,priority=2,hint={}), 'run')
+                store.save_homepage('TechCrunch','https://techcrunch.com/',
+                                    [{'url':'https://techcrunch.com/lead'}],now)
+                self.assertEqual(next_task(store,set())['url'],top)
+                self.assertEqual(next_task(store,{'TechCrunch'}),None)
+                self.assertEqual(store.homepage_task(source='Other'),None)
+                for _ in range(4):
+                    task = next_task(store,set())
+                    store.running(task['id'])
+                    store.finish(task['id'],'run')
+                self.assertEqual(next_task(store,set())['url'],urls[0])
+                self.assertEqual(len(store.ready()),4)
+            finally:
+                store.close()
+
+    def test_page_replacement_expiry_and_backoff_remove_only_promotions(self):
+        from news_ingestion import next_task
+        now = datetime.now(timezone.utc)
+        with tempfile.TemporaryDirectory() as folder:
+            store = Inventory(Path(folder)/'inventory.sqlite')
+            try:
+                for i in range(3):
+                    store.enqueue(dict(source='TechCrunch',kind='article',url=f'https://techcrunch.com/{i}',
+                        priority=1,hint={'published':(now-timedelta(minutes=3-i)).isoformat()}),'run')
+                home = 'https://techcrunch.com/'
+                top = [{'url':'https://techcrunch.com/0'}]
+                store.save_homepage('TechCrunch',home,top,now-timedelta(seconds=3601))
+                self.assertEqual(next_task(store,set())['url'],'https://techcrunch.com/2')
+                store.save_homepage('TechCrunch',home,top,now)
+                self.assertEqual(next_task(store,set())['url'],'https://techcrunch.com/0')
+                blocked = store.homepage_task()
+                store.fail(blocked['id'],'HTTP 429',retry_after=120)
+                self.assertEqual(next_task(store,set())['url'],'https://techcrunch.com/2')
+                store.save_homepage('TechCrunch',home,[],now)
+                self.assertIsNone(store.homepage_task())
+                self.assertEqual(store.source_status('TechCrunch')['pending'],3)
+            finally:
+                store.close()
+
+    def test_homepage_promotion_does_not_delay_index_refresh_or_change_article_cache_hints(self):
+        from news_ingestion import next_task
+        now = datetime.now(timezone.utc)
+        with tempfile.TemporaryDirectory() as folder:
+            store = Inventory(Path(folder)/'inventory.sqlite')
+            try:
+                url = 'https://techcrunch.com/lead'
+                hint = {'title':'Known headline','published':now.isoformat()}
+                store.enqueue(dict(source='TechCrunch',kind='article',url=url,priority=1,hint=hint),'run')
+                store.save_evidence('TechCrunch',url,hint,{'status':'text_extracted','text':'verified facts'})
+                store.save_homepage('TechCrunch','https://techcrunch.com/',[{'url':url}],now)
+                self.assertIsNotNone(store.evidence(url,hint))
+                self.assertEqual(store.homepage_task()['hint'],hint)
+                store.enqueue(dict(source='TechCrunch',kind='feed',url='https://techcrunch.com/feed/',priority=0),'run')
+                self.assertEqual(next_task(store,set())['kind'],'feed')
+            finally:
+                store.close()
+
     def test_undated_recent_sightings_keep_index_priority_and_backlog(self):
         with tempfile.TemporaryDirectory() as folder:
             store = Inventory(Path(folder)/'inventory.sqlite')

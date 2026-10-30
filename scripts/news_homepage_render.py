@@ -9,7 +9,8 @@ import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-from news_ingestion_protocol import owned
+from news_ingestion_protocol import (owned, is_article_path, NON_ARTICLE_EXTENSIONS, UTILITY_PATHS,
+                                     NON_ARTICLE_PREFIXES, CATEGORY_INDEX_PREFIXES)
 from read_news_source import fetch_public, PublicHTTPError
 from news_homepage_process import linux_processes, stop_renderer
 
@@ -131,7 +132,12 @@ def _render(response, publisher, fetcher, screenshot):
     server = ThreadingHTTPServer(('127.0.0.1',0),Bridge)
     server.daemon_threads = True
     threading.Thread(target=server.serve_forever,daemon=True).start()
+    from codex_automation_support import SOURCE_URL_TRACKING_KEYS
     config = dict(url=response['url'],chromium=os.environ.get('L383_NEWS_CHROMIUM','/usr/bin/chromium'),
+                  excluded_extensions=NON_ARTICLE_EXTENSIONS,
+                  utility_paths=sorted(UTILITY_PATHS),
+                  tracking_keys=sorted(SOURCE_URL_TRACKING_KEYS),
+                  excluded_prefixes=sorted(NON_ARTICLE_PREFIXES),category_prefixes=sorted(CATEGORY_INDEX_PREFIXES),
                   bridge=f'http://127.0.0.1:{server.server_port}/{token}',screenshot=str(screenshot) if screenshot else None)
     env = {**os.environ,'NODE_PATH':os.environ.get('L383_NEWS_NODE_MODULES',
                 '/opt/data/workspaces/383lajme/node_modules')}
@@ -150,10 +156,15 @@ def _render(response, publisher, fetcher, screenshot):
             raise ValueError('rendered layout incomplete: stylesheet retrieval failed')
         from news_homepage_priority import homepage_article_identity
         root = homepage_article_identity(result['url'])
-        result['articles'] = [row for row in result['articles'] if owned(row['url'],publisher)
-                              and homepage_article_identity(row['url']) != root]
+        seen, articles = set(), []
+        for row in result['articles']:
+            identity = homepage_article_identity(row['url'])
+            if owned(row['url'],publisher) and is_article_path(row['url']) and identity != root and identity not in seen:
+                seen.add(identity)
+                articles.append(row)
+        result['articles'] = articles
         result['discovered_articles'] = [row for row in result['discovered_articles']
-            if owned(row['url'],publisher) and homepage_article_identity(row['url']) != root]
+            if owned(row['url'],publisher) and is_article_path(row['url']) and homepage_article_identity(row['url']) != root]
         return result
     except subprocess.TimeoutExpired as exc:
         raise ValueError('homepage render deadline') from exc

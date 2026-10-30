@@ -36,11 +36,13 @@ def _date(value):
 
 
 def next_task(store, excluded):
-    """Fresh discoveries first, with a durable per-publisher backlog turn."""
+    """Homepage leads first, with fresh reserves and durable backlog turns."""
     rows = store.ready(limit=1, exclude_sources=tuple(excluded), recent=True)
     if not rows:
         return None
     task = rows[0]
+    if task['kind'] == 'article':
+        task = store.homepage_task(exclude_sources=tuple(excluded)) or task
     if task['kind'] == 'article' and store.backlog_turn(task['source']):
         task = store.ready(limit=1, source=task['source'])[0]
     return task
@@ -243,7 +245,12 @@ def _collect(manifest, state, *, budget_seconds=240, now=None, fetcher=fetch_pub
                             seen_urls[task['source']].add(hint['url'])
                             counter['distinct_urls_seen'] += 1
                     store.enqueue_many(children,run,refresh=True)
-                    store.finish(task['id'],run)
+                    retry_at = 0
+                    if result['homepage'] is not None:
+                        page = result['homepage']
+                        captured = page.get('captured_at',now.timestamp())
+                        retry_at = captured + (1200 if page['method']=='public_browser_geometry' else 300)
+                    store.finish(task['id'],run,next_try=retry_at)
                 except Exception as exc:
                     # A missing guessed sitemap/robots file is an absent optional
                     # index, not successful article retrieval or an access bypass.

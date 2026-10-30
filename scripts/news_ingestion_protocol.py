@@ -82,8 +82,22 @@ def sitemap_items(payload):
     return kind, rows
 
 
-_NON_ARTICLE = re.compile(r'\.(?:jpg|jpeg|png|gif|webp|svg|css|js|woff2?|ttf|pdf|zip|mp4|mp3)$',re.I)
-_UTILITY = {'about','about-us','contact','contact-us','privacy','privacy-policy','terms','login','register','subscribe','cookies','robots.txt'}
+NON_ARTICLE_EXTENSIONS = ('jpg','jpeg','png','gif','webp','svg','css','js','woff','woff2','ttf','pdf','zip','mp4','mp3')
+_NON_ARTICLE = re.compile(r'\.(?:'+'|'.join(NON_ARTICLE_EXTENSIONS)+r')$',re.I)
+UTILITY_PATHS = {'about','about-us','contact','contact-us','privacy','privacy-policy','terms','login','register','subscribe','cookies','robots.txt'}
+NON_ARTICLE_PREFIXES = {'tag','tags','author','authors','search','feed','rss','wp-json','wp-admin'}
+CATEGORY_INDEX_PREFIXES = {'category','categories'}
+
+
+def is_article_path(url):
+    parsed = urlsplit(url)
+    path = parsed.path.rstrip('/')
+    parts = [part for part in path.split('/') if part]
+    query_article = str(dict(parse_qsl(parsed.query)).get('p','')).isdigit()
+    return (bool(parts or query_article) and not _NON_ARTICLE.search(path)
+            and path.rsplit('/',1)[-1].casefold() not in UTILITY_PATHS
+            and (not parts or parts[0] not in NON_ARTICLE_PREFIXES)
+            and not (parts and parts[0] in CATEGORY_INDEX_PREFIXES and len(parts)<=2))
 
 
 def listing_links(payload, base, publisher, spec=None):
@@ -118,14 +132,7 @@ def listing_links(payload, base, publisher, spec=None):
             continue
         if link.find_parent(['nav','footer','form']) is not None:
             continue  # Preserve pagination above, but do not scrape menu labels.
-        path = parsed.path.rstrip('/')
-        parts = [part for part in path.split('/') if part]
-        query_article = str(query.get('p','')).isdigit()
-        if (not parts and not query_article) or (parts and parts[-1].casefold() in _UTILITY) or _NON_ARTICLE.search(path):
-            continue
-        if parts and parts[0] in {'tag','tags','author','authors','search','feed','rss','wp-json','wp-admin'}:
-            continue
-        if parts and parts[0] in {'category','categories'} and len(parts) <= 2:
+        if not is_article_path(url):
             continue
         if prefix and not parsed.path.startswith(prefix):
             continue

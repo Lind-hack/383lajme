@@ -51,18 +51,121 @@ async function main(config) {
     const page = await context.newPage();
     await page.goto(config.url, {waitUntil: 'domcontentloaded', timeout: 25000});
     await page.waitForLoadState('load', {timeout: 5000}).catch(() => {});
+    await page.waitForFunction(() => [...document.querySelectorAll('link[rel~="stylesheet"]')].every(link =>
+      link.disabled || link.media && !matchMedia(link.media).matches || link.sheet !== null),
+      null,{timeout:5000}).catch(() => {throw new Error('rendered layout incomplete: applicable stylesheet still pending');});
     await page.evaluate(() => document.fonts.ready);
     await page.waitForTimeout(750);
-    const extracted = await page.evaluate(() => {
-      const rows = [], discovered = [];
-      const headings = 'h1,h2,h3,h4,[role="heading"]';
+    const extracted = await page.evaluate(({excluded,utilities,tracking,prefixes,categories}) => {
+      const rows = [], discovered = [], candidates = [];
+      const headings = 'h1,h2,h3,h4,h5,h6,[role="heading"]';
+      const articleTarget = link => {
+        if (!['http:','https:'].includes(link.protocol)) return false;
+        const path = (link.pathname || '').replace(/\/$/,''), parts = path.split('/').filter(Boolean);
+        const queryArticle = /^\d+$/.test(new URLSearchParams(link.search).get('p') || '');
+        return (parts.length>0 || queryArticle) && !excluded.includes(path.toLowerCase().split('.').pop())
+          && !utilities.includes(path.toLowerCase().split('/').pop()) && !prefixes.includes(parts[0])
+          && !(categories.includes(parts[0]) && parts.length<=2);
+      };
+      // Compare the same URL equivalence as publication, without rewriting the
+      // original request URL. Trackers share the Python publication policy.
+      const cardTargetIdentity = link => {
+        const query = [...new URLSearchParams(link.search)].filter(([key]) =>
+          !key.toLowerCase().startsWith('utm_') && !tracking.includes(key.toLowerCase()));
+        query.sort((a,b) => a[0]<b[0] ? -1 : a[0]>b[0] ? 1 : a[1]<b[1] ? -1 : a[1]>b[1] ? 1 : 0);
+        return JSON.stringify([link.protocol,link.hostname.toLowerCase().replace(/^www\./,''),link.port,
+          link.pathname.replace(/;[^/]*$/,'').replace(/\/{2,}/g,'/').replace(/\/+$/,'') || '/',query]);
+      };
+      const styles = new WeakMap(), labels = new WeakMap();
+      const styleOf = node => {
+        if (!styles.has(node)) styles.set(node,getComputedStyle(node));
+        return styles.get(node);
+      };
+      const clipped = (element, rect) => {
+        let left = Math.max(0,rect.left), right = Math.min(innerWidth,rect.right);
+        let top = rect.top, bottom = rect.bottom;
+        for (let node = element; node; node = node.parentElement) {
+          const style = styleOf(node);
+          if (style.display === 'none' || style.visibility !== 'visible' || Number(style.opacity) === 0
+              || node.hidden || node.getAttribute('aria-hidden') === 'true') return false;
+          if (node !== document.body && node !== document.documentElement) {
+            const box = node.getBoundingClientRect();
+            if (/^(hidden|clip|auto|scroll)$/.test(style.overflowX)) {
+              left = Math.max(left,box.left+node.clientLeft);
+              right = Math.min(right,box.left+node.clientLeft+node.clientWidth);
+            }
+            if (/^(hidden|clip|auto|scroll)$/.test(style.overflowY)) {
+              top = Math.max(top,box.top+node.clientTop);
+              bottom = Math.min(bottom,box.top+node.clientTop+node.clientHeight);
+            }
+          }
+        }
+        return right-left >= Math.min(rect.width,20) && bottom-top >= Math.min(rect.height,8)
+          && right-left > 1 && bottom-top > 1;
+      };
+      const visibleText = node => {
+        if (!labels.has(node)) {
+          const walker = document.createTreeWalker(node,NodeFilter.SHOW_TEXT), parts = [];
+          for (let text = walker.nextNode(); text; text = walker.nextNode()) {
+            if (!text.nodeValue.trim()) continue;
+            const range = document.createRange();
+            range.selectNodeContents(text);
+            if ([...range.getClientRects()].some(rect => clipped(text.parentElement,rect))) parts.push(text.nodeValue);
+          }
+          labels.set(node,parts.join(' ').trim().replace(/\s+/g,' '));
+        }
+        return labels.get(node);
+      };
       for (const link of document.querySelectorAll('a[href]')) {
         if (link.closest('nav,footer,form,[role="navigation"]')) continue;
-        const heading = link.querySelector(headings) || link.closest(headings);
-        if (!heading) continue;
-        const text = (heading.innerText || heading.textContent || '').trim().replace(/\s+/g, ' ');
-        if (text.split(' ').length < 2) continue;
-        discovered.push({url: link.href, title: text, published: ''});
+        if (!articleTarget(link)) continue;
+        let heading = link.querySelector(headings) || link.closest(headings);
+        const textOf = node => (node.innerText || node.textContent || '').trim().replace(/\s+/g, ' ');
+        const label = textOf(heading || link) || link.getAttribute('aria-label') || '';
+        const discovery = {url: link.href, title: label, published: ''};
+        if (label.split(' ').length >= 2) discovered.push(discovery);
+        if (heading && visibleText(heading).split(' ').length < 2) heading = null;
+        if (!heading) {
+          // Adapt to cards whose titles are styled spans/divs rather than h-tags.
+          // Typography is measured, not matched to a publisher's fragile classes.
+          const options = [link, ...link.querySelectorAll('span,div,p,strong,b')].filter(node => {
+            const style = styleOf(node);
+            const words = visibleText(node).split(' ').length, size = parseFloat(style.fontSize);
+            const parent = link.parentElement;
+            const parentLinks = parent ? new Set([...parent.querySelectorAll('a[href]')].filter(articleTarget).map(cardTargetIdentity)) : new Set();
+            const pictured = link.querySelector('img,picture') || link.closest('article')
+              || parentLinks.size === 1 && parent.querySelector('img,picture');
+            const listed = link.closest('li,[role="listitem"]');
+            return words >= 2 && size >= 20
+              || words >= 4 && (size >= 18 || size >= 16 && parseInt(style.fontWeight,10) >= 500
+                || (pictured || listed) && size >= 14);
+          });
+          options.sort((a,b) => parseFloat(styleOf(b).fontSize)-parseFloat(styleOf(a).fontSize)
+            || visibleText(a).length-visibleText(b).length);
+          heading = options[0];
+        }
+        if (!heading && clipped(link,link.getBoundingClientRect())) {
+          // Some cards put the headline beside an image/"Read more" link.
+          // Associate only a single distinct non-media target in that card.
+          for (let node = link.parentElement, depth = 0; node && depth < 6; node = node.parentElement, depth++) {
+            if (['BODY','HTML'].includes(node.tagName)) break;
+            const targets = new Set([...node.querySelectorAll('a[href]')].filter(articleTarget).map(cardTargetIdentity));
+            if (targets.size > 1) break;
+            if (!targets.has(cardTargetIdentity(link))) continue;
+            const titles = [...node.querySelectorAll(headings)].filter(h => visibleText(h).split(' ').length >= 2);
+            titles.sort((a,b) => parseFloat(styleOf(b).fontSize)-parseFloat(styleOf(a).fontSize));
+            if (titles.length) {
+              heading = titles[0];
+              discovery.title = visibleText(heading);
+              if (!discovered.includes(discovery)) discovered.push(discovery);
+              break;
+            }
+          }
+        }
+        if (heading && visibleText(heading).split(' ').length >= 2) candidates.push({link,heading,text:visibleText(heading)});
+      }
+      const headlineLinks = new Set(candidates.map(row => row.link));
+      for (const {link,heading,text} of candidates) {
         if (link.closest('[hidden],[aria-hidden="true"]')) continue;
         let rect = heading.getBoundingClientRect();
         const style = getComputedStyle(heading);
@@ -77,8 +180,8 @@ async function main(config) {
         // multi-story section's top edge for a lower headline inside it.
         let card = heading;
         for (let node = heading.parentElement, depth = 0; node && depth < 6; node = node.parentElement, depth++) {
-          const urls = new Set([...node.querySelectorAll('a[href]')].filter(a =>
-            a.querySelector(headings) || a.closest(headings)).map(a => a.href));
+          if (['BODY','HTML','MAIN'].includes(node.tagName)) break;
+          const urls = new Set([...node.querySelectorAll('a[href]')].filter(a => headlineLinks.has(a)).map(cardTargetIdentity));
           if (urls.size > 1) break;
           if (node.querySelector('img,picture') && node.getBoundingClientRect().height < 1400) card = node;
         }
@@ -92,7 +195,8 @@ async function main(config) {
         || b.geometry.font_size-a.geometry.font_size
         || b.geometry.width*b.geometry.height-a.geometry.width*a.geometry.height
         || a.geometry.left-b.geometry.left)};
-    });
+    },{excluded: config.excluded_extensions,utilities: config.utility_paths,tracking: config.tracking_keys,
+      prefixes: config.excluded_prefixes,categories: config.category_prefixes});
     if (config.screenshot) await page.screenshot({path: config.screenshot});
     process.stdout.write(JSON.stringify({url: page.url(), articles: extracted.articles,
       discovered_articles: extracted.discovered, requests, failed_resources: failed,

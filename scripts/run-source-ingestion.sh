@@ -22,8 +22,10 @@ stop_requests() {
 }
 trap stop_requests TERM INT
 while true; do
-  hour="$(TZ=Europe/Warsaw date +%H)"
-  if (( 10#$hour >= 7 && 10#$hour <= 23 )); then
+  # Warm source evidence before the first 07:00 publication slot. The publisher's
+  # 07:00–23:00 schedule and its emails are controlled separately and unchanged.
+  local_clock="$(TZ=Europe/Warsaw date +%H%M)"
+  if (( 10#$local_clock >= 635 && 10#$local_clock <= 2359 )); then
     timeout --signal=TERM --kill-after=15s 360s "$PYTHON_BIN" \
       "$REPO/scripts/news_ingestion.py" --state "$STATE_ROOT/source-inventory.sqlite" \
       --output "$STATE_ROOT/source-ingestion-latest.json" --budget 240 &

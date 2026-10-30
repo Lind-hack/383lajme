@@ -745,6 +745,9 @@ def _hostname(value: object) -> str:
     return re.sub(r"^www\.", "", host.split(":", 1)[0])
 
 
+SOURCE_URL_TRACKING_KEYS = frozenset({'fbclid', 'gclid', 'mc_cid', 'mc_eid', 'ref', 'source'})
+
+
 def _canonical_url(value: object) -> str:
     """Return a stable source URL identity without tracker or fragment noise."""
     text = str(value or "").strip()
@@ -757,11 +760,10 @@ def _canonical_url(value: object) -> str:
     port = parsed.port
     netloc = hostname if not port or (parsed.scheme.lower(), port) in {("http", 80), ("https", 443)} else f"{hostname}:{port}"
     path = re.sub(r"/{2,}", "/", parsed.path or "/").rstrip("/") or "/"
-    tracking_keys = {"fbclid", "gclid", "mc_cid", "mc_eid", "ref", "source"}
     query = [
         (key, item)
         for key, item in parse_qsl(parsed.query, keep_blank_values=True)
-        if not key.lower().startswith("utm_") and key.lower() not in tracking_keys
+        if not key.lower().startswith("utm_") and key.lower() not in SOURCE_URL_TRACKING_KEYS
     ]
     return urlunparse((parsed.scheme.lower(), netloc, path, "", urlencode(sorted(query)), ""))
 
