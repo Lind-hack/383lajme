@@ -42,7 +42,7 @@ def judge(pairs: list[tuple[dict, dict]], folder: Path) -> list[bool]:
     )
     try:
         rows = ask_rows(prompt, brief, ["--provider", "openai-codex", "--model", "gpt-6-luna",
-                        "--ignore-rules", "-t", "file", "--yolo", "--max-turns", "6", "-Q", "-q"], timeout=180)
+                        "--ignore-rules", "-t", "file", "--yolo", "--max-turns", "6", "-Q", "-q"], timeout=180,inline_brief=True)
     except (subprocess.SubprocessError, OSError, ValueError) as exc:
         print(f"383 DEVELOPMENT JUDGE unavailable ({type(exc).__name__}); treating the band as repeats")
         return [False] * len(pairs)

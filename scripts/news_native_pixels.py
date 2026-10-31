@@ -45,7 +45,35 @@ def check_wire(payload, digest):
     parts = list(image_parts(payload.get('input')))
     if (payload.get('model') != 'gpt-6-luna' or payload.get('reasoning', {}).get('effort') != 'max'
             or payload.get('tools') or len(parts) != 1 or image_digest(parts[0].get('image_url')) != digest):
-        raise PixelReviewAbort('wire model, effort, tools or exact image mismatch')
+        raise PixelReviewAbort('wire contract mismatch: ' + json.dumps({
+            'model': payload.get('model'), 'effort': payload.get('reasoning', {}).get('effort'),
+            'tools': len(payload.get('tools') or []), 'image_parts': len(parts),
+            'exact_pixels': len(parts) == 1 and image_digest(parts[0].get('image_url')) == digest}))
+
+
+def native_input_mode(provider, model, cfg, *, requested_provider=None):
+    # Newer Hermes passes requested_provider to the same routing hook. Reject
+    # another provider rather than let a signature error enter its text fallback.
+    if (provider != 'openai-codex' or model != 'gpt-6-luna'
+            or requested_provider not in (None, '', 'openai-codex')):
+        raise PixelReviewAbort('unexpected routing provider/model')
+    return 'native'
+
+
+def enable_luna_max_effort():
+    """Teach older Hermes' model table the already required Luna wire level.
+
+    This changes only this subprocess and this exact model. The wire guard
+    still refuses any request whose actual effort is not max.
+    """
+    import agent.transports.codex as transport
+    original = getattr(transport,'codex_supported_efforts',None)
+    if not callable(original):
+        return  # Older transports already send max; the wire guard decides.
+    def supported(model):
+        levels = original(model)
+        return tuple(dict.fromkeys((*levels, 'max'))) if model == 'gpt-6-luna' else levels
+    transport.codex_supported_efforts = supported
 
 
 def install_guards(image):
@@ -58,17 +86,14 @@ def install_guards(image):
     import tools.vision_tools as vision
     from agent.transports.codex import ResponsesApiTransport
 
+    enable_luna_max_effort()
+
     image = image.resolve(strict=True)
     digest = hashlib.sha256(image.read_bytes()).hexdigest()
     state = {'wire_requests': 0, 'image_sha256': digest, 'provider':'openai-codex', 'model':'gpt-6-luna', 'effort':'max'}
     original_build = routing.build_native_content_parts
     original_wire = ResponsesApiTransport.build_kwargs
     original_init = cli.HermesCLI._init_agent
-
-    def native(provider, model, cfg):
-        if provider != 'openai-codex' or model != 'gpt-6-luna':
-            raise PixelReviewAbort('unexpected routing provider/model')
-        return 'native'
 
     def build(text, image_paths, image_urls=None):
         if image_urls or [Path(path).resolve() for path in image_paths] != [image]:
@@ -91,7 +116,7 @@ def install_guards(image):
             raise PixelReviewAbort('unexpected agent provider/transport')
         return result
 
-    routing.decide_image_input_mode = native
+    routing.decide_image_input_mode = native_input_mode
     routing.build_native_content_parts = build
     cli.HermesCLI._init_agent = initialize
     cli.HermesCLI._preprocess_images_with_vision = refuse

@@ -89,7 +89,7 @@ def _sheet_chunk(leads: list[dict], folder: Path, index: int, deadline: float | 
     )
     rows = ask_rows(prompt, brief, ["--provider", "openai-codex", "--model",
                                     "gpt-6-luna", "--ignore-rules", "-t", "file",
-                                    "--yolo", "--max-turns", "12", "-Q", "-q"], timeout=360, deadline=deadline)
+                                    "--yolo", "--max-turns", "12", "-Q", "-q"], timeout=360, deadline=deadline,inline_brief=True)
     sheets = {}
     rejected_length = rejected_copy = unknown = 0
     for row in rows if isinstance(rows, list) else []:

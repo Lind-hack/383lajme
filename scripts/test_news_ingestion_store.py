@@ -95,7 +95,7 @@ class InventoryTests(unittest.TestCase):
             finally:
                 store.close()
 
-    def test_homepage_promotion_does_not_delay_index_refresh_or_change_article_cache_hints(self):
+    def test_homepage_promotion_interleaves_index_refresh_without_changing_article_cache_hints(self):
         from news_ingestion import next_task
         now = datetime.now(timezone.utc)
         with tempfile.TemporaryDirectory() as folder:
@@ -109,6 +109,9 @@ class InventoryTests(unittest.TestCase):
                 self.assertIsNotNone(store.evidence(url,hint))
                 self.assertEqual(store.homepage_task()['hint'],hint)
                 store.enqueue(dict(source='TechCrunch',kind='feed',url='https://techcrunch.com/feed/',priority=0),'run')
+                task=next_task(store,set())
+                self.assertEqual(task['kind'],'article')
+                store.running(task['id']);store.finish(task['id'],'run')
                 self.assertEqual(next_task(store,set())['kind'],'feed')
             finally:
                 store.close()
@@ -125,7 +128,8 @@ class InventoryTests(unittest.TestCase):
             feed = store.ready(recent=True)[0]
             store.running(feed['id'])
             store.finish(feed['id'], 'run2')
-            self.assertIsNone(store.db.execute('SELECT * FROM dispatches').fetchone())
+            dispatch=store.db.execute('SELECT articles,article_streak FROM dispatches').fetchone()
+            self.assertEqual(tuple(dispatch),(0,0))
             queries = []
             store.db.set_trace_callback(queries.append)
             store.ready(recent=True, limit=1)

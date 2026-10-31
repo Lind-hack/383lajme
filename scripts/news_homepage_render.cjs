@@ -30,7 +30,7 @@ async function main(config) {
           return route.abort();
         }
         const response = await fetch(config.bridge, {method: 'POST',
-          body: JSON.stringify({url: request.url()}), signal: AbortSignal.timeout(23000)});
+          body: JSON.stringify({url: request.url(),resource_type:request.resourceType()}), signal: AbortSignal.timeout(23000)});
         if (!response.ok) throw new Error('public resource unavailable');
         const resource = await response.json();
         if (resource.url !== request.url()) {

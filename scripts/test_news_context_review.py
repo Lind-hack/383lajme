@@ -39,6 +39,37 @@ class ContextReviewTests(unittest.TestCase):
     def save(self, articles):
         self.batch.write_text(json.dumps(articles), encoding="utf-8")
 
+    def test_missing_verdict_retries_but_valid_uncertainty_is_not_retried(self):
+        row=article(1)
+        self.save([row])
+        with patch.object(review,'ask_rows',side_effect=[[],[distinct(row)]]) as model:
+            self.assertEqual(review.review(self.batch,[]),1)
+        self.assertEqual(model.call_count,2)
+        review.verify(self.batch,[row],[])
+        self.save([row])
+        with patch.object(review,'ask_rows',return_value=[distinct(row,verdict='uncertain')]) as model:
+            with self.assertRaises(ValueError):review.review(self.batch,[])
+        self.assertEqual(model.call_count,1)
+
+    def test_each_initial_target_gets_a_turn_before_retrying_missing_verdicts(self):
+        import threading
+        drafts=[article(i) for i in range(1,8)]
+        self.save(drafts)
+        order=[];calls={};lock=threading.Lock()
+        def compare(batch,articles,history,index,deadline,targets):
+            with lock:
+                order.append(index);calls[index]=calls.get(index,0)+1
+                first=calls[index]==1
+            if index<6 and first:return {}
+            return {row['slug']:distinct(row) for row in articles if row['slug'] in targets}
+        # Test FIFO submission policy deterministically, independently of OS
+        # preemption between a worker entering the callback and recording it.
+        executor=review.concurrent.futures.ThreadPoolExecutor
+        with patch.object(review.concurrent.futures,'ThreadPoolExecutor',side_effect=lambda **kw:executor(max_workers=1)), \
+                patch.object(review,'review_chunk',side_effect=compare):
+            self.assertEqual(review.review(self.batch,[]),7)
+        self.assertEqual(set(order[:7]),set(range(7)))
+
     def test_target_group_keeps_every_preceding_sibling_without_supplying_later_copy(self):
         drafts = [article(i, body=f'<p>Complete comparison prose for unique story {i}.</p>')
                   for i in range(1, 7)]

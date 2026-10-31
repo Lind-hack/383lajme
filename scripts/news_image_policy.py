@@ -439,7 +439,7 @@ def _plan_chunk(leads: list[dict], folder: Path, index: int, *, deadline: float 
     )
     from news_model import ask_rows
     rows = ask_rows(prompt, brief, ["--provider", "openai-codex", "--model", os.environ.get("L383_WRITER_MODEL", "gpt-6-luna"),
-                                    "--ignore-rules", "-t", "file", "--yolo", "--max-turns", "12", "-Q", "-q"], timeout=240, deadline=deadline)
+                                    "--ignore-rules", "-t", "file", "--yolo", "--max-turns", "12", "-Q", "-q"], timeout=240, deadline=deadline,inline_brief=True)
     from news_source_policy import MANIFEST
     outlets = publisher_names(MANIFEST["publishers"])
     plans = {}

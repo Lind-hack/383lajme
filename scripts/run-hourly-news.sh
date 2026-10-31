@@ -306,22 +306,8 @@ recover_missing_writer_desks() {
   local folder="$1" missing recovery_budget desk needed index=0
   recovery_budget="$(model_budget 180 2160)" || return 0
   if [ "$recovery_budget" -lt 90 ]; then return 0; fi
-  missing="$("$PYTHON_BIN" - "${DISCOVERY%.md}.json" "$BATCH" <<'PY'
-import json,sys
-from collections import Counter
-sys.path.insert(0,'scripts')
-from news_source_policy import CATEGORIES
-discovery=json.load(open(sys.argv[1],encoding='utf-8'))
-prior=json.load(open(sys.argv[2],encoding='utf-8'))
-counts=Counter(a['category'] for a in prior)
-desks=sorted(CATEGORIES,key=lambda c:counts[c])
-missing=[(c,min(2,discovery['publication_plan'].get(c,0))-counts[c]) for c in desks]
-for category,needed in [(c,n) for c,n in missing if n>0][:3]:
- print(category+'\t'+str(needed))
-PY
-)" || return 0
+  missing="$("$PYTHON_BIN" scripts/news_writer_recovery.py "${DISCOVERY%.md}.json" "$BATCH" "$folder" "$ATTEMPTED")" || return 0
   if [ -z "$missing" ]; then return 0; fi
-  "$PYTHON_BIN" -c 'import json,sys; json.dump([a["url"] for a in json.load(open(sys.argv[1],encoding="utf-8"))],open(sys.argv[2],"w",encoding="utf-8"))' "$BATCH" "$folder/recovery-attempted.txt"
   while IFS=$'\t' read -r desk needed; do
     index=$((index + 1))
     (

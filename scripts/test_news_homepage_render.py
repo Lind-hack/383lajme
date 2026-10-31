@@ -47,6 +47,15 @@ def cors_stylesheet(url, **kwargs):
                 headers={'content-type':'text/css','access-control-allow-origin':'*'})
 
 
+def busy_image_resources(url, **kwargs):
+    if url.endswith('.css'):
+        return dict(url=url,payload=b'.high{position:absolute;top:40px}.low{position:absolute;top:1400px}',
+                    headers={'content-type':'text/css'})
+    time.sleep(12)
+    return dict(url=url,payload=b'<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"/>',
+                headers={'content-type':'image/svg+xml'})
+
+
 class SizedResource:
     def __init__(self, log):
         self.log = log
@@ -80,6 +89,17 @@ def stubborn_tree(ready, finished, record):
 @unittest.skipUnless(shutil.which(os.environ.get('L383_NEWS_CHROMIUM','/usr/bin/chromium')),
                      'production Chromium unavailable on this platform')
 class HomepageRenderTests(unittest.TestCase):
+    def test_slow_images_leave_capacity_for_later_layout_stylesheets(self):
+        html='''<body><script>
+        for(let i=0;i<8;i++){const img=document.createElement('img');img.width=20;img.height=20;
+          img.src='/slow-'+i+'.svg';document.body.append(img);}
+        setTimeout(()=>{const css=document.createElement('link');css.rel='stylesheet';css.href='/layout.css';
+          document.head.append(css);},150);
+        </script><h2 class="low"><a href="/low">Lower public headline</a></h2>
+        <h2 class="high"><a href="/high">Featured public headline</a></h2></body>'''
+        result=render_homepage(response(html),PUB,fetcher=busy_image_resources)
+        self.assertEqual([row['url'] for row in result['articles']],[URL+'high',URL+'low'])
+
     def test_public_cross_origin_stylesheet_keeps_its_upstream_cors_grant(self):
         html = '<link rel="stylesheet" crossorigin="anonymous" href="https://static.techcrunch.com/theme.css"><h2 class="low"><a href="/low">Lower public headline</a></h2><h2 class="high"><a href="/high">Featured public headline</a></h2>'
         result = render_homepage(response(html),PUB,fetcher=cors_stylesheet)

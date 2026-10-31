@@ -123,23 +123,38 @@ def review(batch: Path, recent: list[dict]) -> int:
         print(f"383 CONTEXT REVIEW held {articles[index-1]['slug']}: photo repeats {articles[previous-1]['slug']}")
     rejected_photos = {index for index, _ in photo_duplicates}
     articles = [row for index, row in enumerate(articles, 1) if index not in rejected_photos]
-    deadline = stage_deadline(180)
+    # Catalogue selection and queued full-copy comparisons share the budget.
+    # The worker's minute-53 epoch still clips this allowance; previously a
+    # slow catalogue left later targets only seconds to receive a verdict.
+    deadline = stage_deadline(480)
     selected, catalogue_proofs = select_comparisons(batch, articles, history, deadline)
     targets = [row for row in articles if row['slug'] in selected]
     groups = [targets[i:i + DRAFT_CHUNK] for i in range(0, len(targets), DRAFT_CHUNK)]
     results = {}
     with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
-        futures = []
+        futures = {}
         for i, group in enumerate(groups):
             ids = {str(row['id']) for article in group for row in selected[article['slug']]}
             matches = [row for row in history if str(row['id']) in ids]
-            futures.append(pool.submit(review_chunk, batch, articles, matches, i, deadline,
-                                       {row['slug'] for row in group}))
-        for future in futures:
-            try:
-                results.update(future.result())
-            except (subprocess.SubprocessError, OSError, ValueError) as exc:
-                print(f"383 CONTEXT REVIEW unavailable ({type(exc).__name__}); unreviewed copy is held")
+            targets = {row['slug'] for row in group}
+            future = pool.submit(review_chunk,batch,articles,matches,i,deadline,targets)
+            futures[future] = (matches,i,targets,0)
+        while futures:
+            done,_ = concurrent.futures.wait(futures,return_when=concurrent.futures.FIRST_COMPLETED)
+            for future in done:
+                matches,index,targets,attempt = futures.pop(future)
+                found = {}
+                try:
+                    found = future.result()
+                    results.update(found)
+                except (subprocess.SubprocessError, OSError, ValueError) as exc:
+                    print(f'383 CONTEXT REVIEW attempt={attempt+1} unavailable ({type(exc).__name__}); unreviewed copy is held')
+                missing = targets - found.keys()
+                if missing and attempt == 0 and monotonic() < deadline:
+                    # Retries join the tail AFTER every initial target. An
+                    # invalid early verdict must not steal later targets' turn.
+                    retry = pool.submit(review_chunk,batch,articles,matches,index,deadline,missing)
+                    futures[retry] = (matches,index,missing,1)
     if digest(json.loads(batch.read_text(encoding="utf-8"))) != snapshot:
         raise ValueError("batch changed during independent context review")
     kept, approvals = [], {}

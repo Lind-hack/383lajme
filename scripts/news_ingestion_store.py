@@ -60,6 +60,8 @@ class Inventory:
             CREATE INDEX IF NOT EXISTS task_source ON tasks(source,state,priority);
             CREATE INDEX IF NOT EXISTS task_recent ON tasks(
                 state,priority,julianday(json_extract(hint,'$.published')) DESC,seen_run DESC);
+            CREATE INDEX IF NOT EXISTS task_source_recent ON tasks(
+                source,state,priority,julianday(json_extract(hint,'$.published')) DESC,seen_run DESC);
             CREATE TABLE IF NOT EXISTS dispatches (
                 source TEXT PRIMARY KEY, articles INTEGER NOT NULL);
             CREATE TABLE IF NOT EXISTS articles (
@@ -98,6 +100,13 @@ class Inventory:
         self.db.execute('CREATE INDEX IF NOT EXISTS task_identity ON tasks(source,kind,url_identity)')
         if 'metadata' not in {row[1] for row in self.db.execute('PRAGMA table_info(homepage_pages)')}:
             self.db.execute("ALTER TABLE homepage_pages ADD COLUMN metadata TEXT NOT NULL DEFAULT '{}'")
+            self.db.commit()
+        if 'article_streak' not in {row[1] for row in self.db.execute('PRAGMA table_info(dispatches)')}:
+            try:
+                self.db.execute('ALTER TABLE dispatches ADD COLUMN article_streak INTEGER NOT NULL DEFAULT 0')
+            except sqlite3.OperationalError:
+                if 'article_streak' not in {row[1] for row in self.db.execute('PRAGMA table_info(dispatches)')}:
+                    raise
             self.db.commit()
 
     def close(self):
@@ -209,11 +218,18 @@ class Inventory:
             for task in tasks:
                 self.enqueue(task,run,refresh=refresh,commit=False)
 
-    def ready(self, now=None, *, limit=None, exclude_sources=(), source=None, recent=False):
+    def ready(self, now=None, *, limit=None, exclude_sources=(), source=None, recent=False,
+              articles_only=False, indexes_only=False, allow_homepages=True):
         now = time.time() if now is None else now
         clause = ' AND source NOT IN ('+','.join('?' for _ in exclude_sources)+')' if exclude_sources else ''
         if source is not None:
             clause += ' AND source=?'
+        if articles_only:
+            clause += " AND kind='article'"
+        if indexes_only:
+            clause += " AND kind<>'article'"
+        if not allow_homepages:
+            clause += " AND NOT (kind='listing' AND COALESCE(json_extract(hint,'$._homepage_root'),0)=1)"
         suffix = ' LIMIT ?' if limit is not None else ''
         parameters = (now,*exclude_sources,*((source,) if source is not None else ()),
                       *((limit,) if limit is not None else ()))
@@ -221,7 +237,8 @@ class Inventory:
         # article timestamp. Undated discoveries use their latest sighting.
         order = ("priority,julianday(json_extract(hint,'$.published')) DESC,seen_run DESC,rowid"
                  if recent else 'priority,rowid')
-        table = 'tasks INDEXED BY task_recent' if recent else 'tasks'
+        table = ('tasks INDEXED BY '+('task_source_recent' if source is not None else 'task_recent')
+                 if recent else 'tasks')
         return [{**dict(row),'hint':json.loads(row['hint'])} for row in self.db.execute(
             "SELECT * FROM "+table+" WHERE state='pending' AND next_try<=?"+clause+' ORDER BY '+order+suffix,parameters)]
 
@@ -229,6 +246,10 @@ class Inventory:
         """Reserve every fifth article request per publisher across restarts."""
         row = self.db.execute('SELECT articles FROM dispatches WHERE source=?',(source,)).fetchone()
         return row is not None and row[0] % 5 == 4
+
+    def index_turn(self, source):
+        row = self.db.execute('SELECT article_streak FROM dispatches WHERE source=?',(source,)).fetchone()
+        return row is not None and row[0] >= 3
 
     def homepage_task(self, now=None, *, exclude_sources=(), source=None):
         """Indexed current homepage candidates; never replace source-cache hints."""
@@ -246,9 +267,10 @@ class Inventory:
         return {**dict(row),'hint':json.loads(row['hint'])} if row else None
 
     def running(self, identity):
-        self.db.execute('''INSERT INTO dispatches(source,articles)
-            SELECT source,1 FROM tasks WHERE id=? AND kind='article'
-            ON CONFLICT(source) DO UPDATE SET articles=articles+1''',(identity,))
+        self.db.execute('''INSERT INTO dispatches(source,articles,article_streak)
+            SELECT source,kind='article',kind='article' FROM tasks WHERE id=?
+            ON CONFLICT(source) DO UPDATE SET articles=articles+excluded.articles,
+                article_streak=CASE WHEN excluded.articles=1 THEN article_streak+1 ELSE 0 END''',(identity,))
         self.db.execute("UPDATE tasks SET state='running' WHERE id=?",(identity,))
         self.db.commit()
 
