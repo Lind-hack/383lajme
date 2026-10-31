@@ -43,6 +43,17 @@ test("fails on partial provider errors, invalid JSON and exhausted retries", asy
   await assert.rejects(runReprice(options), /HTTP 503/);
   assert.equal(options.calls.length, 2);
 });
+test("quota-only provider errors are degraded, not failed; mixed errors still fail", async () => {
+  const quota = { status: "oracle_failed", error: "Gemini API error 429", error_class: "rate_limit_or_quota" };
+  const run = (results) => ({ ok: true, outcome: "completed_with_market_errors", error_class: "rate_limit_or_quota", results });
+  const lines = [];
+  const options = setup([reply(200, run([{ status: "no_fresh_evidence" }, quota]))]);
+  options.log = (line) => lines.push(line);
+  assert.equal((await runReprice(options)).ok, true);
+  assert.match(lines.at(-1), /degraded/);
+  await assert.rejects(runReprice(setup([reply(200, run([quota, { status: "oracle_failed", error_class: "invalid_response" }]))])));
+  await assert.rejects(runReprice(setup([reply(200, run([]))])));
+});
 test("verified no-evidence and already-processed scans succeed", async () => {
   for (const result of [{ ok: true, updates_applied: 0 }, { ok: true, skipped: true, reason: "already_processed" }]) {
     assert.deepEqual(await runReprice(setup([reply(200, result)])), result);

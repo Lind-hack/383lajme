@@ -32,6 +32,14 @@ export async function runReprice({ env = process.env, fetchImpl = fetch, sleep =
     let result;
     try { result = JSON.parse(body); } catch { throw new Error("Tregu reprice returned invalid JSON."); }
     log(JSON.stringify(result));
+    // Every AI provider out of daily quota is not a broken service: the quotas reset on their own and
+    // the next runs retry those markets. Failing here made systemd email an alert every 30 minutes
+    // all day (164 in a week). Anything else still fails; the admin health page still shows the run.
+    const failed = Array.isArray(result.results) ? result.results.filter((r) => r?.status === "oracle_failed" || r?.status === "provider_error") : [];
+    if (result.ok === true && result.outcome === "completed_with_market_errors" && failed.length > 0 && failed.every((r) => r.error_class === "rate_limit_or_quota")) {
+      log(`Tregu reprice degraded: AI providers out of quota for ${failed.length} market(s); they retry on later runs.`);
+      return result;
+    }
     if (result.ok !== true || /"(?:outcome|status|error_class)"\s*:\s*"(?:completed_with_market_errors|oracle_failed|provider_error)"/.test(body)) {
       throw new Error("Tregu reprice reported market/provider errors; inspect the run audit.");
     }
