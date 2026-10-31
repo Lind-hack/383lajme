@@ -433,10 +433,13 @@ export async function getArticlesBefore({
   before,
   limit = 12,
   category,
+  withBody = false,
 }: {
   before?: string | null;
   limit?: number;
   category?: string | null;
+  /** Për ty tags every story from its full text on the server (lib/per-ty-rank storyTags). */
+  withBody?: boolean;
 }): Promise<Article[]> {
   const wanted = category ? normalizeCategory(category) : undefined;
   // The public route clamps readers to 24 a page; the ceiling here is for the
@@ -448,7 +451,7 @@ export async function getArticlesBefore({
     try {
       let query = supabase
         .from("news_articles")
-        .select(ARTICLE_COLUMNS_LIGHT)
+        .select(withBody ? ARTICLE_COLUMNS : ARTICLE_COLUMNS_LIGHT)
         .order("published_at", { ascending: false })
         .limit(size);
       if (cursor) query = query.lt("published_at", cursor);

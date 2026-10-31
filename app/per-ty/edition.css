@@ -560,3 +560,243 @@ a.perty-ed-city:focus-visible { outline: 2px solid var(--pp-accent); outline-off
   .perty-mft-chip:hover { border-color: var(--theme-ink, var(--pp-ink)); }
   .perty-mft-list a:hover span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 }
+
+/* ── Today's paper: arrival, fresh strip, follow heads, the ring, the reward ──
+   One authored moment: what arrived since the last visit enters in reading
+   order (a short rise out of a blur), carries a warm wash that fades, and the
+   masthead says how many. Everything else stays still. Reading the seven
+   closes the ring; finishing pays a few Tregu coins (FinishReward). */
+
+.perty-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.perty-streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--pp-accent-ink);
+  font-weight: 800;
+}
+
+.perty-arrive {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 12px 0 0;
+  padding: 6px 14px 7px;
+  border-radius: 999px;
+  background: var(--pp-accent-soft);
+  box-shadow: 0 6px 18px -8px color-mix(in srgb, var(--pp-accent) 60%, transparent);
+  color: var(--theme-ink, var(--pp-text));
+  font-size: 14.5px;
+  font-weight: 650;
+  animation: perty-arrive-pill 620ms var(--ease-out) 80ms both;
+}
+.perty-arrive b {
+  color: var(--pp-accent-ink);
+  font-size: 18px;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+}
+@keyframes perty-arrive-pill {
+  from { opacity: 0; transform: translateY(-6px) scale(0.94); filter: blur(4px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+/* A row new since the last visit: in reading order, then a wash that fades. */
+.perty-group-list { position: relative; z-index: 0; }
+.perty-prow-item[data-arrive] .perty-prow {
+  position: relative;
+  animation: perty-row-in 560ms var(--ease-out) both;
+  animation-delay: calc(var(--arrive, 0) * 70ms + 200ms);
+}
+.perty-prow-item[data-arrive] .perty-prow::before {
+  content: "";
+  position: absolute;
+  inset: 4px -12px;
+  z-index: -1;
+  border-radius: 14px;
+  background: var(--pp-accent-soft);
+  opacity: 0;
+  animation: perty-row-wash 2400ms ease-out both;
+  animation-delay: calc(var(--arrive, 0) * 70ms + 200ms);
+  pointer-events: none;
+}
+@keyframes perty-row-in {
+  from { opacity: 0; transform: translateY(10px); filter: blur(3px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+@keyframes perty-row-wash {
+  0% { opacity: 0; }
+  18% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* "Sapo erdhën për ty": late arrivals above the seven. */
+.perty-fresh { padding: 16px 0 4px; }
+.perty-fresh-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: var(--theme-ink, var(--pp-ink));
+  font-size: 15px;
+  font-weight: 800;
+}
+.perty-fresh-head i {
+  position: relative;
+  width: 9px;
+  height: 9px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--pp-accent);
+}
+.perty-fresh-head i::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--pp-accent);
+  opacity: 0;
+  animation: perty-live 2.4s var(--ease-out) infinite;
+}
+@keyframes perty-live {
+  0% { opacity: 0.7; transform: scale(0.6); }
+  70%, 100% { opacity: 0; transform: scale(1.5); }
+}
+.perty-fresh + .perty-group { border-top: 1px solid var(--pp-rule-soft); }
+
+/* Group heads: the follow by name, said as the reason, with its face. */
+.perty-group-head h3 {
+  gap: 10px;
+  min-width: 0;
+  color: var(--theme-muted, var(--pp-soft-text));
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.perty-group-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.perty-group-name strong { color: var(--theme-ink, var(--pp-ink)); font-weight: 850; }
+.perty-badge {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: 50%;
+  font-size: 11.5px;
+  font-weight: 850;
+  letter-spacing: 0.02em;
+}
+.perty-badge--person {
+  background: var(--pp-accent);
+  color: #fff;
+  box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--pp-accent) 70%, transparent);
+}
+.perty-badge--city {
+  background: var(--pp-accent-soft);
+  color: var(--pp-accent-ink);
+  box-shadow: inset 0 0 0 1px var(--pp-accent-line);
+}
+.perty-badge-dot { width: 10px; height: 10px; flex: none; margin: 0 10px; border-radius: 50%; }
+
+/* The ring: the seven, read. */
+.perty-ring {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--theme-muted, var(--pp-muted));
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.perty-ring-art { position: relative; display: grid; place-items: center; width: 44px; height: 44px; flex: none; }
+.perty-ring-art svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+.perty-ring-track { fill: none; stroke: var(--pp-chip); stroke-width: 4; }
+.perty-ring-fill {
+  fill: none;
+  stroke: var(--pp-accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 700ms var(--ease-out), stroke 300ms ease;
+}
+.perty-ring-n {
+  position: relative;
+  color: var(--theme-ink, var(--pp-ink));
+  font-size: 12px;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+}
+.perty-ring[data-done] .perty-ring-fill { stroke: var(--pp-read); }
+.perty-ring[data-done] .perty-ring-n,
+.perty-ring[data-done] .perty-ring-label { color: var(--pp-read); font-weight: 850; }
+.perty-ring[data-done] .perty-ring-art { animation: perty-ring-done 700ms cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+@keyframes perty-ring-done {
+  0% { transform: scale(0.85); }
+  60% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* The end: the streak with its flame, and the coins. */
+.perty-end-streak { display: flex; align-items: flex-start; gap: 8px; }
+.perty-end-streak svg { flex: none; margin-top: 3px; color: var(--pp-accent-ink); }
+.perty-reward-hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 0;
+  color: var(--theme-ink, var(--pp-text));
+  font-size: 14.5px;
+  font-weight: 600;
+}
+.perty-reward-hint a { color: var(--pp-accent-ink); font-weight: 800; text-underline-offset: 3px; }
+.perty-reward {
+  /* The Tregu coin's gold (components/tregu/coin-face.tsx). */
+  --perty-gold: #E8A33D;
+  --perty-gold-light: #F2C069;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  margin: 16px 0 4px;
+  padding: 12px 14px 12px 12px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--perty-gold) 12%, var(--pp-card, var(--theme-surface)));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--perty-gold) 35%, transparent), 0 10px 26px -14px color-mix(in srgb, var(--perty-gold) 55%, transparent);
+  animation: perty-reward-in 640ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.perty-reward p { margin: 0; color: var(--theme-ink, var(--pp-text)); font-size: 15px; font-weight: 600; }
+.perty-reward b { color: var(--perty-gold-light); font-weight: 850; font-variant-numeric: tabular-nums; }
+.perty-reward a { color: var(--pp-accent-ink); font-weight: 800; text-underline-offset: 3px; }
+.perty-reward .perty-btn { min-height: 44px; padding: 0 20px; }
+.perty-reward--done { grid-template-columns: auto minmax(0, 1fr); }
+.perty-reward-coin { display: grid; place-items: center; }
+@keyframes perty-reward-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 640px) {
+  .perty-arrive { font-size: 14px; }
+  .perty-arrive-since { display: none; }
+  .perty-reward { grid-template-columns: auto minmax(0, 1fr); }
+  .perty-reward .perty-btn { grid-column: 1 / -1; justify-content: center; }
+  .perty-badge { width: 26px; height: 26px; font-size: 10.5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .perty-arrive,
+  .perty-prow-item[data-arrive] .perty-prow,
+  .perty-ring[data-done] .perty-ring-art,
+  .perty-reward { animation: none; }
+  .perty-prow-item[data-arrive] .perty-prow::before { animation: none; opacity: 0; }
+  .perty-fresh-head i::after { animation: none; }
+  .perty-ring-fill { transition: none; }
+}

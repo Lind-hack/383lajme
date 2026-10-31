@@ -6,6 +6,8 @@ export interface RankableArticle {
   city?: string;
   publishedAt?: string;
   engagementScore?: number;
+  /** "person:<id>" / "city:<id>" found by the server in the full body (storyTags). */
+  tags?: string[];
 }
 export type RankKind = "person" | "city" | "category" | "learned" | "top";
 export interface RankedItem<A> {
@@ -22,6 +24,9 @@ export declare const TOP_REASON: string;
 export declare const LEARNED_REASON: string;
 export function articleKeys(
   article: (Omit<RankableArticle, "slug"> & { slug?: string }) | null | undefined
+): string[];
+export function storyTags(
+  article: { title?: string; body?: string; excerpt?: string; city?: string } | null | undefined
 ): string[];
 export function rankFeed<A extends RankableArticle>(
   pool: readonly A[] | null | undefined,

@@ -42,7 +42,9 @@ import Image from "next/image";
 import {
   ArrowRight,
   BellRing,
+  Check,
   Coffee,
+  Flame,
   MapPin,
   SlidersHorizontal,
   ThumbsDown,
@@ -54,11 +56,13 @@ import { getCategoryColor } from "@/lib/category-colors";
 import { readInterests, writeInterests, hasInterests, nudgeAffinity, recordRead, type Interests } from "@/lib/interests.mjs";
 import { articleKeys, rankFeed, type RankedItem } from "@/lib/per-ty-rank.mjs";
 import { buildEdition, groupEdition, readingMinutes } from "@/lib/per-ty-edition.mjs";
+import { editionDay, followSignature, newForYou, pickDaily, readDaily, writeDaily } from "@/lib/per-ty-daily.mjs";
 import { mustKnow } from "@/lib/per-ty-must-know.mjs";
 import { buildPaper, quietFollows } from "@/lib/per-ty-paper.mjs";
 import { cityById } from "@/lib/cities.mjs";
 import { nextStreak, STREAK_KEY } from "@/lib/perty-streak.mjs";
 import { forgetVisits, isNewSince, readSlugs, recordVisit } from "@/lib/perty-visits.mjs";
+import { personById } from "@/lib/people.mjs";
 import { forgetLedger, kosovoParts, noteVisit, readLedger } from "@/lib/reader-ledger.mjs";
 import { readName } from "@/lib/reader-name.mjs";
 import { lastMonth, monthLabel } from "@/lib/monthly-wrapped.mjs";
@@ -74,6 +78,7 @@ import { createClient } from "@/lib/supabase/client";
 import DardaniLoop from "@/components/dardani/dardani-loop";
 import DardaniImage from "@/components/dardani/dardani-image";
 import DardaniFace from "@/components/dardani/dardani-face";
+import CoinFace from "@/components/tregu/coin-face";
 import PaperReveal from "@/components/paper-reveal";
 import Onboarding from "./onboarding";
 import MorningPush from "./morning-push";
@@ -92,6 +97,8 @@ export type FeedArticle = {
   /** Measured width of imageUrl, when known (lib/image-size.mjs). */
   imageWidth?: number;
   engagementScore?: number;
+  /** "person:<id>" / "city:<id>" the server found in the full text (lib/per-ty-rank storyTags). */
+  tags?: string[];
   /** Dardani's two or three sentences (lib/story-summary), or the story's own when his failed the checks. */
   summary?: string;
   summaryByDardani?: boolean;
@@ -105,6 +112,8 @@ type Item = RankedItem<FeedArticle>;
 type Seen = { since: string | null; read: ReadonlySet<string> };
 
 const SIGNUP_DISMISSED = "383:perty-signup-dismissed";
+/** sessionStorage: the visit whose arrival has already played. */
+const ARRIVED_KEY = "383:perty-arrived";
 /** Deep enough for "Më shumë" and for knowing which follows the week covered. */
 const RANK_LIMIT = 200;
 /** "Më shumë për ty": headlines shown under an opened follow. */
@@ -207,6 +216,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   // (components/paper-reveal) before the three questions; this is "Zgjidh vetë".
   const [chooseMyself, setChooseMyself] = useState(false);
   const [readsSoFar, setReadsSoFar] = useState(0);
+  const [animateArrival, setAnimateArrival] = useState(false);
 
   useEffect(() => {
     setInterests(readInterests());
@@ -245,7 +255,17 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   // settles what was shown on an earlier day and never opened.
   useEffect(() => {
     if (!ready) return;
-    setSince(recordVisit());
+    const visitSince = recordVisit();
+    setSince(visitSince);
+    // The arrival plays once per visit: coming back from a story within the
+    // same visit keeps the same "since", and must not replay it.
+    try {
+      const mark = visitSince ?? "first";
+      setAnimateArrival(sessionStorage.getItem(ARRIVED_KEY) !== mark);
+      sessionStorage.setItem(ARRIVED_KEY, mark);
+    } catch {
+      setAnimateArrival(false);
+    }
     const readNow = new Set(readSlugs());
     setRead(readNow);
     noteVisit();
@@ -277,21 +297,38 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
 
   // The day's one or two must-knows, kept out of the reader's own seven. Fixed
   // by what was read before this visit, so a story opened now stays put.
-  const must = useMemo(
+  const mustToday = useMemo(
     () => (visited && now ? mustKnow(pool, { now: now.getTime(), read }) : []),
     [pool, visited, now, read]
   );
   const homeFrom = cityById(home)?.from ?? null;
-  const { edition } = useMemo(() => {
-    const skip = new Set(must.map((a) => a.slug));
-    // The must-know band carries the day now, so the general top stories only
-    // fill the places the reader's own stories leave empty.
-    const built = buildEdition(
-      feed.filter((i) => !skip.has(i.article.slug)),
-      { homeFrom, fillKinds: ["top"] }
-    );
-    return { edition: built.edition };
-  }, [feed, homeFrom, must]);
+  // Today's paper (lib/per-ty-daily): built once a day from the ranking, minus
+  // what was already read, then the same seven all day; matches that arrive
+  // later come in on top as "fresh".
+  const daily = useMemo(() => {
+    if (!visited || !now || !interests) return null;
+    const skip = new Set(mustToday.map((a) => a.slug));
+    return pickDaily(readDaily(), {
+      day: editionDay(now.getTime()),
+      signature: followSignature(interests),
+      ranked: feed.filter((i) => !skip.has(i.article.slug)),
+      read,
+      now: now.getTime(),
+      // The must-know band carries the day now, so the general top stories only
+      // fill the places the reader's own stories leave empty.
+      build: (candidates) => buildEdition(candidates, { homeFrom, fillKinds: ["top"] }).edition,
+    });
+  }, [visited, now, interests, mustToday, feed, read, homeFrom]);
+  useEffect(() => {
+    if (daily?.rebuilt) writeDaily(daily.record);
+  }, [daily]);
+  const edition = useMemo(() => daily?.edition ?? [], [daily]);
+  const fresh = useMemo(() => daily?.fresh ?? [], [daily]);
+  // A must-know that is already one of today's seven is not shown twice.
+  const must = useMemo(() => {
+    const inEdition = new Set([...edition, ...fresh].map((i) => i.article.slug));
+    return mustToday.filter((a) => !inEdition.has(a.slug));
+  }, [mustToday, edition, fresh]);
   const minutes = readingMinutes([...must.map((article) => ({ article })), ...edition]);
   // The panel files the seven under what the reader follows (lib/per-ty-edition groupEdition).
   const groups = useMemo(() => groupEdition(edition), [edition]);
@@ -299,11 +336,11 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
   // Nothing already in the panel or the must-know band, and no column left empty by that.
   const sections = useMemo(() => {
     if (!interests) return [];
-    const shown = new Set([...edition.map((i) => i.article.slug), ...must.map((a) => a.slug)]);
+    const shown = new Set([...edition, ...fresh].map((i) => i.article.slug).concat(must.map((a) => a.slug)));
     return buildPaper(feed, interests, null, { homeFrom })
       .sections.map((sec) => ({ ...sec, items: sec.items.filter((it) => !shown.has(it.article.slug)) }))
       .filter((sec) => sec.items.length > 0);
-  }, [feed, interests, homeFrom, edition, must]);
+  }, [feed, interests, homeFrom, edition, fresh, must]);
   // The newest story from the reader's town in the last two days, for the
   // town box. Matched the way the ranking matches a town.
   const townStory = useMemo(() => {
@@ -454,12 +491,24 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     );
   }
 
+  // Today's paper is assembled right after mount (the visit is noted first);
+  // until then, the quiet shell rather than a flash of "nothing for you".
+  if (!daily) return <div className="perty-shell perty-shell--loading" aria-busy="true" />;
+
   const who = (deviceName || name).trim().split(/\s+/)[0]?.slice(0, 24) ?? "";
 
   const showSignup = justFinished && signedIn === false && !signupDismissed;
   const seen: Seen = { since, read };
   const readCount = edition.filter((i) => read.has(i.article.slug)).length;
   const allRead = edition.length > 0 && readCount === edition.length;
+  // "N të reja për ty": unread, and out since the last visit. Nothing on a first visit.
+  const newCount = newForYou([...fresh, ...edition], since, read);
+  // Rows that arrived since the last visit enter one after another, in reading order.
+  const arrivalOrder = new Map(
+    (animateArrival ? [...fresh, ...edition] : [])
+      .filter((i) => !read.has(i.article.slug) && isNewSince(i.article, since))
+      .map((i, n) => [i.article.slug, n])
+  );
   // Dardani's three lines are written from this edition, the stories not yet read.
   const briefSlugs = [
     ...must.map((a) => a.slug),
@@ -472,6 +521,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
     forgetVisits();
     forgetLedger();
     writeShown(null);
+    writeDaily(null);
     if (signedIn) void forgetAccountAffinity();
     setRead(new Set());
     setSince(null);
@@ -491,8 +541,20 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
                 {edition.length + must.length} {edition.length + must.length === 1 ? "lajm" : "lajme"} · rreth {minutes} min
               </span>
             )}
+            {streak >= 2 && (
+              <span className="perty-streak" aria-label={`${streak} ditë rresht`}>
+                <Flame size={15} strokeWidth={2.4} aria-hidden="true" />
+                {streak} ditë
+              </span>
+            )}
             <HomeCity homeId={home} />
           </p>
+          {newCount > 0 && (
+            <p className="perty-arrive" role="status">
+              <b>{newCount}</b> {newCount === 1 ? "e re për ty" : "të reja për ty"}
+              <span className="perty-arrive-since"> që nga vizita e fundit</span>
+            </p>
+          )}
         </div>
         <button
           type="button"
@@ -562,13 +624,31 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
             <div className="perty-panel">
               <header className="perty-panel-head">
                 <h2 id="perty-ed-title">Për ty{who ? `, ${who}` : ""}</h2>
-                <p className="perty-ed-progress" aria-live="polite">
-                  <span className="perty-ed-bar" aria-hidden="true">
-                    <i style={{ width: `${(readCount / edition.length) * 100}%` }} />
-                  </span>
-                  {readCount} / {edition.length} lexuar
-                </p>
+                <ReadRing read={readCount} total={edition.length} />
               </header>
+              {fresh.length > 0 && (
+                <section className="perty-fresh" aria-labelledby="perty-fresh-title">
+                  <h3 id="perty-fresh-title" className="perty-fresh-head">
+                    <i aria-hidden="true" />
+                    Sapo erdhën për ty
+                  </h3>
+                  <ol className="perty-group-list">
+                    {fresh.map((item, j) => (
+                      <PanelRow
+                        key={item.article.slug}
+                        item={item}
+                        seen={seen}
+                        first={j === 0}
+                        why={item.reason}
+                        arrival={arrivalOrder.get(item.article.slug)}
+                        onOpen={() => noteClick({ slug: item.article.slug, position: j + 1, kind: item.kind, list: "fresh" })}
+                        onShown={() => onShown(item, j + 1, "fresh")}
+                        onSummaryRead={() => onSummaryRead(item.article, j + 1, "fresh")}
+                      />
+                    ))}
+                  </ol>
+                </section>
+              )}
               {groups.map((group) => {
                 const first = group.items[0];
                 const key = tasteKey(first);
@@ -578,9 +658,17 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
                   <section key={group.key} className="perty-group" aria-labelledby={`perty-group-${group.key}`}>
                     <header className="perty-group-head">
                       <h3 id={`perty-group-${group.key}`}>
-                        <i aria-hidden="true" style={{ background: groupColor(group) }} />
-                        {groupTitle(group, home)}
-                        <b>{group.items.length}</b>
+                        <FollowBadge group={group} />
+                        <span className="perty-group-name">
+                          {group.kind === "person" || group.kind === "city" || group.kind === "category" ? (
+                            <>
+                              Sepse ndjek <strong>{groupTitle(group, home)}</strong>
+                            </>
+                          ) : (
+                            <strong>{groupTitle(group, home)}</strong>
+                          )}
+                        </span>
+                        <b aria-label={`${group.items.length} lajme`}>{group.items.length}</b>
                       </h3>
                       {key && group.kind !== "top" && (
                         <button
@@ -615,6 +703,7 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
                             seen={seen}
                             first={j === 0}
                             why={group.kind === "learned" ? whyLine(item, interests).short : null}
+                            arrival={arrivalOrder.get(item.article.slug)}
                             onOpen={() => noteClick({ slug: item.article.slug, position: n, kind: item.kind, list: "edition" })}
                             onShown={() => onShown(item, n, "edition")}
                             onSummaryRead={() => onSummaryRead(item.article, n, "edition")}
@@ -663,14 +752,18 @@ export default function PerTyFeed({ pool }: { pool: FeedArticle[] }) {
               </h2>
               <p>
                 {allRead
-                  ? "I ke lexuar të gjitha. Shihemi nesër me lajmet e reja!"
-                  : "Këto ishin lajmet e tua për sot. Shihemi nesër!"}
+                  ? "E mbarove gazetën e sotme. Nesër në mëngjes të pret një e re."
+                  : `Edhe ${edition.length - readCount} ${edition.length - readCount === 1 ? "lajm" : "lajme"} dhe e ke mbaruar gazetën e sotme.`}
               </p>
               {streak >= 2 && (
                 <p className="perty-end-streak">
-                  <b>{streak} ditë rresht.</b> Kthehu nesër që të mos e prishësh.
+                  <Flame size={16} strokeWidth={2.4} aria-hidden="true" />
+                  <span>
+                    <b>{streak} ditë rresht.</b> Kthehu nesër që të mos e prishësh.
+                  </span>
                 </p>
               )}
+              <FinishReward allRead={allRead} remaining={edition.length - readCount} signedIn={signedIn} />
               {quiet.length > 0 && (
                 <p className="perty-end-quiet">
                   <b>Pa lajme këtë javë:</b> {quiet.map((q) => q.title).join(", ")}. Kur të ketë, dalin këtu.
@@ -768,6 +861,183 @@ function useBothSeen(onShown: () => void, onSummaryRead: () => void) {
   );
 }
 
+/**
+ * How much of today's seven is read, as a ring that closes. The number inside
+ * is the count; the words are for screen readers and announce each change.
+ */
+function ReadRing({ read, total }: { read: number; total: number }) {
+  const r = 17;
+  const c = 2 * Math.PI * r;
+  const done = total > 0 && read >= total;
+  return (
+    <p className="perty-ring" data-done={done || undefined} aria-live="polite">
+      <span className="perty-ring-art" aria-hidden="true">
+        <svg viewBox="0 0 44 44" width="44" height="44">
+          <circle className="perty-ring-track" cx="22" cy="22" r={r} />
+          <circle
+            className="perty-ring-fill"
+            cx="22"
+            cy="22"
+            r={r}
+            strokeDasharray={c}
+            strokeDashoffset={total > 0 ? c * (1 - Math.min(read, total) / total) : c}
+          />
+        </svg>
+        <span className="perty-ring-n">{done ? <Check size={18} strokeWidth={3} /> : `${read}/${total}`}</span>
+      </span>
+      <span className="perty-ring-label" aria-hidden="true">
+        {done ? "E mbarove!" : "lexuar"}
+      </span>
+      <span className="perty-sr">
+        {read} nga {total} lexuar
+      </span>
+    </p>
+  );
+}
+
+/** The face of a follow beside its group: initials for a person, a pin for a town, the topic's colour. */
+function FollowBadge({ group }: { group: { key: string; kind: string } }) {
+  if (group.kind === "person") {
+    const person = personById(group.key.replace(/^person:/, ""));
+    const initials = (person?.name ?? "")
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((w: string) => w[0])
+      .join("")
+      .toUpperCase();
+    return (
+      <span className="perty-badge perty-badge--person" aria-hidden="true">
+        {initials || "•"}
+      </span>
+    );
+  }
+  if (group.kind === "city") {
+    return (
+      <span className="perty-badge perty-badge--city" aria-hidden="true">
+        <MapPin size={14} strokeWidth={2.5} />
+      </span>
+    );
+  }
+  return <i className="perty-badge-dot" aria-hidden="true" style={{ background: groupColor(group) }} />;
+}
+
+type RewardState =
+  | { status: "idle" | "loading" | "hidden" | "guest" }
+  | { status: "ready" | "claimed" | "collected"; amount: number; streak: number }
+  | { status: "error"; message: string };
+
+/**
+ * Finishing the paper pays a few Tregu coins, once a day, for a signed-in
+ * reader (app/api/per-ty/reward, supabase/migrations/0117). Asked for only
+ * once the seven are read; if the server has no reward, nothing shows.
+ */
+function FinishReward({ allRead, remaining, signedIn }: { allRead: boolean; remaining: number; signedIn: boolean | null }) {
+  const [state, setState] = useState<RewardState>({ status: "idle" });
+
+  // Asked once the sign-in state is known, so the hint before the end can
+  // promise coins only when there are coins to give.
+  useEffect(() => {
+    if (signedIn === null) return;
+    let alive = true;
+    setState({ status: "loading" });
+    fetch("/api/per-ty/reward")
+      .then((r) => (r.ok ? r.json() : { available: false }))
+      .then((json) => {
+        if (!alive) return;
+        if (!json?.available) return setState({ status: "hidden" });
+        if (json.signed_in === false) return setState({ status: "guest" });
+        const amount = Number(json.amount) || 0;
+        const days = Number(json.streak) || 1;
+        setState({ status: json.claimed ? "claimed" : "ready", amount, streak: days });
+      })
+      .catch(() => {
+        if (alive) setState({ status: "hidden" });
+      });
+    return () => {
+      alive = false;
+    };
+  }, [signedIn]);
+
+  if (!allRead) {
+    return remaining > 0 && state.status === "ready" ? (
+      <p className="perty-reward-hint">
+        <CoinFace size={22} idle={false} />
+        <span>Mbaroje gazetën dhe merr monedha për Tregun.</span>
+      </p>
+    ) : null;
+  }
+
+  if (state.status === "guest") {
+    return (
+      <p className="perty-reward-hint">
+        <CoinFace size={22} idle={false} />
+        <span>
+          <Link href="/hyr?tab=regjistrohu&next=/per-ty">Hyr në llogari</Link> dhe merr monedha çdo ditë që e mbaron
+          gazetën.
+        </span>
+      </p>
+    );
+  }
+  if (state.status === "error") {
+    return (
+      <p className="perty-reward-hint" role="alert">
+        {state.message}
+      </p>
+    );
+  }
+  if (state.status === "claimed") {
+    return (
+      <p className="perty-reward-hint">
+        <CoinFace size={22} idle={false} />
+        <span>Monedhat e sotme i more. Nesër të presin të tjera.</span>
+      </p>
+    );
+  }
+  if (state.status === "collected") {
+    return (
+      <div className="perty-reward perty-reward--done" role="status">
+        <span className="perty-reward-coin">
+          <CoinFace size={44} spinning />
+        </span>
+        <p>
+          <b>+{state.amount} monedha</b> u shtuan në Tregu. <Link href="/tregu">Luaj me to</Link>
+        </p>
+      </div>
+    );
+  }
+  if (state.status !== "ready") return null;
+
+  const { amount, streak: days } = state;
+  // The server's run of collected days sets the amount; the page shows one streak only (the visit streak above).
+  const claim = () => {
+    setState({ status: "loading" });
+    fetch("/api/per-ty/reward", { method: "POST" })
+      .then(async (r) => {
+        const json = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(typeof json?.error === "string" ? json.error : "Nuk u morën dot. Provo sërish.");
+        const got = Number(json.amount) || amount;
+        const run = Number(json.streak) || days;
+        setState({ status: "collected", amount: got, streak: run });
+        trackPerty("perty_reward_claim", { amount: got, streak: run });
+      })
+      .catch((e: Error) => setState({ status: "error", message: e.message }));
+  };
+  return (
+    <div className="perty-reward">
+      <span className="perty-reward-coin">
+        <CoinFace size={44} />
+      </span>
+      <p>
+        <b>{amount} monedha</b> për gazetën e mbaruar
+      </p>
+      <button type="button" className="perty-btn perty-btn--primary" onClick={claim}>
+        Merri
+      </button>
+    </div>
+  );
+}
+
 function EndCard({ children, onSeen, allRead }: { children: React.ReactNode; onSeen: () => void; allRead: boolean }) {
   const ref = useSeen<HTMLElement>(onSeen);
   return (
@@ -795,6 +1065,7 @@ function PanelRow({
   seen,
   first,
   why,
+  arrival,
   onOpen,
   onShown,
   onSummaryRead,
@@ -803,6 +1074,8 @@ function PanelRow({
   seen: Seen;
   first: boolean;
   why: string | null;
+  /** Its place among the rows new since the last visit, which enter one after another. */
+  arrival?: number;
   onOpen: () => void;
   onShown: () => void;
   onSummaryRead: () => void;
@@ -811,7 +1084,12 @@ function PanelRow({
   const picture = first ? article.imageUrl || article.coverArt || null : null;
   const ref = useBothSeen(onShown, onSummaryRead);
   return (
-    <li ref={ref} className="perty-prow-item">
+    <li
+      ref={ref}
+      className="perty-prow-item"
+      data-arrive={arrival !== undefined || undefined}
+      style={arrival !== undefined ? ({ "--arrive": Math.min(arrival, 8) } as React.CSSProperties) : undefined}
+    >
       <Link
         href={`/article/${article.slug}`}
         className="perty-prow"
