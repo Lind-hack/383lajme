@@ -159,7 +159,7 @@ timeout() {
 
     def test_writer_snapshot_preserves_exact_copy_and_evidence_outside_publication_data(self):
         start = RUNNER.index("review_candidates() {")
-        helper = RUNNER[start:RUNNER.index('EDITOR_CHECK=', start)] + "\n}\n"
+        helper = RUNNER[start:RUNNER.index('stage="albanian-editor"', start)] + "\n}\n"
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             batch = root / "batch.json"
@@ -216,9 +216,18 @@ review_candidates
             batch = root / 'batch.json'; batch.write_text(json.dumps(prior), encoding='utf-8')
             (folder / '1.json').write_text(json.dumps(prior), encoding='utf-8')
             discovery = root / 'discovery.json'
+            ready=[]
+            for category in CATEGORIES:
+                for i in range(3):
+                    url=f'https://{hosts[category]}/fresh-{i}'
+                    evidence=root/f'{category}-{i}.evidence.json'
+                    evidence.write_text(json.dumps({'source_url':url,'evidence':{
+                        'url':url,'status':'text_extracted','text':
+                        'The council approved three routes on Monday. Residents can apply next week. '
+                        'The timetable lists 20 vehicles. The decision starts on Tuesday.'}}),encoding='utf-8')
+                    ready.append({'pair_id':category+str(i),'category':category,'url':url,'evidence_path':str(evidence)})
             discovery.write_text(json.dumps({'publication_plan': plan, 'ready_leads': [
-                {'pair_id': category+str(i), 'category': category, 'url': f'https://{hosts[category]}/fresh-{i}',
-                 'evidence_path': '/verified/evidence.json'} for category in CATEGORIES for i in range(3)]}), encoding='utf-8')
+                lead for lead in ready]}), encoding='utf-8')
             script = helper + '''
 set -e
 model_budget() { test "$1" -eq 180 && test "$2" -eq 2160 || return 1; if [ "$TEST_ELAPSED" -ge 2160 ]; then return 75; fi; printf 180; }
@@ -242,6 +251,7 @@ recover_missing_writer_desks "$TEST_FOLDER"
             result = subprocess.run([BASH,'-c',script],cwd=Path(__file__).resolve().parent.parent,
                 capture_output=True,text=True,timeout=15,env={**os.environ,'PYTHON_BIN':sys.executable,
                 'DISCOVERY':discovery.with_suffix('.md').as_posix(),'BATCH':batch.as_posix(),
+                'ATTEMPTED':(root/'attempted.json').as_posix(),
                 'TEST_FOLDER':folder.as_posix(),'TEST_EVENTS':events.as_posix(),'TEST_ELAPSED':str(elapsed),
                 'PRIMARY_WRITER_MODEL':'gpt-6-luna','PYTHONIOENCODING':'utf-8'})
             self.assertEqual(result.returncode,0,result.stderr+result.stdout)
@@ -252,10 +262,10 @@ recover_missing_writer_desks "$TEST_FOLDER"
                 self.assertEqual(requested,{})
                 self.assertEqual(rows,prior)
             elif empty:
-                self.assertEqual(len(requested),3)
+                self.assertEqual(len(requested),3,result.stdout+result.stderr)
                 self.assertEqual(len(rows),6)
             else:
-                self.assertEqual(requested,{'Kosovë':'2','Shqipëri':'2','Sport':'1'})
+                self.assertEqual(requested,{'Kosovë':'2','Shqipëri':'2','Sport':'1'},result.stdout+result.stderr)
                 self.assertEqual(len(rows),8)
 
     def test_fresh_refill_has_three_minutes_after_a_minute_forty_one_review(self):

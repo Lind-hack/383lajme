@@ -7,6 +7,7 @@ import secrets
 import subprocess
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from contextlib import nullcontext
 from pathlib import Path
 
 from news_ingestion_protocol import (owned, is_article_path, NON_ARTICLE_EXTENSIONS, UTILITY_PATHS,
@@ -78,6 +79,7 @@ def _render(response, publisher, fetcher, screenshot):
     cache = {response['url']: response}
     lock = threading.Lock()
     network = threading.BoundedSemaphore(4)
+    non_stylesheets = threading.BoundedSemaphore(2)
     used = len(response['payload'])
     stopped = threading.Event()
 
@@ -91,8 +93,12 @@ def _render(response, publisher, fetcher, screenshot):
                 length = int(self.headers.get('Content-Length', 0))
                 if self.path != '/'+token or not 0 < length <= 16384:
                     raise ValueError('invalid resource request')
-                url = json.loads(self.rfile.read(length))['url']
-                with network:
+                request = json.loads(self.rfile.read(length))
+                url = request['url']
+                # Slow images/scripts must not fill every fetch slot while
+                # layout-critical CSS waits behind them. Overall limit stays4.
+                lane = nullcontext() if request.get('resource_type') == 'stylesheet' else non_stylesheets
+                with lane, network:
                     if stopped.is_set():
                         raise ValueError('render already ended')
                     with lock:

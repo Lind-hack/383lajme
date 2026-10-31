@@ -13,6 +13,16 @@ import news_model as model
 
 
 class NewsModelTests(unittest.TestCase):
+    def test_preparation_receives_complete_inline_evidence_without_file_turns(self):
+        with tempfile.TemporaryDirectory() as folder:
+            brief=Path(folder)/'facts.md';brief.write_text('Unique complete verified facts for every supplied story.',encoding='utf-8')
+            result=subprocess.CompletedProcess([],0,'383_JSON_BEGIN [] 383_JSON_END','')
+            with patch.object(model,'run_process',return_value=result) as call:
+                self.assertEqual(model.ask_rows('Read this brief.',brief,['-t','file'],10,inline_brief=True),[])
+            command=call.call_args.args[0]
+            self.assertEqual(command[command.index('-t')+1],'none')
+            self.assertIn(brief.read_text(encoding='utf-8'),command[-1])
+
     def test_native_image_response_requires_wire_proof_and_complete_inline_brief(self):
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder);image=root/'contact.jpg';image.write_bytes(b'fixture')

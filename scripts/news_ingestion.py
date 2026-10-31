@@ -25,7 +25,7 @@ def seed_routes(manifest):
         routes += [dict(source=name,kind='listing',url=spec['url'],hint=spec,priority=0)
                    for spec in manifest['browser_lanes'] if spec['source']==name]
         for domain in publisher['domains']:
-            routes += [dict(source=name,kind='listing',url='https://'+domain+'/',hint={},priority=0),
+            routes += [dict(source=name,kind='listing',url='https://'+domain+'/',hint={'_homepage_root':True},priority=-1),
                        dict(source=name,kind='robots',url='https://'+domain+'/robots.txt',hint={},priority=0)]
     return routes
 
@@ -35,16 +35,21 @@ def _date(value):
     return parsed.timestamp() if parsed else None
 
 
-def next_task(store, excluded):
+def next_task(store, excluded, *, allow_homepages=True):
     """Homepage leads first, with fresh reserves and durable backlog turns."""
-    rows = store.ready(limit=1, exclude_sources=tuple(excluded), recent=True)
+    rows = store.ready(limit=1, exclude_sources=tuple(excluded), recent=True,allow_homepages=allow_homepages)
     if not rows:
         return None
     task = rows[0]
-    if task['kind'] == 'article':
-        task = store.homepage_task(exclude_sources=tuple(excluded)) or task
+    source = task['source']
+    articles = store.ready(limit=1,source=source,recent=True,articles_only=True)
+    indexes = store.ready(limit=1,source=source,recent=True,indexes_only=True,allow_homepages=allow_homepages)
+    if articles and (not indexes or not store.index_turn(source)):
+        task = store.homepage_task(source=source) or articles[0]
+    elif indexes:
+        task = indexes[0]
     if task['kind'] == 'article' and store.backlog_turn(task['source']):
-        task = store.ready(limit=1, source=task['source'])[0]
+        task = store.ready(limit=1, source=task['source'],articles_only=True)[0]
     return task
 
 
@@ -118,7 +123,8 @@ def _execute(task, publishers, cutoffs, now, fetcher, *, renderer=None):
             if homepage.get('discovered_articles') or homepage['method'] == 'public_browser_geometry':
                 result['articles'] += [{key:row.get(key,'') for key in ('url','title','published')}
                                        for row in homepage.get('discovered_articles',homepage['articles'])]
-        result['tasks'] = [dict(source=task['source'],kind='listing',url=url,priority=3,hint=task['hint']) for url in links['pages']]
+        page_hint = {key:value for key,value in task['hint'].items() if key != '_homepage_root'}
+        result['tasks'] = [dict(source=task['source'],kind='listing',url=url,priority=3,hint=page_hint) for url in links['pages']]
         result['tasks'] += [dict(source=task['source'],kind='sitemap',url=url,priority=3,hint={}) for url in links['sitemaps']]
         for api in links['wordpress']:
             after = datetime.fromtimestamp(cutoffs[task['source']],timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -189,10 +195,14 @@ def _collect(manifest, state, *, budget_seconds=240, now=None, fetcher=fetch_pub
         while time.monotonic() < deadline:
             occupied = {task['source'] for task in active.values()}
             while len(active) < 8:
-                task = next_task(store, occupied | rotation)
+                # At most two roots can use Chromium. Keep the other request
+                # slots available for article bodies rather than semaphore waits.
+                allow_homepages = sum(task['kind']=='listing' and is_homepage(task['url'],publishers[task['source']])
+                                      for task in active.values()) < 2
+                task = next_task(store, occupied | rotation,allow_homepages=allow_homepages)
                 if task is None:
                     rotation.clear()
-                    task = next_task(store, occupied)
+                    task = next_task(store, occupied,allow_homepages=allow_homepages)
                 if task is None:
                     break
                 rotation.add(task['source'])

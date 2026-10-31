@@ -139,9 +139,13 @@ def rows(answer) -> list:
 
 
 def ask_rows(prompt: str, brief: Path, hermes_args: list[str], timeout: int,
-             *, deadline: float | None = None, image_path: Path | None = None) -> list:
+             *, deadline: float | None = None, image_path: Path | None = None,
+             inline_brief: bool = False) -> list:
     command = [os.environ.get("L383_HERMES_BIN", "/opt/hermes/.venv/bin/hermes"), "chat",
                *model_args(hermes_args), prompt]
+    if inline_brief and image_path is None:
+        from news_model_context import contextual_command
+        command,_ = contextual_command(command,[brief])
     if image_path is not None:
         complete = prompt + '\n\nThe complete brief follows; use it directly without file tools:\n' + brief.read_text(encoding='utf-8')
         if len(complete.encode('utf-8')) > 96_000:
