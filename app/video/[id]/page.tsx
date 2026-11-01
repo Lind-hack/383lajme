@@ -10,19 +10,25 @@ import TextureBg from "@/components/aurora-bg";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import VideoRow from "@/components/video-row";
-import { getEdition } from "@/lib/video-edition";
+import { getEdition, getViral } from "@/lib/video-edition";
 import { getArticleBySlug } from "@/lib/db";
 
 export const revalidate = 300;
+
+/** The edition or "Virale sot", whichever holds this clip. */
+async function rowWith(id: string) {
+  const [edition, viral] = await Promise.all([getEdition(), getViral()]);
+  return [edition, viral].find((row) => row?.clips.some((c) => c.slug === id)) ?? null;
+}
 
 const SLUG = /^[a-z0-9-]{3,160}$/;
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const clip = (await getEdition())?.clips.find((c) => c.slug === id);
+  const clip = (await rowWith(id))?.clips.find((c) => c.slug === id);
   if (!clip) return {};
   const description = clip.source
-    ? `Video nga @${clip.source.author}${clip.source.platform ? ` · ${clip.source.platform}` : ""}, në Edicionin video të 383.`
+    ? `Video nga @${clip.source.author}${clip.source.platform ? ` · ${clip.source.platform}` : ""}, në Virale sot të 383.`
     : `${clip.category} · Edicioni video i 383: lajmet kryesore të sotme, me zë, në pak minuta.`;
   // A viral find has no story photo: its own thumbnail.
   const image = clip.image || clip.video?.thumb || "";
@@ -36,8 +42,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function VideoClipPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const edition = await getEdition();
-  if (!edition?.clips.some((c) => c.slug === id)) {
+  const edition = await rowWith(id);
+  if (!edition) {
     if (SLUG.test(id) && (await getArticleBySlug(id))) redirect(`/article/${id}`);
     redirect("/video");
   }

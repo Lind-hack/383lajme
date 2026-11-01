@@ -176,8 +176,8 @@ export function parseEdition(raw: unknown, now = Date.now()): Edition | null {
   return clips.length ? { date: str(data?.date), updatedAt, clips } : null;
 }
 
-/** "Virale sot": at most this many of the clip scout's finds, after the edition's own stories. */
-const VIRAL_MAX = 4;
+/** "Virale sot" before the first cuts: at most this many of the clip scout's single finds. */
+const VIRAL_MAX = 8;
 /** A find older than this has had its day. */
 const VIRAL_MS = 24 * 60 * 60 * 1000;
 const PLATFORMS: Record<string, string> = { tiktok: "TikTok", x: "X", instagram: "Instagram", youtube: "YouTube" };
@@ -232,6 +232,66 @@ export function parseViral(raw: unknown, removed: unknown, now = Date.now()): Ed
   return out;
 }
 
+/** "Virale sot" cuts (scripts/viral_cut.py through clip_scout.py, clip-scout/viral.json): the day's
+ * stories re-cut into one video each, best first. */
+const CUTS_MAX = 8;
+const KINDS: Record<string, { label: string; color: string }> = {
+  bbk: { label: "Big Brother", color: "#FF4422" },
+  showbiz: { label: "Showbiz", color: "#E0457B" },
+  sport: { label: "Sport", color: "#1E9E5A" },
+  humor: { label: "Humor", color: "#E8A400" },
+  lajme: { label: "Lajme", color: "#3A7BD5" },
+};
+const CUT_ID = /^cut:[0-9a-f]{16}$/;
+
+export function parseCuts(raw: unknown, removed: unknown, now = Date.now()): EditionClip[] {
+  const items = (raw as Record<string, unknown> | null)?.items;
+  if (!Array.isArray(items)) return [];
+  const gone = new Set(Array.isArray((removed as Record<string, unknown> | null)?.ids) ? ((removed as { ids: unknown[] }).ids.map(str)) : []);
+  const base = scoutBase();
+  const out: EditionClip[] = [];
+  for (const c of items as Record<string, unknown>[]) {
+    const id = str(c?.id);
+    const file = str(c?.file);
+    const sd = str(c?.sd);
+    const thumb = str(c?.thumb);
+    const title = str(c?.title).slice(0, 140);
+    const made = Date.parse(str(c?.made_at));
+    const duration = typeof c?.duration === "number" && c.duration > 0 ? Math.min(c.duration, 90) : 0;
+    // Optional-chained: the file may predate a field.
+    const sources = (Array.isArray(c?.sources) ? (c.sources as Record<string, unknown>[]) : [])
+      .map((s) => ({ id: str(s?.id), author: str(s?.author).slice(0, 60), platform: PLATFORMS[str(s?.platform)] ?? "", link: str(s?.link) }))
+      .filter((s) => SOURCE_HOSTS.test(s.link));
+    if (!CUT_ID.test(id) || gone.has(id) || !title || !duration || !file.startsWith(base) || !sources.length) continue;
+    if (sources.some((s) => gone.has(s.id))) continue;
+    if (!Number.isFinite(made) || now - made > VIRAL_MS) continue;
+    const kind = KINDS[str(c?.kind)] ?? KINDS.lajme;
+    const poster = thumb.startsWith(base) ? thumb : "";
+    out.push({
+      slug: `virale-${id.replace(":", "-")}`,
+      title,
+      excerpt: str(c?.story).slice(0, 200),
+      category: kind.label,
+      color: kind.color,
+      publishedAt: str(c?.made_at),
+      image: "",
+      imageCreator: "",
+      imageLicense: "",
+      imageSourcePage: "",
+      script: title,
+      audio: "",
+      duration,
+      words: [],
+      beats: [],
+      video: { hd: file, sd: sd.startsWith(base) ? sd : file, poster, thumb: poster },
+      trend: "",
+      source: { author: sources[0].author, platform: sources[0].platform, link: sources[0].link },
+    });
+    if (out.length === CUTS_MAX) break;
+  }
+  return out;
+}
+
 async function readJson(url: string): Promise<unknown> {
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(6000), cache: "no-store" });
@@ -246,18 +306,35 @@ const readEdition = unstable_cache(async (): Promise<unknown> => readJson(indexU
 /** Tagged so taking a find down (/api/virale/hiq) shows at once. The query keeps the storage CDN's copy from answering. */
 export const VIRAL_TAG = "clip-scout";
 const readViral = unstable_cache(
-  async (): Promise<[unknown, unknown]> => {
+  async (): Promise<[unknown, unknown, unknown]> => {
     const v = Date.now();
-    return Promise.all([readJson(`${scoutBase()}published.json?v=${v}`), readJson(`${scoutBase()}removed.json?v=${v}`)]);
+    return Promise.all([
+      readJson(`${scoutBase()}viral.json?v=${v}`),
+      readJson(`${scoutBase()}published.json?v=${v}`),
+      readJson(`${scoutBase()}removed.json?v=${v}`),
+    ]);
   },
-  ["clip-scout-v1"],
+  ["clip-scout-v2"],
   { revalidate: 300, tags: [VIRAL_TAG] }
 );
 
-/** Today's edition, its viral finds after its own stories, or null (none yet today, or storage unreachable). */
+/** Today's edition (the day's stories), or null (none yet today, or storage unreachable). */
 export async function getEdition(): Promise<Edition | null> {
-  const [edition, [published, removed]] = await Promise.all([readEdition(), readViral()]);
-  const parsed = parseEdition(edition);
-  if (!parsed) return null;
-  return { ...parsed, clips: [...parsed.clips, ...parseViral(published, removed)] };
+  return parseEdition(await readEdition());
+}
+
+/** Kosovo's date, YYYY-MM-DD. */
+function kosovoDate(now = new Date()) {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Belgrade" }).format(now);
+}
+
+/** "Virale sot", the row beside the edition: today's cuts; until the first are made, the scout's
+ * single finds as they were. Null with fewer than two. */
+export async function getViral(): Promise<Edition | null> {
+  const [viral, published, removed] = await readViral();
+  const cuts = parseCuts(viral, removed);
+  const clips = cuts.length >= 2 ? cuts : parseViral(published, removed);
+  if (clips.length < 2) return null;
+  const updatedAt = str((viral as Record<string, unknown> | null)?.updatedAt) || new Date().toISOString();
+  return { date: kosovoDate(), updatedAt, clips };
 }

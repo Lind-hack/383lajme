@@ -86,7 +86,20 @@ HEADERS = {"User-Agent": "383ClipScout/1.0 (https://383ks.com; editorial clip di
 # Where Albanian TikTok gathers. Each is read two pages deep (TikTok ranks a tag's videos itself).
 HASHTAGS = ["kosova", "kosovo", "shqiperi", "albania", "prishtina", "tirana", "shqip", "shqiptar",
             "lajme", "lajmeshqip", "kosovaalbania", "albaniankosovo", "durres", "prizren", "vlora",
-            "shqiperia", "kombetarja", "diaspora"]
+            "shqiperia", "kombetarja", "diaspora",
+            # Showbiz and reality TV: Big Brother VIP Kosova and the Albanian stars ("Virale sot" cuts).
+            "bigbrothervipkosova", "bbvk", "bbvipkosova", "bigbrotherkosova", "showbizshqip", "dualipa", "ritaora", "beberexha"]
+# The Albanian stars' own Instagram: each is read in turn (one a run), their posts are news to
+# Albanian showbiz whatever language they are in, and a photo post can be cut too.
+CELEBS_IG = ["dualipa", "ritaora", "beberexha", "eraistrefi", "avamax"]
+CELEB_PHOTO_MAX_H = 30  # a star's photo post older than this has had its day
+RAW = HOME / "raw"      # the originals, kept two days for the cuts (viral_cut.py)
+RAW_KEEP_H = 48
+CUTS_MAX = 8            # "Virale sot" cuts on the site at once
+CUTS_PER_RUN = 4        # new or changed cuts rendered a run (a few minutes each on the VPS)
+CUT_SOURCES = 4         # clips of one story in one cut
+CUT_DEADLINE = 1750     # seconds into the run after which no cut is started (the runner stops at 2400; a cut takes a few minutes)
+KINDS = {"lajme", "sport", "showbiz", "bbk", "humor"}
 MAX_AGE_H = 72          # older than three days is not news
 MIN_PLAYS = 5_000       # below this, a clip has not taken off yet
 BASELINE_LOOKUPS = 25   # creators whose last posts are read per run (their usual numbers)
@@ -112,7 +125,7 @@ X_PER_QUERY = 40
 # Albanian tweets read for what Albanian X talks about. X lets an account about 50 searches (20
 # tweets each) a quarter of an hour: these eight and two each for the video queries stay under it.
 X_TALK = (("Latest", 100), ("Top", 60))
-X_TERMS = 8             # trends and topics searched for video on X a run
+X_TERMS = 6             # trends and topics searched for video on X a run (two of the eight went to BBK and the stars)
 X_TRENDS_JS = Path(__file__).resolve().parent / "x_trends.mjs"
 # Capitalised words that start a sentence or are always there: not a trend.
 NOT_TRENDS = {"sot", "ky", "kjo", "këto", "keto", "këta", "keta", "ai", "ajo", "ata", "ato", "unë", "une", "ne", "ju", "në", "ne",
@@ -130,8 +143,10 @@ NOT_STEMS: set[str] = set()   # NOT_TRENDS by stem, filled once stem() is define
 ALBANIAN_X = "(është OR eshte OR shqiptarët OR qeveria OR kryeministri OR shqipëri OR kosovë)"
 X_QUERIES = [f"{ALBANIAN_X} filter:native_video min_faves:100",
              "(kosova OR kosovo OR prishtina OR prishtinë) filter:native_video min_faves:100",
-             "(shqipëri OR shqiperi OR tirana OR tiranë) filter:native_video min_faves:100"]
-IG_HASHTAGS = ["kosova", "shqiperi", "prishtina", "tirana", "albania"]
+             "(shqipëri OR shqiperi OR tirana OR tiranë) filter:native_video min_faves:100",
+             '("big brother" OR bbvk OR #bbvk OR bigbrothervipkosova) filter:native_video min_faves:50',
+             '("dua lipa" OR "rita ora" OR "bebe rexha" OR "era istrefi") filter:native_video min_faves:300']
+IG_HASHTAGS = ["kosova", "shqiperi", "prishtina", "tirana", "albania", "bigbrothervipkosova"]
 IG_PER_TAG = 30
 IG_WATCH_POLLS = 4      # with the five hashtags, nine requests a run: Instagram stops a pushier scraper
 IG_WATCH_MIN_PLAYS = 50_000
@@ -514,6 +529,31 @@ def ig_raw_clip(m: dict, found_by: str) -> dict | None:
     }
 
 
+def ig_raw_photos(m: dict, found_by: str) -> dict | None:
+    """A star's photo post (one picture or a carousel's pictures, at most four) as a cut's stills."""
+    if m.get("media_type") not in (1, 8) or not m.get("code"):
+        return None
+    items = m.get("carousel_media") if m.get("media_type") == 8 else [m]
+    urls = []
+    for it in items or []:
+        if not isinstance(it, dict) or it.get("media_type") not in (1, None):
+            continue
+        best = ((it.get("image_versions2") or {}).get("candidates") or [{}])[0]
+        if best.get("url"):
+            urls.append(str(best["url"]))
+    if not urls:
+        return None
+    user, taken = m.get("user") or {}, m.get("taken_at")
+    return {
+        "platform": "instagram", "kind": "photo", "id": f"ig:{m['code']}", "vid": m["code"],
+        "link": f"https://www.instagram.com/p/{m['code']}/", "caption": str((m.get("caption") or {}).get("text") or "")[:600],
+        "created": datetime.fromtimestamp(int(taken), timezone.utc).isoformat() if taken else "",
+        "author": str(user.get("username") or ""), "author_name": str(user.get("full_name") or ""),
+        "likes": int(m.get("like_count") or 0), "comments": int(m.get("comment_count") or 0), "photos": urls[:4],
+        "found_by": found_by,
+    }
+
+
 def ig_problem(text: str) -> str:
     """What the editor must do when Instagram refuses the spare account, or "" for a passing error."""
     low = text.lower()
@@ -548,7 +588,7 @@ def ig_collect(watch: list[str]) -> dict:
     loader.context._session.cookies.update(cookies)  # as instaloader's own browser-session import does
     # No test_login: the graphql page it asks answers a logged-in session with an empty page now,
     # which read as "cookie expired". The first hashtag is the test, and its answer says what is wrong.
-    started, clips, baselines, errors, reads = time.time(), [], {}, [], 0
+    started, clips, baselines, errors, reads, photos = time.time(), [], {}, [], 0, []
     for tag in IG_HASHTAGS:
         if time.time() - started > COLLECT_TIMEOUT - 120:
             break
@@ -571,6 +611,8 @@ def ig_collect(watch: list[str]) -> dict:
             # The app's feed of the creator, as the hashtags: instaloader's Profile page answers 302 now.
             reply = loader.context.get_iphone_json(f"api/v1/feed/user/{urllib.parse.quote(name)}/username/?count=12", {})
             mine = [c for m in ig_medias(reply) if (c := ig_raw_clip(m, f"IG @{name}"))]
+            if name in CELEBS_IG:
+                photos += [p for m in ig_medias(reply) if (p := ig_raw_photos(m, f"IG @{name}"))]
         except Exception as exc:  # noqa: BLE001
             if problem := ig_problem(str(exc)):
                 return {"error": problem, "clips": clips}
@@ -582,7 +624,7 @@ def ig_collect(watch: list[str]) -> dict:
         clips += mine
     if reads and len(errors) == reads:
         return {"error": "; ".join(errors[:2])}
-    return {"clips": clips, "baselines": baselines, "notes": errors[:3]}
+    return {"clips": clips, "baselines": baselines, "notes": errors[:3], "photos": photos}
 
 
 # ── 2. Scoring ───────────────────────────────────────────────────────────────
@@ -602,6 +644,8 @@ def hours_old(clip: dict, now: datetime) -> float:
 def is_albanian(clip: dict) -> bool:
     if clip.get("language") == "sq":
         return True
+    if clip.get("platform") == "instagram" and clip.get("author") in CELEBS_IG:
+        return True   # the Albanian stars post in English; what they post is Albanian showbiz news
     # On X the world posts about Kosovo and Albania in English (protests in Tirana): about the place
     # counts, and an English post is not taken for Albanian on a word or two ("per"). X cannot tell
     # Albanian (it calls it Estonian, Romanian, Tagalog...), so any other label goes by the words.
@@ -790,19 +834,24 @@ def vet(ranked: list[dict], state: dict, now: datetime) -> bool:
         return False
     lines = [f"{n}. [{c['platform']}] @{c.get('author', '')} ({c.get('author_name', '')}): "
              f"{clean_caption(c.get('caption', ''))[:220] or '(no text)'}" for n, c in enumerate(todo, 1)]
-    prompt = ("You are the editor of 383, a Kosovo news site that reposts viral clips from social media. For each post "
-              "below, decide if it is worth reposting: keep it if it is a news moment, an event, protest, politics, "
-              "sport, a public figure, or a genuinely viral human moment in or about Kosovo, Albania or Albanians. "
-              "Drop it if it is an ad, a product or shop post, a giveaway or contest, self-promotion, generic "
-              "entertainment with no Kosovo/Albania angle, or not about Albanians at all. A post with no text is kept "
-              "only if its creator is clearly a news or local account. For each kept post give its story in 2 to 5 "
-              "Albanian words (the same words for posts about the same event).\n"
-              "Also say if a kept post may go on 383's own site by itself, with no editor looking (\"site\"): only "
-              "news, an event, a protest, politics, sport or a public figure, and only when nothing suggests it is "
-              "staged, AI-made, satire, a prank, a meme, or a startling claim the post alone cannot prove (a "
-              "politician doing something outlandish, an accident or crime with no source). Entertainment, cars, "
-              "lifestyle and humour are never \"site\". When in doubt, false.\n"
-              "Reply with only JSON: {\"items\": [{\"n\": 1, \"keep\": true, \"site\": false, \"story\": \"...\"}]}\n\n"
+    prompt = ("You are the editor of 383, a Kosovo news site whose \"Virale sot\" re-cuts what Albanian social media is "
+              "talking about today. For each post below, decide if it is worth it: keep it if it is a news moment, an "
+              "event, protest, politics, sport, a public figure, Albanian showbiz (singers, actors, influencers, and "
+              "Albanian stars abroad such as Dua Lipa, Rita Ora, Bebe Rexha, Era Istrefi), reality TV (Big Brother VIP "
+              "Kosova and other Albanian shows: fights, funny moments, evictions, what the housemates say), or a "
+              "genuinely viral funny or human moment in or about Kosovo, Albania or Albanians. Drop it if it is an ad, "
+              "a product or shop post, a giveaway or contest, self-promotion, generic entertainment with no Albanian "
+              "angle, or not about Albanians at all. A post with no text is kept only if its creator is clearly a news, "
+              "showbiz or local account. For each kept post give its story in 2 to 5 Albanian words (the same words "
+              "for posts about the same event or moment, e.g. \"sherri i Big Brother\"), and its kind: lajme, sport, "
+              "showbiz, bbk (Big Brother) or humor.\n"
+              "Also say if a kept post may go into 383's own cut by itself, with no editor looking (\"site\"): news, "
+              "events, sport, public figures, showbiz, reality TV and funny moments may, but never when the post may be "
+              "staged as news, AI-made, or a startling claim it alone cannot prove (a politician doing something "
+              "outlandish, an accident or crime with no source); never nudity or sexual content, a child in it, a "
+              "private person who did not choose to be filmed being mocked, or violence that hurts someone. Stars "
+              "and reality-TV housemates chose the public eye. When in doubt, false.\n"
+              "Reply with only JSON: {\"items\": [{\"n\": 1, \"keep\": true, \"site\": false, \"story\": \"...\", \"kind\": \"lajme\"}]}\n\n"
               + "\n".join(lines))
     got = groq_json(prompt, key, "vet")
     items = got.get("items") if isinstance(got, dict) else None
@@ -814,8 +863,10 @@ def vet(ranked: list[dict], state: dict, now: datetime) -> bool:
         except (TypeError, ValueError, IndexError, AttributeError):
             continue
         keep = it.get("keep") is True
+        kind = str(it.get("kind") or "").strip().lower()
         verdicts[c["id"]] = {"keep": keep, "site": keep and it.get("site") is True,
-                             "story": str(it.get("story") or "").strip().lower()[:60], "at": now_iso()}
+                             "story": str(it.get("story") or "").strip().lower()[:60], "at": now_iso(),
+                             "kind": kind if kind in KINDS else "lajme"}
     return True
 
 
@@ -841,7 +892,7 @@ def download(clip: dict, out: Path) -> bool:
     return ytdlp(clip["link"], out, cookies + ["-f", "bv*[height<=1920][vcodec^=avc1]+ba/b[height<=1920]/b"])
 
 
-def fetch_file(url: str, out: Path) -> bool:
+def fetch_file(url: str, out: Path, min_size: int = 100_000) -> bool:
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0", "Referer": "https://www.instagram.com/"})
         with urllib.request.urlopen(req, timeout=120) as res:
@@ -849,7 +900,7 @@ def fetch_file(url: str, out: Path) -> bool:
     except (urllib.error.URLError, OSError) as exc:
         print(f"SCOUT fetch {url[:80]}: {exc}", file=sys.stderr)
         return False
-    return out.stat().st_size > 100_000
+    return out.stat().st_size > min_size
 
 
 def ytdlp(url: str, out: Path, extra: list[str]) -> bool:
@@ -976,7 +1027,7 @@ def package(clip: dict, day: str) -> dict:
     """Download, describe, render and upload one find; what could not be done is said in the entry."""
     words = describe(clip)
     entry = {k: clip.get(k) for k in ("id", "platform", "link", "author", "author_name", "caption", "created", "plays",
-                                      "likes", "shares", "saves", "comments", "followers", "duration", "found_by", "score", "why", "story", "site")}
+                                      "likes", "shares", "saves", "comments", "followers", "duration", "found_by", "score", "why", "story", "site", "kind")}
     entry.update(headline=words["headline"], post_text=words.get("caption", ""), written_by=words["how"], found_at=now_iso(),
                  file="", thumb="", status="needs download")
     with tempfile.TemporaryDirectory(prefix="383-scout-") as tmp:
@@ -987,6 +1038,7 @@ def package(clip: dict, day: str) -> dict:
         if not render(raw, clip, words["headline"], final, work):
             final = raw
         stem = f"clips/{day}/{re.sub(r'[^a-z0-9]+', '-', clip['id'].lower())}"
+        keep_raw(clip["id"], raw)   # the original, for the day's cuts (viral_cut.py)
         if upload(f"{stem}.mp4", final.read_bytes(), "video/mp4"):
             entry.update(file=public_url(f"{stem}.mp4"), status="ready" if final != raw else "ready (no text)")
         if thumb(final, cover) and upload(f"{stem}.jpg", cover.read_bytes(), "image/jpeg"):
@@ -1045,6 +1097,166 @@ def publish_site(state: dict, now: datetime) -> list[dict]:
     return items
 
 
+# ── 6. "Virale sot": the day's stories re-cut (viral_cut.py) ─────────────────
+
+def safe_name(clip_id: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", clip_id.lower()).strip("-")
+
+
+def raw_path(clip_id: str, ext: str = ".mp4") -> Path:
+    return RAW / f"{safe_name(clip_id)}{ext}"
+
+
+def keep_raw(clip_id: str, raw: Path) -> None:
+    try:
+        RAW.mkdir(parents=True, exist_ok=True)
+        raw_path(clip_id).write_bytes(raw.read_bytes())
+    except OSError as exc:
+        print(f"SCOUT keep raw {clip_id}: {exc}", file=sys.stderr)
+
+
+def prune_raw(now: datetime) -> None:
+    """Originals (and the cutter's notes beside them) go after two days."""
+    cutoff = now.timestamp() - RAW_KEEP_H * 3600
+    for f in RAW.glob("*") if RAW.exists() else []:
+        try:
+            if f.stat().st_mtime < cutoff:
+                f.unlink()
+        except OSError:
+            pass
+
+
+def celeb_photos(state: dict, photos: list[dict], now: datetime) -> list[dict]:
+    """The stars' fresh photo posts, downloaded as stills and queued as their own story ("<name> në
+    Instagram"); a post is taken once. Returns the new entries."""
+    queued, new = state.setdefault("queued", {}), []
+    for p in photos:
+        if p["id"] in queued or hours_old(p, now) > CELEB_PHOTO_MAX_H:
+            continue
+        files = []
+        for n, url in enumerate(p.get("photos") or []):
+            out = raw_path(p["id"], f"-{n}.jpg")
+            RAW.mkdir(parents=True, exist_ok=True)
+            if fetch_file(url, out, min_size=20_000):
+                files.append(str(out))
+        if not files:
+            continue
+        name = p.get("author_name") or p["author"]
+        entry = {**{k: p.get(k) for k in ("id", "platform", "link", "author", "author_name", "caption", "created", "likes",
+                                         "comments", "found_by")},
+                 "kind": "showbiz", "photos": files, "story": f"{name.lower()} në instagram", "site": True,
+                 # A star's post is news the hour it goes up: it scores as a strong find, more with more likes.
+                 "score": round(MIN_SCORE_OTHERS + math.log10(1 + p.get("likes", 0) / 10_000), 3),
+                 "headline": f"{name} publikon foto të reja në Instagram", "post_text": "", "found_at": now_iso(),
+                 "status": "ready", "file": "", "thumb": "", "why": [f"{fmt(p.get('likes', 0))} pëlqime"]}
+        queued[p["id"]] = entry
+        new.append(entry)
+    return new
+
+
+def cut_id(story: str) -> str:
+    return "cut:" + hashlib.sha1(story.encode("utf-8")).hexdigest()[:16]
+
+
+def cut_groups(state: dict, now: datetime, removed: set[str]) -> list[tuple[str, list[dict]]]:
+    """The day's finds that may go up, by story, best story first; each with its best clips."""
+    day_ago = (now - timedelta(hours=24)).isoformat()
+    groups: dict[str, list[dict]] = {}
+    for e in (state.get("queued") or {}).values():
+        if not (e.get("site") is True and str(e.get("status", "")).startswith("ready") and e.get("found_at", "") >= day_ago):
+            continue
+        if e.get("id") in removed:
+            continue
+        has = any(Path(f).exists() for f in e["photos"]) if e.get("photos") else raw_path(e["id"]).exists()
+        if not has:
+            continue
+        groups.setdefault(e.get("story") or e["id"], []).append(e)
+    ranked = []
+    for story, items in groups.items():
+        items.sort(key=lambda e: -(e.get("score") or 0))
+        if cut_id(story) in removed:
+            continue
+        ranked.append((story, items[:CUT_SOURCES]))
+    ranked.sort(key=lambda g: -(g[1][0].get("score", 0) + 0.4 * sum(e.get("score", 0) for e in g[1][1:])))
+    return ranked[:CUTS_MAX]
+
+
+def cut_sources(items: list[dict]) -> list[dict]:
+    out = []
+    for e in items:
+        base = {"id": e["id"], "author": e.get("author", ""), "platform": e.get("platform", ""),
+                "caption": e.get("caption", ""), "headline": e.get("headline", "")}
+        if e.get("photos"):
+            out += [{**base, "file": f} for f in e["photos"] if Path(f).exists()]
+        else:
+            out.append({**base, "file": str(raw_path(e["id"]))})
+    return out
+
+
+def make_cuts(state: dict, now: datetime, removed: set[str], deadline: float) -> list[dict]:
+    """Renders the day's best stories that have no cut yet, or new clips since theirs; keeps the rest."""
+    import viral_cut  # ffmpeg-only; next to this file
+    cuts = state.setdefault("cuts", {})
+    lib, made, day = viral_cut.load_library(), [], now.strftime("%Y-%m-%d")
+    key = os.environ.get("GROQ_API_KEY", "")
+    for story, items in cut_groups(state, now, removed):
+        cid = cut_id(story)
+        version = hashlib.sha1("|".join(sorted(e["id"] for e in items)).encode()).hexdigest()[:10]
+        old = cuts.get(cid) or {}
+        if old.get("version") == version and old.get("file"):
+            old["score"] = items[0].get("score", 0)
+            continue
+        if len(made) >= CUTS_PER_RUN or time.time() > deadline:
+            continue
+        with tempfile.TemporaryDirectory(prefix="383-cut-") as tmp:
+            try:
+                got = viral_cut.make_cut(story, cut_sources(items), Path(tmp), key, lib)
+            except (OSError, ValueError, subprocess.SubprocessError) as exc:
+                print(f"SCOUT cut {story!r}: {exc!r}"[:240], file=sys.stderr)
+                got = None
+            if not got:
+                continue
+            stem = f"cuts/{day}/{safe_name(cid)}-{version}"
+            if not upload(f"{stem}.mp4", got["hd"].read_bytes(), "video/mp4"):
+                continue
+            sd = public_url(f"{stem}-sd.mp4") if upload(f"{stem}-sd.mp4", got["sd"].read_bytes(), "video/mp4") else public_url(f"{stem}.mp4")
+            thumb = public_url(f"{stem}.jpg") if got.get("thumb") and upload(f"{stem}.jpg", got["thumb"].read_bytes(), "image/jpeg") else ""
+        entry = {"id": cid, "version": version, "story": story, "kind": items[0].get("kind") or "lajme",
+                 "title": got["hook"], "kicker": got["kicker"], "origin": got["origin"], "planned_by": got["planned_by"],
+                 "file": public_url(f"{stem}.mp4"), "sd": sd, "thumb": thumb, "duration": got["duration"],
+                 "sources": [{"id": e["id"], "author": e.get("author", ""), "platform": e.get("platform", ""), "link": e.get("link", "")}
+                             for e in items],
+                 "score": items[0].get("score", 0), "made_at": now_iso(), "found_at": old.get("found_at") or now_iso()}
+        cuts[cid] = entry
+        made.append(entry)
+        print(f"SCOUT cut: {entry['title']} ({story}; {len(items)} clips, {entry['duration']}s, {entry['planned_by']})")
+    cutoff = (now - timedelta(days=3)).isoformat()
+    state["cuts"] = {k: v for k, v in cuts.items() if v.get("made_at", "") >= cutoff}
+    return made
+
+
+def on_site_cuts(state: dict, now: datetime, removed: set[str]) -> list[dict]:
+    """"Virale sot" as the site reads it (viral.json): today's cuts, best story first; a cut taken
+    down, or one whose every clip was taken down, is gone."""
+    day_ago = (now - timedelta(hours=24)).isoformat()
+    keep = []
+    for c in (state.get("cuts") or {}).values():
+        if c["id"] in removed or c.get("made_at", "") < day_ago or not c.get("file"):
+            continue
+        if any(s.get("id") in removed for s in c.get("sources") or []):
+            continue   # re-cut without it next run
+        keep.append({k: c.get(k) for k in ("id", "story", "kind", "title", "kicker", "origin", "file", "sd", "thumb", "duration",
+                                           "sources", "score", "made_at")})
+    keep.sort(key=lambda c: -(c.get("score") or 0))
+    return keep[:CUTS_MAX]
+
+
+def publish_viral(state: dict, now: datetime, removed: set[str]) -> list[dict]:
+    items = on_site_cuts(state, now, removed)
+    upload("viral.json", json.dumps({"updatedAt": now_iso(), "items": items}, ensure_ascii=False).encode(), "application/json")
+    return items
+
+
 def health_lines(health: dict) -> list[str]:
     """Each source in a word: "✓ X: 212 video" or "✗ Instagram: cookie expired..."."""
     return [f"{'✓' if ok else '✗'} {name}: {note}" for name, (ok, note) in health.items()]
@@ -1059,7 +1271,8 @@ def should_email(found: list[dict], health: dict, state: dict, now: datetime) ->
     return state.get("alerted", "") < (now - timedelta(hours=20)).isoformat()
 
 
-def email(found: list[dict], health: dict | None = None, trending: dict | None = None, site: set[str] | None = None) -> bool:
+def email(found: list[dict], health: dict | None = None, trending: dict | None = None, site: set[str] | None = None,
+          cuts: list[dict] | None = None) -> bool:
     """One email per run that found something: each clip, its numbers, why, and its links; above them
     how each source did and what is trending."""
     health, trending = health or {}, trending or {}
@@ -1087,12 +1300,26 @@ def email(found: list[dict], health: dict | None = None, trending: dict | None =
                        f'<a href="{esc(remove_link(e["id"]))}" style="color:#c62828">Hiq nga faqja</a></div>' if e["id"] in (site or set()) else "")
                     + 
                     f'<div style="color:#888;font-size:12px;margin-top:4px">{esc(e.get("post_text") or "")}</div></td></tr>')
-    title = f"{len(found)} klipe të reja për rishikim" if found else "Asnjë klip i ri: një burim nuk punon"
+    cut_rows = []
+    for c in cuts or []:
+        img = f'<img src="{esc(c["thumb"])}" width="120" style="border-radius:8px;display:block">' if c.get("thumb") else ""
+        srcs = " · ".join(f'<a href="{esc(x["link"])}">@{esc(x["author"])}</a>' for x in c.get("sources") or [])
+        cut_rows.append(f'<tr><td style="padding:12px 12px 12px 0;vertical-align:top">{img}</td><td style="padding:12px 0;vertical-align:top;font-family:Arial,sans-serif">'
+                        f'<div style="font-size:12px;color:#FF4422;font-weight:700">VIRALE SOT · {esc(c.get("kind", ""))} · {c.get("duration", 0):.0f}s</div>'
+                        f'<div style="font-size:17px;font-weight:700">{esc(c["title"])}</div>'
+                        f'<div style="font-size:13px;margin:4px 0">{esc(c["story"])} · nga {srcs}</div>'
+                        f'<div style="font-size:13px"><a href="{esc(c["file"])}">Shiko</a> · '
+                        f'<a href="{esc(remove_link(c["id"]))}" style="color:#c62828">Hiq nga faqja</a></div></td></tr>')
+    if cut_rows:
+        rows = [f'<tr><td colspan="2"><h3 style="font-family:Arial,sans-serif;margin:8px 0 0">Virale sot: {len(cut_rows)} të montuara, në faqe tani</h3></td></tr>'] + cut_rows + rows
+    title = ((f"{len(found)} klipe të reja për rishikim" if found else f"{len(cuts or [])} video virale të montuara")
+             if (found or cuts) else "Asnjë klip i ri: një burim nuk punon")
     body = (f'<div style="font-family:Arial,sans-serif"><h2>{title}</h2><div style="margin-bottom:12px">{top}</div>'
             f'<table>{"".join(rows)}</table></div>')
     msg = EmailMessage()
     msg["From"], msg["To"] = f"383 Klipe <{user}>", to
-    msg["Subject"] = f"383 klipe: {found[0]['headline'][:60]}" if found else "383 klipe: një burim nuk punon"
+    msg["Subject"] = (f"383 klipe: {found[0]['headline'][:60]}" if found else f"383 virale: {cuts[0]['title'][:60]}" if cuts
+                      else "383 klipe: një burim nuk punon")
     msg.set_content(title + "\n\n" + "\n".join(health_lines(health)))
     msg.add_alternative(body, subtype="html")
     try:
@@ -1148,6 +1375,7 @@ def pick(ranked: list[dict], state: dict | None = None, now: datetime | None = N
             continue
         c["story"] = story
         c["site"] = verdict.get("site") is True  # may go on the site by itself ("Virale sot")
+        c["kind"] = verdict.get("kind") or "lajme"
         picks.append(c)
         per[c["platform"]] = per.get(c["platform"], 0) + 1
         by[author_key(c)] = by.get(author_key(c), 0) + 1
@@ -1163,7 +1391,7 @@ def count_line(clips: list[dict], noun: str = "video") -> str:
 
 
 def main(dry_run: bool = False) -> int:
-    now = datetime.now(timezone.utc)
+    now, started = datetime.now(timezone.utc), time.time()
     state = load_state()
     health: dict[str, tuple[bool, str]] = {}
     # X first: what is trending there steers every other platform's search.
@@ -1199,10 +1427,14 @@ def main(dry_run: bool = False) -> int:
         pool += youtube
         # Instagram last and slowest: the watched creators that were read the longest ago.
         ig_watch = state.setdefault("ig_watch", {})
-        due = sorted(ig_watch, key=lambda n: ig_watch[n].get("polled", ""))[:IG_WATCH_POLLS]
+        # One of the stars each run, in turn, then the watched creators read the longest ago.
+        turn = int(state.get("celeb_turn") or 0) % len(CELEBS_IG)
+        state["celeb_turn"] = turn + 1
+        due = [CELEBS_IG[turn]] + [n for n in sorted(ig_watch, key=lambda n: ig_watch[n].get("polled", ""))
+                                   if n not in CELEBS_IG][:IG_WATCH_POLLS - 1]
         ig = run_collector("instagram", {"watch": due})
         for name in due:
-            ig_watch[name]["polled"] = now_iso()
+            ig_watch.setdefault(name, {"polled": ""})["polled"] = now_iso()
         for name, median in (ig.get("baselines") or {}).items():
             state.setdefault("authors", {})[f"instagram:{name}"] = {"median": int(median), "at": now_iso()}
         ig_pool = [c for c in ig.get("clips") or [] if isinstance(c, dict)]
@@ -1243,8 +1475,15 @@ def main(dry_run: bool = False) -> int:
         grow_watchlist(state, pool)
         publish_queue(state, now)
         site = {e["id"] for e in publish_site(state, now)}
+        # "Virale sot": the stars' new photo posts join the day's finds, then each story is cut.
+        celeb_photos(state, [p for p in ig.get("photos") or [] if isinstance(p, dict)], now)
+        removed = removed_ids()
+        cuts = make_cuts(state, now, removed, started + CUT_DEADLINE)
+        on_site_now = publish_viral(state, now, removed)
+        health["Virale sot"] = (bool(on_site_now), f"{len(on_site_now)} në faqe, {len(cuts)} të reja këtë herë")
+        prune_raw(now)
         state["trending"] = {"at": now_iso(), **trending}
-        if should_email(found, health, state, now) and email(found, health, trending, site) and not found:
+        if should_email(found + cuts, health, state, now) and email(found, health, trending, site, cuts) and not (found or cuts):
             state["alerted"] = now_iso()
     finally:
         if proc:
@@ -1254,6 +1493,9 @@ def main(dry_run: bool = False) -> int:
 
 
 if __name__ == "__main__":
+    import signal
+    # The runner's timeout sends TERM: exit through main's finally, so the run's state is saved.
+    signal.signal(signal.SIGTERM, lambda *_: sys.exit(143))
     if sys.argv[1:2] == ["--collect"]:
         sys.exit(collect_child(sys.argv[2] if len(sys.argv) > 2 else ""))
     sys.exit(main(dry_run="--dry-run" in sys.argv[1:]))

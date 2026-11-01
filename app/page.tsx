@@ -1,5 +1,5 @@
 import { getArticles, getArticlesBefore, getLatestArticles } from "@/lib/db";
-import { getEdition } from "@/lib/video-edition";
+import { getEdition, getViral } from "@/lib/video-edition";
 import { MoveHorizontal } from "lucide-react";
 import TextureBg from "@/components/aurora-bg";
 import SectionLabel from "@/components/section-label";
@@ -61,7 +61,8 @@ export default async function HomePage() {
   ]);
   // Edicioni video: today's top stories as short voiced clips
   // (lib/video-edition, cached five minutes; none when there is no edition today).
-  const edition = await getEdition();
+  // Virale sot beside it: the day's viral moments re-cut (clip-scout/viral.json).
+  const [edition, viral] = await Promise.all([getEdition(), getViral()]);
 
   // Each story's photo width, so the large slots below can go to photos big
   // enough to fill them (lib/image-size.mjs). Probes are shared per URL, so a
@@ -248,6 +249,7 @@ export default async function HomePage() {
         {/* Edicioni video under the Për ty card, above Lajmet e fundit. A
             short edition is still an edition; fewer than three is not. */}
         {edition && edition.clips.length >= 3 && <VideoRow edition={edition} list="home" />}
+        {viral && <VideoRow edition={viral} list="home-virale" />}
 
         {/* Lajmet e fundit — the day's run, one story to a row, and the way
             back through the archive. "Kalo te" above it opens each section. */}

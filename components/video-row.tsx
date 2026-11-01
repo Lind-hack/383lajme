@@ -87,6 +87,11 @@ function ownClips(clips: EditionClip[]) {
   return clips.filter((c) => !c.source);
 }
 
+/** The "Virale sot" row: the day's viral moments, every one from social media. */
+function isViralRow(clips: EditionClip[]) {
+  return clips.length > 0 && clips.every((c) => c.source);
+}
+
 function clipUrl(clip: EditionClip) {
   return `${SITE}/video/${clip.slug}`;
 }
@@ -318,8 +323,10 @@ export default function VideoRow({
   );
 
   if (clips.length === 0) return null;
+  // "Virale sot" is its own row (lib/video-edition getViral): every clip is a viral cut.
+  const viralRow = isViralRow(clips);
   // Caught up means the day's stories; the viral finds after them are extra.
-  const stories = ownClips(clips);
+  const stories = viralRow ? clips : ownClips(clips);
   const left = stories.filter((c) => !seen.has(c.slug));
   const caughtUp = left.length === 0;
   const firstNew = Math.max(0, clips.findIndex((c) => !seen.has(c.slug)));
@@ -343,7 +350,7 @@ export default function VideoRow({
       <div className="vr-head">
         <span className="vr-bar" aria-hidden="true" />
         <h2 id={`vr-${list}`} className="vr-title">
-          Edicioni video
+          {viralRow ? "Virale sot" : "Edicioni video"}
         </h2>
         <span className="vr-rule" aria-hidden="true" />
         <button
@@ -369,7 +376,15 @@ export default function VideoRow({
         </span>
       </div>
       <p className="vr-lede">
-        {caughtUp ? (
+        {viralRow ? (
+          caughtUp ? (
+            <>I ke parë të gjitha momentet virale të sotme. Të rejat shtohen gjatë ditës.</>
+          ) : (
+            <>
+              {clips.length} momentet që po i flet sot Kosova e Shqipëria, me zërin e tyre, të montuara nga 383.
+            </>
+          )
+        ) : caughtUp ? (
           <>
             <b className="vr-done">
               <Check size={14} strokeWidth={3} aria-hidden="true" /> Je në dijeni.
@@ -392,7 +407,7 @@ export default function VideoRow({
           const viral = clip.source;
           return (
             <Fragment key={clip.slug}>
-              {viral && !clips[i - 1]?.source && (
+              {viral && !viralRow && !clips[i - 1]?.source && (
                 <li className="vr-divider" aria-hidden="true">
                   <span>Virale sot</span>
                 </li>
@@ -420,7 +435,7 @@ export default function VideoRow({
                 )}
                 <span className="vr-badge">
                   <i style={{ background: clip.color }} aria-hidden="true" />
-                  {viral ? `Virale${viral.platform ? ` · ${viral.platform}` : ""}` : clip.category}
+                  {viral && !viralRow ? `Virale${viral.platform ? ` · ${viral.platform}` : ""}` : clip.category}
                 </span>
                 <span className="vr-play" aria-hidden="true">
                   {done ? <Check size={20} strokeWidth={3} /> : <Play size={20} strokeWidth={0} fill="currentColor" />}
@@ -672,7 +687,8 @@ function Player({
       clips.forEach((c) => seenOnce(c.slug));
       if (!finished.current) {
         finished.current = true;
-        setStreak(finishDay(edition.date));
+        // The streak is for the day's news; "Virale sot" is extra.
+        setStreak(isViralRow(clips) ? 0 : finishDay(edition.date));
         track("edition_complete", { seconds: Math.round((Date.now() - opened.current) / 1000), clips: clips.length, list });
       }
       return;
@@ -872,7 +888,7 @@ function Player({
             i={clips.length}
             edition={edition}
             active={active === clips.length}
-            streak={streak || currentStreak(edition.date)}
+            streak={isViralRow(clips) ? 0 : streak || currentStreak(edition.date)}
             list={list}
             onAgain={() => {
               const el = feedRef.current;
@@ -1359,7 +1375,9 @@ function EndScreen({
 }) {
   const [sharing, setSharing] = useState(false);
   // "Je në dijeni" is about the day's stories: the viral finds are not news to be caught up on.
-  const clips = ownClips(edition.clips);
+  // "Virale sot" ends on its own moments instead.
+  const viralRow = isViralRow(edition.clips);
+  const clips = viralRow ? edition.clips : ownClips(edition.clips);
   return (
     <section className="vr-slide vr-end" data-i={i} data-active={active || undefined} aria-hidden={!active} inert={!active}>
       <div className="vr-end-inner" style={{ "--n": clips.length } as CSSProperties}>
@@ -1386,26 +1404,34 @@ function EndScreen({
             <path d="M43 61l12 12 23-25" />
           </svg>
         </span>
-        <h2 className="vr-end-title">Je në dijeni.</h2>
+        <h2 className="vr-end-title">{viralRow ? "Kaq për tani." : "Je në dijeni."}</h2>
         <p className="vr-end-sub">
-          {clips.length} lajmet kryesore të sotme, në {minutes(clips)} minuta.
+          {viralRow ? `${clips.length} momentet virale të sotme.` : `${clips.length} lajmet kryesore të sotme, në ${minutes(clips)} minuta.`}
           {streak >= 2 && <span className="vr-streak"> 🔥 {streak} ditë radhazi</span>}
         </p>
         <ol className="vr-end-list">
           {clips.map((c, k) => (
             <li key={c.slug} style={{ "--i": k } as CSSProperties}>
-              <Link href={`/article/${c.slug}`} onClick={() => track("edition_read", { slug: c.slug, list, how: "end" })}>
+              <Link
+                href={viralRow ? (c.source?.link ?? "/") : `/article/${c.slug}`}
+                {...(viralRow ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                onClick={() => track("edition_read", { slug: c.slug, list, how: "end" })}
+              >
                 <i style={{ background: c.color }} aria-hidden="true" />
                 {c.title}
               </Link>
             </li>
           ))}
         </ol>
-        <p className="vr-end-next">Edicioni përditësohet kur ka lajme të mëdha. I radhës: nesër në 07:00.</p>
+        <p className="vr-end-next">
+          {viralRow
+            ? "Të rejat shtohen gjatë ditës, sapo diçka bëhet virale."
+            : "Edicioni përditësohet kur ka lajme të mëdha. I radhës: nesër në 07:00."}
+        </p>
         <div className="vr-end-actions">
           <button type="button" className="vr-end-btn" data-primary onClick={() => setSharing(true)}>
             <Share2 size={17} strokeWidth={2.4} aria-hidden="true" />
-            Ndaje edicionin
+            {viralRow ? "Ndaje" : "Ndaje edicionin"}
           </button>
           <button type="button" className="vr-end-btn" onClick={onAgain}>
             <RotateCcw size={16} strokeWidth={2.4} aria-hidden="true" />
@@ -1418,10 +1444,10 @@ function EndScreen({
       </div>
       {sharing && (
         <ShareSheet
-          url={`${SITE}/video`}
-          title="Edicioni video i 383"
-          label={`${clips.length} lajmet kryesore të sotme, në ${minutes(clips)} minuta`}
-          image={clips.find((c) => c.image)?.image ?? ""}
+          url={viralRow ? `${SITE}/video/${clips[0]?.slug ?? ""}` : `${SITE}/video`}
+          title={viralRow ? "Virale sot · 383" : "Edicioni video i 383"}
+          label={viralRow ? `${clips.length} momentet virale të sotme` : `${clips.length} lajmet kryesore të sotme, në ${minutes(clips)} minuta`}
+          image={clips.find((c) => c.image)?.image ?? clips.find((c) => c.video?.thumb)?.video?.thumb ?? ""}
           what="edition"
           list={list}
           onClose={() => setSharing(false)}

@@ -207,5 +207,71 @@ class ScoutTests(unittest.TestCase):
         self.assertEqual(cs.author_key(clip(1, author="a", platform="instagram")), "instagram:a")
 
 
+class ViralCutTests(unittest.TestCase):
+    """"Virale sot": the day's finds grouped by story for viral_cut.py, and what the site gets."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.old_raw, cs.RAW = cs.RAW, Path(self.tmp.name)
+
+    def tearDown(self):
+        cs.RAW = self.old_raw
+        self.tmp.cleanup()
+
+    def found(self, i, story, score=8.0, site=True, hours=2, raw=True, **kw):
+        if raw:
+            cs.raw_path(f"tt:{i}").write_bytes(b"x")
+        return {"id": f"tt:{i}", "platform": "tiktok", "author": f"a{i}", "link": f"https://www.tiktok.com/@a{i}/video/{i}",
+                "story": story, "score": score, "site": site, "status": "ready", "kind": "bbk",
+                "found_at": (NOW - timedelta(hours=hours)).isoformat(), **kw}
+
+    def state(self, *entries):
+        return {"queued": {e["id"]: e for e in entries}}
+
+    def test_clips_of_one_story_are_cut_together_best_story_first(self):
+        state = self.state(self.found(1, "sherri i big brother", 9), self.found(2, "sherri i big brother", 7.5),
+                           self.found(3, "dua lipa në prishtinë", 8.5))
+        groups = cs.cut_groups(state, NOW, set())
+        self.assertEqual([g[0] for g in groups], ["sherri i big brother", "dua lipa në prishtinë"])
+        self.assertEqual([e["id"] for e in groups[0][1]], ["tt:1", "tt:2"])
+
+    def test_only_what_may_go_up_today_with_its_file_is_cut(self):
+        state = self.state(self.found(1, "a", site=False), self.found(2, "b", hours=30), self.found(3, "c", raw=False),
+                           self.found(4, "d"))
+        self.assertEqual([g[0] for g in cs.cut_groups(state, NOW, set())], ["d"])
+
+    def test_a_cut_or_a_clip_taken_down_stays_down(self):
+        state = self.state(self.found(1, "a"), self.found(2, "a"), self.found(3, "b"))
+        groups = cs.cut_groups(state, NOW, {"tt:1", cs.cut_id("b")})
+        self.assertEqual([(g[0], [e["id"] for e in g[1]]) for g in groups], [("a", ["tt:2"])])
+
+    def test_the_site_never_shows_a_cut_with_a_clip_taken_down(self):
+        made = NOW.isoformat()
+        state = {"cuts": {"cut:1": {"id": "cut:1", "file": "f", "made_at": made, "score": 9, "sources": [{"id": "tt:1"}]},
+                          "cut:2": {"id": "cut:2", "file": "f", "made_at": made, "score": 8, "sources": [{"id": "tt:2"}]},
+                          "cut:3": {"id": "cut:3", "file": "f", "made_at": (NOW - timedelta(hours=30)).isoformat(), "sources": []}}}
+        self.assertEqual([c["id"] for c in cs.on_site_cuts(state, NOW, {"tt:1"})], ["cut:2"])
+        self.assertEqual([c["id"] for c in cs.on_site_cuts(state, NOW, set())], ["cut:1", "cut:2"])
+
+    def test_a_cut_id_fits_the_take_down_link(self):
+        import re
+        self.assertRegex(cs.cut_id("sherri i big brother"), re.compile(r"^[a-z]{1,3}:[A-Za-z0-9_-]{3,40}$"))
+        self.assertEqual(cs.cut_id("x"), cs.cut_id("x"))
+
+    def test_a_stars_photo_post_is_read_as_stills(self):
+        m = {"media_type": 8, "code": "ABC", "taken_at": int(NOW.timestamp()), "user": {"username": "dualipa", "full_name": "Dua Lipa"},
+             "like_count": 2_000_000, "carousel_media": [{"media_type": 1, "image_versions2": {"candidates": [{"url": "https://i/1.jpg"}]}},
+                                                          {"media_type": 2, "image_versions2": {"candidates": [{"url": "https://i/v.jpg"}]}},
+                                                          {"media_type": 1, "image_versions2": {"candidates": [{"url": "https://i/2.jpg"}]}}]}
+        p = cs.ig_raw_photos(m, "IG @dualipa")
+        self.assertEqual(p["photos"], ["https://i/1.jpg", "https://i/2.jpg"])
+        self.assertEqual(p["link"], "https://www.instagram.com/p/ABC/")
+        self.assertIsNone(cs.ig_raw_photos({"media_type": 2, "code": "V"}, ""))
+
+    def test_the_stars_posts_count_as_albanian_showbiz(self):
+        self.assertTrue(cs.is_albanian(clip(1, platform="instagram", author="ritaora", caption="London tonight")))
+        self.assertFalse(cs.is_albanian(clip(2, platform="instagram", author="someone", caption="London tonight")))
+
+
 if __name__ == "__main__":
     unittest.main()
