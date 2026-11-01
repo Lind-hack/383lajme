@@ -27,6 +27,7 @@ import math
 import os
 import re
 import subprocess
+import time
 import sys
 import urllib.error
 import urllib.request
@@ -213,6 +214,20 @@ def units_of(n: int, a: dict) -> list[dict]:
             stop = min(end, t + 3.5)
             units.append({"start": round(t + 0.1, 2), "end": round(stop - 0.1, 2), "text": "", "sure": False})
             t = stop
+    if len(units) < 3 and dur >= 2 * MIN_PIECE + 1:
+        # One sentence, or no clear moments: the clip itself in beats of about three seconds,
+        # each cut at a pause between words where there is one near.
+        units, t = [], 0.0
+        while dur - t >= MIN_PIECE:
+            stop = min(dur, t + 3.2)
+            near = [w[1] + 0.08 for w in words if stop - 0.9 <= w[1] <= stop + 0.6 and w[1] + 0.08 - t >= MIN_PIECE]
+            stop = min(dur, min(near, key=lambda x: abs(x - stop)) if near and dur - stop > MIN_PIECE else stop)
+            if dur - stop < MIN_PIECE:
+                stop = dur
+            text = " ".join(w[2] for w in words if t <= w[0] < stop)
+            sure = any(s.get("sure") for s in speech.get("segments") or [] if s["end"] > t and s["start"] < stop)
+            units.append({"start": round(t, 2), "end": round(stop, 2), "text": text, "sure": sure})
+            t = stop
     units.sort(key=lambda u: u["start"])
     out = []
     for u in units[:40]:
@@ -331,8 +346,10 @@ def ask_model(story: str, sources: list[dict], analyses: list[dict], units: list
         "Reply with only JSON: {\"pieces\": [\"u0b\", ...], \"hook\": \"...\", \"kicker\": \"...\", \"origin\": \"\", \"sq\": {\"u1a\": \"...\"}}\n\n"
         + "\n".join(lines)
     )
-    tries = [GROQ_MODEL, "qwen/qwen3.8-27b", "openai/gpt-oss-20b"]
-    for model in tries:
+    # The free tier allows a few calls a minute, shared with the scout: the first model once more
+    # after the wait it asks for, then the others.
+    tries = [GROQ_MODEL, GROQ_MODEL, "qwen/qwen3.8-27b", "openai/gpt-oss-20b"]
+    for attempt, model in enumerate(tries):
         body = json.dumps({"model": model, "messages": [{"role": "user", "content": prompt}], "temperature": 0.4,
                            "response_format": {"type": "json_object"}}).encode()
         req = urllib.request.Request(f"{GROQ}/chat/completions", data=body, method="POST",
@@ -342,6 +359,8 @@ def ask_model(story: str, sources: list[dict], analyses: list[dict], units: list
                 return json.loads(json.loads(res.read().decode("utf-8"))["choices"][0]["message"]["content"])
         except urllib.error.HTTPError as exc:
             log(f"plan model {model}: HTTP {exc.code}")
+            if exc.code == 429 and attempt == 0:
+                time.sleep(min(20.0, float(exc.headers.get("retry-after") or 10)))
         except (urllib.error.URLError, OSError, ValueError, KeyError, IndexError, TypeError) as exc:
             log(f"plan model {model}: {exc!r}"[:160])
     return None
@@ -636,7 +655,14 @@ def build(plan: dict, sources: list[dict], analyses: list[dict], work: Path, lib
              "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "112k", "-movflags", "+faststart", "-t", f"{total:.3f}", str(sd)]
     done = run(args, timeout=540, cwd=work)
     if done.returncode != 0 or not hd.exists() or hd.stat().st_size < 100_000:
-        log(f"render failed: {done.stderr.strip()[-600:]}")
+        lines = [x.strip() for x in done.stderr.splitlines() if x.strip()]
+        said = [x for x in lines if re.search(r"(?i)error|invalid|no such|unable|cannot|not found|option", x)] or lines[-4:]
+        log("render failed: " + " | ".join(said[:6])[:900])   # one line, so the journal keeps it whole
+        try:   # the whole command and answer beside the originals, for whoever reads why
+            (Path(pieces[0]["file"]).parent / "cut-error.log").write_text(
+                " ".join(json.dumps(a) for a in args) + "\n\n" + done.stderr, encoding="utf-8")
+        except OSError:
+            pass
         return None
     thumb = work / "thumb.jpg"
     at = round(min(pieces[0]["len"] * 0.6, 1.6), 2)   # the hook's moment, with the hook on it

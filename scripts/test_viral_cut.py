@@ -45,6 +45,17 @@ class UnitTests(unittest.TestCase):
         self.assertNotEqual(said[1]["text"], "long")
         self.assertTrue(said[1]["text"].startswith("w"))
 
+    def test_a_short_clip_of_one_sentence_is_cut_in_beats(self):
+        words = [[0.3 + i * 0.6, 0.7 + i * 0.6, f"w{i}"] for i in range(14)]
+        a = clip(dur=9.5, speech={"language": "albanian", "words": words,
+                                  "segments": [{"start": 0.2, "end": 8.8, "text": "one", "sure": True}]})
+        units = vc.units_of(0, a)
+        self.assertGreaterEqual(len(units), 3)
+        self.assertEqual(units[0]["start"], 0.0)
+        self.assertAlmostEqual(units[-1]["end"], 9.5)
+        self.assertTrue(all(vc.length(u) >= vc.MIN_PIECE for u in units))
+        self.assertTrue(all(units[i]["end"] == units[i + 1]["start"] for i in range(len(units) - 1)))
+
     def test_a_photo_is_one_still(self):
         units = vc.units_of(2, {"photo": True})
         self.assertEqual(len(units), 1)
