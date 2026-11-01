@@ -48,15 +48,15 @@ publisher, alongside broader discovery searches and public official feeds. These
 searches supplement the normal collection of all fourteen publisher inventories.
 Official profile links have provenance; never guess handles. A profile alone is not a new post,
 and an updated timestamp is not a new upload. Exact posts require accessible
-author/date/content evidence. Public posts can establish what the artist said
+author/date/content evidence when claiming direct post verification. Routine non-sensitive artist updates may rely on one readable registered publisher without an exact social permalink; record direct-post access as unverified and never imply 383 inspected it. Public posts can establish what the artist said
 or shared, not inferred motives, relationships, pregnancy, intimate details or
 imagined fan reactions. Private-life rumours and sensitive allegations still
 require independent corroboration. Unavailable evidence stays unavailable.
 
-Keep existing primary-source and photo-rights checks. Use appropriately labelled
+Showbiz uses the original readable source article image by the owner’s instruction. Keep its exact image URL, article URL and source credit; record reuse licence as not established unless independently established. Do not label publisher use as a free licence. Keep native pixel/subject checks and decode the actual image (minimum 600 × 350); do not substitute a generic portrait. This Showbiz exception takes precedence over the general Commons/fresh-photo requirements below. Use appropriately labelled
 archive imagery only when permitted; do not pass it off as the current post or
-copy an unlicensed social photograph. Search snippets and artist feeds do not
-automatically become publication-ready facts. Do not invent a fresh artist story
+substitute an unrelated social photograph. Search snippets and artist feeds do not
+automatically become publication-ready facts. Showbiz editorial consideration starts at 5/10 for a specific fresh entertainment hook. A supported short update may use 50 words in one paragraph; all other categories retain their current minimums. Do not invent a fresh artist story
 to meet a preferred share or category target.
 
 ## Hard bans — never publish
@@ -112,7 +112,7 @@ Every article must include `id`, `slug`, `url`, `title`, `excerpt`, `body`, `sou
 
 For Ekonomi market news whose headline is about Bitcoin, Ethereum or the euro itself, the reviewed physical-asset photo inventory is an allowed final fallback. Each original file is visually reviewed and bound to its Commons SHA1, creator, exact licence and actual capture date. Use only the matching asset's photograph, with the unchanged Albanian “Foto ilustruese” caption and capture month/year; physical crypto tokens are symbols, not circulating cryptocurrency coins or photographs of today's market event. These stable illustrations may be up to ten years old. Never use a generic money image for an unrelated company story, a different asset, a chart, a render or a standalone logo. The photo editor, source-image comparison, batch uniqueness, immutable provenance and final title/category match remain required.
 
-Write at least 140 supported Albanian words in three HTML paragraphs. Prefer
+Showbiz may use 50 supported Albanian words in one HTML paragraph. All other categories require at least 140 supported Albanian words in three HTML paragraphs. Prefer
 220+ words in four paragraphs when sources support that depth; never pad a brief.
 
 `corroborating_sources` may be empty for routine attributed news; sensitive claims

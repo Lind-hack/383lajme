@@ -21,8 +21,11 @@ EDITORIAL_GUIDANCE=(
     'Gossip is a topic, not evidence: private-life rumours and allegations still require independent corroboration. '
     'Do not invent fans reacting, internet discussion, viral status or reaction totals. Prefer an evidenced specific '
     'hook to generic hype such as sets the internet on fire. Archive photos must be labelled as archive; '
-    'do not present an archive portrait as the new Instagram photo or reuse an unlicensed social photo. '
-    'Use the complete factual notes without filler; hold a brief that cannot support the required article length.'
+    'do not present an archive portrait as the new Instagram photo or substitute an unprepared social image. '
+    'Use the complete factual notes without filler. Showbiz briefs may be 50 grounded words in one HTML paragraph; '
+    'never repeat a detail or fill space with absent information, caveats or speculative meanings. '
+    'For costume or photo roundups, choose a focused angle around a few specific looks rather than reproduce the source list and sequence. '
+    'For a tiny update prefer a single concise 50-80 word paragraph; write longer only when each added sentence gives a new supported fact. Use the prepared original article image and preserve its provenance.'
 )
 
 
@@ -35,7 +38,8 @@ def mentions(text,artist):
     for alias in artist['aliases']:
         alias=fold(alias)
         # Albanian case endings: Lipa/Lipës/Lipën, Ora/Orës/Orën, Rexha/Rexhës.
-        pattern=re.escape(alias[:-1])+r'(?:a|es|en|e|s)' if alias.endswith('a') else re.escape(alias)
+        endings=r'(?:a|es|en|e|s)' if ' ' in alias else r'(?:a|es|en|e)'
+        pattern=re.escape(alias[:-1])+endings if alias.endswith('a') else re.escape(alias)
         if re.search(r'(?<!\w)'+pattern+r'(?!\w)',text): return True
     return False
 

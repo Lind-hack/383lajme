@@ -185,6 +185,9 @@ def visual_options(lead: dict, primary: dict, secondary: dict) -> list[dict]:
     from the last two years, captioned as an archive photo, then a dated
     archive photo of its institution, place, team or company. Text-only is
     out."""
+    if lead.get('category')=='Showbiz':
+        from news_image_policy import article_photo_options
+        return article_photo_options(lead,primary)
     from news_gallery_photos import gallery_options
     from news_asset_photos import asset_options
     from news_image_policy import photo_options
@@ -448,7 +451,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     shortlist = [items[index] for index in range(max(map(len, by_category.values()), default=0))
                  for items in by_category.values() if index < len(items)]
     from news_image_policy import CATALOG, plan_subjects, identity_cache
-    plans = plan_subjects(shortlist, path.parent)
+    plans = plan_subjects([lead for lead in shortlist if lead.get('category')!='Showbiz'], path.parent)
     from news_model_quota import require_available
     require_available()
     # The owner permits a credited contextual photo in different hourly

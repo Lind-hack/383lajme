@@ -30,6 +30,8 @@ class ShowbizFocusTests(unittest.TestCase):
         lead={'category':'Showbiz','title':'Foreign film financing conference',
               'summary':'Unrelated facts. '*50+'Dua Lipa','audience_focus':{'priority':999}}
         self.assertEqual(focus(lead)['priority'],0)
+        self.assertEqual(focus({'category':'Showbiz','title':'Meet the Duggar family',
+                                'summary':'The family appeared in 19 Kids and Counting.'})['priority'],0)
 
     def test_artist_priority_survives_source_selection_and_photo_preparation(self):
         now=datetime.now(timezone.utc)

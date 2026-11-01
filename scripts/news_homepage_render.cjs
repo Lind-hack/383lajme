@@ -50,12 +50,18 @@ async function main(config) {
       }
     });
     const page = await context.newPage();
-    await page.goto(config.url, {waitUntil: 'domcontentloaded', timeout: 25000});
-    await page.waitForLoadState('load', {timeout: 5000}).catch(() => {});
+    let navigationIncomplete = false;
+    try {
+      await page.goto(config.url, {waitUntil: 'domcontentloaded', timeout: config.allow_partial ? 15000 : 25000});
+    } catch (error) {
+      if (!config.allow_partial || !(await page.locator('body').innerText({timeout:1000})).trim()) throw error;
+      navigationIncomplete = true;
+    }
+    await page.waitForLoadState('load', {timeout: config.allow_partial ? 1500 : 5000}).catch(() => {});
     let pendingStylesheets = false;
     await page.waitForFunction(() => [...document.querySelectorAll('link[rel~="stylesheet"]')].every(link =>
       link.disabled || link.media && !matchMedia(link.media).matches || link.sheet !== null),
-      null,{timeout:5000}).catch(() => {
+      null,{timeout:config.allow_partial ? 1500 : 5000}).catch(() => {
         pendingStylesheets=true;
         if (!config.allow_partial) throw new Error('rendered layout incomplete: applicable stylesheet still pending');
       });
@@ -243,9 +249,10 @@ async function main(config) {
       failed_stylesheets: failedStylesheets,
       pending_stylesheets:pendingStylesheets,
       pending_fonts:pendingFonts,
-      layout_complete:!pendingStylesheets && failedStylesheets===0 && !pendingFonts,
+      navigation_incomplete:navigationIncomplete,
+      layout_complete:!navigationIncomplete && !pendingStylesheets && failedStylesheets===0 && !pendingFonts,
       viewport: {width: 1440, height: 1000},
-      method:pendingStylesheets || failedStylesheets || pendingFonts ? 'public_browser_partial' : 'public_browser_geometry'}));
+      method:navigationIncomplete || pendingStylesheets || failedStylesheets || pendingFonts ? 'public_browser_partial' : 'public_browser_geometry'}));
   } finally {
     if (browser) await browser.close();
     clearTimeout(deadline);

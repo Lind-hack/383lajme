@@ -13,6 +13,21 @@ import news_model as model
 
 
 class NewsModelTests(unittest.TestCase):
+    @unittest.skipUnless(os.name=='nt','Windows command-line transport')
+    def test_large_windows_query_preserves_complete_context_and_cli_contract(self):
+        prompt='Complete Albanian context ë. '*1500
+        command=['hermes','chat','--provider','openai-codex','--model','gpt-6-luna','-t','none','-q',prompt]
+        files=[]
+        def execute(rewritten,timeout,**kwargs):
+            self.assertNotIn('-q',rewritten)
+            self.assertEqual(rewritten[:-2],command[:-2])
+            path=Path(rewritten[-1]);files.append(path)
+            self.assertEqual(path.read_text(encoding='utf-8'),prompt)
+            return subprocess.CompletedProcess(rewritten,0,'complete','')
+        with patch.object(model,'_run_process',side_effect=execute):
+            self.assertEqual(model.run_process(command,10).stdout,'complete')
+        self.assertFalse(files[0].exists())
+
     def test_preparation_receives_complete_inline_evidence_without_file_turns(self):
         with tempfile.TemporaryDirectory() as folder:
             brief=Path(folder)/'facts.md';brief.write_text('Unique complete verified facts for every supplied story.',encoding='utf-8')

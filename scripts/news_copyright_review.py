@@ -315,8 +315,8 @@ def _review_chunk(batch: Path, todo: list[dict], records: dict[str, dict], index
     from news_review_rejection_basis import CLARIFICATION, grounded_rejection
     from news_model_context import contextual_command
     prompt += "\n" + CLARIFICATION
-    from news_model import run_process
-    command, inlined = contextual_command([os.environ.get("L383_HERMES_BIN", "/opt/hermes/.venv/bin/hermes"), "chat",
+    from news_model import run_process,hermes_command
+    command, inlined = contextual_command([*hermes_command(),
         "--provider", "openai-codex", "--model", "gpt-6-luna", "--ignore-rules", "-t", "file",
         "--yolo", "--max-turns", "20", "-Q", "-q", prompt], [review_input])
     result = run_process(command, timeout=360)

@@ -1,9 +1,10 @@
-"""A model photo editor: which licensed candidates truthfully show each story.
+"""A model photo editor: which prepared candidates truthfully show each story.
 
 Keyword matching cannot tell a photo of the story from a photo that merely
 shares a word with it (KFOR troops watching an eclipse for a KFOR change of
-command, eval 2026-10-17). The candidates are already licensed, recent enough
-and distinct from the source; the model only judges fit and order, and may
+command, eval 2026-10-17). The candidates are already prepared and checked
+under their desk's image policy; Showbiz permits original source
+images with provenance and no invented licence. The model judges fit and order, and may
 answer that none fits, which drops the story this hour.
 """
 from __future__ import annotations
@@ -21,7 +22,7 @@ from news_visual_contact import prepare as prepare_contact, attestation, MAX_VIS
 CHUNK = 16
 CHUNK_CELLS = 64
 EDITOR_DEADLINE = 240
-MAX_OPTIONS = {"press": 2, "fresh": 3, "video": 2, "older": 3, "place": 4, "asset": 4}
+MAX_OPTIONS = {"article": 4, "press": 2, "fresh": 3, "video": 2, "older": 3, "place": 4, "asset": 4}
 
 
 def describe(option: dict) -> str:
@@ -32,7 +33,8 @@ def describe(option: dict) -> str:
     page = option["page"]
     meta = next(iter(page.get("imageinfo", [])), {}).get("extmetadata", {})
     taken = option["photo"]["image_rights"].get("taken") or plain(meta.get("DateTimeOriginal", {}).get("value"))[:20]
-    origin = ' [rights-cleared source article image]' if option.get('source_image_match') else ''
+    origin = (' [original publisher article image; reuse licence not established]' if option['tier']=='article'
+              else ' [rights-cleared source article image]' if option.get('source_image_match') else '')
     return (f"photo, taken {taken or 'unknown'}: {plain(page.get('title', '')).removeprefix('File:')}{origin} | "
             f"{plain(meta.get('ImageDescription', {}).get('value'))[:240]}")
 
@@ -66,6 +68,7 @@ def _choose_chunk(stories: list[dict], folder: Path, index: int, deadline: float
         "Use the attached contact sheet's actual pixels. Every cell is labelled story-ID option N. Only shown options may be selected. Metadata does not turn a results table, infographic, chart, logo, poster, album cover or render into a photograph; reject those even on official sites. A video option also requires a photographic poster that shows the story's subject. "
         "For every story, list the numbers of options that truthfully illustrate its own person, event, team, product or place. "
         "Include every suitable photographed alternative, best first, because one image may only be used once in this hourly batch. "
+        "[article] options are the original Showbiz publisher article images requested by the owner. Judge their photographic subject fit; reuse permission is not established by their presence on the source. No capture-date recency floor applies to this tier; never describe an archive portrait as the new social post. "
         "An option marked rights-cleared source article image has independently verified reuse rights and belongs to an international desk. Prefer it over comparably relevant alternatives; its source use alone is never permission. All subject, pixel and capture-date checks still apply. "
         "[press] options are photos from the press release of the institution named in the story, the last two days; [video] options are the subject's own official videos of the last three days, [fresh] photos were taken in the last 30 days, [older] are archive photos of the last two years: use one only if it shows the story's own person or team; [place] are dated archive photos of the story's own institution, place, team or company (its building, city, stadium, headquarters), the last resort. "
         "[asset] options are visually reviewed photographs of physical tokens or banknotes for that exact asset's market story, explicitly captioned as illustrations with their actual capture dates. They may illustrate market price/flow news about that exact asset; they are not photographs of today's trading event. Prefer documentary photos first. "

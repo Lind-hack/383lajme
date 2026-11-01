@@ -192,6 +192,12 @@ MIN_IMAGE_WIDTH = 1200
 MIN_IMAGE_HEIGHT = 630 if os.environ.get("L383_HOURLY_NEWS") == "1" else 675
 MIN_SOCIAL_IMAGE_WIDTH = MIN_IMAGE_WIDTH
 MIN_SOCIAL_IMAGE_HEIGHT = MIN_IMAGE_HEIGHT
+
+
+def image_minimum(article):
+    if article.get('category')=='Showbiz' and (article.get('image_rights') or {}).get('provider')=='publisher-article':
+        return 600,350
+    return (MIN_SOCIAL_IMAGE_WIDTH,MIN_SOCIAL_IMAGE_HEIGHT) if _social_platform(article) else (MIN_IMAGE_WIDTH,MIN_IMAGE_HEIGHT)
 # Below this width a photo is still soft in the desktop lead on a 2x screen, so
 # normalize first asks the publisher's CDN for a larger rendition of the same
 # photo (_larger_image_rendition). That runs before the floor above is checked,
@@ -604,8 +610,7 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
         if image_url.startswith(("http://", "https://")):
             dimensions: tuple[int, int] | None = None
             failure_reason = ""
-            min_width = MIN_SOCIAL_IMAGE_WIDTH if social_platform else MIN_IMAGE_WIDTH
-            min_height = MIN_SOCIAL_IMAGE_HEIGHT if social_platform else MIN_IMAGE_HEIGHT
+            min_width,min_height = image_minimum(article)
             try:
                 dimensions = _fetch_image_dimensions(image_url)
             except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError) as exc:
@@ -626,7 +631,7 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
                         int(article.get("image_width") or 0),
                         int(article.get("image_height") or 0),
                     )
-                    if cached_dimensions[0] >= MIN_IMAGE_WIDTH and cached_dimensions[1] >= MIN_IMAGE_HEIGHT:
+                    if cached_dimensions[0] >= min_width and cached_dimensions[1] >= min_height:
                         dimensions = cached_dimensions
                         print(f"IMAGE DIMENSIONS CACHED: {article.get('title', 'untitled')!r} retained after transient fetch failure")
                     else:
@@ -1087,9 +1092,8 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
                         f"{label} image dimensions do not match image_url: declared "
                         f"{declared_width}x{declared_height}, actual {actual_width}x{actual_height}"
                     )
-                if actual_width < (MIN_SOCIAL_IMAGE_WIDTH if social_platform else MIN_IMAGE_WIDTH) or actual_height < (MIN_SOCIAL_IMAGE_HEIGHT if social_platform else MIN_IMAGE_HEIGHT):
-                    min_width = MIN_SOCIAL_IMAGE_WIDTH if social_platform else MIN_IMAGE_WIDTH
-                    min_height = MIN_SOCIAL_IMAGE_HEIGHT if social_platform else MIN_IMAGE_HEIGHT
+                min_width,min_height = image_minimum(article)
+                if actual_width < min_width or actual_height < min_height:
                     errors.append(
                         f"{label} image is too small ({actual_width}x{actual_height}); require at least "
                         f"{min_width}x{min_height}"
@@ -1156,11 +1160,12 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
         word_count = _body_word_count(article.get("body"))
         paragraph_count = _paragraph_count(article.get("body"))
         if not social_platform:
-            if word_count < MIN_ARTICLE_WORDS:
-                errors.append(f"{label} body is too short ({word_count} words); require at least {MIN_ARTICLE_WORDS}")
-            if paragraph_count < MIN_ARTICLE_PARAGRAPHS:
+            min_words,min_paragraphs=(50,1) if category=='Showbiz' else (MIN_ARTICLE_WORDS,MIN_ARTICLE_PARAGRAPHS)
+            if word_count < min_words:
+                errors.append(f"{label} body is too short ({word_count} words); require at least {min_words}")
+            if paragraph_count < min_paragraphs:
                 errors.append(
-                    f"{label} body has only {paragraph_count} paragraphs; require at least {MIN_ARTICLE_PARAGRAPHS}"
+                    f"{label} body has only {paragraph_count} paragraphs; require at least {min_paragraphs}"
                 )
 
         try:

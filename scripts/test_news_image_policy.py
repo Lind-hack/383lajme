@@ -219,7 +219,7 @@ class NewsPhotoTests(unittest.TestCase):
             policy.CATALOG.write_text(json.dumps({draft["url"]: photo}), encoding="utf-8")
             batch = Path(folder) / "2026-10-11T22.json"
             batch.write_text(json.dumps([draft]), encoding="utf-8")
-            with patch("codex_automation_support._fetch_image_dimensions", return_value=(1920, 1280)) as decoder:
+            with patch(f"{normalize_batch.__module__}._fetch_image_dimensions", return_value=(1920, 1280)) as decoder:
                 rows = normalize_batch(batch)
                 self.assertEqual(rows[0]["image_url"], photo["image_url"])
                 self.assertEqual(rows[0]["image_rights"], photo["image_rights"])

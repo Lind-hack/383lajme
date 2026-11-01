@@ -35,11 +35,12 @@ def balanced_options(options):
 
 
 @lru_cache(maxsize=128)
-def _thumbnail(url):
+def _thumbnail(url, publisher_article=False):
     from news_image_policy import photo_payload
     payload = photo_payload(url)
     with Image.open(BytesIO(payload)) as image:
-        if image.width < 1200 or image.height < 630 or image.width * image.height > 50_000_000:
+        minimum=(600,350) if publisher_article else (1200,630)
+        if image.width < minimum[0] or image.height < minimum[1] or image.width * image.height > 50_000_000:
             raise ValueError('photo dimensions outside policy')
         thumb = ImageOps.contain(ImageOps.exif_transpose(image).convert('RGB'), (TILE_WIDTH - 8, TILE_HEIGHT - 26))
         buffer = BytesIO()
@@ -58,7 +59,7 @@ def prepare(by_id, folder: Path, index: int, deadline: float):
             if time.monotonic() >= deadline:
                 return None
             key, number, option = job
-            digest, thumbnail = _thumbnail(option_url(option))
+            digest, thumbnail = _thumbnail(option_url(option),option['tier']=='article')
             option['_visual_source_sha256'] = digest
             return key, number, thumbnail
         except Exception:

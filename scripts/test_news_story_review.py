@@ -38,6 +38,19 @@ def verdict(**values):
 
 
 class StoryReviewTests(unittest.TestCase):
+    def test_homepage_work_reserves_time_for_article_reviews(self):
+        clock=[0.0]
+        def slow_home(url,publisher,folder,**kwargs):
+            if not kwargs.get('article'): clock[0]+=40
+            return fake_capture(url,publisher,folder,**kwargs)
+        with tempfile.TemporaryDirectory() as folder, patch('builtins.print'), \
+                patch('news_story_review.time.monotonic',side_effect=lambda:clock[0]):
+            records,result=review_inventory([dict(LEAD)],{URL:EVIDENCE},[],folder,
+                budget_seconds=300,capturer=slow_home,reviewer=lambda *args:verdict(score=5),now=NOW)
+            self.assertLess(result['summary']['captured_homepages'],14)
+            self.assertEqual(records[URL]['status'],'reviewed')
+            self.assertTrue(selection_ready(LEAD,records[URL],EVIDENCE,NOW))
+
     def test_capture_only_resumption_does_not_recapture_already_complete_articles(self):
         articles=[]
         def tracked(url,publisher,folder,**kwargs):
@@ -66,7 +79,7 @@ class StoryReviewTests(unittest.TestCase):
     def test_low_scoring_consider_decision_cannot_enter_writing(self):
         with tempfile.TemporaryDirectory() as folder, patch('builtins.print'):
             records,_=review_inventory([LEAD],{URL:EVIDENCE},[],folder,
-                capturer=fake_capture,reviewer=lambda *args:verdict(score=6),now=NOW)
+                capturer=fake_capture,reviewer=lambda *args:verdict(score=4),now=NOW)
             self.assertFalse(selection_ready(LEAD,records[URL],EVIDENCE,NOW))
 
     def test_subsequent_preparation_uses_the_exact_recaptured_text(self):
@@ -77,6 +90,9 @@ class StoryReviewTests(unittest.TestCase):
             records,_=review_inventory([dict(LEAD)],evidence,[],folder,
                 capturer=changed,reviewer=lambda *args:verdict(),now=NOW)
             self.assertEqual(evidence[URL],current)
+            from prepare_editor_sources import prepared_evidence
+            with patch('prepare_editor_sources.fetch_url',side_effect=AssertionError('reviewed evidence must not be refetched')):
+                self.assertEqual(prepared_evidence(URL,evidence),current)
             self.assertTrue(selection_ready(LEAD,records[URL],current,NOW))
             self.assertFalse(selection_ready(LEAD,records[URL],EVIDENCE,NOW))
 

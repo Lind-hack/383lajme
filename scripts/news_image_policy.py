@@ -1,4 +1,4 @@
-"""Contextual, rights-cleared photos with category-specific source reuse."""
+"""Contextual photos, verified reuse rights and owner-selected Showbiz source images."""
 from __future__ import annotations
 
 import hashlib
@@ -999,8 +999,45 @@ def _research(lead: dict, primary: dict, secondary: dict, plan: dict, deadline: 
     return cache[plan["subject"]]
 
 
+def article_photo_options(lead: dict, primary: dict) -> list[dict]:
+    """Owner-selected Showbiz source imagery; provenance is not a reuse licence."""
+    from news_source_policy import publisher_for
+    owner=publisher_for(lead.get('url'))
+    actual=publisher_for(primary.get('url'))
+    if (lead.get('category')!='Showbiz' or primary.get('status')!='text_extracted'
+            or not owner or not actual or owner['category']!='Showbiz' or owner['source']!=actual['source']):
+        return []
+    from codex_automation_support import _looks_like_content_image_url, _larger_image_candidates
+    urls=list(dict.fromkeys([primary.get('image_url',''),*primary.get('image_candidates',[])]))
+    options=[]
+    for url in urls:
+        if not url.startswith('https://') or not _looks_like_content_image_url(url): continue
+        for candidate in dict.fromkeys([url,*_larger_image_candidates(url)]):
+            rights={'provider':'publisher-article','source_page':lead['url'],'creator':owner['source'],
+                    'license':'Not established','license_url':'','reuse_basis':'owner_requested_source_image',
+                    'verified_at':datetime.now(timezone.utc).isoformat(),'description':primary.get('title','')}
+            options.append({'tier':'article','page':{'title':primary.get('title',''),'imageinfo':[]},
+                            'photo':{'image_url':candidate,'image_subject':lead.get('title',''),
+                                     'image_caption':'Foto nga artikulli burimor: '+owner['source'],
+                                     'image_rights':rights},'source_image_match':True})
+        if len(options)>=4: break
+    return options[:4]
+
+
+def publisher_photo_allowed(lead: dict, photo: dict) -> bool:
+    from news_source_policy import publisher_for
+    rights=photo.get('image_rights') or {}
+    owner=publisher_for(lead.get('url'))
+    return bool(lead.get('category')=='Showbiz' and owner and owner['category']=='Showbiz'
+                and rights.get('provider')=='publisher-article'
+                and str(rights.get('source_page','')).rstrip('/')==str(lead.get('url','')).rstrip('/')
+                and rights.get('reuse_basis')=='owner_requested_source_image'
+                and rights.get('license')=='Not established' and not rights.get('license_url'))
+
+
 def source_photo_allowed(lead: dict, photo: dict) -> bool:
-    """An outlet's use is not permission; independently verified Commons rights are."""
+    """Allow the explicit Showbiz source-image policy or independently checked rights."""
+    if publisher_photo_allowed(lead,photo): return True
     rights = photo.get('image_rights', {})
     try:
         page = urlsplit(str(rights.get('source_page', '')))
@@ -1115,18 +1152,19 @@ def finalize_photo(lead: dict, option: dict) -> dict:
         width, height, digest, visual = photo_fingerprint(photo["image_url"])
     except Exception:
         return {}
-    if width < 1200 or height < 630:
+    minimum=(600,350) if option['tier']=='article' and publisher_photo_allowed(lead,photo) else (1200,630)
+    if width < minimum[0] or height < minimum[1]:
         return {}
     if visual_review:
         from news_visual_contact import valid_record
         if not valid_record({'sha256':digest,'visual_review':visual_review}):
             return {}
     # Institutional press photos keep their existing permission. Other source
-    # matches need independently verified reuse rights and an international desk.
+    # matches must satisfy their desk's verified-rights or Showbiz source policy.
     source_match = (any(image_identity(photo['image_url']) == image_identity(url) for url in lead.get('_source_urls', []))
                     or any(digest == source[2] or (visual ^ source[3]).bit_count() <= 20
                            for source in lead.get('_source_fingerprints', [])))
-    reused_source = option['tier'] != 'press' and source_match
+    reused_source = option['tier'] == 'article' or option['tier'] != 'press' and source_match
     if reused_source and not source_photo_allowed(lead, photo):
         return {}
     reserve = lead.get("_reserve_photo")
@@ -1213,7 +1251,7 @@ def image_errors(article: dict) -> list[str]:
         return ["official press image is a results graphic, poster or logo rather than a photograph"]
     official_press = (rights.get("provider") == "official-press" and rights.get("license") == LICENSE
                       and site(str(rights.get("source_page", ""))) in {site(url) for url in FEEDS})
-    if not (official_video or official_press) and (rights.get("license") not in LICENSES or rights.get("license_url") != LICENSES.get(rights.get("license"))):
+    if not (official_video or official_press or publisher_photo_allowed(article,photo)) and (rights.get("license") not in LICENSES or rights.get("license_url") != LICENSES.get(rights.get("license"))):
         return ["photo rights must be CC0, public domain, CC BY/BY-SA or OGL 3 with a matching licence URL"]
     if any(article.get(key) != photo.get(key) for key in ("image_subject", "image_caption", "image_rights")):
         return ["image provenance was changed or omitted; use the prepared photo metadata"]
