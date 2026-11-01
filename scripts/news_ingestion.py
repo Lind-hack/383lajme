@@ -190,6 +190,9 @@ def _collect(manifest, state, *, budget_seconds=240, now=None, fetcher=fetch_pub
         store.enqueue(route,run,refresh=True)
     active = {}
     rotation = set()
+    # A category pass may share the durable inventory with the general collector.
+    # Never dispatch another desk's stored task against this smaller manifest.
+    outside_scope = {row[0] for row in store.db.execute('SELECT DISTINCT source FROM tasks')} - set(publishers)
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=8)
     try:
         while time.monotonic() < deadline:
@@ -199,10 +202,10 @@ def _collect(manifest, state, *, budget_seconds=240, now=None, fetcher=fetch_pub
                 # slots available for article bodies rather than semaphore waits.
                 allow_homepages = sum(task['kind']=='listing' and is_homepage(task['url'],publishers[task['source']])
                                       for task in active.values()) < 2
-                task = next_task(store, occupied | rotation,allow_homepages=allow_homepages)
+                task = next_task(store, occupied | rotation | outside_scope,allow_homepages=allow_homepages)
                 if task is None:
                     rotation.clear()
-                    task = next_task(store, occupied,allow_homepages=allow_homepages)
+                    task = next_task(store, occupied | outside_scope,allow_homepages=allow_homepages)
                 if task is None:
                     break
                 rotation.add(task['source'])

@@ -42,6 +42,7 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         def note_priority(lead):
             risky = bool(lead.get("source_basis_warning"))
             attention = (bool(lead.get('coverage_already_published')), freshness_bucket(lead, now),
+                         -(lead.get('editorial_review') or {}).get('score',0),
                          reader_value(lead)['reserve_genre'], -homepage_weight(lead, now),
                          -reader_value(lead)['score'],
                          -min(lead.get('coverage_family_count', 1), 5))
@@ -103,7 +104,7 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         identities.append({key: lead[key] for key in ('pair_id', 'url', 'category')})
         metadata = {key: lead.get(key) for key in ("pair_id", "category", "source", "url", "published", "city",
                                                    "requires_corroboration", "corroborates_url", "image_subject", "source_basis_warning",
-                                                   "coverage_family_count", "coverage_already_published", "homepage")
+                                                   "coverage_family_count", "coverage_already_published", "homepage", "editorial_review")
                     if lead.get(key) not in (None, "")}
         metadata['reader_value'] = reader_value(lead)
         if homepage_weight(lead) > 0:

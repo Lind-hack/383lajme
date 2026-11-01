@@ -89,6 +89,31 @@ def stubborn_tree(ready, finished, record):
 @unittest.skipUnless(shutil.which(os.environ.get('L383_NEWS_CHROMIUM','/usr/bin/chromium')),
                      'production Chromium unavailable on this platform')
 class HomepageRenderTests(unittest.TestCase):
+    def test_partial_capture_is_available_but_cannot_claim_homepage_geometry(self):
+        from news_homepage_priority import homepage_weight
+        from datetime import datetime,timezone
+        html='<link rel="stylesheet" href="/blocked.css"><h2><a href="/lead">Public news headline here</a></h2>'
+        with tempfile.TemporaryDirectory() as folder:
+            screenshot=Path(folder)/'page.png'
+            result=render_homepage(response(html),PUB,fetcher=soft_blocked_stylesheet,
+                                   screenshot=screenshot,allow_partial=True)
+            self.assertTrue(screenshot.is_file())
+            self.assertFalse(result['layout_complete'])
+            self.assertEqual(result['method'],'public_browser_partial')
+            self.assertEqual(homepage_weight({'homepage':dict(method=result['method'],position=1,article_count=1,
+                observed_at=datetime.now(timezone.utc).isoformat())}),0)
+
+    def test_article_capture_preserves_visible_text_and_original_page_pixels(self):
+        text='Dua Lipa announced a new album today. '*100
+        html='<html><title>Dua Lipa album</title><article><h1>Dua Lipa announces an album</h1><p>'+text+'</p></article></html>'
+        with tempfile.TemporaryDirectory() as folder:
+            screenshot=Path(folder)/'page.png'
+            result=render_homepage(response(html),PUB,fetcher=deny_resources,screenshot=screenshot,article=True)
+            self.assertIn(text.strip(),result['article_view']['visible_text'])
+            self.assertTrue(screenshot.is_file())
+            self.assertTrue(screenshot.with_name('page.full.png').is_file())
+            self.assertGreaterEqual(result['screenshot_height'],result['article_view']['page_height'])
+
     def test_slow_images_leave_capacity_for_later_layout_stylesheets(self):
         html='''<body><script>
         for(let i=0;i<8;i++){const img=document.createElement('img');img.width=20;img.height=20;
@@ -289,7 +314,7 @@ class HomepageRenderTests(unittest.TestCase):
             sizes = [int(row) for row in log.read_text().splitlines()]
             self.assertEqual(len(sizes),4)
             self.assertLessEqual(len(root['payload'])+sum(sizes),32_000_000)
-            self.assertLess(min(sizes),1_000_000)
+            self.assertLessEqual(max(sizes),2_000_000)
 
     def test_root_redirect_ownership_is_required_before_browser(self):
         with self.assertRaisesRegex(ValueError,'outside'):

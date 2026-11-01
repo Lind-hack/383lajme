@@ -152,7 +152,10 @@ def ask_rows(prompt: str, brief: Path, hermes_args: list[str], timeout: int,
             raise ValueError('native photo brief exceeds complete-context limit')
         prompt_file = image_path.with_suffix('.prompt.txt')
         prompt_file.write_text(complete, encoding='utf-8')
-        command = ['/opt/hermes/.venv/bin/python', str(Path(__file__).with_name('news_native_pixels.py')),
+        import sys
+        native_python = os.environ.get('L383_NEWS_NATIVE_PYTHON') or (
+            '/opt/hermes/.venv/bin/python' if Path('/opt/hermes/.venv/bin/python').is_file() else sys.executable)
+        command = [native_python, str(Path(__file__).with_name('news_native_pixels.py')),
                    '--image', str(image_path.resolve()), '--prompt', str(prompt_file.resolve())]
     result = run_process(command, timeout, deadline=deadline)
     if result.returncode:

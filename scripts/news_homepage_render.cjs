@@ -30,7 +30,8 @@ async function main(config) {
           return route.abort();
         }
         const response = await fetch(config.bridge, {method: 'POST',
-          body: JSON.stringify({url: request.url(),resource_type:request.resourceType()}), signal: AbortSignal.timeout(23000)});
+          body: JSON.stringify({url: request.url(),resource_type:request.resourceType()}),
+          signal: AbortSignal.timeout(request.resourceType() === 'stylesheet' ? 10000 : 7000)});
         if (!response.ok) throw new Error('public resource unavailable');
         const resource = await response.json();
         if (resource.url !== request.url()) {
@@ -40,7 +41,7 @@ async function main(config) {
             && resource.content_type.split(';')[0].trim().toLowerCase() !== 'text/css') {
           throw new Error('public stylesheet did not return CSS');
         }
-        await route.fulfill({status: 200, contentType: resource.content_type,
+        await route.fulfill({status: 200, headers: resource.headers || {}, contentType: resource.content_type,
           body: Buffer.from(resource.payload, 'base64')});
       } catch (_) {
         failed++;
@@ -51,11 +52,28 @@ async function main(config) {
     const page = await context.newPage();
     await page.goto(config.url, {waitUntil: 'domcontentloaded', timeout: 25000});
     await page.waitForLoadState('load', {timeout: 5000}).catch(() => {});
+    let pendingStylesheets = false;
     await page.waitForFunction(() => [...document.querySelectorAll('link[rel~="stylesheet"]')].every(link =>
       link.disabled || link.media && !matchMedia(link.media).matches || link.sheet !== null),
-      null,{timeout:5000}).catch(() => {throw new Error('rendered layout incomplete: applicable stylesheet still pending');});
-    await page.evaluate(() => document.fonts.ready);
+      null,{timeout:5000}).catch(() => {
+        pendingStylesheets=true;
+        if (!config.allow_partial) throw new Error('rendered layout incomplete: applicable stylesheet still pending');
+      });
+    await page.evaluate(() => Promise.race([document.fonts.ready,new Promise(resolve=>setTimeout(resolve,1000))]));
     await page.waitForTimeout(750);
+    const pendingFonts = await page.evaluate(() => document.fonts.status !== 'loaded');
+    let articleView;
+    if (config.article) {
+      articleView = await page.evaluate(() => {
+        const containers = [...document.querySelectorAll('article')];
+        containers.sort((a,b)=>(b.innerText || '').length-(a.innerText || '').length);
+        const root = containers[0] || document.querySelector('main') || document.body;
+        return {title: (document.querySelector('h1')?.innerText || document.title).trim(),
+          visible_text: root.innerText || '', page_height: document.documentElement.scrollHeight,
+          breaking_labels: [...root.querySelectorAll('[class*="breaking"],[data-testid*="breaking"]')]
+            .map(node=>node.innerText.trim()).filter(Boolean).slice(0,10)};
+      });
+    }
     const extracted = await page.evaluate(({excluded,utilities,tracking,prefixes,categories}) => {
       const rows = [], discovered = [], candidates = [];
       const headings = 'h1,h2,h3,h4,h5,h6,[role="heading"]';
@@ -197,11 +215,34 @@ async function main(config) {
         || a.geometry.left-b.geometry.left)};
     },{excluded: config.excluded_extensions,utilities: config.utility_paths,tracking: config.tracking_keys,
       prefixes: config.excluded_prefixes,categories: config.category_prefixes});
-    if (config.screenshot) await page.screenshot({path: config.screenshot});
+    let screenshotHeight = 0;
+    if (config.screenshot) {
+      // Preserve the original page pixels; no synthetic "article" illustration.
+      // CDP captures the current surface without Playwright waiting indefinitely
+      // for a publisher's webfonts. Pending fonts explicitly make layout partial.
+      // https://playwright.dev/docs/api/class-cdpsession
+      const session = await context.newCDPSession(page);
+      const snapshot = async (path,height) => {
+        const shot = await session.send('Page.captureScreenshot',{format:'png',fromSurface:true,
+          captureBeyondViewport:true,clip:{x:0,y:0,width:1440,height,scale:1}});
+        fs.writeFileSync(path,Buffer.from(shot.data,'base64'));
+      };
+      await snapshot(config.screenshot,1000);
+      if (config.article) {
+        screenshotHeight = Math.min(articleView.page_height,16000);
+        await snapshot(config.screenshot.replace(/\.png$/,'.full.png'),screenshotHeight);
+      }
+      await session.detach();
+    }
     process.stdout.write(JSON.stringify({url: page.url(), articles: extracted.articles,
+      article_view: articleView, screenshot_height: screenshotHeight,
       discovered_articles: extracted.discovered, requests, failed_resources: failed,
       failed_stylesheets: failedStylesheets,
-      viewport: {width: 1440, height: 1000}, method: 'public_browser_geometry'}));
+      pending_stylesheets:pendingStylesheets,
+      pending_fonts:pendingFonts,
+      layout_complete:!pendingStylesheets && failedStylesheets===0 && !pendingFonts,
+      viewport: {width: 1440, height: 1000},
+      method:pendingStylesheets || failedStylesheets || pendingFonts ? 'public_browser_partial' : 'public_browser_geometry'}));
   } finally {
     if (browser) await browser.close();
     clearTimeout(deadline);
