@@ -295,8 +295,9 @@ def title_errors(article: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     if not title:
         return ["title is empty"]
-    if len(title) > 65:
-        errors.append(f"title exceeds the ~65-character mobile limit ({len(title)} characters)")
+    maximum=80 if category=='Showbiz' else 65
+    if len(title) > maximum:
+        errors.append(f"title exceeds the ~{maximum}-character mobile limit ({len(title)} characters)")
     folded = fold(title)
     words = re.findall(r"[\wÀ-ÿ'-]+", title, flags=re.UNICODE)
     folded_words = [fold(word).strip("'-") for word in words]
@@ -420,13 +421,14 @@ def validate_run(articles: list[dict[str, Any]]) -> list[str]:
     minimum = 1 if HOURLY_NEWS_MODE else MIN_TOTAL_ARTICLES
     if len(articles) < minimum:
         errors.append(f"run contains {len(articles)} articles; minimum is {minimum}")
-    maximum = MAX_TOTAL_ARTICLES
+    from news_coverage import batch_ceiling, category_ceiling
+    maximum = batch_ceiling(articles) if HOURLY_NEWS_MODE else MAX_TOTAL_ARTICLES
     if len(articles) > maximum:
-        errors.append(f"run contains {len(articles)} articles; Topic Selection v2 caps the run at {MAX_TOTAL_ARTICLES}")
+        errors.append(f"run contains {len(articles)} articles; Topic Selection v2 caps the run at {maximum}")
     counts = Counter(canonical_category(article.get("category")) for article in articles)
     if HOURLY_NEWS_MODE:
         for category, count in counts.items():
-            if count > 3:
+            if count > category_ceiling(category):
                 errors.append(f"{category} contains {count} articles; hourly coverage caps each category at 3")
     for category, quota in LANE_QUOTAS.items():
         count = counts.get(category, 0)

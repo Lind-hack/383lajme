@@ -163,7 +163,9 @@ class StoryReviewTests(unittest.TestCase):
             record=records[URL]
             self.assertTrue(reusable(record,LEAD,EVIDENCE,NOW))
             self.assertFalse(reusable(record,LEAD,dict(EVIDENCE,text='changed'),NOW))
-            self.assertFalse(reusable(record,LEAD,EVIDENCE,NOW+timedelta(hours=2)))
+            self.assertTrue(reusable(record,LEAD,EVIDENCE,NOW+timedelta(hours=2)))
+            self.assertFalse(reusable(record,LEAD,EVIDENCE,NOW+timedelta(hours=25)))
+            self.assertFalse(reusable(record,LEAD,{**EVIDENCE,'image_url':'https://example.com/changed.jpg'},NOW))
             Path(record['review_image']).write_bytes(b'changed pixels')
             self.assertFalse(reusable(record,LEAD,EVIDENCE,NOW))
 

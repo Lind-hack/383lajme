@@ -62,7 +62,7 @@ QA_ONLY=0
     def invoke(self, script):
         return subprocess.run([BASH, "-c", script], capture_output=True, text=True, timeout=10)
 
-    def test_extra_editor_can_run_at_minute_forty_four_while_initial_editor_cannot(self):
+    def test_initial_and_extra_editors_keep_four_minutes_after_grouped_writers(self):
         budget = RUNNER[RUNNER.index("model_budget() {"):RUNNER.index("track_attempted() {")]
         start = RUNNER.index("review_candidates() {")
         header = RUNNER[start:RUNNER.index('stage="normalize"', start)]
@@ -72,14 +72,14 @@ date() { printf 3640; }
 IN_EXTRA_REVIEW=1
 review_candidates
 unset IN_EXTRA_REVIEW
-if review_candidates; then exit 1; fi
+review_candidates
 '''
         result = self.invoke(script)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(result.stdout.splitlines(), ["240"])
+        self.assertEqual(result.stdout.splitlines(), ["240240"])
 
     def test_preparation_model_deadline_reserves_writer_time_without_shortening_later_review(self):
-        start = RUNNER.index('env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 1200))"')
+        start = RUNNER.index('env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 1560))"')
         end = RUNNER.index('--discovery', start) + len('--discovery')
         command = RUNNER[start:end]
         with tempfile.TemporaryDirectory() as temporary:
@@ -91,7 +91,7 @@ if review_candidates; then exit 1; fi
             result = subprocess.run([BASH, "-c", script], cwd=root, capture_output=True, text=True, timeout=10,
                                     env={**os.environ, "PYTHON_BIN": sys.executable, "DISCOVERY": "unused.md"})
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertEqual(result.stdout.splitlines(), ["2200", "4000"])
+            self.assertEqual(result.stdout.splitlines(), ["2560", "4000"])
 
     def test_fresh_candidates_are_attempted_before_rewrites_and_failures_preserve_approved_copy(self):
         self.exercise_recovery(1000)

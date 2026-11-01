@@ -1,6 +1,7 @@
 """Keep hourly drafting balanced against the prepared category plan."""
 import argparse
 import json
+import math
 from collections import Counter
 from pathlib import Path
 
@@ -10,6 +11,15 @@ COVERAGE_FLOOR = 2
 CATEGORY_CEILING = 3
 
 
+def category_ceiling(category):
+    """Showbiz expands with verified inventory; other desks keep their limits."""
+    return math.inf if category=='Showbiz' else CATEGORY_CEILING
+
+
+def batch_ceiling(articles):
+    return 20+max(0,sum(a.get('category')=='Showbiz' for a in articles)-hourly_targets()['Showbiz'])
+
+
 def plan_counts(counts: dict[str, int], total: int = 20) -> dict[str, int]:
     """Give every available desk two places before assigning third places."""
     targets = hourly_targets()
@@ -17,7 +27,7 @@ def plan_counts(counts: dict[str, int], total: int = 20) -> dict[str, int]:
     for level in (1, COVERAGE_FLOOR, CATEGORY_CEILING):
         for category in CATEGORIES:
             if sum(plan.values()) >= total:
-                return plan
+                continue
             if plan[category] < min(level, targets[category], counts.get(category, 0)):
                 plan[category] += 1
     # A spare third story is permitted, but a missing desk never creates a
@@ -27,6 +37,7 @@ def plan_counts(counts: dict[str, int], total: int = 20) -> dict[str, int]:
             break
         if plan[category] < min(CATEGORY_CEILING, counts.get(category, 0)):
             plan[category] += 1
+    plan['Showbiz']=counts.get('Showbiz',0)
     return plan
 
 
@@ -35,7 +46,7 @@ def balance(articles: list[dict], plan: dict[str, int]) -> list[dict]:
     kept = []
     for article in articles:
         category = article.get("category")
-        if counts[category] < min(CATEGORY_CEILING, plan.get(category, 0)):
+        if counts[category] < min(category_ceiling(category), plan.get(category, 0)):
             kept.append(article)
             counts[category] += 1
     return kept
@@ -52,10 +63,10 @@ def replacement_plan(articles: list[dict], ready: list[dict], attempted: list[st
     plan = plan_counts(Counter(article.get("category") for article in combined))
     approved = Counter(article.get("category") for article in articles)
     plan = {category: max(count, approved[category]) for category, count in plan.items()}
-    if any(approved[category] > CATEGORY_CEILING for category in CATEGORIES):
+    if any(approved[category] > category_ceiling(category) for category in CATEGORIES):
         raise ValueError("Approved articles exceed the three-per-category ceiling")
     targets = hourly_targets()
-    while sum(plan.values()) > 20:
+    while sum(plan.values()) > batch_ceiling(combined):
         reducible = [category for category in plan if plan[category] > approved[category]]
         if not reducible:
             raise ValueError("Approved articles exceed the publication cap")

@@ -1018,7 +1018,7 @@ def article_photo_options(lead: dict, primary: dict) -> list[dict]:
                     'verified_at':datetime.now(timezone.utc).isoformat(),'description':primary.get('title','')}
             options.append({'tier':'article','page':{'title':primary.get('title',''),'imageinfo':[]},
                             'photo':{'image_url':candidate,'image_subject':lead.get('title',''),
-                                     'image_caption':'Foto nga artikulli burimor: '+owner['source'],
+                                     'image_caption':'Pamje nga artikulli burimor: '+owner['source'],
                                      'image_rights':rights},'source_image_match':True})
         if len(options)>=4: break
     return options[:4]

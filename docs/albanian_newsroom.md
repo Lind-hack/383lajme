@@ -7,9 +7,7 @@ This document is authoritative for the hosted writer and deterministic gates. It
 The hourly worker targets 20 distinct new articles: Kosovë 3; Shqipëri 3;
 Botë 3; Teknologji 3; Ekonomi 3; Sport 3; Showbiz 2. Follow the prepared
 publication_plan: cover every available category before taking extra stories
-from a busy desk. Use backup candidates if a draft fails. Unused slots in a
-quiet desk can be redistributed only up to three articles per category; give
-every available desk two places before third places and report shortages honestly. Prioritize
+from a busy desk. Use backup candidates if a draft fails. Other desks retain a ceiling of three articles. Showbiz expands beyond its baseline two and the baseline total of 20 to cover every distinct current verified story in publication_plan; there is no numeric Showbiz desk ceiling. Give every available desk two places before third places and report shortages honestly. Prioritize
 interesting, well-supported news for Kosovo readers without inventing a local
 connection to world news.
 
@@ -45,7 +43,7 @@ context. The hourly pipeline checks for a fresh report each run and refreshes
 research every four hours and on a new Kosovo calendar day. Daily research
 includes an artist-name search restricted to every registered Showbiz
 publisher, alongside broader discovery searches and public official feeds. These
-searches supplement the normal collection of all fourteen publisher inventories.
+searches supplement the normal collection of all registered publisher inventories.
 Official profile links have provenance; never guess handles. A profile alone is not a new post,
 and an updated timestamp is not a new upload. Exact posts require accessible
 author/date/content evidence when claiming direct post verification. Routine non-sensitive artist updates may rely on one readable registered publisher without an exact social permalink; record direct-post access as unverified and never imply 383 inspected it. Public posts can establish what the artist said
@@ -58,6 +56,8 @@ archive imagery only when permitted; do not pass it off as the current post or
 substitute an unrelated social photograph. Search snippets and artist feeds do not
 automatically become publication-ready facts. Showbiz editorial consideration starts at 5/10 for a specific fresh entertainment hook. A supported short update may use 50 words in one paragraph; all other categories retain their current minimums. Do not invent a fresh artist story
 to meet a preferred share or category target.
+
+Showbiz review prioritizes Albanian artists, adult celebrity photos/fashion/public updates and the first stories on publisher homepages. Homepage position is a discovery signal, not proof of virality. Recent stories up to 72 hours old remain eligible only with a fresh homepage observation; preserve their actual publication dates and do not call them breaking. Each native review reads the complete public text and inspects real publisher pixels. Original-image-only reviews are explicitly labelled and do not claim to inspect publisher page layout. Reuse a matching editorial decision for at most 24 hours only if the source text, image identity, screenshots and policy still match. Titles may use up to 80 characters in Showbiz (prefer 65); other desks remain at 65.
 
 ## Hard bans — never publish
 

@@ -50,7 +50,7 @@
     },
     "title": {
       "type": "string",
-      "maxLength": 65
+      "maxLength": 80
     },
     "excerpt": {
       "type": "string"
@@ -251,7 +251,7 @@
   "run_contract": {
     "mode": "L383_HOURLY_NEWS=1",
     "minimum_articles": 1,
-    "maximum_articles": 20,
+    "maximum_articles": null,
     "minimum_by_category": {},
     "independent_sources_required": 1,
     "no_verified_news": "successful no_news outcome without an article batch",
@@ -274,7 +274,7 @@
       "Sport": 3,
       "Teknologji": 3,
       "Ekonomi": 3,
-      "Showbiz": 3
+      "Showbiz": null
     },
     "coverage_floor_by_category": {
       "Kosovë": 2,
@@ -284,6 +284,29 @@
       "Teknologji": 2,
       "Ekonomi": 2,
       "Showbiz": 2
+    },
+    "maximum_articles_rule": "20 baseline plus all verified Showbiz stories beyond the baseline two; explicit operator caps still apply",
+    "showbiz_target": "Every distinct current verified Showbiz story in publication_plan, without a numeric desk ceiling"
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "Showbiz"
+          }
+        },
+        "required": [
+          "category"
+        ]
+      },
+      "else": {
+        "properties": {
+          "title": {
+            "maxLength": 65
+          }
+        }
+      }
     }
-  }
+  ]
 }

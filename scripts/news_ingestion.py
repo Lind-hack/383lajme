@@ -65,6 +65,7 @@ def _execute(task, publishers, cutoffs, now, fetcher, *, renderer=None):
     if task['kind']=='article':
         result['evidence'] = extract(body,base,max_text_chars=None)
         result['evidence']['fetched_at'] = datetime.now(timezone.utc).isoformat()
+        result['evidence']['requested_url']=task['url']
     elif task['kind']=='feed':
         import feedparser
         parsed = feedparser.parse(body)
@@ -307,7 +308,11 @@ def _snapshot(store, publishers, now, counters, started, *, checkpoint):
         if not owned(evidence.get('url',''),publisher):
             continue
         published = published_at({'published':evidence.get('published') or row['hint'].get('published')})
-        if not published or not now.timestamp()-86400 <= published.timestamp() <= now.timestamp()+300:
+        if not published:
+            counters[row['source']]['missing_publication_date']+=1
+            continue
+        if not now.timestamp()-86400 <= published.timestamp() <= now.timestamp()+300:
+            counters[row['source']]['outside_current_window']+=1
             continue
         title, text = str(evidence.get('title') or row['hint'].get('title') or ''),str(evidence.get('text') or '')
         if topic_error(publisher['category'],title,text,tags=row['hint'].get('tags',[]),url=row['url']):

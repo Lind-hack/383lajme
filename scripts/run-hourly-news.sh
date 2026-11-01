@@ -182,15 +182,15 @@ if ! "$PYTHON_BIN" scripts/cloud_news_discovery.py --output .last30days/cloud-ne
 fi
 
 stage="writer-source-fetch"
-# Reserve five minutes for the grouped writers before their minute-25 deadline.
+# Finish source preparation by minute 26, leaving up to 16 minutes for grouped writers.
 # Scope this preparation-model deadline to the child; later editorial calls keep
 # the run's minute-50 limit. Slow notes must not consume the writing window.
-env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 1200))" \
+env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 1560))" \
   "$PYTHON_BIN" scripts/prepare_editor_sources.py "$DISCOVERY" --discovery
 
 # Prepared inventory includes readable, lane-locked source text and decoded images.
 # Sensitive claims still require an independently readable second publisher.
-L383_TARGET_ARTICLES="$("$PYTHON_BIN" -c 'import json,os,sys; p=json.load(open(sys.argv[1],encoding="utf-8"))["publication_plan"]; print(min(20,int(os.environ.get("L383_MAX_ARTICLES", "20")),sum(p.values())))' "${DISCOVERY%.md}.json")"
+L383_TARGET_ARTICLES="$("$PYTHON_BIN" -c 'import json,os,sys; p=json.load(open(sys.argv[1],encoding="utf-8"))["publication_plan"]; n=sum(p.values()); print(min(n,int(os.environ.get("L383_MAX_ARTICLES",str(n)))))' "${DISCOVERY%.md}.json")"
 if [ -z "$L383_TARGET_ARTICLES" ] || [ "$L383_TARGET_ARTICLES" -lt 1 ]; then
   stage="no-new-verified-news"
   record_state no_news
@@ -281,7 +281,7 @@ run_writer() {
   if ! grep -q '^Notes unavailable\.' "$WRITER_BRIEF"; then
     context_args=(--context-file "$REPO/docs/albanian_newsroom.md" --context-file "$REPO/docs/news-output-schema.json" --context-file "$REPO/docs/news-ranking-rubric.md" --context-file "$WRITER_BRIEF")
   fi
-  writer_budget="$(model_budget "${L383_WRITER_ATTEMPT_TIMEOUT:-600}" "${WRITER_PHASE_END:-1500}")" || return 75
+  writer_budget="$(model_budget "${L383_WRITER_ATTEMPT_TIMEOUT:-600}" "${WRITER_PHASE_END:-2520}")" || return 75
   timeout --signal=TERM --kill-after=15s "$((writer_budget + 5))s" \
     env HERMES_HOME="${L383_HERMES_HOME:-/opt/data/news-pipeline-hermes}" L383_MODEL_CALL_TIMEOUT="$writer_budget" \
     "$PYTHON_BIN" scripts/news_model_response.py --batch "${WRITER_BATCH:-$BATCH}" --mode replace --identity-manifest "${WRITER_BRIEF%.md}.sources.json" "${context_args[@]}" -- /opt/hermes/.venv/bin/hermes chat \
@@ -327,26 +327,34 @@ recover_missing_writer_desks() {
 }
 # Compose the complete source-ready allocation in disjoint one-story calls.
 # Round-robin slots give every desk its first and second request before thirds.
-# Keep five concurrent requests and the same minute-33 deadline.
+# Keep five concurrent requests, finishing drafts by minute 42.
 run_writer_groups() {
-  local folder group desks target running=0 slot
+  local folder group desks jobs running=0 slot call_cap
   folder="$(mktemp -d /tmp/383-writer-groups.XXXXXX)" || return 75
   group=0
-  for slot in 1 2 3; do
-    for desks in "Kosovë" "Shqipëri" "Sport" "Teknologji" "Ekonomi" "Botë" "Showbiz"; do
-      target="$("$PYTHON_BIN" -c 'import json,sys; p=json.load(open(sys.argv[1],encoding="utf-8"))["publication_plan"]; print(min(3,p.get(sys.argv[2],0)))' "${DISCOVERY%.md}.json" "$desks")"
-      [ "$slot" -le "$target" ] || continue
+  jobs="$("$PYTHON_BIN" - "${DISCOVERY%.md}.json" <<'PY'
+import json,math,sys
+p=json.load(open(sys.argv[1],encoding='utf-8'))['publication_plan']
+desks=['Kosovë','Shqipëri','Sport','Teknologji','Ekonomi','Botë','Showbiz']
+groups={c:math.ceil(p.get(c,0)/3) if c=='Showbiz' else min(3,p.get(c,0)) for c in desks}
+for slot in range(1,max(groups.values(),default=0)+1):
+    for c in desks:
+        if slot<=groups[c]:print(c,slot,3 if c=='Showbiz' else 1,sep='\t')
+PY
+)" || return 75
+  while IFS=$'\t' read -r desks slot call_cap; do
+      [ -n "$desks" ] || continue
       group=$((group + 1))
-      printf '383 DESK WRITER: category=%s slot=%s target=1 cap=240s end_minute=33\n' "$desks" "$slot"
+      printf '383 DESK WRITER: category=%s group=%s cap=240s end_minute=42\n' "$desks" "$slot"
       (
         WRITER_BATCH="$folder/$group.json"
         WRITER_DESK_SLOT="$slot"
-        L383_TARGET_ARTICLES=1
+        L383_TARGET_ARTICLES="$call_cap"
         L383_WRITER_ATTEMPT_TIMEOUT=240
-        WRITER_PHASE_END=1980
-        WRITER_SCOPE="This call covers ONLY ${desks}, article slot ${slot}: write one eligible story from this brief; ignore every other category and global counts below. "
+        WRITER_PHASE_END=2520
+        WRITER_SCOPE="This call covers ONLY ${desks}, article group ${slot}: write up to ${call_cap} eligible distinct stories from this brief; ignore every other category and global counts below. "
         WRITER_BRIEF="$folder/$group-brief.md"
-        "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$WRITER_BRIEF" --categories "$desks" --cap 1 --spares 1 --desk-slot "$slot" || exit 1
+        "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$WRITER_BRIEF" --categories "$desks" --cap "$call_cap" --spares 1 --desk-slot "$slot" || exit 1
         run_writer "$PRIMARY_WRITER_MODEL"
       ) > "$folder/$group.log" 2>&1 &
       running=$((running + 1))
@@ -354,8 +362,7 @@ run_writer_groups() {
         wait -n || true
         running=$((running - 1))
       fi
-    done
-  done
+  done <<< "$jobs"
   wait || true
   tail -n 3 "$folder"/*.log || true
   if ! "$PYTHON_BIN" scripts/news_refill.py groups "$folder" "$BATCH"; then printf '[]\n' > "$BATCH"; fi
@@ -403,7 +410,7 @@ if [ "$BATCH_COUNT" -lt 1 ]; then
 fi
 
 # Continue a fresh batch in bounded seven-story increments. Reserve at least
-# 25 minutes of the 55-minute deadline for editing, gates, and publication.
+# The primary groups finish by minute 42; review runs until minute 48, then final checks.
 stage="writer-continuation"
 CONTINUATION_FAILURES=0
 for continuation in {1..15}; do
@@ -457,7 +464,7 @@ printf '383 WRITER FINAL DRAFT COUNT: %s of %s source-ready pairs\n' "$BATCH_COU
 printf '383 CATEGORY DEFICITS: %s\n' "$COVERAGE_DEFICITS"
 
 review_candidates() {
-local editorial_phase_end=2580
+local editorial_phase_end=2880
 if [ "${IN_EXTRA_REVIEW:-0}" = "1" ]; then
   editorial_phase_end=2880  # Keep two minutes for independent review before minute 50.
 fi

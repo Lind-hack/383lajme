@@ -462,6 +462,15 @@
       "family": "prive.al"
     },
     {
+      "source": "Prive Bruto",
+      "category": "Showbiz",
+      "domains": [
+        "privebruto.com"
+      ],
+      "family": "prive.al",
+      "provenance_url": "https://privebruto.com/"
+    },
+    {
       "source": "Anabel",
       "category": "Showbiz",
       "domains": [
@@ -1348,6 +1357,12 @@
       "category": "Ekonomi",
       "lane": "EKONOMI",
       "url": "https://www.sec.gov/news/pressreleases.rss"
+    },
+    {
+      "source": "Prive Bruto",
+      "category": "Showbiz",
+      "lane": "SHOWBIZ",
+      "url": "https://privebruto.com/feed/"
     }
   ],
   "browser_lanes": [

@@ -482,20 +482,28 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=(), *, n
             rank(item), item.get("published", "")), reverse=True)
         chosen = []
         family_counts = Counter()
-        while pool and len(chosen) < MANIFEST["category_limits"][category]["discovery_max"]:
+        while pool and (category=='Showbiz' or len(chosen) < MANIFEST["category_limits"][category]["discovery_max"]):
             # Prioritize fresh widely covered events, then alternate publishers.
             # Known covered events remain reserves for a genuine new development.
             anchor = min(pool, key=lambda item: (item['coverage_already_published'],
                          -artist_priority(item),
                          freshness_bucket(item, now),
+                         -homepage_weight(item, now) if category=='Showbiz' else 0,
                          -attention_priority(item),
                          item['reader_value']['reserve_genre'],
-                         -homepage_weight(item, now),
+                         -homepage_weight(item, now) if category!='Showbiz' else 0,
                          -item['reader_value']['score'],
                          -min(item['coverage_family_count'], 5),
                          family_counts[publisher_for(item["url"])["family"]]))
             pool.remove(anchor)
             def compatible(item):
+                if category=='Showbiz':
+                    from news_showbiz_focus import headline_subjects
+                    left,right=headline_subjects(anchor),headline_subjects(item)
+                    if left and right and left.isdisjoint(right):
+                        explicit=(anchor.get('editorial_review') or {}).get('coverage_urls',[])
+                        reverse=(item.get('editorial_review') or {}).get('coverage_urls',[])
+                        if item['url'] not in explicit and anchor['url'] not in reverse:return False
                 a = {term for term in topic_terms(anchor) if term.isdigit()}
                 b = {term for term in topic_terms(item) if term.isdigit()}
                 return not (a and b and a.isdisjoint(b))
@@ -572,7 +580,7 @@ def main() -> int:
     if os.environ.get('L383_HOURLY_NEWS') == '1':
         from news_story_review import review_inventory, selection_ready
         reviewed,visual_report = review_inventory(collected,retrieved,audits,args.output.parent/'showbiz-review',
-            budget_seconds=float(os.environ.get('L383_SHOWBIZ_REVIEW_SECONDS','300')))
+            budget_seconds=float(os.environ.get('L383_SHOWBIZ_REVIEW_SECONDS','600')))
         selection_pool = []
         for lead in collected:
             if lead['category'] != 'Showbiz':

@@ -186,7 +186,8 @@ def run_research(folder,state=None,*,budget_seconds=120,now=None,force=False,art
     now=now or datetime.now(timezone.utc)
     folder=Path(folder); folder.mkdir(parents=True,exist_ok=True)
     path=folder/'current.json'
-    roster_hash=hashlib.sha256(ROSTER_PATH.read_bytes()).hexdigest()
+    publishers=[{'source':p['source'],'domains':p['domains']} for p in load_manifest()['publishers'] if p['category']=='Showbiz']
+    roster_hash=hashlib.sha256(ROSTER_PATH.read_bytes()+json.dumps(publishers,sort_keys=True).encode()).hexdigest()
     if artists is None and not force:
         data=cached_report(path,now,roster_hash)
         if data:

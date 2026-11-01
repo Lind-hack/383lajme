@@ -1,7 +1,7 @@
 """Transparent discovery priority, not a factual verdict or popularity claim."""
 import re
 import unicodedata
-from news_showbiz_focus import focus
+from news_showbiz_focus import focus,photo_interest
 
 
 def reader_value(lead: dict) -> dict:
@@ -21,6 +21,7 @@ def reader_value(lead: dict) -> dict:
     if artist_focus['priority']:
         reasons.append('albanian_artist_audience_interest')
     if category=='Showbiz':
+        if photo_interest(lead): reasons.append('adult_celebrity_photo_or_public_update')
         for reason,pattern in {
             'artist_public_post':r'\b(?:instagram|tiktok|reels?|poston|postoi|publikon|ndan|deklaron|reagon|shkruan|responds?|posts?|shares?)\b',
             'fashion_or_public_photo':r'\b(?:foto\w*|photos?\w*|bikini\w*|swimwear|fustan\w*|outfit\w*|fashion|moda|pozon|pose\w*|look|veshje\w*|photoshoot\w*)\b',
