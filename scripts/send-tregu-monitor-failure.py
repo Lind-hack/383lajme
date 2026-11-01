@@ -14,6 +14,7 @@ except ImportError:  # Local Windows tests; the VPS uses fcntl.
 SERVICES = {
     '383-tregu-research.service': 'original-page research',
     '383-tregu-reprice.service': 'news repricing',
+    '383-tregu-sports.service': 'live sports odds and scores',
 }
 ALERT_INTERVAL = timedelta(minutes=30)
 STATE_DIR = Path('/opt/data/state/tregu-monitor-alerts')

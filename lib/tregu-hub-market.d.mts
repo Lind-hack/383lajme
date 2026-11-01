@@ -35,3 +35,4 @@ export function separateOutcomeColors(colors: string[], minDistance?: number): s
 export function lastRecordedAt(market: HubMarketLike): number | null;
 export function recordedMovement(market: HubMarketLike): number;
 export function featuredMarketScore(market: HubMarketLike, now?: number): number;
+export function themeInk(hex: string, theme?: "light" | "dark", min?: number): string;

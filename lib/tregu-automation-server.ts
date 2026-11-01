@@ -1741,7 +1741,11 @@ async function runUpcomingBasketballAutomation(now = new Date()) {
   let created = 0;
   let refreshed = 0;
   let rescheduled = 0;
+  const fixtureErrors: Array<{ slug: string; error: string }> = [];
+  // One bad fixture (a rejected insert, a renamed team) must not stop every
+  // other game of the night from getting its market.
   for (const fixture of fixtures) {
+    try {
     const { data, error } = await admin.from("markets").select("id,status,reference_probabilities,live_event,pre_match_analysis").eq("slug", fixture.slug).maybeSingle();
     if (error) throw error;
     if (data) {
@@ -1774,6 +1778,9 @@ async function runUpcomingBasketballAutomation(now = new Date()) {
     const { error: insertError } = await admin.from("markets").insert(fixture);
     if (insertError && insertError.code !== "23505") throw insertError;
     if (!insertError) created++;
+    } catch (error) {
+      fixtureErrors.push({ slug: fixture.slug, error: String((error as { message?: unknown })?.message ?? error) });
+    }
   }
-  return { ok: providerErrors.length === 0, created, refreshed, rescheduled, fixtures: fixtures.length, provider_errors: providerErrors };
+  return { ok: providerErrors.length === 0 && fixtureErrors.length === 0, created, refreshed, rescheduled, fixtures: fixtures.length, provider_errors: providerErrors, fixture_errors: fixtureErrors };
 }

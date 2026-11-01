@@ -21,6 +21,16 @@ case "${1:-}" in
       exit 0
     fi
     exec node scripts/run-tregu-reprice.mjs ;;
+  # The two-minute sports heartbeat (live odds, scores, NBA/Superliga markets).
+  # It ran from a news release folder until cleanup deleted it on 2026-10-30.
+  sports)
+    mkdir -p /opt/data/locks
+    exec 9>/opt/data/locks/tregu-sports.lock
+    if ! flock -n 9; then
+      echo '{"ok":true,"skipped":true,"reason":"overlap_prevented"}'
+      exit 0
+    fi
+    exec node scripts/run-tregu-live-sports.mjs ;;
   alert) shift; exec "$PYTHON_BIN" scripts/send-tregu-monitor-failure.py "$@" ;;
-  *) echo 'Expected research, reprice or alert' >&2; exit 2 ;;
+  *) echo 'Expected research, reprice, sports or alert' >&2; exit 2 ;;
 esac

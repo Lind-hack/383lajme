@@ -23,6 +23,8 @@ import {
 import { TREGU_CHART_UI_VERSION } from "@/lib/tregu-ui-contract";
 import { formatKosovoDateTime, formatKosovoTime } from "@/lib/tregu-local-time.mjs";
 import { livelyPoints, seedOf, wiggleAmplitude } from "@/lib/tregu-chart-motion.mjs";
+import { themeInk } from "@/lib/tregu-hub-market.mjs";
+import { useTheme } from "@/components/theme/theme-provider";
 
 /** A news story that moved this market, pinned to the line at its moment. */
 export type ChartNewsMark = { t: number; title: string; href: string; source?: string };
@@ -53,7 +55,7 @@ function timeLabel(timestamp: number | null, compact = false) {
 }
 
 export default function ExactMarketChart({
-  series,
+  series: suppliedSeries,
   height = 154,
   compact = false,
   ariaLabel = "Historia e regjistruar e gjasave",
@@ -101,6 +103,13 @@ export default function ExactMarketChart({
   still?: boolean;
 }) {
   const uid = useId().replace(/:/g, "");
+  // Lines are drawn in each club's colour, adjusted to stay readable on the
+  // card behind them in the current theme (see themeInk).
+  const { theme } = useTheme();
+  const series = useMemo(
+    () => suppliedSeries.map((item) => ({ ...item, color: themeInk(item.color, theme) })),
+    [suppliedSeries, theme]
+  );
   // Open on a window that actually shows a move: a book that last traded three
   // days ago opened on "1d" as flat lines with nothing to read.
   const [range, setRange] = useState<RecordedRangeKey>(() =>

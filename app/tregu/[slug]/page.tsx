@@ -43,7 +43,8 @@ import { SLUG_TO_CATEGORY } from "@/lib/category-map";
 import { getCategoryColor, getCategoryGradient } from "@/lib/category-colors";
 import { receiptTheme } from "@/lib/tregu-receipt-theme.mjs";
 import { evidenceLink } from "@/lib/tregu-evidence.mjs";
-import { normalizeRecordedOutcomeSeries } from "@/lib/tregu-hub-market.mjs";
+import { normalizeRecordedOutcomeSeries, themeInk } from "@/lib/tregu-hub-market.mjs";
+import { useTheme } from "@/components/theme/theme-provider";
 import { f1DriverHeadshot, f1TeamColor } from "@/lib/f1-driver-presentation";
 import { FOOTBALL_MARKET_UI_VERSION } from "@/lib/tregu-ui-contract";
 import MobileTradeSheet, {
@@ -318,6 +319,7 @@ function recordedPoint(timestamp: string | null | undefined, probability: number
 export default function MarketDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = usePromise(params);
   const [market, setMarket] = useState<MarketDetail | null>(null);
+  const { theme } = useTheme();
   const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
   const [trades, setTrades] = useState<MarketTrade[]>([]);
   const [activity, setActivity] = useState<MarketTrade[]>([]);
@@ -1629,7 +1631,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ slug: s
                     </small>
                     <strong>{footballSelectedOutcome.label}</strong>
                   </span>
-                  <b style={{ color: footballSelectedOutcome.color }}>
+                  <b style={{ color: themeInk(footballSelectedOutcome.color, theme, 4.5) }}>
                     {(footballSelectedOutcome.probability * 100).toFixed(1)}%
                   </b>
                 </div>
