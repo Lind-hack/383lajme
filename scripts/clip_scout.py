@@ -826,7 +826,8 @@ def vet(ranked: list[dict], state: dict, now: datetime) -> bool:
     verdicts = state.setdefault("verdicts", {})
     cutoff = (now - timedelta(days=4)).isoformat()
     state["verdicts"] = verdicts = {k: v for k, v in verdicts.items() if v.get("at", "") >= cutoff}
-    todo = [c for c in ranked[:VET_TOP] if c["id"] not in verdicts]
+    # Read again: anything judged before "unsafe" replaced "site" (2026-11-01), so it is judged by today's rule.
+    todo = [c for c in ranked[:VET_TOP] if "unsafe" not in verdicts.get(c["id"], {})]
     key = os.environ.get("GROQ_API_KEY", "")
     if not todo:
         return True
@@ -845,13 +846,14 @@ def vet(ranked: list[dict], state: dict, now: datetime) -> bool:
               "showbiz or local account. For each kept post give its story in 2 to 5 Albanian words (the same words "
               "for posts about the same event or moment, e.g. \"sherri i Big Brother\"), and its kind: lajme, sport, "
               "showbiz, bbk (Big Brother) or humor.\n"
-              "Also say if a kept post may go into 383's own cut by itself, with no editor looking (\"site\"): news, "
-              "events, sport, public figures, showbiz, reality TV and funny moments may, but never when the post may be "
-              "staged as news, AI-made, or a startling claim it alone cannot prove (a politician doing something "
-              "outlandish, an accident or crime with no source); never nudity or sexual content, a child in it, a "
-              "private person who did not choose to be filmed being mocked, or violence that hurts someone. Stars "
-              "and reality-TV housemates chose the public eye. When in doubt, false.\n"
-              "Reply with only JSON: {\"items\": [{\"n\": 1, \"keep\": true, \"site\": false, \"story\": \"...\", \"kind\": \"lajme\"}]}\n\n"
+              "Everything kept goes into 383's own cuts with no editor looking, so also say for each kept post if it is "
+              "unsafe (\"unsafe\": true) for one of these reasons only: nudity or sexual content; a child in it; a "
+              "private person who did not choose to be filmed, being mocked; violence that hurts someone; or news it "
+              "cannot prove (staged or AI-made as if real, a startling claim about a politician, an accident or a crime "
+              "with no source). Controversy is not unsafe: reality-TV fights, insults and rude gestures between "
+              "housemates, stars' outfits and photos, heated TV debates and protests are what \"Virale sot\" is for; "
+              "stars and housemates chose the public eye.\n"
+              "Reply with only JSON: {\"items\": [{\"n\": 1, \"keep\": true, \"unsafe\": false, \"story\": \"...\", \"kind\": \"lajme\"}]}\n\n"
               + "\n".join(lines))
     got = groq_json(prompt, key, "vet")
     items = got.get("items") if isinstance(got, dict) else None
@@ -864,10 +866,25 @@ def vet(ranked: list[dict], state: dict, now: datetime) -> bool:
             continue
         keep = it.get("keep") is True
         kind = str(it.get("kind") or "").strip().lower()
-        verdicts[c["id"]] = {"keep": keep, "site": keep and it.get("site") is True,
+        unsafe = it.get("unsafe") is not False   # not said is not cleared
+        verdicts[c["id"]] = {"keep": keep, "site": keep and not unsafe, "unsafe": unsafe,
                              "story": str(it.get("story") or "").strip().lower()[:60], "at": now_iso(),
                              "kind": kind if kind in KINDS else "lajme"}
     return True
+
+
+def recheck(state: dict, now: datetime) -> None:
+    """The last day's finds judged before today's rule are read again by it; their entries follow."""
+    day_ago = (now - timedelta(hours=24)).isoformat()
+    verdicts = state.get("verdicts") or {}
+    old = [e for e in (state.get("queued") or {}).values()
+           if e.get("found_at", "") >= day_ago and not e.get("photos") and "unsafe" not in verdicts.get(e["id"], {})]
+    if not old or not vet(old, state, now):
+        return
+    for e in old:
+        v = state["verdicts"].get(e["id"]) or {}
+        if "unsafe" in v:
+            e.update(site=v["site"], kind=v.get("kind") or e.get("kind") or "lajme", story=v.get("story") or e.get("story", ""))
 
 
 def clean_caption(text: str) -> str:
@@ -1163,9 +1180,7 @@ def cut_groups(state: dict, now: datetime, removed: set[str]) -> list[tuple[str,
     day_ago = (now - timedelta(hours=24)).isoformat()
     groups: dict[str, list[dict]] = {}
     for e in (state.get("queued") or {}).values():
-        if not (e.get("site") is True and str(e.get("status", "")).startswith("ready") and e.get("found_at", "") >= day_ago):
-            continue
-        if e.get("id") in removed:
+        if not (e.get("site") is True and e.get("found_at", "") >= day_ago) or e.get("id") in removed:
             continue
         has = any(Path(f).exists() for f in e["photos"]) if e.get("photos") else raw_path(e["id"]).exists()
         if not has:
@@ -1193,9 +1208,27 @@ def cut_sources(items: list[dict]) -> list[dict]:
     return out
 
 
+def backfill_raw(state: dict, now: datetime, removed: set[str], limit: int = 6) -> int:
+    """Today's finds that may go up but have no original kept (found before the cutter, or a
+    download that failed) are fetched again, best first. Returns how many came."""
+    day_ago, got = (now - timedelta(hours=24)).isoformat(), 0
+    todo = [e for e in (state.get("queued") or {}).values()
+            if e.get("site") is True and e.get("found_at", "") >= day_ago and e.get("id") not in removed
+            and not e.get("photos") and e.get("link") and not raw_path(e["id"]).exists()]
+    for e in sorted(todo, key=lambda e: -(e.get("score") or 0))[:limit]:
+        with tempfile.TemporaryDirectory(prefix="383-raw-") as tmp:
+            out = Path(tmp) / "raw.mp4"
+            if download({**e, "vid": e["id"].split(":", 1)[-1]}, out):
+                keep_raw(e["id"], out)
+                got += 1
+    return got
+
+
 def make_cuts(state: dict, now: datetime, removed: set[str], deadline: float) -> list[dict]:
     """Renders the day's best stories that have no cut yet, or new clips since theirs; keeps the rest."""
     import viral_cut  # ffmpeg-only; next to this file
+    if time.time() < deadline:
+        backfill_raw(state, now, removed)
     cuts = state.setdefault("cuts", {})
     lib, made, day = viral_cut.load_library(), [], now.strftime("%Y-%m-%d")
     key = os.environ.get("GROQ_API_KEY", "")
@@ -1455,6 +1488,7 @@ def main(dry_run: bool = False) -> int:
             state["topics"] = {"at": now_iso(), "terms": topics}
         trending = {"Temat e ditës": topics, "Trending në X (shqip)": x_trends, "Google (Shqipëri)": trend_terms()}
         vetted = vet(ranked, state, now)
+        recheck(state, now)
         if not vetted:
             health["Kontrolli i lajmit"] = (False, "the model could not be asked: this run's finds are not checked for ads")
         picks = pick(ranked, state, now, vetted)

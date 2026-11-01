@@ -268,6 +268,53 @@ class ViralCutTests(unittest.TestCase):
         self.assertEqual(p["link"], "https://www.instagram.com/p/ABC/")
         self.assertIsNone(cs.ig_raw_photos({"media_type": 2, "code": "V"}, ""))
 
+    def test_only_what_the_model_clears_as_safe_goes_up(self):
+        import os
+        replies = {"items": [{"n": 1, "keep": True, "unsafe": False, "story": "sherri i big brother", "kind": "bbk"},
+                             {"n": 2, "keep": True, "story": "x"},   # unsafe not said: not cleared
+                             {"n": 3, "keep": True, "unsafe": True, "story": "y"}]}
+        old_json, old_key = cs.groq_json, os.environ.get("GROQ_API_KEY")
+        cs.groq_json, os.environ["GROQ_API_KEY"] = (lambda *a, **k: replies), "k"
+        try:
+            state = {}
+            self.assertTrue(cs.vet([clip(1), clip(2), clip(3)], state, NOW))
+        finally:
+            cs.groq_json = old_json
+            if old_key is None:
+                os.environ.pop("GROQ_API_KEY", None)
+            else:
+                os.environ["GROQ_API_KEY"] = old_key
+        v = state["verdicts"]
+        self.assertEqual([v[f"tt:{i}"]["site"] for i in (1, 2, 3)], [True, False, False])
+        self.assertEqual(v["tt:1"]["kind"], "bbk")
+
+    def test_finds_judged_by_the_old_rule_are_judged_again(self):
+        state = self.state(self.found(1, "a", site=False, caption="Sherri në shtëpi"))
+        state["verdicts"] = {"tt:1": {"keep": True, "site": False, "story": "a", "at": NOW.isoformat()}}
+        old_vet = cs.vet
+
+        def fake_vet(items, st, now):
+            for e in items:
+                st["verdicts"][e["id"]] = {"keep": True, "site": True, "unsafe": False, "story": "sherri", "kind": "bbk", "at": now.isoformat()}
+            return True
+        cs.vet = fake_vet
+        try:
+            cs.recheck(state, NOW)
+        finally:
+            cs.vet = old_vet
+        self.assertEqual((state["queued"]["tt:1"]["site"], state["queued"]["tt:1"]["kind"]), (True, "bbk"))
+
+    def test_a_find_without_its_original_is_fetched_again(self):
+        state = self.state(self.found(1, "a", raw=False), self.found(2, "b", raw=False, site=False))
+        old_dl = cs.download
+        cs.download = lambda c, out: out.write_bytes(b"v" * 10) or True
+        try:
+            self.assertEqual(cs.backfill_raw(state, NOW, set()), 1)
+        finally:
+            cs.download = old_dl
+        self.assertTrue(cs.raw_path("tt:1").exists())
+        self.assertFalse(cs.raw_path("tt:2").exists())
+
     def test_the_stars_posts_count_as_albanian_showbiz(self):
         self.assertTrue(cs.is_albanian(clip(1, platform="instagram", author="ritaora", caption="London tonight")))
         self.assertFalse(cs.is_albanian(clip(2, platform="instagram", author="someone", caption="London tonight")))
