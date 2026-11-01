@@ -530,7 +530,8 @@ def fill(i: int, p: dict, a: dict) -> str:
     """Piece i's picture as an upright 1080x1920: an upright clip fills the frame (punched in);
     a wide one sits over a blurred copy of itself; a photo slowly pushes in."""
     frames = int(round(p["len"] * FPS)) + 2
-    tail = f"fps={FPS},format=yuv420p,setsar=1,trim=duration={p['len']:.3f},setpts=PTS-STARTPTS[v{i}]"
+    # fps last as well: ffmpeg 7.1's setpts drops the frame rate, and xfade needs it (8.x keeps it).
+    tail = f"fps={FPS},format=yuv420p,setsar=1,trim=duration={p['len']:.3f},setpts=PTS-STARTPTS,fps={FPS}[v{i}]"
     if p.get("photo"):
         return (f"[{i}:v]scale={W * 2}:{H * 2}:force_original_aspect_ratio=increase,crop={W * 2}:{H * 2},"
                 f"zoompan=z='min(1+0.0011*on,1.14)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d={frames}:s={W}x{H}:fps={FPS},{tail}")
@@ -580,7 +581,7 @@ def build(plan: dict, sources: list[dict], analyses: list[dict], work: Path, lib
                          f"afade=t=in:d=0.04,afade=t=out:st={max(0, p['len'] - 0.06):.3f}:d=0.06[a{i}]")
         else:
             graph.append(f"anullsrc=r=48000:cl=stereo,atrim=duration={p['len']:.3f}[a{i}]")
-    graph.append(f"[{n}:v]format=yuv420p,setsar=1,trim=duration={END:.3f},setpts=PTS-STARTPTS[v{n}]")
+    graph.append(f"[{n}:v]format=yuv420p,setsar=1,trim=duration={END:.3f},setpts=PTS-STARTPTS,fps={FPS}[v{n}]")
     graph.append(f"anullsrc=r=48000:cl=stereo,atrim=duration={END:.3f}[a{n}]")
     vcur, acur, t = "v0", "a0", pieces[0]["len"]
     lens = [p["len"] for p in pieces] + [END]
