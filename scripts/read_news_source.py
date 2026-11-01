@@ -18,6 +18,8 @@ from bs4 import BeautifulSoup
 
 
 ARTICLE_TYPES = {"NewsArticle", "Article", "ReportageNewsArticle", "BlogPosting", "LiveBlogPosting"}
+ARTICLE_BODY_SELECTORS=(".layout-form_article-body", ".articleBody", ".article_content-wrapper", '[itemprop="articleBody"]',
+                        ".td-post-content", ".entry-content", ".article-body", ".article-content", ".post-content")
 
 
 def _article_schemas(soup: BeautifulSoup, url: str) -> list[dict]:
@@ -167,8 +169,7 @@ def extract(raw: bytes | str, url: str, *, max_text_chars: int | None = 14000) -
     # actual story. Pick the article with the most readable paragraph text.
     # Taking the first node incorrectly made live Telegrafi stories appear empty.
     articles = soup.find_all("article")
-    article_body = next((node for selector in (".layout-form_article-body", ".articleBody", ".article_content-wrapper", '[itemprop="articleBody"]',
-                        ".td-post-content", ".entry-content", ".article-body", ".article-content", ".post-content")
+    article_body = next((node for selector in ARTICLE_BODY_SELECTORS
                         if (node := soup.select_one(selector)) is not None), None)
     main = article_body if article_body is not None else max(
         articles,

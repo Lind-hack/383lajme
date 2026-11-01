@@ -89,6 +89,15 @@ def stubborn_tree(ready, finished, record):
 @unittest.skipUnless(shutil.which(os.environ.get('L383_NEWS_CHROMIUM','/usr/bin/chromium')),
                      'production Chromium unavailable on this platform')
 class HomepageRenderTests(unittest.TestCase):
+    def test_article_body_outside_related_article_cards_is_the_visible_text_scope(self):
+        text='Dua Lipa shares an accurately dated public statement. '*100
+        html='<article><h2>Related promotion</h2><p>Other story.</p></article><h1>Dua Lipa</h1><div class="layout-form_article-body"><p>'+text+'</p></div>'
+        with tempfile.TemporaryDirectory() as folder:
+            result=render_homepage(response(html),PUB,fetcher=deny_resources,
+                                  screenshot=Path(folder)/'page.png',article=True)
+            self.assertIn(text.strip(),result['article_view']['visible_text'])
+            self.assertNotIn('Related promotion',result['article_view']['visible_text'])
+
     def test_partial_capture_is_available_but_cannot_claim_homepage_geometry(self):
         from news_homepage_priority import homepage_weight
         from datetime import datetime,timezone

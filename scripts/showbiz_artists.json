@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "checked_on": "2026-11-01",
+  "profile_policy": "Official-site or artist-channel outbound-link provenance; not a claim that a platform verification badge was inspected.",
+  "artists": [
+    {"id":"dua-lipa","name":"Dua Lipa","priority":3,"aliases":["Dua Lipa"],"instagram":"https://www.instagram.com/dualipa/","youtube_channel_id":"UC-J-KZfRV8c13fOCkhXdLiQ","provenance":"https://www.dualipa.com/"},
+    {"id":"rita-ora","name":"Rita Ora","priority":3,"aliases":["Rita Ora"],"instagram":"https://www.instagram.com/ritaora/","youtube_channel_id":"UCfSAqqftdc7FM1SY5vJjKfA","provenance":"https://ritaora.com/"},
+    {"id":"bebe-rexha","name":"Bebe Rexha","priority":3,"aliases":["Bebe Rexha"],"instagram":"https://www.instagram.com/beberexha/","youtube_channel_id":"UC5-gWZXAQqSGVfPHkA7NRiQ","provenance":"https://www.youtube.com/@beberexha/about"},
+    {"id":"ava-max","name":"Ava Max","priority":2,"aliases":["Ava Max"],"instagram":"https://www.instagram.com/avamax/","youtube_channel_id":"UCOwgc8DswjoBMuuUU2ScPvQ","provenance":"https://www.avamax.com/"},
+    {"id":"era-istrefi","name":"Era Istrefi","priority":2,"aliases":["Era Istrefi"],"instagram":"https://www.instagram.com/eraistrefi/","youtube_channel_id":"UCRdVQqY4jyRzlObeYPxLdHQ","provenance":"https://www.youtube.com/@eraistrefi/about"},
+    {"id":"dhurata-dora","name":"Dhurata Dora","priority":2,"aliases":["Dhurata Dora"],"instagram":"https://www.instagram.com/dhuratadora/","youtube_channel_id":"UCtzhq8TIfFB9vRAHVqLL9PA","provenance":"https://www.0711talents.de/talent/dhurata-dora/"},
+    {"id":"elvana-gjata","name":"Elvana Gjata","priority":2,"aliases":["Elvana Gjata"],"instagram":"https://www.instagram.com/elvanagjataaaa/","youtube_channel_id":"UCy9rb6cS-u5BLOhtgHlOs6Q","provenance":"https://www.youtube.com/@elvanagjata/about"},
+    {"id":"ledri-vula","name":"Ledri Vula","priority":2,"aliases":["Ledri Vula","Ledri"],"instagram":"https://www.instagram.com/ledrivula/","youtube_channel_id":"UCvLZ4kCkdC5F2Qop2ULz70Q","provenance":"https://www.youtube.com/@LedriVula/about"},
+    {"id":"yll-limani","name":"Yll Limani","priority":2,"aliases":["Yll Limani"],"instagram":"https://www.instagram.com/ylllimani/","youtube_channel_id":"UCwxa1gR8DEkcOVKXbN5cDkg","provenance":"https://www.youtube.com/@YllLimani/about"},
+    {"id":"dafina-zeqiri","name":"Dafina Zeqiri","priority":2,"aliases":["Dafina Zeqiri"],"instagram":"https://www.instagram.com/dafina.zeqiri/","youtube_channel_id":"UCLnVQFFfzOuq6sO76w2QdaQ","provenance":"https://www.youtube.com/@DafinaZeqiri/about"},
+    {"id":"noizy","name":"Noizy","priority":2,"aliases":["Noizy"],"instagram":"https://www.instagram.com/noizy/","youtube_channel_id":"UCim40Arej9EBOfg0ViFW2ww","provenance":"https://www.youtube.com/@thisisnoizy/about"},
+    {"id":"tayna","name":"Tayna","priority":2,"aliases":["Tayna"],"profile_status":"pending_verification"},
+    {"id":"kida","name":"Kida","priority":2,"aliases":["Kida"],"profile_status":"pending_verification"},
+    {"id":"butrint-imeri","name":"Butrint Imeri","priority":2,"aliases":["Butrint Imeri"],"profile_status":"pending_verification"},
+    {"id":"enisa","name":"Enisa","priority":2,"aliases":["Enisa Nikaj","Enisa"],"profile_status":"pending_verification"},
+    {"id":"loredana","name":"Loredana","priority":2,"aliases":["Loredana"],"profile_status":"pending_verification"},
+    {"id":"ronela-hajati","name":"Ronela Hajati","priority":2,"aliases":["Ronela Hajati"],"profile_status":"pending_verification"},
+    {"id":"melinda-ademi","name":"Melinda Ademi","priority":2,"aliases":["Melinda Ademi"],"profile_status":"pending_verification"},
+    {"id":"mozzik","name":"Mozzik","priority":2,"aliases":["Mozzik"],"profile_status":"pending_verification"}
+  ]
+}

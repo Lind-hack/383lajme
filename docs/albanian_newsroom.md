@@ -28,6 +28,37 @@ rumours require two readable independent publishers supporting the central claim
 When two URLs are supplied, they must be from different ownership families. Availability is checked anew every run. Blocked/paid sources do not supply
 facts from previews. Never copy another outlet's wording.
 
+## Showbiz audience and daily research
+
+Prioritize Albanian artists and personalities at home and abroad. Dua Lipa,
+Rita Ora and Bebe Rexha are the first watchlist tier, followed by the researched
+roster in `scripts/showbiz_artists.json`. Public statements, new Instagram
+posts/reels, fashion, beauty, glamorous adult photo shoots, beach/swimwear
+photos, performances, relationship announcements and documented public exchanges
+are valid entertainment topics. They do not need political/economic consequences
+or a new album to merit a story. Use an engaging factual hook and natural Albanian;
+avoid generic hype, moralizing or padding. An artist name mentioned in passing
+does not establish the story's subject.
+
+Use `showbiz-research/current.md` and its JSON coverage report as discovery
+context. The hourly pipeline checks for a fresh report each run and refreshes
+research every four hours and on a new Kosovo calendar day. Daily research
+includes an artist-name search restricted to every registered Showbiz
+publisher, alongside broader discovery searches and public official feeds. These
+searches supplement the normal collection of all fourteen publisher inventories.
+Official profile links have provenance; never guess handles. A profile alone is not a new post,
+and an updated timestamp is not a new upload. Exact posts require accessible
+author/date/content evidence. Public posts can establish what the artist said
+or shared, not inferred motives, relationships, pregnancy, intimate details or
+imagined fan reactions. Private-life rumours and sensitive allegations still
+require independent corroboration. Unavailable evidence stays unavailable.
+
+Keep existing primary-source and photo-rights checks. Use appropriately labelled
+archive imagery only when permitted; do not pass it off as the current post or
+copy an unlicensed social photograph. Search snippets and artist feeds do not
+automatically become publication-ready facts. Do not invent a fresh artist story
+to meet a preferred share or category target.
+
 ## Hard bans — never publish
 
 - Anime, manga, K-pop/J-pop fandom news, gaming and esports.

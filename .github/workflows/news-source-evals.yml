@@ -15,6 +15,7 @@ jobs:
       - run: pip install -r scripts/requirements.txt
       - run: python -m unittest discover -s scripts -p test_news_source_policy.py -v
       - run: python -m unittest discover -s scripts -p test_news_story_review.py -v
+      - run: python -m unittest discover -s scripts -p 'test_news_showbiz*.py' -v
       - run: python -m unittest discover -s scripts -p test_news_story_attention.py -v
       - run: python -m unittest discover -s scripts -p test_originality_gate.py -v
       - run: python -m unittest discover -s scripts -p test_news_image_policy.py -v

@@ -13,7 +13,7 @@ from pathlib import Path
 
 from news_ingestion_protocol import (owned, is_article_path, NON_ARTICLE_EXTENSIONS, UTILITY_PATHS,
                                      NON_ARTICLE_PREFIXES, CATEGORY_INDEX_PREFIXES)
-from read_news_source import fetch_public, PublicHTTPError
+from read_news_source import fetch_public, PublicHTTPError, ARTICLE_BODY_SELECTORS
 from news_homepage_process import linux_processes, stop_renderer
 
 
@@ -163,6 +163,7 @@ def _render(response, publisher, fetcher, screenshot, *, article=False, allow_pa
     if screenshot:
         Path(screenshot).parent.mkdir(parents=True,exist_ok=True)
     config = dict(url=response['url'],chromium=browser_executable(),article=article,allow_partial=allow_partial,
+                  article_body_selectors=ARTICLE_BODY_SELECTORS,
                   excluded_extensions=NON_ARTICLE_EXTENSIONS,
                   utility_paths=sorted(UTILITY_PATHS),
                   tracking_keys=sorted(SOURCE_URL_TRACKING_KEYS),

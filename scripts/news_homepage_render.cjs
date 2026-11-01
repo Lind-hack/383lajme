@@ -64,15 +64,18 @@ async function main(config) {
     const pendingFonts = await page.evaluate(() => document.fonts.status !== 'loaded');
     let articleView;
     if (config.article) {
-      articleView = await page.evaluate(() => {
+      articleView = await page.evaluate(selectors => {
         const containers = [...document.querySelectorAll('article')];
-        containers.sort((a,b)=>(b.innerText || '').length-(a.innerText || '').length);
-        const root = containers[0] || document.querySelector('main') || document.body;
+        const paragraphSize = node => [...node.querySelectorAll('p')]
+          .map(p=>(p.innerText || '').trim().length).filter(size=>size>40).reduce((a,b)=>a+b,0);
+        containers.sort((a,b)=>paragraphSize(b)-paragraphSize(a));
+        const explicit = selectors.map(selector=>document.querySelector(selector)).find(Boolean);
+        const root = explicit || containers[0] || document.querySelector('main') || document.body;
         return {title: (document.querySelector('h1')?.innerText || document.title).trim(),
           visible_text: root.innerText || '', page_height: document.documentElement.scrollHeight,
           breaking_labels: [...root.querySelectorAll('[class*="breaking"],[data-testid*="breaking"]')]
             .map(node=>node.innerText.trim()).filter(Boolean).slice(0,10)};
-      });
+      },config.article_body_selectors);
     }
     const extracted = await page.evaluate(({excluded,utilities,tracking,prefixes,categories}) => {
       const rows = [], discovered = [], candidates = [];

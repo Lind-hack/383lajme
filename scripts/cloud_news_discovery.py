@@ -455,6 +455,7 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=(), *, n
             return ''
     from news_reader_value import reader_value
     from news_story_review import attention_priority
+    from news_showbiz_focus import priority as artist_priority
     now = now or datetime.now(timezone.utc)
     excluded = {source_identity(url) for url in published_urls} - {''}
     coverage = event_coverage(collected)
@@ -485,6 +486,7 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=(), *, n
             # Prioritize fresh widely covered events, then alternate publishers.
             # Known covered events remain reserves for a genuine new development.
             anchor = min(pool, key=lambda item: (item['coverage_already_published'],
+                         -artist_priority(item),
                          freshness_bucket(item, now),
                          -attention_priority(item),
                          item['reader_value']['reserve_genre'],
@@ -536,6 +538,9 @@ def main() -> int:
     if os.environ.get('L383_HOURLY_NEWS') == '1':
         from news_ingestion import collect
         state = Path(os.environ.get('L383_INGESTION_STATE',str(args.output.parent/'source-inventory.sqlite')))
+        from news_showbiz_research import run_research, attach_context
+        daily_research=run_research(args.output.parent/'showbiz-research',state,
+            budget_seconds=float(os.environ.get('L383_SHOWBIZ_RESEARCH_SECONDS','120')))
         collected,audits,retrieved,ingestion = collect(MANIFEST,state,
             budget_seconds=float(os.environ.get('L383_INGESTION_BUDGET_SECONDS','240')))
         # Give Showbiz its own collection window rather than a handful of turns
@@ -546,6 +551,7 @@ def main() -> int:
             budget_seconds=float(os.environ.get('L383_SHOWBIZ_COLLECTION_SECONDS','180')))
         from news_story_review import showbiz_inventory
         extra,extra_evidence=showbiz_inventory(state)
+        attach_context(extra,daily_research)
         collected=[lead for lead in collected if lead['category']!='Showbiz']+extra
         audits=[audit for audit in audits if audit.get('category')!='Showbiz']+extra_audits
         retrieved.update(extra_evidence)
@@ -632,6 +638,7 @@ def main() -> int:
         "retrieved_evidence": retrieved,
         "ingestion_report": ingestion,
         "showbiz_visual_review": visual_report['summary'] if visual_report else None,
+        "showbiz_daily_research": daily_research['summary'] if os.environ.get('L383_HOURLY_NEWS')=='1' else None,
         "raw_categories": dict(Counter(lead["category"] for lead in collected)),
     }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("DISCOVERY " + json.dumps({

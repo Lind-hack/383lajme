@@ -1,6 +1,7 @@
 """Transparent discovery priority, not a factual verdict or popularity claim."""
 import re
 import unicodedata
+from news_showbiz_focus import focus
 
 
 def reader_value(lead: dict) -> dict:
@@ -16,6 +17,16 @@ def reader_value(lead: dict) -> dict:
         if re.search(pattern, text):
             reasons.append(reason)
     category = lead.get('category')
+    artist_focus=focus(lead)
+    if artist_focus['priority']:
+        reasons.append('albanian_artist_audience_interest')
+    if category=='Showbiz':
+        for reason,pattern in {
+            'artist_public_post':r'\b(?:instagram|tiktok|reels?|poston|postoi|publikon|ndan|deklaron|reagon|shkruan|responds?|posts?|shares?)\b',
+            'fashion_or_public_photo':r'\b(?:foto\w*|photos?\w*|bikini\w*|swimwear|fustan\w*|outfit\w*|fashion|moda|pozon|pose\w*|look|veshje\w*|photoshoot\w*)\b',
+            'public_personal_update':r'\b(?:fejes\w*|martoh\w*|das\w*|lidhj\w*|engag\w*|wedding|relationship|public exchange)\b'
+        }.items():
+            if re.search(pattern,text): reasons.append(reason)
     desk = {
         'Ekonomi': r'\b(?:stocks?|wall street|markets?|aksion\w*|tregj\w*|tregu|bitcoin|ethereum|interest rates?|norm\w*.*interes\w*)\b',
         'Teknologji': r'\b(?:launch\w*|releas\w*|patch\w*|update\w*|fix(?:es|ed)?|publik\w*|perdites\w*|lanson|prezanton)\b',
@@ -29,11 +40,13 @@ def reader_value(lead: dict) -> dict:
     # but do not consume the first preparation slots for newly reported news.
     labels = {str(tag).casefold() for tag in (lead.get('tags') or [])}
     reserve = bool(labels & {'opinion', 'review', 'reviews', 'sponsored', 'buying guide', 'betting'}
-                   or re.search(r'\b(?:horoskop\w*|sponsoriz\w*|advertorial|coupon\w*|promo code|buying guide|what is|cfare eshte|rumours?|rumors?|gossip|thashethem\w*)\b', text)
+                   or re.search(r'\b(?:horoskop\w*|sponsoriz\w*|advertorial|coupon\w*|promo code|buying guide|what is|cfare eshte)\b', text)
+                   or category!='Showbiz' and re.search(r'\b(?:rumours?|rumors?|gossip|thashethem\w*)\b',text)
                    or (not any(reason in signals for reason in reasons)
                        and re.search(r'\b\d+\s+(?:menyra|ndryshime|keshilla|ways|things|tips|differences)\b', text))
                    or category == 'Ekonomi' and re.search(
                        r'\b(?:time to|should|recommend\w*|urges?|advis\w*|koha|duhet|rekomand\w*)\b.{0,48}'
                        r'\b(?:buy|sell|accumulat\w*|invest\w*|blere|shitur|blerj\w*|shitj\w*)\b', text))
-    return {'score': len(reasons) - (4 if reserve else 0), 'signals': reasons,
+    return {'score': len(reasons) + artist_focus['priority'] - (4 if reserve else 0), 'signals': reasons,
+            'showbiz_focus':artist_focus,
             'reserve_genre': reserve, 'basis': 'headline_and_genre_signals_not_measured_engagement'}
