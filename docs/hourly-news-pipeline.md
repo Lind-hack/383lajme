@@ -433,3 +433,46 @@ timer or permanently change the hourly configuration. Use the same committed
 release, production lock, authentication, evidence gates and publication readback.
 Showbiz can exceed its baseline two articles and the baseline total of 20 when
 verified inventory supports it; other desks retain three-story ceilings.
+
+
+## Deadline-safe editorial checkpoints — 2 November 2026
+
+The Economy cold QA run produced 31 source-ready stories and 18 drafts, but
+zero final articles: the enclosing editor timed out, removed its temporary
+chunks and discarded individually completed reviews. This was lost completed
+work, not evidence that every draft failed the factual or originality checks.
+
+The parallel editor now checkpoints only chunks with valid, byte-bound local
+completion receipts. Its TERM handler collects completed chunks before cleanup;
+the caller accepts a valid completed subset even if a sibling causes timeout
+exit 124. Pending inputs and explicit editorial drops are never approvals.
+Completed copy still passes normalization/repair, deterministic originality,
+journalism, source/topic/image checks, publication deduplication, independent
+copyright and event-context reviews, final validation and live readback.
+
+Unfinished editorial inputs are stored under the stable state directory's
+`editor-pending` folder. Separate batch-path identities prevent refill/repair
+rounds from overwriting the initial pending queue. These records are excluded
+from the website's adjacent article JSON scan. They are diagnostic/recovery
+inputs, not publication-ready copy or permission to reuse expired approvals.
+
+Economy briefs are reviewed two per call, retaining every complete source and
+all per-URL checks. Other desks retain their existing batch sizes. Economy
+pre-editor recovery fills only its first three slots; it does not spend another
+three minutes asking one model call to fill every expanded spare. The normal
+post-review refill remains available. Five-call concurrency, model/provider,
+max effort and absolute hourly deadlines remain unchanged.
+
+Large complete reference bundles up to 256,000 UTF-8 bytes use a local Python
+query bridge when needed. The installed Hermes CLI does not support a native
+`--query-file` option: the bridge reads the file before invoking the same CLI
+parser with its unchanged query, model/provider and tool flags in memory. This
+avoids Linux's per-argument and Windows' command-line limits without file-tool
+turns or clipped evidence. Over-limit contextual requests fail before inference;
+they never silently truncate sources or fall back to unavailable file tools.
+
+Verification distinguishes source age from execution time. The saved-draft replay
+without the hourly-mode flag is excluded from publication counts. A later replay
+correctly rejected photo approvals older than one hour; those approvals must be
+renewed by real preparation, never by changing timestamps. Fresh preparation is
+required for the next full publication run.

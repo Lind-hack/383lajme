@@ -2,6 +2,7 @@
 import argparse
 import json
 import os
+import hashlib
 from pathlib import Path
 
 from editor_completion import acknowledge, verify, receipt_path
@@ -10,7 +11,10 @@ from editor_completion import acknowledge, verify, receipt_path
 def pending_path(batch: Path) -> Path:
     # Article loaders scan adjacent *.json. Unapproved drafts must never be
     # mistaken for a public fallback batch, even during an eventual Git archive.
-    return batch.parent / '.editor-pending' / batch.name
+    root = Path(os.environ.get('L383_EDITOR_PENDING_ROOT',str(batch.parent / '.editor-pending')))
+    # Refill and repair rounds can share a filename but have different scopes.
+    key = hashlib.sha256(str(batch.resolve()).encode()).hexdigest()[:12]
+    return root / f'{batch.stem}-{key}.json'
 
 
 def checkpoint(batch: Path, work: Path) -> int:
@@ -20,8 +24,11 @@ def checkpoint(batch: Path, work: Path) -> int:
     for folder in sorted(work.glob('chunk-*')):
         chunk = folder / batch.name
         try:
-            verify(chunk)
             rows = json.loads(chunk.read_text(encoding='utf-8'))
+            if rows:
+                verify(chunk)
+            elif rows != [] or not (folder/'finished').exists() or (folder/'failed').exists():
+                raise ValueError('empty chunk has no completed drop decisions')
             identities = json.loads((folder / 'input.json').read_text(encoding='utf-8'))
             scope = {a['url'] for a in identities}
             if any(a['url'] not in scope or a['url'] not in allowed for a in rows):
@@ -50,7 +57,7 @@ def checkpoint(batch: Path, work: Path) -> int:
     if rows:
         acknowledge(batch)
     pending_file = pending_path(batch)
-    pending_file.parent.mkdir(exist_ok=True)
+    pending_file.parent.mkdir(parents=True,exist_ok=True)
     temporary = pending_file.with_suffix('.tmp')
     temporary.write_text(json.dumps(pending, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
     os.replace(temporary, pending_file)

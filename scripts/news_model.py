@@ -75,16 +75,23 @@ def stage_deadline(seconds: float) -> float:
 
 
 def run_process(command: list[str], timeout: float, *, deadline: float | None = None) -> subprocess.CompletedProcess:
-    # Hermes supports --query-file: preserve full context beyond Windows'
-    # command-line limit rather than clipping documents or changing tools.
-    if os.name=='nt' and 'chat' in command and '-q' in command and len(subprocess.list2cmdline(command))>26000:
+    # Load large queries inside the Hermes interpreter: its installed CLI has
+    # no query-file flag, and Linux limits individual argv values as well.
+    if 'chat' in command and '-q' in command and (
+            len(command[-1].encode('utf-8')) > 96_000 or
+            (os.name=='nt' and len(subprocess.list2cmdline(command))>26000)):
         import tempfile
         with tempfile.TemporaryDirectory(prefix='383-model-query-') as folder:
             prompt=Path(folder)/'query.txt'
             prompt.write_text(command[-1],encoding='utf-8')
-            rewritten=list(command[:-1])
-            rewritten[rewritten.index('-q')]='--query-file'
-            return _run_process([*rewritten,str(prompt)],timeout,deadline=deadline)
+            interpreter = command[0] if Path(command[0]).name.lower().startswith('python') else str(
+                Path(command[0]).parent / ('python.exe' if os.name=='nt' else 'python'))
+            # Python -m hermes_cli.main and the hermes console entry point
+            # both enter the same parser. Preserve every model/provider flag.
+            arguments = command[command.index('chat'):-1]
+            bridge = Path(__file__).with_name('news_model_query.py')
+            return _run_process([interpreter,str(bridge),'--query-file',str(prompt),'--',*arguments],
+                                timeout,deadline=deadline)
     return _run_process(command,timeout,deadline=deadline)
 
 

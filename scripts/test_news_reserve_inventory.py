@@ -26,8 +26,11 @@ class ReserveInventoryTests(unittest.TestCase):
             root = Path(folder)
             ready = [{"pair_id": f"tech-{i}", "category": "Teknologji", "source": "TechCrunch",
                       "title": "A public model announcement", "url": f"https://techcrunch.com/item-{i}",
-                      "evidence_path": f"/verified/evidence-{i}.json", "image_subject": "OpenAI"}
+                      "evidence_path": str(root/f"evidence-{i}.json"), "image_subject": "OpenAI"}
                      for i in range(7)]
+            for lead in ready:
+                Path(lead['evidence_path']).write_text(json.dumps({'source_url':lead['url'],'evidence':{
+                    'status':'text_extracted','url':lead['url'],'text':'Full independently prepared source facts.'}}))
             # All six scheduled sources were already tried; the seventh has
             # an independently prepared image/evidence record but no notes request.
             result = join_reporter_notes(ready, ready[:6], {'tech-0':Path('/notes/tech-0.json')})
@@ -38,7 +41,8 @@ class ReserveInventoryTests(unittest.TestCase):
             self.assertEqual(build(discovery,brief,'Teknologji',approved=approved,attempted=attempted,limit=1),1)
             content = brief.read_text()
             self.assertIn(ready[6]['url'], content)
-            self.assertIn(ready[6]['evidence_path'], content)
+            self.assertIn('Full independently prepared source facts.', content)
+            self.assertNotIn(ready[6]['evidence_path'], content)
             self.assertNotIn(ready[0]['url'], content)
 
 

@@ -39,6 +39,12 @@ class EditorCheckpointTests(unittest.TestCase):
             acknowledge(work/'chunk-01'/batch.name)
             self.assertEqual(checkpoint(batch,work),2)
             self.assertEqual(json.loads(batch.read_text()), rows[:2])
+            # An explicit completed drop is recorded, never reclassified as
+            # an interrupted draft and never merged into the approved batch.
+            dropped=work/'chunk-03';(dropped/batch.name).write_text('[]')
+            (dropped/'finished').touch()
+            self.assertEqual(checkpoint(batch,work),2)
+            self.assertEqual(json.loads(pending_path(batch).read_text()),rows[2:3])
 
     def test_economy_briefs_share_calls_without_mixing_desks_or_losing_order(self):
         rows=[{'category':c,'url':str(n)} for n,c in enumerate(['Ekonomi']*5+['Showbiz']*2+['Botë']*3)]

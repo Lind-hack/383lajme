@@ -18,7 +18,8 @@ class ShowbizCapacityTests(unittest.TestCase):
         counts={c:5 for c in CATEGORIES};counts['Showbiz']=18
         plan=plan_counts(counts)
         self.assertEqual(plan['Showbiz'],18)
-        self.assertTrue(all(2<=plan[c]<=3 for c in CATEGORIES if c!='Showbiz'))
+        self.assertTrue(all(2<=plan[c]<=3 for c in CATEGORIES if c not in {'Showbiz','Ekonomi'}))
+        self.assertEqual(plan['Ekonomi'],5)
         rows=[{'category':c,'url':f'{c}/{i}'} for c,n in counts.items() for i in range(n)]
         self.assertEqual(Counter(a['category'] for a in balance(rows,plan))['Showbiz'],18)
         old=[{'category':'Showbiz','url':str(i)} for i in range(8)]

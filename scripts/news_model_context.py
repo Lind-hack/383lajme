@@ -1,7 +1,7 @@
 """Supply complete reference text in one OAuth request, without file-tool turns."""
 from pathlib import Path
 
-MAX_PROMPT_BYTES = 96_000  # Below Linux's per-argument limit, including UTF-8.
+MAX_PROMPT_BYTES = 256_000  # Complete bounded context; large queries use a local query file.
 
 
 class ContextTooLarge(ValueError):
@@ -22,7 +22,7 @@ def inline_context(prompt: str, paths: list[Path]) -> str:
         parts.append(f"\n\n===== COMPLETE REFERENCE: {path} =====\n{path.read_text(encoding='utf-8')}\n===== END REFERENCE =====")
     result = "".join(parts)
     if len(result.encode('utf-8')) > MAX_PROMPT_BYTES:
-        raise ContextTooLarge('Complete inline context exceeds the safe argument size; use the original file-reading route')
+        raise ContextTooLarge('Complete context exceeds the bounded request size; split the job without clipping evidence')
     return result
 
 
@@ -30,11 +30,8 @@ def contextual_command(command: list[str], paths: list[Path]) -> tuple[list[str]
     if not paths:
         return list(command), False
     result = list(command)
-    try:
-        result[-1] = inline_context(command[-1], paths)
-        tools = 'none'
-    except ContextTooLarge:
-        tools = 'file'  # Keep complete source reads; never silently clip evidence.
+    result[-1] = inline_context(command[-1], paths)
+    tools = 'none'
     indices = [i for i, value in enumerate(result[:-1]) if value in {'-t', '--toolsets'}]
     if len(indices) > 1:
         raise ValueError('Ambiguous model tool selection')

@@ -67,9 +67,12 @@ PY
 edit_chunk() {
   local folder="$1"
   # One retry: the Codex stream stalls now and then.
-  bash "$REPO/scripts/run-news-editor.sh" "$MODEL" "$folder/$NAME" "$REPO" "$MAX_TURNS" > "$folder/log" 2>&1 \
-    || bash "$REPO/scripts/run-news-editor.sh" "$MODEL" "$folder/$NAME" "$REPO" "$MAX_TURNS" >> "$folder/log" 2>&1 \
-    || touch "$folder/failed"
+  if bash "$REPO/scripts/run-news-editor.sh" "$MODEL" "$folder/$NAME" "$REPO" "$MAX_TURNS" > "$folder/log" 2>&1 \
+    || bash "$REPO/scripts/run-news-editor.sh" "$MODEL" "$folder/$NAME" "$REPO" "$MAX_TURNS" >> "$folder/log" 2>&1; then
+    touch "$folder/finished"
+  else
+    touch "$folder/failed"
+  fi
 }
 
 running=0

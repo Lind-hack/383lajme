@@ -63,7 +63,7 @@ text=Path(brief).read_text(encoding='utf-8')
 categories=re.findall(r'^category: (.+)$',text,re.M)
 assert len(set(categories))==1
 category=categories[0]
-assert len(categories)==(3 if category=='Showbiz' else 2)
+assert len(categories)==(3 if category in {'Showbiz','Ekonomi'} else 2)
 allocation=json.loads(re.search(r'^Publication plan: (.+)$',text,re.M)[1])[category]
 with closing(sqlite3.connect(database,timeout=10)) as db, db:
  db.execute('BEGIN IMMEDIATE');db.execute('UPDATE load SET active=active+1');db.execute('UPDATE load SET peak=max(peak,active)');db.execute('INSERT INTO calls VALUES(?,?,?)',(category,int(target),int(slot)))
@@ -89,8 +89,9 @@ run_writer_groups
                 active,peak=db.execute('SELECT active,peak FROM load').fetchone()
                 calls=db.execute('SELECT category,target,slot FROM calls').fetchall()
             self.assertEqual(active,0);self.assertLessEqual(peak,5)
-            expected_calls={(c,1,s) for c in CATEGORIES if c!=zero and c!='Showbiz' for s in (1,2)}
-            if zero!='Showbiz':expected_calls.add(('Showbiz',3,1))
+            expected_calls={(c,1,s) for c in CATEGORIES if c!=zero and c not in {'Showbiz','Ekonomi'} for s in (1,2)}
+            for c in ('Showbiz','Ekonomi'):
+                if zero!=c:expected_calls.add((c,3,1))
             self.assertEqual(set(calls),expected_calls)
             rows=json.loads(batch.read_text(encoding='utf-8'))
             expected={c:2 for c in CATEGORIES if c not in {zero,failed}}

@@ -13,15 +13,28 @@ import news_model as model
 
 
 class NewsModelTests(unittest.TestCase):
+    def test_large_linux_and_windows_queries_use_complete_local_query_file(self):
+        prompt='Complete Albanian source ë. '*6000+'END_COMPLETE_SOURCE'
+        command=['hermes','chat','--provider','openai-codex','--model','gpt-6-luna','-t','none','-q',prompt]
+        files=[]
+        def execute(rewritten,timeout,**kwargs):
+            self.assertEqual(rewritten[5:],command[1:-1])
+            self.assertEqual(rewritten[2],'--query-file')
+            path=Path(rewritten[3]); files.append(path)
+            self.assertEqual(path.read_text(encoding='utf-8'),prompt)
+            return subprocess.CompletedProcess(rewritten,0,'complete','')
+        with patch.object(model,'_run_process',side_effect=execute):
+            self.assertEqual(model.run_process(command,10).stdout,'complete')
+        self.assertFalse(files[0].exists())
+
     @unittest.skipUnless(os.name=='nt','Windows command-line transport')
     def test_large_windows_query_preserves_complete_context_and_cli_contract(self):
         prompt='Complete Albanian context ë. '*1500
         command=['hermes','chat','--provider','openai-codex','--model','gpt-6-luna','-t','none','-q',prompt]
         files=[]
         def execute(rewritten,timeout,**kwargs):
-            self.assertNotIn('-q',rewritten)
-            self.assertEqual(rewritten[:-2],command[:-2])
-            path=Path(rewritten[-1]);files.append(path)
+            self.assertEqual(rewritten[5:],command[1:-1])
+            path=Path(rewritten[3]);files.append(path)
             self.assertEqual(path.read_text(encoding='utf-8'),prompt)
             return subprocess.CompletedProcess(rewritten,0,'complete','')
         with patch.object(model,'_run_process',side_effect=execute):

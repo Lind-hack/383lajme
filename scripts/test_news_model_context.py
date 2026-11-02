@@ -5,6 +5,16 @@ from news_model_context import inline_context, contextual_command, MAX_PROMPT_BY
 
 
 class ModelContextTests(unittest.TestCase):
+    def test_sources_above_linux_argv_limit_remain_complete_and_tool_free(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path=Path(temporary)/'source.md'
+            text='Verified complete evidence. '*5000+'END_SOURCE'
+            path.write_text(text,encoding='utf-8')
+            command,inlined=contextual_command(['hermes','chat','-t','file','-q','Verify every fact'],[path])
+            self.assertTrue(inlined)
+            self.assertEqual(command[command.index('-t')+1],'none')
+            self.assertIn(text,command[-1])
+
     def test_complete_authoritative_documents_and_untrusted_facts_are_not_clipped(self):
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary)/'facts.md'
@@ -35,13 +45,13 @@ class ModelContextTests(unittest.TestCase):
             self.assertIn('Every supplied fact.',result[-1])
             self.assertEqual(command[-1],'task')
 
-    def test_large_context_keeps_the_complete_file_reading_task_and_does_not_truncate(self):
+    def test_over_limit_context_fails_before_starting_an_inaccessible_file_tool_request(self):
         with tempfile.TemporaryDirectory() as temporary:
             path=Path(temporary)/'source.md';path.write_text('x'*MAX_PROMPT_BYTES,encoding='utf-8')
             command=['hermes','chat','-t','none','-q','Read the complete source.md']
-            result,inlined=contextual_command(command,[path])
-            self.assertFalse(inlined)
-            self.assertEqual(result,['hermes','chat','-t','file','-q','Read the complete source.md'])
+            with self.assertRaises(ValueError):
+                contextual_command(command,[path])
+            self.assertEqual(command,['hermes','chat','-t','none','-q','Read the complete source.md'])
 
     def test_missing_reference_cannot_be_replaced_by_invented_or_partial_context(self):
         with tempfile.TemporaryDirectory() as temporary:

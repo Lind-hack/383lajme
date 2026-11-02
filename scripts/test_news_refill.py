@@ -25,8 +25,9 @@ class RefillTests(unittest.TestCase):
         selected = rewrite_input(approved, rejected)
         self.assertNotEqual(selected[0]["category"], "Kosovë")
         counts = Counter(article["category"] for article in approved + selected)
-        self.assertEqual(len(approved + selected), 22)
-        self.assertTrue(all(2 <= counts[category] <= 3 for category in CATEGORIES if category!='Showbiz'))
+        self.assertEqual(len(approved + selected), 23)
+        self.assertTrue(all(2 <= counts[category] <= 3 for category in CATEGORIES if category not in {'Showbiz','Ekonomi'}))
+        self.assertEqual(counts['Ekonomi'],4)
         self.assertEqual(counts['Showbiz'],4)
 
     def test_replacement_review_preserves_the_exact_approved_body(self):

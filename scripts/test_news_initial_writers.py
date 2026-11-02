@@ -47,17 +47,18 @@ class InitialWriterSchedulerTests(unittest.TestCase):
             fake.write_text('''import json,re,sys,sqlite3,time
 from pathlib import Path
 output,brief,target,phase,cap,database,slot=sys.argv[1:]
-assert (int(target),int(phase),int(cap))==(1,1980,240)
+assert int(target) in (1,3) and int(phase)==2160 and int(cap)==240
 text=Path(brief).read_text(encoding='utf-8')
 urls=re.findall(r'^url: (.+)$',text,re.M)
 category=re.search(r'^category: (.+)$',text,re.M).group(1)
-assert len(urls)==2
+assert len(urls)==(min(int(target),3 if category=='Ekonomi' else 2)+1 if category in {'Ekonomi','Showbiz'} else 2)
 with sqlite3.connect(database,timeout=10) as db:
  db.execute('BEGIN IMMEDIATE');db.execute('UPDATE load SET active=active+1');db.execute('UPDATE load SET peak=max(peak,active)')
 time.sleep(.15)
 with sqlite3.connect(database,timeout=10) as db:db.execute('UPDATE load SET active=active-1')
 if category=='Kosovë' and slot=='1':raise SystemExit(75)
-Path(output).write_text(json.dumps([{'slug':urls[0].rsplit('/',2)[-2]+'-'+slot,'url':urls[0],'category':category,'body':'Local test draft'}]),encoding='utf-8')
+count=min(int(target),3 if category=='Ekonomi' else 2 if category=='Showbiz' else 1)
+Path(output).write_text(json.dumps([{'slug':category+'-'+slot+'-'+str(i),'url':url,'category':category,'body':'Local test draft'} for i,url in enumerate(urls[:count])]),encoding='utf-8')
 ''',encoding='utf-8')
             start=RUNNER.index('run_writer_groups() {')
             helper=RUNNER[start:RUNNER.index('\nif [ "$FULL_TARGET" -ge 10 ]; then',start)]
@@ -76,10 +77,10 @@ run_writer_groups
                 capture_output=True,text=True,timeout=30)
             self.assertEqual(result.returncode,0,result.stdout+result.stderr)
             calls=[line for line in result.stdout.splitlines() if line.startswith('383 DESK WRITER:')]
-            self.assertEqual(len(calls),20)
-            self.assertTrue(all('slot=1 ' in line for line in calls[:7]))
-            self.assertTrue(all('slot=2 ' in line for line in calls[7:14]))
-            self.assertTrue(all('slot=3 ' in line for line in calls[14:]))
+            self.assertEqual(len(calls),17)
+            self.assertTrue(all('group=1 ' in line for line in calls[:7]))
+            self.assertTrue(all('group=2 ' in line for line in calls[7:12]))
+            self.assertTrue(all('group=3 ' in line for line in calls[12:]))
             rows=json.loads(batch.read_text(encoding='utf-8'))
             self.assertEqual(len(rows),19)
             self.assertEqual(len({r['url'] for r in rows}),19)

@@ -72,6 +72,7 @@ else
   STATE_ROOT="${L383_STATE_ROOT:-/opt/data/news-pipeline-state/hourly-runs}"
 fi
 STATE="$STATE_ROOT/${STAMP}-mode${QA_ONLY}.json"
+export L383_EDITOR_PENDING_ROOT="${STATE_ROOT%/hourly-runs}/editor-pending"
 export L383_NOTES_CACHE="${STATE_ROOT%/hourly-runs}/reporter-notes-cache.json"
 export L383_PHOTO_IDENTITY_CACHE="${STATE_ROOT%/hourly-runs}/photo-identity-cache.json"
 export L383_INGESTION_STATE="${STATE_ROOT%/hourly-runs}/source-inventory.sqlite"
