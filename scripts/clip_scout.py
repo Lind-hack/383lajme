@@ -1193,7 +1193,8 @@ def cut_groups(state: dict, now: datetime, removed: set[str]) -> list[tuple[str,
     day_ago = (now - timedelta(hours=24)).isoformat()
     groups: dict[str, list[dict]] = {}
     for e in (state.get("queued") or {}).values():
-        if not (e.get("site") is True and e.get("found_at", "") >= day_ago) or e.get("id") in removed:
+        # pirate(): a find queued before the filter existed (bbvks.com's, 2026-11-01) is never cut either.
+        if not (e.get("site") is True and e.get("found_at", "") >= day_ago) or e.get("id") in removed or pirate(e):
             continue
         has = any(Path(f).exists() for f in e["photos"]) if e.get("photos") else raw_path(e["id"]).exists()
         if not has:
@@ -1315,7 +1316,7 @@ def on_site_cuts(state: dict, now: datetime, removed: set[str]) -> list[dict]:
     for c in (state.get("cuts") or {}).values():
         if c["id"] in removed or c.get("made_at", "") < day_ago or not c.get("file") or c.get("style") != CUT_STYLE:
             continue
-        if any(s.get("id") in removed for s in c.get("sources") or []):
+        if any(s.get("id") in removed or pirate(s) for s in c.get("sources") or []):
             continue   # re-cut without it next run
         keep.append({k: c.get(k) for k in ("id", "story", "kind", "title", "kicker", "origin", "file", "sd", "thumb", "duration",
                                            "sources", "score", "made_at")})

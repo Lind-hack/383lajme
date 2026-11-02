@@ -323,6 +323,14 @@ class ViralCutTests(unittest.TestCase):
         kinds = [c["kind"] for c in cs.on_site_cuts({"cuts": cuts}, NOW, set())]
         self.assertEqual(kinds, ["bbk", "bbk", "bbk", "sport", "sport"])
 
+    def test_a_pirate_page_already_in_the_queue_is_never_cut_or_shown(self):
+        state = self.state(self.found(1, "prank", author="bbvks.com"), self.found(2, "olti"))
+        self.assertEqual([g[0] for g in cs.cut_groups(state, NOW, set())], ["olti"])
+        made = NOW.isoformat()
+        cuts = {"cut:1": {"id": "cut:1", "file": "f", "made_at": made, "score": 9, "style": 2,
+                          "sources": [{"id": "tt:1", "author": "bbvks.com"}]}}
+        self.assertEqual(cs.on_site_cuts({"cuts": cuts}, NOW, set()), [])
+
     def test_pages_selling_a_pirate_stream_are_never_sources(self):
         self.assertTrue(cs.pirate({"author": "bbvks.com", "caption": "Prank-u i Fuegos"}))
         self.assertTrue(cs.pirate({"author": "bbk_live", "caption": "SHIKO FALAS BIG BROTHER VIP 24/7"}))
