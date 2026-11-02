@@ -34,6 +34,13 @@ def fetcher(url,**kwargs):
 
 
 class DailyResearchTests(unittest.TestCase):
+    def test_publisher_queries_are_small_local_first_and_research_refreshes_hourly(self):
+        from news_showbiz_research import REFRESH_SECONDS
+        queries=searches(ARTIST)
+        self.assertIn('site:privebruto.com',' '.join(queries[1:3]))
+        self.assertTrue(all(query.count('site:')<=4 for query in queries))
+        self.assertEqual(REFRESH_SECONDS,3600)
+
     def test_artist_searches_cover_every_approved_showbiz_publisher(self):
         from news_source_policy import load_manifest
         query=' '.join(searches(ARTIST))

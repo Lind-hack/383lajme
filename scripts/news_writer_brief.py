@@ -57,9 +57,10 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
                            -(lead.get('editorial_review') or {}).get('score',0),
                            -reader_value(lead)['score'],-min(lead.get('coverage_family_count',1),5))
             if not lead.get("facts_path"):
-                return risky, *attention, 3
+                return ((attention[0],attention[1],risky,*attention[2:],3) if lead.get('category')=='Showbiz' else (risky,*attention,3))
             sheet = json.loads(Path(lead["facts_path"]).read_text(encoding="utf-8"))
-            return risky, *attention, 0 if sheet.get("origin") in {"model", "cache"} else 2 if sheet.get("origin") == "fragments" else 1
+            quality=0 if sheet.get("origin") in {"model", "cache"} else 2 if sheet.get("origin") == "fragments" else 1
+            return ((attention[0],attention[1],risky,*attention[2:],quality) if lead.get('category')=='Showbiz' else (risky,*attention,quality))
         leads = sorted(leads, key=note_priority)
         if desk_slot is not None:
             # Each one-article request has its own main/spare candidates. A
@@ -120,6 +121,9 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         if lead['category']=='Showbiz':
             metadata['audience_focus']=focus(lead)
             lines.append(EDITORIAL_GUIDANCE)
+            clip=(lead.get('image_rights') or {}).get('context_video')
+            if clip:
+                metadata['context_video']={key:clip.get(key) for key in ('url','title','author','basis')}
         if homepage_weight(lead) > 0:
             lines.append('Fresh publisher homepage order: prefer this lead over lower or unfeatured stories of comparable freshness and evidence. public_browser_geometry measures rendered headline/card positions; public_html_dom_order is an HTML fallback, not measured visual position. Neither is factual confirmation or a breaking-news label.')
         if lead.get("corroborates_url") and source_error(lead["category"], lead["corroborates_url"]):

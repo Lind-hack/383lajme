@@ -21,13 +21,13 @@ import feedparser
 from bs4 import BeautifulSoup
 from cloud_news_discovery import canonical, published_at
 from news_ingestion_store import Inventory, collector_lock
-from news_showbiz_focus import ARTISTS, ROSTER_PATH, mentions
+from news_showbiz_focus import ARTISTS, ROSTER_PATH, LOCAL_PUBLISHERS, mentions
 from news_source_policy import publisher_for, load_manifest
 from news_story_attention import linked_posts
 from read_news_source import fetch_public
 
-POLICY='383-albanian-showbiz-research-v2'
-REFRESH_SECONDS=4*3600
+POLICY='383-albanian-showbiz-research-v3-local-hourly'
+REFRESH_SECONDS=3600
 LOCAL_TIME=ZoneInfo('Europe/Belgrade')
 
 
@@ -40,7 +40,12 @@ def searches(artist):
     queries=[f'"{artist["name"]}" when:1d']
     domains=sorted({domain for publisher in load_manifest()['publishers']
                     if publisher['category']=='Showbiz' for domain in publisher['domains']})
-    queries.append(f'"{artist["name"]}" ('+' OR '.join('site:'+domain for domain in domains)+') when:1d')
+    local=sorted({domain for p in load_manifest()['publishers'] if p['source'] in LOCAL_PUBLISHERS for domain in p['domains']})
+    # Small publisher groups keep local reporting visible instead of burying
+    # it in a fifteen-publisher OR query dominated by international results.
+    for group in (local,[d for d in domains if d not in local]):
+        for start in range(0,len(group),4):
+            queries.append(f'"{artist["name"]}" ('+' OR '.join('site:'+d for d in group[start:start+4])+') when:1d')
     if artist['priority']==3:
         queries.append(f'"{artist["name"]}" (Instagram OR post OR photos OR outfit OR bikini OR reacts OR deklaron OR foto) when:1d')
     return queries

@@ -73,6 +73,7 @@ export default function ArticleContent({ article, related, sidebarRelated = [], 
   const wide = useWide();
   // Only the exact watch URL the pipeline writes; anything else shows the photo.
   const youtubeId = youtubeIdOf(article.videoClipUrl);
+  const contextVideo = normalizeCategory(article.category) === "Showbiz" ? youtubeId : null;
 
   return (
     <main
@@ -179,7 +180,7 @@ export default function ArticleContent({ article, related, sidebarRelated = [], 
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DUR.slow, delay: 0.1, ease: EASE }}
           >
-            {youtubeId ? (
+            {youtubeId && !contextVideo ? (
               // An official channel's own recent video, embedded (YouTube's
               // terms allow it) where no licensed photo of the subject exists.
               <figure style={{ margin: "0" }}>
@@ -205,7 +206,7 @@ export default function ArticleContent({ article, related, sidebarRelated = [], 
                 <ArticleHero src={article.imageUrl} alt={article.imageCaption || article.title} width={article.imageWidth} height={article.imageHeight} hideOnError={Boolean(editorial)} />
                 {article.imageCaption && (
                   <figcaption style={{ fontSize: "13px", lineHeight: 1.6, color: "var(--theme-muted, #59544C)", margin: "-20px 0 32px", overflowWrap: "anywhere" }}>
-                    Foto ilustruese nga arkivi. {article.imageCaption}
+                    {normalizeCategory(article.category) !== "Showbiz" && "Foto ilustruese nga arkivi. "}{article.imageCaption}
                     {article.imageCreator && <> Foto: {article.imageCreator}.</>}
                     {article.imageLicense && article.imageLicenseUrl && <> <a href={article.imageLicenseUrl} target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: "3px" }}>{article.imageLicense}<span className="sr-only"> (hapet në skedë të re)</span></a> · Prerje për paraqitje; licenca vlen edhe për prerjen.</>}
                     {article.imageSourcePage && <> · <a href={article.imageSourcePage} target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: "3px" }}>Të drejtat e fotos<span className="sr-only"> (hapet në skedë të re)</span></a></>}
@@ -238,6 +239,25 @@ export default function ArticleContent({ article, related, sidebarRelated = [], 
                 </p>
               ))}
             </div>
+            {contextVideo && (
+              <figure style={{ margin: "0 0 32px" }}>
+                <h2 style={{ fontSize: "20px", margin: "0 0 14px" }}>Video për kontekst</h2>
+                <div style={{ position: "relative", aspectRatio: "16 / 9", background: "#111" }}>
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${contextVideo}`}
+                    title={`Video: ${article.title}`}
+                    loading="lazy"
+                    allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }}
+                  />
+                </div>
+                <figcaption style={{ fontSize: "13px", marginTop: "10px" }}>
+                  <a href={article.videoClipUrl} target="_blank" rel="noopener noreferrer">Shiko videon në YouTube</a>
+                </figcaption>
+              </figure>
+            )}
             {/* The reader has just finished; this is where the questions are. */}
             {editorial ? editorial.afterBody : <ArticleAsk article={article} />}
 

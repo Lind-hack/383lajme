@@ -7,6 +7,7 @@ from pathlib import Path
 ROSTER_PATH=Path(__file__).with_name('showbiz_artists.json')
 ROSTER=json.loads(ROSTER_PATH.read_text(encoding='utf-8'))
 ARTISTS=ROSTER['artists']
+LOCAL_PUBLISHERS={'Prive','Prive Bruto','Anabel','Revista Who','KultPlus'}
 ADULT_CELEBRITIES=('Kim Kardashian','Kylie Jenner','Kendall Jenner','Hailey Bieber','Sabrina Carpenter',
     'Tate McRae','Sydney Sweeney','Megan Fox','Jennifer Lopez','Rihanna','Beyonce','Taylor Swift',
     'Ariana Grande','Billie Eilish','Demi Lovato','Miley Cyrus','Nicki Minaj','Cardi B','Shakira',
@@ -34,7 +35,12 @@ EDITORIAL_GUIDANCE=(
     'Use the complete factual notes without filler. Showbiz briefs may be 50 grounded words in one HTML paragraph; '
     'never repeat a detail or fill space with absent information, caveats or speculative meanings. '
     'For costume or photo roundups, choose a focused angle around a few specific looks rather than reproduce the source list and sequence. '
-    'For a tiny update prefer a single concise 50-80 word paragraph; write longer only when each added sentence gives a new supported fact. Use the prepared original article image and preserve its provenance.'
+    'Give readers context: explain what happened, when and where, what the artist actually said or did, '
+    'and the relevant earlier development or project when supplied in the notes. Prefer 120-220 words '
+    'in two or three paragraphs when the evidence supports that detail; reserve 50-80 words for genuinely tiny updates. '
+    'A prepared contextual clip supplements the original photo. Explain its connection using verified notes; '
+    'never claim to have watched a clip, transcribe it or invent a quote from its title or thumbnail. '
+    'Use the prepared original article image and preserve its provenance.'
 )
 
 
@@ -67,13 +73,15 @@ def focus(lead):
 
 
 def priority(lead):
-    return focus(lead)['priority']
+    # Local entertainment coverage gets a turn before the general foreign desk.
+    # This is an audience signal, never a claim about a person's nationality.
+    return max(focus(lead)['priority'],int(lead.get('category')=='Showbiz' and lead.get('source') in LOCAL_PUBLISHERS))
 
 
 def photo_interest(lead):
     if lead.get('category')!='Showbiz': return 0
     text=fold(lead.get('title','')+' '+str(lead.get('summary',''))[:350])
-    named=priority(lead)>0 or any(re.search(r'(?<!\w)'+re.escape(fold(name))+r'(?!\w)',text) for name in ADULT_CELEBRITIES)
+    named=focus(lead)['priority']>0 or any(re.search(r'(?<!\w)'+re.escape(fold(name))+r'(?!\w)',text) for name in ADULT_CELEBRITIES)
     hook=re.search(r'\b(?:foto\w*|photo\w*|bikini\w*|swimwear|fustan\w*|outfit\w*|fashion|pozon|posing|poses|look|veshje\w*|instagram|tattoo|tatuazh\w*|red carpet|relationship|costume\w*|kostum\w*|halloween|lingerie|sexy|glamour|plazh\w*)\b',text)
     return int(bool(named and hook))
 
@@ -97,7 +105,7 @@ def review_queue(leads,now=None):
     groups=defaultdict(lambda:defaultdict(list))
     for lead in leads:
         weight=homepage_weight(lead,now)
-        artist=priority(lead)
+        artist=focus(lead)['priority']
         photo=photo_interest(lead)
         lane=0 if artist==3 else 1 if artist else 2 if photo and weight else 3 if weight>=1/3 else 4 if photo else 5 if weight else 6
         groups[lane][lead.get('source','')].append(lead)
@@ -106,6 +114,6 @@ def review_queue(leads,now=None):
         pools={name:deque(sorted(rows,key=lambda a:(-homepage_weight(a,now),-photo_interest(a),str(a.get('url','')))))
                for name,rows in groups[lane].items()}
         while any(pools.values()):
-            for name in sorted(pools):
+            for name in sorted(pools,key=lambda name:(name not in LOCAL_PUBLISHERS,name)):
                 if pools[name]:result.append(pools[name].popleft())
     return result

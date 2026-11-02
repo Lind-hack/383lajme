@@ -83,6 +83,8 @@ def verify_html(article: dict, html: str) -> None:
     video = re.fullmatch(r"https://www\.youtube\.com/watch\?v=([A-Za-z0-9_-]{11})", str(article.get("video_clip_url") or ""))
     visual_matches = (bool(story.videos) and story.videos[0] == f"https://www.youtube-nocookie.com/embed/{video[1]}") if video else (
         bool(story.images) and story.images[0] == article["image_url"])
+    if video and article.get('category')=='Showbiz':
+        visual_matches=visual_matches and bool(story.images) and story.images[0]==article['image_url']
     if (story.title != " ".join(article["title"].split()) or story.category != article["category"]
             or story.paragraphs[:1] != [" ".join(str(article.get("excerpt") or "").split())]
             or not story.body_found or story.body_paragraphs != paragraphs

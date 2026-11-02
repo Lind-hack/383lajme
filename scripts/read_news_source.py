@@ -180,6 +180,9 @@ def extract(raw: bytes | str, url: str, *, max_text_chars: int | None = 14000) -
         ),
     ) if articles else (soup.find("main") or soup)
     paragraphs = [" ".join(p.get_text(" ", strip=True).split()) for p in main.find_all("p")]
+    # Only media in the readable article body, never sidebar recommendations.
+    from news_context_video import source_clips
+    video_candidates=source_clips(main,url)
     for node in main.find_all("img", limit=3):
         for attribute in ("srcset", "data-srcset", "data-lazy-srcset"):
             choices = []
@@ -204,6 +207,7 @@ def extract(raw: bytes | str, url: str, *, max_text_chars: int | None = 14000) -
         "published_source": published_source,
         "author": author,
         "image_url": image,
+        "video_candidates": video_candidates,
         "image_candidates": list(dict.fromkeys(urljoin(url, value) for value in declared_images
                                                 if isinstance(value, str) and value and not value.startswith("data:")))[:12],
         "text": readable_text,

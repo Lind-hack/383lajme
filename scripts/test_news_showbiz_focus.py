@@ -8,6 +8,15 @@ from news_source_policy import source_error
 
 
 class ShowbizFocusTests(unittest.TestCase):
+    def test_local_entertainment_is_prioritized_without_claiming_nationality(self):
+        from news_showbiz_focus import priority
+        lead={'category':'Showbiz','title':'A public artist announces a performance','source':'Prive Bruto'}
+        self.assertEqual(priority(lead),1)
+        self.assertEqual(focus(lead)['artists'],[])
+        lead['title']='Dua Lipa announces a performance'
+        self.assertEqual(priority(lead),3)
+        self.assertEqual(priority({**lead,'category':'Sport'}),0)
+
     def test_requested_artists_and_albanian_case_endings_are_recognized(self):
         for name in ('Dua Lipa','Dua Lipës','Rita Orën','Bebe Rexhës'):
             self.assertEqual(focus({'category':'Showbiz','title':name+' poston foto të reja'})['priority'],3)

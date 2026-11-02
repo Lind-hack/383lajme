@@ -37,6 +37,11 @@ class PublicationReadbackTests(unittest.TestCase):
         start, end = markup.index('<figure>'), markup.index('</figure>') + len('</figure>')
         video_markup = markup[:start] + '<figure><iframe src="https://www.youtube-nocookie.com/embed/123456789ab"></iframe></figure>' + markup[end:]
         verify_html(video_article, video_markup)
+        showbiz={**video_article,'category':'Showbiz'}
+        showbiz_markup=markup.replace('>Sport<','>Showbiz<').replace('</article>','<figure><iframe src="https://www.youtube-nocookie.com/embed/123456789ab"></iframe></figure></article>')
+        verify_html(showbiz,showbiz_markup)
+        with self.assertRaises(RuntimeError):
+            verify_html(showbiz,video_markup.replace('>Sport<','>Showbiz<'))
         with self.assertRaises(RuntimeError):
             verify_html(video_article, video_markup.replace('embed/123456789ab', 'embed/wrongIdHere'))
         with self.assertRaises(RuntimeError):

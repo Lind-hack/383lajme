@@ -217,6 +217,12 @@ def ready_image(lead: dict, primary: dict, secondary: dict) -> dict:
         for option in [options[index] for index in choice] if choice is not None else options:
             found = finalize_video(lead, option) if option["tier"] == "video" else finalize_photo(lead, option)
             if found:
+                if lead.get('category')=='Showbiz':
+                    from news_context_video import prepare_clip
+                    clip=prepare_clip(lead,primary)
+                    if clip:
+                        found['video_clip_url']=clip['url']
+                        found['image_rights']['context_video']=clip
                 return found
         return {}
     from codex_automation_support import _fetch_image_dimensions, _larger_image_candidates, _looks_like_content_image_url
@@ -295,8 +301,11 @@ def prioritize_grounded_leads(leads: list[dict], *, now=None) -> list[dict]:
                     for key in ("primary_evidence", "secondary_evidence")
                     if lead.get(key, {}).get("status") == "text_extracted")
         substantial,minimum=(50,30) if lead.get('category')=='Showbiz' else (140,80)
-        return (bool(lead.get("source_basis_warning") or source_basis_warning(lead)),
-                words < substantial, words < minimum, bool(lead.get('coverage_already_published')), -artist_priority(lead), freshness_bucket(lead, now),
+        ordering=(bool(lead.get("source_basis_warning") or source_basis_warning(lead)),
+                words < substantial, words < minimum, bool(lead.get('coverage_already_published')), -artist_priority(lead))
+        if lead.get('category')=='Showbiz':
+            ordering=(bool(lead.get('coverage_already_published')),-artist_priority(lead),*ordering[:3])
+        return (*ordering, freshness_bucket(lead, now),
                 reader_value(lead)['reserve_genre'], -homepage_weight(lead, now),
                 -reader_value(lead)['score'],
                 -min(lead.get('coverage_family_count', 1), 5))

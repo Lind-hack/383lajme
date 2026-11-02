@@ -28,6 +28,12 @@ facts from previews. Never copy another outlet's wording.
 
 ## Showbiz audience and daily research
 
+Refresh artist research hourly, splitting registered publishers into small search groups with Albanian-language entertainment publishers first. Give eligible Albanian artist stories priority throughout preparation and writing; do not let a source-format warning alone move every local artist behind generic foreign entertainment. Local publisher priority indicates audience fit, never somebody's nationality. Keep factual, freshness, originality and sensitive-claim checks.
+
+Provide the story's supported context: what happened, when and where, what the artist said or did, and relevant earlier developments supplied in the notes. Prefer 120–220 words in two or three paragraphs when enough facts exist; short 50–80 word briefs remain suitable for tiny updates. Never pad a thin source.
+
+When a readable Showbiz source article links or embeds a relevant YouTube clip in its article body, preparation may attach one as additional context after an embeddability and native poster/metadata/event review. Keep the original publisher photo as the hero and display the clip after the body. A clip about another event by the same artist is insufficient. Missing or blocked clips do not block an otherwise eligible article. This review does not watch the video stream; do not invent dialogue or video observations. Older clips are context only when the source discusses that exact work or event, never a new upload claim.
+
 Prioritize Albanian artists and personalities at home and abroad. Dua Lipa,
 Rita Ora and Bebe Rexha are the first watchlist tier, followed by the researched
 roster in `scripts/showbiz_artists.json`. Public statements, new Instagram
