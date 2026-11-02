@@ -149,7 +149,7 @@ def topic_error(category: str, title: object, summary: object = "", *, tags=(), 
         return "invalid publisher URL"
     if host(url) == 'cryptoslate.com' and re.fullmatch(r'/coins/[^/]+/?', path):
         return 'asset profile is reference data, not a reported news article'
-    if labels & {'gaming', 'esports', 'anime', 'manga'} or re.search(r'/(?:gaming|esports|anime|manga)/', path):
+    if labels & {'gaming', 'esports', 'anime', 'manga'} or re.search(r'/(?:gaming(?:-news)?|esports|anime|manga)/', path):
         return 'publisher category is explicitly excluded by the newsroom'
     entertainment_performance = category == "Showbiz" and bool(re.search(
         r"\b(?:perform(?:s|ed|ing)?|performo\w*|kendon|kendoi|koncert\w*|concert\w*)\b", headline))
