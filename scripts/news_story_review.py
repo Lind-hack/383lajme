@@ -239,21 +239,21 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
     pool = {}
     from news_economy_policy import review_queue as economy_queue
     from news_source_policy import topic_error
-    excluded=[];excluded_ids=set()
-    queue=economy_queue(leads,now) if category=='Ekonomi' else review_queue(leads,now)
-    for lead in queue:
-        if lead['category']!=category:continue
+    excluded=[]
+    candidates=[];seen=set()
+    for lead in leads:
+        if lead.get('category')!=category:continue
         identity=canonical(lead['url'])
-        if identity in pool or identity in excluded_ids:continue
-        # Exclude clearly off-desk pages before spending a vision call on them.
-        # Keep exact reasons separately; this is not a native editorial rejection.
+        if identity in seen:continue
+        seen.add(identity)
         if category=='Ekonomi':
             reason=topic_error(category,lead.get('title'),evidence_by_url.get(lead['url'],{}).get('text',''),tags=lead.get('tags',[]),url=lead['url'])
             if reason:
-                excluded_ids.add(identity)
                 excluded.append(dict(url=lead['url'],source=lead['source'],title=lead.get('title'),reason=reason))
                 continue
-        pool.setdefault(canonical(lead['url']),lead)
+        candidates.append(lead)
+    queue=economy_queue(candidates,now) if category=='Ekonomi' else review_queue(candidates,now)
+    for lead in queue:pool.setdefault(canonical(lead['url']),lead)
     if category=='Ekonomi':
         # Spend homepage pixels on sources that have current candidates, in the
         # same editorial order. Empty institutional sites cannot consume the

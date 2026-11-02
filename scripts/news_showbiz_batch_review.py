@@ -57,5 +57,5 @@ def review_batch(items,folder,index,deadline,now,reviewer):
         for record in records.values():record.update(status='pending_review',error=type(exc).__name__+': '+str(exc)[:300])
     for url,record in records.items():
         (Path(folder)/'articles'/story_id(url)/'review.json').write_text(json.dumps(record,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-    print('383 SHOWBIZ BATCH '+json.dumps({'stories':len(items),'reviewed':sum(r['status']=='reviewed' for r in records.values())}),flush=True)
+    print('383 SOURCE VISUAL BATCH '+json.dumps({'categories':sorted({str(lead.get('category','unknown')) for lead,record in items}),'stories':len(items),'reviewed':sum(r['status']=='reviewed' for r in records.values())}),flush=True)
     return records

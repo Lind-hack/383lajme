@@ -118,4 +118,11 @@ class EconomyHomepageTests(unittest.TestCase):
   self.assertEqual(report['summary']['reviewed_articles'],6)
   self.assertTrue(all(r['review']['decision']=='consider' for r in records.values()))
 
+ def test_each_active_publisher_gets_a_lead_before_busy_source_extras(self):
+  busy=[lead('CNBC',f'https://cnbc.com/company-{n}',n+1) for n in range(8)]
+  guardian=lead('The Guardian Business','https://theguardian.com/business/latest',18)
+  rows=review_queue([*busy,guardian],NOW)
+  self.assertEqual([r['source'] for r in rows[:2]],['CNBC','The Guardian Business'])
+  self.assertEqual(rows[2:],busy[1:])
+
 if __name__=='__main__':unittest.main()

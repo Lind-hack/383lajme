@@ -74,4 +74,11 @@ def review_queue(leads,now=None):
         while any(pools.values()):
             for name in names:
                 if pools[name]:output.append(pools[name].popleft())
-    return output
+    # Cover each active publisher's best eligible current lead before extras.
+    # This also gives a source whose fresh stories sit below sticky features
+    # a real review turn, while preserving homepage order within that source.
+    first={};extras=[]
+    for lead in output:
+        if lead['source'] not in first:first[lead['source']]=lead
+        else:extras.append(lead)
+    return [*first.values(),*extras]
