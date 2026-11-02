@@ -331,6 +331,17 @@ class ViralCutTests(unittest.TestCase):
                           "sources": [{"id": "tt:1", "author": "bbvks.com"}]}}
         self.assertEqual(cs.on_site_cuts({"cuts": cuts}, NOW, set()), [])
 
+    def test_the_published_email_links_each_cut_its_source_and_its_take_down(self):
+        cut = {"id": "cut:0123456789abcdef", "title": "Olti Curri sherr me Antonetën", "kind": "bbk", "duration": 21.4,
+               "thumb": "https://s/t.jpg", "sources": [{"author": "fokus.media87", "link": "https://www.tiktok.com/@fokus.media87/video/1"}]}
+        subject, text, html = cs.published_mail([cut])
+        self.assertEqual(subject, "383 Virale sot: Olti Curri sherr me Antonetën")
+        self.assertIn("https://383ks.com/video/virale-cut-0123456789abcdef", html)
+        self.assertIn("@fokus.media87", html)
+        self.assertIn("/api/virale/hiq?", html)
+        self.assertIn("2 të reja", cs.published_mail([cut, {**cut, "id": "cut:1"}])[0])
+        self.assertNotIn("<", text)
+
     def test_pages_selling_a_pirate_stream_are_never_sources(self):
         self.assertTrue(cs.pirate({"author": "bbvks.com", "caption": "Prank-u i Fuegos"}))
         self.assertTrue(cs.pirate({"author": "bbk_live", "caption": "SHIKO FALAS BIG BROTHER VIP 24/7"}))

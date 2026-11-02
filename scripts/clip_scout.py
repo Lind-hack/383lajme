@@ -1330,6 +1330,63 @@ def publish_viral(state: dict, now: datetime, removed: set[str]) -> list[dict]:
     return items
 
 
+def cut_page(cut: dict) -> str:
+    """The cut's own page on the site (/video/<slug>; lib/video-edition parseCuts makes the same slug)."""
+    return f"{SITE}/video/virale-{cut['id'].replace(':', '-')}"
+
+
+def published_mail(cuts: list[dict]) -> tuple[str, str, str]:
+    """Subject, text and HTML of the email for cuts that just went up on "Virale sot"."""
+    esc = lambda s: str(s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")  # noqa: E731
+    subject = (f"383 Virale sot: {cuts[0]['title'][:70]}" if len(cuts) == 1
+               else f"383 Virale sot: {len(cuts)} të reja në faqe · {cuts[0]['title'][:50]}")
+    text, rows = [], []
+    for c in cuts:
+        src = (c.get("sources") or [{}])[0]
+        text.append(f"{c['title']} ({c.get('kind', '')}, {c.get('duration', 0):.0f}s) {cut_page(c)}\n"
+                    f"  Origjinali: @{src.get('author', '')} {src.get('link', '')}\n  Hiq nga faqja: {remove_link(c['id'])}")
+        img = (f'<a href="{esc(cut_page(c))}"><img src="{esc(c["thumb"])}" width="135" style="border-radius:10px;display:block"></a>'
+               if c.get("thumb") else "")
+        rows.append(f'<tr><td style="padding:14px 14px 14px 0;vertical-align:top">{img}</td>'
+                    f'<td style="padding:14px 0;vertical-align:top;font-family:Arial,sans-serif">'
+                    f'<div style="font-size:12px;color:#FF4422;font-weight:700;letter-spacing:.06em">'
+                    f'{esc(str(c.get("kind", "")).upper())} · {c.get("duration", 0):.0f}s</div>'
+                    f'<div style="font-size:18px;font-weight:700;margin:4px 0 8px">{esc(c["title"])}</div>'
+                    f'<div style="font-size:14px"><a href="{esc(cut_page(c))}" style="color:#111;font-weight:700">Shiko në 383</a>'
+                    f' · <a href="{esc(src.get("link", ""))}">Origjinali (@{esc(src.get("author", ""))})</a>'
+                    f' · <a href="{esc(remove_link(c["id"]))}" style="color:#c62828">Hiq nga faqja</a></div></td></tr>')
+    html = (f'<div style="font-family:Arial,sans-serif"><h2 style="margin:0 0 4px">{len(cuts)} video virale të reja në faqe</h2>'
+            f'<p style="color:#555;margin:0 0 8px">Tani në "Virale sot" te <a href="{SITE}">383ks.com</a>.</p>'
+            f'<table>{"".join(rows)}</table></div>')
+    return subject, "\n\n".join(text), html
+
+
+def send_mail(subject: str, text: str, html: str, sender: str = "383 Virale") -> bool:
+    to = os.environ.get("L383_SCOUT_REPORT_TO") or os.environ.get("L383_EDITION_REPORT_TO", "")
+    user, password = os.environ.get("GMAIL_USER", "").strip(), os.environ.get("GMAIL_APP_PASSWORD", "").replace(" ", "")
+    if not (to and user and password):
+        print("SCOUT email skipped: no report address or Gmail credentials", file=sys.stderr)
+        return False
+    msg = EmailMessage()
+    msg["From"], msg["To"], msg["Subject"] = f"{sender} <{user}>", to, subject
+    msg.set_content(text)
+    msg.add_alternative(html, subtype="html")
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=30) as smtp:
+            smtp.login(user, password)
+            smtp.send_message(msg)
+        print(f"SCOUT email sent: {subject}")
+        return True
+    except (smtplib.SMTPException, OSError) as exc:
+        print(f"SCOUT email failed: {exc}", file=sys.stderr)
+        return False
+
+
+def email_published(cuts: list[dict]) -> bool:
+    """One email each time new cuts go up on the site: each with its page, its source and its take-down link."""
+    return send_mail(*published_mail(cuts))
+
+
 def health_lines(health: dict) -> list[str]:
     """Each source in a word: "✓ X: 212 video" or "✗ Instagram: cookie expired..."."""
     return [f"{'✓' if ok else '✗'} {name}: {note}" for name, (ok, note) in health.items()]
@@ -1557,7 +1614,11 @@ def main(dry_run: bool = False) -> int:
         health["Virale sot"] = (bool(on_site_now), f"{len(on_site_now)} në faqe, {len(cuts)} të reja këtë herë")
         prune_raw(now)
         state["trending"] = {"at": now_iso(), **trending}
-        if should_email(found + cuts, health, state, now) and email(found, health, trending, site, cuts) and not (found or cuts):
+        live = {c["id"] for c in on_site_now}
+        published = [c for c in cuts if c["id"] in live]
+        if published:
+            email_published(published)
+        if should_email(found, health, state, now) and email(found, health, trending, site) and not found:
             state["alerted"] = now_iso()
     finally:
         if proc:
