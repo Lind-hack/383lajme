@@ -166,6 +166,8 @@ class CaptionTests(unittest.TestCase):
         self.assertEqual(credit.split(",")[18], "7")              # ASS alignment 7: top left
         self.assertIn("KUSH KA TË DREJTË?", doc)
         self.assertNotIn("{të}", doc)
+        self.assertFalse(any(ch in doc for ch in "\f\t\b\x0b"), "an ASS tag lost its backslash")
+        self.assertIn("\\fad(", doc)
 
 
 @unittest.skipUnless(shutil.which("ffmpeg"), "needs ffmpeg")
