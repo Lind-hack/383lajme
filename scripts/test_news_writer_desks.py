@@ -58,7 +58,7 @@ class WriterDeskTests(unittest.TestCase):
 from contextlib import closing
 from pathlib import Path
 batch,brief,database,target,phase,cap,failed,slot=sys.argv[1:]
-assert int(target) in (1,3) and int(phase)==2520 and int(cap)==240
+assert int(target) in (1,3) and int(phase)==2160 and int(cap)==240
 text=Path(brief).read_text(encoding='utf-8')
 categories=re.findall(r'^category: (.+)$',text,re.M)
 assert len(set(categories))==1

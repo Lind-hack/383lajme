@@ -62,7 +62,7 @@ QA_ONLY=0
     def invoke(self, script):
         return subprocess.run([BASH, "-c", script], capture_output=True, text=True, timeout=10)
 
-    def test_initial_and_extra_editors_keep_four_minutes_after_grouped_writers(self):
+    def test_initial_editor_stops_before_the_final_originality_window(self):
         budget = RUNNER[RUNNER.index("model_budget() {"):RUNNER.index("track_attempted() {")]
         start = RUNNER.index("review_candidates() {")
         header = RUNNER[start:RUNNER.index('stage="normalize"', start)]
@@ -72,14 +72,14 @@ date() { printf 3640; }
 IN_EXTRA_REVIEW=1
 review_candidates
 unset IN_EXTRA_REVIEW
-review_candidates
+if review_candidates; then exit 1; fi
 '''
         result = self.invoke(script)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(result.stdout.splitlines(), ["240240"])
+        self.assertEqual(result.stdout.splitlines(), ["240"])
 
     def test_preparation_model_deadline_reserves_writer_time_without_shortening_later_review(self):
-        start = RUNNER.index('env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 1560))"')
+        start = RUNNER.index('env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 1440))"')
         end = RUNNER.index('--discovery', start) + len('--discovery')
         command = RUNNER[start:end]
         with tempfile.TemporaryDirectory() as temporary:
@@ -91,7 +91,7 @@ review_candidates
             result = subprocess.run([BASH, "-c", script], cwd=root, capture_output=True, text=True, timeout=10,
                                     env={**os.environ, "PYTHON_BIN": sys.executable, "DISCOVERY": "unused.md"})
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertEqual(result.stdout.splitlines(), ["2560", "4000"])
+            self.assertEqual(result.stdout.splitlines(), ["2440", "4000"])
 
     def test_fresh_candidates_are_attempted_before_rewrites_and_failures_preserve_approved_copy(self):
         self.exercise_recovery(1000)

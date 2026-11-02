@@ -7,6 +7,27 @@ DEFECTS = {"factual", "attribution", "originality", "language", "title", "photo_
 METADATA = {"score_breakdown", "score_reason", "score_formula", "required_attribution"}
 
 
+def editor_batches(articles: list[dict], size: int = 3) -> list[list[dict]]:
+    """Keep Showbiz reviews small; preserve order and the other desk batch size."""
+    if size < 1:
+        raise ValueError('editor batch size must be positive')
+    groups, pending = [], []
+    for article in articles:
+        if article.get('category') == 'Showbiz':
+            if pending:
+                groups.append(pending)
+                pending = []
+            groups.append([article])
+        else:
+            pending.append(article)
+            if len(pending) == size:
+                groups.append(pending)
+                pending = []
+    if pending:
+        groups.append(pending)
+    return groups
+
+
 def apply_decisions(articles: list[dict], decisions: list[dict]) -> list[dict]:
     if not decisions:
         raise ValueError("Editor returned no explicit article decisions")

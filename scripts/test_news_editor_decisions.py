@@ -5,11 +5,23 @@ import io
 from contextlib import redirect_stdout
 from pathlib import Path
 
-from news_editor_decisions import CHECKS, apply_decisions
+from news_editor_decisions import CHECKS, apply_decisions, editor_batches
 from news_model_response import save_response
 
 
 class EditorialDecisionsTests(unittest.TestCase):
+    def test_showbiz_reviews_are_individual_without_losing_or_reordering_stories(self):
+        articles=[{'url':str(n),'category':category} for n,category in enumerate(
+            ['Kosovë']*3+['Showbiz']*4+['Botë']*4+['Showbiz']*2)]
+        groups=editor_batches(articles)
+        self.assertEqual([a for group in groups for a in group],articles)
+        self.assertTrue(all(len(group)==1 for group in groups if any(a['category']=='Showbiz' for a in group)))
+        self.assertTrue(all(len(group)<=3 for group in groups))
+        self.assertEqual([len(g) for g in editor_batches([{'category':'Showbiz'}]*2)],[1,1])
+        self.assertEqual([len(g) for g in editor_batches([{'category':'Sport'}]*6)],[3,3])
+        self.assertEqual(len(editor_batches([{'category':'Showbiz'}]*56)),56)
+        with self.assertRaises(ValueError):editor_batches([],0)
+
     def test_drops_and_invalid_corrections_leave_actionable_audit_reasons(self):
         dropped = {"url": self.article["url"], "action": "drop", "reason": "No independently readable confirmation\nfor this allegation."}
         output = io.StringIO()

@@ -182,10 +182,10 @@ if ! "$PYTHON_BIN" scripts/cloud_news_discovery.py --output .last30days/cloud-ne
 fi
 
 stage="writer-source-fetch"
-# Finish source preparation by minute 26, leaving up to 16 minutes for grouped writers.
+# Finish source preparation by minute 24, leaving up to 12 minutes for grouped writers.
 # Scope this preparation-model deadline to the child; later editorial calls keep
 # the run's minute-50 limit. Slow notes must not consume the writing window.
-env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 1560))" \
+env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 1440))" \
   "$PYTHON_BIN" scripts/prepare_editor_sources.py "$DISCOVERY" --discovery
 
 # Prepared inventory includes readable, lane-locked source text and decoded images.
@@ -281,7 +281,7 @@ run_writer() {
   if ! grep -q '^Notes unavailable\.' "$WRITER_BRIEF"; then
     context_args=(--context-file "$REPO/docs/albanian_newsroom.md" --context-file "$REPO/docs/news-output-schema.json" --context-file "$REPO/docs/news-ranking-rubric.md" --context-file "$WRITER_BRIEF")
   fi
-  writer_budget="$(model_budget "${L383_WRITER_ATTEMPT_TIMEOUT:-600}" "${WRITER_PHASE_END:-2520}")" || return 75
+  writer_budget="$(model_budget "${L383_WRITER_ATTEMPT_TIMEOUT:-600}" "${WRITER_PHASE_END:-2160}")" || return 75
   timeout --signal=TERM --kill-after=15s "$((writer_budget + 5))s" \
     env HERMES_HOME="${L383_HERMES_HOME:-/opt/data/news-pipeline-hermes}" L383_MODEL_CALL_TIMEOUT="$writer_budget" \
     "$PYTHON_BIN" scripts/news_model_response.py --batch "${WRITER_BATCH:-$BATCH}" --mode replace --identity-manifest "${WRITER_BRIEF%.md}.sources.json" "${context_args[@]}" -- /opt/hermes/.venv/bin/hermes chat \
@@ -327,7 +327,7 @@ recover_missing_writer_desks() {
 }
 # Compose the complete source-ready allocation in disjoint one-story calls.
 # Round-robin slots give every desk its first and second request before thirds.
-# Keep five concurrent requests, finishing drafts by minute 42.
+# Keep five concurrent requests, finishing drafts by minute 36.
 run_writer_groups() {
   local folder group desks jobs running=0 slot call_cap
   folder="$(mktemp -d /tmp/383-writer-groups.XXXXXX)" || return 75
@@ -345,13 +345,13 @@ PY
   while IFS=$'\t' read -r desks slot call_cap; do
       [ -n "$desks" ] || continue
       group=$((group + 1))
-      printf '383 DESK WRITER: category=%s group=%s cap=240s end_minute=42\n' "$desks" "$slot"
+      printf '383 DESK WRITER: category=%s group=%s cap=240s end_minute=36\n' "$desks" "$slot"
       (
         WRITER_BATCH="$folder/$group.json"
         WRITER_DESK_SLOT="$slot"
         L383_TARGET_ARTICLES="$call_cap"
         L383_WRITER_ATTEMPT_TIMEOUT=240
-        WRITER_PHASE_END=2520
+        WRITER_PHASE_END=2160
         WRITER_SCOPE="This call covers ONLY ${desks}, article group ${slot}: write up to ${call_cap} eligible distinct stories from this brief; ignore every other category and global counts below. "
         WRITER_BRIEF="$folder/$group-brief.md"
         "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$WRITER_BRIEF" --categories "$desks" --cap "$call_cap" --spares 1 --desk-slot "$slot" || exit 1
@@ -410,7 +410,7 @@ if [ "$BATCH_COUNT" -lt 1 ]; then
 fi
 
 # Continue a fresh batch in bounded seven-story increments. Reserve at least
-# The primary groups finish by minute 42; review runs until minute 48, then final checks.
+# The primary groups finish by minute 36; initial review runs until minute 43, then final checks.
 stage="writer-continuation"
 CONTINUATION_FAILURES=0
 for continuation in {1..15}; do
@@ -464,7 +464,7 @@ printf '383 WRITER FINAL DRAFT COUNT: %s of %s source-ready pairs\n' "$BATCH_COU
 printf '383 CATEGORY DEFICITS: %s\n' "$COVERAGE_DEFICITS"
 
 review_candidates() {
-local editorial_phase_end=2880
+local editorial_phase_end=2580
 if [ "${IN_EXTRA_REVIEW:-0}" = "1" ]; then
   editorial_phase_end=2880  # Keep two minutes for independent review before minute 50.
 fi
