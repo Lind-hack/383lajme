@@ -37,5 +37,5 @@ WRITING_GUIDANCE = (
     "percent from percentage points, forecasts from outcomes and attributed allegations from facts. "
     "Routine local or international economic news needs no invented Kosovo impact. Never add buy/sell "
     "advice, promised returns, unsupported price predictions or claims of virality. Preserve prepared "
-    "licensed/official visual metadata and caption archive/illustrative material accurately."
+    "original-publisher visual provenance, exact source credit and licence status; caption archive/illustrative material accurately."
 )

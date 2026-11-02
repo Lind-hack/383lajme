@@ -38,7 +38,7 @@ class EconomyReviewTests(unittest.TestCase):
    self.assertTrue(selection_ready(lead,records[url],evidence,now))
    self.assertFalse(selection_ready(lead,records[url],dict(evidence,text='Changed facts'),now))
 
- def test_economy_source_image_is_inspection_only(self):
+ def test_economy_source_image_has_exact_source_bound_provenance(self):
   from io import BytesIO
   now=datetime.now(timezone.utc);url='https://monitor.al/rriten-pagat/'
   publisher=next(p for p in MANIFEST['publishers'] if p['source']=='Monitor')
@@ -48,7 +48,23 @@ class EconomyReviewTests(unittest.TestCase):
    record=capture_article_photo(url,publisher,Path(folder),public_evidence=evidence,image_fetcher=lambda _:raw.getvalue())
    self.assertEqual(record['visual_evidence_kind'],'source_article_image')
    self.assertFalse(record['visual_layout_complete'])
-   self.assertFalse(publisher_photo_allowed(dict(category='Ekonomi',url=url),dict(image_rights=dict(provider='publisher-article',source_page=url,reuse_basis='owner_requested_source_image',license='Not established',license_url=''))))
+   self.assertTrue(publisher_photo_allowed(dict(category='Ekonomi',url=url),dict(image_rights=dict(provider='publisher-article',source_page=url,reuse_basis='owner_requested_source_image',license='Not established',license_url=''))))
+
+ def test_economy_photo_policy_does_not_allow_different_publisher_or_other_desk(self):
+  from news_image_policy import article_photo_options
+  lead=dict(category='Ekonomi',url='https://monitor.al/wages',title='Pagat rriten')
+  evidence=dict(status='text_extracted',url=lead['url'],image_url='https://monitor.al/wages.jpg',title='Wages')
+  options=article_photo_options(lead,evidence)
+  self.assertTrue(options)
+  self.assertEqual(options[0]['photo']['image_rights']['license'],'Not established')
+  self.assertFalse(article_photo_options(lead,dict(evidence,url='https://cnbc.com/another-story')))
+  self.assertFalse(article_photo_options(dict(lead,category='Botë'),evidence))
+  from codex_automation_support import image_minimum
+  from news_image_policy import finalize_photo
+  self.assertEqual(image_minimum({**lead,**options[0]['photo']}),(600,350))
+  with patch.dict('os.environ',{'L383_HOURLY_NEWS':'1'}):
+   self.assertEqual(finalize_photo(lead,options[0]),{})  # Pixels are still mandatory.
+
 
  def test_native_batch_uses_economy_rules_instead_of_celebrity_rules(self):
   import json

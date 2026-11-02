@@ -1000,12 +1000,12 @@ def _research(lead: dict, primary: dict, secondary: dict, plan: dict, deadline: 
 
 
 def article_photo_options(lead: dict, primary: dict) -> list[dict]:
-    """Owner-selected Showbiz source imagery; provenance is not a reuse licence."""
+    """Owner-selected Showbiz/Economy source imagery; provenance is not a reuse licence."""
     from news_source_policy import publisher_for
     owner=publisher_for(lead.get('url'))
     actual=publisher_for(primary.get('url'))
-    if (lead.get('category')!='Showbiz' or primary.get('status')!='text_extracted'
-            or not owner or not actual or owner['category']!='Showbiz' or owner['source']!=actual['source']):
+    if (lead.get('category') not in {'Showbiz','Ekonomi'} or primary.get('status')!='text_extracted'
+            or not owner or not actual or owner['category']!=lead.get('category') or owner['source']!=actual['source']):
         return []
     from codex_automation_support import _looks_like_content_image_url, _larger_image_candidates
     urls=list(dict.fromkeys([primary.get('image_url',''),*primary.get('image_candidates',[])]))
@@ -1028,7 +1028,7 @@ def publisher_photo_allowed(lead: dict, photo: dict) -> bool:
     from news_source_policy import publisher_for
     rights=photo.get('image_rights') or {}
     owner=publisher_for(lead.get('url'))
-    return bool(lead.get('category')=='Showbiz' and owner and owner['category']=='Showbiz'
+    return bool(lead.get('category') in {'Showbiz','Ekonomi'} and owner and owner['category']==lead.get('category')
                 and rights.get('provider')=='publisher-article'
                 and str(rights.get('source_page','')).rstrip('/')==str(lead.get('url','')).rstrip('/')
                 and rights.get('reuse_basis')=='owner_requested_source_image'
@@ -1036,7 +1036,7 @@ def publisher_photo_allowed(lead: dict, photo: dict) -> bool:
 
 
 def source_photo_allowed(lead: dict, photo: dict) -> bool:
-    """Allow the explicit Showbiz source-image policy or independently checked rights."""
+    """Allow the explicit Showbiz/Economy source-image policy or independently checked rights."""
     if publisher_photo_allowed(lead,photo): return True
     rights = photo.get('image_rights', {})
     try:

@@ -297,7 +297,10 @@
       "if": {
         "properties": {
           "category": {
-            "const": "Showbiz"
+            "enum": [
+              "Showbiz",
+              "Ekonomi"
+            ]
           }
         },
         "required": [

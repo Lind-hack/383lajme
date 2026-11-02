@@ -82,7 +82,7 @@ The production worker must be activated from the corresponding committed release
 
 ## Ekonomi (14)
 
-All 14 publishers are enabled for collection and native text/pixel triage. Public access failures remain unavailable; enabling a source does not bypass a paywall or prove that an article was read. Economy retains verified publication-image requirements.
+All 14 publishers are enabled for collection and native text/pixel triage. Public access failures remain unavailable; enabling a source does not bypass a paywall or prove that an article was read. Economy uses the original article image with source-bound provenance, native pixel review and an honest licence status.
 
 | Publisher | Website(s) | Discovery | Hourly primary candidate |
 | --- | --- | --- | --- |

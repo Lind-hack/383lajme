@@ -195,13 +195,13 @@ MIN_SOCIAL_IMAGE_HEIGHT = MIN_IMAGE_HEIGHT
 
 
 def image_minimum(article):
-    if article.get('category')=='Showbiz' and (article.get('image_rights') or {}).get('provider')=='publisher-article':
+    if article.get('category') in {'Showbiz','Ekonomi'} and (article.get('image_rights') or {}).get('provider')=='publisher-article':
         return 600,350
     return (MIN_SOCIAL_IMAGE_WIDTH,MIN_SOCIAL_IMAGE_HEIGHT) if _social_platform(article) else (MIN_IMAGE_WIDTH,MIN_IMAGE_HEIGHT)
 
 
 def image_dimensions_for_article(article):
-    if os.environ.get('L383_HOURLY_NEWS')=='1' and article.get('category')=='Showbiz':
+    if os.environ.get('L383_HOURLY_NEWS')=='1' and article.get('category') in {'Showbiz','Ekonomi'}:
         from news_image_policy import trusted_photo,publisher_photo_allowed
         from news_visual_contact import valid_record
         prepared=trusted_photo(article)
