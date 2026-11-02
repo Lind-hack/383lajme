@@ -45,6 +45,9 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         # inventory/global brief for later fresh replacements and rewrites.
         now = datetime.now(timezone.utc)
         def note_priority(lead):
+            if lead.get('category')=='Ekonomi':
+                from news_economy_policy import selection_order
+                return (*selection_order(lead,now),bool(lead.get('source_basis_warning')))
             risky = bool(lead.get("source_basis_warning"))
             attention = (bool(lead.get('coverage_already_published')), -artist_priority(lead), freshness_bucket(lead, now),
                          -(lead.get('editorial_review') or {}).get('score',0),

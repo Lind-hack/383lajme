@@ -615,7 +615,7 @@ def main() -> int:
                 ('Showbiz',showbiz_enabled,'L383_SHOWBIZ_REVIEW_SECONDS','showbiz-review'),
                 ('Ekonomi',economy_enabled,'L383_ECONOMY_REVIEW_SECONDS','economy-review')):
                 if enabled:
-                    budget=float(os.environ.get(seconds,'600' if category=='Showbiz' else '300'))
+                    budget=float(os.environ.get(seconds,'600'))
                     future=executor.submit(review_inventory,collected,retrieved,audits,args.output.parent/folder,
                                            budget_seconds=budget,category=category)
                     jobs.append((category,future))

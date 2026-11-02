@@ -10,7 +10,7 @@ from urllib.parse import urljoin
 from cloud_news_discovery import canonical, published_at
 from news_ingestion_protocol import feed_items, feed_pages, listing_links, owned, sitemap_items, wordpress_items, wordpress_url
 from news_ingestion_store import Inventory, collector_lock
-from news_homepage_priority import is_homepage, homepage_article_identity
+from news_homepage_priority import is_homepage, homepage_article_identity, publisher_frontpage
 from news_source_policy import topic_error, hourly_targets
 from read_news_source import PublicHTTPError, extract, fetch_public
 
@@ -20,11 +20,15 @@ def seed_routes(manifest):
     routes = []
     for publisher in manifest['publishers']:
         name = publisher['source']
+        # Business front pages get the first collection turn; roots remain
+        # registered below. The same exact pages also receive visual geometry.
+        routes += [dict(source=name,kind='listing',url=url,hint={'_homepage_root':True},priority=-2)
+                   for url in publisher.get('homepage_urls',[])]
         routes += [dict(source=name,kind='feed',url=spec['url'],hint={},priority=0)
                    for spec in manifest['feeds'] if spec['source']==name]
-        routes += [dict(source=name,kind='listing',url=spec['url'],hint=spec,priority=0)
+        routes += [dict(source=name,kind='listing',url=spec['url'],hint={**spec,**({'_homepage_root':True} if publisher['category']=='Ekonomi' and is_homepage(spec['url'],publisher) else {})},priority=-2 if publisher['category']=='Ekonomi' and is_homepage(spec['url'],publisher) else 0)
                    for spec in manifest['browser_lanes'] if spec['source']==name]
-        for domain in publisher['domains']:
+        for domain in ([] if publisher.get('path_prefixes') else publisher['domains']):
             routes += [dict(source=name,kind='listing',url='https://'+domain+'/',hint={'_homepage_root':True},priority=-1),
                        dict(source=name,kind='robots',url='https://'+domain+'/robots.txt',hint={},priority=0)]
     return routes
@@ -331,7 +335,7 @@ def _snapshot(store, publishers, now, counters, started, *, checkpoint):
         status = store.source_status(source)
         complete = checkpoint and bool(counters[source]['usable_indexes']) and store.checkpoint(source,now.timestamp())
         audits.append({**status,**dict(counters[source]),'category':publisher['category'],
-            'url':'https://'+publisher['domains'][0]+'/',
+            'url':publisher_frontpage(publisher),
             'status':'complete' if complete else 'incomplete',
             'scope':'configured public feeds, listings and discovered sitemaps',
             'homepages':store.homepage_status(source,now),

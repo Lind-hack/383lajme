@@ -130,7 +130,8 @@ class SourceIsolation(unittest.TestCase):
             for domain in publisher["domains"]:
                 for category in CATEGORIES:
                     with self.subTest(domain=domain, category=category):
-                        error = source_error(category, f"https://www.{domain}/news/story")
+                        prefix=next(iter(publisher.get("path_prefixes",[])),"/").rstrip("/")
+                        error = source_error(category, f"https://www.{domain}{prefix}/news/story")
                         self.assertEqual(error is None, category == publisher["category"])
 
     def test_spoofed_hosts_unknown_sources_and_missing_category(self):

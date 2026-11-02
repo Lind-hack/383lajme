@@ -32,7 +32,7 @@ REVIEW_MAX_AGE = 24*3600
 
 
 def review_policy(category):
-    return '383-economy-page-review-v1' if category=='Ekonomi' else POLICY
+    return '383-economy-page-review-v2-homepage-hooks' if category=='Ekonomi' else POLICY
 
 
 def digest(value):
@@ -231,14 +231,35 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
     """No shortlist/category cap before review; unprocessed articles remain held."""
     now = now or datetime.now(timezone.utc)
     deadline = stage_deadline(budget_seconds)
-    home_deadline=min(deadline,time.monotonic()+min(45,max(0,budget_seconds*.15)))
+    home_deadline=min(deadline,time.monotonic()+min(90 if category=='Ekonomi' else 45,max(0,budget_seconds*.15)))
     batched=not capture_only and (reviewer is native_review or batch_reviewer is not None)
     folder = Path(folder)
     folder.mkdir(parents=True,exist_ok=True)
     publishers = [p for p in MANIFEST['publishers'] if p['category']==category]
     pool = {}
-    for lead in review_queue(leads,now):
-        if lead['category']==category:pool.setdefault(canonical(lead['url']),lead)
+    from news_economy_policy import review_queue as economy_queue
+    from news_source_policy import topic_error
+    excluded=[];excluded_ids=set()
+    queue=economy_queue(leads,now) if category=='Ekonomi' else review_queue(leads,now)
+    for lead in queue:
+        if lead['category']!=category:continue
+        identity=canonical(lead['url'])
+        if identity in pool or identity in excluded_ids:continue
+        # Exclude clearly off-desk pages before spending a vision call on them.
+        # Keep exact reasons separately; this is not a native editorial rejection.
+        if category=='Ekonomi':
+            reason=topic_error(category,lead.get('title'),evidence_by_url.get(lead['url'],{}).get('text',''),tags=lead.get('tags',[]),url=lead['url'])
+            if reason:
+                excluded_ids.add(identity)
+                excluded.append(dict(url=lead['url'],source=lead['source'],title=lead.get('title'),reason=reason))
+                continue
+        pool.setdefault(canonical(lead['url']),lead)
+    if category=='Ekonomi':
+        # Spend homepage pixels on sources that have current candidates, in the
+        # same editorial order. Empty institutional sites cannot consume the
+        # entire homepage window before the new local publishers get a turn.
+        names=list(dict.fromkeys(lead['source'] for lead in pool.values()))
+        publishers=sorted(publishers,key=lambda p:(p['source'] not in names,names.index(p['source']) if p['source'] in names else len(names)))
     coverage = event_coverage(list(pool.values()))
     records = {}
     homes = {}
@@ -247,7 +268,8 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
         if time.monotonic()>=home_deadline:
             return publisher['source'],{'status':'pending','error':'visual-review deadline'}
         try:
-            url='https://'+publisher['domains'][0]+'/'
+            from news_homepage_priority import publisher_frontpage
+            url=publisher_frontpage(publisher)
             path=folder/'publishers'/story_id(url)
             record=None
             try:
@@ -374,17 +396,18 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
         return url,record
 
     batch_calls=0
+    batch_limit=6 if category=='Ekonomi' else 4
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor, concurrent.futures.ThreadPoolExecutor(max_workers=2) as models:
         from news_showbiz_batch_review import review_batch,native_batch_review
         waiting=[];calls=[]
         order={url:n for n,url in enumerate(pool)}
         def submit_waiting(force=False):
             nonlocal waiting,batch_calls
-            if (not waiting or not force and len(waiting)<4 or time.monotonic()>=deadline
+            if (not waiting or not force and len(waiting)<batch_limit or time.monotonic()>=deadline
                     or sum(not f.done() for f in calls)>=2):return False
             waiting.sort(key=lambda item:order[canonical(item[0]['url'])])
             batch=[];size=0
-            while waiting and len(batch)<4:
+            while waiting and len(batch)<batch_limit:
                 length=Path(waiting[0][1]['review_brief']).stat().st_size
                 if batch and size+length>75000:break
                 batch.append(waiting.pop(0));size+=length
@@ -402,7 +425,7 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
             if batched and record['status']=='pending_review' and record.get('review_brief'):
                 waiting.append((pool[canonical(url)],record))
                 submit_waiting()
-            print('383 SHOWBIZ REVIEW '+json.dumps({'source':record['source'],'status':record['status'],
+            print('383 '+category.upper()+' REVIEW '+json.dumps({'source':record['source'],'status':record['status'],
                                                   'url':url,'error':record.get('error','')}),flush=True)
         while waiting and time.monotonic()<deadline:
             while submit_waiting(force=True):pass
@@ -414,8 +437,8 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
     result = {'policy':review_policy(category),'category':category,'generated_at':now.isoformat(),'scope':f'all current readable {category} articles discovered in this collection; not the entire web',
               'publishers':[{**audit,'visual_homepage':homes.get(audit['source'],{})}
                             for audit in audits if audit.get('category')==category],
-              'articles':list(records.values()),'summary':{
-                  'registered_publishers':len(publishers),'discovered_readable_articles':len(pool),'review_batches_scheduled':batch_calls,
+              'excluded_off_topic':excluded,'articles':list(records.values()),'summary':{
+                  'excluded_off_topic_articles':len(excluded),'registered_publishers':len(publishers),'discovered_readable_articles':len(pool),'review_batches_scheduled':batch_calls,
                   'captured_homepages':sum(h['status'] in {'captured','captured_partial'} for h in homes.values()),
                   'complete_homepage_layouts':sum(h['status']=='captured' for h in homes.values()),
                   'article_visuals_captured':sum(bool(r.get('capture')) for r in records.values()),

@@ -9,7 +9,7 @@
     "Botë",
     "Showbiz"
   ],
-  "policy": "one publisher per category; reject off-topic items, never reassign",
+  "policy": "one registered publisher or non-overlapping publisher section per category; reject off-topic items, never reassign",
   "category_limits": {
     "Kosovë": {
       "min": 0,
@@ -246,7 +246,10 @@
       "domains": [
         "ekonomiaonline.com"
       ],
-      "family": "ekonomiaonline.com"
+      "family": "ekonomiaonline.com",
+      "homepage_urls": [
+        "https://ekonomiaonline.com/ekonomi/"
+      ]
     },
     {
       "source": "CNBC",
@@ -826,7 +829,10 @@
       "domains": [
         "rte.ie"
       ],
-      "family": "rte.ie"
+      "family": "rte.ie",
+      "homepage_urls": [
+        "https://www.rte.ie/news/business/"
+      ]
     },
     {
       "source": "CryptoSlate",
@@ -859,6 +865,82 @@
         "consequence.net"
       ],
       "family": "consequence-media"
+    },
+    {
+      "source": "Buletini Ekonomik",
+      "category": "Ekonomi",
+      "domains": [
+        "buletiniekonomik.com"
+      ],
+      "family": "buletiniekonomik.com",
+      "homepage_urls": [
+        "https://buletiniekonomik.com/"
+      ]
+    },
+    {
+      "source": "Scan TV",
+      "category": "Ekonomi",
+      "domains": [
+        "scantv.al"
+      ],
+      "family": "scantv.al",
+      "homepage_urls": [
+        "https://scantv.al/"
+      ]
+    },
+    {
+      "source": "ABC Business Australia",
+      "category": "Ekonomi",
+      "domains": [
+        "abc.net.au"
+      ],
+      "family": "abc.net.au",
+      "homepage_urls": [
+        "https://www.abc.net.au/news/business"
+      ]
+    },
+    {
+      "source": "Semafor Business",
+      "category": "Ekonomi",
+      "domains": [
+        "semafor.com"
+      ],
+      "family": "semafor.com",
+      "homepage_urls": [
+        "https://www.semafor.com/vertical/business"
+      ]
+    },
+    {
+      "source": "European Central Bank",
+      "category": "Ekonomi",
+      "domains": [
+        "ecb.europa.eu"
+      ],
+      "family": "ecb.europa.eu",
+      "homepage_urls": [
+        "https://www.ecb.europa.eu/press/pubbydate/html/index.en.html"
+      ],
+      "role": "official_evidence"
+    },
+    {
+      "source": "The Guardian Business",
+      "category": "Ekonomi",
+      "domains": [
+        "theguardian.com"
+      ],
+      "family": "theguardian.com",
+      "homepage_urls": [
+        "https://www.theguardian.com/uk/business"
+      ],
+      "path_prefixes": [
+        "/business/",
+        "/money/",
+        "/uk/business/",
+        "/us/business/",
+        "/au/business/",
+        "/europe/business/",
+        "/international/business/"
+      ]
     }
   ],
   "feeds": [
@@ -1361,6 +1443,36 @@
       "category": "Showbiz",
       "lane": "SHOWBIZ",
       "url": "https://privebruto.com/feed/"
+    },
+    {
+      "source": "Buletini Ekonomik",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://buletiniekonomik.com/feed/"
+    },
+    {
+      "source": "ABC Business Australia",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://www.abc.net.au/news/feed/51892/rss.xml"
+    },
+    {
+      "source": "Semafor Business",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://www.semafor.com/rss.xml"
+    },
+    {
+      "source": "European Central Bank",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://www.ecb.europa.eu/rss/press.html"
+    },
+    {
+      "source": "The Guardian Business",
+      "category": "Ekonomi",
+      "lane": "EKONOMI",
+      "url": "https://www.theguardian.com/business/rss"
     }
   ],
   "browser_lanes": [
@@ -1514,6 +1626,42 @@
       "category": "Ekonomi",
       "url": "https://www.sec.gov/newsroom/press-releases",
       "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
+    },
+    {
+      "source": "Buletini Ekonomik",
+      "category": "Ekonomi",
+      "url": "https://buletiniekonomik.com/",
+      "reason": "Public Economy front page: record actual headline order and retrieve complete dated economic articles; inaccessible previews do not qualify."
+    },
+    {
+      "source": "Scan TV",
+      "category": "Ekonomi",
+      "url": "https://scantv.al/",
+      "reason": "Public Economy front page: record actual headline order and retrieve complete dated economic articles; inaccessible previews do not qualify."
+    },
+    {
+      "source": "ABC Business Australia",
+      "category": "Ekonomi",
+      "url": "https://www.abc.net.au/news/business",
+      "reason": "Public Economy front page: record actual headline order and retrieve complete dated economic articles; inaccessible previews do not qualify."
+    },
+    {
+      "source": "Semafor Business",
+      "category": "Ekonomi",
+      "url": "https://www.semafor.com/vertical/business",
+      "reason": "Public Economy front page: record actual headline order and retrieve complete dated economic articles; inaccessible previews do not qualify."
+    },
+    {
+      "source": "European Central Bank",
+      "category": "Ekonomi",
+      "url": "https://www.ecb.europa.eu/press/pubbydate/html/index.en.html",
+      "reason": "Public Economy front page: record actual headline order and retrieve complete dated economic articles; inaccessible previews do not qualify."
+    },
+    {
+      "source": "The Guardian Business",
+      "category": "Ekonomi",
+      "url": "https://www.theguardian.com/uk/business",
+      "reason": "Public Economy front page: record actual headline order and retrieve complete dated economic articles; inaccessible previews do not qualify."
     }
   ],
   "notes": [

@@ -16,11 +16,27 @@ def homepage_article_identity(url):
         return ''
 
 
+def publisher_frontpage(publisher):
+    """The publisher's configured business front page, otherwise its root."""
+    return next(iter(publisher.get('homepage_urls') or []),'https://'+publisher['domains'][0]+'/')
+
+
 def is_homepage(url, publisher):
     parsed = urlsplit(url)
     host = (parsed.hostname or '').removeprefix('www.')
-    return (parsed.scheme in {'http', 'https'} and parsed.path in {'', '/'}
-            and not parsed.query and host in {d.removeprefix('www.') for d in publisher['domains']})
+    owned=any(host==d or host.endswith('.'+d) for d in publisher['domains'])
+    if parsed.scheme not in {'http','https'} or parsed.query or parsed.username or parsed.password or not owned:
+        return False
+    if publisher.get('path_prefixes'):
+        from news_source_policy import section_matches
+        if not any(section_matches(parsed.path,path) for path in publisher['path_prefixes']):return False
+    if parsed.path in {'','/'}:return True
+    for configured in publisher.get('homepage_urls',[]):
+        candidate=urlsplit(configured)
+        if (host==(candidate.hostname or '').removeprefix('www.')
+                and parsed.path.rstrip('/')==candidate.path.rstrip('/')):
+            return True
+    return False
 
 
 def homepage_weight(lead, now=None):

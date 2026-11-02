@@ -297,6 +297,9 @@ def prioritize_grounded_leads(leads: list[dict], *, now=None) -> list[dict]:
     from datetime import datetime, timezone
     now = now or datetime.now(timezone.utc)
     def priority(lead: dict) -> tuple:
+        if lead.get('category')=='Ekonomi':
+            from news_economy_policy import selection_order
+            return (*selection_order(lead,now),bool(lead.get('source_basis_warning') or source_basis_warning(lead)))
         words = sum(len(re.findall(r"\w+", str(lead.get(key, {}).get("text") or "")))
                     for key in ("primary_evidence", "secondary_evidence")
                     if lead.get(key, {}).get("status") == "text_extracted")

@@ -10,8 +10,8 @@ EDITORIAL_GUIDANCE = (
     "dated, readable registered publisher report or official announcement is sufficient for non-sensitive "
     "facts. Allegations, fraud and disputed sensitive claims still require independently readable evidence "
     "at final preparation. Do not demand two sources or an invented Kosovo impact for routine foreign "
-    "market news. A specific fresh factual market move or small economic update can merit consideration; "
-    "do not require extraordinary significance, virality or a lengthy article. A 50-word factual brief is "
+    "market news. A specific fresh factual market move, consumer-price change, tax/benefit update, company announcement or small economic update can merit consideration; "
+    "do not require extraordinary significance, virality, a large price move, a second routine source or a lengthy article. A concrete fresh hook rated 5/10 is sufficient; do not raise the threshold merely because the development is routine. Prefer prominent front-page developments that give readers a reason to care: what changes, how much, who is affected or what happens next, only when supported. A 50-word factual brief is "
     "allowed; prefer 120–220 words with supported context when available. Check numbers, currency, period, "
     "percentage versus percentage points, attributed forecasts and publication/event dates. Quotes and "
     "forecasts are claims, not established future outcomes. Reject advertisements, affiliate promotions, "
@@ -39,3 +39,39 @@ WRITING_GUIDANCE = (
     "advice, promised returns, unsupported price predictions or claims of virality. Preserve prepared "
     "original-publisher visual provenance, exact source credit and licence status; caption archive/illustrative material accurately."
 )
+
+LOCAL_PUBLISHERS={'Monitor','Ekonomia Online','Buletini Ekonomik','Scan TV','Kosovo Central Bank','Bank of Albania'}
+
+
+def homepage_lane(lead,now=None):
+    from news_homepage_priority import homepage_weight
+    weight=homepage_weight(lead,now)
+    return 0 if weight>=1/3 else 1 if weight>=.1 else 2 if weight else 3
+
+
+def selection_order(lead,now=None):
+    from cloud_news_discovery import freshness_bucket
+    from news_homepage_priority import homepage_weight
+    from news_reader_value import reader_value
+    value=reader_value(lead)
+    return (bool(lead.get('coverage_already_published')),value['reserve_genre'],homepage_lane(lead,now),
+            freshness_bucket(lead,now),-homepage_weight(lead,now),
+            lead.get('source') not in LOCAL_PUBLISHERS,-value['score'])
+
+
+def review_queue(leads,now=None):
+    """Top-three front-page stories first; keep fair turns for each source."""
+    from collections import defaultdict,deque
+    groups=defaultdict(lambda:defaultdict(list))
+    for lead in leads:
+        if lead.get('category')!='Ekonomi':continue
+        order=selection_order(lead,now)
+        groups[order[:3]][lead.get('source','')].append(lead)
+    output=[]
+    for lane in sorted(groups):
+        pools={name:deque(sorted(rows,key=lambda a:selection_order(a,now))) for name,rows in groups[lane].items()}
+        names=sorted(pools,key=lambda name:(name not in LOCAL_PUBLISHERS,selection_order(pools[name][0],now),name))
+        while any(pools.values()):
+            for name in names:
+                if pools[name]:output.append(pools[name].popleft())
+    return output

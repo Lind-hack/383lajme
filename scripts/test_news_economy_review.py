@@ -16,7 +16,7 @@ from news_image_policy import publisher_photo_allowed
 class EconomyReviewTests(unittest.TestCase):
  def test_every_economy_publisher_enabled_with_explicit_discovery_route(self):
   manifest=load_manifest(); pubs=[p for p in manifest['publishers'] if p['category']=='Ekonomi']
-  self.assertEqual(len(pubs),14)
+  self.assertEqual(len(pubs),20)
   for pub in pubs:
    self.assertTrue(pub.get('hourly_primary',True),pub['source'])
    self.assertTrue(any(r['source']==pub['source'] for r in manifest['browser_lanes']),pub['source'])
@@ -33,7 +33,7 @@ class EconomyReviewTests(unittest.TestCase):
    return [dict(decision='consider',score=5,reason='A specific dated income change.',new_development='New wage release.',audience_fit='Albanian income data.',breaking='fresh_development',same_event_urls=[])]
   with tempfile.TemporaryDirectory() as root,patch('builtins.print'):
    records,report=review_inventory([lead,dict(lead,category='Showbiz',url='https://prive.al/story')],{url:evidence},[],root,category='Ekonomi',now=now,capturer=capture,reviewer=verdict)
-   self.assertEqual(list(records),[url]);self.assertEqual(report['summary']['registered_publishers'],14)
+   self.assertEqual(list(records),[url]);self.assertEqual(report['summary']['registered_publishers'],20)
    self.assertEqual(records[url]['review']['policy'],review_policy('Ekonomi'))
    self.assertTrue(selection_ready(lead,records[url],evidence,now))
    self.assertFalse(selection_ready(lead,records[url],dict(evidence,text='Changed facts'),now))

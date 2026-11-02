@@ -1,6 +1,6 @@
 # Configured news websites by category
 
-The registry contains 97 publishers, 83 feeds and 24 public listings. This lists the repository registry, including publishers that are currently unavailable or restricted. Registration does not establish successful scraping or article approval. Availability is recorded for each run; blocked sources are skipped. Every publisher belongs to one category. Sister publishers retain their ownership family for corroboration checks.
+The registry contains 103 publisher/section registrations, 88 feeds and 30 public listings. This lists the repository registry, including publishers that are currently unavailable or restricted. Registration does not establish successful scraping or article approval. Availability is recorded for each run; blocked sources are skipped. Every publisher belongs to one category. Sister publishers retain their ownership family for corroboration checks.
 
 The production worker must be activated from the corresponding committed release before these settings apply to its next run.
 
@@ -80,26 +80,32 @@ The production worker must be activated from the corresponding committed release
 | SiliconANGLE | [siliconangle.com](https://siliconangle.com) | feed | Subject to all source/article checks |
 | 9to5Google | [9to5google.com](https://9to5google.com) | feed | Subject to all source/article checks |
 
-## Ekonomi (14)
+## Ekonomi (20)
 
-All 14 publishers are enabled for collection and native text/pixel triage. Public access failures remain unavailable; enabling a source does not bypass a paywall or prove that an article was read. Economy uses the original article image with source-bound provenance, native pixel review and an honest licence status.
+All 20 sources are enabled for public collection. Complete dated text and native pixel review remain required. Guardian Business owns only its configured business/money section paths; the remaining Guardian site stays with World, and both share one ownership family. Original source images retain their article credit and honest licence status.
 
-| Publisher | Website(s) | Discovery | Hourly primary candidate |
-| --- | --- | --- | --- |
-| Monitor | [monitor.al](https://monitor.al) | feed + browser listing | Subject to actual access and all article checks |
-| Ekonomia Online | [ekonomiaonline.com](https://ekonomiaonline.com) | feed + browser listing | Subject to actual access and all article checks |
-| CNBC | [cnbc.com](https://cnbc.com) | feed + browser listing | Subject to actual access and all article checks |
-| Financial Times | [ft.com](https://ft.com) | feed + browser listing | Subject to actual access and all article checks |
-| MarketWatch | [marketwatch.com](https://marketwatch.com) | feed + browser listing | Subject to actual access and all article checks |
-| CoinDesk | [coindesk.com](https://coindesk.com) | feed + browser listing | Subject to actual access and all article checks |
-| The Block | [theblock.co](https://theblock.co) | feed + browser listing | Subject to actual access and all article checks |
-| Decrypt | [decrypt.co](https://decrypt.co) | feed + browser listing | Subject to actual access and all article checks |
-| Kosovo Central Bank | [bqk-kos.org](https://bqk-kos.org) | browser listing | Subject to actual access and all article checks |
-| Bank of Albania | [bankofalbania.org](https://bankofalbania.org) | browser listing | Subject to actual access and all article checks |
-| SEC | [sec.gov](https://sec.gov) | feed + browser listing | Subject to actual access and all article checks |
-| Federal Reserve | [federalreserve.gov](https://federalreserve.gov) | feed + browser listing | Subject to actual access and all article checks |
-| RTÉ Business | [rte.ie](https://rte.ie) | feed + browser listing | Subject to actual access and all article checks |
-| CryptoSlate | [cryptoslate.com](https://cryptoslate.com) | feed + browser listing | Subject to actual access and all article checks |
+| Publisher | Primary website/front page | Discovery |
+| --- | --- | --- |
+| Monitor | [monitor.al](https://monitor.al/) | feed + front page |
+| Ekonomia Online | [ekonomiaonline.com/ekonomi](https://ekonomiaonline.com/ekonomi/) | feed + front page |
+| CNBC | [cnbc.com](https://cnbc.com/) | feed + front page |
+| Financial Times | [ft.com](https://ft.com/) | feed + front page |
+| MarketWatch | [marketwatch.com](https://marketwatch.com/) | feed + front page |
+| CoinDesk | [coindesk.com](https://coindesk.com/) | feed + front page |
+| The Block | [theblock.co](https://theblock.co/) | feed + front page |
+| Decrypt | [decrypt.co](https://decrypt.co/) | feed + front page |
+| Kosovo Central Bank | [bqk-kos.org](https://bqk-kos.org/) | front page |
+| Bank of Albania | [bankofalbania.org](https://bankofalbania.org/) | front page |
+| SEC | [sec.gov](https://sec.gov/) | feed + front page |
+| Federal Reserve | [federalreserve.gov](https://federalreserve.gov/) | feed + front page |
+| RTÉ Business | [www.rte.ie/news/business](https://www.rte.ie/news/business/) | feed + front page |
+| CryptoSlate | [cryptoslate.com](https://cryptoslate.com/) | feed + front page |
+| Buletini Ekonomik | [buletiniekonomik.com](https://buletiniekonomik.com/) | feed + front page |
+| Scan TV | [scantv.al](https://scantv.al/) | front page |
+| ABC Business Australia | [www.abc.net.au/news/business](https://www.abc.net.au/news/business) | feed + front page |
+| Semafor Business | [www.semafor.com/vertical/business](https://www.semafor.com/vertical/business) | feed + front page |
+| European Central Bank | [www.ecb.europa.eu/press/pubbydate/html/index.en.html](https://www.ecb.europa.eu/press/pubbydate/html/index.en.html) | feed + front page |
+| The Guardian Business | [www.theguardian.com/uk/business](https://www.theguardian.com/uk/business) | feed + front page |
 
 ## Botë (12)
 

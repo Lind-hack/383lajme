@@ -27,6 +27,11 @@ def host(url: object) -> str:
         return ""
 
 
+def section_matches(path,prefix):
+    prefix=prefix.rstrip('/')
+    return path==prefix or path.startswith(prefix+'/')
+
+
 def load_manifest(path: Path = MANIFEST_PATH) -> dict:
     data = json.loads(path.read_text(encoding="utf-8"))
     expected = {"Kosovë", "Shqipëri", "Sport", "Teknologji", "Ekonomi", "Botë", "Showbiz"}
@@ -43,12 +48,28 @@ def load_manifest(path: Path = MANIFEST_PATH) -> dict:
         names.add(publisher["source"])
         if publisher["category"] not in data["categories"] or not publisher.get("family"):
             raise ValueError("invalid publisher category/family")
-        for domain in publisher["domains"]:
-            if domain != host("https://" + domain) or not re.fullmatch(r"[a-z0-9.-]+", domain):
-                raise ValueError("publisher domain must be a canonical hostname")
-            if domain in owners:
-                raise ValueError(f"publisher domain registered twice: {domain}")
-            owners[domain] = publisher
+        prefixes=publisher.get('path_prefixes',[])
+        if (not isinstance(prefixes,list) or any(not isinstance(path,str) or not path.startswith('/')
+                or path=='/' or '?' in path or '#' in path or '..' in path for path in prefixes)):
+            raise ValueError('invalid publisher section path')
+        for domain in publisher['domains']:
+            if domain != host('https://'+domain) or not re.fullmatch(r'[a-z0-9.-]+',domain):
+                raise ValueError('publisher domain must be a canonical hostname')
+            for previous in owners.get(domain,[]):
+                prior=previous.get('path_prefixes',[])
+                if not prefixes and not prior:
+                    raise ValueError(f'publisher domain registered twice: {domain}')
+                if previous['family']!=publisher['family']:
+                    raise ValueError('publisher sections must keep the same ownership family')
+                if any(section_matches(left,right) or section_matches(right,left) for left in prefixes for right in prior):
+                    raise ValueError('publisher section paths overlap')
+            owners.setdefault(domain,[]).append(publisher)
+        for url in publisher.get('homepage_urls',[]):
+            parsed=urlsplit(url)
+            if (parsed.scheme!='https' or parsed.query or parsed.fragment or parsed.username or parsed.password
+                    or not any(host(url)==domain or host(url).endswith('.'+domain) for domain in publisher['domains'])
+                    or prefixes and not any(section_matches(parsed.path,path) for path in prefixes)):
+                raise ValueError('publisher front page must be its own public HTTPS URL')
     for spec in [*data["feeds"], *data["browser_lanes"]]:
         publisher = next((p for p in data["publishers"] if p["source"] == spec["source"]), None)
         if not publisher or publisher["category"] != spec["category"]:
@@ -86,10 +107,18 @@ def hourly_targets() -> dict[str, int]:
 
 
 def publisher_for(url: object) -> dict | None:
-    hostname = host(url)
-    matches = [(len(domain), p) for p in MANIFEST["publishers"] for domain in p["domains"]
-               if hostname == domain or hostname.endswith("." + domain)]
-    return max(matches, key=lambda item: item[0])[1] if matches else None
+    hostname=host(url)
+    try:path=urlsplit(str(url or '')).path
+    except ValueError:return None
+    matches=[]
+    for publisher in MANIFEST['publishers']:
+        prefixes=publisher.get('path_prefixes',[])
+        scoped=[prefix for prefix in prefixes if section_matches(path,prefix)]
+        if prefixes and not scoped:continue
+        for domain in publisher['domains']:
+            if hostname==domain or hostname.endswith('.'+domain):
+                matches.append((len(domain),max(map(len,scoped),default=0),publisher))
+    return max(matches,key=lambda match:match[:2])[2] if matches else None
 
 
 def source_error(category: str, url: object) -> str | None:
@@ -178,7 +207,7 @@ def topic_error(category: str, title: object, summary: object = "", *, tags=(), 
             r"business|biznes\w*|invest\w*|pension\w*|pag\w*|tatim\w*|taks\w*|"
             r"buxhet\w*|export\w*|import\w*|employment|jobs|unemployment|"
             r"oil|naft\w*|tariff\w*|tarif\w*|dollar|euro|debt|borxh\w*|"
-            r"revenue|profit\w*|fitim\w*|bilanc\w*|te ardhur\w*|dollar\w*|euro\w*|rent|qira\w*|housing|mortgage|treasury|bond\w*)\b",
+            r"prices?|consumer prices?|cost of living|wages?|salaries|salary|inflation|interest rates?|savings|benefits?|allowances?|shtes\w*|shtrenj\w*|gdp|pbb|revenue|profit\w*|fitim\w*|bilanc\w*|te ardhur\w*|dollar\w*|euro\w*|rent|qira\w*|housing|mortgage|treasury|bond\w*)\b",
             fold(f"{title} {summary}"))
         if not financial:
             return "story lacks an explicit economic or markets subject"
