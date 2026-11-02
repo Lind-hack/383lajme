@@ -28,7 +28,7 @@ async function geminiChat(
   key: string,
   system: string,
   user: string,
-  opts: { maxTokens?: number; temperature?: number; meta?: { model?: string } } = {}
+  opts: { maxTokens?: number; temperature?: number; meta?: { model?: string }; timeoutMs?: number } = {}
 ): Promise<string> {
   const failures: string[] = [];
   const prompt = `${system}\n\n${user}`;
@@ -49,7 +49,8 @@ async function geminiChat(
             // Under load the floating alias sometimes hangs instead of
             // answering 503. Without a deadline that one hang held every
             // caller until its route timed out, never reaching the next model.
-            signal: AbortSignal.timeout(25_000),
+            // A long structured answer (a dossier draft) needs more; callers say so.
+            signal: AbortSignal.timeout(opts.timeoutMs ?? 25_000),
             body: JSON.stringify({
               contents: [{ role: "user", parts: [{ text: prompt }] }],
               generationConfig: {
@@ -109,6 +110,8 @@ export async function llmJSON<T>(
     groqModels?: GroqModel[];
     /** Filled with the model that produced the answer. */
     meta?: { model?: string };
+    /** Per-request deadline for Gemini (default 25s). */
+    timeoutMs?: number;
   } = {}
 ): Promise<T> {
   const failures: string[] = [];

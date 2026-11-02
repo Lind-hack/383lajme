@@ -19,7 +19,10 @@ export interface ValidatedMilestone {
   date_precision: "day" | "month" | "year";
   display_date: string;
   dedupe_key: string;
-  claims: { sentences: Array<{ sentence: string; quotes: Array<DraftQuote & { url: string; publisher: string | null }> }> };
+  claims: {
+    sentences: Array<{ sentence: string; quotes: Array<DraftQuote & { url: string; publisher: string | null; published?: string | null }> }>;
+    date_quotes?: Array<DraftQuote & { url: string; publisher: string | null; published?: string | null }>;
+  };
 }
 
 export interface ValidatedCitation {
@@ -60,3 +63,4 @@ export declare function revalidateStored(
 ):
   | { ok: true; milestone: ValidatedMilestone; citations: ValidatedCitation[] }
   | { ok: false; reasons: RefusalReason[]; unsupportedFigures: string[] };
+export declare function snapQuote(quote: string, text: string): string | null;

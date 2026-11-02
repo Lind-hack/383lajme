@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { gatherEvidence } from "@/lib/dosje-sources.mjs";
+import { gatherEvidence, passageFor, relevanceGroupsForQuery } from "@/lib/dosje-sources.mjs";
 import { admin, authorised, dbTopics } from "@/lib/dosje-daily-server";
 
 export const dynamic = "force-dynamic";
@@ -40,7 +40,9 @@ export async function GET(req: Request) {
   }
 
   const query = topic.research_query || topic.title;
-  const sources = await gatherEvidence(query, { max: 8, relevanceGroups: topic.research_groups ?? null });
+  const groups = topic.research_groups?.length ? topic.research_groups : relevanceGroupsForQuery(query);
+  // Twelve, grouped so each event arrives with two outlets (lib/dosje-sources pickEvidence).
+  const sources = await gatherEvidence(query, { max: 12, relevanceGroups: groups });
   const publishers = new Set(sources.map((s) => String(s.publisher ?? "").toLowerCase()).filter(Boolean));
   if (publishers.size < 2) {
     await db
@@ -48,7 +50,8 @@ export async function GET(req: Request) {
       .update({
         outcome: "no_sources",
         detail: { query, found: sources.length, publishers: publishers.size },
-        cooldown_until: new Date(Date.now() + 7 * 86_400_000).toISOString().slice(0, 10),
+        // Three days, not seven: new reporting and new reference lists appear.
+        cooldown_until: new Date(Date.now() + 3 * 86_400_000).toISOString().slice(0, 10),
       })
       .eq("id", claim.id);
     return NextResponse.json({ ok: false, reason: "no_sources", query, found: sources.length, publishers: publishers.size });
@@ -72,7 +75,12 @@ export async function GET(req: Request) {
       publisher: s.publisher,
       title: s.title,
       published_date: s.published_date,
-      text: String(s.text ?? "").slice(0, 2500),
+      // The event (encyclopaedia page) that led here: sources sharing one are
+      // the pairs a claim can be corroborated by.
+      event: s.lead ?? null,
+      // The passages about the subject, not the page's first 2,500 characters
+      // (usually navigation).
+      text: passageFor(String(s.text ?? ""), groups, 3000),
     })),
   });
 }

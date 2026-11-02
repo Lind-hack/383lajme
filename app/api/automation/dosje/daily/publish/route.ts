@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { fetchSource, isFetchableCitationUrl, publisherOf, timestampForQuery } from "@/lib/dosje-sources.mjs";
-import { validateMilestoneDraft } from "@/lib/dosje-draft.mjs";
+import { validateMilestoneDraft, snapQuote } from "@/lib/dosje-draft.mjs";
 import { checkVideo, admissible, aboutTopic } from "@/lib/dosje-video.mjs";
 import { judgePrompt, readJudgement } from "@/lib/dosje-judge.mjs";
 import { llmJSON } from "@/lib/llm";
@@ -37,9 +37,11 @@ type Draft = {
   event_date?: string;
   date_precision?: string;
   claims?: Claim[];
+  date_quotes?: Array<{ source?: number; text?: string }>;
 };
 
-const MAX_SOURCES = 10;
+// The evidence pack (12) plus what corroboration found for single events.
+const MAX_SOURCES = 24;
 const MAX_MOMENTS = 8;
 
 export async function POST(req: Request) {
@@ -50,7 +52,7 @@ export async function POST(req: Request) {
     model?: string;
     sources?: string[];
     milestones?: Draft[];
-    primer?: { text?: string; event_date?: string; date_precision?: string; claims?: Claim[] } | null;
+    primer?: { text?: string; event_date?: string; date_precision?: string; claims?: Claim[]; date_quotes?: Array<{ source?: number; text?: string }> } | null;
     videos?: Array<{ id?: string }>;
     abandon?: boolean;
     reason?: string;
@@ -95,6 +97,20 @@ export async function POST(req: Request) {
     })
   );
 
+  // A quote the model reworded slightly is replaced by the sentence actually on
+  // the page (lib/dosje-draft.mjs snapQuote); one that is not there stays as
+  // written and the checks refuse it. What is stored is always the page's text.
+  const snapOne = (q: { source?: number; text?: string }) => {
+    const src = Number.isInteger(q?.source) ? sources[q.source as number] : undefined;
+    const real = src ? snapQuote(String(q?.text ?? ""), src.text) : null;
+    return real ? { ...q, text: real } : q;
+  };
+  const snapped = <T extends { claims?: Claim[]; date_quotes?: Array<{ source?: number; text?: string }> }>(draft: T): T => ({
+    ...draft,
+    claims: (draft?.claims ?? []).map((c) => ({ ...c, quotes: (c?.quotes ?? []).map(snapOne) })),
+    ...(draft?.date_quotes ? { date_quotes: draft.date_quotes.map(snapOne) } : {}),
+  });
+
   // ── validate each moment against what was fetched here ───────────────────
   const drafts = (Array.isArray(body?.milestones) ? body.milestones : []).slice(0, MAX_MOMENTS);
   const rejected: Array<{ title: string; reasons: string[] }> = [];
@@ -111,7 +127,7 @@ export async function POST(req: Request) {
       rejected.push({ title: String(raw?.title ?? "(pa titull)").slice(0, 160), reasons: ["too_long"] });
       continue;
     }
-    const verdict = validateMilestoneDraft(raw, { sources });
+    const verdict = validateMilestoneDraft(snapped(raw), { sources });
     if (!verdict.ok || !verdict.milestone) {
       rejected.push({ title: String(raw?.title ?? "(pa titull)"), reasons: (verdict.reasons ?? []) as string[] });
       continue;
@@ -156,7 +172,7 @@ export async function POST(req: Request) {
       {
         title: topic.title,
         summary: primerText,
-        claims: body?.primer?.claims ?? [],
+        ...snapped({ claims: body?.primer?.claims ?? [], date_quotes: body?.primer?.date_quotes ?? [] }),
         event_date: body?.primer?.event_date,
         date_precision: body?.primer?.date_precision ?? "year",
       },

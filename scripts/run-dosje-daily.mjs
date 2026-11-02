@@ -2,6 +2,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, openSync, closeSync, readFileSync, statSync, unlinkSync, writeFileSync, writeSync } from "node:fs";
 import { randomUUID } from "node:crypto";
 import { VETTED_CHANNELS } from "../lib/dosje-video.mjs";
+import { dateInText } from "../lib/dosje-draft.mjs";
 
 /**
  * The daily dossier run (systemd 383-dosje-daily.timer, 05:00 Europe/Belgrade).
@@ -136,6 +137,8 @@ const run = {
   startedAt: startedAt.toISOString(),
   mode: dryRun ? "dry-run" : backfill ? "backfill" : "daily",
   lunaLimited: noLuna,
+  // Off by choice (--no-luna, or after 06:40), not because it hit its limit.
+  lunaOff: noLuna,
   calls: { luna: 0, gemini: 0 },
   topics: { accepted: [], rejected: [] },
   subjects: [],
@@ -216,6 +219,20 @@ async function ask(system, task) {
   throw new Error("no model answer");
 }
 
+/** "Salih Mustafa: [2] bbc, [5] apnews; …": events that two or more publishers report. */
+function pairsOf(sources) {
+  const byEvent = new Map();
+  for (const s of sources) {
+    if (!s.event) continue;
+    if (!byEvent.has(s.event)) byEvent.set(s.event, []);
+    byEvent.get(s.event).push(s);
+  }
+  const pairs = [...byEvent].filter(([, list]) => new Set(list.map((x) => x.publisher)).size >= 2);
+  return pairs.length
+    ? pairs.map(([event, list]) => `${event}: ${list.map((x) => `[${x.index}] ${x.publisher ?? "?"}`).join(", ")}`).join("; ")
+    : "asnjë";
+}
+
 // ── prompts ───────────────────────────────────────────────────────────────
 const TOPIC_SYSTEM = `Ti je redaktor i dosjeve të 383, një faqe lajmesh në Kosovë. Një dosje është historia e një teme që lajmet vazhdojnë ta prekin: çfarë ndodhi më parë që e shpjegon lajmin e sotëm.
 
@@ -242,19 +259,121 @@ Rregullat, pa përjashtim:
 - Mbështetu VETËM te teksti i burimeve. MOS shkruaj asnjë URL; cito me indeksin e burimit.
 - "claims" ka NJË zë për ÇDO fjali të "summary"; fjalia kopjohet fjalë për fjalë nga "summary". Një fjali pa zë e hedh poshtë momentin.
 - ÇDO zë ka "quotes": të paktën DY citate, nga DY botues të ndryshëm (shih listën "Botuesit"). Çdo citat është {"source": indeksi, "text": fjali e kopjuar SHKRONJË PËR SHKRONJË nga ai burim, pa përkthim, të paktën 20 shenja}. Kontrolli i kërkon citatet në tekstin e shkarkuar; një citat që nuk është aty, ose një zë me një botues të vetëm, e hedh poshtë momentin. Më mirë më pak momente se sa momente të refuzuara.
+- Rreshti "Burime për të njëjtën ngjarje" tregon cilat burime flasin për të njëjtën ngjarje — zgjidh momentet nga ato. Çdo fjali duhet ta thonë të dy burimet; nëse vetëm njëri e thotë një detaj, lëre detajin jashtë.
+- Kopjo citatin ashtu siç është në tekst: mos ndrysho asnjë fjalë, mos e shkurto në mes, mos e përkthe.
 - Çdo shifër në fjali duhet të jetë brenda citateve të ATIJ zëri, e shkruar njësoj. Mos llogarit, mos rrumbullako, mos shto numra.
 - DATA: "event_date" dhe "date_precision" duhet t'i thotë një citat. Nëse citatet thonë ditën, muajin dhe vitin → "day"; vetëm muajin dhe vitin → "month" (event_date = dita e parë e muajit); vetëm vitin → "year" (event_date = 1 janar). Mos e bëj datën më të saktë se citatet.
 - "why" vetëm shpjegon pse ka rëndësi; MOS shto fakte, emra apo shifra që nuk janë në moment.
+- Çdo fjali e "summary" është E SHKURTËR (deri 20 fjalë) dhe thotë NJË fakt që e thonë TË DY citatet e saj. Mos përkthe një fjali të gjatë nga një burim i vetëm; shkruaj vetëm atë që burimet kanë të përbashkët. Detaje që i thotë vetëm një burim, lëri jashtë.
 - "summary": dy ose tri fjali të shkurtra. "why": një fjali, "Pse ka rëndësi" — shpjegim i thjeshtë për lexuesin.
 - "title": vetëm çfarë thonë fjalitë e momentit; asnjë shifër që nuk është në citate.
 - Momentet janë në të kaluarën dhe renditen sipas datës. Mos përsërit momentet që ekzistojnë tashmë.
 - "primer": "Në pak fjalë" — dy ose tri fjali që e shpjegojnë temën nga fillimi, me të njëjtat rregulla citimi.
+- "search": për çdo moment, emri i ngjarjes ANGLISHT si titull artikulli në Wikipedia (p.sh. "Indictment of Hashim Thaçi", "Trial of Salih Mustafa"). Përdoret për të gjetur botues të tjerë për të njëjtën ngjarje.
+- "date_quotes": nëse citatet e fjalive nuk e thonë datën, një fjali e kopjuar saktë nga cilido burim që e thotë datën (p.sh. "On 24 June 2020, ...").
 - "videos": vetëm ID YouTube (11 shenja) që je i sigurt se ekzistojnë, VETËM nga këta kanale: ${VETTED_CHANNELS.map((c) => c.name).join(", ")}. Nëse nuk je i sigurt, kthe [].
 - Nëse burimet nuk mjaftojnë, kthe momente bosh. Kjo është përgjigje e saktë.
 
 Shkruaj shqip, në kohën e tashme historike, pa mbiemra vlerësues.`;
 
-const RESEARCH_FORMAT = `{"primer":{"text":"...","event_date":"YYYY-MM-DD","date_precision":"day|month|year","claims":[{"sentence":"...","quotes":[{"source":0,"text":"..."},{"source":2,"text":"..."}]}]},"milestones":[{"title":"...","summary":"...","why":"...","tag":"një fjalë","event_date":"YYYY-MM-DD","date_precision":"day|month|year","claims":[{"sentence":"...","quotes":[{"source":0,"text":"..."},{"source":1,"text":"..."}]}]}],"videos":[{"id":"...","channel":"...","title":"..."}]}`;
+const RESEARCH_FORMAT = `{"primer":{"text":"...","event_date":"YYYY-MM-DD","date_precision":"day|month|year","claims":[{"sentence":"...","quotes":[{"source":0,"text":"..."},{"source":2,"text":"..."}]}]},"milestones":[{"title":"...","summary":"...","why":"...","tag":"një fjalë","event_date":"YYYY-MM-DD","date_precision":"day|month|year","search":"Event title in English","claims":[{"sentence":"...","quotes":[{"source":0,"text":"..."},{"source":1,"text":"..."}]}],"date_quotes":[{"source":2,"text":"..."}]}],"videos":[{"id":"...","channel":"...","title":"..."}]}`;
+
+// ── corroboration ─────────────────────────────────────────────────────────
+const CORROBORATE_SYSTEM = `You check a history timeline before publication. Each claim is one Albanian sentence that already has quotes from some publishers. Using ONLY the numbered sources given, find for each listed claim ONE sentence, from a source whose publisher is NOT already among that claim's publishers, that states the same fact.
+
+Rules:
+- Copy the sentence exactly as it appears, character for character, at least 20 characters. No translation, no ellipsis, no edits.
+- It must state the same fact (same people, same act, same numbers). Related or background sentences do not count.
+- If no source states it, return no quote for that claim. Never return a near match.
+- If a moment is listed as needing its date, find one sentence in any source that states that date (day, month and year for day precision) and return it in date_quotes.
+
+Answer only JSON: {"moments":[{"i":0,"claims":[{"j":0,"quotes":[{"source":3,"text":"..."}]}],"date_quotes":[{"source":5,"text":"..."}]}]}`;
+
+/** Publishers of a claim's quotes, by source index in `pool`. */
+const claimPublishers = (claim, pool) =>
+  new Set((claim?.quotes ?? []).map((q) => pool[q?.source]?.publisher).filter(Boolean));
+
+/** Does any quote of this moment (or its date quotes) state its date? */
+const dateQuoted = (m) =>
+  [...(m?.claims ?? []).flatMap((c) => c?.quotes ?? []), ...(m?.date_quotes ?? [])].some((q) =>
+    dateInText(String(q?.text ?? ""), String(m?.event_date ?? ""), m?.date_precision ?? "day")
+  );
+
+/**
+ * Widen the pool with each weak moment's own event, then ask once for the
+ * missing second-publisher sentences and dated sentences. Mutates `pool`,
+ * `milestones` and `primer` in place; nothing is trusted — publish verifies
+ * every quote against the live page and the strict checks decide.
+ */
+async function corroborate(slug, pool, milestones, primer) {
+  const moments = primer ? [...milestones, { ...primer, __primer: true }] : [...milestones];
+  const weak = moments
+    .map((m, i) => ({ m, i }))
+    .filter(({ m }) => (m?.claims ?? []).some((c) => claimPublishers(c, pool).size < 2) || (m?.event_date && !dateQuoted(m)));
+  if (!weak.length || timeLeft() < 4 * 60_000) return { weak: weak.length, added: 0, quotes: 0 };
+
+  let added = 0;
+  for (const { m } of weak.slice(0, 5)) {
+    if (!m?.search || pool.length >= 24) continue;
+    const more = await site(`/daily/more?topic=${encodeURIComponent(slug)}&q=${encodeURIComponent(String(m.search).slice(0, 120))}`).catch(() => null);
+    for (const s of more?.sources ?? []) {
+      if (pool.length >= 24 || pool.some((p) => p.url === s.url)) continue;
+      pool.push({ ...s, index: pool.length });
+      added += 1;
+    }
+  }
+
+  const listing = weak
+    .map(({ m, i }) => {
+      const claims = (m.claims ?? [])
+        .map((c, j) => ({ c, j }))
+        .filter(({ c }) => claimPublishers(c, pool).size < 2)
+        .map(({ c, j }) => `  claim ${j}: ${c.sentence} (already quoted by: ${[...claimPublishers(c, pool)].join(", ") || "none"})`);
+      const date = m.event_date && !dateQuoted(m) ? `  needs its date: ${m.event_date} (${m.date_precision ?? "day"})` : "";
+      return [`moment ${i}: ${m.title ?? "Në pak fjalë"}`, ...claims, date].filter(Boolean).join("\n");
+    })
+    .join("\n\n");
+  const sources = pool
+    .map((s) => `[${s.index}] ${s.publisher ?? "?"} — ${s.title ?? ""} (${s.published_date ?? "no date"})\n${s.text}`)
+    .join("\n\n---\n\n");
+  let json;
+  try {
+    ({ json } = await ask(CORROBORATE_SYSTEM, `Moments needing corroboration:
+
+${listing}
+
+Sources:
+
+${sources}`));
+  } catch (err) {
+    return { weak: weak.length, added, quotes: 0, error: String(err?.message ?? err).slice(0, 160) };
+  }
+  let quotes = 0;
+  for (const found of Array.isArray(json?.moments) ? json.moments : []) {
+    const m = moments[found?.i];
+    if (!m) continue;
+    const target = m.__primer ? primer : m;
+    for (const fc of Array.isArray(found?.claims) ? found.claims : []) {
+      const claim = target?.claims?.[fc?.j];
+      if (!claim) continue;
+      const have = claimPublishers(claim, pool);
+      for (const q of Array.isArray(fc?.quotes) ? fc.quotes : []) {
+        const pub = pool[q?.source]?.publisher;
+        if (!pub || have.has(pub)) continue;
+        claim.quotes = [...(claim.quotes ?? []), { source: q.source, text: String(q.text ?? "") }];
+        have.add(pub);
+        quotes += 1;
+      }
+    }
+    const dq = (Array.isArray(found?.date_quotes) ? found.date_quotes : []).filter((q) => pool[q?.source]);
+    if (dq.length) {
+      target.date_quotes = [...(target.date_quotes ?? []), ...dq.map((q) => ({ source: q.source, text: String(q.text ?? "") }))];
+      quotes += dq.length;
+    }
+  }
+  log({ stage: "corroborate", slug, weak: weak.length, added, quotes });
+  return { weak: weak.length, added, quotes };
+}
 
 // ── the run ───────────────────────────────────────────────────────────────
 const log = (o) => console.log(JSON.stringify(o));
@@ -315,16 +434,25 @@ try {
         entry.skipped = ev.reason === "no_sources" ? `pa burime të mjaftueshme (${ev.publishers ?? 0} botues)` : ev.reason;
         continue;
       }
-      const sources = ev.sources.map((s) => `[${s.index}] ${s.publisher ?? "?"} — ${s.title ?? ""} (${s.published_date ?? "pa datë"})\n${s.text}`).join("\n\n---\n\n");
+      const sources = ev.sources.map((s) => `[${s.index}] ${s.publisher ?? "?"} — ${s.title ?? ""} (${s.published_date ?? "pa datë"})${s.event ? ` · ngjarja: ${s.event}` : ""}\n${s.text}`).join("\n\n---\n\n");
       const task =
         `Tema: ${ev.topic.title}\nPër lexuesin: ${ev.topic.blurb}\n` +
         `Lajmet e fundit për temën: ${JSON.stringify(subject.headlines ?? [])}\n` +
         `Momente që ekzistojnë tashmë (mos i përsërit): ${JSON.stringify((ev.existing ?? []).map((m) => `${m.event_date} ${m.title}`))}\n\n` +
         // Spelled out because a moment is refused unless its citations span two
         // publishers, and models otherwise cite one source per moment.
-        `Botuesit: ${ev.sources.map((s) => `[${s.index}] ${s.publisher ?? "?"}`).join(", ")}\n\n` +
+        `Botuesit: ${ev.sources.map((s) => `[${s.index}] ${s.publisher ?? "?"}`).join(", ")}\n` +
+        // Sources led to by the same event page are the ones that can quote one claim together.
+        `Burime për të njëjtën ngjarje: ${pairsOf(ev.sources)}\n\n` +
         `Burimet:\n\n${sources}\n\nFormati: ${RESEARCH_FORMAT}`;
       const { json, model } = await ask(RESEARCH_SYSTEM, task);
+      const pool = ev.sources.map((s) => ({ ...s }));
+      const milestones = Array.isArray(json?.milestones) ? json.milestones : [];
+      const primer = json?.primer ?? null;
+      // A claim needs quotes from two publishers and the date must be in a
+      // quote. Drafts are usually one article translated: find the event's
+      // other outlets, then ask for their matching sentences.
+      entry.corroboration = await corroborate(subject.slug, pool, milestones, primer);
       // From here the publish step owns the claim and closes it.
       claimed = null;
       entry.receipt = await site("/daily/publish", {
@@ -333,9 +461,9 @@ try {
           topic_slug: subject.slug,
           run_id: ev.run_id,
           model,
-          sources: ev.sources.map((s) => s.url),
-          milestones: Array.isArray(json?.milestones) ? json.milestones : [],
-          primer: json?.primer ?? null,
+          sources: pool.map((s) => s.url),
+          milestones,
+          primer,
           videos: Array.isArray(json?.videos) ? json.videos : [],
         }),
       });
