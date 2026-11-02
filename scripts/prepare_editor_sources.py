@@ -185,6 +185,9 @@ def visual_options(lead: dict, primary: dict, secondary: dict) -> list[dict]:
     from the last two years, captioned as an archive photo, then a dated
     archive photo of its institution, place, team or company. Text-only is
     out."""
+    if lead.get('category')=='Showbiz':
+        from news_image_policy import article_photo_options
+        return article_photo_options(lead,primary)
     from news_gallery_photos import gallery_options
     from news_asset_photos import asset_options
     from news_image_policy import photo_options
@@ -284,14 +287,16 @@ def prioritize_grounded_leads(leads: list[dict], *, now=None) -> list[dict]:
     from cloud_news_discovery import freshness_bucket
     from news_reader_value import reader_value
     from news_homepage_priority import homepage_weight
+    from news_showbiz_focus import priority as artist_priority
     from datetime import datetime, timezone
     now = now or datetime.now(timezone.utc)
     def priority(lead: dict) -> tuple:
         words = sum(len(re.findall(r"\w+", str(lead.get(key, {}).get("text") or "")))
                     for key in ("primary_evidence", "secondary_evidence")
                     if lead.get(key, {}).get("status") == "text_extracted")
+        substantial,minimum=(50,30) if lead.get('category')=='Showbiz' else (140,80)
         return (bool(lead.get("source_basis_warning") or source_basis_warning(lead)),
-                words < 140, words < 80, bool(lead.get('coverage_already_published')), freshness_bucket(lead, now),
+                words < substantial, words < minimum, bool(lead.get('coverage_already_published')), -artist_priority(lead), freshness_bucket(lead, now),
                 reader_value(lead)['reserve_genre'], -homepage_weight(lead, now),
                 -reader_value(lead)['score'],
                 -min(lead.get('coverage_family_count', 1), 5))
@@ -440,14 +445,14 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     # Oversample each desk to replace image failures and editorial rejections.
     # With a recent photo required, about one lead in twenty found one on 18 Oct,
     # so every desk sends up to 30 more than its target.
-    by_category = {category: prioritize_grounded_leads([item for item in eligible if item["category"] == category])[:hourly_targets()[category] + 30]
-                   for category in CATEGORIES}
+    by_category = {category: prioritize_grounded_leads([item for item in eligible if item["category"] == category])
+                  [:None if category=='Showbiz' else hourly_targets()[category] + 30] for category in CATEGORIES}
     # Research one candidate per desk before extras; a slow photo host must
     # not consume the bounded research window before later desks get a turn.
     shortlist = [items[index] for index in range(max(map(len, by_category.values()), default=0))
                  for items in by_category.values() if index < len(items)]
     from news_image_policy import CATALOG, plan_subjects, identity_cache
-    plans = plan_subjects(shortlist, path.parent)
+    plans = plan_subjects([lead for lead in shortlist if lead.get('category')!='Showbiz'], path.parent)
     from news_model_quota import require_available
     require_available()
     # The owner permits a credited contextual photo in different hourly
@@ -550,7 +555,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     lines = ["# 383 prepared hourly story queue", "",
              f"Verified source-ready pair inventory: {len(ready)}",
              "Publication plan (aim for these category counts): " + json.dumps(plan, ensure_ascii=False),
-             "Target is 20 distinct new articles: two to three per category, never more than three. Give every available desk two before adding a third. Report missing verified inventory instead of padding another desk.",
+             "Use the publication plan: other desks retain two-to-three allocations; Showbiz expands to every available verified distinct story. Give each available desk its first stories before extras. Report missing verified inventory rather than pad.",
              "Use verified facts in original prose. Never name a publisher in public copy; skip stories that rest on another outlet's exclusive, interview or unconfirmed claim; write 383's own lead, sentences and headline wording rather than mirroring the source sentence by sentence, and never add claims (even 'no deadline was given') the evidence does not state; preserve internal evidence URLs.",
              "Visuals below are the institution's own press photos of the last two days, the subject's own official videos of the last three days or rights-cleared photographs of the story's person or team (last 30 days, or archive photos of the last two years whose caption says so), independently checked against source images. Each story shows only image_subject and image_caption; leave the image fields out of your drafts, the pipeline restores the full prepared photo record by source URL. Do not claim a photo shows a moment the caption does not name. The writer and editor must confirm that the photo subject fits the specific story, not just its category.", ""]
     lines += ["# Per-story editorial ranking",

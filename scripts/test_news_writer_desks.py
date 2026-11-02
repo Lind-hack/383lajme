@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from contextlib import closing
 from pathlib import Path
 
 from news_source_policy import CATEGORIES, MANIFEST
@@ -36,7 +37,7 @@ class WriterDeskTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             database = root/'calls.sqlite'
-            with sqlite3.connect(database) as db:
+            with closing(sqlite3.connect(database)) as db, db:
                 db.executescript('CREATE TABLE load(active INTEGER, peak INTEGER); INSERT INTO load VALUES(0,0); CREATE TABLE calls(category TEXT, target INTEGER, slot INTEGER);')
             hosts = {c:next(p['domains'][0] for p in MANIFEST['publishers'] if p['category']==c) for c in CATEGORIES}
             discovery = root/'discovery.json'; batch = root/'batch.json'
@@ -54,19 +55,22 @@ class WriterDeskTests(unittest.TestCase):
                 'ready_leads':leads}),encoding='utf-8')
             fake = root/'fake_writer.py'
             fake.write_text('''import json,re,sqlite3,sys,time
+from contextlib import closing
 from pathlib import Path
 batch,brief,database,target,phase,cap,failed,slot=sys.argv[1:]
-assert int(target)==1 and int(phase)==1980 and int(cap)==240
+assert int(target) in (1,3) and int(phase)==2520 and int(cap)==240
 text=Path(brief).read_text(encoding='utf-8')
 categories=re.findall(r'^category: (.+)$',text,re.M)
-assert len(set(categories))==1 and len(categories)==2
+assert len(set(categories))==1
 category=categories[0]
-with sqlite3.connect(database,timeout=10) as db:
+assert len(categories)==(3 if category=='Showbiz' else 2)
+allocation=json.loads(re.search(r'^Publication plan: (.+)$',text,re.M)[1])[category]
+with closing(sqlite3.connect(database,timeout=10)) as db, db:
  db.execute('BEGIN IMMEDIATE');db.execute('UPDATE load SET active=active+1');db.execute('UPDATE load SET peak=max(peak,active)');db.execute('INSERT INTO calls VALUES(?,?,?)',(category,int(target),int(slot)))
 time.sleep(0.3)
-with sqlite3.connect(database,timeout=10) as db:db.execute('UPDATE load SET active=active-1')
+with closing(sqlite3.connect(database,timeout=10)) as db, db:db.execute('UPDATE load SET active=active-1')
 if category==failed or category+':'+slot==failed:raise SystemExit(75)
-urls=re.findall(r'^url: (.+)$',text,re.M)[:int(target)]
+urls=re.findall(r'^url: (.+)$',text,re.M)[:min(int(target),allocation)]
 Path(batch).write_text(json.dumps([{'slug':category+slot+str(i),'category':category,'url':url,'body':'Fake local draft'} for i,url in enumerate(urls)]),encoding='utf-8')
 ''',encoding='utf-8')
             script = helper + '''
@@ -76,16 +80,18 @@ recover_missing_writer_desks() { :; }
 run_writer() { "$PYTHON_BIN" "$TEST_FAKE" "$WRITER_BATCH" "$WRITER_BRIEF" "$TEST_DB" "$L383_TARGET_ARTICLES" "$WRITER_PHASE_END" "$L383_WRITER_ATTEMPT_TIMEOUT" "$TEST_FAILED" "$WRITER_DESK_SLOT"; }
 run_writer_groups
 '''
-            result = subprocess.run([BASH,'-c',script],cwd=Path(__file__).resolve().parent.parent,capture_output=True,text=True,timeout=25,
+            result = subprocess.run([BASH,'-c',script],cwd=Path(__file__).resolve().parent.parent,capture_output=True,text=True,timeout=120 if os.name=='nt' else 25,
                 env={**os.environ,'PYTHON_BIN':sys.executable,'DISCOVERY':discovery.with_suffix('.md').as_posix(),'BATCH':batch.as_posix(),
                      'PRIMARY_WRITER_MODEL':'gpt-6-luna','TEST_FAKE':fake.as_posix(),'TEST_DB':database.as_posix(),
                      'TEST_FAILED':failed,'TEST_TEMP':root.as_posix(),'PYTHONIOENCODING':'utf-8'})
             self.assertEqual(result.returncode,0,result.stderr+result.stdout)
-            with sqlite3.connect(database) as db:
+            with closing(sqlite3.connect(database)) as db, db:
                 active,peak=db.execute('SELECT active,peak FROM load').fetchone()
                 calls=db.execute('SELECT category,target,slot FROM calls').fetchall()
             self.assertEqual(active,0);self.assertLessEqual(peak,5)
-            self.assertEqual(set(calls),{(c,1,s) for c in CATEGORIES if c!=zero for s in (1,2)})
+            expected_calls={(c,1,s) for c in CATEGORIES if c!=zero and c!='Showbiz' for s in (1,2)}
+            if zero!='Showbiz':expected_calls.add(('Showbiz',3,1))
+            self.assertEqual(set(calls),expected_calls)
             rows=json.loads(batch.read_text(encoding='utf-8'))
             expected={c:2 for c in CATEGORIES if c not in {zero,failed}}
             if ':' in failed:

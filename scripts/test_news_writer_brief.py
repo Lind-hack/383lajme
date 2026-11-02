@@ -28,6 +28,22 @@ class WriterBriefTests(unittest.TestCase):
         build(self.discovery,self.output,'Kosovë',cap=1,spares=1)
         self.assertIn(other['url'],self.output.read_text(encoding='utf-8'))
 
+    def test_showbiz_homepage_lead_precedes_higher_scored_generic_story(self):
+        now=datetime.now(timezone.utc).isoformat()
+        top={**self.lead,'category':'Showbiz','pair_id':'Showbiz-top','source':'People','url':'https://people.com/top',
+             'published':now,'title':'Heidi Klum reveals her new look','editorial_review':{'score':5},
+             'homepage':{'position':1,'article_count':30,'observed_at':now,'method':'public_html_dom_order'}}
+        other={**top,'pair_id':'Showbiz-other','url':'https://people.com/other','title':'A band announces its album',
+               'homepage':{},'editorial_review':{'score':9}}
+        for row in (top,other):row.pop('facts_path',None)
+        self.write([other,top])
+        data=json.loads(self.discovery.read_text(encoding='utf-8'));data['publication_plan']['Showbiz']=2
+        self.discovery.write_text(json.dumps(data),encoding='utf-8')
+        build(self.discovery,self.output,'Showbiz',cap=1,spares=0)
+        text=self.output.read_text(encoding='utf-8')
+        self.assertIn(top['url'],text)
+        self.assertNotIn(other['url'],text)
+
     def test_fresh_ready_story_is_not_displaced_by_an_older_widely_covered_reserve(self):
         now = datetime.now(timezone.utc)
         older = {**self.lead, 'pair_id': 'Kosovë-old', 'url': 'https://koha.net/older',

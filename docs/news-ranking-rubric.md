@@ -27,3 +27,12 @@ publication`, with fractional hours and no future-date boost. Njoftimet and
 Top 5 only select stories from the last 24 hours; stale high scores cannot
 displace new stories. The independent editor reassesses scores and reasons
 after verifying the evidence, including formerly neutral drafts.
+
+For Showbiz, audience relevance includes recognition and demonstrated interest
+in Albanian artists: a verified new Dua Lipa, Rita Ora or Bebe Rexha post,
+statement, outfit or appearance can have high relevance/interest even when its
+public impact and urgency are low. Do not lower entertainment relevance merely
+because nobody's finances, safety or legal rights change. Keep those separate
+factors honest. A gossip topic is not automatically false or low-value; its
+specific claims still need evidence and accurate attribution. Never manufacture
+virality, engagement numbers or public controversy to inflate a score.

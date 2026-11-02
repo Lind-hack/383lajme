@@ -39,7 +39,7 @@ def rewrite_input(approved: list[dict], rejected: list[dict]) -> list[dict]:
     selected = []
     fields = ("id", "slug", "url", "source", "category", "city", "dispatch", "created_at", "published_at",
               "corroborating_sources", "rejection_reason")
-    for level in range(1, CATEGORY_CEILING + 1):
+    for level in range(1, max(plan.values(),default=0) + 1):
         for category in CATEGORIES:
             while counts[category] < min(level, plan[category]) and pools[category]:
                 article = pools[category].pop(0)

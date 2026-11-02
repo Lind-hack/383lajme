@@ -75,6 +75,20 @@ def stage_deadline(seconds: float) -> float:
 
 
 def run_process(command: list[str], timeout: float, *, deadline: float | None = None) -> subprocess.CompletedProcess:
+    # Hermes supports --query-file: preserve full context beyond Windows'
+    # command-line limit rather than clipping documents or changing tools.
+    if os.name=='nt' and 'chat' in command and '-q' in command and len(subprocess.list2cmdline(command))>26000:
+        import tempfile
+        with tempfile.TemporaryDirectory(prefix='383-model-query-') as folder:
+            prompt=Path(folder)/'query.txt'
+            prompt.write_text(command[-1],encoding='utf-8')
+            rewritten=list(command[:-1])
+            rewritten[rewritten.index('-q')]='--query-file'
+            return _run_process([*rewritten,str(prompt)],timeout,deadline=deadline)
+    return _run_process(command,timeout,deadline=deadline)
+
+
+def _run_process(command: list[str], timeout: float, *, deadline: float | None = None) -> subprocess.CompletedProcess:
     global _MAIN_SPAWNING, _PENDING_TERMINATION
     install_termination_cleanup()
     cutoff = min(stage_deadline(timeout), deadline) if deadline is not None else stage_deadline(timeout)
@@ -138,11 +152,17 @@ def rows(answer) -> list:
     return answer
 
 
+def hermes_command():
+    if os.name=='nt' and not os.environ.get('L383_HERMES_BIN'):
+        import sys
+        return [os.environ.get('L383_NEWS_NATIVE_PYTHON',sys.executable),'-m','hermes_cli.main','chat']
+    return [os.environ.get('L383_HERMES_BIN','/opt/hermes/.venv/bin/hermes'),'chat']
+
+
 def ask_rows(prompt: str, brief: Path, hermes_args: list[str], timeout: int,
              *, deadline: float | None = None, image_path: Path | None = None,
              inline_brief: bool = False) -> list:
-    command = [os.environ.get("L383_HERMES_BIN", "/opt/hermes/.venv/bin/hermes"), "chat",
-               *model_args(hermes_args), prompt]
+    command = [*hermes_command(), *model_args(hermes_args), prompt]
     if inline_brief and image_path is None:
         from news_model_context import contextual_command
         command,_ = contextual_command(command,[brief])
@@ -152,7 +172,10 @@ def ask_rows(prompt: str, brief: Path, hermes_args: list[str], timeout: int,
             raise ValueError('native photo brief exceeds complete-context limit')
         prompt_file = image_path.with_suffix('.prompt.txt')
         prompt_file.write_text(complete, encoding='utf-8')
-        command = ['/opt/hermes/.venv/bin/python', str(Path(__file__).with_name('news_native_pixels.py')),
+        import sys
+        native_python = os.environ.get('L383_NEWS_NATIVE_PYTHON') or (
+            '/opt/hermes/.venv/bin/python' if Path('/opt/hermes/.venv/bin/python').is_file() else sys.executable)
+        command = [native_python, str(Path(__file__).with_name('news_native_pixels.py')),
                    '--image', str(image_path.resolve()), '--prompt', str(prompt_file.resolve())]
     result = run_process(command, timeout, deadline=deadline)
     if result.returncode:

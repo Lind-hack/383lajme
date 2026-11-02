@@ -7,9 +7,7 @@ This document is authoritative for the hosted writer and deterministic gates. It
 The hourly worker targets 20 distinct new articles: Kosovë 3; Shqipëri 3;
 Botë 3; Teknologji 3; Ekonomi 3; Sport 3; Showbiz 2. Follow the prepared
 publication_plan: cover every available category before taking extra stories
-from a busy desk. Use backup candidates if a draft fails. Unused slots in a
-quiet desk can be redistributed only up to three articles per category; give
-every available desk two places before third places and report shortages honestly. Prioritize
+from a busy desk. Use backup candidates if a draft fails. Other desks retain a ceiling of three articles. Showbiz expands beyond its baseline two and the baseline total of 20 to cover every distinct current verified story in publication_plan; there is no numeric Showbiz desk ceiling. Give every available desk two places before third places and report shortages honestly. Prioritize
 interesting, well-supported news for Kosovo readers without inventing a local
 connection to world news.
 
@@ -27,6 +25,39 @@ Sensitive allegations, crime accusations, corruption, abuse, lawsuits and privat
 rumours require two readable independent publishers supporting the central claim.
 When two URLs are supplied, they must be from different ownership families. Availability is checked anew every run. Blocked/paid sources do not supply
 facts from previews. Never copy another outlet's wording.
+
+## Showbiz audience and daily research
+
+Prioritize Albanian artists and personalities at home and abroad. Dua Lipa,
+Rita Ora and Bebe Rexha are the first watchlist tier, followed by the researched
+roster in `scripts/showbiz_artists.json`. Public statements, new Instagram
+posts/reels, fashion, beauty, glamorous adult photo shoots, beach/swimwear
+photos, performances, relationship announcements and documented public exchanges
+are valid entertainment topics. They do not need political/economic consequences
+or a new album to merit a story. Use an engaging factual hook and natural Albanian;
+avoid generic hype, moralizing or padding. An artist name mentioned in passing
+does not establish the story's subject.
+
+Use `showbiz-research/current.md` and its JSON coverage report as discovery
+context. The hourly pipeline checks for a fresh report each run and refreshes
+research every four hours and on a new Kosovo calendar day. Daily research
+includes an artist-name search restricted to every registered Showbiz
+publisher, alongside broader discovery searches and public official feeds. These
+searches supplement the normal collection of all registered publisher inventories.
+Official profile links have provenance; never guess handles. A profile alone is not a new post,
+and an updated timestamp is not a new upload. Exact posts require accessible
+author/date/content evidence when claiming direct post verification. Routine non-sensitive artist updates may rely on one readable registered publisher without an exact social permalink; record direct-post access as unverified and never imply 383 inspected it. Public posts can establish what the artist said
+or shared, not inferred motives, relationships, pregnancy, intimate details or
+imagined fan reactions. Private-life rumours and sensitive allegations still
+require independent corroboration. Unavailable evidence stays unavailable.
+
+Showbiz uses the original readable source article image by the owner’s instruction. Keep its exact image URL, article URL and source credit; record reuse licence as not established unless independently established. Do not label publisher use as a free licence. Keep native pixel/subject checks and decode the actual image (minimum 600 × 350); do not substitute a generic portrait. This Showbiz exception takes precedence over the general Commons/fresh-photo requirements below. Use appropriately labelled
+archive imagery only when permitted; do not pass it off as the current post or
+substitute an unrelated social photograph. Search snippets and artist feeds do not
+automatically become publication-ready facts. Showbiz editorial consideration starts at 5/10 for a specific fresh entertainment hook. A supported short update may use 50 words in one paragraph; all other categories retain their current minimums. Do not invent a fresh artist story
+to meet a preferred share or category target.
+
+Showbiz review prioritizes Albanian artists, adult celebrity photos/fashion/public updates and the first stories on publisher homepages. Homepage position is a discovery signal, not proof of virality. Recent stories up to 72 hours old remain eligible only with a fresh homepage observation; preserve their actual publication dates and do not call them breaking. Each native review reads the complete public text and inspects real publisher pixels. Original-image-only reviews are explicitly labelled and do not claim to inspect publisher page layout. Reuse a matching editorial decision for at most 24 hours only if the source text, image identity, screenshots and policy still match. Titles may use up to 80 characters in Showbiz (prefer 65); other desks remain at 65.
 
 ## Hard bans — never publish
 
@@ -81,7 +112,7 @@ Every article must include `id`, `slug`, `url`, `title`, `excerpt`, `body`, `sou
 
 For Ekonomi market news whose headline is about Bitcoin, Ethereum or the euro itself, the reviewed physical-asset photo inventory is an allowed final fallback. Each original file is visually reviewed and bound to its Commons SHA1, creator, exact licence and actual capture date. Use only the matching asset's photograph, with the unchanged Albanian “Foto ilustruese” caption and capture month/year; physical crypto tokens are symbols, not circulating cryptocurrency coins or photographs of today's market event. These stable illustrations may be up to ten years old. Never use a generic money image for an unrelated company story, a different asset, a chart, a render or a standalone logo. The photo editor, source-image comparison, batch uniqueness, immutable provenance and final title/category match remain required.
 
-Write at least 140 supported Albanian words in three HTML paragraphs. Prefer
+Showbiz may use 50 supported Albanian words in one HTML paragraph. All other categories require at least 140 supported Albanian words in three HTML paragraphs. Prefer
 220+ words in four paragraphs when sources support that depth; never pad a brief.
 
 `corroborating_sources` may be empty for routine attributed news; sensitive claims

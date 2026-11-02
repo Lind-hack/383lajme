@@ -25,8 +25,9 @@ def prepare(discovery: Path, batch: Path, folder: Path, attempted: Path) -> list
     (folder/'recovery-attempted.txt').write_text(payload,encoding='utf-8')
     counts=Counter(row['category'] for row in articles)
     desks=sorted(CATEGORIES,key=lambda c:counts[c])
-    return [(c,min(3,data['publication_plan'].get(c,0))-counts[c]) for c in desks
-            if counts[c]<min(3,data['publication_plan'].get(c,0))][:3]
+    from news_coverage import category_ceiling
+    return [(c,min(category_ceiling(c),data['publication_plan'].get(c,0))-counts[c]) for c in desks
+            if counts[c]<min(category_ceiling(c),data['publication_plan'].get(c,0))][:3]
 
 
 if __name__=='__main__':

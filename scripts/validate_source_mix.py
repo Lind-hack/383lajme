@@ -104,10 +104,12 @@ def validate(path: Path) -> int:
             f"batch has only {len(articles)} articles; publish at least "
             f"{minimum_articles} fresh Kosovo-audience stories per cron run"
         )
-    if len(articles) > MAX_ARTICLES_PER_BATCH:
+    from news_coverage import batch_ceiling
+    maximum = batch_ceiling(articles) if os.environ.get("L383_HOURLY_NEWS") == "1" else MAX_ARTICLES_PER_BATCH
+    if len(articles) > maximum:
         errors.append(
             f"batch has {len(articles)} articles; cap each run at "
-            f"{MAX_ARTICLES_PER_BATCH} high-quality stories"
+            f"{maximum} high-quality stories"
         )
 
     if len(articles) >= 4:

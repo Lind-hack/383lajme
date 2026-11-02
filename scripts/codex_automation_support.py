@@ -192,6 +192,23 @@ MIN_IMAGE_WIDTH = 1200
 MIN_IMAGE_HEIGHT = 630 if os.environ.get("L383_HOURLY_NEWS") == "1" else 675
 MIN_SOCIAL_IMAGE_WIDTH = MIN_IMAGE_WIDTH
 MIN_SOCIAL_IMAGE_HEIGHT = MIN_IMAGE_HEIGHT
+
+
+def image_minimum(article):
+    if article.get('category')=='Showbiz' and (article.get('image_rights') or {}).get('provider')=='publisher-article':
+        return 600,350
+    return (MIN_SOCIAL_IMAGE_WIDTH,MIN_SOCIAL_IMAGE_HEIGHT) if _social_platform(article) else (MIN_IMAGE_WIDTH,MIN_IMAGE_HEIGHT)
+
+
+def image_dimensions_for_article(article):
+    if os.environ.get('L383_HOURLY_NEWS')=='1' and article.get('category')=='Showbiz':
+        from news_image_policy import trusted_photo,publisher_photo_allowed
+        from news_visual_contact import valid_record
+        prepared=trusted_photo(article)
+        if prepared and publisher_photo_allowed(article,prepared) and valid_record(prepared.get('image_rights')):
+            width,height=prepared.get('image_width',0),prepared.get('image_height',0)
+            if type(width) is int and type(height) is int and width>0 and height>0:return width,height
+    return _fetch_image_dimensions(str(article.get('image_url') or ''))
 # Below this width a photo is still soft in the desktop lead on a 2x screen, so
 # normalize first asks the publisher's CDN for a larger rendition of the same
 # photo (_larger_image_rendition). That runs before the floor above is checked,
@@ -604,10 +621,9 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
         if image_url.startswith(("http://", "https://")):
             dimensions: tuple[int, int] | None = None
             failure_reason = ""
-            min_width = MIN_SOCIAL_IMAGE_WIDTH if social_platform else MIN_IMAGE_WIDTH
-            min_height = MIN_SOCIAL_IMAGE_HEIGHT if social_platform else MIN_IMAGE_HEIGHT
+            min_width,min_height = image_minimum(article)
             try:
-                dimensions = _fetch_image_dimensions(image_url)
+                dimensions = image_dimensions_for_article(article)
             except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError) as exc:
                 if social_platform and "images.weserv.nl/" not in image_url:
                     proxy_url = _social_image_proxy_url(image_url)
@@ -626,13 +642,13 @@ def normalize_batch(path: Path) -> list[dict[str, Any]]:
                         int(article.get("image_width") or 0),
                         int(article.get("image_height") or 0),
                     )
-                    if cached_dimensions[0] >= MIN_IMAGE_WIDTH and cached_dimensions[1] >= MIN_IMAGE_HEIGHT:
+                    if cached_dimensions[0] >= min_width and cached_dimensions[1] >= min_height:
                         dimensions = cached_dimensions
                         print(f"IMAGE DIMENSIONS CACHED: {article.get('title', 'untitled')!r} retained after transient fetch failure")
                     else:
                         failure_reason = f"could not decode {image_url}: {type(exc).__name__}: {exc}"
 
-            if dimensions and not social_platform and dimensions[0] < PREFERRED_IMAGE_WIDTH:
+            if dimensions and not social_platform and os.environ.get('L383_HOURLY_NEWS')!='1' and dimensions[0] < PREFERRED_IMAGE_WIDTH:
                 larger = _larger_image_rendition(image_url, dimensions[0])
                 if larger:
                     print(f"IMAGE UPGRADED: {article.get('title', 'untitled')!r} {dimensions[0]}x{dimensions[1]} -> {larger[1]}x{larger[2]}")
@@ -1005,16 +1021,18 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
             f"{path.name} contains only {len(articles)} articles; publish at least "
             f"{MIN_ARTICLES_PER_BATCH} fresh Kosovo-audience stories per cron run."
         )
-    if len(articles) > MAX_ARTICLES_PER_BATCH:
+    from news_coverage import batch_ceiling,category_ceiling
+    maximum=batch_ceiling(articles) if os.environ.get('L383_HOURLY_NEWS')=='1' else MAX_ARTICLES_PER_BATCH
+    if len(articles) > maximum:
         errors.append(
             f"{path.name} contains {len(articles)} articles; cap each run at "
-            f"{MAX_ARTICLES_PER_BATCH} high-quality stories so weak filler is not published."
+            f"{maximum} high-quality stories so weak filler is not published."
         )
 
     if os.environ.get("L383_HOURLY_NEWS") == "1":
         counts = Counter(article.get("category") for article in articles)
         errors.extend(f"{category} exceeds the three-article hourly category ceiling ({count})"
-                      for category, count in counts.items() if count > 3)
+                      for category, count in counts.items() if count > category_ceiling(category))
 
     from news_image_policy import batch_image_errors
     errors.extend(batch_image_errors(articles))
@@ -1069,7 +1087,7 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
             dimensions = image_dimensions.get(image)
             if dimensions is None:
                 try:
-                    dimensions = _fetch_image_dimensions(image)
+                    dimensions = image_dimensions_for_article(article)
                 except Exception as exc:
                     dimensions = f"{type(exc).__name__}: {exc}"
                 image_dimensions[image] = dimensions
@@ -1087,9 +1105,8 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
                         f"{label} image dimensions do not match image_url: declared "
                         f"{declared_width}x{declared_height}, actual {actual_width}x{actual_height}"
                     )
-                if actual_width < (MIN_SOCIAL_IMAGE_WIDTH if social_platform else MIN_IMAGE_WIDTH) or actual_height < (MIN_SOCIAL_IMAGE_HEIGHT if social_platform else MIN_IMAGE_HEIGHT):
-                    min_width = MIN_SOCIAL_IMAGE_WIDTH if social_platform else MIN_IMAGE_WIDTH
-                    min_height = MIN_SOCIAL_IMAGE_HEIGHT if social_platform else MIN_IMAGE_HEIGHT
+                min_width,min_height = image_minimum(article)
+                if actual_width < min_width or actual_height < min_height:
                     errors.append(
                         f"{label} image is too small ({actual_width}x{actual_height}); require at least "
                         f"{min_width}x{min_height}"
@@ -1156,11 +1173,12 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
         word_count = _body_word_count(article.get("body"))
         paragraph_count = _paragraph_count(article.get("body"))
         if not social_platform:
-            if word_count < MIN_ARTICLE_WORDS:
-                errors.append(f"{label} body is too short ({word_count} words); require at least {MIN_ARTICLE_WORDS}")
-            if paragraph_count < MIN_ARTICLE_PARAGRAPHS:
+            min_words,min_paragraphs=(50,1) if category=='Showbiz' else (MIN_ARTICLE_WORDS,MIN_ARTICLE_PARAGRAPHS)
+            if word_count < min_words:
+                errors.append(f"{label} body is too short ({word_count} words); require at least {min_words}")
+            if paragraph_count < min_paragraphs:
                 errors.append(
-                    f"{label} body has only {paragraph_count} paragraphs; require at least {MIN_ARTICLE_PARAGRAPHS}"
+                    f"{label} body has only {paragraph_count} paragraphs; require at least {min_paragraphs}"
                 )
 
         try:

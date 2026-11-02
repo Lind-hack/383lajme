@@ -38,6 +38,18 @@ def fixture_fetch(url,**kwargs):
 
 
 class IngestionTests(unittest.TestCase):
+    def test_category_collection_never_dispatches_other_desks_pending_tasks(self):
+        with tempfile.TemporaryDirectory() as folder:
+            state=Path(folder)/'inventory.sqlite'
+            store=Inventory(state)
+            store.enqueue(dict(source='Consequence',kind='article',url='https://consequence.net/unread',hint={}),NOW.isoformat())
+            store.db.commit(); store.close()
+            leads,_,_,_=collect(MANIFEST,state,budget_seconds=0,now=NOW,fetcher=fixture_fetch)
+            self.assertEqual(len(leads),225)
+            store=Inventory(state)
+            self.assertEqual(store.source_status('Consequence')['pending'],1)
+            store.close()
+
     def test_homepage_refresh_is_not_repeated_on_every_collector_pass(self):
         from datetime import timedelta
         roots = []

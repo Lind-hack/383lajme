@@ -334,8 +334,9 @@ class Inventory:
         errors = self.db.execute("SELECT COUNT(*) FROM tasks WHERE source=? AND error<>''",(source,)).fetchone()[0]
         retrieved = self.db.execute('SELECT COUNT(*) FROM articles WHERE source=?',(source,)).fetchone()[0]
         readable = self.db.execute("SELECT COUNT(*) FROM articles WHERE source=? AND status='text_extracted'",(source,)).fetchone()[0]
+        statuses=dict(self.db.execute('SELECT status,COUNT(*) FROM articles WHERE source=? GROUP BY status',(source,)).fetchall())
         return {'source':source,'pending':pending,'failed_tasks':errors,'stored_articles':retrieved,
-                'stored_readable':readable,'public_routes_exhausted':pending==0 and errors==0 and bool(counts)}
+                'stored_readable':readable,'readability_statuses':statuses,'public_routes_exhausted':pending==0 and errors==0 and bool(counts)}
 
     def checkpoint(self, source, started_at):
         if not self.source_status(source)['public_routes_exhausted']:

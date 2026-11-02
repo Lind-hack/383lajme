@@ -121,9 +121,10 @@ function mapAutoRow(a: Record<string, unknown>, keepSource = false): Article {
     featured:      Boolean(a.featured),
     imageUrl:      a.image_url ? String(a.image_url) : undefined,
     imageCaption: typeof raw.image_caption === "string" ? raw.image_caption : undefined,
-    imageSourcePage: /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/.test(photoSource) ? photoSource : undefined,
+    imageSourcePage: /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/.test(photoSource)
+      || (a.category === "Showbiz" && rights.provider === "publisher-article" && photoSource === a.url && /^https:\/\//.test(photoSource)) ? photoSource : undefined,
     imageCreator: typeof rights.creator === "string" ? rights.creator : undefined,
-    imageLicense: typeof rights.license === "string" ? rights.license : undefined,
+    imageLicense: rights.provider !== "publisher-article" && typeof rights.license === "string" ? rights.license : undefined,
     imageLicenseUrl: /^https:\/\/creativecommons\.org\/(?:licenses|publicdomain)\//.test(String(rights.license_url ?? "")) ? String(rights.license_url) : undefined,
     engagementScore: a.engagement_score ? Number(a.engagement_score) : undefined,
     videoClipUrl:  a.video_clip_url ? String(a.video_clip_url) : undefined,

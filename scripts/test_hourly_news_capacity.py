@@ -37,13 +37,23 @@ class HourlyCapacityTests(unittest.TestCase):
             self.assertEqual(result["source_ready_categories"]["Teknologji"], 20)
             self.assertEqual(reader.call_count, 40)
 
-    def test_twenty_is_allowed_but_twenty_one_stays_rejected(self):
+    def test_source_mix_gate_accepts_expanded_showbiz_only_in_hourly_mode(self):
+        import contextlib,io,os
+        from validate_source_mix import validate
+        rows=[{'category':'Showbiz','url':f'https://host{n%5}.example/story-{n}'} for n in range(24)]
+        with tempfile.TemporaryDirectory() as folder,contextlib.redirect_stdout(io.StringIO()):
+            batch=Path(folder)/'batch.json';batch.write_text(json.dumps(rows))
+            with patch.dict(os.environ,{'L383_HOURLY_NEWS':'1'}):self.assertEqual(validate(batch),0)
+            with patch.dict(os.environ,{'L383_HOURLY_NEWS':'0'}):self.assertEqual(validate(batch),1)
+
+    def test_showbiz_can_expand_above_twenty_other_desks_keep_three(self):
         with patch.object(rules, "HOURLY_NEWS_MODE", True), patch.object(rules, "article_errors", return_value=[]):
             balanced = [{"category": category} for category, target in hourly_targets().items()
                         for _ in range(target)]
             self.assertEqual(len(balanced), 20)
             self.assertEqual(rules.validate_run(balanced), [])
-            self.assertTrue(any("caps the run" in message for message in rules.validate_run(balanced + [{"category": "Showbiz"}])))
+            self.assertEqual(rules.validate_run(balanced + [{"category": "Showbiz"}] * 30), [])
+            self.assertTrue(any("caps the run" in message for message in rules.validate_run(balanced + [{"category": "Sport"}])))
             self.assertTrue(any("each category" in message for message in rules.validate_run([{"category": "Botë"}] * 20)))
 
 

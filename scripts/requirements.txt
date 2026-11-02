@@ -4,6 +4,8 @@ beautifulsoup4>=4.12.0
 python-slugify>=8.0.1
 python-dotenv>=1.0.0
 googlenewsdecoder==0.1.7
+# Decoder 0.1.7 imports selectolax.parser, removed in selectolax 1.0.
+selectolax>=0.3.27,<1.0
 # youtubesearchpython — removed from PyPI entirely (404), so pinning it
 # fails every install. scripts/kosovo_pipeline.py already guards the
 # import with try/except and search_youtube_clip() returns None without

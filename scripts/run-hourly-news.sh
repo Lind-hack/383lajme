@@ -182,15 +182,15 @@ if ! "$PYTHON_BIN" scripts/cloud_news_discovery.py --output .last30days/cloud-ne
 fi
 
 stage="writer-source-fetch"
-# Reserve five minutes for the grouped writers before their minute-25 deadline.
+# Finish source preparation by minute 26, leaving up to 16 minutes for grouped writers.
 # Scope this preparation-model deadline to the child; later editorial calls keep
 # the run's minute-50 limit. Slow notes must not consume the writing window.
-env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 1200))" \
+env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 1560))" \
   "$PYTHON_BIN" scripts/prepare_editor_sources.py "$DISCOVERY" --discovery
 
 # Prepared inventory includes readable, lane-locked source text and decoded images.
 # Sensitive claims still require an independently readable second publisher.
-L383_TARGET_ARTICLES="$("$PYTHON_BIN" -c 'import json,os,sys; p=json.load(open(sys.argv[1],encoding="utf-8"))["publication_plan"]; print(min(20,int(os.environ.get("L383_MAX_ARTICLES", "20")),sum(p.values())))' "${DISCOVERY%.md}.json")"
+L383_TARGET_ARTICLES="$("$PYTHON_BIN" -c 'import json,os,sys; p=json.load(open(sys.argv[1],encoding="utf-8"))["publication_plan"]; n=sum(p.values()); print(min(n,int(os.environ.get("L383_MAX_ARTICLES",str(n)))))' "${DISCOVERY%.md}.json")"
 if [ -z "$L383_TARGET_ARTICLES" ] || [ "$L383_TARGET_ARTICLES" -lt 1 ]; then
   stage="no-new-verified-news"
   record_state no_news
@@ -281,14 +281,14 @@ run_writer() {
   if ! grep -q '^Notes unavailable\.' "$WRITER_BRIEF"; then
     context_args=(--context-file "$REPO/docs/albanian_newsroom.md" --context-file "$REPO/docs/news-output-schema.json" --context-file "$REPO/docs/news-ranking-rubric.md" --context-file "$WRITER_BRIEF")
   fi
-  writer_budget="$(model_budget "${L383_WRITER_ATTEMPT_TIMEOUT:-600}" "${WRITER_PHASE_END:-1500}")" || return 75
+  writer_budget="$(model_budget "${L383_WRITER_ATTEMPT_TIMEOUT:-600}" "${WRITER_PHASE_END:-2520}")" || return 75
   timeout --signal=TERM --kill-after=15s "$((writer_budget + 5))s" \
     env HERMES_HOME="${L383_HERMES_HOME:-/opt/data/news-pipeline-hermes}" L383_MODEL_CALL_TIMEOUT="$writer_budget" \
     "$PYTHON_BIN" scripts/news_model_response.py --batch "${WRITER_BATCH:-$BATCH}" --mode replace --identity-manifest "${WRITER_BRIEF%.md}.sources.json" "${context_args[@]}" -- /opt/hermes/.venv/bin/hermes chat \
       --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
       --model "$model" --ignore-rules -t file --yolo \
       --max-turns "${L383_WRITER_MAX_TURNS:-35}" -Q -q \
-      "${WRITER_SCOPE:-}Prepare articles for ${BATCH} from today's prepared evidence. Read docs/albanian_newsroom.md, docs/news-output-schema.json, and ${WRITER_BRIEF}. The writing brief contains category allocations, ready story IDs and complete inline reporter notes. Use only ready stories. Write ONLY from the inline notes and never open source originals when notes are supplied: compose 383's own article, lead and headline from the facts. Only a story explicitly marked notes unavailable may use its verified-evidence fallback file. Notes may be raw, scrambled fragments of the source; never reuse a fragment's wording, restate every fact in your own Albanian sentences and choose your own order. Routine reporting may use one readable registered publisher as factual evidence with corroborating_sources=[]; sensitive allegations require the supplied independently readable second source. The prepared photo's subject must be a main subject of your headline or opening paragraph, not just a later mention in a roundup. Use an evidenced angle centered on that subject, or choose another ready story; never imply a photo shows a different company, person or product. Read docs/news-ranking-rubric.md and assign individual evidence-based score_breakdown values and a specific score_reason; never copy a neutral all-5 template or calculate the weighted total. The normalizer computes scores, reading time and city. Keep source URLs fixed. Do not reproduce ceremonial attendee lists or chains of official titles. Retain only names and accurately stated roles needed to explain the central event, with your own sentence order; never invent a title synonym to evade overlap checks. Write up to ${L383_TARGET_ARTICLES:-20} eligible article(s) in this call. The call cap is binding: when it is one, return one story only; return fewer only when the supplied stories cannot meet the verification and quality requirements. Do not edit any files. Return the complete article array in your final response between the literal markers 383_JSON_BEGIN and 383_JSON_END. The wrapper saves it. Every article needs its discovery category, deterministic city for local lanes, the prepared primary URL, supplied corroborating source when present, no image fields (the pipeline restores the prepared photo by source URL; judge only that image_subject fits the story), at least 140 grounded Albanian words in three HTML paragraphs, and all schema fields. Prefer 220+ words when the source supports that depth. Never pad a brief. The image is already verified outside your model call; do not fetch, decode or research images again. Read every inline note; only an explicit notes-unavailable fallback may open its evidence file; terminal commands, tests and builds are unavailable and unnecessary. Write from a fact outline in original 383 prose, with a new lead and structure; do not closely translate source prose or imply firsthand reporting. Preserve uncertainty and attribute claims to the speaking person or institution, never to a news outlet; never invent facts, local impact, quotes, images, or sources. Every publisher and corroborating publisher is locked to its category by scripts/news_sources.json. Use ONLY categories with a positive allocation in this brief. Treat its publication_plan counts as ceilings and obey the explicit total call cap. Within this brief, give each allocated category a story before adding extras. Other writing calls handle other categories and the website-wide target; do not try to fill their allocations. Ekonomi includes US stocks, Wall Street and crypto. Prioritize documented local public controversies. Never change a discovery category or use an unregistered source. Do not run pipeline scripts, discover extra stories, repository-wide tests, publish, deploy, email, or write any other file. Do not write files. Return the complete JSON array between 383_JSON_BEGIN and 383_JSON_END." 9>&-
+      "${WRITER_SCOPE:-}Prepare articles for ${BATCH} from today's prepared evidence. Read docs/albanian_newsroom.md, docs/news-output-schema.json, and ${WRITER_BRIEF}. The writing brief contains category allocations, ready story IDs and complete inline reporter notes. Use only ready stories. Write ONLY from the inline notes and never open source originals when notes are supplied: compose 383's own article, lead and headline from the facts. Only a story explicitly marked notes unavailable may use its verified-evidence fallback file. Notes may be raw, scrambled fragments of the source; never reuse a fragment's wording, restate every fact in your own Albanian sentences and choose your own order. Routine reporting may use one readable registered publisher as factual evidence with corroborating_sources=[]; sensitive allegations require the supplied independently readable second source. The prepared photo's subject must be a main subject of your headline or opening paragraph, not just a later mention in a roundup. Use an evidenced angle centered on that subject, or choose another ready story; never imply a photo shows a different company, person or product. Read docs/news-ranking-rubric.md and assign individual evidence-based score_breakdown values and a specific score_reason; never copy a neutral all-5 template or calculate the weighted total. The normalizer computes scores, reading time and city. Keep source URLs fixed. Do not reproduce ceremonial attendee lists or chains of official titles. Retain only names and accurately stated roles needed to explain the central event, with your own sentence order; never invent a title synonym to evade overlap checks. Write up to ${L383_TARGET_ARTICLES:-20} eligible article(s) in this call. The call cap is binding: when it is one, return one story only; return fewer only when the supplied stories cannot meet the verification and quality requirements. Do not edit any files. Return the complete article array in your final response between the literal markers 383_JSON_BEGIN and 383_JSON_END. The wrapper saves it. Every article needs its discovery category, deterministic city for local lanes, the prepared primary URL, supplied corroborating source when present, no image fields (the pipeline restores the prepared photo by source URL; judge only that image_subject fits the story), at least 140 grounded Albanian words in three HTML paragraphs (Showbiz: at least 50 grounded words in one HTML paragraph), and all schema fields. Prefer 220+ words when the source supports that depth. Never pad a brief. The image is already verified outside your model call; do not fetch, decode or research images again. Read every inline note; only an explicit notes-unavailable fallback may open its evidence file; terminal commands, tests and builds are unavailable and unnecessary. Write from a fact outline in original 383 prose, with a new lead and structure; do not closely translate source prose or imply firsthand reporting. Preserve uncertainty and attribute claims to the speaking person or institution, never to a news outlet; never invent facts, local impact, quotes, images, or sources. Every publisher and corroborating publisher is locked to its category by scripts/news_sources.json. Use ONLY categories with a positive allocation in this brief. Treat its publication_plan counts as ceilings and obey the explicit total call cap. Within this brief, give each allocated category a story before adding extras. Other writing calls handle other categories and the website-wide target; do not try to fill their allocations. Ekonomi includes US stocks, Wall Street and crypto. Prioritize documented local public controversies. Never change a discovery category or use an unregistered source. Do not run pipeline scripts, discover extra stories, repository-wide tests, publish, deploy, email, or write any other file. Do not write files. Return the complete JSON array between 383_JSON_BEGIN and 383_JSON_END." 9>&-
 }
 
 WRITER_RC=0
@@ -327,26 +327,34 @@ recover_missing_writer_desks() {
 }
 # Compose the complete source-ready allocation in disjoint one-story calls.
 # Round-robin slots give every desk its first and second request before thirds.
-# Keep five concurrent requests and the same minute-33 deadline.
+# Keep five concurrent requests, finishing drafts by minute 42.
 run_writer_groups() {
-  local folder group desks target running=0 slot
+  local folder group desks jobs running=0 slot call_cap
   folder="$(mktemp -d /tmp/383-writer-groups.XXXXXX)" || return 75
   group=0
-  for slot in 1 2 3; do
-    for desks in "Kosovë" "Shqipëri" "Sport" "Teknologji" "Ekonomi" "Botë" "Showbiz"; do
-      target="$("$PYTHON_BIN" -c 'import json,sys; p=json.load(open(sys.argv[1],encoding="utf-8"))["publication_plan"]; print(min(3,p.get(sys.argv[2],0)))' "${DISCOVERY%.md}.json" "$desks")"
-      [ "$slot" -le "$target" ] || continue
+  jobs="$("$PYTHON_BIN" - "${DISCOVERY%.md}.json" <<'PY'
+import json,math,sys
+p=json.load(open(sys.argv[1],encoding='utf-8'))['publication_plan']
+desks=['Kosovë','Shqipëri','Sport','Teknologji','Ekonomi','Botë','Showbiz']
+groups={c:math.ceil(p.get(c,0)/3) if c=='Showbiz' else min(3,p.get(c,0)) for c in desks}
+for slot in range(1,max(groups.values(),default=0)+1):
+    for c in desks:
+        if slot<=groups[c]:print(c,slot,3 if c=='Showbiz' else 1,sep='\t')
+PY
+)" || return 75
+  while IFS=$'\t' read -r desks slot call_cap; do
+      [ -n "$desks" ] || continue
       group=$((group + 1))
-      printf '383 DESK WRITER: category=%s slot=%s target=1 cap=240s end_minute=33\n' "$desks" "$slot"
+      printf '383 DESK WRITER: category=%s group=%s cap=240s end_minute=42\n' "$desks" "$slot"
       (
         WRITER_BATCH="$folder/$group.json"
         WRITER_DESK_SLOT="$slot"
-        L383_TARGET_ARTICLES=1
+        L383_TARGET_ARTICLES="$call_cap"
         L383_WRITER_ATTEMPT_TIMEOUT=240
-        WRITER_PHASE_END=1980
-        WRITER_SCOPE="This call covers ONLY ${desks}, article slot ${slot}: write one eligible story from this brief; ignore every other category and global counts below. "
+        WRITER_PHASE_END=2520
+        WRITER_SCOPE="This call covers ONLY ${desks}, article group ${slot}: write up to ${call_cap} eligible distinct stories from this brief; ignore every other category and global counts below. "
         WRITER_BRIEF="$folder/$group-brief.md"
-        "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$WRITER_BRIEF" --categories "$desks" --cap 1 --spares 1 --desk-slot "$slot" || exit 1
+        "$PYTHON_BIN" scripts/news_writer_brief.py "${DISCOVERY%.md}.json" "$WRITER_BRIEF" --categories "$desks" --cap "$call_cap" --spares 1 --desk-slot "$slot" || exit 1
         run_writer "$PRIMARY_WRITER_MODEL"
       ) > "$folder/$group.log" 2>&1 &
       running=$((running + 1))
@@ -354,8 +362,7 @@ run_writer_groups() {
         wait -n || true
         running=$((running - 1))
       fi
-    done
-  done
+  done <<< "$jobs"
   wait || true
   tail -n 3 "$folder"/*.log || true
   if ! "$PYTHON_BIN" scripts/news_refill.py groups "$folder" "$BATCH"; then printf '[]\n' > "$BATCH"; fi
@@ -403,7 +410,7 @@ if [ "$BATCH_COUNT" -lt 1 ]; then
 fi
 
 # Continue a fresh batch in bounded seven-story increments. Reserve at least
-# 25 minutes of the 55-minute deadline for editing, gates, and publication.
+# The primary groups finish by minute 42; review runs until minute 48, then final checks.
 stage="writer-continuation"
 CONTINUATION_FAILURES=0
 for continuation in {1..15}; do
@@ -427,7 +434,7 @@ for continuation in {1..15}; do
     env L383_MODEL_CALL_TIMEOUT="$continuation_budget" "$PYTHON_BIN" scripts/news_model_response.py --batch "$BATCH" --mode append -- /opt/hermes/.venv/bin/hermes chat --provider "${L383_WRITER_PROVIDER:-openai-codex}" \
       --model "$PRIMARY_WRITER_MODEL" --ignore-rules -t file --yolo \
       --max-turns 45 -Q -q \
-      "Continue the existing ${BATCH}; do not replace, remove, or edit its current articles. Read docs/albanian_newsroom.md, docs/news-output-schema.json, ${WRITER_BRIEF}, and the existing batch. Its current ${BATCH_COUNT} drafts are not the full source-ready inventory of ${L383_TARGET_ARTICLES}. The prepared photo's subject must be a main subject of your headline or opening paragraph, not just a later mention in a roundup. Use an evidenced angle centered on that subject, or choose another ready story; never imply a photo shows a different company, person or product. Read docs/news-ranking-rubric.md and rate every new story individually from evidence; supply all factors and a concrete Albanian score_reason. Do not copy neutral defaults or calculate the total. Use the publication plan in the writing brief to count current category coverage. Write only from its inline reporter notes; do not open source originals when notes are supplied. FIRST fill every missing category, THEN each category allocation, before adding extras. Add distinct ready stories up to ${L383_TARGET_ARTICLES} total. Skip every primary or corroborating URL already used in the batch. Every new article uses its prepared primary evidence and no image fields (the pipeline restores the prepared photo by source URL), 140+ grounded Albanian words in three HTML paragraphs, all schema fields and a title naming WHO and STAKE. Routine news may have corroborating_sources=[]; sensitive claims need the supplied independent second publisher. Do not research or decode images again. Do not fabricate or pad stories. Do not edit files. Return ONLY the new articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END; exclude all existing articles because the wrapper appends your new drafts while preserving every existing field. Do not run pipeline scripts, npm, repository tests or builds, publish, deploy, send reports, or write another file. This is a data-only writing task; code-release checks are not part of it." 9>&-; then
+      "Continue the existing ${BATCH}; do not replace, remove, or edit its current articles. Read docs/albanian_newsroom.md, docs/news-output-schema.json, ${WRITER_BRIEF}, and the existing batch. Its current ${BATCH_COUNT} drafts are not the full source-ready inventory of ${L383_TARGET_ARTICLES}. The prepared photo's subject must be a main subject of your headline or opening paragraph, not just a later mention in a roundup. Use an evidenced angle centered on that subject, or choose another ready story; never imply a photo shows a different company, person or product. Read docs/news-ranking-rubric.md and rate every new story individually from evidence; supply all factors and a concrete Albanian score_reason. Do not copy neutral defaults or calculate the total. Use the publication plan in the writing brief to count current category coverage. Write only from its inline reporter notes; do not open source originals when notes are supplied. FIRST fill every missing category, THEN each category allocation, before adding extras. Add distinct ready stories up to ${L383_TARGET_ARTICLES} total. Skip every primary or corroborating URL already used in the batch. Every new article uses its prepared primary evidence and no image fields (the pipeline restores the prepared photo by source URL), 140+ grounded Albanian words in three HTML paragraphs (Showbiz: 50+ words in one paragraph), all schema fields and a title naming WHO and STAKE. Routine news may have corroborating_sources=[]; sensitive claims need the supplied independent second publisher. Do not research or decode images again. Do not fabricate or pad stories. Do not edit files. Return ONLY the new articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END; exclude all existing articles because the wrapper appends your new drafts while preserving every existing field. Do not run pipeline scripts, npm, repository tests or builds, publish, deploy, send reports, or write another file. This is a data-only writing task; code-release checks are not part of it." 9>&-; then
     printf '383 WRITER CONTINUATION attempt=%s exited nonzero; retaining existing draft for deterministic checks\n' "$continuation" >&2
   fi
   L383_TARGET_ARTICLES="$FULL_TARGET"
@@ -457,7 +464,7 @@ printf '383 WRITER FINAL DRAFT COUNT: %s of %s source-ready pairs\n' "$BATCH_COU
 printf '383 CATEGORY DEFICITS: %s\n' "$COVERAGE_DEFICITS"
 
 review_candidates() {
-local editorial_phase_end=2580
+local editorial_phase_end=2880
 if [ "${IN_EXTRA_REVIEW:-0}" = "1" ]; then
   editorial_phase_end=2880  # Keep two minutes for independent review before minute 50.
 fi
@@ -769,7 +776,7 @@ if [ -s "$L383_REVIEW_REJECTED" ] && [ "$(( $(date +%s) - START_EPOCH ))" -lt 25
     timeout --signal=TERM --kill-after=15s "$((rewrite_budget + 5))s" env L383_MODEL_CALL_TIMEOUT="$rewrite_budget" "$PYTHON_BIN" scripts/news_model_response.py --batch "$REWRITE_BATCH" --mode replace -- /opt/hermes/.venv/bin/hermes chat \
       --provider "${L383_WRITER_PROVIDER:-openai-codex}" --model "$PRIMARY_WRITER_MODEL" \
       --ignore-rules -t file --yolo --max-turns 35 -Q -q \
-      "Compose a fresh article for every selected story in ${REWRITE_INPUT}. The input contains immutable identity and review feedback, not the rejected prose. Each was rejected by the independent originality reviewer; its rejection_reason names the copied sentence, the outlet's sequence it followed, or the wrong fact. Read docs/albanian_newsroom.md, docs/news-output-schema.json and ${WRITER_BRIEF}; find each story there by its url and write ONLY from its inline reporter notes (the explicit verified-evidence fallback only where notes are unavailable). Write a new article, not an edit: a new headline, a new lead built on a different fact than the rejected one, your own paragraph order and sentences, and correct every fact the reason names. Restating what a person said in a public statement in your own words is fine; never translate a source sentence, keep no source phrasing or imagery, no direct quotations, no outlet names. Keep url, slug, category, city and corroborating_sources unchanged; leave image fields out. The prepared photo's subject must be a main subject of your headline or opening paragraph, not just a later mention in a roundup. Use an evidenced angle centered on that subject, or choose another ready story; never imply a photo shows a different company, person or product. Read docs/news-ranking-rubric.md and rate each from evidence with all factors and a specific score_reason. At least 140 grounded Albanian words in three HTML paragraphs. Drop a story only if its facts cannot be told without the rejected material. Do not edit files. Return ONLY the rewritten articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END. This is a data-only task; do not run tests, build, publish, deploy, email or edit any other file." 9>&-
+      "Compose a fresh article for every selected story in ${REWRITE_INPUT}. The input contains immutable identity and review feedback, not the rejected prose. Each was rejected by the independent originality reviewer; its rejection_reason names the copied sentence, the outlet's sequence it followed, or the wrong fact. Read docs/albanian_newsroom.md, docs/news-output-schema.json and ${WRITER_BRIEF}; find each story there by its url and write ONLY from its inline reporter notes (the explicit verified-evidence fallback only where notes are unavailable). Write a new article, not an edit: a new headline, a new lead built on a different fact than the rejected one, your own paragraph order and sentences, and correct every fact the reason names. Restating what a person said in a public statement in your own words is fine; never translate a source sentence, keep no source phrasing or imagery, no direct quotations, no outlet names. Keep url, slug, category, city and corroborating_sources unchanged; leave image fields out. The prepared photo's subject must be a main subject of your headline or opening paragraph, not just a later mention in a roundup. Use an evidenced angle centered on that subject, or choose another ready story; never imply a photo shows a different company, person or product. Read docs/news-ranking-rubric.md and rate each from evidence with all factors and a specific score_reason. At least 140 grounded Albanian words in three HTML paragraphs (Showbiz: 50 words in one paragraph). Drop a story only if its facts cannot be told without the rejected material. Do not edit files. Return ONLY the rewritten articles as a JSON array between 383_JSON_BEGIN and 383_JSON_END. This is a data-only task; do not run tests, build, publish, deploy, email or edit any other file." 9>&-
     REWRITE_RC=$?
     set -e
     trap on_error ERR

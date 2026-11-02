@@ -18,6 +18,8 @@ from bs4 import BeautifulSoup
 
 
 ARTICLE_TYPES = {"NewsArticle", "Article", "ReportageNewsArticle", "BlogPosting", "LiveBlogPosting"}
+ARTICLE_BODY_SELECTORS=(".layout-form_article-body", ".articleBody", ".article_content-wrapper", '[itemprop="articleBody"]',
+                        ".td-post-content", ".entry-content", ".article-body", ".article-content", ".post-content")
 
 
 def _article_schemas(soup: BeautifulSoup, url: str) -> list[dict]:
@@ -123,7 +125,10 @@ def check_public(url: str) -> str:
     addresses = socket.getaddrinfo(parsed.hostname, parsed.port or 443, type=socket.SOCK_STREAM)
     if not addresses or any(not ipaddress.ip_address(address[4][0]).is_global for address in addresses):
         raise ValueError("non-public destination")
-    return addresses[0][4][0]
+    # Validate every answer above before preferring IPv4. Some worker/local
+    # networks resolve AAAA records but cannot route IPv6; choosing the first
+    # DNS result made the same public page fail intermittently.
+    return min(addresses,key=lambda address: ':' in address[4][0])[4][0]
 
 
 def extract(raw: bytes | str, url: str, *, max_text_chars: int | None = 14000) -> dict:
@@ -164,8 +169,7 @@ def extract(raw: bytes | str, url: str, *, max_text_chars: int | None = 14000) -
     # actual story. Pick the article with the most readable paragraph text.
     # Taking the first node incorrectly made live Telegrafi stories appear empty.
     articles = soup.find_all("article")
-    article_body = next((node for selector in (".layout-form_article-body", ".articleBody", ".article_content-wrapper", '[itemprop="articleBody"]',
-                        ".td-post-content", ".entry-content", ".article-body", ".article-content", ".post-content")
+    article_body = next((node for selector in ARTICLE_BODY_SELECTORS
                         if (node := soup.select_one(selector)) is not None), None)
     main = article_body if article_body is not None else max(
         articles,
@@ -258,7 +262,8 @@ def fetch_public(url: str, *, max_bytes: int = 3_000_000) -> dict:
             raw = response.read(max_bytes + 1)
             if len(raw) > max_bytes:
                 raise ValueError('public response exceeds configured byte limit')
-            allowed = ('content-type','etag','last-modified','retry-after','link','x-wp-totalpages','x-wp-total')
+            allowed = ('content-type','etag','last-modified','retry-after','link','x-wp-totalpages','x-wp-total',
+                       'access-control-allow-origin','access-control-allow-credentials')
             return {'url':url, 'payload':raw, 'status':response.status,
                     'headers':{name:response.headers.get(name,'') for name in allowed}}
         finally:

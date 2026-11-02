@@ -118,7 +118,8 @@ class HourlyCoverageTests(unittest.TestCase):
         ready = [{"category": category, "url": f"https://example.com/new-{category}-{i}"}
                  for category in CATEGORIES if category != "Kosovë" for i in range(20)]
         plan = replacement_plan(approved, ready, [row["url"] for row in approved])
-        self.assertEqual(sum(plan.values()), 18)
+        self.assertEqual(sum(plan.values()), 36)
+        self.assertEqual(plan['Showbiz'],21)
         self.assertEqual(plan["Botë"], 3)
         self.assertGreaterEqual(plan["Sport"], 3)
 
@@ -159,8 +160,8 @@ class HourlyCoverageTests(unittest.TestCase):
 
     def test_plan_reserves_all_seven_desks_before_redistributing(self):
         leads = [{"category": category} for category in CATEGORIES for _ in range(30)]
-        self.assertEqual(coverage_plan(leads), hourly_targets())
-        self.assertEqual(sum(coverage_plan(leads).values()), 20)
+        self.assertEqual(coverage_plan(leads), {**hourly_targets(),'Showbiz':30})
+        self.assertEqual(sum(coverage_plan(leads).values()), 48)
         sparse = [{"category": category} for category in CATEGORIES] + [{"category": "Botë"}] * 30
         plan = coverage_plan(sparse)
         self.assertEqual(sum(plan.values()), 9)

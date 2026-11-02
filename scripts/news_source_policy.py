@@ -124,7 +124,9 @@ _CULTURE = re.compile(r"\b(?:showbiz|entertainment|celebr\w*|singer\w*|actor\w*|
                       r"artist\w*|art|artwork\w*|piktur\w*|painting\w*|sculpt\w*|skulpt\w*|"
                       r"literatur\w*|letersi\w*|letrar\w*|shkrimtar\w*|poet\w*|poez\w*|nobel|ekspozit\w*|exhibition\w*|bienal\w*|"
                       r"kendon|kendoi|kendojne|kendoje|kenduan|kenduar|kendonte|televiziv\w*|"
-                      r"television|serial(?:i|in|it)|reality|tv star|fashion|moda|mode|modes|moden|kardashian|royal family|royals|mbreter\w*)\b")
+                      r"television|serial(?:i|in|it)|reality|tv star|fashion|moda|mode|modes|moden|kardashian|royal family|royals|mbreter\w*|"
+                      r"techno|tekno\w*|hip.?hop|rap|rapper\w*|reper\w*|producer\w*|producent\w*|dj|stage|sken\w*|performanc\w*|performo\w*|bloger\w*|influencer\w*|"
+                      r"halloween|costume\w*|kostum\w*|tattoo\w*|tatuazh\w*|swimwear|bikini\w*|lingerie)\b")
 _LOCAL = {
     "Kosovë": re.compile(r"\b(?:kosov\w*|prishtin\w*|prizren\w*|pej[ae]\w*|gjilan\w*|"
                          r"ferizaj\w*|gjakov\w*|mitrovic\w*|kurti|osmani|haradinaj|hamza|"
@@ -149,7 +151,9 @@ def topic_error(category: str, title: object, summary: object = "", *, tags=(), 
         return 'asset profile is reference data, not a reported news article'
     if labels & {'gaming', 'esports', 'anime', 'manga'} or re.search(r'/(?:gaming|esports|anime|manga)/', path):
         return 'publisher category is explicitly excluded by the newsroom'
-    if category != "Sport" and is_sports_story(title, summary, tags=tags, url=url):
+    entertainment_performance = category == "Showbiz" and bool(re.search(
+        r"\b(?:perform(?:s|ed|ing)?|performo\w*|kendon|kendoi|koncert\w*|concert\w*)\b", headline))
+    if category != "Sport" and not entertainment_performance and is_sports_story(title, summary, tags=tags, url=url):
         return "sports reporting is outside this publisher's assigned category"
     # Local desks cover verified local personalities, entertainment and companies.
     # Their geographic check below still excludes unrelated international stories.
@@ -162,7 +166,8 @@ def topic_error(category: str, title: object, summary: object = "", *, tags=(), 
             return "technology reporting is outside this category"
     if category == "Teknologji" and _ECONOMY.search(headline):
         return "stocks/earnings/crypto reporting belongs in Ekonomi"
-    if category == "Showbiz" and not (_SHOWBIZ.search(fold(f"{title} {summary}"))
+    from news_showbiz_focus import headline_subjects
+    if category == "Showbiz" and not (headline_subjects({'title':title}) or _SHOWBIZ.search(fold(f"{title} {summary}"))
             or _CULTURE.search(fold(f"{title} {summary}"))
             or labels & {"showbiz", "entertainment", "celebrity", "celebrities", "music", "film", "movies",
                          "television", "tv", "culture", "kulture", "argetim", "books", "arts", "fashion"}):
@@ -204,7 +209,7 @@ def article_source_errors(article: dict) -> list[str]:
         error = source_error(category, url)
         if error:
             errors.append(error)
-    error = topic_error(category, article.get("title"), article.get("excerpt"), url=article.get("url", ""))
+    error = topic_error(category, article.get("title"), str(article.get("excerpt") or "")+" "+" ".join(re.sub(r"<[^>]+>"," ",str(article.get("body") or "")).split()[:200]), url=article.get("url", ""))
     if error:
         errors.append(error)
     return errors

@@ -2,6 +2,7 @@
 import argparse
 import json
 import textwrap
+import math
 from collections import Counter
 from pathlib import Path
 from datetime import datetime, timezone
@@ -11,6 +12,7 @@ from news_coverage import replacement_plan, CATEGORY_CEILING
 from cloud_news_discovery import freshness_bucket
 from news_reader_value import reader_value
 from news_homepage_priority import homepage_weight
+from news_showbiz_focus import EDITORIAL_GUIDANCE, focus, priority as artist_priority, photo_interest
 
 
 def build(discovery: Path, output: Path, categories: str = "", *, approved: Path | None = None,
@@ -26,9 +28,12 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
             raise ValueError("initial desk cap must be positive and cannot limit replacement selection")
         plan = {category: min(count, cap) for category, count in plan.items()}
     leads = data.get("ready_leads", [])
-    if desk_slot is not None and (desk_slot not in (1, 2, 3) or len(selected) != 1 or cap != 1 or spares is None or approved):
-        raise ValueError("desk slot requires one initial category, cap one and bounded spares")
-    slot_count = min(3, data['publication_plan'].get(selected[0], 0)) if desk_slot is not None else 0
+    if desk_slot is not None and (desk_slot < 1 or len(selected) != 1 or cap not in (1,3)
+            or cap==3 and selected[0]!='Showbiz' or spares is None or approved):
+        raise ValueError("desk slot requires one initial category, cap one (or three for Showbiz) and bounded spares")
+    from news_coverage import category_ceiling
+    slot_count = min(category_ceiling(selected[0]), data['publication_plan'].get(selected[0], 0)) if desk_slot is not None else 0
+    if desk_slot is not None and selected[0]=='Showbiz':slot_count=math.ceil(slot_count/cap)
     if desk_slot is not None and desk_slot > slot_count:
         raise ValueError('desk slot exceeds its source-ready publication allocation')
     if bool(approved) != bool(attempted) or limit < 0 or (spares is not None and (spares < 0 or approved)):
@@ -41,10 +46,16 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         now = datetime.now(timezone.utc)
         def note_priority(lead):
             risky = bool(lead.get("source_basis_warning"))
-            attention = (bool(lead.get('coverage_already_published')), freshness_bucket(lead, now),
+            attention = (bool(lead.get('coverage_already_published')), -artist_priority(lead), freshness_bucket(lead, now),
+                         -(lead.get('editorial_review') or {}).get('score',0),
                          reader_value(lead)['reserve_genre'], -homepage_weight(lead, now),
                          -reader_value(lead)['score'],
                          -min(lead.get('coverage_family_count', 1), 5))
+            if lead.get('category')=='Showbiz':
+                attention=(bool(lead.get('coverage_already_published')),-artist_priority(lead),
+                           -homepage_weight(lead,now),-photo_interest(lead),freshness_bucket(lead,now),
+                           -(lead.get('editorial_review') or {}).get('score',0),
+                           -reader_value(lead)['score'],-min(lead.get('coverage_family_count',1),5))
             if not lead.get("facts_path"):
                 return risky, *attention, 3
             sheet = json.loads(Path(lead["facts_path"]).read_text(encoding="utf-8"))
@@ -70,7 +81,7 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         pools = {category: [a for a in leads if a["category"] == category and a["url"] not in used]
                  for category in selected}
         replacements = []
-        for level in range(1, CATEGORY_CEILING + 1):
+        for level in range(1, max(targets.values(),default=0) + 1):
             for category in selected:
                 while counts[category] < min(level, targets[category]) and pools[category]:
                     if limit and len(replacements) >= limit:
@@ -103,9 +114,12 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         identities.append({key: lead[key] for key in ('pair_id', 'url', 'category')})
         metadata = {key: lead.get(key) for key in ("pair_id", "category", "source", "url", "published", "city",
                                                    "requires_corroboration", "corroborates_url", "image_subject", "source_basis_warning",
-                                                   "coverage_family_count", "coverage_already_published", "homepage")
+                                                   "coverage_family_count", "coverage_already_published", "homepage", "editorial_review")
                     if lead.get(key) not in (None, "")}
         metadata['reader_value'] = reader_value(lead)
+        if lead['category']=='Showbiz':
+            metadata['audience_focus']=focus(lead)
+            lines.append(EDITORIAL_GUIDANCE)
         if homepage_weight(lead) > 0:
             lines.append('Fresh publisher homepage order: prefer this lead over lower or unfeatured stories of comparable freshness and evidence. public_browser_geometry measures rendered headline/card positions; public_html_dom_order is an HTML fallback, not measured visual position. Neither is factual confirmation or a breaking-news label.')
         if lead.get("corroborates_url") and source_error(lead["category"], lead["corroborates_url"]):

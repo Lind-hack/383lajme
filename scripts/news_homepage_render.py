@@ -4,6 +4,7 @@ import json
 import multiprocessing
 import os
 import secrets
+import shutil
 import subprocess
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -12,7 +13,7 @@ from pathlib import Path
 
 from news_ingestion_protocol import (owned, is_article_path, NON_ARTICLE_EXTENSIONS, UTILITY_PATHS,
                                      NON_ARTICLE_PREFIXES, CATEGORY_INDEX_PREFIXES)
-from read_news_source import fetch_public, PublicHTTPError
+from read_news_source import fetch_public, PublicHTTPError, ARTICLE_BODY_SELECTORS
 from news_homepage_process import linux_processes, stop_renderer
 
 
@@ -20,7 +21,25 @@ _BROWSERS = threading.BoundedSemaphore(2)
 _RENDER_TIMEOUT = 42
 
 
-def render_homepage(response, publisher, *, fetcher=fetch_public, screenshot=None):
+def browser_executable():
+    configured = os.environ.get('L383_NEWS_CHROMIUM')
+    if configured:
+        if not Path(configured).is_file():
+            raise ValueError('configured Chromium executable is missing')
+        return configured
+    candidates = [shutil.which(name) for name in ('chromium', 'chromium-browser', 'google-chrome')]
+    if os.name == 'nt':
+        candidates += [str(Path(os.environ.get('PROGRAMFILES', 'C:/Program Files')) /
+                           'Google/Chrome/Application/chrome.exe'),
+                       str(Path(os.environ.get('PROGRAMFILES(X86)', 'C:/Program Files (x86)')) /
+                           'Microsoft/Edge/Application/msedge.exe')]
+    for candidate in candidates:
+        if candidate and Path(candidate).is_file():
+            return candidate
+    raise ValueError('no Chromium executable; set L383_NEWS_CHROMIUM')
+
+
+def render_homepage(response, publisher, *, fetcher=fetch_public, screenshot=None, article=False, allow_partial=False):
     """Reuse the retrieved root document; public CSS/scripts/images may load.
 
     Browser HTTP is intercepted. The bridge reuses fetch_public's DNS validation,
@@ -41,7 +60,7 @@ def render_homepage(response, publisher, *, fetcher=fetch_public, screenshot=Non
         context = multiprocessing.get_context('spawn')
         reader, writer = context.Pipe(duplex=False)
         finished = context.Event()
-        process = context.Process(target=_render_worker,args=(writer,finished,response,publisher,fetcher,screenshot))
+        process = context.Process(target=_render_worker,args=(writer,finished,response,publisher,fetcher,screenshot,article,allow_partial))
         process.start()
         root_start = linux_processes().get(process.pid,(None,None,None))[1] if os.name != 'nt' else None
         writer.close()
@@ -62,11 +81,11 @@ def render_homepage(response, publisher, *, fetcher=fetch_public, screenshot=Non
         _BROWSERS.release()
 
 
-def _render_worker(writer, finished, response, publisher, fetcher, screenshot):
+def _render_worker(writer, finished, response, publisher, fetcher, screenshot, article=False, allow_partial=False):
     if os.name != 'nt':
         os.setsid()
     try:
-        writer.send({'result':_render(response,publisher,fetcher,screenshot)})
+        writer.send({'result':_render(response,publisher,fetcher,screenshot,article=article,allow_partial=allow_partial)})
     except Exception as exc:
         writer.send({'error':str(exc)[:500]})
     finally:
@@ -74,7 +93,7 @@ def _render_worker(writer, finished, response, publisher, fetcher, screenshot):
         finished.wait(timeout=60)
 
 
-def _render(response, publisher, fetcher, screenshot):
+def _render(response, publisher, fetcher, screenshot, *, article=False, allow_partial=False):
     token = secrets.token_urlsafe(24)
     cache = {response['url']: response}
     lock = threading.Lock()
@@ -104,7 +123,7 @@ def _render(response, publisher, fetcher, screenshot):
                     with lock:
                         resource = cache.get(url)
                         if resource is None:
-                            allowance = min(8_000_000,32_000_000-used)
+                            allowance = min(2_000_000,32_000_000-used)
                             if allowance <= 0:
                                 raise ValueError('render resource byte budget exhausted')
                             used += allowance  # Reserve before parallel network requests.
@@ -124,6 +143,8 @@ def _render(response, publisher, fetcher, screenshot):
                             cache[url] = cache[resource['url']] = resource
                 data = json.dumps(dict(url=resource['url'],
                     content_type=resource['headers'].get('content-type') or 'application/octet-stream',
+                    headers={key:value for key,value in resource['headers'].items()
+                             if key.lower() in {'access-control-allow-origin','access-control-allow-credentials'}},
                     payload=base64.b64encode(resource['payload']).decode())).encode()
                 self.send_response(200)
                 self.send_header('Content-Length',str(len(data)))
@@ -139,14 +160,20 @@ def _render(response, publisher, fetcher, screenshot):
     server.daemon_threads = True
     threading.Thread(target=server.serve_forever,daemon=True).start()
     from codex_automation_support import SOURCE_URL_TRACKING_KEYS
-    config = dict(url=response['url'],chromium=os.environ.get('L383_NEWS_CHROMIUM','/usr/bin/chromium'),
+    if screenshot:
+        Path(screenshot).parent.mkdir(parents=True,exist_ok=True)
+    config = dict(url=response['url'],chromium=browser_executable(),article=article,allow_partial=allow_partial,
+                  article_body_selectors=ARTICLE_BODY_SELECTORS,
                   excluded_extensions=NON_ARTICLE_EXTENSIONS,
                   utility_paths=sorted(UTILITY_PATHS),
                   tracking_keys=sorted(SOURCE_URL_TRACKING_KEYS),
                   excluded_prefixes=sorted(NON_ARTICLE_PREFIXES),category_prefixes=sorted(CATEGORY_INDEX_PREFIXES),
                   bridge=f'http://127.0.0.1:{server.server_port}/{token}',screenshot=str(screenshot) if screenshot else None)
-    env = {**os.environ,'NODE_PATH':os.environ.get('L383_NEWS_NODE_MODULES',
-                '/opt/data/workspaces/383lajme/node_modules')}
+    # Resolve dependencies from this checkout before the production fallback.
+    # A Linux-only NODE_PATH previously made every Windows render fail.
+    modules = [str(Path(__file__).resolve().parent.parent/'node_modules'),
+               os.environ.get('NODE_PATH',''), '/opt/data/workspaces/383lajme/node_modules']
+    env = {**os.environ,'NODE_PATH':os.environ.get('L383_NEWS_NODE_MODULES',os.pathsep.join(filter(None,modules)))}
     process = None
     try:
         process = subprocess.Popen([env.get('L383_NEWS_NODE','node'),str(Path(__file__).with_suffix('.cjs'))],
@@ -158,7 +185,7 @@ def _render(response, publisher, fetcher, screenshot):
         result = json.loads(output)
         if not owned(result['url'],publisher):
             raise ValueError('rendered homepage left its registered publisher')
-        if result['failed_stylesheets']:
+        if result['failed_stylesheets'] and not allow_partial:
             raise ValueError('rendered layout incomplete: stylesheet retrieval failed')
         from news_homepage_priority import homepage_article_identity
         root = homepage_article_identity(result['url'])
