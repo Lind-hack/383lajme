@@ -158,11 +158,13 @@ IG_WATCH_MIN_PLAYS = 50_000
 # Instagram refuses the spare account's cookie, so it is read through Apify's Instagram Scraper
 # (apify.com/apify/instagram-scraper, pay per result: $2.70 per 1,000 on the free plan's $5 a month).
 # Once a day: the stars' last posts and the reels of the four watched Albanian pages read the longest
-# ago, at most 5 x 6 + 4 x 5 = 50 results, ~1,500 a month. (A hashtag gives only the newest posts there,
+# ago; only what is new since the last read, ~40 results a day for the 22 people and 2 pages. (A hashtag gives only the newest posts there,
 # shops with no likes; TikTok and X find the viral clips, Instagram adds the stars and the known pages.)
 APIFY_IG = "https://api.apify.com/v2/acts/apify~instagram-scraper/run-sync-get-dataset-items"
 IG_APIFY_PER_STAR = 6
-IG_APIFY_PAGES = 4
+IG_APIFY_FIELDS = ("shortCode,type,caption,timestamp,ownerUsername,ownerFullName,likesCount,commentsCount,videoPlayCount,"
+                   "videoViewCount,videoUrl,videoDuration,displayUrl,images,childPosts,error")   # only what the scout reads
+IG_APIFY_PAGES = 2   # 22 people now take most of the free credit
 IG_APIFY_PER_PAGE = 5
 IG_APIFY_MAX_USD = 4.5   # what the month may have used before a read; Apify stops the account at $5
 
@@ -628,8 +630,12 @@ def apify(path: str, token: str, body: dict | None = None, timeout: int = 60):
     req = urllib.request.Request(f"https://api.apify.com/v2/{path}", method="POST" if body is not None else "GET",
                                  data=json.dumps(body).encode() if body is not None else None,
                                  headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=timeout) as res:
-        return json.loads(res.read())
+    import http.client
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as res:
+            return json.loads(res.read())
+    except http.client.HTTPException as exc:   # a reply cut off mid-way (IncompleteRead) is a failed read, not a crash
+        raise OSError(f"Apify reply cut off: {type(exc).__name__}") from exc
 
 
 def ig_apify(state: dict, token: str, now: datetime) -> dict:
@@ -661,7 +667,7 @@ def ig_apify(state: dict, token: str, now: datetime) -> dict:
         if not urls:
             continue
         try:
-            items = apify("acts/apify~instagram-scraper/run-sync-get-dataset-items?timeout=280", token,
+            items = apify(f"acts/apify~instagram-scraper/run-sync-get-dataset-items?timeout=280&fields={IG_APIFY_FIELDS}", token,
                           {"resultsType": "posts", "directUrls": urls, "resultsLimit": limit, "onlyPostsNewerThan": since,
                            "skipPinnedPosts": True, "addParentData": True}, timeout=320)
         except (urllib.error.URLError, OSError, ValueError) as exc:
@@ -1660,6 +1666,11 @@ NEWS_PEOPLE = {
         "eraistrefi": ("Era Istrefi", "Showbiz"), "avamax": ("Ava Max", "Showbiz"), "butrintimeri": ("Butrint Imeri", "Showbiz"),
         "noizy": ("Noizy", "Showbiz"), "granitxhaka": ("Granit Xhaka", "Sport"), "vedatmuriqi": ("Vedat Muriqi", "Sport"),
         "kristjanasllani": ("Kristjan Asllani", "Sport"),
+        # Added 2026-11-02 (Lind's list + finds), each verified with 70k to 3M followers:
+        "elvanagjataaaa": ("Elvana Gjata", "Showbiz"), "dhuratadora": ("Dhurata Dora", "Showbiz"), "mozzik": ("Mozzik", "Showbiz"),
+        "ledrivula": ("Ledri Vula", "Showbiz"), "noraistrefi": ("Nora Istrefi", "Showbiz"), "loredana": ("Loredana", "Showbiz"),
+        "edonzhegrova10": ("Edon Zhegrova", "Sport"), "milotrashica7": ("Milot Rashica", "Sport"), "bekimbalaj": ("Bekim Balaj", "Sport"),
+        "albinkurti_": ("Albin Kurti", "Kosovë"), "vjosa.osmani": ("Vjosa Osmani", "Kosovë"), "ediramaal": ("Edi Rama", "Shqipëri"),
     },
     "x": {
         "albinkurti": ("Albin Kurti", "Kosovë"), "vjosaosmani": ("Vjosa Osmani", "Kosovë"), "ediramaal": ("Edi Rama", "Shqipëri"),
