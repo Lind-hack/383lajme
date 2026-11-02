@@ -38,6 +38,21 @@ def verdict(**values):
 
 
 class StoryReviewTests(unittest.TestCase):
+    def test_production_relative_report_folder_accepts_absolute_capture_paths(self):
+        from contextlib import chdir
+        def absolute_capture(*args,**kwargs):
+            record=fake_capture(*args,**kwargs)
+            for field in ('screenshot','full_screenshot'):record[field]=str(Path(record[field]).resolve())
+            return record
+        with tempfile.TemporaryDirectory() as folder,chdir(folder),patch('builtins.print'):
+            target=Path('.last30days/showbiz-review')
+            records,_=review_inventory([dict(LEAD)],{URL:EVIDENCE},[{'source':'Consequence','category':'Showbiz','status':'incomplete'}],target,
+                                      capturer=absolute_capture,reviewer=lambda *args:verdict(),now=NOW)
+            self.assertEqual(records[URL]['status'],'reviewed')
+            report=(target/'index.html').read_text(encoding='utf-8')
+            self.assertIn('src="publishers/',report)
+            self.assertIn('src="articles/',report)
+
     def test_homepage_work_reserves_time_for_article_reviews(self):
         clock=[0.0]
         def slow_home(url,publisher,folder,**kwargs):

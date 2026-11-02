@@ -16,6 +16,16 @@ def rows():
 
 
 class PublicationReadbackTests(unittest.TestCase):
+    def test_expanded_batch_readback_fetches_every_expected_row(self):
+        from unittest.mock import patch
+        from codex_automation_support import _verify_batch_readback
+        articles=[{'id':str(n),'category':'Showbiz'} for n in range(101)]
+        def fetch(method,table,*,query):return articles[:int(query['limit'])]
+        module=_verify_batch_readback.__module__
+        with patch(module+'._article_row',side_effect=lambda article,key:dict(article)),patch(module+'._supabase_request',side_effect=fetch) as read:
+            _verify_batch_readback('expanded-showbiz',articles)
+        self.assertGreaterEqual(int(read.call_args.kwargs['query']['limit']),len(articles))
+
     def test_actual_story_markup_must_match_even_when_slug_and_flight_json_are_correct(self):
         article = {**rows()[0], 'title': 'Titulli i lajmit', 'excerpt': 'Përmbledhja e verifikuar.',
                    'body': '<p>Paragrafi i parë.</p><p>Paragrafi i dytë.</p>'}

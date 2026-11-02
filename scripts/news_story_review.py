@@ -436,7 +436,7 @@ def attention_priority(lead):
 def write_report(result,path):
     esc = lambda value: html.escape(str(value),quote=True)
     def asset(value):
-        return Path(value).relative_to(path.parent).as_posix()
+        return Path(value).resolve().relative_to(path.parent.resolve()).as_posix()
     lines=['<!doctype html><meta charset="utf-8"><title>383 Showbiz source review</title>',
            '<style>body{font:17px/1.6 system-ui;max-width:1100px;margin:30px auto;padding:20px}article{border-top:2px solid #aaa;padding:20px 0}img{max-width:100%;max-height:700px;object-fit:contain}pre{white-space:pre-wrap}td,th{padding:8px;text-align:left}</style>',
            '<h1>Showbiz source coverage and visual review</h1><p>'+esc(result['scope'])+'</p>',

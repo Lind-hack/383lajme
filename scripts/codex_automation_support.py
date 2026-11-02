@@ -2156,7 +2156,7 @@ def _verify_batch_readback(batch_key: str, articles: list[dict[str, Any]]) -> No
     from news_publication_readback import verify_rows
     expected = [_article_row(article, batch_key) for article in articles]
     fields = ','.join(expected[0]) if expected else 'id'
-    persisted = _supabase_request("GET", "news_articles", query={"select": fields, "batch_key": f"eq.{batch_key}", "limit": "100"})
+    persisted = _supabase_request("GET", "news_articles", query={"select": fields, "batch_key": f"eq.{batch_key}", "limit": str(max(100,len(articles)))})
     verify_rows(expected, persisted, batch_key)
 
 
