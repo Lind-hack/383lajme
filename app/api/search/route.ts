@@ -3,6 +3,7 @@ import { getSearchData } from "@/lib/search-sources";
 import { search, nearest, looksLikeQuestion } from "@/lib/search-match.mjs";
 import { resolveEntity, surfaceForms, mentions } from "@/lib/entities.mjs";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { searchResults } from "@/lib/search-results";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -63,14 +64,20 @@ export async function GET(request: NextRequest) {
   // Every kind of subject, not only people: a country, a topic or a city is
   // just as much a thing the reader named.
   const entity = resolveEntity(raw, [...subjects, ...people]);
-  let entityArticles: { title: string; href: string; meta?: string }[] = [];
+  let entityArticles: { title: string; href: string; meta?: string; image?: string; kind: string }[] = [];
 
   if (entity) {
     const forms = surfaceForms(entity);
     entityArticles = articles
       .filter((a) => mentions(a, forms))
       .slice(0, full ? PAGE_ARTICLES : OVERLAY_ARTICLES)
-      .map((a) => ({ title: a.title, href: `/article/${a.slug}`, meta: a.meta }));
+      .map((a) => ({
+        title: a.title,
+        href: `/article/${a.slug}`,
+        meta: a.meta,
+        image: a.imageUrl,
+        kind: "artikull",
+      }));
   }
 
   const rawGroups = search(entries, raw, {
@@ -100,6 +107,10 @@ export async function GET(request: NextRequest) {
   const suggestions = found === 0 ? nearest(entries, raw, 5) : [];
   if (found === 0) void logMiss(raw, suggestions.length);
 
+  // "See all N" has to promise what the page it opens shows, so the number is
+  // that page's own count rather than a second, narrower tally made here.
+  const entityTotal = entity ? (await searchResults(entity.name)).articles.length : 0;
+
   return NextResponse.json(
     {
       query: raw,
@@ -119,7 +130,7 @@ export async function GET(request: NextRequest) {
             articles: entityArticles,
             // Whether more exist than were returned, so the overlay can offer
             // the page rather than implying this is all of it.
-            total: articles.filter((a) => mentions(a, surfaceForms(entity))).length,
+            total: entityTotal,
           }
         : null,
       groups,

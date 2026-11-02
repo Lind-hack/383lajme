@@ -10,16 +10,93 @@ import { personalStarters } from "@/lib/dardani-memory.mjs";
 import { readMemory } from "@/lib/dardani-memory-store";
 import { readInterests } from "@/lib/interests.mjs";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import {
   ArrowUpRight,
+  Clock,
+  Flame,
   Minus,
   Search,
   TrendingDown,
   TrendingUp,
+  X,
 } from "lucide-react";
 import { track } from "@/lib/analytics";
+import Highlight, { highlightTerms } from "@/components/search-highlight";
 
-type Item = { title: string; href: string; meta?: string; kind: string };
+type Item = { title: string; href: string; meta?: string; kind: string; image?: string };
+type TrendLink = { title: string; href: string };
+
+/** The reader's own last searches, on this device only. */
+const RECENT_KEY = "383-kerko-recent";
+const RECENT_MAX = 6;
+
+function readRecent(): string[] {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(RECENT_KEY) ?? "[]");
+    return Array.isArray(parsed) ? parsed.filter((q): q is string => typeof q === "string" && q.trim().length >= 2) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeRecent(list: string[]) {
+  try {
+    localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, RECENT_MAX)));
+  } catch {
+    // Private mode or full storage: recents are a convenience.
+  }
+}
+
+/** The query moved to the front, case-insensitively de-duplicated. */
+function remember(query: string): string[] {
+  const q = query.trim();
+  const list = [q, ...readRecent().filter((r) => r.toLowerCase() !== q.toLowerCase())].slice(0, RECENT_MAX);
+  writeRecent(list);
+  return list;
+}
+
+/**
+ * One result row. Articles carry their photo, so a reader can tell two
+ * similar headlines apart at a glance; destinations (a topic, a country, a
+ * city) stay text-only, because they have no photograph of their own.
+ */
+function Row({
+  item,
+  active,
+  terms,
+  onHover,
+  onPick,
+}: {
+  item: Item;
+  active: boolean;
+  terms: readonly string[];
+  onHover: () => void;
+  onPick: () => void;
+}) {
+  const article = item.kind === "artikull";
+  return (
+    <button
+      type="button"
+      className={article ? "kerko-row kerko-row-article" : "kerko-row"}
+      data-active={active ? "true" : undefined}
+      onMouseEnter={onHover}
+      onClick={onPick}
+    >
+      {article && (
+        <span className="kerko-thumb" aria-hidden="true">
+          {item.image && <Image src={item.image} alt="" fill sizes="64px" />}
+        </span>
+      )}
+      <span className="kerko-row-text">
+        <span className="kerko-title">
+          <Highlight text={item.title} terms={terms} />
+        </span>
+        {item.meta && <span className="kerko-meta">{item.meta}</span>}
+      </span>
+    </button>
+  );
+}
 type Group = { kind: string; label: string; items: Item[] };
 
 type CountryFacts = {
@@ -124,6 +201,8 @@ export default function SearchOverlay({
   const [active, setActive] = useState(0);
   // Pyet mode: the face beside "Pyet Dardanin" follows the conversation.
   const [ask, setAsk] = useState<AskStatus | null>(null);
+  const [recent, setRecent] = useState<string[]>([]);
+  const [trending, setTrending] = useState<TrendLink[]>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
@@ -155,6 +234,32 @@ export default function SearchOverlay({
       document.body.style.overflow = previous;
     };
   }, [open]);
+
+  // Before the reader types: their last searches and who the news is about.
+  useEffect(() => {
+    if (!open || mode !== "kerko") return;
+    setRecent(readRecent());
+    if (trending.length > 0) return;
+    let alive = true;
+    void (async () => {
+      try {
+        const res = await fetch("/api/search/trending");
+        const payload = await res.json();
+        if (alive && Array.isArray(payload?.trending)) {
+          setTrending(
+            payload.trending.filter(
+              (t: TrendLink) => typeof t?.title === "string" && typeof t?.href === "string",
+            ),
+          );
+        }
+      } catch {
+        // The hint text stands in when there is nothing to suggest.
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [open, mode, trending.length]);
 
   useEffect(() => {
     if (!open) {
@@ -238,12 +343,20 @@ export default function SearchOverlay({
 
   const go = useCallback(
     (href: string) => {
-      track("search_result_click", { query: query.trim() });
+      const q = query.trim();
+      track("search_result_click", { query: q });
+      if (q.length >= 2) remember(q);
       onClose();
       router.push(href);
     },
     [onClose, router, query],
   );
+
+  const forget = useCallback((q: string) => {
+    const list = readRecent().filter((r) => r !== q);
+    writeRecent(list);
+    setRecent(list);
+  }, []);
 
   const onKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
@@ -285,6 +398,7 @@ export default function SearchOverlay({
   if (!mounted || !open) return null;
 
   const showing = query.trim().length >= 2;
+  const terms = highlightTerms(query);
   const entity = data.entity;
   const nothing = showing && !loading && flat.length === 0;
   let index = -1;
@@ -344,10 +458,65 @@ export default function SearchOverlay({
               seedNonce={seedNonce}
             />
           ) : !showing ? (
-            <p className="kerko-hint">
-              Shkruaj të paktën dy shkronja. Kërkimi mbulon artikujt, temat, vendet te
-              Toni, qytetet te Vizito dhe tregjet.
-            </p>
+            recent.length === 0 && trending.length === 0 ? (
+              <p className="kerko-hint">
+                Shkruaj të paktën dy shkronja. Kërkimi mbulon artikujt, temat, vendet te
+                Toni, qytetet te Vizito dhe tregjet.
+              </p>
+            ) : (
+              <div className="kerko-start">
+                {recent.length > 0 && (
+                  <section className="kerko-start-block">
+                    <div className="kerko-start-head">
+                      <h3 className="kerko-group-label">KËRKIMET E FUNDIT</h3>
+                      <button
+                        type="button"
+                        className="kerko-start-clear"
+                        onClick={() => {
+                          writeRecent([]);
+                          setRecent([]);
+                        }}
+                      >
+                        Pastro
+                      </button>
+                    </div>
+                    <ul className="kerko-recent">
+                      {recent.map((r) => (
+                        <li key={r}>
+                          <button type="button" className="kerko-recent-go" onClick={() => setQuery(r)}>
+                            <Clock size={14} strokeWidth={2.4} aria-hidden="true" />
+                            {r}
+                          </button>
+                          <button
+                            type="button"
+                            className="kerko-recent-x"
+                            aria-label={`Hiq “${r}”`}
+                            onClick={() => forget(r)}
+                          >
+                            <X size={14} strokeWidth={2.4} aria-hidden="true" />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                )}
+                {trending.length > 0 && (
+                  <section className="kerko-start-block">
+                    <h3 className="kerko-group-label">NË LAJME TANI</h3>
+                    <ul className="kerko-trending">
+                      {trending.map((t) => (
+                        <li key={t.href}>
+                          <button type="button" onClick={() => go(t.href)}>
+                            <Flame size={14} strokeWidth={2.4} aria-hidden="true" />
+                            {t.title}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                )}
+              </div>
+            )
           ) : loading && flat.length === 0 ? (
             <div className="kerko-searching" role="status">
               <DardaniLoop name="researching" decorative className="kerko-searching-loop" />
@@ -393,18 +562,16 @@ export default function SearchOverlay({
                   <ul>
                     {entity.articles.map((item) => {
                       index += 1;
-                      const isActive = index === active;
+                      const at = index;
                       return (
                         <li key={`entity-${item.href}`}>
-                          <button
-                            type="button"
-                            data-active={isActive ? "true" : undefined}
-                            onMouseEnter={() => setActive(index)}
-                            onClick={() => go(item.href)}
-                          >
-                            <span className="kerko-title">{item.title}</span>
-                            {item.meta && <span className="kerko-meta">{item.meta}</span>}
-                          </button>
+                          <Row
+                            item={{ ...item, kind: "artikull" }}
+                            active={at === active}
+                            terms={terms}
+                            onHover={() => setActive(at)}
+                            onPick={() => go(item.href)}
+                          />
                         </li>
                       );
                     })}
@@ -456,18 +623,16 @@ export default function SearchOverlay({
                   <ul>
                     {group.items.map((item) => {
                       index += 1;
-                      const isActive = index === active;
+                      const at = index;
                       return (
                         <li key={`${item.kind}-${item.href}-${item.title}`}>
-                          <button
-                            type="button"
-                            data-active={isActive ? "true" : undefined}
-                            onMouseEnter={() => setActive(index)}
-                            onClick={() => go(item.href)}
-                          >
-                            <span className="kerko-title">{item.title}</span>
-                            {item.meta && <span className="kerko-meta">{item.meta}</span>}
-                          </button>
+                          <Row
+                            item={item}
+                            active={at === active}
+                            terms={terms}
+                            onHover={() => setActive(at)}
+                            onPick={() => go(item.href)}
+                          />
                         </li>
                       );
                     })}

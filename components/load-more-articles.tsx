@@ -30,6 +30,7 @@ export function useArticlePages({
   cursor,
   category,
   search,
+  filters,
   seenIds,
   pageSize = 12,
 }: {
@@ -37,6 +38,8 @@ export function useArticlePages({
   category?: string;
   /** Page through /kerko's ranked results instead; the cursor is a position. */
   search?: string;
+  /** Extra query parameters for the search pages: /kerko's filter and sort. */
+  filters?: Record<string, string>;
   seenIds: readonly string[];
   pageSize?: number;
 }) {
@@ -44,6 +47,8 @@ export function useArticlePages({
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "done">(cursor ? "idle" : "done");
   const next = useRef<string | null>(cursor);
   const seen = useRef<Set<string>>(new Set(seenIds));
+  // Compared by value: callers pass a fresh `filters` object every render.
+  const filterKey = JSON.stringify(filters ?? {});
 
   const loadMore = useCallback(async () => {
     if (!next.current) return [];
@@ -56,7 +61,7 @@ export function useArticlePages({
         if (search !== undefined) {
           // Ranked results page by position: take each page whole, so the
           // next offset is exactly where this one ended.
-          const params = new URLSearchParams({ q: search, offset: next.current, limit: String(pageSize) });
+          const params = new URLSearchParams({ ...(JSON.parse(filterKey) as Record<string, string>), q: search, offset: next.current, limit: String(pageSize) });
           const response = await fetch(`/api/search/results?${params}`);
           if (!response.ok) throw new Error(`search ${response.status}`);
           const data = (await response.json()) as { items?: PageItem[]; next?: string | null };
@@ -90,7 +95,7 @@ export function useArticlePages({
       setStatus("error");
       return [];
     }
-  }, [category, search, pageSize]);
+  }, [category, search, pageSize, filterKey]);
 
   /** Put back a feed saved earlier this session (Back from an article). */
   const restore = useCallback((saved: Article[], cursorAfter: string | null) => {

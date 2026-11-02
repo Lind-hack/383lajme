@@ -10,6 +10,9 @@ import { LoadMoreButton, focusFirstNew, useArticlePages } from "@/components/loa
 import { CoinIcon } from "@/components/tab-icons";
 import { dateKeyInKosovo } from "@/lib/reagimi-data";
 import { PYET_OPEN_EVENT } from "@/lib/pyet-thread";
+import { getCategoryColor } from "@/lib/category-colors";
+import Highlight from "@/components/search-highlight";
+import TimeAgo from "@/components/time-ago";
 
 /** What a feed card renders; the server sends nothing else. */
 export type FeedItem = {
@@ -20,7 +23,12 @@ export type FeedItem = {
   publishedAt: string;
   /** The story's city within this section, from lib/section-cities. */
   cityId?: string | null;
+  /** The story's section, shown on the card when the feed spans sections. */
+  category?: string;
 };
+
+/** How cards read in this feed: search marks matched words and names sections. */
+type CardView = { highlight?: readonly string[]; categoryLabels?: boolean };
 
 export type FeedCity = { name: string; emblem: string };
 
@@ -32,7 +40,14 @@ export type FeedHooks = {
   carousel?: { title: string; items: FeedItem[] };
   /** An open Tregu market on the section, else the Pyet Dardanin card. */
   market?: SectionMarket | null;
+  /** What the Pyet Dardanin card offers, when the feed is not one section. */
+  ask?: { title: string; questions: string[] };
 };
+
+/** Where the next page comes from: a section's archive, or a search's ranking. */
+type FeedSource =
+  | { category: string; seenIds: string[] }
+  | { search: string; offset: number; filters?: Record<string, string>; seenIds: string[] };
 
 /** Cards between two blocks: two rows of three on desktop, ~6–8s on a phone. */
 const RUN = 6;
@@ -72,6 +87,7 @@ function toItem(article: Article): FeedItem {
     imageUrl: article.imageUrl ?? null,
     publishedAt: article.publishedAt,
     cityId: (article as Article & { cityId?: string | null }).cityId ?? null,
+    category: article.category,
   };
 }
 
@@ -96,6 +112,9 @@ export default function KategoriFeed({
   todayKey: serverToday,
   loadMore,
   endNote,
+  days = true,
+  highlight,
+  categoryLabels = false,
 }: {
   section: string;
   items: FeedItem[];
@@ -104,9 +123,15 @@ export default function KategoriFeed({
   hooks: FeedHooks;
   /** The server's "today", so the first render matches; corrected on mount. */
   todayKey: string;
-  loadMore?: { category: string; seenIds: string[] };
+  loadMore?: FeedSource;
   /** Shown under the last card when there is nothing further to load. */
   endNote?: string;
+  /** Day headings between cards; off when the order is not by date. */
+  days?: boolean;
+  /** Folded query terms to mark in headlines (search results). */
+  highlight?: readonly string[];
+  /** Name each card's section (search results span all of them). */
+  categoryLabels?: boolean;
 }) {
   const [todayKey, setTodayKey] = useState(serverToday);
   useEffect(() => setTodayKey(dateKeyInKosovo()), []);
@@ -118,14 +143,21 @@ export default function KategoriFeed({
   );
   // `loadMore` is a new object every render; effects key off these instead.
   const paging = Boolean(loadMore);
-  const category = loadMore?.category;
+  const category = loadMore && "category" in loadMore ? loadMore.category : undefined;
+  const searching = loadMore && "search" in loadMore ? loadMore : undefined;
   const pages = useArticlePages({
-    cursor: paging ? oldest : null,
+    // A search pages by position in its ranking; a section by publish time.
+    cursor: searching ? String(searching.offset) : paging ? oldest : null,
     category,
+    search: searching?.search,
+    filters: searching?.filters,
     seenIds: loadMore?.seenIds ?? [],
   });
   const { status, loadMore: loadPage, restore, getCursor } = pages;
-  const feedKey = `383-kategori-feed:${category ?? "none"}`;
+  const feedKey = searching
+    ? `383-kerko-feed:${searching.search}:${JSON.stringify(searching.filters ?? {})}`
+    : `383-kategori-feed:${category ?? "none"}`;
+  const view: CardView = { highlight, categoryLabels };
   const listRef = useRef<HTMLDivElement | null>(null);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
@@ -187,14 +219,14 @@ export default function KategoriFeed({
   let next = 0;
   let lastDay: string | null = null;
   const flush = () => {
-    if (run.length) out.push(<CardGrid key={`g-${run[0].id}`} items={run} cities={cities} />);
+    if (run.length) out.push(<CardGrid key={`g-${run[0].id}`} items={run} cities={cities} view={view} />);
     run = [];
   };
 
   for (let i = 0; i < all.length; i++) {
     const item = all[i];
     const day = dateKeyInKosovo(new Date(item.publishedAt));
-    if (day !== lastDay) {
+    if (days && day !== lastDay) {
       flush();
       out.push(
         <h2 key={`d-${day}`} className="kf-day">
@@ -211,20 +243,25 @@ export default function KategoriFeed({
         // The large story shares its row with the next few from the same day,
         // so the block is a photo beside a short list, not a wall of photo.
         const side: FeedItem[] = [];
-        while (side.length < FEATURE_SIDE && i + 1 < all.length && dateKeyInKosovo(new Date(all[i + 1].publishedAt)) === day) {
+        while (
+          side.length < FEATURE_SIDE &&
+          i + 1 < all.length &&
+          (!days || dateKeyInKosovo(new Date(all[i + 1].publishedAt)) === day)
+        ) {
           side.push(all[++i]);
         }
-        out.push(<FeatureBlock key={`f-${item.id}`} item={item} side={side} cities={cities} />);
+        out.push(<FeatureBlock key={`f-${item.id}`} item={item} side={side} cities={cities} view={view} />);
         continue;
       }
-      if (hook === "top") out.push(<TopThree key="top" section={section} items={hooks.top ?? []} />);
-      if (hook === "carousel" && hooks.carousel) out.push(<Carousel key="carousel" {...hooks.carousel} cities={cities} />);
+      if (hook === "top") out.push(<TopThree key="top" section={section} items={hooks.top ?? []} view={view} />);
+      if (hook === "carousel" && hooks.carousel)
+        out.push(<Carousel key="carousel" {...hooks.carousel} cities={cities} view={view} />);
       if (hook === "act") {
         out.push(
           hooks.market ? (
             <MarketCard key="act" market={hooks.market} />
           ) : (
-            <DardaniCard key="act" section={section} />
+            <DardaniCard key="act" section={section} ask={hooks.ask} />
           )
         );
       }
@@ -304,17 +341,37 @@ function CityTag({ city }: { city?: FeedCity }) {
   );
 }
 
+/** The story's section as a coloured label, for feeds that span sections. */
+function SectionTag({ category }: { category?: string }) {
+  if (!category) return null;
+  return (
+    <span className="kf-section" style={{ ["--c" as string]: getCategoryColor(category) }}>
+      {category}
+    </span>
+  );
+}
+
 /** The standard card: photograph, headline, and the city when there is one. */
-function Card({ item, city }: { item: FeedItem; city?: FeedCity }) {
+function Card({ item, city, view }: { item: FeedItem; city?: FeedCity; view?: CardView }) {
+  const label = view?.categoryLabels ? item.category : undefined;
   return (
     <li className="kf-cell">
       <Link href={`/article/${item.slug}`} className="kf-card">
         <Photo src={item.imageUrl} sizes="(max-width: 640px) 112px, 160px" className="kf-thumb" />
         <span className="kf-body">
-          <span className="kf-title">{item.title}</span>
-          {city && (
+          <span className="kf-title">
+            <Highlight text={item.title} terms={view?.highlight} />
+          </span>
+          {(city || label) && (
             <span className="kf-meta">
               <CityTag city={city} />
+              <SectionTag category={label} />
+              {/* A feed that spans sections has no day headings to date it. */}
+              {label && item.publishedAt && (
+                <span className="kf-ago">
+                  <TimeAgo iso={item.publishedAt} />
+                </span>
+              )}
             </span>
           )}
         </span>
@@ -323,11 +380,11 @@ function Card({ item, city }: { item: FeedItem; city?: FeedCity }) {
   );
 }
 
-function CardGrid({ items, cities }: { items: FeedItem[]; cities: Record<string, FeedCity> }) {
+function CardGrid({ items, cities, view }: { items: FeedItem[]; cities: Record<string, FeedCity>; view?: CardView }) {
   return (
     <ul className="kf-cards">
       {items.map((item) => (
-        <Card key={item.id} item={item} city={item.cityId ? cities[item.cityId] : undefined} />
+        <Card key={item.id} item={item} city={item.cityId ? cities[item.cityId] : undefined} view={view} />
       ))}
     </ul>
   );
@@ -339,7 +396,17 @@ function CardGrid({ items, cities }: { items: FeedItem[]; cities: Record<string,
  * on a laptop, a whole screen of one photograph — which read as an interruption
  * rather than a story. Half the row now, and the other half keeps reading.
  */
-function FeatureBlock({ item, side, cities }: { item: FeedItem; side: FeedItem[]; cities: Record<string, FeedCity> }) {
+function FeatureBlock({
+  item,
+  side,
+  cities,
+  view,
+}: {
+  item: FeedItem;
+  side: FeedItem[];
+  cities: Record<string, FeedCity>;
+  view?: CardView;
+}) {
   const city = item.cityId ? cities[item.cityId] : undefined;
   return (
     <div className="kf-feature-block kf-hook" data-side={side.length > 0 ? "true" : undefined}>
@@ -352,7 +419,10 @@ function FeatureBlock({ item, side, cities }: { item: FeedItem; side: FeedItem[]
               {city.name}
             </span>
           )}
-          <span className="kf-feature-title">{item.title}</span>
+          {view?.categoryLabels && <SectionTag category={item.category} />}
+          <span className="kf-feature-title">
+            <Highlight text={item.title} terms={view?.highlight} />
+          </span>
           <span className="kf-feature-cta">
             Lexo lajmin <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
           </span>
@@ -361,7 +431,7 @@ function FeatureBlock({ item, side, cities }: { item: FeedItem; side: FeedItem[]
       {side.length > 0 && (
         <ul className="kf-feature-side">
           {side.map((s) => (
-            <Card key={s.id} item={s} city={s.cityId ? cities[s.cityId] : undefined} />
+            <Card key={s.id} item={s} city={s.cityId ? cities[s.cityId] : undefined} view={view} />
           ))}
         </ul>
       )}
@@ -369,7 +439,7 @@ function FeatureBlock({ item, side, cities }: { item: FeedItem; side: FeedItem[]
   );
 }
 
-function TopThree({ section, items }: { section: string; items: FeedItem[] }) {
+function TopThree({ section, items, view }: { section: string; items: FeedItem[]; view?: CardView }) {
   return (
     <section className="kf-top kf-hook" aria-labelledby="kf-top-title">
       <h2 id="kf-top-title" className="kf-hook-title">
@@ -382,7 +452,9 @@ function TopThree({ section, items }: { section: string; items: FeedItem[] }) {
               <span className="kf-top-rank" aria-hidden="true">
                 {i + 1}
               </span>
-              <span className="kf-top-title">{item.title}</span>
+              <span className="kf-top-title">
+                <Highlight text={item.title} terms={view?.highlight} />
+              </span>
               <Photo src={item.imageUrl} sizes="96px" className="kf-top-thumb" />
             </Link>
           </li>
@@ -392,7 +464,17 @@ function TopThree({ section, items }: { section: string; items: FeedItem[] }) {
   );
 }
 
-function Carousel({ title, items, cities }: { title: string; items: FeedItem[]; cities: Record<string, FeedCity> }) {
+function Carousel({
+  title,
+  items,
+  cities,
+  view,
+}: {
+  title: string;
+  items: FeedItem[];
+  cities: Record<string, FeedCity>;
+  view?: CardView;
+}) {
   const trackRef = useRef<HTMLUListElement | null>(null);
   const [edge, setEdge] = useState({ start: true, end: false });
 
@@ -439,7 +521,9 @@ function Carousel({ title, items, cities }: { title: string; items: FeedItem[]; 
                     {city.name}
                   </span>
                 )}
-                <span className="kf-slide-title">{item.title}</span>
+                <span className="kf-slide-title">
+                  <Highlight text={item.title} terms={view?.highlight} />
+                </span>
               </Link>
             </li>
           );
@@ -475,9 +559,9 @@ function MarketCard({ market }: { market: SectionMarket }) {
   );
 }
 
-function DardaniCard({ section }: { section: string }) {
+function DardaniCard({ section, ask: offer }: { section: string; ask?: FeedHooks["ask"] }) {
   const where = SECTION_IN[section] ?? "";
-  const questions = [
+  const questions = offer?.questions ?? [
     `Çfarë ndodhi sot ${where}?`,
     `Cilat janë lajmet më të rëndësishme të javës ${where}?`,
     `Më shpjego shkurt lajmin kryesor ${where}`,
@@ -487,7 +571,7 @@ function DardaniCard({ section }: { section: string }) {
     <aside className="kf-act kf-dardani kf-hook" aria-labelledby="kf-dardani-title">
       <img className="kf-dardani-avatar" src="/images/dardan/avatar.webp" alt="" width={56} height={56} loading="lazy" decoding="async" />
       <div className="kf-dardani-copy">
-        <h2 id="kf-dardani-title" className="kf-act-title">Pyet Dardanin {where}</h2>
+        <h2 id="kf-dardani-title" className="kf-act-title">{offer?.title ?? `Pyet Dardanin ${where}`}</h2>
         <p className="kf-dardani-hint">Merr përgjigje të shkurtra nga lajmet e 383.</p>
       </div>
       <div className="kf-dardani-asks">

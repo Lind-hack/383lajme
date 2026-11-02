@@ -5,6 +5,12 @@ import { NAV_CATEGORIES, normalizeCategory } from "./category-map";
 import { remoteImageSrc } from "./remote-image.mjs";
 import { extractPeople, deriveEntity } from "./entities.mjs";
 import { getToneHistory } from "./tone-data";
+import { lmsrPriceYes } from "./tregu-client";
+
+function marketProb(m: { q_yes?: unknown; q_no?: unknown; b?: unknown }): number | null {
+  const p = lmsrPriceYes(Number(m?.q_yes), Number(m?.q_no), Number(m?.b));
+  return Number.isFinite(p) ? Math.max(0, Math.min(1, p)) : null;
+}
 
 /**
  * Kërko — the one index behind the whole site.
@@ -40,6 +46,12 @@ export interface SearchEntry {
   weight?: number;
   /** Publication time, for articles: newer wins ties (search-match recency). */
   date?: string;
+  /** An article's photo, for the thumbnail beside it in the overlay. */
+  image?: string;
+  /** Markets: open for picks, and the PO price (null unless binary). */
+  open?: boolean;
+  prob?: number | null;
+  closesAt?: string;
 }
 
 /**
@@ -316,12 +328,14 @@ async function supabaseEntries(): Promise<{ entries: SearchEntry[]; articles: Ar
       .select("id, slug, title, excerpt, category, source, source_flag, published_at, image_url")
       .order("published_at", { ascending: false })
       .limit(ARTICLE_LIMIT),
-    supabase.from("markets").select("slug, question, category, status").limit(500),
+    supabase.from("markets").select("slug, question, category, status, market_type, q_yes, q_no, b, closes_at").limit(500),
   ]);
 
   for (const a of articles.data ?? []) {
     if (!a?.slug || !a?.title) continue;
     const meta = [a.category, a.source, shortDate(a.published_at)].filter(Boolean).join(" · ");
+    // The same larger rendition the rest of the site asks for (lib/db.ts).
+    const imageUrl = a.image_url ? remoteImageSrc(String(a.image_url), 2048) : undefined;
     out.push({
       kind: "artikull",
       title: a.title,
@@ -330,6 +344,7 @@ async function supabaseEntries(): Promise<{ entries: SearchEntry[]; articles: Ar
       meta,
       weight: WEIGHT.artikull,
       date: a.published_at ?? undefined,
+      image: imageUrl,
     });
     records.push({
       slug: a.slug,
@@ -341,8 +356,7 @@ async function supabaseEntries(): Promise<{ entries: SearchEntry[]; articles: Ar
       source: a.source ?? "",
       sourceFlag: a.source_flag ?? "",
       publishedAt: a.published_at ?? "",
-      // The same larger rendition the rest of the site asks for (lib/db.ts).
-      imageUrl: a.image_url ? remoteImageSrc(String(a.image_url), 2048) : undefined,
+      imageUrl,
     });
   }
 
@@ -356,6 +370,10 @@ async function supabaseEntries(): Promise<{ entries: SearchEntry[]; articles: Ar
         .filter(Boolean)
         .join(" · "),
       weight: WEIGHT.treg,
+      open: m.status === "open" && Date.parse(String(m.closes_at ?? "")) > Date.now(),
+      // The book price, exactly as /api/tregu/markets computes it.
+      prob: (m.market_type ?? "binary") === "binary" ? marketProb(m) : null,
+      closesAt: m.closes_at ?? undefined,
     });
   }
 

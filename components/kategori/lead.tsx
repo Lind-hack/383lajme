@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { Article } from "@/lib/mock-data";
 import TimeAgo from "@/components/time-ago";
+import Highlight from "@/components/search-highlight";
 import type { FeedCity } from "./feed";
 
 /**
@@ -11,7 +12,16 @@ import type { FeedCity } from "./feed";
  * standfirst, so the card sends readers into the story instead of standing in
  * for it.
  */
-export default function KategoriLead({ article, city }: { article: Article; city?: FeedCity }) {
+export default function KategoriLead({
+  article,
+  city,
+  highlight,
+}: {
+  article: Article;
+  city?: FeedCity;
+  /** Folded query terms to mark in the headline, on search results. */
+  highlight?: readonly string[];
+}) {
   return (
     <Link href={`/article/${article.slug}`} className="kl">
       <span className="kl-photo">
@@ -28,7 +38,9 @@ export default function KategoriLead({ article, city }: { article: Article; city
         )}
       </span>
       <span className="kl-body">
-        <h2 className="kl-title">{article.title}</h2>
+        <h2 className="kl-title">
+          <Highlight text={article.title} terms={highlight} />
+        </h2>
         <span className="kl-meta">
           {city && (
             <span className="kl-city">
