@@ -248,7 +248,7 @@
       ],
       "family": "ekonomiaonline.com",
       "homepage_urls": [
-        "https://ekonomiaonline.com/ekonomi/"
+        "https://ekonomiaonline.com/category/ekonomi/"
       ]
     },
     {
@@ -1552,7 +1552,7 @@
     {
       "source": "Ekonomia Online",
       "category": "Ekonomi",
-      "url": "https://ekonomiaonline.com/ekonomi/",
+      "url": "https://ekonomiaonline.com/category/ekonomi/",
       "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
     },
     {

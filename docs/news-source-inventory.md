@@ -87,7 +87,7 @@ All 20 sources are enabled for public collection. Complete dated text and native
 | Publisher | Primary website/front page | Discovery |
 | --- | --- | --- |
 | Monitor | [monitor.al](https://monitor.al/) | feed + front page |
-| Ekonomia Online | [ekonomiaonline.com/ekonomi](https://ekonomiaonline.com/ekonomi/) | feed + front page |
+| Ekonomia Online | [ekonomiaonline.com/category/ekonomi](https://ekonomiaonline.com/category/ekonomi/) | feed + front page |
 | CNBC | [cnbc.com](https://cnbc.com/) | feed + front page |
 | Financial Times | [ft.com](https://ft.com/) | feed + front page |
 | MarketWatch | [marketwatch.com](https://marketwatch.com/) | feed + front page |
