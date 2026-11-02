@@ -1856,6 +1856,24 @@ def quote_card(post: dict, out: Path, work: Path) -> bool:
     return done.returncode == 0 and out.exists()
 
 
+def wide_photo(src: Path, out: Path) -> bool:
+    """The whole photo in a 1600x900 frame, over a blurred, darkened copy of itself. The site crops
+    every image to 16:9 (the article) or 16:10 and 3:2 (cards) from the middle, which cut the faces
+    off a tall Instagram photo; a whole photo in the middle of a wide frame survives all of them."""
+    w, h = probe_size(src)
+    if w and h and 1.6 <= w / h <= 1.9:   # already wide: only made smaller
+        graph = "scale=1600:900:force_original_aspect_ratio=increase,crop=1600:900"
+    else:
+        graph = ("split[a][b];[a]scale=1600:900:force_original_aspect_ratio=increase,crop=1600:900,boxblur=40:2,"
+                 "eq=brightness=-0.18[bg];[b]scale=1600:900:force_original_aspect_ratio=decrease[fg];"
+                 "[bg][fg]overlay=(W-w)/2:(H-h)/2")
+    done = subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(src), "-filter_complex", graph, "-frames:v", "1",
+                           "-q:v", "3", str(out)], capture_output=True, text=True, timeout=120, check=False)
+    if done.returncode != 0:
+        print(f"SCOUT wide photo: {done.stderr[-300:]}", file=sys.stderr)
+    return done.returncode == 0 and out.exists()
+
+
 def social_image(post: dict, stem: str) -> dict | None:
     """The article's image on 383's storage: the person's own photo from the post, or for a
     text-only X post a 383 quote card. None when there is neither."""
@@ -1865,9 +1883,7 @@ def social_image(post: dict, stem: str) -> dict | None:
         if post.get("photos"):
             if not fetch_file(post["photos"][0], raw, 15_000):
                 return None
-            done = subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(raw), "-vf", "scale='min(1600,iw)':-2",
-                                   "-frames:v", "1", "-q:v", "3", str(out)], capture_output=True, timeout=120, check=False)
-            if done.returncode != 0 or not out.exists():
+            if not wide_photo(raw, out):
                 return None
             rights = {"creator": f"{PLATFORM_NAMES.get(post['platform'], post['platform'])} / @{post['author']}",
                       "provider": "social-post", "source_page": post["link"]}
