@@ -49,12 +49,13 @@ class ShowbizPolicyTests(unittest.TestCase):
     def test_artist_briefs_and_mobile_titles_are_not_rejected_as_non_entertainment(self):
         from news_source_policy import topic_error
         from editorial_rules_v2 import title_errors
-        for title in ('Lily Allen me kostum për Halloween','Juan Atkins, pionieri i techno-s, vdes','Wu-Tang Clan do të performojë në pushimin e ndeshjes'):
+        for title in ('Komediania Amy Poehler merr çmim për inovacionin në komedi','Lily Allen me kostum për Halloween','Juan Atkins, pionieri i techno-s, vdes','Wu-Tang Clan do të performojë në pushimin e ndeshjes'):
             self.assertIsNone(topic_error('Showbiz',title),title)
         from news_source_policy import article_source_errors
         self.assertEqual(article_source_errors({'category':'Showbiz','url':'https://www.nme.com/news/music/juan-atkins','title':'Juan Atkins vdes në moshën 64-vjeçare','body':'<p>Qyteti do ta kujtojë muzikantin.</p>'}),[])
         self.assertIsNotNone(topic_error('Showbiz','Lions fiton ndeshjen 3-0'))
         self.assertIsNotNone(topic_error('Showbiz','Lions performance in football match wins 3-0'))
+        self.assertIsNotNone(topic_error('Showbiz','Actor returns in a new game',url='https://www.nme.com/news/gaming-news/actor-game'))
         title='Billie Eilish dhe Phoebe Bridgers shfaqen në filmin e ri të shkurtër'
         self.assertGreater(len(title),65)
         self.assertFalse(any('character' in e for e in title_errors({'category':'Showbiz','title':title})))
