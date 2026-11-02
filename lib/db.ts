@@ -122,7 +122,10 @@ function mapAutoRow(a: Record<string, unknown>, keepSource = false): Article {
     imageUrl:      a.image_url ? String(a.image_url) : undefined,
     imageCaption: typeof raw.image_caption === "string" ? raw.image_caption : undefined,
     imageSourcePage: /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/.test(photoSource)
-      || (a.category === "Showbiz" && rights.provider === "publisher-article" && photoSource === a.url && /^https:\/\//.test(photoSource)) ? photoSource : undefined,
+      || (a.category === "Showbiz" && rights.provider === "publisher-article" && photoSource === a.url && /^https:\/\//.test(photoSource))
+      || (rights.provider === "social-post" && /^https:\/\/(www\.instagram\.com|x\.com)\//.test(photoSource)) ? photoSource : undefined,
+    // The person's own post (clip scout's social desk): its photo is no archive illustration.
+    imageFromPost: rights.provider === "social-post" || rights.provider === "383-card",
     imageCreator: typeof rights.creator === "string" ? rights.creator : undefined,
     imageLicense: rights.provider !== "publisher-article" && typeof rights.license === "string" ? rights.license : undefined,
     imageLicenseUrl: /^https:\/\/creativecommons\.org\/(?:licenses|publicdomain)\//.test(String(rights.license_url ?? "")) ? String(rights.license_url) : undefined,

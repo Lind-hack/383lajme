@@ -19,6 +19,8 @@
   imageUrl?: string;
   imageCaption?: string;
   imageSourcePage?: string;
+  /** The image is the article subject's own post (or 383's card of it), not an archive illustration. */
+  imageFromPost?: boolean;
   imageCreator?: string;
   imageLicense?: string;
   imageLicenseUrl?: string;

@@ -206,7 +206,7 @@ export default function ArticleContent({ article, related, sidebarRelated = [], 
                 <ArticleHero src={article.imageUrl} alt={article.imageCaption || article.title} width={article.imageWidth} height={article.imageHeight} hideOnError={Boolean(editorial)} />
                 {article.imageCaption && (
                   <figcaption style={{ fontSize: "13px", lineHeight: 1.6, color: "var(--theme-muted, #59544C)", margin: "-20px 0 32px", overflowWrap: "anywhere" }}>
-                    {normalizeCategory(article.category) !== "Showbiz" && "Foto ilustruese nga arkivi. "}{article.imageCaption}
+                    {normalizeCategory(article.category) !== "Showbiz" && !article.imageFromPost && "Foto ilustruese nga arkivi. "}{article.imageCaption}
                     {article.imageCreator && <> Foto: {article.imageCreator}.</>}
                     {article.imageLicense && article.imageLicenseUrl && <> <a href={article.imageLicenseUrl} target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: "3px" }}>{article.imageLicense}<span className="sr-only"> (hapet në skedë të re)</span></a> · Prerje për paraqitje; licenca vlen edhe për prerjen.</>}
                     {article.imageSourcePage && <> · <a href={article.imageSourcePage} target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: "3px" }}>Të drejtat e fotos<span className="sr-only"> (hapet në skedë të re)</span></a></>}

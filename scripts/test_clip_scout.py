@@ -342,6 +342,131 @@ class ViralCutTests(unittest.TestCase):
         self.assertIn("2 të reja", cs.published_mail([cut, {**cut, "id": "cut:1"}])[0])
         self.assertNotIn("<", text)
 
+    def test_apify_items_become_reels_and_star_photo_posts(self):
+        reel = {"type": "Video", "shortCode": "R1", "videoUrl": "https://cdn/v.mp4", "videoPlayCount": 120000,
+                "likesCount": -1, "timestamp": "2026-11-02T17:00:03.000Z", "ownerUsername": "dualipa", "videoDuration": 14.6}
+        c = cs.apify_clip(reel, "IG @dualipa")
+        self.assertEqual((c["id"], c["plays"], c["likes"], c["duration"], c["media_url"]), ("ig:R1", 120000, 0, 14, "https://cdn/v.mp4"))
+        self.assertTrue(c["created"].startswith("2026-11-02T17:00:03"))
+        side = {"type": "Sidecar", "shortCode": "S1", "ownerUsername": "dualipa",
+                "childPosts": [{"type": "Image", "displayUrl": f"https://cdn/{i}.jpg"} for i in range(6)] + [{"type": "Video", "displayUrl": "x"}]}
+        self.assertEqual(cs.apify_photos(side, "")["photos"], [f"https://cdn/{i}.jpg" for i in range(4)])
+        self.assertEqual(cs.apify_photos({"type": "Image", "shortCode": "I1", "displayUrl": "https://cdn/i.jpg"}, "")["photos"], ["https://cdn/i.jpg"])
+        self.assertIsNone(cs.apify_clip({"type": "Image", "shortCode": "I1"}, ""))
+        self.assertIsNone(cs.apify_photos(reel, ""))
+
+    def test_instagram_is_read_once_a_day_and_never_past_the_free_credit(self):
+        now = cs.datetime(2026, 11, 2, 9, tzinfo=cs.timezone.utc)
+        calls = []
+        def fake(path, token, body=None, timeout=60):
+            calls.append(path)
+            if path == "users/me/limits":
+                return {"data": {"current": {"monthlyUsageUsd": used}}}
+            return [{"type": "Video", "shortCode": "R1", "videoUrl": "u", "ownerUsername": "dualipa"},
+                    {"type": "Image", "shortCode": "I1", "displayUrl": "d", "ownerUsername": "dualipa"},
+                    {"type": "Image", "shortCode": "I2", "displayUrl": "d", "ownerUsername": "service95bookclub"}]
+        old = cs.apify
+        cs.apify = fake
+        try:
+            used = 4.9
+            self.assertIn("skip", cs.ig_apify({}, "t", now))
+            used, state = 0.4, {}
+            got = cs.ig_apify(state, "t", now)
+            self.assertEqual([c["id"] for c in got["clips"]], ["ig:R1"])
+            self.assertEqual([p["id"] for p in got["photos"]], ["ig:I1"])  # another owner's post is no star photo
+            n = len(calls)
+            self.assertIn("skip", cs.ig_apify(state, "t", now))
+            self.assertEqual(len(calls), n)  # nothing asked of Apify the second time today
+        finally:
+            cs.apify = old
+
+    def social_post(self, **kw):
+        base = {"platform": "x", "id": "x:1", "link": "https://x.com/albinkurti/status/1", "author": "albinkurti",
+                "author_name": "Albin Kurti", "caption": "Serbia must recognise Kosovo. No more games, no more delays.",
+                "created": "2026-11-02T08:00:00+00:00", "likes": 4200, "comments": 300, "plays": 90000, "photos": []}
+        return {**base, **kw}
+
+    def test_the_social_desk_takes_only_watched_people_fresh_and_big_once_a_day(self):
+        now = cs.datetime(2026, 11, 2, 12, tzinfo=cs.timezone.utc)
+        posts = [self.social_post(),
+                 self.social_post(id="x:2", author="AlbinKurti_fan", author_name="Albin Kurti fan"),     # not watched
+                 self.social_post(id="x:3", author="ediramaal", author_name="Rama Fans"),                # name lacks "Rama"? has it
+                 self.social_post(id="x:4", author="vjosaosmani", author_name="Someone else"),           # wrong name
+                 self.social_post(id="x:5", likes=10),                                                   # too small
+                 self.social_post(id="x:6", created="2026-10-30T08:00:00+00:00"),                        # too old
+                 self.social_post(id="ig:A", platform="instagram", author="dualipa", author_name="DUA LIPA", likes=900000,
+                                  caption="", photos=["https://cdn/a.jpg"])]
+        state = {"social_done": {"x:3": "2026-11-02T09:00:00+00:00"}, "social_people": {"2026-11-02": ["Dua Lipa"]}}
+        got = cs.social_candidates(state, posts, now)
+        self.assertEqual([c["id"] for c in got], ["x:1"])
+        self.assertEqual((got[0]["person"], got[0]["desk"]), ("Albin Kurti", "Kosovë"))
+        self.assertEqual([c["id"] for c in cs.social_candidates({}, posts, now)], ["ig:A", "x:1", "x:3"])
+
+    def test_a_social_article_carries_the_post_its_photo_credit_and_html_paragraphs(self):
+        now = cs.datetime(2026, 11, 2, 12, tzinfo=cs.timezone.utc)
+        post = {**self.social_post(platform="instagram", author="dualipa", author_name="DUA LIPA",
+                                   link="https://www.instagram.com/p/A/", likes=1234567), "person": "Dua Lipa", "desk": "Showbiz"}
+        w = {"title": "Dua Lipa ndez rrjetin me fotot e reja nga Halloween", "excerpt": "Këngëtarja publikoi fotot e saj të reja.",
+             "body": "Paragrafi i parë <b>.\n\nParagrafi i dytë.", "caption": "Dua Lipa në fotot e reja", "score": 7}
+        img = {"url": "https://s/news/a.jpg", "width": 1080, "height": 1350,
+               "rights": {"creator": "Instagram / @dualipa", "provider": "social-post", "source_page": post["link"]}}
+        art = cs.social_article(post, w, img, "social-2026-11-02T1215", now)
+        self.assertEqual(art["body"], "<p>Paragrafi i parë &lt;b&gt;.</p><p>Paragrafi i dytë.</p>")
+        self.assertTrue(art["slug"].startswith("dua-lipa-ndez-rrjetin-me-fotot-e-reja-nga-halloween-"))
+        self.assertEqual((art["category"], art["social_platform"], art["social_post_url"]), ("Showbiz", "instagram", post["link"]))
+        self.assertEqual(art["raw_article"]["image_rights"]["creator"], "Instagram / @dualipa")
+        self.assertEqual(art["raw_article"]["image_caption"], "Dua Lipa në fotot e reja")
+        self.assertEqual(art["score_reason"], "Postim i Dua Lipa në Instagram: 1.234.567 pëlqime")
+        self.assertNotIn("raw_article", art["raw_article"])
+        json = __import__("json")
+        json.dumps(art, ensure_ascii=False)
+
+    def test_the_social_desk_publishes_one_batch_and_remembers_what_it_judged(self):
+        now = cs.datetime(2026, 11, 2, 12, tzinfo=cs.timezone.utc)
+        posts = [self.social_post(), self.social_post(id="x:9", author="ediramaal", author_name="Edi Rama", likes=8000)]
+        calls = []
+        olds = (cs.gemini_json, cs.social_image, cs.rest)
+        cs.gemini_json = lambda prompt: {"articles": [
+            {"id": "x:1", "title": "Kurti: Serbia duhet ta njohë Kosovën, pa më lojëra", "excerpt": "Kryeministri shkroi në X se koha e vonesave ka mbaruar.",
+             "body": "Kryeministri Albin Kurti shkroi në X se Serbia duhet ta njohë Kosovën. " * 6, "caption": "Albin Kurti", "score": 8},
+            {"id": "x:9", "title": "Rama uron", "excerpt": "x", "body": "y", "score": 3}]}
+        cs.social_image = lambda post, stem: {"url": "https://s/c.jpg", "width": 1200, "height": 675,
+                                               "rights": {"creator": "383", "provider": "383-card", "source_page": post["link"]}}
+        cs.rest = lambda method, table, payload, query="", prefer="": (calls.append((table, payload)), (201, b""))[1]
+        try:
+            state = {}
+            got = cs.social_desk(state, posts, now)
+        finally:
+            cs.gemini_json, cs.social_image, cs.rest = olds
+        self.assertEqual([a["id"][:7] for a in got], ["social-"])
+        self.assertEqual([c[0] for c in calls], ["news_batches", "news_articles"])
+        self.assertEqual(calls[0][1]["article_count"], 1)
+        self.assertEqual(calls[1][1][0]["batch_key"], calls[0][1]["batch_key"])
+        self.assertEqual(sorted(state["social_done"]), ["x:1", "x:9"])
+        self.assertEqual(state["social_people"], {"2026-11-02": ["Albin Kurti"]})
+
+    def test_a_text_only_x_post_gets_a_383_quote_card(self):
+        import shutil
+        import tempfile
+        if not shutil.which("ffmpeg"):
+            self.skipTest("no ffmpeg")
+        font = next((f for f in ("C:/Windows/Fonts/arialbd.ttf", cs.FONT) if cs.os.path.exists(f)), None)
+        if not font:
+            self.skipTest("no font")
+        old = cs.FONT
+        cs.FONT = font
+        try:
+            with tempfile.TemporaryDirectory() as tmp:
+                work = cs.Path(tmp)
+                post = {**self.social_post(caption="Serbia must recognise Kosovo. No more games, no more delays, no more excuses "
+                                                   "from Belgrade: the agreement is on the table and it must be implemented now."),
+                        "person": "Albin Kurti"}
+                out = work / "photo.jpg"
+                self.assertTrue(cs.quote_card(post, out, work))
+                self.assertEqual(cs.probe_size(out), (1200, 675))
+        finally:
+            cs.FONT = old
+
     def test_pages_selling_a_pirate_stream_are_never_sources(self):
         self.assertTrue(cs.pirate({"author": "bbvks.com", "caption": "Prank-u i Fuegos"}))
         self.assertTrue(cs.pirate({"author": "bbk_live", "caption": "SHIKO FALAS BIG BROTHER VIP 24/7"}))

@@ -155,6 +155,16 @@ IG_HASHTAGS = ["kosova", "shqiperi", "prishtina", "tirana", "albania", "bigbroth
 IG_PER_TAG = 30
 IG_WATCH_POLLS = 4      # with the five hashtags, nine requests a run: Instagram stops a pushier scraper
 IG_WATCH_MIN_PLAYS = 50_000
+# Instagram refuses the spare account's cookie, so it is read through Apify's Instagram Scraper
+# (apify.com/apify/instagram-scraper, pay per result: $2.70 per 1,000 on the free plan's $5 a month).
+# Once a day: the stars' last posts and the reels of the four watched Albanian pages read the longest
+# ago, at most 5 x 6 + 4 x 5 = 50 results, ~1,500 a month. (A hashtag gives only the newest posts there,
+# shops with no likes; TikTok and X find the viral clips, Instagram adds the stars and the known pages.)
+APIFY_IG = "https://api.apify.com/v2/acts/apify~instagram-scraper/run-sync-get-dataset-items"
+IG_APIFY_PER_STAR = 6
+IG_APIFY_PAGES = 4
+IG_APIFY_PER_PAGE = 5
+IG_APIFY_MAX_USD = 4.5   # what the month may have used before a read; Apify stops the account at $5
 
 ALBANIAN_WORDS = re.compile(r"(?i)(?<![\wçë])(dhe|është|eshte|për|per|nga|shqip\w*|kosov\w*|prishtin\w*|tiran\w*|"
                             r"shqipëri\w*|shqiperi\w*|durr\w*|prizren\w*|vlor\w*|ferizaj|gjakov\w*|mitrovic\w*|"
@@ -342,7 +352,7 @@ def collect_child(name: str) -> int:
     try:
         if name == "x":
             import asyncio
-            got = asyncio.run(x_collect(payload.get("terms") or []))
+            got = asyncio.run(x_collect(payload.get("terms") or [], payload.get("people") or []))
         else:
             got = ig_collect(payload.get("watch") or [])
     except Exception as exc:  # noqa: BLE001  (whatever broke is the health line the editor reads)
@@ -374,7 +384,7 @@ def x_clip(tw, found_by: str) -> dict | None:
     }
 
 
-async def x_collect(terms: list[str]) -> dict:
+async def x_collect(terms: list[str], payload_people: list[str] | None = None) -> dict:
     """X through twscrape and the spare account: what Albanian X is saying today (its tweets, for
     the trends the scout counts itself), then the Top video posts for Albanian X and for each of
     the terms (the last run's trends and topics)."""
@@ -412,11 +422,21 @@ async def x_collect(terms: list[str]) -> dict:
             failed += 1
             limited += type(exc).__name__ == "NoAccountError"
             print(f"SCOUT X search {q[:60]}: {exc!r}"[:240], file=sys.stderr)
+    posts = []
+    people = [h for h in (payload_people or []) if re.fullmatch(r"[A-Za-z0-9_]{1,15}", h)]
+    if people:
+        q = "(" + " OR ".join(f"from:{h}" for h in people) + f") -filter:replies since:{day}"
+        try:
+            async for tw in api.search(q, limit=X_NEWS_LIMIT, kv={"product": "Latest"}):
+                if post := x_post(tw):
+                    posts.append(post)
+        except Exception as exc:  # noqa: BLE001
+            print(f"SCOUT X people: {exc!r}"[:240], file=sys.stderr)
     if failed == len(queries) + len(X_TALK):
         if limited == failed:  # twscrape has the account resting until X's quarter-hour limit resets
             return {"error": "X rate limit: the spare account's searches were used up; it is back in 15 minutes"}
         return {"error": "every X search failed (cookie expired? re-export x.com_cookies.txt)"}
-    return {"clips": clips, "talk": talk}
+    return {"clips": clips, "talk": talk, "posts": posts}
 
 
 def x_browser_trends() -> list[dict]:
@@ -557,6 +577,111 @@ def ig_raw_photos(m: dict, found_by: str) -> dict | None:
         "likes": int(m.get("like_count") or 0), "comments": int(m.get("comment_count") or 0), "photos": urls[:4],
         "found_by": found_by,
     }
+
+
+def apify_time(ts: str) -> str:
+    try:
+        return datetime.fromisoformat(str(ts).replace("Z", "+00:00")).isoformat()
+    except ValueError:
+        return ""
+
+
+def apify_clip(it: dict, found_by: str) -> dict | None:
+    """A reel from Apify's Instagram Scraper as the scout's candidate (the same fields as ig_raw_clip)."""
+    if it.get("type") != "Video" or not it.get("shortCode") or not it.get("videoUrl"):
+        return None
+    return {
+        "platform": "instagram", "id": f"ig:{it['shortCode']}", "vid": it["shortCode"],
+        "link": f"https://www.instagram.com/reel/{it['shortCode']}/", "caption": str(it.get("caption") or "")[:600],
+        "language": "", "created": apify_time(it.get("timestamp") or ""),
+        "author": str(it.get("ownerUsername") or ""), "author_name": str(it.get("ownerFullName") or ""), "followers": 0,
+        "plays": int(it.get("videoPlayCount") or it.get("videoViewCount") or 0),
+        "likes": max(int(it.get("likesCount") or 0), 0), "comments": int(it.get("commentsCount") or 0),
+        "shares": 0, "saves": 0, "duration": int(float(it.get("videoDuration") or 0)), "music": "",
+        "cover": str(it.get("displayUrl") or ""), "media_url": str(it["videoUrl"]), "found_by": found_by,
+    }
+
+
+def apify_photos(it: dict, found_by: str) -> dict | None:
+    """A star's own photo post from Apify (one picture or a carousel's, at most four) as a cut's stills."""
+    if it.get("type") not in ("Image", "Sidecar") or not it.get("shortCode"):
+        return None
+    if it["type"] == "Sidecar":
+        urls = [str(c.get("displayUrl")) for c in it.get("childPosts") or []
+                if isinstance(c, dict) and c.get("type") != "Video" and c.get("displayUrl")]
+        urls = urls or [str(u) for u in it.get("images") or [] if u]
+    else:
+        urls = [str(it["displayUrl"])] if it.get("displayUrl") else []
+    if not urls:
+        return None
+    return {
+        "platform": "instagram", "kind": "photo", "id": f"ig:{it['shortCode']}", "vid": it["shortCode"],
+        "link": f"https://www.instagram.com/p/{it['shortCode']}/", "caption": str(it.get("caption") or "")[:600],
+        "created": apify_time(it.get("timestamp") or ""),
+        "author": str(it.get("ownerUsername") or ""), "author_name": str(it.get("ownerFullName") or ""),
+        "likes": max(int(it.get("likesCount") or 0), 0), "comments": int(it.get("commentsCount") or 0),
+        "photos": urls[:4], "found_by": found_by,
+    }
+
+
+def apify(path: str, token: str, body: dict | None = None, timeout: int = 60):
+    req = urllib.request.Request(f"https://api.apify.com/v2/{path}", method="POST" if body is not None else "GET",
+                                 data=json.dumps(body).encode() if body is not None else None,
+                                 headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as res:
+        return json.loads(res.read())
+
+
+def ig_apify(state: dict, token: str, now: datetime) -> dict:
+    """Instagram once a day through Apify: the stars' last posts (their photos and reels) and the last
+    reels of the watched Albanian pages read the longest ago. Skipped when today was read, or when the
+    month's credit is nearly used."""
+    day = now.date().isoformat()
+    if state.get("ig_apify_day") == day:
+        return {"skip": "read once today through Apify"}
+    try:
+        used = float(((apify("users/me/limits", token).get("data") or {}).get("current") or {}).get("monthlyUsageUsd") or 0)
+    except (urllib.error.URLError, OSError, ValueError) as exc:
+        return {"error": f"Apify: {exc}"[:160]}
+    if used >= IG_APIFY_MAX_USD:
+        return {"skip": f"Apify credit nearly used this month (${used:.2f} of $5): back when the month turns"}
+    state["ig_apify_day"] = day
+    clips, photos, notes, news = [], [], [], []
+    watch = state.setdefault("ig_watch", {})
+    pages = [n for n in sorted(watch, key=lambda n: watch[n].get("polled", "")) if n not in CELEBS_IG][:IG_APIFY_PAGES]
+    for name in pages:
+        watch[name]["polled"] = now.isoformat()
+    last = state.get("ig_apify_at") or ""
+    since = (datetime.fromisoformat(last) - timedelta(hours=2)).strftime("%Y-%m-%dT%H:%M:%SZ") if last else "2 days"
+    state["ig_apify_at"] = now.isoformat()
+    people = list(dict.fromkeys(CELEBS_IG + sorted(NEWS_PEOPLE["instagram"])))
+    reads = (([f"https://www.instagram.com/{n}/" for n in people], IG_APIFY_PER_STAR, since),
+             ([f"https://www.instagram.com/{n}/reels/" for n in pages], IG_APIFY_PER_PAGE, since))
+    for urls, limit, since in reads:
+        if not urls:
+            continue
+        try:
+            items = apify("acts/apify~instagram-scraper/run-sync-get-dataset-items?timeout=280", token,
+                          {"resultsType": "posts", "directUrls": urls, "resultsLimit": limit, "onlyPostsNewerThan": since,
+                           "skipPinnedPosts": True, "addParentData": True}, timeout=320)
+        except (urllib.error.URLError, OSError, ValueError) as exc:
+            notes.append(f"Apify: {exc}"[:160])
+            continue
+        for it in items if isinstance(items, list) else []:
+            if not isinstance(it, dict) or it.get("error"):
+                continue
+            star = it.get("ownerUsername") in CELEBS_IG
+            if str(it.get("ownerUsername") or "").lower() in NEWS_PEOPLE["instagram"] and (post := apify_post(it)):
+                news.append(post)
+            found_by = f"IG @{it.get('ownerUsername')}"
+            if c := apify_clip(it, found_by):
+                clips.append(c)
+            elif star and (ph := apify_photos(it, found_by)):
+                photos.append(ph)
+    if notes and not clips and not photos and not news:
+        return {"error": "; ".join(notes[:2])}
+    return {"clips": list({c["id"]: c for c in clips}.values()), "photos": list({x["id"]: x for x in photos}.values()), "notes": notes,
+            "news": list({x["id"]: x for x in news}.values())}
 
 
 def ig_problem(text: str) -> str:
@@ -913,6 +1038,8 @@ def download(clip: dict, out: Path) -> bool:
         if TT_COOKIES.exists() and ytdlp(clip["link"], out, ["--cookies", str(TT_COOKIES)]):
             return True
         return tiktok_session_download(clip["vid"], out)
+    if clip["platform"] == "instagram" and clip.get("media_url") and fetch_file(clip["media_url"], out):
+        return True
     if clip["platform"] in ("x", "instagram"):
         jar = X_COOKIES if clip["platform"] == "x" else IG_COOKIES
         if ytdlp(clip["link"], out, (["--cookies", str(jar)] if jar.exists() else []) + ["-f", "bv*[height<=1920]+ba/b"]):
@@ -1520,6 +1647,352 @@ def count_line(clips: list[dict], noun: str = "video") -> str:
     return f"{len(clips)} {noun}"
 
 
+# ── Social desk: the public figures' own posts as 383 articles ──────────────
+# Lind 2026-11-02: a star's new photos that go viral, a dramatic opinion or announcement on X or
+# Instagram, become a short news article on the site (music stars, footballers, politicians on X).
+# Their own photo is the article's image, credited to the account (Lind chose this over embeds);
+# a text-only X post gets a 383 quote card. One article a person a day, at most SOCIAL_PER_RUN a run.
+# Handles checked 2026-11-02 against the profile (name, verified badge, followers); a post only
+# counts when the account's name carries the person's surname, so a wrong handle writes nothing.
+NEWS_PEOPLE = {
+    "instagram": {
+        "dualipa": ("Dua Lipa", "Showbiz"), "ritaora": ("Rita Ora", "Showbiz"), "beberexha": ("Bebe Rexha", "Showbiz"),
+        "eraistrefi": ("Era Istrefi", "Showbiz"), "avamax": ("Ava Max", "Showbiz"), "butrintimeri": ("Butrint Imeri", "Showbiz"),
+        "noizy": ("Noizy", "Showbiz"), "granitxhaka": ("Granit Xhaka", "Sport"), "vedatmuriqi": ("Vedat Muriqi", "Sport"),
+        "kristjanasllani": ("Kristjan Asllani", "Sport"),
+    },
+    "x": {
+        "albinkurti": ("Albin Kurti", "Kosovë"), "vjosaosmani": ("Vjosa Osmani", "Kosovë"), "ediramaal": ("Edi Rama", "Shqipëri"),
+        "sali_berisha": ("Sali Berisha", "Shqipëri"), "dualipa": ("Dua Lipa", "Showbiz"), "ritaora": ("Rita Ora", "Showbiz"),
+        "beberexha": ("Bebe Rexha", "Showbiz"),
+    },
+}
+SOCIAL_MIN_LIKES = {"instagram": 2_000, "x": 200}
+SOCIAL_MAX_AGE_H = 36
+SOCIAL_PER_RUN = 3
+SOCIAL_ASK = 10          # posts the model judges a run, most liked first
+X_NEWS_LIMIT = 60
+SOCIAL_MODELS = [m for m in os.environ.get("L383_SOCIAL_MODELS", "gemini-2.5-flash,gemini-3.1-flash-lite").split(",") if m]
+ASSETS = Path(__file__).resolve().parent / "assets"
+
+
+def x_post(tw) -> dict | None:
+    """A public figure's own X post (not a reply's parent, not a repost) for the social desk."""
+    user = getattr(tw, "user", None)
+    if user is None or not getattr(tw, "id", None) or getattr(tw, "retweetedTweet", None):
+        return None
+    media = getattr(tw, "media", None)
+    photos = [str(ph.url) for ph in (getattr(media, "photos", None) or []) if getattr(ph, "url", None)]
+    date = getattr(tw, "date", None)
+    name = str(getattr(user, "username", "") or "")
+    return {
+        "platform": "x", "id": f"x:{tw.id}", "link": str(getattr(tw, "url", "") or f"https://x.com/{name}/status/{tw.id}"),
+        "author": name, "author_name": str(getattr(user, "displayname", "") or ""),
+        "caption": str(getattr(tw, "rawContent", "") or "")[:1500], "created": date.isoformat() if date else "",
+        "likes": int(getattr(tw, "likeCount", 0) or 0), "comments": int(getattr(tw, "replyCount", 0) or 0),
+        "shares": int(getattr(tw, "retweetCount", 0) or 0) + int(getattr(tw, "quoteCount", 0) or 0),
+        "plays": int(getattr(tw, "viewCount", 0) or 0), "photos": photos[:4],
+        "has_video": bool(getattr(media, "videos", None)),
+    }
+
+
+def apify_post(it: dict) -> dict | None:
+    """Any of a watched person's Instagram posts (photos, carousel or reel) for the social desk."""
+    if not it.get("shortCode"):
+        return None
+    if it.get("type") == "Sidecar":
+        photos = [str(c.get("displayUrl")) for c in it.get("childPosts") or [] if isinstance(c, dict) and c.get("displayUrl")]
+        photos = photos or [str(u) for u in it.get("images") or [] if u]
+    else:
+        photos = [str(it["displayUrl"])] if it.get("displayUrl") else []
+    return {
+        "platform": "instagram", "id": f"ig:{it['shortCode']}", "link": f"https://www.instagram.com/p/{it['shortCode']}/",
+        "author": str(it.get("ownerUsername") or ""), "author_name": str(it.get("ownerFullName") or ""),
+        "caption": str(it.get("caption") or "")[:1500], "created": apify_time(it.get("timestamp") or ""),
+        "likes": max(int(it.get("likesCount") or 0), 0), "comments": int(it.get("commentsCount") or 0), "shares": 0,
+        "plays": int(it.get("videoPlayCount") or it.get("videoViewCount") or 0), "photos": photos[:4],
+        "photo_count": 0 if it.get("type") == "Video" else len(photos), "has_video": it.get("type") == "Video",
+    }
+
+
+def fold(text: str) -> str:
+    import unicodedata
+    return unicodedata.normalize("NFKD", str(text)).encode("ascii", "ignore").decode().lower()
+
+
+def news_person(post: dict) -> tuple[str, str] | None:
+    """(name, desk) of the watched person who wrote this post, or None (an unknown account, or one
+    whose name does not carry the person's surname)."""
+    who = NEWS_PEOPLE.get(post.get("platform", ""), {}).get(str(post.get("author", "")).lower())
+    if not who:
+        return None
+    return who if fold(who[0].split()[-1]) in fold(post.get("author_name", "")) else None
+
+
+def social_candidates(state: dict, posts: list[dict], now: datetime) -> list[dict]:
+    done = state.setdefault("social_done", {})
+    for k in [k for k, at in done.items() if at < (now - timedelta(days=7)).isoformat()]:
+        del done[k]
+    day = now.date().isoformat()
+    wrote = (state.get("social_people") or {}).get(day) or []
+    oldest = (now - timedelta(hours=SOCIAL_MAX_AGE_H)).isoformat()
+    out = {}
+    for post in posts:
+        who = news_person(post)
+        if (not who or post["id"] in done or post["id"] in out or who[0] in wrote or not post.get("created")
+                or post["created"] < oldest or post.get("likes", 0) < SOCIAL_MIN_LIKES.get(post["platform"], 10**9)
+                or not (post.get("caption", "").strip() or post.get("photos"))):
+            continue
+        out[post["id"]] = {**post, "person": who[0], "desk": who[1]}
+    return sorted(out.values(), key=lambda c: c["likes"], reverse=True)[:SOCIAL_ASK]
+
+
+def gemini_json(prompt: str) -> dict | None:
+    import viral_cut
+    body = json.dumps({"contents": [{"parts": [{"text": prompt}]}],
+                       "generationConfig": {"responseMimeType": "application/json", "temperature": 0.3}}).encode()
+    for model in SOCIAL_MODELS:
+        for key in viral_cut.gemini_keys():
+            req = urllib.request.Request(f"{viral_cut.GEMINI}/{model}:generateContent?key={key}", data=body, method="POST",
+                                         headers={**HEADERS, "Content-Type": "application/json"})
+            try:
+                with urllib.request.urlopen(req, timeout=120) as res:
+                    got = json.loads(json.loads(res.read().decode("utf-8"))["candidates"][0]["content"]["parts"][0]["text"])
+                if isinstance(got, dict):
+                    return got
+            except urllib.error.HTTPError as exc:
+                print(f"SCOUT social desk {model}: HTTP {exc.code}", file=sys.stderr)
+                if exc.code not in (429, 500, 503):
+                    break
+            except (urllib.error.URLError, OSError, ValueError, KeyError, IndexError, TypeError) as exc:
+                print(f"SCOUT social desk {model}: {exc!r}"[:200], file=sys.stderr)
+    return None
+
+
+def social_prompt(cands: list[dict]) -> str:
+    rows = []
+    for c in cands:
+        rows.append(json.dumps({
+            "id": c["id"], "person": c["person"], "desk": c["desk"], "platform": PLATFORM_NAMES.get(c["platform"], c["platform"]),
+            "posted": c["created"][:16], "text": clean_caption(c.get("caption", ""))[:900],
+            "photos": c.get("photo_count", len(c.get("photos") or [])),
+            "video": bool(c.get("has_video")), "likes": c["likes"], "comments": c.get("comments", 0), "views": c.get("plays", 0),
+        }, ensure_ascii=False))
+    return (
+        "You are the social desk of 383, a Kosovo news site. Below are new posts by public figures on Instagram and X, "
+        "one JSON per line. Pick only the ones that are real news for Albanian readers: a dramatic or controversial "
+        "statement, an attack on or reply to someone, a strong political opinion or decision, an announcement (new song "
+        "or album, tour, transfer, injury, engagement, wedding, baby, award), or new photos of themselves that are drawing "
+        "big attention. Skip routine posts: adverts and sponsored posts, generic greetings and thanks, birthday wishes, "
+        "event reminders, posts with no substance. It is fine to pick none.\n"
+        "For each pick write in standard Albanian (as used in Kosovo), only from what the post says and the numbers given. "
+        "Never invent reasons, reactions, background, dates, places or quotes; if the text is in another language, quote "
+        "its key words translated into Albanian inside „...“. Say on which platform it was posted.\n"
+        "Fields: id; title (6 to 14 words, names the person, factual, may be lively but promises nothing the post does not "
+        "show); excerpt (one sentence, at most 30 words); body (3 to 5 short paragraphs of plain text separated by a blank "
+        "line: what was posted and where, the key words quoted, what it shows, and the attention it got with the numbers); "
+        "caption (one short line for the photo, e.g. \"Dua Lipa në fotot e reja që publikoi në Instagram\"); "
+        "score (1 to 10, how big a story it is for Albanian readers).\n"
+        "Reply with only JSON: {\"articles\": [{\"id\": \"...\", \"title\": \"...\", \"excerpt\": \"...\", \"body\": \"...\", "
+        "\"caption\": \"...\", \"score\": 7}]}\n\n" + "\n".join(rows))
+
+
+def slugify(text: str, tail: str) -> str:
+    base = re.sub(r"[^a-z0-9]+", "-", fold(text)).strip("-")[:70].rstrip("-")
+    return f"{base}-{tail}" if base else tail
+
+
+def probe_size(path: Path) -> tuple[int, int]:
+    done = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height",
+                           "-of", "csv=p=0", str(path)], capture_output=True, text=True, timeout=60, check=False)
+    try:
+        w, h = (int(v) for v in done.stdout.strip().split(",")[:2])
+        return w, h
+    except ValueError:
+        return 0, 0
+
+
+def quote_card(post: dict, out: Path, work: Path) -> bool:
+    """A 383 card for a text-only X post: the person, the account and their words, on 383's dark page."""
+    import shutil
+    import textwrap
+    words = clean_caption(post.get("caption", ""))
+    if len(words) < 20:
+        return False
+    lines = textwrap.wrap(words, 40)
+    if len(lines) > 7:
+        lines = lines[:7]
+        lines[-1] = lines[-1].rstrip(" .,;:") + " …"
+    lines[0], lines[-1] = "„" + lines[0], lines[-1] + "“"
+    for n, line in enumerate(lines):   # a line each: drawtext draws a box for a line break in some builds
+        (work / f"q{n}.txt").write_text(line, encoding="utf-8")
+    (work / "name.txt").write_text(post["person"], encoding="utf-8")
+    (work / "handle.txt").write_text(f"@{post['author']} në X", encoding="utf-8")
+    try:
+        shutil.copy(FONT, work / "font.ttf")
+    except OSError:
+        return False
+    logo = ASSETS / "383-mark.png"
+    inputs = ["-f", "lavfi", "-i", "color=c=0x0b0b0c:s=1200x675:d=1"] + (["-i", str(logo)] if logo.exists() else [])
+    draw = ("drawtext=fontfile=font.ttf:textfile=name.txt:fontcolor=white:fontsize=46:x=80:y=70,"
+            "drawtext=fontfile=font.ttf:textfile=handle.txt:fontcolor=0x9a958c:fontsize=28:x=80:y=130,"
+            "drawbox=x=80:y=185:w=90:h=6:color=0xff4422:t=fill,"
+            + ",".join(f"drawtext=fontfile=font.ttf:textfile=q{n}.txt:fontcolor=white:fontsize=40:x=80:y={230 + 56 * n}"
+                       for n in range(len(lines))))
+    graph = f"[0:v]{draw}[bg];[1:v]scale=110:-1[lg];[bg][lg]overlay=W-w-70:60" if logo.exists() else f"[0:v]{draw}"
+    done = subprocess.run(["ffmpeg", "-v", "error", "-y", *inputs, "-filter_complex", graph, "-frames:v", "1", "-q:v", "3", out.name],
+                          cwd=str(work), capture_output=True, text=True, timeout=120, check=False)
+    if done.returncode != 0:
+        print(f"SCOUT quote card: {done.stderr[-300:]}", file=sys.stderr)
+    return done.returncode == 0 and out.exists()
+
+
+def social_image(post: dict, stem: str) -> dict | None:
+    """The article's image on 383's storage: the person's own photo from the post, or for a
+    text-only X post a 383 quote card. None when there is neither."""
+    with tempfile.TemporaryDirectory(prefix="383-social-") as tmp:
+        work = Path(tmp)
+        raw, out = work / "raw", work / "photo.jpg"
+        if post.get("photos"):
+            if not fetch_file(post["photos"][0], raw, 15_000):
+                return None
+            done = subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(raw), "-vf", "scale='min(1600,iw)':-2",
+                                   "-frames:v", "1", "-q:v", "3", str(out)], capture_output=True, timeout=120, check=False)
+            if done.returncode != 0 or not out.exists():
+                return None
+            rights = {"creator": f"{PLATFORM_NAMES.get(post['platform'], post['platform'])} / @{post['author']}",
+                      "provider": "social-post", "source_page": post["link"]}
+        elif post["platform"] == "x" and quote_card(post, out, work):
+            rights = {"creator": "383", "provider": "383-card", "source_page": post["link"]}
+        else:
+            return None
+        w, h = probe_size(out)
+        if w < 600 or h < 300 or not upload(f"{stem}.jpg", out.read_bytes(), "image/jpeg"):
+            return None
+        return {"url": public_url(f"{stem}.jpg"), "width": w, "height": h, "rights": rights}
+
+
+def rest(method: str, table: str, payload, query: str = "", prefer: str = "return=minimal") -> tuple[int, bytes]:
+    key = os.environ["SUPABASE_SERVICE_ROLE_KEY"]
+    req = urllib.request.Request(f"{os.environ['NEXT_PUBLIC_SUPABASE_URL'].rstrip('/')}/rest/v1/{table}{query}",
+                                 data=json.dumps(payload, ensure_ascii=False).encode(), method=method,
+                                 headers={**HEADERS, "Authorization": f"Bearer {key}", "apikey": key,
+                                          "Content-Type": "application/json", "Prefer": prefer})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as res:
+            return res.status, res.read()
+    except urllib.error.HTTPError as exc:
+        return exc.code, exc.read()
+    except (urllib.error.URLError, OSError) as exc:
+        return 0, str(exc).encode()
+
+
+def html_body(text: str) -> str:
+    esc = lambda t: t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")  # noqa: E731
+    parts = [re.sub(r"\s+", " ", x).strip() for x in re.split(r"\n\s*\n", str(text or ""))]
+    return "".join(f"<p>{esc(x)}</p>" for x in parts if x)
+
+
+def social_article(post: dict, written: dict, image: dict, batch_key: str, now: datetime) -> dict:
+    body = html_body(written["body"])
+    words = len(re.sub(r"<[^>]+>", " ", body).split())
+    tail = hashlib.sha1(post["id"].encode()).hexdigest()
+    at = now.isoformat()
+    platform = PLATFORM_NAMES.get(post["platform"], post["platform"])
+    caption = str(written.get("caption") or f"{post['person']} në postimin e publikuar në {platform}")[:200]
+    article = {
+        "id": f"social-{tail[:20]}", "slug": slugify(written["title"], tail[:6]), "url": post["link"], "dispatch": batch_key,
+        "title": written["title"].strip(), "excerpt": written["excerpt"].strip(), "body": body,
+        "source": platform, "source_flag": "", "source_bias": "neutral", "tone": "neutral", "category": post["desk"],
+        "city": None, "published_at": at, "reading_time": max(1, round(words / 200)), "featured": False,
+        "engagement_score": float(written["score"]),
+        "score_reason": f"Postim i {post['person']} në {platform}: {post['likes']:,} pëlqime".replace(",", "."),
+        "score_breakdown": {"model_score": written["score"], "likes": post["likes"], "comments": post.get("comments", 0),
+                            "views": post.get("plays", 0)},
+        "score_formula": "social desk: the model's 1-10 news value of a public figure's own post",
+        "image_url": image["url"], "image_width": image["width"], "image_height": image["height"], "video_clip_url": None,
+        "social_platform": post["platform"], "social_post_account": post["author"], "social_post_url": post["link"],
+        "social_post_basis": "the person's own post", "created_at": at,
+    }
+    article["raw_article"] = {**{k: v for k, v in article.items() if k != "raw_article"}, "image_caption": caption,
+                              "image_rights": image["rights"], "image_subject": post["person"],
+                              "social_post": {k: post.get(k) for k in ("platform", "author", "link", "caption", "created", "likes",
+                                                                       "comments", "plays")}}
+    return article
+
+
+def good_writing(w: dict) -> bool:
+    return (isinstance(w, dict) and 20 <= len(str(w.get("title") or "")) <= 140 and 30 <= len(str(w.get("excerpt") or "")) <= 300
+            and len(str(w.get("body") or "")) >= 250 and isinstance(w.get("score"), (int, float)) and 1 <= w["score"] <= 10)
+
+
+def social_desk(state: dict, posts: list[dict], now: datetime) -> list[dict]:
+    """New articles from the watched people's own posts, published straight to news_articles."""
+    if os.environ.get("L383_SOCIAL_DESK", "1") == "0":
+        return []
+    cands = social_candidates(state, posts, now)
+    if not cands:
+        return []
+    got = gemini_json(social_prompt(cands))
+    if got is None and os.environ.get("GROQ_API_KEY"):
+        got = groq_json(social_prompt(cands), os.environ["GROQ_API_KEY"], "social desk")
+    if not isinstance(got, dict):
+        return []   # nothing marked done: the same posts are judged again next run
+    by_id = {c["id"]: c for c in cands}
+    for c in cands:
+        state["social_done"][c["id"]] = now.isoformat()
+    picks = sorted((w for w in got.get("articles") or [] if isinstance(w, dict) and w.get("id") in by_id and good_writing(w)),
+                   key=lambda w: w["score"], reverse=True)
+    batch_key = f"social-{now:%Y-%m-%dT%H%M}"
+    day, people, out = now.date().isoformat(), set(), []
+    for w in picks:
+        post = by_id[w["id"]]
+        if len(out) >= SOCIAL_PER_RUN or post["person"] in people or w["score"] < 5:
+            continue
+        image = social_image(post, f"news/{day}/{re.sub(r'[^a-z0-9]+', '-', post['id'].lower())}")
+        if not image:
+            print(f"SCOUT social desk: no image for {post['link']}", file=sys.stderr)
+            continue
+        out.append(social_article(post, w, image, batch_key, now))
+        people.add(post["person"])
+    if not out:
+        return []
+    status, reply = rest("POST", "news_batches", {"batch_key": batch_key, "scheduled_slot": batch_key,
+                                                  "source_file": "clip_scout social desk", "article_count": len(out)},
+                         "?on_conflict=batch_key", "resolution=ignore-duplicates,return=minimal")
+    if status not in (200, 201, 204):
+        print(f"SCOUT social desk batch failed: HTTP {status} {reply[:200]!r}", file=sys.stderr)
+        return []
+    status, reply = rest("POST", "news_articles", [{**a, "batch_key": batch_key} for a in out])
+    if status not in (200, 201, 204):
+        print(f"SCOUT social desk articles failed: HTTP {status} {reply[:300]!r}", file=sys.stderr)
+        return []
+    state.setdefault("social_people", {})
+    state["social_people"] = {day: sorted(set((state["social_people"].get(day) or [])) | people)}
+    for a in out:
+        print(f"SCOUT social desk published: {a['title']} ({a['category']}; {a['url']})")
+    return out
+
+
+def email_social(articles: list[dict]) -> bool:
+    esc = lambda t: str(t or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")  # noqa: E731
+    subject = (f"383 Lajme nga rrjetet: {articles[0]['title'][:70]}" if len(articles) == 1
+               else f"383 Lajme nga rrjetet: {len(articles)} artikuj · {articles[0]['title'][:50]}")
+    text = "\n\n".join(f"{a['title']} ({a['category']}) {SITE}/article/{a['slug']}\n  Postimi: {a['url']}" for a in articles)
+    rows = "".join(
+        f'<tr><td style="padding:12px 12px 12px 0;vertical-align:top"><img src="{esc(a["image_url"])}" width="160" '
+        f'style="border-radius:8px;display:block"></td><td style="padding:12px 0;vertical-align:top;font-family:Arial,sans-serif">'
+        f'<div style="font-size:12px;color:#FF4422;font-weight:700">{esc(a["category"]).upper()}</div>'
+        f'<div style="font-size:17px;font-weight:700;margin:4px 0 6px">{esc(a["title"])}</div>'
+        f'<div style="font-size:14px;color:#444;margin-bottom:6px">{esc(a["excerpt"])}</div>'
+        f'<a href="{SITE}/article/{esc(a["slug"])}" style="color:#111;font-weight:700">Shiko në 383</a> · '
+        f'<a href="{esc(a["url"])}">Postimi origjinal</a></td></tr>' for a in articles)
+    html = (f'<div style="font-family:Arial,sans-serif"><h2 style="margin:0 0 4px">{len(articles)} lajme nga rrjetet sociale</h2>'
+            f'<p style="color:#555;margin:0 0 8px">U publikuan tani në <a href="{SITE}">383ks.com</a> nga postimet e vetë personave.</p>'
+            f'<table>{rows}</table></div>')
+    return send_mail(subject, text, html, "383 Lajme sociale")
+
+
 def main(dry_run: bool = False) -> int:
     now, started = datetime.now(timezone.utc), time.time()
     state = load_state()
@@ -1530,7 +2003,7 @@ def main(dry_run: bool = False) -> int:
     topics_before = [str(t) for t in (state.get("topics") or {}).get("terms") or []][:6]
     x_before = [str(t) for t in (state.get("x_trends") or {}).get("terms") or []][:6]
     browser = x_browser_trends()
-    x = run_collector("x", {"terms": x_before + topics_before})
+    x = run_collector("x", {"terms": x_before + topics_before, "people": sorted(NEWS_PEOPLE["x"])})
     pool = [c for c in x.get("clips") or [] if isinstance(c, dict)]
     talk = [t for t in x.get("talk") or [] if isinstance(t, dict)]
     x_trends = x_trending(talk, browser, state)
@@ -1555,21 +2028,14 @@ def main(dry_run: bool = False) -> int:
         youtube = collect_youtube(["kosova", "shqiperi", "prishtina", "tirana"] + trend_terms()[:4])
         health["YouTube"] = (bool(youtube), count_line(youtube) if youtube else "nothing came back")
         pool += youtube
-        # Instagram last and slowest: the watched creators that were read the longest ago.
-        ig_watch = state.setdefault("ig_watch", {})
-        # One of the stars each run, in turn, then the watched creators read the longest ago.
-        turn = int(state.get("celeb_turn") or 0) % len(CELEBS_IG)
-        state["celeb_turn"] = turn + 1
-        due = [CELEBS_IG[turn]] + [n for n in sorted(ig_watch, key=lambda n: ig_watch[n].get("polled", ""))
-                                   if n not in CELEBS_IG][:IG_WATCH_POLLS - 1]
-        ig = run_collector("instagram", {"watch": due})
-        for name in due:
-            ig_watch.setdefault(name, {"polled": ""})["polled"] = now_iso()
-        for name, median in (ig.get("baselines") or {}).items():
-            state.setdefault("authors", {})[f"instagram:{name}"] = {"median": int(median), "at": now_iso()}
+        # Instagram last: once a day through Apify (Instagram refuses the spare account's cookie).
+        token = os.environ.get("APIFY_API_TOKEN", "").strip()
+        ig = ig_apify(state, token, now) if token else {"error": "off: no APIFY_API_TOKEN in news-pipeline.env"}
         ig_pool = [c for c in ig.get("clips") or [] if isinstance(c, dict)]
-        health["Instagram"] = (False, ig["error"]) if ig.get("error") else (True, count_line(ig_pool))
-        for c in ig_pool:
+        health["Instagram"] = ((False, ig["error"]) if ig.get("error") else (True, ig["skip"]) if ig.get("skip") else
+                               (True, f"{count_line(ig_pool)}, {count_line(ig.get('photos') or [], 'photo posts')} (Apify)"))
+        ig_watch = state.setdefault("ig_watch", {})
+        for c in ig_pool:  # an Albanian page whose reel went big is read again on later days
             if c.get("author") and c.get("plays", 0) >= IG_WATCH_MIN_PLAYS and is_albanian(c):
                 ig_watch.setdefault(c["author"], {"polled": ""})["hit"] = now_iso()
         if len(ig_watch) > WATCH_MAX:
@@ -1612,6 +2078,15 @@ def main(dry_run: bool = False) -> int:
         cuts = make_cuts(state, now, removed, started + CUT_DEADLINE)
         on_site_now = publish_viral(state, now, removed)
         health["Virale sot"] = (bool(on_site_now), f"{len(on_site_now)} në faqe, {len(cuts)} të reja këtë herë")
+        social_posts = [q for q in (ig.get("news") or []) + (x.get("posts") or []) if isinstance(q, dict)]
+        try:
+            social = social_desk(state, social_posts, now)
+        except Exception as exc:  # noqa: BLE001  (the desk never stops the scout)
+            print(f"SCOUT social desk failed: {exc!r}"[:300], file=sys.stderr)
+            social = []
+        health["Lajme sociale"] = (True, f"{len(social_posts)} postime të njerëzve të ndjekur, {len(social)} artikuj")
+        if social:
+            email_social(social)
         prune_raw(now)
         state["trending"] = {"at": now_iso(), **trending}
         live = {c["id"] for c in on_site_now}
