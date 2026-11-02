@@ -328,12 +328,12 @@ function kosovoDate(now = new Date()) {
   return new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Belgrade" }).format(now);
 }
 
-/** "Virale sot", the row beside the edition: today's cuts; until the first are made, the scout's
- * single finds as they were. Null with fewer than two. */
+/** "Virale sot", the row beside the edition: today's cuts (each clip watched, re-cut, the 383 logo
+ * on it). Null with fewer than two: the scout's single finds, with their headline band, never stand in. */
 export async function getViral(): Promise<Edition | null> {
-  const [viral, published, removed] = await readViral();
+  const [viral, , removed] = await readViral();
   const cuts = parseCuts(viral, removed);
-  const clips = cuts.length >= 2 ? cuts : parseViral(published, removed);
+  const clips = cuts;
   if (clips.length < 2) return null;
   const updatedAt = str((viral as Record<string, unknown> | null)?.updatedAt) || new Date().toISOString();
   return { date: kosovoDate(), updatedAt, clips };
