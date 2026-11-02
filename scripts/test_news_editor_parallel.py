@@ -20,12 +20,13 @@ class ParallelEditorTests(unittest.TestCase):
             root = Path(temporary)
             scripts = root / "scripts"
             scripts.mkdir()
-            for name in ("news_model_evidence.py", "editor_completion.py"):
+            for name in ("news_model_evidence.py", "editor_completion.py", "news_editor_decisions.py", "news_editor_checkpoint.py"):
                 shutil.copy2(ROOT / name, scripts / name)
             (scripts / "run-news-editor.sh").write_text(
                 '#!/usr/bin/env bash\nexec "$L383_PYTHON_BIN" "$3/scripts/editor_stub.py" "$2"\n', encoding="utf-8")
             (scripts / "editor_stub.py").write_text('''import json, os, sys, time
 from pathlib import Path
+from editor_completion import acknowledge
 batch = Path(sys.argv[1])
 rows = json.loads(batch.read_text())
 assert 1 <= len(rows) <= 3
@@ -41,6 +42,7 @@ if os.environ['EDITOR_TEST_FAIL'] == '1' and rows[0]['slug'] == 's06':
  raise SystemExit(1)
 for row in rows: row['checked'] = True
 batch.write_text(json.dumps(rows))
+acknowledge(batch)
 ''', encoding="utf-8")
             started = root / "started"
             started.mkdir()

@@ -7,6 +7,15 @@ from news_writer_recovery import prepare
 
 
 class RecoveryTests(unittest.TestCase):
+    def test_expanded_economy_drafts_go_to_review_before_optional_spare_recovery(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary)
+            discovery=root/'discovery.json'; discovery.write_text(json.dumps({'publication_plan':{'Ekonomi':31}}))
+            batch=root/'batch.json'; batch.write_text(json.dumps([
+                {'url':f'https://example/{n}','category':'Ekonomi'} for n in range(18)]))
+            attempted=root/'attempted.json'
+            self.assertEqual(prepare(discovery,batch,root,attempted),[])
+
     def test_recover_third_slot_without_repeating_failed_scope_or_consuming_successful_spares(self):
         with tempfile.TemporaryDirectory() as temporary:
             root=Path(temporary)

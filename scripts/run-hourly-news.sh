@@ -519,7 +519,9 @@ if [ "$EDITOR_RC" -eq 0 ] && [ "$(batch_count)" -eq 0 ]; then
   rm -f "$EDITOR_INPUT_BACKUP"
   return 0
 fi
-if [ "$EDITOR_RC" -ne 0 ] || ! "$PYTHON_BIN" scripts/editor_completion.py verify "$BATCH" >/dev/null 2>&1; then
+# A timed-out sibling must not erase completed, byte-verified chunks. Those
+# articles still pass through every downstream gate below, including copyright.
+if ! "$PYTHON_BIN" scripts/editor_completion.py verify "$BATCH" >/dev/null 2>&1; then
   printf '383 EDITOR RETRY: primary=%s rc=%s or completion missing; restoring original drafts for fallback=%s\n' "$EDITOR_MODEL" "$EDITOR_RC" "$FALLBACK_WRITER_MODEL" >&2
   cp "$EDITOR_INPUT_BACKUP" "$BATCH"
   rm -f "${BATCH%.json}.editor-complete.json"

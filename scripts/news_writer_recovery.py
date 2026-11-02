@@ -26,8 +26,13 @@ def prepare(discovery: Path, batch: Path, folder: Path, attempted: Path) -> list
     counts=Counter(row['category'] for row in articles)
     desks=sorted(CATEGORIES,key=lambda c:counts[c])
     from news_coverage import category_ceiling
-    return [(c,min(category_ceiling(c),data['publication_plan'].get(c,0))-counts[c]) for c in desks
-            if counts[c]<min(category_ceiling(c),data['publication_plan'].get(c,0))][:3]
+    # An expanded Economy desk already has a complete first-round queue.
+    # Do not spend its review window trying to write every remaining spare in
+    # one large recovery call. Ordinary post-review refill remains available.
+    def target(c):
+        ceiling = min(category_ceiling(c), data['publication_plan'].get(c,0))
+        return min(3, ceiling) if c == 'Ekonomi' else ceiling
+    return [(c,target(c)-counts[c]) for c in desks if counts[c]<target(c)][:3]
 
 
 if __name__=='__main__':

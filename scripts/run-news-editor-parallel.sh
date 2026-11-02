@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# The Albanian copy editor: one Showbiz draft, otherwise up to three; five calls at a time.
+# The Albanian copy editor: one Showbiz draft, two Economy briefs, otherwise up to three.
 # Five-draft calls took about nine minutes in the October 23 QA run, leaving too
 # little time for review and replacements. Smaller independent calls retain
 # the same evidence and completion checks.
@@ -25,6 +25,21 @@ fi
 WORK="$(mktemp -d /tmp/383-editor-chunks.XXXXXX)"
 trap 'rm -rf "$WORK"' EXIT
 NAME="$(basename "$BATCH")"
+cp "$BATCH" "$WORK/input.json"
+save_checkpoint() {
+  "$PYTHON_BIN" "$REPO/scripts/news_editor_checkpoint.py" "$BATCH" "$WORK"
+}
+interrupted() {
+  trap '' TERM INT
+  # Save completed, hash-bound chunks before stopping siblings. Never merge
+  # raw input or a model response whose local verification did not finish.
+  save_checkpoint
+  for pid in $(jobs -pr); do kill -TERM "$pid" 2>/dev/null || true; done
+  wait || true
+  save_checkpoint
+  exit 0
+}
+trap interrupted TERM INT
 # chunk-N/<batch name> plus its own slice of the evidence file, which the
 # editor reads beside the batch.
 "$PYTHON_BIN" - "$BATCH" "$WORK" "$CHUNK" "$NAME" "$REPO" <<'PY'
@@ -41,6 +56,7 @@ for index, part in enumerate(editor_batches(articles, size)):
     folder = work / f"chunk-{index:02d}"
     folder.mkdir()
     (folder / name).write_text(json.dumps(part, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (folder / 'input.json').write_text(json.dumps(part, ensure_ascii=False), encoding='utf-8')
     chunk_evidence = [by_slug[a["slug"]] for a in part if a.get("slug") in by_slug]
     write_readable_evidence((folder / name).with_suffix(".editor-sources.md"), chunk_evidence)
     (folder / name).with_suffix(".editor-sources.json").write_text(
@@ -62,10 +78,12 @@ for folder in "$WORK"/chunk-*; do
   running=$((running + 1))
   if [ "$running" -ge 5 ]; then
     wait -n || true
+    save_checkpoint
     running=$((running - 1))
   fi
 done
 wait || true
+save_checkpoint
 
 # Edited chunks in their original order; a chunk that failed twice is left
 # out (its drafts were not fact-checked by the editor).
@@ -73,16 +91,13 @@ wait || true
 import json, sys
 from pathlib import Path
 batch, work, name = Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3]
-rows, failed = [], 0
+failed = 0
 for folder in sorted(work.glob("chunk-*")):
     print((folder / "log").read_text(encoding="utf-8", errors="replace")[-600:])
     if (folder / "failed").exists():
         failed += 1
         continue
-    rows += json.loads((folder / name).read_text(encoding="utf-8"))
-if not rows and failed == len(list(work.glob("chunk-*"))):
-    raise SystemExit("383 PARALLEL EDITOR: every chunk failed")
-batch.write_text(json.dumps(rows, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+rows = json.loads(batch.read_text(encoding='utf-8'))
 print(f"383 PARALLEL EDITOR: kept={len(rows)} failed_chunks={failed}")
 PY
 if [ "$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$BATCH")" -gt 0 ]; then

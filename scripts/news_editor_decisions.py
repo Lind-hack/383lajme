@@ -8,19 +8,23 @@ METADATA = {"score_breakdown", "score_reason", "score_formula", "required_attrib
 
 
 def editor_batches(articles: list[dict], size: int = 3) -> list[list[dict]]:
-    """Keep Showbiz reviews small; preserve order and the other desk batch size."""
+    """Amortize Economy brief review overhead without mixing desks or clipping sources."""
     if size < 1:
         raise ValueError('editor batch size must be positive')
     groups, pending = [], []
     for article in articles:
-        if article.get('category') in {'Showbiz','Ekonomi'}:
+        if article.get('category') == 'Showbiz':
             if pending:
                 groups.append(pending)
                 pending = []
             groups.append([article])
         else:
+            if pending and pending[-1].get('category') != article.get('category'):
+                groups.append(pending)
+                pending = []
             pending.append(article)
-            if len(pending) == size:
+            limit = min(size, 2) if article.get('category') == 'Ekonomi' else size
+            if len(pending) == limit:
                 groups.append(pending)
                 pending = []
     if pending:

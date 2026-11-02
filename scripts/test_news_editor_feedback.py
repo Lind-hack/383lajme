@@ -16,7 +16,8 @@ class EditorFeedbackTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root=Path(temporary)
             scripts=root/'scripts'; scripts.mkdir()
-            shutil.copy2(ROOT/'news_model_evidence.py', scripts/'news_model_evidence.py')
+            for name in ('news_model_evidence.py','news_editor_decisions.py','news_editor_checkpoint.py','editor_completion.py'):
+                shutil.copy2(ROOT/name,scripts/name)
             # Exercise the actual parallel coordinator with a deterministic
             # editor in place of OAuth, asserting every request is one story.
             (scripts/'run-news-editor.sh').write_text(
@@ -25,8 +26,8 @@ class EditorFeedbackTests(unittest.TestCase):
                 'a=json.loads(p.read_text()); assert len(a)==1\n'
                 'e=json.loads(p.with_suffix(".editor-sources.json").read_text())\n'
                 'assert [r["slug"] for r in e]==[a[0]["slug"]]\n'
-                'a[0]["body"]="Repaired "+a[0]["slug"]\np.write_text(json.dumps(a))\nPY\n')
-            (scripts/'editor_completion.py').write_text('print("test receipt acknowledged")\n')
+                'a[0]["body"]="Repaired "+a[0]["slug"]\np.write_text(json.dumps(a))\nPY\n'
+                '"$L383_PYTHON_BIN" "$3/scripts/editor_completion.py" acknowledge "$2"\n')
             batch=root/'repair.json'
             articles=[{'slug':key,'url':'https://example.com/'+key,'body':'Needs repair'} for key in ('one','two')]
             batch.write_text(json.dumps(articles))
