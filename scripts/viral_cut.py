@@ -589,8 +589,8 @@ def ass_doc(pieces: list[dict], starts: list[float], total: float, plan: dict, c
         if len(line) > 34:   # one line in the pill: the creator is what matters
             line = who
         if line:
-            ev.append(("Credit", at + (XF if at else 0), min(at + p["len"], end_at), "{\fad(160,0)}" + ass_text(line)))
-    ev.append(("Kicker", end_at + 0.25, total, "{\pos(540,1060)\fad(200,0)\fscx88\fscy88\t(0,260,\fscx100\fscy100)}"
+            ev.append(("Credit", at + (XF if at else 0), min(at + p["len"], end_at), "{\\fad(160,0)}" + ass_text(line)))
+    ev.append(("Kicker", end_at + 0.25, total, "{\\pos(540,1060)\\fad(200,0)\\fscx88\\fscy88\\t(0,260,\\fscx100\\fscy100)}"
                                                + ass_text(plan["kicker"]).upper()))
     events = "\n".join(f"Dialogue: {9 if st == 'Kicker' else 5},{ts(s)},{ts(e)},{st},,0,0,0,,{text}"
                        for st, s, e, text in ev if e - s > 0.04)
