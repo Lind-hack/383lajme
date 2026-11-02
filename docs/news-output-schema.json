@@ -168,11 +168,11 @@
     },
     "image_width": {
       "type": "integer",
-      "minimum": 1200
+      "minimum": 600
     },
     "image_height": {
       "type": "integer",
-      "minimum": 630,
+      "minimum": 350,
       "description": "Hourly native image floor; legacy daily validation retains 675 pixels."
     },
     "city": {
@@ -304,6 +304,22 @@
         "properties": {
           "title": {
             "maxLength": 65
+          },
+          "image_width": {
+            "minimum": 1200
+          },
+          "image_height": {
+            "minimum": 630
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "image_width": {
+            "minimum": 600
+          },
+          "image_height": {
+            "minimum": 350
           }
         }
       }

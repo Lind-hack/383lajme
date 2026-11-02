@@ -18,7 +18,7 @@ require an independent second publisher. Headline pairing is a discovery heurist
 | Ekonomi | Monitor, Ekonomia Online, CNBC, Financial Times, MarketWatch, CoinDesk, The Block, Decrypt; central bank and SEC evidence |
 | Botë | BBC, Al Jazeera, DW, France24, POLITICO Europe, Euronews international, Guardian, RFE/RL; public Reuters, AP and Bloomberg listings |
 | Sport | Sky Sports, ESPN, Motorsport.com, SuperSport, Gazeta Olle; registered official sports evidence |
-| Showbiz | Prive, Variety, Billboard, Hollywood Reporter, Deadline, People, TMZ, Anabel, Revista Who |
+| Showbiz | Prive, Prive Bruto, Variety, Billboard, Hollywood Reporter, Deadline, People, TMZ, Anabel, Revista Who, KultPlus, NME, Pitchfork, Stereogum, Consequence |
 
 Each run attempts configured feeds and bounded public listings. Official domains
 registered for evidence are not automatically discovered unless configured as
@@ -65,18 +65,16 @@ The private news configuration preserves the existing report delivery settings.
 
 `L383_QA_ONLY=1` runs discovery, writer, independent editor and quality gates
 without publishing or sending a report. `L383_MAX_ARTICLES=2` limits a smoke run;
-production targets 20 articles: Kosovo, Albania, world, technology, economy and
-sport 3 each; showbiz 2. Every available category receives two places before
-third places; no desk may exceed three. Readable unpublished stories from the rolling last
+production has a baseline target of 20 articles: Kosovo, Albania, world, technology, economy and
+sport 3 each; Showbiz 2. Showbiz expands with every verified distinct story in its publication plan, including above 20 total articles. Every other available desk receives two places before third places and retains a three-story ceiling. Readable unpublished stories from the rolling last
 24 hours are grouped by event. Routine news can use a verified primary; sensitive
 claims need independent corroboration. Source text and qualifying images are
-prepared outside model turns. Writers draft up to seven per call, covering every
-available desk first, then filling the plan. Overrepresented desk drafts are
+prepared outside model turns. Writers draft up to three Showbiz stories per disjoint group and one story per group for other desks, with five concurrent groups. The scheduler covers other available desks before extra Showbiz groups. Overrepresented desk drafts are
 trimmed before continuing so they cannot displace other categories.
 Continuation calls return only new drafts; the wrapper appends them locally
 without reproducing earlier articles or changing their fields.
 Grounded
-briefs need 140+ words and three paragraphs; longer coverage is welcome. Never
+Showbiz briefs need 50+ grounded words in one paragraph; other desks need 140+ words and three paragraphs. Longer coverage is welcome when supported. Never
 fabricate news to meet 20. Category targets, availability, rejection reasons and
 publication shortfalls are archived with every run and the completion email
 shows published/target counts.
@@ -142,15 +140,14 @@ stay on the article page with their credit; cards and Telegram use no photo.
 
 Publisher photographs are compared by URL identity, SHA-256 and visual
 fingerprints, including renamed/rehosted copies. If a declared source photo
-cannot be checked, the candidate is skipped. Publisher-photo fallbacks are
-disabled for hourly news. A run-local provenance catalog binds every prepared
+cannot be checked, the candidate is skipped. Showbiz uses only the original publisher article images requested by the owner, with a 600×350 decoded-pixel minimum and native visual approval. Preserve source credit and record reuse licence as not established. For other desks, publisher-photo fallbacks remain disabled for hourly news. A run-local provenance catalog binds every prepared
 photo to the primary story URL; normalization and publication reject absent,
 changed or stale records. Every run reserves distinct photos across candidates.
 No suitable photo means an inventory shortfall, not a category stock image.
 The file-rights URL is linked alongside the photo caption on the article page;
 source/license/creator evidence remains stored in raw_article.
 
-The source reader prefers the actual publisher article-body container, including Lapsi’s div-based article body, over sidebar paragraph widgets. Hourly contextual photos require native 1200×630 or larger decoded images; they are never upscaled to fabricate dimensions. Legacy daily image requirements remain 1200×675.
+The source reader prefers the actual publisher article-body container, including Lapsi’s div-based article body, over sidebar paragraph widgets. Outside the Showbiz original-source-image exception, hourly contextual photos require native 1200×630 or larger decoded images; they are never upscaled to fabricate dimensions. Legacy daily image requirements remain 1200×675.
 
 Hourly publication IDs are stable hashes of canonical primary URLs, independent of discovery ordinals; accented slugs are normalized to ASCII before editing. Wrong-category source topics are rejected before drafting. Replacement reviews contain only new drafts: previously approved articles retain their exact bodies, metadata and category slots, and the merged batch receives the usual final validation.
 
