@@ -198,8 +198,8 @@ class ScoutTests(unittest.TestCase):
         down = {"X": (False, "cookie expired"), "TikTok": (True, "900 video")}
         self.assertEqual(cs.health_lines(down), ["✗ X: cookie expired", "✓ TikTok: 900 video"])
         self.assertTrue(cs.should_email([], down, {}, NOW))
-        self.assertFalse(cs.should_email([], down, {"alerted": (NOW - timedelta(hours=3)).isoformat()}, NOW))
-        self.assertFalse(cs.should_email([], {"TikTok": (True, "x")}, {}, NOW))
+        self.assertTrue(cs.should_email([], down, {"alerted": (NOW - timedelta(hours=3)).isoformat()}, NOW))
+        self.assertTrue(cs.should_email([], {"TikTok": (True, "x")}, {}, NOW))   # every run now
         self.assertTrue(cs.should_email([{"headline": "h"}], {}, {}, NOW))
 
     def test_other_platforms_keep_their_own_usual_numbers(self):

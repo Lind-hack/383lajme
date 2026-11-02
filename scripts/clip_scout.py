@@ -1526,12 +1526,8 @@ def health_lines(health: dict) -> list[str]:
 
 
 def should_email(found: list[dict], health: dict, state: dict, now: datetime) -> bool:
-    """Every run with finds; a run with none only to say a source is down, once a day."""
-    if found:
-        return True
-    if all(ok for ok, _ in health.values()):
-        return False
-    return state.get("alerted", "") < (now - timedelta(hours=20)).isoformat()
+    """Every run (Lind 2026-11-02: the run's results in the inbox each time, finds or not)."""
+    return True
 
 
 def email(found: list[dict], health: dict | None = None, trending: dict | None = None, site: set[str] | None = None,
@@ -1575,14 +1571,16 @@ def email(found: list[dict], health: dict | None = None, trending: dict | None =
                         f'<a href="{esc(remove_link(c["id"]))}" style="color:#c62828">Hiq nga faqja</a></div></td></tr>')
     if cut_rows:
         rows = [f'<tr><td colspan="2"><h3 style="font-family:Arial,sans-serif;margin:8px 0 0">Virale sot: {len(cut_rows)} të montuara, në faqe tani</h3></td></tr>'] + cut_rows + rows
+    healthy = all(ok for ok, _ in health.values())
     title = ((f"{len(found)} klipe të reja për rishikim" if found else f"{len(cuts or [])} video virale të montuara")
-             if (found or cuts) else "Asnjë klip i ri: një burim nuk punon")
+             if (found or cuts) else "Asnjë klip i ri këtë herë" if healthy else "Asnjë klip i ri: një burim nuk punon")
     body = (f'<div style="font-family:Arial,sans-serif"><h2>{title}</h2><div style="margin-bottom:12px">{top}</div>'
             f'<table>{"".join(rows)}</table></div>')
     msg = EmailMessage()
     msg["From"], msg["To"] = f"383 Klipe <{user}>", to
     msg["Subject"] = (f"383 klipe: {found[0]['headline'][:60]}" if found else f"383 virale: {cuts[0]['title'][:60]}" if cuts
-                      else "383 klipe: një burim nuk punon")
+                      else f"383 raporti {datetime.now(timezone.utc) + timedelta(hours=1):%H:%M}: "
+                           + ("asnjë klip i ri" if healthy else "një burim nuk punon"))
     msg.set_content(title + "\n\n" + "\n".join(health_lines(health)))
     msg.add_alternative(body, subtype="html")
     try:
