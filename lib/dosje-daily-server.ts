@@ -72,7 +72,7 @@ export function matcherOf(row: TopicRow) {
 }
 
 export function admin() {
-  const client = createAdminClient();
+  const client = createAdminClient({ actor: "dosje-daily" });
   if (!client) throw new Error("Supabase admin client not configured");
   return client;
 }

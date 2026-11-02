@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { fetchSource, isFetchableCitationUrl, publisherOf, timestampForQuery } from "@/lib/dosje-sources.mjs";
 import { validateMilestoneDraft } from "@/lib/dosje-draft.mjs";
-import { checkVideo, admissible } from "@/lib/dosje-video.mjs";
+import { checkVideo, admissible, aboutTopic } from "@/lib/dosje-video.mjs";
+import { judgePrompt, readJudgement } from "@/lib/dosje-judge.mjs";
+import { llmJSON } from "@/lib/llm";
 import { matchTopic } from "@/lib/dosje-match.mjs";
 import { admin, authorised, dbTopics, isoDay, matcherOf, recentArticles } from "@/lib/dosje-daily-server";
 
@@ -26,7 +28,7 @@ export const maxDuration = 300;
  * built from it, never from what the worker hoped.
  */
 
-type Claim = { sentence?: string; source_indexes?: number[]; quote?: string };
+type Claim = { sentence?: string; quotes?: Array<{ source?: number; text?: string }> };
 type Draft = {
   title?: string;
   summary?: string;
@@ -34,7 +36,6 @@ type Draft = {
   tag?: string;
   event_date?: string;
   date_precision?: string;
-  display_date?: string;
   claims?: Claim[];
 };
 
@@ -49,7 +50,7 @@ export async function POST(req: Request) {
     model?: string;
     sources?: string[];
     milestones?: Draft[];
-    primer?: { text?: string; claims?: Claim[] } | null;
+    primer?: { text?: string; event_date?: string; date_precision?: string; claims?: Claim[] } | null;
     videos?: Array<{ id?: string }>;
     abandon?: boolean;
     reason?: string;
@@ -105,8 +106,7 @@ export async function POST(req: Request) {
       String(raw?.title ?? "").length > 160 ||
       String(raw?.summary ?? "").length > 900 ||
       String(raw?.why ?? "").length > 400 ||
-      String(raw?.tag ?? "").length > 40 ||
-      String(raw?.display_date ?? "").length > 60;
+      String(raw?.tag ?? "").length > 40;
     if (tooLong) {
       rejected.push({ title: String(raw?.title ?? "(pa titull)").slice(0, 160), reasons: ["too_long"] });
       continue;
@@ -119,6 +119,12 @@ export async function POST(req: Request) {
     const eventDate = isoDay(verdict.milestone.event_date);
     if (!eventDate) {
       rejected.push({ title: String(raw?.title ?? ""), reasons: ["event_date_invalid"] });
+      continue;
+    }
+    // The second reader: does each Albanian sentence say only what its quotes say?
+    const judged = await judge(verdict.milestone);
+    if (!judged.ok) {
+      rejected.push({ title: verdict.milestone.title, reasons: ["judge_refused", ...judged.problems] });
       continue;
     }
     const citations = (verdict.citations ?? [])
@@ -144,13 +150,24 @@ export async function POST(req: Request) {
   let primerReasons: string[] = [];
   const primerText = String(body?.primer?.text ?? "").trim();
   if (primerText) {
-    const anchorDate = (bundle.map((m) => String(m.event_date)).sort()[0]) ?? isoDay(new Date(Date.now() - 86_400_000).toISOString());
+    // The primer names its own date (the earliest one it states), checked
+    // against its quotes like a moment's.
     const verdict = validateMilestoneDraft(
-      { title: topic.title, summary: primerText, claims: body?.primer?.claims ?? [], event_date: anchorDate },
+      {
+        title: topic.title,
+        summary: primerText,
+        claims: body?.primer?.claims ?? [],
+        event_date: body?.primer?.event_date,
+        date_precision: body?.primer?.date_precision ?? "year",
+      },
       { sources }
     );
-    if (verdict.ok) primer = primerText;
-    else primerReasons = (verdict.reasons ?? []) as string[];
+    if (!verdict.ok) primerReasons = (verdict.reasons ?? []) as string[];
+    else {
+      const judged = await judge(verdict.milestone);
+      if (judged.ok) primer = primerText;
+      else primerReasons = ["judge_refused", ...judged.problems];
+    }
   }
 
   // ── publish ──────────────────────────────────────────────────────────────
@@ -187,8 +204,10 @@ export async function POST(req: Request) {
   for (const id of ids) {
     const check = await checkVideo(id);
     const gate = admissible(check);
-    if (!gate.ok || !topicLive) {
-      videos.push({ id, status: "refused", reason: gate.ok ? "dossier_not_live" : gate.reason, channel: check?.author ?? null, title: check?.title ?? null });
+    const onTopic = aboutTopic(check?.title, { groups: topic.research_groups, query: topic.research_query ?? topic.title });
+    if (!gate.ok || !topicLive || !onTopic) {
+      const reason = !gate.ok ? gate.reason : !topicLive ? "dossier_not_live" : "not_about_topic";
+      videos.push({ id, status: "refused", reason, channel: check?.author ?? null, title: check?.title ?? null });
       continue;
     }
     const url = `https://www.youtube.com/watch?v=${id}`;
@@ -203,15 +222,15 @@ export async function POST(req: Request) {
         relation: "explainer",
         checked_at: new Date().toISOString(),
         check_status: check?.http_status ?? 200,
-        approved: true,
-        approved_by: "dosje-daily",
+        // A person approves every video in admin before a reader sees it.
+        approved: false,
       });
       if (mediaError) {
         videos.push({ id, status: "refused", reason: "insert_failed", channel: check?.author ?? null, title: check?.title ?? null });
         continue;
       }
     }
-    videos.push({ id, status: had ? "already_present" : "added", channel: check?.author ?? null, title: check?.title ?? null });
+    videos.push({ id, status: had ? "already_present" : "pending_review", channel: check?.author ?? null, title: check?.title ?? null });
   }
 
   // ── where it now shows, and make that true ───────────────────────────────
@@ -222,7 +241,7 @@ export async function POST(req: Request) {
   const refusedByDb = results.filter((r) => r.outcome !== "approved");
   const onlyDuplicates = bundle.length > 0 && results.length > 0 && results.every((r) => r.outcome === "duplicate");
   let showingOn: Array<{ slug: string; title: string }> = [];
-  if (topicLive && (published.length || primer || videos.some((v) => v.status === "added"))) {
+  if (topicLive && (published.length || primer)) {
     const all = (await dbTopics()).filter((t) => t.status === "approved").map(matcherOf);
     showingOn = (await recentArticles())
       .filter((a) => (matchTopic(a, all)?.topic as { slug?: string } | undefined)?.slug === topic.slug)
@@ -275,4 +294,18 @@ async function finishRun(runId: unknown, outcome: string, detail: Record<string,
       cooldown_until: cooldownDays ? new Date(Date.now() + cooldownDays * 86_400_000).toISOString().slice(0, 10) : null,
     })
     .eq("id", id);
+}
+
+/**
+ * Refusal-only second reading (lib/dosje-judge.mjs). Any failure to get an
+ * answer is a refusal: an unchecked moment does not reach a reader.
+ */
+async function judge(milestone: Parameters<typeof judgePrompt>[0] & { claims: { sentences: unknown[] } }) {
+  const { system, prompt } = judgePrompt(milestone);
+  try {
+    const json = await llmJSON<unknown>(system, prompt, { prefer: "gemini", maxTokens: 2048, temperature: 0 });
+    return readJudgement(json, milestone.claims.sentences.length);
+  } catch (err) {
+    return { ok: false, problems: [`judge unavailable: ${String(err).slice(0, 120)}`] };
+  }
 }

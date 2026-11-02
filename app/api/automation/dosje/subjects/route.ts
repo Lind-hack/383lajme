@@ -189,12 +189,19 @@ async function run(req: Request, dryRun: boolean) {
   let pruned = 0;
   let staleMappings: Array<{ article_slug: string; topic_slug: string }> = [];
   if (scannedSlugs.length) {
-    const { data: existingMappings, error: existingError } = await supabase
-      .from("dosje_article_topics")
-      .select("article_slug, topic_slug")
-      .in("article_slug", scannedSlugs);
-    if (existingError) return NextResponse.json({ error: existingError.message }, { status: 500 });
-    staleMappings = (existingMappings ?? []).filter(
+    // In batches: ~300 slugs in one `in.(...)` filter made a request URL long
+    // enough that the fetch itself failed ("TypeError: fetch failed"), and
+    // every daily run since 21 Oct lost its article links to that.
+    const existingMappings: Array<{ article_slug: string; topic_slug: string }> = [];
+    for (let i = 0; i < scannedSlugs.length; i += 50) {
+      const { data, error: existingError } = await supabase
+        .from("dosje_article_topics")
+        .select("article_slug, topic_slug")
+        .in("article_slug", scannedSlugs.slice(i, i + 50));
+      if (existingError) return NextResponse.json({ error: existingError.message }, { status: 500 });
+      existingMappings.push(...((data ?? []) as Array<{ article_slug: string; topic_slug: string }>));
+    }
+    staleMappings = existingMappings.filter(
       (row) => !expectedKeys.has(`${row.article_slug}:${row.topic_slug}`)
     ) as Array<{ article_slug: string; topic_slug: string }>;
   }

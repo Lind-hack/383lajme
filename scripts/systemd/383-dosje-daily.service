@@ -7,14 +7,22 @@ Wants=network-online.target
 [Service]
 Type=oneshot
 User=ubuntu
-# GPT-6 Luna is shared with the hourly news writer: never start while it runs.
-ExecStartPre=/bin/sh -c '! systemctl is-active --quiet 383-production.service'
+# GPT-6 Luna is shared with the hourly news writer: never run at the same time.
+# It used to refuse outright when the news run was still going at 05:00, which
+# failed the whole day silently (no run, no email). Now it waits for it, up to
+# an hour; the worker itself stops starting model calls at 06:40.
+ExecStartPre=/bin/sh -c 'i=0; while systemctl is-active --quiet 383-production.service; do i=$((i+1)); [ $i -gt 120 ] && exit 1; sleep 30; done'
 ExecStart=/usr/bin/docker exec --user hermes --env HOME=/opt/data/home --env L383_REPO=/opt/data/workspaces/383lajme-dosje-main --env DOSJE_ENV_FILE=/opt/data/tregu-daily.env --env DOSJE_ARGS=${DOSJE_ARGS} hermes /bin/sh /opt/data/workspaces/383lajme-dosje-main/scripts/run-dosje-daily.sh
 # DOSJE_ARGS is unset for the scheduled run (systemd expands it to nothing).
 # One-off runs (--backfill, --dry-run) are started with systemd-run instead.
 # The script stops starting model calls at 06:40; publishing and the email can
 # take a few minutes more, inside the wrapper's 7800s bound.
-TimeoutStartSec=8100
+TimeoutStartSec=11700
+# When the unit failed before the run sent its own email (missing workspace,
+# refused to start, timed out, killed), send one that says so. The hook lives on
+# the host (scripts/systemd/383-dosje-failed.sh), not in the workspace, and
+# skips if the run's email already went out.
+ExecStopPost=/usr/local/bin/383-dosje-failed $SERVICE_RESULT
 StandardOutput=journal
 StandardError=journal
 SyslogIdentifier=383-dosje-daily

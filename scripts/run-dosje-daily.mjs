@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { existsSync, openSync, closeSync, readFileSync, statSync, unlinkSync, writeSync } from "node:fs";
+import { existsSync, openSync, closeSync, readFileSync, statSync, unlinkSync, writeFileSync, writeSync } from "node:fs";
 import { randomUUID } from "node:crypto";
 import { VETTED_CHANNELS } from "../lib/dosje-video.mjs";
 
@@ -34,9 +34,14 @@ if (!base || !secret) {
   process.exit(1);
 }
 const args = process.argv.slice(2);
+
+// Marks that this run's email went out, so the systemd failure hook
+// (scripts/systemd/383-dosje-failed.sh) never sends a second one.
+const REPORTED = process.env.DOSJE_REPORTED_MARK ?? "/tmp/383-dosje-reported";
+
 const backfill = args.includes("--backfill");
 const dryRun = args.includes("--dry-run");
-const noLuna = args.includes("--no-luna");
+let noLuna = args.includes("--no-luna");
 const HERMES_BIN = process.env.HERMES_BIN || "/opt/hermes/.venv/bin/hermes";
 const HERMES_HOME = process.env.DOSJE_HERMES_HOME || process.env.TREGU_DAILY_HERMES_HOME || "/opt/data/profiles/tregudaily";
 const LOCK = process.env.DOSJE_LOCK ?? "/tmp/383-dosje-daily.lock";
@@ -56,9 +61,11 @@ const nowMin = belgradeMinutes(startedAt);
 // Luna belongs to the news writer from 07:00 to 23:00 (and Tregu, Bota after
 // it). Outside 00:00–06:40 any run — scheduled, backfill or manual — may use
 // Gemini only.
+// Switching to Gemini instead of exiting: an exit here sent no email, and a
+// run that is late (the news run overran 05:00) went silent for the day.
 if (nowMin >= LAST_CALL && !noLuna) {
-  console.error(JSON.stringify({ ok: false, error: "Luna runs only between 00:00 and 06:40 Europe/Belgrade; pass --no-luna for a Gemini-only run outside that window" }));
-  process.exit(2);
+  console.log(JSON.stringify({ stage: "luna_window_closed", note: "after 06:40: this run writes with Gemini only" }));
+  noLuna = true;
 }
 // In the early window the deadline is 06:40 today; otherwise (a manual run
 // with an explicit budget) it is that many minutes from now.
@@ -217,7 +224,7 @@ Do të marrësh grupe artikujsh që flasin për të njëjtin subjekt. Shqyrto Ç
 Për çdo dosje:
 - "cluster_id": id e grupit, saktësisht.
 - "slug": anglisht-shqip pa diakritikë, kebab-case, 2–6 fjalë (p.sh. "kosova-ne-sepa").
-- "title": titull shqip për lexuesin, deri 60 shenja, pa datë.
+- "title": titull shqip për lexuesin, deri 60 shenja, pa datë. Titulli është SUBJEKTI i qëndrueshëm (një institucion, proces, mosmarrëveshje ose çështje — p.sh. "Dhomat e Specializuara të Kosovës"), JO një ngjarje e vetme e lajmit (jo "Dekretimi i ligjit…", "Kuvendi miraton…", pa vite). Një titull-ngjarje refuzohet automatikisht.
 - "blurb": një fjali shqip që thotë për çfarë është dosja.
 - "anchors": 1–4 terma shqip, me shkronja të vogla, që shfaqen në titujt/përmbledhjet e grupit dhe pa të cilët tema nuk ekziston.
 - "matchGroups": 2–4 grupe; çdo grup është 1–3 terma shqip që duhet të shfaqen TË GJITHË bashkë në titull ose përmbledhje që një artikull t'i përkasë dosjes. Kontrollo që shumica e artikujve të grupit të përputhen me të paktën një grup — shkruaj termat ashtu siç shfaqen në artikuj. Një nga grupet duhet të jetë një emër i vetëm dallues (personi, institucioni ose vendi specifik i temës). Mos përdor terma të përgjithshëm (kosova, qeveria, ministri) vetëm.
@@ -234,11 +241,12 @@ Do të marrësh burime të numëruara. Secili është tekst REAL i shkarkuar nga
 Rregullat, pa përjashtim:
 - Mbështetu VETËM te teksti i burimeve. MOS shkruaj asnjë URL; cito me indeksin e burimit.
 - "claims" ka NJË zë për ÇDO fjali të "summary"; fjalia kopjohet fjalë për fjalë nga "summary". Një fjali pa zë e hedh poshtë momentin.
-- Zgjidh VETËM ngjarje që i përmendin të paktën DY botues të ndryshëm (lista "Botuesit" më poshtë tregon cili indeks i përket cilit botues).
-- Në çdo moment, "source_indexes" të claims-ave së bashku duhet të përfshijnë indekse nga të paktën DY botues të ndryshëm — p.sh. një fjali cito [0, 4] nëse 0 dhe 4 janë botues të ndryshëm që thonë të njëjtën gjë. Një moment me një botues të vetëm refuzohet automatikisht; më mirë më pak momente se sa momente të refuzuara.
-- Çdo shifër, datë ose numër duhet të shkruhet NJËSOJ siç shfaqet në burim (të njëjtat shifra). Mos llogarit, mos rrumbullako, mos shto numra.
-- Për çdo zë jep "quote": fjalinë E SAKTË nga burimi, shkronjë për shkronjë, pa përkthim. Nëse nuk e gjen, lëre bosh.
+- ÇDO zë ka "quotes": të paktën DY citate, nga DY botues të ndryshëm (shih listën "Botuesit"). Çdo citat është {"source": indeksi, "text": fjali e kopjuar SHKRONJË PËR SHKRONJË nga ai burim, pa përkthim, të paktën 20 shenja}. Kontrolli i kërkon citatet në tekstin e shkarkuar; një citat që nuk është aty, ose një zë me një botues të vetëm, e hedh poshtë momentin. Më mirë më pak momente se sa momente të refuzuara.
+- Çdo shifër në fjali duhet të jetë brenda citateve të ATIJ zëri, e shkruar njësoj. Mos llogarit, mos rrumbullako, mos shto numra.
+- DATA: "event_date" dhe "date_precision" duhet t'i thotë një citat. Nëse citatet thonë ditën, muajin dhe vitin → "day"; vetëm muajin dhe vitin → "month" (event_date = dita e parë e muajit); vetëm vitin → "year" (event_date = 1 janar). Mos e bëj datën më të saktë se citatet.
+- "why" vetëm shpjegon pse ka rëndësi; MOS shto fakte, emra apo shifra që nuk janë në moment.
 - "summary": dy ose tri fjali të shkurtra. "why": një fjali, "Pse ka rëndësi" — shpjegim i thjeshtë për lexuesin.
+- "title": vetëm çfarë thonë fjalitë e momentit; asnjë shifër që nuk është në citate.
 - Momentet janë në të kaluarën dhe renditen sipas datës. Mos përsërit momentet që ekzistojnë tashmë.
 - "primer": "Në pak fjalë" — dy ose tri fjali që e shpjegojnë temën nga fillimi, me të njëjtat rregulla citimi.
 - "videos": vetëm ID YouTube (11 shenja) që je i sigurt se ekzistojnë, VETËM nga këta kanale: ${VETTED_CHANNELS.map((c) => c.name).join(", ")}. Nëse nuk je i sigurt, kthe [].
@@ -246,7 +254,7 @@ Rregullat, pa përjashtim:
 
 Shkruaj shqip, në kohën e tashme historike, pa mbiemra vlerësues.`;
 
-const RESEARCH_FORMAT = `{"primer":{"text":"...","claims":[{"sentence":"...","source_indexes":[0,2],"quote":"..."}]},"milestones":[{"title":"...","summary":"...","why":"...","tag":"një fjalë","event_date":"YYYY-MM-DD","date_precision":"day|month|year","display_date":"p.sh. 14 dhjetor 2022","claims":[{"sentence":"...","source_indexes":[0,1],"quote":"..."}]}],"videos":[{"id":"...","channel":"...","title":"..."}]}`;
+const RESEARCH_FORMAT = `{"primer":{"text":"...","event_date":"YYYY-MM-DD","date_precision":"day|month|year","claims":[{"sentence":"...","quotes":[{"source":0,"text":"..."},{"source":2,"text":"..."}]}]},"milestones":[{"title":"...","summary":"...","why":"...","tag":"një fjalë","event_date":"YYYY-MM-DD","date_precision":"day|month|year","claims":[{"sentence":"...","quotes":[{"source":0,"text":"..."},{"source":1,"text":"..."}]}]}],"videos":[{"id":"...","channel":"...","title":"..."}]}`;
 
 // ── the run ───────────────────────────────────────────────────────────────
 const log = (o) => console.log(JSON.stringify(o));
@@ -354,6 +362,7 @@ run.finishedAt = new Date().toISOString();
 try {
   const sent = await site("/daily/report", { method: "POST", body: JSON.stringify(run) });
   log({ stage: "report", sent: sent.sent, subject: sent.subject });
+  try { writeFileSync(REPORTED, run.runId); } catch { /* the hook then may send a second note; harmless */ }
 } catch (err) {
   log({ stage: "report", sent: false, error: String(err?.message ?? err).slice(0, 200) });
   process.exitCode = 1;

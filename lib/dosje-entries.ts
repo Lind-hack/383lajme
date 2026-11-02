@@ -1,4 +1,5 @@
 import { getDosje, listDosjeTopics, type DosjeCitation } from "@/lib/dosje-server";
+import { orderTimeline } from "@/lib/dosje-timeline.mjs";
 import { TOPICS, timelineFor } from "@/lib/topics.mjs";
 import type { DosjeEntry } from "@/components/dosje-section";
 
@@ -103,6 +104,7 @@ export async function dosjeFor(
       // The gutter shows the year; the line under it shows how the date was
       // actually written, which is not always a full one.
       year: String(m.event_date ?? "").slice(0, 4),
+      eventDate: m.event_date ?? null,
       date: m.display_date,
       tag: m.tag ?? undefined,
       title: m.title,
@@ -120,8 +122,11 @@ export async function dosjeFor(
       title: live.topic.title,
       blurb: live.topic.blurb,
       primer: typeof row?.primer === "string" ? row.primer : null,
-      entries: [...milestones, ...archiveEntries(slug, articles, currentSlug, currentArticle, universe)],
-      sourced: true,
+      // One timeline by date (lib/dosje-timeline.mjs), not moments then articles.
+      entries: orderTimeline([...milestones, ...archiveEntries(slug, articles, currentSlug, currentArticle, universe)]),
+      // "Verified" is a claim about history shown, so it needs at least one
+      // verified moment; 383's own articles alone are not that.
+      sourced: milestones.length > 0,
       videos: (live.videos ?? []).map((v) => ({
         id: (String(v.url).match(/[?&]v=([^&]+)/) || [])[1] ?? "",
         channel: v.credit ?? "",

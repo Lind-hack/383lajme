@@ -7,6 +7,10 @@ import { totpEnabled, verifyTotp } from "@/lib/admin-totp";
 import { revalidatePath } from "next/cache";
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { emailChangesNow } from "@/lib/dosje-changes-server";
+import { revalidateStored } from "@/lib/dosje-draft.mjs";
+import { judgePrompt, readJudgement } from "@/lib/dosje-judge.mjs";
+import { llmJSON } from "@/lib/llm";
 
 /**
  * Approving history.
@@ -74,7 +78,7 @@ export async function logoutAction() {
  */
 export async function saveMilestoneAction(formData: FormData) {
   await requireAuth();
-  const supabase = createAdminClient();
+  const supabase = createAdminClient({ actor: "admin" });
   if (!supabase) redirect("/admin/dosje?err=db");
 
   const id = String(formData.get("id") ?? "");
@@ -129,6 +133,7 @@ export async function saveMilestoneAction(formData: FormData) {
 
   if (error) redirect(`/admin/dosje?err=${encodeURIComponent(error.message)}`);
   revalidatePath("/admin/dosje");
+  await emailChangesNow("admin");
   redirect("/admin/dosje?saved=1");
 }
 
@@ -142,7 +147,7 @@ export async function saveMilestoneAction(formData: FormData) {
  */
 export async function approveMilestoneAction(formData: FormData) {
   await requireAuth();
-  const supabase = createAdminClient();
+  const supabase = createAdminClient({ actor: "admin" });
   if (!supabase) redirect("/admin/dosje?err=db");
 
   const id = String(formData.get("id") ?? "");
@@ -159,12 +164,13 @@ export async function approveMilestoneAction(formData: FormData) {
   if (error) redirect(`/admin/dosje?err=${encodeURIComponent(error.message)}`);
   revalidatePath("/admin/dosje");
   revalidatePath("/dosje", "layout");
+  await emailChangesNow("admin");
   redirect("/admin/dosje?approved=1");
 }
 
 export async function rejectMilestoneAction(formData: FormData) {
   await requireAuth();
-  const supabase = createAdminClient();
+  const supabase = createAdminClient({ actor: "admin" });
   if (!supabase) redirect("/admin/dosje?err=db");
 
   const id = String(formData.get("id") ?? "");
@@ -178,13 +184,14 @@ export async function rejectMilestoneAction(formData: FormData) {
 
   if (error) redirect(`/admin/dosje?err=${encodeURIComponent(error.message)}`);
   revalidatePath("/admin/dosje");
+  await emailChangesNow("admin");
   redirect("/admin/dosje?rejected=1");
 }
 
 /** Approve one photograph as contemporaneous coverage of its own milestone. */
 export async function approveMediaAction(formData: FormData) {
   await requireAuth();
-  const supabase = createAdminClient();
+  const supabase = createAdminClient({ actor: "admin" });
   if (!supabase) redirect("/admin/dosje?err=db");
 
   const id = String(formData.get("id") ?? "");
@@ -195,6 +202,7 @@ export async function approveMediaAction(formData: FormData) {
 
   if (error) redirect(`/admin/dosje?err=${encodeURIComponent(error.message)}`);
   revalidatePath("/admin/dosje");
+  await emailChangesNow("admin");
   redirect("/admin/dosje?approved=1");
 }
 
@@ -213,7 +221,7 @@ export async function approveMediaAction(formData: FormData) {
  */
 export async function approveTopicAction(formData: FormData) {
   await requireAuth();
-  const supabase = createAdminClient();
+  const supabase = createAdminClient({ actor: "admin" });
   if (!supabase) redirect("/admin/dosje?err=db");
 
   const slug = String(formData.get("slug") ?? "");
@@ -241,13 +249,14 @@ export async function approveTopicAction(formData: FormData) {
   if (error) redirect(`/admin/dosje?err=${encodeURIComponent(error.message)}`);
   revalidatePath("/admin/dosje");
   revalidatePath("/dosje", "layout");
+  await emailChangesNow("admin");
   redirect("/admin/dosje?approved=1");
 }
 
 /** Take a dossier back off the site without touching its moments. */
 export async function retireTopicAction(formData: FormData) {
   await requireAuth();
-  const supabase = createAdminClient();
+  const supabase = createAdminClient({ actor: "admin" });
   if (!supabase) redirect("/admin/dosje?err=db");
 
   const slug = String(formData.get("slug") ?? "");
@@ -259,6 +268,7 @@ export async function retireTopicAction(formData: FormData) {
   if (error) redirect(`/admin/dosje?err=${encodeURIComponent(error.message)}`);
   revalidatePath("/admin/dosje");
   revalidatePath("/dosje", "layout");
+  await emailChangesNow("admin");
   redirect("/admin/dosje?retired=1");
 }
 
@@ -276,18 +286,45 @@ export async function retireTopicAction(formData: FormData) {
  */
 export async function confirmSourcesAction(formData: FormData) {
   await requireAuth();
-  const supabase = createAdminClient();
+  const supabase = createAdminClient({ actor: "admin" });
   if (!supabase) redirect("/admin/dosje?err=db");
 
   const id = String(formData.get("id") ?? "");
   const { data: row, error: readError } = await supabase
     .from("dosje_milestones")
-    .select("claims")
+    .select("title, summary, why, tag, event_date, date_precision, claims")
     .eq("id", id)
     .single();
 
   if (readError || !row) {
     redirect(`/admin/dosje?err=${encodeURIComponent(readError?.message ?? "not found")}`);
+  }
+
+  // Not the reviewer's word alone: the edited text has to pass the same rules
+  // the daily run applies, against the quotes stored when it was published,
+  // and the second reader has to agree each sentence says only what they say.
+  const stored = (row as { claims?: { sentences?: Array<{ quotes?: unknown[] }> } | null }).claims?.sentences ?? [];
+  if (!stored.some((c) => Array.isArray(c?.quotes) && c.quotes.length)) {
+    // Drafted before 2026-11: its claims point at sources without quotes, so
+    // there is nothing to re-check an edit against. Research it again instead.
+    redirect(`/admin/dosje?err=${encodeURIComponent("Ky moment u shkrua para kontrollit me citate; nuk mund të rikontrollohet — duhet rihulumtuar.")}`);
+  }
+  const recheck = revalidateStored(row);
+  if (!recheck.ok) {
+    redirect(`/admin/dosje?err=${encodeURIComponent(`Teksti i ndryshuar nuk kalon kontrollin: ${recheck.reasons.join(", ")}`)}`);
+  }
+  let judged: { ok: boolean; problems: string[] };
+  try {
+    const { system, prompt } = judgePrompt(recheck.milestone);
+    judged = readJudgement(
+      await llmJSON<unknown>(system, prompt, { prefer: "gemini", maxTokens: 2048, temperature: 0 }),
+      recheck.milestone.claims.sentences.length
+    );
+  } catch (err) {
+    judged = { ok: false, problems: [`kontrolli nuk u krye: ${String(err).slice(0, 120)}`] };
+  }
+  if (!judged.ok) {
+    redirect(`/admin/dosje?err=${encodeURIComponent(`Citatet nuk e thonë këtë tekst: ${judged.problems.join("; ")}`)}`);
   }
 
   const claims = { ...((row as { claims: Record<string, unknown> | null }).claims ?? {}) };
@@ -301,13 +338,14 @@ export async function confirmSourcesAction(formData: FormData) {
 
   if (error) redirect(`/admin/dosje?err=${encodeURIComponent(error.message)}`);
   revalidatePath("/admin/dosje");
+  await emailChangesNow("admin");
   redirect("/admin/dosje?saved=1");
 }
 
 /** Refuse a proposed photograph. Kept, so it is not proposed again. */
 export async function rejectMediaAction(formData: FormData) {
   await requireAuth();
-  const supabase = createAdminClient();
+  const supabase = createAdminClient({ actor: "admin" });
   if (!supabase) redirect("/admin/dosje?err=db");
 
   const id = String(formData.get("id") ?? "");
@@ -318,5 +356,6 @@ export async function rejectMediaAction(formData: FormData) {
 
   if (error) redirect(`/admin/dosje?err=${encodeURIComponent(error.message)}`);
   revalidatePath("/admin/dosje");
+  await emailChangesNow("admin");
   redirect("/admin/dosje?rejected=1");
 }

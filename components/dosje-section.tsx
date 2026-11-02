@@ -41,6 +41,8 @@ export interface DosjeEntry {
   source?: string | null;
   publishedAt?: string | null;
   isCurrent?: boolean;
+  /** A verified moment's ISO event date, for ordering the timeline. */
+  eventDate?: string | null;
   /**
    * Where this claim comes from. Present only on milestones that went through
    * the research pipeline, where two distinct publishers were fetched and
@@ -103,14 +105,14 @@ const ACCENT = "#E4322B";
  */
 function verifiedLabel(entries: DosjeEntry[]): string {
   const milestones = entries.filter((e) => e.kind === "milestone");
-  if (!milestones.length) return "Dosje me burime të verifikuara";
+  if (!milestones.length) return "Kronologji pune — ende pa burime të verifikuara";
 
   const publishers = (e: DosjeEntry) =>
     new Set((e.citations ?? []).map((c) => String(c.publisher).toLowerCase().trim())).size;
 
   const full = milestones.filter((e) => publishers(e) >= 2).length;
-  if (full === milestones.length) return "Çdo moment me dy burime të verifikuara";
-  return `${full} nga ${milestones.length} momente me dy burime të verifikuara`;
+  if (full === milestones.length) return "Çdo moment historik me dy burime të verifikuara";
+  return `${full} nga ${milestones.length} momente historike me dy burime të verifikuara`;
 }
 
 function spanLabel(entries: DosjeEntry[]): string | null {
