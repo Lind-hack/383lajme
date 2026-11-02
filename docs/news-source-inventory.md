@@ -1,6 +1,6 @@
 # Configured news websites by category
 
-The registry contains 96 publishers, 78 feeds and 10 public listings. This lists the repository registry, including publishers that are currently unavailable or restricted. Registration does not establish successful scraping or article approval. Availability is recorded for each run; blocked sources are skipped. Every publisher belongs to one category. Sister publishers retain their ownership family for corroboration checks.
+The registry contains 97 publishers, 83 feeds and 24 public listings. This lists the repository registry, including publishers that are currently unavailable or restricted. Registration does not establish successful scraping or article approval. Availability is recorded for each run; blocked sources are skipped. Every publisher belongs to one category. Sister publishers retain their ownership family for corroboration checks.
 
 The production worker must be activated from the corresponding committed release before these settings apply to its next run.
 
@@ -82,22 +82,24 @@ The production worker must be activated from the corresponding committed release
 
 ## Ekonomi (14)
 
+All 14 publishers are enabled for collection and native text/pixel triage. Public access failures remain unavailable; enabling a source does not bypass a paywall or prove that an article was read. Economy retains verified publication-image requirements.
+
 | Publisher | Website(s) | Discovery | Hourly primary candidate |
 | --- | --- | --- | --- |
-| Monitor | [monitor.al](https://monitor.al) | feed | Subject to all source/article checks |
-| Ekonomia Online | [ekonomiaonline.com](https://ekonomiaonline.com) | feed | Subject to all source/article checks |
-| CNBC | [cnbc.com](https://cnbc.com) | feed | Subject to all source/article checks |
-| Financial Times | [ft.com](https://ft.com) | feed | Excluded after access checks |
-| MarketWatch | [marketwatch.com](https://marketwatch.com) | feed | Excluded after access checks |
-| CoinDesk | [coindesk.com](https://coindesk.com) | feed | Subject to all source/article checks |
-| The Block | [theblock.co](https://theblock.co) | feed | Subject to all source/article checks |
-| Decrypt | [decrypt.co](https://decrypt.co) | feed | Subject to all source/article checks |
-| Kosovo Central Bank | [bqk-kos.org](https://bqk-kos.org) | registered evidence only | Subject to all source/article checks |
-| Bank of Albania | [bankofalbania.org](https://bankofalbania.org) | registered evidence only | Subject to all source/article checks |
-| SEC | [sec.gov](https://sec.gov) | registered evidence only | Subject to all source/article checks |
-| Federal Reserve | [federalreserve.gov](https://federalreserve.gov) | registered evidence only | Subject to all source/article checks |
-| RTÉ Business | [rte.ie](https://rte.ie) | feed | Subject to all source/article checks |
-| CryptoSlate | [cryptoslate.com](https://cryptoslate.com) | feed | Subject to all source/article checks |
+| Monitor | [monitor.al](https://monitor.al) | feed + browser listing | Subject to actual access and all article checks |
+| Ekonomia Online | [ekonomiaonline.com](https://ekonomiaonline.com) | feed + browser listing | Subject to actual access and all article checks |
+| CNBC | [cnbc.com](https://cnbc.com) | feed + browser listing | Subject to actual access and all article checks |
+| Financial Times | [ft.com](https://ft.com) | feed + browser listing | Subject to actual access and all article checks |
+| MarketWatch | [marketwatch.com](https://marketwatch.com) | feed + browser listing | Subject to actual access and all article checks |
+| CoinDesk | [coindesk.com](https://coindesk.com) | feed + browser listing | Subject to actual access and all article checks |
+| The Block | [theblock.co](https://theblock.co) | feed + browser listing | Subject to actual access and all article checks |
+| Decrypt | [decrypt.co](https://decrypt.co) | feed + browser listing | Subject to actual access and all article checks |
+| Kosovo Central Bank | [bqk-kos.org](https://bqk-kos.org) | browser listing | Subject to actual access and all article checks |
+| Bank of Albania | [bankofalbania.org](https://bankofalbania.org) | browser listing | Subject to actual access and all article checks |
+| SEC | [sec.gov](https://sec.gov) | feed + browser listing | Subject to actual access and all article checks |
+| Federal Reserve | [federalreserve.gov](https://federalreserve.gov) | feed + browser listing | Subject to actual access and all article checks |
+| RTÉ Business | [rte.ie](https://rte.ie) | feed + browser listing | Subject to actual access and all article checks |
+| CryptoSlate | [cryptoslate.com](https://cryptoslate.com) | feed + browser listing | Subject to actual access and all article checks |
 
 ## Botë (12)
 
