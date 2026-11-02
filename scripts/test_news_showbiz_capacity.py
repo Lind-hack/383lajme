@@ -57,6 +57,11 @@ class ShowbizCapacityTests(unittest.TestCase):
         self.assertFalse(story_current(lead,NOW+timedelta(hours=2)))
         self.assertEqual(lead['published'],(NOW-timedelta(days=2)).isoformat())
 
+    def test_adult_photo_stories_seen_in_production_receive_photo_priority(self):
+        from news_showbiz_focus import photo_interest
+        self.assertEqual(photo_interest({'category':'Showbiz','title':'Jade Thirlwall sexy pictures'}),1)
+        self.assertEqual(photo_interest({'category':'Showbiz','title':'October celebrity pictures','summary':'Megan Thee Stallion in pink lingerie and Livvy Dunne in a bikini.'}),1)
+
     def test_public_adult_celebrity_look_is_prioritized_over_unrelated_hero(self):
         home={'position':1,'article_count':20,'observed_at':NOW.isoformat(),'method':'public_html_dom_order'}
         generic={'category':'Showbiz','source':'TMZ','title':'A senator has a political disagreement','url':'https://tmz.com/politics','homepage':home}

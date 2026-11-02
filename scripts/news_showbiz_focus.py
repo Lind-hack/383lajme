@@ -11,6 +11,7 @@ ADULT_CELEBRITIES=('Kim Kardashian','Kylie Jenner','Kendall Jenner','Hailey Bieb
     'Tate McRae','Sydney Sweeney','Megan Fox','Jennifer Lopez','Rihanna','Beyonce','Taylor Swift',
     'Ariana Grande','Billie Eilish','Demi Lovato','Miley Cyrus','Nicki Minaj','Cardi B','Shakira',
     'Madison Beer','Bella Hadid','Gigi Hadid','Emily Ratajkowski','Paris Hilton','Heidi Klum',
+    'Megan Thee Stallion','Livvy Dunne','Olivia Dunne','Jade Thirlwall','Rubi Rose',
     'Gracie Abrams','Selena Gomez','Camila Cabello','Olivia Rodrigo','Addison Rae')
 
 EDITORIAL_GUIDANCE=(
