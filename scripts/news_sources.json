@@ -262,8 +262,7 @@
       "domains": [
         "ft.com"
       ],
-      "family": "ft.com",
-      "hourly_primary": false
+      "family": "ft.com"
     },
     {
       "source": "MarketWatch",
@@ -271,8 +270,7 @@
       "domains": [
         "marketwatch.com"
       ],
-      "family": "marketwatch.com",
-      "hourly_primary": false
+      "family": "marketwatch.com"
     },
     {
       "source": "CoinDesk",
@@ -1432,6 +1430,90 @@
       "listing_limit": 20,
       "reason": "Public original reporting pages; require an explicit Albania subject and all verification gates.",
       "naive_timezone": "Europe/Tirane"
+    },
+    {
+      "source": "Monitor",
+      "category": "Ekonomi",
+      "url": "https://monitor.al/",
+      "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
+    },
+    {
+      "source": "Ekonomia Online",
+      "category": "Ekonomi",
+      "url": "https://ekonomiaonline.com/ekonomi/",
+      "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
+    },
+    {
+      "source": "CNBC",
+      "category": "Ekonomi",
+      "url": "https://www.cnbc.com/economy/",
+      "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
+    },
+    {
+      "source": "Financial Times",
+      "category": "Ekonomi",
+      "url": "https://www.ft.com/global-economy",
+      "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
+    },
+    {
+      "source": "MarketWatch",
+      "category": "Ekonomi",
+      "url": "https://www.marketwatch.com/latest-news",
+      "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
+    },
+    {
+      "source": "CoinDesk",
+      "category": "Ekonomi",
+      "url": "https://www.coindesk.com/markets",
+      "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
+    },
+    {
+      "source": "The Block",
+      "category": "Ekonomi",
+      "url": "https://www.theblock.co/latest",
+      "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
+    },
+    {
+      "source": "Decrypt",
+      "category": "Ekonomi",
+      "url": "https://decrypt.co/news",
+      "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
+    },
+    {
+      "source": "RTÉ Business",
+      "category": "Ekonomi",
+      "url": "https://www.rte.ie/news/business/",
+      "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
+    },
+    {
+      "source": "CryptoSlate",
+      "category": "Ekonomi",
+      "url": "https://cryptoslate.com/news/",
+      "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
+    },
+    {
+      "source": "Kosovo Central Bank",
+      "category": "Ekonomi",
+      "url": "https://bqk-kos.org/",
+      "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
+    },
+    {
+      "source": "Bank of Albania",
+      "category": "Ekonomi",
+      "url": "https://www.bankofalbania.org/",
+      "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
+    },
+    {
+      "source": "Federal Reserve",
+      "category": "Ekonomi",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases.htm",
+      "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
+    },
+    {
+      "source": "SEC",
+      "category": "Ekonomi",
+      "url": "https://www.sec.gov/newsroom/press-releases",
+      "reason": "Public Economy discovery; require complete dated readable text and native visual review. Blocked or paywalled pages remain unavailable."
     }
   ],
   "notes": [

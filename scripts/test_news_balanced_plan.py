@@ -28,26 +28,28 @@ class BalancedPlanTests(unittest.TestCase):
                            capture_output=True, text=True, check=True)
             self.assertEqual(json.loads(batch.read_text(encoding="utf-8")), approved + [fresh])
 
-    def test_ample_inventory_fills_twenty_with_two_or_three_in_every_desk(self):
+    def test_ample_inventory_expands_economy_and_showbiz_preserving_other_desks(self):
         plan = plan_counts(dict.fromkeys(CATEGORIES, 60))
-        self.assertEqual(sum(plan.values()), 20)
-        self.assertTrue(all(2 <= value <= 3 for value in plan.values()))
-        self.assertEqual(plan, hourly_targets())
+        self.assertEqual(sum(plan.values()), 135)
+        self.assertEqual(plan['Ekonomi'],60)
+        self.assertEqual(plan['Showbiz'],60)
+        self.assertTrue(all(value==3 for category,value in plan.items() if category not in {'Ekonomi','Showbiz'}))
 
     def test_small_budget_gives_every_desk_second_before_any_third(self):
         plan = plan_counts(dict.fromkeys(CATEGORIES, 20), total=14)
-        self.assertEqual(list(plan.values()), [2] * 7)
+        self.assertTrue(all(value==2 for category,value in plan.items() if category not in {'Ekonomi','Showbiz'}))
+        self.assertEqual(plan['Ekonomi'],20);self.assertEqual(plan['Showbiz'],20)
         plan = plan_counts(dict.fromkeys(CATEGORIES, 20), total=7)
-        self.assertEqual(list(plan.values()), [1] * 7)
+        self.assertTrue(all(value==1 for category,value in plan.items() if category not in {'Ekonomi','Showbiz'}))
 
     def test_missing_inventory_is_a_shortfall_not_fourth_story_elsewhere(self):
         counts = dict.fromkeys(CATEGORIES, 20)
         counts['Kosovë'] = 0
         plan = plan_counts(counts)
-        self.assertEqual(sum(plan.values()), 18)
+        self.assertEqual(sum(plan.values()), 52)
         self.assertEqual(plan['Kosovë'], 0)
         self.assertEqual(deficits([], hourly_targets())['Kosovë'], 3)
-        self.assertLessEqual(max(plan.values()), 3)
+        self.assertTrue(all(value<=3 for category,value in plan.items() if category not in {'Ekonomi','Showbiz'}))
 
     def test_replacement_exhaustion_does_not_mutate_declared_coverage(self):
         with tempfile.TemporaryDirectory() as folder:

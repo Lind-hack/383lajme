@@ -482,16 +482,16 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=(), *, n
             rank(item), item.get("published", "")), reverse=True)
         chosen = []
         family_counts = Counter()
-        while pool and (category=='Showbiz' or len(chosen) < MANIFEST["category_limits"][category]["discovery_max"]):
+        while pool and (category in {'Showbiz','Ekonomi'} or len(chosen) < MANIFEST["category_limits"][category]["discovery_max"]):
             # Prioritize fresh widely covered events, then alternate publishers.
             # Known covered events remain reserves for a genuine new development.
             anchor = min(pool, key=lambda item: (item['coverage_already_published'],
                          -artist_priority(item),
                          freshness_bucket(item, now),
-                         -homepage_weight(item, now) if category=='Showbiz' else 0,
+                         -homepage_weight(item, now) if category in {'Showbiz','Ekonomi'} else 0,
                          -attention_priority(item),
                          item['reader_value']['reserve_genre'],
-                         -homepage_weight(item, now) if category!='Showbiz' else 0,
+                         -homepage_weight(item, now) if category not in {'Showbiz','Ekonomi'} else 0,
                          -item['reader_value']['score'],
                          -min(item['coverage_family_count'], 5),
                          family_counts[publisher_for(item["url"])["family"]]))
@@ -578,6 +578,18 @@ def main() -> int:
             audits=[audit for audit in audits if audit.get('category')!='Showbiz']+extra_audits
             retrieved.update(extra_evidence)
             ingestion['showbiz_collection_pass']=extra_report
+        economy_enabled=any(p['category']=='Ekonomi' for p in manifest['publishers'])
+        if economy_enabled and not showbiz_enabled:
+            economy_manifest=category_manifest('Ekonomi')
+            extra,extra_audits,extra_evidence,extra_report=collect(economy_manifest,state,
+                budget_seconds=float(os.environ.get('L383_ECONOMY_COLLECTION_SECONDS','180')))
+            audits=[audit for audit in audits if audit.get('category')!='Ekonomi']+extra_audits
+            ingestion['economy_collection_pass']=extra_report
+        if economy_enabled:
+            from news_story_review import showbiz_inventory
+            extra,extra_evidence=showbiz_inventory(state,category='Ekonomi')
+            collected=[lead for lead in collected if lead['category']!='Ekonomi']+extra
+            retrieved.update(extra_evidence)
         args.output.parent.mkdir(parents=True,exist_ok=True)
         args.output.with_suffix('.ingestion.json').write_text(json.dumps(ingestion,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     else:
@@ -590,17 +602,30 @@ def main() -> int:
                 audits.append(audit)
 
     selection_pool = collected
-    visual_report = None
-    if os.environ.get('L383_HOURLY_NEWS') == '1' and showbiz_enabled:
-        from news_story_review import review_inventory, selection_ready
-        reviewed,visual_report = review_inventory(collected,retrieved,audits,args.output.parent/'showbiz-review',
-            budget_seconds=float(os.environ.get('L383_SHOWBIZ_REVIEW_SECONDS','600')))
-        selection_pool = []
-        for lead in collected:
-            if lead['category'] != 'Showbiz':
-                selection_pool.append(lead)
-            elif selection_ready(lead,reviewed.get(lead['url']),retrieved.get(lead['url'],{})):
-                selection_pool.append(dict(lead,editorial_review=reviewed[lead['url']]['review']))
+    visual_report = economy_visual_report = None
+    if os.environ.get('L383_HOURLY_NEWS') == '1':
+        from news_story_review import review_inventory,selection_ready
+        from news_model import stage_deadline
+        # Both desks share the existing wall-clock review window. Parallel
+        # category audits retain separate receipts and bounded deadlines.
+        stage_deadline(600)  # Install main-thread termination cleanup before workers.
+        jobs=[]
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+            for category,enabled,seconds,folder in (
+                ('Showbiz',showbiz_enabled,'L383_SHOWBIZ_REVIEW_SECONDS','showbiz-review'),
+                ('Ekonomi',economy_enabled,'L383_ECONOMY_REVIEW_SECONDS','economy-review')):
+                if enabled:
+                    budget=float(os.environ.get(seconds,'600' if category=='Showbiz' else '300'))
+                    future=executor.submit(review_inventory,collected,retrieved,audits,args.output.parent/folder,
+                                           budget_seconds=budget,category=category)
+                    jobs.append((category,future))
+            for category,future in jobs:
+                reviewed,report=future.result()
+                if category=='Showbiz':visual_report=report
+                else:economy_visual_report=report
+                selection_pool=[lead if lead['category']!=category else dict(lead,editorial_review=reviewed[lead['url']]['review'])
+                                for lead in selection_pool if lead['category']!=category
+                                or selection_ready(lead,reviewed.get(lead['url']),retrieved.get(lead['url'],{}))]
 
     published_urls = _published_urls() if args.skip_published else set()
     leads = (select_hourly_leads(selection_pool, published_urls) if os.environ.get("L383_HOURLY_NEWS") == "1"
@@ -659,6 +684,7 @@ def main() -> int:
         "raw_leads": collected,
         "retrieved_evidence": retrieved,
         "ingestion_report": ingestion,
+        "economy_visual_review": economy_visual_report['summary'] if economy_visual_report else None,
         "showbiz_visual_review": visual_report['summary'] if visual_report else None,
         "showbiz_daily_research": daily_research['summary'] if os.environ.get('L383_HOURLY_NEWS')=='1' and daily_research else None,
         "raw_categories": dict(Counter(lead["category"] for lead in collected)),

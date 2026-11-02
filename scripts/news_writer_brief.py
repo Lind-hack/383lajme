@@ -29,11 +29,11 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
         plan = {category: min(count, cap) for category, count in plan.items()}
     leads = data.get("ready_leads", [])
     if desk_slot is not None and (desk_slot < 1 or len(selected) != 1 or cap not in (1,3)
-            or cap==3 and selected[0]!='Showbiz' or spares is None or approved):
-        raise ValueError("desk slot requires one initial category, cap one (or three for Showbiz) and bounded spares")
+            or cap==3 and selected[0] not in {'Showbiz','Ekonomi'} or spares is None or approved):
+        raise ValueError("desk slot requires one initial category, cap one (or three for Showbiz/Ekonomi) and bounded spares")
     from news_coverage import category_ceiling
     slot_count = min(category_ceiling(selected[0]), data['publication_plan'].get(selected[0], 0)) if desk_slot is not None else 0
-    if desk_slot is not None and selected[0]=='Showbiz':slot_count=math.ceil(slot_count/cap)
+    if desk_slot is not None and selected[0] in {'Showbiz','Ekonomi'}:slot_count=math.ceil(slot_count/cap)
     if desk_slot is not None and desk_slot > slot_count:
         raise ValueError('desk slot exceeds its source-ready publication allocation')
     if bool(approved) != bool(attempted) or limit < 0 or (spares is not None and (spares < 0 or approved)):
@@ -118,6 +118,9 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
                                                    "coverage_family_count", "coverage_already_published", "homepage", "editorial_review")
                     if lead.get(key) not in (None, "")}
         metadata['reader_value'] = reader_value(lead)
+        if lead['category']=='Ekonomi':
+            from news_economy_policy import WRITING_GUIDANCE as ECONOMY_GUIDANCE
+            lines.extend(['### Economy guidance',ECONOMY_GUIDANCE])
         if lead['category']=='Showbiz':
             metadata['audience_focus']=focus(lead)
             lines.append(EDITORIAL_GUIDANCE)

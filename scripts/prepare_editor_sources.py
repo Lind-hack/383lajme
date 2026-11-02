@@ -300,7 +300,7 @@ def prioritize_grounded_leads(leads: list[dict], *, now=None) -> list[dict]:
         words = sum(len(re.findall(r"\w+", str(lead.get(key, {}).get("text") or "")))
                     for key in ("primary_evidence", "secondary_evidence")
                     if lead.get(key, {}).get("status") == "text_extracted")
-        substantial,minimum=(50,30) if lead.get('category')=='Showbiz' else (140,80)
+        substantial,minimum=(50,30) if lead.get('category') in {'Showbiz','Ekonomi'} else (140,80)
         ordering=(bool(lead.get("source_basis_warning") or source_basis_warning(lead)),
                 words < substantial, words < minimum, bool(lead.get('coverage_already_published')), -artist_priority(lead))
         if lead.get('category')=='Showbiz':
@@ -455,7 +455,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     # With a recent photo required, about one lead in twenty found one on 18 Oct,
     # so every desk sends up to 30 more than its target.
     by_category = {category: prioritize_grounded_leads([item for item in eligible if item["category"] == category])
-                  [:None if category=='Showbiz' else hourly_targets()[category] + 30] for category in CATEGORIES}
+                  [:None if category in {'Showbiz','Ekonomi'} else hourly_targets()[category] + 30] for category in CATEGORIES}
     # Research one candidate per desk before extras; a slow photo host must
     # not consume the bounded research window before later desks get a turn.
     shortlist = [items[index] for index in range(max(map(len, by_category.values()), default=0))
@@ -564,7 +564,7 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     lines = ["# 383 prepared hourly story queue", "",
              f"Verified source-ready pair inventory: {len(ready)}",
              "Publication plan (aim for these category counts): " + json.dumps(plan, ensure_ascii=False),
-             "Use the publication plan: other desks retain two-to-three allocations; Showbiz expands to every available verified distinct story. Give each available desk its first stories before extras. Report missing verified inventory rather than pad.",
+             "Use the publication plan: other desks retain two-to-three allocations; Showbiz and Ekonomi expand to every available verified distinct story. Give each available desk its first stories before extras. Report missing verified inventory rather than pad.",
              "Use verified facts in original prose. Never name a publisher in public copy; skip stories that rest on another outlet's exclusive, interview or unconfirmed claim; write 383's own lead, sentences and headline wording rather than mirroring the source sentence by sentence, and never add claims (even 'no deadline was given') the evidence does not state; preserve internal evidence URLs.",
              "Visuals below are the institution's own press photos of the last two days, the subject's own official videos of the last three days or rights-cleared photographs of the story's person or team (last 30 days, or archive photos of the last two years whose caption says so), independently checked against source images. Each story shows only image_subject and image_caption; leave the image fields out of your drafts, the pipeline restores the full prepared photo record by source URL. Do not claim a photo shows a moment the caption does not name. The writer and editor must confirm that the photo subject fits the specific story, not just its category.", ""]
     lines += ["# Per-story editorial ranking",

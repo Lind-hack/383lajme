@@ -36,7 +36,10 @@ def capture_article_photo(url,publisher,folder,*,fetcher=fetch_public,image_fetc
         posts=linked_posts(response['payload'],response['url'])
     if evidence.get('status')!='text_extracted' or evidence.get('truncated'):
         raise ValueError('complete public article text unavailable: '+str(evidence.get('status')))
-    options=article_photo_options({'category':'Showbiz','url':url,'title':evidence.get('title','')},evidence)
+    options=article_photo_options({'category':publisher.get('category','Showbiz'),'url':url,'title':evidence.get('title','')},evidence)
+    if publisher.get('category','Showbiz')=='Ekonomi':
+        # Inspection only: these pixels do not grant republication rights.
+        options=[{'photo':{'image_url':image}} for image in dict.fromkeys([evidence.get('image_url',''),*evidence.get('image_candidates',[])]) if image.startswith('https://')][:4]
     errors=[]
     for option in options:
         try:

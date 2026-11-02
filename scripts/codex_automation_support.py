@@ -1173,7 +1173,7 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
         word_count = _body_word_count(article.get("body"))
         paragraph_count = _paragraph_count(article.get("body"))
         if not social_platform:
-            min_words,min_paragraphs=(50,1) if category=='Showbiz' else (MIN_ARTICLE_WORDS,MIN_ARTICLE_PARAGRAPHS)
+            min_words,min_paragraphs=(50,1) if category in {'Showbiz','Ekonomi'} else (MIN_ARTICLE_WORDS,MIN_ARTICLE_PARAGRAPHS)
             if word_count < min_words:
                 errors.append(f"{label} body is too short ({word_count} words); require at least {min_words}")
             if paragraph_count < min_paragraphs:

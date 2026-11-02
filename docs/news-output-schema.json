@@ -243,10 +243,13 @@
     "maximum_by_category": {
       "Botë": 4,
       "Sport": 3,
-      "Showbiz": 2
+      "Showbiz": 2,
+      "Ekonomi": null
     },
     "independent_sources_required": 2,
-    "city_inference": "title plus first 200 body words; supplied priority order; national fallback"
+    "city_inference": "title plus first 200 body words; supplied priority order; national fallback",
+    "maximum_articles_rule": "20 baseline plus verified Showbiz and Ekonomi stories beyond their baseline allocations; explicit operator caps still apply",
+    "economy_target": "Every distinct current verified Ekonomi story in publication_plan, without a numeric desk ceiling"
   },
   "run_contract": {
     "mode": "L383_HOURLY_NEWS=1",
@@ -273,7 +276,7 @@
       "Botë": 3,
       "Sport": 3,
       "Teknologji": 3,
-      "Ekonomi": 3,
+      "Ekonomi": null,
       "Showbiz": null
     },
     "coverage_floor_by_category": {
@@ -285,8 +288,9 @@
       "Ekonomi": 2,
       "Showbiz": 2
     },
-    "maximum_articles_rule": "20 baseline plus all verified Showbiz stories beyond the baseline two; explicit operator caps still apply",
-    "showbiz_target": "Every distinct current verified Showbiz story in publication_plan, without a numeric desk ceiling"
+    "maximum_articles_rule": "20 baseline plus verified Showbiz and Ekonomi stories beyond their baseline allocations; explicit operator caps still apply",
+    "showbiz_target": "Every distinct current verified Showbiz story in publication_plan, without a numeric desk ceiling",
+    "economy_target": "Every distinct current verified Ekonomi story in publication_plan, without a numeric desk ceiling"
   },
   "allOf": [
     {
@@ -302,9 +306,6 @@
       },
       "else": {
         "properties": {
-          "title": {
-            "maxLength": 65
-          },
           "image_width": {
             "minimum": 1200
           },
@@ -320,6 +321,28 @@
           },
           "image_height": {
             "minimum": 350
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "enum": [
+              "Showbiz",
+              "Ekonomi"
+            ]
+          }
+        },
+        "required": [
+          "category"
+        ]
+      },
+      "else": {
+        "properties": {
+          "title": {
+            "maxLength": 65
           }
         }
       }

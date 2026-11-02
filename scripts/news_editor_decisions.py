@@ -13,7 +13,7 @@ def editor_batches(articles: list[dict], size: int = 3) -> list[list[dict]]:
         raise ValueError('editor batch size must be positive')
     groups, pending = [], []
     for article in articles:
-        if article.get('category') == 'Showbiz':
+        if article.get('category') in {'Showbiz','Ekonomi'}:
             if pending:
                 groups.append(pending)
                 pending = []

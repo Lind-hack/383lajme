@@ -9,7 +9,9 @@ from news_model import ask_rows
 
 def native_batch_review(brief,image,deadline):
     from news_story_review import editorial_prompt
-    prompt=editorial_prompt().replace('Return one JSON object in an array','Return one JSON object per supplied review_id in an array').replace('{decision:','{review_id: string, decision:')
+    categories={row.get('category','Showbiz') for row in json.loads(Path(brief).read_text(encoding='utf-8'))}
+    if len(categories)!=1:raise ValueError('visual batches must contain exactly one category')
+    prompt=editorial_prompt(categories.pop()).replace('Return one JSON object in an array','Return one JSON object per supplied review_id in an array').replace('{decision:','{review_id: string, decision:')
     prompt+=' Judge EACH story separately against its own complete text and labelled visual evidence. Return every supplied review_id exactly once. A strong story must not rescue a weak sibling; compare only the supplied related articles for that story.'
     return ask_rows(prompt,brief,['--provider','openai-codex','--model','gpt-6-luna','--ignore-rules',
         '-t','none','--yolo','--max-turns','1','-Q','-q'],timeout=180,deadline=deadline,image_path=image)

@@ -12,12 +12,13 @@ CATEGORY_CEILING = 3
 
 
 def category_ceiling(category):
-    """Showbiz expands with verified inventory; other desks keep their limits."""
-    return math.inf if category=='Showbiz' else CATEGORY_CEILING
+    """Showbiz and Economy expand with verified inventory; other desks keep limits."""
+    return math.inf if category in {'Showbiz','Ekonomi'} else CATEGORY_CEILING
 
 
 def batch_ceiling(articles):
-    return 20+max(0,sum(a.get('category')=='Showbiz' for a in articles)-hourly_targets()['Showbiz'])
+    return 20+sum(max(0,sum(a.get('category')==category for a in articles)-hourly_targets()[category])
+                  for category in ('Showbiz','Ekonomi'))
 
 
 def plan_counts(counts: dict[str, int], total: int = 20) -> dict[str, int]:
@@ -37,7 +38,8 @@ def plan_counts(counts: dict[str, int], total: int = 20) -> dict[str, int]:
             break
         if plan[category] < min(CATEGORY_CEILING, counts.get(category, 0)):
             plan[category] += 1
-    plan['Showbiz']=counts.get('Showbiz',0)
+    for category in ('Showbiz','Ekonomi'):
+        plan[category]=counts.get(category,0)
     return plan
 
 

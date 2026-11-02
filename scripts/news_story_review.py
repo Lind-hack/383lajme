@@ -1,4 +1,4 @@
-"""Read and visually review the complete discovered Showbiz inventory before selection.
+"""Read and visually review the complete discovered Showbiz/Economy inventory before selection.
 
 Public access only. Collection, readable text, captured pixels, model review and
 editorial selection are separate outcomes. Unfinished work is never coverage.
@@ -31,6 +31,10 @@ MAX_AGE = 3600
 REVIEW_MAX_AGE = 24*3600
 
 
+def review_policy(category):
+    return '383-economy-page-review-v1' if category=='Ekonomi' else POLICY
+
+
 def digest(value):
     return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
 
@@ -45,7 +49,7 @@ def story_id(url):
     return hashlib.sha256(homepage_article_identity(url).encode()).hexdigest()[:24]
 
 
-def showbiz_inventory(state, now=None):
+def showbiz_inventory(state, now=None, *, category="Showbiz"):
     """Let the visual editor see current readable pages before keyword triage."""
     from news_ingestion_store import Inventory
     now=now or datetime.now(timezone.utc)
@@ -57,9 +61,9 @@ def showbiz_inventory(state, now=None):
             publisher=publisher_for(row['url'])
             source=row['evidence']
             date=source.get('published') or row['hint'].get('published')
-            if not publisher or publisher['category']!='Showbiz':
+            if not publisher or publisher['category']!=category:
                 continue
-            lead=dict(url=row['url'],source=publisher['source'],category='Showbiz',lane='SHOWBIZ',
+            lead=dict(url=row['url'],source=publisher['source'],category=category,lane=category.upper(),
                       title=source.get('title') or row['hint'].get('title',''),summary=source.get('text','')[:650],
                       published=date,tags=row['hint'].get('tags',[]),readable_primary=True,discovery_only=False)
             observation=homes.get(homepage_article_identity(row['url']))
@@ -119,7 +123,11 @@ def capture(url, publisher, folder, *, article=False, fetcher=fetch_public, rend
     return record
 
 
-def editorial_prompt():
+def editorial_prompt(category="Showbiz"):
+    if category == "Ekonomi":
+        from news_economy_policy import EDITORIAL_GUIDANCE
+        return EDITORIAL_GUIDANCE
+
     return (
         EDITORIAL_GUIDANCE+' Review the attached publisher-page pixels or original source article image AND the complete public article text in the brief. '
         'visual_evidence_kind identifies whether the pixels show a website or only its original photo. A photo-only capture is not a rendering of the publisher layout. '
@@ -153,7 +161,8 @@ def editorial_prompt():
 
 
 def native_review(brief, screenshot, deadline):
-    return ask_rows(editorial_prompt(),
+    category=json.loads(Path(brief).read_text(encoding="utf-8")).get("category","Showbiz")
+    return ask_rows(editorial_prompt(category),
         brief, ['--provider','openai-codex','--model','gpt-6-luna','--ignore-rules','-t','none',
                 '--yolo','--max-turns','1','-Q','-q'],timeout=180,deadline=deadline,image_path=screenshot)
 
@@ -184,7 +193,7 @@ def validate_verdict(rows, lead, related, capture_record, now):
                 'reason':'No verified direct-post engagement measurements collected.'},
             'coverage_families':len(families),'coverage_urls':[lead['url'],*dict.fromkeys(row['same_event_urls'])],
             'discussion':'multiple_independent_reports' if len(families)>=3 else 'not_established',
-            'policy':POLICY,'reviewed_at':now.isoformat(),
+            'policy':review_policy(lead.get('category')),'reviewed_at':now.isoformat(),
             'provider':'openai-codex','model':'gpt-6-luna','effort':'max',
             'text_sha256':source_digest(capture_record['evidence']),
             'screenshot_sha256':capture_record['screenshot_sha256']}
@@ -193,7 +202,7 @@ def validate_verdict(rows, lead, related, capture_record, now):
 def reusable(record, lead, evidence, now, related=None):
     try:
         review = record['review']
-        return (record['status']=='reviewed' and review['policy']==POLICY
+        return (record['status']=='reviewed' and review['policy']==review_policy(lead.get('category'))
                 and recent(review['reviewed_at'],now,REVIEW_MAX_AGE)
                 and record['source_evidence_sha256']==source_digest(evidence)==review['text_sha256']
                 and all(record['capture']['evidence'].get(k)==evidence.get(k) for k in ('image_url','image_candidates'))
@@ -218,7 +227,7 @@ def reusable_capture(record, lead, evidence, now):
 
 
 def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=300,
-                     reviewer=native_review, capturer=capture, now=None, capture_only=False,batch_reviewer=None):
+                     reviewer=native_review, capturer=capture, now=None, capture_only=False,batch_reviewer=None, category="Showbiz"):
     """No shortlist/category cap before review; unprocessed articles remain held."""
     now = now or datetime.now(timezone.utc)
     deadline = stage_deadline(budget_seconds)
@@ -226,10 +235,10 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
     batched=not capture_only and (reviewer is native_review or batch_reviewer is not None)
     folder = Path(folder)
     folder.mkdir(parents=True,exist_ok=True)
-    publishers = [p for p in MANIFEST['publishers'] if p['category']=='Showbiz']
+    publishers = [p for p in MANIFEST['publishers'] if p['category']==category]
     pool = {}
     for lead in review_queue(leads,now):
-        if lead['category']=='Showbiz':pool.setdefault(canonical(lead['url']),lead)
+        if lead['category']==category:pool.setdefault(canonical(lead['url']),lead)
     coverage = event_coverage(list(pool.values()))
     records = {}
     homes = {}
@@ -297,7 +306,11 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
             else:
                 if batched and capturer is capture:
                     from news_showbiz_article_visual import capture_article_photo
-                    page=capture_article_photo(url,publisher_for(url),path,public_evidence=source)
+                    try:
+                        page=capture_article_photo(url,publisher_for(url),path,public_evidence=source)
+                    except ValueError:
+                        if category!='Ekonomi':raise
+                        page=capturer(url,publisher_for(url),path,article=True)
                 else:page = capturer(url,publisher_for(url),path,article=True)
             if page['evidence'].get('published'):
                 if not story_current({**lead,'published':page['evidence']['published']},now):
@@ -323,7 +336,7 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
                 record.update(status='pending_review',error='visual-review deadline after capture')
                 return url,record
             brief = path/'review-brief.json'
-            payload = {'now':now.isoformat(),'source':lead['source'],'url':url,
+            payload = {'category':category,'title':lead['title'],'now':now.isoformat(),'source':lead['source'],'url':url,
                        'published':lead.get('published'),'complete_article_text':page['evidence']['text'],
                        'related_articles':related,'homepage':lead.get('homepage'),
                        'audience_focus':focus(lead),'daily_artist_research':lead.get('artist_research'),
@@ -398,9 +411,9 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
             elif waiting:break
         for future in concurrent.futures.as_completed(calls):
             records.update(future.result())
-    result = {'policy':POLICY,'generated_at':now.isoformat(),'scope':'all current readable Showbiz articles discovered in this collection; not the entire web',
+    result = {'policy':review_policy(category),'category':category,'generated_at':now.isoformat(),'scope':f'all current readable {category} articles discovered in this collection; not the entire web',
               'publishers':[{**audit,'visual_homepage':homes.get(audit['source'],{})}
-                            for audit in audits if audit.get('category')=='Showbiz'],
+                            for audit in audits if audit.get('category')==category],
               'articles':list(records.values()),'summary':{
                   'registered_publishers':len(publishers),'discovered_readable_articles':len(pool),'review_batches_scheduled':batch_calls,
                   'captured_homepages':sum(h['status'] in {'captured','captured_partial'} for h in homes.values()),
@@ -414,8 +427,18 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
                   'reviewed_articles':sum(r['status']=='reviewed' for r in records.values()),
                   'rejected_articles':sum(r.get('review',{}).get('decision')=='reject' for r in records.values()),
                   'held_articles':sum(r['status']!='reviewed' or r.get('review',{}).get('decision')=='hold' for r in records.values()),
-                  'collection_complete':len([a for a in audits if a.get('category')=='Showbiz'])==len(publishers)
-                     and all(a.get('status')=='complete' for a in audits if a.get('category')=='Showbiz')}}
+                  'collection_complete':len([a for a in audits if a.get('category')==category])==len(publishers)
+                     and all(a.get('status')=='complete' for a in audits if a.get('category')==category)}}
+    result['summary']['competitive_articles']=sum(r.get('review',{}).get('decision')=='consider'
+        and r.get('review',{}).get('score',0)>=MIN_EDITORIAL_SCORE for r in records.values())
+    for audit in result['publishers']:
+        rows=[r for r in records.values() if r['source']==audit['source']]
+        audit['visual_funnel']={
+            'current_readable':sum(lead['source']==audit['source'] for lead in pool.values()),
+            'visuals_captured':sum(bool(r.get('capture')) for r in rows),
+            'reviewed':sum(r['status']=='reviewed' for r in rows),
+            'competitive':sum(r.get('review',{}).get('decision')=='consider'
+                and r.get('review',{}).get('score',0)>=MIN_EDITORIAL_SCORE for r in rows)}
     result['summary']['review_complete']=all(r['status']=='reviewed' for r in records.values())
     (folder/'review.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     write_report(result,folder/'index.html')
@@ -430,16 +453,16 @@ def selection_ready(lead, record, evidence, now=None):
 
 def attention_priority(lead):
     review = lead.get('editorial_review') or {}
-    return review.get('score',0) if review.get('policy')==POLICY and review.get('decision')=='consider' else 0
+    return review.get('score',0) if review.get('policy')==review_policy(lead.get('category')) and review.get('decision')=='consider' else 0
 
 
 def write_report(result,path):
     esc = lambda value: html.escape(str(value),quote=True)
     def asset(value):
         return Path(value).resolve().relative_to(path.parent.resolve()).as_posix()
-    lines=['<!doctype html><meta charset="utf-8"><title>383 Showbiz source review</title>',
+    lines=['<!doctype html><meta charset="utf-8"><title>383 source review</title>',
            '<style>body{font:17px/1.6 system-ui;max-width:1100px;margin:30px auto;padding:20px}article{border-top:2px solid #aaa;padding:20px 0}img{max-width:100%;max-height:700px;object-fit:contain}pre{white-space:pre-wrap}td,th{padding:8px;text-align:left}</style>',
-           '<h1>Showbiz source coverage and visual review</h1><p>'+esc(result['scope'])+'</p>',
+           '<h1>Source coverage and visual review</h1><p>'+esc(result['scope'])+'</p>',
            '<pre>'+esc(json.dumps(result['summary'],indent=2))+'</pre>',
            '<p>Viral status remains unknown without verified engagement measurements. Captured pixels are not a completed editorial review.</p>',
            '<table><tr><th>Publisher</th><th>Collection</th><th>Homepage pixels</th><th>Outstanding tasks</th></tr>']
@@ -477,6 +500,7 @@ def main():
     from news_ingestion import collect
     from news_ingestion_store import Inventory
     parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--category',choices=['Showbiz','Ekonomi'],default='Showbiz')
     parser.add_argument('--state',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--collect-seconds',type=float,default=900)
@@ -485,10 +509,10 @@ def main():
     args=parser.parse_args()
     if args.collect_seconds<=0 or args.review_seconds<=0:
         parser.error('both time budgets must be positive; pending work is resumable')
-    manifest={**MANIFEST,**{key:[r for r in MANIFEST[key] if r['category']=='Showbiz']
+    manifest={**MANIFEST,**{key:[r for r in MANIFEST[key] if r['category']==args.category]
                           for key in ('publishers','feeds','browser_lanes')}}
     leads,audits,evidence,ingestion=collect(manifest,args.state,budget_seconds=args.collect_seconds)
-    leads,evidence=showbiz_inventory(args.state)
+    leads,evidence=showbiz_inventory(args.state,category=args.category)
     args.output.mkdir(parents=True,exist_ok=True)
     (args.output/'collection.json').write_text(json.dumps(ingestion,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     store=Inventory(args.state)
@@ -504,7 +528,7 @@ def main():
             tasks.append(task)
     finally: store.close()
     (args.output/'discovered-articles.json').write_text(json.dumps(tasks,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-    _,result=review_inventory(leads,evidence,audits,args.output,budget_seconds=args.review_seconds,capture_only=args.capture_only)
+    _,result=review_inventory(leads,evidence,audits,args.output,budget_seconds=args.review_seconds,capture_only=args.capture_only,category=args.category)
     result['summary']['discovered_article_tasks']=len(tasks)
     result['summary']['pending_article_tasks']=sum(t['state']!='done' for t in tasks)
     reviewed_urls={homepage_article_identity(a['url']) for a in result['articles']}

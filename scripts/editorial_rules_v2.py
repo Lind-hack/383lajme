@@ -295,7 +295,7 @@ def title_errors(article: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     if not title:
         return ["title is empty"]
-    maximum=80 if category=='Showbiz' else 65
+    maximum=80 if category in {'Showbiz','Ekonomi'} else 65
     if len(title) > maximum:
         errors.append(f"title exceeds the ~{maximum}-character mobile limit ({len(title)} characters)")
     folded = fold(title)
