@@ -52,6 +52,15 @@ class ContextVideoTests(unittest.TestCase):
             self.assertEqual(selected['url'],'https://www.youtube.com/watch?v=abcdefghijk')
             self.assertIn('not_video_stream',selected['review_scope'])
             self.assertTrue(review.call_args.kwargs['image_path'].is_file())
+            from news_showbiz_focus import ARTISTS
+            artist=next(a for a in ARTISTS if a['id']=='rita-ora')
+            artist_lead={**lead,'artist_research':{'official_posts':[{'artist':'rita-ora','platform':'YouTube',
+                'author_status':'official_channel_feed','author_channel_id':artist['youtube_channel_id'],
+                'url':'https://youtu.be/abcdefghijk'}]}}
+            official=clips.prepare_clip(artist_lead,{**primary,'video_candidates':[]})
+            self.assertTrue(official['basis'].startswith('verified_artist_channel_feed'))
+            artist_lead['artist_research']['official_posts'][0]['author_channel_id']='UCsomeoneelse'
+            self.assertIsNone(clips.prepare_clip(artist_lead,{**primary,'video_candidates':[]}))
             review.return_value=[{'url':'https://www.youtube.com/watch?v=other123456','relevant':True,'reason':'Same artist'}]
             self.assertIsNone(clips.prepare_clip(lead,primary))
             review.return_value=[{'url':'https://www.youtube.com/watch?v=abcdefghijk','relevant':False,'reason':'Different song'}]
