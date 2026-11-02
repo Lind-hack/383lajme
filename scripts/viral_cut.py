@@ -21,6 +21,7 @@ loudest stretches are taken in order and the hook is the scout's headline.
 """
 from __future__ import annotations
 
+import base64
 import hashlib
 import json
 import math
@@ -39,7 +40,7 @@ XF = 0.2                 # seconds two pieces overlap in a transition
 END = 1.8                # the closing card
 MIN_PIECE, MAX_PIECE = 1.4, 6.5
 TOTAL = (14.0, 30.0)     # what an edit runs, closing card aside
-MIN_TOTAL = 9.0          # shorter than this, the model's choice is not taken
+MIN_TOTAL = 6.0          # shorter than this, the model's choice is not taken
 SHORT_SOURCE = 20.0      # a clip shorter than this may give most of itself...
 SHARE_LONG = 0.5         # ...a longer one at most this share (excerpts, not the clip)
 SHARE_SHORT = 0.8
@@ -52,7 +53,10 @@ LIBRARY = Path(os.environ.get("L383_EDITION_LIBRARY", "/opt/data/video-edition/l
 FONT_URL = "https://github.com/google/fonts/raw/main/ofl/anton/Anton-Regular.ttf"   # SIL OFL
 FONT_FAMILY = "Anton"
 GROQ = "https://api.groq.com/openai/v1"
-GROQ_MODEL = os.environ.get("L383_SCOUT_MODEL", "openai/gpt-oss-120b")
+GEMINI = "https://generativelanguage.googleapis.com/v1beta/models"
+# Models that watch video, cheapest first (free tier); each key is tried with each.
+VISION_MODELS = [m for m in os.environ.get("L383_CUT_VISION_MODELS", "gemini-3.5-flash-lite,gemini-3.1-flash-lite,gemini-2.5-flash").split(",") if m]
+MARK = Path(__file__).resolve().parent / "assets" / "383-mark.png"   # the 383 logo in white, for over video
 WHISPER = os.environ.get("L383_CUT_WHISPER", "whisper-large-v3")
 HEADERS = {"User-Agent": "383ViralCut/1.0 (https://383ks.com)"}
 # The library's sounds sit this far under the clip's own sound (-14 LUFS after loudnorm).
@@ -289,80 +293,200 @@ def clean(text: str, limit: int) -> str:
     return re.sub(r"\s+", " ", text).strip(" .,-")[:limit]
 
 
-def plan_cut(story: str, sources: list[dict], analyses: list[dict], key: str) -> dict:
-    """Which stretches, in what order, the hook on top, the closing question, and the Albanian of
-    what is said in another language. The model picks; the checks above decide what stands."""
+def plan_cut(story: str, sources: list[dict], analyses: list[dict], key: str, work: Path | None = None,
+             look: dict | None = None) -> dict:
+    """What the cut is. A video is watched first (Gemini, look): it is cut only if it shows the
+    moment its post is about and makes sense alone; that moment plays first (the hook), then the
+    stretches of the same moment, nothing else. A star's photos are their own post: all of them.
+    plan["skip"] says why there is no cut ("retry" when it may work next run)."""
     units = [u for n, a in enumerate(analyses) for u in units_of(n, a)]
     headline = next((clean(s.get("headline", ""), 120) for s in sources if s.get("headline")), "")
-    plan = {"units": units, "pieces": [], "hook": "", "kicker": "", "origin": "", "sq": {}, "how": "fallback"}
-    got = ask_model(story, sources, analyses, units, key) if key and units else None
-    if isinstance(got, dict):
-        plan["pieces"] = check_plan(got.get("pieces") or [], units, analyses)
-        hook = clean(str(got.get("hook") or ""), 60)
-        plan["hook"] = hook if 2 <= len(hook.split()) <= 8 else ""
+    plan = {"units": units, "pieces": [], "title": headline, "kicker": "", "origin": "", "sq": {}, "how": "",
+            "area": None, "captions": True, "skip": "", "retry": False}
+    if all(a.get("photo") for a in analyses):
+        plan.update(pieces=fallback_plan(units, analyses), kicker="Si ju duket?", how="photos")
+    else:
+        got = look if look is not None else watch(sources[0], analyses[0], units, work or Path("."))
+        if not isinstance(got, dict):
+            return {**plan, "skip": "the video could not be watched (Gemini)", "retry": True}
+        if got.get("shows") is not True:
+            return {**plan, "skip": "the video does not show what its post is about"}
+        if got.get("context") is not True:
+            return {**plan, "skip": "the clip does not make sense on its own"}
+        by_id = {u["id"]: u for u in units}
+        hook = str(got.get("hook") or "")
+        if hook not in by_id:
+            return {**plan, "skip": "the moment the post is about was not found in the clip"}
+        order = [hook] + [str(i) for i in got.get("pieces") or [] if str(i) != hook]
+        plan["pieces"] = check_plan(order, units, analyses)
+        if not plan["pieces"] or plan["pieces"][0]["id"] != hook:
+            return {**plan, "skip": "too little of the moment to cut"}
+        title = clean(str(got.get("title") or ""), 90)
+        plan["title"] = title if 2 <= len(title.split()) <= 12 else headline
         kicker = clean(str(got.get("kicker") or ""), 40)
         plan["kicker"] = kicker if kicker and len(kicker.split()) <= 7 else ""
-        plan["origin"] = clean(str(got.get("origin") or ""), 40)
+        plan["origin"] = said_in(clean(str(got.get("origin") or ""), 40), sources[0].get("caption", ""))
         sq = got.get("sq") if isinstance(got.get("sq"), dict) else {}
         plan["sq"] = {str(k): clean(str(v), 160) for k, v in sq.items() if str(v).strip()}
-        plan["how"] = "model" if plan["pieces"] else "fallback"
-    if not plan["pieces"]:
-        plan["pieces"] = fallback_plan(units, analyses)
-    if not plan["hook"]:
-        plan["hook"] = " ".join(headline.split()[:9]) or "Momenti që po flitet sot"
+        # A page's banners found by looking (static flat bands) first; Gemini's box only when there are none.
+        plan["area"] = bars(Path(sources[0]["file"]), float(analyses[0].get("duration") or 0)) if sources[0].get("file") else None
+        plan["area"] = plan["area"] or footage_area(got.get("area"))
+        plan["captions"] = got.get("subtitles") is not True   # its own subtitles: ours would sit on them
+        plan["how"] = "watched"
+    if len(plan["pieces"]) < 1 or sum(length(u) for u in plan["pieces"]) < MIN_PIECE:
+        return {**plan, "skip": "nothing to cut"}
+    if not plan["title"]:
+        plan["title"] = "Momenti që po flitet sot"
     if not plan["kicker"]:
-        photos_only = all(a.get("photo") for a in analyses)
-        plan["kicker"] = "Si ju duket?" if photos_only else KICKERS[int(hashlib.sha1(story.encode()).hexdigest(), 16) % len(KICKERS)]
+        plan["kicker"] = KICKERS[int(hashlib.sha1(story.encode()).hexdigest(), 16) % len(KICKERS)]
     return plan
 
 
-def ask_model(story: str, sources: list[dict], analyses: list[dict], units: list[dict], key: str) -> dict | None:
-    lines = []
-    for n, s in enumerate(sources):
-        a = analyses[n]
-        lang = (a.get("speech") or {}).get("language") or ("photo" if a.get("photo") else "no speech")
-        lines.append(f"CLIP {n}: {PLATFORMS.get(s.get('platform', ''), s.get('platform', ''))} @{s.get('author', '')}, "
-                     f"{a.get('duration', 0):.0f}s (use at most {min(budget(a), 30):.0f}s of it), language {lang}. Post text: {clean(s.get('caption', ''), 300) or '(none)'}")
-    loud = sorted(u["loud"] for u in units)
-    top = loud[int(len(loud) * 0.75)] if loud else 0
-    for u in units:
-        mark = " LOUD" if u["loud"] >= top and u["loud"] > -40 else ""
-        said = f'says: "{u["text"][:160]}"' if u["text"] else ("a photo" if u.get("photo") else "no words")
-        lines.append(f"{u['id']} clip {u['src']} {u['start']:.1f}-{u['end']:.1f}s ({length(u):.1f}s){mark}: {said}")
-    prompt = (
-        "You edit 383's \"Virale sot\": a viral moment Albanian social media is talking about, re-cut into one fast "
-        "vertical video of 18 to 30 seconds with the original sound and no narrator, like the best viral pages do. "
-        f"The story: {story or '(see the posts)'}.\n"
-        "Choose the stretches (by id) and their play order: open on the most striking moment (it is the hook), then "
-        "what makes the moment make sense, and end on the payoff or the reaction. 3 to 7 pieces, 18 to 30 seconds in "
-        "all; prefer stretches where something is said or happens (LOUD ones are shouting, laughter, applause). Use "
-        "different clips of the same moment when there are several. Never more than half of a long clip.\n"
-        "Also write, in standard Albanian:\n"
-        "- hook: the line on top for the first seconds, 3 to 7 words, punchy, says only what the clips show or say "
-        "(no names, numbers or claims the posts and words do not give; nothing about crimes or private lives they do not show).\n"
-        "- kicker: a short question to the viewer for the end, at most 6 words.\n"
-        "- origin: the TV show or event the footage is from, only if the posts say so (e.g. \"Big Brother VIP Kosova\"), else \"\".\n"
-        "- sq: for each chosen stretch whose words are not Albanian, what is said in natural Albanian (short).\n"
-        "Reply with only JSON: {\"pieces\": [\"u0b\", ...], \"hook\": \"...\", \"kicker\": \"...\", \"origin\": \"\", \"sq\": {\"u1a\": \"...\"}}\n\n"
-        + "\n".join(lines)
-    )
-    # The free tier allows a few calls a minute, shared with the scout: the first model once more
-    # after the wait it asks for, then the others.
-    tries = [GROQ_MODEL, GROQ_MODEL, "qwen/qwen3.8-27b", "openai/gpt-oss-20b"]
-    for attempt, model in enumerate(tries):
-        body = json.dumps({"model": model, "messages": [{"role": "user", "content": prompt}], "temperature": 0.4,
-                           "response_format": {"type": "json_object"}}).encode()
-        req = urllib.request.Request(f"{GROQ}/chat/completions", data=body, method="POST",
-                                     headers={**HEADERS, "Authorization": f"Bearer {key}", "Content-Type": "application/json"})
+def bars(path: Path, duration: float) -> tuple[float, float, float, float] | None:
+    """The banners a page put above and below the footage (a headline on white, a black bar with
+    its name): rows at the top or bottom that stay the same while the picture moves and are mostly
+    one flat light or dark colour. Returns the footage between them (x, y, w, h fractions), or None."""
+    if duration < 2 or not path.exists():
+        return None
+    cols, rows = 108, 192
+    frames = []
+    for at in (duration * 0.2, duration * 0.5, duration * 0.8):
+        done = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{at:.2f}", "-i", str(path), "-frames:v", "1", "-vf",
+                               f"scale={cols}:{rows},format=gray", "-f", "rawvideo", "-"], capture_output=True, timeout=60, check=False)
+        if done.returncode != 0 or len(done.stdout) != cols * rows:
+            return None
+        frames.append(done.stdout)
+
+    def banner(r: int) -> bool:
+        # Still across the clip (the footage moves under it) with some flat background: its
+        # text lines are still too, which a "mostly white" test would miss.
+        row = [f[r * cols:(r + 1) * cols] for f in frames]
+        still = all(sum(abs(a - b) for a, b in zip(row[0], other)) / cols < 4 for other in row[1:])
+        flat = sum(1 for v in row[1] if v > 215 or v < 30) >= cols * 0.15
+        return still and flat
+
+    def run_from(order) -> int:
+        n = 0
+        for r in order:
+            if not banner(r):
+                break
+            n += 1
+        return n
+
+    def solid(r: int) -> bool:   # a row of the banner's own colour, between its lines of text
+        return sum(1 for v in frames[1][r * cols:(r + 1) * cols] if v > 215 or v < 30) >= cols * 0.8
+
+    def keep(band: range) -> int:
+        # A static shot (a studio wall) is still too; a page's banner is mostly one flat colour.
+        rs = list(band)
+        return len(rs) if len(rs) >= 3 and sum(map(solid, rs)) >= len(rs) * 0.5 else 0
+
+    most = int(rows * 0.35)   # a banner is never more than a third of the frame
+    top, bottom = min(run_from(range(rows)), most), min(run_from(range(rows - 1, -1, -1)), most)
+    top, bottom = keep(range(top)), keep(range(rows - bottom, rows))
+    if top + bottom < rows * 0.04:
+        return None
+    return (0.0, round(top / rows, 3), 1.0, round((rows - top - bottom) / rows, 3))
+
+
+def said_in(origin: str, caption: str) -> str:
+    """The show's name only when the post names it (the watcher once called BBVK Kosova "Albania")."""
+    text = re.sub(r"[^a-z0-9ëç]+", " ", caption.lower())
+    words = [w for w in re.sub(r"[^a-z0-9ëç]+", " ", origin.lower()).split() if len(w) > 2]
+    squashed = text.replace(" ", "")
+    return origin if words and all(w in text.split() or w in squashed for w in words) else ""
+
+
+def footage_area(raw) -> tuple[float, float, float, float] | None:
+    """Gemini's box of the real footage ([ymin, xmin, ymax, xmax], 0-1000), as fractions (x, y, w, h):
+    a fan page's banners, text bars and borders are cropped off. None when it is the whole frame
+    or not a believable box."""
+    try:
+        y0, x0, y1, x1 = (float(v) / 1000 for v in raw)
+    except (TypeError, ValueError):
+        return None
+    if not (0 <= x0 < x1 <= 1 and 0 <= y0 < y1 <= 1):
+        return None
+    w, h = x1 - x0, y1 - y0
+    if w * h < 0.25 or w * h > 0.94:
+        return None
+    return (round(x0, 3), round(y0, 3), round(w, 3), round(h, 3))
+
+
+def gemini_keys() -> list[str]:
+    keys = [os.environ.get(k, "") for k in ("GOOGLE_AI_API_KEY", "GOOGLE_AI_API_KEY1", "GOOGLE_AI_API_KEY_2", "GEMINI_API_KEY")]
+    for f in ("/opt/data/news-pipeline-hermes/gemini.key", "/opt/data/news-pipeline-hermes/gemini2.key"):
         try:
-            with urllib.request.urlopen(req, timeout=90) as res:
-                return json.loads(json.loads(res.read().decode("utf-8"))["choices"][0]["message"]["content"])
-        except urllib.error.HTTPError as exc:
-            log(f"plan model {model}: HTTP {exc.code}")
-            if exc.code == 429 and attempt == 0:
-                time.sleep(min(20.0, float(exc.headers.get("retry-after") or 10)))
-        except (urllib.error.URLError, OSError, ValueError, KeyError, IndexError, TypeError) as exc:
-            log(f"plan model {model}: {exc!r}"[:160])
+            keys.append(Path(f).read_text(encoding="utf-8").strip())
+        except OSError:
+            pass
+    return list(dict.fromkeys(k.strip() for k in keys if k and k.strip()))
+
+
+def preview(path: Path, work: Path) -> Path | None:
+    """A small copy to watch: 360p, 5 frames a second, mono sound, the first three minutes."""
+    out = work / f"look-{uuid.uuid4().hex[:6]}.mp4"
+    done = run(["ffmpeg", "-v", "error", "-y", "-i", str(path), "-t", "180", "-vf", "scale=-2:360,fps=5", "-c:v", "libx264",
+                "-preset", "veryfast", "-crf", "34", "-c:a", "aac", "-ac", "1", "-b:a", "32k", str(out)], timeout=300)
+    return out if done.returncode == 0 and out.exists() and 10_000 < out.stat().st_size < 18_000_000 else None
+
+
+def watch(src: dict, a: dict, units: list[dict], work: Path) -> dict | None:
+    """Gemini watches the clip beside its stretches and says what the cut should be (see plan_cut)."""
+    keys = gemini_keys()
+    small = preview(Path(src["file"]), work) if keys else None
+    if not small:
+        return None
+    lang = (a.get("speech") or {}).get("language") or "no speech"
+    lines = [f"{u['id']} {u['start']:.1f}-{u['end']:.1f}s" + (f' says: "{u["text"][:160]}"' if u["text"] else " (no words)")
+             for u in units]
+    prompt = (
+        "You edit 383's \"Virale sot\" (a Kosovo news site): the moment Albanian social media is talking about, re-cut "
+        "from the viral clip with its original sound. Watch the video. Its post says: "
+        f"\"{clean(src.get('caption', ''), 400) or '(no text)'}\" (by @{src.get('author', '')} on "
+        f"{PLATFORMS.get(src.get('platform', ''), src.get('platform', ''))}; spoken language: {lang}).\n"
+        "The video is cut into these stretches (seconds):\n" + "\n".join(lines) + "\n\n"
+        "Answer, judging by what you see and hear:\n"
+        "- shows: true only if the video really shows the moment the post's text is about.\n"
+        "- context: true only if a viewer who sees just this clip understands who is doing what (false for a "
+        "compilation of unrelated moments, a clip whose text is about something else, or one that needs the full show "
+        "to follow).\n"
+        "- hook: the id of the stretch where that moment happens: it plays first, in the first second.\n"
+        "- pieces: the ids to play, in order, starting with hook: only stretches of that same moment (what leads to it, "
+        "the reaction), 2 to 6 of them, 10 to 30 seconds in all; leave out unrelated parts, intros, ads and outros.\n"
+        "- title: in standard Albanian, 3 to 8 words, what happens in it; nothing the video and post do not show.\n"
+        "- kicker: a question to the viewer in Albanian, at most 6 words.\n"
+        "- origin: the TV show or event the footage is from if it is clear (e.g. \"Big Brother VIP Kosova\"), else \"\".\n"
+        "- subtitles: true if the video already shows subtitles of what is said.\n"
+        "- area: [ymin, xmin, ymax, xmax] from 0 to 1000 of the real footage, leaving out banners, text bars, logos "
+        "bars and borders a page added around it; [0, 0, 1000, 1000] if there are none.\n"
+        "- sq: for each chosen stretch whose words are not Albanian, what is said in natural Albanian.\n"
+        "Reply with only JSON: {\"shows\": true, \"context\": true, \"hook\": \"u0b\", \"pieces\": [\"u0b\", \"u0c\"], "
+        "\"title\": \"...\", \"kicker\": \"...\", \"origin\": \"\", \"subtitles\": false, \"area\": [0, 0, 1000, 1000], \"sq\": {}}"
+    )
+    data = base64.b64encode(small.read_bytes()).decode()
+    small.unlink(missing_ok=True)
+    body = json.dumps({"contents": [{"parts": [{"inline_data": {"mime_type": "video/mp4", "data": data}}, {"text": prompt}]}],
+                       "generationConfig": {"responseMimeType": "application/json", "temperature": 0.2}}).encode()
+    for model in VISION_MODELS:
+        for key in keys:
+            req = urllib.request.Request(f"{GEMINI}/{model}:generateContent?key={key}", data=body, method="POST",
+                                         headers={**HEADERS, "Content-Type": "application/json"})
+            try:
+                with urllib.request.urlopen(req, timeout=150) as res:
+                    reply = json.loads(res.read().decode("utf-8"))
+                text = reply["candidates"][0]["content"]["parts"][0]["text"]
+                got = json.loads(text)
+                if isinstance(got, list):   # it sometimes wraps the answer in a list
+                    got = got[0] if got and isinstance(got[0], dict) else None
+                if isinstance(got, dict):
+                    return got
+            except urllib.error.HTTPError as exc:
+                log(f"watch {model}: HTTP {exc.code}")
+                if exc.code not in (429, 500, 503):
+                    break   # this model is refused outright: the next one
+            except (urllib.error.URLError, OSError, ValueError, KeyError, IndexError, TypeError) as exc:
+                log(f"watch {model}: {exc!r}"[:160])
     return None
 
 
@@ -444,41 +568,31 @@ def caption_events(pieces: list[dict], starts: list[float], analyses: list[dict]
 
 
 def ass_doc(pieces: list[dict], starts: list[float], total: float, plan: dict, captions: list, font: str) -> str:
+    """The words on the cut: what is said (only where the clip has no subtitles of its own), the
+    source in a quiet pill top left while each piece plays, and the closing question under the logo.
+    Nothing on top: the moment itself is the hook, and the 383 logo (drawn by build) is the brand."""
     style = ("Style: {name},{font},{size},&H00FFFFFF,&H00FFFFFF,{outc},{back},0,0,0,0,100,100,{spacing},0,{border},{outline},{shadow},"
              "{align},{ml},{mr},{mv},1")
     styles = [
-        style.format(name="Hook", font=font, size=96, outc=ORANGE, back="&H00000000", spacing=1, border=3, outline=16, shadow=0,
-                     align=8, ml=150, mr=150, mv=330),
         style.format(name="Cap", font=font, size=84, outc="&H00000000", back="&H80000000", spacing=1, border=1, outline=6, shadow=2,
                      align=2, ml=140, mr=140, mv=470),
-        style.format(name="Credit", font=font, size=38, outc="&H99000000", back="&H99000000", spacing=1, border=3, outline=10, shadow=0,
-                     align=1, ml=150, mr=150, mv=300),
-        style.format(name="Brand", font=font, size=62, outc="&H00000000", back="&H00000000", spacing=2, border=1, outline=0, shadow=0,
-                     align=9, ml=150, mr=150, mv=150).replace("&H00FFFFFF,&H00FFFFFF", f"{ORANGE},{ORANGE}", 1),
-        style.format(name="Kicker", font=font, size=124, outc="&H00000000", back="&H00000000", spacing=1, border=1, outline=0, shadow=0,
-                     align=5, ml=160, mr=160, mv=0),
-        style.format(name="Label", font=font, size=56, outc="&H00000000", back="&H00000000", spacing=6, border=1, outline=0, shadow=0,
-                     align=5, ml=160, mr=160, mv=0).replace("&H00FFFFFF,&H00FFFFFF", f"{ORANGE},{ORANGE}", 1),
+        style.format(name="Credit", font=font, size=38, outc="&H8C000000", back="&H8C000000", spacing=2, border=3, outline=12, shadow=0,
+                     align=7, ml=150, mr=420, mv=166),
+        style.format(name="Kicker", font=font, size=112, outc="&H00000000", back="&H00000000", spacing=1, border=1, outline=0, shadow=0,
+                     align=8, ml=160, mr=160, mv=0),
     ]
     end_at = total - END
-    ev = []
-    hook_end = min(2.8, (starts[1] + XF) if len(starts) > 1 else 2.8)
-    ev.append(("Hook", 0.0, hook_end, "{\\fscx55\\fscy55\\t(0,160,\\fscx106\\fscy106)\\t(160,260,\\fscx100\\fscy100)"
-                                      "\\fad(0,120)}" + ass_text(plan["hook"]).upper()))
-    for s, e, text in captions:
-        if s >= hook_end - 0.05 or e <= hook_end:   # the words never sit on the hook... they sit below it anyway
-            pass
-        ev.append(("Cap", s, min(e, end_at), text))
+    ev = [("Cap", s, min(e, end_at), text) for s, e, text in captions]
     for p, at in zip(pieces, starts):
         who = f"@{p['author']} · {PLATFORMS.get(p['platform'], p['platform'])}" if p.get("author") else ""
         line = " · ".join(x for x in (plan.get("origin", ""), who) if x)
+        if len(line) > 34:   # one line in the pill: the creator is what matters
+            line = who
         if line:
-            ev.append(("Credit", at + (XF if at else 0), min(at + p["len"], end_at), ass_text(line)))
-    ev.append(("Brand", 0.0, end_at, "383"))
-    ev.append(("Label", end_at + 0.1, total, "{\\pos(540,780)\\fad(150,0)}VIRALE SOT · 383"))
-    ev.append(("Kicker", end_at + 0.15, total, "{\\pos(540,960)\\fscx70\\fscy70\\t(0,200,\\fscx100\\fscy100)\\fad(120,0)}"
+            ev.append(("Credit", at + (XF if at else 0), min(at + p["len"], end_at), "{\fad(160,0)}" + ass_text(line)))
+    ev.append(("Kicker", end_at + 0.25, total, "{\pos(540,1060)\fad(200,0)\fscx88\fscy88\t(0,260,\fscx100\fscy100)}"
                                                + ass_text(plan["kicker"]).upper()))
-    events = "\n".join(f"Dialogue: {9 if st in ('Hook', 'Kicker', 'Label') else 5},{ts(s)},{ts(e)},{st},,0,0,0,,{text}"
+    events = "\n".join(f"Dialogue: {9 if st == 'Kicker' else 5},{ts(s)},{ts(e)},{st},,0,0,0,,{text}"
                        for st, s, e, text in ev if e - s > 0.04)
     return ("[Script Info]\nScriptType: v4.00+\nPlayResX: 1080\nPlayResY: 1920\nWrapStyle: 0\nScaledBorderAndShadow: yes\n\n"
             "[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, "
@@ -526,23 +640,29 @@ def gain(o: dict, kind: str) -> float:
 
 # ── Rendering (one ffmpeg run: pieces, transitions, burns, words, sound) ─────
 
-def fill(i: int, p: dict, a: dict) -> str:
+def fill(i: int, p: dict, a: dict, area: tuple | None = None) -> str:
     """Piece i's picture as an upright 1080x1920: an upright clip fills the frame (punched in);
-    a wide one sits over a blurred copy of itself; a photo slowly pushes in."""
+    a wide one sits over a blurred copy of itself; a photo slowly pushes in. area (x, y, w, h as
+    fractions) is the real footage inside a fan page's banners: only it is used."""
     frames = int(round(p["len"] * FPS)) + 2
     # fps last as well: ffmpeg 7.1's setpts drops the frame rate, and xfade needs it (8.x keeps it).
     tail = f"fps={FPS},format=yuv420p,setsar=1,trim=duration={p['len']:.3f},setpts=PTS-STARTPTS,fps={FPS}[v{i}]"
     if p.get("photo"):
         return (f"[{i}:v]scale={W * 2}:{H * 2}:force_original_aspect_ratio=increase,crop={W * 2}:{H * 2},"
                 f"zoompan=z='min(1+0.0011*on,1.14)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d={frames}:s={W}x{H}:fps={FPS},{tail}")
-    wide = a.get("width", 0) and a.get("height", 0) and a["width"] / max(1, a["height"]) > 0.8
+    src, ratio = f"[{i}:v]", (a.get("width") or 0) / max(1, a.get("height") or 0)
+    if area:
+        x, y, w, h = area
+        src += f"crop=trunc(iw*{w}/2)*2:trunc(ih*{h}/2)*2:trunc(iw*{x}):trunc(ih*{y}),"
+        ratio = ratio * w / h
+    wide = ratio > 1.05   # up to square it fills the frame (a little off the sides); only landscape floats on a blur
     if not wide:
         z = PUNCH[i % len(PUNCH)]
         w, h = int(W * z) // 2 * 2, int(H * z) // 2 * 2
-        return f"[{i}:v]scale={w}:{h}:force_original_aspect_ratio=increase,crop={W}:{H},{tail}"
+        return f"{src}scale={w}:{h}:force_original_aspect_ratio=increase,crop={W}:{H},{tail}"
     z = WIDE_PUNCH[i % len(WIDE_PUNCH)]
     fg = int(W * z) // 2 * 2
-    return (f"[{i}:v]split=2[bg{i}][fg{i}];[bg{i}]scale={W // 4}:{H // 4}:force_original_aspect_ratio=increase,crop={W // 4}:{H // 4},"
+    return (f"{src}split=2[bg{i}][fg{i}];[bg{i}]scale={W // 4}:{H // 4}:force_original_aspect_ratio=increase,crop={W // 4}:{H // 4},"
             f"boxblur=12:2,scale={W}:{H},eq=brightness=-0.2:saturation=1.2[bb{i}];[fg{i}]scale={fg}:-2[ff{i}];"
             f"[bb{i}][ff{i}]overlay=(W-w)/2:(H-h)/2:shortest=1,{tail}")
 
@@ -553,14 +673,14 @@ def build(plan: dict, sources: list[dict], analyses: list[dict], work: Path, lib
     for u in plan["pieces"]:
         s = sources[u["src"]]
         pieces.append({**u, "len": length(u), "file": str(Path(s["file"]).resolve()), "author": s.get("author", ""), "platform": s.get("platform", "")})
-    if len(pieces) < 2:
+    if not pieces:
         return None
     rng = int(hashlib.sha1(seed.encode()).hexdigest(), 16)
     root = Path(lib.get("root") or LIBRARY)
     fonts, font = font_dir(root)
     starts = timeline(pieces)
     total = round(starts[-1] + pieces[-1]["len"] - XF + END, 3)
-    captions = caption_events(pieces, starts, analyses, plan.get("sq") or {})
+    captions = caption_events(pieces, starts, analyses, plan.get("sq") or {}) if plan.get("captions", True) else []
     (work / "cut.ass").write_text(ass_doc(pieces, starts, total, plan, captions, font), encoding="utf-8")
 
     args = ["ffmpeg", "-v", "error", "-y"]
@@ -575,7 +695,7 @@ def build(plan: dict, sources: list[dict], analyses: list[dict], work: Path, lib
     graph, cuts = [], []
     for i, p in enumerate(pieces):
         a = analyses[p["src"]]
-        graph.append(fill(i, p, a))
+        graph.append(fill(i, p, a, plan.get("area")))
         if a.get("audio") and not p.get("photo"):
             graph.append(f"[{i}:a]aformat=sample_rates=48000:channel_layouts=stereo,atrim=duration={p['len']:.3f},asetpts=PTS-STARTPTS,"
                          f"afade=t=in:d=0.04,afade=t=out:st={max(0, p['len'] - 0.06):.3f}:d=0.06[a{i}]")
@@ -645,6 +765,19 @@ def build(plan: dict, sources: list[dict], analyses: list[dict], work: Path, lib
         graph.append(f"[an]{''.join(sfx)}amix=inputs={len(sfx) + 1}:normalize=0:duration=first,alimiter=limit=0.95[aout]")
     else:
         graph.append("[an]alimiter=limit=0.95[aout]")
+    # The 383 logo: small, top right, with a soft shadow so it reads on any picture; large on the closing card.
+    if MARK.exists():
+        end_at = total - END
+        args += ["-loop", "1", "-framerate", str(FPS), "-t", f"{total + 0.2:.3f}", "-i", str(MARK)]
+        graph.append(f"[{nxt}:v]format=rgba,split=2[lm0][lm1]")
+        graph.append("[lm0]scale=168:-1,pad=iw+28:ih+28:14:14:color=black@0,split=2[la][lb];"
+                     "[lb]colorchannelmixer=rr=0:gg=0:bb=0:aa=0.55,boxblur=9:1[lsh];[lsh][la]overlay=0:0,"
+                     f"fade=t=out:st={max(0.0, end_at - 0.2):.3f}:d=0.2:alpha=1[lsm]")
+        graph.append(f"[lm1]scale=420:-1,fade=t=in:st={end_at + 0.05:.3f}:d=0.35:alpha=1[lbig]")
+        graph.append(f"[{vcur}][lsm]overlay=x=W-w-136:y=136:eof_action=pass[lo1]")
+        graph.append(f"[lo1][lbig]overlay=x=(W-w)/2:y=800:eof_action=pass[lo2]")
+        vcur = "lo2"
+        nxt += 1
     graph.append(f"[{vcur}]ass=cut.ass:fontsdir='{fonts.as_posix().replace(':', chr(92) + ':')}',split=2[vh][vs0]")
     graph.append("[vs0]scale=720:1280:flags=lanczos[vs]")
     graph.append("[aout]asplit=2[ah][as]")
@@ -672,9 +805,9 @@ def build(plan: dict, sources: list[dict], analyses: list[dict], work: Path, lib
             "pieces": [{"src": p["src"], "start": p["start"], "end": p["end"]} for p in pieces]}
 
 
-def make_cut(story: str, sources: list[dict], work: Path, key: str, lib: dict | None = None) -> dict | None:
-    """One story's cut. sources: [{"file", "author", "platform", "caption", "headline", "analysis"?}].
-    Returns the files and what went into them, or None when there is not enough to cut."""
+def make_cut(story: str, sources: list[dict], work: Path, key: str, lib: dict | None = None) -> dict:
+    """One viral clip's cut (or a star's photos). sources: [{"file", "author", "platform", "caption",
+    "headline"}]. Returns the files and what went into them, or {"skip": why, "retry": bool}."""
     work = work.resolve()
     work.mkdir(parents=True, exist_ok=True)
     lib = lib or load_library()
@@ -682,15 +815,16 @@ def make_cut(story: str, sources: list[dict], work: Path, key: str, lib: dict | 
     for s in sources:
         cache = Path(str(s["file"]) + ".cut.json")
         analyses.append(analyse(Path(s["file"]), key, work, cache))
-    plan = plan_cut(story, sources, analyses, key)
-    if len(plan["pieces"]) < 2:
-        log(f"{story!r}: not enough to cut ({len(plan['units'])} stretches)")
-        return None
+    plan = plan_cut(story, sources, analyses, key, work)
+    if plan["skip"]:
+        log(f"{story!r}: no cut, {plan['skip']}")
+        return {"skip": plan["skip"], "retry": plan["retry"]}
     seed = story + "|" + "|".join(sorted(str(s.get("id", s["file"])) for s in sources))
     out = build(plan, sources, analyses, work, lib, seed)
     if not out:
-        return None
-    return {**out, "hook": plan["hook"], "kicker": plan["kicker"], "origin": plan["origin"], "planned_by": plan["how"]}
+        return {"skip": "the render failed", "retry": True}
+    return {**out, "title": plan["title"], "kicker": plan["kicker"], "origin": plan["origin"], "planned_by": plan["how"],
+            "captions": bool(plan["captions"]), "cropped": bool(plan["area"])}
 
 
 if __name__ == "__main__":
@@ -699,7 +833,8 @@ if __name__ == "__main__":
         sys.exit(2)
     out_dir = Path(sys.argv[1])
     files = [Path(f) for f in sys.argv[2:]]
-    srcs = [{"file": f, "id": f.stem, "author": f.stem[:16], "platform": "tiktok", "caption": "", "headline": ""} for f in files]
+    srcs = [{"file": f, "id": f.stem, "author": os.environ.get("CUT_AUTHOR", f.stem[:16]), "platform": "tiktok",
+             "caption": os.environ.get("CUT_CAPTION", ""), "headline": os.environ.get("CUT_CAPTION", "")} for f in files]
     got = make_cut(os.environ.get("CUT_STORY", "trial"), srcs, out_dir, os.environ.get("GROQ_API_KEY", ""))
     print(json.dumps({k: str(v) for k, v in (got or {}).items()}, ensure_ascii=False, indent=1))
-    sys.exit(0 if got else 1)
+    sys.exit(1 if got.get("skip") else 0)

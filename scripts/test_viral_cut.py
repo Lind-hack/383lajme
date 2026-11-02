@@ -62,6 +62,10 @@ class UnitTests(unittest.TestCase):
         self.assertTrue(units[0]["photo"])
 
 
+def units_ids():
+    return [u["id"] for u in vc.units_of(0, clip(dur=16.0))]
+
+
 class PlanTests(unittest.TestCase):
     def setUp(self):
         self.analyses = [clip(dur=40.0), clip(dur=12.0)]
@@ -81,13 +85,48 @@ class PlanTests(unittest.TestCase):
     def test_too_little_is_not_a_cut(self):
         self.assertEqual(vc.check_plan([self.units[0]["id"]], self.units, self.analyses), [])
 
-    def test_without_the_model_the_loudest_go_in_order(self):
-        plan = vc.plan_cut("Sherri në shtëpi", [{"headline": "Sherri i madh në shtëpinë e Big Brother sonte"}] * 2, self.analyses, key="")
-        starts = [(u["src"], u["start"]) for u in plan["pieces"]]
-        self.assertEqual(starts, sorted(starts))
-        self.assertLessEqual(sum(vc.length(u) for u in plan["pieces"]), vc.TOTAL[1])
-        self.assertEqual(plan["hook"], "Sherri i madh në shtëpinë e Big Brother sonte")
-        self.assertIn(plan["kicker"], vc.KICKERS)
+    def watched(self, **look):
+        src = [{"headline": "Sherri i madh në shtëpinë e Big Brother sonte", "caption": "Sherri", "author": "a", "platform": "tiktok"}]
+        a = [clip(dur=16.0)]
+        units = [u for u in vc.units_of(0, a[0])]
+        return vc.plan_cut("sherri", src, a, key="", look=look), units
+
+    def test_the_moment_the_post_is_about_plays_first(self):
+        plan, units = self.watched(shows=True, context=True, hook=units_ids()[1], pieces=[units_ids()[0], units_ids()[2]],
+                                   title="Sherri i madh në shtëpi", subtitles=True, area=[120, 0, 880, 1000])
+        self.assertEqual(plan["skip"], "")
+        self.assertEqual([u["id"] for u in plan["pieces"]][:1], [units_ids()[1]])
+        self.assertEqual(plan["title"], "Sherri i madh në shtëpi")
+        self.assertFalse(plan["captions"])                       # its own subtitles: none of ours on top
+        self.assertEqual(plan["area"], (0.0, 0.12, 1.0, 0.76))   # the banners above and below cropped off
+
+    def test_a_clip_that_does_not_show_its_post_or_needs_context_is_not_cut(self):
+        self.assertIn("does not show", self.watched(shows=False, context=True, hook="u0a")[0]["skip"])
+        self.assertIn("sense", self.watched(shows=True, context=False, hook="u0a")[0]["skip"])
+        self.assertIn("not found", self.watched(shows=True, context=True, hook="nope")[0]["skip"])
+
+    def test_a_clip_that_could_not_be_watched_waits_for_the_next_run(self):
+        plan = vc.plan_cut("x", [{"file": "missing.mp4", "caption": "", "author": "a", "platform": "tiktok"}], [clip()], key="",
+                           work=Path("."), look=None) if not vc.gemini_keys() else {"skip": "w", "retry": True}
+        self.assertTrue(plan["skip"])
+        self.assertTrue(plan["retry"])
+
+    def test_a_stars_photos_are_all_shown(self):
+        photos = [{"photo": True}] * 3
+        plan = vc.plan_cut("dua lipa në instagram", [{"headline": "Dua Lipa publikon foto"}] * 3, photos, key="")
+        self.assertEqual(len(plan["pieces"]), 3)
+        self.assertEqual(plan["kicker"], "Si ju duket?")
+
+    def test_the_show_is_named_only_when_the_post_names_it(self):
+        self.assertEqual(vc.said_in("Big Brother VIP Kosova", "Klejda sot #BigBrotherVIPKosova"), "Big Brother VIP Kosova")
+        self.assertEqual(vc.said_in("Big Brother VIP Albania", "Klejda sot #BigBrotherVIPKosova"), "")
+        self.assertEqual(vc.said_in("", "x"), "")
+
+    def test_only_a_believable_footage_box_is_cropped(self):
+        self.assertIsNone(vc.footage_area([0, 0, 1000, 1000]))   # the whole frame: nothing to crop
+        self.assertIsNone(vc.footage_area([0, 0, 200, 300]))     # a sliver: not believable
+        self.assertIsNone(vc.footage_area("x"))
+        self.assertEqual(vc.footage_area([100, 50, 900, 950]), (0.05, 0.1, 0.9, 0.8))
 
 
 class CaptionTests(unittest.TestCase):
@@ -117,14 +156,34 @@ class CaptionTests(unittest.TestCase):
         events = vc.caption_events(p, vc.timeline(p), [clip(speech=speech(language="english"))], {"u0a": "Nuk e prisja fare këtë"})
         self.assertEqual([t for _, _, t in events], ["NUK E PRISJA FARE KËTË"])
 
-    def test_the_subtitle_file_has_the_hook_credits_and_closing_question(self):
+    def test_no_words_on_top_the_source_top_left_and_the_closing_question(self):
         p = self.pieces()
-        doc = vc.ass_doc(p, vc.timeline(p), 7.0, {"hook": "Sherr {i madh}", "kicker": "Kush ka të drejtë?", "origin": "Big Brother VIP Kosova"},
+        doc = vc.ass_doc(p, vc.timeline(p), 7.0, {"title": "Sherr i madh", "kicker": "Kush ka {të} drejtë?", "origin": "BBVK Kosova"},
                          [], "Anton")
-        self.assertIn("SHERR I MADH", doc)
-        self.assertNotIn("{i madh}", doc)
-        self.assertIn("Big Brother VIP Kosova · @a · TikTok", doc)
+        self.assertNotIn("SHERR I MADH", doc)                    # the moment is the hook, not a line of text
+        self.assertIn("BBVK Kosova · @a · TikTok", doc)
+        credit = next(line for line in doc.splitlines() if line.startswith("Style: Credit"))
+        self.assertEqual(credit.split(",")[18], "7")              # ASS alignment 7: top left
         self.assertIn("KUSH KA TË DREJTË?", doc)
+        self.assertNotIn("{të}", doc)
+
+
+@unittest.skipUnless(shutil.which("ffmpeg"), "needs ffmpeg")
+class BannerTests(unittest.TestCase):
+    def test_a_pages_banner_is_found_and_a_static_picture_is_not(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            framed, still = Path(tmp) / "framed.mp4", Path(tmp) / "still.mp4"
+            # Moving footage under a white banner with dark "text" bars on it (the top quarter).
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", "testsrc2=s=540x960:r=25:d=10,hue=H=t*2",
+                            "-vf", "drawbox=x=0:y=0:w=iw:h=240:color=white:t=fill,drawbox=x=30:y=60:w=420:h=36:color=black:t=fill,"
+                            "drawbox=x=30:y=130:w=300:h=36:color=black:t=fill", "-c:v", "libx264", "-preset", "ultrafast", str(framed)],
+                           check=True)
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", "smptebars=s=540x960:r=25:d=10",
+                            "-c:v", "libx264", "-preset", "ultrafast", str(still)], check=True)
+            area = vc.bars(framed, 10.0)
+            self.assertIsNotNone(area)
+            self.assertAlmostEqual(area[1], 0.25, delta=0.03)
+            self.assertIsNone(vc.bars(still, 10.0))
 
 
 @unittest.skipUnless(shutil.which("ffmpeg"), "needs ffmpeg")
@@ -136,9 +195,15 @@ class RenderTests(unittest.TestCase):
                 subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", f"testsrc2=s={size}:r=30:d=12", "-f", "lavfi",
                                 "-i", "sine=f=440:d=12", "-c:v", "libx264", "-preset", "ultrafast", "-c:a", "aac", "-shortest",
                                 str(work / name)], check=True)
-            sources = [{"file": work / "a.mp4", "author": "a", "platform": "tiktok", "headline": "Një moment i jashtëzakonshëm sot"},
-                       {"file": work / "b.mp4", "author": "b", "platform": "x"}]
-            out = vc.make_cut("test", sources, work / "out", key="", lib={"root": str(work)})
+            sources = [{"file": work / "a.mp4", "author": "a", "platform": "tiktok"}, {"file": work / "b.mp4", "author": "b", "platform": "x"}]
+            analyses = [vc.analyse(s["file"], "", work) for s in sources]
+            pieces = [{"id": "p0", "src": 0, "start": 1.0, "end": 4.0, "text": "", "photo": False, "loud": -20},
+                      {"id": "p1", "src": 1, "start": 2.0, "end": 5.5, "text": "", "photo": False, "loud": -20},
+                      {"id": "p2", "src": 0, "start": 6.0, "end": 8.0, "text": "", "photo": False, "loud": -20}]
+            plan = {"pieces": pieces, "title": "t", "kicker": "Ti çfarë mendon?", "origin": "", "sq": {}, "captions": True,
+                    "area": (0.0, 0.1, 1.0, 0.8)}
+            (work / "out").mkdir()
+            out = vc.build(plan, sources, analyses, work / "out", {"root": str(work)}, "seed")
             self.assertIsNotNone(out)
             info = vc.probe(out["hd"])
             self.assertEqual((info["width"], info["height"]), (1080, 1920))

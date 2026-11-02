@@ -88,7 +88,11 @@ HASHTAGS = ["kosova", "kosovo", "shqiperi", "albania", "prishtina", "tirana", "s
             "lajme", "lajmeshqip", "kosovaalbania", "albaniankosovo", "durres", "prizren", "vlora",
             "shqiperia", "kombetarja", "diaspora",
             # Showbiz and reality TV: Big Brother VIP Kosova and the Albanian stars ("Virale sot" cuts).
-            "bigbrothervipkosova", "bbvk", "bbvipkosova", "bigbrotherkosova", "showbizshqip", "dualipa", "ritaora", "beberexha"]
+            "bigbrothervipkosova", "bbvk", "showbizshqip", "humorshqip", "sportshqip", "dualipa", "ritaora", "beberexha"]
+# Pages that repost the show to sell a pirate stream ("SHIKO FALAS ... 24/7 BBVKS.COM"): never a source.
+PIRATE = re.compile(r"(?i)(\.(com|net|org|tv|live|xyz|online)\b|shiko\s+falas|falas\s+24|24\s*/\s*7|live\s*stream|"
+                    r"link\s+(n[eë]|in)\s+bio|streaming)")
+PER_KIND_ON_SITE = 3    # no one kind (Big Brother...) fills "Virale sot"
 # The Albanian stars' own Instagram: each is read in turn (one a run), their posts are news to
 # Albanian showbiz whatever language they are in, and a photo post can be cut too.
 CELEBS_IG = ["dualipa", "ritaora", "beberexha", "eraistrefi", "avamax"]
@@ -100,6 +104,7 @@ CUTS_PER_RUN = 4        # new or changed cuts rendered a run (a few minutes each
 CUT_SOURCES = 4         # clips of one story in one cut
 CUT_DEADLINE = 1750     # seconds into the run after which no cut is started (the runner stops at 2400; a cut takes a few minutes)
 KINDS = {"lajme", "sport", "showbiz", "bbk", "humor"}
+CUT_STYLE = 2           # cuts made before the clip was watched (style 1: clips mixed, text on top) are not shown
 MAX_AGE_H = 72          # older than three days is not news
 MIN_PLAYS = 5_000       # below this, a clip has not taken off yet
 BASELINE_LOOKUPS = 25   # creators whose last posts are read per run (their usual numbers)
@@ -641,6 +646,12 @@ def hours_old(clip: dict, now: datetime) -> float:
     return max(0.5, (now - when).total_seconds() / 3600)
 
 
+def pirate(clip: dict) -> bool:
+    """A page selling a pirate stream of a show, by its name or its post."""
+    return bool(PIRATE.search(f"{clip.get('author', '')} {clip.get('author_name', '')}") or
+                re.search(r"(?i)shiko\s+falas|24\s*/\s*7|live\s*stream|link\s+(n[eë]|in)\s+bio", clip.get("caption", "")))
+
+
 def is_albanian(clip: dict) -> bool:
     if clip.get("language") == "sq":
         return True
@@ -715,7 +726,7 @@ def rank(pool: list[dict], state: dict, now: datetime) -> list[dict]:
     for c in pool:
         if c["id"] in (state.get("queued") or {}) or hours_old(c, now) > MAX_AGE_H or c.get("plays", 0) < MIN_PLAYS:
             continue
-        if not is_albanian(c) or len(owners.get(same_clip_key(c), ())) >= SEEN_BY:
+        if not is_albanian(c) or len(owners.get(same_clip_key(c), ())) >= SEEN_BY or pirate(c):
             continue
         c["score"], c["why"] = score(c, state, now)
         if c["id"] not in best or c["score"] > best[c["id"]]["score"]:
@@ -842,9 +853,11 @@ def vet(ranked: list[dict], state: dict, now: datetime) -> bool:
               "Kosova and other Albanian shows: fights, funny moments, evictions, what the housemates say), or a "
               "genuinely viral funny or human moment in or about Kosovo, Albania or Albanians. Drop it if it is an ad, "
               "a product or shop post, a giveaway or contest, self-promotion, generic entertainment with no Albanian "
-              "angle, or not about Albanians at all. A post with no text is kept only if its creator is clearly a news, "
-              "showbiz or local account. For each kept post give its story in 2 to 5 Albanian words (the same words "
-              "for posts about the same event or moment, e.g. \"sherri i Big Brother\"), and its kind: lajme, sport, "
+              "angle, or not about Albanians at all. Drop it too when its text does not say concretely what happens in "
+              "the clip (who does what): a compilation, a fan edit set to music, a vague caption (\"shikoni deri ne "
+              "fund\", only hashtags or emoji), or a link to a stream. For each kept post give its story in 3 to 6 "
+              "Albanian words naming who and what (\"Olti Curri sherr me Antonetën\", never a vague \"moment nga "
+              "BBVK\"; the same words only for posts about the very same moment), and its kind: lajme, sport, "
               "showbiz, bbk (Big Brother) or humor.\n"
               "Everything kept goes into 383's own cuts with no editor looking, so also say for each kept post if it is "
               "unsafe (\"unsafe\": true) for one of these reasons only: nudity or sexual content; a child in it; a "
@@ -1193,12 +1206,27 @@ def cut_groups(state: dict, now: datetime, removed: set[str]) -> list[tuple[str,
             continue
         ranked.append((story, items[:CUT_SOURCES]))
     ranked.sort(key=lambda g: -(g[1][0].get("score", 0) + 0.4 * sum(e.get("score", 0) for e in g[1][1:])))
-    return ranked[:CUTS_MAX]
+    return few_of_a_kind(ranked, lambda g: g[1][0].get("kind") or "lajme", CUTS_MAX * 2)
+
+
+def few_of_a_kind(items: list, kind_of, limit: int) -> list:
+    """Best first, at most PER_KIND_ON_SITE of one kind (Big Brother, showbiz...), up to limit."""
+    out, per = [], {}
+    for it in items:
+        k = kind_of(it)
+        if per.get(k, 0) < PER_KIND_ON_SITE:
+            out.append(it)
+            per[k] = per.get(k, 0) + 1
+        if len(out) == limit:
+            break
+    return out
 
 
 def cut_sources(items: list[dict]) -> list[dict]:
+    """The story's best clip alone (clips of a story mixed together confused more than they told), or
+    a star's photo post."""
     out = []
-    for e in items:
+    for e in items[:1]:
         base = {"id": e["id"], "author": e.get("author", ""), "platform": e.get("platform", ""),
                 "caption": e.get("caption", ""), "headline": e.get("headline", "")}
         if e.get("photos"):
@@ -1232,9 +1260,15 @@ def make_cuts(state: dict, now: datetime, removed: set[str], deadline: float) ->
     cuts = state.setdefault("cuts", {})
     lib, made, day = viral_cut.load_library(), [], now.strftime("%Y-%m-%d")
     key = os.environ.get("GROQ_API_KEY", "")
+    skips = state.setdefault("cut_skips", {})
     for story, items in cut_groups(state, now, removed):
         cid = cut_id(story)
-        version = hashlib.sha1("|".join(sorted(e["id"] for e in items)).encode()).hexdigest()[:10]
+        # The story's best clip the watcher has not turned down (a clip that does not show its
+        # post's moment, or makes no sense alone, is not tried again).
+        items = [e for e in items if f"{cid}:{e['id']}" not in skips]
+        if not items:
+            continue
+        version = hashlib.sha1(f"{CUT_STYLE}|{items[0]['id']}".encode()).hexdigest()[:10]
         old = cuts.get(cid) or {}
         if old.get("version") == version and old.get("file"):
             old["score"] = items[0].get("score", 0)
@@ -1246,25 +1280,30 @@ def make_cuts(state: dict, now: datetime, removed: set[str], deadline: float) ->
                 got = viral_cut.make_cut(story, cut_sources(items), Path(tmp), key, lib)
             except (OSError, ValueError, subprocess.SubprocessError) as exc:
                 print(f"SCOUT cut {story!r}: {exc!r}"[:240], file=sys.stderr)
-                got = None
-            if not got:
+                got = {"skip": f"{type(exc).__name__}", "retry": True}
+            if got.get("skip"):
+                print(f"SCOUT no cut of {story!r} ({items[0].get('link', '')}): {got['skip']}")
+                if not got.get("retry"):
+                    skips[f"{cid}:{items[0]['id']}"] = {"why": got["skip"], "at": now_iso()}
                 continue
             stem = f"cuts/{day}/{safe_name(cid)}-{version}"
             if not upload(f"{stem}.mp4", got["hd"].read_bytes(), "video/mp4"):
                 continue
             sd = public_url(f"{stem}-sd.mp4") if upload(f"{stem}-sd.mp4", got["sd"].read_bytes(), "video/mp4") else public_url(f"{stem}.mp4")
             thumb = public_url(f"{stem}.jpg") if got.get("thumb") and upload(f"{stem}.jpg", got["thumb"].read_bytes(), "image/jpeg") else ""
-        entry = {"id": cid, "version": version, "story": story, "kind": items[0].get("kind") or "lajme",
-                 "title": got["hook"], "kicker": got["kicker"], "origin": got["origin"], "planned_by": got["planned_by"],
+        entry = {"id": cid, "version": version, "style": CUT_STYLE, "story": story, "kind": items[0].get("kind") or "lajme",
+                 "title": got["title"], "kicker": got["kicker"], "origin": got["origin"], "planned_by": got["planned_by"],
                  "file": public_url(f"{stem}.mp4"), "sd": sd, "thumb": thumb, "duration": got["duration"],
                  "sources": [{"id": e["id"], "author": e.get("author", ""), "platform": e.get("platform", ""), "link": e.get("link", "")}
-                             for e in items],
+                             for e in items[:1]],
                  "score": items[0].get("score", 0), "made_at": now_iso(), "found_at": old.get("found_at") or now_iso()}
         cuts[cid] = entry
         made.append(entry)
-        print(f"SCOUT cut: {entry['title']} ({story}; {len(items)} clips, {entry['duration']}s, {entry['planned_by']})")
+        print(f"SCOUT cut: {entry['title']} ({story}; {entry['duration']}s, {entry['planned_by']}"
+              f"{', cropped' if got.get('cropped') else ''}{', own subtitles' if not got.get('captions') else ''})")
     cutoff = (now - timedelta(days=3)).isoformat()
     state["cuts"] = {k: v for k, v in cuts.items() if v.get("made_at", "") >= cutoff}
+    state["cut_skips"] = {k: v for k, v in skips.items() if v.get("at", "") >= cutoff}
     return made
 
 
@@ -1274,14 +1313,14 @@ def on_site_cuts(state: dict, now: datetime, removed: set[str]) -> list[dict]:
     day_ago = (now - timedelta(hours=24)).isoformat()
     keep = []
     for c in (state.get("cuts") or {}).values():
-        if c["id"] in removed or c.get("made_at", "") < day_ago or not c.get("file"):
+        if c["id"] in removed or c.get("made_at", "") < day_ago or not c.get("file") or c.get("style") != CUT_STYLE:
             continue
         if any(s.get("id") in removed for s in c.get("sources") or []):
             continue   # re-cut without it next run
         keep.append({k: c.get(k) for k in ("id", "story", "kind", "title", "kicker", "origin", "file", "sd", "thumb", "duration",
                                            "sources", "score", "made_at")})
     keep.sort(key=lambda c: -(c.get("score") or 0))
-    return keep[:CUTS_MAX]
+    return few_of_a_kind(keep, lambda c: c.get("kind") or "lajme", CUTS_MAX)
 
 
 def publish_viral(state: dict, now: datetime, removed: set[str]) -> list[dict]:

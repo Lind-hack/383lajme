@@ -247,9 +247,10 @@ class ViralCutTests(unittest.TestCase):
 
     def test_the_site_never_shows_a_cut_with_a_clip_taken_down(self):
         made = NOW.isoformat()
-        state = {"cuts": {"cut:1": {"id": "cut:1", "file": "f", "made_at": made, "score": 9, "sources": [{"id": "tt:1"}]},
-                          "cut:2": {"id": "cut:2", "file": "f", "made_at": made, "score": 8, "sources": [{"id": "tt:2"}]},
-                          "cut:3": {"id": "cut:3", "file": "f", "made_at": (NOW - timedelta(hours=30)).isoformat(), "sources": []}}}
+        state = {"cuts": {"cut:1": {"id": "cut:1", "file": "f", "made_at": made, "score": 9, "sources": [{"id": "tt:1"}], "style": 2},
+                          "cut:2": {"id": "cut:2", "file": "f", "made_at": made, "score": 8, "sources": [{"id": "tt:2"}], "style": 2},
+                          "cut:3": {"id": "cut:3", "file": "f", "made_at": (NOW - timedelta(hours=30)).isoformat(), "sources": [], "style": 2},
+                          "cut:4": {"id": "cut:4", "file": "f", "made_at": made, "score": 9.5, "sources": []}}}   # the old style
         self.assertEqual([c["id"] for c in cs.on_site_cuts(state, NOW, {"tt:1"})], ["cut:2"])
         self.assertEqual([c["id"] for c in cs.on_site_cuts(state, NOW, set())], ["cut:1", "cut:2"])
 
@@ -314,6 +315,18 @@ class ViralCutTests(unittest.TestCase):
             cs.download = old_dl
         self.assertTrue(cs.raw_path("tt:1").exists())
         self.assertFalse(cs.raw_path("tt:2").exists())
+
+    def test_no_one_kind_fills_the_row(self):
+        made = NOW.isoformat()
+        cuts = {f"cut:{i}": {"id": f"cut:{i}", "file": "f", "made_at": made, "score": 10 - i, "sources": [], "style": 2,
+                             "kind": "bbk" if i < 5 else "sport"} for i in range(7)}
+        kinds = [c["kind"] for c in cs.on_site_cuts({"cuts": cuts}, NOW, set())]
+        self.assertEqual(kinds, ["bbk", "bbk", "bbk", "sport", "sport"])
+
+    def test_pages_selling_a_pirate_stream_are_never_sources(self):
+        self.assertTrue(cs.pirate({"author": "bbvks.com", "caption": "Prank-u i Fuegos"}))
+        self.assertTrue(cs.pirate({"author": "bbk_live", "caption": "SHIKO FALAS BIG BROTHER VIP 24/7"}))
+        self.assertFalse(cs.pirate({"author": "fokus.media87", "caption": "Olti Curri i jep Antonetës gjeste"}))
 
     def test_the_stars_posts_count_as_albanian_showbiz(self):
         self.assertTrue(cs.is_albanian(clip(1, platform="instagram", author="ritaora", caption="London tonight")))
