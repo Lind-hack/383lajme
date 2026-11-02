@@ -272,7 +272,7 @@ Rregullat, pa përjashtim:
 - "search": për çdo moment, emri i ngjarjes ANGLISHT si titull artikulli në Wikipedia (p.sh. "Indictment of Hashim Thaçi", "Trial of Salih Mustafa"). Përdoret për të gjetur botues të tjerë për të njëjtën ngjarje.
 - "date_quotes": nëse citatet e fjalive nuk e thonë datën, një fjali e kopjuar saktë nga cilido burim që e thotë datën (p.sh. "On 24 June 2020, ...").
 - "videos": vetëm ID YouTube (11 shenja) që je i sigurt se ekzistojnë, VETËM nga këta kanale: ${VETTED_CHANNELS.map((c) => c.name).join(", ")}. Nëse nuk je i sigurt, kthe [].
-- Nëse burimet nuk mjaftojnë, kthe momente bosh. Kjo është përgjigje e saktë.
+- Nëse ka të paktën një ngjarje me dy botues në rreshtin "Burime për të njëjtën ngjarje", shkruaj të paktën një moment për të, me fjali të shkurtra që i thonë të dy. Kthe momente bosh VETËM kur asnjë ngjarje nuk ka dy botues.
 
 Shkruaj shqip, në kohën e tashme historike, pa mbiemra vlerësues.`;
 
@@ -453,6 +453,15 @@ try {
       // quote. Drafts are usually one article translated: find the event's
       // other outlets, then ask for their matching sentences.
       entry.corroboration = await corroborate(subject.slug, pool, milestones, primer);
+      // What the model was given and what came of it, for the email: a topic
+      // that drafts nothing must say why, not read as "everything passed".
+      entry.stats = {
+        sources: ev.sources.length,
+        publishers: new Set(ev.sources.map((s) => s.publisher).filter(Boolean)).size,
+        pairs: pairsOf(ev.sources) === "asnjë" ? 0 : pairsOf(ev.sources).split("; ").length,
+        drafted: milestones.length,
+        corroborated: entry.corroboration?.quotes ?? 0,
+      };
       // From here the publish step owns the claim and closes it.
       claimed = null;
       entry.receipt = await site("/daily/publish", {
