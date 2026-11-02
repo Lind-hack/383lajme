@@ -17,6 +17,15 @@ def technology_inventory():
 
 
 class HourlyCapacityTests(unittest.TestCase):
+    def test_showbiz_only_invocation_keeps_all_showbiz_sources_and_no_other_desk(self):
+        from cloud_news_discovery import category_manifest,MANIFEST
+        narrowed=category_manifest('Showbiz')
+        for key in ('publishers','feeds','browser_lanes'):
+            self.assertEqual(narrowed[key],[p for p in MANIFEST[key] if p['category']=='Showbiz'])
+        self.assertEqual(len(narrowed['publishers']),15)
+        self.assertIs(category_manifest(''),MANIFEST)
+        with self.assertRaises(ValueError):category_manifest('Showbiz,Typo')
+
     def test_discovery_can_supply_twenty_distinct_independent_pairs(self):
         paired = select_leads(technology_inventory())
         self.assertEqual(len(paired), 40)

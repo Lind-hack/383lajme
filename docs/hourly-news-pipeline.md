@@ -424,3 +424,15 @@ All six approval checks, content-bound receipts and final publication gates rema
 Public collection supports the visible `.articleBody` and `.article_content-wrapper` bodies before related-story cards or previews. Restricted and hidden content stays excluded. Publisher-declared geography paths can establish a local desk; explicit gaming/esports/anime/manga labels are excluded before photo/model work. Shqiptarja listing dates without an offset use Europe/Tirane, including its daylight-saving transition. Other naive dates keep the existing UTC default.
 
 Writer briefs carry a scoped source identity manifest. Fresh writer responses may return `source_pair_id`; only that exact prepared ID can restore a missing or truncated URL. Unknown/conflicting IDs, off-category sources and conflicting complete URLs fail closed. Existing exact-URL responses remain supported. The temporary ID is removed before ordinary editing, photo attachment and independent review.
+
+
+## Manual category-only production run
+
+Set `L383_NEWS_CATEGORIES=Showbiz` on a single worker invocation to collect,
+review, write and publish only Showbiz. Comma-separated registered category
+names are supported; unknown names fail before collection. An unset value
+preserves the scheduled all-category run. This does not edit the source registry,
+timer or permanently change the hourly configuration. Use the same committed
+release, production lock, authentication, evidence gates and publication readback.
+Showbiz can exceed its baseline two articles and the baseline total of 20 when
+verified inventory supports it; other desks retain three-story ceilings.
