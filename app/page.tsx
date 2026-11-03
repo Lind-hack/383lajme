@@ -127,9 +127,12 @@ export default async function HomePage() {
   const njoftimeArticles = freshNews(freshPool, { now: homeNow, exclude: ledger.ids, count: 12 });
   const njoftimeShown = claim(ledger, njoftimeArticles, 12);
 
-  // A ranking may repeat the lead: Top 5 is today's strongest news, rather
-  // than leftovers after every category shelf has claimed its stories.
-  const topFive = freshNews(freshPool, { now: homeNow, diverse: true, count: 5 });
+  // Normal rankings may repeat the lead; a timed editorial placement owns
+  // one card, so it is excluded from this otherwise independent ranking too.
+  const topFive = freshNews(freshPool, {
+    now: homeNow, diverse: true, count: 5,
+    exclude: new Set(timedLead ? [timedLead.article.id] : []),
+  });
 
   const mostRead = pickMostRead(freshPool, 5, { exclude: kryesoreTopIds, now: homeNow });
 
