@@ -155,7 +155,10 @@ record_state running
 
 stage="writer-auth-preflight"
 exec 7>/tmp/383-news-auth-preflight.lock
-flock -w 120 7
+# Seven real Hermes imports/auth checks exceeded two minutes in the first
+# concurrent run. Keep config/token writes serialized without dropping the
+# last desk; this wait still consumes that desk's normal 55-minute deadline.
+flock -w 300 7
 /opt/hermes/.venv/bin/python scripts/configure_news_model.py --home "$HERMES_HOME" --effort max
 /opt/hermes/.venv/bin/python scripts/news_data_only_preflight.py
 if [ "${L383_WRITER_PROVIDER:-openai-codex}" = "openai-codex" ]; then
