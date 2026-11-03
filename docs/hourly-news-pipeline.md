@@ -60,12 +60,17 @@ The coordinator holds the legacy production lock so an old combined job cannot
 overlap. Desk locks and hourly states are independent. Publication keys are
 `YYYY-MM-DDTHH-<desk>` while filenames remain `YYYY-MM-DDTHH.json`. Same-hour
 siblings remain visible to global duplicate/context checks. Only final context
-review, validation, publication and readback/reporting hold the shared publication
+review, validation, publication and database readback hold the shared publication
 lock, preventing another desk from invalidating a history-bound review receipt.
 A failed desk does not cancel the others. Each desk sends category-labelled
 startup/outcome mail through the existing SMTP path; published reports retain
 the exact article links and photos. The coordinator archives incremental results
 and individual logs under `hourly-runs/<hour>-desks-mode0/`.
+The lock is released before cache refresh, live-page checks and email delivery.
+Reports verify the exact persisted copy instead of reapproving a history snapshot
+that a later category legitimately changed. A list-cache refresh failure remains
+visible, but does not skip mandatory live article readback and the confirmation
+email; the email explicitly notes when list refresh was not confirmed.
 The news worker writes validated Supabase rows and never deploys the website.
 GitHub news schedules and the application dispatch route are disabled by default
 to avoid competing writers. The route requires `NEWS_SCHEDULER=github` to enable

@@ -10,7 +10,7 @@ export type AutomationSnapshot = {
     discovered_at: string | null; leads: number; categories: Record<string, number>;
     working_feeds: number; total_feeds: number;
     stories: { title: string; url: string; category: string; source: string }[];
-    batches: { hour: string; count: number; published: boolean; articles: { title: string; slug: string; category: string }[] }[];
+    batches: { id?: string; category?: string; hour: string; count: number; published: boolean; articles: { title: string; slug: string; category: string }[] }[];
   };
   social: { checked_at: string | null; usable: number; watchlists: number; videos: { title: string; url: string; publisher: string; published: string }[] };
 };

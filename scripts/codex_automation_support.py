@@ -1773,7 +1773,16 @@ def _kosovo_time_label() -> str:
 
 def send_report(path: Path) -> int:
     load_env()
-    articles = validate_batch(path)
+    if os.environ.get('L383_RUN_DESK'):
+        # Publication already enforced every gate under the shared lock. Later
+        # desks legitimately change history; report the exact persisted copy,
+        # rather than attempting to approve this published batch a second time.
+        articles = read_articles(path)
+        if not articles:
+            raise ValueError('No published articles to report')
+        _verify_batch_readback(_batch_key(path), articles)
+    else:
+        articles = validate_batch(path)
     user = os.environ.get("GMAIL_USER", "").strip()
     password = _gmail_app_password()
     recipient = os.environ.get("RECIPIENT_EMAIL", "").strip() or "lindsylqa@gmail.com"
@@ -1838,6 +1847,9 @@ def send_report(path: Path) -> int:
             for category, target in targets.items()
         )
         scoring_note += f" Hourly target: {sum(targets.values())}. Coverage (published/target): " + coverage + "."
+    cache_note = ("<p style='padding:12px 22px;color:#92400e;background:#fffbeb'>"
+                  "Artikujt u verifikuan në faqet e tyre. Përditësimi i listave të faqes nuk u konfirmua në këtë ekzekutim."
+                  "</p>" if os.environ.get('L383_NEWS_CACHE_WARNING') == '1' else '')
     report_html = (
         "<html><body style='margin:0;background:#f1f5f9;color:#0f172a;font-family:Arial,sans-serif'>"
         "<div style='max-width:820px;margin:0 auto;background:#ffffff'>"
@@ -1847,7 +1859,7 @@ def send_report(path: Path) -> int:
         "<p style='font-size:13px;line-height:1.5;margin:6px 0 0;color:#cbd5e1'>Images shown are the article image_url values published with the batch.</p>"
         "</div>"
         f"<div style='padding:12px 22px;background:#f8fafc;color:#475569;font-size:13px;line-height:1.45'>{scoring_note}</div>"
-        + breaking_html
+        + cache_note + breaking_html
         + "".join(category_sections)
         + "<div style='padding:18px 22px;color:#64748b;font-size:12px;line-height:1.5'>Review skipped or excluded stories separately for accuracy limits before republishing them.</div>"
         + "</div></body></html>"

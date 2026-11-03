@@ -20,6 +20,17 @@ Publication is marked verified only when a published quality receipt matches the
 batch checksum. Draft counts are not publication counts. The stage is the last
 recognized stage in the service journal, rather than a percentage estimate.
 Historical batches without matching receipts remain unverified.
+For independent category runs, the publisher reads each desk's private workspace
+and hourly outcome. Only a desk with completed live verification whose batch matches an exact Supabase
+readback is marked published; that readback is cached by batch key and file
+checksum. Drafts and changed files cannot reuse a successful readback. Seven
+category cards show independent results, including a recovered retry, while
+the original failed parent attempt remains recorded. Same-hour batches have
+distinct identifiers and category labels. Discovery summaries combine the seven
+desks and include bounded source cards from each category.
+An email failure keeps the verified publication count and displays the delivery
+error separately. A stopped worker is not shown as running forever, while a
+newer independent retry is not labelled failed by an older parent attempt.
 
 Check collection: `sudo systemctl status 383-automation-status.service`.
 Pause collection: `sudo systemctl stop 383-automation-status.timer`.

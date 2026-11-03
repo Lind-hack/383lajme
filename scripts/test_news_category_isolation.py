@@ -51,13 +51,27 @@ class CategoryPromptTests(unittest.TestCase):
                    'L383_REPO': str(root), 'L383_HOURLY_NEWS': '1',
                    'GMAIL_USER': 'fixture', 'GMAIL_APP_PASSWORD': 'fixture'}
             with patch.dict(os.environ, env), patch.object(support, 'load_env'), \
-                    patch.object(support, 'validate_batch', return_value=[{'category': 'Showbiz'}]), \
+                    patch.object(support, 'read_articles', return_value=[{'category': 'Showbiz'}]), \
+                    patch.object(support, '_verify_batch_readback') as verified, \
+                    patch.object(support, 'validate_batch', side_effect=ValueError('Later desk changed publication history')) as validate, \
                     patch.object(support, '_article_card', return_value='<p>Fixture article link</p>'), \
                     patch.object(support, '_send_gmail_report', return_value=0) as send:
                 self.assertEqual(support.send_report(root / '2026-11-03T14.json'), 0)
                 self.assertTrue(send.call_args.args[3].startswith('[Showbiz]'))
                 self.assertIn('Showbiz: 1/7', send.call_args.args[4])
                 self.assertNotIn('Kosovë: 0/', send.call_args.args[4])
+                verified.assert_called_once_with('2026-11-03T14-showbiz', [{'category':'Showbiz'}])
+                validate.assert_not_called()
+
+    def test_desk_report_cannot_send_unpublished_or_changed_copy(self):
+        for articles in ([], [{'category':'Showbiz'}]):
+            with self.subTest(articles=articles), patch.dict(os.environ, {'L383_RUN_DESK':'showbiz'}), \
+                    patch.object(support, 'load_env'), patch.object(support, 'read_articles', return_value=articles), \
+                    patch.object(support, '_verify_batch_readback', side_effect=ValueError('No matching published copy')), \
+                    patch.object(support, '_send_gmail_report') as send:
+                with self.assertRaises(ValueError):
+                    support.send_report(Path('2026-11-03T14.json'))
+                send.assert_not_called()
 
     @unittest.skipUnless(os.name == 'posix', 'Runtime directory symlinks run on Linux')
     def test_seven_real_processes_have_independent_artifacts_and_one_failure_does_not_abort_others(self):
@@ -93,7 +107,9 @@ raise SystemExit(75 if slug=='sport' else 0)
         script = Path(__file__).with_name('run-hourly-news.sh').read_text(encoding='utf-8')
         start = script.index('stage="publication-lock"')
         end = script.index('stage="independent-event-context-review"', start)
-        self.assertNotIn('flock -u 8', script[end:])
+        release = script.index('flock -u 8', end)
+        self.assertLess(script.index('publish-supabase --file', end), release)
+        self.assertLess(release, script.index('stage="news-cache-refresh"', end))
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
             history = root / 'history'

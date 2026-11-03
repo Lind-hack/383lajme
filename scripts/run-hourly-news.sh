@@ -830,8 +830,8 @@ PUBLICATION_WAIT="$((START_EPOCH + 3180 - $(date +%s)))"
 if [ "$PUBLICATION_WAIT" -le 0 ] || ! flock -w "$PUBLICATION_WAIT" 8; then
   fail_run "publication queue exceeded this desk's verified-review deadline; drafts retained"
 fi
-# Hold until readback/report: a sibling desk must not change the history bound
-# by the context receipt between review, validation and publication.
+# Hold through exact database readback: a sibling must not change the history
+# bound by the context receipt between review, validation and the insert.
 stage="independent-event-context-review"
 env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 3180))" \
   "$PYTHON_BIN" scripts/news_context_review.py --file "$BATCH"
@@ -874,13 +874,21 @@ fi
 stage="supabase-publication"
 "$PYTHON_BIN" scripts/codex_automation_support.py publish-supabase --file "$BATCH"
 record_state published
+# The insert includes exact database readback. Subsequent site/cache/report
+# work does not change publication history and must not hold up another desk.
+flock -u 8
+exec 8>&-
 SLUG="$("$PYTHON_BIN" -c "import json; print(json.load(open('$BATCH', encoding='utf-8'))[0]['slug'])")"
 URL="https://www.383ks.com/article/${SLUG}?verify=${STAMP}"
 
 stage="news-cache-refresh"
-"$PYTHON_BIN" scripts/codex_automation_support.py refresh-news-pages --file "$BATCH"
+if ! "$PYTHON_BIN" scripts/codex_automation_support.py refresh-news-pages --file "$BATCH"; then
+  export L383_NEWS_CACHE_WARNING=1
+  printf '383 CACHE WARNING: lists refresh unavailable; exact live article verification and report delivery still required\n' >&2
+fi
 stage="live-readback"
 "$PYTHON_BIN" scripts/news_publication_readback.py --file "$BATCH"
+stage="live-verified"
 
 "$PYTHON_BIN" scripts/news_quality_report.py --file "$BATCH" --status published || printf "383 quality metrics unavailable\n" >&2
 
