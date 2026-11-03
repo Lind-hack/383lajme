@@ -205,9 +205,12 @@ def topic_error(category: str, title: object, summary: object = "", *, tags=(), 
         financial = _ECONOMY.search(fold(f"{title} {summary}")) or re.search(
             r"\b(?:econom\w*|ekonom\w*|financ\w*|bank\w*|market\w*|treg\w*|"
             r"business|biznes\w*|invest\w*|pension\w*|pag\w*|tatim\w*|taks\w*|"
+            r"cmim\w*|kosto\w*|kredi\w*|blej\w*|blerj\w*|blen|shpenzim\w*|supermarket\w*|dyqan\w*|"
             r"buxhet\w*|export\w*|import\w*|employment|jobs|unemployment|"
             r"oil|naft\w*|tariff\w*|tarif\w*|dollar|euro|debt|borxh\w*|"
             r"prices?|consumer prices?|cost of living|wages?|salaries|salary|inflation|interest rates?|savings|benefits?|allowances?|shtes\w*|shtrenj\w*|gdp|pbb|revenue|profit\w*|fitim\w*|bilanc\w*|te ardhur\w*|dollar\w*|euro\w*|rent|qira\w*|housing|mortgage|treasury|bond\w*)\b",
+            fold(f"{title} {summary}")) or re.search(
+            r"\b(?:brent|wti)\b.{0,70}(?:\d[\d,.]*\s*%|\b(?:minimum\w*|maksimum\w*|dollar\w*|barel\w*|fuci|cmim\w*)\b)",
             fold(f"{title} {summary}"))
         if not financial:
             return "story lacks an explicit economic or markets subject"

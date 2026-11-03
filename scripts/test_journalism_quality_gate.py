@@ -9,6 +9,11 @@ def story(body_extra="", **fields):
 
 
 class JournalismTests(unittest.TestCase):
+    def test_purchase_time_is_not_mistaken_for_credit_to_koha(self):
+        text='Gjendja e kapitalit ndryshon sipas vendit dhe kohës kur e kanë blerë banesën.'
+        self.assertEqual(journalism_errors(story(text)),[])
+        self.assertTrue(journalism_errors(story(text+' Sipas Kohës, raporti u publikua sot.')))
+
     def test_same_time_phrase_does_not_turn_on_demand_into_outlet_credit(self):
         phrase='Titujt do të jenë të disponueshëm në Disney+ sipas kërkesës në të njëjtën kohë me transmetimin në kanal.'
         self.assertEqual(journalism_errors(story(phrase)), [])

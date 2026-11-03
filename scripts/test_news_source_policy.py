@@ -164,6 +164,18 @@ class SourceIsolation(unittest.TestCase):
 
 
 class TopicBoundary(unittest.TestCase):
+    def test_albanian_prices_purchases_and_retail_operations_are_economic_subjects(self):
+        for title,summary in [
+            ('Trump sinjalizon përparim me Iranin, Brent bie në minimum dyjavor',''),
+            ('National Grid do të blejë 29,5 hektarë për nënstacion në Teesside',''),
+            ('Incidenti IT prek frigoriferët në Delhaize dhe Colruyt',
+             'Dy zinxhirët e supermarketeve konfirmuan problemet gjatë fundjavës.'),
+            ('Blerësit përballen me kosto më të larta kredie','Çmimet e banesave vazhduan rënien.')]:
+            with self.subTest(title=title):
+                self.assertIsNone(topic_error('Ekonomi',title,summary))
+        self.assertIsNotNone(topic_error('Ekonomi','Brent udhëton në plazh','Pushimet vazhdojnë.'))
+        self.assertIsNotNone(topic_error('Ekonomi','Këngëtarja publikon albumin e ri','Koncerti mbahet të premten.'))
+
     def test_ski_race_result_stays_out_of_albania_without_excluding_resort_investment(self):
         self.assertIsNotNone(topic_error('Shqipëri',
             'Nisje e jashtëzakonshme e sezonit për Colturin, skiatorja e Shqipërisë e dyta në Solden'))

@@ -29,7 +29,7 @@ def journalism_errors(article: dict) -> list[str]:
             # name. Mask explicit time zones and the unambiguous "at the
             # same time" phrase; keep actual Koha credit elsewhere.
             publisher_value = re.sub(
-                r'\bsipas\s+kohes\s+(?:lokale|lindore|qendrore|perendimore|malore|universale)\b|\bne\s+te\s+njejten\s+kohe\b',
+                r'\bsipas\s+kohes\s+(?:lokale|lindore|qendrore|perendimore|malore|universale)\b|\bne\s+te\s+njejten\s+kohe\b|\bsipas\s+vendit\s+dhe\s+kohes\s+kur\b',
                 '', value) if publisher == 'koha' else value
             name_pattern = re.escape(publisher) + r"(?:it|in|i|t|s|ut|u|n|se|es)?"
             if publisher.endswith(("a", "e", "i")):
