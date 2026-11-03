@@ -98,7 +98,7 @@ def attestation(option, sheet: Path):
             'reviewed_at': datetime.now(timezone.utc).isoformat()}
 
 
-def valid_record(rights):
+def valid_record(rights, *, max_age=3600):
     if not isinstance(rights,dict):
         return False
     proof = rights.get('visual_review') or {}
@@ -113,4 +113,4 @@ def valid_record(rights):
     return (proof.get('policy') == POLICY and proof.get('provider') == 'openai-codex'
             and proof.get('model') == 'gpt-6-luna' and proof.get('effort') == 'max'
             and sha(proof.get('contact_sheet_sha256')) and sha(proof.get('image_sha256'))
-            and proof.get('image_sha256') == rights.get('sha256') and 0 <= age <= 3600)
+            and proof.get('image_sha256') == rights.get('sha256') and 0 <= age <= max_age)

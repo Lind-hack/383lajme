@@ -55,7 +55,7 @@ def _choose_chunk(stories: list[dict], folder: Path, index: int, deadline: float
     by_id = {f"story-{number:03d}": story for number, story in enumerate(stories, 1)}
     sheet, visible = prepare_contact(by_id, folder, index, deadline if deadline is not None else stage_deadline(EDITOR_DEADLINE))
     if sheet is None:
-        return {story['pair_id']: [] for story in stories}
+        return {}  # No visible pixels is unavailable verification, not a rejection.
     for key, story in by_id.items():
         row = {"pair_id": key, "headline": story["title"], "story": story["text"][:700]}
         row.update({f"option {number}": f"[{option['tier']}] {describe(option)}"
@@ -104,6 +104,31 @@ def choose(stories: list[dict], folder: Path) -> dict[str, list[int]]:
     fits). Unreviewed pixels never fall back to metadata-only acceptance."""
     deadline = stage_deadline(EDITOR_DEADLINE)
     stories = [story for story in stories if story["options"]]
+    all_stories = stories
+    cached_picks, contexts = {}, {}
+    cache = None
+    if os.environ.get('L383_PHOTO_FIT_CACHE'):
+        from news_photo_fit_cache import PhotoFitCache
+        from news_visual_contact import _thumbnail, option_url, valid_record
+        cache = PhotoFitCache(Path(os.environ['L383_PHOTO_FIT_CACHE']))
+        # Fetch fresh bytes for this wave before considering an old judgment.
+        _thumbnail.cache_clear()
+        for story in stories:
+            try:
+                context = dict(title=story['title'], text=story['text'], options=[
+                    {'url': option_url(o), 'tier': o['tier'], 'description': describe(o),
+                     'sha256': _thumbnail(option_url(o), o['tier'] == 'article')[0]}
+                    for o in story['options']])
+                contexts[story['pair_id']] = context
+                row = cache.get(context)
+                if row is not None and all(valid_record({'sha256': context['options'][n]['sha256'],
+                        'visual_review': row['proofs'][str(n)]}) for n in row['picks']):
+                    cached_picks[story['pair_id']] = row['picks']
+                    for n in row['picks']:
+                        story['options'][n]['_visual_review'] = row['proofs'][str(n)]
+            except (OSError, ValueError, KeyError, IndexError):
+                pass
+        stories = [story for story in stories if story['pair_id'] not in cached_picks]
     # Most stories offer only three or four images. Pack those cells rather
     # than spending a model request and an otherwise empty image row per story.
     # Keep the tested 64-cell maximum and original tile size, not denser pixels.
@@ -117,7 +142,7 @@ def choose(stories: list[dict], folder: Path) -> dict[str, list[int]]:
         cells += offered
     if chunk:
         chunks.append(chunk)
-    picks: dict[str, list[int]] = {}
+    picks: dict[str, list[int]] = dict(cached_picks)
     def attempt(chunk: list[dict], index: int) -> dict[str, list[int]]:
         found = {}
         pending = list(chunk)
@@ -143,7 +168,15 @@ def choose(stories: list[dict], folder: Path) -> dict[str, list[int]]:
         print(f"383 PHOTO EDITOR deadline: {sum(not future.done() for future in futures)} chunk(s) unverified")
     finally:
         pool.shutdown(wait=True, cancel_futures=True)
-    for story in stories:
+    outcomes = {}
+    for story in all_stories:
+        key = story['pair_id']
+        complete = key in picks
+        outcomes[key] = ('fit' if picks.get(key) else 'none_fit') if complete else 'verification_unavailable'
+        if cache is not None and complete and key not in cached_picks and key in contexts:
+            cache.save(contexts[key], picks[key], {str(n): story['options'][n]['_visual_review'] for n in picks[key]})
         picks.setdefault(story['pair_id'], [])
+    from news_approved_reserve import atomic
+    atomic(folder / 'news-photo-outcomes.json', outcomes)
     print(f"383 PHOTO EDITOR decisions={len(picks)} of {len(stories)} none_fit_or_unverified={sum(not value for value in picks.values())}")
     return picks

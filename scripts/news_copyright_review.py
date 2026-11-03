@@ -177,6 +177,10 @@ def snapshot_digest(articles: list[dict], records: dict[str, dict]) -> str:
 
 
 def verify_review(batch: Path, articles: list[dict], records: dict[str, dict]) -> None:
+    if batch.with_suffix('.reserve-proof.json').is_file():
+        from news_approved_reserve import verify_saved
+        verify_saved(batch, articles, records=records)
+        return
     receipt = json.loads(receipt_path(batch).read_text(encoding="utf-8"))
     age = (datetime.now(timezone.utc) - datetime.fromisoformat(receipt["reviewed_at"])).total_seconds()
     if (receipt.get("policy") != POLICY or receipt.get("model") != "gpt-6-luna"

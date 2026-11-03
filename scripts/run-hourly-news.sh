@@ -183,6 +183,13 @@ if [ "$QA_ONLY" != "1" ]; then
   "$PYTHON_BIN" scripts/codex_automation_support.py send-status-report --phase started --message "Pipeline u nis për orarin e shënuar dhe kaloi kontrollet e autentikimit, faqes dhe bazës së të dhënave. Po ekzekutohet me GPT-6 Luna, max effort. Raporti përfundimtar do të listojë artikujt e publikuar."
 fi
 
+# These two desks preserve approvals and complete small waves independently.
+# The five other desks retain the established pipeline below.
+if [ "${L383_RUN_DESK:-}" = "showbiz" ] || [ "${L383_RUN_DESK:-}" = "ekonomi" ]; then
+  export L383_RUN_STATE="$STATE"
+  exec "$PYTHON_BIN" scripts/news_reliable_desks.py
+fi
+
 stage="retention"
 # Retention disabled 2026-09-27 on the owner's instruction: 383 keeps every
 # published article forever. The old step deleted news_articles rows older

@@ -11,6 +11,7 @@ import hashlib
 import html
 import json
 import math
+import os
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -25,14 +26,14 @@ from news_story_attention import linked_posts, collect_posts
 from news_showbiz_focus import EDITORIAL_GUIDANCE, focus, review_order, review_queue
 from read_news_source import extract, fetch_public
 
-POLICY = '383-showbiz-page-review-v5-homepage-batches'
-MIN_EDITORIAL_SCORE = 5
+POLICY = '383-showbiz-page-review-v6-local-briefs'
+MIN_EDITORIAL_SCORE = 4
 MAX_AGE = 3600
 REVIEW_MAX_AGE = 24*3600
 
 
 def review_policy(category):
-    return '383-economy-page-review-v2-homepage-hooks' if category=='Ekonomi' else POLICY
+    return '383-economy-page-review-v3-local-briefs' if category=='Ekonomi' else POLICY
 
 
 def digest(value):
@@ -150,9 +151,9 @@ def editorial_prompt(category="Showbiz"):
         'For same_event_urls, select only supplied related URLs whose text reports the SAME development, '
         'not merely the same celebrity. For breaking, return publisher_label only if a breaking label is visible '
         'in the screenshot, fresh_development if the text explicitly establishes a new event, otherwise not_established. '
-        'Use a 0..10 editorial score; consider requires at least 5. A supported, fresh entertainment hook is sufficient; '
+        'Use a 0..10 editorial score; consider requires at least 4. A supported, fresh entertainment hook is sufficient; '
         'do not require broad public consequences, extraordinary importance, virality or a major career milestone. '
-        'Choose consider only for a clear, consequential or compelling new Showbiz development with supported '
+        'Choose consider only for a concrete new Showbiz development with supported '
         'Kosovo audience fit; otherwise reject or hold. This is editorial triage, not factual/copyright approval. '
         'Do not use tools or write files. Return one JSON object in an array with fields '
         '{decision: consider|reject|hold, score: integer 0..10, reason: string, new_development: string, '
@@ -252,7 +253,20 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
                 excluded.append(dict(url=lead['url'],source=lead['source'],title=lead.get('title'),reason=reason))
                 continue
         candidates.append(lead)
-    queue=economy_queue(candidates,now) if category=='Ekonomi' else review_queue(candidates,now)
+    from news_desk_policy import select_candidates
+    queue=select_candidates(candidates,evidence_by_url,limit=len(candidates),now=now)
+    # A reliable desk comes back for the next wave after finishing these
+    # stories. Keep deferred articles in the audit as pending, never rejected.
+    wave_size = int(os.environ.get('L383_RELIABLE_REVIEW_WAVE_SIZE', '0'))
+    work_queue = queue
+    deferred = []
+    if wave_size:
+        attempted_path = os.environ.get('L383_RELIABLE_REVIEW_ATTEMPTED', '')
+        attempted = set(json.loads(Path(attempted_path).read_text(encoding='utf-8'))) if attempted_path else set()
+        waiting_queue = [lead for lead in queue if lead['url'] not in attempted]
+        work_queue = waiting_queue[:wave_size]
+        work_urls = {lead['url'] for lead in work_queue}
+        deferred = [lead for lead in queue if lead['url'] not in work_urls]
     for lead in queue:pool.setdefault(canonical(lead['url']),lead)
     if category=='Ekonomi':
         # Spend homepage pixels on sources that have current candidates, in the
@@ -307,6 +321,7 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
         try:
             cached = json.loads((path/'review.json').read_text(encoding='utf-8'))
             if reusable(cached,lead,source,now,related):
+                cached['review_reused'] = True
                 cached['capture']['evidence']=source
                 if not recent(lead.get('published'),now,10800):cached['review']['breaking']='not_established'
                 return url,cached
@@ -415,7 +430,7 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
             calls.append(models.submit(review_batch,batch,folder,batch_calls,deadline,now,
                                        batch_reviewer or native_batch_review))
             return True
-        completed=(future.result() for future in concurrent.futures.as_completed([executor.submit(job,a) for a in pool.values()])) if batched else executor.map(job,pool.values())
+        completed=(future.result() for future in concurrent.futures.as_completed([executor.submit(job,a) for a in work_queue])) if batched else executor.map(job,work_queue)
         for url,record in completed:
             records[url]=record
             if record.get('capture'):
@@ -434,11 +449,14 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
             elif waiting:break
         for future in concurrent.futures.as_completed(calls):
             records.update(future.result())
+    for lead in deferred:
+        records[lead['url']] = dict(url=lead['url'], source=lead['source'], title=lead.get('title', ''),
+                                   status='pending', error='deferred to a later preparation wave')
     result = {'policy':review_policy(category),'category':category,'generated_at':now.isoformat(),'scope':f'all current readable {category} articles discovered in this collection; not the entire web',
               'publishers':[{**audit,'visual_homepage':homes.get(audit['source'],{})}
                             for audit in audits if audit.get('category')==category],
               'excluded_off_topic':excluded,'articles':list(records.values()),'summary':{
-                  'excluded_off_topic_articles':len(excluded),'registered_publishers':len(publishers),'discovered_readable_articles':len(pool),'review_batches_scheduled':batch_calls,
+                  'excluded_off_topic_articles':len(excluded),'registered_publishers':len(publishers),'discovered_readable_articles':len(pool),'deferred_articles':len(deferred),'review_batches_scheduled':batch_calls,
                   'captured_homepages':sum(h['status'] in {'captured','captured_partial'} for h in homes.values()),
                   'complete_homepage_layouts':sum(h['status']=='captured' for h in homes.values()),
                   'article_visuals_captured':sum(bool(r.get('capture')) for r in records.values()),

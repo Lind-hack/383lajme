@@ -77,7 +77,7 @@ def prepare(batch: Path) -> Path:
         )
         sys.exit(1)
     evidence_cache = {}
-    folder = Path(".last30days/source-evidence")
+    folder = Path(os.environ.get('L383_PREPARED_EVIDENCE_ROOT', '.last30days/source-evidence'))
     if os.environ.get("L383_HOURLY_NEWS") == "1" and folder.exists():
         for path in folder.glob("*.json"):
             if not 0 <= time.time() - path.stat().st_mtime <= 3600:

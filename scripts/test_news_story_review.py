@@ -94,7 +94,7 @@ class StoryReviewTests(unittest.TestCase):
     def test_low_scoring_consider_decision_cannot_enter_writing(self):
         with tempfile.TemporaryDirectory() as folder, patch('builtins.print'):
             records,_=review_inventory([LEAD],{URL:EVIDENCE},[],folder,
-                capturer=fake_capture,reviewer=lambda *args:verdict(score=4),now=NOW)
+                capturer=fake_capture,reviewer=lambda *args:verdict(score=3),now=NOW)
             self.assertFalse(selection_ready(LEAD,records[URL],EVIDENCE,NOW))
 
     def test_subsequent_preparation_uses_the_exact_recaptured_text(self):

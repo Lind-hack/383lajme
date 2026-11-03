@@ -184,6 +184,10 @@ def review(batch: Path, recent: list[dict]) -> int:
 
 
 def verify(batch: Path, articles: list[dict], recent: list[dict]) -> None:
+    if batch.with_suffix('.reserve-proof.json').is_file():
+        from news_approved_reserve import verify_saved
+        verify_saved(batch, articles, recent=recent)
+        return
     receipt = json.loads(receipt_path(batch).read_text(encoding="utf-8"))
     age = (datetime.now(timezone.utc) - datetime.fromisoformat(receipt["reviewed_at"])).total_seconds()
     history = history_records(recent, batch)

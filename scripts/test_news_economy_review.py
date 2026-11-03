@@ -90,7 +90,7 @@ class EconomyReviewTests(unittest.TestCase):
   self.assertFalse(any('words' in e or 'paragraph' in e for e in journalism_errors(article)))
   self.assertTrue(any('words' in e or 'paragraph' in e for e in journalism_errors(dict(article,category='Botë'))))
   prompt=editorial_prompt('Ekonomi')
-  self.assertIn('percentage points',prompt);self.assertIn('at least 5',prompt)
+  self.assertIn('percentage points',prompt);self.assertIn('at least 4',prompt)
   self.assertNotIn('tattoo',prompt)
 
 if __name__=='__main__':unittest.main()

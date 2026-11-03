@@ -11,7 +11,7 @@ EDITORIAL_GUIDANCE = (
     "facts. Allegations, fraud and disputed sensitive claims still require independently readable evidence "
     "at final preparation. Do not demand two sources or an invented Kosovo impact for routine foreign "
     "market news. A specific fresh factual market move, consumer-price change, tax/benefit update, company announcement or small economic update can merit consideration; "
-    "do not require extraordinary significance, virality, a large price move, a second routine source or a lengthy article. A concrete fresh hook rated 5/10 is sufficient; do not raise the threshold merely because the development is routine. Prefer prominent front-page developments that give readers a reason to care: what changes, how much, who is affected or what happens next, only when supported. A 50-word factual brief is "
+    "do not require extraordinary significance, virality, a large price move, a second routine source or a lengthy article. A concrete fresh hook rated 4/10 is sufficient; do not raise the threshold merely because the development is routine. Prefer prominent front-page developments that give readers a reason to care: what changes, how much, who is affected or what happens next, only when supported. A 50-word factual brief is "
     "allowed; prefer 120–220 words with supported context when available. Check numbers, currency, period, "
     "percentage versus percentage points, attributed forecasts and publication/event dates. Quotes and "
     "forecasts are claims, not established future outcomes. Reject advertisements, affiliate promotions, "
@@ -22,7 +22,7 @@ EDITORIAL_GUIDANCE = (
     "remains unknown. For same_event_urls choose only supplied URLs reporting the SAME development. "
     "For breaking return publisher_label only when a breaking label is visible in the pixels, "
     "fresh_development only when the text establishes a new development, otherwise not_established. "
-    "Use 0..10 editorial scores: consider requires at least 5 and a concrete fresh economic hook; "
+    "Use 0..10 editorial scores: consider requires at least 4 and a concrete fresh economic hook; "
     "otherwise reject or hold. This triage is not final factual/originality/publication approval. "
     "Do not use tools or write files. Return one JSON object in an array with fields "
     "{decision: consider|reject|hold, score: integer 0..10, reason: string, new_development: string, "
@@ -31,7 +31,7 @@ EDITORIAL_GUIDANCE = (
 )
 
 WRITING_GUIDANCE = (
-    "Ekonomi permits short factual updates: at least 50 supported Albanian words in one paragraph; "
+    "Ekonomi permits short factual updates: at least 40 supported Albanian words in one paragraph; "
     "prefer 120–220 words with useful supplied context when available, without padding. Explain who "
     "changed what, the amount, currency, measured period and effective date when supported. Distinguish "
     "percent from percentage points, forecasts from outcomes and attributed allegations from facts. "

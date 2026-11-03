@@ -1211,6 +1211,9 @@ def is_no_photo(photo: dict | None) -> bool:
 
 
 def trusted_photo(article: dict, *, require_image_match: bool = True) -> dict | None:
+    if os.environ.get('L383_RESERVE_PUBLICATION_BATCH'):
+        from news_approved_reserve import saved_photo
+        return saved_photo(article)
     try:
         data = json.loads(CATALOG.read_text(encoding="utf-8"))
         photo = data.get(str(article.get("url")), {})
@@ -1236,7 +1239,7 @@ def image_errors(article: dict) -> list[str]:
         return ['source-photo reuse requires an international category and independently verified Commons rights']
     if os.environ.get('L383_HOURLY_NEWS') == '1':
         from news_visual_contact import valid_record
-        if not valid_record(rights):
+        if not valid_record(rights, max_age=21600 if os.environ.get('L383_RESERVE_PUBLICATION_BATCH') else 3600):
             return ['image has no current native Luna/max pixel review bound to its exact bytes']
     from news_asset_photos import valid_asset_photo
     asset = rights.get("photo_tier") == "asset" and valid_asset_photo(article, photo)
