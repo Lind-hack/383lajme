@@ -16,6 +16,7 @@ import type { AccordionSlide } from "@/components/image-accordion";
 import { getCategoryColor, getCategoryBg } from "@/lib/category-colors";
 import { topicForArticle } from "@/lib/topics.mjs";
 import { dosjeFor, dosjeUniverse } from "@/lib/dosje-entries";
+import { isCheckedLink } from "@/lib/dosje-server";
 
 export const revalidate = 7200;
 
@@ -126,7 +127,10 @@ export default async function ArticlePage({
   // Matched over every subject both halves know, so the rail beside a story and
   // the dossier it links to can never disagree about which file the story is in.
   const universe = await dosjeUniverse();
-  const topic = topicForArticle(article, universe);
+  const matched = topicForArticle(article, universe);
+  // Shown only when a second reader confirmed the article is about the
+  // dossier's subject (lib/dosje-server isCheckedLink, migration 0120).
+  const topic = matched && (await isCheckedLink(article.slug, matched.slug)) ? matched : null;
   const file = topic ? await dosjeFor(topic.slug, allArticles, article.slug, article) : null;
   const dosje =
     topic && file

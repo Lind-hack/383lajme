@@ -378,7 +378,20 @@ ${sources}`));
 // ── the run ───────────────────────────────────────────────────────────────
 const log = (o) => console.log(JSON.stringify(o));
 
-try {
+// --rejudge: check every published moment against the current rules, hide
+// what fails, and email the result (the hidden moments come through
+// dosje_changes). No research, no model writing.
+if (args.includes("--rejudge")) {
+  run.mode = "rejudge";
+  try {
+    run.rejudge = await site("/daily/rejudge", { method: "POST" });
+    log({ stage: "rejudge", checked: run.rejudge.checked, hidden: run.rejudge.hidden?.length ?? 0 });
+  } catch (err) {
+    run.errors.push(`rejudge: ${String(err?.message ?? err).slice(0, 240)}`);
+  }
+}
+
+if (!args.includes("--rejudge")) try {
   const plan = await site(`/daily/plan${backfill ? "?backfill=1" : ""}`);
   log({ stage: "plan", clusters: plan.clusters?.length ?? 0, due: plan.due?.length ?? 0, caps: plan.caps });
 

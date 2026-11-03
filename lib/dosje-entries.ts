@@ -1,4 +1,4 @@
-import { getDosje, listDosjeTopics, type DosjeCitation } from "@/lib/dosje-server";
+import { checkedArticlesFor, getDosje, listDosjeTopics, type DosjeCitation } from "@/lib/dosje-server";
 import { orderTimeline } from "@/lib/dosje-timeline.mjs";
 import { TOPICS, timelineFor } from "@/lib/topics.mjs";
 import type { DosjeEntry } from "@/components/dosje-section";
@@ -76,11 +76,14 @@ function archiveEntries(
   articles: Article[],
   currentSlug: string | undefined,
   currentArticle: Article | null | undefined,
-  universe: DosjeTopicMatcher[]
+  universe: DosjeTopicMatcher[],
+  checked: Set<string>
 ): DosjeEntry[] {
+  // Only articles a second reader confirmed are about this subject (0120);
+  // the word matcher alone put a U21 match in the Sali Berisha dossier.
   return (
     timelineFor(slug, articles, currentSlug, currentArticle, universe) as DosjeEntry[]
-  ).filter((e) => e.kind === "article");
+  ).filter((e) => e.kind === "article" && (e.isCurrent || (e.slug ? checked.has(e.slug) : false)));
 }
 
 export async function dosjeFor(
@@ -89,7 +92,7 @@ export async function dosjeFor(
   currentSlug?: string,
   currentArticle?: Article | null
 ): Promise<DosjeResult | null> {
-  const [live, universe] = await Promise.all([getDosje(slug), dosjeUniverse()]);
+  const [live, universe, checked] = await Promise.all([getDosje(slug), dosjeUniverse(), checkedArticlesFor(slug)]);
 
   // An approved topic wins even with no milestones yet. It used to need at
   // least one, which sent a dossier that had been through review back to the
@@ -123,7 +126,7 @@ export async function dosjeFor(
       blurb: live.topic.blurb,
       primer: typeof row?.primer === "string" ? row.primer : null,
       // One timeline by date (lib/dosje-timeline.mjs), not moments then articles.
-      entries: orderTimeline([...milestones, ...archiveEntries(slug, articles, currentSlug, currentArticle, universe)]),
+      entries: orderTimeline([...milestones, ...archiveEntries(slug, articles, currentSlug, currentArticle, universe, checked)]),
       // "Verified" is a claim about history shown, so it needs at least one
       // verified moment; 383's own articles alone are not that.
       sourced: milestones.length > 0,

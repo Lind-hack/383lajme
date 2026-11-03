@@ -5,9 +5,11 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getArticles, getArticlesBefore } from "@/lib/db";
 import { TOPICS } from "@/lib/topics.mjs";
 import { matchTopic, isStandingSubject } from "@/lib/dosje-match.mjs";
+import { linkJudgePrompt, readLinkJudgement } from "@/lib/dosje-judge.mjs";
+import { llmJSON } from "@/lib/llm";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 /**
  * Which of today's articles belong to a standing subject.
@@ -42,6 +44,8 @@ function authorised(req: Request): boolean {
 type TopicRow = {
   slug: string;
   title: string;
+  blurb?: string | null;
+  status?: string | null;
   anchors: string[] | null;
   signals: string[] | null;
   excludes: string[] | null;
@@ -63,7 +67,7 @@ async function run(req: Request, dryRun: boolean) {
   // keep accumulating evidence, or it can never reach the point of publishing.
   const { data: topicRows, error: topicError } = await supabase
     .from("dosje_topics")
-    .select("slug, title, anchors, signals, excludes, match_groups, context")
+    .select("slug, title, blurb, status, anchors, signals, excludes, match_groups, context")
     .neq("status", "retired");
 
   if (topicError) {
@@ -99,7 +103,7 @@ async function run(req: Request, dryRun: boolean) {
     article_slug: string;
     topic_slug: string;
     score: number;
-    method: "rule";
+    method: "rule" | "llm";
     reasons: Record<string, unknown>;
     publishedAt: string;
   }> = [];
@@ -117,6 +121,65 @@ async function run(req: Request, dryRun: boolean) {
       reasons: m.reasons,
       publishedAt: a.publishedAt,
     });
+  }
+
+  // ── a second reader for links to a public dossier ────────────────────────
+  //
+  // Words alone put a U21 match (scorer: Berisha) in the Sali Berisha dossier
+  // and a Flydubai story quoting Netanyahu in his (3 Nov 2026). A link to a
+  // public dossier is shown to readers only once a model has confirmed, in one
+  // batch per dossier, that the article is about its subject (method "llm").
+  // Rejected matches are dropped, so an existing bad link is pruned below and
+  // the email says "Nuk shfaqet më te". If the judge cannot be reached, the
+  // links stay unchecked ("rule") and pages do not show them.
+  let linkJudge: { asked: number; accepted: number; refused: number; failed: number } | null = null;
+  if (!dryRun) {
+    const publicTopics = new Map(topics.filter((t) => t.status === "approved").map((t) => [t.slug, t]));
+    const checked = new Set<string>();
+    const candidateSlugs = [...new Set(matches.filter((m) => publicTopics.has(m.topic_slug)).map((m) => m.article_slug))];
+    for (let i = 0; i < candidateSlugs.length; i += 50) {
+      const { data } = await supabase
+        .from("dosje_article_topics")
+        .select("article_slug, topic_slug")
+        .eq("method", "llm")
+        .in("article_slug", candidateSlugs.slice(i, i + 50));
+      for (const r of (data ?? []) as Array<{ article_slug: string; topic_slug: string }>) checked.add(`${r.article_slug}:${r.topic_slug}`);
+    }
+    const bySlug = new Map(articles.map((a) => [a.slug, a]));
+    linkJudge = { asked: 0, accepted: 0, refused: 0, failed: 0 };
+    const refused = new Set<string>();
+    for (const [slug, topic] of publicTopics) {
+      const pending = matches.filter((m) => m.topic_slug === slug && !checked.has(`${m.article_slug}:${slug}`)).slice(0, 40);
+      if (!pending.length) continue;
+      linkJudge.asked += pending.length;
+      const { system, prompt } = linkJudgePrompt(
+        { title: topic.title, blurb: topic.blurb ?? "" },
+        pending.map((m) => ({ slug: m.article_slug, title: bySlug.get(m.article_slug)?.title, excerpt: bySlug.get(m.article_slug)?.excerpt }))
+      );
+      let accepted: Set<string>;
+      try {
+        accepted = readLinkJudgement(
+          await llmJSON<unknown>(system, prompt, { prefer: "gemini", maxTokens: 2048, temperature: 0, timeoutMs: 60_000 }),
+          pending.map((m) => m.article_slug)
+        );
+      } catch {
+        linkJudge.failed += pending.length;
+        continue;
+      }
+      for (const m of pending) {
+        if (accepted.has(m.article_slug)) {
+          checked.add(`${m.article_slug}:${slug}`);
+          linkJudge.accepted += 1;
+        } else {
+          refused.add(`${m.article_slug}:${slug}`);
+          linkJudge.refused += 1;
+        }
+      }
+    }
+    for (const m of matches) if (checked.has(`${m.article_slug}:${m.topic_slug}`)) m.method = "llm";
+    for (let i = matches.length - 1; i >= 0; i--) {
+      if (refused.has(`${matches[i].article_slug}:${matches[i].topic_slug}`)) matches.splice(i, 1);
+    }
   }
 
   // Which subjects are standing, not merely busy today.
@@ -272,6 +335,7 @@ async function run(req: Request, dryRun: boolean) {
     matched: written,
     pruned,
     candidates,
+    linkJudge,
   });
 }
 

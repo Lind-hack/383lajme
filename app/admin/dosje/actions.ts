@@ -9,8 +9,7 @@ import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { emailChangesNow } from "@/lib/dosje-changes-server";
 import { revalidateStored } from "@/lib/dosje-draft.mjs";
-import { judgePrompt, readJudgement } from "@/lib/dosje-judge.mjs";
-import { llmJSON } from "@/lib/llm";
+import { judgeMoment } from "@/lib/dosje-judge-server";
 
 /**
  * Approving history.
@@ -292,7 +291,7 @@ export async function confirmSourcesAction(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   const { data: row, error: readError } = await supabase
     .from("dosje_milestones")
-    .select("title, summary, why, tag, event_date, date_precision, claims")
+    .select("topic_slug, title, summary, why, tag, event_date, date_precision, claims")
     .eq("id", id)
     .single();
 
@@ -313,16 +312,12 @@ export async function confirmSourcesAction(formData: FormData) {
   if (!recheck.ok) {
     redirect(`/admin/dosje?err=${encodeURIComponent(`Teksti i ndryshuar nuk kalon kontrollin: ${recheck.reasons.join(", ")}`)}`);
   }
-  let judged: { ok: boolean; problems: string[] };
-  try {
-    const { system, prompt } = judgePrompt(recheck.milestone);
-    judged = readJudgement(
-      await llmJSON<unknown>(system, prompt, { prefer: "gemini", maxTokens: 2048, temperature: 0 }),
-      recheck.milestone.claims.sentences.length
-    );
-  } catch (err) {
-    judged = { ok: false, problems: [`kontrolli nuk u krye: ${String(err).slice(0, 120)}`] };
-  }
+  const { data: topicRow } = await supabase
+    .from("dosje_topics")
+    .select("title")
+    .eq("slug", (row as { topic_slug?: string }).topic_slug ?? "")
+    .maybeSingle();
+  const judged = await judgeMoment(recheck.milestone, { kind: "moment", topic: (topicRow as { title?: string } | null)?.title });
   if (!judged.ok) {
     redirect(`/admin/dosje?err=${encodeURIComponent(`Citatet nuk e thonë këtë tekst: ${judged.problems.join("; ")}`)}`);
   }

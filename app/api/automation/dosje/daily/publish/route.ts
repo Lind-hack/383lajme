@@ -3,8 +3,7 @@ import { revalidatePath } from "next/cache";
 import { fetchSource, isFetchableCitationUrl, publisherOf, timestampForQuery } from "@/lib/dosje-sources.mjs";
 import { validateMilestoneDraft, snapQuote } from "@/lib/dosje-draft.mjs";
 import { checkVideo, admissible, aboutTopic } from "@/lib/dosje-video.mjs";
-import { judgePrompt, readJudgement } from "@/lib/dosje-judge.mjs";
-import { llmJSON } from "@/lib/llm";
+import { judgeMoment } from "@/lib/dosje-judge-server";
 import { matchTopic } from "@/lib/dosje-match.mjs";
 import { admin, authorised, dbTopics, isoDay, matcherOf, recentArticles } from "@/lib/dosje-daily-server";
 
@@ -138,7 +137,7 @@ export async function POST(req: Request) {
       continue;
     }
     // The second reader: does each Albanian sentence say only what its quotes say?
-    const judged = await judge(verdict.milestone);
+    const judged = await judgeMoment(verdict.milestone, { kind: "moment", topic: topic.title });
     if (!judged.ok) {
       rejected.push({ title: verdict.milestone.title, reasons: ["judge_refused", ...judged.problems] });
       continue;
@@ -180,7 +179,7 @@ export async function POST(req: Request) {
     );
     if (!verdict.ok) primerReasons = (verdict.reasons ?? []) as string[];
     else {
-      const judged = await judge(verdict.milestone);
+      const judged = await judgeMoment(verdict.milestone, { kind: "primer", topic: topic.title });
       if (judged.ok) primer = primerText;
       else primerReasons = ["judge_refused", ...judged.problems];
     }
@@ -312,16 +311,3 @@ async function finishRun(runId: unknown, outcome: string, detail: Record<string,
     .eq("id", id);
 }
 
-/**
- * Refusal-only second reading (lib/dosje-judge.mjs). Any failure to get an
- * answer is a refusal: an unchecked moment does not reach a reader.
- */
-async function judge(milestone: Parameters<typeof judgePrompt>[0] & { claims: { sentences: unknown[] } }) {
-  const { system, prompt } = judgePrompt(milestone);
-  try {
-    const json = await llmJSON<unknown>(system, prompt, { prefer: "gemini", maxTokens: 2048, temperature: 0 });
-    return readJudgement(json, milestone.claims.sentences.length);
-  } catch (err) {
-    return { ok: false, problems: [`judge unavailable: ${String(err).slice(0, 120)}`] };
-  }
-}

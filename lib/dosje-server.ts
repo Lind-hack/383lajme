@@ -161,3 +161,43 @@ export async function dosjeIsLive(): Promise<boolean> {
     return false;
   }
 }
+
+/**
+ * Article slugs a second reader has confirmed belong to this public dossier
+ * (dosje_article_topics.method = 'llm', readable since migration 0120). A
+ * failure returns an empty set: an unchecked link is not shown.
+ */
+export async function checkedArticlesFor(topicSlug: string): Promise<Set<string>> {
+  const supabase = anonClient();
+  if (!supabase) return new Set();
+  try {
+    const { data, error } = await supabase
+      .from("dosje_article_topics")
+      .select("article_slug")
+      .eq("topic_slug", topicSlug)
+      .eq("method", "llm")
+      .limit(1000);
+    if (error) return new Set();
+    return new Set((data ?? []).map((r) => String((r as { article_slug: string }).article_slug)));
+  } catch {
+    return new Set();
+  }
+}
+
+/** Has a second reader confirmed this article belongs to this public dossier? */
+export async function isCheckedLink(articleSlug: string, topicSlug: string): Promise<boolean> {
+  const supabase = anonClient();
+  if (!supabase) return false;
+  try {
+    const { data, error } = await supabase
+      .from("dosje_article_topics")
+      .select("article_slug")
+      .eq("article_slug", articleSlug)
+      .eq("topic_slug", topicSlug)
+      .eq("method", "llm")
+      .maybeSingle();
+    return !error && Boolean(data);
+  } catch {
+    return false;
+  }
+}
