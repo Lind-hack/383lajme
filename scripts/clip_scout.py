@@ -343,7 +343,8 @@ def run_collector(name: str, payload: dict) -> dict:
         return {"error": f"cut off after {COLLECT_TIMEOUT // 60} min"}
     sys.stderr.write(done.stderr[-2000:])
     try:
-        got = json.loads((done.stdout.strip().splitlines() or [""])[-1])
+        # Not splitlines(): it also cuts at U+2028 and U+0085, which tweets carry unescaped in this JSON.
+        got = json.loads(done.stdout.strip().rsplit("\n", 1)[-1])
         return got if isinstance(got, dict) else {"error": "bad output"}
     except ValueError:
         return {"error": ((done.stderr or "").strip().splitlines() or ["no output"])[-1][:200]}
@@ -1796,7 +1797,9 @@ def social_prompt(cands: list[dict]) -> str:
         "event reminders, posts with no substance. It is fine to pick none.\n"
         "For each pick write in standard Albanian (as used in Kosovo), only from what the post says and the numbers given. "
         "Never invent reasons, reactions, background, dates, places or quotes; if the text is in another language, quote "
-        "its key words translated into Albanian inside „...“. Say on which platform it was posted.\n"
+        "its key words translated into Albanian inside „...“. Say on which platform it was posted. Never give anyone an "
+        "office or title (president, prime minister, minister, MP, party leader) unless the post itself states it: offices "
+        "change and what you remember may be out of date, so use the person's name alone.\n"
         "Fields: id; title (6 to 14 words, names the person, factual, may be lively but promises nothing the post does not "
         "show); excerpt (one sentence, at most 30 words); body (3 to 5 short paragraphs of plain text separated by a blank "
         "line: what was posted and where, the key words quoted, what it shows, and the attention it got with the numbers); "
@@ -1946,6 +1949,19 @@ def social_article(post: dict, written: dict, image: dict, batch_key: str, now: 
     return article
 
 
+OFFICE_WORD = re.compile(r"\b(?:ish-)?(?:zëvendës)?(?:president|kryeminist|minist|deputet|parlamentar|kryetar|lider)", re.IGNORECASE)
+
+
+def invented_office(w: dict, post: dict) -> bool:
+    """Writing that gives an office the post itself never mentions: the model's memory of who holds
+    what goes stale (2 Nov: "Presidentja Vjosa Osmani", after she had left the office)."""
+    said = str(post.get("caption") or "").lower()
+    current = re.sub(r"\bish-\w+", "", said)   # "ish-presidente" does not make anyone "presidente"
+    text = " ".join(str(w.get(k) or "") for k in ("title", "excerpt", "body"))
+    return any(key not in (said if key.startswith("ish-") else current)
+               for key in (m.group(0).lower() for m in OFFICE_WORD.finditer(text)))
+
+
 def good_writing(w: dict) -> bool:
     return (isinstance(w, dict) and 20 <= len(str(w.get("title") or "")) <= 140 and 30 <= len(str(w.get("excerpt") or "")) <= 300
             and len(str(w.get("body") or "")) >= 250 and isinstance(w.get("score"), (int, float)) and 1 <= w["score"] <= 10)
@@ -1973,6 +1989,9 @@ def social_desk(state: dict, posts: list[dict], now: datetime) -> list[dict]:
     for w in picks:
         post = by_id[w["id"]]
         if len(out) >= SOCIAL_PER_RUN or post["person"] in people or w["score"] < 5:
+            continue
+        if invented_office(w, post):
+            print(f"SCOUT social desk: refused, gives an office the post does not: {w['title']} ({post['link']})", file=sys.stderr)
             continue
         image = social_image(post, f"news/{day}/{re.sub(r'[^a-z0-9]+', '-', post['id'].lower())}")
         if not image:

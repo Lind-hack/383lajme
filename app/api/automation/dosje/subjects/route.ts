@@ -5,6 +5,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getArticles, getArticlesBefore } from "@/lib/db";
 import { TOPICS } from "@/lib/topics.mjs";
 import { matchTopic, isStandingSubject } from "@/lib/dosje-match.mjs";
+import { newestArticles } from "@/lib/dosje-article-scan.mjs";
 import { linkJudgePrompt, readLinkJudgement } from "@/lib/dosje-judge.mjs";
 import { llmJSON } from "@/lib/llm";
 
@@ -92,9 +93,10 @@ async function run(req: Request, dryRun: boolean) {
   }
 
   // The newest stories as well as the most-read: getArticles orders by
-  // engagement, so on its own it missed what was published today.
+  // engagement, so on its own it missed what was published today. Four pages
+  // is about two weeks: a new dossier must reach the stories behind it.
   const [recent, popular] = await Promise.all([
-    getArticlesBefore({ limit: 150 }),
+    newestArticles(getArticlesBefore, { pageSize: 150, pages: 4 }),
     getArticles(200, undefined, { withBody: false }),
   ]);
   const articles = [...new Map([...recent, ...popular].map((a) => [a.slug, a])).values()];

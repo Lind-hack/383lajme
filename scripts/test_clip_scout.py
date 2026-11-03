@@ -1,8 +1,10 @@
 import json
+import subprocess
 import tempfile
 import unittest
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from unittest import mock
 
 import clip_scout as cs
 
@@ -427,8 +429,8 @@ class ViralCutTests(unittest.TestCase):
         calls = []
         olds = (cs.gemini_json, cs.social_image, cs.rest)
         cs.gemini_json = lambda prompt: {"articles": [
-            {"id": "x:1", "title": "Kurti: Serbia duhet ta njohë Kosovën, pa më lojëra", "excerpt": "Kryeministri shkroi në X se koha e vonesave ka mbaruar.",
-             "body": "Kryeministri Albin Kurti shkroi në X se Serbia duhet ta njohë Kosovën. " * 6, "caption": "Albin Kurti", "score": 8},
+            {"id": "x:1", "title": "Kurti: Serbia duhet ta njohë Kosovën, pa më lojëra", "excerpt": "Albin Kurti shkroi në X se koha e vonesave ka mbaruar.",
+             "body": "Albin Kurti shkroi në X se Serbia duhet ta njohë Kosovën. " * 6, "caption": "Albin Kurti", "score": 8},
             {"id": "x:9", "title": "Rama uron", "excerpt": "x", "body": "y", "score": 3}]}
         cs.social_image = lambda post, stem: {"url": "https://s/c.jpg", "width": 1200, "height": 675,
                                                "rights": {"creator": "383", "provider": "383-card", "source_page": post["link"]}}
@@ -475,6 +477,58 @@ class ViralCutTests(unittest.TestCase):
     def test_the_stars_posts_count_as_albanian_showbiz(self):
         self.assertTrue(cs.is_albanian(clip(1, platform="instagram", author="ritaora", caption="London tonight")))
         self.assertFalse(cs.is_albanian(clip(2, platform="instagram", author="someone", caption="London tonight")))
+
+
+class CollectorTests(unittest.TestCase):
+    def test_a_tweet_with_a_unicode_line_separator_does_not_lose_the_whole_batch(self):
+        # 3 Nov, four runs in a row: "✗ X: ... Cookies for account scout updated": the child's one JSON
+        # line was cut at a separator inside a tweet, and the last stderr line stood in as the error.
+        out = json.dumps({"clips": [], "talk": [{"author": "a", "text": "një dy\x85tre"}], "posts": []}, ensure_ascii=False)
+        done = subprocess.CompletedProcess([], 0, stdout=f"{out}\n", stderr="INFO | Cookies for account scout updated\n")
+        with mock.patch.object(cs.subprocess, "run", return_value=done):
+            got = cs.run_collector("x", {})
+        self.assertNotIn("error", got)
+        self.assertEqual(got["talk"][0]["text"], "një dy\x85tre")
+
+
+class SocialDeskOfficeTests(unittest.TestCase):
+    osmani = {"id": "ig:1", "person": "Vjosa Osmani", "desk": "Kosovë", "platform": "instagram", "author": "vjosa.osmani",
+              "link": "https://www.instagram.com/p/1/", "caption": "Tepër vonë është edhe sistemi gjyqësor", "likes": 9000,
+              "photos": ["p.jpg"], "created": NOW.isoformat()}
+    wrote = {"id": "ig:1", "title": "Vjosa Osmani kritikon ashpër sistemin gjyqësor për gratë", "score": 8,
+             "excerpt": "Presidentja Vjosa Osmani ka kritikuar ashpër sistemin gjyqësor në Instagram.",
+             "body": "Presidentja e Kosovës, Vjosa Osmani, ka reaguar ashpër në Instagram. " * 6}
+
+    def test_a_title_the_post_never_gave_is_an_invention(self):
+        # Published 2 Nov: Osmani had left the office; the model wrote the title it remembered.
+        self.assertTrue(cs.invented_office(self.wrote, self.osmani))
+
+    def test_an_article_with_no_office_or_the_posts_own_office_passes(self):
+        plain = {**self.wrote, "excerpt": "Vjosa Osmani ka kritikuar sistemin.", "body": "Vjosa Osmani shkroi në Instagram. " * 9}
+        self.assertFalse(cs.invented_office(plain, self.osmani))
+        said = {**self.osmani, "caption": "Si presidente e vendit, shkrova sot"}
+        self.assertFalse(cs.invented_office(self.wrote, said))
+
+    def test_a_former_office_in_the_post_does_not_clear_the_current_one(self):
+        said = {**self.osmani, "caption": "Si ish-presidente e vendit, shkrova sot"}
+        self.assertTrue(cs.invented_office(self.wrote, said))
+        former = {**self.wrote, "excerpt": "Ish-presidentja Vjosa Osmani ka shkruar.", "body": "Ish-presidentja shkroi. " * 12}
+        self.assertFalse(cs.invented_office(former, said))
+
+    def test_party_leaders_mps_and_deputy_offices_count_too(self):
+        for word in ("Lideri i partisë", "Parlamentari", "Zëvendëskryeministri"):
+            self.assertTrue(cs.invented_office({"title": word + " shkroi sot"}, self.osmani), word)
+
+    def test_the_desk_does_not_publish_it(self):
+        with mock.patch.object(cs, "social_candidates", return_value=[self.osmani]), \
+                mock.patch.object(cs, "gemini_json", return_value={"articles": [self.wrote]}), \
+                mock.patch.object(cs, "social_image", return_value={"url": "u", "width": 900, "height": 500, "rights": {}}), \
+                mock.patch.object(cs, "rest", return_value=(201, b"")) as posted:
+            self.assertEqual(cs.social_desk({"social_done": {}}, [self.osmani], NOW), [])
+        posted.assert_not_called()
+
+    def test_the_writer_is_told_not_to_use_titles(self):
+        self.assertIn("office", cs.social_prompt([self.osmani]))
 
 
 if __name__ == "__main__":
