@@ -2,26 +2,13 @@
 from datetime import datetime, timezone
 import json
 import os
+import hashlib
 from pathlib import Path
 import re
 
 from news_copyright_review import article_digest, digest, approved, POLICY as COPYRIGHT
 from news_desk_policy import DESKS, POLICY
-
-
-def atomic(path, data):
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + '.tmp')
-    temporary.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-    temporary.replace(path)
-
-
-def age(value, now):
-    try:
-        return (now - datetime.fromisoformat(value.replace('Z', '+00:00'))).total_seconds()
-    except (ValueError, TypeError, AttributeError):
-        return float('inf')
+from news_json_state import atomic, age
 
 
 class Reserve:
@@ -40,7 +27,7 @@ class Reserve:
             context_proof = context['articles'][a['slug']]
             from news_context_review import POLICY as CONTEXT
             from news_source_policy import needs_corroboration
-            source_date = evidence['evidence'].get('published') or a.get('source_published_at') or a.get('published_at')
+            source_date = evidence['evidence'].get('published')
             limit = 3600 if entry['time_sensitive'] else 21600
             return (entry['policy'] == POLICY and a['category'] == self.category
                     and 0 <= age(source_date, now) < 86400
@@ -61,10 +48,12 @@ class Reserve:
         except (KeyError, TypeError, ValueError):
             return False
 
-    def store(self, article, evidence, originality, context, *, now=None):
+    def store(self, article, evidence, originality, context, *, now=None, time_sensitive=False):
         now = now or datetime.now(timezone.utc)
+        if (self.path / 'confirmed' / (digest(article['url']) + '.json')).exists():
+            raise ValueError('article was already confirmed published')
         text = ' '.join(str(article.get(k) or '') for k in ('title', 'excerpt', 'body')).casefold()
-        sensitive_time = (article.get('breaking') in {True, 'fresh_development', 'publisher_label'}
+        sensitive_time = (time_sensitive or article.get('breaking') in {True, 'fresh_development', 'publisher_label'}
                           or article.get('is_breaking') is True
                           or article['category'] == 'Ekonomi' and bool(re.search(
                               r'\b(?:stocks?|bitcoin|ethereum|crypto|aksion\w*|burs\w*|intraday|wall street|naft\w*|oil)\b', text)))
@@ -74,11 +63,17 @@ class Reserve:
         entry['snapshot_sha256'] = digest(entry)
         if not self.valid(entry, now=now):
             raise ValueError('only complete, unchanged approvals may enter the reserve')
+        for path in self.path.glob('*.json'):
+            try:
+                if not self.valid(json.loads(path.read_text(encoding='utf-8')), now=now):
+                    path.unlink()
+            except (OSError, ValueError):
+                continue
         key = digest(article['url'])
         atomic(self.path / (key + '.json'), entry)
         entries = self.available(now=now)
         for overflow in entries[10:]:
-            self.confirm(overflow)
+            (self.path / (digest(overflow['article']['url']) + '.json')).unlink(missing_ok=True)
         return entry
 
     def available(self, *, now=None):
@@ -93,6 +88,8 @@ class Reserve:
         return sorted(entries, key=lambda e: e['stored_at'], reverse=True)
 
     def confirm(self, entry):
+        atomic(self.path / 'confirmed' / (digest(entry['article']['url']) + '.json'),
+               {'url': entry['article']['url'], 'confirmed_at': datetime.now(timezone.utc).isoformat()})
         (self.path / (digest(entry['article']['url']) + '.json')).unlink(missing_ok=True)
 
 
@@ -136,3 +133,35 @@ def saved_photo(article):
         return {k: v for k, v in original.items() if k.startswith('image_') or k == 'video_clip_url'}
     except (OSError, ValueError, KeyError, StopIteration):
         return None
+
+
+def verify_pixels(article, *, fetcher=None):
+    if fetcher is None:
+        from news_image_policy import photo_payload
+        fetcher = photo_payload
+    if hashlib.sha256(fetcher(article['image_url'])).hexdigest() != article['image_rights']['sha256']:
+        raise ValueError('current image pixels differ from the approved pixels')
+
+
+def recover_approvals(root, reserve):
+    """Recover the crash window between saved final receipts and reserve.store."""
+    recovered = 0
+    for receipt_file in Path(root).glob('*/wave-*/draft-*/*.context-review.json'):
+        batch = receipt_file.with_name(receipt_file.name.removesuffix('.context-review.json') + '.json')
+        try:
+            articles = json.loads(batch.read_text(encoding='utf-8'))
+            evidence = json.loads(batch.with_suffix('.editor-sources.json').read_text(encoding='utf-8'))
+            originality = json.loads(batch.with_suffix('.copyright-review.json').read_text(encoding='utf-8'))
+            context = json.loads(receipt_file.read_text(encoding='utf-8'))
+            selection_file = batch.with_suffix('.selection.json')
+            selected = json.loads(selection_file.read_text(encoding='utf-8')) if selection_file.exists() else {}
+            for article in articles:
+                if article.get('category') != reserve.category:
+                    continue
+                record = next(e for e in evidence if e['slug'] == article['slug'])
+                reserve.store(article, record, originality, context,
+                              time_sensitive=selected.get('time_sensitive', True))
+                recovered += 1
+        except (OSError, ValueError, KeyError, TypeError, StopIteration):
+            continue  # Partial, expired or changed approvals remain unavailable.
+    return recovered

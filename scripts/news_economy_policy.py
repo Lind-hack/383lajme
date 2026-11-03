@@ -31,7 +31,7 @@ EDITORIAL_GUIDANCE = (
 )
 
 WRITING_GUIDANCE = (
-    "Ekonomi permits short factual updates: at least 40 supported Albanian words in one paragraph; "
+    "Ekonomi permits short factual updates: at least 50 supported Albanian words in one paragraph; "
     "prefer 120–220 words with useful supplied context when available, without padding. Explain who "
     "changed what, the amount, currency, measured period and effective date when supported. Distinguish "
     "percent from percentage points, forecasts from outcomes and attributed allegations from facts. "

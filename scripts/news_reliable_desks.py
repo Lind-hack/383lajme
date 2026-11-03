@@ -7,7 +7,8 @@ import subprocess
 import sys
 import time
 
-from news_approved_reserve import Reserve, atomic
+from news_approved_reserve import Reserve
+from news_json_state import atomic
 from news_desk_policy import TARGET, MINIMUM, DESKS, select_candidates
 
 
@@ -16,6 +17,7 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
     attempted, published, reasons = set(), [], []
     initial = {e['article']['url'] for e in reserve.available()}
     result = dict(status='running', stage='discovery', category=category, target_count=TARGET,
+                  model=os.environ.get('L383_WRITER_MODEL', 'gpt-6-luna'), reasoning_effort='max',
                   minimum_count=MINIMUM, published_count=0, reserve_used=0, saved_drafts=0,
                   approvals=0, publications=[], shortfall_reasons=[])
     aggregate = outcome.with_name(outcome.stem + '-published.json')
@@ -29,14 +31,24 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
 
     def checkpoint():
         result.update(getattr(port, 'metrics', {}))
+        reasons.extend(getattr(port, 'metrics', {}).get('failure_reasons', []))
         result.update(published_count=len(published), publications=publications,
                       shortfall_reasons=list(dict.fromkeys(reasons)), batch=str(aggregate),
                       updated_at=datetime.now(timezone.utc).isoformat())
         atomic(aggregate, published)
         atomic(outcome, result)
 
+    qa_seen = set()
+
     def deliver(entry):
+        if entry['article']['url'] in qa_seen:
+            return
         if entry['article']['url'] in {a['url'] for a in published}:
+            reserve.confirm(entry)
+            return
+        from news_image_policy import duplicate_photo_pairs
+        if duplicate_photo_pairs(published + [entry['article']]):
+            reasons.append('duplicate_image_this_run')
             return
         try:
             saved = port.publish(entry)
@@ -46,7 +58,13 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
             return
         # The port only succeeds after exact persisted-copy readback.
         if saved.get('dry_run'):
+            qa_seen.add(entry['article']['url'])
             result['qa_approved'] = result.get('qa_approved', 0) + 1
+            return
+        if saved.get('count_current_run') is False:
+            result.setdefault('recovered_prior_publications', []).append(saved['batch'])
+            reserve.confirm(entry)
+            checkpoint()
             return
         published.extend(saved['articles'])
         publications.append(saved['batch'])
@@ -79,11 +97,13 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
     elif time.time() >= deadline and len(published) < TARGET:
         reasons.append('deadline')
     for entry in reserve.available():
-        if len(published) >= TARGET:
+        if len(published) + result.get('qa_approved', 0) >= TARGET:
             break
         deliver(entry)
     result.update(getattr(port, 'metrics', {}))
-    result.update(status=('qa_complete' if getattr(port, 'qa', False) else 'complete' if published else 'no_news'), stage='complete',
+    status = ('qa_complete' if getattr(port, 'qa', False) else 'complete' if published else
+              'model_quota' if port.quota_hit() else 'failed' if 'preparation_or_writing_failed' in reasons else 'no_news')
+    result.update(status=status, stage='model-quota' if status == 'model_quota' else 'complete',
                   target_met=len(published) >= TARGET, minimum_met=len(published) >= MINIMUM)
     if len(published) < TARGET and not reasons:
         reasons.append('approved_supply_exhausted')
@@ -138,8 +158,10 @@ class ProductionPort:
             attempted_file = self.root / 'review-attempted.json'
             atomic(attempted_file, sorted(self.reviewed))
             self.python('cloud_news_discovery.py', '--output', self.discovery, '--skip-published',
-                        seconds=300, model=True,
+                        seconds=360, model=True,
                         env={'L383_SHOWBIZ_REVIEW_SECONDS': '180', 'L383_ECONOMY_REVIEW_SECONDS': '180',
+                             'L383_INGESTION_BUDGET_SECONDS': '45', 'L383_SHOWBIZ_COLLECTION_SECONDS': '30',
+                             'L383_ECONOMY_COLLECTION_SECONDS': '30', 'L383_SHOWBIZ_RESEARCH_SECONDS': '30',
                              'L383_RELIABLE_REVIEW_WAVE_SIZE': '12',
                              'L383_RELIABLE_REVIEW_ATTEMPTED': str(attempted_file)})
             self.data = json.loads(self.discovery.with_suffix('.json').read_text(encoding='utf-8'))
@@ -147,7 +169,9 @@ class ProductionPort:
             raw = [a for a in self.data.get('raw_leads', []) if a.get('category') == self.category]
             readable = [a for a in raw if evidence.get(a['url'], {}).get('status') == 'text_extracted']
             self.metrics.update(readable_candidates=len(readable),
-                                readable_publishers=len({a['source'] for a in readable}))
+                                readable_publishers=len({a['source'] for a in readable}),
+                                images_available=sum(bool(evidence.get(a['url'], {}).get('image_url')
+                                                    or evidence.get(a['url'], {}).get('image_candidates')) for a in readable))
             report = self.data.get('visual_review') or self.data.get('showbiz_visual_review') or {}
             folder = self.discovery.parent / ('showbiz-review' if self.category == 'Showbiz' else 'economy-review')
             try:
@@ -189,7 +213,11 @@ class ProductionPort:
             part = dict(data, ready_leads=[lead], publication_plan={self.category: 1})
             atomic(item.with_suffix('.json'), part)
             brief = work / f'brief-{index}.md'
-            batch = work / f'draft-{index}.json'
+            slot = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H')
+            batch = work / f'draft-{index}' / (slot + '.json')
+            batch.parent.mkdir(parents=True, exist_ok=True)
+            atomic(batch.with_suffix('.selection.json'), {'time_sensitive':
+                lead.get('editorial_review', {}).get('breaking') in {'fresh_development', 'publisher_label'}})
             try:
                 self.python('news_writer_brief.py', item.with_suffix('.json'), brief,
                             '--categories', self.category, '--cap', '1', seconds=30)
@@ -245,10 +273,14 @@ class ProductionPort:
                 context = json.loads(batch.with_suffix('.context-review.json').read_text(encoding='utf-8'))
                 for article in rows:
                     entry = self.reserve.store(article, next(e for e in evidence if e['slug'] == article['slug']),
-                                               originality, context)
+                                               originality, context,
+                                               time_sensitive=lead.get('editorial_review', {}).get('breaking') in
+                                               {'fresh_development', 'publisher_label'})
                     self.metrics['approvals'] += 1
                     yield entry
             except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
+                self.metrics.setdefault('failure_reasons', []).append('model_quota' if self.quota_hit()
+                                                                      else 'preparation_or_writing_failed')
                 print(f'383 STORY HELD {lead["url"]}: {exc}', flush=True)
                 if self.quota_hit():
                     raise
@@ -261,7 +293,6 @@ class ProductionPort:
         from news_copyright_review import digest
         slot = datetime.fromisoformat(entry['originality']['reviewed_at']).astimezone(timezone.utc).strftime('%Y-%m-%dT%H')
         batch = self.root.parent / 'approved' / digest(entry['article']['url'])[:24] / (slot + '.json')
-        atomic(batch, [entry['article']])
         atomic(batch.with_suffix('.editor-sources.json'), [entry['evidence']])
         atomic(batch.with_suffix('.copyright-review.json'), entry['originality'])
         atomic(batch.with_suffix('.context-review.json'), entry['context'])
@@ -276,19 +307,30 @@ class ProductionPort:
                     if time.time() >= until:
                         raise TimeoutError('publication lock')
                     time.sleep(.25)
-            verify_saved(batch, [entry['article']], recent=_recently_published())
-            if self.qa:
-                return {'batch': str(batch), 'articles': [], 'dry_run': True}
-            old = os.environ.get('L383_RESERVE_PUBLICATION_BATCH')
-            os.environ['L383_RESERVE_PUBLICATION_BATCH'] = str(batch)
-            try:
-                if publish_supabase(batch) != 0:
-                    raise RuntimeError('publication/readback failed; reserve retained')
-            finally:
-                if old is None:
-                    os.environ.pop('L383_RESERVE_PUBLICATION_BATCH', None)
-                else:
-                    os.environ['L383_RESERVE_PUBLICATION_BATCH'] = old
+            recovered = None
+            if not self.qa:
+                from news_publication_recovery import recover_persisted
+                recovered = recover_persisted(batch, entry['article'])
+                if recovered is not None:
+                    atomic(batch, recovered)
+            if recovered is None:
+                atomic(batch, [entry['article']])
+                verify_saved(batch, [entry['article']], recent=_recently_published())
+                from news_approved_reserve import verify_pixels
+                verify_pixels(entry['article'])
+                if self.qa:
+                    return {'batch': str(batch), 'articles': [], 'dry_run': True}
+                old = os.environ.get('L383_RESERVE_PUBLICATION_BATCH')
+                os.environ['L383_RESERVE_PUBLICATION_BATCH'] = str(batch)
+                try:
+                    atomic(batch.with_suffix('.delivery-attempt.json'), {'run_slot': os.environ.get('STAMP')})
+                    if publish_supabase(batch) != 0:
+                        raise RuntimeError('publication/readback failed; reserve retained')
+                finally:
+                    if old is None:
+                        os.environ.pop('L383_RESERVE_PUBLICATION_BATCH', None)
+                    else:
+                        os.environ['L383_RESERVE_PUBLICATION_BATCH'] = old
         rows = json.loads(batch.read_text(encoding='utf-8'))
         # Database publication is authoritative; cache/mail failures cannot
         # roll it back or cause the approval to be reused.
@@ -300,7 +342,9 @@ class ProductionPort:
                 self.python(script, *args, seconds=60)
             except (OSError, RuntimeError, subprocess.SubprocessError) as exc:
                 self.metrics.setdefault('post_publication_warnings', []).append(str(exc))
-        return {'batch': str(batch), 'articles': rows}
+        from news_publication_recovery import delivery_belongs_to_slot
+        same_slot = not recovered or delivery_belongs_to_slot(batch, os.environ.get('STAMP'))
+        return {'batch': str(batch), 'articles': rows, 'count_current_run': same_slot}
 
 
 def main():
@@ -313,12 +357,15 @@ def main():
     qa = os.environ.get('L383_QA_ONLY') == '1'
     root = outcome.parent.parent / ('qa-reliable' if qa else 'reliable')
     reserve = Reserve(root / 'reserve', category)
+    from news_approved_reserve import recover_approvals
+    recovered = recover_approvals(root, reserve)
     os.environ['L383_HOURLY_NEWS'] = '1'
     os.environ['L383_PHOTO_FIT_CACHE'] = str(root / 'photo-fit-cache.json')
     from codex_automation_support import load_env
     load_env()
     deadline = float(os.environ['L383_MODEL_DEADLINE_EPOCH'])
     port = ProductionPort(category, reserve, root / outcome.stem, deadline, qa)
+    port.metrics['recovered_approvals'] = recovered
     result = run_category(port, reserve, outcome, category, deadline=deadline)
     print('383 RELIABLE DESK OUTCOME ' + json.dumps(result, ensure_ascii=False), flush=True)
     if not qa and not result['published_count']:

@@ -176,7 +176,7 @@ def choose(stories: list[dict], folder: Path) -> dict[str, list[int]]:
         if cache is not None and complete and key not in cached_picks and key in contexts:
             cache.save(contexts[key], picks[key], {str(n): story['options'][n]['_visual_review'] for n in picks[key]})
         picks.setdefault(story['pair_id'], [])
-    from news_approved_reserve import atomic
+    from news_json_state import atomic
     atomic(folder / 'news-photo-outcomes.json', outcomes)
     print(f"383 PHOTO EDITOR decisions={len(picks)} of {len(stories)} none_fit_or_unverified={sum(not value for value in picks.values())}")
     return picks

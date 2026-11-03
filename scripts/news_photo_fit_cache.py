@@ -1,7 +1,7 @@
 """Reuse exact image-fit judgments without renewing their review timestamp."""
 from datetime import datetime, timezone
 import json
-from news_approved_reserve import atomic, age
+from news_json_state import atomic, age
 from news_copyright_review import digest
 
 POLICY = '383-photo-fit-context-v1'

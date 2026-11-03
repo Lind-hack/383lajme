@@ -25,17 +25,29 @@ def local_interest(lead, evidence=None):
 
 def select_candidates(leads, evidence=None, *, limit=5, now=None):
     """Three local-interest preferences, source rotation, immediate foreign fallback."""
-    from cloud_news_discovery import freshness_bucket
+    from cloud_news_discovery import freshness_bucket, canonical
     from news_homepage_priority import homepage_weight
     from news_reader_value import reader_value
+    from news_source_policy import topic_error
+    from news_showbiz_focus import focus
     evidence = evidence or {}
     now = now or datetime.now(timezone.utc)
     pools = defaultdict(lambda: defaultdict(list))
+    seen = set()
     for lead in leads:
+        identity = canonical(lead['url'])
+        text = str(evidence.get(lead['url'], lead.get('primary_evidence', {})).get('text') or lead.get('summary') or '')
+        if identity in seen or re.search(r'\b(?:fjalekryq\w*|crossword\w*|horoskop\w*|horoscope\w*)\b', fold(lead.get('title', ''))):
+            continue
+        if topic_error(lead.get('category'), lead.get('title', ''), text,
+                       tags=lead.get('tags') or [], url=lead['url']):
+            continue
+        seen.add(identity)
         local = local_interest(lead, evidence.get(lead['url']))
         pools[local][lead.get('source', '')].append(lead)
     def order(lead):
-        return (bool(lead.get('coverage_already_published')), freshness_bucket(lead, now),
+        return (reader_value(lead)['reserve_genre'], bool(lead.get('coverage_already_published')),
+                -focus(lead)['priority'], freshness_bucket(lead, now),
                 -homepage_weight(lead, now), -reader_value(lead)['score'], lead['url'])
     def rotate(groups):
         queues = {source: deque(sorted(rows, key=order)) for source, rows in groups.items()}

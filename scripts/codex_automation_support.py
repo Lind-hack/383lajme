@@ -2246,7 +2246,12 @@ def publish_supabase(path: Path) -> int:
             os.replace(temporary, path)
     except Exception as exc:
         print(f"SUPABASE publication failed after batch insert: {exc}")
-        _cleanup_new_batch(batch_key)
+        if path.with_suffix('.reserve-proof.json').is_file():
+            # The reliable desk recovers exact rows under the publication lock.
+            # Deleting this marker would orphan successfully inserted articles.
+            print('SUPABASE reliable publication retained for exact readback recovery')
+        else:
+            _cleanup_new_batch(batch_key)
         return 1
     print(f"SUPABASE published {len(articles)} articles in batch {batch_key!r} and verified exact readback")
     return 0
