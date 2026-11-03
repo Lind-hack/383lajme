@@ -1280,7 +1280,8 @@ def _supabase_request(method: str, table: str, *, query: dict[str, str] | None =
 
 
 def _batch_key(path: Path) -> str:
-    return path.stem
+    from news_batch_identity import batch_key
+    return batch_key(path)
 
 
 def _published_articles() -> list[dict[str, Any]]:
@@ -1826,11 +1827,17 @@ def send_report(path: Path) -> int:
     )
     if os.environ.get("L383_HOURLY_NEWS") == "1":
         from news_source_policy import hourly_targets
+        targets = hourly_targets()
+        if os.environ.get('L383_RUN_DESK'):
+            category = os.environ['L383_NEWS_CATEGORIES']
+            discovery = Path(os.environ['L383_REPO']) / '.last30days/cloud-news-discovery-current.json'
+            plan = json.loads(discovery.read_text(encoding='utf-8')).get('publication_plan', {}) if discovery.exists() else {}
+            targets = {category: plan.get(category, targets[category])}
         coverage = "; ".join(
             f"{category}: {sum(a.get('category') == category for a in articles)}/{target}"
-            for category, target in hourly_targets().items()
+            for category, target in targets.items()
         )
-        scoring_note += " Hourly target: 20. Coverage (published/target): " + coverage + "."
+        scoring_note += f" Hourly target: {sum(targets.values())}. Coverage (published/target): " + coverage + "."
     report_html = (
         "<html><body style='margin:0;background:#f1f5f9;color:#0f172a;font-family:Arial,sans-serif'>"
         "<div style='max-width:820px;margin:0 auto;background:#ffffff'>"
@@ -1846,6 +1853,8 @@ def send_report(path: Path) -> int:
         + "</div></body></html>"
     )
     subject = f"383 Lajme - {len(articles)} artikuj te rinj [{subject_time}]"
+    if os.environ.get('L383_RUN_DESK'):
+        subject = f"[{os.environ['L383_NEWS_CATEGORIES']}] {subject}"
     return _send_gmail_report(user, password, recipient, subject, report_html)
 
 
@@ -1894,6 +1903,8 @@ def send_status_report(message: str, phase: str = "no_news") -> int:
     )
     subject_heading = heading if phase in {"started", "completed"} else "pa artikuj të rinj"
     subject = f"383 Lajme - {subject_heading} [{subject_time}]"
+    if os.environ.get('L383_RUN_DESK'):
+        subject = f"[{os.environ['L383_NEWS_CATEGORIES']}] {subject}"
     return _send_gmail_report(user, password, recipient, subject, report_html)
 
 

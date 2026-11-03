@@ -33,7 +33,7 @@ export CRON_SLOT_LABEL="$(TZ=Europe/Warsaw date '+%Y-%m-%d %H:00 %Z')"
 DISCOVERY="$PWD/.last30days/cloud-news-discovery-current.md"
 SOCIAL_CANDIDATES="$PWD/.last30days/social-native-candidates-current.md"
 if [ "$QA_ONLY" = "1" ]; then
-  BATCH="/opt/data/qa/383/${STAMP}.json"
+  BATCH="${L383_QA_BATCH_ROOT:-/opt/data/qa/383}/${STAMP}.json"
 else
   BATCH="$PWD/data/auto-articles/${STAMP}.json"
 fi
@@ -61,6 +61,11 @@ export HERMES_CODEX_TTFB_MAX_SECONDS=300
 printf '383 MODEL CONTRACT: gpt-6-luna max through Codex OAuth; no API fallback\n'
 LOCK_FILE=/tmp/383-production.lock
 if [ "$QA_ONLY" = "1" ]; then LOCK_FILE=/tmp/383-qa-news.lock; fi
+if [ -n "${L383_RUN_DESK:-}" ]; then
+  # Validate before using this value in paths or publication identities.
+  PYTHONPATH="$REPO/scripts" "$PYTHON_BIN" -c 'import os; from news_batch_identity import DESKS; assert DESKS.get(os.environ["L383_RUN_DESK"]) == os.environ.get("L383_NEWS_CATEGORIES")'
+  LOCK_FILE="/tmp/383-news-desk-${L383_RUN_DESK}-mode${QA_ONLY}.lock"
+fi
 START_EPOCH="$(date +%s)"
 # Stop model work at minute 50, leaving five minutes for verified publication.
 export L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 3000))"
@@ -75,8 +80,8 @@ STATE="$STATE_ROOT/${STAMP}-mode${QA_ONLY}.json"
 export L383_EDITOR_PENDING_ROOT="${STATE_ROOT%/hourly-runs}/editor-pending"
 export L383_NOTES_CACHE="${STATE_ROOT%/hourly-runs}/reporter-notes-cache.json"
 export L383_PHOTO_IDENTITY_CACHE="${STATE_ROOT%/hourly-runs}/photo-identity-cache.json"
-export L383_INGESTION_STATE="${STATE_ROOT%/hourly-runs}/source-inventory.sqlite"
-export L383_MODEL_QUOTA_FILE="$STATE_ROOT/${STAMP}-mode${QA_ONLY}.quota"
+export L383_INGESTION_STATE="${L383_INGESTION_STATE:-${STATE_ROOT%/hourly-runs}/source-inventory.sqlite}"
+export L383_MODEL_QUOTA_FILE="${L383_MODEL_QUOTA_FILE:-$STATE_ROOT/${STAMP}-mode${QA_ONLY}.quota}"
 LEGACY_STATE="$PWD/.last30days/hourly-runs/${STAMP}-mode${QA_ONLY}.json"
 record_state() { "$PYTHON_BIN" scripts/news_run_state.py save "$STATE" --status "$1" --stage "$stage" --batch "$BATCH"; }
 
@@ -145,15 +150,19 @@ if "$PYTHON_BIN" scripts/news_run_state.py check "$STATE" || "$PYTHON_BIN" scrip
   printf "383 SLOT ALREADY PUBLISHED: %s; refusing duplicate writer/publication\n" "$STAMP"
   exit 0
 fi
-rm -f "$L383_MODEL_QUOTA_FILE"
+if [ -z "${L383_RUN_DESK:-}" ]; then rm -f "$L383_MODEL_QUOTA_FILE"; fi
 record_state running
 
 stage="writer-auth-preflight"
+exec 7>/tmp/383-news-auth-preflight.lock
+flock -w 120 7
 /opt/hermes/.venv/bin/python scripts/configure_news_model.py --home "$HERMES_HOME" --effort max
 /opt/hermes/.venv/bin/python scripts/news_data_only_preflight.py
 if [ "${L383_WRITER_PROVIDER:-openai-codex}" = "openai-codex" ]; then
   /opt/hermes/.venv/bin/python -c 'from hermes_cli.auth import resolve_codex_runtime_credentials; c=resolve_codex_runtime_credentials(); assert c.get("api_key"), "No Codex access token"; print("383 CODEX AUTH: usable credentials resolved")'
 fi
+flock -u 7
+exec 7>&-
 
 verify_deployment() {
 DEPLOYMENT_INFO="$(curl -L -fsS --max-time 30 "https://www.383ks.com/api/deployment-info?cron=${STAMP}")"
@@ -812,6 +821,14 @@ stage="independent-originality-review"
 # Review complete copy against all recent publications, including pairs the
 # lexical prefilter never selected. Reserve minutes 50-53 for this final gate;
 # the existing 55-minute process deadline still bounds publication/readback.
+stage="publication-lock"
+exec 8>/tmp/383-news-publication.lock
+PUBLICATION_WAIT="$((START_EPOCH + 3180 - $(date +%s)))"
+if [ "$PUBLICATION_WAIT" -le 0 ] || ! flock -w "$PUBLICATION_WAIT" 8; then
+  fail_run "publication queue exceeded this desk's verified-review deadline; drafts retained"
+fi
+# Hold until readback/report: a sibling desk must not change the history bound
+# by the context receipt between review, validation and publication.
 stage="independent-event-context-review"
 env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 3180))" \
   "$PYTHON_BIN" scripts/news_context_review.py --file "$BATCH"

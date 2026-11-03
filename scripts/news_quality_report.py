@@ -1,6 +1,7 @@
 """Record category/source metrics without conflating no news with an outage."""
 import argparse
 import json
+import os
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -12,7 +13,7 @@ def report(batch: Path, status: str) -> dict:
     articles = json.loads(batch.read_text(encoding="utf-8")) if batch.exists() else []
     if status == 'model_quota':
         articles = []  # A saved unreviewed draft is not a published article.
-    discovery = Path(__file__).resolve().parents[1] / ".last30days/cloud-news-discovery-current.json"
+    discovery = Path(os.environ.get('L383_REPO', str(Path(__file__).resolve().parents[1]))) / ".last30days/cloud-news-discovery-current.json"
     data = json.loads(discovery.read_text(encoding="utf-8")) if discovery.exists() else {}
     counts = Counter(item["category"] for item in articles)
     metrics = {"status": status, "at": datetime.now(timezone.utc).isoformat(),

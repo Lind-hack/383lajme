@@ -125,8 +125,8 @@ def capture(url, publisher, folder, *, article=False, fetcher=fetch_public, rend
 
 def editorial_prompt(category="Showbiz"):
     if category == "Ekonomi":
-        from news_economy_policy import EDITORIAL_GUIDANCE
-        return EDITORIAL_GUIDANCE
+        from news_economy_policy import EDITORIAL_GUIDANCE as economy_guidance
+        return economy_guidance
 
     return (
         EDITORIAL_GUIDANCE+' Review the attached publisher-page pixels or original source article image AND the complete public article text in the brief. '

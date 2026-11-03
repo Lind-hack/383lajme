@@ -15,6 +15,7 @@ jobs:
       - run: pip install -r scripts/requirements.txt
       - run: python -m unittest discover -s scripts -p test_news_source_policy.py -v
       - run: python -m unittest discover -s scripts -p test_news_story_review.py -v
+      - run: python -m unittest discover -s scripts -p test_news_category_isolation.py -v
       - run: python -m unittest discover -s scripts -p 'test_news_showbiz*.py' -v
       - run: python -m unittest discover -s scripts -p test_showbiz_relaxed_policy.py -v
       - run: python -m unittest discover -s scripts -p test_news_story_attention.py -v
@@ -42,4 +43,4 @@ jobs:
       - run: python -m unittest discover -s scripts -p test_read_news_source_images.py -v
       - run: python -m unittest discover -s scripts -p test_topic_selection_v2.py -v
       - run: python -m unittest discover -s scripts -p test_news_startup_report.py -v
-      - run: bash -n scripts/run-hourly-news.sh scripts/run-news-editor.sh scripts/run-news-editor-parallel.sh
+      - run: bash -n scripts/run-hourly-news.sh scripts/run-hourly-news-desks.sh scripts/run-news-editor.sh scripts/run-news-editor-parallel.sh

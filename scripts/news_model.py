@@ -22,6 +22,7 @@ _LOCK = threading.RLock()
 _CLEANUP_INSTALLED = False
 _MAIN_SPAWNING = False
 _PENDING_TERMINATION = None
+_TERMINATING = threading.Event()
 
 
 def _stop(process: subprocess.Popen) -> None:
@@ -49,6 +50,7 @@ def install_termination_cleanup() -> None:
     previous = signal.getsignal(signal.SIGTERM)
     def terminate(signum, frame):
         global _PENDING_TERMINATION
+        _TERMINATING.set()
         if _MAIN_SPAWNING:
             # Do not interrupt Popen before its child can be registered. Do
             # not block SIGTERM either: subprocesses inherit blocked signals.
@@ -96,6 +98,16 @@ def run_process(command: list[str], timeout: float, *, deadline: float | None = 
 
 
 def _run_process(command: list[str], timeout: float, *, deadline: float | None = None) -> subprocess.CompletedProcess:
+    from news_model_slots import model_slot
+    install_termination_cleanup()
+    cutoff = min(stage_deadline(timeout), deadline) if deadline is not None else stage_deadline(timeout)
+    if news_model_quota.exhausted():
+        return subprocess.CompletedProcess(command, 75, '', '383 MODEL QUOTA: account usage limit already reached in this run')
+    with model_slot(command, cutoff, cancelled=_TERMINATING.is_set) as register:
+        return _execute_process(command, timeout, deadline=cutoff, register=register)
+
+
+def _execute_process(command: list[str], timeout: float, *, deadline: float, register) -> subprocess.CompletedProcess:
     global _MAIN_SPAWNING, _PENDING_TERMINATION
     install_termination_cleanup()
     cutoff = min(stage_deadline(timeout), deadline) if deadline is not None else stage_deadline(timeout)
@@ -109,11 +121,19 @@ def _run_process(command: list[str], timeout: float, *, deadline: float | None =
         _MAIN_SPAWNING = True
     try:
         with _LOCK:
+            if _TERMINATING.is_set():
+                raise subprocess.TimeoutExpired(command, 0)
             if news_model_quota.exhausted():
                 return subprocess.CompletedProcess(command, 75, '', '383 MODEL QUOTA: account usage limit already reached in this run')
             process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                        text=True, encoding="utf-8", start_new_session=os.name == "posix")
             _ACTIVE.add(process)
+            try:
+                register(process.pid)
+            except BaseException:
+                _stop(process)
+                _ACTIVE.discard(process)
+                raise
     finally:
         if main_thread:
             _MAIN_SPAWNING = False

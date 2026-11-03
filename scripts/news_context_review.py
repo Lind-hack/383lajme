@@ -31,7 +31,8 @@ def copy_record(article):
 
 def history_records(recent, batch):
     # Exclude only this exact batch for an idempotent readback/retry.
-    return sorted((copy_record(row) for row in recent if row.get("batch_key") != batch.stem),
+    from news_batch_identity import batch_key
+    return sorted((copy_record(row) for row in recent if row.get("batch_key") != batch_key(batch)),
                   key=lambda row: str(row.get("id")))
 
 

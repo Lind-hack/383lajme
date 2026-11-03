@@ -38,7 +38,34 @@ inclusive, in Europe/Warsaw, including weekends. The one-week trial beginning
 2026-10-07 now uses GPT-6 Luna at max reasoning effort for drafting, independent
 editing and repairs, switched on 2026-10-08, with OAuth and no API key.
 No model fallback changes the model.
-It invokes `scripts/run-hourly-news.sh` inside the existing Hermes container.
+It invokes `scripts/run-hourly-news-desks.sh` inside the existing Hermes container.
+The coordinator launches seven independent `run-hourly-news.sh` processes, one
+per category. Each keeps its own 55-minute deadline, preparation/writer/editor
+windows, source evidence, photo catalogue, drafts, receipts, pending checkpoints
+and hourly outcome. Showbiz and Economy retain their current relaxed briefs and
+original-publisher-photo policies; the other five desks retain their existing
+editorial rules. Category isolation does not waive any verification gate or
+guarantee a publication when evidence/review is unavailable.
+
+Mutable desk workspaces live in
+`/opt/data/news-pipeline-state/desks/<desk>/runtime`, with scripts and docs linked
+to the pinned committed release. The background source inventory remains shared;
+category outputs are separate. All model requests use a fair, global five-call
+limit: a desk with fewer active requests is served before a busier desk, then
+requests are ordered by queue time. Queue waiting consumes the original stage
+deadline; it never extends it. Genuine account exhaustion is shared for the hour.
+Authentication/configuration preflights are serialized.
+
+The coordinator holds the legacy production lock so an old combined job cannot
+overlap. Desk locks and hourly states are independent. Publication keys are
+`YYYY-MM-DDTHH-<desk>` while filenames remain `YYYY-MM-DDTHH.json`. Same-hour
+siblings remain visible to global duplicate/context checks. Only final context
+review, validation, publication and readback/reporting hold the shared publication
+lock, preventing another desk from invalidating a history-bound review receipt.
+A failed desk does not cancel the others. Each desk sends category-labelled
+startup/outcome mail through the existing SMTP path; published reports retain
+the exact article links and photos. The coordinator archives incremental results
+and individual logs under `hourly-runs/<hour>-desks-mode0/`.
 The news worker writes validated Supabase rows and never deploys the website.
 GitHub news schedules and the application dispatch route are disabled by default
 to avoid competing writers. The route requires `NEWS_SCHEDULER=github` to enable
