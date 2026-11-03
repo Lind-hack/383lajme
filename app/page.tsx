@@ -1,4 +1,6 @@
 import { getArticles, getArticlesBefore, getLatestArticles } from "@/lib/db";
+import { getHomepagePlacement } from "@/lib/homepage-placement";
+import { applyHomepagePlacement } from "@/lib/homepage-placement.mjs";
 import { getEdition, getViral } from "@/lib/video-edition";
 import { MoveHorizontal } from "lucide-react";
 import TextureBg from "@/components/aurora-bg";
@@ -47,7 +49,7 @@ import VideoRow from "@/components/video-row";
 export const revalidate = 600;
 
 export default async function HomePage() {
-  const [rawArticles, rawTickerArticles, rawRecentArticles, exchangeSnapshot, fuelSnapshot, cityWeather] = await Promise.all([
+  const [rawArticles, rawTickerArticles, rawRecentArticles, exchangeSnapshot, fuelSnapshot, cityWeather, timedLead] = await Promise.all([
     getArticles(60),
     getLatestArticles(10),
     // The day's run for the sections below the front block: newest first, no
@@ -58,6 +60,7 @@ export default async function HomePage() {
     // Keyless and individually caught: a weather outage costs the rail one
     // card, never the page.
     getCityWeather().catch(() => []),
+    getHomepagePlacement(),
   ]);
   // Edicioni video: today's top stories as short voiced clips
   // (lib/video-edition, cached five minutes; none when there is no edition today).
@@ -91,7 +94,10 @@ export default async function HomePage() {
   // whose photo can fill it without stretching.
   const homeNow = Date.now();
   const freshPool = freshNews([...articles, ...recentArticles, ...tickerArticles], { now: homeNow, count: 200 });
-  const kryesore = sharpFirst(pickFrontPage(freshPool, 7, homeNow), 1);
+  const kryesore = applyHomepagePlacement(
+    sharpFirst(pickFrontPage(freshPool, 7, homeNow), 1),
+    timedLead?.article ?? null, timedLead?.placement ?? null, homeNow,
+  );
   const kryesoreLead = kryesore[0];
   const kryesoreStack = kryesore.slice(1, 5);
   const kryesoreSecondary = kryesore.slice(5, 7);

@@ -15,6 +15,7 @@ import ArticleComments from "@/components/comments/article-comments";
 import ArticleShareRow from "@/components/article-share-row";
 import ArticleAsk from "@/components/article-ask";
 import { toParagraphs, readingMinutes } from "@/lib/article-body.mjs";
+import { articleLinks } from "@/lib/article-links.mjs";
 import ExploreCategories from "@/components/explore-categories";
 import SectionLabel from "@/components/section-label";
 import CategoryRail from "@/components/category-rail";
@@ -235,7 +236,9 @@ export default function ArticleContent({ article, related, sidebarRelated = [], 
                   result printed the tags to the reader on every article. */
               toParagraphs(article.body).map((paragraph: string, i: number) => (
                 <p key={i} style={{ margin: "0 0 28px" }}>
-                  {paragraph}
+                  {articleLinks(paragraph).map((part, index) => part.url
+                    ? <a key={index} href={part.url} target="_blank" rel="noopener noreferrer" style={{ overflowWrap: "anywhere", textDecoration: "underline" }}>{part.text}</a>
+                    : part.text)}
                 </p>
               ))}
             </div>
