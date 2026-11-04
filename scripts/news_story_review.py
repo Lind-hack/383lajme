@@ -475,7 +475,8 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
                   'captured_homepages':sum(h['status'] in {'captured','captured_partial'} for h in homes.values()),
                   'complete_homepage_layouts':sum(h['status']=='captured' for h in homes.values()),
                   'article_visuals_captured':sum(bool(r.get('capture')) for r in records.values()),
-                  'article_pages_captured':sum(bool(r.get('capture')) and r['capture'].get('visual_evidence_kind') not in {'source_article_photo','source_article_image'} for r in records.values()),
+                  'article_pages_captured':sum(bool(r.get('capture')) and r['capture'].get('visual_evidence_kind') not in {'source_article_photo','source_article_image'}
+                      and (category != 'Botë' or bool(r['capture'].get('visual_page_complete'))) for r in records.values()),
                   'article_images_captured':sum(r.get('capture',{}).get('visual_evidence_kind') in {'source_article_photo','source_article_image','source_photo_and_publisher_page'} for r in records.values()),
                   'articles_awaiting_review':sum(r['status'] in {'captured','pending_review'} for r in records.values()),
                   'pending_captures':sum(r['status']=='pending' for r in records.values()),

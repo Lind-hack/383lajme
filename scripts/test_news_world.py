@@ -119,7 +119,7 @@ class WorldVisualTests(unittest.TestCase):
         self.assertEqual(homepages, [])
         self.assertEqual(report['summary']['reviewed_articles'], 4)
 
-    def test_successful_page_review_also_counts_the_original_photo(self):
+    def _review_page(self, complete):
         import hashlib
         import tempfile
         from io import BytesIO
@@ -140,12 +140,21 @@ class WorldVisualTests(unittest.TestCase):
             sha = hashlib.sha256(image.read_bytes()).hexdigest()
             return dict(screenshot=str(image), full_screenshot=str(image), screenshot_sha256=sha,
                         full_screenshot_sha256=sha, evidence=evidence, captured_at=now.isoformat(),
-                        visual_page_complete=True, visual_layout_complete=True)
+                        visual_page_complete=complete, visual_layout_complete=complete)
         with tempfile.TemporaryDirectory() as root, patch('news_image_policy.photo_payload', return_value=raw.getvalue()):
             records, report = review_inventory([lead], {url:evidence}, [], root, capturer=page,
                                               capture_only=True, category='Botë', now=now)
+        return report
+
+    def test_successful_page_review_also_counts_the_original_photo(self):
+        report = self._review_page(True)
         self.assertEqual(report['summary']['article_images_captured'], 1)
         self.assertEqual(report['summary']['article_pages_captured'], 1)
+
+    def test_partial_page_does_not_count_as_a_full_page_capture(self):
+        report = self._review_page(False)
+        self.assertEqual(report['summary']['article_pages_captured'], 0)
+        self.assertEqual(report['summary']['article_images_captured'], 1)
 
     def test_world_prepares_only_original_publisher_images(self):
         from prepare_editor_sources import visual_options
