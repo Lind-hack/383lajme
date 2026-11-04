@@ -192,6 +192,8 @@ class ProductionPort:
                 pass
             for row in report.get('articles', []):
                 if self.category == 'Botë':
+                    if row['status'] == 'pending' and row['url'] in self.evaluations:
+                        continue
                     self.evaluations[row['url']] = row
                     if row['status'] == 'pending_review':
                         continue

@@ -40,8 +40,18 @@ class WorldRankingTests(unittest.TestCase):
                 batch.write_text(json.dumps([article]), encoding='utf-8')
                 self.assertEqual(len(support.validate_batch(batch)), 1)
 
+    def test_world_brief_also_passes_the_mandatory_journalism_gate(self):
+        from journalism_quality_gate import journalism_errors
+        article = dict(category='Botë', source='BBC World', title='BE miraton rregulla kufitare',
+                       excerpt='Vendimi hyn në fuqi sot.', body='<p>'+' '.join(['Lajmi']*50)+'</p>')
+        self.assertEqual(journalism_errors(article), [])
+
 
 class WorldDiscoveryTests(unittest.TestCase):
+    def test_sister_world_publishers_cannot_corroborate_sensitive_claims(self):
+        from news_source_policy import independent
+        self.assertFalse(independent('https://news.sky.com/story/election', 'https://www.nbcnews.com/world/election'))
+
     def test_homepage_world_article_requires_current_full_text_not_subscription_preview(self):
         import tempfile
         from pathlib import Path
@@ -78,6 +88,34 @@ class WorldDiscoveryTests(unittest.TestCase):
 
 
 class WorldVisualTests(unittest.TestCase):
+    def test_successful_page_review_also_counts_the_original_photo(self):
+        import hashlib
+        import tempfile
+        from io import BytesIO
+        from pathlib import Path
+        from datetime import datetime, timezone
+        from unittest.mock import patch
+        from PIL import Image
+        from news_story_review import review_inventory
+        now = datetime.now(timezone.utc)
+        url = 'https://www.bbc.com/news/world-event'
+        lead = dict(url=url, source='BBC World', category='Botë', title='EU announces border rules', published=now.isoformat())
+        evidence = dict(status='text_extracted', url=url, requested_url=url, title=lead['title'], published=now.isoformat(),
+                        text='Officials announced new border rules today. '*100, fetched_at=now.isoformat(),
+                        image_url='https://ichef.bbci.co.uk/news/1536/world-event.jpg')
+        raw = BytesIO(); Image.new('RGB',(600,400),'blue').save(raw,format='PNG')
+        def page(url, publisher, folder, **kwargs):
+            image = Path(folder)/'page.png'; image.write_bytes(raw.getvalue())
+            sha = hashlib.sha256(image.read_bytes()).hexdigest()
+            return dict(screenshot=str(image), full_screenshot=str(image), screenshot_sha256=sha,
+                        full_screenshot_sha256=sha, evidence=evidence, captured_at=now.isoformat(),
+                        visual_page_complete=True, visual_layout_complete=True)
+        with tempfile.TemporaryDirectory() as root, patch('news_image_policy.photo_payload', return_value=raw.getvalue()):
+            records, report = review_inventory([lead], {url:evidence}, [], root, capturer=page,
+                                              capture_only=True, category='Botë', now=now)
+        self.assertEqual(report['summary']['article_images_captured'], 1)
+        self.assertEqual(report['summary']['article_pages_captured'], 1)
+
     def test_world_prepares_only_original_publisher_images(self):
         from prepare_editor_sources import visual_options
         from news_image_policy import publisher_photo_allowed
@@ -128,6 +166,38 @@ class WorldVisualTests(unittest.TestCase):
 
 
 class WorldRunTests(unittest.TestCase):
+    def test_later_review_waves_preserve_completed_world_evals(self):
+        import tempfile
+        from pathlib import Path
+        from contextlib import chdir
+        from datetime import datetime, timezone
+        from unittest.mock import patch
+        from news_json_state import atomic
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        now = datetime.now(timezone.utc)
+        leads = [dict(url=f'https://www.bbc.com/news/event-{i}', source='BBC World', category='Botë',
+                      title='EU announces new border rules', published=now.isoformat()) for i in range(2)]
+        with tempfile.TemporaryDirectory() as temp, chdir(temp):
+            root = Path(temp)
+            wave = [0]
+            def command(*args, **kwargs):
+                index = wave[0]; wave[0] += 1
+                atomic(root/'.last30days/cloud-news-discovery-current.json', dict(leads=[leads[index]], raw_leads=leads,
+                    retrieved_evidence={lead['url']:dict(status='text_extracted', text='New border rules.') for lead in leads}))
+                records = [dict(url=leads[index]['url'], status='reviewed', review=dict(decision='consider', score=4),
+                                capture=dict(visual_evidence_kind='source_article_image', visual_page_complete=False))]
+                if index:
+                    records.append(dict(url=leads[0]['url'], status='pending'))
+                atomic(root/'.last30days/world-review/review.json', dict(summary={},articles=records))
+            port = ProductionPort('Botë', Reserve(root/'reserve','Botë'), root/'run', now.timestamp()+3000, qa=True)
+            with patch.object(port, 'python', side_effect=command):
+                first = port.collect(set())
+                second = port.collect({first[0]['url']})
+            self.assertEqual(second[0]['url'], leads[1]['url'])
+            self.assertEqual(port.metrics['visual_review']['new_evals'], 2)
+            self.assertEqual(port.metrics['visual_review']['article_images_captured'], 2)
+
     def test_world_approved_stories_have_distinct_publication_keys(self):
         from pathlib import Path
         from unittest.mock import patch

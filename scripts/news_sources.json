@@ -948,7 +948,7 @@
       "domains": [
         "news.sky.com"
       ],
-      "family": "news.sky.com",
+      "family": "comcast-nbcuniversal",
       "homepage_urls": [
         "https://news.sky.com/world"
       ]
@@ -959,7 +959,7 @@
       "domains": [
         "nbcnews.com"
       ],
-      "family": "nbcnews.com",
+      "family": "comcast-nbcuniversal",
       "homepage_urls": [
         "https://www.nbcnews.com/world"
       ]

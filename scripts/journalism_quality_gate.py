@@ -16,7 +16,7 @@ def journalism_errors(article: dict) -> list[str]:
     body = html.unescape(str(article.get("body") or ""))
     text = fold(re.sub(r"<[^>]*>", " ", body))
     errors = []
-    minimum, paragraphs = (50, 1) if article.get('category') in {'Showbiz','Ekonomi'} else (140, 3)
+    minimum, paragraphs = (50, 1) if article.get('category') in {'Showbiz','Ekonomi','Botë'} else (140, 3)
     if len(re.findall(r"\w+", text)) < minimum or len(re.findall(r"<p\b[^>]*>.*?</p>", body, re.I | re.S)) < paragraphs:
         errors.append(f"write at least {minimum} grounded words in {paragraphs} readable paragraphs")
     publisher_names = {fold(name) for name in outlet_names(MANIFEST['publishers'], str(article.get('source') or ''))}
