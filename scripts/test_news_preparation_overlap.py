@@ -11,6 +11,54 @@ from prepare_editor_sources import prepare_hourly_inventory
 
 
 class PreparationOverlapTests(unittest.TestCase):
+    def test_failed_world_image_cannot_discard_another_ready_story(self):
+        items=[dict(pair_id=name,url='https://www.bbc.com/news/'+name,source='BBC World',category='Botë',
+                    title='EU announces a new border procedure '+name,corroborates_url='') for name in ('good','bad')]
+        text=('European Council approved the procedure on Tuesday. Applications open next month. '
+              'Officials published four changes on Wednesday. The timetable includes two stages. ')*8
+        def image(lead,*args):
+            if lead['pair_id']=='bad':raise RuntimeError('image download failed')
+            return dict(image_url='https://images.example/border.jpg',image_width=1200,image_height=800,image_subject='European Council')
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);discovery=root/'discovery.md';discovery.write_text('# World')
+            with patch.dict(os.environ,{'L383_HOURLY_NEWS':'1'}), \
+                    patch('prepare_editor_sources.fetch_url',side_effect=lambda url:dict(status='text_extracted',url=url,text=text)), \
+                    patch('news_copyright_review.cooling_down',return_value=False), \
+                    patch('codex_automation_support._recently_published',return_value=[]), \
+                    patch('news_image_policy.identity_cache.save'),patch('news_image_policy.CATALOG',root/'catalog.json'), \
+                    patch('prepare_editor_sources.visual_options',return_value=[{'tier':'article'}]), \
+                    patch('news_photo_editor.choose',return_value={'good':[0],'bad':[0]}), \
+                    patch('prepare_editor_sources.ready_image',side_effect=image), \
+                    patch('news_fact_sheets.ask_rows',side_effect=AssertionError('No optional note model')):
+                prepare_hourly_inventory(discovery,{'leads':items})
+            data=json.loads(discovery.with_suffix('.json').read_text())
+            self.assertEqual([lead['pair_id'] for lead in data['ready_leads']],['good'])
+
+    def test_world_photo_ready_story_reaches_writer_with_bound_fallback_notes(self):
+        item=dict(pair_id='world-one',url='https://www.bbc.com/news/world-one',source='BBC World',
+                  category='Botë',title='EU announces a new border procedure',corroborates_url='')
+        text=('The European Council approved a border procedure on Tuesday. Applications open on Thursday. '
+              'Officials published the timetable on Wednesday. The procedure starts next month. ')*8
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);discovery=root/'discovery.md';discovery.write_text('# World')
+            with patch.dict(os.environ, {'L383_HOURLY_NEWS':'1'}), \
+                    patch('prepare_editor_sources.fetch_url',return_value=dict(status='text_extracted',url=item['url'],text=text)), \
+                    patch('news_copyright_review.cooling_down',return_value=False), \
+                    patch('codex_automation_support._recently_published',return_value=[]), \
+                    patch('news_image_policy.identity_cache.save'), \
+                    patch('news_image_policy.CATALOG',root/'catalog.json'), \
+                    patch('prepare_editor_sources.visual_options',return_value=[{'tier':'article'}]), \
+                    patch('news_photo_editor.choose',return_value={'world-one':[0]}), \
+                    patch('prepare_editor_sources.ready_image',return_value=dict(image_url='https://images.example/border.jpg',image_width=1200,image_height=800,image_subject='European Council')), \
+                    patch('news_fact_sheets.ask_rows',side_effect=AssertionError('Optional notes must not delay World')):
+                prepare_hourly_inventory(discovery,{'leads':[item]})
+            result=json.loads(discovery.with_suffix('.json').read_text(encoding='utf-8'))
+            self.assertEqual(len(result['ready_leads']),1)
+            ready=result['ready_leads'][0]
+            self.assertEqual(ready['url'],item['url'])
+            self.assertTrue(Path(ready['facts_path']).is_file())
+            self.assertEqual(json.loads(Path(ready['facts_path']).read_text())['origin'],'fragments')
+
     def exercise(self, warmup_fails=False):
         notes_started, images_finished = threading.Event(), threading.Event()
         lock = threading.Lock()

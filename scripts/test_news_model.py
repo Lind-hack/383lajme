@@ -13,6 +13,12 @@ import news_model as model
 
 
 class NewsModelTests(unittest.TestCase):
+    def test_timeout_retains_original_error_when_child_pipes_are_already_closed(self):
+        command=[sys.executable,'-c','import time;time.sleep(30)']
+        with patch('subprocess.Popen.communicate',side_effect=[subprocess.TimeoutExpired(command,.1),OSError(9,'Bad file descriptor')]):
+            with self.assertRaises(subprocess.TimeoutExpired):
+                model.run_process(command,.1)
+
     def test_large_linux_and_windows_queries_use_complete_local_query_file(self):
         prompt='Complete Albanian source ë. '*6000+'END_COMPLETE_SOURCE'
         command=['hermes','chat','--provider','openai-codex','--model','gpt-6-luna','-t','none','-q',prompt]

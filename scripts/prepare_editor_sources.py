@@ -410,6 +410,48 @@ def prepared_evidence(url: str, retrieved: dict) -> dict:
     return fetch_url(url)
 
 
+def prepare_world_ready(path, data, shortlist, rejected, folder):
+    """Checkpoint each photo-qualified World story before waiting for siblings."""
+    from news_fact_sheets import build_fact_sheets
+    from news_image_policy import CATALOG, identity_cache
+    from news_json_state import atomic
+    ready = []
+    def checkpoint():
+        counts = {category: sum(row['category'] == category for row in ready) for category in CATEGORIES}
+        data.update(ready_leads=ready, verified_pair_ids=[row['pair_id'] for row in ready],
+                    source_ready_categories=counts, photo_ready_categories=counts,
+                    publication_plan=coverage_plan(ready), category_targets=hourly_targets(), rejected_inventory=rejected,
+                    funnel={category: dict(selected=sum(row['category']==category for row in data.get('leads',[])),
+                        readable_eligible=sum(row['category']==category for row in shortlist),
+                        photo_qualified=counts[category],writer_ready=counts[category]) for category in CATEGORIES})
+        atomic(CATALOG, {row['url']: {key: value for key, value in row.items()
+                                   if key.startswith('image_') or key == 'video_clip_url'} for row in ready})
+        atomic(path.with_suffix('.json'), data)
+    checkpoint()
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
+        futures = {pool.submit(ready_image, lead, lead['primary_evidence'], lead['secondary_evidence']): lead for lead in shortlist}
+        for future in concurrent.futures.as_completed(futures):
+            lead = futures[future]
+            try:
+                image = future.result()
+            except (OSError, ValueError, RuntimeError):
+                image = {}
+            if not image:
+                rejected['Botë']['no_fresh_photo'] += 1
+                checkpoint()
+                continue
+            record = discovery_evidence(lead)
+            target = folder / (lead['pair_id'] + '.json')
+            atomic(target, record)
+            row = {key: value for key, value in {**lead, **image, 'evidence_path': str(target)}.items()
+                   if not key.startswith('_') and key not in {'primary_evidence', 'secondary_evidence', 'photo_plan'}}
+            notes = build_fact_sheets([reporter_input(lead, record)], folder, use_model=False)
+            ready.extend(join_reporter_notes([row], [row], notes))
+            checkpoint()
+    identity_cache.save()
+    print('383 WORLD PREPARATION ready=' + str(len(ready)) + ' individually saved; optional note calls=0', flush=True)
+
+
 def prepare_hourly_inventory(path: Path, data: dict) -> None:
     leads = data.get("leads", [])
     urls = list(dict.fromkeys(url for lead in leads for url in
@@ -498,6 +540,9 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
         lead["_visual_choice"] = picks.get(lead["pair_id"], [])
     folder = path.parent / "source-evidence"
     folder.mkdir(exist_ok=True)
+    if shortlist and all(lead.get('category') == 'Botë' for lead in shortlist):
+        prepare_world_ready(path, data, shortlist, rejected, folder)
+        return
     # Photo selection has finished its model calls. Warm only reporter notes
     # while downloads/decoding do HTTP work; the usual three note calls remain
     # the only active model work. Provisional notes never establish photo readiness.

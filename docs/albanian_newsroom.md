@@ -8,7 +8,7 @@ This document is authoritative for the hosted writer and deterministic gates. It
 
 For Botë, this paragraph takes precedence over older allocations, image rules and
 length requirements below. Aim for five distinct approved articles each hour;
-three is the minimum target only when eligible supply and services are available.
+five is the minimum success target when eligible supply and services are available.
 Use global reporting with extra European/Balkan relevance, without a regional quota
 or invented Kosovo consequence. Consider supported current developments from 4/10.
 Routine news may use one registered readable publisher; sensitive or disputed central
@@ -23,6 +23,9 @@ compelling while accurately matching the development and photo. Never invent sta
 certainty, popularity, virality or engagement. Preserve copyright, duplicate and factual
 checks. World uses independent per-article drafts/approvals and a separate approved
 reserve; model quota exhaustion stops new calls and cannot justify bypassing review.
+Prepare source-bound fragment notes immediately without optional paraphrasing calls;
+save each photo-qualified story independently and recover completed checkpoints after
+timeouts. Fragment notes are source material, not independent verification or approved prose.
 
 The hourly worker targets 20 distinct new articles: Kosovë 3; Shqipëri 3;
 Botë 3; Teknologji 3; Ekonomi 3; Sport 3; Showbiz 2. Follow the prepared

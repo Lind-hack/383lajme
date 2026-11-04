@@ -31,13 +31,15 @@ def _stop(process: subprocess.Popen) -> None:
             os.killpg(process.pid, signal.SIGTERM)
         else:
             process.terminate()
-        process.communicate(timeout=2)
+        # The requesting thread owns stdout/stderr. Signal cleanup must never
+        # race its communicate() by trying to drain the same pipes again.
+        process.wait(timeout=2)
     except subprocess.TimeoutExpired:
         if os.name == "posix":
             os.killpg(process.pid, signal.SIGKILL)
         else:
             process.kill()
-        process.communicate()
+        process.wait(timeout=3)
     except ProcessLookupError:
         pass
 
@@ -149,6 +151,12 @@ def _execute_process(command: list[str], timeout: float, *, deadline: float, reg
         _stop(process)
         raise
     finally:
+        for pipe in (process.stdout, process.stderr):
+            if pipe is not None:
+                try:
+                    pipe.close()
+                except OSError:
+                    pass
         with _LOCK:
             _ACTIVE.discard(process)
 

@@ -135,7 +135,7 @@ def fragment_notes(text: str, limit: int = 16) -> list[str]:
     return (scramble(bearing) + scramble(rest))[:limit]
 
 
-def build_fact_sheets(leads: list[dict], folder: Path) -> dict[str, Path]:
+def build_fact_sheets(leads: list[dict], folder: Path, *, use_model=True) -> dict[str, Path]:
     """Notes for each lead, written next to its evidence; a failed chunk only
     costs its own leads. Returns pair_id -> notes path."""
     deadline = stage_deadline(NOTES_DEADLINE)
@@ -150,7 +150,7 @@ def build_fact_sheets(leads: list[dict], folder: Path) -> dict[str, Path]:
     sheets = cached_notes(leads, cache)
     cached_ids = set(sheets)
     reused = len(sheets)
-    pending = [lead for lead in leads if lead["pair_id"] not in sheets]
+    pending = [lead for lead in leads if lead["pair_id"] not in sheets] if use_model else []
     chunks = [pending[start:start + CHUNK] for start in range(0, len(pending), CHUNK)]
     def attempt(chunk: list[dict], index: int) -> dict[str, list[str]]:
         # The Codex stream stalls now and then (no events for 12 s); one retry
@@ -210,7 +210,8 @@ def build_fact_sheets(leads: list[dict], folder: Path) -> dict[str, Path]:
         if lead["pair_id"] in sheets:
             target = folder / f"{lead['pair_id']}.facts.json"
             origin = "cache" if lead["pair_id"] in cached_ids else "model" if lead["pair_id"] in model_ids else "fragments"
-            target.write_text(json.dumps({"pair_id": lead["pair_id"], "facts": sheets[lead["pair_id"]], "origin": origin},
+            target.write_text(json.dumps({"pair_id": lead["pair_id"], "facts": sheets[lead["pair_id"]], "origin": origin,
+                                          "evidence_key": evidence_key(lead)},
                                          ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
             paths[lead["pair_id"]] = target
     print(f"383 FACT NOTES ready={len(paths)} of {len(leads)} (model={model_notes - reused}, "

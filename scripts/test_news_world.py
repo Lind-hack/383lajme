@@ -2,6 +2,15 @@
 import unittest
 
 class WorldRankingTests(unittest.TestCase):
+    def test_english_match_report_does_not_use_world_review_capacity(self):
+        from news_desk_policy import select_candidates
+        from datetime import datetime,timezone
+        row=dict(url='https://www.france24.com/en/live-news/20261104-valverde-blast-snatches-real-madrid-late-win-at-aek-athens',
+                 source='France 24',category='Botë',title='Valverde blast snatches Real Madrid late win at AEK Athens',
+                 published=datetime.now(timezone.utc).isoformat())
+        evidence={row['url']:dict(text='Federico Valverde scored the winner in Champions League football against AEK Athens.')}
+        self.assertEqual(select_candidates([row],evidence),[])
+
     def test_fresh_homepage_observation_does_not_make_old_world_news_current(self):
         from datetime import datetime, timedelta, timezone
         from news_story_review import story_current
@@ -220,6 +229,66 @@ class WorldVisualTests(unittest.TestCase):
 
 
 class WorldRunTests(unittest.TestCase):
+    def test_world_resumes_checkpointed_stories_after_preparation_timeout(self):
+        import tempfile, subprocess
+        from pathlib import Path
+        from datetime import datetime, timezone
+        from unittest.mock import patch
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            port=ProductionPort('Botë',Reserve(root/'reserve','Botë'),root/'run',datetime.now(timezone.utc).timestamp()+3000,qa=True)
+            port.data={}
+            calls=[]
+            def command(script,*args,**kwargs):
+                calls.append(script)
+                if script=='prepare_editor_sources.py':
+                    atomic(Path(args[0]).with_suffix('.json'),dict(ready_leads=[dict(url='https://www.bbc.com/news/test',source='BBC World')]))
+                    raise subprocess.TimeoutExpired('prepare',480)
+                raise RuntimeError('writer unavailable')
+            with patch.object(port,'python',side_effect=command):
+                self.assertEqual(list(port.produce([],5)),[])
+            self.assertEqual(port.metrics['writer_ready'],1)
+            self.assertIn('news_writer_brief.py',calls)
+            self.assertIn('partial_preparation_recovered',port.metrics['failure_reasons'])
+
+    def test_world_minimum_success_requires_five_confirmed_publications(self):
+        import tempfile
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        class Store:
+            def available(self): return []
+        class Port:
+            def quota_hit(self): return False
+            def collect(self, attempted): return []
+        with tempfile.TemporaryDirectory() as root:
+            world=run_category(Port(),Store(),Path(root)/'world.json','Botë')
+            economy=run_category(Port(),Store(),Path(root)/'economy.json','Ekonomi')
+        self.assertEqual(world['minimum_count'],5)
+        self.assertEqual(economy['minimum_count'],3)
+
+    def test_world_attempted_article_alias_does_not_enter_preparation_again(self):
+        import tempfile,json
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from contextlib import chdir
+        from unittest.mock import patch
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        with tempfile.TemporaryDirectory() as temp,chdir(temp):
+            root=Path(temp);now=datetime.now(timezone.utc)
+            url='https://www.politico.eu/article/new-border-plan'
+            lead=dict(url=url+'/?utm_source=rss',source='POLITICO Europe',category='Botë',title='EU announces border plan',published=now.isoformat())
+            port=ProductionPort('Botë',Reserve(root/'reserve','Botë'),root/'run',now.timestamp()+3000,qa=True)
+            port.data={'leads':[lead]}
+            def collect(*args,**kwargs):
+                atomic(root/'.last30days/cloud-news-discovery-current.json',dict(leads=[],raw_leads=[],retrieved_evidence={}))
+            with patch.object(port,'python',side_effect=collect):
+                self.assertEqual(port.collect({url}),[])
+
     def test_completed_photo_evals_survive_later_preparation_failure(self):
         import tempfile
         from pathlib import Path

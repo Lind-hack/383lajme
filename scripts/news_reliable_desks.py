@@ -14,11 +14,12 @@ from news_desk_policy import TARGET, MINIMUM, DESKS, REVIEW_FOLDERS, select_cand
 
 def run_category(port, reserve, outcome, category, *, deadline=None):
     deadline = deadline or time.time() + 3000
+    minimum = TARGET if category == 'Botë' else MINIMUM
     attempted, published, reasons = set(), [], []
     initial = {e['article']['url'] for e in reserve.available()}
     result = dict(status='running', stage='discovery', category=category, target_count=TARGET,
                   model=os.environ.get('L383_WRITER_MODEL', 'gpt-6-luna'), reasoning_effort='max',
-                  minimum_count=MINIMUM, published_count=0, reserve_used=0, saved_drafts=0,
+                  minimum_count=minimum, published_count=0, reserve_used=0, saved_drafts=0,
                   approvals=0, publications=[], shortfall_reasons=[])
     aggregate = outcome.with_name(outcome.stem + '-published.json')
     ledger = outcome.with_name(outcome.stem + '-deliveries.json')
@@ -105,7 +106,7 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
     status = ('qa_complete' if getattr(port, 'qa', False) else 'complete' if published else
               'model_quota' if port.quota_hit() else 'failed' if 'preparation_or_writing_failed' in reasons else 'no_news')
     result.update(status=status, stage='model-quota' if status == 'model_quota' else 'complete',
-                  target_met=len(published) >= TARGET, minimum_met=len(published) >= MINIMUM)
+                  target_met=len(published) >= TARGET, minimum_met=len(published) >= minimum)
     if len(published) < TARGET and not reasons:
         reasons.append('approved_supply_exhausted')
     checkpoint()
@@ -152,10 +153,13 @@ class ProductionPort:
         return self.command([sys.executable, 'scripts/' + script, *args], **kwargs)
 
     def collect(self, attempted):
+        from news_homepage_priority import homepage_article_identity
+        identity = homepage_article_identity if self.category == 'Botë' else lambda url: url
+        attempted = {identity(url) for url in attempted}
         while True:
             if self.data is not None:
                 evidence = self.data.get('retrieved_evidence', {})
-                leads = [a for a in self.data.get('leads', []) if a['category'] == self.category and a['url'] not in attempted]
+                leads = [a for a in self.data.get('leads', []) if a['category'] == self.category and identity(a['url']) not in attempted]
                 if leads:
                     return select_candidates(leads, evidence, limit=3)
             prior = len(self.reviewed)
@@ -199,7 +203,7 @@ class ProductionPort:
                     if row['status'] == 'pending_review':
                         continue
                 if row['status'] != 'pending':
-                    self.reviewed.add(row['url'])
+                    self.reviewed.add(identity(row['url']))
                     self.evaluations[row['url']] = row
             done = [r for r in self.evaluations.values() if r['status'] == 'reviewed']
             self.metrics['visual_review'] = dict(report.get('summary', {}),
@@ -229,6 +233,16 @@ class ProductionPort:
         atomic(selection.with_suffix('.json'), data)
         try:
             self.python('prepare_editor_sources.py', selection, '--discovery', seconds=480, model=True)
+        except (OSError, ValueError, RuntimeError, subprocess.SubprocessError):
+            # Only complete preparation checkpoints enter the ordinary writer
+            # and independent approval path; a checkpoint is never an approval.
+            if self.category != 'Botë':
+                raise
+            checkpoint = json.loads(selection.with_suffix('.json').read_text(encoding='utf-8'))
+            if not checkpoint.get('ready_leads'):
+                raise
+            self.metrics.setdefault('failure_reasons', []).append('partial_preparation_recovered')
+            print('383 WORLD PREPARATION recovered completed story checkpoints', flush=True)
         finally:
             if self.category == 'Botë':
                 try:

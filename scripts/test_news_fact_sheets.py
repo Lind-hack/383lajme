@@ -23,6 +23,18 @@ def reply(rows):
 
 
 class FactSheetTests(unittest.TestCase):
+    def test_source_fragment_mode_returns_bound_notes_without_waiting_for_a_model(self):
+        item = {**lead(1), 'source_url':'https://www.bbc.com/news/event',
+                'text': SOURCE + ' Officials announced the approved timetable on Wednesday. Applications open on Thursday.'}
+        with tempfile.TemporaryDirectory() as folder, patch.object(sheets, 'ask_rows', side_effect=AssertionError('No optional note model')):
+            result = sheets.build_fact_sheets([item], Path(folder), use_model=False)
+            row = json.loads(result[item['pair_id']].read_text(encoding='utf-8'))
+            self.assertEqual(row['origin'], 'fragments')
+            self.assertGreaterEqual(len(row['facts']), 4)
+            self.assertEqual(row['evidence_key'], sheets.evidence_key(item))
+            cache = json.loads((Path(folder)/'reporter-notes-cache.json').read_text())
+            self.assertEqual(cache['entries'], {})
+
     def test_notes_from_a_superseded_composition_policy_are_rebuilt(self):
         item = lead(1)
         facts = ["Keshilli | vendimi", "Ura | riparime", "Afati | mars", "Kryetari | deklarata"]

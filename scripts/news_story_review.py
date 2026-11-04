@@ -275,7 +275,9 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
     if wave_size:
         attempted_path = os.environ.get('L383_RELIABLE_REVIEW_ATTEMPTED', '')
         attempted = set(json.loads(Path(attempted_path).read_text(encoding='utf-8'))) if attempted_path else set()
-        waiting_queue = [lead for lead in queue if lead['url'] not in attempted]
+        if category == 'Botë':
+            attempted = {homepage_article_identity(url) for url in attempted}
+        waiting_queue = [lead for lead in queue if (homepage_article_identity(lead['url']) if category == 'Botë' else lead['url']) not in attempted]
         work_queue = waiting_queue[:wave_size]
         work_urls = {lead['url'] for lead in work_queue}
         deferred = [lead for lead in queue if lead['url'] not in work_urls]

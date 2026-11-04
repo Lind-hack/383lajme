@@ -41,7 +41,8 @@ _SPORT_PERSON_OR_TEAM = re.compile(
 _SPORT_CONTEXT = re.compile(
     r"\b(?:futboll\w*|sport\w*|ndeshj\w*|gol\w*|skuadr\w*|lojtar\w*|"
     r"trajner\w*|perzgjedhes\w*|kombetar\w*|boksi\w*|olimp\w*|"
-    r"fitore\w*|stervitj\w*|premier league|1\s*[:\-]\s*0|2\s*[:\-]\s*0)\b"
+    r"fitore\w*|stervitj\w*|premier league|champions league|football|soccer|goalkeeper\w*|midfielder\w*|"
+    r"striker\w*|penalt\w*|extra time|1\s*[:\-]\s*0|2\s*[:\-]\s*0)\b"
 )
 _CIVIC_TRAFFIC_TITLE = re.compile(
     r"\b(?:rrug\w*|aks\w*|qarkullim\w*|trafik\w*|parkim\w*)\b"

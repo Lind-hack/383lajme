@@ -2,7 +2,7 @@
 
 Review baseline: `52850284`. Scope is Botë only; preserve other desks.
 
-- Aim five confirmed publications hourly; minimum three only when supply and services permit.
+- Aim five confirmed publications hourly; five is also the minimum success target when supply and services permit.
 - Expand twelve registered publishers toward twenty-four with the twelve approved additions.
   Verify actual routes/readability; never equate registration, RSS or preview with a read article.
   Discover feeds, sections and homepage leads; cap unique World discovery at 180, rotate publishers
@@ -32,3 +32,16 @@ Review baseline: `52850284`. Scope is Botë only; preserve other desks.
   resolve actionable findings. Linux tests and production build before clean origin/main release
   through GitHub integration; verify website and worker SHA. Observe three scheduled hourly runs.
   Volume is not proof of quality; services/supply outages can legitimately yield zero.
+
+## Preparation recovery after the first production audit
+
+The first publication-enabled audit produced zero drafts because optional reporter-note
+calls repeatedly exhausted the preparation budget. World now immediately builds source-bound
+fragment notes (or reuses valid cached notes), without optional paraphrasing calls. Writers
+still compose original Albanian copy and pass the same independent factual, originality,
+context and image checks. Each photo-qualified story is checkpointed individually; a failed
+sibling or preparation timeout cannot discard completed checkpoints. Recovery continues
+through normal writing and approval, never directly to publication. Canonical World URL
+identity prevents tracking/slash aliases from re-entering the review queue. English match
+reports about known sports figures are excluded from World. Cancellation waits for the child
+process without competing with its output reader. Showbiz/Economy allocations are unchanged.
