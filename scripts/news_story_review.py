@@ -241,6 +241,10 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
     now = now or datetime.now(timezone.utc)
     deadline = stage_deadline(budget_seconds)
     home_deadline=min(deadline,time.monotonic()+min(90 if category=='Ekonomi' else 45,max(0,budget_seconds*.15)))
+    if category == 'Botë':
+        # Ingestion already observes publisher homepages. Reserve this window
+        # for original photos, article-page attempts and native decisions.
+        home_deadline = time.monotonic()
     batched=not capture_only and (reviewer is native_review or batch_reviewer is not None)
     folder = Path(folder)
     folder.mkdir(parents=True,exist_ok=True)
@@ -422,7 +426,7 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
         return url,record
 
     batch_calls=0
-    batch_limit=6 if category=='Ekonomi' else 4
+    batch_limit=2 if category=='Botë' else 6 if category=='Ekonomi' else 4
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor, concurrent.futures.ThreadPoolExecutor(max_workers=2) as models:
         from news_showbiz_batch_review import review_batch,native_batch_review
         waiting=[];calls=[]

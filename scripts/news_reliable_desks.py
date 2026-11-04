@@ -162,9 +162,9 @@ class ProductionPort:
             attempted_file = self.root / 'review-attempted.json'
             atomic(attempted_file, sorted(self.reviewed))
             self.python('cloud_news_discovery.py', '--output', self.discovery, '--skip-published',
-                        seconds=420 if self.category == 'Botë' else 360, model=True,
+                        seconds=600 if self.category == 'Botë' else 360, model=True,
                         env={'L383_SHOWBIZ_REVIEW_SECONDS': '180', 'L383_ECONOMY_REVIEW_SECONDS': '180',
-                             'L383_WORLD_REVIEW_SECONDS': '180',
+                             'L383_WORLD_REVIEW_SECONDS': '360',
                              'L383_INGESTION_BUDGET_SECONDS': '120' if self.category == 'Botë' else '45', 'L383_SHOWBIZ_COLLECTION_SECONDS': '30',
                              'L383_ECONOMY_COLLECTION_SECONDS': '30', 'L383_SHOWBIZ_RESEARCH_SECONDS': '30',
                              'L383_RELIABLE_REVIEW_WAVE_SIZE': '12',

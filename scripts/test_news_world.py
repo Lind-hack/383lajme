@@ -88,6 +88,37 @@ class WorldDiscoveryTests(unittest.TestCase):
 
 
 class WorldVisualTests(unittest.TestCase):
+    def test_world_starts_native_review_after_two_articles_without_recapturing_homepages(self):
+        import json
+        import tempfile
+        from io import BytesIO
+        from datetime import datetime, timezone
+        from unittest.mock import patch
+        from PIL import Image
+        from news_story_review import review_inventory
+        now = datetime.now(timezone.utc)
+        leads = [dict(url=f'https://www.bbc.com/news/world-event-{i}', source='BBC World', category='Botë',
+                      title=f'Officials announce border decision {i}', published=now.isoformat()) for i in range(4)]
+        evidence = {lead['url']:dict(status='text_extracted',url=lead['url'],requested_url=lead['url'],
+                    title=lead['title'],published=lead['published'],fetched_at=now.isoformat(),
+                    text='Officials announced a new border decision today. '*100,
+                    image_url='https://ichef.bbci.co.uk/news/1536/world-event.jpg') for lead in leads}
+        raw = BytesIO(); Image.new('RGB',(600,400),'blue').save(raw,format='PNG')
+        batches, homepages = [], []
+        def page(url, publisher, folder, **kwargs):
+            if not kwargs.get('article'): homepages.append(url)
+            raise ValueError('page capture unavailable')
+        def review(brief, pixels, deadline):
+            rows = json.loads(brief.read_text(encoding='utf-8')); batches.append(len(rows))
+            return [dict(review_id=row['review_id'],decision='consider',score=4,reason='Supported current event.',
+                         new_development='A new border decision.',audience_fit='World news.',breaking='fresh_development',
+                         same_event_urls=[]) for row in rows]
+        with tempfile.TemporaryDirectory() as root, patch('news_image_policy.photo_payload',return_value=raw.getvalue()):
+            records, report = review_inventory(leads,evidence,[],root,capturer=page,batch_reviewer=review,category='Botë',now=now)
+        self.assertEqual(batches, [2,2])
+        self.assertEqual(homepages, [])
+        self.assertEqual(report['summary']['reviewed_articles'], 4)
+
     def test_successful_page_review_also_counts_the_original_photo(self):
         import hashlib
         import tempfile
