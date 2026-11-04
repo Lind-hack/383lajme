@@ -48,6 +48,20 @@ class WorldRankingTests(unittest.TestCase):
 
 
 class WorldDiscoveryTests(unittest.TestCase):
+    def test_source_access_denial_is_reported_separately_from_readable_supply(self):
+        import tempfile
+        from pathlib import Path
+        from news_ingestion import collect
+        from read_news_source import PublicHTTPError
+        publisher = dict(source='BBC World', category='Botë', domains=['bbc.com'], family='bbc')
+        def blocked(*args, **kwargs):
+            raise PublicHTTPError(403)
+        with tempfile.TemporaryDirectory() as root:
+            leads, audits, evidence, report = collect(dict(publishers=[publisher],feeds=[],browser_lanes=[]),
+                Path(root)/'state.sqlite',budget_seconds=0,fetcher=blocked)
+        self.assertEqual(leads, [])
+        self.assertGreater(audits[0]['access_failures']['access_denied'], 0)
+
     def test_sister_world_publishers_cannot_corroborate_sensitive_claims(self):
         from news_source_policy import independent
         self.assertFalse(independent('https://news.sky.com/story/election', 'https://www.nbcnews.com/world/election'))
