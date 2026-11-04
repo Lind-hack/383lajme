@@ -85,10 +85,10 @@ class EconomyReviewTests(unittest.TestCase):
   self.assertEqual(len(balance(rows,plan)),15)
   self.assertEqual(batch_ceiling(rows),29)
 
- def test_short_economy_brief_allowed_but_world_keeps_length_floor(self):
+ def test_short_economy_brief_allowed_but_kosovo_keeps_length_floor(self):
   article=dict(category='Ekonomi',body='<p>'+('Të dhënat e reja tregojnë ndryshime të pagave gjatë muajit. '*6)+'</p>')
   self.assertFalse(any('words' in e or 'paragraph' in e for e in journalism_errors(article)))
-  self.assertTrue(any('words' in e or 'paragraph' in e for e in journalism_errors(dict(article,category='Botë'))))
+  self.assertTrue(any('words' in e or 'paragraph' in e for e in journalism_errors(dict(article,category='Kosovë'))))
   prompt=editorial_prompt('Ekonomi')
   self.assertIn('percentage points',prompt);self.assertIn('at least 4',prompt)
   self.assertNotIn('tattoo',prompt)
