@@ -120,7 +120,8 @@ class ProductionPort:
         self.discovery = Path('.last30days/cloud-news-discovery-current.md')
         self.metrics = dict(saved_drafts=0, approvals=0, writer_ready=0)
         if category == 'Botë':
-            self.metrics.update(ready_stories=0, drafts_by_publisher={}, approvals_by_publisher={})
+            self.metrics.update(ready_stories=0, drafts_by_publisher={}, approvals_by_publisher={},
+                                completed_image_evaluations=0, unsuitable_images=0, image_verification_unavailable=0)
         self.data = None
         self.reviewed = set()
         self.evaluations = {}
@@ -226,7 +227,17 @@ class ProductionPort:
         selection.write_text('# Bounded category preparation\n', encoding='utf-8')
         data = dict(self.data, leads=leads)
         atomic(selection.with_suffix('.json'), data)
-        self.python('prepare_editor_sources.py', selection, '--discovery', seconds=480, model=True)
+        try:
+            self.python('prepare_editor_sources.py', selection, '--discovery', seconds=480, model=True)
+        finally:
+            if self.category == 'Botë':
+                try:
+                    decisions = list(json.loads((work / 'news-photo-outcomes.json').read_text(encoding='utf-8')).values())
+                    self.metrics['completed_image_evaluations'] += sum(d in {'fit', 'none_fit'} for d in decisions)
+                    self.metrics['unsuitable_images'] += decisions.count('none_fit')
+                    self.metrics['image_verification_unavailable'] += decisions.count('verification_unavailable')
+                except (OSError, ValueError):
+                    pass
         data = json.loads(selection.with_suffix('.json').read_text(encoding='utf-8'))
         ready = data.get('ready_leads', [])
         self.metrics['writer_ready'] += len(ready)

@@ -166,6 +166,27 @@ class WorldVisualTests(unittest.TestCase):
 
 
 class WorldRunTests(unittest.TestCase):
+    def test_completed_photo_evals_survive_later_preparation_failure(self):
+        import tempfile
+        from pathlib import Path
+        from datetime import datetime, timezone
+        from unittest.mock import patch
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            port = ProductionPort('Botë', Reserve(root/'reserve','Botë'), root/'run', datetime.now(timezone.utc).timestamp()+3000, qa=True)
+            port.data = {}
+            def command(*args, **kwargs):
+                atomic(root/'run/wave-1/news-photo-outcomes.json', {'first':'fit', 'second':'none_fit', 'third':'verification_unavailable'})
+                raise RuntimeError('reporter notes failed')
+            with patch.object(port, 'python', side_effect=command), self.assertRaises(RuntimeError):
+                list(port.produce([], 5))
+            self.assertEqual(port.metrics['completed_image_evaluations'], 2)
+            self.assertEqual(port.metrics['unsuitable_images'], 1)
+            self.assertEqual(port.metrics['image_verification_unavailable'], 1)
+
     def test_later_review_waves_preserve_completed_world_evals(self):
         import tempfile
         from pathlib import Path
