@@ -488,10 +488,10 @@ def select_hourly_leads(collected: list[dict[str, Any]], published_urls=(), *, n
             anchor = min(pool, key=lambda item: (item['coverage_already_published'],
                          -artist_priority(item),
                          freshness_bucket(item, now),
-                         -homepage_weight(item, now) if category in {'Showbiz','Ekonomi'} else 0,
+                         -homepage_weight(item, now) if category in {'Showbiz','Ekonomi','Botë'} else 0,
                          -attention_priority(item),
                          item['reader_value']['reserve_genre'],
-                         -homepage_weight(item, now) if category not in {'Showbiz','Ekonomi'} else 0,
+                         -homepage_weight(item, now) if category not in {'Showbiz','Ekonomi','Botë'} else 0,
                          -item['reader_value']['score'],
                          -min(item['coverage_family_count'], 5),
                          family_counts[publisher_for(item["url"])["family"]]))
@@ -560,6 +560,7 @@ def main() -> int:
         try:manifest=category_manifest(os.environ.get('L383_NEWS_CATEGORIES'))
         except ValueError as exc:parser.error(str(exc))
         showbiz_enabled=any(p['category']=='Showbiz' for p in manifest['publishers'])
+        world_enabled=any(p['category']=='Botë' for p in manifest['publishers'])
         daily_research=run_research(args.output.parent/'showbiz-research',state,
             budget_seconds=float(os.environ.get('L383_SHOWBIZ_RESEARCH_SECONDS','120'))) if showbiz_enabled else None
         collected,audits,retrieved,ingestion = collect(manifest,state,
@@ -590,6 +591,13 @@ def main() -> int:
             extra,extra_evidence=showbiz_inventory(state,category='Ekonomi')
             collected=[lead for lead in collected if lead['category']!='Ekonomi']+extra
             retrieved.update(extra_evidence)
+        if world_enabled:
+            from news_story_review import showbiz_inventory
+            from news_desk_policy import select_candidates
+            extra,extra_evidence=showbiz_inventory(state,category='Botë')
+            extra=select_candidates(extra,extra_evidence,limit=180)
+            collected=[lead for lead in collected if lead['category']!='Botë']+extra
+            retrieved.update(extra_evidence)
         args.output.parent.mkdir(parents=True,exist_ok=True)
         args.output.with_suffix('.ingestion.json').write_text(json.dumps(ingestion,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     else:
@@ -602,7 +610,7 @@ def main() -> int:
                 audits.append(audit)
 
     selection_pool = collected
-    visual_report = economy_visual_report = None
+    visual_report = economy_visual_report = world_visual_report = None
     if os.environ.get('L383_HOURLY_NEWS') == '1':
         from news_story_review import review_inventory,selection_ready
         from news_model import stage_deadline
@@ -613,7 +621,8 @@ def main() -> int:
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
             for category,enabled,seconds,folder in (
                 ('Showbiz',showbiz_enabled,'L383_SHOWBIZ_REVIEW_SECONDS','showbiz-review'),
-                ('Ekonomi',economy_enabled,'L383_ECONOMY_REVIEW_SECONDS','economy-review')):
+                ('Ekonomi',economy_enabled,'L383_ECONOMY_REVIEW_SECONDS','economy-review'),
+                ('Botë',world_enabled,'L383_WORLD_REVIEW_SECONDS','world-review')):
                 if enabled:
                     budget=float(os.environ.get(seconds,'600'))
                     future=executor.submit(review_inventory,collected,retrieved,audits,args.output.parent/folder,
@@ -622,7 +631,8 @@ def main() -> int:
             for category,future in jobs:
                 reviewed,report=future.result()
                 if category=='Showbiz':visual_report=report
-                else:economy_visual_report=report
+                elif category=='Ekonomi':economy_visual_report=report
+                else:world_visual_report=report
                 selection_pool=[lead if lead['category']!=category else dict(lead,editorial_review=reviewed[lead['url']]['review'])
                                 for lead in selection_pool if lead['category']!=category
                                 or selection_ready(lead,reviewed.get(lead['url']),retrieved.get(lead['url'],{}))]
@@ -685,6 +695,7 @@ def main() -> int:
         "retrieved_evidence": retrieved,
         "ingestion_report": ingestion,
         "economy_visual_review": economy_visual_report['summary'] if economy_visual_report else None,
+        "world_visual_review": world_visual_report['summary'] if world_visual_report else None,
         "showbiz_visual_review": visual_report['summary'] if visual_report else None,
         "showbiz_daily_research": daily_research['summary'] if os.environ.get('L383_HOURLY_NEWS')=='1' and daily_research else None,
         "raw_categories": dict(Counter(lead["category"] for lead in collected)),

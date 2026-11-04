@@ -27,7 +27,7 @@
     },
     "Botë": {
       "min": 0,
-      "discovery_max": 60,
+      "discovery_max": 180,
       "target": 3,
       "coverage_floor": 2,
       "max": 3
@@ -941,6 +941,140 @@
         "/europe/business/",
         "/international/business/"
       ]
+    },
+    {
+      "source": "Sky News",
+      "category": "Botë",
+      "domains": [
+        "news.sky.com"
+      ],
+      "family": "news.sky.com",
+      "homepage_urls": [
+        "https://news.sky.com/world"
+      ]
+    },
+    {
+      "source": "NBC News",
+      "category": "Botë",
+      "domains": [
+        "nbcnews.com"
+      ],
+      "family": "nbcnews.com",
+      "homepage_urls": [
+        "https://www.nbcnews.com/world"
+      ]
+    },
+    {
+      "source": "CNN",
+      "category": "Botë",
+      "domains": [
+        "cnn.com"
+      ],
+      "family": "cnn.com",
+      "homepage_urls": [
+        "https://edition.cnn.com/world"
+      ]
+    },
+    {
+      "source": "ABC News International",
+      "category": "Botë",
+      "domains": [
+        "abcnews.com",
+        "abcnews.go.com"
+      ],
+      "family": "abcnews.com",
+      "homepage_urls": [
+        "https://abcnews.com/International"
+      ]
+    },
+    {
+      "source": "The Independent",
+      "category": "Botë",
+      "domains": [
+        "independent.co.uk"
+      ],
+      "family": "independent.co.uk",
+      "homepage_urls": [
+        "https://www.independent.co.uk/news/world"
+      ]
+    },
+    {
+      "source": "ITV News",
+      "category": "Botë",
+      "domains": [
+        "itv.com"
+      ],
+      "family": "itv.com",
+      "homepage_urls": [
+        "https://www.itv.com/news/world"
+      ]
+    },
+    {
+      "source": "CNA",
+      "category": "Botë",
+      "domains": [
+        "channelnewsasia.com"
+      ],
+      "family": "channelnewsasia.com",
+      "homepage_urls": [
+        "https://www.channelnewsasia.com/world"
+      ]
+    },
+    {
+      "source": "NHK World",
+      "category": "Botë",
+      "domains": [
+        "nhk.or.jp"
+      ],
+      "family": "nhk.or.jp",
+      "homepage_urls": [
+        "https://www3.nhk.or.jp/nhkworld/en/news/"
+      ]
+    },
+    {
+      "source": "SWI swissinfo",
+      "category": "Botë",
+      "domains": [
+        "swissinfo.ch"
+      ],
+      "family": "swissinfo.ch",
+      "homepage_urls": [
+        "https://www.swissinfo.ch/eng/international-geneva/",
+        "https://www.swissinfo.ch/eng/"
+      ]
+    },
+    {
+      "source": "PBS News",
+      "category": "Botë",
+      "domains": [
+        "pbs.org"
+      ],
+      "family": "pbs.org",
+      "homepage_urls": [
+        "https://www.pbs.org/newshour/world"
+      ]
+    },
+    {
+      "source": "NPR",
+      "category": "Botë",
+      "domains": [
+        "npr.org"
+      ],
+      "family": "npr.org",
+      "homepage_urls": [
+        "https://www.npr.org/sections/world/"
+      ]
+    },
+    {
+      "source": "Balkan Insight",
+      "category": "Botë",
+      "domains": [
+        "balkaninsight.com"
+      ],
+      "family": "balkaninsight.com",
+      "homepage_urls": [
+        "https://balkaninsight.com/"
+      ]
     }
   ],
   "feeds": [
@@ -1159,7 +1293,7 @@
       "source": "RFE/RL",
       "category": "Botë",
       "lane": "BOTË",
-      "url": "https://www.rferl.org/api/zrqiteuuir"
+      "url": "https://www.rferl.org/api/zbqiml-vomx-tpeqkmy"
     },
     {
       "source": "Sky Sports",
@@ -1473,6 +1607,54 @@
       "category": "Ekonomi",
       "lane": "EKONOMI",
       "url": "https://www.theguardian.com/business/rss"
+    },
+    {
+      "source": "Sky News",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://feeds.skynews.com/feeds/rss/world.xml"
+    },
+    {
+      "source": "NBC News",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://feeds.nbcnews.com/nbcnews/public/world"
+    },
+    {
+      "source": "ABC News International",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://abcnews.com/abcnews/internationalheadlines"
+    },
+    {
+      "source": "The Independent",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.independent.co.uk/news/world/rss"
+    },
+    {
+      "source": "CNA",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=6311"
+    },
+    {
+      "source": "PBS News",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.pbs.org/newshour/feeds/rss/world"
+    },
+    {
+      "source": "NPR",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://feeds.npr.org/1004/rss.xml"
+    },
+    {
+      "source": "Balkan Insight",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://balkaninsight.com/feed/"
     }
   ],
   "browser_lanes": [
@@ -1662,6 +1844,90 @@
       "category": "Ekonomi",
       "url": "https://www.theguardian.com/uk/business",
       "reason": "Public Economy front page: record actual headline order and retrieve complete dated economic articles; inaccessible previews do not qualify."
+    },
+    {
+      "source": "Sky News",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://news.sky.com/world",
+      "reason": "Public section discovery; only complete readable article evidence is eligible."
+    },
+    {
+      "source": "NBC News",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.nbcnews.com/world",
+      "reason": "Public section discovery; only complete readable article evidence is eligible."
+    },
+    {
+      "source": "CNN",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://edition.cnn.com/world",
+      "reason": "Public section discovery; only complete readable article evidence is eligible."
+    },
+    {
+      "source": "ABC News International",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://abcnews.com/International",
+      "reason": "Public section discovery; only complete readable article evidence is eligible."
+    },
+    {
+      "source": "The Independent",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.independent.co.uk/news/world",
+      "reason": "Public section discovery; only complete readable article evidence is eligible."
+    },
+    {
+      "source": "ITV News",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.itv.com/news/world",
+      "reason": "Public section discovery; only complete readable article evidence is eligible."
+    },
+    {
+      "source": "CNA",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.channelnewsasia.com/world",
+      "reason": "Public section discovery; only complete readable article evidence is eligible."
+    },
+    {
+      "source": "NHK World",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www3.nhk.or.jp/nhkworld/en/news/",
+      "reason": "Public section discovery; only complete readable article evidence is eligible."
+    },
+    {
+      "source": "SWI swissinfo",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.swissinfo.ch/eng/international-geneva/",
+      "reason": "Public section discovery; only complete readable article evidence is eligible."
+    },
+    {
+      "source": "PBS News",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.pbs.org/newshour/world",
+      "reason": "Public section discovery; only complete readable article evidence is eligible."
+    },
+    {
+      "source": "NPR",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://www.npr.org/sections/world/",
+      "reason": "Public section discovery; only complete readable article evidence is eligible."
+    },
+    {
+      "source": "Balkan Insight",
+      "category": "Botë",
+      "lane": "BOTË",
+      "url": "https://balkaninsight.com/",
+      "reason": "Public section discovery; only complete readable article evidence is eligible."
     }
   ],
   "notes": [

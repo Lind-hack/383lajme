@@ -15,7 +15,7 @@ class Reserve:
     def __init__(self, root, category):
         if category not in DESKS:
             raise ValueError('reserves only belong to Showbiz and Economy')
-        self.path = Path(root) / ('showbiz' if category == 'Showbiz' else 'ekonomi')
+        self.path = Path(root) / {'Showbiz': 'showbiz', 'Ekonomi': 'ekonomi', 'Botë': 'bote'}[category]
         self.category = category
 
     def valid(self, entry, *, now=None):

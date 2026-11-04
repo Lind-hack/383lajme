@@ -33,6 +33,9 @@ REVIEW_MAX_AGE = 24*3600
 
 
 def review_policy(category):
+    if category == 'Botë':
+        from news_world_policy import POLICY as world_policy
+        return world_policy
     return '383-economy-page-review-v3-local-briefs' if category=='Ekonomi' else POLICY
 
 
@@ -81,6 +84,8 @@ def recent(value, now, seconds=86400):
 
 
 def story_current(lead,now):
+    if lead.get('category') == 'Botë':
+        return recent(lead.get('published'),now)
     return recent(lead.get('published'),now) or (recent(lead.get('published'),now,72*3600)
                                               and homepage_weight(lead,now)>0)
 
@@ -125,6 +130,9 @@ def capture(url, publisher, folder, *, article=False, fetcher=fetch_public, rend
 
 
 def editorial_prompt(category="Showbiz"):
+    if category == 'Botë':
+        from news_world_policy import EDITORIAL_GUIDANCE as world_guidance
+        return world_guidance
     if category == "Ekonomi":
         from news_economy_policy import EDITORIAL_GUIDANCE as economy_guidance
         return economy_guidance
@@ -204,7 +212,7 @@ def reusable(record, lead, evidence, now, related=None):
     try:
         review = record['review']
         return (record['status']=='reviewed' and review['policy']==review_policy(lead.get('category'))
-                and recent(review['reviewed_at'],now,REVIEW_MAX_AGE)
+                and recent(review['reviewed_at'],now,3600 if lead.get('category')=='Botë' else REVIEW_MAX_AGE)
                 and record['source_evidence_sha256']==source_digest(evidence)==review['text_sha256']
                 and all(record['capture']['evidence'].get(k)==evidence.get(k) for k in ('image_url','image_candidates'))
                 and (related is None or record.get('related_sha256')==digest(related))
@@ -247,7 +255,7 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
         identity=canonical(lead['url'])
         if identity in seen:continue
         seen.add(identity)
-        if category=='Ekonomi':
+        if category in {'Ekonomi','Botë'}:
             reason=topic_error(category,lead.get('title'),evidence_by_url.get(lead['url'],{}).get('text',''),tags=lead.get('tags',[]),url=lead['url'])
             if reason:
                 excluded.append(dict(url=lead['url'],source=lead['source'],title=lead.get('title'),reason=reason))
@@ -341,7 +349,10 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
                     return url,record
                 page=cached['capture']
             else:
-                if batched and capturer is capture:
+                if category == 'Botë':
+                    from news_world_policy import capture_article
+                    page = capture_article(url, publisher_for(url), path, source, capturer)
+                elif batched and capturer is capture:
                     from news_showbiz_article_visual import capture_article_photo
                     try:
                         page=capture_article_photo(url,publisher_for(url),path,public_evidence=source)
@@ -541,7 +552,7 @@ def main():
     from news_ingestion import collect
     from news_ingestion_store import Inventory
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--category',choices=['Showbiz','Ekonomi'],default='Showbiz')
+    parser.add_argument('--category',choices=['Showbiz','Ekonomi','Botë'],default='Showbiz')
     parser.add_argument('--state',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--collect-seconds',type=float,default=900)

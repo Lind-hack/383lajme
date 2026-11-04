@@ -32,6 +32,6 @@ def replay(folder, category):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('folder', type=Path)
-    parser.add_argument('--category', choices=['Showbiz', 'Ekonomi'], required=True)
+    parser.add_argument('--category', choices=['Showbiz', 'Ekonomi', 'Botë'], required=True)
     args = parser.parse_args()
     print(json.dumps(replay(args.folder, args.category), ensure_ascii=False, indent=2))

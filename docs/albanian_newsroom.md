@@ -4,6 +4,26 @@ This document is authoritative for the hosted writer and deterministic gates. It
 
 ## Hourly source policy v3
 
+### World hourly override
+
+For Botë, this paragraph takes precedence over older allocations, image rules and
+length requirements below. Aim for five distinct approved articles each hour;
+three is the minimum target only when eligible supply and services are available.
+Use global reporting with extra European/Balkan relevance, without a regional quota
+or invented Kosovo consequence. Consider supported current developments from 4/10.
+Routine news may use one registered readable publisher; sensitive or disputed central
+claims require genuinely independent corroboration, not two copies of one wire report.
+Allow 50 supported Albanian words in one paragraph; prefer 120–220 without padding.
+Use the original article photo under the owner-selected source-image policy (licence
+not established unless independently proven), with source credit, decoded minimum
+600×350, byte-bound native subject-fit review and accurate illustrative/archive labels.
+Review the complete text and original photo together; attempt actual rendered-page
+capture and explicitly report photo/text fallback. Headlines should be specific and
+compelling while accurately matching the development and photo. Never invent stakes,
+certainty, popularity, virality or engagement. Preserve copyright, duplicate and factual
+checks. World uses independent per-article drafts/approvals and a separate approved
+reserve; model quota exhaustion stops new calls and cannot justify bypassing review.
+
 The hourly worker targets 20 distinct new articles: Kosovë 3; Shqipëri 3;
 Botë 3; Teknologji 3; Ekonomi 3; Sport 3; Showbiz 2. Follow the prepared
 publication_plan: cover every available category before taking extra stories

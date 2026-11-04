@@ -9,7 +9,7 @@ import time
 
 from news_approved_reserve import Reserve
 from news_json_state import atomic
-from news_desk_policy import TARGET, MINIMUM, DESKS, select_candidates
+from news_desk_policy import TARGET, MINIMUM, DESKS, REVIEW_FOLDERS, select_candidates
 
 
 def run_category(port, reserve, outcome, category, *, deadline=None):
@@ -119,6 +119,8 @@ class ProductionPort:
         self.deadline, self.qa, self.sequence = deadline, qa, 0
         self.discovery = Path('.last30days/cloud-news-discovery-current.md')
         self.metrics = dict(saved_drafts=0, approvals=0, writer_ready=0)
+        if category == 'Botë':
+            self.metrics.update(ready_stories=0, drafts_by_publisher={}, approvals_by_publisher={})
         self.data = None
         self.reviewed = set()
         self.evaluations = {}
@@ -159,9 +161,10 @@ class ProductionPort:
             attempted_file = self.root / 'review-attempted.json'
             atomic(attempted_file, sorted(self.reviewed))
             self.python('cloud_news_discovery.py', '--output', self.discovery, '--skip-published',
-                        seconds=360, model=True,
+                        seconds=420 if self.category == 'Botë' else 360, model=True,
                         env={'L383_SHOWBIZ_REVIEW_SECONDS': '180', 'L383_ECONOMY_REVIEW_SECONDS': '180',
-                             'L383_INGESTION_BUDGET_SECONDS': '45', 'L383_SHOWBIZ_COLLECTION_SECONDS': '30',
+                             'L383_WORLD_REVIEW_SECONDS': '180',
+                             'L383_INGESTION_BUDGET_SECONDS': '120' if self.category == 'Botë' else '45', 'L383_SHOWBIZ_COLLECTION_SECONDS': '30',
                              'L383_ECONOMY_COLLECTION_SECONDS': '30', 'L383_SHOWBIZ_RESEARCH_SECONDS': '30',
                              'L383_RELIABLE_REVIEW_WAVE_SIZE': '12',
                              'L383_RELIABLE_REVIEW_ATTEMPTED': str(attempted_file)})
@@ -169,17 +172,29 @@ class ProductionPort:
             evidence = self.data.get('retrieved_evidence', {})
             raw = [a for a in self.data.get('raw_leads', []) if a.get('category') == self.category]
             readable = [a for a in raw if evidence.get(a['url'], {}).get('status') == 'text_extracted']
+            if self.category == 'Botë':
+                from cloud_news_discovery import canonical
+                readable = list({canonical(a['url']): a for a in readable}.values())
+                from news_source_policy import MANIFEST
+                sources = [s for s in self.data.get('sources', []) if s.get('category') == self.category]
+                self.metrics.update(registered_publishers=sum(p['category'] == self.category for p in MANIFEST['publishers']),
+                                    attempted_publishers=sum(s.get('requests_started', 0) > 0 for s in sources),
+                                    source_funnel=sources)
             self.metrics.update(readable_candidates=len(readable),
                                 readable_publishers=len({a['source'] for a in readable}),
                                 images_available=sum(bool(evidence.get(a['url'], {}).get('image_url')
                                                     or evidence.get(a['url'], {}).get('image_candidates')) for a in readable))
-            report = self.data.get('visual_review') or self.data.get('showbiz_visual_review') or {}
-            folder = self.discovery.parent / ('showbiz-review' if self.category == 'Showbiz' else 'economy-review')
+            report = self.data.get('world_visual_review' if self.category == 'Botë' else 'visual_review') or self.data.get('showbiz_visual_review') or {}
+            folder = self.discovery.parent / REVIEW_FOLDERS[self.category]
             try:
                 report = json.loads((folder / 'review.json').read_text(encoding='utf-8'))
             except (OSError, ValueError):
                 pass
             for row in report.get('articles', []):
+                if self.category == 'Botë':
+                    self.evaluations[row['url']] = row
+                    if row['status'] == 'pending_review':
+                        continue
                 if row['status'] != 'pending':
                     self.reviewed.add(row['url'])
                     self.evaluations[row['url']] = row
@@ -191,6 +206,12 @@ class ProductionPort:
                     and r.get('capture', {}).get('visual_evidence_kind') not in {'source_article_image', 'source_article_photo'}
                     for r in self.evaluations.values()),
                 verified_social_engagement=False)
+            if self.category == 'Botë':
+                self.metrics['visual_review'].update(
+                    article_images_captured=sum(bool(r.get('capture')) for r in self.evaluations.values()),
+                    page_capture_failures=sum(bool(r.get('capture', {}).get('page_capture_error')) for r in self.evaluations.values()),
+                    competitive_articles=sum(r.get('review', {}).get('decision') == 'consider'
+                                             and r.get('review', {}).get('score', 0) >= 4 for r in done))
             atomic(self.root / 'evaluations.json', list(self.evaluations.values()))
             if len(self.reviewed) == prior or self.quota_hit() or time.time() >= self.deadline:
                 return []
@@ -207,6 +228,13 @@ class ProductionPort:
         data = json.loads(selection.with_suffix('.json').read_text(encoding='utf-8'))
         ready = data.get('ready_leads', [])
         self.metrics['writer_ready'] += len(ready)
+        if self.category == 'Botë':
+            self.metrics['ready_stories'] += len(ready)
+            rejected = data.get('rejected_inventory', {}).get(self.category, {})
+            for key, reason in (('unreadable', 'source_access'), ('needs_corroboration', 'missing_independent_corroboration'),
+                                ('no_fresh_photo', 'image_verification_unavailable')):
+                if rejected.get(key):
+                    self.metrics.setdefault('failure_reasons', []).append(reason)
         # Persist and finish each story independently. A later failed composer
         # cannot erase a sibling's saved draft or approval.
         for index, lead in enumerate(ready[:remaining]):
@@ -246,6 +274,9 @@ class ProductionPort:
                          '--max-turns', '1', '-Q', '-q', prompt]
                 self.command(args, seconds=180, model=True)
                 self.metrics['saved_drafts'] += len(json.loads(batch.read_text(encoding='utf-8')))
+                if self.category == 'Botë':
+                    counts = self.metrics['drafts_by_publisher']
+                    counts[lead['source']] = counts.get(lead['source'], 0) + 1
                 self.python('codex_automation_support.py', 'normalize', '--file', batch, seconds=60)
                 self.python('prepare_editor_sources.py', batch, seconds=90,
                             env={'L383_PREPARED_EVIDENCE_ROOT': str(work / 'source-evidence')})
@@ -280,6 +311,9 @@ class ProductionPort:
                                                time_sensitive=lead.get('editorial_review', {}).get('breaking') in
                                                {'fresh_development', 'publisher_label'})
                     self.metrics['approvals'] += 1
+                    if self.category == 'Botë':
+                        counts = self.metrics['approvals_by_publisher']
+                        counts[article['source']] = counts.get(article['source'], 0) + 1
                     yield entry
             except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
                 self.metrics.setdefault('failure_reasons', []).append('model_quota' if self.quota_hit()
@@ -355,7 +389,7 @@ def main():
     install_termination_cleanup()
     category = os.environ['L383_NEWS_CATEGORIES']
     if category not in DESKS:
-        raise ValueError('reliable runner only supports Showbiz and Economy')
+        raise ValueError('reliable runner only supports Showbiz, Economy and World')
     outcome = Path(os.environ['L383_RUN_STATE'])
     qa = os.environ.get('L383_QA_ONLY') == '1'
     root = outcome.parent.parent / ('qa-reliable' if qa else 'reliable')

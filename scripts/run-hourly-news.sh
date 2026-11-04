@@ -185,7 +185,7 @@ fi
 
 # These two desks preserve approvals and complete small waves independently.
 # The five other desks retain the established pipeline below.
-if [ "${L383_RUN_DESK:-}" = "showbiz" ] || [ "${L383_RUN_DESK:-}" = "ekonomi" ]; then
+if [ "${L383_RUN_DESK:-}" = "showbiz" ] || [ "${L383_RUN_DESK:-}" = "ekonomi" ] || [ "${L383_RUN_DESK:-}" = "bote" ]; then
   export L383_RUN_STATE="$STATE"
   exec "$PYTHON_BIN" scripts/news_reliable_desks.py
 fi

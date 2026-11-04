@@ -5,10 +5,11 @@ import re
 
 from news_showbiz_focus import ARTISTS, mentions, LOCAL_PUBLISHERS, fold
 
-DESKS = {'Showbiz', 'Ekonomi'}
+DESKS = {'Showbiz', 'Ekonomi', 'Botë'}
 TARGET = 5
 MINIMUM = 3
 POLICY = '383-reliable-desks-v1'
+REVIEW_FOLDERS = {'Showbiz': 'showbiz-review', 'Ekonomi': 'economy-review', 'Botë': 'world-review'}
 
 
 def local_interest(lead, evidence=None):
@@ -20,6 +21,9 @@ def local_interest(lead, evidence=None):
         from news_economy_policy import LOCAL_PUBLISHERS as ECONOMY_LOCAL
         return (lead.get('source') in ECONOMY_LOCAL or
                 bool(re.search(r'\b(?:kosov\w*|shqiper\w*|albania\w*|prishtin\w*|tirana)\b', fold(text))))
+    if lead.get('category') == 'Botë':
+        from news_world_policy import regional_interest
+        return regional_interest(lead, evidence)
     return False
 
 
@@ -46,6 +50,12 @@ def select_candidates(leads, evidence=None, *, limit=5, now=None):
         local = local_interest(lead, evidence.get(lead['url']))
         pools[local][lead.get('source', '')].append(lead)
     def order(lead):
+        if lead.get('category') == 'Botë':
+            full = dict(lead, title=lead.get('title', '') + ' ' + str(
+                evidence.get(lead['url'], lead.get('primary_evidence', {})).get('text') or ''))
+            return (reader_value(lead)['reserve_genre'], bool(lead.get('coverage_already_published')),
+                    -int(local_interest(lead, evidence.get(lead['url']))), freshness_bucket(lead, now),
+                    -homepage_weight(lead, now), -reader_value(full)['score'], lead['url'])
         return (reader_value(lead)['reserve_genre'], bool(lead.get('coverage_already_published')),
                 -focus(lead)['priority'], freshness_bucket(lead, now),
                 -homepage_weight(lead, now), -reader_value(lead)['score'], lead['url'])
@@ -55,6 +65,12 @@ def select_candidates(leads, evidence=None, *, limit=5, now=None):
         return [queues[source].popleft() for _ in range(max(map(len, queues.values()), default=0))
                 for source in sources if queues[source]]
     local, foreign = rotate(pools[True]), rotate(pools[False])
+    if leads and all(lead.get('category') == 'Botë' for lead in leads):
+        # Regional relevance is a ranking preference, never a three-slot quota.
+        groups = defaultdict(list)
+        for lead in sorted(local + foreign, key=order):
+            groups[lead.get('source', '')].append(lead)
+        return rotate(groups)[:limit]
     preferred = local[:min(3, limit)]
     rest = sorted(local[len(preferred):] + foreign, key=order)
     # Rotate again after the preferred local slots to avoid a dominant outlet.

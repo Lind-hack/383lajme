@@ -195,13 +195,13 @@ MIN_SOCIAL_IMAGE_HEIGHT = MIN_IMAGE_HEIGHT
 
 
 def image_minimum(article):
-    if article.get('category') in {'Showbiz','Ekonomi'} and (article.get('image_rights') or {}).get('provider')=='publisher-article':
+    if article.get('category') in {'Showbiz','Ekonomi','Botë'} and (article.get('image_rights') or {}).get('provider')=='publisher-article':
         return 600,350
     return (MIN_SOCIAL_IMAGE_WIDTH,MIN_SOCIAL_IMAGE_HEIGHT) if _social_platform(article) else (MIN_IMAGE_WIDTH,MIN_IMAGE_HEIGHT)
 
 
 def image_dimensions_for_article(article):
-    if os.environ.get('L383_HOURLY_NEWS')=='1' and article.get('category') in {'Showbiz','Ekonomi'}:
+    if os.environ.get('L383_HOURLY_NEWS')=='1' and article.get('category') in {'Showbiz','Ekonomi','Botë'}:
         from news_image_policy import trusted_photo,publisher_photo_allowed
         from news_visual_contact import valid_record
         prepared=trusted_photo(article)
@@ -1173,7 +1173,7 @@ def validate_batch(path: Path) -> list[dict[str, Any]]:
         word_count = _body_word_count(article.get("body"))
         paragraph_count = _paragraph_count(article.get("body"))
         if not social_platform:
-            min_words,min_paragraphs=(50,1) if category in {'Showbiz','Ekonomi'} else (MIN_ARTICLE_WORDS,MIN_ARTICLE_PARAGRAPHS)
+            min_words,min_paragraphs=(50,1) if category in {'Showbiz','Ekonomi','Botë'} else (MIN_ARTICLE_WORDS,MIN_ARTICLE_PARAGRAPHS)
             if word_count < min_words:
                 errors.append(f"{label} body is too short ({word_count} words); require at least {min_words}")
             if paragraph_count < min_paragraphs:

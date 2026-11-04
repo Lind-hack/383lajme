@@ -185,7 +185,7 @@ def visual_options(lead: dict, primary: dict, secondary: dict) -> list[dict]:
     from the last two years, captioned as an archive photo, then a dated
     archive photo of its institution, place, team or company. Text-only is
     out."""
-    if lead.get('category') in {'Showbiz','Ekonomi'}:
+    if lead.get('category') in {'Showbiz','Ekonomi','Botë'}:
         from news_image_policy import article_photo_options
         return article_photo_options(lead,primary)
     from news_gallery_photos import gallery_options
@@ -303,7 +303,7 @@ def prioritize_grounded_leads(leads: list[dict], *, now=None) -> list[dict]:
         words = sum(len(re.findall(r"\w+", str(lead.get(key, {}).get("text") or "")))
                     for key in ("primary_evidence", "secondary_evidence")
                     if lead.get(key, {}).get("status") == "text_extracted")
-        substantial,minimum=(50,30) if lead.get('category') in {'Showbiz','Ekonomi'} else (140,80)
+        substantial,minimum=(50,30) if lead.get('category') in {'Showbiz','Ekonomi','Botë'} else (140,80)
         ordering=(bool(lead.get("source_basis_warning") or source_basis_warning(lead)),
                 words < substantial, words < minimum, bool(lead.get('coverage_already_published')), -artist_priority(lead))
         if lead.get('category')=='Showbiz':
@@ -458,13 +458,13 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
     # With a recent photo required, about one lead in twenty found one on 18 Oct,
     # so every desk sends up to 30 more than its target.
     by_category = {category: prioritize_grounded_leads([item for item in eligible if item["category"] == category])
-                  [:None if category in {'Showbiz','Ekonomi'} else hourly_targets()[category] + 30] for category in CATEGORIES}
+                  [:None if category in {'Showbiz','Ekonomi','Botë'} else hourly_targets()[category] + 30] for category in CATEGORIES}
     # Research one candidate per desk before extras; a slow photo host must
     # not consume the bounded research window before later desks get a turn.
     shortlist = [items[index] for index in range(max(map(len, by_category.values()), default=0))
                  for items in by_category.values() if index < len(items)]
     from news_image_policy import CATALOG, plan_subjects, identity_cache
-    plans = plan_subjects([lead for lead in shortlist if lead.get('category') not in {'Showbiz','Ekonomi'}], path.parent)
+    plans = plan_subjects([lead for lead in shortlist if lead.get('category') not in {'Showbiz','Ekonomi','Botë'}], path.parent)
     from news_model_quota import require_available
     require_available()
     # The owner permits a credited contextual photo in different hourly
