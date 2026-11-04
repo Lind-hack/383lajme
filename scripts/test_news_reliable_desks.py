@@ -127,6 +127,21 @@ class RunRecoveryTests(unittest.TestCase):
             self.assertEqual(third['published_count'],1)
             self.assertEqual(store.entries,[])
 
+    def test_quota_during_collection_is_not_reported_as_no_eligible_supply(self):
+        import tempfile
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        class Store:
+            def available(self):return []
+        class Port:
+            quota=False
+            def quota_hit(self):return self.quota
+            def collect(self,attempted):self.quota=True;return []
+        with tempfile.TemporaryDirectory() as root:
+            result=run_category(Port(),Store(),Path(root)/'outcome.json','Showbiz')
+            self.assertEqual(result['status'],'model_quota')
+            self.assertEqual(result['shortfall_reasons'],['model_quota'])
+
     def test_qa_never_consumes_an_approval(self):
         import tempfile
         from pathlib import Path
@@ -233,5 +248,29 @@ class InterruptedApprovalTests(unittest.TestCase):
             reserve=Reserve(root/'reserve','Showbiz')
             self.assertEqual(recover_approvals(root,reserve),1)
             self.assertEqual(reserve.available()[0]['article']['body'],'Independent prose')
+
+class ProductionCollectionTests(unittest.TestCase):
+    def test_source_photo_capture_is_not_reported_as_a_full_article_page(self):
+        import tempfile,subprocess,json
+        from pathlib import Path
+        from contextlib import chdir
+        from unittest.mock import patch
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        now=datetime.now(timezone.utc)
+        lead=dict(url='https://consequence.net/2026/11/artist-update/',source='Consequence',category='Showbiz',title='Dua Lipa announces a concert',published=now.isoformat())
+        with tempfile.TemporaryDirectory() as temp,chdir(temp):
+            root=Path(temp)
+            def external_command(*args,**kwargs):
+                atomic(root/'.last30days/cloud-news-discovery-current.json',{'leads':[lead],'raw_leads':[lead],'retrieved_evidence':{lead['url']:{'status':'text_extracted','text':'Dua Lipa announces a new performance.','image_url':'https://images.example/photo.jpg'}}})
+                atomic(root/'.last30days/showbiz-review/review.json',{'summary':{},'articles':[{'url':lead['url'],'status':'reviewed','capture':{'visual_evidence_kind':'source_article_image','full_screenshot':'source-photo.png','visual_page_complete':False}}]})
+                return subprocess.CompletedProcess(args,0)
+            port=ProductionPort('Showbiz',Reserve(root/'reserve','Showbiz'),root/'run',now.timestamp()+3000,qa=True)
+            with patch('subprocess.run',side_effect=external_command):
+                self.assertEqual(len(port.collect(set())),1)
+            self.assertEqual(port.metrics['visual_review']['article_pages_captured'],0)
+            self.assertEqual(port.metrics['visual_review']['new_evals'],1)
 
 if __name__=='__main__':unittest.main()

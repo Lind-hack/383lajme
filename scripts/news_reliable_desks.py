@@ -78,7 +78,8 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
         try:
             leads = port.collect(attempted)
             if not leads:
-                reasons.append('eligible_supply_exhausted')
+                pending = getattr(port, 'metrics', {}).get('visual_review', {}).get('articles_awaiting_review', 0)
+                reasons.append('model_quota' if port.quota_hit() else 'review_incomplete' if pending else 'eligible_supply_exhausted')
                 break
             attempted.update(a['url'] for a in leads)
             for entry in port.produce(leads, TARGET - len(published) - result.get('qa_approved', 0)):
@@ -186,7 +187,9 @@ class ProductionPort:
             self.metrics['visual_review'] = dict(report.get('summary', {}),
                 reviewed_articles=len(done), new_evals=sum(not r.get('review_reused') for r in done),
                 reused_evals=sum(bool(r.get('review_reused')) for r in done),
-                article_pages_captured=sum(bool(r.get('capture', {}).get('full_screenshot')) for r in self.evaluations.values()),
+                article_pages_captured=sum(bool(r.get('capture', {}).get('visual_page_complete'))
+                    and r.get('capture', {}).get('visual_evidence_kind') not in {'source_article_image', 'source_article_photo'}
+                    for r in self.evaluations.values()),
                 verified_social_engagement=False)
             atomic(self.root / 'evaluations.json', list(self.evaluations.values()))
             if len(self.reviewed) == prior or self.quota_hit() or time.time() >= self.deadline:
