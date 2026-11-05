@@ -229,6 +229,32 @@ class WorldVisualTests(unittest.TestCase):
 
 
 class WorldRunTests(unittest.TestCase):
+    def test_world_editor_rejection_is_not_a_missing_completion_failure(self):
+        import tempfile,json
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from unittest.mock import patch
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            port=ProductionPort('Botë',Reserve(root/'reserve','Botë'),root/'run',datetime.now(timezone.utc).timestamp()+3000,qa=True)
+            port.data={};calls=[];batch=[]
+            def python(script,*args,**kwargs):
+                calls.append(script)
+                if script=='prepare_editor_sources.py' and '--discovery' in args:
+                    atomic(Path(args[0]).with_suffix('.json'),dict(ready_leads=[dict(url='https://www.bbc.com/news/test',source='BBC World')]))
+                if script=='editor_completion.py':raise RuntimeError('No receipt for a rejected draft')
+            def command(args,**kwargs):
+                if '--batch' in args:
+                    target=Path(args[args.index('--batch')+1]);batch.append(target);atomic(target,[dict(url='https://www.bbc.com/news/test')])
+                else:atomic(batch[0],[])
+            with patch.object(port,'python',side_effect=python),patch.object(port,'command',side_effect=command):
+                self.assertEqual(list(port.produce([],5)),[])
+            self.assertNotIn('editor_completion.py',calls)
+            self.assertIn('review_rejection',port.metrics['failure_reasons'])
+
     def test_world_resumes_checkpointed_stories_after_preparation_timeout(self):
         import tempfile, subprocess
         from pathlib import Path

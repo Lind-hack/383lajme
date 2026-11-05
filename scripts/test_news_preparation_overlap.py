@@ -11,6 +11,26 @@ from prepare_editor_sources import prepare_hourly_inventory
 
 
 class PreparationOverlapTests(unittest.TestCase):
+    def test_world_photo_completion_does_not_reorder_ranked_writer_queue(self):
+        items=[dict(pair_id=name,url='https://www.bbc.com/news/'+name,source='BBC World',category='Botë',
+                    title='EU announces a new border procedure '+name,corroborates_url='') for name in ('first','second')]
+        text=('European Council approved the procedure on Tuesday. Applications open next month. '
+              'Officials published four changes on Wednesday. The timetable includes two stages. ')*8
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);discovery=root/'discovery.md';discovery.write_text('# World')
+            with patch.dict(os.environ,{'L383_HOURLY_NEWS':'1'}), \
+                    patch('prepare_editor_sources.fetch_url',side_effect=lambda url:dict(status='text_extracted',url=url,text=text)), \
+                    patch('news_copyright_review.cooling_down',return_value=False), \
+                    patch('codex_automation_support._recently_published',return_value=[]), \
+                    patch('news_image_policy.identity_cache.save'),patch('news_image_policy.CATALOG',root/'catalog.json'), \
+                    patch('prepare_editor_sources.visual_options',return_value=[{'tier':'article'}]), \
+                    patch('news_photo_editor.choose',return_value={'first':[0],'second':[0]}), \
+                    patch('prepare_editor_sources.ready_image',return_value=dict(image_url='https://images.example/border.jpg')), \
+                    patch('concurrent.futures.as_completed',side_effect=lambda futures,**kwargs:reversed(list(futures))):
+                prepare_hourly_inventory(discovery,{'leads':items})
+            data=json.loads(discovery.with_suffix('.json').read_text())
+            self.assertEqual([lead['pair_id'] for lead in data['ready_leads']],['first','second'])
+
     def test_failed_world_image_cannot_discard_another_ready_story(self):
         items=[dict(pair_id=name,url='https://www.bbc.com/news/'+name,source='BBC World',category='Botë',
                     title='EU announces a new border procedure '+name,corroborates_url='') for name in ('good','bad')]

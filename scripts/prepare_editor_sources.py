@@ -416,7 +416,9 @@ def prepare_world_ready(path, data, shortlist, rejected, folder):
     from news_image_policy import CATALOG, identity_cache
     from news_json_state import atomic
     ready = []
+    rank = {lead['pair_id']: index for index, lead in enumerate(shortlist)}
     def checkpoint():
+        ready.sort(key=lambda row: rank[row['pair_id']])
         counts = {category: sum(row['category'] == category for row in ready) for category in CATEGORIES}
         data.update(ready_leads=ready, verified_pair_ids=[row['pair_id'] for row in ready],
                     source_ready_categories=counts, photo_ready_categories=counts,

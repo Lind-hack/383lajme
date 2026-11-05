@@ -41,7 +41,10 @@ fragment notes (or reuses valid cached notes), without optional paraphrasing cal
 still compose original Albanian copy and pass the same independent factual, originality,
 context and image checks. Each photo-qualified story is checkpointed individually; a failed
 sibling or preparation timeout cannot discard completed checkpoints. Recovery continues
-through normal writing and approval, never directly to publication. Canonical World URL
+through normal writing and approval, never directly to publication. Checkpoints preserve
+the ranked writer order regardless of photo completion order. A complete editorial rejection
+is reported as review rejection, without requiring a completion receipt for an empty batch.
+Canonical World URL
 identity prevents tracking/slash aliases from re-entering the review queue. English match
 reports about known sports figures are excluded from World. Cancellation waits for the child
 process without competing with its output reader. Showbiz/Economy allocations are unchanged.
