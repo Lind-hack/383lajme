@@ -441,7 +441,7 @@ class ProductionPort:
             raise ValueError('saved approval is expired or changed')
         from codex_automation_support import _recently_published
         from news_context_review import review, verify
-        from news_copyright_review import article_digest, digest
+        from news_copyright_review import digest
         slot = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H')
         batch = self.root / 'context-refresh' / digest(entry['article']['url'])[:24] / (slot + '.json')
         atomic(batch, [entry['article']])
@@ -454,7 +454,7 @@ class ProductionPort:
         rows = json.loads(batch.read_text(encoding='utf-8'))
         if not rows:
             return None
-        if len(rows) != 1 or article_digest(rows[0]) != article_digest(entry['article']):
+        if len(rows) != 1 or digest(rows[0]) != digest(entry['article']):
             raise ValueError('context recheck changed the approved copy')
         verify(batch, rows, history)
         context = json.loads(batch.with_suffix('.context-review.json').read_text(encoding='utf-8'))
