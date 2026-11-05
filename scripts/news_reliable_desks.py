@@ -7,7 +7,7 @@ import subprocess
 import sys
 import time
 
-from news_approved_reserve import Reserve
+from news_approved_reserve import Reserve, PublicationHistoryChanged
 from news_json_state import atomic
 from news_desk_policy import TARGET, MINIMUM, DESKS, REVIEW_FOLDERS, select_candidates
 
@@ -40,6 +40,7 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
         atomic(outcome, result)
 
     qa_seen = set()
+    context_rechecked = set()
 
     def deliver(entry):
         if entry['article']['url'] in qa_seen:
@@ -51,10 +52,33 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
         if duplicate_photo_pairs(published + [entry['article']]):
             reasons.append('duplicate_image_this_run')
             return
+        refreshing = False
         try:
-            saved = port.publish(entry)
+            try:
+                saved = port.publish(entry)
+            except PublicationHistoryChanged:
+                if (category != 'Botë' or entry['article']['url'] in context_rechecked
+                        or port.quota_hit() or time.time() >= deadline or not hasattr(port, 'refresh_context')):
+                    reasons.append('publication_history_changed')
+                    if port.quota_hit():
+                        reasons.append('model_quota')
+                    return
+                context_rechecked.add(entry['article']['url'])
+                refreshing = True
+                updated = port.refresh_context(entry)
+                if updated is None:
+                    reasons.append('model_quota' if port.quota_hit() else 'context_review_rejection')
+                    return
+                entry = updated
+                refreshing = False
+                saved = port.publish(entry)
+        except PublicationHistoryChanged as exc:
+            reasons.append('publication_history_changed')
+            print(f'383 RETAIN APPROVED {entry["article"]["slug"]}: {exc}', flush=True)
+            return
         except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
-            reasons.append('publication_unavailable')
+            reasons.append('model_quota' if port.quota_hit() else
+                           'context_review_unavailable' if refreshing else 'publication_unavailable')
             print(f'383 RETAIN APPROVED {entry["article"]["slug"]}: {exc}', flush=True)
             return
         # The port only succeeds after exact persisted-copy readback.
@@ -404,6 +428,34 @@ class ProductionPort:
                 print(f'383 STORY HELD {lead["url"]}: {exc}', flush=True)
                 if self.quota_hit():
                     raise
+
+    def refresh_context(self, entry):
+        """New context approval for unchanged copy; never run under the publication lock."""
+        if self.quota_hit() or time.time() >= self.deadline:
+            raise RuntimeError('model quota or deadline prevents a new context comparison')
+        if not self.reserve.valid(entry):
+            raise ValueError('saved approval is expired or changed')
+        from codex_automation_support import _recently_published
+        from news_context_review import review, verify
+        from news_copyright_review import article_digest, digest
+        slot = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H')
+        batch = self.root / 'context-refresh' / digest(entry['article']['url'])[:24] / (slot + '.json')
+        atomic(batch, [entry['article']])
+        atomic(batch.with_suffix('.editor-sources.json'), [entry['evidence']])
+        atomic(batch.with_suffix('.copyright-review.json'), entry['originality'])
+        atomic(batch.with_suffix('.selection.json'), dict(time_sensitive=entry['time_sensitive']))
+        self.metrics['context_rechecks'] = self.metrics.get('context_rechecks', 0) + 1
+        history = _recently_published()
+        review(batch, history)
+        rows = json.loads(batch.read_text(encoding='utf-8'))
+        if not rows:
+            return None
+        if len(rows) != 1 or article_digest(rows[0]) != article_digest(entry['article']):
+            raise ValueError('context recheck changed the approved copy')
+        verify(batch, rows, history)
+        context = json.loads(batch.with_suffix('.context-review.json').read_text(encoding='utf-8'))
+        return self.reserve.store(rows[0], entry['evidence'], entry['originality'], context,
+                                  time_sensitive=entry['time_sensitive'])
 
     def publish(self, entry):
         import fcntl

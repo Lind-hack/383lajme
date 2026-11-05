@@ -240,6 +240,87 @@ class WorldVisualTests(unittest.TestCase):
 
 
 class WorldRunTests(unittest.TestCase):
+    def test_world_history_refresh_cannot_renew_originality_or_change_copy(self):
+        import tempfile
+        from pathlib import Path
+        from datetime import datetime,timezone,timedelta
+        from unittest.mock import patch
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_copyright_review import article_digest,digest,POLICY,CHECKS
+        from news_json_state import atomic
+        now=datetime.now(timezone.utc);old=(now-timedelta(hours=5)).isoformat()
+        article=dict(slug='a',url='https://www.bbc.com/news/test',title='EU border procedure',body='Independent public facts.',
+                     category='Botë',image_rights=dict(sha256='a'*64))
+        evidence=dict(slug='a',evidence=dict(status='text_extracted',published=(now-timedelta(hours=6)).isoformat()))
+        proof=dict(article_sha256=article_digest(article),evidence_sha256=digest(evidence),
+                   decision=dict(verdict='approve',checks=dict.fromkeys(CHECKS,True),reason='All source facts and independent composition were checked.'))
+        originality=dict(policy=POLICY,model='gpt-6-luna',provider='openai-codex',reviewed_at=old,articles={'a':proof})
+        context=dict(policy='383-event-context-v2',model='gpt-6-luna',provider='openai-codex',reviewed_at=old,history={},history_count=0,
+                     articles={'a':dict(article_sha256=article_digest(article),preceding={},catalogue=[],decisions=[dict(verdict='distinct')])})
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);reserve=Reserve(root/'reserve','Botë')
+            entry=reserve.store(article,evidence,originality,context,now=now)
+            port=ProductionPort('Botë',reserve,root/'run',now.timestamp()+3000)
+            def review(batch,history):
+                atomic(batch.with_suffix('.context-review.json'),dict(context,reviewed_at=now.isoformat()))
+            with patch('codex_automation_support._recently_published',return_value=[]),patch('news_context_review.review',side_effect=review):
+                refreshed=port.refresh_context(entry)
+            self.assertEqual(refreshed['article'],entry['article'])
+            self.assertEqual(refreshed['evidence'],entry['evidence'])
+            self.assertEqual(refreshed['originality'],entry['originality'])
+            self.assertEqual(refreshed['image_sha256'],entry['image_sha256'])
+            self.assertFalse(reserve.valid(refreshed,now=now+timedelta(hours=2)))
+
+    def test_world_quota_after_history_hold_preserves_reserve_without_model_calls(self):
+        import tempfile
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        from news_approved_reserve import PublicationHistoryChanged
+        entry=dict(article=dict(url='a',slug='a'))
+        class Store:
+            def available(self):return [entry]
+            def confirm(self,item):raise AssertionError('Unpublished reserve consumed')
+        class Port:
+            quota=False
+            def quota_hit(self):return self.quota
+            def collect(self,attempted):return []
+            def publish(self,item):self.quota=True;raise PublicationHistoryChanged('needs a new comparison')
+            def refresh_context(self,item):raise AssertionError('Model called after quota')
+        with tempfile.TemporaryDirectory() as root:
+            result=run_category(Port(),Store(),Path(root)/'outcome.json','Botë')
+            self.assertEqual(result['published_count'],0)
+            self.assertIn('model_quota',result['shortfall_reasons'])
+
+    def test_world_rechecks_changed_history_once_before_confirming_publication(self):
+        import tempfile
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        from news_approved_reserve import PublicationHistoryChanged
+        entry=dict(article=dict(url='a',slug='a'))
+        class Store:
+            confirmed=[]
+            def available(self):return [] if self.confirmed else [entry]
+            def confirm(self,item):self.confirmed.append(item)
+        class Port:
+            publishes=0;refreshes=0
+            def quota_hit(self):return False
+            def collect(self,attempted):return []
+            def publish(self,item):
+                self.publishes+=1
+                if self.publishes==1:raise PublicationHistoryChanged('changed related publication history needs a new comparison')
+                return dict(batch='a.json',articles=[item['article']])
+            def refresh_context(self,item):
+                self.refreshes+=1
+                return dict(item,context='fresh independent approval')
+        with tempfile.TemporaryDirectory() as root:
+            store=Store();port=Port()
+            result=run_category(port,store,Path(root)/'run.json','Botë')
+            self.assertEqual(result['published_count'],1)
+            self.assertEqual(port.refreshes,1)
+            self.assertEqual(port.publishes,2)
+            self.assertEqual(len(store.confirmed),1)
+
     def prepared_world_story(self, *, slow_review=False):
         import tempfile,json
         from pathlib import Path

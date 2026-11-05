@@ -65,3 +65,11 @@ desk allocations and superseded legacy rules. Writers still receive the complete
 article schema. Editors return validated decisions rather than replacement article
 schemas. Complete source evidence and original candidate copy remain intact, and
 all factual, originality, photo, context and publication checks remain mandatory.
+Reserve eligibility checks remain model-free. If publication is held specifically
+because related history changed, World may obtain one new independent context
+approval per story/run, outside the publication lock and within the normal model
+deadline/quota. Copy, source evidence, original photo and originality approval are
+unchanged; renewing context never extends the original approval's expiry. Retry
+publication once through current-history/image checks and idempotent readback.
+Rejected/unavailable comparisons retain the unpublished entry and report their
+actual cause. Completed refresh receipts participate in crash recovery.

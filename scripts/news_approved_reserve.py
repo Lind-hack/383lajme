@@ -11,6 +11,10 @@ from news_desk_policy import DESKS, POLICY
 from news_json_state import atomic, age
 
 
+class PublicationHistoryChanged(ValueError):
+    """An approved copy needs a fresh independent context comparison."""
+
+
 class Reserve:
     def __init__(self, root, category):
         if category not in DESKS:
@@ -121,7 +125,7 @@ def verify_saved(batch, articles, records=None, recent=None):
                     str(r.get(k) or '') for k in ('title', 'excerpt', 'body')).casefold()))
                 if (_same_story(article, row) or _story_overlap(article, row) >= .18
                         or len(words(article) & words(row)) >= 3):
-                    raise ValueError('changed related publication history needs a new comparison')
+                    raise PublicationHistoryChanged('changed related publication history needs a new comparison')
     return entries
 
 
@@ -149,6 +153,7 @@ def recover_approvals(root, reserve):
     receipts = list(Path(root).glob('*/wave-*/draft-*/*.context-review.json'))
     if reserve.category == 'Botë':
         receipts += list(Path(root).glob('*/wave-*/parallel-*/draft-*/*.context-review.json'))
+        receipts += list(Path(root).glob('*/context-refresh/*/*.context-review.json'))
     for receipt_file in receipts:
         batch = receipt_file.with_name(receipt_file.name.removesuffix('.context-review.json') + '.json')
         try:
