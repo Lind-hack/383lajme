@@ -55,3 +55,8 @@ existing shared model-slot fairness, quota marker and model/outer deadlines stil
 Workers save approvals to the existing reserve and never publish. The parent verifies
 approval hashes and publishes completed stories through the existing lock and readback.
 Restart recovery includes completed receipts in the parallel workers' directories.
+World editor and originality stages receive up to 420 seconds so a 360-second model
+review is not killed by a shorter outer stage limit. The minute-50 model cutoff and
+55-minute outer deadline still cap every stage and worker. A worker verifies its context
+receipt against the history snapshot actually reviewed; the parent rechecks current history,
+holding changed related stories and permitting only conservatively disjoint additions.

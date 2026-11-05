@@ -355,13 +355,14 @@ class ProductionPort:
                 self.python('prepare_editor_sources.py', batch, seconds=90,
                             env={'L383_PREPARED_EVIDENCE_ROOT': str(evidence_folder or work / 'source-evidence')})
                 self.command(['bash', 'scripts/run-news-editor-parallel.sh', 'gpt-6-luna', batch, Path.cwd(), '30'],
-                             seconds=240, model=True)
+                             seconds=420 if self.category == 'Botë' else 240, model=True)
                 if self.category == 'Botë' and not json.loads(batch.read_text(encoding='utf-8')):
                     self.metrics.setdefault('failure_reasons', []).append('review_rejection')
                     continue
                 self.python('editor_completion.py', 'verify', batch, seconds=30)
                 self.python('codex_automation_support.py', 'normalize', '--file', batch, seconds=60)
-                self.python('news_copyright_review.py', '--file', batch, seconds=240, model=True,
+                self.python('news_copyright_review.py', '--file', batch,
+                            seconds=420 if self.category == 'Botë' else 240, model=True,
                             env={'L383_REVIEW_RECEIPT': str(batch.with_suffix('.copyright-review.json'))})
                 from codex_automation_support import _recently_published
                 from news_copyright_review import validate_for_publication
