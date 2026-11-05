@@ -229,7 +229,7 @@ class WorldVisualTests(unittest.TestCase):
 
 
 class WorldRunTests(unittest.TestCase):
-    def test_world_review_budget_allows_the_underlying_360_second_call(self):
+    def prepared_world_story(self, *, slow_review=False):
         import tempfile,json
         from pathlib import Path
         from datetime import datetime,timezone
@@ -243,7 +243,7 @@ class WorldRunTests(unittest.TestCase):
             root=Path(temp);reserve=Reserve(root/'reserve','Botë')
             port=ProductionPort('Botë',reserve,root/'run',datetime.now(timezone.utc).timestamp()+3000,qa=True);port.data={}
             def python(script,*args,**kwargs):
-                if script=='news_copyright_review.py' and kwargs.get('seconds',0)<360:
+                if slow_review and script=='news_copyright_review.py' and kwargs.get('seconds',0)<360:
                     raise RuntimeError('outer timeout cut off the independent review')
                 if script=='prepare_editor_sources.py' and '--discovery' in args:
                     atomic(Path(args[0]).with_suffix('.json'),dict(ready_leads=[lead]))
@@ -252,7 +252,7 @@ class WorldRunTests(unittest.TestCase):
                     atomic(batch.with_suffix('.copyright-review.json'),{})
                     atomic(batch.with_suffix('.context-review.json'),{})
             def command(args,**kwargs):
-                if args[0]=='bash' and kwargs.get('seconds',0)<360:
+                if slow_review and args[0]=='bash' and kwargs.get('seconds',0)<360:
                     raise RuntimeError('outer timeout cut off the editor')
                 if '--batch' in args:atomic(Path(args[args.index('--batch')+1]),[article])
             with patch.object(port,'python',side_effect=python),patch.object(port,'command',side_effect=command), \
@@ -260,38 +260,15 @@ class WorldRunTests(unittest.TestCase):
                     patch('news_copyright_review.validate_for_publication'),patch('news_context_review.review') as review, \
                     patch('news_context_review.verify') as verify,patch.object(reserve,'store',return_value=dict(article=article)):
                 self.assertEqual(len(list(port.produce([lead],5))),1)
-            self.assertEqual(review.call_args.args[1],[])
-            self.assertEqual(verify.call_args.args[2],[])
+            return review.call_args.args[1],verify.call_args.args[2]
+
+    def test_world_review_budget_allows_the_underlying_360_second_call(self):
+        self.prepared_world_story(slow_review=True)
 
     def test_world_worker_verifies_the_history_it_reviewed_before_parent_publication(self):
-        import tempfile,json
-        from pathlib import Path
-        from datetime import datetime,timezone
-        from unittest.mock import patch
-        from news_reliable_desks import ProductionPort
-        from news_approved_reserve import Reserve
-        from news_json_state import atomic
-        lead=dict(url='https://www.bbc.com/news/test',source='BBC World')
-        article=dict(lead,slug='test')
-        with tempfile.TemporaryDirectory() as temp:
-            root=Path(temp);reserve=Reserve(root/'reserve','Botë')
-            port=ProductionPort('Botë',reserve,root/'run',datetime.now(timezone.utc).timestamp()+3000,qa=True);port.data={}
-            def python(script,*args,**kwargs):
-                if script=='prepare_editor_sources.py' and '--discovery' in args:
-                    atomic(Path(args[0]).with_suffix('.json'),dict(ready_leads=[lead]))
-                elif script=='prepare_editor_sources.py':
-                    batch=Path(args[0]);atomic(batch.with_suffix('.editor-sources.json'),[dict(slug='test')])
-                    atomic(batch.with_suffix('.copyright-review.json'),{})
-                    atomic(batch.with_suffix('.context-review.json'),{})
-            def command(args,**kwargs):
-                if '--batch' in args:atomic(Path(args[args.index('--batch')+1]),[article])
-            with patch.object(port,'python',side_effect=python),patch.object(port,'command',side_effect=command), \
-                    patch('codex_automation_support._recently_published',side_effect=[[],[dict(id='new-sibling')]]), \
-                    patch('news_copyright_review.validate_for_publication'),patch('news_context_review.review') as review, \
-                    patch('news_context_review.verify') as verify,patch.object(reserve,'store',return_value=dict(article=article)):
-                self.assertEqual(len(list(port.produce([lead],5))),1)
-            self.assertEqual(review.call_args.args[1],[])
-            self.assertEqual(verify.call_args.args[2],[])
+        reviewed,verified=self.prepared_world_story()
+        self.assertEqual(reviewed,[])
+        self.assertEqual(verified,[])
 
     @unittest.skipUnless(__import__('os').name=='posix','Linux worker file locks')
     def test_parallel_world_reviews_preserve_every_rejection_in_shared_history(self):
