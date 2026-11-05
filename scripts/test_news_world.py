@@ -240,6 +240,26 @@ class WorldVisualTests(unittest.TestCase):
 
 
 class WorldRunTests(unittest.TestCase):
+    def test_history_recheck_does_not_change_other_desks_failure_behavior(self):
+        import tempfile
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        from news_approved_reserve import PublicationHistoryChanged
+        entry=dict(article=dict(url='a',slug='a'))
+        class Store:
+            def available(self):return [entry]
+        class Port:
+            def quota_hit(self):return False
+            def collect(self,attempted):return []
+            def publish(self,item):raise PublicationHistoryChanged('changed history')
+            def refresh_context(self,item):raise AssertionError('Changed another desk')
+        with tempfile.TemporaryDirectory() as root:
+            for category in ('Showbiz','Ekonomi'):
+                with self.subTest(category=category):
+                    result=run_category(Port(),Store(),Path(root)/(category+'.json'),category)
+                    self.assertIn('publication_unavailable',result['shortfall_reasons'])
+                    self.assertNotIn('publication_history_changed',result['shortfall_reasons'])
+
     def test_world_history_refresh_cannot_renew_originality_or_change_copy(self):
         import tempfile
         from pathlib import Path

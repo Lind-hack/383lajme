@@ -57,7 +57,9 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
             try:
                 saved = port.publish(entry)
             except PublicationHistoryChanged:
-                if (category != 'Botë' or entry['article']['url'] in context_rechecked
+                if category != 'Botë':
+                    raise
+                if (entry['article']['url'] in context_rechecked
                         or port.quota_hit() or time.time() >= deadline or not hasattr(port, 'refresh_context')):
                     reasons.append('publication_history_changed')
                     if port.quota_hit():
@@ -73,11 +75,11 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
                 refreshing = False
                 saved = port.publish(entry)
         except PublicationHistoryChanged as exc:
-            reasons.append('publication_history_changed')
+            reasons.append('publication_history_changed' if category == 'Botë' else 'publication_unavailable')
             print(f'383 RETAIN APPROVED {entry["article"]["slug"]}: {exc}', flush=True)
             return
         except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
-            reasons.append('model_quota' if port.quota_hit() else
+            reasons.append('model_quota' if category == 'Botë' and port.quota_hit() else
                            'context_review_unavailable' if refreshing else 'publication_unavailable')
             print(f'383 RETAIN APPROVED {entry["article"]["slug"]}: {exc}', flush=True)
             return
@@ -431,6 +433,8 @@ class ProductionPort:
 
     def refresh_context(self, entry):
         """New context approval for unchanged copy; never run under the publication lock."""
+        if self.category != 'Botë':
+            raise ValueError('context refresh is configured only for World')
         if self.quota_hit() or time.time() >= self.deadline:
             raise RuntimeError('model quota or deadline prevents a new context comparison')
         if not self.reserve.valid(entry):
