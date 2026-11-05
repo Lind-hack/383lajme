@@ -73,3 +73,6 @@ unchanged; renewing context never extends the original approval's expiry. Retry
 publication once through current-history/image checks and idempotent readback.
 Rejected/unavailable comparisons retain the unpublished entry and report their
 actual cause. Completed refresh receipts participate in crash recovery.
+World finalizes valid saved approvals before new model work, leaving the remaining
+slots for fresh candidates. This gives a required context refresh time before the
+model cutoff, rather than repeatedly postponing approved work until it expires.

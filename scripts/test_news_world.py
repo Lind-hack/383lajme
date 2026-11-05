@@ -240,6 +240,27 @@ class WorldVisualTests(unittest.TestCase):
 
 
 class WorldRunTests(unittest.TestCase):
+    def test_world_finishes_saved_approvals_before_spending_new_model_capacity(self):
+        import tempfile
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        entry=dict(article=dict(url='a',slug='a'))
+        class Store:
+            done=False
+            def available(self):return [] if self.done else [entry]
+            def confirm(self,item):self.done=True
+        store=Store()
+        class Port:
+            def quota_hit(self):return False
+            def publish(self,item):return dict(batch='a.json',articles=[item['article']])
+            def collect(self,attempted):
+                if not store.done:raise AssertionError('A completed approval waited behind new model work')
+                return []
+        with tempfile.TemporaryDirectory() as root:
+            result=run_category(Port(),store,Path(root)/'run.json','Botë')
+            self.assertEqual(result['published_count'],1)
+            self.assertEqual(result['reserve_used'],1)
+
     def test_history_recheck_does_not_change_other_desks_failure_behavior(self):
         import tempfile
         from pathlib import Path

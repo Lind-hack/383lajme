@@ -101,6 +101,14 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
         checkpoint()
 
     checkpoint()
+    if category == 'Botë':
+        # Finish already-approved work while a necessary context comparison
+        # still has model time; do not strand it behind a full discovery run.
+        for entry in reserve.available():
+            if len(published) + result.get('qa_approved', 0) >= TARGET:
+                break
+            deliver(entry)
+            attempted.add(entry['article']['url'])
     while len(published) + result.get('qa_approved', 0) < TARGET and time.time() < deadline and not port.quota_hit():
         try:
             leads = port.collect(attempted)
