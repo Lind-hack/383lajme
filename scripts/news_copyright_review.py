@@ -128,6 +128,19 @@ def save_review(batch: Path, evidence: Path, output: str, *, reviewed_snapshot: 
 
 
 def remember_rejections(rejected: list[dict]) -> None:
+    lockfile = os.environ.get('L383_REJECTION_LOCK')
+    if lockfile and rejected:
+        import fcntl
+        path = Path(lockfile)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open('a') as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            _remember_rejections(rejected)
+    else:
+        _remember_rejections(rejected)
+
+
+def _remember_rejections(rejected: list[dict]) -> None:
     """The hour's rejected drafts with the reviewer's reasons, for one rewrite
     (L383_REVIEW_REJECTED), and a day's ledger of rejected source URLs
     (L383_REJECTION_LEDGER): 'Zelenskyy 20 million' was redrafted and rejected

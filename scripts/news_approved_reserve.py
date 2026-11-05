@@ -146,7 +146,10 @@ def verify_pixels(article, *, fetcher=None):
 def recover_approvals(root, reserve):
     """Recover the crash window between saved final receipts and reserve.store."""
     recovered = 0
-    for receipt_file in Path(root).glob('*/wave-*/draft-*/*.context-review.json'):
+    receipts = list(Path(root).glob('*/wave-*/draft-*/*.context-review.json'))
+    if reserve.category == 'Botë':
+        receipts += list(Path(root).glob('*/wave-*/parallel-*/draft-*/*.context-review.json'))
+    for receipt_file in receipts:
         batch = receipt_file.with_name(receipt_file.name.removesuffix('.context-review.json') + '.json')
         try:
             articles = json.loads(batch.read_text(encoding='utf-8'))

@@ -229,6 +229,100 @@ class WorldVisualTests(unittest.TestCase):
 
 
 class WorldRunTests(unittest.TestCase):
+    @unittest.skipUnless(__import__('os').name=='posix','Linux worker file locks')
+    def test_parallel_world_reviews_preserve_every_rejection_in_shared_history(self):
+        import tempfile,os,sys,subprocess,json
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);ledger=root/'ledger.json'
+            code=('import sys;sys.path.insert(0,sys.argv[1]);from news_copyright_review import remember_rejections;'
+                  '[remember_rejections([dict(url="https://www.bbc.com/news/"+sys.argv[2]+"-"+str(i))]) for i in range(20)]')
+            workers=[]
+            for n in range(4):
+                env=dict(os.environ,L383_REJECTION_LEDGER=str(ledger),L383_REJECTION_LOCK=str(ledger)+'.lock',L383_REVIEW_REJECTED='')
+                workers.append(subprocess.Popen([sys.executable,'-c',code,str(Path(__file__).parent),str(n)],env=env))
+            for worker in workers:self.assertEqual(worker.wait(timeout=10),0)
+            self.assertEqual(len(json.loads(ledger.read_text())),80)
+
+    def test_world_worker_isolates_rejections_and_saves_approval_before_quota_failure(self):
+        import tempfile,json,os
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from unittest.mock import patch
+        from news_world_story_worker import run
+        from news_json_state import atomic
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);work=root/'parallel-0';request=root/'input.json';response=root/'result.json'
+            atomic(request,dict(work=str(work),reserve_root=str(root/'reserve'),deadline=datetime.now(timezone.utc).timestamp()+3000,
+                                qa=True,lead={},data={},evidence_folder=str(root/'source-evidence')))
+            entry=dict(article=dict(url='https://www.bbc.com/news/approved'))
+            def write(*args,**kwargs):
+                self.assertEqual(os.environ['L383_REVIEW_REJECTED'],str(work/'copyright-rejected.json'))
+                self.assertEqual(os.environ['L383_REJECTION_LOCK'],str(root/'ledger.json')+'.lock')
+                yield entry
+                raise RuntimeError('model_quota')
+            with patch.dict(os.environ,dict(L383_REVIEW_REJECTED=str(root/'shared-rejected.json'),L383_REJECTION_LEDGER=str(root/'ledger.json'))), \
+                    patch('codex_automation_support.load_env'),patch('news_reliable_desks.ProductionPort.write_ready',side_effect=write):
+                run(request,response)
+            saved=json.loads(response.read_text())
+            self.assertEqual(saved['entries'],[entry])
+            self.assertEqual(saved['error'],'model_quota')
+
+    def test_world_restart_recovers_parallel_story_receipts(self):
+        import tempfile
+        from pathlib import Path
+        from datetime import datetime, timezone
+        from news_approved_reserve import Reserve, recover_approvals
+        from news_json_state import atomic
+        from news_copyright_review import article_digest, digest, POLICY, CHECKS
+        now=datetime.now(timezone.utc)
+        a=dict(slug='a',url='https://www.bbc.com/news/articles/test',title='EU announces a border procedure',body='Independent prose',category='Botë',published_at=now.isoformat(),image_rights=dict(sha256='a'*64))
+        e=dict(slug='a',evidence=dict(status='text_extracted',published=now.isoformat()))
+        proof=dict(article_sha256=article_digest(a),evidence_sha256=digest(e),decision=dict(verdict='approve',checks=dict.fromkeys(CHECKS,True),reason='Independent composition and all factual claims are supported.'))
+        receipt=dict(policy=POLICY,model='gpt-6-luna',provider='openai-codex',reviewed_at=now.isoformat(),articles={'a':proof})
+        context=dict(policy='383-event-context-v2',model='gpt-6-luna',provider='openai-codex',reviewed_at=now.isoformat(),history={},articles={'a':dict(article_sha256=article_digest(a),decisions=[dict(verdict='distinct')])})
+        with tempfile.TemporaryDirectory() as root:
+            root=Path(root)
+            batch=root/'run'/'wave-1'/'parallel-0'/'draft-0'/'2026-11-03T22.json'
+            atomic(batch,[a]);atomic(batch.with_suffix('.editor-sources.json'),[e])
+            atomic(batch.with_suffix('.copyright-review.json'),receipt)
+            atomic(batch.with_suffix('.context-review.json'),context)
+            reserve=Reserve(root/'reserve','Botë')
+            self.assertEqual(recover_approvals(root,reserve),1)
+            self.assertEqual(reserve.available()[0]['article']['body'],'Independent prose')
+
+    def test_world_slow_writer_cannot_block_other_prepared_stories(self):
+        import tempfile,threading,subprocess
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from unittest.mock import patch
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        leads=[dict(url='https://www.bbc.com/news/'+str(i),source='BBC World') for i in range(3)]
+        started=threading.Barrier(3)
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            reserve=Reserve(root/'reserve','Botë')
+            port=ProductionPort('Botë',reserve,root/'run',datetime.now(timezone.utc).timestamp()+3000,qa=True)
+            port.data={}
+            def command(script,*args,**kwargs):
+                if script=='prepare_editor_sources.py':
+                    atomic(Path(args[0]).with_suffix('.json'),dict(ready_leads=leads))
+                elif script=='news_world_story_worker.py':
+                    import json
+                    job=json.loads(Path(args[0]).read_text());lead=job['lead']
+                    started.wait(timeout=2)
+                    if lead['url'].endswith('/0'):raise subprocess.TimeoutExpired('writer',180)
+                    atomic(args[1],dict(entries=[dict(article=lead)],metrics=dict(saved_drafts=1,approvals=1)))
+                else:raise RuntimeError('one slow serial writer')
+            with patch.object(port,'python',side_effect=command),patch.object(reserve,'valid',return_value=True):
+                entries=list(port.produce(leads,5))
+            self.assertEqual({e['article']['url'] for e in entries},{leads[1]['url'],leads[2]['url']})
+            self.assertEqual(port.metrics['saved_drafts'],2)
+            self.assertEqual(port.metrics['approvals'],2)
+            self.assertEqual(port.metrics['writer_ready'],3)
+
     def test_world_editor_rejection_is_not_a_missing_completion_failure(self):
         import tempfile,json
         from pathlib import Path

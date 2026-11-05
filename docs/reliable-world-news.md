@@ -48,3 +48,10 @@ Canonical World URL
 identity prevents tracking/slash aliases from re-entering the review queue. English match
 reports about known sports figures are excluded from World. Cancellation waits for the child
 process without competing with its output reader. Showbiz/Economy allocations are unchanged.
+
+World's prepared batch of up to three stories uses separate worker processes for writing
+and independent reviews. Mutable model environments and receipts remain isolated. The
+existing shared model-slot fairness, quota marker and model/outer deadlines still apply.
+Workers save approvals to the existing reserve and never publish. The parent verifies
+approval hashes and publishes completed stories through the existing lock and readback.
+Restart recovery includes completed receipts in the parallel workers' directories.

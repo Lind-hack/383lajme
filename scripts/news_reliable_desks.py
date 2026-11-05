@@ -262,6 +262,53 @@ class ProductionPort:
                                 ('no_fresh_photo', 'image_verification_unavailable')):
                 if rejected.get(key):
                     self.metrics.setdefault('failure_reasons', []).append(reason)
+        if self.category == 'Botë' and len(ready[:remaining]) > 1:
+            yield from self.parallel_world_stories(ready[:remaining], data, work)
+        else:
+            yield from self.write_ready(ready, data, work, remaining)
+
+    def parallel_world_stories(self, ready, data, work):
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+        jobs = []
+        for index, lead in enumerate(ready):
+            request, response = work / f'worker-{index}.input.json', work / f'worker-{index}.result.json'
+            atomic(request, dict(lead=lead, data=data, work=str(work / f'parallel-{index}'),
+                evidence_folder=str(work / 'source-evidence'), reserve_root=str(self.reserve.path.parent),
+                deadline=self.deadline, qa=self.qa))
+            jobs.append((request, response))
+        def execute(request, response):
+            error = None
+            try:
+                self.python('news_world_story_worker.py', request, response,
+                            seconds=max(1, self.deadline-time.time()), model=True)
+            except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
+                error = str(exc)
+            return response, error
+        # Only orchestration runs in threads. Each story's model environment,
+        # receipt files and mutable review state live in a separate process.
+        with ThreadPoolExecutor(max_workers=3) as pool:
+            futures = [pool.submit(execute, *job) for job in jobs]
+            for future in as_completed(futures):
+                response, error = future.result()
+                try:
+                    report = json.loads(response.read_text(encoding='utf-8'))
+                except (OSError, ValueError):
+                    report = {}
+                metrics = report.get('metrics', {})
+                for key in ('saved_drafts', 'approvals'):
+                    self.metrics[key] += metrics.get(key, 0)
+                for key in ('drafts_by_publisher', 'approvals_by_publisher'):
+                    for source, count in metrics.get(key, {}).items():
+                        self.metrics[key][source] = self.metrics[key].get(source, 0) + count
+                self.metrics.setdefault('failure_reasons', []).extend(metrics.get('failure_reasons', []))
+                if error or report.get('error'):
+                    self.metrics['failure_reasons'].append('model_quota' if self.quota_hit() else 'preparation_or_writing_failed')
+                    print('383 WORLD STORY WORKER held: ' + str(error or report['error']), flush=True)
+                for entry in report.get('entries', []):
+                    if self.reserve.valid(entry):
+                        yield entry
+
+    def write_ready(self, ready, data, work, remaining, *, evidence_folder=None):
         # Persist and finish each story independently. A later failed composer
         # cannot erase a sibling's saved draft or approval.
         for index, lead in enumerate(ready[:remaining]):
@@ -306,7 +353,7 @@ class ProductionPort:
                     counts[lead['source']] = counts.get(lead['source'], 0) + 1
                 self.python('codex_automation_support.py', 'normalize', '--file', batch, seconds=60)
                 self.python('prepare_editor_sources.py', batch, seconds=90,
-                            env={'L383_PREPARED_EVIDENCE_ROOT': str(work / 'source-evidence')})
+                            env={'L383_PREPARED_EVIDENCE_ROOT': str(evidence_folder or work / 'source-evidence')})
                 self.command(['bash', 'scripts/run-news-editor-parallel.sh', 'gpt-6-luna', batch, Path.cwd(), '30'],
                              seconds=240, model=True)
                 if self.category == 'Botë' and not json.loads(batch.read_text(encoding='utf-8')):
