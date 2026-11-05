@@ -368,7 +368,8 @@ class ProductionPort:
                 from news_context_review import review, verify
                 # Both independent model approvals are saved before attempting
                 # publication; another category can publish concurrently.
-                review(batch, _recently_published())
+                reviewed_history = _recently_published()
+                review(batch, reviewed_history)
                 rows = json.loads(batch.read_text(encoding='utf-8'))
                 if not rows:
                     continue
@@ -378,7 +379,10 @@ class ProductionPort:
                 finally:
                     if old is not None:
                         os.environ['L383_REVIEW_RECEIPT'] = old
-                verify(batch, rows, _recently_published())
+                # A sibling can publish during this independent comparison.
+                # Bind the worker to what it actually reviewed; the parent
+                # rechecks current history under the publication lock.
+                verify(batch, rows, reviewed_history if self.category == 'Botë' else _recently_published())
                 evidence = json.loads(batch.with_suffix('.editor-sources.json').read_text(encoding='utf-8'))
                 originality = json.loads(batch.with_suffix('.copyright-review.json').read_text(encoding='utf-8'))
                 context = json.loads(batch.with_suffix('.context-review.json').read_text(encoding='utf-8'))
