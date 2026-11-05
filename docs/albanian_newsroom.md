@@ -26,6 +26,9 @@ reserve; model quota exhaustion stops new calls and cannot justify bypassing rev
 Prepare source-bound fragment notes immediately without optional paraphrasing calls;
 save each photo-qualified story independently and recover completed checkpoints after
 timeouts. Fragment notes are source material, not independent verification or approved prose.
+World models receive the focused contract in `docs/world_newsroom.md` alongside
+complete evidence. Keep its World and shared reporting rules synchronized with
+this contract; other desks continue receiving this full document.
 
 The hourly worker targets 20 distinct new articles: Kosovë 3; Shqipëri 3;
 Botë 3; Teknologji 3; Ekonomi 3; Sport 3; Showbiz 2. Follow the prepared

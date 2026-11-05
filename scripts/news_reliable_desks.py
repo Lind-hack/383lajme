@@ -340,7 +340,8 @@ class ProductionPort:
                 )
                 args = [sys.executable, 'scripts/news_model_response.py', '--batch', batch, '--mode', 'replace',
                         '--identity-manifest', brief.with_suffix('.sources.json')]
-                for context in ('docs/albanian_newsroom.md', 'docs/news-output-schema.json',
+                contract = 'docs/world_newsroom.md' if self.category == 'Botë' else 'docs/albanian_newsroom.md'
+                for context in (contract, 'docs/news-output-schema.json',
                                 'docs/news-ranking-rubric.md', str(brief)):
                     args += ['--context-file', context]
                 args += ['--', '/opt/hermes/.venv/bin/hermes', 'chat', '--provider', 'openai-codex',

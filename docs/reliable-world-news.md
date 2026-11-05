@@ -60,3 +60,8 @@ review is not killed by a shorter outer stage limit. The minute-50 model cutoff 
 55-minute outer deadline still cap every stage and worker. A worker verifies its context
 receipt against the history snapshot actually reviewed; the parent rechecks current history,
 holding changed related stories and permitting only conservatively disjoint additions.
+World writing and copy editing use `world_newsroom.md` to avoid supplying unrelated
+desk allocations and superseded legacy rules. Writers still receive the complete
+article schema. Editors return validated decisions rather than replacement article
+schemas. Complete source evidence and original candidate copy remain intact, and
+all factual, originality, photo, context and publication checks remain mandatory.
