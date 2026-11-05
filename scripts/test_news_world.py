@@ -2,6 +2,17 @@
 import unittest
 
 class WorldRankingTests(unittest.TestCase):
+    def test_world_english_sports_guard_preserves_other_desks_personality_updates(self):
+        from news_source_policy import topic_error
+        from news_lane import classify_lane
+        cases=[('Showbiz','Mbappe unveils a new fashion campaign'),
+               ('Ekonomi','Mbappe launches a new investment company')]
+        for category,title in cases:
+            with self.subTest(category=category):
+                text='The football striker shared a new public update about the project.'
+                self.assertIsNone(topic_error(category,title,text))
+                self.assertEqual(classify_lane(category,title,text),category)
+
     def test_english_match_report_does_not_use_world_review_capacity(self):
         from news_desk_policy import select_candidates
         from datetime import datetime,timezone

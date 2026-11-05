@@ -41,8 +41,10 @@ _SPORT_PERSON_OR_TEAM = re.compile(
 _SPORT_CONTEXT = re.compile(
     r"\b(?:futboll\w*|sport\w*|ndeshj\w*|gol\w*|skuadr\w*|lojtar\w*|"
     r"trajner\w*|perzgjedhes\w*|kombetar\w*|boksi\w*|olimp\w*|"
-    r"fitore\w*|stervitj\w*|premier league|champions league|football|soccer|goalkeeper\w*|midfielder\w*|"
-    r"striker\w*|penalt\w*|extra time|1\s*[:\-]\s*0|2\s*[:\-]\s*0)\b"
+    r"fitore\w*|stervitj\w*|premier league|1\s*[:\-]\s*0|2\s*[:\-]\s*0)\b"
+)
+_ENGLISH_SPORT_CONTEXT = re.compile(
+    r"\b(?:champions league|football|soccer|goalkeeper\w*|midfielder\w*|striker\w*|penalt\w*|extra time)\b"
 )
 _CIVIC_TRAFFIC_TITLE = re.compile(
     r"\b(?:rrug\w*|aks\w*|qarkullim\w*|trafik\w*|parkim\w*)\b"
@@ -57,10 +59,12 @@ def is_sports_story(
     *,
     tags: Iterable[object] = (),
     url: object = "",
+    english_context: bool = False,
 ) -> bool:
     """Return true for a sports *story*, not incidental sports mentions."""
     headline = _fold(title)
     context = _fold(summary)
+    sports_context = _SPORT_CONTEXT.search(context) or (english_context and _ENGLISH_SPORT_CONTEXT.search(context))
     if not headline:
         return False
     if _CIVIC_TRAFFIC_TITLE.search(headline):
@@ -74,19 +78,19 @@ def is_sports_story(
         return True
     if re.search(r'\b(?:derbi(?:n|t|ve)?|derbet)\b',headline):
         political = re.search(r'\b(?:zgjedh\w*|vot\w*|parti\w*|parlament\w*)\b',headline)
-        return bool(_SPORT_CONTEXT.search(context)) or not political
+        return bool(sports_context) or not political
     if re.search(r"\bturne\w*\b", headline):
         # Albanian uses the same word for a concert tour and a tournament.
         # A translated music headline must not acquire a sports classification.
         if re.search(r"\b(?:koncert\w*|concert\w*|muzik\w*|music\w*|kengetar\w*|singer\w*|album\w*)\b", headline+' '+context):
             return False
-        return bool(_SPORT_CONTEXT.search(context))
-    if _SPORT_PERSON_OR_TEAM.search(headline) and _SPORT_CONTEXT.search(context):
+        return bool(sports_context)
+    if _SPORT_PERSON_OR_TEAM.search(headline) and sports_context:
         return True
     if re.search(r"\b(?:stervitj\w*|fitore ndaj|fitorj\w* ndaj|duel\w*|debuton|demtim\w*|formacion\w*)\b", headline):
         if _MILITARY_CONTEXT.search(headline):
             return False
-        return bool(_SPORT_CONTEXT.search(context))
+        return bool(sports_context)
     return False
 
 

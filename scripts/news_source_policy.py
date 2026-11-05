@@ -182,7 +182,8 @@ def topic_error(category: str, title: object, summary: object = "", *, tags=(), 
         return 'publisher category is explicitly excluded by the newsroom'
     entertainment_performance = category == "Showbiz" and bool(re.search(
         r"\b(?:perform(?:s|ed|ing)?|performo\w*|kendon|kendoi|koncert\w*|concert\w*)\b", headline))
-    if category != "Sport" and not entertainment_performance and is_sports_story(title, summary, tags=tags, url=url):
+    if category != "Sport" and not entertainment_performance and is_sports_story(
+            title, summary, tags=tags, url=url, english_context=category == 'Botë'):
         return "sports reporting is outside this publisher's assigned category"
     # Local desks cover verified local personalities, entertainment and companies.
     # Their geographic check below still excludes unrelated international stories.
