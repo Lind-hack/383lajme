@@ -43,6 +43,7 @@ _SPORT_CONTEXT = re.compile(
     r"trajner\w*|perzgjedhes\w*|kombetar\w*|boksi\w*|olimp\w*|"
     r"fitore\w*|stervitj\w*|premier league|1\s*[:\-]\s*0|2\s*[:\-]\s*0)\b"
 )
+_ENGLISH_SPORT_TITLE = re.compile(r"\b(?:europa league|conference league)\b")
 _ENGLISH_SPORT_CONTEXT = re.compile(
     r"\b(?:champions league|football|soccer|goalkeeper\w*|midfielder\w*|striker\w*|penalt\w*|extra time)\b"
 )
@@ -74,7 +75,7 @@ def is_sports_story(
     path = _fold(urlparse(str(url or "")).path)
     if _SPORT_URL_SEGMENT.search(path):
         return True
-    if _SPORT_TITLE.search(headline) or _SCORE.search(headline):
+    if _SPORT_TITLE.search(headline) or _SCORE.search(headline) or (english_context and _ENGLISH_SPORT_TITLE.search(headline)):
         return True
     if re.search(r'\b(?:derbi(?:n|t|ve)?|derbet)\b',headline):
         political = re.search(r'\b(?:zgjedh\w*|vot\w*|parti\w*|parlament\w*)\b',headline)

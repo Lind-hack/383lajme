@@ -2,6 +2,14 @@
 import unittest
 
 class WorldRankingTests(unittest.TestCase):
+    def test_english_europa_league_match_report_does_not_enter_world_review(self):
+        from news_desk_policy import select_candidates
+        from datetime import datetime,timezone
+        row=dict(url='https://www.france24.com/en/live-news/20261105-bournemouth-stay-perfect-in-europa-league-as-milan-lose-again-1',
+                 source='France 24',category='Botë',title='Bournemouth stay perfect in Europa League as Milan lose again',
+                 published=datetime.now(timezone.utc).isoformat())
+        self.assertEqual(select_candidates([row],{row['url']:dict(text='The football match ended with another victory.')}),[])
+
     def test_world_english_sports_guard_preserves_other_desks_personality_updates(self):
         from news_source_policy import topic_error
         from news_lane import classify_lane
