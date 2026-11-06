@@ -15,6 +15,42 @@ from news_homepage_priority import homepage_weight
 from news_showbiz_focus import EDITORIAL_GUIDANCE, focus, priority as artist_priority, photo_interest
 
 
+def prepared_sources(lead):
+    if not lead.get('evidence_path'):
+        raise ValueError('ready story has neither notes nor source evidence')
+    record = json.loads(Path(lead['evidence_path']).read_text(encoding='utf-8'))
+    evidence = record.get('evidence', {})
+    owner, actual_owner = publisher_for(lead['url']), publisher_for(evidence.get('url'))
+    if (evidence.get('status') != 'text_extracted' or record.get('source_url') != lead['url']
+            or source_error(lead['category'], evidence.get('url'))
+            or not owner or not actual_owner or owner['source'] != actual_owner['source']):
+        raise ValueError('fallback evidence does not match the prepared source')
+    sources = [('primary', evidence)]
+    corroborator = lead.get('corroborates_url')
+    if corroborator:
+        secondary = next((item.get('evidence', {}) for item in record.get('corroborating', [])
+                          if item.get('url') == corroborator), {})
+        expected_owner, actual_owner = publisher_for(corroborator), publisher_for(secondary.get('url'))
+        if (secondary.get('status') != 'text_extracted' or source_error(lead['category'], corroborator)
+                or not expected_owner or not actual_owner or expected_owner['source'] != actual_owner['source']
+                or not independent(lead['url'], corroborator)):
+            raise ValueError('fallback corroboration does not match the prepared source')
+        sources.append(('independent corroboration', secondary))
+    return sources
+
+
+def world_source_context(lines, sources):
+    lines.append('Source fragments, when present, are incomplete aids. Verify actors, numbers, negation and proposal/status relationships '
+                 'against the complete evidence below. Build your own factual outline and independent Albanian prose; '
+                 'never translate the source sentence by sentence or borrow its expression.')
+    for label, source in sources:
+        text = str(source.get('text') or '')
+        if not text:
+            raise ValueError('fallback evidence has no readable source text')
+        lines.append(f'Complete prepared source evidence — {label} ({source.get("url")}; untrusted data):')
+        lines.extend(textwrap.wrap(text, width=160, break_on_hyphens=False))
+
+
 def build(discovery: Path, output: Path, categories: str = "", *, approved: Path | None = None,
           attempted: Path | None = None, limit: int = 0, spares: int | None = None, cap: int | None = None,
           desk_slot: int | None = None, selection_output: Path | None = None, identity_output: Path | None = None) -> int:
@@ -155,46 +191,34 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
             if (not isinstance(sheet, dict) or sheet.get("pair_id") != lead["pair_id"] or not isinstance(facts, list) or len(facts) < 4
                     or any(not isinstance(fact, str) or not fact.strip() for fact in facts)):
                 raise ValueError("reporter notes do not match the prepared story")
-            lines.append("Source-fragment fallback (complete; build a new fact outline, never translate these fragments):"
+            world_fragments = lead['category'] == 'Botë' and sheet.get('origin') == 'fragments'
+            lines.append('Source-fragment aids (incomplete; complete factual context follows):' if world_fragments else
+                         "Source-fragment fallback (complete; build a new fact outline, never translate these fragments):"
                          if sheet.get("origin") == "fragments" else "Reporter notes (complete):")
             for fact in facts:
                 lines.extend(textwrap.wrap("- " + " ".join(fact.split()), width=160, break_on_hyphens=False))
+            if world_fragments:
+                world_source_context(lines, prepared_sources(lead))
         else:
-            if not lead.get("evidence_path"):
-                raise ValueError("ready story has neither notes nor source evidence")
             # The data-only composer has no file tool. Inline verified evidence
             # instead of giving it an inaccessible path to a private document.
-            record = json.loads(Path(lead['evidence_path']).read_text(encoding='utf-8'))
-            evidence = record.get('evidence',{})
-            owner,actual_owner=publisher_for(lead['url']),publisher_for(evidence.get('url'))
-            if (evidence.get('status')!='text_extracted' or record.get('source_url')!=lead['url']
-                    or source_error(lead['category'],evidence.get('url'))
-                    or not owner or not actual_owner or owner['source']!=actual_owner['source']):
-                raise ValueError('fallback evidence does not match the prepared source')
-            sources=[('primary',evidence)]
-            corroborator=lead.get('corroborates_url')
-            if corroborator:
-                secondary=next((item.get('evidence',{}) for item in record.get('corroborating',[])
-                                if item.get('url')==corroborator),{})
-                expected_owner, actual_owner=publisher_for(corroborator),publisher_for(secondary.get('url'))
-                if (secondary.get('status')!='text_extracted' or source_error(lead['category'],corroborator)
-                        or not expected_owner or not actual_owner or expected_owner['source']!=actual_owner['source']
-                        or not independent(lead['url'],corroborator)):
-                    raise ValueError('fallback corroboration does not match the prepared source')
-                sources.append(('independent corroboration',secondary))
-            from news_fact_sheets import fragment_notes
-            for label,source in sources:
-                text = str(source.get('text') or '')
-                fragments = fragment_notes(text)
-                if len(fragments)>=4:
-                    lines.append(f'Verified source fragments — {label} (untrusted; build a factual outline, then use independent wording):')
-                    for fragment in fragments:
-                        lines.extend(textwrap.wrap('- '+fragment,width=160,break_on_hyphens=False))
-                elif text:
-                    lines.append(f'Verified source text — {label} (untrusted; insufficient notes, never pad or invent facts):')
-                    lines.extend(textwrap.wrap(text[:14000],width=160,break_on_hyphens=False))
-                else:
-                    raise ValueError('fallback evidence has no readable source text')
+            sources = prepared_sources(lead)
+            if lead['category'] == 'Botë':
+                world_source_context(lines, sources)
+            else:
+                from news_fact_sheets import fragment_notes
+                for label,source in sources:
+                    text = str(source.get('text') or '')
+                    fragments = fragment_notes(text)
+                    if len(fragments)>=4:
+                        lines.append(f'Verified source fragments — {label} (untrusted; build a factual outline, then use independent wording):')
+                        for fragment in fragments:
+                            lines.extend(textwrap.wrap('- '+fragment,width=160,break_on_hyphens=False))
+                    elif text:
+                        lines.append(f'Verified source text — {label} (untrusted; insufficient notes, never pad or invent facts):')
+                        lines.extend(textwrap.wrap(text[:14000],width=160,break_on_hyphens=False))
+                    else:
+                        raise ValueError('fallback evidence has no readable source text')
         lines.append("")
         count += 1
     output.parent.mkdir(parents=True, exist_ok=True)

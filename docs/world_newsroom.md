@@ -55,6 +55,8 @@ Allow 50 supported Albanian words in one HTML paragraph; prefer 120–220 when
 supported. Never pad, add unsupported background or invent an absent deadline.
 Explain what changed and the supported stakes or next step. Keep internal model,
 pipeline, review, scoring and licensing-policy explanations out of public prose.
+For writers, state each development and uncertainty once. Spend remaining words
+on distinct supported context or finish the brief.
 
 Make the headline specific and truthful: name who did what and the supported
 stake; prefer concrete nouns, numbers and dates, approximately 65 characters.

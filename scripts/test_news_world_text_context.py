@@ -8,6 +8,49 @@ import tempfile
 import unittest
 
 
+class WorldWriterContextTests(unittest.TestCase):
+    def test_world_writer_output_preserves_complete_context_with_fragment_notes(self):
+        primary, secondary, output = self.writer_output(with_notes=True)
+        self.assertTrue(primary in output, 'Complete ordered primary context must reach the World writer')
+        self.assertIn(secondary, output)
+
+    def test_world_writer_output_preserves_complete_context_without_notes(self):
+        primary, secondary, output = self.writer_output(with_notes=False)
+        self.assertTrue(primary in output, 'No-notes fallback must retain the complete ordered source')
+        self.assertIn(secondary, output)
+
+    def writer_output(self, *, with_notes):
+        repo = Path(__file__).resolve().parents[1]
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            primary = ('The Commission originally proposed a flat payment for companies above EUR100 million. '
+                       'Lourtie revised that proposal to a 0.05 percent levy above EUR750 million. ')
+            primary += ' '.join('The proposal remains subject to parliamentary approval.' for _ in range(300))
+            primary += ' PRIMARY_END: No levy has taken effect.'
+            secondary = 'The independent public record confirms a revised proposal, not an enacted tax. SECONDARY_END.'
+            url, corroborator = 'https://www.bbc.com/news/world-test', 'https://www.reuters.com/world/test'
+            evidence = root / 'evidence.json'
+            evidence.write_text(json.dumps(dict(source_url=url,
+                evidence=dict(url=url, status='text_extracted', text=primary),
+                corroborating=[dict(url=corroborator, evidence=dict(url=corroborator, status='text_extracted', text=secondary))])), encoding='utf-8')
+            notes = root / 'notes.json'
+            notes.write_text(json.dumps(dict(pair_id='world-test', origin='fragments',
+                facts=['the Commission proposed last year', 'the EU would charge 0.05 percent',
+                       'companies above EUR100 million', 'the revised proposal remains pending'])), encoding='utf-8')
+            lead = dict(pair_id='world-test', category='Botë', source='BBC World', url=url,
+                        corroborates_url=corroborator, evidence_path=str(evidence), facts_path=str(notes))
+            if not with_notes:
+                lead.pop('facts_path')
+            discovery, brief = root / 'discovery.json', root / 'writer.md'
+            discovery.write_text(json.dumps(dict(publication_plan={'Botë': 1}, ready_leads=[lead])), encoding='utf-8')
+            result = subprocess.run([sys.executable, str(repo / 'scripts/news_writer_brief.py'), str(discovery),
+                                     str(brief), '--categories', 'Botë', '--cap', '1', '--spares', '0'],
+                                    capture_output=True, text=True, encoding='utf-8', timeout=20)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            output = ' '.join(brief.read_text(encoding='utf-8').split())
+            return primary, secondary, output
+
+
 @unittest.skipUnless(os.name == 'posix', 'Production editor shell runs on Linux')
 class WorldTextContextTests(unittest.TestCase):
     def test_world_editor_completes_with_full_sources_under_bounded_text_capacity(self):

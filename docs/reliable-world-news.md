@@ -76,3 +76,8 @@ actual cause. Completed refresh receipts participate in crash recovery.
 World finalizes valid saved approvals before new model work, leaving the remaining
 slots for fresh candidates. This gives a required context refresh time before the
 model cutoff, rather than repeatedly postponing approved work until it expires.
+World fragment-note and no-notes writer briefs include complete, ordered prepared
+primary and independent corroborating evidence. Fragment notes are incomplete aids;
+actors, rates, negation and proposed-versus-enacted relationships must be checked
+against that context. Source evidence is verification material, never a translation
+template. Other desks retain their existing brief format and all review gates stay active.
