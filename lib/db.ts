@@ -6,6 +6,7 @@ import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { MOCK_ARTICLES, type Article } from "./mock-data";
 import { remoteImageSrc } from "./remote-image.mjs";
 import { frontRank } from "./front-page.mjs";
+import { parseArticleContext } from "./article-context.mjs";
 
 /**
  * Sample copy is for an empty development database, never for readers.
@@ -131,6 +132,7 @@ function mapAutoRow(a: Record<string, unknown>, keepSource = false): Article {
     imageLicenseUrl: /^https:\/\/creativecommons\.org\/(?:licenses|publicdomain)\//.test(String(rights.license_url ?? "")) ? String(rights.license_url) : undefined,
     engagementScore: a.engagement_score ? Number(a.engagement_score) : undefined,
     videoClipUrl:  a.video_clip_url ? String(a.video_clip_url) : undefined,
+    context:       parseArticleContext(raw.context),
   }, keepSource);
 }
 
@@ -575,7 +577,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     try {
       const { data, error } = await supabase
         .from("news_articles")
-        .select(`${ARTICLE_COLUMNS},raw_article->image_caption,raw_article->image_rights`)
+        .select(`${ARTICLE_COLUMNS},raw_article->image_caption,raw_article->image_rights,raw_article->context`)
         .eq("slug", slug)
         .maybeSingle();
       if (error) throw new Error(error.message);

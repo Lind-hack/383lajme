@@ -1,0 +1,12 @@
+[Unit]
+Description=Add context to new 383 articles every half hour, 06:10 to 23:40 Europe/Belgrade
+
+[Timer]
+# Host systemd does not recognize Europe/Pristina; Europe/Belgrade keeps Kosovo time.
+# Free Gemini only, so it may overlap the hourly news run without sharing its model limit.
+OnCalendar=*-*-* 06..23:10,40:00 Europe/Belgrade
+Persistent=false
+Unit=383-article-context.service
+
+[Install]
+WantedBy=timers.target

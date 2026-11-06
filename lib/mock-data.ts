@@ -1,4 +1,14 @@
-﻿export interface Article {
+﻿export type ArticleMedia =
+  | { kind: "embed"; platform: string; id: string; post: string; url: string; author: string; caption: string; after: number }
+  | { kind: "photo"; src: string; credit: string; page: string; who: string; after: number };
+
+export interface ArticleContext {
+  what?: string;
+  why?: string;
+  media: ArticleMedia[];
+}
+
+export interface Article {
   id: string;
   slug: string;
   url?: string;
@@ -30,6 +40,8 @@
   engagementScore?: number;
   corroboratingSources?: Array<{ source: string; url: string }>;
   videoClipUrl?: string;
+  /** The instant context card and in-text media (lib/article-context.mjs). */
+  context?: ArticleContext;
 }
 
 export const MOCK_ARTICLES: Article[] = [

@@ -1,0 +1,12 @@
+[Unit]
+Description=383 article context: what/why card and in-text media for new articles
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker exec --user hermes --env HOME=/opt/data/home hermes /bin/bash /opt/data/workspaces/383lajme-news-current/scripts/run-article-context.sh
+TimeoutStartSec=1600
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=383-article-context

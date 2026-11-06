@@ -25,6 +25,9 @@ import type { AccordionSlide } from "@/components/image-accordion";
 import { EASE, DUR } from "@/lib/tokens";
 import PaperReady from "@/components/paper-ready";
 import { youtubeIdOf } from "@/lib/video-clip";
+import { weaveMedia } from "@/lib/article-context.mjs";
+import ArticleContextCard from "@/components/article-context-card";
+import ArticleMediaBlock from "@/components/article-media";
 
 interface Props {
   article: Article;
@@ -216,31 +219,21 @@ export default function ArticleContent({ article, related, sidebarRelated = [], 
               </figure>
             )}
 
-            <p
-              style={{
-                fontSize: "20px",
-                fontWeight: 500,
-                lineHeight: 1.65,
-                color: "#111111",
-                margin: "0 0 32px",
-                borderLeft: `4px solid ${catColor}`,
-                paddingLeft: "20px",
-              }}
-            >
-              {article.excerpt}
-            </p>
+            {/* Every article has one. Before the context job has run, or when
+                its line failed the checks, the published excerpt is the answer. */}
+            <ArticleContextCard what={article.context?.what || article.excerpt} why={article.context?.why} catColor={catColor} catBg={catBg} />
 
             <div style={{ fontSize: "17px", lineHeight: 1.85, color: "#333333" }}>
               {/* Bodies arrive as HTML from the pipeline and as plain text from
                   older pieces; splitting on blank lines and rendering the
                   result printed the tags to the reader on every article. */
-              toParagraphs(article.body).map((paragraph: string, i: number) => (
+              weaveMedia(toParagraphs(article.body), article.context?.media).map((block, i) => block.kind === "paragraph" ? (
                 <p key={i} style={{ margin: "0 0 28px" }}>
-                  {articleLinks(paragraph).map((part, index) => part.url
+                  {articleLinks(block.paragraph).map((part, index) => part.url
                     ? <a key={index} href={part.url} target="_blank" rel="noopener noreferrer" style={{ overflowWrap: "anywhere", textDecoration: "underline" }}>{part.text}</a>
                     : part.text)}
                 </p>
-              ))}
+              ) : <ArticleMediaBlock key={i} item={block} />)}
             </div>
             {contextVideo && (
               <figure style={{ margin: "0 0 32px" }}>
