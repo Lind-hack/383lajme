@@ -45,6 +45,7 @@ WHY_CHARS = 320
 CAPTION_CHARS = 140
 COPY_RUN = 8  # this many words in a row from a source is copying, not writing
 SEARCH_VIDEOS = 6
+SEARCH_PICKS = 1
 SAME_LINE = 0.7  # a "why" this close to the "what" says nothing new
 SITE = os.environ.get("L383_SITE", "https://383ks.com")
 
@@ -87,6 +88,12 @@ def quoted(quotes, evidence: str) -> bool:
     return len(good) == len(quotes) and all(q in haystack for q in good)
 
 
+def from_outside(quotes, evidence: str) -> bool:
+    """At least one quote stands in an outside source, not only in our own article."""
+    haystack = fold(evidence)
+    return isinstance(quotes, list) and any(isinstance(q, str) and len(words(q)) >= 3 and fold(q) in haystack for q in quotes)
+
+
 def numbers_known(text: str, evidence: str) -> bool:
     known = set(re.findall(r"\d+(?:[.,]\d+)*", evidence))
     return all(n in known for n in re.findall(r"\d+(?:[.,]\d+)*", text))
@@ -126,26 +133,47 @@ def outlet_words(article: dict) -> set[str]:
     return out
 
 
-def line_ok(text, quotes, limit: int, article: dict, evidence: str, *, need_quotes: bool = True, outside_only: bool = False) -> str:
+def line_check(text, quotes, limit: int, article: dict, evidence: str, *, need_quotes: bool = True,
+               outside_only: bool = False, known: str | None = None) -> tuple[str, str]:
+    """The line if it passes, else "" and the reason it did not. `known` replaces what names and
+    numbers may come from, for a caption that must describe its own video and nothing else."""
     if not isinstance(text, str) or not text.strip():
-        return ""
+        return "", "none_offered"
     text = re.sub(r"\s+", " ", text).strip()
-    known = article_text(article) + " " + evidence
-    if len(text) > limit or (need_quotes and not quoted(quotes, evidence if outside_only else known)):
-        return ""
-    if not numbers_known(text, known) or not names_known(text, known) or copied(text, evidence):
-        return ""
+    known = known if known is not None else article_text(article) + " " + evidence
+    if len(text) > limit:
+        return "", "too_long"
+    if need_quotes and not quoted(quotes, article_text(article) + " " + evidence):
+        return "", "invented_quote" if isinstance(quotes, list) and quotes else "no_quote"
+    # A reason must reach outside our own article: one quote from a source at least. Mixing in
+    # article quotes is fine; requiring every quote to be outside threw away 19 of 24 good reasons.
+    if need_quotes and outside_only and not from_outside(quotes, evidence):
+        return "", "no_outside_quote"
+    if not numbers_known(text, known):
+        return "", "unknown_number"
+    if not names_known(text, known):
+        return "", "unknown_name"
+    if copied(text, evidence):
+        return "", "copied"
     if set(words(text)) & outlet_words(article):
-        return ""
-    return text
+        return "", "outlet_named"
+    return text, ""
 
 
-def checked_card(row, article: dict, evidence: str) -> dict:
+def line_ok(text, quotes, limit: int, article: dict, evidence: str, **options) -> str:
+    return line_check(text, quotes, limit, article, evidence, **options)[0]
+
+
+def checked_card(row, article: dict, evidence: str, checks: dict | None = None) -> dict:
+    """The card's two lines. `checks`, when given, collects why each dropped line was dropped."""
     row = row if isinstance(row, dict) else {}
-    what = line_ok(row.get("what"), row.get("what_quotes"), WHAT_CHARS, article, evidence)
-    why = line_ok(row.get("why"), row.get("why_quotes"), WHY_CHARS, article, evidence, outside_only=True)
+    checks = checks if checks is not None else {}
+    what, checks["what"] = line_check(row.get("what"), row.get("what_quotes"), WHAT_CHARS, article, evidence)
+    why, checks["why"] = line_check(row.get("why"), row.get("why_quotes"), WHY_CHARS, article, evidence, outside_only=True)
     if why and what and overlap(what, why) >= SAME_LINE:
-        why = ""
+        why, checks["why"] = "", "same_as_what"
+    for key in [k for k, v in checks.items() if not v]:
+        del checks[key]
     return {"what": what, "why": why}
 
 
@@ -222,12 +250,19 @@ def name_stem(word: str) -> str:
     return folded[:max(4, len(folded) - 2)]
 
 
+def in_headline(name: str, article: dict) -> bool:
+    """Is this person the story's own? A name only in the body is a side character."""
+    parts = str(name or "").split()
+    return bool(parts) and name_stem(parts[-1]) in fold(article.get("title"))
+
+
 def video_matches(video: dict, article: dict, subjects: list[str]) -> bool:
     """A check in code, because the model cannot be its own referee: it passed "15 Cursed Places
-    in London" as footage of a man called Londrim. The video must name the story's person, or
-    two names from the headline; one headline word can be a coincidence."""
+    in London" as footage of a man called Londrim, and a clip of Erjon Malaj, named only in the
+    body, for a story about Gonxhja and Zhupa. The video must name a person from the headline,
+    or two headline names; one headline word can be a coincidence."""
     seen = fold(f"{video.get('text') or ''} {video.get('author') or ''}")
-    if any(name_stem(s.split()[-1]) in seen for s in subjects if s.split()):
+    if any(name_stem(s.split()[-1]) in seen for s in subjects if in_headline(s, article)):
         return True
     names = {name_stem(w) for w in re.findall(r"[^\W\d_]{4,}", str(article.get("title") or "")) if w[0].isupper()}
     return sum(1 for name in names if re.search(rf"\b{re.escape(name)}", seen)) >= 2
@@ -250,8 +285,13 @@ def chosen_embeds(picks, posts: list[dict], article: dict, evidence: str = "") -
         after = min(last, max(0, after)) if isinstance(after, int) and not isinstance(after, bool) else last
         if after in taken:
             continue
-        support = evidence + " " + str(post.get("text") or "")
-        caption = line_ok(pick.get("caption"), None, CAPTION_CHARS, article, support, need_quotes=False) if evidence else str(pick.get("caption") or "")[:CAPTION_CHARS]
+        # A post with its own text (a video title, a tweet) is the only witness to what it shows:
+        # the caption may name no one it does not. Live: "with the Senna family" under a video of
+        # Antonelli with Bono and Toto Wolff. An Instagram post has no text, so the sources answer.
+        shown = str(post.get("text") or "")
+        known = f"{shown} {article.get('title') or ''}" if shown else None
+        caption = line_ok(pick.get("caption"), None, CAPTION_CHARS, article, evidence + " " + shown, need_quotes=False,
+                          known=known) if evidence else str(pick.get("caption") or "")[:CAPTION_CHARS]
         seen.add(index)
         taken.add(after)
         out.append({"kind": "embed", "platform": post["platform"], "id": post["id"], "post": post.get("kind", ""),
@@ -283,7 +323,7 @@ def chosen_photos(photos: list[dict], article: dict, taken: set) -> list[dict]:
     out, people = [], set()
     for photo in photos:
         who, src = str(photo.get("who") or ""), str(photo.get("src") or "")
-        if not who or who in people or not photo.get("credit") or file_name(src) == hero:
+        if not who or who in people or not photo.get("credit") or file_name(src) == hero or not in_headline(who, article):
             continue
         if not re.match(r"https://(upload|thumb)\.wikimedia\.org/", src) or not str(photo.get("page") or "").startswith("https://commons.wikimedia.org/"):
             continue
@@ -355,7 +395,9 @@ def prompt(article: dict, evidence: str, posts: list[dict]) -> str:
         f"- what: one sentence in standard Albanian (Kosovo usage), at most {WHAT_CHARS} characters: what happened, for someone who knows nothing about it.\n"
         f"- why: one or two sentences in standard Albanian, at most {WHY_CHARS} characters: the cause or background that explains it, "
         "and it must add something the \"what\" does not say. If the sources give no real reason, return \"\". Never pad, never guess a motive.\n"
-        "- what_quotes, why_quotes: lists of exact word-for-word phrases, three words or longer, copied from ARTICLE or SOURCES, that prove each line.\n"
+        "- what_quotes, why_quotes: lists of exact word-for-word phrases, three words or longer, that prove each line. Copy them "
+        "character for character in the language they are written in; never translate a quote. At least one why_quote must come "
+        "from SOURCES, not from ARTICLE.\n"
         "- video_search: if the story is about something that exists on video and POSTS does not already show it (a music video, a speech, a "
         "goal, a press conference), a short YouTube search for that exact video, in the language it would be titled in. Otherwise \"\".\n"
         "- subjects: up to 3 exact English Wikipedia article titles of the people in the story, no places or countries.\n"
@@ -402,28 +444,35 @@ def enrich(article: dict) -> dict | None:
     row = ask(article, evidence, posts)
     if not isinstance(row, dict):
         return None
-    card = checked_card(row, article, evidence)
+    checks: dict = {}
+    card = checked_card(row, article, evidence, checks)
     query = row.get("video_search")
     subjects = [s for s in row.get("subjects") or [] if isinstance(s, str)][:3] if isinstance(row.get("subjects"), list) else []
     videos = find_videos(query) if isinstance(query, str) and query.strip() else []
     videos = [v for v in videos if video_matches(v, article, subjects)]
     picks = row.get("media") if isinstance(row.get("media"), list) else []
+    # A titled post from a source page answers to the same check as a searched video.
+    picks = [p for p in picks if not (isinstance(p, dict) and isinstance(p.get("post"), int) and not isinstance(p.get("post"), bool)
+                                      and 0 <= p["post"] < len(posts) and posts[p["post"]].get("text")
+                                      and not video_matches(posts[p["post"]], article, subjects))]
     if card["why"] or videos:
         look = second_look(article, card, row.get("why_quotes"), videos)
         if not isinstance(look, dict):
             return None
-        if look.get("why_supported") is not True:
-            card["why"] = ""
+        if card["why"] and look.get("why_supported") is not True:
+            card["why"], checks["why"] = "", "second_look_refused"
         found = look.get("videos") if isinstance(look.get("videos"), list) else []
+        # One searched video at most: three F1 clips stacked in one story was noise, not context.
         picks = picks + [{**v, "post": len(posts) + v["video"]} for v in found
-                         if isinstance(v, dict) and isinstance(v.get("video"), int) and not isinstance(v.get("video"), bool)]
+                         if isinstance(v, dict) and isinstance(v.get("video"), int) and not isinstance(v.get("video"), bool)
+                         and 0 <= v["video"] < len(videos)][:SEARCH_PICKS]
     media = chosen_embeds(picks, posts + videos, article, evidence)
     if subjects:
         media += chosen_photos(licensed_photos(subjects), article, {m["after"] for m in media})
     now = datetime.now(timezone.utc).isoformat()
     if not card["what"] and not media:
-        return {"v": VERSION, "status": "empty", "checked_at": now}
-    return {"v": VERSION, "status": "ok", **{k: v for k, v in card.items() if v}, "media": media, "checked_at": now}
+        return {"v": VERSION, "status": "empty", "checks": checks, "checked_at": now}
+    return {"v": VERSION, "status": "ok", **{k: v for k, v in card.items() if v}, "media": media, "checks": checks, "checked_at": now}
 
 
 # ---- the job -------------------------------------------------------------------------------
@@ -436,12 +485,13 @@ def supabase_get(query: str) -> list[dict]:
         return json.loads(res.read().decode("utf-8"))
 
 
-def waiting(hours: int, limit: int, slug: str = "") -> list[dict]:
+def waiting(hours: int, limit: int, slug: str = "", recheck: bool = False) -> list[dict]:
     fields = "select=id,slug,title,excerpt,body,category,url,image_url,video_clip_url,raw_article"
     if slug:
         return supabase_get(f"{fields}&slug=eq.{urllib.parse.quote(slug)}")
     since = (datetime.now(timezone.utc) - timedelta(hours=hours)).strftime("%Y-%m-%dT%H:%M:%SZ")
-    return supabase_get(f"{fields}&published_at=gte.{since}&raw_article->context=is.null&order=published_at.desc&limit={limit}")
+    pending = "" if recheck else "&raw_article->context=is.null"
+    return supabase_get(f"{fields}&published_at=gte.{since}{pending}&order=published_at.desc&limit={limit}")
 
 
 def save(article: dict, context: dict) -> bool:
@@ -473,6 +523,7 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=12)
     parser.add_argument("--slug", default="")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--recheck", action="store_true", help="also articles that already have context (pair with --dry-run to evaluate)")
     parser.add_argument("--minutes", type=float, default=20, help="stop starting new articles after this long")
     args = parser.parse_args()
     if os.environ.get("L383_ARTICLE_CONTEXT") == "0":
@@ -480,7 +531,7 @@ def main() -> int:
         return 0
     deadline = time.monotonic() + args.minutes * 60
     done, cards, empty, retry = [], 0, 0, 0
-    for article in waiting(args.hours, args.limit, args.slug):
+    for article in waiting(args.hours, args.limit, args.slug, args.recheck):
         if time.monotonic() >= deadline:
             break
         context = enrich(article)

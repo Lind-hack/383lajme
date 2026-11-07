@@ -129,18 +129,23 @@ class Media(unittest.TestCase):
 
     def test_photos_need_a_credit_a_rights_page_and_a_name_in_the_text(self):
         photos = [
-            {"src": "https://upload.wikimedia.org/a.jpg", "credit": "Ana · CC BY 4.0", "page": "https://commons.wikimedia.org/wiki/File:A.jpg", "who": "Albin Kurti"},
-            {"src": "https://upload.wikimedia.org/b.jpg", "credit": "", "page": "https://commons.wikimedia.org/wiki/File:B.jpg", "who": "Albin Kurti"},
+            {"src": "https://upload.wikimedia.org/a.jpg", "credit": "Ana · CC BY 4.0", "page": "https://commons.wikimedia.org/wiki/File:A.jpg", "who": "Përparim Rama"},
+            {"src": "https://upload.wikimedia.org/b.jpg", "credit": "", "page": "https://commons.wikimedia.org/wiki/File:B.jpg", "who": "Përparim Rama"},
             {"src": "https://upload.wikimedia.org/c.jpg", "credit": "Ana · CC0", "page": "https://commons.wikimedia.org/wiki/File:C.jpg", "who": "Vjosa Osmani"},
-            {"src": "https://example.com/d.jpg", "credit": "Ana · CC0", "page": "https://example.com", "who": "Albin Kurti"},
+            {"src": "https://example.com/d.jpg", "credit": "Ana · CC0", "page": "https://example.com", "who": "Përparim Rama"},
         ]
         got = nac.chosen_photos(photos, ARTICLE, taken=set())
         self.assertEqual([p["src"] for p in got], ["https://upload.wikimedia.org/a.jpg"])
-        self.assertEqual(got[0]["after"], 2)
+        self.assertEqual(got[0]["after"], 0)
+
+    def test_a_side_character_named_only_in_the_body_gets_no_photo(self):
+        # Live 2026-11-07: Russell's story showed Hamilton and Antonelli, Lawson's showed Tsolov.
+        kurti = {"src": "https://upload.wikimedia.org/k.jpg", "credit": "A · CC0", "page": "https://commons.wikimedia.org/wiki/File:K.jpg", "who": "Albin Kurti"}
+        self.assertEqual(nac.chosen_photos([kurti], ARTICLE, taken=set()), [])
 
     def test_photo_never_repeats_the_hero_or_sits_on_a_taken_paragraph(self):
-        photo = {"src": "https://upload.wikimedia.org/a.jpg", "credit": "A · CC0", "page": "https://commons.wikimedia.org/wiki/File:A.jpg", "who": "Albin Kurti"}
-        self.assertEqual(nac.chosen_photos([photo], ARTICLE, taken={2}), [])
+        photo = {"src": "https://upload.wikimedia.org/a.jpg", "credit": "A · CC0", "page": "https://commons.wikimedia.org/wiki/File:A.jpg", "who": "Përparim Rama"}
+        self.assertEqual(nac.chosen_photos([photo], ARTICLE, taken={0}), [])
         self.assertEqual(nac.chosen_photos([photo], {**ARTICLE, "image_url": photo["src"]}, taken=set()), [])
 
 
@@ -247,12 +252,110 @@ class VideoMatch(unittest.TestCase):
         self.assertTrue(nac.video_matches(self.video("Londrim on the Times Square billboard"), article, []))
 
     def test_the_story_person_in_title_or_channel_is_enough(self):
-        article = {"title": "Këngëtarja publikon një këngë"}
+        article = {"title": "Slayyyter publikon një këngë"}
         self.assertTrue(nac.video_matches(self.video("hey boyyy (Official Video)", "SlayyyterVEVO"), article, ["Slayyyter"]))
         self.assertFalse(nac.video_matches(self.video("hey boyyy (Official Video)", "someone"), article, ["Slayyyter"]))
 
     def test_missing_fields_never_crash(self):
         self.assertFalse(nac.video_matches({}, {}, []))
+
+
+class LiveFailures(unittest.TestCase):
+    """Each case is a real mistake from the first day on 383ks.com (2026-11-07)."""
+
+    def test_a_body_only_name_does_not_make_a_video_belong_to_the_story(self):
+        article = {"title": "Gonxhja dhe Zhupa debatojnë në Tiranë për bllokimin e rrugëve"}
+        video = {"author": "Report TV", "text": "Nuk ju lënë as të rrini në trotuar/Malaj ironizon PD për protestat: Mendoni se do t'ju japin votën?"}
+        self.assertFalse(nac.video_matches(video, article, ["Erjon Malaj", "Ina Zhupa"]))
+
+    def test_a_headline_person_in_the_video_title_is_enough(self):
+        article = {"title": "Antonelli synon fitoren në Brazil pas titullit të F1"}
+        video = {"author": "FORMULA 1", "text": "Kimi Antonelli Is The F1 World Champion!"}
+        self.assertTrue(nac.video_matches(video, article, ["Kimi Antonelli"]))
+
+    def test_a_caption_may_only_name_people_the_video_shows(self):
+        article = {**ARTICLE, "title": "Antonelli synon fitoren në Brazil pas titullit të F1",
+                   "body": "<p>Antonelli mori urime nga Senna.</p>"}
+        posts = [{"platform": "youtube", "id": "oNWNW8CGdXc", "kind": "", "url": "https://www.youtube.com/watch?v=oNWNW8CGdXc",
+                  "author": "F1 Chequered Flag", "text": "Kimi Antonelli celebrating with Bono & Toto Wolff after winning Championship in Mexico"}]
+        evidence = "Antonelli received messages from the Senna family."
+        bad = nac.chosen_embeds([{"post": 0, "caption": "Antonelli kaloi kohë me familjen Senna."}], posts, article, evidence)
+        self.assertEqual(bad[0]["caption"], "")
+        good = nac.chosen_embeds([{"post": 0, "caption": "Antonelli feston me Toto Wolff."}], posts, article, evidence)
+        self.assertEqual(good[0]["caption"], "Antonelli feston me Toto Wolff.")
+
+    def test_one_search_video_per_article(self):
+        video = {"platform": "youtube", "id": "", "kind": "", "url": "", "author": "FORMULA 1", "text": "Slayyyter hey boyyy"}
+        videos = [{**video, "id": f"aaaaaaaaaa{i}", "url": f"https://www.youtube.com/watch?v=aaaaaaaaaa{i}"} for i in range(3)]
+        row = {"what": "", "what_quotes": [], "why": "", "why_quotes": [], "subjects": ["Slayyyter"], "media": [], "video_search": "x"}
+        second = {"videos": [{"video": i, "after_paragraph": i} for i in range(3)]}
+        article = {**ARTICLE, "title": "Slayyyter publikon Hey Boyyy"}
+        with patch.object(nac, "gather", return_value=(EVIDENCE, [])), patch.object(nac, "ask", return_value=row), \
+             patch.object(nac, "find_videos", return_value=videos), patch.object(nac, "second_look", return_value=second), \
+             patch.object(nac, "licensed_photos", return_value=[]):
+            got = nac.enrich(article)
+        self.assertEqual(len([m for m in got["media"] if m["platform"] == "youtube"]), 1)
+
+
+class MixedQuotes(unittest.TestCase):
+    """Live 2026-11-07: 19 of 24 reasons died because one of three quotes came from our own article."""
+
+    def test_article_and_source_quotes_together_keep_the_why(self):
+        row = {"why": "Debati nisi kur këshilltarët e opozitës kërkuan kontratën.",
+               "why_quotes": ["opposition councillors asked for the contract", "paralajmëron kabllot gjatë gërmimeve"]}
+        self.assertTrue(nac.checked_card(row, ARTICLE, EVIDENCE)["why"])
+
+    def test_one_invented_quote_still_sinks_the_line(self):
+        row = {"why": "Debati nisi kur këshilltarët e opozitës kërkuan kontratën.",
+               "why_quotes": ["opposition councillors asked for the contract", "a quote that exists nowhere at all"]}
+        checks = {}
+        self.assertEqual(nac.checked_card(row, ARTICLE, EVIDENCE, checks)["why"], "")
+        self.assertEqual(checks["why"], "invented_quote")
+
+    def test_a_titled_post_from_a_source_page_must_also_be_about_the_headline_person(self):
+        # Live: a Report TV clip of Erjon Malaj, embedded on a source page, sat in the Gonxhja-Zhupa story.
+        article = {**ARTICLE, "title": "Gonxhja dhe Zhupa debatojnë në Tiranë për bllokimin e rrugëve"}
+        malaj = {"platform": "youtube", "id": "wHmyoHeBPic", "kind": "", "url": "https://www.youtube.com/watch?v=wHmyoHeBPic",
+                 "author": "Report TV", "text": "Malaj ironizon PD për protestat"}
+        own = {"platform": "instagram", "id": "DfZzeEQjiWI", "kind": "p", "url": "https://www.instagram.com/p/DfZzeEQjiWI/", "author": "", "text": ""}
+        row = {"what": "", "what_quotes": [], "why": "", "why_quotes": [], "subjects": ["Ina Zhupa", "Erjon Malaj"],
+               "media": [{"post": 0, "after_paragraph": 0}, {"post": 1, "after_paragraph": 1}]}
+        with patch.object(nac, "gather", return_value=(EVIDENCE, [malaj, own])), patch.object(nac, "ask", return_value=row), \
+             patch.object(nac, "licensed_photos", return_value=[]):
+            got = nac.enrich(article)
+        self.assertEqual([m["platform"] for m in got["media"]], ["instagram"])
+
+
+class Checks(unittest.TestCase):
+    """Why a line was dropped is stored, so a day of runs can be measured instead of guessed."""
+
+    def test_each_drop_has_a_reason(self):
+        cases = {
+            "none_offered": {"why": ""},
+            "invented_quote": {"why": "Debati nisi kur këshilltarët kërkuan kontratën.", "why_quotes": ["nothing like this"]},
+            "no_outside_quote": {"why": "Shiriti paralajmëron kabllot gjatë gërmimeve.", "why_quotes": ["paralajmëron kabllot gjatë gërmimeve"]},
+            "unknown_number": {"why": "Debati nisi kur 40 këshilltarë kërkuan kontratën.", "why_quotes": ["opposition councillors asked for the contract"]},
+            "unknown_name": {"why": "Debati nisi kur Berisha kërkoi kontratën.", "why_quotes": ["opposition councillors asked for the contract"]},
+        }
+        for reason, row in cases.items():
+            checks = {}
+            nac.checked_card(row, ARTICLE, EVIDENCE, checks)
+            self.assertEqual(checks.get("why"), reason, reason)
+
+    def test_a_kept_line_has_no_reason(self):
+        checks = {}
+        nac.checked_card({"what": "Rama mbrojti tarifën prej 8.50 euro për metër.", "what_quotes": ["fee of 8.50 euro per metre"]},
+                         ARTICLE, EVIDENCE, checks)
+        self.assertNotIn("what", checks)
+
+    def test_the_stored_context_carries_the_reasons(self):
+        row = {"what": "Rama mbrojti tarifën prej 8.50 euro për metër.", "what_quotes": ["fee of 8.50 euro per metre"],
+               "why": "Debati nisi kur këshilltarët e opozitës kërkuan kontratën.", "why_quotes": ["opposition councillors asked for the contract"],
+               "subjects": [], "media": []}
+        with patch.object(nac, "gather", return_value=(EVIDENCE, [])), patch.object(nac, "ask", return_value=row), \
+             patch.object(nac, "find_videos", return_value=[]), patch.object(nac, "second_look", return_value={"why_supported": False}):
+            got = nac.enrich(ARTICLE)
+        self.assertEqual(got["checks"]["why"], "second_look_refused")
 
 
 class VideoSearch(unittest.TestCase):
@@ -265,7 +368,7 @@ class VideoSearch(unittest.TestCase):
         with patch.object(nac, "gather", return_value=(EVIDENCE, [])), patch.object(nac, "ask", return_value=row), \
              patch.object(nac, "find_videos", return_value=[self.video]) as find, patch.object(nac, "second_look", return_value=second), \
              patch.object(nac, "licensed_photos", return_value=[]):
-            got = nac.enrich(ARTICLE)
+            got = nac.enrich({**ARTICLE, "title": "Slayyyter publikon Hey Boyyy"})
         find.assert_called_once_with("Slayyyter hey boyyy")
         self.assertEqual([(m["platform"], m["id"], m["after"]) for m in got["media"]], [("youtube", "CY_mohRjzqM", 1)])
 
