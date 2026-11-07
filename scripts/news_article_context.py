@@ -52,6 +52,12 @@ CAPTION_CHARS = 140
 COPY_RUN = 8  # this many words in a row from a source is copying, not writing
 SEARCH_VIDEOS = 6
 SEARCH_PICKS = 2
+ACCOUNT_PICKS = 2  # the headline person's own posts kept per article
+ACCOUNT_DAYS_BEFORE = 4  # how far before publication their own post may be
+SCOPE = {"bote", "showbiz", "ekonomi"}  # the desks rebuilt to the new rules; others later
+WIKIDATA = "https://www.wikidata.org/w/api.php"
+USERNAME = re.compile(r"[A-Za-z0-9_.]{1,30}")
+SOCIAL_PYTHON = os.environ.get("L383_SOCIAL_PYTHON", "/opt/data/clip-scout/.venv/bin/python")
 SAME_LINE = 0.7  # a "why" this close to the "what" says nothing new
 SITE = os.environ.get("L383_SITE", "https://383ks.com")
 
@@ -259,7 +265,12 @@ def name_stem(word: str) -> str:
 def in_headline(name: str, article: dict) -> bool:
     """Is this person the story's own? A name only in the body is a side character."""
     parts = str(name or "").split()
-    return bool(parts) and name_stem(parts[-1]) in fold(article.get("title"))
+    # A whole word with at most a case ending (Kurti -> Kurtit): "Rama" is not "Ramazani".
+    if not parts:
+        return False
+    # The full name or its stem, each with at most three letters of ending: McLaren -> McLarenit, Tirana -> Tiranes.
+    roots = "|".join(re.escape(r) for r in {fold(parts[-1]), name_stem(parts[-1])} if r)
+    return re.search(r"(?<![a-z0-9])(?:" + roots + r")[a-z]{0,3}(?![a-z0-9])", fold(article.get("title"))) is not None
 
 
 def subject_named(subject: str, seen: str) -> bool:
@@ -279,6 +290,106 @@ def video_matches(video: dict, article: dict, subjects: list[str]) -> bool:
         return True
     names = {name_stem(w) for w in re.findall(r"[^\W\d_]{4,}", str(article.get("title") or "")) if w[0].isupper()}
     return sum(1 for name in names if re.search(rf"\b{re.escape(name)}", seen)) >= 2
+
+
+def wiki_lookup(subjects: list[str]) -> dict:
+    import video_edition_media as media
+    return media.wiki_pages(subjects)
+
+
+def wikidata_entities(qids: list[str]) -> dict:
+    query = urllib.parse.urlencode({"action": "wbgetentities", "format": "json", "ids": "|".join(qids), "props": "claims"})
+    with urllib.request.urlopen(urllib.request.Request(f"{WIKIDATA}?{query}", headers=HEADERS), timeout=30) as res:
+        return json.loads(res.read().decode("utf-8")).get("entities") or {}
+
+
+def accounts_from_claims(entities: dict) -> dict:
+    """Official X (P2002) and Instagram (P2003) usernames, preferred over deprecated claims."""
+    out = {}
+    for qid, entity in (entities or {}).items():
+        claims = (entity or {}).get("claims") or {}
+        found = {}
+        for key, prop in (("x", "P2002"), ("ig", "P2003")):
+            values = [c for c in claims.get(prop) or [] if isinstance(c, dict) and c.get("rank") != "deprecated"]
+            name = next((str(((c.get("mainsnak") or {}).get("datavalue") or {}).get("value") or "") for c in values), "")
+            if USERNAME.fullmatch(name):
+                found[key] = name
+        if found:
+            out[qid] = found
+    return out
+
+
+def subject_accounts(subjects: list[str], article: dict) -> list[dict]:
+    """The official accounts of what the headline names: never a side character's."""
+    named = [s for s in subjects if in_headline(s, article)]
+    if not named:
+        return []
+    try:
+        pages = wiki_lookup(named)
+        qids = {s: str((pages.get(s) or {}).get("qid") or "") for s in named}
+        wanted = [q for q in qids.values() if q]
+        found = accounts_from_claims(wikidata_entities(wanted)) if wanted else {}
+    except (urllib.error.URLError, OSError, ValueError) as exc:
+        print(f"CONTEXT accounts: {exc!r}"[:200], file=sys.stderr)
+        return []
+    return [{"name": s, **found[q]} for s, q in qids.items() if q in found][:3]
+
+
+def read_accounts(ask: dict) -> list:
+    """Run news_social_accounts.py in the clip scout's environment; [] on any failure."""
+    import subprocess
+    helper = os.path.join(os.path.dirname(os.path.abspath(__file__)), "news_social_accounts.py")
+    try:
+        done = subprocess.run([SOCIAL_PYTHON, helper], input=json.dumps(ask), capture_output=True, text=True, timeout=150)
+        if done.stderr.strip():
+            print(done.stderr.strip()[-400:], file=sys.stderr)
+        found = json.loads(done.stdout or "[]")
+    except (OSError, subprocess.SubprocessError, ValueError) as exc:
+        print(f"CONTEXT accounts read: {exc!r}"[:200], file=sys.stderr)
+        return []
+    return found if isinstance(found, list) else []
+
+
+def account_posts(subjects: list[str], article: dict) -> list[dict]:
+    """The headline subjects' own posts from the days around the story, checked as public and
+    embeddable through each platform's oEmbed. Read by news_social_accounts.py inside the clip
+    scout's environment; any failure there means no posts, never a held-back article."""
+    accounts = subject_accounts(subjects, article)
+    if not accounts:
+        return []
+    try:
+        published = datetime.fromisoformat(str(article.get("published_at") or "").replace("Z", "+00:00"))
+    except ValueError:
+        published = datetime.now(timezone.utc)
+    if published.tzinfo is None:  # the helper compares with aware post dates
+        published = published.replace(tzinfo=timezone.utc)
+    ask = {"x": [a["x"] for a in accounts if a.get("x")], "ig": [a["ig"] for a in accounts if a.get("ig")],
+           "since": (published - timedelta(days=ACCOUNT_DAYS_BEFORE)).isoformat(), "until": (published + timedelta(days=1)).isoformat()}
+    found = read_accounts(ask)
+    out = []
+    for post in found:
+        ref = embed_ref(str((post or {}).get("url") or ""))
+        if ref and len(out) < MAX_POSTS and (seen := oembed(ref)):
+            out.append({**ref, **seen, "text": seen.get("text") or str(post.get("text") or "")[:400], "account": True})
+    return out
+
+
+HEADLINE_FILLER = {"edhe", "para", "pasi", "duke", "jane", "eshte", "kunder", "sipas", "ndaj", "tjera", "tjeter", "tyre",
+                   "saj", "tij", "kete", "kjo", "keto", "nese", "mund", "behet", "bene"}
+
+
+def own_post_on_topic(post: dict, article: dict, subjects: list[str]) -> bool:
+    """An account proves who posted, not what about. Its post must name something from the headline
+    besides the account's own subject: "Times Square is the place to be!" from @TimesSquareNYC was
+    captioned as Londrim's billboard on 2026-11-07."""
+    own = {name_stem(w) for s in subjects for w in re.findall(r"[^\W\d_]{3,}", str(s))}
+    topic = {name_stem(w) for w in re.findall(r"[^\W\d_]{4,}", fold(article.get("title")))} - own - HEADLINE_FILLER
+    text = fold(post.get("text"))
+    return any(re.search(rf"\b{re.escape(stem)}", text) for stem in topic)
+
+
+def in_scope(article: dict) -> bool:
+    return fold(article.get("category") or "") in SCOPE
 
 
 def chosen_embeds(picks, posts: list[dict], article: dict, evidence: str = "") -> list[dict]:
@@ -459,10 +570,11 @@ def second_prompt(article: dict, card: dict, quotes, videos: list[dict]) -> str:
         "Return JSON with two keys:\n"
         "- why_supported: true only if the quotes themselves state this reason or background. False if the reason is "
         "inferred, a guess at a motive, or merely restates what happened.\n"
-        "- videos: the videos that show the very thing this story is about, posted by the person, organisation, event or "
+        "- videos: the videos and posts that show the very thing this story is about, posted by the person, organisation, event or "
         "programme itself, as [{\"video\": <number>, \"after_paragraph\": <the [n] it belongs after>, \"caption\": \"<short "
-        "Albanian line saying what it shows>\"}]. Refuse reactions, lyric videos, fan reuploads, compilations, "
-        "snippets by others and anything about something else. An empty list is fine."
+        "Albanian line saying what it shows>\"}]. A post by the story's own person must be about this event, not another day's "
+        "topic. Refuse reactions, lyric videos, fan reuploads, compilations, snippets by others and anything about something "
+        "else. An empty list is fine."
     )
 
 
@@ -485,23 +597,28 @@ def enrich(article: dict) -> dict | None:
     subjects = [s for s in row.get("subjects") or [] if isinstance(s, str)][:4] if isinstance(row.get("subjects"), list) else []
     videos = find_videos(query) if isinstance(query, str) and query.strip() else []
     videos = [v for v in videos if video_matches(v, article, subjects)]
+    # The headline person's own posts: their account is the proof of who, the second look judges what.
+    own = [p for p in account_posts(subjects, article) if own_post_on_topic(p, article, subjects)]
+    candidates = videos + own
     picks = row.get("media") if isinstance(row.get("media"), list) else []
     # A titled post from a source page answers to the same check as a searched video.
     picks = [p for p in picks if not (isinstance(p, dict) and isinstance(p.get("post"), int) and not isinstance(p.get("post"), bool)
                                       and 0 <= p["post"] < len(posts) and posts[p["post"]].get("text")
                                       and not video_matches(posts[p["post"]], article, subjects))]
-    if card["why"] or videos:
-        look = second_look(article, card, row.get("why_quotes"), videos)
+    if card["why"] or candidates:
+        look = second_look(article, card, row.get("why_quotes"), candidates)
         if not isinstance(look, dict):
             return None
         if card["why"] and look.get("why_supported") is not True:
             card["why"], checks["why"] = "", "second_look_refused"
         found = look.get("videos") if isinstance(look.get("videos"), list) else []
-        # SEARCH_PICKS searched videos at most: three F1 clips stacked in one story was noise, not context.
-        picks = picks + [{**v, "post": len(posts) + v["video"]} for v in found
-                         if isinstance(v, dict) and isinstance(v.get("video"), int) and not isinstance(v.get("video"), bool)
-                         and 0 <= v["video"] < len(videos)][:SEARCH_PICKS]
-    media = chosen_embeds(picks, posts + videos, article, evidence)
+        valid = [v for v in found if isinstance(v, dict) and isinstance(v.get("video"), int) and not isinstance(v.get("video"), bool)
+                 and 0 <= v["video"] < len(candidates)]
+        # Each source capped: three F1 clips stacked in one story was noise, not context.
+        searched = [v for v in valid if v["video"] < len(videos)][:SEARCH_PICKS]
+        theirs = [v for v in valid if v["video"] >= len(videos)][:ACCOUNT_PICKS]
+        picks = picks + [{**v, "post": len(posts) + v["video"]} for v in searched + theirs]
+    media = chosen_embeds(picks, posts + candidates, article, evidence)
     if subjects:
         media += chosen_photos(licensed_photos(subjects), article, {m["after"] for m in media})
     now = datetime.now(timezone.utc).isoformat()
@@ -521,12 +638,53 @@ def supabase_get(query: str) -> list[dict]:
 
 
 def waiting(hours: int, limit: int, slug: str = "", recheck: bool = False) -> list[dict]:
-    fields = "select=id,slug,title,excerpt,body,category,url,image_url,video_clip_url,raw_article"
+    """Articles to enrich, newest first, from the desks in SCOPE. A named slug is always taken."""
+    fields = "select=id,slug,title,excerpt,body,category,url,image_url,video_clip_url,published_at,raw_article"
     if slug:
         return supabase_get(f"{fields}&slug=eq.{urllib.parse.quote(slug)}")
     since = (datetime.now(timezone.utc) - timedelta(hours=hours)).strftime("%Y-%m-%dT%H:%M:%SZ")
     pending = "" if recheck else "&raw_article->context=is.null"
-    return supabase_get(f"{fields}&published_at=gte.{since}{pending}&order=published_at.desc&limit={limit}")
+    # Category is filtered here, not in the query: stored spellings vary ("Botë", "Bote").
+    rows = supabase_get(f"{fields}&published_at=gte.{since}{pending}&order=published_at.desc&limit={limit * 4}")
+    return [r for r in rows if in_scope(r)][:limit]
+
+
+MAX_TRIES = 3  # reruns of an article still missing media or a reason
+
+
+def stored_context(article: dict) -> dict | None:
+    context = raw_of(article).get("context")
+    return context if isinstance(context, dict) else None
+
+
+def richness(context: dict | None) -> int:
+    if not isinstance(context, dict) or context.get("status") != "ok":
+        return 0
+    return bool(context.get("what")) + bool(context.get("why")) + len(context.get("media") or [])
+
+
+def worth_saving(new: dict, old: dict | None) -> bool:
+    """A rerun never replaces a card and its media with less: a model having a bad day must not
+    erase what readers already see."""
+    return old is None or old.get("status") != "ok" or richness(new) >= richness(old)
+
+
+def with_tries(new: dict, old: dict | None) -> dict:
+    before = (old or {}).get("tries")
+    return {**new, "tries": (before if isinstance(before, int) and not isinstance(before, bool) else 0) + 1}
+
+
+def still_missing(rows: list[dict]) -> list[dict]:
+    """Articles with no media or no reason yet, that have not used up their tries."""
+    out = []
+    for row in rows:
+        old = stored_context(row)
+        tries = (old or {}).get("tries")
+        if isinstance(tries, int) and tries >= MAX_TRIES:
+            continue
+        if old is None or old.get("status") != "ok" or not old.get("why") or not old.get("media"):
+            out.append(row)
+    return out
 
 
 def save(article: dict, context: dict) -> bool:
@@ -559,6 +717,7 @@ def main() -> int:
     parser.add_argument("--slug", default="")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--recheck", action="store_true", help="also articles that already have context (pair with --dry-run to evaluate)")
+    parser.add_argument("--missing", action="store_true", help="rerun articles still missing media or a reason (at most MAX_TRIES each)")
     parser.add_argument("--minutes", type=float, default=20, help="stop starting new articles after this long")
     args = parser.parse_args()
     if os.environ.get("L383_ARTICLE_CONTEXT") == "0":
@@ -566,12 +725,20 @@ def main() -> int:
         return 0
     deadline = time.monotonic() + args.minutes * 60
     done, cards, empty, retry = [], 0, 0, 0
-    for article in waiting(args.hours, args.limit, args.slug, args.recheck):
+    rows = waiting(args.hours, args.limit * (4 if args.missing else 1), args.slug, args.recheck or args.missing)
+    if args.missing:
+        rows = still_missing(rows)[:args.limit]
+    for article in rows:
         if time.monotonic() >= deadline:
             break
         context = enrich(article)
         if context is None:
             retry += 1
+            continue
+        old = stored_context(article)
+        context = with_tries(context, old)
+        if not worth_saving(context, old):
+            print(f"CONTEXT kept {article['slug']}: the rerun found less than is already shown", file=sys.stderr)
             continue
         if args.dry_run:
             print(json.dumps({"slug": article["slug"], "context": context}, ensure_ascii=False, indent=1))

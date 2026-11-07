@@ -7,5 +7,7 @@ set -a
 . /opt/data/news-pipeline.env
 set +a
 cd /opt/data/workspaces/383lajme-news-current/scripts
+PY="${L383_PYTHON_BIN:-/opt/data/workspaces/383lajme/.venv/bin/python}"
+# New articles first, then a few still missing media or a reason (each tried at most three times).
 exec flock -n /tmp/383-article-context.lock timeout --signal=TERM --kill-after=30s 1500s \
-  "${L383_PYTHON_BIN:-/opt/data/workspaces/383lajme/.venv/bin/python}" news_article_context.py
+  sh -c '"$0" news_article_context.py --minutes 14; "$0" news_article_context.py --missing --hours 72 --limit 4 --minutes 6' "$PY"

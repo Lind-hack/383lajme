@@ -6,6 +6,17 @@ from unittest.mock import patch
 import news_article_context as nac
 
 
+def setUpModule():
+    # Own-account reads go to Wikidata and the scout's accounts; tests that need them patch it again.
+    global _no_accounts
+    _no_accounts = patch.object(nac, "account_posts", return_value=[])
+    _no_accounts.start()
+
+
+def tearDownModule():
+    _no_accounts.stop()
+
+
 ARTICLE = {
     "id": "news-1", "slug": "rama-shiriti", "title": "Rama sqaron çmimin e shiritit",
     "excerpt": "Përparim Rama tha se tarifa është 8.50 euro për metër.",
@@ -423,6 +434,130 @@ class SecondDay(unittest.TestCase):
         self.assertEqual(nac.file_year("Albin_Kurti_2022.jpg"), 2022)
         self.assertIsNone(nac.file_year("NS-21_InternPhoto.jpg"))
         self.assertIsNone(nac.file_year("ITB56439.jpg"))
+
+
+class OwnAccounts(unittest.TestCase):
+    """2026-11-07: the headline person's own X and Instagram posts, found through Wikidata."""
+
+    def test_official_usernames_come_from_wikidata_claims(self):
+        entities = {"Q1": {"claims": {"P2002": [{"mainsnak": {"datavalue": {"value": "ediramaal"}}}],
+                                      "P2003": [{"mainsnak": {"datavalue": {"value": "ediramaal"}}, "rank": "deprecated"},
+                                                {"mainsnak": {"datavalue": {"value": "edirama.al"}}}]}},
+                    "Q2": {"claims": {}}, "Q3": {"missing": ""}}
+        self.assertEqual(nac.accounts_from_claims(entities), {"Q1": {"x": "ediramaal", "ig": "edirama.al"}})
+
+    def test_bad_usernames_are_never_used(self):
+        entities = {"Q1": {"claims": {"P2002": [{"mainsnak": {"datavalue": {"value": "../../etc"}}}]}}}
+        self.assertEqual(nac.accounts_from_claims(entities), {})
+
+    def test_only_headline_subjects_are_looked_up(self):
+        article = {**ARTICLE, "title": "Edi Rama publikon detaje për Bypass-in e Tiranës"}
+        pages = {"Edi Rama": {"qid": "Q1"}, "Erion Veliaj": {"qid": "Q9"}}
+        with patch.object(nac, "wiki_lookup", return_value=pages), \
+             patch.object(nac, "wikidata_entities", return_value={"Q1": {"claims": {"P2002": [{"mainsnak": {"datavalue": {"value": "ediramaal"}}}]}}}) as wd:
+            got = nac.subject_accounts(["Edi Rama", "Erion Veliaj"], article)
+        wd.assert_called_once_with(["Q1"])
+        self.assertEqual(got, [{"name": "Edi Rama", "x": "ediramaal"}])
+
+    def test_own_posts_go_to_the_second_look_and_two_at_most_are_kept(self):
+        article = {**ARTICLE, "title": "Rama sqaron çmimin e shiritit"}
+        own = [{"platform": "x", "id": str(i), "kind": "", "url": f"https://x.com/ramaperparim/status/{i}", "author": "Përparim Rama",
+                "text": "Shiriti kushton 8.50 euro", "account": True} for i in range(1, 4)]
+        row = {"what": "", "what_quotes": [], "why": "", "why_quotes": [], "subjects": ["Përparim Rama"], "media": [], "video_search": ""}
+        second = {"videos": [{"video": i, "after_paragraph": i} for i in range(3)]}
+        with patch.object(nac, "gather", return_value=(EVIDENCE, [])), patch.object(nac, "ask", return_value=row), \
+             patch.object(nac, "account_posts", return_value=own), patch.object(nac, "second_look", return_value=second) as look, \
+             patch.object(nac, "licensed_photos", return_value=[]):
+            got = nac.enrich(article)
+        self.assertEqual(len(look.call_args.args[3]), 3)
+        self.assertEqual([m["platform"] for m in got["media"]], ["x", "x"])
+
+    def test_an_own_post_is_not_refused_for_not_naming_its_author(self):
+        # Rama's own tweet does not say "Rama": the account is the proof, and the second look judges the topic.
+        article = {**ARTICLE, "title": "Rama sqaron çmimin e shiritit"}
+        own = [{"platform": "x", "id": "7", "kind": "", "url": "https://x.com/ramaperparim/status/7", "author": "Përparim Rama",
+                "text": "Shiriti kushton 8.50 euro për metër", "account": True}]
+        row = {"what": "", "what_quotes": [], "why": "", "why_quotes": [], "subjects": ["Përparim Rama"], "media": [], "video_search": ""}
+        with patch.object(nac, "gather", return_value=(EVIDENCE, [])), patch.object(nac, "ask", return_value=row), \
+             patch.object(nac, "account_posts", return_value=own), patch.object(nac, "second_look", return_value={"videos": [{"video": 0}]}), \
+             patch.object(nac, "licensed_photos", return_value=[]):
+            got = nac.enrich(article)
+        self.assertEqual([m["id"] for m in got["media"]], ["7"])
+
+
+class OwnPostTopic(unittest.TestCase):
+    """An account proves who posted, not what about: @TimesSquareNYC's "place to be" post was captioned as Londrim's billboard."""
+
+    def test_a_post_naming_only_its_own_subject_is_off_topic(self):
+        article = {"title": "Imazhi i Londrimit shfaqet në Times Square për ditëlindjen e tij"}
+        post = {"author": "Times Square", "text": "Times Square is the place to be! #TimesSquare #NYC #NewYork #VisitNYC"}
+        self.assertFalse(nac.own_post_on_topic(post, article, ["Times Square"]))
+
+    def test_a_post_naming_another_headline_name_is_on_topic(self):
+        article = {"title": "Reform UK zgjedh Angus MacIntyre si zëdhënës për mbrojtjen"}
+        post = {"author": "Reform UK", "text": "We are delighted to announce Angus MacIntyre as our defence spokesman."}
+        self.assertTrue(nac.own_post_on_topic(post, article, ["Reform UK"]))
+
+    def test_a_headline_topic_word_is_enough(self):
+        article = {"title": "Rama sqaron çmimin e shiritit"}
+        post = {"author": "Përparim Rama", "text": "Shiriti kushton 8.50 euro për metër"}
+        self.assertTrue(nac.own_post_on_topic(post, article, ["Përparim Rama"]))
+
+    def test_an_off_topic_own_post_never_reaches_the_second_look(self):
+        article = {**ARTICLE, "title": "Imazhi i Londrimit shfaqet në Times Square për ditëlindjen e tij"}
+        own = [{"platform": "x", "id": "2118772538872582619", "kind": "", "url": "https://x.com/TimesSquareNYC/status/2118772538872582619",
+                "author": "Times Square", "text": "Times Square is the place to be! #TimesSquare #NYC", "account": True}]
+        row = {"what": "", "what_quotes": [], "why": "", "why_quotes": [], "subjects": ["Times Square"], "media": [], "video_search": ""}
+        with patch.object(nac, "gather", return_value=(EVIDENCE, [])), patch.object(nac, "ask", return_value=row),              patch.object(nac, "account_posts", return_value=own), patch.object(nac, "second_look") as look,              patch.object(nac, "licensed_photos", return_value=[]):
+            nac.enrich(article)
+        look.assert_not_called()
+
+
+class Scope(unittest.TestCase):
+    def test_only_the_reworked_desks_for_now(self):
+        for category, expected in (("Botë", True), ("Bote", True), ("Showbiz", True), ("Ekonomi", True),
+                                   ("Kosovë", False), ("Sport", False), ("", False), (None, False)):
+            self.assertEqual(nac.in_scope({"category": category}), expected, category)
+
+    def test_waiting_skips_other_desks_and_asks_for_the_publish_date(self):
+        rows = [{"slug": "a", "category": "Sport"}, {"slug": "b", "category": "Botë"}, {"slug": "c", "category": "Ekonomi"}]
+        with patch.object(nac, "supabase_get", return_value=rows) as get:
+            got = nac.waiting(24, 1)
+        self.assertEqual([r["slug"] for r in got], ["b"])
+        self.assertIn("published_at", get.call_args.args[0])
+
+    def test_one_named_article_is_never_filtered(self):
+        with patch.object(nac, "supabase_get", return_value=[{"slug": "a", "category": "Sport"}]):
+            self.assertEqual(len(nac.waiting(24, 5, slug="a")), 1)
+
+
+class ReviewRound3(unittest.TestCase):
+    def test_a_headline_name_matches_only_at_a_word_start(self):
+        self.assertFalse(nac.in_headline("Edi Rama", {"title": "Ramazani nis në Tiranë"}))
+        self.assertTrue(nac.in_headline("Edi Rama", {"title": "Rama sqaron çmimin"}))
+        self.assertTrue(nac.in_headline("Albin Kurti", {"title": "Kurtit i kërkohet dorëheqja"}))
+
+    def test_missing_mode_takes_only_articles_without_media_or_why_and_three_tries_at_most(self):
+        rows = [{"slug": "none", "category": "Botë", "raw_article": {}},
+                {"slug": "full", "category": "Botë", "raw_article": {"context": {"status": "ok", "why": "x", "media": [{"kind": "photo"}]}}},
+                {"slug": "no-why", "category": "Botë", "raw_article": {"context": {"status": "ok", "media": [{"kind": "photo"}]}}},
+                {"slug": "no-media", "category": "Showbiz", "raw_article": {"context": {"status": "ok", "why": "x", "media": []}}},
+                {"slug": "tired", "category": "Ekonomi", "raw_article": {"context": {"status": "empty", "tries": 3}}},
+                {"slug": "old-row", "category": "Ekonomi", "raw_article": None}]
+        self.assertEqual([r["slug"] for r in nac.still_missing(rows)], ["none", "no-why", "no-media", "old-row"])
+
+    def test_a_rerun_never_replaces_good_context_with_less(self):
+        good = {"status": "ok", "what": "a", "media": [{"kind": "photo"}]}
+        self.assertFalse(nac.worth_saving({"status": "empty"}, good))
+        self.assertFalse(nac.worth_saving({"status": "ok", "what": "a", "media": []}, good))
+        self.assertTrue(nac.worth_saving({"status": "ok", "what": "a", "why": "b", "media": [{"kind": "photo"}]}, good))
+        self.assertTrue(nac.worth_saving({"status": "empty"}, None))
+        self.assertTrue(nac.worth_saving({"status": "ok", "what": "a", "media": []}, {"status": "empty"}))
+
+    def test_tries_are_counted_across_runs(self):
+        self.assertEqual(nac.with_tries({"status": "empty"}, {"status": "empty", "tries": 2})["tries"], 3)
+        self.assertEqual(nac.with_tries({"status": "ok"}, None)["tries"], 1)
+        self.assertEqual(nac.with_tries({"status": "ok"}, {"tries": "x"})["tries"], 1)
 
 
 class Checks(unittest.TestCase):

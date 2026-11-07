@@ -1,0 +1,41 @@
+import unittest
+from datetime import datetime, timezone
+from types import SimpleNamespace
+
+import news_social_accounts as nsa
+
+
+def at(text):
+    return datetime.fromisoformat(text).replace(tzinfo=timezone.utc)
+
+
+class Window(unittest.TestCase):
+    def test_only_posts_around_the_story_are_kept(self):
+        posts = [{"url": "https://x.com/a/status/1", "date": "2026-11-05T10:00:00+00:00"},
+                 {"url": "https://x.com/a/status/2", "date": "2026-10-20T10:00:00+00:00"},
+                 {"url": "https://x.com/a/status/3", "date": "2026-11-09T10:00:00+00:00"},
+                 {"url": "https://x.com/a/status/4", "date": "not a date"}]
+        got = nsa.in_window(posts, at("2026-11-02T00:00:00"), at("2026-11-07T00:00:00"))
+        self.assertEqual([p["url"] for p in got], ["https://x.com/a/status/1"])
+
+
+class Shapes(unittest.TestCase):
+    def test_a_tweet_becomes_a_public_post_link(self):
+        tw = SimpleNamespace(id=2114324613949751655, date=at("2026-11-05T10:00:00"), rawContent="Protestat e dhunshme",
+                             user=SimpleNamespace(username="ediramaal", displayname="Edi Rama"), retweetedTweet=None)
+        self.assertEqual(nsa.x_post(tw), {"url": "https://x.com/ediramaal/status/2114324613949751655", "date": "2026-11-05T10:00:00+00:00",
+                                          "text": "Protestat e dhunshme", "author": "Edi Rama"})
+
+    def test_a_repost_is_someone_else_and_is_skipped(self):
+        tw = SimpleNamespace(id=1, date=at("2026-11-05T10:00:00"), rawContent="RT", user=SimpleNamespace(username="a", displayname="A"),
+                             retweetedTweet=object())
+        self.assertIsNone(nsa.x_post(tw))
+
+    def test_an_instagram_post_becomes_a_post_link(self):
+        post = SimpleNamespace(shortcode="DfXWj20o-te", date_utc=datetime(2026, 11, 5, 9, 0), caption="ZURICH - THE HALL 28/NOV",
+                               typename="GraphVideo", owner_username="noizy")
+        self.assertEqual(nsa.ig_post(post)["url"], "https://www.instagram.com/p/DfXWj20o-te/")
+
+
+if __name__ == "__main__":
+    unittest.main()

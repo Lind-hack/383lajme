@@ -25838,3 +25838,44 @@ html[data-theme="dark"] .cat-rail-item[aria-current="page"] .cat-rail-label {
   .kerko-recent-go,
   .kerko-hero-form button { transition: none; }
 }
+
+/* Article context: the story in seconds (components/article-context-card.tsx)
+   and the posts and photos placed in the text (components/article-media.tsx). */
+.ctx-card { display: grid; gap: 18px; }
+.ctx-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 0 20px; align-items: baseline; }
+.ctx-label {
+  font-size: 13px; font-weight: 700; line-height: 1.4; color: var(--ctx-accent);
+  font-variant-ligatures: none;
+}
+.ctx-card dd { margin: 0; text-wrap: pretty; }
+.ctx-what { font-size: 19px; font-weight: 600; line-height: 1.5; color: #111111; letter-spacing: -0.005em; }
+.ctx-why { font-size: 17px; font-weight: 400; line-height: 1.65; color: #2B2926; }
+@media (max-width: 640px) {
+  .ctx-row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .ctx-what { font-size: 18px; }
+}
+
+.ctx-media { margin: 8px 0 36px; }
+.ctx-media-frame { margin: 0 auto; }
+.ctx-media-frame iframe { display: block; width: 100%; border: 0; }
+.ctx-media-photo img {
+  display: block; max-width: 100%; max-height: min(560px, 72vh); width: auto; height: auto;
+  margin: 0 auto; border-radius: var(--radius-sm); background: rgba(17,17,17,0.04);
+}
+.ctx-media figcaption {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 2px 10px;
+  margin: 12px auto 0; max-width: 560px; text-align: center;
+  font-size: 13px; line-height: 1.55; color: var(--theme-muted, #59544C);
+}
+.ctx-media-wide figcaption { justify-content: flex-start; text-align: left; max-width: none; }
+.ctx-media-caption { color: #2B2926; }
+.ctx-media-source {
+  display: inline-flex; align-items: center; gap: 6px; color: inherit;
+  text-decoration: underline; text-decoration-color: rgba(17,17,17,0.25); text-underline-offset: 3px;
+  transition: color 160ms ease-out, text-decoration-color 160ms ease-out;
+}
+.ctx-media-source:hover { color: #111111; text-decoration-color: currentColor; }
+.ctx-media-source:focus-visible { outline: 2px solid #111111; outline-offset: 3px; border-radius: 2px; }
+.ctx-media-source svg { flex: none; width: 14px; height: 14px; }
+@media (prefers-reduced-motion: reduce) { .ctx-media-source { transition: none; } }
+
