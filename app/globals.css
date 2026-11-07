@@ -25878,4 +25878,57 @@ html[data-theme="dark"] .cat-rail-item[aria-current="page"] .cat-rail-label {
 .ctx-media-source:focus-visible { outline: 2px solid #111111; outline-offset: 3px; border-radius: 2px; }
 .ctx-media-source svg { flex: none; width: 14px; height: 14px; }
 @media (prefers-reduced-motion: reduce) { .ctx-media-source { transition: none; } }
+/* A post not yet loaded: the reader decides, the page keeps its rhythm. */
+.ctx-gate {
+  margin: 0 auto; padding: 28px 24px; display: grid; justify-items: center; gap: 8px; text-align: center;
+  background: #FFFFFF; border: 1px solid rgba(17,17,17,0.12); border-radius: var(--radius-sm);
+}
+.ctx-gate-wide { aspect-ratio: 16 / 9; align-content: center; background: #111111; border-color: #111111; }
+.ctx-gate-mark { display: inline-flex; width: 28px; height: 28px; color: var(--ctx-accent, #111111); }
+.ctx-gate-wide .ctx-gate-mark { color: #FFFFFF; }
+.ctx-gate-mark svg { width: 100%; height: 100%; }
+.ctx-gate-title { margin: 4px 0 0; font-size: 16px; font-weight: 700; line-height: 1.35; color: #111111; }
+.ctx-gate-note { margin: 0; max-width: 34ch; font-size: 13px; line-height: 1.5; color: #6B6660; }
+.ctx-gate-wide .ctx-gate-title { color: #FFFFFF; }
+.ctx-gate-wide .ctx-gate-note { color: rgba(255,255,255,0.72); }
+.ctx-gate-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 8px; }
+.ctx-gate-show, .ctx-gate-always {
+  min-height: 40px; padding: 0 18px; border-radius: 999px; font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+.ctx-gate-show { background: #111111; color: #FFFFFF; border: 1px solid #111111; }
+.ctx-gate-show:hover { background: #2B2926; }
+.ctx-gate-always { background: transparent; color: #111111; border: 1px solid rgba(17,17,17,0.24); }
+.ctx-gate-always:hover { border-color: #111111; }
+.ctx-gate-wide .ctx-gate-show { background: #FFFFFF; color: #111111; border-color: #FFFFFF; }
+.ctx-gate-wide .ctx-gate-always { color: #FFFFFF; border-color: rgba(255,255,255,0.4); }
+.ctx-gate-show:focus-visible, .ctx-gate-always:focus-visible { outline: 2px solid var(--ctx-accent, #111111); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .ctx-gate-show, .ctx-gate-always { transition: none; } }
+/* "Si lëvizi": a month of prices in the card's own rule and type, not a dashboard widget. */
+.ctx-chart { margin: 0; }
+.ctx-chart-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; margin-bottom: 10px; }
+.ctx-chart-label { font-size: 15px; font-weight: 600; color: #2B2926; }
+.ctx-chart-now { display: inline-flex; align-items: baseline; gap: 10px; font-variant-numeric: tabular-nums; }
+.ctx-chart-now strong { font-size: 19px; font-weight: 700; color: #111111; letter-spacing: -0.01em; }
+.ctx-chart-up, .ctx-chart-down { font-size: 13px; font-weight: 700; white-space: nowrap; }
+.ctx-chart-up { color: #0B6B3A; }
+.ctx-chart-down { color: #B42318; }
+.ctx-chart-plot { position: relative; height: 112px; padding-right: 76px; border-bottom: 1px solid rgba(17,17,17,0.12); }
+.ctx-chart-plot svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.ctx-chart-dot {
+  position: absolute; right: 76px; width: 8px; height: 8px; margin: -4px -4px 0 0; border-radius: 50%;
+  background: var(--ctx-accent); box-shadow: 0 0 0 3px var(--color-cream);
+}
+.ctx-chart-scale {
+  position: absolute; top: 0; right: 0; bottom: 0; display: flex; flex-direction: column; justify-content: space-between;
+  font-size: 12px; line-height: 1; color: #6B6660; font-variant-numeric: tabular-nums; text-align: right;
+}
+.ctx-chart-foot { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 8px; padding-right: 76px; font-size: 12px; color: #6B6660; }
+.ctx-chart-foot .ctx-media-source { font-size: 12px; }
+.ctx-chart-foot > span { white-space: nowrap; }
+@media (max-width: 640px) {
+  .ctx-chart-plot { height: 96px; padding-right: 64px; }
+  .ctx-chart-dot { right: 64px; }
+  .ctx-chart-foot { padding-right: 64px; }
+}
 

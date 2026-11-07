@@ -18,7 +18,9 @@ nothing to add is stored as status "empty" and not asked about twice.
 from __future__ import annotations
 
 import argparse
+import csv
 import html as html_lib
+import io
 import json
 import os
 import re
@@ -621,10 +623,111 @@ def enrich(article: dict) -> dict | None:
     media = chosen_embeds(picks, posts + candidates, article, evidence)
     if subjects:
         media += chosen_photos(licensed_photos(subjects), article, {m["after"] for m in media})
+    chart = market_chart(article)
     now = datetime.now(timezone.utc).isoformat()
-    if not card["what"] and not media:
+    if not card["what"] and not media and not chart:
         return {"v": VERSION, "status": "empty", "checks": checks, "checked_at": now}
-    return {"v": VERSION, "status": "ok", **{k: v for k, v in card.items() if v}, "media": media, "checks": checks, "checked_at": now}
+    extra = {"chart": chart} if chart else {}
+    return {"v": VERSION, "status": "ok", **{k: v for k, v in card.items() if v}, "media": media, **extra, "checks": checks, "checked_at": now}
+
+
+# ---- market chart ----------------------------------------------------------------------------
+# What the price did in the month before the story, for business stories about a coin or a
+# currency. Free official data only: CoinGecko's public API and the ECB's reference rates. A
+# stock chart waits for a free source of the same standing.
+
+CHART_DAYS = 30
+CHART_MIN_POINTS = 5
+WORD_END = r"(?![a-z0-9])"
+# Matched against the folded headline, first match wins. Albanian's definite forms only for
+# currencies: "dollari" is the dollar, "300 milione dollare" is an amount; "lire" is "cheap".
+CHART_ASSETS = [
+    (r"bitcoin[a-z]{0,4}|btc", {"kind": "crypto", "id": "bitcoin", "label": "Bitcoin"}),
+    (r"ethereum[a-z]{0,3}|ether(?:i|it|in)?", {"kind": "crypto", "id": "ethereum", "label": "Ethereum"}),
+    (r"solana[a-z]{0,3}", {"kind": "crypto", "id": "solana", "label": "Solana"}),
+    (r"paund(?:i|it|in)|sterlin[a-z]{0,3}|banka e anglise", {"kind": "fx", "currency": "GBP", "label": "Paundi britanik për 1 euro"}),
+    (r"frang[a-z]{0,3} zvicer[a-z]{0,4}", {"kind": "fx", "currency": "CHF", "label": "Franga zvicerane për 1 euro"}),
+    (r"lir[a-z]{0,3} turk[a-z]{0,3}", {"kind": "fx", "currency": "TRY", "label": "Lira turke për 1 euro"}),
+    (r"jen(?:i|it|in) japonez[a-z]{0,3}", {"kind": "fx", "currency": "JPY", "label": "Jeni japonez për 1 euro"}),
+    (r"juan(?:i|it|in)", {"kind": "fx", "currency": "CNY", "label": "Juani kinez për 1 euro"}),
+    (r"dollar(?:i|it|in)|fed|rezerv[a-z]{0,3} federal[a-z]{0,3}|euro(?:ja|s|n)|bqe|banka qendrore evropiane",
+     {"kind": "fx", "currency": "USD", "label": "Dollari amerikan për 1 euro"}),
+]
+
+
+def chart_asset(article: dict) -> dict | None:
+    if fold(article.get("category") or "") != "ekonomi":
+        return None
+    title = fold(article.get("title"))
+    for pattern, asset in CHART_ASSETS:
+        if re.search(r"(?<![a-z0-9])(?:" + pattern + ")" + WORD_END, title):
+            return asset
+    return None
+
+
+def get_text(url: str) -> str | None:
+    try:
+        with urllib.request.urlopen(urllib.request.Request(url, headers=HEADERS), timeout=20) as res:
+            return res.read().decode("utf-8")
+    except (urllib.error.URLError, OSError, ValueError):
+        return None
+
+
+def daily_closes(pairs) -> list[list]:
+    """CoinGecko gives a price an hour; the chart keeps each UTC day's last."""
+    days: dict[str, float] = {}
+    for pair in pairs if isinstance(pairs, list) else []:
+        if isinstance(pair, list) and len(pair) == 2 and all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in pair):
+            days[datetime.fromtimestamp(pair[0] / 1000, timezone.utc).strftime("%Y-%m-%d")] = float(pair[1])
+    return [[day, value] for day, value in sorted(days.items())]
+
+
+def crypto_closes(coin: str, start: datetime, end: datetime) -> list[list]:
+    text = get_text(f"https://api.coingecko.com/api/v3/coins/{coin}/market_chart/range"
+                    f"?vs_currency=usd&from={int(start.timestamp())}&to={int(end.timestamp())}")
+    try:
+        return daily_closes(json.loads(text).get("prices")) if text else []
+    except (ValueError, AttributeError):
+        return []
+
+
+def ecb_closes(csv_text: str) -> list[list]:
+    out = []
+    for row in csv.DictReader(io.StringIO(csv_text)):
+        try:
+            out.append([row["TIME_PERIOD"], float(row["OBS_VALUE"])])
+        except (KeyError, TypeError, ValueError):
+            continue
+    return out
+
+
+def market_chart(article: dict) -> dict | None:
+    asset = chart_asset(article)
+    if not asset:
+        return None
+    try:
+        end = datetime.fromisoformat(str(article.get("published_at") or "").replace("Z", "+00:00"))
+    except ValueError:
+        end = datetime.now(timezone.utc)
+    if end.tzinfo is None:
+        end = end.replace(tzinfo=timezone.utc)
+    start = end - timedelta(days=CHART_DAYS)
+    if asset["kind"] == "crypto":
+        points = crypto_closes(asset["id"], start, end)
+        source, page, unit = "CoinGecko", f"https://www.coingecko.com/en/coins/{asset['id']}", "USD"
+    else:
+        unit = asset["currency"]
+        text = get_text(f"https://data-api.ecb.europa.eu/service/data/EXR/D.{unit}.EUR.SP00.A"
+                        f"?startPeriod={start:%Y-%m-%d}&endPeriod={end:%Y-%m-%d}&format=csvdata")
+        points = ecb_closes(text) if text else []
+        source, page = "Banka Qendrore Evropiane", f"https://data.ecb.europa.eu/data/datasets/EXR/EXR.D.{unit}.EUR.SP00.A"
+    last_day = f"{end:%Y-%m-%d}"
+    # Cents for coins, five decimals for rates: what a reader can see, not float noise.
+    points = [[p[0], round(p[1], 2 if p[1] >= 100 else 5)] for p in points if p[0] <= last_day and p[1] > 0]
+    if len(points) < CHART_MIN_POINTS:
+        return None
+    return {"kind": asset["kind"], "label": asset["label"], "unit": unit, "points": points,
+            "source": source, "source_url": page}
 
 
 # ---- the job -------------------------------------------------------------------------------
@@ -660,7 +763,7 @@ def stored_context(article: dict) -> dict | None:
 def richness(context: dict | None) -> int:
     if not isinstance(context, dict) or context.get("status") != "ok":
         return 0
-    return bool(context.get("what")) + bool(context.get("why")) + len(context.get("media") or [])
+    return bool(context.get("what")) + bool(context.get("why")) + len(context.get("media") or []) + bool(context.get("chart"))
 
 
 def worth_saving(new: dict, old: dict | None) -> bool:

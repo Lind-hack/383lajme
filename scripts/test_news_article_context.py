@@ -630,5 +630,65 @@ class VideoSearch(unittest.TestCase):
         find.assert_not_called()
 
 
+class MarketChart(unittest.TestCase):
+    """A chart of the price a business story is about, from free official data, never a guess."""
+
+    def story(self, title, category="Ekonomi"):
+        return {**ARTICLE, "title": title, "category": category, "published_at": "2026-11-06T10:00:00+00:00"}
+
+    def test_a_coin_or_currency_in_an_economy_headline_picks_its_series(self):
+        self.assertEqual(nac.chart_asset(self.story("ETF-të e bitcoinit në SHBA me 75 milionë hyrje neto"))["id"], "bitcoin")
+        self.assertEqual(nac.chart_asset(self.story("Banka e Anglisë rrit normën, hapa të tjerë"))["currency"], "GBP")
+        self.assertEqual(nac.chart_asset(self.story("Dollari bie pas vendimit të Fed-it"))["currency"], "USD")
+        self.assertEqual(nac.chart_asset(self.story("Lira turke në rënie të re"))["currency"], "TRY")
+
+    def test_other_desks_and_lookalike_words_get_no_chart(self):
+        self.assertIsNone(nac.chart_asset(self.story("Bitcoin rritet", category="Botë")))
+        # "lirë" is cheap and "jenë" is "are"; "Ethernet" is not Ether.
+        self.assertIsNone(nac.chart_asset(self.story("Banesat më të lira në Prishtinë")))
+        self.assertIsNone(nac.chart_asset(self.story("Kabllot Ethernet shtrenjtohen")))
+        self.assertIsNone(nac.chart_asset(self.story("KESCO: konsumi i rrymës u rrit 4.1 për qind")))
+
+    def test_hourly_prices_become_one_close_a_day(self):
+        day = 86_400_000
+        start = 1_791_504_000_000  # 2026-10-09 00:00 UTC
+        pairs = [[start, 10.0], [start + day // 2, 11.0], [start + day, 12.0], [start + day + 3_600_000, 13.5]]
+        self.assertEqual(nac.daily_closes(pairs), [["2026-10-09", 11.0], ["2026-10-10", 13.5]])
+
+    def test_ecb_rates_are_read_from_its_csv(self):
+        csv_text = ("KEY,FREQ,TIME_PERIOD,OBS_VALUE,TITLE\n"
+                    "EXR.D.GBP.EUR.SP00.A,D,2026-11-05,0.8712,\"Pound, euro\"\n"
+                    "EXR.D.GBP.EUR.SP00.A,D,2026-11-06,0.8740,\"Pound, euro\"\n"
+                    "EXR.D.GBP.EUR.SP00.A,D,2026-11-07,,\"Pound, euro\"\n")
+        self.assertEqual(nac.ecb_closes(csv_text), [["2026-11-05", 0.8712], ["2026-11-06", 0.874]])
+
+    def test_the_series_ends_at_publication(self):
+        closes = [[f"2026-10-{d:02d}", 80000.0 + d] for d in range(7, 32)] + [["2026-11-01", 1.0], ["2026-11-07", 2.0]]
+        with patch.object(nac, "crypto_closes", return_value=closes) as crypto:
+            got = nac.market_chart(self.story("Bitcoin kalon 80 mijë dollarë"))
+        crypto.assert_called_once()
+        self.assertEqual(got["points"][-1][0], "2026-11-01")
+        self.assertEqual((got["label"], got["unit"], got["source"]), ("Bitcoin", "USD", "CoinGecko"))
+        self.assertTrue(got["source_url"].startswith("https://www.coingecko.com/"))
+
+    def test_too_few_points_or_a_failed_read_show_no_chart(self):
+        with patch.object(nac, "crypto_closes", return_value=[["2026-11-01", 1.0]] * 3):
+            self.assertIsNone(nac.market_chart(self.story("Bitcoin bie")))
+        with patch.object(nac, "crypto_closes", return_value=[]):
+            self.assertIsNone(nac.market_chart(self.story("Bitcoin bie")))
+        with patch.object(nac, "ecb_closes", side_effect=AssertionError("must not be read")), \
+             patch.object(nac, "get_text", return_value=None):
+            self.assertIsNone(nac.market_chart(self.story("Paundi bie")))
+
+    def test_a_chart_alone_is_worth_showing_and_counts_as_richer(self):
+        chart = {"label": "Bitcoin", "points": [["2026-11-01", 1.0]] * 6}
+        row = {"what": "", "what_quotes": [], "why": "", "why_quotes": [], "subjects": [], "media": [], "video_search": ""}
+        with patch.object(nac, "gather", return_value=(EVIDENCE, [])), patch.object(nac, "ask", return_value=row), \
+             patch.object(nac, "market_chart", return_value=chart):
+            got = nac.enrich(self.story("Bitcoin bie"))
+        self.assertEqual((got["status"], got["chart"]), ("ok", chart))
+        self.assertGreater(nac.richness(got), nac.richness({**got, "chart": None}))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -2,10 +2,20 @@
   | { kind: "embed"; platform: string; id: string; post: string; url: string; author: string; caption: string; after: number }
   | { kind: "photo"; src: string; credit: string; page: string; who: string; after: number };
 
+/** A month of daily prices before the story: a coin in dollars or a currency per euro. */
+export interface ArticleChart {
+  label: string;
+  unit: string;
+  points: [string, number][];
+  source: string;
+  sourceUrl: string;
+}
+
 export interface ArticleContext {
   what?: string;
   why?: string;
   media: ArticleMedia[];
+  chart?: ArticleChart;
 }
 
 export interface Article {

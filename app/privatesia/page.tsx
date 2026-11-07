@@ -239,6 +239,11 @@ export default function PrivatesiaPage() {
               statistika, ndërsa leja për cookies reklamimi mbetet e refuzuar.
             </p>
             <p>
+              Disa lajme kanë brenda postime nga Instagram, X, TikTok ose YouTube. Ato hapen nga vetë
+              platforma, që vendos cookies të veta, prandaj ngarkohen vetëm nëse ke pranuar cookies, nëse
+              ke zgjedhur &ldquo;Shfaq gjithmonë&rdquo;, ose kur e hap vetë postimin.
+            </p>
+            <p>
               Zgjedhja jote ruhet vetëm në shfletuesin tënd. Nëse e ndryshon mendjen, fshi të dhënat e
               faqes nga shfletuesi — banderola do të të pyesë sërish herën tjetër.
             </p>

@@ -16,8 +16,9 @@ import UsageTracker from './usage-tracker';
  *   are sent manually — gtag("config") only covers the initial HTML request.
  */
 
-const CONSENT_KEY = "383_consent";
-const CONSENT_EVENT = "383:consent";
+// Also read by the in-text posts (components/article-media.tsx): one choice covers both.
+export const CONSENT_KEY = "383_consent";
+export const CONSENT_EVENT = "383:consent";
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 type Consent = "granted" | "denied" | null;

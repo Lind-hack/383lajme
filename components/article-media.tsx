@@ -3,6 +3,22 @@
 import { useEffect, useRef, useState } from "react";
 import { embedFrame } from "@/lib/article-context.mjs";
 import type { ArticleMedia } from "@/lib/mock-data";
+import { CONSENT_EVENT, CONSENT_KEY } from "@/components/analytics/ga";
+
+/** "Shfaq gjithmonë" on any post: every post loads from then on, without the stats cookies. */
+const EMBEDS_KEY = "383_embeds";
+
+/**
+ * A post's player sets its platform's own cookies, so it loads only for readers who
+ * accepted cookies, who chose to always see posts, or who tap this one.
+ */
+function postsAllowed() {
+  try {
+    return localStorage.getItem(CONSENT_KEY) === "granted" || localStorage.getItem(EMBEDS_KEY) === "always";
+  } catch {
+    return false;
+  }
+}
 
 const PLATFORM: Record<string, { name: string; width: number; height: number; origin?: string }> = {
   instagram: { name: "Instagram", width: 480, height: 680, origin: "https://www.instagram.com" },
@@ -44,6 +60,20 @@ function Embed({ item }: { item: Extract<ArticleMedia, { kind: "embed" }> }) {
   const frame = useRef<HTMLIFrameElement>(null);
   const platform = PLATFORM[item.platform];
   const [height, setHeight] = useState(platform?.height);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const sync = () => { if (postsAllowed()) setOpen(true); };
+    sync();
+    window.addEventListener(CONSENT_EVENT, sync);
+    return () => window.removeEventListener(CONSENT_EVENT, sync);
+  }, []);
+
+  const always = () => {
+    try { localStorage.setItem(EMBEDS_KEY, "always"); } catch { /* Storage blocked: this post still opens. */ }
+    setOpen(true);
+    window.dispatchEvent(new Event(CONSENT_EVENT));
+  };
 
   useEffect(() => {
     if (!platform?.origin) return;
@@ -60,8 +90,20 @@ function Embed({ item }: { item: Extract<ArticleMedia, { kind: "embed" }> }) {
   // oEmbed gives the account's display name ("Reform UK"), not its handle, so no "@" in front.
   const who = (item.author ?? "").replace(/^@/, "");
   const title = item.caption || `Postim nga ${who || name}`;
+  const thing = item.platform === "youtube" || item.platform === "tiktok" ? "videon" : "postimin";
   return (
     <figure className={`ctx-media${platform ? "" : " ctx-media-wide"}`}>
+      {!open ? (
+        <div className={`ctx-gate${platform ? "" : " ctx-gate-wide"}`} style={platform ? { maxWidth: platform.width } : undefined}>
+          <span className="ctx-gate-mark"><PlatformMark platform={item.platform} /></span>
+          <p className="ctx-gate-title">{who ? `${who} në ${name}` : `Postim në ${name}`}</p>
+          <p className="ctx-gate-note">Ky {thing === "videon" ? "video" : "postim"} hapet nga {name}, që vendos cookies të veta.</p>
+          <div className="ctx-gate-actions">
+            <button type="button" className="ctx-gate-show" onClick={() => setOpen(true)}>Shfaq {thing}</button>
+            <button type="button" className="ctx-gate-always" onClick={always}>Shfaq gjithmonë</button>
+          </div>
+        </div>
+      ) : (
       <div className="ctx-media-frame" style={platform
         ? { maxWidth: platform.width }
         : { position: "relative", aspectRatio: "16 / 9", background: "#111", borderRadius: "var(--radius-sm)", overflow: "hidden" }}>
@@ -78,6 +120,7 @@ function Embed({ item }: { item: Extract<ArticleMedia, { kind: "embed" }> }) {
             : { position: "absolute", inset: 0, height: "100%" }}
         />
       </div>
+      )}
       <figcaption>
         {item.caption && <span className="ctx-media-caption">{item.caption}</span>}
         <a className="ctx-media-source" href={item.url} target="_blank" rel="noopener noreferrer">

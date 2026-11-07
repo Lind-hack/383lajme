@@ -1,6 +1,10 @@
+import ArticleChart from "@/components/article-chart";
+import type { ArticleChart as Chart } from "@/lib/mock-data";
+
 interface Props {
   what: string;
   why?: string;
+  chart?: Chart;
   catColor: string;
 }
 
@@ -10,7 +14,7 @@ interface Props {
  * a hairline in the category colour opens it, labels sit in a narrow column
  * beside the text on wide screens and above it on phones (.ctx-card in globals).
  */
-export default function ArticleContextCard({ what, why, catColor }: Props) {
+export default function ArticleContextCard({ what, why, chart, catColor }: Props) {
   return (
     <dl
       className="ctx-card"
@@ -30,6 +34,12 @@ export default function ArticleContextCard({ what, why, catColor }: Props) {
         <div className="ctx-row">
           <dt className="ctx-label">Pse ndodhi</dt>
           <dd className="ctx-why">{why}</dd>
+        </div>
+      )}
+      {chart && (
+        <div className="ctx-row">
+          <dt className="ctx-label">Si lëvizi</dt>
+          <dd><ArticleChart chart={chart} /></dd>
         </div>
       )}
     </dl>

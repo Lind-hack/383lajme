@@ -222,7 +222,7 @@ export default function ArticleContent({ article, related, sidebarRelated = [], 
             {/* Every article has one. Before the context job has run, or when
                 its line failed the checks, the published excerpt is the answer. */}
             {(article.context?.what || article.excerpt) && (
-              <ArticleContextCard what={article.context?.what || article.excerpt} why={article.context?.why} catColor={catColor} />
+              <ArticleContextCard what={article.context?.what || article.excerpt} why={article.context?.why} chart={article.context?.chart} catColor={catColor} />
             )}
 
             <div style={{ fontSize: "17px", lineHeight: 1.85, color: "#333333" }}>
