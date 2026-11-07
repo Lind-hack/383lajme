@@ -1,3 +1,5 @@
+import sys
+import types
 import unittest
 from unittest.mock import patch
 
@@ -145,7 +147,7 @@ class Media(unittest.TestCase):
 
     def test_photo_never_repeats_the_hero_or_sits_on_a_taken_paragraph(self):
         photo = {"src": "https://upload.wikimedia.org/a.jpg", "credit": "A · CC0", "page": "https://commons.wikimedia.org/wiki/File:A.jpg", "who": "Përparim Rama"}
-        self.assertEqual(nac.chosen_photos([photo], ARTICLE, taken={0}), [])
+        self.assertEqual(nac.chosen_photos([photo], ARTICLE, taken={0})[0]["after"], 1)
         self.assertEqual(nac.chosen_photos([photo], {**ARTICLE, "image_url": photo["src"]}, taken=set()), [])
 
 
@@ -284,7 +286,7 @@ class LiveFailures(unittest.TestCase):
         good = nac.chosen_embeds([{"post": 0, "caption": "Antonelli feston me Toto Wolff."}], posts, article, evidence)
         self.assertEqual(good[0]["caption"], "Antonelli feston me Toto Wolff.")
 
-    def test_one_search_video_per_article(self):
+    def test_two_search_videos_per_article_at_most(self):
         video = {"platform": "youtube", "id": "", "kind": "", "url": "", "author": "FORMULA 1", "text": "Slayyyter hey boyyy"}
         videos = [{**video, "id": f"aaaaaaaaaa{i}", "url": f"https://www.youtube.com/watch?v=aaaaaaaaaa{i}"} for i in range(3)]
         row = {"what": "", "what_quotes": [], "why": "", "why_quotes": [], "subjects": ["Slayyyter"], "media": [], "video_search": "x"}
@@ -294,7 +296,7 @@ class LiveFailures(unittest.TestCase):
              patch.object(nac, "find_videos", return_value=videos), patch.object(nac, "second_look", return_value=second), \
              patch.object(nac, "licensed_photos", return_value=[]):
             got = nac.enrich(article)
-        self.assertEqual(len([m for m in got["media"] if m["platform"] == "youtube"]), 1)
+        self.assertEqual(len([m for m in got["media"] if m["platform"] == "youtube"]), 2)
 
 
 class MixedQuotes(unittest.TestCase):
@@ -324,6 +326,103 @@ class MixedQuotes(unittest.TestCase):
              patch.object(nac, "licensed_photos", return_value=[]):
             got = nac.enrich(article)
         self.assertEqual([m["platform"] for m in got["media"]], ["instagram"])
+
+
+class MoreContext(unittest.TestCase):
+    """2026-11-07: Lind asked for far more photos and video on every article, still only real and licensed."""
+
+    article = {**ARTICLE, "title": "Blue Origin teston Northstar për raketën New Glenn në Humenné",
+               "body": "<p>Blue Origin njoftoi testin.</p><p>Motori Northstar do të zëvendësojë BE-4.</p><p>Raketa New Glenn fluturon nga Florida.</p>",
+               "image_url": ""}
+
+    def photo(self, who, name):
+        return {"src": f"https://upload.wikimedia.org/{name}.jpg", "credit": "A · CC BY 4.0",
+                "page": f"https://commons.wikimedia.org/wiki/File:{name}.jpg", "who": who}
+
+    def test_headline_things_and_places_get_photos_not_only_people(self):
+        got = nac.chosen_photos([self.photo("Blue Origin", "bo"), self.photo("New Glenn", "ng"), self.photo("Humenné", "hu")],
+                                self.article, taken=set())
+        self.assertEqual([p["who"] for p in got], ["Blue Origin", "New Glenn", "Humenné"])
+
+    def test_an_english_spelling_unlike_the_albanian_headline_is_left_out(self):
+        # Texas vs "Teksas": loosening the match would also let London pass for Londrim.
+        article = {**self.article, "title": "Blue Origin teston në Teksas"}
+        self.assertEqual(nac.chosen_photos([self.photo("Texas", "tx")], article, taken=set()), [])
+
+    def test_a_photo_goes_where_the_text_names_it(self):
+        got = nac.chosen_photos([self.photo("New Glenn", "ng")], self.article, taken=set())
+        self.assertEqual(got[0]["after"], 2)
+
+    def test_a_headline_place_the_body_never_names_takes_the_first_free_paragraph(self):
+        got = nac.chosen_photos([self.photo("Humenné", "hu")], self.article, taken={0})
+        self.assertEqual(got[0]["after"], 1)
+
+    def test_a_named_paragraph_that_is_taken_falls_to_the_next_free_one(self):
+        got = nac.chosen_photos([self.photo("New Glenn", "ng")], self.article, taken={2})
+        self.assertEqual(got[0]["after"], 0)
+
+    def test_no_free_paragraph_means_no_photo(self):
+        self.assertEqual(nac.chosen_photos([self.photo("Humenné", "hu")], self.article, taken={0, 1, 2}), [])
+
+    def test_still_nothing_the_headline_does_not_name(self):
+        self.assertEqual(nac.chosen_photos([self.photo("Jeff Bezos", "jb")], self.article, taken=set()), [])
+
+    def test_this_job_asks_only_the_model_that_answers(self):
+        # gemini-2.5-flash answered 429 or 404 to every call on 2026-11-07: two wasted requests each.
+        self.assertEqual(nac.os.environ.get("L383_SOCIAL_MODELS"), "gemini-3.1-flash-lite")
+
+
+class SecondDay(unittest.TestCase):
+    """Real picks from the 2026-11-07 dry run with more media."""
+
+    def test_one_shared_word_of_a_place_is_not_the_place(self):
+        article = {"title": "Imazhi i Londrimit shfaqet në Times Square për ditëlindjen e tij"}
+        busker = {"author": "The Polyglot Photographer", "text": "One Busker Made An Entire London Square Sing Together (Full Video)"}
+        self.assertFalse(nac.video_matches(busker, article, ["Times Square"]))
+        right = {"author": "fan", "text": "Londrim birthday billboard in Times Square"}
+        self.assertTrue(nac.video_matches(right, article, ["Times Square"]))
+
+    def test_a_full_name_in_the_video_title_matches(self):
+        article = {"title": "Antonelli synon fitoren në Brazil pas titullit të F1"}
+        self.assertTrue(nac.video_matches({"author": "FORMULA 1", "text": "Kimi Antonelli Is The F1 World Champion!"}, article, ["Kimi Antonelli"]))
+
+    def test_a_photo_years_older_than_the_story_is_decoration(self):
+        article = {**ARTICLE, "title": "Norris: Përmirësimet e McLarenit në Brazil", "body": "<p>McLaren sjell përmirësime.</p><p>Norris foli.</p>", "image_url": ""}
+        old = {"src": "https://upload.wikimedia.org/Hakkinen_france_2000.jpg", "credit": "A · CC BY-SA 3.0",
+               "page": "https://commons.wikimedia.org/wiki/File:Hakkinen_france_2000.jpg", "who": "McLaren"}
+        new = {"src": "https://upload.wikimedia.org/2026_Chinese_GP_-_McLaren.jpg", "credit": "A · CC BY 4.0",
+               "page": "https://commons.wikimedia.org/wiki/File:2026_Chinese_GP_-_McLaren.jpg", "who": "McLaren"}
+        undated = {"src": "https://upload.wikimedia.org/Lando_Norris.jpg", "credit": "A · CC BY 4.0",
+                   "page": "https://commons.wikimedia.org/wiki/File:Lando_Norris.jpg", "who": "Lando Norris"}
+        got = nac.chosen_photos([old, new, undated], article, taken=set())
+        self.assertEqual([p["src"].rsplit("/", 1)[-1] for p in got], ["2026_Chinese_GP_-_McLaren.jpg", "Lando_Norris.jpg"])
+
+    def test_a_photo_without_a_named_creator_is_refused(self):
+        # video_edition_media falls back to "Wikimedia Commons" when the file names no artist.
+        article = {**ARTICLE, "image_url": ""}
+        photo = {"src": "https://upload.wikimedia.org/r.jpg", "credit": "Wikimedia Commons · CC BY-SA 4.0",
+                 "page": "https://commons.wikimedia.org/wiki/File:R.jpg", "who": "Përparim Rama"}
+        self.assertEqual(nac.chosen_photos([photo], article, taken=set()), [])
+
+    def test_only_the_lead_photo_wikipedia_chose_is_used(self):
+        # Commons "depicts" tags brought a women's handball photo for Bayer 04 Leverkusen's football story.
+        fake = types.SimpleNamespace(
+            wiki_pages=lambda subjects: {"Bayer 04 Leverkusen": {"image": "Leverkusen_logo.svg", "lat": None, "qid": "Q1"},
+                                          "Albin Kurti": {"image": "Albin_Kurti_2022.jpg", "lat": None, "qid": "Q2"}},
+            story_photos=lambda story, subjects, pages: [
+                {"src": "https://upload.wikimedia.org/h.jpg", "file": "File:2023-09-09_Handball,_Bundesliga_Frauen.jpg", "who": "Bayer 04 Leverkusen"},
+                {"src": "https://upload.wikimedia.org/k.jpg", "file": "File:Albin Kurti 2022.jpg", "who": "Albin Kurti"},
+                {"src": "https://upload.wikimedia.org/k2.jpg", "file": "File:Albin_Kurti_rally.jpg", "who": "Albin Kurti"}])
+        with patch.dict(sys.modules, {"video_edition_media": fake}):
+            got = nac.licensed_photos(["Bayer 04 Leverkusen", "Albin Kurti"])
+        self.assertEqual([p["src"] for p in got], ["https://upload.wikimedia.org/k.jpg"])
+
+    def test_file_years_are_read_from_the_name(self):
+        self.assertEqual(nac.file_year("GS-B.Leverkusen_13.2.2008-1.jpg"), 2008)
+        self.assertEqual(nac.file_year("2010_Malaysian_GP_opening_lap.jpg"), 2010)
+        self.assertEqual(nac.file_year("Albin_Kurti_2022.jpg"), 2022)
+        self.assertIsNone(nac.file_year("NS-21_InternPhoto.jpg"))
+        self.assertIsNone(nac.file_year("ITB56439.jpg"))
 
 
 class Checks(unittest.TestCase):

@@ -30,6 +30,11 @@ import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
 
+# gemini-2.5-flash answered 429 or 404 to every call on 2026-11-07, two wasted requests per
+# call before Flash-Lite. Set before clip_scout is imported (it reads this once); the clip
+# scout's own runs are separate processes and keep their setting.
+os.environ.setdefault("L383_SOCIAL_MODELS", "gemini-3.1-flash-lite")
+
 from news_story_attention import linked_posts
 from read_news_source import extract, fetch_public
 
@@ -38,14 +43,15 @@ HEADERS = {"User-Agent": "383ArticleContext/1.0 (https://383ks.com; article cont
 MAX_SOURCES = 4
 MAX_POSTS = 6
 MAX_EMBEDS = 3
-MAX_PHOTOS = 2
+MAX_PHOTOS = 3
+OLDEST_PHOTO_YEARS = 6
 SOURCE_CHARS = 6000
 WHAT_CHARS = 240
 WHY_CHARS = 320
 CAPTION_CHARS = 140
 COPY_RUN = 8  # this many words in a row from a source is copying, not writing
 SEARCH_VIDEOS = 6
-SEARCH_PICKS = 1
+SEARCH_PICKS = 2
 SAME_LINE = 0.7  # a "why" this close to the "what" says nothing new
 SITE = os.environ.get("L383_SITE", "https://383ks.com")
 
@@ -256,13 +262,20 @@ def in_headline(name: str, article: dict) -> bool:
     return bool(parts) and name_stem(parts[-1]) in fold(article.get("title"))
 
 
+def subject_named(subject: str, seen: str) -> bool:
+    """Every distinctive word of the subject, not just its last: "Times Square" is not named by
+    "One Busker Made An Entire London Square Sing Together" (a live pick on 2026-11-07)."""
+    parts = [w for w in re.findall(r"[^\W\d_]+", str(subject or "")) if len(w) >= 4] or str(subject or "").split()[-1:]
+    return bool(parts) and all(name_stem(w) in seen for w in parts)
+
+
 def video_matches(video: dict, article: dict, subjects: list[str]) -> bool:
     """A check in code, because the model cannot be its own referee: it passed "15 Cursed Places
     in London" as footage of a man called Londrim, and a clip of Erjon Malaj, named only in the
     body, for a story about Gonxhja and Zhupa. The video must name a person from the headline,
     or two headline names; one headline word can be a coincidence."""
     seen = fold(f"{video.get('text') or ''} {video.get('author') or ''}")
-    if any(name_stem(s.split()[-1]) in seen for s in subjects if in_headline(s, article)):
+    if any(subject_named(s, seen) for s in subjects if in_headline(s, article)):
         return True
     names = {name_stem(w) for w in re.findall(r"[^\W\d_]{4,}", str(article.get("title") or "")) if w[0].isupper()}
     return sum(1 for name in names if re.search(rf"\b{re.escape(name)}", seen)) >= 2
@@ -303,34 +316,54 @@ def chosen_embeds(picks, posts: list[dict], article: dict, evidence: str = "") -
 
 # ---- photos --------------------------------------------------------------------------------
 
+def file_year(name: str) -> int | None:
+    """The year a Commons file name carries ("Hakkinen_france_2000.jpg"), if any."""
+    years = [int(y) for y in re.findall(r"(?<!\d)(19[5-9]\d|20[0-4]\d)(?!\d)", str(name or ""))]
+    return max(years) if years else None
+
+
 def file_name(src: str) -> str:
     return re.sub(r"^\d+px-", "", str(src or "").split("?")[0].rsplit("/", 1)[-1])
 
 
 def licensed_photos(subjects: list[str]) -> list[dict]:
+    """Each subject's Wikipedia lead photo only: the picture editors chose. Commons "depicts" tags
+    are loose for organisations (a women's handball match for Bayer 04 Leverkusen's football story,
+    Hakkinen's 2000 McLaren), so a subject whose lead image is a logo gets no photo at all."""
     import video_edition_media as media
     try:
-        return media.story_photos({}, subjects, media.wiki_pages(subjects))
+        pages = media.wiki_pages(subjects)
+        leads = {str((page or {}).get("image") or "").replace("_", " ") for page in pages.values()} - {""}
+        photos = media.story_photos({}, subjects, pages)
     except (urllib.error.URLError, OSError, ValueError, KeyError, TypeError) as exc:
         print(f"CONTEXT photos: {exc!r}"[:200], file=sys.stderr)
         return []
+    return [p for p in photos if str(p.get("file") or "").removeprefix("File:").replace("_", " ") in leads]
 
 
 def chosen_photos(photos: list[dict], article: dict, taken: set) -> list[dict]:
-    """A photo appears where the text names its person, never as decoration, never twice."""
+    """A photo of something the headline names (a person, a place, an organisation, a rocket),
+    placed where the text names it, else in the first free paragraph. Never a side character,
+    never twice, never two pictures in one paragraph."""
     texts = [fold(p) for p in paragraphs(article.get("body"))]
     hero = file_name(article.get("image_url"))
     out, people = [], set()
     for photo in photos:
         who, src = str(photo.get("who") or ""), str(photo.get("src") or "")
-        if not who or who in people or not photo.get("credit") or file_name(src) == hero or not in_headline(who, article):
+        credit = str(photo.get("credit") or "")
+        # A named creator, never the "Wikimedia Commons" fallback video_edition_media uses for a file with no artist.
+        if not who or who in people or not credit or credit.startswith("Wikimedia Commons") or file_name(src) == hero or not in_headline(who, article):
             continue
         if not re.match(r"https://(upload|thumb)\.wikimedia\.org/", src) or not str(photo.get("page") or "").startswith("https://commons.wikimedia.org/"):
             continue
-        name = fold(who.split()[-1])
-        name = name[:max(4, len(name) - 2)]
-        at = next((i for i, text in enumerate(texts) if name in text), None)
-        if at is None or at in taken:
+        # Hakkinen's McLaren in 2000 for a 2026 McLaren story is decoration, not context.
+        year = file_year(file_name(src)) or file_year(str(photo.get("page") or ""))
+        if year and year < datetime.now(timezone.utc).year - OLDEST_PHOTO_YEARS:
+            continue
+        name = name_stem(who.split()[-1])
+        free = [i for i in range(len(texts)) if i not in taken]
+        at = next((i for i in free if name in texts[i]), free[0] if free else None)
+        if at is None:
             continue
         taken.add(at)
         people.add(who)
@@ -398,9 +431,11 @@ def prompt(article: dict, evidence: str, posts: list[dict]) -> str:
         "- what_quotes, why_quotes: lists of exact word-for-word phrases, three words or longer, that prove each line. Copy them "
         "character for character in the language they are written in; never translate a quote. At least one why_quote must come "
         "from SOURCES, not from ARTICLE.\n"
-        "- video_search: if the story is about something that exists on video and POSTS does not already show it (a music video, a speech, a "
-        "goal, a press conference), a short YouTube search for that exact video, in the language it would be titled in. Otherwise \"\".\n"
-        "- subjects: up to 3 exact English Wikipedia article titles of the people in the story, no places or countries.\n"
+        "- video_search: a short YouTube search for footage of this exact event (the speech, the match, the launch, the press "
+        "conference, the protest, the music video), in the language it would be titled in. Give one whenever such footage could "
+        "exist, even if POSTS has some. Only \"\" when the story could not have been filmed.\n"
+        "- subjects: up to 4 exact English Wikipedia article titles of what the HEADLINE names: its people, organisations, places, "
+        "buildings, vehicles or events. Never a country, never a person the headline does not name.\n"
         "- media: the posts that help a reader see what happened, as [{\"post\": <number>, \"after_paragraph\": <the [n] it belongs after>, "
         "\"caption\": \"<short Albanian line saying what the post shows>\"}]. Leave out posts that merely repeat the story or are off topic. An empty list is fine.\n"
         "Write in your own words, never in the source's sentences. Never name a news outlet or website. Use only facts in ARTICLE and SOURCES."
@@ -447,7 +482,7 @@ def enrich(article: dict) -> dict | None:
     checks: dict = {}
     card = checked_card(row, article, evidence, checks)
     query = row.get("video_search")
-    subjects = [s for s in row.get("subjects") or [] if isinstance(s, str)][:3] if isinstance(row.get("subjects"), list) else []
+    subjects = [s for s in row.get("subjects") or [] if isinstance(s, str)][:4] if isinstance(row.get("subjects"), list) else []
     videos = find_videos(query) if isinstance(query, str) and query.strip() else []
     videos = [v for v in videos if video_matches(v, article, subjects)]
     picks = row.get("media") if isinstance(row.get("media"), list) else []
@@ -462,7 +497,7 @@ def enrich(article: dict) -> dict | None:
         if card["why"] and look.get("why_supported") is not True:
             card["why"], checks["why"] = "", "second_look_refused"
         found = look.get("videos") if isinstance(look.get("videos"), list) else []
-        # One searched video at most: three F1 clips stacked in one story was noise, not context.
+        # SEARCH_PICKS searched videos at most: three F1 clips stacked in one story was noise, not context.
         picks = picks + [{**v, "post": len(posts) + v["video"]} for v in found
                          if isinstance(v, dict) and isinstance(v.get("video"), int) and not isinstance(v.get("video"), bool)
                          and 0 <= v["video"] < len(videos)][:SEARCH_PICKS]
