@@ -18,7 +18,7 @@ function shown(value: number, unit: string) {
  * and every value is written out, so the chart never rests on length or colour alone.
  */
 export default function ArticleFigures({ figures }: { figures: Figures }) {
-  const high = Math.max(...figures.items.map((i) => i.value));
+  const high = Math.max(...figures.items.map((i) => i.value)) || 1;
   const summary = `${figures.title}: ${figures.items.map((i) => `${i.label} ${shown(i.value, figures.unit)}`).join(", ")}.`;
   return (
     <figure className="ctx-figures" aria-label={summary}>

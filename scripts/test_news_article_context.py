@@ -747,6 +747,14 @@ class EventPosts(unittest.TestCase):
             nac.enrich(ARTICLE)
         look.assert_not_called()
 
+    def test_a_news_outlet_or_tv_account_is_never_a_witness(self):
+        article = {**ARTICLE, "title": "Zjarr i madh në tregun e Gjilanit"}
+        for author, url in (("Klan Kosova", "https://x.com/klankosova/status/1"), ("Breaking News 24", "https://x.com/bn24/status/1"),
+                            ("someone", "https://x.com/gjilani_lajme/status/1"), ("Example", "https://x.com/example/status/1")):
+            post = {"author": author, "url": url, "text": "Zjarri ne tregun e Gjilanit"}
+            self.assertTrue(nac.outlet_account(post, article), author)
+        self.assertFalse(nac.outlet_account({"author": "Arben K.", "url": "https://x.com/arbenk/status/1"}, article))
+
     def test_the_search_asks_around_the_publish_date(self):
         article = {**ARTICLE, "published_at": "2026-11-06T10:00:00+00:00"}
         with patch.object(nac, "read_accounts", return_value=[]) as read:
@@ -760,7 +768,7 @@ class Figures(unittest.TestCase):
     """"Në shifra": a story's own numbers drawn as bars, each one found in the article or a source."""
 
     ROW = {"title": "Tarifa për metër", "unit": "€", "items": [{"label": "Shiriti", "value": 8.5}, {"label": "Puna", "value": 3}],
-           "quotes": ["the fee of 8.50 euro per metre"]}
+           "quotes": ["the fee of 8.50 euro per metre", "Labour adds 3 euro"]}
     TEXT = EVIDENCE + " Labour adds 3 euro."
 
     def test_numbers_from_the_sources_become_bars(self):
@@ -782,3 +790,14 @@ class Figures(unittest.TestCase):
         self.assertTrue(nac.number_in(8.5, "8,5 për qind"))
         self.assertTrue(nac.number_in(45, "45%"))
         self.assertFalse(nac.number_in(12, "1.200"))
+        # A decimal is never read as a whole number: 41.5 is not 415, 8,5 is not 85.
+        self.assertFalse(nac.number_in(415, "41.5 për qind"))
+        self.assertFalse(nac.number_in(85, "8,5 për qind"))
+        self.assertTrue(nac.number_in(1250000, "1,250,000 vota"))
+
+    def test_each_number_must_stand_in_the_quotes_not_anywhere(self):
+        # 3 is in the article ("Kurti", "June" ... and "Labour adds 3 euro"), but no quote holds it.
+        row = {**self.ROW, "quotes": ["the fee of 8.50 euro per metre covers material"]}
+        self.assertIsNone(nac.checked_figures(row, ARTICLE, self.TEXT))
+        row = {**self.ROW, "quotes": ["the fee of 8.50 euro per metre", "Labour adds 3 euro"]}
+        self.assertIsNotNone(nac.checked_figures(row, ARTICLE, self.TEXT))

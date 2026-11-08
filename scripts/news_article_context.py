@@ -37,6 +37,7 @@ from datetime import datetime, timedelta, timezone
 # scout's own runs are separate processes and keep their setting.
 os.environ.setdefault("L383_SOCIAL_MODELS", "gemini-3.1-flash-lite")
 
+from news_social_accounts import clean_query, clean_tag
 from news_story_attention import linked_posts
 from read_news_source import extract, fetch_public
 
@@ -387,8 +388,7 @@ def event_posts(article: dict, search: str, tag: str) -> list[dict]:
     """The most-liked public posts with a photo or video of the event, from anyone: the witness's
     clip, the fan's goal, the photo from the scene. Searched on X, and on an Instagram hashtag
     when the scout's cookie works. Only links and the platform's player: nothing is downloaded."""
-    search = re.sub(r"[^\w\s'-]", " ", str(search or ""))[:80].strip()
-    tag = re.sub(r"\W", "", str(tag or ""))[:40]
+    search, tag = clean_query(search), clean_tag(tag)
     if not search and not tag:
         return []
     published = published_at(article)
@@ -402,6 +402,20 @@ def event_posts(article: dict, search: str, tag: str) -> list[dict]:
             out.append({**ref, **seen, "text": seen.get("text") or str(post.get("text") or "")[:400],
                         "likes": likes if isinstance(likes, int) and not isinstance(likes, bool) else 0, "witness": True})
     return out
+
+
+NEWS_WORDS = {"news", "lajme", "lajmi", "tv", "media", "press", "breaking", "daily", "times", "post", "channel", "radio",
+              "info", "portal", "gazeta", "televizioni", "rtk", "klan", "kanal", "telegrafi", "koha", "insajderi", "nacionale"}
+
+
+def outlet_account(post: dict, article: dict) -> bool:
+    """A news outlet's post is their reporting, not a witness's footage, and its name would
+    stand in our caption. Its display name or handle gives it away; the second look is the
+    second net, not the only one."""
+    handle = re.sub(r"^https://(?:x\.com|www\.instagram\.com|www\.tiktok\.com/@)/?", "", str(post.get("url") or "")).split("/")[0]
+    names = f"{post.get('author') or ''} {handle}"
+    tokens = set(re.findall(r"[a-z0-9]+", fold(names).replace("_", " ")))
+    return bool(tokens & (NEWS_WORDS | outlet_words(article)))
 
 
 def event_post_on_topic(post: dict, article: dict) -> bool:
@@ -648,7 +662,8 @@ def enrich(article: dict) -> dict | None:
     videos = [v for v in videos if video_matches(v, article, subjects)]
     # The headline person's own posts: their account is the proof of who, the second look judges what.
     own = [p for p in account_posts(subjects, article) if own_post_on_topic(p, article, subjects)]
-    witness = [p for p in event_posts(article, row.get("social_search"), row.get("hashtag")) if event_post_on_topic(p, article)]
+    witness = [p for p in event_posts(article, row.get("social_search"), row.get("hashtag"))
+               if event_post_on_topic(p, article) and not outlet_account(p, article)]
     candidates = videos + own + witness
     picks = row.get("media") if isinstance(row.get("media"), list) else []
     # A titled post from a source page answers to the same check as a searched video.
@@ -666,9 +681,9 @@ def enrich(article: dict) -> dict | None:
                  and 0 <= v["video"] < len(candidates)]
         # Each source capped: three F1 clips stacked in one story was noise, not context.
         searched = [v for v in valid if v["video"] < len(videos)][:SEARCH_PICKS]
-        theirs = [v for v in valid if len(videos) <= v["video"] < len(videos) + len(own)][:ACCOUNT_PICKS]
-        seen_there = [v for v in valid if v["video"] >= len(videos) + len(own)][:WITNESS_PICKS]
-        picks = picks + [{**v, "post": len(posts) + v["video"]} for v in searched + theirs + seen_there]
+        own_picks = [v for v in valid if len(videos) <= v["video"] < len(videos) + len(own)][:ACCOUNT_PICKS]
+        witness_picks = [v for v in valid if v["video"] >= len(videos) + len(own)][:WITNESS_PICKS]
+        picks = picks + [{**v, "post": len(posts) + v["video"]} for v in searched + own_picks + witness_picks]
     media = chosen_embeds(picks, posts + candidates, article, evidence)
     if subjects:
         media += chosen_photos(licensed_photos(subjects), article, {m["after"] for m in media})
@@ -687,9 +702,12 @@ def enrich(article: dict) -> dict | None:
 
 def number_in(value: float, text: str) -> bool:
     """Is this number written in the text, either way: 1.200 or 1,200 for a thousand two
-    hundred, 8,5 or 8.5 for eight and a half."""
+    hundred, 8,5 or 8.5 for eight and a half. Separators are dropped only between groups of
+    three digits, so 41.5 is never read as 415."""
     for token in re.findall(r"\d+(?:[.,]\d+)*", str(text or "")):
-        readings = {token.replace(",", "").replace(".", "")}
+        readings = {token} if token.isdigit() else set()
+        if re.fullmatch(r"\d{1,3}(?:[.,]\d{3})+", token):
+            readings.add(re.sub(r"[.,]", "", token))
         for mark, other in ((".", ","), (",", ".")):
             if token.count(mark) == 1:  # the last separator read as the decimal point
                 readings.add(token.replace(other, "").replace(mark, "."))
@@ -708,6 +726,9 @@ def checked_figures(row, article: dict, evidence: str) -> dict | None:
     known = article_text(article) + " " + evidence
     if not quoted(row.get("quotes"), known):
         return None
+    # Each number must stand in a quote that was found in the sources, not just anywhere:
+    # a label paired with a number from another sentence would be a made-up comparison.
+    proof = " ".join(q for q in row["quotes"] if isinstance(q, str))
     title, unit = str(row.get("title") or "").strip(), str(row.get("unit") or "").strip()
     items = []
     for item in row["items"]:
@@ -716,7 +737,7 @@ def checked_figures(row, article: dict, evidence: str) -> dict | None:
         label, value = str(item.get("label") or "").strip(), item.get("value")
         if not label or len(label) > FIGURE_LABEL_CHARS or isinstance(value, bool) or not isinstance(value, (int, float)):
             return None
-        if value < 0 or not number_in(value, known) or not names_known(label, known):
+        if value < 0 or not number_in(value, proof) or not names_known(label, known):
             return None
         items.append({"label": label, "value": value})
     low, high = FIGURE_ITEMS

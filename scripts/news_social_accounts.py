@@ -28,6 +28,15 @@ MIN_LIKES = 50  # some reach: a post nobody saw is rarely the moment readers wan
 SEARCH_KEEP = 8
 
 
+def clean_query(text) -> str:
+    """Plain words only: no search operators can be smuggled in from a model's answer."""
+    return re.sub(r"[^\w\s'-]", " ", str(text or ""))[:80].strip()
+
+
+def clean_tag(text) -> str:
+    return re.sub(r"\W", "", str(text or ""))[:40]
+
+
 def stamp(value) -> str:
     when = value if isinstance(value, datetime) else None
     if when is None:
@@ -183,8 +192,8 @@ def main() -> int:
     since, until = datetime.fromisoformat(ask["since"]), datetime.fromisoformat(ask["until"])
     x = [n for n in ask.get("x") or [] if USERNAME.fullmatch(str(n))][:3]
     ig = [n for n in ask.get("ig") or [] if USERNAME.fullmatch(str(n))][:3]
-    search = [re.sub(r"[^\w\s'-]", " ", str(q))[:80].strip() for q in ask.get("search") or []][:2]
-    tags = [t for t in (re.sub(r"\W", "", str(t))[:40] for t in ask.get("tags") or []) if t][:2]
+    search = [clean_query(q) for q in ask.get("search") or []][:2]
+    tags = [t for t in map(clean_tag, ask.get("tags") or []) if t][:2]
     posts = (asyncio.run(read_x(x)) if x else []) + (read_ig(ig) if ig else [])
     found = (asyncio.run(search_x([q for q in search if q], since, until)) if any(search) else []) + (read_ig_tags(tags) if tags else [])
     print(json.dumps(in_window(posts, since, until) + most_liked(in_window(found, since, until))[:SEARCH_KEEP], ensure_ascii=False))
