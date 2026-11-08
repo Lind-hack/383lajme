@@ -7,11 +7,12 @@ talking about; this module turns one story's clips into one fast vertical edit:
 - no narrator: the original sound of each moment carries it;
 - short credited excerpts (a few seconds each, never most of a long clip), each with
   "@creator · Platform" on screen while it plays;
-- a hook line on top for the first seconds, hard punch-ins and quick transitions on the
-  cuts, one or two of Lind's film burns, a whoosh on each change;
+- the strongest moment first, then the rest of that moment, each piece a whole sentence or
+  reaction; plain near-hard cuts, steady framing, no burns, no whooshes, no closing card
+  (Lind, 2026-11-08: the moment carries the cut, effects only got in its way);
 - word-by-word Albanian captions of what is said (Whisper on Groq): Albanian speech as it is
   heard, other languages translated; nothing shown where Whisper is unsure;
-- a closing card with a question for the viewer.
+- a small 383 logo top right while it plays.
 
 The choice of moments, the hook and the closing question come from the model (Groq), from
 the transcript and loudness of every stretch of every clip; when it cannot be asked, the
@@ -36,18 +37,15 @@ import uuid
 from pathlib import Path
 
 W, H, FPS = 1080, 1920, 30
-XF = 0.2                 # seconds two pieces overlap in a transition
-END = 1.8                # the closing card
+XF = 0.06                # seconds two pieces overlap: a near-hard cut, softened only enough not to click
 MIN_PIECE, MAX_PIECE = 1.4, 6.5
-TOTAL = (14.0, 30.0)     # what an edit runs, closing card aside
+TOTAL = (14.0, 30.0)     # what an edit runs
 MIN_TOTAL = 6.0          # shorter than this, the model's choice is not taken
 SHORT_SOURCE = 20.0      # a clip shorter than this may give most of itself...
 SHARE_LONG = 0.5         # ...a longer one at most this share (excerpts, not the clip)
 SHARE_SHORT = 0.8
-PUNCH = (1.0, 1.16, 1.0, 1.28, 1.08)   # hard punch-ins, piece by piece
-WIDE_PUNCH = (1.0, 1.4, 1.15, 1.6, 1.0)  # a landscape clip fills more of the upright frame as it punches
-TRANSITIONS = ("fadewhite", "zoomin", "slideleft", "smoothup", "hblur", "slideright", "circleopen")
-MAX_BURNS = 2
+PUNCH = (1.0,)          # an upright clip as it was filmed: no punch-ins
+WIDE_PUNCH = (1.15,)    # a landscape clip, a little larger than its width over its own blur, the same every piece
 ORANGE = "&H002244FF"     # 383's #FF4422, in ASS's blue-green-red order
 LIBRARY = Path(os.environ.get("L383_EDITION_LIBRARY", "/opt/data/video-edition/library"))
 FONT_URL = "https://github.com/google/fonts/raw/main/ofl/anton/Anton-Regular.ttf"   # SIL OFL
@@ -60,7 +58,6 @@ MARK = Path(__file__).resolve().parent / "assets" / "383-mark.png"   # the 383 l
 WHISPER = os.environ.get("L383_CUT_WHISPER", "whisper-large-v3")
 HEADERS = {"User-Agent": "383ViralCut/1.0 (https://383ks.com)"}
 # The library's sounds sit this far under the clip's own sound (-14 LUFS after loudnorm).
-LEVELS = {"whoosh": -16, "swish": -16, "impact": -12, "burn": -14, "pop": -15, "sting": -12}
 KICKERS = ("Ti çfarë mendon?", "Kush ka të drejtë?", "E pe deri në fund?", "Po ti si do reagoje?")
 ALBANIAN = {"albanian", "sq", "sqi", "alb"}
 PLATFORMS = {"tiktok": "TikTok", "x": "X", "instagram": "Instagram", "youtube": "YouTube"}
@@ -313,6 +310,8 @@ def plan_cut(story: str, sources: list[dict], analyses: list[dict], key: str, wo
             return {**plan, "skip": "the video does not show what its post is about"}
         if got.get("context") is not True:
             return {**plan, "skip": "the clip does not make sense on its own"}
+        if got.get("strong") is False:
+            return {**plan, "skip": "nothing in the clip grabs a viewer: a better one may come"}
         by_id = {u["id"]: u for u in units}
         hook = str(got.get("hook") or "")
         if hook not in by_id:
@@ -451,9 +450,12 @@ def watch(src: dict, a: dict, units: list[dict], work: Path) -> dict | None:
         "- context: true only if a viewer who sees just this clip understands who is doing what (false for a "
         "compilation of unrelated moments, a clip whose text is about something else, or one that needs the full show "
         "to follow).\n"
-        "- hook: the id of the stretch where that moment happens: it plays first, in the first second.\n"
+        "- strong: true only if something happens a viewer would stop scrolling for: a surprise, a clash, a funny or "
+        "emotional moment, a big reaction, a great goal or performance; false for a calm talk, a static scene or an ad.\n"
+        "- hook: the id of the stretch with the strongest instant of that moment: it plays first, in the first second.\n"
         "- pieces: the ids to play, in order, starting with hook: only stretches of that same moment (what leads to it, "
-        "the reaction), 2 to 6 of them, 10 to 30 seconds in all; leave out unrelated parts, intros, ads and outros.\n"
+        "the reaction), 2 to 5 of them, 10 to 30 seconds in all. Keep every sentence and reaction whole: never end a "
+        "piece in the middle of what someone says. Leave out unrelated parts, intros, ads and outros.\n"
         "- title: in standard Albanian, 3 to 8 words, what happens in it; nothing the video and post do not show.\n"
         "- kicker: a question to the viewer in Albanian, at most 6 words.\n"
         "- origin: the TV show or event the footage is from if it is clear (e.g. \"Big Brother VIP Kosova\"), else \"\".\n"
@@ -462,7 +464,7 @@ def watch(src: dict, a: dict, units: list[dict], work: Path) -> dict | None:
         "- area: [ymin, xmin, ymax, xmax] from 0 to 1000 of the real footage, leaving out banners, text bars, logos "
         "bars and borders a page added around it; [0, 0, 1000, 1000] if there are none.\n"
         "- sq: for each chosen stretch whose words are not Albanian, what is said in natural Albanian.\n"
-        "Reply with only JSON: {\"shows\": true, \"context\": true, \"hook\": \"u0b\", \"pieces\": [\"u0b\", \"u0c\"], "
+        "Reply with only JSON: {\"shows\": true, \"context\": true, \"strong\": true, \"hook\": \"u0b\", \"pieces\": [\"u0b\", \"u0c\"], "
         "\"title\": \"...\", \"kicker\": \"...\", \"origin\": \"\", \"subtitles\": false, \"area\": [0, 0, 1000, 1000], \"sq\": {}}"
     )
     data = base64.b64encode(small.read_bytes()).decode()
@@ -510,6 +512,18 @@ def timeline(pieces: list[dict]) -> list[float]:
         starts.append(round(t, 3))
         t += p["len"] - XF
     return starts
+
+
+def transition(k: int) -> str:
+    """Every change of piece is a plain near-hard cut: Lind found the zooms, slides and white
+    flashes overwhelming (2026-11-08)."""
+    return "fade"
+
+
+def cut_length(pieces: list[dict]) -> float:
+    """The whole cut: the moment ends it, there is no closing card."""
+    starts = timeline(pieces)
+    return round(starts[-1] + pieces[-1]["len"], 3)
 
 
 def caption_events(pieces: list[dict], starts: list[float], analyses: list[dict], sq: dict) -> list[tuple[float, float, str]]:
@@ -569,9 +583,9 @@ def caption_events(pieces: list[dict], starts: list[float], analyses: list[dict]
 
 
 def ass_doc(pieces: list[dict], starts: list[float], total: float, plan: dict, captions: list, font: str) -> str:
-    """The words on the cut: what is said (only where the clip has no subtitles of its own), the
-    source in a quiet pill top left while each piece plays, and the closing question under the logo.
-    Nothing on top: the moment itself is the hook, and the 383 logo (drawn by build) is the brand."""
+    """The words on the cut: what is said (only where the clip has no subtitles of its own) and the
+    source in a quiet pill top left while each piece plays. Nothing on top and no closing question:
+    the moment itself is the hook, and the small 383 logo (drawn by build) is the brand."""
     style = ("Style: {name},{font},{size},&H00FFFFFF,&H00FFFFFF,{outc},{back},0,0,0,0,100,100,{spacing},0,{border},{outline},{shadow},"
              "{align},{ml},{mr},{mv},1")
     styles = [
@@ -579,10 +593,8 @@ def ass_doc(pieces: list[dict], starts: list[float], total: float, plan: dict, c
                      align=2, ml=140, mr=140, mv=470),
         style.format(name="Credit", font=font, size=38, outc="&H8C000000", back="&H8C000000", spacing=2, border=3, outline=12, shadow=0,
                      align=7, ml=150, mr=420, mv=166),
-        style.format(name="Kicker", font=font, size=112, outc="&H00000000", back="&H00000000", spacing=1, border=1, outline=0, shadow=0,
-                     align=8, ml=160, mr=160, mv=0),
     ]
-    end_at = total - END
+    end_at = total
     ev = [("Cap", s, min(e, end_at), text) for s, e, text in captions]
     for p, at in zip(pieces, starts):
         who = f"@{p['author']} · {PLATFORMS.get(p['platform'], p['platform'])}" if p.get("author") else ""
@@ -591,9 +603,7 @@ def ass_doc(pieces: list[dict], starts: list[float], total: float, plan: dict, c
             line = who
         if line:
             ev.append(("Credit", at + (XF if at else 0), min(at + p["len"], end_at), "{\\fad(160,0)}" + ass_text(line)))
-    ev.append(("Kicker", end_at + 0.25, total, "{\\pos(540,1060)\\fad(200,0)\\fscx88\\fscy88\\t(0,260,\\fscx100\\fscy100)}"
-                                               + ass_text(plan["kicker"]).upper()))
-    events = "\n".join(f"Dialogue: {9 if st == 'Kicker' else 5},{ts(s)},{ts(e)},{st},,0,0,0,,{text}"
+    events = "\n".join(f"Dialogue: 5,{ts(s)},{ts(e)},{st},,0,0,0,,{text}"
                        for st, s, e, text in ev if e - s > 0.04)
     return ("[Script Info]\nScriptType: v4.00+\nPlayResX: 1080\nPlayResY: 1920\nWrapStyle: 0\nScaledBorderAndShadow: yes\n\n"
             "[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, "
@@ -602,7 +612,7 @@ def ass_doc(pieces: list[dict], starts: list[float], total: float, plan: dict, c
             "Effect, Text\n" + events + "\n")
 
 
-# ── The library: burns, sounds, the font ─────────────────────────────────────
+# ── The library: music beds, the font ─────────────────────────────────────────────
 
 def load_library(root: Path = LIBRARY) -> dict:
     try:
@@ -629,17 +639,7 @@ def font_dir(root: Path = LIBRARY) -> tuple[Path, str]:
     return fonts, FONT_FAMILY if target.exists() else "DejaVu Sans"
 
 
-def pick_sound(lib: dict, kind: str, n: int) -> dict | None:
-    sounds = [o for o in (lib.get("sfx") or {}).get(kind) or [] if o.get("file")]
-    return sounds[n % len(sounds)] if sounds else None
-
-
-def gain(o: dict, kind: str) -> float:
-    lufs = o.get("lufs")
-    return round(-14 + LEVELS.get(kind, -16) - (lufs if isinstance(lufs, (int, float)) else -20), 1)
-
-
-# ── Rendering (one ffmpeg run: pieces, transitions, burns, words, sound) ─────
+# ── Rendering (one ffmpeg run: pieces, cuts, words, sound) ───────────────────
 
 def fill(i: int, p: dict, a: dict, area: tuple | None = None) -> str:
     """Piece i's picture as an upright 1080x1920: an upright clip fills the frame (punched in);
@@ -680,7 +680,7 @@ def build(plan: dict, sources: list[dict], analyses: list[dict], work: Path, lib
     root = Path(lib.get("root") or LIBRARY)
     fonts, font = font_dir(root)
     starts = timeline(pieces)
-    total = round(starts[-1] + pieces[-1]["len"] - XF + END, 3)
+    total = cut_length(pieces)
     captions = caption_events(pieces, starts, analyses, plan.get("sq") or {}) if plan.get("captions", True) else []
     (work / "cut.ass").write_text(ass_doc(pieces, starts, total, plan, captions, font), encoding="utf-8")
 
@@ -691,8 +691,7 @@ def build(plan: dict, sources: list[dict], analyses: list[dict], work: Path, lib
         else:
             args += ["-ss", f"{p['start']:.3f}", "-t", f"{p['len'] + 0.1:.3f}", "-i", p["file"]]
     n = len(pieces)
-    args += ["-f", "lavfi", "-t", f"{END + 0.1:.2f}", "-i", f"color=c=0x16130F:s={W}x{H}:r={FPS}"]
-    nxt = n + 1
+    nxt = n
     graph, cuts = [], []
     for i, p in enumerate(pieces):
         a = analyses[p["src"]]
@@ -702,56 +701,15 @@ def build(plan: dict, sources: list[dict], analyses: list[dict], work: Path, lib
                          f"afade=t=in:d=0.04,afade=t=out:st={max(0, p['len'] - 0.06):.3f}:d=0.06[a{i}]")
         else:
             graph.append(f"anullsrc=r=48000:cl=stereo,atrim=duration={p['len']:.3f}[a{i}]")
-    graph.append(f"[{n}:v]format=yuv420p,setsar=1,trim=duration={END:.3f},setpts=PTS-STARTPTS,fps={FPS}[v{n}]")
-    graph.append(f"anullsrc=r=48000:cl=stereo,atrim=duration={END:.3f}[a{n}]")
     vcur, acur, t = "v0", "a0", pieces[0]["len"]
-    lens = [p["len"] for p in pieces] + [END]
-    for k in range(1, n + 1):
-        kind = "fade" if k == n else TRANSITIONS[(rng + k) % len(TRANSITIONS)] if k > 1 else "fadewhite"
+    lens = [p["len"] for p in pieces]
+    for k in range(1, n):
         off = t - XF
-        graph.append(f"[{vcur}][v{k}]xfade=transition={kind}:duration={XF}:offset={off:.3f}[x{k}]")
+        graph.append(f"[{vcur}][v{k}]xfade=transition={transition(k)}:duration={XF}:offset={off:.3f}[x{k}]")
         graph.append(f"[{acur}][a{k}]acrossfade=d={XF}:c1=tri:c2=tri[y{k}]")
         cuts.append(round(off + XF / 2, 3))
         vcur, acur, t = f"x{k}", f"y{k}", t + lens[k] - XF
-    # Film burns over the strongest cuts (the first, then the middle), their flash on the cut.
-    burns = [b for b in lib.get("burns") or [] if b.get("file") and (root / b["file"]).exists()]
-    sound_at: list[tuple[str, float]] = [("impact", 0.0)]
-    used_burns = []
-    if burns:
-        for at in [cuts[0]] + ([cuts[len(cuts) // 2]] if len(cuts) > 3 else []):
-            if len(used_burns) >= MAX_BURNS:
-                break
-            b = burns[(rng + len(used_burns) * 7) % len(burns)]
-            peak = float(b.get("peak") or 0.5)
-            start = at - peak
-            skip = max(0.0, -start)
-            span = min(float(b.get("duration") or 2.0) - skip, 2.2)
-            if span < 0.4:
-                continue
-            args += ["-ss", f"{skip:.3f}", "-t", f"{span:.3f}", "-i", str(root / b["file"])]
-            graph.append(f"[{nxt}:v]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},format=gbrp,setsar=1,"
-                         f"setpts=PTS-STARTPTS,tpad=start_duration={max(0.0, start):.3f}:color=black[burn{len(used_burns)}]")
-            used_burns.append(at)
-            nxt += 1
-    if used_burns:
-        graph.append(f"[{vcur}]format=gbrp[gb0]")
-        for j in range(len(used_burns)):
-            graph.append(f"[gb{j}][burn{j}]blend=all_mode=screen:eof_action=pass:shortest=0[gb{j + 1}]")
-        graph.append(f"[gb{len(used_burns)}]format=yuv420p[vb]")
-        vcur = "vb"
-    for at in cuts[:-1]:
-        sound_at.append(("whoosh", max(0.0, at - 0.25)))
-    sound_at.append(("pop", total - END + 0.1))
     sfx = []
-    for j, (kind, at) in enumerate(sound_at):
-        o = pick_sound(lib, kind, rng + j) or (pick_sound(lib, "swish", j) if kind == "whoosh" else None)
-        if not o or not (root / o["file"]).exists():
-            continue
-        args += ["-i", str(root / o["file"])]
-        ms = int(at * 1000)
-        graph.append(f"[{nxt}:a]aformat=sample_rates=48000:channel_layouts=stereo,volume={gain(o, kind)}dB,adelay={ms}|{ms}[s{j}]")
-        sfx.append(f"[s{j}]")
-        nxt += 1
     # Photos only (a star's photo post): no sound of their own, so one of the bright beds carries them.
     beds = [o for o in (lib.get("music") or {}).get("bright") or [] if o.get("file") and (root / o["file"]).exists()]
     if beds and not any(analyses[p["src"]].get("audio") and not p.get("photo") for p in pieces):
@@ -766,18 +724,13 @@ def build(plan: dict, sources: list[dict], analyses: list[dict], work: Path, lib
         graph.append(f"[an]{''.join(sfx)}amix=inputs={len(sfx) + 1}:normalize=0:duration=first,alimiter=limit=0.95[aout]")
     else:
         graph.append("[an]alimiter=limit=0.95[aout]")
-    # The 383 logo: small, top right, with a soft shadow so it reads on any picture; large on the closing card.
+    # The 383 logo: small, top right, with a soft shadow so it reads on any picture. Nothing at the end.
     if MARK.exists():
-        end_at = total - END
         args += ["-loop", "1", "-framerate", str(FPS), "-t", f"{total + 0.2:.3f}", "-i", str(MARK)]
-        graph.append(f"[{nxt}:v]format=rgba,split=2[lm0][lm1]")
-        graph.append("[lm0]scale=168:-1,pad=iw+28:ih+28:14:14:color=black@0,split=2[la][lb];"
-                     "[lb]colorchannelmixer=rr=0:gg=0:bb=0:aa=0.55,boxblur=9:1[lsh];[lsh][la]overlay=0:0,"
-                     f"fade=t=out:st={max(0.0, end_at - 0.2):.3f}:d=0.2:alpha=1[lsm]")
-        graph.append(f"[lm1]scale=420:-1,fade=t=in:st={end_at + 0.05:.3f}:d=0.35:alpha=1[lbig]")
+        graph.append(f"[{nxt}:v]format=rgba,scale=168:-1,pad=iw+28:ih+28:14:14:color=black@0,split=2[la][lb];"
+                     "[lb]colorchannelmixer=rr=0:gg=0:bb=0:aa=0.55,boxblur=9:1[lsh];[lsh][la]overlay=0:0[lsm]")
         graph.append(f"[{vcur}][lsm]overlay=x=W-w-136:y=136:eof_action=pass[lo1]")
-        graph.append(f"[lo1][lbig]overlay=x=(W-w)/2:y=800:eof_action=pass[lo2]")
-        vcur = "lo2"
+        vcur = "lo1"
         nxt += 1
     graph.append(f"[{vcur}]ass=cut.ass:fontsdir='{fonts.as_posix().replace(':', chr(92) + ':')}',split=2[vh][vs0]")
     graph.append("[vs0]scale=720:1280:flags=lanczos[vs]")

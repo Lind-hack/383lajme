@@ -105,6 +105,10 @@ class PlanTests(unittest.TestCase):
         self.assertIn("sense", self.watched(shows=True, context=False, hook="u0a")[0]["skip"])
         self.assertIn("not found", self.watched(shows=True, context=True, hook="nope")[0]["skip"])
 
+    def test_a_clip_where_nothing_grabs_is_not_cut(self):
+        # Lind wants the cuts engaging: a calm talk or a static scene is left for a better clip.
+        self.assertIn("nothing", self.watched(shows=True, context=True, strong=False, hook="u0a")[0]["skip"])
+
     def test_a_clip_that_could_not_be_watched_waits_for_the_next_run(self):
         plan = vc.plan_cut("x", [{"file": "missing.mp4", "caption": "", "author": "a", "platform": "tiktok"}], [clip()], key="",
                            work=Path("."), look=None) if not vc.gemini_keys() else {"skip": "w", "retry": True}
@@ -137,6 +141,17 @@ class CaptionTests(unittest.TestCase):
     def test_pieces_overlap_by_the_transition(self):
         self.assertEqual(vc.timeline(self.pieces()), [0.0, round(2.55 - vc.XF, 3)])
 
+    def test_cuts_are_plain_and_the_moment_ends_the_cut(self):
+        # Lind, 2026-11-08: no flashy transitions, no closing card; a cut is near-hard, as viral edits are.
+        self.assertLessEqual(vc.XF, 0.1)
+        self.assertEqual({vc.transition(k) for k in range(1, 9)}, {"fade"})
+        p = self.pieces()
+        self.assertAlmostEqual(vc.cut_length(p), vc.timeline(p)[-1] + p[-1]["len"], places=3)
+
+    def test_the_framing_holds_still(self):
+        self.assertEqual(len(set(vc.PUNCH)), 1)
+        self.assertEqual(len(set(vc.WIDE_PUNCH)), 1)
+
     def test_albanian_is_shown_word_by_word_with_the_word_said_in_orange(self):
         p = self.pieces()
         events = vc.caption_events(p, vc.timeline(p), [clip()], {})
@@ -156,7 +171,7 @@ class CaptionTests(unittest.TestCase):
         events = vc.caption_events(p, vc.timeline(p), [clip(speech=speech(language="english"))], {"u0a": "Nuk e prisja fare këtë"})
         self.assertEqual([t for _, _, t in events], ["NUK E PRISJA FARE KËTË"])
 
-    def test_no_words_on_top_the_source_top_left_and_the_closing_question(self):
+    def test_no_words_on_top_the_source_top_left_and_no_closing_question(self):
         p = self.pieces()
         doc = vc.ass_doc(p, vc.timeline(p), 7.0, {"title": "Sherr i madh", "kicker": "Kush ka {të} drejtë?", "origin": "BBVK Kosova"},
                          [], "Anton")
@@ -164,8 +179,9 @@ class CaptionTests(unittest.TestCase):
         self.assertIn("BBVK Kosova · @a · TikTok", doc)
         credit = next(line for line in doc.splitlines() if line.startswith("Style: Credit"))
         self.assertEqual(credit.split(",")[18], "7")              # ASS alignment 7: top left
-        self.assertIn("KUSH KA TË DREJTË?", doc)
-        self.assertNotIn("{të}", doc)
+        # Lind, 2026-11-08: no closing card, no question burnt in at the end: the moment ends the cut.
+        self.assertNotIn("KUSH KA", doc)
+        self.assertNotIn("Style: Kicker", doc)
         self.assertFalse(any(ch in doc for ch in "\f\t\b\x0b"), "an ASS tag lost its backslash")
         self.assertIn("\\fad(", doc)
 
