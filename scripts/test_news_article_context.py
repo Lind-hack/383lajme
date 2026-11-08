@@ -732,7 +732,7 @@ class EventPosts(unittest.TestCase):
         seen = [{"platform": "x", "id": str(i), "kind": "", "url": f"https://x.com/someone/status/{i}", "author": "someone",
                  "text": "Shiriti i Rames ne Prishtine sot", "likes": 900 - i, "witness": True} for i in range(1, 5)]
         row = {"what": "", "what_quotes": [], "why": "", "why_quotes": [], "subjects": [], "media": [], "video_search": "",
-               "social_search": "shiriti Prishtine", "hashtag": ""}
+               "social_search": "shiriti Prishtine"}
         second = {"videos": [{"video": i, "after_paragraph": i} for i in range(4)]}
         with patch.object(nac, "gather", return_value=(EVIDENCE, [])), patch.object(nac, "ask", return_value=row),              patch.object(nac, "event_posts", return_value=seen), patch.object(nac, "second_look", return_value=second) as look,              patch.object(nac, "licensed_photos", return_value=[]):
             got = nac.enrich(article)
@@ -758,9 +758,10 @@ class EventPosts(unittest.TestCase):
     def test_the_search_asks_around_the_publish_date(self):
         article = {**ARTICLE, "published_at": "2026-11-06T10:00:00+00:00"}
         with patch.object(nac, "read_accounts", return_value=[]) as read:
-            REAL_EVENT_POSTS(article, "zjarr Gjilan", "gjilani")
+            REAL_EVENT_POSTS(article, "zjarr Gjilan")
         ask = read.call_args.args[0]
-        self.assertEqual((ask["search"], ask["tags"], ask["x"], ask["ig"]), (["zjarr Gjilan"], ["gjilani"], [], []))
+        self.assertEqual((ask["search"], ask["x"], ask["ig"]), (["zjarr Gjilan"], [], []))
+        self.assertNotIn("tags", ask)
         self.assertTrue(ask["since"].startswith("2026-11-04") and ask["until"].startswith("2026-11-07"))
 
 

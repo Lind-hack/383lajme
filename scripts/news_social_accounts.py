@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Recent public posts by named official accounts, and the most-liked posts with a photo or
-video of an event, for the article context job.
+video of an event, for the article context job. X through the clip scout's account (twscrape);
+Instagram through Meta's official API with our own professional account's token.
 
 Runs inside the clip scout's environment (twscrape and instaloader live there, with its spare
 accounts' cookies in /opt/data/clip-scout); news_article_context.py calls it as a subprocess.
 Reads only. Input on stdin: {"x": [usernames], "ig": [usernames], "search": [X queries],
-"tags": [Instagram hashtags], "since": iso, "until": iso}.
+"since": iso, "until": iso}.
 Output on stdout: [{"url", "date", "text", "author", "likes"?}], posts between since and until;
 searched posts most liked first.
 A platform that fails (expired cookie, rate limit) gives no posts and one line on stderr.
@@ -17,7 +18,9 @@ import json
 import os
 import re
 import sys
+import urllib.error
 import urllib.parse
+import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -32,10 +35,6 @@ SEARCH_KEEP = 8
 def clean_query(text) -> str:
     """Plain words only: no search operators can be smuggled in from a model's answer."""
     return re.sub(r"[^\w\s'-]", " ", str(text or ""))[:80].strip()
-
-
-def clean_tag(text) -> str:
-    return re.sub(r"\W", "", str(text or ""))[:40]
 
 
 def stamp(value) -> str:
@@ -99,27 +98,36 @@ def most_liked(posts: list[dict]) -> list[dict]:
     return out
 
 
-def ig_app_post(m: dict) -> dict | None:
-    """A media from Instagram's app reply as a post link: a reel for a video, a post otherwise."""
-    code = str(m.get("code") or "")
-    if not re.fullmatch(r"[\w-]{5,40}", code):
+GRAPH = "https://graph.facebook.com/v27.0"
+GRAPH_FIELDS = "username,media.limit({n}){{permalink,timestamp,caption,like_count,media_type,username}}"
+
+
+def meta_config() -> dict | None:
+    """The token and our own professional Instagram account's id, installed by ctx.sh meta."""
+    try:
+        config = json.loads((HOME / "meta-instagram.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
         return None
-    taken = m.get("taken_at")
-    likes = m.get("like_count")
-    return {"url": f"https://www.instagram.com/{'reel' if m.get('media_type') == 2 else 'p'}/{code}/",
-            "date": stamp(datetime.fromtimestamp(int(taken), timezone.utc)) if isinstance(taken, (int, float)) else "",
-            "text": str((m.get("caption") or {}).get("text") or "")[:400], "author": str((m.get("user") or {}).get("username") or "")[:80],
-            "likes": likes if isinstance(likes, int) and not isinstance(likes, bool) else 0}
+    return config if isinstance(config, dict) and config.get("token") and config.get("ig_user_id") else None
 
 
-def ig_app_posts(reply) -> list[dict]:
-    from clip_scout import ig_medias  # every layout Instagram's app reply hides medias in
-    seen, out = set(), []
-    for m in ig_medias(reply):
-        if (post := ig_app_post(m)) and post["url"] not in seen:
-            seen.add(post["url"])
-            out.append(post)
-    return out
+def discovery_url(ig_user_id: str, login: str, token: str) -> str:
+    fields = f"business_discovery.username({login}){{{GRAPH_FIELDS.format(n=PER_ACCOUNT)}}}"
+    return f"{GRAPH}/{ig_user_id}?fields={urllib.parse.quote(fields)}&access_token={token}"
+
+
+def graph_post(media: dict) -> dict | None:
+    """A post from Meta's business_discovery reply as a post link."""
+    url = str(media.get("permalink") or "")
+    if not re.fullmatch(r"https://www\.instagram\.com/(?:p|reel)/[\w-]{5,40}/", url):
+        return None
+    try:
+        when = datetime.strptime(str(media.get("timestamp") or ""), "%Y-%m-%dT%H:%M:%S%z")
+    except ValueError:
+        return None
+    likes = media.get("like_count")  # left out when the owner hides likes
+    return {"url": url, "date": stamp(when), "text": str(media.get("caption") or "")[:400],
+            "author": str(media.get("username") or "")[:80], "likes": likes if isinstance(likes, int) and not isinstance(likes, bool) else 0}
 
 
 async def read_x(logins: list[str]) -> list[dict]:
@@ -153,51 +161,33 @@ async def search_x(queries: list[str], since: datetime, until: datetime) -> list
     return out
 
 
-def ig_loader():
-    """The spare account's session, read as the clip scout reads it: the browser export's
-    HttpOnly sessionid is a "#HttpOnly_" line a stock cookie jar skips."""
-    import instaloader
-    from clip_scout import read_cookies
-    cookies = read_cookies(HOME / "ig-cookies.txt")
-    if not cookies.get("sessionid"):
-        raise RuntimeError("ig-cookies.txt has no sessionid")
-    loader = instaloader.Instaloader(quiet=True, download_pictures=False, download_videos=False, save_metadata=False)
-    loader.context._session.cookies.update(cookies)
-    return loader
-
-
-def read_ig_tags(tags: list[str]) -> list[dict]:
-    """A hashtag's top posts, from the app's reply as the clip scout reads it (instaloader's
-    Hashtag fails on its layout: KeyError 'medias'). Needs the spare account's cookie."""
-    out = []
-    try:
-        loader = ig_loader()
-    except Exception as exc:  # no instaloader or no cookie file
-        print(f"SOCIAL instagram: {type(exc).__name__}: {str(exc)[:160]}", file=sys.stderr)
-        return out
-    for tag in tags:
-        try:
-            reply = loader.context.get_iphone_json(f"api/v1/tags/web_info/?tag_name={urllib.parse.quote(tag)}", {})
-            out += ig_app_posts((reply.get("data") or {}).get("top") or {})[:SEARCH_LIMIT]
-        except Exception as exc:  # most often an expired cookie: re-export ig-cookies.txt
-            print(f"SOCIAL instagram #{tag}: {type(exc).__name__}: {str(exc)[:160]}", file=sys.stderr)
-    return out
-
-
 def read_ig(logins: list[str]) -> list[dict]:
-    out = []
-    try:
-        loader = ig_loader()
-    except Exception as exc:  # no instaloader or no cookie file
-        print(f"SOCIAL instagram: {type(exc).__name__}: {str(exc)[:160]}", file=sys.stderr)
+    """A public professional account's recent posts through Meta's official API (business_discovery).
+    Instagram refuses its own pages to the VPS's data-centre address whatever the cookie, so the
+    spare account's session is no longer used for this."""
+    config, out = meta_config(), []
+    if not config:
+        print("SOCIAL instagram: no Meta token installed (bash ctx.sh meta FILE)", file=sys.stderr)
         return out
     for login in logins:
-        try:  # one missing profile must not cost the others
-            # The app's feed of the account, as the clip scout reads it: instaloader's Profile page answers 302.
-            reply = loader.context.get_iphone_json(f"api/v1/feed/user/{urllib.parse.quote(login)}/username/?count={PER_ACCOUNT}", {})
-            out += ig_app_posts(reply)[:PER_ACCOUNT]
-        except Exception as exc:  # most often an expired cookie: re-export ig-cookies.txt
-            print(f"SOCIAL instagram {login}: {type(exc).__name__}: {str(exc)[:160]}", file=sys.stderr)
+        try:  # one private or personal account must not cost the others
+            req = urllib.request.Request(discovery_url(str(config["ig_user_id"]), login, str(config["token"])))
+            with urllib.request.urlopen(req, timeout=20) as res:
+                reply = json.loads(res.read().decode("utf-8"))
+            media = ((reply.get("business_discovery") or {}).get("media") or {}).get("data") or []
+            out += [p for m in media if isinstance(m, dict) and (p := graph_post(m))]
+        except urllib.error.HTTPError as exc:
+            try:
+                error = json.loads(exc.read().decode("utf-8")).get("error") or {}
+            except ValueError:
+                error = {}
+            if error.get("code") == 190:
+                print("SOCIAL instagram: Meta token expired: make a new one and run bash ctx.sh meta FILE", file=sys.stderr)
+                return out
+            # 110/100 for a personal or unknown account: business_discovery reads only professional ones.
+            print(f"SOCIAL instagram {login}: {error.get('code')}: {str(error.get('message') or exc)[:120]}", file=sys.stderr)
+        except (urllib.error.URLError, OSError, ValueError) as exc:
+            print(f"SOCIAL instagram {login}: {type(exc).__name__}: {str(exc)[:120]}", file=sys.stderr)
     return out
 
 
@@ -207,9 +197,8 @@ def main() -> int:
     x = [n for n in ask.get("x") or [] if USERNAME.fullmatch(str(n))][:3]
     ig = [n for n in ask.get("ig") or [] if USERNAME.fullmatch(str(n))][:3]
     search = [clean_query(q) for q in ask.get("search") or []][:2]
-    tags = [t for t in map(clean_tag, ask.get("tags") or []) if t][:2]
     posts = (asyncio.run(read_x(x)) if x else []) + (read_ig(ig) if ig else [])
-    found = (asyncio.run(search_x([q for q in search if q], since, until)) if any(search) else []) + (read_ig_tags(tags) if tags else [])
+    found = (asyncio.run(search_x([q for q in search if q], since, until)) if any(search) else [])
     print(json.dumps(in_window(posts, since, until) + most_liked(in_window(found, since, until))[:SEARCH_KEEP], ensure_ascii=False))
     return 0
 

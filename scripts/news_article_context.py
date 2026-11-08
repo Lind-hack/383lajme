@@ -37,7 +37,7 @@ from datetime import datetime, timedelta, timezone
 # scout's own runs are separate processes and keep their setting.
 os.environ.setdefault("L383_SOCIAL_MODELS", "gemini-3.1-flash-lite")
 
-from news_social_accounts import clean_query, clean_tag
+from news_social_accounts import clean_query
 from news_story_attention import linked_posts
 from read_news_source import extract, fetch_public
 
@@ -384,15 +384,15 @@ def published_at(article: dict) -> datetime:
     return when if when.tzinfo else when.replace(tzinfo=timezone.utc)
 
 
-def event_posts(article: dict, search: str, tag: str) -> list[dict]:
+def event_posts(article: dict, search: str) -> list[dict]:
     """The most-liked public posts with a photo or video of the event, from anyone: the witness's
-    clip, the fan's goal, the photo from the scene. Searched on X, and on an Instagram hashtag
-    when the scout's cookie works. Only links and the platform's player: nothing is downloaded."""
-    search, tag = clean_query(search), clean_tag(tag)
-    if not search and not tag:
+    clip, the fan's goal, the photo from the scene, searched on X. (Instagram's hashtag search needs
+    Meta's app review.) Only links and the platform's player: nothing is downloaded."""
+    search = clean_query(search)
+    if not search:
         return []
     published = published_at(article)
-    ask = {"x": [], "ig": [], "search": [search] if search else [], "tags": [tag] if tag else [],
+    ask = {"x": [], "ig": [], "search": [search],
            "since": (published - timedelta(days=WITNESS_DAYS_BEFORE)).isoformat(), "until": (published + timedelta(days=1)).isoformat()}
     out = []
     for post in read_accounts(ask):
@@ -600,7 +600,6 @@ def prompt(article: dict, evidence: str, posts: list[dict]) -> str:
         "exist, even if POSTS has some. Only \"\" when the story could not have been filmed.\n"
         "- social_search: two to five plain words (no # or operators) that people posting a photo or video of this exact event "
         "on X would use, in the language they would post in: names, the place, what happened. \"\" when no one could have filmed it.\n"
-        "- hashtag: the one Instagram hashtag people at this event would use (no #), or \"\".\n"
         "- figures: when ARTICLE or SOURCES give two to six numbers of the same kind that a reader should compare (votes per party, "
         "a score, prices before and after, cases per year, a budget split), {\"title\": \"<short Albanian heading>\", \"unit\": "
         "\"<%, €, vota, gola or empty>\", \"items\": [{\"label\": \"<short Albanian label>\", \"value\": <the number exactly as written>}], "
@@ -662,7 +661,7 @@ def enrich(article: dict) -> dict | None:
     videos = [v for v in videos if video_matches(v, article, subjects)]
     # The headline person's own posts: their account is the proof of who, the second look judges what.
     own = [p for p in account_posts(subjects, article) if own_post_on_topic(p, article, subjects)]
-    witness = [p for p in event_posts(article, row.get("social_search"), row.get("hashtag"))
+    witness = [p for p in event_posts(article, row.get("social_search"))
                if event_post_on_topic(p, article) and not outlet_account(p, article)]
     candidates = videos + own + witness
     picks = row.get("media") if isinstance(row.get("media"), list) else []

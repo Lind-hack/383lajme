@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 from datetime import datetime, timezone
 from types import SimpleNamespace
 
@@ -31,20 +32,38 @@ class Shapes(unittest.TestCase):
                              retweetedTweet=object())
         self.assertIsNone(nsa.x_post(tw))
 
-    def test_an_instagram_app_media_becomes_a_post_link(self):
-        # Instagram's app reply, as the clip scout reads it: instaloader's Profile page answers 302 now.
-        reel = {"code": "DfXWj20o-te", "media_type": 2, "taken_at": 1793696400, "caption": {"text": "ZURICH - THE HALL 28/NOV"},
-                "user": {"username": "noizy"}, "like_count": 4100}
-        self.assertEqual(nsa.ig_app_post(reel), {"url": "https://www.instagram.com/reel/DfXWj20o-te/", "date": "2026-11-03T09:00:00+00:00",
-                                                 "text": "ZURICH - THE HALL 28/NOV", "author": "noizy", "likes": 4100})
-        photo = {"code": "DfABC", "media_type": 8, "taken_at": 1793696400, "caption": None, "user": {}}
-        self.assertEqual(nsa.ig_app_post(photo)["url"], "https://www.instagram.com/p/DfABC/")
-        self.assertIsNone(nsa.ig_app_post({"media_type": 2}))
+    def test_a_graph_api_media_becomes_a_post_link(self):
+        # Meta's official business_discovery reply: the VPS's data-centre address is refused by Instagram's own pages.
+        media = {"permalink": "https://www.instagram.com/reel/DfXUHn9jjJY/", "timestamp": "2026-11-05T15:06:53+0000",
+                 "caption": "Takim me ambasadoren", "like_count": 1400, "username": "albinkurti_", "id": "18073334450499749"}
+        self.assertEqual(nsa.graph_post(media), {"url": "https://www.instagram.com/reel/DfXUHn9jjJY/", "date": "2026-11-05T15:06:53+00:00",
+                                                 "text": "Takim me ambasadoren", "author": "albinkurti_", "likes": 1400})
+        self.assertIsNone(nsa.graph_post({"permalink": "https://example.com/p/x/", "timestamp": "2026-11-05T15:06:53+0000"}))
+        self.assertEqual(nsa.graph_post({**media, "like_count": None})["likes"], 0)
 
+    def test_the_request_names_our_account_the_wanted_account_and_the_fields(self):
+        url = nsa.discovery_url("17841432997458571", "albinkurti_", "TOKEN")
+        self.assertTrue(url.startswith("https://graph.facebook.com/v27.0/17841432997458571?"))
+        self.assertIn("business_discovery.username%28albinkurti_%29", url)
+        self.assertIn("permalink", url)
+        self.assertTrue(url.endswith("&access_token=TOKEN"))
 
+    def test_an_expired_token_says_how_to_fix_it_and_reads_nothing(self):
+        import io
+        import urllib.error
+        err = urllib.error.HTTPError("u", 400, "Bad", {}, io.BytesIO(b'{"error":{"code":190,"message":"Session has expired"}}'))
+        with patch.object(nsa, "meta_config", return_value={"token": "T", "ig_user_id": "1"}), \
+             patch.object(nsa.urllib.request, "urlopen", side_effect=err), patch.object(nsa.sys, "stderr", new=io.StringIO()) as log:
+            self.assertEqual(nsa.read_ig(["albinkurti_"]), [])
+        self.assertIn("ctx.sh meta", log.getvalue())
+
+    def test_no_token_installed_reads_nothing(self):
+        import io
+        with patch.object(nsa, "meta_config", return_value=None), patch.object(nsa.sys, "stderr", new=io.StringIO()):
+            self.assertEqual(nsa.read_ig(["albinkurti_"]), [])
 
 class Search(unittest.TestCase):
-    """Anyone's photo or video of the event: X search and an Instagram hashtag, most liked first."""
+    """Anyone's photo or video of the event from X search, most liked first."""
 
     def tweet(self, id_, likes, photos=(), videos=()):
         return SimpleNamespace(id=id_, date=at("2026-11-05T10:00:00"), rawContent="Zjarri në Gjilan", likeCount=likes,
@@ -64,11 +83,6 @@ class Search(unittest.TestCase):
         posts = [{"url": "a", "likes": 5}, {"url": "b", "likes": 50}, {"url": "a", "likes": 5}, {"url": "c"}]
         self.assertEqual([p["url"] for p in nsa.most_liked(posts)], ["b", "a", "c"])
 
-    def test_every_media_in_any_reply_layout_is_found_once(self):
-        reply = {"data": {"top": {"sections": [{"layout_content": {"medias": [{"media": {"code": "DfAAAAA", "media_type": 2}}]}},
-                                               {"layout_content": {"fill_items": [{"media": {"code": "DfBBBBB", "media_type": 1}}]}}]}}}
-        self.assertEqual([p["url"] for p in nsa.ig_app_posts(reply)],
-                         ["https://www.instagram.com/reel/DfAAAAA/", "https://www.instagram.com/p/DfBBBBB/"])
 
 
 if __name__ == "__main__":
