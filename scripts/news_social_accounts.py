@@ -17,6 +17,7 @@ import json
 import os
 import re
 import sys
+import urllib.parse
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -98,9 +99,27 @@ def most_liked(posts: list[dict]) -> list[dict]:
     return out
 
 
-def ig_post(post) -> dict:
-    return {"url": f"https://www.instagram.com/p/{post.shortcode}/", "date": stamp(post.date_utc),
-            "text": str(post.caption or "")[:400], "author": str(getattr(post, "owner_username", "") or "")[:80]}
+def ig_app_post(m: dict) -> dict | None:
+    """A media from Instagram's app reply as a post link: a reel for a video, a post otherwise."""
+    code = str(m.get("code") or "")
+    if not re.fullmatch(r"[\w-]{5,40}", code):
+        return None
+    taken = m.get("taken_at")
+    likes = m.get("like_count")
+    return {"url": f"https://www.instagram.com/{'reel' if m.get('media_type') == 2 else 'p'}/{code}/",
+            "date": stamp(datetime.fromtimestamp(int(taken), timezone.utc)) if isinstance(taken, (int, float)) else "",
+            "text": str((m.get("caption") or {}).get("text") or "")[:400], "author": str((m.get("user") or {}).get("username") or "")[:80],
+            "likes": likes if isinstance(likes, int) and not isinstance(likes, bool) else 0}
+
+
+def ig_app_posts(reply) -> list[dict]:
+    from clip_scout import ig_medias  # every layout Instagram's app reply hides medias in
+    seen, out = set(), []
+    for m in ig_medias(reply):
+        if (post := ig_app_post(m)) and post["url"] not in seen:
+            seen.add(post["url"])
+            out.append(post)
+    return out
 
 
 async def read_x(logins: list[str]) -> list[dict]:
@@ -134,35 +153,32 @@ async def search_x(queries: list[str], since: datetime, until: datetime) -> list
     return out
 
 
-def ig_tag_post(post) -> dict:
-    likes = getattr(post, "likes", 0)
-    return {**ig_post(post), "likes": likes if isinstance(likes, int) else 0}
-
-
 def ig_loader():
-    import http.cookiejar
+    """The spare account's session, read as the clip scout reads it: the browser export's
+    HttpOnly sessionid is a "#HttpOnly_" line a stock cookie jar skips."""
     import instaloader
+    from clip_scout import read_cookies
+    cookies = read_cookies(HOME / "ig-cookies.txt")
+    if not cookies.get("sessionid"):
+        raise RuntimeError("ig-cookies.txt has no sessionid")
     loader = instaloader.Instaloader(quiet=True, download_pictures=False, download_videos=False, save_metadata=False)
-    jar = http.cookiejar.MozillaCookieJar(str(HOME / "ig-cookies.txt"))
-    jar.load(ignore_discard=True, ignore_expires=True)
-    loader.context._session.cookies.update(jar)
-    return instaloader, loader
+    loader.context._session.cookies.update(cookies)
+    return loader
 
 
 def read_ig_tags(tags: list[str]) -> list[dict]:
-    """A hashtag's top posts. Needs the scout's Instagram cookie, like the account reads."""
+    """A hashtag's top posts, from the app's reply as the clip scout reads it (instaloader's
+    Hashtag fails on its layout: KeyError 'medias'). Needs the spare account's cookie."""
     out = []
     try:
-        instaloader, loader = ig_loader()
+        loader = ig_loader()
     except Exception as exc:  # no instaloader or no cookie file
         print(f"SOCIAL instagram: {type(exc).__name__}: {str(exc)[:160]}", file=sys.stderr)
         return out
     for tag in tags:
         try:
-            for i, post in enumerate(instaloader.Hashtag.from_name(loader.context, tag).get_top_posts()):
-                if i >= SEARCH_LIMIT:
-                    break
-                out.append(ig_tag_post(post))
+            reply = loader.context.get_iphone_json(f"api/v1/tags/web_info/?tag_name={urllib.parse.quote(tag)}", {})
+            out += ig_app_posts((reply.get("data") or {}).get("top") or {})[:SEARCH_LIMIT]
         except Exception as exc:  # most often an expired cookie: re-export ig-cookies.txt
             print(f"SOCIAL instagram #{tag}: {type(exc).__name__}: {str(exc)[:160]}", file=sys.stderr)
     return out
@@ -171,17 +187,15 @@ def read_ig_tags(tags: list[str]) -> list[dict]:
 def read_ig(logins: list[str]) -> list[dict]:
     out = []
     try:
-        instaloader, loader = ig_loader()
+        loader = ig_loader()
     except Exception as exc:  # no instaloader or no cookie file
         print(f"SOCIAL instagram: {type(exc).__name__}: {str(exc)[:160]}", file=sys.stderr)
         return out
     for login in logins:
         try:  # one missing profile must not cost the others
-            profile = instaloader.Profile.from_username(loader.context, login)
-            for i, post in enumerate(profile.get_posts()):
-                if i >= PER_ACCOUNT:
-                    break
-                out.append(ig_post(post))
+            # The app's feed of the account, as the clip scout reads it: instaloader's Profile page answers 302.
+            reply = loader.context.get_iphone_json(f"api/v1/feed/user/{urllib.parse.quote(login)}/username/?count={PER_ACCOUNT}", {})
+            out += ig_app_posts(reply)[:PER_ACCOUNT]
         except Exception as exc:  # most often an expired cookie: re-export ig-cookies.txt
             print(f"SOCIAL instagram {login}: {type(exc).__name__}: {str(exc)[:160]}", file=sys.stderr)
     return out

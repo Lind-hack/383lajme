@@ -31,10 +31,15 @@ class Shapes(unittest.TestCase):
                              retweetedTweet=object())
         self.assertIsNone(nsa.x_post(tw))
 
-    def test_an_instagram_post_becomes_a_post_link(self):
-        post = SimpleNamespace(shortcode="DfXWj20o-te", date_utc=datetime(2026, 11, 5, 9, 0), caption="ZURICH - THE HALL 28/NOV",
-                               typename="GraphVideo", owner_username="noizy")
-        self.assertEqual(nsa.ig_post(post)["url"], "https://www.instagram.com/p/DfXWj20o-te/")
+    def test_an_instagram_app_media_becomes_a_post_link(self):
+        # Instagram's app reply, as the clip scout reads it: instaloader's Profile page answers 302 now.
+        reel = {"code": "DfXWj20o-te", "media_type": 2, "taken_at": 1793696400, "caption": {"text": "ZURICH - THE HALL 28/NOV"},
+                "user": {"username": "noizy"}, "like_count": 4100}
+        self.assertEqual(nsa.ig_app_post(reel), {"url": "https://www.instagram.com/reel/DfXWj20o-te/", "date": "2026-11-03T09:00:00+00:00",
+                                                 "text": "ZURICH - THE HALL 28/NOV", "author": "noizy", "likes": 4100})
+        photo = {"code": "DfABC", "media_type": 8, "taken_at": 1793696400, "caption": None, "user": {}}
+        self.assertEqual(nsa.ig_app_post(photo)["url"], "https://www.instagram.com/p/DfABC/")
+        self.assertIsNone(nsa.ig_app_post({"media_type": 2}))
 
 
 
@@ -59,10 +64,11 @@ class Search(unittest.TestCase):
         posts = [{"url": "a", "likes": 5}, {"url": "b", "likes": 50}, {"url": "a", "likes": 5}, {"url": "c"}]
         self.assertEqual([p["url"] for p in nsa.most_liked(posts)], ["b", "a", "c"])
 
-    def test_an_instagram_hashtag_post_carries_its_likes(self):
-        post = SimpleNamespace(shortcode="DfXWj20o-te", date_utc=datetime(2026, 11, 5, 9, 0), caption="Gjilan", likes=321,
-                               owner_username="someone")
-        self.assertEqual(nsa.ig_tag_post(post)["likes"], 321)
+    def test_every_media_in_any_reply_layout_is_found_once(self):
+        reply = {"data": {"top": {"sections": [{"layout_content": {"medias": [{"media": {"code": "DfAAAAA", "media_type": 2}}]}},
+                                               {"layout_content": {"fill_items": [{"media": {"code": "DfBBBBB", "media_type": 1}}]}}]}}}
+        self.assertEqual([p["url"] for p in nsa.ig_app_posts(reply)],
+                         ["https://www.instagram.com/reel/DfAAAAA/", "https://www.instagram.com/p/DfBBBBB/"])
 
 
 if __name__ == "__main__":
