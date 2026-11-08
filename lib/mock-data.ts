@@ -11,11 +11,19 @@ export interface ArticleChart {
   sourceUrl: string;
 }
 
+/** "Në shifra": the story's own numbers as bars, each found in the article or a source. */
+export interface ArticleFigures {
+  title: string;
+  unit: string;
+  items: { label: string; value: number }[];
+}
+
 export interface ArticleContext {
   what?: string;
   why?: string;
   media: ArticleMedia[];
   chart?: ArticleChart;
+  figures?: ArticleFigures;
 }
 
 export interface Article {

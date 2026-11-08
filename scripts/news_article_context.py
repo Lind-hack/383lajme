@@ -44,7 +44,7 @@ VERSION = 1
 HEADERS = {"User-Agent": "383ArticleContext/1.0 (https://383ks.com; article context)"}
 MAX_SOURCES = 4
 MAX_POSTS = 6
-MAX_EMBEDS = 3
+MAX_EMBEDS = 4
 MAX_PHOTOS = 3
 OLDEST_PHOTO_YEARS = 6
 SOURCE_CHARS = 6000
@@ -56,7 +56,11 @@ SEARCH_VIDEOS = 6
 SEARCH_PICKS = 2
 ACCOUNT_PICKS = 2  # the headline person's own posts kept per article
 ACCOUNT_DAYS_BEFORE = 4  # how far before publication their own post may be
-SCOPE = {"bote", "showbiz", "ekonomi"}  # the desks rebuilt to the new rules; others later
+WITNESS_PICKS = 2  # anyone's footage of the event itself, found by searching X and Instagram
+WITNESS_DAYS_BEFORE = 2
+FIGURE_ITEMS = (2, 6)  # bars in a "Në shifra" chart
+FIGURE_LABEL_CHARS = 40
+FIGURE_TITLE_CHARS = 70
 WIKIDATA = "https://www.wikidata.org/w/api.php"
 USERNAME = re.compile(r"[A-Za-z0-9_.]{1,30}")
 SOCIAL_PYTHON = os.environ.get("L383_SOCIAL_PYTHON", "/opt/data/clip-scout/.venv/bin/python")
@@ -359,12 +363,7 @@ def account_posts(subjects: list[str], article: dict) -> list[dict]:
     accounts = subject_accounts(subjects, article)
     if not accounts:
         return []
-    try:
-        published = datetime.fromisoformat(str(article.get("published_at") or "").replace("Z", "+00:00"))
-    except ValueError:
-        published = datetime.now(timezone.utc)
-    if published.tzinfo is None:  # the helper compares with aware post dates
-        published = published.replace(tzinfo=timezone.utc)
+    published = published_at(article)  # the helper compares with aware post dates
     ask = {"x": [a["x"] for a in accounts if a.get("x")], "ig": [a["ig"] for a in accounts if a.get("ig")],
            "since": (published - timedelta(days=ACCOUNT_DAYS_BEFORE)).isoformat(), "until": (published + timedelta(days=1)).isoformat()}
     found = read_accounts(ask)
@@ -374,6 +373,43 @@ def account_posts(subjects: list[str], article: dict) -> list[dict]:
         if ref and len(out) < MAX_POSTS and (seen := oembed(ref)):
             out.append({**ref, **seen, "text": seen.get("text") or str(post.get("text") or "")[:400], "account": True})
     return out
+
+
+def published_at(article: dict) -> datetime:
+    try:
+        when = datetime.fromisoformat(str(article.get("published_at") or "").replace("Z", "+00:00"))
+    except ValueError:
+        when = datetime.now(timezone.utc)
+    return when if when.tzinfo else when.replace(tzinfo=timezone.utc)
+
+
+def event_posts(article: dict, search: str, tag: str) -> list[dict]:
+    """The most-liked public posts with a photo or video of the event, from anyone: the witness's
+    clip, the fan's goal, the photo from the scene. Searched on X, and on an Instagram hashtag
+    when the scout's cookie works. Only links and the platform's player: nothing is downloaded."""
+    search = re.sub(r"[^\w\s'-]", " ", str(search or ""))[:80].strip()
+    tag = re.sub(r"\W", "", str(tag or ""))[:40]
+    if not search and not tag:
+        return []
+    published = published_at(article)
+    ask = {"x": [], "ig": [], "search": [search] if search else [], "tags": [tag] if tag else [],
+           "since": (published - timedelta(days=WITNESS_DAYS_BEFORE)).isoformat(), "until": (published + timedelta(days=1)).isoformat()}
+    out = []
+    for post in read_accounts(ask):
+        ref = embed_ref(str((post or {}).get("url") or ""))
+        if ref and len(out) < MAX_POSTS and (seen := oembed(ref)):
+            likes = post.get("likes")
+            out.append({**ref, **seen, "text": seen.get("text") or str(post.get("text") or "")[:400],
+                        "likes": likes if isinstance(likes, int) and not isinstance(likes, bool) else 0, "witness": True})
+    return out
+
+
+def event_post_on_topic(post: dict, article: dict) -> bool:
+    """A search returns anything with the words in it. A stranger's post must share two words of
+    the headline (a name, a place, what happened); one can be a coincidence."""
+    topic = {name_stem(w) for w in re.findall(r"[^\W\d_]{4,}", fold(article.get("title")))} - HEADLINE_FILLER
+    text = fold(post.get("text"))
+    return sum(1 for stem in topic if re.search(rf"\b{re.escape(stem)}", text)) >= 2
 
 
 HEADLINE_FILLER = {"edhe", "para", "pasi", "duke", "jane", "eshte", "kunder", "sipas", "ndaj", "tjera", "tjeter", "tyre",
@@ -391,7 +427,8 @@ def own_post_on_topic(post: dict, article: dict, subjects: list[str]) -> bool:
 
 
 def in_scope(article: dict) -> bool:
-    return fold(article.get("category") or "") in SCOPE
+    """Every desk: a reader of a sports or a local story needs to see what happened as much as anyone."""
+    return bool(fold(article.get("category") or ""))
 
 
 def chosen_embeds(picks, posts: list[dict], article: dict, evidence: str = "") -> list[dict]:
@@ -547,6 +584,13 @@ def prompt(article: dict, evidence: str, posts: list[dict]) -> str:
         "- video_search: a short YouTube search for footage of this exact event (the speech, the match, the launch, the press "
         "conference, the protest, the music video), in the language it would be titled in. Give one whenever such footage could "
         "exist, even if POSTS has some. Only \"\" when the story could not have been filmed.\n"
+        "- social_search: two to five plain words (no # or operators) that people posting a photo or video of this exact event "
+        "on X would use, in the language they would post in: names, the place, what happened. \"\" when no one could have filmed it.\n"
+        "- hashtag: the one Instagram hashtag people at this event would use (no #), or \"\".\n"
+        "- figures: when ARTICLE or SOURCES give two to six numbers of the same kind that a reader should compare (votes per party, "
+        "a score, prices before and after, cases per year, a budget split), {\"title\": \"<short Albanian heading>\", \"unit\": "
+        "\"<%, €, vota, gola or empty>\", \"items\": [{\"label\": \"<short Albanian label>\", \"value\": <the number exactly as written>}], "
+        "\"quotes\": [<exact phrases from ARTICLE or SOURCES that contain the numbers>]}. Never compute, convert or estimate a number. Otherwise null.\n"
         "- subjects: up to 4 exact English Wikipedia article titles of what the HEADLINE names: its people, organisations, places, "
         "buildings, vehicles or events. Never a country, never a person the headline does not name.\n"
         "- media: the posts that help a reader see what happened, as [{\"post\": <number>, \"after_paragraph\": <the [n] it belongs after>, "
@@ -561,7 +605,8 @@ def ask(article: dict, evidence: str, posts: list[dict]) -> dict | None:
 
 
 def second_prompt(article: dict, card: dict, quotes, videos: list[dict]) -> str:
-    listed = "\n".join(json.dumps({"video": i, "channel": v.get("author", ""), "title": v.get("text", "")}, ensure_ascii=False)
+    listed = "\n".join(json.dumps({"video": i, "channel": v.get("author", ""), "title": v.get("text", ""),
+                                   **({"witness": True, "likes": v.get("likes", 0)} if v.get("witness") else {})}, ensure_ascii=False)
                        for i, v in enumerate(videos)) or "(none)"
     body = "\n".join(f"[{i}] {p}" for i, p in enumerate(paragraphs(article.get("body"))))
     return (
@@ -576,7 +621,9 @@ def second_prompt(article: dict, card: dict, quotes, videos: list[dict]) -> str:
         "programme itself, as [{\"video\": <number>, \"after_paragraph\": <the [n] it belongs after>, \"caption\": \"<short "
         "Albanian line saying what it shows>\"}]. A post by the story's own person must be about this event, not another day's "
         "topic. Refuse reactions, lyric videos, fan reuploads, compilations, snippets by others and anything about something "
-        "else. An empty list is fine."
+        "else. Entries marked \"witness\": true may come from anyone who filmed or photographed this very event (a person at the "
+        "scene, a fan in the stadium): keep them only if they plainly show this event itself, and refuse news outlets, TV "
+        "channels, pages reposting others' footage, memes, commentary and anything from another day or place. An empty list is fine."
     )
 
 
@@ -601,7 +648,8 @@ def enrich(article: dict) -> dict | None:
     videos = [v for v in videos if video_matches(v, article, subjects)]
     # The headline person's own posts: their account is the proof of who, the second look judges what.
     own = [p for p in account_posts(subjects, article) if own_post_on_topic(p, article, subjects)]
-    candidates = videos + own
+    witness = [p for p in event_posts(article, row.get("social_search"), row.get("hashtag")) if event_post_on_topic(p, article)]
+    candidates = videos + own + witness
     picks = row.get("media") if isinstance(row.get("media"), list) else []
     # A titled post from a source page answers to the same check as a searched video.
     picks = [p for p in picks if not (isinstance(p, dict) and isinstance(p.get("post"), int) and not isinstance(p.get("post"), bool)
@@ -618,17 +666,65 @@ def enrich(article: dict) -> dict | None:
                  and 0 <= v["video"] < len(candidates)]
         # Each source capped: three F1 clips stacked in one story was noise, not context.
         searched = [v for v in valid if v["video"] < len(videos)][:SEARCH_PICKS]
-        theirs = [v for v in valid if v["video"] >= len(videos)][:ACCOUNT_PICKS]
-        picks = picks + [{**v, "post": len(posts) + v["video"]} for v in searched + theirs]
+        theirs = [v for v in valid if len(videos) <= v["video"] < len(videos) + len(own)][:ACCOUNT_PICKS]
+        seen_there = [v for v in valid if v["video"] >= len(videos) + len(own)][:WITNESS_PICKS]
+        picks = picks + [{**v, "post": len(posts) + v["video"]} for v in searched + theirs + seen_there]
     media = chosen_embeds(picks, posts + candidates, article, evidence)
     if subjects:
         media += chosen_photos(licensed_photos(subjects), article, {m["after"] for m in media})
     chart = market_chart(article)
+    figures = checked_figures(row.get("figures"), article, evidence)
     now = datetime.now(timezone.utc).isoformat()
-    if not card["what"] and not media and not chart:
+    if not card["what"] and not media and not chart and not figures:
         return {"v": VERSION, "status": "empty", "checks": checks, "checked_at": now}
-    extra = {"chart": chart} if chart else {}
+    extra = {**({"chart": chart} if chart else {}), **({"figures": figures} if figures else {})}
     return {"v": VERSION, "status": "ok", **{k: v for k, v in card.items() if v}, "media": media, **extra, "checks": checks, "checked_at": now}
+
+
+# ---- in numbers ----------------------------------------------------------------------------
+# A story's own numbers as bars: votes, a score, a budget. Every number must stand in the
+# article or a source as written; the model may pick and label them, never compute one.
+
+def number_in(value: float, text: str) -> bool:
+    """Is this number written in the text, either way: 1.200 or 1,200 for a thousand two
+    hundred, 8,5 or 8.5 for eight and a half."""
+    for token in re.findall(r"\d+(?:[.,]\d+)*", str(text or "")):
+        readings = {token.replace(",", "").replace(".", "")}
+        for mark, other in ((".", ","), (",", ".")):
+            if token.count(mark) == 1:  # the last separator read as the decimal point
+                readings.add(token.replace(other, "").replace(mark, "."))
+        for reading in readings:
+            try:
+                if abs(float(reading) - value) < 1e-9:
+                    return True
+            except ValueError:
+                continue
+    return False
+
+
+def checked_figures(row, article: dict, evidence: str) -> dict | None:
+    if not isinstance(row, dict) or not isinstance(row.get("items"), list):
+        return None
+    known = article_text(article) + " " + evidence
+    if not quoted(row.get("quotes"), known):
+        return None
+    title, unit = str(row.get("title") or "").strip(), str(row.get("unit") or "").strip()
+    items = []
+    for item in row["items"]:
+        if not isinstance(item, dict):
+            return None
+        label, value = str(item.get("label") or "").strip(), item.get("value")
+        if not label or len(label) > FIGURE_LABEL_CHARS or isinstance(value, bool) or not isinstance(value, (int, float)):
+            return None
+        if value < 0 or not number_in(value, known) or not names_known(label, known):
+            return None
+        items.append({"label": label, "value": value})
+    low, high = FIGURE_ITEMS
+    if not title or len(title) > FIGURE_TITLE_CHARS or len(unit) > 12 or not low <= len(items) <= high or not any(i["value"] for i in items):
+        return None
+    if set(words(f"{title} {unit} " + " ".join(i["label"] for i in items))) & outlet_words(article):
+        return None
+    return {"title": title, "unit": unit, "items": items}
 
 
 # ---- market chart ----------------------------------------------------------------------------
@@ -741,7 +837,7 @@ def supabase_get(query: str) -> list[dict]:
 
 
 def waiting(hours: int, limit: int, slug: str = "", recheck: bool = False) -> list[dict]:
-    """Articles to enrich, newest first, from the desks in SCOPE. A named slug is always taken."""
+    """Articles to enrich, newest first, from every desk. A named slug is always taken."""
     fields = "select=id,slug,title,excerpt,body,category,url,image_url,video_clip_url,published_at,raw_article"
     if slug:
         return supabase_get(f"{fields}&slug=eq.{urllib.parse.quote(slug)}")

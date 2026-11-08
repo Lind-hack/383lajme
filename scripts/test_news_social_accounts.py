@@ -37,5 +37,33 @@ class Shapes(unittest.TestCase):
         self.assertEqual(nsa.ig_post(post)["url"], "https://www.instagram.com/p/DfXWj20o-te/")
 
 
+
+class Search(unittest.TestCase):
+    """Anyone's photo or video of the event: X search and an Instagram hashtag, most liked first."""
+
+    def tweet(self, id_, likes, photos=(), videos=()):
+        return SimpleNamespace(id=id_, date=at("2026-11-05T10:00:00"), rawContent="Zjarri në Gjilan", likeCount=likes,
+                               user=SimpleNamespace(username="witness", displayname="Witness"), retweetedTweet=None,
+                               media=SimpleNamespace(photos=list(photos), videos=list(videos)))
+
+    def test_the_query_asks_for_media_and_some_reach_within_the_days(self):
+        q = nsa.search_query("zjarr Gjilan", at("2026-11-04T10:00:00"), at("2026-11-07T10:00:00"))
+        self.assertEqual(q, "zjarr Gjilan filter:media -filter:retweets min_faves:50 since:2026-11-04 until:2026-11-08")
+
+    def test_a_searched_tweet_needs_a_photo_or_video_and_carries_its_likes(self):
+        self.assertIsNone(nsa.searched_x_post(self.tweet(1, 900)))
+        got = nsa.searched_x_post(self.tweet(2, 900, videos=[object()]))
+        self.assertEqual((got["url"], got["likes"]), ("https://x.com/witness/status/2", 900))
+
+    def test_most_liked_first_and_each_post_once(self):
+        posts = [{"url": "a", "likes": 5}, {"url": "b", "likes": 50}, {"url": "a", "likes": 5}, {"url": "c"}]
+        self.assertEqual([p["url"] for p in nsa.most_liked(posts)], ["b", "a", "c"])
+
+    def test_an_instagram_hashtag_post_carries_its_likes(self):
+        post = SimpleNamespace(shortcode="DfXWj20o-te", date_utc=datetime(2026, 11, 5, 9, 0), caption="Gjilan", likes=321,
+                               owner_username="someone")
+        self.assertEqual(nsa.ig_tag_post(post)["likes"], 321)
+
+
 if __name__ == "__main__":
     unittest.main()

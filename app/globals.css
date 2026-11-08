@@ -25878,6 +25878,19 @@ html[data-theme="dark"] .cat-rail-item[aria-current="page"] .cat-rail-label {
 .ctx-media-source:focus-visible { outline: 2px solid #111111; outline-offset: 3px; border-radius: 2px; }
 .ctx-media-source svg { flex: none; width: 14px; height: 14px; }
 @media (prefers-reduced-motion: reduce) { .ctx-media-source { transition: none; } }
+/* "Në shifra": the story's numbers as bars on the card's own rule, largest in the accent. */
+.ctx-figures { margin: 0; }
+.ctx-figures-title { display: block; margin-bottom: 10px; font-size: 15px; font-weight: 600; color: #2B2926; }
+.ctx-figures-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.ctx-figures-row { display: grid; grid-template-columns: minmax(72px, 30%) 1fr; align-items: center; gap: 12px; }
+.ctx-figures-label { font-size: 14px; line-height: 1.3; color: #2B2926; overflow-wrap: anywhere; }
+.ctx-figures-track { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.ctx-figures-bar { height: 12px; min-width: 2px; border-radius: 0 3px 3px 0; background: var(--ctx-accent); opacity: 0.35; }
+.ctx-figures-top .ctx-figures-bar { opacity: 1; }
+.ctx-figures-value { font-size: 14px; font-weight: 700; color: #111111; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 640px) {
+  .ctx-figures-row { grid-template-columns: minmax(64px, 34%) 1fr; gap: 10px; }
+}
 /* A post not yet loaded: the reader decides, the page keeps its rhythm. */
 .ctx-gate {
   margin: 0 auto; padding: 28px 24px; display: grid; justify-items: center; gap: 8px; text-align: center;

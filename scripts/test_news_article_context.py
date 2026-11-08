@@ -5,16 +5,22 @@ from unittest.mock import patch
 
 import news_article_context as nac
 
+REAL_EVENT_POSTS = nac.event_posts  # kept before setUpModule patches it out
+
 
 def setUpModule():
     # Own-account reads go to Wikidata and the scout's accounts; tests that need them patch it again.
     global _no_accounts
+    global _no_search
     _no_accounts = patch.object(nac, "account_posts", return_value=[])
     _no_accounts.start()
+    _no_search = patch.object(nac, "event_posts", return_value=[])
+    _no_search.start()
 
 
 def tearDownModule():
     _no_accounts.stop()
+    _no_search.stop()
 
 
 ARTICLE = {
@@ -514,13 +520,13 @@ class OwnPostTopic(unittest.TestCase):
 
 
 class Scope(unittest.TestCase):
-    def test_only_the_reworked_desks_for_now(self):
+    def test_every_desk_gets_context(self):
         for category, expected in (("Botë", True), ("Bote", True), ("Showbiz", True), ("Ekonomi", True),
-                                   ("Kosovë", False), ("Sport", False), ("", False), (None, False)):
+                                   ("Kosovë", True), ("Sport", True), ("Shëndetësi", True), ("", False), (None, False)):
             self.assertEqual(nac.in_scope({"category": category}), expected, category)
 
-    def test_waiting_skips_other_desks_and_asks_for_the_publish_date(self):
-        rows = [{"slug": "a", "category": "Sport"}, {"slug": "b", "category": "Botë"}, {"slug": "c", "category": "Ekonomi"}]
+    def test_waiting_skips_rows_without_a_desk_and_asks_for_the_publish_date(self):
+        rows = [{"slug": "a", "category": ""}, {"slug": "b", "category": "Sport"}, {"slug": "c", "category": "Ekonomi"}]
         with patch.object(nac, "supabase_get", return_value=rows) as get:
             got = nac.waiting(24, 1)
         self.assertEqual([r["slug"] for r in got], ["b"])
@@ -706,3 +712,73 @@ class MarketChart(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EventPosts(unittest.TestCase):
+    """Anyone's footage of the event itself: an eyewitness, a fan in the stadium. Shown in the
+    platform's own player, never copied, and only when it plainly is this event."""
+
+    def test_a_post_sharing_two_headline_words_is_on_topic(self):
+        article = {"title": "Zjarr i madh në tregun e Gjilanit, digjen dhjetëra tezga"}
+        self.assertTrue(nac.event_post_on_topic({"text": "Zjarri ne tregun e Gjilanit tani"}, article))
+
+    def test_one_shared_word_is_a_coincidence(self):
+        article = {"title": "Zjarr i madh në tregun e Gjilanit, digjen dhjetëra tezga"}
+        self.assertFalse(nac.event_post_on_topic({"text": "Pamje nga Gjilani sot, mot i bukur"}, article))
+        self.assertFalse(nac.event_post_on_topic({"text": ""}, article))
+
+    def test_witness_posts_reach_the_second_look_marked_and_two_at_most_are_kept(self):
+        article = {**ARTICLE, "title": "Rama sqaron çmimin e shiritit në Prishtinë"}
+        seen = [{"platform": "x", "id": str(i), "kind": "", "url": f"https://x.com/someone/status/{i}", "author": "someone",
+                 "text": "Shiriti i Rames ne Prishtine sot", "likes": 900 - i, "witness": True} for i in range(1, 5)]
+        row = {"what": "", "what_quotes": [], "why": "", "why_quotes": [], "subjects": [], "media": [], "video_search": "",
+               "social_search": "shiriti Prishtine", "hashtag": ""}
+        second = {"videos": [{"video": i, "after_paragraph": i} for i in range(4)]}
+        with patch.object(nac, "gather", return_value=(EVIDENCE, [])), patch.object(nac, "ask", return_value=row),              patch.object(nac, "event_posts", return_value=seen), patch.object(nac, "second_look", return_value=second) as look,              patch.object(nac, "licensed_photos", return_value=[]):
+            got = nac.enrich(article)
+        self.assertTrue(all(v.get("witness") for v in look.call_args.args[3]))
+        self.assertIn('"witness": true', nac.second_prompt(article, {}, [], look.call_args.args[3]))
+        self.assertEqual([m["id"] for m in got["media"]], ["1", "2"])
+
+    def test_off_topic_search_results_never_reach_the_second_look(self):
+        seen = [{"platform": "x", "id": "9", "kind": "", "url": "https://x.com/a/status/9", "author": "a", "text": "good morning", "witness": True}]
+        row = {"what": "", "what_quotes": [], "why": "", "why_quotes": [], "subjects": [], "media": [], "video_search": "", "social_search": "x"}
+        with patch.object(nac, "gather", return_value=(EVIDENCE, [])), patch.object(nac, "ask", return_value=row),              patch.object(nac, "event_posts", return_value=seen), patch.object(nac, "second_look") as look,              patch.object(nac, "licensed_photos", return_value=[]):
+            nac.enrich(ARTICLE)
+        look.assert_not_called()
+
+    def test_the_search_asks_around_the_publish_date(self):
+        article = {**ARTICLE, "published_at": "2026-11-06T10:00:00+00:00"}
+        with patch.object(nac, "read_accounts", return_value=[]) as read:
+            REAL_EVENT_POSTS(article, "zjarr Gjilan", "gjilani")
+        ask = read.call_args.args[0]
+        self.assertEqual((ask["search"], ask["tags"], ask["x"], ask["ig"]), (["zjarr Gjilan"], ["gjilani"], [], []))
+        self.assertTrue(ask["since"].startswith("2026-11-04") and ask["until"].startswith("2026-11-07"))
+
+
+class Figures(unittest.TestCase):
+    """"Në shifra": a story's own numbers drawn as bars, each one found in the article or a source."""
+
+    ROW = {"title": "Tarifa për metër", "unit": "€", "items": [{"label": "Shiriti", "value": 8.5}, {"label": "Puna", "value": 3}],
+           "quotes": ["the fee of 8.50 euro per metre"]}
+    TEXT = EVIDENCE + " Labour adds 3 euro."
+
+    def test_numbers_from_the_sources_become_bars(self):
+        got = nac.checked_figures(self.ROW, ARTICLE, self.TEXT)
+        self.assertEqual(got, {"title": "Tarifa për metër", "unit": "€", "items": [{"label": "Shiriti", "value": 8.5}, {"label": "Puna", "value": 3}]})
+
+    def test_a_number_nowhere_in_the_sources_drops_the_whole_chart(self):
+        row = {**self.ROW, "items": [{"label": "Shiriti", "value": 8.5}, {"label": "Puna", "value": 7}]}
+        self.assertIsNone(nac.checked_figures(row, ARTICLE, self.TEXT))
+
+    def test_one_bar_an_invented_quote_or_an_outlet_label_is_no_chart(self):
+        self.assertIsNone(nac.checked_figures({**self.ROW, "items": self.ROW["items"][:1]}, ARTICLE, self.TEXT))
+        self.assertIsNone(nac.checked_figures({**self.ROW, "quotes": ["a fee nobody quoted ever"]}, ARTICLE, self.TEXT))
+        self.assertIsNone(nac.checked_figures({**self.ROW, "title": "Sipas example"}, ARTICLE, self.TEXT))
+        self.assertIsNone(nac.checked_figures(None, ARTICLE, self.TEXT))
+
+    def test_numbers_match_in_either_way_of_writing_them(self):
+        self.assertTrue(nac.number_in(1200, "rreth 1.200 banorë"))
+        self.assertTrue(nac.number_in(8.5, "8,5 për qind"))
+        self.assertTrue(nac.number_in(45, "45%"))
+        self.assertFalse(nac.number_in(12, "1.200"))
