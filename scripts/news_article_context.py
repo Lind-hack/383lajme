@@ -790,6 +790,17 @@ def still_missing(rows: list[dict]) -> list[dict]:
     return out
 
 
+def chart_pending(rows: list[dict]) -> list[dict]:
+    """Ekonomi articles whose card was made before charts existed: a coin or currency headline,
+    a stored context, no chart yet."""
+    return [r for r in rows if chart_asset(r) and stored_context(r) and not stored_context(r).get("chart")]
+
+
+def with_chart(old: dict, chart: dict) -> dict:
+    """Only the chart is added: the what, the why and the media stay exactly as readers saw them."""
+    return {**old, "status": "ok", "chart": chart}
+
+
 def save(article: dict, context: dict) -> bool:
     import clip_scout
     status, reply = clip_scout.rest("PATCH", "news_articles", {"raw_article": {**raw_of(article), "context": context}},
@@ -821,6 +832,7 @@ def main() -> int:
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--recheck", action="store_true", help="also articles that already have context (pair with --dry-run to evaluate)")
     parser.add_argument("--missing", action="store_true", help="rerun articles still missing media or a reason (at most MAX_TRIES each)")
+    parser.add_argument("--charts", action="store_true", help="add only a market chart to Ekonomi cards made before charts")
     parser.add_argument("--minutes", type=float, default=20, help="stop starting new articles after this long")
     args = parser.parse_args()
     if os.environ.get("L383_ARTICLE_CONTEXT") == "0":
@@ -828,7 +840,25 @@ def main() -> int:
         return 0
     deadline = time.monotonic() + args.minutes * 60
     done, cards, empty, retry = [], 0, 0, 0
-    rows = waiting(args.hours, args.limit * (4 if args.missing else 1), args.slug, args.recheck or args.missing)
+    rows = waiting(args.hours, args.limit * (4 if args.missing or args.charts else 1), args.slug,
+                   args.recheck or args.missing or args.charts)
+    if args.charts:
+        for article in chart_pending(rows)[:args.limit]:
+            if time.monotonic() >= deadline:
+                break
+            chart = market_chart(article)
+            if not chart:
+                retry += 1
+                continue
+            context = with_chart(stored_context(article), chart)
+            if args.dry_run:
+                print(json.dumps({"slug": article["slug"], "chart": chart}, ensure_ascii=False))
+            elif save(article, context):
+                done.append(article["slug"])
+            cards += 1
+        refresh(done)
+        print(f"CONTEXT charts={cards} none={retry}")
+        return 0
     if args.missing:
         rows = still_missing(rows)[:args.limit]
     for article in rows:

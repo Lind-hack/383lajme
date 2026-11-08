@@ -655,6 +655,20 @@ class MarketChart(unittest.TestCase):
         pairs = [[start, 10.0], [start + day // 2, 11.0], [start + day, 12.0], [start + day + 3_600_000, 13.5]]
         self.assertEqual(nac.daily_closes(pairs), [["2026-10-09", 11.0], ["2026-10-10", 13.5]])
 
+    def test_a_chart_backfill_takes_only_old_economy_cards_without_one(self):
+        card = {"v": 1, "status": "ok", "what": "W", "why": "Y", "media": [{"kind": "photo"}]}
+        old = {**self.story("Dollari bie pas vendimit"), "raw_article": {"context": card}}
+        charted = {**old, "raw_article": {"context": {**card, "chart": {"points": []}}}}
+        fresh = {**self.story("Dollari bie"), "raw_article": {}}
+        other = {**self.story("KESCO rrit tarifat"), "raw_article": {"context": card}}
+        self.assertEqual(nac.chart_pending([old, charted, fresh, other]), [old])
+
+    def test_a_backfilled_chart_leaves_the_card_as_it_was(self):
+        card = {"v": 1, "status": "ok", "what": "W", "why": "Y", "media": [{"kind": "photo"}], "tries": 2}
+        chart = {"label": "Bitcoin", "points": [["2026-11-01", 1.0]]}
+        self.assertEqual(nac.with_chart(card, chart), {**card, "chart": chart})
+        self.assertEqual(nac.with_chart({"v": 1, "status": "empty", "media": []}, chart)["status"], "ok")
+
     def test_ecb_rates_are_read_from_its_csv(self):
         csv_text = ("KEY,FREQ,TIME_PERIOD,OBS_VALUE,TITLE\n"
                     "EXR.D.GBP.EUR.SP00.A,D,2026-11-05,0.8712,\"Pound, euro\"\n"
