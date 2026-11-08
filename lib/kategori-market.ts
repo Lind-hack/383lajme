@@ -45,6 +45,8 @@ export async function getSectionMarket(categorySlug: string, now = Date.now()): 
           "news_topic:pre_match_analysis->>news_topic"
       )
       .eq("status", "open")
+      // Past its deadline a book waits for settlement; it is not offered for trading.
+      .gt("closes_at", new Date(now).toISOString())
       .order("closes_at", { ascending: true })
       .limit(200);
     if (error) throw new Error(error.message);

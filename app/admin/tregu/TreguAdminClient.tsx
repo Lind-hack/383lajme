@@ -287,9 +287,11 @@ export default function TreguAdminClient() {
   }, [refreshHealth]);
 
   // Trading has ended but no result arrived: the automation fallback lands here.
-  const awaitingResult = markets.filter((market) => market.status === "open" && Date.parse(market.closes_at) < Date.now() - 15 * 60_000);
+  const pastDeadline = (market: Market) => market.status === "open" && Date.parse(market.closes_at) < Date.now() - 15 * 60_000;
+  const awaitingResult = markets.filter(pastDeadline);
+  // A book past its deadline is listed once, under "Pritet rezultati", not also among the active ones.
   const marketsForStatus = (status: MarketStatus) => markets
-    .filter((market) => market.status === status)
+    .filter((market) => market.status === status && !pastDeadline(market))
     .sort((a, b) => Number(recentChangesBySlug.has(b.slug)) - Number(recentChangesBySlug.has(a.slug)));
 
   return (
@@ -339,10 +341,10 @@ export default function TreguAdminClient() {
             {(market, change) => <MarketCard market={market} change={change}>{isBinaryNewsMarket(market) && <><MarketImageEditor market={market} onSaved={loadMarkets} /><NewsMarketControl market={market} mode="adjust" onSaved={loadMarkets} /></>}<div className={styles.cardActions}><button type="button" onClick={() => marketAction(market.id, { action: "close" })} className={styles.buttonSecondary}>Mbyll bastet</button></div></MarketCard>}
           </MarketSection>
           <MarketSection title="Pritet rezultati" subtitle="Afati ka kaluar, rezultati zyrtar nuk ka ardhur" markets={awaitingResult} changes={recentChangesBySlug} empty="Asnjë treg nuk pret rezultat.">
-            {(market, change) => <MarketCard market={market} change={change}><ResolveActions market={market} marketAction={marketAction} /></MarketCard>}
+            {(market, change) => <MarketCard market={market} change={change}><ConcludeControl market={market} marketAction={marketAction} onSaved={loadMarkets} /></MarketCard>}
           </MarketSection>
           <MarketSection title="Gati për zgjidhje" subtitle="Bastet janë mbyllur" markets={marketsForStatus("closed")} changes={recentChangesBySlug} empty="Nuk ka tregje për zgjidhje.">
-            {(market, change) => <MarketCard market={market} change={change}><ResolveActions market={market} marketAction={marketAction} /></MarketCard>}
+            {(market, change) => <MarketCard market={market} change={change}><ConcludeControl market={market} marketAction={marketAction} onSaved={loadMarkets} /></MarketCard>}
           </MarketSection>
           <MarketSection title="Pezulluara" subtitle="Pa baste derisa të vijë referenca" markets={marketsForStatus("stale")} changes={recentChangesBySlug} empty="Nuk ka tregje të pezulluara.">
             {(market, change) => <MarketCard market={market} change={change}><p className={styles.notice}>Prit referencën e suksesshme nga lajmet. Automatizimi nuk ndryshon 383C ose pozicionet.</p></MarketCard>}
@@ -446,6 +448,17 @@ function ActivityRow({ item }: { item: MarketActivity }) {
 
 function MarketSection({ title, subtitle, markets, changes, empty, children }: { title: string; subtitle: string; markets: Market[]; changes: Map<string, MarketActivity>; empty: string; children: (market: Market, change: MarketActivity | undefined) => React.ReactNode }) {
   return <section className={styles.marketSection}><header className={styles.sectionHeader}><div><h2>{title}</h2><p>{subtitle}</p></div><span>{markets.length}</span></header>{markets.length ? <div className={styles.marketList}>{markets.map((market) => children(market, changes.get(market.slug)))}</div> : <p className={styles.emptyState}>{empty}</p>}</section>;
+}
+
+// News and politics books (the ones moved by hand with %) are settled through the
+// sourced form: the database refuses a news resolution without a reason and an HTTPS
+// source, so the bare PO/JO buttons failed on them and those books stayed open.
+function ConcludeControl({ market, marketAction, onSaved }: { market: Market; marketAction: (id: string, body: Record<string, unknown>) => Promise<void> | void; onSaved: () => Promise<void> }) {
+  // The same test the API applies before it asks for a reason and a source.
+  const sourced = (market.market_classification ?? "general_news") === "general_news" && (market.market_type ?? "binary") === "binary";
+  return sourced
+    ? <NewsMarketControl market={market} mode="resolve" onSaved={onSaved} />
+    : <ResolveActions market={market} marketAction={marketAction} />;
 }
 
 function ResolveActions({ market, marketAction }: { market: Market; marketAction: (id: string, body: Record<string, unknown>) => Promise<void> | void }) {
