@@ -501,7 +501,8 @@ function NewsMarketControl({ market, mode, onSaved }: { market: Market; mode: "a
   const current = Number.isFinite(difference) ? 100 / (1 + Math.exp(-difference)) : 50;
   const delta = Number(points);
   const target = current + delta;
-  const valid = reason.trim().length >= 20 && /^https:\/\/\S+$/i.test(sourceUrl.trim())
+  // Settling needs only the winner and what happened; moving odds still needs a source.
+  const valid = reason.trim().length >= 20 && (mode === "resolve" || /^https:\/\/\S+$/i.test(sourceUrl.trim()))
     && (mode === "resolve" || (points.trim() !== "" && Number.isFinite(delta) && delta !== 0 && Math.abs(delta) <= 98 && target >= 1 && target <= 99));
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -531,7 +532,8 @@ function NewsMarketControl({ market, mode, onSaved }: { market: Market; mode: "a
       <output aria-live="polite">{current.toFixed(1)}% {points.trim() && Number.isFinite(delta) ? `→ ${target.toFixed(1)}%` : "PO"}</output>
     </div> : <label>Fituesi<select value={outcome} onChange={(event) => setOutcome(event.target.value as "PO" | "JO")}><option value="PO">PO</option><option value="JO">JO</option></select></label>}
     <label>Çfarë ndodhi?<textarea value={reason} onChange={(event) => setReason(event.target.value)} minLength={20} rows={2} placeholder="Përshkruaj faktin dhe lidhjen me kriterin e tregut" required /></label>
-    <label>Burimi i verifikuar<input type="url" value={sourceUrl} onChange={(event) => setSourceUrl(event.target.value)} placeholder="https://..." required /></label>
+    {mode === "resolve" && reason.trim().length > 0 && reason.trim().length < 20 && <small>Edhe {20 - reason.trim().length} shkronja.</small>}
+    {mode === "adjust" && <label>Burimi i verifikuar<input type="url" value={sourceUrl} onChange={(event) => setSourceUrl(event.target.value)} placeholder="https://..." required /></label>}
     {error && <p role="alert" className={styles.errorMessage}>{error}</p>}
     <button type="submit" disabled={!valid || pending} className={mode === "adjust" ? styles.buttonSecondary : styles.buttonYes}>{pending ? "Duke ruajtur…" : mode === "adjust" ? "Ruaj ndryshimin" : `Zgjidh ${outcome} dhe paguaj`}</button>
   </form>;

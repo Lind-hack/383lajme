@@ -248,15 +248,18 @@ export async function PATCH(
       return NextResponse.json({ error: "Rezultati duhet të jetë PO ose JO" }, { status: 400 });
     }
     const { data: market, error: marketError } = await admin.from("markets")
-      .select("market_classification,market_type,status")
+      .select("slug,market_classification,market_type,status")
       .eq("id", id).maybeSingle();
     if (marketError) return NextResponse.json({ error: marketError.message }, { status: 500 });
     if (!market) return NextResponse.json({ error: "Tregu nuk u gjet" }, { status: 404 });
     const isNews = (market.market_classification ?? "general_news") === "general_news" && (market.market_type ?? "binary") === "binary";
     const reason = String(body.reason ?? "").trim();
-    const sourceUrl = String(body.sourceUrl ?? "").trim();
-    if (isNews && (reason.length < 20 || !/^https:\/\/\S+$/i.test(sourceUrl))) {
-      return NextResponse.json({ error: "Zgjidhja e lajmit kërkon arsye konkrete dhe lidhje HTTPS me rezultatin." }, { status: 400 });
+    // Lind settles news books with PO/JO and what happened, no source link (2026-11-08).
+    // resolve_admin_news_market still wants an HTTPS link, so the market's own page stands in.
+    const given = String(body.sourceUrl ?? "").trim();
+    const sourceUrl = /^https:\/\/\S+$/i.test(given) ? given : `https://383ks.com/tregu/${market.slug}`;
+    if (isNews && reason.length < 20) {
+      return NextResponse.json({ error: "Shkruaj çfarë ndodhi (të paktën 20 shkronja)." }, { status: 400 });
     }
     const { error } = isNews
       ? await admin.rpc("resolve_admin_news_market", { p_market_id: id, p_outcome: body.outcome, p_reason: reason, p_source_url: sourceUrl })
