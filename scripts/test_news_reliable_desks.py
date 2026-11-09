@@ -301,4 +301,74 @@ class EditorRejectionTests(unittest.TestCase):
                 self.assertNotIn('editor_completion.py',calls,category)
                 self.assertEqual(port.metrics['failure_reasons'],['review_rejection'],category)
 
+class RefusedDraftTests(unittest.TestCase):
+    URL='https://www.cnbc.com/2026/11/09/test.html'
+
+    def run_story(self,refusals):
+        """One ready story whose originality review refuses the first `refusals` drafts."""
+        import tempfile,json
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from unittest.mock import patch
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        with tempfile.TemporaryDirectory() as temp,patch('builtins.print'):
+            root=Path(temp)
+            port=ProductionPort('Ekonomi',Reserve(root/'reserve','Ekonomi'),root/'run',datetime.now(timezone.utc).timestamp()+3000,qa=True)
+            port.data={};prompts=[];feedback=[];reviews=[]
+            article=dict(url=self.URL,slug='test',title='Titull',body='<p>Tekst.</p>',source='CNBC')
+            def python(script,*args,**kwargs):
+                if script=='prepare_editor_sources.py' and '--discovery' in args:
+                    atomic(Path(args[0]).with_suffix('.json'),dict(ready_leads=[dict(url=self.URL,source='CNBC')]))
+                elif script=='prepare_editor_sources.py':
+                    atomic(Path(args[0]).with_suffix('.editor-sources.json'),[dict(slug='test',evidence=dict(text='Other words entirely.'))])
+                elif script=='news_copyright_review.py':
+                    batch=Path(args[1]);reviews.append(batch)
+                    if len(reviews)<=refusals:
+                        atomic(Path(kwargs['env']['L383_REVIEW_REJECTED']),[dict(article,rejection_reason='The lead translates the source sentence.')])
+                        atomic(batch,[])
+                    else:
+                        atomic(batch.with_suffix('.copyright-review.json'),dict(reviewed_at=datetime.now(timezone.utc).isoformat()))
+                        atomic(batch.with_suffix('.context-review.json'),{})
+            def command(args,**kwargs):
+                if '--batch' in args:
+                    prompts.append(args[-1]);atomic(Path(args[args.index('--batch')+1]),[dict(article)])
+                else:feedback.append((kwargs.get('env') or {}).get('L383_EDITOR_GATE_FEEDBACK'))
+            with patch.object(port,'python',side_effect=python),patch.object(port,'command',side_effect=command), \
+                    patch('codex_automation_support._recently_published',return_value=[]), \
+                    patch('news_context_review.review'),patch('news_context_review.verify'), \
+                    patch('news_copyright_review.validate_for_publication'), \
+                    patch.object(port.reserve,'store',side_effect=lambda article,*a,**k:dict(article=article)):
+                entries=list(port.produce([],5))
+            return entries,prompts,port.metrics,feedback
+
+    def test_a_refused_draft_is_composed_once_more_with_the_named_defect(self):
+        entries,prompts,metrics,_=self.run_story(1)
+        self.assertEqual(len(entries),1)
+        self.assertEqual(len(prompts),2)
+        self.assertNotIn('Refusal:',prompts[0])
+        self.assertIn('The lead translates the source sentence.',prompts[1])
+        self.assertEqual(metrics['rewrites'],1)
+        self.assertEqual(metrics['approvals'],1)
+        self.assertNotIn('failure_reasons',metrics)
+
+    def test_a_second_refusal_ends_the_story_and_is_named(self):
+        entries,prompts,metrics,_=self.run_story(2)
+        self.assertEqual(entries,[])
+        self.assertEqual(len(prompts),2)
+        self.assertEqual(metrics['failure_reasons'],['originality_rejection'])
+
+    def test_an_approved_draft_is_not_rewritten(self):
+        entries,prompts,metrics,_=self.run_story(0)
+        self.assertEqual(len(entries),1)
+        self.assertEqual(len(prompts),1)
+        self.assertNotIn('rewrites',metrics)
+
+    def test_the_editor_is_told_what_the_publication_gates_would_refuse(self):
+        from unittest.mock import patch
+        with patch('originality_gate.originality_errors',return_value=['body contains an exact source overlap of 8 words']):
+            _,_,_,feedback=self.run_story(0)
+        self.assertIn('exact source overlap of 8 words',feedback[0])
+
 if __name__=='__main__':unittest.main()
