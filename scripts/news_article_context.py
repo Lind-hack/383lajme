@@ -699,20 +699,32 @@ def enrich(article: dict) -> dict | None:
 # A story's own numbers as bars: votes, a score, a budget. Every number must stand in the
 # article or a source as written; the model may pick and label them, never compute one.
 
+SCALES = {1e3: r"mij[eë]|thousand", 1e6: r"milion[eë]?|million|mln|mn", 1e9: r"miliard[eë]?|billion|mld|bn",
+          1e12: r"trilion[eë]?|trillion"}  # never "mijëra" or "millions": those are no number
+SCALE = re.compile(r"\s?(?:" + "|".join(f"(?P<s{int(size)}>{words})" for size, words in SCALES.items()) + r")\b", re.I)
+
+
 def number_in(value: float, text: str) -> bool:
-    """Is this number written in the text, either way: 1.200 or 1,200 for a thousand two
-    hundred, 8,5 or 8.5 for eight and a half. Separators are dropped only between groups of
-    three digits, so 41.5 is never read as 415."""
-    for token in re.findall(r"\d+(?:[.,]\d+)*", str(text or "")):
-        readings = {token} if token.isdigit() else set()
+    """Is this number written in the text, any way it is written: 1.200, 1,200 or 1 200 for a
+    thousand two hundred, 8,5 or 8.5 for eight and a half, 70 miliardë or 70 billion for seventy
+    thousand million. Separators are dropped only between groups of three digits, so 41.5 is
+    never read as 415. A scale word counts only right after its own number."""
+    text = str(text or "")
+    for found in re.finditer(r"\d{1,3}(?:[ \u00a0\u202f]\d{3})+(?!\d)|\d+(?:[.,]\d+)*", text):
+        token = found.group(0)
+        spaced = re.sub(r"[ \u00a0\u202f]", "", token)
+        readings = {spaced} if spaced.isdigit() else set()
         if re.fullmatch(r"\d{1,3}(?:[.,]\d{3})+", token):
             readings.add(re.sub(r"[.,]", "", token))
         for mark, other in ((".", ","), (",", ".")):
             if token.count(mark) == 1:  # the last separator read as the decimal point
                 readings.add(token.replace(other, "").replace(mark, "."))
+        scale = SCALE.match(text, found.end())
+        size = next((float(name[1:]) for name, hit in scale.groupdict().items() if hit), 1.0) if scale else 1.0
         for reading in readings:
             try:
-                if abs(float(reading) - value) < 1e-9:
+                # With a scale word the number is the scaled one, never the bare digits.
+                if abs(float(reading) * size - value) <= 1e-9 * max(1.0, abs(value)):
                     return True
             except ValueError:
                 continue
@@ -743,6 +755,10 @@ def checked_figures(row, article: dict, evidence: str) -> dict | None:
     if not title or len(title) > FIGURE_TITLE_CHARS or len(unit) > 12 or not low <= len(items) <= high or not any(i["value"] for i in items):
         return None
     if set(words(f"{title} {unit} " + " ".join(i["label"] for i in items))) & outlet_words(article):
+        return None
+    # The chart belongs to this story only if the story itself gives one of its numbers.
+    # Sources carry other stories' numbers too: casualty counts under a piece on a peace deal.
+    if not any(number_in(i["value"], article_text(article)) for i in items):
         return None
     return {"title": title, "unit": unit, "items": items}
 

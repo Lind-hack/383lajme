@@ -802,3 +802,26 @@ class Figures(unittest.TestCase):
         self.assertIsNone(nac.checked_figures(row, ARTICLE, self.TEXT))
         row = {**self.ROW, "quotes": ["the fee of 8.50 euro per metre", "Labour adds 3 euro"]}
         self.assertIsNotNone(nac.checked_figures(row, ARTICLE, self.TEXT))
+
+    def test_numbers_written_with_a_word_or_spaces_are_read_as_written(self):
+        self.assertTrue(nac.number_in(70_000_000_000, "një mungesë prej 70 miliardë eurosh"))
+        self.assertTrue(nac.number_in(70_000_000_000, "a €70 billion shortfall"))
+        self.assertTrue(nac.number_in(10_000, "afërsisht 10 mijë supermarketet"))
+        self.assertTrue(nac.number_in(1_450_000, "1,45 milionë janë në rrezik"))
+        self.assertTrue(nac.number_in(1_450_000, "1.45 million are at risk"))
+        self.assertTrue(nac.number_in(750_000, "750 000 persona jetojnë në varfëri"))
+        self.assertTrue(nac.number_in(75_000_000, "hyrje neto prej 75 mln $"))
+        # The word belongs to the number right before it, and to no other.
+        self.assertFalse(nac.number_in(70_000_000_000, "70 vende dhe 3 miliardë euro"))
+        self.assertFalse(nac.number_in(750, "750 000 persona"))
+        self.assertFalse(nac.number_in(2026_000, "në vitin 2026 mijëra vetë"))
+
+    def test_a_chart_of_numbers_the_article_never_gives_is_another_story(self):
+        # Both numbers are quoted from a source, but our article reports neither:
+        # casualty estimates under a story about a peace deal.
+        text = self.TEXT + " One group counted 450,100 killed, another 393,881 killed."
+        row = {"title": "Vlerësimet", "unit": "", "items": [{"label": "Grupi i parë", "value": 450100}, {"label": "Grupi i dytë", "value": 393881}],
+               "quotes": ["One group counted 450,100 killed, another 393,881 killed"]}
+        self.assertIsNone(nac.checked_figures(row, ARTICLE, text))
+        # One number the article does give anchors the chart; the rest may come from the sources.
+        self.assertIsNotNone(nac.checked_figures(self.ROW, ARTICLE, self.TEXT))

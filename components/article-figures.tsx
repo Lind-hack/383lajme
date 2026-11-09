@@ -3,6 +3,15 @@ import type { ArticleFigures as Figures } from "@/lib/mock-data";
 // Formatted by hand, not Intl: the server's and the browser's locale data can differ by a
 // space, and a mismatch there breaks hydration of the whole article.
 function number(value: number) {
+  // 70 000 000 000 reads as "70 mld": shortened only when nothing is rounded away.
+  for (const [size, word] of [[1e9, " mld"], [1e6, " mln"]] as const) {
+    const scaled = value / size;
+    if (scaled >= 1 && Number.isInteger(Math.round(scaled * 1e4) / 100)) return `${grouped(Math.round(scaled * 100) / 100)}${word}`;
+  }
+  return grouped(value);
+}
+
+function grouped(value: number) {
   const [whole, part] = String(value).split(".");
   return `${whole.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}${part ? `,${part}` : ""}`;
 }
