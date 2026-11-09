@@ -391,7 +391,7 @@ class ProductionPort:
                             env={'L383_PREPARED_EVIDENCE_ROOT': str(evidence_folder or work / 'source-evidence')})
                 self.command(['bash', 'scripts/run-news-editor-parallel.sh', 'gpt-6-luna', batch, Path.cwd(), '30'],
                              seconds=420 if self.category == 'Botë' else 240, model=True)
-                if self.category == 'Botë' and not json.loads(batch.read_text(encoding='utf-8')):
+                if not json.loads(batch.read_text(encoding='utf-8')):
                     self.metrics.setdefault('failure_reasons', []).append('review_rejection')
                     continue
                 self.python('editor_completion.py', 'verify', batch, seconds=30)

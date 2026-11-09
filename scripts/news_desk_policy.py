@@ -54,9 +54,11 @@ def select_candidates(leads, evidence=None, *, limit=5, now=None):
             full = dict(lead, title=lead.get('title', '') + ' ' + str(
                 evidence.get(lead['url'], lead.get('primary_evidence', {})).get('text') or ''))
             return (reader_value(lead)['reserve_genre'], bool(lead.get('coverage_already_published')),
+                    -lead.get('reader_interest', 0),
                     -int(local_interest(lead, evidence.get(lead['url']))), freshness_bucket(lead, now),
                     -homepage_weight(lead, now), -reader_value(full)['score'], lead['url'])
         return (reader_value(lead)['reserve_genre'], bool(lead.get('coverage_already_published')),
+                -lead.get('reader_interest', 0),
                 -focus(lead)['priority'], freshness_bucket(lead, now),
                 -homepage_weight(lead, now), -reader_value(lead)['score'], lead['url'])
     def rotate(groups):

@@ -38,6 +38,23 @@ def verdict(**values):
 
 
 class StoryReviewTests(unittest.TestCase):
+    def test_fillers_are_held_before_review_and_the_report_says_so(self):
+        filler=dict(url='https://consequence.net/2026/11/b-side/',source='Consequence',category='Showbiz',
+                    title='Obscure band reissues a 1991 b-side',published=NOW.isoformat())
+        evidence={URL:EVIDENCE,filler['url']:dict(EVIDENCE,url=filler['url'],title=filler['title'])}
+        def interest(items,category,deadline):
+            return [dict(id=item['id'],score=1 if 'b-side' in item['title'] else 5,known=True,stake=True,reason='test')
+                    for item in items]
+        with tempfile.TemporaryDirectory() as folder,patch('builtins.print'):
+            leads=[dict(filler),dict(LEAD)]
+            records,result=review_inventory(leads,evidence,[],folder,capturer=fake_capture,
+                                            reviewer=lambda *args:verdict(),interest=interest,now=NOW)
+        self.assertEqual(list(records),[URL])
+        self.assertEqual(records[URL]['status'],'reviewed')
+        self.assertEqual(result['summary']['held_low_reader_interest'],1)
+        self.assertEqual(result['held_low_reader_interest'][0]['url'],filler['url'])
+        self.assertEqual(leads[1]['reader_interest'],5)
+
     def test_production_relative_report_folder_accepts_absolute_capture_paths(self):
         from contextlib import chdir
         def absolute_capture(*args,**kwargs):

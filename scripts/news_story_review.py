@@ -236,7 +236,8 @@ def reusable_capture(record, lead, evidence, now):
 
 
 def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=300,
-                     reviewer=native_review, capturer=capture, now=None, capture_only=False,batch_reviewer=None, category="Showbiz"):
+                     reviewer=native_review, capturer=capture, now=None, capture_only=False,batch_reviewer=None, category="Showbiz",
+                     interest=None):
     """No shortlist/category cap before review; unprocessed articles remain held."""
     now = now or datetime.now(timezone.utc)
     deadline = stage_deadline(budget_seconds)
@@ -267,6 +268,16 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
         candidates.append(lead)
     from news_desk_policy import select_candidates
     queue=select_candidates(candidates,evidence_by_url,limit=len(candidates),now=now)
+    # Compare the whole readable pool once, before pixels and writing are spent
+    # on it: fillers are held back and the rest is reviewed most interesting first.
+    fillers=[]
+    if interest is None and reviewer is native_review and not capture_only:
+        from news_reader_interest import model_judge as interest
+    if interest:
+        from news_reader_interest import rank
+        queue,low=rank(queue,evidence_by_url,category,folder,deadline=deadline,judge=interest)
+        fillers=[dict(url=lead['url'],source=lead['source'],title=lead.get('title'),reader_interest=lead['reader_interest'],
+                      reason=lead.get('reader_interest_reason','')) for lead in low]
     # A reliable desk comes back for the next wave after finishing these
     # stories. Keep deferred articles in the audit as pending, never rejected.
     wave_size = int(os.environ.get('L383_RELIABLE_REVIEW_WAVE_SIZE', '0'))
@@ -472,7 +483,8 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
     result = {'policy':review_policy(category),'category':category,'generated_at':now.isoformat(),'scope':f'all current readable {category} articles discovered in this collection; not the entire web',
               'publishers':[{**audit,'visual_homepage':homes.get(audit['source'],{})}
                             for audit in audits if audit.get('category')==category],
-              'excluded_off_topic':excluded,'articles':list(records.values()),'summary':{
+              'excluded_off_topic':excluded,'held_low_reader_interest':fillers,'articles':list(records.values()),'summary':{
+                  'held_low_reader_interest':len(fillers),
                   'excluded_off_topic_articles':len(excluded),'registered_publishers':len(publishers),'discovered_readable_articles':len(pool),'deferred_articles':len(deferred),'review_batches_scheduled':batch_calls,
                   'captured_homepages':sum(h['status'] in {'captured','captured_partial'} for h in homes.values()),
                   'complete_homepage_layouts':sum(h['status']=='captured' for h in homes.values()),

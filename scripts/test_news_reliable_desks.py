@@ -273,4 +273,32 @@ class ProductionCollectionTests(unittest.TestCase):
             self.assertEqual(port.metrics['visual_review']['article_pages_captured'],0)
             self.assertEqual(port.metrics['visual_review']['new_evals'],1)
 
+class EditorRejectionTests(unittest.TestCase):
+    def test_a_story_the_editor_drops_is_a_review_rejection_on_every_desk(self):
+        import tempfile,json
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from unittest.mock import patch
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        for category in ('Showbiz','Ekonomi'):
+            with tempfile.TemporaryDirectory() as temp,patch('builtins.print'):
+                root=Path(temp)
+                port=ProductionPort(category,Reserve(root/'reserve',category),root/'run',datetime.now(timezone.utc).timestamp()+3000,qa=True)
+                port.data={};calls=[];batch=[]
+                def python(script,*args,**kwargs):
+                    calls.append(script)
+                    if script=='prepare_editor_sources.py' and '--discovery' in args:
+                        atomic(Path(args[0]).with_suffix('.json'),dict(ready_leads=[dict(url='https://www.cnbc.com/2026/11/09/test.html',source='CNBC')]))
+                    if script=='editor_completion.py':raise RuntimeError('No receipt for a rejected draft')
+                def command(args,**kwargs):
+                    if '--batch' in args:
+                        target=Path(args[args.index('--batch')+1]);batch.append(target);atomic(target,[dict(url='https://www.cnbc.com/2026/11/09/test.html')])
+                    else:atomic(batch[0],[])
+                with patch.object(port,'python',side_effect=python),patch.object(port,'command',side_effect=command):
+                    self.assertEqual(list(port.produce([],5)),[])
+                self.assertNotIn('editor_completion.py',calls,category)
+                self.assertEqual(port.metrics['failure_reasons'],['review_rejection'],category)
+
 if __name__=='__main__':unittest.main()
