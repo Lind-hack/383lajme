@@ -64,9 +64,9 @@ class ShowbizPolicyTests(unittest.TestCase):
     def test_independent_editor_receives_the_same_showbiz_format_exception(self):
         from pathlib import Path
         prompt=(Path(__file__).parent/'run-news-editor.sh').read_text(encoding='utf-8')
-        self.assertIn('Retained Showbiz and Ekonomi briefs need at least 50 grounded words in one HTML paragraph.',prompt)
-        self.assertIn('Categories other than Showbiz and Ekonomi need at least 140 grounded words in three HTML paragraphs.',prompt)
-        self.assertIn('Prepared Showbiz and Ekonomi publisher-article images need at least 600 by 350 decoded pixels',prompt)
+        self.assertIn('Retained Showbiz, Ekonomi and Botë briefs need at least 50 grounded words in one HTML paragraph.',prompt)
+        self.assertIn('Categories other than Showbiz, Ekonomi and Botë need at least 140 grounded words in three HTML paragraphs.',prompt)
+        self.assertIn('Prepared Showbiz, Ekonomi and Botë publisher-article images need at least 600 by 350 decoded pixels',prompt)
 
     def test_hourly_schema_preserves_the_showbiz_source_image_exception(self):
         import json
