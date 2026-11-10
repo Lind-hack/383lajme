@@ -15,7 +15,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-POLICY = '383-reader-interest-v1'
+POLICY = '383-reader-interest-v2'
 MIN_INTEREST = 3  # 1 and 2 are fillers
 BATCH = 80
 SUMMARY_CHARS = 220
@@ -41,12 +41,24 @@ PROMPT = (
     '1 = almost no reader here would care or even know the subject\n'
     'A famous name alone is not a story: a routine post, a minor chart position or a small business deal stays low. '
     'A story about Kosovo, Albania or Albanians is not automatically high either; it still needs a real development. '
-    'Do not reward a headline for sounding dramatic. Judge only what the headline and summary say.\n'
+    'Do not reward a headline for sounding dramatic. Judge only what the headline and summary say.{desk_note}\n'
     'Return one object for EVERY headline, as a JSON array between 383_JSON_BEGIN and 383_JSON_END: '
     '{{"id": "<the id exactly>", "score": <1-5>, "known": <true if the main person, company or place is widely known '
     'in Kosovo>, "stake": <true if it changes something for the reader or is a major event>, '
     '"reason": "<at most 10 words>"}}. No tools, no other text.'
 )
+
+
+# Owner decision, 10 Nov 2026: small local celebrity news is what Showbiz readers open.
+DESK_NOTES = {
+    'Showbiz': ' On this desk, something new that a named Albanian or Kosovo celebrity did, said, wore or posted '
+               '(a visit, a reply, an outfit, a new photo) scores at least 3, even when it is small. Keep 1 and 2 for '
+               'foreign niche acts, trade and business news, lists, advice and pages with no new event.',
+}
+
+
+def prompt(category):
+    return PROMPT.format(desk=DESKS.get(category, 'news'), desk_note=DESK_NOTES.get(category, ''))
 
 
 def key(lead):
@@ -60,7 +72,7 @@ def model_judge(items, category, deadline):
     with tempfile.TemporaryDirectory(prefix='383-reader-interest-') as folder:
         brief = Path(folder) / 'headlines.jsonl'
         brief.write_text('\n'.join(json.dumps(item, ensure_ascii=False) for item in items), encoding='utf-8')
-        return ask_rows(PROMPT.format(desk=DESKS.get(category, 'news')), brief,
+        return ask_rows(prompt(category), brief,
                         ['--provider', 'openai-codex', '--model', 'gpt-6-luna', '--ignore-rules', '-t', 'none',
                          '--yolo', '--max-turns', '1', '-Q', '-q'],
                         timeout=CALL_SECONDS, deadline=deadline, inline_brief=True)

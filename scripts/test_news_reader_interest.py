@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from news_reader_interest import MIN_INTEREST, rank
+from news_reader_interest import MIN_INTEREST, prompt, rank
 
 
 def lead(n, title, source='A'):
@@ -102,6 +102,13 @@ class ReaderInterestTests(unittest.TestCase):
         self.assertEqual(len(judge.calls[0]), 6)
         self.assertEqual(len(kept), 10)
         self.assertEqual([row.get('reader_interest') for row in kept], [4] * 6 + [None] * 4)
+
+    def test_only_showbiz_is_told_that_small_local_celebrity_news_counts(self):
+        self.assertIn('named Albanian or Kosovo celebrity', prompt('Showbiz'))
+        self.assertIn('scores at least 3', prompt('Showbiz'))
+        for desk in ('Ekonomi', 'Botë'):
+            self.assertNotIn('celebrity did', prompt(desk))
+            self.assertNotIn('desk_note', prompt(desk))
 
     def test_switched_off_changes_nothing(self):
         judge = scores({row['title']: 1 for row in LEADS})
