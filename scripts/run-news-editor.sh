@@ -27,7 +27,7 @@ from news_model_evidence import write_readable_evidence
 write_readable_evidence(Path(sys.argv[3]), json.loads(Path(sys.argv[1]).read_text(encoding='utf-8')))
 PY
 trap 'rm -f "$LOG" "$EDITOR_INPUT" "$EDITOR_INPUT.md"' EXIT
-cd /opt/data
+cd "${L383_EDITOR_CWD:-/opt/data}"
 
 set +e
 "$PYTHON_BIN" "$REPO/scripts/news_model_response.py" --batch "$BATCH" --mode editor-decisions \
