@@ -13,13 +13,68 @@ import sys
 import time
 from pathlib import Path
 
-CWD = Path(__file__).with_name('cwd')
+CWD = Path(os.environ.get('L383_EVAL_TMP') or Path(__file__).parent) / 'model-cwd'  # an empty folder: no project files or rules reach the stand-in
 SYSTEM = ('You are the newsroom model inside an automated Albanian news pipeline. Follow the task in the '
           'user message exactly. Return only what it asks for, with the exact markers it names. '
           'Do not ask questions and do not add commentary outside the requested output.')
 
 
+def gemini(prompt, image, models):
+    """Free Gemini as the stand-in (L383_EVAL_MODEL=gemini-...): text, or text plus the image bytes."""
+    import base64
+    import urllib.error
+    import socket
+    import urllib.request
+    resolve = socket.getaddrinfo  # this network resolves IPv6 it cannot route: every call waited ~25 s
+    socket.getaddrinfo = lambda host, port, family=0, *rest, **more: resolve(host, port, socket.AF_INET, *rest, **more)
+    keys = [os.environ.get(name, '') for name in ('GOOGLE_AI_API_KEY', 'GOOGLE_AI_API_KEY_2', 'GEMINI_API_KEY')]
+    for line in (open(os.environ['L383_EVAL_ENV'], encoding='utf-8') if os.environ.get('L383_EVAL_ENV') else []):
+        if line.startswith(('GOOGLE_AI_API_KEY', 'GEMINI_API_KEY')) and '=' in line:
+            keys.append(line.strip().split('=', 1)[1].strip().strip('"'))
+    keys = list(dict.fromkeys(key for key in keys if key))
+    parts = [{'text': SYSTEM + chr(10) * 2 + prompt}]
+    if image:
+        kind = {'.png': 'image/png', '.webp': 'image/webp', '.gif': 'image/gif'}.get(Path(image).suffix.lower(), 'image/jpeg')
+        parts.append({'inline_data': {'mime_type': kind, 'data': base64.b64encode(Path(image).read_bytes()).decode()}})
+    body = json.dumps({'contents': [{'parts': parts}], 'generationConfig': {'temperature': 0.3}}).encode()
+    started, error = time.time(), 'no Gemini key'
+    for attempt in range(3):
+        for model in models:
+            for key in keys:
+                request = urllib.request.Request(
+                    f'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}',
+                    data=body, method='POST', headers={'Content-Type': 'application/json'})
+                try:
+                    with urllib.request.urlopen(request, timeout=150) as response:
+                        answer = json.loads(response.read().decode('utf-8'))
+                    text = ''.join(part.get('text', '') for part in answer['candidates'][0]['content']['parts'])
+                    usage = answer.get('usageMetadata', {})
+                    return 0, text, dict(model=model, seconds=round(time.time() - started, 1), cost_usd=0,
+                                         input_tokens=usage.get('promptTokenCount'), output_tokens=usage.get('candidatesTokenCount'))
+                except urllib.error.HTTPError as exc:
+                    error = f'{model}: HTTP {exc.code}'
+                except (OSError, ValueError, KeyError, IndexError, TypeError) as exc:
+                    error = f'{model}: {exc!r}'[:200]
+        time.sleep(20)  # free-tier minute limits
+    return 1, '', dict(error=error, seconds=round(time.time() - started, 1))
+
+
 def ask(prompt, image=None):
+    chosen = os.environ.get('L383_EVAL_MODEL', 'haiku')
+    if chosen.startswith('gemini'):
+        code, text, facts = gemini(prompt, image, chosen.split(','))
+        record = dict(at=time.strftime('%Y-%m-%dT%H:%M:%S'), prompt_chars=len(prompt), image=bool(image),
+                      returncode=code, answer_chars=len(text), **facts)
+        log = os.environ.get('L383_EVAL_CALLS')
+        if log:
+            with open(log, 'a', encoding='utf-8') as handle:
+                handle.write(json.dumps(record, ensure_ascii=False) + chr(10))
+            folder = Path(log).with_suffix('.d')
+            folder.mkdir(exist_ok=True)
+            stamp = f'{time.time():.3f}-{os.getpid()}'
+            (folder / f'{stamp}.prompt.txt').write_text(prompt, encoding='utf-8')
+            (folder / f'{stamp}.answer.txt').write_text(text, encoding='utf-8')
+        return code, text
     command = [shutil.which('claude') or 'claude', '-p', '--model', os.environ.get('L383_EVAL_MODEL', 'haiku'), '--strict-mcp-config',
                '--disable-slash-commands', '--no-session-persistence', '--setting-sources', '',
                '--system-prompt', SYSTEM, '--output-format', 'json']
@@ -30,6 +85,7 @@ def ask(prompt, image=None):
     else:
         command += ['--tools', '']
     env = {k: v for k, v in os.environ.items() if k != 'ANTHROPIC_API_KEY'}
+    CWD.mkdir(parents=True, exist_ok=True)
     started = time.time()
     done = subprocess.run(command, input=prompt, capture_output=True, text=True, encoding='utf-8',
                           cwd=CWD, env=env)
