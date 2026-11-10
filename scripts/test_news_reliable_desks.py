@@ -360,6 +360,27 @@ class RefusedDraftTests(unittest.TestCase):
         self.assertEqual(len(prompts),2)
         self.assertEqual(metrics['failure_reasons'],['originality_rejection'])
 
+    def test_a_writer_that_declines_the_story_is_reported_as_that(self):
+        import tempfile
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from unittest.mock import patch
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        with tempfile.TemporaryDirectory() as temp,patch('builtins.print'):
+            root=Path(temp)
+            port=ProductionPort('Botë',Reserve(root/'reserve','Botë'),root/'run',datetime.now(timezone.utc).timestamp()+3000,qa=True)
+            port.data={}
+            def python(script,*args,**kwargs):
+                if script=='prepare_editor_sources.py' and '--discovery' in args:
+                    atomic(Path(args[0]).with_suffix('.json'),dict(ready_leads=[dict(url=self.URL,source='CNBC')]))
+            def command(args,**kwargs):
+                raise RuntimeError('news_model_response.py: exit 3')
+            with patch.object(port,'python',side_effect=python),patch.object(port,'command',side_effect=command):
+                self.assertEqual(list(port.produce([],5)),[])
+            self.assertEqual(port.metrics['failure_reasons'],['writer_declined'])
+
     def test_an_approved_draft_is_not_rewritten(self):
         entries,prompts,metrics,_=self.run_story(0)
         self.assertEqual(len(entries),1)

@@ -797,6 +797,12 @@ class Figures(unittest.TestCase):
         self.assertIsNone(nac.checked_figures({**self.ROW, "title": "Sipas example"}, ARTICLE, self.TEXT))
         self.assertIsNone(nac.checked_figures(None, ARTICLE, self.TEXT))
 
+    def test_a_rerun_that_adds_bars_is_worth_saving(self):
+        old = {"status": "ok", "what": "x", "media": []}
+        self.assertGreater(nac.richness({**old, "figures": self.ROW}), nac.richness(old))
+        self.assertTrue(nac.worth_saving({**old, "figures": self.ROW}, old))
+        self.assertFalse(nac.worth_saving(old, {**old, "figures": self.ROW}))
+
     def test_numbers_match_in_either_way_of_writing_them(self):
         self.assertTrue(nac.number_in(1200, "rreth 1.200 banorë"))
         self.assertTrue(nac.number_in(8.5, "8,5 për qind"))

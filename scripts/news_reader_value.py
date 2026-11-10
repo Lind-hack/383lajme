@@ -40,7 +40,11 @@ def reader_value(lead: dict) -> dict:
     # Advertisements, previews and evergreen explainers remain retrievable,
     # but do not consume the first preparation slots for newly reported news.
     labels = {str(tag).casefold() for tag in (lead.get('tags') or [])}
-    reserve = bool(labels & {'opinion', 'review', 'reviews', 'sponsored', 'buying guide', 'betting'}
+    # Another outlet's transcript, live blog or picture gallery is not a story a writer can retell:
+    # on 9 Nov 2026 the World writer declined three to five of them a run after the photo review was spent.
+    container = re.search(r'\b(?:full transcript|read the transcript|transcript of|live updates?|live blog|liveblog|as it happened|'
+                          r'watch live|in pictures|in photos|photos of the (?:day|week)|week in pictures)\b', text)
+    reserve = bool(labels & {'opinion', 'review', 'reviews', 'sponsored', 'buying guide', 'betting'} or container
                    or re.search(r'\b(?:horoskop\w*|sponsoriz\w*|advertorial|coupon\w*|promo code|buying guide|what is|cfare eshte)\b', text)
                    or category!='Showbiz' and re.search(r'\b(?:rumours?|rumors?|gossip|thashethem\w*)\b',text)
                    or (not any(reason in signals for reason in reasons)

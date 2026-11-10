@@ -24,6 +24,15 @@ class ReaderValueTests(unittest.TestCase):
                                 ('Showbiz','Bebe Rexha performon në NRJ Music Awards')]:
             self.assertFalse(reader_value(dict(category=category, title=title))['reserve_genre'], title)
 
+    def test_transcripts_live_blogs_and_galleries_wait_behind_reported_stories(self):
+        for title in ["Read the full transcript of Ross Douthat's interview with President Trump",
+                      'Iran live updates: Trump comments on Middle East', 'The week in pictures',
+                      'Ukraine war live blog: day 990']:
+            self.assertTrue(reader_value(dict(category='Botë', title=title))['reserve_genre'], title)
+        for title in ['Trump says a deal could change the shape of Ukraine', 'France accuses Iran of cyberattacks on supermarkets',
+                      'Lives lost as trains collide in India']:
+            self.assertFalse(reader_value(dict(category='Botë', title=title))['reserve_genre'], title)
+
     def test_concrete_reader_consequences_across_desks(self):
         cases = [('Kosovë', 'Prishtina publikon orarin e ndërprerjes së ujit'),
                  ('Shqipëri', 'Shqipëria ndryshon taksat për pagat'),

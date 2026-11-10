@@ -924,7 +924,8 @@ def stored_context(article: dict) -> dict | None:
 def richness(context: dict | None) -> int:
     if not isinstance(context, dict) or context.get("status") != "ok":
         return 0
-    return bool(context.get("what")) + bool(context.get("why")) + len(context.get("media") or []) + bool(context.get("chart"))
+    return (bool(context.get("what")) + bool(context.get("why")) + len(context.get("media") or []) + bool(context.get("chart"))
+            + bool(context.get("figures")))
 
 
 def worth_saving(new: dict, old: dict | None) -> bool:

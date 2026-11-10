@@ -509,8 +509,9 @@ class ProductionPort:
                 except _Refused:
                     pass
                 except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
-                    self.metrics.setdefault('failure_reasons', []).append('model_quota' if self.quota_hit()
-                                                                          else 'preparation_or_writing_failed')
+                    self.metrics.setdefault('failure_reasons', []).append(
+                        'model_quota' if self.quota_hit() else
+                        'writer_declined' if str(exc) == 'news_model_response.py: exit 3' else 'preparation_or_writing_failed')
                     print(f'383 STORY HELD {lead["url"]}: {exc}', flush=True)
                     if self.quota_hit():
                         raise

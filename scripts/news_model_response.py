@@ -2,6 +2,7 @@
 import argparse
 import json
 import os
+import re
 import subprocess
 from pathlib import Path
 
@@ -120,6 +121,11 @@ if __name__ == "__main__":
     if result.returncode:
         print(result.stdout[-2000:])
         raise SystemExit(result.returncode)
+    marked = result.stdout[result.stdout.rfind("383_JSON_BEGIN"):]
+    if args.mode == "replace" and re.match(r"383_JSON_BEGIN\s*\[\s*\]\s*383_JSON_END", marked):
+        # The writer answered, and its answer is that this story should not be written.
+        print("383 WRITER DECLINED: the writer returned no article for this story")
+        raise SystemExit(3)
     try:
         count = save_response(result.stdout, args.batch, args.mode, args.identity_manifest)
     except ValueError:

@@ -203,6 +203,7 @@ SHOWBIZ_MARKERS = {
     "oscar", "grammy", "hollywood", "major film",
 }
 
+SUBJECT_CHARS = 300  # how much of the body counts as what the story is about
 HARD_BANNED_PATTERNS = (
     ("anime/manga", re.compile(r"\b(anime|manga)\b", re.I)),
     ("K-pop/J-pop", re.compile(r"\b(k[ -]?pop|j[ -]?pop)\b", re.I)),
@@ -389,8 +390,12 @@ def article_errors(article: dict[str, Any]) -> list[str]:
         except (TypeError, ValueError):
             errors.append("relevance score is not numeric")
 
+    # A banned topic is what the story is about: its headline, excerpt or opening. One sentence
+    # on a K-pop singer inside a chart roundup blocked a story about someone else (10 Nov 2026).
+    opening = re.sub(r"<[^>]+>", " ", str(article.get("body") or ""))[:SUBJECT_CHARS]
+    subject = fold(" ".join([str(article.get("title") or ""), str(article.get("excerpt") or ""), opening]))
     for label, pattern in HARD_BANNED_PATTERNS:
-        if pattern.search(text):
+        if pattern.search(subject) or len(pattern.findall(text)) >= 3:
             errors.append(f"banned topic: {label}")
     if category == "Sport":
         if os.environ.get("L383_HOURLY_NEWS") != "1" and WOMEN_SPORT_PATTERN.search(text):
