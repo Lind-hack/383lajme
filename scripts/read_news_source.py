@@ -113,6 +113,18 @@ def _visible_publication_date(soup: BeautifulSoup, url: str) -> tuple[str, str]:
             values.append(value.replace(tzinfo=ZoneInfo("Europe/Belgrade")).isoformat())
         if len(set(values)) == 1:
             return values[0], "publisher:top-channel.tv:.date"
+    # KultPlus dates its story in the div right after the story headline ("9 November, 2026 - 22:45").
+    # Sidebar teasers use the same class but another headline class and no time, so they never match.
+    if parsed.hostname in {"kultplus.com", "www.kultplus.com"}:
+        values = []
+        for node in soup.select("h1.title-slide + div.date"):
+            try:
+                value = datetime.strptime(" ".join(node.get_text(" ", strip=True).split()), "%d %B, %Y - %H:%M")
+            except ValueError:
+                continue
+            values.append(value.replace(tzinfo=ZoneInfo("Europe/Belgrade")).isoformat())
+        if len(set(values)) == 1:
+            return values[0], "publisher:kultplus.com:.date"
     return "", ""
 
 

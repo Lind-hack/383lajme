@@ -21,6 +21,15 @@ class ArticleDateTests(unittest.TestCase):
         result = extract(f'<h1>Tiranë</h1><div class="date">20/12/2026 21:07</div><article><p>{BODY}</p></article>', "https://www.top-channel.tv/2026/12/20/story/")
         self.assertEqual(result["published"], "2026-12-20T21:07:00+01:00")
 
+    def test_kultplus_story_date_is_read_and_sidebar_teaser_dates_are_not(self):
+        story = '<h1 class="title-article title-slide">Filmi hap festivalin</h1><div class="desc date"><p> 9 November, 2026 - <i class="fa fa-clock-o"></i> 22:45 </p></div>'
+        teaser = '<a href="/tjeter/"><h1 class="title-article title-sidebar">Tjetër</h1><div class="desc date"><p>10 November, 2026</p></div></a>'
+        result = extract(f'{teaser}{story}<article><p>{BODY}</p></article>{teaser}', "https://kultplus.com/filmi-hap-festivalin/")
+        self.assertEqual(result["published"], "2026-11-09T22:45:00+01:00")
+        self.assertEqual(result["published_source"], "publisher:kultplus.com:.date")
+        self.assertEqual(extract(f'{teaser}<article><p>{BODY}</p></article>', "https://kultplus.com/filmi/")["published"], "")
+        self.assertEqual(extract(f'{story}<article><p>{BODY}</p></article>', "https://example.com/filmi/")["published"], "")
+
     def test_generic_date_class_is_not_trusted_on_other_hosts(self):
         result = extract(f'<h1>Story</h1><div class="date">20/10/2026 21:07</div><article><p>{BODY}</p></article>', "https://example.com/story")
         self.assertEqual(result["published"], "")
