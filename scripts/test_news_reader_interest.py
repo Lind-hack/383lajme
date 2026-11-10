@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from news_reader_interest import MIN_INTEREST, prompt, rank
+from news_reader_interest import CALL_SECONDS, MIN_INTEREST, prompt, rank
 
 
 def lead(n, title, source='A'):
@@ -18,12 +18,12 @@ LEADS = [lead(1, 'Lidl extends potato deal with Meade Farm'),
 
 
 def scores(values):
-    """A judge that answers with the given score per position, and counts its calls."""
+    """A judge that answers with the given score per headline, and counts its calls."""
     calls = []
 
     def judge(items, category, deadline):
-        calls.append([item['id'] for item in items])
-        return [dict(id=item['id'], score=values[item['title']], known=True, stake=True, reason='test')
+        calls.append([item['title'] for item in items])
+        return [dict(n=item['n'], score=values[item['title']], reason='test')
                 for item in items if item['title'] in values]
     judge.calls = calls
     return judge
@@ -66,25 +66,37 @@ class ReaderInterestTests(unittest.TestCase):
         self.assertEqual([row['url'][-1] for row in kept], ['2', '3', '4'])
         self.assertEqual([row['url'][-1] for row in held], ['1'])
 
-    def test_invalid_scores_and_unknown_ids_are_ignored(self):
+    def test_invalid_scores_and_unknown_numbers_are_ignored(self):
         def judge(items, category, deadline):
-            return [dict(id=items[0]['id'], score=9), dict(id='nope', score=5), 'junk',
-                    dict(id=items[1]['id'], score=True), dict(id=items[2]['id'], score=5)]
+            return [dict(n=1, score=9), dict(n=99, score=5), 'junk', dict(n=2, score=True),
+                    dict(n='3', score=5), dict(n=3, score=5), dict(n=3, score=1)]
         with tempfile.TemporaryDirectory() as folder:
             kept, held = self.run_rank([dict(row) for row in LEADS], judge, folder)
         self.assertEqual(kept[0]['url'][-1], '3')
+        self.assertEqual(kept[0]['reader_interest'], 5)
         self.assertEqual(len(kept), 4)
         self.assertEqual(held, [])
 
-    def test_a_scored_headline_is_not_judged_again(self):
+    def test_a_scored_headline_is_not_judged_again_and_a_few_new_ones_wait(self):
         judge = scores({row['title']: 4 for row in LEADS})
         with tempfile.TemporaryDirectory() as folder:
             self.run_rank([dict(row) for row in LEADS], judge, folder)
-            self.run_rank([dict(row) for row in LEADS] + [lead(5, 'Bitcoin passes 100,000 dollars')], judge, folder)
+            kept, _ = self.run_rank([dict(row) for row in LEADS] + [lead(5, 'Bitcoin passes 100,000 dollars')], judge, folder)
             saved = json.loads((Path(folder) / 'reader-interest.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(judge.calls), 2)
-        self.assertEqual(len(judge.calls[1]), 1)
+        # One new headline is not worth a model call: it waits, unjudged, behind the judged ones.
+        self.assertEqual(len(judge.calls), 1)
+        self.assertEqual(kept[-1]['url'][-1], '5')
         self.assertEqual(len(saved), 4)
+
+    def test_enough_new_headlines_are_judged_without_the_known_ones(self):
+        fresh = [lead(n, f'Fresh story {n}') for n in range(10, 17)]
+        judge = scores({**{row['title']: 4 for row in LEADS}, **{row['title']: 5 for row in fresh}})
+        with tempfile.TemporaryDirectory() as folder:
+            self.run_rank([dict(row) for row in LEADS], judge, folder)
+            kept, _ = self.run_rank([dict(row) for row in LEADS] + fresh, judge, folder)
+        self.assertEqual(len(judge.calls), 2)
+        self.assertEqual(len(judge.calls[1]), 7)
+        self.assertEqual(kept[0]['reader_interest'], 5)
 
     def test_a_changed_headline_is_judged_again(self):
         judge = scores({LEADS[0]['title']: 1, 'Lidl recalls potatoes sold in Kosovo': 5})
@@ -103,12 +115,25 @@ class ReaderInterestTests(unittest.TestCase):
         self.assertEqual(len(kept), 10)
         self.assertEqual([row.get('reader_interest') for row in kept], [4] * 6 + [None] * 4)
 
+    def test_a_story_scored_two_that_its_publisher_leads_with_is_kept_at_the_back(self):
+        judge = scores({LEADS[0]['title']: 2, LEADS[1]['title']: 4, LEADS[2]['title']: 1, LEADS[3]['title']: 2})
+        with tempfile.TemporaryDirectory() as folder:
+            kept, held = self.run_rank([dict(row) for row in LEADS], judge, folder,
+                                       rescue=lambda row: row['url'][-1] in {'1', '3'})
+        self.assertEqual([row['url'][-1] for row in kept], ['2', '1'])
+        # A 1 is never rescued, and a 2 nobody leads with stays held.
+        self.assertEqual({row['url'][-1] for row in held}, {'3', '4'})
+
     def test_only_showbiz_is_told_that_small_local_celebrity_news_counts(self):
         self.assertIn('named Albanian or Kosovo celebrity', prompt('Showbiz'))
         self.assertIn('scores at least 3', prompt('Showbiz'))
         for desk in ('Ekonomi', 'Botë'):
             self.assertNotIn('celebrity did', prompt(desk))
             self.assertNotIn('desk_note', prompt(desk))
+
+    def test_the_call_fits_the_slack_outside_the_review_window(self):
+        # Discovery is given 360 s, of which ingestion, collection, research and review use 285.
+        self.assertLessEqual(CALL_SECONDS, 360 - 285)
 
     def test_switched_off_changes_nothing(self):
         judge = scores({row['title']: 1 for row in LEADS})

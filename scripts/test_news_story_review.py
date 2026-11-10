@@ -43,7 +43,7 @@ class StoryReviewTests(unittest.TestCase):
                     title='Obscure band reissues a 1991 b-side',published=NOW.isoformat())
         evidence={URL:EVIDENCE,filler['url']:dict(EVIDENCE,url=filler['url'],title=filler['title'])}
         def interest(items,category,deadline):
-            return [dict(id=item['id'],score=1 if 'b-side' in item['title'] else 5,known=True,stake=True,reason='test')
+            return [dict(n=item['n'],score=1 if 'b-side' in item['title'] else 5,reason='test')
                     for item in items]
         with tempfile.TemporaryDirectory() as folder,patch('builtins.print'):
             leads=[dict(filler),dict(LEAD)]

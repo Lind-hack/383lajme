@@ -15,11 +15,12 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-POLICY = '383-reader-interest-v2'
+POLICY = '383-reader-interest-v3'
 MIN_INTEREST = 3  # 1 and 2 are fillers
-BATCH = 80
-SUMMARY_CHARS = 220
-CALL_SECONDS = 150
+BATCH = 180  # a whole desk pool in one call; the answer is one short row per headline
+MIN_NEW = 6  # fewer new headlines than this wait for the next call, behind the judged ones
+SUMMARY_CHARS = 160
+CALL_SECONDS = 60  # its own budget, outside the photo-review window
 
 DESKS = {
     'Showbiz': 'entertainment and celebrity news',
@@ -42,12 +43,9 @@ PROMPT = (
     'A famous name alone is not a story: a routine post, a minor chart position or a small business deal stays low. '
     'A story about Kosovo, Albania or Albanians is not automatically high either; it still needs a real development. '
     'Do not reward a headline for sounding dramatic. Judge only what the headline and summary say.{desk_note}\n'
-    'Return one object for EVERY headline, as a JSON array between 383_JSON_BEGIN and 383_JSON_END: '
-    '{{"id": "<the id exactly>", "score": <1-5>, "known": <true if the main person, company or place is widely known '
-    'in Kosovo>, "stake": <true if it changes something for the reader or is a major event>, '
-    '"reason": "<at most 10 words>"}}. No tools, no other text.'
+    'Answer quickly and briefly. Return one object for EVERY headline, as a JSON array between 383_JSON_BEGIN and '
+    '383_JSON_END: {{"n": <its number>, "score": <1-5>, "reason": "<at most 6 words>"}}. No tools, no other text.'
 )
-
 
 # Owner decision, 10 Nov 2026: small local celebrity news is what Showbiz readers open.
 DESK_NOTES = {
@@ -78,18 +76,22 @@ def model_judge(items, category, deadline):
                         timeout=CALL_SECONDS, deadline=deadline, inline_brief=True)
 
 
-def valid(rows, wanted):
+def valid(rows, count):
+    """Scores by headline number; anything malformed, repeated or out of range is ignored."""
     out = {}
     for row in rows if isinstance(rows, list) else []:
-        if (isinstance(row, dict) and row.get('id') in wanted and type(row.get('score')) is int
-                and 1 <= row['score'] <= 5 and row['id'] not in out):
-            out[row['id']] = dict(score=row['score'], known=row.get('known') is True, stake=row.get('stake') is True,
-                                  reason=str(row.get('reason') or '')[:120])
+        if (isinstance(row, dict) and type(row.get('n')) is int and 1 <= row['n'] <= count
+                and type(row.get('score')) is int and 1 <= row['score'] <= 5 and row['n'] not in out):
+            out[row['n']] = dict(score=row['score'], reason=str(row.get('reason') or '')[:120])
     return out
 
 
-def rank(leads, evidence, category, folder, *, deadline=None, judge=model_judge, batch=BATCH):
-    """(leads to review, most interesting first; fillers held back). Leads gain `reader_interest`."""
+def rank(leads, evidence, category, folder, *, deadline=None, judge=model_judge, batch=BATCH, rescue=None):
+    """(leads to review, most interesting first; fillers held back). Leads gain `reader_interest`.
+
+    `rescue(lead)` is a second opinion that needs no model: a story scored 2 that the publisher
+    itself leads with is kept, at the back, so one wrong score cannot bury it.
+    """
     leads = list(leads)
     if os.environ.get('L383_READER_INTEREST') == '0' or not leads:
         return leads, []
@@ -101,19 +103,21 @@ def rank(leads, evidence, category, folder, *, deadline=None, judge=model_judge,
     if not isinstance(known, dict):
         known = {}
     waiting = [lead for lead in leads if key(lead) not in known][:batch]
-    if waiting:
-        items = [dict(id=key(lead), title=str(lead.get('title') or ''),
+    judged_now = 0
+    if waiting and (len(waiting) >= MIN_NEW or len(waiting) == len(leads)):
+        items = [dict(n=number, title=str(lead.get('title') or ''),
                       summary=' '.join(str((evidence or {}).get(lead['url'], {}).get('text')
                                            or lead.get('summary') or '').split())[:SUMMARY_CHARS])
-                 for lead in waiting]
+                 for number, lead in enumerate(waiting, 1)]
         try:
-            found = valid(judge(items, category, deadline), {item['id'] for item in items})
+            found = valid(judge(items, category, deadline), len(items))
         except Exception as exc:  # never block a desk on its ranking
             print(f'383 READER INTEREST unavailable: {type(exc).__name__}: {str(exc)[:160]}', flush=True)
             found = {}
         if found:
+            judged_now = len(found)
             now = datetime.now(timezone.utc).isoformat()
-            known.update({identity: dict(row, judged_at=now) for identity, row in found.items()})
+            known.update({key(waiting[number - 1]): dict(row, judged_at=now) for number, row in found.items()})
             # Yesterday's headlines are gone from the pool; do not let the file grow forever.
             cutoff = time.time() - 3 * 86400
             known = {identity: row for identity, row in known.items()
@@ -122,15 +126,19 @@ def rank(leads, evidence, category, folder, *, deadline=None, judge=model_judge,
             temporary = store.with_suffix('.tmp')
             temporary.write_text(json.dumps(known, ensure_ascii=False, indent=1), encoding='utf-8')
             os.replace(temporary, store)
-    kept, held = [], []
+    kept, held, rescued = [], [], 0
     for lead in leads:
         row = known.get(key(lead))
         if row:
             lead['reader_interest'] = row['score']
             lead['reader_interest_reason'] = row.get('reason', '')
-        (held if row and row['score'] < MIN_INTEREST else kept).append(lead)
-    # Unjudged stories wait behind every judged one that passed; sorted() keeps arrival order within a score.
-    kept = sorted(kept, key=lambda lead: -lead.get('reader_interest', MIN_INTEREST - 1))
-    print('383 READER INTEREST ' + json.dumps(dict(category=category, judged_now=len(waiting), kept=len(kept),
-          held=len(held), unjudged=sum('reader_interest' not in lead for lead in kept)), ensure_ascii=False), flush=True)
+        low = bool(row) and row['score'] < MIN_INTEREST
+        if low and row['score'] == MIN_INTEREST - 1 and rescue is not None and rescue(lead):
+            low, rescued = False, rescued + 1
+        (held if low else kept).append(lead)
+    # Unjudged and rescued stories wait behind every judged one that passed; sorted() keeps arrival order within a score.
+    kept = sorted(kept, key=lambda lead: -max(lead.get('reader_interest', 0), MIN_INTEREST - 1))
+    print('383 READER INTEREST ' + json.dumps(dict(category=category, judged_now=judged_now, kept=len(kept),
+          held=len(held), rescued=rescued, unjudged=sum('reader_interest' not in lead for lead in kept)),
+          ensure_ascii=False), flush=True)
     return kept, held

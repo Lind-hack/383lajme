@@ -275,7 +275,12 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
         from news_reader_interest import model_judge as interest
     if interest:
         from news_reader_interest import rank
-        queue,low=rank(queue,evidence_by_url,category,folder,deadline=deadline,judge=interest)
+        from news_reader_interest import CALL_SECONDS
+        # The ranking has its own short budget; the photo-review window starts after it.
+        queue,low=rank(queue,evidence_by_url,category,folder,deadline=min(deadline,stage_deadline(CALL_SECONDS)),judge=interest,
+                       rescue=lambda lead:homepage_weight(lead,now)>=1/3)
+        deadline=stage_deadline(budget_seconds)
+        home_deadline=time.monotonic() if category=='Botë' else min(deadline,time.monotonic()+min(90 if category=='Ekonomi' else 45,max(0,budget_seconds*.15)))
         fillers=[dict(url=lead['url'],source=lead['source'],title=lead.get('title'),reader_interest=lead['reader_interest'],
                       reason=lead.get('reader_interest_reason','')) for lead in low]
     # A reliable desk comes back for the next wave after finishing these

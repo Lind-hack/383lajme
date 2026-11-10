@@ -1,3 +1,4 @@
+from unittest.mock import patch
 import unittest
 from news_desk_policy import select_candidates
 
@@ -370,5 +371,47 @@ class RefusedDraftTests(unittest.TestCase):
         with patch('originality_gate.originality_errors',return_value=['body contains an exact source overlap of 8 words']):
             _,_,_,feedback=self.run_story(0)
         self.assertIn('exact source overlap of 8 words',feedback[0])
+
+class SiblingStoryTests(unittest.TestCase):
+    BODY='Inflacioni vjetor arriti ne 3.4 perqind ne tetor sipas institutit te statistikave, i shtyre nga cmimet e ushqimeve, transportit dhe qirave ne gjithe vendin gjate muajit te kaluar.'
+    def story(self,url,body=None,title='Inflacioni arrin 3.4% ne tetor'):
+        return dict(url=url,slug=url[-1],title=title,excerpt='',body=body or self.BODY,image_subject='')
+
+    def test_the_same_event_from_two_publishers_is_recognised_and_other_stories_are_not(self):
+        from news_reliable_desks import repeats_sibling
+        first=self.story('https://monitor.al/a')
+        again=self.story('https://scantv.al/b',self.BODY.replace('sipas institutit te statistikave','njoftoi instituti'),'Inflacioni ne Shqiperi ngjitet ne 3.4%')
+        other=self.story('https://monitor.al/c','Punonjesit e hekurudhave hyne ne greve dhe nderprene qarkullimin e trenave te udhetareve ne te gjitha linjat, duke kerkuar indeksimin e pagave per cdo kategori te punesuarish.','Greva ndal trenat')
+        self.assertTrue(repeats_sibling(again,[first]))
+        self.assertFalse(repeats_sibling(other,[first]))
+        self.assertFalse(repeats_sibling(first,[first]))
+
+    def test_a_second_story_about_one_event_is_not_delivered_in_the_same_run(self):
+        import tempfile
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        entries=[{'article':self.story('https://monitor.al/a')},
+                 {'article':self.story('https://scantv.al/b',title='Inflacioni ne Shqiperi ngjitet ne 3.4%')}]
+        class Store:
+            def __init__(self):self.entries=[];self.confirmed=[]
+            def available(self):return list(self.entries)
+            def confirm(self,e):self.confirmed.append(e);self.entries.remove(e)
+        store=Store();delivered=[]
+        class Port:
+            done=False
+            def quota_hit(self):return False
+            def collect(self,attempted):
+                if self.done:return []
+                self.done=True;return [{'url':e['article']['url']} for e in entries]
+            def produce(self,leads,remaining):
+                for entry in entries:
+                    store.entries.append(entry);yield entry
+            def publish(self,entry):
+                delivered.append(entry['article']['url']);return {'batch':'x.json','articles':[],'dry_run':True}
+        with tempfile.TemporaryDirectory() as root,patch('builtins.print'):
+            result=run_category(Port(),store,Path(root)/'outcome.json','Ekonomi')
+        self.assertEqual(delivered,['https://monitor.al/a'])
+        self.assertEqual(result['qa_approved'],1)
+        self.assertIn('duplicate_story_this_run',result['shortfall_reasons'])
 
 if __name__=='__main__':unittest.main()

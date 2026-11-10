@@ -12,6 +12,17 @@ from news_json_state import atomic
 from news_desk_policy import TARGET, MINIMUM, DESKS, REVIEW_FOLDERS, select_candidates
 
 
+SIBLING_OVERLAP = .18  # the same band the publication check treats as related history
+
+
+def repeats_sibling(article, others):
+    """The same event from another publisher, already written in this run. Measured 10 Nov 2026:
+    two inflation stories scored .30 and two rail-strike stories .23; distinct stories stay under .18."""
+    from codex_automation_support import _same_story, _story_overlap
+    return any(other.get('url') != article.get('url') and (_same_story(article, other)
+               or _story_overlap(article, other) >= SIBLING_OVERLAP) for other in others)
+
+
 def run_category(port, reserve, outcome, category, *, deadline=None):
     deadline = deadline or time.time() + 3000
     minimum = TARGET if category == 'Botë' else MINIMUM
@@ -40,6 +51,7 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
         atomic(outcome, result)
 
     qa_seen = set()
+    qa_articles = []
     context_rechecked = set()
 
     def deliver(entry):
@@ -51,6 +63,10 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
         from news_image_policy import duplicate_photo_pairs
         if duplicate_photo_pairs(published + [entry['article']]):
             reasons.append('duplicate_image_this_run')
+            return
+        if repeats_sibling(entry['article'], published + qa_articles):
+            reasons.append('duplicate_story_this_run')
+            print(f'383 RETAIN APPROVED {entry["article"].get("slug")}: repeats a story delivered in this run', flush=True)
             return
         refreshing = False
         try:
@@ -86,6 +102,7 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
         # The port only succeeds after exact persisted-copy readback.
         if saved.get('dry_run'):
             qa_seen.add(entry['article']['url'])
+            qa_articles.append(entry['article'])
             result['qa_approved'] = result.get('qa_approved', 0) + 1
             return
         if saved.get('count_current_run') is False:
@@ -421,6 +438,12 @@ class ProductionPort:
                         counts = self.metrics['drafts_by_publisher']
                         counts[lead['source']] = counts.get(lead['source'], 0) + 1
                     self.python('codex_automation_support.py', 'normalize', '--file', batch, seconds=60)
+                    # Stop before the editor and both reviews are spent on an event already approved this run.
+                    if repeats_sibling(json.loads(batch.read_text(encoding='utf-8'))[0],
+                                       [entry['article'] for entry in self.reserve.available()]):
+                        self.metrics.setdefault('failure_reasons', []).append('duplicate_story_this_run')
+                        print(f'383 STORY HELD {lead["url"]}: repeats a story approved in this run', flush=True)
+                        break
                     self.python('prepare_editor_sources.py', batch, seconds=90,
                                 env={'L383_PREPARED_EVIDENCE_ROOT': str(evidence_folder or work / 'source-evidence')})
                     feedback = self.gate_feedback(batch)
