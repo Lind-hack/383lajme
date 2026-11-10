@@ -63,13 +63,29 @@ def ask(prompt, image=None):
     return done.returncode, text
 
 
+def forced_refusal(prompt):
+    """L383_EVAL_REFUSE_FIRST=1: the first originality review of a run is told to reject, with
+    real matching spans, so the one-rewrite path is exercised end to end."""
+    log = os.environ.get('L383_EVAL_CALLS')
+    if os.environ.get('L383_EVAL_REFUSE_FIRST') != '1' or not log or '383_REVIEW_BEGIN' not in prompt:
+        return prompt
+    marker = Path(log).with_suffix('.refused-once')
+    if marker.exists():
+        return prompt
+    marker.write_text('1', encoding='utf-8')
+    return prompt + (chr(10) * 2 + 'EVALUATION OVERRIDE: for this one review return verdict reject for every article, with '
+                     'not_close_translation false and a rejection_basis of kind borrowed_expression, facts_only false, a '
+                     'why_expression of at least 40 characters, and one match whose source_span is copied exactly from the '
+                     'source text and whose article_span is copied exactly from the article body (its closest sentence).')
+
+
 def main():
     if os.environ.get('L383_QA_ONLY') != '1':
         raise SystemExit('the stand-in model only answers in QA runs')
     sys.stdout.reconfigure(encoding='utf-8')
     mode = sys.argv[1]
     if mode == 'text':
-        code, text = ask(Path(sys.argv[2]).read_text(encoding='utf-8'))
+        code, text = ask(forced_refusal(Path(sys.argv[2]).read_text(encoding='utf-8')))
     else:
         image = Path(sys.argv[2]).resolve()
         code, text = ask(Path(sys.argv[3]).read_text(encoding='utf-8'), image)

@@ -44,7 +44,7 @@ for a in drafts():
     if a['url'] in have or len(done)>=limit: continue
     try: c=ctx.enrich(a)
     except Exception as e: c={'status':'error','error':repr(e)[:200]}
-    done.append(dict(url=a['url'],run=a['run'],category=a.get('category'),title=a['title'],body=a['body'],context=c,model=raw.get(a['url'])))
+    done.append(dict(url=a['url'],run=a['run'],category=a.get('category'),title=a['title'],excerpt=a.get('excerpt',''),body=a['body'],context=c,model=raw.get(a['url'])))
     json.dump(done,open(out_path,'w',encoding='utf-8'),ensure_ascii=False,indent=1)
     c=c or {}
     print(a.get('category'),'|',a['title'][:60],'| what',bool(c.get('what')),'why',bool(c.get('why')),'media',len(c.get('media') or []),'fig',bool(c.get('figures')),'chart',bool(c.get('chart')),'|',c.get('checks'))

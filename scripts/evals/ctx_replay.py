@@ -11,7 +11,7 @@ c=collections.Counter(); out=[]
 for x in json.load(open('ctx-results.json',encoding='utf-8')):
     m=x.get('model') or {}; row=m.get('row') or {}
     if not m.get('evidence') or not isinstance(row,dict): continue
-    art=dict(title=x['title'],body=x['body'],url=x['url'],excerpt='')
+    art=dict(title=x['title'],body=x['body'],url=x['url'],excerpt=x.get('excerpt',''))  # the card may quote the excerpt
     checks={}; card=ctx.checked_card(row,art,m['evidence'],checks)
     fig=ctx.checked_figures(row.get('figures'),art,m['evidence'])
     new='figures' in ctx.second_look.__code__.co_varnames
