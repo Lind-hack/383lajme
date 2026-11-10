@@ -331,6 +331,17 @@ class MixedQuotes(unittest.TestCase):
         self.assertEqual(nac.checked_card(row, ARTICLE, EVIDENCE, checks)["why"], "")
         self.assertEqual(checks["why"], "invented_quote")
 
+    def test_punctuation_never_makes_a_real_quote_look_invented(self):
+        text = "Novaya Gazeta, Russia's most celebrated independent newspaper, closed its Moscow offices on Monday."
+        self.assertTrue(nac.quoted(["Novaya Gazeta, Russia\u2019s most celebrated independent newspaper, closed its Moscow offices"], text))
+        self.assertTrue(nac.quoted(["russia's most celebrated   independent newspaper"], text))
+
+    def test_a_trimmed_quote_with_a_long_verbatim_run_is_real_and_a_stitched_one_is_not(self):
+        text = "The council of seventeen members presented its priorities for the coming three years in Bern on Monday."
+        self.assertTrue(nac.quoted(["The council presented its priorities for the coming three years in Bern, officials said"], text))
+        self.assertFalse(nac.quoted(["The council of experts presented new priorities for three coming years"], text))
+        self.assertFalse(nac.quoted(["a quote that exists nowhere at all"], text))
+
     def test_a_titled_post_from_a_source_page_must_also_be_about_the_headline_person(self):
         # Live: a Report TV clip of Erjon Malaj, embedded on a source page, sat in the Gonxhja-Zhupa story.
         article = {**ARTICLE, "title": "Gonxhja dhe Zhupa debatojnë në Tiranë për bllokimin e rrugëve"}
@@ -816,12 +827,26 @@ class Figures(unittest.TestCase):
         self.assertFalse(nac.number_in(750, "750 000 persona"))
         self.assertFalse(nac.number_in(2026_000, "në vitin 2026 mijëra vetë"))
 
-    def test_a_chart_of_numbers_the_article_never_gives_is_another_story(self):
-        # Both numbers are quoted from a source, but our article reports neither:
-        # casualty estimates under a story about a peace deal.
-        text = self.TEXT + " One group counted 450,100 killed, another 393,881 killed."
-        row = {"title": "Vlerësimet", "unit": "", "items": [{"label": "Grupi i parë", "value": 450100}, {"label": "Grupi i dytë", "value": 393881}],
-               "quotes": ["One group counted 450,100 killed, another 393,881 killed"]}
-        self.assertIsNone(nac.checked_figures(row, ARTICLE, text))
-        # One number the article does give anchors the chart; the rest may come from the sources.
-        self.assertIsNotNone(nac.checked_figures(self.ROW, ARTICLE, self.TEXT))
+    def enriched(self, look):
+        row = {"what": "Rama tha se tarifa është 8.50 euro për metër.", "what_quotes": ["tarifa është 8.50 euro për metër"], "figures": self.ROW}
+        with patch.object(nac, "gather", return_value=(self.TEXT, [])), patch.object(nac, "ask", return_value=row), \
+             patch.object(nac, "find_videos", return_value=[]), patch.object(nac, "account_posts", return_value=[]), \
+             patch.object(nac, "event_posts", return_value=[]), patch.object(nac, "licensed_photos", return_value=[]), \
+             patch.object(nac, "market_chart", return_value=None), patch.object(nac, "second_look", return_value=look) as second:
+            return nac.enrich(ARTICLE), second
+
+    def test_a_chart_the_second_look_calls_off_topic_is_dropped_and_the_card_stays(self):
+        # Sources carry other stories' numbers: casualty counts under a piece about a peace deal.
+        got, second = self.enriched({"figures_on_topic": False})
+        self.assertNotIn("figures", got)
+        self.assertEqual(got["checks"]["figures"], "off_topic")
+        self.assertTrue(got["what"])
+        self.assertEqual(second.call_args.args[4]["title"], "Tarifa për metër")
+
+    def test_a_chart_the_second_look_confirms_is_kept(self):
+        got, _ = self.enriched({"figures_on_topic": True})
+        self.assertEqual(len(got["figures"]["items"]), 2)
+
+    def test_an_unanswered_chart_question_is_not_a_yes(self):
+        got, _ = self.enriched({"why_supported": True})
+        self.assertNotIn("figures", got)

@@ -98,19 +98,42 @@ def raw_of(article: dict) -> dict:
 
 # ---- the card ------------------------------------------------------------------------------
 
+def quote_words(text: str) -> list[str]:
+    """Words for matching a quote: apostrophes and quote marks never split or change a word,
+    so Russia's, Russia’s and "Russia's" are one and the same."""
+    return words(re.sub(r"[\u2018\u2019\u02bc'`\u201c\u201d\"]", "", str(text or "")))
+
+
+def quote_found(quote, haystack: str) -> bool:
+    """Is this quote really in the text? Every word in order, whatever the punctuation; or, for
+    a quote the model trimmed or stitched, a run of COPY_RUN words taken straight from it. A
+    made-up quote has neither."""
+    if not isinstance(quote, str):
+        return False
+    mine = quote_words(quote)
+    if len(mine) < 3:
+        return False
+    if " " + " ".join(mine) + " " in haystack:
+        return True
+    return any(" " + " ".join(mine[i:i + COPY_RUN]) + " " in haystack for i in range(len(mine) - COPY_RUN + 1))
+
+
+def haystack_of(evidence: str) -> str:
+    return " " + " ".join(quote_words(evidence)) + " "
+
+
 def quoted(quotes, evidence: str) -> bool:
     """At least one real quote, and none the model made up."""
     if not isinstance(quotes, list) or not quotes:
         return False
-    haystack = fold(evidence)
-    good = [fold(q) for q in quotes if isinstance(q, str) and len(words(q)) >= 3]
-    return len(good) == len(quotes) and all(q in haystack for q in good)
+    haystack = haystack_of(evidence)
+    return all(quote_found(q, haystack) for q in quotes)
 
 
 def from_outside(quotes, evidence: str) -> bool:
     """At least one quote stands in an outside source, not only in our own article."""
-    haystack = fold(evidence)
-    return isinstance(quotes, list) and any(isinstance(q, str) and len(words(q)) >= 3 and fold(q) in haystack for q in quotes)
+    haystack = haystack_of(evidence)
+    return isinstance(quotes, list) and any(quote_found(q, haystack) for q in quotes)
 
 
 def numbers_known(text: str, evidence: str) -> bool:
@@ -617,7 +640,7 @@ def ask(article: dict, evidence: str, posts: list[dict]) -> dict | None:
     return clip_scout.gemini_json(prompt(article, evidence, posts))
 
 
-def second_prompt(article: dict, card: dict, quotes, videos: list[dict]) -> str:
+def second_prompt(article: dict, card: dict, quotes, videos: list[dict], figures: dict | None = None) -> str:
     listed = "\n".join(json.dumps({"video": i, "channel": v.get("author", ""), "title": v.get("text", ""),
                                    **({"witness": True, "likes": v.get("likes", 0)} if v.get("witness") else {})}, ensure_ascii=False)
                        for i, v in enumerate(videos)) or "(none)"
@@ -627,9 +650,15 @@ def second_prompt(article: dict, card: dict, quotes, videos: list[dict]) -> str:
         f"<<ARTICLE>>\n{article.get('title')}\n{body}\n<<END ARTICLE>>\n\n"
         f"<<CLAIMED REASON>>\n{card.get('why') or '(none)'}\n<<END CLAIMED REASON>>\n\n"
         f"<<QUOTES>>\n{json.dumps(quotes, ensure_ascii=False)}\n<<END QUOTES>>\n\n<<VIDEOS>>\n{listed}\n<<END VIDEOS>>\n\n"
-        "Return JSON with two keys:\n"
-        "- why_supported: true only if the quotes themselves state this reason or background. False if the reason is "
-        "inferred, a guess at a motive, or merely restates what happened.\n"
+        f"<<FIGURES>>\n{json.dumps(figures, ensure_ascii=False) if figures else '(none)'}\n<<END FIGURES>>\n\n"
+        "Return JSON with three keys:\n"
+        "- figures_on_topic: true only if the FIGURES measure the very thing the article's headline reports: its amounts, "
+        "votes, prices, scores, counts. False if they belong to another story, another event or a side detail the "
+        "source happened to carry, and false when there are none.\n"
+        "- why_supported: true if the quotes, in whatever language they are written, state the main cause or background "
+        "the claimed reason gives. Wording may differ, and a detail the ARTICLE itself states is fine. False only if its "
+        "main cause is a guess, a motive nobody stated, something neither the quotes nor the article say, or merely what "
+        "happened said again.\n"
         "- videos: the videos and posts that show the very thing this story is about, posted by the person, organisation, event or "
         "programme itself, as [{\"video\": <number>, \"after_paragraph\": <the [n] it belongs after>, \"caption\": \"<short "
         "Albanian line saying what it shows>\"}]. A post by the story's own person must be about this event, not another day's "
@@ -640,9 +669,9 @@ def second_prompt(article: dict, card: dict, quotes, videos: list[dict]) -> str:
     )
 
 
-def second_look(article: dict, card: dict, quotes, videos: list[dict]) -> dict | None:
+def second_look(article: dict, card: dict, quotes, videos: list[dict], figures: dict | None = None) -> dict | None:
     import clip_scout
-    return clip_scout.gemini_json(second_prompt(article, card, quotes, videos))
+    return clip_scout.gemini_json(second_prompt(article, card, quotes, videos, figures))
 
 
 def enrich(article: dict) -> dict | None:
@@ -669,10 +698,15 @@ def enrich(article: dict) -> dict | None:
     picks = [p for p in picks if not (isinstance(p, dict) and isinstance(p.get("post"), int) and not isinstance(p.get("post"), bool)
                                       and 0 <= p["post"] < len(posts) and posts[p["post"]].get("text")
                                       and not video_matches(posts[p["post"]], article, subjects))]
-    if card["why"] or candidates:
-        look = second_look(article, card, row.get("why_quotes"), candidates)
+    # Sources carry other stories' numbers too (casualty counts under a piece on a peace deal),
+    # so a chart answers to the same strict second look as the reason and the clips.
+    figures = checked_figures(row.get("figures"), article, evidence)
+    if card["why"] or candidates or figures:
+        look = second_look(article, card, row.get("why_quotes"), candidates, figures)
         if not isinstance(look, dict):
             return None
+        if figures and look.get("figures_on_topic") is not True:
+            figures, checks["figures"] = None, "off_topic"
         if card["why"] and look.get("why_supported") is not True:
             card["why"], checks["why"] = "", "second_look_refused"
         found = look.get("videos") if isinstance(look.get("videos"), list) else []
@@ -687,7 +721,6 @@ def enrich(article: dict) -> dict | None:
     if subjects:
         media += chosen_photos(licensed_photos(subjects), article, {m["after"] for m in media})
     chart = market_chart(article)
-    figures = checked_figures(row.get("figures"), article, evidence)
     now = datetime.now(timezone.utc).isoformat()
     if not card["what"] and not media and not chart and not figures:
         return {"v": VERSION, "status": "empty", "checks": checks, "checked_at": now}
@@ -755,10 +788,6 @@ def checked_figures(row, article: dict, evidence: str) -> dict | None:
     if not title or len(title) > FIGURE_TITLE_CHARS or len(unit) > 12 or not low <= len(items) <= high or not any(i["value"] for i in items):
         return None
     if set(words(f"{title} {unit} " + " ".join(i["label"] for i in items))) & outlet_words(article):
-        return None
-    # The chart belongs to this story only if the story itself gives one of its numbers.
-    # Sources carry other stories' numbers too: casualty counts under a piece on a peace deal.
-    if not any(number_in(i["value"], article_text(article)) for i in items):
         return None
     return {"title": title, "unit": unit, "items": items}
 
