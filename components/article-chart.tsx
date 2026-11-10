@@ -4,7 +4,7 @@ import type { ArticleChart as Chart } from "@/lib/mock-data";
 const WIDTH = 300;
 const HEIGHT = 100;
 const MONTHS = ["jan", "shk", "mar", "pri", "maj", "qer", "korr", "gush", "sht", "tet", "nën", "dhj"];
-const SYMBOL: Record<string, string> = { USD: "$", GBP: "£", CHF: "CHF", TRY: "₺", JPY: "¥", CNY: "¥" };
+const SYMBOL: Record<string, string> = { USD: "$", GBP: "£", CHF: "CHF", TRY: "₺", JPY: "¥", CNY: "¥", PTS: "pikë" };
 
 // Formatted by hand, not Intl: the server's and the browser's locale data can differ by a
 // space, and a mismatch there breaks hydration of the whole article.

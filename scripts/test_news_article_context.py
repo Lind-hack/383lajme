@@ -659,6 +659,24 @@ class MarketChart(unittest.TestCase):
         self.assertEqual(nac.chart_asset(self.story("Dollari bie pas vendimit të Fed-it"))["currency"], "USD")
         self.assertEqual(nac.chart_asset(self.story("Lira turke në rënie të re"))["currency"], "TRY")
 
+    def test_an_index_or_oil_benchmark_named_in_the_headline_picks_its_series(self):
+        self.assertEqual(nac.chart_asset(self.story("S&P 500 u rrit 1%, Brent dhe WTI ranë mbi 6%"))["id"], "SP500")
+        self.assertEqual(nac.chart_asset(self.story("Nasdaq-u mbyllet në rekord të ri"))["id"], "NASDAQCOM")
+        self.assertEqual(nac.chart_asset(self.story("Brent-i bie nën 100 dollarë për fuçi"))["id"], "DCOILBRENTEU")
+        # One company's shares, or fuel at the pump, are not the index or the benchmark.
+        self.assertIsNone(nac.chart_asset(self.story("Aksionet e Apple bien 2% pas mbylljes së Wall Street-it")))
+        self.assertIsNone(nac.chart_asset(self.story("Çmimi i naftës në Kosovë rritet me 3 centë")))
+
+    def test_index_points_come_from_the_public_series_and_skip_days_without_trading(self):
+        text = chr(10).join(["observation_date,SP500", *[f"2026-10-{d:02d},{7600 + d}" for d in range(20, 27)], "2026-10-27,.", ""])
+        with patch.object(nac, "get_text", return_value=text) as got:
+            chart = nac.market_chart(self.story("S&P 500 u rrit 1%"))
+        self.assertIn("id=SP500&cosd=2026-10-07&coed=2026-11-06", got.call_args.args[0])
+        self.assertEqual((chart["unit"], chart["source"], chart["source_url"]),
+                         ("PTS", "Federal Reserve Bank of St. Louis", "https://fred.stlouisfed.org/series/SP500"))
+        self.assertEqual(chart["points"][0], ["2026-10-20", 7620.0])
+        self.assertEqual(len(chart["points"]), 7)
+
     def test_other_desks_and_lookalike_words_get_no_chart(self):
         self.assertIsNone(nac.chart_asset(self.story("Bitcoin rritet", category="Botë")))
         # "lirë" is cheap and "jenë" is "are"; "Ethernet" is not Ether.

@@ -811,6 +811,15 @@ CHART_ASSETS = [
     (r"lir[a-z]{0,3} turk[a-z]{0,3}", {"kind": "fx", "currency": "TRY", "label": "Lira turke për 1 euro"}),
     (r"jen(?:i|it|in) japonez[a-z]{0,3}", {"kind": "fx", "currency": "JPY", "label": "Jeni japonez për 1 euro"}),
     (r"juan(?:i|it|in)", {"kind": "fx", "currency": "CNY", "label": "Juani kinez për 1 euro"}),
+    # Stock indices and oil from the St. Louis Fed's public data. Single companies have no free
+    # source that still serves machines (Stooq and Yahoo both refuse, checked 10 Nov 2026).
+    # Only when the headline names the index or the benchmark itself: "Wall Street" under a
+    # story on one company, or "nafta" under a story on pump prices, would chart the wrong thing.
+    (r"s&p ?500", {"kind": "fred", "id": "SP500", "label": "S&P 500", "unit": "PTS"}),
+    (r"nasdaq(?:-u|-ut|u|ut)?", {"kind": "fred", "id": "NASDAQCOM", "label": "Nasdaq Composite", "unit": "PTS"}),
+    (r"dow jones(?:-i|-it)?", {"kind": "fred", "id": "DJIA", "label": "Dow Jones", "unit": "PTS"}),
+    (r"brent(?:-i|-it)?", {"kind": "fred", "id": "DCOILBRENTEU", "label": "Nafta Brent, për fuçi", "unit": "USD"}),
+    (r"wti", {"kind": "fred", "id": "DCOILWTICO", "label": "Nafta WTI, për fuçi", "unit": "USD"}),
     (r"dollar(?:i|it|in)|fed|rezerv[a-z]{0,3} federal[a-z]{0,3}|euro(?:ja|s|n)|bqe|banka qendrore evropiane",
      {"kind": "fx", "currency": "USD", "label": "Dollari amerikan për 1 euro"}),
 ]
@@ -862,6 +871,18 @@ def ecb_closes(csv_text: str) -> list[list]:
     return out
 
 
+def fred_closes(csv_text: str) -> list[list]:
+    """observation_date,<series>; a day with no trading is written as a dot."""
+    out = []
+    for line in csv_text.splitlines()[1:]:
+        day, _, value = line.partition(",")
+        try:
+            out.append([day.strip(), float(value)])
+        except ValueError:
+            continue
+    return out
+
+
 def market_chart(article: dict) -> dict | None:
     asset = chart_asset(article)
     if not asset:
@@ -876,6 +897,11 @@ def market_chart(article: dict) -> dict | None:
     if asset["kind"] == "crypto":
         points = crypto_closes(asset["id"], start, end)
         source, page, unit = "CoinGecko", f"https://www.coingecko.com/en/coins/{asset['id']}", "USD"
+    elif asset["kind"] == "fred":
+        unit = asset["unit"]
+        text = get_text(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={asset['id']}&cosd={start:%Y-%m-%d}&coed={end:%Y-%m-%d}")
+        points = fred_closes(text) if text else []
+        source, page = "Federal Reserve Bank of St. Louis", f"https://fred.stlouisfed.org/series/{asset['id']}"
     else:
         unit = asset["currency"]
         text = get_text(f"https://data-api.ecb.europa.eu/service/data/EXR/D.{unit}.EUR.SP00.A"
