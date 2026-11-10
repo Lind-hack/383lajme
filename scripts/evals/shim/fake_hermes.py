@@ -38,14 +38,14 @@ def gemini(prompt, image, models):
         parts.append({'inline_data': {'mime_type': kind, 'data': base64.b64encode(Path(image).read_bytes()).decode()}})
     body = json.dumps({'contents': [{'parts': parts}], 'generationConfig': {'temperature': 0.3}}).encode()
     started, error = time.time(), 'no Gemini key'
-    for attempt in range(3):
+    for attempt in range(4):
         for model in models:
             for key in keys:
                 request = urllib.request.Request(
                     f'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}',
                     data=body, method='POST', headers={'Content-Type': 'application/json'})
                 try:
-                    with urllib.request.urlopen(request, timeout=150) as response:
+                    with urllib.request.urlopen(request, timeout=60) as response:
                         answer = json.loads(response.read().decode('utf-8'))
                     text = ''.join(part.get('text', '') for part in answer['candidates'][0]['content']['parts'])
                     usage = answer.get('usageMetadata', {})
@@ -55,7 +55,7 @@ def gemini(prompt, image, models):
                     error = f'{model}: HTTP {exc.code}'
                 except (OSError, ValueError, KeyError, IndexError, TypeError) as exc:
                     error = f'{model}: {exc!r}'[:200]
-        time.sleep(20)  # free-tier minute limits
+        time.sleep(5)  # free-tier limits and overload come and go within seconds
     return 1, '', dict(error=error, seconds=round(time.time() - started, 1))
 
 
