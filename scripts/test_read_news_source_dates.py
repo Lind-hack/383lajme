@@ -30,6 +30,32 @@ class ArticleDateTests(unittest.TestCase):
         self.assertEqual(extract(f'{teaser}<article><p>{BODY}</p></article>', "https://kultplus.com/filmi/")["published"], "")
         self.assertEqual(extract(f'{story}<article><p>{BODY}</p></article>', "https://example.com/filmi/")["published"], "")
 
+    def test_official_institutions_date_their_own_releases(self):
+        schema = {"@graph": [{"@type": "WebPage", "url": "https://bqk-kos.org/news/sepa/", "datePublished": "2026-11-06T18:47:35+00:00"},
+                             {"@type": "WebPage", "url": "https://bqk-kos.org/news/tjeter/", "datePublished": "2026-01-01T00:00:00+00:00"}]}
+        cases = [
+            ("https://bqk-kos.org/news/sepa", f'<script type="application/ld+json">{json.dumps(schema)}</script><main><p>{BODY}</p></main>',
+             "2026-11-06T18:47:35+00:00"),
+            ("https://www.bankofalbania.org/Shtypi/Njoftimet_per_shtyp/Fjala.html",
+             f'<h4 class="text-right"><strong>Data e publikimit:</strong><em> 03.11.2026</em></h4><main><p>{BODY}</p></main>', "2026-11-03T00:00:00+01:00"),
+            ("https://www.federalreserve.gov/newsevents/pressreleases/orders20261109a.htm",
+             f'<div id="article"><p class="article__time">November 09, 2026</p><p class="releaseTime">For release at 4:00 p.m. EST</p><p>{BODY}</p></div>',
+             "2026-11-09T16:00:00-05:00"),
+            ("https://www.sec.gov/newsroom/press-releases/2026-112-sec-adopts",
+             f'<main><div class="field field--name-dynamic-twig-fieldnode-press-release-lead-in"><p>Washington D.C., Nov. 4, 2026 — </p></div><p>{BODY}</p></main>',
+             "2026-11-04T00:00:00-05:00"),
+        ]
+        for url, page, expected in cases:
+            with self.subTest(url=url):
+                self.assertEqual(extract(page, url)["published"], expected)
+                # The same markup on another host proves nothing.
+                self.assertEqual(extract(page, "https://example.com/story")["published"], "")
+
+    def test_another_pages_schema_gives_no_date(self):
+        other = {"@type": "WebPage", "url": "https://bqk-kos.org/news/tjeter/", "datePublished": "2026-01-01T00:00:00+00:00"}
+        self.assertEqual(extract(f'<script type="application/ld+json">{json.dumps(other)}</script><main><p>{BODY}</p></main>',
+                                 "https://bqk-kos.org/news/sepa")["published"], "")
+
     def test_generic_date_class_is_not_trusted_on_other_hosts(self):
         result = extract(f'<h1>Story</h1><div class="date">20/10/2026 21:07</div><article><p>{BODY}</p></article>', "https://example.com/story")
         self.assertEqual(result["published"], "")

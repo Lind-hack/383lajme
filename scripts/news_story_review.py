@@ -265,6 +265,12 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
             if reason:
                 excluded.append(dict(url=lead['url'],source=lead['source'],title=lead.get('title'),reason=reason))
                 continue
+        # A readable page with no publication date is an index, a video page or a live blog.
+        # The final check refuses it anyway, so no review, writing or approval is spent on it.
+        source=evidence_by_url.get(lead['url'],{})
+        if source.get('status')=='text_extracted' and not source.get('published'):
+            excluded.append(dict(url=lead['url'],source=lead['source'],title=lead.get('title'),reason='no_publication_date'))
+            continue
         candidates.append(lead)
     from news_desk_policy import select_candidates
     queue=select_candidates(candidates,evidence_by_url,limit=len(candidates),now=now)

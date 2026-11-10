@@ -68,6 +68,53 @@ def _article_scope(soup: BeautifulSoup):
     return soup.find("main") or soup
 
 
+MONTHS = {name: number for number, names in enumerate((
+    ("jan", "january"), ("feb", "february"), ("mar", "march"), ("apr", "april"), ("may",), ("jun", "june"),
+    ("jul", "july"), ("aug", "august"), ("sep", "sept", "september"), ("oct", "october"), ("nov", "november"),
+    ("dec", "december")), 1) for name in names}
+
+
+def _official_publication_date(soup: BeautifulSoup, parsed) -> tuple[str, str]:
+    """Central banks and regulators date their releases in their own markup. Until 10 Nov 2026
+    none of it was read, so every release looked undated and none could ever be published.
+    A release dated without a time is stamped 00:00 local: never in the future."""
+    host = (parsed.hostname or "").removeprefix("www.")
+    try:
+        if host == "bqk-kos.org" and parsed.path.startswith("/news/"):
+            # The page describes itself as a WebPage, not an Article; take only its own entry.
+            for script in soup.find_all("script", attrs={"type": "application/ld+json"}):
+                data = json.loads(script.string or script.get_text())
+                for node in (data.get("@graph", [data]) if isinstance(data, dict) else []):
+                    if (isinstance(node, dict) and node.get("@type") == "WebPage" and isinstance(node.get("datePublished"), str)
+                            and urlsplit(str(node.get("url") or "")).path.rstrip("/") == parsed.path.rstrip("/")):
+                        datetime.fromisoformat(node["datePublished"].replace("Z", "+00:00"))
+                        return node["datePublished"], "publisher:bqk-kos.org:webpage"
+        if host == "bankofalbania.org":
+            for node in soup.find_all("h4"):
+                found = re.search(r"Data e publikimit:\s*(\d{2})\.(\d{2})\.(\d{4})", node.get_text(" ", strip=True))
+                if found:
+                    day, month, year = map(int, found.groups())
+                    return datetime(year, month, day, tzinfo=ZoneInfo("Europe/Tirane")).isoformat(), "publisher:bankofalbania.org:date"
+        if host == "federalreserve.gov" and parsed.path.startswith("/newsevents/"):
+            day = soup.select_one("#article p.article__time")
+            if day is not None:
+                value = datetime.strptime(day.get_text(" ", strip=True), "%B %d, %Y")
+                release = soup.select_one("#article p.releaseTime")
+                clock = re.search(r"(\d{1,2}):(\d{2}) ([ap])\.m\.", release.get_text(" ", strip=True)) if release is not None else None
+                if clock:
+                    value = value.replace(hour=int(clock[1]) % 12 + (12 if clock[3] == "p" else 0), minute=int(clock[2]))
+                return value.replace(tzinfo=ZoneInfo("America/New_York")).isoformat(), "publisher:federalreserve.gov:article__time"
+        if host == "sec.gov" and parsed.path.startswith("/newsroom/press-releases/"):
+            lead = soup.select_one("[class*='press-release-lead-in']")
+            found = re.search(r"\b([A-Z][a-z]{2,8})\.? (\d{1,2}), (\d{4})\b", lead.get_text(" ", strip=True)) if lead is not None else None
+            if found and found[1].lower() in MONTHS:
+                return (datetime(int(found[3]), MONTHS[found[1].lower()], int(found[2]), tzinfo=ZoneInfo("America/New_York")).isoformat(),
+                        "publisher:sec.gov:dateline")
+    except (ValueError, TypeError, AttributeError):
+        pass
+    return "", ""
+
+
 def _visible_publication_date(soup: BeautifulSoup, url: str) -> tuple[str, str]:
     scope = _article_scope(soup)
     # Explicit publication microdata is stronger than an unlabelled time.
@@ -125,6 +172,9 @@ def _visible_publication_date(soup: BeautifulSoup, url: str) -> tuple[str, str]:
             values.append(value.replace(tzinfo=ZoneInfo("Europe/Belgrade")).isoformat())
         if len(set(values)) == 1:
             return values[0], "publisher:kultplus.com:.date"
+    official = _official_publication_date(soup, parsed)
+    if official[0]:
+        return official
     return "", ""
 
 

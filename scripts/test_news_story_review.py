@@ -38,6 +38,14 @@ def verdict(**values):
 
 
 class StoryReviewTests(unittest.TestCase):
+    def test_a_readable_page_without_a_publication_date_is_never_reviewed(self):
+        undated=dict(EVIDENCE,published='')
+        with tempfile.TemporaryDirectory() as folder,patch('builtins.print'):
+            records,result=review_inventory([dict(LEAD)],{URL:undated},[],folder,capturer=fake_capture,
+                                            reviewer=lambda *args:verdict(),now=NOW)
+        self.assertEqual(records,{})
+        self.assertEqual(result['excluded_off_topic'][0]['reason'],'no_publication_date')
+
     def test_fillers_are_held_before_review_and_the_report_says_so(self):
         filler=dict(url='https://consequence.net/2026/11/b-side/',source='Consequence',category='Showbiz',
                     title='Obscure band reissues a 1991 b-side',published=NOW.isoformat())
