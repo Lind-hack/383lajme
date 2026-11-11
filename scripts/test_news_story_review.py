@@ -63,6 +63,16 @@ class StoryReviewTests(unittest.TestCase):
         self.assertEqual(result['held_low_reader_interest'][0]['url'],filler['url'])
         self.assertEqual(leads[1]['reader_interest'],5)
 
+    def test_a_test_double_never_reaches_the_ranking_model(self):
+        # Before 11 Nov 2026 a review started with an injected capturer or batch reviewer still
+        # called the real ranking model, so unit tests spent model usage and gave changing results.
+        import news_reader_interest
+        def batch(brief,image,deadline):return []
+        with tempfile.TemporaryDirectory() as folder,patch('builtins.print'), \
+                patch.object(news_reader_interest,'model_judge',side_effect=AssertionError('real model called')) as judge:
+            review_inventory([dict(LEAD)],{URL:EVIDENCE},[],folder,capturer=fake_capture,batch_reviewer=batch,now=NOW)
+        judge.assert_not_called()
+
     def test_production_relative_report_folder_accepts_absolute_capture_paths(self):
         from contextlib import chdir
         def absolute_capture(*args,**kwargs):

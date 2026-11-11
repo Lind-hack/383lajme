@@ -277,7 +277,8 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
     # Compare the whole readable pool once, before pixels and writing are spent
     # on it: fillers are held back and the rest is reviewed most interesting first.
     fillers=[]
-    if interest is None and reviewer is native_review and not capture_only:
+    # Only the production path (no injected reviewer or capturer) may reach the model on its own.
+    if interest is None and reviewer is native_review and batch_reviewer is None and capturer is capture and not capture_only:
         from news_reader_interest import model_judge as interest
     if interest:
         from news_reader_interest import rank
