@@ -153,6 +153,20 @@ class ReaderInterestTests(unittest.TestCase):
                 self.assertEqual((len(kept), held), (len(LEADS), []))
         self.assertEqual(len(calls), 1)
 
+    def test_empty_ranking_keeps_candidates_without_repeating_the_model_call(self):
+        import news_reader_interest
+        calls = []
+        def empty(items, category, deadline):
+            calls.append(len(items))
+            return []
+        with tempfile.TemporaryDirectory() as folder, patch.object(news_reader_interest, 'model_judge', empty):
+            for _ in range(3):
+                kept, held = rank([dict(row) for row in LEADS], {}, 'Showbiz', folder,
+                                  judge=news_reader_interest.model_judge)
+                self.assertEqual([row['url'] for row in kept], [row['url'] for row in LEADS])
+                self.assertEqual(held, [])
+        self.assertEqual(len(calls), 1)
+
     def test_switched_off_changes_nothing(self):
         judge = scores({row['title']: 1 for row in LEADS})
         with tempfile.TemporaryDirectory() as folder, patch.dict('os.environ', {'L383_READER_INTEREST': '0'}):

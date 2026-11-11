@@ -284,7 +284,7 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
         from news_reader_interest import rank
         from news_reader_interest import CALL_SECONDS
         # The ranking has its own short budget; the photo-review window starts after it.
-        queue,low=rank(queue,evidence_by_url,category,folder,deadline=min(deadline,stage_deadline(CALL_SECONDS)),judge=interest,
+        queue,low=rank(queue,evidence_by_url,category,folder,deadline=stage_deadline(CALL_SECONDS),judge=interest,
                        rescue=lambda lead:homepage_weight(lead,now)>=1/3)
         deadline=stage_deadline(budget_seconds)
         home_deadline=time.monotonic() if category=='Botë' else min(deadline,time.monotonic()+min(90 if category=='Ekonomi' else 45,max(0,budget_seconds*.15)))

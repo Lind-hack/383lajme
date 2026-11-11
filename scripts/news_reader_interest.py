@@ -128,6 +128,8 @@ def rank(leads, evidence, category, folder, *, deadline=None, judge=model_judge,
                  for number, lead in enumerate(waiting, 1)]
         try:
             found = valid(judge(items, category, deadline), len(items))
+            if not found:
+                raise ValueError('ranking returned no usable decisions')
         except Exception as exc:  # never block a desk on its ranking
             print(f'383 READER INTEREST unavailable: {type(exc).__name__}: {str(exc)[:160]}', flush=True)
             found = {}

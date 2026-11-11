@@ -38,6 +38,29 @@ def verdict(**values):
 
 
 class StoryReviewTests(unittest.TestCase):
+    def test_ranking_can_outlast_visual_window_without_exceeding_global_deadline(self):
+        clock = [0.0]
+        filler = dict(LEAD, url='https://consequence.net/2026/11/old-b-side/', title='Obscure band reissues an old b-side')
+        evidence = {URL:EVIDENCE, filler['url']:dict(EVIDENCE, url=filler['url'], title=filler['title'])}
+        def interest(items, category, deadline):
+            if deadline < clock[0] + 200:
+                raise TimeoutError('ranking requires 200 seconds')
+            clock[0] += 200
+            return [dict(n=item['n'], score=1 if 'b-side' in item['title'] else 5, reason='test') for item in items]
+        def reviewer(brief, pixels, deadline):
+            self.assertLessEqual(deadline, 300)
+            clock[0] += 50
+            return verdict()
+        with tempfile.TemporaryDirectory() as folder, patch('builtins.print'), \
+                patch('news_story_review.time.monotonic', side_effect=lambda:clock[0]), \
+                patch('news_story_review.time.time', side_effect=lambda:1000+clock[0]), \
+                patch.dict('os.environ', {'L383_MODEL_DEADLINE_EPOCH':'1300'}):
+            records, result = review_inventory([dict(LEAD), filler], evidence, [], folder,
+                budget_seconds=180, capturer=fake_capture, reviewer=reviewer, interest=interest, now=NOW)
+        self.assertEqual(list(records), [URL])
+        self.assertEqual(records[URL]['status'], 'reviewed')
+        self.assertEqual(result['summary']['held_low_reader_interest'], 1)
+
     def test_a_readable_page_without_a_publication_date_is_never_reviewed(self):
         undated=dict(EVIDENCE,published='')
         with tempfile.TemporaryDirectory() as folder,patch('builtins.print'):
