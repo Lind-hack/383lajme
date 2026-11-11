@@ -13,6 +13,16 @@ from news_desk_policy import TARGET, MINIMUM, DESKS, REVIEW_FOLDERS, select_cand
 
 
 SIBLING_OVERLAP = .18  # the same band the publication check treats as related history
+# Luna at max effort, measured in the 11 Nov 2026 production runs: a draft takes 1.7 to 3+
+# minutes, the editor 4 to 5.5, the originality review 1 to 2.5. The old 3/4/4-minute limits
+# cut most calls off just before they answered, so the hour produced about one story a desk.
+WRITER_SECONDS = 420
+EDITOR_SECONDS = 600
+ORIGINALITY_SECONDS = 420
+# A story needs about ten minutes from draft to approval. Starting one later than this
+# only spends model usage on a draft the deadline will discard.
+STORY_SECONDS = 480
+from news_reader_interest import CALL_SECONDS as RANKING_SECONDS  # discovery waits for the ranking first
 
 
 def repeats_sibling(article, others):
@@ -73,8 +83,6 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
             try:
                 saved = port.publish(entry)
             except PublicationHistoryChanged:
-                if category != 'Botë':
-                    raise
                 if (entry['article']['url'] in context_rechecked
                         or port.quota_hit() or time.time() >= deadline or not hasattr(port, 'refresh_context')):
                     reasons.append('publication_history_changed')
@@ -91,11 +99,11 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
                 refreshing = False
                 saved = port.publish(entry)
         except PublicationHistoryChanged as exc:
-            reasons.append('publication_history_changed' if category == 'Botë' else 'publication_unavailable')
+            reasons.append('publication_history_changed')
             print(f'383 RETAIN APPROVED {entry["article"]["slug"]}: {exc}', flush=True)
             return
         except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
-            reasons.append('model_quota' if category == 'Botë' and port.quota_hit() else
+            reasons.append('model_quota' if port.quota_hit() else
                            'context_review_unavailable' if refreshing else 'publication_unavailable')
             print(f'383 RETAIN APPROVED {entry["article"]["slug"]}: {exc}', flush=True)
             return
@@ -118,14 +126,13 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
         checkpoint()
 
     checkpoint()
-    if category == 'Botë':
-        # Finish already-approved work while a necessary context comparison
-        # still has model time; do not strand it behind a full discovery run.
-        for entry in reserve.available():
-            if len(published) + result.get('qa_approved', 0) >= TARGET:
-                break
-            deliver(entry)
-            attempted.add(entry['article']['url'])
+    # Finish already-approved work while a necessary context comparison
+    # still has model time; do not strand it behind a full discovery run.
+    for entry in reserve.available():
+        if len(published) + result.get('qa_approved', 0) >= TARGET:
+            break
+        deliver(entry)
+        attempted.add(entry['article']['url'])
     while len(published) + result.get('qa_approved', 0) < TARGET and time.time() < deadline and not port.quota_hit():
         try:
             leads = port.collect(attempted)
@@ -221,7 +228,7 @@ class ProductionPort:
             attempted_file = self.root / 'review-attempted.json'
             atomic(attempted_file, sorted(self.reviewed))
             self.python('cloud_news_discovery.py', '--output', self.discovery, '--skip-published',
-                        seconds=600 if self.category == 'Botë' else 360, model=True,
+                        seconds=(600 if self.category == 'Botë' else 360) + RANKING_SECONDS, model=True,
                         env={'L383_SHOWBIZ_REVIEW_SECONDS': '180', 'L383_ECONOMY_REVIEW_SECONDS': '180',
                              'L383_WORLD_REVIEW_SECONDS': '360',
                              'L383_INGESTION_BUDGET_SECONDS': '120' if self.category == 'Botë' else '45', 'L383_SHOWBIZ_COLLECTION_SECONDS': '30',
@@ -317,17 +324,18 @@ class ProductionPort:
                                 ('no_fresh_photo', 'image_verification_unavailable')):
                 if rejected.get(key):
                     self.metrics.setdefault('failure_reasons', []).append(reason)
-        if self.category == 'Botë' and len(ready[:remaining]) > 1:
-            yield from self.parallel_world_stories(ready[:remaining], data, work)
+        if len(ready[:remaining]) > 1:
+            # One story after another fits three Luna stories in an hour at best.
+            yield from self.parallel_stories(ready[:remaining], data, work)
         else:
             yield from self.write_ready(ready, data, work, remaining)
 
-    def parallel_world_stories(self, ready, data, work):
+    def parallel_stories(self, ready, data, work):
         from concurrent.futures import ThreadPoolExecutor, as_completed
         jobs = []
         for index, lead in enumerate(ready):
             request, response = work / f'worker-{index}.input.json', work / f'worker-{index}.result.json'
-            atomic(request, dict(lead=lead, data=data, work=str(work / f'parallel-{index}'),
+            atomic(request, dict(category=self.category, lead=lead, data=data, work=str(work / f'parallel-{index}'),
                 evidence_folder=str(work / 'source-evidence'), reserve_root=str(self.reserve.path.parent),
                 deadline=self.deadline, qa=self.qa))
             jobs.append((request, response))
@@ -350,15 +358,17 @@ class ProductionPort:
                 except (OSError, ValueError):
                     report = {}
                 metrics = report.get('metrics', {})
-                for key in ('saved_drafts', 'approvals'):
-                    self.metrics[key] += metrics.get(key, 0)
+                for key in ('saved_drafts', 'approvals', 'rewrites'):
+                    if metrics.get(key):
+                        self.metrics[key] = self.metrics.get(key, 0) + metrics[key]
                 for key in ('drafts_by_publisher', 'approvals_by_publisher'):
                     for source, count in metrics.get(key, {}).items():
-                        self.metrics[key][source] = self.metrics[key].get(source, 0) + count
+                        totals = self.metrics.setdefault(key, {})
+                        totals[source] = totals.get(source, 0) + count
                 self.metrics.setdefault('failure_reasons', []).extend(metrics.get('failure_reasons', []))
                 if error or report.get('error'):
                     self.metrics['failure_reasons'].append('model_quota' if self.quota_hit() else 'preparation_or_writing_failed')
-                    print('383 WORLD STORY WORKER held: ' + str(error or report['error']), flush=True)
+                    print('383 STORY WORKER held: ' + str(error or report['error']), flush=True)
                 for entry in report.get('entries', []):
                     if self.reserve.valid(entry):
                         yield entry
@@ -383,6 +393,10 @@ class ProductionPort:
         # cannot erase a sibling's saved draft or approval.
         for index, lead in enumerate(ready[:remaining]):
             if self.quota_hit() or time.time() >= self.deadline:
+                break
+            if self.deadline - time.time() < STORY_SECONDS:
+                self.metrics.setdefault('failure_reasons', []).append('deadline')
+                print(f'383 STORY HELD {lead["url"]}: too late in the hour to finish; it waits for the next run', flush=True)
                 break
             item = work / f'story-{index}.md'
             part = dict(data, ready_leads=[lead], publication_plan={self.category: 1})
@@ -430,7 +444,7 @@ class ProductionPort:
                     args += ['--', '/opt/hermes/.venv/bin/hermes', 'chat', '--provider', 'openai-codex',
                              '--model', 'gpt-6-luna', '--ignore-rules', '-t', 'none', '--yolo',
                              '--max-turns', '1', '-Q', '-q', prompt]
-                    self.command(args, seconds=180, model=True)
+                    self.command(args, seconds=WRITER_SECONDS, model=True)
                     self.metrics['saved_drafts'] += len(json.loads(batch.read_text(encoding='utf-8')))
                     if attempt:
                         self.metrics['rewrites'] = self.metrics.get('rewrites', 0) + 1
@@ -448,7 +462,7 @@ class ProductionPort:
                                 env={'L383_PREPARED_EVIDENCE_ROOT': str(evidence_folder or work / 'source-evidence')})
                     feedback = self.gate_feedback(batch)
                     self.command(['bash', 'scripts/run-news-editor-parallel.sh', 'gpt-6-luna', batch, Path.cwd(), '30'],
-                                 seconds=420 if self.category == 'Botë' else 240, model=True,
+                                 seconds=EDITOR_SECONDS, model=True,
                                  env={'L383_EDITOR_GATE_FEEDBACK': feedback} if feedback else None)
                     if not json.loads(batch.read_text(encoding='utf-8')):
                         self.metrics.setdefault('failure_reasons', []).append('review_rejection')
@@ -457,7 +471,7 @@ class ProductionPort:
                     self.python('codex_automation_support.py', 'normalize', '--file', batch, seconds=60)
                     refused = batch.with_suffix('.refused.json')
                     self.python('news_copyright_review.py', '--file', batch,
-                                seconds=420 if self.category == 'Botë' else 240, model=True,
+                                seconds=ORIGINALITY_SECONDS, model=True,
                                 env={'L383_REVIEW_RECEIPT': str(batch.with_suffix('.copyright-review.json')),
                                      'L383_REVIEW_REJECTED': str(refused)})
                     from codex_automation_support import _recently_published
@@ -494,7 +508,7 @@ class ProductionPort:
                     # A sibling can publish during this independent comparison.
                     # Bind the worker to what it actually reviewed; the parent
                     # rechecks current history under the publication lock.
-                    verify(batch, rows, reviewed_history if self.category == 'Botë' else _recently_published())
+                    verify(batch, rows, reviewed_history)
                     evidence = json.loads(batch.with_suffix('.editor-sources.json').read_text(encoding='utf-8'))
                     originality = json.loads(batch.with_suffix('.copyright-review.json').read_text(encoding='utf-8'))
                     context = json.loads(batch.with_suffix('.context-review.json').read_text(encoding='utf-8'))
@@ -521,8 +535,6 @@ class ProductionPort:
 
     def refresh_context(self, entry):
         """New context approval for unchanged copy; never run under the publication lock."""
-        if self.category != 'Botë':
-            raise ValueError('context refresh is configured only for World')
         if self.quota_hit() or time.time() >= self.deadline:
             raise RuntimeError('model quota or deadline prevents a new context comparison')
         if not self.reserve.valid(entry):

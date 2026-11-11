@@ -22,6 +22,7 @@ class _StoryHTML(HTMLParser):
         self.stack, self.capture, self.chunks = [], None, []
         self.title, self.category, self.paragraphs, self.images, self.videos = "", "", [], [], []
         self.body_depth, self.body_found, self.body_paragraphs = None, False, []
+        self.summary = ""
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
@@ -46,7 +47,9 @@ class _StoryHTML(HTMLParser):
         style = re.sub(r"\s", "", attrs.get("style", ""))
         if tag == "div" and "font-size:17px" in style and "line-height:1.85" in style:
             self.body_depth, self.body_found = len(self.stack), True
-        if tag in {"h1", "p"} or (tag == "a" and not self.category and attrs.get("href", "").startswith("/kategori/")):
+        # Since the "Çfarë ndodhi" card (6 Nov 2026) the excerpt is its first row, no longer a paragraph.
+        summary = tag == "dd" and "ctx-what" in attrs.get("class", "").split() and not self.summary
+        if tag in {"h1", "p"} or summary or (tag == "a" and not self.category and attrs.get("href", "").startswith("/kategori/")):
             self.capture, self.chunks = tag, []
 
     def handle_data(self, data):
@@ -64,6 +67,8 @@ class _StoryHTML(HTMLParser):
                 self.paragraphs.append(text)
                 if self.body_depth is not None:
                     self.body_paragraphs.append(text)
+            elif tag == "dd":
+                self.summary = text
             elif tag == "a":
                 self.category = text
             self.capture, self.chunks = None, []
@@ -86,7 +91,7 @@ def verify_html(article: dict, html: str) -> None:
     if video and article.get('category')=='Showbiz':
         visual_matches=visual_matches and bool(story.images) and story.images[0]==article['image_url']
     if (story.title != " ".join(article["title"].split()) or story.category != article["category"]
-            or story.paragraphs[:1] != [" ".join(str(article.get("excerpt") or "").split())]
+            or " ".join(str(article.get("excerpt") or "").split()) not in (story.summary, *story.paragraphs[:1])
             or not story.body_found or story.body_paragraphs != paragraphs
             or not visual_matches):
         raise RuntimeError(f"public article content/category/photo mismatch: {article['slug']}")

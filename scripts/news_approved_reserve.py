@@ -15,6 +15,19 @@ class PublicationHistoryChanged(ValueError):
     """An approved copy needs a fresh independent context comparison."""
 
 
+def source_age(value, now):
+    """Seconds since the publisher's date. A date with no zone is read as UTC, as discovery
+    reads it; when that puts it a few hours ahead it was local time, and the story is new."""
+    try:
+        stamp = datetime.fromisoformat(str(value).replace('Z', '+00:00'))
+    except (ValueError, TypeError):
+        return float('inf')
+    if stamp.tzinfo is not None:
+        return (now - stamp).total_seconds()
+    seconds = (now - stamp.replace(tzinfo=timezone.utc)).total_seconds()
+    return 0 if -14 * 3600 <= seconds < 0 else seconds
+
+
 class Reserve:
     def __init__(self, root, category):
         if category not in DESKS:
@@ -22,7 +35,8 @@ class Reserve:
         self.path = Path(root) / {'Showbiz': 'showbiz', 'Ekonomi': 'ekonomi', 'Botë': 'bote'}[category]
         self.category = category
 
-    def valid(self, entry, *, now=None):
+    def problem(self, entry, *, now=None):
+        """The first check an approval fails, or '' when it may be published."""
         now = now or datetime.now(timezone.utc)
         try:
             a, evidence = entry['article'], entry['evidence']
@@ -33,24 +47,29 @@ class Reserve:
             from news_source_policy import needs_corroboration
             source_date = evidence['evidence'].get('published')
             limit = 3600 if entry['time_sensitive'] else 21600
-            return (entry['policy'] == POLICY and a['category'] == self.category
-                    and 0 <= age(source_date, now) < 86400
-                    and 0 <= age(receipt['reviewed_at'], now) < limit
-                    and 0 <= age(context['reviewed_at'], now) < limit
-                    and receipt['policy'] == COPYRIGHT and context['policy'] == CONTEXT
-                    and all(r.get('model') == 'gpt-6-luna' and r.get('provider') == 'openai-codex'
-                            for r in (receipt, context))
-                    and proof['article_sha256'] == article_digest(a)
-                    and proof['evidence_sha256'] == digest(evidence) and approved(proof['decision'])
-                    and context_proof['article_sha256'] == article_digest(a)
-                    and len(context_proof['decisions']) == 1
-                    and context_proof['decisions'][0]['verdict'] == 'distinct'
-                    and isinstance(context['history'], dict)
-                    and entry['image_sha256'] == a['image_rights']['sha256']
-                    and entry['snapshot_sha256'] == digest({k: v for k, v in entry.items() if k != 'snapshot_sha256'})
-                    and (not needs_corroboration(a) or bool(evidence.get('corroborating'))))
+            checks = (
+                ('policy_or_category', lambda: entry['policy'] == POLICY and a['category'] == self.category),
+                ('source_older_than_24h_or_undated', lambda: 0 <= source_age(source_date, now) < 86400),
+                ('originality_approval_expired', lambda: 0 <= age(receipt['reviewed_at'], now) < limit),
+                ('context_approval_expired', lambda: 0 <= age(context['reviewed_at'], now) < limit),
+                ('review_policy', lambda: receipt['policy'] == COPYRIGHT and context['policy'] == CONTEXT),
+                ('review_model', lambda: all(r.get('model') == 'gpt-6-luna' and r.get('provider') == 'openai-codex'
+                                             for r in (receipt, context))),
+                ('copy_changed_after_originality_review', lambda: proof['article_sha256'] == article_digest(a)),
+                ('evidence_changed_or_not_approved', lambda: proof['evidence_sha256'] == digest(evidence) and approved(proof['decision'])),
+                ('copy_changed_after_context_review', lambda: context_proof['article_sha256'] == article_digest(a)),
+                ('context_not_distinct', lambda: len(context_proof['decisions']) == 1
+                    and context_proof['decisions'][0]['verdict'] == 'distinct' and isinstance(context['history'], dict)),
+                ('photo_changed', lambda: entry['image_sha256'] == a['image_rights']['sha256']),
+                ('snapshot_changed', lambda: entry['snapshot_sha256'] == digest({k: v for k, v in entry.items() if k != 'snapshot_sha256'})),
+                ('missing_corroboration', lambda: not needs_corroboration(a) or bool(evidence.get('corroborating'))),
+            )
+            return next((name for name, passes in checks if not passes()), '')
         except (KeyError, TypeError, ValueError):
-            return False
+            return 'incomplete_approval'
+
+    def valid(self, entry, *, now=None):
+        return not self.problem(entry, now=now)
 
     def store(self, article, evidence, originality, context, *, now=None, time_sensitive=False):
         now = now or datetime.now(timezone.utc)
@@ -65,8 +84,9 @@ class Reserve:
                      context=context, image_sha256=article.get('image_rights', {}).get('sha256'),
                      time_sensitive=sensitive_time, stored_at=now.isoformat())
         entry['snapshot_sha256'] = digest(entry)
-        if not self.valid(entry, now=now):
-            raise ValueError('only complete, unchanged approvals may enter the reserve')
+        problem = self.problem(entry, now=now)
+        if problem:
+            raise ValueError('only complete, unchanged approvals may enter the reserve: ' + problem)
         for path in self.path.glob('*.json'):
             try:
                 if not self.valid(json.loads(path.read_text(encoding='utf-8')), now=now):

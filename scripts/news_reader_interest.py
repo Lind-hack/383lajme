@@ -15,12 +15,15 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-POLICY = '383-reader-interest-v3'
+POLICY = '383-reader-interest-v4'
 MIN_INTEREST = 3  # 1 and 2 are fillers
-BATCH = 180  # a whole desk pool in one call; the answer is one short row per headline
+# Luna at max effort, timed on the VPS on 11 Nov 2026: 60 headlines in 109 seconds, 150 in 145.
+# Sixty seconds, the first budget, was never enough. Scores are kept for three days, so later
+# calls only see the new headlines.
+BATCH = 150
 MIN_NEW = 6  # fewer new headlines than this wait for the next call, behind the judged ones
 SUMMARY_CHARS = 160
-CALL_SECONDS = 60  # its own budget, outside the photo-review window
+CALL_SECONDS = 240  # its own budget, outside the photo-review window
 
 DESKS = {
     'Showbiz': 'entertainment and celebrity news',
@@ -52,6 +55,12 @@ DESK_NOTES = {
     'Showbiz': ' On this desk, something new that a named Albanian or Kosovo celebrity did, said, wore or posted '
                '(a visit, a reply, an outfit, a new photo) scores at least 3, even when it is small. Keep 1 and 2 for '
                'foreign niche acts, trade and business news, lists, advice and pages with no new event.',
+    # Owner request, 11 Nov 2026: broad world news, not another country's local items.
+    'Botë': ' On this desk the big international stories of the day score 4 or 5: wars, ceasefires and peace talks, '
+            'elections and governments of major countries, disasters, decisions of the United States, the European '
+            'Union, NATO, Russia or China, and anything touching the Balkans or the countries where the diaspora lives. '
+            'A routine domestic item of a distant country (a local court case, a regional official, a company opening '
+            'an office, a local festival) scores 1 or 2 however well it is reported.',
 }
 
 
@@ -104,7 +113,15 @@ def rank(leads, evidence, category, folder, *, deadline=None, judge=model_judge,
         known = {}
     waiting = [lead for lead in leads if key(lead) not in known][:batch]
     judged_now = 0
-    if waiting and (len(waiting) >= MIN_NEW or len(waiting) == len(leads)):
+    # A desk asks again on every wave. After one failed call, the rest of this hour keeps
+    # its order instead of spending four more minutes on the same failure.
+    failed = Path(folder) / 'reader-interest-failed.txt'
+    hour = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H')
+    try:
+        skip = judge is model_judge and failed.read_text(encoding='utf-8').strip() == hour
+    except OSError:
+        skip = False
+    if waiting and not skip and (len(waiting) >= MIN_NEW or len(waiting) == len(leads)):
         items = [dict(n=number, title=str(lead.get('title') or ''),
                       summary=' '.join(str((evidence or {}).get(lead['url'], {}).get('text')
                                            or lead.get('summary') or '').split())[:SUMMARY_CHARS])
@@ -114,6 +131,11 @@ def rank(leads, evidence, category, folder, *, deadline=None, judge=model_judge,
         except Exception as exc:  # never block a desk on its ranking
             print(f'383 READER INTEREST unavailable: {type(exc).__name__}: {str(exc)[:160]}', flush=True)
             found = {}
+            try:
+                failed.parent.mkdir(parents=True, exist_ok=True)
+                failed.write_text(hour, encoding='utf-8')
+            except OSError:
+                pass
         if found:
             judged_now = len(found)
             now = datetime.now(timezone.utc).isoformat()

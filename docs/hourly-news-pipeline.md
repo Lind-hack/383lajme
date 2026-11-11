@@ -508,3 +508,31 @@ without the hourly-mode flag is excluded from publication counts. A later replay
 correctly rejected photo approvals older than one hour; those approvals must be
 renewed by real preparation, never by changing timestamps. Fresh preparation is
 required for the next full publication run.
+
+## Luna timing on the three reliable desks (11 November 2026)
+
+Measured in production with `gpt-6-luna` at max effort: a draft takes 1.7 to 3+ minutes, the
+editor 4 to 5.5, the originality review 1 to 2.5, the context comparison about 2, and the
+reader-interest ranking 109 seconds for 60 headlines and 145 for 150. One story is therefore about ten
+to thirteen minutes of model time. The earlier limits (writer 180 s, editor and originality
+240 s on Showbiz and Ekonomi, ranking 60 s for 180 headlines) cut most calls off just before
+they answered, and stories were written one after another: on 11 November ten runs published
+1 Showbiz, 4 Ekonomi and 9 Botë articles.
+
+Current settings, all in `scripts/news_reliable_desks.py` unless noted:
+
+- Writer 420 s, editor 600 s, originality review 420 s, on all three desks.
+- Showbiz and Ekonomi write their ready stories side by side in up to three workers, as Botë
+  already did (`parallel_stories`, `news_world_story_worker.py` takes the desk from its job).
+- A story is not started with less than 480 s left before the minute-50 deadline.
+- The ranking judges up to 150 headlines per call with 240 s, and discovery is given that time on top
+  of its own window. After one failed ranking call a desk keeps its order for the rest of the hour
+  (`scripts/news_reader_interest.py`).
+- Eight model calls at once across the seven desks instead of five
+  (`scripts/news_model_slots.py`, `L383_MODEL_SLOTS` overrides).
+- An approved story whose related publication history changed gets one fresh context comparison
+  on every desk, not only Botë, and waiting approvals are delivered at the start of the run.
+- A publisher date with no time zone is read as UTC by the final approval check, as discovery
+  already reads it. A refused approval now names the check it failed.
+- On Botë a wire agency (AP News, Reuters) gets three turns per round of the publisher rotation.
+  Reuters refuses automated readers, so today this means AP.

@@ -15,7 +15,7 @@ from news_story_review import editorial_prompt
 from news_batch_identity import DESKS, batch_key
 from news_category_runs import run_desks
 from news_context_review import history_records
-from news_model_slots import model_slot, connect
+from news_model_slots import model_slot, connect, CAPACITY
 import news_model
 import codex_automation_support as support
 
@@ -137,7 +137,7 @@ class ModelCapacityTests(unittest.TestCase):
                 'L383_MODEL_SLOT_DB': str(Path(folder) / 'slots.sqlite')}):
             from contextlib import ExitStack
             with ExitStack() as stack:
-                for _ in range(5):
+                for _ in range(CAPACITY):
                     stack.enter_context(model_slot([], time.monotonic() + 5))
                 cancel = threading.Timer(.1, news_model._TERMINATING.set)
                 cancel.start()
@@ -147,7 +147,7 @@ class ModelCapacityTests(unittest.TestCase):
                             news_model.run_process(['cancelled'], 5)
                         spawn.assert_not_called()
                     with connect(os.environ['L383_MODEL_SLOT_DB']) as db:
-                        self.assertEqual(db.execute('SELECT count(*) FROM requests').fetchone()[0], 5)
+                        self.assertEqual(db.execute('SELECT count(*) FROM requests').fetchone()[0], CAPACITY)
                 finally:
                     cancel.join()
                     news_model._TERMINATING.clear()
@@ -155,13 +155,13 @@ class ModelCapacityTests(unittest.TestCase):
     def test_idle_desk_gets_free_capacity_before_an_already_busy_desk(self):
         with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {
                 'L383_MODEL_SLOT_DB': str(Path(folder) / 'slots.sqlite'), 'L383_RUN_DESK': 'kosove'}):
-            # Initialize the schema, then represent four in-flight Economy calls
-            # and its earlier queued fifth call. Kosovo must get the free slot.
+            # Initialize the schema, then represent all but one slot held by in-flight Economy
+            # calls and its earlier queued next call. Kosovo must get the free slot.
             with model_slot([], time.monotonic() + 2):
                 pass
             with connect(os.environ['L383_MODEL_SLOT_DB']) as db:
                 db.executemany('INSERT INTO requests VALUES (?, ?, ?, ?, ?, NULL)',
-                               [(str(n), 'ekonomi', os.getpid(), 0, int(n < 4)) for n in range(5)])
+                               [(str(n), 'ekonomi', os.getpid(), 0, int(n < CAPACITY - 1)) for n in range(CAPACITY)])
             with model_slot([], time.monotonic() + 1):
                 with connect(os.environ['L383_MODEL_SLOT_DB']) as db:
                     self.assertEqual(db.execute("SELECT count(*) FROM requests WHERE active=1 AND desk='kosove'").fetchone()[0], 1)
@@ -171,14 +171,14 @@ class ModelCapacityTests(unittest.TestCase):
                 'L383_MODEL_SLOT_DB': str(Path(folder) / 'slots.sqlite'), 'L383_RUN_DESK': 'showbiz'}):
             from contextlib import ExitStack
             with ExitStack() as stack:
-                for _ in range(5):
+                for _ in range(CAPACITY):
                     stack.enter_context(model_slot([], time.monotonic() + 5))
                 with patch.object(news_model.subprocess, 'Popen') as spawn:
                     with self.assertRaises(subprocess.TimeoutExpired):
                         news_model.run_process(['do-not-start'], .15)
                     spawn.assert_not_called()
                 with connect(os.environ['L383_MODEL_SLOT_DB']) as db:
-                    self.assertEqual(db.execute('SELECT count(*) FROM requests').fetchone()[0], 5)
+                    self.assertEqual(db.execute('SELECT count(*) FROM requests').fetchone()[0], CAPACITY)
 
     @unittest.skipUnless(os.name == 'posix', 'Linux cross-process worker capacity')
     def test_global_capacity_across_processes_and_dead_owner_recovery(self):
@@ -201,11 +201,12 @@ with model_slot([],time.monotonic()+10):
                 out, err = child.communicate(timeout=15)
                 self.assertEqual(child.returncode, 0, err)
                 counts.append(int(out))
-            self.assertTrue(all(1 <= count <= 5 for count in counts))
+            self.assertTrue(all(1 <= count <= CAPACITY for count in counts))
+            self.assertEqual(CAPACITY, 8)
             with connect(database) as db:
                 self.assertEqual(db.execute('SELECT count(*) FROM requests').fetchone()[0], 0)
                 db.executemany('INSERT INTO requests VALUES (?, ?, ?, ?, 1, NULL)',
-                               [(str(n), 'dead', 99999999, 0) for n in range(5)])
+                               [(str(n), 'dead', 99999999, 0) for n in range(CAPACITY)])
             with patch.dict(os.environ, env), model_slot([], time.monotonic() + 2):
                 with connect(database) as db:
                     self.assertEqual(db.execute('SELECT count(*) FROM requests').fetchone()[0], 1)

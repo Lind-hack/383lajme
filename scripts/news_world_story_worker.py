@@ -1,4 +1,4 @@
-"""Write and independently approve one prepared World story; never publish."""
+"""Write and independently approve one prepared story of any reliable desk; never publish."""
 import json
 import os
 import subprocess
@@ -21,7 +21,8 @@ def run(request, response):
     os.environ['L383_REVIEW_REJECTED'] = str(work / 'copyright-rejected.json')
     if os.environ.get('L383_REJECTION_LEDGER'):
         os.environ['L383_REJECTION_LOCK'] = os.environ['L383_REJECTION_LEDGER'] + '.lock'
-    port = ProductionPort('Botë', Reserve(job['reserve_root'], 'Botë'), work,
+    category = job.get('category', 'Botë')
+    port = ProductionPort(category, Reserve(job['reserve_root'], category), work,
                           job['deadline'], job['qa'])
     entries, error = [], None
     try:

@@ -269,25 +269,34 @@ class WorldRunTests(unittest.TestCase):
             self.assertEqual(result['published_count'],1)
             self.assertEqual(result['reserve_used'],1)
 
-    def test_history_recheck_does_not_change_other_desks_failure_behavior(self):
+    def test_history_recheck_rescues_an_approved_story_on_every_desk(self):
+        # An Economy approval sat unpublished for six runs on 11 Nov 2026: related history had
+        # changed and only World was allowed the fresh comparison that releases it.
         import tempfile
         from pathlib import Path
         from news_reliable_desks import run_category
         from news_approved_reserve import PublicationHistoryChanged
-        entry=dict(article=dict(url='a',slug='a'))
-        class Store:
-            def available(self):return [entry]
-        class Port:
-            def quota_hit(self):return False
-            def collect(self,attempted):return []
-            def publish(self,item):raise PublicationHistoryChanged('changed history')
-            def refresh_context(self,item):raise AssertionError('Changed another desk')
         with tempfile.TemporaryDirectory() as root:
             for category in ('Showbiz','Ekonomi'):
+                entry=dict(article=dict(url='a',slug='a',title='Lajmi',body='<p>Teksti</p>'))
+                calls=[]
+                class Store:
+                    def available(self):return [] if 'published' in calls else [entry]
+                    def confirm(self,item):calls.append('confirmed')
+                class Port:
+                    def quota_hit(self):return False
+                    def collect(self,attempted):return []
+                    def publish(self,item):
+                        if 'refreshed' not in calls:raise PublicationHistoryChanged('changed history')
+                        calls.append('published')
+                        return dict(batch='b',articles=[item['article']])
+                    def refresh_context(self,item):
+                        calls.append('refreshed')
+                        return item
                 with self.subTest(category=category):
                     result=run_category(Port(),Store(),Path(root)/(category+'.json'),category)
-                    self.assertIn('publication_unavailable',result['shortfall_reasons'])
-                    self.assertNotIn('publication_history_changed',result['shortfall_reasons'])
+                    self.assertEqual(calls,['refreshed','published','confirmed'])
+                    self.assertEqual(result['published_count'],1)
 
     def test_world_history_refresh_cannot_renew_originality_or_change_copy(self):
         import tempfile

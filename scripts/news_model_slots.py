@@ -9,6 +9,12 @@ import uuid
 from pathlib import Path
 
 
+# Calls allowed at once across all seven desks. Five was set when stories were written one
+# after another; with three desks each writing three stories side by side, five made every
+# call queue for minutes inside its own time limit (11 Nov 2026). L383_MODEL_SLOTS overrides.
+CAPACITY = max(1, int(os.environ.get('L383_MODEL_SLOTS') or 8))
+
+
 @contextmanager
 def connect(database):
     connection = sqlite3.connect(database, timeout=2)
@@ -78,7 +84,7 @@ def model_slot(command, deadline, *, cancelled=lambda: False):
                 active = [row for row in rows if row[4]]
                 waiting = sorted((row for row in rows if not row[4]),
                                  key=lambda row: (sum(a[1] == row[1] for a in active), row[3], row[0]))
-                if len(active) < 5 and waiting and waiting[0][0] == token:
+                if len(active) < CAPACITY and waiting and waiting[0][0] == token:
                     connection.execute('UPDATE requests SET active = 1 WHERE token = ?', (token,))
                     granted = True
                 else:

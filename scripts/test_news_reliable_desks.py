@@ -59,6 +59,125 @@ class ReserveTests(unittest.TestCase):
             entry=reserve.available(now=now)[0];entry['article']['body']='Changed copy'
             self.assertFalse(reserve.valid(entry,now=now))
 
+    def test_a_publisher_date_without_a_zone_is_accepted_and_a_refusal_names_its_check(self):
+        # 11 Nov 2026: an approved Economy story was thrown away after its three reviews because
+        # the publisher wrote "2026-11-11T12:15:46" with no zone, and the refusal gave no reason.
+        import tempfile
+        from datetime import datetime, timezone
+        from pathlib import Path
+        from news_approved_reserve import Reserve, source_age
+        from news_copyright_review import article_digest, digest, POLICY, CHECKS
+        now=datetime(2026,11,11,14,35,tzinfo=timezone.utc)
+        self.assertEqual(source_age('2026-11-11T12:15:46',now),8354)
+        self.assertEqual(source_age('2026-11-11T15:35:00',now),0)  # local time one hour ahead of UTC
+        self.assertEqual(source_age('2026-11-11T12:15:46+01:00',now),8354+3600)
+        self.assertEqual(source_age('',now),float('inf'))
+        def stored(published):
+            a=dict(slug='a',url='https://decrypt.co/a',title='Nvidia bie',body='Independent prose',category='Ekonomi',published_at=now.isoformat(),image_rights=dict(sha256='a'*64))
+            e=dict(slug='a',evidence=dict(status='text_extracted',published=published))
+            proof=dict(article_sha256=article_digest(a),evidence_sha256=digest(e),decision=dict(verdict='approve',checks=dict.fromkeys(CHECKS,True),reason='Independent composition and all factual claims are supported.'))
+            receipt=dict(policy=POLICY,model='gpt-6-luna',provider='openai-codex',reviewed_at=now.isoformat(),articles={'a':proof})
+            context=dict(policy='383-event-context-v2',model='gpt-6-luna',provider='openai-codex',reviewed_at=now.isoformat(),history={},articles={'a':dict(article_sha256=article_digest(a),decisions=[dict(verdict='distinct')])})
+            with tempfile.TemporaryDirectory() as root:
+                reserve=Reserve(Path(root),'Ekonomi')
+                reserve.store(a,e,receipt,context,now=now)
+                return len(reserve.available(now=now))
+        self.assertEqual(stored('2026-11-11T12:15:46'),1)
+        with self.assertRaisesRegex(ValueError,'source_older_than_24h_or_undated'):
+            stored('2026-11-09T12:15:46')
+
+class ParallelDeskTests(unittest.TestCase):
+    def test_showbiz_and_economy_write_their_ready_stories_side_by_side(self):
+        # One Luna story takes about ten minutes; one after another gave a desk one story an hour.
+        import json, tempfile, threading
+        from datetime import datetime, timezone
+        from pathlib import Path
+        from unittest.mock import patch
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        for category in ('Showbiz','Ekonomi'):
+            leads=[dict(url=f'https://example.com/{i}',source='Example') for i in range(3)]
+            together=threading.Barrier(3)
+            with self.subTest(category=category), tempfile.TemporaryDirectory() as temp:
+                root=Path(temp)
+                reserve=Reserve(root/'reserve',category)
+                port=ProductionPort(category,reserve,root/'run',datetime.now(timezone.utc).timestamp()+3000,qa=True)
+                port.data={}
+                seen=[]
+                def command(script,*args,**kwargs):
+                    if script=='prepare_editor_sources.py':
+                        atomic(Path(args[0]).with_suffix('.json'),dict(ready_leads=leads))
+                    elif script=='news_world_story_worker.py':
+                        job=json.loads(Path(args[0]).read_text(encoding='utf-8'))
+                        seen.append(job['category'])
+                        together.wait(timeout=5)  # fails unless all three run at once
+                        atomic(args[1],dict(entries=[dict(article=job['lead'])],metrics=dict(saved_drafts=1,approvals=1,rewrites=1)))
+                    else:
+                        raise AssertionError('a serial writer was started: '+script)
+                with patch.object(port,'python',side_effect=command),patch.object(reserve,'valid',return_value=True):
+                    entries=list(port.produce(leads,5))
+                self.assertEqual(len(entries),3)
+                self.assertEqual(seen,[category]*3)
+                self.assertEqual((port.metrics['saved_drafts'],port.metrics['approvals'],port.metrics['rewrites']),(3,3,3))
+
+    def test_the_worker_builds_its_desk_from_the_job(self):
+        import tempfile
+        from pathlib import Path
+        from unittest.mock import patch
+        from news_json_state import atomic
+        import news_world_story_worker
+        made=[]
+        class Port:
+            metrics={}
+            def __init__(self,category,reserve,*rest):made.append((category,reserve.category))
+            def write_ready(self,*args,**kwargs):return iter(())
+        with tempfile.TemporaryDirectory() as temp:
+            with patch.object(news_world_story_worker,'ProductionPort',Port), patch('codex_automation_support.load_env'):
+                for category in ('Ekonomi',None):
+                    job=dict(lead={},data={},work=temp+'/w',evidence_folder=temp,reserve_root=temp,deadline=0,qa=True)
+                    if category:job['category']=category
+                    atomic(Path(temp)/'job.json',job)
+                    news_world_story_worker.run(str(Path(temp)/'job.json'),Path(temp)/'out.json')
+        self.assertEqual(made,[('Ekonomi','Ekonomi'),('Botë','Botë')])
+
+    def test_luna_is_given_the_time_it_was_measured_to_need(self):
+        import news_reliable_desks as desks
+        self.assertGreaterEqual(desks.WRITER_SECONDS,360)       # drafts took up to 3+ minutes
+        self.assertGreaterEqual(desks.EDITOR_SECONDS,540)       # the editor took up to 5.5
+        self.assertGreaterEqual(desks.ORIGINALITY_SECONDS,360)
+        self.assertLess(desks.WRITER_SECONDS+desks.EDITOR_SECONDS+desks.ORIGINALITY_SECONDS,3000)
+
+    def test_a_story_is_not_started_when_the_hour_cannot_finish_it(self):
+        import tempfile, time
+        from pathlib import Path
+        from unittest.mock import patch
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            port=ProductionPort('Showbiz',Reserve(root/'reserve','Showbiz'),root/'run',time.time()+120,qa=True)
+            with patch.object(port,'python',side_effect=AssertionError('started')),patch.object(port,'command',side_effect=AssertionError('started')):
+                self.assertEqual(list(port.write_ready([dict(url='https://example.com/a')],{},root,1)),[])
+            self.assertIn('deadline',port.metrics['failure_reasons'])
+
+
+class WireTurnTests(unittest.TestCase):
+    def test_a_wire_agency_gets_three_turns_per_round_on_world(self):
+        from datetime import datetime, timezone
+        from news_desk_policy import select_candidates
+        now=datetime(2026,11,11,12,tzinfo=timezone.utc)
+        def lead(source,domain,n):
+            return dict(url=f'https://{domain}/story-{n}',source=source,category='Botë',title=f'{source} story {n}',
+                        summary='A government announced a decision.',published=now.isoformat())
+        leads=[lead('AP News','apnews.com',n) for n in range(6)]+[lead('DW','dw.com',n) for n in range(6)]+[lead('BBC World','bbc.com',n) for n in range(6)]
+        first=[row['source'] for row in select_candidates(leads,{},limit=5,now=now)]
+        self.assertEqual(first.count('AP News'),3)
+        self.assertEqual({first.count('DW'),first.count('BBC World')},{1})
+        everything=select_candidates(leads,{},limit=18,now=now)
+        self.assertEqual(len({row['url'] for row in everything}),18)
+
+
 class ReliableRunTests(unittest.TestCase):
     def test_quota_after_approval_still_publishes_completed_work(self):
         import tempfile

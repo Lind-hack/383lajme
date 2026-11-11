@@ -46,6 +46,14 @@ class PublicationReadbackTests(unittest.TestCase):
             verify_html(video_article, video_markup.replace('embed/123456789ab', 'embed/wrongIdHere'))
         with self.assertRaises(RuntimeError):
             verify_html(article, markup.replace('</div>', '<p>Unreviewed additional claim.</p></div>'))
+        # Since 6 Nov 2026 the page shows the excerpt as the first row of the "Çfarë ndodhi" card.
+        card = markup.replace(f'<p>{article["excerpt"]}</p>',
+                              f'<dl class="ctx-card"><div class="ctx-row"><dt class="ctx-label">Çfarë ndodhi</dt>'
+                              f'<dd class="ctx-what">{article["excerpt"]}</dd></div></dl>')
+        self.assertNotEqual(card, markup)
+        verify_html(article, card)
+        with self.assertRaises(RuntimeError):
+            verify_html(article, card.replace(article['excerpt'], 'Një përmbledhje tjetër.'))
         # Comments and controls after the body are not article copy.
         verify_html(article, markup.replace('</article>', '<div><p>A reader comment.</p></div></article>'))
         spaced = {**article, 'body': '<p>Paragrafi i parë.\n\nStill the first paragraph.</p><p>Paragrafi i dytë.</p>'}

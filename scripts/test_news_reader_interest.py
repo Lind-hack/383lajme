@@ -131,9 +131,27 @@ class ReaderInterestTests(unittest.TestCase):
             self.assertNotIn('celebrity did', prompt(desk))
             self.assertNotIn('desk_note', prompt(desk))
 
-    def test_the_call_fits_the_slack_outside_the_review_window(self):
-        # Discovery is given 360 s, of which ingestion, collection, research and review use 285.
-        self.assertLessEqual(CALL_SECONDS, 360 - 285)
+    def test_discovery_is_given_the_ranking_time_on_top_of_its_own(self):
+        # Luna needs about two minutes for 60 headlines. Inside the old 360 s discovery window
+        # the call was cut off every time; the window now grows by the ranking's own budget.
+        import inspect
+        import news_reliable_desks
+        self.assertGreaterEqual(CALL_SECONDS, 180)
+        self.assertEqual(news_reliable_desks.RANKING_SECONDS, CALL_SECONDS)
+        self.assertIn('+ RANKING_SECONDS', inspect.getsource(news_reliable_desks.ProductionPort.collect))
+
+    def test_a_failed_production_call_is_not_repeated_in_the_same_hour(self):
+        import news_reader_interest
+        calls = []
+        def failing(items, category, deadline):
+            calls.append(len(items))
+            raise TimeoutError('slow')
+        with tempfile.TemporaryDirectory() as folder, patch.object(news_reader_interest, 'model_judge', failing):
+            for _ in range(3):
+                kept, held = news_reader_interest.rank([dict(row) for row in LEADS], {}, 'Showbiz', folder,
+                                                       judge=news_reader_interest.model_judge)
+                self.assertEqual((len(kept), held), (len(LEADS), []))
+        self.assertEqual(len(calls), 1)
 
     def test_switched_off_changes_nothing(self):
         judge = scores({row['title']: 1 for row in LEADS})

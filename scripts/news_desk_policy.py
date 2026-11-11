@@ -9,6 +9,10 @@ DESKS = {'Showbiz', 'Ekonomi', 'Botë'}
 TARGET = 5
 MINIMUM = 3
 POLICY = '383-reliable-desks-v1'
+# Owner request, 11 Nov 2026: more of World from the wire agencies. Every publisher gets one
+# turn per round of the rotation; a wire agency gets three. (Reuters refuses automated readers
+# today, so in practice this is AP until Reuters can be read.)
+WIRE_TURNS = {'AP News': 3, 'Reuters': 3}
 REVIEW_FOLDERS = {'Showbiz': 'showbiz-review', 'Ekonomi': 'economy-review', 'Botë': 'world-review'}
 
 
@@ -70,8 +74,11 @@ def select_candidates(leads, evidence=None, *, limit=5, now=None):
     if leads and all(lead.get('category') == 'Botë' for lead in leads):
         # Regional relevance is a ranking preference, never a three-slot quota.
         groups = defaultdict(list)
+        taken = defaultdict(int)
         for lead in sorted(local + foreign, key=order):
-            groups[lead.get('source', '')].append(lead)
+            source = lead.get('source', '')
+            groups[(source, taken[source] % WIRE_TURNS.get(source, 1))].append(lead)
+            taken[source] += 1
         return rotate(groups)[:limit]
     preferred = local[:min(3, limit)]
     rest = sorted(local[len(preferred):] + foreign, key=order)

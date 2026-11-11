@@ -125,6 +125,10 @@ if __name__ == "__main__":
     if args.mode == "replace" and re.match(r"383_JSON_BEGIN\s*\[\s*\]\s*383_JSON_END", marked):
         # The writer answered, and its answer is that this story should not be written.
         print("383 WRITER DECLINED: the writer returned no article for this story")
+        # Its own words before the empty answer, so the run log shows why.
+        said = " ".join(result.stdout[:result.stdout.rfind("383_JSON_BEGIN")].split())[-400:]
+        if said:
+            print("383 WRITER DECLINED reason: " + said)
         raise SystemExit(3)
     try:
         count = save_response(result.stdout, args.batch, args.mode, args.identity_manifest)
