@@ -219,6 +219,26 @@ class ReliableRunTests(unittest.TestCase):
         self.assertEqual(result['target_count'],5)
         self.assertFalse(result['target_met'])
 
+    def test_failed_recovery_is_not_selected_again_in_the_same_run(self):
+        import tempfile
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        class Store:
+            def available(self):return []
+        class Port:
+            attempted_recoveries=set()
+            def quota_hit(self):return False
+            def resume_incomplete(self,remaining):
+                self.attempted_recoveries.add('https://example.com/declined')
+                return iter(())
+            def collect(self,attempted):
+                self.seen=attempted
+                return []
+        port=Port()
+        with tempfile.TemporaryDirectory() as root:
+            run_category(port,Store(),Path(root)/'outcome.json','Showbiz')
+        self.assertIn('https://example.com/declined',port.seen)
+
     def test_quota_while_resuming_still_finalizes_confirmed_work(self):
         import tempfile
         from pathlib import Path
@@ -438,24 +458,37 @@ class InterruptedApprovalTests(unittest.TestCase):
 
 class DraftResumeTests(unittest.TestCase):
     def test_completed_preparation_without_a_started_worker_is_recovered(self):
-        import subprocess,time,tempfile
+        self.exercise_prepared_recovery()
+
+    def test_changed_preparation_is_not_rehashed_into_a_valid_checkpoint(self):
+        self.exercise_prepared_recovery(changed=True)
+
+    def test_unlabelled_market_update_expires_after_one_hour(self):
+        self.exercise_prepared_recovery(market_expired=True)
+
+    def exercise_prepared_recovery(self,changed=False,market_expired=False):
+        import subprocess,time,tempfile,hashlib
         from pathlib import Path
-        from datetime import datetime,timezone
+        from datetime import datetime,timezone,timedelta
         from news_reliable_desks import ProductionPort
         from news_approved_reserve import Reserve
         from news_json_state import atomic
-        for category in ('Showbiz','Ekonomi','Botë'):
+        for category in (('Ekonomi',) if market_expired else ('Showbiz','Ekonomi','Botë')):
             with self.subTest(category=category),tempfile.TemporaryDirectory() as temp,patch('builtins.print'):
                 root=Path(temp);calls=[]
                 lead=dict(category=category,url='https://example.com/update',source='Publisher',published=datetime.now(timezone.utc).isoformat())
+                if market_expired: lead.update(title='Oil prices fall in intraday trading',published=(datetime.now(timezone.utc)-timedelta(hours=2)).isoformat())
+                source=root/'source.json';source.write_text('Original complete source evidence.',encoding='utf-8')
+                lead.update(evidence_path=str(source),preparation_receipt=dict(policy='383-prepared-story-v1',files={str(source):hashlib.sha256(source.read_bytes()).hexdigest()}))
                 atomic(root/'prior/wave-1/discovery.json',dict(ready_leads=[lead]))
+                if changed: source.write_text('Changed source facts after preparation.',encoding='utf-8')
                 def external(args,**kwargs):
                     calls.append(args)
                     raise RuntimeError('writer unavailable')
                 port=ProductionPort(category,Reserve(root/'reserve',category),root/'next',time.time()+3000,qa=True)
                 with patch('subprocess.run',side_effect=external):
                     self.assertEqual(list(port.resume_incomplete(5)),[])
-                self.assertTrue(any('scripts/news_writer_brief.py' in args for args in calls))
+                self.assertEqual(any('scripts/news_writer_brief.py' in args for args in calls),not changed and not market_expired)
 
     def test_all_three_desks_resume_saved_drafts_without_calling_writer_again(self):
         self.exercise_resume()

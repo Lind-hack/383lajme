@@ -448,7 +448,8 @@ def prepare_reliable_ready(path, data, shortlist, rejected, folder):
             row = {key: value for key, value in {**lead, **image, 'evidence_path': str(target)}.items()
                    if not key.startswith('_') and key not in {'primary_evidence', 'secondary_evidence', 'photo_plan'}}
             notes = build_fact_sheets([reporter_input(lead, record)], folder, use_model=False)
-            ready.extend(join_reporter_notes([row], [row], notes))
+            from news_draft_progress import bind_preparation
+            ready.extend(bind_preparation(item) for item in join_reporter_notes([row], [row], notes))
             checkpoint()
     identity_cache.save()
     print('383 DESK PREPARATION ready=' + str(len(ready)) + ' individually saved; optional note calls=0', flush=True)

@@ -7,7 +7,7 @@ import subprocess
 import sys
 import time
 
-from news_approved_reserve import Reserve, PublicationHistoryChanged
+from news_approved_reserve import Reserve, PublicationHistoryChanged, time_sensitive_story
 from news_json_state import atomic
 from news_desk_policy import TARGET, MINIMUM, DESKS, REVIEW_FOLDERS, select_candidates
 
@@ -158,6 +158,7 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
         except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
             reasons.append('model_quota' if port.quota_hit() else 'incomplete_work_recovery_failed')
             print('383 PENDING WORK retained: '+str(exc),flush=True)
+        attempted.update(getattr(port,'attempted_recoveries',set()))
         checkpoint()
     while len(published) + result.get('qa_approved', 0) < TARGET and time.time() < deadline and not port.quota_hit():
         try:
@@ -214,6 +215,7 @@ class ProductionPort:
         self.data = None
         self.reviewed = set()
         self.evaluations = {}
+        self.attempted_recoveries = set()
         self.sources = {}
         self.readable = {}
 
@@ -439,7 +441,7 @@ class ProductionPort:
         return '; '.join(errors)[:4000]
 
     def resume_incomplete(self, remaining):
-        from news_draft_progress import Progress
+        from news_draft_progress import Progress, prepared_unchanged
         recovered = 0
         paths = sorted(self.root.parent.glob('*/wave-*/**/story-*.pending.json'))
         known_urls = set()
@@ -454,13 +456,13 @@ class ProductionPort:
             try:
                 data = json.loads(selection.read_text(encoding='utf-8'))
                 for index, lead in enumerate(data.get('ready_leads', [])):
-                    if lead.get('category') != self.category or lead['url'] in known_urls:
+                    if lead.get('category') != self.category or lead['url'] in known_urls or not prepared_unchanged(lead):
                         continue
                     work = selection.parent / f'prepared-recovery-{index}'
                     progress = Progress(work/'story-0.pending.json',dict(lead=lead,data=data,work=str(work.resolve()),
                         evidence_folder=str((selection.parent/'source-evidence').resolve()),index=0,
                         slot=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H'),
-                        time_sensitive=lead.get('editorial_review',{}).get('breaking') in {'fresh_development','publisher_label'}))
+                        time_sensitive=time_sensitive_story(lead)))
                     paths.append(progress.path)
                     known_urls.add(lead['url'])
             except (OSError, ValueError, KeyError, TypeError):
@@ -475,6 +477,7 @@ class ProductionPort:
                 progress = Progress(path, job)
                 if not progress.valid():
                     continue
+                self.attempted_recoveries.add(job['lead']['url'])
                 self.metrics['resumed_drafts'] = self.metrics.get('resumed_drafts', 0) + 1
                 for entry in self.write_ready([job['lead']], job['data'], Path(job['work']), 1,
                         evidence_folder=Path(job['evidence_folder']), resume=progress):
@@ -500,7 +503,7 @@ class ProductionPort:
             atomic(item.with_suffix('.json'), part)
             brief = work / f'brief-{index}.md'
             slot = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H')
-            time_sensitive = lead.get('editorial_review', {}).get('breaking') in {'fresh_development', 'publisher_label'}
+            time_sensitive = time_sensitive_story(lead)
             # A draft refused for following its source too closely gets one fresh
             # composition aimed at the named defect. Without it every such story was lost.
             from news_draft_progress import Progress

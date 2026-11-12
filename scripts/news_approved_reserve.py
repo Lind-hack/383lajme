@@ -28,6 +28,15 @@ def source_age(value, now):
     return 0 if -14 * 3600 <= seconds < 0 else seconds
 
 
+def time_sensitive_story(article, explicit=False):
+    text = ' '.join(str(article.get(k, '')) for k in ('title','excerpt','body','summary')).casefold()
+    return (explicit or article.get('breaking') in {True,'fresh_development','publisher_label'}
+            or article.get('is_breaking') is True
+            or article.get('editorial_review',{}).get('breaking') in {'fresh_development','publisher_label'}
+            or article.get('category') == 'Ekonomi' and bool(re.search(
+                r'\b(?:stocks?|bitcoin|ethereum|crypto|aksion\w*|burs\w*|intraday|wall street|naft\w*|oil)\b',text)))
+
+
 class Reserve:
     def __init__(self, root, category):
         if category not in DESKS:
@@ -75,11 +84,7 @@ class Reserve:
         now = now or datetime.now(timezone.utc)
         if (self.path / 'confirmed' / (digest(article['url']) + '.json')).exists():
             raise ValueError('article was already confirmed published')
-        text = ' '.join(str(article.get(k) or '') for k in ('title', 'excerpt', 'body')).casefold()
-        sensitive_time = (time_sensitive or article.get('breaking') in {True, 'fresh_development', 'publisher_label'}
-                          or article.get('is_breaking') is True
-                          or article['category'] == 'Ekonomi' and bool(re.search(
-                              r'\b(?:stocks?|bitcoin|ethereum|crypto|aksion\w*|burs\w*|intraday|wall street|naft\w*|oil)\b', text)))
+        sensitive_time = time_sensitive_story(article,time_sensitive)
         entry = dict(policy=POLICY, article=article, evidence=evidence, originality=originality,
                      context=context, image_sha256=article.get('image_rights', {}).get('sha256'),
                      time_sensitive=sensitive_time, stored_at=now.isoformat())
