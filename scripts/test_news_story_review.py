@@ -38,6 +38,36 @@ def verdict(**values):
 
 
 class StoryReviewTests(unittest.TestCase):
+    def test_failed_visual_reviews_rotate_alternatives_and_stop_after_two_dispatches(self):
+        other = dict(LEAD, url='https://consequence.net/2026/11/rita-concert/', title='Rita Ora announces a concert')
+        evidence = {URL:dict(EVIDENCE), other['url']:dict(EVIDENCE, url=other['url'], title=other['title'])}
+        dispatched = []
+        def batch(brief, pixels, deadline):
+            items = json.loads(Path(brief).read_text(encoding='utf-8'))
+            dispatched.extend(item['url'] for item in items)
+            if items[0]['url'] == URL:
+                raise TimeoutError('model review timed out')
+            return [dict(verdict()[0], review_id=item['review_id']) for item in items]
+        def pixels(url, publisher, folder, **kwargs):
+            return dict(fake_capture(url, publisher, folder, **kwargs), evidence=evidence.get(url, EVIDENCE))
+        with tempfile.TemporaryDirectory() as temp, patch('builtins.print'):
+            folder = Path(temp)
+            attempted = folder/'completed.json'
+            attempted.write_text('[]', encoding='utf-8')
+            with patch.dict('os.environ', {'L383_RELIABLE_REVIEW_WAVE_SIZE':'1',
+                    'L383_RELIABLE_REVIEW_ATTEMPTED':str(attempted),
+                    'L383_RELIABLE_REVIEW_ATTEMPTS':str(folder/'attempts.json')}):
+                results = []
+                for wave in range(4):
+                    records, report = review_inventory([dict(LEAD),dict(other)], evidence, [], folder,
+                        capturer=pixels,batch_reviewer=batch,now=NOW)
+                    results.append(records)
+                    completed = [url for url,row in records.items() if row['status']=='reviewed']
+                    if completed: attempted.write_text(json.dumps(completed),encoding='utf-8')
+        self.assertEqual(dispatched, [URL,other['url'],URL])
+        self.assertEqual(results[0][URL]['status'], 'pending_review')
+        self.assertEqual(report['summary']['review_retry_exhausted'], 1)
+
     def test_ranking_can_outlast_visual_window_without_exceeding_global_deadline(self):
         clock = [0.0]
         filler = dict(LEAD, url='https://consequence.net/2026/11/old-b-side/', title='Obscure band reissues an old b-side')

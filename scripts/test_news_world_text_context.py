@@ -19,7 +19,15 @@ class WorldWriterContextTests(unittest.TestCase):
         self.assertTrue(primary in output, 'No-notes fallback must retain the complete ordered source')
         self.assertIn(secondary, output)
 
-    def writer_output(self, *, with_notes):
+    def test_showbiz_and_economy_fallback_preserves_complete_ordered_context(self):
+        for category in ('Showbiz', 'Ekonomi'):
+            for with_notes in (True, False):
+                with self.subTest(category=category,with_notes=with_notes):
+                    primary,secondary,output=self.writer_output(with_notes=with_notes,category=category)
+                    self.assertTrue(primary in output, "complete source context must reach the writer")
+                    self.assertIn(secondary,output)
+
+    def writer_output(self, *, with_notes, category='Botë'):
         repo = Path(__file__).resolve().parents[1]
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
@@ -28,7 +36,9 @@ class WorldWriterContextTests(unittest.TestCase):
             primary += ' '.join('The proposal remains subject to parliamentary approval.' for _ in range(300))
             primary += ' PRIMARY_END: No levy has taken effect.'
             secondary = 'The independent public record confirms a revised proposal, not an enacted tax. SECONDARY_END.'
-            url, corroborator = 'https://www.bbc.com/news/world-test', 'https://www.reuters.com/world/test'
+            url, corroborator = {'Botë':('https://www.bbc.com/news/world-test','https://www.reuters.com/world/test'),
+                'Showbiz':('https://consequence.net/2026/11/test/','https://variety.com/2026/music/test/'),
+                'Ekonomi':('https://www.cnbc.com/2026/11/12/test.html','https://ekonomiaonline.com/test/')}[category]
             evidence = root / 'evidence.json'
             evidence.write_text(json.dumps(dict(source_url=url,
                 evidence=dict(url=url, status='text_extracted', text=primary),
@@ -37,14 +47,14 @@ class WorldWriterContextTests(unittest.TestCase):
             notes.write_text(json.dumps(dict(pair_id='world-test', origin='fragments',
                 facts=['the Commission proposed last year', 'the EU would charge 0.05 percent',
                        'companies above EUR100 million', 'the revised proposal remains pending'])), encoding='utf-8')
-            lead = dict(pair_id='world-test', category='Botë', source='BBC World', url=url,
+            lead = dict(pair_id='world-test', category=category, source='BBC World', url=url,
                         corroborates_url=corroborator, evidence_path=str(evidence), facts_path=str(notes))
             if not with_notes:
                 lead.pop('facts_path')
             discovery, brief = root / 'discovery.json', root / 'writer.md'
-            discovery.write_text(json.dumps(dict(publication_plan={'Botë': 1}, ready_leads=[lead])), encoding='utf-8')
+            discovery.write_text(json.dumps(dict(publication_plan={category: 1}, ready_leads=[lead])), encoding='utf-8')
             result = subprocess.run([sys.executable, str(repo / 'scripts/news_writer_brief.py'), str(discovery),
-                                     str(brief), '--categories', 'Botë', '--cap', '1', '--spares', '0'],
+                                     str(brief), '--categories', category, '--cap', '1', '--spares', '0'],
                                     capture_output=True, text=True, encoding='utf-8', timeout=20)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             output = ' '.join(brief.read_text(encoding='utf-8').split())

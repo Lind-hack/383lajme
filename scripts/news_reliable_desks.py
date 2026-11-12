@@ -35,7 +35,7 @@ def repeats_sibling(article, others):
 
 def run_category(port, reserve, outcome, category, *, deadline=None):
     deadline = deadline or time.time() + 3000
-    minimum = TARGET if category == 'Botë' else MINIMUM
+    minimum = MINIMUM
     attempted, published, reasons = set(), [], []
     initial = {e['article']['url'] for e in reserve.available()}
     result = dict(status='running', stage='discovery', category=category, target_count=TARGET,
@@ -234,7 +234,8 @@ class ProductionPort:
                              'L383_INGESTION_BUDGET_SECONDS': '120' if self.category == 'Botë' else '45', 'L383_SHOWBIZ_COLLECTION_SECONDS': '30',
                              'L383_ECONOMY_COLLECTION_SECONDS': '30', 'L383_SHOWBIZ_RESEARCH_SECONDS': '30',
                              'L383_RELIABLE_REVIEW_WAVE_SIZE': '12',
-                             'L383_RELIABLE_REVIEW_ATTEMPTED': str(attempted_file)})
+                             'L383_RELIABLE_REVIEW_ATTEMPTED': str(attempted_file),
+                             'L383_RELIABLE_REVIEW_ATTEMPTS': str(self.root / 'review-attempts.json')})
             self.data = json.loads(self.discovery.with_suffix('.json').read_text(encoding='utf-8'))
             evidence = self.data.get('retrieved_evidence', {})
             raw = [a for a in self.data.get('raw_leads', []) if a.get('category') == self.category]
@@ -258,12 +259,11 @@ class ProductionPort:
             except (OSError, ValueError):
                 pass
             for row in report.get('articles', []):
-                if self.category == 'Botë':
-                    if row['status'] == 'pending' and row['url'] in self.evaluations:
-                        continue
-                    self.evaluations[row['url']] = row
-                    if row['status'] == 'pending_review':
-                        continue
+                if row['status'] == 'pending' and row['url'] in self.evaluations:
+                    continue
+                self.evaluations[row['url']] = row
+                if row['status'] in {'pending_review', 'captured'}:
+                    continue
                 if row['status'] != 'pending':
                     self.reviewed.add(identity(row['url']))
                     self.evaluations[row['url']] = row
@@ -282,7 +282,8 @@ class ProductionPort:
                     competitive_articles=sum(r.get('review', {}).get('decision') == 'consider'
                                              and r.get('review', {}).get('score', 0) >= 4 for r in done))
             atomic(self.root / 'evaluations.json', list(self.evaluations.values()))
-            if len(self.reviewed) == prior or self.quota_hit() or time.time() >= self.deadline:
+            retryable = any(row.get('status') == 'pending_review' for row in report.get('articles', []))
+            if (len(self.reviewed) == prior and not retryable) or self.quota_hit() or time.time() >= self.deadline:
                 return []
 
     def produce(self, leads, remaining):

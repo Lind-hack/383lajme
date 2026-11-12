@@ -15,11 +15,13 @@ public or already authorized; blocked access never counts as successful scraping
   and suppress further ranking model calls for that hour (regression red/green).
 - Completed: ranking receives its own 240-second window, independently of visual
   review, while retaining the absolute model deadline (regression red/green).
-- Pending: bounded pending-review retries and publisher rotation.
-- Pending: preparation/draft/approval recovery across all three desks.
+- Completed: incomplete visual reviews remain retryable on every desk; persist at
+  most two review dispatches per candidate/run and rotate fresh alternatives first.
+- Completed: approved-receipt recovery includes serial, parallel and context-refresh
+  layouts for all three desks. Partial preparation/draft recovery remains pending.
 - Pending: early, hash-bound published-event triage with final context review.
-- Pending: complete fallback-note context on all three desks; World headline
-  allowance and minimum-count reporting.
+- Completed: complete fallback source context reaches all three composers, and World
+  reports the agreed three-article minimum. World headline allowance remains pending.
 - Pending: AP/Bloomberg discovery/extraction validation and honest source funnel.
 - Pending: per-run provenance/timing, captured replay, real Luna validation,
   independent reviews, Linux checks/build, committed GitHub release, and three

@@ -191,7 +191,7 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
             if (not isinstance(sheet, dict) or sheet.get("pair_id") != lead["pair_id"] or not isinstance(facts, list) or len(facts) < 4
                     or any(not isinstance(fact, str) or not fact.strip() for fact in facts)):
                 raise ValueError("reporter notes do not match the prepared story")
-            world_fragments = lead['category'] == 'Botë' and sheet.get('origin') == 'fragments'
+            world_fragments = lead['category'] in {'Showbiz','Ekonomi','Botë'} and sheet.get('origin') == 'fragments'
             lines.append('Source-fragment aids (incomplete; complete factual context follows):' if world_fragments else
                          "Source-fragment fallback (complete; build a new fact outline, never translate these fragments):"
                          if sheet.get("origin") == "fragments" else "Reporter notes (complete):")
@@ -203,7 +203,7 @@ def build(discovery: Path, output: Path, categories: str = "", *, approved: Path
             # The data-only composer has no file tool. Inline verified evidence
             # instead of giving it an inaccessible path to a private document.
             sources = prepared_sources(lead)
-            if lead['category'] == 'Botë':
+            if lead['category'] in {'Showbiz','Ekonomi','Botë'}:
                 world_source_context(lines, sources)
             else:
                 from news_fact_sheets import fragment_notes

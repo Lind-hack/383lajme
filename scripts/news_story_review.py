@@ -293,6 +293,20 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
     # A reliable desk comes back for the next wave after finishing these
     # stories. Keep deferred articles in the audit as pending, never rejected.
     wave_size = int(os.environ.get('L383_RELIABLE_REVIEW_WAVE_SIZE', '0'))
+    attempts_path = os.environ.get('L383_RELIABLE_REVIEW_ATTEMPTS', '')
+    attempts = {}
+    if attempts_path and Path(attempts_path).exists():
+        attempts = json.loads(Path(attempts_path).read_text(encoding='utf-8'))
+        if not isinstance(attempts, dict) or any(type(n) is not int or n < 0 for n in attempts.values()):
+            raise ValueError('invalid visual-review attempt ledger')
+    def attempt_count(lead):
+        return attempts.get(homepage_article_identity(lead['url']), 0)
+    def reserve_attempt(lead):
+        if attempts_path:
+            key = homepage_article_identity(lead['url'])
+            attempts[key] = attempts.get(key, 0) + 1
+            from news_json_state import atomic
+            atomic(Path(attempts_path), attempts)
     work_queue = queue
     deferred = []
     if wave_size:
@@ -301,7 +315,9 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
         if category == 'Botë':
             attempted = {homepage_article_identity(url) for url in attempted}
         waiting_queue = [lead for lead in queue if (homepage_article_identity(lead['url']) if category == 'Botë' else lead['url']) not in attempted]
-        work_queue = waiting_queue[:wave_size]
+        # Fresh alternatives retain their ranked publisher rotation before a retry.
+        waiting_queue = sorted(waiting_queue, key=attempt_count)
+        work_queue = [lead for lead in waiting_queue if attempt_count(lead) < 2][:wave_size]
         work_urls = {lead['url'] for lead in work_queue}
         deferred = [lead for lead in queue if lead['url'] not in work_urls]
     for lead in queue:pool.setdefault(canonical(lead['url']),lead)
@@ -442,6 +458,7 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
             if batched:
                 record.update(status='pending_review',review_brief=str(brief.resolve()))
                 return url,record
+            reserve_attempt(lead)
             rows = reviewer(brief,review_image,deadline)
             record.update(status='reviewed',review=validate_verdict(rows,lead,related,page,now))
         except Exception as exc:
@@ -466,6 +483,8 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
                 length=Path(waiting[0][1]['review_brief']).stat().st_size
                 if batch and size+length>75000:break
                 batch.append(waiting.pop(0));size+=length
+            for lead, record in batch:
+                reserve_attempt(lead)
             batch_calls+=1
             calls.append(models.submit(review_batch,batch,folder,batch_calls,deadline,now,
                                        batch_reviewer or native_batch_review))
@@ -491,11 +510,13 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
             records.update(future.result())
     for lead in deferred:
         records[lead['url']] = dict(url=lead['url'], source=lead['source'], title=lead.get('title', ''),
-                                   status='pending', error='deferred to a later preparation wave')
+                                   status='pending', error='visual-review retry limit reached' if attempts_path and attempt_count(lead) >= 2
+                                   else 'deferred to a later preparation wave')
     result = {'policy':review_policy(category),'category':category,'generated_at':now.isoformat(),'scope':f'all current readable {category} articles discovered in this collection; not the entire web',
               'publishers':[{**audit,'visual_homepage':homes.get(audit['source'],{})}
                             for audit in audits if audit.get('category')==category],
               'excluded_off_topic':excluded,'held_low_reader_interest':fillers,'articles':list(records.values()),'summary':{
+                  'review_retry_exhausted':sum(attempt_count(lead) >= 2 for lead in deferred) if attempts_path else 0,
                   'held_low_reader_interest':len(fillers),
                   'excluded_off_topic_articles':len(excluded),'registered_publishers':len(publishers),'discovered_readable_articles':len(pool),'deferred_articles':len(deferred),'review_batches_scheduled':batch_calls,
                   'captured_homepages':sum(h['status'] in {'captured','captured_partial'} for h in homes.values()),

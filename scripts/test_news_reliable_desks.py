@@ -179,6 +179,28 @@ class WireTurnTests(unittest.TestCase):
 
 
 class ReliableRunTests(unittest.TestCase):
+    def test_three_confirmed_world_articles_meet_the_minimum_but_not_five_target(self):
+        import tempfile
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        titles=['BE miraton procedurat kufitare', 'Japonia hap hekurudhën e rindërtuar', 'Brazili shpall rezervatin detar']
+        class Store:
+            def __init__(self):
+                self.entries=[dict(article=dict(url=f'https://www.bbc.com/news/event-{i}',slug=f'event-{i}',title=title)) for i,title in enumerate(titles)]
+            def available(self):return list(self.entries)
+            def confirm(self,entry):self.entries.remove(entry)
+        class Port:
+            def quota_hit(self):return False
+            def collect(self,attempted):return []
+            def publish(self,entry):return dict(batch=entry['article']['slug']+'.json',articles=[entry['article']])
+        with tempfile.TemporaryDirectory() as root:
+            result=run_category(Port(),Store(),Path(root)/'outcome.json','Botë')
+        self.assertEqual(result['published_count'],3)
+        self.assertEqual(result['minimum_count'],3)
+        self.assertTrue(result['minimum_met'])
+        self.assertEqual(result['target_count'],5)
+        self.assertFalse(result['target_met'])
+
     def test_quota_after_approval_still_publishes_completed_work(self):
         import tempfile
         from pathlib import Path
@@ -346,7 +368,7 @@ class PublicationBoundaryTests(unittest.TestCase):
                 recover_persisted(batch,original,request=request)
 
 class InterruptedApprovalTests(unittest.TestCase):
-    def test_restart_recovers_completed_receipts_without_rewriting_copy(self):
+    def test_restart_recovers_completed_receipts_in_each_desk_and_worker_layout(self):
         import tempfile
         from pathlib import Path
         from datetime import datetime, timezone
@@ -354,22 +376,54 @@ class InterruptedApprovalTests(unittest.TestCase):
         from news_json_state import atomic
         from news_copyright_review import article_digest, digest, POLICY, CHECKS
         now=datetime.now(timezone.utc)
-        a=dict(slug='a',url='https://anabelmagazine.com/a',title='Dua Lipa shares news',body='Independent prose',category='Showbiz',published_at=now.isoformat(),image_rights=dict(sha256='a'*64))
-        e=dict(slug='a',evidence=dict(status='text_extracted',published=now.isoformat()))
-        proof=dict(article_sha256=article_digest(a),evidence_sha256=digest(e),decision=dict(verdict='approve',checks=dict.fromkeys(CHECKS,True),reason='Independent composition and all factual claims are supported.'))
-        receipt=dict(policy=POLICY,model='gpt-6-luna',provider='openai-codex',reviewed_at=now.isoformat(),articles={'a':proof})
-        context=dict(policy='383-event-context-v2',model='gpt-6-luna',provider='openai-codex',reviewed_at=now.isoformat(),history={},articles={'a':dict(article_sha256=article_digest(a),decisions=[dict(verdict='distinct')])})
-        with tempfile.TemporaryDirectory() as root:
-            root=Path(root)
-            batch=root/'run'/'wave-1'/'draft-0'/'2026-11-03T22.json'
-            atomic(batch,[a]);atomic(batch.with_suffix('.editor-sources.json'),[e])
-            atomic(batch.with_suffix('.copyright-review.json'),receipt)
-            atomic(batch.with_suffix('.context-review.json'),context)
-            reserve=Reserve(root/'reserve','Showbiz')
-            self.assertEqual(recover_approvals(root,reserve),1)
-            self.assertEqual(reserve.available()[0]['article']['body'],'Independent prose')
+        urls={'Showbiz':'https://anabelmagazine.com/a', 'Ekonomi':'https://ekonomiaonline.com/a', 'Botë':'https://www.bbc.com/news/a'}
+        for category,url in urls.items():
+            for layout in ('wave-1/draft-0','wave-1/parallel-0/draft-0','context-refresh/entry-0'):
+                with self.subTest(category=category,layout=layout), tempfile.TemporaryDirectory() as root:
+                    root=Path(root)
+                    a=dict(slug='a',url=url,title='Public update announced',body='Independent prose',category=category,published_at=now.isoformat(),image_rights=dict(sha256='a'*64))
+                    e=dict(slug='a',evidence=dict(status='text_extracted',published=now.isoformat()))
+                    proof=dict(article_sha256=article_digest(a),evidence_sha256=digest(e),decision=dict(verdict='approve',checks=dict.fromkeys(CHECKS,True),reason='Independent composition and all factual claims are supported.'))
+                    receipt=dict(policy=POLICY,model='gpt-6-luna',provider='openai-codex',reviewed_at=now.isoformat(),articles={'a':proof})
+                    context=dict(policy='383-event-context-v2',model='gpt-6-luna',provider='openai-codex',reviewed_at=now.isoformat(),history={},articles={'a':dict(article_sha256=article_digest(a),decisions=[dict(verdict='distinct')])})
+                    batch=root/'run'/layout/'2026-11-03T22.json'
+                    atomic(batch,[a]);atomic(batch.with_suffix('.editor-sources.json'),[e])
+                    atomic(batch.with_suffix('.copyright-review.json'),receipt)
+                    atomic(batch.with_suffix('.context-review.json'),context)
+                    reserve=Reserve(root/'reserve',category)
+                    self.assertEqual(recover_approvals(root,reserve),1)
+                    self.assertEqual(reserve.available()[0]['article']['body'],'Independent prose')
 
 class ProductionCollectionTests(unittest.TestCase):
+    def test_a_timed_out_visual_review_remains_available_for_retry(self):
+        import tempfile,subprocess,json
+        from pathlib import Path
+        from contextlib import chdir
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        for category,source,url,folder in (
+                ('Showbiz','Consequence','https://consequence.net/2026/11/artist-update/','showbiz-review'),
+                ('Ekonomi','Ekonomia Online','https://ekonomiaonline.com/new-wages/','economy-review')):
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as temp,chdir(temp):
+                root=Path(temp);calls=[];now=datetime.now(timezone.utc)
+                lead=dict(url=url,source=source,category=category,title='Dua Lipa announces a concert' if category=='Showbiz' else 'Kosovo raises public wages',published=now.isoformat())
+                def discovery(*args,**kwargs):
+                    attempted=json.loads((root/'run/review-attempted.json').read_text(encoding='utf-8'))
+                    calls.append(url)
+                    status='pending_review' if len(calls)==1 else 'pending' if url in attempted else 'reviewed'
+                    atomic(root/'.last30days/cloud-news-discovery-current.json',dict(
+                        leads=[lead] if status=='reviewed' else [],raw_leads=[lead],
+                        retrieved_evidence={url:dict(status='text_extracted',text='A current supported public development.')}))
+                    atomic(root/'.last30days'/folder/'review.json',dict(summary={},articles=[dict(
+                        lead,status=status,review=dict(decision='consider',score=4) if status=='reviewed' else {})]))
+                    return subprocess.CompletedProcess(args,0)
+                port=ProductionPort(category,Reserve(root/'reserve',category),root/'run',now.timestamp()+3000,qa=True)
+                with patch('subprocess.run',side_effect=discovery):
+                    result=port.collect(set())
+                self.assertEqual([row['url'] for row in result],[url])
+
     def test_source_photo_capture_is_not_reported_as_a_full_article_page(self):
         import tempfile,subprocess,json
         from pathlib import Path
