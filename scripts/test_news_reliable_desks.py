@@ -179,6 +179,24 @@ class WireTurnTests(unittest.TestCase):
 
 
 class ReliableRunTests(unittest.TestCase):
+    def test_outcome_identifies_release_and_stand_in_validation_honestly(self):
+        import tempfile,os
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        class Store:
+            def available(self):return []
+        class Port:
+            qa=True
+            def quota_hit(self):return False
+            def collect(self,attempted):return []
+        with tempfile.TemporaryDirectory() as root,patch.dict(os.environ,{
+                'L383_RELEASE_SHA':'a'*40,'L383_EVAL_MODEL':'gemini-test','L383_MODEL_TEST_PROFILE':'functional-test'}):
+            result=run_category(Port(),Store(),Path(root)/'outcome.json','Botë')
+        self.assertEqual(result['release_sha'],'a'*40)
+        self.assertEqual(result['model_profile']['actual_model'],'gemini-test')
+        self.assertFalse(result['model_profile']['luna_throughput_evidence'])
+        self.assertFalse(result['publication_enabled'])
+
     def test_three_confirmed_world_articles_meet_the_minimum_but_not_five_target(self):
         import tempfile
         from pathlib import Path
@@ -200,6 +218,30 @@ class ReliableRunTests(unittest.TestCase):
         self.assertTrue(result['minimum_met'])
         self.assertEqual(result['target_count'],5)
         self.assertFalse(result['target_met'])
+
+    def test_quota_while_resuming_still_finalizes_confirmed_work(self):
+        import tempfile
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        class Store:
+            def __init__(self):self.entries=[]
+            def available(self):return list(self.entries)
+            def confirm(self,e):self.entries.remove(e)
+        store=Store()
+        class Port:
+            quota=False
+            def quota_hit(self):return self.quota
+            def resume_incomplete(self,remaining):
+                entry={'article':{'url':'a','slug':'a'}};store.entries.append(entry)
+                yield entry
+                self.quota=True
+                raise RuntimeError('account exhausted')
+            def collect(self,attempted):raise AssertionError('quota must stop discovery')
+            def publish(self,entry):return {'batch':'a.json','articles':[entry['article']]}
+        with tempfile.TemporaryDirectory() as root:
+            result=run_category(Port(),store,Path(root)/'outcome.json','Showbiz')
+        self.assertEqual(result['published_count'],1)
+        self.assertIn('model_quota',result['shortfall_reasons'])
 
     def test_quota_after_approval_still_publishes_completed_work(self):
         import tempfile
@@ -394,6 +436,114 @@ class InterruptedApprovalTests(unittest.TestCase):
                     self.assertEqual(recover_approvals(root,reserve),1)
                     self.assertEqual(reserve.available()[0]['article']['body'],'Independent prose')
 
+class DraftResumeTests(unittest.TestCase):
+    def test_completed_preparation_without_a_started_worker_is_recovered(self):
+        import subprocess,time,tempfile
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        for category in ('Showbiz','Ekonomi','Botë'):
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as temp,patch('builtins.print'):
+                root=Path(temp);calls=[]
+                lead=dict(category=category,url='https://example.com/update',source='Publisher',published=datetime.now(timezone.utc).isoformat())
+                atomic(root/'prior/wave-1/discovery.json',dict(ready_leads=[lead]))
+                def external(args,**kwargs):
+                    calls.append(args)
+                    raise RuntimeError('writer unavailable')
+                port=ProductionPort(category,Reserve(root/'reserve',category),root/'next',time.time()+3000,qa=True)
+                with patch('subprocess.run',side_effect=external):
+                    self.assertEqual(list(port.resume_incomplete(5)),[])
+                self.assertTrue(any('scripts/news_writer_brief.py' in args for args in calls))
+
+    def test_all_three_desks_resume_saved_drafts_without_calling_writer_again(self):
+        self.exercise_resume()
+
+    def test_changed_prepared_source_invalidates_incomplete_work(self):
+        self.exercise_resume(change_input=True)
+
+    def test_an_explicit_writer_decline_is_not_resumed(self):
+        self.exercise_resume(writer_declines=True)
+
+    def test_normalized_draft_survives_source_preparation_failure(self):
+        self.exercise_resume(preparation_fails=True)
+
+    def exercise_resume(self,change_input=False,writer_declines=False,preparation_fails=False):
+        import subprocess,time,tempfile,json
+        from pathlib import Path
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        for category in ('Showbiz','Ekonomi','Botë'):
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as temp,patch('builtins.print'):
+                root=Path(temp);calls=[]
+                source=root/'source.json';atomic(source,dict(text='Original complete source evidence.'))
+                lead=dict(url='https://example.com/update',source='Publisher',category=category,published=__import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),evidence_path=str(source))
+                def external(args,**kwargs):
+                    calls.append(args)
+                    if 'scripts/news_model_response.py' in args:
+                        if writer_declines: return subprocess.CompletedProcess(args,3)
+                        target=Path(args[args.index('--batch')+1]);atomic(target,[dict(lead,slug='test',title='A factual update',body='<p>Supported independent copy.</p>')])
+                    if 'normalize' in args:
+                        target=Path(args[args.index('--file')+1]);rows=json.loads(target.read_text(encoding='utf-8'));rows[0]['dispatch']='Normalized metadata';atomic(target,rows)
+                    if 'scripts/prepare_editor_sources.py' in args:
+                        if preparation_fails: raise subprocess.TimeoutExpired(args,90)
+                        target=Path(args[args.index('scripts/prepare_editor_sources.py')+1]);atomic(target.with_suffix('.editor-sources.json'),[])
+                    if 'scripts/run-news-editor-parallel.sh' in args:
+                        raise subprocess.TimeoutExpired(args,600)
+                    return subprocess.CompletedProcess(args,0)
+                reserve=Reserve(root/'reserve',category)
+                with patch('subprocess.run',side_effect=external):
+                    port=ProductionPort(category,reserve,root/'run',time.time()+3000,qa=True)
+                    self.assertEqual(list(port.write_ready([lead],{},root/'run/wave-1',1)),[])
+                    if change_input: atomic(source,dict(text='The source has changed its reported figures.'))
+                    restarted=ProductionPort(category,reserve,root/'next',time.time()+3000,qa=True)
+                    self.assertEqual(list(restarted.resume_incomplete(5)),[])
+                self.assertEqual(sum('scripts/news_model_response.py' in args for args in calls),1)
+                self.assertEqual(sum('scripts/run-news-editor-parallel.sh' in args for args in calls),0 if writer_declines or preparation_fails else 1 if change_input else 2)
+                if preparation_fails: self.assertEqual(sum('scripts/prepare_editor_sources.py' in args for args in calls),2)
+
+class PreparationRecoveryTests(unittest.TestCase):
+    def test_every_desk_keeps_completed_preparation_after_a_collector_timeout(self):
+        import subprocess,time,tempfile
+        from pathlib import Path
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        for category in ('Showbiz','Ekonomi','Botë'):
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as temp:
+                root=Path(temp);calls=[]
+                port=ProductionPort(category,Reserve(root/'reserve',category),root/'run',time.time()+3000,qa=True)
+                port.data={}
+                def external(args,**kwargs):
+                    calls.append(args)
+                    if any(str(a).endswith('prepare_editor_sources.py') for a in args):
+                        selection=Path(args[args.index('scripts/prepare_editor_sources.py')+1])
+                        atomic(selection.with_suffix('.json'),dict(ready_leads=[dict(url='https://example.com/update',source='Publisher',category=category)]))
+                        raise subprocess.TimeoutExpired(args,480)
+                    raise RuntimeError('writer temporarily unavailable')
+                with patch('subprocess.run',side_effect=external),patch('builtins.print'):
+                    self.assertEqual(list(port.produce([],5)),[])
+                self.assertEqual(port.metrics['writer_ready'],1)
+                self.assertTrue(any('scripts/news_writer_brief.py' in args for args in calls))
+                self.assertIn('partial_preparation_recovered',port.metrics['failure_reasons'])
+
+class StageTimingTests(unittest.TestCase):
+    def test_failed_external_stage_keeps_its_wall_time_and_timeout_reason(self):
+        import tempfile,subprocess,time
+        from pathlib import Path
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        with tempfile.TemporaryDirectory() as root:
+            port=ProductionPort('Showbiz',Reserve(Path(root)/'reserve','Showbiz'),Path(root)/'run',time.time()+3000,qa=True)
+            with patch('subprocess.run',side_effect=subprocess.TimeoutExpired('model',30)),patch('news_reliable_desks.time.monotonic',side_effect=[10,12]):
+                with self.assertRaises(subprocess.TimeoutExpired):
+                    port.python('news_model_response.py',seconds=30,model=True)
+        self.assertEqual(port.metrics['stage_timing'][0]['stage'],'news_model_response.py')
+        self.assertEqual(port.metrics['stage_timing'][0]['wall_seconds'],2)
+        self.assertEqual(port.metrics['stage_timing'][0]['result'],'timeout')
+
 class ProductionCollectionTests(unittest.TestCase):
     def test_a_timed_out_visual_review_remains_available_for_retry(self):
         import tempfile,subprocess,json
@@ -415,6 +565,7 @@ class ProductionCollectionTests(unittest.TestCase):
                     status='pending_review' if len(calls)==1 else 'pending' if url in attempted else 'reviewed'
                     atomic(root/'.last30days/cloud-news-discovery-current.json',dict(
                         leads=[lead] if status=='reviewed' else [],raw_leads=[lead],
+                        sources=[dict(source=source,category=category,requests_started=1,readable_this_run=1)],
                         retrieved_evidence={url:dict(status='text_extracted',text='A current supported public development.')}))
                     atomic(root/'.last30days'/folder/'review.json',dict(summary={},articles=[dict(
                         lead,status=status,review=dict(decision='consider',score=4) if status=='reviewed' else {})]))
@@ -423,6 +574,10 @@ class ProductionCollectionTests(unittest.TestCase):
                 with patch('subprocess.run',side_effect=discovery):
                     result=port.collect(set())
                 self.assertEqual([row['url'] for row in result],[url])
+                self.assertGreater(port.metrics['registered_publishers'],0)
+                self.assertEqual(port.metrics['attempted_publishers'],1)
+                self.assertEqual(port.metrics['source_funnel'][0]['source'],source)
+                self.assertEqual(port.metrics['source_funnel'][0]['run_requests_started'],2)
 
     def test_source_photo_capture_is_not_reported_as_a_full_article_page(self):
         import tempfile,subprocess,json

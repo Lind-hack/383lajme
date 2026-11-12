@@ -64,7 +64,10 @@ def load_manifest(path: Path = MANIFEST_PATH) -> dict:
                 if any(section_matches(left,right) or section_matches(right,left) for left in prefixes for right in prior):
                     raise ValueError('publisher section paths overlap')
             owners.setdefault(domain,[]).append(publisher)
-        for url in publisher.get('homepage_urls',[]):
+        article_prefixes=publisher.get('article_path_prefixes',[])
+        if not isinstance(article_prefixes,list) or any(not isinstance(p,str) or not p.startswith('/') or p=='/' or '..' in p or '?' in p for p in article_prefixes):
+            raise ValueError('invalid article discovery path')
+        for url in [*publisher.get('homepage_urls',[]),*publisher.get('news_sitemap_urls',[])]:
             parsed=urlsplit(url)
             if (parsed.scheme!='https' or parsed.query or parsed.fragment or parsed.username or parsed.password
                     or not any(host(url)==domain or host(url).endswith('.'+domain) for domain in publisher['domains'])

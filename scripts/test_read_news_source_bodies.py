@@ -3,6 +3,13 @@ from read_news_source import extract
 
 
 class PublicArticleBodyTests(unittest.TestCase):
+    def test_bloomberg_verification_screen_is_not_readable_article_evidence(self):
+        html='<html><title>Bloomberg - Are you a robot?</title><main><p>To continue, please click the box below to let us know you are not a robot.</p></main></html>'
+        evidence=extract(html,'https://www.bloomberg.com/news/articles/2026-11-12/world-update')
+        self.assertEqual(evidence['status'],'access_challenge')
+        self.assertFalse(evidence.get('text'))
+        self.assertFalse(evidence.get('image_candidates'))
+
     def test_public_article_body_takes_precedence_over_short_schema_teaser(self):
         text='The public research announcement contains specific supported technical details and the actual release date.'
         result=extract(f'<article><div itemprop="articleBody"><p>A short related preview that must not become the entire source story.</p></div><div class="articleBody"><p>{text}</p><p>{text} A second verified detail.</p></div></article>', 'https://www.bleepingcomputer.com/news/security/example/')

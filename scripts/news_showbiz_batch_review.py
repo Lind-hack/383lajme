@@ -12,6 +12,8 @@ def native_batch_review(brief,image,deadline):
     categories={row.get('category','Showbiz') for row in json.loads(Path(brief).read_text(encoding='utf-8'))}
     if len(categories)!=1:raise ValueError('visual batches must contain exactly one category')
     prompt=editorial_prompt(categories.pop()).replace('Return one JSON object in an array','Return one JSON object per supplied review_id in an array').replace('{decision:','{review_id: string, decision:')
+    from news_source_triage import INSTRUCTION
+    prompt+=INSTRUCTION
     prompt+=' Judge EACH story separately against its own complete text and labelled visual evidence. Return every supplied review_id exactly once. A strong story must not rescue a weak sibling; compare only the supplied related articles for that story.'
     return ask_rows(prompt,brief,['--provider','openai-codex','--model','gpt-6-luna','--ignore-rules',
         '-t','none','--yolo','--max-turns','1','-Q','-q'],timeout=180,deadline=deadline,image_path=image)
@@ -50,7 +52,7 @@ def review_batch(items,folder,index,deadline,now,reviewer):
         for (lead,record),source in zip(items,payload):
             matches=[r for r in rows if r['review_id']==source['review_id']]
             try:
-                record['review']=validate_verdict(matches,lead,source['related_articles'],record['capture'],now)
+                record['review']=validate_verdict(matches,lead,source['related_articles'],record['capture'],now,source.get('published_articles'))
                 record.update(status='reviewed',error='',review_image=str(image.resolve()),review_image_sha256=digest)
             except ValueError as exc:record.update(status='pending_review',error=str(exc))
     except Exception as exc:

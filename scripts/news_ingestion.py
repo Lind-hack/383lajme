@@ -8,11 +8,11 @@ from pathlib import Path
 from urllib.parse import urljoin
 
 from cloud_news_discovery import canonical, published_at
-from news_ingestion_protocol import feed_items, feed_pages, listing_links, owned, sitemap_items, wordpress_items, wordpress_url
+from news_ingestion_protocol import feed_items, feed_pages, listing_links, owned, article_route, discovery_route, sitemap_items, wordpress_items, wordpress_url
 from news_ingestion_store import Inventory, collector_lock
 from news_homepage_priority import is_homepage, homepage_article_identity, publisher_frontpage
 from news_source_policy import topic_error, hourly_targets
-from read_news_source import PublicHTTPError, extract, fetch_public
+from read_news_source import PublicHTTPError, extract, fetch_public, access_challenge
 
 
 def seed_routes(manifest):
@@ -24,6 +24,8 @@ def seed_routes(manifest):
         # registered below. The same exact pages also receive visual geometry.
         routes += [dict(source=name,kind='listing',url=url,hint={'_homepage_root':True},priority=-2)
                    for url in publisher.get('homepage_urls',[])]
+        routes += [dict(source=name,kind='sitemap',url=url,hint={},priority=0)
+                   for url in publisher.get('news_sitemap_urls',[])]
         routes += [dict(source=name,kind='feed',url=spec['url'],hint={},priority=0)
                    for spec in manifest['feeds'] if spec['source']==name]
         routes += [dict(source=name,kind='listing',url=spec['url'],hint={**spec,**({'_homepage_root':True} if publisher['category']=='Ekonomi' and is_homepage(spec['url'],publisher) else {})},priority=-2 if publisher['category']=='Ekonomi' and is_homepage(spec['url'],publisher) else 0)
@@ -82,6 +84,7 @@ def _execute(task, publishers, cutoffs, now, fetcher, *, renderer=None):
     elif task['kind']=='robots':
         maps = [line.split(':',1)[1].strip() for line in body.decode('utf-8','replace').splitlines()
                 if line.strip().lower().startswith('sitemap:')]
+        maps = publisher.get('news_sitemap_urls') or maps
         declared = bool(maps)
         if not maps:
             maps = [urljoin(base,'/news-sitemap.xml'),urljoin(base,'/sitemap.xml'),urljoin(base,'/sitemap_index.xml')]
@@ -214,6 +217,10 @@ def _collect(manifest, state, *, budget_seconds=240, now=None, fetcher=fetch_pub
                 if task is None:
                     break
                 rotation.add(task['source'])
+                if not discovery_route(task,publishers[task['source']]):
+                    counters[task['source']]['excluded_discovery_routes'] += 1
+                    store.finish(task['id'],run)
+                    continue
                 if task['kind']=='article' and store.evidence(task['url'],task['hint']) is not None:
                     counters[task['source']]['cache_hits'] += 1
                     store.finish(task['id'],run)
@@ -251,6 +258,9 @@ def _collect(manifest, state, *, budget_seconds=240, now=None, fetcher=fetch_pub
                             raise ValueError('article retrieval '+evidence['status'])
                     children = result['tasks']
                     for hint in result['articles']:
+                        if not article_route(hint['url'],publishers[task['source']]):
+                            counter['excluded_discovery_routes'] += 1
+                            continue
                         pub = _date(hint.get('published'))
                         if pub is not None and pub < cutoffs[task['source']]:
                             counter['older_than_checkpoint'] += 1
@@ -262,7 +272,7 @@ def _collect(manifest, state, *, budget_seconds=240, now=None, fetcher=fetch_pub
                         if hint['url'] not in seen_urls[task['source']]:
                             seen_urls[task['source']].add(hint['url'])
                             counter['distinct_urls_seen'] += 1
-                    store.enqueue_many(children,run,refresh=True)
+                    store.enqueue_many([child for child in children if discovery_route(child,publishers[task['source']])],run,refresh=True)
                     retry_at = 0
                     if result['homepage'] is not None:
                         page = result['homepage']
@@ -303,8 +313,18 @@ def _snapshot(store, publishers, now, counters, started, *, checkpoint):
     counters = {source:counters.get(source,Counter()) for source in publishers}
     leads, evidence_by_url = [], {}
     homepages = store.homepage_observations(now)
-    for row in store.articles(max_age=3600,status='text_extracted'):
+    stored_readable = Counter()
+    excluded_stored = Counter()
+    rows = list(store.articles(status='text_extracted'))
+    for row in rows:
+        publisher = publishers.get(row['source'])
         evidence = row['evidence']
+        if not publisher: continue
+        if (not article_route(row['url'],publisher)
+                or access_challenge(evidence.get('url',''), evidence.get('title',''), evidence.get('text',''))):
+            excluded_stored[row['source']] += 1
+            continue
+        stored_readable[row['source']] += 1
         if (row['source'] not in publishers or evidence.get('status')!='text_extracted'
                 or not 0 <= time.time()-row['fetched_at'] <= 3600):
             continue
@@ -333,6 +353,8 @@ def _snapshot(store, publishers, now, counters, started, *, checkpoint):
     audits = []
     for source,publisher in publishers.items():
         status = store.source_status(source)
+        status['stored_readable'] = stored_readable[source]
+        status['excluded_stored_non_articles'] = excluded_stored[source]
         complete = checkpoint and bool(counters[source]['usable_indexes']) and store.checkpoint(source,now.timestamp())
         audits.append({**status,**dict(counters[source]),'category':publisher['category'],
             'url':publisher_frontpage(publisher),

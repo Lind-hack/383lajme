@@ -378,7 +378,13 @@
       "domains": [
         "apnews.com"
       ],
-      "family": "apnews.com"
+      "family": "apnews.com",
+      "article_path_prefixes": [
+        "/article/"
+      ],
+      "news_sitemap_urls": [
+        "https://apnews.com/news-sitemap-content.xml"
+      ]
     },
     {
       "source": "Bloomberg",
@@ -386,7 +392,10 @@
       "domains": [
         "bloomberg.com"
       ],
-      "family": "bloomberg.com"
+      "family": "bloomberg.com",
+      "news_sitemap_urls": [
+        "https://www.bloomberg.com/sitemaps/news/latest.xml"
+      ]
     },
     {
       "source": "Sky Sports",
@@ -1668,7 +1677,8 @@
       "source": "AP News",
       "category": "Botë",
       "url": "https://apnews.com/",
-      "reason": "Conditional: authorized full-text/feed access required; public article discovery is checked, inaccessible previews never publish."
+      "reason": "Conditional: authorized full-text/feed access required; public article discovery is checked, inaccessible previews never publish.",
+      "article_path_prefix": "/article/"
     },
     {
       "source": "Bloomberg",
@@ -1928,6 +1938,20 @@
       "lane": "BOTË",
       "url": "https://balkaninsight.com/",
       "reason": "Public section discovery; only complete readable article evidence is eligible."
+    },
+    {
+      "source": "AP News",
+      "category": "Botë",
+      "url": "https://apnews.com/world-news",
+      "article_path_prefix": "/article/",
+      "reason": "Public World/Europe discovery attempt; access and complete article extraction must succeed separately."
+    },
+    {
+      "source": "AP News",
+      "category": "Botë",
+      "url": "https://apnews.com/hub/europe",
+      "article_path_prefix": "/article/",
+      "reason": "Public World/Europe discovery attempt; access and complete article extraction must succeed separately."
     }
   ],
   "notes": [

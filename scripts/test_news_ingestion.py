@@ -37,6 +37,39 @@ def fixture_fetch(url,**kwargs):
     return {'url':url,'payload':body.encode(),'status':200,'headers':{}}
 
 
+class WireDiscoveryTests(unittest.TestCase):
+    def test_ap_discovers_news_leads_without_crawling_or_counting_election_projects(self):
+        from news_source_policy import MANIFEST as registered
+        ap=next(p for p in registered['publishers'] if p['source']=='AP News')
+        manifest=dict(publishers=[ap],feeds=[],browser_lanes=[s for s in registered['browser_lanes'] if s['source']=='AP News'])
+        requests=[];article='https://apnews.com/article/fresh-world-development';project='https://apnews.com/projects/elections-2026/results/'
+        def fetch(url,**kwargs):
+            requests.append(url)
+            if url.endswith('/robots.txt'):
+                body='Sitemap: https://apnews.com/news-sitemap-content.xml\nSitemap: https://apnews.com/sitemap-projects.xml'
+            elif url.endswith('/news-sitemap-content.xml'):
+                body='<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"><url><loc>'+article+'</loc><news:news><news:title>Officials sign a border treaty</news:title><news:publication_date>2026-10-25T11:00:00Z</news:publication_date></news:news></url></urlset>'
+            elif url==article: raise PublicHTTPError(403)
+            elif url in ('https://apnews.com/','https://apnews.com/world-news','https://apnews.com/hub/europe'):
+                body='<h2><a href="'+article+'">Officials sign a border treaty</a></h2><h2><a href="'+project+'">AP election results</a></h2>'
+            else: raise PublicHTTPError(404)
+            return dict(url=url,payload=body.encode(),headers={},status=200)
+        with tempfile.TemporaryDirectory() as temp:
+            state=Path(temp)/'inventory.sqlite';store=Inventory(state)
+            store.enqueue(dict(source='AP News',kind='article',url=project,hint={}),NOW.isoformat())
+            store.save_evidence('AP News',project,dict(published=NOW.isoformat()),dict(url=project,status='text_extracted',published=NOW.isoformat(),title='AP election results',text='AP provides election services for the world. '*50))
+            store.close()
+            leads,audits,evidence,report=collect(manifest,state,budget_seconds=0,now=NOW,fetcher=fetch)
+            from news_story_review import showbiz_inventory
+            visual_leads,_=showbiz_inventory(state,now=NOW,category='Botë')
+        self.assertEqual(visual_leads,[])
+        self.assertIn(article,requests)
+        self.assertNotIn(project,requests)
+        self.assertNotIn('https://apnews.com/sitemap-projects.xml',requests)
+        self.assertEqual(leads,[])
+        self.assertEqual(audits[0]['stored_readable'],0)
+        self.assertEqual(audits[0]['readable_this_run'],0)
+
 class IngestionTests(unittest.TestCase):
     def test_category_collection_never_dispatches_other_desks_pending_tasks(self):
         with tempfile.TemporaryDirectory() as folder:

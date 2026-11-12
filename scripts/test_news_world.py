@@ -51,6 +51,17 @@ class WorldRankingTests(unittest.TestCase):
         self.assertEqual(len(result), 5)
         self.assertEqual(len(select_candidates(rows[:-1], limit=5, now=now)), 5)
 
+    def test_world_factual_headline_may_use_eighty_characters(self):
+        from editorial_rules_v2 import article_errors
+        from test_codex_automation_support import make_article
+        article=make_article(1,'Botë')
+        article['title']='BE miraton procedurën e re për hyrjen e udhëtarëve në kufijtë e jashtëm'
+        self.assertGreater(len(article['title']),65)
+        self.assertLessEqual(len(article['title']),80)
+        self.assertFalse(any('mobile limit' in error.lower() for error in article_errors(article)))
+        article['title']='A'*81
+        self.assertTrue(any('mobile limit' in error.lower() for error in article_errors(article)))
+
     def test_world_brief_survives_hourly_content_validation(self):
         import os
         import json
@@ -565,7 +576,7 @@ class WorldRunTests(unittest.TestCase):
             self.assertIn('news_writer_brief.py',calls)
             self.assertIn('partial_preparation_recovered',port.metrics['failure_reasons'])
 
-    def test_world_minimum_success_requires_five_confirmed_publications(self):
+    def test_world_reports_three_as_minimum_and_five_as_target(self):
         import tempfile
         from pathlib import Path
         from news_reliable_desks import run_category
@@ -577,7 +588,8 @@ class WorldRunTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as root:
             world=run_category(Port(),Store(),Path(root)/'world.json','Botë')
             economy=run_category(Port(),Store(),Path(root)/'economy.json','Ekonomi')
-        self.assertEqual(world['minimum_count'],5)
+        self.assertEqual(world['minimum_count'],3)
+        self.assertEqual(world['target_count'],5)
         self.assertEqual(economy['minimum_count'],3)
 
     def test_world_attempted_article_alias_does_not_enter_preparation_again(self):

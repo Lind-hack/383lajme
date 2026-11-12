@@ -18,6 +18,18 @@ def owned(url, publisher):
     return bool(owner and owner['source'] == publisher['source'])
 
 
+def article_route(url, publisher):
+    prefixes = publisher.get('article_path_prefixes', [])
+    return owned(url, publisher) and (not prefixes or any(urlsplit(url).path.startswith(p) for p in prefixes))
+
+
+def discovery_route(task, publisher):
+    if task['kind'] == 'article':
+        return article_route(task['url'], publisher)
+    maps = publisher.get('news_sitemap_urls', [])
+    return task['kind'] != 'sitemap' or not maps or canonical(task['url']) in {canonical(url) for url in maps}
+
+
 def feed_items(payload, publisher, now, *, since=None):
     """All current/undated feed URLs, including off-category reporting.
 
@@ -132,7 +144,7 @@ def listing_links(payload, base, publisher, spec=None):
             continue
         if link.find_parent(['nav','footer','form']) is not None:
             continue  # Preserve pagination above, but do not scrape menu labels.
-        if not is_article_path(url):
+        if not is_article_path(url) or not article_route(url,publisher):
             continue
         if prefix and not parsed.path.startswith(prefix):
             continue

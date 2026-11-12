@@ -38,14 +38,49 @@ def verdict(**values):
 
 
 class StoryReviewTests(unittest.TestCase):
+    def test_source_triage_holds_retellings_but_preserves_a_distinct_update(self):
+        history=[dict(id='old',category='Showbiz',title='Dua Lipa announces a new album',
+                      body='Dua Lipa announced a new album today. The singer confirmed its release date.',
+                      url='https://383ks.com/article/album',published_at=NOW.isoformat())]
+        calls=[]
+        def reviewer(brief,pixels,deadline):
+            payload=json.loads(Path(brief).read_text(encoding='utf-8'));calls.append(payload)
+            self.assertEqual(payload['published_articles'][0]['body'],history[0]['body'])
+            row=verdict()[0]
+            row['published_event']=dict(verdict='retelling' if len(calls)==1 else 'distinct',
+                reason='The announcement is already published.' if len(calls)==1 else 'The new concert schedule is a separate subsequent announcement.',
+                source_span='Dua Lipa announced a new album today.',against_id='old',
+                against_span='Dua Lipa announced a new album today.')
+            return [row]
+        with tempfile.TemporaryDirectory() as temp,patch('builtins.print'):
+            records,_=review_inventory([dict(LEAD)],{URL:dict(EVIDENCE)},[],temp,
+                capturer=fake_capture,reviewer=reviewer,now=NOW,published_articles=history)
+            self.assertEqual(records[URL]['review']['decision'],'hold')
+            records,_=review_inventory([dict(LEAD)],{URL:dict(EVIDENCE)},[],temp,
+                capturer=fake_capture,reviewer=reviewer,now=NOW,published_articles=history)
+            self.assertEqual(len(calls),1,'unchanged retelling proof should be reused')
+            changed=dict(EVIDENCE,text=EVIDENCE['text']+' Dua Lipa separately announced a new concert schedule.')
+            def changed_pixels(url,publisher,folder,**kwargs):
+                return dict(fake_capture(url,publisher,folder,**kwargs),evidence=changed)
+            records,_=review_inventory([dict(LEAD)],{URL:changed},[],temp,
+                capturer=changed_pixels,reviewer=reviewer,now=NOW,published_articles=history)
+            self.assertEqual(records[URL]['review']['decision'],'consider')
+            self.assertEqual(len(calls),2)
+
+    def test_completed_second_attempt_is_reused_after_a_restart(self):
+        self.review_retry_waves(retry_succeeds=True)
+
     def test_failed_visual_reviews_rotate_alternatives_and_stop_after_two_dispatches(self):
+        self.review_retry_waves()
+
+    def review_retry_waves(self,retry_succeeds=False):
         other = dict(LEAD, url='https://consequence.net/2026/11/rita-concert/', title='Rita Ora announces a concert')
         evidence = {URL:dict(EVIDENCE), other['url']:dict(EVIDENCE, url=other['url'], title=other['title'])}
         dispatched = []
         def batch(brief, pixels, deadline):
             items = json.loads(Path(brief).read_text(encoding='utf-8'))
             dispatched.extend(item['url'] for item in items)
-            if items[0]['url'] == URL:
+            if items[0]['url'] == URL and (not retry_succeeds or dispatched.count(URL)==1):
                 raise TimeoutError('model review timed out')
             return [dict(verdict()[0], review_id=item['review_id']) for item in items]
         def pixels(url, publisher, folder, **kwargs):
@@ -63,10 +98,14 @@ class StoryReviewTests(unittest.TestCase):
                         capturer=pixels,batch_reviewer=batch,now=NOW)
                     results.append(records)
                     completed = [url for url,row in records.items() if row['status']=='reviewed']
-                    if completed: attempted.write_text(json.dumps(completed),encoding='utf-8')
+                    if completed and other['url'] in completed: attempted.write_text(json.dumps([other['url']]),encoding='utf-8')
         self.assertEqual(dispatched, [URL,other['url'],URL])
         self.assertEqual(results[0][URL]['status'], 'pending_review')
-        self.assertEqual(report['summary']['review_retry_exhausted'], 1)
+        if retry_succeeds:
+            self.assertEqual(results[-1][URL]['status'],'reviewed')
+            self.assertTrue(results[-1][URL]['review_reused'])
+        else:
+            self.assertEqual(report['summary']['review_retry_exhausted'], 1)
 
     def test_ranking_can_outlast_visual_window_without_exceeding_global_deadline(self):
         clock = [0.0]

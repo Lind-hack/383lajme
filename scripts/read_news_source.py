@@ -193,8 +193,18 @@ def check_public(url: str) -> str:
     return min(addresses,key=lambda address: ':' in address[4][0])[4][0]
 
 
+def access_challenge(url, title, text):
+    host = (urlsplit(url).hostname or '').lower()
+    return (host == 'bloomberg.com' or host.endswith('.bloomberg.com')) and bool(
+        re.search(r'are you a robot', str(title), re.I) and
+        re.search(r'(?:click the box|not a robot|verify you are)', str(text), re.I))
+
+
 def extract(raw: bytes | str, url: str, *, max_text_chars: int | None = 14000) -> dict:
     soup = BeautifulSoup(raw, "html.parser")
+    if access_challenge(url, soup.title.get_text(' ', strip=True) if soup.title else '', soup.get_text(' ', strip=True)):
+        return dict(url=url, status='access_challenge', text='', image_candidates=[],
+                    instruction='Verification screen; no readable article. Use existing authorized access or another publisher.')
     if re.search(r"[\"']isAccessibleForFree[\"']\s*:\s*(?:false|[\"']false[\"'])", str(soup), re.I):
         return {
             "url": url,

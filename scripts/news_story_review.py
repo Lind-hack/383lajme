@@ -19,7 +19,7 @@ from pathlib import Path
 from cloud_news_discovery import canonical, event_coverage, published_at
 from news_homepage_priority import homepage_article_identity,homepage_weight
 from news_homepage_render import render_homepage
-from news_ingestion_protocol import owned
+from news_ingestion_protocol import owned, article_route
 from news_model import ask_rows, stage_deadline
 from news_source_policy import MANIFEST, publisher_for
 from news_story_attention import linked_posts, collect_posts
@@ -65,7 +65,10 @@ def showbiz_inventory(state, now=None, *, category="Showbiz"):
             publisher=publisher_for(row['url'])
             source=row['evidence']
             date=source.get('published') or row['hint'].get('published')
-            if not publisher or publisher['category']!=category:
+            if not publisher or publisher['category']!=category or not article_route(row['url'],publisher):
+                continue
+            from read_news_source import access_challenge
+            if access_challenge(source.get('url',''),source.get('title',''),source.get('text','')):
                 continue
             lead=dict(url=row['url'],source=publisher['source'],category=category,lane=category.upper(),
                       title=source.get('title') or row['hint'].get('title',''),summary=source.get('text','')[:650],
@@ -171,12 +174,13 @@ def editorial_prompt(category="Showbiz"):
 
 def native_review(brief, screenshot, deadline):
     category=json.loads(Path(brief).read_text(encoding="utf-8")).get("category","Showbiz")
-    return ask_rows(editorial_prompt(category),
+    from news_source_triage import INSTRUCTION
+    return ask_rows(editorial_prompt(category)+INSTRUCTION,
         brief, ['--provider','openai-codex','--model','gpt-6-luna','--ignore-rules','-t','none',
                 '--yolo','--max-turns','1','-Q','-q'],timeout=180,deadline=deadline,image_path=screenshot)
 
 
-def validate_verdict(rows, lead, related, capture_record, now):
+def validate_verdict(rows, lead, related, capture_record, now, published_articles=None):
     if not isinstance(rows,list) or len(rows)!=1 or not isinstance(rows[0],dict):
         raise ValueError('visual reviewer returned no unique decision')
     row = rows[0]
@@ -196,6 +200,10 @@ def validate_verdict(rows, lead, related, capture_record, now):
     breaking = row['breaking']
     if not recent(lead.get('published'),now,10800):
         breaking = 'not_established'
+    if published_articles:
+        from news_source_triage import validate
+        if validate(row,capture_record['evidence'],published_articles) != 'distinct':
+            row = dict(row,decision='hold')
     decision='hold' if row['decision']=='consider' and row['score']<MIN_EDITORIAL_SCORE else row['decision']
     return {**row,'decision':decision,'breaking':breaking,'viral':'unknown',
             'social_engagement':capture_record.get('social_engagement') or {'status':'unavailable','posts':[],
@@ -237,7 +245,7 @@ def reusable_capture(record, lead, evidence, now):
 
 def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=300,
                      reviewer=native_review, capturer=capture, now=None, capture_only=False,batch_reviewer=None, category="Showbiz",
-                     interest=None):
+                     interest=None, published_articles=None):
     """No shortlist/category cap before review; unprocessed articles remain held."""
     now = now or datetime.now(timezone.utc)
     deadline = stage_deadline(budget_seconds)
@@ -246,6 +254,14 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
         # Ingestion already observes publisher homepages. Reserve this window
         # for original photos, article-page attempts and native decisions.
         home_deadline = time.monotonic()
+    if published_articles is None:
+        published_articles=[]
+        if not capture_only and reviewer is native_review and batch_reviewer is None and capturer is capture:
+            try:
+                from codex_automation_support import _recently_published
+                published_articles=_recently_published()
+            except Exception as exc:
+                print('383 SOURCE TRIAGE history unavailable ('+type(exc).__name__+'); final independent context remains required',flush=True)
     batched=not capture_only and (reviewer is native_review or batch_reviewer is not None)
     folder = Path(folder)
     folder.mkdir(parents=True,exist_ok=True)
@@ -292,6 +308,22 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
                       reason=lead.get('reader_interest_reason','')) for lead in low]
     # A reliable desk comes back for the next wave after finishing these
     # stories. Keep deferred articles in the audit as pending, never rejected.
+    for lead in queue:pool.setdefault(canonical(lead['url']),lead)
+    coverage = event_coverage(list(pool.values()))
+    def related_for(lead):
+        return [{'url':other,'title':pool[canonical(other)]['title'],
+                 'text':evidence_by_url.get(other,{}).get('text','')}
+                for other in coverage.get(canonical(lead['url']),{}).get('coverage_urls',[])
+                if canonical(other)!=canonical(lead['url']) and canonical(other) in pool]
+    def completed_cache(lead):
+        from news_source_triage import comparisons, POLICY as triage_policy
+        source = evidence_by_url.get(lead['url'],{})
+        try:
+            cached=json.loads((folder/'articles'/story_id(lead['url'])/'review.json').read_text(encoding='utf-8'))
+            return reusable(cached,lead,source,now,related_for(lead)) and cached.get('published_sha256') == digest(
+                [triage_policy,comparisons(lead,source,published_articles)])
+        except (OSError,ValueError):
+            return False
     wave_size = int(os.environ.get('L383_RELIABLE_REVIEW_WAVE_SIZE', '0'))
     attempts_path = os.environ.get('L383_RELIABLE_REVIEW_ATTEMPTS', '')
     attempts = {}
@@ -317,17 +349,15 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
         waiting_queue = [lead for lead in queue if (homepage_article_identity(lead['url']) if category == 'Botë' else lead['url']) not in attempted]
         # Fresh alternatives retain their ranked publisher rotation before a retry.
         waiting_queue = sorted(waiting_queue, key=attempt_count)
-        work_queue = [lead for lead in waiting_queue if attempt_count(lead) < 2][:wave_size]
+        work_queue = [lead for lead in waiting_queue if attempt_count(lead) < 2 or completed_cache(lead)][:wave_size]
         work_urls = {lead['url'] for lead in work_queue}
         deferred = [lead for lead in queue if lead['url'] not in work_urls]
-    for lead in queue:pool.setdefault(canonical(lead['url']),lead)
     if category=='Ekonomi':
         # Spend homepage pixels on sources that have current candidates, in the
         # same editorial order. Empty institutional sites cannot consume the
         # entire homepage window before the new local publishers get a turn.
         names=list(dict.fromkeys(lead['source'] for lead in pool.values()))
         publishers=sorted(publishers,key=lambda p:(p['source'] not in names,names.index(p['source']) if p['source'] in names else len(names)))
-    coverage = event_coverage(list(pool.values()))
     records = {}
     homes = {}
 
@@ -366,14 +396,14 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
         record = {'url':url,'source':lead['source'],'title':lead['title'],'published':lead.get('published'),
                   'status':'pending','error':'visual-review deadline'}
         source = evidence_by_url.get(url,{})
+        from news_source_triage import comparisons, POLICY as triage_policy
+        published_context = comparisons(lead,source,published_articles)
+        published_hash = digest([triage_policy,published_context])
         cached=None
-        related = [{'url':other,'title':pool[canonical(other)]['title'],
-                    'text':evidence_by_url.get(other,{}).get('text','')}
-                   for other in coverage.get(canonical(url),{}).get('coverage_urls',[])
-                   if canonical(other)!=canonical(url) and canonical(other) in pool]
+        related = related_for(lead)
         try:
             cached = json.loads((path/'review.json').read_text(encoding='utf-8'))
-            if reusable(cached,lead,source,now,related):
+            if reusable(cached,lead,source,now,related) and cached.get('published_sha256') == published_hash:
                 cached['review_reused'] = True
                 cached['capture']['evidence']=source
                 if not recent(lead.get('published'),now,10800):cached['review']['breaking']='not_established'
@@ -419,7 +449,7 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
             posts=collect_posts(page.get('linked_social_posts',[]),min(deadline,time.monotonic()+5))
             page['social_engagement']={'status':'measured' if any(p['status']=='measured' for p in posts) else 'unavailable',
                                        'posts':posts,'virality_benchmark':'unavailable'}
-            record.update(capture=page,source_evidence_sha256=source_digest(page['evidence']),related_sha256=digest(related),
+            record.update(capture=page,source_evidence_sha256=source_digest(page['evidence']),related_sha256=digest(related),published_sha256=published_hash,
                           status='captured',error='')
             if page.get('article_text_visible') is False and not page.get('complete_public_text'):
                 raise ValueError(page['readability_error'])
@@ -431,7 +461,7 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
             brief = path/'review-brief.json'
             payload = {'category':category,'title':lead['title'],'now':now.isoformat(),'source':lead['source'],'url':url,
                        'published':lead.get('published'),'complete_article_text':page['evidence']['text'],
-                       'related_articles':related,'homepage':lead.get('homepage'),
+                       'related_articles':related,'published_articles':published_context,'homepage':lead.get('homepage'),
                        'audience_focus':focus(lead),'daily_artist_research':lead.get('artist_research'),
                        'article_layout_complete':page.get('visual_layout_complete',False),
                        'visual_evidence_kind':page.get('visual_evidence_kind','publisher_page'),
@@ -460,7 +490,7 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
                 return url,record
             reserve_attempt(lead)
             rows = reviewer(brief,review_image,deadline)
-            record.update(status='reviewed',review=validate_verdict(rows,lead,related,page,now))
+            record.update(status='reviewed',review=validate_verdict(rows,lead,related,page,now,published_context))
         except Exception as exc:
             record.update(status='unavailable',error=type(exc).__name__+': '+str(exc)[:500])
         finally:

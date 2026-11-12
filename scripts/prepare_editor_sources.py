@@ -410,8 +410,8 @@ def prepared_evidence(url: str, retrieved: dict) -> dict:
     return fetch_url(url)
 
 
-def prepare_world_ready(path, data, shortlist, rejected, folder):
-    """Checkpoint each photo-qualified World story before waiting for siblings."""
+def prepare_reliable_ready(path, data, shortlist, rejected, folder):
+    """Checkpoint each photo-qualified reliable-desk story before waiting for siblings."""
     from news_fact_sheets import build_fact_sheets
     from news_image_policy import CATALOG, identity_cache
     from news_json_state import atomic
@@ -439,7 +439,7 @@ def prepare_world_ready(path, data, shortlist, rejected, folder):
             except (OSError, ValueError, RuntimeError):
                 image = {}
             if not image:
-                rejected['Botë']['no_fresh_photo'] += 1
+                rejected[lead['category']]['no_fresh_photo'] += 1
                 checkpoint()
                 continue
             record = discovery_evidence(lead)
@@ -451,7 +451,7 @@ def prepare_world_ready(path, data, shortlist, rejected, folder):
             ready.extend(join_reporter_notes([row], [row], notes))
             checkpoint()
     identity_cache.save()
-    print('383 WORLD PREPARATION ready=' + str(len(ready)) + ' individually saved; optional note calls=0', flush=True)
+    print('383 DESK PREPARATION ready=' + str(len(ready)) + ' individually saved; optional note calls=0', flush=True)
 
 
 def prepare_hourly_inventory(path: Path, data: dict) -> None:
@@ -542,8 +542,8 @@ def prepare_hourly_inventory(path: Path, data: dict) -> None:
         lead["_visual_choice"] = picks.get(lead["pair_id"], [])
     folder = path.parent / "source-evidence"
     folder.mkdir(exist_ok=True)
-    if shortlist and all(lead.get('category') == 'Botë' for lead in shortlist):
-        prepare_world_ready(path, data, shortlist, rejected, folder)
+    if shortlist and all(lead.get('category') in {'Showbiz','Ekonomi','Botë'} for lead in shortlist):
+        prepare_reliable_ready(path, data, shortlist, rejected, folder)
         return
     # Photo selection has finished its model calls. Warm only reporter notes
     # while downloads/decoding do HTTP work; the usual three note calls remain
