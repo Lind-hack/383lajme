@@ -148,7 +148,23 @@ def verify_live(batch, site="https://383ks.com"):
         with urlopen(request, timeout=45) as response:
             if response.status != 200:
                 raise RuntimeError(f"public article returned HTTP {response.status}: {article['slug']}")
-            verify_html(article, response.read().decode("utf-8"))
+            markup = response.read().decode("utf-8")
+        try:
+            verify_html(article, markup)
+        except RuntimeError:
+            # The independent context job can enrich an already confirmed row.
+            # Load only its persisted context after checking the reviewed copy
+            # is unchanged; never replace the expected headline/body/photo.
+            if not article.get('id'):
+                raise
+            from codex_automation_support import _supabase_request
+            fields = ('id','slug','title','excerpt','body','category','image_url')
+            expected = {key:article[key] for key in fields}
+            saved = _supabase_request('GET','news_articles',query={
+                'select':','.join(fields)+',raw_article','id':'eq.'+str(article['id']),'limit':'2'})
+            verify_rows([expected],saved,'live-context-readback')
+            context = saved[0].get('raw_article',{}).get('context')
+            verify_html(dict(article,context=context),markup)
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
         list(pool.map(check, articles))
     print(f"383 LIVE READBACK: exact headline, category, excerpt, body and hero photo/video verified for {len(articles)} articles")

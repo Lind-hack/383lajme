@@ -16,6 +16,31 @@ def rows():
 
 
 class PublicationReadbackTests(unittest.TestCase):
+    def test_old_batch_readback_loads_persisted_enrichment_without_accepting_changed_copy(self):
+        import tempfile,json,os
+        from pathlib import Path
+        from unittest.mock import patch
+        from news_publication_readback import verify_live
+        article=dict(rows()[0],title='Titulli',excerpt='Përmbledhja fillestare.',body='<p>Kopja e miratuar.</p>')
+        persisted=dict(article,raw_article=dict(context=dict(v=1,status='ok',what='Përmbledhja e verifikuar pas publikimit.')))
+        markup=(f'<article class="article-story"><a href="/kategori/sport">Sport</a><h1>Titulli</h1>'
+                f'<figure><img src="{article["image_url"]}"></figure><dd class="ctx-what">{persisted["raw_article"]["context"]["what"]}</dd>'
+                '<div style="font-size:17px;line-height:1.85"><p>Kopja e miratuar.</p></div></article>')
+        class Response:
+            status=200
+            def __init__(self,data):self.data=data
+            def __enter__(self):return self
+            def __exit__(self,*args):pass
+            def read(self):return self.data
+        def http(request,**kwargs):
+            return Response(json.dumps([persisted]).encode() if '/rest/v1/news_articles' in request.full_url else markup.encode())
+        with tempfile.TemporaryDirectory() as temp,patch('urllib.request.urlopen',side_effect=http),patch.dict(os.environ,{
+                'NEXT_PUBLIC_SUPABASE_URL':'https://testdb.example','SUPABASE_SERVICE_ROLE_KEY':'test-only'}):
+            batch=Path(temp)/'batch.json';batch.write_text(json.dumps([article]),encoding='utf-8')
+            verify_live(batch,site='https://testsite.example')
+            persisted['body']='<p>Kopja u ndryshua pas miratimit.</p>'
+            with self.assertRaises(RuntimeError):verify_live(batch,site='https://testsite.example')
+
     def test_readback_matches_the_persisted_context_summary_when_the_renderer_uses_it(self):
         article=dict(rows()[0],title='Titulli',excerpt='Përmbledhja fillestare.',body='<p>Kopja e miratuar.</p>',
                      context=dict(v=1,status='ok',what='Përmbledhja e verifikuar pas publikimit.'))
