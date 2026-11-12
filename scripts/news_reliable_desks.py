@@ -188,8 +188,11 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
             break
         deliver(entry)
     result.update(getattr(port, 'metrics', {}))
+    pipeline_failures = {'preparation_or_writing_failed','review_incomplete','review_retry_exhausted','deadline',
+                         'publication_unavailable','context_review_unavailable','incomplete_work_recovery_failed',
+                         'image_verification_unavailable'}
     status = ('qa_complete' if getattr(port, 'qa', False) else 'complete' if published else
-              'model_quota' if port.quota_hit() else 'failed' if 'preparation_or_writing_failed' in reasons else 'no_news')
+              'model_quota' if port.quota_hit() else 'failed' if pipeline_failures.intersection(reasons) else 'no_news')
     result.update(status=status, stage='model-quota' if status == 'model_quota' else 'complete',
                   target_met=len(published) >= TARGET, minimum_met=len(published) >= minimum)
     if len(published) < TARGET and not reasons:

@@ -179,6 +179,21 @@ class WireTurnTests(unittest.TestCase):
 
 
 class ReliableRunTests(unittest.TestCase):
+    def test_unfinished_visual_evaluations_are_a_pipeline_failure_not_no_news(self):
+        import tempfile
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        class Store:
+            def available(self):return []
+        class Port:
+            metrics={'visual_review':{'articles_awaiting_review':12}}
+            def quota_hit(self):return False
+            def collect(self,attempted):return []
+        with tempfile.TemporaryDirectory() as root:
+            result=run_category(Port(),Store(),Path(root)/'outcome.json','Botë')
+        self.assertEqual(result['status'],'failed')
+        self.assertIn('review_incomplete',result['shortfall_reasons'])
+
     def test_outcome_identifies_release_and_stand_in_validation_honestly(self):
         import tempfile,os
         from pathlib import Path
