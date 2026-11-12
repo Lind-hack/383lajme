@@ -79,7 +79,20 @@ def select_candidates(leads, evidence=None, *, limit=5, now=None):
             source = lead.get('source', '')
             groups[(source, taken[source] % WIRE_TURNS.get(source, 1))].append(lead)
             taken[source] += 1
-        return rotate(groups)[:limit]
+        rotated = rotate(groups)
+        from cloud_news_discovery import event_coverage
+        coverage = event_coverage(rotated)
+        representatives, alternatives, covered = [], [], set()
+        for lead in rotated:
+            url = canonical(lead['url'])
+            if url in covered:
+                alternatives.append(lead)
+            else:
+                representatives.append(lead)
+                # Only a chosen representative's direct links affect order.
+                # A deferred alternative cannot create a transitive cluster.
+                covered.update(canonical(item) for item in coverage[url]['coverage_urls'])
+        return (representatives + alternatives)[:limit]
     preferred = local[:min(3, limit)]
     rest = sorted(local[len(preferred):] + foreign, key=order)
     # Rotate again after the preferred local slots to avoid a dominant outlet.

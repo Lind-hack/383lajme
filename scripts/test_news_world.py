@@ -2,6 +2,21 @@
 import unittest
 
 class WorldRankingTests(unittest.TestCase):
+    def test_known_cross_publisher_event_alternative_waits_behind_another_event(self):
+        from news_desk_policy import select_candidates
+        from datetime import datetime,timezone
+        now=datetime.now(timezone.utc)
+        rows=[dict(url=url,source=source,category='Botë',title=title,published=now.isoformat(),
+                   reader_interest=5 if 'agreement' in title else 3)
+              for url,source,title in (
+                  ('https://www.bbc.com/news/a','BBC World','European leaders announce new border agreement'),
+                  ('https://www.theguardian.com/world/b','The Guardian','European leaders announce new border agreement'),
+                  ('https://www.cbsnews.com/news/c','CBS News','Major earthquake forces coastal evacuations'))]
+        result=select_candidates(rows,limit=3,now=now)
+        self.assertEqual(len(result),3)
+        self.assertEqual({row['url'] for row in result},{row['url'] for row in rows})
+        self.assertEqual(len({row['title'] for row in result[:2]}),2)
+
     def test_english_europa_league_match_report_does_not_enter_world_review(self):
         from news_desk_policy import select_candidates
         from datetime import datetime,timezone

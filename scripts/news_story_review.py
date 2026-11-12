@@ -309,6 +309,10 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
         home_deadline=time.monotonic() if category=='Botë' else min(deadline,time.monotonic()+min(90 if category=='Ekonomi' else 45,max(0,budget_seconds*.15)))
         fillers=[dict(url=lead['url'],source=lead['source'],title=lead.get('title'),reader_interest=lead['reader_interest'],
                       reason=lead.get('reader_interest_reason','')) for lead in low]
+        if category == 'Botë':
+            # Interest scores inform rotation; sorting by score alone must not
+            # put known event alternatives back ahead of distinct developments.
+            queue=select_candidates(queue,evidence_by_url,limit=len(queue),now=now)
     # A reliable desk comes back for the next wave after finishing these
     # stories. Keep deferred articles in the audit as pending, never rejected.
     for lead in queue:pool.setdefault(canonical(lead['url']),lead)

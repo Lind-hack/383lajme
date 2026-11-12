@@ -158,3 +158,10 @@ this simulated timing case is functional evidence, not a Luna throughput result.
 Outcome finalization now merges the final collector failure before choosing its
 status. A source outage with no readable supply is reported as `source_access`
 and `failed`, rather than successful `no_news`/eligible-supply exhaustion.
+
+The real World queue audit also found a directly linked cross-publisher event
+pair occupying two first-wave slots. World now orders one representative of
+each known direct coverage group before its alternatives, including after
+reader-interest scoring. Alternatives remain eligible later in the same queue;
+shared names and transitive links do not establish an event group or rejection.
+Publisher rotation and all independent publication checks remain in force.
