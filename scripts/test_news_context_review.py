@@ -22,6 +22,34 @@ def distinct(row, **extra):
             "reason": "This separate decision introduces a materially different public outcome.", **extra}
 
 
+class ReliableContextTimingTests(unittest.TestCase):
+    def test_reliable_desks_allow_two_hundred_seconds_for_each_independent_comparison(self):
+        import io,os,time
+        class Process:
+            pid=99999999
+            returncode=0
+            def __init__(self,command,**kwargs):
+                self.command=command;self.stdout=io.StringIO();self.stderr=io.StringIO()
+            def poll(self):return self.returncode
+            def terminate(self):pass
+            def kill(self):pass
+            def wait(self,timeout=None):return self.returncode
+            def communicate(self,timeout):
+                if timeout<200:raise subprocess.TimeoutExpired(self.command,timeout)
+                result=(dict(review_id='draft-0',related_ids=['published-0'],reason='The same institution has a previous, separately evidenced decision.')
+                        if 'high-recall semantic candidate selection' in self.command[-1] else distinct(row))
+                return '383_JSON_BEGIN '+json.dumps([result])+' 383_JSON_END',''
+        for category in ('Botë','Showbiz','Ekonomi'):
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as folder:
+                row=article(1,category=category);batch=Path(folder)/'2026-11-12T20.json'
+                batch.write_text(json.dumps([row]),encoding='utf-8')
+                with patch('subprocess.Popen',side_effect=Process),patch.dict(os.environ,{
+                        'L383_MODEL_SLOT_DB':str(Path(folder)/'slots.sqlite'),'L383_MODEL_QUOTA_FILE':str(Path(folder)/'quota'),
+                        'L383_MODEL_DEADLINE_EPOCH':str(time.time()+1000)}):
+                    self.assertEqual(review.review(batch,[article(2)]),1)
+                    review.verify(batch,[row],[article(2)])
+
+
 class ContextReviewTests(unittest.TestCase):
     def setUp(self):
         self.folder = tempfile.TemporaryDirectory()

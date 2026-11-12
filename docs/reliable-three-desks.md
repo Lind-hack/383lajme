@@ -146,3 +146,11 @@ work and approved reserves, including corroborating evidence. Re-extraction
 and independent approvals are required; old approvals are never silently edited.
 Source-specific behavior tests cover hidden/restricted content and stale cache
 recovery. Live runs pinned before this correction remain separate diagnostics.
+
+The subsequent real World run also timed out a final independent context call
+after originality approval. For these three desks only, both catalogue attention
+and full-copy context comparisons now permit 240 seconds per call rather than
+180, within their existing shared 480-second stage and absolute minute-50 cutoff.
+The other four desks retain their existing call limit. A public context approval
+and receipt-readback regression verifies a 200-second response for all three desks;
+this simulated timing case is functional evidence, not a Luna throughput result.

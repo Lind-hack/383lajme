@@ -18,7 +18,7 @@ from news_model import ask_rows, stage_deadline
 from news_model_evidence import write_readable_evidence
 from news_model_context import inline_context, ContextTooLarge
 from news_image_policy import plain, duplicate_photo_pairs
-from news_context_candidates import select_comparisons, CATALOGUE_CHUNK
+from news_context_candidates import select_comparisons, CATALOGUE_CHUNK, comparison_call_seconds
 
 POLICY = "383-event-context-v2"
 DRAFT_CHUNK = 1
@@ -86,7 +86,7 @@ def review_chunk(batch, articles, history, index, deadline, targets=None):
         tools = "file"  # Preserve full copy when it cannot fit a safe argument.
     rows = ask_rows(prompt, brief, ["--provider", "openai-codex", "--model", "gpt-6-luna",
                     "--ignore-rules", "-t", tools, "--yolo", "--max-turns", "20", "-Q", "-q"],
-                    timeout=180, deadline=deadline)
+                    timeout=comparison_call_seconds(articles), deadline=deadline)
     decisions = {}
     for key, article in candidates.items():
         if key not in targets:

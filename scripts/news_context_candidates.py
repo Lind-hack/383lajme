@@ -12,6 +12,10 @@ from news_model_evidence import write_readable_evidence
 
 CATALOGUE_CHUNK = 75
 
+def comparison_call_seconds(articles):
+    from news_desk_policy import DESKS
+    return 240 if articles and all(row.get('category') in DESKS for row in articles) else 180
+
 
 def select_comparisons(batch, articles, history, deadline):
     references = {f"published-{i}": row for i, row in enumerate(history)}
@@ -44,7 +48,7 @@ def select_comparisons(batch, articles, history, deadline):
             tools = "file"
         rows = ask_rows(prompt, brief, ["--provider", "openai-codex", "--model", "gpt-6-luna",
                         "--ignore-rules", "-t", tools, "--yolo", "--max-turns", "20", "-Q", "-q"],
-                        timeout=180, deadline=deadline)
+                        timeout=comparison_call_seconds(articles), deadline=deadline)
         valid = {}
         for key in candidates:
             found = [row for row in rows if isinstance(row, dict) and row.get("review_id") == key]
