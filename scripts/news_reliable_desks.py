@@ -177,8 +177,11 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
         try:
             leads = port.collect(attempted)
             if not leads:
-                pending = getattr(port, 'metrics', {}).get('visual_review', {}).get('articles_awaiting_review', 0)
-                reasons.append('model_quota' if port.quota_hit() else 'review_incomplete' if pending else 'eligible_supply_exhausted')
+                metrics = getattr(port, 'metrics', {})
+                pending = metrics.get('visual_review', {}).get('articles_awaiting_review', 0)
+                source_outage = 'source_access' in metrics.get('failure_reasons', []) and not metrics.get('readable_candidates', 0)
+                reasons.append('model_quota' if port.quota_hit() else 'source_access' if source_outage else
+                               'review_incomplete' if pending else 'eligible_supply_exhausted')
                 break
             attempted.update(a['url'] for a in leads)
             for entry in port.produce(leads, TARGET - len(published) - result.get('qa_approved', 0)):
@@ -201,9 +204,10 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
             break
         deliver(entry)
     result.update(getattr(port, 'metrics', {}))
+    reasons.extend(getattr(port, 'metrics', {}).get('failure_reasons', []))
     pipeline_failures = {'preparation_or_writing_failed','review_incomplete','review_retry_exhausted','deadline',
                          'publication_unavailable','context_review_unavailable','incomplete_work_recovery_failed',
-                         'image_verification_unavailable','source_extraction_policy_stale'}
+                         'image_verification_unavailable','source_extraction_policy_stale','source_access'}
     status = ('qa_complete' if getattr(port, 'qa', False) else 'complete' if published else
               'model_quota' if port.quota_hit() else 'failed' if pipeline_failures.intersection(reasons) else 'no_news')
     result.update(status=status, stage='model-quota' if status == 'model_quota' else 'complete',

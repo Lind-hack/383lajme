@@ -154,3 +154,7 @@ and full-copy context comparisons now permit 240 seconds per call rather than
 The other four desks retain their existing call limit. A public context approval
 and receipt-readback regression verifies a 200-second response for all three desks;
 this simulated timing case is functional evidence, not a Luna throughput result.
+
+Outcome finalization now merges the final collector failure before choosing its
+status. A source outage with no readable supply is reported as `source_access`
+and `failed`, rather than successful `no_news`/eligible-supply exhaustion.

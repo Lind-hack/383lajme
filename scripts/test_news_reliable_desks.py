@@ -345,6 +345,24 @@ class PhotoCacheTests(unittest.TestCase):
             self.assertIsNone(cache.get(dict(context,text='A different event')))
 
 class RunRecoveryTests(unittest.TestCase):
+    def test_source_outage_is_a_failure_instead_of_no_eligible_news(self):
+        import tempfile
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        class Store:
+            def available(self):return []
+        class Port:
+            metrics={}
+            def quota_hit(self):return False
+            def collect(self,attempted):
+                self.metrics=dict(failure_reasons=['source_access'],readable_candidates=0)
+                return []
+        with tempfile.TemporaryDirectory() as root:
+            result=run_category(Port(),Store(),Path(root)/'outcome.json','Botë')
+        self.assertEqual(result['status'],'failed')
+        self.assertIn('source_access',result['shortfall_reasons'])
+        self.assertNotIn('eligible_supply_exhausted',result['shortfall_reasons'])
+
     def test_failed_readback_retains_approval_and_successful_retry_does_not_duplicate(self):
         import tempfile
         from pathlib import Path
