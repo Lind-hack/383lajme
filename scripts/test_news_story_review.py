@@ -38,6 +38,32 @@ def verdict(**values):
 
 
 class StoryReviewTests(unittest.TestCase):
+    def test_luna_visual_call_can_use_two_hundred_seconds_within_its_review_window(self):
+        import io,os,subprocess,time
+        from news_showbiz_batch_review import native_batch_review
+        from news_story_review import story_id
+        class Process:
+            pid=99999999
+            returncode=0
+            def __init__(self,command,**kwargs):
+                self.command=command;self.stdout=io.StringIO();self.stderr=io.StringIO()
+            def poll(self):return self.returncode
+            def terminate(self):pass
+            def kill(self):pass
+            def wait(self,timeout=None):return self.returncode
+            def communicate(self,timeout):
+                if timeout<200:raise subprocess.TimeoutExpired(self.command,timeout)
+                image=Path(self.command[self.command.index('--image')+1])
+                proof=dict(provider='openai-codex',model='gpt-6-luna',effort='max',wire_requests=1,image_sha256=hashlib.sha256(image.read_bytes()).hexdigest())
+                row=dict(verdict()[0],review_id=story_id(URL))
+                return '383_JSON_BEGIN '+json.dumps([row])+' 383_JSON_END','383_NATIVE_PIXELS_VERIFIED '+json.dumps(proof)
+        with tempfile.TemporaryDirectory() as temp,patch('builtins.print'),patch('subprocess.Popen',side_effect=Process),patch.dict(os.environ,{
+                'L383_MODEL_SLOT_DB':str(Path(temp)/'slots.sqlite'),'L383_MODEL_QUOTA_FILE':str(Path(temp)/'quota'),
+                'L383_MODEL_DEADLINE_EPOCH':str(time.time()+1000)}):
+            records,_=review_inventory([dict(LEAD)],{URL:dict(EVIDENCE)},[],temp,budget_seconds=360,
+                capturer=fake_capture,batch_reviewer=native_batch_review,now=NOW)
+        self.assertEqual(records[URL]['status'],'reviewed',records[URL].get('error'))
+
     def test_source_triage_holds_retellings_but_preserves_a_distinct_update(self):
         history=[dict(id='old',category='Showbiz',title='Dua Lipa announces a new album',
                       body='Dua Lipa announced a new album today. The singer confirmed its release date.',

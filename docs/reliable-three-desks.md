@@ -94,3 +94,21 @@ context summary and consent-control markup exposed readback false negatives;
 regressions now distinguish persisted context/UI controls from exact article
 copy. No image URL transformation was restored. Final corrective checks and live
 article comparisons remain to be recorded before release.
+
+## Luna timing validation follow-up
+
+The first real World diagnostic, pinned to `602271e6`, exposed repeated native
+photo-review timeouts under concurrent production load. Live slot samples also
+showed two-to-three-minute waits on some production calls; this is capacity/time
+pressure, not evidence that the captured stories are unsuitable. Timeout rows
+remain pending and never count as completed Evals.
+
+A new failing public visual-review test demonstrated that the hard-coded
+180-second model call could not complete a 200-second response even inside a
+360-second review window. Native review now permits 240 seconds, still clipped
+by the visual and absolute model deadlines. Reliable Showbiz/Economy visual
+windows are 360 seconds, matching World; their collector allowance covers
+ranking plus this window (840 seconds total). Eight shared slots, fair allocation,
+minute-50 cutoff, minute-55 outer limit, scoring and approval gates are unchanged.
+The timing test is functional evidence; actual throughput requires another
+Luna run and the scheduled production observations.

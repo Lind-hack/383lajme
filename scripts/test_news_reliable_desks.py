@@ -619,7 +619,8 @@ class ProductionCollectionTests(unittest.TestCase):
                 def discovery(*args,**kwargs):
                     attempted=json.loads((root/'run/review-attempted.json').read_text(encoding='utf-8'))
                     calls.append(url)
-                    status='pending_review' if len(calls)==1 else 'pending' if url in attempted else 'reviewed'
+                    allowance=kwargs['env']['L383_SHOWBIZ_REVIEW_SECONDS' if category=='Showbiz' else 'L383_ECONOMY_REVIEW_SECONDS']
+                    status='pending_review' if len(calls)==1 else 'pending' if url in attempted or int(allowance)<240 else 'reviewed'
                     atomic(root/'.last30days/cloud-news-discovery-current.json',dict(
                         leads=[lead] if status=='reviewed' else [],raw_leads=[lead],
                         sources=[dict(source=source,category=category,requests_started=1,readable_this_run=1)],

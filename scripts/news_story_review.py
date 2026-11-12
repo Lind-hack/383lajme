@@ -28,6 +28,7 @@ from read_news_source import extract, fetch_public
 
 POLICY = '383-showbiz-page-review-v6-local-briefs'
 MIN_EDITORIAL_SCORE = 4
+NATIVE_REVIEW_SECONDS = 240  # Luna/max: shared-slot waiting and complete text/photo reasoning.
 MAX_AGE = 3600
 REVIEW_MAX_AGE = 24*3600
 
@@ -177,7 +178,7 @@ def native_review(brief, screenshot, deadline):
     from news_source_triage import INSTRUCTION
     return ask_rows(editorial_prompt(category)+INSTRUCTION,
         brief, ['--provider','openai-codex','--model','gpt-6-luna','--ignore-rules','-t','none',
-                '--yolo','--max-turns','1','-Q','-q'],timeout=180,deadline=deadline,image_path=screenshot)
+                '--yolo','--max-turns','1','-Q','-q'],timeout=NATIVE_REVIEW_SECONDS,deadline=deadline,image_path=screenshot)
 
 
 def validate_verdict(rows, lead, related, capture_record, now, published_articles=None):
