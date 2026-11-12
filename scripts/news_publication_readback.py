@@ -23,6 +23,7 @@ class _StoryHTML(HTMLParser):
         self.title, self.category, self.paragraphs, self.images, self.videos = "", "", [], [], []
         self.body_depth, self.body_found, self.body_paragraphs = None, False, []
         self.summary = ""
+        self.media_depth = None
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
@@ -42,6 +43,8 @@ class _StoryHTML(HTMLParser):
             self.videos.append(attrs.get("src", ""))
         if tag not in {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}:
             self.stack.append(tag)
+        if tag == 'figure' and 'ctx-media' in attrs.get('class','').split():
+            self.media_depth = len(self.stack)
         # Current ArticleContent's body container; keep the entire paragraph
         # list separate from the excerpt, reader questions and comments.
         style = re.sub(r"\s", "", attrs.get("style", ""))
@@ -49,6 +52,8 @@ class _StoryHTML(HTMLParser):
             self.body_depth, self.body_found = len(self.stack), True
         # Since the "Çfarë ndodhi" card (6 Nov 2026) the excerpt is its first row, no longer a paragraph.
         summary = tag == "dd" and "ctx-what" in attrs.get("class", "").split() and not self.summary
+        if tag == 'p' and self.media_depth is not None:
+            return  # Embed consent controls are interface text, not article copy.
         if tag in {"h1", "p"} or summary or (tag == "a" and not self.category and attrs.get("href", "").startswith("/kategori/")):
             self.capture, self.chunks = tag, []
 
@@ -73,6 +78,8 @@ class _StoryHTML(HTMLParser):
                 self.category = text
             self.capture, self.chunks = None, []
         if tag in self.stack:
+            if self.media_depth == len(self.stack):
+                self.media_depth = None
             if self.body_depth == len(self.stack):
                 self.body_depth = None
             self.stack = self.stack[:len(self.stack) - 1 - self.stack[::-1].index(tag)]
@@ -90,8 +97,11 @@ def verify_html(article: dict, html: str) -> None:
         bool(story.images) and story.images[0] == article["image_url"])
     if video and article.get('category')=='Showbiz':
         visual_matches=visual_matches and bool(story.images) and story.images[0]==article['image_url']
+    context = article.get('context')
+    what = context.get('what') if isinstance(context,dict) and type(context.get('v')) in {int,float} and context.get('v')==1 and context.get('status')=='ok' else None
+    summary = what.strip() if isinstance(what,str) and what.strip() else str(article.get('excerpt') or '')
     if (story.title != " ".join(article["title"].split()) or story.category != article["category"]
-            or " ".join(str(article.get("excerpt") or "").split()) not in (story.summary, *story.paragraphs[:1])
+            or " ".join(summary.split()) not in (story.summary, *story.paragraphs[:1])
             or not story.body_found or story.body_paragraphs != paragraphs
             or not visual_matches):
         raise RuntimeError(f"public article content/category/photo mismatch: {article['slug']}")

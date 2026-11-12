@@ -16,6 +16,28 @@ def rows():
 
 
 class PublicationReadbackTests(unittest.TestCase):
+    def test_readback_matches_the_persisted_context_summary_when_the_renderer_uses_it(self):
+        article=dict(rows()[0],title='Titulli',excerpt='Përmbledhja fillestare.',body='<p>Kopja e miratuar.</p>',
+                     context=dict(v=1,status='ok',what='Përmbledhja e verifikuar pas publikimit.'))
+        markup=(f'<article class="article-story"><a href="/kategori/sport">Sport</a><h1>Titulli</h1>'
+                f'<figure><img src="{article["image_url"]}"></figure><dd class="ctx-what">{article["context"]["what"]}</dd>'
+                '<div style="font-size:17px;line-height:1.85"><p>Kopja e miratuar.</p></div></article>')
+        verify_html(article,markup)
+        with self.assertRaises(RuntimeError):verify_html(article,markup.replace(article['context']['what'],'Një pretendim tjetër.'))
+        for invalid in (dict(v=True,status='ok',what=article['context']['what']),dict(v=2,status='ok',what=article['context']['what']),dict(v=1,status='empty',what=article['context']['what'])):
+            with self.subTest(context=invalid),self.assertRaises(RuntimeError):verify_html(dict(article,context=invalid),markup)
+
+    def test_context_embed_controls_are_separate_from_the_verified_article_body(self):
+        article=dict(rows()[0],title='Titulli i lajmit',excerpt='Përmbledhja e verifikuar.',body='<p>Kopja e miratuar e lajmit.</p>')
+        markup=(f'<article class="article-story"><a href="/kategori/sport">Sport</a><h1>{article["title"]}</h1>'
+                f'<figure><img src="{article["image_url"]}"></figure><dl><dd class="ctx-what">{article["excerpt"]}</dd></dl>'
+                '<div style="font-size:17px;line-height:1.85"><p>Kopja e miratuar e lajmit.</p>'
+                '<figure class="ctx-media"><div class="ctx-gate"><p class="ctx-gate-title">Postim në Instagram</p>'
+                '<p class="ctx-gate-note">Ky postim hapet nga Instagram.</p></div></figure></div></article>')
+        verify_html(article,markup)
+        with self.assertRaises(RuntimeError):
+            verify_html(article,markup.replace('</figure></div></article>','</figure><p>Një pretendim i pamiratuar.</p></div></article>'))
+
     def test_expanded_batch_readback_fetches_every_expected_row(self):
         from unittest.mock import patch
         from codex_automation_support import _verify_batch_readback

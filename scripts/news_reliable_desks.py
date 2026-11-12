@@ -291,15 +291,15 @@ class ProductionPort:
                           for key in ('requests_started','readable_this_run','failed_requests','documents_retrieved')}
                 self.sources[source['source']] = dict(source,**totals)
             sources = list(self.sources.values())
-            self.readable.update({homepage_article_identity(a['url']):a for a in readable})
+            self.readable.update({homepage_article_identity(a['url']):dict(a,_image_available=bool(
+                evidence.get(a['url'],{}).get('image_url') or evidence.get(a['url'],{}).get('image_candidates'))) for a in readable})
             readable = list(self.readable.values())
             self.metrics.update(registered_publishers=sum(p['category'] == self.category for p in MANIFEST['publishers']),
                                     attempted_publishers=sum(s.get('run_requests_started', 0) > 0 for s in sources),
                                     source_funnel=sources)
             self.metrics.update(readable_candidates=len(readable),
                                 readable_publishers=len({a['source'] for a in readable}),
-                                images_available=sum(bool(evidence.get(a['url'], {}).get('image_url')
-                                                    or evidence.get(a['url'], {}).get('image_candidates')) for a in readable))
+                                images_available=sum(a['_image_available'] for a in readable))
             report = self.data.get('world_visual_review' if self.category == 'Botë' else 'visual_review') or self.data.get('showbiz_visual_review') or {}
             folder = self.discovery.parent / REVIEW_FOLDERS[self.category]
             try:

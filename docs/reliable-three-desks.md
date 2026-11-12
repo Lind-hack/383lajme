@@ -45,8 +45,10 @@ yet been established by this implementation.
 
 Unapproved progress has separate storage and a policy version; it cannot satisfy
 publication. Bind unchanged source/note files and saved batch/evidence bytes.
-Respect source freshness (one hour for time-sensitive work, otherwise 24 hours),
-existing approval expiry, one fresh rewrite, final original-photo verification,
+Pending recovery respects source freshness (one hour for time-sensitive work,
+otherwise 24 hours). Approved reserves retain the existing source age under
+24 hours and approval age under six hours, or one hour for time-sensitive work.
+Preserve one fresh rewrite, final original-photo verification,
 publication locking and exact persisted-copy readback. Explicit writer declines,
 editor drops and terminal originality/context rejections do not resume as approvals.
 Quota stops new model work and still finalizes completed approved deliveries.
@@ -61,7 +63,11 @@ Four agreed TDD seams: discovery/readability, ranking/eligibility, category-run
 outcomes, publication/readback. One failing behavior/minimal fix per cycle.
 Local relevant suite: 258 tests passed, three platform-specific skips (before
 final reporting refinements). Stand-ins never establish Luna latency or prose quality.
-Linux checks, current production build and live Luna validations must follow.
+Linux: all 261 relevant tests passed. The production build passed with existing
+Supabase configuration loaded privately. Captured-receipt replay made no model
+calls or publications; each desk retained five ranked candidates with matching
+receipts. Stale/overwritten pixels were excluded, never called current Evals.
+Luna/max live dry runs are in progress in World → Showbiz → Economy order.
 Validate World, then Showbiz, then Economy with publication disabled before release.
 Preserve Luna/max, eight shared fair slots, minute-50 model cutoff and minute-55
 outer deadline, reader-interest rules, native photos, corroboration for sensitive
@@ -74,3 +80,17 @@ three scheduled hourly runs under shared load, report each desk separately, and
 provide a visual article-rating report. Five is the target, three the conditional
 minimum; unresolved pipeline failures below three are not acceptance. Editorial
 appeal is an estimate; engagement remains unknown without reader measurements.
+
+## Independent reviews
+
+Standards: no findings. Spec and defect-first reviews identified recovery gaps
+(normalization hashes, terminal writer declines, quota finalization, repeated
+selection after failed recovery, preparation-time hashes and market freshness).
+Each actionable issue was corrected and covered by a behavior regression; the
+corrective read-only reviews found no further introduced defects.
+
+Current live renderer validation confirmed unchanged original hero images. Its
+context summary and consent-control markup exposed readback false negatives;
+regressions now distinguish persisted context/UI controls from exact article
+copy. No image URL transformation was restored. Final corrective checks and live
+article comparisons remain to be recorded before release.

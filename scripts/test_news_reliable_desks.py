@@ -578,6 +578,30 @@ class StageTimingTests(unittest.TestCase):
         self.assertEqual(port.metrics['stage_timing'][0]['result'],'timeout')
 
 class ProductionCollectionTests(unittest.TestCase):
+    def test_image_availability_counts_unique_readable_stories_across_waves(self):
+        import tempfile,subprocess,time
+        from pathlib import Path
+        from contextlib import chdir
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        with tempfile.TemporaryDirectory() as temp,chdir(temp):
+            root=Path(temp);calls=[]
+            def external(args,**kwargs):
+                number=len(calls);calls.append(number)
+                lead=dict(url=f'https://consequence.net/2026/11/concert-{number}/',source='Consequence',category='Showbiz',
+                    title='Dua Lipa announces a concert',published=datetime.now(timezone.utc).isoformat())
+                source=dict(status='text_extracted',text='Dua Lipa announces a public concert.',image_url='https://images.example/photo.jpg' if number==0 else '')
+                atomic(root/'.last30days/cloud-news-discovery-current.json',dict(leads=[lead],raw_leads=[lead],retrieved_evidence={lead['url']:source}))
+                atomic(root/'.last30days/showbiz-review/review.json',dict(summary={},articles=[dict(lead,status='reviewed')]))
+                return subprocess.CompletedProcess(args,0)
+            port=ProductionPort('Showbiz',Reserve(root/'reserve','Showbiz'),root/'run',time.time()+3000,qa=True)
+            with patch('subprocess.run',side_effect=external):
+                first=port.collect(set());port.collect({first[0]['url']})
+        self.assertEqual(port.metrics['readable_candidates'],2)
+        self.assertEqual(port.metrics['images_available'],1)
+
     def test_a_timed_out_visual_review_remains_available_for_retry(self):
         import tempfile,subprocess,json
         from pathlib import Path
