@@ -12,7 +12,7 @@ from news_json_state import atomic
 from news_desk_policy import TARGET, MINIMUM, DESKS, REVIEW_FOLDERS, select_candidates
 
 
-SIBLING_OVERLAP = .18  # the same band the publication check treats as related history
+SIBLING_OVERLAP = .18  # Related-history attention, never a semantic retelling verdict.
 # Luna at max effort, measured in the 11 Nov 2026 production runs: a draft takes 1.7 to 3+
 # minutes, the editor 4 to 5.5, the originality review 1 to 2.5. The old 3/4/4-minute limits
 # cut most calls off just before they answered, so the hour produced about one story a desk.
@@ -26,8 +26,7 @@ from news_reader_interest import CALL_SECONDS as RANKING_SECONDS  # discovery wa
 
 
 def repeats_sibling(article, others):
-    """The same event from another publisher, already written in this run. Measured 10 Nov 2026:
-    two inflation stories scored .30 and two rail-strike stories .23; distinct stories stay under .18."""
+    """Find related copy for independent comparison; overlap cannot decide novelty."""
     from codex_automation_support import _same_story, _story_overlap
     return any(other.get('url') != article.get('url') and (_same_story(article, other)
                or _story_overlap(article, other) >= SIBLING_OVERLAP) for other in others)
@@ -91,12 +90,26 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
         if duplicate_photo_pairs(published + [entry['article']]):
             reasons.append('duplicate_image_this_run')
             return
-        if repeats_sibling(entry['article'], published + qa_articles):
+        related_sibling = repeats_sibling(entry['article'], published + qa_articles)
+        if related_sibling and not hasattr(port, 'refresh_context'):
+            # Adapters without independent comparison must hold uncertain copy.
             reasons.append('duplicate_story_this_run')
             print(f'383 RETAIN APPROVED {entry["article"].get("slug")}: repeats a story delivered in this run', flush=True)
             return
         refreshing = False
         try:
+            if related_sibling and qa_articles:
+                if entry['article']['url'] in context_rechecked:
+                    return
+                # Dry runs have no database insert for earlier approved stories.
+                # Compare those complete copies in the existing context review.
+                context_rechecked.add(entry['article']['url'])
+                refreshing = True
+                entry = port.refresh_context(entry, extra_history=qa_articles)
+                if entry is None:
+                    reasons.append('model_quota' if port.quota_hit() else 'context_review_rejection')
+                    return
+                refreshing = False
             try:
                 saved = port.publish(entry)
             except PublicationHistoryChanged:
@@ -569,10 +582,7 @@ class ProductionPort:
                     # Stop before the editor and both reviews are spent on an event already approved this run.
                     if repeats_sibling(json.loads(batch.read_text(encoding='utf-8'))[0],
                                        [entry['article'] for entry in self.reserve.available()]):
-                        self.metrics.setdefault('failure_reasons', []).append('duplicate_story_this_run')
-                        print(f'383 STORY HELD {lead["url"]}: repeats a story approved in this run', flush=True)
-                        progress.finish()
-                        break
+                        print(f'383 STORY RELATED {lead["url"]}: compare the complete approved sibling in independent context review', flush=True)
                     if not progress.completed('prepared'):
                         self.python('prepare_editor_sources.py', batch, seconds=90,
                                     env={'L383_PREPARED_EVIDENCE_ROOT': str(evidence_folder or work / 'source-evidence')})
@@ -622,6 +632,10 @@ class ProductionPort:
                     # Both independent model approvals are saved before attempting
                     # publication; another category can publish concurrently.
                     reviewed_history = _recently_published()
+                    known = {str(row['id']) for row in reviewed_history}
+                    reviewed_history += [entry['article'] for entry in self.reserve.available()
+                        if str(entry['article'].get('id')) not in known
+                        and entry['article'].get('url') != lead['url']]
                     review(batch, reviewed_history)
                     rows = json.loads(batch.read_text(encoding='utf-8'))
                     if not rows:
@@ -671,7 +685,7 @@ class ProductionPort:
                     break
                 print(f'383 STORY REWRITE {lead["url"]}: {refusal[:300]}', flush=True)
 
-    def refresh_context(self, entry):
+    def refresh_context(self, entry, *, extra_history=()):
         """New context approval for unchanged copy; never run under the publication lock."""
         if self.quota_hit() or time.time() >= self.deadline:
             raise RuntimeError('model quota or deadline prevents a new context comparison')
@@ -688,6 +702,9 @@ class ProductionPort:
         atomic(batch.with_suffix('.selection.json'), dict(time_sensitive=entry['time_sensitive']))
         self.metrics['context_rechecks'] = self.metrics.get('context_rechecks', 0) + 1
         history = _recently_published()
+        known = {str(row['id']) for row in history}
+        history += [row for row in extra_history if str(row['id']) not in known
+                    and row.get('url') != entry['article']['url']]
         review(batch, history)
         rows = json.loads(batch.read_text(encoding='utf-8'))
         if not rows:

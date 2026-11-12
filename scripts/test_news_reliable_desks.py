@@ -472,6 +472,43 @@ class InterruptedApprovalTests(unittest.TestCase):
                     self.assertEqual(reserve.available()[0]['article']['body'],'Independent prose')
 
 class DraftResumeTests(unittest.TestCase):
+    def test_similar_wording_does_not_make_a_distinct_update_terminal_before_review(self):
+        import tempfile,subprocess,time,json
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_copyright_review import article_digest,digest,POLICY,CHECKS
+        from news_json_state import atomic
+        now=datetime.now(timezone.utc).isoformat()
+        common='Banka qendrore njoftoi vendimin e komitetit për normën bazë të interesit pas mbledhjes për politikën monetare. '
+        first=dict(id='old',slug='old',category='Ekonomi',source='Monitor',url='https://monitor.al/hold',title='Banka qendrore mban normën në 3%',
+            body=common+'Norma mbeti në 3 për qind.',published_at=now,image_rights=dict(sha256='a'*64))
+        evidence=dict(slug='old',evidence=dict(status='text_extracted',published=now))
+        proof=dict(article_sha256=article_digest(first),evidence_sha256=digest(evidence),decision=dict(verdict='approve',checks=dict.fromkeys(CHECKS,True),reason='Independent reporting supported by complete source facts.'))
+        copyright=dict(policy=POLICY,model='gpt-6-luna',provider='openai-codex',reviewed_at=now,articles={'old':proof})
+        context=dict(policy='383-event-context-v2',model='gpt-6-luna',provider='openai-codex',reviewed_at=now,history={},articles={'old':dict(article_sha256=article_digest(first),decisions=[dict(verdict='distinct')])})
+        with tempfile.TemporaryDirectory() as temp,patch('builtins.print'):
+            root=Path(temp);reserve=Reserve(root/'reserve','Ekonomi');reserve.store(first,evidence,copyright,context)
+            lead=dict(url='https://scantv.al/cut',source='Scan TV',category='Ekonomi',published=now)
+            current=dict(lead,id='new',slug='new',title='Banka qendrore ul normën në 2%',body=common+'Në një mbledhje të re të jashtëzakonshme norma u ul në 2 për qind.')
+            calls=[]
+            def external(args,**kwargs):
+                calls.append(args)
+                if 'scripts/news_model_response.py' in args:
+                    atomic(Path(args[args.index('--batch')+1]),[current])
+                if 'scripts/prepare_editor_sources.py' in args:
+                    path=Path(args[args.index('scripts/prepare_editor_sources.py')+1]);atomic(path.with_suffix('.editor-sources.json'),[])
+                if 'scripts/run-news-editor-parallel.sh' in args:raise subprocess.TimeoutExpired(args,600)
+                return subprocess.CompletedProcess(args,0)
+            port=ProductionPort('Ekonomi',reserve,root/'run',time.time()+3000,qa=True)
+            with patch('subprocess.run',side_effect=external):
+                self.assertEqual(list(port.write_ready([lead],{},root/'run/wave-1',1)),[])
+            self.assertTrue(any('scripts/run-news-editor-parallel.sh' in args for args in calls))
+            progress=json.loads((root/'run/wave-1/story-0.pending.json').read_text())
+            self.assertFalse(progress['terminal'])
+
+
     def test_completed_preparation_without_a_started_worker_is_recovered(self):
         self.exercise_prepared_recovery()
 
@@ -795,6 +832,61 @@ class RefusedDraftTests(unittest.TestCase):
         self.assertIn('exact source overlap of 8 words',feedback[0])
 
 class SiblingStoryTests(unittest.TestCase):
+    def test_qa_retelling_refusal_is_not_retried_during_finalization(self):
+        import tempfile
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        common='Banka qendrore njoftoi vendimin e komitetit për normën bazë të interesit pas mbledhjes për politikën monetare.'
+        entries=[dict(article=dict(id=str(i),slug=str(i),url=f'https://monitor.al/decision-{i}',title='Banka mban normën në 3%',body=common)) for i in range(2)]
+        class Store:
+            def available(self):return list(entries)
+        class Port:
+            qa=True;comparisons=0
+            def quota_hit(self):return False
+            def collect(self,attempted):return []
+            def publish(self,entry):return dict(batch='qa.json',articles=[],dry_run=True)
+            def refresh_context(self,entry,extra_history=()):
+                self.comparisons+=1
+                self.history=extra_history
+                return None
+        port=Port()
+        with tempfile.TemporaryDirectory() as root:
+            result=run_category(port,Store(),Path(root)/'outcome.json','Ekonomi')
+        self.assertEqual(result['qa_approved'],1)
+        self.assertEqual(result['published_count'],0)
+        self.assertEqual(port.comparisons,1)
+        self.assertEqual(port.history[0]['body'],common)
+
+    def test_a_distinct_later_bank_decision_reaches_independent_context_refresh(self):
+        import tempfile
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        from news_approved_reserve import PublicationHistoryChanged
+        common='Banka qendrore njoftoi vendimin e komitetit për normën bazë të interesit pas mbledhjes për politikën monetare. '
+        entries=[dict(article=dict(id='old',slug='old',url='https://monitor.al/hold',title='Banka qendrore mban normën në 3%',body=common+'Në vendimin e parë norma mbeti në 3 për qind.')),
+                 dict(article=dict(id='new',slug='new',url='https://scantv.al/cut',title='Banka qendrore ul normën në 2%',body=common+'Në një mbledhje të re të jashtëzakonshme norma u ul në 2 për qind.'))]
+        class Store:
+            def __init__(self):self.entries=list(entries)
+            def available(self):return list(self.entries)
+            def confirm(self,e):self.entries=[row for row in self.entries if row['article']['url']!=e['article']['url']]
+        class Port:
+            comparisons=0
+            def quota_hit(self):return False
+            def collect(self,attempted):return []
+            def publish(self,entry):
+                if entry['article']['id']=='new' and not entry.get('context_refreshed'):
+                    raise PublicationHistoryChanged('Related earlier decision must be compared independently')
+                return dict(batch=entry['article']['slug']+'.json',articles=[entry['article']])
+            def refresh_context(self,entry,**kwargs):
+                self.comparisons+=1
+                return dict(entry,context_refreshed=True)
+        port=Port()
+        with tempfile.TemporaryDirectory() as root:
+            result=run_category(port,Store(),Path(root)/'outcome.json','Ekonomi')
+        self.assertEqual(result['published_count'],2)
+        self.assertEqual(port.comparisons,1)
+
+
     BODY='Inflacioni vjetor arriti ne 3.4 perqind ne tetor sipas institutit te statistikave, i shtyre nga cmimet e ushqimeve, transportit dhe qirave ne gjithe vendin gjate muajit te kaluar.'
     def story(self,url,body=None,title='Inflacioni arrin 3.4% ne tetor'):
         return dict(url=url,slug=url[-1],title=title,excerpt='',body=body or self.BODY,image_subject='')

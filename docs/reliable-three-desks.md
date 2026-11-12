@@ -112,3 +112,23 @@ ranking plus this window (840 seconds total). Eight shared slots, fair allocatio
 minute-50 cutoff, minute-55 outer limit, scoring and approval gates are unchanged.
 The timing test is functional evidence; actual throughput requires another
 Luna run and the scheduled production observations.
+
+## Subsequent developments and sibling comparisons
+
+The broader Claude audit demonstrated that the 0.18 lexical sibling threshold
+rejected a later central-bank rate cut after an earlier hold, before the actual
+independent event reviewer could compare the developments. It now selects related
+copy for comparison rather than terminally discarding drafts. Existing approved
+siblings join the existing final context review, without another model stage.
+For real publication the locked saved-proof/history check still requires a fresh
+independent comparison when related published history changes. Dry runs compare
+earlier QA-approved copies through that same context-refresh path, once per story;
+retellings remain held. All factual, originality, photo, expiry and readback checks
+remain mandatory. Distinct-update and QA-retelling regressions cover this path.
+
+The first real World diagnostic (`602271e6`, 2026-11-12 19:02–19:52 Warsaw) read
+231 unique candidate URLs from 16 publishers, completed four photo/article Evals,
+prepared one story and saved one draft. The editor rejected it; approvals and
+publications were zero. Repeated photo-review timeouts dominated the shortfall.
+This is a valid failed throughput diagnostic, not a passing volume evaluation.
+Follow-up Luna validation must use the corrected timing/comparison implementation.
