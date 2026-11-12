@@ -67,7 +67,11 @@ Linux: all 261 relevant tests passed. The production build passed with existing
 Supabase configuration loaded privately. Captured-receipt replay made no model
 calls or publications; each desk retained five ranked candidates with matching
 receipts. Stale/overwritten pixels were excluded, never called current Evals.
-Luna/max live dry runs are in progress in World → Showbiz → Economy order.
+Luna/max validation was attempted in World → Showbiz → Economy order.
+The `67e7911e` World diagnostic stopped on account quota with 168 readable
+candidates, two completed Evals, one saved draft and zero approvals. Its serial
+Showbiz/Economy validations did not start because the same account was exhausted.
+No provider or account was substituted. This does not establish the volume goal.
 Validate World, then Showbiz, then Economy with publication disabled before release.
 Preserve Luna/max, eight shared fair slots, minute-50 model cutoff and minute-55
 outer deadline, reader-interest rules, native photos, corroboration for sensitive
@@ -165,3 +169,11 @@ each known direct coverage group before its alternatives, including after
 reader-interest scoring. Alternatives remain eligible later in the same queue;
 shared names and transitive links do not establish an event group or rejection.
 Publisher rotation and all independent publication checks remain in force.
+
+Final verification: 295 relevant Linux tests passed at `d6415e25`; the final
+World ordering correction passed 77 additional targeted Linux checks (overlapping
+the broader suite). The production build passed; its application inputs are
+unchanged by the subsequent Python-only ordering fix. Standards, Spec and
+defect-first corrective reviews have no remaining actionable findings. Captured
+receipt replay at `23440647` made no model calls and published nothing. Actual
+post-release hourly observation and remaining Luna validations are still pending.
