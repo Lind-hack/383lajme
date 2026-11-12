@@ -31,6 +31,33 @@ class EligibilityTests(unittest.TestCase):
         self.assertEqual(result['decision'],'consider')
 
 class ReserveTests(unittest.TestCase):
+    def test_retired_france24_extraction_cannot_enter_approved_reserves(self):
+        import tempfile
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_approved_reserve import Reserve
+        from news_copyright_review import article_digest,digest,POLICY,CHECKS
+        now=datetime.now(timezone.utc).isoformat()
+        article=dict(id='f24',slug='f24',category='Botë',url='https://www.france24.com/en/video/20261112-summit',
+                     body='Independently composed article.',image_rights=dict(sha256='a'*64))
+        evidence=dict(slug='f24',source_url=article['url'],evidence=dict(url=article['url'],status='text_extracted',published=now,
+            text='To display this content from YouTube, you must enable advertisement tracking and audience measurement.'))
+        proof=dict(article_sha256=article_digest(article),evidence_sha256=digest(evidence),decision=dict(verdict='approve',checks=dict.fromkeys(CHECKS,True),reason='Independent supported factual reporting.'))
+        receipt=dict(policy=POLICY,model='gpt-6-luna',provider='openai-codex',reviewed_at=now,articles={'f24':proof})
+        context=dict(policy='383-event-context-v2',model='gpt-6-luna',provider='openai-codex',reviewed_at=now,history={},articles={'f24':dict(article_sha256=article_digest(article),decisions=[dict(verdict='distinct')])})
+        with tempfile.TemporaryDirectory() as root:
+            with self.assertRaisesRegex(ValueError,'source_extraction_policy_stale'):
+                Reserve(Path(root),'Botë').store(article,evidence,receipt,context)
+            stale=evidence['evidence']
+            article['url']='https://www.bbc.com/news/world-update'
+            evidence.update(source_url=article['url'],evidence=dict(url=article['url'],status='text_extracted',published=now),
+                            corroborating=[dict(url=stale['url'],evidence=stale)])
+            proof.update(article_sha256=article_digest(article),evidence_sha256=digest(evidence))
+            context['articles']['f24']['article_sha256']=article_digest(article)
+            with self.assertRaisesRegex(ValueError,'source_extraction_policy_stale'):
+                Reserve(Path(root),'Botë').store(article,evidence,receipt,context)
+
+
     def test_expiry_and_copy_changes_block_reserve_without_consuming_it(self):
         import tempfile
         from datetime import datetime, timedelta, timezone
@@ -472,6 +499,24 @@ class InterruptedApprovalTests(unittest.TestCase):
                     self.assertEqual(reserve.available()[0]['article']['body'],'Independent prose')
 
 class DraftResumeTests(unittest.TestCase):
+    def test_retired_source_text_is_held_before_any_new_writer_call(self):
+        import tempfile,time,subprocess
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);source=root/'source.json';url='https://www.france24.com/en/video/20261112-summit'
+            atomic(source,dict(source_url=url,evidence=dict(url=url,status='text_extracted',text='To display this content from YouTube, you must enable advertisement tracking and audience measurement.')))
+            lead=dict(url=url,source='France 24',category='Botë',published=datetime.now(timezone.utc).isoformat(),evidence_path=str(source))
+            port=ProductionPort('Botë',Reserve(root/'reserve','Botë'),root/'run',time.time()+3000,qa=True)
+            with patch('subprocess.run',side_effect=RuntimeError('Unexpected model dispatch')) as external:
+                self.assertEqual(list(port.write_ready([lead],{},root/'run/wave-1',1)),[])
+            external.assert_not_called()
+            self.assertIn('source_extraction_policy_stale',port.metrics['failure_reasons'])
+
+
     def test_similar_wording_does_not_make_a_distinct_update_terminal_before_review(self):
         import tempfile,subprocess,time,json
         from pathlib import Path
@@ -530,7 +575,7 @@ class DraftResumeTests(unittest.TestCase):
                 root=Path(temp);calls=[]
                 lead=dict(category=category,url='https://example.com/update',source='Publisher',published=datetime.now(timezone.utc).isoformat())
                 if market_expired: lead.update(title='Oil prices fall in intraday trading',published=(datetime.now(timezone.utc)-timedelta(hours=2)).isoformat())
-                source=root/'source.json';source.write_text('Original complete source evidence.',encoding='utf-8')
+                source=root/'source.json';atomic(source,dict(source_url=lead['url'],evidence=dict(url=lead['url'],text='Original complete source evidence.')))
                 lead.update(evidence_path=str(source),preparation_receipt=dict(policy='383-prepared-story-v1',files={str(source):hashlib.sha256(source.read_bytes()).hexdigest()}))
                 atomic(root/'prior/wave-1/discovery.json',dict(ready_leads=[lead]))
                 if changed: source.write_text('Changed source facts after preparation.',encoding='utf-8')

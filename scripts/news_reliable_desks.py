@@ -203,7 +203,7 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
     result.update(getattr(port, 'metrics', {}))
     pipeline_failures = {'preparation_or_writing_failed','review_incomplete','review_retry_exhausted','deadline',
                          'publication_unavailable','context_review_unavailable','incomplete_work_recovery_failed',
-                         'image_verification_unavailable'}
+                         'image_verification_unavailable','source_extraction_policy_stale'}
     status = ('qa_complete' if getattr(port, 'qa', False) else 'complete' if published else
               'model_quota' if port.quota_hit() else 'failed' if pipeline_failures.intersection(reasons) else 'no_news')
     result.update(status=status, stage='model-quota' if status == 'model_quota' else 'complete',
@@ -506,6 +506,10 @@ class ProductionPort:
         # Persist and finish each story independently. A later failed composer
         # cannot erase a sibling's saved draft or approval.
         for index, lead in enumerate(ready[:remaining]):
+            from news_draft_progress import prepared_source_current
+            if not prepared_source_current(lead):
+                self.metrics.setdefault('failure_reasons', []).append('source_extraction_policy_stale')
+                continue
             if self.quota_hit() or time.time() >= self.deadline:
                 break
             if self.deadline - time.time() < STORY_SECONDS:

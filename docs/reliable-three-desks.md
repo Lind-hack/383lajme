@@ -132,3 +132,17 @@ prepared one story and saved one draft. The editor rejected it; approvals and
 publications were zero. Repeated photo-review timeouts dominated the shortfall.
 This is a valid failed throughput diagnostic, not a passing volume evaluation.
 Follow-up Luna validation must use the corrected timing/comparison implementation.
+
+## Public video source recovery
+
+The rejected France24 story exposed a separate extraction defect: its public
+video introduction was removed with an accessibility expander while consent,
+ad-block and publication-date notices survived as purported article text.
+The source reader now retains only the known public introduction and removes
+those notices, without reconstructing a transcript or restricted body. The
+writer labels introduction-only evidence explicitly. Extraction-policy receipts
+invalidate old France24 text in inventory, visual review, preparation, pending
+work and approved reserves, including corroborating evidence. Re-extraction
+and independent approvals are required; old approvals are never silently edited.
+Source-specific behavior tests cover hidden/restricted content and stale cache
+recovery. Live runs pinned before this correction remain separate diagnostics.

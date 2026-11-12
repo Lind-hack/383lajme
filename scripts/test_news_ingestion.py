@@ -38,6 +38,41 @@ def fixture_fetch(url,**kwargs):
 
 
 class WireDiscoveryTests(unittest.TestCase):
+    def test_old_player_notice_cache_is_unreadable_until_source_text_is_reextracted(self):
+        from news_source_policy import MANIFEST as registry
+        publisher=next(p for p in registry['publishers'] if p['source']=='France 24')
+        manifest=dict(publishers=[publisher],feeds=[],browser_lanes=[])
+        url='https://www.france24.com/en/video/20261025-european-security-summit';requests=[]
+        hint=dict(title='European leaders discuss security in Dublin',published=NOW.isoformat())
+        intro=('European leaders met in Dublin to discuss security and peace negotiations concerning Ukraine. '
+               'Ireland hosted the summit with delegations from European countries and institutions. '
+               'Officials published the agenda and confirmed the meeting location. '
+               'The public introduction describes the summit and its stated subjects without providing a full video transcript.')
+        def fetch(url_arg,**kwargs):
+            requests.append(url_arg)
+            if url_arg==url:
+                body=(f'<meta property="article:published_time" content="{NOW.isoformat()}"><title>{hint["title"]}</title>'
+                      '<main><div id="main-content" class="t-content t-content--video"><div class="t-content__main" data-article-content>'
+                      '<div class="m-box-expand" data-box-expand><div class="m-box-expand__content" aria-hidden="true" data-box-expand-content>'
+                      f'<p class="t-content__chapo">{intro}</p></div></div></div></div></main>')
+            elif url_arg.rstrip('/') in ('https://france24.com','https://www.france24.com'):body='<main><h1>World</h1></main>'
+            else:raise PublicHTTPError(404)
+            return dict(url=url_arg,payload=body.encode(),headers={},status=200)
+        with tempfile.TemporaryDirectory() as temp:
+            state=Path(temp)/'state.sqlite';store=Inventory(state)
+            store.enqueue(dict(source='France 24',kind='article',url=url,hint=hint),NOW.isoformat())
+            store.save_evidence('France 24',url,hint,dict(status='text_extracted',url=url,published=NOW.isoformat(),title=hint['title'],
+                text='To display this content from YouTube, you must enable advertisement tracking and audience measurement.'))
+            store.close()
+            with collector_lock(state):
+                leads,_,_,_=collect(manifest,state,budget_seconds=.001,now=NOW,fetcher=fetch)
+            self.assertEqual(leads,[])
+            leads,_,evidence,_=collect(manifest,state,budget_seconds=0,now=NOW,fetcher=fetch)
+        self.assertIn(url,requests)
+        self.assertEqual(len(leads),1)
+        self.assertEqual(evidence[url]['text'],intro)
+
+
     def test_ap_discovers_news_leads_without_crawling_or_counting_election_projects(self):
         from news_source_policy import MANIFEST as registered
         ap=next(p for p in registered['publishers'] if p['source']=='AP News')

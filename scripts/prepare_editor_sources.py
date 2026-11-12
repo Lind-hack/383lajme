@@ -398,13 +398,14 @@ def prepared_evidence(url: str, retrieved: dict) -> dict:
     """Reuse fresh crawler evidence only within the exact registered publisher."""
     from datetime import datetime, timezone
     from news_source_policy import publisher_for
+    from read_news_source import evidence_policy_current
     evidence = retrieved.get(url,{})
     try:
         age = (datetime.now(timezone.utc)-datetime.fromisoformat(evidence.get('fetched_at',''))).total_seconds()
     except (TypeError,ValueError):
         age = -1
     owner, actual_owner = publisher_for(url), publisher_for(evidence.get('url',''))
-    if (evidence.get('status') == 'text_extracted' and 0 <= age <= 3600
+    if (evidence.get('status') == 'text_extracted' and evidence_policy_current(evidence,url) and 0 <= age <= 3600
             and owner and actual_owner and owner['source'] == actual_owner['source']):
         return evidence
     return fetch_url(url)

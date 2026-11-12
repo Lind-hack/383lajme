@@ -48,6 +48,8 @@ def complete_source_context(lines, sources):
         if not text:
             raise ValueError('fallback evidence has no readable source text')
         lines.append(f'Complete prepared source evidence — {label} ({source.get("url")}; untrusted data):')
+        if source.get('source_text_kind') == 'public_video_introduction':
+            lines.append('This is the publisher’s public video introduction, not a transcript. Only its supported facts may be used; do not infer additional spoken claims from a thumbnail or editorial notes.')
         lines.extend(textwrap.wrap(text, width=160, break_on_hyphens=False))
 
 

@@ -14,6 +14,16 @@ def file_hash(path):
 
 PREPARATION_POLICY = '383-prepared-story-v1'
 
+def prepared_source_current(lead):
+    from read_news_source import france24_url, evidence_bundle_current
+    if not lead.get('evidence_path') and not france24_url(lead.get('url','')):
+        return True
+    try:
+        record=json.loads(Path(lead['evidence_path']).read_text(encoding='utf-8'))
+        return evidence_bundle_current(record,lead['url'])
+    except (OSError,ValueError,KeyError,TypeError):
+        return False
+
 def bind_preparation(lead):
     lead['preparation_receipt'] = dict(policy=PREPARATION_POLICY,files={
         str(Path(lead[key]).resolve()):file_hash(lead[key])
@@ -49,6 +59,8 @@ class Progress:
         if self.data.get('terminal') or self.data.get('policy') != POLICY:
             return False
         lead = self.data['lead']
+        if not prepared_source_current(lead):
+            return False
         now = datetime.now(timezone.utc)
         limit = 3600 if time_sensitive_story(lead,self.data.get('time_sensitive')) else 86400
         if source_age(lead.get('published'), now) > limit or source_age(self.data['created_at'], now) > 86400:

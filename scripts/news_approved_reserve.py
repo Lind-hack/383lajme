@@ -54,10 +54,12 @@ class Reserve:
             context_proof = context['articles'][a['slug']]
             from news_context_review import POLICY as CONTEXT
             from news_source_policy import needs_corroboration
+            from read_news_source import evidence_bundle_current
             source_date = evidence['evidence'].get('published')
             limit = 3600 if entry['time_sensitive'] else 21600
             checks = (
                 ('policy_or_category', lambda: entry['policy'] == POLICY and a['category'] == self.category),
+                ('source_extraction_policy_stale', lambda: evidence_bundle_current(evidence,a.get('url',''))),
                 ('source_older_than_24h_or_undated', lambda: 0 <= source_age(source_date, now) < 86400),
                 ('originality_approval_expired', lambda: 0 <= age(receipt['reviewed_at'], now) < limit),
                 ('context_approval_expired', lambda: 0 <= age(context['reviewed_at'], now) < limit),

@@ -8,7 +8,7 @@ from datetime import datetime,timezone
 from io import BytesIO
 from pathlib import Path
 from PIL import Image,ImageOps
-from read_news_source import fetch_public,extract
+from read_news_source import fetch_public,extract,evidence_policy_current
 from news_ingestion_protocol import owned
 from news_story_attention import linked_posts
 
@@ -23,6 +23,7 @@ def capture_article_photo(url,publisher,folder,*,fetcher=fetch_public,image_fetc
     try:
         age=(datetime.now(timezone.utc)-datetime.fromisoformat(public_evidence['fetched_at'])).total_seconds()
         if (0<=age<=3600 and public_evidence.get('status')=='text_extracted' and not public_evidence.get('truncated')
+                and evidence_policy_current(public_evidence,url)
                 and owned(public_evidence['url'],publisher)
                 and homepage_article_identity(public_evidence.get('requested_url',public_evidence['url']))==homepage_article_identity(url)):
             evidence=dict(public_evidence);posts=evidence.get('linked_social_posts',[])

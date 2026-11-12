@@ -12,7 +12,7 @@ from news_ingestion_protocol import feed_items, feed_pages, listing_links, owned
 from news_ingestion_store import Inventory, collector_lock
 from news_homepage_priority import is_homepage, homepage_article_identity, publisher_frontpage
 from news_source_policy import topic_error, hourly_targets
-from read_news_source import PublicHTTPError, extract, fetch_public, access_challenge
+from read_news_source import PublicHTTPError, extract, fetch_public, access_challenge, evidence_policy_current
 
 
 def seed_routes(manifest):
@@ -315,11 +315,15 @@ def _snapshot(store, publishers, now, counters, started, *, checkpoint):
     homepages = store.homepage_observations(now)
     stored_readable = Counter()
     excluded_stored = Counter()
+    stale_policy = Counter()
     rows = list(store.articles(status='text_extracted'))
     for row in rows:
         publisher = publishers.get(row['source'])
         evidence = row['evidence']
         if not publisher: continue
+        if not evidence_policy_current(evidence,row['url']):
+            stale_policy[row['source']] += 1
+            continue
         if (not article_route(row['url'],publisher)
                 or access_challenge(evidence.get('url',''), evidence.get('title',''), evidence.get('text',''))):
             excluded_stored[row['source']] += 1
@@ -355,6 +359,7 @@ def _snapshot(store, publishers, now, counters, started, *, checkpoint):
         status = store.source_status(source)
         status['stored_readable'] = stored_readable[source]
         status['excluded_stored_non_articles'] = excluded_stored[source]
+        status['stale_extraction_policy_records'] = stale_policy[source]
         complete = checkpoint and bool(counters[source]['usable_indexes']) and store.checkpoint(source,now.timestamp())
         audits.append({**status,**dict(counters[source]),'category':publisher['category'],
             'url':publisher_frontpage(publisher),

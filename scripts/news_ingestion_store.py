@@ -327,7 +327,9 @@ class Inventory:
         # A publisher's changed metadata invalidates cached reporting immediately.
         if hint is not None and row['hint'] != json.dumps(hint,sort_keys=True):
             return None
-        return json.loads(row['evidence'])
+        evidence = json.loads(row['evidence'])
+        from read_news_source import evidence_policy_current
+        return evidence if evidence_policy_current(evidence,url) else None
 
     def source_status(self, source):
         counts = dict(self.db.execute("SELECT state,COUNT(*) FROM tasks WHERE source=? GROUP BY state",(source,)).fetchall())

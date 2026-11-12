@@ -68,7 +68,9 @@ def showbiz_inventory(state, now=None, *, category="Showbiz"):
             date=source.get('published') or row['hint'].get('published')
             if not publisher or publisher['category']!=category or not article_route(row['url'],publisher):
                 continue
-            from read_news_source import access_challenge
+            from read_news_source import access_challenge, evidence_policy_current
+            if not evidence_policy_current(source,row['url']):
+                continue
             if access_challenge(source.get('url',''),source.get('title',''),source.get('text','')):
                 continue
             lead=dict(url=row['url'],source=publisher['source'],category=category,lane=category.upper(),
