@@ -7,7 +7,7 @@ import subprocess
 import sys
 import time
 
-from news_approved_reserve import Reserve, PublicationHistoryChanged, time_sensitive_story
+from news_approved_reserve import Reserve, PublicationHistoryChanged, ImageVerificationFailed, time_sensitive_story
 from news_json_state import atomic
 from news_desk_policy import TARGET, MINIMUM, DESKS, REVIEW_FOLDERS, select_candidates
 
@@ -132,6 +132,10 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
             reasons.append('publication_history_changed')
             print(f'383 RETAIN APPROVED {entry["article"]["slug"]}: {exc}', flush=True)
             return
+        except ImageVerificationFailed as exc:
+            reasons.append(exc.reason)
+            print(f'383 RETAIN APPROVED {entry["article"]["slug"]}: {exc}', flush=True)
+            return
         except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
             reasons.append('model_quota' if port.quota_hit() else
                            'context_review_unavailable' if refreshing else 'publication_unavailable')
@@ -207,7 +211,7 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
     reasons.extend(getattr(port, 'metrics', {}).get('failure_reasons', []))
     pipeline_failures = {'preparation_or_writing_failed','review_incomplete','review_retry_exhausted','deadline',
                          'publication_unavailable','context_review_unavailable','incomplete_work_recovery_failed',
-                         'image_verification_unavailable','source_extraction_policy_stale','source_access'}
+                         'image_verification_unavailable','source_image_changed','source_extraction_policy_stale','source_access'}
     status = ('qa_complete' if getattr(port, 'qa', False) else 'complete' if published else
               'model_quota' if port.quota_hit() else 'failed' if pipeline_failures.intersection(reasons) else 'no_news')
     result.update(status=status, stage='model-quota' if status == 'model_quota' else 'complete',

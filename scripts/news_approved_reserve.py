@@ -14,6 +14,12 @@ from news_json_state import atomic, age
 class PublicationHistoryChanged(ValueError):
     """An approved copy needs a fresh independent context comparison."""
 
+class ImageVerificationFailed(ValueError):
+    """Fresh image transport or bytes cannot satisfy the saved approval."""
+    def __init__(self, reason, message):
+        super().__init__(message)
+        self.reason=reason
+
 
 def source_age(value, now):
     """Seconds since the publisher's date. A date with no zone is read as UTC, as discovery
@@ -170,8 +176,13 @@ def verify_pixels(article, *, fetcher=None):
     if fetcher is None:
         from news_image_policy import photo_payload
         fetcher = photo_payload
-    if hashlib.sha256(fetcher(article['image_url'])).hexdigest() != article['image_rights']['sha256']:
-        raise ValueError('current image pixels differ from the approved pixels')
+    try:
+        payload=fetcher(article['image_url'])
+    except Exception as exc:
+        raise ImageVerificationFailed('image_verification_unavailable',
+            'current image could not be verified ('+type(exc).__name__+')') from exc
+    if hashlib.sha256(payload).hexdigest() != article['image_rights']['sha256']:
+        raise ImageVerificationFailed('source_image_changed','current image bytes differ from the approved bytes')
 
 
 def recover_approvals(root, reserve):

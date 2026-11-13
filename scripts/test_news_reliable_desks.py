@@ -345,6 +345,34 @@ class PhotoCacheTests(unittest.TestCase):
             self.assertIsNone(cache.get(dict(context,text='A different event')))
 
 class RunRecoveryTests(unittest.TestCase):
+    def test_fresh_image_check_failures_are_reported_without_consuming_approval(self):
+        import tempfile,hashlib
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        from news_approved_reserve import verify_pixels
+        for failure,reason in [('changed','source_image_changed'),('timeout','image_verification_unavailable')]:
+            with self.subTest(failure=failure),tempfile.TemporaryDirectory() as root:
+                entry=dict(article=dict(url='https://example.com/update',slug='update',
+                    image_url='https://images.example.com/photo.jpg',image_rights=dict(sha256=hashlib.sha256(b'approved image').hexdigest())))
+                class Store:
+                    def available(self):return [entry]
+                    def confirm(self,e):raise AssertionError('Unverified approval consumed')
+                class Port:
+                    def quota_hit(self):return False
+                    def collect(self,attempted):return []
+                    def publish(self,e):
+                        def fetcher(url):
+                            if failure=='timeout':raise TimeoutError('Image retrieval timed out')
+                            return b'changed image'
+                        verify_pixels(e['article'],fetcher=fetcher)
+                        raise AssertionError('Unverified image passed')
+                store=Store();result=run_category(Port(),store,Path(root)/'outcome.json','Showbiz')
+                self.assertEqual(result['status'],'failed')
+                self.assertIn(reason,result['shortfall_reasons'])
+                self.assertNotIn('publication_unavailable',result['shortfall_reasons'])
+                self.assertEqual(result['published_count'],0)
+                self.assertEqual(store.available(),[entry])
+
     def test_dry_run_does_not_count_two_articles_using_the_same_photo(self):
         import tempfile
         from pathlib import Path

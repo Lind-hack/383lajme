@@ -197,6 +197,12 @@ changing eligibility or approval gates. Its effect on first-pass acceptance and
 reader appeal still requires new Luna observations; prior runs do not validate
 the revised writing instruction.
 
+The fresh image-byte check remains strict. A changed publisher response now
+reports `source_image_changed`; transport/timeout failures report
+`image_verification_unavailable`. Both retain the unchanged approval instead of
+misclassifying the hold as publication infrastructure. Perceptual similarity
+never substitutes for the approved byte hash.
+
 World review attention also prefers a broader headline topic within each
 publisher's existing turn during the first twelve choices. Three shared meaningful
 headline terms with substantial overlap are an attention heuristic only: no
