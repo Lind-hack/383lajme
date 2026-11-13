@@ -24,8 +24,23 @@ def prepared_source_current(lead):
     except (OSError,ValueError,KeyError,TypeError):
         return False
 
+def source_freshness_limit(lead, explicit=False):
+    # "Fresh development" is broad editorial recency, not a declared breaking
+    # label or a live market quote. Keep their stricter source-age checks.
+    flags=dict(lead,editorial_review=dict(lead.get('editorial_review') or {}))
+    broad_recency = (flags.get('breaking') == 'fresh_development'
+                     or flags['editorial_review'].get('breaking') == 'fresh_development')
+    if flags.get('breaking') == 'fresh_development':
+        flags['breaking']=False
+    if flags['editorial_review'].get('breaking') == 'fresh_development':
+        flags['editorial_review']['breaking']='not_established'
+    return 3600 if time_sensitive_story(flags,explicit and not broad_recency) else 86400
+
+def pending_freshness_limit(lead, explicit=False):
+    return 3600 if time_sensitive_story(lead,explicit) else 86400
+
 def bind_preparation(lead):
-    lead['preparation_receipt'] = dict(policy=PREPARATION_POLICY,files={
+    lead['preparation_receipt'] = dict(policy=PREPARATION_POLICY,prepared_at=datetime.now(timezone.utc).isoformat(),files={
         str(Path(lead[key]).resolve()):file_hash(lead[key])
         for key in ('evidence_path','facts_path') if lead.get(key)})
     return lead
@@ -33,6 +48,8 @@ def bind_preparation(lead):
 def prepared_unchanged(lead):
     proof=lead.get('preparation_receipt',{})
     if proof.get('policy') != PREPARATION_POLICY or not proof.get('files'):
+        return False
+    if not 0 <= source_age(proof.get('prepared_at'),datetime.now(timezone.utc)) <= pending_freshness_limit(lead):
         return False
     try:
         required={str(Path(lead[key]).resolve()) for key in ('evidence_path','facts_path') if lead.get(key)}
@@ -49,7 +66,8 @@ class Progress:
             if self.data.get('policy') != POLICY or self.data['lead'] != job['lead']:
                 raise ValueError('pending work policy or prepared story changed')
         else:
-            self.data = dict(job, policy=POLICY, created_at=datetime.now(timezone.utc).isoformat(),
+            prepared_at=job['lead'].get('preparation_receipt',{}).get('prepared_at')
+            self.data = dict(job, policy=POLICY, created_at=prepared_at or datetime.now(timezone.utc).isoformat(),
                              attempt=0, stage='new', terminal=False, refusal='')
             self.data['inputs'] = {str(Path(job['lead'][key]).resolve()):file_hash(job['lead'][key])
                                    for key in ('evidence_path','facts_path') if job['lead'].get(key)}
@@ -62,8 +80,9 @@ class Progress:
         if not prepared_source_current(lead):
             return False
         now = datetime.now(timezone.utc)
-        limit = 3600 if time_sensitive_story(lead,self.data.get('time_sensitive')) else 86400
-        if source_age(lead.get('published'), now) > limit or source_age(self.data['created_at'], now) > 86400:
+        pending_limit = pending_freshness_limit(lead,self.data.get('time_sensitive'))
+        if (source_age(lead.get('published'), now) > source_freshness_limit(lead,self.data.get('time_sensitive'))
+                or source_age(self.data['created_at'], now) > pending_limit):
             return False
         for path, expected in {**self.data.get('inputs', {}), **self.data.get('files', {})}.items():
             try:

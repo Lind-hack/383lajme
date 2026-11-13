@@ -581,7 +581,16 @@ class DraftResumeTests(unittest.TestCase):
     def test_unlabelled_market_update_expires_after_one_hour(self):
         self.exercise_prepared_recovery(market_expired=True)
 
-    def exercise_prepared_recovery(self,changed=False,market_expired=False):
+    def test_declared_breaking_source_keeps_the_one_hour_source_limit(self):
+        self.exercise_prepared_recovery(declared_breaking_expired=True)
+
+    def test_old_completed_preparation_does_not_receive_a_new_recovery_clock(self):
+        self.exercise_prepared_recovery(preparation_expired=True)
+
+    def test_untimestamped_preparation_is_held_instead_of_redated(self):
+        self.exercise_prepared_recovery(preparation_undated=True)
+
+    def exercise_prepared_recovery(self,changed=False,market_expired=False,declared_breaking_expired=False,preparation_expired=False,preparation_undated=False):
         import subprocess,time,tempfile,hashlib
         from pathlib import Path
         from datetime import datetime,timezone,timedelta
@@ -593,8 +602,16 @@ class DraftResumeTests(unittest.TestCase):
                 root=Path(temp);calls=[]
                 lead=dict(category=category,url='https://example.com/update',source='Publisher',published=datetime.now(timezone.utc).isoformat())
                 if market_expired: lead.update(title='Oil prices fall in intraday trading',published=(datetime.now(timezone.utc)-timedelta(hours=2)).isoformat())
+                if declared_breaking_expired:
+                    lead.update(published=(datetime.now(timezone.utc)-timedelta(hours=2)).isoformat(),
+                                editorial_review=dict(breaking='publisher_label'))
+                if preparation_expired:
+                    lead.update(published=(datetime.now(timezone.utc)-timedelta(hours=2)).isoformat(),
+                                editorial_review=dict(breaking='fresh_development'))
                 source=root/'source.json';atomic(source,dict(source_url=lead['url'],evidence=dict(url=lead['url'],text='Original complete source evidence.')))
-                lead.update(evidence_path=str(source),preparation_receipt=dict(policy='383-prepared-story-v1',files={str(source):hashlib.sha256(source.read_bytes()).hexdigest()}))
+                prepared_at=datetime.now(timezone.utc)-timedelta(hours=2 if preparation_expired else 0)
+                lead.update(evidence_path=str(source),preparation_receipt=dict(policy='383-prepared-story-v1',prepared_at=prepared_at.isoformat(),files={str(source):hashlib.sha256(source.read_bytes()).hexdigest()}))
+                if preparation_undated:lead['preparation_receipt'].pop('prepared_at')
                 atomic(root/'prior/wave-1/discovery.json',dict(ready_leads=[lead]))
                 if changed: source.write_text('Changed source facts after preparation.',encoding='utf-8')
                 def external(args,**kwargs):
@@ -603,10 +620,16 @@ class DraftResumeTests(unittest.TestCase):
                 port=ProductionPort(category,Reserve(root/'reserve',category),root/'next',time.time()+3000,qa=True)
                 with patch('subprocess.run',side_effect=external):
                     self.assertEqual(list(port.resume_incomplete(5)),[])
-                self.assertEqual(any('scripts/news_writer_brief.py' in args for args in calls),not changed and not market_expired)
+                self.assertEqual(any('scripts/news_writer_brief.py' in args for args in calls),not changed and not market_expired and not declared_breaking_expired and not preparation_expired and not preparation_undated)
 
     def test_all_three_desks_resume_saved_drafts_without_calling_writer_again(self):
         self.exercise_resume()
+
+    def test_new_checkpoints_resume_routine_updates_with_two_hour_old_sources(self):
+        self.exercise_resume(routine_source_hours=2)
+
+    def test_expired_routine_checkpoints_do_not_resume_old_work(self):
+        self.exercise_resume(routine_source_hours=2,pending_age_hours=2)
 
     def test_changed_prepared_source_invalidates_incomplete_work(self):
         self.exercise_resume(change_input=True)
@@ -617,7 +640,7 @@ class DraftResumeTests(unittest.TestCase):
     def test_normalized_draft_survives_source_preparation_failure(self):
         self.exercise_resume(preparation_fails=True)
 
-    def exercise_resume(self,change_input=False,writer_declines=False,preparation_fails=False):
+    def exercise_resume(self,change_input=False,writer_declines=False,preparation_fails=False,routine_source_hours=0,pending_age_hours=0):
         import subprocess,time,tempfile,json
         from pathlib import Path
         from news_reliable_desks import ProductionPort
@@ -628,6 +651,10 @@ class DraftResumeTests(unittest.TestCase):
                 root=Path(temp);calls=[]
                 source=root/'source.json';atomic(source,dict(text='Original complete source evidence.'))
                 lead=dict(url='https://example.com/update',source='Publisher',category=category,published=__import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),evidence_path=str(source))
+                if routine_source_hours:
+                    from datetime import datetime,timezone,timedelta
+                    lead.update(published=(datetime.now(timezone.utc)-timedelta(hours=routine_source_hours)).isoformat(),
+                                editorial_review=dict(breaking='fresh_development'))
                 def external(args,**kwargs):
                     calls.append(args)
                     if 'scripts/news_model_response.py' in args:
@@ -645,11 +672,16 @@ class DraftResumeTests(unittest.TestCase):
                 with patch('subprocess.run',side_effect=external):
                     port=ProductionPort(category,reserve,root/'run',time.time()+3000,qa=True)
                     self.assertEqual(list(port.write_ready([lead],{},root/'run/wave-1',1)),[])
+                    if pending_age_hours:
+                        checkpoint=root/'run/wave-1/story-0.pending.json'
+                        saved=json.loads(checkpoint.read_text())
+                        saved['created_at']=(datetime.now(timezone.utc)-timedelta(hours=pending_age_hours)).isoformat()
+                        atomic(checkpoint,saved)
                     if change_input: atomic(source,dict(text='The source has changed its reported figures.'))
                     restarted=ProductionPort(category,reserve,root/'next',time.time()+3000,qa=True)
                     self.assertEqual(list(restarted.resume_incomplete(5)),[])
                 self.assertEqual(sum('scripts/news_model_response.py' in args for args in calls),1)
-                self.assertEqual(sum('scripts/run-news-editor-parallel.sh' in args for args in calls),0 if writer_declines or preparation_fails else 1 if change_input else 2)
+                self.assertEqual(sum('scripts/run-news-editor-parallel.sh' in args for args in calls),0 if writer_declines or preparation_fails else 1 if change_input or pending_age_hours else 2)
                 if preparation_fails: self.assertEqual(sum('scripts/prepare_editor_sources.py' in args for args in calls),2)
 
 class PreparationRecoveryTests(unittest.TestCase):

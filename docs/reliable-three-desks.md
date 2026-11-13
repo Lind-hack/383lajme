@@ -45,13 +45,19 @@ yet been established by this implementation.
 
 Unapproved progress has separate storage and a policy version; it cannot satisfy
 publication. Bind unchanged source/note files and saved batch/evidence bytes.
-Pending recovery respects source freshness (one hour for time-sensitive work,
-otherwise 24 hours). Approved reserves retain the existing source age under
+Pending recovery respects source freshness (one hour for declared breaking news
+and time-sensitive market data, otherwise 24 hours). A broad `fresh_development`
+label limits pending checkpoint age to one hour; it does not make an otherwise
+eligible routine source expire one hour after publication. Unlabelled routine
+checkpoints retain their 24-hour limit. Approved reserves retain source age under
 24 hours and approval age under six hours, or one hour for time-sensitive work.
 Preserve one fresh rewrite, final original-photo verification,
 publication locking and exact persisted-copy readback. Explicit writer declines,
 editor drops and terminal originality/context rejections do not resume as approvals.
 Quota stops new model work and still finalizes completed approved deliveries.
+Preparation receipts bind their original readiness timestamp as well as files.
+Recovery carries that timestamp into pending work, never a new recovery clock;
+legacy readiness without a reliable timestamp waits for fresh preparation.
 
 The visual attempt ledger belongs to the hourly run, saves dispatch before the
 model call, permits two attempts, rotates fresh alternatives first and allows
