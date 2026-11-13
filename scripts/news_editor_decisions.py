@@ -64,6 +64,8 @@ def apply_decisions(articles: list[dict], decisions: list[dict]) -> list[dict]:
             if (action == "keep" and edits) or (action == "correct" and not edits):
                 raise ValueError("editorial action does not match its changes")
             edited = dict(article)
+            original_spans = article.get('category') in {'Showbiz', 'Ekonomi', 'Botë'}
+            replacements = {}
             for edit in edits:
                 if (not isinstance(edit, dict) or not isinstance(edit.get("field"), str) or edit["field"] not in PROSE
                         or not isinstance(edit.get("defect"), str) or edit["defect"] not in DEFECTS):
@@ -73,9 +75,21 @@ def apply_decisions(articles: list[dict], decisions: list[dict]) -> list[dict]:
                         or not isinstance(edit.get("reason"), str) or len(edit["reason"].strip()) < 20):
                     raise ValueError("correction needs an exact span and concrete reason")
                 field = edit["field"]
-                if not isinstance(edited.get(field), str) or edited[field].count(before) != 1:
+                text = article.get(field) if original_spans else edited.get(field)
+                if not isinstance(text, str) or text.count(before) != 1:
                     raise ValueError("correction span is absent or ambiguous")
-                edited[field] = edited[field].replace(before, after, 1)
+                if original_spans:
+                    start = text.index(before)
+                    end = start + len(before)
+                    spans = replacements.setdefault(field, [])
+                    if any(start < stop and end > begin for begin, stop, _ in spans):
+                        raise ValueError("correction spans overlap")
+                    spans.append((start, end, after))
+                else:
+                    edited[field] = text.replace(before, after, 1)
+            for field, spans in replacements.items():
+                for start, end, after in sorted(spans, reverse=True):
+                    edited[field] = edited[field][:start] + after + edited[field][end:]
             edited.update(metadata)
             retained.append(edited)
             reviewed += 1

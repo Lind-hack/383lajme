@@ -566,6 +566,74 @@ class InterruptedApprovalTests(unittest.TestCase):
                     self.assertEqual(reserve.available()[0]['article']['body'],'Independent prose')
 
 class DraftResumeTests(unittest.TestCase):
+    def test_editor_cannot_chain_created_spans_or_overlap_original_corrections(self):
+        import json,subprocess,tempfile,time
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_model_response import save_response
+        from news_json_state import atomic
+        for category in ('Showbiz','Ekonomi','Botë'):
+            for pairs in ((('confirmed','verified'),('verified','audited')),
+                          (('confirmed figures','verified figures'),('figures','data'))):
+                with self.subTest(category=category,pairs=pairs),tempfile.TemporaryDirectory() as temp:
+                    root=Path(temp);work=root/'run/wave-1';now=datetime.now(timezone.utc)
+                    lead=dict(url='https://example.com/ready',category=category,source='Publisher',published=now.isoformat())
+                    article=dict(lead,slug='stable',title='A supported update',body='<p>The agency recorded confirmed figures for September.</p>')
+                    batch=work/'draft-0'/(now.strftime('%Y-%m-%dT%H')+'.json')
+                    decisions=[dict(url=lead['url'],action='correct',checks=dict.fromkeys(('facts','attribution','originality','photo_fit','language'),True),
+                        edits=[dict(field='body',before=before,after=after,defect='language',reason='Correct only the explicit verifiable span from the supplied draft.') for before,after in pairs])]
+                    def external(args,**kwargs):
+                        if 'scripts/news_model_response.py' in args:atomic(batch,[article])
+                        if 'scripts/prepare_editor_sources.py' in args:atomic(batch.with_suffix('.editor-sources.json'),[])
+                        if 'scripts/run-news-editor-parallel.sh' in args:
+                            save_response('383_JSON_BEGIN '+json.dumps(decisions)+' 383_JSON_END',batch,'editor-decisions')
+                        if 'scripts/news_copyright_review.py' in args:raise AssertionError('Invalid corrections advanced to approval')
+                        return subprocess.CompletedProcess(args,0)
+                    reserve=Reserve(root/'reserve',category)
+                    with patch('subprocess.run',side_effect=external):
+                        port=ProductionPort(category,reserve,root/'run',time.time()+3000,qa=True)
+                        self.assertEqual(list(port.write_ready([lead],{},work,1)),[])
+                    self.assertEqual(json.loads(batch.read_text(encoding='utf-8')),[article])
+                    self.assertEqual(reserve.available(),[])
+
+    def test_independent_editor_can_reorder_unique_original_sentences_without_losing_the_draft(self):
+        import json,subprocess,tempfile,time
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_model_response import save_response
+        from news_json_state import atomic
+        first='The agency published the verified September figures.'
+        middle='The report compared January with the following months.'
+        last='The institute described the composition of the basket.'
+        for category in ('Showbiz','Ekonomi','Botë'):
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as temp:
+                root=Path(temp);work=root/'run/wave-1';now=datetime.now(timezone.utc)
+                lead=dict(url='https://example.com/ready',category=category,source='Publisher',published=now.isoformat())
+                article=dict(lead,id='stable',slug='stable',title='A supported update',body='<p>'+first+' '+middle+' '+last+'</p>')
+                batch=work/'draft-0'/(now.strftime('%Y-%m-%dT%H')+'.json')
+                decisions=[dict(url=lead['url'],action='correct',checks=dict.fromkeys(('facts','attribution','originality','photo_fit','language'),True),
+                    edits=[dict(field='body',before=first,after=last,defect='originality',reason='Reorder the supported facts using an independently structured lead.'),
+                        dict(field='body',before=last,after=first,defect='originality',reason='Move the verified numerical comparison to the end of the brief.')])]
+                def external(args,**kwargs):
+                    if 'scripts/news_model_response.py' in args:atomic(batch,[article])
+                    if 'scripts/prepare_editor_sources.py' in args:atomic(batch.with_suffix('.editor-sources.json'),[])
+                    if 'scripts/run-news-editor-parallel.sh' in args:
+                        save_response('383_JSON_BEGIN '+json.dumps(decisions)+' 383_JSON_END',batch,'editor-decisions')
+                    if 'scripts/news_copyright_review.py' in args:raise subprocess.TimeoutExpired(args,420)
+                    return subprocess.CompletedProcess(args,0)
+                with patch('subprocess.run',side_effect=external):
+                    port=ProductionPort(category,Reserve(root/'reserve',category),root/'run',time.time()+3000,qa=True)
+                    self.assertEqual(list(port.write_ready([lead],{},work,1)),[])
+                saved=json.loads(batch.read_text())[0]
+                self.assertEqual(saved['body'],'<p>'+last+' '+middle+' '+first+'</p>')
+                self.assertEqual(saved['id'],'stable')
+                self.assertEqual(saved['url'],lead['url'])
+                self.assertEqual(json.loads((work/'story-0.pending.json').read_text())['stage'],'edited')
+
     def test_recovery_checks_fresh_image_bytes_before_resuming_a_saved_draft(self):
         import hashlib,json,socket,subprocess,tempfile,time
         from pathlib import Path
