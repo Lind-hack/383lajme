@@ -32,9 +32,10 @@ public or already authorized; blocked access never counts as successful scraping
   complete article/canonical/date/photo extraction remains unverified with current access.
   Historical AP project pages and Bloomberg verification copy are excluded from readable counts.
 - Completed: release/model-profile metadata and stage wall timing (including failed calls).
-- Pending: captured replay, real Luna validation,
-  independent reviews, Linux checks/build, committed GitHub release, and three
-  scheduled production observations with visual article reports.
+- Completed: captured replay, independent reviews, Linux checks/build, and the
+  committed GitHub release `67d9b51c`, verified on the website and worker.
+- Pending: completion of the resumed Luna validation, activation of the recovery
+  follow-up after active runs finish, and three scheduled production observations.
 
 Tests use the agreed public boundaries: discovery/readability, ranking/eligibility,
 category-run outcomes, and publication/readback. Test-double output is not evidence
@@ -181,10 +182,9 @@ reader-interest scoring. Alternatives remain eligible later in the same queue;
 shared names and transitive links do not establish an event group or rejection.
 Publisher rotation and all independent publication checks remain in force.
 
-Final verification: 295 relevant Linux tests passed at `d6415e25`; the final
-World ordering correction passed 77 additional targeted Linux checks (overlapping
-the broader suite). The production build passed; its application inputs are
-unchanged by the subsequent Python-only ordering fix. Standards, Spec and
+Follow-up verification: 303 relevant Linux tests passed at `82c1c076`.
+The production build passed at `4fd2a498`; subsequent changes affect Python QA
+bookkeeping only, with unchanged application build inputs. Standards, Spec and
 defect-first corrective reviews have no remaining actionable findings. Captured
 receipt replay at `23440647` made no model calls and published nothing. Actual
 post-release hourly observation and remaining Luna validations are still pending.
