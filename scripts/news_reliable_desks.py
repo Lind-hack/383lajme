@@ -178,6 +178,9 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
         attempted.update(getattr(port,'attempted_recoveries',set()))
         checkpoint()
     while len(published) + result.get('qa_approved', 0) < TARGET and time.time() < deadline and not port.quota_hit():
+        if deadline - time.time() < STORY_SECONDS:
+            reasons.append('deadline')
+            break
         try:
             leads = port.collect(attempted)
             if not leads:
@@ -363,6 +366,9 @@ class ProductionPort:
                 return []
 
     def produce(self, leads, remaining):
+        if self.deadline - time.time() < STORY_SECONDS:
+            self.metrics.setdefault('failure_reasons', []).append('deadline')
+            return
         self.sequence += 1
         work = self.root / f'wave-{self.sequence}'
         work.mkdir(parents=True, exist_ok=True)

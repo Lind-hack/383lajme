@@ -839,6 +839,35 @@ class DraftResumeTests(unittest.TestCase):
                 if preparation_fails: self.assertEqual(sum('scripts/prepare_editor_sources.py' in args for args in calls),2)
 
 class PreparationRecoveryTests(unittest.TestCase):
+    def test_category_finalizes_without_new_collection_inside_writer_cutoff(self):
+        import tempfile,time
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        class Store:
+            def available(self):return []
+        class Port:
+            def quota_hit(self):return False
+            def collect(self,attempted):raise AssertionError('No time to write another story')
+        with tempfile.TemporaryDirectory() as temp:
+            result=run_category(Port(),Store(),Path(temp)/'outcome.json','Botë',deadline=time.time()+450)
+        self.assertEqual(result['published_count'],0)
+        self.assertIn('deadline',result['shortfall_reasons'])
+
+    def test_no_new_preparation_starts_when_a_writer_cannot_be_dispatched(self):
+        import tempfile,time
+        from pathlib import Path
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        for category in ('Showbiz','Ekonomi','Botë'):
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as temp:
+                root=Path(temp)
+                port=ProductionPort(category,Reserve(root/'reserve',category),root/'run',time.time()+450,qa=True)
+                port.data={}
+                with patch('subprocess.run',side_effect=AssertionError('Preparation started too late')) as transport:
+                    self.assertEqual(list(port.produce([dict(url='https://example.com/a')],1)),[])
+                transport.assert_not_called()
+                self.assertIn('deadline',port.metrics['failure_reasons'])
+
     def test_every_desk_keeps_completed_preparation_after_a_collector_timeout(self):
         import subprocess,time,tempfile
         from pathlib import Path
