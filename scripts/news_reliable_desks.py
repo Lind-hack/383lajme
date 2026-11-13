@@ -647,6 +647,7 @@ class ProductionPort:
                     review(batch, reviewed_history)
                     rows = json.loads(batch.read_text(encoding='utf-8'))
                     if not rows:
+                        self.metrics.setdefault('failure_reasons', []).append('context_review_rejection')
                         progress.finish()
                         break
                     old = os.environ.pop('L383_REVIEW_RECEIPT', None)

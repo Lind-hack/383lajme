@@ -537,6 +537,56 @@ class InterruptedApprovalTests(unittest.TestCase):
                     self.assertEqual(reserve.available()[0]['article']['body'],'Independent prose')
 
 class DraftResumeTests(unittest.TestCase):
+    def test_final_retelling_is_reported_and_never_resumed_as_unfinished_work(self):
+        import io,os,tempfile,time,json,subprocess
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        old=dict(id='old',slug='old',category='Showbiz',title='Earlier announcement',
+                 body='<p>The verified announcement was already published.</p>',batch_key='older')
+        class Response:
+            def __enter__(self):return self
+            def __exit__(self,*args):pass
+            def read(self):return json.dumps([old]).encode()
+        class Process:
+            pid=99999999
+            returncode=0
+            def __init__(self,command,**kwargs):
+                self.command=command;self.stdout=io.StringIO();self.stderr=io.StringIO()
+            def poll(self):return 0
+            def communicate(self,timeout):
+                row=(dict(review_id='draft-0',related_ids=['published-0'],reason='The earlier announcement may concern this same development.')
+                     if 'high-recall semantic candidate selection' in self.command[-1] else
+                     dict(review_id='draft-0',verdict='retelling',reason='The same announcement was already published; no separate development is established.',
+                          article_span='Supported independent copy about the announcement.',against_id='published-0',
+                          against_span='The verified announcement was already published.'))
+                return '383_JSON_BEGIN '+json.dumps([row])+' 383_JSON_END',''
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);source=root/'source.json';atomic(source,dict(evidence=dict(text='Complete source evidence.')))
+            lead=dict(url='https://example.com/update',source='Publisher',category='Showbiz',
+                      published=datetime.now(timezone.utc).isoformat(),evidence_path=str(source))
+            def external(args,**kwargs):
+                if 'scripts/news_model_response.py' in args:
+                    atomic(Path(args[args.index('--batch')+1]),[dict(lead,id='new',slug='new',title='A factual announcement',
+                        body='<p>Supported independent copy about the announcement.</p>')])
+                if 'scripts/prepare_editor_sources.py' in args:
+                    atomic(Path(args[args.index('scripts/prepare_editor_sources.py')+1]).with_suffix('.editor-sources.json'),[])
+                return subprocess.CompletedProcess(args,0)
+            reserve=Reserve(root/'reserve','Showbiz')
+            with patch.dict(os.environ,{'NEXT_PUBLIC_SUPABASE_URL':'https://unit.invalid','SUPABASE_SERVICE_ROLE_KEY':'unit-test-only',
+                    'L383_MODEL_SLOT_DB':str(root/'slots.sqlite'),'L383_MODEL_QUOTA_FILE':str(root/'quota'),
+                    'L383_MODEL_DEADLINE_EPOCH':str(time.time()+3000)}),patch('subprocess.run',side_effect=external), \
+                    patch('subprocess.Popen',side_effect=Process),patch('urllib.request.urlopen',side_effect=lambda *a,**k:Response()):
+                port=ProductionPort('Showbiz',reserve,root/'run',time.time()+3000,qa=True)
+                self.assertEqual(list(port.write_ready([lead],{},root/'run/wave-1',1)),[])
+                self.assertIn('context_review_rejection',port.metrics.get('failure_reasons',[]))
+                with patch('subprocess.run',side_effect=AssertionError('Terminal rejection resumed')) as transport:
+                    restarted=ProductionPort('Showbiz',reserve,root/'next',time.time()+3000,qa=True)
+                    self.assertEqual(list(restarted.resume_incomplete(1)),[])
+                    transport.assert_not_called()
+
     def test_retired_source_text_is_held_before_any_new_writer_call(self):
         import tempfile,time,subprocess
         from pathlib import Path

@@ -60,6 +60,9 @@ Recovery carries that timestamp into pending work, never a new recovery clock;
 legacy readiness without a reliable timestamp waits for fresh preparation.
 Dry-run delivery also applies the same within-run duplicate-photo check to
 earlier QA-approved articles; repeated photos must not inflate validation counts.
+Final independent retelling rejections are terminal and explicitly recorded as
+`context_review_rejection` in desk outcomes, rather than disappearing from the
+shortfall report after an otherwise successful worker exit.
 
 The visual attempt ledger belongs to the hourly run, saves dispatch before the
 model call, permits two attempts, rotates fresh alternatives first and allows
