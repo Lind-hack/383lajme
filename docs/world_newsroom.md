@@ -42,6 +42,13 @@ Use natural standard Albanian, correct ë/ç, accurate names and coherent senten
 Compose a new lead and structure from prepared source-bound reporter notes.
 Raw fragment notes remain source material, not verified original prose. The
 complete originals are verification evidence, never a translation template.
+Draft a verified fact outline first, then choose 383's own lead and organization
+from those facts. Do not carry over the source's distinctive sentence pairings
+or conditional phrasing through translation. Prefer fewer supported facts in an
+independent brief over a longer article following the source's structure.
+Check negative claims too: silence in the evidence does not establish that no
+agreement, deadline or further details were announced. Return only the requested
+article JSON, not the working outline.
 Keep plain public facts, numbers and dates, but do not closely translate the
 source headline or multiple sentences, synonym-swap its prose, copy its paragraph
 sequence or reproduce distinctive phrasing, imagery or private interviews.

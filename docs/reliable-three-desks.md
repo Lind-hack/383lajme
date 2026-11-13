@@ -188,3 +188,11 @@ bookkeeping only, with unchanged application build inputs. Standards, Spec and
 defect-first corrective reviews have no remaining actionable findings. Captured
 receipt replay at `23440647` made no model calls and published nothing. Actual
 post-release hourly observation and remaining Luna validations are still pending.
+
+The World composition contract explicitly restores the shared newsroom's
+fact-outline-first instruction and warning against unsupported negative claims.
+Repeated real originality rejections showed sentence-pair and conditional-frame
+translation as a remaining loss. This strengthens composition instructions without
+changing eligibility or approval gates. Its effect on first-pass acceptance and
+reader appeal still requires new Luna observations; prior runs do not validate
+the revised writing instruction.
