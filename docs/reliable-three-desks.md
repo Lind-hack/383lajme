@@ -231,3 +231,13 @@ The eight shared model slots, image verification, independent approvals and
 publication/readback safeguards remain unchanged. Functional concurrency tests
 do not establish Luna throughput or article quality; new live observations are
 still required for the revised scheduling.
+
+Known published source URLs are now removed before reader-interest ranking and
+photo evaluation, using the publication selector's canonical URL identity and
+the already-loaded recent publication history. Tracking, fragment, `www` and
+trailing-slash aliases cannot consume those model calls. A different source URL
+about the same person or topic still receives the existing event comparison.
+The full published-identity check and independent final context review remain
+in place. Source-review reports count these exclusions separately from completed
+Evals. Recovery loads existing checkpoints through a read-only path so deletion
+during loading cannot manufacture new pending work.

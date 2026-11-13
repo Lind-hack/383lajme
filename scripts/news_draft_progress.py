@@ -59,9 +59,9 @@ def prepared_unchanged(lead):
         return False
 
 class Progress:
-    def __init__(self, path, job):
+    def __init__(self, path, job, *, existing_only=False):
         self.path = Path(path)
-        if self.path.exists():
+        if existing_only or self.path.exists():
             self.data = json.loads(self.path.read_text(encoding='utf-8'))
             if self.data.get('policy') != POLICY or self.data['lead'] != job['lead']:
                 raise ValueError('pending work policy or prepared story changed')

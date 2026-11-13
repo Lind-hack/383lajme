@@ -38,6 +38,39 @@ def verdict(**values):
 
 
 class StoryReviewTests(unittest.TestCase):
+    def test_published_source_urls_do_not_consume_ranking_or_visual_calls(self):
+        from io import BytesIO
+        raw=BytesIO();Image.new('RGB',(600,400),'blue').save(raw,format='PNG')
+        cases=[('Showbiz','Consequence','consequence.net','Dua Lipa announces an album','Dua Lipa confirms a concert in Pristina'),
+               ('Ekonomi','Monitor','monitor.al','Kosovo approves a pension increase','Albania approves a wage increase'),
+               ('Botë','DW','dw.com','France announces a border agreement','Japan announces a new national park')]
+        for category,source,host,old_title,new_title in cases:
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as folder,patch('builtins.print'), \
+                    patch('news_image_policy.photo_payload',return_value=raw.getvalue()):
+                old=f'https://www.{host}/published/?utm_source=homepage#lead';new=f'https://{host}/new-development'
+                leads=[dict(url=url,title=title,source=source,category=category,published=NOW.isoformat()) for url,title in ((old,old_title),(new,new_title))]
+                evidence={lead['url']:dict(status='text_extracted',url=lead['url'],requested_url=lead['url'],title=lead['title'],
+                    published=NOW.isoformat(),fetched_at=NOW.isoformat(),image_url='https://images.example/photo.jpg',text=(lead['title']+'. ')*30) for lead in leads}
+                ranked=[];captured=[];reviewed=[]
+                def interest(items,category,deadline):
+                    ranked.extend(item['title'] for item in items)
+                    return [dict(n=item['n'],score=8,reason='A current supported public announcement.') for item in items]
+                def pixels(url,publisher,path,**kwargs):
+                    if url in evidence:
+                        captured.append(url)
+                        return dict(fake_capture(url,publisher,path,**kwargs),evidence=evidence[url])
+                    return fake_capture(url,publisher,path,**kwargs)
+                def reviewer(brief,image,deadline):
+                    payload=json.loads(Path(brief).read_text(encoding='utf-8'));reviewed.append(payload['url'])
+                    return verdict(published_event=dict(verdict='distinct',reason='This separate public decision establishes a different development.',source_span=payload['complete_article_text'].split('. ')[0]+'.'))
+                records,report=review_inventory(leads,evidence,[],folder,category=category,now=NOW,capturer=pixels,reviewer=reviewer,interest=interest,
+                    published_articles=[dict(id='old',url=f'https://{host}/published',category=category,title=old_title,body=old_title+'.',published_at=NOW.isoformat())])
+                self.assertEqual(ranked,[new_title])
+                self.assertEqual(captured,[new],records)
+                self.assertEqual(reviewed,[new])
+                self.assertEqual(set(records),{new})
+                self.assertEqual(report['summary']['excluded_published_urls'],1)
+
     def test_luna_visual_call_can_use_two_hundred_seconds_within_its_review_window(self):
         import io,os,subprocess,time
         from news_showbiz_batch_review import native_batch_review

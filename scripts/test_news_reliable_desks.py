@@ -573,20 +573,30 @@ class DraftResumeTests(unittest.TestCase):
         from news_approved_reserve import Reserve
         from news_draft_progress import Progress
         from news_json_state import atomic
-        script='''import sys,subprocess
+        script='''import sys,subprocess,json
 from pathlib import Path
 from unittest.mock import patch
 from news_json_state import atomic
 from news_world_story_worker import run
+checkpoint=Path(json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))['resume_path'])
+original_is_file=Path.is_file;original_read_text=Path.read_text
+def is_file(path):
+ result=original_is_file(path)
+ if sys.argv[3]=='race' and path==checkpoint:path.unlink(missing_ok=True)
+ return result
+def read_text(path,*args,**kwargs):
+ if sys.argv[3]=='race' and path==checkpoint:path.unlink(missing_ok=True)
+ return original_read_text(path,*args,**kwargs)
 def external(args,**kwargs):
  if 'scripts/news_model_response.py' in args:raise AssertionError('Saved draft was rewritten')
  if 'normalize' in args:atomic(Path(args[args.index('--file')+1]),[])
  return subprocess.CompletedProcess(args,0)
-with patch('subprocess.run',side_effect=external):run(sys.argv[1],sys.argv[2])
+with patch('subprocess.run',side_effect=external),patch.object(Path,'is_file',is_file),patch.object(Path,'read_text',read_text):run(sys.argv[1],sys.argv[2])
 '''
         for category in ('Showbiz','Ekonomi','Botë'):
-            for missing in (False,True):
-                with self.subTest(category=category,missing=missing),tempfile.TemporaryDirectory() as temp:
+            for mode in ('present','missing','race'):
+                missing=mode=='missing'
+                with self.subTest(category=category,mode=mode),tempfile.TemporaryDirectory() as temp:
                     root=Path(temp);work=root/'old/wave-1/parallel-0';now=datetime.now(timezone.utc);slot=now.strftime('%Y-%m-%dT%H')
                     lead=dict(url='https://example.com/saved',category=category,source='Publisher',published=now.isoformat())
                     checkpoint=work/'story-0.pending.json';batch=work/'draft-0'/(slot+'.json')
@@ -595,11 +605,11 @@ with patch('subprocess.run',side_effect=external):run(sys.argv[1],sys.argv[2])
                         progress=Progress(checkpoint,dict(lead=lead,data={},work=str(work),evidence_folder=str(work/'source-evidence'),index=0,slot=slot));progress.save('written',batch)
                     request=root/'request.json';response=root/'response.json';reserve=Reserve(root/'reserve',category)
                     atomic(request,dict(category=category,lead=lead,data={},work=str(work),evidence_folder=str(work/'source-evidence'),resume_path=str(checkpoint),reserve_root=str(reserve.path.parent),deadline=__import__('time').time()+3000,qa=True))
-                    result=subprocess.run([sys.executable,'-c',script,str(request),str(response)],cwd=Path(__file__).resolve().parent,
+                    result=subprocess.run([sys.executable,'-c',script,str(request),str(response),mode],cwd=Path(__file__).resolve().parent,
                         env=dict(os.environ,PYTHONPATH=str(Path(__file__).resolve().parent)),capture_output=True,text=True,encoding='utf-8',timeout=20)
                     self.assertEqual(result.returncode,0,result.stderr)
                     report=json.loads(response.read_text(encoding='utf-8'));self.assertEqual(report['entries'],[])
-                    if missing:
+                    if mode!='present':
                         self.assertFalse(checkpoint.exists())
                         self.assertIn('checkpoint',report['error'])
                     else:

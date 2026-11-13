@@ -272,6 +272,14 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
     pool = {}
     from news_economy_policy import review_queue as economy_queue
     from news_source_policy import topic_error
+    from codex_automation_support import _canonical_url
+    def source_identity(url):
+        try:
+            return _canonical_url(canonical(url))
+        except ValueError:
+            return ''
+    published_sources = {source_identity(row.get('url')) for row in published_articles} - {''}
+    published_exclusions=[]
     excluded=[]
     candidates=[];seen=set()
     for lead in leads:
@@ -279,6 +287,9 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
         identity=canonical(lead['url'])
         if identity in seen:continue
         seen.add(identity)
+        if source_identity(lead['url']) in published_sources:
+            published_exclusions.append(dict(url=lead['url'],source=lead['source'],title=lead.get('title'),reason='already_published_source_url'))
+            continue
         if category in {'Ekonomi','Botë'}:
             reason=topic_error(category,lead.get('title'),evidence_by_url.get(lead['url'],{}).get('text',''),tags=lead.get('tags',[]),url=lead['url'])
             if reason:
@@ -552,7 +563,8 @@ def review_inventory(leads, evidence_by_url, audits, folder, *, budget_seconds=3
     result = {'policy':review_policy(category),'category':category,'generated_at':now.isoformat(),'scope':f'all current readable {category} articles discovered in this collection; not the entire web',
               'publishers':[{**audit,'visual_homepage':homes.get(audit['source'],{})}
                             for audit in audits if audit.get('category')==category],
-              'excluded_off_topic':excluded,'held_low_reader_interest':fillers,'articles':list(records.values()),'summary':{
+              'excluded_off_topic':excluded,'excluded_published_urls':published_exclusions,'held_low_reader_interest':fillers,'articles':list(records.values()),'summary':{
+                  'excluded_published_urls':len(published_exclusions),
                   'review_retry_exhausted':sum(attempt_count(lead) >= 2 for lead in deferred) if attempts_path else 0,
                   'held_low_reader_interest':len(fillers),
                   'excluded_off_topic_articles':len(excluded),'registered_publishers':len(publishers),'discovered_readable_articles':len(pool),'deferred_articles':len(deferred),'review_batches_scheduled':batch_calls,

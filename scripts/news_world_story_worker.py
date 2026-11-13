@@ -30,9 +30,10 @@ def run(request, response):
         if job.get('resume_path'):
             from news_draft_progress import Progress
             checkpoint = Path(job['resume_path'])
-            if not checkpoint.is_file():
-                raise ValueError('pending checkpoint disappeared before worker start')
-            resume = Progress(checkpoint,job)
+            try:
+                resume = Progress(checkpoint,job,existing_only=True)
+            except FileNotFoundError as exc:
+                raise ValueError('pending checkpoint disappeared before worker start') from exc
             if not resume.valid():
                 raise ValueError('pending work expired or changed before worker start')
         for entry in port.write_ready([job['lead']], job['data'], work, 1,
