@@ -485,11 +485,12 @@ class RunRecoveryTests(unittest.TestCase):
 class PublicationBoundaryTests(unittest.TestCase):
     def test_replaced_remote_image_is_held_even_when_url_is_unchanged(self):
         import hashlib
-        from news_approved_reserve import verify_pixels
+        from news_approved_reserve import ImageVerificationFailed, verify_pixels
         article={'image_url':'https://images.example/hero.jpg','image_rights':{'sha256':hashlib.sha256(b'original pixels').hexdigest()}}
         verify_pixels(article,fetcher=lambda url:b'original pixels')
-        with self.assertRaisesRegex(ValueError,'pixels'):
+        with self.assertRaises(ImageVerificationFailed) as failure:
             verify_pixels(article,fetcher=lambda url:b'replaced pixels')
+        self.assertEqual(failure.exception.reason,'source_image_changed')
 
     def test_recovery_ownership_uses_run_slot_across_midnight(self):
         import tempfile
@@ -565,6 +566,61 @@ class InterruptedApprovalTests(unittest.TestCase):
                     self.assertEqual(reserve.available()[0]['article']['body'],'Independent prose')
 
 class DraftResumeTests(unittest.TestCase):
+    def test_saved_empty_draft_from_an_interrupted_run_is_closed_without_a_writer_call(self):
+        import json,subprocess,tempfile,time
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_draft_progress import Progress
+        from news_json_state import atomic
+        for category in ('Showbiz','Ekonomi','Botë'):
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as temp:
+                root=Path(temp);work=root/'run/wave-1';slot=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H')
+                lead=dict(url='https://example.com/rejected',source='Publisher',category=category,
+                    published=datetime.now(timezone.utc).isoformat())
+                progress=Progress(work/'story-0.pending.json',dict(lead=lead,data={},work=str(work),
+                    evidence_folder=str(work/'source-evidence'),index=0,slot=slot))
+                batch=work/'draft-0'/(slot+'.json');atomic(batch,[]);progress.save('written',batch)
+                def external(args,**kwargs):
+                    self.assertNotIn('scripts/news_model_response.py',args)
+                    return subprocess.CompletedProcess(args,0)
+                with patch('subprocess.run',side_effect=external):
+                    port=ProductionPort(category,Reserve(root/'reserve',category),root/'next',time.time()+3000,qa=True)
+                    self.assertEqual(list(port.resume_incomplete(5)),[])
+                self.assertTrue(json.loads(progress.path.read_text())['terminal'])
+
+    def test_empty_normalized_draft_is_terminal_and_does_not_block_alternatives(self):
+        import json,subprocess,tempfile,time
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        for category in ('Showbiz','Ekonomi','Botë'):
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as temp:
+                root=Path(temp);calls=[]
+                leads=[dict(url='https://example.com/'+name,source='Publisher',category=category,
+                    published=datetime.now(timezone.utc).isoformat()) for name in ('removed','alternative')]
+                def external(args,**kwargs):
+                    if 'scripts/news_model_response.py' in args:
+                        target=Path(args[args.index('--batch')+1]);calls.append(target)
+                        atomic(target,[dict(slug='candidate',title='A supported update',body='<p>Draft copy.</p>')])
+                    if 'normalize' in args:
+                        atomic(Path(args[args.index('--file')+1]),[])
+                    return subprocess.CompletedProcess(args,0)
+                reserve=Reserve(root/'reserve',category)
+                with patch('subprocess.run',side_effect=external):
+                    port=ProductionPort(category,reserve,root/'run',time.time()+3000,qa=True)
+                    self.assertEqual(list(port.write_ready(leads,{},root/'run/wave-1',2)),[])
+                self.assertEqual(len(calls),2)
+                self.assertIn('draft_validation_rejection',port.metrics['failure_reasons'])
+                self.assertTrue(all(json.loads(p.read_text())['terminal']
+                    for p in (root/'run/wave-1').glob('*.pending.json')))
+                with patch('subprocess.run',side_effect=AssertionError('Rejected draft resumed')):
+                    restarted=ProductionPort(category,reserve,root/'next',time.time()+3000,qa=True)
+                    self.assertEqual(list(restarted.resume_incomplete(5)),[])
+
     def test_final_retelling_is_reported_and_never_resumed_as_unfinished_work(self):
         import io,os,tempfile,time,json,subprocess
         from pathlib import Path

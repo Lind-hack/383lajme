@@ -589,10 +589,15 @@ class ProductionPort:
                             counts = self.metrics['drafts_by_publisher']
                             counts[lead['source']] = counts.get(lead['source'], 0) + 1
                     self.python('codex_automation_support.py', 'normalize', '--file', batch, seconds=60)
+                    rows = json.loads(batch.read_text(encoding='utf-8'))
+                    if not rows:
+                        self.metrics.setdefault('failure_reasons', []).append('draft_validation_rejection')
+                        progress.finish()
+                        break
                     if not progress.completed('prepared'):
                         progress.save('written', batch)
                     # Stop before the editor and both reviews are spent on an event already approved this run.
-                    if repeats_sibling(json.loads(batch.read_text(encoding='utf-8'))[0],
+                    if repeats_sibling(rows[0],
                                        [entry['article'] for entry in self.reserve.available()]):
                         print(f'383 STORY RELATED {lead["url"]}: compare the complete approved sibling in independent context review', flush=True)
                     if not progress.completed('prepared'):
