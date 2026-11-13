@@ -412,7 +412,6 @@ class ProductionPort:
             yield from self.write_ready(ready, data, work, remaining)
 
     def parallel_stories(self, ready, data, work):
-        from concurrent.futures import ThreadPoolExecutor, as_completed
         jobs = []
         for index, lead in enumerate(ready):
             request, response = work / f'worker-{index}.input.json', work / f'worker-{index}.result.json'
@@ -420,6 +419,10 @@ class ProductionPort:
                 evidence_folder=str(work / 'source-evidence'), reserve_root=str(self.reserve.path.parent),
                 deadline=self.deadline, qa=self.qa))
             jobs.append((request, response))
+        yield from self.parallel_jobs(jobs)
+
+    def parallel_jobs(self, jobs):
+        from concurrent.futures import ThreadPoolExecutor, as_completed
         def execute(request, response):
             error = None
             try:
@@ -471,13 +474,16 @@ class ProductionPort:
         return '; '.join(errors)[:4000]
 
     def resume_incomplete(self, remaining):
-        from news_draft_progress import Progress, prepared_unchanged
-        recovered = 0
+        from news_draft_progress import Progress, STAGES, prepared_unchanged
+        pending = []
         paths = sorted(self.root.parent.glob('*/wave-*/**/story-*.pending.json'))
         known_urls = set()
+        stage_order = {}
         for path in paths:
             try:
-                known_urls.add(json.loads(path.read_text(encoding='utf-8'))['lead']['url'])
+                job = json.loads(path.read_text(encoding='utf-8'))
+                known_urls.add(job['lead']['url'])
+                stage_order[path] = -STAGES.index(job.get('stage','new'))
             except (OSError, ValueError, KeyError):
                 pass
         # A collector can be killed after saving readiness but before any worker starts.
@@ -497,12 +503,15 @@ class ProductionPort:
                     known_urls.add(lead['url'])
             except (OSError, ValueError, KeyError, TypeError):
                 continue
-        for path in paths:
-            if recovered >= remaining or self.quota_hit() or time.time() >= self.deadline:
+        # Finish the least remaining review work first, rather than spending
+        # the hour composing older preparations before ready reviews finish.
+        for path in sorted(paths,key=lambda path:(stage_order.get(path,0),str(path))):
+            if len(pending) >= remaining or self.quota_hit() or time.time() >= self.deadline:
                 break
             try:
                 job = json.loads(path.read_text(encoding='utf-8'))
-                if job['lead']['category'] != self.category:
+                if (job['lead']['category'] != self.category
+                        or job['lead']['url'] in self.attempted_recoveries):
                     continue
                 progress = Progress(path, job)
                 if not progress.valid():
@@ -529,12 +538,23 @@ class ProductionPort:
                         continue
                 self.attempted_recoveries.add(job['lead']['url'])
                 self.metrics['resumed_drafts'] = self.metrics.get('resumed_drafts', 0) + 1
-                for entry in self.write_ready([job['lead']], job['data'], Path(job['work']), 1,
-                        evidence_folder=Path(job['evidence_folder']), resume=progress):
-                    recovered += 1
-                    yield entry
+                pending.append((path,job,progress))
             except (OSError, ValueError, KeyError, TypeError) as exc:
                 print('383 PENDING WORK held: '+str(exc), flush=True)
+        if len(pending) == 1:
+            _,job,progress = pending[0]
+            yield from self.write_ready([job['lead']], job['data'], Path(job['work']), 1,
+                    evidence_folder=Path(job['evidence_folder']), resume=progress)
+        elif pending:
+            work = self.root/'recovery'
+            jobs = []
+            for index,(path,job,_) in enumerate(pending):
+                request,response = work/f'worker-{index}.input.json',work/f'worker-{index}.result.json'
+                atomic(request,dict(category=self.category,lead=job['lead'],data=job['data'],work=job['work'],
+                    evidence_folder=job['evidence_folder'],resume_path=str(path.resolve()),
+                    reserve_root=str(self.reserve.path.parent),deadline=self.deadline,qa=self.qa))
+                jobs.append((request,response))
+            yield from self.parallel_jobs(jobs)
 
     def write_ready(self, ready, data, work, remaining, *, evidence_folder=None, resume=None):
         # Persist and finish each story independently. A later failed composer

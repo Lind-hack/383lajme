@@ -211,3 +211,23 @@ If that publisher has no different eligible topic, its best candidate fills the
 turn immediately. Every skipped alternative remains in the queue. This addresses
 the observed first-wave concentration on a few already-covered topics; its effect
 on confirmed hourly output remains to be measured.
+
+### Scheduled observations and remaining recovery scheduling
+
+Database readback for release `578ff06a` confirmed World/Showbiz/Economy counts
+of `1/2/3`, `1/0/1` and `2/1/2` in the 16:00, 17:00 and 18:00 UTC runs on
+13 November. These are thirteen publications, not achievement of the volume
+goal. The last run was interrupted by host disk exhaustion; its running outcome
+files are incomplete. Earlier shortfalls included writing/review timeouts and
+serial recovery consuming the discovery window. Preserve that distinction when
+assessing the conditional minimum.
+
+Recovery now prioritizes completed review stages, deduplicates pending source
+URLs, and queues up to the remaining target through at most three isolated
+workers. Each worker reopens the original valid checkpoint, retaining its slot,
+index, rewrite attempt and completed stages. A missing checkpoint cannot be
+recreated as new work. Single-story recovery retains its existing direct path.
+The eight shared model slots, image verification, independent approvals and
+publication/readback safeguards remain unchanged. Functional concurrency tests
+do not establish Luna throughput or article quality; new live observations are
+still required for the revised scheduling.

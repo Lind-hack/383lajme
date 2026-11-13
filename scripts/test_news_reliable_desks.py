@@ -566,6 +566,102 @@ class InterruptedApprovalTests(unittest.TestCase):
                     self.assertEqual(reserve.available()[0]['article']['body'],'Independent prose')
 
 class DraftResumeTests(unittest.TestCase):
+    def test_isolated_recovery_worker_uses_the_original_checkpoint_and_never_recreates_a_missing_one(self):
+        import json,os,subprocess,sys,tempfile
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_approved_reserve import Reserve
+        from news_draft_progress import Progress
+        from news_json_state import atomic
+        script='''import sys,subprocess
+from pathlib import Path
+from unittest.mock import patch
+from news_json_state import atomic
+from news_world_story_worker import run
+def external(args,**kwargs):
+ if 'scripts/news_model_response.py' in args:raise AssertionError('Saved draft was rewritten')
+ if 'normalize' in args:atomic(Path(args[args.index('--file')+1]),[])
+ return subprocess.CompletedProcess(args,0)
+with patch('subprocess.run',side_effect=external):run(sys.argv[1],sys.argv[2])
+'''
+        for category in ('Showbiz','Ekonomi','Botë'):
+            for missing in (False,True):
+                with self.subTest(category=category,missing=missing),tempfile.TemporaryDirectory() as temp:
+                    root=Path(temp);work=root/'old/wave-1/parallel-0';now=datetime.now(timezone.utc);slot=now.strftime('%Y-%m-%dT%H')
+                    lead=dict(url='https://example.com/saved',category=category,source='Publisher',published=now.isoformat())
+                    checkpoint=work/'story-0.pending.json';batch=work/'draft-0'/(slot+'.json')
+                    atomic(batch,[dict(lead,slug='saved',title='Saved draft',body='<p>Supported copy.</p>')])
+                    if not missing:
+                        progress=Progress(checkpoint,dict(lead=lead,data={},work=str(work),evidence_folder=str(work/'source-evidence'),index=0,slot=slot));progress.save('written',batch)
+                    request=root/'request.json';response=root/'response.json';reserve=Reserve(root/'reserve',category)
+                    atomic(request,dict(category=category,lead=lead,data={},work=str(work),evidence_folder=str(work/'source-evidence'),resume_path=str(checkpoint),reserve_root=str(reserve.path.parent),deadline=__import__('time').time()+3000,qa=True))
+                    result=subprocess.run([sys.executable,'-c',script,str(request),str(response)],cwd=Path(__file__).resolve().parent,
+                        env=dict(os.environ,PYTHONPATH=str(Path(__file__).resolve().parent)),capture_output=True,text=True,encoding='utf-8',timeout=20)
+                    self.assertEqual(result.returncode,0,result.stderr)
+                    report=json.loads(response.read_text(encoding='utf-8'));self.assertEqual(report['entries'],[])
+                    if missing:
+                        self.assertFalse(checkpoint.exists())
+                        self.assertIn('checkpoint',report['error'])
+                    else:
+                        self.assertTrue(json.loads(checkpoint.read_text(encoding='utf-8'))['terminal'])
+                        self.assertEqual(report['metrics']['saved_drafts'],0)
+
+    def test_three_pending_stories_resume_concurrently_without_rewriting_saved_copy(self):
+        self.exercise_concurrent_recovery()
+
+    def test_duplicate_pending_paths_do_not_consume_two_recovery_workers(self):
+        self.exercise_concurrent_recovery(duplicate=True)
+
+    def test_recovery_prioritizes_completed_reviews_over_unfinished_writing(self):
+        self.exercise_concurrent_recovery(nearly_done=True)
+
+    def test_recovery_keeps_a_fourth_eligible_checkpoint_within_the_target(self):
+        self.exercise_concurrent_recovery(four=True)
+
+    def exercise_concurrent_recovery(self,duplicate=False,nearly_done=False,four=False):
+        import json,subprocess,tempfile,time,threading
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_draft_progress import Progress
+        from news_json_state import atomic
+        for category in ('Showbiz','Ekonomi','Botë'):
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as temp:
+                root=Path(temp);now=datetime.now(timezone.utc);barrier=threading.Barrier(3);lock=threading.Lock()
+                active=0;maximum=0;started=0;requests=[];batches=[]
+                for index in range(4 if duplicate or nearly_done or four else 3):
+                    work=root/'old/wave-1'/('parallel-0-copy' if index==3 and duplicate else 'z-near-complete' if index==3 else f'parallel-{index}')
+                    lead=dict(url=f'https://example.com/ready-{0 if index==3 and duplicate else index}',category=category,source='Publisher',published=now.isoformat())
+                    slot=now.strftime('%Y-%m-%dT%H');progress=Progress(work/'story-0.pending.json',dict(lead=lead,data={},work=str(work),evidence_folder=str(work/'source-evidence'),index=0,slot=slot))
+                    batch=work/'draft-0'/(slot+'.json');atomic(batch,[dict(lead,slug=f'saved-{index}',title='Saved independent copy',body='<p>Supported draft.</p>')]);progress.save('originality' if index==3 and nearly_done else 'written',batch)
+                    batches.append((batch,batch.read_bytes()))
+                def external(args,**kwargs):
+                    nonlocal active,maximum,started
+                    self.assertNotIn('scripts/news_model_response.py',args)
+                    worker='scripts/news_world_story_worker.py' in args
+                    if worker or 'scripts/run-news-editor-parallel.sh' in args:
+                        with lock:active+=1;maximum=max(maximum,active);started+=1;turn=started
+                        try:
+                            if turn<=3:barrier.wait(timeout=3 if worker else .1)
+                        except threading.BrokenBarrierError:raise RuntimeError('Pending stories ran serially')
+                        finally:
+                            with lock:active-=1
+                    if worker:
+                        index=args.index('scripts/news_world_story_worker.py');request=Path(args[index+1]);response=Path(args[index+2]);job=json.loads(request.read_text(encoding='utf-8'));requests.append(job)
+                        atomic(response,dict(entries=[],metrics={},error=None))
+                    return subprocess.CompletedProcess(args,0)
+                with patch('subprocess.run',side_effect=external):
+                    port=ProductionPort(category,Reserve(root/'reserve',category),root/'next',time.time()+3000,qa=True)
+                    self.assertEqual(list(port.resume_incomplete(5 if four else 3)),[])
+                self.assertEqual(maximum,3)
+                self.assertEqual(len(requests),4 if four else 3)
+                self.assertEqual(len({job['lead']['url'] for job in requests}),4 if four else 3)
+                if nearly_done:self.assertIn('https://example.com/ready-3',{job['lead']['url'] for job in requests})
+                self.assertTrue(all(Path(job['resume_path']).is_file() for job in requests))
+                self.assertEqual(port.metrics['resumed_drafts'],4 if four else 3)
+                for batch,original in batches:self.assertEqual(batch.read_bytes(),original)
+
     def test_editor_cannot_chain_created_spans_or_overlap_original_corrections(self):
         import json,subprocess,tempfile,time
         from pathlib import Path
