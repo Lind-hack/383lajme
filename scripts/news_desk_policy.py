@@ -65,11 +65,33 @@ def select_candidates(leads, evidence=None, *, limit=5, now=None):
                 -lead.get('reader_interest', 0),
                 -focus(lead)['priority'], freshness_bucket(lead, now),
                 -homepage_weight(lead, now), -reader_value(lead)['score'], lead['url'])
-    def rotate(groups):
+    def rotate(groups, *, breadth=False):
         queues = {source: deque(sorted(rows, key=order)) for source, rows in groups.items()}
         sources = sorted(queues, key=lambda source: order(queues[source][0]))
-        return [queues[source].popleft() for _ in range(max(map(len, queues.values()), default=0))
-                for source in sources if queues[source]]
+        chosen, attention_topics = [], []
+        from cloud_news_discovery import topic_terms
+        def topic_seen(row):
+            terms={word for word in topic_terms(row) if not word.isdigit()}
+            for prior in attention_topics:
+                shared=len(terms & prior)
+                if shared >= 3 and shared / max(1,min(len(terms),len(prior))) >= .4:
+                    return True
+            return False
+        for _ in range(max(map(len, queues.values()), default=0)):
+            for source in sources:
+                queue=queues[source]
+                if not queue:continue
+                index=0
+                if breadth and len(chosen)<12:
+                    # Attention breadth, never an event/retelling decision.
+                    # Keep this publisher's turn; fall back immediately when
+                    # it has no unrelated eligible headline to offer.
+                    index=next((i for i,row in enumerate(queue) if not topic_seen(row)),0)
+                lead=queue[index];del queue[index]
+                chosen.append(lead)
+                if breadth and len(chosen)<=12:
+                    attention_topics.append({word for word in topic_terms(lead) if not word.isdigit()})
+        return chosen
     local, foreign = rotate(pools[True]), rotate(pools[False])
     if leads and all(lead.get('category') == 'Botë' for lead in leads):
         # Regional relevance is a ranking preference, never a three-slot quota.
@@ -79,7 +101,7 @@ def select_candidates(leads, evidence=None, *, limit=5, now=None):
             source = lead.get('source', '')
             groups[(source, taken[source] % WIRE_TURNS.get(source, 1))].append(lead)
             taken[source] += 1
-        rotated = rotate(groups)
+        rotated = rotate(groups,breadth=True)
         from cloud_news_discovery import event_coverage
         coverage = event_coverage(rotated)
         representatives, alternatives, covered = [], [], set()

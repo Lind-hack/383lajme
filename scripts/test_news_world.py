@@ -2,6 +2,21 @@
 import unittest
 
 class WorldRankingTests(unittest.TestCase):
+    def test_review_attention_broadens_topics_without_taking_another_publishers_turn(self):
+        from news_desk_policy import select_candidates
+        from datetime import datetime,timezone
+        now=datetime.now(timezone.utc)
+        rows=[dict(url=url,source=source,category='Botë',title=title,published=now.isoformat(),reader_interest=score)
+              for url,source,title,score in (
+                  ('https://www.bbc.com/news/peace','BBC World','EU leaders debate Ukraine peace talks and representation',5),
+                  ('https://www.dw.com/en/conditions','DW','Putin rejects Ukraine ceasefire conditions during peace talks',5),
+                  ('https://www.dw.com/en/earthquake','DW','Earthquake forces coastal evacuations in Peru',3))]
+        result=select_candidates(rows,limit=3,now=now)
+        self.assertEqual([row['source'] for row in result[:2]],['BBC World','DW'])
+        self.assertEqual(result[1]['url'],rows[2]['url'])
+        self.assertEqual({row['url'] for row in result},{row['url'] for row in rows})
+        self.assertEqual(result[-1]['reader_interest'],5)
+
     def test_known_cross_publisher_event_alternative_waits_behind_another_event(self):
         from news_desk_policy import select_candidates
         from datetime import datetime,timezone

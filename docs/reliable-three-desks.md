@@ -196,3 +196,12 @@ translation as a remaining loss. This strengthens composition instructions witho
 changing eligibility or approval gates. Its effect on first-pass acceptance and
 reader appeal still requires new Luna observations; prior runs do not validate
 the revised writing instruction.
+
+World review attention also prefers a broader headline topic within each
+publisher's existing turn during the first twelve choices. Three shared meaningful
+headline terms with substantial overlap are an attention heuristic only: no
+retelling label, score change, eligibility loss or publication quota follows.
+If that publisher has no different eligible topic, its best candidate fills the
+turn immediately. Every skipped alternative remains in the queue. This addresses
+the observed first-wave concentration on a few already-covered topics; its effect
+on confirmed hourly output remains to be measured.
