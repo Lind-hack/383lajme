@@ -87,7 +87,7 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
             reserve.confirm(entry)
             return
         from news_image_policy import duplicate_photo_pairs
-        if duplicate_photo_pairs(published + [entry['article']]):
+        if duplicate_photo_pairs(published + qa_articles + [entry['article']]):
             reasons.append('duplicate_image_this_run')
             return
         related_sibling = repeats_sibling(entry['article'], published + qa_articles)

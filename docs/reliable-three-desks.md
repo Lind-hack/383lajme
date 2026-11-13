@@ -58,6 +58,8 @@ Quota stops new model work and still finalizes completed approved deliveries.
 Preparation receipts bind their original readiness timestamp as well as files.
 Recovery carries that timestamp into pending work, never a new recovery clock;
 legacy readiness without a reliable timestamp waits for fresh preparation.
+Dry-run delivery also applies the same within-run duplicate-photo check to
+earlier QA-approved articles; repeated photos must not inflate validation counts.
 
 The visual attempt ledger belongs to the hourly run, saves dispatch before the
 model call, permits two attempts, rotates fresh alternatives first and allows

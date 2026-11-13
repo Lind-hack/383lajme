@@ -345,6 +345,26 @@ class PhotoCacheTests(unittest.TestCase):
             self.assertIsNone(cache.get(dict(context,text='A different event')))
 
 class RunRecoveryTests(unittest.TestCase):
+    def test_dry_run_does_not_count_two_articles_using_the_same_photo(self):
+        import tempfile
+        from pathlib import Path
+        from news_reliable_desks import run_category
+        entries=[dict(article=dict(url='https://example.com/'+slug,slug=slug,title=title,
+                                   image_url='https://images.example.com/same.jpg'))
+                 for slug,title in [('concert','Dua Lipa announces concert dates'),('film','Rita Ora premieres comedy movie')]]
+        class Store:
+            def available(self):return entries
+            def confirm(self,entry):raise AssertionError('Dry run consumed an approval')
+        class Port:
+            qa=True
+            def quota_hit(self):return True
+            def publish(self,entry):return dict(batch='qa.json',articles=[],dry_run=True)
+        with tempfile.TemporaryDirectory() as root:
+            result=run_category(Port(),Store(),Path(root)/'outcome.json','Showbiz')
+        self.assertEqual(result['qa_approved'],1)
+        self.assertIn('duplicate_image_this_run',result['shortfall_reasons'])
+        self.assertEqual(result['published_count'],0)
+
     def test_source_outage_is_a_failure_instead_of_no_eligible_news(self):
         import tempfile
         from pathlib import Path
