@@ -566,6 +566,102 @@ class InterruptedApprovalTests(unittest.TestCase):
                     self.assertEqual(reserve.available()[0]['article']['body'],'Independent prose')
 
 class DraftResumeTests(unittest.TestCase):
+    def test_recovery_checks_fresh_image_bytes_before_resuming_a_saved_draft(self):
+        import hashlib,json,socket,subprocess,tempfile,time
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_draft_progress import Progress
+        from news_visual_contact import POLICY
+        from news_json_state import atomic
+        import news_image_policy
+        for category in ('Showbiz','Ekonomi','Botë'):
+            for unchanged in (False,True):
+                with self.subTest(category=category,unchanged=unchanged),tempfile.TemporaryDirectory() as temp:
+                    root=Path(temp);work=root/'run/wave-1';now=datetime.now(timezone.utc);calls=[]
+                    fingerprint=hashlib.sha256(b'current image').hexdigest()
+                    lead=dict(url='https://example.com/ready',category=category,source='Publisher',published=now.isoformat(),
+                        image_url='https://images.example/hero.jpg',image_rights=dict(sha256=fingerprint,
+                            verified_at=now.isoformat(),visual_review=dict(policy=POLICY,provider='openai-codex',
+                                model='gpt-6-luna',effort='max',image_sha256=fingerprint,
+                                contact_sheet_sha256='b'*64,reviewed_at=now.isoformat())))
+                    catalogue=root/'catalogue.json';atomic(catalogue,{lead['url']:{k:v for k,v in lead.items() if k.startswith('image_')}})
+                    slot=now.strftime('%Y-%m-%dT%H');progress=Progress(work/'story-0.pending.json',dict(lead=lead,data={},work=str(work),
+                        evidence_folder=str(work/'source-evidence'),index=0,slot=slot))
+                    batch=work/'draft-0'/(slot+'.json');atomic(batch,[dict(lead,slug='saved',title='Saved draft',body='<p>Supported copy.</p>')]);progress.save('written',batch)
+                    def external(args,**kwargs):
+                        self.assertNotIn('scripts/news_model_response.py',args)
+                        calls.append(args)
+                        if 'scripts/prepare_editor_sources.py' in args:atomic(batch.with_suffix('.editor-sources.json'),[])
+                        if 'scripts/run-news-editor-parallel.sh' in args:raise subprocess.TimeoutExpired(args,600)
+                        return subprocess.CompletedProcess(args,0)
+                    with patch.object(news_image_policy,'CATALOG',catalogue),patch('subprocess.run',side_effect=external), \
+                            patch('socket.getaddrinfo',return_value=[(socket.AF_INET,socket.SOCK_STREAM,6,'',('93.184.216.34',443))]), \
+                            patch('urllib3.HTTPSConnectionPool') as pool:
+                        response=pool.return_value.urlopen.return_value;response.status=200
+                        response.read.return_value=b'current image' if unchanged else b'replaced image'
+                        port=ProductionPort(category,Reserve(root/'reserve',category),root/'next',time.time()+3000,qa=True)
+                        self.assertEqual(list(port.resume_incomplete(5)),[])
+                    self.assertEqual(bool(calls),unchanged)
+                    if not unchanged:
+                        self.assertIn('source_image_changed',port.metrics['failure_reasons'])
+                        self.assertNotIn(lead['url'],port.attempted_recoveries)
+                    self.assertEqual(json.loads(catalogue.read_text())[lead['url']]['image_rights']['sha256'],fingerprint)
+
+    def test_missing_prepared_photo_catalogue_returns_to_fresh_preparation_before_writing(self):
+        import tempfile,time
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_draft_progress import Progress
+        from news_visual_contact import POLICY
+        import news_image_policy
+        for category in ('Showbiz','Ekonomi','Botë'):
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as temp:
+                root=Path(temp);work=root/'run/wave-1';now=datetime.now(timezone.utc)
+                lead=dict(url='https://example.com/ready',category=category,source='Publisher',published=now.isoformat(),
+                    image_url='https://images.example/hero.jpg',image_rights=dict(sha256='a'*64,
+                        verified_at=now.isoformat(),visual_review=dict(policy=POLICY,
+                            provider='openai-codex',model='gpt-6-luna',effort='max',image_sha256='a'*64,
+                            contact_sheet_sha256='b'*64,reviewed_at=now.isoformat())))
+                progress=Progress(work/'story-0.pending.json',dict(lead=lead,data={},work=str(work),
+                    evidence_folder=str(work/'source-evidence'),index=0,slot=now.strftime('%Y-%m-%dT%H')))
+                port=ProductionPort(category,Reserve(root/'reserve',category),root/'next',time.time()+3000,qa=True)
+                with patch.object(news_image_policy,'CATALOG',root/'missing.json'), \
+                        patch('subprocess.run',side_effect=AssertionError('Missing photo catalogue reached writer')) as transport:
+                    self.assertEqual(list(port.resume_incomplete(5)),[])
+                transport.assert_not_called()
+                self.assertIn('image_verification_unavailable',port.metrics['failure_reasons'])
+                self.assertNotIn(lead['url'],port.attempted_recoveries)
+                self.assertFalse(progress.data['terminal'])
+
+    def test_expired_prepared_photo_does_not_spend_another_writer_call(self):
+        import tempfile,time
+        from pathlib import Path
+        from datetime import datetime,timezone,timedelta
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_draft_progress import Progress
+        from news_visual_contact import POLICY
+        for category in ('Showbiz','Ekonomi','Botë'):
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as temp:
+                root=Path(temp);work=root/'run/wave-1';now=datetime.now(timezone.utc)
+                lead=dict(url='https://example.com/ready',category=category,source='Publisher',published=now.isoformat(),
+                    image_url='https://images.example/hero.jpg',image_rights=dict(sha256='a'*64,
+                        verified_at=(now-timedelta(hours=2)).isoformat(),visual_review=dict(policy=POLICY,
+                            provider='openai-codex',model='gpt-6-luna',effort='max',image_sha256='a'*64,
+                            contact_sheet_sha256='b'*64,reviewed_at=(now-timedelta(hours=2)).isoformat())))
+                Progress(work/'story-0.pending.json',dict(lead=lead,data={},work=str(work),
+                    evidence_folder=str(work/'source-evidence'),index=0,slot=now.strftime('%Y-%m-%dT%H')))
+                port=ProductionPort(category,Reserve(root/'reserve',category),root/'next',time.time()+3000,qa=True)
+                with patch('subprocess.run',side_effect=AssertionError('Expired image reached writer')) as transport:
+                    self.assertEqual(list(port.resume_incomplete(5)),[])
+                transport.assert_not_called()
+                self.assertIn('image_verification_expired',port.metrics['failure_reasons'])
+                self.assertNotIn(lead['url'],port.attempted_recoveries)
+
     def test_saved_empty_draft_from_an_interrupted_run_is_closed_without_a_writer_call(self):
         import json,subprocess,tempfile,time
         from pathlib import Path

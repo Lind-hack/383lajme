@@ -214,7 +214,7 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
     reasons.extend(getattr(port, 'metrics', {}).get('failure_reasons', []))
     pipeline_failures = {'preparation_or_writing_failed','review_incomplete','review_retry_exhausted','deadline',
                          'publication_unavailable','context_review_unavailable','incomplete_work_recovery_failed',
-                         'image_verification_unavailable','source_image_changed','source_extraction_policy_stale','source_access'}
+                         'image_verification_unavailable','image_verification_expired','source_image_changed','source_extraction_policy_stale','source_access'}
     status = ('qa_complete' if getattr(port, 'qa', False) else 'complete' if published else
               'model_quota' if port.quota_hit() else 'failed' if pipeline_failures.intersection(reasons) else 'no_news')
     result.update(status=status, stage='model-quota' if status == 'model_quota' else 'complete',
@@ -507,6 +507,26 @@ class ProductionPort:
                 progress = Progress(path, job)
                 if not progress.valid():
                     continue
+                rights = job['lead'].get('image_rights')
+                if rights:
+                    from news_visual_contact import valid_record
+                    from news_approved_reserve import source_age
+                    if (not valid_record(rights) or not
+                            0 <= source_age(rights.get('verified_at'),datetime.now(timezone.utc)) <= 3600):
+                        self.metrics.setdefault('failure_reasons', []).append('image_verification_expired')
+                        continue
+                    from news_image_policy import trusted_photo
+                    photo = {key:value for key,value in job['lead'].items()
+                             if key.startswith('image_') or key == 'video_clip_url'}
+                    if trusted_photo(job['lead']) != photo:
+                        self.metrics.setdefault('failure_reasons', []).append('image_verification_unavailable')
+                        continue
+                    from news_approved_reserve import verify_pixels
+                    try:
+                        verify_pixels(job['lead'])
+                    except ImageVerificationFailed as exc:
+                        self.metrics.setdefault('failure_reasons', []).append(exc.reason)
+                        continue
                 self.attempted_recoveries.add(job['lead']['url'])
                 self.metrics['resumed_drafts'] = self.metrics.get('resumed_drafts', 0) + 1
                 for entry in self.write_ready([job['lead']], job['data'], Path(job['work']), 1,
