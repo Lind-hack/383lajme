@@ -114,6 +114,72 @@ class ReserveTests(unittest.TestCase):
             stored('2026-11-09T12:15:46')
 
 class ParallelDeskTests(unittest.TestCase):
+    def test_fresh_target_queue_starts_a_fourth_story_before_slow_siblings_finish(self):
+        self.exercise_fresh_target_queue()
+
+    def test_fresh_queue_retains_exact_photo_catalogue_records_from_both_preparation_chunks(self):
+        self.exercise_fresh_target_queue(photo_catalog=True)
+
+    def test_failed_second_preparation_does_not_erase_the_first_chunks_photo_records_or_jobs(self):
+        self.exercise_fresh_target_queue(photo_catalog=True,fail_second=True)
+
+    def exercise_fresh_target_queue(self,photo_catalog=False,fail_second=False):
+        import json,subprocess,tempfile,threading,time
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_json_state import atomic
+        from news_image_policy import trusted_photo
+        for category in ('Showbiz','Ekonomi','Botë'):
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as temp:
+                root=Path(temp);barrier=threading.Barrier(3);fourth=threading.Event();lock=threading.Lock()
+                active=0;maximum=0;prepared=[];started=[]
+                host,title={'Showbiz':('https://nme.com/news/music/','Artist announces a new album'),
+                            'Ekonomi':('https://ekonomiaonline.com/','Banka ul normën e interesit'),
+                            'Botë':('https://www.bbc.com/news/articles/','European leaders announce peace talks')}[category]
+                leads=[dict(url=host+str(i),category=category,source=f'Publisher {i}',title=title,published=datetime.now(timezone.utc).isoformat()) for i in range(5)]
+                if photo_catalog:
+                    for i,lead in enumerate(leads):
+                        lead.update(image_url=f'https://images.example/{i}.jpg',image_rights=dict(verified_at=datetime.now(timezone.utc).isoformat(),sha256=str(i)*64))
+                catalog=root/'photos.json'
+                port=ProductionPort(category,Reserve(root/'reserve',category),root/'run',time.time()+3000,qa=True)
+                port.data=dict(leads=leads,retrieved_evidence={})
+                selected=port.collect(set());self.assertEqual(len(selected),5)
+                def external(args,**kwargs):
+                    nonlocal active,maximum
+                    if 'scripts/prepare_editor_sources.py' in args:
+                        selection=Path(args[args.index('scripts/prepare_editor_sources.py')+1]).with_suffix('.json')
+                        data=json.loads(selection.read_text());prepared.append(len(data['leads']))
+                        self.assertLessEqual(len(data['leads']),3)
+                        if fail_second and len(prepared)==2:
+                            atomic(catalog,{})
+                            atomic(selection,dict(data,ready_leads=[]))
+                            raise subprocess.TimeoutExpired(args,480)
+                        if photo_catalog:atomic(catalog,{lead['url']:{k:v for k,v in lead.items() if k.startswith('image_')} for lead in data['leads']})
+                        atomic(selection,dict(data,ready_leads=data['leads']))
+                    elif 'scripts/news_world_story_worker.py' in args:
+                        index=args.index('scripts/news_world_story_worker.py');job=json.loads(Path(args[index+1]).read_text())
+                        with lock:
+                            number=len(started);started.append(job);active+=1;maximum=max(maximum,active)
+                        try:
+                            if number<3:
+                                barrier.wait(timeout=5)
+                                if number and not fail_second:self.assertTrue(fourth.wait(5),'Freed worker did not start the fourth story')
+                            else:fourth.set()
+                            self.assertIn(job['lead'],job['data']['ready_leads'])
+                            if photo_catalog:self.assertEqual(trusted_photo(job['lead']),{k:v for k,v in job['lead'].items() if k.startswith('image_')})
+                            self.assertEqual(Path(job['evidence_folder']).parent,Path(job['work']).parent)
+                            atomic(args[index+2],dict(entries=[dict(article=job['lead'])],metrics=dict(saved_drafts=1,approvals=1)))
+                        finally:
+                            with lock:active-=1
+                    else:raise AssertionError('Unexpected external stage')
+                    return subprocess.CompletedProcess(args,0)
+                with patch('subprocess.run',side_effect=external),patch.object(port.reserve,'valid',return_value=True),patch('news_image_policy.CATALOG',catalog):
+                    entries=list(port.produce(selected,5))
+                self.assertEqual(prepared,[3,2]);self.assertEqual(len(entries),3 if fail_second else 5)
+                self.assertEqual(len(started),3 if fail_second else 5);self.assertLessEqual(maximum,3)
+
     def test_showbiz_and_economy_write_their_ready_stories_side_by_side(self):
         # One Luna story takes about ten minutes; one after another gave a desk one story an hour.
         import json, tempfile, threading
@@ -1187,7 +1253,7 @@ class PreparationRecoveryTests(unittest.TestCase):
                         raise subprocess.TimeoutExpired(args,480)
                     raise RuntimeError('writer temporarily unavailable')
                 with patch('subprocess.run',side_effect=external),patch('builtins.print'):
-                    self.assertEqual(list(port.produce([],5)),[])
+                    self.assertEqual(list(port.produce([dict(url='https://example.com/update',source='Publisher',category=category)],5)),[])
                 self.assertEqual(port.metrics['writer_ready'],1)
                 self.assertTrue(any('scripts/news_writer_brief.py' in args for args in calls))
                 self.assertIn('partial_preparation_recovered',port.metrics['failure_reasons'])
@@ -1314,7 +1380,7 @@ class EditorRejectionTests(unittest.TestCase):
                         target=Path(args[args.index('--batch')+1]);batch.append(target);atomic(target,[dict(url='https://www.cnbc.com/2026/11/09/test.html')])
                     else:atomic(batch[0],[])
                 with patch.object(port,'python',side_effect=python),patch.object(port,'command',side_effect=command):
-                    self.assertEqual(list(port.produce([],5)),[])
+                    self.assertEqual(list(port.produce([dict(url='https://www.cnbc.com/2026/11/09/test.html',source='CNBC')],5)),[])
                 self.assertNotIn('editor_completion.py',calls,category)
                 self.assertEqual(port.metrics['failure_reasons'],['review_rejection'],category)
 
@@ -1357,7 +1423,7 @@ class RefusedDraftTests(unittest.TestCase):
                     patch('news_context_review.review'),patch('news_context_review.verify'), \
                     patch('news_copyright_review.validate_for_publication'), \
                     patch.object(port.reserve,'store',side_effect=lambda article,*a,**k:dict(article=article)):
-                entries=list(port.produce([],5))
+                entries=list(port.produce([dict(url=self.URL,source='CNBC')],5))
             return entries,prompts,port.metrics,feedback
 
     def test_a_refused_draft_is_composed_once_more_with_the_named_defect(self):
@@ -1394,7 +1460,7 @@ class RefusedDraftTests(unittest.TestCase):
             def command(args,**kwargs):
                 raise RuntimeError('news_model_response.py: exit 3')
             with patch.object(port,'python',side_effect=python),patch.object(port,'command',side_effect=command):
-                self.assertEqual(list(port.produce([],5)),[])
+                self.assertEqual(list(port.produce([dict(url=self.URL,source='CNBC')],5)),[])
             self.assertEqual(port.metrics['failure_reasons'],['writer_declined'])
 
     def test_an_approved_draft_is_not_rewritten(self):

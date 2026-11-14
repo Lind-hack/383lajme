@@ -183,6 +183,7 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
             break
         try:
             leads = port.collect(attempted)
+            leads = leads[:TARGET-len(published)-result.get('qa_approved',0)]
             if not leads:
                 metrics = getattr(port, 'metrics', {})
                 pending = metrics.get('visual_review', {}).get('articles_awaiting_review', 0)
@@ -290,7 +291,7 @@ class ProductionPort:
                 evidence = self.data.get('retrieved_evidence', {})
                 leads = [a for a in self.data.get('leads', []) if a['category'] == self.category and identity(a['url']) not in attempted]
                 if leads:
-                    return select_candidates(leads, evidence, limit=3)
+                    return select_candidates(leads, evidence, limit=TARGET)
             prior = len(self.reviewed)
             attempted_file = self.root / 'review-attempted.json'
             atomic(attempted_file, sorted(self.reviewed))
@@ -366,6 +367,43 @@ class ProductionPort:
                 return []
 
     def produce(self, leads, remaining):
+        if self.deadline-time.time() < STORY_SECONDS:
+            self.metrics.setdefault('failure_reasons', []).append('deadline')
+            return
+        prepared = []
+        for start in range(0, min(len(leads),remaining), 3):
+            if self.quota_hit() or self.deadline-time.time() < STORY_SECONDS:
+                break
+            try:
+                group = self.prepare(leads[start:min(start+3,remaining)])
+                if group and group[2]:
+                    prepared.append(group)
+            except (OSError, ValueError, RuntimeError, subprocess.SubprocessError):
+                if not prepared:
+                    raise
+                self.metrics.setdefault('failure_reasons', []).append(
+                    'model_quota' if self.quota_hit() else 'preparation_or_writing_failed')
+        if prepared and len(leads[:remaining]) > 3:
+            from news_image_policy import CATALOG
+            atomic(CATALOG, {lead['url']:{key:value for key,value in lead.items()
+                if key.startswith('image_') or key == 'video_clip_url'}
+                for _,_,ready in prepared for lead in ready})
+        if sum(len(ready) for _,_,ready in prepared) == 1:
+            work,data,ready = next(group for group in prepared if group[2])
+            yield from self.write_ready(ready, data, work, 1)
+            return
+        jobs = []
+        for work,data,ready in prepared:
+            for index, lead in enumerate(ready):
+                request, response = work / f'worker-{index}.input.json', work / f'worker-{index}.result.json'
+                atomic(request, dict(category=self.category, lead=lead, data=data, work=str(work / f'parallel-{index}'),
+                    evidence_folder=str(work / 'source-evidence'), reserve_root=str(self.reserve.path.parent),
+                    deadline=self.deadline, qa=self.qa))
+                jobs.append((request, response))
+        if jobs:
+            yield from self.parallel_jobs(jobs)
+
+    def prepare(self, leads):
         if self.deadline - time.time() < STORY_SECONDS:
             self.metrics.setdefault('failure_reasons', []).append('deadline')
             return
@@ -405,21 +443,7 @@ class ProductionPort:
                                 ('no_fresh_photo', 'image_verification_unavailable')):
                 if rejected.get(key):
                     self.metrics.setdefault('failure_reasons', []).append(reason)
-        if len(ready[:remaining]) > 1:
-            # One story after another fits three Luna stories in an hour at best.
-            yield from self.parallel_stories(ready[:remaining], data, work)
-        else:
-            yield from self.write_ready(ready, data, work, remaining)
-
-    def parallel_stories(self, ready, data, work):
-        jobs = []
-        for index, lead in enumerate(ready):
-            request, response = work / f'worker-{index}.input.json', work / f'worker-{index}.result.json'
-            atomic(request, dict(category=self.category, lead=lead, data=data, work=str(work / f'parallel-{index}'),
-                evidence_folder=str(work / 'source-evidence'), reserve_root=str(self.reserve.path.parent),
-                deadline=self.deadline, qa=self.qa))
-            jobs.append((request, response))
-        yield from self.parallel_jobs(jobs)
+        return work, data, ready
 
     def parallel_jobs(self, jobs):
         from concurrent.futures import ThreadPoolExecutor, as_completed

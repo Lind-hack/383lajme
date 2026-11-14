@@ -241,3 +241,14 @@ The full published-identity check and independent final context review remain
 in place. Source-review reports count these exclusions separately from completed
 Evals. Recovery loads existing checkpoints through a read-only path so deletion
 during loading cannot manufacture new pending work.
+
+Fresh work also queues up to the remaining five-story target, preparing at most
+three candidates per chunk in separate wave directories before submitting their
+jobs to the existing three-worker executor. A completed worker can start a fourth
+story while slower siblings finish reviews or their one rewrite. Each job retains
+its own preparation data and evidence directory; the current photo catalogue
+combines their unchanged verified records, including when a later preparation
+fails. Unselected candidates are not marked attempted. Preparing the second chunk
+adds upfront latency, so existing quota/deadline checks still bound this work.
+This closes an observed idle-worker bottleneck, not a guarantee of five approvals;
+actual Luna throughput and three scheduled production runs remain to be measured.
