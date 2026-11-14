@@ -24,10 +24,10 @@ const MIN_ARCHIVE_MENTIONS = 8;
 /** Below this, "trending" would be one passing mention. */
 const MIN_SCORE = 3;
 
-type Candidate = { name: string; forms: string[] };
+type Candidate = { name: string; forms: ReturnType<typeof nameForms> };
 
 export async function GET() {
-  const { articles, people } = await getSearchData();
+  const { articles, people, sharedSurnames } = await getSearchData();
   const since = Date.now() - WINDOW_MS;
   const recent = (articles ?? []).filter((a) => {
     const t = Date.parse(a?.publishedAt ?? "");
@@ -36,16 +36,16 @@ export async function GET() {
 
   const candidates: Candidate[] = [];
   const named = new Set<string>();
-  const add = (name: string, forms: string[]) => {
+  const add = (name: string, forms: ReturnType<typeof nameForms>) => {
     const key = fold(name);
     if (!key || named.has(key) || forms.length === 0) return;
     named.add(key);
     candidates.push({ name, forms });
   };
-  for (const e of CURATED) if (e?.kind !== "teme") add(e.name, nameForms(e));
+  for (const e of CURATED) if (e?.kind !== "teme") add(e.name, nameForms(e, { shared: sharedSurnames }));
   for (const p of people ?? []) {
     if ((p?.mentions ?? 0) < MIN_ARCHIVE_MENTIONS) continue;
-    add(p.name, [p.name]);
+    add(p.name, nameForms({ name: p.name, kind: "person", aliases: [], match: [] }, { shared: sharedSurnames }));
   }
 
   const trending = candidates

@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const { entries, articles, people, subjects, countryFacts } = await getSearchData();
+  const { entries, articles, people, subjects, countryFacts, sharedSurnames } = await getSearchData();
 
   /**
    * Who or what the query names, if anything.
@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
   let entityArticles: { title: string; href: string; meta?: string; image?: string; kind: string }[] = [];
 
   // As written: mentions() needs the capitals to tell "Kane" from "kanë".
-  const forms = entity ? nameForms(entity) : [];
+  const forms = entity ? nameForms(entity, { shared: sharedSurnames }) : [];
   // A topic is a chip, not the subject (lib/search-results.ts); anyone or
   // anywhere else is, and the stories listed for them must mention them.
   const subject = entity && !["tema", "teme"].includes(entity.kind) ? entity : null;

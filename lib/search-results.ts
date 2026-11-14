@@ -70,7 +70,7 @@ export async function searchResults(rawQuery: string, options: SearchOptions = {
   };
   if (query.length < 2) return empty;
 
-  const { entries, articles, people, subjects } = await getSearchData();
+  const { entries, articles, people, subjects, sharedSurnames } = await getSearchData();
   const bySlug = new Map(articles.map((a) => [a.slug, a]));
   const slugOf = (href: string) => (href.startsWith("/article/") ? href.slice("/article/".length) : null);
 
@@ -88,7 +88,7 @@ export async function searchResults(rawQuery: string, options: SearchOptions = {
   // subject of the search.
   const named = resolveEntity(query, [...subjects, ...people]);
   const entity = named && !["tema", "teme"].includes(named.kind) ? named : null;
-  const forms = entity ? nameForms(entity) : [];
+  const forms = entity ? nameForms(entity, { shared: sharedSurnames }) : [];
   if (entity) for (const a of articles) if (mentions(a, forms)) add(a);
   // When the query names someone or somewhere, every story listed has to be
   // about them. The word search alone reads "kane" in "kanë" (they have), so

@@ -223,7 +223,7 @@ export async function POST(request: NextRequest) {
     .slice(0, 5);
   const today = todayInKosovo();
 
-  const { articles, subjects, people } = await getSearchData();
+  const { articles, subjects, people, sharedSurnames } = await getSearchData();
 
   // ── Which path ────────────────────────────────────────────────────────────
   // The keyword list still answers the obvious hellos without a router call;
@@ -354,7 +354,7 @@ export async function POST(request: NextRequest) {
 
   const { sources } = retrieve(articles, retrievalText, {
     // As written: mentions() needs the capitals to tell "Kane" from "kanë".
-    entityForms: entity ? nameForms(entity) : null,
+    entityForms: entity ? nameForms(entity, { shared: sharedSurnames }) : null,
     mentionsFn: mentions,
     pinnedSlug: slug,
     limit: MAX_SOURCES,
