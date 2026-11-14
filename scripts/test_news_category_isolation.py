@@ -104,12 +104,13 @@ raise SystemExit(75 if slug=='sport' else 0)
 
     @unittest.skipUnless(os.name == 'posix', 'Production flock runs on Linux')
     def test_actual_final_phase_lock_prevents_sibling_history_changes(self):
-        script = Path(__file__).with_name('run-hourly-news.sh').read_text(encoding='utf-8')
+        script = Path(__file__).with_name('publish-reviewed-news.sh').read_text(encoding='utf-8')
         start = script.index('stage="publication-lock"')
-        end = script.index('stage="independent-event-context-review"', start)
-        release = script.index('flock -u 8', end)
+        end = script.index('stage="locked-history-verification"', start)
+        release = script.rindex('flock -u 8')
         self.assertLess(script.index('publish-supabase --file', end), release)
-        self.assertLess(release, script.index('stage="news-cache-refresh"', end))
+        parent = Path(__file__).with_name('run-hourly-news.sh').read_text(encoding='utf-8')
+        self.assertLess(parent.index('publish-reviewed-news.sh'),parent.index('stage="news-cache-refresh"'))
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
             history = root / 'history'
@@ -117,6 +118,7 @@ raise SystemExit(75 if slug=='sport' else 0)
             acquire = script[start:end].replace('/tmp/383-news-publication.lock', str(root / 'publish.lock'))
             harness = '''set -e
 START_EPOCH=$(date +%s)
+L383_PUBLICATION_DEADLINE_EPOCH=$((START_EPOCH + 20))
 fail_run() { exit 75; }
 ''' + acquire + '''
 snapshot=$(cat "$TEST_HISTORY")
@@ -132,6 +134,31 @@ printf '%s\\n' "$L383_RUN_DESK" >> "$TEST_HISTORY"
 
 
 class ModelCapacityTests(unittest.TestCase):
+    def test_capacity_database_contention_does_not_extend_the_model_deadline(self):
+        with tempfile.TemporaryDirectory() as folder:
+            database=Path(folder)/'slots.sqlite'
+            with connect(database) as db:db.execute('CREATE TABLE requests (token TEXT PRIMARY KEY, desk TEXT, pid INTEGER, queued REAL, active INTEGER, child INTEGER)')
+            locker=sqlite3.connect(database,check_same_thread=False);locker.execute('BEGIN IMMEDIATE')
+            def release():time.sleep(1);locker.commit();locker.close()
+            worker=threading.Thread(target=release);worker.start();started=time.monotonic()
+            try:
+                with patch.dict(os.environ,{'L383_MODEL_SLOT_DB':str(database)}),self.assertRaises(subprocess.TimeoutExpired):
+                    with model_slot([],time.monotonic()+.1):self.fail('Expired model work started')
+                self.assertLess(time.monotonic()-started,.7)
+            finally:worker.join(timeout=5)
+
+    def test_transient_capacity_database_lock_waits_within_the_model_deadline(self):
+        with tempfile.TemporaryDirectory() as folder:
+            database=Path(folder)/'slots.sqlite'
+            with connect(database) as db:db.execute('CREATE TABLE requests (token TEXT PRIMARY KEY, desk TEXT, pid INTEGER, queued REAL, active INTEGER, child INTEGER)')
+            locker=sqlite3.connect(database,check_same_thread=False);locker.execute('BEGIN IMMEDIATE')
+            def release():time.sleep(2.4);locker.commit();locker.close()
+            worker=threading.Thread(target=release);worker.start()
+            try:
+                with patch.dict(os.environ,{'L383_MODEL_SLOT_DB':str(database)}),model_slot([],time.monotonic()+5):
+                    with connect(database) as db:self.assertEqual(db.execute('SELECT count(*) FROM requests WHERE active=1').fetchone()[0],1)
+            finally:worker.join(timeout=5)
+
     def test_cancellation_removes_queued_work_without_starting_it(self):
         with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {
                 'L383_MODEL_SLOT_DB': str(Path(folder) / 'slots.sqlite')}):

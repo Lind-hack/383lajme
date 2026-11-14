@@ -51,6 +51,12 @@ class ReliableContextTimingTests(unittest.TestCase):
 
 
 class ContextReviewTests(unittest.TestCase):
+    def test_changed_history_is_distinguished_from_an_invalid_approval_for_queue_retry(self):
+        from news_approved_reserve import PublicationHistoryChanged
+        row=article(1);self.save([row])
+        with patch.object(review,'ask_rows',return_value=[distinct(row)]):review.review(self.batch,[])
+        with self.assertRaises(PublicationHistoryChanged):review.verify(self.batch,[row],[article(2)])
+
     def setUp(self):
         self.folder = tempfile.TemporaryDirectory()
         self.addCleanup(self.folder.cleanup)

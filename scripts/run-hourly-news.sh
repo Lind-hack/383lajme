@@ -829,19 +829,14 @@ stage="independent-originality-review"
 "$PYTHON_BIN" scripts/news_copyright_review.py --file "$BATCH"
 
 # Review complete copy against all recent publications, including pairs the
-# lexical prefilter never selected. Reserve minutes 50-53 for this final gate;
-# the existing 55-minute process deadline still bounds publication/readback.
-stage="publication-lock"
-exec 8>/tmp/383-news-publication.lock
-PUBLICATION_WAIT="$((START_EPOCH + 3180 - $(date +%s)))"
-if [ "$PUBLICATION_WAIT" -le 0 ] || ! flock -w "$PUBLICATION_WAIT" 8; then
-  fail_run "publication queue exceeded this desk's verified-review deadline; drafts retained"
-fi
-# Hold through exact database readback: a sibling must not change the history
-# bound by the context receipt between review, validation and the insert.
+# lexical prefilter never selected. Model comparisons never hold the shared
+# publication lock; current history, insertion and exact readback still do.
+stage="deployment-verification"
+if [ "$QA_ONLY" != "1" ]; then verify_deployment; fi
 stage="independent-event-context-review"
 env L383_MODEL_DEADLINE_EPOCH="$((START_EPOCH + 3180))" \
-  "$PYTHON_BIN" scripts/news_context_review.py --file "$BATCH"
+  L383_PUBLICATION_DEADLINE_EPOCH="$((START_EPOCH + 3180))" \
+  bash "$REPO/scripts/publish-reviewed-news.sh" "$BATCH" "$REPO" "$QA_ONLY"
 if [ "$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],encoding="utf-8"))))' "$BATCH")" -eq 0 ]; then
   stage="no-new-verified-news"
   record_state no_news
@@ -852,24 +847,6 @@ if [ "$("$PYTHON_BIN" -c 'import json,sys; print(len(json.load(open(sys.argv[1],
   printf '383 NO NEWS: independent originality/context review retained no candidates\n'
   exit 0
 fi
-"$PYTHON_BIN" scripts/news_copyright_review.py --verify --file "$BATCH"
-
-stage="batch-validation"
-if ! "$PYTHON_BIN" scripts/codex_automation_support.py validate --file "$BATCH"; then
-  fail_run "remaining candidates did not meet the batch quality floor after per-candidate isolation"
-fi
-
-stage="source-mix"
-"$PYTHON_BIN" scripts/validate_source_mix.py --file "$BATCH"
-
-# The hourly job changes Supabase rows, not application code. Website builds
-# remain in GitHub/Railway CI; publication checks and live readback remain here.
-
-# Application deployment belongs exclusively to Railway GitHub integration.
-# This worker publishes validated news rows and never uploads website code.
-stage="deployment-verification"
-if [ "$QA_ONLY" != "1" ]; then verify_deployment; fi
-
 if [ "$QA_ONLY" = "1" ]; then
   "$PYTHON_BIN" scripts/news_quality_report.py --file "$BATCH" --status qa || printf "383 quality metrics unavailable\n" >&2
   stage="qa-complete"
@@ -879,12 +856,8 @@ if [ "$QA_ONLY" = "1" ]; then
 fi
 
 stage="supabase-publication"
-"$PYTHON_BIN" scripts/codex_automation_support.py publish-supabase --file "$BATCH"
+# The reviewed-publication helper already inserted and verified exact readback.
 record_state published
-# The insert includes exact database readback. Subsequent site/cache/report
-# work does not change publication history and must not hold up another desk.
-flock -u 8
-exec 8>&-
 SLUG="$("$PYTHON_BIN" -c "import json; print(json.load(open('$BATCH', encoding='utf-8'))[0]['slug'])")"
 URL="https://www.383ks.com/article/${SLUG}?verify=${STAMP}"
 

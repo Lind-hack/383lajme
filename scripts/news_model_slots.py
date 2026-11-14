@@ -16,11 +16,16 @@ CAPACITY = max(1, int(os.environ.get('L383_MODEL_SLOTS') or 8))
 
 
 @contextmanager
-def connect(database):
-    connection = sqlite3.connect(database, timeout=2)
+def connect(database, *, deadline=None):
+    wait = 30 if deadline is None else max(0,min(30,deadline-time.monotonic()))
+    connection = sqlite3.connect(database, timeout=wait)
     try:
         with connection:
             yield connection
+    except sqlite3.OperationalError as exc:
+        if deadline is not None and getattr(exc,'sqlite_errorcode',None) in {sqlite3.SQLITE_BUSY,sqlite3.SQLITE_LOCKED}:
+            raise subprocess.TimeoutExpired('shared model capacity database',wait) from exc
+        raise
     finally:
         connection.close()
 
@@ -57,7 +62,7 @@ def model_slot(command, deadline, *, cancelled=lambda: False):
     Path(database).parent.mkdir(parents=True, exist_ok=True)
     token = uuid.uuid4().hex
     desk = os.environ.get('L383_RUN_DESK', 'legacy')
-    with connect(database) as connection:
+    with connect(database,deadline=deadline) as connection:
         connection.execute('CREATE TABLE IF NOT EXISTS requests '
                            '(token TEXT PRIMARY KEY, desk TEXT, pid INTEGER, queued REAL, active INTEGER, child INTEGER)')
         connection.execute('INSERT INTO requests VALUES (?, ?, ?, ?, 0, NULL)',
@@ -66,7 +71,7 @@ def model_slot(command, deadline, *, cancelled=lambda: False):
         while True:
             if cancelled() or time.monotonic() >= deadline:
                 raise subprocess.TimeoutExpired(command, 0)
-            with connect(database) as connection:
+            with connect(database,deadline=deadline) as connection:
                 connection.execute('BEGIN IMMEDIATE')
                 rows = connection.execute('SELECT token, desk, pid, queued, active, child FROM requests').fetchall()
                 for row in rows:
@@ -84,7 +89,8 @@ def model_slot(command, deadline, *, cancelled=lambda: False):
                 active = [row for row in rows if row[4]]
                 waiting = sorted((row for row in rows if not row[4]),
                                  key=lambda row: (sum(a[1] == row[1] for a in active), row[3], row[0]))
-                if len(active) < CAPACITY and waiting and waiting[0][0] == token:
+                if (not cancelled() and time.monotonic() < deadline
+                        and len(active) < CAPACITY and waiting and waiting[0][0] == token):
                     connection.execute('UPDATE requests SET active = 1 WHERE token = ?', (token,))
                     granted = True
                 else:
@@ -93,7 +99,7 @@ def model_slot(command, deadline, *, cancelled=lambda: False):
                 break
             time.sleep(min(0.1, max(0, deadline - time.monotonic())))
         def register(pid):
-            with connect(database) as connection:
+            with connect(database,deadline=deadline) as connection:
                 connection.execute('UPDATE requests SET child = ? WHERE token = ?', (pid, token))
         yield register
     finally:

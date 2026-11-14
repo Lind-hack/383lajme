@@ -193,9 +193,11 @@ def verify(batch: Path, articles: list[dict], recent: list[dict]) -> None:
     history = history_records(recent, batch)
     if (receipt.get("policy") != POLICY or receipt.get("model") != "gpt-6-luna"
             or receipt.get("provider") != "openai-codex" or not 0 <= age <= 3600
-            or not isinstance(receipt.get("history"), dict)
-            or any(receipt["history"].get(str(row["id"])) != digest(row) for row in history)):
-        raise ValueError("independent context review missing, stale or published history changed")
+            or not isinstance(receipt.get("history"), dict)):
+        raise ValueError("independent context review missing or stale")
+    if any(receipt["history"].get(str(row["id"])) != digest(row) for row in history):
+        from news_approved_reserve import PublicationHistoryChanged
+        raise PublicationHistoryChanged("independent context published history changed")
     preceding = {}
     for article in articles:
         proof = receipt.get("articles", {}).get(article["slug"], {})
@@ -211,6 +213,15 @@ def verify(batch: Path, articles: list[dict], recent: list[dict]) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--file", required=True, type=Path)
+    parser.add_argument("--verify", action="store_true")
     args = parser.parse_args()
     from codex_automation_support import _recently_published
-    review(args.file, _recently_published())
+    if args.verify:
+        from news_approved_reserve import PublicationHistoryChanged
+        try:
+            verify(args.file,json.loads(args.file.read_text(encoding='utf-8')),_recently_published())
+        except PublicationHistoryChanged as exc:
+            print(str(exc))
+            raise SystemExit(75)
+    else:
+        review(args.file, _recently_published())

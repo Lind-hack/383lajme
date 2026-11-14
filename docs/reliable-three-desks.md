@@ -260,6 +260,18 @@ Functional tests exercise fifteen story lifecycles across the three desks with
 at most eight model operations active; this establishes capacity limits, not
 actual Luna latency or article quality.
 
+Shared publication coordination no longer holds the global publication lock
+during the older desks' model-based context review. The same quality/source-mix
+checks remain, and current-history verification, insertion and exact database
+readback stay locked. If history changed, release the lock before one bounded
+fresh comparison; invalid proofs fail closed. This changes shared coordination,
+not the other desks' editorial selection. QA still performs no insert.
+
+Transient contention in the shared model-slot database waits up to thirty
+seconds, capped by the model call's remaining deadline. Expired or cancelled
+work cannot obtain a new slot. The eight-slot limit and fairness ordering are
+unchanged; storage contention is never a reason to bypass model capacity.
+
 The first three `f909790a` scheduled runs on 14 November confirmed
 World/Showbiz/Economy output of `1/2/2`, `3/1/0` and `1/3/1`. These observations
 do not meet the volume goal. Subsequent fixes address measured losses: Economy
