@@ -168,6 +168,49 @@ class ReserveTests(unittest.TestCase):
             stored('2026-11-09T12:15:46')
 
 class ParallelDeskTests(unittest.TestCase):
+    def test_all_five_story_lifecycles_start_while_three_desks_share_eight_model_slots(self):
+        import tempfile,time,threading,subprocess,json,os
+        from pathlib import Path
+        from concurrent.futures import ThreadPoolExecutor
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_model_slots import model_slot,CAPACITY
+        from news_json_state import atomic
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);started=threading.Barrier(15);first_models=threading.Barrier(8);lock=threading.Lock()
+            active=0;maximum=0;model_count=0;worker_count=0
+            ports=[ProductionPort(category,Reserve(root/'reserve',category),root/category,time.time()+3000,qa=True) for category in ('Showbiz','Ekonomi','Botë')]
+            for port in ports:port.data={}
+            def external(args,**kwargs):
+                nonlocal active,maximum,model_count,worker_count
+                if 'scripts/prepare_editor_sources.py' in args:
+                    path=Path(args[args.index('scripts/prepare_editor_sources.py')+1]).with_suffix('.json')
+                    data=json.loads(path.read_text());self.assertLessEqual(len(data['leads']),3)
+                    atomic(path,dict(data,ready_leads=data['leads']))
+                elif 'scripts/news_world_story_worker.py' in args:
+                    index=args.index('scripts/news_world_story_worker.py');job=json.loads(Path(args[index+1]).read_text())
+                    with lock:worker_count+=1
+                    started.wait(timeout=15)
+                    with model_slot(['functional-test-model'],time.monotonic()+20):
+                        with lock:active+=1;maximum=max(maximum,active);model_count+=1;turn=model_count
+                        try:
+                            if turn<=8:first_models.wait(timeout=15)
+                        finally:
+                            with lock:active-=1
+                    atomic(args[index+2],dict(entries=[dict(article=job['lead'])],metrics=dict(saved_drafts=1,approvals=1)))
+                else:raise AssertionError('Unexpected stage')
+                return subprocess.CompletedProcess(args,0)
+            def run(port):
+                leads=[dict(url=f'https://example.com/{port.category}/{i}',category=port.category) for i in range(5)]
+                return list(port.produce(leads,5))
+            class DeskCatalogue:
+                def __fspath__(self):return str(root/str(threading.get_ident())/'photos.json')
+            with patch('subprocess.run',side_effect=external),patch.object(Reserve,'valid',return_value=True),patch('news_image_policy.CATALOG',DeskCatalogue()),patch.dict(os.environ,{'L383_MODEL_SLOT_DB':str(root/'slots.sqlite')}),ThreadPoolExecutor(max_workers=3) as desks:
+                results=list(desks.map(run,ports))
+            self.assertEqual([len(rows) for rows in results],[5,5,5])
+            self.assertEqual(worker_count,15);self.assertEqual(model_count,15)
+            self.assertEqual(CAPACITY,8);self.assertEqual(maximum,8)
+
     def test_changed_reserve_image_returns_to_fresh_preparation_without_reusing_approval(self):
         self.exercise_changed_reserve_image()
 
@@ -269,7 +312,7 @@ class ParallelDeskTests(unittest.TestCase):
                 with patch('subprocess.run',side_effect=external),patch.object(port.reserve,'valid',return_value=True),patch('news_image_policy.CATALOG',catalog):
                     entries=list(port.produce(selected,5))
                 self.assertEqual(prepared,[3,2]);self.assertEqual(len(entries),3 if fail_second else 5)
-                self.assertEqual(len(started),3 if fail_second else 5);self.assertLessEqual(maximum,3)
+                self.assertEqual(len(started),3 if fail_second else 5);self.assertLessEqual(maximum,5)
 
     def test_showbiz_and_economy_write_their_ready_stories_side_by_side(self):
         # One Luna story takes about ten minutes; one after another gave a desk one story an hour.
@@ -851,7 +894,8 @@ with patch('subprocess.run',side_effect=external),patch.object(Path,'is_file',is
                 with patch('subprocess.run',side_effect=external):
                     port=ProductionPort(category,Reserve(root/'reserve',category),root/'next',time.time()+3000,qa=True)
                     self.assertEqual(list(port.resume_incomplete(5 if four else 3)),[])
-                self.assertEqual(maximum,3)
+                self.assertGreaterEqual(maximum,3)
+                self.assertLessEqual(maximum,5)
                 self.assertEqual(len(requests),4 if four else 3)
                 self.assertEqual(len({job['lead']['url'] for job in requests}),4 if four else 3)
                 if nearly_done:self.assertIn('https://example.com/ready-3',{job['lead']['url'] for job in requests})

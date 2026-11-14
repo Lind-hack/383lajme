@@ -468,7 +468,7 @@ class ProductionPort:
             return response, error
         # Only orchestration runs in threads. Each story's model environment,
         # receipt files and mutable review state live in a separate process.
-        with ThreadPoolExecutor(max_workers=3) as pool:
+        with ThreadPoolExecutor(max_workers=min(TARGET,len(jobs))) as pool:
             futures = [pool.submit(execute, *job) for job in jobs]
             for future in as_completed(futures):
                 response, error = future.result()

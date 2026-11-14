@@ -223,7 +223,7 @@ serial recovery consuming the discovery window. Preserve that distinction when
 assessing the conditional minimum.
 
 Recovery now prioritizes completed review stages, deduplicates pending source
-URLs, and queues up to the remaining target through at most three isolated
+URLs, and queues up to the remaining target through at most five isolated
 workers. Each worker reopens the original valid checkpoint, retaining its slot,
 index, rewrite attempt and completed stages. A missing checkpoint cannot be
 recreated as new work. Single-story recovery retains its existing direct path.
@@ -244,14 +244,21 @@ during loading cannot manufacture new pending work.
 
 Fresh work also queues up to the remaining five-story target, preparing at most
 three candidates per chunk in separate wave directories before submitting their
-jobs to the existing three-worker executor. A completed worker can start a fourth
-story while slower siblings finish reviews or their one rewrite. Each job retains
+jobs to an executor of up to five isolated story workers, so later stories can
+start before earlier stories finish all their review stages. Each job retains
 its own preparation data and evidence directory; the current photo catalogue
 combines their unchanged verified records, including when a later preparation
 fails. Unselected candidates are not marked attempted. Preparing the second chunk
 adds upfront latency, so existing quota/deadline checks still bound this work.
 This closes an observed idle-worker bottleneck, not a guarantee of five approvals;
 actual Luna throughput and three scheduled production runs remain to be measured.
+
+Five story workers are orchestration capacity, not five additional model slots.
+All model subprocesses still acquire one of the same eight shared slots through
+the unchanged fair allocator. Preparation remains in chunks of at most three.
+Functional tests exercise fifteen story lifecycles across the three desks with
+at most eight model operations active; this establishes capacity limits, not
+actual Luna latency or article quality.
 
 The first three `f909790a` scheduled runs on 14 November confirmed
 World/Showbiz/Economy output of `1/2/2`, `3/1/0` and `1/3/1`. These observations
