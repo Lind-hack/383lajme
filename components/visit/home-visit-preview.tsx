@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { unstable_cache } from "next/cache";
 import type { CSSProperties } from "react";
 import { ArrowRight, LocateFixed, Palette, Phone, Trophy } from "lucide-react";
 import { BORDER_CROSSINGS } from "@/lib/visit-v2-data";
@@ -13,12 +14,20 @@ import styles from "./home-xhep.module.css";
 
 const PACKS = ["prizren", "peje", "prishtine", "gjakove"];
 
+// Cache the result here: stale fetch-cache revalidation drops the caller's
+// abort signal, letting an unavailable ministry site block homepage rendering.
+const homepageBorderWaits = unstable_cache(
+  () => fetchOfficialBorderWaits({ fresh: true, signal: AbortSignal.timeout(5_000) }),
+  ["homepage-border-waits-v1"],
+  { revalidate: 600 },
+);
+
 function level(minutes: number) {
   return minutes >= 30 ? "high" : minutes >= 15 ? "mid" : "low";
 }
 
 export default async function HomeVisitPreview() {
-  const waits = await fetchOfficialBorderWaits({ signal: AbortSignal.timeout(5_000) }).catch(() => []);
+  const waits = await homepageBorderWaits().catch(() => []);
   const maxWait = Object.fromEntries(
     BORDER_CROSSINGS.map((c) => {
       const w = waits.find((x) => x.crossingId === c.id);
