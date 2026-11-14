@@ -6,11 +6,13 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import ThemeToggle from "./theme/theme-toggle";
+import LanguageSwitcher from "./language/language-switcher";
 import styles from "./nav-side-panel.module.css";
 import {
   ArrowUpRight,
   ChevronDown,
   Globe2,
+  Languages,
   MapPinned,
   Newspaper,
   X,
@@ -390,7 +392,15 @@ export default function NavSidePanel({ open, onClose }: Props) {
 
           <NewsletterCard compact onNavigate={onClose} />
 
-          <div className="side-panel-appearance"><ThemeToggle /></div>
+          <div className="side-panel-appearance">
+            {/* The phone header has no room for SQ/EN/DE, and a reader sets
+                it once: it lives here, beside the other device setting. */}
+            <div className="theme-setting side-panel-language">
+              <div><strong><Languages size={16} aria-hidden="true" /> Gjuha</strong><p>Shqipja është origjinali.</p></div>
+              <LanguageSwitcher inline />
+            </div>
+            <ThemeToggle />
+          </div>
           </div>
         </div>
       </aside>

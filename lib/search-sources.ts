@@ -3,9 +3,10 @@ import { getToneOutlets, getToneTopics } from "./tone-data";
 import { KOSOVO_CITIES } from "./visit-v2-data";
 import { NAV_CATEGORIES, normalizeCategory } from "./category-map";
 import { remoteImageSrc } from "./remote-image.mjs";
-import { extractPeople, deriveEntity } from "./entities.mjs";
+import { extractPeople, deriveEntity, sharedSurnames, lowerCaseWords, CURATED } from "./entities.mjs";
 import { getToneHistory } from "./tone-data";
 import { lmsrPriceYes } from "./tregu-client";
+import { getTopicTags } from "./topic-tags-server";
 
 function marketProb(m: { q_yes?: unknown; q_no?: unknown; b?: unknown }): number | null {
   const p = lmsrPriceYes(Number(m?.q_yes), Number(m?.q_no), Number(m?.b));
@@ -52,6 +53,8 @@ export interface SearchEntry {
   open?: boolean;
   prob?: number | null;
   closesAt?: string;
+  /** Articles: the topics it is about (lib/topic-tags.mjs); null until tagged. */
+  topics?: string[] | null;
 }
 
 /**
@@ -125,6 +128,8 @@ export interface SearchData {
   articles: ArticleRecord[];
   /** People the corpus is about, derived rather than curated. */
   people: { name: string; aliases: string[]; mentions: number }[];
+  /** Surnames more than one person has, and who owns each alone (lib/entities.mjs sharedSurnames), for nameForms(). */
+  sharedSurnames: Map<string, string | null>;
 }
 
 let cache: { at: number; data: SearchData } | null = null;
@@ -322,13 +327,14 @@ async function supabaseEntries(): Promise<{ entries: SearchEntry[]; articles: Ar
   const out: SearchEntry[] = [];
   const records: ArticleRecord[] = [];
 
-  const [articles, markets] = await Promise.all([
+  const [articles, markets, tags] = await Promise.all([
     supabase
       .from("news_articles")
       .select("id, slug, title, excerpt, category, source, source_flag, published_at, image_url")
       .order("published_at", { ascending: false })
       .limit(ARTICLE_LIMIT),
     supabase.from("markets").select("slug, question, category, status, market_type, q_yes, q_no, b, closes_at").limit(500),
+    getTopicTags(),
   ]);
 
   for (const a of articles.data ?? []) {
@@ -341,6 +347,7 @@ async function supabaseEntries(): Promise<{ entries: SearchEntry[]; articles: Ar
       title: a.title,
       body: a.excerpt ?? "",
       href: `/article/${a.slug}`,
+      topics: tags.get(a.slug) ?? null,
       meta,
       weight: WEIGHT.artikull,
       date: a.published_at ?? undefined,
@@ -404,7 +411,14 @@ export async function getSearchData(): Promise<SearchData> {
 
   // Derived from the corpus rather than curated, so a name the news started
   // using yesterday is searchable today without anyone adding it to a list.
-  const people = extractPeople(remote.articles, { minMentions: 2 });
+  // Every name the corpus uses, even once: Ronwen Williams appears once and is
+  // still a second Williams. The search's people are the recurring ones.
+  const everyone = extractPeople(remote.articles, { minMentions: 1 });
+  const people = everyone.filter((p) => p.mentions >= 2);
+  const shared = sharedSurnames(
+    [...everyone, ...CURATED.filter((e) => e.kind === "person").map((e) => e.name)],
+    { lower: lowerCaseWords(remote.articles) },
+  );
 
   const entries = [
     ...categoryEntries(),
@@ -443,6 +457,7 @@ export async function getSearchData(): Promise<SearchData> {
     countryFacts: tone.countryFacts,
     articles: remote.articles,
     people,
+    sharedSurnames: shared,
   };
   cache = { at: now, data };
   return data;
