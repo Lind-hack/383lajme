@@ -18,7 +18,7 @@ function level(minutes: number) {
 }
 
 export default async function HomeVisitPreview() {
-  const waits = await fetchOfficialBorderWaits().catch(() => []);
+  const waits = await fetchOfficialBorderWaits({ signal: AbortSignal.timeout(5_000) }).catch(() => []);
   const maxWait = Object.fromEntries(
     BORDER_CROSSINGS.map((c) => {
       const w = waits.find((x) => x.crossingId === c.id);
