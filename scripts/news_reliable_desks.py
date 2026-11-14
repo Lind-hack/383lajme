@@ -513,7 +513,7 @@ class ProductionPort:
                 if (job['lead']['category'] != self.category
                         or job['lead']['url'] in self.attempted_recoveries):
                     continue
-                progress = Progress(path, job)
+                progress = Progress(path, job, existing_only=True)
                 if not progress.valid():
                     continue
                 rights = job['lead'].get('image_rights')

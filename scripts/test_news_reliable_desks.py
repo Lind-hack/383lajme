@@ -566,6 +566,36 @@ class InterruptedApprovalTests(unittest.TestCase):
                     self.assertEqual(reserve.available()[0]['article']['body'],'Independent prose')
 
 class DraftResumeTests(unittest.TestCase):
+    def test_coordinator_does_not_recreate_a_checkpoint_removed_during_recovery(self):
+        import json,tempfile,time
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_reliable_desks import ProductionPort
+        from news_approved_reserve import Reserve
+        from news_draft_progress import Progress
+        from news_json_state import atomic
+        for category in ('Showbiz','Ekonomi','Botë'):
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as temp:
+                root=Path(temp);work=root/'old/wave-1';now=datetime.now(timezone.utc);slot=now.strftime('%Y-%m-%dT%H')
+                lead=dict(url='https://example.com/saved',category=category,source='Publisher',published=now.isoformat())
+                checkpoint=work/'story-0.pending.json';batch=work/'draft-0'/(slot+'.json')
+                atomic(batch,[dict(lead,slug='saved',title='Saved draft',body='<p>Supported copy.</p>')])
+                progress=Progress(checkpoint,dict(lead=lead,data={},work=str(work),evidence_folder=str(work/'source-evidence'),index=0,slot=slot));progress.save('written',batch)
+                original_batch=batch.read_bytes();read_text=Path.read_text;reads=0
+                def disappearing(path,*args,**kwargs):
+                    nonlocal reads
+                    result=read_text(path,*args,**kwargs)
+                    if path==checkpoint:
+                        reads+=1
+                        if reads==2:path.unlink()
+                    return result
+                port=ProductionPort(category,Reserve(root/'reserve',category),root/'new',time.time()+3000,qa=True)
+                with patch.object(Path,'read_text',disappearing),patch('subprocess.run',side_effect=AssertionError('Missing checkpoint dispatched')) as transport:
+                    self.assertEqual(list(port.resume_incomplete(5)),[])
+                    transport.assert_not_called()
+                self.assertFalse(checkpoint.exists())
+                self.assertEqual(batch.read_bytes(),original_batch)
+
     def test_isolated_recovery_worker_uses_the_original_checkpoint_and_never_recreates_a_missing_one(self):
         import json,os,subprocess,sys,tempfile
         from pathlib import Path
