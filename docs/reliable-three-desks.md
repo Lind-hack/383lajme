@@ -252,3 +252,22 @@ fails. Unselected candidates are not marked attempted. Preparing the second chun
 adds upfront latency, so existing quota/deadline checks still bound this work.
 This closes an observed idle-worker bottleneck, not a guarantee of five approvals;
 actual Luna throughput and three scheduled production runs remain to be measured.
+
+The first three `f909790a` scheduled runs on 14 November confirmed
+World/Showbiz/Economy output of `1/2/2`, `3/1/0` and `1/3/1`. These observations
+do not meet the volume goal. Subsequent fixes address measured losses: Economy
+recognizes electricity-production reporting without requiring a price change;
+Showbiz recognizes Avril Lavigne and Travis Barker as cultural subjects without
+changing audience priority. Early event triage selects its bounded complete
+published comparisons using the body as well as headline/excerpt, folding names
+and their case endings for attention only. Native judgments and exact passages
+still determine retelling, and the final independent context check remains.
+The source-triage policy version invalidates old cached decisions.
+
+A changed source photo now blocks only its old reserve proof for that run,
+leaving the story eligible for normal fresh preparation, writing and independent
+approvals. The changed proof is neither consumed nor updated; a new valid proof
+is required. Verification timeouts retain their existing handling. This avoids
+repeatedly attempting the same invalid proof while preventing fresh evaluation
+of the underlying story. Fresh image bytes, all approval hashes and confirmed
+duplicate-free readback remain mandatory.

@@ -1,8 +1,9 @@
 """Early event triage inside the existing visual call; never final approval."""
 import re
 from bs4 import BeautifulSoup
+from news_source_policy import fold
 
-POLICY = '383-source-event-triage-v1'
+POLICY = '383-source-event-triage-v2'
 INSTRUCTION = (
     ' If published_articles is nonempty, compare this source development with their COMPLETE copy in the same review. '
     'Return published_event: {verdict: distinct|retelling|uncertain, reason: string, source_span: exact source passage, '
@@ -15,11 +16,13 @@ INSTRUCTION = (
 
 def comparisons(lead, source, history):
     def words(text):
-        return {w.casefold() for w in re.findall(r"[\wÀ-ÿ]+",str(text)) if len(w)>3}
+        # Prefixes retain attention to names with Albanian case endings. This
+        # selects complete comparison copy; it never declares a duplicate.
+        return {w[:4] for w in re.findall(r"\w+",fold(BeautifulSoup(str(text),'html.parser').get_text(' '))) if len(w)>3}
     target=words(str(lead.get('title',''))+' '+str(source.get('text','')))
     ranked=[]
     for row in history:
-        overlap=len(target & words(str(row.get('title',''))+' '+str(row.get('excerpt',''))))
+        overlap=len(target & words(' '.join(str(row.get(key) or '') for key in ('title','excerpt','body'))))
         if row.get('url')==lead['url'] or overlap>=2:
             ranked.append((overlap,row))
     return [{k:row.get(k) for k in ('id','category','title','excerpt','body','url','published_at')}

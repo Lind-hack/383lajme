@@ -79,8 +79,15 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
     qa_seen = set()
     qa_articles = []
     context_rechecked = set()
+    changed_photo_proofs = set()
+
+    def approval_key(entry):
+        from news_copyright_review import digest
+        return entry.get('snapshot_sha256') or digest(entry)
 
     def deliver(entry):
+        if approval_key(entry) in changed_photo_proofs:
+            return
         if entry['article']['url'] in qa_seen:
             return
         if entry['article']['url'] in {a['url'] for a in published}:
@@ -134,6 +141,8 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
             return
         except ImageVerificationFailed as exc:
             reasons.append(exc.reason)
+            if exc.reason == 'source_image_changed':
+                changed_photo_proofs.add(approval_key(entry))
             print(f'383 RETAIN APPROVED {entry["article"]["slug"]}: {exc}', flush=True)
             return
         except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
@@ -166,7 +175,8 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
         if len(published) + result.get('qa_approved', 0) >= TARGET:
             break
         deliver(entry)
-        attempted.add(entry['article']['url'])
+        if approval_key(entry) not in changed_photo_proofs:
+            attempted.add(entry['article']['url'])
     if hasattr(port, 'resume_incomplete') and len(published) + result.get('qa_approved', 0) < TARGET and not port.quota_hit():
         try:
             for entry in port.resume_incomplete(TARGET-len(published)-result.get('qa_approved',0)):

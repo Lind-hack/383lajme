@@ -11,6 +11,19 @@ from news_run_state import completed, save
 
 
 class SourceIsolation(unittest.TestCase):
+    def test_public_updates_by_recognized_international_musicians_keep_their_showbiz_subject(self):
+        for title in ('Avril Lavigne prezanton vajzën në tri fotografi',
+                      'Travis Barker tregon pse hoqi dorë nga duhani'):
+            self.assertIsNone(topic_error('Showbiz',title),title)
+        self.assertIsNotNone(topic_error('Showbiz','Kryetari i bashkisë prezanton vajzën në tri fotografi'))
+
+    def test_electricity_production_updates_are_economy_without_a_price_change(self):
+        article=dict(category='Ekonomi',url='https://buletiniekonomik.com/2026/11/kek-a4/',
+            title='KEK nis procedurën për kthimin e A4 në prodhim energjie',
+            body='<p>KEK ka nisur procedurën për rikthimin e njësisë A4 të termocentralit Kosova A. Gjatë ndezjes pritet tym në Obiliq.</p>')
+        self.assertEqual(article_source_errors(article),[])
+        self.assertIsNotNone(topic_error('Ekonomi','Pesë mënyra për të pasur më shumë energji pozitive'))
+
     def test_albanian_tv_series_cases_identify_culture_without_broad_serial_matches(self):
         for title in (
             'Emma Corrin luan Elizabeth Bennet në serialin Pride and Prejudice',

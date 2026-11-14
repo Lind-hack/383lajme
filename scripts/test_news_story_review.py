@@ -38,6 +38,40 @@ def verdict(**values):
 
 
 class StoryReviewTests(unittest.TestCase):
+    def test_source_triage_receives_related_complete_published_copy_when_only_its_body_names_the_event(self):
+        self.exercise_body_event_comparison()
+
+    def test_source_triage_finds_albanian_case_endings_in_cross_language_event_context(self):
+        self.exercise_body_event_comparison(inflected=True)
+
+    def exercise_body_event_comparison(self,inflected=False):
+        from io import BytesIO
+        raw=BytesIO();Image.new('RGB',(600,400),'blue').save(raw,format='PNG')
+        url='https://www.bbc.com/news/articles/europe-ukraine-talks'
+        lead=dict(url=url,source='BBC World',category='Botë',title='Antonio Costa names the delegation',published=NOW.isoformat())
+        text='Antonio Costa announced the delegation for the Ukraine peace talks.'
+        old_text=('António Costës i takoi të njoftonte përbërjen e delegacionit në bisedimet për Ukrainën.' if inflected else
+                  'Antonio Costa njoftoi përbërjen e delegacionit në bisedimet për Ukrainën.')
+        old=dict(id='published-costa',url='https://383ks.com/previous-source',category='Botë',
+            title='BE-ja vendos për përfaqësimin në bisedime',excerpt='Vendimi u mor në samit.',
+            body='<p>'+old_text+'</p>',published_at=NOW.isoformat())
+        evidence=dict(status='text_extracted',url=url,title=lead['title'],published=NOW.isoformat(),text=text,
+            fetched_at=NOW.isoformat(),image_url='https://images.example/photo.jpg')
+        supplied=[]
+        def pixels(url,publisher,path,**kwargs):
+            return dict(fake_capture(url,publisher,path,**kwargs),evidence=evidence)
+        def reviewer(brief,image,deadline):
+            payload=json.loads(Path(brief).read_text(encoding='utf-8'));supplied.extend(payload['published_articles'])
+            event=dict(verdict='retelling' if supplied else 'distinct',reason='The same delegation announcement has already been reported.',
+                source_span=text,against_id=old['id'],against_span=old_text)
+            return verdict(published_event=event)
+        with tempfile.TemporaryDirectory() as folder,patch('builtins.print'),patch('news_image_policy.photo_payload',return_value=raw.getvalue()):
+            records,_=review_inventory([lead],{url:evidence},[],folder,category='Botë',now=NOW,
+                capturer=pixels,reviewer=reviewer,published_articles=[old],
+                interest=lambda items,category,deadline:[dict(n=item['n'],score=8,reason='A current diplomatic development.') for item in items])
+        self.assertEqual([row['id'] for row in supplied],[old['id']],records)
+        self.assertEqual(records[url]['review']['decision'],'hold')
+
     def test_published_source_urls_do_not_consume_ranking_or_visual_calls(self):
         from io import BytesIO
         raw=BytesIO();Image.new('RGB',(600,400),'blue').save(raw,format='PNG')
