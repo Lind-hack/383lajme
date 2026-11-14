@@ -2,7 +2,8 @@
 
 // Step-by-step spotlight tour. Dims the page, lights one element at a time,
 // pushes in on it and explains it — optionally with a ghost cursor acting out
-// the interaction. Opens itself the first time the anchor scrolls into view;
+// the interaction. Opens itself the first time the anchor reaches the arm line
+// (lib/tour-arm), however fast the reader is scrolling;
 // afterwards it only opens on demand via `openTour()`.
 //
 // While it is open the tour owns the scroll outright: wheel, touch and the
@@ -26,6 +27,7 @@ import TourCursor, { type CursorScript } from "@/components/tour-cursor";
 import DardaniImage from "@/components/dardani/dardani-image";
 import DardaniLoop from "@/components/dardani/dardani-loop";
 import type { DardaniStillName } from "@/lib/dardani-assets";
+import { tourShouldFire } from "@/lib/tour-arm.mjs";
 
 export interface TourStep {
   /** CSS selector for the element this step lights up. */
@@ -173,10 +175,6 @@ const CLIP_EPS = 6;
 /** Camera travel time, scaled by distance between these bounds. */
 const CAM_MIN_MS = 320;
 const CAM_MAX_MS = 720;
-/** No `scroll` event for this long before a first-visit tour may take over. */
-const IDLE_MS = 160;
-/** …and never sooner than this after the anchor came into view. */
-const DWELL_MS = 260;
 /**
  * How far the lit element may drift from where the camera parked it before the
  * step is re-aimed. The market grid arrives from a fetch, so a step opened
@@ -394,58 +392,66 @@ export default function SpotlightTour({
   }, [tourId, start]);
 
   // First visit: wait for the anchor to exist (market cards arrive after a
-  // fetch), then open once it is genuinely on screen *and* the user has
-  // stopped scrolling. Taking the camera mid-flick is what made the old tour
-  // feel like a fight before a single pixel had moved.
+  // fetch), then take over the moment its top reaches the arm line
+  // (lib/tour-arm). Checked against the anchor's position on every scroll
+  // frame, never as a crossing, so a flick that carries the card past in a
+  // single frame still fires. It used to wait for the reader to stop
+  // scrolling too, which on a fast scroll opened it far down the page or not
+  // at all; every new reader is meant to be stopped here and shown it.
   useEffect(() => {
     if (seen(storageKey) || onboarded()) return;
 
-    let io: IntersectionObserver | null = null;
+    let el: Element | null = null;
     let mo: MutationObserver | null = null;
-    let idle = 0;
-    let armedAt = 0;
+    let frame = 0;
     let done = false;
 
-    const onScroll = () => {
-      window.clearTimeout(idle);
-      idle = window.setTimeout(fire, IDLE_MS);
-    };
-
     const fire = () => {
-      if (done) return;
-      const wait = DWELL_MS - (Date.now() - armedAt);
-      if (wait > 0) {
-        idle = window.setTimeout(fire, wait);
-        return;
-      }
       done = true;
-      window.removeEventListener("scroll", onScroll);
+      detach();
       // Marked at the moment it opens, not when it is completed. A reader who
       // scrolls past without answering has still had their one interruption,
       // and showing it again on the next page is the behaviour being fixed.
       remember(ONBOARDED_KEY);
       remember(storageKey);
-      start();
+      // Stop the flick dead before the camera moves. A touch fling keeps
+      // scrolling after the finger lifts, and preventing touchmove cannot
+      // reach it; hiding the root's overflow for two frames ends it on iOS
+      // and Android. Phones have overlay scrollbars, so nothing shifts.
+      const scrollers = [document.documentElement, document.body];
+      const prev = scrollers.map((node) => node.style.overflow);
+      scrollers.forEach((node) => (node.style.overflow = "hidden"));
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          scrollers.forEach((node, i) => (node.style.overflow = prev[i]));
+          start();
+        })
+      );
     };
 
-    const arm = () => {
-      armedAt = Date.now();
-      window.addEventListener("scroll", onScroll, { passive: true });
-      idle = window.setTimeout(fire, IDLE_MS);
+    const check = () => {
+      frame = 0;
+      if (done || !el) return;
+      if (tourShouldFire(el.getBoundingClientRect().top, window.innerHeight)) fire();
     };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(check);
+    };
+
+    function detach() {
+      mo?.disconnect();
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    }
 
     const attach = () => {
-      const el = document.querySelector(anchor);
+      el = document.querySelector(anchor);
       if (!el) return false;
-      io = new IntersectionObserver(
-        (entries) => {
-          if (!entries.some((entry) => entry.isIntersecting)) return;
-          io?.disconnect();
-          arm();
-        },
-        { threshold: 0.5, rootMargin: "-12% 0px -20% 0px" }
-      );
-      io.observe(el);
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+      // The cards can render with the reader already scrolled past them.
+      check();
       return true;
     };
 
@@ -458,10 +464,7 @@ export default function SpotlightTour({
 
     return () => {
       done = true;
-      io?.disconnect();
-      mo?.disconnect();
-      window.clearTimeout(idle);
-      window.removeEventListener("scroll", onScroll);
+      detach();
     };
   }, [anchor, storageKey, start]);
 
