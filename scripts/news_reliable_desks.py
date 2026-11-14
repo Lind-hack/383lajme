@@ -86,7 +86,8 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
         return entry.get('snapshot_sha256') or digest(entry)
 
     def deliver(entry):
-        if approval_key(entry) in changed_photo_proofs:
+        received_key = approval_key(entry)
+        if received_key in changed_photo_proofs:
             return
         if entry['article']['url'] in qa_seen:
             return
@@ -142,7 +143,7 @@ def run_category(port, reserve, outcome, category, *, deadline=None):
         except ImageVerificationFailed as exc:
             reasons.append(exc.reason)
             if exc.reason == 'source_image_changed':
-                changed_photo_proofs.add(approval_key(entry))
+                changed_photo_proofs.update((received_key,approval_key(entry)))
             print(f'383 RETAIN APPROVED {entry["article"]["slug"]}: {exc}', flush=True)
             return
         except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:

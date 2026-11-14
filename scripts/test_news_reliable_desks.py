@@ -115,12 +115,19 @@ class ReserveTests(unittest.TestCase):
 
 class ParallelDeskTests(unittest.TestCase):
     def test_changed_reserve_image_returns_to_fresh_preparation_without_reusing_approval(self):
+        self.exercise_changed_reserve_image()
+
+    def test_context_refreshed_approval_with_changed_image_still_allows_fresh_preparation(self):
+        self.exercise_changed_reserve_image(context_changed=True)
+
+    def exercise_changed_reserve_image(self,context_changed=False):
         import tempfile
         from pathlib import Path
         from news_reliable_desks import run_category
-        from news_approved_reserve import ImageVerificationFailed
+        from news_approved_reserve import ImageVerificationFailed,PublicationHistoryChanged
         article=dict(url='https://consequence.net/new-post/',slug='new-post',title='Artist shares a public update',category='Showbiz')
         stale=dict(article=dict(article,image_rights=dict(sha256='a'*64)),snapshot_sha256='old-proof')
+        refreshed=dict(stale,snapshot_sha256='context-refreshed-proof')
         fresh=dict(article=dict(article,image_rights=dict(sha256='b'*64)),snapshot_sha256='new-proof')
         class Store:
             def __init__(self):self.entries=[stale];self.confirmed=[]
@@ -131,15 +138,17 @@ class ParallelDeskTests(unittest.TestCase):
             def quota_hit(self):return False
             def collect(self,attempted):return [article] if article['url'] not in attempted else []
             def produce(self,leads,remaining):self.prepared=True;yield fresh
+            def refresh_context(self,entry):return refreshed
             def publish(self,entry):
                 self.calls.append(entry['snapshot_sha256'])
-                if entry is stale:raise ImageVerificationFailed('source_image_changed','Source bytes changed')
+                if entry is stale and context_changed:raise PublicationHistoryChanged('History changed')
+                if entry is stale or entry is refreshed:raise ImageVerificationFailed('source_image_changed','Source bytes changed')
                 return dict(batch='fresh-approved-batch',articles=[entry['article']])
         with tempfile.TemporaryDirectory() as root:
             port=Port();store=Store();result=run_category(port,store,Path(root)/'run.json','Showbiz')
         self.assertEqual(result['published_count'],1)
         self.assertTrue(port.prepared)
-        self.assertEqual(port.calls,['old-proof','new-proof'])
+        self.assertEqual(port.calls,['old-proof']+(['context-refreshed-proof'] if context_changed else [])+['new-proof'])
         self.assertEqual(store.confirmed,[fresh])
 
     def test_fresh_target_queue_starts_a_fourth_story_before_slow_siblings_finish(self):
