@@ -27,7 +27,7 @@ import TourCursor, { type CursorScript } from "@/components/tour-cursor";
 import DardaniImage from "@/components/dardani/dardani-image";
 import DardaniLoop from "@/components/dardani/dardani-loop";
 import type { DardaniStillName } from "@/lib/dardani-assets";
-import { tourShouldFire } from "@/lib/tour-arm.mjs";
+import { tourOwed, tourShouldFire } from "@/lib/tour-arm.mjs";
 
 export interface TourStep {
   /** CSS selector for the element this step lights up. */
@@ -104,6 +104,18 @@ interface SpotlightTourProps {
   /** One tour per surface — also the localStorage key and the openTour() id. */
   tourId: string;
   eyebrow?: string;
+  /**
+   * Owed on this tour's own first visit even when another tour has already
+   * run (lib/tour-arm tourOwed). For a page that has to explain itself the
+   * moment a reader lands on it, like the Tregu floor.
+   */
+  standalone?: boolean;
+  /**
+   * False while the page is still fetching what the steps point at. A tour
+   * that fires on arrival would otherwise beat the fetch and silently drop the
+   * steps whose targets are not there yet.
+   */
+  ready?: boolean;
 }
 
 interface Box {
@@ -233,6 +245,8 @@ export default function SpotlightTour({
   steps,
   tourId,
   eyebrow = "Si funksionon",
+  standalone = false,
+  ready = true,
 }: SpotlightTourProps) {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -399,7 +413,8 @@ export default function SpotlightTour({
   // scrolling too, which on a fast scroll opened it far down the page or not
   // at all; every new reader is meant to be stopped here and shown it.
   useEffect(() => {
-    if (seen(storageKey) || onboarded()) return;
+    if (!ready) return;
+    if (!tourOwed({ seenThis: seen(storageKey), onboarded: onboarded(), standalone })) return;
 
     let el: Element | null = null;
     let mo: MutationObserver | null = null;
@@ -466,7 +481,7 @@ export default function SpotlightTour({
       done = true;
       detach();
     };
-  }, [anchor, storageKey, start]);
+  }, [anchor, storageKey, start, standalone, ready]);
 
   // Hard scroll lock. Swallowing input is the lock, not `overflow: hidden` —
   // hiding the page's overflow collapses the scrollbar (the layout underneath

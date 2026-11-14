@@ -57,11 +57,31 @@ function cameBack() {
   return entry?.type === "back_forward" && performance.now() < 10_000;
 }
 
+/** The hero's three steps (components/tregu/video-hero), where the tour opens. */
+const HERO_STEPS = "[data-tour='floor-hero-steps']";
 /**
- * Three steps: where to start, what to do, what it costs. Steps whose target is
- * absent (logged out, no featured market) are skipped by the tour itself.
+ * What Tregu is for, then where to start, what to do and what it is worth.
+ * It opens on the hero's three steps, so a reader who lands here is told what
+ * the page is for straight away, before the first market. Steps whose target
+ * is absent (logged out, no featured market) are skipped by the tour itself.
  */
 const TOUR_STEPS: TourStep[] = [
+  {
+    target: HERO_STEPS,
+    title: "Çka është Tregu?",
+    body: "Parashiko si përfundojnë ndeshjet dhe lajmet e ditës. Luan me 383 Monedha falas, pa rrezik, dhe 10 000 Monedha i këmben për 10€ të vërteta.",
+    padding: 14,
+    radius: 20,
+    zoom: 1.03,
+    cursor: {
+      loop: true,
+      beats: [
+        { at: `${HERO_STEPS} > li:nth-child(1)`, hold: 900 },
+        { at: `${HERO_STEPS} > li:nth-child(2)`, hold: 900 },
+        { at: `${HERO_STEPS} > li:nth-child(3)`, hold: 1100 },
+      ],
+    },
+  },
   {
     /* Two selectors, one idea. The desktop filter row and the phone's category
        select are the same step; visibleTarget() picks whichever is on screen.
@@ -97,7 +117,7 @@ const TOUR_STEPS: TourStep[] = [
   {
     target: "[data-tour='floor-balance'], [data-tour='floor-balance-mobile']",
     title: "Monedhat janë falas",
-    body: "Fillon me 100 monedha falas dhe merr të reja çdo ditë. Nuk ka para të vërteta: është vetëm lojë.",
+    body: "Fillon me 100 monedha falas dhe merr të reja çdo ditë. Pa rrezik: 10 000 Monedha i këmben për 10€ të vërteta.",
     padding: 8,
     radius: 100,
     zoom: 1.06,
@@ -227,6 +247,15 @@ export default function TreguHub() {
   /** The first portfolio answer arrived (or failed): the account bar can be placed. */
   const [balanceTried, setBalanceTried] = useState(false);
   const [marketsLoading, setLoading] = useState(true);
+  // The walkthrough waits for the markets, or "Thuaj PO ose JO" has no card
+  // to light, but never more than 2.5s: the hero step needs no data, and a
+  // slow fetch must not keep the explanation from someone who just arrived.
+  const [tourWaited, setTourWaited] = useState(false);
+  useEffect(() => {
+    const t = window.setTimeout(() => setTourWaited(true), 2500);
+    return () => window.clearTimeout(t);
+  }, []);
+  const tourReady = !marketsLoading || tourWaited;
   // Signed in, from the session already in the browser: no network, so the
   // bonus and duel loads start with the markets instead of after them.
   // `authKnown` matters: until the session is read, "signed out" is only the
@@ -1084,12 +1113,16 @@ export default function TreguHub() {
           </div>
         )}
 
-        {/* Same spotlight walkthrough as the homepage, tuned to the floor. */}
+        {/* The homepage's spotlight walkthrough, tuned to the floor. Opens on
+            arrival, on the hero, for every reader's first visit here, even
+            one who already had the homepage strip's tour. */}
         <SpotlightTour
           tourId={TOUR_ID}
-          anchor="[data-tour='floor-filters']"
+          anchor={HERO_STEPS}
           steps={TOUR_STEPS}
           eyebrow="Si funksionon Tregu"
+          standalone
+          ready={tourReady}
         />
         {/* The Dardani sandbox opens by itself when a reader first enters a
             market (/tregu/[slug]); on the floor it only answers "Si funksionon". */}

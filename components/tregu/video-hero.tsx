@@ -259,7 +259,7 @@ export default function VideoHero({ loggedIn }: { loggedIn: boolean }) {
           {/* The whole idea in three steps: what you do, what you win, what
               it becomes. No paragraph: a step is read in a glance over video. */}
           <Reveal delay={320}>
-            <ol className="hero-steps" aria-label="Si funksionon Tregu">
+            <ol className="hero-steps" aria-label="Si funksionon Tregu" data-tour="floor-hero-steps">
               <li><b>1</b><span>Zgjidh <strong>Po</strong> ose <strong>Jo</strong> për ndeshjen ose lajmin</span></li>
               <li><b>2</b><span>Ke të drejtë? Fiton <strong>383 Monedha</strong></span></li>
               <li><b>3</b><span><strong>10 000 Monedha = 10€</strong> të vërteta</span></li>
