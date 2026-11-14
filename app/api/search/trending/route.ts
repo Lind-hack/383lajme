@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSearchData } from "@/lib/search-sources";
-import { CURATED, mentions, surfaceForms } from "@/lib/entities.mjs";
+import { CURATED, mentions, nameForms } from "@/lib/entities.mjs";
 import { fold } from "@/lib/search-match.mjs";
 
 export const dynamic = "force-dynamic";
@@ -42,10 +42,10 @@ export async function GET() {
     named.add(key);
     candidates.push({ name, forms });
   };
-  for (const e of CURATED) if (e?.kind !== "teme") add(e.name, surfaceForms(e));
+  for (const e of CURATED) if (e?.kind !== "teme") add(e.name, nameForms(e));
   for (const p of people ?? []) {
     if ((p?.mentions ?? 0) < MIN_ARCHIVE_MENTIONS) continue;
-    add(p.name, [fold(p.name)]);
+    add(p.name, [p.name]);
   }
 
   const trending = candidates

@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getSearchData } from "@/lib/search-sources";
 import { search, nearest, looksLikeQuestion } from "@/lib/search-match.mjs";
-import { resolveEntity, surfaceForms, mentions } from "@/lib/entities.mjs";
+import { resolveEntity, nameForms, mentions } from "@/lib/entities.mjs";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { searchResults } from "@/lib/search-results";
 
@@ -66,8 +66,12 @@ export async function GET(request: NextRequest) {
   const entity = resolveEntity(raw, [...subjects, ...people]);
   let entityArticles: { title: string; href: string; meta?: string; image?: string; kind: string }[] = [];
 
+  // As written: mentions() needs the capitals to tell "Kane" from "kanë".
+  const forms = entity ? nameForms(entity) : [];
+  // A topic is a chip, not the subject (lib/search-results.ts); anyone or
+  // anywhere else is, and the stories listed for them must mention them.
+  const subject = entity && !["tema", "teme"].includes(entity.kind) ? entity : null;
   if (entity) {
-    const forms = surfaceForms(entity);
     entityArticles = articles
       .filter((a) => mentions(a, forms))
       .slice(0, full ? PAGE_ARTICLES : OVERLAY_ARTICLES)
@@ -93,11 +97,15 @@ export async function GET(request: NextRequest) {
     .map((g) => ({
       ...g,
       items: g.items.filter(
-        (i: { href: string; kind: string; title: string }) =>
+        (i: { href: string; kind: string; title: string; body?: string }) =>
           // Not the articles the block above already listed, and not the
           // subject itself — linking "Gjermani" under a card headed Gjermani
           // is the same answer twice.
-          !shown.has(i.href) && !(entity && i.title === entity.name),
+          !shown.has(i.href) &&
+          !(entity && i.title === entity.name) &&
+          // A story under a named subject must be about it: the word search
+          // alone reads "kane" in "kanë" (they have).
+          !(subject && i.kind === "artikull" && !mentions(i, forms)),
       ),
     }))
     .filter((g) => g.items.length > 0);

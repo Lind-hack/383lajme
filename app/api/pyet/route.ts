@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getSearchData } from "@/lib/search-sources";
-import { resolveEntity, surfaceForms, mentions } from "@/lib/entities.mjs";
+import { resolveEntity, nameForms, mentions } from "@/lib/entities.mjs";
 import { retrieve, validQuestion, MAX_SOURCES, MAX_QUESTION } from "@/lib/pyet-retrieval.mjs";
 import {
   buildPrompt,
@@ -353,7 +353,8 @@ export async function POST(request: NextRequest) {
   const retrievalText = history.length ? `${lastQuestion} ${question}` : question;
 
   const { sources } = retrieve(articles, retrievalText, {
-    entityForms: entity ? surfaceForms(entity) : null,
+    // As written: mentions() needs the capitals to tell "Kane" from "kanë".
+    entityForms: entity ? nameForms(entity) : null,
     mentionsFn: mentions,
     pinnedSlug: slug,
     limit: MAX_SOURCES,

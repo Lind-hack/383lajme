@@ -1,6 +1,6 @@
 import { getSearchData, type ArticleRecord } from "@/lib/search-sources";
 import { search, closest } from "@/lib/search-match.mjs";
-import { resolveEntity, surfaceForms, mentions } from "@/lib/entities.mjs";
+import { resolveEntity, nameForms, mentions } from "@/lib/entities.mjs";
 import type { Article } from "@/lib/mock-data";
 import type { SectionMarket } from "@/lib/kategori-market";
 
@@ -88,19 +88,21 @@ export async function searchResults(rawQuery: string, options: SearchOptions = {
   // subject of the search.
   const named = resolveEntity(query, [...subjects, ...people]);
   const entity = named && !["tema", "teme"].includes(named.kind) ? named : null;
-  if (entity) {
-    const forms = surfaceForms(entity);
-    for (const a of articles) if (mentions(a, forms)) add(a);
-  }
+  const forms = entity ? nameForms(entity) : [];
+  if (entity) for (const a of articles) if (mentions(a, forms)) add(a);
+  // When the query names someone or somewhere, every story listed has to be
+  // about them. The word search alone reads "kane" in "kanë" (they have), so
+  // "Harry Kane" listed Trump and Zelensky under his own stories.
+  const about = (r: ArticleRecord | undefined) => (!entity || (r && mentions(r, forms)) ? r : undefined);
 
   const articleEntries = entries.filter((e) => e.kind === "artikull");
   const [group] = search(articleEntries, query, { perGroup: MAX_RESULTS, total: MAX_RESULTS });
-  for (const item of group?.items ?? []) add(bySlug.get(slugOf(item.href) ?? ""));
+  for (const item of group?.items ?? []) add(about(bySlug.get(slugOf(item.href) ?? "")));
 
   let exact = true;
   if (out.length === 0) {
     exact = false;
-    for (const item of closest(articleEntries, query, { limit: 120 })) add(bySlug.get(slugOf(item.href) ?? ""));
+    for (const item of closest(articleEntries, query, { limit: 120 })) add(about(bySlug.get(slugOf(item.href) ?? "")));
   }
 
   const others = search(
