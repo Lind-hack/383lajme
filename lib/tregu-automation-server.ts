@@ -17,6 +17,7 @@ import { runRivalryJobs } from "@/lib/tregu-rivalry-server";
 import { runMorningEditionPush } from "@/lib/perty-morning-push";
 import { runCoverArt } from "@/lib/cover-art-server";
 import { runStorySummaries } from "@/lib/story-summary-server";
+import { runTopicTagging } from "@/lib/topic-tags-server";
 import { runBorderWaitLog } from "@/lib/visit-border-log-server";
 import { sendPendingNewsMarketEmails } from "@/lib/tregu-creation-email";
 import { parseMarketResearchEvidence } from "@/lib/tregu-research-evidence-validated.mjs";
@@ -881,6 +882,9 @@ export async function runLiveSportsAutomation(now = new Date()) {
     // written once a day in the 06:00 Kosovo hour, before the 07:00 push; a
     // no-op the rest of the day. Never throws.
     runStorySummaries(now),
+    // Kërko: topic tags on new articles within minutes, the archive in the
+    // background; rests when nothing is left. Never throws.
+    runTopicTagging(now),
     // Kuizi i ditës was retired 2026-10-24: it no longer publishes. Its tables
     // and lib/kuizi-server stay, so runKuiziDaily(now) can be added back here.
   ]);
@@ -889,7 +893,7 @@ export async function runLiveSportsAutomation(now = new Date()) {
   if (!settled) {
     // The response has gone out, so a late failure would otherwise vanish.
     void background.then((results) => {
-      const names = ["f1_template", "football_template", "f1_championship", "basketball_template", "news_settlement", "leaderboard", "rivalry"];
+      const names = ["f1_template", "football_template", "f1_championship", "basketball_template", "news_settlement", "leaderboard", "rivalry", "morning_push", "border_wait", "cover_art", "story_summaries", "topic_tagging"];
       results.forEach((result, index) => {
         if (result.status === "rejected") console.error(`Heartbeat background job ${names[index]} failed:`, reasonText(result.reason));
       });

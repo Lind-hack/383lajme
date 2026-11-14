@@ -6,6 +6,7 @@ import { remoteImageSrc } from "./remote-image.mjs";
 import { extractPeople, deriveEntity } from "./entities.mjs";
 import { getToneHistory } from "./tone-data";
 import { lmsrPriceYes } from "./tregu-client";
+import { getTopicTags } from "./topic-tags-server";
 
 function marketProb(m: { q_yes?: unknown; q_no?: unknown; b?: unknown }): number | null {
   const p = lmsrPriceYes(Number(m?.q_yes), Number(m?.q_no), Number(m?.b));
@@ -52,6 +53,8 @@ export interface SearchEntry {
   open?: boolean;
   prob?: number | null;
   closesAt?: string;
+  /** Articles: the topics it is about (lib/topic-tags.mjs); null until tagged. */
+  topics?: string[] | null;
 }
 
 /**
@@ -322,13 +325,14 @@ async function supabaseEntries(): Promise<{ entries: SearchEntry[]; articles: Ar
   const out: SearchEntry[] = [];
   const records: ArticleRecord[] = [];
 
-  const [articles, markets] = await Promise.all([
+  const [articles, markets, tags] = await Promise.all([
     supabase
       .from("news_articles")
       .select("id, slug, title, excerpt, category, source, source_flag, published_at, image_url")
       .order("published_at", { ascending: false })
       .limit(ARTICLE_LIMIT),
     supabase.from("markets").select("slug, question, category, status, market_type, q_yes, q_no, b, closes_at").limit(500),
+    getTopicTags(),
   ]);
 
   for (const a of articles.data ?? []) {
@@ -341,6 +345,7 @@ async function supabaseEntries(): Promise<{ entries: SearchEntry[]; articles: Ar
       title: a.title,
       body: a.excerpt ?? "",
       href: `/article/${a.slug}`,
+      topics: tags.get(a.slug) ?? null,
       meta,
       weight: WEIGHT.artikull,
       date: a.published_at ?? undefined,
