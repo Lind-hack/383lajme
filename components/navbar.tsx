@@ -16,6 +16,13 @@ import { PYET_OPEN_EVENT } from "@/lib/pyet-thread";
 import DardaniImage from "./dardani/dardani-image";
 import LanguageSwitcher from "./language/language-switcher";
 import {useAuthUser} from '@/lib/use-auth-user';
+import { nextChromeState } from "@/lib/nav-chrome.mjs";
+
+/** The header stays put where something is laid out against it: a market's
+ *  back button and the profile's section tabs stick right under it, and the
+ *  Për ty reel (also on a shared /gazeta copy) is sized to the screen between
+ *  it and the tab bar, already full screen. */
+const KEEP_HEADER = /^\/(tregu\/|profili(\/|$)|per-ty(\/|$)|gazeta\/)/;
 
 /** Derived from lib/category-map, so the navbar, the side panel (which imports
  *  this), the footer and the pill row cannot drift apart. Order and membership
@@ -105,6 +112,41 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchMode, setSearchMode] = useState<"kerko" | "pyet">("kerko");
   const pathname = usePathname();
+  // Phones: the header slides away while the reader scrolls down and comes
+  // back on the first scroll up (lib/nav-chrome), so an article gets the
+  // whole screen. The tab bar stays: it is the way around the site.
+  const [chromeHidden, setChromeHidden] = useState(false);
+
+  useEffect(() => {
+    setChromeHidden(false);
+    if (KEEP_HEADER.test(pathname ?? "")) return;
+    const mq = window.matchMedia("(max-width: 768px)");
+    let state = { hidden: false, anchorY: window.scrollY };
+    let frame = 0;
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const next = mq.matches ? nextChromeState(state, window.scrollY) : { hidden: false, anchorY: window.scrollY };
+        if (next.hidden !== state.hidden) setChromeHidden(next.hidden);
+        state = next;
+      });
+    };
+    // Turned or widened past a phone while hidden: bring it back now, not on
+    // the next scroll.
+    const onWidth = () => {
+      if (mq.matches) return;
+      state = { hidden: false, anchorY: window.scrollY };
+      setChromeHidden(false);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    mq.addEventListener("change", onWidth);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      mq.removeEventListener("change", onWidth);
+      cancelAnimationFrame(frame);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -163,6 +205,8 @@ export default function Navbar() {
     return () => window.removeEventListener(PYET_OPEN_EVENT, onOpen);
   }, []);
 
+  const headerAway = chromeHidden && !menuOpen && !searchOpen;
+
   const openSearch = (mode: "kerko" | "pyet") => {
     setSearchMode(mode);
     setSearchOpen(true);
@@ -170,10 +214,16 @@ export default function Navbar() {
 
   return (
     <header
+      className="site-header"
       data-overlay={overlay ? "true" : undefined}
+      data-chrome-hidden={headerAway ? "true" : undefined}
+      // Off-screen means out of the tab order too.
+      inert={headerAway}
       style={{
         position: "fixed",
-        top: 0,
+        // Slid with `top`, not a transform: a transform would make this the
+        // containing block of the menu and search overlays inside it.
+        top: headerAway ? "calc(-1 * var(--nav-h, 72px) - 2px)" : 0,
         left: 0,
         right: 0,
         zIndex: menuOpen ? 110 : 50,
@@ -183,8 +233,8 @@ export default function Navbar() {
           : scrolled
             ? "1px solid #E8E3DB"
             : "1px solid rgba(17,17,17,0.08)",
-        boxShadow: scrolled ? "0 2px 20px rgba(0,0,0,0.06)" : "none",
-        transition: "background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease",
+        boxShadow: scrolled && !headerAway ? "0 2px 20px rgba(0,0,0,0.06)" : "none",
+        transition: "background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, top 0.32s cubic-bezier(0.22, 1, 0.36, 1)",
       }}
     >
       <div
