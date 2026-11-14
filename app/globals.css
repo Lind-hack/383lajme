@@ -19810,11 +19810,10 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
     text-overflow: ellipsis;
   }
   .m-tab[aria-current="page"] .m-tab-label { font-weight: 800; }
-  /* Tregu and Pyet Dardanin are in the bar, and SQ/EN/DE is in the menu:
-     the phone header is the logo, search and ☰, nothing else. */
+  /* Tregu and Pyet Dardanin are in the bar: the phone header is the logo,
+     the language chip, search and ☰. */
   .nav-right-pills .nav-tregu-link,
-  .nav-right-pills .nav-dardan,
-  .nav-right-pills .site-language { display: none; }
+  .nav-right-pills .nav-dardan { display: none; }
 
   /* Pyet Dardanin, raised out of the bar's centre. The disc sits 26px
      proud of the top edge, ringed in the paper colour so it reads as cut
