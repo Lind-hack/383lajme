@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowUp, Sparkles } from "lucide-react";
 import DardaniFace, { usePreloadDardaniFaces, type DardaniFaceState } from "@/components/dardani/dardani-face";
-import DardaniImage from "@/components/dardani/dardani-image";
 import DardaniLoop from "@/components/dardani/dardani-loop";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { rememberQuestion, rememberName, readName, readFollowedTopics } from "@/lib/dardani-memory-store";
@@ -253,7 +252,7 @@ export default function AskPanel({
     <div className="pyet" data-variant={variant}>
       {overlay && !started && (
         <div className="pyet-hello">
-          <DardaniImage name="wave" alt="Dardani përshëndet" className="pyet-hello-img dardani-peek" />
+          <DardaniLoop name="greeting" alt="Dardani përshëndet" className="pyet-hello-img" />
           <div className="pyet-hello-say">
             <strong>{readerName ? `Tung, ${readerName}! Ç'kemi?` : "Tungjatjeta! Unë jam Dardani."}</strong>
             <p>Bisedo me mua ose më pyet për çdo lajm. Për lajmet të them vetëm atë që ka shkruar 383.</p>
