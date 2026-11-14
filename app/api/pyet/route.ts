@@ -8,8 +8,20 @@ import {
   unsupportedNumbers,
   SYSTEM_PROMPT,
   REFUSAL,
-  REFUSAL_THIN,
+  refusalFor,
 } from "@/lib/pyet-prompt.mjs";
+import {
+  ROUTER_PROMPT,
+  buildRouterPrompt,
+  parseRoute,
+  replyLanguage,
+  guessLanguage,
+  isDistress,
+  GUARD_PROMPT,
+  buildGuardPrompt,
+  parseGuard,
+  fixedReply,
+} from "@/lib/pyet-guard.mjs";
 import {
   isSmallTalk,
   extractName,
@@ -51,10 +63,11 @@ export const maxDuration = 30;
  * decides to be helpful about something it half-remembers produces fluent
  * Albanian either way; what it cannot do is cite an article it was never given.
  *
- * One exception, decided by the product owner in October 2026: small talk
- * ("si je?", "faleminderit", "quhem Lind") is answered by Dardani as a friend,
- * without sources, because it makes no claims (lib/pyet-chat.mjs). A message
- * with any real subject in it still goes through all three gates.
+ * The exception, widened by the product owner in November 2026: small talk and
+ * harmless general help (a recipe, homework, a film tip, an email) are answered
+ * by Dardani as a friend, without sources. A router decides the path and a
+ * guard reads every such reply before it is sent (lib/pyet-guard.mjs). Anything
+ * about events, politics or public figures still goes through all three gates.
  */
 
 /**
@@ -81,12 +94,7 @@ function todayInKosovo() {
   }).format(new Date());
 }
 
-/**
- * When the model cannot be reached for small talk, Dardani still answers. It
- * has to fit any small talk (a hello, a thanks, a joke request), so it says
- * nothing that assumes which one it was.
- */
-const CHAT_FALLBACK = "Jam këtu! Më pyet për çdo lajm të 383 dhe ta gjej në arkiv.";
+const NO_STORE = { headers: { "Cache-Control": "no-store" } };
 const hits = new Map<string, number[]>();
 
 /**
@@ -132,10 +140,10 @@ async function logUnanswered(question: string, reason: string) {
  * reader can see which is true when they are on the article, so saying the
  * wrong one costs trust.
  */
-function refuse(reason: string, thin = false) {
+function refuse(reason: string, thin = false, lang = "sq") {
   return NextResponse.json(
-    { grounded: false, refusal: thin ? REFUSAL_THIN : REFUSAL, reason },
-    { headers: { "Cache-Control": "no-store" } },
+    { grounded: false, refusal: refusalFor(lang, thin), reason, language: lang },
+    NO_STORE,
   );
 }
 
@@ -158,7 +166,7 @@ export async function GET() {
   }));
   return NextResponse.json(
     { starters: starterQuestions(articles, 3), pool },
-    { headers: { "Cache-Control": "no-store" } },
+    NO_STORE,
   );
 }
 
@@ -217,39 +225,120 @@ export async function POST(request: NextRequest) {
 
   const { articles, subjects, people } = await getSearchData();
 
-  // ── Small talk ────────────────────────────────────────────────────────────
-  // "Si je?" is not a question about the archive, and refusing to say hello
-  // back is the opposite of a friend. The chat prompt makes no claims about
-  // events; the only news it may name is today's headlines, verbatim.
-  if (isSmallTalk(question)) {
-    const meta: { model?: string } = {};
-    let answer = CHAT_FALLBACK;
-    let followups: string[] = [];
+  // ── Which path ────────────────────────────────────────────────────────────
+  // The keyword list still answers the obvious hellos without a router call;
+  // every other message is routed by a model (lib/pyet-guard.mjs). A verdict
+  // that cannot be read sends the message to the archive, which refuses rather
+  // than invents.
+  type Route = { route: string; lang: string | null; distress: boolean };
+  let route: Route | null = isDistress(question)
+    ? { route: "chat", lang: null, distress: true }
+    : isSmallTalk(question)
+      ? { route: "chat", lang: guessLanguage(question), distress: false }
+      : null;
+  if (!route) {
     try {
-      const raw = await llmJSON<unknown>(
-        localizedAnswerPrompt(CHAT_PROMPT, language),
-        buildChatPrompt(question, {
-          name,
-          interests,
-          headlines: articles.slice(0, 6).map((a) => a.title),
-          history,
-          today,
-          justNamed: Boolean(named),
+      route = parseRoute(
+        await llmJSON<unknown>(ROUTER_PROMPT, buildRouterPrompt(question, history), {
+          maxTokens: 200,
+          temperature: 0,
+          groqModels: CHAT_MODELS,
         }),
-        // Some warmth, not much: at 0.6 the jokes stopped being Albanian.
-        { maxTokens: 1500, temperature: 0.4, groqModels: CHAT_MODELS, meta },
-      );
-      const reply = validateChat(raw);
-      if (reply.ok && typeof reply.answer === "string") {
-        answer = reply.answer;
-        followups = Array.isArray(reply.followups) ? reply.followups : [];
+      ) as Route | null;
+    } catch (error) {
+      console.error("[pyet] the router failed; the message goes to the archive", error);
+    }
+  }
+  const lang: string = replyLanguage(route?.lang ?? null, language);
+
+  // What Dardani never does, and a reader in danger: fixed words, no model.
+  if (route?.distress || route?.route === "blocked") {
+    return NextResponse.json(
+      {
+        grounded: true,
+        kind: "chat",
+        answer: fixedReply(route.distress ? "distress" : "blocked", lang),
+        sources: [],
+        followups: [],
+        name: named,
+        language: lang,
+        model: null,
+      },
+      NO_STORE,
+    );
+  }
+
+  // ── Chat and general help ─────────────────────────────────────────────────
+  // A friend answers "si je?" and "how do I make flija?" instead of refusing
+  // them. Every reply is read by the guard before it is sent; one rewrite is
+  // allowed, then a fixed line. A guard that cannot be reached blocks the reply.
+  if (route?.route === "chat" || route?.route === "general") {
+    const meta: { model?: string } = {};
+    const system = localizedAnswerPrompt(CHAT_PROMPT, lang);
+    const user = buildChatPrompt(question, {
+      name,
+      interests,
+      headlines: articles.slice(0, 6).map((a) => a.title),
+      history,
+      today,
+      justNamed: Boolean(named),
+    });
+    let answer = fixedReply("fallback", lang);
+    let followups: string[] = [];
+    let rejected = "";
+    try {
+      for (let attempt = 0; attempt < 2; attempt++) {
+        const raw = await llmJSON<unknown>(
+          system,
+          rejected
+            ? `${user}\n\nKUJDES: përgjigja e mëparshme u refuzua (${rejected}). Shkruaje sërish duke i respektuar rregullat.`
+            : user,
+          // Some warmth, not much: at 0.6 the jokes stopped being Albanian.
+          // General help leads with Gemini: tested 2026-11-14, qwen3.8 and
+          // gpt-oss-120b both invented Albanian facts (a Kadare novel that does
+          // not exist, Flag Day "in Prizren", a recipe that boiled blood), while
+          // Gemini Flash got them right. Small talk stays on the faster Groq.
+          {
+            maxTokens: 2000,
+            temperature: 0.4,
+            groqModels: CHAT_MODELS,
+            prefer: route.route === "general" ? "gemini" : "groq",
+            // 2.5 Flash first: with thinking off it answered in ~5s and got the
+            // facts right. The default ladder starts on aliases that 503 under
+            // load and on 3.6 Flash, which cannot switch thinking off and took
+            // 30–60s a reply.
+            geminiModels: ["gemini-2.5-flash", "gemini-flash-latest"],
+            timeoutMs: 15_000,
+            meta,
+          },
+        );
+        const draft = validateChat(raw);
+        if (!draft.ok || typeof draft.answer !== "string") {
+          rejected = draft.reason ?? "invalid";
+          continue;
+        }
+        const verdict = parseGuard(
+          await llmJSON<unknown>(GUARD_PROMPT, buildGuardPrompt(question, draft.answer), {
+            maxTokens: 200,
+            temperature: 0,
+            groqModels: CHAT_MODELS,
+          }),
+        );
+        if (verdict.ok) {
+          answer = draft.answer;
+          followups = Array.isArray(draft.followups) ? draft.followups : [];
+          break;
+        }
+        console.warn(`[pyet] the guard stopped a reply: ${verdict.reason}`);
+        rejected = verdict.reason;
+        answer = fixedReply("unsure", lang);
       }
     } catch (error) {
-      console.error("[pyet] small talk fell back to the fixed hello", error);
+      console.error("[pyet] chat fell back to a fixed reply", error);
     }
     return NextResponse.json(
-      { grounded: true, kind: "chat", answer, sources: [], followups, name: named, model: meta.model ?? null },
-      { headers: { "Cache-Control": "no-store" } },
+      { grounded: true, kind: "chat", answer, sources: [], followups, name: named, language: lang, model: meta.model ?? null },
+      NO_STORE,
     );
   }
 
@@ -274,7 +363,7 @@ export async function POST(request: NextRequest) {
   // Nothing in the archive touches this. Refuse now, before a model runs.
   if (sources.length === 0) {
     void logUnanswered(question, "no-sources");
-    return refuse("no-sources");
+    return refuse("no-sources", false, lang);
   }
 
   // The index holds excerpts only. Answering "pse ndodhi kjo" from an excerpt
@@ -283,7 +372,7 @@ export async function POST(request: NextRequest) {
   const full = await hydrateBodies(sources);
 
   // ── Gate 2 ────────────────────────────────────────────────────────────────
-  const system = localizedAnswerPrompt(SYSTEM_PROMPT, language);
+  const system = localizedAnswerPrompt(SYSTEM_PROMPT, lang);
   const prompt = buildPrompt(question, full, { history, name, today });
   const meta: { model?: string } = {};
   const answerOnce = (user: string) =>
@@ -354,7 +443,7 @@ export async function POST(request: NextRequest) {
     const why = invented.length > 0 ? "unsupported-number" : (verdict.reason ?? "no-valid-citation");
     void logUnanswered(question, why);
     // Sources were found and shown to the model, so this is the thin case.
-    return refuse(why, true);
+    return refuse(why, true, lang);
   }
 
   // Only the articles the answer actually leaned on are shown as sources.
@@ -372,9 +461,10 @@ export async function POST(request: NextRequest) {
       sources: cited,
       followups: Array.isArray(verdict.followups) ? verdict.followups : [],
       name: named,
+      language: lang,
       // Which model wrote this, so "what is Pyet running on" has an answer.
       model: meta.model ?? null,
     },
-    { headers: { "Cache-Control": "no-store" } },
+    NO_STORE,
   );
 }

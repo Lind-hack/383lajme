@@ -20001,6 +20001,30 @@ header[data-overlay] .nav-pill--primary[aria-current="page"] { color: #FF6A4D; }
   .site-nav-inner .nav-search-btn { width:24px; }
   .site-nav-inner .nav-menu-btn { width:36px!important; }
 }
+/* Phones: the header's SQ/EN/DE row becomes one chip with a menu
+   (components/language/language-switcher). Desktop keeps the row. */
+.site-language-compact { display:none;position:relative; }
+.site-language-chip { position:relative;display:inline-flex;align-items:center;gap:2px;height:30px;padding:0 7px 0 10px;border:1px solid #ffd0c5;border-radius:100px;background:var(--theme-paper, #fff7f3);color:#a52c16;font:750 12px var(--font-manrope),sans-serif;letter-spacing:.02em;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .15s ease,transform .1s ease; }
+.site-language-chip::after { content:"";position:absolute;inset:-7px -3px; }
+.site-language-chip svg { transition:transform .18s ease; }
+.site-language-chip[aria-expanded="true"] svg { transform:rotate(180deg); }
+.site-language-chip:active { transform:scale(.96); }
+.site-language-chip:focus-visible { outline:2px solid #ff4422;outline-offset:3px; }
+.site-language-menu { position:absolute;top:calc(100% + 10px);left:0;z-index:130;min-width:156px;padding:4px;border:1px solid var(--theme-border, #e8e3db);border-radius:14px;background:var(--theme-paper, #fff);box-shadow:0 12px 32px rgba(0,0,0,.18);animation:language-menu-in .14s ease-out; }
+.site-language-menu button { display:flex;align-items:center;justify-content:space-between;width:100%;min-height:44px;padding:0 12px;border:0;border-radius:10px;background:transparent;color:var(--theme-ink, #111);font:600 14px var(--font-manrope),sans-serif;text-align:left;cursor:pointer; }
+.site-language-menu button[aria-pressed="true"] { color:#d93a0f; }
+.site-language-menu button:focus-visible { outline:2px solid #ff4422;outline-offset:-2px; }
+@media (hover:hover) { .site-language-menu button:hover { background:rgba(255,68,34,.08); } }
+@keyframes language-menu-in { from { opacity:0;transform:translateY(-4px); } to { opacity:1;transform:none; } }
+@media (max-width:640px) {
+  .site-language-header .site-language-options { display:none; }
+  .site-language-header .site-language-compact { display:block; }
+}
+/* The chip frees ~22px; spend some of it so Pyet Dardanin and the menu stop touching. */
+@media (min-width:361px) and (max-width:640px) {
+  .site-nav-controls { gap:10px!important; }
+}
+@media (prefers-reduced-motion:reduce) { .site-language-menu { animation:none; } .site-language-chip svg { transition:none; } }
 @media print { .site-language { display:none!important; } }
 
 /* ── /kerko results: laid out like a section of the paper (app/kerko/page).
