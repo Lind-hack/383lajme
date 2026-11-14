@@ -271,3 +271,12 @@ is required. Verification timeouts retain their existing handling. This avoids
 repeatedly attempting the same invalid proof while preventing fresh evaluation
 of the underlying story. Fresh image bytes, all approval hashes and confirmed
 duplicate-free readback remain mandatory.
+
+When a fresh independent reserve-context comparison explicitly rejects an old
+approval as a retelling, archive that rejection against its unchanged article,
+evidence and approval receipts. Storage time and expiry flags do not change that
+identity, so startup receipt recovery cannot resurrect it. Preserve the original
+record for audit; a materially updated story with new complete approvals remains
+eligible. Uncertainty, missing verdicts and timeouts do not create terminal
+rejections. This prevents repeatedly spending shared model capacity on a known
+rejected reserve every hour without treating incomplete reviews as decisions.

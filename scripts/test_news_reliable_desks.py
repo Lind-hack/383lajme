@@ -31,6 +31,60 @@ class EligibilityTests(unittest.TestCase):
         self.assertEqual(result['decision'],'consider')
 
 class ReserveTests(unittest.TestCase):
+    def test_explicit_context_retelling_removes_only_that_proof_from_future_reserve_use(self):
+        self.exercise_reserve_context_rejection()
+
+    def test_unavailable_or_uncertain_context_preserves_the_reserve_for_recovery(self):
+        for mode in ('uncertain','timeout'):
+            with self.subTest(mode=mode):self.exercise_reserve_context_rejection(mode)
+
+    def exercise_reserve_context_rejection(self,mode='retelling'):
+        import tempfile,time,json,subprocess
+        from pathlib import Path
+        from datetime import datetime,timezone
+        from news_approved_reserve import Reserve,recover_approvals
+        from news_reliable_desks import ProductionPort
+        from news_copyright_review import article_digest,digest,POLICY,CHECKS
+        from news_json_state import atomic
+        for category,url in [('Showbiz','https://anabelmagazine.com/a'),('Ekonomi','https://decrypt.co/a'),('Botë','https://www.bbc.com/news/a')]:
+            with self.subTest(category=category),tempfile.TemporaryDirectory() as temp:
+                root=Path(temp);now=datetime.now(timezone.utc).isoformat()
+                article=dict(id='new',slug='new',url=url,title='A public decision was announced today',body='<p>The authority announced its final decision at the public briefing.</p>',category=category,published_at=now,image_rights=dict(sha256='a'*64))
+                evidence=dict(slug='new',evidence=dict(status='text_extracted',published=now))
+                proof=dict(article_sha256=article_digest(article),evidence_sha256=digest(evidence),decision=dict(verdict='approve',checks=dict.fromkeys(CHECKS,True),reason='Every claim is supported and the composition is independent.'))
+                receipt=dict(policy=POLICY,model='gpt-6-luna',provider='openai-codex',reviewed_at=now,articles={'new':proof})
+                context=dict(policy='383-event-context-v2',model='gpt-6-luna',provider='openai-codex',reviewed_at=now,history={},articles={'new':dict(article_sha256=article_digest(article),decisions=[dict(verdict='distinct')])})
+                reserve=Reserve(root/'reserve',category);entry=reserve.store(article,evidence,receipt,context)
+                stored=reserve.path/(digest(url)+'.json');before=stored.read_bytes()
+                history=[dict(article,id='already-published',url='https://example.com/earlier')]
+                def select(batch,articles,recent,deadline):return ({'new':recent},{'new':[dict(related_ids=['published-0'],reason='The supplied entry concerns this public announcement.')]})
+                decision=dict(review_id='draft-0',verdict='retelling',reason='This reports the same decision from the same public briefing without a subsequent development.',article_span=article['title'],against_id='published-0',against_span=history[0]['title'])
+                if mode=='uncertain':decision['verdict']='uncertain'
+                port=ProductionPort(category,reserve,root/'run',time.time()+3000,qa=True)
+                with patch('codex_automation_support._recently_published',return_value=history),patch('news_context_review.select_comparisons',side_effect=select),patch('news_context_review.ask_rows',return_value=[decision],side_effect=subprocess.TimeoutExpired('model',240) if mode=='timeout' else None):
+                    if mode=='retelling':self.assertIsNone(port.refresh_context(entry))
+                    else:
+                        with self.assertRaisesRegex(ValueError,'context review incomplete'):port.refresh_context(entry)
+                if mode!='retelling':
+                    self.assertEqual(reserve.available(),[entry])
+                    self.assertEqual(stored.read_bytes(),before)
+                    continue
+                self.assertEqual(Reserve(root/'reserve',category).available(),[])
+                batch=root/'old/wave-1/draft-0'/'2026-11-14T12.json'
+                atomic(batch,[article]);atomic(batch.with_suffix('.editor-sources.json'),[evidence])
+                atomic(batch.with_suffix('.copyright-review.json'),receipt);atomic(batch.with_suffix('.context-review.json'),context)
+                atomic(batch.with_suffix('.selection.json'),dict(time_sensitive=False))
+                self.assertEqual(recover_approvals(root,Reserve(root/'reserve',category)),0)
+                self.assertEqual(reserve.available(),[])
+                self.assertEqual(stored.read_bytes(),before)
+                updated=dict(article,body='<p>The authority announced a separate subsequent decision at a later briefing.</p>')
+                updated_evidence=dict(evidence,evidence=dict(evidence['evidence'],text=updated['body']))
+                updated_proof=dict(proof,article_sha256=article_digest(updated),evidence_sha256=digest(updated_evidence))
+                fresh=reserve.store(updated,updated_evidence,dict(receipt,articles={'new':updated_proof}),
+                    dict(context,articles={'new':dict(article_sha256=article_digest(updated),decisions=[dict(verdict='distinct')])}))
+                self.assertEqual(reserve.available(),[fresh])
+                self.assertEqual(reserve.problem(entry),'context_retelling')
+
     def test_retired_france24_extraction_cannot_enter_approved_reserves(self):
         import tempfile
         from pathlib import Path

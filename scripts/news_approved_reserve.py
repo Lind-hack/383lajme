@@ -43,6 +43,12 @@ def time_sensitive_story(article, explicit=False):
                 r'\b(?:stocks?|bitcoin|ethereum|crypto|aksion\w*|burs\w*|intraday|wall street|naft\w*|oil)\b',text)))
 
 
+def approval_identity(entry):
+    # Receipt recovery may change storage time or conservative expiry flags;
+    # neither supplies a new article, evidence bundle or independent approval.
+    return digest({key:entry[key] for key in ('article','evidence','originality','context')})
+
+
 class Reserve:
     def __init__(self, root, category):
         if category not in DESKS:
@@ -79,6 +85,7 @@ class Reserve:
                     and context_proof['decisions'][0]['verdict'] == 'distinct' and isinstance(context['history'], dict)),
                 ('photo_changed', lambda: entry['image_sha256'] == a['image_rights']['sha256']),
                 ('snapshot_changed', lambda: entry['snapshot_sha256'] == digest({k: v for k, v in entry.items() if k != 'snapshot_sha256'})),
+                ('context_retelling', lambda: not (self.path/'rejected'/(approval_identity(entry)+'.json')).is_file()),
                 ('missing_corroboration', lambda: not needs_corroboration(a) or bool(evidence.get('corroborating'))),
             )
             return next((name for name, passes in checks if not passes()), '')
@@ -87,6 +94,11 @@ class Reserve:
 
     def valid(self, entry, *, now=None):
         return not self.problem(entry, now=now)
+
+    def reject_context(self, entry, context):
+        """Archive a completed independent rejection; never consume it as published."""
+        atomic(self.path/'rejected'/(approval_identity(entry)+'.json'), dict(
+            reason='context_retelling',entry=entry,context=context,rejected_at=datetime.now(timezone.utc).isoformat()))
 
     def store(self, article, evidence, originality, context, *, now=None, time_sensitive=False):
         now = now or datetime.now(timezone.utc)

@@ -807,6 +807,10 @@ class ProductionPort:
         review(batch, history)
         rows = json.loads(batch.read_text(encoding='utf-8'))
         if not rows:
+            # review() returns an empty batch only after explicit, validated
+            # retelling decisions. Missing/uncertain verdicts raise instead.
+            self.reserve.reject_context(entry,json.loads(batch.with_suffix('.context-review.json').read_text(encoding='utf-8')))
+            self.metrics['reserve_rejections'] = self.metrics.get('reserve_rejections',0) + 1
             return None
         if len(rows) != 1 or digest(rows[0]) != digest(entry['article']):
             raise ValueError('context recheck changed the approved copy')
