@@ -28,12 +28,18 @@ async function geminiChat(
   key: string,
   system: string,
   user: string,
-  opts: { maxTokens?: number; temperature?: number; meta?: { model?: string }; timeoutMs?: number } = {}
+  opts: {
+    maxTokens?: number;
+    temperature?: number;
+    meta?: { model?: string };
+    timeoutMs?: number;
+    geminiModels?: readonly string[];
+  } = {}
 ): Promise<string> {
   const failures: string[] = [];
   const prompt = `${system}\n\n${user}`;
 
-  for (const model of GEMINI_MODELS) {
+  for (const model of opts.geminiModels ?? GEMINI_MODELS) {
     // Two attempts per model. Current Flash models reason before answering and
     // bill it against maxOutputTokens, which at these budgets consumed the whole
     // allowance and returned an empty candidate — so thinking is disabled first.
@@ -112,6 +118,8 @@ export async function llmJSON<T>(
     meta?: { model?: string };
     /** Per-request deadline for Gemini (default 25s). */
     timeoutMs?: number;
+    /** A Gemini ladder for this call instead of GEMINI_MODELS. */
+    geminiModels?: readonly string[];
   } = {}
 ): Promise<T> {
   const failures: string[] = [];

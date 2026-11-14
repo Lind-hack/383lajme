@@ -9,7 +9,7 @@ import DardaniLoop from "@/components/dardani/dardani-loop";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { rememberQuestion, rememberName, readName, readFollowedTopics } from "@/lib/dardani-memory-store";
 import { useLanguage } from "@/components/language/language-provider";
-import type { SiteLanguage } from "@/lib/site-language.mjs";
+import { isSiteLanguage, type SiteLanguage } from "@/lib/site-language.mjs";
 
 /** A suggested question. `reason` marks one chosen for this reader ("Sepse ndjek Sport"). */
 export type Chip = { label: string; question: string; reason?: string };
@@ -174,6 +174,8 @@ export default function AskPanel({
           settle({
             state: "answered",
             kind: data.kind === "chat" ? "chat" : "news",
+            // Dardani replies in the language the reader wrote in, which can differ from the site's.
+            ...(isSiteLanguage(data.language) ? { language: data.language } : {}),
             answer: String(data.answer ?? ""),
             sources: Array.isArray(data.sources) ? data.sources : [],
             followups: Array.isArray(data.followups)
