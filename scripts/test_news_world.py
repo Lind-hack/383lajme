@@ -577,7 +577,7 @@ class WorldRunTests(unittest.TestCase):
                     target=Path(args[args.index('--batch')+1]);batch.append(target);atomic(target,[dict(url='https://www.bbc.com/news/test')])
                 else:atomic(batch[0],[])
             with patch.object(port,'python',side_effect=python),patch.object(port,'command',side_effect=command):
-                self.assertEqual(list(port.produce([],5)),[])
+                self.assertEqual(list(port.produce([dict(url='https://www.bbc.com/news/test',source='BBC World')],5)),[])
             self.assertNotIn('editor_completion.py',calls)
             self.assertIn('review_rejection',port.metrics['failure_reasons'])
 
@@ -601,7 +601,7 @@ class WorldRunTests(unittest.TestCase):
                     raise subprocess.TimeoutExpired('prepare',480)
                 raise RuntimeError('writer unavailable')
             with patch.object(port,'python',side_effect=command):
-                self.assertEqual(list(port.produce([],5)),[])
+                self.assertEqual(list(port.produce([dict(url='https://www.bbc.com/news/test',source='BBC World')],5)),[])
             self.assertEqual(port.metrics['writer_ready'],1)
             self.assertIn('news_writer_brief.py',calls)
             self.assertIn('partial_preparation_recovered',port.metrics['failure_reasons'])
@@ -658,7 +658,7 @@ class WorldRunTests(unittest.TestCase):
                 atomic(root/'run/wave-1/news-photo-outcomes.json', {'first':'fit', 'second':'none_fit', 'third':'verification_unavailable'})
                 raise RuntimeError('reporter notes failed')
             with patch.object(port, 'python', side_effect=command), self.assertRaises(RuntimeError):
-                list(port.produce([], 5))
+                list(port.produce([dict(url='https://www.bbc.com/news/test',source='BBC World')], 5))
             self.assertEqual(port.metrics['completed_image_evaluations'], 2)
             self.assertEqual(port.metrics['unsuitable_images'], 1)
             self.assertEqual(port.metrics['image_verification_unavailable'], 1)
