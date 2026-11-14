@@ -655,9 +655,24 @@ export default function TreguHub() {
       .sort((a, b) => featuredMarketScore(b) - featuredMarketScore(a))[0];
 
     const leads = [nextRace, competition].filter(Boolean) as MarketRow[];
-    if (!leads.length) return byScore.slice(0, 4);
     const leadSlugs = new Set(leads.map((market) => market.slug));
-    return [...leads, ...byScore.filter((market) => !leadSlugs.has(market.slug))].slice(0, 4);
+    const ranked = [...leads, ...byScore.filter((market) => !leadSlugs.has(market.slug))];
+    // One slide per competition. On an NBA night the four slots went to two
+    // NBA games and two Nations League games, so the "big events" showed two
+    // things twice. A repeat only comes back when there are not four
+    // different competitions to fill the slots with.
+    const seenLeagues = new Set<string>();
+    const distinct: MarketRow[] = [];
+    const repeats: MarketRow[] = [];
+    for (const market of ranked) {
+      const league = market.live_event?.league;
+      if (league && seenLeagues.has(league)) repeats.push(market);
+      else {
+        if (league) seenLeagues.add(league);
+        distinct.push(market);
+      }
+    }
+    return [...distinct, ...repeats].slice(0, 4);
   }, [markets, groupedSlugs]);
 
   // Sorting is the affordance that makes the trader think: chase volume,

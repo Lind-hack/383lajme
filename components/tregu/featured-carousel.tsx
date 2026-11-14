@@ -19,6 +19,8 @@ import SportBrandMark from "./sport-brand-mark";
 import CompetitionArtwork from "./competition-artwork";
 import { sportBrandFor } from "@/lib/tregu-sport-branding";
 import { outcomeColor, separateOutcomeColors, toExactSeries } from "@/lib/tregu-hub-market.mjs";
+import { splitTeamName } from "@/lib/nba-rotation.mjs";
+import { formatKosovoDate, formatKosovoTime } from "@/lib/tregu-local-time.mjs";
 
 const CATEGORY_LABEL: Record<string, string> = {
   kosove: "Kosovë",
@@ -41,6 +43,111 @@ function shortLeft(iso?: string): string {
   const hours = Math.floor(ms / 3_600_000);
   if (hours >= 1) return `${hours}h`;
   return `${Math.max(1, Math.floor(ms / 60_000))}m`;
+}
+
+/**
+ * When an NBA game tips off, in the words a reader here uses. Games start
+ * between 01:00 and 04:30 in Prishtina, so "Nesër 02:00" would be accurate and
+ * wrong: that game is tonight's. Anything before 07:00 tomorrow is "Sonte".
+ */
+function tipDay(startsAt?: string | null): string {
+  if (!startsAt) return "";
+  const start = new Date(startsAt);
+  if (!Number.isFinite(start.getTime())) return "";
+  const day = formatKosovoDate(start);
+  const today = formatKosovoDate(new Date());
+  const tomorrow = formatKosovoDate(new Date(Date.now() + 86_400_000));
+  const hour = Number(formatKosovoTime(start).slice(0, 2));
+  // Before 07:00 the game is the night's, whether it is read before midnight
+  // (dated tomorrow) or after it (dated today).
+  if (hour < 7 && (day === today || day === tomorrow)) return "Sonte";
+  if (day === today) return hour >= 17 ? "Sonte" : "Sot";
+  if (day === tomorrow) return "Nesër";
+  return day;
+}
+
+/**
+ * The NBA flagship: a game-night matchup instead of the generic proposition.
+ * Both crests large and facing each other, the names fans use set big with
+ * the city beneath (never truncated), the tip-off in Kosovo time between
+ * them, one head-to-head bar for where the money is, and a pick per team.
+ */
+function NbaMatchup({
+  market,
+  outcomes,
+  live,
+  active,
+}: {
+  market: MiniMarket;
+  outcomes: { key: string; label: string; color: string; current: number; logo?: string }[];
+  live: boolean;
+  active: boolean;
+}) {
+  // A probability that is missing or not a number reads as an even game,
+  // never as "NaN%".
+  const [home, away] = outcomes.map((side) => ({ ...side, current: Number.isFinite(side.current) ? side.current : 0.5 }));
+  const homePct = Math.round(home.current * 1000) / 10;
+  const awayPct = Math.round((100 - homePct) * 10) / 10;
+  const team = (side: typeof home) => {
+    const { city, name } = splitTeamName(side.label);
+    return (
+      <div className="nba-slide-team">
+        {side.logo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img className="nba-slide-crest" src={side.logo} alt="" aria-hidden loading="lazy" referrerPolicy="no-referrer" />
+        ) : (
+          <span className="nba-slide-crest" aria-hidden style={{ background: side.color }} />
+        )}
+        <b>{name}</b>
+        {city && <small>{city}</small>}
+      </div>
+    );
+  };
+  return (
+    <div className="nba-slide">
+      <div className="nba-slide-matchup">
+        {team(home)}
+        <div className="nba-slide-tip">
+          {live ? (
+            <LiveLockBadge />
+          ) : (
+            <>
+              <small>{tipDay(market.startsAt) || "Fillon"}</small>
+              <strong>{market.startsAt ? formatKosovoTime(market.startsAt) : "—"}</strong>
+            </>
+          )}
+        </div>
+        {team(away)}
+      </div>
+
+      <div className="nba-slide-split" role="img" aria-label={`${home.label} ${homePct}%, ${away.label} ${awayPct}%`}>
+        <div className="nba-slide-split-nums" aria-hidden>
+          <strong style={{ ["--c" as string]: home.color }}>{homePct}%</strong>
+          <span>Gjasat për fitore</span>
+          <strong style={{ ["--c" as string]: away.color }}>{awayPct}%</strong>
+        </div>
+        <div className="nba-slide-split-bar" aria-hidden>
+          <i style={{ flexGrow: Math.max(0.02, home.current), background: home.color }} />
+          <i style={{ flexGrow: Math.max(0.02, 1 - home.current), background: away.color }} />
+        </div>
+      </div>
+
+      <div className="nba-slide-picks">
+        {[home, away].map((side) => (
+          <Link
+            key={side.key}
+            href={`/tregu/${market.slug}?rezultati=${encodeURIComponent(side.key)}`}
+            tabIndex={active ? 0 : -1}
+            style={{ ["--pick" as string]: side.color }}
+            aria-label={`Fiton ${side.label}, ${(side.current * 100).toFixed(1)} për qind, fiton ×${side.current > 0 ? (1 / side.current).toFixed(2) : "-"}`}
+          >
+            <span>Fiton <b>{splitTeamName(side.label).name}</b></span>
+            <em>×{side.current > 0 ? (1 / side.current).toFixed(2) : "-"}</em>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
@@ -85,6 +192,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
           // the stops, an undercut in progress — and falls back to the team.
           .map((driver) => ({ ...driver, meta: market.f1Insights?.[driver.key] ?? driver.team ?? null }))
       : [];
+  const isNba = market.league === "nba" && structured && (market.sportOutcomes?.length ?? 0) === 2;
   const lapsLeft = isF1 && !isChampionship && Number.isFinite(market.lapsLeft) ? Number(market.lapsLeft) : null;
 
   /* A book that has not moved yet has one recorded point: the price it opened
@@ -181,6 +289,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
          competition's identity, so the slide publishes the same attribute and
          renders the same artwork. */
       data-competition={market.league ?? undefined}
+      data-nba-matchup={isNba ? "" : undefined}
       onClick={openMarket}
       /* The slide publishes its own category colour so the flagship slot can be
          lit by whatever it happens to be showing, without the palette being
@@ -211,13 +320,13 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
               <SportBrandMark brandKey="f1" size="sm" />
             )}
             {market.league && market.league !== "f1" && <SportBrandMark brandKey={market.league} size="sm" />}
-            <span className="tregu-pill">{CATEGORY_LABEL[market.category] ?? market.category}</span>
+            <span className="tregu-pill">{isNba ? "NBA" : CATEGORY_LABEL[market.category] ?? market.category}</span>
             {lapsLeft != null ? (
               <span className="tregu-f1-laps-left">
                 <i aria-hidden />
                 {lapsLeft === 0 ? "Gara përfundoi" : lapsLeft === 1 ? "Xhiroja e fundit" : `${lapsLeft} xhiro të mbetura`}
               </span>
-            ) : live ? <LiveLockBadge /> : remaining && <span className="tregu-market-close">{remaining}</span>}
+            ) : isNba ? null /* the tip-off sits in the matchup */ : live ? <LiveLockBadge /> : remaining && <span className="tregu-market-close">{remaining}</span>}
             {/* Inside the header row, but absolutely positioned on desktop, so
                 it anchors to the card's top-right corner there and simply
                 becomes the row's last item on one column. One element, one
@@ -228,13 +337,20 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
             ) : null}
           </div>
 
-          <p className="tregu-feature-q">{market.question}</p>
+          <p className={isNba ? "tregu-feature-q sr-only" : "tregu-feature-q"}>{market.question}</p>
 
           {!structured && !isChampionship && market.category !== "sport" && (
             <MarketContextMedia media={market.marketMedia} variant="featured" />
           )}
 
-          {f1Top3.length ? (
+          {isNba ? (
+            <NbaMatchup
+              market={market}
+              outcomes={chartSeries.map((series, index) => ({ ...series, logo: market.sportOutcomes?.[index]?.logo }))}
+              live={live}
+              active={active}
+            />
+          ) : f1Top3.length ? (
             <F1TopThree
               drivers={f1Top3}
               label={isChampionship ? "Favoritët për titull" : "Tre favoritët për fitore"}
@@ -306,7 +422,9 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
           {/* The card's own numbers. Every figure here was already on the
               market model and none of it was being shown — the slot spent its
               height on air and its footer on a single sentence. */}
-          <dl className="tregu-feature-stats">
+          {/* A game that opened this morning has no volume, trades or week of
+              movement yet: four dashes. The matchup says what matters. */}
+          {!isNba && <dl className="tregu-feature-stats">
             <div>
               <dt>Vëllimi</dt>
               <dd>{market.volume ? fmtNum(market.volume) : "—"}<i>383C</i></dd>
@@ -325,7 +443,7 @@ function Slide({ market, active }: { market: MiniMarket; active: boolean }) {
               <dt>Mbyllet</dt>
               <dd>{shortLeft(market.closesAt)}</dd>
             </div>
-          </dl>
+          </dl>}
 
           <div className="tregu-market-foot" style={{ border: "none", paddingTop: 0 }}>
             <span>{isChampionship ? "Të dhëna zyrtare F1 · 22 pilotë" : "Të dhëna live"}</span>

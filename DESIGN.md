@@ -177,6 +177,8 @@ What the slot uses instead is light, thrown from the category: `--feature-accent
 
 **One slot, one design.** Every slide takes the same treatment, including `.tregu-championship-card`, which brings its own surface elsewhere and defers inside the hero row. A slot whose slides look like different products is worse than any of them.
 
+**The NBA game night (2026-11-14).** An NBA slide is a competition treatment, not a placement: it takes the dark arena its floor card already wears (`#040A1C`, the arena photograph) and a matchup in place of the proposition: both crests, the names fans use with the city beneath, the tip-off in Kosovo time, one head-to-head bar and a pick per team (`NbaMatchup` in `components/tregu/featured-carousel.tsx`). The stats row is dropped because a game that opened that morning has nothing in it yet, and on a phone the chart is too. It replaced a light honey-wood court whose painted lines ran through the copy. FIBA and the Kosovo Superliga keep the court.
+
 Note the mechanism, because it has bitten once: `--feature-accent` is published by the component on the **slide** element. Rules that read it must live on that element or below. An earlier version read it from `.tregu-carousel`, an ancestor, where a property set on a descendant is not visible — so every accent silently resolved to the `#FF4422` fallback, which is how a cyan sport card ended up with an orange bar across its top.
 
 # Visit — Kosovo in Your Pocket

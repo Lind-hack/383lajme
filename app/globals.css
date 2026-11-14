@@ -23997,8 +23997,8 @@ button.lgt-launch > span {
    Nations League slide (also navy) the two read as one design. Basketball now
    gets its own: a honey parquet floor with the court painted on it — both keys,
    the three-point arcs, the centre circle — in the league's colours, and the
-   ball in the corner. Superliga e Kosovës paints in Kosovo blue and gold, the
-   NBA in its navy and red, FIBA in black and orange.
+   ball in the corner. Superliga e Kosovës paints in Kosovo blue and gold, FIBA
+   in black and orange. The NBA has its own game-night slide (below).
 
    Everything is background layers on the ground the carousel already
    crossfades, so the treatment costs no extra elements and nothing animates.
@@ -24006,7 +24006,7 @@ button.lgt-launch > span {
    measures 5.5:1 on its darkest plank and ink (#24160A) 8:1; yes/no colours
    sit only on the cream panels (5.2:1 and 6.2:1).
    ========================================================================== */
-.tregu-hero-row .tregu-car-grounds > i:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
+.tregu-hero-row .tregu-car-grounds > i:is([data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
   --court-wood: linear-gradient(178deg, #EFCC98 0%, #E6BC82 55%, #DCAE70 100%);
   /* Board seams every 46px, then a slower cycle of plank tones so neighbouring
      boards are never the same shade, and fine grain running along them. */
@@ -24029,16 +24029,6 @@ button.lgt-launch > span {
     var(--court-grain),
     var(--court-wood);
 }
-.tregu-hero-row .tregu-car-grounds > i[data-competition="nba"] {
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1000 600%22 preserveAspectRatio=%22xMidYMid slice%22%3E %3Cg fill=%22none%22 stroke=%22rgba(23,64,139,.5)%22 stroke-width=%225%22 stroke-linecap=%22round%22%3E %3Crect x=%2214%22 y=%2214%22 width=%22972%22 height=%22572%22 rx=%224%22/%3E %3Cline x1=%22500%22 y1=%2214%22 x2=%22500%22 y2=%22586%22/%3E %3Ccircle cx=%22500%22 cy=%22300%22 r=%2292%22/%3E %3Crect x=%2214%22 y=%22214%22 width=%22196%22 height=%22172%22 fill=%22rgba(200,16,46,.13)%22/%3E %3Crect x=%22790%22 y=%22214%22 width=%22196%22 height=%22172%22 fill=%22rgba(200,16,46,.13)%22/%3E %3Cpath d=%22M210 240 A60 60 0 0 1 210 360%22/%3E %3Cpath d=%22M790 240 A60 60 0 0 0 790 360%22/%3E %3Cpath d=%22M14 62 L150 62 A262 262 0 0 1 150 538 L14 538%22/%3E %3Cpath d=%22M986 62 L850 62 A262 262 0 0 0 850 538 L986 538%22/%3E %3C/g%3E %3Ccircle cx=%22500%22 cy=%22300%22 r=%2230%22 fill=%22rgba(200,16,46,.6)%22/%3E %3C/svg%3E") center / cover no-repeat,
-    url("/images/tregu/basketball-ball-v1.webp") right -34px bottom -46px / 150px auto no-repeat,
-    var(--court-varnish),
-    var(--court-seams),
-    var(--court-tones),
-    var(--court-grain),
-    var(--court-wood);
-}
 .tregu-hero-row .tregu-car-grounds > i[data-competition="fiba.world"] {
   background:
     url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1000 600%22 preserveAspectRatio=%22xMidYMid slice%22%3E %3Cg fill=%22none%22 stroke=%22rgba(40,26,14,.5)%22 stroke-width=%225%22 stroke-linecap=%22round%22%3E %3Crect x=%2214%22 y=%2214%22 width=%22972%22 height=%22572%22 rx=%224%22/%3E %3Cline x1=%22500%22 y1=%2214%22 x2=%22500%22 y2=%22586%22/%3E %3Ccircle cx=%22500%22 cy=%22300%22 r=%2292%22/%3E %3Crect x=%2214%22 y=%22214%22 width=%22196%22 height=%22172%22 fill=%22rgba(240,122,42,.16)%22/%3E %3Crect x=%22790%22 y=%22214%22 width=%22196%22 height=%22172%22 fill=%22rgba(240,122,42,.16)%22/%3E %3Cpath d=%22M210 240 A60 60 0 0 1 210 360%22/%3E %3Cpath d=%22M790 240 A60 60 0 0 0 790 360%22/%3E %3Cpath d=%22M14 62 L150 62 A262 262 0 0 1 150 538 L14 538%22/%3E %3Cpath d=%22M986 62 L850 62 A262 262 0 0 0 850 538 L986 538%22/%3E %3C/g%3E %3Ccircle cx=%22500%22 cy=%22300%22 r=%2230%22 fill=%22rgba(240,122,42,.7)%22/%3E %3C/svg%3E") center / cover no-repeat,
@@ -24051,7 +24041,7 @@ button.lgt-launch > span {
 }
 
 /* Ink on wood: the dark-arena tokens re-scoped for a light floor. */
-.tregu-hero-row :is(.tregu-carousel, .tregu-car-slide-link):is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
+.tregu-hero-row :is(.tregu-carousel, .tregu-car-slide-link):is([data-competition="fiba.world"], [data-competition="fbk.kosovo"]) {
   --tg-text: #24160A;
   --tg-muted: #4A3320;
   --tg-border: rgba(74, 44, 14, .2);
@@ -24065,18 +24055,215 @@ button.lgt-launch > span {
   color: var(--theme-ink, var(--tg-text));
 }
 /* The arena photograph belongs to the night treatment; on the court it is gone. */
-.tregu-hero-row .tregu-car-slide-link:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) :is(.tregu-arena-photo, .tregu-arena-light) {
+.tregu-hero-row .tregu-car-slide-link:is([data-competition="fiba.world"], [data-competition="fbk.kosovo"]) :is(.tregu-arena-photo, .tregu-arena-light) {
   display: none;
 }
 /* Panels the dark slides drew as faint glass need a real surface on wood. */
-.tregu-hero-row .tregu-car-slide-link:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-feature-head {
+.tregu-hero-row .tregu-car-slide-link:is([data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-feature-head {
   background: var(--tg-panel);
   box-shadow: inset 0 0 0 1px var(--tg-border), 0 1px 2px rgba(74, 44, 14, .08);
 }
-.tregu-hero-row .tregu-car-slide-link:is([data-competition="nba"], [data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-feature-tape {
+.tregu-hero-row .tregu-car-slide-link:is([data-competition="fiba.world"], [data-competition="fbk.kosovo"]) .tregu-feature-tape {
   border-radius: 12px;
   background: var(--tg-panel);
   box-shadow: inset 0 0 0 1px var(--tg-border);
+}
+
+/* ==========================================================================
+   NBA in the flagship slot — game night
+   --------------------------------------------------------------------------
+   The honey court above painted its lines and centre circle straight through
+   the copy, and its ink-on-wood tokens made the NBA slide a beige board with
+   dashes for stats and truncated team names. The NBA slide is a matchup now
+   (components/tregu/featured-carousel NbaMatchup): the arena at night, both
+   crests facing each other, the tip-off in Kosovo time, one head-to-head bar
+   and a pick per team. FIBA and the Kosovo Superliga keep the court.
+   Contrast on #040A1C: text #F5F7FF 17:1, muted 10:1, pick labels white on
+   their 22% team tint at least 9:1.
+   ========================================================================== */
+.tregu-hero-row .tregu-car-grounds > i[data-competition="nba"] {
+  background:
+    linear-gradient(180deg, rgba(4, 10, 28, .5) 0%, rgba(4, 10, 28, .86) 46%, #040A1C 100%),
+    radial-gradient(70% 55% at 50% -8%, rgba(91, 155, 255, .3) 0%, rgba(91, 155, 255, 0) 70%),
+    url("/images/tregu/basketball-arena-nba.webp") center 30% / cover no-repeat,
+    #040A1C;
+}
+.tregu-hero-row :is(.tregu-carousel, .tregu-car-slide-link)[data-competition="nba"] {
+  --tg-text: #F5F7FF;
+  --tg-muted: rgba(222, 229, 247, .74);
+  --tg-border: rgba(255, 255, 255, .14);
+  --tg-border-hi: rgba(255, 255, 255, .28);
+  --tg-panel: rgba(255, 255, 255, .07);
+  --tg-panel-hi: rgba(255, 255, 255, .12);
+  --tg-yes: #2BE39A;
+  --tg-yes-dim: rgba(43, 227, 154, .16);
+  --tg-no: #FF6B7A;
+  --tg-no-dim: rgba(255, 107, 122, .16);
+}
+.tregu-hero-row .tregu-car-slide-link[data-competition="nba"] .tregu-feature-tape {
+  background: rgba(255, 255, 255, .06);
+  box-shadow: inset 0 0 0 1px var(--tg-border);
+}
+/* The arena photograph is on the ground; the slide's own copy would double it. */
+.tregu-hero-row .tregu-car-slide-link[data-competition="nba"] :is(.tregu-arena-photo, .tregu-arena-light) { display: none; }
+/* The head holds only the league mark and its name here: no band around it. */
+.tregu-hero-row .tregu-car-slide-link[data-competition="nba"] .tregu-feature-head {
+  background: none;
+  box-shadow: none;
+}
+
+.nba-slide { display: grid; gap: 18px; margin: 4px 0 6px; }
+.nba-slide-matchup {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+.nba-slide-team {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  min-width: 0;
+  text-align: center;
+}
+.nba-slide-crest {
+  display: block;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 6px;
+  padding: 9px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  object-fit: contain;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .14), 0 14px 30px -6px rgba(0, 0, 0, .6);
+}
+.nba-slide-team b {
+  max-width: 100%;
+  color: #FFFFFF;
+  font-size: 24px;
+  font-weight: 850;
+  line-height: 1.05;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+.nba-slide-team small {
+  color: var(--tg-muted);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.nba-slide-tip {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 10px 14px;
+  border: 1px solid rgba(91, 155, 255, .45);
+  border-radius: 14px;
+  background: rgba(4, 8, 20, .55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  font-variant-numeric: tabular-nums;
+}
+.nba-slide-tip small {
+  color: #8DB8FF;
+  font-size: 10.5px;
+  font-weight: 850;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.nba-slide-tip strong {
+  color: #FFFFFF;
+  font-size: 30px;
+  font-weight: 850;
+  line-height: 1;
+  letter-spacing: -.03em;
+}
+
+.nba-slide-split { display: grid; gap: 8px; }
+.nba-slide-split-nums {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.nba-slide-split-nums strong {
+  /* The team's line colour, lifted toward white so it reads on the night. */
+  color: color-mix(in srgb, var(--c) 55%, #FFFFFF);
+  font-size: 24px;
+  font-weight: 850;
+  letter-spacing: -.02em;
+}
+.nba-slide-split-nums span {
+  color: var(--tg-muted);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.nba-slide-split-bar {
+  display: flex;
+  gap: 3px;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 99px;
+}
+.nba-slide-split-bar i {
+  flex-basis: 0;
+  border-radius: 99px;
+  transition: flex-grow 600ms var(--ease-out);
+}
+
+.nba-slide-picks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.nba-slide-picks a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 54px;
+  padding: 0 16px;
+  border: 1px solid color-mix(in srgb, var(--pick) 60%, transparent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--pick) 22%, transparent);
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 650;
+  text-decoration: none;
+  transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.nba-slide-picks a span { white-space: nowrap; }
+.nba-slide-picks a b { font-weight: 850; }
+.nba-slide-picks a em {
+  color: rgba(255, 255, 255, .8);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+@media (hover: hover) and (pointer: fine) {
+  .nba-slide-picks a:hover { background: color-mix(in srgb, var(--pick) 34%, transparent); }
+}
+.nba-slide-picks a:active { transform: scale(.98); }
+.nba-slide-picks a:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+
+/* A phone shows the matchup alone: the odds are already on the bar and the
+   picks, and the chart below them made the slide two screens tall. */
+@media (max-width: 720px) {
+  .tregu-hero-row .tregu-car-slide-link[data-nba-matchup] .tregu-feature-chart { display: none; }
+  .nba-slide { gap: 16px; }
+  .nba-slide-crest { width: 58px; height: 58px; padding: 7px; }
+  .nba-slide-team b { font-size: 19px; }
+  .nba-slide-tip { padding: 8px 10px; }
+  .nba-slide-tip strong { font-size: 24px; }
+  .nba-slide-split-nums strong { font-size: 21px; }
+  .nba-slide-picks a { min-height: 50px; padding: 0 12px; font-size: 14px; }
+  /* Half a phone is too narrow for "Fiton Timberwolves" on one line. */
+  .nba-slide-picks a span { white-space: normal; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nba-slide-split-bar i, .nba-slide-picks a { transition: none; }
 }
 
 /* ==========================================================================
